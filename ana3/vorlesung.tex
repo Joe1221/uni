@@ -1,0 +1,222 @@
+\documentclass[a4paper,10pt]{scrartcl}
+\usepackage{mathe-vorlesung}
+
+\title{Analysis 3}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Funktionentheorie}
+
+\subsection{Grundlagen}
+
+\begin{df}
+	\label{df:1.1}	
+	Die komplexen Zahlen bestehen aus
+	\[
+		\C := \{(x,y) : x,y\in \R\}
+	\]
+	und den Verknüpfungen
+	\begin{align*}
+		(x_1,y_1) + (x_2,y_2) &:= (x_1 + x_2, y_1 + y_2) \in \C \\
+		(x_1,y_1) \cdot (x_2,y_2) &:= (x_1x_2 - y_1y_2, x_1y_2 + x_2y_1) \in \C
+	\end{align*}
+\end{df}
+
+\begin{note}
+	\label{note:1.1}
+	\begin{enumerate}
+		\item $(\C,+,\cdot)$ ist ein Körper mit $(0,0)$ und Einselement $(1,0)$.
+		\item 
+			$\phi: \R\to \C : x\mapsto (x,0)$ ist eine injektiver Körperhomomorphismus.
+			Insbesondere gilt
+			\begin{align*}
+				\phi(x_1+x_2) &= \phi(x_1) + \phi(x_2)\\
+				\phi(x_1+x_2) &= \phi(x_1) \cdot \phi(x_2)
+			\end{align*}
+			Identifiziere $\R$ mit $\phi(\R) = \{(x,0) : x\in \R\}$.
+			Schreibe dazu: $(x,0) =: x \in \R$.
+		\item
+			Imaginäre Einheit $i:= (0,1)$.
+			\[
+				\implies \begin{cases}
+				i^2 = (0,1)\cdot (0,1) = (0\cdot 0 - 1\cdot 1, 0\cdot 1 + 0\cdot 1) = (-1,0) = -1 \\
+				(x,y) = (x,0) + (0,y) = (x,0) + y\cdot i = x + yi
+				\end{cases}
+			\]
+			Rechnen in $\C$:
+			\begin{align*}
+				(x_1,y_1)\cdot (x_2,y_2) &= (x_1 +iy_1)\cdot (x_2 + iy_2)\\
+				&= x_1x_2 + ix_1y_2 + iy_1x_2 + (i)^2y_1y_2\\
+				&= x_1x_2 - y_1y_2 + i(x_1y_2 + x_2y_1)
+			\end{align*}
+			oder
+			\begin{align*}
+				\f 1{x+iy} = \f 1{x+iy}\cdot \f {x-iy}{x-iy} = \f{x-y}{x^2-(iy)^2} = \f x{x^2+y^2} + i \f{-y}{x^2+y^2}
+			\end{align*}
+			Realteil: $\Re(x+iy) = x\in \R$<br />
+			Imaginärteil: $\Im(x+iy) = y\in\R$
+		\item
+			Gaußsche Zahlenebene:
+	\end{enumerate}
+\end{note}
+
+\begin{df}
+	\label{df:1.3}
+	\begin{enumerate}
+		\item 
+			Für $z=x+iy$ heißt
+			\[
+				\_z = x-iy
+			\]
+			\emph{konjugiert komplexe Zahl}
+		\item
+			\[
+				|z| = \sqrt{x^2+y^2} = \sqrt{z\cdot \_z}
+			\]
+		\item
+			Polardarstellung: $z=x+iy = |z|(\cos \phi + i\sin\phi)$ wobei $\phi = \arg(z)$ (Argument von $z$) eindeutig durch
+			\[
+			-\pi \le \phi \le \pi, \qquad \cos\phi = \f x{\sqrt{x^2+y^2}}, \qquad \sin\phi = \f y{\sqrt{x^2+y^2}}
+			\]
+			Rechnen mit Polardarstellung:
+			\begin{align*}
+				z_1 \cdot z_2 &= |z_1|\cdot |z_2|\cdot (\cos(\phi_1+\phi_2) + i\sin(\phi_1+\phi_2))\\
+				z^n &= |z|^n (\cos(n\phi) + i\sin(n\phi))
+			\end{align*}
+			Lösung von $z^n=r(\cos\psi + i\sin\psi)$ ist gegeben durch
+			\begin{align*}
+				|z| &= r^{\f 1n}\\
+				\phi &= \f \psi n + \f {2\pi k}n \qquad k\in 0,1,\dotsc, n-1
+			\end{align*}
+	\end{enumerate}
+\end{df}
+
+\begin{st}
+	\label{st:1.4}
+	$(\C, +, \cdot, |\cdot|)$ ist ein \emph{bewerteter Körper}, d.h. für $|\cdot|: \C \to \R$ gelten:
+	\begin{enumerate}
+		\item $|z| \ge 0 \land (|z| = 0 \iff z = 0)$
+		\item $|z_1\cdot z_2| = |z_1|\cdot |z_2|$
+		\item $|z_1+z_2| \le |z_1| + |z_2|$
+	\end{enumerate}
+	\begin{proof}
+		Beweis durch Nachrechnen
+	\end{proof}
+	\begin{note}
+		Außerdem gilt die Dreiecksungleichung nach unten:
+		\[
+			|z_1 \pm z_2| \ge ||z_1| - |z_2||
+		\]
+		\begin{proof}
+			Beweis durch Nachrechnen.
+		\end{proof}
+	\end{note}
+\end{st}
+
+\begin{df}
+	\label{df:1.5}
+	Eine Folge $(z_n)$ in $\C$ \emph{konvergiert} gegen $z\in \C$, falls
+	\[
+		\forall \eps \gt 0 \exists \N_\eps\in \N \forall n\ge \N_\eps : |z_n -z| \lt \eps
+	\]
+	Man schreibt dann $z = \lim_{n\to \infty} z_n$ oder $z_n \to z$ $(n\to \infty)$.
+\end{df}
+
+\begin{st}
+	\label{st:1.6}
+	Es gelte $z_n\to z$ und $w_n \to w$ in $\C$.
+	Dann gilt
+	\begin{enumerate}
+		\item $z_n \pm w_n \to z \pm w$ 
+		\item $z_n\cdot w_n \to z\cdot w$
+		\item
+			Falls $w\neq 0$ und $w_n' = \begin{cases} 1 & w_n=0 \\ w_n & \text{sonst}\end{cases}$, dann gilt
+			\[
+				\f {z_n}{w_n} \to \f zw
+			\]
+		\item $z_n\to z \quad\iff \Re z_n \to \Re z \land  \Im z_n \to \Im z$
+
+	\end{enumerate}
+\end{st}
+
+\begin{df}
+	\label{df:1.7}
+	\begin{enumerate}
+		\item 
+			Sei $r\gt 0, z_0\in \C$.
+			\[
+				K_r(z_0) := \{z\in \C : |z-z_0| \lt r\}
+			\]
+			heißt \emph{offene Kreisscheibe} um $z_0$ mit Radius $r$.
+		\item
+			Eine Teilmenge $O \subset \C$ heißt \emph{offen}, falls
+			\[
+				\forall z\in 0 \exists r_z \gt 0 : K_{r_z}(z) \subset O
+			\]
+			Eine Teilmenge $A \subset \C$ heißt \emph{abgeschlossen}, falls $\C\setminus A$ offen ist.
+
+			Beliebige Vereinigungen und endliche Schnitte offener Mengen sind offen.
+			Beliebige Schnitte und endliche Vereinigungen abgeschlossener Mengen sind abgeschlossen.
+		\item
+			Für eine beliebige Teilmenge $M\subset \C$ ist
+			\[
+				\mathring M := \bigcup_{O\in \{O\subset \C: O \text{ offen} \land O \subset M\}} O
+			\]
+			das \emph{Innere} von $M$ (die größte offene Menge $O\subset M$).
+			\[
+				\_M := \bigcap_{A\in \{A\subset \C: A \text{ abgeschlossen} \land M \subset A\}} A
+			\]
+			der \emph{Abschluss} von $M$ (die kleinstel abgeschlossene Menge $A$ mit $M\subset A$).
+	\end{enumerate}
+\end{df}
+
+\begin{ex}
+	\label{ex:1.8}
+	\begin{enumerate}
+		\item 
+			$\emptyset, \C$ sind offen und abgeschlossen. 
+			Alle anderen Teilmengen von $\C$ sind entweder offen oder abgeschlossen oder keins von beidem.
+		\item
+			$K_r(z_0)$ ist offen. $\_{K_r(z_0)}=\{z\in \C : |z -z_0| \le r\}$
+		\item
+			$\R\subset \C$, $\R$ ist nicht offen, betrachte $\C\setminus \R$.
+			$\R\subset \C$ ist abgeschlossen, betrachte $\C\setminus \R$.			
+	\end{enumerate}
+\end{ex}
+
+\begin{df}
+	\label{df:1.9}
+	Sei $O\subset \C$ offen, $f: O \to \C$.
+	Dann heißt $f$ \emph{stetig} in $z_0\in O$, falls
+	\[
+		\forall \eps\gt 0 \exists \delta_\eps \gt 0 \forall z\in O : |z-z_0| \lt \delta \implies |f(z) -f(z_0)| \lt \eps
+	\]
+	oder äquivalent
+	\[
+		\forall (z_n) \text{Folge in} O: z_n \to z \implies f(z_n) \to f(z_0)
+	\]
+	$f$ heißt \emph{stetig}, falls $f$ in jedem $z_0\in O$ stetig ist.
+\end{df}
+
+\begin{st}
+	\label{st:1.10}
+	\begin{enumerate}
+		\item 
+			Seien $f,g: O\to \C$, $z_0\in O$, $f,g$ stetig in $z_0$.
+			Dann sind $f\pm g$, $f\cdot g$ und (falls $g(z_0)\neq 0$) $\f fg$ stetig in $z_0$.
+		\item
+			Sei $f:O\to \C$ stetig in $z_0\in O$ und $g:\tilde O \to \C$ stetig in $f(z_0)$, $f(O) \subset \tilde O$.
+			Dann ist
+	\end{enumerate}
+\end{st}
+
+
+\section{Vektoranalysis}
+
+
+\end{document}
