@@ -201,7 +201,226 @@ Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 	\]
 \end{ex*}
 
+\begin{st}[Rekursionsformel]
+	\label{st:1.5}
+	Sei $p_{ij}\in \P_j$ das Interpolationspolynom zu den Daten $(x_i,f_l)$, $l=i,\dotsc,i+j$.
+	Dann gilt für $j\ge 1$
+	\[
+		p_{i,j}(x) = \f {(x-x_i)p_{i+1,j-1} - (x-x_{i+j}p_{i,j-1}}{x_{i+j}-x_i}
+	\]
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			p_{i+1,j-1}(x_i) &= f_l \qquad l=i+1,\dotsc,i+j\\
+			p_{i,j-1}(x_i) &= f_l \qquad l=i,\dotsc,i+j-1
+		\end{align*}
+		Mit
+		\[
+			q(x) := \f {(x-x_i)p_{i+1,j-1} - (x-x_{i+j}p_{i,j-1}}{x_{i+j}-x_i}
+		\]
+		gilt $q\in \P_j$ und die Randpunkte werden interpoliert:
+		\begin{align*}
+			q(x_i) &= p_{i,j-1}(x_i) = f_i\\
+			q(x_{i+j} &= p_{i+1,j-1}(x_{i+j}) = f_{i+j}
+		\end{align*}
+		für die Zwischenstellen $l=i+1,\dotsc,i+j-1$ gilt
+		\begin{align*}
+			q(x_l) &= \f {(x_l-x_i)p_{i+1,j-1}(x_l) - (x_l-x_{i+j})p_{i,j-1}(x_i)}{x_{i+j}-x_i}\\
+			&= \f {(x_l-x_i)f_l - (x_l-x_{i+j}f_l)}{x_{i+j}-x_i} = f_l
+		\end{align*}
+		Damit ist $q(x)$ ein Interpolationspolynom und wegen der Eindeutigkeit $p_{i,j}=q$.
+	\end{proof}
+\end{st}
+
+\begin{df}[Dividierten Differenze]
+	\label{df:1.6}
+	Wir definieren rekursiv
+	\begin{align*}
+		f[x_i] &:= f_i\\
+		f[x_i,\dotsc,x_{i+j}] &:= \f {f[x_{i+1},\dotsc,x_{i+j}] - f[x_i,\dotsc,x_{i+j-1}]}{x_{i+j}-x_i}
+	\end{align*}
+\end{df}
+
+\begin{st}[Newton-Form über Dividierten Differenzen]
+	\label{st:1.7}
+	Das Interpolationspolynom hat Darstellung
+	\[
+		p(x) = f[x_0]N_0^n(x) + f[x_0,x_1]N_1^n(x) + \dotsb + f[x_0,\dotsc,x_n]N_n^n(x)
+	\]
+	\begin{proof}
+		Sei die Newton-Form
+		\[
+			p(x) := a_0 + a_1(x-x_0) + a_2(x-x_0)(x-x_1) + \dotsb + a_n\prod_{i=0}^{n-1}(x-x_i)
+		\]
+		gegeben.
+		Dann ist
+		\[
+			p_{0,k}(x) := a_0 + a_1(x-x_0) + \dotsb + a_k\prod_{i=0}^{k-1}(x-x_i)
+		\]
+		Interpolierende zu den Daten $(x_j,f_j)$ für $j=0,\dotsc,k$, denn
+		\begin{align*}
+			f_j = p(x_j) &= \underbrace{\sum_{k'=0}^ka_{k'}N_{k'}^n(x_j)}_{p_{0,k(x_j)}} + \sum_{k'=k+1}^n a_{k'}\underbrace{\prod_{i=0}^{k'-1}(xj-x_i)}_{=0}\\
+			&= p_{0,k}(x_j)
+		\end{align*}
+		also ist $a_k$ Koeffizient vor dem höchsten Term in $p_{0,k}$.
+		Sei $a_{i,j}$ der Koeffizient des höchsten Terms in $p_{i,j}$.
+
+		Es ergibt sich mit \ref{st:1.5} für den höchsten Koeffizienten:
+		\begin{align*}
+			a_{i,j} &= \f {a_{i+1,j-1} - a_{i,j-1}}{x_{i+j}-x_i}\\
+			a_{i,0} &= f_i
+		\end{align*}
+		Per Induktion über $j$ folgt leicht, dass
+		\[
+			a_{i,j} = f[x_i,\dotsc, x_{i+j}]
+		\]
+		also insbesondere
+		\[
+			a_k = a_{0,k} = f[x_0,\dotsc, x_k]
+		\]
+	\end{proof}
+\end{st}
+
+\subsection{Neville-Schema}
+
+Die Rekursion aus \ref{df:1.6} kann man als Schema darstellen:
+
+\begin{tabular}{cccc}
+$x_0$ & $f[x_0]=f_0$ & $f[x_0,x_1]$ & $f[x_0,x_1,x_2]$ \\
+$x_1$ & $f[x_1]=f_1$ & $f[x_1,x_2]$ &  \\
+\vdots & \vdots & \vdots\\
+$x_n$ & $f[x_n]=f_n$ &\\
+\end{tabular}
+
+\begin{ex*}
+	Sei $n=2$.	
+	\begin{tabular}{l|rrr}
+		$x_i$ & 1 & 2 & 3  \\ \hline
+		$f_i$ & 2 & 3 & 6 
+	\end{tabular}
+	
+	\fixme[Neville-Schema]
+	Es ergibt sich das Interpolationspolynom
+	\[
+		p(x) = 2+ 1(x-1) + 1(x-1)(x-2) = x^2 -2x+3
+	\]
+\end{ex*}
+
+\begin{note}
+	\begin{itemize}
+		\item Falls nach der Interpolation ein neues Datenpaar $(x_{n+1},f_{n+1})$ zur Verfügung steht, kann das alte Neville-Schema wiederverwendet werden.
+			Es muss nur unterhalb der Diagonalen jeweils ein neuer Wert berechnet werden.
+		\item
+			Dividierte Differenzen $f[x_i,\dotsc,x_{i+j}]$ sind symmetrisch bezüglich den Daten, d.h. bei Permutation $\tau: \{i,\dotsc,i+j\} \to \{i,\dotsc,i+j\}$ gilt
+			\[
+				f[x_{\tau(i)},\dotsc,x_{\tau(i+j)}] = f[x_i,\dotsc,x_{i+j}]
+			\]
+	\end{itemize}
+\end{note}
+
+\subsection{Punkterweiterung der Interpolierenden}
+
+\begin{enumerate}[a)]
+	\item 
+		Falls die Newton-Form vorliegt, erlaubt das \emph{Horner-Schema} die effiziente Auswertung durch geschickte Klammerung.
+		\begin{align*}
+			p(x) &= a_0 + a_1(x-x_0) + \dotsb + a_n\prod_{i=0}^{n-1}(x-x_i)
+				&= (\dotso(a_n(x-x_{n-1} + a_{n-1})(x-x_{n-2}) + a_n-2) + \dotsb + a_0
+		\end{align*}
+		Satt $\mathcal(n^2)$ Produkte sind nur  $\O(n)$ Produkte erforderlich.
+	\item
+		Man kann das Interpolationspolynom auswerten, ohne es vorliegen zu haben.
+		Verwende dazu das Neville-Schema für die Rekursion aus Satz \ref{st:1.5} nur für Stelle $x$.
+		\begin{tabular}{cccc}
+		$x_0$ & $f_0=p_{0,0}(x)$ & $p_{0,1}(x)$ & $p_{0,2}(x)$ \\
+		$x_1$ & $f_1=p_{1,0}(x)$ & $p_{1,1}(x)$ &  \\
+		\vdots & \vdots & \vdots\\
+		$x_n$ & $f_n=p_{n,0}(x)$ &\\
+		\end{tabular}
+\end{enumerate}
+
+\begin{ex}
+	\begin{enumerate}[a)]
+		\item 
+			Horner-Schema mit Newton-Form
+			\[
+				p(x) = (1(x-2)+1)(x-1) +2
+			\]
+			und damit
+			\[
+				f(4) = 11
+			\]
+		\item
+			Mit dem Neville-Schema
+			\begin{tabular}{cccc}
+				$x_i$ & $f_i$ &  & \\ \hline
+				1 & 2 & 5 & 11\\
+				2 & 3 & 9\\
+				3 & 6
+			\end{tabular}
+	\end{enumerate}
+\end{ex}
+
+\subsection{Zusammenfassung}
+
+\begin{tabular}{l|c|c}
+	 & Lösen des LGS & Punktauswertung\\ \hline
+	 Monombasis  & $\mathcal O(n^3)$ & $\mathcal O(n)$ via Horner \\ \hline
+	 Lagrange-Basis & $\mathcal O(n)$ & $\mathcal O(n^2)$ \\ \hline
+	 Newton-Basis & $\mathcal O(n^2)$ & $\mathcal O(n)$ via Horner
+\end{tabular}
+
+\subsection{Anwendung: Richardson-Extrapolation}
+
+Für eine gegebene Funktion $b:(0,\infty)\to \R$ ist $\lim_{h\to 0} b(h)$ gesucht, bzw. eine Approximation.
+
+\begin{seg}{Ansatz:}
+Wähle $h_0,\dotsc, h_n \in \R^+$, berechne $b_k := b(h_k)$.
+Sei $p(h)$ das Interpolationspolynom zu den Daten $(h_k,b_k)$.
+
+Werte $p(0)$ aus als Approximation von $\lim_{h\to 0} b(h)$.
+Nach vorigem Abschnitt b) ist $p(0)$ ohne Interpolationspolynom auswertbar.
+Vereinfachung der Rekursion aus \ref{st:1.5} für $x=0$:
+\begin{align*}
+	p_{i,j}(0) &= \f {(0-h_i)p_{i+1,j-1}(0) - (0-h_{i+j})p_{i,j-1}(0)}{h_{i+j}-h_i} \\
+	&= \f {(h_{i+j}-h_i)p_{i+1,j-1}(0)}{h_{i+j}-h_i} - \f {h_{i+j}(p_{i+1,j-1}(0)-p_{i,j-1}(0))}{h_{i+j}-h_i}
+	&= p_{i+1,j-1}(0) + \f {p_{i+j,j-1}(0) -p_{i,j-1}(0)}{\f {h_i}{h_{i+j} - 1}}
+\end{align*}
+\end{seg}
+
+\begin{df}[Richardson-Extrapolation]
+	Zu ${h_i}_{i=0}^n \subset \R^+$ definiere
+	\begin{align*}
+		b_{i,0} &:= b_i := b(h_i)\\
+		b_{i,j} &:= b_{i+1,j-1} + \f {b_{i+1,j-1}-b_{i,j-1}}{\f {h_i}{h_{i+j}-1}}
+	\end{align*}
+	Dann ist $b_{0,n}$ eine Approximation für $\lim_{n\to \infty} b(h)$.
+\end{df}
+
+\begin{ex}
+	Berechnung von $e=\lim_{n\to \infty} (1 +\f 1n)^n = \lim_{n\to 0} (1+h)^{\f 1n}$.
+	D.h. $b(h)=(1+h)^{\f 1h}$.
+	Wähle $h_k=2^{-k} \implies b_{k,0}=b(h_k) = (1+2^{-k})^{2^k}$
+	\[
+		\implies b_{0,0} = 2, \qquad b_{1,0} = \f 94, \qquad b_{2,0} = \f {625}{256} \approx 2,44
+	\]
+	Neville-Schema für Rekursion aus 1.8, verwende $\f {h_i}{h_{i+j}} = 2^j$.
+	\begin{tabular}{cccc}
+		$h_0=1$ & $b_{0,0}=2$  & $b_{0,1}=\f 52$ & $b_{0,2}=\f {257}{96}$\\
+		$h_1=\f12$ & $b_{1,0}=\f 94$  & $b_{1,1}=\f {337}{128}$ $b_{0,2}=\f {257}{96}$\\
+		$h_2=\f14$ & $b_{2,0}=\f {625}{256}e$  \\
+	\end{tabular}
+\end{ex}
+
+\begin{note}
+	\begin{enumerate}
+		\item 
+			Die Richardson-Extrapolation lohnt sich insbesondere für Funktionen, deren Auswertung für kleine $h$ teuer ist, z.B. $\mathcal O(\f 1n)$.
+	\end{enumerate}
+\end{note}
+
 \section{Numerische Integration}	
+
 
 \section{Nichtlineare Gleichungsysteme}
 
