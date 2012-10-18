@@ -215,7 +215,209 @@
 	\end{enumerate}
 \end{st}
 
+\begin{nt}
+	\label{nt:1.10}
+	Stetigkeit genauso für $f:M\to \C$ und beliebiger Menge $M\subset \C$.
+\end{nt}
 
+\begin{df}[Funktionenfolgen]
+	Sei $M\subset \C$, $f_n,f: M \to \C$.
+	\begin{enumerate}[1)]
+		\item 
+			$(f_n)$ heißt \emph{punktweise konvergent} gegen $f$ auf $M$, falls
+			\[
+				\forall z\in M \forall \eps > 0 \exists N_{\eps,z} \in \N \forall n>N_{\eps,z}: |f_n(z) - f(z)| < \eps
+			\]
+		\item
+			$(f_n)$ heißt \emph{gleichmäßig konvergent} gegen $f$ auf $M$, falls
+			\[
+				\forall \eps>0 \exists N_{\eps} \in \N \forall n>N_{\eps} \forall z\in M : |f_n(z)-f(z)| < \eps
+			\]
+	\end{enumerate}
+\end{df}
+
+\begin{st}
+	\label{st:1.12}
+	Seien $f_n:M\to \C$ stetig, $(f_n)$ gleichmäßig konvergent auf $M$ gegen $f$. 
+	Dann ist $f$ auch stetig auf $M$.
+	\begin{proof}
+		Seien $z_0\in M, \eps > 0$ fest.
+		\begin{align*}
+			|f(z)-f(z_0)| &\le |f(z)-f_n(z)| + |f_n(z)-f_n(z_0) + |f_n(z)-f(z_0)|
+		\end{align*}
+		Wähle $N_{\eps}$, so, dass $|f_(z)-f_n(z)| < \f \eps 3$ für $n>N_{\eps}$.
+		Setze jetzt $n:= N_{\eps}+1$.
+		\fixme[übersichtlicher machen]		
+	\end{proof}
+\end{st}
+
+\begin{df}
+	\label{df:1.13}
+	Eine Reihe $\sum_{n=0}^\infty a_n$ heißt \emph{absolut konvergent}, falls $\sum_{n=0}^\infty |a_n|$ konvergiert.
+\end{df}
+
+\begin{thm}[Weierstraß-Kriterium]
+	\label{thm:1.14}
+	Ist $\sum_{n=0}^\infty a_n$ mit $a_n \ge 0$ konvergent und gilt $f_n:M\to \C$ und $f_n(z)| \le a_n$, so ist die Reihe
+	\[
+		\sum_{n=0}^\infty f_n(z)
+	\]
+	gleichmäßig konvergent auf $M$ und absolute konvergent für $z\in M$.
+\end{thm}
+
+\begin{ex}
+	$M:= \_{K_2(0)} \subset \C$, $f_n(z) := \f {z^n}{(n+1)^22^n}$.
+	Wähle $a_n:= \f 1{(n+1)^2}$, dann folgt
+	\[
+		\begin{cases}
+			\sum_{n=0}^\infty \f 1{(n+1)^2} < \infty \\
+			|f_n(z)| \le a_n
+		\end{cases}
+	\]
+	Also ist $g(z) = \sum_{n=0}^\infty f_n(z)$ nach \ref{thm:1.14} und \ref{st:1.12} stetig auf $\_{K_2(0)}$.
+\end{ex}
+
+\begin{df}[Potenzreihen]
+	Sei $(a_n)$ eine Folge in $\C$
+	\[
+		R := \f 1{\limsup_{n\to \infty}\sqrt[n]{|a_n|}} \qquad (\f 10 := \infty, \f 1\infty := 0)
+	\]
+	dann konvergiert die Potenzreihe
+	\[
+		f(z) = \sum_{n=0}^\infty a_n(z-z_0)^n
+	\]
+	für $|z-z_0|<R$ und divergiert für $|z-z_0|>R$.
+	Sei konvergiert gleichmäßig auf jedem Kreis $\_{K_r(z_0)}$ mit $0<r<R$.
+	Insbesondere ist $f$ stetig auf $K_R(z_0)$.
+
+	Falls $(|\f {a_{n+1}}{a_n}|)$ konvergiert, gilt
+	\[
+		R = \f 1{\lim |\f{a_{n+1}}{a_n}|}
+	\]
+\end{df}
+
+\begin{df}
+	Wir definieren
+	\begin{align*}
+		e^z &:= \sum_{n=0}^\infty \f {z^n}{n!}\\
+		\cos z &:= \sum_{n=0}^\infty (-1)^n \f {z^2n}{(2n)!} \\
+		\sin z &:= \sum_{n=0}^\infty (-1)^n \f{z^{2n+1}}{(2n+1)!}
+	\end{align*}
+	\begin{proof}
+		Für die Konvergenz:
+		\begin{align*}
+			\f {a_{n+1}}{a_n} = \f {\f1{(n+1)!}}{\f 1{n!}} = \f {1}{n+1} \to 0
+		\end{align*}
+		Also $R=\infty$, die Potenzreihe konvergiert auf ganz $\C$.		
+	\end{proof}
+\end{df}
+
+\begin{thm}[Cauchy-Produkt von Reihen]
+	\label{thm:1.18}
+	Ist $\sum_{n=0}^\infty a_n$ absolut konvergent, $\sum_{n=0}^\infty b_n$ konvergent in $\C$, so gilt
+	\[
+		\left( \sum_{n=0}^\infty a_n\right) \left(\sum_{n=0}^\infty f_n\right) = \sum_{n=0}^\infty \sum_{k=0}^n a_k b_{n-k}
+	\]
+	\begin{proof}
+		Setze $A:= \sum_{n=0}^\infty$, $B:= \sum_{n=0}^\infty b_n, b_l := \sum_{n=0}^l b_n$.
+		\begin{align*}
+			\sum_{n=0}^N \sum_{k=0}^n a_k b_{n-k}
+				&= \sum_{n=0}^N a_n \sum_{m=0}^{N-n} b_m\\
+				&= \sum_{n=0}^N a_n (B_{N-m}-B + B)\\
+				&= \sum_{l=0}^N a_{N-l} (B_l -B) + \underbrace{\sum_{n=0}^N a_nB}_{\to AB}\\
+		\end{align*}
+		Weiterhin ist für entsprechendes $N_\eps$
+		\begin{align*}
+			\left|\sum_{l=0}^N a_{N-l} (B_l-B) \right|
+				&= \left|\sum_{l=0}^{N_\eps} a_{N-l}(B_l-B) + \sum_{l=N_\eps +1}^N a_{N-l}(B_l-B)\right|\\
+				&\le \left|\max_{0\le l \le N_\eps} |B_l-B|\sum_{n=N-N_\eps}^\infty |a_n| \right| +     \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{l=N_\eps+1}^N |a_{N-l}| |\right| \qquad n= N-l, \text{wähle hier $N_\eps$}
+				&\le \f \eps 2  +  \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{n=0}^\infty |a_{n}| \right|
+				&<     \eps
+		\end{align*}
+		für $N-N_\eps > \tilde N_\eps$ bzw. für  $N>\tilde N_\eps + N_\eps$.
+	\end{proof}
+\end{thm}
+
+\begin{prop}
+	\label{prop:1.19}
+	Es gilt
+	\[
+		e^{z+w}  = e^z\cdot e^w
+	\]
+	\begin{proof}
+		\begin{align*}
+			e^ze^w &= \left(\sum_{n=0}^\infty \f{z^n}{n!}\right) \left( \sum_{n=0}^\infty \f {w^n}{n!}\right) \\
+				&= \sum_{n=0}^\infty \sum_{k=0}^n \f {z^k}{k!} \f {w^{n-k}}{(n-k)!} \\
+				&= \sum_{n=0}^\infty \f 1{n!} \sum_{k=0}^n \binom{n}{k}z^k w^{n-k} \\
+				&= \sum_{n=0}^\infty \f {(z+k)^n}{n!} = e^{z+w}
+		\end{align*}
+	\end{proof}
+\end{prop}
+
+\begin{nt}
+	\label{1.20}
+	Aus der Taylorreihe folgt außerdem, dass $e^z, \sin z, \cos z$ für $z\in \R$ die selben Funktionen sind, wie aus der Schule bekannt.
+\end{nt}
+
+\begin{prop}
+	\label{1.21}
+	\begin{enumerate}[1)]
+		\item 
+			$e^{iz} = \cos z + i \sin z$ für $z\in \C$ (Eulersche Formel)
+			\begin{proof}
+				\[
+					e^{iz} = \sum_{n=0}^\infty \f {(iz)^n}{n!} = \sum_{k=0}^\infty \f {(iz)^{2k}}{(2k)!} + \sum_{k=0}^\infty \f {(iz)^{2k+1}}{(2k+1)!} =
+\sum_{k=0}^\infty (-1)^k\f {z^{2k}}{(2k)!} + \sum_{k=0}^\infty \f (-1)^k {z^{2k+1}}{(2k+1)!}
+\]
+			\end{proof}
+		\item
+			Mit der Polardarstellung $z = r(\cos \phi + i \sin \phi) = r e^{i\phi}$ gilt
+			\begin{align*}
+				z^n &= r^n e^{in\phi}\\
+				z_1 z_2 &= r_1 r_2 e^{\phi_1 + \phi_2}\\
+				\f {z_1}{z_2} &= \f {r_1}{r_2} e^{i(\phi_1-\phi_2)}
+			\end{align*}
+	\end{enumerate}
+\end{prop}
+
+\begin{df}
+	\label{df:1.22}
+	\begin{enumerate}[1)]
+		\item 
+			$f: O \to \C$ heißt \emph{differenzierbar} in $z_0\in O$, falls
+			\[
+				f'(z_0 := \lim_{\substack{z\to z_0 \\ z\neq z_0}}\f {f(z) -f(z_0)}{z-z_0}
+			\]
+			existiert.
+			$f'(z_0)$ heißt \emph{Ableitung} von $f$ in $z_0$.
+		\item
+			$f$ heißt \emph{differenzierbar}, falls $f$ in jedem $z_0\in O$ differenzierbar ist.
+			$f':O\to \C$ heißt \emph{Ableitung(sfunktion)} von $f$.
+	\end{enumerate}
+\end{df}
+
+\begin{ex*}
+	\begin{enumerate}[1)]
+		\item 
+			$f: \C \to \C : z\mapsto c$, dann ist $f'=0$.
+		\item
+			$f: \C \to \C : z\mapsto z$, dann ist $f'=1$.
+		\item
+			ohne Beweis: $f:\C to \C :z\mapsto z^m$, dann ist $f'(z) = nz^{n-1}$.
+		\item
+			$f: \C\to \C : z\mapsto |z|^2$ ist in $z_0\neq 0$ nicht differenzierbar.
+			\begin{proof}
+				Sei $z_0 = x_0+iy_0 \neq 0$ und $z_h:= x_0+h +iy_0$, dann ist
+				\[
+					\f {|z_h|^2 -|z_0|^2}{z_h-z_0} = \f {2hx_0+h^2}h \to 2x_0
+				\]
+				Sei jetzt $z_h := x_0 + i(y_0+h)$, dann ist
+				\[
+					\f {|z_h|^2 -|z_0|^2}{z_h-z_0} := \f {2hx_0+h^2}{ih} \to -2ix_0
+				\]
+			\end{proof}
+	\end{enumerate}
+\end{ex*}
 \section{Vektoranalysis}
 
 
