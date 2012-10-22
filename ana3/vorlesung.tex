@@ -58,7 +58,7 @@
 			\begin{align*}
 				\f 1{x+iy} = \f 1{x+iy}\cdot \f {x-iy}{x-iy} = \f{x-y}{x^2-(iy)^2} = \f x{x^2+y^2} + i \f{-y}{x^2+y^2}
 			\end{align*}
-			Realteil: $\Re(x+iy) = x\in \R$<br />
+			Realteil: $\Re(x+iy) = x\in \R$ \\
 			Imaginärteil: $\Im(x+iy) = y\in\R$
 		\item
 			Gaußsche Zahlenebene:
@@ -171,7 +171,7 @@
 			\[
 				\_M := \bigcap_{A\in \{A\subset \C: A \text{ abgeschlossen} \land M \subset A\}} A
 			\]
-			der \emph{Abschluss} von $M$ (die kleinstel abgeschlossene Menge $A$ mit $M\subset A$).
+			der \emph{Abschluss} von $M$ (die kleinste abgeschlossene Menge $A$ mit $M\subset A$).
 	\end{enumerate}
 \end{df}
 
@@ -198,7 +198,7 @@
 	\]
 	oder äquivalent
 	\[
-		\forall (z_n) \text{Folge in} O: z_n \to z \implies f(z_n) \to f(z_0)
+		\forall (z_n) \text{ Folge in } O: z_n \to z \implies f(z_n) \to f(z_0)
 	\]
 	$f$ heißt \emph{stetig}, falls $f$ in jedem $z_0\in O$ stetig ist.
 \end{df}
@@ -211,9 +211,12 @@
 			Dann sind $f\pm g$, $f\cdot g$ und (falls $g(z_0)\neq 0$) $\f fg$ stetig in $z_0$.
 		\item
 			Sei $f:O\to \C$ stetig in $z_0\in O$ und $g:\tilde O \to \C$ stetig in $f(z_0)$, $f(O) \subset \tilde O$.
-			Dann ist
+			Dann ist $g\circ f$ stetitg in $z_0$
 	\end{enumerate}
 \end{st}
+\begin{proof}
+Beweis über Folgendefinition der Stetigkeit.
+\end{proof}
 
 \begin{nt}
 	\label{nt:1.10}
@@ -245,9 +248,13 @@
 		\begin{align*}
 			|f(z)-f(z_0)| &\le |f(z)-f_n(z)| + |f_n(z)-f_n(z_0) + |f_n(z)-f(z_0)|
 		\end{align*}
-		Wähle $N_{\eps}$, so, dass $|f_(z)-f_n(z)| < \f \eps 3$ für $n>N_{\eps}$.
-		Setze jetzt $n:= N_{\eps}+1$.
-		\fixme[übersichtlicher machen]		
+		1. Wähle $N_{\eps}$, so, dass $|f(z)-f_n(z)| < \frac \eps 3$ für $n>N_{\eps}$. \\
+		2. Setze jetzt aber konkret $n:= N_{\eps}+1$. Mit der Dreiecksgleichung, Stetigkeit und geschicktes Addieren mit der Null ergibt sich.
+		
+		 \[
+		  |f(z)-f(z_0)|\le \underbrace{|f(z)-f_m(z)|}_{\frac\eps 3} + \underbrace{|f_m(z)-f_m(z_0)|}_{<\frac \eps 3, |z-z_0|<\delta_{\frac{\eps}{3}}}+\underbrace{|f_m(z_0)-f(z_0)|}_{<\frac{\eps}{3}}<\eps \text{für } |z-z_0|<\delta
+		 \]
+			
 	\end{proof}
 \end{st}
 
@@ -280,7 +287,7 @@
 \begin{df}[Potenzreihen]
 	Sei $(a_n)$ eine Folge in $\C$
 	\[
-		R := \f 1{\limsup_{n\to \infty}\sqrt[n]{|a_n|}} \qquad (\f 10 := \infty, \f 1\infty := 0)
+		R := \f 1{\limsup_{n\to \infty}\sqrt[n]{|a_n|}} \qquad\left (\f 10 := \infty, \f 1\infty := 0 \right )
 	\]
 	dann konvergiert die Potenzreihe
 	\[
@@ -328,10 +335,10 @@
 		\end{align*}
 		Weiterhin ist für entsprechendes $N_\eps$
 		\begin{align*}
-			\left|\sum_{l=0}^N a_{N-l} (B_l-B) \right|
+			\left|\sum_{l=0}^N a_{N-l} (B_l-B) \right| \\
 				&= \left|\sum_{l=0}^{N_\eps} a_{N-l}(B_l-B) + \sum_{l=N_\eps +1}^N a_{N-l}(B_l-B)\right|\\
-				&\le \left|\max_{0\le l \le N_\eps} |B_l-B|\sum_{n=N-N_\eps}^\infty |a_n| \right| +     \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{l=N_\eps+1}^N |a_{N-l}| |\right| \qquad n= N-l, \text{wähle hier $N_\eps$}
-				&\le \f \eps 2  +  \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{n=0}^\infty |a_{n}| \right|
+				&\le \left|\max_{0\le l \le N_\eps} |B_l-B|\sum_{n=N-N_\eps}^\infty |a_n| \right| \\ &+     \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{l=N_\eps+1}^N |a_{N-l}| |\right| \qquad n= N-l, \text{wähle hier $N_\eps$} \\
+				&\le \f \eps 2  +  \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{n=0}^\infty |a_{n}| \right| \\
 				&<     \eps
 		\end{align*}
 		für $N-N_\eps > \tilde N_\eps$ bzw. für  $N>\tilde N_\eps + N_\eps$.
@@ -403,7 +410,7 @@
 		\item
 			$f: \C \to \C : z\mapsto z$, dann ist $f'=1$.
 		\item
-			ohne Beweis: $f:\C to \C :z\mapsto z^m$, dann ist $f'(z) = nz^{n-1}$.
+			ohne Beweis: $f:\C \to \C :z\mapsto z^m$, dann ist $f'(z) = nz^{n-1}$.
 		\item
 			$f: \C\to \C : z\mapsto |z|^2$ ist in $z_0\neq 0$ nicht differenzierbar.
 			\begin{proof}
@@ -418,7 +425,267 @@
 			\end{proof}
 	\end{enumerate}
 \end{ex*}
+
+\begin{st}
+	\label{st:1.24}
+	Sei $O\subset \C$ offen, $f:O\to \C$, $z_0\in O$.
+	Dann sind äquivalent
+	\begin{enumerate}[(i)]
+		\item
+			$f$ ist differenzierbar in $z_0$ mit Ableitung $f'(z_0)$
+		\item
+			$\exists f'(z_0) \in \C : f(z) =f(z_0)+f'(z_0)(z-z_0)+o(|z-z_0|)$
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}
+			\item 
+				\[
+					\iff \f{f(z)-f(z_0)}{z-z_0}-f'(z_0) \to 0
+				\]
+				\fixme
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st}
+	\label{1.25}
+	\begin{enumerate}[1)]
+		\item 
+			$f$ differenzierbar in $z_0$ $\implies$ $f$ stetig in $z_0$.
+		\item
+		\item
+		\item
+		\item
+	\end{enumerate}
+\end{st}
+
+\begin{ex}
+	\begin{enumerate}[1)]
+		\item 
+			Polynomfunktionen sind differenzierbar auf $\C$
+		\item
+			Gebrochenrationale Funktionen sind auf ihrem Definitionsbereich differenzierbar
+	\end{enumerate}
+\end{ex}
+
+\begin{df}
+	\begin{enumerate}[1)]
+		\item 
+			Sei $\gamma\in C^1([a,b]\to \C)$.
+			Dann heißt $\gamma$ \emph{Weg} von $z_1=\gamma(a)$ nach $z_2=\gamma(b)$.
+			Falls $z_1=z_2$, heißt $\gamma$ \emph{geschlossen}.
+		\item
+			Sei $\gamma$ eine Weg, $f\in C^1(\Re(\gamma)\to \C)$.
+			Dann heißt
+			\begin{align*}
+				\int_\gamma f(z) dz := \int_a^b f(\gamma(t)) \gamma'(t) dt\\
+				=: \int_a^b(\Re f(\gamma(t)) \Re \gamma'(z) - \Im f(\gamma(t)) \Im \gamma'(t))dt
+				+ i\int_a^b(\Im f(\gamma(t)) \Re \gamma'(t) + \Re f(\gamma(t)) \Im \gamma'(t))dt
+			\end{align*}
+			das \emph{Integral} längs $\gamma$.
+	\end{enumerate}
+\end{df}
+
+\begin{nt}
+	\label{st:1.28}
+	\begin{enumerate}[1)]
+		\item 
+			Ist $\tilde \gamma$ eine andere Parametrisierung des Weges $\gamma$, sodass $\phi'\in C^1([a',b']\to [a,b])$
+			\begin{align*}
+				\tilde \gamma &= (\gamma \circ \phi)(s) \qquad a'\le s\le b'\\
+				\phi(a') &= a\\
+				\phi(b') &= b
+			\end{align*}
+			Dann folgt aus der Substitutionsregel für reelle Integration
+			\begin{align*}
+				\int_\gamma f(z) dz &= \int_a^b f(\gamma(t)) \gamma'(t) dt \\
+				&= \int_{a'}^{b'} \underbrace{f(\gamma(\phi(s)))}_{f(\tilde \gamma(s)} \underbrace{\gamma'(\phi(s))\phi'(s)}_{\f d{dx}\tilde \gamma(s)=\f d{dx}(\gamma\circ \phi)(s)} ds\\
+				&= \int_{\tilde \gamma} f(z) dz
+			\end{align*}
+		\item
+			$-\gamma := $  derselbe Weg, aber entgegengesetzt orientiert:
+			\[
+				-\gamma(t) := \gamma(a+b-t) \qquad a\le t\le b
+			\]
+			Dann ist auch (selber nachrechnen)
+			\[
+				\int_{-\gamma}f(z) dz = - \int_\gamma f(z) dz
+			\]
+		\item
+			Jede Kurve kann so umparametrisiert werden, dass $a=0, b=1$ gilt.
+		\item
+			Verbindungsstrecke $\gamma=[z_1,z_2]$ ist definiert als
+			\[
+				\gamma(t) = z_1 + t(z_2-z_1) \qquad 0\le t\le 1
+			\]
+		\item
+			Verallgemeinerung: Ein Weg kannn auch nur stückweise $C^1$ sein:
+			\[
+				\gamma\in C([a,b]\to \C)
+			\]
+			(stetig).
+			Es existieren $t_0=a<t_1<t_2<\dotsb<t_n=b$ so dass
+			\[
+				\gamma_j = \gamma\big|_[t_{j-1},t_j] \in C^1([t_{j-1},t_j]\to \C)
+			\]
+			d.h. die Ableitung, darf endlich viele Sprünge haben.
+			Dann ist
+			\[
+				\int_\gamma f(z) dz := \sum_{j-1}^n \int_{\gamma_j}f(z) dz
+			\]
+	\end{enumerate}
+\end{nt}
+
+\begin{ex}
+	\begin{enumerate}[1)]
+		\item 
+			$f(z)=z^3$, Verbindungsstrecke: $\gamma=[0,1+i]$
+			Dann ist
+			\[
+				\int_{[0,1+i]}z^3 dz = \int_0^1(t(1+i))^3(1+i) dt = (1+i)^4 \int_0^1 t^3 dt = \f {(1+i)^4}4
+			\]
+		\item
+			$f(z)=\f 1z$, $\gamma(t)=e^{it}$, $0\le t\le 2\pi$.
+			Das ist wegen $\gamma(0)=\gamma(2\pi)$ ein geschlossener Weg.
+			\[
+				\int_\gamma \f 1z dz = \int_0^{2\pi}\f 1{e^{it}} ie^{it} dt = 2\pi i \neq 0 
+			\]
+			Obwohl die Kurve geschlossen ist, kommt nicht $0$ heraus!
+	\end{enumerate}
+\end{ex}
+
+\begin{st}
+	\label{st:1.30}
+	Sei $O\subset \C$ offen, $F:O\to \C$ differenzierbar, $f=F'$ in $O$ (d.h. $F$ ist eine \emph{Stammfunktion} von $f$).
+	Ist $\gamma$ ein Weg in $O$, so gilt
+	\[
+		\int_\gamma f(z) dz f F(\gamma(b)) - F(\gamma(a))
+	\]
+	\begin{proof}
+		\begin{align*}
+			\int_\gamma f(z) dz &= \int_a^b f(\gamma(t)) \gamma'(t) dt \\
+			\intertext{
+				Wegen
+				\begin{align*}
+					\f d{dt} F(\gamma(t)) &= \lim_{\substack{s \to t \\ s\neq t}} \f {F(\gamma(s) -F(\gamma(t))}{\gamma(s) - \gamma(t)} \cdot \f {\gamma(s)-\gamma(t)}{s-t} \\
+				&= F'(\gamma(t)) \cdot \gamma'(t) \\
+				&= f(\gamma(t)) \gamma'(t)
+				\end{align*}
+				gilt weiter
+			}
+			&= \int_a^b (\f d{dt} \Re F( \gamma(t)) + i \f d{dt} \Im F(\gamma(t))) dt \\
+			&= \int_a^b \Re F(\gamma(b)) + i \Im F(\gamma(b))\\
+			&= F(\gamma(b)r - F(\gamma(a))
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{prop}
+	\label{prop:1.31}
+	\begin{enumerate}[1)]
+		\item 
+			Besitzt $f$ eine Stammfunktion und ist $\gamma$ geschlossen, folgt $\int_\gamma f(z)dz = 0$.
+		\item
+			$f:\C\setminus \{0\} \to \C : z\mapsto \f 1z$ besitzt kein Stammfunktion (siehe \ref{ex:1.29} 2.)
+	\end{enumerate}
+\end{prop}
+
+\begin{st}
+	\label{st:1.32}
+	Sei $\gamma$ Weg, $f\in C(\im(\gamma) \to \C)$.
+	Dann ist
+	\[
+		\left| \int_\gamma f(z) dz \right| \le \int_a^b |f(\gamma(t))| |\gamma'(t)| dt \le
+\le \max_{a\le t \le b} |f(\gamma(t))| \int_a^b |\gamma'(t)|| dt
+	\]
+	\begin{proof}
+		\begin{align*}
+			\left| \int_\gamma f(z) dz \right| &= e^{i\phi} \int_\gamma f(z) dz \qquad \phi= -\arg\left(\int_\gamma f(z)dz\right)\\
+			&= \int_a^b e^{i\phi} f(\gamma(t) \gamma'(t) dt \\
+			&= \int_a^b \Re\left(e^{i\phi} f(\gamma(t)) \gamma'(t)\right)dt + i \underbrace{\int_a^b \Im\left( \dotso\right)dt}_{=0} \\
+			&\le \int_a^b |\Re e^{i\phi} f(\gamma(t)) \gamma'(t)| dt\\
+			&\le \int_a^b |e^{i\phi} f(\gamma(t)) \gamma'(t)| dt\\
+			&\le \int_a^b |e^{i\phi}| |f(\gamma(t))| |\gamma'(t)| dt\\
+			&\le \int_a^b |f(\gamma(t))| |\gamma'(t)| dt\\
+		\end{align*}
+		Der Beweis funktioniert auch, falls $\gamma$ nur stückweise $C^1$ ist.
+	\end{proof}
+\end{st}
+
+\begin{df}
+	\label{df:1.33}
+	Man nennt
+	\[
+		L(\gamma) := \int_a^b |\gamma'(t)| dt
+	\]
+	\emph{Länge} von $\gamma$.
+	Damit wird \ref{st:1.32} zu
+	\[
+		\left| \int_\gamma f(z) dz \right| \le L(\gamma) \cdot \max_{a\le t\le b}|f(\gamma(t))|
+	\]
+\end{df}
+
+\begin{ex}
+	\begin{enumerate}[1)]
+		\item 
+			$\gamma=[z_1,z_2]$, $\gamma(t) = z_1+t(z_2+z_1)$, dann ist
+			\[
+				L(\gamma) = \int_0^1 |z_2-z_1| dt = |z_2-z_1|
+			\]
+		\item
+			\begin{enumerate}[a)]
+				\item 
+					$\gamma(t) = e^{it}$, $0\le t\le 2\pi$.
+					Es gilt nach 1.29 und 1.32
+					\[
+						|2\pi i| = \left| \int_\gamma \f 1z dz \right| \le \max_{\substack{z=e^{it}\\0\le t \le 2\pi}} \cdot \int_0^{2\pi} |ie^{it}| dt = 2\pi
+					\]
+				\item
+					Es gilt
+					\[
+						|0| = \left|\int_\gamma z dz\right| \le \max_{\substack{z=e^{it}}} \cdot 2\pi = 2\pi
+					\]
+			\end{enumerate}
+	\end{enumerate}
+\end{ex}
+
+\begin{st}
+	Sei $(a_n)$ eine Folge in $\C$ mit Konvergenzradius $R:= \f {1}{\limsup_{n\to \infty}\sqrt[n]{|a_n|}}>0$ und 
+	\[
+		f(z) := \sum_{n=0}^\infty a_n z^n
+	\]
+	ür $|z|<R$.
+	Dann ist $f$ in $K_R(0)$ beliebig oft differenzierbar mit
+	\[
+		f'(z) = \sum_{n=1}^\infty a_n nz^{n-1}, \qquad f''(z) = \sum_{n=2}^\infty a_nn(n-1)z^{n-2}
+	\]
+	\begin{proof}
+		Sei $g(z) := \sum_{n=1}^{\infty}a_n nz^{n-1}, R':= \f 1{\limsup_{n\to \infty}\sqrt[n]{a_n n}}$ (Konvergenzradius für $z$ ist der selbe wie für $g(z)$).
+		\begin{enumerate}[1)]
+			\item 
+				$R'=R$ wegen $\lim_{n\to \infty} \sqrt[n]{a_n} = 1$.
+				D.h. $g$ ist auf demselbe $K_R(0)$ definiert, wi $f$.
+			\item
+				$g=f'$: Seien $w\in K_R(0), z\in K_R(0)\setminus \{w\}$.
+				\begin{align*}
+					\f {f(z) -f(w)}{z-w} - g(w) &= \sum_{n=1}^\infty a_n \left( \f {z^n-w^n}{z-w} - nw^{n-1}\right) \\
+					&= \sum_{n=1}^\infty a_n \left( \f 1{z-w}\int_{[w,z]}nu^{n-1}-nw^{n-1}dt\right) \\
+					|\cdot| &\le \sum_{n=1}^\infty |a_n| \f 1{|z-w|} \cdot L([w,z]) \cdot n|z^{n-1}-w^{n-1}| \\
+					&= \begin{cases} \to 0  & z\to w\\
+						\le n|z|^{n-1}+ n|w|^{n-1} & \text{sonst}
+					\end{cases}
+				\end{align*}
+				Die Reihe konvergiert also gleichmäßig in $K_r(0)$ für jedes $r<R$.
+				Also ist der Grenzwert $z\to w$ und die Reihe vertauschbar.
+				Damit gilt
+				\[
+					\f {f(z) -f(w)}{z-w}- g(w) \to 0
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
 \section{Vektoranalysis}
+
 
 
 \end{document}
