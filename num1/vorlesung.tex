@@ -419,6 +419,284 @@ Vereinfachung der Rekursion aus \ref{st:1.5} für $x=0$:
 	\end{enumerate}
 \end{note}
 
+\begin{note}
+	Verbesserungsmöglichkeit bei Kenntnis der Form der asymptotischen Entwicklung.
+	Falls $b(h) = \sum_{n=0}^\infty a_nh^{qn}$ für $q>1$, dann ist die Interpolation mit Polynomen angebracht, die nur diese Terme $h^{qn}$ enthalten, diese werden anschließend extrapoliert.
+
+	Setze dazu $\_h = h^q$, d.h. $\_{h_{i}}:= h_i^q$ und
+	\[
+		\_b(\_h) := \sum a_n\_h^n
+	\]
+	Dann ist $\_b(\_h_i) = b(h_i)$.
+	Führe die Richardson-Extrapolation für $\{\_h_i\}$ und $\{\_b(\_h_i)\}$ durch, dannn ist das Ergebnis eine Aproximation für
+	\[
+		\lim_{\_h\to 0}\_b(\_h) = \lim_{h\to 0}b(h)
+	\]
+\end{note}
+
+\subsection{Fehleranalysis}
+
+Wir nehmen an, die Daten $\{t_i\}_{i=0}^n$ stammen von Funktionsauswertungen $f_i=f(x_i)$.
+
+Wie gut apporximiert die Interpolierende die Funktion?
+
+\begin{df}
+	\label{df:1.9}
+	Sei $I\subset \R$ ein abgeschlossenes Intervall.
+	Wir definieren
+	\[
+		C(I) = C^0(I) := \{f: I\to \R : f \text{ stetig}\}
+	\]
+	als Raum der stetigen Funktionen und
+	\[
+		C^m(I) := \{f: I\to \R : f,f',\dotsc,f^{(m)} \text{ existieren und stetig}\}
+	\]
+	als Raum der $m$-mal stetig differenzierbaren Funktionen ($m\in \N$) und
+	\[
+		C^\infty(I) := \bigcap_{m\in \N}C^m (I)
+	\]
+	als Raum der unendlich oft stetig differenzierbaren Funktionen.
+
+	Für $f\in C(I)$, $I$ beschränkt, definieren wir die Supremums-Norm
+	\[
+		\|f\|_\infty := \|f\|_{C(I)} := \sup_{x\in I}|f(x)|
+	\]
+\end{df}
+
+\begin{note}
+	\begin{itemize}
+		\item 
+			Es gilt $C^\infty(I) \subsetneq \dotsb \subsetneq C^0(I)$.
+		\item
+			$(C(I), \|\cdot\|_\infty)$ ist normierter Raum für $I$ beschränkt.
+		\item
+			$(C(I),\|\cdot\|_\infty)$ ist vollständig, d.h. jede Cauchy-Folge konvergiert in $C(I)$.
+		\item
+			Eine vollständigen, normierten Vektorraum nennen wir Banachraum, $(C(I),\|\cdot\|_\infty)$ Banachraum.
+	\end{itemize}
+\end{note}
+
+\begin{st}[Punktweise Interpolationsfehler]
+	\label{st:1.10}
+	Sei $f\in C^{n+1}(\R)$ und $p\in \P_n$ Interpolierende.
+	\[
+		p(x_i) = f_i \qquad i=0,\dotsc,n \;\land\; x_i\neq x_j \text{ für } i\neq j
+	\]
+	Dann gilt für alle $x\in \R$
+	\[
+		p(x) - f(x) = \f 1{(n+1)!}f^{(n+1)}(\xi) (x-x_0)(x-x_1)\dotsb(x-x_1)
+	\]
+	mit geeignetem $\xi = \xi(x)\in I = \xi \in [\min(x,x_0,\dotsc,x_n),\max(x,x_0,\dotsc,x_n)]$.
+
+	\begin{proof}
+		Für $x=x_i$ ist 
+		\[
+			p(x) - f(x) = \f 1{(n+1)!}f^{(n+1)}(\xi) (x-x_0)(x-x_1)\dotsb(x-x_1)
+		\]
+		erfüllt ($0=0$).
+		Für $x\neq x_i$, $i=0,\dotsc,n$.
+		Setze
+		\[
+			w(x) := \prod_{i=0}^n (x-x_i) \qquad \text{„Knotenpolynom“}
+		\]
+		und definiere $g(t):= f(t)-p(t)-\f {w(t)}{w(x)}(f(x)-p(x))$.
+		
+		Es gilt $g(x_i)=0$, $i=0,\dotsc,n$ (wegen $f(x_i)=p(x_i)$) und $g(x)=0$.
+		Also hat $g$ mindestens $n+2$verschiedene Nullstellen in $I$.
+		Nach dem Satz von Rolle hat $g'$ mindestens $n+1$ verschiedene Nullstellen, usw.
+		
+		$g^{(n+1)}$ hat mindestens $1$ Nullstelle $\xi\in I$. 
+
+		Mit $p^{(n+1)}(\xi) = 0$, $w^{(n+1)}(\xi) = (n+1)!$ folgt
+		\begin{align*}
+			0 = g^{(n+1)}(\xi) &= f^{(n+1)}(\xi) - p^{(n+1)}(\xi) - \f {((n+1)!}{w(x)}(f(x)-p(x))\\
+			&= f^{(n+1)}(\xi) - 0 - \f {((n+1)!}{w(x)}(f(x)-p(x))\\
+		\end{align*}
+		Also 
+		\[
+			f(x) -p(x) = \f 1{(n+1)!}f^{(n+1)}(\xi) w(x)
+		\]
+	\end{proof}
+\end{st}
+
+\begin{kor}[Fehlerschranke]
+	\label{kor:1.11}
+	Für alle beschränkte Intervalle $I\subset \R$, mit $\{x_0,\dotsc,x_n\}\subset I$ gilt
+	\[
+		\|p-f\|_\infty \le \f 1{(n+1)!}\|w\|_\infty \|f^{(n+1)}\|_\infty
+	\]
+	\begin{proof}
+		klar
+	\end{proof}
+\end{kor}
+
+\begin{st}[Gleichmäßige Konvergenz]
+	\label{st:1.12}
+	Sei $I=[a,b]$, $f\in C^\infty(I)$ mit $\|f^{(n)}\|_\infty \le M$ für alle $n\in \N$.
+	Sei $\Delta_n := \{x_0^n,\dotsc, x_n^n\}\subset I$ eine Menge $n$ disjunkter Stützstellen und $p_n\in \P_n$ eine zugehörige Interpolierende.
+	Dann gilt
+	\[
+		\lim_{n\to \infty} \|p_n -f\| = 0
+	\]
+	\begin{proof}
+		Für $w_n(x):=\prod_{i=0}^n(x-x_i^n)$ gilt $|w_n(x)| \le (b-a)^{n+1}$.
+		Aus \ref{kor:1.11} folgt
+		\[
+			\|p_n-f\|_\infty \le \f {\|w_n\|_\infty}{(n+1)!}\|f^{(n+1)}\|_\infty \le \f{(b-a)^{n+1}}{(n+1)!}M \to 0
+		\]
+	\end{proof}
+\end{st}
+
+\begin{note}
+	Vergleiche Stoer-Bulirsch.
+	\begin{itemize}
+		\item
+			ohne Einschränkungen an $(\Delta_n)_{n\in \N}$ oder $f\in C(I)$. kann man \emph{keine} gleichmäßige Konvergenz und nicht einmal punktweise Konvergenz erwarten.
+			Das Problem ist, dass $f^{(n+1)}(\xi)$ kann schneller mit $n$ wachsen, als $\left(\f {w(x)}{(n+1)!}\right)^{-1}$.	
+		\item
+			Für jedes $f\in C(I)$ existiert Folge $(\Delta_n)_{n\in \N}$ sodass $p_n\to f$ gleichmäßig.
+		\item
+			Satz von Faber: Zu jeder Folge $(\Delta_n)_{n\in \N}$ gibt es ein $f\in C([a,b])$ so dass $p_n\not\to f$ gleichmäßig.
+		\item
+			In der Praxis kommt es zu häufig Oszillationen von $p_n$, vor allem am Rand von $[\min\{x_0,\dotsc, x_n\},\max\{x_0,\dotsc,x_n\}]$.
+	\end{itemize}
+\end{note}
+
+\begin{ex}[Runge]
+	Sei $f(x)= \f 1{1+x^2}$ mit $I=[-5,5]$ und $x_k^n := -5+k*k+h_n$ ($k=0,\dotsc,n$) mit $h_n:= \f {10}n$ äquidistanten Stützstellen.
+
+	Sei $p_n\in \P_n$ mit $p_n(x_k^n) = f(x_k^n)$, dann ergibt sich \fixme[Oszillationen].
+	
+	Man kann zeigen, dass $\tilde x \approx 3,68$ existiert, so dass in $(-\tilde x,\tilde x)$ punktweise und nicht punktweise Konvergenz für $|x|\ge \tilde x$. Sogar: $\|p_n-f\|_\infty \to \infty$.
+\end{ex}
+
+\subsection{Optimale Wahl von Stützstellen}
+
+\begin{seg}{Idee}
+Finde Stützstellen $\{x_0,\dotsc,x_n\}\subset I := [-1,1]$, so dass $\|w\|_\infty$ minimal wird.
+Dann ist die Schranke in \ref{1.11} am kleinsten..
+\end{seg}
+
+\begin{df}[Tschebyscheff-Polynome]
+	Wir definieren Tschebyscheff Polynome auf $I$, durch
+	\begin{align*}
+		T_0(x) &:= 1\\
+		T_1(x) &:= x\\
+		T_{n+1}(x) := 2xT_n - T_{n-1}(x)
+	\end{align*}
+	und normierte Tschebyscheff Polynome
+	\[
+		\hat T_n(x) := 2^{1-n} T_n(x)
+	\]
+\end{df}
+
+\begin{ex}
+	\begin{align*}
+		T_2(x) &= 2x^2 - 1\\
+		T_3(x) &= 4x^3 - 3x\\
+		\hat T_2(x) &= x^2 -\f 12\\
+		\hat T_3(x) &= x^3 -  \f 34 x
+	\end{align*}
+\end{ex}
+
+\begin{st}
+	\label{1.14}
+	Für $n\in \N_0$ gilt
+	\begin{enumerate}[i)]
+		\item 
+			$T_n\in \P_n$
+		\item
+			Die $\hat T_n$ sind normiert.
+		\item
+			Für $x\in [-1,1]$ gilt
+			\[
+				T_n(x) = \cos(n\cos^{-1}(x))
+			\]
+		\item
+			$|T_n(x)| \le 1$
+		\item
+			$T_n(\cos(\f {j\pi}n)) = (-1)^j$ Extrema für $j=0,\dotsc,n$.
+		\item
+			$T_n(\cos(\pi \f {2j-1}{2n})) = 0$ Nullstellen für $j=1,\dotsc,n$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item klar
+			\item klar
+			\item
+				Ein Additionstheorem liefert
+				\[
+					\cos(\alpha+\beta) = \cos(\alpha)\cos(\beta) - \sin(\alpha)\sin(\beta)
+				\]
+				Also
+				\begin{align*}
+					\cos((n+1)\theta) &= \cos(n\theta) \cos(\theta) - \sin(n\theta) \sin(\theta)\\
+					\cos((n-1)\theta) &= \cos(n\theta) \cos(\theta) + \sin(n\theta) \sin(\theta)
+				\end{align*}
+				und damit
+				\[
+					\cos((n+1)\theta) + \cos((n-1)\theta) = 2 \cos(n\theta)\cos(\theta)
+				\]
+				Setze $\theta:= \cos^{-1}(x)$, dann ergibt sich
+				\begin{align*}
+					F_{n+1}(x) = \cos((n+1)\cos^{-1}(x)) &= 2\cos(n\cos^{-1}(x)) \cos(\cos^{-1}x) - \cos((n-1)\cos^{-1}(x))\\
+					&= 2x \underbrace{\cos(n\cos^{-1}(x))}_{F_n(x)} - \underbrace{\cos((n-1)\cos^{-1}(x))}_{F_{n-1}(x)}
+				\end{align*}
+				d.h. $F_n(x):= \cos(n\cos^{-1}(x))$ erfüllt die Rekursion der Tschebyscheff Polynome aus Definition \ref{1.13}.
+				Außerdem  $F_0(x)=1, F_1(x)=x$, also $F_n(x)=T_n(x)$.
+			\item
+				klar mit iii)
+			\item
+				Durch Nachrechnen mit iii)
+			\item
+				Durch Nachrechnen mit iii)
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st}[Optimalität]
+	\label{1.15}
+	\begin{enumerate}[i)]
+		\item 
+			Sei $p\in \P_n$ normiert auf $[-1,+1] =: I$, dann gilt
+			\[
+				\|p\|_\infty \ge 2^{1-n}
+			\]
+		\item
+			$\displaystyle \|\hat T_n \|_\infty = 2^{1-n}$
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item 
+				Wir nehmen an, ein normiertes $p\in \P_n$ mit $|p(x)|<2^{1-n}$ für alle $x\in I$.
+				Sei $x_j= \cos(\f {j\pi}{n})$.
+				Mit \ref{1.15} und der Definition von $\hat T_n$ folgt
+				\[
+					(-1)^j p(x_j) \le |p(x_j)| < 2^{1-n} = 2^{1-n}\underbrace{(-1)^j}_{T_n(x_j)}(-1)^j = \hat T(x_j)(-1)^j
+				\]
+				und
+				\[
+					(-1)^j(\hat T_n(x_j)-p(x_j)) > 0 \qquad j=0,\dotsc,n
+				\]
+				also hat $\hat T_n -p$ mindestens $n$ verschiedene Nullstellen. $\hat T_n-p\in \P_{n-1}$, da beide normiert sind, ein Widerspruch.
+				Also gilt
+				\[
+					|p(x)| \ge 2^{1-n} \qquad \forall p\in \P_n \text{ normiert}
+				\]
+			\item
+				aus i) folgt wegen $\hat T_n$ normiert, dass
+				\[
+					\|\hat T_n\|_\infty \ge 2^{1-n}
+				\]
+				Mit Satz \ref{1.14} iv) ist $|T_n(x)| \le 1$ also $|\hat T_n(x)| \le 2^{1-n}$ für alle $x\in I$.
+				Also 
+				\[
+					\|\hat T_n\|_\infty = 2^{1-n}
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
 \section{Numerische Integration}	
 
 
