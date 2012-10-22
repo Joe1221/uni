@@ -58,7 +58,7 @@
 			\begin{align*}
 				\f 1{x+iy} = \f 1{x+iy}\cdot \f {x-iy}{x-iy} = \f{x-y}{x^2-(iy)^2} = \f x{x^2+y^2} + i \f{-y}{x^2+y^2}
 			\end{align*}
-			Realteil: $\Re(x+iy) = x\in \R$<br />
+			Realteil: $\Re(x+iy) = x\in \R$ \\
 			Imaginärteil: $\Im(x+iy) = y\in\R$
 		\item
 			Gaußsche Zahlenebene:
@@ -171,7 +171,7 @@
 			\[
 				\_M := \bigcap_{A\in \{A\subset \C: A \text{ abgeschlossen} \land M \subset A\}} A
 			\]
-			der \emph{Abschluss} von $M$ (die kleinstel abgeschlossene Menge $A$ mit $M\subset A$).
+			der \emph{Abschluss} von $M$ (die kleinste abgeschlossene Menge $A$ mit $M\subset A$).
 	\end{enumerate}
 \end{df}
 
@@ -198,7 +198,7 @@
 	\]
 	oder äquivalent
 	\[
-		\forall (z_n) \text{Folge in} O: z_n \to z \implies f(z_n) \to f(z_0)
+		\forall (z_n) \text{ Folge in } O: z_n \to z \implies f(z_n) \to f(z_0)
 	\]
 	$f$ heißt \emph{stetig}, falls $f$ in jedem $z_0\in O$ stetig ist.
 \end{df}
@@ -211,9 +211,12 @@
 			Dann sind $f\pm g$, $f\cdot g$ und (falls $g(z_0)\neq 0$) $\f fg$ stetig in $z_0$.
 		\item
 			Sei $f:O\to \C$ stetig in $z_0\in O$ und $g:\tilde O \to \C$ stetig in $f(z_0)$, $f(O) \subset \tilde O$.
-			Dann ist
+			Dann ist $g\circ f$ stetitg in $z_0$
 	\end{enumerate}
 \end{st}
+\begin{proof}
+Beweis über Folgendefinition der Stetigkeit.
+\end{proof}
 
 \begin{nt}
 	\label{nt:1.10}
@@ -245,9 +248,13 @@
 		\begin{align*}
 			|f(z)-f(z_0)| &\le |f(z)-f_n(z)| + |f_n(z)-f_n(z_0) + |f_n(z)-f(z_0)|
 		\end{align*}
-		Wähle $N_{\eps}$, so, dass $|f_(z)-f_n(z)| < \f \eps 3$ für $n>N_{\eps}$.
-		Setze jetzt $n:= N_{\eps}+1$.
-		\fixme[übersichtlicher machen]		
+		1. Wähle $N_{\eps}$, so, dass $|f(z)-f_n(z)| < \frac \eps 3$ für $n>N_{\eps}$. \\
+		2. Setze jetzt aber konkret $n:= N_{\eps}+1$. Mit der Dreiecksgleichung, Stetigkeit und geschicktes Addieren mit der Null ergibt sich.
+		
+		 \[
+		  |f(z)-f(z_0)|\le \underbrace{|f(z)-f_m(z)|}_{\frac\eps 3} + \underbrace{|f_m(z)-f_m(z_0)|}_{<\frac \eps 3, |z-z_0|<\delta_{\frac{\eps}{3}}}+\underbrace{|f_m(z_0)-f(z_0)|}_{<\frac{\eps}{3}}<\eps \text{für } |z-z_0|<\delta
+		 \]
+			
 	\end{proof}
 \end{st}
 
@@ -280,7 +287,7 @@
 \begin{df}[Potenzreihen]
 	Sei $(a_n)$ eine Folge in $\C$
 	\[
-		R := \f 1{\limsup_{n\to \infty}\sqrt[n]{|a_n|}} \qquad (\f 10 := \infty, \f 1\infty := 0)
+		R := \f 1{\limsup_{n\to \infty}\sqrt[n]{|a_n|}} \qquad\left (\f 10 := \infty, \f 1\infty := 0 \right )
 	\]
 	dann konvergiert die Potenzreihe
 	\[
@@ -328,10 +335,10 @@
 		\end{align*}
 		Weiterhin ist für entsprechendes $N_\eps$
 		\begin{align*}
-			\left|\sum_{l=0}^N a_{N-l} (B_l-B) \right|
+			\left|\sum_{l=0}^N a_{N-l} (B_l-B) \right| \\
 				&= \left|\sum_{l=0}^{N_\eps} a_{N-l}(B_l-B) + \sum_{l=N_\eps +1}^N a_{N-l}(B_l-B)\right|\\
-				&\le \left|\max_{0\le l \le N_\eps} |B_l-B|\sum_{n=N-N_\eps}^\infty |a_n| \right| +     \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{l=N_\eps+1}^N |a_{N-l}| |\right| \qquad n= N-l, \text{wähle hier $N_\eps$}
-				&\le \f \eps 2  +  \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{n=0}^\infty |a_{n}| \right|
+				&\le \left|\max_{0\le l \le N_\eps} |B_l-B|\sum_{n=N-N_\eps}^\infty |a_n| \right| \\ &+     \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{l=N_\eps+1}^N |a_{N-l}| |\right| \qquad n= N-l, \text{wähle hier $N_\eps$} \\
+				&\le \f \eps 2  +  \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{n=0}^\infty |a_{n}| \right| \\
 				&<     \eps
 		\end{align*}
 		für $N-N_\eps > \tilde N_\eps$ bzw. für  $N>\tilde N_\eps + N_\eps$.
@@ -403,7 +410,7 @@
 		\item
 			$f: \C \to \C : z\mapsto z$, dann ist $f'=1$.
 		\item
-			ohne Beweis: $f:\C to \C :z\mapsto z^m$, dann ist $f'(z) = nz^{n-1}$.
+			ohne Beweis: $f:\C \to \C :z\mapsto z^m$, dann ist $f'(z) = nz^{n-1}$.
 		\item
 			$f: \C\to \C : z\mapsto |z|^2$ ist in $z_0\neq 0$ nicht differenzierbar.
 			\begin{proof}
