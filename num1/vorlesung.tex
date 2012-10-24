@@ -384,15 +384,15 @@ Vereinfachung der Rekursion aus \ref{st:1.5} für $x=0$:
 \begin{align*}
 	p_{i,j}(0) &= \f {(0-h_i)p_{i+1,j-1}(0) - (0-h_{i+j})p_{i,j-1}(0)}{h_{i+j}-h_i} \\
 	&= \f {(h_{i+j}-h_i)p_{i+1,j-1}(0)}{h_{i+j}-h_i} - \f {h_{i+j}(p_{i+1,j-1}(0)-p_{i,j-1}(0))}{h_{i+j}-h_i}
-	&= p_{i+1,j-1}(0) + \f {p_{i+j,j-1}(0) -p_{i,j-1}(0)}{\f {h_i}{h_{i+j} - 1}}
+	&= p_{i+1,j-1}(0) + \f {p_{i+j,j-1}(0) -p_{i,j-1}(0)}{\f {h_i}{h_{i+j}} - 1}
 \end{align*}
 \end{seg}
 
 \begin{df}[Richardson-Extrapolation]
 	Zu ${h_i}_{i=0}^n \subset \R^+$ definiere
 	\begin{align*}
-		b_{i,0} &:= b_i := b(h_i)\\
-		b_{i,j} &:= b_{i+1,j-1} + \f {b_{i+1,j-1}-b_{i,j-1}}{\f {h_i}{h_{i+j}-1}}
+		b_i := b_{i,0} &:= b(h_i)\\
+		b_{i,j} &:= b_{i+1,j-1} + \f {b_{i+1,j-1}-b_{i,j-1}}{\f {h_i}{h_{i+j}}-1}
 	\end{align*}
 	Dann ist $b_{0,n}$ eine Approximation für $\lim_{n\to \infty} b(h)$.
 \end{df}
@@ -405,11 +405,14 @@ Vereinfachung der Rekursion aus \ref{st:1.5} für $x=0$:
 		\implies b_{0,0} = 2, \qquad b_{1,0} = \f 94, \qquad b_{2,0} = \f {625}{256} \approx 2,44
 	\]
 	Neville-Schema für Rekursion aus 1.8, verwende $\f {h_i}{h_{i+j}} = 2^j$.
-	\begin{tabular}{cccc}
-		$h_0=1$ & $b_{0,0}=2$  & $b_{0,1}=\f 52$ & $b_{0,2}=\f {257}{96}$\\
-		$h_1=\f12$ & $b_{1,0}=\f 94$  & $b_{1,1}=\f {337}{128}$ $b_{0,2}=\f {257}{96}$\\
-		$h_2=\f14$ & $b_{2,0}=\f {625}{256}e$  \\
-	\end{tabular}
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{c|ccc}
+			$h_0=1$ & $b_{0,0}=2$  & $b_{0,1}=\f 52$ & $b_{0,2}=\f {257}{96}$\\
+			$h_1=\f12$ & $b_{1,0}=\f 94$  & $b_{1,1}=\f {337}{128}$ & $b_{0,2}=\f {257}{96}$\\
+			$h_2=\f14$ & $b_{2,0}=\f {625}{256}$  \\
+		\end{tabular}
+	\end{table}
 \end{ex}
 
 \begin{note}
@@ -582,7 +585,7 @@ Dann ist die Schranke in \ref{1.11} am kleinsten..
 	\begin{align*}
 		T_0(x) &:= 1\\
 		T_1(x) &:= x\\
-		T_{n+1}(x) := 2xT_n - T_{n-1}(x)
+		T_{n+1}(x) &:= 2xT_n - T_{n-1}(x)
 	\end{align*}
 	und normierte Tschebyscheff Polynome
 	\[
