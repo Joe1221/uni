@@ -550,6 +550,15 @@ Wie gut apporximiert die Interpolierende die Funktion?
 	\end{proof}
 \end{st}
 
+\begin{ex*}
+	Sei $f(x)=e^x$ auf $I=[-1,1]$, $f\in C^\infty(I)$.
+	Es gilt offensichtlich
+	\[
+		\|f^{(n)}\| \le e \qquad n\in \N
+	\]
+	Selbst wenn man nur Stützstellen auf $[-1,-0.75]$ wählt, konvergiert die Folge gleichmäßig gegen die Zielfunktion.
+\end{ex*}
+
 \begin{note}
 	Vergleiche Stoer-Bulirsch.
 	\begin{itemize}
@@ -700,13 +709,259 @@ Dann ist die Schranke in \ref{1.11} am kleinsten..
 	\end{proof}
 \end{st}
 
+\begin{kor}[Optimale Stützstellen]
+	\label{1.16}
+	Setze $\{x_0,\dotsc,x_n\}$ als Nullstellen von den Tschebyscheff-Polynomen $T_{n+1}$:
+	\[
+		x_i := \cos\left(\pi\f{2i+1}{2(n+1)}\right) \qquad i=0,\dotsc,n
+	\]
+	Dann ist $\omega(x) := \prod_{i=0}^n (x-x_i) = \hat T_{n+1}$ Knotenpolynom mit minimalem $\|\omega\|_\infty$.
+\end{kor}
+
+
+\subsection{Stabilität der Interpolation}
+
+
+Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=0}^n$?.
+
+\begin{df}[Lebesgue-Konstante]
+	\label{1.17}
+	Sei $I\subset \R$ ein kompaktes Intervall, $V\subset C(I)$ ein Unterraum der Dimension $n+1$, paarweise verschiedene Stützstellen $\{x_0,\dotsc, x_n\}\subset I$ gegeben und $\{L_k^n(x)\}_{k=0}^n$ nodale Basis von $V$, d.h. $L_k^n(x_j) = \delta_{kj}$.
+	Dann nennen wir
+	\[
+		\Lambda_n := \max_{x\in I}\sum_{k=0}^n |L_k^n(x)|
+	\]
+	die \emph{Lebesgue-Konstante} der Interpolation.
+\end{df}
+
+\begin{note}
+	$\Lambda_n$ ist insbesondere auch für Interpolation mit anderen Funktionen als Polynome definiert.
+
+	Sei $V=\<\{\phi_k\}_{k=0}^n\> \subset C(I)$ mit Basis $\{\phi_k\}_{k=0}^n$.
+	Falls die Interpolationsmatrix regulär ist, so existiert eine nodale Basis von $V$:
+	\[
+		A=\begin{pmatrix}
+			\phi_0(x_0) & \hdots & \phi_n(x_0)\\
+			\vdots & \ddots & \vdots\\
+			\phi_0(x_n) & \hdots & \phi_n(x_n)
+		\end{pmatrix}
+		\qquad \text{regulär}
+	\]
+	Dann ist $B=(b_{ik})_{i,k=0}^n := A^{-1}$ und $L_k^n(x) := \sum_{i=0}^n b_{ik}\phi_i(x)$ wohldefiniert und
+	\[
+		L_k^n (x_j) = \sum_{i=0}^n b_{ik}\phi_i(x_j) = (A B)_{jk} = I_{jk} = \delta_{jk}
+	\]
+\end{note}
+
+\begin{st}[Störungs-Aussage]
+	\label{1.18}
+	Seien $\{f_i\}_{i=0}^n$ und $\{\tilde f_i\}_{i=0}^n$ zwei Mengen von Zielwerten über Stützpunkten $\{x_i\}_{i=0}^n\subset I$ und $p$ und $\tilde p$ zugehörige Interpolationsfunktionen.
+	Dann gilt
+	\[
+		\|p-\tilde p\|_\infty \le \Lambda_n \max_{i=0,\dotsc,n}|f_i-\tilde f_i|
+	\]
+	Diese Abschätzung ist scharf (d.h. $\Lambda_n$ kann nicht kleiner gewählt werden, wir finden Beispiele $\{f_i\},\{\tilde f_i\}$ für die Gleichheit gilt).
+	\begin{proof}
+		Zeige zunächst: $\forall \{\_{f_i}\}\subset \R$ und interpolierende Funktion $\_p\in V$, gilt:
+		\[
+			\|\_p\|\infty \le \Lambda_n \max_{i=0,\dotsc,n}|\_{f_i}| \qquad \text{und ist scharf}
+		\]
+		Für $t\in I$ gilt
+		\begin{align*}
+			|\_p(t)| &= \left| \sum_{i=0}^n \_{f_i} L_i^n(t)\right| \\
+			&\le \sum_{i=0}^n |\_{f_i}||L_i^n(t)|\\
+			&\le \sum_{i=0}^n (\max_{j=0,\dotsc,n}|\_{f_j})|L_i^n(t)|\\
+			&\le \max_{j=0,\dotsc,n}|\_{f_j}| \sum_{i=0}^n|L_i^n(t)|
+		\end{align*}
+		Also ist
+		\[
+			\|\_p\|_\infty \le \Lambda_n \max_{j=0,\dotsc,n}|\_{f_j}|
+		\]
+
+		Sei $\tau := \argmax_{x\in I} \sum_{i=0}^n|L_i^n(x)|$ und $\_{f_i} := \sgn(L_i^n(\tau))$.
+		Dann gilt
+		\begin{align*}
+			\_p(\tau) &= \left| \sum_{i=0}^n \underbrace{\_{f_i}L_i^n(\tau)}_{\ge 0}\right| \\
+			&= \sum_{i=0}^n |L_i^n(\tau)| \\
+			&= \max_{x\in I} \sum_{i=0}^n |L_i^n(x)| \\
+			&= \Lambda_n \cdot \underbrace{1}_{=\max_{i=0,\dotsc,n}|\_{f_i}|}
+		\end{align*}
+		also ist 
+		\[
+			\|\_p\|_\infty \le \Lambda_n \max_{j=0,\dotsc,n}|\_{f_j}|
+		\]
+		scharf.
+
+		Der Satz folgt, da $\_p := p-\tilde p$ das Interpolationspolynom zu den Daten $\_{f_i} := f_i - \tilde {f_i}$
+	\end{proof}
+\end{st}
+
+\begin{ex*}[Polynominterpolation, vgl. Deuflhard/Hohmann]~
+
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{r|r|r}
+			$n$ & $\Lambda_n$ für äquidistante $\Delta_n$ & $\Lambda_n$ für Tschebyscheff-Knoten \\ \hline
+			5 & 3,106292 & 2,104398 \\
+			10 & 29,890695 & 2,489430 \\
+			15 & 512,052451 & 2,727778 \\
+			20 & 10986,533993 & 2,900825
+		\end{tabular}
+	\end{table}		
+	Also auch quantitativ führen die Tschebyscheff-Knoten zu stabilerer Interpolation.
+\end{ex*}
+
+
+\subsection{Hermite-Interpolation}
+
+
+Seien $\{x_i\}_{i=0}^m \subset \R$ paarweise verschiedene Knoten und $\{f_i^{(j)}\}_{j=0}^{m_i-1}$ Zielwerte für $i=0,\dotsc, m$.
+Gesucht ist ein Polynom $p\in \P_n$ mit $p^{(j)}(x_i) =f_i^{(j)}$ mit $i=0,\dotsc,m$ und $j=0,\dotsc,m_i-1$ und 
+\[
+	n := \sum_{i=0}^m m_i - 1
+\]
+
+\begin{st}[Existenz und Eindeutig]
+	\label{1.19}
+	Es existiert ein eindeutiges Polynom $p\in \P_n$ als Lösung des Hermite-Interpolationspolynom
+	\begin{proof}
+		Wir verfahren ähnlich wie in \ref{1.1}.
+		Zeige, dass die Interpolationsmatrix $A$ bezüglich $\{p_i\}_{i=0}^n$ regulär ist.
+		\[
+			A= \begin{pmatrix}
+				\phi_0^{(0)}(x_0) &\hdots &\phi_n^{(0)}(x_0)\\
+				\phi_0^{(1)}(x_0) &\hdots &\phi_n^{(1)}(x_0)\\
+				\vdots &  & \vdots \\
+				\phi_0^{(m_0)}(x_0)& \hdots &\phi_n^{(m_0)}(x_0)\\
+				\phi_0^{(0)}(x_1) &\hdots &\phi_n^{(m_0)}(x_1)\\
+				\vdots& & \vdots \\
+				\phi_0^{(m_m)}(x_m) &\hdots &\phi_n^{(m_m)}(x_m)
+			\end{pmatrix}
+			\qquad \text{ist quadratisch}
+		\]
+		Wir zeigen jetzt $\ker(A) = 0$.
+
+		Sei $A\_a = 0$ für $a\in \R^{n+1}$, dann erfüllt $\_p(x) := \sum_{i=0}^n \_a_i \phi_i(x)$ die Gleichung $\_p^{(j)}(x_i) = 0$ für $i=0,\dotsc,m$ und $j=0,\dotsc,m_i-1$.
+		
+		Also ist $(x-x_i)^{m_i}$ Teiler von $\_p$ für jedes $x_i$.
+		Insgesamt ist also
+		\[
+			\omega(x) := \prod_{i=0}^m (x-x_i)^{m_i}
+		\]
+		ein Teiler von $\_p$ in $\P_n$, d.h.
+		\[
+			\exists q(x)\in \P_n : \_p(x) = q(x) \omega(x)
+		\]
+		Es gilt $\deg \_p \le n$ und $\deg \omega = \sum_{i=0}^m m_i = n+1$.
+		Also muss $q(x)=0$ und damit $\_p(x) = 0$.
+
+		Also $\_a=0$.
+	\end{proof}
+\end{st}
+
+\begin{note}
+	Falls nicht alle Ableitungen $p^{(j)}(x_i) =f_i^{(j)}$ für $j=0,\dotsc,m_i-1$ vorgeschrieben sind, ist die Interpolations-Aufgabe nicht immer lösbar.
+
+	\begin{ex*}
+		Sei $m=1$, $n=1$.
+		Gesucht ist $p\in \P_1$ mit
+		\[
+			p'(x_0) = 1 \qquad \land \qquad p'(x_2) = 2
+		\]
+		Dazu gibt es keine Lösung (keine Existenz).
+
+		\[
+			p'(x_0) = 1 \qquad \land \qquad p'(x_2) = 1
+		\]
+		Hierzu sind alle $(x) = x+a$, $a\in \R$ Lösungen (keine Eindeutigkeit).
+	\end{ex*}
+\end{note}
+
+\begin{st}[Fehlerdarstellung]
+	\label{1.20}
+	Sei $f\in C^{n+1}(I)$, $\{x_i\}_{i=0}^n\subset I$ und $p\in \P_n$ das Interpolations-Polynom mit
+	\[
+		p^{(j)}(x_i) = f^{(j)}(x_i) \qquad i=0,\dotsc,m \quad j=0,\dotsc,m_i-1
+	\]
+	Dann existiert für alle $x\in I$ ein $\xi \in I$ mit
+	\[
+		f(x) - p(x) = \f 1{(n+1)!} f^{(n+1)} (\xi) \omega(x)
+	\]
+	für $\omega(x) = \prod_{i=0}^n(x-x_i)^{m_i}$.
+	\begin{proof}
+		Analog zu Satz \ref{1.10}.
+	\end{proof}
+\end{st}
+
+\begin{st}[Newton-Form]
+	\label{1.21}	
+	Das Hermite-Interpolationspolynom ist gegeben durch
+	\[
+		p(x) = \sum_{k=0}^n a_k \prod_{j=0}^{k-1}(x-z_j)
+	\]
+	mit Stützstellen
+	\[
+		z_k := x_i \qquad k=n_{i-1},\dotsc, n_i-1
+	\]
+	wobei $n_i = \sum_{i=0}^{i-1}m_r$.
+
+	Die Koeffizienten $a_k := a_{0,k}$ für $k=0,\dotsc,n$ werden erhalten aus der Rekursion
+	\begin{align*}
+		a_{k,j} := \begin{cases}
+			\displaystyle \f 1{j!}f_i^{(j)} 			&  \begin{aligned}i&=0,\dotsc,m \\ j&=0,\dotsc,m_i-1 \\ k&=n_{i-1},\dotsc, n_i-1-j\end{aligned} \\
+			\displaystyle \f {a_{k+1,j-1} - a_{k,j-1}}{z_{k+j} - z_k} & \text{sonst}
+		\end{cases}
+	\end{align*}
+\end{st}
+
+\begin{ex*}
+	Sei vorgegeben
+
+	\begin{table}[h]
+		\centering	
+		\begin{tabular}{l|c|c}
+			 & $x_0=1$ & $x_1 =2$ \\ \hline
+			$f_i^{(0)}$ & -1 & 14 \\
+			$f_i^{(1)}$ & 4 & 32 \\
+			$f_i^{(12)}$ & 12 & 
+		\end{tabular}		
+	\end{table}
+
+	Dann ist $m=1$, $m_0=3$, $m_1=2$, und damit $n=3+2-1=4$.
+	Es werden die Stützstellen $z_0=z_1=z_2=x_0$, $z_3=z_4=x_1$ gewählt.
+	Die Basispolynome sind dann
+	\[
+		1, (x-1), (x-1)^2, (x-1)^3, (x-1)^3(x-2)
+	\]
+	Bestimme die Koeffizienten mit Hilfe des Neville-Schemas
+
+	\begin{table}[h]
+		\centering	
+		\begin{tabular}{l|c|c|c|c|c|c}
+			$z_k$  & $a_{k,0}$ & $a_{k,1}$ & $a_{k,2}$ \\ \hline
+			$z_0=1$ & $f_0^{(0)} = -1$  & $\f 1{1!}f_0^{(1)} = 4$ & $\f 1{2!} f_0^{(2)} = 6$ & $\f {11-6}{2-1}=5$ & $\f {6-5}{2-1}=1$ \\
+			$z_1=1$ & $f_0^{(0)} = -1$ & $4$ 						&	$\f {15-4}{2-1} = 11$ & $\f {17-11}{2-1}=6$ \\
+			$z_2=1$ & $f_0^{(0)} = -1$ & $\f {14-(-1)}{2-1} = 15$ & $\f {32-15}{2-1} = 17$ \\
+			$z_3=2$ & $f_0^{(0)} = -1$ & $\f 1 {1!} f_1^{(1)} = 32$ &  \\
+			$z_4=2$ & $f_0^{(0)} = -1$ & 
+		\end{tabular}		
+	\end{table}
+	Es ergibt sich dann
+	\begin{align*}
+		p(x)& = -1\cdot 1 + 4\cdot (x-1) + 6\cdot(x-1)^2 + 5\cdot(x-1)^3 + 1\cdot(x-1)^3 (x-2) = x^4-2\\
+		p'(x) &= 4x^3\\
+		p''(x) &= 12x
+	\end{align*}
+\end{ex*}
+
+
+
 \section{Numerische Integration}	
 
 
 \section{Nichtlineare Gleichungsysteme}
 
 \section{Optimierung}
-
 
 
 \end{document}
