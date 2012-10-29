@@ -961,6 +961,225 @@ Gesucht ist ein Polynom $p\in \P_n$ mit $p^{(j)}(x_i) =f_i^{(j)}$ mit $i=0,\dots
 \end{ex*}
 
 
+\subsection{Trigonometrische Interpolation}
+
+Für gegebenes $n\in \N$, $x_k = \f {2\pi}{n+1}k \in [0,2\pi)$, $k=0,\dotsc,n$ äquidistant und $\{f_k\}_{k=0}^n\subset \R$ist eine $2\pi$-periodische Funktion $t(x)$ der Gestalt
+\[
+	t(x) = \f {a_0}2 + \sum_{k=1}^n a_k  \cos(kx) + b_k \sin(kx) \qquad a_k,b_k \in \R
+\]
+mit $t(x_k)=f_k$ gesucht.
+
+\begin{note}
+	\begin{itemize}
+		\item
+			Diese Darstellung ist zunächst nur für gerade $n$ sinnvoll.
+			Für ungerade $n$ wird eine leichte Modifikation notwendig sein.
+		\item
+			Bestimmung von $t(x)$ wird über komplexe trigonometrische Polynome erfolgen.
+	\end{itemize}
+\end{note}
+
+\begin{lem}[Reelle und komplexe Fourier-Summe]
+	\label{1.22}
+	Seien $\{a_k,b_k\}_{k=0}^m\subset \R$, $\{c_k\}_{k=-m}^m\subset \C$ mit $c_0=\f {a_0}2$, $c_k=\f 12(a_k-ib_k)$ und $c_{-k}=\f 12(a_k+ib_k)$, $k=1,\dotsc, m$.
+
+	Dann gilt
+	\[
+		\f {a_0}2 + \sum_{k=1}^m (a_k\cos(kx) + b_k\sin(kx)) = \sum_{k=-m}^m c_k e^{ikx}
+	\]
+	\begin{proof}
+		Einsetzen und die Eulersche Formel $e^{iz}=\cos(z) +i\sin(z)$ liefert
+		\begin{align*}
+			\sum_{k=-m}^m c_ke^{ikx} &= \f {a_0}2 (\cos(0x) + i\sin(0x)) \\
+			& \qquad + \sum_{k=1}^m \f 12 (a_k-ib_k)(\cos(kx) +i\sin(kx)) + \sum_{k=1}^m \f 12 (a_k+ib_k)(\cos(-kx)+i\sin(-kx)) \\
+			&= \f {a_0}2 + \sum_{k=1}^m a_k\cos(kx) + b_k \sin(kx)
+		\end{align*}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die reelle Fourier-Summe ergibt also die komplexe Fouriersumme mit entsprechend gewählten $c_k$.
+
+				Das funktioniert auch umgekehrt für eine gegebene Fouriersumme $\{c_k\}_{k=-1}^m\subset \C$ mit $c_k=\_{c_{-k}}$, $c_0\in \R$.
+				Die Wahl
+				\[
+					a_k := c_k +c_{-k}, \qquad b_k := i(c_k-c_{-k}) \qquad k=0,\dotsc,m
+				\]
+				erfüllt alle Bedingungen aus Lemma \ref{1.22}.
+		\end{itemize}
+	\end{note}
+\end{lem}
+
+\begin{df}[Trigonometrische Polynome]
+	\label{1.23}
+	\[
+		T_n := \left\{ q: \C \to\C : q(z) = \sum_{k=0}^n c_k e^{ikz}\right\}
+	\]
+	ist der Raum der trigonometrischen Polynome von Grad $n$.
+	\begin{note}
+		Mit $\omega(z) = e^{iz}$ ist $q(z) = \sum_{k=0}^n c_k\omega(z)^k$.
+	\end{note}
+\end{df}
+
+\begin{st}[Trigonometrische Interpolation in $\C$]
+	\label{1.24}
+	Zu $\{f_k\}_{k=0}^n \subset \C$ existiert genau ein $q\in T_n$ mit $q(x_k) = f_k$, $k=0,\dotsc, n$.
+
+	Die Koeffizienten sind gegeben durch
+	\[
+		c_k = \f 1{n+1}\sum_{j=0}^n f_j \omega_k^{-j}
+	\]
+	mit $\omega_k := e^{ix_k}$.
+	\begin{proof}
+		Satz \ref{1.1} gilt auch im Komplexen, also existiert genau ein Polynom $p(z)\in \P_n$ mit $p(z)=\sum_{k=0}^n c_kz^k$, $c_k\in \C$ und $p(\omega_k)=f_k$.
+
+		Wir setzen $q(z) := \sum_{k=0}^n c_ke^{ikz} \in T_n$.
+		$q(z)$ erfüllt die Interpolationsbedingungen:
+		\[
+			q(x_l) = \sum_{k=0}^n c_k e^{ikx_l} = \sum_{k=0}^n c_k \omega_l^k = p(\omega_l) = f_l \qquad l=0,\dotsc,n
+		\]
+		Es gilt
+		\begin{enumerate}[i)]
+			\item
+				$\displaystyle \omega_k^{-j} = e^{-ij\f {2\pi}{n+1}k} = \omega_j^{-k}$
+			\item
+				$\displaystyle \sum_{j=0}^n (\omega_{l-k})^j = (n+1)\delta_{lk}$
+				\begin{proof}
+					\[
+						\sum_{j=0}^n (\omega_{l-k})^j = \begin{cases}
+							n+1 & l=k\\
+							\f{(\omega_{l-k})^{n+1}-1}{\omega_{l-k}-1} & l\neq k
+						\end{cases}
+					\]
+					Da jedoch 
+					\[
+						(\omega_{l-k})^{n+1e} = e^{i\f {2\pi}{n+1}(l-k)(n+1)} = e^{i2\pi(l-k)} = 1
+					\]
+					folgt
+					\[
+						\sum_{j=0}^n (\omega_{l-k})^j = \begin{cases}
+							n+1 & l=k\\
+							0 & l\neq k
+						\end{cases}
+					\]
+				\end{proof}
+		\end{enumerate}
+		Daher gilt für Koeffizienten von $q(z)$
+		\begin{align*}
+			\sum_{j=0}^n f_j \omega_k^{-j} &= \sum_{j=0}^n p(\omega_j) \omega_k^{-j}\\
+			&= \sum_{j=0}^n\left( \sum_{l=0}^n c_l \omega_j^l\right) \omega_k^{-j}\\
+			&= \sum_{j,l=0}^n c_l \omega_j^{l-k} \\
+			&= \sum_{l=0}^n c_l \sum_{j=0}^n \omega_{l-k}^j\\
+			&= \sum_{l=0}^n c_l (n+1) \delta_{lk} = c_k (n+1)
+		\end{align*}
+		Dividieren durch $n+1$ liefert die Behauptung.
+	\end{proof}
+\end{st}
+
+\begin{st}[Trigonometrische Interpolation in $\R$]
+	\label{1.25}
+	Für $n\in \N$ setze $\displaystyle m:= \begin{cases} \f n2 & \text{falls $n$ gerade} \\ \f {n-1}2 & \text{falls $n$ ungerade}\end{cases}$ und $\displaystyle \theta := \begin{cases} 0 & \text{falls $n$ gerade} \\ 1 & \text{falls $n$ ungerade}\end{cases}$.
+
+	Zu $x_k:=\f {2\pi}{n+1}k$ und Daten $\{f_k\}_{k=0}^n\subset \R$ existiert genau eine Funktion
+	\[
+		t(x) = \f {a_0}2 + \sum_{k=1}^m \Big(a_k \cos(kx) + b_k \sin(kx)\Big) + \f{\theta}2 a_{m+1}\cos((m+1)x)
+	\]
+	mit $t(x_k) = f_k$, $k=0,\dotsc,n$.
+
+	Für die Koeffizienten gilt
+	\begin{align*}
+		a_k &:= \f 2{n+1} \sum_{j=0}^n f_j(\cos(jx_k))\\
+		b_k &:= \f 2{n+1} \sum_{j=0}^n f_j(\sin(jx_k))
+	\end{align*}
+	\begin{proof}
+		Nach \ref{1.24} existiert ein eindeutiges $q\in T_n$ mit $q(x_k)=f_k$,
+		\[
+			q(z) = \sum_{k=0}^nn c_k e^{ikz}, \qquad c_k = \f 1{n+1}\sum_{j=0}^n f_j \omega_k^{-j}
+		\]
+		Setze $c_{-k} := c_{n+1-k}$ für $k=1,\dotsc,m$.
+		Wegen
+		\[
+			\_{w_k} = e^{-i \f {2\pi}{n+1}k} = e^{i \f{2\pi}{n+1}(n+1-k)} = \omega_{n+1-k}
+		\]
+		gilt
+		\[
+			c_{-k} = c_{n+1-k} = \f 1{n+1}\sum_{j=0}^n f_j \omega_{n+1-k}^{-j} = \f 1{n+1}\sum_{j=0}^n f_j\_{w_k}^{-j} = \_{c_k}
+		\]
+		Also ist Lemma \ref{1.22} anwendbar und mit der Wahl $a_k := c_k +c_{-k}$, $b_k := i(c_k-c_{-k})$, $k=0,\dotsc, m$ gilt:
+		\[
+			\f{a_0}2 + \sum_{k=1}^m \Big(a_k \cos(kx) + b_k \sin(kx) \Big) = \sum_{k=-m}^m c_k e^{ikx}
+		\]
+		Es gilt außerdem
+		\[
+			f_l = \sum_{k=0}^n c_k \omega_l^k = \sum_{k=0}^m c_k \omega_l^k + \sum_{k=1}^m c_{n+1-k}\omega_l^{-k} + \theta c_{m+1} \omega_l^{m+1}
+		\]
+		Für $n$ ungerade ist $m+1 = \f {n+1}2$ und 
+		\[
+			\omega_{l}^{m+1} = e^{i(m+1)\f{2\pi}{n+1}l} = e^{i\pi l} = \cos(\pi l) = \cos\left( \f {2\pi}{n+1} l \cdot \f{n+1}2\right) = \cos((m+1)x_l)
+		\]
+		Zusammen mit obigem ergibt sich mit der Wahl $a_{m+1}:= 2c_{m+1}$.
+		\begin{align*}
+			f_l = \f {a_0}2 + \sum_{k=1}^m \Big(a_k \cos(kx_l) + b_k \sin(kx_l)\Big) + \theta \f {a_{m+1}}2 \cos((m+1)l) 
+			=  t(x_l)
+		\end{align*}
+
+		Für die Koeffizienten gilt 
+		\begin{align*}
+			a_k:= c_k + c_{-k} &= \f 1{n+1}\sum_{j=0}^n f_j (\omega_k^{-j}+\omega_k^j) 
+			&= \f 1{n+1} \sum_{j=0}^n f_j(e^{ijx_k} + e^{ijx_k})\\
+			&= \f 2{n+1} \sum_{j=0}^n f_j \cos (jx_k)
+		\end{align*}
+		für $b_k$ analog mit $b_k := i(c_k -c_{-k})$.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Es gilt zwar $t(x_l)=q(x_l)$, aber im Allgemeinen ist $t(x)\neq q(x)$ und auch $t(x)\neq \Re(q(x))$ für $x\neq x_l$.
+		\end{itemize}		
+	\end{note}
+\end{st}
+
+\begin{ex*}
+	Sei $n=2$ und
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{c|c|c|c}
+			$x_j$ & $x_0=0$ & $x_1=\f 23 \pi$ & $x_2=\f 43 \pi$\\\hline
+			$f_j$ & $0$ & $\f 32$ & $\f 32$
+		\end{tabular}
+	\end{table}
+	Es ist $\cos(\pm x_1) = \cos(\pm x_2) = -\f 12$, $\sin(x_1) = -\sin(x_2) = i3$
+	\begin{align*}
+		c_0 &= \f 13 (f_0e^{-i0} + f_1 e^{-i0} + f_2e^{-i0}) = 1\\
+		c_1 &= \f 13 (f_0e^{-i0} + f_1 e^{-i\f 23 \pi} + f_2 e^{-i \f 43 \pi}) = \dotsb = -\f 12\\
+		c_2 &= \f 13 (f_0e^{-i0} + f_1 e^{-i \f 43 \pi} + f_2 e^{-i \f 83 \pi}) = \dotsb = -\f 12
+	\end{align*}
+	Das komplexe trigonometrische Interpolationspolynom ergibt sich also durch
+	\[
+		q(z) = 1 - \f 12 e^{iz} - \f 12 e^{i2z}
+	\]
+	Für den Realteil gilt
+	\[
+		\Re(q(z)) = 1 - \f 12 \cos(z) - \f 12 \cos(2z)
+	\]
+	Für die reelle Interpolierende gilt
+	\[
+		m = \f n2 = 1,\quad \theta =0
+	\]
+	Die Koeffizienten ergeben sich durch
+	\begin{align*}
+		a_0 &= c_0 + c_{-0} = 2c_0 = 2\\
+		a_1 &= c_1 + c_{-1} = c_1 + c_2 = -1\\
+		b_1 = i(c_1-c_{-1}) = i(c_1-c_2) = 0
+	\end{align*}
+	Das reelle trigonometirsche Interpolationspolynom ergibt sich dann durch
+	\[
+		t(x) = 1 - 1 \cos(x)
+	\]
+	Offensichtlich ist $q(x)\neq t(x) \neq \Re(q(x))$, obwohl $q(x_k) = t(x_k) = f_k$ erfüllt ist.
+\end{ex*}
+
+
 
 \section{Numerische Integration}	
 
