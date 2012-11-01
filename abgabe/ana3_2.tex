@@ -1,0 +1,69 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattanadrei
+
+\begin{document}
+
+\setcounter{section}{2}
+\begin{aufgabe}
+	\begin{enumerate}[(a)]
+		\item 
+			Für den Konvergenzradius gilt
+			\[
+				R = \f 1{\displaystyle\limsup_{n\to \infty}\sqrt[n]{\left|\f{(-1)^{n-1}}n\right|}}
+					= \f 1{\displaystyle \limsup_{n\to \infty} \f 1{\sqrt[n]n}}
+					= 1
+			\]
+			Zusammen mit dem Entwicklungspunkt $1$ der Potenzreihe ergibt sich der offene Konvergenzkreis durch
+			\[
+				K_1(1) = \{z\in \C : |z-1|<1\}
+			\]
+		\item
+			Sei $z\in K_1(1)$, dann konvergiert $f(z)=\sum_{n=1}^\infty (-1)^{n-1}\f {(z-1)^n}n$ gleichmäßig (Wähle $r:= \f 12 (|z-1|+1)$, dann ist $z\in K_r(1)$ und $r<R=1$, die Potenzreihe konvergiert gleichmäßig auf $K_r(1)$).
+			Also gilt
+			\[
+				f'(z) = \sum_{n=1}^\infty \f d{dx} (-1)^{n-1}\f{(z-1)^n}n = \sum_{n=1}^\infty (-1)^{n-1}(z-1)^{n-1} = \sum_{n=0}^\infty (1-z)^n = \f 1{1-(1-z)} = \f 1z
+			\]
+		\item
+			In der Vorlesung wurde gezeigt, dass $g: \C\setminus\{0\} \to \C: z\mapsto \f 1z$ keine Stammfunktion hat.
+			Jedoch hat $\tilde g := g\big|_{K_1(1)}$ die Stammfunktion $f(z)$, da $K_1(1)$ offen und für jedes $z\in K_1(1)$ nach b) gilt: $f'(z) = \f 1z = \tilde g(z)$.
+
+			Mit anderen Worten: $\f 1z$ eingeschränkt auf $K_1(1)$ hat eine Stammfunktion, nämlich $f(z)$.
+	\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
+	\begin{enumerate}[(a)]
+		\item 
+			Es gilt
+			\begin{align*}
+				f'(z) &= \lim_{z_h\to z} \f {f(z_h) - f(z)}{z_h-z} \\
+			\intertext{mit der Wahl $z_h := z - ih$ ($h\in \R$), ergibt sich}
+				&= \lim_{h\to 0} i\cdot\f {f(z_h) - f(z)}h \in i\R
+			\intertext{mit der Wahl $z_h := z + h$ ($h\in \R$) jedoch}
+				&= \lim_{h\to 0} \f {f(z_h) - f(z)}h \in \R
+			\end{align*}
+			Also folgt zwangsläufig $f'(z) = 0$.
+		\item
+			Sei $z_0=r_0e^{i\phi}$ und $z=a+ib$.
+			Betrachtet man den Betrag der Gleichung ergibt sich
+			\[
+				r_0 = |r_0||e^{i\phi}| = |z_0| = |e^z| = |e^x||e^{iy}| = e^x
+			\]
+			Also $r_0=e^x > 0$, bzw. $x=\ln(r_0)$.
+			Es folgt dann unmittelbar aus $z_0=r_0e^{i\phi_0}=e^xe^{iy} =e^z$, dass
+			\[
+				e^{i\phi_0} = e^{iy}
+			\]
+			Da $e^{iz}$ $2\pi$-periodisch ist, ergibt sich für $y$
+			\[
+				y = \phi_0 + 2k\pi \qquad k\in \Z
+			\]
+			Also ist die Menge aller Lösungen von $e^z = z_0$ gegeben durch
+			\[
+				\{a+ib \in \C : a= \ln(r_0),\; b=\phi_0+2k\pi,\; k\in \Z\}
+			\]
+	\end{enumerate}
+\end{aufgabe}
+
+\end{document}
