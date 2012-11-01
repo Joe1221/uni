@@ -1,0 +1,120 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattnumeins
+
+\begin{document}
+
+\begin{aufgabe}~
+
+	Für $n=1$ sind die äquidistanten Knoten $x_0=-1, x_1=1$.
+	Es gilt
+	\begin{align*}
+		\Lambda_1 
+		&:= \max_{x\in [-1,1]} \left\{\sum_{n=0}^1 |L_k^{1}(x)| \right\}\\
+		&= \max_{x\in [-1,1]} \left\{\left(\left|\f{x-1}2\right| + \left|\f{x+1}2\right|\right)\right\}\\
+		&= \f 12 \max_{x\in [-1,1]} \left\{ |x-1| + |x+1|\right\} = 1
+	\end{align*}
+	
+	Für $n=2$ sind die äquidistanten Knoten $x_0=-1,x_1=0,x_2=1$.
+	Es gilt dann
+	\begin{align*}
+		\Lambda_2
+		&:= \max_{x\in [-1,1]} \left\{\sum_{n=0}^2 |L_k^{2}(x)|\right\} \\
+		&= \max_{x\in [-1,1]} \left\{ \f12 |x(x-1)| + |(x+1)(x-1)| + \f 12 |(x+1)x|\right\} \\
+	\intertext{
+		Da diese Funktion gerade ist und das Intervall $[-1,1]$, genügt es den Fall $x>0$ zu betrachten
+	}
+		&= \max_{x\in [-1,1]} \left\{ \f12 x(x-1) + (x+1)(x-1) + \f 12 (x+1)x\right\} \\
+		&= \max_{x\in [-1,1]} \left\{ -x^2 +x+1\right\} \\
+	\intertext{Das Maximum wird bei $x=\f 12$ angenommen und beträgt $\f 54$}
+		&= \f 54
+	\end{align*}
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	Zunächst wird $p(x_j) =f(x_j)$ für $j=0,\dotsc,n$ erfüllt:
+	\begin{align*}
+		p(x_j)
+		&= q(x_j) + \sum_{k=0}^n (f(x_k)-q(x_k)) L_k(x_j)\\
+		&= q(x_j) + (f(x_j) -q(x_j) \prod_{\substack{i=0\\i\neq j}}^n \f{x_j-x_i}{x_j-x_i}\\
+		&= f(x_j)
+	\end{align*}
+
+	Für die Abschätzung bezeichne zunächst 
+	\[
+		\xi := \min_{\substack{i,j=0,\dotsc,n\\i\neq j}} \{|x_i - x_j|\}
+	\]
+	den minimalen Abstand zweier Stützstellen voneinander.
+	Da $q$ die Funktion $f$ beliebig genau approximiert, wähle $q$ so, dass
+	\[
+		\max_{x\in [a,b]}|q(x)-f(x)| < \delta
+	\]
+	mit 
+	\[
+		\delta := \f \eps{1+ (\f {b-a}\xi)^n(n+1)}
+	\]
+	Dann gilt mit der vorgegebenen Wahl von $p(x)$:
+	\begin{align*}
+		\max_{x\in [a,b]} |p(x)-f(x)| 
+		&\le \max_{x\in [a,b]}\left\{ |q(x)-f(x)| + \left| \sum_{k=0}^n (f(x_k) - q(x_k)) L_k(x) \right| \right\} \\
+		&\le \max_{x\in [a,b]}\left\{ |q(x)-f(x)| + \sum_{k=0}^n \left(|f(x_k) - q(x_k)| \left|\prod_{\substack{i=0\\i\neq k}}^n \f {x-x_i}{x_k-x_i} \right|\right) \right\} \\
+		&< \delta + \sum_{k=0}^n \left(\delta \prod_{\substack{i=0\\i\neq k}}^n \f {(b-a)}{\xi} \right) \\
+		&\le \delta + \left(\f{b-a}{\xi}\right)^n \sum_{k=0}^n \delta  \\
+		&\le \delta \left( 1 + \left(\f{b-a}{\xi}\right)^n (n+1)\right)  \\
+		&= \eps
+	\end{align*}
+
+	Das Resultat besagt im Grunde, dass man eine stetige Funktion mit Hilfe einer Approximierenden beliebig genau interpolieren kann.
+	
+	Zur numerischen Konstruktion eignet sich diese Aussage allerdings nur bedingt, da die Funktion $q$ und die kostspieligen Lagrangepolynome mehrfach ausgewertet werden müssen.
+\end{aufgabe}
+	
+\begin{aufgabe}
+	\begin{enumerate}[a)]
+		\item		
+			Wegen $T_n(x) = \cos(n\cos^{-1}(x))$ für $x\in [-1,1]$ und dem Additionstheorem $2\cos(a)\cos(b) = \cos(a+b) + \cos(a-b)$ gilt
+			\begin{align*}
+				2 T_n(x) T_m(x) &= 2\cos(n\cos^{-1}(x)) \cos(m\cos^{-1}(x))\\
+				&=\cos((n+m)\cos^{-1}(x)) + \cos((n-m)\cos^{-1}(x))\\
+				&= T_{n+m}(x) + T_{n-m}(x)
+			\end{align*}
+		\item
+			\begin{itemize}
+				\item
+					Wegen $T_n(x) \le 1$ und $|w|<1$ konvergiert die Reihe $\sum_{n=0}^\infty T_n(x)w^n$ offensichtlich.
+					Es gilt deshalb
+					\begin{align*}
+						\sum_{n=0}^\infty T_n(x)w^n
+						&= T_0(x)w^0 + T_1(x)w^1 + \sum_{n=2}^\infty (2xT_{n-1}(x) - T_{n-2}(x))w^n\\
+						&= 1 + wx + 2wx \sum_{n=2}^\infty T_{n-1}(x)w^{n-1} - w^2 \sum_{n=2}^\infty T_{n-2}(x) w^{n-2}\\
+						&= 1 + wx + 2wx\left( - 1 + \sum_{n=0}^\infty T_n(x)w^n\right) - w^2 \sum_{n=2}^\infty T_n(x)w^n\\
+						&= 1 - wx + (2wx - w^2) \sum_{n=0}^\infty T_n(x) w^n
+					\end{align*}
+					Also
+					\[
+						(1-2wx +w^2)\sum_{n=0}^\infty T_n(x)w^n = 1-wx
+					\]
+					und deshalb für $(1-2wx+w^2)\neq 0$
+					\[
+						\sum_{n=0}^\infty T_n(x) w^n = \f {1-wx}{1-2wx +w^2}
+					\]
+				\item
+					Beweise induktiv nach $n$.
+					Induktionsanfang ($n=0$):
+					\begin{align*}
+						T_0(-x) &= 1 = (-1)^0T_0(x)\\
+						T_1(-x) &= x = (-1)(-x) = (-1)^1T_1(-x)
+					\end{align*}
+					Induktionsschritt:
+					\begin{align*}
+						T_{n+1}(-x) &= 2(-x)T_{n}(-x) - T_{n-1}(-x) \\
+						&= -2x(-1)^nT_n(x) - (-1)^{n-1}T_{n-1}(x) \\
+						&= (-1)^{n+1}\cdot 2xT_n(x) - (-1)^{n+1}\cdot T_{n-1}(x) \\
+						&= (-1)^{n+1}T_{n+1}(x)
+					\end{align*}
+			\end{itemize}
+	\end{enumerate}
+\end{aufgabe}
+
+\end{document}
