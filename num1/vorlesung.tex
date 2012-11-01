@@ -26,7 +26,7 @@ oder allgemeiner und obig:
 \]
 („Least-squares-Approximation“)
 
-\begin{ex}
+\begin{ex*}
 	\begin{enumerate}
 		\item 
 			Polynominterpolation:
@@ -56,7 +56,7 @@ oder allgemeiner und obig:
 				\Phi(x; a_0,\dotsc, a_m, b_0,\dotsc, b_{\_m}) = \f {a_0 + a_1x + \dotsb + a_m x^m}{b_0 + b_1x + \dotsb + b_{\_m}x^{\_m}}
 			\]
 	\end{enumerate}
-\end{ex}
+\end{ex*}
 
 Potentielle Fragestellungen:
 \begin{itemize}
@@ -78,7 +78,7 @@ Potentielle Fragestellungen:
 Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 
 \begin{st}[Existenz und Eindeutigkeit]
-	\label{st:1.1}
+	\label{1.1}
 	Es existiert genau ein Polynom $p\in \P$ mit $p(x_i)=f_i$ für $i=0,\dotsc,n$.
 	\begin{proof}
 		$p(x) = \sum_{k=0}^n a_k x^k$ löst das Interpolationsproblem $p(x_i)=f_i$ genau dann, wenn $a=(a_k)_{k=0}^n \in \R^{n+1}$ löst $a_0 +a_1x_i^1 + \dotsb a_nx_i^n = f_i$ für $i=0,\dotsc,n$.
@@ -143,7 +143,7 @@ Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 \end{st}
 
 \begin{df}[Newton-Polynome, Newton-Form]
-	\label{df:1.3}
+	\label{1.3}
 	Wir nennen
 	\[
 		\boxed{N_k^n(x) := \prod_{j=0}^{k-1}(x-x_j) \qquad k=0,\dotsc,n}
@@ -156,7 +156,7 @@ Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 \end{df}
 
 \begin{lem}[Eigenschaften der Newton-Polynome]
-	\label{lem:1.4}
+	\label{1.4}
 	\begin{enumerate}[i)]
 		\item $N_k^n(x_j) = 0$ für $0\le j \le k$ 
 		\item $\{N_k^n\}_{k=0}^n$ bilden eine Basis für $\P_n$
@@ -208,7 +208,7 @@ Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 \end{ex*}
 
 \begin{st}[Rekursionsformel]
-	\label{st:1.5}
+	\label{1.5}
 	Sei $p_{ij}\in \P_j$ das Interpolationspolynom zu den Daten $(x_i,f_l)$, $l=i,\dotsc,i+j$.
 	Dann gilt für $j\ge 1$
 	\[
@@ -239,7 +239,7 @@ Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 \end{st}
 
 \begin{df}[Dividierten Differenzen]
-	\label{df:1.6}
+	\label{1.6}
 	Wir definieren rekursiv
 	\begin{align*}
 		f[x_i] &:= f_i\\
@@ -248,7 +248,7 @@ Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 \end{df}
 
 \begin{st}[Newton-Form über Dividierten Differenzen]
-	\label{st:1.7}
+	\label{1.7}
 	Das Interpolationspolynom hat Darstellung
 	\[
 		p(x) = f[x_0]N_0^n(x) + f[x_0,x_1]N_1^n(x) + \dotsb + f[x_0,\dotsc,x_n]N_n^n(x)
@@ -271,7 +271,7 @@ Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 		also ist $a_k$ Koeffizient vor dem höchsten Term in $p_{0,k}$.
 		Sei $a_{i,j}$ der Koeffizient des höchsten Terms in $p_{i,j}$.
 
-		Es ergibt sich mit \ref{st:1.5} für den höchsten Koeffizienten:
+		Es ergibt sich mit \ref{1.5} für den höchsten Koeffizienten:
 		\begin{align*}
 			a_{i,j} &= \f {a_{i+1,j-1} - a_{i,j-1}}{x_{i+j}-x_i}\\
 			a_{i,0} &= f_i
@@ -289,7 +289,7 @@ Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 
 \subsubsection{Neville-Schema}
 
-Die Rekursion aus \ref{df:1.6} kann man als Schema darstellen:
+Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 
 \begin{tabular}{cccc}
 $x_0$ & $f[x_0]=f_0$ & $f[x_0,x_1]$ & $f[x_0,x_1,x_2]$ \\
@@ -336,7 +336,7 @@ $x_n$ & $f[x_n]=f_n$ &\\
 		Satt $\mathcal(n^2)$ Produkte sind nur  $\O(n)$ Produkte erforderlich.
 	\item
 		Man kann das Interpolationspolynom auswerten, ohne es vorliegen zu haben.
-		Verwende dazu das Neville-Schema für die Rekursion aus Satz \ref{st:1.5} nur für Stelle $x$.
+		Verwende dazu das Neville-Schema für die Rekursion aus Satz \ref{1.5} nur für Stelle $x$.
 		\begin{tabular}{cccc}
 		$x_0$ & $f_0=p_{0,0}(x)$ & $p_{0,1}(x)$ & $p_{0,2}(x)$ \\
 		$x_1$ & $f_1=p_{1,0}(x)$ & $p_{1,1}(x)$ &  \\
@@ -345,7 +345,7 @@ $x_n$ & $f[x_n]=f_n$ &\\
 		\end{tabular}
 \end{enumerate}
 
-\begin{ex}
+\begin{ex*}
 	\begin{enumerate}[a)]
 		\item 
 			Horner-Schema mit Newton-Form
@@ -365,7 +365,7 @@ $x_n$ & $f[x_n]=f_n$ &\\
 				3 & 6
 			\end{tabular}
 	\end{enumerate}
-\end{ex}
+\end{ex*}
 
 \subsubsection{Zusammenfassung}
 
@@ -386,7 +386,7 @@ Sei $p(h)$ das Interpolationspolynom zu den Daten $(h_k,b_k)$.
 
 Werte $p(0)$ aus als Approximation von $\lim_{h\to 0} b(h)$.
 Nach vorigem Abschnitt b) ist $p(0)$ ohne Interpolationspolynom auswertbar.
-Vereinfachung der Rekursion aus \ref{st:1.5} für $x=0$:
+Vereinfachung der Rekursion aus \ref{1.5} für $x=0$:
 \begin{align*}
 	p_{i,j}(0) &= \f {(0-h_i)p_{i+1,j-1}(0) - (0-h_{i+j})p_{i,j-1}(0)}{h_{i+j}-h_i} \\
 	&= \f {(h_{i+j}-h_i)p_{i+1,j-1}(0)}{h_{i+j}-h_i} - \f {h_{i+j}(p_{i+1,j-1}(0)-p_{i,j-1}(0))}{h_{i+j}-h_i}
@@ -394,8 +394,8 @@ Vereinfachung der Rekursion aus \ref{st:1.5} für $x=0$:
 \end{align*}
 \end{seg}
 
-\begin{df}[Richardson-Extrapolation]
-	Zu ${h_i}_{i=0}^n \subset \R^+$ definiere
+\begin{df}[Richardson-Extrapolation] \label{1.8}
+	Zu $\{h_i\}_{i=0}^n \subset \R^+$ definiere
 	\begin{align*}
 		b_i := b_{i,0} &:= b(h_i)\\
 		b_{i,j} &:= b_{i+1,j-1} + \f {b_{i+1,j-1}-b_{i,j-1}}{\f {h_i}{h_{i+j}}-1}
@@ -403,7 +403,7 @@ Vereinfachung der Rekursion aus \ref{st:1.5} für $x=0$:
 	Dann ist $b_{0,n}$ eine Approximation für $\lim_{n\to \infty} b(h)$.
 \end{df}
 
-\begin{ex}
+\begin{ex*}
 	Berechnung von $e=\lim_{n\to \infty} (1 +\f 1n)^n = \lim_{n\to 0} (1+h)^{\f 1n}$.
 	D.h. $b(h)=(1+h)^{\f 1h}$.
 	Wähle $h_k=2^{-k} \implies b_{k,0}=b(h_k) = (1+2^{-k})^{2^k}$
@@ -419,7 +419,7 @@ Vereinfachung der Rekursion aus \ref{st:1.5} für $x=0$:
 			$h_2=\f14$ & $b_{2,0}=\f {625}{256}$  \\
 		\end{tabular}
 	\end{table}
-\end{ex}
+\end{ex*}
 
 \begin{note}
 	\begin{enumerate}
@@ -450,7 +450,7 @@ Wir nehmen an, die Daten $\{t_i\}_{i=0}^n$ stammen von Funktionsauswertungen $f_
 Wie gut apporximiert die Interpolierende die Funktion?
 
 \begin{df}
-	\label{df:1.9}
+	\label{1.9}
 	Sei $I\subset \R$ ein abgeschlossenes Intervall.
 	Wir definieren
 	\[
@@ -486,7 +486,7 @@ Wie gut apporximiert die Interpolierende die Funktion?
 \end{note}
 
 \begin{st}[Punktweise Interpolationsfehler]
-	\label{st:1.10}
+	\label{1.10}
 	Sei $f\in C^{n+1}(\R)$ und $p\in \P_n$ Interpolierende.
 	\[
 		p(x_i) = f_i \qquad i=0,\dotsc,n \;\land\; x_i\neq x_j \text{ für } i\neq j
@@ -529,7 +529,7 @@ Wie gut apporximiert die Interpolierende die Funktion?
 \end{st}
 
 \begin{kor}[Fehlerschranke]
-	\label{kor:1.11}
+	\label{1.11}
 	Für alle beschränkte Intervalle $I\subset \R$, mit $\{x_0,\dotsc,x_n\}\subset I$ gilt
 	\[
 		\|p-f\|_\infty \le \f 1{(n+1)!}\|w\|_\infty \|f^{(n+1)}\|_\infty
@@ -540,7 +540,7 @@ Wie gut apporximiert die Interpolierende die Funktion?
 \end{kor}
 
 \begin{st}[Gleichmäßige Konvergenz]
-	\label{st:1.12}
+	\label{1.12}
 	Sei $I=[a,b]$, $f\in C^\infty(I)$ mit $\|f^{(n)}\|_\infty \le M$ für alle $n\in \N$.
 	Sei $\Delta_n := \{x_0^n,\dotsc, x_n^n\}\subset I$ eine Menge $n$ disjunkter Stützstellen und $p_n\in \P_n$ eine zugehörige Interpolierende.
 	Dann gilt
@@ -549,7 +549,7 @@ Wie gut apporximiert die Interpolierende die Funktion?
 	\]
 	\begin{proof}
 		Für $w_n(x):=\prod_{i=0}^n(x-x_i^n)$ gilt $|w_n(x)| \le (b-a)^{n+1}$.
-		Aus \ref{kor:1.11} folgt
+		Aus \ref{1.11} folgt
 		\[
 			\|p_n-f\|_\infty \le \f {\|w_n\|_\infty}{(n+1)!}\|f^{(n+1)}\|_\infty \le \f{(b-a)^{n+1}}{(n+1)!}M \to 0
 		\]
@@ -580,13 +580,13 @@ Wie gut apporximiert die Interpolierende die Funktion?
 	\end{itemize}
 \end{note}
 
-\begin{ex}[Runge]
+\begin{ex*}[Runge]
 	Sei $f(x)= \f 1{1+x^2}$ mit $I=[-5,5]$ und $x_k^n := -5+k*k+h_n$ ($k=0,\dotsc,n$) mit $h_n:= \f {10}n$ äquidistanten Stützstellen.
 
 	Sei $p_n\in \P_n$ mit $p_n(x_k^n) = f(x_k^n)$, dann ergibt sich \fixme[Oszillationen].
 	
 	Man kann zeigen, dass $\tilde x \approx 3,68$ existiert, so dass in $(-\tilde x,\tilde x)$ punktweise und nicht punktweise Konvergenz für $|x|\ge \tilde x$. Sogar: $\|p_n-f\|_\infty \to \infty$.
-\end{ex}
+\end{ex*}
 
 \subsubsection{Optimale Wahl von Stützstellen}
 
@@ -595,27 +595,23 @@ Finde Stützstellen $\{x_0,\dotsc,x_n\}\subset I := [-1,1]$, so dass $\|w\|_\inf
 Dann ist die Schranke in \ref{1.11} am kleinsten..
 \end{seg}
 
-\begin{df}[Tschebyscheff-Polynome]
-	Wir definieren Tschebyscheff Polynome auf $I$, durch
+\begin{df}[Tschebyscheff-Polynome] \label{1.13}
+	Wir definieren \emph{Tschebyscheff Polynome auf $I$}, durch
 	\begin{align*}
 		T_0(x) &:= 1\\
 		T_1(x) &:= x\\
-		T_{n+1}(x) &:= 2xT_n - T_{n-1}(x)
+		T_{n+1}(x) &:= 2x\cdot T_n(x) - T_{n-1}(x)\\
+	\intertext{und \emph{normierte Tschebyscheff Polynome} durch}
+		\hat T_n(x) &:= 2^{1-n} \cdot T_n(x)
 	\end{align*}
-	und normierte Tschebyscheff Polynome
-	\[
-		\hat T_n(x) := 2^{1-n} T_n(x)
-	\]
 \end{df}
 
-\begin{ex}
-	\begin{align*}
-		T_2(x) &= 2x^2 - 1\\
-		T_3(x) &= 4x^3 - 3x\\
-		\hat T_2(x) &= x^2 -\f 12\\
-		\hat T_3(x) &= x^3 -  \f 34 x
-	\end{align*}
-\end{ex}
+\begin{ex*}
+	\begin{alignat*}{2}
+		T_2(x) &= 2x^2 - 1\qquad&  \hat T_2(x) &= x^2 -\f 12\\
+		T_3(x) &= 4x^3 - 3x \qquad& 		\hat T_3(x) &= x^3 -  \f 34 x
+	\end{alignat*}
+\end{ex*}
 
 \begin{st}
 	\label{1.14}
@@ -730,12 +726,12 @@ Dann ist die Schranke in \ref{1.11} am kleinsten..
 
 Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=0}^n$?.
 
-\begin{df}[Lebesgue-Konstante]
-	\label{1.17}
-	Sei $I\subset \R$ ein kompaktes Intervall, $V\subset C(I)$ ein Unterraum der Dimension $n+1$, paarweise verschiedene Stützstellen $\{x_0,\dotsc, x_n\}\subset I$ gegeben und $\{L_k^n(x)\}_{k=0}^n$ nodale Basis von $V$, d.h. $L_k^n(x_j) = \delta_{kj}$.
+\begin{df}[Lebesgue-Konstante] \label{1.17}
+	Sei $I\subset \R$ ein kompaktes Intervall und $V\subset C(I)$ ein Unterraum der stetigen Funktionen auf $I$ mit $\dim(V)=n+1$.
+	Seien paarweise verschiedene Stützstellen $\{x_0,\dotsc, x_n\}\subset I$ gegeben und $\{L_k^n(x)\}_{k=0}^n$ eine nodale Basis von $V$ (d.h. $L_k^n(x_j) = \delta_{kj}$).
 	Dann nennen wir
 	\[
-		\Lambda_n := \max_{x\in I}\sum_{k=0}^n |L_k^n(x)|
+		\Lambda_n := \max_{x\in I}\sum_{k=0}^n \big|L_k^n(x)\big|
 	\]
 	die \emph{Lebesgue-Konstante} der Interpolation.
 \end{df}
@@ -963,9 +959,9 @@ Gesucht ist ein Polynom $p\in \P_n$ mit $p^{(j)}(x_i) =f_i^{(j)}$ mit $i=0,\dots
 
 \subsection{Trigonometrische Interpolation}
 
-Für gegebenes $n\in \N$, $x_k = \f {2\pi}{n+1}k \in [0,2\pi)$, $k=0,\dotsc,n$ äquidistant und $\{f_k\}_{k=0}^n\subset \R$ist eine $2\pi$-periodische Funktion $t(x)$ der Gestalt
+Für gegebenes $n\in \N$, $x_k = \f {2\pi}{n+1}k \in [0,2\pi)$, $k=0,\dotsc,n$ ($n+1$ äquidistante Stützstellen) und $\{f_k\}_{k=0}^n\subset \R$ ist eine $2\pi$-periodische Funktion der Gestalt
 \[
-	t(x) = \f {a_0}2 + \sum_{k=1}^n a_k  \cos(kx) + b_k \sin(kx) \qquad a_k,b_k \in \R
+	t(x) = \f {a_0}2 + \sum_{k=1}^n \Big(a_k \cos(kx) + b_k \sin(kx) \Big) \qquad a_k,b_k \in \R
 \]
 mit $t(x_k)=f_k$ gesucht.
 
@@ -975,17 +971,17 @@ mit $t(x_k)=f_k$ gesucht.
 			Diese Darstellung ist zunächst nur für gerade $n$ sinnvoll.
 			Für ungerade $n$ wird eine leichte Modifikation notwendig sein.
 		\item
-			Bestimmung von $t(x)$ wird über komplexe trigonometrische Polynome erfolgen.
+			Die Bestimmung von $t(x)$ wird über komplexe trigonometrische Polynome erfolgen.
 	\end{itemize}
 \end{note}
 
 \begin{lem}[Reelle und komplexe Fourier-Summe]
 	\label{1.22}
-	Seien $\{a_k,b_k\}_{k=0}^m\subset \R$, $\{c_k\}_{k=-m}^m\subset \C$ mit $c_0=\f {a_0}2$, $c_k=\f 12(a_k-ib_k)$ und $c_{-k}=\f 12(a_k+ib_k)$, $k=1,\dotsc, m$.
+	Seien $\{a_k,b_k\}_{k=0}^m\subset \R$, $\{c_k\}_{k=-m}^m\subset \C$ mit $c_0=\f {a_0}2$, $c_k=\f 12(a_k-ib_k)$ und $c_{-k}=\f 12(a_k+ib_k)$ für $k=1,\dotsc, m$.
 
 	Dann gilt
 	\[
-		\f {a_0}2 + \sum_{k=1}^m (a_k\cos(kx) + b_k\sin(kx)) = \sum_{k=-m}^m c_k e^{ikx}
+		\f {a_0}2 + \sum_{k=1}^m \Big(a_k\cos(kx) + b_k\sin(kx)\Big) = \sum_{k=-m}^m c_k e^{ikx}
 	\]
 	\begin{proof}
 		Einsetzen und die Eulersche Formel $e^{iz}=\cos(z) +i\sin(z)$ liefert
@@ -1010,14 +1006,21 @@ mit $t(x_k)=f_k$ gesucht.
 	\end{note}
 \end{lem}
 
-\begin{df}[Trigonometrische Polynome]
-	\label{1.23}
+\begin{df}[Trigonometrische Polynome] \label{1.23}
+	Wir definieren
 	\[
 		T_n := \left\{ q: \C \to\C : q(z) = \sum_{k=0}^n c_k e^{ikz}\right\}
 	\]
-	ist der Raum der trigonometrischen Polynome von Grad $n$.
+	als den \emph{Raum der trigonometrischen Polynome von Grad $n$}.
 	\begin{note}
-		Mit $\omega(z) = e^{iz}$ ist $q(z) = \sum_{k=0}^n c_k\omega(z)^k$.
+		Wir bezeichnen den trigonometrischen Teil folgendermaßen
+		\[
+			\omega(z) := e^{iz}
+		\]
+		Die Polynomform ist jetzt besser zu erkennen:
+		\[
+			q(z) = \sum_{k=0}^n c_k\cdot \big(\omega(z)\big)^k
+		\]
 	\end{note}
 \end{df}
 
