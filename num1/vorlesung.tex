@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{scrartcl}
+\documentclass[a4paper,11pt]{scrartcl}
 \usepackage{mathe-vorlesung}
 
 \title{Numerische Mathematik 1}
@@ -22,7 +22,7 @@ Ziel ist es, Parameter $a_0,\dotsc, a_n$ zu finden, so dass
 \]
 oder allgemeiner und obig:
 \[
-\sum_{i=0}^n(\Phi(x_i; a_0,\dotsc a_m) -f_i)^2 \qquad \text{minimal}
+	\sum_{i=0}^n(\Phi(x_i; a_0,\dotsc a_m) -f_i)^2 \qquad \text{minimal}
 \]
 („Least-squares-Approximation“)
 
@@ -36,7 +36,7 @@ oder allgemeiner und obig:
 		\item
 			Trigonometrische Interpolation:
 			\[
-				\Phi(x;a_0,\dotsc,a_m,b_1,\dotsc, b_m) = \f {a_0}2 + \sum_{k=1}^m (a_k\cos kx + b_k \sin kx)
+				\Phi ( x;a_0,\dots,a_m,b_1,\dots, b_m ) = \frac{a_{0}}{2} + \sum_{k=1}^m ( a_k \cos kx + b_k \sin kx )
 			\]
 		\item
 			Spline-Interpolation:
@@ -287,7 +287,7 @@ Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 	\end{proof}
 \end{st}
 
-\subsection{Neville-Schema}
+\subsubsection{Neville-Schema}
 
 Die Rekursion aus \ref{df:1.6} kann man als Schema darstellen:
 
@@ -324,7 +324,7 @@ $x_n$ & $f[x_n]=f_n$ &\\
 	\end{itemize}
 \end{note}
 
-\subsection{Punkterweiterung der Interpolierenden}
+\subsubsection{Punkterweiterung der Interpolierenden}
 
 \begin{enumerate}[a)]
 	\item 
@@ -367,7 +367,7 @@ $x_n$ & $f[x_n]=f_n$ &\\
 	\end{enumerate}
 \end{ex}
 
-\subsection{Zusammenfassung}
+\subsubsection{Zusammenfassung}
 
 \begin{tabular}{l|c|c}
 	 & Lösen des LGS & Punktauswertung\\ \hline
@@ -376,7 +376,7 @@ $x_n$ & $f[x_n]=f_n$ &\\
 	 Newton-Basis & $\mathcal O(n^2)$ & $\mathcal O(n)$ via Horner
 \end{tabular}
 
-\subsection{Anwendung: Richardson-Extrapolation}
+\subsubsection{Anwendung: Richardson-Extrapolation}
 
 Für eine gegebene Funktion $b:(0,\infty)\to \R$ ist $\lim_{h\to 0} b(h)$ gesucht, bzw. eine Approximation.
 
@@ -443,7 +443,7 @@ Vereinfachung der Rekursion aus \ref{st:1.5} für $x=0$:
 	\]
 \end{note}
 
-\subsection{Fehleranalysis}
+\subsubsection{Fehleranalysis}
 
 Wir nehmen an, die Daten $\{t_i\}_{i=0}^n$ stammen von Funktionsauswertungen $f_i=f(x_i)$.
 
@@ -588,7 +588,7 @@ Wie gut apporximiert die Interpolierende die Funktion?
 	Man kann zeigen, dass $\tilde x \approx 3,68$ existiert, so dass in $(-\tilde x,\tilde x)$ punktweise und nicht punktweise Konvergenz für $|x|\ge \tilde x$. Sogar: $\|p_n-f\|_\infty \to \infty$.
 \end{ex}
 
-\subsection{Optimale Wahl von Stützstellen}
+\subsubsection{Optimale Wahl von Stützstellen}
 
 \begin{seg}{Idee}
 Finde Stützstellen $\{x_0,\dotsc,x_n\}\subset I := [-1,1]$, so dass $\|w\|_\infty$ minimal wird.
@@ -725,7 +725,7 @@ Dann ist die Schranke in \ref{1.11} am kleinsten..
 \end{kor}
 
 
-\subsection{Stabilität der Interpolation}
+\subsubsection{Stabilität der Interpolation}
 
 
 Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=0}^n$?.
@@ -818,7 +818,7 @@ Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=
 \end{ex*}
 
 
-\subsection{Hermite-Interpolation}
+\subsubsection{Hermite-Interpolation}
 
 
 Seien $\{x_i\}_{i=0}^m \subset \R$ paarweise verschiedene Knoten und $\{f_i^{(j)}\}_{j=0}^{m_i-1}$ Zielwerte für $i=0,\dotsc, m$.
@@ -1078,11 +1078,16 @@ mit $t(x_k)=f_k$ gesucht.
 
 \begin{st}[Trigonometrische Interpolation in $\R$]
 	\label{1.25}
-	Für $n\in \N$ setze $\displaystyle m:= \begin{cases} \f n2 & \text{falls $n$ gerade} \\ \f {n-1}2 & \text{falls $n$ ungerade}\end{cases}$ und $\displaystyle \theta := \begin{cases} 0 & \text{falls $n$ gerade} \\ 1 & \text{falls $n$ ungerade}\end{cases}$.
-
-	Zu $x_k:=\f {2\pi}{n+1}k$ und Daten $\{f_k\}_{k=0}^n\subset \R$ existiert genau eine Funktion
+	Für $n\in \N$ setze 
 	\[
-		t(x) = \f {a_0}2 + \sum_{k=1}^m \Big(a_k \cos(kx) + b_k \sin(kx)\Big) + \f{\theta}2 a_{m+1}\cos((m+1)x)
+		m:= \begin{cases} \f n2 & \text{falls $n$ gerade} \\
+			\f {n-1}2 & \text{falls $n$ ungerade}\end{cases} 
+		\qquad 
+		\theta := \begin{cases} 0 & \text{falls $n$ gerade} \\ 1 & \text{falls $n$ ungerade}\end{cases}
+	\]
+	Zu $x_k:=\f {2\pi}{n+1}k$ und Daten $\{f_k\}_{k=0}^n\subset \R$ existiert dann genau eine Funktion
+	\[
+		t(x) = \f {a_0}2 + \sum_{k=1}^m \Big(a_k \cos(kx) + b_k \sin(kx)\Big) + \f{\theta}2 a_{m+1}\cos\big((m+1)x\big)
 	\]
 	mit $t(x_k) = f_k$, $k=0,\dotsc,n$.
 
@@ -1125,7 +1130,7 @@ mit $t(x_k)=f_k$ gesucht.
 
 		Für die Koeffizienten gilt 
 		\begin{align*}
-			a_k:= c_k + c_{-k} &= \f 1{n+1}\sum_{j=0}^n f_j (\omega_k^{-j}+\omega_k^j) 
+			a_k:= c_k + c_{-k} &= \f 1{n+1}\sum_{j=0}^n f_j (\omega_k^{-j}+\omega_k^j) \\
 			&= \f 1{n+1} \sum_{j=0}^n f_j(e^{ijx_k} + e^{ijx_k})\\
 			&= \f 2{n+1} \sum_{j=0}^n f_j \cos (jx_k)
 		\end{align*}
@@ -1170,7 +1175,7 @@ mit $t(x_k)=f_k$ gesucht.
 	\begin{align*}
 		a_0 &= c_0 + c_{-0} = 2c_0 = 2\\
 		a_1 &= c_1 + c_{-1} = c_1 + c_2 = -1\\
-		b_1 = i(c_1-c_{-1}) = i(c_1-c_2) = 0
+		b_1 &= i(c_1-c_{-1}) = i(c_1-c_2) = 0
 	\end{align*}
 	Das reelle trigonometirsche Interpolationspolynom ergibt sich dann durch
 	\[
@@ -1179,6 +1184,233 @@ mit $t(x_k)=f_k$ gesucht.
 	Offensichtlich ist $q(x)\neq t(x) \neq \Re(q(x))$, obwohl $q(x_k) = t(x_k) = f_k$ erfüllt ist.
 \end{ex*}
 
+\subsubsection{Diskrete Fourier Transformation}
+
+\begin{df}[Diskrete Fourier Transformation]
+	Sei $N\in \N$ und $f\in \C^N$ ein Vektor mit komplexen Funktionswerten.
+	Wir nennen $\scr F_N: \C^N \to \C^N$, definiert durch
+	\[
+		\scr F_N(f) = \f 1N \cdot W_N \cdot f
+	\]
+	die \emph{diskrete Fourier-Transformation (DFT)}, wobei
+	\[
+		W_N = \big(w_{k}^{-j}\big)_{k,j=0}^{N-1} \in \C^{N\times N} \qquad w_{k}^j = e^{ijk \f {2\pi}N}
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Man findet in der Literatur verschiedene Skalierungsfaktoren, hier $\f 1N$.
+			\item
+				Wir indizieren Vektoren/Matrizen bei $0$ beginnend.		
+			\item
+				Die Beziehung zur trigonometrischen Interpolation in Satz \ref{1.24} besteht in
+				\begin{align*}
+					f &= (f_j)_{j=0}^n, \qquad N:= n+1
+				\end{align*}
+				und
+				\begin{align*}
+					(\scr F_n)(f))_k = \left( \f 1N W_n f\right)_k &= \f 1N \sum_{j=0}^{N-1}w_k^{-j} f_j \\
+					&= \f 1{n+1} \sum_{j=0}^{N-1}w_k^{-j} f_j = c_k
+				\end{align*}
+				also werden die Koeffizienten $c_k$ durch die DFT erhalten:
+				\[
+					(c_k)_{k=0}^n = \scr F_N(f)
+				\]
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{lem}[Eigenschaften]
+	\begin{enumerate}[i)]
+		\item
+			$\displaystyle W_N$ ist regulär
+		\item
+			$\displaystyle W_N = W_N^T$, also $W_N$ symmetrisch
+		\item
+			$\displaystyle W_NW_N^{*} = N\cdot I$
+		\item
+			$\displaystyle \scr F_N^{-1}(c) = W^*_N\cdot c = N \cdot \_{\scr F_N(\_c)}$
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				$W_N$ ist eine komplexe Vandermonde-Matrix zu den paarweise verschiedenen Stellen
+				\[
+					x_k = e^{-ik\f {2\pi}N}
+				\]
+				Also ist die Matrix regulär.
+			\item
+				$\displaystyle W_N = (w_k^{-j}) \stackrel{\ref{1.24} i)}=  (w_j^{-k}) = W_N^T$
+			\item
+				$\displaystyle (W_NW_N^*)_{k,l} = \sum_{m=0}^{N-1} w_k^{-m}w_l^m = \sum_{m=0}^{N-1} w_{l-k}^m \stackrel{\ref{1.24} ii)}= N\cdot \delta_{kl} = (N\cdot I)_{k,l}$
+			\item
+				Wegen
+				\[
+					\scr F_N (W_n^* c) = \f 1N W_N W_N^* c \stackrel{iii)}= \f N N \cdot c = c
+				\]
+				also $\scr F_N^{-1} (c) = W_N^* c$ gilt
+				\[
+					N \_{\scr F_N(\_c)}
+					= N \_{\left(\f {1}{N} W_N \_c\right)} 
+					\stackrel{ii)}= \f{N}{N} \_{W_N^T \_c} 
+					= W_N^* c 
+					= \scr F_N^{-1}(c)
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+
+\subsubsection{Schnelle Fourier-Transformation}
+
+Der Berechnungsaufwand der DFT ist $\mathcal O(N^2)$ (für die Matrixvektormultiplikation).
+
+Für $N=2^Q$, $Q\in \N$ lässt sich die Berechnung auf $\mathcal O(N\log N)$ beschleunigen.
+Die Idee ist “Divide and Conquer”: Zerlege das Problem der Größe $N$ rekursiv in 2 Teilprobleme der Größe $\f N2$ und führe diese Lösungen zur Gesamtlösung zusammen.
+
+Sei im Folgenden immer $N=2^Q$, $Q\in \N$ und $x=(x_i)_{i=0}^{N-1} \in \C^N$.
+\newcommand{\xeven}{\ensuremath{x_{\text{even}}}}
+\newcommand{\xodd}{\ensuremath{x_{\text{odd}}}}
+Außerdem sei $P_N \in \C^{\N\times \N}$ eine Permutationsmatrix und $\xeven, \xodd \in \C^{\f N2}$ Teilvektoren von $x$, die jeweils nur die geraden (bzw. ungeraden) Einträge besitzen.
+Sei $P_N$ so gewählt, dass folgender Zusammenhang besteht:
+\[
+	P_N \begin{pmatrix}x_0\\ \vdots \\ x_{N-1}\end{pmatrix}
+	= \begin{pmatrix} x_0 \\ x_2 \\ \vdots \\ x_{N-2} \\ x_1 \\ x_3 \\\vdots \\ x_{N-1}\end{pmatrix}
+	= \begin{pmatrix} \xeven \\ \xodd \end{pmatrix}
+\]
+Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der ersten Hälfte erst die geraden Einträge und dann in der zweiten Hälfte die geraden Einträge auftreten.
+
+\begin{lem}[Rekursion für $W_N$]
+	\label{1.28}
+	Seien $W_N$, $W_{\f N2}$ Matrizen der DFT aus , setze 
+	\[
+		\omega := e^{i\f {2\pi}N}, \quad D_{\f N2} := \diag(\omega^0, \dotsc, \omega^{\f N2 -1}) \in \C^{\f N2 \times \f N2}
+	\]
+	Dann ist
+	\[
+		W_N = \begin{pmatrix}W_{\f N2} & D_{\f N2}W_{\f N2} \\
+			W_{\f N2} & - D_{\f N2} W_{\f N2} \end{pmatrix}
+		\cdot P_N
+	\]
+	\begin{proof}
+		Da $P_NP_N^T = I$ (da orthogonal), reicht es zu zeigen, dass
+		\[
+			W_NP_N^T = \begin{pmatrix}W_{\f N2} & D_{\f N2}W_{\f N2} \\
+			W_{\f N2} & - D_{\f N2} W_{\f N2} \end{pmatrix}
+		\]
+		Wobei die Multiplikation mit $P_N^T$ ein Spaltentausch durchführt.
+		Sei 
+		\[
+			W_NP_N^T = \begin{pmatrix}
+				A_{11} & A_{12}\\
+				A_{21} & A_{22}
+			\end{pmatrix}
+		\]
+		Wir zeigen die Übereinstimmung für die einzelnen Blöcke.
+		\begin{align*}
+			(A_{11})_{k,j} &= (W_NP_N^T)_{k,j} \\
+				&= (W_N)_{k,2j} = \omega_k^{-2j} = e^{i\f {2\pi}{\f N2}jk} = (W_{\f N2})_{k,j}\\
+			(A_{21})_{k,j} &= (W_NP_N^T)_{k+\f{N}{2},j} \\
+				&= (W_N)_{k+\f N2,2j} = e^{-i \f {2\pi}N (k+\f N2) 2j} = e^{-i \f {2\pi}{\f N2}kj} \cdot e^{-2\pi i j} = (W_{\f N2})_{k,j}\\
+			(A_{12})_{k,j} &= (W_NP_N^T)_{k,j+\f N2} \\
+				&= (W_N)_{k,2j+1} = \omega_{k}^{-(2j+1)} = \omega^{-k(2j+1)} = \omega^{-2kj} \cdot \omega^{-k} = (D_{\f N2} \cdot W_{\f N2})_{k,j}\\
+			(A_{22})_{k,j} &= (W_NP_N^T)_{k+\f N2, j+\f N2} \\
+				&= (W_N)_{k+\f N2, 2j +1} = \omega^{-(k+\f N2)(2j+1)} = \omega^{-2kj-k-Nj - \f N2} = \omega^{-2kj}\cdot \omega^{-jN}\cdot \omega^{-k} \omega^{-\f N2} = (-D_{\f N2}W_{\f N2})_{k,j}
+		\end{align*}
+	\end{proof}
+\end{lem}
+
+\begin{st}[Fast-Fourier-Transform]
+	Die DFT lässt sich für $N=2^Q$ rekursiv berechnen über
+	\[
+		F_N(f) = \f 12 
+		\begin{pmatrix}I & I \\ I & -I\end{pmatrix} 
+		\begin{pmatrix} F_{\f N2}(f_{\text{even})} \\ D_{\f N2} F_{\f N2}(f_{\text{odd}})\end{pmatrix}
+	\]
+	Dies nennt man \emph{schnelle Fouriertransformation} (Fast Fourier Transform).
+	\begin{proof}
+		\begin{align*}
+			\scr F_N(f) &= \f 1N W_N f 
+			\stackrel{\ref{1.28}}= \f 1N \begin{pmatrix}W_{\f N2} & D_{\f N2}W_{\f N2}\\ W_{\f N2} & - D_{\f N2}W_{\f N2} \end{pmatrix} P_n f\\
+			&= \f 1N \begin{pmatrix}I & I \\ I & -I\end{pmatrix}\begin{pmatrix}W_{\f N2} & 0 \\ 0 & D_{\f N2}W_{\f N2} \end{pmatrix} \begin{pmatrix} f_{\text{even}} \\ f_{\text{odd}} \end{pmatrix}\\
+			&= \f 1N \begin{pmatrix}
+				I & I\\ I & -I
+			\end{pmatrix}
+			\begin{pmatrix}
+				W_{\f N2} f_{\text{even}} \\
+				D_{\f N2}W_{\f N2} f_{\text{odd}}
+			\end{pmatrix}\\
+			&= \f 1N \begin{pmatrix}
+				I & I \\ I & -I
+			\end{pmatrix}
+			\f N2
+			\begin{pmatrix}
+				\f 1{\f N2} W_{\f N2} f_{\text{even}}\\
+				D_{\f N2} \f 1{\f N2} W_{\f N2} f_{\text{odd}}
+			\end{pmatrix}
+			= \f 12 \begin{pmatrix}
+				I & I \\ I & -I
+			\end{pmatrix}
+			\begin{pmatrix}
+				\scr F_{\f N2}(f_{\text{even}})\\
+				D_{\f N2} \scr F_{\f N2}( f_{\text{odd}})
+			\end{pmatrix}
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{nt*}[Aufwandsbetrachtung]
+		\begin{itemize}
+			\item
+				Sei der Berechnungsaufwand für $\scr F_n(f)$ gegeben durch $C(N)$ und $C(1)=0$ (denn für $N=1$ ist nichts zu tun).
+				Für den Aufwand gilt dann in etwa:
+				\[
+					C(N) = \underbrace{2C\left(\f N2\right)}_{\text{Teilprobleme der Größe $\f N2$}} + \underbrace{\f N2}_{\text{Multiplikation mit $D_{\f N2}$}} + \underbrace{\f N2}_{\text{Addition}} + \underbrace{\f N2}_{\text{Substraktion}} \le 2 C\left(\f N2\right) + K\cdot N
+				\]
+				für ein $K\in \R$.
+				Für $N=2^Q$ folgt
+				\begin{align*}
+					C(N) &= 2C\l(\f N2\r) + KN = 2\l(2C\l(\f N4\r) + K\f N2\r) + KN \\
+					&= 4C\l(\f N4\r) + KN + KN \\
+					&= NC(1) + QKN = N + K(\log_2 N)N 
+				\end{align*}
+				also $\mathcal O(N\log N)$.
+			\item
+				Dies ist eine wesentliche Beschleunigung der DFT.
+			\item
+				Damit sind wesentlich größere Probleme behandelbar denn $W_N$ muss nicht aufgestellt werden.
+		\end{itemize}
+\end{nt*}
+
+\begin{nt*}
+	\begin{itemize}
+		\item
+			Bei der Interpolation von Punkten im $\R^2$ mit geschlossener Kurve ergibt sich eine $2\pi$-periodische Funktion $r(\phi)$, die den Rand eines sternförmigen Gebiets beschreibt.
+		\item
+			Entrauschen von Signalen (eindimensional) und Bildern (zweidimensional).
+			Dazu führt man eine FFT durch und setzt $c_k= 0$ für $k$, die zu hohen Frequenzen gehören, inverse FFT.
+	\end{itemize}
+\end{nt*}
+
+
+\subsection{Spline-Interpolation}
+
+
+Sei ein kompaktes Intervall $I=[a,b]$, $a=x_0<x_1 < \dotsb < x_n = b$ und Zielwerte $\{f_j\}_{j=0}^n$.
+Die normale Polynominterpolation führt häufig zu Oszillationen.
+Wir suchen deshalb eine interpolierende Funktion, welche auf Teilintervallen aus unterschiedlichen Polynomen besteht, aber trotzdem eine gewissen globale Differenzierbarkeit aufweist.
+
+\begin{df}[Spline-Räume]
+	\label{1.30}
+	Zu Stützstellen $a=x_0 < x_1 < \dotsb < x_n = b$ und $m\in \N$ definieren wir den Spline-Raum der Ordnung $n$ als
+	\[
+		S_m := \big\{ f\in C^{m-1}(I) : f\big|_{[x_{i-1},x_i]}\in \P_m\big\}
+	\]
+	Zu einem Spline $s\in S_m$ bezeichnen wir die Teilpolynome als
+	\[
+		p_i(x) = s(x)\big|_{[x_{i-1},x_i]} \in \P_m \qquad i=1,\dotsc,n
+	\]
+\end{df}
 
 
 \section{Numerische Integration}	
