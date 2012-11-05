@@ -1,0 +1,124 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\blattanadrei
+
+\begin{document}
+
+\setcounter{section}{3}
+
+\begin{aufgabe}
+	\begin{enumerate}[(a)]
+		\item
+			\begin{seg}{Entwicklungspunkt $z_0=0$}
+				Mit Hilfe von Partialbruchzerlegung und der geometrischen Summenformel rechnet man:
+				\begin{align*}
+					\f 1{1+z^2}
+					&= \f 1{(1+iz)(1-iz)} \\
+					&= \f 12 \left(\f 1{1+iz} + \f 1{1-iz}\right)
+					= \f 12 \left(\sum_{n=0}^\infty (-iz)^n + \sum_{n=0}^\infty (iz)^n\right)
+					= \sum_{n=0}^\infty \f 12 \big((-i)^n+i^n\big) z^n
+				\end{align*}
+				Für den Konvergenzradius gilt dann
+				\begin{align*}
+					R_0 
+					&= \left(\limsup_{n\to \infty} \sqrt[n]{\left| \f12 (-i)^n + i^n\right|}\right)^{-1}
+					= \left(\limsup_{n\to \infty} \sqrt[n]{\f 12 |i^n| \big((-1)^n + 1\big)}\right)^{-1}
+					\intertext{Wegen $\displaystyle \sup_{k\ge n}\sqrt[k]{\f 12\big((-1)^k+1\big)} = 1$ gilt weiter}
+					&= \left(\lim_{n\to \infty} 1\right)^{-1}
+					= 1
+				\end{align*}
+				Das stimmt mit der Aussage aus der Vorlesung für diese Funktion überein:
+				\[
+					\tilde R_0 = \min\{|z_0 + i|, |z_0 - i|\} = \min\{|i|, |-i|\} = 1 = R_1
+				\]
+			\end{seg}
+			\begin{seg}{Entwicklungspunkt $z_1=2+i$}
+				Ähnlich wie oben (wenn auch etwas umständlicher) rechnet man:
+				\begin{align*}
+					\f 1{1+z^2}
+					&= \f 1{(z-i)(z+i)} 
+					= \f 12i\left(\f 1{i-z} - \f 1{-i-z}\right) \\
+					&= \f 12i\left( \f 1{-2-z+2+i} - \f 1{-2-2i-z+2+i}\right) \\
+					&= \f 12i \left( \f 1{-2} \cdot \f 1{1-\f{z-2-i}{-2}} - \f 1{-2-2i}\cdot \f 1{1-\f{z-2-i}{-2-2i}}\right) \\
+					&= \f 14i \left( \f 1{1+i} \sum_{n=0}^\infty \left(\f 1{-2-2i}\right)^n \Big(z-(2+i)\Big)^n - \sum_{n=0}^\infty \left(\f 1{-2}\right)^n \Big(z-(2+i)\Big)^n\right)\\
+					&= \sum_{n=0}^\infty \f 14i\left(\f 1{1+i}\left(\f 1{-2-2i}\right)^n - \left(\f 1{-2}\right)^n\right) \Big(z-(2+i)\Big)^n
+					\intertext{
+						Dabei gilt für den Koeffizienten der Reihe
+						\begin{align*}
+							a_n := \f 14i\left(\f 1{1+i}\left(\f 1{-2-2i}\right)^n - \left(\f 1{-2}\right)^n\right)
+							&= \f i4 \left( \f {1-i}2 \f {i^n}{2^n} \left(\f i{1+i}\right)^n - \f {i^n}{4^n} (2i)^n\right)\\
+							&= \f {i^{n+1}}{4^{n+1}} \left( 2^n \f {1-i}2 \left(\f {i+1}2\right)^n - (2i)^n \right)\\
+							&= \left(\f i4\right)^{n+1} \Big((i+1)^{n-1} - (2i)^n\Big)
+						\end{align*}
+						und damit für die Reihe:
+					}
+					&= \sum_{n=0}^\infty \left( \f i4\right)^{n+1} \Big( (1+i)^{n-1}-(2i)^n\Big) \big(z-(2+i)\big)^n
+				\end{align*}
+			\end{seg}
+			Da der Grenzwert $\lim_{n\to \infty} \f {a_{n+1}}{a_n}$ existiert:
+			\begin{align*}
+				\lim_{n\to \infty} \f {a_{n+1}}{a_n} 
+				&= \lim_{n\to \infty} \left| \f {\left(\f i4\right)^{n+2}\big((i+1)^n - (2i)^{n+1}\big)} {\left(\f i4\right)^{n+1}\big((i+1)^{n-1} - (2i)^n\big)} \right|\\
+				&= \f 14 \lim_{n\to\infty} \f {2^{n+1} \Big| \overbrace{2^{\f {-n-2}2} e^{i\f \pi 4 n}}^{\to 0} - e^{i \f \pi 2 (n+1)} \Big|}{2^n \Big| \underbrace{2^{\f {-n-1}2} e^{i \f \pi 4 (n-1)}}_{\to 0} -e^{i\f \pi 2 n} \Big |}\\
+				&= \f 12 \lim_{n\to\infty} \f {|e^{i\f \pi 2 (n+1)}|}{|e^{i \f \pi 2 n}|}
+				= \f 12
+			\end{align*}
+			gilt für den Konvergenzradius:
+			\begin{align*}
+				R_1 = \f 1{\displaystyle \lim_{n\to\infty} \f {a_{n+1}}{a_n}} = \f 1{\f 12} = 2
+			\end{align*}
+			Das stimmt mit der Aussage aus der Vorlesung ebenfalls überein:
+			\[
+				\tilde R_1 = \min \{ |z_1+i| ,|z_1-i|\} = \min\{ |2+2i|, |2|\} = 2 = R_1
+			\]
+		\item
+			Für den Konvergenzradius der entwickelten Potenreihe um $z_0$ gilt nach Folgerung 2.8 aus der Vorlesung:
+			\begin{align*}
+				R 
+				&\ge \sup \Big\{r>0 : \_{K_r(z_0)}\subset \C\setminus \{1+i,-4\}\Big\} \\
+				&= \min \big\{|z_0-1-i|, |z_0+4|\big\}
+			\end{align*}
+			Da für die Polstellen $1+i$ und $-4$ offensichtlich gilt
+			\begin{align*}
+				\lim_{z\to -4} |g(z)| &= \infty \\
+				\lim_{z\to 1+i} |g(z)| &= \infty
+			\end{align*}
+			kann die Potenzreihe nicht an diesen Stellen konvergieren und der Konvergenzradius ist nach oben ebenfalls durch $\min \{|z_0-1-i|, |z_0+4|\}$ beschränkt.
+			Also berechnet sich der Konvergenzradius mittels
+			\[
+				R = \min \big\{|z_0-1-i|, |z_0+4|\big\}
+			\]
+	\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	Angenommen für alle $\eps > 0$ existiere $z_\eps \in K_\eps(z_0)$ mit $f(z_\eps) = 0$.
+	Definiere mit diesen $z_\eps$ eine Folge $(\tilde z_n)_{n\in \N}$ durch
+	\[
+		\tilde z_n := z_{\f 1n}
+	\]
+	Offensichtlich gilt $\tilde z_n \to z_0$ für $n\to \infty$, also auch
+	\[
+		f'(z_0) = \lim_{n \to \infty} \f {f(\tilde z_n) - f(z_0)}{\tilde z_n - z_0} = \lim_{n\to \infty} \f {0 - 0}{\tilde z_n - z_0} = 0
+	\]
+	Ein Widerspruch zu $f'(z_0)\neq 0$, also gilt für hinreichend kleine $\eps$, dass $f(z)\neq 0$ ($z\in K_\eps(z_0)\setminus \{z_0\}$).
+	
+	Definiere $\gamma_\delta := z_0 + \delta e^{2\pi i t}$ für $0 < \delta < \eps$.
+	$\gamma_\delta$ ist offensichtlich homotop zum angegebenen Weg ($|z-z_0|=\eps$).
+	\begin{align*}
+		\int_{|z-z_0|=\eps} \f 1{f(z)} dz
+		&= \int_{\gamma_\delta} \f 1{f(z)} dz\\
+		&= \int_{\gamma_\delta} \f {z-z_0}{f(z)-f(z_0)} \cdot \f 1{z-z_0} dz
+	\intertext{
+		Für $\delta \to 0$ geht $\f {z-z_0}{f(z) -f(z_0)} \to \f 1{f'(z_0)}$.
+		(Dies Argument überzeugt mich selbst nicht ganz, warum darf ich das innerhalb vom Integral machen?)
+	}
+		&\overset{\mathclap{\delta \to 0}}{=} \f 1{f'(z_0)} \int_{\gamma_\delta} \f 1{z-z_0} dt \\
+		&= \f {2\pi i}{f'(z_0)}
+	\end{align*}
+\end{aufgabe}
+	
+\end{document}
