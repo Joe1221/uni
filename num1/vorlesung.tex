@@ -816,16 +816,23 @@ Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=
 
 \subsubsection{Hermite-Interpolation}
 
+Wir wollen jetzt nicht nur Funktionswerte für die Interpolierende vorgeben, sondern auch Werte für ihre Ableitungen.
 
-Seien $\{x_i\}_{i=0}^m \subset \R$ paarweise verschiedene Knoten und $\{f_i^{(j)}\}_{j=0}^{m_i-1}$ Zielwerte für $i=0,\dotsc, m$.
-Gesucht ist ein Polynom $p\in \P_n$ mit $p^{(j)}(x_i) =f_i^{(j)}$ mit $i=0,\dotsc,m$ und $j=0,\dotsc,m_i-1$ und 
+Seien $\{x_i\}_{i=0}^m \subset \R$ paarweise verschiedene Knoten und $\{f_i^{(j)}\}_{j=0}^{m_i-1}$ Zielwerte für $i=0,\dotsc, m$ (d.h. $m_i$ viele Zielwerte für $i=0,\dotsc, m$, macht $n := \sum_{i=0}^m m_i$ viele Zielwerte).
+
+Gesucht ist ein Polynom $p\in \P_n$ mit 
+\[
+	p^{(j)}(x_i) =f_i^{(j)}
+\]
+mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stützstelle $i$) und 
 \[
 	n := \sum_{i=0}^m m_i - 1
 \]
+($\sum_{i=0}^m m_i$ war die Anzahl der vorgegebenen Zielwerte, also $\sum_{i=0}^m m_i -1$ der Grad des Interpolationspolynoms)
 
 \begin{st}[Existenz und Eindeutig]
 	\label{1.19}
-	Es existiert ein eindeutiges Polynom $p\in \P_n$ als Lösung des Hermite-Interpolationspolynom
+	Es existiert ein eindeutiges Polynom $p\in \P_n$ als Lösung des Hermite-Interpolationsproblems
 	\begin{proof}
 		Wir verfahren ähnlich wie in \ref{1.1}.
 		Zeige, dass die Interpolationsmatrix $A$ bezüglich $\{p_i\}_{i=0}^n$ regulär ist.
@@ -835,7 +842,10 @@ Gesucht ist ein Polynom $p\in \P_n$ mit $p^{(j)}(x_i) =f_i^{(j)}$ mit $i=0,\dots
 				\phi_0^{(1)}(x_0) &\hdots &\phi_n^{(1)}(x_0)\\
 				\vdots &  & \vdots \\
 				\phi_0^{(m_0)}(x_0)& \hdots &\phi_n^{(m_0)}(x_0)\\
-				\phi_0^{(0)}(x_1) &\hdots &\phi_n^{(m_0)}(x_1)\\
+				\phi_0^{(0)}(x_1) &\hdots &\phi_n^{(0)}(x_1)\\
+				\vdots& & \vdots \\
+				\phi_0^{(m_1)}(x_1)& \hdots &\phi_n^{(m_1)}(x_1)\\
+				\phi_0^{(0)}(x_2) &\hdots &\phi_n^{(m_2)}(x_2)\\
 				\vdots& & \vdots \\
 				\phi_0^{(m_m)}(x_m) &\hdots &\phi_n^{(m_m)}(x_m)
 			\end{pmatrix}
@@ -843,7 +853,7 @@ Gesucht ist ein Polynom $p\in \P_n$ mit $p^{(j)}(x_i) =f_i^{(j)}$ mit $i=0,\dots
 		\]
 		Wir zeigen jetzt $\ker(A) = 0$.
 
-		Sei $A\_a = 0$ für $a\in \R^{n+1}$, dann erfüllt $\_p(x) := \sum_{i=0}^n \_a_i \phi_i(x)$ die Gleichung $\_p^{(j)}(x_i) = 0$ für $i=0,\dotsc,m$ und $j=0,\dotsc,m_i-1$.
+		Sei $A\_a = 0$ für $\_a\in \R^{n+1}$, dann erfüllt $\_p(x) := \sum_{i=0}^n \_a_i \phi_i(x)$ die Gleichung $\_p^{(j)}(x_i) = 0$ für $i=0,\dotsc,m$ und $j=0,\dotsc,m_i-1$.
 		
 		Also ist $(x-x_i)^{m_i}$ Teiler von $\_p$ für jedes $x_i$.
 		Insgesamt ist also
@@ -903,14 +913,15 @@ Gesucht ist ein Polynom $p\in \P_n$ mit $p^{(j)}(x_i) =f_i^{(j)}$ mit $i=0,\dots
 	\]
 	mit Stützstellen
 	\[
-		z_k := x_i \qquad k=n_{i-1},\dotsc, n_i-1
+		z_j := x_i \qquad j=n_{i},\dotsc, n_{i+1}-1
 	\]
-	wobei $n_i = \sum_{i=0}^{i-1}m_r$.
+	wobei $n_i = \sum_{r=0}^{i-1}m_r$.
+	Mit anderen Worten: $z_j$ durchläuft die Stützstellen $x_i$, jede davon jedoch genau so oft, wie es Zielwertbedingung für diese Stützstelle hat.
 
 	Die Koeffizienten $a_k := a_{0,k}$ für $k=0,\dotsc,n$ werden erhalten aus der Rekursion
 	\begin{align*}
 		a_{k,j} := \begin{cases}
-			\displaystyle \f 1{j!}f_i^{(j)} 			&  \begin{aligned}i&=0,\dotsc,m \\ j&=0,\dotsc,m_i-1 \\ k&=n_{i-1},\dotsc, n_i-1-j\end{aligned} \\
+			\displaystyle \qquad \f 1{j!}f_i^{(j)} 			&  \begin{aligned}i&=0,\dotsc,m \\ j&=0,\dotsc,m_i-1 \\ k&=n_{i},\dotsc, n_{i+1}-1-j\end{aligned} \\
 			\displaystyle \f {a_{k+1,j-1} - a_{k,j-1}}{z_{k+j} - z_k} & \text{sonst}
 		\end{cases}
 	\end{align*}
@@ -925,7 +936,7 @@ Gesucht ist ein Polynom $p\in \P_n$ mit $p^{(j)}(x_i) =f_i^{(j)}$ mit $i=0,\dots
 			 & $x_0=1$ & $x_1 =2$ \\ \hline
 			$f_i^{(0)}$ & -1 & 14 \\
 			$f_i^{(1)}$ & 4 & 32 \\
-			$f_i^{(12)}$ & 12 & 
+			$f_i^{(2)}$ & 12 & 
 		\end{tabular}		
 	\end{table}
 
@@ -944,8 +955,8 @@ Gesucht ist ein Polynom $p\in \P_n$ mit $p^{(j)}(x_i) =f_i^{(j)}$ mit $i=0,\dots
 			$z_0=1$ & $f_0^{(0)} = -1$  & $\f 1{1!}f_0^{(1)} = 4$ & $\f 1{2!} f_0^{(2)} = 6$ & $\f {11-6}{2-1}=5$ & $\f {6-5}{2-1}=1$ \\
 			$z_1=1$ & $f_0^{(0)} = -1$ & $4$ 						&	$\f {15-4}{2-1} = 11$ & $\f {17-11}{2-1}=6$ \\
 			$z_2=1$ & $f_0^{(0)} = -1$ & $\f {14-(-1)}{2-1} = 15$ & $\f {32-15}{2-1} = 17$ \\
-			$z_3=2$ & $f_0^{(0)} = -1$ & $\f 1 {1!} f_1^{(1)} = 32$ &  \\
-			$z_4=2$ & $f_0^{(0)} = -1$ & 
+			$z_3=2$ & $f_1^{(0)} = 14$ & $\f 1 {1!} f_1^{(1)} = 32$ &  \\
+			$z_4=2$ & $f_1^{(0)} = 14$ & 
 		\end{tabular}		
 	\end{table}
 	Es ergibt sich dann
