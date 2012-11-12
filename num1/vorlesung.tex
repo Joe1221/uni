@@ -1629,6 +1629,245 @@ In diesem Fall gibt es folgende Möglichkeiten
 	\end{proof}
 \end{st}
 
+\begin{st}[Fehleraussage und Konvergenz]
+	\label{1.34}
+	Sei $f\in C^4([a,b])$, $f_i=f(x_i)$, $\{x_i\}_{i=0}^n$ aquidistant mit $\f {b-a}n$.
+	Sei $s\in S_3$ mit (R2), d.h. $s'(a)=f'(a)$ und $s'(b)=f'(b)$.
+	Dann gilt für $l=0,1,2,3$ 
+	\[
+		\|f^{(l)} - s^{(l)}\|_\infty \le 2 \|f^{(4)}\|_\infty \cdot h^{4-l}
+	\]
+	also insbesondere
+	\[
+		\|f-s\|_\infty \le 2\|f^{(n)}\|_\infty \cdot h^4
+	\]
+	\begin{proof}
+		Siehe Stoer-Bulirsch Thm. 2.5.3.3.
+	\end{proof}
+	\begin{note}
+		Es gilt Konvergenz für jedes $f\in C^4$ im Gegensatz zur Polynominterpolation.
+	\end{note}
+\end{st}
+
+Kann man auf einfache Weise eine Basis für $S_m$ angeben?
+
+\begin{df}[B-Splines]
+	\label{1.35}
+	Sei $\{x_i\}_{i\in \Z}$ eine streng monoton wachsende Folge in $\R$ mit $\lim_{i\to \pm \infty} x_i = \pm \infty$.
+	Dann sind B-Splines $B_{i,k}:\R\to \R$ von Grad $k\in \N_0$ rekursiv definiert durch
+	\[
+		B_{i,0} := \begin{cases}
+			1 & x_i < x \le x_{i+1} \\
+			0 & \text{sonst}
+		\end{cases}
+	\]
+	und
+	\[
+		B_{i,k}(x) := \omega_{i,k}(x) B_{i,k-1}(x) + \big(1-\omega_{i+1,k}(x)\big)B_{i+1,k-1}(x)
+	\]
+	mit
+	\[
+		\omega_{i,k}(x) := \f {x-x_i}{x_{i+k}- x_i}
+	\]
+\end{df}
+
+\begin{ex*}
+	\begin{align*}
+		B_{0,0}(x) &= 1\big|_{(x_0,x_1]} \\
+		B_{1,0}(x) &= 1\big|_{(x_0,x_2]} \\
+		B_{0,1}(x) &= \begin{cases}
+			\f {x-x_0}{x_1-x_0} & \text{auf $(x_0,x_1]$} \\
+			1 - \f {x-x_1}{x_2-x_1} & \text{auf $(x_1,x_2]$} \\
+			0 & \text{sonst}
+		\end{cases}
+	\end{align*}
+\end{ex*}
+
+\begin{st}[Eigenschaften]
+	\label{1.36}
+	\begin{enumerate}[i)]
+		\item
+			$\displaystyle B_{i,k}\big|_{(x_j,x_{j+1})} \in \P_k \qquad \forall i,j\in \Z, k\in \N_0$
+		\item
+			$\displaystyle B_{i,k} \in C^{k-1}(\R)$
+		\item
+			$\displaystyle \supp (B_{i,k}) \subset [x_i,x_{i+k+1}]$
+			Dabei ist der „Träger“ $\supp (f)$ definiert als
+			\[
+				\supp(f) := \_{\{x\in A : f(x) \neq 0\}}
+			\]
+		\item
+			$\displaystyle B_{i,k} \ge 0$
+		\item
+			$\displaystyle \sum_{i\in \Z} B_{i,k} = 1 \qquad$ (Zerlegung der Eins)
+		\item
+			$\displaystyle \{B_{i,m}\big|_{[x_0,x_n]}\}_{i=-m}^{n-1}$ bilden eine Basis von $S_m$.
+	\end{enumerate}
+	\begin{proof}
+		Leichte Übung
+	\end{proof}
+\end{st}
+
+
+\subsection{Über- und Unterbestimmte Systeme}
+
+
+\begin{itemize}
+	\item
+		Was ist eine gute Funktionsapproximation, falls die Anzahl der Bedingungen ungleich der Anzahl der Freiheitsgrade ist?
+	\item
+		Äquivalent dazu: Wie löst man unterbestimmte oder überbestimmte lineare Gleichungssysteme
+		\[
+			Ax=b \qquad A\in \R^{m\times n}, x\in \R^n, b\in \R^m
+		\]
+	\item
+		Aus der linearen Algebra gibt es drei bekannte Fälle: eindeutige Lösung, keine Lösung, undendlich viele Lösungen.
+		Gibt es in all diesen Fällen eine eindeutige, ausgezeichnete „Lösung“?
+\end{itemize}
+
+Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf diese Fragen.
+
+\begin{st}[Singulärwertzerlegung (SVD)]
+	\label{1.37}
+	Sei $A\in \C^{m\times n}$, dann existieren unitäre Matrizen $U\in \C^{n\times m}$, $V\in \C^{n\times n}$ und reelle Diagonalmatrix
+	\[
+		\Sigma := \diag( \sigma_1, \dotsc, \sigma_r)  \in \R^{m\times n}
+	\]
+	mit $\sigma_1\ge \sigma_2 \ge \dotsb \ge 0$ und $r:= \min(m,n)$ so, dass
+	\[
+		A = U \Sigma V^*
+	\]
+	Wir nennen dies Singulärwertzerlegung (Singular Value Decomposition) und $\{\sigma_i\}$ Singulärwerte.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Falls $A$ reell ist, sind auch $U,V$ reell, also orthogonal und $A=U\Sigma V^T$.
+			\item
+				Erinnerung aus der linearen Algebra:
+				Falls $A \in \R^{n\times n}$ symmetrisch und positiv semidefinit, dann existiert $V$ orthogonal, $D$ diagonal mit $A=VDV^T$.
+				Also ist diese Eigenwertzerlegung eine SVD.
+			\item
+				Die SVD ist allgemeiner.
+				Für eine Jordanmatrixmatrix
+				\[
+					A = \begin{pmatrix}
+						-1 & 1 \\
+						0 & -1
+					\end{pmatrix}
+				\]
+				existiert nämlich keine Eigenwertzerlegung, aber eine Singulärwertzerlegung:
+				\[
+					\Sigma = \begin{pmatrix}
+						\phi & 0 \\
+						0 & \phi -1
+					\end{pmatrix}
+					,\quad U = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
+						\phi & 1 \\
+						-1 & \phi
+					\end{pmatrix}
+					,\quad V = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
+						-1 & -\phi \\
+						\phi & - 1
+					\end{pmatrix}
+					 \qquad \phi := \f {1+\sqrt 5}2
+				\]
+			\item
+				Die Matrix $\Sigma$ ist eindeutig, $U,V$ jedoch nicht (z.B. simultanes Vorzeichen-wechseln in Zeilen/Spalten von $U,V$).
+			\item
+				Falls $\rg(A) = k < \min(n,m)$, dann sind genau die ersten $k$ Singulärwerte ungleich Null, die restlichen verschwinden.
+				Wichtig sind dann nur der linke obere Kasten von $\Sigma$, der linke Block von $U$ und der obere Block von $V$.
+				Mann kann dann $A$ mit
+				\[
+					\tilde \Sigma = \diag(\sigma_1,\dotsc,\sigma_k) \in \R^{k\times k}, \quad \tilde U \in \C^{m\times k}, \quad \tilde V \in \C^{n\times k}
+				\]
+				schreiben als
+				\[
+					A = \tilde U \cdot \tilde \Sigma \cdot \tilde V^*
+				\]
+				\emph{verkürzte SVD} mit wesentlich kleineren Matrizen, also deutlich weniger Speicheraufwand.
+				Die Matrix-Vektor-Multiplikation ist mit $\mathcal O(nk+mk)$ statt $\mathcal O(nm)$ möglich.
+		\end{itemize}
+	\end{note}
+	\begin{proof}
+		$A^*A \in \C^{n\times n}$ ist hermitesch (Erinnerung: $M$ hermitesch, $M^*=M$), also eine Eigenwert-Zerlegung
+		\[
+			A^*A = V\Lambda V^*
+		\]
+		mit $V=(v_1,\dotsc, v_n)\in \C^{n\times n}$ unitär, $\Lambda = \diag(\lambda_1,\dotsc,\lambda_n) \in \R^{n\times n}$, $\lambda_1\ge \dotsc \ge \lambda_n$, d.h. insbesondere sind0$v_i$ Eigenvektoren von $A^*A$  zu Eigenwerte $\lambda_i$.
+		Zeige, dass alle $\lambda_i \ge 0$:
+		\[
+			\lambda_i = \lambda_i \|v_i\|^2 = \lambda_iv_i^*v_i = v_i^*(\lambda_iv_i) = v_i^*(A^*Av_i) = \|Av_i\|^2 \ge 0
+		\]
+		Sei $k$ die Anzahl an Eigenwerten ungleich Null: $\lambda_i \neq 0$ für $i=1,\dotsc,k$ und $\lambda_i=0$ für $i=k+1,\dotsc,n$.
+		Setze 
+		\[
+			\sigma_i := \begin{cases}
+				\sqrt{\lambda_i} & \text{für $i=1,\dotsc,k$} \\
+				0 & \text{für $i=k+1,\dotsc, r$}
+			\end{cases}
+		\]
+		und $\Sigma := \diag(\sigma_1,\dotsc,\sigma_r) \in \R^{m\times n}$.
+		Setze $u_i := \f 1{\sqrt{\lambda_i}}Av_i$ für $i=1,\dotsc,k$.
+		Es ist offensichtlich $u_i\in \im(A)$ und die $u_i$ sind orthonormal:
+		\[
+			u_i^*u_j = \f 1{\sqrt{\lambda_i \lambda_j}} v_i^* A^*Av_j
+			= \f 1{\sqrt{\lambda_i\lambda_j}}v_i^* \lambda_j v_j
+			= \f {\lambda_j} {\sqrt{\lambda_i \lambda_j}}\cdot \delta_{ij} = \delta_{ij}
+		\]
+		also sind die $u_i$ linear unabhängig.
+		Es ist $\ker A = \ker (A^*A)$.
+		Die eine Richtung ist klar, die andere:
+		\[
+			A^*A x = 0 \implies x^*A^*Ax = 0 \implies \|Ax\|^2 = 0 \implies Ax=0
+		\]
+		Daher
+		\[
+			\dim(\im A) = n- \dim (\ker A)) = n-\dim (\ker(A^*A)) = n- (n- \dim(\im(A^*A))) = n-(n-k) = k
+		\]
+		Also ist $\{a_i\}_{i=1}^k$ eine Orthonormalbasis von $\im A$.
+
+		Wähle $\{u_{k+1},\dotsc, u_n\}$ als Orthonormalbasis von $\im( A)^\orth \subset \C^m$ 
+		\[
+			U := (u_1,\dotsc, u_m) \text{ ist unitär}
+		\]
+		Es ist $A=U\Sigma V^*$:
+		\[
+			U\Sigma V^* v_i = U \Sigma e_i = U \sigma_i e_i = \begin{cases}
+				\sigma_i u_i & i=1,\dotsc,k \\
+				0 & i =k+1,\dotsc,n
+			\end{cases}
+		\]
+		Für $i=1,\dotsc,k$ gilt
+		\[
+			\sigma_i u_i = \sqrt{\lambda_i} \cdot \f 1{\sqrt{\lambda_i}}Av_i = Av_i
+		\]
+		Für $i=k+1,\dotsc, n$ gilt
+		\[
+			v_i \in \ker (A^*A) = \ker (A) \implies Av_i = 0
+		\]
+		Damit ist
+		\[
+			U\Sigma V^* x = Ax
+		\]
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Der Beweis ist konstruktiv und liefert damit ein Verfahren zur erzeugung einer SVD.
+			\item
+				$\displaystyle \im A = \<u_1,\dotsc,u_k\>$
+			\item
+				$\displaystyle \im A^* = \<v_1,\dotsc, v_k\>$
+			\item
+				$\displaystyle \ker A = \<v_{k+1},\dotsc, v_n\>$
+			\item
+				$\displaystyle \ker A^* = \<u_k,\dotsc, u_{k+1}\>$
+		\end{itemize}
+	\end{note}
+\end{st}
+
+
+
 
 
 \section{Numerische Integration}	
