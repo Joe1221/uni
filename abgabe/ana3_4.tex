@@ -1,0 +1,98 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattanadrei
+
+\begin{document}
+
+	\setcounter{section}{4}
+	\begin{aufgabe}
+		\begin{enumerate}[a)]
+			\item
+				Wähle ein festes $z_0\in O$ und setze als Kandidaten für die Stammfunktion:
+				\[
+					F(z) := \int_{[z_0,z]} f(\zeta) d\zeta \qquad z\in O
+				\]
+				Wegen $[z_0,z]\in O$ (da $O$ sternförmig) ist $F(z)$ wohldefiniert.
+
+				Da $f$ holomorph, gilt nach Hilfssatz 2.17 für jede abgeschlossene Dreiecksfläche $D\in O$ mit geschlossener Randkurve $\d D$:
+				\[
+					\int_{\d D} f(z) dz = 0
+				\]
+				Verfahre nun analog zum Beweis vom Satz von Morera, um zu zeigen, dass $F$ tatsächlich eine Stammfunktion von $f$ ist.
+				Nutze dazu obige Aussage und die Stetigkeit von $f$:
+				\begin{align*}
+					\l| \f {F(w)-F(z)}{w-z} - f(z) \r|
+					&= \l| \f 1{w-z} \l( \int_{[z_0,w]}f(\zeta) d\zeta - \int_{[z_0,z]}f(\zeta)d\zeta - (w-z) f(z) \r) \r| \\
+					&= \l| \f 1{w-z} \l( \int\limits_{[z_0,w]}f(\zeta) d\zeta - \int\limits_{[z_0,z]}f(\zeta)d\zeta - \int\limits_{[z,w]}f(z) d\zeta + \int\limits_{[w,z]}f(\zeta) d\zeta + \int\limits_{[z,w]} f(\zeta) d\zeta \r)\r| \\
+					&= \l| \f 1{w-z} \int_{[z,w]} f(\zeta) - f(z) d\zeta \r| \\
+					&\le \f 1{|w-z|} \underbrace{\max_{\zeta\in [z,w]} |f(\zeta) - f(z)|}_{< \eps \text{ für $|w-z|<\delta$}} \cdot L([z,w])
+					< \eps \qquad |w-z| < \delta
+				\end{align*}
+				Also besitzt $f$ die Stammfunktion $F$.
+			\item
+				Wir zeigen zunächst, die Vorraussetzung für den Satz von Morera, nämlich dass für jede Dreiecksrandkurve $\d D$ in $\C$ gilt:
+				\[
+					\int_{\d D} f(z) dz = 0
+				\]
+				Dabei unterscheiden wir folgende Fälle:
+
+				\begin{seg}{$\d D \cap \{z\in C : \Re z = 0\} = \emptyset$}
+					In diesem Fall folgt die Aussage direkt aus dem Hilfssatz 2.17, da $f$ auf $\{z\in C : \Re z = 0\}$ holomorph ist.										
+				\end{seg}
+				\begin{seg}{Die Gerade $i\R$ teilt das Dreieck $D$ in zwei Teilflächen}
+					Eine Teilfläche ist ein Dreieck und besitzt eine Randkante auf der Geraden $i\R$.
+					Die andere Teilfläche lässt sich so in drei Dreiecke teilen, dass eines wieder eine Randkante auf der Geraden hat und die beiden anderen jeweils eine Ecke auf der Geraden.
+					Diese Teildreiecke können dann separat nach dem kommenden Fall behandelt werden.
+				\end{seg}
+				\begin{seg}{Das Dreieck liegt mit einer Ecke oder einer Kante auf der Geraden $i\R$}
+					Wir nähern die Dreiecksrandkurve $\gamma$ mit einer Kurve $\gamma_\eps$ an.
+
+					Sei $z_0$ ein Eckpunkt des Dreiecks, der nicht auf der Geraden $i\R$ liegt und $z_1,z_2$ die anderen beiden.
+					Wir wählen $\gamma_\eps$ so, dass wir ein Dreieck $z_0,z_1+\eps(z_0-z_1), z_2+\eps(z_0-z_2)$ erhalten (mit anderen Worten: man rückt immer näher an die $z_1z_2$-Seite).
+					
+					Da $f$ stetig ist, ist $f$ auf dem kompakten Dreieck $D$ gleichmäßig stetig.
+					Es ergibt sich
+					\begin{align*}
+						&\lim_{\eps\to 0} \l| \int_\gamma f(z) dz - \int_{\gamma_\eps} f(z) dz \r| 
+						= \lim_{\eps\to 0} \l| \int_0^1 f(\gamma(t)) \cdot \gamma'(t) dt - \int_0^1 f(\gamma_\eps'(t) dt \r| \\
+						&\qquad= \lim_{\eps\to 0} \l| \int_0^1 f(\gamma(t)) \gamma'(t) - f(\gamma_\eps(t)) \gamma'(t) + f(\gamma_\eps(t)) \gamma'(t) - f(\gamma_\eps(t)) \gamma_\eps'(t) \;dt\r| \\
+						&\qquad= \lim_{\eps\to 0} \l| \int_0^1 \Big(f(\gamma(t))-f(\gamma_\eps(t))\Big)\gamma'(t) + f(\gamma_\eps(t))\Big(\gamma'(t) - \gamma_\eps'(t)\Big) \; dt \r|\\
+						&\qquad\le \lim_{\eps\to 0} \max_{t\in [0,1]} \Big(\underbrace{|f(\gamma(t))-f(\gamma_\eps(t))|}_{\to 0 \; \text{(glm. stetig)}}\cdot\underbrace{|\gamma'(t)|}_{\le C_1} + \underbrace{|f(\gamma_\eps(t))|}_{\le C_2}\cdot|\gamma'(t)-\gamma_\eps'(t)| \Big) \\
+						&\qquad\le C_2 \cdot \lim_{\eps\to 0} \max_{t\in [0,1]} |\gamma'(t)-\gamma_\eps'(t)|
+						\intertext{
+							Seien die Randkurvenparametrisierungen von $\gamma$ o.B.d.A. durch stückweise definierte Wege mit jeweils konstanter Geschwindigkeit ($(z_1-z_0$, $z_2-z_1$ oder $z_0-z_2$)) gegeben.
+							Dann approximiert $\gamma_\eps'(t)$ offensichtlich $\gamma'(t)$ gleichmäßig, also gilt:
+						}
+						&\qquad= 0
+					\end{align*}
+					Die Kurve $\gamma_\eps$ liegt in $\{z\in \C : \Re z \neq 0\}$ und es gilt $\int_{\gamma_\eps} f(z) dz = 0$, also auch für die Kurve $\gamma$.
+				\end{seg}
+				Damit sind die Vorraussetzungen für den Satz von Morera erfüllt und $f$ ist damit holomorph auf ganz $\C$.
+		\end{enumerate}
+
+
+	\end{aufgabe}
+
+	\begin{aufgabe}
+
+		\begin{enumerate}[a)]
+			\item
+				Sei $u = \Re f, v= \Im f$.
+				Da $\Phi\in C^2(O\to \R)$ vertauschen die partiellen Ableitungen.
+				Außerdem gelten die Cauchy-Riemannschen DGLs:
+				\[
+					\d_x^2 u(x,y) = \d_xd_y v(x,y) = \d_y\d_x v(x,y) = -\d_y^2 u(x,y)
+				\]
+				Also $\d_x^2 u(x,y) + \d_y^2 x(x,y) = 0$ und damit ist $u(x,y) = \Re f(x,y)$ harmonisch.
+				Für $\Im f(x,y)$ analog.
+			\item
+		\end{enumerate}
+		
+
+
+
+	\end{aufgabe}
+
+\end{document}
+
+
