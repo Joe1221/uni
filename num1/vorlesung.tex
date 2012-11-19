@@ -1969,7 +1969,7 @@ Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf dies
 					\[
 						\Sigma \Sigma^+ \Sigma = \Sigma
 					\]
-					(betrachte die Diagonalkomponenten: $\sigma_i \cdot \sigma_i^ \cdot \sigma_i = \sigma_i$)
+					(betrachte die Diagonalkomponenten: $\sigma_i \sigma_i^+ \sigma_i = \sigma_i$)
 				\item
 					Analog zu i).
 				\item
@@ -1984,12 +1984,12 @@ Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf dies
 		\begin{seg}{$B$ erfüllt die Bedingungen $\implies$ $B=A^+$}
 			Zeige zunächst $BA=A^+A$
 			\[
-				BA \stackrel{\text{iv)}}= (BA)^* = A^*B^* = (AA^+A)^*B^* = A^*(A^+)^*A^*B^* = (A^+A)^*(BA) \stackrel{\text{iii) + iv)}} A^+ABA \stackrel{\text{i)}} = A^+A
+				BA \stackrel{\text{iv)}}= (BA)^* = A^*B^* = (AA^+A)^*B^* = A^*(A^+)^*A^*B^* = (A^+A)^*(BA) \stackrel{\text{iii) + iv)}}= A^+ABA \stackrel{\text{i)}} = A^+A
 			\]
 			$AB=AA^+$ verläuft analog.
 			Daraus folgt
 			\[
-				A^+ \stackrel{\text{ii)}}= A^+AA^+ = A^+AB = BAB = \stackrel{\text{ii)}}= B 
+				A^+ \stackrel{\text{ii)}}= A^+AA^+ = A^+AB = BAB \stackrel{\text{ii)}}= B 
 			\]
 		\end{seg}
 	\end{proof}
@@ -2142,10 +2142,259 @@ Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf dies
 	\end{proof}
 \end{st}
 
+\subsubsection{Anwendung: Ausgleichsrechnung}
+
+Such $p\in \P_{n-1}$ mit $p(x_i)=f_i$, $i=1,\dotsc,m$.
+Es ergibt sich das lineare Gleichungssystem $Aa = f$.
+Definiere $a^* := A^+f$.
+
+\begin{seg}{$m=n$ (Polynominterpolation)}
+	Es gilt in diesem Fall
+	\[
+		\|Aa^*-f\| = 0, \qquad \ker A = \{0\}, \qquad M = \{a^*\}, \qquad a^* = A^{-1}f
+	\]
+\end{seg}
+\begin{seg}{$m>n$}
+	Es gilt
+	\[
+		\|Aa^*-f\| > 0, \qquad \ker A = \{0\}, \qquad M = \{a^*\}
+	\]
+\end{seg}
+\begin{seg}{$m<n$}
+	Es gilt
+	\[
+		\|Aa^*-f\| = 0, \qquad \ker A \supsetneq \{0\}, \qquad \_a \in M = a^* + \ker A \implies \|a^*\| \le \|\_a\|
+	\]
+	Wir erhalten eine mehrdeutige Least-Squares-Lösung, aber eine eindeutige Minimum-Norm-Least-Squares-Lösung.
+\end{seg}
+\begin{nt*}
+	Falls $m\ge n$ und $A$ vollen Spaltenrang hat, nennt man
+	\[
+		A^TAx = A^Tb
+	\]
+	\emph{Gauß'sche Normalengleichungen}
+	Die MNLS-Approximation $x:=A^+b$ erfüllt genau diese Normalengleichungen.
+	\begin{proof}
+		Mit \ref{1.41} vi) ist $x=A^+b = (A^-A)^{-1}A^Tb$, also
+		\[
+			A^TA = A^TA(A^TA)^{-1}A^T b = A^Tb
+		\]
+	\end{proof}
+\end{nt*}
+
 
 
 \section{Numerische Integration}	
 
+
+
+Seien Stützstellen $\{x_i\}_{i=0}^n \subset [a,b]$ und Werte $\{f(x_i)\}_{i=0}^n$ einer Funktion $f:[a,b]\to \R$ gegeben.
+
+Gesucht ist eine Approximation für das Integral
+\[
+	I(f) = \int_a^b f(x) \;dx
+\]
+\begin{itemize}
+	\item
+		Integration von Funktionen, deren Stammfunktionen nicht analytisch vorliegt, z.B.
+		\[
+			\int_a^b e^{-x^2} dx
+		\]
+	\item
+		Integration von Funktionen, die nicht vollständig bekannt sind: Messungen oder Computer-Routinen.
+	\item
+		Numerisches Lösungen von gewöhnlichen oder partiellen Differentialgleichungen (Numerik 2 und Folgenden)
+\end{itemize}
+
+\begin{df*}{Quadratur}
+	Ein Funktional $I_n : C([a,b]) \to \R$ der Form
+	\[
+		I_n(f) = \sum_{j=0}^n \omega_j f(x_j)
+	\]
+	heißt \emph{Quadraturformel} mit Stützstellen $\{x_j\}$ und Gewichten $\{\omega_j\}_{j=0}^n$.
+\end{df*}
+
+\begin{ex*}
+	\begin{seg}{Mittelpunktsregel ($n=0$}
+		\[
+			x_0 := \f {a+b}2, \qquad \omega_0 := b-a
+		\]				
+	\end{seg}
+	\begin{seg}{Trapezregel ($n=1$)}
+		\[
+			x_0 := a, x_1 := b \qquad \omega_0 := \omega_1 := \f {b-a}2
+		\]				
+	\end{seg}
+	\begin{seg}{Simpsonregel ($n=2$)}
+		\[
+			I_2(f) = \f {b-a}6 \l( f(a) + 4f\l(\f {a+b}2\r) + f(b) \r)
+		\]
+	\end{seg}
+\end{ex*}
+
+\begin{df*}[Exaktheit]
+	Eine Quadratur heiß \emph{exakt} auf $\P_k$, falls
+	\[
+		I_n(p) = I(p) \qquad \forall p\in \P_k
+	\]
+\end{df*}
+
+\begin{nt*}
+	\begin{itemize}
+		\item
+			Eine Quadratur ist linear, d.h. für alle $f,g$ und $\alpha,\beta \in \R$, gilt
+			\[
+				I_n ( \alpha f + \beta g) = \alpha I_n(f) + \beta I_n(g)
+			\]
+		\item
+			Zum Nachweis der Exaktheit, reicht es
+			\[
+				I_n(x^k) = I(x^k) \qquad k\in \N
+			\]
+			nachzuweisen.
+		\item
+			\begin{itemize}
+				\item
+					Die Mittelpunktsregel ist exakt auf $\P_1$.
+				\item
+					Die Trapezregel ist exakt auf $\P_1$.
+				\item
+					Die Simpsonregel ist exakt auf $\P_3$.
+				\item
+					$I_n$ ist exakt auf $\P_0$ genau dann, wenn
+					\[
+						\sum_{i=0}^n \omega_i = b-a
+					\]
+			\end{itemize}
+	\end{itemize}
+\end{nt*}
+
+
+\subsection{Interpolatorische Quadraturen}
+
+Integriere das Interpolationspolynom $p$ zu den Daten $(x_i,f(x_i))$ für $i=0,\dotsc,n$.
+
+Mit Hilfe der Lagrange-Darstellung von $p$:
+\[
+	p(x) = \sum_{j=0}^n f(x_j) \cdot L_j^n (x) \qquad \text{mit} \qquad L_j^n(xr := \prod_{\substack{k=0\\k\neq j}}^n \f{x-x_k}{x_j-x_k}
+\]
+Wir integrieren:
+\[
+	\int_a^b p(x) dx = \sum_{j=0}^n f(x_j) \cdot \underbrace{\int_a^b L_j^n (x) dx}_{=:\omega_j} =: I_n(f)
+\]
+Also $I_n(f) = I(p)$.
+
+\begin{df}[Interpolatorische Quadratur]
+	\label{2.3}
+	Eine Quadratur $I_n$ ist eine \emph{Interpolatorische Quadratur}, falls die Gewichte gegeben sind durch 
+	\[
+		\omega_j := \int_a^b \prod_{\substack{k=0\\k\neq j}}^n \f {x-x_k}{x_j-x_k} \;dx
+	\]
+\end{df}
+
+\begin{ex*}
+	Sei $[a,b] = [0,1]$, $n=2$, $x_0=0, x_1=\f 12, x_2 = 1$.
+	Dann ist
+	\begin{align*}
+		\omega_0 &= \int_0^1 \f {(x-\f 12) (x-1)}{(0-\f 12)(0-1)} \; dx = \int_0^1 2x^2 - 3x+1 \; dx = \f 23 - \f 32 + 1 = \f 16 \\
+		\omega_1 &= \int_0^1 \f {(x-0)(x-1)}{(\f 12 - 0)(\f 12 -1)} \; dx = -4 \int_0^1x^2 - x \; dx = -4 \l( \f 13 - \f 12 \r) = \f 23 \\
+		\omega_2 &= \int_0^1 \f {(x-0)(x-\f 12)}{(1-0)(1-\f 12)} \; dx = \int_0^1 2x^2 -x \; dx = \f 23 - \f 12 = \f 16
+	\end{align*}
+	Damit lautet die Quadraturformel
+	\[
+		I_2(f) = \f 16 \l( f(0) + 4f\l(\f 12\r) + f(1)\r)
+	\]
+\end{ex*}
+
+\begin{st}[Exaktheit von Interpolatorischen Quadraturen]
+	\label{2.4}
+	Eine Interpolatorische Quadratur $I_n$ ist exakt auf $\P_n$.
+	\begin{proof}
+		Sei $p\in \P_n$, dann ist
+		\begin{align*}
+			I(p) = \int_a^b p(x) dx &= \int_a^b \sum_{j=0}^n p(x_j) L_j^n(x) dx \\
+			&= \sum_{j=0}^n p(x_j) \int_a^b L_j^n(x) dx = I_n(p)
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{st}
+	\label{2.5}
+	Zu Stützstellen $\{x_j\}_{j=0}^n \subset [a,b]$ paarweise verschieden, existiert genau ein Quadratur, welche exakt auf $\P_n$ ist.
+	\begin{proof}
+		Existenz ist nach \ref{2.4} klar: die Interpolatorische Quadratur tut's.
+		Zeige jetzt die Eindeutigkeit:
+
+		Sei $I_n(f) = \sum_{j=0}^n \omega_j f(x_j)$ exakt auf $\P_n$.
+		Für Lagrange-Polynome gilt $L_j^n \in \P_n$, also
+		\begin{align*}
+			\int_{a}^b \prod_{\substack{k=0\\k\neq j}}^n \f {x-x_k}{x_j-x_k} \; dx 
+			= \int_a^b L_j^n (x) dx = I(L_j^n) = I_n(L_j^n) = \sum_{i=0}^n \omega_i L_j^n(x_i) = \omega_j
+		\end{align*}
+	\end{proof}
+	also ist $I_n$ schon die interpolatorische Quadratur.
+\end{st}
+
+\begin{st}
+	\label{2.6}
+	Sei $I_n(f) = \sum_{j=0}^n \omega_j f(x_j)$ eine Interpolatorische Quadratur mit
+	\[
+		x_j - a = b - x_{n-j} \qquad j=0,\dotsc,n
+	\]
+	Dann gilt
+	\begin{enumerate}[i)]
+		\item
+			$\omega_j = \omega_{n-j}$ , d.h. die Interpolatorische Quadratur ist symmetrisch.
+		\item
+			falls $n$ gerade, so ist $I_n$ exakt auf $\P_{n+1}$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				Setze $\_{I_n} := \sum_{j=0}^n \omega_{n-j}f(x_j)$.
+				Es reicht zu zeigen, dass $\_{I_n}$ exakt ist auf $\P_n$, denn wegen der Eindeutigkeit in \ref{2.5} gilt $\_{I_n}=I_n$ also $\omega_j=\omega_{n-j}$.
+				Sei $p\in \P_n$ und setze $\_p(x) := p(a+b-x)$.
+				Dann ist $p(x) \in \P_n$ und $I(p) = \_I(\_p)$ wegen „Spiegelung‘.
+
+				Damit folgt
+				\begin{align*}
+					\_I_n (p) &= \sum_{j=0}^n \omega_{n-j}p(x_j) \\
+					&=\sum_{j=0}^n \omega_{n-j} \_p(\underbrace{a+b-x_j}_{=x_{n-j}}) \\
+					&=\sum_{j=0}^n \omega_{n-j}\_p(x_{n-j})
+					\stackrel{i=n-j} = \sum_{i=0}^n \omega_i \_p(x_i)
+					= I_n (\_p) = I(\_p) = I(p)
+				\end{align*}
+			\item
+				Sei $n=2m$ ,d.h. $x_m = \f {a+b}2$ wegen der Symmetrie.
+				Wir überlegen uns zunächst
+				\begin{align*}
+					N(x) &:= \prod_{l=0}^n (x-x_l) \in \P_{n+1} \\
+					&= \l( \prod_{l=0}^{m-1}(x-x_l)\r) \cdot \l(x-\f {a+b}2\r) \prod_{l=0}^{m-1}(x-(a+b-x_l))
+				\end{align*}
+				wegen $((a+b-x)-x_l) = -(x-(a+b-x_l))$ folgt
+				\[
+					N(a+b-x) = (-1)^{n+1}N(x) = - N(x)
+				\]
+				Also eine „Punktsymmetrie“ um $x = \f {a+b}2$.
+				Damit ist
+				\[
+					I(N) = 0
+				\]
+				Zeige nun die Exaktheit von $I_n$ auf $\P_{n+1}$.
+
+				Sei $p\in \P_{n+1}$, dann existiert $q\in \P_n, c\in \R$ mit $p=q+c\cdot N$.
+				Sei $p_n$ Interpolationspolynom zu Daten $(x_i,p(x_i))$, $i=0,\dotsc,n$.
+				Es gilt
+				\[
+					p(x_l) = q(x_l) + c\cdot \underbrace{N(x_l)}_{=0} = q(x_l) \qquad l=0,\dotsc,N
+				\]
+				Also ist $q=p_1$ wegen der Eindeutigkeit der Interpolation.
+				\[
+					I(p) = I(q+cN) = I(q) + c\underbrace{I(N)}_{=0} = I(q) = I(p_n) = I_n(p)
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
 
 \section{Nichtlineare Gleichungsysteme}
 
