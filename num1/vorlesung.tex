@@ -106,8 +106,8 @@ Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 				Allgemeine lineare Interpolation:
 				Sei $\{\phi_k\}_{k=0}^n$ linear unabhängig. Dann gilt
 				\begin{align*}
-					p(x) = \sum_{k=0}^n a_k \phi_k(x) \text{löst die Interpolationsaufgabe}
-					\iff a\in \R^{n+1} \text{löst} Aa=f \text{mit} f=(f_i)_{i=0}^n \text{und} A= \begin{pmatrix}\phi_0(x_0) & \hdots & \phi_n(x_0)\\
+					&p(x) = \sum_{k=0}^n a_k \phi_k(x) \text{löst die Interpolationsaufgabe}\\
+					&\iff a\in \R^{n+1} \text{löst} Aa=f \text{mit} f=(f_i)_{i=0}^n \text{und} A= \begin{pmatrix}\phi_0(x_0) & \hdots & \phi_n(x_0)\\
 					\end{pmatrix}
 				\end{align*}
 		\end{enumerate}
@@ -330,19 +330,21 @@ $x_n$ & $f[x_n]=f_n$ &\\
 	\item 
 		Falls die Newton-Form vorliegt, erlaubt das \emph{Horner-Schema} die effiziente Auswertung durch geschickte Klammerung.
 		\begin{align*}
-			p(x) &= a_0 + a_1(x-x_0) + \dotsb + a_n\prod_{i=0}^{n-1}(x-x_i)
+			p(x) &= a_0 + a_1(x-x_0) + \dotsb + a_n\prod_{i=0}^{n-1}(x-x_i)\\
 				&= (\dotso(a_n(x-x_{n-1} + a_{n-1})(x-x_{n-2}) + a_n-2) + \dotsb + a_0
 		\end{align*}
-		Satt $\mathcal(n^2)$ Produkte sind nur  $\O(n)$ Produkte erforderlich.
+		Satt $\mathcal O(n^2)$ Produkte sind nur  $\mathcal O(n)$ Produkte erforderlich.
 	\item
 		Man kann das Interpolationspolynom auswerten, ohne es vorliegen zu haben.
 		Verwende dazu das Neville-Schema für die Rekursion aus Satz \ref{1.5} nur für Stelle $x$.
+		\begin{table}[h]
 		\begin{tabular}{cccc}
 		$x_0$ & $f_0=p_{0,0}(x)$ & $p_{0,1}(x)$ & $p_{0,2}(x)$ \\
 		$x_1$ & $f_1=p_{1,0}(x)$ & $p_{1,1}(x)$ &  \\
 		\vdots & \vdots & \vdots\\
 		$x_n$ & $f_n=p_{n,0}(x)$ &\\
 		\end{tabular}
+		\end{table}
 \end{enumerate}
 
 \begin{ex*}
@@ -389,7 +391,7 @@ Nach vorigem Abschnitt b) ist $p(0)$ ohne Interpolationspolynom auswertbar.
 Vereinfachung der Rekursion aus \ref{1.5} für $x=0$:
 \begin{align*}
 	p_{i,j}(0) &= \f {(0-h_i)p_{i+1,j-1}(0) - (0-h_{i+j})p_{i,j-1}(0)}{h_{i+j}-h_i} \\
-	&= \f {(h_{i+j}-h_i)p_{i+1,j-1}(0)}{h_{i+j}-h_i} - \f {h_{i+j}(p_{i+1,j-1}(0)-p_{i,j-1}(0))}{h_{i+j}-h_i}
+	&= \f {(h_{i+j}-h_i)p_{i+1,j-1}(0)}{h_{i+j}-h_i} - \f {h_{i+j}(p_{i+1,j-1}(0)-p_{i,j-1}(0))}{h_{i+j}-h_i}\\
 	&= p_{i+1,j-1}(0) + \f {p_{i+j,j-1}(0) -p_{i,j-1}(0)}{\f {h_i}{h_{i+j}} - 1}
 \end{align*}
 \end{seg}
@@ -576,7 +578,7 @@ Wie gut apporximiert die Interpolierende die Funktion?
 		\item
 			Satz von Faber: Zu jeder Folge $(\Delta_n)_{n\in \N}$ gibt es ein $f\in C([a,b])$ so dass $p_n\not\to f$ gleichmäßig.
 		\item
-			In der Praxis kommt es zu häufig Oszillationen von $p_n$, vor allem am Rand von $[\min\{x_0,\dotsc, x_n\},\max\{x_0,\dotsc,x_n\}]$.
+			In der Praxis kommt es zu häufig Oszillationen von $p_n$, vor allem am Rand von\\ $[ \min\{x_0,\dotsc, x_n\},\max\{x_0,\dotsc,x_n\} ]$.
 	\end{itemize}
 \end{note}
 
@@ -1614,7 +1616,7 @@ In diesem Fall gibt es folgende Möglichkeiten
 		Dann gilt
 		\begin{align*}
 			\int_a^b (f-s)''(x) s''(x) dx &=  \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-s)''(x)s''(x)) dx \\
-			&= \sum_{j=1}^n \Big( \big[(f-s)'(x)s''(x)\big]_{x_{j-1}}^{x_j} - \int_{x_{j-1}}^{x_j} (f-s)'(x))s'''(x) dx \Big)
+			&= \sum_{j=1}^n \Big( \big[(f-s)'(x)s''(x)\big]_{x_{j-1}}^{x_j} - \int_{x_{j-1}}^{x_j} (f-s)'(x))s'''(x) dx \Big)\\
 			&= \underbrace{\big( f'(b) - s'(b)\big) s''(b) - \big( f'(a)-s'(a)\big) s''(a)}_{=0 \text{ wegen } \begin{cases}
 				s''(a) = s''(b) = 0 & \text{falls (R1)} \\
 				f'(b) = s'(b) = \beta, f'(a) = s'(a) = \alpha  &\text{falls (R2)} \\
@@ -1622,6 +1624,7 @@ In diesem Fall gibt es folgende Möglichkeiten
 				\end{cases}} + ??
 			\\
 		\end{align*}
+		\fixme[Was sollen die ??]\\
 		Es folgt also
 		\begin{align*}
 			\int_a^b (f-s)''(x) s''(x) dx = \sum_{j=1}^n \underbrace{\big(-[(f-s)(x)p_j'''(x)]\big)_{x_{j-1}}^{x_j}}_{=0 (f(x_j)=s(x_j)} + \underbrace{\int_{x_{j-1}}^{x_j} (f-s)(x)s^{(k)}(x)}_{=0}
@@ -1775,8 +1778,10 @@ Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf dies
 					,\quad U = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
 						\phi & 1 \\
 						-1 & \phi
-					\end{pmatrix}
-					,\quad V = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
+					\end{pmatrix},
+					\]
+					\[
+					\quad V = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
 						-1 & -\phi \\
 						\phi & - 1
 					\end{pmatrix}
@@ -1903,27 +1908,26 @@ Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf dies
 		Setze $a:=(a_1,\dotsc, a_{k'+1},0,\dotsc,0)^T \in \C^n$.
 		Dann gilt
 		\begin{align*}
-			\|A-B\|^2 = \sup_{x\neq 0} \f {\|(A-B)x\|^2}{\|x\|^2}
+			\|A-B\|^2 &= \sup_{x\neq 0} \f {\|(A-B)x\|^2}{\|x\|^2}
 			\ge \f {\|(A-B)\|^2z}{\underbrace{\|z\|^2}_{=1}}
 			= \|Az\|^2 
-			= \|U\Sigma V^*\sum_{i=1}^n a_i v_i \|^2
-			= \|U\Sigma V^* Va \|^2
-			= \|U\Sigma a\|^2
-			\stackrel{\text{Rotationsinvarianz}}= \|\Sigma a\|^2
-			= 
-			= \l\|\begin{pmatrix}\sigma_1 a_1 \\ \vdots \\ \sigma_{k'+1}a_{k'+1} \\ 0 \\ \vdots \\ 0\end{pmatrix}\r\|
-			= \sum_{i=1}^{k'+1} \sigma_i^2 \cdot |a_i|^2
-			\ge  \sum_{i=1}^{k'+1}\sigma_{k'+1}^2 |a_i|^2
-			= \sigma_{k'+1}^2 \sum_{i=1}^{k'+1} |a_i|^2
-			= \sigma_{k'+1}^2
+			= \|U\Sigma V^*\sum_{i=1}^n a_i v_i \|^2 \\
+			&= \|U\Sigma V^* Va \|^2
+			= \|U\Sigma a\|^2 
+			\stackrel{\text{Rotationsinvarianz}}= \|\Sigma a\|^2  
+			= \l\|\l(\begin{smallmatrix}\sigma_1 a_1 \\ \vdots \\ \sigma_{k'+1}a_{k'+1} \\ 0 \\ \vdots \\ 0\end{smallmatrix}\r)\r\| \\
+			&= \sum_{i=1}^{k'+1} \sigma_i^2 \cdot |a_i|^2 
+			\ge  \sum_{i=1}^{k'+1}\sigma_{k'+1}^2 |a_i|^2 
+			= \sigma_{k'+1}^2 \sum_{i=1}^{k'+1} |a_i|^2 
+			= \sigma_{k'+1}^2 
 			\ge \sigma_{k+1}^2
 		\end{align*}
 		Andererseits wird dieser Fehler auch realisiert durch $\hat A_k$:
-		\[
-			\|A-\hat A_k\| = \|U\Sigma V^* - U\hat \Sigma_k V^*\| = \|U(\Sigma - \hat \Sigma_k) V^*\| = \|\Sigma - \hat \Sigma_k\|
-			= \|\diag\{0,\dotsc, 0, \sigma_{k+1},\dotsc, \sigma_r\}\|
+		\begin{align*}
+			\|A-\hat A_k\| &= \|U\Sigma V^* - U\hat \Sigma_k V^*\| = \|U(\Sigma - \hat \Sigma_k) V^*\| = \|\Sigma - \hat \Sigma_k\|\\
+			&= \|\diag\{0,\dotsc, 0, \sigma_{k+1},\dotsc, \sigma_r\}\|
 			= \sigma_{k+1}
-		\]
+		\end{align*}
 	\end{proof}
 \end{st}
 
@@ -1974,18 +1978,18 @@ Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf dies
 					Analog zu i).
 				\item
 					Es gilt
-					\[
-						AA^+ = U \Sigma V^* V \Sigma^+ U^* = U \diag\{\underbrace{1,\dotsc,1}_{k\text{-mal}},0,\dotsc, 0\} U^* = \big(U \diag\{1,\dotsc,1,0,\dotsc,0\} U^*\big)^* = (AA^+)^*
-					\]
+					\begin{align*}
+						AA^+ &= U \Sigma V^* V \Sigma^+ U^* = U \diag\{\underbrace{1,\dotsc,1}_{k\text{-mal}},0,\dotsc, 0\} U^*\\ &= \big(U \diag\{1,\dotsc,1,0,\dotsc,0\} U^*\big)^* = (AA^+)^*
+					\end{align*}
 				\item
 					Analog zu iii).
 			\end{enumerate}
 		\end{seg}
 		\begin{seg}{$B$ erfüllt die Bedingungen $\implies$ $B=A^+$}
 			Zeige zunächst $BA=A^+A$
-			\[
-				BA \stackrel{\text{iv)}}= (BA)^* = A^*B^* = (AA^+A)^*B^* = A^*(A^+)^*A^*B^* = (A^+A)^*(BA) \stackrel{\text{iii) + iv)}}= A^+ABA \stackrel{\text{i)}} = A^+A
-			\]
+			\begin{align*}
+				BA &\stackrel{\text{iv)}}= (BA)^* = A^*B^* = (AA^+A)^*B^* = A^*(A^+)^*A^*B^*\\ &= (A^+A)^*(BA) \stackrel{\text{iii) + iv)}}= A^+ABA \stackrel{\text{i)}} = A^+A
+			\end{align*}
 			$AB=AA^+$ verläuft analog.
 			Daraus folgt
 			\[
@@ -2107,7 +2111,7 @@ Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf dies
 	als Menge der \emph{Least-Squares-Approximation} zum linearen Gleichungssystem $Ax=b$.
 	Dann ist $x^* := A^+b \in M$ und für alle $\tilde x\in M, \tilde x \neq x^*$ gilt
 	\[
-		\|x^*\| < \| \tilde \|
+		\|x^*\| < \| \tilde x \|
 	\]
 	Also ist $x^*$ die eindeutige \emph{Minimum-Norm-Least-Squares-Approximation (MNLS)} zum LGS $Ax=b$.
 	\begin{proof}
@@ -2327,10 +2331,10 @@ Also $I_n(f) = I(p)$.
 
 		Sei $I_n(f) = \sum_{j=0}^n \omega_j f(x_j)$ exakt auf $\P_n$.
 		Für Lagrange-Polynome gilt $L_j^n \in \P_n$, also
-		\begin{align*}
-			\int_{a}^b \prod_{\substack{k=0\\k\neq j}}^n \f {x-x_k}{x_j-x_k} \; dx 
+		\[
+			\int_{a}^b \prod_{\substack{k=0\\k\neq j}}^n \f {x-x_k}{x_j-x_k} \; dx \\\
 			= \int_a^b L_j^n (x) dx = I(L_j^n) = I_n(L_j^n) = \sum_{i=0}^n \omega_i L_j^n(x_i) = \omega_j
-		\end{align*}
+		\]
 	\end{proof}
 	also ist $I_n$ schon die interpolatorische Quadratur.
 \end{st}
