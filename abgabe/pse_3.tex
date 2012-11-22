@@ -1,0 +1,113 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattpse
+
+\begin{document}
+
+\setcounter{aufgabe}{1}
+
+\begin{aufgabe}~
+
+	Siehe Quellcode in der Datei „aufgabe2/Song.java“.
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	Siehe Quellcode in der Datei „aufgabe3/Playlist.java“.
+	Die Ausgabe des Programms sieht folgendermaßen aus:
+	\begin{verbatim}
+Der Song BugsBunny wird gespielt...
+Der Song BugsBunny pausiert...
+Der Song BugsBunny hält an...
+Der Song MaschenDrahtZaun wird gespielt...
+Der Song MaschenDrahtZaun pausiert...
+Der Song MaschenDrahtZaun hält an...
+Der Song Tour wird gespielt...
+Der Song Tour pausiert...	
+Der Song Tour hält an...
+	\end{verbatim}
+\end{aufgabe}
+
+\begin{aufgabe}
+	\begin{itemize}
+		\item
+			Methode 1 ist als \verb|public| definiert, während Methode 2 als \verb|private| definiert ist.
+			Damit ist Methode 1 auch außerhalb der Klasse und außerhalb des Packages aufrufbar, während Methode 2 nur innerhalb der Klasse aufrufbar ist.
+		\item
+			Die Fehlerausgabe lautet:
+			\begin{verbatim}
+Exception in thread "main" java.lang.Error: Unresolved compilation problems: 
+	The field Song.name is not visible
+	The field Song.type is not visible
+	The field Song.duration is not visible
+	The field Song.name is not visible
+	The field Song.type is not visible
+	The field Song.duration is not visible
+	The field Song.name is not visible
+	The field Song.type is not visible
+	The field Song.duration is not visible
+
+	at Playlist.main(Playlist.java:32)	
+			\end{verbatim}
+			Weil die Attribute als \verb|private| definiert wurden, sind sie außerhalb der Klasse nicht mehr zugänglich, also auch nicht von der \verb|main()|-Methode in „aufgabe3/Playlist.java“.
+		\item
+			Siehe Quellcode in der Datei „aufgabe4/Song.java“.
+		\item
+			Siehe Quellcode in der Datei „aufgabe4/Playlist.java“.
+		\item
+			Die Ausgabe lautet:
+			\begin{verbatim}
+Der Song ist= BugsBunny
+Der Song ist vom Typ: Musik
+Der Song ist 35 Sekunden lang.
+Der Song ist= MaschenDrahtZaun
+Der Song ist vom Typ: Musik
+Der Song ist 132 Sekunden lang.
+Der Song ist= Tour
+Der Song ist vom Typ: Musik
+Der Song ist 151 Sekunden lang.	
+			\end{verbatim}
+	\end{itemize}
+\end{aufgabe}
+
+\begin{aufgabe}
+	\begin{itemize}
+		\item
+			Siehe Quellcode in der Datei „aufgabe5/Song.java“.
+		\item
+			Siehe Quellcode in der Datei „aufgabe5/Playlist.java“.
+		\item
+			Die Ausgabe lautet:
+			\begin{verbatim}
+Song Album ist Sicksation
+			\end{verbatim}
+		\item
+			Der Zugriff auf das statische Attribut und der Aufruf der statischen Methode auf das instanziierte Objekt funktioniert und es wird das statische Attribut, bzw. die statische Methode der zugrundeliegenden Song-Klasse aufgerufen.
+
+			Allerdings gibt der Compiler Warnings aus, in denen er fordert, dass auf statische Attribute und Methoden auch in einer statischen Art und Weise zugegriffen werden soll (d.h. über den Klassennamen: \verb|Song.attribute|, bzw. \verb|Song.method()|).
+			Das ist verständlich, da der Zugriff auf statische Methoden/Attribute nicht Befehle an das Objekt sind, sondern an die zugrundeliegende Klasse und er damit Auswirkungen für alle von ihr instanziierten Objekte hat.
+			Der Aufruf über ein Objekt erzeugt also unnötige Verwirrung.
+		\item
+			Der Compiler beschwert sich darüber, dass auf nicht-statische Attribute und Methoden zugegriffen wird, obwohl die Klasse noch nicht instanziiert wurde.
+			Die \verb|main()|-Methode ist verständlicherweise statisch und beim Ausführen dieser existiert keine aktuelle Instanz der Klasse, also können auch nicht auf lokale nicht-statische Attribute oder Methoden zugegriffen werden.
+	\end{itemize}
+
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	Siehe Quellcode im Verzeichnis „aufgabe6“.
+	Die Ausgabe des Programms lautet folgendermaßen:
+	\begin{verbatim}
+Maximal 10 Titel zulässig in einer Playlist.
+Maximale Fenstertitellänge: 55 Zeichen
+Musiktitel 'Tolle Musik' zur Playlist hinzugefügt
+Mische die Playlist ...
+Der Titel von myMusic lautet: Tolle Musik
+Die Bewertung für myMovie beträgt 99 Sterne.
+Ändere die Größe des Fensters auf: 500x300
+	\end{verbatim}
+\end{aufgabe}
+
+
+\end{document}
