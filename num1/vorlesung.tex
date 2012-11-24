@@ -2212,6 +2212,7 @@ Gesucht ist eine Approximation für das Integral
 \[
 	I(f) = \int_a^b f(x) \;dx
 \]
+Anwendungsgebiete sind beispielsweise:
 \begin{itemize}
 	\item
 		Integration von Funktionen, deren Stammfunktionen nicht analytisch vorliegt, z.B.
@@ -2221,19 +2222,20 @@ Gesucht ist eine Approximation für das Integral
 	\item
 		Integration von Funktionen, die nicht vollständig bekannt sind: Messungen oder Computer-Routinen.
 	\item
-		Numerisches Lösungen von gewöhnlichen oder partiellen Differentialgleichungen (Numerik 2 und Folgenden)
+		Numerisches Lösungen von gewöhnlichen oder partiellen Differentialgleichungen (Numerik 2 und Folgende)
 \end{itemize}
 
-\begin{df*}{Quadratur}
+\begin{df}[Quadratur]
+	\label{2.1}
 	Ein Funktional $I_n : C([a,b]) \to \R$ der Form
 	\[
 		I_n(f) = \sum_{j=0}^n \omega_j f(x_j)
 	\]
-	heißt \emph{Quadraturformel} mit Stützstellen $\{x_j\}$ und Gewichten $\{\omega_j\}_{j=0}^n$.
-\end{df*}
+	heißt \emph{Quadraturformel} mit Stützstellen $\{x_j\}_{j=0}^n$ und Gewichten $\{\omega_j\}_{j=0}^n$.
+\end{df}
 
 \begin{ex*}
-	\begin{seg}{Mittelpunktsregel ($n=0$}
+	\begin{seg}{Mittelpunktsregel ($n=0$)}
 		\[
 			x_0 := \f {a+b}2, \qquad \omega_0 := b-a
 		\]				
@@ -2250,12 +2252,13 @@ Gesucht ist eine Approximation für das Integral
 	\end{seg}
 \end{ex*}
 
-\begin{df*}[Exaktheit]
+\begin{df}[Exaktheit]
+	\label{2.2}
 	Eine Quadratur heiß \emph{exakt} auf $\P_k$, falls
 	\[
 		I_n(p) = I(p) \qquad \forall p\in \P_k
 	\]
-\end{df*}
+\end{df}
 
 \begin{nt*}
 	\begin{itemize}
@@ -2414,6 +2417,318 @@ Also $I_n(f) = I(p)$.
 	\end{proof}
 \end{st}
 
+\begin{st}[Fehlerabschätzung für Interpolatorische Quadraturen]
+	\label{2.7}
+	Sei $I_n$ eine interpolatorische Quadratur.
+	Dann gelten für das Fehlerfunktional
+	\[
+		R_n = I(f) - I_n(f)
+	\]
+	folgende Schranken:
+	\begin{enumerate}[i)]
+		\item
+			$\displaystyle |R_n(f)| \le \f {(b-a)^{n+2}}{(n+1)!}\|f^{(n+1)}\| \qquad f\in C^{n+1}([a,b])$
+		\item
+			falls $I_n$ symmetrisch und $n$ gerade, dann gilt
+			\[
+				|R_n(f)| \le \f {(b-a)^{n+3}}{(n+2)!} \|f^{(n+2)}\|_\infty \qquad f\in C^{n+2}([a,b])
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				Sei $p_n\in \P_n$ ein Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$.
+				Dann ist
+				\begin{align*}
+					|R_n(f)| 
+					&= |I(f) - I_n(f)| \\
+					&= |I(f) - I(p_n)| \\
+					&= \l|\int_a^b f(x) - p_n(x) \r| \\
+					&\le \int_a^b |f(x)-p_n(x)| \\
+					&\stackrel{\ref{1.10}}= \int_a^b \l| \f 1{(n+1)!}f^{(n+1)}(\xi(x)) \prod_{i=0}^n (x-x_i)\r| \\
+					&\le \f {\|f^{(n+1)}\|_\infty}{(n+1)!} \int_a^b (b-a)^{n+1} \\
+					&= \f {(b-a)^{n+2}}{(n+1)!}\|f^{(n+1)}\|_\infty
+				\end{align*}
+			\item
+				Sei $q_{n+1}\in \P_{n+1}$ eine Hermite-Interpolation zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$ und $(x_l,f'(x_l))$ beliebig.
+				Sei $p_n\in \P_n$ ein standard Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$.
+
+				Wie im Beweis von \ref{2.6}	ist für geeignete $q_n\in \P_n, c\in \R$ 
+				\[
+					q_{n+1} = q_n + c\cdot N(x)
+				\]
+				wegen $f(x_i) = q_{n+1}(x_i) = q_n(x_i) + c\cdot N(x_i) = q_n(x_i)$ ist $q_n = p_n$ das Interpolationspolynom, also
+				\begin{align*}
+					I_n(f)
+					= I(p_n)
+					= I(q_n)
+					= I(q_n) + c\cdot I(N)
+					= I(q_{n+1}
+				\end{align*}
+				Damit gilt
+				\[
+					|R_n(f)| 
+					= |I(f) - I_n(f)| 
+					= |I(f) - I(q_{n+1})|
+					= |I(f-q_{n+1})|
+					= \l| \int_a^b f(x) - q_{n+1}(x) \r|
+				\]
+				Die Behauptung folgt wie in i) mittels der Hermite-Interpolationsdarstellung aus Satz \ref{1.17}.
+		\end{enumerate}
+	\end{proof}
+	\begin{note}
+		Die Abschätung $\displaystyle \l| \prod_{i=0}^n (x-x_i) \r| \le (b-a)^{n+1}$ ist sehr grob und lässt sich für konkrete Stützstellenwahl leicht wesentlich verbessern.
+	\end{note}
+\end{st}
+
+\begin{st}[Koordinatentransformation]
+	\label{2.8}
+	Sei $\hat I_n(\hat f) = \sum_{j=0}^n \hat \omega_j \hat f(\hat x_j)$ eine interpolatorische Quadratur auf $[\hat a, \hat b]$.
+	\begin{enumerate}[i)]
+		\item
+			Dann ist
+			\[
+				I_n(f) := \sum_{j=0}^n \omega_j f(x_j), \qquad \omega_j = \f{b-a}{\hat b - \hat a}\hat \omega_j, \qquad x_j =a + \f{b-a}{\hat b -a}(\hat b - \hat a)
+			\]
+			eine Interpolatorische Quadratur auf $[a,b]$.
+		\item
+			Gilt für ein geignetes $K\in \R$ und $m$
+			\[
+				|\hat I(\hat f) - \hat I_n(\hat f) | \le K \cdot \|\hat f^{(m)}\|_\infty \cdot (\hat b - \hat a)^{m+1}
+			\]
+			Dann gilt für $I_n$ die Abschätzung
+			\[
+				|I(f) - I_n(f)| \le K \cdot \|f^{(m)}\|_\infty \cdot (b-a)^{m+1}
+			\]
+	\end{enumerate}
+	\begin{note}
+		Also reicht es interpolatorische Quadraturen auf einfachen Intervallen zu konstruieren.
+		Diese sind nach Skalierung auf jedes beliebige Intervall anwendbar.
+	\end{note}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				Zeige, dass $I_n(f)$ exakt auf $\P_n$ ist.
+				Sei $p\in \P_n$, setze $\hat p(\hat x) := p(a- \f {b-a}{\hat b- \hat a}(\hat x- \hat x)) \in \P_n$.
+				\begin{align*}
+					I_n(p) 
+					&= \sum_{j=0}^{n} \f {b-a}{\hat b - \hat a} \hat \omega_j p\l(a + \f {b-a}{\hat b - \hat a}(\hat x_j - \hat a)\r) \\
+					&=\f {b-a}{\hat b - \hat a}\sum_{j=0}^n \hat \omega_j \hat p(\hat x_j) \\
+					&= \f {b-a}{\hat b - \hat a}\hat I_n(\hat p) \\
+					&= \f {b-a}{\hat b - \hat a}\int_{\hat a}^{\hat b}\hat p(\hat x) d\hat x \\
+					&\stackrel{x:= a+ \f{b-a}{\hat b - \hat a}(\hat x - \hat a)} = \f {b-a}{\hat b - \hat a} \int_a^b p(x) \f {\hat b - \hat a}{b-a} dx \\
+					&= I(p)
+				\end{align*}
+			\item
+				Sei $f\in C^m([a,b]), \hat f(\hat x) := f(a + \f {b-a}{\hat b - \hat a}(\hat x - \hat a) \in C^m([\hat a,\hat b])$
+				Dann ist
+				\begin{align*}
+					\hat f'(\hat x) &= \f {b-a}{\hat b - \hat a}f'(x) \\
+					\vdots \quad &= \quad \vdots \\
+					\hat f^{(m)}(\hat x) &= \l( \f {b-a}{\hat b-\hat a} \r)^m f^{(m)}(x)
+				\end{align*}
+				Außerdem
+				\begin{align*}
+					|I(f) - I_n(f)| 
+					&= \l| \int_a^b f(x) dx - \sum_{j=0}^n \omega_j f(x_j) \r| \\
+					&= \l| \f {b-a}{\hat b- \hat a} \int_a^b \hat f(\hat x) d\hat x - \sum_{j=0}^n \f {b-a}{\hat b - \hat a} \hat \omega_j \hat f(\hat x_j) \r| \\
+					&= \l| \f {b-a}{\hat b - \hat a} (\hat I(\hat f) - \hat I_n(\hat f)) \r| \\
+					&\stackrel{\text{Ann}}\le \f {b-a}{\hat b - \hat a}K\cdot \|\hat f^{(m)}\|_\infty (\hat b - \hat a)^{m+1} \\
+					&\stackrel{\text{nach obigem}}\le \f {b-a}{\hat b - \hat a} K \cdot \f {(b-a)^m}{(\hat b - \hat a)^m} \|f^{(m)}\|_\infty \cdot (\hat b - \hat a)^{m+1} \\
+					&= (b-a)^{m+1}\|f^{(m)}\|_\infty \cdot K
+				\end{align*}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+
+\subsection{Die Newton-Cotes Formeln}
+
+
+\begin{df}
+	\label{2.9}
+	\emph{Newton-Cotes Quadraturen} (N.-C.) sind Interpolatorische Quadraturen zu äquidistanten Stützstellen.
+	Wir unterscheiden
+	\begin{itemize}
+		\item
+			geschlosse Newton-Cotes-Formeln:
+			\[
+				h:= \f {b-a}n, \qquad x_k := a + kh, \quad (k=0,\dotsc,n)
+			\]
+		\item
+			offene Newton-Cotes-Formeln:
+			\[
+				h:= \f {b-a}{n+2}, \qquad x_k = a+ (k+1)h, \quad (k=0,\dotsc,n)r
+			\]
+			(d.h. die Randpunkte sind keine Stützstellen)
+	\end{itemize}
+\end{df}
+
+\begin{table}[h]
+	\centering
+	\caption{Koeffiziententabelle geschlossener Newton-Cotes Formeln auf $[0,1]$}
+	\begin{tabular}{l|cl}
+		n & $(\omega_0, \dotsc, \omega_n)$ \\ \hline
+		1 & $(\f 12, \f 12)$ & „Trapezregel“ \\ 
+		2 & $\f 16 (1,4,1)$ & „Simpsonregel“, Kepplersche Fassregel \\
+		3 & $\f 18 (1,3,3,1)$ & „$\f 38$-Regel“ \\
+		4 & $\f 1{90} (7,32,12,32,7)$ & „Milne-Regel“ \\
+		5 & $\f 1{288} (19,75,50,50,75,19)$ & \\
+		6 & $\f 1{840} (41,216,27,272,27,216,41)$ &
+	\end{tabular}
+\end{table}
+
+\begin{nt*}
+	\begin{itemize}
+		\item
+			Nach \ref{2.6} i) sind die $\{\omega_i\}$ symmetrisch, da die Stützstellen $\{x_i\}$ symmetrisch sind.
+		\item
+			Falls $[a,b] \neq [0,1]$ erhält man die Gewichte durch die Skalierung aus \ref{2.8}, z.B.
+			\[
+				I_3(f) = \f {b-a}8 \l( f(a) + 3 f\l(a+\f {b-a}3\r) + 3 f\l(a+\f {b-a}3 2\r) + f(b) \r)
+			\]
+		\item
+			Falls $a,b\in \Q$, dann auch $\omega_i \in \Q$.
+	\end{itemize}
+\end{nt*}
+
+\begin{table}[h]
+	\centering
+	\caption{Koeffiziententabelle offener Newton-Cotes Formeln auf $[0,1]$}
+	\begin{tabular}{l|cl}
+		n & $(\omega_0, \dotsc, \omega_n)$ \\ \hline
+		0 & 1 & „Mittelpunktsregel“ \\ 
+		1 & $(\f 12, \f 12)$ & \\
+		2 & $(\f 23, -\f 13, \f 23)$ &  \\
+		3 & $\f 1{24} (11,1,1,11)$ &
+	\end{tabular}
+\end{table}
+
+\begin{nt*}
+	\begin{itemize}
+		\item
+			Ab $n=2$ treten negative Gewichte auf (bei geschlossenen Newton-Cotes Formeln ab $n=7$), was zu numerischen Auslöschungseffekten führen kann.
+		\item
+			Die Gewichte
+			\[
+				\omega_j := \int_0^1 L_j^n(x) dx
+			\]
+			lassen sich kompakt als Lösung eines LGS schreiben mit Hilfe einer transformierten Vandermondematrix darstellen (siehe Satz \ref{2.10}).
+	\end{itemize}
+\end{nt*}
+
+\begin{st}
+	\label{2.10}
+	Die Gewichte $\{\omega_j\}_{j=0}^n$ der geschlossene Newton-Cotes Formel lösen
+	\[
+		\begin{pmatrix}
+			1 & 1 & 1 & \dotsc & 1 \\
+			0 & \f 1n & \f 2n & \dotsc & \f nn \\
+			0 & (\f 1n)^2 & (\f 2n)^2 & \dotsc & (\f nn)^2 \\
+			\vdots & \vdots & \vdots & \ddots & \vdots \\
+			0 & (\f 1n)^n & (\f 2n)^n & \dotsc & (\f nn)^n \\
+		\end{pmatrix}
+		\begin{pmatrix}
+			\omega_0 \\
+			\vdots \\
+			\omega_n
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			1 \\ \f 12 \\ \vdots \\ \f 1{n+1}
+		\end{pmatrix}
+	\]
+	\begin{proof}
+		$I_n$ ist eine Interpolatorische Qudratur, also exakt auf $\P_n$.
+		Wähle $p(x) = x^i$, dann gilt
+		\[
+			\sum_{j=0}^n \omega_j \l( \f jn \r)^i = I_n(p) = I(p) = I(x^i) = \int_0^1 x^i dx = \f 1{i+1}
+		\]
+		Dies ist gerade die $i$-te Zeile im System.
+	\end{proof}
+\end{st}
+
+\begin{kor}[Exaktheit für Newton-Cotes Quadraturen]
+	\label{2.11}
+	Eine Newton-Cotes Quadratur der Ordnung $n\in \N$ ist exakt auf $\P_n$.
+	Falls $n$ gerade, dann sogar auf $\P_{n+1}$.
+	\begin{proof}
+		Die Newton-Cotes Formeln sind symmetrisch und Interpolationsquadraturen.
+		Die Behauptung folgt damit aus \ref{2.4} und \ref{2.6} ii).
+	\end{proof}
+\end{kor}
+
+\begin{st}
+	\label{2.12}
+	\begin{enumerate}[i)]
+		\item
+			Für die Trapezregel ($n=1$) gilt
+			\[
+				\big|I(f) - I_n(f) \big| \le \f {(b-a)^3}{12} \|f''\|_\infty
+			\]
+		\item
+			Für die Simpsonregel ($n=2$) gilt
+			\[
+				\big| I(f) - I_n(f) \big| \le \f{(b-a)^5}{2880}\|f^{(4)}\|_\infty
+			\]
+	\end{enumerate}
+	\begin{note}
+		Aus \ref{2.7} folgt lediglich
+		\[
+			|I(f) - I_1(f)| \le \f {(b-a)^3}2 \|f''\|_\infty
+		\]
+		und
+		\[
+			|I(f) - I_2(f)| \le \f {(b-a)^5}{24} \|f^{(4)}\|_\infty
+		\]
+		Der Satz \ref{2.12} ist also eine Verbesserung um Faktor 6 in i) und 120 in ii) wegen der speziellen Wahl der Stützstellen.
+	\end{note}
+	\begin{proof}
+		In Beweis von \ref{2.7} wurde verwendet.
+		\[
+			\int_a^b \l| \prod_{i=0}^n (x-x_i)\r| dx \le (b-a)^{n+1}
+		\]
+		\begin{enumerate}[i)]
+			\item
+				Dies wird um Faktor 6 verbessert durch:
+				\[
+					\int_a^b |x-a||x-b| = \int_a^b (x-a)(b-x) dx = \dotsb = \f {(b-a)^3}6
+				\]
+			\item
+				analog
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{nt*}
+	\begin{itemize}
+		\item
+			Ein Erhöhen von $n$ führt im Allgemeinen nicht zur Konvergenz, d.h. es existieren $f$, so dass
+			\[
+				\lim_{n\to \infty}I_n(f) \neq I(f)
+			\]
+		\item
+			Für „schöne“ Funktionen kann man Konvergenz zeigen, z.B. bei Polynomen oder bei Funktionen gemäß Satz \ref{1.12}.
+			(Konvergenz genau dann, wenn die Polynominterpolation gleichmäßig konvergiert)
+		\item
+			Gegenbeispiel für Konvergenz: 	
+\begin{table}[h]
+	\centering
+	\caption{$[a,b]=[-1,1], f(x) = \sqrt{|x|}$.}
+	\begin{tabular}{l|r}
+		n & $I_n(f)$ \\ \hline
+		1 & 0.6667 \\
+		2 & 0.6667 \\
+		3 & 0.0327 \\
+		4 & 0.0166 \\
+		5 & 0.0480 \\
+		6 & 0.2240 
+	\end{tabular}
+\end{table}
+		\item
+			Eine Idee zur Verbesserung wäre das Zerlegen des Intervalls: „zusammengesetzten Quadraturen“
+	\end{itemize}
+\end{nt*}
 \section{Nichtlineare Gleichungsysteme}
 
 \section{Optimierung}
