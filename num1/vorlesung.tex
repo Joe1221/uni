@@ -1881,6 +1881,20 @@ Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf dies
 		\end{itemize}
 	\end{note}
 \end{st}
+\begin{alg*}[SVD]
+\begin{algorithmic}
+\Assume $ A\in \C^{n\times m} $
+\Ensure $ A=U\Sigma V*$, mit $ U,V $  unitär und $\Sigma$ Diagonalmatrix. 
+\State 1. Berechne Eigenwertzerlegung von $ A^*A=S\Lambda \tilde{S}^* $ mit $ \Lambda=\diag\{\lambda_1,..., \lambda_k, \lambda_{k+1},...,\lambda_{n}\} $, sodass $ \lambda_i>0, $ für $ i\le k $ und $ \lambda_i=0, $ für $ i>k $ und $ S=(v_1,...,v_n) $
+\State 2. Setze $ \Sigma=\diag{\sqrt{\lambda_1}, ..., \sqrt{\lambda_n}} $
+\State 3. Setze $ V=S $
+\State 4. Berechne $ U=(u_1,...,u_m) $
+\For{$ i=1:k $}
+\State $ u_i=\sigma^{-1}Av_i $
+\EndFor
+\State Ergänze Rest zur orthonormalen Basis.
+\end{algorithmic}
+\end{alg*}
 
 \begin{st}[Niedrigrang-Matrixbestapproximation]
 	\label{1.38}
