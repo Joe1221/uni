@@ -2729,6 +2729,249 @@ Also $I_n(f) = I(p)$.
 			Eine Idee zur Verbesserung wäre das Zerlegen des Intervalls: „zusammengesetzten Quadraturen“
 	\end{itemize}
 \end{nt*}
+
+
+\begin{df}[Zusammengesetzte Quadratur]
+	\label{2.13}
+	Sei $\hat n \in \N$, $\hat I_{\hat n}(\hat f) = \sum_{i=0}^{\hat n}\hat \omega_k \hat f(\hat x_k)$ eine Interpolations-Quadratur auf $[0,1]$.
+
+	Sei $[a,b]\subset \R$, $N\in \N$, $H:= \f {b-a}N$, dann ist
+	\[
+		I_h (f) := H \cdot \sum_{i=1}^N \sum_{k=0}^{\hat n}\hat \omega_k f\l(a+(l-1)H + \hat x_k H\r)
+	\]
+	eine \emph{zusammengesetzte Quadratur}.
+\end{df}
+
+\begin{nt*}
+	\begin{itemize}
+		\item
+			$I_h$ ist im Allgemeinen nicht exakt auf $\P_n$ mit $n=(\hat n + 1) N$, sondern nur auf $\P_{\hat n}$.
+		\item
+			Die zusammengesetzte Mittelpunktsregel ($\hat n = 0, \hat \omega_0 = 1, \hat x_0 = \f 12$) ergibt eine Riemann-Summe:
+			\[
+				I_h(t) := H \cdot \sum_{l=1}^N f (x_l) \qquad x_l = a + \l(l- \f 12\r) H
+			\]
+		\item
+			Die zusammengesetzte Trapezregel ergibt ($\hat n = 1, \hat \omega_0 = \hat \omega_1 = \f 12, \hat x_0 = 0, \hat x_1 = 1, h := H = \f {b-a}N$):
+			\[
+				I_h(f) = \f h2 \l(f(a) + 2 \sum_{l=1}^{N-1}f(x_l) + f(b)\r) \qquad x_l := a+ lh \qquad l=0,\dotsc,N
+			\]
+		\item
+			Zusammengesetzt Simpsonregel mit
+			\[
+				\hat n = 2, \quad h := \f H2, \qquad x_k := a+kh, \quad k=0,\dotsc, 2N
+			\]
+			ergibt sich
+			\[
+				I_h(f) = \f h3 \l( f(a) + 2 \sum_{l=1}^{N-1}f(x_{2l}) + 4 \sum_{l=1}^{N}f(x_{2l-1}) + f(b)\r)
+			\]
+		\item
+			Verbesserung der Quadratur durch Erhöhen der Intervall-Anzahl, z.B. $f(x)= \sqrt{|x|}$, $[a,b]=[-1,1]$ mit der zusammengesetzten Simpson-Regel.
+			\begin{table}[h]
+				\centering
+				\caption{Es ergibt sich eine konvergente für gerade $N$}
+				\begin{tabular}{c|c}
+					N & $|I(f)-I_h(f)|$ \\ \hline
+					1 & 0.6667 \\
+					2 & 0.0572 \\
+					3 & 0.1287 \\
+					4 & 0.0203 \\
+					5 & 0.0598
+				\end{tabular}
+			\end{table}
+	\end{itemize}
+\end{nt*}
+
+\begin{st}[Fehlerschranke für zusammengesetzte Quadraturen]
+	\label{2.14}
+	Sei $\hat I_n$ auf $[0,1]$ derart, dass für $m\in \N$, $K\in \R$
+	\[
+		|\hat I(\hat f) - \hat I_{\hat n}(\hat f)| \le K \cdot \|\hat f^{(m)}\|_\infty
+		\qquad \hat f \in C^m([0,1])		
+	\]
+	Dann erfüllt die zusammengesetzte Quadratur $I_h$ die Fehlerschranke
+	\[
+		|I(f) - I_{n}(f) \le K \cdot \|\hat f^{(m)}\|_\infty (b-a) H^m
+		\qquad \hat f \in C^m([a,b])	
+	\]
+	\begin{proof}
+		Transformiere $\hat I_{\hat n}$ auf $[a+(l-1)H, a+lH]$, $l=1,\dotsc,N$
+		\[
+			I_{\hat n}^{(l)}(f) := \sum_{k=0}^{\hat n} \hat \omega_k H f(a+(l-1)H + \hat x_k H)
+		\]
+		Gemäß \ref{2.8} ii) gilt
+		\[
+			\l| \int_{a+(l-1)H}^{a+lH} f(x) dx - I_{\hat n}^{(l)}\r| \le K \sup_{x\in [a+(l-1)H,a+lH]} |f^{(m)}(x)| H^{m+1}
+		\]
+		Für Gesamtfehler also
+		\begin{align*}
+			|I(f) - I_h(f)| 
+			&= \l| \sum_{l=1}^N \int_{a+(l-1)H}^{a+lH} f(x) dx - I_{\hat n}^{(l)}(f)\r| \\
+			&\le \sum_{l=1}^N K \cdot \|f^{(m)}\|_\infty H^{m+1} \\
+			&= \underbrace{N H}_{=b-a} K \|f^{(m)}\|_\infty H^m
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	\label{2.15}
+	\begin{enumerate}[i)]
+		\item
+			Für die zusammengesetzt Trapezregel lautet die Fehlerabschätzung
+			\[
+				|I(f) - I_h(f)| \le \f {\|f''\|_{\infty}}{12} (b-a) h^2 \qquad \forall f \in C^2 ([a,b])
+			\]
+		\item
+			Für die zusammengesetzte Simpsonregel
+			\[
+				|I(f) - I_h(f)| \le \f {\|f^{(4)}\|_\infty}{180} (b-a) h^4 \qquad \forall f \in  C^4([a,b])
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				Satz \ref{2.14} mit $m=2$, $K=\f 1{12}$ (Satz \ref{2.12} i) ).
+			\item
+				Satz \ref{2.14} mit $m=4$, $K=\f 1{2880}$, $h=\f H2$ (Satz \ref{2.12} i) ).
+		\end{enumerate}
+	\end{proof}
+\end{kor}
+
+\begin{kor}[Konvergenz]
+	\label{2.16}
+	Für zusammengesetzte Quadraturen und $f$ gemäß \ref{2.15} gilt
+	\[
+		\lim_{h \to 0} I_h(f) = I(f)
+	\]
+\end{kor}
+
+\subsection{Gauß-Quadraturen}
+
+\begin{itemize}
+	\item
+		Satz \ref{2.5} besagt, dass zu vorgegebene Stützstellen $\{x_k\}_{k=0}^n$ eine Interpolations-Quadratur existiert, welche exakt auf $\P_n$ ist.
+	\item
+		Fall $\{x_i\}$ symmetrisch im Intervall und $n$ gerade, dann ist die Interpolations-Quadratur nach \ref{2.6} sogar exakt auf $\P_{n+1}$.
+	\item
+		Kann durch geeignete Wahl von Stützstellen der Grad der Exaktheit weiter gesteigert werden? Bis zu welchem Grad?
+\end{itemize}
+
+\begin{df}[Orthogonale Polynome]
+	\label{2.17}	
+	Sei $[a,b] = [-1,1]$ und $\<\cdot, \cdot\>$ das $L^2$-Skalarprodukt auf $C([a,b])$, d.h.
+	\[
+		\<f,g\> = \int_a^b f(x)g(x) dx
+	\]
+	Wir definieren rekursiv
+	\begin{align*}
+		p_0(x) &:= 1 \\
+		p_{n+1}(x) &:= x^{n+1}- \sum_{i=0}^n \f {\<x^{n+1},p_i\>}{\<p_i,p_i\>} p_i(x)
+	\end{align*}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Ein Vektorraum $V$ mit Skalarprodukt wird ein normierter Raum mit $\|f\| := \sqrt{\<f,f\>}$.
+				Falls $V$ vollständig bezüglich dieser Norm, nennt man $V$ \emph{Hilbertraum}, sonst \emph{Prä-Hilbertraum}.
+
+				$(C([a,b]),\<\cdot,\cdot\>)$ ist nicht vollständig bezüglich der $L^2$-Norm, daher ein Prä-Hilbertraum.
+			\item
+				Die orthonormalen Polynome aus \ref{2.17} werden durch das Gram-Schmidt'sche Orthonormalisierungsverfahren konstruiert, angewandt auf Monome $\{x^i\}_{i\in \N_0}$.
+
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{ex*}
+	\begin{align*}
+		p_0(x) &= 1 \\
+		p_1(x) &= x - \f {\<x,p_0\>}{\<p_0,p\>}p_0(x) = x - \f 02 1 = x \\
+		p_2(x) &= x^2 - \f {\<x^2,1\>}{\<1,1\>} - \f{\<x^2,x\>}{\<x,x\>}x = x^2 - \f {\f 23}2 - \f 0{\f 23} = x^2 - \f 13
+	\end{align*}
+\end{ex*}
+
+\begin{lem}
+	\label{2.18}
+	\begin{enumerate}[i)]
+		\item
+			$\{p_0,\dotsc,p_n\}$ sind wohldefiniert und bilden eine Basis für $\P_n$.
+		\item
+			Orthogonalität: $p_n \orth \P_{n-1}$, d.h. $\<p_n,q\> = 0$ für alle $q\in \P_{n-1}$.
+		\item
+			$p_n$ hat $n$ \emph{verschiedene, reelle} Nullstellen $x_1,\dotsc, x_n \in (-1,1)$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				Zeige per Induktion nach $n$.
+				Für $n=0$ ergibt sich $p_0(x)=1$ und $\<p_0\> = \P_0$.
+
+				Seien $\{p_0,\dotsc,p_n\}$ wohldefiniert und Basis für $\P_n$.
+				Dann ist $p_i\neq 0$, für $i=0,\dotsc,n$, denn sonst wäre $\{p_0,\dotsc,p_n\}$ linear abhängig.
+				Also sind alle $\<p_i,p_i\> \neq 0$ und damit $p_{n+1}$ wohldefiniert.
+
+				Es ist $V_{n+1} := \<p_0,\dotsc,p_{n+1}\> \in \P_{n+1}$ nach Konstruktion.
+				Wegen
+				\[
+					x^{n+1} = p_{n+1} + \sum_{i=0}^n \f {\<x^{n+1},p_i}{\<p_i,p_i\>} p_i(x)
+				\]
+				ist $x^{n+1} \in V_{n+1}$.
+				Nach Induktionsvoraussetzung ist auch $\P_n \subset V_{n+1}$ also $\P_{n+1}\subset V_{n+1}$ also $\P_{n+1} = V_{n+1}$.
+				Also ist $\{p_i\}_{i=0}^{n+1}$ Erzeugenden-System für $\P_{n+1}$ aus $n+2$ Elementen.
+				Wegen $\dim \P_{n+1} = n+2$ ist $\{p_i\}_{i=0}^{n+1}$ linear unabhängig und damit eine Basis
+			\item
+				Nach i) ist $\P_{n+1} = \<p_0,\dotsc, p_{n-1}\>$ also reicht es zu zeigen, dass $\<p_n,p_i\>=0$ für $i=0,\dotsc, n-1$.
+				Zeige per Induktion.
+				Für $n=1$ ist $\<p_1,p_0\> = \int_{-1}^1 x = 0$.
+				Sei $j\in \{0,\dotsc,n\}$.
+				\begin{align*}
+					\<p_{n+1},p_j\> 
+					&= \l\< x^{n+1}- \sum_{i=0}^n \f {\<x^{n+1},p_i\>}{\<p_i,p_i\>} p_i(x) , p_j\r\> \\
+					&= \<x^{n+1},p_j\> - \sum_{i=0}^n \f{\<x^{n+1},p_i\>}{\<p_i,p_i\>} \underbrace{\<p_i(x),p_j\> }_{= \delta_{ij}} \\
+					&= \<x^{n+1},p_j\> - \f {\<x^{n+1},p_j\>}{\<p_j,p_j\>} \<p_j,p_j\> = 0
+				\end{align*}
+			\item
+				Angenommen $z\in \C\setminus \R$ ist Nullstelle von $p_n(x) = \sum_{i=0}^n a_i x^i$ mit $a_i\in \R$.
+				Dann ist $\_z$ auch Nullstelle von $p$, denn
+				\[
+					0 = \_{p(z)} = \_{\sum_{i=0}^n a_i z^i} = \sum_{i=0}^n a_i\_{z}^i = p(\_z)
+				\]
+				Definiere
+				\[
+					q(x) := \f {p_n(x)}{(x-z)(x-\_z)} \in \P_{n-2}
+				\]
+				Dann kann man schreiben
+				\[
+					0 = \<q,p_n\> = \int_{-1}^1 \f {p_n(x)^2}{|x-2|^2} dx \implies p_n(x) = 0
+				\]
+				was ein Widerspruch ist.
+
+				Angenommen $z\in (-1,1)$ ist eine mehrfache Nullstelle von $p_n$, definiere
+				\[
+					q(x) := \f {p_n(x)}{(x-z)^2} \in \P_{n-2}
+				\]
+				dann ist
+				\[
+					0= \<q,p_n\> = \int_{-1}^1 \f {p_n(x)^2}{(x-z)^2} dx  \implies p_n = 0
+				\]
+				was ein Widerspruch ist.
+
+				Angenommen $z\in \R\setminus (-1,1)$ ist eine Nullstelle, definiere
+				\[
+					q(x) := \f {p_n(x)}{x-z} \in \P_{n-1}
+				\]
+				dann ist
+				\[
+					0 = \<q,p_n\> = \int_{-1}^1 \f{p_n(x)^2}{x-z} \implies p_n = 0
+				\]
+				($x-z$ ist entweder $\ge 0$ oder $\le 0$ für alle $x\in [-1,1]$)
+				was ein Widerspruch ist.
+
+
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+
 \section{Nichtlineare Gleichungsysteme}
 
 \section{Optimierung}
