@@ -2989,6 +2989,259 @@ Also $I_n(f) = I(p)$.
 	\end{proof}
 \end{lem}
 
+\begin{df}[Gauß'sche Quadraturen]
+	\label{2.19}
+	Sei $n\in \N$, wäle $\{x_i\}_{i=0}^n$ als Nullstellen von $p_{n+1} \in \P_{n+1}$.
+	Dann nennen wir die zugehörigen Interpolations-Quadratur \emph{Gauß-Quadratur} (G.Q.).
+\end{df}
+
+\begin{ex*}
+	\begin{itemize}
+		\item
+			Sei $n=1$, $p_2(x) = x^2-\f 13$ mit den Nullstellen $x_0=-\sqrt{\f 13}, x_1 = \sqrt{\f 13}$.
+			Gewichte: $\omega_0=\omega_1 = 1$, da Interpolations-Quadratur.
+
+			\begin{table}[h]
+				\centering
+				\caption{Gauß-Quadraturen auf $[-1,1]$}				
+				\begin{tabular}{c|c|c}
+					n & $(x_0, \dotsc, x_n)$ & ($\omega_0,\dotsc,\omega_n$) \\ \hline
+					0 & 0 & 2 \\
+					1 & $\pm \sqrt{\f 13}$ & (1,1) \\
+					2 & $\l(-\sqrt{\f 35}, 0, \sqrt{\f 35}\r)$ & $\l(\f 59, \f 89, \f 59\r)$ \\
+					3 & $\pm \sqrt{\f 37 + \f 27 \sqrt{\f 65}}, \pm \sqrt{\f 37 - \f 27\sqrt{\f 65}}$
+					& $\f {18-\sqrt{30}}{36} $
+				\end{tabular}
+			\end{table}
+	\end{itemize}
+\end{ex*}
+
+\begin{nt*}
+	Die sogenannten \emph{Legendre-Polynome} sind definiert durch
+	\[
+		P_n(x) := \f 1{2^n n!} \f {d^n}{dx^n} (x^2 - 1)^n
+	\]
+	und erfüllen eine sogenannte „3-Term-Rekursion“:
+	\[
+		n P_n(x) = (2n-1)xP_{n-1}(x) - (n-1)P_{n-2}(x) \qquad n\ge 2
+	\]
+	Die orthogonalen Polynome aus Definition \ref{2.17} sind also skalierte Legendre-Polynome
+	\[
+		p_n(x) = \f {n!}{(2n)!} \f {d^n}{dx^n} (x^2-1)^n
+	\]
+	Gauß-Quadraturren auf $[-1,1]$ werden auf Gauß-Legendre-Quadraturen genannt.
+\end{nt*}
+
+\begin{st}[Symmetrie]
+	\label{2.20}
+	Gauß-Quadraturen sind symmetrisch.
+	\begin{proof}
+		Zeige zunächst induktiv: 
+		\[
+			n \text{ gerade (ungerade) } \implies p_n \text{ gerade (ungerade) }
+		\]
+		$p_0 = 1$ ist offensichtlich gerade.
+		Die Behauptung gelte für $p_i$ mit $i=0,\dotsc,n$.
+		\[
+			p_{n+1}(x) = x^{n+1} - \sum_{i=0}^n \f{\<x^{n+1},p_i\>}{\<p_i,p_i\>} p_i(x)
+		\]
+		Sei $n$ ungerade, dann ist $x^{n+1}$ gerade.
+		Für $i$ ungerade ist
+		\[
+			\<x^{n+1},p_i\> = \int_{-1}^1 \underbrace{x^{n+1}}_{\text{gerade}} \underbrace{p_i(x)}_{\text{ungerade}} dx = 0
+		\]
+		Für $i$ gerade ist $p_i(x)$ gerade ist $p_{n+1}$ eine Linearkombination von geraden Funktionen, also $p_{n+1}$ gerade.
+		Analog für $n$ gerade.
+
+		Falls $x$ Nullstelle von $p_n$, dann ist auch $-p_n$ Nullstelle von $p_n$.
+		Damit sind die Stützstellen der Gauß-Quadratur symmetrisch und somit auch die Gewichte (da Interpolations-Quadratur).
+	\end{proof}
+\end{st}
+
+\begin{st}[Exaktheit]
+	\label{2.21}
+	Die Gauß-Quadratur $I_n$ ist exakt auf $\P_{2n+1}$.
+	\begin{proof}
+		Sei $p\in \P_{2n+1}$.
+		Polynomdivision mit $q\in \P_n$ liefert
+		\[
+			p= p_{n+1} \cdot q + r \qquad  q,r\in \P_n
+		\]
+		Es folgt
+		\begin{align*}
+			I(p) 
+			&= \int_{-1}^1 p(x) dx 
+			= \underbrace{\int_{-1}^1 p_{n+1}q(x) dx}_{=0 \text{ da $p_{n+1}\orth \P_n$}} + \int_{-1}^1 r(x) dx
+			= \int_{-1}^1 r(x) dx 
+		\end{align*}
+		Außerdem
+		\begin{align*}
+			I_n(p) 
+			= \sum_{i=0}^n \omega_i p(x_i) \\
+			= \sum_{i=0}^n \omega_i \underbrace{p_{n+1}(x_i)}_{=0} q(x_i) + \sum_{i=0}^n \omega_i r(x_i) \\
+			= I_n(r) = I(r)
+		\end{align*}
+		da $I_n$ exakt auf $\P_n$.
+		Also $I_n(p) = I(p)$.
+	\end{proof}
+\end{st}
+
+\begin{st}[Grenze der Exaktheit]
+	\label{2.22}
+	Es existiert keine Interpolations-Quadratur $I_n$, welche exakt auf $\P_{2n+2}$ (oder höher) ist.
+	\begin{proof}
+		Seien $\{x_i\}_{i=0}^n$ die Stützstellen von $I_n$.
+		Betrachte 
+		\[
+			p(x) = \prod_{i=0}^n (x-x_i)^2 \in \P_{2n+2}
+		\]
+		Es gilt
+		\[
+			I_n(p) = \sum_{i=0}^n \omega_i \underbrace{p(x_i)}_{=0} = 0
+		\]
+		aber
+		\[
+			I(p) = \int_{-1}^1 \underbrace{\prod_{i=0}^n (x-x_i)^2 }_{\ge 0} dx > 0
+		\]
+		also $I_n(p) \neq I(p)$ also nicht exakt auf $\P_{2n+2}$.
+	\end{proof}
+\end{st}
+
+\begin{st}[Eindeutigket der Gauß-Quadratur]
+	\label{2.23}
+	Es existiert genau eine Quadratur $I_n$, welche exakt auf $\P_{2n+1}$ ist.
+	\begin{proof}
+		Die Existenz ist klar: Gauß-Quadratur \ref{2.21}.
+
+		Sei $I_n$ die Gauß-Quadratur und $\_{I_n}$ eine Quadratur, welche exakt auf $\P_{2n+1}$ ist.
+		Es reicht zu zeigen, dass die Stützstellen $\{x_i\}_{i=0}^n$ von $\_{I_n}$ Nullstellen vom orthogonalen Polynom $p_{n+1}$, denn dann sind auch die Gewichte identisch zu $I_n$, da beide Interpolations-Quadraturen und exakt auf $\P_n$ sind.
+	
+		Sei $q\in \P_n$, $\_p_{n+1} := \prod_{i=0}^n (x-x_i) \in \P_{n+1}$.
+		\[
+			\int_{-1}^1 \_p_{n+1}(x) q(x) 
+			= I(\underbrace{\_p_{n+1} q}_{\in \P_{2n+1}})
+			\stackrel{\text{Exaktheit}}= \_I_n (\_p_{n+1}q)
+			\stackrel{\_p_{n+1}(x_i)=0}= 0
+		\]
+		Also ist $\_p_{n+1} \orth \P_n$.
+
+		Es gilt $\dim(\P_{n+1}) = \dim( \P_n^\orth \cap \P_{n+1}) + \dim (\P_n)$, also
+		\[
+			\dim( \P_n^\orth \cap \P_{n+1}) = \dim(\P_{n+1}) - \dim(\P_n) = n+2 - (n+1) = 1
+		\]
+		Damit ist 
+		\[
+			 \<p_{n+1}\> = \P_n^\orth \cap \P_{n+1} = \<\_p_{n+1}\>
+		\]
+		Also sind die $p_{n+1}$ und $\_p_{n+1}$ linear abhängig: $\_p_{n+1} = \lambda p_{n+1}$.
+		Damit sind die Nullstellen identisch, also auch die Stützstellen von $I_n$ und $\_I_n$.
+	\end{proof}
+\end{st}
+
+\begin{ex*}[Vergleich von Newton-Cotes und Gauß-Quadratur auf $f(x)=\cos(x\f \pi 2)$ auf]
+	\begin{table}[h]
+		\centering
+		\caption{Fehlervergleich auf $[-1,1]$}
+		\begin{tabular}{c|r|r}
+			n & Gauß-Quadratur & Newton-Cotes-Quadratur \\ \hline
+			0 & 0.7268 & 0.7268 \\
+			1 & 0.0401 & 1.2732 \\
+			2 & 0.0009 & 0.0601 \\
+			3 & 0.0000 & 0.0258 \\
+			4 & 0.0000 & 0.0009
+		\end{tabular}
+	\end{table}
+\end{ex*}
+
+\begin{st}[Fehlerschranke]
+	\label{2.24}
+	Für $f\in C^{2n+2} ([-1,1])$, dann gilt für Fehler der Gauß-Quadratur
+	\[
+		|I(f) - I_n(f) \le K \cdot 2^{2n+3} \|f^{2n+2}\|_\infty
+	\]
+	mit
+	\[
+		K = \f {((n+1)!)^4}{(2n+3)\big((2n+2)!\big)^3}
+	\]
+	\begin{proof}
+		Übung, oder auf Mathematik-Online: Höllig 2004
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				$K$ wird sehr schnell klein:
+				\begin{table}
+					\centering
+					\caption{}
+					\begin{tabular}{c|c}
+					n & K \\ \hline
+					0 & $\f 1{24}$ \\
+					1 & $\f 1{4320}$ \\
+					2 & $\f 1{2016000}$ \\
+					3 & $\f 1{1778112000}$ 
+					\end{tabular}
+				\end{table}
+			\item
+				Die Sätze \ref{2.24}, \ref{2.27} i), ii) und \ref{2.12} i), ii) haben alle die gleiche Struktur.
+
+				Sei $d$ maximal, so dass $I_n$ exakt auf $\P_d([a,b])$ (also $d=n$ bei Newton-Cotes für $n$ ungerade, $d=n+1$ bei Newton-Cotes für $n$ gerade und $d=2n+1$ bei Gauß-Quadratur)
+
+				Dann ist
+				\[
+					|I(f) - I_n(f) | \le K \cdot (b-a)^{d+2} \|f^{d-1}\|_\infty
+				\]
+				für geeignetes $K$.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{st}[Positivität]
+	\label{2.25}	
+	Alle Gewichte $\{\omega_j\}_{j=0}^n$ der Gauß-Quadratur sind positiv: $\omega_j > 0$.
+	\begin{proof}
+		$I_n$ ist exakt auf $\P_{2n+1}$ also werden quadrierte Lagrange-Polynome exakt integriert:
+		\[
+			\omega_j = \sum_{i=0}^n \omega_i (\underbrace{L_j^n(x_i)}_{\delta_{ij}})^2 = I_n((L_j^n)^2) = I((L_j^n)^2) =\int_{-1}^1 \underbrace{(L_j^n(x))^2}_{\ge 0} dx > 0
+		\]
+	\end{proof}
+\end{st}
+
+\begin{st}[Konvergenz]
+	\label{2.26}
+	Sei $(I_n)_{n\in \N}$ eine Sequenz von Gauß-Quadraturen.
+	Dann gilt für $f\in C^0([a,b])$:
+	\[
+		\lim_{n\to \infty} I_n(f) = I(f)
+	\]
+	\begin{proof}
+		Sei $\eps > 0$.
+		Nach dem Weierstrass-Approximationssatz existiert $p\in \P_{n_0}$ für genügend großen $n_0\in \N$, so dass
+		\[
+			|f(x) - p(x)| \le \f {\eps}{2(b-a)} \qquad x\in [a,b]
+		\]
+		Dann gilt für alle $n\ge n_0$:
+		\begin{align*}
+			|I(f) - I_n(f)|
+			\le \underbrace{|I(f) - I(p)|}_{\le \int_a^b |f(x) - p(x)| dx \le (b-a)\f \eps{2(b-a)}= \f \eps 2} 
+			+ \underbrace{|I(p) - I_n(p)|}_{=0 \text{ da $I_n$ exakt auf $\P_{n_0}$}} 
+			+ \underbrace{|I_n(p)-I_n(f)|}_{\le \sum_{i=0}^n |\omega_i||p(x_i)-f(x_i)| \le (b-a) \f {\eps}{2(b-a)} } \\
+			= \f \eps 2 + 0 + \f \eps 2 = \eps
+		\end{align*}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Trotz eventuelle Fehlender gleichmäßiger Konvergenz der Interpolations-Polynome, d.h.
+				\[
+					\|p_n - f\|_\infty \not \to 0
+				\]
+				konvergieren die Integrale $I_n(f) \to I(f)$.
+			\item
+				Die Aussage von \ref{2.6} ist nicht auf Newton-Cotes übertragbar ($\sum_{i=0}^n |\omega_i| \to \infty$ der Beweis nutzt $\sum_{i=0}^n |\omega_i| = b-a$).
+		\end{itemize}
+	\end{note}
+\end{st}
+
 
 \section{Nichtlineare Gleichungsysteme}
 
