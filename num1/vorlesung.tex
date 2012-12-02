@@ -1739,114 +1739,142 @@ Kann man auf einfache Weise eine Basis für $S_m$ angeben?
 		Gibt es in all diesen Fällen eine eindeutige, ausgezeichnete „Lösung“?
 \end{itemize}
 
-Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf diese Fragen.
+Die “Minimum Norm Least Squares”-Approximation liefert eine Antwort auf diese Fragen.
 
 \begin{st}[Singulärwertzerlegung (SVD)]
 	\label{1.37}
-	Sei $A\in \C^{m\times n}$, dann existieren unitäre Matrizen $U\in \C^{n\times m}$, $V\in \C^{n\times n}$ und reelle Diagonalmatrix
+	Sei $A\in \C^{m\times n}$, dann existieren unitäre Matrizen $U\in \C^{m\times m}$, $V\in \C^{n\times n}$ und ein reelle Diagonalmatrix
 	\[
 		\Sigma := \diag( \sigma_1, \dotsc, \sigma_r)  \in \R^{m\times n}
 	\]
-	mit $\sigma_1\ge \sigma_2 \ge \dotsb \ge 0$ und $r:= \min(m,n)$ so, dass
+	mit $\sigma_1\ge \sigma_2 \ge \dotsb \sigma_r \ge 0$ und $r:= \min(m,n)$ so, dass
 	\[
 		A = U \Sigma V^*
 	\]
-	Wir nennen dies Singulärwertzerlegung (Singular Value Decomposition) und $\{\sigma_i\}$ Singulärwerte.
+	Wir nennen dies Singulärwertzerlegung (Singular Value Decomposition) und $\sigma_i$ Singulärwerte.
 	\begin{note}
 		\begin{itemize}
 			\item
-				Falls $A$ reell ist, sind auch $U,V$ reell, also orthogonal und $A=U\Sigma V^T$.
+				Falls $A$ reell ist, sind auch $U,V$ reell, also orthogonal und es gilt
+				\[
+					A=U\Sigma V^T
+				\]
 			\item
 				Erinnerung aus der linearen Algebra:
 				Falls $A \in \R^{n\times n}$ symmetrisch und positiv semidefinit, dann existiert $V$ orthogonal, $D$ diagonal mit $A=VDV^T$.
-				Also ist diese Eigenwertzerlegung eine SVD.
+
+				Also ist die Diagonalisierung in Eigenwerte eine SVD.
 			\item
-				Die SVD ist allgemeiner.
-				Für eine Jordanmatrixmatrix
+				Die SVD ist sogar allgemeiner als die Eigenwertzerlegung:
+				für eine Jordanmatrixmatrix
 				\[
 					A = \begin{pmatrix}
 						-1 & 1 \\
 						0 & -1
 					\end{pmatrix}
 				\]
-				existiert nämlich keine Eigenwertzerlegung, aber eine Singulärwertzerlegung:
+				existiert nämlich keine Eigenwertzerlegung, aber durchaus eine Singulärwertzerlegung, nämlich:
 				\[
+					U = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
+						\phi & 1 \\
+						-1 & \phi
+					\end{pmatrix}, \qquad
 					\Sigma = \begin{pmatrix}
 						\phi & 0 \\
 						0 & \phi -1
-					\end{pmatrix}
-					,\quad U = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
-						\phi & 1 \\
-						-1 & \phi
-					\end{pmatrix},
-					\]
-					\[
-					\quad V = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
+					\end{pmatrix}, \qquad 
+					V = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
 						-1 & -\phi \\
 						\phi & - 1
 					\end{pmatrix}
-					 \qquad \phi := \f {1+\sqrt 5}2
 				\]
+				für $\qquad \phi := \f {1+\sqrt 5}2$.
 			\item
-				Die Matrix $\Sigma$ ist eindeutig, $U,V$ jedoch nicht (z.B. simultanes Vorzeichen-wechseln in Zeilen/Spalten von $U,V$).
+				Die Matrix $\Sigma$ ist eindeutig. 
+				$U$ und $V$ sind es jedoch nicht (wechsle simultan das Vorzeichen in den Zeilen/Spalten von $U,V$).
 			\item
-				Falls $\rg(A) = k < \min(n,m)$, dann sind genau die ersten $k$ Singulärwerte ungleich Null, die restlichen verschwinden.
+				Falls $k := \rg(A) < \min(n,m)$, dann sind genau die ersten $k$ Singulärwerte ungleich Null, die restlichen verschwinden.
 				Wichtig sind dann nur der linke obere Kasten von $\Sigma$, der linke Block von $U$ und der obere Block von $V$.
 				Mann kann dann $A$ mit
 				\[
-					\tilde \Sigma = \diag(\sigma_1,\dotsc,\sigma_k) \in \R^{k\times k}, \quad \tilde U \in \C^{m\times k}, \quad \tilde V \in \C^{n\times k}
+					\tilde \Sigma = \diag(\sigma_1,\dotsc,\sigma_k) \in \R^{k\times k}
+					, \qquad 
+					\tilde U \in \C^{m\times k}
+					, \qquad 
+					\tilde V \in \C^{n\times k}
 				\]
 				schreiben als
 				\[
-					A = \tilde U \cdot \tilde \Sigma \cdot \tilde V^*
+					A = \tilde U \tilde \Sigma \tilde V^*
 				\]
-				\emph{verkürzte SVD} mit wesentlich kleineren Matrizen, also deutlich weniger Speicheraufwand.
-				Die Matrix-Vektor-Multiplikation ist mit $\mathcal O(nk+mk)$ statt $\mathcal O(nm)$ möglich.
+				Man nennt diese Darstellung \emph{verkürzte Singulärwertzerlegung} mit wesentlich kleineren Matrizen, also deutlich weniger Speicheraufwand.
+				Die Matrix-Vektor-Multiplikation ist mit $\mathcal O(nk+mk)$ statt $\mathcal O(n^2 + m^2)$ möglich (\fixme[Ist das so richtig?]).
 		\end{itemize}
 	\end{note}
 	\begin{proof}
-		$A^*A \in \C^{n\times n}$ ist hermitesch (Erinnerung: $M$ hermitesch, $M^*=M$), also eine Eigenwert-Zerlegung
+		Die Matrix $A^*A \in \C^{n\times n}$ ist hermitesch (also $(A^*A)^*=A^*A$).
+		Also existiert eine Eigenwert-Zerlegung (mit reellen Eigenwerten) von $A^*A$:
 		\[
 			A^*A = V\Lambda V^*
 		\]
-		mit $V=(v_1,\dotsc, v_n)\in \C^{n\times n}$ unitär, $\Lambda = \diag(\lambda_1,\dotsc,\lambda_n) \in \R^{n\times n}$, $\lambda_1\ge \dotsc \ge \lambda_n$, d.h. insbesondere sind0$v_i$ Eigenvektoren von $A^*A$  zu Eigenwerte $\lambda_i$.
+		mit $V=(v_1,\dotsc, v_n)\in \C^{n\times n}$ unitär, $\Lambda = \diag(\lambda_1,\dotsc,\lambda_n) \in \R^{n\times n}$, $\lambda_1\ge \dotsc \ge \lambda_n$.
+		Die $v_i$ sind damit Eigenvektoren von $A^*A$ zu den Eigenwerten $\lambda_i$.
+
 		Zeige, dass alle $\lambda_i \ge 0$:
 		\[
-			\lambda_i = \lambda_i \|v_i\|^2 = \lambda_iv_i^*v_i = v_i^*(\lambda_iv_i) = v_i^*(A^*Av_i) = \|Av_i\|^2 \ge 0
+			\lambda_i = \lambda_i \|v_i\|^2 = \lambda_iv_i^*v_i = v_i^* \lambda_i v_i = v_i^* A^*A v_i = (A v_i)^*(A v_i) =  \|Av_i\|^2 \ge 0
 		\]
-		Sei $k$ die Anzahl an Eigenwerten ungleich Null: $\lambda_i \neq 0$ für $i=1,\dotsc,k$ und $\lambda_i=0$ für $i=k+1,\dotsc,n$.
+		Sei $k$ die Anzahl an Eigenwerten ungleich Null (also $\lambda_i \neq 0$ für $i=1,\dotsc,k$ und $\lambda_i=0$ für $i=k+1,\dotsc,n$).
 		Setze 
 		\[
 			\sigma_i := \begin{cases}
 				\sqrt{\lambda_i} & \text{für $i=1,\dotsc,k$} \\
 				0 & \text{für $i=k+1,\dotsc, r$}
 			\end{cases}
+			\qquad i = 1,\dotsc,r
 		\]
 		und $\Sigma := \diag(\sigma_1,\dotsc,\sigma_r) \in \R^{m\times n}$.
-		Setze $u_i := \f 1{\sqrt{\lambda_i}}Av_i$ für $i=1,\dotsc,k$.
-		Es ist offensichtlich $u_i\in \im(A)$ und die $u_i$ sind orthonormal:
+		Setze 
 		\[
-			u_i^*u_j = \f 1{\sqrt{\lambda_i \lambda_j}} v_i^* A^*Av_j
-			= \f 1{\sqrt{\lambda_i\lambda_j}}v_i^* \lambda_j v_j
-			= \f {\lambda_j} {\sqrt{\lambda_i \lambda_j}}\cdot \delta_{ij} = \delta_{ij}
+			u_i := \f 1{\sqrt{\lambda_i}}Av_i
+			\qquad i = 1,\dotsc, k
 		\]
-		also sind die $u_i$ linear unabhängig.
-		Es ist $\ker A = \ker (A^*A)$.
-		Die eine Richtung ist klar, die andere:
+		Offensichtlich ist $u_i\in \im(A)$.
+		Außerdem sind die $u_i$ sind orthonormal, denn:
+		\[
+			\<u_i,u_j\> 
+			= u_i^*u_j 
+			= \f 1{\sqrt{\lambda_i \lambda_j}} v_i^* A^*Av_j
+			= \f 1{\sqrt{\lambda_i\lambda_j}}v_i^* \lambda_j v_j
+			= \f {\lambda_j} {\sqrt{\lambda_i \lambda_j}}\cdot \delta_{ij} 
+			= \delta_{ij}
+		\]
+		also auch linear unabhängig.
+
+		Zeige $\ker A = \ker (A^*A)$.
+		„$\subset$“ ist klar.
+		Für die Umkehrung sei $x\in \ker (A^* A)$.
 		\[
 			A^*A x = 0 \implies x^*A^*Ax = 0 \implies \|Ax\|^2 = 0 \implies Ax=0
 		\]
 		Daher
-		\[
-			\dim(\im A) = n- \dim (\ker A)) = n-\dim (\ker(A^*A)) = n- (n- \dim(\im(A^*A))) = n-(n-k) = k
-		\]
-		Also ist $\{a_i\}_{i=1}^k$ eine Orthonormalbasis von $\im A$.
+		\begin{align*}
+			\dim(\im A) 
+			&= n - \dim (\ker A)) 
+			= n-\dim (\ker(A^*A))  \\
+			&\quad = n- (n- \dim(\im(A^*A))) 
+			= n-(n-k) = k
+		\end{align*}
+		Also bilden die $\{u_i\}_{i=1}^k$ eine Orthonormalbasis von $\im A$.
 
-		Wähle $\{u_{k+1},\dotsc, u_n\}$ als Orthonormalbasis von $\im( A)^\orth \subset \C^m$ 
+		Wähle $\{u_{k+1},\dotsc, u_n\}$ als Orthonormalbasis von $\im( A)^\orth \subset \C^m$.
+		Definiere 
 		\[
-			U := (u_1,\dotsc, u_m) \text{ ist unitär}
+			U := (u_1,\dotsc, u_m)
 		\]
-		Es ist $A=U\Sigma V^*$:
+		$U$ ist offensichtlich unitär.
+
+		Außerdem gilt mit dieser Wahl $A=U\Sigma V^*$:
 		\[
 			U\Sigma V^* v_i = U \Sigma e_i = U \sigma_i e_i = \begin{cases}
 				\sigma_i u_i & i=1,\dotsc,k \\
@@ -1857,14 +1885,15 @@ Die “Minimum Norm Least Squares” Approximation liefert eine Antwort auf dies
 		\[
 			\sigma_i u_i = \sqrt{\lambda_i} \cdot \f 1{\sqrt{\lambda_i}}Av_i = Av_i
 		\]
-		Für $i=k+1,\dotsc, n$ gilt
+		Für $i=k+1,\dotsc, n$ gilt wegen $v_i \in \ker (A^*A) = \ker (A)$
 		\[
-			v_i \in \ker (A^*A) = \ker (A) \implies Av_i = 0
+			0 = Av_i
 		\]
 		Damit ist
 		\[
-			U\Sigma V^* x = Ax
+			U\Sigma V^* x = Ax \qquad \forall x\in \C^n
 		\]
+		Also $A= U\Sigma V^*$.
 	\end{proof}
 	\begin{note}
 		\begin{itemize}
@@ -1901,7 +1930,8 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 
 \begin{st}[Niedrigrang-Matrixbestapproximation]
 	\label{1.38}
-	Sei $A=U\Sigma V^* \in \C^{m\times n}$ eine SVD von $A$, $r:=\min\{m,n\}$.
+	Sei $A=U\Sigma V^* \in \C^{m\times n}$ eine SVD von $A$ mit $\Sigma = \diag(\sigma_1,\dotsc, \sigma_r) \in \C^{m\times n}$ und $r:=\min\{m,n\}$.
+
 	Definiere für $k=1,\dotsc,r-1$:
 	\[
 		\hat\Sigma_k := \diag\{\sigma_1,\dotsc,\sigma_k,0,\dotsc,0\} \in \R^{m\times n}, \qquad \hat A_k := U \hat \Sigma_k V^*
@@ -1910,25 +1940,26 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 	\[
 		\min_{\substack{B\in \C^{m\times n} \\ \rg(B) \le k}} \|A-B\| = \|A- \hat A_k\| = \sigma_{k+1}
 	\]
+	Mit anderen Worten: $\hat A_k$ ist diejenige Matrix mit Rang $\le k$, die $A$ am besten approximiert.
 	\begin{proof}
 		Sei $V=(v_1,\dotsc, v_n)$, $k\in \{1,\dotsc,r-1\}$, $B\in \C^{m\times n}$, $\rg(B) =  k' \le k$.
 		Dann gilt
 		\[
-			\dim(\ker(B)) = n-k'
+			\dim(\ker B) = n - k'
 		\]
 		Dann ist $Z:= \ker(B) \cap \<v_1,\dotsc,v_{k'+1}\> \neq \{0\}$.
 		Wähle $0\neq z \in Z$ mit $\|z\|=1$, dann lässt sich $z$ schreiben als
 		\[
 			z = \sum_{i=1}^{k'+1}a_i v_i
 		\]
-		Da $v_1,\dotsc,v_{k'}$ orthonormal ist außerdem $\sum_{i=1}^{k'}|a_i|^2 = 1$.
+		Da $v_1,\dotsc,v_{k'+1}$ orthonormal ist folgt außerdem $\sum_{i=1}^{k'+1}|a_i|^2 = 1$.
 		Setze $a:=(a_1,\dotsc, a_{k'+1},0,\dotsc,0)^T \in \C^n$.
 		Dann gilt
 		\begin{align*}
 			\|A-B\|^2 &= \sup_{x\neq 0} \f {\|(A-B)x\|^2}{\|x\|^2}
-			\ge \f {\|(A-B)\|^2z}{\underbrace{\|z\|^2}_{=1}}
+			\ge \f {\|(Az-\overbrace{Bz}^{=0}\|^2}{\underbrace{\|z\|^2}_{=1}}
 			= \|Az\|^2 
-			= \|U\Sigma V^*\sum_{i=1}^n a_i v_i \|^2 \\
+			= \l\|U\Sigma V^*\sum_{i=1}^n a_i v_i \r\|^2 \\
 			&= \|U\Sigma V^* Va \|^2
 			= \|U\Sigma a\|^2 
 			\stackrel{\text{Rotationsinvarianz}}= \|\Sigma a\|^2  
@@ -1941,7 +1972,7 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 		\end{align*}
 		Andererseits wird dieser Fehler auch realisiert durch $\hat A_k$:
 		\begin{align*}
-			\|A-\hat A_k\| &= \|U\Sigma V^* - U\hat \Sigma_k V^*\| = \|U(\Sigma - \hat \Sigma_k) V^*\| = \|\Sigma - \hat \Sigma_k\|\\
+			\|A-\hat A_k\| &= \|U\Sigma V^* - U\hat \Sigma_k V^*\| = \|U(\Sigma - \hat \Sigma_k) V^*\| \stackrel{\text{Rotationsinvarianz}}= \|\Sigma - \hat \Sigma_k\|\\
 			&= \|\diag\{0,\dotsc, 0, \sigma_{k+1},\dotsc, \sigma_r\}\|
 			= \sigma_{k+1}
 		\end{align*}
@@ -1979,7 +2010,7 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 	\end{enumerate}
 	\begin{proof}
 		\begin{seg}{$A^+$ erfüllt die Bedingungen}
-			Sei $A=U\Sigma V^*$, $A^+ := V\Sigma^*U^*$.
+			Sei $A=U\Sigma V^*$, $A^+ := V\Sigma^+U^*$.
 			\begin{enumerate}[i)]
 				\item
 					Es gilt
@@ -2029,7 +2060,7 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 		\item
 			$(A^*)^+ = (A^+)^*$
 		\item
-			Im Allgemeinen gilt \emph{nicht}:
+			Im Allgemeinen gilt \emph{nicht} $(AB)^+ = B^+A^+$:
 			\[
 				(AB)^+ \neq B^+A^+
 			\]
@@ -2072,7 +2103,8 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 				\item
 					Pythogoras:
 					\[
-						\|y-z\|^2 = \|y-Py\|^2 + \|Py-z\|^2 \qquad \forall y\in \C^1,\forall z\in V
+						\|y-z\|^2 = \|y-Py\|^2 + \|Py-z\|^2 
+						\qquad \forall y\in \C^m,\forall z\in V
 					\]
 				\item
 					$P_y$ ist eine Bestapproximation von $y$ auf $V$:
@@ -2196,9 +2228,9 @@ Definiere $a^* := A^+f$.
 	\emph{Gauß'sche Normalengleichungen}
 	Die MNLS-Approximation $x:=A^+b$ erfüllt genau diese Normalengleichungen.
 	\begin{proof}
-		Mit \ref{1.41} vi) ist $x=A^+b = (A^-A)^{-1}A^Tb$, also
+		Mit \ref{1.41} vi) ist $x=A^+b = (A^TA)^{-1}A^Tb$, also
 		\[
-			A^TA = A^TA(A^TA)^{-1}A^T b = A^Tb
+			A^TAx = A^TA(A^TA)^{-1}A^T b = A^Tb
 		\]
 	\end{proof}
 \end{nt*}
@@ -2973,6 +3005,259 @@ Also $I_n(f) = I(p)$.
 		\end{enumerate}
 	\end{proof}
 \end{lem}
+
+\begin{df}[Gauß'sche Quadraturen]
+	\label{2.19}
+	Sei $n\in \N$, wäle $\{x_i\}_{i=0}^n$ als Nullstellen von $p_{n+1} \in \P_{n+1}$.
+	Dann nennen wir die zugehörigen Interpolations-Quadratur \emph{Gauß-Quadratur} (G.Q.).
+\end{df}
+
+\begin{ex*}
+	\begin{itemize}
+		\item
+			Sei $n=1$, $p_2(x) = x^2-\f 13$ mit den Nullstellen $x_0=-\sqrt{\f 13}, x_1 = \sqrt{\f 13}$.
+			Gewichte: $\omega_0=\omega_1 = 1$, da Interpolations-Quadratur.
+
+			\begin{table}[h]
+				\centering
+				\caption{Gauß-Quadraturen auf $[-1,1]$}				
+				\begin{tabular}{c|c|c}
+					n & $(x_0, \dotsc, x_n)$ & ($\omega_0,\dotsc,\omega_n$) \\ \hline
+					0 & 0 & 2 \\
+					1 & $\pm \sqrt{\f 13}$ & (1,1) \\
+					2 & $\l(-\sqrt{\f 35}, 0, \sqrt{\f 35}\r)$ & $\l(\f 59, \f 89, \f 59\r)$ \\
+					3 & $\pm \sqrt{\f 37 + \f 27 \sqrt{\f 65}}, \pm \sqrt{\f 37 - \f 27\sqrt{\f 65}}$
+					& $\f {18-\sqrt{30}}{36} $
+				\end{tabular}
+			\end{table}
+	\end{itemize}
+\end{ex*}
+
+\begin{nt*}
+	Die sogenannten \emph{Legendre-Polynome} sind definiert durch
+	\[
+		P_n(x) := \f 1{2^n n!} \f {d^n}{dx^n} (x^2 - 1)^n
+	\]
+	und erfüllen eine sogenannte „3-Term-Rekursion“:
+	\[
+		n P_n(x) = (2n-1)xP_{n-1}(x) - (n-1)P_{n-2}(x) \qquad n\ge 2
+	\]
+	Die orthogonalen Polynome aus Definition \ref{2.17} sind also skalierte Legendre-Polynome
+	\[
+		p_n(x) = \f {n!}{(2n)!} \f {d^n}{dx^n} (x^2-1)^n
+	\]
+	Gauß-Quadraturren auf $[-1,1]$ werden auf Gauß-Legendre-Quadraturen genannt.
+\end{nt*}
+
+\begin{st}[Symmetrie]
+	\label{2.20}
+	Gauß-Quadraturen sind symmetrisch.
+	\begin{proof}
+		Zeige zunächst induktiv: 
+		\[
+			n \text{ gerade (ungerade) } \implies p_n \text{ gerade (ungerade) }
+		\]
+		$p_0 = 1$ ist offensichtlich gerade.
+		Die Behauptung gelte für $p_i$ mit $i=0,\dotsc,n$.
+		\[
+			p_{n+1}(x) = x^{n+1} - \sum_{i=0}^n \f{\<x^{n+1},p_i\>}{\<p_i,p_i\>} p_i(x)
+		\]
+		Sei $n$ ungerade, dann ist $x^{n+1}$ gerade.
+		Für $i$ ungerade ist
+		\[
+			\<x^{n+1},p_i\> = \int_{-1}^1 \underbrace{x^{n+1}}_{\text{gerade}} \underbrace{p_i(x)}_{\text{ungerade}} dx = 0
+		\]
+		Für $i$ gerade ist $p_i(x)$ gerade ist $p_{n+1}$ eine Linearkombination von geraden Funktionen, also $p_{n+1}$ gerade.
+		Analog für $n$ gerade.
+
+		Falls $x$ Nullstelle von $p_n$, dann ist auch $-p_n$ Nullstelle von $p_n$.
+		Damit sind die Stützstellen der Gauß-Quadratur symmetrisch und somit auch die Gewichte (da Interpolations-Quadratur).
+	\end{proof}
+\end{st}
+
+\begin{st}[Exaktheit]
+	\label{2.21}
+	Die Gauß-Quadratur $I_n$ ist exakt auf $\P_{2n+1}$.
+	\begin{proof}
+		Sei $p\in \P_{2n+1}$.
+		Polynomdivision mit $q\in \P_n$ liefert
+		\[
+			p= p_{n+1} \cdot q + r \qquad  q,r\in \P_n
+		\]
+		Es folgt
+		\begin{align*}
+			I(p) 
+			&= \int_{-1}^1 p(x) dx 
+			= \underbrace{\int_{-1}^1 p_{n+1}q(x) dx}_{=0 \text{ da $p_{n+1}\orth \P_n$}} + \int_{-1}^1 r(x) dx
+			= \int_{-1}^1 r(x) dx 
+		\end{align*}
+		Außerdem
+		\begin{align*}
+			I_n(p) 
+			= \sum_{i=0}^n \omega_i p(x_i) \\
+			= \sum_{i=0}^n \omega_i \underbrace{p_{n+1}(x_i)}_{=0} q(x_i) + \sum_{i=0}^n \omega_i r(x_i) \\
+			= I_n(r) = I(r)
+		\end{align*}
+		da $I_n$ exakt auf $\P_n$.
+		Also $I_n(p) = I(p)$.
+	\end{proof}
+\end{st}
+
+\begin{st}[Grenze der Exaktheit]
+	\label{2.22}
+	Es existiert keine Interpolations-Quadratur $I_n$, welche exakt auf $\P_{2n+2}$ (oder höher) ist.
+	\begin{proof}
+		Seien $\{x_i\}_{i=0}^n$ die Stützstellen von $I_n$.
+		Betrachte 
+		\[
+			p(x) = \prod_{i=0}^n (x-x_i)^2 \in \P_{2n+2}
+		\]
+		Es gilt
+		\[
+			I_n(p) = \sum_{i=0}^n \omega_i \underbrace{p(x_i)}_{=0} = 0
+		\]
+		aber
+		\[
+			I(p) = \int_{-1}^1 \underbrace{\prod_{i=0}^n (x-x_i)^2 }_{\ge 0} dx > 0
+		\]
+		also $I_n(p) \neq I(p)$ also nicht exakt auf $\P_{2n+2}$.
+	\end{proof}
+\end{st}
+
+\begin{st}[Eindeutigket der Gauß-Quadratur]
+	\label{2.23}
+	Es existiert genau eine Quadratur $I_n$, welche exakt auf $\P_{2n+1}$ ist.
+	\begin{proof}
+		Die Existenz ist klar: Gauß-Quadratur \ref{2.21}.
+
+		Sei $I_n$ die Gauß-Quadratur und $\_{I_n}$ eine Quadratur, welche exakt auf $\P_{2n+1}$ ist.
+		Es reicht zu zeigen, dass die Stützstellen $\{x_i\}_{i=0}^n$ von $\_{I_n}$ Nullstellen vom orthogonalen Polynom $p_{n+1}$, denn dann sind auch die Gewichte identisch zu $I_n$, da beide Interpolations-Quadraturen und exakt auf $\P_n$ sind.
+	
+		Sei $q\in \P_n$, $\_p_{n+1} := \prod_{i=0}^n (x-x_i) \in \P_{n+1}$.
+		\[
+			\int_{-1}^1 \_p_{n+1}(x) q(x) 
+			= I(\underbrace{\_p_{n+1} q}_{\in \P_{2n+1}})
+			\stackrel{\text{Exaktheit}}= \_I_n (\_p_{n+1}q)
+			\stackrel{\_p_{n+1}(x_i)=0}= 0
+		\]
+		Also ist $\_p_{n+1} \orth \P_n$.
+
+		Es gilt $\dim(\P_{n+1}) = \dim( \P_n^\orth \cap \P_{n+1}) + \dim (\P_n)$, also
+		\[
+			\dim( \P_n^\orth \cap \P_{n+1}) = \dim(\P_{n+1}) - \dim(\P_n) = n+2 - (n+1) = 1
+		\]
+		Damit ist 
+		\[
+			 \<p_{n+1}\> = \P_n^\orth \cap \P_{n+1} = \<\_p_{n+1}\>
+		\]
+		Also sind die $p_{n+1}$ und $\_p_{n+1}$ linear abhängig: $\_p_{n+1} = \lambda p_{n+1}$.
+		Damit sind die Nullstellen identisch, also auch die Stützstellen von $I_n$ und $\_I_n$.
+	\end{proof}
+\end{st}
+
+\begin{ex*}[Vergleich von Newton-Cotes und Gauß-Quadratur auf $f(x)=\cos(x\f \pi 2)$ auf]
+	\begin{table}[h]
+		\centering
+		\caption{Fehlervergleich auf $[-1,1]$}
+		\begin{tabular}{c|r|r}
+			n & Gauß-Quadratur & Newton-Cotes-Quadratur \\ \hline
+			0 & 0.7268 & 0.7268 \\
+			1 & 0.0401 & 1.2732 \\
+			2 & 0.0009 & 0.0601 \\
+			3 & 0.0000 & 0.0258 \\
+			4 & 0.0000 & 0.0009
+		\end{tabular}
+	\end{table}
+\end{ex*}
+
+\begin{st}[Fehlerschranke]
+	\label{2.24}
+	Für $f\in C^{2n+2} ([-1,1])$, dann gilt für Fehler der Gauß-Quadratur
+	\[
+		|I(f) - I_n(f) \le K \cdot 2^{2n+3} \|f^{2n+2}\|_\infty
+	\]
+	mit
+	\[
+		K = \f {((n+1)!)^4}{(2n+3)\big((2n+2)!\big)^3}
+	\]
+	\begin{proof}
+		Übung, oder auf Mathematik-Online: Höllig 2004
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				$K$ wird sehr schnell klein:
+				\begin{table}
+					\centering
+					\caption{}
+					\begin{tabular}{c|c}
+					n & K \\ \hline
+					0 & $\f 1{24}$ \\
+					1 & $\f 1{4320}$ \\
+					2 & $\f 1{2016000}$ \\
+					3 & $\f 1{1778112000}$ 
+					\end{tabular}
+				\end{table}
+			\item
+				Die Sätze \ref{2.24}, \ref{2.27} i), ii) und \ref{2.12} i), ii) haben alle die gleiche Struktur.
+
+				Sei $d$ maximal, so dass $I_n$ exakt auf $\P_d([a,b])$ (also $d=n$ bei Newton-Cotes für $n$ ungerade, $d=n+1$ bei Newton-Cotes für $n$ gerade und $d=2n+1$ bei Gauß-Quadratur)
+
+				Dann ist
+				\[
+					|I(f) - I_n(f) | \le K \cdot (b-a)^{d+2} \|f^{d-1}\|_\infty
+				\]
+				für geeignetes $K$.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{st}[Positivität]
+	\label{2.25}	
+	Alle Gewichte $\{\omega_j\}_{j=0}^n$ der Gauß-Quadratur sind positiv: $\omega_j > 0$.
+	\begin{proof}
+		$I_n$ ist exakt auf $\P_{2n+1}$ also werden quadrierte Lagrange-Polynome exakt integriert:
+		\[
+			\omega_j = \sum_{i=0}^n \omega_i (\underbrace{L_j^n(x_i)}_{\delta_{ij}})^2 = I_n((L_j^n)^2) = I((L_j^n)^2) =\int_{-1}^1 \underbrace{(L_j^n(x))^2}_{\ge 0} dx > 0
+		\]
+	\end{proof}
+\end{st}
+
+\begin{st}[Konvergenz]
+	\label{2.26}
+	Sei $(I_n)_{n\in \N}$ eine Sequenz von Gauß-Quadraturen.
+	Dann gilt für $f\in C^0([a,b])$:
+	\[
+		\lim_{n\to \infty} I_n(f) = I(f)
+	\]
+	\begin{proof}
+		Sei $\eps > 0$.
+		Nach dem Weierstrass-Approximationssatz existiert $p\in \P_{n_0}$ für genügend großen $n_0\in \N$, so dass
+		\[
+			|f(x) - p(x)| \le \f {\eps}{2(b-a)} \qquad x\in [a,b]
+		\]
+		Dann gilt für alle $n\ge n_0$:
+		\begin{align*}
+			|I(f) - I_n(f)|
+			\le \underbrace{|I(f) - I(p)|}_{\le \int_a^b |f(x) - p(x)| dx \le (b-a)\f \eps{2(b-a)}= \f \eps 2} 
+			+ \underbrace{|I(p) - I_n(p)|}_{=0 \text{ da $I_n$ exakt auf $\P_{n_0}$}} 
+			+ \underbrace{|I_n(p)-I_n(f)|}_{\le \sum_{i=0}^n |\omega_i||p(x_i)-f(x_i)| \le (b-a) \f {\eps}{2(b-a)} } \\
+			= \f \eps 2 + 0 + \f \eps 2 = \eps
+		\end{align*}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Trotz eventuelle Fehlender gleichmäßiger Konvergenz der Interpolations-Polynome, d.h.
+				\[
+					\|p_n - f\|_\infty \not \to 0
+				\]
+				konvergieren die Integrale $I_n(f) \to I(f)$.
+			\item
+				Die Aussage von \ref{2.6} ist nicht auf Newton-Cotes übertragbar ($\sum_{i=0}^n |\omega_i| \to \infty$ der Beweis nutzt $\sum_{i=0}^n |\omega_i| = b-a$).
+		\end{itemize}
+	\end{note}
+\end{st}
 
 
 \section{Nichtlineare Gleichungsysteme}
