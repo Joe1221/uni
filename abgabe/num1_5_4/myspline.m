@@ -1,3 +1,5 @@
+% Stephan Hilb, 2706616
+
 function S = myspline (X, Y)
 	n = length(X);
 	H = diff(X);

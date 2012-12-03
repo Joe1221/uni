@@ -1,0 +1,147 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattanadrei
+
+\begin{document}
+
+	\setcounter{section}{6}
+
+	\begin{aufgabe}~
+
+		Führe zunächst die Partialbruchzerlegung durch und forme dann die Summanden je nach gewünschtem Konvergenzgebiet um.
+		\[
+			f(z)
+			= \f z{(z-1)(z-2)}
+			= \f {-1}{z-1} + \f 2{z-2}
+		\]
+
+		\begin{enumerate}[(a)]
+			\item
+				Für $|z|<1$:
+				\[
+					= \f 1{1-z} - \f 1{1-\f z2} 
+					= \sum_{n=0}^\infty z^n - \sum_{n=0}^\infty \l(\f z2\r)^n
+					= \sum_{n=0}^\infty (1-2^{-n}) z^n
+				\]
+			\item
+				Für $1<|z|<2$:
+				\begin{align*}
+					&= -z \f 1{1-\f 1z} - \f 1{1-\f z2}
+					= -z \sum_{n=0}^\infty z^{-n} - \sum_{n=0}^\infty \l(\f z2\r)^n 
+					= \sum_{n=-\infty}^1 z^n - \sum_{n=0}^\infty 2^{-n} z^n \\
+					&\quad = \sum_{n=-\infty}^{-1} z^n - 1 + \f 12 z + \sum_{n=2}^\infty -2^{-n} z^n
+					= \sum_{n=-\infty}^\infty a_n z^n
+				\end{align*}
+				wobei
+				\[
+					a_n = \begin{cases}
+						1 & n \le -1\\
+						-1 & n = 0 \\
+						\f 12 & n = 1 \\
+						-2^{-n} & n \ge 2
+					\end{cases}
+				\]
+			\item
+				Für $|z|>2$:
+				\begin{align*}
+					&= -z \f 1{1-\f 1z} + 2 \f 1{1-\f 2z}
+					= -z \sum_{n=0}^\infty z^{-n} + 2 \sum_{n=0}^\infty 2^n z^{-n}
+					= \sum_{n=0}^\infty ( 2^{n+1} - 1) z^{-n} - z \\
+					&\quad = \sum_{n=-\infty}^0 (2^{-n+1} -1) z^n - z
+					= \sum_{n=-\infty}^1 a_n z^n
+				\end{align*}
+				wobei
+				\[
+					a_n = \begin{cases}
+						2^{-n+1}-1 & n\le 0\\
+						1 & n=1
+					\end{cases}
+				\]
+			\item
+				Für $|z-1|<1$:
+				\begin{align*}
+					= -(z-1)^{-1} - 2 \f 1{1-(z-1)}
+					= \sum_{n=0}^\infty -2(z-1)^n - (z-1)^{-1}
+					= \sum_{n=-1}^\infty a_n (z-1)^n
+				\end{align*}
+				wobei
+				\[
+					a_n = \begin{cases}
+						-1 & n = -1 \\
+						-2 & n \ge 0
+					\end{cases}
+				\]
+		\end{enumerate}
+	\end{aufgabe}
+	\newpage	
+	\begin{aufgabe}~
+
+		Betrachte jeweils den Nebenteil als Potenzreihe von $z$ mit Konvergenzradius $R$ und den Hauptteil als Potenzreihe von $\f 1z$ mit Konvergenzradius $\f 1r$ (jeweils mit gleichem Entwicklungspunkt $z_0$ der Laurentreihe).
+		Bestimme die Konvergenzradien.
+		Die Laurentreihe konvergiert dann im Kreisring $K_{r,R}(z_0)$.
+
+		\begin{enumerate}[(a)]
+			\item
+				\[
+					\sum_{n=-\infty}^\infty = \sum_{n=1}^\infty 2^{-n}\l(\f 1z\r)^n + \sum_{n=0}^\infty 2^{-n}z^n
+				\]
+				Die beiden Potenzreihen haben gleiche Koeffizienten, also
+				\[
+					R = \f 1r = \f 1{\limsup_{n\to \infty} \sqrt[n]{|2^{-n}|}} = \f 1{\f 12} = 2
+				\]
+				Damit ist das Konvergenzgebiet
+				\[
+					K_{\f 12, 2}(0) = \Big\{ z\in \C : \f 12 < |z| < 2 \Big\}
+				\]
+			\item
+				\[
+					\sum_{n=-\infty}^\infty \f {(z-1)^n}{3^n+1} = \sum_{n=1}^\infty \f 1{3^{-n}+1}\l( \f 1{z+1}\r)^n + \sum_{n=0}^\infty \f 1{3^n+1} (z-1)^n
+				\]
+				Es gilt dann für die Konvergenzradien:
+				\begin{align*}
+					R &= \lim_{n\to \infty} \f {3^{n+1}+1}{3^n+1} = 3 \\
+					r &= \lim_{n\to \infty} \f {3^{-n}+1}{3^{-n-1}+1} = 1
+				\end{align*}
+				Damit ist das Konvergenzgebiet
+				\[
+					K_{1, 3}(1) = \Big\{ z\in \C : 1 < |z-1| < 3 \Big\}
+				\]
+			\item
+				\[
+					\sum_{n=-\infty}^\infty \f {z^n}{e^{an}+e^{-an}} = \sum_{n=1}^\infty \f 1{e^{an}+e^{-an}} \l(\f 1z\r)^n + \sum_{n=0}^\infty \f 1{e^{an} + e^{-an}} z^n
+				\]
+				Die beiden Potenzreihen haben gleiche Koeffizienten, also
+				\begin{align*}
+					R = \f 1r &= \lim_{n\to \infty} \f{e^{a(n+1)} + e^{-a(n+1}}{e^{an} + e^{-an}}
+				\intertext{
+					Für $a<0$ ergibt sich				
+				}
+					&= \lim_{n\to \infty} \f {e^{-a}e^{-an}}{e^{an}+e^{-an}}
+					= \lim_{n\to \infty} \f {e^{-a}}{e^{2an}+1} = e^{-a}
+				\end{align*}
+				Für $a>0$ ergibt sich analog $e^{a}$ und für $a=0$ offensichtlich $1$.
+				Damit ist das Konvergenzgebiet gegeben durch
+				\[
+					K_{e^{-|a|}, e^{-|a|}}(0) = \Big\{ z\in \C : e^{-|a|} < |z| < e^{|a|}\}
+				\]
+			\item
+				\[
+					\sum_{-\infty}^\infty \f {z^n}{n^2+2} = \sum_{n=1}^\infty \f 1{n^2 + 2}\l(\f 1z\r)^n + \sum_{n=0}^\infty \f 1{n^2+2} z^n
+				\]
+				Also
+				\[
+					R = \f 1r = \lim_{n\to \infty} \f {(n+1)^2 + 2}{n^2 + 2} = 1
+				\]
+				Das Konvergenzgebiet ist also leer ($1<|z|<1$).
+
+				Anmerkung: Die Reihe konvergiert zwar auf dem Kreisrand $|z|=1$ (Verwende $\f 1{n^2}$ als konvergente Majorante für den Weierstraß'schen M-Test), dies ist jedoch keine offene Menge und damit kein Gebiet.
+		\end{enumerate}
+
+
+		
+	\end{aufgabe}
+	
+
+\end{document}
+
+

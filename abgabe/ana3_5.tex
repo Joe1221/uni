@@ -1,0 +1,107 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattanadrei
+
+\begin{document}
+
+	\setcounter{section}{5}
+
+	\begin{aufgabe}~
+		
+		Da $f_0$ an jedem Punkt in $U_0$ in eine Potenzreihe entwickelt werden kann, ist $f_0$ offensichtlich beliebig oft differenzierbar in $U_0$.
+		Sei $x_0\in U_0$, dann ist in der Umgebung von $x_0$ die Taylorentwicklung
+		\[
+			f_0(x) = \sum_{n=0}^\infty \f {f_0^{(n)}(x_0)}{n!}(x-x_0)^n
+		\]
+		die eindeutige Potenzreihe von $f_0$.
+		Bezeichne ihren Konvergenzradius mit $r_{x_0}$.
+
+		Definiere jetzt
+		\[
+			U := \bigg( \Big\{ \bigcup_{x\in U} K_{r_x}(x) \Big\} \setminus \R \bigg) \cup U_0
+			 =\bigg( \Big\{ \bigcup_{x\in U} K_{r_x}(x) \Big\} \cap (\C \setminus \R)\bigg) \cup U_0
+		\]
+		$U$ ist damit offen, da $\C\setminus \R$ und $U_0$ offen sind.
+		Außerdem ist $U\cap \R = U_0$ erfüllt.
+
+		Wähle jetzt für beliebiges $z\in U$ ein $x_z\in U_0$, so dass $z\in K_{r_{x_z}}(x_z)$, also im Konvergenzkreis der Potenzreihe um $x_z$ liegt (Existenz von $x_z$ ist durch die Definition von $U$ gewährleistet).
+		Definiere jetzt
+		\[
+			f(z) := \sum_{n=0}^\infty \f {f_0^{(n)}(x_z)}{n!} (z-x_z)^n
+		\]
+		Die Reihe ist wegen der Wahl von $x_z$ konvergent und auch für zwei verschiedene Entwicklungspunkte $x_z$ und $x_z'$ konvergieren die beiden Reihen für ein $z$ im Konvergenzradius gegen den selben Wert.
+		Also ist $f$ wohldefiniert.
+
+		Offensichtlich gilt mit dieser Definition $f\big|_{U_0} = f_0$.
+
+		Um die Holomorphie von $f$ nachzuweisen, zeigen wir, dass sich $f$ an einem beliebigen Punkt $z_0\in U$ in eine Potenzreihe entwickeln lässt.
+		Definiere $x_{z_0}$ so wie oben als den Entwicklungspunkt für $z_0$ auf der reellen Achse.
+		Dann gilt für alle $z\in K_{r_{x_{z_0}}}(x_{z_0})$ : 
+		\begin{align*}
+			f(z) &= \sum_{n=0}^\infty \f {f_0^{(n)}(x_{z_0})}{n!} (z-x_{z_0})^n \\
+			&= \sum_{n=0}^\infty \f {f_0^{(n)}(x_{z_0})}{n!} (z-z_0+z_0-x_{z_0})^n \\
+			&= \sum_{n=0}^\infty \f {f_0^{(n)}(x_{z_0})}{n!} \sum_{k=0}^{n} \binom nk (z_0-x_{z_0})^{n-k}(z-z_0)^k
+		\intertext{
+			Durch umsortieren der Glieder (innerhalb des Konvergenzradius erlaubt, da absolut konvergent) und gruppieren all derer mit gleichem Exponenten für $(z-z_0)^k$, ergibt sich (eine Skizze für die Summationsindizes ist zum Nachvollziehen hilfreich)
+		}
+			&= \sum_{k=0}^\infty \left( \sum_{m=0}^\infty \f {f_0^{(m)}(x_{z_0})}{m!}\binom mk (z_0-x_{z_0})^{m-k}\right) (z-z_0)^k
+		\end{align*}
+		Dies ist eine Potenzreihe mit einem Konvergenzradius von mindestens $r_{x_{z_0}}-|z_0-x_{z_0}| > 0$ um den Entwicklungspunkt $z_0$.
+		Also ist $f$ holomorph auf $U$.
+
+		\newpage
+		Zur Frage, ob man für $U_0 = (-1,1)$ immer $U:=K_1(0)$ wählen kann: 
+		Nein! Betrachte
+		\[
+			f(x) = \f 1{1+4x^2}
+		\]
+		auf $U_0 = (-1,1)$.
+		$f$ lässt sich auf jedem Punkt $U_0$ in eine Potenzreihe entwickeln (reell differenzierbar und keine reellen Polstellen), aber $U=K_1(0)$ enthält die Polstelle $\f i2$, weswegen $f$ auf $U$ nicht holomorph sein kann.
+	\end{aufgabe}
+
+	\begin{aufgabe}
+		\begin{enumerate}[a)]
+			\item
+				Weil $f_n$ kompakt gegen $f$ konvergiert, konvergiert $f_n$ auf einer kompakten Dreiecksfläche $D$ gleichmäßig gegen $f$.
+				Zeige für die Vorraussetzung des Satzes von Morera, dass $\int_{\d D}f_n(z)dz = 0$ gilt:
+				\begin{align*}
+					\lim_{f_n\to f} \l| \int_{\d D}f_n(z) dz - \int_{\d D}f(z) dz \r|
+					\le \lim_{f_n \to f} \Big( \underbrace{\max_{z\in \d D}|f_n(z) - f(z)|}_{\to 0 \text{ (gleichmäßig)}} \cdot \underbrace{L(\d D)}_{=\const} \Big) = 0
+				\end{align*}								
+				Also $\int_{\d D}f(z) dz = \lim\limits_{f_n\to f} \int_{\d D}f_n(z) dz = 0$ ($f_n$ holomorph).
+				Damit ist $f$ nach Morera holomorph.
+			\item
+				Definiere auf $\C\setminus \big(\{z\in \C : |z| = 1 \}\cup \{0\}\big)$:
+				\[
+					f_N(z) := \sum_{n=0}^N \f 1{z^n + z^{-n}} = \f 12 + \sum_{n=1}^N \f 1{z^n + z^{-n}}
+				\]
+				Zeige jetzt die gleichmäßige Konvergenz mit Hilfe des Weierstraß'schen M-Tests für $|z|< r <1$ (für $|z|>r >1$ analog).
+				\[
+					\l | \f 1{z^n+z^{-n}} \r| \le \f 1{|z|^{-n}-|z|^n} = \f 1{|z|^{-n}(1-|z|^{2n})} \le \f 1{1-r^2} r^n =: M_n
+				\]
+				$\sum_{n=1}^\infty M_n$ konvergiert offensichtlich wegen $r<1$.
+
+				Damit konvergiert $f_N(z)$ auf jeder kompakten Teilmenge von $\C\setminus \big(\{z\in \C : |z| = 1 \}\cup \{0\}\big)$ gleichmäßig gegen $f$ (wähle einfach ein $r$, das genügend nah an $1$ liegt, so dass die kompakte Menge enthalten ist).
+				Mit anderen Worten: $f_N$ konvergiert kompakt gegen $f$.
+				$f_N$ ist als endliche Summe von Kompositionen holomorpher Funktionen auf $\C\setminus \big(\{z\in \C : |z| = 1 \}\cup \{0\}\big)$ holomorph.
+
+				Damit ist die Bedingung des Satzes aus a) erfüllt, und $f$ ist holomorph.
+
+				Zeige für die holomorphe Fortsetzung, dass $f(z)$ in $K_r(0)$ mit $r<1$ beschränkt ist:
+				\begin{align*}
+					\l| \sum_{n=0}^\infty \f 1{z^n + z^{-n}} \r|
+					&\le \f 12 + \sum_{n=1}^\infty \f 1{|z^n + z^{-n}|} \\
+					&\le \f 12 + \sum_{n=1}^\infty \f 1{|z|^{-n}-|z|^n} \\
+					&= \f 12 + \sum_{n=1}^\infty \f 1{1-|z|^{2n}} \cdot |z|^n \\
+					&\le \f 12 + \f 1{1-|z|^2} \sum_{n=1}^\infty |z|^n \\
+					&\le \f 12 + \f 1{1-r^2} \sum_{n=1}^\infty r^n \\
+					&= \f 12 + \f 1{1-r^2} \l( \f 1{1-r} - 1\r) =: M
+				\end{align*}
+				damit sind die Vorraussetzungen für den Riemannschen Hebbarkeitssatz erfüllt und $f$ kann im Punkt $0$ holomorph fortgesetzt werden.
+		\end{enumerate}
+	\end{aufgabe}
+	
+
+\end{document}
+
+
