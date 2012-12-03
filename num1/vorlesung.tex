@@ -3242,6 +3242,237 @@ Also $I_n(f) = I(p)$.
 	\end{note}
 \end{st}
 
+\begin{nt*}[Allgemeiner Integrale]
+	Sei $\omega \in C^0(I)$ eine „Gewichtsfunktion“ auf Intervall $I\subset \R$ mit $\int_I \omega(x) dx < \infty$ und $\omega(x) \ge 0$ für alle $x\in I$.
+
+	Dann definiert 
+	\[
+		\<f,g\>_\omega := \int_I f(x) g(x) \omega(x) dx
+	\]
+	ein Skalarprodukt auf $C^0(I)$.
+	Definiere analog $\{p_i\}_{i=0}^n$ als orthogonalsystem bezüglich $\<\cdot,\cdot\>_\omega$ von $\P_{n+1}$ wähle die Quadraturpunkte $\{x_i\}_{i=0}^n$ als Nullstellen von $p_{n+1}$, setze $\{\omega_j\}_{j=0}^n$ als gewichtete Integrale der Lagrange-Polynome:
+	\[
+		\omega_i := \int_I L_i^n(x) \omega(x) dx
+	\]
+	Dann ist $I_n(f) = \sum_{i=0}^n\omega_i (x_i)$ eine Approximation für $I(f) := \int_I f(x) \omega(x) dx$.
+	Es existieren einige spezielle Versionen
+	\begin{itemize}
+		\item
+			$I=[-1,1], \omega(x) =1$, dann sind $\{x_i\}$ die Nullstellen der Legendre Polynome („Gauß-Legendre-Quadraturen“).
+		\item
+			$I=(-1,1), \omega(x) = \f 1{\sqrt{1-x^2}}$, dann sind die Tschebyscheff-Polynome ein Orthonormalsystem bezüglich $\<\cdot,\cdot\>_\omega$, $p_n= \hat T_n$.
+			\[
+				x_i := \cos \l(\pi \f {2j+1}{2(n+1)}\r) \qquad j= 0,\dotsc, n
+			\]
+			nach Satz \ref{1.14}. Und $\omega_0 = \dotsb = \omega_n = \f {\pi}{n+1}$.
+		\item
+			$I=[0,\infty), \omega(x) = e^{-x}$, dann bilden die Laguerre-Polynome ein Orthogonalsystem:
+			\[
+				L_0(x) := 1, \qquad L_1(x) := 1-x, \qquad L_{n+1}(x) = (1+2n-x)L_n(x) - n^2 L_{n-1}(x)
+			\]
+			mit $p_n = (-1)^n L_n$ („Gauß-Laguerre-Quadratur“).
+		\item
+			$I=(-\infty,\infty), \omega(x) = e^{-x^2}$, dann bilden die Hermite-Polynome ein Orthogonalsystem:
+			\[
+				H_0(x) := 1, \qquad H_1(x) := 2x, \qquad H_{n+1}(x) := 2xH_n(x) - 2nH_{n-1}(x)
+			\]
+			mit $p_n(x)=2^n H_n(x)$.
+		\item
+			$\alpha, \beta > -1$, $\omega(x) = (1-x)^\alpha (1+x)^\beta$, $I=(-1,1)$.
+			Dann bilden $Jacobi-Polynome$ ein Orthogonalsystem:
+			\[
+				J_n(x;\alpha,\beta) = \f 1{2^n n! \omega(x)}\f {d^n}{dx^n}\Big( (x^2-1)^n \omega(x)\Big)
+			\]
+			Es ergibt sich die „Gauß-Jacobi-Quadratur“.
+			Für $\alpha=\beta=0$ ergibt sich die Gauß-Legendre-Quadratur.
+			Für $\alpha=\beta= -\f 12$ ergibt sich die Gauß-Tschebyscheff-Quadratur.
+	\end{itemize}
+	Diese Formeln sind vorteilhaft bei der Integration von Funktionen mit Singularitäten an Endpunkten von $I$.
+\end{nt*}
+
+\begin{ex*}
+	Sei $f(x) = \f {x^2}{\sqrt{1-x^2}}$ und $\int_{-1}^1 f(x) dx = \int_{-1}^1 x^2 \underbrace{\f 1{\sqrt{1-x^2}}}_{\omega(x)} dx$.
+	Wähle die Gauß-Tschebyscheff-Quadratur mit $n=2$ (für $p(x) = x^2$ exakt).
+	\begin{align*}
+		x_0 := \cos\l(\pi \f 16 \r) = \sqrt{\f 34}, \qquad x_1 &= \cos\l(\pi \f 36\r) = 0, \qquad x_2 = \cos \l(\pi\f 56\r) = -\sqrt{\f 34}
+	\end{align*}
+	mit $\omega_0 = \omega_1 = \omega_2 = \f {\pi}3$
+	\[
+		\int_{-1}^1 f(x) dx = \sum_{i=0}^2 \omega_i x_i^2 = \f {\pi}3 \cdot \f 64 = \f \pi2
+	\]
+	das stimmt mit der analytischen Lösung überein:
+	\[
+		\int_{-1}^1 \f {x^2}{\sqrt{1-x^2}} dx = \f 12 \sin^{-1}(x) - \f 12 x\sqrt{1-x^2} \; \Big|_{-1}^1 = \f 12 \l( \f \pi 2 - \l(-\f \pi 2\r) \r) = \f \pi2
+	\]
+\end{ex*}
+
+\begin{nt*}[Zusammengesetzte Gauß-Quadraturen]
+	\begin{itemize}
+		\item
+			Berechnung der Nullstellen von $p_n$ in hoher Präzision kann für gorße $n$ schwierig sein.
+		\item
+			Daher sind auch zusammengesetzt Gauß-Quadraturen praktikable Alternativen.
+			\begin{ex*}
+				Zusammengesetzte 2-Punkt-Gauß-Quadratur auf $[a,b]$, $N\in \N$, $h=\f {b-a}N$, $n:= N\cdot 2 - 1$, Mittelpunkte $m_l := a+ (l-\f 12)h$ , $l= 1,\dotsc, N$.
+				\[
+					I_h (f) = \f h2 \sum_{l=1}^N \Big( f\l(m_l- \f 1{2\sqrt 3} h\r) + f\l( m_l + \f 1{2\sqrt 3} h\r) \Big)
+				\]
+			\end{ex*}
+		\item
+			Die Fehlerschranke \ref{2.24} überträgt sich mittels \ref{2.8} ii) auf zusammengesetzte Gauß-Quadraturen.
+	\end{itemize}
+\end{nt*}
+
+
+\subsection{Fehlerdarstellung nach Peano}
+
+Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche insbesondere einige der vorhergehenden Fehleraussagen impliziert.
+
+\begin{df}[Zulässige Funktionale]
+	\label{2.27}
+	Eine lineares Funktional $R : C^k([a,b]) \to \R$ heißt zulässig, wenn
+	es eine Punktauswertung 
+	\[
+		f^{(m)}(x_0), \qquad x_0\in [a,b], \qquad m\in \{0,\dotsc,k\}
+	\]
+	oder ein gewichtetes Integral
+	\[
+		\int_a^b f^{(m)}(x) \omega(x) dx
+	\]
+	oder eine endliche Linearkombination von diesen.
+\end{df}
+
+\begin{ex*}
+	\begin{itemize}
+		\item
+			Fehlerfunktionale für Quadraturen sind zulässig
+			\[
+				R(f) = \int_a^b f(x) dx - \sum_{i=0}^n \omega_i f(x_i)
+			\]
+		\item
+			Fehlerfunktionale für Finite-Differenzen-Approximation sind zulässig
+			\[
+				R(f) = \f {f(b)-f(a)}{b-a} - f'(x_0) \qquad x_0\in [a,b]
+			\]
+	\end{itemize}
+\end{ex*}
+
+\begin{lem}[Vertauschungsregel]
+	\ref{2.28}	
+	Für zulässiges Funktional $R$, $u\in C^0([a,b])$, $C\in C^k([a,b]^2)$ gilt
+	\[
+		R\l( \int_a^b K(t,\cdot) u(t) dt \r) 
+		= \int_a^b R(K(t,\cdot)) u(t) dt
+	\]
+	\begin{proof}
+		Setze
+		\begin{align*}
+			y(\cdot) &= \int_a^b K(t,\cdot) u(t) dt \\
+			v(t) &= R(K(t,\cdot))
+		\end{align*}
+		Zu zeigen ist $R(y) = \int_a^b v(t) u(t) dt$.
+		Für $R(f) = f^{(m)}(x_0)$:
+		\begin{align*}
+			R(y) = \f {d^m}{dx^m} \l( \int_a^b K(t,x) u(t) dx \r) \Big|_{x_0}
+			= \int_a^b \l( \f {d^m}{dx^m} K(t,x) \r) u(t) dt \Big|_{x_0}
+			= \int_a^b v(t) u(t) dt
+		\end{align*}
+		Für $R(t) = \int_a^b f^{(m)}(x) \omega(x) dx$ analog, für Linearkombinationen folgt die Behauptung aus der Linearität.
+	\end{proof}
+\end{lem}
+
+\begin{lem}
+	\label{2.29}
+	Sei 
+	$
+		h_+^l := \begin{cases}h^l & h\ge 0 \\ 0 & \text{sonst}\end{cases}
+	$
+	Es gilt für $f\in C^{k+1}([a,b])$
+	\[
+		f(x) = (P_kf)(x) + \int_a^b K_k(t,x) f^{(k+1)}(t) dt
+	\]
+	mit
+	\[
+		P_k(t) (x) := \sum_{j=0}^k f^{(j)}(x) \f {(x-a)^j}{j!} \in \P_k
+	\]
+	und
+	\[
+		K_k(t,x) := \f 1{k!}(x-t)^k_+ \in C^{k-1}([a,b]^2)
+	\]
+	\begin{proof}
+		Nutze Taylor mit Integralrestglied:
+		\begin{align*}
+			f(x) &= \sum_{j=0}^k f^{(j)}(a) \f {(x-a)^j}{j!} + \int_a^x \f {(x-t)^k}{k!} f^{(k+1)}(t) dt
+			&= P_k f + \int_a^b \f {(x-t)^k_+}{k!} f^{(k+1)} (t) dt
+		\end{align*}
+	\end{proof}
+\end{lem}
+
+\begin{st}[Peano Fehlerdarstellung]
+	\label{2.30}
+	Sei $R$ ein zulässiges Funktional auf $C^k([a,b])$ welches auf $\P_n$, $n>k$ verschwindet, d.h. $R(p)=0$ für alle $p\in \P_n$.
+	Dann gilt für alle $f\in C^{n+1}([a,b])$:
+	\[
+		R(f) = \int_a^b K(t) f^{(n+1)}(t) dt
+	\]
+	mit Peano-Kern $K(t) := \f 1{n!}R((\cdot - t)^n_+)$ unabhängig von $f$.
+	\begin{proof}
+		Da $f\in C^{n+1}([a,b])$, ist $f,P_nf,f-P_nf \in C^k([a,b])$
+		\begin{align*}
+			R(f) &\stackrel{\ref{2.29}}= R(P_n f) + R\l( \int_a^b \underbrace{K_n(t,\cdot)}_{\in C^k([a,b])} f^{(n+1)}(t) dt \r)
+			&\stackrel{\ref{2.28}} =  \int_a^b R(K_n(t,\cdot)) f^{(n+1)}(t) dt \\
+			&= \int_a^b R\l( \f 1{n!}(\cdot - t)^n_+ \r) f^{(n+1)}(t) dt
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{lem}[Verallgemeinerter Mittelwertsatz]
+	Seien $f,g \in C^0([a,b])$ mit $g\ge 0$.
+	Dann existiert $\zeta \in [a,b]$ so dass
+	\[
+		\int_a^b f(x) g(x) dx = f(\zeta) \int_a^b g(x) dx
+	\]
+	\begin{proof}
+		Setze $r(t) := \int_a^b f(x)g(x) dx - f(t) \int_a^b g(x) dx \in C^0([a,b])$.
+		Seien $x_{\text{min}}, x_{\text{max}} \in [a,b]$ mit
+		\[
+			f(x_{\text{min}} = \min_{x\in[a,b]} f(x) , \qquad f(x_{\text{max}} = \max{x\in[a,b]}f(x)
+		\]
+		Daraus folgt $r(x_{\text{min}} = \int_a^b (f(x)-f(x_{\text{min}}g(x) dx \ge 0$.
+
+		Analog für $r(x_{\text{max}} \le 0$.
+		Der Zwischenwertsatz folgt, da $\xi \in[x_{\text{min}}, x_{\text{max}}]$ existiert.
+	\end{proof}
+\end{lem}
+
+\begin{kor}[Fehlerdarstellung durch Monoauswertung]
+	Falls Peano-Kern $K(t)$ auf $[a,b]$ keinen Vorzeichenwechsel hat, so gilt für alle $f\in C^{n+1}([a,b])$ existiert $\xi\in [a,b]$ mit
+	\[
+		R(f) = f^{(n+1)}(\xi) \f 1{(n+1)!} R(x^{n+1})
+	\]
+	\begin{proof}
+		\[
+			R(f) \stackrel{\ref{2.30}}= \int_a^b K(t) f^{(n+1)}(t) dt 
+			\stackrel{\ref{2.31}}= f^{(n+1)}(\xi)\int_a^b K(t) dt
+		\]
+		Anwendung auf $x^{n-1}$:
+		\[
+			R(x^{n+1}) = \underbrace{(n+1)!}_{=\f {d^{n+1}}{dx^{n+1}}x^{n+1}} \int_a^b K(t) dt \quad 
+			\implies \quad \int_a^b K(t) dt = \f {R(x^{n+1}}{(n+1)!}
+		\]
+		Dies in die vorige Gleichung eingesetzt ergibt die Behauptung.
+	\end{proof}
+\end{kor}
+
+\begin{ex*}
+	Anwendung auf Simpson-Quadratur auf $[-1,1]$.
+	\[
+		R(f) = \f 13 (f(-1) + 4f(0) + f(1)) -\int_{-1}^1 f(x) dx
+	\]
+	$R: C^0 ([a,b]) \to \R$, $k=0$.
+\end{ex*}
+
+
 
 \section{Nichtlineare Gleichungsysteme}
 
