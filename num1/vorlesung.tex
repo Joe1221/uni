@@ -2315,7 +2315,9 @@ Integriere das Interpolationspolynom $p$ zu den Daten $(x_i,f(x_i))$ für $i=0,\
 
 Mit Hilfe der Lagrange-Darstellung von $p$:
 \[
-	p(x) = \sum_{j=0}^n f(x_j) \cdot L_j^n (x) \qquad \text{mit} \qquad L_j^n(xr := \prod_{\substack{k=0\\k\neq j}}^n \f{x-x_k}{x_j-x_k}
+	p(x) = \sum_{j=0}^n f(x_j) \cdot L_j^n (x) \qquad 
+	\text{mit} 
+	\qquad L_j^n(x) := \prod_{\substack{k=0\\k\neq j}}^n \f{x-x_k}{x_j-x_k}
 \]
 Wir integrieren:
 \[
@@ -2325,9 +2327,11 @@ Also $I_n(f) = I(p)$.
 
 \begin{df}[Interpolatorische Quadratur]
 	\label{2.3}
-	Eine Quadratur $I_n$ ist eine \emph{Interpolatorische Quadratur}, falls die Gewichte gegeben sind durch 
+	Eine Quadratur $I_n$ ist eine \emph{Interpolatorische Quadratur}, falls die Gewichte durch die Lagrange-Polynome gegeben sind:
 	\[
-		\omega_j := \int_a^b \prod_{\substack{k=0\\k\neq j}}^n \f {x-x_k}{x_j-x_k} \;dx
+		\omega_j := \int_a^b L_j^n \;dx
+		\qquad \text{mit} 
+		\qquad L_j^n(x) := \prod_{\substack{k=0\\k\neq j}}^n \f{x-x_k}{x_j-x_k}
 	\]
 \end{df}
 
@@ -2359,7 +2363,7 @@ Also $I_n(f) = I(p)$.
 
 \begin{st}
 	\label{2.5}
-	Zu Stützstellen $\{x_j\}_{j=0}^n \subset [a,b]$ paarweise verschieden, existiert genau ein Quadratur, welche exakt auf $\P_n$ ist.
+	Zu Stützstellen $\{x_j\}_{j=0}^n \subset [a,b]$ paarweise verschieden, existiert genau eine Quadratur, welche exakt auf $\P_n$ ist.
 	\begin{proof}
 		Existenz ist nach \ref{2.4} klar: die Interpolatorische Quadratur tut's.
 		Zeige jetzt die Eindeutigkeit:
@@ -2631,13 +2635,13 @@ Also $I_n(f) = I(p)$.
 			\[
 				\omega_j := \int_0^1 L_j^n(x) dx
 			\]
-			lassen sich kompakt als Lösung eines LGS schreiben mit Hilfe einer transformierten Vandermondematrix darstellen (siehe Satz \ref{2.10}).
+			lassen sich kompakt als Lösung eines LGS schreiben mit Hilfe einer transponierten Vandermondematrix darstellen (siehe Satz \ref{2.10}).
 	\end{itemize}
 \end{nt*}
 
 \begin{st}
 	\label{2.10}
-	Die Gewichte $\{\omega_j\}_{j=0}^n$ der geschlossene Newton-Cotes Formel lösen
+	Für das Intervall $[0,1]$ sind die Gewichte $\{\omega_j\}_{j=0}^n$ der geschlossenen Newton-Cotes Formel Lösung des linearen Gleichungsystems
 	\[
 		\begin{pmatrix}
 			1 & 1 & 1 & \dotsc & 1 \\
@@ -2775,7 +2779,7 @@ Also $I_n(f) = I(p)$.
 				I_h(f) = \f h2 \l(f(a) + 2 \sum_{l=1}^{N-1}f(x_l) + f(b)\r) \qquad x_l := a+ lh \qquad l=0,\dotsc,N
 			\]
 		\item
-			Zusammengesetzt Simpsonregel mit
+			Zusammengesetzte Simpsonregel mit
 			\[
 				\hat n = 2, \quad h := \f H2, \qquad x_k := a+kh, \quad k=0,\dotsc, 2N
 			\]
@@ -3007,10 +3011,10 @@ Also $I_n(f) = I(p)$.
 				\begin{tabular}{c|c|c}
 					n & $(x_0, \dotsc, x_n)$ & ($\omega_0,\dotsc,\omega_n$) \\ \hline
 					0 & 0 & 2 \\
-					1 & $\pm \sqrt{\f 13}$ & (1,1) \\
+					1 & $\l(-\sqrt{\f 13}, -\sqrt{\f 13}\r)$ & (1,1) \\
 					2 & $\l(-\sqrt{\f 35}, 0, \sqrt{\f 35}\r)$ & $\l(\f 59, \f 89, \f 59\r)$ \\
-					3 & $\pm \sqrt{\f 37 + \f 27 \sqrt{\f 65}}, \pm \sqrt{\f 37 - \f 27\sqrt{\f 65}}$
-					& $\f {18-\sqrt{30}}{36} $
+					3 & $\l(- \sqrt{\f 37 + \f 27 \sqrt{\f 65}}, - \sqrt{\f 37 - \f 27\sqrt{\f 65}}, \sqrt{\f 37 - \f 27\sqrt{\f 65}}, \sqrt{\f 37 + \f 27\sqrt{\f 65}} \r)$
+					& $\l(\f {18-\sqrt{30}}{36}, \f {18+\sqrt{30}}{36}, \f {18+\sqrt{30}}{36},\f {18-\sqrt{30}}{36}\r)$
 				\end{tabular}
 			\end{table}
 	\end{itemize}
@@ -3029,7 +3033,7 @@ Also $I_n(f) = I(p)$.
 	\[
 		p_n(x) = \f {n!}{(2n)!} \f {d^n}{dx^n} (x^2-1)^n
 	\]
-	Gauß-Quadraturren auf $[-1,1]$ werden auf Gauß-Legendre-Quadraturen genannt.
+	Gauß-Quadraturen auf $[-1,1]$ werden auf Gauß-Legendre-Quadraturen genannt.
 \end{nt*}
 
 \begin{st}[Symmetrie]
@@ -3242,15 +3246,17 @@ Also $I_n(f) = I(p)$.
 	\end{note}
 \end{st}
 
-\begin{nt*}[Allgemeiner Integrale]
-	Sei $\omega \in C^0(I)$ eine „Gewichtsfunktion“ auf Intervall $I\subset \R$ mit $\int_I \omega(x) dx < \infty$ und $\omega(x) \ge 0$ für alle $x\in I$.
+\begin{nt*}[Allgemeinere Integrale]
+	Sei $\omega \in C^0(I)$ eine „Gewichtsfunktion“ auf dem Intervall $I\subset \R$ mit $\int_I \omega(x) dx < \infty$ und $\omega(x) \ge 0$ für alle $x\in I$.
 
 	Dann definiert 
 	\[
 		\<f,g\>_\omega := \int_I f(x) g(x) \omega(x) dx
 	\]
 	ein Skalarprodukt auf $C^0(I)$.
-	Definiere analog $\{p_i\}_{i=0}^n$ als orthogonalsystem bezüglich $\<\cdot,\cdot\>_\omega$ von $\P_{n+1}$ wähle die Quadraturpunkte $\{x_i\}_{i=0}^n$ als Nullstellen von $p_{n+1}$, setze $\{\omega_j\}_{j=0}^n$ als gewichtete Integrale der Lagrange-Polynome:
+
+	Definiere analog zu \ref{2.17} $\{p_i\}_{i=0}^{n+1}$ als Orthogonalsystem bezüglich $\<\cdot,\cdot\>_\omega$ von $\P_{n+1}$.
+	Wähle die Quadraturpunkte $\{x_i\}_{i=0}^n$ als Nullstellen von $p_{n+1}$ und setze $\{\omega_j\}_{j=0}^n$ als gewichtete Integrale der Lagrange-Polynome:
 	\[
 		\omega_i := \int_I L_i^n(x) \omega(x) dx
 	\]
@@ -3270,16 +3276,16 @@ Also $I_n(f) = I(p)$.
 			\[
 				L_0(x) := 1, \qquad L_1(x) := 1-x, \qquad L_{n+1}(x) = (1+2n-x)L_n(x) - n^2 L_{n-1}(x)
 			\]
-			mit $p_n = (-1)^n L_n$ („Gauß-Laguerre-Quadratur“).
+			mit $p_n = (-1)^n L_n$ („\emph{Gauß-Laguerre-Quadratur}“).
 		\item
-			$I=(-\infty,\infty), \omega(x) = e^{-x^2}$, dann bilden die Hermite-Polynome ein Orthogonalsystem:
+			$I=(-\infty,\infty), \omega(x) = e^{-x^2}$, dann bilden die \emph{Hermite-Polynome} ein Orthogonalsystem:
 			\[
 				H_0(x) := 1, \qquad H_1(x) := 2x, \qquad H_{n+1}(x) := 2xH_n(x) - 2nH_{n-1}(x)
 			\]
 			mit $p_n(x)=2^n H_n(x)$.
 		\item
 			$\alpha, \beta > -1$, $\omega(x) = (1-x)^\alpha (1+x)^\beta$, $I=(-1,1)$.
-			Dann bilden $Jacobi-Polynome$ ein Orthogonalsystem:
+			Dann bilden \emph{Jacobi-Polynome} ein Orthogonalsystem:
 			\[
 				J_n(x;\alpha,\beta) = \f 1{2^n n! \omega(x)}\f {d^n}{dx^n}\Big( (x^2-1)^n \omega(x)\Big)
 			\]
@@ -3358,11 +3364,11 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 \end{ex*}
 
 \begin{lem}[Vertauschungsregel]
-	\ref{2.28}	
+	\label{2.28}	
 	Für zulässiges Funktional $R$, $u\in C^0([a,b])$, $C\in C^k([a,b]^2)$ gilt
 	\[
 		R\l( \int_a^b K(t,\cdot) u(t) dt \r) 
-		= \int_a^b R(K(t,\cdot)) u(t) dt
+		= \int_a^b R\Big(K(t,\cdot)\Big) u(t) dt
 	\]
 	\begin{proof}
 		Setze
@@ -3436,11 +3442,11 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 		Setze $r(t) := \int_a^b f(x)g(x) dx - f(t) \int_a^b g(x) dx \in C^0([a,b])$.
 		Seien $x_{\text{min}}, x_{\text{max}} \in [a,b]$ mit
 		\[
-			f(x_{\text{min}} = \min_{x\in[a,b]} f(x) , \qquad f(x_{\text{max}} = \max{x\in[a,b]}f(x)
+			f(x_{\text{min}}) = \min_{x\in[a,b]} f(x) , \qquad f(x_{\text{max}}) = \max_{x\in[a,b]}f(x)
 		\]
-		Daraus folgt $r(x_{\text{min}} = \int_a^b (f(x)-f(x_{\text{min}}g(x) dx \ge 0$.
+		Daraus folgt $r(x_{\text{min}}) = \int_a^b (f(x)-f(x_{\text{min}})g(x) dx \ge 0$.
 
-		Analog für $r(x_{\text{max}} \le 0$.
+		Analog für $r(x_{\text{max}}) \le 0$.
 		Der Zwischenwertsatz folgt, da $\xi \in[x_{\text{min}}, x_{\text{max}}]$ existiert.
 	\end{proof}
 \end{lem}
