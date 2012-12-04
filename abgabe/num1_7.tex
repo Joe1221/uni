@@ -1,0 +1,180 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\usepackage{graphicx}
+\blattnumeins
+
+\begin{document}
+
+\begin{aufgabe}~
+
+	Sei ein Polynom ersten Graden in zwei Variablen gegeben durch $p(x,y) = ax + by + c$.
+	\begin{enumerate}[a)]
+		\item
+			Für das exakte Integral gilt
+			\begin{align*}
+				I(p) 
+				&= \int_0^h \int_0^{h-x} ax + by +c \; dy\;dx 
+				= \int_0^h \l[axy + \f 12 by^2 + cy\r]_0^{h-x} \;dx \\
+				&= \int_0^h ahx -ax^2 + \f 12b ( h^2-2hx + x^2) + ch -cx \;dx \\
+				&= \l[\f 12 ahx^2 - \f 13ax^3 + \f 12 b\Big(h^2x-hx^2 + \f 13 x^3\Big) + chx - \f 12 cx^2 \r]_0^h \\
+				&= \f 16 h^3 a + \f 16 h^3 b + \f 12 h^2 c
+			\end{align*}
+			Mit der Quadraturformel an den Stellen $a_i$ und Gewichten $\omega_i$ ($i=1,\dotsc,3)$ ergibt sich
+			\begin{align*}
+				I_h(f) 
+				&= \sum_{i=1}^3 \omega_i p(a_i) 
+				= \omega_1 c + \omega_2(bh+c) + \omega_3(ah +c) \\
+				&= (\omega_1 + \omega_2 + \omega_3)c + (\omega_2 h)b + (\omega_3 h) a
+			\end{align*}
+			Mittels Koeffizientenvergleich gegenüber dem exakten Integral $I(p)$ erhält man für die Gewichte dann
+			\[
+				\omega_1 = \omega_2 = \omega_3 = \f {h^2}6
+			\]
+		\item
+			Es gilt
+			\[
+				\omega p(s) = \omega\l( \f h3 a + \f h3 b + c \r)
+			\]
+			Wählt man $\omega := \f {h^2}2$, so erhält man genau das exakte Integral aus der a) unabhängig von den Koeffizienten des Polynoms.
+	\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	Da die Gewichte der Newton-Cotes-Quadratur auf $[0,1]$ für $n=8$ das folgende Gleichungssystem lösen:
+	\begin{align*}
+		\begin{pmatrix}
+			1 & 1 & \cdots & 1 \\
+			0 & \f 18 & \cdots & \f 88 \\
+			0 & (\f 18)^2 & \cdots & (\f 88)^2 \\
+			\vdots & \vdots & \ddots & \vdots \\
+			0 & (\f 18)^8 & \cdots & (\f 88)^8 
+		\end{pmatrix}
+		\begin{pmatrix}
+			\omega_0 \\ \vdots \\ \omega_8
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			\f 11 \\ \f 12 \\ \vdots \\ \f 19
+		\end{pmatrix}
+	\end{align*}
+	lassen sich die Gewichte durch Lösen mit Matlab berechnen.
+	Man erhält
+	\[
+		\begin{pmatrix}
+			\omega_0 \\ \vdots \\ \omega_8
+		\end{pmatrix}
+		=
+		\begin{pmatrix}[r]
+			0.034885 \\
+			0.207690\\
+			-0.032734\\
+			0.370229\\
+			-0.160141\\
+			0.370229\\
+			-0.032734\\
+			0.207690\\
+			0.034885\\
+   		\end{pmatrix}
+	\]
+\end{aufgabe}
+
+\begin{aufgabe}
+	\begin{enumerate}[a)]
+		\item
+			Nutze das Gram-Schmidt'sche Orthogonalisierungsverfahren mit dem Skalarprodukt $\<f,g\> := \int_{-1}^1 f(x)g(x) \sqrt{|x|} dx$:
+			\begin{align*}
+				p_0 &:= 1 \\
+				p_1 &:= x - \f {\<x,1\>}{\<1,1\>}1 = x - \overbrace{\f{\int_{-1}^1 x\sqrt{|x|} dx}{\<1,1\>}}^{=0} 1 = x \\
+				p_2 &:= x^2 - \f {\<x^2,1\>}{\<1,1\>} 1 - \f{\<x^2,x}{\<x,x\>}x \\
+				&\quad = x^2 - \f{\int_{-1}^1 x^2\sqrt{|x|} dx}{\int_{-1}^1 \sqrt{|x|} dx} - \overbrace{\f{\int_{-1}^1 x^3 \sqrt{|x|} dx}{\<x,x\>}}^{=0} \\
+				&\quad = x^2 - \f {2 \int_0^1 x^{\f 52} dx} {2\int_0^1 x^{\f 12} dx} 
+				= x^2 - \f {\big[\f 27x^{\f72}\big]_0^1}{\big[\f 23x^{\f 32}\big]_0^1}
+				= x^2 - \f {\f 27}{\f 23}
+				= x^2 - \f 37
+			\end{align*}
+		\item
+			Nutze als Gewichtsfunktion $\omega(x) = \sqrt{|x|}$ und berechne die Gewichte der Gauß-Quadratur mittels
+			\[
+				\omega_i = \int_{-1}^1 L_i^1 (x) \omega(x) dx
+			\]
+			Als zugrundeliegenden Polynom benutzt man $p_2$ aus a) mit den Nullstellen $x_0=-\f 17\sqrt{21}$  und $x_1=\f 17\sqrt{21}$, es ergibt sich
+			\begin{align*}
+				\omega_0 &= \int_{-1}^1 \f {x-x_1}{x_0-x_1}\sqrt{|x|} dx = -2 \f{x_1}{x_0-x_1} \int_0^1 x^{\f 12} dx = \f 43 \f {x_1}{x_1-x_0} = \f 23 \\
+				\omega_1 &= \int_{-1}^1 \f{x-x_0}{x_1-x_0}\sqrt{|x|} dx = -2 \f{x_0}{x_1-x_0} \int_0^1 x^{\f 12} dx = \f 43 \f {x_0}{x_0-x_1} = \f 23
+			\end{align*}
+			Zeige jetzt, dass diese Gauß-Quadratur mit Stützstellen $x_0, x_1$ und Gewichten $\omega_0,\omega_1$ tatsächlich das vorgegebene Integral exakt integriert.
+
+			Sei $q=ax^3 + bx^2 + cx + d$, dann gilt für das exakte Integral
+			\begin{align*}
+				I(q) 
+				&= \int_{-1}^1 (ax^3 + bx^2 + cx + d)\sqrt{|x|} dx 
+				= \int_{-1}^1 (bx^2 + d)\sqrt{|x|} dx \\
+				&= 2 \int_0^1 bx^{\f 52} + dx^{\f 12} dx 
+				= 2 \l[ \f 27 bx^{\f 72} + \f 23 dx^{\f 32}\r]_0^1 \\
+				&= \f 47 b + \f 43 d
+			\end{align*}
+			und für die Gauß-Quadratur:
+			\begin{align*}
+				I_1(q)
+				&= \sum_{i=0}^1 q(x_i) \omega_i \;dx \\
+				&= \f 23 q\l( -\f17 \sqrt{21}\r) + \f 23 q\l(\f 17 \sqrt{21}\r) 
+				= \f 23 \l( b\Big(-\f 17 \sqrt{21}\Big)^2 + d \r) \\
+				&= \f 47 b + \f 43 d
+			\end{align*}
+			Also $I_1(q) = I(q)$ und damit ist die gewählte Gauß-Quadratur exakt für das gegebene Integral.
+	\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
+	\begin{enumerate}[a)]
+		\item
+			Newton-Cotes-Routine:
+			\lstinputlisting[language=matlab]{num1_7_4/newtoncotes.m}
+		\item
+			Das Programm zur Auswertung:
+			\lstinputlisting[language=matlab]{num1_7_4/b.m}
+			\begin{table}[h]
+				\centering
+				\caption{Newton-Cotes-Ergebnisse für $f(x)=x^i$}
+				\begin{tabular}{c|rrrrrr}
+					$i \;\backslash\; n$ & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
+0 &  1.00000 & 1.00000 & 1.00000 & 1.00000 & 1.00000 & 1.00000 \\
+1 &  0.50000 & 0.50000 & 0.50000 & 0.50000 & 0.50000 & 0.50000\\
+2 &  0.50000 & 0.33333 & 0.33333 & 0.33333 & 0.33333 & 0.33333\\
+3 &  0.50000 & 0.25000 & 0.25000 & 0.25000 & 0.25000 & 0.25000\\
+4 &  0.50000 & 0.20833 & 0.20370 & 0.20000 & 0.20000 & 0.20000\\
+5 &  0.50000 & 0.18750 & 0.17593 & 0.16667 & 0.16667 & 0.16667\\
+6 &  0.50000 & 0.17708 & 0.15844 & 0.14323 & 0.14307 & 0.14286\\
+7 &  0.50000 & 0.17187 & 0.14712 & 0.12630 & 0.12573 & 0.12500\\
+8 &  0.50000 & 0.16927 & 0.13969 & 0.11390 & 0.11269 & 0.11114\\
+				\end{tabular}
+			\end{table}
+			\newpage
+		\item
+			Das Programm zur Auswertung der Fehler:
+			\lstinputlisting[language=matlab]{num1_7_4/c.m}
+			\begin{table}[h]
+				\centering
+				\caption{Newton-Cotes-Ergebnisse für $f(x)=x^i$}
+				\begin{tabular}{c|rrrrrr}
+					$i \;\backslash\; n$ & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
+0 &  0.00000 & 0.00000 & 0.00000 & 0.00000 & 0.00000 & 0.00000\\
+1 &  0.00000 & 0.00000 & 0.00000 & 0.00000 & 0.00000 & 0.00000\\
+2 &  0.16667 & 0.00000 & 0.00000 & 0.00000 & 0.00000 & 0.00000\\
+3 &  0.25000 & 0.00000 & 0.00000 & 0.00000 & 0.00000 & 0.00000\\
+4 &  0.30000 & 0.00833 & 0.00370 & 0.00000 & 0.00000 & 0.00000\\
+5 &  0.33333 & 0.02083 & 0.00926 & 0.00000 & 0.00000 & 0.00000\\
+6 &  0.35714 & 0.03423 & 0.01558 & 0.00037 & 0.00021 & 0.00000\\
+7 &  0.37500 & 0.04687 & 0.02212 & 0.00130 & 0.00073 & 0.00000\\
+8 &  0.38889 & 0.05816 & 0.02858 & 0.00279 & 0.00158 & 0.00003\\
+				\end{tabular}
+			\end{table}
+
+			Man erkennt deutlich, dass die Newton-Cotes-Quadratur die $x^i$ für $i \le n$ exakt integriert.						
+			Für $n$ gerade sogar alle $x^i$ mit $i \le n+1$.
+			Das steht im Einklang zur Aussage aus der Vorlesung, dass die Newton-Cotes-Quadratur exakt auf $\P_n$ und falls $n$ gerade sogar exakt auf $\P_{n+1}$ ist.
+	\end{enumerate}
+	
+\end{aufgabe}
+\end{document}
