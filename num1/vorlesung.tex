@@ -3476,9 +3476,237 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 		R(f) = \f 13 (f(-1) + 4f(0) + f(1)) -\int_{-1}^1 f(x) dx
 	\]
 	$R: C^0 ([a,b]) \to \R$, $k=0$.
+	Die Simpson-Quadratur ist exakt auf $n=3$, also mit \ref{2.30} ist
+	\[
+		R(f) = \int_{-1}^1 K(t) \cdot f^{(4)}(t) dt \qquad f\in C^4([-1,1])
+	\]
+	mit
+	\begin{align*}
+		K(t) &= \f 1{3!}R((\cdot - t)_+^3) \\
+		&= \f 1{18} ((-1-t)_+^3+ 4(0-t)_+^3 + (1-t)_+^3) - \f 16 \int_{-1}^1 (x-t)_+^3 dx \\
+	\end{align*}
+	Es ist $(-1-t)_+^3 = 0$ für $t\in [-1,1]$ und
+	\begin{align*}
+		(-t)_+^3 &= \begin{cases}
+			-t^3 & t\in[-1,0] \\
+			0 & t\in[0,1]
+		\end{cases} \\
+		(1-t)_+^3 &= (1-t)^3 \\
+		\int_{-1}^1 (x-t)_+^3 dx &= \int_t^1 (x-t)^3 dx = \f 14(1-t)^4
+	\end{align*}
+	Also für $t\in [0,1]$:
+	\begin{align*}
+		K(t) &= \f 1{18} (1-t)^3 - \f 1{24} (1-t)^4 \\
+			&= \f 1{72}(1-t)^3\big(4-3(1-t)\big) = \f 1{72}(1-t)^3(1+3t) \ge 0
+	\end{align*}
+	Für $t\in [-1,0]$:
+	\begin{align*}
+		K(t) &= \f 1{18}\big(-4t^3 + (1-t)^3\big) - \f 1{24}(1-t)^4 \\
+		&=  \dotsb \\
+		&= K(-t) \ge 0
+	\end{align*}
+	Da $K(t) \ge 0$ auf $[-1,1]$ folgt mit \ref{2.32} die Darstellung
+	\[
+		R(f) = f^{(4)}(\xi) \f {R(x^4)}{4!}
+	\]
+	also
+	\begin{align*}
+		R(x^4) &= \f 13 (1+4\cdot 0 + 1) - \int_{-1}^1 x^4 dx \\
+		&= \f 23 - \f 15 x^5 \Big|_{-1}^1
+		= \f {10}{15} - \f {6}{15} = \f 4{15}
+	\end{align*}
+	Also
+	\[
+		R(f) = f^{(4)}(\xi) \f 4{15} \cdot \f 1{24} 
+		= \f 1{90} f^{(4)}(\xi) 
+		= \f 1{2880} (b-a)^5 f^{(4)}(\xi)
+	\]
+	und damit wie \ref{2.12} ii)
+	\[
+		|R(f)| \le \f 1{2880} (b-a)^5 \cdot \|f^{(4)}\|_\infty
+	\]
+	Analog für Finite-Differenzen-Quotienten (Übung)
 \end{ex*}
 
 
+\subsection{Romberg-Verfahren}
+
+
+\begin{df}[Romberg-Verfahren]
+	\label{2.33}
+	Sei $I_h$ eine zusammengesetzte Quadratur auf $[a,b]$ mit Diskretisierungsparameter $h\in \R^+$.
+	Sei $f\in C^0([a,b])$.
+	Setze $b(h) := I_h(f)$.
+	Wähle $h_i := h_0 2^{-i}$ für $i=1,\dotsc,n$ mit $n\in \N$ (Romberg-Folge), so dass $b(h_i)$ wohldefiniert ist.
+	Führe Richardson-Extrapolation gemäß Definition \ref{1.8} auf $\{h_i\}_{i=0}^n$ und $\{I_{h_i}(f)\}_{i=0}^n$ durch, um eine Approximation für
+	\[
+		\lim_{h\to 0} b(h) = \lim_{h\to 0} I_h(f) = I(f)
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die Wohldefiniertheit der $b(h_i)$ ist für $\f{b-a}{h_0} \in \N$ gewährleistet.
+			\item
+				Die Auswertung von $b(h) = I_h(f)$ ist für kleine $h$ teuer ($\mathcal O(\f 1h)$), daher lohnt sich die Richardson-Extrapolation.
+			\item
+				Wie in Abschnitt 1.1 bemerkt, kann die Richardson-Extrapolation verbessert werden, falls die asymptotische Entwicklung nur $h^{qn}$ Monome enthält für $q>1$.
+				Dies ist insbesondere für die zusammengesetzte Trapezregel erfüllt, wie im Folgenden hergeleitet wird.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{df}[Bernoulli-Polynome]
+	\label{2.34}
+	Wir definieren rekursiv die \emph{Bernoulli-Polynome} $B_k \in \P_k$ durch
+	\[
+		B_0(x) := 1 \qquad
+		\f d{dx} B_k(x) := k \cdot B_{k-1}(x) \quad \land \quad \forall k\ge 1 : \int_0^1 B_k(x) dx = 0
+	\]
+	Die \emph{Bernoulli-Zahlen} sind gegeben durch
+	\[
+		\beta_k := B_k(0)
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die $B_k$ sind wohldefiniert durch
+				\[
+					\_{B_k}(x) := \int_0^x k B_{k-1}(t) dt 
+					\quad \text{und} \quad
+					B_k(x) := \_{B_k}(x) - \int_0^1 \_{B_k}(t) dt
+				\]
+			\item
+				Die ersten Bernoulli-Polynome sind
+				\begin{align*}
+					B_0(x) &= 1  \\
+					B_1(x) &= x - \f 12 \\
+					B_2(x) &= x^2 - x + \f 16 \\
+					B_3(x) &= x^3 - \f 32 x^2 + \f 12 x
+				\end{align*}
+				Die ersten Bernoullizahlen sind dann
+				\[
+					\beta_0 = 1, \quad
+					\beta_1 = -\f 12, \quad
+					\beta_2 = \f 16, \quad
+					\beta_3 = 0
+				\]
+			\item
+				Mann kann zeigen
+				\begin{align*}
+					B_k(x) &= \sum_{i=0}^k \binom ki \beta_i x^{k-i} \\
+					\f x{e^x - 1} &= \sum_{k=0}^\infty \beta_k \f {x^k}{k!}
+				\end{align*}
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{lem}[Eigenschaften]
+	\label{2.35}
+	Es gilt
+	\begin{enumerate}[i)]
+		\item
+			$B_k(0) = B_k(1)$ für $k\ge 2$
+		\item
+			$B_k(t) = (-1)^k B_k(1-t)$ für $k\ge 0$
+		\item
+			$B_{2k+1}(0) = B_{2k+1}(1) = B_{2k+1}(\frac 12) = 0$ für $k\ge 1$
+	\end{enumerate}
+	\begin{proof}
+		Es gilt
+		\[
+			B_k \Big(\f 12 + \tau\Big) = B_k\Big(\f 12 - \tau\Big)  + \int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt
+		\]
+		\begin{enumerate}[i)]
+			\item
+				Für $\tau = \f 12$ folgt mit $\int_{0}^1 B_{k-1}(t) dt = 0$ für $k\ge 2$
+				\[
+					B_k(1) = B_k(0) + 0
+				\]
+			\item
+				Zeige induktiv: $B_k$ achsensymmetrisch für gerade $k$ und punktsymmetrisch bezüglich $(\f 12,0)$ für ungerade $k$.
+				Für $k=0, k=1$ ist die Aussage klar.
+				Gelte die Behauptung für $k-1$.
+
+				Falls $k$ gerade, dann ist $B_{k-1}$ punktsymmetrisch zu $(\f 12, 0)$
+				\[
+					B_k \Big(\f 12 + \tau\Big) = B_k(\f 12 - \tau)  + \underbrace{\int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt}_{=0}
+				\]
+				und damit $B_k(\f 12 + \tau) = B_k(\f 12 - \tau)$
+
+				Falls $k$ ungerade, dann ist $B_{k-1}$ achsensymmetrisch zu $x=\f 12$ und
+				\[
+					\int_{\f 12 - \tau}^{\f 12} B_{k-1}(t) dt = \int_{\f 12}^{\f 12 + \tau} B_{k-1}(t) dt
+				\]
+				Setze $c := B_k(\f 12)$
+				\begin{align*}
+					B_k\Big(\f 12 + \tau\Big) - c 
+					&= B_k\Big(\f 12\Big) + \int_{\f 12}^{\f 12 + \tau} k B_{k=1}(t) dt - B_k\Big(\f 12\Big) \\
+					&= c - \l( \int_{\f 12}^{\f 12 - \tau} k B_{k-1}(t) dt + B_k\Big( \f 12\Big) \r) \\
+					&= c - B_k\Big(\f 12 - \tau\Big)
+				\end{align*}
+				also ist $B_k$ punktsymmetrisch zu $(\f 12, c)$.
+				Außerdem
+				\[
+					c = \int_{0}^1 B_k(x) dx = 0
+				\]
+				womit $B_k$ punktsymmetrisch zu $(\f 12,0)$ ist.
+			\item
+				Für $k'=2k+1$ ist $B_{k'}$ punktsymmetrisc zu $(\f 12,0)$ nach ii), also $B_{k'}(\f 12) = 0$.
+				$B_{k'-1}$ ist achsensymmetrisch, also
+				\[
+					0 = \int_0^1 B_{k'-1}(t) dt = 2 \int_0^{\f 12} B_{k'-1} (t) dt 
+				\]
+				Es gilt
+				\[
+					0 = B_{k'}\Big(\f 12\Big) = B_{k'}(0) + \int_{0}^{\f 12} k' B_{k'-1}(t) dt = B_{k'}(0)
+				\]
+				und $B_{k'}(1) = 0$ wegen der Punktsymmetrie.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+\begin{st}[Euler-MacLaurin'sche Summenformel]
+	Sei $f\in C^{2m}([a,b])$, $m\in \N$, $h:= \f {b-a}N$, $N\in \N$ und $I_h$ die zusammengesetzte Trapezregel
+	\[
+		T_h(f) = \f h2 \big(f(a) + f(b)\big) + h \cdot \sum_{j=1}^{N-1} f(a+jh)
+	\]
+	dann gilt für den Fehler
+	\[
+		I_h(f) - I(f) = \sum_{k=1}^{m-1} h^{2k} \f{\beta_{2k}}{(2k)K} \Big( f^{(2k-1)}(b) - f^{(2k-1)}(a) \Big) + o(h^{2m})
+	\]
+	\begin{proof}
+		Sei $\phi \in \C^{2m}([0,1])$, dann gilt wegen $\f{B_k'}k = B_{k-1}$, $B_1(1) = \f 12, B_1(0) = - \f 12$:
+		\begin{align*}
+			&\int_0^1 B_0(t) \phi(t) dt 
+			= B_1(t) \phi(t) \Big|_{0}^1 - \int_0^1 B_1(t) \phi'(t) \\
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \int_0^1 \f 12 B_2(t) \phi'(t) dt \\
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \underbrace{\f 1{2\cdot 3} B_3(t) \phi''(t) \Big|_0^1}_{=0 \text{ \ref{2.35} ii)}} - \int_0^1 \f 1{3!} B_3(t) \phi^{(3)}(t) dt \\
+			&\quad= \dotsc \\
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \sum_{k=1}^{m-1} \l( \f {B_{2k}(1)}{(2k)!} \phi^{(2k-1)}(1) - \f {B_{2k}(0)}{(2k)!} \phi^{(2k-1)}(0) \r) + \int_0^1 \f 1{(2m)!} B_{2m}(t) \phi^{(2m)}(t) \; dt \\
+			&\quad\stackrel{\ref{2.35} i)}=  \f 12 \big(\phi(1) - \phi(0)\big) - \sum_{k=1}^{m-1} \f {\beta_{2k}}{(2k)} \big( \phi^{(2k-1)}(1) - \phi^{(2k-1)}(0) \big) + \int_0^1 \f {B_{2m}(t)}{(2m)!} \phi^{(2m)}(t) \; dt
+		\end{align*}
+		Wähle  $\phi_j(t) := h \cdot f(x_{j-1} + th)$, $x_j := a+jh$, $j=1,\dotsc, N$ (bzw. $j=0,\dotsc, N$).
+		Dann gilt
+		\begin{itemize}
+			\item
+				$\displaystyle
+					\int_0^1 \phi_j(t) dt = \int_{x_{j-1}}^{x_j} f(x) dx
+				$
+			\item
+				$\displaystyle
+					\phi_j^{(k-1)}(t) = h^k f^{(k-1)}(x_{j-1} + th)
+				$
+			\item
+				$\displaystyle
+					\phi_j(1) = h f(x_j) = \phi_{j+1}(0)
+				$
+			\item
+				$\displaystyle
+					\phi_j^{2k-1}(1) = \phi_{j+1}^{2k-1}(0)
+				$
+		\end{itemize}
+	\end{proof}
+\end{st}
 
 \section{Nichtlineare Gleichungsysteme}
 
