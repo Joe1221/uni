@@ -2332,7 +2332,9 @@ Integriere das Interpolationspolynom $p$ zu den Daten $(x_i,f(x_i))$ für $i=0,\
 
 Mit Hilfe der Lagrange-Darstellung von $p$:
 \[
-	p(x) = \sum_{j=0}^n f(x_j) \cdot L_j^n (x) \qquad \text{mit} \qquad L_j^n(xr := \prod_{\substack{k=0\\k\neq j}}^n \f{x-x_k}{x_j-x_k}
+	p(x) = \sum_{j=0}^n f(x_j) \cdot L_j^n (x) \qquad 
+	\text{mit} 
+	\qquad L_j^n(x) := \prod_{\substack{k=0\\k\neq j}}^n \f{x-x_k}{x_j-x_k}
 \]
 Wir integrieren:
 \[
@@ -2342,9 +2344,11 @@ Also $I_n(f) = I(p)$.
 
 \begin{df}[Interpolatorische Quadratur]
 	\label{2.3}
-	Eine Quadratur $I_n$ ist eine \emph{Interpolatorische Quadratur}, falls die Gewichte gegeben sind durch 
+	Eine Quadratur $I_n$ ist eine \emph{Interpolatorische Quadratur}, falls die Gewichte durch die Lagrange-Polynome gegeben sind:
 	\[
-		\omega_j := \int_a^b \prod_{\substack{k=0\\k\neq j}}^n \f {x-x_k}{x_j-x_k} \;dx
+		\omega_j := \int_a^b L_j^n \;dx
+		\qquad \text{mit} 
+		\qquad L_j^n(x) := \prod_{\substack{k=0\\k\neq j}}^n \f{x-x_k}{x_j-x_k}
 	\]
 \end{df}
 
@@ -2376,7 +2380,7 @@ Also $I_n(f) = I(p)$.
 
 \begin{st}
 	\label{2.5}
-	Zu Stützstellen $\{x_j\}_{j=0}^n \subset [a,b]$ paarweise verschieden, existiert genau ein Quadratur, welche exakt auf $\P_n$ ist.
+	Zu Stützstellen $\{x_j\}_{j=0}^n \subset [a,b]$ paarweise verschieden, existiert genau eine Quadratur, welche exakt auf $\P_n$ ist.
 	\begin{proof}
 		Existenz ist nach \ref{2.4} klar: die Interpolatorische Quadratur tut's.
 		Zeige jetzt die Eindeutigkeit:
@@ -2648,13 +2652,13 @@ Also $I_n(f) = I(p)$.
 			\[
 				\omega_j := \int_0^1 L_j^n(x) dx
 			\]
-			lassen sich kompakt als Lösung eines LGS schreiben mit Hilfe einer transformierten Vandermondematrix darstellen (siehe Satz \ref{2.10}).
+			lassen sich kompakt als Lösung eines LGS schreiben mit Hilfe einer transponierten Vandermondematrix darstellen (siehe Satz \ref{2.10}).
 	\end{itemize}
 \end{nt*}
 
 \begin{st}
 	\label{2.10}
-	Die Gewichte $\{\omega_j\}_{j=0}^n$ der geschlossene Newton-Cotes Formel lösen
+	Für das Intervall $[0,1]$ sind die Gewichte $\{\omega_j\}_{j=0}^n$ der geschlossenen Newton-Cotes Formel Lösung des linearen Gleichungsystems
 	\[
 		\begin{pmatrix}
 			1 & 1 & 1 & \dotsc & 1 \\
@@ -2792,7 +2796,7 @@ Also $I_n(f) = I(p)$.
 				I_h(f) = \f h2 \l(f(a) + 2 \sum_{l=1}^{N-1}f(x_l) + f(b)\r) \qquad x_l := a+ lh \qquad l=0,\dotsc,N
 			\]
 		\item
-			Zusammengesetzt Simpsonregel mit
+			Zusammengesetzte Simpsonregel mit
 			\[
 				\hat n = 2, \quad h := \f H2, \qquad x_k := a+kh, \quad k=0,\dotsc, 2N
 			\]
@@ -3024,10 +3028,10 @@ Also $I_n(f) = I(p)$.
 				\begin{tabular}{c|c|c}
 					n & $(x_0, \dotsc, x_n)$ & ($\omega_0,\dotsc,\omega_n$) \\ \hline
 					0 & 0 & 2 \\
-					1 & $\pm \sqrt{\f 13}$ & (1,1) \\
+					1 & $\l(-\sqrt{\f 13}, -\sqrt{\f 13}\r)$ & (1,1) \\
 					2 & $\l(-\sqrt{\f 35}, 0, \sqrt{\f 35}\r)$ & $\l(\f 59, \f 89, \f 59\r)$ \\
-					3 & $\pm \sqrt{\f 37 + \f 27 \sqrt{\f 65}}, \pm \sqrt{\f 37 - \f 27\sqrt{\f 65}}$
-					& $\f {18-\sqrt{30}}{36} $
+					3 & $\l(- \sqrt{\f 37 + \f 27 \sqrt{\f 65}}, - \sqrt{\f 37 - \f 27\sqrt{\f 65}}, \sqrt{\f 37 - \f 27\sqrt{\f 65}}, \sqrt{\f 37 + \f 27\sqrt{\f 65}} \r)$
+					& $\l(\f {18-\sqrt{30}}{36}, \f {18+\sqrt{30}}{36}, \f {18+\sqrt{30}}{36},\f {18-\sqrt{30}}{36}\r)$
 				\end{tabular}
 			\end{table}
 	\end{itemize}
@@ -3046,7 +3050,7 @@ Also $I_n(f) = I(p)$.
 	\[
 		p_n(x) = \f {n!}{(2n)!} \f {d^n}{dx^n} (x^2-1)^n
 	\]
-	Gauß-Quadraturren auf $[-1,1]$ werden auf Gauß-Legendre-Quadraturen genannt.
+	Gauß-Quadraturen auf $[-1,1]$ werden auf Gauß-Legendre-Quadraturen genannt.
 \end{nt*}
 
 \begin{st}[Symmetrie]
@@ -3259,6 +3263,467 @@ Also $I_n(f) = I(p)$.
 	\end{note}
 \end{st}
 
+\begin{nt*}[Allgemeinere Integrale]
+	Sei $\omega \in C^0(I)$ eine „Gewichtsfunktion“ auf dem Intervall $I\subset \R$ mit $\int_I \omega(x) dx < \infty$ und $\omega(x) \ge 0$ für alle $x\in I$.
+
+	Dann definiert 
+	\[
+		\<f,g\>_\omega := \int_I f(x) g(x) \omega(x) dx
+	\]
+	ein Skalarprodukt auf $C^0(I)$.
+
+	Definiere analog zu \ref{2.17} $\{p_i\}_{i=0}^{n+1}$ als Orthogonalsystem bezüglich $\<\cdot,\cdot\>_\omega$ von $\P_{n+1}$.
+	Wähle die Quadraturpunkte $\{x_i\}_{i=0}^n$ als Nullstellen von $p_{n+1}$ und setze $\{\omega_j\}_{j=0}^n$ als gewichtete Integrale der Lagrange-Polynome:
+	\[
+		\omega_i := \int_I L_i^n(x) \omega(x) dx
+	\]
+	Dann ist $I_n(f) = \sum_{i=0}^n\omega_i (x_i)$ eine Approximation für $I(f) := \int_I f(x) \omega(x) dx$.
+	Es existieren einige spezielle Versionen
+	\begin{itemize}
+		\item
+			$I=[-1,1], \omega(x) =1$, dann sind $\{x_i\}$ die Nullstellen der Legendre Polynome („Gauß-Legendre-Quadraturen“).
+		\item
+			$I=(-1,1), \omega(x) = \f 1{\sqrt{1-x^2}}$, dann sind die Tschebyscheff-Polynome ein Orthonormalsystem bezüglich $\<\cdot,\cdot\>_\omega$, $p_n= \hat T_n$.
+			\[
+				x_i := \cos \l(\pi \f {2j+1}{2(n+1)}\r) \qquad j= 0,\dotsc, n
+			\]
+			nach Satz \ref{1.14}. Und $\omega_0 = \dotsb = \omega_n = \f {\pi}{n+1}$.
+		\item
+			$I=[0,\infty), \omega(x) = e^{-x}$, dann bilden die Laguerre-Polynome ein Orthogonalsystem:
+			\[
+				L_0(x) := 1, \qquad L_1(x) := 1-x, \qquad L_{n+1}(x) = (1+2n-x)L_n(x) - n^2 L_{n-1}(x)
+			\]
+			mit $p_n = (-1)^n L_n$ („\emph{Gauß-Laguerre-Quadratur}“).
+		\item
+			$I=(-\infty,\infty), \omega(x) = e^{-x^2}$, dann bilden die \emph{Hermite-Polynome} ein Orthogonalsystem:
+			\[
+				H_0(x) := 1, \qquad H_1(x) := 2x, \qquad H_{n+1}(x) := 2xH_n(x) - 2nH_{n-1}(x)
+			\]
+			mit $p_n(x)=2^n H_n(x)$.
+		\item
+			$\alpha, \beta > -1$, $\omega(x) = (1-x)^\alpha (1+x)^\beta$, $I=(-1,1)$.
+			Dann bilden \emph{Jacobi-Polynome} ein Orthogonalsystem:
+			\[
+				J_n(x;\alpha,\beta) = \f 1{2^n n! \omega(x)}\f {d^n}{dx^n}\Big( (x^2-1)^n \omega(x)\Big)
+			\]
+			Es ergibt sich die „Gauß-Jacobi-Quadratur“.
+			Für $\alpha=\beta=0$ ergibt sich die Gauß-Legendre-Quadratur.
+			Für $\alpha=\beta= -\f 12$ ergibt sich die Gauß-Tschebyscheff-Quadratur.
+	\end{itemize}
+	Diese Formeln sind vorteilhaft bei der Integration von Funktionen mit Singularitäten an Endpunkten von $I$.
+\end{nt*}
+
+\begin{ex*}
+	Sei $f(x) = \f {x^2}{\sqrt{1-x^2}}$ und $\int_{-1}^1 f(x) dx = \int_{-1}^1 x^2 \underbrace{\f 1{\sqrt{1-x^2}}}_{\omega(x)} dx$.
+	Wähle die Gauß-Tschebyscheff-Quadratur mit $n=2$ (für $p(x) = x^2$ exakt).
+	\begin{align*}
+		x_0 := \cos\l(\pi \f 16 \r) = \sqrt{\f 34}, \qquad x_1 &= \cos\l(\pi \f 36\r) = 0, \qquad x_2 = \cos \l(\pi\f 56\r) = -\sqrt{\f 34}
+	\end{align*}
+	mit $\omega_0 = \omega_1 = \omega_2 = \f {\pi}3$
+	\[
+		\int_{-1}^1 f(x) dx = \sum_{i=0}^2 \omega_i x_i^2 = \f {\pi}3 \cdot \f 64 = \f \pi2
+	\]
+	das stimmt mit der analytischen Lösung überein:
+	\[
+		\int_{-1}^1 \f {x^2}{\sqrt{1-x^2}} dx = \f 12 \sin^{-1}(x) - \f 12 x\sqrt{1-x^2} \; \Big|_{-1}^1 = \f 12 \l( \f \pi 2 - \l(-\f \pi 2\r) \r) = \f \pi2
+	\]
+\end{ex*}
+
+\begin{nt*}[Zusammengesetzte Gauß-Quadraturen]
+	\begin{itemize}
+		\item
+			Berechnung der Nullstellen von $p_n$ in hoher Präzision kann für gorße $n$ schwierig sein.
+		\item
+			Daher sind auch zusammengesetzt Gauß-Quadraturen praktikable Alternativen.
+			\begin{ex*}
+				Zusammengesetzte 2-Punkt-Gauß-Quadratur auf $[a,b]$, $N\in \N$, $h=\f {b-a}N$, $n:= N\cdot 2 - 1$, Mittelpunkte $m_l := a+ (l-\f 12)h$ , $l= 1,\dotsc, N$.
+				\[
+					I_h (f) = \f h2 \sum_{l=1}^N \Big( f\l(m_l- \f 1{2\sqrt 3} h\r) + f\l( m_l + \f 1{2\sqrt 3} h\r) \Big)
+				\]
+			\end{ex*}
+		\item
+			Die Fehlerschranke \ref{2.24} überträgt sich mittels \ref{2.8} ii) auf zusammengesetzte Gauß-Quadraturen.
+	\end{itemize}
+\end{nt*}
+
+
+\subsection{Fehlerdarstellung nach Peano}
+
+Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche insbesondere einige der vorhergehenden Fehleraussagen impliziert.
+
+\begin{df}[Zulässige Funktionale]
+	\label{2.27}
+	Eine lineares Funktional $R : C^k([a,b]) \to \R$ heißt zulässig, wenn
+	es eine Punktauswertung 
+	\[
+		f^{(m)}(x_0), \qquad x_0\in [a,b], \qquad m\in \{0,\dotsc,k\}
+	\]
+	oder ein gewichtetes Integral
+	\[
+		\int_a^b f^{(m)}(x) \omega(x) dx
+	\]
+	oder eine endliche Linearkombination von diesen.
+\end{df}
+
+\begin{ex*}
+	\begin{itemize}
+		\item
+			Fehlerfunktionale für Quadraturen sind zulässig
+			\[
+				R(f) = \int_a^b f(x) dx - \sum_{i=0}^n \omega_i f(x_i)
+			\]
+		\item
+			Fehlerfunktionale für Finite-Differenzen-Approximation sind zulässig
+			\[
+				R(f) = \f {f(b)-f(a)}{b-a} - f'(x_0) \qquad x_0\in [a,b]
+			\]
+	\end{itemize}
+\end{ex*}
+
+\begin{lem}[Vertauschungsregel]
+	\label{2.28}	
+	Für zulässiges Funktional $R$, $u\in C^0([a,b])$, $C\in C^k([a,b]^2)$ gilt
+	\[
+		R\l( \int_a^b K(t,\cdot) u(t) dt \r) 
+		= \int_a^b R\Big(K(t,\cdot)\Big) u(t) dt
+	\]
+	\begin{proof}
+		Setze
+		\begin{align*}
+			y(\cdot) &= \int_a^b K(t,\cdot) u(t) dt \\
+			v(t) &= R(K(t,\cdot))
+		\end{align*}
+		Zu zeigen ist $R(y) = \int_a^b v(t) u(t) dt$.
+		Für $R(f) = f^{(m)}(x_0)$:
+		\begin{align*}
+			R(y) = \f {d^m}{dx^m} \l( \int_a^b K(t,x) u(t) dx \r) \Big|_{x_0}
+			= \int_a^b \l( \f {d^m}{dx^m} K(t,x) \r) u(t) dt \Big|_{x_0}
+			= \int_a^b v(t) u(t) dt
+		\end{align*}
+		Für $R(t) = \int_a^b f^{(m)}(x) \omega(x) dx$ analog, für Linearkombinationen folgt die Behauptung aus der Linearität.
+	\end{proof}
+\end{lem}
+
+\begin{lem}
+	\label{2.29}
+	Sei 
+	$
+		h_+^l := \begin{cases}h^l & h\ge 0 \\ 0 & \text{sonst}\end{cases}
+	$
+	Es gilt für $f\in C^{k+1}([a,b])$
+	\[
+		f(x) = (P_kf)(x) + \int_a^b K_k(t,x) f^{(k+1)}(t) dt
+	\]
+	mit
+	\[
+		P_k(t) (x) := \sum_{j=0}^k f^{(j)}(x) \f {(x-a)^j}{j!} \in \P_k
+	\]
+	und
+	\[
+		K_k(t,x) := \f 1{k!}(x-t)^k_+ \in C^{k-1}([a,b]^2)
+	\]
+	\begin{proof}
+		Nutze Taylor mit Integralrestglied:
+		\begin{align*}
+			f(x) &= \sum_{j=0}^k f^{(j)}(a) \f {(x-a)^j}{j!} + \int_a^x \f {(x-t)^k}{k!} f^{(k+1)}(t) dt
+			&= P_k f + \int_a^b \f {(x-t)^k_+}{k!} f^{(k+1)} (t) dt
+		\end{align*}
+	\end{proof}
+\end{lem}
+
+\begin{st}[Peano Fehlerdarstellung]
+	\label{2.30}
+	Sei $R$ ein zulässiges Funktional auf $C^k([a,b])$ welches auf $\P_n$, $n>k$ verschwindet, d.h. $R(p)=0$ für alle $p\in \P_n$.
+	Dann gilt für alle $f\in C^{n+1}([a,b])$:
+	\[
+		R(f) = \int_a^b K(t) f^{(n+1)}(t) dt
+	\]
+	mit Peano-Kern $K(t) := \f 1{n!}R((\cdot - t)^n_+)$ unabhängig von $f$.
+	\begin{proof}
+		Da $f\in C^{n+1}([a,b])$, ist $f,P_nf,f-P_nf \in C^k([a,b])$
+		\begin{align*}
+			R(f) &\stackrel{\ref{2.29}}= R(P_n f) + R\l( \int_a^b \underbrace{K_n(t,\cdot)}_{\in C^k([a,b])} f^{(n+1)}(t) dt \r)
+			&\stackrel{\ref{2.28}} =  \int_a^b R(K_n(t,\cdot)) f^{(n+1)}(t) dt \\
+			&= \int_a^b R\l( \f 1{n!}(\cdot - t)^n_+ \r) f^{(n+1)}(t) dt
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{lem}[Verallgemeinerter Mittelwertsatz]
+	Seien $f,g \in C^0([a,b])$ mit $g\ge 0$.
+	Dann existiert $\zeta \in [a,b]$ so dass
+	\[
+		\int_a^b f(x) g(x) dx = f(\zeta) \int_a^b g(x) dx
+	\]
+	\begin{proof}
+		Setze $r(t) := \int_a^b f(x)g(x) dx - f(t) \int_a^b g(x) dx \in C^0([a,b])$.
+		Seien $x_{\text{min}}, x_{\text{max}} \in [a,b]$ mit
+		\[
+			f(x_{\text{min}}) = \min_{x\in[a,b]} f(x) , \qquad f(x_{\text{max}}) = \max_{x\in[a,b]}f(x)
+		\]
+		Daraus folgt $r(x_{\text{min}}) = \int_a^b (f(x)-f(x_{\text{min}})g(x) dx \ge 0$.
+
+		Analog für $r(x_{\text{max}}) \le 0$.
+		Der Zwischenwertsatz folgt, da $\xi \in[x_{\text{min}}, x_{\text{max}}]$ existiert.
+	\end{proof}
+\end{lem}
+
+\begin{kor}[Fehlerdarstellung durch Monoauswertung]
+	Falls Peano-Kern $K(t)$ auf $[a,b]$ keinen Vorzeichenwechsel hat, so gilt für alle $f\in C^{n+1}([a,b])$ existiert $\xi\in [a,b]$ mit
+	\[
+		R(f) = f^{(n+1)}(\xi) \f 1{(n+1)!} R(x^{n+1})
+	\]
+	\begin{proof}
+		\[
+			R(f) \stackrel{\ref{2.30}}= \int_a^b K(t) f^{(n+1)}(t) dt 
+			\stackrel{\ref{2.31}}= f^{(n+1)}(\xi)\int_a^b K(t) dt
+		\]
+		Anwendung auf $x^{n-1}$:
+		\[
+			R(x^{n+1}) = \underbrace{(n+1)!}_{=\f {d^{n+1}}{dx^{n+1}}x^{n+1}} \int_a^b K(t) dt \quad 
+			\implies \quad \int_a^b K(t) dt = \f {R(x^{n+1}}{(n+1)!}
+		\]
+		Dies in die vorige Gleichung eingesetzt ergibt die Behauptung.
+	\end{proof}
+\end{kor}
+
+\begin{ex*}
+	Anwendung auf Simpson-Quadratur auf $[-1,1]$.
+	\[
+		R(f) = \f 13 (f(-1) + 4f(0) + f(1)) -\int_{-1}^1 f(x) dx
+	\]
+	$R: C^0 ([a,b]) \to \R$, $k=0$.
+	Die Simpson-Quadratur ist exakt auf $n=3$, also mit \ref{2.30} ist
+	\[
+		R(f) = \int_{-1}^1 K(t) \cdot f^{(4)}(t) dt \qquad f\in C^4([-1,1])
+	\]
+	mit
+	\begin{align*}
+		K(t) &= \f 1{3!}R((\cdot - t)_+^3) \\
+		&= \f 1{18} ((-1-t)_+^3+ 4(0-t)_+^3 + (1-t)_+^3) - \f 16 \int_{-1}^1 (x-t)_+^3 dx \\
+	\end{align*}
+	Es ist $(-1-t)_+^3 = 0$ für $t\in [-1,1]$ und
+	\begin{align*}
+		(-t)_+^3 &= \begin{cases}
+			-t^3 & t\in[-1,0] \\
+			0 & t\in[0,1]
+		\end{cases} \\
+		(1-t)_+^3 &= (1-t)^3 \\
+		\int_{-1}^1 (x-t)_+^3 dx &= \int_t^1 (x-t)^3 dx = \f 14(1-t)^4
+	\end{align*}
+	Also für $t\in [0,1]$:
+	\begin{align*}
+		K(t) &= \f 1{18} (1-t)^3 - \f 1{24} (1-t)^4 \\
+			&= \f 1{72}(1-t)^3\big(4-3(1-t)\big) = \f 1{72}(1-t)^3(1+3t) \ge 0
+	\end{align*}
+	Für $t\in [-1,0]$:
+	\begin{align*}
+		K(t) &= \f 1{18}\big(-4t^3 + (1-t)^3\big) - \f 1{24}(1-t)^4 \\
+		&=  \dotsb \\
+		&= K(-t) \ge 0
+	\end{align*}
+	Da $K(t) \ge 0$ auf $[-1,1]$ folgt mit \ref{2.32} die Darstellung
+	\[
+		R(f) = f^{(4)}(\xi) \f {R(x^4)}{4!}
+	\]
+	also
+	\begin{align*}
+		R(x^4) &= \f 13 (1+4\cdot 0 + 1) - \int_{-1}^1 x^4 dx \\
+		&= \f 23 - \f 15 x^5 \Big|_{-1}^1
+		= \f {10}{15} - \f {6}{15} = \f 4{15}
+	\end{align*}
+	Also
+	\[
+		R(f) = f^{(4)}(\xi) \f 4{15} \cdot \f 1{24} 
+		= \f 1{90} f^{(4)}(\xi) 
+		= \f 1{2880} (b-a)^5 f^{(4)}(\xi)
+	\]
+	und damit wie \ref{2.12} ii)
+	\[
+		|R(f)| \le \f 1{2880} (b-a)^5 \cdot \|f^{(4)}\|_\infty
+	\]
+	Analog für Finite-Differenzen-Quotienten (Übung)
+\end{ex*}
+
+
+\subsection{Romberg-Verfahren}
+
+
+\begin{df}[Romberg-Verfahren]
+	\label{2.33}
+	Sei $I_h$ eine zusammengesetzte Quadratur auf $[a,b]$ mit Diskretisierungsparameter $h\in \R^+$.
+	Sei $f\in C^0([a,b])$.
+	Setze $b(h) := I_h(f)$.
+	Wähle $h_i := h_0 2^{-i}$ für $i=1,\dotsc,n$ mit $n\in \N$ (Romberg-Folge), so dass $b(h_i)$ wohldefiniert ist.
+	Führe Richardson-Extrapolation gemäß Definition \ref{1.8} auf $\{h_i\}_{i=0}^n$ und $\{I_{h_i}(f)\}_{i=0}^n$ durch, um eine Approximation für
+	\[
+		\lim_{h\to 0} b(h) = \lim_{h\to 0} I_h(f) = I(f)
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die Wohldefiniertheit der $b(h_i)$ ist für $\f{b-a}{h_0} \in \N$ gewährleistet.
+			\item
+				Die Auswertung von $b(h) = I_h(f)$ ist für kleine $h$ teuer ($\mathcal O(\f 1h)$), daher lohnt sich die Richardson-Extrapolation.
+			\item
+				Wie in Abschnitt 1.1 bemerkt, kann die Richardson-Extrapolation verbessert werden, falls die asymptotische Entwicklung nur $h^{qn}$ Monome enthält für $q>1$.
+				Dies ist insbesondere für die zusammengesetzte Trapezregel erfüllt, wie im Folgenden hergeleitet wird.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{df}[Bernoulli-Polynome]
+	\label{2.34}
+	Wir definieren rekursiv die \emph{Bernoulli-Polynome} $B_k \in \P_k$ durch
+	\[
+		B_0(x) := 1 \qquad
+		\f d{dx} B_k(x) := k \cdot B_{k-1}(x) \quad \land \quad \forall k\ge 1 : \int_0^1 B_k(x) dx = 0
+	\]
+	Die \emph{Bernoulli-Zahlen} sind gegeben durch
+	\[
+		\beta_k := B_k(0)
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die $B_k$ sind wohldefiniert durch
+				\[
+					\_{B_k}(x) := \int_0^x k B_{k-1}(t) dt 
+					\quad \text{und} \quad
+					B_k(x) := \_{B_k}(x) - \int_0^1 \_{B_k}(t) dt
+				\]
+			\item
+				Die ersten Bernoulli-Polynome sind
+				\begin{align*}
+					B_0(x) &= 1  \\
+					B_1(x) &= x - \f 12 \\
+					B_2(x) &= x^2 - x + \f 16 \\
+					B_3(x) &= x^3 - \f 32 x^2 + \f 12 x
+				\end{align*}
+				Die ersten Bernoullizahlen sind dann
+				\[
+					\beta_0 = 1, \quad
+					\beta_1 = -\f 12, \quad
+					\beta_2 = \f 16, \quad
+					\beta_3 = 0
+				\]
+			\item
+				Mann kann zeigen
+				\begin{align*}
+					B_k(x) &= \sum_{i=0}^k \binom ki \beta_i x^{k-i} \\
+					\f x{e^x - 1} &= \sum_{k=0}^\infty \beta_k \f {x^k}{k!}
+				\end{align*}
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{lem}[Eigenschaften]
+	\label{2.35}
+	Es gilt
+	\begin{enumerate}[i)]
+		\item
+			$B_k(0) = B_k(1)$ für $k\ge 2$
+		\item
+			$B_k(t) = (-1)^k B_k(1-t)$ für $k\ge 0$
+		\item
+			$B_{2k+1}(0) = B_{2k+1}(1) = B_{2k+1}(\frac 12) = 0$ für $k\ge 1$
+	\end{enumerate}
+	\begin{proof}
+		Es gilt
+		\[
+			B_k \Big(\f 12 + \tau\Big) = B_k\Big(\f 12 - \tau\Big)  + \int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt
+		\]
+		\begin{enumerate}[i)]
+			\item
+				Für $\tau = \f 12$ folgt mit $\int_{0}^1 B_{k-1}(t) dt = 0$ für $k\ge 2$
+				\[
+					B_k(1) = B_k(0) + 0
+				\]
+			\item
+				Zeige induktiv: $B_k$ achsensymmetrisch für gerade $k$ und punktsymmetrisch bezüglich $(\f 12,0)$ für ungerade $k$.
+				Für $k=0, k=1$ ist die Aussage klar.
+				Gelte die Behauptung für $k-1$.
+
+				Falls $k$ gerade, dann ist $B_{k-1}$ punktsymmetrisch zu $(\f 12, 0)$
+				\[
+					B_k \Big(\f 12 + \tau\Big) = B_k(\f 12 - \tau)  + \underbrace{\int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt}_{=0}
+				\]
+				und damit $B_k(\f 12 + \tau) = B_k(\f 12 - \tau)$
+
+				Falls $k$ ungerade, dann ist $B_{k-1}$ achsensymmetrisch zu $x=\f 12$ und
+				\[
+					\int_{\f 12 - \tau}^{\f 12} B_{k-1}(t) dt = \int_{\f 12}^{\f 12 + \tau} B_{k-1}(t) dt
+				\]
+				Setze $c := B_k(\f 12)$
+				\begin{align*}
+					B_k\Big(\f 12 + \tau\Big) - c 
+					&= B_k\Big(\f 12\Big) + \int_{\f 12}^{\f 12 + \tau} k B_{k=1}(t) dt - B_k\Big(\f 12\Big) \\
+					&= c - \l( \int_{\f 12}^{\f 12 - \tau} k B_{k-1}(t) dt + B_k\Big( \f 12\Big) \r) \\
+					&= c - B_k\Big(\f 12 - \tau\Big)
+				\end{align*}
+				also ist $B_k$ punktsymmetrisch zu $(\f 12, c)$.
+				Außerdem
+				\[
+					c = \int_{0}^1 B_k(x) dx = 0
+				\]
+				womit $B_k$ punktsymmetrisch zu $(\f 12,0)$ ist.
+			\item
+				Für $k'=2k+1$ ist $B_{k'}$ punktsymmetrisc zu $(\f 12,0)$ nach ii), also $B_{k'}(\f 12) = 0$.
+				$B_{k'-1}$ ist achsensymmetrisch, also
+				\[
+					0 = \int_0^1 B_{k'-1}(t) dt = 2 \int_0^{\f 12} B_{k'-1} (t) dt 
+				\]
+				Es gilt
+				\[
+					0 = B_{k'}\Big(\f 12\Big) = B_{k'}(0) + \int_{0}^{\f 12} k' B_{k'-1}(t) dt = B_{k'}(0)
+				\]
+				und $B_{k'}(1) = 0$ wegen der Punktsymmetrie.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+\begin{st}[Euler-MacLaurin'sche Summenformel]
+	Sei $f\in C^{2m}([a,b])$, $m\in \N$, $h:= \f {b-a}N$, $N\in \N$ und $I_h$ die zusammengesetzte Trapezregel
+	\[
+		T_h(f) = \f h2 \big(f(a) + f(b)\big) + h \cdot \sum_{j=1}^{N-1} f(a+jh)
+	\]
+	dann gilt für den Fehler
+	\[
+		I_h(f) - I(f) = \sum_{k=1}^{m-1} h^{2k} \f{\beta_{2k}}{(2k)K} \Big( f^{(2k-1)}(b) - f^{(2k-1)}(a) \Big) + o(h^{2m})
+	\]
+	\begin{proof}
+		Sei $\phi \in \C^{2m}([0,1])$, dann gilt wegen $\f{B_k'}k = B_{k-1}$, $B_1(1) = \f 12, B_1(0) = - \f 12$:
+		\begin{align*}
+			&\int_0^1 B_0(t) \phi(t) dt 
+			= B_1(t) \phi(t) \Big|_{0}^1 - \int_0^1 B_1(t) \phi'(t) \\
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \int_0^1 \f 12 B_2(t) \phi'(t) dt \\
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \underbrace{\f 1{2\cdot 3} B_3(t) \phi''(t) \Big|_0^1}_{=0 \text{ \ref{2.35} ii)}} - \int_0^1 \f 1{3!} B_3(t) \phi^{(3)}(t) dt \\
+			&\quad= \dotsc \\
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \sum_{k=1}^{m-1} \l( \f {B_{2k}(1)}{(2k)!} \phi^{(2k-1)}(1) - \f {B_{2k}(0)}{(2k)!} \phi^{(2k-1)}(0) \r) + \int_0^1 \f 1{(2m)!} B_{2m}(t) \phi^{(2m)}(t) \; dt \\
+			&\quad\stackrel{\ref{2.35} i)}=  \f 12 \big(\phi(1) - \phi(0)\big) - \sum_{k=1}^{m-1} \f {\beta_{2k}}{(2k)} \big( \phi^{(2k-1)}(1) - \phi^{(2k-1)}(0) \big) + \int_0^1 \f {B_{2m}(t)}{(2m)!} \phi^{(2m)}(t) \; dt
+		\end{align*}
+		Wähle  $\phi_j(t) := h \cdot f(x_{j-1} + th)$, $x_j := a+jh$, $j=1,\dotsc, N$ (bzw. $j=0,\dotsc, N$).
+		Dann gilt
+		\begin{itemize}
+			\item
+				$\displaystyle
+					\int_0^1 \phi_j(t) dt = \int_{x_{j-1}}^{x_j} f(x) dx
+				$
+			\item
+				$\displaystyle
+					\phi_j^{(k-1)}(t) = h^k f^{(k-1)}(x_{j-1} + th)
+				$
+			\item
+				$\displaystyle
+					\phi_j(1) = h f(x_j) = \phi_{j+1}(0)
+				$
+			\item
+				$\displaystyle
+					\phi_j^{2k-1}(1) = \phi_{j+1}^{2k-1}(0)
+				$
+		\end{itemize}
+	\end{proof}
+\end{st}
 
 \section{Nichtlineare Gleichungsysteme}
 
