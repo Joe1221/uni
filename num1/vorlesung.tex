@@ -3722,8 +3722,109 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 					\phi_j^{2k-1}(1) = \phi_{j+1}^{2k-1}(0)
 				$
 		\end{itemize}
+\fixme[Vorzeichenfehler irgendwo, Beweis nachvollziehen]
+Damit folgt:
+\begin{align*}
+ I(f)&=\int_a^b f(x)\, dx = \sum_{j=1}^N \int_{x_{j-1}}^{x_j} f(x) \, dx = \int_{j=1}^N \int_0^1 \phi_j(t)\, dt\\
+&= \sum_{j=1}^N \frac{1}{2}(\phi_j(0)+ \phi_j(1))- \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} ( \phi_j^{(2k-1)} (1)-\phi_j^{(2k-1)}(0))+\sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} \phi_j^{(2m)}(t)\, dt\\
+ &= \sum_{j=1}^N \frac{h}{2} (f(x_j)+f(x_{j-1})) - \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)}(x_j)-f^{(2k-1)} (x_{j-1}))+ \sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} h^{2m+1} \cdot f^{(2m)}(x_{j-1}+ ht)\, dt\\
+&= I_h(f)- \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)} ( f^{(2k-1)}(b)-f^{(2k-1)}(b)-f^{(2k-1)}(a))+h^{2m}\left [h \sum_{j=1}^N \int_0^1 f^{(2m)} (x_{j-1}+ht)\, dt\right ]
+\end{align*}
+Dies ist die Behauptung falls der Term $[...]$ durch Konstante unabhängig von $h$ bechränkt werden kann. Dies ist der Fall:
+\[
+ |h\sum_{j=1}^N \int_0^1 f^{(2m)}(x_{j-1}+t\cdot h) \frac{B_{2m}(t)}{(2m)!} \, dt|\le h \frac{1}{(2m)!} \sum_{j=1}^N ||f^{(2m)}||_\infty \cdot ||B_{2m}||_\infty = \underbrace{h\cdot N}_{b-a}\cdot \frac{1}{(2m)!} ||f^{(2m)}||_\infty ||B_{2m}||_\infty
+\]
+unabhängig von $h$.
 	\end{proof}
 \end{st}
+\begin{note*}
+ \begin{itemize}
+  \item Die zusammengesetzte Trapezregel ist also sehr gut für periodische Funktionen
+\[
+ f^{(2k-1)}(b)=f^{(2k-1)}(a) \implies I_h(f)-I(f)=O(h^{2m})
+\]
+  \item Zusammengesetzte Trapezregel erlaubt asymptotische Entwicklung in $h^2$. Dies kann durch Wahl $q=2$ in der Richardson-Extrapolation/(Romberg-Verfahren) ausgenutzt werden.
+ \end{itemize}
+(Anmerkung: eine Wahl für $q2$ in Richardson-Extrapolation zu wählen bedeutet, dass wir bezüglich $b(h)=\sum_{n\in \N} h^{qn} c_n$
+\end{note*}
+\subsection{Weiterführende Techniken}
+\begin{seg}{Adaptive Quadraturen}
+ Problem: Integration verfeinern, welches Bereiche mit großer Variation und Bereiche mit kleiner Variation besitzt. Es ergeben sich stets zwei grundlegende Probleme:
+\begin{enumerate}[a)]
+ \item Zusammengesetzte Quadratur mit zu groben $h$: Bereiche mit hohen Variationen werden nicht aufgelöst. Dies führt zu einem großen Fehler
+ \item $I_h$ mit feinem h: gesamtes Intervall gut aufgelöst, aber in glatten Bereichen ergeben sich viel überflüssige Stützstellen. Dies führt zu einer langen Rechenzeit.
+\end{enumerate}
+\end{seg}
+\begin{seg}{Idee:}
+Dies motiviert folgendes:
+ \begin{itemize}
+  \item unterschiedliche Teilintervall-Größen
+  \item automatische Anpassung der Teilintervall-Größen: Beginne mit grober Intervall-Zerlegung, Berechne Quadratur, berechne einen Fehlerschätzer für alle Teilintervalle markiere alle Teilintervalle, auf denen der Fehler zu groß ist, halbiere die markierten Intervalle und wiederhole diese Schritte bis gewünschte Genauigkeit erreicht ist.
+ \end{itemize}
+\end{seg}
+\begin{seg}{Allgemeines Prinzip:}
+\begin{figure}[ht]
+ \fbox{Lösung $\rightarrow$ Schätzung $\rightarrow$ Markierung $\rightarrow$ Verfeinerung}
+\end{figure}
+und dieser Schritt wiederholt sich schließlich.
+\end{seg}
+\begin{alg*}
+ \begin{algorithmic}
+  \Require $f:[a,b]\to \R$
+  \Require $\Delta^{(0)}:=\{x_0^{(0)},..., x_{n_0}^{(0)}\}$, Anfangszerlegung $a=x_0^{(0)}<...<x_{n_0}^{(0)}=b$. 
+Wir bezeichnen im Folgenden $K_i^{(0)}:=[x_{i-1}^{(0)},..., x_{i}^{(0)}]$ Teilintervalle von $\Delta^{(0)}$.
+  \Require $L_max$: Maximalzahl der Verfeinerungsiterationen
+  \Require $\epsilon_{tol}>0$: gewünschte Toleranzgrenze
+  \Require $\theta\in (0,1)$: Anteil der in jeder Iteration zu verfeinernden Intervalle.
+  \State $l:=0$
+  \State fertig$:= 0$ % Alternativ do-while Schleife (weiß nicht wie ich das definiere
+  \While {fertig $\neq 1$}
+\State 1. $I_h(f; \Delta^{(l)}):= \sum_{i=1}^{n_l} I_h (f, f_{k}^{(2)})$ als zusamengesetzte Quadratur bezüglich einer einfachen Quadratur $I_h$, zum Beispiel Trapezregel.
+\State 2. Berechne $\eta_i^{(l)}, i=1,..., n_l$ lokale Fehlerschätzer. zum Beispiel $\eta_i^{(l)}=|I_n(f, K_i^{(l)})- I_{\hat n} (f, K_i^{(l)})|$ mit $I_{\hat n}$ "`bessere Quadratur"' zum Beispiel Simson-Regel.
+\State 3. $\eta^{(l)}=\sum_{i=1}^{n_l} \eta_i^{(l)}$ Gesamtfehlerschätzer
+\State 4.
+\If{$\eta^{(l)}\le \epsilon_{tol}$ oder $l\ge l_max$} fertig$:= 1$ \Else fertig$:=0$ \EndIf
+\State 5. \If {fertig$\neq 1$}
+\State $\eta_{max}^{(l)}:= \max \eta_i^{(l)}:= \max \eta_i^{(l)}$ maximaler lokaler Fehlerschätzer
+\State $m_i^{l}:=\begin{cases} 1 &, \text{falls $\eta_i^{(l)}>\theta, \eta_{\max}^{(l)}$ (soll verfeinert werden)}\\ 0 &, \text{sonst}\end{cases}$
+\State $\Delta^{(l+1)}:= \Delta^{(l)} \cup \{ \frac{x_{i-1}^{(l)}+x_{i}^{(l)}}{2}$, für $i$ mit $m_i^{(l)}=1\}$
+\State $l:=l+1$
+\EndIf 
+\EndWhile
+\Return $I_h^{(l)}$ (eventuell $\Delta^{(l)}, l, \eta_i^{(l)}, \eta^{(l)}$, etc. )
+ \end{algorithmic}
+\end{alg*}
+\begin{note*}
+ Alternativen:
+\begin{itemize}
+ \item andere Markierungsstrategien
+\begin{itemize}
+\item Wähle $k\in \N$, markiere in jeder Iteration die $k$ Intervalle mit $\max \eta_i^{(l)}$
+\item Wähle $\theta$: Anteil der Intervalle zur Verfeinerung
+\item Verwende ein Extrapolationsverfahren oder $\{I_n(f, k_i^{(l)}\}$ um den erwarteten Fehlerabfall vorherzusagen $\rightarrow$ siehe Stoer-Bulirsch.
+\end{itemize}
+\item Art der Verfeinerung ist austauschbar (andere/mehr Zwischenpunkte)
+\item Abbruchkriterium ist modifizierbar
+ \begin{itemize}
+ \item Wähle $\sigma\in (0,1)$, Abbruch falls Änderung zu gering:
+\[
+ |I_h(f,\Delta^{(l)})-I_{h}(f, \Delta^{(l-1)} )|\le \sigma \epsilon_{tol}
+\]
+\item Falls $\eta_i^{(l)}$ durch verbesserte Quadratur $I_{\hat h}$ berechnet werden, kann man auch $\hat I_h(f, \Delta^{(i)}):=\sum_{i=1}^{n^{(l)}} I_{\hat h} (f, K_i^{(n)})$ als bessere QUadratur zurückgeben.
+\end{itemize}
+\end{itemize}
+\end{note*}
+\begin{note*}[Effizienz und Zuverlässigkeit]
+\begin{itemize}
+ \item Sei $E_h(f, \Delta^{(l)}):= \sum_{i=1}^{n^{(l)}} |I_h(f,K_i^{(l)} - \int_{K_i^{(l)}} f(x)\, dx|$ Summe der lokalen Integrationsfehler.
+\item Wir nennen einen Fehlerschätzer $\eta^{(l)}$ \emph{zuverlässig}, falls er (bis auf Faktor) obere Schranke für Fehler ist, dass heißt es existiert $\gamma >0$ unabhängig von $l$ und $\Delta^{(l)}$ mit $E_h(f, \Delta^{(l)}\le \gamma \cdot \eta^{(l)}$.
+\item Wir nennen $\eta^{(l)}$ \emph{effizient}, falls er den Fehler nicht beliebig überschätzt, dass heißt es existiert $T>0$ unabhängig von $l$ und $\Delta^{(l)}$ mit $\eta^{(l)}\le T \cdot E_n(f, \Delta^{(l)})$.
+\end{itemize}
+\fixme[Ab und zu n und h verwechselt]
+\end{note*}
+
+
+
 
 \section{Nichtlineare Gleichungsysteme}
 

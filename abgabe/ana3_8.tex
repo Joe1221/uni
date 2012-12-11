@@ -1,0 +1,88 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattanadrei
+
+\begin{document}
+
+	\setcounter{section}{8}
+
+	\begin{aufgabe}~
+
+		Wir zeigen für den ersten Teil die äquivalente Aussage, dass falls $r(t)$ für ein $t\in [0,1]$ unendlich ist, dann auch für alle $t\in [0,1]$.
+
+		Sei $\tilde t \in [0,1]$ und $\tilde f$ die Potenzreihenentwicklung der analytischen Fortsetzung von $f$ im Entwicklungspunkt $\gamma(\tilde t)$ mit Konvergenzradius $r(\tilde t) = \infty$.
+		Dann ist $\tilde f$ eine ganze Funktion (lässt sich nämlich mit dem unendlichen Konvergenzradius an jedem Punkt in eine Potenzreihe entwickeln).
+
+		Sei $f_t: K_{r(t)}(\gamma(t)) \to \C$ die Potenzreihenentwicklung der analytischen Fortsetzung von $f$ längs $\gamma_{[0,t]}$ um den Entwicklungspunkt $\gamma(t)$.
+		Dann stimmen die $\tilde f$ und $f_t$ auf $K_{r(t)}$ überein, da sie aus der selben analytischen Fortsetzung entstanden sind.
+		Insbesondere hat dann $f_t$ den selben Konvergenzradius wie $\tilde f$, also
+		\[
+			r(t) = r(\tilde t) = \infty
+			\qquad \forall t \in [0,1]
+		\]
+
+		Beweise nun die Stetigkeit von $r:[0,1] \to [0,\infty)$.
+		Sei $t_0 \in [0,1]$ und $\eps > 0$ beliebig.
+		Da $\gamma$ ein Weg (also stetig), wähle $\delta$ so, dass für $|t-t_0|<\delta$ gilt
+		\[
+			|\gamma(t) - \gamma(t_0)| < \f {\eps}2
+		\]
+		Entwickelt man für ein solches $t$ nun $f$ um $\gamma(t)$ in eine Potenzreihe, so sieht man, dass ihr Konvergenzradius mindestens $r(t_0) - \f \eps 2$ betragen muss (denn bis zu diesem Radius ist der Kreis noch vollständig in $K_{r(t_0)}$ enthalten).
+		Also ist 
+		\[
+			r(t) > r(t_0) - \eps
+		\]
+		Wir nehmen an, es existiere $\hat t \in [0,1]$ mit $|t - \hat t| < \delta$, so dass $r(\hat t) \ge r(t_0) + \eps$.
+		Entwickle $f$ um $\gamma(t_0)$ in eine Potenzreihe mit einem Konvergenzradius von mindestens $r(\hat t) - \f \eps 2$ (gleiche Argumentation wie oben), dann ist
+		\[
+			r(t_0) \ge r(\hat t) - \f \eps 2 \ge r(t_0) + \f \eps 2
+		\]
+		Wegen $\eps > 0$ ist das ein Widerspruch, also gilt 
+		\[
+			r(t) < r(t_0) + \eps
+		\]
+		Insgesamt haben wir damit gezeigt:
+		\[
+			|r(t) - r(t_0)| < \eps
+			\qquad \forall t\in[0,1]: |t-t_0| < \delta
+		\]
+		Da $t_0\in [0,1]$ beliebig gewählt war, ist $r$ stetig in ganz $[0,1]$.
+	\end{aufgabe}
+
+	\newpage
+	
+	\begin{aufgabe}~
+
+		Da $f$ ganz ist, hat die Potenzreihenentwicklung unendlichen Konvergenzradius.
+		Damit gilt
+		\begin{align*}
+			g_n(z) 
+			&:= \f {f(z) + f(\f 1z)}{z^n} \\
+			&= \sum_{k=0}^\infty a_k z^{k-n} + \sum_{k=0}^\infty a_k z^{-k-n} \\
+			&= \sum_{k=-n}^\infty a_{k+n}z^k + \sum_{k=-\infty}^n a_{-k+n} z^k \\
+			&= \sum_{k=-\infty}^\infty b_k z^k
+		\end{align*}
+		mit
+		\[
+			b_k = \begin{cases}
+				a_{n-k} & k \le n \land k < -n \\
+				a_{n+k} & k > n \land k \ge -n \\
+				a_{n+k} + a_{n-k} & k \le n \land k \ge -n \\
+				0 & k > n \land k < -n
+			\end{cases}
+		\]
+		Für das Residuum an der Stelle $0$ gilt dann
+		\[
+			\Res(g_n, 0) = b_{-1} = \begin{cases}
+				0 & n \le -2 \\
+				a_{n+1} & n \in \{-1,0\} \\
+				a_{n+1} + a_{n-1} & n \ge 1
+			\end{cases}
+		\]
+
+
+	\end{aufgabe}
+
+\end{document}
+
+
