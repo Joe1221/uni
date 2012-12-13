@@ -3800,15 +3800,226 @@ und dieser Schritt wiederholt sich schließlich.
 \begin{note*}[Effizienz und Zuverlässigkeit]
 	\begin{itemize}
 		\item Sei $E_h(f, \Delta^{(l)}):= \sum_{i=1}^{n^{(l)}} |I_h(f,K_i^{(l)} - \int_{K_i^{(l)}} f(x)\, dx|$ Summe der lokalen Integrationsfehler.
-		\item Wir nennen einen Fehlerschätzer $\eta^{(l)}$ \emph{zuverlässig}, falls er (bis auf Faktor) obere Schranke für Fehler ist, dass heißt es existiert $\gamma >0$ unabhängig von $l$ und $\Delta^{(l)}$ mit $E_h(f, \Delta^{(l)}\le \gamma \cdot \eta^{(l)}$.
-		\item Wir nennen $\eta^{(l)}$ \emph{effizient}, falls er den Fehler nicht beliebig überschätzt, dass heißt es existiert $T>0$ unabhängig von $l$ und $\Delta^{(l)}$ mit $\eta^{(l)}\le T \cdot E_n(f, \Delta^{(l)})$.
+		\item Wir nennen einen Fehlerschätzer $\eta^{(l)}$ \emph{zuverlässig}, falls er (bis auf Faktor) obere Schranke für Fehler ist, dass heißt es existiert $\gamma >0$ unabhängig von $l$ und $\Delta^{(l)}$ mit 
+			\[
+				E_h(f, \Delta^{(l)}\le \gamma \cdot \eta^{(l)}
+			\]
+		\item Wir nennen $\eta^{(l)}$ \emph{effizient}, falls er den Fehler nicht beliebig überschätzt, dass heißt es existiert $T>0$ unabhängig von $l$ und $\Delta^{(l)}$ mit 
+			\[
+				\eta^{(l)}\le T \cdot E_n(f, \Delta^{(l)})
+			\]
 	\end{itemize}
 	\fixme[Ab und zu n und h verwechselt]
 \end{note*}
 
+\begin{st}[Effizienz und Zuverlässigkeit der $\eta_i^{(l)}$]
+	\label{2.38}
+	Sei $\eta^{(l)} = \sum_{i=1}^{n^{l}} \eta_v^{(l)}$, $\eta_i^{(l)} = | I_n(f, K_i^{(l)} - I_{\hat n}(f, K_i^{(l)}|$ und
+	\[
+		R_n (f, K_i^{()}) := I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x) dx
+	\]
+	als lokales Fehlerfunktional (analog $R_{\hat n}$ für $I_{\hat n}$).
+	Sei außerdem $h_0 := \max |K_i^{(0)}|$.
 
+	Falls $q \in (0,1)$ existiert, so dass
+	\[
+		| R_{\hat n}(f,K)| \le q |R_n(f,K)|
+		\qquad \forall K\subset [a,b], |K| \le h_0
+	\]
+	So ist $\eta^{(l)}$ zuverlässiger und effizienter Schätzer für $E_h(f,\Delta^{(l)})$.
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			|R_n(f,K_i^{(l)}|
+			&\le \Big|I_n(f,K_i^{(l)}) - I_{\hat n}(f,K_i^{(l)} \Big| + \l|I_{\hat n}(f,K_i^{(l)}) - \int_{K_i^{(l)}}f(x) dx \r| \\
+			&= \eta_i^{l} + |R_{\hat n}(f,K_i^{(l)}) | \\
+			&\le \eta_i^{(l)} + q |R_n(f,K_i^{(l)})|
+		\end{align*}
+		Also ist
+		\[
+			\l|R_n(f,K_i^{(l)}\r| \le \f 1{1-q} \eta_i^{(l)}
+		\]
+		und damit
+		\begin{align*}
+			E_h(f, A^{(l)} = \sum_{i=1}^{\eta^{(l)}} \l|R_n(f, K_i^{(l)} \r| \le \f 1{1-q} \sum_{i=1}^{\eta^{(l)}} \eta_i^{(l)} = \f 1{1-q} \eta^{(l)}
+		\end{align*}
+		also zuverlässig mit $\gamma = \f 1{1-q}$.
 
+		Für die Effizienz gilt
+		\begin{align*}
+			\l|R_n(f, K_i^{(l)}) \r| 
+			&\ge \eta_i^{(l)} - q \l| R_n(f, K_i^{(l)}) \r| \\
+		\end{align*}
+		Also ist
+		\[
+			\l|R_n(f, K_i^{(l)}\r| \ge \f 1{1+q} \eta_i^{(l)}
+		\]
+		und
+		\[
+			\eta^{(l)} = \sum_{i=1}^{\eta^{(l)}}{\eta_i^{(l)}} \le (1+q) \sum_{n=1}^{\eta^{(l)}} | R_n(f, K_i^{(l)}) | = (1+q) E_h
+		\]
+		also effizient mit $\Gamma = 1+q$.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Falls die adaptive Quadratur abbricht mit $\eta^{(l)} \le \eps_{\text{tol}}$ und die Vorraussetzungen von \ref{2.37} erfüllt sind, dann ist der Integrationsfehler garantiert klein
+				\[
+					\Big| I_h(f,\Delta^{(l)} - \int_a^b f(x) dx \big|
+					\le \sum_{i=1}^{\eta^{(l)}} \Big| I_n(f,K_i^{(l)} - \int_{K_i^{(l)}} f(x) dx \Big|
+					= E_h(f,\Delta^{(l)})
+					\le \f 1{1-q} \eta^{(l)}
+					\le \f 1{1-q} \eps_{\text{tol}}
+				\]
+			\item
+				Man nennt die Bedingung an die $R_{\hat n, K}$ auch „Saturierungsbedingung“, welche meistens durch genügend feine Initialzerlegung erreicht werden kann.
 
+				Sei z.B. $I_n$ die Trapez- und $I_{\hat n}$  die Simpsonregel.
+				Nach der Peano-Fehlerdarstellung gilt für $f\in C^4([a,b])$.
+				\begin{align*}
+					|R_{\hat n}(f, K)| &= \f {|K|^5}{2880} |f^{(4)(\hat \xi)}
+					|R_{n}(f, K)| &= \f {|K|^3}{12} |f^{(3)(\xi)}
+				\end{align*}
+				also für $f^{(2)}(\xi) \neq 0$:
+				\begin{align*}
+					|R_{\hat n}(f,K)| = \f {|K|^2}{240} \cdot \f {|f^{(4)}(\hat \xi)}{|f^{(2)}(\xi)|} |R_n(f,K)|
+				\end{align*}
+				Sei $m := \min |f''(x)| > 0$, $M := \|f^{(4)}\|_\infty$.
+				Wähle $\Delta^{(0)}$ so fein, dass $h_0^2 \le \f {120 m}M$.
+				Wegen $|K| \le h_0$ folgt
+				\[
+					\big| R_{\hat n}(f, K) \big| 
+					\le \f {120m}M \cdot \f{M}{240m} |R_n(f,K)|
+					= \f 12 |R_n(f,K)|
+				\]
+				also ist die Saturierungsbedingung mit $q=\f 12$ erfüllt.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\subsection{Monte-Carlo-Verfahren}
+
+Wir wählen die Stützpunkte für eine Quadratur nicht als Nullstellen von Polynomen, sondern zufällig.
+Die Gewichte wählen wir dabei konstant.
+
+\begin{df}[Monte-Carlo-Approximation]
+	\label{2.38}	
+	Sei $f:[0,1]^d \to \R$ integrierbar und $n\in \N$.
+	Wähle $\{x_i\}_{i=1}^n$ zufällig gemäß einer Gleichverteilung.
+	Dann ist
+	\[
+		\f 1n \sum_{i=1}^n f(x_i)
+	\]
+	eine Monte-Carlo-Approximation für
+	\[
+		\int_{[0,1]^d} f(x) dx
+	\]
+\end{df}
+
+\begin{nt*}
+	\begin{itemize}
+		\item
+			In der Praxis werden die $x_i$ durch einen Zufallszahlen-Generator erzeugt.
+	\end{itemize}
+\end{nt*}
+
+\subsubsection{Motivation aus der Stochastik}
+
+(ohne Begriffserläuterungen und Definitionen, für Details siehe z.B. R.E. Caflisch: “Monte-Carlo and quasi-Monte-Carlo Methods”, Acta Numerica, 7:1-49, 1998)
+
+\begin{itemize}
+	\item
+		Sei $X$ gleichverteilte Zufallsvariable mit Werten in $[0,1]^d$.
+		Dann ist $f(X)$ eine Zufallsvariable und der \emph{Erwartungswert} von $f(X)$ ist
+		\[
+			E[f(X)] := \int_{[0,1]^d} f(x) dx =: I
+		\]
+
+		Der sogenannte \emph{empirische Erwartungswert} ist
+		\[
+			\f 1n \sum_{i=1}^n f(x_i)
+		\]
+		zu Realisierungen $\{x_i\}$ von $X$ und stellt eine Näherung für $I$ dar.
+	\item
+		Die Güte und Konvergenz der Monte-Carlo-Approximation muss ebenfalls mit Mitteln der Stochastik bewertet werden.
+	\item
+		Seien $X_1, \dotsc, X_n$ unabhängig gleichverteilte Zufallsvariablen mit Werten in $[0,1]$.
+		Dann ist
+		\[
+			I_n := \f 1n \sum_{i=1}^n f(X_i)
+		\]
+		wieder eine Zufallsvariable mit Erwartungswert
+		\[
+			E[I_n] := E\l[\f 1n \sum_{i=1}^n f(X_i)\r] = \f 1n \sum_{i=1}^n E[f(X_i)] = \f 1n \sum_{i=1}^n I = I
+		\]
+	\item
+		Man kann auch zeigen, dass für die quadratische Abweichung vom Erwartungswert (auch \emph{Varianz} genannt) gilt:
+		\[
+			\Var(I_n) := E[(I_n-E[I_n])^2] = \f 1n \Var(f(X)) = \f 1n \int_{[0,1]^d} (f(x) - I)^2 dx = \f 1n \sigma_f^2
+		\]
+		also gilt für die Standardabweichung (Wurzel aus der Varianz):
+		\[
+			\sigma_{I_n} = \sqrt{\Var(I_n)} = n^{-\f 12} \sigma_f
+		\]
+	\item
+		Seien ${x_i^{(k)}}_{i=1}^n$ für $k=1,\dotsc, k_{\text{max}}$ Realisierungen der Zufallsvariablen $\{X_i\}_{i=1}^n$ mit $k_{\text{max}}$ groß.
+		Dann erhalten wir $k_{\text{max}}$ viele Realisierungen $I_n^{(k)}\in \R$ der Monte-Carlo-Approximation für $I$.
+
+		Der \emph{empirische Erwartungswert} der $I_n^{(k)}$ ist ungefähr $I$
+		\[
+			\f 1{k_{\text{max}}} \sum_{k=1}^{k_{\text{max}}} I_n^{(k)} \approx I
+		\]
+		und die empirische Varianz von $I_n$ ist in etwa $\Var(I_n)$
+		\[
+			\f 1{k_{\text{max}}} \sum_{k=1}^{k_{\text{max}}}(I_n^{(k)} - I)^2 \approx \Var(I_n) = n^{-1} \sigma_f^2
+		\]
+		Dies ist ein Maß für die Streuung der Werte $I_n^{(k)}$ um $I$.
+	\item
+		Die Konvergenzrate $\sigma_{I_n} \in O(n^{-\f 12})$ nennt man „algebraische Konvergenzrate“.
+		Diese ist recht langsam und ein Nachteil der Monte-Carlo-Approximation.
+		
+		Beispielsweise erfordert die Verbesserung um Faktor 10 das Erhöhen von $n$ um Faktor 100.
+	\item
+		Der große Vorteil ist, dass die Konvergenzrate $\sigma_{I_n}$ unabhängig von der Dimension $d$ ist.
+\end{itemize}
+
+\begin{nt*}[Anwendungen]
+	\begin{itemize}
+		\item
+			Zur Flächen- und Volumenberechnung:
+
+			Sei $D\subset [0,1]^d$, dann ist das Volumen von $D$ approximiert durch
+			\[
+				|D| = \int_{[0,1]^d} \1_d(x) dx \approx \f 1n \sum_{i=1}^n \1_D (x_i)
+			\]
+			also durch die Monte-Carlo-Approximation für das Integral von $f(x) := \1_D(x)$.
+		\item
+			Hochdimensionale Integration:
+
+			Für Integrale im $\R^d$ können Newton-Cotes-, Gauß- und zusammengesetzte Quadraturen verallgemeinert werden (Koordinatenweise Quadratur).
+			Für hohe $d$ ist das jedoch inpraktikabel, da für $n$ Intervalle pro Achse (also $n+1$ Punkte pro Achse) $(n+1)^d$ viele Quadraturpunkte benötig werden.
+			Die Anzahl der Stützstellen wächst also exponentiell in $d$ (“Curse of Dimensionality”).
+
+			Im Gegensatz dazu ist die Monte-Carlo-Approximation in $\R^d$ einfach und bildet oft die einzige Möglichkeit, hochdimensionale Integrale hinreichend genau zu berechnen (“Breaking the curse of dimensionality”).
+	\end{itemize}		
+\end{nt*}
+
+\begin{ex*}[Berechnung von $\pi$]
+	Sei $D = K_{\f 12}(\f 12, \f 12)$, dann ist $|D| = \f \pi 4$.
+	Wir berechnen das jetzt mit dem Monte-Carlo-Algorithmus.
+	\[
+		|D| = \int_{[0,1]^2} \1_D = I
+	\]
+	Für die Varianz gilt
+	\[
+		\Var(\1_D(X)) = \int_{[0,1]}(f(x) - \tfrac \pi 4)^2 dx = (1-\tfrac \pi 4) \f \pi 4
+	\]
+	\begin{figure}[h]
+		\centering
+		\caption{Beispiel für $k_\text{max}=200, n=1,\dotsc, 500$}
+		\fixme[Bilder zur Verteilung siehe Programme im Ilias]
+	\end{figure}
+\end{ex*}
 
 \section{Nichtlineare Gleichungsysteme}
 
