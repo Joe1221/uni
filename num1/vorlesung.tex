@@ -20,7 +20,7 @@ Ziel ist es, Parameter $a_0,\dotsc, a_n$ zu finden, so dass
 \[
 	\Phi(x_i;a_0,\dotsc, a_n) = f_i \qquad \forall i= 0,\dotsc,n \qquad \text{„Interpolation“}
 \]
-oder allgemeiner und obig:
+oder allgemeine so dass
 \[
 	\sum_{i=0}^n(\Phi(x_i; a_0,\dotsc a_m) -f_i)^2 \qquad \text{minimal}
 \]
@@ -402,11 +402,14 @@ Vereinfachung der Rekursion aus \ref{1.5} für $x=0$:
 		b_i := b_{i,0} &:= b(h_i)\\
 		b_{i,j} &:= b_{i+1,j-1} + \f {b_{i+1,j-1}-b_{i,j-1}}{\f {h_i}{h_{i+j}}-1}
 	\end{align*}
-	Dann ist $b_{0,n}$ eine Approximation für $\lim_{n\to \infty} b(h)$.
+	Dann ist $b_{0,n}$ eine Approximation für $\lim_{h\to 0} b(h)$.
+	\begin{note}
+		Es ist sinnvoll, für $\{h_i\}$ Folgenglieder aus einer gegen 0 konvergierenden Folge zu nehmen.
+	\end{note}
 \end{df}
 
 \begin{ex*}
-	Berechnung von $e=\lim_{n\to \infty} (1 +\f 1n)^n = \lim_{n\to 0} (1+h)^{\f 1n}$.
+	Berechnung von $e=\lim_{n\to \infty} (1 +\f 1n)^n = \lim_{h\to 0} (1+h)^{\f 1h}$.
 	D.h. $b(h)=(1+h)^{\f 1h}$.
 	Wähle $h_k=2^{-k} \implies b_{k,0}=b(h_k) = (1+2^{-k})^{2^k}$
 	\[
@@ -417,7 +420,7 @@ Vereinfachung der Rekursion aus \ref{1.5} für $x=0$:
 		\centering
 		\begin{tabular}{c|ccc}
 			$h_0=1$ & $b_{0,0}=2$  & $b_{0,1}=\f 52$ & $b_{0,2}=\f {257}{96}$\\
-			$h_1=\f12$ & $b_{1,0}=\f 94$  & $b_{1,1}=\f {337}{128}$ & $b_{0,2}=\f {257}{96}$\\
+			$h_1=\f12$ & $b_{1,0}=\f 94$  & $b_{1,1}=\f {337}{128}$ & $b_{1,2}=\f {257}{96}$\\
 			$h_2=\f14$ & $b_{2,0}=\f {625}{256}$  \\
 		\end{tabular}
 	\end{table}
@@ -436,10 +439,10 @@ Vereinfachung der Rekursion aus \ref{1.5} für $x=0$:
 
 	Setze dazu $\_h = h^q$, d.h. $\_{h_{i}}:= h_i^q$ und
 	\[
-		\_b(\_h) := \sum a_n\_h^n
+		\_b(\_h) := \sum_{n=0}^\infty a_n\_h^n
 	\]
 	Dann ist $\_b(\_h_i) = b(h_i)$.
-	Führe die Richardson-Extrapolation für $\{\_h_i\}$ und $\{\_b(\_h_i)\}$ durch, dannn ist das Ergebnis eine Aproximation für
+	Führe die Richardson-Extrapolation für $\{\_h_i\}$ und $\{\_b(\_h_i)\}$ durch, dann ist das Ergebnis eine Aproximation für
 	\[
 		\lim_{\_h\to 0}\_b(\_h) = \lim_{h\to 0}b(h)
 	\]
@@ -1483,7 +1486,7 @@ In diesem Fall gibt es folgende Möglichkeiten
 	\item
 		Hermite Randbedingungen
 		\[
-			p_1''(a) = \alpha, \quad p_n'(b) = \beta \qquad \alpha,\beta\in \R
+			p_1'(a) = \alpha, \quad p_n'(b) = \beta \qquad \alpha,\beta\in \R
 		\]
 	\item
 		Periodische Splines
@@ -2344,7 +2347,7 @@ Also $I_n(f) = I(p)$.
 
 \begin{df}[Interpolatorische Quadratur]
 	\label{2.3}
-	Eine Quadratur $I_n$ ist eine \emph{Interpolatorische Quadratur}, falls die Gewichte durch die Lagrange-Polynome gegeben sind:
+	Eine Quadratur $I_n(f) = \sum_{j=0}^n \omega_j f(x_j)$ ist eine \emph{Interpolatorische Quadratur}, falls die Gewichte folgendermaßen durch die Lagrange-Polynome gegeben sind:
 	\[
 		\omega_j := \int_a^b L_j^n \;dx
 		\qquad \text{mit} 
@@ -2776,7 +2779,7 @@ Also $I_n(f) = I(p)$.
 
 	Sei $[a,b]\subset \R$, $N\in \N$, $H:= \f {b-a}N$, dann ist
 	\[
-		I_h (f) := H \cdot \sum_{i=1}^N \sum_{k=0}^{\hat n}\hat \omega_k f\l(a+(l-1)H + \hat x_k H\r)
+		I_h (f) := H \cdot \sum_{l=1}^N \sum_{k=0}^{\hat n}\hat \omega_k f\Big(a+(l-1)H + \hat x_k H\Big)
 	\]
 	eine \emph{zusammengesetzte Quadratur}.
 \end{df}
@@ -2830,7 +2833,7 @@ Also $I_n(f) = I(p)$.
 	\]
 	Dann erfüllt die zusammengesetzte Quadratur $I_h$ die Fehlerschranke
 	\[
-		|I(f) - I_{n}(f) \le K \cdot \|\hat f^{(m)}\|_\infty (b-a) H^m
+		|I(f) - I_{h}(f)| \le K \cdot \|\hat f^{(m)}\|_\infty (b-a) H^m
 		\qquad \hat f \in C^m([a,b])	
 	\]
 	\begin{proof}
@@ -3631,7 +3634,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 	\begin{proof}
 		Es gilt
 		\[
-			B_k \Big(\f 12 + \tau\Big) = B_k\Big(\f 12 - \tau\Big)  + \int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt
+			B_k (\tf 12 + \tau) = B_k(\tf 12 - \tau)  + \int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt
 		\]
 		\begin{enumerate}[i)]
 			\item
@@ -3646,7 +3649,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 
 				Falls $k$ gerade, dann ist $B_{k-1}$ punktsymmetrisch zu $(\f 12, 0)$
 				\[
-					B_k \Big(\f 12 + \tau\Big) = B_k(\f 12 - \tau)  + \underbrace{\int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt}_{=0}
+					B_k (\tf 12 + \tau) = B_k(\tf 12 - \tau)  + \underbrace{\int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt}_{=0}
 				\]
 				und damit $B_k(\f 12 + \tau) = B_k(\f 12 - \tau)$
 
@@ -3656,10 +3659,10 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 				\]
 				Setze $c := B_k(\f 12)$
 				\begin{align*}
-					B_k\Big(\f 12 + \tau\Big) - c 
-					&= B_k\Big(\f 12\Big) + \int_{\f 12}^{\f 12 + \tau} k B_{k=1}(t) dt - B_k\Big(\f 12\Big) \\
-					&= c - \l( \int_{\f 12}^{\f 12 - \tau} k B_{k-1}(t) dt + B_k\Big( \f 12\Big) \r) \\
-					&= c - B_k\Big(\f 12 - \tau\Big)
+					B_k(\tf 12 + \tau) - c 
+					&= B_k (\tf 12) + \int_{\f 12}^{\f 12 + \tau} k B_{k=1}(t) dt - B_k(\tf 12) \\
+					&= c - \l( \int_{\f 12}^{\f 12 - \tau} k B_{k-1}(t) dt + B_k( \tf 12) \r) \\
+					&= c - B_k(\tf 12 - \tau)
 				\end{align*}
 				also ist $B_k$ punktsymmetrisch zu $(\f 12, c)$.
 				Außerdem
@@ -3675,7 +3678,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 				\]
 				Es gilt
 				\[
-					0 = B_{k'}\Big(\f 12\Big) = B_{k'}(0) + \int_{0}^{\f 12} k' B_{k'-1}(t) dt = B_{k'}(0)
+					0 = B_{k'}(\tf 12) = B_{k'}(0) + \int_{0}^{\f 12} k' B_{k'-1}(t) dt = B_{k'}(0)
 				\]
 				und $B_{k'}(1) = 0$ wegen der Punktsymmetrie.
 		\end{enumerate}
