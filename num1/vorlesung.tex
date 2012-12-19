@@ -3356,8 +3356,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 
 \begin{df}[Zulässige Funktionale]
 	\label{2.27}
-	Eine lineares Funktional $R : C^k([a,b]) \to \R$ heißt zulässig, wenn
-	es eine Punktauswertung 
+	Eine lineares Funktional $R : C^k([a,b] \to \R) \to \R$ heißt \emph{zulässig}, wenn es eine Punktauswertung 
 	\[
 		f^{(m)}(x_0), \qquad x_0\in [a,b], \qquad m\in \{0,\dotsc,k\}
 	\]
@@ -3385,7 +3384,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 
 \begin{lem}[Vertauschungsregel]
 	\label{2.28}	
-	Für zulässiges Funktional $R$, $u\in C^0([a,b])$, $C\in C^k([a,b]^2)$ gilt
+	Für ein zulässiges Funktional $R$, stetigem $u\in C^0([a,b])$ und $K\in C^k([a,b]^2)$ gilt
 	\[
 		R\l( \int_a^b K(t,\cdot) u(t) dt \r) 
 		= \int_a^b R\Big(K(t,\cdot)\Big) u(t) dt
@@ -3394,37 +3393,34 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 		Setze
 		\begin{align*}
 			y(\cdot) &= \int_a^b K(t,\cdot) u(t) dt \\
-			v(t) &= R(K(t,\cdot))
+			v(t) &= R\big(K(t,\cdot)\big)
 		\end{align*}
-		Zu zeigen ist $R(y) = \int_a^b v(t) u(t) dt$.
-		Für $R(f) = f^{(m)}(x_0)$:
+		Zu zeigen ist dann $R(y) = \int_a^b v(t) u(t) dt$.
+		Wir zeigen zunächst für $R(f) = f^{(m)}(x_0)$:
 		\begin{align*}
-			R(y) = \f {d^m}{dx^m} \l( \int_a^b K(t,x) u(t) dx \r) \Big|_{x_0}
-			= \int_a^b \l( \f {d^m}{dx^m} K(t,x) \r) u(t) dt \Big|_{x_0}
+			R(y) = \f {d^m}{dx^m} \Big( \int_a^b K(t,x) u(t) dx \Big) \Big|_{x_0}
+			= \int_a^b \Big( \f {d^m}{dx^m} K(t,x) \Big) u(t) dt \Big|_{x_0}
 			= \int_a^b v(t) u(t) dt
 		\end{align*}
-		Für $R(t) = \int_a^b f^{(m)}(x) \omega(x) dx$ analog, für Linearkombinationen folgt die Behauptung aus der Linearität.
+		Für $R(f) = \int_a^b f^{(m)}(x) \omega(x) dx$ verläuft der Beweis analog und für Linearkombinationen aus beiden folgt die Behauptung aus der Linearität der Punktauswertung und des Integrals.
 	\end{proof}
 \end{lem}
 
 \begin{lem}
 	\label{2.29}
 	Sei 
-	$
+	\[
 		h_+^l := \begin{cases}h^l & h\ge 0 \\ 0 & \text{sonst}\end{cases}
-	$
+	\]
 	Es gilt für $f\in C^{k+1}([a,b])$
 	\[
 		f(x) = (P_kf)(x) + \int_a^b K_k(t,x) f^{(k+1)}(t) dt
 	\]
-	mit
-	\[
-		P_k(t) (x) := \sum_{j=0}^k f^{(j)}(x) \f {(x-a)^j}{j!} \in \P_k
-	\]
-	und
-	\[
-		K_k(t,x) := \f 1{k!}(x-t)^k_+ \in C^{k-1}([a,b]^2)
-	\]
+	mit $P_k \in \P_k$ und $K_k \in C^{k-1}([a,b]^2)$ gegeben durch
+	\begin{align*}
+		(P_kf)(x) &:= \sum_{j=0}^k f^{(j)}(x) \f {(x-a)^j}{j!} \\
+		K_k(t,x) &:= \f 1{k!}(x-t)^k_+
+	\end{align*}
 	\begin{proof}
 		Nutze Taylor mit Integralrestglied:
 		\begin{align*}
@@ -3441,18 +3437,22 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 	\[
 		R(f) = \int_a^b K(t) f^{(n+1)}(t) dt
 	\]
-	mit Peano-Kern $K(t) := \f 1{n!}R((\cdot - t)^n_+)$ unabhängig von $f$.
+	mit Peano-Kern 
+	\[
+		K(t) := \f 1{n!}R\Big((\cdot - t)^n_+\Big)
+	\]
+	unabhängig von $f$.
 	\begin{proof}
 		Da $f\in C^{n+1}([a,b])$, ist $f,P_nf,f-P_nf \in C^k([a,b])$
 		\begin{align*}
-			R(f) &\stackrel{\ref{2.29}}= R(P_n f) + R\l( \int_a^b \underbrace{K_n(t,\cdot)}_{\in C^k([a,b])} f^{(n+1)}(t) dt \r)
-			&\stackrel{\ref{2.28}} =  \int_a^b R(K_n(t,\cdot)) f^{(n+1)}(t) dt \\
-			&= \int_a^b R\l( \f 1{n!}(\cdot - t)^n_+ \r) f^{(n+1)}(t) dt
+			R(f) &\stackrel{\ref{2.29}}= R(P_n f) + R \Big( \int_a^b \underbrace{K_n(t,\cdot)}_{\in C^k([a,b])} f^{(n+1)}(t) dt \Big)
+			&\stackrel{\ref{2.28}} =  \int_a^b R\big(K_n(t,\cdot)\big) f^{(n+1)}(t) dt \\
+			&= \int_a^b R \Big( \f 1{n!}(\cdot - t)^n_+ \Big) f^{(n+1)}(t) dt
 		\end{align*}
 	\end{proof}
 \end{st}
 
-\begin{lem}[Verallgemeinerter Mittelwertsatz]
+\begin{lem}[Verallgemeinerter Mittelwertsatz] \label{2.31}
 	Seien $f,g \in C^0([a,b])$ mit $g\ge 0$.
 	Dann existiert $\zeta \in [a,b]$ so dass
 	\[
@@ -3471,7 +3471,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 	\end{proof}
 \end{lem}
 
-\begin{kor}[Fehlerdarstellung durch Monoauswertung]
+\begin{kor}[Fehlerdarstellung durch Monoauswertung] \label{2.32}
 	Falls Peano-Kern $K(t)$ auf $[a,b]$ keinen Vorzeichenwechsel hat, so gilt für alle $f\in C^{n+1}([a,b])$ existiert $\xi\in [a,b]$ mit
 	\[
 		R(f) = f^{(n+1)}(\xi) \f 1{(n+1)!} R(x^{n+1})
@@ -3484,7 +3484,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 		Anwendung auf $x^{n-1}$:
 		\[
 			R(x^{n+1}) = \underbrace{(n+1)!}_{=\f {d^{n+1}}{dx^{n+1}}x^{n+1}} \int_a^b K(t) dt \quad 
-			\implies \quad \int_a^b K(t) dt = \f {R(x^{n+1}}{(n+1)!}
+			\implies \quad \int_a^b K(t) dt = \f {R(x^{n+1})}{(n+1)!}
 		\]
 		Dies in die vorige Gleichung eingesetzt ergibt die Behauptung.
 	\end{proof}
@@ -3493,7 +3493,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 \begin{ex*}
 	Anwendung auf Simpson-Quadratur auf $[-1,1]$.
 	\[
-		R(f) = \f 13 (f(-1) + 4f(0) + f(1)) -\int_{-1}^1 f(x) dx
+		R(f) = \f 13 \big(f(-1) + 4f(0) + f(1)\big) -\int_{-1}^1 f(x) dx
 	\]
 	$R: C^0 ([a,b]) \to \R$, $k=0$.
 	Die Simpson-Quadratur ist exakt auf $n=3$, also mit \ref{2.30} ist
@@ -3502,8 +3502,8 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 	\]
 	mit
 	\begin{align*}
-		K(t) &= \f 1{3!}R((\cdot - t)_+^3) \\
-		&= \f 1{18} ((-1-t)_+^3+ 4(0-t)_+^3 + (1-t)_+^3) - \f 16 \int_{-1}^1 (x-t)_+^3 dx \\
+		K(t) &= \f 1{3!}R \big((\cdot - t)_+^3\big) \\
+		&= \f 1{18} \big((-1-t)_+^3+ 4(0-t)_+^3 + (1-t)_+^3 \big) - \f 16 \int_{-1}^1 (x-t)_+^3 dx \\
 	\end{align*}
 	Es ist $(-1-t)_+^3 = 0$ für $t\in [-1,1]$ und
 	\begin{align*}
@@ -4066,13 +4066,13 @@ Die Gewichte wählen wir dabei konstant.
 				0 \\ 0
 			\end{pmatrix}
 		\]
-		Falls $F(x) = Ax - b$ mit regulärer Matrix $A$, so stellen iterative LGS-Löser (Jacobi-, Gauß-Seide-Verfahren, etc.) eine Lösungsmöglichkeit dar, siehe dazu Vorlesung Numerische Lineare Algebra.
+		Falls $F(x) = Ax - b$ mit regulärer Matrix $A$, so stellen iterative LGS-Löser (Jacobi-, Gauß-Seidel-Verfahren, etc.) eine Lösungsmöglichkeit dar, siehe dazu Vorlesung Numerische Lineare Algebra.
 	\item
 		Die Eindeutigkeit von $x^*$ wird nicht gefordert. 
 		Es ist auch von Interesse, mehrere Nullstellen zu finden.
 	\item
 		Viele der zu behandelnden Methoden sind Iterationsverfahren.
-		Zu gegebenem $x^{(0)} \in \R^n$ definiere $x^{(k+1)} = \Phi(x^{(k)}$ mit Iterationssfunktion $\Phi : \R^n \to \R^n$.
+		Zu gegebenem $x^{(0)} \in \R^n$ definiere $x^{(k+1)} = \Phi(x^{(k)})$ mit Iterationssfunktion $\Phi : \R^n \to \R^n$.
 	\item
 		Wie kann $\Phi$ für verschieden glatte $F$ gewählt werden?
 		Für welche $x_0$ kann Konvergenz garantiert werden?
