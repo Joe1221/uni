@@ -4264,6 +4264,244 @@ Der Beweis nutzte die Intervallschachtelung.
 \end{ex*}
 
 
+\begin{st}[Konvergenz des Newton-Verfahrens] \label{3.4}
+	Sei $f \in C^2([a,b])$ und $x^* \in (a,b)$ mit $f(x^*) = 0$.
+	Sei weiterhin
+	\begin{align*}
+		m &:= \min_{x\in [a,b]}|f'(x)| > 0 \\
+		M &:= \max_{x\in [a,b]}|f''(x)|
+	\end{align*}
+	Wähle $\delta > 0$ genügend klein, so dass $B_\delta (x^*) \in [a,b]$ und $q := \f M{2m} \delta < 1$.
+
+	Dann ist für alle Nullstellen $x^{(k)} \in B_\delta(x^*)$ die Sequenz der Newton-Iterierten $(x^{(k)})_{k\in \N}$ wohldefiniert, $x^{(k)} \in B_\delta(x^*)$ und es gelten folgende Aussagen:
+	\begin{enumerate}[i)]
+		\item
+			Die a-priori Fehlerabschätzung
+			\[
+				|x^{(k)} - x^*| \le \f M{2m} |x^{(k-1)} - x^*|^2 \le \f {2m}M q^{2^k}
+				\qquad k\ge 1
+			\]
+		\item
+			Die a-posteriori Fehlerschranke
+			\[
+				|x^{(k)} - x^*| \le \f 1m |f(x^{(k)}| \le \f M{2m} |x^{(k)} - x^{(k-1)}|^2
+				\qquad k\ge 1
+			\]
+		\item
+			Konvergenz:
+			\[
+				\lim_{k\to \infty} x^{(k)} = x^*
+			\]
+	\end{enumerate}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Man spricht von \emph{lokaler Konvergenz} des Newton-Verfahrens
+			\item
+				Man muss $x^{(0)}$ als gute Annäherung der Nullstelle $x^*$ wählen (z.B. aus einigen Iterationen des Bisektionsverfahrens).
+			\item
+				Der Satz stellt einige Anforderungen an die Funktion.
+				Wegen des Mittelwertsatzes ist
+				\[
+					\f {|f(x) - f(y)|}{|x-y|} = |f'(\xi)| \ge m > 0
+					\qquad \forall x,y \in [a,b], x \neq y
+				\]
+				Damit ist $f(x) \neq f(y)$ also $f$ injektiv und $x^*$ ist die einzige Nullstelle in dem Intervall.
+				Außerdem ist $x^*$ einfache Nullstelle, da $f'(x^*) \neq 0$.
+			\item
+				Falls $f$ nicht injektiv und $f'(x^*) \neq 0$, kann man $[\_a, \_b]$ als kleines Teilintervall um $x^*$ wählen, so dass $f$ injektiv auf $[\_a,\_b]$ ist, womit man \ref{3.4} anwenden kann.
+			\item
+				Falls $x^*$ mehrfache Nullstelle ist ($f'(x^*)=0$), dann ist die Konvergenz immernoch gewährleistet aber langsamer (später)
+		\end{itemize}
+		\begin{proof}
+			Die Taylor-Entwicklung liefert
+			\begin{align*}
+				f(y) = f(x) + f'(x)(y-x) + R(y,x)
+			\end{align*}
+			mit 
+			\begin{align*}
+				R(y,x) 
+				&= \int_x^y f''(\xi) (y-\xi) d\xi \\
+				&= \int_0^1 f''\big(x+s(y-x)\big)  \big(y-x-s(y-x)\big)(y-x) ds \\
+				&= (y-x)^2 \int_0^1 \underbrace{f''\big(x+s(y-x)\big)}_{\le M} (1-s) ds
+			\end{align*}
+			Also
+			\[
+				|R(x,y) | \le (y-x)^2 M \int_0^1 (1-s) ds = \f M2 (y-x)^2
+			\]
+			Setze $\Phi(x) := x - \f {f(x)}{f'(x)}$, dann gilt
+			\begin{align*}
+				|\Phi(x) - x^*|
+				&= |x-x^* - \f {f(x)}{f'(x)}| \\
+				&= \Big| -\f 1{f'(x)} \big(f(x) + (x-x^*)f'(x) \big) \Big| \\
+			\intertext{
+				zusammen mit obiger Gleichung und $y=x^*$ ergibt sich
+			}
+				&= \Big| - \f 1{f'(x)} \big(f(x^*) - R(x,x^*)\big) \Big| \\
+				&\le \f 1m |R(x,x^*)| \\
+				&\le \f M{2m} (x^* - x)^2
+			\end{align*}
+			Also gilt für alle $x\in B_\delta(x^*)$:
+			\[
+				|\Phi(x) - x^*| \le \f M{2m}(x^*-x)^2 < \underbrace{\f M{2m} \delta}_{=q<1} \delta < \delta
+			\]
+			also $\Phi(x) \in B_\delta(x^*)$.
+
+			\begin{enumerate}[i)]
+				\item
+					Nach obige Abschätung gilt
+					\begin{align*}
+						|x^{(k)}-x^*| = |\Phi(x^{(k-1)}) - x^*| \le \f M{2m} |x^{(k-1)} - x^*|^2
+					\end{align*}
+					Setze $\rho^{(k)} = \f M{2m}|x^{(k)}-x^*|$, damit ist
+					\begin{align*}
+						\rho^{(k)} 
+						= \f M{2m} \big| \Phi(x^{(k-1)} - x^*\big| \\
+						\le \f M{2m} \f M{2m} |x^{(k-1)} - x^*|^2 \\
+						= (\rho^{(k-1)})^2
+						\le \dotsb \le
+						(\rho^{(0)})^{2^k}
+					\end{align*}
+					Damit folgt die zweite Ungleichung:
+					\begin{align*}
+						|x^{(k) -x^*}|
+						= \f {2m}M \rho^{(k)}
+						\le \f {2m}M (\rho^{(0)})^{2^k}
+						= \f {2m}M \Big( \f M{2m} \underbrace{|x^{(0)}-x^*|}_{\le \delta} \Big)^{2^k}
+						\le \f {2m}M q^{2^k}
+					\end{align*}
+				\item
+					?? mit $x = x^{(k-1)}$ und $y=x^{(k)}$ liefert
+					\begin{align*}
+						f(x^{(k)}) = \underbrace{f(x^{(k-1)}) + f'(x^{(k-1)})\big(x^{(k)}-x^{(k-1)}\big)}_{=0} + R(x^{(k)},x^{(k-1)}) = R(x^{(k)},x^{(k-1)})
+					\end{align*}
+					Der Mittelwertsatz liefert
+					\begin{align*}
+						|f(x^{(k)} -f(x^*)| = |f'(\xi)(x^{(k)}-x^*)| \ge m|x^{(k) -x^*}
+					\end{align*}
+					also
+					\begin{align*}
+						|x^{(k)} -x^*|
+						\le \f 1m |f(x^{(k)} - \underbrace{f(x^*)}_{=0}|
+						= \f 1m |f(x^{(k)}|
+						= \f 1m |R(x^{(k)}, x^{(k-1)}) |
+						= \le \f M{2m} (x^{(k)} -x^{(k-1)})^2
+					\end{align*}
+				\item
+					Weil $q<1$ folgt mit i)
+					\begin{align*}
+						\lim_{k\to \infty} |x^{(k)} -x^*| = 0
+					\end{align*}
+			\end{enumerate}
+		\end{proof}
+	\end{note}
+\end{st}
+
+\begin{df}[Sekantenverfahren] \label{3.5}
+	Sei $f:[a,b] \to \R$ gegeben mit Startwerten $x^{(0)}, x^{(1)} \in [a,b]$, $x^{(0)} \neq x^{(1)}$.
+	Wir definieren
+	\[
+		x^{(k+1)} = x^{(k)} - \f {x^{(k-1)} - x^{(k)}}{f(x^{(k-1)}) - f(x^{(k)})} f(x^{(k)})
+		\qquad k\in \N
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Das Verfahren ist nur sinnvoll falls $f(x^{(k)}) \neq f(x^{(k-1)})$ für alle $k$
+			\item
+				Das Verfahren entspricht dem Newton-Verfahren mit Differenzenquotienten anstatt $f'(x^{(k)})$.
+			\item
+				Es ist auch eine geometrische Interpretation möglich:
+				$x^{(k+1)}$ ist nämlich die Nullstelle der Sekante $s(x)$ von $f$ durch die Punkte ($x^{(k-1)}, f(x^{(k-1)})$) und ($x^{(k)},f(x^{(k)})$).
+				\begin{align*}
+					0 \stack != s(x) = f(x^{(k)}) + \f {f(x^{(k)})-f(x^{(k-1)})}{x^{(k)}-x^{(k-1)}} (x-x^{(k)})
+				\end{align*}
+				also
+				\begin{align*}
+					x-x^{(k)} &= - \f {x^{(k)}-x^{(k-1)}}{f(x^{(k)}) - f(x^{(k-1)})} f(x^{(k)}) \\
+					\iff \qquad
+					x &= x^{(k)} - \f {x^{(k)}-x^{(k-1)}}{f(x^{(k)}) - f(x^{(k-1)})} f(x^{(k)})
+				\end{align*}
+			\item
+				Das Verfahren braucht pro Schritt eine Funktionsauswertung (man speichert die aus dem letzten Schritt).
+			\item
+				Das Verfehren ist auch auf nicht-differenzierbare Funktionen anwendbar.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Konvergenz des Sekantenverfahrens] \label{3.6}
+	Sei $f\in C^2([a,b])$ und $x^* \in (a,b)$ mit $f(x^*) = 0$.
+	Außerdem $m := \min_{x \in [a,b]}|f'(x)| > 0$ und $M := \max_{x\in[a,b]}|f''(x)|$.
+
+	Sei $\delta > 0$ klein genug, so dass $q := \f M{2m} \delta < 1$.
+	Seien weiterhin $x^{(0)}, x^{(1)} \in B_\delta(x^*)$ mit $x^{(0)} \neq x^{(1)}$.
+	Dann ist die Folge $(x^{(k)})_{k \in \N}$ des Sekantenverfahrens wohldefiniert mit $x^{(k)} \in B_\delta(x^*)$ und es gelten die Aussagen:
+	\begin{enumerate}[i)]
+		\item
+			Die a-priori Fehlerschranke:
+			\[
+				|x^{(k)} -x^*| \le \f {2m}M q^{\gamma_k}
+			\]
+			wobei $(\gamma_k)_{k\in \N}$ die Folge der Fibonacci-Zahlen ist, d.h. $\gamma_0 := \gamma_1 := 1$ und $\gamma_{k+1} := \gamma_k + \gamma_{k-1}$.
+		\item
+			Die a-posteriori Fehlerschranke:
+			\[
+				|x^{(k)}-x^*| \le \f 1m \big| f(x^{(k)} | \le \f M{2m} |x^{(k)} - x^{(k-1)}| \cdot |x^{(k)}-x^{(k-2)}|
+			\]
+		\item
+			Konvergenz
+			\[
+				\lim_{k \to \infty} x^{(k)} = x^*
+			\]
+	\end{enumerate}
+	\begin{proof}
+		Übungsaufgabe
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Ein Problem beim Sekantenverfahren sind Rundungsfehler, falls $f(x^{(k)})$ und $f(x^{(k-1)}$ sehr nache beieinander liegen.
+			\item
+				Es liegt wie beim Newtonverfahren wieder lokale Konvergenz vor.
+			\item
+				Man kann zeigen, dass
+				\[
+					|x^{(k)} - x^*| \le C |x^{(k-1)} - x^*|^\phi
+				\]
+				mit $C$ unabhängig von $k$ und dem goldenen Schnitt $\phi = \f {1+\sqrt 5}2 \approx 1.618$.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{nt*}[Vergleich der Verfahren]
+	\begin{itemize}
+		\item
+			Bezüglich der Iterationszahl:
+			\begin{align*}
+				|x^{(k)} -x^*| \le \f {(b-a)}2 (\tf 12)^k
+				|x^{(k)} -x^*| \le \f {2m}M q^{2^k}
+				|x^{(k)} -x^*| \le \f {2m}M q^{\phi^k}
+			\end{align*}
+			Die Bisektion und das Sekantenverfahren benötigt eine Auswertung von $f$ pro Iteration, das Newtonverfahren eine von $f$ und eine von $f'$ pro Iteration.
+
+			Man sieht, dass das Newtonverfahren am schnellsten bezüglich der Iterationszahl konvergiert
+		\item
+			Bezüglich dem Aufwand (Auswertungen von $f$ und $f''$):
+
+			Setze $z^{(k)} = x^{(2k)}$ beim Besektions- und Sekantenverfahren.
+			Dann ist der Aufwand für $z^{(k)}$ und $x^{(k)}$ aus dem Newtonverfahren vergleichbar.
+			\begin{align*}
+				|z^{(k)} -x^*| \le \f {(b-a)}2 (\tf 14)^k
+				|z^{(k)} -x^*| \le \f {2m}M q^{2^k}
+				|x^{(k)} -x^*| \le \f {2m}M q^{\phi^{2k}}
+			\end{align*}
+			Bezüglich der Funktionsauswertungen konvergiert das Sekantenverfahren am schnellsten.
+
+
+	\end{itemize}
+\end{nt*}
+
 
 
 \section{Optimierung}
