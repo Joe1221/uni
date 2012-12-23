@@ -3356,15 +3356,17 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 
 \begin{df}[Zulässige Funktionale]
 	\label{2.27}
-	Eine lineares Funktional $R : C^k([a,b] \to \R) \to \R$ heißt \emph{zulässig}, wenn es eine Punktauswertung 
+	Eine lineares Funktional $R : C^k([a,b]) \to \R$ heißt \emph{zulässig}, wenn es eine Punktauswertung 
 	\[
-		f^{(m)}(x_0), \qquad x_0\in [a,b], \qquad m\in \{0,\dotsc,k\}
+		f^{(m)}(x_0)
+		\qquad (x_0\in [a,b] \;\land\; m\in \{0,\dotsc,k\})
 	\]
 	oder ein gewichtetes Integral
 	\[
-		\int_a^b f^{(m)}(x) \omega(x) dx
+		\int_a^b f^{(m)}(x) \omega(x) \; dx
+		\qquad (m \in \{0,\dotsc,k\})
 	\]
-	oder eine endliche Linearkombination von diesen. \fixme[Tun haben gemacht werden :D]
+	oder eine endliche Linearkombination dieser beiden ist.
 \end{df}
 
 \begin{ex*}
@@ -3432,7 +3434,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 
 \begin{st}[Peano Fehlerdarstellung]
 	\label{2.30}
-	Sei $R$ ein zulässiges Funktional auf $C^k([a,b])$ welches auf $\P_n$, $n>k$ verschwindet, d.h. $R(p)=0$ für alle $p\in \P_n$.
+	Sei $R$ ein zulässiges Funktional auf $C^k([a,b])$ welches für ein $n>k$ auf $\P_n$ verschwindet (d.h. $\forall p\in \P_n : R(p)=0$).
 	Dann gilt für alle $f\in C^{n+1}([a,b])$:
 	\[
 		R(f) = \int_a^b K(t) f^{(n+1)}(t) dt
@@ -3462,9 +3464,11 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 		Setze $r(t) := \int_a^b f(x)g(x) dx - f(t) \int_a^b g(x) dx \in C^0([a,b])$.
 		Seien $x_{\text{min}}, x_{\text{max}} \in [a,b]$ mit
 		\[
-			f(x_{\text{min}}) = \min_{x\in[a,b]} f(x) , \qquad f(x_{\text{max}}) = \max_{x\in[a,b]}f(x)
+			f(x_{\text{min}}) = \min_{x\in[a,b]} f(x)
+			\qquad
+			f(x_{\text{max}}) = \max_{x\in[a,b]} f(x)
 		\]
-		Daraus folgt $r(x_{\text{min}}) = \int_a^b (f(x)-f(x_{\text{min}})g(x) dx \ge 0$.
+		Daraus folgt $r(x_{\text{min}}) = \int_a^b \big(f(x)-f(x_{\text{min}})\big)g(x) dx \ge 0$.
 
 		Analog für $r(x_{\text{max}}) \le 0$.
 		Der Zwischenwertsatz folgt, da $\xi \in[x_{\text{min}}, x_{\text{max}}]$ existiert.
@@ -4178,7 +4182,7 @@ Der Beweis nutzte die Intervallschachtelung.
 	Sei $f \in C^1([a,b])$ und $x^{(0)} \in [a,b]$.
 	Wir definieren
 	\[
-		x^{(k+1)} := x^{(k)} - \f {f(x^{(k)}}{f'(x^{(k)})}
+		x^{(k+1)} := x^{(k)} - \f {f(x^{(k)})}{f'(x^{(k)})}
 		\qquad k\in \N
 	\]
 	\begin{note}
@@ -4193,16 +4197,16 @@ Der Beweis nutzte die Intervallschachtelung.
 				\[
 					0 
 					= f(x^*) 
-					= f(x^{(k)} + h \cdot f'(x^{(k)}) + o(h^2)
-					= f(x^{(k)} + h \cdot f'(x^{(k)})
+					= f(x^{(k)}) + h \cdot f'(x^{(k)}) + o(h^2)
+					= f(x^{(k)}) + h \cdot f'(x^{(k)})
 				\]
 				Wir vernachlässigen also Terme höherer Ordnung und erhalten
 				\[
-					h = - \f {f(x^{(k)}}{f'(x^{(k)}}
+					h = - \f {f(x^{(k)})}{f'(x^{(k)})}
 				\]
 				Daher ist es sinnvoll
 				\[
-					x^{(k+1)} := x^{(k)} + h = x^{(k)} - \f {f(x^{(k)}}{f'(x^{(k)})}
+					x^{(k+1)} := x^{(k)} + h = x^{(k)} - \f {f(x^{(k)})}{f'(x^{(k)})}
 				\]
 			\item
 				Man kann das Verfahren auch geometrisch Interpretieren:
@@ -4273,7 +4277,7 @@ Der Beweis nutzte die Intervallschachtelung.
 	\end{align*}
 	Wähle $\delta > 0$ genügend klein, so dass $B_\delta (x^*) \in [a,b]$ und $q := \f M{2m} \delta < 1$.
 
-	Dann ist für alle Nullstellen $x^{(k)} \in B_\delta(x^*)$ die Sequenz der Newton-Iterierten $(x^{(k)})_{k\in \N}$ wohldefiniert, $x^{(k)} \in B_\delta(x^*)$ und es gelten folgende Aussagen:
+	Dann ist für alle Startwerte $x^{(0)} \in B_\delta(x^*)$ die Sequenz der Newton-Iterierten $(x^{(k)})_{k\in \N}$ wohldefiniert, $x^{(k)} \in B_\delta(x^*)$ und es gelten folgende Aussagen:
 	\begin{enumerate}[i)]
 		\item
 			Die a-priori Fehlerabschätzung
