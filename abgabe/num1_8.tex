@@ -1,0 +1,114 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\usepackage{graphicx}
+\blattnumeins
+
+\begin{document}
+
+
+\setcounter{aufgabe}{1}
+\begin{aufgabe}~
+
+	Zunächst ist $f''(x) = \f 8{(1+2x)^3}$, und $f^{(4)}(x) = \f {384}{(1+2x)^5}$.
+	Man sieht leicht, dass das Supremum jeweils bei $x=0$ angenommen wird, also
+	\[
+		\|f''\|_\infty = 8
+		\qquad
+		\|f^{(4)}\|_\infty = 384
+	\]
+	Sei $n+1$ die Anzahl der Stützstellen der einzelnen Quadraturen und $N$ die Anzahl dieser Einzelquadraturen, dann ist die Anzahl der Funktionsauswertungen (es fallen jeweils zwei an den Intervallzwischenstellen aufeinander) gegeben durch:
+	\[
+		k = n \cdot N + 1
+	\]
+	Bezeichne im Folgenden $h$ den Abstand der Funktionsauswertungen der einzelnen Quadraturen und $H=\f{b-a}N = \f 1N$ die Intervallbreite für die einzelnen Quadraturen.
+	\begin{enumerate}[a)]
+		\item
+			Es gilt $h = H$ und $n=1$, also $N=k-1$ und
+			\[
+				h = H = \f 1N = \f 1{k-1}
+			\]
+			Zusammen mit der Fehlerabschätzung für die Trapezregel aus der Vorlesung:
+			\[
+				|I(f) - I_h(f)| \le \f {\|f''\|_\infty}{12} (b-a)h^2
+			\]
+			erhalten wir also garantiert einen absoluten Fehler kleiner als $10^{-8}$ wenn folgende Ungleichung erfüllt ist
+			\[
+				\f 8{12} \f 1{(k-1)^2} < 10^{-8}
+			\]
+			Das ist ab $k=8166$ der Fall.
+		\item
+			Es gilt $h = \f H2$ und $n=2$, also $N= \f{k-1}2$ und
+			\[
+				h = \f H2 = \f 1{2N} = \f 1{k-1}
+			\]
+			Zusammen mit der Fehlerabschätzung für die Simpsonregel aus der Vorlesung:
+			\[
+				|I(f) - I_h(f)| \le \f {\|f^{(4)}\|_\infty}{180} (b-a)h^4
+			\]
+			erhalten wir also garantiert einen absoluten Fehler kleiner als $10^{-8}$ wenn folgende Ungleichung erfüllt ist
+			\[
+				\f {384}{180}\f 1{(k-1)^4} < 10^{-8}
+			\]
+			Das ist ab $k=123$ der Fall (nächste ungerade Zahl, da immer ungerade Zahl an Funktionsauswertungen für zusammengesetzte Simpsonregel).
+	\end{enumerate}
+
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	Wir zeigen
+	\[
+		p_{k+1}(x) - x p_k(x) = -\f{\<x p_k, p_k\>}{\<p_k,p_k\>} p_k(x) - \f{\<p_k,p_k\>}{\<p_{k-1},p_{k-1}\>} p_{k-1}(x)
+	\]
+	Betrachte dazu die linke Seite.
+	Da $p_{k+1}$ normiert, ist $p_{k+1}(x) - x p_k(x) \in \P_k$.
+	Schreibe den Ausdruck als Linearkombination des Orthogonalsystems $\{p_j\}_{j=0}^k$: 
+	\begin{align*}
+		p_{k+1}(x) - x p_k(x)
+		&= \sum_{j=0}^k \f{\<p_{k+1} - x p_k, p_j\>}{\<p_j, p_j\>} p_j 
+		= \sum_{j=0}^k -\f{\<x p_k, p_j\>}{\<p_j,p_j\>} p_j
+		\intertext{
+			Wegen $\<f,g\>=\int_a^b\omega(x)f(x)g(x)dx$ gilt $\<xp_k, p_j\> = \<xp_j, p_k\>$:
+		}
+		&= \sum_{j=0}^k - \f{\<x p_j, p_k\>}{\<p_j,p_j\>} p_j
+	\end{align*}
+	Betrachte jetzt $\<x p_j, p_k\>$.
+	Für $j < k-1$ ist
+	\[
+		\<x p_j, p_k\> = \l\<\sum_{l=0}^{j+1}a_l p_l, p_k\r\> = 0
+	\]
+	Für $j = k-1$:
+	\[
+		\<x p_j, p_k\> = \<p_k, x p_{k-1}\> = \l\<p_k, p_k + \sum_{l=0}^{k-1} a_l p_l \r\> = \<p_k,p_k\>
+	\]
+	und für $j=k$ offensichtlich $\<x p_k,p_k\>$.
+	Damit ist
+	\[
+		p_{k+1}(x) - x p_k(x) = \sum_{j=0}^k - \f{\<x p_j, p_k\>}{\<p_j,p_j\>} p_j = -\f{\<x p_k, p_k\>}{\<p_k,p_k\>}p_k(x) - \f{\<p_k,p_k\>}{\<p_{k-1},p_{k-1}\>} p_{k-1}(x)
+	\]
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+		Richardson-Extrapolationsroutine:
+		\lstinputlisting[language=matlab]{num1_8_4/richardson_extrapol.m}
+
+		\newpage
+
+		Auswertung mit $f(x) = \f 1{1+x}$, $a=0, b=1, k_{\text{max}}=5, q=2$:
+		\lstinputlisting[language=matlab]{num1_8_4/aufgabe.m}
+		\begin{table}[h]
+			\centering
+			\caption{Ergebnisse der Richardson-Extrapolation}
+			\begin{tabular}{c|rr}
+				$j$ & $b_{0j}$ & $|b_{0j}-b(0)|$ \\ \hline
+				0 & 1.25000 & 0.5568528 \\
+				1 & 0.41667 & -0.2764805 \\
+				2 & 0.78704 & 0.0938899 \\
+				3 & 0.69627 & 0.0031185 \\
+				4 & 0.69756 & 0.0044135 \\
+				5 & 0.69531 & 0.0021625 \\
+			\end{tabular}
+		\end{table}
+\end{aufgabe}
+\end{document}
