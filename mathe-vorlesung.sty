@@ -1,29 +1,38 @@
 \ProvidesPackage{mathe-vorlesung}
 
-\usepackage[utf8x]{inputenc}
-\usepackage{ngerman}
+\usepackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
+\usepackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
+\usepackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
 
-\usepackage[a4paper,left=25mm,right=25mm, top=20mm, bottom=40mm]{geometry}
+% Seitenkonfiguration
+\usepackage[a4paper, left=20mm, right=20mm, top=20mm, bottom=30mm]{geometry}
 
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 
-\usepackage{bbm}
-\usepackage{algpseudocode}
-\usepackage{verbatim}
+% Font für Zeichen mit Doppelstrich, nur für die 1 benötigt
+\IfFileExists{bbm.sty}{
+	\usepackage{bbm}
+	\newcommand{\1}{\mathbbm{1}}
+}{
+	\newcommand{\1}{\operatorname{Id}}
+}
+
+\usepackage{enumerate}			% Aufzählungen wie a), (I), etc. als optionales Argument
+\usepackage{parskip}			% Entfernt Einrückung bei Absätzen und fügt vertikalen Abstand ein
+
+\usepackage{algpseudocode}		% algorithmicx package für Pseudo-Code
+\usepackage{verbatim}			% Für Ascii-Art ;-)
+
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{ntheorem}
-\usepackage{enumerate}
-\usepackage{parskip}
-\usepackage{changepage}
-
-\usepackage{framed}
-\usepackage{pstricks}
-
 \usepackage{mathtools}
+\usepackage[amsmath,hyperref,thmmarks]{ntheorem}			% Alternative theorems für leichteres Anpassen
+%\usepackage{tikz}
 
-\usepackage{listings}
-%\lstset{numbers=left,numberstyle=\scriptsize,numbersep=5pt}
+
+\usepackage{listings}			% Einbinden von Code-Schnipsel
+% Hack um deutsche Sonderzeichen in lstinputlisting zu unterstützen
+\lstset{literate={Ö}{{\"O}}1{Ä}{{\"A}}1{Ü}{{\"U}}1{ß}{{\ss}}2{ü}{{\"u}}1{ä}{{\"a}}1{ö}{{\"o}}1}
 \lstset{
   basicstyle=\small\ttfamily,
   numbers=left,
@@ -36,39 +45,49 @@
   showstringspaces=false
 }
 
-%\renewcommand{\proofname}{\normalfont\itshape\underline{Beweis}}
+%========================
+% Theorems
+%========================
 
-\theoremstyle{break}
-\theorembodyfont{\normalfont}
-\theorempreskipamount 2.5em
-\theoremindent 1em
-\theoremheaderfont{\kern-1em\normalfont\bfseries}
+\theoremstyle{break} 								% Vordefinierter Style mit Zeilenumbruch
+\theorembodyfont{\normalfont} 						% Aufrecht statt kursiv im body-Teil
+\theorempreskip{2.5em} 								% Abstand vor Theroem
+\theoremindent 2ex 									% Theroem einrücken
+\theoremheaderfont{\kern-1em\normalfont\bfseries} 	% Überschrift wieder ausrücken
 
 \newtheorem{thm}{Theorem}[section]
-\newtheorem{df}[thm]{Definition}
-\newtheorem{lem}[thm]{Lemma}
-\newtheorem{prop}[thm]{Proposition}
-\newtheorem{st}[thm]{Satz}
-\newtheorem{kor}[thm]{Korrolar}
-\newtheorem{alg}[thm]{Algorithmus}
-\newtheorem{nt}[thm]{Bemerkung}
-\newtheorem{ex}[thm]{Beispiel}
-
 \renewtheorem*{thm*}{Theorem}
-\renewtheorem*{df*}{Definition}
-\renewtheorem*{lem*}{Lemma}
-\renewtheorem*{prop*}{Proposition}
-\renewtheorem*{st*}{Satz}
-\renewtheorem*{nt*}{Bemerkung}
-\renewtheorem*{kor*}{Korrolar}
+\newtheorem{alg}[thm]{Algorithmus}
 \renewtheorem*{alg*}{Algorithmus}
-
-\theoremheaderfont{\kern-1em\bfseries\small\itshape}
-\newtheorem*{proof}{Beweis}
+\newtheorem{df}[thm]{Definition}
+\renewtheorem*{df*}{Definition}
+\newtheorem{ex}[thm]{Beispiel}
 \renewtheorem*{ex*}{Beispiel}
-\newtheorem*{exs}{Beispiele}
+\newtheorem{kor}[thm]{Korrolar}
+\renewtheorem*{kor*}{Korrolar}
+\newtheorem{lem}[thm]{Lemma}
+\renewtheorem*{lem*}{Lemma}
+\newtheorem{nt}[thm]{Bemerkung}
+\renewtheorem*{nt*}{Bemerkung}
+\newtheorem{prop}[thm]{Proposition}
+\renewtheorem*{prop*}{Proposition}
+\newtheorem{st}[thm]{Satz}
+\renewtheorem*{st*}{Satz}
+
+\theorempreskip{1.5em} 								% Abstand vor Theroem
+\theoremheaderfont{\kern-1em\bfseries\small\itshape}% Kursiv und kleiner als oben
 
 \newtheorem*{note}{Bemerkung}
+\theoremsymbol{\ensuremath{\square}}
+	\newtheorem*{proof}{Beweis}
+\theoremsymbol{}
+
+% Segment-Environment für kleinere gedankliche Abschnitte
+\theoremstyle{emptybreak}
+\theoremheaderfont{\kern-1em\bfseries\small}
+\newtheorem{seg}{}
+
+
 
 % Skript Zeichen
 \DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
@@ -90,9 +109,8 @@
 \newcommand{\eps}{\epsilon}
 
 
-\newcommand{\Id}{\mathbbm{1}}
-\newcommand{\1}{\mathbbm{1}}
-\newcommand{\Eins}{\Id}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\Eins}{\1}
 \renewcommand{\Re}{\operatorname{Re}}
 \renewcommand{\Im}{\operatorname{Im}}
 
@@ -146,12 +164,12 @@
 \renewcommand{\>}{\rangle}
 
 
-\newenvironment{seg}[1]{
-	\underline{#1}
-	\begin{adjustwidth}{1.3em}{0em}
-}{
-	\end{adjustwidth}
-}
+%\newenvironment{seg}[1]{
+%	\underline{#1}
+	%\begin{adjustwidth}{1.3em}{0em}
+%}{
+	%\end{adjustwidth}
+%}
 
 % Algorithmen
 \newcommand{\Input}{\Require}
