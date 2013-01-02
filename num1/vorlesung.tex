@@ -75,7 +75,7 @@ Potentielle Fragestellungen:
 
 \subsection{Polynominterpolation}
 
-Sei $\{x_i\}_{i=0}^n$, ${f_i}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
+Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j$.
 
 \begin{st}[Existenz und Eindeutigkeit]
 	\label{1.1}
@@ -4093,6 +4093,8 @@ Sei $f$ stetig auf $[a,b]$, $f(a) < 0, f(b) > 0$, dann existiert $x^* \in (a,b)$
 
 Der Beweis nutzte die Intervallschachtelung.
 
+\subsubsection{Das Bisektionsverfahren}
+
 \begin{df}[Bisektionsverfahren] \label{3.1}
 	Sei $f \in C^0([a,b])$ und $f(a) \cdot f(b) < 0$.
 	Wir definieren eine Folge von Intervalle $[a_k, b_k]$ und iterieren $x^{(k)}$ durch
@@ -4177,6 +4179,8 @@ Der Beweis nutzte die Intervallschachtelung.
 			Das Verfahren setzt keine Differenzierbarkeit vorraus.
 	\end{itemize}
 \end{nt*}
+
+\subsubsection{Das Newton-Verfahren}
 
 \begin{df}[Newton-Verfahren] \label{3.3}
 	Sei $f \in C^1([a,b])$ und $x^{(0)} \in [a,b]$.
@@ -4401,6 +4405,8 @@ Der Beweis nutzte die Intervallschachtelung.
 	\end{note}
 \end{st}
 
+\subsubsection{Das Sekantenverfahren}
+
 \begin{df}[Sekantenverfahren] \label{3.5}
 	Sei $f:[a,b] \to \R$ gegeben mit Startwerten $x^{(0)}, x^{(1)} \in [a,b]$, $x^{(0)} \neq x^{(1)}$.
 	Wir definieren
@@ -4478,15 +4484,17 @@ Der Beweis nutzte die Intervallschachtelung.
 	\end{note}
 \end{st}
 
+\subsubsection{Vergleich}
+
 \begin{nt*}[Vergleich der Verfahren]
 	\begin{itemize}
 		\item
 			Bezüglich der Iterationszahl:
-			\begin{align*}
-				|x^{(k)} -x^*| \le \f {(b-a)}2 (\tf 12)^k
-				|x^{(k)} -x^*| \le \f {2m}M q^{2^k}
-				|x^{(k)} -x^*| \le \f {2m}M q^{\phi^k}
-			\end{align*}
+			\begin{alignat*}{3}
+				\text{Bisektion:}&\qquad& |x^{(k)} -x^*| &\le \f {(b-a)}2 (\tf 12)^k \\
+				\text{Newton-Verfahren:}&\qquad& |x^{(k)} -x^*| &\le \f {2m}M q^{2^k} \\
+				\text{Sekantenverfahren:}&\qquad& |x^{(k)} -x^*| &\le \f {2m}M q^{\phi^k}
+			\end{alignat*}
 			Die Bisektion und das Sekantenverfahren benötigt eine Auswertung von $f$ pro Iteration, das Newtonverfahren eine von $f$ und eine von $f'$ pro Iteration.
 
 			Man sieht, dass das Newtonverfahren am schnellsten bezüglich der Iterationszahl konvergiert
@@ -4495,11 +4503,11 @@ Der Beweis nutzte die Intervallschachtelung.
 
 			Setze $z^{(k)} = x^{(2k)}$ beim Besektions- und Sekantenverfahren.
 			Dann ist der Aufwand für $z^{(k)}$ und $x^{(k)}$ aus dem Newtonverfahren vergleichbar.
-			\begin{align*}
-				|z^{(k)} -x^*| \le \f {(b-a)}2 (\tf 14)^k
-				|z^{(k)} -x^*| \le \f {2m}M q^{2^k}
-				|x^{(k)} -x^*| \le \f {2m}M q^{\phi^{2k}}
-			\end{align*}
+			\begin{alignat*}{3}
+				\text{Bisektion:}&\qquad& |z^{(k)} -x^*| &\le \f {(b-a)}2 (\tf 14)^k \\
+				\text{Newton-Verfahren:}&\qquad& |z^{(k)} -x^*| &\le \f {2m}M q^{2^k} \\
+				\text{Sekantenverfahren:}&\qquad& |x^{(k)} -x^*| &\le \f {2m}M q^{\phi^{2k}} 
+			\end{alignat*}
 			Bezüglich der Funktionsauswertungen konvergiert das Sekantenverfahren am schnellsten.
 
 
