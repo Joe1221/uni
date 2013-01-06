@@ -1,0 +1,92 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattanadrei
+
+\begin{document}
+
+	\setcounter{section}{10}
+
+	\begin{aufgabe}~
+
+		\begin{enumerate}[{Teil} A:]
+			\item
+				\begin{enumerate}[(i)]
+					\item
+						Sei
+						\[
+							f(t) = \sum_{k=-\infty}^\infty c_k e^{ikt}
+						\]
+						die Fourierreihenentwicklung von $f$ mit Fourierkoeffizienten $c_k$.
+						Durch Ableiten und Koeffizientenvergleich ergeben sich für $f'$ die Fourierkoeffizienten $ikc_k$.
+						Es gilt wegen der Vorraussetzung:
+						\[
+							c_0 = \f 1{2\pi}\int_0^{2\pi} f(t) dt = 0
+						\]
+						Da $f$ beschränkt auf allen Teilintervallen, auf denen $f$ stetig ist, ist $f$ damit auch beschränkt auf dem Gesamtintervall $[0,2\pi]$, ebenso $f'$.
+						Also lässt sich die Parseval'sche Gleichung auf $f$ und $f'$ anwenden:
+						\begin{align*}
+							\int_0^{2\pi} |f'(t)|^2 dt
+							= 2\pi \sum_{\substack{k=-\infty\\k\neq 0}}^\infty |ikc_k|^2
+							\ge 2\pi \sum_{\substack{k=-\infty\\k\neq 0}}^\infty |c_k|^2
+							= 2\pi \sum_{-\infty}^\infty |c_k|^2
+							= \int_0^{2\pi} |f(t)|^2 dt
+						\end{align*}
+					\item
+						Man betrachte die Ungleichung in (i), Gleichheit ergibt sich genau dann, wenn
+						\begin{align*}
+							\sum_{k=-\infty}^\infty |k||c_k|^2 = \sum_{k=\infty}^\infty |c_k|^2
+							\quad \iff \quad \sum_{-\infty}^\infty (|k|-1)|c_k|^2 = 0 
+							\quad \iff \quad \forall k\in \Z\setminus\{-1,1\} : c_k = 0
+						\end{align*}
+						Identifiziert man jetzt $a := c_{-1}$ und $b := c_1$, ergibt sich sofort die Behauptung.
+				\end{enumerate}
+			\item
+				\begin{enumerate}[(i)]
+					\item
+						Sei $f = \Id$ die identische Abbildung, dann ist $\div f = 2$, also
+						\[
+							|S| = \int_S dx = \f 12 \int_S \div f dx = \f 12 \int_\gamma f \cdot n \; ds = \f 12 \int_0^{2\pi} \gamma_1(t) n_1(t) + \gamma_2(t) n_2(t) \; dt
+						\]
+						mit Normalenvektor $n$. Man kann das auch schreiben als
+						\[
+							= \f 12 \int_0^{2\pi} \gamma_1 \gamma_2'(t) - \gamma_2 \gamma_1'(t) \;dt
+						\]
+					\item
+						Zunächst verschieben wir die Kurve $\gamma$ so, dass $\int_0^{2\pi} \gamma_1(t) dt = \int_0^{2\pi} \gamma_2(t) dt = 0$ ist (eine Art Zentrierung, der Flächeninhalt ändert sich offensichtlich nicht).
+
+						Der Integrand in der ersten Darstellung der Fläche in (i) wird maximal, wenn man als Normalenvektor $n = \f {\gamma(t)}{\|\gamma(t)\|}$ wählt (betrachte dazu das Skalarprodukt).
+						Also
+						\begin{align*}
+							|S| 
+							&= \f 12 \int_\gamma f \cdot n \; ds 
+							\le \f 12 \int_0^{2\pi} \f 1{\|\gamma(t)\|} \Big(\gamma_1(t)^2 + \gamma_2(t)^2\Big) \; dt
+						\intertext{
+							Ich vermute, dass sich das $\f 1{\|\gamma(t)\|}$ irgendwie wegdiskutieren lässt, aber kann es nicht genau begründen
+						}
+							&\stackrel ?\le \f 12 \int_0^{2\pi} \gamma_1(t)^2 + \gamma_2(t)^2 \; dt
+						\intertext{
+							Definiere $g(t) = \gamma_1(t) + i \gamma_2(t)$.
+							Dank unserer Verschiebung vorhin ist die Vorraussetzung $\int_0^{2\pi} g(t) dt = 0$ erfüllt, die anderen ebenfalls.
+							Wir wenden also Teil $A$ an:
+						}
+							&= \f 12 \int_0^{2\pi} |g(t)|^2 \; dt 
+							\le \f 12 \int_0^{2\pi} |g'(t)|^2 \; dt
+						\intertext{
+							Da $\gamma$ die Parametrisierung nach der Bogenlänge war, ist $g'(t) = \|\gamma'(t)\| = 1$:
+						}
+							&= \f 12 \int_0^{2\pi} dt 
+							= \pi 
+						\end{align*}
+					\item
+						Die eine Richtung sollte klar sein (ist $S$ ein Kreis, dann hat er Radius 1 und Flächeninhalt $\pi$).
+
+						Sei der Flächeninhalt also $\pi$, dann gilt Gleichheit in der Abschätzung in (ii).
+						Insbesondere ist dann $\|\gamma(t)\| = 1$ und $n(t) = \gamma(t)$ (aus dem Skalarprodukt).
+						Es ergibt sich damit anschaulich ein Kreis.
+				\end{enumerate}
+		\end{enumerate}
+	\end{aufgabe}
+
+\end{document}
+
+
