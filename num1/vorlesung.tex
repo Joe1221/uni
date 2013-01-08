@@ -20,7 +20,7 @@ Ziel ist es, Parameter $a_0,\dotsc, a_n$ zu finden, so dass
 \[
 	\Phi(x_i;a_0,\dotsc, a_n) = f_i \qquad \forall i= 0,\dotsc,n \qquad \text{„Interpolation“}
 \]
-oder allgemeine so dass
+oder allgemeiner so dass
 \[
 	\sum_{i=0}^n(\Phi(x_i; a_0,\dotsc a_m) -f_i)^2 \qquad \text{minimal}
 \]
@@ -4253,7 +4253,7 @@ Der Beweis nutzte die Intervallschachtelung.
 	Es ergibt sich also eine sehr schnelle Konvergenz, fast eine Verdopplung der gültigen Nachkommastellen pro Iteration.
 	Die Iterationsvorschrift ist gerade das Heron'sche Verfahren zur Wurzelberechnung von $a$.
 
-	Falls $a,x^{(0)} \in \Q, \sqrt{a} \not \in \Q$, dann sind die $x^{(k)}$ eine rationale Approximation für irrationalle $\sqrt a$.
+	Falls $a,x^{(0)} \in \Q, \sqrt{a} \not \in \Q$, dann sind die $x^{(k)}$ eine rationale Approximation für irrationale $\sqrt a$.
 \end{ex*}
 
 \begin{ex*}[Verschiedenes Konvergenzverhalten]
@@ -4279,24 +4279,28 @@ Der Beweis nutzte die Intervallschachtelung.
 		m &:= \min_{x\in [a,b]}|f'(x)| > 0 \\
 		M &:= \max_{x\in [a,b]}|f''(x)|
 	\end{align*}
-	Wähle $\delta > 0$ genügend klein, so dass $B_\delta (x^*) \in [a,b]$ und $q := \f M{2m} \delta < 1$.
+	und $\delta > 0$ genügend klein gewählt, so dass $B_\delta (x^*) \in [a,b]$ und $q := \f M{2m} \delta < 1$.
 
 	Dann ist für alle Startwerte $x^{(0)} \in B_\delta(x^*)$ die Sequenz der Newton-Iterierten $(x^{(k)})_{k\in \N}$ wohldefiniert, $x^{(k)} \in B_\delta(x^*)$ und es gelten folgende Aussagen:
 	\begin{enumerate}[i)]
 		\item
-			Die a-priori Fehlerabschätzung
+			Die a-priori Fehlerabschätzung:
 			\[
-				|x^{(k)} - x^*| \le \f M{2m} |x^{(k-1)} - x^*|^2 \le \f {2m}M q^{2^k}
+				\big|x^{(k)} - x^*\big| 
+				\le \f M{2m} \Big|x^{(k-1)} - x^*\Big|^2 
+				\le \f {2m}M q^{2^k}
 				\qquad k\ge 1
 			\]
 		\item
-			Die a-posteriori Fehlerschranke
+			Die a-posteriori Fehlerschranke:
 			\[
-				|x^{(k)} - x^*| \le \f 1m |f(x^{(k)}| \le \f M{2m} |x^{(k)} - x^{(k-1)}|^2
+				\big|x^{(k)} - x^*\Big| 
+				\le \f 1m \Big|f\big(x^{(k)}\big)\Big| 
+				\le \f M{2m} \Big|x^{(k)} - x^{(k-1)}\Big|^2
 				\qquad k\ge 1
 			\]
 		\item
-			Konvergenz:
+			Das Verfahren konvergiert gegen $x^*$:
 			\[
 				\lim_{k\to \infty} x^{(k)} = x^*
 			\]
@@ -4304,9 +4308,9 @@ Der Beweis nutzte die Intervallschachtelung.
 	\begin{note}
 		\begin{itemize}
 			\item
-				Man spricht von \emph{lokaler Konvergenz} des Newton-Verfahrens
+				Man spricht von \emph{lokaler Konvergenz} des Newton-Verfahrens (nur in einer hinreichend kleinen Umgebung um $x^*$).
 			\item
-				Man muss $x^{(0)}$ als gute Annäherung der Nullstelle $x^*$ wählen (z.B. aus einigen Iterationen des Bisektionsverfahrens).
+				Man muss $x^{(0)}$ also bereits als gute Annäherung der Nullstelle $x^*$ wählen (z.B. aus einigen Iterationen des Bisektionsverfahrens).
 			\item
 				Der Satz stellt einige Anforderungen an die Funktion.
 				Wegen des Mittelwertsatzes ist
@@ -4317,88 +4321,88 @@ Der Beweis nutzte die Intervallschachtelung.
 				Damit ist $f(x) \neq f(y)$ also $f$ injektiv und $x^*$ ist die einzige Nullstelle in dem Intervall.
 				Außerdem ist $x^*$ einfache Nullstelle, da $f'(x^*) \neq 0$.
 			\item
-				Falls $f$ nicht injektiv und $f'(x^*) \neq 0$, kann man $[\_a, \_b]$ als kleines Teilintervall um $x^*$ wählen, so dass $f$ injektiv auf $[\_a,\_b]$ ist, womit man \ref{3.4} anwenden kann.
+				Falls $f$ nicht injektiv und $f'(x^*) \neq 0$, kann man $[\_a, \_b]$ als kleineres Teilintervall um $x^*$ wählen, sodass $f$ injektiv auf $[\_a,\_b]$ ist, womit der Satz wieder anwendbar wird.
 			\item
-				Falls $x^*$ mehrfache Nullstelle ist ($f'(x^*)=0$), dann ist die Konvergenz immernoch gewährleistet aber langsamer (später)
+				Falls $x^*$ mehrfache Nullstelle ist ($f'(x^*)=0$), dann ist die Konvergenz immernoch gewährleistet aber langsamer (später \fixme[Referenz wenn besprochen]).
 		\end{itemize}
 		\begin{proof}
-			Die Taylor-Entwicklung liefert
+			Die Taylor-Entwicklung von $f$ an $x$ liefert
 			\begin{align*}
-				f(y) = f(x) + f'(x)(y-x) + R(y,x)
+				f(x) = f(x_0) + f'(x_0)(x-x_0) + R(x,x_0)
 			\end{align*}
-			mit 
+			mit Integralrestglied
 			\begin{align*}
-				R(y,x) 
-				&= \int_x^y f''(\xi) (y-\xi) d\xi \\
-				&= \int_0^1 f''\big(x+s(y-x)\big)  \big(y-x-s(y-x)\big)(y-x) ds \\
-				&= (y-x)^2 \int_0^1 \underbrace{f''\big(x+s(y-x)\big)}_{\le M} (1-s) ds
+				R(x,x_0) 
+				&= \int_{x_0}^x f''(t) (x-t) dt \\
+				&= \int_0^1 f''\Big(x_0+s(x-x_0)\Big)  \Big(x-x_0-s(x-x_0)\Big)(x-x_0) ds \\
+				&= (x-x_0)^2 \int_0^1 \underbrace{f''\big(x_0+s(x-x_0)\big)}_{\le M} (1-s) ds
 			\end{align*}
 			Also
 			\[
-				|R(x,y) | \le (y-x)^2 M \int_0^1 (1-s) ds = \f M2 (y-x)^2
+				|R(x,x_0) | \le (x-x_0)^2 M \int_0^1 (1-s) ds = \f M2 (x-x_0)^2
 			\]
-			Setze $\Phi(x) := x - \f {f(x)}{f'(x)}$, dann gilt
+			Für die Newtoniteration $\Phi(x) := x - \f {f(x)}{f'(x)}$, gilt
 			\begin{align*}
 				|\Phi(x) - x^*|
-				&= |x-x^* - \f {f(x)}{f'(x)}| \\
+				&= \Big|x-x^* - \f {f(x)}{f'(x)}\Big| \\
 				&= \Big| -\f 1{f'(x)} \big(f(x) + (x-x^*)f'(x) \big) \Big| \\
 			\intertext{
-				zusammen mit obiger Gleichung und $y=x^*$ ergibt sich
+				zusammen mit der Taylorentwicklung für $f(x)$ an $x^*$ ergibt sich
 			}
-				&= \Big| - \f 1{f'(x)} \big(f(x^*) - R(x,x^*)\big) \Big| \\
-				&\le \f 1m |R(x,x^*)| \\
-				&\le \f M{2m} (x^* - x)^2
+				&= \Big| -\f 1{f'(x)} \Big(f(x^*) + f'(x^*)(x-x^*) + R(x,x^*) + (x-x^*)f'(x)\Big) \Big| \\
+				&= \Big| \f 1{f'(x)} R(x,x^*) \Big| 
+				\le \f 1m |R(x,x^*)| 
+				\le \f M{2m} (x^* - x)^2
 			\end{align*}
 			Also gilt für alle $x\in B_\delta(x^*)$:
 			\[
-				|\Phi(x) - x^*| \le \f M{2m}(x^*-x)^2 < \underbrace{\f M{2m} \delta}_{=q<1} \delta < \delta
+				|\Phi(x) - x^*| \le \f M{2m}(\underbrace{x^*-x}_{|\cdot|<\delta})^2 < \underbrace{\f M{2m} \delta}_{=q<1} \cdot \delta < \delta
 			\]
-			also $\Phi(x) \in B_\delta(x^*)$.
+			und damit $\Phi(x) \in B_\delta(x^*)$.
 
 			\begin{enumerate}[i)]
 				\item
-					Nach obige Abschätung gilt
+					Mit obiger Abschätung folgt
 					\begin{align*}
-						|x^{(k)}-x^*| = |\Phi(x^{(k-1)}) - x^*| \le \f M{2m} |x^{(k-1)} - x^*|^2
+						|x^{(k)}-x^*| = |\Phi(x^{(k-1)}) - x^*| \le \f M{2m} \big|x^{(k-1)} - x^*\big|^2
 					\end{align*}
 					Setze $\rho^{(k)} = \f M{2m}|x^{(k)}-x^*|$, damit ist
 					\begin{align*}
 						\rho^{(k)} 
-						= \f M{2m} \big| \Phi(x^{(k-1)} - x^*\big| \\
-						\le \f M{2m} \f M{2m} |x^{(k-1)} - x^*|^2 \\
-						= (\rho^{(k-1)})^2
+						&= \f M{2m} \big| \Phi(x^{(k-1)}) - x^*\big| \\
+						&\le \f M{2m} \f M{2m} |x^{(k-1)} - x^*|^2 
+						= (\rho^{(k-1)})^2 
 						\le \dotsb \le
 						(\rho^{(0)})^{2^k}
 					\end{align*}
 					Damit folgt die zweite Ungleichung:
 					\begin{align*}
-						|x^{(k) -x^*}|
+						|x^{(k)} - x^*|
 						= \f {2m}M \rho^{(k)}
 						\le \f {2m}M (\rho^{(0)})^{2^k}
-						= \f {2m}M \Big( \f M{2m} \underbrace{|x^{(0)}-x^*|}_{\le \delta} \Big)^{2^k}
-						\le \f {2m}M q^{2^k}
+						= \f {2m}M \Big( \f M{2m} \underbrace{|x^{(0)}-x^*|}_{< \delta} \Big)^{2^k}
+						< \f {2m}M q^{2^k}
 					\end{align*}
 				\item
-					?? mit $x = x^{(k-1)}$ und $y=x^{(k)}$ liefert
+					Die Taylorentwicklung von $f$ an $x_0 = x^{(k-1)}$ liefert
 					\begin{align*}
-						f(x^{(k)}) = \underbrace{f(x^{(k-1)}) + f'(x^{(k-1)})\big(x^{(k)}-x^{(k-1)}\big)}_{=0} + R(x^{(k)},x^{(k-1)}) = R(x^{(k)},x^{(k-1)})
+						f(x^{(k)}) = \underbrace{f(x^{(k-1)}) + f'(x^{(k-1)})\big(x^{(k)}-x^{(k-1)}\big)}_{=0 \text{ (da Newtoniteration)}} + R(x^{(k)},x^{(k-1)}) = R(x^{(k)},x^{(k-1)})
 					\end{align*}
 					Der Mittelwertsatz liefert
 					\begin{align*}
-						|f(x^{(k)} -f(x^*)| = |f'(\xi)(x^{(k)}-x^*)| \ge m|x^{(k) -x^*}
+						|f(x^{(k)}) -f(x^*)| = \big|f'(\xi)(x^{(k)}-x^*)\big| \ge m|x^{(k)} -x^*|
 					\end{align*}
-					also
+					also ergibt sich mit der Erkenntnis aus der Taylorentwicklung
 					\begin{align*}
 						|x^{(k)} -x^*|
-						\le \f 1m |f(x^{(k)} - \underbrace{f(x^*)}_{=0}|
-						= \f 1m |f(x^{(k)}|
-						= \f 1m |R(x^{(k)}, x^{(k-1)}) |
-						= \le \f M{2m} (x^{(k)} -x^{(k-1)})^2
+						\le \f 1m \Big|f(x^{(k)}) - \underbrace{f(x^*)}_{=0}\Big|
+						= \f 1m \Big|R\big(x^{(k)}, x^{(k-1)}\big) \Big|
+						\le \f M{2m} \Big(x^{(k)} -x^{(k-1)}\Big)^2
 					\end{align*}
 				\item
 					Weil $q<1$ folgt mit i)
 					\begin{align*}
-						\lim_{k\to \infty} |x^{(k)} -x^*| = 0
+						\lim_{k\to \infty} |x^{(k)} -x^*| < \lim_{k\to \infty} \f {2m}M q^{2^k} = 0
 					\end{align*}
 			\end{enumerate}
 		\end{proof}
