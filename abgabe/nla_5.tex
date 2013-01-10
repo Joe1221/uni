@@ -1,0 +1,270 @@
+\documentclass{scrartcl}
+\usepackage{mathe-blatt}
+\blattnla
+
+\begin{document}
+	\begin{aufgabe}
+		\begin{enumerate}[A:]
+			\item
+				Berechne nach dem Algorithmus spaltenweise von links nach rechts die Einträge von $L$.
+				Für die $i$-te Spalte ergeben sich die Einträge durch
+				\begin{align*}
+					l_{ii} &= \sqrt{a_{ii} - \sum_{k=1}^{i-1}l_{ik}^2}\\
+					l_{ki} &= \f 1{l_{ii}} \left( a_{ki} - \sum_{j=1}^{i-1}l_{ij}l_{kj}\right) \qquad (k>i)
+				\end{align*}
+				Damit ergibt sich für $L$:
+				\[
+					L = \begin{pmatrix}1&0&0&0\\1&1&0&0\\3&1&2&0\\2&0&1&1\end{pmatrix}
+				\]
+			\item
+				Die Cholesky-Zerlegung ist nicht durchführbar, da $B$ nicht symmetrisch ist.
+		\end{enumerate}
+	\end{aufgabe}
+
+	\begin{aufgabe}~
+
+		Man teile $A$ auf in $A= D - L - R$ mit
+		\[
+			D=\begin{pmatrix}2&0\\0&3\end{pmatrix},
+			L=\begin{pmatrix}0&0\\-1&0\end{pmatrix},
+			R=\begin{pmatrix}0&-1\\0&0\end{pmatrix}
+		\]
+		\begin{seg}{Jacobi-Iteration}
+			Setze $M:=D, N:=L+R$, dann ergibt sich für die Iterationsmatrix:
+			\[
+				M^{-1}N = \begin{pmatrix}\f12&0\\0&\f13\end{pmatrix}\begin{pmatrix}0&-1\\-1&0\end{pmatrix} = \begin{pmatrix}0&-\f12\\-\f13&0\end{pmatrix}
+			\]
+		\end{seg}
+		\begin{seg}{Gauß-Seidel-Iteration}
+			Setze $M:=D-L, N:=R$, dann ergibt sich für die Iterationsmatrix:
+			\[
+				M^{-1}N = \begin{pmatrix}\f12&0\\-\f16&\f13\end{pmatrix}\begin{pmatrix}0&-1\\0&0\end{pmatrix} = \begin{pmatrix}0&-\f12\\0&\f16\end{pmatrix}
+			\]
+		\end{seg}
+		\begin{seg}{Relaxations-Verfahren}
+			Setze $M:=\f D\omega -L, N:= \f D\omega -D + R$, dann ergibt sich für die Iterationsmatrix:
+			\[
+				M^{-1}N = \begin{pmatrix}\f \omega2 & 0\\-\f{\omega^2}6 & \f\omega3\end{pmatrix}\begin{pmatrix}\f2\omega-2&-1\\0&\f3\omega-3\end{pmatrix} = \begin{pmatrix}1-\omega & -\f\omega2\\\f13(\omega^2-\omega)&\f{\omega^2}6-\omega +1\end{pmatrix}
+			\]
+		\end{seg}
+
+		\begin{lem*}
+			Für die gegeben Matrix $A=\left(\begin{smallmatrix}2&1\\1&3\end{smallmatrix}\right)$ ist der optimale Relaxationsparameter der, für den die Iterationsmatrix
+			\[
+				M^{-1}N = \begin{pmatrix}1-\omega & -\f\omega2\\\f13(\omega^2-\omega)&\f{\omega^2}6-\omega +1\end{pmatrix}
+			\]
+			einen doppelten Eigenwert besitzt.
+			\begin{proof}
+				Seien $\lambda_1 =: a+bi, \lambda_2 =: c+di$ ($a,b,c,d\in\R$) die beiden Eigenwerte der Iterationsmatrix.
+				Dann ist bekannterweise das Produkt, bzw. die Summe der Eigenwerte gegeben durch:
+				\begin{align*}
+					\det(M^{-1}N) &= (\omega-1)^2 = \lambda_1\cdot \lambda_2 = a+c+(b+d)i\\
+					 \tr(M^{-1}N) &= \f{\omega^2}6 - 2\omega +2 = \lambda_1 + \lambda_2=ac-bd +(ad+bc)i
+				\end{align*}
+				Da $\omega\in(0,2)\subset \R$ sind die Imaginärteile gleich Null und es ergeben sich die Gleichungen
+				\begin{align*}
+					b + d &= 0\\
+					a + c &= \f{\omega^2}6-2\omega+2\\
+					ad+bc &= 0\\
+					ac-bd &= (\omega-1)^2
+				\end{align*}
+				Der optimale Relaxationsparameter $\omega$ ist derjenige, für den der Spektralradius $\rho(M^{-1}N)$ der Iterationsmatrix sein Minimum annimmt.
+				Wir zeigen das mit einer Fallunterscheidung
+
+				\begin{seg}{$b\neq 0$}
+					Aus $ad+bc=0$ ergibt sich wegen $b+d=0$, dass $a=c$ ist.
+					Außerdem ist dann $\lambda_1=a+bi$ und $\lambda_2=a-bi$.
+					Dabei ist $a$ vorgegeben durch
+					\[
+						a = \f{\omega^2}{12}-\omega+1
+					\]
+					Also wird das Minimum des Spektralradius $\rho$ der Iterationsmatrix, gegeben durch
+					\[
+						\rho = \max\{|a+bi|, |a-bi|\} = \sqrt{a^2+b^2}
+					\]
+					, erreicht für $b=0$, was genau für $\lambda_1=\lambda_2$ der Fall ist.
+				\end{seg}
+				\begin{seg}{$b=0$}
+					Aus $b=0$ folgt $d=0$ und deshalb $\lambda_1=a, \lambda_2=c$.
+					Wegen der Vorgabe
+					\[
+						a+c = \f{\omega^2} - 2\omega + 2
+					\]
+					Erreicht der Spektralradius
+					\[
+						\rho = \max\{|a|,|c|\}
+					\]
+					genau dann sein Minimum, wenn $a=c$ ist.
+					Also $\lambda_1=\lambda_2$
+				\end{seg}
+				Damit ist der Relaxationsparameter $\omega$ optimal, wenn die Eigenwerte $\lambda_1,\lambda_2$ der Iterationsmatrix übereinstimmen.
+			\end{proof}
+		\end{lem*}
+		Verwende das eben bewiese Lemma, um den optimalen Relaxationsparameter $\omega$ zu finden:
+		Es gilt für Produkt und Summe der beiden gleichen Eigenwerte der Iterationsmatrix
+		\begin{align*}
+			\det(M^{-1}N) &= (\omega-1)^2 = \lambda^2\\
+			\tr(M^{-1}N) &= \f{\omega^2}6-2\omega+2 = 2\lambda
+		\end{align*}
+		\newpage
+		\begin{seg}{$\lambda = -\omega+1$}
+			Es folgt $\f{\omega^2}6 = 0$, also $\omega=0\not\in(0,2)$, was kein gültiger Relaxationsparameter ist.
+		\end{seg}
+		\begin{seg}{$\lambda = \omega-1$}
+			Es folgt $\f{\omega}6-4\omega +4 = 0$ und für $\omega$ damit
+			\[
+				\omega_{1,2} = 12 \pm 2\sqrt{30}
+			\]
+		\end{seg}
+		Da $12+2\sqrt{30}\not\in (0,2)$, ist
+		\[
+			\omega = 12 - 2\sqrt{30}
+		\]
+		der optimale Relaxationsparameter.
+	\end{aufgabe}
+
+	\begin{aufgabe}
+		\begin{enumerate}[a)]
+			\item
+				Prüfe die Vorraussetzungen für eine Norm:\\
+				Definitheit: Es gilt 
+				\[
+					\forall z\in\C \|z\|_* \ge 0 \implies \|Sz\|_*\ge 0
+				\]
+				und außerdem für $z\in\C$ wegen $S$ invertierbar und deshalb $\ker(S)=0$:
+				\[
+					\|z\|_* = 0 \iff z=0 \iff Sz=0 \iff \|Sz\|_* =0
+				\]
+				Homogenität:
+				\[
+					\|\lambda z\|_{*,S} = \|S\lambda z\|_* = |\lambda|\cdot \|Sz\|_` = |\lambda|\cdot \|z\|_{*,S}
+				\]
+				Dreiecksungleichung:
+				\[
+					\|w+z\|_{*,S} = \|S(w+z)\|_* = \|Sw+Sz\|_* \le \|Sw\|_* + \|Sz\|_* = \|w\|_{*,S} + \|z\|_{*,S}
+				\]
+			\item
+				Wir zeigen:
+				\[
+					\max_{\|z\|_{*,S}=1}\|Az\|_{*,S} = \max_{\|Sz\|_*=1}\|SAz\|_* \stackrel != \max_{\|z\|_*=1}\|SAS^{-1}\|_* = \|SAS^{-1}\|
+				\]
+				\begin{seg}{„$\le$“:}
+					Wähle $z:=S\tilde z$ für $\tilde z\in \C$, dann ist
+					\[
+						\max_{\|z\|_*=1}\|SAS^{-1}z\|_* \ge \max_{\|S\tilde z\|_*=1}\|SA\tilde z\|
+					\]
+				\end{seg}
+				\begin{seg}{„$\ge$“:}
+					Wähle $z:=S^{-1}\tilde z$ für $\tilde z\in \C$, dann ist
+					\[
+						\max_{\|Sz\|_*=1}\|SAz\|_* \ge \max_{\|\tilde z\|_*=1}\|SAS^{-1}\tilde z\|
+					\]
+				\end{seg}
+				\newpage
+			\item
+				Für $S=D^{-1}V^{-1}$ ist
+				\[
+					\|A\|_{\infty,S} = \|D^{-1}V^{-1}A(D^{-1}V^{-1})^{-1}\|_\infty = \|D^{-1}V^{-1}AVD\|_\infty = \|D^{-1}JD\|_\infty
+				\]
+				Da $D$ Diagonalmatrix und $J$ Blockstruktur besitzt, hat auch $D^{-1}JD$ Blockstruktur.
+				Bezeichne $B_\lambda^i$ den $i$-ten Jordanblock von $J$ zum Eigenwert $\lambda$, dann ergibt sich für einen einzelnen Block von $D^{-1}JD$ die folgende Struktur:
+				\[
+					E_i^{-1}B_\lambda^iE_i = \begin{pmatrix}\lambda & 0 & \cdots & 0\\\epsilon & \lambda &\cdots&0\\\vdots & \ddots &\ddots&\vdots\\0&\cdots & \epsilon&\lambda\end{pmatrix}
+				\]
+				Außerdem ergibt sich die Zeilensummennorm als Maximum der Zeilensummennormen der einzelnen Blöcke.
+				\begin{align*}
+					\|A\|_{\infty,S} = \|D^{-1}JD\|_\infty &= \max_{B_\lambda^i \text{ Jordanblock}} \|E^{-1}_iB_\lambda^iE_i\|_\infty \\
+										&= \max_{B_\lambda^i \text{ Jordanblock}}\left\|\begin{matrix}\lambda & 0 & \cdots & 0\\ \epsilon & \lambda & \cdots & 0\\ \vdots & \ddots & \ddots & \vdots\\0&\cdots & \epsilon & \lambda\end{matrix}\right\|_\infty\\
+						 &\le \max_{\lambda \text{ Eigenwert von $A$}}|\lambda| + \epsilon\\
+					  &=\rho(A) + \epsilon
+				\end{align*}
+		\end{enumerate}
+	\end{aufgabe}
+
+	\begin{aufgabe}
+		(Der vorgegebene Startwert $x=\f {15}{16}$ liegt nicht im Intervall $[\f74,2]$?!)
+		\begin{enumerate}[a)]
+			\item
+				$F(x)$ ist offensichtlich monoton fallend und stetig auf dem Intervall $[\f74,2]$.
+				Um zu zeigen, dass $F(x):[\f74,2]\to \R$ selbstabbildend ist auf $[\f74,2]$ genügt es also, die Randpunkte des Intervalls zu untersuchen.
+				Es gilt
+				\begin{align*}
+					F\left(\f74\right) &= 1 + \f{44}{49} \in \left[\f74,2\right]\\
+					   F(2) &= 1 + \f34 \in \left[\f74,2\right]
+				\end{align*}
+				Da $F$ differenzierbar, ist $F$ insbesondere Lipschitzstetig und die kleinste Lipschitzkonstante $q$ für das Intervall $[\f74,2]$ ergibt sich durch das Supremum der Ableitung in diesem Intervall.
+				Mit $F'(x) = -\f1{x^2} - \f2{x^3}$ monoton wachsend im Intervall $[\f74,2]$ ergibt sich für $q$:
+				\[
+					q = \sup_{x\in[\f74,2]}F'(x) = F'(2) = \f12
+				\]
+			\item
+				Wir suchen mit nach der a-priori-Fehlerabschätzung ein $n$, sodass
+				\[
+					|x^*-x^n| \le \f{q^n}{1-q}|x^1-x^0| \stackrel !< 10^{-7}
+				\]
+				Das Matlab-Skript berechnet $\f{q^n}{1-q}|x^1-x^0|$ für $n\in \N$, bis der Wert unter $10^{-7}$ liegt und gibt das entsprechende $n$ aus.
+				Ergebnis:
+				\[
+					n=26
+				\]
+			\item
+				Wir suchen mit nach der a-posteriori-Fehlerabschätzung ein $n$, sodass
+				\[
+					|x^*-x^n| \le \f{q}{1-q}|x^n-x^{n-1}| \stackrel !< 10^{-7}
+				\]
+				Das Matlab-Skript berechnet $\f{q}{1-q}|x^n-x^{n-1}|$ für $n\in \N$, bis der Wert unter $10^{-7}$ liegt und gibt das entsprechende $n$ aus.
+				Ergebnis:
+				\[
+					n=37
+				\]
+
+
+		\end{enumerate}
+
+	\end{aufgabe}
+
+	\begin{aufgabe}~
+
+		\begin{seg}{„$\implies$“}
+			Sei $f(x):\R^n\to\R^n:x\mapsto Ax+b$ für beliebiges $b$ eine Kontraktion bezüglich der Norm $\|\cdot\|$.
+			Dann konvergiert die Fixpunktiteration $x^{n+1} = f(x^n)$ nach dem Banachschen Fixpunktsatz für jeden Startwert $x^0\in \R^n$.
+			
+			Angenommen $\rho(A)=1$, dann wählen wir einen Eigenvektor $v$ zum Eigenwert $\rho(A)$.
+			Die Fixpunktiteration muss insbesondere für $b=v$ und mit dem Startwert $x^0=0$ konvergieren.
+			Wir zeigen induktiv, dass sich dann $x^n=n\cdot v$ ergibt:
+			\begin{align*}
+				x^1 &= f(x^0) = v\\
+				x^n &= f(x^{n-1}) = Ax^{n-1} + v = A(n-1)v + v = n\cdot v
+			\end{align*}
+			Da $v$ Eigenvektor und damit ungleich Null, konvergiert die Iteration für $n\to\infty$ nicht, Widerspruch.
+
+			Angenommen $\rho(A)>1$, dann wählen wir wieder einen Eigenvektor $v$ zum Eigenwert $\rho(A)$.
+			Die Fixpunktiteration muss insbesondere für $b=0$ und $x_0=v$ konvergierten und dann ist:
+			\[
+				x^n = f^n(x_0) = A^nx_0 = \rho(A)^nv
+			\]
+			Da $v\neq 0$, konvergiert die Iteration wieder nicht, Widerspruch.
+
+			Also muss $\rho(A)<1$ sein.
+		\end{seg}
+		\begin{seg}{„$\Longleftarrow$“}
+			Zusammen mit Aufgabe 3 gilt
+			\[
+				1 > \rho(A) \ge \|A\|_{\infty,S} - \epsilon
+			\]
+			für ein $S$ in Abhängigkeit von $\epsilon$.
+			Wählt man $\epsilon$ klein genugt, erhält man also eine Norm mit
+			\[
+				\|A\|_{\infty,S} < 1
+			\]
+			In diesem Fall ist $x\mapsto Ax+b$ bezüglich $\|\cdot\|_{\infty,S}$ eine Kontraktion, denn:
+			\[
+				1 > \|A\|_{\infty,S} = \f{\|A\|\cdot\|x-y\|}{\|x-y\|} \ge \f{\|A(x-y)\|}{\|x-y\|} = \f{\|Ax+b -(Ay+b)\|}{\|x-y\|} = \f{\|f(x)-f(y)\|}{\|x-y\|}
+			\]
+		\end{seg}
+
+	\end{aufgabe}
+
+
+
+\end{document}

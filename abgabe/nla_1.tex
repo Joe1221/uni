@@ -1,0 +1,160 @@
+\documentclass{scrartcl}
+\usepackage{mathe-blatt}
+
+\blattnla
+
+\begin{document}
+
+\setcounter{aufgabe}{0}
+
+\begin{aufgabe}~
+
+	Zunächst scheint die Folge gegen eine Zahl in der Nähe von $3.7$ zu konvergieren.
+	Ab $n=10^{17}$ ergeben sich jedoch auf meinem Rechner Werte von $1$, was nicht mathematisch korrekt ist.
+Es gilt nämlich:
+\[
+\left(1-\frac 1n\right)^n=e^{n\ln\left(1-\frac 1n\right)}
+\]
+und da:
+\[
+\lim_{n\to\infty}n\ln\left(1-\frac 1n\right)
+=\lim_{n\to\infty}\frac{\ln\left(1-\frac 1n\right)}{\frac 1n}
+=\lim_{n\to\infty}\frac{\frac 1{n^2}\cdot\frac 1{1-\frac 1n}}{-\frac 1{n^2}}
+=\lim_{n\to\infty}-\frac{n^2}{n^2\left(1-\frac 1n\right)}
+=-1
+\]
+gilt, weil $e^x$ stetig:
+\[
+\lim_{n\to\infty}\left(1-\frac 1n\right)^n=\frac 1e
+\]
+
+\end{aufgabe}
+
+\begin{aufgabe}
+\begin{lem*}
+Sei $r$ der Wert der Zahl $a\cdot b$, nachdem $\frac 12 10^{-N}$ addiert wurde, mit den ersten $N$ Dezimalstellen gleich $0$.
+Da $0\le r<10^{-N}$, gilt:
+\[
+\left|a\ast b-a\cdot b\right|
+=\left|a\cdot b + \frac 12 10^{-N} - r -a\cdot b\right|
+=\left|\frac 12 10^{-N}-r\right|
+\le 10^{-N}
+\]
+\end{lem*}
+\begin{enumerate}[a)]
+\item
+\begin{align*}
+\left| (a\ast b)\ast c - a\cdot b\cdot c\right|
+&= \left| (a\cdot b+x_1)\cdot c + x_2 - a\cdot b\cdot c\right|\\
+&=\left| a\cdot b\cdot c +x_1\cdot c+x_2-a \cdot b\cdot c\right| \qquad (-10^{-N}\le x_1,x_2\le 10^{-N})\\
+&=\left| x_1\cdot c+x_2\right|\\
+&\le c|x_1|+|x_2|\\
+&\le 2\cdot 10^{-N}
+\end{align*}
+\item
+\begin{align*}
+&\left|(a\ast b)\ast c - a\ast(b\ast c)\right|\\
+&\quad =\left|(a\cdot b+x_1)\cdot c+x_2-(a\cdot(b\cdot c + x_3)+x_4)\right| \qquad (-10^{-N}\le x_1,x_2,x_3,x_4\le 10^{-N})\\
+&\quad =\left|c\cdot x_1+x_2-a\cdot x_3+x_4\right|\\
+&\quad \le\underbrace{\left|c\cdot x_1-a\cdot x_3\right|}_{\le 10^{-N}} + \underbrace{\left|x_2-x_4\right|}_{\le 10^{-N}}
+\le 2\cdot 10^{-N}
+\end{align*}
+\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+Wähle $B=10, m=1$, und setze:
+\begin{align*}
+a &= B^{e_a}\sum_{k=-m}^{-1}a_kB^k=10^1\cdot 1\cdot 10^{-1} \qquad (=1)\\
+c=b &= B^{e_b}\sum_{k=-m}^{-1}b_kB^k=10^0\cdot 5\cdot 10^{-1} \qquad (=0,5)
+\end{align*}
+dann gilt:
+\[
+a+b
+=10^1(1\cdot 10^{-1}+5\cdot 10^{-2})
+=10^1\cdot 10^{-1}
+=a
+\]
+Also gilt nach der Rundung $a+b=a$ und damit auch $(a+b)+c=a=1$.
+Werden die Klammern jedoch anders gesetzt:
+\[
+a+(b+c)
+=a+(10^0\cdot (5+5)\cdot 10^{-1})
+=a+(10^1\cdot 1 \cdot 10^{-1})
+=10^1\cdot (1+1) \cdot 10^{-1}
+=10^1\cdot 2\cdot 10^{-1}
+=2
+\]
+Also:
+\[
+a+(b+c)=2\neq 1=(a+b)+c
+\]
+\end{aufgabe}
+
+\begin{aufgabe}
+	\begin{enumerate}[a)]
+\item
+\[
+|\cos(x)-1|
+=\left|\sum_{k=0}^\infty(-1)^k\frac {x^{2k}}{(2k)!}-1\right|
+=\left|\sum_{k=1}^\infty(-1)^k\frac {x^{2k}}{(2k)!}\right|
+=\sum_{k=1}^\infty(-1)^{k+1}\frac {x^{2k}}{(2k)!}
+\le \frac {x^2}2
+=\frac 12\left|x^2\right|
+\]
+Also gilt $\cos(x)-1=\mathcal O(x^n)$ für $x\to 0$ für alle $n\le 2$
+(denn $\forall x\in [-1,1]:\left|x^n\right|\le \left|x^{n-1}\right|$).
+
+\item
+Es gilt
+\[
+\left|x^2\right|\le c|x|
+\]
+genau dann, wenn $c\ge|x|$. 
+Es lässt sich also für jedes $c$ ein entsprechendes Intervall $[-c,c]$ wählen,
+so dass obiges erfüllt ist.
+
+Also folgt aus (a), dass
+\[
+|\cos(x)-1|\le c_1\left|x^2\right| \le c_1c_2|x|=c|x|
+\]
+Man wähle zu gegebenem $c$ und existierendem $c_1$, $c_2=\frac c{c_1}$ und setze
+$U_\varepsilon(0)$ als die kleinere der beiden existierenden Umgebungen für
+$|cos(x)-1|\le c_1\left|x^2\right|$ und $|x^2|\le c_2|x|$.
+Obige Bedingung ist dann für alle $x\in U_\varepsilon(0)$ erfüllt.
+Also gilt $\cos(x)-1=o(x^n)$ für $x\to 0$ für alle $n=1$.
+\item
+$\sqrt{\frac x{x^2+1}} = \mathcal O(x^n)$ gilt für keine $n\in\N$.
+Angenommen es existiere ein $n>0$, sodass die Bedingung erfüllt ist, dann müsste ($x\ge 0$)
+\begin{align*}
+\sqrt{\frac x{x^2+1}} &\le cx^n\\
+c&\ge \frac 1{\sqrt{x^2+1}\sqrt x x^{n-1}} \to \infty \qquad (x\to 0)\\
+\implies c&\not\in\R
+\end{align*}
+
+
+
+\end{enumerate}
+\end{aufgabe}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

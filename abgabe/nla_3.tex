@@ -1,0 +1,136 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattnla
+
+\begin{document}
+\begin{aufgabe}\\
+	Zur Notation: Schreibe zu Beginn $(E|A)$ und führe die LR-Zerlegung aus.
+	Auf der linken Seite steht zum Schluss $L$ und auf der rechten $R$.
+	(Damit ist sichergestellt, dass in jedem Schritt das Produkt der linken mit der rechten Matrix die ursprüngliche Matrix $A$ ergibt, was die Kontrolle vereinfacht)
+	\begin{enumerate}[a)]
+		\item
+			\begin{align*}
+				\begin{pmatrix}[rrrr|rrrr]
+					1&0&0&0  &-1&3&-2&-1\\
+					0&1&0&0  &3&-15&7&3\\
+					0&0&1&0  &5&-21&14&9\\
+					0&0&0&1  &2&-12&5&6
+	 \end{pmatrix}&\leadsto
+				\begin{pmatrix}[rrrr|rrrr]
+					1&0&0&0  &-1&3&-2&-1\\
+				-3&1&0&0  &0&-6&1&0\\
+				-5&0&1&0  &0&-6&4&4\\
+				-2&0&0&1  &0&-6&1&4
+				\end{pmatrix}\\
+				&\leadsto
+				\begin{pmatrix}[rrrr|rrrr]
+					1&0&0&0  &-1&3&-2&-1\\
+				-3&1&0&0  &0&-6&1&0\\
+				-5&1&1&0  &0&0&3&4\\
+				-2&1&0&1  &0&0&0&4
+				\end{pmatrix}=(L|R)
+			\end{align*}
+		\item
+			\begin{align*}
+				\begin{pmatrix}[rrrr|rrrr]
+					1&0&0&0  &-1&3&-2&-1\\
+					0&1&0&0  &3&-15&7&3\\
+					0&0&1&0  &2&-12&5&6\\
+					0&0&0&1  &5&-21&14&9
+	 \end{pmatrix}&\leadsto
+				\begin{pmatrix}[rrrr|rrrr]
+					1&0&0&0  &-1&3&-2&-1\\
+				-3&1&0&0  &0&-6&1&0\\
+				-2&0&1&0  &0&-6&1&4\\
+				-5&0&0&1  &0&-6&4&4
+				\end{pmatrix}\\
+				&\leadsto
+				\begin{pmatrix}[rrrr|rrrr]
+					1&0&0&0  &-1&3&-2&-1\\
+				-3&1&0&0  &0&-6&1&0\\
+				-2&1&1&0  &0&0&0&4\\
+				-5&1&0&1  &0&0&3&4
+				\end{pmatrix}
+			\end{align*}
+			Im nächsten Schritt müsste man durch die Null auf der Hauptdiagonalen der rechten Matrix teilen.
+			Also ist keine LR-Zerlegung (ohne Pivotisierung) durchführbar.
+	\end{enumerate}
+\end{aufgabe}
+
+\setcounter{aufgabe}{2}
+\begin{aufgabe}\\
+	Wegen der Multiplikativität der Determinante gilt:
+	\[
+		\det A = \det (LR) = \det L \cdot \det R
+	\]
+	$L$ und $R$ sind linke untere und rechte obere Dreiecksmatrizen, also berechnet sich deren Determinanten als Produkt der Diagonalelemente.
+	Da die Diagonalelemente von $L$ jedoch nach Vorraussetzung alle $1$ sind, ist auch $\det L=1$.
+	Also gilt:
+	\[
+		\det A = \det R = \prod_{j=1}^nr_{jj}
+	\]
+\end{aufgabe}
+\newpage
+\begin{aufgabe}
+	\begin{lem*}
+		Die Matrix diagonaldominante Matrix $A$ bleibt während jedem Schritt der LR-Zerlegung diagonaldominant.
+		(Ohne Beweis)
+	\end{lem*}\vspace{1em}
+
+	Beweise durch Induktion, dass in keinem Schritt durch Null geteilt wird und somit die LR-Zerlegung durchführbar ist:
+	
+	\underline{Induktionsanfang ($n=1$):}\\
+	Da $a_{ii}>\sum_{j\neq i}|a_{ij}| \forall i=1,\dotsc,n$ gilt insbesondere:
+	\[
+		|a_{11}|>\sum_{j\neq 1}|a_{ij}| \ge 0 \implies a_{11} \neq 0
+	\]
+	Damit ist das Diagonalelement, durch das im ersten Schritt geteilt wird ungleich Null.
+	
+	\underline{Induktionsschritt:}\\
+	Unsere Induktionsvorraussetzung lautet: $A^{(k)}\ni a_{kk}\neq 0$.
+	Wir zeigen, dass das Diagonalelement $a_{k+1,k+1}\in A^{(k+1)}$ aus der Matrix im nächsten Schritt ungleich Null ist und somit ein weiterer Schritt ausgeführt werden kann:
+	Nach dem Algorithmus der LR-Zerlegung gilt folgendes:
+	\begin{align*}
+		l_{k+1,k} &:= \frac {a_{k+1,k}^{(k)}}{a_{k,k}^{(k)}}\\
+		a_{k+1,k+1}^{(k+1)} &:= a_{k+1,k+1}^{(k)} - l_{k+1,k}\cdot a_{k,k+1}^{(k-1)}
+	\end{align*}
+	Man erhält also das gesuchte Diagonalelement $a_{k+1,k+1}^{(k+1)}$ des nächsten Schritts durch 
+	\[
+		a_{k+1,k+1}^{(k+1)} := a_{k+1,k+1}^{(k)} - a_{k+1,k}^{(k)}\cdot \frac{ a_{k,k+1}^{(k-1)}}{a_{k,k}^{(k)}}
+	\]
+	Es gilt:
+	\[
+		a_{kk} > \sum_{j\neq k}|a_{kj}| \ge |a_{ik}|
+	\]
+	Da nach Vorraussetzung $a_{kk}\neq 0$, darf durch $a_{kk}$ geteilt werden und es gilt $\left|\frac{a_{k,k+1}}{a_{k,k}}\right|<1$, also
+	\begin{align*}
+		\left|a_{k+1,k+1}^{(k+1)}\right| &\ge \left|a_{k+1,k+1}^{(k)}\right| - \left|a_{k+1,k}^{(k)}\cdot \frac{ a_{k,k+1}^{(k-1)}}{a_{k,k}^{(k)}}\right|\\
+																										&\ge \left|a_{k+1,k+1}^{(k)}\right| - \left|a_{k+1,k}^{(k)}\right| > 0
+	\end{align*}
+	Also ist auch das Diagonalelement, durch das im nächsten Schritt geteilt wird ungleich Null.
+\end{aufgabe}
+
+\begin{aufgabe}
+	\begin{enumerate}
+		\item[c)]
+			\begin{tabular}{r|r}
+				n & $\frac{\|\tilde x-x\|_2}{\|x\|_2}$\\
+				\hline
+				10 & 2.5947e-16\\
+			   100 & 2.1322e-16\\
+				   500& 1.4314e-16\\
+				  1000& 1.2642e-16
+			\end{tabular}
+		\item[d)]
+			\begin{tabular}{r|r}
+				n & $\frac{\|\tilde x-x\|_2}{\|x\|_2}$\\
+				\hline
+				5 & 2.9283e-12\\
+				10& 5.4744e-05\\
+				15& 1.8273\\
+				20& 2.5607
+			\end{tabular}
+	\end{enumerate}
+
+\end{aufgabe}
+\end{document}

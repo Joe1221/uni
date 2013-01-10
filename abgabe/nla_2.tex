@@ -1,0 +1,256 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattnla
+
+\begin{document}
+
+\begin{lem*}
+Ist $\lambda\neq 0$ Eigenwert von $A$, dann ist $\lambda^{-1}$ Eigenwert von $A^{-1}$.
+\begin{proof}
+Sei $\lambda$ Eigenwert von $A$ zum Eigenvektor $v$, dann gilt:
+\begin{align*}
+Av &= \lambda v\\
+\iff v &= A^{-1}\lambda v\\
+\iff \lambda^{-1}v &= A^{-1}v
+\end{align*}
+Also ist $\lambda^{-1}$ Eigenwert von $A^{-1}$.
+\end{proof}
+\end{lem*}
+\begin{lem*}
+Die Matrix $A$ hat die selben Eigenwerte wie $A^T$.
+\begin{proof}
+Die Eigenwerte sind durch die Nullstellen des charakteristischen Polynoms gegeben.
+Dieses ist aber identisch mit dem für $A^T$:
+\[
+\det(A-\lambda I)=\det((A-\lambda I)^T)=\det(A^T-\lambda I)
+\]
+\end{proof}
+\end{lem*}
+
+\begin{aufgabe}
+\begin{enumerate}[(a)]
+\item
+Es gilt:
+\[
+\|AB\|
+=\sup_{x\neq 0}\frac{\|ABx\|}{\|x\|}
+=\sup_{x\neq 0}\left(\frac{\|ABx\|}{\|Bx\|}\frac{\|Bx\|}{\|x\|}\right)
+=\sup_{x\neq 0}\frac{\|ABx\|}{\|Bx\|}\cdot\underbrace{\sup\frac{\|Bx\|}{\|x\|}}_{=\|B\|}
+\]
+Da jedoch $\{Bx|x\neq 0\}\subset\{y|y\neq 0\}$, gilt die Abschätzung:
+\[
+\sup_{x\neq 0}\frac{\|ABx\|}{\|Bx\|}\cdot\|B\|
+\le \sup_{x\neq 0}\frac{\|Ay\|}{\|y\|}\cdot\|B\|
+= \|A\|\cdot\|B\|
+\]
+Und somit
+\[
+\|AB\|\le \|A\|\cdot\|B\|
+\]
+\item
+\[
+\|Ax\| 
+= \frac{\|Ax\|}{\|x\|}\cdot \|x\|
+\le \sup_{y\neq 0}\frac{\|Ay\|}{\|y\|}\cdot \|x\|
+= \|A\|\cdot\|x\|
+\]
+\item
+	Da $\|\cdot\|_M$ mit $\|\cdot\|$ verträglich, gilt für alle $y\neq 0$: $\|A\|_M\ge \frac {\|Ay\|}{|y|}$, also auch:
+\[
+\|A\|_M
+\ge \sup_{x\neq 0}\frac{\|Ax\|}{\|x\|}
+= \|A\|
+\]
+\end{enumerate}
+
+\end{aufgabe}
+\begin{aufgabe}
+	\begin{align*}
+		\|A\|_1 &= \max_{j=1,\dots,n}\sum_{i=1}^n|a_{ij}| = 6\\
+  \|A\|_\infty &= \max_{i=1,\dots,n}\sum_{j=1}^n|a_{ij}| = 5
+	\end{align*}
+	Berechne $A^{-1}$:
+	\begin{align*}
+		\begin{pmatrix}[rrr|rrr]1&4&0&1&0&0\\0&2&3&0&1&0\\0&0&3&0&0&1\end{pmatrix}
+		&\leadsto \begin{pmatrix}[rrr|rrr]1&0&0&1&-2&0\\0&1&0&0&\frac 12&0\\0&0&1&0&0&\frac 13\end{pmatrix}\\
+		\implies A^{-1} &= \begin{pmatrix}[rrr]1&-2&0\\0&\frac 12&0\\0&0&\frac 13\end{pmatrix}
+	\end{align*}
+	Also gilt:
+	\begin{align*}
+		\kappa_1(A)&=\|A\|_1\|A^{-1}\|_1=6\cdot \frac 52=15\\
+   \kappa_\infty(A)&=\|A\|_\infty\|A^{-1}\|_\infty=5\cdot 3=15
+	\end{align*}
+	Berechne für die Spektralnorm die Eigenwerte von
+	\[
+		A^TA=\begin{pmatrix}1&4&0\\4&20&0\\0&0&9\end{pmatrix}
+	\]
+	Es gilt:
+	\begin{align*}
+		\det(A^TA-\lambda I)&=\begin{vmatrix}1-\lambda&4&0\\4&20-\lambda&0\\0&0&9-\lambda\end{vmatrix}
+		=(9-\lambda)\begin{vmatrix}1-\lambda&4\\4&20-\lambda\end{vmatrix}
+		=(9-\lambda)(\lambda^2-21\lambda+4)
+	\end{align*}
+	Die Eigenwerte sind also:
+	\begin{align*}
+		\lambda_1&=9\\
+		\lambda_2&=\frac 12(21+5\sqrt{17})\\
+		\lambda_3&=\frac 12(21-5\sqrt{17})
+	\end{align*}
+	Es ergibt sich:
+	\[
+		\|A\|_2=\sqrt{\lambda_{\text{max}}(A^TA)}=\sqrt{\frac 12(21+5\sqrt{17})}
+	\]
+	Da nach den anfangs bewiesenen Lemmas gilt:
+	\begin{align*}
+		\lambda_{\text{max}}((A^{-1})^TA^{-1})
+		=\lambda_{\text{max}}((AA^T)^{-1})
+		=\lambda_{\text{max}}((A^TA)^{-1})
+		=\frac 1{\lambda_{\text{min}}(A^TA)}
+	\end{align*}
+	ergibt sich für die Kondition bezüglich der Spektralnorm:
+	\[
+		\kappa_2(A)
+		=\|A\|_2\cdot\|A^{-1}\|_2
+		=\frac{\sqrt{\lambda_{\text{max}}(A^TA)}}{\sqrt{\lambda_{\text{min}}(A^TA)}}
+		=\frac {\sqrt{\frac 12(21+5\sqrt{17})}}{\sqrt{\frac 12(21-5\sqrt{17})}}
+		=\sqrt{\frac{(21+5\sqrt{17})^2}{16}}
+		=\frac 14(21+5\sqrt{17})
+	\]
+
+\end{aufgabe}
+
+\begin{aufgabe}
+	\begin{enumerate}[(a)]
+		\item
+			\[
+				\kappa(\alpha A)=\|\alpha A\|_2\cdot\|(\alpha A)^{-1}\|=\alpha\|A\|_2\cdot\frac 1\alpha\|A\|_2=\kappa(A)
+			\]
+		\item
+			\begin{align*}
+				\kappa(AB)&=\|AB\|_2\cdot\|B^{-1}A^{-1}\|\\
+						  &\le\|A\|_2\cdot\|B\|_2\cdot\|B^{-1}\|_2\cdot\|A^{-1}\|_2=\kappa(A)\cdot\kappa(B)
+			\end{align*}
+		\item
+			Da $A$ orthogonal, gilt $A^T=A^{-1}$, also:
+			\begin{align*}
+				\kappa(A)
+				&=\|A\|_2\cdot\|A^{-1}\|_2\\
+				=\|A\|_2\cdot\|A^T\|_2\\
+				&=\sqrt{\lambda_{\text{max}}(A^TA)}\sqrt{\lambda_{\text{max}}(AA^T)}\\
+				&=\lambda_{\text{max}}(A^TA)\\
+				&=\lambda_{\text{max}}(A^{-1}A)\\
+				&=\lambda_{\text{max}}(E)=1
+			\end{align*}
+		\item
+			Für einen Eigenwert $\lambda$ zu einem Eigenvektor $x\neq 0$ gilt $Ax=\lambda x$, also auch
+			\[
+				\|Ax\|=\|\lambda x\| \longrightarrow |\lambda|=\frac {\|Ax\|}{\|x\|}
+			\]
+			und damit
+			\[
+				\lambda_{\text{max}}=\sup_{x\neq 0}\frac {\|Ax\|}{\|x\|}
+			\]
+			Da jedoch nach Aufgabe 1c) $\|A\|=\sup_{x\neq 0}\frac {\|Ax\|}{\|x\|}$ minimal ist, gilt
+			\begin{align*}
+				\kappa(A)&=\|A\|_2\cdot\|A^{-1}\|_2\\
+					&\ge \|A\|\cdot \|A^{-1}\|\\
+					&=\lambda_{\text{max}}(A)\cdot \lambda_{\text{max}}(A^{-1})
+			\end{align*}
+	\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
+	\\Man teile die Formel
+	\begin{equation}
+		\label{pq_ns}
+		x=-p+\sqrt{p^2+q}
+	\end{equation} 
+	in kleinere Einzeloperationen auf:
+	\begin{align*}
+		s&=p^2\\
+		t&=s +q\\
+		u&=\sqrt{t}\\
+		x&=-p+u
+	\end{align*}
+	Es ergibt sich für die Fehler der Einzeloperationen (Produkte von Fehlern werden ignoriert):
+	\begin{align*}
+		\Delta s&=(p+\Delta p)^2-p^2=2p\Delta p\\
+		\Delta t&=(s +\Delta s) + (q +\Delta q) = \Delta s + \Delta q = 2p\Delta p + \Delta q\\
+		\Delta u&=\sqrt{t+\Delta t}-\sqrt{t}\\
+			    &=\frac 1{\sqrt{t}}\sqrt{t^2+t\Delta t+\left(\frac 12\Delta t\right)^2}-\sqrt{t}
+				 =\frac 1{\sqrt{t}}\left(t+\frac 12\Delta t\right)-\sqrt{t}\\
+		   &=\frac 12\frac{\Delta t}{\sqrt{t}}
+				 =\frac {2p\Delta p+\Delta q}{2\sqrt{p^2+q}}\\
+		\Delta x&=-(p+\Delta p)+(u+\Delta u)-(-p+u)
+				 =-\Delta p +\Delta u\\
+				 &=-\Delta p +\frac {2p\Delta p+\Delta q}{2\sqrt{p^2+q}}
+	\end{align*}
+	Jetzt schätzt man ab:
+	\begin{align*}
+		|\Delta x|&=\left|-\Delta p+ \frac {2p\Delta p}{2\sqrt{p^2+q}}+\frac{\Delta q}{2\sqrt{p^2+q}}\right|\\
+				   &\le |\Delta p|+\left|\frac{2p\Delta p}{2\sqrt{p^2}}\right|+\left|\frac{\Delta q}{2\sqrt{q}}\right|\\
+				   &\le 2\Delta p + \frac {\Delta q}{\sqrt q}
+	\end{align*}
+	und damit weil $p,q>0 \implies x=-p+\sqrt{p^2+q}>0$
+	\[
+		\frac{|\Delta x|}{|x|}\le2\frac{|\Delta p|}{|x|}+\frac{|\Delta q|}{|x|\sqrt{q}}
+	\]
+	Für \eqref{pq_ns} bedeutet das, dass sie nicht rückwärtsstabil ist, da der Ausdruck
+	$\frac {|\Delta x|}{|x|}$ nicht durch ein konstantes Vielfaches der Maschinengenauigkeit eps beschränkt ist.
+	Man erkennt an \eqref{pq_ns}, dass für kleine $q$ nahe der Auslöschung operiert wird, was sich auch in der Fehlerabschätzung wieder findet: für kleine $q$ wird der zweite Summand groß.
+	
+	\begin{equation}
+		\label{pq_s}
+		x=\frac q{p+\sqrt{p^2+q}}
+	\end{equation}
+	Es gilt, da $q>0$
+	\[
+		x=\frac q{p+\sqrt{p^2+q}}=\frac{q(p-\sqrt{p^2+q})}{p^2-(p^2+q)}=-p+\sqrt{p^2+q}
+	\]
+	womit die Äquivalenz gezeigt wäre.
+
+	Für die Fehlerabschätzung zerlegt man ähnlich wie oben:
+	\begin{align*}
+		s&=p^2\\
+		t&=s +q\\
+		u&=\sqrt{t}\\
+		w&=p+u\\
+		v&=\frac 1w\\
+		x&=q\cdot v
+	\end{align*}
+	Von vorhin weiß man bereits
+	\[
+		\Delta u=\frac{2p\Delta p+\Delta q}{2\sqrt{p^2+q}}
+	\]
+	weiterhin:
+	\begin{align*}
+		\Delta w&=(p + \Delta p)+(u + \Delta u)-(p+u)=\Delta p + \Delta u =\Delta p+\frac{2p\Delta p+\Delta q}{2\sqrt{p^2+q}}\\
+\frac{\Delta v}v&=\frac{\frac{1}{\Delta w + w}-\frac 1w}{\frac 1w}=\frac w{\Delta w + w}-1=\frac{\Delta w}{\Delta w +w}\\
+  \frac {\Delta y}y&=\frac{(\Delta q + q)(\Delta v +v)-qv}{qv}=\frac{\Delta qv+\Delta vq}{qv}=\frac {\Delta q}q+\frac {\Delta v}v = \frac {\Delta q}q + \frac{\Delta w}{\Delta w + w}
+	\end{align*}
+	Ich mache folgende Annahme, die, wenn die Fehler im Verhältnis zu $p$ und $q$ klein sind erfüllt ist:
+	\[
+		|\Delta w|=\left|\Delta p+\frac{2p\Delta p+\Delta q}{2\sqrt{p^2+q}}\right|<p<\sqrt{p^2+q}
+	\]
+	Damit kann man Abschätzen:
+	\begin{align*}
+		\left|\frac{\Delta v}v\right| &= \frac{|\Delta w|}{|\Delta w + w|}\\
+								&=\frac{\left|\Delta p+\frac{2p\Delta p+\Delta q}{2\sqrt{p^2+q}}\right|}
+		{|\Delta w + w|}\\%{\left|\Delta p+\frac{2p\Delta p+\Delta q}{2\sqrt{p^2+q}}+p+\sqrt{p^2+q}\right|}
+		&\le \frac{|\Delta p|}{|\Delta w +w|}+\left|\frac{\Delta p}{\Delta w +w}+\frac {\frac 1{2\sqrt q}\Delta q}{\Delta w + w}\right|\\
+		&\le \left|\frac{2\Delta p}{\Delta w + w}\right|+\left|\frac{\frac 1{2\sqrt{q}}\Delta q}{\Delta w+w}\right|\\
+		&\le \left|\frac{2\Delta p}{p}\right|+\left|\frac{\frac 1{2\sqrt{q}}\Delta q}{\sqrt{p^2+q}}\right|\\
+		&\le 2\frac{|\Delta p|}{p}+\frac{|\Delta q|}{q}
+	\end{align*}
+	Also auch
+	\[
+		\frac{|\Delta y|}{|y|}=\frac {|\Delta q|}q+\frac{|\Delta v|}v\le 2\frac{|\Delta p|}{p}+2\frac{|\Delta q|}{q}
+	\]
+	Da gilt:
+	\[
+		2\frac{|\Delta p|}p+2\frac{|\Delta q|}q\le 4\cdot \text{ eps}
+	\]
+	ist $\frac{|\Delta x|}{|x|}$ durch ein konstantes Vielfaches der Maschinengenauigkeit abgeschätzt.
+	Damit ist \eqref{pq_s} rückwärtsstabil.
+\end{aufgabe}
+\end{document}

@@ -1,0 +1,62 @@
+\documentclass{scrartcl}
+\usepackage{mathe-blatt}
+\blattnla
+
+\begin{document}
+
+\begin{aufgabe}
+	\begin{enumerate}[a)]
+		\item
+			Zwei äquivalente Normen induzieren den gleichen Konvergenzbegriff, also:
+			\[
+				\infty = \lim_{n\to \infty}\kappa_{\|\cdot\|_A}(A_n) = \lim_{n\to\infty}\|A_n\|_A\cdot \lim_{n\to\infty}\|A_n^{-1}\|_A = \lim_{n\to\infty}\|A_n\|_B\cdot\lim_{n\to\infty}\|A_n^{-1}\|_B=\lim_{n\to \infty} \kappa_{\|\cdot\|_B}(A_n)
+			\]
+		\item
+			Nein, gibt es nicht, denn für jede Matrix $A=LL^T$ gilt:
+			\[
+				A^T = (LL^T)^T = LL^T = A
+			\]
+			Also ist jede solche Matrix $A$ symmetrisch.
+		\item
+			Da die Einträge über der Diagonalen von $A$ alle gleich 0 sind, verändern sich die Diagonalelemente während der LR-Zerlegung nicht.
+			Damit sind die Diagonaleinträge von $A$ genau die Pivotelemente.
+			Da keines von ihnen gleich Null ist, lässt sich der Gauß-Algorithmus ohne Pivotisierung ausführen.
+		\item ~
+			\vspace{7em}
+	\end{enumerate}
+\end{aufgabe}
+
+\setcounter{aufgabe}{1}
+\begin{aufgabe}
+	\begin{enumerate}[a)]
+		\item
+			Da $\|B\|<1$ gilt für die Norm:
+			\[
+				\|(I+B)x\| = \|x+Bx\| \ge \|x\| - \|Bx\| \ge (1-\|B\|)\|x\| \ge 0
+			\]
+			Für $(I+B)x=0$ folgt also $x=0$, womit alle Zeilen der Matrix $(I+B)$ linear unabhängig sind und somit $(I+B)$ invertierbar ist.
+		\item
+			Zeige: $\|(I+B)^{-1}\| \cdot (1-\|B\|) \le 1$
+			\begin{align*}
+				\|(I+B)^{-1}\| \cdot (1-\|B\|) &\le
+				\|(I+B)^{-1}\|-\|B(I-B)^{-1}\| \\
+				&\le \|(I+B)^{-1} + B(I+B)^{-1}\| \\
+				&= \|(I+B)(I+B)^{-1}\| = 1
+			\end{align*}
+		\item
+			$A$ ist wegen $\det(A)\neq 0$ invertierbar, also $x=A^{-1}b$.
+			Außerdem, da $(I+B)$ nach a) invertierbar ist, gilt:
+			\begin{align*}
+				A(I+B)(x+\Delta x) &= b\\
+			\iff (I+B)(x+\Delta x) &= x\\
+			 \implies (I+B)(\Delta x) &= -Bx\\
+				  \implies \|\Delta x \| & =\|(I+B)^{-1}Bx\|\\
+																	   &\le \|(I+B)^{-1}\|\cdot\|B\|\cdot\|x\|\\
+				\implies \f{\|\Delta x\|}{\|x\|} &\le \f{\|B\|}{1-\|B\|}
+			\end{align*}
+	\end{enumerate}
+
+\end{aufgabe}
+
+\end{document}
+
