@@ -1,0 +1,2837 @@
+\documentclass[a4paper]{scrartcl}
+
+\usepackage{mathe-vorlesung}
+\numberwithin{equation}{section}
+
+\DeclareMathOperator{\Inf}{Inf}
+\DeclareMathOperator{\rd}{rd}
+
+\renewcommand{\eps}{\operatorname{eps}}
+\newcommand{\kondrel}{\kappa_{\text{rel}}}
+\newcommand{\kondabs}{\kappa_{\text{abs}}}
+
+\newtheorem{notee}[thm]{Bemerkung}
+\newtheorem{exs}[thm]{Beispiele}
+
+\title{Numerische Lineare Algebra}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Einleitung}
+
+\subsection{Was ist numerische Mathematik?}
+
+Die mathematische Theorie
+\begin{itemize}
+\item liefert exakte Ergebnisse (mittels symbolischen Rechnens)
+	\begin{ex*}~
+
+		Löse für gegebenes $A\in \R^{n\times n}, b\in \R^n$ die Gleichung $Ax=b$ mit $\det A \neq 0$.
+
+		Lösung:
+		\[
+			x=A^{-1}b
+		\]
+	\end{ex*}
+\item Sie macht häufig nur qualitative Aussagen 
+	(„es gibt eine Inverse“, „es gibt eine Nullstelle“, „es gibt eine Lösung“).
+\item Sie gibt häufig keinen Hinweis darauf, wie das Ergebnis berechnet werden kann.
+\item Falls es ein Verfahren gibt, spielt die Zeit (also die Dauer des Verfahrens) in der mathematischen Theorie keine Rolle.
+\end{itemize}
+In der Praxis sieht es jedoch anders aus:
+\begin{itemize}
+\item Die Eingabedaten sind nicht exakt und exakte Vorgaben können nicht exakt umgesetzt werden.
+\item Deswegen muss die Lösung auch nicht exakt sein.
+\item Häufig gibt es keine Abschätzung für die Größe des Gesamtfehlers.
+\item Nur quantitive Aussagen sind relevant
+\item „Zeit ist Geld“
+\end{itemize}
+Aus diesem Grund ist die numerische Mathematik von Bedeutung.
+Sie charakterisiert sich folgendermaßen:
+\begin{itemize}
+\item Entwicklung von Verfahren zur effizienten Lösung von großen Gleichungssystemen
+und zur Auswertung von Funktionen
+\item Aussagen zur Genauigkeit der Ergebnisse
+\item Wissenschaftliches Rechnen
+\item Mathematisches Modellieren und auch „Mathematisierung“ 
+	(d.h. Umsetzung eines praktischen Problems in mathematische Gleichungen gegebenenfalles durch Auswahl von Modellvereinfachungen)
+\item Entwicklung geeigneter Algorithmen
+\item (effiziente) Implementierung
+\item Untersuchung und Abschätzung des Fehlers aus Modellierung und Simulation
+\end{itemize}
+
+\subsection{Vom Problem zum Programm}
+
+Die nötigen Schritte, ein Anwendungsproblem numerisch zu lösen lässt sich grob folgendermaßen Gliedern
+
+\begin{enumerate}
+	\item \emph{Mathematisierung} des Anwendungsproblems in ein primäres mathematisches Problem
+	\item \emph{Mathematische Umformung und Diskretisierung} in ein sekundäres mathetematischen Problems
+	\item \emph{Implementierung} des sekundären mathematischen Problems in ein (Computer-)Programm
+	\item \emph{Berechnung} mittels des Programms und erhalt einer „Lösung“
+	\item \emph{Beurteilung} der Lösung im Bezug zum anfänglichen Anwendungsproblem
+\end{enumerate}
+
+\subsection{Beispiel}
+
+\begin{seg}{Problemstellung}
+Was ist die stationäre Temperaturverteilung in einem Metallstab der Länge $L$, der geheizt
+und an beiden Enden auf vorgegebener Temperatur gehalten wird?
+\end{seg}
+
+\begin{seg}{Einführung mathematischer Objekte und Festlegung der Interpretation dieser}
+Wir nehmen an, dass der Metallstab unendlich dünn ist.
+Bei Länge $L$ des Stabes wird jedem Punkte ein Koordinate $x \in [0,L]$ zugeordnet.
+Die Temperatur sei durch eine Funktion $U:[0,L]\rightarrow \mathbb R$ beschrieben, die 
+Wärmezufuhr durch eine Funktion $f : [0,L] \rightarrow \mathbb R$.
+\end{seg}
+\begin{note}
+zu mathematischen Objekten gehören z. B. Variablen, Konstanten, Gleichungen.
+\end{note}
+
+\begin{seg}{Mathematisierung}
+	Die Mathematisierung liefert folgende gewöhnliche Differenzialgleichungen („primäres mathematisches Problem“):
+
+\begin{align*}
+	\label{eq:1.1}
+\kappa U''(x) &= f(x) \qquad	x \in (0,L)  \tag{1.1}\\ 
+U(0) &= U_L \\	
+U(L) &= U_R \\
+\end{align*}
+\end{seg}
+
+\begin{seg}{Diskretisierung}
+Eine exakte Lösung ist nicht unbedingt eine gute Lösung des praktischen Problems.
+
+In einfachen Fällen, kann \ref{eq:1.1} analytisch gelöst werden. Im Allgemeinen ist das nicht möglich.
+Idee: Diskretisiere das Problem, um die Lösung zu approximieren, d.h. versuche nur $U(x_i)$ für $i=1,\ldots,N$ mit
+\[
+	x_i = ih \qquad h=\f L {(N+1)}
+\]
+(mit anderen Worten nur $N$ äquidistante Stellen auf dem Stab jeweils mit Abstand $h$)
+
+Was machen wir mit der zweiten Ableitung?
+Nach Taylor gilt
+\begin{align*}
+U(x+h) &= U(x) +U'(x)h + \f 1 2 U''(x)h^2\\
+U(x-h) &= U(x) - U'(x)h + \f 1 2 U''(x)h^2\\
+\implies \f 1 {h^2} \big(U(x+h) - 2U(x) + U(x-h)\big) &= U''(x)
+\end{align*}
+Damit ergeben sich mit der Differentialgleichung
+\[
+	\kappa U''(x) = f(x) \qquad	x \in (0,L)
+\]
+folgende Gleichungen
+\[
+	U_{i+1} - 2U_i + U_{i-1} = \f {h^2}{\kappa}f(x_i)
+\]
+mit $U(x_0) = U(0) = U_L$ und $U(x_{N+1}) = U(L) = U_R$.
+Wir setzen das in ein lineares Gleichungssystem um:
+\[
+	\begin{pmatrix}
+ -2      & 1       & 0       & \cdots   & 0   \\
+ 1       & -2      & \ddots      & \cdots   & \vdots   \\
+ 0       & \ddots  & \ddots  & \ddots   & 0 \\
+\vdots   & \ddots  & \ddots  & \ddots   & 1       \\
+0        & \cdots  & 0       &  1      & -2 \\
+\end{pmatrix}
+\begin{pmatrix}
+ U_1  \\ U_2 \\  \vdots \\ U_{N-1} \\ U_N \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+	\f {h^2}{\kappa} f(x_1)-U_L \\ \f {h^2}{\kappa}f(x_2) \\ \vdots \\ \f {h^2}{\kappa} f(x_{N-1}) \\ \f {h^2}{\kappa} f(x_N)-U_R \\
+\end{pmatrix}
+\]
+Solch eine Matrix, die nur Einträge auf der Hauptdiagonalen und
+den ersten Nebendiagonalen hat, heißt \emph{Tridiagonalmatrix}.
+\end{seg}
+
+\section{Grundlagen}
+
+\subsection{Fehlerarten}
+
+Bei der Vereinfachung von mathematischen Problemen und bei der Entwicklung von 
+praktischen Verfahren treten drei Arten von Fehlern auf:
+\begin{description}
+\item[Abbruchfehler] Entsteht beim Ersetzen eines infiniten Prozesses durch ein finites Verfahren
+(z.B. Partialsumme statt einer Reihe, Ableitung durch Differenzenquotient)
+\item[Diskretisierungsfehler] Entsteht durch das Ersetzen einer Funktion durch endlich viele Zahlen
+	(z.B. Beschreibung einer Funktion durch endlich viele Koeffizienten und deren Funktionswert)
+\item[Eingangsfehler] Sie entstehen durch ungenaue Rand- und Anfangswerten (Koeffizienten z.B. durch Messungenauigkeit.
+Diese Fehler sind unabhängig von der Methode mit der das diskrete Problem gelöst wird.
+Sie können nicht vermieden werden.
+Es ist jedoch wichtig, darauf zu achten, dass kleine Eingangsfehler auch nur zu kleinen Fehlern im Ergebniss führen.
+\end{description}
+Rechnet man auf digitalen Computern, so kommen zwei Fehlerarten dazu:
+\begin{description}
+\item[Eingabefehler] Entsteht bei der Rundung der Eingabedaten.
+\item[Rundungsfehler] Entsteht bei jeder Rechenoperation, da nicht exakt gerechnet werden kann.
+\end{description}
+
+Die Reellen Zahlen müssen auf einem digitale Rechner durch eine \emph{endliche} Zahlenmenge ersetzt werden.
+
+\begin{df}
+\label{df: 2.1}
+	Eine \emph{$B$-adische}, $m$-stellig normalisierte \emph{Gleitkommazahl} hat entweder die Form $x=0$ oder 
+\[
+	x=\pm B^e \cdot \sum_{k=1}^m x_kB^{-k}
+\]
+Man bezeichnet $e\in \Z$ als \emph{Exponent}, $B\ge 2$ als \emph{Basis}, die $x_k$ als \emph{Ziffern} und 
+\[
+	\sum_{k=1}^m x_kB^{-k}
+\]
+als \emph{Mantisse} (mit \emph{Mantissenlänge} $m$).
+
+\end{df}
+
+Rechner heute verwenden in der Regel $B=2, m=52$, so dass man mit  einem Vorzeichenbit und 11 Bits für den Exponenten auf 64 Bits pro Zahl kommt.
+Dabei sind noch einige Sonderfälle berücksichtigt:
+
+\begin{itemize}
+\item
+$\pm \Inf$ für $\pm\infty$ als Resultat der Division durch Null oder Überschreitung des Darstellungsbereich des Exponenten (“overflow”)
+\item
+"`NaN`` (not a number) als Zeichen für eine undefinierte Zahl. z.B. als Ergebnis von $\frac 00$ oder dem Logarithmus einer negativen Zahl.
+\end{itemize}
+
+Die wichtigste Eigenschaft der Gleitkommazahlen ist eine relative Genauigkeit der Zahldarstellung zu garantieren.
+Zu jedem $x\in \R$ gibt es eine „gerundete“ Gleitkommazahl $\rd(x)$, so dass der \emph{relative Fehler} für $x\neq 0$ durch eine feste Konstante $\varepsilon >0$ beschränkt ist.
+D.h.:
+\begin{equation}
+\label{eps}
+\frac{|x-\rd(x)|}{|x|}\le \varepsilon
+\end{equation}
+Sei für $x\in \R$ eine infinite $B$-adische Darstellung
+\[
+x=\sum_{k=-\infty}^{n(x)}x_kB^k \qquad x_k\in \{0,\dotsc,B-1\}
+\]
+mit führender Ziffer $x_{n(x)}\neq 0$ gegeben.
+Dabei schließen wir den Fall aus, dass ein $K_0\in \Z$ existiere, so dass gälte
+\[
+	x_k = B-1 \qquad \forall k\le K_0
+\]
+Mit anderen Worten:
+Wir legen die Eindeutigkeit der Darstellung fest (sonst wäre z.B. $0,999\dotso = 1$).
+Dann gilt:
+\begin{align*}
+	x&=\sum_{k=-\infty}^{n(x)}x_kB^k\\
+	x&=B^{1+n(x)}\sum_{k=-\infty}^{-1}x_{k+n(x)+1}B^k \\
+  &=\underbrace{B^{1+n(x)}\sum_{k=-m}^{-1}x_{k+n(x)+1}B^k}_{=\rd(x)} + B^{1+n(x)}\sum_{k=-\infty}^{-m-1}x_{n(x)+1+k}B^k \\
+  &=\rd(x)+B^{1+n(x)}\sum_{k=-\infty}^{-m-1}x_{n(x)+1+k}B^k  
+\end{align*}
+Also ist
+\begin{equation}
+	\label{eq:2.2}
+	B^{1+n(x)}\sum_{k=-\infty}^{-m-1}x_{n(x)+1+k}B^k = x - \rd(x)
+\end{equation}
+\begin{st}
+Definiert man die Rundung $\rd(x)$ jeder Zahl $x\in\R\setminus \{0\}$, durch die Vorschrift, dass die führenden $m$ Stellen der $B$-adischen Darstellung verwendet werden, so gilt das Rundungsgesetz \eqref{eps} mit $\eps = \epsilon := B^{1-m}$.
+Also
+\[
+	\f {|x-\rd(x)|}{|x|} \le \eps \qquad \eps = B^{1-m}
+\]
+Man nennt $\eps$ auch \emph{Maschinengenauigkeit}.
+\begin{proof}
+	Sei $x>0$.
+	Aus der Darstellung \eqref{eq:2.2} von $x-\rd(x)$ mit $x_k \in \{1,\dotsc, B-1\}$ folgt
+	\begin{align*}
+		|x-\rd{x}| &\le B^{1+n(x)}\sum_{k=-\infty}^{-m-1}(B-1)B^k \\
+				   &\le B^{1-n(x)-m}\\
+				&\le B^{1-m}B^{n(x)}
+	\intertext{
+	Wegen $x\ge x_{n(x)}B^{n(x)} \ge B^{n(x)}$ folgt weiter
+	}
+	   &\le B^{1-m}x
+	\end{align*}
+	Und somit wegen $x>0$
+	\[
+		\f {|x-\rd(x)|}{|x|} \le B^{1-m}
+	\]
+	Der Beweis für $x<0$ verläuft analog.
+\end{proof}
+\end{st}
+
+\begin{ex*}~
+
+	Bei der Basis $B=2$ hat die (übliche) 32-Bit-Zahl eine Mantissenlänge von $m=23$
+\[
+\implies \eps=2^{-22}\approx 2,4\cdot 10^{-7}
+\]
+Eine übliche 64-Bit-Zahl hat $m=52$
+\[
+\implies \eps=2^{-51}\approx 4,4\cdot 10^{-16}
+\]
+Bei einer 32-Bit-Zahl liegt der Exponent zwischen $-126$ und $127$ (8 Bit), die größte darstellbare Zahl ist also:
+\[
+0.11111111111111111111111 \cdot 2^{127}\approx 3,4\cdot 10^{38}
+\]
+Die kleinste darstellbare Zahl ist:
+\[
+0.10000000000000000000000 \cdot 2^{-126} \approx 1,1\cdot 10^{-38}
+\]
+\end{ex*}
+
+\begin{seg}{Underflow/Overflow}
+	Entsteht während der Rechnug eine Zahl, die größer (oder kleiner) als die größte (bzw. kleinste) darstellbare Zahl ist, so wird das Ergebnis diesen Rechenschritts gleich $\Inf$ (bzw. gleich 0) gesetzt.
+	Alle Informationen aus den vorhergehenden Schritten sind verloren.
+
+	Man nennt dieses Phänomen Overflow (bzw. Underflow).
+	(Nicht zu verwechseln mit z.B. Overflow bei bitweisem Addieren)
+\end{seg}
+
+Die nach \texttt{IEEE754} konstruierten Rechnerarithmetiken führen alle Einzeloperationen mit einem maximalen relative Fehler $\eps$ aus.
+Für eine binäre Operation $\circ$ mit zwei Gleitkommazahlen $\rd(x)$ und $\rd(y)$ gilt dann
+\[
+	\f {\left|\rd\big(\rd(x)\circ \rd(y)\big)-\rd(x)\circ\rd(y)\right|}{|\rd(x)\circ\rd(y)|} \le \eps 
+\]
+Daher heißt $\eps$ auch \emph{Maschinengenauigkeit}.
+\begin{note}
+	Bei $N$ Rechenschritten wäre ein relativer Fehler $N\cdot\eps$ denkbar.
+	Allerdings führt die Verarbeitung fehlerbehafter Daten im Allgemeinen zu einer Vergrößerung der hier betrachteten Fehler, sodass man dies im Allgemeinen nicht sagen kann.
+\end{note}
+
+\subsection{Landau-Symbole}
+Für Abbildungen $f,g:\R\to\R$ schreibt man
+\[
+f=\mathcal{O}(g) \qquad \text{für } x\to x_0
+\]
+falls es eine Zahl $C>0$ und eine Umgebung $U$ von $x_0$ gibt, so dass
+\[
+|f(x)|\le C|g(x)| \qquad \forall x\in U
+\]
+Weiter schreiben wir
+\[
+ \qquad f=o(g) \qquad \text{für } x\to x_0
+\]
+falls es zu jedem $\epsilon>0$ eine Umgebung $U(x_0)$ gibt, sodass
+\[
+|f(x)|\le \epsilon |g(x)| \qquad \forall x\in U
+\]
+Analog schreiben wir für Folgen $(a_n)_{n\in \N}, (b_n)_{n\in \N}$ in $\R$
+\[
+a_n=\mathcal{O}(b_n) \qquad n\to\infty
+\]
+falls es $C>0$ und $N\in\N$  gibt, so dass $|a_n|\le C|b_n|$ für $n\ge N$ und
+\[
+a_n=o(b_n) \qquad n\to\infty
+\]
+falls es zu jedem $\varepsilon > 0$ ein $N\in\N$ gibt, so dass $|a_n|\le\varepsilon |b_n|$ für $n\ge N$.
+
+Wir werden immer wieder benutzen, dass
+\begin{itemize}
+\item logarithmisches Wachstum langsamer ist als polynomiales
+\item polynomiales Wachstum langsamer ist als exponentielles
+\item exponentielles Wachstum langsamer ist als fakultatives
+\end{itemize}
+Das besagt der folgende Satz:
+\begin{st}
+\label{st:2.3}
+\begin{enumerate}
+\item
+Für $\alpha, \beta,\gamma\in \R$ gilt für $n\to \infty$
+\begin{align*}
+\log_\gamma n &=o(n^\alpha) \qquad \forall \alpha>0,\gamma>1\\
+n^\alpha &= o(\beta^n)\qquad \alpha>0, \beta\ge1 \\
+\beta^n &=o(n!) \qquad \forall \beta\ge 1
+\end{align*}
+\item
+Die  Aussage $f(x)=o(1)$ für $x\to x_0$ ist gleichbedeutend mit
+\[
+\lim_{x\to x_0}f(x)=0
+\]
+\item
+Die Aussage $f(x)=\mathcal{O}(1)$ für $x\to x_0$ ist gleichbedeutend mit: 
+$f$ ist in einer Umgebung von $x_0$ beschränkt.
+\item
+$a_n=o(1)$ ist gleichbedeutend mit $(a_n)$ ist eine Nullfolge.
+\item
+$a_n=\mathcal{O}(1)$ ist gleichbedeutend mit: $(a_n)$ ist beschränkt.
+\end{enumerate}
+
+
+\end{st}
+
+\subsection{Fehlerfortpflanzung}
+
+\subsubsection{Kondition}
+
+Die \emph{Kondition} eines Problems beschreibt die Verstärkung des Eingangsfehlers, soll eine Funktion
+$f\in C^2(\R,\R)$ in $x\in \R$ ausgewertet werden, so wird die Auswertung im Computer wegen der Rundungsfehler an der Stelle $x+\Delta x$ erfolgen.
+
+Wie wirkt sich der Eingangsfehler auf das Endergebnis aus?\\
+Wir betrachten zuerst den \emph{absoluten Fehler}
+\[
+y:=f(x+\Delta x)-f(x)=f'(x)\Delta x + \mathcal O(|\Delta x|^2)
+\]
+Wir nehmen an, dass $|\Delta x|^2$ sehr viel kleiner als $|\Delta x|$ ist und vernachlässigen $\mathcal O(|\Delta x|^2)$.
+Damit erhalten wir 
+\[
+	\kappa_{\text{abs}}=|f'(x)|
+\]
+als Verstärkungsfaktor des absoluten Fehlers.
+Wir nennen $\kappa_{\text{abs}}$ die \emph{absolute Kondition}.
+
+Betrachten wir statt des absoluten den relativen Fehler, so ergibt sich
+\[
+\left|\frac{\Delta y}{y}\right| := \frac{|f(x+\Delta x)-f(x)|}{f(x)}\approx \left|\frac{f'(x)\Delta x}{f(x)}\right|
+= \left|\frac{f'(x)x}{f(x)}\right|\cdot \left|\frac{\Delta x}{x}\right|
+\qquad \text{für } x\neq 0, f(x)\neq 0
+\]
+mit Verstärkungsfaktor $\big|\frac{f'(x)x}{f(x)}\big|$.
+Daher definieren wir für $x\neq 0, f(x)\neq0$ die relative Konditionszahl des Auswertungsproblems als
+\[
+\kappa_{\text{rel}}=\left|\frac{f'(x)x}{f(x)}\right|
+\]
+Im Allgemeinen ist die relative Kondition aussagekräftiger als die absolute.
+
+\begin{ex}[Kondition der Addition und Auslöschung]
+\label{ex: 2.4}
+Sei $f(x)=x+a$ und $x\neq 0, x\neq -a$, dann gilt
+\begin{align*}
+|\Delta y|
+&=x+\Delta x+a-(x+a)|=|\Delta x| \implies \kappa_{\text{abs}}=1\\
+\left|\frac {\Delta y}{y}\right|
+&=\frac {|\Delta x|}{|y|}
+=\frac{|x|}{|x+a|}\cdot \frac{|\Delta x|}{|x|} \implies \kondrel=\left|\frac x{x+a}\right|
+\end{align*}
+Für $x\approx -a$ ist die Addition schlecht Konditioniert, d.h. $\kondrel \gg 1$.
+Subtrahieren wie z.B. die beiden den auf sechs Stellen genauen Zahlen
+\[
+x=0,344152 \qquad \text{und} \qquad y=0,344169
+\]
+voneinander, so ist $x-y=0,000017$ nur auf zwei Stellen genau.
+Enthält $x$ einen versteckten Fehler von $0,01\%$, so enthält $x-y$ einen Fehler von
+$200\%$.
+In unserem Beispiel beträgt die relative Kondition
+\[
+\kondrel = \left|\frac x{x-y}\right| \approx 2,02 \cdot 10^4
+\]
+Dieses Phänomen heißt \emph{Auslöschung}.
+Die absolute Kondition liefert keinen Hinweis auf dieses Problem.
+\end{ex}
+
+\subsubsection{Stabilität}
+
+Die \emph{Stabilität} eines Algorithmus bestimmt, ob die berechnete Näherungslösung überhaupt etwas mit der exakten Lösung zu tun hat.
+
+Für die Auswertung von $f$ sei ein Algorithmus $x\mapsto F(x)$ gegeben.
+In diesem Algorithmus treten Rundungsfehler der Größenordnung $\eps$ auf.
+Wegen der relativen Fehlerfortpflanzung $\kondrel$ von $f$ kann man bestenfalls von $F$ erwarten, dass die Gleichung \eqref{eq:2.3} gilt:
+\begin{equation}
+\label{eq:2.3}
+\left|\frac{F(x)-f(x)}{f(x)}\right|\le c\kondrel\eps
+\end{equation}
+für ein von $x$ unabhängiges $c>0$.
+Ein Algorithmus, der \eqref{eq:2.3} genügt heißt (vorwärts) stabil.
+
+\begin{ex}[Stabilität der numerischen Addition]
+\label{ex:2.5}
+\begin{align*}
+\text{Numerische Addition:} &F(x)= \rd(\rd(x)+\rd(a))\\
+\text{Exakte Addition:} &f(x) = x+a
+\end{align*}
+Man rechnet \fixme[Irgendwas stimmt hier immernoch nicht]:
+\begin{align*}
+\left|\frac{F(x)-f(x)}{f(x)}\right|
+&=\left|\frac{\rd(\rd(x)+\rd(a))-(x+a)}{x+a}\right|\\
+&\le \frac{|\rd(\rd(x)+\rd(a))-(\rd(x)+\rd(a))|}{|x+a|} + \frac{|\rd(x)+\rd(a)-(x+a)|}{|x+a|}\\
+&\le \underbrace{\frac{|\rd(\rd(x)+\rd(a))-(\rd(x)+\rd(a))|}{|\rd(x)+\rd(a)|}}_{=\eps} \cdot \frac{|\rd(x)+\rd(a)|}{|x+a|} + \frac{|\rd(x)-x|}{|x+a|}+\frac{|\rd(a)-a|}{|x+a|}\\
+&\le \eps\cdot\frac{|\rd(x)-x +\rd(a)-a +x+a|}{|x+a|}+\underbrace{\frac{|\rd(x)-x|}{|x|}}_{=\eps}\cdot\frac{|x|}{|x+a|}+\underbrace{\frac{|\rd(a)-a|}{|a|}}_{=\eps}\cdot \frac{|a|}{|x+a|}\\
+&\le \eps\left|\frac{|\rd(x)-x+\rd(a)-a|}{|x+a|}+1\right|+\eps\frac{|x|}{|x+a|}+\eps\frac{|a|}{|x+a|}\\
+&\approx \eps +\eps\kondrel +\underbrace{\eps\frac{|a|}{|x+a|}}_{\approx \kondrel}\\
+&\le \eps(c+c\kondrel)
+\end{align*}
+Die numerische Addition ist also vorwärts stabil.
+\end{ex}
+
+Einen genaueren Eindruck von der Stabilität eines Algorithmus liefert die Rückwärtsanalyse.
+Dabei wird eine berechnete Näherung $y=F(x)$ als exakte Lösung eines Problems mit gestörten Anfangsdaten betrachtet,
+d.h. zu einem Näherungswert $y=F(x)$ von $f(x)$ suchen wir $\Delta x$, sodass $f(x+\Delta x)=F(x)$.
+Gilt jetzt:
+\[
+\left|\frac{\Delta x}x\right| < c_R \eps
+\]
+so heißt der Algorithmus \emph{rückwärts stabil}.
+
+Gibt es mehrere Urbilder, so wird das betragsmäßig kleinste $\Delta x$ verwendet.
+Gibt es kein Urbild, so ist der Algorithmus nicht rückwärts stabil.
+
+\begin{ex}[Rückwärtsstabilität der numerischen Addition]
+\label{ex:2.6}
+\begin{align*}
+\text{Numerische Addition: } &F(x)=\rd(\rd(x)+a)\\
+\text{Exakte Addition: } &f(x)=x+a
+\end{align*}
+\begin{note}
+Es wird angenommen, dass $a$ bereits eine Fließkommazahl ist, um die Rechnung zu vereinfachen.
+\end{note}
+Der Ansatz lautet:
+\[
+	x+a+\Delta x = f(x+\Delta x) = F(x) = \rd(\rd(x)+a)
+\]
+Also gilt
+\begin{align*}
+	|\Delta x| &= |\rd(\rd(x)+a)-(x+a)|\\
+				  &\le |\rd(\rd(x)+a) - (\rd(x)+a)| + |\rd(x)-x|\\
+		&\le \eps|\rd(x) +a| + \eps|x|\\
+		&\le \eps|x+a| + \eps|\rd(x)-x| + \eps|x|\\
+		&\le \eps|x+a| + \eps|x| + \mathcal O(\eps^2)
+\end{align*}
+und damit, wenn wir den Term $\mathcal O(\eps^2)$ vernachlässigen:
+\begin{align*}
+	\left| \f{\Delta x}x\right| &\le \eps\left(\f{|x+a|}{|x|}+1\right)\\
+		&\le \eps\left(\f{|a|}{|x|} + 2\right)
+\end{align*}
+Es ergibt sich $c_R = 2+\f{|a|}{|x|}$.
+Wir erhalten also, dass $c_R$ sehr groß ist, falls $x\ll a$ und in diesem Fall ist der Algorithmus nicht mehr rückwärtsstabil.
+Dieses Phänomen heißt \emph{Absorption}.
+Das bedeutet, wenn wir eine sehr kleine Zahl zu einer sehr großen Zahl addiert wird, die in der kleinen Zahl gespeicherten Information verloren geht:
+\begin{align*}
+a&=1,2345\cdot 10^4\\
+x&=1\cdot 10^{-1}
+\end{align*}
+Für eine Mantissenlänge von $m=5$ gilt in diesem Fall bereits: $\rd(x+a)=x$.
+\end{ex}
+
+Im Weiteren geht es um die Übertragung dieser Konzepte auf lineare, vektorwertige Funktionen mehrerer Variablen, d.h. wir betrachten:
+\[
+f(x)=Ax+b \qquad A\in\R^{m\times n},\; b\in\R^m,\; x\in\R^n
+\]
+Um Fehler in dieser Situation beschreiben zu können, brauchen wir ein paar Vorbereitungen.
+
+\subsection{Vektor- und Matrixnormen}
+
+\begin{df}
+\label{df:2.7}
+Es sei $V$ ein $\R$-Vektorraum, dann heißt $\|\cdot\|:V\to \R$ eine \emph{Norm}, falls folgende Eigenschaften erfüllt sind:
+\begin{enumerate}[(a)]
+\item Definitheit
+	\[
+		\|v\|\ge 0 \quad \forall v\in V \qquad \land \qquad \|v\|=0\iff v=0
+	\]
+\item Homogenität
+	\[
+		\|\lambda v\|=|\lambda|\cdot \|v\| \qquad \forall\lambda\in\R,v\in V
+	\]
+\item Dreiecksungleichung 
+	\[
+		\|v+w\|\le\|v\|+\|w\| \qquad \forall v,w\in V
+	\]
+\end{enumerate}
+\end{df}
+
+\begin{ex}[$p$-Norm]
+	\label{ex:2.8}
+	Sehr gängige Normen für den $\R^n$ sind die $p$-Normen für $p\in\R, 1\le p<\infty$, definiert als:
+	\[
+	\|x\|_p := \left(\sum_{i=1}^n\left|x_i\right|^p\right)^{\frac 1p}
+	\]
+	\begin{note}
+		Für $p=2$ heißt die $p$-Norm auch \emph{euklidische Norm}
+	\end{note}
+\end{ex}
+\begin{ex*}[$\infty$-Norm]
+	Eine weitere wichtige Norm ist die $\infty$-Norm, definiert als:
+	\[
+	\|x\|_\infty := \max_{i=1,\dotsc,n}|x_i|
+	\]
+\end{ex*}
+\begin{ex*}
+	Desweiteren ist für jede positiv definite Matrix $A$ (d.h. $\forall x\neq 0:x^TAx > 0$) folgende Norm definiert:
+	\[
+		\|x\|_A = x^TAx
+	\]
+\end{ex*}
+
+Jede Norm definiert einen Konvergenzbegriff $v_n\to v$ in $V$ bezüglich $\|\cdot\|$ durch
+\[
+\|v_n-v\|\to 0 \qquad (n\to\infty)
+\]
+
+\setcounter{thm}{8}
+\begin{st}[Norm-Äquivalenz]
+\label{st:2.9}
+Auf dem $\R^n$ sind je zwei Normen zueinander äquivalent, 
+d.h. zu zwei Normen $\|\cdot\|, \|\cdot\|_*$ gibt es $c_1, c_2>0$, so dass für alle $v\in V$ gilt:
+\[
+c_1\|v\| \le \|v\|_* \le c_2\|v\|
+\]
+Insbesondere induzieren beide Normen den gleichen Konvergenzbegriff.
+\begin{note}
+\begin{itemize}
+\item 
+Konvergiert im $\R^n$ eine Folge bezüglich einer Norm, dann konvergiert sie bezüglich aller Normen
+\item
+Das ist anders, wenn wir z.B. Funktionen in $C([a,b],\R)$ approximieren.
+\end{itemize}
+\end{note}
+\end{st}
+
+
+\begin{df}
+\label{df:2.10}
+Sei $n\in \N$. 
+Eine Norm $\|\cdot\|$ auf $\R^{n\times n}$ (der Raum aller reellen $n\times n$-Matrizen) heißt \emph{Matrixnorm}.
+
+Eine Matrixnorm $\|\cdot\|_M$ heißt \emph{submultiplikativ}, falls
+\[
+\|A\cdot B\|_M\le \|A\|_M\cdot \|B\|_M \qquad \forall A,B\in \R^{n\times n}
+\]
+Sie heißt \emph{verträglich} mit der Vektornorm $\|\cdot\|$ auf $\R^n$, falls
+\[
+\|Ax\|\le \|A\|_M\cdot \|x\|  \qquad \forall A\in \R^{n\times n}, x\in \R^n
+\]
+\end{df}
+
+\begin{ex}
+
+\begin{itemize}
+\item
+	Wichtige Matrixnormen sind:
+\label{ex:2.11}
+\begin{align*}
+\|A\|_1 &= \max_{j=1,\dotsc,n}\sum_{i=1}^n|a_{ij}| \qquad \text{(Spaltensummen)}\\
+\|A\|_\infty &= \max_{i=1,\dotsc,n}\sum_{j=1}^n|a_{ij}| \qquad \text{(Zeilensummennorm)}\\
+\|A\|_F &= \sqrt{\sum_{i,j=1,\dotsc,n}|a_{ij}|^2} \qquad \text{(Frobeniusnorm)}\\ 
+\|A\|_2 &= \sqrt{\lambda_{\text{max}}(A^TA)} \qquad \text{(Spektralnorm)}
+\end{align*}
+Wobei $\lambda_{\text{max}}$ der betragsmäßig größte Eigenwert ist.
+
+\item
+	Die Maximumsnorm
+\[
+	\|A\|_{\text{max}}:=\max_{i,j=1,\dotsc,n}|a_{ij}| 
+\]
+ist eine Matrixnorm, aber sie ist nicht submultiplikativ, denn
+\begin{align*}
+A&=\begin{pmatrix}1&1\\0&1\end{pmatrix}\\
+A^2&=\begin{pmatrix}1&2\\0&1\end{pmatrix}
+\end{align*}
+Also
+\[
+2=\|A^2\|\not\le \|A\|\cdot\|A\|=1
+\]
+
+\item
+Die Frobeniusnorm ist verträglich mit der euklidische Norm
+\begin{proof}
+	Sei $A\in \R^{n\times n}$ und $x\in \R^n$, dann gilt
+	\begin{align*}
+		\|Ax\|_2&=\left(\sum_{i=1}^n\bigg|\sum_{j=1}^na_{ij}x_j\bigg|^2\right)^{\f 12}\\
+		\intertext{mit der Dreiecksungleichung und Cauchy-Schwarz:}
+		&\le \sqrt{\sum_{i=1}^n\left(\sum_{j=1}^na_{ij}^2\right)\cdot\left(\sum_{j=1}^nx_j^2\right)}\\
+		&=\sqrt{\|x\|_2^2\sum_{i=1}^n\sum_{j=1}^n|a_{ij}|^2}\\
+		&= \|x\|_2\cdot \|A\|_F 
+	\end{align*}
+\end{proof}
+\end{itemize}
+\end{ex}
+
+\begin{st}
+	\label{st:2.12}[induzierte Matrixnorm]
+Sei eine (Vektor-)Norm $\|\cdot\|$ auf $\R^n$ gegeben.
+Dann definiert
+\[
+\|A\|:=\sup_{x\neq 0}\frac{\|Ax\|}{\|x\|} = \max_{\|x\|=1}\|Ax\|
+\]
+eine Matrixnorm auf $\R^{n\times n}$.
+Diese Norm ist:
+\begin{itemize}
+\item submultiplikativ
+\item verträglich mit der Vektornorm $\|\cdot\|$
+\item sie ist minimal in dem Sinne, dass für jede Matrixnorm $\|\cdot\|_M$, die mit $\|\cdot\|$ verträglich ist, gilt
+\[
+\|A\|_M\ge \|A\| \qquad \forall A\in\R^{n\times n}
+\]
+\end{itemize}
+\begin{note}
+Man nennt sie: die \emph{von der Vektornorm $\|\cdot\|$ induzierte Matrixnorm}
+\end{note}
+\begin{proof}
+Siehe Übungsaufgaben
+\end{proof}
+\end{st}
+
+\begin{lem}
+\label{lem:2.13}
+Sei $n\in\N$, dann gelten folgende Aussagen:
+\begin{enumerate}[(a)]
+\item Die $\infty$-Norm auf $\R^n$ induziert die Zeilensummennorm.
+\item Die $2$-Norm (Euklidische Norm) induziert die Spektralnorm.
+\item Die $1$-Norm auf $\R^n$ induziert die Spaltensummennorm.
+\end{enumerate}
+\begin{proof}
+	\begin{enumerate}[(a)]
+\item
+Zeige $\|A\|\le \|A\|_\infty$:
+\begin{align*}
+\|A\| &= \max_{\|x\|_\infty=1}\|Ax\|_\infty 
+= \max_{\|x\|_\infty=1}\max_{i=1,\dotsc,n}\left|\sum_{j=1}^na_{ij}x_j\right| \\
+&\le  \max_{\|x\|_\infty=1}\max_{i=1,\dotsc,n}\sum_{j=1}^n|a_{ij}|\cdot|x_j|\\
+&\le \max_{i=1,\dotsc,n}\sum_{j=1}^n|a_{ij}|
+= \|A\|_\infty\\
+\end{align*}
+Zeige jetzt: $\|A\|\ge \|A\|_\infty$:\\
+Sei $l\in\{1,\dots,n\}$ so gewählt, dass
+\[
+\sum_{j=1}^n|a_{lj}|=\max_{i=1,\dotsc,j}\sum_{j=1}^n|a_{ij}|=\|A\|_\infty
+\]
+dann setze
+\[
+x_i = \begin{cases}
++1 & \text{falls }a_{li} \ge 0\\
+-1 & \text{falls }a_{li} < 0
+\end{cases}
+\]
+Also ist $\|x\|_\infty = 1$ und
+\begin{align*}
+\|A\| &\ge \|Ax\|_\infty \\
+&= \max_{i=1,\dotsc,n}|(Ax)_i| \\
+&\ge |(Ax)_l| \\
+&= \left|\sum_{j=1}^na_{lj}x_j\right| \qquad a_{lj}x_j\ge 0\\
+&= \sum_{j=1}^n|a_{lj}|\cdot|x_j|\\
+&=\sum_{j=1}^n|a_{lj}|=\|A\|_\infty
+\end{align*}
+Die Behauptung folgt aus $\|A\|\le \|A\|_\infty$ und $\|A\| \ge \|A\|_\infty$.
+
+\item
+\begin{align*}
+\|A\|&=\max_{\|x\|_2=1}\|Ax\|_2 \\
+&= \max_{\|x\|_2=1}\frac{\|Ax\|}{\|x\|}\\
+&= \max_{\|x\|_2=1}\sqrt{\frac {x^TA^TAx}{x^Tx}}\\
+&=\sqrt{\lambda_{\text{max}}(A^TA)}
+\end{align*}
+da $A^TA$ symmetrisch, ist $A^TA$ auch diagonalisierbar mit reellen Eigenwerten (siehe Lineare Algebra)
+
+\item
+Übung
+\end{enumerate}
+\end{proof}
+\end{lem}
+
+Im Weiteren sei $\|\cdot\|$ eine beliebige Vektornorm und $\|\cdot\|$ die induzierte Matrixnorm.
+Damit wollen wir den Einfluss von Störungen in $b$ auf die Lösung des linearen Gleichungssystems
+\[
+Ax=b
+\]
+abschätzen.
+Wir berechnen dazu die Kondition, also den Verstärkungsfaktor des Eingabefehlers.
+Sei $A$ invertierbar.
+Gehört zur rechten Seite $b+\Delta b$ die Lösung $x+\Delta x$, so gilt
+\begin{align*}
+A(x+\Delta x)&=b+\Delta b\\
+\iff A\Delta x &= \Delta b\\
+\iff \Delta x &= A^{-1}\Delta b\\
+\implies \|\Delta x\|&\le \|A^{-1}\|\cdot \|\Delta b\| \tag{2.4a}
+\end{align*}
+Für den wichtigen relativen Fehler gilt wegen $\|b\| = \|Ax\| \le\|A\|\cdot\|x\|$
+\begin{align*}
+\frac 1{\|x\|}\le \frac {\|A\|}{\|b\|} \qquad b\neq 0
+\end{align*}
+Also:
+\begin{align*}
+\frac{\|\Delta x\|}{\|x\|} \le \|A\|\cdot \|A^{-1}\|\cdot \frac{\|\Delta b\|}{\|b\|} \tag{2.4b}
+\end{align*}
+Wir können den Verstärkungsfaktor des relativen Fehlers also durch $\|A\|\cdot\|A^{-1}\|$ abschätzen.
+
+\begin{df}
+\label{df:2.14}
+Für eine Norm $\|\cdot\|$ und $A\in \R^{n\times n}$ bezeichnet
+\[
+\cond_{\|\cdot\|}(A) := \|A\|\cdot\|A^{-1}\|
+\]
+die \emph{Kondition} von $A$.
+
+Die Kondition ist ein Maß für die Empfindlichkeit des relativen Fehlers der Lösung des linearen Gleichungssystems $Ax=b$ für Störungen der rechten Seite.
+Wegen $\|I\|=1$, gilt
+\[
+1=\|I\|=\|AA^{-1}\|\le \|A\|\cdot\|A^{-1}\|=\cond_{\|\cdot\|}(A)
+\]
+Die Abschätzung (2.4a) lässt sich auch folgendermaßen interpretieren:
+ist $\tilde x$ eine Näherungslösung von $Ax=b$ mit \emph{Residium}
+\[
+r(\tilde x) := b -A\tilde x
+\]
+so ist $\tilde x$ die exakte Lösung von
+\[
+A\tilde x = b -r(\tilde x)
+\]
+und es gilt
+\[
+\|x-\tilde x\| \le \|A^{-1}\| \cdot \|r(\tilde x)\|
+\]
+
+\end{df}
+
+\section{Direkte Lösungsverfahren für Lineare Gleichungssysteme}
+\subsection{Einführung}
+
+In diesem Kapitel geht es darum zu $A\in \R^{n\times n}$, $\det A\neq 0$ und $b\in \R^n$ die Lösung $x\in\R^n$ zu bestimmen, sodass:
+\begin{equation}
+\label{eq:3.1}
+Ax=b
+\end{equation}
+Falls $A^{-1}$ bekannt ist, gilt:
+\[
+x=A^{-1}b
+\]
+also ist x durch eine Matrix-Vektor-Multiplikation zu bestimmen.
+Aber im Allgemeinen ist es viel aufwändiger $A^{-1}$ zu bestimmen, als \eqref{eq:3.1} auf andere Art zu lösen.
+
+Die Zahl der benötigten Operationen zur Lösung von \eqref{eq:3.1} hängt stark vom verwendeten Algorithmus ab.
+Die Anzahl der Rechenschritte wächst mit der Größe des Gleichungssystems.
+Daher ist es insbesondere für große Gleichungssysteme wichtig, ein gutes Verfahren zu wählen.
+
+Dies soll am Beispiel der bereits bekannten Cramerschen Regel und dem Gauß-Algorithmus verdeutlicht werden.
+
+\begin{ex}[Cramersche Regel]
+\label{ex:3.1}
+Wir betrachten \eqref{eq:3.1} und für $j=1,\dotsc,n$ bezeichnen wir mit $a_j$ die $j$-te Spalte von $A=(a_1,\dotsc,a_n)$.
+Wir definieren
+\[
+A_k = (a_1,\dotsc,a_{k-1},b,a_{k+1},\dotsc,a_n)
+\]
+Die $k$-te Spalte wird also durch die rechte Seite ersetzt.
+
+Dann sagt die Cramersche Regel:
+Die Lösung $x$ von \eqref{eq:3.1} ist gegeben als
+\[
+x_k = \frac {\det(A_k)}{\det(A)}
+\]
+Für die Berechnung einer Determinante braucht man $\mathcal O(n!)$ Operationen.
+Eine Lösung von \eqref{eq:3.1} mit der Cramerschen Regel braucht $\mathcal O(n!)$  Punktoperationen.
+Während dies für sehr kleine Systeme akzeptabel ist, sind jedoch für ein immer noch kleines System mit $n=20$ schon $\mathcal{O}(10^{19})$ Punktoperationen nötig. $10^{19}$ Punktoperationen benötigen auf einem modernen Rechner mit 100 GFlops (d.h. $10^{11}$ Punktoperationen pro Sekunde) etwa 3 Jahre.
+\end{ex}
+
+\begin{ex}[Gauß-Elimination]
+\label{ex:3.2}
+Bei der Gauß-Elimination wird das lineare Gleichungssystem \eqref{eq:3.1} durch Linearkombinationen von Gleichungen schrittweise in ein LGS der Form
+\begin{equation}
+\label{eq:3.2}
+Rx=c \qquad R\text{ rechte obere Dreiecksmatrix}
+\end{equation}
+überführt, das die gleiche Lösung wie \eqref{eq:3.1} hat.
+Aus \eqref{eq:3.2} lässt sich $x$ leicht ablesen.
+Wir verzichten auf Vertauschen von Zeilen und wollen das Verfahren nur an einem Beispiel erläutern.
+Ein Algorithmus wird im Rahmen der LR-Zerlegung angegeben.
+
+Wir betrachten den Fall
+\[
+A=\begin{pmatrix}1&4&7\\ 2&5&8\\ 3&6&10\end{pmatrix} \qquad b=\begin{pmatrix} 5\\-1\\ 0\end{pmatrix}
+\]
+
+Nach den bekannten Umformungen des Gauß-Algorithmus ergibt sich das äquivalente Gleichungssystem
+\[
+Rx= \begin{pmatrix} 1&4&7\\0&-3&-6\\ 0&0&1\end{pmatrix}
+x= \begin{pmatrix} 5\\-11\\7\end{pmatrix} = c
+\]
+In diesem Gleichungssystem wird jetzt nacheinander die einzelnen Komponenten von $x$ von unten aus berechnet und sukzessive eingesetzt.
+Dieses Lösungsverfahren für $Rx=c$ heißt \emph{Rückwärtssubstitution}.
+
+Das Verfahren funktioniert, solange am Ende der Elimination auf der Hauptdiagonalen keine Null entsteht.
+Falls das Verfahren funktioniert braucht es $\frac{n^3}3\mathcal O(n^2)$ Punktoperationen, d.h. für $n=20$ sind es ungefähr
+$3\cdot 10^3$ Punktoperationen. Der Rechner, der bei der Cramerschen Regel 3 Jahre brauchte braucht mit dem Gauß-Algorithmus etwa $3\cdot 10^{-8}$ Sekunden.
+
+Folgende 3 Punkte sind für jedes Lösungsverfahren zu überprüfen:
+\begin{enumerate}
+\item Wie aufwändig ist das Verfahren?
+Wie viele Punktoperationen benötigt es?
+Hier ist insbesondere wichtig, wie die Größenordnung von $n$ abhängt (also die Landau-Notation).
+\item Wie genau ist die berechnete Lösung?
+\item Was passiert, wenn die Daten ($A$, $b$) gestört sind? (Stabilität des Verfahrens)
+\end{enumerate}
+\end{ex}
+
+Man unterscheidet zwei Klassen von Verfahren:
+\begin{description}
+\item[Direkte Verfahren]
+Bei denen das Ergebnis (im Rahmen der Rechengenauigkeit) nach endlich vielen Schritten bestimmt ist.
+\item[Iterative Verfahren]
+Bei denen schrittweise Näherungen an die Lösung berechnet werden. 
+Der Algorithmus benötigt ein \emph{Abbruchkriterium}.
+\end{description}
+
+
+\subsection{Die LR-Zerlegung ohne Pivotisierung}
+
+\begin{df}
+\label{df:3.3}
+Eine Matrix $A\in \R^{n\times n}$ heißt \emph{rechte obere Dreiecksmatrix}, falls 
+\[
+a_{ij}=0 \qquad \forall i>j
+\]
+Analog wird der Begriff \emph{linke untere Dreiecksmatrix} verwendet.
+\end{df}
+
+Ziel der LR-Zerlegung ist nun eine linke untere Dreiecksmatrix $L$ mit $L_{ij}=1, \forall i=j$ und eine rechte obere Dreiecksmatrix zu finden, sodass
+\begin{equation}
+\label{eq:3.3}
+A=L\cdot R
+\end{equation}
+gilt.
+Mit einer solchen Zerlegung lässt sich \eqref{eq:3.1} einfach lösen.
+\[
+Ax= LR x=b
+\]
+Löse zunächst $Ly=b$.
+Wegen $L_{ij}=1 \quad \forall i=j$ ist dies mittels \emph{Vorwärtssubstitution} möglich.
+
+Anschließend löse $Rx=y$ wie in Beispiel \ref{ex:3.2} durch Rückwärtssubstitution.
+
+Wir wollen nun die Matrix $L$ konstruieren.
+Sei $e_k$ der $k$-te Einheitsvektor in $\R^n$ und
+\[
+v=\begin{pmatrix}v_1\\\vdots\\ v_n\end{pmatrix}\in \R^n
+\]
+Sei außerdem
+\[
+	l_{i,k} := \f{v_{i}}{v_{k}}, 
+	\qquad l_k = \begin{pmatrix}0 \\ \vdots \\ 0 \\ l_{k+1,k} \\ \vdots \\ l_{n,k}\end{pmatrix}
+\]
+Wenn wir $L_k$ als
+\begin{equation}
+\label{eq:3.4}
+L_k = I-l_ke_k^T 
+= \begin{pmatrix}
+	1 &  & 0 &  &  & 0\\
+	 & \ddots & \vdots &  &   & \\
+	 & & 1 &  &  & \\
+					& & -l_{k+1,k} & \ddots & & \\
+		   & & \vdots & & \ddots & \\
+	  0 &  & -l_{n,k} & & & 1
+\end{pmatrix}
+\end{equation}
+definieren, dann gilt für $L_kv$:
+\[
+L_kv
+= \begin{pmatrix}
+	1 &  & 0 &  &  & 0\\
+	 & \ddots & \vdots &  &   & \\
+	 & & 1 &  &  & \\
+		& & -\f{v_{k+1}}{v_k} & \ddots & & \\
+		   & & \vdots & & \ddots & \\
+	  0 &  & -\f{v_n}{v_k} & & & 1
+\end{pmatrix}
+\begin{pmatrix}
+v_1\\ \vdots \\ v_n
+\end{pmatrix}
+=\begin{pmatrix}
+v_1 \\\vdots \\ v_k\\ 0\\\vdots \\ 0
+\end{pmatrix}
+\]
+Sei nun $A\in\R^{n\times n}$
+Wir schreiben $a_j$ für die $j$-te Spalte der Matrix.
+Für $v=a_1$, also
+\[
+	l_k = \begin{pmatrix} 0 \\ \f {a_{21}}{a_{11}} \\ \vdots \\ \f{a_{n1}}{a_{11}}\end{pmatrix}
+\]
+gilt:
+\[
+L_1 A =
+\begin{pmatrix}
+1 &\ 0 &\ \cdots &\ 0 \\ 
+-l_{2,1} &\ \ddots &\ \ddots &\ \vdots \\
+\vdots  &\ \ddots &\ \ddots &\ 0 \\
+-l_{n,1} &\ \cdots &\ 0 &\ 1 \\
+\end{pmatrix}
+A
+=
+\begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\
+0 & a_{22}^{(1)} & \cdots & a_{2n}^{(1)} \\
+\vdots & \vdots &  & \vdots\\
+0 & a_{n2}^{(1)} & \cdots & a_{nn}^{(1)}\\
+\end{pmatrix}
+=: A^{(1)}
+\]
+mit neuen Einträgen $a_{ij}^{(1)}$ für $i,j=2,\dotsc,n$.
+Wir nennen die neue  Matrix $A^{(1)}$, also $L_1 A= A^{(1)}$.
+Wenn nun in $A^{(1)}$ der Eintrag $a_{22}^{(1)}\neq 0$  ist, können  wir das
+Verfahren fortsetzen und $L_2$ mit $v=a_2^{(1)}$ bilden und wir erhalten
+\[
+L_2A^{(1)} = \begin{pmatrix}
+a_{11} &a_{12} &  \cdots  & \cdots & a_{1n}\\
+0 & a_{22}^{(1)}&  \cdots & \cdots & a_{2n}^{(1)}\\
+\vdots &  0 & a_{33}^{(2)} & \cdots & a_{3n}^{(2)} \\
+\vdots & \vdots & \vdots  &  & \vdots \\
+0 & 0 & a_{n3}^{(2)} &\cdots & a_{nn}^{(2)}
+\end{pmatrix} =: A^{(2)}
+\]
+Ist auch $a_{33}^{(2)}\neq 0$  lässt sich das Verfahren wie oben fortsetzen.
+Falls alle \emph{Pivotelemente} $a_{ii}^{(i-1)}\neq 0$ ($i=1,\dotsc,n-1$) sind, gilt:
+\begin{align*}
+R &=L_{n-1}A^{(n-2)} = L_{n-1}L_{n-2}A^{(n-3)}\\
+&= L_{n-1}L_{n-2}\dotsb L_1A
+\end{align*}
+Damit ergibt sich
+\[
+A=LR
+\]
+mit $L=L_1^{-1}L_2^{-1}\dotsb L_{n-1}^{-1}$.
+Dieses Vorgehen ist nur sinnvoll, falls sich die $L_k^{-1}$ leicht berechnen lassen und $L$ eine linke untere Dreiecksmatrix ist.
+
+\begin{st}
+\label{st:3.4}
+Es gilt 
+\[
+L_k^{-1} = I + l_k e_k^T
+\]
+und
+\[
+L = I+\sum_{k=1}^{n-1}l_ke_k^T
+\]
+\begin{proof}
+Um $L_k^{-1}=I+l_ke_k^T$ zu zeigen, berechne
+\begin{align*}
+L_k\cdot (I+l_ke_k^T) =(I-l_ke_k^T)(I+l_ke_k^T) &= I + l_ke_k^T -l_ke_k^T +\underbrace{l_ke_k^T\cdot l_ke_k^T}_{=0} = I
+\end{align*}
+und $L = I + \sum_{k=1}^{n-1}l_ke_k^T$ zeigen wir per Induktion.
+Wir nehmen an, dass für ein $1\le j\le n$ gilt
+\[
+L_1^{-1}\dotsb L_j^{-1} = I + \sum_{k=1}^j l_ke_k^T
+\]
+für $j=1$ ist es genau das oben gezeigte, als ist der Induktionsanfang schon gezeigt.
+
+Für den Induktionsschritt gilt:
+\begin{align*}
+	\prod_{k=1}^{j+1} L_k^{-1} &= \left( I +\sum_{k=1}^j l_ke_k^T\right) \cdot \left( I + l_{j+1}e_{j+1}^T\right)\\
+&= I + \sum_{k=1}^j l_ke_k^T + l_{j+1}e_{j+1}^T + \underbrace{\left(\sum_{k=1}^j l_ke_k^T\right)l_{j+1}e_{j+1}^T}_{=0}\\
+&= I + \sum_{k=1}^{j+1} l_ke_k^T
+\end{align*}
+\end{proof}
+\end{st}
+
+Die Matrizen $L$ und $R$ werden schrittweise aufgebaut.
+In jedem Schritt wird eine Matrix $L_k$ bestimmt und eine Matrixmultiplikation $L_kA^{(k-1)}$ durchgeführt.
+\begin{itemize}
+\item Zur Erstellung von $L_k$ sind also $n-k$ Divisionen notwendig.
+\item Bei der Matrixmultiplikation $L_kA^{(k-1)}$ müssen nur die unteren rechten $n-k\times n-k$ Einträge bestimmt werden,
+da die restlichen Einträge schon bekannt, oder nach Konstruktion gleich Null sind.
+\end{itemize}
+Es sind also etwa $(n-k)^2$ Punktoperationen nötig.
+Wir haben $n-1$ Schritte, wobei der $k$-te Schritt $(n-k)^2+(n-k)$ Punktoperationen erfordert.
+Der Gesamtaufwand ist also:
+\[
+\sum_{k=1}^{n-1} (n-k+1)(n-k) = \sum_{j=1}^{n-1}(j+1)j = \frac {n^3}3 - \frac n3
+\]
+
+\begin{note}[Bemerkungen zur Implementierung]
+\begin{itemize}
+\item Die alten Werte $a_{ij}^{(k-1)}$ ($i,j=k+1,\dotsc,n)$
+können mit den neuen Werten $a_{ij}^{(k)}$ überschrieben werden.
+\item Die Werte $L_{ij}$ können statt der Nulleinträge in der Matrix $A$ gespeichert werden.
+\end{itemize}
+Man muss also nur \emph{eine} Matrix speichern.
+Dies ist für große $n$ sehr wichtig.
+\end{note}
+
+\begin{alg}[LR-Zerlegung]
+\label{alg:3.5}
+\begin{algorithmic}
+	\Input Matrix $A\in \R^{n\times n}$
+	\Assert Keines der Pivotelemente $a_{ii}^{(i-1)}$ wird Null.
+	\Output Linke untere Dreiecksmatrix $L$, rechte obere Dreiecksmatrix $R$
+	\Statex
+	\For{$k=1,\dotsc, n-1$}
+		\For{$i=1,\dotsc, n$}
+			\State $l_{ik} \gets \frac{a_{ik}^{(k-1)}}{a_{kk}^{(k-1)}}$
+		\EndFor
+		\For{$j=k+1,\cdots, n$}
+			\State $a_{ij}^{(k)} \gets a_{ij}^{(k-1)} - l_{ik} a_{kj}^{(k-1)}$
+		\EndFor
+	\EndFor
+\end{algorithmic}
+
+\begin{note}
+	Wenn die Matrix $A$ strikt diagonaldominant ist, so wird während des Algorithmus kein Pivotelement Null.
+	Siehe auch Übungsaufgaben.
+\end{note}
+\end{alg}
+
+
+\begin{alg}[Gaußalgorithmus]
+	\label{3.6}
+	\begin{algorithmic}
+		\Input Matrix $A\in \R^{n\times n}$, Vektor $b\in \R^n$
+		\Assume keines der Pivotelemente $a_{ii}^{(it1)}=0$
+		\Output Vektor $x\in \R^n$, Näherungslösung von $Ax=b$
+		\Statex
+		\State Faktorisiere mit der LR-Zerlegung: $A =LR$
+		\For{$i=1,\dotsc,n$}
+			\State $\displaystyle y_i = b_i - \sum_{k=1}^{i-1} l_{ik}y_k$
+			\Comment{Löse $Ly=b$ durch Vorwärtssubstitution}
+		\EndFor
+		\For{$i=n,\dotsc,1$}
+			\State $\displaystyle x_i = \frac 1{r_ii} \left(y_i -\sum_{k=i+1}^n r_{ik} x_k\right)$
+			\Comment Löse $Rx=y$ durch Rüchwärtssubstitution
+		\EndFor
+	\end{algorithmic}
+
+	Der Aufwand zur Lösung von $Ax=b$ bei gegebener $LR$-Zerlegung stellt sich zusammen aus der Vorwärtssubstitution:
+	\[
+	\sum_{i=2}^ni = \frac 12 (n+1)n-1 = \frac {n^2}2 +\frac n2 -1
+	\]
+	und der Rückwärtssubstitution:
+	\[
+	\sum_{k=1}^nk = \frac 12 (n+1)n = \frac {n^2}2 +\frac n2
+	\]
+	Insgesamt sind es also $\mathcal O(n^2)$ Punktoperationen.
+\end{alg}
+
+\subsection{Die LR-Zerlegung mit Pivotisierung}
+
+Die LR-Zerlegung ohne Pivotisierung funktioniert nur solange keines der Pivotelemente gleich Null ist.
+Dies ist eine große Einschränkung, z.B. besitzt die (invertierbare) Matrix
+\[
+A=\begin{pmatrix}0&1\\1&0\end{pmatrix}
+\]
+keine LR-Zerlegung.
+
+Numerisch ergeben sich bereits Probleme, wenn ein Pivotelement sehr klein ist verglichen mit den anderen Einträgen von $A$ und $b$.
+Bei obigem $A$ lässt sich die $LR$-Zerlegung berechnen, wenn man Zeilen vertauscht.
+
+Um mit einer so berechneten LR-Zerlegung ein LGS zu lösen, müssen wir über die Vertauschungen Buch führen, um sie auch auf den Vektor $b$ anzuwenden.
+
+Um außerdem numerischen Schwierigkeiten vorzubeugen (z.B. Verstärkung von Rundungsfehlern), wollen wir immer das „beste“ Pivotelement benutzen.
+
+Dazu wählen wir im $i$-ten Schritt das Element aus, der $i$-ten Spalte unterhalb der Diagonale als Pivotelement, dass relativ zur Betragsnorm der jeweiligen Zeile am betragsgrößten ist.
+
+D.h. für eine Matrix $A\in \R^{n\times n}$ mit Zeilen
+\[
+	a_i = (a_{i1}, \dotsc, a_{in})
+\]
+wählen wir im $i$-ten Schritt das Pivotelement
+\[
+a_{ki} \quad (k\ge i)
+\]
+so, dass
+\[
+\frac {|a_{ki}|}{\|a_k\|_1} = \max_{j=i,\dotsc,n}\frac{|a_{ji}|}{\|a_j\|_1}
+\]
+Dieses Verfahren heißt \emph{Spaltenpivotisierung} und erzeugt nur sehr wenig numerische Instabilitäten.
+
+Um das ausgewählte Element als Pivotelement zu nutzen, müssen wir die $i$-te und $k$-te Zeile vertauschen.
+Wir erreichen dies durch Multiplikation mit einer Permutationsmatrix
+
+\begin{equation}
+\label{eq:3.5}
+P_i = \begin{pmatrix}[cccccccccccc]
+e_1 & e_2 & \dotsc & e_{i-1} & e_k & e_{i+1} & \dotsc & e_{k-1} & e_i & e_{k+1} & \dotsc & e_n \\
+\end{pmatrix}
+\end{equation}
+Im $i$-ten Iterationsschritt ist $P_i$ also die Einheitsmatrix mit vertauschter $i$-ten und $k$-ten Spalte ($i\le k\le n$).
+\begin{itemize}
+\item $P_i A$ vertauscht die $i$-te und $k$-te Zeile von $A$
+\item $A P_i$ vertausche die $i$-te und $k$-te Spalte von $A$
+\item $P_i^2 = I$ 
+\end{itemize}
+
+Vertauschen wir vor dem $i$-ten Eliminationsschritt die $i$-te und $k$-te Zeile, so berechnen wir statt
+\[
+A^{(i)} = L_i A^{(i-1)} 
+\]
+aus der LR-Zerlegung die Matrix
+\[
+A^{(i)} = L_i P_i A^{(i-1)}
+\]
+
+\setcounter{thm}{6}
+\begin{lem}
+\label{lem:3.7}
+Sei $j<i$, $P_i$ gegeben durch \eqref{eq:3.5} und $L_i$ gegeben durch \eqref{eq:3.4}.
+Dann gilt
+\[
+P_iL_j = L_j'P_i
+\]
+wobei $L_j'$ bis auf die Vertauschung von $l_{ij}$ und $l_{kj}$ mit $L_j$ übereinstimmt.
+
+\begin{proof}
+Wegen $P_i^2=I$ gilt:
+\begin{align*}
+P_iL_j = (P_iL_jP_i)P_i
+\end{align*}
+und daher
+\[
+L_j' = P_iL_jP_i
+\]
+Die Operation $P_iL_j$ vertauscht dabei zunächst $i$-te und $k$-te Zeile von $L_j$ und damit die beiden Einträge.
+Schließlich werden die $i$-te und $k$-te Spalte von $P_iL_j$ getauscht, was keine Veränderung bringt.
+Also hat $P_iL_jP_i$ gerade die Form von $L_j'$.
+\end{proof}
+\end{lem}
+
+
+\begin{st}
+	\label{st:3.8}
+	Sei $A\in \R^{n\times n}, \det A\neq 0$, dann bestimmt die LR-Zerlegung mit Pivotisierung eine Zerlegung 
+	\[
+		PA=LR
+	\]
+	Wobei $P$ eine Permutationsmatrix,$L$ eine linke untere Dreiecksmatrix und $R$ eine rechte obere Dreiecksmatrix.
+
+	Die Matrix $L$ ergibt sich aus der linken unteren Dreiecksmatrix der LR-Zerlegung ohne Pivotisierung durch geeignete Vertauschung von Elementen innerhalb der Spalten.
+	\begin{proof}
+		Wir nehmen an, der Algorithmus bricht nicht vorzeitig ab (also sind die gewählten Pivotelemente in keinem Schritt gleich Null und die $L_k$ sind wohldefiniert).
+		Dann gilt
+		\begin{align*}
+			R = A^{(n-1)} &= L_{n-1} P_{n-1}A^{(n-2)} \\
+					   &= L_{n-1}P_{n-1}L_{n-2}P_{n-2}A^{(n-3)} \\
+					   &= L_{n-1}P_{n-1}L_{n-2}P_{n-2}\dotsb L_1P_1A \\
+					   &= L_{n-1}L_{n-2}'P_{n-1}P_{n-2}L_{n-3}P_{n-3} \dotsb L_1P_1A \\
+					   &= L_{n-1}L_{n-2}' L_{n-3}'' P_{n-1}P_{n-2}P_{n-3} \dotsb L_1P_1A\\
+					   &= L_{n-1}L_{n-2}'L_{n-3}''\dotsb  L_1^{(n-1)} P_{n-1}\dotsb P_1 A\\
+		\end{align*}
+		Die Matrix $L$ ist Produkt der ${L_1'}^{-1} \dotsb {L_{n-1}^{(n-1)}}^{-1}$,
+		also ergibt sich $L$ wie in der LR-Zerlegung.
+		Insbesondere unterscheidet sich $L$ von der linken Dreiecksmatrix der LR-Zerlegung ohne Pivotisierung nur durch Permutation von Einträgen.
+
+		Wir zeigen jetzt, dass der Algorithmus auch wirklich nicht frühzeitig abbricht.
+		Der Algorithmus bricht nur ab, falls im $i$-ten Schritt das gewählte Pivotelement $a_{ji}^{(i-1)} = 0$ ist ($j\ge i$).
+		In diesem Fall ist nach Definition des Spaltenpivotelements
+		\[
+			a_{ki}^{(i-1)} = 0 \qquad \forall k\ge i
+		\]
+		(sonst hätten wir nämlich eins ungleich Null gewählt)
+		$A^{(i-1)}$ hat dann folgende Struktur:
+		\[
+			A^{(i-1)} = \begin{pmatrix}
+				* & \cdots & \cdots & *      & \cdots & \cdots & *\\
+				  & \ddots &        & \vdots &        &        & \vdots\\
+				0 &        & *      & *      &       &        & \vdots\\
+				  &        &        & 0      & *      &        & \vdots\\
+				  &   &        & \vdots & \vdots &        & \vdots\\
+				0 & &  & 0      & *      & \cdots & *
+			\end{pmatrix} \implies \det A^{(i-1)} = 0
+		\]
+		denn die ersten $i$ Spalten sind offensichtlich linear abhängig.
+		Allerdings ist
+		\begin{align*}
+			\det( A^{(i-1)}) &= \det(L_{i-1}P_{i-1}\dotsb L_1P_1 A) \\
+																	   &= \prod_{j=1}^{i-1}\det (L_j) \cdot \prod_{j=1}^{i-1}\det(P_j) \cdot \det(A)\\
+												  &= \pm \det(A)\\
+			\implies \det A &= 0
+		\end{align*}
+		was ein Widerspruch zu $\det A \neq 0$ ist.
+		Also kann der Algorithmus nicht abbrechen.
+	\end{proof}
+\end{st}
+
+\begin{notee}
+	\label{note:3.9}
+	Sei $Q_k = P_{n-1}\dotsb P_k$, dann lässt sich $L$ darstellen als
+	\[
+		L =  I + \sum_{k=1}^{n-1}Q_{k+1}l_ke_k^T
+	\]
+	Das heißt soviel wie, dass sich das $L$ bei der LR-Zerlegung mit Pivotisierung genauso zusammenstellt, wie das $L$ aus der LR-Zerlegung ohne Pivotisierung mit dem Unterschied, dass in der $k$-ten Spalte von $L$ die Zeilenelemente gemäß $P_{n-1}\dotsb P_{k+1}$ vertauscht werden.
+\end{notee}
+
+\setcounter{thm}{9}
+\begin{alg}[Gaußalgorithmus mit Spaltenpivotsuche]
+	\label{alg:3.10}
+	\begin{algorithmic}
+		\Input Matrix $A\in \R^{n\times n}, b\in \R^n$
+		\Assume $\det{A}\neq 0$
+		\Output $x\in \R$ (Näherungslösung von $Ax=b$)
+		\Statex
+		\State Faktorisiere mit der LR-Zerlegung (mit Spaltenpivotisierung): $PA = LR$
+		\State Löse $Lz = Pb$ durch Vorwärtssubstitution
+		\State Löse $Rx = z$ durch Rückwärtssubstitution
+	\end{algorithmic}
+	Der Aufwand für die Pivotisierung beträgt $\mathcal O(n^2)$ Multiplikationen.
+	Gegenüber dem der LR-Zerlegung ist dieser Aufwand also vernachlässigbar.
+\end{alg}
+
+\begin{notee}
+	\label{note:3.11}
+	\begin{itemize}
+		\item
+			Die LR-Zerlegung mit Spaltenpivotsuche ist nicht immer stabil, aber die Problemfälle treten in der Praxis sehr selten auf.
+			Bei Problemen hilft die vollständige Pivotsuche.
+			Dabei wird das Pivotelement unter allen $a_{jk}^{(i-1)}$ ($j,k\ge i$) gesucht, dazu werden Zeilen und Spalten vertauscht, sodass man eine Faktorisierung
+			\[
+				PAQ = LR
+			\]
+			erhält, $P,Q$ Permutationsmatrizen.
+		\item
+			Die LR-Zerlegung bietet einen effizienten Weg zur Berechnung der Determinante, da
+			\begin{align*}
+				\det A &= \prod_{i=1}^n r_{ii} \qquad \text{(ohne Pivotisierung)}\\
+				\det A &= \left(\prod_{i=1}^n r_{ii}\right) (-1)^s \qquad \text{(mit Spaltenpivotisierung)}
+			\end{align*}
+			wobei $s$ die Anzahl der durchgeführten Vertauschungen ist oder so, dass $\det P = (-1)^s$.
+			Hier beträgt der Aufwand $\mathcal O(n^3)$ im Vergleich zu $\mathcal O(n!)$ bei der Leibnizformel.
+		\item
+			Die LR-Zerlegung zerstört spezielle Strukturen der Matrix, z.B. Dünnbesetztheit.
+	\end{itemize}
+\end{notee}
+
+\subsection{Cholesky-Zerlegung}
+
+Die symmetrischen, positiv-definiten Matrizen bilden eine wichtige Klasse von Matrizen, für die zur Zerlegung in Dreiecksmatrizen keine Pivotisierung nötig ist.
+Das Verfahren, das wir für diese Matrizen kennenlernen werden, bricht nicht ab und ist außerdem stabil.
+
+\begin{df}
+	\label{df:3.12}
+	Eine Matrix $A\in \R^{n\times n}$ heißt
+	\begin{itemize}
+		\item \emph{symmetrisch}, falls $A = A^T$
+		\item \emph{positiv-definit}, falls $x^TAx > 0, \forall x\neq 0$
+		\item \emph{positiv-semi-definit}, falls $x^TAx \ge 0, \forall x$
+	\end{itemize}	
+\end{df}
+
+\begin{st}
+	\label{st:3.13}
+	Sei $A\in \R^{n\times n}$ symmetrisch und positiv definit, dann ist $A$ invertierbar.
+	
+	Insbesondere ist $A^{-1}$ wieder symmetrisch und positiv-definit.
+
+	Weiter sind alle Hauptuntermatrizen von $A$ symmetrisch und positiv-definit und alle Hauptminoren von $A$ sind positiv.
+  \begin{note}
+  Eine Matrix heißt \emph{Hauptuntermatrix} einer gegebenen $(n \times n)$-Matrix
+$S$, falls sie durch Streichen von k korrespondierenden Zeilen und Spalten der Matrix S
+entsteht, wobei $0 \le k < n$ gilt.
+
+  Sei $M \in \R^{n\times n}$
+und $k \in {1,\dotsc, n}$. Sei weiter $M_k$ die linke obere $k \times k$-Teilmatrix von M, die durch Streichung der $n - k$ am
+weitesten rechts gelegenen Spalten und $n - k$ untersten Zeilen entsteht. Die Determinante von $M_k$ heißt $k$-ter
+\emph{Hauptminor} (oder Hauptunterdeterminante oder Hauptabschnittsdeterminante).
+  \end{note}
+	\begin{proof}
+		\begin{enumerate}
+			\item \begin{seg}{$A$ ist invertierbar}
+					Angenommen $A$ ist nicht invertierbar.
+					Dann hat $A$ einen nicht-trivialen Kern und es gäbe $x\neq 0$ mit $Ax = 0$. 
+					Dann wäre $x^TAx = 0$, ein Widerspruch zu positiven Definitheit.
+				\end{seg}
+			\item \begin{seg}{$A^{-1}$ ist symmetrisch und positiv definit}
+					\[
+						(A^{-1})^T = (A^T)^{-1} = A^{-1}
+					\]
+				
+					Für $y\neq 0$ gibt es $x\neq 0$ mit $y=Ax$, sodass
+					\[
+						y^TA^{-1}y = (Ax)^TA^{-1}Ax = x^TA^TA^{-1}Ax = x^TAx > 0
+					\]
+				\end{seg}
+			\item \begin{seg}{Jede Hauptuntermatrix $\tilde A$ von $A$ ist symmetrisch und positiv definit}
+				Die Hauptuntermatrix hat folgende Form
+				\[
+					\tilde A = \begin{pmatrix} a_{i_1i_1} & \cdots & a_{i_1i_k}\\ \vdots &\ddots & \vdots \\ a_{i_ki_1} &\cdots & a_{i_ki_k}\end{pmatrix} \qquad i_1,\dotsc,i_k \in \{1,\dotsc,n\} \text{ paarweise verschieden}
+				\]
+				
+				Die Symmetrie ($a_{i_l,i_j} = a_{i_j,i_l}$) folgt aus der Symmetrie von $A$
+				
+				Jeder Vektor $\tilde x\in \R^k \neq 0$ kann folgendermaßen zu einem Vektor
+				$x \in \R^n \neq 0$ erweitert werden:
+				\[
+					x_\my = \begin{cases} \tilde x_j & \text{falls $\my = i_j$}\\
+				0 & \text{sonst}\end{cases}
+				\]
+				Dann ist
+				\[
+					\tilde x^T \tilde A \tilde x = x^T Ax > 0
+				\]
+				Also ist $\tilde A$ positiv-definit.
+				\end{seg}
+			\item \begin{seg}{Die Hauptminoren von $A$ sind positiv}
+					Sei für ein beliebiges, festes $k\in \{1,\dotsc,n\}$ ein Hauptminor gegeben durch
+				\[
+					\det \begin{pmatrix}a_{11} & \cdots & a_{1k} \\ \vdots & \ddots & \vdots \\ a_{k1} & \cdots & a_{kk}\end{pmatrix}
+				\]
+				Er ist die Determinante einer speziellen Hauptuntermatrix von $A$.
+				Im letzten Abschnitt haben wir gezeigt, dass diese stets symmetrisch und positiv-definit sind.
+
+				Wir betrachten jetzt quadratische Blöcke der Form
+				\[
+					M_{j,k} = \begin{pmatrix}
+						a_{jj} & \cdots & a_{jk}\\
+						\vdots & \ddots & \vdots\\
+						a_{kj} & \cdots & a_{kk}
+					\end{pmatrix} \qquad j \le k
+				\]
+				Diese sind ebenfalls Hauptuntermatrizen und somit symmetrisch und positiv-definit.
+				Wir zeigen nun per Induktion nach $j$, dass der Hauptminor positiv ist.
+				Dabei beginnen wir den Induktionsanfang bei $j=k$ und setzen ihn nach unten hin fort.
+
+				\begin{seg}{Induktionsanfang ($j=k$)}
+					Für $j=k$ ist $M_{j,k}$ eine Zahl $M_{j,k} = p>0$ und es gilt trivialerweise
+					\[
+						\det M_{j,k} = p > 0
+					\]
+				\end{seg}
+				\begin{seg}{Induktionsschritt}
+					Die Behauptung gelte für ein $M_{j+1,k}$.
+					Wir zeigen sie nun für $M_{j,k}$					
+					
+					Da $M_{j,k}$ symmetrisch und positv-definit ist nach dem ersten Teil des Beweises auch $M_{j,k}^{-1}$ wohldefiniert und positiv-definit.
+					Wenden wir auf $M_{j,k}^{-1}$ den Induktionsanfang für $j=k=1$ an, erhalten wir für den Eintrag in der ersten Zeile und Spalte von $M_{j,k}^{-1}$:
+					\[
+						m_{11} > 0
+					\]
+					Es gilt nach der Cramerschen Regel für diesen Eintrag außerdem
+					\[
+						m_{11} = \f {\det M_{j+1,k}}{\det M_{j,k}}
+					\]
+					wobei $M_{j+1,k}$ genau aus $M_{j,k}$ durch Streichen der ersten Zeile und Spalte hervorgeht.
+					Wegen $m_{11}>0$ und $\det M_{j+1,k} > 0$ nach Induktionsvorraussetzung, folgt
+					\[
+						\det M_{j,k} > 0
+					\]
+				\end{seg}
+			\end{seg}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st}[Cholesky-Zerlegung]
+	\label{st:3.14}
+	Zu jeder symmetrisch positiv definiten Matrix $A\in \R^{n\times n}$ gibt es genau eine linke Dreiecksmatrix $L$ (d.h. $l_{ik} = 0$ für $k>i$) mit $l_{ii} > 0, \forall i$ und so dass 
+	\[
+		A = LL^T
+	\]
+	\begin{note}
+		Wir fordern hier nicht $l_{ii}=1$, wie es bei der LR-Zerlegung der Fall war
+	\end{note}
+	\begin{proof}
+		Beweise durch Induktion nach $n$.
+
+		\begin{seg}{Induktionsanfang ($n=1$)}
+		\[
+			A = a_{11} > 0 \implies l_{11} = \sqrt{a_{11}} \neq 0
+		\]
+		\end{seg}
+		\begin{seg}{Induktionsschritt}
+		Eine symmetrische positiv definite Matrix $A$ kann als
+		\[
+			A = \begin{pmatrix} A_{n-1} & b \\ b^T & a_{nn}\end{pmatrix},\quad b\in \R^{n-1},\quad A_{n-1}\in \R^{n-1\times n-1},\quad a_{nn} > 0
+		\]
+		geschrieben werden ($a_{nn}$ ist eine $1\times 1$-Hauptuntermatrix von $A$, also positiv)
+
+		$A_{n-1}$ ist nach \ref{st:3.13} symmetrisch und positiv definit.
+		Nach Induktionsannahme ist
+		\[
+			A_{n-1} = L_{n-1}L_{n-1}^T
+		\]
+		mit
+		\begin{align*}
+			(L_{n-1})_{ik} &= 0, \qquad \forall k > l\\
+			(L_{n-1})_{ii} &> 0
+		\end{align*}
+		Ansatz:
+		\[
+			L = \begin{pmatrix} L_{n-1} & 0 \\ c^T & \alpha \end{pmatrix}
+		\]
+		Versuche $c\in \R^{(n-1)}$, $\alpha > 0$ so zu bestimmen, dass
+		\begin{equation}
+			\label{eq:3.14.6}
+			\begin{pmatrix}L_{n-1} & 0 \\ c^T & \alpha\end{pmatrix}
+			\begin{pmatrix}L_{n-1}^T & c \\ 0 & \alpha\end{pmatrix}
+			= \begin{pmatrix}L_{n-1}L_{n-1}^T & L_{n-1}c \\ c^TL_{n-1}^T & c^Tc + \alpha^2\end{pmatrix}
+			= \begin{pmatrix}A_{n-1} & b \\ b^T & a_{nn}\end{pmatrix}
+		\end{equation}
+		Das gilt falls
+		\begin{align*}
+			\label{eq:3.14.6b}
+			L_{n-1}c &= b \tag{3.6b}\\
+	\text{und}\qquad c^Tc + \alpha^2 &= a_{nn}
+		\end{align*}
+
+		Da $\det (A_{n-1}) \neq 0$ ist auch $\det(L_{n-1})\neq 0$ und $c$ ist durch obige Gleichung eindeutig bestimmt.
+		In jedem Fall existiert $\alpha \in \C$, sodass
+		\[
+			\alpha^2 = a_{nn}-c^Tc
+		\]
+		Es gilt wegen der Blockstruktur von $L$ 
+		\[
+			\underbrace{\det (A)}_{>0\; (\ref{st:3.13})} = \det (LL^T) = {\underbrace{\det (L_{n-1})}_{>0\;(\ref{st:3.13})}}^2 \alpha^2
+		\]
+		also ist $\alpha^2 >0$ und wir können $\alpha \in \R$ folgendermaßen wählen:
+		\[
+			\alpha = +\sqrt{a_{nn}-c^Tc} > 0
+		\]
+	\end{seg}
+	\end{proof}
+\end{st}
+
+Praktisch berechnet man die Einträge von $L$ durch Koeffizientenvergleich von $A$ mit $LL^T$.
+\[
+	\begin{pmatrix}
+		a_{11} & \cdots & a_{1n}\\
+		\vdots & \ddots & \vdots \\
+		a_{n1} & \cdots & a_{nn}
+	\end{pmatrix}
+	\stackrel !=
+	\begin{pmatrix}
+		l_{11} & 0 & \cdots & 0\\
+		l_{21} & l_{22} & \cdots & 0\\
+		\vdots & \vdots & \ddots & \vdots \\
+		l_{n1} & l_{n2} & \cdots & l_{nn}
+	\end{pmatrix}
+	\begin{pmatrix}
+		l_{11} & l_{21} & \cdots & l_{n1}\\
+		0 & l_{22} & \cdots & l_{n2}\\
+		\vdots & \vdots & \ddots & \vdots \\
+		0 & 0 & \cdots & l_{nn}
+	\end{pmatrix}
+\]
+Es ergibt sich die Beziehung
+\[
+	a_{ij} = \sum_{k=1}^n l_{ik}l_{jk} = \sum_{k=1}^{\min\{i,j\}}l_{ik}l_{jk}
+\]
+Damit kann man die Einträge von $L$ nacheinander bestimmen:
+\begin{alignat*}{2}
+	a_{11} &\stackrel != l_{11}^2 &&\leadsto l_{11} = +\sqrt{a_{11}}\\
+	a_{i1} &\stackrel != l_{i1}l_{11} &&\leadsto l_{i1} = \f {a_{i1}}{l_{11}}\\
+	a_{22} &\stackrel != l_{21}^2 + l_{22}^2 &&\leadsto l_{22} = \sqrt{a_{22}-l_{21}^2}\\
+	a_{i2} &\stackrel != l_{i1}l_{21} + l_{i2}l_{22} &&\leadsto l_{i2} = \f {a_{i2}-l_{i1}l_{21}}{l_{22}}\\
+	\vdots \; &\qquad \vdots && \qquad \vdots
+\end{alignat*}
+
+\begin{alg}[Cholesky-Zerlegung]~
+	\label{alg:3.15}
+	\begin{algorithmic}
+		\Input Matrix $A\in \R^{n\times n}$
+		\Assume $A$ symmetrisch und positiv definit
+		\Output $L$ mit $LL^T = A$
+		\Statex
+		\For {$j=1,\dotsc, n$}
+			\State $\displaystyle l_{jj} \gets \sqrt{a_{jj} - \sum_{k=1}^{j-1}l_{jk}^2}$
+			\Comment{Berechne Diagonaleinträge}
+			\For {$i=j+1,\dotsc, n$}
+				\State $\displaystyle l_{ij} \gets \frac 1{l_{jj}} \left(a_{ij}-\sum_{k=1}^{j-1} l_{ik}l_{jk}\right)$
+				\Comment{Fülle den Rest der Spalte von $L$}
+			\EndFor
+		\EndFor
+	\end{algorithmic}
+	\begin{itemize}
+		\item Aufwand: $\f {n^3}6 +\f32 n^2 +\f 13$ Punktoperationen
+		\item Etwa um den Faktor 2 schneller als die $LR$-Zerlegung
+		\item Der Algorithmus ist ohne Pivotisierung stabil
+		\item Falls $A$ symmetrisch und positiv definit ist die Cholesky-Zerlegung vorzuziehen
+		\item Auch mit Rundungsfehlern ist $LL^T$ wieder symmetrisch und positiv definit.
+			Es bleibt also eine wichtige Eigenschaft von $A$ erhalten.
+			Bei der $LR$-Zerlegung ist das nicht so ($LR$ muss mit Rundungsfehlern nicht symmetrisch und positiv definit sein, wenn $A$ es war)
+	\end{itemize}
+\end{alg}
+
+
+\section{Iterative Lösungsverfahren für Lineare Gleichungssysteme}
+
+
+Die bisherigen Verfahren lieferten nach endlich vielen Schritten ($\mathcal O(n^3)$) „exaktes“ Ergebnis.
+Dabei entstehen aus dünn-besetzten Matrizen dicht besetzte Matrizen.
+Wir erhalten also unter Umständen Speicherprobleme.
+
+Nun soll aus einem Startwert $x^0$ eine Folge $x^0, x^1, x^2, \dotsc$ berechnet werden, die gegen die Lösung von $Ax=b$ konvergiert.
+Dabei soll der einzelne Iterationsschritt einen Aufwand haben, der dem der Multiplikation von $Ax$ entspricht. 
+Insbesondere für dünn besetzte Matrizen ist der Aufwand deutlich kleiner als $n^2$.
+
+Andererseits konvergieren die Verfahren relativ langsam.
+
+Die meisten hier behandelten Verfahren basieren auf den Banachschen Fixpunktsatz.
+
+\begin{df}[Kontraktion]
+	\label{df:4.1}
+	Sei $\Omega \subset \R^n$ eine abgeschlossene Teilmenge und $\Phi: \Omega \to \Omega$ eine nicht notwendig lineare Funktion.
+	Dann heißt $\Phi$ eine Kontraktion bezüglich der Norm $\|\cdot\|$, falls eine Konstante $0<q<1$ existiert, so dass
+	\[
+		\|\Phi(x) - \Phi(y)\| \le q \|x-y\| \qquad \forall x,y\in \Omega
+	\]
+\end{df}
+
+\begin{st}[Banachscher Fixpunktsatz]
+	\label{st:4.2}
+	Sei $\Omega \subset \R^n$ abgeschlossen und $\Phi: \Omega \to \Omega$ eine Kontraktion, dann hat die Fixpunktgleichung
+	\[
+		\Phi(x) = x
+	\]
+	genau eine Lösung $\hat x\in \Omega$ und die Fixpunktiteration
+	\[
+		x^{k+1} := \Phi(x^k)
+	\]
+	konvergiert für jeden Startvektor $x_0\in \Omega$ gegen den Fixpunkt $\hat x$.
+
+	Desweiteren gelten die folgenden Abschätzungen für $k\ge 1$:
+	\begin{enumerate}[a)]
+		\item
+			$\|\hat x-x^{k+1}\| \le q\|\hat x - x^k\|$ (Monotonie)
+		\item
+			$\|\hat x - x^{k}\| \le \frac {q^k}{1-q} \|x^1-x^0\|$ (a-priori Fehlerabschätzung)
+		\item
+			$\|\hat x - x^{k+1}\| \le \frac{q}{1-q} \|x^{k+1}-x^k\|$ (a-posteriori Fehlerabschätzung) 
+	\end{enumerate}
+
+	\begin{note}
+		Die a-posteriori Fehlerabschätzung ist die bessere, aber kann erst zur Laufzeit bestimmt werden.
+	\end{note}
+
+	\begin{proof}
+		\fixme[Der Beweis befindet sich auf der ILIAS-Seite]
+	\end{proof}
+\end{st}
+
+
+\subsection*{Einschub: Intuitiver Zugang zum Jacobi-Verfahren}
+
+\[
+	x^k \to \text{Lösung von $Ax=b$}
+\]
+Angenommen $x^k$ ist bekannt, wie bestimmen wir $x^{k+1}$?
+Idealerweise löst $x^{k+1}$ das LGS $Ax=b$, d.h.
+\begin{align*}
+	Ax^{k+1} = b \iff \sum_{j=1}^n a_{ij}x_j^{k+1} &= b_i \qquad \forall i \\
+	\iff a_{ii} x_i^{k+1} &= b_i - \sum_{\substack{j=1\\j\neq i}}^n a_{ij} x_j^{k+1} \qquad \forall i=1,\dotsc,n
+\end{align*}
+Problem: Die $x_j^{k+1}$ auf der rechten Seite sind unbekannt.
+Ausweg: Ersetze $x^{k+1}$ rechts durch $x^k$
+\[
+	\implies x_i^{k+1} := \frac 1{a_{ii}} \bigg( b_i - \sum_{\substack{j=1\\j\neq i}}^n a_{ij}x_j^k\bigg)
+\]
+Offensichtlich ist $a_{ii}\neq 0$ notwendig.
+
+\subsubsection*{Anwendung der Banachschen Fixpunktsatzes auf lineare Gleichungssysteme}
+
+Wir müssen $Ax=b$ als $x=Tx+c$ umschreiben.
+Wir wählen Matrizen $M,N\in \R^{n\times n}$, so dass $\det M\neq 0$ und $A=M-N$, dann gilt
+\begin{align}
+	\label{eq:4.2}
+	Ax=b \iff Mx &= Nx +b\\
+	\iff x &= M^{-1}Nx + M^{-1}b
+\end{align}
+Fixpunktiteration mit $\Phi(x) = M^{-1}Nx + M^{-1}b$.
+Das ist nur sinnvoll, falls $M^{-1}$ leicht zu bestimmen ist (z.B. $M$ Diagonalmatrix) oder falls sich das LGS $Mx=d$ in \ref{eq:4.2} viel schneller lösen lässt als $Ax=b$ (z.B. wenn $M$ Dreiecksmatrix).
+
+\begin{lem}
+	\label{lem:4.3}
+	Sei $\|\cdot\|$ eine Norme auf $\R^n$ und $\|\cdot\|$ die assoziierte Matrixnorm, dann gilt für alle $c\in \R^n$:
+	Falls
+	\[
+		\|T\| < 1
+	\]
+	dann ist
+	\[
+		x\mapsto Tx +c
+	\]
+	eine Kontraktion auf $\R^n$ bezüglich $\|\cdot\|$ mit Kontraktionsfaktor $\|T\|$.
+	\begin{proof}
+		$T$ bildet $\R^n$ auf $\R^n$ ab.
+		Außerdem gilt:
+		\begin{align*}
+			\|Tx+c - (Ty+c)\| &= \| Tx -Ty\| \\
+							  &= \|T(x-y)\| \\
+				  &\le \|T\|\|x-y\|
+		\end{align*}
+		Somit ist $x\mapsto Tx+c$ Lipschitzstetig mit Lipschitzkonstante $\|T\|<1$, also nach \ref{df:4.1} eine Kontraktion.
+	\end{proof}
+\end{lem}
+
+\begin{df}
+	\label{df:4.5}
+	Für eine Matrix $T\in \R^{n\times n}$ mit Eigenwerten $\lambda_1, \dotsc, \lambda_ \in \C$
+	heißt 
+	\[
+		\rho(T) := \max_{i=1,\dotsc,n}|\lambda_i(T)|
+	\]
+	der Spektralradius von $T$.
+\end{df}
+
+\begin{lem}
+	\label{lem:4.4}
+	Sei $T\in \R^{n\times n}$ und $c\in \R^n$ dann sind folgenden Aussagen äquivalent:
+	\begin{enumerate}
+		\item $\Phi(x) = Tx+c$ ist eine Kontraktion bezüglich einer geeigneten Norm
+		\item Für den Spektralradius von $T$ gilt: $\rho(T) < 1$
+	\end{enumerate}
+	\begin{proof}
+		Übung
+	\end{proof}
+\end{lem}
+
+\begin{alg}[Allgemeine Fixpunktiteration]~
+	\[
+		\Phi(x) = M^{-1}Nx + M^{-1}b
+	\]
+	\begin{algorithmic}
+		\Input $A\in \R^{n\times n}, b\in \R^n$
+		\Assume $A$ invertierbar
+		\Output Näherungslösung $\hat x$ von $Ax = b$
+		\Statex
+
+		\State Zerlege $A$ als $A=M-N$ sodass $\det(M)\neq 0$ und $\rho(M^{-1}N) <1$
+		\State Wähle beliebigen Startvektor $x \in \R^n$
+		\While {$x$ nicht genau genug}
+			\State $x_{\text{alt}} \gets x$
+			\State $x \gets M^{-1}Nx_{\text{alt}} + M^{-1}b$
+		\EndWhile
+	\end{algorithmic}
+\end{alg}
+\begin{note}
+	Die Matrix $M^{-1}N$ wird als \emph{Iterationsmatrix} bezeichnet.
+\end{note}
+
+Die Abbruchbedingung „$x$ genau genug“ lässt sich auch formulieren als
+„breche ab, falls $\|x-x_{\text{alt}}\|<\tau$“, wobei $\tau > 0$ gegeben.
+
+Mit diesem Kriterium gilt nach der a-posteriori-Abschätzung
+\[
+	\|\hat x - x^k\| \le \f q{1-q}\|x^{k}-x^{k-1}\| \le \f {q\tau}{1-q} 
+\]
+also weicht die berechnete Näherung um höchstens $\f {q\tau}{1-q}$ von der exakten Lösung ab.
+
+Die Anzahl der nötigen Iterationsschritte hängt vom Abbruchkriterium und vom Spektralradius $\rho(M^{-1}N)$ ab.
+
+\begin{df}
+	\label{df:4.7}
+	\begin{enumerate}[1.]
+		\item
+			$\rho(M^{-1}N)$ heißt (asymptotischer) Konvergenzfaktor.
+		\item
+			$r := -\log_{10}(\rho(M^{-1}N))$ heißt (asymptotische) Konvergenzrate.
+	\end{enumerate}
+\end{df}
+
+\underline{Faustregel:}\\
+Für jede signifikante Dezimalstelle sind ungefähr $r^{-1}$ Iterationsschritte nötig.
+
+
+
+\setcounter{subsection}{1} % Was ist mit Unterkapitel 1?
+\subsection{Jacobi-Verfahren}
+
+\subsubsection*{Struktureller Zugang}
+
+Zerlege $A$ in 3 Teile
+\begin{itemize}
+	\item
+		$D\in \R^{n\times n}$ enthält alle Diagonalelemente.
+	\item
+		$-L\in \R^{n\times n}$ enthält alle Elemente unterhalb der Hauptdiagonalen.
+	\item
+		$-R \in \R^{n\times n}$ enthält alle Elemente oberhalb der Hauptdiagonalen.
+\end{itemize}
+Das Jacobi-Verfahren ergibt sich für $M=D, N = L + R$.
+d.h. wir suchen einen Fixpunkt von
+\[
+	Dx = (L+R)x + b
+\]
+d.h.
+\[
+	Dx^{k+1} = (L+R)x^k +b
+\]
+bzw.
+\[
+	x^{k+1} = D^{-1}(L+R)x^k + D^{-1}b
+\]
+und in Komponentenschreibweise:
+\[
+	x_i^{k+1} = \f 1{a_{ii}}\left(b_i - \sum_{\substack{j=1\\j\neq i}}^n a_{ij} x_j^k\right)
+\]
+
+
+\begin{st}
+	\label{st:4.8}
+	Sei $A\in \R^{n\times n}, b\in \R^n$, dann gilt
+	\begin{enumerate}[(i)]
+		\item
+			falls $A$ strikt diagonaldominant ist, d.h.
+			\[
+				|a_{ii}| > \sum_{\substack{j=1\\j\neq i}}^n|a_{ij}|
+			\]
+			ist das Jacobi-Verfahren durchführbar und konvergent für jeden Startvektor
+		\item
+			falls $A^T$ strikt diagonaldominant ist, d.h.
+			\[
+				|a_{ii}| > \sum_{\substack{j=1\\j\neq i}^n}|a_{ji}|
+			\]
+			ist das Jacobi-Verfahren auch durchführbar und konvergent für jeden Startvektor
+	\end{enumerate}
+	\begin{proof}
+		$A$ ist strikt diagonaldominant, also sind insbesondere alle Diagonaleinträge $a_{ii}>0$, also ist das Jacobi-Verfahren durchführbar.
+
+		\[
+			M^{-1}N = -\begin{pmatrix}
+				0 & \f {a_{12}}{a_{11}} &  \cdots & \f {a_{1n}}{a_{11}}\\
+				\f {a_{21}}{a_{22}} & 0 & \ddots  & \vdots\\
+				
+				\vdots & & \ddots & \f {a_{n-1,n}}{a_{n-1,n-1}}\\
+				\f {a_{n1}}{a_{nn}} & \cdots &  \f {a_{n,n-1}}{a_{nn}} & 0
+			\end{pmatrix}
+		\]
+		Für die Zeilensummennorm ergibt sich
+		\begin{align*}
+			\|M^{-1}N\|_\infty 
+				&= \max_{i=1,\dotsc,n} \sum_{\substack{j=1\\j\neq 1}^n}\left|\f {a_{ij}}{a_{ii}}\right| \\
+     			&= \max_{i=1,\dotsc,n} \f 1{|a_{ii}|} \sum_{\substack{j=1\\j\neq 1}}|a_{ij}| < 1
+		\end{align*}
+		Damit haben wir durch
+		\begin{align*}
+			(\R^n, \|\cdot\|_{\infty}) &\to (\R^n, \|\cdot\|)\\
+			x & \mapsto M^{-1}Nx + M^{-1}b
+		\end{align*}
+		eine Kontraktion gegeben.
+		Also konvergiert die Fixpunktiteration nach dem Banachschen Fixpunktsatz, d.h. das Jacobi-Verfahren für jeden Startvektor.
+
+		Teil (ii) verläuft analog.
+	\end{proof}
+\end{st}
+
+
+\subsection{Das Gauss-Seidel-Verfahren}
+
+
+Setze $M=(D-L)$, $N=R$ und suche die Lösung von
+\[
+	(D-L)x = Rx + b
+\]
+Die Fixpunktiteration lautet dann
+\[
+	(D-L)x^{k+1} = Rx^k +b
+\]
+Da $(D-L)$ linke untere Dreiecksmatrix ist, kann die Fixpunktiteration mit Vorwärtssubstitution leicht gelöst werden.
+
+Es gilt
+\begin{align*}
+	(D-L)x^{k+1} &= Rx^k + b \\
+	\iff (I-D^{-1}L)x^{k+1} &= D^{-1}Rx^k + D^{-1}b\\
+	\iff x^{k+1} &= D^{-1}Lx^{k+1} + D^{-1}Rx^k + D^{-1}b
+\end{align*}
+und für die einzelnen Einträge ergibt sich
+\[
+	x_i^{k+1} = \f 1{a_{ii}} \left(b_i - \sum_{j<i}a_{ij}x_j^{k+1} - \sum_{j>i}a_{ij}x_j^k\right)
+\]
+Die Terme $x_j^{k+1}$ mit $j<i$ sind bei der Berechnung von $x_i^{k+1}$ schon bekannt,
+falls die $x_i^{k+1}$ der Reihe nach berechnet werden.
+
+
+
+\subsection{Das Relaxationsverfahren}
+
+
+Die Konvergenzgeschwindigkeit des Gauss-Seidel-Verfahrens (und des Jacobi-Verfahrens) kann durch Relaxation verbessert werden.
+
+\begin{df}
+	\label{df:4.9}
+	Für $A\in \R^{n\times n}$ und $\omega\in \R$ heißt das Iterationsverfahren
+	\[
+		\underbrace{\left(\f {D-\omega L}{\omega}\right)}_{=M} x^{k+1} = \underbrace{\left(\f D\omega -D +R\right)}_{=N} x^k +b
+	\]
+	\emph{Relaxationsverfahren} zum \emph{Relaxationsparameter} $\omega$.
+
+	Falls $\omega \mapsto \rho(M^{-1}N)$ bei $\omega_*$ ein Minimum hat, so heißt $\omega_*$ \emph{optimaler Relaxationsparameter}.
+\end{df}
+
+\begin{note}
+	Ähnlich wie beim Gauss-Seidel-Verfahren, kann man durch herumrechnen auf die einzelnen Einträge von $x^{k+1}$ kommen:
+	\[
+		x_i^{k+1} = (1-\omega)x_i^k + \f \omega{a_{ii}}	\left(b_i - \sum_{j>i}a_{ij}x_j^{k+1} - \sum_{j<i}a_{ij}x_j^k\right)
+	\]
+
+\end{note}
+
+
+
+\setcounter{thm}{10}
+\begin{df}
+	\label{df:4.11}
+	Für $A\in \R^{n\times n}$  heißt 
+	\[
+		\sigma(A) = \{\lambda \in \C: \text{ $\lambda$ Eigenwert von $A$}\}
+	\]
+	das \emph{Spektrum} von $A$.
+\end{df}
+\setcounter{thm}{9}
+
+\begin{st}
+	\label{st:4.10}
+	Ist $A$ symmetrisch und positiv definit und $\omega \in (0,2)$, so konvergiert das Relaxationsverfahren und damit auch das Gauss-Seidel-Verfahren.
+
+	\begin{proof}
+		Da $A$ positiv definit ist, gilt
+		\[
+			a_{ii} = e_i^T A e_i > 0
+		\]
+		Also ist das Relaxationsverfahren durchführbar.
+		\begin{enumerate}[{Beh. }1:]
+			\item
+				Für $Q := 2A^{-1}(\f 1\omega D -L) -I$ \fixme[Woher haben wir das?] gilt
+				\[
+					\sigma(Q) \subset \{\lambda \in \C : \Re \lambda > 0\}
+				\]
+				\begin{proof}
+					Sei $\lambda$ ein Eigenwert von $Q$ mit Eigenvektor $v\in \C^n$, dann gilt
+					\[
+						\lambda Av = AQ v = 2\left(\f 1\omega D -L\right)v -Av
+					\]
+					und damit
+					\begin{align*}
+						\Re(\lambda) (\_v^T A v) &= \Re ( \lambda \_v^T Av)\\
+												 &= \Re (\_v^T\lambda Av)\\
+						&= \Re\left(\_v^T 2\left(\f 1\omega D-L\right)v -\_v^T Av\right)\\
+						&= \Re\left(\_v^T \left( \f 2\omega D-L-\underbrace{L}_{=R^T}\right) v\right) - \_v^T Av\\
+						\intertext{
+							da 
+							\begin{align*}
+								\_v^TR^T v &= \_{(\_v^TR^Tv)}^T\\
+													   &= (v^TR^T\_v)^T\\
+										&=\_v^TRv
+							\end{align*}
+							gilt
+						}
+						&= \Re\left(\_v^T\left( \f 2\omega D - D + D -L - R\right)v\right) -\_v^TAv\\
+						&= \Re\left(\_v^T\left(\f 2\omega D-D\right) v\right) >0
+					\end{align*}
+					genau dann, wenn
+					\[
+						\f 2\omega - 1 > 0 \iff \omega \in (0,2)
+					\]
+				\end{proof}
+			\item
+				\[
+					\sigma(H) := \sigma \left( \left(\f{D-\omega L}{\omega}\right)^{-1}\left(\f D\omega -D + R\right)\right) = \left\{ \f{\lambda -1}{\lambda+1}: \lambda \in \sigma(Q)\right\}
+				\]
+				\begin{proof}
+					Es gilt
+					\begin{align*}
+						H &= \omega(D-\omega L)^{-1} \left(\f D\omega -D+R\right)\\
+						  &= \omega(D-\omega L)^{-1} \left(D - \omega D +\omega R\right)\\
+						  &= \omega(D-\omega L)^{-1} \left(D - \omega L \underbrace{- \omega D +\omega L + \omega R}_{=-\omega A}\right)\\
+						  &= I -\left( \f D\omega -L\right)^{-1} A\\
+						  &= I - 2 \left( 2A^{-1} \left( \f D\omega -L\right)\right)^{-1}\\
+						  &= I- 2 \left(Q+I\right)^{-1}
+					\end{align*}
+					Sei jetzt $\lambda$ ein Eigenwert von $Q$ mit Eigenvektor $v$.
+					\begin{align*}
+						Hv &= (I - 2(Q+I)^{-1})v\\
+						   &= v-\f 2{\lambda+1}v
+					\end{align*}
+					wobei
+					\begin{align*}
+						(Q+I)v &=(\lambda -1)v\\
+						v &= (\lambda+1)(Q+I)^{-1}v
+					\end{align*}
+					Also ist 
+					\[
+						1-\f 2{\lambda +1}=	\f {\lambda+1-2}{\lambda+1} = \f {\lambda-1}{\lambda+1}
+					\]
+					Eigenwert von $H$.
+				\end{proof}
+		\end{enumerate}
+		Also gilt
+		\begin{align*}
+			\rho(H) &= \max\left\{\left |\f {\lambda-1}{\lambda+1}\right| : \lambda\in \sigma(Q)\right\}\\
+								   &= \max\left\{\sqrt{\underbrace{\f {\Re (\lambda-1)^2 + \Im (\lambda -1)^2}{\Re(\lambda+1)^2} + \Im(\lambda+1)}_{<1}}:\lambda \in \omega(Q)\right\}\\
+					&< 1
+		\end{align*}
+		Also konvergiert das Iterationsverfahren.		
+	\end{proof}
+\end{st}
+
+\setcounter{thm}{11}
+
+\begin{st}
+	\label{st:4.12}
+	Ein Iterationsverfahren
+	\[
+		x^{k+1} = M^{-1}Nx^k + M^{-1}b
+	\]
+	konvergiert genau dann, wenn
+	\[
+		\rho(M^{-1}N) < 1
+	\]
+\end{st}
+
+
+\begin{ex}
+	\[
+		A = \begin{pmatrix} 1 & \f12 & \f 12 \\ \f 12 & 1 & \f12\\ \f12 & \f12 & 1\end{pmatrix}
+	\]
+	d.h. $A$ ist diagonaldominant, aber nicht strikt diagonaldominant.
+	$\det A = \f 12$.
+
+	Das Jacobi-Verfahren konvergiert genau dann, wenn
+	\[
+		\rho(D^{-1}(L+R)) < 1
+	\]
+	\[
+		D^{-1}(L+R) = -\begin{pmatrix}1&0&0\\0&1&0\\0&0&1\end{pmatrix}^{-1}\begin{pmatrix}0&\f12&\f12 \\ \f12 & 0 & \f12 \\ \f12 & \f12 & 0\end{pmatrix} = - \begin{pmatrix}0& \f12 & \f 12 \\ \f12 & 0 & \f 12 \\ \f 12  & \f12 & 0\end{pmatrix}
+	\]
+	\[
+		\det\begin{pmatrix}-\lambda & -\f12 & -\f12 \\ -\f 12 & -\lambda & -\f 12 \\ -\f 12 & -\f12 & -\lambda\end{pmatrix} = -\lambda^3 + \f34 \lambda - \f 14
+	\]
+	\[
+		\implies \sigma(D^{-1}(L+R)) = \{\f 12, \f 12, 1\}
+	\]
+	\[
+		\rho (D^{-1}(L+R)) = 1
+	\]
+	Die Fixpunktiteration ist keine Kontraktion.
+
+	Das Gauss-Seidel-Verfahren konvergiert genau dann, wenn
+	\[
+		\rho((D-L)^{-1}R) < 1
+	\]
+	\[
+	(D-L)^{-1}R = \begin{pmatrix}1&0&0\\ \f12 & 1 & 0\\ \f12 & \f12 & 1\end{pmatrix}^{-1} \begin{pmatrix}0&\f12& \f12\\0&0&\f12\\0&0&0\end{pmatrix} = \begin{pmatrix}0& -\f12 & \f12\\0&\f14 & \f14\\0&\f18& \f38\end{pmatrix}
+	\]
+	\[
+		\sigma((D-L)^{-1}R) = \{0,0.3125\dots \pm i\cdot 0.1654\dots\}
+	\]
+	\[
+		\rho((D-L)^{-1}R) < 1
+	\]
+	d.h. die Gauss-Seidel Iteration konvergiert.
+
+\end{ex}
+
+\section{Beispiele}
+
+\subsection{Elementare Interpolation}
+
+Gegeben sei $\Phi$, eine Funktion von $x$ und von $n+1$ weiteren Parametern $a_0,\dotsc, a_n$.
+Ein \emph{Interpolationsproblem} besteht darin, die Parameter $a_0,\dotsc, a_n$ so zu bestimmen, dass für $n+1$ gegebene Paare $(x_i, f_i)$ ($i=1,\dotsc,n$) mit $x_i\neq x_k$ für $i\neq k$ reellen Zahlen, folgendes gilt:
+\begin{equation}
+	\label{eq:5.1}
+	\Phi(x_i, a_0,\dotsc, a_n) = f_i
+\end{equation}
+Die Paare $(x_i, f_i)$ heißen Stützpunkte.
+
+Ein Interpolationsproblem heißt linear, falls $\Phi$ von den $a_i$ linear abhängt.
+
+\begin{ex*}
+	\begin{itemize}
+		\item
+			Die Polynominterpolation hat folgende Form:
+			\[
+				\Phi(x,a_0,\dotsc, a_n) = \sum_{k=0}^n a_kx^k
+			\]
+		\item
+			Die trigonometrische Interpolation hat folgende Form:
+			\[
+				\Phi(x,a_0,\dotsc, a_n) = \sum_{k=0}^n a_ke^{k\cdot ix}
+			\]
+	\end{itemize}
+\end{ex*}
+
+\subsubsection{Polynominterpolation}
+
+Folgende Verwendungszwecke hat die Polynominterpolation:
+\begin{itemize}
+	\item
+		Interpolation von nur tabellarisch bekannten Funktionen
+	\item
+		Verwendung zur Konstruktion sogenannter Extrapolationsverfahren
+\end{itemize}
+Um das Interpolationsproblem
+\[
+	\Phi(x,a_0,\dotsc, a_n) = \sum_{k=0}^n a_kx^k
+\]
+zu lösen, betrachte man das Gleichungssystem:
+\begin{equation}
+	\sum_{k=0}^n a_kx_j^k = f_j \qquad j=0,\dotsc, n \label{eq:5.2}
+\end{equation}
+was geschrieben werden kann als
+\[
+	V a = f
+\]
+Die Matrix $V \in \Mat(n\times n, \R)$ nennt man \emph{Vandermonde-Matrix} und sie hat folgende Form
+\[
+	V = \begin{pmatrix}1 & x_0 & x_0^2 & \cdots & x_0^n\\
+	1 & x_1 & x_1^2 &\cdots & x_1^n\\
+	\vdots & \vdots & \vdots & \ddots & \vdots \\
+	1& x_n & x_n^2  & \cdots & x_n^n
+\end{pmatrix}	 
+\]
+Für die Determinante ergibt sich (Beweis in den Übungsaufgaben)
+\[
+	\det V = \prod_{0\le i<j\le n}(x_i-x_j) \neq 0
+\]
+womit $Va = f$ eindeutig lösbar ist.
+
+\begin{ex*}
+	\begin{align*}
+		x_0=1, x_1= 2, x_2 = 3, x_3 = 4 \qquad &\implies \cond_2(V) = 295\\
+		x_0=1, x_1= 2, x_2 = 3, x_3 = 4, x_4 = 5 \qquad &\implies \cond_2(V) = 4953
+	\end{align*}
+	Wir sehen, dass die Kondition von $V$ sehr schnell groß wird.
+	Für große $n$ ist $Va=f$ also „nutzlos“.
+
+	Schön wäre: $I\tilde a = f$
+\end{ex*}
+
+Für gegebene Stützstellen $x_0,\dotsc, x_n$ definieren wir uns folgende Polynome
+\begin{align*}
+	L_j(x) = \prod_{\substack{i=0\\i\neq j}}^n \f {x-x_i}{x_j-x_i} \qquad j=1,\dotsc n
+\end{align*}
+Diese sogenannten \emph{Lagrange-Polynome} erfüllen $L_j(x_i) = \delta_{ij}$.
+
+Setzt man
+\[
+	\Phi(x, b_0,\dotsc, b_n) = \sum_{j=0}^n b_jL_j(x)
+\]
+dann gilt
+\[
+	b_jL_j(x_i) = f_i \implies b_i = f_i
+\]
+Es ergeben sich jedoch einige Probleme:
+\begin{itemize}
+	\item
+		Die Lagrange-Polynome gibt es nur in einer Dimension.
+	\item
+		Die Lagrange-Polynome haben eine (für großes $n$) komplizierte Form.
+	\item
+		Die Polynominterpolation hat keine guten Approximationseigenschaften.
+		Es ergeben sich Oszillationen bei hohem Polynomgrad.
+		Mögliche Herangehensweisen:	\emph{Tschebyscheff-Stützstellen}, \emph{Spline-Interpolation}
+\end{itemize}
+
+\subsection{Ausgleichsrechnung}
+
+In der Ausgleichsrechnung ist der grundsätzliche Zusammenhang aus der Modellierung bereits bekannt, aber die Parameter sollen durch Messungen bestimmt werden.
+
+In der Regel gibt es mehr Messungen als Parameter (um Messfehler auszugleichen).
+Die so entstehenden überbestimmten Gleichungssysteme sind nicht lösbar.
+Wir können nur fordern, dass der Fehler in einer geeigneten Norm klein ist.
+
+Wir betrachten das \emph{lineare} Ausgleichsproblem, d.h. wir haben ein lineares Gleichungssystem mit $N$ Gleichungen und $n$ Unbekannten $x_k$ ($k=1,\dotsc,n$).
+\begin{equation}
+	\label{eq:5.3}
+	\sum_{k=1}^n c_{ik}x_k + d_i = r_i
+	\qquad i=1,\dotsc, N
+\end{equation}
+mit sogenanntem \emph{Residuum} $r_i$.
+Beziehungsweise in Matrizenschreibweise:
+\[
+	Cx + d = r
+\]
+mit $C\in \R^{N\times n}, x\in \R^n, d,r\in \R^N$.
+Wir wollen, dass die $r_i$ möglichst klein sind, oder genauer:
+\[
+	\|r\|_2^2 = r^Tr
+\]
+also die Summe der Fehlerquadrate, soll minimal sein.
+
+Wir definieren $A$ und $b$ durch
+\begin{align*}
+	\label{eq:5.4}
+	r^Tr = (Cx+d)^T(Cx+d) &= x^TC^TCx + x^TC^Td + d^TCx + d^Td \\
+																					   &= x^T\underbrace{C^TC}_{=:A}d + 2\underbrace{d^TC}_{=:b^T}x + d^T d \\
+						   &=: x^TAx + 2b^Tx +d^Td
+\end{align*}
+Falls $C$ maximalen Rang hat, ist $A$ symmetrisch und positiv definit.
+Dies nehmen wir im Folgenden an.
+
+Wir müssen also folgende Funktion minimieren
+\begin{equation}
+	\label{eq:5.5}
+	F(x) = x^TAx + 2b^Tx + d^Td
+\end{equation}
+Für Minima sind folgende Bedingung notwendig:
+\begin{equation}
+	\label{eq:5.6}
+	\f {\d F}{\d x_i}(x) = 2\sum_{j=1}^n a_{ij}x_j + 2b_i \stackrel != 0
+\end{equation}
+und die Hessematrix $H_F(x) = 2A$ muss positiv definit sein.
+Da $A$ positiv definit, ist auch die Hessematrix positiv definit und es ergeben sich für die kritischen Punkte auf jeden Fall Minima.
+
+Es bleibt also die Bedingung $Ax + b=0$ zu lösen, bzw.
+\begin{equation}
+	\label{eq:5.7}
+	C^TCx = -C^Td
+\end{equation}
+Diese Gleichung heißt \emph{Normalengleichung}.
+
+Klassisch löst man also das lineare Ausgleichsproblem:
+\[
+	Cx + d = r
+\]
+mit $C\in \R^{N\times n}, x\in \R^n, d,r\in \R^N$ folgendermaßen:
+
+\begin{alg}
+	\label{alg:5.1}
+	
+	\begin{algorithmic}
+		\State $A \gets C^TC$
+		\State $b \gets -C^Td$
+		\State Löse $Ax=b$ z.B. durch Cholesky-Zerlegung und Vorwärts-/Rückwärtssubstitution
+		\State $r \gets Cx+d$ \Comment{Berechne die Fehlerquadrate $r^Tr$}
+	\end{algorithmic}
+
+	Da $A$ symmetrisch ist, muss nur $a_{ij}$ mit $i\le j$ berechnet werden.
+	Die Aufstellung von $A$ und $b$ benötigt also \fixme[Woher kommt die „$+3$“?]$\f12 nN(n+3) = \mathcal O(n^2\cdot N)$ Punktoperationen.
+	
+	Der gesamte Lösungsalgorithmus (Aufstellen von $A$ und $b$, Cholesky-Zerlegung, Vorwärts-/Rückwartssubstitution und Residuumsberechnung) benötigt
+	\[
+		\f 12 nN(n+5) +\f16 n^3 +\f32 n^2+\f13
+	\]
+	multiplikative Operationen und $n$ Quadratwurzeln.
+\end{alg}
+
+\begin{note}
+	Die Kondition von $A$ kann sehr groß werden.
+\end{note}
+
+
+\subsection{Lineare Optimierung}
+
+
+\begin{ex}[Produktionsproblem]
+	\label{ex:5.2}
+	Der Herstellung der Produkte $A$ und $B$ unterliegt folgende Einschränkung: \\
+	\begin{tabular}{l|l|l|l}
+		Produkt & A & B & maximal möglich\\
+		\hline
+		Anzahl & $x_1$ & $x_2$ & 100 (Stück)\\
+		Arbeitszeit (pro Stück) & 4 & 1 & 160 (h)\\
+		Kosten (pro Stück) & 20 & 10 & 1100 (Euro)\\
+		Gewinn (pro Stück) & 120 & 40 & 
+	\end{tabular}\\
+	Wie müssen $x_1,x_2\ge 0$ gewählt werden, sodass der Gewinn
+	\[
+		Q(x_1,x_2) = 120x_1 + 40x_2
+	\]
+	maximal wird?
+	Dabei müssen die Nebenbedingungen
+	\begin{align*}
+		x_1,x_2 &\ge 0\\
+		x_1 + x_2 &\le 100\\
+		4x_1 + x_2 &\le 160\\
+		20x_1 + 10x_2 &\le 1100
+	\end{align*}
+	erfüllt sein.
+
+	\begin{seg}{Grafische Lösungsmethode}
+		Zunächst stellt man die Nebenbedingungen als Geraden im kartesischen Koordinatensystem dar, die den \emph{zulässigen Bereich} begrenzen.
+		Die Niveaulinien der zu maximierenden Funktion stellen ebenfalls Geraden dar.
+		Durch Parallelverschiebung der Niveaulinien von $Q(x)$ lässt sich die Funktion maximieren.
+
+		Dies ist nur einfach für $n\le2$ möglich.
+	\end{seg}
+	Um die „$\le$“ Bedingungen zu vermeiden, führt man sogenannte „\emph{Schlupfvariablen}“ $x_3,x_4,x_5$ ein, so dass sich die äquivalente Nebenbedingungen
+	\begin{align*}
+		x_1,x_2,x_3,x_4,x_5 &\ge 0\\
+		x_1 + x_2 + x_3 &= 100\\
+		4x_1 + x_2 + x_4 &= 160\\
+		20x_1 + 10x_2 + x_3 &= 1100
+	\end{align*}
+	ergeben.
+	\begin{align*}
+		-120 x_1 - 40 x_2 + x_6 = 0
+	\end{align*}
+	und
+	\[
+		x_6 \text{ maximieren} \iff Q(x_1,x_2) \text{ maximieren}
+	\]
+\end{ex}
+
+\begin{df}[Lineares Programm in Normalform]
+	\label{df:5.3}
+	Maximiere $x_p$ unter den Nebenbedingungen
+	\begin{equation}
+		\label{eq:6.7}
+		x\in \R^n, \qquad Ax=b, \qquad x_1 \ge 0  \qquad \text{für } i\in I
+	\end{equation}
+	Dabei ist $I\subset N:=\{1,\dotsc,n\}$ eine eventuell bessere Indexmenge, $p\in N\setminus I$,
+	\[
+		A = \begin{pmatrix}a_1 & \cdots a_n\end{pmatrix} \in \R^{m\times n}
+	\]
+	mit Spalten $a_i\in \R^m$, $b\in \R^m$.
+	Variablen $x_i$ mit $i\in I$ heißen \emph{vorzeichenbeschränkt}, für $i\not\in I$ \emph{frei}.
+
+	Die Menge
+	\[
+		P := \{ x\in\R^n : Ax=b \land \forall i\in I: x_i \ge 0 \}
+	\]
+	heißt \emph{Menge der zulässigen Lösungen}.
+	Als Optimallösung bezeichnen wir das $\_x\in \R^n$ mit $\_x_p = \max\{x_p|x\in P\}$
+\end{df}
+
+Wir betrachten bis auf weiteres den Fall $x_i\ge 0$ für alle $i=1,\dotsc, n$.
+\begin{df}[Ecke]
+	Ein Punkt $x\in P$ heißt \emph{Ecke} von $P$, falls $\not\exists y,z\in P$ mit $x=\lambda y + (1-\lambda) z$ für ein $\lambda \in (0,1)$.
+
+Für $x\in P$ sei
+\[
+	I(x) = \{i\in N\big| x_i > 0\}, B(x) = \{a_k | k\in I(x)\}
+\]
+\end{df}
+\begin{note}
+Geometrische Interpretation:  Eine Ecke ist gerade die Bruchstelle zweier geraden Linien, innerhalb von geraden Verbindungsstücken lassen sich also keine Ecken finden. Spezialfälle stellen hierbei ein einzelner Punkt und die Endstücke einer geraden Linie dar.  
+\end{note}
+\begin{lem}
+	\label{lem:5.5}
+	Für $x\in P$ mit $B(x)$ linear abhängig gibt es $z,y\in P$, so dass $I(z)\subsetneq I(x) \land x=\f12(z+y)$.
+	\begin{note}
+		$I(z)\subsetneq I(x)$ impliziert $y\neq x \neq z$.
+	\end{note}
+	\begin{proof}
+		Sei ohne Beschränkung der Allgemeinheit $I(x)=\{1,\dotsc, k\}$ mit
+		\[
+			\sum_{i=1}^k a_ix_i = b
+		\]
+		$B(x)$ ist linear abhängig, also $\exists d_1,\dotsc,d_k\in \R$ (mit $\exists i:d_i\neq 0$), so dass $\sum_{i=1}^kd_ia_i=0$.
+		Als ist für alle $\lambda \in \R$
+		\[
+			x(\lambda) = (x_1 + \lambda d_1, \dotsc, x_k + \lambda d_k, 0, \dotsc, 0) \in \R^n
+		\]
+		eine Lösung von $Ax=b$ und für kleines $|\lambda|$ ist $x_i + \lambda d_i \neq 0$ für $i=1,\dotsc,k$.
+
+		Wir wählen $\lambda^*$ so, dass mindestens eine der ersten $k$ Komponenten von $x(\lambda^*)$ verschwindet, aber alle anderen größer $0$ bleiben und dass außerdem $x(-\lambda^*) \in P$ gilt.
+
+		\[
+			\implies z=x(\lambda^*) \in P, \qquad y=\land x(-\lambda^*) \in P,  \qquad x=\f{x(\lambda^*) + x(-\lambda^*)}{2}
+		\]
+	\end{proof}
+\end{lem}
+
+\begin{lem}
+	\label{lem:5.6}
+	Es gilt $x\in P$ Ecke von $P$ genau dann, wenn
+	\[
+		x\in P \land B(x) \text{ linear unabhängig}
+	\]
+	\begin{seg}{„$\implies$“}
+		Siehe \ref{lem:5.5}
+	\end{seg}
+	\begin{seg}{„$\Longleftarrow$“}
+		Angenommen $x$ ist keine Ecke, dann existiert ein $\lambda\in (0,1)$ und $y,z\in P$ mit $x=\lambda y + (1-\lambda)z$.
+		Wegen $y,z\in P, Ay = Az = b$ gilt
+		\[
+			y_l = z_k = 0 \qquad k\not\in I(x)
+		\]
+		und somit ist
+		\[
+			\sum_{i\in I(x)}y_i a_i = \sum_{i\in I(x)}z_ia_i = b
+		\]
+		Also ist $B(x)$ linear abhängig, Widerspruch.
+	\end{seg}
+\end{lem}
+
+\begin{st}
+	Sei $\_x\in P$ eine Optimallösung, dann existiert eine Ecke $x^*\in P$, die auch Optimallösung ist.
+	\begin{proof}
+		Wenn $\_x$ eine Ecke ist, sind wir schon fertig.
+		Sei also $\_x$ keine Ecke.
+		Dann ist nach \ref{lem:5.6} $B(\_x)$ linear abhängig und wir können $\_x$ nach \ref{lem:5.5} schreiben als
+		\[
+			\_x = \frac 12(y_1 + z)
+		\]
+		Da $\_x$ Optimallösung ist, dann ist auch $y_1,z$ Optimallösung (da das Funktional linear ist: $\_x_p$ ist maximal, also auch $(y_1)_p$ und $z_p$).
+		Falls $y_1$ oder $z$ eine Ecke ist, sind wir fertig.
+		Ansonsten ist $B(y)\subsetneq B(x)$ und wir wiederholen das Verfahren bis $B(y_i)$ linear unabhängig ist, also eine Ecke ist.
+	\end{proof}
+\end{st}
+
+Wir verzichten wieder auf $x_i\ge 0$ für alle $i$.
+
+Für einen Indexvektor $J=(j_1,\dotsc, j_r), j_i\in N$ definieren wir die Untermatrix $A_j$ von $A$ durch
+\[
+	A_J = \begin{pmatrix}a_{j_1} & \cdots & a_{j_r}\end{pmatrix}
+\]
+Mit $x_J$ bezeichnen wir $(x_{j_1},\dotsc,x_{j_r})^T$.
+Zur Vereinfachung bezeichnen wir auch die Menge aller $j_i$ wieder als $J$.
+D.h. wir schreiben $p\in J$, falls ein $t$ existiert mit $p=j_t$
+
+\begin{df}
+	\label{df:5.8}
+	Ein Indexvektor $J=(j_1,\dotsc,j_m)$ mit $m$ verschiedenen Indizes $j_i\in N$ heißt Basis von $Ax=b$, 
+	falls $A_J$ singulär ist.
+	Man nennt auch $A_J$ eine Basis, die Variablen $x_i$ mit $i\in J$ heißen \emph{Basisvariablen}, die übrigen heißen \emph{Nichtbasisvariablen}.
+
+Zu $J$ sei $K=(K_1,\dotsc, K_{n-1})$ so gewählt, dass $K\stackrel \cdot \cup J = N$.
+
+Zu einer Basis $J$ gibt es eine (eindeutige) Lösung $\_x=\_x(J)$ von $Ax=b$, die sogenannte \emph{Basislösung} mit $x_K=0$.
+Wegen 
+\[
+	b = A\_x = A_J \_x_J + A_K \cdot \_x_K = A_J\_x_J
+\]
+ist $\_x$ gegeben durch
+\begin{equation}
+	\label{eq:5.8}
+	\_x_J = A_;^{-1}b, \_x_K = 0
+\end{equation}
+Für gegebenes $J$ ist jede Lösung von $Ax=b$ durch die Basislösung und eine Nichtbasisanteil eindeutig bestimmt.
+\begin{align*}
+	Ax &=A_J x_J + A_K x_k = b\\
+	x_J &= \_b - A_J^{-1}A_Kx_K \tag{5.9}\label{eq:5.9}
+\end{align*}
+\setcounter{equation}{9}
+
+Falls die Basislösung $\_x$ zur Basis $J$ zulässig ist, d.h. $\_x\in P$, also zusätzlich zu $\_x_k=0$ auch
+\begin{equation}
+	\label{eq:5.10}
+	\_x_i \ge 0 \qquad \forall i\in I\cap J
+\end{equation}
+gilt, so heißt $J$ eine \emph{zulässige Basis} und $\_x$ eine \emph{zulässige Basislösung}.
+Eine zulässige Basis heißt \emph{nicht-entartet}, falls die Verschärfung von \ref{eq:5.10}:
+\begin{equation}
+	\label{eq:5.11}
+	\_x_i > 0 \qquad \forall i\in I\cap j
+\end{equation}
+gilt.
+
+Ein lineares Programm heißt \emph{nicht-entartet}, falls alle zulässigen Basislösungen nicht-entartet sind.
+\end{df}
+
+Das Simplexverfahren liefert zu einer zulässigen Basis $J$ mit $p\in J$ rekursiv mittels einzelner Simplexschritte eine Folge von Basen $(J_i)_{i\in\N} : J_i \to J_{i+1}$, die zulässig sind und $p$ enthalten, mit folgender Eigenschaft:
+Die Zielfunktionswerte sind nicht fallend, d.h.
+\[
+	\_x(J_i)_p \le \_x(J_{i+1})_p \qquad i\in \N
+\]
+Falls das Problem nicht entartet ist und eine Optimallösung besitzt, bricht die Folge ab mit einer Basis $J_m$, sodass $\_x(J_m)$ eine Optimallösung ist und
+\[
+	\_x(J_i)_p < \_x(J_{i+1})_p
+\]
+
+\begin{alg}[Simplexschritt]
+	\begin{algorithmic}	
+		\Input $J=(j_1,\dotsc, j_m)$
+		\Assume $J$ ist zulässige Basis, $p\in J$
+		\Output $\tilde J = (\tilde j_1,\dotsc,\tilde j_m), \tilde J$ ist zulässige Basis, $p\in \tilde J$, $\_x(J)_p \le \_x(\tilde J)_p$
+		\Statex
+		\State 1.
+		\State Berechne $\_b := A_J^{-1} b$
+		\State 2.
+		\State Für $j_l = p$, berechne $\pi := e_t^TA_J^{-1}$
+		\State Für $k\in K$, berechne $c_k := \pi\cdot a_k$
+		\State 3.
+    \If{\textbf{(5.12):} $\forall k\in K\cap I : c_k\ge 0 \quad \land \quad \forall k\in K\setminus I : c_k=0 \label{eq:5.12}$}
+			\State $\_x(J)$ ist Optimallösung
+		\Else
+			\State Finde $s\in K$, sodass ($s\in K\cap I$ und $c_s<0$) oder ($s\in K\setminus I$ und $c_s\neq 0$)
+			\State Setze $\sigma := \sgn(c_s)$
+			\State 4.
+			\State Berechne $\_a := (\_a_1, \dotsc, \_a_m)^T = A_j^{-1}a_s$
+			\State 5.
+			\If {$\forall i: j_i\in I : \sigma \_a_i \le 0$}
+				\State Es gibt keine endliche Optimallösung
+			\Else
+				\State 6.
+				\State Bestimme $r\in \N$ mit $j_r\in I$, sodass $\sigma \_a_r > 0$ und $\f{\_b_r}{\sigma \_a_r} = \min\left\{\f{\_b_i}{\sigma \_a_i} \Big| i \text{ mit } j_i\in I \land \sigma \_a_i > 0\right\}$
+				\State 7.
+				\State $\tilde J$ ist ein Indexvektor, da $s$ enthält und die Elemente von $J$, außer $j_r$.
+				\State $\tilde J = (j_1,\dotsc, j_{r-1},j_{r+1},\dotsc,j_m,s)$
+			\EndIf
+		\EndIf
+	\end{algorithmic}
+\end{alg}
+\setcounter{equation}{12}
+\begin{note}{Erläuterung}
+	Sei $J$ eine zulässige Basis mit $j_t=p$.
+	Schritt 1 liefert die Basislösung $\_b = \_x$ zu $J$.
+	Wegen \ref{eq:5.9} gilt mit $j_t = p$
+	\begin{align*}
+		x_p &= e_t^Tx_j \\
+			   &= \_x_p - e_t^T A_j^{-1}A_kx_k \tag{5.13}\label{eq:5.13} \\
+			   &= \_x_p - \pi A_kx_k \\
+			   &= \_x_p - c_kx_k
+		&= \_x_p - \sum_{k\in K}c_k x_k
+	\end{align*}
+	\setcounter{equation}{13}
+	wobei $c_k = (c_{k_1}, \dotsc, c_{k_{n-m}})$.
+	
+	Falls 5.12 erfüllt ist, gilt für jede zulässige Lösung $x$ mit $x_i \ge 0 \forall i\in I$: %\ref{eq:5.12}
+	\[
+		x_p = \_x_p - \sum_{k\in K}c_k x_k = \_x_p - \sum_{k\in K\cap I}c_k x_k \le \_x_p
+	\]
+	Also muss in diesem Fall $\_x$ die Optimallösung sein.
+	
+	Falls 5.12 nicht erfüllt ist, gibt es ein $s\in K$ mit %\ref{eq:5.12}
+	\begin{equation}
+		\label{eq:5.14} 
+		s\in K \cap I \land c_s < 0
+	\end{equation}
+	oder
+	\begin{equation}
+		\label{eq:5.15}
+		s\in K\setminus I \land c_s \neq 0
+	\end{equation}
+	Nach \ref{eq:5.13} führt eine Verkleinerung von $c_sx_s$ zu einer Vergrößerung von $x_p$.
+	Betrachte zu $\theta\in \R$ den Vektor $x(\theta) \in \R^n$ mit
+	\begin{align*}
+		x(\theta)_j &= \_b - \theta \sigma A_j^{-1}a_s = \_b - \theta \sigma \_a\\
+		x(\theta)_s &= \theta \sigma\\
+		x(\theta)_k &= 0 \qquad \forall k\in K\setminus \{s\}
+	\end{align*}
+	\[
+		Ax(\theta) = A_j x(\theta)_j + a_s x(\theta)_s = A_j\_b - \theta \sigma a_s + a_s \theta \sigma = b
+	\]
+	\begin{equation*}
+		x(\theta)_p \stackrel{\ref{eq:5.13}}= \_x_p -c_s x(\theta)_s = \_x_p - c_s \theta \sigma = \_x_p + \theta |c_s|
+	\end{equation*}
+	d.h. die Zielfunktion ist streng monoton steigend in $\theta$.
+
+	Wir suchen das größte $\theta$ sodass $x(\theta)_l \ge 0 \forall l\in I$.
+	Nach \ref{eq:5.16} ist das äquivalent zu
+	\begin{equation}
+		\label{eq:5.16}
+		x(\theta)_{j_i} = \_b_i - \theta \sigma \_a_i \ge 0 \qquad \forall i : j_i \in I
+	\end{equation}
+	da $x(\theta)_k=0 \forall k\in K\setminus \{s\}$.
+	Falls $\sigma \_a_i \le 0 \forall i: j_i \in I$, so ist $x(\theta)_p$ nicht nach oben beschränkt, d.h. es gibt kein endliches Optimum.
+
+	Andernfalls gibt es ein maximales $\_\theta$ für das $x(\_\theta)_{ji} \ge 0$ gilt, d.h. für dieses maximales $\_\theta$ gilt: $x(\_\theta)_{ji} = 0$ mit 
+	\[
+		\_\theta = \f {\_b_r}{\sigma \_a_r} = \min \{\f{\_b_i}{\sigma \_a_i} : i : j_i\in I \land \sigma \_a_i > 0\}
+	\]
+	Dies bestimmt ein $r$ mit $j_r\in I, \sigma \_a_r > 0$ und
+	\begin{equation}
+		\label{eq:5.17}
+		x(\theta)_{j_r} = \_b_r - \_\theta \sigma \_a_r = 0
+	\end{equation}
+	$x(\_\theta)$ ist zulässige Lösung.
+	Desweiteren ist $\_\theta \ge 0$.
+	Falls $J$ nicht entartet ist, gilt
+	\[
+		(\_x)_{j_r} > 0 \quad \land \quad (x(\_\theta))_{j_r} \implies \_\theta > 0 \stackrel{eq:5.17}\implies \_x_p < x(\_\theta)_p
+	\]
+	Nun ist $x(\_\theta)$ die eindeutig bestimmte Lösung von $Ax=b$ mit $x(\_\theta)_{j_r}=0$ und $x(\_\theta)_k = 0$ für $k\in K\setminus \{s\}$, d.h. $x(\_\theta)_{\tilde K} = 0$ wobei $K=(K\setminus \{s\})\cup \{j_r\}$.
+
+	D.h. $x(\_\theta)$ ist Basis Lösung zur jeder Basis $\tilde J$ mit
+	\[
+		\tilde J = (J\setminus \{j_r\}) \cup \{s\}
+	\]
+\end{note}
+
+\begin{note}
+	$j_r$ ist vorzeichenbeschränkt.
+	Sobald eine freie Variable Basisvariable ist, bleibt sie es.
+	Insbesondere ist $p$ nicht vorzeichenbeschränkt, also gilt
+	\[
+		p\in J \implies p\in \tilde J
+	\]
+	D.h. wir können den Simplexschritt iterieren:
+	\[
+		J_0 \leadsto J_1 \leadsto J_2 \leadsto \dotsb
+	\]
+	Im nicht-entarteten Fall ist aber
+	\[
+		x_p(J_i) < x_p(J_{i+1}) \implies \forall k>0  : J_i \neq J_{i+k}
+	\]
+	Die $J_i$ können sich also nicht wiederholen.
+	Damit bricht das Verfahren nach endlich vielen Schritten ab.
+\end{note}
+
+\begin{st}
+	\label{st:5.6}
+	Sei $J_0$ eine zulässige Basis mit $p\in J_0$.
+	Wenn das Problem nicht entartet ist, erzeugt die Simplexmethode eine endliche Folge zulässiger Basen $J_i$ mit $p\in J_i$ und $x_p(J_i) < x_p(J_{i+1})$.
+	Die letzte Basislösung ist entweder die Optimallösung oder es gibt keine endliche Optimallösung.
+\end{st}
+
+\begin{seg}{Woher bekommen wir die Anfangsbasis?}
+	Wir betrachten nur einen Spezialfall:
+
+	Minimiere den Ausdruck 
+	\[
+		\sum_{k=1}^nc_kx_k \qquad x\in \R^n
+	\]
+	unter den Bedingungen
+	\[
+		\sum_{k=1}a_{ik}x_k \le b_i \qquad i=1,\dotsc,m
+	\]
+	und
+	\[
+		x_i \ge 0 \qquad i\in I_1\subset \{1,\dotsc,n\}
+	\]
+	Wir nehmen an, dass für alle $i=1,\dotsc,m$ gilt: $b_i\ge 0$.
+	Mit Schlupfvariablen ergibt sich nun das äquivalente Problem
+	\begin{align*}
+		\sum_{k=1}^n(a_{ik}+x_k)
+		\sum_{k=1}^n c_1x_1 + x_{n+m+1}&=0
+		x_i &\ge 0 \qquad i\in I_1 \cup\{n+1,\dotsc n+m\}
+	\end{align*}
+	Die entspricht der Standardform mit
+	\[
+		\tilde A = \begin{pmatrix} A & I & 0 \\ C^T & 0 & 1\end{pmatrix}, \tilde b = \begin{pmatrix}b_1\\\vdots \\ b_m \\0\end{pmatrix}
+	\]
+	$\tilde A x = \tilde b$, $p=n+m+1$, $I=I_M\cup\{n+1,\dotsc,n+m\}$
+	
+	$J=\{n+1,\dotsc,n+m+1\}$ ist eine zulässige Basis.
+	$J$ ist eine geeignete Startbasis.
+\end{seg}
+% \begin{note}
+% Die Invertierbarkeit des Blocks von $\tilde A$ ist gerade die Voraussetzung, da linear unabhängige Basis.
+% \end{note}
+
+
+\section{Vorkonditionierer}
+
+Eine kleine Konditionszahl $\kappa(A)$ macht die Lösung von $Ax=b$ deutlich schneller und (numerisch) stabiler.
+Für schlecht konditionierte Matrizen $A$ versucht man Matrizen $P_L$ und $P_R$ zu finden, sodass
+\[
+	P_LAP_R \approx I
+\]
+Statt $Ax=b$ löst man nun
+\[
+	P_LAP_R\tilde x = P_Lb \quad \text{und} \quad P_R\tilde x = x
+\]
+\begin{df}
+	\label{df:6.1}
+	Das System
+	\begin{align*}
+		P_L A P_R\tilde x &= P_L b\\
+		x&=P_R\tilde x
+	\end{align*}
+	heißt \emph{vorkonditioniertes Problem}.
+	Ist $P_L(P_R)\neq I$, dann heißt das System links (rechts) vorkonditioniert und $P_L$ Linksvorkonditionierer ($P_R$ Rechtsvorkonditionierer).
+	Falls $P_L\neq I$ und $P_R\neq I$ heißt das System beidseitig vorkonditioniert.
+\end{df}
+
+Um den Aufwand gering zu halten, muss sich $P_LAP_R$ leicht berechnen lassen, also z.B. $P_L,P_R$ Diagonalmatrizen.
+
+Für symmetrische Matrizen $A$ wählt man $P_R=P_L^T$.
+\[
+	P_LAP_L^T
+\]
+ist wiederum symmetrisch und positiv definit falls $A$ positiv definit war (und $\det(P_L)\neq 0$).
+
+
+\subsection{Skalierungen}
+
+
+Skalierungen sind die einfachsten Vorkonditionierer.
+Sie sind Multiplikationen mit Diagonalmatrizen.
+\[
+	D=\begin{pmatrix}
+		d_{11} & \cdots & 0\\
+		\vdots & \ddots & \vdots\\
+		0 & \cdots & d_{nn}
+	\end{pmatrix}
+\]
+Die häufigsten Skalierungen sind
+\begin{enumerate}
+	\item
+		Skalierung mit dem Diagonalelement.
+		Ist $a_{ii}\neq 0$ für alle $i=1,\dotsc,n$, wählt man
+		\[
+			d_{ii}=\frac 1{a_{ii}}
+		\]
+		\begin{note}
+			\[
+			A = \begin{pmatrix}10^{-2} & 0 \\ 0 & 10^{-2}\end{pmatrix} 
+			\leadsto P_LA = \begin{pmatrix}1&0\\0&1\end{pmatrix}
+			\]
+		\end{note}
+	\item
+		Zeilen- oder Spaltenskalierung bezüglich $\|\cdot\|_1$
+		\begin{align*}
+			d_{ii} &= \f 1{\sum_{j=1}^n |a_{ij}|} \qquad i=1,\dotsc,n \qquad \text{Zeilenskalierung}\\
+			d_{jj} &= \f 1{\sum_{i=1}^n |a_{ij}|} \qquad j=1,\dotsc,n \qquad \text{Spaltenskalierung}
+		\end{align*}
+	\item
+		Zeilen- oder Spaltenskalierung bezüglich der euklidischen Norm $\|\cdot\|_2$.
+		\begin{align*}
+			d_{ii}&=\f 1{\sqrt{\sum_{j=1}^n a_{ij}^2}} \qquad i=1,\dotsc,n \qquad \text{Zeilenskalierung}\\
+			d_{jj}&=\f 1{\sqrt{\sum_{i=1}^n a_{ij}^2}} \qquad j=1,\dotsc,n \qquad \text{Spaltenskalierung}
+		\end{align*}
+	\item
+		Zielen oder Spaltenskalierung bezüglich $\|\cdot\|_\infty$
+		\begin{align*}
+			d_{ii}&=\f 1{\max_{j=1,\dotsc,n}|a_{ij}|} \qquad i=1,\dotsc,n \qquad \text{Zeilenskalierung}\\
+			d_{jj}&=\f 1{\max_{i=1,\dotsc,n}|a_{ij}|} \qquad i=1,\dotsc,n \qquad \text{Spaltenskalierung}
+		\end{align*}
+\end{enumerate}
+Dies sind nur äußerst grobe Approximationen an $A^{-1}$.
+Immerhin gilt folgendes
+
+\begin{lem}
+	\label{lem:6.2}
+	Ist $A\in \R^{n\times n}$ und $\_D$ eine Zeilenskalierung bezüglich $\|\cdot\|_1$, dann ist
+	\[
+		\kappa_\infty(\_D A) \le \kappa_\infty (DA)
+	\]
+	für alle Skalierung $D$.
+	\begin{note}
+		Ist $\hat D$ eine Spaltenskalierung bezüglich $\|\cdot\|_1$, so gilt $\kappa_\infty (A\hat D) \le \kappa_\infty(AD)$ für alle Skalierungen $D\in \R^{n\times n}$.
+		D.h. Skalieren bezüglich $\|\cdot\|_1$ verbessert die Kondition bezüglich der $\|\cdot\|_\infty$.
+		Für die Kondition bezüglich anderer Normen kann es sich völlig anders verhalten!
+	\end{note}
+\end{lem}
+
+\begin{ex}
+	\label{ex:6.3}
+	Sei
+	\[
+		A = \begin{pmatrix}2&100\\100&100\end{pmatrix}
+	\]
+	Führe eine Skalierung mit dem Diagonalelement durch:
+	\[
+		D =\begin{pmatrix}2&0\\0&100\end{pmatrix}^{-1}
+	\]
+	dann ist
+	\[
+		DA = \begin{pmatrix}1&50\\1&1\end{pmatrix}
+	\]
+	und
+	\[
+		\kappa_2(A) = 2.69, \kappa_2(DA) = 51.06
+	\]
+	d.h. die Kondition bezüglich der Spektralnorm hat sich verzwanzigfacht.
+
+	Blinde Vorkonditionierung verbessert also nicht immer die Kondition!
+\end{ex}
+
+
+\subsection{Polynomiale Vorkonditionierer}
+
+
+Man betrachtet die Darstellung der Inversen mittels der Neumannschen Reihe.
+
+\begin{st}
+	\label{st:6.4}
+	Sei $A\in \R^{n\times n}$ mit $\rho(I-A)<1$.
+	Dann ist $A$ invertierbar und es gilt
+	\[
+		A^{-1} = \sum_{k=0}^\infty (I-A)^k
+	\]
+	Insbesondere konvergiert die Neumannsche Reihe $\sum_{k=0}^\infty (I-A)^k$.
+	\begin{proof}
+		Angenommen es existiert $x\neq 0$ mit $Ax=0$, dann gilt
+		\[
+			(I-A)x = x-Ax = x
+		\]
+		Also ist $x$ Eigenvektor von $(I-A)$ zum Eigenwert 1, was ein Widerspruch zu $\rho(I-A)<1$ darstellt.
+		Also ist $A$ invertierbar.
+
+% 		Betrachte die Partialsummen
+% 		\[
+% 			P_m := \sum_{k=0}^m(I-A)^k
+% 		\]
+% 		Es ist 
+% 		\[
+% 			A \cdot P_m := A \sum_{k=0}^m(I-A)^k = \sum_{k=0}^m A^k - A^{k+1} = A^0 - A^{m+1} = I - A^{m+1}
+% 		\]
+		Es ist
+		\[
+			\rho(I-A) < 1
+		\]
+		Also existiert eine Norm $\|\cdot\|$ auf $\R^n$, so dass in der assoziierten Norm $\|I-A\| < 1$.
+		Damit
+		\[
+			\|P_n - P_m\| = \left\|\sum_{k=n+1}^m(I-A)^k\right\| \le  \sum_{k=n+1}^m\|I-A\|^k \le \sum_{k=n+1}^\infty \|I-A\|^k \to 0 \qquad (n\to \infty)
+		\]
+		Die Partialsummen bilden eine Cauchy-Folge, also konvergieren sie.
+
+		$B:= I-A$
+		\[
+			(I-B)^{-1} = \sum_{k=0}^\infty B^k
+		\]
+		\[
+			(I-B)\sum_{k=0}^\infty B^k = \sum_{k=0}^\infty B^k - \sum_{k=0}^\infty B^{k+1} = I
+		\]
+	\end{proof}
+	\begin{note}
+		Die Voraussetzung $\rho(I-A)<1$ ist sehr eingeschränkt.
+		Bei strikt diagonaldominantem $A$ lässt sich dies umgehen.
+		\[
+			D := \begin{pmatrix}\f 1{a_{11}} & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & \f 1{a_{nn}}\end{pmatrix}
+		\]
+		Dann ist
+		\[
+			\|I - DA\|_\infty = \max_{i=1,\dotsc, n} \underbrace{\sum_{j=1\land j\neq i}^n \f{|a_{ij}|}{|a_{ii}|}}_{<1} < 1
+		\]
+		Also ist $\rho(I-DA) < 1$ und dann mit dem Satz
+		\[
+			A^{-1}D^{-1} = (DA)^{-1} = \sum_{k=0}^\infty (I-DA)^k
+		\]
+		\[
+			A^{-1} = \sum_{k=0}^\infty (I-DA)^k D
+		\]
+		Die Inverse $A^{-1}$ lässt sich als Partialsumme der Neumannschen Reihe $P_m = \sum_{k=0}^m(I-DA)^kD$ approximieren.
+		$P_m$ kann sowohl als Links-, als auch als Rechts-Vorkonditionierer benutzt werden.
+		Bei iterativen Verfahren muss nicht $P_m$ berechnet werden, sondern Produkte $P_m\cdot z$ mit $z\in \R^n$. 
+	\end{note}
+\end{st}
+
+
+\begin{seg}{Exkurs/Motivation}
+	\[
+		p(x) = x^3 + 4x^2 + 2x + 5
+	\]
+	Soll ausgewertet werden mit möglichst wenig Rechen- und Speicheraufwand.
+	Dazu schreiben wir das Polynom um:
+	\[
+		p(x) = x^2(x+4) + 2x + 5 = x(x(x+4)+2)+5
+	\]
+
+	\begin{alg}[Horner-Schema]
+		\label{alg:6.5}
+		\begin{algorithmic}
+			\Input Matrix $A$, Vektor $z$
+			\Output $b^{(m)} = P_mz = \sum_{k=0}^m (I-A)^kz$
+			\Statex
+			\State $b^{(0)} \gets z$
+			\For {$i=1,\dotsc, m$}
+			\State $b^{(i)} \gets z + (I-A)b^{(i-1)}$
+			\EndFor
+		\end{algorithmic}
+	\end{alg}
+	Somit ist der Aufwand $m\cdot n^2$ Multiplikationen.
+	Für kleines $m$ ist der Aufwand gegenüber der erhofften Beschleunigung/der höheren Genauigkeit vernachlässigbar.
+\end{seg}
+
+
+\subsection{Vorkonditionerung mit Splitting}
+
+
+Bei den iterativen Lösern hatten wir $A$ zerlegt als $A=D-L-R$.
+Diese Zerlegung kann man auch zur Vorkonditionierung nutzen, z.B. kann man 
+\begin{align*}
+	P_J &= D^{-1} \qquad \text{Jacobi-Splitting (Skalierung)}\\
+	P_{GS} &= (D-L)^{-1} \qquad \text{Gauss-Seidel-Splitting}
+\end{align*}
+Statt $P_{GS}$ auszurechnen und $P_{GS}z$ zu berechnen, löse Gleichungssysteme der Form
+\[
+	(D-L)x = z
+\]
+mittels Vorwärtssubstitution.
+
+
+\subsection{Unvollständige Cholesky-Zerlegung}
+
+
+Zerlege $A$ in
+\[
+	A=LL^T + F
+\]
+Der Speicheraufwand für $L$ soll dem für $A$ entsprechen.
+$A$ symmetrisch und positiv definit.
+
+Die Zerlegung $A=LL^T + F$ heißt \emph{unvollständige Cholesky-Zerlegung}, falls
+\begin{enumerate}[(i)]
+	\item
+		$l_{ij} = 0$ für alle $i,j$ mit $a_{ij}=0$
+	\item
+		$(LL^T)_{ij} = a_{ij}$ für alle $i,j$ mit $a_{ij}\neq 0$
+\end{enumerate}
+
+\begin{alg}[Unvollständige Cholesky Zerlegung]
+	\label{alg:6.6}
+	\begin{algorithmic}
+		\Input Matrix $A$
+		\Assume $A$ symmetrisch und positiv definit
+		\Output $A=LL^T + F$
+		\Statex
+		\State Setze $l_{ij} = 0$ für $a_{j}=0$
+		\For {$i=1,\dotsc, n$}
+			\State $\displaystyle l_{ii} = \sqrt{a_{ii}-\sum_{j=1\land a_{ij}\neq 0}^{i-1}l_{ij}^2}$
+			\For {$k=i+1,\dotsc,n$}
+				\State $\displaystyle l_{ki} = \f 1{l_{ii}} \left(a_{ki} - \sum_{\substack{j=1\\ a_{ij}\neq   \land a_{kj}\neq 0}}^{i-1}l_{kj}l_{ij}\right)$
+			\EndFor
+		\EndFor
+	\end{algorithmic}
+	$L^{-1}A(L^{-1})^T$ diese vorkonditionierte Matrix ist wieder symmetrisch und positiv definit.
+	\begin{note}
+		Es gibt einen ähnlichen Ansatz zur unvollständigen LR-Zerlegung
+	\end{note}
+\end{alg}
+
+
+
+\end{document}
