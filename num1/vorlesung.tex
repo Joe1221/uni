@@ -4518,6 +4518,257 @@ Der Beweis nutzte die Intervallschachtelung.
 	\end{itemize}
 \end{nt*}
 
+\subsection{Nullstellensuche bei Polynomen}
+
+Explizite Formeln zur Berechnung von Nullstellen von Polynomen existieren nur für Polynome bis Grad 4.
+Für allgemeine Polynome sind daher numerische Verfahren erforderlich, z.B. das Newtonverfahren.
+
+\begin{st}[Monotone Konvergenz für Newton-Verfahren] \label{3.7}
+	Sei $p\in \P_n$ mit reeller Nullstelle $x_n$ mit $x_n \ge \Re(x_i)$ für alle anderen Nullstellen $x_i \in \C$, $i=1,\dotsc,n-1$.
+	Dann liefert das Newton-Verfahren für alle Startwerte $x^{(0)} > x_n$ eine streng monoton fallende Folge $(x^{(k)})_{k\in\N}$ mit $\lim_{k\to\infty} x^{(k)} = x_n$.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Dies ist wesentlich mehr als nur „lokale Konvergenz“ in einer kleinen $\delta$-Kugel um $x_n$ (vgl. \ref{3.4}):
+				Für alle Anfangswerte auf einer Halbgeraden von $\R$ ist Konvergenz zu beobachten.
+			\item
+				Die Aussage gilt entsprechend modifiziert für die „kleinste Nullstelle“.
+			\item
+				Falls $x_n \not\in \R$, dann ist auch $\_{x_n}$ eine Nullstelle des reellen Polynoms $p$.
+				Das Monom
+				\[
+					(x-x_n){x-\_{x_n}} = x^2 - rx - q
+					\qquad r,q \in \R
+				\]
+				ist ein Teiler von $p$.
+				Mit dem \emph{Verfahren von Bairstow} bestimmt man $r,q$ derart, dass die Polynomdivision aufgeht.
+				Dies ergibt $x_n$ und $\_{x_n}$ durch Lösen der quadratischen Gleichung.
+				(Details: Stoer-Bulirsch 5.8)
+			\item
+				Wenn man $x_n \in \R$ gefunden hat, führt eine „\emph{Deflation}“ zum Polynom $\hat p(x) := \f {p(x)}{x-x_n}$.
+				Dies wird zur Suche der nächsten Nullstelle verwendet.
+				Iterativ bekommen wir so „alle“ Nullstellen von $p$.
+		\end{itemize}
+	\end{note}
+	\begin{note}
+		Sei o.B.d.A. $p$ normiert, dann ist
+		\[
+			p(x) = \prod_{i=1}^n (x-x_i)
+		\]
+		und
+		\[
+			p'(x) = \sum_{k=1}^n \prod_{\substack{i=1 \\ i\neq k}}^n (x-x_i) = \sum_{k=1}^n \f 1{x-x_k} p(x)
+		\]
+		Seien $y_1,\dotsc,y_l \in \R$ die reellen Nullstellen und $z_1,\dotsc,z_m,\_{z_1}, \dotsc, \_{z_m} \in \C \setminus \R$ die komplexen Nullstellen $p$:
+		\[
+			p(x) = \prod_{i=1}^l (x-y_i)\prod_{k=1}^m (x-z_k)(x-\_{z_k})
+		\]
+		Wir schreiben
+		\begin{align*}
+			p'(x)  
+			&= \bigg( \sum_{i=1}^l \f 1{x-y_i} + \sum_{k=1}^m \Big(\f 1{x-z_k} + \f 1{x-\_{z_k}}\Big) \bigg) p(x) \\
+			&= \bigg( \sum_{i=1}^l \f 1{x-y_i} + \sum_{k=1}^m \f {2x - 2\Re(z_k)}{(x-z_k)(x-\_{z_k})}\bigg) p(x)
+		\end{align*}
+		Für $x>x_n$ gilt $x\neq z_k, x\ge \R(z_k)$, $x > y_i$ und
+		\[
+			(x-z_k)(x-\_{z_k}) 
+			= (x-z_k){\_{x-z_k}}
+			= |x-z_k|^2
+			> 0
+		\]
+		Außerdem $2x-2\Re(z_k) \ge 0$ und $x-y_i \ge 0$.
+		Also ist $p(x) > 0$ und auch $p'(x) > 0$ und
+		\[
+			\Phi(x) := x - \f {p(x)}{p'(x)} < x
+		\]
+		also ist $(x^{(k)})$ streng monoton fallend falls $x^{(0)} > x_n$.
+
+		Da alle Summanden in der Darstellung von $p'(x)$ nichtnegativ sind, schätzen wir alle bis auf einen nach unten durch $0$ ab:
+		\[
+			p'(x) \ge \f 1{x-x_n}p(x)
+		\]
+		Damit ist
+		\[
+			\f {p(x)}{p'(x)} \le (x-x_n)
+			\implies
+			\Phi(x) = x - \f {p(x)}{p'(x)} \ge x-(x-x_n) = x_n
+		\]
+		also ist $(x^{(k)})$ nach unten durch $x_n$ beschränkt und die Folge konvergiert gegen ein $x^*$ mit $x_n \le x^*$.
+
+		$x^*$ ist Nullstelle von $p$, denn
+		\[
+			\Phi(x^{(k)}) = x^{(k+1)}
+			\to
+			\Phi(x^*) = x^*
+			\qquad k\to\infty
+		\]
+		also $x^* = x^* - \f {p(x^*)}{p'(x^*)}$ und $p(x^*) = 0$, also $x^* \le x^n$ und damit $x^*=n$.
+	\end{note}
+\end{st}
+
+\begin{st}[Induzierte Matrixnormen] \label{3.8}
+	Zu den Vektornormen definiert für Vektoren $x=(x_i)_{i=1}^n \in \C^n$.
+	\begin{align*}
+		\|x\|_1 &:= \sum_{i=1}^n |x_i|
+		\|x\|_\infty &:= \max_{i=1}^n |x_i|
+	\end{align*}
+	sind die induzierten Matrixnormen für $A=(a_{ij}) \in \C^{n\times n}$
+	\begin{alignat*}{3}
+		\|A\|_\infty &:= \sup_{x\in \C^n} \f{\|Ax\|_\infty}{\|x\|_\infty} = \max_{i=1,\dotsc,n} \sum_{j=1}^n |a_{ij}| &
+			& \qquad\text{Zeilensummennorm} \\
+		\|A\|_1 &:= \sup_{x\in \C^n} \f{\|Ax\|_\infty}{\|x\|_\infty} = \max_{j=1,\dotsc,n} \sum_{i=1}^n |a_{ij}| &
+			& \qquad\text{Spaltensummennorm}
+	\end{alignat*}
+\end{st}
+
+Mit diesem Hilfssatz lassen sich die folgenden Schranken für Nullstellen von Polynomen beweisen.
+Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemäß \ref{3.7} monotone Konvergenz gewährleistet.
+
+\begin{st}[Nullstellenabschätzung für Polynome] \label{3.9}
+	Sei $p(x) = \sum_{k=0}^n a_k x^k$ mit $a_k \in \R$ normiert ($a_n = 1$) und $x^* \in \C$ eine Nullstelle von $p$.
+	Dann gilt
+	\[
+		|x^*| \le \min(A,B)
+	\]
+	mit
+	\[
+		A := \max\bigg(1, \sum_{k=0}^{n-1} |a_k| \bigg) \qquad
+		B := \max\bigg(|a_0|, 1+\max_{k=1,\dotsc,n-1} |a_k|\bigg)
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Falls $p\in \P_n$ mit $a_n \neq 1$, verwendet man $\hat p(x) := \f {p(x)}{a_n}$ mit denselben Nullstellen.
+			\item
+				Für $p(x) = x^2-2$ ergibt sich $A=B=2$, tatsächlich ist $|\pm \sqrt2| \le 2$.
+			\item
+				Für weitere Schranken siehe Plato, Stoer/Bulirsh.
+		\end{itemize}
+	\end{note}
+	\begin{proof}
+		Setze
+		\[
+			M := \begin{pmatrix}
+				0 & \cdots & -a_0 \\
+				1 & \ddots & \vdots \\
+				\vdots & \ddots & 0 & \vdots \\
+				0 & \cdots & 1 & -a_{n-1}
+			\end{pmatrix}
+			\in \R^{n\times n}
+		\]
+		Wir zeigen
+		\[
+			\det(\lambda I - M) = p(\lambda) \qquad \forall \lambda \in \R
+		\]
+		durch Entwicklung nach der letzten Zeile.
+		\[
+			\lambda I - M := \begin{pmatrix}
+				\lambda & \cdots & a_0 \\
+				-1 & \ddots & \vdots \\
+				\vdots & \ddots & \lambda & \vdots \\
+				0 & \cdots & 1 & -1 + a_{n-1}
+			\end{pmatrix}
+		\]
+		Es gilt
+		\begin{align*}
+			\det(\lambda I - M) = (-1)^{n+n-1}(-1) \det \begin{pmatrix}
+				\lambda & \cdots & & a_0 \\
+				-1 & \ddots & & \vdots \\
+				\vdots & \cdots & \lambda & \vdots \\
+				0 & \cdots & -1 & a_{n-2}
+			\end{pmatrix}
+			 + (-1)^{n+n} (\lambda + a_{n-1}) \underbrace{\det (\dotsc)}_{=\lambda^{(n-1)}}
+		\end{align*}
+		Wegen
+		\begin{align*}
+			\det T_k = \det \begin{pmatrix}
+				\lambda & \cdots & \cdots & a_0 \\
+				-1 & \ddots &  &\vdots \\
+				\vdots & \ddots & \lambda &\vdots \\
+				0 & \cdots & -1 & a_k 
+			\end{pmatrix}
+			&= (-1)(-1) 
+			\det \begin{pmatrix}
+				\lambda & \cdots & \cdots & a_0 \\
+				-1 & \ddots &  &\vdots \\
+				\vdots & \ddots & \lambda &\vdots \\
+				0 & \cdots & -1 & a_{k-1} 
+			\end{pmatrix}
+			+ 1 \cdot a_k 
+			\det \begin{pmatrix}
+				\lambda & &  0 \\
+				-1 & \ddots &  \vdots \\
+				\vdots & \ddots & \lambda  \\
+				0 & \cdots & -1 & 
+			\end{pmatrix} \\
+			&= \det T_{k-1} + a_k \lambda^k
+		\end{align*}
+		Also ist
+		\[
+			\det(\lambda I-M) = \underbrace{(\lambda +a_{n-1})}_{=\lambda^n + a_{n-1}\lambda^{n-1}} \lambda^{n-1} + a_{n-2} \lambda^{n-2} + a_{n-3}\lambda^{n-3} + \dotsb + a_1 \lambda + a_0 = p(\lambda)
+		\]
+		Also ist $x^*$ Nullstelle von $p$ genau dann, wenn $x^*$ Eigenwert von $M$ ist.
+
+		Sei $x^*$ Eigenwert von $M$ und $v\in \C^n$ der zugehörige Eigenvektor, dann ist
+		\[
+			|x^*| 
+			= \f {\|x^*v\|_1}{\|v\|_1} 
+			= \f {\|Mv\|_1}{\|v\|_1}
+			\le \sup_{y\in\C^n} \f {\|My\|_1}{\|y\|}
+			= \|M\|_1
+			= \max\bigg(1, \sum_{k=0}^{n-1} |a_k| \bigg)
+			= A
+		\]
+		Analog mit der Zeilensummennorm für $B$:
+		\[
+			|x^*| \le \|M\|_\infty = \max\Big( |a_0|, 1 + \max_{k=1,\dotsc,n-1} |a_k| \Big)
+		\]
+	\end{proof}
+\end{st}
+
+\subsection{Allgemeine Fixpunktverfahren}
+
+\begin{df}[Iterationsverfahren] \label{3.10}
+	Zu $\Phi: \R^n \to \R^n$ stetig und $x^{(0)} \in \R^n$ definieren wir
+	\[
+		x^{(k+1)} := \Phi(x^{(k)})
+	\]
+	Dieses $\Phi$ nennen wir \emph{Iterationsverfahren}.
+	\begin{note}
+		Falls $x^* = \lim_{k\to \infty} x^{(k)}$, so ist $x^*$ Fixpunkt von $\Phi$, d.h. $\Phi(x^*) = x^*$, denn
+		\[
+			x^* = \lim_{k\to \infty} x^{(k)} = \lim_{k\to \infty} x^{(k+1)} = \lim_{k\to \infty} \Phi(x^{(k)}) = \Phi\Big(\lim_{k\to \infty}\Big) = \Phi(x^*)
+		\]
+		daher auch wird soein Verfahren auch „\emph{Fixpunktiterationsverfahren}“ genannt.
+	\end{note}
+\end{df}
+
+\begin{df}[Konvergenzordnung] \label{3.11}
+	Wir nennen ein iterationsverfahren \emph{lokal konvergent} von mindestens Ordnung $p$, wenn ein $\delta > 0$ existiert, sodass $\forall x^{(0)} \in B_\delta(x^*)$ gilt
+	\[
+		\|x^{(k+1)} - x^*\| \le C \cdot \|x^{(k)} - x\|^p
+		\qquad \forall k\in \N
+	\]
+	für ein $p$ und ein $C > 0$.
+	Falls $p=1$ muss zusätzlich $C < 1$ gelten.
+
+	Das maximale $p$ nennen wir \emph{Konvergenzordnung} des Verfahrens.
+	Für $p=1$ und $p=2$ sprechen wir von linearer bzw. quadratischer Konvergenz.
+	\begin{note}
+		Das erfasst genau die „lokal quadratische“ Konvergenz des Newton-Verfahrens bei einfachen Nullstellen.
+	\end{note}
+\end{df}
+
+\begin{st}[Konvergenzordnung für Iterationsverfahren, $n=1$] \label{3.12}
+	Sei $\Phi \in C^p(\R)$ eine stetige Iterationsfunktion mit Fixpunkt $x^*$.
+	Das Iterationsverfahren ist lokal konvergent mit mindestens Ordnung $p$ genau dann, wenn
+	\begin{align*}
+		\begin{cases}
+			\Phi^{(m)}(x^*) = 0 \qquad m=1,\dotsc,p-1 & p \ge 2 \\
+			|\Phi'(x^*)| < 1 & p=1
+		\end{cases}
+	\end{align*}
+\end{st}
 
 
 \section{Optimierung}
