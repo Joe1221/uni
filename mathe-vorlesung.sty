@@ -32,7 +32,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{mathtools}
-\usepackage[amsmath,hyperref,thmmarks]{ntheorem}			% Alternative theorems für leichteres Anpassen
+\usepackage[hyperref,thmmarks]{ntheorem}			% Alternative theorems für leichteres Anpassen
 %\usepackage{tikz}
 
 
@@ -57,7 +57,8 @@
 
 \theoremstyle{break} 								% Vordefinierter Style mit Zeilenumbruch
 \theorembodyfont{\normalfont} 						% Aufrecht statt kursiv im body-Teil
-\theorempreskipamount 2.5em 								% Abstand vor Theroem
+% Deprecated: (use \theorempreskip instead)
+\theorempreskipamount 2.5em 						% Abstand vor Theroem
 \theoremindent 2ex 									% Theroem einrücken
 \theoremheaderfont{\kern-1em\normalfont\bfseries} 	% Überschrift wieder ausrücken
 
@@ -84,14 +85,27 @@
 \theoremheaderfont{\kern-1em\bfseries\small\itshape}% Kursiv und kleiner als oben
 
 \newtheorem*{note}{Bemerkung}
+
+% Beweis
+% TODO: Beweissymbol taucht nicht auf, wenn Beweis mit einer environment abgeschlossen wurde
 \theoremsymbol{\ensuremath{\square}}
-	\newtheorem*{proof}{Beweis}
+\newtheorem*{proof}{Beweis}
 \theoremsymbol{}
 
+
+
 % Segment-Environment für kleinere gedankliche Abschnitte
+% TODO: Abstand ist nicht optimal, wenn vor segment-Umgebung eine andere environment war und kein text.
 \theoremstyle{emptybreak}
-\theoremheaderfont{\kern-1em\bfseries\small}
-\newtheorem{seg}{}
+\theoremheaderfont{\kern-2em\bfseries\small}
+\theoremindent 2em 									% Theroem einrücken
+\theoremprework{
+	%\setlength\theorempreskipamount{5ex}\setlength\theorempostskipamount{5cm}
+	\ \\ % Erzwinge Absatz, sonst komische Überschneidungsprobleme
+	\vspace{-2em}
+	%\topsep
+}
+\newtheorem{seg}{abc}
 
 
 
@@ -162,9 +176,6 @@
 \renewcommand{\l}{\left}
 \renewcommand{\r}{\right}
 
-\newcommand{\gt}{>}
-\newcommand{\lt}{<}
-
 \renewcommand{\vec}[1]{\overrightarrow{#1}}
 
 \newcommand{\stack}[2]{\stackrel{\mathclap{#1}}{#2}}
@@ -173,20 +184,13 @@
 \newcommand{\<}{\langle}
 \renewcommand{\>}{\rangle}
 
-
-%\newenvironment{seg}[1]{
-%	\underline{#1}
-	%\begin{adjustwidth}{1.3em}{0em}
-%}{
-	%\end{adjustwidth}
-%}
-
 % Algorithmen
 \newcommand{\Input}{\Require}
 \newcommand{\Assume}{\Require}
 \newcommand{\Assert}{\Require}
 \newcommand{\Output}{\Ensure}
 
+% Typos, etc.
 \newcommand{\jota}{\iota}
 \newcommand{\my}{\mu}
 

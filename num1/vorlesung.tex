@@ -40,7 +40,7 @@ oder allgemeiner so dass
 			\]
 		\item
 			Spline-Interpolation:
-			Sei $a=x_0\lt x_1 \lt \dotsb \lt x_n = b$, $q,r\in \N_0$, $q\le r$
+			Sei $a=x_0< x_1 < \dotsb < x_n = b$, $q,r\in \N_0$, $q\le r$
 			\[
 			V := \{f\in \C^q([a,b]) | f_{[x_i,x_{ibm}]}\in \P_r, i=0,\dotsc,n-1\}
 			\]
@@ -137,7 +137,7 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 			\item Wegen $L_k^n(x_i)=\delta_{ik}$ nennt man die $\{L_k\}_{k=0}^n$ eine nodale Basis
 			\item Lösen eines LGS entfällt, da zugehörige Matrix $A=I$.
 			\item $L_k^n(x)$ recht aufwändig auszuwerten
-			\item Die Basen sind nicht hierarchisch, d.h. ${L_k^n} \not\subset \{L_k^{n'}\}$ für $n'\gt n$.
+			\item Die Basen sind nicht hierarchisch, d.h. ${L_k^n} \not\subset \{L_k^{n'}\}$ für $n'> n$.
 		\end{enumerate}
 	\end{note}
 \end{st}
@@ -160,7 +160,7 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 	\begin{enumerate}[i)]
 		\item $N_k^n(x_j) = 0$ für $0\le j \le k$ 
 		\item $\{N_k^n\}_{k=0}^n$ bilden eine Basis für $\P_n$
-		\item Die Basen sind hierarchisch, d.h. $\{N_k^n\}\subset \{N_k^{n'}\}$ für $n'\gt n$
+		\item Die Basen sind hierarchisch, d.h. $\{N_k^n\}\subset \{N_k^{n'}\}$ für $n'> n$
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[i)]
@@ -2204,19 +2204,19 @@ Such $p\in \P_{n-1}$ mit $p(x_i)=f_i$, $i=1,\dotsc,m$.
 Es ergibt sich das lineare Gleichungssystem $Aa = f$.
 Definiere $a^* := A^+f$.
 
-\begin{seg}{$m=n$ (Polynominterpolation)}
+\begin{seg}[$m=n$ (Polynominterpolation)]
 	Es gilt in diesem Fall
 	\[
 		\|Aa^*-f\| = 0, \qquad \ker A = \{0\}, \qquad M = \{a^*\}, \qquad a^* = A^{-1}f
 	\]
 \end{seg}
-\begin{seg}{$m>n$}
+\begin{seg}[$m>n$]
 	Es gilt
 	\[
 		\|Aa^*-f\| > 0, \qquad \ker A = \{0\}, \qquad M = \{a^*\}
 	\]
 \end{seg}
-\begin{seg}{$m<n$}
+\begin{seg}[$m<n$]
 	Es gilt
 	\[
 		\|Aa^*-f\| = 0, \qquad \ker A \supsetneq \{0\}, \qquad \_a \in M = a^* + \ker A \implies \|a^*\| \le \|\_a\|
@@ -2273,17 +2273,17 @@ Anwendungsgebiete sind beispielsweise:
 \end{df}
 
 \begin{ex*}
-	\begin{seg}{Mittelpunktsregel ($n=0$)}
+	\begin{seg}[Mittelpunktsregel ($n=0$)]
 		\[
 			x_0 := \f {a+b}2, \qquad \omega_0 := b-a
 		\]				
 	\end{seg}
-	\begin{seg}{Trapezregel ($n=1$)}
+	\begin{seg}[Trapezregel ($n=1$)]
 		\[
 			x_0 := a, x_1 := b \qquad \omega_0 := \omega_1 := \f {b-a}2
 		\]				
 	\end{seg}
-	\begin{seg}{Simpsonregel ($n=2$)}
+	\begin{seg}[Simpsonregel ($n=2$)]
 		\[
 			I_2(f) = \f {b-a}6 \l( f(a) + 4f\l(\f {a+b}2\r) + f(b) \r)
 		\]
@@ -3755,21 +3755,21 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 	(Anmerkung: eine Wahl für $q2$ in Richardson-Extrapolation zu wählen bedeutet, dass wir bezüglich $b(h)=\sum_{n\in \N} h^{qn} c_n$
 \end{note*}
 \subsection{Weiterführende Techniken}
-\begin{seg}{Adaptive Quadraturen}
+\begin{seg}[Adaptive Quadraturen]
 	Problem: Integration verfeinern, welches Bereiche mit großer Variation und Bereiche mit kleiner Variation besitzt. Es ergeben sich stets zwei grundlegende Probleme:
 	\begin{enumerate}[a)]
 		\item Zusammengesetzte Quadratur mit zu groben $h$: Bereiche mit hohen Variationen werden nicht aufgelöst. Dies führt zu einem großen Fehler
 		\item $I_h$ mit feinem h: gesamtes Intervall gut aufgelöst, aber in glatten Bereichen ergeben sich viel überflüssige Stützstellen. Dies führt zu einer langen Rechenzeit.
 	\end{enumerate}
 \end{seg}
-\begin{seg}{Idee:}
+\begin{seg}[Idee:]
 	Dies motiviert folgendes:
 	\begin{itemize}
 		\item unterschiedliche Teilintervall-Größen
 		\item automatische Anpassung der Teilintervall-Größen: Beginne mit grober Intervall-Zerlegung, Berechne Quadratur, berechne einen Fehlerschätzer für alle Teilintervalle markiere alle Teilintervalle, auf denen der Fehler zu groß ist, halbiere die markierten Intervalle und wiederhole diese Schritte bis gewünschte Genauigkeit erreicht ist.
 	\end{itemize}
 \end{seg}
-\begin{seg}{Allgemeines Prinzip:}
+\begin{seg}[Allgemeines Prinzip:]
 	\begin{figure}[ht]
 		\fbox{Lösung $\rightarrow$ Schätzung $\rightarrow$ Markierung $\rightarrow$ Verfeinerung}
 \end{figure}
@@ -4609,8 +4609,8 @@ Für allgemeine Polynome sind daher numerische Verfahren erforderlich, z.B. das 
 \begin{st}[Induzierte Matrixnormen] \label{3.8}
 	Zu den Vektornormen definiert für Vektoren $x=(x_i)_{i=1}^n \in \C^n$.
 	\begin{align*}
-		\|x\|_1 &:= \sum_{i=1}^n |x_i|
-		\|x\|_\infty &:= \max_{i=1}^n |x_i|
+		\|x\|_1 &:= \sum_{i=1}^n |x_i| \\
+		\|x\|_\infty &:= \max_{i = 1,\dotsc,n} |x_i|
 	\end{align*}
 	sind die induzierten Matrixnormen für $A=(a_{ij}) \in \C^{n\times n}$
 	\begin{alignat*}{3}
@@ -4768,6 +4768,205 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 			|\Phi'(x^*)| < 1 & p=1
 		\end{cases}
 	\end{align*}
+
+	\begin{proof}
+		Entwickle $\Phi(x)$ an der Stelle $x^*$:
+		\[
+			\Phi(x) = \sum_{m=0}^{p-1} \f {\Phi^{(m)}(x^*)}{m!}(x-x^*)^m + \f {\Phi^{(p)}(\xi)}{p!}(x-x^*)^p
+		\]
+		für ein $\xi$ zwischen $x$ und $x^*$.
+		\begin{seg}[„$\Longleftarrow$“]
+			Wegen $\Phi^{(m)}(x^*) = 0$ für $m=1,\dotsc,p-1$ ergibt sich
+			\[
+				\Phi(x) = \underbrace{\Phi(x^*)}_{=x^*} + \f {\Phi^{(p)}(\xi)}{p!}(x-x^*)^p
+			\]
+			stellt man um und betrachtet den Grenzwert $x\to x^*$, ergibt sich $\xi = x^*$, also
+			\[
+				\lim_{x\to x^*} \f {\Phi(x)-x^*}{(x-x^*)^p} = \f {\Phi^{(p)}(x^*)}{p!}
+			\]
+			Also $\forall \eps > 0 \; \exists \_\delta > 0$ sodass $\forall x\in B_{\_\delta}(x^*)$
+			\begin{align*}
+				\l| \f{\Phi(x)-x^*}{(x-x^*)^p} - \f {\Phi^{(p)}(x^*)}{p!} \r| \le \eps
+			\end{align*}
+			und damit (\fixme[Wie?]):
+			\[
+				|\Phi(x) - x^*| \le \underbrace{\l( \bigg| \f {\Phi^{(p)}(x^*)}{p!} \bigg| + \eps \r)}_{=: C}|x-x^*|^p
+			\]
+			Für $x\to x^*$ liegt also Konvergenz der Ordnung $p$ vor ($p>1$). 
+			Im Fall $p=1$ ist $\Phi^{(p)}(x^*) < 1$ und $\eps$ lässt sich genügend klein wählen, dass $C<1$.
+
+			Es bleibt zu zeigen, dass $x$ tatsächlich lokal gegen $x^*$ konvergiert.
+
+			Setze
+			\[
+				\delta := \begin{cases}
+					\min \Big\{\_\delta, \big(\tf 1{2C}\big)^{\f 1{p-1}} \Big\} & p>1 \\
+					\_\delta & p=1
+				\end{cases}
+			\]
+			Sei $x^{(0)} \in B_\delta(x^*)$, wir zeigen induktiv, dass $x^{(k)} \in B_\delta(x^*)$.
+			Sei dazu $x^{(k)} \in B_\delta(x^*)$, dann ist
+			\begin{align*}
+				|x^{(k+1)}-x^*| 
+				= |\Phi(x^{(k)}) -x^*| 
+				&\le C|x^{(k)}-x^*|^p  \\
+				&\le C \delta^{p-1}\delta \\
+				&\le C \big( \tf{1}{2C}\big)^{\f{p-1}{p-1}} \delta
+				= \f \delta 2
+			\end{align*}
+			und damit $x^{(k+1)} \in B_{\f\delta 2}(x^*)$. Außerdem konvergiert $\Phi(x)$ lokal, da der Kugel immer kleiner wird.
+		\end{seg}
+		\begin{seg}[„$\Longleftarrow$“]
+			\begin{seg}[$p=1$]
+				Sei das Verfahren lokal konvergent mit Ordnung $p=1$, d.h. $\forall k\in \N_0 : x^{(k)} \in B_\delta(x^*)$ und
+				\[
+					|x^{(k+1) -x^*}| \le C|x^{(k)} -x^*| \qquad C < 1
+				\]
+				Also für $x^{(k)} \neq x^*$:
+				\[
+					C \ge \f {|\Phi(x^{(k)}) - \Phi(x^*)|}{|x^{(k)}-x^*|} = |\Phi'(\xi)| 
+				\]
+				für ein $\xi$ zwischen $x^{(k)}$ und $x^*$.
+				Im Grenzwert für $k\to \infty$, also $x^{(k)} \to x^*$ und $\xi \to x^*$ ergibt sich
+				\[
+					|\Phi'(x^*)| \le C < 1
+				\]
+			\end{seg}
+			\begin{seg}[$p\ge 2$]
+				Angenommen es existiert $j<p$ mit $j$ minimal, sodass $\Phi^{(j)}(x^*) \neq 0$.
+				Die Taylorentwicklung in $x^*$ liefert:
+				\begin{align*}
+					\Phi(x) &= \Phi(x^*) + \f{\Phi^{(j)}(x^*)(x-x^*)^j}{j!} + \dotsb + \f{\Phi^{(p)}(\xi)}{p!}(x-x^*)^p \\
+					&= \Phi(x^*) + \f {\Phi^{(j)}(x^*)}{j!} (x-x^*)^j \bigg( \underbrace{1 + (x-x^*)\sum_{m=j+1}^p a_m(x-x^*)^{m-j-1}}_{:= b(x)} \bigg)
+				\end{align*}
+				mit
+				\[
+					a_m := \begin{cases}
+						\f{j!\Phi^{(p)}(\xi)}{p!\Phi^{(j)}(x^*)} & m=p \\
+						\f{j!\Phi^{(m)}(x^*)}{m!\Phi^{(j)}(x^*)} & j+1 \le m < p
+					\end{cases}
+				\]
+				$a_m$ ist beschränkt in $B_\delta(x^*)$.
+				Wegen der Stetigkeit von $b(x)$ und $b(x^*)=1$ existiert $\_\delta \le \delta$ sodass $b(x) \ge \f 12$ für alle $x\in B_{\_\delta}(x^*)$.
+				Für diese $x$ gilt dann
+				\[
+					|\Phi(x) - x^*| \ge \f {|\Phi^{(j)}(x^*)}{j!}|x-x^*|^j \cdot \f 12
+				\]
+				Sei $x\neq x^*$ und $x\in B_{\_\delta}(x^*)$, dann folgt mit der lokalen Konvergenz, dass
+				\[
+					\infty > C \ge \f {\Phi(x)-x^*}{|x-x^*|^p} \ge \f {|\Phi^{(j)}(x^*)|}{j!} |x-x^*|^{j-p} \cdot \f 12
+				\]
+				Wegen $j-p < 0$ ist die rechte Seite unbeschränkt, Widerspruch zu $C$ beschränkt.
+			\end{seg}
+		\end{seg}~
+	\end{proof}
+\end{st}
+
+\begin{ex*}[Verfahren von Heron]
+	Sei $a\in \R^+$ und
+	\[
+		\Phi(x) = \f 12 \bigg(x + \f ax\bigg)
+	\]
+	das Heron-Verfahren mit Fixpunkt $x^* = \sqrt a$.
+	Man betrachte die ersten Ableitungen in $x^*$:
+	\begin{alignat*}{2}
+		\Phi'(x) &= \f 12 - \f a{2x^2} & \qquad \Phi'(x^*) &= \f 12 - \f {\sqrt a}{2\sqrt{a}^2} = 0 \\
+		\Phi''(x) &= \f a{x^3} & \qquad \Phi''(x^*) &= \f a{\sqrt{a}^3} = \f 1{\sqrt a} \neq 0
+	\end{alignat*}
+	Es ergibt sich also für das Heronverfahren lokal quadratische Konvergenz.
+	Das Heronverfahren ist ein Newton-Verfahren und bestätigt damit die lokal quadratische Konvergenz des Newton-Verfahrens aus Satz \ref{3.4}.
+\end{ex*}
+
+
+\subsection{Verfahren höherer Ordnung}
+
+
+\begin{seg}[1. Idee: Linearkombination aus Verfahren niederer Ordnung]
+	Seien $\Phi_0, \Phi_1$ Iterationsfuktionen mit Konvergenzordnung $p$, gemeinsamen Fixpunkt $x^*$ und $\Phi_0^{(p)}(x^*) \neq \Phi_1^{(p)}(x^*)$.
+
+	Setze
+	\[
+		\Phi_s(x) := (1-s)\Phi_0(x) + s\Phi_1(x)
+	\]
+	Es ist klar, dass wegen $\Phi_0^{(m)}(x^*) = \Phi_1^{(m)}(x^*) = 0$ für $m=1,\dotsc,p-1$ auch $\Phi_s^{(m)}(x^*) = 0$ gilt.
+	Bestimme jetzt das $s\in \R$, sodass $\Phi_s^{(p)}(x^*) = 0$ ist (Linearkombination der $0$ aus $\Phi_0^{(p)}(x^*)$ und $\Phi_1^{(p)}(x^*)$).
+
+	Damit ergibt sich also ein Iterationsverfahren mit Konvergenzordnung von mindestens $p+1$ gegen $x^*$.
+\end{seg}
+\begin{seg}[2. Idee: Ansatz für Iterationsfunktionen und Bestimmung der Koeffizientenfunktionen]
+	Sei $f\in C^2(\R)$ mit $f(x^*) = 0$, $f'(x^*) \neq 0$.
+	Wir setzen
+	\[
+		\Phi(x) := x - g(x) f(x) - h(x) f(x)^2
+	\]
+	mit $g(x) \neq 0, h(x) \neq 0$ in einer Umgebung von $x^*$.
+	Bestimme jetzt $g(x),h(x)$ so, dass $\Phi'(x^*) = \Phi''(x^*) = 0$ gilt.
+	\begin{align*}
+		\Phi'(x) &= 1 - g'(x)f(x) - g(x)f'(x) - h(x)2f(x)f'(x) -h'(x)f(x)^2 \\
+		0 \stackrel != \Phi'(x^*) &= 1 -g(x^*)f(x^*) \quad\iff\quad g(x^*) = \f 1{f'(x^*)}
+	\end{align*}
+	Wähle also $g(x) := \f 1{f'(x^*)}$, dann ist $g'(x) = - \f {f''(x^*)}{f'(x^*)}$.
+	Weiter mit der zweiten Ableitung:
+	\begin{align*}
+		\Phi''(x) &= -g'(x)f'(x) -g'(x)f'(x) - g(x)f''(x) - 2h(x)f'(x)f'(x) + f(x)\Big( \dotso \Big) \\
+		0 \stackrel != \Phi''(x^*) &= -2g'(x^*)f'(x^*) -g(x^*)f''(x^*) - 2h(x^*)f'(x^*)^2 \\
+		&= 2 \f {f''(x^*)}{f'(x^*)} - \f {f''(x^*)}{f'(x^*)} - 2h(x^*) f'(x^*)^2 \\
+		&= \f {f''(x^*)}{f'(x^*)} - 2h(x^*) f'(x^*)^2 
+		\quad\iff\quad h(x^*) = \f {f''(x^*)}{2f'(x^*)^3}
+	\end{align*}
+	Wähle also $h(x) := \f {f''(x)}{2f'(x)^3}$.
+\end{seg}
+
+\begin{kor}[Verbessertes Newton-Verfahren] \label{1.13}
+	Für $f\in C^2(\R)$ mit $f(x^*)=0$, $f'(x^*) \neq 0$ ist die Iteration
+	\[
+		x^{(k+1)} := x^{(k)} - \f {f(x^{(k)})}{f'(x^{(k)})} - \f {f''(x^{(k)})f(x^{(k)})^2}{2f'(x^{(k)})}
+	\]
+	lokal konvergent gegen $x^*$ mit Ordnung $3$.
+\end{kor}
+
+Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren wären:
+\begin{description}
+	\item[Newton-Raphson-Verfahren]
+		Approximiere $f$ durch Hermite-Interpolationspolynom $p\in \P_n$ mit 
+		\[
+			p^{(m)}(x^{(k)}) = f^{(m)}(x^{(k)}) \qquad m=0,\dotsc,n
+		\]
+		Bestimme $x^{(k+1)}$ als Nullstelle von $p$, welche am nächsten an $x^{(k)}$ liegt.
+
+		Für $n=1$ entspricht das genau dem Newton-Verfahren.
+	\item[Verallgemeinerung des Sekantenverfahrens]
+		Seien $n+1$ paarweise verschiedene Stellen $x^{(k-n)}, \dotsc, x^{(k)}$ gegeben.
+		Bestimme das Interpolationspolynom $p\in \P_n$ mit
+		\[
+			p(x^{(i)}) = f(x^{(i)}) \qquad i=k-n,\dotsc,k
+		\]
+		Bestimme $x^{(k+1)}$ als Nullstelle von $p$, welche am nächsten bei $x^{(k)}$ liegt.
+
+		Für $n=1$ entspricht das dem herkömmlichen Sekantenverfahren, für $n=2$ dem Verfahren von Muller.
+\end{description}
+
+
+\subsection{Newton-Verfahren für mehrfache Nullstellen}
+
+\begin{df}[Vielfachheit von Nullstellen] \label{3.14}
+	Sei $f\in C^n ([a,b])$.
+	$x^* \in (a,b)$ ist \emph{Nullstelle der Vielfachheit $n$} genau dann, wenn
+	\begin{align*}
+		f^{(m)}(x^*) &= 0 \qquad m=0,\dotsc,n-1 \\
+		\land\quad f^{(n)}(x^*) &\neq 0
+	\end{align*}
+	Falls $n=1$, nennen wir $x^*$ \emph{einfache Nullstelle}, für $n>1$ \emph{mehrfache oder $n$-fache Nullstelle}.
+\end{df}
+
+\begin{nt*}
+	In Satz \ref{3.4} haben wir gesehn, dass das Newton-Verfahren bei einfachen Nullstellen lokal quadratisch konvergiert.
+	Für mehrfache Nullstellen ist das im Allgemeinen nicht der Fall.
+\end{nt*}
+
+\begin{st}[Lineare Konvergenz des Newton-Verfahrens bei mehrfachen Nullstellen] \label{3.15}
+	Sei $f\in C^{n+2}([a,b])$ mit $n$-facher Nullstelle $x^*$ ($n>1$).
+	Dann konvergiert das Newton-Verfahren lokal linear.
 \end{st}
 
 
