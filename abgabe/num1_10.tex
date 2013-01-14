@@ -1,0 +1,133 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\usepackage{graphicx}
+\blattnumeins
+
+\begin{document}
+
+
+\begin{aufgabe}~
+	\begin{align*}
+		f(x) &= x^4 + 13x^3 + 7x^2 - 165x \\
+		f'(x) &= 4x^3 + 39x^2 + 14x - 165 \\
+		f''(x) &= 12x^2 + 78x^2 + 14
+	\end{align*}
+	Man findet die Nullstellen $\{-11,-5,0,3\}$ von $f$ und wähle als Intervalle
+	\begin{align*}
+		I'_1 = [-12,-10], \qquad
+		I'_2 = [-6,-4], \qquad
+		I'_3 = [-1,1], \qquad
+		I'_4 = [2,4]
+	\end{align*}
+	Ein Blick auf das Schaubild von $f'$ bestätigt, dass $\min_{x\in [a,b]} |f'(x)| > 0$ erfüllt ist.
+	Also wenden wir den Satz zur Konvergenz des Newton-Verfahrens an:
+
+	Berechne/finde für die einzelnen Intervalle
+	\begin{align*}
+		m &:= \min_{x\in [a,b]}|f'(x)| > 0 \\
+		M &:= \max_{x\in [a,b]}|f''(x)| \\
+		\delta &< \f {2m}M
+	\end{align*}
+	\begin{enumerate}[${I'}_1$:]
+		\item $m=405, M=806, \delta < \f{405}{403}$, also konvergiert das Verfahren in ganz $[-12,10]$.
+		\item $m=147, M=106, \delta < \f{147}{106}$, also konvergiert das Verfahren in ganz $[-6,-4]$.
+		\item $m=108, M=104, \delta < \f{27}{13}$, also konvergiert das Verfahren in ganz $[-1,1]$.
+		\item $m=51, M=518, \delta < \f{51}{259}$, wähle $\delta = \f 1{10}$ und es ergibt sich das Intervall $[2.9, 3.1]$.
+	\end{enumerate}
+	Es ergeben sich also folgende Intervalle in denen das Newtonverfahren lokal gegen die jeweilige Nullstelle konvergiert:
+	\begin{align*}
+		I'_1 = [-12,10], \qquad
+		I'_2 = [-6,-4], \qquad
+		I'_3 = [-1,1], \qquad
+		I'_4 = [2.9, 3.1]
+	\end{align*}
+\end{aufgabe}
+
+\setcounter{aufgabe}{2}
+\begin{aufgabe}~
+
+	Ich verwende die äquivalente Definition $\max_{\|x\|=1}\f {\|Ax\|}{\|x\|}$ für die induzierte Matrixnorm.
+	\begin{itemize}
+		\item
+			Es gilt
+			\[
+				\|A\|_1 := \max_{\|x\|_1=1} \|Ax\|_1 = \max_{\|x\|_1=1}\sum_{i=1}^n \Big| \sum_{j=1}^n a_{ij} x_j \Big|
+			\]
+			das ist einerseits
+			\[
+				\le \max_{\|x\|_1=1} \sum_{i,j=1}^n |a_{ij}| |x_j| \le \max_{\|x\|_1=1} \sum_{j=1}^n \bigg( |x_j| \max_{k=1,\dotsc,n} \sum_{i=1}^n |a_{ik}| \bigg) \le \max_{k=1,\dotsc,n} \sum_{i=1}^n |a_{ik}|
+			\]
+			und andererseits, indem man $l$ so wählt, dass $\displaystyle \sum_{j=1}^n |a_{jl}| = \max_{j=1,\dotsc,n} \sum_{i=1}^n |a_{ij}|$ und $x := e_l$ wählt:
+			\[
+				\ge \sum_{i=1}^n \Big| \sum_{j=1}^n a_{ij} \delta_{jl} \Big| = \sum_{i=1}^n |a_{il} | = \max_{j=1,\dotsc,n} \sum_{i=1}^n |a_{ij}|
+			\]
+			damit folgt also $\displaystyle \|A\|_1 = \max_{i=1,\dotsc,n} \sum_{i=1}^n |a_{ij}|$
+		\item
+			Es gilt
+			\[
+				\|A\|_\infty := \max_{\|x\|_\infty=1} \|Ax\|_\infty = \max_{\|x\|_\infty=1}\max_{i=1,\dotsc,n} \Big| \sum_{j=1}^n a_{ij} x_j \Big|
+			\]
+			das ist einerseits
+			\[
+				\le \max_{\|x\|_\infty=1} \max_{i=1,\dotsc,n} \sum_{j=1}^n |a_{ij}||x_j|
+				\le \max_{i=1,\dotsc,n} \sum_{j=1}^n |a_{ij}|
+			\]
+			und andererseits, indem man $l$ so wählt, dass $\displaystyle \sum_{j=1}^n |a_{jl}| = \max_{i=1,\dotsc,n} \sum_{j=1}^n |a_{ij}|$ und $x := \begin{cases}1 & a_{li} \ge 0 \\ -1 & a_{li} < 0 \end{cases}$ wählt:
+			\[
+				\ge \max_{i=1,\dotsc,n} \Big| \sum_{j=1}^n a_{ij} x_j \Big|
+				\ge \Big| \sum_{j=1}^n \underbrace{a_{lj} x_j}_{\ge 0} \Big| = \sum_{j=1}^n |a_{lj}| = \max_{i=1,\dotsc,n} \sum_{j=1}^n |a_{ij}|
+			\]
+			damit folgt also $\displaystyle \|A\|_\infty = \max_{j=1,\dotsc,n} \sum_{j=1}^n |a_{ij}|$
+
+	\end{itemize}
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	\begin{enumerate}[a)]
+		\item
+			Bisektionsverfahren:
+			\lstinputlisting[language=matlab]{num1_10_4/bisektion.m}
+		\item
+			Newtonverfahren:
+			\lstinputlisting[language=matlab]{num1_10_4/newton.m}
+		\item
+			Test mit $f(x) = \f{\cos(x)}{\sin(x)}$
+			\lstinputlisting[language=matlab]{num1_10_4/c.m}
+			\begin{table}[h]
+				\centering
+				\caption{Ergebnisse}
+				\begin{tabular}{c|c|c|c|c}
+					$n$ & Bisektion & Bisektion (Fehler) & Newton (Fehler) & Newton \\ \hline
+1 & 1.5000000 & 0.0707963 & 0.1161476 & 1.4546487\\
+2 & 1.7500000 & 0.1792037 & 0.0010418 & 1.5697546\\
+3 & 1.6250000 & 0.0542037 & 0.0000000 & 1.5707963\\
+4 & 1.5625000 & 0.0082963 & 0.0000000 & 1.5707963\\
+5 & 1.5937500 & 0.0229537 & 0.0000000 & 1.5707963\\
+6 & 1.5781250 & 0.0073287 & 0.0000000 & 1.5707963\\
+7 & 1.5703125 & 0.0004838 & 0.0000000 & 1.5707963\\
+8 & 1.5742188 & 0.0034224 & 0.0000000 & 1.5707963\\
+9 & 1.5722656 & 0.0014693 & 0.0000000 & 1.5707963\\
+10 & 1.5712891 & 0.0004927 & 0.0000000 & 1.5707963\\
+11 & 1.5708008 & 0.0000045 & 0.0000000 & 1.5707963\\
+12 & 1.5705566 & 0.0002397 & 0.0000000 & 1.5707963\\
+13 & 1.5706787 & 0.0001176 & 0.0000000 & 1.5707963\\
+14 & 1.5707397 & 0.0000566 & 0.0000000 & 1.5707963\\
+15 & 1.5707703 & 0.0000261 & 0.0000000 & 1.5707963\\
+16 & 1.5707855 & 0.0000108 & 0.0000000 & 1.5707963\\
+17 & 1.5707932 & 0.0000032 & 0.0000000 & 1.5707963\\
+18 & 1.5707970 & 0.0000006 & 0.0000000 & 1.5707963\\
+19 & 1.5707951 & 0.0000013 & 0.0000000 & 1.5707963\\
+20 & 1.5707960 & 0.0000003 & 0.0000000 & 1.5707963\\
+21 & 1.5707965 & 0.0000002 & 0.0000000 & 1.5707963\\
+22 & 1.5707963 & 0.0000001 & 0.0000000 & 1.5707963\\
+23 & 1.5707964 & 0.0000000 & 0.0000000 & 1.5707963\\
+24 & 1.5707963 & 0.0000000 & 0.0000000 & 1.5707963\\
+25 & 1.5707963 & 0.0000000 & 0.0000000 & 1.5707963\\
+26 & 1.5707963 & 0.0000000 & 0.0000000 & 1.5707963\\
+27 & 1.5707963 & 0.0000000 & 0.0000000 & 1.5707963\\
+				\end{tabular}
+			\end{table}
+	\end{enumerate}
+\end{aufgabe}
+\end{document}
