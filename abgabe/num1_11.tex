@@ -1,0 +1,145 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\usepackage{graphicx}
+\blattnumeins
+
+\begin{document}
+
+
+\begin{aufgabe}~
+
+	\begin{enumerate}[a)]
+		\item
+			Die Iteration lässt sich umformen:
+			\[
+				\Phi(x) := \f {3 + (k-4)x + 5x^2 - x^3}k = \f {-p(x) + kx}{k} = x - \f {p(x)}k
+			\]
+			Für $k = p'(x)$ ist das genau das Newton-Verfahren, welches lokal quadratisch konvergiert.
+			Da jedoch $k$ unabhängig von $x$ gewählt werden soll, kann man höchstens $k = p'(x_0)$ wählen, das würde dann ergeben:
+			\[
+				k := p'(x_0) = 3\cdot 4^2 - 10\cdot 4 + 4 = 12
+			\]
+			Dies garantiert jedoch keine quadratische Konvergenz.
+
+			Im Falle, dass man die Nullstelle $x^*$ kennt:
+			\[
+				x^* = \f 13 \l( 5 + \sqrt[3]{\f 12 (151 - 9 \sqrt {173})} + \sqrt[3]{\f 12 (151 + 9\sqrt{173})} \r) \approx 4.22069
+			\]
+			kann man $k$ so wählen, dass $\Phi'(x^*) = 0$ gilt.
+			Es ergibt sich dann
+			\[
+				k = \f 16 \l( 26 + \sqrt[3]{2}(151 - 9\sqrt{173})^{\f 23} + \sqrt[3]{2} (151 + 9\sqrt{173})^{\f 23} \r) \approx 15.23582
+			\]
+			Mit dieser Wahl wäre lokal quadratische Konvergenz garantiert.
+			\begin{table}[h]
+				\centering
+				\begin{tabular}{r|cc|cc}
+					$n$ & $k=12$ & Fehler & Fehler & $k\approx 15.23582$ \\\hline
+0 & 4.0000000 & 0.2206928 & 0.2206928 & 4.0000000\\
+1 & 4.2500000 & 0.0293072 & 0.0237884 & 4.1969045\\
+2 & 4.2122396 & 0.0084532 & 0.0002837 & 4.2204091\\
+3 & 4.2229267 & 0.0022339 & 0.0000000 & 4.2206928\\
+4 & 4.2200873 & 0.0006055 & 0.0000000 & 4.2206928\\
+5 & 4.2208559 & 0.0001631 & 0.0000000 & 4.2206928\\
+6 & 4.2206488 & 0.0000440 & 0.0000000 & 4.2206928\\
+7 & 4.2207047 & 0.0000119 & 0.0000000 & 4.2206928\\
+8 & 4.2206896 & 0.0000032 & 0.0000000 & 4.2206928\\
+9 & 4.2206937 & 0.0000009 & 0.0000000 & 4.2206928\\
+10 & 4.2206926 & 0.0000002 & 0.0000000 & 4.2206928\\
+				\end{tabular}				
+			\end{table}
+		\item
+			Man berechne die ersten drei Ableitungen der Iteration an dem Fixpunkt $\sqrt{N}$:
+			\begin{align*}
+				\Phi'(x) &= \f {3(N-x^2)^2}{(N+3x^2)^2} & \Phi'(\sqrt N) &= 0 \\
+				\Phi''(x) &= \f {48Nx(x^2-N)}{(N+3x^2)^3} & \Phi''(\sqrt N) &= 0 \\
+				\Phi'''(x) &= \f {48N(N^2-18Nx^2+9x^4)}{(N+3x^2)^4} & \qquad \Phi'''(\sqrt N) &= \f 3{2N} \neq 0
+			\end{align*}
+			damit liegt genau lokal kubische Konvergenz vor.
+			Für die ersten zwei Werte mit $x_0 = 1, N = 2$ ergibt sich:
+			\[
+				x_1 = \f 75 \qquad x_2 = \f {1393}{985} \approx 1.414
+			\]
+			der absolute Fehler beträgt
+			\[
+				|x_2 - \sqrt{2}| \approx 3.64 \cdot 10^{-7}
+			\]
+	\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	Für die Newton-Iterationen gilt:
+	\begin{align*}
+		\Phi_1(x) &= x - \f {f_1(x)}{f_1'(x)} = x - \f {x^2-a}{2x} = \f 12 \bigg( x + \f ax \bigg) \\
+		\Phi_2(x) &= x - \f {f_2(x)}{f_2'(x)} = x - \f {\f a{x^2}-1}{\f {-a2x}{x^4}} = \f 12 \bigg( 3x - \f {x^3}a \bigg)
+	\end{align*}
+	\begin{enumerate}[a)]
+		\item
+			Für die erste Ableitung von $\Phi_1'(x), \Phi_2'(x)$ gilt
+			\begin{align*}
+				\Phi_1'(x) &= \f 12 \bigg(1-\f a{x^2} \bigg) & \Phi_1'(\sqrt a) &= \f 12 \bigg(1 - \f aa \bigg) = 0 \\
+				\Phi_2'(x) &= \f 12 \bigg(3-\f{3x^2}a \bigg) & \Phi_2'(\sqrt a) &= \f 12 \bigg(3 - \f {3a}a \bigg) = 0
+			\end{align*}
+			und damit
+			\[
+				\Phi_s'(x^*) = (1-s)\Phi_1'(x^*) + s \Phi_2'(x^*) = 0
+			\]
+			Also ist $\Phi_s$ lokal mindestens quadratisch konvergent gegen den gleichen Fixpunkt $\sqrt a$, denn:
+			\[
+				\Phi_s(\sqrt a) = (1-s)\Phi_1(\sqrt a) + s \Phi_2(\sqrt a) = (1-s)\sqrt a + s\sqrt a = \sqrt a
+			\]
+		\item
+			Man betrachte die zweiten Ableitungen
+			\begin{align*}
+				\Phi_1''(x) &= \f a{x^3} & \Phi_1''(\sqrt a) &= \f 1{\sqrt a} \\
+				\Phi_2''(x) &= - \f {3x}a & \Phi_2''(\sqrt a) &= - \f 3{\sqrt a}
+			\end{align*}
+			Für kubische Konvergenz muss
+			\[
+				0 \stackrel != \Phi_s''(x^*) = \Phi_1''(x) + s\Big(\Phi_2''(x^*) - \Phi_1''(x^*) \Big) = \f 1{\sqrt a} + s \bigg( -\f {4}{\sqrt a} \bigg) 
+			\]
+			Das ist genau dann der Fall, wenn $s = \f 14$.
+			In diesem Fall liegt lokal kubische Konvergenz vor.
+	\end{enumerate}
+\end{aufgabe}
+
+\setcounter{aufgabe}{3}
+ 
+\begin{aufgabe}
+	
+	\begin{enumerate}[a)]
+		\item
+			Gewünschte Routine:
+			\lstinputlisting[language=matlab]{num1_11_4/sekd.m}
+		\item
+			Ausgabe:
+			\lstinputlisting[language=matlab]{num1_11_4/b.m}
+			\begin{table}[h]
+				\caption{Werte ohne und mit Dämpfung für $x^{(0)}=4, x^{(1)}=4.01, k_{\text{max}}=20, \eps_{\text{tol}}=10^{-10}$}
+				\centering
+				\begin{tabular}{c|c|c}
+					$k$ & Ohne Dämpfung & Mit Dämpfung \\ \hline
+					0 & 4 & 4 \\
+					1 & 4.0100 & 4.0100 \\
+					2 & -8.5279 & 1.3303 \\
+					3 & -1.7600 & 0.94014 \\
+					4 & 32.303 & 0.98125 \\
+					5 & 13.325 & 0.99712 \\
+					6 & -563.43 & 0.99982 \\
+					7 & -267.59 & 1.00000 \\
+					8 & 2.3730e+05 & 1.00000 \\
+					9 & 1.1838e+05 & 1.00000 \\
+					10 & -4.4124e+10 & 1.00000 \\
+					11 & -2.2062e+10 &  \\
+					12 & 1.5291e+21 &  \\
+					13 & 7.6455e+20 & \\
+					14 & Inf & \\
+					15 & NaN
+				\end{tabular}				
+			\end{table}
+			Man sieht deutlich, dass die Iteration ohne Dämpfung divergiert, während sie mit Dämpfung gegen die Nullstelle $x^* = 1$ konvergiert.
+
+	\end{enumerate}
+\end{aufgabe}
+\end{document}
