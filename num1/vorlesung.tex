@@ -4967,10 +4967,310 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren wären:
 \begin{st}[Lineare Konvergenz des Newton-Verfahrens bei mehrfachen Nullstellen] \label{3.15}
 	Sei $f\in C^{n+2}([a,b])$ mit $n$-facher Nullstelle $x^*$ ($n>1$).
 	Dann konvergiert das Newton-Verfahren lokal linear.
+	\begin{proof}
+		Schreibe $f$ als
+		\[
+			f(x) = (x-x^*)^n g(x)
+		\]
+		mit $g(x^*) \neq 0$.
+		Wegen $f\in C^{n+2}([a,b])$ ist $g\in C^2([a,b])$.
+		Für die Ableitung gilt
+		\begin{align*}
+			f'(x) &= n(x-x^*)^{n-1}g(x) + (x-x^*)^n g'(x)
+		\end{align*}
+		also für die Iteration
+		\begin{align*}
+			\Phi(x) = x - \f {f(x)}{f'(x)} 
+			&= x - \f {(x-x^*)g(x)}{n(x-x^*)^{n-1}g(x) + (x-x^*)^ng'(x)} \\
+			&= x - \f {\overbrace{(x-x^*)g(x)}^{=:Z(x)}}{\underbrace{ng(x) + (x-x^*)g'(x)}_{=:N(x)}}
+		\end{align*}
+		Also
+		\begin{align*}
+			\Phi'(x) &= 1 - \f{\big(g(x) + (x-x^*)g'(x)\big)N(x) - Z(x)\big(ng'(x)+g'(x)+(x-x^*)g''(x)\big)}{N(x)^2}
+			\intertext{mit $Z(x^*) = 0$ und $N(x^*) = ng(x^*)$ folgt}
+			&= 1 - \f{g(x^*)ng(x^*)}{n^2g(x^*)^2}
+			= 1 - \f 1n
+		\end{align*}
+		Also folgt aus $|\Phi'(x^*)| < 1$ mit \ref{3.12} mindestens lineare Konverenz.
+		Weil aber gleichzeitig $\Phi'(x^*) \neq 0$, liegt keine quadratische Konvergenz vor.
+		Es ergibt sich also die Konverenzordnung $1$.
+		\begin{note}
+			Der Beweis liefert gleich eine Idee, das Newton-Verfahren für mehrere Nullstellen zu verbessern, siehe Korrolar \ref{3.16}.
+		\end{note}
+	\end{proof}
 \end{st}
 
+\begin{kor}[Verbesserte Newton-Verfahren II] \label{3.16}
+	Für $f\in C^{n+2}$ mit $n$-fachre Nullstelle $x^*$ ist das Verfahren
+	\[
+		x^{(k+1)} := x^{(k)} - n \f {f(x)}{f'(x)}
+	\]
+	lokal quadratisch konvergent.
+	\begin{proof}
+		Mit der Notation aus dem vorigen Beweis:
+		\begin{align*}
+			\Phi(x) &= x - n\f{f(x)}{f'(x)} = x - n \f {Z(x)}{N(x)} \\
+			\Phi'(x) &= 1 - n\f 1n = 0
+		\end{align*}
+	\end{proof}
+\end{kor}
+
+\begin{ex*}
+	Sei
+	\[
+		f(x) = x^5
+	\]
+	Dann ist wegen $f'(0) = f''(0) = \dotsb = f^{(4)}(0) = 0$ die $0$ $5$-fache Nullstelle.
+	\begin{table}[h]
+		\centering
+		\caption{Lineare monotone (\ref{3.7}) Konvergenz links, verbesserte Konvergenz rechts}
+		\begin{tabular}{c|l|l}
+			$k$ & $x^{(k)}$ Newton & $x^{(k)}$ verb. Newton \\ \hline
+			0 & 1 & 1 \\
+			1 & 0.8 & 0 \\
+			2 & 0.64 & 0 \\
+			3 & 0.512 & 0 \\
+			4 & 0.4096 & 0 \\
+			5 & 0.3277 & 0
+		\end{tabular}
+	\end{table}
+\end{ex*}
+
+
+\subsection{Fixpunktverfahren im $\R^n$}
+
+
+\begin{st}[Banach'scher Fixpunktsatz] \label{3.17}
+	Sei $M \subset \R^n$ nichtleer und abgeschlossen und $\Phi : M \to M$ eine Kontraktion, d.h. für ein $L \in (0,1)$ gilt
+	\[
+		\|\Phi(x) - \Phi(y) \| \le L \|x-y\| \qquad \forall x,y \in M
+	\]
+	Dann gilt
+	\begin{enumerate}[i)]
+		\item
+			$\Phi$ hat genau einen Fixpunkt $x^* \in M$.
+		\item
+			Für alle Anfangswerte $x^{(0)} \in M$ konvergiert die Fixpunktiteration
+			\[
+				x^{(k+1)} := \Phi(x^{(k)}) \quad \to \quad x^* \qquad (k\to \infty)
+			\]
+		\item
+			Es gilt die „a-priori-Schranke“
+			\[
+				\|x^{(k)} - x^*\| \le \f {L^k}{1-L} \|x^{(1)} - x^{(0)}\|
+			\]
+		\item
+			Es gilt die „a-posteriori-Schranke“
+			\[
+				\|x^{(k)} - x^*\| \le \f {L}{1-L} \|x^{(k)} - x^{(k-1)}\|
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+			\item
+				\begin{seg}[Eindeutigkeit]
+					Seien $x^*, \_{x^*}$ zwei Fixpunkte, dann ist
+					\[
+						\|x^* - \_{x^*}\| = \|\Phi(x^*) - \Phi(\_{x^*}) \| \le L \|x^* - \_{x^*}\|
+					\]
+					Wegen $L < 1$ muss $\| x^* - \_{x^*}\| = 0$, also $x^* = \_{x^*}$ gelten.
+				\end{seg}
+				\begin{seg}[Existenz]
+					Sei $x^{(0)} \in M$ und $(x^{(k)})_{k\in \N}$ die Folge der Iterierten, dann ist
+					\begin{align*}
+						\|x^{(k+i)} - x^{(k)}\| 
+						&= \bigg\| \sum_{l=k}^{k+i-1}(x^{(l+1)}-x^{(l)}) \bigg\| 
+						\le \sum_{l=k}^{k+i-1}\|x^{(l+1)}-x^{(l)}\| \\
+						&\le \sum_{l=k}^{k+i-1}L^{l-k}\|x^{(k+1)} -x^{(k)}\| 
+						= \|x^{(k+1)} -x^{(k)}\| \sum_{j=0}^{i-1} L^{j} \\
+						&= \|x^{(k+1)} -x^{(k)}\| \f {1-L^i}{\f 1-L}
+						\le \f 1{1-L}\|x^{(k+1)}-x^{(k)}\|
+						\le \f{L}{1-L}\|x^{(k)} - x^{(k-1)}\|
+						\le \dotso
+						\le \f{L^k}{1-L} \|x^{(1)} -x^{(0)}
+					\end{align*}
+					Damit ist $(x^{(k)})$ eine Cauchy-Folge mit Grenzwert $x^* \in \R^n$, außerdem $x^* \in M$, da $M$ abgeschlossen.
+
+					$\Phi^*$ ist stetig wegen der Kontraktionseigenschaft, also ist $x^*$ Fixpunkt (siehe Bemerkung \ref{3.10})
+				\end{seg}
+			\item
+			\item
+				Betrachte
+				\begin{align*}
+					\|x^{(k+i)}-x^{(k)}\| \le \f {L}{1-L} \|x^{(k)} -x^{(k-1)}\| \le \f{L^k}{1-L}\|x^{(1)} - x^{(0)}\|
+				\end{align*}
+				für $i \to \infty$
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{seg}[Motivation: „Fixpunktverfahren mit Relaxation“]
+	Sei $F: \R^n \to \R^n$ stetig mit $F(x^*) = 0$.
+	Schreibe
+	\[
+		x^* = x^* - \omega F(x^*)
+	\]
+	Dies liefert einen Ansatz für eine Iterationsfunktion:
+	\[
+		\Phi(x) = x - \omega F(x)
+		\qquad \omega \in \R^+
+	\]
+	mit Relaxationsparameter $\omega$.
+
+	Unter welchen Bedingungen an $F$ und $\omega$ konvergiert diese Iteration?
+\end{seg}
+
+\begin{df}[Strikte Monotonie] \label{3.18}
+	$F: \R^n \to \R^n$ ist \emph{strikt monoton} falls $\gamma > 0$ existiert, so dass
+	\[
+		\Big( F(x) - F(y) \Big)^T (x-y) \ge \gamma \|x-y\|^2
+		\qquad x,y \in \R^n
+	\]
+\end{df}
+
+\begin{lem} \label{3.19}
+	Sei $F \in C^1(\R^n, \R^n)$ mit $F(x) = (f_i)_{i=1}^n$.
+
+	Dann ist $F$ strikt monoton genau dann, wenn
+	\[
+		DF(x) := \bigg( \f{\d}{\d x_j}f_i\bigg)_{i,j=1}^n
+	\]
+	gleichmäßig positiv definit ist, d.h.
+	\[
+		y^T DF(x) y \ge \gamma \ge \gamma \|y\|^2 \qquad x,y \in \R^n
+	\]
+	\begin{proof}
+		\begin{seg}[„$\implies$“]
+			\begin{align*}
+				y^T DF(x) y &= \lim_{h \to 0} \f 1h y^T\big(F(x+hy) - F(x)\big) \\
+				&= \lim_{h\to 0} \f 1{h^2} \big( F(x+hy) - F(x)\big)^T(x+hy-x) \\
+				&\ge \lim_{h\to 0} \f 1{h^2} \gamma\|x+hy-x\|^2 
+				= \gamma\|y\|^2
+			\end{align*}
+		\end{seg}
+		\begin{seg}[„$\Longleftarrow$“]
+			\begin{align*}
+				\big(F(x) - F(y)\big)^T (x-y) 
+				&= \bigg( \int_0^1 DF(y+t(x-y))(x-y) \;dt \bigg)^T(x-y) \\
+				&\ge \int_0^1 \gamma \|x-y\|^2 \;dt 
+				= \gamma \|x-y\|^2
+			\end{align*}
+		\end{seg}
+	\end{proof}
+\end{lem}
+
+\begin{st}[Fixpunktverfahren mit Relaxation] \label{3.20}
+	Sei $F: \R^n \to \R^n$ lipschitzstetig mit Lipschitz-Konstante $L_F$ und strikt monoton mit Konstante $\gamma$.
+	Dann gibt es genau eine Lösung $x^*$ von $F(x) = 0$.
+	
+	Das Iterationsverfahren
+	\[
+		x^{(k+1)} := x^{(k)} - \omega F(x^{(k)})
+	\]
+	mit $\omega \in (0, \f {2\gamma}{L_F^2})$ konvergiert global für alle $x^{(0)} \in \R^n$ gegen $x^*$ und es gilt
+	\[
+		\|x^{(k)} - x^*\| \le L^k \|x^{(0)} - x^*\|
+	\]
+	mit $L := \sqrt{1- 2 \gamma_\omega + \omega^2 L_F^2}$.
+	\begin{proof}
+		Die Menge $M := \R^n$ ist abgeschlossen und $\Phi: M \to M : x \mapsto x - \omega F(x)$ ist eine Kontraktion:
+		\begin{align*}
+			\|\Phi(x) - \Phi(y) \|^2 
+			= \|x-y - \omega(F(x) - F(y)) \|^2
+			= \|x-y\|^2 - 2 \omega \underbrace{\big(F(x)-F(y)\big)^T(x-y)}_{\ge \gamma \|x-y\|} + \omega^2 \underbrace{\|F(x)-F(y)\|^2}_{L_F^2 \|x-y\|^2}
+			\le \underbrace{\big(1-2\omega \gamma + \omega^2 L_F^2\big)}_{=:c(\omega} \|x-y\|^2
+		\end{align*}
+		Es muss für die Kontraktion $c(\omega) < 1$ gelten:
+		\begin{align*}
+			1 - 2 \omega \gamma + \omega^2 L_F^2 &< 1 \\
+			\iff \quad \omega^2 L_F^2 &< 2 \omega \gamma \\
+			\iff \quad  \omega &< \f {2\gamma}{L_F^2}
+		\end{align*}
+		was durch die Vorraussetzung an $\omega$ gegeben ist.
+
+		Die Existenz und Eindeutigkeit des Fixpunkts $x^*$ und $\lim_{k\to \infty}x^{(k)} = x^*$ folgen mit dem Banach'schen Fixpunktsatz mit
+		\[
+			L := \sqrt{c(\omega)} = \sqrt{1-2\omega \gamma + \omega^2 L_F^2}
+		\]
+		Die Fehlerschranke folgt aus wiederholter Iteration und der Kontraktionseigenschaft.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die Lipschitz-Konstante von $F$, $L_F$ muss nicht notwendigerweise kleiner $1$ sein.
+			\item
+				Der optimale Relaxationsparameter:
+				\[
+					\omega_{\text{opt}} := \arg_{\omega} \min c(\omega)
+				\]
+				Also wenn $c'(\omega_{\text{opt}} = 0$, bzw
+				\[
+					- 2 \gamma + 2 \omega L_F^2 = 0
+				\]
+				und damit
+				\[
+					\omega_{\text{opt}} = \f {2 \gamma}{2L_F^2} = \f {\gamma}{L_F^2}
+				\]
+			\item
+				Die Kontraktionsrate für $\omega_{\text{opt}}$ beträgt
+				\[
+					L_{\text{opt}} = \sqrt{1-2 \gamma \omega_{\text{opt}} + \omega_{\text{opt}}^2 L_F^2}
+					= \sqrt{1-2 \gamma \f{\gamma}{L_F^2} + \f{\gamma^2}{L_F^2} L_F^2} 
+					= \sqrt {1 - \f {\gamma^2}{L_F^2}}
+				\]
+			\item
+				Es handelt sich also anders als bei Newton um \emph{globale} Konvergenz.
+
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{ex*}
+	Sei $f(x) = x - x^{-x^2}$.
+	Dann ist
+	\[
+		f'(x) = 1 + 2xe^{-x^2}
+	\]
+	Gleichmäßig positive Definitheit und Lipschitz-Stetigkeit via Extrema von $f'(x)$.	
+	\[
+		f''(x) = (2-4x^2)e^{-x^2} \stackrel != 0
+		\qquad \implies \qquad
+		x = \pm \sqrt{\f 12}
+	\]
+	und
+	\begin{align*}
+		f'(-\sqrt{\tf 12}) = \underbrace{1  \sqrt 2 e^{-\f 12}}_{= \gamma} \le f'(x) \le f'(+\sqrt{\tf 12}) = \underbrace{1 + \sqrt 2 e^{- \f 12}}_{= L_F}
+	\end{align*}
+	Man erhält
+	\[
+		\gamma \approx 0.1422 > 0
+		\qquad
+		L_F \approx 1.8578 < \infty
+	\]
+	und damit
+	\begin{align*}
+		\omega_{\text{opt}} &= \f{\gamma}{L_F^2} \approx 0.0412 &
+		L_{\text{opt}} = \sqrt{1- \f{\gamma^2}{L_F^2}} \approx 0.9971
+	\end{align*}
+	also globale, aber relativ langsame Konvergenz (\verb|demos_nonlin_systems(5)|).
+\end{ex*}
+
+
+\subsection{Newton-Verfahren für Systeme}
+
+
+\begin{df}[Newton-Verfahren im $\R^n$] \label{3.21}
+	Sei $F \in C^1(\R^n, \R^n)$, wähle $x^{(0)} \in \R^n$ und definiere
+	\[
+		x^{(k+1)} := x^{(k)} - \big(DF(x^{(k)}\big)^{-1} F(x^{(k)}) \qquad k\in \N_0
+	\]
+	
+\end{df}
 
 \section{Optimierung}
+
+
 
 
 \end{document}
