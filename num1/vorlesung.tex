@@ -5265,8 +5265,260 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren wären:
 	\[
 		x^{(k+1)} := x^{(k)} - \Big(DF(x^{(k)})\Big)^{-1} F(x^{(k)}) \qquad k\in \N_0
 	\]
-	
 \end{df}
+\begin{nt*}
+	\begin{itemize}
+		\item
+			$DF(x) \in \R^{n\times n}$ bezeichne die Jacobi-Matrix.
+			\[
+				F(x) = \begin{pmatrix}
+					f_1(x) \\ \vdots \\ f_n(x) 
+				\end{pmatrix}
+				\quad\implies\quad
+				\begin{pmatrix}
+					\f{\d}{\d x_1}f_1(x) & \cdots & \f{\d}{\d x_n} f_1(x) \\
+					\vdots & \ddots & \vdots \\
+					\f{\d}{\d x_1}f_n(x) & \cdots & \f{\d}{\d x_n} f_n(x)
+				\end{pmatrix}
+			\]
+		\item
+			Falls alle $DF(x^{(k)})$ regulär sind, dann ist die Sequenz $(x^{(k)})_{k\in \N_0}$ wohldefiniert.
+		\item
+			In der Praxis bricht man die Iteration ab, falls
+			\[
+				\|F(x^{(k)})\| \le \eps_{\text{tol}}
+				\quad\text{oder}\quad
+				\|x^{(k-1)} - x^{(k)}\| \le \eps_{\text{tol}}
+				\quad\text{oder}\quad
+				k \ge k_{\text{max}}
+			\]
+		\item
+			Wir umgehen die Matrixinversion, diese ist nämlich zu aufwändig.
+			Statt
+			\[
+				x^{(k+1)} := x^{(k)} \underbrace{- DF(x^{(k)})^{-1} F(x^{(k)})}_{=:\delta^{(k)}}
+			\]
+			\begin{enumerate}[i)]
+				\item
+					Berechne das Newton-Inkrement $\delta^{(k)} \in \R^n$ durch Lösen des LGS
+					\[
+						DF(x^{(k)}) \delta^{(k)} = -F(x^{(k)})
+					\]
+				\item
+					Aufaddieren der Iterierten:
+					\[
+						x^{(k+1)} = x^{(k)} + \delta^{(k)}
+					\]
+			\end{enumerate}
+	\end{itemize}
+\end{nt*}
+
+\begin{lem}[Globale Konvergenz für affin-lineares $F$] \label{3.22}
+	Für $F(x) = Ax - b$ mit $A\in \R^{n\times n}$ regulär und $b\in \R^n$, also $F(x^*)=0$ hat die eindeutige Lösung $x^* = A^{-1}b$.
+	Dann gilt für alle $x^{(0)} \in \R^n$, dass
+	\[
+		x^{(1)} = x^*
+		\quad\text{und}\quad
+		\|F(x^{(1)}\| = 0
+	\]
+	also terminiert das Newton-Verfahren nach einer Iteration
+	\begin{note}
+		Funktionen der Form
+		\[
+			F(x) = Ax + b
+		\]
+		mit $A\in \R^{n\times n}$ und $b\in \R^n$ bezeichnen man auch als \emph{affin-linear}.
+	\end{note}
+	\begin{proof}
+		\begin{align*}
+			x^{(1)} = x^{(0)} - DF(x^{(0)})^{-1}F(x^{(0)}) = x^{(0)} - A^{-1} (Ax^{(0)}-b) = x^{(0)} - x^{(0)} + A^{-1}b = x^*
+		\end{align*}
+		Außerdem damit
+		\[
+			F(x^{(1)}) = F(x^*) = 0
+		\]
+	\end{proof}
+	\begin{note}
+		Globale Konvergenz liegt nur selten vor, meist nur lokale Konvergenz, analog zu $n=1$.
+	\end{note}
+\end{lem}
+
+\begin{st}[Lokale Konvergenz] \label{3.23}
+	Sei $F \in C^2(\R^n, \R^n)$, $F(x^*) = 0$ und $\det DF(x^*) \neq 0$.
+	Dann ist das Newton-Verfahren lokal konvergent mit Ordnung $2$.
+	\begin{proof}
+		Ähnlich zu Satz \ref{3.4}.
+		Siehe Jarre/Stoer Satz 4.12.
+	\end{proof}
+\end{st}
+
+Das Newton-Verfahren ist unabhängig von der Basis des $\R^n$.
+
+\begin{st}[Affin-Invarianz] \label{3.24}
+	Sei $A\in \R^{n\times n}$ regulär und $b \in \R^n$.
+	Setze $\hat F(\hat x) := F(A\hat x+b)$.
+	Sei $\hat x^{(0)} \in \R^n$ und $x^{(0)} := A\hat x^{(0)} + b$, dann gilt für alle $\hat x^{(k)}$ und $x^{(k)}$ der Newton-Iterierten für $\hat F$ und $F$:
+	\[
+		x^{(k)} = A \hat x^{(k)} + b
+	\]
+	\begin{proof}
+		Übung
+	\end{proof}
+	\begin{note}
+		Gegebenenfalls kann hiermit ein $A$ gefunden werden, sodass die linearen Systeme für $\hat F$ besonders einfach oder stabil zu lösen sind.
+	\end{note}
+\end{st}
+
+\begin{ex*}[Newton-Fraktale]
+	Betrachte die komplexe Funktion $f\in C^\infty(\C, \C)$ definiert durch
+	\[
+		f(x) = z^3 - 1
+	\]
+	Die Nullstellen sind gerade die dritten Einheitswurzeln:
+	\[
+		z_1^* = 1  \qquad z_2^* = e^{\f 23 \pi i} \qquad z_3^* = e^{\f 43 \pi i}
+	\]
+	Das Newton-Verfahren aus Definition \ref{3.3} ist identisch für skalare komplexe Funktionen definiert.
+	Die Realisierung im Rechner geschieht jedoch meist durch vektorielle reelle Arithmetik:
+	Für $z = a+ ib$:
+	\[
+		f(z) \stackrel != 0  \quad \iff\quad F \begin{pmatrix}
+			a \\ b
+		\end{pmatrix}
+		= \begin{pmatrix}
+			\Re(f(a+ib)) \\ \Im(f(a+ib))
+		\end{pmatrix}
+		= \begin{pmatrix}
+			a^3 - 3ab^2 - 1 \\
+			3a^2 b - b^3
+		\end{pmatrix}  \stackrel != \begin{pmatrix}
+			0 \\ 0
+		\end{pmatrix}
+	\]
+	Damit ergibt sich für die $DF$:
+	\[
+		DF \begin{pmatrix}
+			a \\ b
+		\end{pmatrix} = \begin{pmatrix}
+			3a^2 - 3b^2 & -6ba \\
+			6ba & 3a^2 - 3b^2
+		\end{pmatrix}
+	\]
+	Wende jetzt das vektorielle Newton-Verfahren aus Definition \ref{3.21} an.
+	Es ergibt sich dann
+	\[
+		z^{(k)} := a^{(k)}0+ ib^{(k)}
+	\]
+	Als Sequenz der Iterierten zum Startwert $z^{(0)} = a^{(0)} +ib^{(0)}$.
+
+	Für viele $z^{(0)}$ ist die Iteration konvergenzt, für einige $z^{(0)}$ jedoch nicht.
+
+	Definiere das sogenannte \emph{Newton-Fraktal zu $f(z)$}.
+	\[
+		\scr F := \Big\{ z^{(0)} \in \C : \text{ Newton-Verfahren mit Startwert $z^{(0)}$ konvergiert nicht} \Big\}
+	\]
+	Für $f(z) = z^3 - 1$ ist $\scr F$ eine Nullmenge (hat Maß Null), besitzt aber eine interessante „selbstähnliche Struktur“.
+
+	Für Punkte $z^{(0)}$ mit Konvergenz gegen eines der $z_i^*$ kann man diese in eine von drei Farben einfärben.
+	Auch die Helligkeit kann man entsprechend der Iterationszahl bis zum Abbruch definieren.
+	Es ergeben sich die „typischen“ bunten Bilder von „Fraktalen“.
+\end{ex*}
+
+
+\subsection{Variationen von Newton-Verfahren}
+
+Die Berechnung der $DF(x^{(k)})$ und das Lösen von $DF(x^{(k)}) \delta^{(k)} = -F(x^{(k)})$ ist rechenaufwändig insbesondere für hohe Dimensionen, komplizierte $F$, etc.
+
+\begin{seg}[„Vereinfachtes Newton-Verfahren]
+	Ein Ansatz ist das sogennante „Vereinfachte Newton-Verfahren“:
+	Verwende in jedem Schritt $DF(x^{(0)})$ statt $DF(x^{(k)})$.
+
+	Damit ist nur eine Berechnung der Jacobi-Matrix $DF(x^{(0)})$ zu Beginn notwendig.
+	Die sich ergebenden Systeme der Form 
+	\[
+		F(x^{(0)}) \delta^{(k)} = -F(x^{(k)})
+	\]
+	können effizient durch einmalige LR-Zerlegung und mehrfaches Vorwärts-/Rückwärts-Einsetzen gelöst werden.
+
+	Andererseits ist die Konvergenzordnung reduziert, es sind also meist mehr Iterationen erforderlich.
+\end{seg}
+
+\begin{seg}[„Quasi-Newton-Verfahren“]
+	Verwende $A^{(k)} \in \R^{n\times n}$ statt $DF(x^{(k)})$, d.h.
+	\[
+		x^{(k+1)} := x^{(k)} + \delta^{(k)}
+		\qquad A^{(k)} \delta^{(k)}0= -F(x^{(k)})
+	\]
+	mit $A^{(k)}$ einfach zu berechnen.
+
+	Für $A^{(k)} = DF(x^{(0)})$ ergibt sich das vereinfachte Newton-Verfahren.
+	Das vereinfachte Newton-Verfahren ist also auch ein Quasi-Newton-Verfahren
+
+	Für $n=1$ mit
+	\[
+		A^{(k)} := \f {f(x^{(k)}) - f(x^{(k-1)})}{x^{(k)} - x^{(k-1)}} \approx f'(x^{(k)})
+	\]
+	Damit ist das Sekanten-Verfahren auch ein Quasi-Newton-Verfahren.
+
+	Betrachte iterative LGS-Löser zum Lösen von $Ax=:$ (siehe NLA) basierend auf der Zerlegung:
+	\[
+		A = L + D + R 
+		\qquad F(x) := Ax + b
+	\]
+	mit linker-unterer Dreiecksmatrix $L$, Diagonalmatrix $D$ und rechter-oberer Dreiecksmatrix $R$.
+	Für das Jacobi-/Gesamtschrittverfahren:
+	\[
+		x^{(k+1)} = x^{(k)} - D^{-1} F(x^{(k)})
+	\]
+	Für das Gauß-Seidel-/Einzelschrittverfahren:
+	\[
+		x^{(k+1)} = x^{(k)} - (D+L)^{-1} F(x^{(k)})
+	\]
+	Diese sind also auch Quasi-Newton-Verfahren.
+\end{seg}
+
+Im Allgemeinen besitzt das Newton-Verfahren zur lokale Konvergenz, die Menge der Startwerte mit Konvergenz kann klein sein, Divergenz ist möglich.
+
+Ein Grund für die Divergenz kann das Phänomen sein, dass $\|F(x^{(k+1)})\| > \|F(x^{(k)})\|$.
+Das widersprucht dem Ziell $F(x^*) = 0$ (Beispiel: \verb|newton_examples(3)|).
+
+\begin{seg}[„Gedämpftes Newton-Verfahren“]
+	Wähle kleinere Schritte, um ein Abfallen der $\|F(x^{(k)})\|$ zu gewährleisten. 
+	Hiermit wird die Menge der Startwerte mit Konvergenz vergrößert.
+
+	Wähle dazu $\omega_k \in (0,1]$ und setze
+	\[
+		DF(x^{(k)}) \delta^{(k)} = - F(x^{(k)})
+	\]
+	mit der Iterationsvorschrift
+	\[
+		x^{(k+1)} := x^{(k)} + \omega_k \delta^{(k)}
+	\]
+	Für $\omega_k = 1$ entspricht das dem herkömmlichen „ungedämpften“ Newton-Verfahren.
+
+	Für $F \in C^2$ gilt
+	\begin{align*}
+		F(x^{(k)} + \omega \delta^{(k)}) &= F(x^{(k)}) + \omega \underbrace{DF(x^{(k)})\delta^{(k)}}_{-F(x^{(k)})} + O(\omega^2) \\
+		&= (1 - \omega)F(x^{(k)}) + O(\omega^2)
+	\end{align*}
+	Falls $F(x^{(k)}) \neq 0$ kann für $\omega$ genügend klein kann
+	\[
+		\|F(x^{(k)} + \omega \delta^{(k)}) \| < \|F(x^{(k)}\|
+	\]
+	garantiert werden.
+	Für $\beta \in (0,1)$ gilt für genügend kleines $\omega$
+	\[
+		\|F(x^{(k)} + \omega \delta^{(k)})\|  \le (1 - \beta_\omega)) \|F(x^{(k)})\|
+	\]
+	\begin{ex*}
+		\verb|demos_nonlin_systems(7)|.
+		$f(x) = \arctan(x)$
+		Mit $\omega = 1$ ergibt sich Konvergenz in $x^{(0)} \in (-1.3, 1.3)$.
+		Mit der Wahl $\omega = 0.1$ ergibt sich Konvergenz auf $x^{(0)} \in [-10, 10]$.
+
+		Die Konvergenz ist jedoch mit Dämpfung langsamer.
+	\end{ex*}
+\end{seg}
 
 \section{Optimierung}
 
