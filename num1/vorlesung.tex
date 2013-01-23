@@ -4735,18 +4735,18 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 	\]
 	Dieses $\Phi$ nennen wir \emph{Iterationsverfahren}.
 	\begin{note}
-		Falls $x^* = \lim_{k\to \infty} x^{(k)}$, so ist $x^*$ Fixpunkt von $\Phi$, d.h. $\Phi(x^*) = x^*$, denn
+		Falls $x^* = \lim\limits_{k\to \infty} x^{(k)}$, so ist $x^*$ Fixpunkt von $\Phi$, d.h. $\Phi(x^*) = x^*$, denn
 		\[
-			x^* = \lim_{k\to \infty} x^{(k)} = \lim_{k\to \infty} x^{(k+1)} = \lim_{k\to \infty} \Phi(x^{(k)}) = \Phi\Big(\lim_{k\to \infty}\Big) = \Phi(x^*)
+			x^* = \lim_{k\to \infty} x^{(k)} = \lim_{k\to \infty} x^{(k+1)} = \lim_{k\to \infty} \Phi(x^{(k)}) = \Phi\Big(\lim_{k\to \infty} x^{(k)}\Big) = \Phi(x^*)
 		\]
-		daher auch wird soein Verfahren auch „\emph{Fixpunktiterationsverfahren}“ genannt.
+		daher wird so ein Verfahren auch „\emph{Fixpunktiterationsverfahren}“ genannt.
 	\end{note}
 \end{df}
 
 \begin{df}[Konvergenzordnung] \label{3.11}
 	Wir nennen ein iterationsverfahren \emph{lokal konvergent} von mindestens Ordnung $p$, wenn ein $\delta > 0$ existiert, sodass $\forall x^{(0)} \in B_\delta(x^*)$ gilt
 	\[
-		\|x^{(k+1)} - x^*\| \le C \cdot \|x^{(k)} - x\|^p
+		\|x^{(k+1)} - x^*\| \le C \cdot \|x^{(k)} - x^*\|^p
 		\qquad \forall k\in \N
 	\]
 	für ein $p$ und ein $C > 0$.
@@ -4814,13 +4814,13 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 				&\le C \big( \tf{1}{2C}\big)^{\f{p-1}{p-1}} \delta
 				= \f \delta 2
 			\end{align*}
-			und damit $x^{(k+1)} \in B_{\f\delta 2}(x^*)$. Außerdem konvergiert $\Phi(x)$ lokal, da der Kugel immer kleiner wird.
+			und damit $x^{(k+1)} \in B_{\f\delta 2}(x^*)$. Außerdem konvergiert $\Phi(x)$ lokal, da die Kugel immer kleiner wird.
 		\end{seg}
-		\begin{seg}[„$\Longleftarrow$“]
+		\begin{seg}[„$\Longrightarrow$“]
 			\begin{seg}[$p=1$]
 				Sei das Verfahren lokal konvergent mit Ordnung $p=1$, d.h. $\forall k\in \N_0 : x^{(k)} \in B_\delta(x^*)$ und
 				\[
-					|x^{(k+1) -x^*}| \le C|x^{(k)} -x^*| \qquad C < 1
+					|x^{(k+1)} -x^*| \le C|x^{(k)} -x^*| \qquad C < 1
 				\]
 				Also für $x^{(k)} \neq x^*$:
 				\[
@@ -4842,8 +4842,8 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 				mit
 				\[
 					a_m := \begin{cases}
-						\f{j!\Phi^{(p)}(\xi)}{p!\Phi^{(j)}(x^*)} & m=p \\
-						\f{j!\Phi^{(m)}(x^*)}{m!\Phi^{(j)}(x^*)} & j+1 \le m < p
+						\displaystyle \f{j!\Phi^{(p)}(\xi)}{p!\Phi^{(j)}(x^*)} & m=p \\
+						\displaystyle \f{j!\Phi^{(m)}(x^*)}{m!\Phi^{(j)}(x^*)} & j+1 \le m < p
 					\end{cases}
 				\]
 				$a_m$ ist beschränkt in $B_\delta(x^*)$.
@@ -5000,14 +5000,14 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren wären:
 	\end{proof}
 \end{st}
 
-\begin{kor}[Verbesserte Newton-Verfahren II] \label{3.16}
-	Für $f\in C^{n+2}$ mit $n$-fachre Nullstelle $x^*$ ist das Verfahren
+\begin{kor}[Verbessertes Newton-Verfahren II] \label{3.16}
+	Für $f\in C^{n+2}$ mit $n$-facher Nullstelle $x^*$ ist das Verfahren
 	\[
 		x^{(k+1)} := x^{(k)} - n \f {f(x)}{f'(x)}
 	\]
 	lokal quadratisch konvergent.
 	\begin{proof}
-		Mit der Notation aus dem vorigen Beweis:
+		Mit der Notation aus dem vorigen Beweis gilt
 		\begin{align*}
 			\Phi(x) &= x - n\f{f(x)}{f'(x)} = x - n \f {Z(x)}{N(x)} \\
 			\Phi'(x) &= 1 - n\f 1n = 0
@@ -5092,7 +5092,7 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren wären:
 					\end{align*}
 					Damit ist $(x^{(k)})$ eine Cauchy-Folge mit Grenzwert $x^* \in \R^n$, außerdem $x^* \in M$, da $M$ abgeschlossen.
 
-					$\Phi^*$ ist stetig wegen der Kontraktionseigenschaft, also ist $x^*$ Fixpunkt (siehe Bemerkung \ref{3.10})
+					Da $\Phi$ stetig ist (sogar lipschitzstetig wegen der Kontraktionseigenschaft), ist $x^*$ Fixpunkt (siehe Bemerkung in der Definition \ref{3.10})
 				\end{seg}
 			\item
 			\item
