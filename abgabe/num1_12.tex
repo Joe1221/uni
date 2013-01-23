@@ -1,0 +1,225 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\usepackage{graphicx}
+\blattnumeins
+
+\begin{document}
+
+
+\begin{aufgabe}~
+
+	\begin{enumerate}[a)]
+		\item
+			Es soll gelten
+			\[
+				F(x_1,x_2) = \begin{pmatrix}
+					x_1x_2 + x_1 - x_2 - 1 \\ x_1x_2
+				\end{pmatrix}
+				\stackrel != 0
+			\]
+			Im Fall $x_1 = 0$, ergibt sich sofort $x_2 = -1$.
+			Im Fall $x_1 \neq 0$, ergibt sich sofort $x_2 = 0$ und daraus $x_1 = 1$.
+
+			Damit sind die Nullstellen gegeben durch die Menge
+			\[
+				N = \l\{ \begin{pmatrix}
+					0 \\ -1 
+				\end{pmatrix}, \begin{pmatrix}
+					1 \\ 0
+				\end{pmatrix} \r\}
+			\]
+		\item
+			Die Jacobi-Matrix ist gegeben durch
+			\[
+				DF(x_1,x_2) = \begin{pmatrix}
+					x_2 + 1 & x_1 - 1 \\
+					x_2 & x_1
+				\end{pmatrix}
+			\]
+			Für die Newton-Iterationsvorschrift invertiere man die Matrix:
+			\[
+				\Big(DF(x_1,x_2)\Big)^{-1} = \f 1{x_1+x_2} \begin{pmatrix}
+					x_1 & 1-x_1 \\
+					-x_2 & x_2+1
+				\end{pmatrix}
+			\]
+			Damit ergibt sich die Newtoniterationsvorschrift durch
+			\begin{align*}
+				x^{(k+1)} = \begin{pmatrix}
+					x_1^{(k+1)} \\ x_2^{(k+1)}
+				\end{pmatrix} :&= x^{(k)} - \Big(DF(x^{(k)}\Big)^{-1}\cdot F(x^{(k)}) \\ 
+				&= \begin{pmatrix}
+					x_1^{(k)} \\ x_2^{(k)}
+				\end{pmatrix} - \f 1{x^{(k)}-x_2^{(k)}} \begin{pmatrix}
+					x_1^{(k)} & 1 - x_1^{(k)} \\
+					-x_2^{(k)} & x_2^{(k)} + 1
+				\end{pmatrix} \cdot \begin{pmatrix}
+					x_1^{(k)} x_2^{(k)} + x_1^{(k)} - x_2^{(k)} - 1 \\
+					x_1^{(k)} x_2^{(k)}
+				\end{pmatrix} \\ 
+				&= \begin{pmatrix}
+					x_1^{(k)} \\ x_2^{(k)}
+				\end{pmatrix} - \f 1{x^{(k)} + x_2^{(k)}} \begin{pmatrix}
+					\big(x_1^{(k)}\big)^2 - x_1^{(k)} \\
+					\big(x_2^{(k)}\big)^2 - x_2^{(k)}
+				\end{pmatrix}  \\
+				&= \f 1{x_1^{(k)} + x_2^{(k)}} \begin{pmatrix}
+					x_1^{(k)} x_2^{(k)} + x_1^{(k)} \\
+					x_1^{(k)} x_2^{(k)} - x_2^{(k)} \\
+				\end{pmatrix}
+			\end{align*}
+		\item
+			Für den Startwert $x^{(0)} = (2,2)^T$:
+			\begin{align*}
+				x^{(1)} &= \f 1{2+2} \begin{pmatrix}
+					2 \cdot 2 + 2 \\
+					2 \cdot 2 - 2
+				\end{pmatrix} = \begin{pmatrix}
+					\f 32 \\[0.4em]
+					\f 12
+				\end{pmatrix} \\
+				x^{(2)} &= \f 1{\f 32 + \f 12} \begin{pmatrix}
+					\f 34 + \f 32 \\[0.4em]
+					\f 34 - \f 12
+				\end{pmatrix} = \begin{pmatrix}
+					\f 98 \\[0.4em]
+					\f 18
+				\end{pmatrix}\\
+				x^{(3)} &= \f 1{\f 98 + \f 18} \begin{pmatrix}
+					\f 9{64} + \f 98 \\[0.4em]
+					\f 9{64} - \f 18
+				\end{pmatrix} = \begin{pmatrix}
+					\f {81}{80} \\[0.4em]
+					\f 1{80}
+				\end{pmatrix}
+			\end{align*}
+			Die nächste Nullstelle ist $(1,0)^T$, es ergibt sich einen Fehler von
+			\[
+				\|x^{(3)} - x^*\| = \sqrt{\big(\tf 1{80}\big)^2 + \big(\tf 1{80}\big)^2} = \f {\sqrt 2}{80}
+			\]
+			Für den Startwert $x^{(0)} = (0,-2)^T$:
+			\begin{align*}
+				x^{(1)} &= \f 1{0-2} \begin{pmatrix}
+					0 \\ 0 - (-2)
+				\end{pmatrix} = \begin{pmatrix}
+					0 \\[0.4em]
+					-1
+				\end{pmatrix} = x^* \qquad \implies \qquad 
+				x^{(2)} = x^{(3)} = x^*
+			\end{align*}
+			Der Fehler ist dann offensichtlich
+			\[
+				\|x^{(3)} -x^*\| = 0
+			\]
+	\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	\begin{enumerate}[a)]
+		\item
+			Da $\Phi(x) \in C^2$, kann man den Grenzwert einfach über L'Hospital berechnen:  
+			\begin{align*}
+				\lim_{k\to \infty} \f {x^{(k+1)}-x^*}{(x^{(k)}-x^*)^2}
+				= \lim_{x \to x^*} \f {\Phi(x) - x^*}{(x - x^*)^2} 
+				= \lim_{x \to x^*} \f {\Phi'(x)}{2(x-x^*)}
+				= \lim_{x \to x^*} \f {\Phi''(x)}2
+				= \f {\Phi''(x^*)}2
+			\end{align*}
+		\item
+			In der Iteration
+			\[
+				\Psi(x) := x - \f {(\Phi(x) - x)^2}{\Phi(\Phi(x)) - 2\Phi(x) + x}
+			\]
+			entwickle $\Phi(\Phi(x))$ an der Stelle $x$.
+			Für den Nenner ergibt sich dann
+			\begin{align*}
+				\Phi(\Phi(x)) - 2 \Phi(x) + x
+				&= \Phi(x) + \Phi'(\xi)\Big(\Phi(x)-x\Big) - 2 \Phi(x) + x \\
+				&= (\Phi(x) - x)(\Phi'(\xi) - 1)
+			\end{align*}
+			Dabei liegt $\xi$ zwischen $x$ und $\Phi(x)$.
+			Im Folgenden betrachten wir deshalb mal $\xi$ als eine differenzierbare Funktion, die von $x$ abhängt (ohne Bedenken des Autors).
+
+			Die Iteration vereinfacht sich damit zu
+			\[
+				\Psi(x) = x - \f {\Phi(x) - x}{\Phi'(\xi(x)) - 1}
+			\]
+			Die erste Ableitung dann
+			\[
+				\Psi'(x) = 1 - \f{(\Phi'(x)-1)(\Phi'(\xi(x))-1) - (\Phi(x) - x)\big(\Phi''(\xi(x)) \xi'(x) \big)}{\big(\Phi'(\xi(x))-1\big)^2}
+			\]
+			Betrachtet man den Grenzwert $x \to x^*$ ergibt sich $\xi(x) = x^*$ ($\xi$ lag immer zwischen $x$ und $\Phi(x)$).
+			Da außerdem $\Phi'(x^*) \neq 1$ gilt, berechnet sich $\Psi'(x^*)$ als
+			\[
+				\Psi'(x^*) = \lim_{x\to x^*}\Psi'(x) = 1 - \f{(\Phi'(x^*)-1)(\Phi'(x^*)-1) - \overbrace{(\Phi(x^*) - x^*)}^{=0}\big(\Phi''(x^*) \xi'(x^*) \big)}{\big(\Phi'(x^*)-1\big)^2}
+				= 1 - 1 = 0
+			\]
+			Damit hat die Iteration $\Psi$ mindestens Konvergenzordnung $2$.
+	\end{enumerate}
+
+\end{aufgabe}
+
+
+\begin{aufgabe}~
+
+	$M = [\f 74, 2]$ ist nichtleer und abgeschlossen.
+
+	Da $F$ monoton auf $M$, reicht es, die Grenzen zu überprüfen:
+	\begin{align*}
+		F(\tf 74) &= 1 + \f 47 + \f {16}{49} = 1 + \f {44}{49} \in M &
+		F(2) &= 1 + \f 12 + \f 14 = \f 74 \in M
+	\end{align*}
+	Also ist $F$ selbstabbildend.
+	Außerdem ist wegen
+	\[
+		\f {|F(x) - F(y)|}{|x-y|} 
+		= |F'(\xi)| 
+		= \bigg| - \f 1{\xi^2} - \f 2{\xi^3} \bigg| \stackrel{\xi \in (\f 74, 2)}
+		= \underbrace{\f 1{\xi^2} + \f 2{\xi^3} }_{\text{mon. fallend}} 
+		\stackrel{\xi \in (\f 74, 2)}< \f 1{(\f 74)^2} + \f 2{(\f 74)^3} 
+		= \underbrace{\f {240}{343}}_{=:L} < 1
+	\]
+	$F(x)$ lipschitzstetig mit Lipschitzkonstante $L = \f {240}{343}$.
+	Die Vorraussetzungen für den Fixpunktsatz von Banach sind damit erfüllt.
+\end{aufgabe}
+
+\setcounter{aufgabe}{3}
+ 
+\begin{aufgabe}
+	
+	\begin{enumerate}[a)]
+		\item
+			Gewünschte Routine:
+			\lstinputlisting[language=matlab]{num1_11_4/sekd.m}
+		\item
+			Ausgabe:
+			\lstinputlisting[language=matlab]{num1_11_4/b.m}
+			\begin{table}[h]
+				\caption{Werte ohne und mit Dämpfung für $x^{(0)}=4, x^{(1)}=4.01, k_{\text{max}}=20, \eps_{\text{tol}}=10^{-10}$}
+				\centering
+				\begin{tabular}{c|c|c}
+					$k$ & Ohne Dämpfung & Mit Dämpfung \\ \hline
+					0 & 4 & 4 \\
+					1 & 4.0100 & 4.0100 \\
+					2 & -8.5279 & 1.3303 \\
+					3 & -1.7600 & 0.94014 \\
+					4 & 32.303 & 0.98125 \\
+					5 & 13.325 & 0.99712 \\
+					6 & -563.43 & 0.99982 \\
+					7 & -267.59 & 1.00000 \\
+					8 & 2.3730e+05 & 1.00000 \\
+					9 & 1.1838e+05 & 1.00000 \\
+					10 & -4.4124e+10 & 1.00000 \\
+					11 & -2.2062e+10 &  \\
+					12 & 1.5291e+21 &  \\
+					13 & 7.6455e+20 & \\
+					14 & Inf & \\
+					15 & NaN
+				\end{tabular}				
+			\end{table}
+			Man sieht deutlich, dass die Iteration ohne Dämpfung divergiert, während sie mit Dämpfung gegen die Nullstelle $x^* = 1$ konvergiert.
+
+	\end{enumerate}
+\end{aufgabe}
+\end{document}
