@@ -184,42 +184,25 @@
 	Die Vorraussetzungen für den Fixpunktsatz von Banach sind damit erfüllt.
 \end{aufgabe}
 
-\setcounter{aufgabe}{3}
- 
+\newpage 
+
 \begin{aufgabe}
 	
 	\begin{enumerate}[a)]
 		\item
-			Gewünschte Routine:
-			\lstinputlisting[language=matlab]{num1_11_4/sekd.m}
+			Hilfsfunktionen zur Polynomdivision und Ableitungsbestimmung:
+			\lstinputlisting[language=octave]{num1_12_4/my_polydiv.m}
+			\lstinputlisting[language=matlab]{num1_12_4/my_polydiff.m}
+			Eigentliche Routine zur Nullstellenbestimmung:
+			\lstinputlisting[language=matlab]{num1_12_4/realpolyroot.m}
 		\item
-			Ausgabe:
-			\lstinputlisting[language=matlab]{num1_11_4/b.m}
-			\begin{table}[h]
-				\caption{Werte ohne und mit Dämpfung für $x^{(0)}=4, x^{(1)}=4.01, k_{\text{max}}=20, \eps_{\text{tol}}=10^{-10}$}
-				\centering
-				\begin{tabular}{c|c|c}
-					$k$ & Ohne Dämpfung & Mit Dämpfung \\ \hline
-					0 & 4 & 4 \\
-					1 & 4.0100 & 4.0100 \\
-					2 & -8.5279 & 1.3303 \\
-					3 & -1.7600 & 0.94014 \\
-					4 & 32.303 & 0.98125 \\
-					5 & 13.325 & 0.99712 \\
-					6 & -563.43 & 0.99982 \\
-					7 & -267.59 & 1.00000 \\
-					8 & 2.3730e+05 & 1.00000 \\
-					9 & 1.1838e+05 & 1.00000 \\
-					10 & -4.4124e+10 & 1.00000 \\
-					11 & -2.2062e+10 &  \\
-					12 & 1.5291e+21 &  \\
-					13 & 7.6455e+20 & \\
-					14 & Inf & \\
-					15 & NaN
-				\end{tabular}				
-			\end{table}
-			Man sieht deutlich, dass die Iteration ohne Dämpfung divergiert, während sie mit Dämpfung gegen die Nullstelle $x^* = 1$ konvergiert.
+			Test der Routine für $p(x) = 3x^5 - 24x^4 - 60x^3 + 642x^2 - 375x - 1050$ liefert:
+			\begin{verbatim}
+> realpolyroot([3,-24,-60,642,-375,-1050], 30)
+ans =
 
+   7.00000   5.00000   2.00000  -1.00000  -5.00000
+			\end{verbatim}
 	\end{enumerate}
 \end{aufgabe}
 \end{document}
