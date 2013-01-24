@@ -5520,9 +5520,266 @@ Das widersprucht dem Ziell $F(x^*) = 0$ (Beispiel: \verb|newton_examples(3)|).
 	\end{ex*}
 \end{seg}
 
+
+
 \section{Optimierung}
 
 
 
+Wir suchen
+\[
+	\min_{x \in \R^n} f(x)
+\]
+unter den Nebenbedingungen
+\begin{align*}
+	g_i(x) &\le 0 \qquad i=1,\dotsc, n_g \\
+	h_i(x) &= 0 \qquad i = 1,\dotsc, n_h
+\end{align*}
+\begin{itemize}
+	\item
+		Wir nennen $f(x)$ \emph{Zielfunktion} der Optimierung, $g_i(x) \le 0$ \emph{Ungleichungsnebenbedingungen} und $h_i(x)=0$ \emph{Gleichheitsnebenbedingungen}.
+	\item
+		Wir nennen
+		\[
+			X := \{x\in \R^n : g_i(x) \le 0 \land h_i(x) = 0 \}
+		\]
+		die Menge der \emph{zulässigen Punkte}.
+	\item
+		Es reicht das Minimierungsproblem zu betrachten, denn
+		\[
+			\max_{x\in \R^n} f(x) = -\min_{x\in\R^n} -f(x)
+		\]
+	\item
+		Bei den Nebenbedingungen reicht „$\le 0$“ und „$= 0$“ zu betrachten, denn
+		\begin{align*}
+			g_i(x) \ge 0 \quad &\iff \quad -g_i(x) \le 0 \\
+			a(x) \le b \quad &\iff \quad a(x) - b \le 0
+		\end{align*}
+	\item
+		Wichtige Fragen sind:
+		\begin{itemize}
+			\item
+				die nach Existenz und Eindeutigkeit von Optima 
+			\item
+				hinreichende und notwendige Bedingungen zuum Vorliegen eines Optimums in einem vorgegebenem Punkt
+			\item
+				numerische Verfahren zur approximativen Lösung, deren Konvergenz und Fehleraussagen
+		\end{itemize}
+	\item
+		Falls $f,g_i,h_i$ glatte Funktionen sind, haben viele Lösungsansätze polynomielle Komplexität in $n$.
+	\item
+		Falls statt $x\in\R^n$, eine diskrete Grundmenge vorliegt, z.B. $\Z^n$, so ist die Optimierung wesentlich schwieriger.
+		Man spricht dann auch von \emph{diskreter Optimierung} oder \emph{kombinatorischer Optimierung}, deren Lösung häufig Berechnungskomplexität expoentiell in $n$ aufweist.
+\end{itemize}
+
+\begin{seg}[Spezielle Klassen von Problemen]
+	\begin{description}
+		\item[Lineares Optimierungsproblem, „\emph{lineare Programme}“ (LP)]
+			Sei $f(x) = c^Tx$ mit $c\in \R^n$ und  $g_i(x) = a_i^Tx + b_i, h_i(x) = c_i^Tx + d_i$.
+
+			Die Menge $X$ der zulässigen Punkte ist ein Schnitt von Halbräumen und Hyperebenen und insbesondere konvex.
+			
+			Wende das „Simplex-Verfahren“ an (siehe NLA oder Stoer-Bulirsch).
+			\begin{itemize}
+				\item
+					Das Optimum muss in einer Ecke von $X$ liegen.
+				\item
+					Suche eine Ecke von $X$, laufe dann über Kanten von $X$ zu Ecken mit geringerem Zielwert.
+				\item
+					Ende mit Optimum $x^*$, oder Feststellung der Unbeschränktheit.
+			\end{itemize}
+		\item[Unrestringierte Quadratische Optimierung, „\emph{Quadratische Programme}“]
+			\[
+				\min_{x\in\R^n} \f 12 x^TAx - b^Tx + c 
+			\]
+			mit $A$ positiv definit und symmetrisch.
+			Die Existenz und Eindeutigkeit eines Minimums ist gesichert.
+			Hinreichende und notwendige Bedingung für ein lokales Minimum ist
+			\[
+				\nabla f(x) = 0 \quad \iff \quad Ax = b
+			\]
+			Siehe Kapitel 4.1 Gradientenverfahren und CG-Verfahren.
+		\item[Konvexe Optimierung]
+			Sei $f$ konvex und $X$ konvex (d.h. $g_i$ konvex und $h_i$ affinn linear).
+			Siehe Kapitel 4.2.
+		\item
+			In Matlab: \verb|linprog,quadprog,fmincon| sind Beispiele für Lösungsalgorithmen.
+		\item
+			Sehr gute Buchreferenz: Jarre/Soer: Optimierung, Springer 2004.
+	\end{description}
+\end{seg}
+
+\subsection{Unrestringierte Optimierung}
+
+\begin{seg}[Problem]
+	Finde Lösung $x^*\in R^n$ von
+	\[
+		\min_{x\in\R^n}f(x)
+	\]
+	für $f: \R^n \to \R$ ohne weiteren Nebenbedingungen.
+\end{seg}
+
+\begin{df}[Minima] \label{4.1}
+	Sei $f: \R^n \to \R, X \subset \R^n$.
+	$x^* \in \R^n$ heißt
+	\begin{itemize}
+		\item
+			\emph{lokales Minimum}, falls eine Umgebung $U$ von $x^*$ existiert mit
+			\[
+				f(x) \ge f(x^*) \qquad \forall x\in U \cap X
+			\]
+		\item
+			\emph{strikt lokales Minimum}, falls eine Umgebung $U$ von $x^*$ existiert mit
+			\[
+				f(x) > f(x^*) \qquad \forall x\in (U \cap X) \setminus \{x^*\}
+			\]
+		\item
+			\emph{globales Minimum}, falls
+			\[
+				f(x) \ge f(x^*) \qquad \forall x \in X
+			\]
+		\item
+			\emph{stationärer Punkt}, falls $f\in C^1$ und
+			\[
+				\nabla f(x^*) = 0
+			\]
+	\end{itemize}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die Definitionen für Maxima sind analog.
+			\item
+				Im folgenden werden verschiedene Optimierungsverfahren behandelt.
+				Man darf typischerweise keine schönen Konvergenzaussagen erwarten für allgemeine $f$ (z.B. kann häufig nur das Finden von stationären Punkten gewährleistet werden).
+				Unter Einschränkungen von $f$ (z.B. spezielle Funktionsklasse) sind schöne Konvergenzaussagen erreichbar.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\subsubsection{Direkte Suche, $n=1$}
+
+Gesucht ist
+\[
+	\min_{x\in \R} f(x)
+\]
+ohne Stetigkeits- oder Differenzierbarkeitsannahme an $f$.
+Die eindimensionalen Probleme sind wichtig als Zwischenschritt zur mehrdimensionalen Optimierung.
+
+\begin{df}[Unimodale Funktion] \label{4.2}
+	Die Funktion $f:[a,b] \to \R$ ist \emph{unimodal}, falls $x^* \in [a,b]$ existiert mit 
+	\begin{align*}
+		f\big|_[a,x^*] \quad \text{ist streng monoton fallend} \\
+		\land \quad 
+		f\big|_{x^*,b} \quad \text{ist streng monoton steigend}
+	\end{align*}
+	\begin{note}
+		\begin{itemize}
+			\item
+				$x^*$ ist eindeutiges Minimum von $f$.
+			\item
+				Ist $f$ unimodal auf $[a,b]$, dann ist $f$ unimodal auf $[\_a,\_b] \subset [a,b]$.
+			\item
+				Sei $a< x_1 < x_2 < b$ und $f$ unimodal.
+				Falls $f(x_1) > f(x_2)$, dann ist $x^* \in [x_1,b]$, sonst $x^* \in [a,x_2]$.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{seg}[Intervallschachtelung mit Zwischenpunkten]
+	Wähle für ein festes $\tau \in (0,1)$, $x_1, x_2$ so dass
+	\[
+		x_2-a = \tau (b-a) = b-x_1
+	\]
+	Weiter soll $\tau$ derart sein, dass $x_1$ (oder $x_2$) ein Zwischenpunkt auf dem kleineren der beiden Intervalle $[a,x_2]$, $[x_1,b]$ ist, also
+	\begin{align*}
+		(x_1 - a) &= \tau (x_2 - a) \\
+		(1-\tau)(b-a) &= \tau \tau (b-a)
+		\iff \qquad 1 - \tau &= \tau^2 \qquad\iff\qquad \tau = \phi = \f{\sqrt 5 - 1}2 \approx 0.618
+	\end{align*}
+	Damit ist nur ein neuer Punkt und Funktionswert erforderlich, denn der alte Zwischenpunkt und Funktionswert können wiederverwendet werden.
+\end{seg}
+
+\begin{df}[Verfahren des Goldenen Schnitts] \label{4.3}
+	Gegeben $f:[a,b] \to \R$.
+	Setze $\tau := \f {\sqrt - 1}2$ und
+	\begin{gather*}
+		a^{(0)} := a, \quad b^{(0)} := b
+		x_2^{(k)} := a{(k)} + \tau(b^{(k)}-a^{(k)}), \quad x_1^{(k)} := b^{(k)} - \tau(b^{(k)}-a^{(k)})
+	\end{gather*}
+	Falls $f(x_1^{(k)}) > f(x_2^{(k)})$, setze
+	\[
+		[a^{(k+1)},b^{(k+1)}] := [x_1^{(k)}, b]
+	\]
+	sonst
+	\[
+		[a^{(k+1)},b^{(k+1)}] := [a, x_2^{(k)}]
+	\]
+\end{df}
+
+\begin{st}[Konvergenz für $f$ unimodal] \label{4.4}
+	Für $f: [a,b] \to \R$ unimodal gilt
+	\[
+		|b^{(k)} - a^{(k)}| = \tau^k |b-a|
+	\]
+	und
+	\[
+		\lim_{k\to \infty} a^{(k)} = \lim_{k\to \infty} b^{(k)} = x^*
+	\]
+	mit $x^*$ globalem Minimum von $f$.
+	\begin{proof}
+		Ähnlich zu Satz \ref{3.2}.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Das Verfahren ist eher theoretisch interessant, da die Vorraussetzung unimodal selten erfüllt ist.
+			\item
+				Für $f\in C^1$ ist nur eine schwächere Aussage möglich (siehe Satz \ref{4.5})
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{st}[Konvergenz für $f\in C^1$] \label{4.5}
+	Sei $f\in C^1([a,b])$ mit $f(x_1^{(0)}) < \min\{f(a),f(b)\}$.
+	Dann ist
+	\[
+		x^* := \lim_{k\to \infty} a^{(k)} = \lim_{k\to \infty}b^{(k)}
+	\]
+	stationärer Punkt, d.h. $f'(x^*) = 0$.
+	\begin{proof}
+		Setze 
+		\[
+			x^{(k)} := \begin{cases}
+				x_1^{(k)} & f(x_1^{(k)}) \le f(x_2^{(k)}) \\
+				x_2^{(k)} & \text{sonst}
+			\end{cases}
+		\]
+		Damit ist $f(a^{(k)}) \ge f(x^{(k)}) \le f(b^{(k)})$.
+		Deshalb, da $f'$ stetig:
+		\[
+			f'(x^*) = \lim_{k\to \infty} \underbrace{\f {f(x^{(k)})-f(a^{(k)})}{x^{(k)}-a^{(k)}}}_{\le 0} = \lim_{k\to \infty} \underbrace{\f {f(b^{(k)})-f(x^{(k)})}{b^{(k)}-x^{(k)}}}_{\ge 0} = 0
+		\]
+	\end{proof}
+	\begin{note}
+
+		\begin{itemize}
+			\item
+				Das $x^*$ muss kein Minimum sein.
+				Betrachte $f(x) = x^4$ auf dem Intervall $[a,b] = [-1,1]$.
+				Das Verfahren aus Definition \ref{4.3} liefert die Sequenz $a^{(k)} < 0, b^{(k)} > 0$ und
+				\[
+					x^* := \lim_{k\to \infty}a^{(k)} = \lim_{k\to \infty} b^{(k)} = 0
+				\]
+				liefert ein korrektes globales Minimum.
+
+				Betrachte nun $\tilde f\in C^1$ derart, dass es an allen Stellen $a^{(k)},b^{(k)},x_1^{(k)},x_2^{(k)}$ übereinstimmt mit $f$.
+				Aber $\tilde f$ besitzt lokale Minima zwischen jeweils $2$ Punkten min negativem Funktionswert.
+
+				Das Verfahren liefert dann die identische Punktsequenz für $\tilde f$, aber $0$ ist kein Minimum.
+			\item
+				Für $f$ analytisch, so ist $x^*$ lokales Minimum (siehe Jarre/Stoer).
+		\end{itemize}
+	\end{note}
+\end{st}
 
 \end{document}
