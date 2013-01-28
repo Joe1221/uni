@@ -5716,6 +5716,11 @@ Die eindimensionalen Probleme sind wichtig als Zwischenschritt zur mehrdimension
 	\]
 \end{df}
 
+\begin{ex*}[Verfahren des Goldenen Schnitts]
+	Für unimodales $f$ siehe \verb|demos_optimization(1)|.
+	Für stückweise konstante zufällige Funktion, siehe \verb|demos_optimization(2)|.
+\end{ex*}
+
 \begin{st}[Konvergenz für $f$ unimodal] \label{4.4}
 	Für $f: [a,b] \to \R$ unimodal gilt
 	\[
@@ -5781,5 +5786,239 @@ Die eindimensionalen Probleme sind wichtig als Zwischenschritt zur mehrdimension
 		\end{itemize}
 	\end{note}
 \end{st}
+
+
+\subsubsection{Gradientenverfahren}
+
+Wir wollen
+\[
+	\min_{x\in \R^n} f(x)
+\]
+mit $f \in C^n (\R^n, \R)$ betachten.
+
+\begin{seg}[„Methode des steilsten Abstieges“]
+	\begin{itemize}
+		\item
+			$\nabla f(x)$ ist die Richtung des steilsten Anstiegs, also
+			\[
+				d := -\nabla f(x)
+			\]
+			ist eine „\emph{Abstiegsrichtung}“.
+		\item
+			Falls $\nabla f(x) \neq 0$ ist für genügend kleines $\omega \in \R^+$
+			\[
+				f(x + \omega d) < f(x)
+			\]
+		\item
+			Falls $\nabla f(x) = 0$, dann wurde $x$ als stationärer Punkt gefunden.
+		\item
+			Zu $x^{(0)} \in \R^n$ gehe wiederholt kleine Schritte in Abstiegsrichtung.
+	\end{itemize}
+\end{seg}
+
+\begin{df}[Gradientenverfahren] \label{4.6}
+	Sei $f \in C^1(\R^n, \R)$, $x^{(0)} \in \R^n$ und $\omega_k \in \R^+$ für $k \in \N_0$ \emph{Schrittweiten}.
+	Definiere
+	\[
+		x^{(k+1)} := x^{(k)} + \omega_k d^{(k)}
+	\]
+	mit
+	\[
+		d^{(k)} := - \nabla f(x^{(k)})
+	\]
+	\begin{note}[Optimalität]
+		\begin{itemize}
+			\item
+				In der Praxis ist der gefundener Punkt häufig ein lokales Minimum, für manche $f$ auch beweisbar (z.B. $f \in C^2$ und $\nabla^2 f(x^*)$ positiv definit, dann ist $x^*$ in jedem Fall lokales Minimum).
+
+				Es gibt aber auch Gegenbeispiele (z.B. stationärer Punkt $x^*$ wird in einem Sattelpunkt angenommen).
+		\end{itemize}
+	\end{note}
+	\begin{note}[Abstiegsrichtung]
+		\begin{itemize}
+			\item
+				Falls man $d^{(k)}$ anders wählt, jedoch
+				\[
+					d^{(k)} \cdot \nabla f(x^{(k)}) < 0
+				\]
+				gewährt bleibt (stumpfer Winkel), so ist $d^{(k)}$ eine Abstiegsrichtung und das resultierende Verfahren ein „\emph{Abstiegsverfahren}“.
+				
+				Das Gradientenverfahren ist ein spezielles Abstiegsverfahren.
+		\end{itemize}
+	\end{note}
+	\begin{note}[Schrittweite]
+		Siehe \verb|demos_optimization(3)|.
+		\begin{itemize}
+			\item
+				$\omega_k$ darf nicht zu groß sein, sonst wird das Optimum möglicherweise übersprungen.
+			\item
+				$\omega_k$ darf auch nicht zu klein sein, sonst stagniert man in einem nicht-stationären Punkt.
+			\item
+				Eine Möglichkeit bietet die exakte “\emph{line search}”, also die 1D-Optimierung auf der Halbgeraden
+				\[
+					\omega_k = \argmin_{\omega \in \R^+} f(x^{(k)} + \omega d^{(k)})
+				\]
+				Diese Optimierung ist aber eventuelle aufwändig.
+			\item
+				Eine andere Möglichkeit ist die „\emph{Armijo Schrittwahl}“: wähle $\sigma \in (0,1)$ und $\omega_k$ als größte Zahl in $\{2^{-j}\}_{j\in \N_0}$ so dass
+				\[
+					f(x^{(k)} + \omega_k d^{(k)}) \le f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
+				\]
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{lem}[Wohldefiniertheit Armijo]
+	Für genügend kleines $\omega_k$ und $\nabla f(x^{(k)}) \neq 0$ ist Armijo-Regel
+	\[
+		f(x^{(k)} + \omega_k d^{(k)}) \le f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
+	\]
+	erfüllt.
+	\begin{proof}
+		Sei $\omega_k \in \R^+$ beliebig.
+		Die Taylorentwicklung liefert für ein $\xi$ zwischen $x^{(k)}, x^{(k)} + \omega_k d^{(k)}$:
+		\begin{align*}
+			f(x^{(k)}+ \omega_k d^{(k)}) &= f(x^{(k)}) + \omega_k \nabla f(\xi)^T \cdot d^{(k)} \\
+			&= f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
+			+ \omega_k \big(\sigma (\nabla f(\xi)) - \nabla f(x^{(k)})^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \Big)
+		\end{align*}
+		Für $\omega_k \to 0$ ist $\nabla f(\xi) - \nabla f(x^{(k)}) \to 0$ und $(1-\sigma) \nabla f(\xi)^T d^{(k)} \to -(1-\sigma)\|\nabla f(x^{(k)})\|^2 < 0$ für genügend kleines $\omega_k$.
+		Damit ist
+		\[
+			\omega_k \big(\sigma (\nabla f(\xi)) - \nabla f(x^{(k)})^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \Big)
+		\]
+		und die Armijo-Regel ist erfüllt.
+	\end{proof}
+\end{lem}
+
+\begin{st}[Konvergenz] \label{4.8}
+	 Jeder Häufungspunkt $x^* \in \R^n$ von $\{x^{(k)}\}_{k\in \N}$ aus dem Gradientenverfahren mit Armijo-Regel ist ein stationärer Punkt von $f$, d.h. $\nabla f(x^*) = 0$.
+	 \begin{proof}
+	 	Sei $x^*$ Häufungspunkt und $(x^{(k)})_{k\in \N}$ o.B.d.A. konvergent gegen $x^*$ (sonst wähle Teilfolge).
+		Angenommen $\nabla f(x^*) \neq 0$.
+		Es gilt
+		\[
+			\|x^{(k+1)} - x^{(k)}\| = \omega_k \|\nabla f(x^{(k)})\|^2 \to 0 \qquad k\to \infty
+		\]
+		Die Stetigkeit von $\nabla f$ liefert $\|\nabla f(x^{(k)})\| \to \|\nabla f(x^*)\|$ also $\omega_k \to 0$.
+
+		Sei $k_0$ groß genug, sodass $\omega_k \le \f 12$ für $k \ge k_0$.
+		Die Armijo-Regel liefert für $k\ge k_0$
+		\[
+			f(x^{(k)} + \underbrace{2 \omega_k}_{\in \{2^{-j}\}_{j\in \N_0}} d^{(k)}) > f(x^{(k)}) + 2 \omega_k \sigma \nabla f(x^{(k)})^T d^{(k)}
+		\]
+		Mit der Taylorentwicklung folgt
+		\begin{align*}
+			f(x^{(k)} + 2\omega_k d^{(k)}) 
+			&= f(x^{(k)}) + 2 \omega_k \nabla f(\xi^{(k)})^T \cdot d^{(k)}  \qquad \xi^{(k)} \text{ zwischen $x^{(k)}$ und $x^{(k)} + 2 \omega_k d^{(k)}$}
+		\end{align*}
+		Wegen $2 \omega_k > 0$ folgt
+		\[
+			\nabla f(\xi^{(k)})^T \cdot d^{(k)} > \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
+		\]
+		Aus $\omega_k \to 0$ und $x^{(k)} \to x^*$ und $d^{(k)} \to -\nabla f(x^*)$ folgt, dass $\xi^{(k)} \to x^*$ und es ergibt sich im Grenzwert $k\to \infty$:
+		\begin{align*}
+			\nabla f(x^*)^T\cdot (-\nabla f(x^*)) &\ge \sigma \nabla f(x^*)^T \cdot (-\nabla f(x^*)) \\
+			\iff \qquad -\|\nabla f(x^*)\|^2 &\ge - \sigma \|\nabla f(x^*)\|^2 \\
+			\iff \qquad 1 &\le \sigma
+		\end{align*}
+	 \end{proof}
+	 \begin{note}
+		 \begin{itemize}
+		 	\item
+		 		Man kann eine ähnliche Aussage für “line search” erhalten
+			\item
+				Die Menge $\{x^{(k)}\}$ muss keinen Häufungspunkt besitzen, z.B.
+				\[
+					f(x) := c^T x \qquad c \in \R^n \setminus\{0\}
+				\]
+				Es ergibt sich dann $\nabla f(x) = c =: -d^{(k)}$.
+				Für $\omega_k = 2^{-0} = 1$ ist die Armijo-Regel erfüllt:
+				\[
+					f(x^{(k)} +\omega_k d^{(k)}) = f(x^{(k)} - c) = c^T x^{(k)} - \|c\|^2 \le c^T x^{(k)} - \sigma \|c\|^2 = f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
+				\]
+				damit ist
+				\[
+					x^{(k)} := x^{(0)} - k c
+				\]
+				unbeschränkt und besitzt keinen Häufungspunkt
+			\item
+				Falls die Menge $\{x : f(x) \le f(x^{(0)}) \}$ kompakt ist, dann ist $\{x^{(k)}\}$ beschränkt und es existiert eine konvergente Teilfolge.
+				Damit existiert auch ein Häufungspunkt $x^*$.
+			\item
+				Häufungspunkte müssen nicht eindeutig sein (z.B. „Spiralfunktion“, Jarre/Stoer 6.2.2.).
+			\item
+				Das Gradientenverfahren ist sehr robust aber langsam konvergent.
+				Siehe \verb|demos_optimization(4)|, Rosenbrook-Funktion:
+				\[
+					f(x_1, x_2) = 50 (x_2-x_1^2)^2 + (x_1-1)^2
+				\]
+				Damit ergibt sich langsame Konvergenz für das Gradientenverfahren.
+			\item
+				In der Praxis benutzt man viele verschiedene Startpunkte $x^{(0)}$ (z.B. Zufallszahlen, dann Monte-Carlo-Optimierung) um die Chance zu erhöhen, ein globales Optimum unter den gefundenen lokalen Optima zu finden.
+		 \end{itemize}
+	 \end{note}
+\end{st}
+
+
+\subsubsection{Gradientenverfahren für quadratische Zielfunktionen}
+
+
+\begin{df}[Unrestringiertes QP] \label{4.9}
+	Wir nennen
+	\[
+		f(x) = \min_{x\in \R^n} \f 12 x^T A x - b^T x + c
+	\]
+	mit $A \in \R^{n\times n}$ symmetrisch und positiv definit, $b\in \R^n, c\in \R$ ein
+	\emph{unrestringiertes, konvexes quadratisches Programm} (QP).
+\end{df}
+
+\begin{st}[Existenz und Eindeutigkeit des Optimums] \label{4.10}
+	Der Punkt
+	\[
+		x^* := A^{-1} b
+	\]
+	ist eindeutiges globales Minimum des QP.
+	\begin{proof}
+		Es gilt
+		\[
+			\f 12 (x-x^*)^T A(x-x^*) = \f 12 x^TAx - x^TAx^* + \f 12 (x^*)^TAx^*
+		\]
+		Damit folgt für $x \neq x^*$:
+		\begin{align*}
+			f(x) - f(x^*) &= \f 12 x^T Ax - \f 12 (x^*)^TAx^* - b^Tx + b^Tx^* + c - c \\
+			&= \f 12 x^T Ax - x^T Ax^* + \f 12 (x^*)^T Ax^* + x^T Ax^* - (x^*)^T Ax^* + (x^* -x)^Tb \\
+			&= \underbrace{\f 12(x-x^*)^T A(x-x^*)}_{>0} \underbrace{- (x^*-x)^T\underbrace{Ax^*}_{=b} + (x^*-x)^Tb}_{=0} > 0
+		\end{align*}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Das Vorzeichen „$-b$“ im QP ist willkürlich.
+				Mit dieser Wahl ist das QP äquivalent zu einem LGS:
+				\[
+					x^* \text{ löst QP} \quad \iff \quad x^* \text{ löst LGS } Ax=b
+				\]
+			\item
+				$x^*$ ist striktes lokales Optimum, denn
+				\[
+					\nabla f(x^*) = Ax^* - b = A(A^{-1}b) -b = 0
+				\]
+				und $\nabla^2 f(x^*) = A$ ist positiv definit.
+			\item
+				Falls $A$ positiv definit, aber nicht symmetrisch, verwende den symmetrischen Anteil von $A$ im QP:
+				\begin{align*}
+					x^T A x 
+					&= x^T \underbrace{A_S}_{\f 12 (A + A^T)} x + x^T \underbrace{A_a}_{= \f 12 (A-A^T)} x 
+					&= x^T A_S x
+				\end{align*}
+				denn
+				\[
+					x^T A_a x = \f 12 (x^T Ax - \underbrace{x^T A^T x}_{x^T A x}) = 0
+				\]
+		\end{itemize}
+	\end{note}
+\end{st}
+
 
 \end{document}
