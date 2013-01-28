@@ -122,7 +122,7 @@
 	\label{df:1.5}
 	Eine Folge $(z_n)$ in $\C$ \emph{konvergiert} gegen $z\in \C$, falls
 	\[
-		\forall \eps \gt 0 \exists \N_\eps\in \N \forall n\ge \N_\eps : |z_n -z| \lt \eps
+		\forall \eps > 0 \exists \N_\eps\in \N \forall n\ge \N_\eps : |z_n -z| < \eps
 	\]
 	Man schreibt dann $z = \lim_{n\to \infty} z_n$ oder $z_n \to z$ $(n\to \infty)$.
 \end{df}
@@ -148,15 +148,15 @@
 	\label{df:1.7}
 	\begin{enumerate}
 		\item 
-			Sei $r\gt 0, z_0\in \C$.
+			Sei $r> 0, z_0\in \C$.
 			\[
-				K_r(z_0) := \{z\in \C : |z-z_0| \lt r\}
+				K_r(z_0) := \{z\in \C : |z-z_0| < r\}
 			\]
 			heißt \emph{offene Kreisscheibe} um $z_0$ mit Radius $r$.
 		\item
 			Eine Teilmenge $O \subset \C$ heißt \emph{offen}, falls
 			\[
-				\forall z\in 0 \exists r_z \gt 0 : K_{r_z}(z) \subset O
+				\forall z\in 0 \exists r_z > 0 : K_{r_z}(z) \subset O
 			\]
 			Eine Teilmenge $A \subset \C$ heißt \emph{abgeschlossen}, falls $\C\setminus A$ offen ist.
 
@@ -194,7 +194,7 @@
 	Sei $O\subset \C$ offen, $f: O \to \C$.
 	Dann heißt $f$ \emph{stetig} in $z_0\in O$, falls
 	\[
-		\forall \eps\gt 0 \exists \delta_\eps \gt 0 \forall z\in O : |z-z_0| \lt \delta \implies |f(z) -f(z_0)| \lt \eps
+		\forall \eps> 0 \exists \delta_\eps > 0 \forall z\in O : |z-z_0| < \delta \implies |f(z) -f(z_0)| < \eps
 	\]
 	oder äquivalent
 	\[
@@ -688,4 +688,169 @@ Beweis über Folgendefinition der Stetigkeit.
 
 
 
+\begin{proof}
+	\begin{enumerate}[1)]
+		\item
+			Es gelte o.B.d.A
+			\[
+				\omega = a(x) dx_J \qquad J \in \scr G^{(k)}
+			\]
+		\item
+			Lokalisierung:
+			Sei $A(S)$ orientierter Atlas, sortiert wie in \ref{8.6}.
+			\begin{align*}
+				\int_S d\omega &= \sum_{j=1}^N \int_{U_j} \psi_j d\omega \\
+				&= \sum_{i=1}^n \sum_{j=1}^N \int_{U_j}\d_{x_i}(\psi_j a) dx_i \tak dx_J \\
+				&= \sum_{i=1}^n \underbrace{\sum_{j=1}^N \int_{U_j}(\d_{x_i}\psi_j) a xx_i \tak dx_J}_{\int_S (\underbrace{\sum_{j=1}^N \d_{x_i}\psi_j)}_{\d x_i \sum \psi_j = \d x_{i}1 = 0}a dx_i \tak dx_J} \
+				&= \sum_{j=1}^N \int_{U_j}d(\psi_j \omega)
+			\end{align*}
+			Wir zeigen jetzt
+			\[
+				\int_{U_j} d(\psi_j \omega) = \begin{cases}
+					\int_{\tilde U_j = U_j \cap \dS} \psi_j \omega & 1 \le j \le L \\
+					0& L+1 \le j \le N
+				\end{cases}
+			\]
+			Dann gilt, da ${\psi_1,\dotsc, \psi_,\}$ eine Zerlegung der Eins ist für $\dS$ mit Altas $\{\tilde \phi_j, \tilde U_j), 1 \le j \le L \}$
+			\[
+				\int_S d\omega = \sum_{j=1}^L \int_{\tilde U_j} \psi_j \omega  = \int_{\d S} \omega
+			\]
+		\item
+			Sei $j= \{1,\dotsc, N\}$ fest, $\phi_j = (g_1,\dotsc, g_n)$, $D=K_1^{(k+1)}(0)$ falls $1\le j \le L$, $D=K_1^{(k+1)}(0)$ sonst.
+			Also
+			\begin{align*}
+				\int_{U_j} d(\psi_j \omega) &= \sum_{i=1}^n \int_{y\in D} \d_{x_i} (\psi_j a)(\phi_j(y))) \det(\tf{\d(g_i,g_J)}{\d y}) dy 
+				\intertext{
+					Entwickeln der Determinante nach der ersten Zeile ergibt
+				}
+				&= \sum_{i=1}^n \sum_{l=1}^{k+1} (-1)^{k+1} \int_{y\in D} \d_{x_i}(\psi_j a)(\phi_j(y)) \tf{\d_{g_i}}{\d_{y_l}}(y) \cdot \det \bigg( \f{\d(g_{i_1},\dotsc,g_{i_k})}{\underbrace{\d(y_1,\dotsc, y_{l-1},y_{l+1},\dotsc, y_{k+1})}_{y^{(l)}}} dy \\
+				&= \sum_{l=1}^{k+1} (-1)^{l+1} \int_{y \in D} \d_{y_l}((\psi_j a)\circ \phi_j)(y) \det(\dotsc) dy \\
+				&= \sum_{l=1}^{k+1} (-1)^{l+1} \int_{y^{(l)}\in K_1^{(k)}(0)} \int_{y_l=- \sqrt{1 - |y^{(l)}|^2}}^{y_l = + \sqrt{1-|y^{(l)}|^2} \text{ oder $y_l=0$ falls $1\le j \le L$}} \dotsc d y_l dy^{(l)}
+				\intertext{
+					Integriere jetzt partiell und beachte: $(\psi_j a)\circ \psi = 0$ für $y_l = \pm \sqrt{1-|y^{(l)}|^2}$ da $\supp \psi_j \le U_j$.
+					Außerdem $\sum_{l=1}^{k+1} (-1)^{l+1} \d y_l (\det (\dotsc)) = 0$ (Nachrechnen).
+				}
+				&= \begin{cases}
+					0 & L+1 \le j \le N \\
+					\int_{\tilde U_j} \psi \omega \stackrel{\tilde U_j = \tilde \phi_j(K_1^{(k)}(0))}= (-1)^{i+1} \int_{y^{(i)}\in K_1^{(k)}(0)} (\psi_j a) \circ \phi_j (0,y^{(1)}) \det(\tf{\d g_J}{\d y^{(1)}}) dy^{(1)} & 
+				\end{cases}
+			\end{align*}
+	\end{enumerate}
+\end{proof}
+
+\begin{nt*} \label{8.8}
+	\begin{enumerate}[1)]
+		\item
+			Im Fall $k=0, \omega = a(x), S = \phi([\alpha,\beta]), \d S = \{\phi(\alpha), \phi(\beta)\}$.
+			Nach \ref{8.4}:
+		\item
+			Satz von Stokes gilt auch für $S= \_{O}$, d.h. $S \subset O$ nicht notwendig.
+		\item
+			Folgerungen
+			\begin{enumerate}[a)]
+				\item
+					Der Satz von Gauß-Ostrogradski:
+					Sei $f\in C^1(O\to \R^n)$.
+					\[
+						\int_{S} \nabla \cdot f dV^{(n)} = \int_{\d S} \<f,n_0\> dV{(n-1)}
+					\]
+					Setze dazu $\omega := \sum_{j=1}^n (f_j dx_1 \tak \dotsc \tak dx_{j-1} \tax dx_{j+1} \tak \dotsc \tak dx_n)$
+				\item
+					Klassischer Satz von Stokes:
+					Sei $S \subset \R^3$ eine Mannigfaltigkeit der Dimension $2$ und $f \in C^1(S \to \R^3)$, dann gilt
+					\[
+						\int_S (\nabla \times f) dV^{(2)} = \int_{\d S}\<f,t_0\> dV^{(1)}
+					\]
+					Setze dazu $\omega := f_1 dx_1 + f_2 dx_2 + f_3 dx_3$.
+			\end{enumerate}
+	\end{enumerate}
+\end{nt*}
+
+
+\section{Gewöhnliche Differentialgleichungen}
+
+
+\subsection{Funktionalanalysis}
+
+\begin{def} \label{1.1}
+	Sei $(B,+,\cdot)$ ein linearer Raum, d.h. Vektoraum und $\|\cdot\|: B \to \R$ eine Norm (d.h. $\|u\| \ge 0$, $\|u\|=0 \iff u = 0$, $\|u+v\| \le \|u\| + \|v\|$) (Dreiecksungleichung), $\|\alpha u \| = |\alpha| \|u\|$)
+	Ist $B$ vollständig, d.h. jede Cauchy-Folge 
+\end{def}
+
+\begin{ex} \label{1.2}
+	\begin{enumerate}[1)]
+		\item
+			\[
+				B = \C^n, \|u\| = (|u_1|^p + \dotsb + |u_n|^p)^{\f 1p} \qquad 1 \le p < \infty
+			\]
+		\item
+			Sei $B = C([a,b] \to \C)$ mit
+			\[
+				\|f\|_\infty = \max_{a \le x \le b} |f(x)|
+			\]
+			z.B. $\|f\|_2^2 = \int_a^b |f(x)|^2 dx$, dann ist $B$ kein Banach-Raum.
+		\item
+			Definiere
+			\[
+				L^p(I) := \bigg\{ f : I \to \C : f \text{ messbar} \land \int_I |f|^p d\my < \infty \bigg\}
+			\]
+			für ein Intervall $I \subset \R$.
+			$L^p(I)$ mit
+			\[
+				\|f\|_p := \bigg( \int_I |f|^p d\my \bigg)^{\f 1p}
+			\]
+			(Identifiziere $f,\tilde f$, falls $\int_I |f-\tilde f| d\my = 0$)
+	\end{enumerate}
+\end{ex*}
+
+
+\begin{st}[Banachscher Fixpunktsatz] \label{1.3}
+	Sei $B$ ein Banaachraum, $\emptyset \neq D \subset B$ mit $D$ abgeschlossen und $F: D \to B$ eine \emph{Kontraktion}, d.h.
+	\[
+		\exists q \in [0,1[ \forall x,y \in D : \|F(x) - F(y)\| \le q\|x-y\|
+	\]
+	mit $F(D) \subset D$. Dann gilt
+	\begin{enumerate}[1)]
+		\item
+			Es existiert $x\in D$ mit $F(x)=x$, d.h. die Abbildung $F$ hat genau einen \emph{Fixpunkt} $x\in D$.
+		\item
+			Ist $x_0 \in D$ und $x_n := F(x_{n-1})$ für $n\in \N$, so gilt
+			\[
+				x_n \to x \qquad n \to \infty
+			\]
+			mit der \emph{Fehlerabschätzung}
+			\[
+				\|x_n - x\| \le \f{q^n}{1-q} \|x_1 - x_0\|
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Wegen $F(D) \subset D$ ist $x_n$ für $n\in \N_0$ definiert
+			\item
+				Zeige 
+				\[
+					\|x_{n+1} - x_n\| \le q^n \|x_1 - x_0\|
+				\]
+				induktiv
+			\item
+				Siehe Numerik (wurde dort schöner bewiesen).
+			\item
+				Eindeutigkeit:
+				\[
+					\|x-y\| = \|F(x) - F(y)\| \le q \|x-y\|
+				\]
+				und damit $\|x-y\| = 0$, also $x=y$.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{nt} \label{1.4}
+	Man kann genauso beweisen
+	\[
+		\|x - x_n\| \le \f 1{1-q} \|x_{n+1} -x_n \|
+	\]
+\end{nt}
+
 \end{document}
+
