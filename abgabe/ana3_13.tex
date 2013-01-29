@@ -1,0 +1,106 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\blattanadrei
+
+\begin{document}
+
+\setcounter{section}{13}
+
+\begin{aufgabe}
+	\begin{enumerate}[(a)]
+		\item
+			Da $(a_1,a_2)$ eine Basis ist, können wir $(\tilde a_1, \tilde a_2)$ schreiben als
+			\begin{align*}
+				\tilde a_1 &= \lambda_{11} a_1 + \lambda_{12} a_2 \\
+				\tilde a_2 &= \lambda_{21} a_1 + \lambda_{22} a_2
+			\end{align*}
+			Damit gilt
+			\begin{align*}
+				\tilde a_1 \times \tilde a_2
+				&= (\lambda_{11}a_1 + \lambda_{12}a_2) \times (\lambda_{21}a_1 + \lambda_{22}a_2) \\
+				&= \lambda_{11}\lambda_{21}\underbrace{a_1\times a_1}_{=0} + \lambda_{11} \lambda_{22}a_1 \times a_2 + \lambda_{12}\lambda_{21} \underbrace{a_2 \times a_1}_{= - a_1\times a_2}+ \lambda_{12}\lambda_{22} \underbrace{a_2\times a_2}_{=0} \\
+				&= \underbrace{(\lambda_{11}\lambda_{22} - \lambda_{12}\lambda_{21})}_{=:\lambda}a_1\times a_2
+			\end{align*}
+			Also $\tilde a_1 \times \tilde a_2 = \lambda a_1 \times a_2$ mit $\lambda = \lambda_{11}\lambda_{22} - \lambda_{21} \lambda_{12}$.
+			Jetzt ist
+			\begin{align*}
+				(a_1,a_2), (\tilde a_1,a_2) \text{ gleich orientiert}
+				\qquad&\iff\qquad 0 < \det \begin{pmatrix}
+					\lambda_{11} & \lambda_{12} \\
+					\lambda_{21} & \lambda_{22}
+				\end{pmatrix} = \lambda_{11}\lambda_{22} - \lambda_{21}\lambda_{12} = \lambda
+			\end{align*}
+			Womit die Behauptung sofort dasteht.
+		\item
+			Wir zeigen zunächst ein kleines nützliches Lemma:
+			\begin{lem*}
+				Zwei Karten $(\phi, U), (\psi, V)$ einer 2-dimensionales $C^1$-Mannigfaltigkeit sind genau dann gleich orientiert, wenn die Basen der Tangentialräume für jeden Punkt $x \in U\cap V$:
+				\[
+					\bigg( \f{\d}{\d y_1} \phi(\phi^{-1}(x)), \f{\d}{\d y_2} \phi(\phi^{-1}(x)) \bigg)
+					\qquad \text{und}\qquad
+					\bigg( \f{\d}{\d y_1} \psi(\psi^{-1}(x)), \f{\d}{\d y_2} \psi(\psi^{-1}(x)) \bigg)
+				\]
+				gleich orientiert sind.
+				\begin{proof}
+					Wegen
+					\begin{align*}
+						\f{\d}{\d y_i} \phi(\phi^{-1}(x))
+						&= \f{\d}{\d y_i} (\psi \circ \psi^{-1} \circ \phi)(\phi^{-1}(x)) \\
+						&= \sum_{j=1}^2 \f {\d}{\d y_i} \psi((\psi^{-1}\circ \phi)(\phi^{-1}(x))) \cdot \underbrace{\bigg( \f{\d}{\d z} (\psi^{-1} \circ \phi)(\phi^{-1}(x))\bigg)_j}_{=:\lambda_j} \\
+						&= \sum_{j=1}^2 \lambda_j \f{\d}{\d y_i}\psi(\psi^{-1}(x))
+					\end{align*}
+					ist die Matrix
+					\[
+						\f{\d}{\d z} (\psi^{-1}\circ \phi)(\phi^{-1}(x))
+					\]
+					gerade die Basiswechselmatrix.
+					Der Rest folgt aus den jeweiligen Definitionen der Orientiertheit.
+				\end{proof}
+			\end{lem*}
+			\begin{seg}[„$\implies$“]
+				Für $x\in S$ und einer beliebigen Karte $(\phi, U)$ in $x$ aus einem orientiertem Atlas definieren wir
+				\begin{align*}
+					\hat n(x) &:= \f{\d}{\d y_1}\phi(\phi^{-1}(x)) \times \f{\d}{\d y_2} \phi(\phi^{-1}(x)) \\
+					n(x) &:= \f{\hat n(x)}{\|\hat n(x)\|}
+				\end{align*}
+				Weil $\phi$ bijektiv ist, sind die Vektoren im Kreuzprodukt von $\hat n(x)$ stets linear unabhängig und damit der Nenner in $n(x)$ stets ungleich Null.
+				Außerdem spielt die Wahl der Karte $\phi$ keine Rolle, da nach der (a) und dem Lemma $\hat n(x)$ stets in die gleiche Richtung zeigt.
+
+				Offensichtlich ist mit dieser Konstruktion von $n(x)$ gewährleistet, dass $n(x)$ senkrecht auf $T(x)$ steht und $\|n(x)\|=1$.
+				Die Stetigkeit folgt als Komposition stetiger Abbildungen.
+			\end{seg}
+			\begin{seg}[„$\Longleftarrow$“]
+				Wir definieren einen Atlas auf $S$.
+				Dazu nehmen wir alle Karten $(\phi, U)$ ($U\subset S$) in den Atlas auf für die gilt
+				\[
+					\f{\d}{\d y_1}\phi(\phi^{-1}(x)) \times \f{\d}{\d y_2} \phi(\phi^{-1}(x))
+					= \lambda_x n(x) \qquad 
+				\]
+				für beliebiges $x \in U$ und mit $\lambda_x > 0$.
+				
+				Da $\f{\d}{\d y_1}\phi(\phi^{-1}(x)) \times \f{\d}{\d y_2} \phi(\phi^{-1}(x))$ stetig ist und stets ungleich $0$ ($\phi$ bijektiv) und $n(x)$ ebenfalls stetig und ungleich $0$ ist, gilt die Aussage sofort für alle $x\in U$, falls sie für eines gilt (die Wahl von $x\in U$ ist für die Definition unerheblich).
+				Außerdem ist die Existenz solcher Karten ist klar (siehe Votieraufgabe 12.1.).
+				Damit ist der Atlas wohldefiniert.
+
+				Seien nun $(\phi, U), (\psi, V)$ zwei beliebige Karten aus diesem Atlas mit $U\cap V \neq \emptyset$ und sei $x\in U\cap V$.
+				Dann zeigen nach Atlasdefinition
+				\[
+					\f{\d}{\d y_1}\phi(\phi^{-1}(x)) \times \f{\d}{\d y_2} \phi(\phi^{-1}(x))
+					\qquad\text{und}\qquad
+					\f{\d}{\d y_1}\psi(\psi^{-1}(x)) \times \f{\d}{\d y_2} \psi(\psi^{-1}(x))
+				\]
+				in die gleiche Richtung (Richtung $n(x)$).
+				Nach der (a) sind also die Basen
+				\[
+					\bigg( \f{\d}{\d y_1} \phi(\phi^{-1}(x)), \f{\d}{\d y_2} \phi(\phi^{-1}(x)) \bigg)
+					\qquad \text{und}\qquad
+					\bigg( \f{\d}{\d y_1} \psi(\psi^{-1}(x)), \f{\d}{\d y_2} \psi(\psi^{-1}(x)) \bigg)
+				\]
+				gleich orientiert und nach dem Lemma damit auch $(\phi, U)$ und $(\psi, V)$.
+			\end{seg}
+	\end{enumerate}
+\end{aufgabe}
+
+\end{document}
+
+
