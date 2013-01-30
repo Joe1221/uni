@@ -1,0 +1,236 @@
+% Henri Menke, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Differentialformen}
+\addtocounter{thmn}{1}
+\setcounter{theorem}{0}
+
+% % % Vorlesung vom 21.01.2013
+
+\begin{theorem}[Vereinbarung] \label{thm:12.1}
+  Im Folgenden immer: $S$ ist eine kompakte orientierbare $k$-dimensionale $C^1$-Mannigfaltigkeit mit orientiertem Atlas $A(S) = \{ (\varphi_j,U_j) , 1 \leq j \leq N \}$ und passender Zerlegung der Eins $\{ \psi_1,\ldots,\psi_N \}$.
+\end{theorem}
+
+\begin{theorem}[Arbeit] \label{thm:12.2}
+  Sei $n=3$, $k=1$, $F \in C(S \to \mathbb{R}^3)$. Die \acct{Arbeit} längs $S$ im Kraftfeld $F$ ist gegeben durch
+  %
+  \begin{align*}
+    A &\coloneq \int_S \braket{F,t_0} \mathrm{d}V^{(1)}
+  \intertext{wobei $t_0$ der Tangenteneinheitsvektor ist.}
+    &= \sum\limits_{j=1}^{N} \int_{U_j} \psi_j \braket{F,t_0} \mathrm{d}V^{(1)} \\
+    &= \sum\limits_{j=1}^{N}
+    \int\limits_{\substack{y \in ]-1,1[ \\ \lor y \in ]-1,0] \\ \lor y \in [0,1[}}
+    \psi_j(\varphi_j(y))
+    %\Braket{F(\varphi_j(y)), \frac{\varphi_j'(y)}{\| \varphi_j'(y) \|}}
+    \left\langle F(\varphi_j(y)), \frac{\varphi_j'(y)}{\| \varphi_j'(y) \|} \right\rangle
+    \left[ \det \left( \left( \varphi_j'(y) \right)^* \left(  \varphi_j'(y) \right) \right) \right]^{1/2} \, \mathrm{d}y \\
+    &= \sum\limits_{j=1}^{N} \int\limits_{\ldots} \psi_j(\varphi_j(y)) \left( \sum\limits_{k=1}^{N} F_k(\varphi_j(y)) \varphi_{jk}'(y) \right) \, \mathrm{d}y
+  \end{align*}
+\end{theorem}
+
+\begin{theorem}[Fluss] \label{thm:12.3}
+  Sei $n=3$, $k=2$, $V \in C(S \to \mathbb{R}^3)$. Der \acct{Fluss} von $V$ durch $S$ ist definiert durch
+  
+  \begin{align*}
+    F &\coloneq \int_S \braket{V,n_0} \, \mathrm{d}V^{(k)}
+  \end{align*}
+  %
+  wobei $n_0$ der Normaleneinheitsvektor ist.
+  %
+  \begin{align*}
+    = \sum\limits_{j=1}^{N}
+    \int\limits_{\substack{y \in K_1^{(2)}(0) \\ \lor y \in K_1^{(2)+}(0)}}
+    \psi_j(\varphi_j(y)) \Bigg(
+      & V_1(\varphi_j(y)) \cdot \det\left( \frac{\partial(\varphi_{j_2},\varphi_{j_3})}{\partial y} \right) \\
+      &+ V_2(\varphi_j(y)) \cdot \det\left( \frac{\partial(\varphi_{j_3},\varphi_{j_1})}{\partial y} \right) \\
+      &+ V_3(\varphi_j(y)) \cdot \det\left( \frac{\partial(\varphi_{j_1},\varphi_{j_2})}{\partial y} \right)
+    \Bigg)
+    \, \mathrm{d}y
+  \end{align*}
+\end{theorem}
+
+\begin{theorem}[Definition] \label{thm:12.4}
+  Sie $O \subseteq \mathbb{R}^n$ offen. Eine \acct{Differentialform} in $O$ oder $k$-Form in $O$ ist eine Abbildung
+  %
+  \begin{align*}
+    \omega : \left\{
+      \begin{gathered}
+        \text{$k$-dim. kompakten orientierbaren} \\
+        \text{$C^1$-Mannigfaltigkeiten in $O$}
+      \end{gathered}
+    \right\}
+    \to \mathbb{R}
+  \end{align*}
+  %
+  symbolisch gegeben durch
+  %
+  \begin{align*}
+    \omega = \sum\limits_{i_1 = 1}^{n} \ldots \sum\limits_{i_k = 1}^{n} a_{i_1 ,\ldots, i_k} (x) \, \mathrm{d}x_{i_1} \wedge \mathrm{d}x_{i_2} \wedge \ldots \wedge \mathrm{d}x_{i_k}
+  \end{align*}
+  %
+  $a_{i_1 ,\ldots, i_k} \in C(S \to \mathbb{R})$ mit
+  %
+  \begin{align*}
+    \omega(S) \coloneq \int_S \omega \coloneq \sum\limits_{j=1}^{N} \int_{D_j} \left( \sum\limits_{i_1 = 1}^{n} \ldots \sum\limits_{i_k = 1}^{n} (\psi_j \cdot a_{i_1 ,\ldots, i_k})(\varphi_j(y)) \right) \cdot \det\left( \frac{\partial (\varphi_{ji_1},\ldots,\varphi_{ji_k})}{\partial y} \right) \, \mathrm{d}y
+  \end{align*}
+  %
+  $D_j = K_1^{(k)}(0)$ oder $\varphi_j = \left(\begin{smallmatrix} \varphi_{j_1} \\ \vdots \\ \varphi_{j_k} \end{smallmatrix}\right)$. Eine $0$-Form in $O$ ist gegeben durch $a \in C(O \to \mathbb{R})$ und
+  %
+  \begin{align*}
+    \omega(S) \coloneq \sum\limits_{j=1}^{N} a(x_j) \eqcolon \int_S \omega
+  \end{align*}
+  %
+  $\omega$ ist von der Klasse $C^m$, falls $a_{i_1 ,\ldots, i_k} \in C^m(O \to \mathbb{R})$. Das bedeutet, $\omega$ ist durch Vorgabe der $a_{i_1 ,\ldots, i_k}$ definiert.
+\end{theorem}
+
+\begin{notice} \label{thm:12.5}
+  Die Definition von $\int_S \omega$ ist unabhängig vom Atlas und der Zerlegung der Eins, falls der neue Atlas gleich orientiert wie der ursprüngliche ist.
+\end{notice}
+
+\begin{example} \label{thm:12.6}
+  Seien$n=3$, $k=2$, $O \subseteq R^3$, $V \in C(O \to R^3)$.
+  %
+  \begin{align*}
+    \omega \coloneq V_1 \mathrm{d}x_2 \wedge \mathrm{d}x_3 + V_2 \mathrm{d}x_3 \wedge \mathrm{d}x_1 + V_3 \mathrm{d}x_1 \wedge \mathrm{d}x_2 \implies \omega(S)=\text{Fluss von V durch S}
+  \end{align*}
+  %
+\end{example}
+
+\begin{notice}[Eigenschaften:] \label{thm:12.7}
+  Sei $k \geq 2$.
+  %
+  \begin{enum-arab}
+    \item Falls $\omega = a(x) \, \mathrm{d}x_{i_1} \wedge \ldots \wedge \mathrm{d}x_{i_k}$ und $i_j = i_\ell$ für ein Paar $(j,\ell)$ mit $j \neq \ell$. Dann ist $\omega = 0$. Insbesondere $\mathrm{d}x_i \wedge \mathrm{d}x_i = 0$.
+    
+    \item
+    \begin{gather*}
+      \mathrm{d}x_{i_1} \wedge \ldots \wedge \mathrm{d}x_{i_j} \wedge \ldots \wedge \mathrm{d}x_{i_\ell} \wedge \ldots \wedge \mathrm{d}x_{i_k} \\
+      \mathrm{d}x_{i_1} \wedge \ldots \wedge \mathrm{d}x_{i_\ell} \wedge \ldots \wedge \mathrm{d}x_{i_j} \wedge \ldots \wedge \mathrm{d}x_{i_k} \\
+    \end{gather*}
+  \end{enum-arab}
+  
+  \begin{proof}
+    \begin{enum-arab}
+      \item Sieht man direkt aus
+      %
+      \begin{align*}
+        \det \left( \frac{\partial (\varphi_{i_1} ,\ldots, \varphi_{i_k})}{\partial y} \right) = 0
+      \end{align*}
+      %
+      wobei die Spalten $i_j$ und $i_\ell$ gleich sind.
+      
+      \item Folgt aus: Vertauscht man in der Matrix $A$ zwei Spalten, so wird $\det A$ mit $-1$ multipliziert.
+    \end{enum-arab}
+  \end{proof}
+\end{notice}
+
+\begin{notice}[Lineare Struktur:] \label{thm:12.8}
+  Für $k$-Formen $\omega_1,\omega_2$ und $c_1, c_2 \in \mathbb{R}$ ist
+  %
+  \begin{align*}
+    (c_1 \omega_1 + c_2 \omega_2)(S)
+    &= \int_S (c_1 \omega_1 + c_2 \omega_2) \\
+    &\coloneq c_1 \int_S \omega_1 + c_2 \int_S \omega_2 = c_1 \omega_1(S) + c_2 \omega_2(S)
+  \end{align*}
+\end{notice}
+
+\begin{example} \label{thm:12.9}
+  $\omega = 1 \cdot \mathrm{d}x_1 \wedge \mathrm{d}x_2 + 1 \cdot \mathrm{d}x_2 \wedge \mathrm{d}x_1$ $\implies$ $\omega = 0$.
+\end{example}
+
+\begin{theorem}[Definition] \label{thm:12.10}
+  Es sei $I = (i_1\ldots,i_k)$ mit $1 \leq i_1 < i_2 < \ldots < i_k \leq n$. Dann heißt $I$ \acct{wachsender Index}. Wir setzen 
+  %
+  \begin{align*}
+    \mathcal{G} &\coloneq \{ I : I \text{ wachender Index der Länge } k \} \\
+    \mathrm{d}x_I &\coloneq \mathrm{d}x_{i_1} \wedge \ldots \wedge \mathrm{d}x_{i_k} \; , \quad \text{mit } I = (i_1,\ldots,i_k)
+  \end{align*}
+  %
+  $\mathrm{d}x_I$ mit $I \in \mathcal{G}^{(k)}$ heißt \acct{$k$-Grundform} im $\mathbb{R}^n$.
+\end{theorem}
+
+\begin{theorem}[Satz] \label{thm:12.11}
+  \begin{enum-arab}
+    \item Ist \[ \omega = \sum\limits_{I \in \mathcal{G}^{(k)}} a_I(x) \, \mathrm{d}x_I = 0 \] so folgt $a_I = 0$ für $I \in \mathcal{G}^{(k)}$.
+    
+    \item Jede $k$-Form $\omega$ in $O$ besitzt eine eindeutige Darstellung
+    %
+    \begin{align*}
+      \omega = \sum\limits_{I \in \mathcal{G}^{(k)}} a_I \, \mathrm{d}x_I
+    \end{align*}
+    %
+    d.h. $(a_I : I \in \mathcal{G}^{(k)})$ sind die $\binom{n}{k}$ Koordinaten von $\omega$. Die Abbildung
+    %
+    \begin{align*}
+      \omega \mapsto (a_I : I \in \mathcal{G}^{(k)}) \text{ mit } \omega = \sum a_I \, \mathrm{d}x_I
+    \end{align*}
+    %
+    ist bijektiv und linear.
+  \end{enum-arab}
+  
+  \begin{proof}
+    \begin{enum-arab}
+      \item Ann: $\omega = 0$, aber $a_{I_0} \neq 0$ für mindestens ein $I_0 \in \mathcal{G}^{(k)}$. Sei $x_0 \in O$ mit $a_{I_0} (x_0) \neq 0$, o.B.d.A. $a_{I_0}(x_0) > 0$. Wähle $\delta > 0$ mit
+      %
+      \begin{align*}
+        a_{I_0} (x) \geq \frac{1}{2} a_{I_0}(x_0) > 0 \text{ für } x \in K_\delta(x_0), \overline{K_\delta(x_0)} \subseteq O
+      \end{align*}
+      %
+      Wähle $D \coloneq \overline{K_1^{(k)}(0)}$.
+      %
+      \begin{align*}
+        \varphi(y) \coloneq x_0 + \delta \sum\limits_{\ell=1}^{k} y_\ell e_{j_\ell}
+      \end{align*}
+      %
+      wobei $I_0 = \{ j_1,\ldots,j_k \}$ und $e_{j_k} = (0,\ldots,1,\ldots,0)^\top$. Dann ist $\varphi(D)$ eine kompakte orientierbare $C^\infty$-Mannigfaltigkeit, $\dim k$
+      %
+      \begin{align*}
+        \implies \omega(\varphi(D)) \overset{\text{\ref{thm:11.7}}}{=} \int_D \sum\limits_{I \in \mathcal{G}^{(k)}} a_I(\varphi(y)) \det\left( \frac{\partial \varphi_I}{\partial y} \right) \, \mathrm{d}y
+      \end{align*}
+      %
+      Sei $I \in \mathcal{G}^{(k)}$, $I \neq I_0$, $I = (i_1,\ldots,i_k)$
+      %
+      \begin{gather*}
+        \implies \det\left( \frac{\partial \varphi_I}{\partial y} \right) = \det\left( \frac{\partial (\varphi_{i_1} ,\ldots,\varphi_{i_k})}{\partial y} \right) \\
+        \varphi(y) = x_0 + \delta(y_1 e_{j_1} + y_2 e_{j_2} + \ldots + y_k e_{j_k}) \\
+        \implies \frac{\partial \varphi}{\partial y_\ell} = \delta e_{j_\ell} \; , \quad \text{insbesondere }
+        \frac{\partial \varphi}{\partial y_\ell} =
+        \begin{cases}
+          \delta & i = j_\ell \\
+          0 & \text{sonst}
+        \end{cases} \\
+        \implies \det
+        \begin{pmatrix}
+          \partial_{y_1} \varphi_{i_1} & \ldots & \partial_{y_k} \varphi_{i_1} \\
+          \vdots & & \vdots \\
+          \partial_{y_1} \varphi_{i_k} & \ldots & \partial_{y_k} \varphi_{i_k} \\
+        \end{pmatrix} = 0
+      \end{gather*}
+      %
+      Außerdem
+      %
+      \begin{gather*}
+        \det \left( \frac{\partial \varphi_{I_0}}{\partial y} \right) =
+        \det
+        \begin{pmatrix}
+          \delta & 0 & \ldots & 0 \\
+          0 & \delta & \ldots & 0 \\
+          \vdots & \ddots & & \vdots \\
+          0 & \ldots & 0 & \delta \\
+        \end{pmatrix}
+        = \delta^n \\
+        \implies \omega(\varphi(D)) = 0 + \ldots + 0 + \int_D a_{I_0}(\varphi(y)) \cdot \delta^n \, \mathrm{d}y \geq \frac{1}{2} a_{I_0}(x_0) \delta^n \int_D 1 \, \mathrm{d}y > 0
+      \end{gather*}
+      %
+      $\lightning$ $\omega(S) = 0$ für alle $S$.
+      
+      \item Die Eindeutigkeit folgt aus 1.). Existenz: Forme alle Summanden $\mathrm{d}x_{i_1} ,\ldots, \mathrm{d}x_{i_k} = (-1)^{} \mathrm{d}x_I$, $I \in \mathcal{G}^{(k)}$ um und fasse gleiche $\mathrm{d}x_I$ zusammen.
+    \end{enum-arab}
+  \end{proof}
+\end{theorem}

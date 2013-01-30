@@ -1,0 +1,263 @@
+% Henri Menke, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Zerlegung der Eins}
+\addtocounter{thmn}{1}
+\setcounter{theorem}{0}
+
+% % % Vorlesung vom 14.01.2013
+
+\begin{theorem}[Definition] \label{thm:10.1}
+  Sei $\psi \in \mathbb{R}^n \to \mathbb{R}$ oder $\mathbb{C}$ (oder was anderes). Der Träger (engl.: support) von $\psi$
+  %
+  \begin{align*}
+    \mathrm{supp} \psi \coloneq \overline{\{ x \in \mathbb{R}^n : \psi(x) \neq 0 \}}.
+  \end{align*}
+\end{theorem}
+
+\begin{theorem}[Satz] \label{thm:10.2}
+  Sei $M \subseteq \mathbb{R}^n$, $\{ O_\alpha : \alpha \in A \}$ offene Überdeckung von $M$. Dann existiert eine abzählbare oder endliche Menge $\{ \psi_j : C^\infty(\mathbb{R}^n \to \mathbb{R}) \}$ mit
+  %
+  \begin{enum-roman}
+    \item \label{itm:10.2 i} $\forall \, j \, \forall \, x \in \mathbb{R}^n : 0 \leq \psi_j(x) \leq 1$.
+    
+    \item \label{itm:10.2 ii} $\forall \, j : \mathrm{supp} \psi_j$ ist kompakt.
+    
+    \item \label{itm:10.2 iii} $\forall \, j \, \exists \, \alpha \in A : \mathrm{supp} \psi_j \subseteq O_\alpha$.
+    
+    \item \label{itm:10.2 iv} $\forall \, x \in M : \# \{ j : \psi_j(x) \neq 0 \} < \infty$.
+    
+    \item \label{itm:10.2 v} $\forall \, x \in M : \sum\limits_{j} \psi_j(x) = 1$.
+  \end{enum-roman}
+  %
+  Die Familie $\{ \psi_j \}$ heißt \acct{Zerlegung der Eins} bezüglich $\{ O_\alpha : \alpha \in A \}$.
+\end{theorem}
+
+\begin{theorem}[Satz] \label{thm:10.3}
+  Sei $K \subseteq \mathbb{R}^n$ kompakt, $M \subseteq \mathbb{R}^n$ abgeschlossen, $K \cap M = \emptyset$. Dann
+  %
+  \begin{align*}
+    \mathrm{d}(K,M) \coloneq \inf \{ |x-y| : x \in K, y \in M \} > 0
+  \end{align*}
+  %
+  und dieses Infimum ist eine Minimum.
+  
+  \begin{proof}
+    Seien $(x_n)$ Folge in $K$, $(y_n)$ Folge in $M$, $|x_n-y_n| \to \mathrm{d}(K,M)$.
+    %
+    \begin{itemize}
+      \item[] $K$ kompakt $\implies$ $x_{n_k} \to x \in K$
+      
+      \item[$\implies$] $|y_{n_k}| \leq |y_{n_k} - x_{n_k}| + |x_{n_k}|$ $\implies$ $(y_{n_k})$ ist beschränkt.
+      
+      \item[$\overset{\text{Bolzano-}}{\underset{\text{Weierstraß}}{\implies}}$] $y_{n_k} \to y \in \mathbb{R}^n$
+      
+      \item[] $M$ abgeschlossen $\implies$ $y \in M$
+      
+      \item[$\implies$] $x \in K , y \in M, \mathrm{d}(x,y) = \lim\limits_{\ell \to \infty}|x_{n_{k_\ell}} - y_{n_{k_\ell}}| = \mathrm{d}(K,M)$.
+    \end{itemize}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Satz] \label{thm:10.4}
+  \begin{enum-arab}
+    \item
+    \begin{align*}
+      g_1(x) \coloneq
+      \begin{cases}
+        \mathrm{e}^{-1/x} & x > 0 \\
+        0 & x \leq 0
+      \end{cases}
+    \end{align*}
+    %
+    $\implies$ $g_1 \in C^\infty(\mathbb{R} \to \mathbb{R})$, $g_1 \geq 0$, $\mathrm{supp}(g_1) = [0,\infty[$.
+    
+    \item
+    \begin{align*}
+      g_2(x) \coloneq g_1(1-|x|^2) \; , \quad  \text{für $x \in \mathbb{R}^n$}
+    \end{align*}
+    %
+    $\implies$ $g_2 \in C^\infty(\mathbb{R}^n \to \mathbb{R})$, $g_1 \geq 0$ für $x \in \mathbb{R}^n$, $\mathrm{supp}(g_2) = \overline{K_1^{(n)}(0)}$.
+    
+    \item
+    \begin{align*}
+      g_3(x) \coloneq \frac{1}{\int\limits_{\mathbb{R}^n} g_2(x) \, \mathrm{d}x} g_2(x) \; , \quad x \in \mathbb{R}^n
+    \end{align*}
+    %
+    Dann zusätzlich \[ \int\limits_{\mathbb{R}^n} g_3(x) \, \mathrm{d}x = 1. \]
+    
+    \item Sei $\delta > 0$, \[ g_\delta(x) \coloneq \frac{1}{\delta^n} g_3\left( \frac{x}{\delta} \right) \; , \quad x \in \mathbb{R}^n \]
+    $\implies$ $g_\delta \in C^\infty(\mathbb{R}^n \to \mathbb{R})$, $g_\delta \geq 0$ für $x \in \mathbb{R}^n$, $\mathrm{supp}(g_\delta) = \overline{K_\delta(0)}$, $\displaystyle \int\limits_{\mathbb{R}^n} g_3(x) \, \mathrm{d}x = 1$.
+  \end{enum-arab}
+\end{theorem}
+
+\begin{theorem}[Satz] \label{thm:10.5}
+  Sei $O \subseteq \mathbb{R}^n$ offen, $K \subseteq O$ kompakt. Dann existiert $\varphi \in C^\infty(\mathbb{R}^n \to \mathbb{R})$ mit $\varphi(x) \geq 0$ für $x \in \mathbb{R}^n$, $\mathrm{supp}(\varphi) \subseteq O$, $\varphi(x) = 1$ auf $K$.
+  
+  \begin{proof} Sei
+    \begin{align*}
+      \delta \coloneq \frac{1}{4} \mathrm{d}(K, \mathbb{R}^n \setminus O) \overset{\text{\ref{thm:10.3}}}{>} 0.
+    \end{align*}
+    %
+    Setze $K_j \coloneq \{ x \in \mathbb{R}^n : \mathrm{d}(x,K) \leq \delta \}$. Dann $K_\delta \subseteq O$, $K_\delta$ abgeschlossen. Damit hat\footnote{$\chi_M(x) = \begin{cases} 1 & x \in M \\ 0 & \text{sonst} \end{cases}$}
+    %
+    \begin{align*}
+      \varphi(x) \coloneq \int\limits_{\mathbb{R}^n} \chi_{K_\delta}(y) \, g_\delta(y-x) \, \mathrm{d}\mu_y
+    \end{align*}
+    %
+    die gewünschten Eigenschaften.
+    %
+    \begin{item-triangle}
+      \item $\varphi(x) \geq 0$ \quad $\checkmark$
+      
+      \item $\mathrm{supp}(\varphi) \subseteq \{ x \in \mathbb{R}^n : \mathrm{d}(x,K) \leq 2 \delta \} \subseteq O$ \quad $\checkmark$
+      
+      \item $\displaystyle x \in K : \varphi(x) = \int\limits_{y \in K_\delta} 1 \cdot g_\delta(y-x) \, \mathrm{d}\mu_y = \int\limits_{\mathclap{y \in \overline{K_\delta(x)} \subseteq K_\delta}
+      %|y-x| \leq \delta
+      } g_\delta(y-x) \, \mathrm{d}\mu_y = \int\limits_{\mathbb{R}^n} g_\delta(y) \, \mathrm{d}y = 1$ \quad $\checkmark$
+      
+      \item $\varphi \in C^\infty$ (ohne Beweis) \quad $\checkmark$
+    \end{item-triangle}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Satz] \label{thm:10.6}
+  Sei $O \subseteq \mathbb{R}^n$ offen, $K \subseteq O$ kompakt. Dann existiert $O' \subseteq \mathbb{R}^n$ offen und beschränkt mit $K \subseteq O' \subseteq \overline{O'} \subseteq O$.
+  
+  \begin{proof}
+    Sei $\delta \coloneq \mathrm{d}(K,\mathbb{R}^n \setminus O) \overset{\text{\ref{thm:10.3}}}{>} 0$ falls $O \neq \mathbb{R}^n$, $\delta = 1$ falls $O = \mathbb{R}^n$.
+    %
+    \begin{align*}
+      & O' \coloneq \bigcup\limits_{x \in K} K_{\delta/2}(x) = \{ x \in \mathbb{R}^n : \mathrm{d}(x,K) \leq \delta/2 \} \\
+      \implies &
+      \begin{cases}
+        O' \text{ offen (Vereinigung offener Mengen)} \\
+        K \subseteq O' \\
+        \overline{O'} = \{ x \in \mathbb{R}^n : \mathrm{d}(x,K) \leq \delta/2 \} \subseteq O
+      \end{cases}
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Satz] \label{thm:10.7}
+  Sei $K \subseteq \mathbb{R}^n$ kompakt, $\{ O_1,\ldots,O_N \}$ offene Überdeckung von $K$. Dann existieren $O_1',\ldots,O_N' \subseteq \mathbb{R}^n$ offen mit 
+  %
+  \begin{align*}
+    \overline{O_j'} \subseteq O_j \; , \quad O_j' \text{ beschränkt} \; , \quad K \subseteq \bigcup\limits_{j=1}^{N} O_j
+  \end{align*}
+  
+  \begin{proof}
+    \begin{align*}
+      K_1 \coloneq K \cap \left( \mathbb{R}^n \setminus \bigcup\limits_{j=2}^{N} O_j \right) \quad \text{ist kompakt.}
+    \end{align*}
+    %
+    $K_1 \subseteq O_1$, da $K_1 \cap (\mathbb{R}^n \setminus O_1) = K \cap \bigcap\limits_{j=1}^{N} \mathbb{R}^n \setminus O_j = \emptyset$. Wähle $O_1' \subseteq \mathbb{R}^n$ offen und beschränkt mit $K_1 \subseteq O_1' \subseteq \overline{O_1} \subseteq O_1$ (\ref{thm:10.6}).
+    
+    $\implies$ $\{ O_1',O_2,O_3,\ldots,O_N \}$ überdeckt $K$ wegen
+    %
+    \begin{align*}
+      \emptyset
+      &= K_1 \cap (\mathbb{R}^n \setminus O_1') \\
+      &= K \cap (\mathbb{R}^n \setminus O_1') \cap \left( \bigcap\limits_{j=2}^{N} \mathbb{R}^n \setminus O_j \right) \\
+      &= K \cap \mathbb{R}^n \setminus \left( O_1' \cup \bigcup\limits_{j=2}^{N} \mathbb{R}^n \setminus O_j \right) \\
+    \end{align*}
+    %
+    und $O_1'$ beschränkt, $\overline{O_1'} \subseteq O_1$. Sukzessive $O_j$ durch $O_j'$ ersetzen $\implies$ fertig.
+  \end{proof}
+\end{theorem}
+
+\begin{proof}[Beweis von \ref{thm:10.2}]
+  \minisec{Fall 1:} $M$ ist kompakt.
+  %
+  \begin{align*}
+    \implies \exists \, \alpha_1,\ldots,\alpha_N \in A : M \subseteq \bigcup\limits_{j=1}^{N} O_{\alpha_j}
+  \end{align*}
+  %
+  Wähle $O_{\alpha_j}' \subseteq \mathbb{R}^n$ offen, $O_{\alpha_j}'$ beschränkt, $\overline{O_{\alpha_j}'} \subseteq O_{\alpha_j}$ mit $M \subseteq \bigcup\limits_{j=1}^{N} O_{\alpha_j}$ (\ref{thm:10.7}). $\overline{O_{\alpha_j}'}$ beschränkt und abgeschlossen $\overset{\text{Borel}}{\implies}$ kompakt.
+  %
+  \begin{multline*}
+    \implies \varphi_{\alpha_j} \in C^\infty(\mathbb{R}^n \to \mathbb{R}) \text{ mit } \varphi_{\alpha_j}(x) = 1 \text{ für } x \in \overline{O_{\alpha_j}'}, \mathrm{supp} \varphi_{\alpha_j} \subseteq O_{\alpha_j}, \varphi_{\alpha_j} \geq 0.
+  \end{multline*}
+  %
+  Setze
+  %
+  \begin{align*}
+    \widetilde{\psi}_j(x) \coloneq \frac{\varphi_{\alpha_j}(x)}{\sum\limits_{k=1}^{N} \varphi_{\alpha_k}(x)}
+  \end{align*}
+  %
+  $\implies$ \ref{itm:10.2 i},\ref{itm:10.2 ii},\ref{itm:10.2 iii},\ref{itm:10.2 iv},\ref{itm:10.2 v} erfüllt. Es fehlt $\psi_j \in C^\infty(\mathbb{R}^n \to \mathbb{R})$.
+  
+  \ref{thm:10.5} $\implies$ Es existiert $\varphi \in C^\infty(\mathbb{R}^n \to \mathbb{R})$ mit $\varphi = 1$ auf $M_N$ und $\mathrm{supp}\varphi \subseteq \bigcup\limits_{j=1}^{N} O_{\alpha_j}'$. Setze $\psi_j(x) \coloneq \varphi(x) \widetilde{\psi}_j(x)$.
+  
+  $\implies$ \ref{itm:10.2 i},\ref{itm:10.2 ii},\ref{itm:10.2 iii},\ref{itm:10.2 iv},\ref{itm:10.2 v} erfüllt und $\psi_j \in C^\infty(\mathbb{R}^n \to \mathbb{R})$.
+  
+  % % % Vorlesung vom 17.01.2013
+  
+  \minisec{Fall 2:} $M$ ist offen.
+  %
+  \begin{align*}
+    M_j \coloneq \left\{ x \in M : |x| \leq j \land \mathrm{d}(x,\mathbb{R}^n \setminus M) \geq \frac{1}{j} \right\}
+  \end{align*}
+  %
+  Also ist $M_j$ kompakt und $M = \bigcup\limits_{j \in \mathbb{N}} M_j$. Für festes $j$:
+  %
+  \begin{align*}
+    \left\{ O_\alpha \cap \mathrm{int}(M_{j+1}) \cap (\mathbb{R}^n \setminus M_{j-2}) : \alpha \in A \right\}
+  \end{align*}
+  %
+  ist eine offene Überdeckung von $M_j \setminus \mathrm{int}(M_{j-1}) = M_j \cap \mathbb{R}^n \setminus M_{j+1}$.
+  %$M_j \setminus M_{j+1} = M_j \cap \mathbb{R}^n \setminus M_{j+1}$
+  
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-4,-2)(4,2)
+      % M_{j}
+      \psellipse[linecolor=DarkOrange3,fillstyle=vlines,hatchcolor=DarkOrange3,hatchsep=0.3cm](0,0)(3,1.5)
+      % M_{j-1}
+      \psellipse[linecolor=DarkOrange3,fillstyle=solid](0,0)(2,1)
+      % M_{j+1}
+      \psellipse[fillstyle=hlines,hatchcolor=DimGray,hatchsep=0.3cm](0,0)(4,2)
+      % M_{j-2}
+      \psellipse[fillstyle=solid](0,0)(1,0.5)
+      % Labels
+      \uput*{3.15}[0](0,0){\color{DimGray} $M_{j+1}$}
+      \uput*{2.2}[0](0,0){\color{DimGray} $M_{j}$}
+      \uput*{1.1}[0](0,0){\color{DimGray} $M_{j-1}$}
+      \rput*(0,0){\color{DimGray} $M_{j-2}$}
+    \end{pspicture}
+  \end{figure}
+  
+  Nach Schritt 1 ist $\{ \psi_{jk} : k = 1,\ldots,N_j \}$ eine Zerlegung der Eins auf $M_j \setminus \mathrm{int}(M_{j-1})$. Definiere
+  %
+  \begin{align*}
+    \sigma(x) \coloneq \sum\limits_{j=1}^{\infty} \sum\limits_{k=1}^{N_j} \psi_{jk}(x).
+  \end{align*}
+  %
+  Nach Konstruktion gilt: Zu jedem $x \in M$ existiert eine offene Umgebung $U(x)$, sodass die Summe $U(x)$ endlich ist ($x \notin M \implies \psi_{jk}(x) = 0$).
+  %
+  \begin{align*}
+    \implies \sigma \in C^\infty(\mathbb{R}^n \to \mathbb{R})
+  \end{align*}
+  %
+  Außerdem $\sigma(x) \geq 1$ für $x \in M$.
+  %
+  \begin{align*}
+    \implies \left\{ \frac{1}{\sigma} \psi_{jk} : j \in \mathbb{N}, 1 \leq k \leq N_j \right\}
+  \end{align*}
+  %
+  ist die Zerlegung der Eins auf $M$.
+  
+  \minisec{Fall 3:} $M \subseteq \mathbb{R}^n$ beliebig.
+  %
+  \begin{align*}
+    M \subseteq O \coloneq \bigcup\limits_{\alpha \in A} O_\alpha
+  \end{align*}
+  %
+  mit $\{ O_\alpha : \alpha \in A \}$ überdeckt $O$. Wende Fall 2 an.
+\end{proof}

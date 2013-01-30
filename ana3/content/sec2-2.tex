@@ -1,0 +1,162 @@
+% Henri Menke, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Flächenintegrale im \texorpdfstring{$\mathbb{R}^3$}{R\textsuperscript{3}}}
+\addtocounter{thmn}{1}
+\setcounter{theorem}{0}
+
+% % % Vorlesung vom 13.12.2012
+
+\begin{theorem}[Definition]
+  Sei $D \subseteq \mathbb{R}^2$ ein Gebiet, $f \in C^1(\overline{D} \to \mathbb{R}^3)$, $f|_D$ injektiv und
+  %
+  \begin{align*}
+    \mathrm{Rang}\begin{pmatrix} \partial_{x_1} f(x) & \partial_{x_2} f(x) \end{pmatrix}
+    = \mathrm{Rang}
+    \begin{pmatrix}
+      \partial_{x_1} f_1 & \partial_{x_2} f_1 \\
+      \partial_{x_1} f_2& \partial_{x_2} f_2 \\
+      \partial_{x_1} f_3 & \partial_{x_2} f_3 \\
+    \end{pmatrix}
+    = 2
+  \end{align*}
+  %
+  für $x \in \overline{D}$. Dann heißt
+  %
+  \begin{align*}
+    F \coloneq \mathrm{Bild}(f)
+  \end{align*}
+  %
+  \acct{Fläche im $\mathbb{R}^3$}, $(f,\overline{D})$ heißt Parameterdarstellung von $f$.
+\end{theorem}
+
+\begin{theorem}[Satz]
+  Ist $(\gamma,[a,b])$ Parameterdarstellung einer glatten Kurve in $\overline{D} \subset \mathbb{R}^2$, so ist $(f \circ \gamma,[a,b])$ eine glatte Kurve im $\mathbb{R}^3$.
+  
+  \begin{proof}
+    \begin{enum-arab}
+      \item $\gamma \in C^1$, $f \in C^1 \implies f \circ \gamma \in C^1$.
+      
+      \item 
+      \begin{align*}
+        (f \circ \gamma)'(t) &=
+        \begin{pmatrix}
+          (f_1 \circ \gamma)'(t) \\
+          (f_2 \circ \gamma)'(t) \\
+          (f_3 \circ \gamma)'(t) \\
+        \end{pmatrix} \\
+        &=
+        \begin{pmatrix}
+          (\partial_{x_1} f_1) \gamma_1' + (\partial_{x_2} f_1) \gamma_2' \\
+          (\partial_{x_1} f_2) \gamma_1' + (\partial_{x_2} f_2) \gamma_2' \\
+          (\partial_{x_1} f_3) \gamma_1' + (\partial_{x_2} f_3) \gamma_2' \\
+        \end{pmatrix} \\
+        &= \gamma_1'(t) \partial_{x_1} f(\gamma(t)) + \gamma_2'(t) \partial_{x_2} f(\gamma(t)) \\
+        &\neq 0
+      \end{align*}
+      %
+      da $\{ \partial_{x_1} f, \partial_{x_2} f \}$ linear unabhängig und $\left(\begin{smallmatrix} \gamma_1' \\ \gamma_2' \end{smallmatrix}\right) \neq 0$.
+    \end{enum-arab}
+  \end{proof}
+\end{theorem}
+
+\begin{notice}[Folgerung:]
+  Der Tangenteneinheitsvektor von $f \circ \gamma$ an der Stelle $t_0 \in [a,b]$:
+  %
+  \begin{align*}
+    T_{f \circ \gamma}(t_0) = \frac{(f \circ \gamma)'(t_0)}{\| (f \circ \gamma)'(t_0) \|} = c_1 \partial_{x_1} f(\gamma(t_0)) + c_2 \partial_{x_2} f(\gamma(t_0))
+  \end{align*}
+  %
+  liegt immer in der von $\{ \partial_{x_1} f, \partial_{x_2} f \}$ aufgespannten Ebene durch $f(\gamma(t_0))$.
+\end{notice}
+
+\begin{theorem}[Definition]
+  Sei $(f,\overline{D})$ Parameterdarstellung einer Fläche $F$.
+  %
+  \begin{enum-arab}
+    \item Für $x \in D$ heißt die Ebene \[ \{ f(x) + t \partial_{x_1} f(x) + s \partial_{x_2} f(x) : s,t \in \mathbb{R} \} \] die \acct{Tangentialebene} an $F$ im Punkt $f(x)$.
+    
+    \item Der \acct{Normaleneinheitsvektor} im Punkt $f(x)$ an die Fläche $F$ ist gegeben durch
+    %
+    \begin{align*}
+      n(x) \coloneq \frac{\partial_{x_1} f(x) \times \partial_{x_2} f(x)}{\| \partial_{x_1} f(x) \times \partial_{x_2} f(x) \|}
+    \end{align*}
+  \end{enum-arab}
+\end{theorem}
+
+\begin{notice}
+  $\| \partial_{x_1} f(x) \times \partial_{x_2} f(x) \|$ ist der Flächeninhalt des Parallelogramms, das von den beiden Vektoren $\partial_{x_1} f(x)$ und $\partial_{x_2} f(x)$ aufgespannt wird.
+\end{notice}
+
+\begin{theorem}[Definition]
+  Sei $(f,\overline{D})$ Parameterdarstellung einer Fläche $F$ und $g \in C(\overline{D} \to \mathbb{R})$.
+  %
+  \begin{enum-arab}
+    \item
+    %
+    \begin{align*}
+      |F| \coloneq \int_{\overline{D}} \| \partial_{x_1} f(x) \times \partial_{x_2} f(x) \| \, \mathrm{d}x
+    \end{align*}
+    %
+    heißt \acct{Flächeninhalt der Fläche $F$}.
+    
+    \item
+    %
+    \begin{align*}
+      \int_{\overline{D}} g(f(x)) \cdot \| \partial_{x_1} f(x) \times \partial_{x_2} f(x) \| \, \mathrm{d}x \eqcolon \int_F g \, \mathrm{d}\sigma
+    \end{align*}
+    %
+    heißt \acct{Integral} von $g$ über $F$. Offensichtlich
+    %
+    \begin{align*}
+      \int_F 1 \, \mathrm{d}\sigma = |F|
+    \end{align*}
+  \end{enum-arab}
+\end{theorem}
+
+% % % Vorlesung vom 17.12.2012
+
+\begin{example}
+  \begin{align*}
+    D &= \{ x \in \mathbb{R}^2 : |x| < \sqrt{2} \} \\
+    f(x_1,x_2) &= \begin{pmatrix} x_1 \\ x_2 \\ 2 - x_1^2 - x_2^2 \end{pmatrix}
+  \end{align*}
+  
+  \begin{figure}[H]
+    \centering
+    %\psset{Alpha=0,Beta=0}
+    \begin{pspicture}(-1,-1)(7,2)
+      \psaxes[ticks=none,labels=none]{->}(0,0)(-1.2,-1.2)(1.5,1.5)[\color{DimGray} $x_1$, 0][\color{DimGray} $x_2$, 0]
+      \pscircle[fillstyle=hlines,hatchcolor=DarkOrange3,linecolor=DarkOrange3](0,0){1}
+      \uput{1.2}[45](0,0){\color{DarkOrange3} $\overline{D}$}
+      \pnode(2,1){A}
+      \pnode(3,1){B}
+      \ncarc{->}{A}{B}\naput{\color{DimGray} $f$}
+      \rput(5,0){
+        \pstThreeDCoor[linecolor=DimGray,xMax=2.5,yMax=2.5,zMax=2.5,xMin=-2,yMin=-2,zMin=-0.3,nameX=\color{DimGray}$x_1$,nameY=\color{DimGray}$x_2$,nameZ=\color{DimGray}$x_3$]
+        \pstThreeDCircle[fillstyle=hlines,hatchcolor=DarkOrange3,linecolor=DarkOrange3](0,0,0)(1.414,0,0)(0,1.414,0)
+        \parametricplotThreeD[linecolor=MidnightBlue,plotstyle=curve,yPlotpoints=10](0,1.414)(0,\psPiTwo){t*cos(u) | t*sin(u) | 2 - t^2}
+        \parametricplotThreeD[linecolor=MidnightBlue,plotstyle=curve,yPlotpoints=10](0,\psPiTwo)(0,1.414){u*sin(t) | u*cos(t) | 2 - u^2 }
+      }
+    \end{pspicture}
+  \end{figure}
+  
+  \begin{align*}
+    \partial_{x_1} f &= \begin{pmatrix} 1 \\ 0 \\ - 2 x_1 \end{pmatrix} \\
+    \partial_{x_2} f &= \begin{pmatrix} 0 \\ 1 \\ - 2 x_2 \end{pmatrix} \\
+    \| \partial_{x_1} f \times \partial_{x_1} f \| &= \left\| \begin{pmatrix} 1 \\ 0 \\ - 2 x_1 \end{pmatrix} \times \begin{pmatrix} 0 \\ 1 \\ - 2 x_2 \end{pmatrix} \right\| = \left\| \begin{pmatrix} 2 x_1 \\ 2 x_2 \\ 1 \end{pmatrix} \right\| \neq 0 \\
+    |F| &= \int_{|x| < \sqrt{2}} \sqrt{1 + 4 |x|^2} \, \mathrm{d}x
+  \intertext{Transformation auf Polarkoordinaten: $x = r \cos\varphi$, $y = r \sin\varphi$, $\mathrm{d}x = r \, \mathrm{d}r \, \mathrm{d}\varphi$}
+    &= \int\limits_{\varphi = 0}^{2\pi} \int\limits_{r = 0}^{\sqrt{2}} \sqrt{1 + 4 r^2} \, r \, \mathrm{d}r \, \mathrm{d}\varphi \\
+    &= \int\limits_{\varphi = 0}^{2\pi} \frac{1}{12} (1 + 4 r^2)^{3/2} \bigg|_{r=0}^{\sqrt{2}} \, \mathrm{d}\varphi \\
+    &= \int\limits_{\varphi = 0}^{2\pi} \frac{1}{12} (27 - 1) \, \mathrm{d}\varphi \\
+    &= \int\limits_{\varphi = 0}^{2\pi} \frac{13}{6} \, \mathrm{d}\varphi \\
+    &= \frac{13}{3} \pi
+  \end{align*}
+\end{example}

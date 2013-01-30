@@ -1,0 +1,168 @@
+% Henri Menke, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Integration auf Mannigfaltigkeiten}
+\addtocounter{thmn}{1}
+\setcounter{theorem}{0}
+
+% % % Vorlesung vom 17.01.2013
+
+\begin{theorem}[Definition] \label{thm:11.1}
+  Sei $1 \leq k \leq n$ und $\{ v_1 ,\ldots, v_k \} \subseteq \mathbb{R}^n$. Dann ist der \acct{$k$-Inhalt}
+  
+  aufgespannten Parallelepipeds definiert durch
+  %
+  \begin{align*}
+    V^{(k)}(v_1 ,\ldots, v_k) \coloneq
+    \Bigg(
+      \det
+      \underbrace{\Bigg(
+        \underbrace{(v_1 ,\ldots, v_k)^*}_{k \times n} \cdot \underbrace{(v_1 ,\ldots, v_k)}_{n \times k}
+      \Bigg)}_{k \times k}
+    \Bigg)^{1/2}
+  \end{align*}
+\end{theorem}
+
+\begin{notice} \label{thm:11.2}
+  \begin{enum-arab}
+    \item Sei $B \coloneq (v_1 ,\ldots, v_k)$.
+    %
+    \begin{align*}
+      B^* B \text{ symmetrisch } \implies \det(B^* B) = \text{ Produkt der Eigenwerte } \lambda_1, \ldots, \lambda_k
+    \end{align*}
+    %
+    Für $x \in \mathbb{R}^k$: $\braket{B^* B x, x}_{\mathbb{R}^k} = \braket{B x, B x}_{\mathbb{R}^n} \geq 0$. \[ \implies \lambda_j \geq 0 \left( x \text{ ist Eigenvektor} : 0 \leq \braket{B^* B x, x} = \lambda \braket{x, x} \right). \]
+    
+    \item $k=n$: (Es gilt $\det(A \cdot B) = \det A \cdot \det B$ und für $A$ hermitesch $\det A^* = \det A$)
+    %
+    \begin{align*}
+      V^{(n)}(v_1 ,\ldots, v_n)
+      &= \left(\det \left( (v_1 ,\ldots, v_n)^* \cdot (v_1 ,\ldots, v_n)\right)\right)^{1/2} \\
+      &= \left| \det (v_1 ,\ldots, v_n) \right|
+    \end{align*}
+    
+    \item $k=1$:
+    %
+    \begin{align*}
+      V^{(1)}(v)
+      &= \left( \det(v^* \cdot v) \right)^{1/2} \\
+      &= (v_1^1 + \ldots + v_n^2)
+    \end{align*}
+    
+    \item $\{ v_1 ,\ldots, v_k \}$ linear abhängig $\implies$ $\mathrm{Rang}(v_1,\ldots,v_k) < k$. \[ \implies V^{(k)}(v_1,\ldots,v_k) = 0 \]
+    
+    \item Sei $S$ eine $C^1$-Mannigfaltigkeit, $(\varphi,U)$ eine Karte, $x_0 \in U$, $y_0 = \varphi^{-1}(x_0)$,\[ \left(\frac{\partial \varphi}{\partial y}\right) \coloneq \left( \frac{\partial \varphi}{\partial y_1},\ldots,\frac{\partial \varphi}{\partial y_k} \right) \]
+    %
+    Dann ist \[ \left[ \det \left( \left( \frac{\partial \varphi}{\partial y} \right)^* \left( \frac{\partial \varphi}{\partial y} \right) \right) \right]^{1/2} \]
+    % Bug in LaTeX: The code below display a black box under the root!
+    % \sqrt{\det\left( \left( \frac{\partial \varphi}{\partial y} \right)^* \left( \frac{\partial \varphi}{\partial y} \right) \right)}
+    der $k$-Inhalt der Parallelepipeds, das von den Tangentialvektoren $\frac{\partial \varphi}{\partial y_1},\ldots,\frac{\partial \varphi}{\partial y_k}$ aufgespannt wird.
+  \end{enum-arab}
+\end{notice}
+
+\begin{theorem}[Definition] \label{thm:11.3}
+  Eine Mannigfaltigkeit $S \subseteq \mathbb{R}^n$ heißt \acct[0]{kompakt}\index{Mannigfaltigkeit!kompakt} wenn sie als Teilmenge des $\mathbb{R}^n$ kompakt ist.
+\end{theorem}
+
+\begin{example} \label{thm:11.4}
+  \begin{enum-arab}
+    \item $S \coloneq \{ x \in \mathbb{R}^n : x_1^2 + \ldots + x_{k+1}^2 = 1 \land x_{k+2} = \ldots = x_k = 0 \}$ ist kompakt, $k$-dimensional, $\partial S \neq \emptyset$.
+    
+    \item $S \coloneq \{ x \in \mathbb{R}^n : |x| < 1 \}$ nicht kompakt, $\partial S = \emptyset$.
+    
+    \item $S \coloneq \{ x \in \mathbb{R}^n : |x| \leq 1 \land x_n \leq 0 \}$ kompakt. $\partial S = \{ x \in \mathbb{R}^n : |x| \leq 1 \land x_n = 0 \} \cup \{ x \in \mathbb{R}^n : |x| = 1 \land x_n < 0 \}$.
+  \end{enum-arab}
+\end{example}
+
+\begin{theorem}[Definition] \label{thm:11.5}
+  Sei $S$ kompakte, $k$-dimensionale $C^1$-Mannigfaltigkeit mit Atlas $A(S) = \{ (\varphi_j,U_j) : j = 1,\ldots,N \}$. Seien $O_1,\ldots,O_N \subseteq \mathbb{R}^n$ offen mit $U_j = O_j \cap S$, $\{ \psi_1,\ldots,\psi_N \}$ Zerlegung der Eins auf $S$ bezüglich $\{ O_1,\ldots,O_N \}$. Für $f \in C(S \to \mathbb{R})$ ist
+  %
+  \begin{align*}
+    \int\limits_{S} f \, \mathrm{d}V^{(k)}
+    &\coloneq \sum\limits_{j=1}^{N} \int\limits_{U_j} \underbrace{\psi_j \cdot f}_{\mathrm{supp}(\psi_j \cdot f) \subseteq U_j} \, \mathrm{d}V^{(k)} \\
+    &\coloneq \sum\limits_{j=1}^{N} \int\limits_{y \in K_1^{(k)}(0)} (\psi_j \cdot f) (\varphi_j(y)) \left[ \det \left( \left( \frac{\partial \varphi_j}{\partial y} \right)^* \left( \frac{\partial \varphi_j}{\partial y} \right) \right) \right]^{1/2} \, \mathrm{d}y
+  \end{align*}
+  %
+  (oder auch Integral über $y \in K_1^{(k)+}(0)$)
+\end{theorem}
+
+\begin{theorem}[Satz] \label{thm:11.6}
+  Die Defintion $\int_S f \, \mathrm{d}V^{(k)}$ ist unabhängig von der Wahl des Atlas, der $O_j$ und der Zerlegung der Eins.
+  
+  \begin{proof}
+    Sei $\widetilde{A}(S) = \{ (\widetilde{\varphi}_j, \widetilde{U}_j ) : j=1,\ldots,M \}$ weiterer Atlas und $\{ \widetilde{\psi}_1 ,\ldots, \widetilde{\psi}_M \}$ entsprechende Zerlegung der Eins. Dann
+    %
+    \begin{align*}
+      & \sum\limits_{j=1}^{N} \int\limits_{U_j} \psi_j \cdot f \, \mathrm{d}V^{(k)} \\
+      =& \sum\limits_{j=1}^{N} \sum\limits_{\ell=1}^{M} \int\limits_{U_j} \widetilde{\psi}_\ell \cdot \psi_j \cdot f \, \mathrm{d}V^{(k)} \\
+      =& \sum\limits_{j=1}^{N} \sum\limits_{\ell=1}^{M} \int\limits_{y \in \varphi_j^{-1}(U_j \cap \widetilde{U}_\ell)} \left(\widetilde{\psi}_\ell \cdot \psi_j \cdot f\right) (\varphi(y)) \left[ \det \left( \left( \frac{\partial \varphi_j}{\partial y} \right)^* \left( \frac{\partial \varphi_j}{\partial y} \right) \right) \right]^{1/2} \, \mathrm{d}V^{(k)}
+    \end{align*}
+    %
+    Sei $j,\ell$ mit $U_j \cap \widetilde{U}_\ell \neq \emptyset$, $\Phi_{\ell j} \coloneq \widetilde{\varphi}_\ell \circ \varphi_j$, $\varphi_j^{-1}(U_j \cap \widetilde{U}_\ell) \to \varphi_\ell^{-1}(U_j \cap \widetilde{U}_\ell)$ und $\Phi_{\ell j}^{-1} \coloneq \varphi_j^{-1} \circ \widetilde{\varphi}_\ell$. Seien nun $z = \Phi_{\ell j}(y)$ und $y = \Phi_{\ell j}^{-1}(z)$.
+    %
+    \begin{multline*}
+      = \sum\limits_{j=1}^{N} \sum\limits_{\ell=1}^{M} \int\limits_{y \in \varphi_\ell^{-1}(U_j \cap \widetilde{U}_\ell)} 
+      \left(\widetilde{\psi}_\ell \cdot \psi_j \cdot f\right)
+      \underbrace{(\varphi(\Phi_{\ell j}^{-1}(z)))}_{\widetilde{\varphi}_\ell(z)}
+      %
+      \\
+      %
+      \left[ \det \left( \left( \frac{\partial \varphi_j}{\partial y}(\Phi_{\ell j}^{-1}(z)) \right)^* \left( \frac{\partial \varphi_j}{\partial y}(\ldots) \right) \right) \right]^{1/2}
+      \left| \det\left( \frac{\partial \Phi_{\ell j}^{-1}}{\partial z} \right) \right|
+      \, \mathrm{d}z
+    \end{multline*}
+    
+    \begin{notice*}[Nebenrechnung:] $\varphi_j = \widetilde{\varphi}_\ell \circ \Phi_{\ell j}$
+      \begin{align*}
+        \implies& \left( \frac{\partial \varphi_j}{\partial y}(y) \right) = \left( \frac{\partial \widetilde{\varphi}_\ell}{\partial z} (\Phi_{\ell j}(y)) \right) \cdot \left( \frac{\partial \Phi_{\ell j}}{\partial y}(y) \right) \\
+        %
+        \implies& \det \left( \left( \frac{\partial \varphi_j}{\partial z} (\Phi_{\ell j}^{-1}(z)) \right)^* \cdot \left( \frac{\partial \varphi_j}{\partial z} (\ldots) \right) \right) \\
+        %
+        =& \det \left(
+          \left( \frac{\partial \Phi_{\ell j}}{\partial y}(\Phi_{\ell j}^{-1}(z)) \right)^*
+          \left( \frac{\partial \widetilde{\varphi}_\ell}{\partial z} (z) \right)^*
+          \left( \frac{\partial \widetilde{\varphi}_\ell}{\partial z} (z) \right)
+          \left( \frac{\partial \Phi_{\ell j}}{\partial y}(\Phi_{\ell j}^{-1}(z)) \right)
+        \right) \\
+        %
+        =& \det \left(
+          \left( \frac{\partial \widetilde{\varphi}_\ell}{\partial z} (z) \right)^*
+          \left( \frac{\partial \widetilde{\varphi}_\ell}{\partial z} (z) \right)
+        \right)
+        \det \left(
+          \left( \frac{\partial \Phi_{\ell j}}{\partial y}(\Phi_{\ell j}^{-1}(z)) \right)
+        \right)^2 \\
+        %
+        =& \sum \sum \int\limits_{z \in \widetilde{\varphi}_\ell^{-1}(U_j \cap \widetilde{U}_\ell)}
+        \left(\widetilde{\psi}_\ell \cdot \psi_j \cdot f\right)(z)
+        \left[ \det \left( \left( \frac{\partial \widetilde{\varphi}_\ell}{\partial y} \right)^* \left( \frac{\partial \widetilde{\varphi}_\ell}{\partial y} \right) \right) \right]^{1/2} \\
+        &\qquad
+        \left| \det\left( \frac{\partial \Phi_{\ell j}^{-1}}{\partial y} (\Phi_{\ell j}^{-1}(z)) \right) \right|
+        \left| \det\left( \frac{\partial \Phi_{\ell j}^{-1}}{\partial z} (z) \right) \right|
+        \, \mathrm{d}z \\
+        %
+        =& \sum\limits_{j=1}^{N} \sum\limits_{\ell = 1}^{M} \int\limits_{\widetilde{U}_\ell} \widetilde{\psi}_\ell \cdot \psi_j \cdot f \, \mathrm{d}V^{(k)} \\
+        %
+        =& \sum\limits_{\ell = 1}^{M} \int\limits_{\widetilde{U}_\ell} \widetilde{\psi}_\ell \cdot f \, \mathrm{d}V^{(k)} \\
+        %
+        =& \text{Definition des Integrals $\int_S f \, \mathrm{d}V^{(k)}$ mit Hilfe des Atlas $\widetilde{A}(S)$.}
+      \end{align*}
+    \end{notice*}
+  \end{proof}
+\end{theorem}
+
+% % % Vorlesung vom 21.01.2013
+
+\begin{example} \label{thm:11.7}
+  Sei $D = \overline{K_1^{(k)}(0)}$, $\varphi \in C^1(D \to \mathbb{R}^n)$, $\varphi : D \to \varphi(D)$ bijektiv, $\varphi^{-1}$ stetig, $\mathrm{Rang}(\partial_y \varphi) = k$, $S \coloneq \varphi(D)$. Dann ist $S$ kompakte $k$-dimensionale $C^1$-Mannigfaltigkeit. Für $f \in C(S \to \mathbb{R})$ gilt
+  %
+  \begin{align*}
+    \int_S f \, \mathrm{d}V^{(k)} = \int_D f(\varphi(y)) \left[ \det \left( \left( \frac{\partial \varphi}{\partial y} \right)^* \left( \frac{\partial \varphi}{\partial y} \right) \right) \right]^{1/2} \, \mathrm{d}y
+  \end{align*}
+\end{example}

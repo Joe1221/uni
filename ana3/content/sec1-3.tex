@@ -1,0 +1,795 @@
+% vim: ts=2:sw=2:expandtab
+% Henri Menke, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Nullstellen}
+\addtocounter{thmn}{1}
+\setcounter{theorem}{0}
+
+% % % Vorlesung vom 8.11.2012
+
+\begin{theorem}[Defintion]
+  Sei $O \to \mathbb{C}$ offen, $f$ holomorph in $O$, $z_0 \in O$, $f(z_0)=0$. Falls
+  %
+  \begin{align*}
+    \exists \, k \in \mathbb{N} : f^{(k)}(z_0) \neq 0
+  \end{align*}
+  %
+  so heißt
+  %
+  \begin{align*}
+    K \coloneq \min \{ k \in \mathbb{N} : f^{(k)}(z_0) \neq 0 \}
+  \end{align*}
+  %
+  die \acct{Ordnung} oder \acct{Vielfachheit} der Nullstelle $z_0$. Andernfalls heißt die Ordnung der Nullstelle unendlich.
+\end{theorem}
+
+Betrachte:
+%
+\begin{align*}
+  f : \mathbb{C} \to \mathbb{C} : z \mapsto z^2 : r \mathrm{e}^{\mathrm{i} \varphi} \mapsto r^2 \mathrm{e}^{2 \mathrm{i} \varphi}
+\end{align*}
+
+\begin{figure}[H]
+  \centering
+  \begin{pspicture}(-2,-2)(8,2)
+    \psaxes[labels=none,ticks=none]{->}(0,0)(-2,-2)(2,2)[\color{DimGray} Re,0][\color{DimGray} Im,0]
+    \psarc[linecolor=MidnightBlue]{->}(0,0){1}{0}{180}
+    \psarc[linecolor=DarkOrange3]{->}(0,0){1}{180}{360}
+    \uput{1.2}[45](0,0){\color{MidnightBlue} $\gamma_1$}
+    \uput{1.2}[-45](0,0){\color{DarkOrange3} $\gamma_2$}
+    
+    \pnode(1.5,1){A}
+    \pnode(3.5,1){B}
+    \ncarc[arcangle=20,arrows=->]{A}{B}
+    \naput{\color{DimGray} $f$}
+    
+    \rput(5,0){
+      \psaxes[labels=none,ticks=none]{->}(0,0)(-2,-2)(2,2)[\color{DimGray} Re,0][\color{DimGray} Im,0]
+      \psarc[linecolor=MidnightBlue]{->}(0,0){1.5}{0}{360}
+      \psarc[linecolor=DarkOrange3]{->}(0,0){1.6}{0}{360}
+      \uput{1.8}[45](0,0){\color{MidnightBlue} $f \circ \gamma_1$}
+      \uput{1.8}[-45](0,0){\color{DarkOrange3} $f \circ \gamma_2$}
+    }
+  \end{pspicture}
+\end{figure}
+
+Offensichtlich ist $f$ nicht injektiv. Jedes Element $w \neq 0$ hat genau zwei Urbilder.
+
+Abhilfe: \acct{Riemannsche Fläche}. Lege zwei $\mathbb{C} \setminus \{ 0 \}$ Ebenen übereinander, schneide sie jeweils an der positiven reellen Achse auseinander, verbinde den Rand für $\Im z \uparrow 0$ der unteren Ebene mit dem Rand $\Im z \downarrow 0$ der oberen, verbinde die beiden anderen Ränder. Dann ist die Funktion
+%
+\begin{align*}
+  f : \mathbb{C} \setminus \{0\} \to F = \{ r \mathrm{e}^{\mathrm{i} \varphi} : r > 0, \varphi \in \mathbb{R}, \mathrm{e}^{\mathrm{i} \varphi + 2 \pi} \neq \mathrm{e}^{\mathrm{i} \varphi}, r \mathrm{e}^{\mathrm{i} \varphi + 4 \pi} = \mathrm{e}^{\mathrm{i} \varphi} \}
+\end{align*}
+%
+bijektiv. Die Riemannsche Fläche hat zwei Blätter.
+
+% % % Vorlesung vom 12.11.2012
+
+\begin{example*}
+  \begin{align*}
+    f(z) = \sin z^2
+  \end{align*}
+  %
+  Nullstelle bei $z=0$
+  %
+  \begin{align*}
+    f'(0) &= 2 z \cos z^2 \Big|_{z=0} = 0 \\
+    f''(0) &= 2 \cos z^2 - 4 z^2 \sin z^2 \Big|_{z=0} = 2
+  \end{align*}
+  %
+  $z=0$ ist Nullstelle 2. Ordnung.
+\end{example*}
+
+\begin{notice*}[Ziel:]
+  Ist $z_0$ Nullstelle der Ordnung $k \in \mathbb{N}$, so verhält sich $f$ und ihre >>Umkehrfunktionen<< lokal wie
+  %
+  \begin{align*}
+    z \mapsto (z-z_0)^k
+  \end{align*}
+  %
+  und ihre >>Umkehrfunktionen<<.
+\end{notice*}
+
+\begin{theorem}[Hilfssatz]
+  Sei $0 \leq \varphi \leq 2 \pi$, $\mathbb{C}_{\varphi_0} \coloneq \{ r \mathrm{e}^{\mathrm{i} \varphi} : r > 0, -\pi + \varphi_0 < \varphi < \pi + \varphi_0 \}$ $=\mathbb{C} \setminus \{ r \mathrm{e}^{\mathrm{i} (\varphi_0 + \pi)} : r > 0 \}$
+  
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-2,-2)(2,2)
+      \psframe[linestyle=none,fillstyle=vlines,hatchcolor=DimGray,hatchwidth=0.5\pslinewidth,hatchsep=5pt](-1.8,-1.8)(1.8,1.8)
+      \psaxes[ticks=none,labels=none]{->}(0,0)(-2,-2)(2,2)[\color{DimGray} Re,0][\color{DimGray} Im,180]
+      \rput{225}(0,0){
+        \psline[linewidth=0.5\pslinewidth](0.1,-0.1)(2.5,-0.1)
+        \psline[linewidth=0.5\pslinewidth](2.5,0.1)(0.1,0.1)
+        \psarc[linewidth=0.5\pslinewidth](0.1,0){0.1}{90}{270}
+        \pscustom[fillstyle=solid,fillcolor=white,linestyle=none]{
+          \psline[linewidth=0.5\pslinewidth](0.1,-0.1)(2.5,-0.1)
+          \psline[linewidth=0.5\pslinewidth](2.5,0.1)(0.1,0.1)
+        }
+        \pscustom[fillstyle=solid,fillcolor=white,linestyle=none]{
+          \psarc[linewidth=0.5\pslinewidth](0.1,0){0.1}{90}{270}
+        }
+      }
+      \psline[linecolor=DarkOrange3](0,0)(2;225)
+      \psarc[linecolor=DarkOrange3]{->}(0,0){1}{180}{225}
+      \psline[linecolor=MidnightBlue]{-o}(0,0)(2;135)
+      \psarc[linecolor=MidnightBlue]{->}(0,0){0.6}{0}{135}
+      \psline[linecolor=Purple]{-o}(0,0)(2;200)
+      \psarc[linecolor=Purple]{->}(0,0){0.4}{0}{200}
+      
+      \uput[90](2;135){\color{MidnightBlue} $z_1$}
+      \uput[-90](2;200){\color{Purple} $z_2$}
+      
+      \uput{1.2}[190](0,0){\color{DarkOrange3} $\varphi$}
+      \uput{0.8}[45](0,0){\color{MidnightBlue} $\arg z_1$}
+      \uput{0.5}[165](0,0){\color{Purple} $\arg z_2$}
+      
+      \uput*[0](0.75,-1){\color{DimGray} $\mathbb{C}_{\varphi_0}$}
+    \end{pspicture}
+    \vspace*{-4em}
+  \end{figure}
+  
+  \begin{align*}
+    \arg_{\varphi_0} (z) \coloneq
+    \begin{dcases}
+      \arg z & -\pi + \varphi_0 < \arg z < \pi \\
+      \arg z + 2 \pi & -\pi \leq \arg z < -\pi + \varphi_0
+    \end{dcases}
+  \end{align*}
+  %
+  Dann ist $\arg_{\varphi_0} : \mathbb{C}_{\varphi_0} \to ]-\pi+\varphi_0 , \pi+\varphi_0[$ stetig.
+  
+  \begin{proof}
+    $z \mapsto 1/|z|$, $z \mapsto \Re z$, $z \mapsto \Im z$ sind stetig auf $\mathbb{C}_{\varphi_0}$.
+    %
+    \begin{align*}
+      \arg_{\varphi_0} (z) =
+      \begin{dcases}
+        \arccos \frac{\Re z}{|z|} \; (\text{evtl. } + 2 \pi) & \text{für } \Im z \geq 0 \\
+        \arcsin \frac{\Im z}{|z|} \; (\text{evtl. } + 2 \pi) & \text{für } \Re z \geq 0 \\
+        2 \pi - \arccos \frac{\Re z}{|z|} \; (\text{evtl. } + 2 \pi) & \text{für } \Im z \leq 0
+      \end{dcases}
+    \end{align*}
+    %
+    Jede einzelne Zeile ist stetig und die Bereiche überlappen sich. Also ist $\arg_{\varphi_0}$ stetig auf der Vereinigung der einzelnen Bereiche.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Satz]
+  Sei $0 \leq \varphi_0 \leq 2 \pi$, $\sqrt[k]{\cdot} : \mathbb{C}_{\varphi_0} \to \mathbb{C}$ mit
+  %
+  \begin{align*}
+    z^{1/k} \coloneq \sqrt[k]{z} \coloneq |z|^{1/k} \mathrm{e}^{\mathrm{i}\frac{1}{k}\arg_{\varphi_0}z}
+  \end{align*}
+  %
+  Dann ist $\sqrt[k]{\cdot}$ holomorph und
+  %
+  \begin{align*}
+    (\sqrt[k]{z})^k = z \qquad \sqrt[k]{z}' = \frac{1}{k (\sqrt[k]{z})^{k-1}}
+  \end{align*}
+  
+  \begin{proof}
+    \begin{enum-arab}
+      \item $\sqrt[k]{\cdot}$ ist stetig als Kombination stetiger Funktionen
+      
+      \item $\sqrt[k]{\cdot}$ ist injektiv, denn
+      %
+      \begin{align*}
+        (\sqrt[k]{z})^k = |z| \mathrm{e}^{\mathrm{i} \arg_{\varphi_0}z} = z
+      \end{align*}
+      
+      \item Ableitung: Sei $z_0 \in \mathbb{C}_{\varphi_0}$, $f(z) \coloneq z^k$
+      %
+      \begin{align*}
+        \sqrt[k]{z}'\Big|_{z=z_0} &= \lim\limits_{\substack{z \to z_0}{z \neq z_0}} \frac{\sqrt[k]{z} - \sqrt[k]{z_0}}{z-z_0} \\
+        &\overset{g \coloneq \sqrt[k]{\cdot}}{=} \lim\limits_{\substack{z \to z_0}{z \neq z_0}} \frac{g(z) - g(z_0)}{z-z_0} \\
+        &= \lim\limits_{\substack{z \to z_0}{z \neq z_0}} \frac{g(z) - g(z_0)}{f(g(z)) - f(g(z_0))} \\
+        &= \lim\limits_{\substack{z \to z_0}{z \neq z_0}} \frac{1}{\frac{f(g(z)) - f(g(z_0))}{g(z) - g(z_0)}} \\
+        &= \frac{1}{\lim\limits_{\substack{\zeta \to g(z_0)}{\zeta \neq g(z_0)}} \dfrac{f(\zeta) - f(g(z_0))}{\zeta - g(z_0)}} \\
+        &= \frac{1}{f'(g(z_0))} \overset{f'(z)=k z^{k-1}}{=} \frac{1}{k (\sqrt[k]{z})^{k-1}}
+      \end{align*}
+    \end{enum-arab}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Satz] \label{thm:3.4}
+  Sei $O \subseteq \mathbb{C}$ offen, $f$ holomorph in $O$, $z_0 \in O$ Nullstelle der Ordnung $k \in \mathbb{N}$. Dann existiert $r > 0$ und eine holomorphe Funktion $h : K_r(z_0) \to \mathbb{C}$ mit
+  %
+  \begin{align*}
+    h(z_0) = 0 \; , \quad h'(z_0) \neq 0 \; , \quad f(z) = h(z)^k \text{ für } |z-z_0| < r
+  \end{align*}
+  
+  \begin{proof}
+    O.B.d.A.\footnote{Ohne Bedenken des Autors}: $z_0 = 0$, und weil $f^{(j)}=0$, $j=0,\ldots,k-1$
+    %
+    \begin{align*}
+      f(z) = \sum\limits_{n=k}^{\infty} a_n z^n = z^k \underbrace{\left( a_k + \sum\limits_{n=k+1}^{\infty} a_n z^{n-k} \right)}_{\eqcolon g(z)} \; , \quad \text{für } |z| < R
+    \end{align*}
+    %
+    Dann ist $g$ holomorph in $K_r(0)$, $g(0) = a_k \neq 0$.
+    
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(-2,-2)(2,2)
+        \psframe[linestyle=none,fillstyle=vlines,hatchcolor=DimGray,hatchwidth=0.5\pslinewidth,hatchsep=5pt](-1.8,-1.8)(1.8,1.8)
+        \pscircle[linecolor=DarkOrange3,fillstyle=hlines,hatchcolor=DarkOrange3,hatchwidth=0.5\pslinewidth,hatchsep=5pt](1.5;70){0.75}
+        \psaxes[ticks=none,labels=none]{->}(0,0)(-2,-2)(2,2)[\color{DimGray} Re,0][\color{DimGray} Im,180]
+        \rput{250}(0,0){
+          \psline[linewidth=0.5\pslinewidth](0.1,-0.1)(2,-0.1)
+          \psline[linewidth=0.5\pslinewidth](2,0.1)(0.1,0.1)
+          \psarc[linewidth=0.5\pslinewidth](0.1,0){0.1}{90}{270}
+          \pscustom[fillstyle=solid,fillcolor=white,linestyle=none]{
+            \psline[linewidth=0.5\pslinewidth](0.1,-0.1)(2,-0.1)
+            \psline[linewidth=0.5\pslinewidth](2,0.1)(0.1,0.1)
+          }
+          \pscustom[fillstyle=solid,fillcolor=white,linestyle=none]{
+            \psarc[linewidth=0.5\pslinewidth](0.1,0){0.1}{90}{270}
+          }
+        }
+        \psline[linecolor=MidnightBlue]{-o}(0,0)(1.5;70)
+        \psarc[linecolor=MidnightBlue]{->}(0,0){0.6}{0}{70}
+        
+        \uput[0](1.5;70){\color{MidnightBlue} $g(0)$}
+        \uput{0.7}[45](0,0){\color{MidnightBlue} $\arg g(0)$}
+        \uput*[0](0.75,-1){\color{DimGray} $\mathbb{C}_{\arg g(0)}$}
+        
+      \end{pspicture}
+    \end{figure}
+    
+    Da $g$ stetig ist:
+    %
+    \begin{align*}
+      \exists \, r > 0 : |z| < r \implies |g(z) - g(0)| < \frac{|g(0)|}{2}
+    \end{align*}
+    %
+    Dann folgt:
+    %
+    \begin{align*}
+      |z| < r \implies g(z) \in \mathbb{C}_{\arg g(0)}
+    \end{align*}
+    %
+    Definiere
+    %
+    \begin{align*}
+      h(z) \coloneq z \sqrt[k]{g(z)} \; , \quad \text{für } |z| < r
+    \end{align*}
+    %
+    Dann:
+    %
+    \begin{align*}
+      h(0) &= 0 \sqrt[k]{g(0)} = 0 \\
+      h'(0) &= 1 \underbrace{\sqrt[k]{g(0)}}_{\neq 0} + 0 \frac{1}{k (\sqrt[k]{g(0)})^{k-1}} \neq 0
+    \end{align*}
+    %
+    $h$ ist holomorph auf $K_r(0)$ als Produkt und Verkettung holomorpher Funktionen.
+  \end{proof}
+\end{theorem}
+
+\begin{example}
+  Sei $f : \mathbb{C} \to \mathbb{C} : z \mapsto \mathrm{e}^z$
+  %
+  \begin{align*}
+    |f'(z)| &= |\mathrm{e}^z| = \left| \mathrm{e}^{\Re z + \mathrm{i} \Im z} \right| = \left| \mathrm{e}^{\Re z} \right| \left| \mathrm{e}^{\mathrm{i} \Im z} \right| \\
+    &= \mathrm{e}^{\Re z} > 0
+  \end{align*}
+  %
+  Trotzdem ist $f$ nicht injektiv:
+  %
+  \begin{align*}
+    \mathrm{e}^{z + 2 \pi \mathrm{i}} = \mathrm{e}^z
+  \end{align*}
+\end{example}
+
+\begin{theorem}[Lokale Umkehrfunktion] \label{thm:3.6}
+  $f$ holomorph in $O$, $z_0 \in O$, $f'(z_0) \neq 0$. Dann existiert $r > 0$, sodass $f\Big|_{K_r(z_0)}$ injektiv ist. Weiter gelten
+  %
+  \begin{item-triangle}
+    \item $f(K_r(z_0))$ ist offen
+    
+    \item $f^{-1} : f(K_r(z_0)) \to K_r(z_0)$ ist holomorph
+    
+    \item $(f^{-1}(w))' = \dfrac{1}{f'(f^{-1}(w))}$ für $w \in f(K_r(z_0))$
+  \end{item-triangle}
+  
+  \begin{proof}
+    Seien
+    %
+    \begin{align*}
+      u(x,y) \coloneq \Re f(x+\mathrm{i}y) \\
+      v(x,y) \coloneq \Im f(x+\mathrm{i}y)
+    \end{align*}
+    %
+    Dann
+    %
+    \begin{align*}
+      f(z) = w_1 + \mathrm{i} w_2 &\iff
+      \begin{dcases}
+        \Re f(x+\mathrm{i}y) = w_1 \\
+        \Im f(x+\mathrm{i}y) = w_2
+      \end{dcases}
+      \\
+      &\iff
+      \begin{dcases}
+        g_1(x,y,w_1,w_2) \coloneq u(x,y) - w_1 = 0 \\
+        g_2(x,y,w_1,w_2) \coloneq v(x,y) - w_2 = 0
+      \end{dcases}
+    \end{align*}
+    %
+    Es gelten
+    %
+    \begin{enum-arab}
+      \item $g_1,g_2 \in C^1(\cdot)$
+      
+      \item und
+      %
+      \begin{align*}
+        \begin{vmatrix}
+          \partial_x g_1 & \partial_y g_1 \\
+          \partial_x g_2 & \partial_y g_2
+        \end{vmatrix}
+        &=
+        \begin{vmatrix}
+          u_x & u_y \\
+          v_x & v_y
+        \end{vmatrix}
+        =
+        \begin{vmatrix}
+          \Re f' & -\Im f' \\
+          \Im f' & \Re f'
+        \end{vmatrix}
+        \\
+        &= |f'(z_0)|^2 \neq 0
+      \end{align*}
+      
+      \item $g_j(x_0,y_0,\underbrace{\Re f(z_0)}_{u(x_0,y_0)},\underbrace{\Im f(z_0)}_{v(x_0,y_0)}) = 0$. Also $(x_0,y_0,\Re f(z_0),\Im f(z_0))$ ist eine Lösung.
+      %
+      \begin{theorem*}[Satz über implizite Funktionen]
+        Es existiert eine Umgebung $\widetilde{U}$ von $(u(x_0,y_0),$ $v(x_0,y_0))$ % FIXME: Zeilenumbruch durch Leerzeichen erreicht
+        im $\mathbb{R}^2$ und $\varphi_1,\varphi_2 \in C^1(\widetilde{U} \to \mathbb{R})$ mit
+        %
+        \begin{align*}
+          g_j(\varphi_1(w_1,w_2),\varphi_2(w_1,w_2),w_1,w_2) = 0 \; , \quad j=1,2
+        \end{align*}
+        %
+        und diese Lösungen sind eindeutig in einer Umgebung $\widetilde{V}$ von $(x_0,y_0)$.
+      \end{theorem*}
+      %
+      Setze
+      %
+      \begin{align*}
+        V \coloneq \{ x+\mathrm{i}y : x,y \in \widetilde{V} \}
+        \implies
+        \begin{dcases}
+          f \Big|_{V} \text{ ist injektiv} \\
+          f^{-1}(w_1,w_2) = \varphi_1(w_1,w_2) + \mathrm{i} \varphi_2(w_1,w_2) \\
+          f^{-1} \text{ ist stetig, da } \varphi_1, \varphi_2 \text{ stetig}
+        \end{dcases}
+      \end{align*}
+      %
+      $\implies \exists \, r > 0 : K_r(z_0) \subseteq V$, da $V$ Umgebung von $z_0$. Wir wissen:
+      %
+      \begin{align*}
+        f(f^{-1}(w)) &= w \\
+        \implies
+        (f^{-1}(w))' &= \lim\limits_{u \to w} \frac{f^{-1}(u) - f^{-1}(w)}{u - w} \\
+        &= \lim\limits_{u \to w} \frac{1}{\frac{f(f^{-1}(u)) - f(f^{-1}(w))}{f^{-1}(u) - f^{-1}(w)}} = \frac{1}{f'(f^{-1}(w))}
+      \end{align*}
+    \end{enum-arab}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Blätterzahl einer Nullstelle] \label{thm:3.7}
+  Sei $f$ holomorph in $O$, $z_0 \in O$ Nullstelle der Ordnung $k \in \mathbb{N}$. Zu jedem genügend kleinen $\varepsilon > 0$ existiert eine offene Umgebung $O_\varepsilon$ von $z_0$ mit
+  %
+  \begin{align*}
+    f(O_\varepsilon) = K_\varepsilon(0)
+  \end{align*}
+  %
+  , sodass
+  %
+  \begin{align*}
+    f\Big|_{O_\varepsilon} \text{ nimmt }
+    \begin{dcases}
+      \text{jeden Wert $w$ mit } 0 < |w| < \varepsilon \text{ genau $k$ Mal an} \\
+      w=0 \text{ genau ein Mal an}
+    \end{dcases}
+  \end{align*}
+  
+  \begin{proof}
+    \ref{thm:3.4} $\implies$ $f(z) = h(z)^k$, $h$ holomorph in $K_r(z_0)$ $h'(z_0) \neq 0$.
+    
+    \ref{thm:3.6} $\implies$ $h\Big|_{K_\delta(z_0)}$ injektiv, falls $\delta$ klein genug. Außerdem $h(K_\delta(z_0))$ offen. Wähle $\varepsilon > 0$ mit $K_\varepsilon(0) \subseteq h(K_\delta(z_0))$. Setze $O_\varepsilon \coloneq h^{-1}(K_\delta(z_0))$. Dann:
+    
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(0,-1.3)(10,1.5)
+        \psccurve(0,-1)(1,-1)(1,0.5)(1.2,1)(0.5,1.2)(0,1)
+        \rput(0.5,0.8){\color{DimGray} $O_\varepsilon$}
+        \psdot*(0.3,0)
+        \uput[0](0.3,0){\color{DimGray} $z_0$}
+        \pnode(1.5,1){A1}
+        \pnode(1.5,-1){A2}
+        
+        \pnode(3,1){B1}
+        \pscircle[fillstyle=hlines,hatchcolor=DarkOrange3,hatchwidth=0.5\pslinewidth,hatchsep=5pt](4,0.5){0.75}
+        \rput(4,0.5){
+          \psline[linecolor=DarkOrange3](0,0)(0.75;30)
+          \uput[90](0.3;30){\color{DarkOrange3} $\varepsilon$}
+          \psdot*(0,0)
+          \uput[-90](0,0){\color{DimGray} $0$}
+        }
+        \pnode(5,1){C1}
+        
+        \pnode(7,1){D1}
+        \pnode(7,-1){D2}
+        \pscircle[fillstyle=hlines,hatchcolor=DarkOrange3,hatchwidth=0.5\pslinewidth,hatchsep=5pt](8,0.5){0.9}
+        \rput(8,0.5){
+          \psline[linecolor=DarkOrange3](0,0)(0.9;30)
+          \uput[90](0.3;30){\color{DarkOrange3} $\varepsilon^k$}
+          \psdot*(0,0)
+          \uput[-90](0,0){\color{DimGray} $0$}
+        }
+        
+        \uput[-90](4,-0.25){\color{DarkOrange3}\footnotesize jeder Wert genau einmal}
+        
+        \uput[-90](8,-0.4){\color{DarkOrange3}\footnotesize jeder Wert $\neq 0$ genau $k$-mal}
+        
+        \ncarc[arrows=->]{A1}{B1}
+        \naput{\color{DimGray} $h$}
+        \nbput{\color{DimGray} bijektiv}
+        \ncarc[arrows=->]{C1}{D1}
+        \naput{\color{DimGray} $z \mapsto z^k$}
+        \ncarc[arrows=->,arcangle=-20]{A2}{D2}
+        \nbput{\color{DimGray} $f$}
+      \end{pspicture}
+    \end{figure}
+  \end{proof}
+\end{theorem}
+
+% % % Vorlesung vom 15.11.2012
+
+\begin{notice}[Folgerung:] \label{thm:3.8}
+  Nullstellen endlicher Ordnung sind isoloiert: Ist $f$ holomorph in $O$, $z_0 \in O$ Nullstelle endlicher Ordnung, so gilt:
+  %
+  \begin{align*}
+    \exists \, \varepsilon \, \forall \, z \in K_\varepsilon(z_0) \setminus \{ z_0\} : f(z) \neq 0
+  \end{align*}
+\end{notice}
+
+\begin{theorem}[Satz von der inversen Abbildung] \label{thm:3.9}
+  Seien $O_1, O_2 \subseteq \mathbb{C}$ offen, $f : O_1 \to O_2$ holomorph und bijektiv. Dann
+  %
+  \begin{item-triangle}
+    \item $f'(z) \neq 0$ in $O_1$
+    
+    \item $f^{-1}$ ist holomorph
+    
+    \item $\left(f^{-1}(w)\right)' = \dfrac{1}{f'(f^{-1}(w))}$ 
+  \end{item-triangle}
+  
+  \begin{proof}
+    Annahme: $\exists \, z_0 \in O_1 : f'(z_0) = 0$
+    %
+    \begin{align*}
+      g(z) \coloneq f(z) - f(z_0)
+    \end{align*}
+    %
+    Also ist $g$ holomorph und $z_0$ ist Nullstelle mindestens 2. Ordnung.
+    
+    \minisec{Fall 1: $z_0$ ist Nullstelle endlicher Ordnung}
+    
+    $\overset{\text{\ref{thm:3.7}}}{\implies}$ $g$ ist nicht injektiv.
+    
+    $\implies$ $f$ ist nicht injektiv. $\lightning$
+    
+    \minisec{Fall 2: $z_0$ ist Nullstelle der Ordnung $\infty$}
+    
+    $\overset{\text{\ref{thm:2.24}}}{\implies}$ $g = \mathrm{const.}$ in $K_\varepsilon(z_0) \subseteq O_1$.
+    
+    $\implies$ $f = \mathrm{const.}$ in $K_\varepsilon(z_0) \subseteq O_1$. $\lightning$
+    
+    Rest aus \ref{thm:3.6}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Identitätssatz] \label{thm:3.10}
+  Sei $G \subseteq \mathbb{C}$ Gebiet, $f,g$ holomorph in $G$, $(z_n)$ Folge in $G$, $z_n \to z_0 \in G$, $z_n \neq z_0$ für $n \in \mathbb{N}$, $f(z_n) = g(z_n)$. Dann ist $f=g$ in $G$.
+  
+  \begin{proof}
+    Sei $h \coloneq f - g$ in $G$. Dann gilt $h$ holomorph, $h(z_n) = 0$. Daraus folgt $h(z_0) = 0$. Wegen $h(z_n) = 0$, $z_n \to z_0$ und $z_n \neq z_0$ ist die Nullstelle $z_0$ nicht isoliert.
+    
+    $\overset{\text{\ref{thm:3.8}}}{\implies}$ $z_0$ ist Nullstelle der Ordnung $\infty$.
+    
+    $\overset{\text{\ref{thm:2.24}}}{\implies}$ $h = \mathrm{const.}$ in G und $h(z_0) = 0$ $\implies$ $h=0$ in $G$, also $f=g$ in $G$.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Gebietstreue] \label{thm:3.11}
+  $G \subseteq \mathbb{C}$ Gebiet, $f$ holomorph in $G$, $f \neq \mathrm{const.}$. Dann ist $f(G)$ ein Gebiet.
+  
+  \begin{proof}
+    \begin{enum-arab}
+      \item $f(G)$ ist wegzusammenhängend: Seien $w_j = f(z_j) \in f(G)$, $j=1,2$.
+      %
+      \begin{align*}
+        \text{$G$ Gebiet }
+        &\implies \text{ Es existiert ein Weg $\gamma$ in $G$ von $z_1$ nach $z_2$} \\
+        &\implies \text{ $f \circ \gamma$ ist Weg von $w_1$ nach $w_2$ in $f(G)$}
+      \end{align*}
+      
+      \item $f(G)$ ist offen: Sei $w_0 = f(z_0) \in f(G)$.
+      %
+      \begin{align*}
+        g \coloneq f(z) - f(z_0) \; , \quad z \in G
+      \end{align*}
+      %
+      $\implies$ $g$ holomorph, $z_0$ Nullstelle.
+      
+      \minisec{Fall 1: $z_0$ hat Ordnung $\infty$}
+      
+      $\overset{\text{\ref{thm:2.24}}}{\implies}$ $g = \mathrm{const.}$, also $f = \mathrm{const.}$. $\lightning$
+      
+      \minisec{Fall 2: $z_0$ hat endliche Ordnung $k \in \mathbb{N}$}
+      
+      $\overset{\text{\ref{thm:3.7}}}{\implies}$ $\exists \, O_\varepsilon \in G : K_\varepsilon(0) \subseteq \mathrm{Bild}(g)$
+      
+      $\implies$ $K_\varepsilon(f(z_0)) = f(z_0) \oplus K_\varepsilon(0) \subseteq \mathrm{Bild}(f)$
+      
+      $\implies$ $\exists \, \varepsilon > 0 : K_\varepsilon(w_0) \subseteq f(G)$
+    \end{enum-arab}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem*}[Definition]
+  $K$ ist kompakt, $\iff$ 
+  %
+  \begin{align*}
+    \text{$\forall \, (O_i)_{i \in I}$ offenes Mengensystem } : K \subseteq \bigcup\limits_{i \in I} O_i \implies \exists \, i_1, \ldots, i_n \in J : K \subseteq \bigcup\limits_{j=1}^{n} O_{ij}
+  \end{align*}
+  
+  $K$ ist folgenkompakt, $\iff$
+  %
+  \begin{align*}
+    \forall \, (x_n) \text{ Folge in } K : \text{ Es existiert eine Teilfolge } (x_{n_k}) \text{ mit } x_{n_k} \to x \in K
+  \end{align*}
+  
+  $H$ eine Borel $K \subseteq \mathbb{R}^n$, dann
+  %
+  \begin{align*}
+    \text{$K$ kompakt }
+    &\iff \text{ $K$ beschränkt und $K$ abgeschlossen} \\
+    &\implies \text{ gilt immer} \\
+    &\impliedby \text{ gilt nicht in $\infty$-dimensionalen Räumen}
+  \end{align*}
+\end{theorem*}
+
+\begin{theorem}[Maximumprinzip I] \label{thm:3.12}
+  Sei $G \subseteq \mathbb{C}$ ein Gebiet und $f$ holomorph in $G$. Falls ein $z_0 \in G$ existiert, so dass
+  %
+  \begin{align}
+    \forall \, z \in G : |f(z)| \leq |f(z_0)| \label{eq:3.12stern1} \tag{$\ast$}
+  \end{align}
+  %
+  oder
+  %
+  \begin{align*}
+    f(z_0) \neq 0 \; \land \; \forall \, z \in G : |f(z)| \geq |f(z_0)|
+  \end{align*}
+  %
+  (d.h. $f$ nimmt in $G$ das Maximum oder Minimum $\neq 0$ an) Dann gilt $f = \mathrm{const.}$ in $G$
+  
+  \begin{proof}
+    Sei $|f(z)| \leq |f(z_0)|$ für alle $z \in G$ und $f$ nicht konstant.
+    Nach \ref{thm:3.11} ist $f(G)$ ein Gebiet und insbesondere offen, es existiert also $\varepsilon > 0$ mit
+    %
+    \begin{align*}
+      K_\varepsilon(f(z_0)) \subseteq f(G)
+    \end{align*}
+    %
+    Wir finden jetzt anschaulich ein $w \in K_\varepsilon(f(z_0))$ mit $|w| > |f(z_0)|$.
+    Da $w$ im Bild von $f$ liegt, existiert auch ein $z_1 \in G$ mit
+    %
+    \begin{align*}
+      |f(z_1)| = |w| > |f(z_0)|
+    \end{align*}
+    %
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(-2,-2)(0.5,0.5)
+        \psaxes[ticks=none,labels=none]{->}(0,0)(-2,-2)(0.5,0.5)[\color{DimGray} Re,0][\color{DimGray} Im,0]
+        \pscircle[linecolor=DarkOrange3](2;225){1}
+        \rput(2;225){
+          \psline[linecolor=DarkOrange3](1;135)
+          \uput[45](0.5;135){\color{DarkOrange3} $\varepsilon$}
+        }
+        \psline[linecolor=MidnightBlue](0,0)(2.7;225)
+        \psdots*[linecolor=MidnightBlue](2;225)(2.5;225)
+        \uput[0](2;225){\color{MidnightBlue} $f(z_0)$}
+        \uput[-67](2.5;225){\color{MidnightBlue} $w=f(z_1)$}
+      \end{pspicture}
+    \end{figure}
+    %
+    Das stellt ein Widerspruch zur Vorraussetzung dar.
+
+    Den zweiten Fall behandelt man analog (die Forderung $f(z_0) \neq 0$ wird klar, weil man in diesem Fall keinen Widerspruch erzeugen kann).
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Maximumprinzip II] \label{thm:3.13}
+  Sei $G \subseteq \mathbb{C}$ Gebiet, $G$ beschränkt, $f : \bar{G} \to \mathbb{C}$ stetig und $f$ holomorph in $G$. Dann
+  %
+  \begin{enum-arab}
+    \item $\exists \, z_1 \in \partial G \, \forall \, z \in \bar{G} : |f(z)| \leq |f(z_1)|$
+    
+    \item Falls $\min\limits_{z \in \bar{G}} |f(z)| > 0$:
+    %
+    \begin{align*}
+      \exists \, z_2 \in \partial G \, \forall \, z \in \bar{G}: |f(z)| \geq |f(z_2)|
+    \end{align*}
+  \end{enum-arab}
+  
+  \begin{proof}
+    $\bar{G}$ ist kompakt und $|f| : \bar{G} \to \mathbb{R}$ stetig, also
+    %
+    \begin{align*}
+      \exists \, z_1,z_2 \in \bar{G} \, \forall \, z \in \bar{G} : |f(z_2)| \leq |f(z)| \leq |f(z_1)|
+    \end{align*}
+    %
+    Falls $z_1 \in \partial G$, sind wir schon fertig.
+    Sei also $z_1 \in G$.
+    Damit ist nach \ref{thm:3.12} $f$ konstant in $G$ und wegen der Stetigkeit auch in $\bar{G}$, also ist $z_1 \in \partial G$ wählbar. Genauso für $z_2$.
+  \end{proof}
+\end{theorem}
+
+\begin{example}
+  $f(z) = \mathrm{e}^z$, $G = K_2(1 + 2 \mathrm{i})$
+  %
+  \begin{figure}[H]
+    \centering
+    \psset{unit=0.7cm}
+    \begin{pspicture}(-1.5,-0.5)(3.5,4)
+      \pscircle[linecolor=DimGray,fillstyle=hlines,hatchcolor=DarkOrange3](1,2){2}
+      \psaxes[labelFontSize=\color{DimGray}\scriptstyle]{->}(0,0)(-1.5,-0.5)(3.5,4)[\color{DimGray} Re,0][\color{DimGray} Im,180]
+      \psline[linestyle=dotted,dotsep=1pt](-1,2)(-1,0)
+      \psline[linestyle=dotted,dotsep=1pt](3,2)(3,0)
+      \psdots*[linecolor=MidnightBlue](1,2)(-1,2)(3,2)
+      \uput[45](1,2){\color{MidnightBlue} $1+2\mathrm{i}$}
+      \uput[0](3,2){\color{MidnightBlue} Max}
+      \uput[180](-1,2){\color{MidnightBlue} Min}
+    \end{pspicture}
+    \psset{unit=1cm}
+    \vspace*{-4em}
+  \end{figure}
+  %
+  \begin{align*}
+    |f(z)| &= |\mathrm{e}^z| = \mathrm{e}^{\Re z} \\
+    \implies \quad \mathrm{e}^{-1} &= |f(-1+2\mathrm{i})| \leq |f(z)| \leq \mathrm{e}^3 = |f(3+2\mathrm{i})|
+  \end{align*}
+\end{example}
+
+\begin{theorem}[Satz]
+  Sei $f : ]a,b[ \to \mathbb{R}$, $x_0 \in ]a,b[$, $f$ in $x_0$ (reell-) analytisch, d.h.
+  %
+  \begin{align*}
+    f(x) = y_0 + \sum\limits_{n=K}^{\infty} a_n (x-x_0)^n \quad \text{für } |x-x_0| < r
+  \end{align*}
+  %
+  ($r>0$, $a_n \in \mathbb{R}$, $K \in \mathbb{N}$, $a_K \neq 0$). Dann existiert ein $\varepsilon > 0$, sodass
+  %
+  \begin{align*}
+    f_{+} \coloneq f \Big|_{[x_0,x_0+\varepsilon[} \qquad f_{-} \coloneq f \Big|_{]x_0-\varepsilon,x_0]}
+  \end{align*}
+  %
+  injektiv sind, dass $f_{+}^{-1}$, $f_{-}^{-1}$ sind als \acct{Puiseux-Reihen} darstellbar.
+  %
+  \begin{align*}
+    f_{\pm}^{-1}(y) = x_0 + \sum\limits_{n=1}^{\infty} b_n \left( \pm |y-y_0|^{1/K} \right)^n
+    \quad \text{für } y \in 
+    \begin{dcases}
+      f_{+}([x_0,x_0+\varepsilon[) \\
+      f_{-}(]x_0-\varepsilon,x_0])
+    \end{dcases}
+  \end{align*}
+  %
+  ($b_n \in \mathbb{R}$, $b_1 = |a_K|^{-1/K} \neq 0$)
+  
+  Die Reihen für $f_{+}$ und $f_{-}$ haben dieselben Koeffizienten $b_n$. Einziger Unterschied: $+$ oder $-$ in $(\cdot)^n$.
+  
+  \begin{proof} % % % Vorlesung vom 19.11.2012
+    O.B.d.A. $a_K > 0$. Sei
+    %
+    \begin{align*}
+      g(z) &\coloneq \sum\limits_{n=K}^{\infty} a_n (z-x_0)^n \quad \text{für } |z-x_0| < r \\
+      &\implies
+      \begin{dcases}
+        g \text{ holomorph} \\
+        z = x_0 \text{ ist $K$-fache Nullstelle} \\
+        y_0 + g(x) = f(x) \text{ für } x_0 - r < x < x_0 + r
+      \end{dcases}
+    \end{align*}
+    %
+    $\overset{\text{\ref{thm:3.4}}}{\implies}$ $g(z) = h(z)^K$ für $|z-x_0| < \varepsilon$, $h$ holomorph und $h'(x_0) \neq 0$.
+    
+    Aus dem Beweis von \ref{thm:3.4}:
+    %
+    \begin{align*}
+      h(z) = (z-x_0) \underbrace{\left( \sum\limits_{n=K}^{\infty} a_n (z-x_0)^{n-K} \right){1/K}}_{=a_K > 0 \text{ für } z=x_0}
+    \end{align*}
+    %
+    also $(\cdot)^{1/K} : \mathbb{C}_0 \to \mathbb{C}$, insbesondere $(\cdot)^{1/K} : [0,\infty[ \to \mathbb{R}$ ist die reelle $K$-te Wurzel.
+    %
+    \begin{align*}
+      &\implies
+      \begin{dcases}
+        h^{-1} \text{ holomorph nach \ref{thm:3.6}} \\
+        h(x) \in \mathbb{R} \text{ für } x_0-\varepsilon < x < x_0+\varepsilon \\
+        h'(x_0) = 1 \cdot a_K^{1/K} + 0 \cdot \ldots = a_K^{1/K} > 0 \\
+        \implies h \text{ streng monoton wachsend in } ]x_0-\varepsilon',x_0+\varepsilon'[ \text{ und reell} \\
+        \implies h^{-1} \text{ streng monoton wachsend und reell}
+      \end{dcases} \\
+      &\implies
+      \begin{dcases}
+        h^{-1}(z) = x_0 + \sum\limits_{n=1}^{\infty} b_n \, z^n \text{ für } |z-x_0| < r' \\
+        b_1 = \frac{{h^{-1}}'(0)}{1!} = \frac{1}{h'(x_0)} = \frac{1}{a_K^{1/K}} \\
+        b_n \in \mathbb{R} \text{, da } b_n = \frac{1}{n!} \frac{\mathrm{d}^n h^{-1}}{\mathrm{d}x^n}(x_0) = \text{reeller Ableitung von } h^{-1}\Big|_{]x_0-r',x_0+r'[}
+      \end{dcases} \\
+    \end{align*}
+    %
+    Also: 
+    \begin{gather*}
+      \begin{aligned}
+        f(x) = y
+        &\iff g(x) = y-y_0 \\
+        &\iff h(x)^K = y-y_0 \\
+      \end{aligned} \\
+      \implies
+      \left\{
+      \begin{aligned}
+        &x \geq x_0 : h(x) \geq h(x_0) = 0 \implies y \geq y_0 \\
+        &\qquad \implies h(x) = (y-y_0)^{1/K} \\
+        &\qquad \implies x = h^{-1} (y-y_0)^{1/K} = \underbrace{x_0 + \sum\limits_{n=1}^{\infty} b_n \left( (y-y_0)^{1/K} \right)^n}_{\eqcolon f_{+}^{-1}} \\
+        &x \leq x_0 : h(x) \leq h(x_0) = 0 \implies y \leq y_0 \\
+        &\qquad \implies h(x) = - |y-y_0|^{1/K} \\
+        &\qquad \implies x = h^{-1}\left(-|y-y_0|^{1/K}\right) = \underbrace{x_0 + \sum\limits_{n=1}^{\infty} b_n \left( -|y-y_0|^{1/K} \right)^n}_{\eqcolon f_{-}^{-1}}
+      \end{aligned}
+      \right.
+    \end{gather*}
+  \end{proof}
+\end{theorem}
+
+\begin{example}
+  $f(x) = c (x-x_0)^4$, $x \in \mathbb{R}$
+  %
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-0.5,-2)(3,2)
+      \psaxes[labels=none,ticks=none]{->}(0,0)(-0.5,-2)(3,2)[\color{DimGray} $x$,0][\color{DimGray} $y$,180]
+      \psplot[linecolor=MidnightBlue]{-0.414213562373}{2.41421356237}{(x-1)^2}
+      \psplot[linecolor=DarkOrange3]{-0.414213562373}{2.41421356237}{-(x-1)^2}
+      \psline(1,-0.1)(1,0.1)
+      \uput[-90](1,0){\color{DimGray} $x_0$}
+      \uput[0](2,-1){\color{DarkOrange3} $c<0$}
+      \uput[0](2,1){\color{MidnightBlue} $c>0$}
+      \uput[0](2.5,2){\color{DimGray} $y=f(x)$}
+    \end{pspicture}
+    \vspace*{-4em}
+  \end{figure}
+  %
+  \minisec{Fall $c<0$:}
+  %
+  \begin{gather*}
+    f_{+} : [x_0,\infty[ \to ]-\infty,0] \\
+    f_{+}^{-1}(y) = x_0 + \left| \frac{y}{c} \right|^{1/4} \\
+    f_{-} : ]-\infty,x_0] \to ]-\infty,0] \\
+    f_{-}^{-1}(y) = x_0 - \left| \frac{y}{c} \right|^{1/4}
+  \end{gather*}
+  %
+  Für $c<0$ dieselben Abbildungsvorschriften für $f_{+}^{-1}$, $f_{-}^{-1}$.
+\end{example}

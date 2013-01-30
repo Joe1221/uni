@@ -1,0 +1,572 @@
+% Henri Menke, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Volumenintegrale und Integralsätze}
+\addtocounter{thmn}{1}
+\setcounter{theorem}{0}
+
+% % % Vorlesung vom 17.12.2012
+
+\begin{theorem}[Definition]
+  Sei $n \in \mathbb{N}$, $n \geq 2$. Eine Menge $S \subseteq \mathbb{R}^n$ heißt \acct{projizierbar} in $x_n$-Richtung, falls es ein beschränktes Gebiet $G \subseteq \mathbb{R}^{n-1}$ und $\alpha, \beta \in C(\overline{G} \to \mathbb{R})$ mit $\alpha(x') \leq \beta(x')$ für $x' \in G$ gibt, sodass
+  %
+  \begin{align*}
+    S = \{ (x_1,\ldots,x_{n-1},x_n) = (x',x_n) \in \mathbb{R}^n : x' \in G \land \alpha(x') \leq x_n \leq \beta(x') \}
+  \end{align*}
+  %
+  Ist $S$ projizierbar in jede $x_j$-Richtung ($j = 1,\ldots,n$), so heißt $S$ \acct{Standardbereich}.
+\end{theorem}
+
+\begin{figure}[H]
+  z.B. $n=2$. Die Funktion ist projizierbar in $x_2$-Richtung, aber nicht in $x_1$-Richtung.
+  
+  \centering
+  \begin{pspicture}(-0.5,-0.5)(4,2.5)
+    \psaxes[ticks=none,labels=none]{->}(0,0)(-0.5,-0.5)(4,2)[\color{DimGray} $x_1$, 0][\color{DimGray} $x_2$, 0]
+    \psccurve[linestyle=none,fillstyle=hlines,hatchcolor=DimGray](-0.3,1)(0.5,0.5)(1.5,0.9)(2.5,0.5)(3,1)(2,2)(1,1.5)
+    % BUG: psclip has totally weird placement. You always have to do \rput(0,0){...}
+    \rput(0,0){
+      \begin{psclip}{\psframe[linestyle=none](-0.4,1.05)(3.1,0)}
+        \psccurve[linecolor=DarkOrange3](-0.3,1)(0.5,0.5)(1.5,0.9)(2.5,0.5)(3,1)(2,2)(1,1.5)
+      \end{psclip}
+    }
+    \rput(0,0){
+      \begin{psclip}{\psframe[linestyle=none](-0.4,0.98)(3.1,2.5)}
+        \psccurve[linecolor=MidnightBlue](-0.3,1)(0.5,0.5)(1.5,0.9)(2.5,0.5)(3,1)(2,2)(1,1.5)
+      \end{psclip}
+    }
+    \psdots(-0.3,1)(3,1)
+    \psline[linecolor=Purple](-0.3,0)(3,0)
+    \psline[linestyle=dotted,dotsep=1pt](-0.3,1)(-0.3,0)
+    \psline[linestyle=dotted,dotsep=1pt](3,1)(3,0)
+    \psline(-0.3,0.1)(-0.3,-0.1)
+    \psline(3,0.1)(3,-0.1)
+    \uput[-90](-0.3,0){\color{DimGray} $a$}
+    \uput[-90](3,0){\color{DimGray} $b$}
+    \uput[45](3,1){\color{MidnightBlue} $x_2 = \beta(x_1)$}
+    \uput[-45](3,1){\color{DarkOrange3} $x_2 = \alpha(x_1)$}
+  \end{pspicture}
+\end{figure}
+
+\begin{notice}
+  Ist $S$ projizierbar in $x_n$-Richtung und $f : S \to \mathbb{R}$ messbar mit 
+  \begin{align*} 
+    \int_S |f| \, \mathrm{d}x < \infty 
+  \end{align*} 
+  so folgt aus dem Satz von Fubini:
+  %
+  \begin{enum-arab}
+    \item $f(x',\cdot) : [\alpha(x'),\beta(x')] \to \mathbb{R}$ ist messbar für fast alle $x' \in G$
+    
+    \item fast überall ist
+    %
+    \begin{align*}
+      F(x') \coloneq \int\limits_{\alpha(x')}^{\beta(x')} f(x',x_n) \, \mathrm{d}x_n
+    \end{align*}
+    %
+    definiert
+    
+    \item 
+    \begin{align*}
+      \int_S f \, \mathrm{d}x = \int_{\overline{G}} \int\limits_{x_n = \alpha(x')}^{\beta(x')} f(x',x_n) \, \mathrm{d}x_n \, \mathrm{d}x'
+    \end{align*}
+  \end{enum-arab}
+\end{notice}
+
+\begin{example}
+  $S = \{ x \in \mathbb{R}^3 : 0 \leq x_3 \leq 2 - x_2^2 \land x_2 \geq 0 \land x_1^2 + x_2^2 \leq 1 \}$. Vorstellung: Schnitt von
+  %
+  \begin{figure}[H]
+    \centering
+    %\psset{Alpha=0,Beta=0}
+    \begin{pspicture}(-2,-1)(2,2)
+      \pstThreeDCoor[linecolor=DimGray,xMax=2.5,yMax=3,zMax=2.5,xMin=-2,yMin=-2,zMin=-0.3,nameX=\color{DimGray}$x_1$,nameY=\color{DimGray}$x_2$,nameZ=\color{DimGray}$x_3$]
+      \psplotThreeD[linecolor=MidnightBlue,plotstyle=curve,yPlotpoints=6](-1.414,1.414)(-2,2.1){2 - x^2}
+      \pstThreeDLine[linecolor=MidnightBlue](0,2,2)(0,-2,2)
+      \pstThreeDLine[linecolor=MidnightBlue](1.414,2,0)(1.414,-2,0)
+      \pstThreeDLine[linecolor=MidnightBlue](-1.414,2,0)(-1.414,-2,0)
+      \pstThreeDLine(1.414,0,-0.1)(1.414,0,0.1)
+      \pstThreeDLine(0.1,0,2)(-0.1,0,2)
+      \pstThreeDNode(1.414,0,0){Unten}
+      \pstThreeDNode(0,0,2){Oben}
+      \uput[-90](Unten){\color{DimGray} $\sqrt{2}$}
+      \uput[45](Oben){\color{DimGray} $2$}
+    \end{pspicture}
+    \hspace*{4em}
+    \begin{pspicture}(-2,-1)(2,2)
+      \pstThreeDCoor[linecolor=DimGray,xMax=2.5,yMax=3,zMax=2.5,xMin=-2,yMin=-2,zMin=-0.5,nameX=\color{DimGray}$x_1$,nameY=\color{DimGray}$x_2$,nameZ=\color{DimGray}$x_3$]
+      \pstThreeDLine[linecolor=MidnightBlue](1,0,-0.5)(1,0,2)
+      \pstThreeDLine[linecolor=MidnightBlue](-1,0,-0.5)(-1,0,2)
+      \pstThreeDLine(1,-0.1,0)(1,0.1,0)
+      \pstThreeDLine(-1,-0.1,0)(-1,0.1,0)
+      \pstThreeDNode(1,0,0){A}
+      \pstThreeDNode(-1,0,0){B}
+      \uput[-120](A){\color{DimGray} $1$}
+      \uput[-45](B){\color{DimGray} $1$}
+      \pstThreeDEllipse[linecolor=MidnightBlue,beginAngle=0,endAngle=180](0,0,0)(1,0,0)(0,1,0)
+      \pstThreeDEllipse[linecolor=MidnightBlue,beginAngle=0,endAngle=180](0,0,1.5)(1,0,0)(0,1,0)
+    \end{pspicture}
+  \end{figure}
+  %
+  $S$ ist projizierbar in $x_3$-Richtung:
+  %
+  \begin{gather*}
+    G = \{ (x_1,x_2) : x_2 \geq 0 \land x_1^2 + x_2^2 < 1 \}_{(x_1,x_2) \in G} \\
+    \alpha(x_1,x_2) = 0 \qquad \beta(x_1,x_2) = 2 - x_2^2 > 2 - 1 > \alpha(x_1,x_2)
+  \end{gather*}
+  %
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-1.5,-0.3)(1.5,1.5)
+      \psaxes[labelFontSize=\color{DimGray}]{->}(0,0)(-1.5,-0.3)(1.5,1.5)[\color{DimGray} $x_1$,0][\color{DimGray} $x_2$,0]
+      \pscustom[fillstyle=hlines,hatchcolor=MidnightBlue]{
+        \psarc[linestyle=none](0,0){1}{0}{180}
+        \psline[linestyle=none](-1,0)(1,0)
+      }
+      \psarc[linecolor=MidnightBlue](0,0){1}{0}{180}
+      \psline[linecolor=DarkOrange3](-1,0)(1,0)
+      \uput{1.2}[45](0,0){\color{MidnightBlue} $\overline{G}$}
+      \uput[-45](0,0){\color{DarkOrange3} $I$}
+    \end{pspicture}
+  \end{figure}
+  %
+  $\overline{G}$ ist projizierbar in $x_2$-Richtung
+  %
+  \begin{align*}
+    I &= ]-1,1[ \\
+    \widetilde{\alpha}(x_1) &= 0 \\
+    \widetilde{\beta}(x_1) &= \sqrt{1 - x_1^2}
+  \end{align*}
+  \begin{align*}
+    \implies \quad \int_S x_2 x_3 \, \mathrm{d}x
+    &= \int_{\overline{G}} \left( \int\limits_{0}^{2 - x_2^2} x_2 x_3 \, \mathrm{d}x_3 \right) \mathrm{d}(x_1,x_2) \\
+    &= \int_{\overline{G}} x_2 \frac{x_3^2}{2} \bigg|_{x_3 = 0}^{2 - x_2^2} \mathrm{d}(x_1,x_2) \\
+    &= \int_{\overline{G}} \frac{1}{2} x_2 (2 - x_2^2)^2 \mathrm{d}(x_1,x_2) \\
+    &= \frac{1}{2} \int_{\overline{I}} \left( \int\limits_{0}^{\sqrt{1 - x_1^2}} x_2 (2 - x_2^2)^2 \, \mathrm{d}x_2 \right) \mathrm{d}x_1 \\
+    &= \frac{1}{2} \int_{\overline{I}} -\frac{1}{6} (2 - x_2^2)^3 \bigg|_{0}^{\sqrt{1 - x_1^2}} \, \mathrm{d}x_1 \\
+    &= \frac{1}{2} \int_{\overline{I}} \frac{8}{6} - \frac{1}{6} (1 + x_1^2)^3 \, \mathrm{d}x_1 \\
+    &= \frac{1}{12} \int\limits_{-1}^{1} (7 - x_1^6 - 3 x_1^4 - 3 x_1^2) \, \mathrm{d}x_1 \\
+    &= \frac{1}{12} (14 - \frac{2}{7} - \frac{6}{5} - 2)
+  \end{align*}
+\end{example}
+
+\begin{theorem}[Integralsatz im $\mathbb{R}^2$] \label{thm:8.4}
+  Sei $S \subseteq \mathbb{R}^2$ ein Standardbereich, dann sei $f,g \in C^1(D \to \mathbb{R})$, $D$ offen und $\overline{S} \subseteq D$. Bei der projizierten Darstellung in $x_1$- bzw. $x_2$-Richtung seien $\alpha,\beta$ stückweise glatt. $\partial S$ werde im Gegenuhrzeigersinn\footnote{Neologismus von PD Dr. Lesky, eigentlich: >>gegen den Uhrzeigersinn<<} durchlaufen. Dann
+  %
+  \begin{align*}
+    \left( \int_{\partial S} f \, \mathrm{d}x_2 = \right) \quad \int_{\partial S} f \cdot T_2 \, \mathrm{d}s &= - \int \partial_{x_1} f \, \mathrm{d}(x_1,x_2) \tag*{{\color{DarkRed} $(*)$}} \\
+    \left( \int_{\partial S} g \, \mathrm{d}x_1 = \right) \quad \int_{\partial S} g \cdot T_1 \, \mathrm{d}s &= - \int \partial_{x_2} g \, \mathrm{d}(x_1,x_2) \\
+  \end{align*}
+  %
+  wobei $T = \left( \begin{smallmatrix} T_1 \\ T_2 \end{smallmatrix} \right)$ der Tangentenvektor ist.
+  
+  \begin{proof} Vorüberlegung
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(-0.3,-0.3)(3.5,2)
+        \psaxes[labels=none,ticks=none]{->}(0,0)(-0.3,-0.3)(3.5,2)[\color{DimGray} $x_1$,0][\color{DimGray} $x_2$,180]
+        \psxTick(0.5){\color{DimGray}a}
+        \psxTick(3){\color{DimGray}b}
+        \pscustom[fillstyle=hlines,hatchcolor=DimGray,linestyle=none]{
+          \pscurve[linestyle=none](0.5,1.5)(1,1.4)(2.5,0.6)(3,0.3)
+          \psline[linestyle=none](0.5,1.5)(0.5,0.7)
+          \pscurve[linestyle=none](0.5,0.7)(1,0.7)(2.5,0.3)(3,0.3)
+        }
+        \pscurve[linecolor=MidnightBlue](0.5,0.7)(1,0.7)(2.5,0.3)(3,0.3)
+        \pscurve[linecolor=DarkOrange3](0.5,1.5)(1,1.4)(2.5,0.6)(3,0.3)
+        \psline(0.5,1.5)(0.5,0.7)
+        \rput(1,1.1){\color{DimGray} $S$}
+        
+        \rput(-0.1,-0.1){
+          \pscurve[linecolor=Purple,unit=1.1\psunit]{->}(0.5,0.7)(1,0.7)(2.5,0.3)(3,0.3)
+          \pscurve[linecolor=Purple,unit=1.1\psunit]{<-}(0.5,1.5)(1,1.4)(2.5,0.6)(3,0.3)
+          \psline[linecolor=Purple,unit=1.1\psunit]{->}(0.5,1.5)(0.5,0.7)
+          \uput[45](2,1.4){\color{Purple} $\partial S$}
+        }
+        
+        \uput[0](3,0.6){\color{MidnightBlue} $x_2 = \alpha(x_1)$}
+        \uput[0](3,1){\color{DarkOrange3} $x_2 = \beta(x_1)$}
+      \end{pspicture}
+    \end{figure}
+    %
+    Parameterdarstellung von $\partial S$:
+    %
+    \begin{gather*}
+      \begin{aligned}
+        \gamma(t) &=
+        \begin{cases}
+          \begin{pmatrix} a + t(b-a) \\ \alpha(a + t(b-a)) \end{pmatrix} & 0 \leq t < 1 \\
+          \begin{pmatrix} b \\ \alpha(b) + (t-1) (\beta(b) - \alpha(b)) \end{pmatrix} & 1 \leq t < 2 \\
+          \begin{pmatrix} b + (t-2) (a-b) \\ \beta(b + (t-2) (a-b)) \end{pmatrix} & 2 \leq t < 3 \\
+          \begin{pmatrix} a \\ \beta(a) + (t-3) (\alpha(a) - \beta(a)) \end{pmatrix} & 3 \leq t < 4 \\
+        \end{cases} \\
+        %
+        \implies \quad
+        \gamma'(t) &=
+        \begin{cases}
+          \begin{pmatrix} b-a \\ \ldots \end{pmatrix} & 0 < t < 1 \\
+          \begin{pmatrix} 0 \\ \ldots \end{pmatrix} & 1 < t < 2 \\
+          \begin{pmatrix} a-b \\ \ldots \end{pmatrix} & 2 < t < 3 \\
+          \begin{pmatrix} 0 \\ \ldots \end{pmatrix} & 3 < t < 4 \\
+        \end{cases} \\
+      \end{aligned} \\
+      \begin{aligned}
+        \implies \quad
+        \int_{\partial S} g \cdot T_1 \, \mathrm{d}s
+        &= \int\limits_{0}^{4} g(\gamma(t)) \cdot \gamma_1'(t) \, \mathrm{d}t \\
+        &= \int\limits_{0}^{1} g\begin{pmatrix} a + t(b-a) \\ \alpha(a + t(b-a)) \end{pmatrix} (b-a) \, \mathrm{d}t + 0 \\
+        &\quad+ \int\limits_{2}^{3} g\begin{pmatrix} b + (t-2) (a-b) \\ \beta(b + (t-2) (a-b)) \end{pmatrix} (a-b) \, \mathrm{d}t + 0 \\
+        &= \int\limits_{a}^{b} g\begin{pmatrix} x_1 \\ \alpha(x_1) \end{pmatrix} \, \mathrm{d}x_1 - \int\limits_{a}^{b} g\begin{pmatrix} x_1 \\ \beta(x_1) \end{pmatrix} \, \mathrm{d}x_1
+      \intertext{Andererseits}
+        \int_{S} \partial_{x_2} g \, \mathrm{d}(x_1,x_2)
+        &= \int\limits_{x_1 = a}^{b} \int\limits_{x_2 = \alpha(x_1)}^{\beta(x_1)} \partial_{x_2} g(x_1,x_2) \, \mathrm{d}x_2 \, \mathrm{d}x_1 \\
+        &= \int\limits_{x_1 = a}^{b} \left( g(x_1,\beta(x_1)) - g(x_1,\alpha(x_1)) \right) \, \mathrm{d}x_1
+      \end{aligned}
+    \end{gather*}
+    %
+    Für Gleichung {\color{DarkRed} $(*)$} genauso, aber $\partial S$ in andere Richtung parametrisieren
+    %
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(-0.3,-0.3)(2.5,2.5)
+        \psaxes[labels=none,ticks=none]{->}(0,0)(-0.3,-0.3)(2.5,2)[\color{DimGray} $x_1$,0][\color{DimGray} $x_2$,180]
+        \psyTick(0.3){\color{DimGray}a}
+        \psyTick(1.5){\color{DimGray}b}
+        \psline(0.5,1.5)(2.5,1.5)
+        \psline(1,0.3)(1.7,0.3)
+        \pscurve[linecolor=MidnightBlue](0.5,1.5)(0.5,1.3)(1,0.5)(1,0.3)
+        \pscurve[linecolor=DarkOrange3](2.5,1.5)(2.5,1.3)(1.7,0.5)(1.7,0.3)
+        \uput[60](0.5,1.5){\color{MidnightBlue} $x_1 = \alpha(x_2)$}
+        \uput[60](2.5,1.5){\color{DarkOrange3} $x_1 = \beta(x_2)$}
+      \end{pspicture}
+    \end{figure}
+  \end{proof}
+\end{theorem}
+
+\begin{notice}[Folgerungen:] \label{thm:8.5}
+  Voraussetzungen wie in \ref{thm:8.4}, aber $f \in C^1(D \to \mathbb{R}^2)$
+  %
+  \begin{enum-arab}
+    \item Satz von Green:
+    %
+    \begin{align*}
+       & \int_S (\partial_{x_2} f_1 - \partial_{x_1} f_2) \, \mathrm{d}x = - \int_{\partial S} f \cdot T \, \mathrm{d}s \\
+      \overset{\text{\ref{thm:8.4}}}{=}& - \int f_1 \cdot T_1 \, \mathrm{d}s - \int f_2 \cdot T_2 \, \mathrm{d}s
+    \end{align*}
+    
+    \item Satz von Gauß in der Ebene
+    %
+    \begin{align*}
+      \int_S \mathrm{div}\, f \, \mathrm{d}x &= \int_{\partial S} f \cdot n \, \mathrm{d}s
+    \end{align*}
+    %
+    $n$ ist der Normaleneinheitsvektor, der ins Äußere von $S$ zeigt: $T = \left( \begin{smallmatrix} T_1 \\ T_2 \end{smallmatrix} \right) \implies n = \left( \begin{smallmatrix} T_2 \\ - T_1 \end{smallmatrix} \right)$.
+    %
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(0,0)(2,2)
+        \psccurve(0,1)(1,0)(2,1)(1,1.5)
+        \rput(1,1.5){
+          \psline{->}(0,0)(1.5;180)
+          \psline{->}(0,0)(0.7;90)
+          \uput[-90](1.5;180){\color{DimGray} $T$}
+          \uput[0](0.7;90){\color{DimGray} $n$}
+        }
+      \end{pspicture}
+    \end{figure}
+  \end{enum-arab}
+\end{notice}
+
+\begin{example}
+  $D = \mathbb{R}^2$, $f(x_1,x_2) = a \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} + b \begin{pmatrix} x_2 \\ - x_1 \end{pmatrix}$, $S = K_1(0)$
+  %
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-1.5,-1.5)(1.5,1.5)
+      \psaxes[labels=none,ticks=none]{->}(0,0)(-1.5,-1.5)(1.5,1.5)
+      \psset{unit=0.2cm}
+      \multido{\ia=-5+1}{11}{%
+      \multido{\ib=-5+1}{11}{%
+      \rput{(!\ia\space\ib)}(\ia,\ib){\psline[linecolor=MidnightBlue]{->}(-.2,0)(.2,0)}
+      }}
+      \psset{unit=1cm}
+    \end{pspicture}
+    \hspace*{4em}
+    \begin{pspicture}(-1.5,-1.5)(1.5,1.5)
+      \psaxes[labels=none,ticks=none]{->}(0,0)(-1.5,-1.5)(1.5,1.5)
+      \psset{unit=0.2cm}
+      \multido{\ia=-5+1}{11}{%
+      \multido{\ib=-5+1}{11}{%
+      \rput{(!\ia\space\ib)}(\ia,\ib){\psline[linecolor=DarkOrange3]{->}(0.2;30)(0.2;-30)}
+      }}
+      \psset{unit=1cm}
+    \end{pspicture}
+    \vspace*{-3em}
+  \end{figure}
+  %
+  \begin{align*}
+    \int_S \mathrm{div}\, f \, \mathrm{d}x &= \int_S 2 a \, \mathrm{d}x = 2 a \pi = \int_{\partial S} \left( a \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} \cdot n + 0 \right) \, \mathrm{d}s \\
+    \int_S \left( \partial_{x_2} f_1 - \partial_{x_1} f_2 \right) \, \mathrm{d}x &= 2 b \pi = - \int_{\partial S} \left( 0 + b \begin{pmatrix} x_2 \\ -x_1 \end{pmatrix} \cdot t \right) \, \mathrm{d}s
+  \end{align*}
+\end{example}
+
+% % % Vorlesung vom 20.12.2012
+
+\begin{example}
+  $S$ ist kein Standardbereich.
+  %
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-2,-2)(2,2)
+      \pscircle[fillstyle=hlines,hatchcolor=DimGray](0,0){1.5}
+      \begin{psclip}{\psframe[linestyle=none](-2,0)(0,2)}
+        \pscircle[fillstyle=vlines,hatchcolor=Purple](0,0){1.5}
+      \end{psclip}
+      \pscircle[fillstyle=solid](0,0){0.5}
+      \psaxes[labels=none,ticks=none]{->}(0,0)(-2,-2)(2,2)[\color{DimGray} $x_1$,0][\color{DimGray} $x_2$,0]
+      \psarc[linecolor=MidnightBlue](0,0){1.5}{90}{180}
+      \psarc[linecolor=DarkOrange3](0,0){0.5}{90}{180}
+      \psline[linecolor=DarkOrange3](1.5;180)(0.5;180)
+      \uput{1.7}[150](0,0){\color{Purple} $S_1$}
+      \uput{1.7}[-45](0,0){\color{DimGray} $S$}
+      \uput{1.7}[120](0,0){\color{MidnightBlue} $x_2 = \beta(x_1)$}
+      \uput{1.7}[200](0,0){\color{DarkOrange3} $x_2 = \alpha(x_1)$}
+    \end{pspicture}
+  \end{figure}
+  %
+  $S_1$ ist ein Standardbereich. $S$ ist darstellbar als disjunkte Vereinigung von Standardbereichen.
+\end{example}
+
+\begin{theorem}[Definition]
+  $S \subseteq \mathbb{R}^n$ heißt \acct{Greenscher Bereich}, wenn $S = S_1 \dot{\cup} \ldots \dot{\cup} S_k$, wobei $S_j$ ein Standardbereich ist.
+\end{theorem}
+
+\begin{theorem}[Folgerung]
+  Der \acct{Satz von Green}
+  %
+  \begin{align*}
+    \int_S \left( \frac{\partial f_1}{\partial x_2} - \frac{\partial f_2}{\partial x_1} \right) \, \mathrm{d}x = - \int_{\partial S} f \cdot T \, \mathrm{d}s
+  \end{align*}
+  %
+  gilt auch in Greenschen Bereichen, wenn $\partial S$ stückweise glatt so parametrisiert ist, dass
+  %
+  \begin{align*}
+    n = \begin{pmatrix} T_2 \\ - T_1 \end{pmatrix} \qquad \left( T = \begin{pmatrix} T_1 \\ T_2 \end{pmatrix} \right)
+  \end{align*}
+  %
+  in jedem Punkt von $\partial S$ aus $S$ hinaus weist.
+  
+  \begin{proof}[Zum Beweis]
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(-2,-2)(2,2)
+        \psarc{->}(0,0){1.5}{45}{405}
+        \psarc{<-}(0,0){0.5}{45}{405}
+        \uput{1.7}[0](0,0){\color{DimGray} $\partial S$}
+        
+        \rput(1.5;90){
+          \psline{->}(0,0)(1;180)
+          \uput*[90](1;180){\color{DimGray} $T$}
+          \psline{->}(0,0)(0.5;90)
+          \uput*[0](0.5;90){\color{DimGray} $n$}
+        }
+        
+        \psarc[linecolor=MidnightBlue]{->}(0,0){1.4}{92}{178}
+        \psarc[linecolor=MidnightBlue]{<-}(0,0){0.6}{95}{175}
+        \psline[linecolor=MidnightBlue]{->}(1.4;178)(0.6;175)
+        \psline[linecolor=MidnightBlue]{<-}(1.4;92)(0.6;95)
+        \uput{0.8}[135](0,0){\color{MidnightBlue} $S_1$}
+        
+        \psarc[linecolor=DarkOrange3]{->}(0,0){1.4}{182}{267}
+        \psarc[linecolor=DarkOrange3]{<-}(0,0){0.6}{185}{265}
+        \psline[linecolor=DarkOrange3]{->}(1.4;267)(0.6;265)
+        \psline[linecolor=DarkOrange3]{<-}(1.4;182)(0.6;185)
+        \uput{0.8}[225](0,0){\color{DarkOrange3} $S_2$}
+        
+        \psarc[linecolor=DarkRed]{->}(0,0){1.4}{272}{358}
+        \psarc[linecolor=DarkRed]{<-}(0,0){0.6}{275}{355}
+        \psline[linecolor=DarkRed]{->}(1.4;358)(0.6;355)
+        \psline[linecolor=DarkRed]{<-}(1.4;272)(0.6;275)
+        \uput{0.8}[315](0,0){\color{DarkRed} $S_3$}
+        
+        \psarc[linecolor=DarkGreen]{->}(0,0){1.4}{2}{88}
+        \psarc[linecolor=DarkGreen]{<-}(0,0){0.6}{5}{85}
+        \psline[linecolor=DarkGreen]{<-}(1.4;2)(0.6;5)
+        \psline[linecolor=DarkGreen]{->}(1.4;88)(0.6;85)
+        \uput{0.8}[45](0,0){\color{DarkGreen} $S_4$}
+      \end{pspicture}
+    \end{figure}
+    %
+    Green gilt in jedem $S_j$. Wegintegrale über gemeinsame Randteile heben sich weg.
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Satz von Gauß im $\mathbb{R}^3$]
+  Sei $f \in C^1(D \to \mathbb{R}^3)$, $D \subseteq \mathbb{R}^3$ offen, $S \subseteq D$ Standardbereich, so dass bei jeder Projektion der untere und obere Rand Flächen sind. Dann gilt
+  %
+  \begin{align*}
+    \int_S \nabla \cdot f \, \mathrm{d}x = \int_{\partial S} f \cdot n \, \mathrm{d}\sigma
+  \end{align*}
+  %
+  wobei $n$ der Normaleneinheitsvektor ist, der aus $S$ hinaus weist.
+  
+  \begin{proof}
+    Sei $S_3$ Projektion von $S$ in $x_3$-Richtung.
+    %
+    \begin{align*}
+      \overline{S} = \{ (x', x_3) \in \mathbb{R}^3 : \alpha(x) \leq x_3 \leq \beta(x) \}
+    \end{align*}
+    %
+    Zeige:
+    %
+    \begin{align*}
+      \int_S \partial_{x_3} f_3 \, \mathrm{d}x = \int_{\partial S} f_3 \cdot n_3 \, \mathrm{d}\sigma
+    \end{align*}
+    %
+    \begin{figure}[H]
+      \centering
+      \psset{Alpha=60}
+      \begin{pspicture}(-2,-1.5)(3,2.5)
+        \pstThreeDCoor[linecolor=DimGray,xMax=2.5,yMax=3,zMax=2.5,xMin=-0.5,yMin=-0.5,zMin=-0.5,nameX=\color{DimGray}$x_1$,nameY=\color{DimGray}$x_2$,nameZ=\color{DimGray}$x_3$]
+        \pstThreeDEllipse[linecolor=DimGray,fillstyle=hlines,hatchcolor=DimGray](1.2,1.2,0)(1,0,0)(0,1,0)
+        \pstThreeDEllipse[linecolor=DarkOrange3,fillstyle=vlines,hatchcolor=DarkOrange3](1.2,1.2,1)(1,0,0)(0,1,0)
+        \pstThreeDPut(1.2,1.2,1){
+          \parametricplotThreeD[linecolor=DarkRed,plotstyle=curve,yPlotpoints=20](0,1)(0,\psPiTwo){cos(u) | sin(u) | t}
+        }
+        \pstThreeDEllipse[linecolor=MidnightBlue,fillstyle=vlines,hatchcolor=MidnightBlue](1.2,1.2,2)(1,0,0)(0,1,0)
+        \pstThreeDPut(1.2,1.2,1){
+          \pstThreeDLine[linecolor=MidnightBlue]{->}(0,0,1)(0,0,2)
+          \pstThreeDPut(0,-0.2,2){\color{MidnightBlue} $n$}
+          \pstThreeDLine[linecolor=DarkOrange3]{->}(0,0,0)(0,0,-1)
+          \pstThreeDPut(0,-0.2,-1){\color{DarkOrange3} $n$}
+          \pstThreeDLine[linecolor=DarkRed]{->}(0,0.707,0.5)(0,2,0.5)
+          \pstThreeDPut(0,2,0.3){\color{DarkRed} $n$}
+        }
+        \uput[0](1.5,1.5){\color{MidnightBlue} $x_3 = \beta(x_1,x_2) \eqcolon F_1$}
+        \uput[0](1.5,0.5){\color{DarkOrange3} $x_3 = \alpha(x_1,x_2) \eqcolon F_2$}
+      \end{pspicture}
+    \end{figure}
+    %
+    Der Normalenvektor auf $F_1$ ist gegeben durch
+    %
+    \begin{align*}
+      n
+      &= \frac{1}{\|\ldots\|} \left( \partial_{x_1} \begin{pmatrix} x_1 \\ x_2 \\ \beta(x_1,x_2) \end{pmatrix} \times \partial_{x_2} \begin{pmatrix} x_1 \\ x_2 \\ \beta(x_1,x_2) \end{pmatrix} \right) \\
+      &= \frac{1}{\|\ldots\|} \left( \begin{pmatrix} 1 \\ 0 \\ \partial_{x_1} \beta \end{pmatrix} \times  \begin{pmatrix} 0 \\ 1 \\ \partial_{x_2} \beta \end{pmatrix} \right) \\
+      &= \frac{1}{\|\ldots\|} \begin{pmatrix} 0 \\ 0 \\ 1 \beta \end{pmatrix} \\
+      \implies n_3 &= \frac{1}{\|\ldots\|} > 0
+    \end{align*}
+    %
+    Da die Komponente $n_3$ positiv ist, zeigt der Normalenvektor nach oben. Nach Voraussetzung muss der Normalenvektor immer aus $S$ hinausweisen. Vergleich man dies mit der Grafik zeigt sich, dass die Voraussetzung erfüllt ist. Wir haben also den richtigen Normalenvektor gefunden. Analog für $F_2$ und $F_3$:
+    %
+    \begin{align*}
+      F_2: \qquad n_3 &= - \frac{1}{\|\ldots\|} \\
+      F_3: \qquad n_3 &= 0
+    \end{align*}
+    %
+    \begin{align*}
+      \int_{\partial S} f_3 \cdot n_3 \, \mathrm{d}\sigma
+      &= \int_{F_1} f_3 \cdot \frac{1}{\|\ldots\|} \, \mathrm{d}\sigma + \int_{f_2} f_3 \cdot \frac{-1}{\|\ldots\|} \, \mathrm{d}\sigma + \int_{F_3} 0 \, \mathrm{d}\sigma \\
+      &= \int_{S_3} f_3 \begin{pmatrix} x_1 \\ x_2 \\ \beta(x_1,x_2) \end{pmatrix} \cdot \frac{1}{\|\ldots\|} \|\ldots\| \, \mathrm{d}(x_1,x_2) \\
+      &\qquad - \int_{S_3} f_3 \begin{pmatrix} x_1 \\ x_2 \\ \alpha(x_1,x_2) \end{pmatrix} \, \mathrm{d}(x_1,x_2)
+    \end{align*}
+    %
+    Linke Seite
+    %
+    \begin{align*}
+      \int_S \partial_{x_3} f_3 \, \mathrm{d}x
+      &= \int_{S_3} \int\limits_{x_3 = \alpha(x_1,x_2)}^{\beta(x_1,x_2)} \partial_{x_3} f(x_1,x_2,x_3) \, \mathrm{d}x_3 \, \mathrm{d}(x_1,x_2)
+    \end{align*}
+    %
+    Rechte Seite
+    %
+    \begin{align*}
+      \int_{S_3} \Big( f_3(x_1,x_2,\beta(x_1,x_2)) - f_3(x_1,x_2,\alpha(x_1,x_2)) \Big) \, \mathrm{d}(x_1,x_2)
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Satz von Stokes im $\mathbb{R}^3$] \label{thm:8.11}
+  Seien $D \subseteq \mathbb{R}^3$ offen, $f \in C^1(D \to \mathbb{R}^3)$, $F \subseteq D$, Fläche mit Parameterdarstellung $(\varphi,S)$, $S \subseteq \mathbb{R}^2$ Greenscher Bereich mit stückweise glattem $\partial S$, $\varphi \in C^2(\overline{S} \to \mathbb{R}^3)$. Dann gilt:
+  %
+  \begin{align*}
+    \int_F (\nabla \times f) \cdot n \, \mathrm{d}\sigma = \int_{\partial F} f \cdot T \, \mathrm{d}s
+  \end{align*}
+  %
+  Hierbei mit $\partial F$ so orientiert sein, dass es Bild einer für den Greenschen Satz richtig orientierten Randkurve $\gamma$ von $S$ ist.
+  %
+    \begin{figure}[H]
+      \centering
+      \psset{Alpha=90}
+      \begin{pspicture}(-1.5,-1.5)(6.5,2)
+        \psaxes[labels=none,ticks=none]{->}(0,0)(-1.5,-1.5)(1.5,1.5)[\color{DimGray} $x_1$, 0][\color{DimGray} $x_2$, 0]
+        \pscircle[linestyle=none,fillstyle=hlines,hatchcolor=DarkOrange3](0,0){1}
+        \psarc[linecolor=MidnightBlue]{->}(0,0){1}{45}{405}
+        \uput{1.2}[135](0,0){\color{MidnightBlue} $\partial S = \gamma$}
+        \uput{1.2}[160](0,0){\color{DarkOrange3} $S$}
+        
+        \pnode(1.5,1){A}
+        \pnode(2.5,1){B}
+        \ncarc[arrows=->]{A}{B}
+        \naput{\color{DimGray} $\varphi$}
+        
+        \rput(3,-1){
+          \pstThreeDCoor[coorType=3,linecolor=DimGray,xMax=2.5,yMax=3,zMax=2.5,xMin=-0.5,yMin=-0.5,zMin=-0.5,nameX=\color{DimGray}$y_2$,nameY=\color{DimGray}$y_1$,nameZ=\color{DimGray}$y_3$]
+          \pstThreeDEllipse[linecolor=MidnightBlue,fillstyle=vlines,hatchcolor=DarkOrange3](-1.2,1.5,0.5)(0.8,0,0)(0,1.2,0)
+          \pstThreeDPut(-1.2,1.5,0.5){
+            \parametricplotThreeD[linecolor=DarkRed,plotstyle=curve,yPlotpoints=20](0,1)(0,\psPiTwo){0.8*t*cos(u) | 1.2*t*sin(u) | 1-t^2}
+            \pstThreeDPut(0,1.7,0){\color{MidnightBlue} $\varphi \circ \gamma$}
+            \pstThreeDPut(1.2,0,-0.2){\color{DarkOrange3} $F_1$}
+            \pstThreeDPut(0,0,1.5){\color{DarkRed} $F_2$}
+          }
+        }
+      \end{pspicture}
+    \end{figure}
+  %
+  Der Satz sagt aus: Egal wie $F$ (z.B. $F_1$, $F_2$) in $D$ liegt, solange der Rand gleich bleibt, bleibt \[ \int_F \nabla \times f \, \mathrm{d}x \] gleich.
+  
+  \begin{proof}
+    Sei
+    %
+    \begin{align*}
+      &\quad \int_{\partial F} f \cdot T \, \mathrm{d}s = \sum\limits_{j=1}^{3} \int_{\varphi \circ \gamma} f_j \cdot T_j \, \mathrm{d}s \\
+      &\quad \int_{\varphi \circ \gamma} f_j \cdot T_j \, \mathrm{d}s = \int\limits_{a}^{b} f_1(\varphi \circ \gamma(t)) \left( \frac{\mathrm{d}}{\mathrm{d}t} (\varphi_1 \circ \gamma)(t) \right) \, \mathrm{d}t \\
+      &= \int\limits_{a}^{b} f_1(\varphi \circ \gamma(t)) \begin{pmatrix} \partial_{x_1} \varphi_1(\gamma(t)) \\ \partial_{x_2} \varphi_1(\gamma(t)) \end{pmatrix} \, \gamma'(t) \, \mathrm{d}t
+    \intertext{$\gamma'(t)$ ist der Tangentenvektor von $\gamma(t)$.}
+      &= \int_{\gamma(t)} (f_1 \circ \varphi) \begin{pmatrix} \partial_{x_1} \varphi_1 \\ \partial_{x_2} \varphi_1 \end{pmatrix} \cdot T \, \mathrm{d}s
+    \intertext{mit dem Satz von Green (\ref{thm:8.5})}
+      &\overset{\text{\ref{thm:8.5}}}{=} \int_S \left\{ \partial_{x_1} \left( (f_1 \circ \varphi) \cdot \partial_{x_2} \varphi_1 \right) - \partial_{x_2} \left( (f_1 \circ \varphi) \cdot \partial_{x_1} \varphi_1 \right) \right\} \, \mathrm{d}(x_1,x_2)
+    \intertext{Nach dem Satz von Schwartz dürfen wir die partiellen Ableitungen vertauschen}
+      &= \int_{S} \left\{ \partial_{x_1} (f_1 \circ \varphi) \cdot \partial_{x_2} \varphi - \partial_{x_2} (f_1 \circ \varphi) \cdot \partial_{x_1} \varphi \right\} \, \mathrm{d}(x_1,x_2) \\
+      &\overset{x'=(x_1,x_2)}{=} \int_S \left( \sum\limits_{j=1}^{3} (\partial_{y_j} f_1) \, \varphi(x') \cdot \partial_{x_1} \varphi_j(x') \cdot \partial_{x_2} \varphi_1 \right. \\
+      &\qquad \left. - \sum\limits_{j=1}^{3} (\partial_{y_j} f_1) \, \varphi(x') \cdot \partial_{x_2} \varphi_j(x') \cdot \partial_{x_1} \varphi_1 \right) \, \mathrm{d}x'
+    \intertext{Die Summanden für $j=1$ heben sich weg.}
+      &= \int_S \Big(\partial_{y_2} f_1 (\partial_{x_1} \varphi_2 \cdot \partial_{x_2} \varphi_1 - \partial_{x_2} \varphi_2 \cdot \partial_{x_1} \varphi_1) \\
+      &\qquad + \partial_{y_3} f_1 (\partial_{x_1} \varphi_3 \cdot \partial_{x_2} \varphi_1 - \partial_{x_2} \varphi_3 \cdot \partial_{x_1} \varphi_1) \Big) \, \mathrm{d}x'
+    \intertext{Vergleich mit der anderen Seite.}
+      &\quad \int_F (\nabla \times f) \cdot n \, \mathrm{d}\sigma = \int_S (\nabla \times f) \cdot (\partial_{x_1} \varphi \times \partial_{x_2} \varphi) \, \mathrm{d}(x_1,x_2)
+    \end{align*}
+    %
+    Damit wurde bewiesen: In allen Termen, in denen $f_1$ vorkommt, stimmen linke und rechte Seite überein. Dasselbe für $f_2$ und $f_3$.
+  \end{proof}
+\end{theorem}
+
+\begin{notice*}
+  Aus dem Satz von Stokes \ref{thm:8.11} folgt: $D \subseteq \mathbb{R}^3$ offen und konvex, $f \in C^2(D \to \mathbb{R}^3)$. Dann sind äquivalent:
+  %
+  \begin{enum-roman}
+    \item $\nabla \times f = 0$ in $D$
+    
+    \item $f$ besitzt in $D$ ein Potential
+    %
+    \begin{align*}
+      \exists \, \Phi \in C^1(D \to \mathbb{R}) : f = \nabla \Phi
+    \end{align*}
+  \end{enum-roman}
+\end{notice*}

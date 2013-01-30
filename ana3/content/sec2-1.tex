@@ -1,0 +1,763 @@
+% Henri Menke, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Kurvenintegrale}
+\addtocounter{thmn}{1}
+\setcounter{theorem}{0}
+
+% % % Vorlesung vom 06.12.2012
+
+\begin{theorem}[Definition]
+  Sei $f \in C([a,b] \to \mathbb{R}^n)$.
+  %
+  \begin{enum-arab}
+    \item $K \coloneq \mathrm{Bild}(f)$ heißt \acct{Kurve} im $\mathbb{R}^n$, $(f,[a,b])$ heißt \acct{Parameterdarstellung} von $K$. Ist $f(a) = f(b)$, so heißt $K$ geschlossen.
+    
+    \item Ist $f\Big|_{[a,b[}$ injektiv, so heißt $K$ \acct{Jordan-Kurve}.
+  \end{enum-arab}
+  %
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-1,-0.5)(1,0.5)
+      \psparametricplot[arrows=->]{0.785398163397}{7.06858347058}{sin(t) | 0.5*sin(2*t)}
+    \end{pspicture}
+  \end{figure}
+  %
+  Diese Kurve ist geschlossen und nicht Jordan.
+\end{theorem}
+
+\begin{notice}
+  Die Parameterdarastellung induziert den Durchlaufsinn.
+\end{notice}
+
+\begin{example} \label{thm:6.3}
+  Für $r > 0$, $c > 0$ beschreibt
+  %
+  \begin{align*}
+    f(t) = \begin{pmatrix} r \cos t \\ r \sin t \\ c t \end{pmatrix} \; , \quad 0 \leq t \leq 4 \pi
+  \end{align*}
+  %
+  \begin{figure}[H]
+    \centering
+    %\psset{Alpha=0,Beta=0}
+    \begin{pspicture}(-2,-1)(2,2)
+      \pstThreeDCoor[linecolor=DimGray,xMax=2,yMax=2,zMax=2,xMin=-0.3,yMin=-0.3,zMin=-0.3,nameX=\color{DimGray}$x_1$,nameY=\color{DimGray}$x_2$,nameZ=\color{DimGray}$x_3$]
+      \parametricplotThreeD[xPlotpoints=200,linecolor=MidnightBlue,plotstyle=curve,algebraic](0,14){cos(t) | sin(t) | t/7}
+      \pstThreeDLine[linecolor=DimGray,linestyle=dotted,dotsep=1pt](0.707,-0.707,0)(0.707,-0.707,2.5)
+      \pstThreeDLine[linecolor=DimGray,linestyle=dotted,dotsep=1pt](-0.707,0.707,0)(-0.707,0.707,2.5)
+      \pstThreeDCircle[linecolor=DimGray](0,0,0)(1,0,0)(0,1,0)
+    \end{pspicture}
+  \end{figure}
+  %
+  eine Schraubenlinie mit Radius $r$ und Ganghöhe $\frac{c}{2 \pi}$.
+\end{example}
+
+\begin{theorem}[Definition]
+  Seien $(f,[a,b])$ und $(g,[c,d])$ zwei Parameterdarstellungen von $K$. Existiert $\varphi \in C^1([a,b] \to \mathbb{R})$ mit
+  %
+  \begin{item-triangle}
+    \item $\varphi'(t) > 0$ in $[a,b]$
+    
+    \item $\varphi(a) = c$, $\varphi(b) = d$
+    
+    \item $f(t) = (g \circ \varphi)(t)$, $t \in [a,b]$
+  \end{item-triangle}
+  %
+  so heißen die Parameterdarstellungen \acct[0]{äquivalent}\index{Parameterdarstellung!äquivalent}.
+\end{theorem}
+
+\begin{example}
+  \begin{enum-arab}
+    \item Die Parameterdarstellung
+    %
+    \begin{align*}
+      g(t) = \begin{pmatrix} r \cos \left( 8 \pi \frac{t}{1 + t} \right) \\ r \sin \left( 8 \pi \frac{t}{1 + t} \right) \\ c \left( 8 \pi \frac{t}{1 + t} \right) \end{pmatrix} \; , \quad 0 \leq t \leq 1
+    \end{align*}
+    %
+    ist äquivalent zu $f$ aus \ref{thm:6.3} (mit $\varphi(t) = 8 \pi \frac{t}{1 + t}$).
+    
+    \item Die Parameterdarstellung
+    %
+    \begin{align*}
+      h(t) = \begin{pmatrix} r \cos t^2 \\ r \sin t^2 \\ c t^2 \end{pmatrix} \; , \quad 0 \leq t \leq \sqrt{4 \pi}
+    \end{align*}
+    %
+    ist nicht äquivalent zu $f$ aus \ref{thm:6.3} ($\varphi(t) = t^2$), weil $\varphi'(0) = 0$.
+  \end{enum-arab}
+\end{example}
+
+\begin{theorem}[Definition]
+  Sei $(f,[a,b])$ Parameterdarstellung von $K$. Existiert $f'(t_0)$ und ist $f'(t_0) \neq 0$, so heißt
+  %
+  \begin{align*}
+    T_f(t_0) \coloneq \frac{1}{\|f'(t_0)\|} f'(t_0)
+  \end{align*}
+  %
+  \acct{Tangenteneinheitsvektor} an $K$ im Punkt $f(t_0)$.
+  %
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-1,0)(1,1.4)
+    \psarc{<-}(0,0){1}{0}{180}
+    \rput(1;160){\psline[linecolor=MidnightBlue]{->}(0,0)(2.5;12)\uput[0](2.5;12){\color{MidnightBlue} $\dfrac{f(t_0+h)-f(t)}{h}$}}
+    \rput(1;160){\psline[linecolor=DarkOrange3]{->}(0,0)(1;70)\uput[90](1;70){\color{DarkOrange3} $f'(t)$}}
+    \psdot*[linecolor=Purple](1;160)
+    \psdot*(1;45)
+    \uput[-45](1;160){\color{Purple} $f(t)$}
+    \uput[180](1;160){\color{DimGray} $K$}
+    \end{pspicture}
+  \end{figure}
+\end{theorem}
+
+\begin{theorem}[Satz]
+  Sind $(f,[a,b])$ und $(g,[c,d])$ äquivalente Parameterdarstellungen von $K$, so gilt
+  %
+  \begin{align*}
+    T_f(t) &= \frac{f'(t)}{\|f'(t)\|} = \frac{(g \circ \varphi)'(t)}{\|(g \circ \varphi)'(t)\|} \\
+    &= \frac{g'(\varphi(t)) \varphi'(t)}{\|g'(\varphi(t)) \varphi'(t)\|} \overset{\varphi'(t) > 0}{=} \frac{g'(\varphi(t))}{\|g'(\varphi(t))\|} \\
+    &= T_g(\varphi(t))
+  \end{align*}
+\end{theorem}
+
+\begin{theorem}[Definition]
+  Sei $K$ eine Kurve im $\mathbb{R}^n$.
+  %
+  \begin{enum-arab}
+    \item Existiert eine Parameterdarstellung $(f,[a,b])$ mit $f \in C^1([a,b] \to \mathbb{R}^n)$ und $f'(t) \neq 0$ auf $[a,b]$, so heißt $K$ \acct[0]{glatt}\index{Kurve!glatt}. Insbesondere ist dann $T_f$ stetig.
+    
+    \item $K$ heißt \acct[0]{stückweise glatt}\index{Kurve!stückweise glatt}, falls es eine Parameterdarstellung $(f,[a,b])$ gibt und eine Unterteilung $a=t_0 < t_1 < \ldots < t_n=b$, sodass die Teilkurven von $K$ glatt sind:
+    %
+    \begin{align*}
+      f\Big|_{[t_{j-1},t_j]} \in C^1([t_{j-1},t_j] \to \mathbb{R}^n)
+    \end{align*}
+    %
+    und $f'(t) \neq 0$ für $t_{j-1} \leq t \leq t_j$.
+  \end{enum-arab}
+\end{theorem}
+
+\begin{notice}
+  Glatte Kurven haben keine Ecken, stückweise glatte Kurven können Ecken besitzen.
+\end{notice}
+
+\begin{theorem}[Definition]
+  Sei $K$ eine Jordan-Kurve mit der Parameterdarstellung $(f,[a,b])$.
+  %
+  \begin{enum-arab}
+    \item Falls 
+    %
+    \begin{gather*}
+      \exists \, M > 0 \, \forall \, m \in \mathbb{N} \, \forall \, a=t_0 < t_1 < \ldots < t_n=b : \\ \quad L_{\{t_0,\ldots,t_n\}}(K) \coloneq \sum\limits_{j=1}^{n} \left\| f(t_j) - f(t_{j-1}) \right\| \leq M
+    \end{gather*}
+    %
+    so heißt $K$ \acct[0]{rektifizierbar}. \index{Kurve!rektifizierbar}
+    
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(0,-0.5)(3,0.5)
+        \psplot{0}{3}{0.5*sin(\psPi*x)}
+        \psline[linecolor=MidnightBlue](0,0)(0.5,0.5)(1.5,-0.5)(2.5,0.5)(3,0)
+        \psdots*[linecolor=DarkOrange3](0,0)(0.5,0.5)(1.5,-0.5)(2.5,0.5)(3,0)
+        \uput[-90](0,0){\color{DarkOrange3} $f(t_0)$}
+        \uput[90](0.5,0.5){\color{DarkOrange3} $f(t_1)$}
+        \uput[-90](1.5,-0.5){\color{DarkOrange3} $f(t_2)$}
+        \uput[90](2.5,0.5){\color{DarkOrange3} $f(t_3)$}
+        \uput[-90](3,0){\color{DarkOrange3} $f(t_4)$}
+        \uput[0](3,0.25){\color{MidnightBlue} $L_{\{t_0,\ldots,t_4\}}(K)$}
+      \end{pspicture}
+    \end{figure}
+    
+    \item Ist $K$ rektifizierbar, so heißt
+    %
+    \begin{align*}
+      L(K) \coloneq \sup\limits_{n \in \mathbb{N}} L_{\{t_0,\ldots,t_n\}}(K)
+    \end{align*}
+    %
+    die \acct[0]{Bogenlänge}\index{Kurve!Bogenlänge} von $K$.
+  \end{enum-arab}
+\end{theorem}
+
+\begin{theorem}[Satz] \label{thm:6.11}
+  Sei $K$ glatte Jordan-Kurve mit Parameterdarstellung $(f,[a,b])$, $f \in C^1([a,b] \to \mathbb{R}^n)$. Dann ist $K$ rektifizierbar und es gilt
+  %
+  \begin{align*}
+    L(K) = \int\limits_{a}^{b} \|f'(t)\| \, \mathrm{d}t
+  \end{align*}
+  
+  \begin{proof}
+    \begin{enum-arab}
+      \item Für $a=t_0 < t_1 < \ldots < t_n=b$ gilt
+      %
+      \begin{align*}
+        \|f(t_j) - f(t_{j-1})\|
+        &= \left\| \int\limits_{t_{j-1}}^{t_j} f'(t) \, \mathrm{d}t \right\|
+        \leq \int\limits_{t_{j-1}}^{t_j} \|f'(t)\| \, \mathrm{d}t \\
+        \implies L_{\{t_0,\ldots,t_n\}}(K)
+        &\leq \int\limits_{a}^{b} \|f'(t)\| \, \mathrm{d}t \eqcolon M \\
+        L(K) &\leq M
+      \end{align*}
+      %
+      $\implies$ $K$ ist rektifizierbar.
+      
+      \item Sei $\varepsilon > 0$ fest. $f'$ gleichmäßig stetig
+      %
+      \begin{align*}
+        \implies \quad \exists \, \delta > 0 \, \forall \, |s-t| < \delta : \|f'(s) - f'(t)\| < \varepsilon
+      \end{align*}
+      %
+      Sei $a=t_0 < t_1 < \ldots < t_n=b$ mit $\max|t_j - t_{j-1}| < \delta$
+      %
+      \begin{align*}
+        \implies \quad \|f'(t)\|
+        &= \|f'(t) - f'(t_j) + f'(t_j)\| \\
+        &\leq \varepsilon + \|f'(t_j)\| \quad \text{für } t_{j-1} \leq t \leq t_j \\
+        \implies \quad \int\limits_{t_{j-1}}^{t_j} \|f'(t)\| \, \mathrm{d}t
+        &\leq \varepsilon (t_j - t_{j-1}) + \|f'(t_j)\| (t_j - t_{j-1}) \\
+        &= \varepsilon (t_j - t_{j-1}) + \left\| \int\limits_{t_{j-1}}^{t_j} \left( f'(t_j) - f'(t) + f'(t) \right) \, \mathrm{d}t \right\| \\
+        &\leq 2 \varepsilon (t_j - t_{j-1}) + \|f'(t_j) - f'(t_{j-1})\| \\
+        \overset{\sum_j}{\implies} \int\limits_{a}^{b} \|f'(t)\| \, \mathrm{d}t
+        &\leq 2 \varepsilon (b-a) + L_{\{t_0,\ldots,t_n\}} (K) \\
+        &\leq 2 \varepsilon (b-a) + L (K) \\
+        \overset{\varepsilon \downarrow 0}{\implies} \int\limits_{a}^{b} \|f'(t)\| \, \mathrm{d}t &\leq L(K)
+      \end{align*}
+    \end{enum-arab}
+  \end{proof}
+\end{theorem}
+
+% % % Vorlesung vom 10.12.2012
+
+\begin{theorem}[Hilfssatz] \label{thm:6.12}
+  Sei $K$ eine rektifizierbare Jordan-Kurve mit Parameterdarstellung $(\gamma,[a,b])$. Ist $a < c < b$, $K' = \gamma([a,c])$, $K'' = \gamma([c,b])$, dann sind $K'$, $K''$ rektifizierbare Jordan-Kurven und es gilt $L(K') + L(K'') = L(K)$.
+  
+  \begin{proof}
+    \begin{enum-arab}
+      \item Seien $a = t_0 < t_1 < \ldots < t_n = c$ und $c = s_0 < s_1 < \ldots < s_n = b$.
+      %
+      \begin{align*}
+        \implies
+        \underbrace{L_{\{t_0,\ldots,t_n\}}(K')}_{\geq 0}
+        + \underbrace{L_{\{s_0,\ldots,s_n\}}(K'')}_{\geq 0}
+        &= L_{\{t_0,\ldots,t_n=s_0,\ldots,s_n\}}(K) \\
+        &\geq L(K)
+      \end{align*}
+      %
+      $\implies$ $K'$,$K''$ sind rektifizierbar, $L(K') + L(K'') \leq L(K)$.
+      
+      \item Sei $\varepsilon > 0$ gegeben, $\{t_0,\ldots,t_n\}$ mit
+      %
+      \begin{align*}
+        L_{\{t_0,\ldots,t_n\}}(K) \geq L(K) - \varepsilon
+      \end{align*}
+      %
+      Füge eventuell $c$ als Unterteilungspunkt dazu. \[\{t_0' = a < t_1' < \ldots < t_k' = c < t_{k+1}' < \ldots < t_m' = b\}\] Wegen der Dreiecksungleichung
+      %
+      \begin{align*}
+        L_{\{t_0',\ldots,t_m'\}}(K) \geq L_{\{t_0,\ldots,t_n\}}(K) \geq L(K) - \varepsilon
+      \end{align*}
+      %
+      wegen
+      %
+      \begin{align*}
+        \|\gamma(t_{k+1}')-\gamma(t_{k-1}')\| &= \|\gamma(t_{k+1}')-\gamma(t_{k}')\| + \|\gamma(t_{k}')-\gamma(t_{k-1}')\|.
+      \end{align*}
+      %
+      Außerdem
+      %
+      \begin{align*}
+        L_{\{t_0',\ldots,t_m'\}}(K) = L_{\{t_0',\ldots,t_k'\}}(K') + L_{\{t_k',\ldots,t_m'\}}(K'')
+      \end{align*}
+      %
+      damit folgt
+      %
+      \begin{align*}
+        L(K') + L(K'') \geq L(K) - \varepsilon
+      \end{align*}
+      %
+      da $\varepsilon > 0$ beliebig $L(K') + L(K'') \geq L(K)$.
+      
+      \begin{figure}[H]
+        \centering
+        \begin{pspicture}(-1.5,-1)(1.5,1)
+          \psellipticarc[unit=0.95]{o-}(0,0)(1.5,1){-160}{-200}
+          \psellipticarc[unit=0.95]{o-}(0,0)(1.5,1){-200}{-162}
+          \psellipticarc[linecolor=DarkOrange3]{<-}(0,0)(1.5,1){-160}{-200}
+          \psellipticarc[linecolor=MidnightBlue]{<-}(0,0)(1.5,1){-200}{-160}
+          \uput{1}[180](0,0){\color{MidnightBlue} $K'$}
+          \uput{0.6}[45](0,0){\color{DarkOrange3} $K''$}
+          \uput{1.6}[0](0,0){\color{DimGray} $K$}
+        \end{pspicture}
+      \end{figure}
+    \end{enum-arab}
+  \end{proof}
+\end{theorem}
+
+\begin{notice}
+  Ist $K$ eine rektifizierbare Jordan-Kurve mit äquivalenten Parameterdarstellungen $f$ und $g$, so gilt
+  %
+  \begin{align*}
+    L^{(f)}(K)
+    &= \sup\limits_{\{\ldots\}} \sum\limits_{j=1}^{n} \|f(t_j) - f(t_{j-1})\| \\
+    &= \sup\limits_{\{\ldots\}} \sum\limits_{j=1}^{n} \|g(s_j) - g(s_{j-1})\| \\
+    &= L^{(g)}(K)
+  \end{align*}
+  %
+  denn zu $\{t_0,\ldots,t_n\}$ >>passt<< genau die Unterteilung $\{\varphi^{-1}(t_0),\ldots,\varphi^{-1}(t_n)\}$ und umgekehrt.
+\end{notice}
+
+\begin{theorem}[Hilfssatz] \label{thm:6.14}
+  Sei $K$ eine rektifizierbare Jordan-Kurve mit der Parameterdarstellung $(\gamma,[a,b])$. Definiere $L : [a,b] \to \mathbb{R}$ durch
+  %
+  \begin{align*}
+    L(t) \coloneq L(K_t) \; , \quad K_t \coloneq \gamma([a,t]) , \; a \leq t \leq b
+  \end{align*}
+  %
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(0,-1)(3,1)
+      % BUG: psbcurve interferes with psclip. You have to do \rput(0,0){...}
+      %      to get proper positioning.
+      \rput(0,0){\psbcurve(0,0)(1,1)(2,0.5)(3,1)}
+      \rput(0,0){
+        \begin{psclip}{\psline[linestyle=none](1,-1)(2,-1)(2,2)(1,2)(1,-1)}
+          \rput(0,0){\psbcurve[linecolor=DarkOrange3](0,0)(1,1)(2,0.5)(3,1)}
+        \end{psclip}
+      }
+      \rput(0,0){
+        \begin{psclip}{\psline[linestyle=none](0,-1)(1,-1)(1,2)(0,2)(0,-1)}
+          \rput(0,0){\psbcurve[linecolor=MidnightBlue](0,0)(1,1)(2,0.5)(3,1)}
+        \end{psclip}
+      }
+      \cnode*(0,0){2pt}{P1}
+      \cnode*(1,1){2pt}{P2}
+      \cnode*(2,0.5){2pt}{P3}
+      \cnode*(3,1){2pt}{P4}
+      \pnode(1,-1){G1}
+      \pnode(1.5,-1){G2}
+      \pnode(2.2,-1){G3}
+      \pnode(3,-1){G4}
+      \psdots*[dotstyle=+](G2)(G3)
+      \psline{|-|}(1,-1)(3,-1)
+      \ncarc[arrows=->]{G1}{P1}\naput{\color{DimGray} $\gamma$}
+      \ncarc[arrows=->]{G2}{P2}
+      \ncarc[arrows=->]{G3}{P3}
+      \ncarc[arrows=->,arcangle=-20]{G4}{P4}\nbput{\color{DimGray} $\gamma$}
+      \uput[-90](G1){\color{DimGray} $a$}
+      \uput[-90](G2){\color{DimGray} $t$}
+      \uput[-90](G3){\color{DimGray} $s$}
+      \uput[-90](G4){\color{DimGray} $b$}
+      \uput[-45](0.5,0.5){\color{MidnightBlue} $K_t$}
+      \uput[-90](1.5,0.75){\color{DarkOrange3} $K'$}
+    \end{pspicture}
+  \end{figure}
+  %
+  Dann gelten:
+  %
+  \begin{enum-arab}
+    \item $L$ ist streng monoton wachsend
+    
+    \item $L$ ist stetig
+    
+    \item $\mathrm{Bild}(L) = [0,L(K)]$
+    
+    \item Falls $K$ glatt ist und $\gamma \in C^1$, dann ist $L$ differenzierbar und \[L'(t) = \|\gamma'(t)\|\]
+  \end{enum-arab}
+  
+  \begin{proof}
+    \begin{enum-arab}
+      \item \label{itm:6.14 1)} Sei $a \leq t < s \leq b$.
+      %
+      \begin{align*}
+        L(s) &\overset{\text{\ref{thm:6.12}}}{=} L(t) + L(K') \; , \quad K' = \gamma([t,s]) \\
+        L(K') &\geq \|\gamma(s) - \gamma(t)\| > 0
+      \end{align*}
+      %
+      da $K$ Jordan-Kurve und $s,t$ nicht zugleich Anfangs- und Endpunkt.
+      
+      \item \label{itm:6.14 2)}
+      \begin{enumerate}
+        \item \label{itm:6.14 2)a}Zeige: $L$ ist stetig in $t=b$. Sei $\varepsilon > 0$. Wähle $a = t_0 < \ldots < t_n = b$ mit $L_{\{t_0,\ldots,t_n\}}(K) > L(K) - \varepsilon$ {\color{DarkRed} $(*)$}. $\gamma$ ist gleichmäßig stetig, wenn gilt
+        %
+        \begin{align*}
+          \exists \, \delta > 0 : |s-t| < \delta \implies |\gamma(s) - \gamma(t)| < \frac{\varepsilon}{2} \tag*{\color{DarkGreen} $(**)$}
+        \end{align*}
+        %
+        Setze $K_j \coloneq \gamma([t_j,t_{j-1}])$
+        %
+        \begin{gather*}
+          \overset{\text{\ref{thm:6.12}}}{\implies} \sum\limits_{j=1}^{n} L(K_j) = L(K) \\
+          \begin{aligned}
+            \implies 0 &\leq L(K_n) - \|\gamma(t_n)-\gamma(t_{n-1})\|
+            \leq \sum\limits_{j=1}^{n} \Big( \underbrace{L(K_j) - \|\gamma(t_j)-\gamma(t_{j-1})\|}_{\geq 0} \Big) \\
+            &= L(K) - L_{\{t_0,\ldots,t_n\}}(K) < \frac{\varepsilon}{2}
+          \end{aligned}
+        \end{gather*}
+        %
+        O.B.d.A. kann angenommen werden:
+        %
+        \begin{align*}
+          |t_j - t_{j-1}| < \delta
+        \end{align*}
+        %
+        Andernfalls füge geeignet weitere Unterteilungspunkt hinzu. Da dabei $L_{\{\ldots\}}(K)$ höchstens größer wird bleibt {\color{DarkRed} $(*)$} erhalten.
+        %
+        \begin{align*}
+          \implies L(K_n) &\leq \frac{\varepsilon}{2} + \|\gamma(t_n) - \gamma(t_{n-1})\| \overset{\color{DarkGreen} (**)}{<} \varepsilon \\
+          \implies 0 &\overset{\text{\ref{itm:6.14 1)}}}{\leq} L(\ell = t_n) - L(t) \; , \quad \text{für } t_{n-1} \leq t \leq t_n = \ell \\
+          &\overset{\text{\ref{itm:6.14 1)}}}{\leq} L(\ell) - L(t_{n-1}) \\
+          &= L(K_n) \\
+          &< \varepsilon
+        \end{align*}
+        %
+        $\implies$ $L$ ist (linksseitig) stetig bei $t=b$.
+        
+        \item \label{itm:6.14 2)b} Für $t \in ]a,b]$ betrachte $\gamma([a,t])$. Wende a) an, dann folgt, dass $L$ linksseitig stetig bei $t$ ist.
+        
+        \item \label{itm:6.14 2)c} Rechtsseitige Stetigkeit bei $t = a$: Wie \ref{itm:6.14 2)a}, aber $K_1$ anstelle von $K_n$:
+        %
+        \begin{align*}
+          0 &\leq L(K_1) - \|\gamma(t_1) - \gamma(t_0 = a)\| \leq \ldots \leq \frac{\varepsilon}{2} \\
+          \implies L(K_1) &< \varepsilon
+        \end{align*}
+        
+        \item Für $t \in [a,b[$ betrachte $\gamma([t,b])$, wende \ref{itm:6.14 2)c} an $\implies$ $L$ rechtsseitig stetig in $t$.
+      \end{enumerate}
+      
+      \item Klar.
+      
+      \item $\displaystyle L(t) \overset{\text{\ref{thm:6.11}}}{=} \int\limits_{a}^{t} \|\underbrace{\gamma'(\tau)}_{\text{stetig}}\| \, \mathrm{d}\tau \implies L'(t) = \|\gamma'(t)\|$
+    \end{enum-arab}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Definition]
+  Sei $K$ eine rektifizierbare Jordan-Kurve mit der Parameterdarstellung $(\gamma,[a,b])$. Dann heißt
+  %
+  \begin{align*}
+    (g,[0,L(K)]) \; , \quad \text{mit } g(s) \coloneq \gamma(L^{-1}(s))
+  \end{align*}
+  %
+  \acct{Bogenlängendarstellung} von $K$ (äquivalente Parameterdarstellungen führen auf dieselbe Bogenlängedarstellung).
+  
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(0,-2)(3,1)
+      % BUG: psbcurve interferes with psclip. You have to do \rput(0,0){...}
+      %      to get proper positioning.
+      \rput(0,0){\psbcurve(0,0)(1,1)(2,0.5)(3,1)}
+      \rput(0,0){
+        \begin{psclip}{\psline[linestyle=none](0,-1)(2,-1)(2,2)(0,2)(0,-1)}
+          \rput(0,0){\psbcurve[linecolor=DarkOrange3](0,0)(1,1)(2,0.5)(3,1)}
+        \end{psclip}
+      }
+      \cnode*(0,0){2pt}{P1}
+      \cnode*(2,0.5){2pt}{P3}
+      \cnode*(3,1){2pt}{P4}
+      \pnode(1,-1){G1}
+      \pnode(2.2,-1){G3}
+      \pnode(3,-1){G4}
+      \pnode(2,-2){Lt}
+      \psdots*[dotstyle=+](G3)
+      \psline{|-|}(1,-1)(3,-1)
+      
+      \ncarc[arrows=->]{G1}{P1}
+      \ncarc[arrows=->]{G3}{P3}
+      \ncarc[arrows=->,arcangle=-20]{G4}{P4}
+      \uput[-90](G1){\color{DimGray} $a$}
+      \uput[-90](G3){\color{DimGray} $t$}
+      \uput[-90](G4){\color{DimGray} $b$}
+      \uput[135](P1){\color{DimGray} $\gamma(a)$}
+      \uput[90](P3){\color{DimGray} $\gamma(t)$}
+      \uput[45](P4){\color{DimGray} $\gamma(b)$}
+      \uput[-90](1,1){\color{DarkOrange3} $L(t)$}
+      
+      \ncarc[linecolor=MidnightBlue,arrows=->]{Lt}{P3}
+      \rput(1.4,-0.5){\color{MidnightBlue} $\gamma \circ L^{-1}$}
+      
+      \psline{|-|}(1,-2)(3,-2)
+      \psline[linecolor=DarkOrange3]{-|}(1,-2)(2,-2)
+      
+      \uput[90](1,-2){\color{DimGray} $L(a)$}
+      \uput[-90](2,-2){\color{DarkOrange3} $L(t)$}
+      \uput[90](3,-2){\color{DimGray} $L(b)$}
+      \uput[-90](1,-2){\color{DimGray} $0$}
+      \uput[-90](3,-2){\color{DimGray} $L(K)$}
+    \end{pspicture}
+  \end{figure}
+  %
+  Beide {\color{DarkOrange3} orangenen} Linien sind gleich lang.
+\end{theorem}
+
+\begin{notice}[Folgerung:]
+  Falls $K$ glatt und $\gamma$ differenzierbar folgt aus \ref{thm:1.14} 4.), dass $L$ differenzierbar ist. Wegen
+  %
+  \begin{align*}
+    (L^{-1})'(s) = \frac{1}{L'(L^{-1}(s))} = \frac{1}{\|\gamma'(L^{-1}(s))\|} \neq 0 \text{, da $K$ glatt ist} 
+  \end{align*}
+  %
+  ergibt sich für die Bogenlängendarstellung von $K$
+  %
+  \begin{align*}
+    \|g'(s)\| = \|\gamma'(L^{-1}(s)) \, {L^{-1}}'(s)\| = 1
+  \end{align*}
+\end{notice}
+
+\begin{example}
+  Sei eine Kurve durch die Parametrisierung $\gamma$ gegeben:
+  \begin{align*}
+    \gamma(t) &= r \begin{pmatrix} \cos(2 \pi t) \\ \sin(2 \pi t) \end{pmatrix} \; , \quad 0 \leq t \leq 1 \\
+    \|\gamma'(t)\| &= \left\| r \begin{pmatrix} -2 \pi \sin(2 \pi t) \\ 2 \pi \cos(2 \pi t) \end{pmatrix} \right\| = 2 \pi r \\
+    \implies L(t) &= \int\limits_{0}^{t} \|\gamma'(\tau)\| \, \mathrm{d}\tau = 2 \pi r t = s \\
+    \implies L^{-1}(s) &= t = \frac{s}{2 \pi r}
+  \end{align*}
+  %
+  Damit ergibt sich die Bogenlängendarstellung:
+  %
+  \begin{align*}
+    g(s) = \gamma(L^{-1}(s)) = r \begin{pmatrix} \cos\frac{s}{r} \\ \sin\frac{s}{r} \end{pmatrix} \; , \quad 0 \leq s \leq 2 \pi r
+  \end{align*}
+\end{example}
+
+\begin{theorem}[Definition]
+  Sei $K$ eine rektifizierbare Jordan-Kurve mit Bogenlängendarstellung $(g, [0,L(K)])$, $f : D \subseteq \mathbb{R}^n \to \mathbb{R}$ stetig, $K \subseteq D$. Dann heißt
+  %
+  \begin{align*}
+    \int_K f \, \mathrm{d}s \coloneq \int\limits_{0}^{L(K)} f(g(s)) \, \mathrm{d}s
+  \end{align*}
+  %
+  \acct{Kurvenintegral von $f$ über $K$}.
+\end{theorem}
+
+\begin{theorem}[Satz]
+  Sei $K$ eine glatte, rektifizierbare Jordan-Kurve, $f : D \subseteq \mathbb{R}^n \to \mathbb{R}$ stetig, $K \subseteq D$ und $(\gamma,[a,b])$ die Parameterdarstellung von $K$. Dann
+  %
+  \begin{align*}
+    \int_K f \, \mathrm{d}s = \int\limits_{a}^{b} f(\gamma(t)) \, \|\gamma'(t)\| \, \mathrm{d}t
+  \end{align*}
+  
+  \begin{proof}
+    \begin{align*}
+      \int_K f \, \mathrm{d}s &= \int\limits_{0}^{L(K)} f(g(s)) \, \mathrm{d}s
+    \intertext{Nebenrechnung}
+      g &= \gamma \circ L^{-1}
+    \intertext{Substitution: $s = L(t)$}
+      \frac{\mathrm{d}s}{\mathrm{d}t} &= L'(t) = \|\gamma'(t)\|
+    \intertext{Einsetzen}
+      &\overset{s=L(t)}{=} \int\limits_{0=L(a)}^{L(K)=L(b)} f(g(L(t))) \, \|\gamma'(t)\| \, \mathrm{d}t \\
+      &= \int\limits_{a}^{b} f(\gamma(t)) \, \|\gamma'(t)\| \, \mathrm{d}t
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
+\begin{example}
+  \begin{enum-arab}
+    \item $\gamma : [a,b] \to \mathbb{R}^1 : t \mapsto t$
+    %
+    \begin{align*}
+      \implies& K = [a,b] \\
+      \implies& \int_K f \, \mathrm{d}s = \int\limits_{a}^{b} f(\gamma(t)) \, 1 \, \mathrm{d}t
+    \end{align*}
+    %
+    Also: Kurvenintegral beinhaltet >>altes<< Integral über Intervalle.
+    
+    \item $\gamma(t) = \begin{pmatrix} t \\ a t \end{pmatrix}, \; 0 \leq t \leq 1$, $f(x,y) = x^2 + y^2$
+    %
+    \begin{align*}
+      \int_K f \, \mathrm{d}s = \int\limits_{0}^{1} (t^2 + a^2 t^2) \, \sqrt{1 + a^2} \, \mathrm{d}t = \frac{1}{3} (1+a^2)^{3/2}
+    \end{align*}
+  \end{enum-arab}
+\end{example}
+
+% % % Vorlesung vom 13.12.2012
+
+\begin{notice}[Eigenschaften von Kurvenintegralen:]
+  \begin{enum-arab}
+    \item Linearität:
+    %
+    \begin{align*}
+      \int_K (\lambda \, f + \mu \, g) \, \mathrm{d}s = \lambda \int_K f \, \mathrm{d}s + \mu \int_K g \, \mathrm{d}s
+    \end{align*}
+    
+    \item \acct{Standardabschätzung}:
+    \begin{align*}
+      \left| \int_K f \, \mathrm{d}s \right| \leq \max\limits_{x \in K} |f(x)| \, L(K)
+    \end{align*}
+    
+    \item Sei $K = K_1 \cup K_2$, dann
+    \begin{align*}
+      \int_K f \, \mathrm{d}s = \int_{K_1} f \, \mathrm{d}s + \int_{K_2} f \, \mathrm{d}s
+    \end{align*}
+  \end{enum-arab}
+\end{notice}
+
+\begin{theorem}[Definition]
+  \begin{enum-arab}
+    \item Seien $f : D \subseteq \mathbb{R}^n \to \mathbb{R}^n$, $D$ offen, $f$ differenzierbar. Dann heißt
+    %
+    \begin{align*}
+      \mathrm{div}\, f = \nabla \cdot f =
+      \begin{pmatrix} \partial_{x_1} \\ \vdots \\ \partial_{x_n} \end{pmatrix}
+      \cdot
+      \begin{pmatrix} f_1 \\ \vdots \\ f_n \end{pmatrix}
+      =
+      \sum\limits_{j=1}^{n} \partial_{x_j} f_j
+    \end{align*}
+    %
+    \acct{Divergenz}\index{Vektorfeld!Divergenz} von $f$ (Quellenstärke). In diesem Zusammenhang heißt $f$ auch \acct{Vektorfeld}.
+    
+    \item Seien $f : D \subseteq \mathbb{R}^n \to \mathbb{R}$, $D$ offen, $f$ differenzierbar. Dann heißt
+    %
+    \begin{align*}
+      \mathrm{grad}\, f = \nabla f = \begin{pmatrix} \partial_{x_1} \\ \vdots \\ \partial_{x_n} \end{pmatrix} f = \begin{pmatrix} \partial_{x_1} f \\ \vdots \\ \partial_{x_n} f \end{pmatrix}
+    \end{align*}
+    %
+    \acct{Gradient}\index{Vektorfeld!Gradient} von $f$. Man nennt $f$ auch \acct{Skalarfeld}\index{Vektorfeld!Skalarfeld}.
+    
+    \item Seien $f : D \subseteq \mathbb{R}^n \to \mathbb{R}^n$ ein Vektorfeld und $D$ offen. Gibt es eine Funktion $F : D \to \mathbb{R}$, sodass \[ \nabla F = f \text{ in } D \] so heißt $f$ \acct{Gradientenfeld}\index{Vektorfeld!Gradientenfeld}, $F$ heißt \acct{Potential}\index{Vektorfeld!Potential} von $f$.
+    
+    \item Seien $f : D \subseteq \mathbb{R}^3 \to \mathbb{R}^3$, $f$ differenzierbar. Dann heißt
+    %
+    \begin{align*}
+      \mathrm{rot}\, f = \nabla \times f = 
+      \begin{pmatrix} \partial_{x_1} \\ \partial_{x_2} \\ \partial_{x_3} \end{pmatrix}
+      \times
+      \begin{pmatrix} f_1 \\ f_2 \\ f_3 \end{pmatrix}
+      =
+      \begin{pmatrix} \partial_{x_2} f_3 - \partial_{x_3} f_2 \\ \partial_{x_3} f_1 - \partial_{x_1} f_3 \\ \partial_{x_1} f_2 - \partial_{x_2} f_1 \end{pmatrix}
+    \end{align*}
+    %
+    \acct{Rotation}\index{Vektorfeld!Rotation} von $f$ (Wirbelstärke).
+  \end{enum-arab}
+\end{theorem}
+
+\begin{notice}[Rechenregeln:]
+  Seien im Folgenden $f,g : \mathbb{R}^n \to \mathbb{R}^n$, $f_3,g_3 : \mathbb{R}^3 \to \mathbb{R}^3$ Vektorfelder, $a,b : \mathbb{R}^n \to \mathbb{R}$ Skalarfelder und $\lambda, \mu \in \mathbb{R}$ Skalare.
+  \begin{enum-arab}
+    \item Linearität:
+    \begin{align*}
+      \nabla \cdot (\lambda \, f + \mu \, g) &= \lambda \, \nabla \cdot f + \mu \, \nabla \cdot g \\
+      \nabla \, (\lambda \, f + \mu \, g) &= \lambda \, \nabla \, f + \mu \, \nabla \, g \\
+      \nabla \times (\lambda \, f_3 + \mu \, g_3) &= \lambda \, \nabla \times f_3 + \mu \, \nabla \times g_3
+    \end{align*}
+    
+    \item Produktregeln:
+    \begin{align*}
+      \nabla \cdot (a \, f) &= (\nabla \, a) \cdot f + a \, \nabla \cdot f \\
+      \nabla (a \, b) &= a \, \nabla \, b + b \, \nabla \, a \\
+      \nabla \times (a \, f) &= a \, (\nabla \times f) + (\nabla \, a) \times f
+    \end{align*}
+    
+    \item
+    \begin{align*}
+      \nabla \times (\nabla \, f_3) &= 0 \\
+      \nabla \cdot (\nabla \times f_3) &= 0
+    \end{align*}
+  \end{enum-arab}
+\end{notice}
+
+\begin{theorem}[Definition]
+  Sei $K$ eine glatte Jordan-Kurve mit der Parameterdarstellung $(\gamma,[a,b])$, $f : D \subseteq \mathbb{R}^n \to \mathbb{R}^n$ stetig, $K \subseteq D$. Dann heißt
+  %
+  \begin{align*}
+    \int_K f \cdot T \, \mathrm{d}s \coloneq \int\limits_{a}^{b} f(\gamma(t)) \cdot \gamma'(t) \, \mathrm{d}t
+  \end{align*}
+  %
+  das \acct{Wegintegral} von $f$ über $K$.
+\end{theorem}
+
+\begin{notice}
+  \begin{enum-arab}
+    \item Die Definition ergibt durchaus ihren Sinn, denn aus der Definition des bekannten Kurvenintegrals erhält man:
+    %
+    \begin{align*}
+      \int_K f \cdot T \, \mathrm{d}s = \int\limits_{a}^{b} \left( f(\gamma(t)) \cdot \frac{\gamma'(t)}{\|\gamma'(t)\|} \right) \|\gamma'(t)\| \, \mathrm{d}t = \int\limits_{a}^{b} f(\gamma(t)) \cdot \gamma'(t) \, \mathrm{d}t
+    \end{align*}
+
+    \item Das Wegintegral wird in der Physik auch als Arbeitsintegral bezeichnet.
+    %
+    \begin{align*}
+      W = \int \bm{F}(\bm{r}) \, \frac{\partial \bm{r}(t)}{\partial t} \, \mathrm{d}t
+    \end{align*}
+    
+    \item Andere Schreibweise
+    %
+    \begin{align*}
+      \int_K f \cdot T \, \mathrm{d}s &= \sum\limits_{j=1}^{n} \int_K f_j \, \mathrm{d}x_j \\
+      \int_K f_j \, \mathrm{d}x_j &= \int\limits_{a}^{b} f_j(\gamma(t)) \cdot \gamma_j'(t) \, \mathrm{d}t
+    \end{align*}
+  \end{enum-arab}
+\end{notice}
+
+\begin{theorem}[Satz] \label{thm:6.26}
+  Ist $f : D \to \mathbb{R}^n$ ein Gradientenfeld mit Potential $F : D \to \mathbb{R}$, so gilt für jede Kurve $K \subseteq D$
+  %
+  \begin{align*}
+    \int_K f \cdot T \, \mathrm{d}s = F(\text{Endpunkt}) - F(\text{Anfangspunkt})
+  \end{align*}
+  %
+  Insbesondere: Wegintegral ist wegunabhängig.
+  
+  \begin{proof} Betrachte
+    \begin{align*}
+      \int_K f \cdot T \, \mathrm{d}s &= \int_K f(\gamma(t)) \cdot \gamma'(t) \, \mathrm{d}t
+    \intertext{wobei $f(\gamma(t)) = \nabla F(\gamma(t))$}
+      &= \int\limits_{a}^{b} \frac{\mathrm{d}}{\mathrm{d}t} (F \circ \gamma)(t) \, \mathrm{d}t
+   \intertext{mit der Kettenregel}
+     \frac{\mathrm{d}}{\mathrm{d}t} (F \circ \gamma)(t) &= \sum\limits_{j=1}^{n} \partial_{x_j} F(\gamma(t)) \cdot \gamma_j'(t)
+   \intertext{mit dem Hauptsatz der Differential und Integralrechnung}
+     \int_K f \cdot T \, \mathrm{d}s &= (F \circ \gamma)(b) - (F \circ \gamma)(a) \\
+     &= F(\gamma(b)) - F(\gamma(a))
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Satz]
+  Sei $D \subseteq \mathbb{R}^n$ ein Gebiet, $f \in C(D \to \mathbb{R}^n)$. Ist das Wegintegral über stückweise glatte Kurven in $D$ wegunabhängig, so besitzt $f$ ein Potential in $D$.
+  
+  \begin{proof}
+    Sei $x_0 \in D$ fest. Zu $x \in D$ wähle eine Kurve $K$ von $x_0$ nach $x$, setze
+    %
+    \begin{align*}
+      F(x) \coloneq \int_K f \cdot T \, \mathrm{d}s
+    \end{align*}
+    %
+    Da das Integral wegunabhängig ist, ist $F$ sinnvoll definiert. Sei $j = \{1,\ldots,n\}$, $x \in D$.
+    
+    \begin{figure}[H]
+      Vorüberlegung
+      
+      \centering
+      \begin{pspicture}(-1,0.7)(1,2.5)
+        \cnode*(-0.02,0){2pt}{A}
+        \cnode*(0.03,0){2pt}{A2}
+        \cnode*(0.98,2){2pt}{B}
+        \cnode*(1.02,2){2pt}{B2}
+        \cnode*(-1,2){2.5pt}{C}
+        \ncarc[arcangle=-20,linecolor=DarkOrange3]{A}{B}
+        \ncarc[arcangle=-20,arrows=->,linecolor=MidnightBlue]{A2}{B2}\nbput{\color{MidnightBlue} $K$}
+        \ncarc[arcangle=-20,arrows=->,linecolor=DarkOrange3]{B}{C}\naput{\color{DarkOrange3} $K'$}
+        \psdots*[dotscale=1.5](0,0)(1,2)
+        \uput[-45](0,0){\color{DimGray} $x_0$}
+        \uput[45](1,2){\color{DimGray} $x$}
+        \uput[135](-1,2){\color{DimGray} $x + h \, e_j$}
+      \end{pspicture}
+    \end{figure}
+    
+    \begin{align*}
+      F(x + h \, e_j) - F(x)
+      &= \int\limits_{x}^{x + h \, e_j} f \cdot T \, \mathrm{d}s \\
+      &= \int\limits_{0}^{h} f(x + t \, e_j) \cdot e_j \, \mathrm{d}t \\
+      &= \int\limits_{0}^{h} f_j(x + t \, e_j) \, \mathrm{d}t
+    \end{align*}
+    
+    \begin{align*}
+      \left| \frac{1}{h} ( F(x + h \, e_j) ) - F(x) - f_j \right|
+      &= \bigg| \frac{1}{h} \int\limits_{0}^{h} \underbrace{\left( f_j(x + t \, e_j) - f_j(x) \right)}_{|\cdot| < \varepsilon \text{ für } |h| < \delta} \, \mathrm{d}t \bigg| \\
+      &< \frac{1}{h} \, \varepsilon \, h = \varepsilon \text{ für } |h| < \delta
+    \end{align*}
+  \end{proof}
+\end{theorem}

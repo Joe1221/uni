@@ -1,0 +1,1023 @@
+% vim: ts=2:sw=2:expandtab
+% Henri Menke, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Integrale längs geschlossener Kurven}
+\addtocounter{thmn}{1}
+\setcounter{theorem}{0}
+
+% % % Vorlesung vom 19.11.2012
+
+\begin{example}
+  \begin{align*}
+    f(z) &= \sum\limits_{n=0}^{\infty} a_n \, z^n \quad \text{für } |z| < r \\
+    g(z) &= \sum\limits_{n=1}^{\infty} b_n \, z^n \quad \text{für } |z| < R \, , \; \frac{1}{R} < r
+  \end{align*}
+  %
+  \begin{notice*}[Nebenrechnung:]
+    $\left| \dfrac{1}{z} \right| < R \iff |z| > \dfrac{1}{R}$
+  \end{notice*}
+  %
+  Sei $h(z) \coloneq f(z) + g(1/z)$
+  %
+  \begin{align*}
+    \implies
+    \begin{dcases}
+      h \text{ holomorph im Kreisring } \frac{1}{R} < |z| < r \\
+      \text{Für } \frac{1}{R} < |z| < r \text{ gilt } h(z) = \sum\limits_{n=-\infty}^{\infty} c_n \, z^n
+      \text{ mit } c_n =
+      \begin{cases}
+        a_n & n \geq 0 \\
+        b_n & n \leq -1
+      \end{cases}
+    \end{dcases}
+  \end{align*}
+\end{example}
+
+\begin{theorem}[Laurent-Entwicklung] \index{Laurent-Entwicklung} \label{thm:4.2}
+  Sei $0 \leq r < R$ und
+  %
+  \begin{align*}
+    K_{r,R}(z_0) \coloneq \{ z \in \mathbb{C} : r < |z-z_0| < R \}
+  \end{align*}
+  %
+  und $f$ holomorph in $K_{r,R}(z_0)$. Dann ist $f$ als \acct{Laurent-Reihe} darstellbar.
+  %
+  \begin{align*}
+    f(z) \coloneq \sum\limits_{n=-\infty}^{\infty} a_n (z-z_0)^n \quad \text{für } z \in K_{r,R}(z_0)
+  \end{align*}
+  %
+  wobei 
+  %
+  \begin{align*}
+    a_n = \frac{1}{2 \pi \mathrm{i}} \int\limits_{|z-z_0| = \varrho} \frac{f(z)}{(z-z_0)^{n+1}} \mathrm{d}z \quad \text{für } r < \varrho < R
+  \end{align*}
+  %
+  (\acct{Cauchy-Formel für Laurent-Koeffizienten}).
+  %
+  \begin{align*}
+    H(z) \coloneq \sum\limits_{n=-1}^{-\infty} a_n (z-z_0)^n
+  \end{align*}
+  %
+  heißt \acct[0]{Hauptteil},
+  %
+  \begin{align*}
+    N(z) \coloneq \sum\limits_{n=0}^{\infty} a_n (z-z_0)^n
+  \end{align*}
+  %
+  heißt \acct[0]{Nebenteil} der Laurent-Reihe.
+\end{theorem}
+
+\begin{notice}
+  \begin{enum-arab}
+    \item $r=0$ ist erlaubt. Dann hat $f$ in $z_0$ eine isolierte Singularität (siehe unten). Riemannscher Hebbarkeitssatz: Entweder ist $f$ beschränkt bei $z_0$, dann ist es holomorph fortsetzbar in $z_0$, oder $f$ ist unbeschränkt für $z \to z_0$.
+    
+    Im ersten Fall sei $\widetilde{f}$ die holomorphe Fortsetzung. Für $n<0$ gilt dann
+    %
+    \begin{align*}
+      a_n &= \frac{1}{2 \pi \mathrm{i}} \int\limits_{|z-z_0|=\varrho} \underbrace{f(z) \, (z-z_0)^{-n-1}}_{\text{holomorph in }K_{r,R}(z_0)} \, \mathrm{d}z = 0
+    \end{align*}
+    %
+    Damit ist der Hauptteil der Laurentreihe $H(z) = 0$.
+    
+    \item $N(z)$ konvergiert immer im ganzen äußeren Kreis $K_{R}(z_0)$. $H(z)$ konvergiert immer außerhalb des inneren Kreises: $\{z \in \mathbb{C} : |z-z_0| > r \} = \mathbb{C} \setminus \overline{K_r(z_0)}$.
+  \end{enum-arab}
+\end{notice}
+
+\begin{proof}[Beweis von \ref{thm:4.2}]
+  O.B.d.A. $z_0 = 0$. 
+  Sei $z$ aus $K_{r,R}(0)$ fest, $\varepsilon \coloneq \dfrac{1}{2} \min \{ R - |z|, |z| - r\}$
+  %
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-1.5,-1.5)(1.5,1.5)
+      \pscircle(0,0){0.5}
+      \psdot*(0,0)
+      \pscircle(0,0){1.5}
+      \psline(0,0)(1.5;-90)
+      \psline(0,0)(0.5;-135)
+      \uput[-135](0.5;-135){\color{DimGray} $r$}
+      \uput[0](1;-90){\color{DimGray} $R$}
+      \psdot*[linecolor=DarkOrange3](1;135)
+      \uput[30](1;135){\color{DarkOrange3} $z$}
+      \psarc[linecolor=MidnightBlue]{->}(1;135){0.3}{60}{360}
+      \uput{0.4}[0](1;135){\color{MidnightBlue} $\gamma_1 : |w - z| = \varepsilon$}
+    \end{pspicture}
+    \hspace*{2em}
+    \begin{pspicture}(-1.5,-1.5)(1.5,1.5)
+      \pscircle(0,0){0.5}
+      \psdot*(0,0)
+      \pscircle(0,0){1.5}
+      \psdot*[linecolor=DarkOrange3](1;135)
+      \uput[30](1;135){\color{DarkOrange3} $z$}
+      \psarc[linecolor=MidnightBlue]{->}(0,0){1.4}{90}{180}
+      \psarc[linecolor=MidnightBlue]{<-}(0,0){0.6}{90}{180}
+      \psline[linecolor=MidnightBlue]{->}(0.6;90)(1.4;90)
+      \psline[linecolor=MidnightBlue]{->}(1.4;180)(0.6;180)
+      \uput[0](1;90){\color{MidnightBlue} $\gamma_2$}
+    \end{pspicture}
+    \hspace*{2em}
+    \begin{pspicture}(-1.5,-1.5)(1.5,2)
+      \pscircle(0,0){0.5}
+      \psdot*(0,0)
+      \pscircle(0,0){1.5}
+      \psline(0,0)(1.4;-90)
+      \psline(0,0)(0.6;-135)
+      \uput[-120](0.5;-135){\color{DimGray} \footnotesize $|z|-\varepsilon$}
+      \uput{0.1}[0](0.8;-90){\color{DimGray} \footnotesize $|z|+\varepsilon$}
+      \psdot*[linecolor=DarkOrange3](1;135)
+      \uput[30](1;135){\color{DarkOrange3} $z$}
+      \psarc[linecolor=MidnightBlue]{->}(0,0){1.4}{92}{448}
+      \psarc[linecolor=MidnightBlue]{<-}(0,0){0.6}{95}{445}
+      \psline[linecolor=MidnightBlue]{->}(0.6;95)(1.4;92)
+      \psline[linecolor=MidnightBlue]{->}(1.4;448)(0.6;445)
+      \rput(1;180){\color{MidnightBlue} $\gamma_3$}
+      \psellipse[linecolor=Purple,linestyle=dotted,dotsep=1pt](0,1)(0.3,0.6)
+      \uput[60](0,1.5){\color{Purple} Wegintegrale heben sich weg}
+    \end{pspicture}
+  \end{figure}
+  %
+  Es gilt: $\gamma_1 \sim \gamma_2 \sim \gamma_3$ in $K_{r,R}(0) \setminus \{z\}$.
+  
+  Cauchyscher Integralsatz (\ref{thm:2.4})
+  %
+  \begin{align*}
+    f(z)
+    &= \frac{1}{2 \pi \mathrm{i}} \int_{|w-z|=\varepsilon} \frac{f(w)}{w-z} \, \mathrm{d}w = \frac{1}{2 \pi \mathrm{i}} \int_{\gamma_3} \frac{f(w)}{w-z} \, \mathrm{d}w
+  \intertext{Weil der innere Weg in mathematisch negativer Richtung durchlaufen wird erhält das zugehörige Interal ein negatives Vorzeichen}
+    &= \frac{1}{2 \pi \mathrm{i}} \int_{|w|=|z|+\varepsilon} \frac{f(w)}{w-z} \, \mathrm{d}w - \frac{1}{2 \pi \mathrm{i}} \int_{|w|=|z|-\varepsilon} \frac{f(w)}{w-z} \, \mathrm{d}w \\
+    &= \frac{1}{2 \pi \mathrm{i}} \int_{|w|=|z|+\varepsilon} \frac{f(w)}{w} \, \underbrace{\frac{1}{1 - \frac zw}}_{\mathclap{= \sum\limits_{n=0}^{\infty} (z/w)^n \text{ gleichmäßig}}} \, \mathrm{d}w
+    - \frac{1}{2 \pi \mathrm{i}} \int_{|w|=|z|-\varepsilon} \frac{f(w)}{-z} \, \underbrace{\frac{1}{1 - \frac wz}}_{\mathclap{= \sum\limits_{n=0}^{\infty} (w/z)^n \text{ gleichmäßig}}} \, \mathrm{d}w
+  \intertext{Vertausche Integral und Summe}
+    &= \sum\limits_{n=0}^{\infty} \frac{1}{2 \pi \mathrm{i}} \int_{|w|=|z|+\varepsilon=\varrho} \frac{f(w)}{w^{n+1}} \, \mathrm{d}w \, z^n
+    + \sum\limits_{n=0}^{\infty} \frac{1}{2 \pi \mathrm{i}} \int_{|w|=|z|-\varepsilon=\varrho} \frac{f(w)}{w^{-n}} \, \mathrm{d}w \, z^{-n-1} \\
+    &= \sum\limits_{n=0}^{\infty} \underbrace{\frac{1}{2 \pi \mathrm{i}} \int_{\varrho} \frac{f(w)}{w^{n+1}} \, \mathrm{d}w}_{= a_n \text{ für } n \in \mathbb{N}} \, z^n
+    + \sum\limits_{k=-1}^{-\infty} \underbrace{\frac{1}{2 \pi \mathrm{i}} \int_{\varrho} \frac{f(w)}{w^{k+1}} \, \mathrm{d}w}_{= a_k \text{ für } -k \in \mathbb{N}} \, z^k \\
+  \end{align*}
+\end{proof}
+
+\begin{theorem}[Definition]
+  \begin{enum-arab}
+    \item Sei $O \subseteq \mathbb{C}$ offen, $f$ holomorph in $O$. Dann hat $f$ in $z_0 \in \mathbb{C} \setminus O$ eine \acct{isolierte Singularität}, falls
+    %
+    \begin{align*}
+      \exists \, r > 0 : K_{0,r}(z_0) \subseteq O
+    \end{align*}
+    %
+    (mit anderen Worten: einzig $z_0$ ist nicht in $O$ enthalten und $z_0$ ist komplett umhüllt von $O$)
+    
+    \item $f$ habe in $z_0$ eine isolierte Singularität. Nach \ref{thm:4.2} gilt
+    %
+    \begin{align*}
+      f(z) = \sum\limits_{n = -\infty}^{\infty} a_n \, (z-z_0)^n \quad \text{in } K_{0,r}(z_0)
+    \end{align*}
+    %
+    \begin{enum-alph}
+      \item Falls $H(z) = 0$, d.h. $a_n = 0$ für $n \leq -1$, heißt die Singularität \acct[0]{hebbar}. \index{hebbare Singularität}
+      
+      \item Falls $H(z)$ nur endlich viele Summanden hat und $H \neq 0$, also
+      %
+      \begin{align*}
+        \exists \, N \leq -1 : \big( a_N \neq 0 \land \, \forall \, n < N : a_n = 0 \big)
+      \end{align*}
+      %
+      dann heißt $z_0$ \acct{Polstelle},
+      %
+      \begin{align*}
+        K \coloneq - \min \{ n \in \mathbb{Z} : a_n \neq 0 \}
+      \end{align*}
+      %
+      heißt \acct{Ordnung des Pols}.
+      
+      \item Falls $H$ unendlich viele Summanden hat
+      %
+      \begin{align*}
+        \forall \, N \in \mathbb{Z} \, \exists \, n < N : a_n \neq 0
+      \end{align*}
+      %
+      hat $f$ in $z_0$ eine \acct{wesentliche Singularität}
+    \end{enum-alph}
+  \end{enum-arab}
+\end{theorem}
+
+\begin{example}
+  \begin{enum-arab}
+    \item Sei $\varrho = \mathbb{C} \setminus \{ 0 \}$, \[ f : O \to \mathbb{C} : z \mapsto \mathrm{e}^{1/z} = \sum\limits_{n=0}^{\infty} \frac{1}{n!} z^{-n} \] hat wesentliche Singularität in $z_0 = 0$.
+    
+    \item Sei $f(z) \coloneq \dfrac{p(z)}{q(z)}$ wobei $p,q$ Polynome sind. Vereinfachungen:
+    %
+    \begin{enum-arab}
+      \item $\mathrm{Grad}(p) < \mathrm{Grad}(q)$, sonst Polynomdivision
+      
+      \item Seien $z_1,\ldots,z_n$ Nullstellen von $q$. Es soll $p(z_j)\neq 0$ sein ($j=1,\ldots,n$), sonst gemeinsame Faktoren kürzen, eventuell holomorph ergänzen.
+    \end{enum-arab}
+    %
+    Partialbruchzerlegung:
+    %
+    \begin{align*}
+      &q(z) = (z-z_1)^K \widetilde{q}(z) \quad \widetilde{q}(z) \neq 0 \\
+      \implies \quad &f(z) = \underbrace{\sum\limits_{n=1}^{\infty} \frac{c_j}{(z-z_1)^n}}_{\mathclap{\text{Hauptteil der Laurent-Reihe}}} + \frac{\widetilde{p}(z)}{\widetilde{q}(z)} \quad \text{mit } \mathrm{Grad}(\widetilde{p}) < \mathrm{Grad}(\widetilde{q}) \\
+      \implies \quad &f \text{hat in $z_1$ einen Pol der Ordnung $K$}
+    \end{align*}
+  \end{enum-arab}
+\end{example}
+
+% % % Vorlesung vom 22.11.2012
+
+\begin{notice}
+  $f$ hat genau dann in $z_0$ einen Pol der Ordnung $K$, falls
+  %
+  \begin{align*}
+    f(z) &= \sum\limits_{n=-K}^{\infty} a_n (z-z_0)^n = \frac{1}{(z-z_0)^K} \underbrace{\sum\limits_{n=-K}^{\infty} a_n (z-z_0)^{n+K}}_{= g(z)}
+  \end{align*}
+  %
+  das heißt, falls
+  %
+  \begin{align*}
+    f(z) &= \frac{1}{(z-z_0)^K} g(z)
+  \end{align*}
+  %
+  $g$ holomorph in $K_\varepsilon(z_0)$ und $g(z) \neq 0$, weil $a_{-K} \neq 0$
+  
+  $\implies$ Falls $f$ in $z_0$ einen Pol der Ordnung $K \geq 1$ hat, gilt
+  %
+  \begin{align*}
+    |f(z)| = \frac{1}{|z-z_0|^K} |g(z)| \to \infty \text{ für } z \to z_0
+  \end{align*}
+\end{notice}
+
+\begin{theorem}[Casorati-Weierstraß-Sokhotski]
+  Hat $f$ in $z_0$ eine wesentliche Singularität, so ist $f(K_{0,\varepsilon}(z_0))$ dicht in $\mathbb{C}$ sobald $\varepsilon$ so klein, dass $f$ auf ganz $K_{0,\varepsilon}(z_0)$ definiert ist, dann für alle solchen $\varepsilon > 0$.
+  %
+  \begin{proof}
+    Sei so ein $\varepsilon > 0$ fest. Annahme:
+    %
+    \begin{align*}
+      \exists \, w \in \mathbb{C} \, \exists \, \delta > 0 : K_\delta(w) \in \mathbb{C} \setminus f(K_{0,\varepsilon}(z_0))
+    \end{align*}
+    %
+    Sei
+    %
+    \begin{gather*}
+      g(z) \coloneq \frac{1}{f(z) - w} \; , \quad z \in K_{0,\varepsilon}(z_0) \\
+      \implies
+      \begin{dcases}
+        g \text{ holomorph} \\
+        g \text{ beschränkt } |g(z)| = \frac{1}{|f(z) - w|} < \frac{1}{\delta}
+      \end{dcases}
+    \end{gather*}
+    %
+    Riemannscher Hebbarkeitssatz: $g$ fortsetzbar zu $\widetilde{g} : K_\varepsilon(z_0) \to \mathbb{C}$ holomorph.
+    
+    \minisec{Fall 1:}
+    
+    \begin{align*}
+      \widetilde{g}(z_0) \neq 0
+      &\implies \dfrac{1}{\widetilde{g}} \text{ holomorph in } K_{\widehat{\varepsilon}}(z_0) \\
+      &\implies f(z) = \frac{1}{\widetilde{g}(z)} + w \text{ holomorph fortsetzbar in } z = z_0 \\
+      &\implies H = 0 \; \lightning
+    \end{align*}
+    
+    \minisec{Fall 2:}
+    
+    $\widetilde{g}(z_0) = 0$, $K$ Ordnung der Nullstelle
+    
+    \begin{enum-alph}
+      \item $K = \infty$: Dann $\widetilde{g} = 0$ in $K_\varepsilon(z_0)$ $\lightning$ $\widetilde{g}(z)=\dfrac{1}{f(z)-w} \neq 0$ für $z \in K_{0,\varepsilon}(z_0)$
+      
+      \item $K \in \mathbb{N}$:
+      %
+      \begin{align*}
+        \widetilde{g}(z_0)
+        &= \sum\limits_{n=-K}^{\infty} a_n (z-z_0)^n \; , \quad |z-z_0| < \varepsilon \\
+        &= (z-z_0)^K \sum\limits_{n=K}^{\infty} a_n (z-z_0)^{n-K} \\
+        &= (z-z_0)^K h(z) \; , \quad h \text{ holomorph}, h(z_0) \neq 0 \\
+        \implies \quad \frac{1}{\widetilde{g}(z)} &= \frac{1}{(z-z_0)^K} \frac{1}{h(z)} \text{ für } 0 < |z-z_0| < \widetilde{\varepsilon} \\
+        \implies \quad f(z) &= \frac{1}{\widetilde{g}(z)} + w \text{ hat Pol der Ordnung $K$ in $z_0$ $\lightning$}
+      \end{align*}
+    \end{enum-alph}
+  \end{proof}
+\end{theorem}
+
+\begin{notice}[Folgerung:] \label{thm:4.8}
+  $f$ hat Pol in $z_0$ $\iff$ $|f(z)| \to \infty$ für $z \to z_0$. $f$ hat wesentliche Singularität in $z_0$
+  %
+  \begin{itemize}
+    \item[$\iff$] $f(K_\varepsilon(z_0))$ ist dicht in $\mathbb{C}$ für jedes genügend kleine $\varepsilon > 0$
+    
+    \item[$\iff$] $|f(z)|$ unbeschränkt, aber nicht bestimmt divergent
+    \footnote{
+      $|f(z)|$ bestimmt divergent für $z-z_0$
+      \begin{itemize}
+        \item[$\iff$] $|f(z)| \to \infty$
+        \item[$\iff$] $\forall \, M > 0 \, \exists \, \delta > 0 : |z-z_0| < \delta \implies |f(z)| > M$
+      \end{itemize}
+    }
+    für $z \to z_0$
+  \end{itemize}
+  %
+  $f$ hat hebbare Singularität in $z_0$ $\iff$ $|f|$ beschränkt für $z \to z_0$
+\end{notice}
+
+\begin{theorem}[Definition]
+  Sei $\gamma$ geschlossener Weg, $z_0 \in \mathbb{C} \setminus \mathrm{Bild}(\gamma)$. Dann heißt
+  %
+  \begin{align*}
+    \nu(\gamma,z_0) \coloneq \frac{1}{2 \pi \mathrm{i}} \int_\gamma \frac{1}{z-z_0} \, \mathrm{d}z
+  \end{align*}
+  %
+  die \acct{Umlaufszahl} von $\gamma$ um $z_0$.
+\end{theorem}
+
+\begin{theorem}[Satz]
+  $\nu(\gamma,z_0) \in \mathbb{Z}$
+  
+  \begin{proof}
+    $\nu(\gamma,z_0) \in \mathbb{Z} \iff \mathrm{e}^{2 \pi \mathrm{i} \nu(\gamma,z_0)}$. Sei
+    %
+    \begin{align*}
+      \varphi(s) \coloneq \exp\left( \int\limits_{a}^{s} \frac{1}{\gamma(t) - z_0} \gamma'(t) \, \mathrm{d}t \right) \; , \quad (\gamma:[a:b] \to \mathbb{C})
+    \end{align*}
+    %
+    Zeige $\varphi(b) = 1$.
+    %
+    \begin{align*}
+      &&\varphi'(s) &= \varphi(s) \frac{1}{\gamma(s) - z_0} \gamma'(s) \; , \quad \text{ für } s \in [a,b] \setminus \{ t_0,\ldots,t_n \} \\
+      &\implies& \frac{\mathrm{d}}{\mathrm{d}s} \left( \frac{\varphi(s)}{\gamma(s) - z_0} \right)
+      &= \frac{\varphi' \, (\gamma - z_0) - \varphi \, \gamma'}{(\gamma - z_0)^2} = 0 \; , \quad \text{ für } s \in [a,b] \setminus \{ t_0,\ldots,t_n \} \\
+      &\implies& \frac{\varphi(s)}{\gamma(s) - z_0} &= \mathrm{const} \text{ auf Teilintervallen}
+    \intertext{es existieren nur endliche viele Teilintervalle und $\dfrac{\varphi(s)}{\gamma(s) - z_0}$ ist stetig}
+      &\implies& \frac{\varphi(s)}{\gamma(s) - z_0} &= \mathrm{const} \text{ auf } [a,b] \\
+      &&&= \frac{\varphi(a)}{\gamma(a) - z_0} \\
+      &&&= \frac{1}{\gamma(a) - z_0} \\
+      &\overset{s = b}{\implies}& \varphi(b) &= \frac{\gamma(b) - z_0}{\gamma(a)-z_0} = 1 \quad \text{da } \gamma(a)=\gamma(b)
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
+\begin{example}
+  \begin{enum-arab}
+    \item $\gamma_N : [0,N] \to \mathbb{C} : t \mapsto \mathrm{e}^{2 \pi \mathrm{i} t}$
+    %
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(-1.5,-1.5)(1.5,1.5)
+        \psaxes[labels=none,ticks=none]{->}(0,0)(-1.5,-1.5)(1.5,1.5)
+        \psarc[linecolor=DarkOrange3]{->}(0,0){1}{30}{390}
+        \psline(1,-0.1)(1,0.1)
+        \uput[-45](1,0){\color{DimGray} $1$}
+        \psline(-0.1,1)(0.1,1)
+        \uput[135](0,1){\color{DimGray} $1$}
+        \psdots*[linecolor=MidnightBlue](0.3,-0.3)(-1,-0.7)
+        \uput[-45](0.3,-0.3){\color{MidnightBlue} $z_1$}
+        \uput[-45](-1,-0.7){\color{MidnightBlue} $z_2$}
+      \end{pspicture}
+    \end{figure}
+    %
+    $\nu(\gamma_N,0) = N$ $\implies$ $\nu(-\gamma_N,0) = -N$
+    
+    $\nu(\gamma_N,z_1) = N$ falls $|z_1| < 1$ ($\gamma_N \overset{\text{in } \mathbb{C}\setminus\{z_1\}}{\sim} \widetilde{g}_N : t \mapsto z_1 + \mathrm{e}^{2 \pi \mathrm{i} t}$, dasselbe Integral)
+    
+    $\nu(\gamma_N,z_2) = 0$ falls $|z_2| > 1$, da $\gamma_N$ nullhomotop in $\mathbb{C} \setminus \{z_2\}$
+    
+    \item
+    %
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(-1,-1)(1,1)
+        \psparametricplot[arrows=->]{0.785398163397}{7.06858347058}{sin(t) | 0.5*sin(2*t)}
+        \psdots*[linecolor=MidnightBlue](0.7,0)(-0.7,0)(0,-0.7)
+        \uput[180](0.7,0){\color{MidnightBlue} $z_2$}
+        \uput[0](-0.7,0){\color{MidnightBlue} $z_1$}
+        \uput[-90](0,-0.7){\color{MidnightBlue} $z_3$}
+      \end{pspicture}
+    \end{figure}
+    %
+    \begin{align*}
+      \nu(\gamma,z_j) =
+      \begin{dcases}
+        0 & j = 3 \\
+        1 & j = 1 \\
+        -1 & j = 2 \\
+      \end{dcases}
+    \end{align*}
+  \end{enum-arab}
+\end{example}
+
+\begin{theorem}[Satz] \label{thm:4.12}
+  Sei
+  %
+  \begin{align*}
+    f(z) = \sum\limits_{n = -\infty}^{\infty} a_n (z-z_0)^n \; , \quad 0 < |z-z_0| < R
+  \end{align*}
+  %
+  und $\gamma$ geschlossener Weg in $K_{0,R}(z_0)$. Dann
+  %
+  \begin{align*}
+    \int_{\gamma} f(z) \, \mathrm{d}z = 2 \pi \mathrm{i} a_{-1} \nu(\gamma,z_0)
+  \end{align*}
+  
+  \begin{proof}
+    \begin{align*}
+      g(z)
+      &\coloneq f(z) - a_{-1} (z-z_0)^{-1} \\
+      &\coloneq \sum\limits_{\substack{n=-\infty}{n \neq -1}}^{\infty} a_n (z-z_0)^n
+    \end{align*}
+    %
+    Dann ist
+    %
+    \begin{align*}
+      G(z) \coloneq \sum\limits_{\substack{n=-\infty}{n \neq -1}}^{\infty} \frac{a_n}{n+1} (z-z_0)^{n+1}
+    \end{align*}
+    %
+    eine Stammfunktion in $K_{0,R}(z_0)$
+    %
+    \begin{align*}
+      \implies \quad \int_\gamma g(z) \, \mathrm{d}z &= G(\text{Endpunkt}) - G(\text{Anfangspunkt}) = 0 \\
+      \implies \quad \int_\gamma f(z) \, \mathrm{d}z &= \underbrace{\int_\gamma g(z) \, \mathrm{d}z}_{=0} + a_{-1} \underbrace{\int_\gamma (z-z_0)^{-1} \, \mathrm{d}z}_{= \nu(\gamma,z_0) 2 \pi \mathrm{i}}
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
+\begin{theorem}[Definition]
+  Sei $f$ holomorph in $O$ mit isolierter Singularität $z_0$ und der Laurent-Entwicklung
+  %
+  \begin{align*}
+    f(z) = \sum\limits_{n = -\infty}^{\infty} a_n (z-z_0)^n \; , \quad 0 < |z-z_0| < R
+  \end{align*}
+  %
+  Dann heißt
+  %
+  \begin{align*}
+    \mathrm{Res}(f,z_0) \coloneq a_{-1} \overset{\text{\ref{thm:4.12}}}{=} \frac{1}{2 \pi \mathrm{i}} \int_{|z-z_0|=r} f(z) \, \mathrm{d}z \; , \quad \text{ für } 0 < r < R
+  \end{align*}
+  %
+  \acct{Residuum} von $f$ in $z_0$.
+\end{theorem}
+
+\begin{example} ~
+  \begin{enum-arab}
+    \item
+    %
+    \begin{gather*}
+      \frac{\sin z}{z^2} = \sum\limits_{n=0}^{\infty} (-1)^n \frac{z^{2n-1}}{(2n + 1)!}
+      = \underbrace{\frac{(-1)^0}{1!}}_{=a_{-1}} z^{-1} + \frac{(-1)^1}{3!} z^{1} + \frac{(-1)^2}{5!} z^{3} + \ldots \\
+      \implies \quad \mathrm{Res}\left(\frac{\sin z}{z^2},0\right) = \frac{(-1)^0}{1!} = 1
+    \end{gather*}
+    
+    \item
+    %
+    \begin{gather*}
+      \mathrm{e}^{1/z} = \sum\limits_{n=0}^{\infty} \frac{1}{n!} \frac{1}{z^n} \\
+      \implies \quad \mathrm{Res}\left(\mathrm{e}^{1/z},0\right) = 1
+    \end{gather*}
+    
+    \item
+    %
+    \begin{gather*}
+      \mathrm{e}^{1/z^2} = \frac{1}{0!} \frac{1}{z^0} + \frac{1}{1!} \frac{1}{z^2} + \frac{1}{2!} \frac{1}{z^4} + \ldots
+    \intertext{es gibt hier kein $z^{-1}$, also $a_{-1}=0$}
+      \implies \quad \mathrm{Res}\left(\mathrm{e}^{1/z^2},0\right) = 0
+    \end{gather*}
+  \end{enum-arab}
+\end{example}
+
+\begin{theorem}[Residuensatz]
+  Sei $O \subseteq \mathbb{C}$ offen, $f$ holomorph in $O \setminus S$, es gelte
+  %
+  \begin{align*}
+    \forall \, z \in S : f \text{ hat in $z$ eine isolierte Singularität}
+  \end{align*}
+  
+  und $\gamma$ sei ein $C^1$-nullhomotoper Weg in $O$, $\mathrm{Bild}(\gamma) \cap S = \emptyset$. Dann
+  %
+  \begin{align*}
+    \int_\gamma f(z) \, \mathrm{d}z = \sum\limits_{z \in S} 2 \pi \mathrm{i} \, \mathrm{Res}(f,z) \nu(\gamma,z)
+  \end{align*}
+  %
+  und die Summe hat nur endlich viele Summanden $\neq 0$.
+  
+  \begin{proof} % % % Vorlesung vom 26.11.2012
+    \textbf{Schritt 1:} Zeige, dass nur endlich viele Summanden $\neq 0$ sind.
+    %
+    \begin{enum-alph}
+      \item Für alle hebbaren Singularitäten $z$ gilt $\mathrm{Res}(f,z) = 0$
+      %
+      \begin{align*}
+        \implies \sum\limits_{S} \ldots = \sum\limits_{S'} \ldots
+      \end{align*}
+      %
+      mit $S' \coloneq \{z \in S : f$ hat in $z$ eine wesentliche Sungilarität, oder einen Pol$\}$.
+      
+      \item \label{itm:4.15 b)} Sei $\Phi$ die Homotopie zwischen $\gamma$ und einem konstanten Weg.
+      %
+      \begin{figure}[H]
+        \centering
+        \begin{pspicture}(-2,-1)(1,1)
+          \psccurve[fillstyle=hlines,hatchcolor=DimGray](1,0)(0,0.5)(-1,1)(-2,0.5)(-2,-0.5)(-1,-0.7)(0,-1)
+          \pscurve[arrows=->,linecolor=MidnightBlue](1,0)(0.5,0.1)(-0.3,-0.3)(-1,-0.5)
+          \psdot*(1,0)
+          \psdot*[linecolor=DarkOrange3](-1,-0.5)
+          \uput[90]{20}(-0.5,-0.1){\color{MidnightBlue} $t=0$, $0 \leq s \leq 1$}
+          \uput[-90](-1,-0.5){\color{DarkOrange3} $s=0$, $0 \leq t \leq 1$}
+        \end{pspicture}
+      \end{figure}
+      %
+      $\mathrm{Bild}(\Phi)$ ist kompakt ($\Phi$ ist stetig, $[0,1] \times [0,1]$ ist kompakt).
+      %
+      \begin{notice*}[Behauptung:]
+        In $\mathrm{Bild}(\Phi)$ liegen nur endlich viele isolierte Singularitäten.
+      \end{notice*}
+      %
+      \begin{notice*}[Annahme:]
+        Es gibt mindestens abzählbar viele isolierte Singularitäten.
+      \end{notice*}
+      %
+      \begin{align*}
+        \overset{\mathrm{Bild}(\Phi) \text{ kompakt}}{\implies} \exists \text{ Häufungspunkt } z_0 \in \mathrm{Bild}(\Phi) .
+      \end{align*}
+      %
+      Sei $(z_n)$ Folge in $S'$, $z_n \to z_0$, $z_n \neq z_0$.
+      %
+      \begin{align*} %FIXME: thm:4.8 referenziert fälschlicherweise ins Kapitel Mannigfaltigkeiten.
+        \overset{\text{\ref{thm:4.8}}}{\implies}& \exists \, (\widetilde{z}_n) \in O : |\widetilde{z}_n - z_n| \leq \frac{1}{n} \land |f(\widetilde{z}_n)| \geq n \\
+        \implies& \widetilde{z}_n \to z_0 \land |f(\widetilde{z}_n)| \to \infty \\
+        \overset{\text{\ref{thm:4.8}}}{\implies}& \text{$f$ hat in $z_0$ einen Pol oder eine wesentliche Singularität} \\
+        & \quad \lightning (z_n \to z_0 \text{ und } z_0 \text{ ist isolierte Singularität}).
+      \end{align*}
+      
+      \item Für $z_0 \in S' \setminus \mathrm{Bild}(\Phi)$ gilt $\nu(\gamma,z_0) = 0$. Setze
+      %
+      \begin{align*}
+        g(z) \coloneq \frac{1}{z - z_0}
+      \end{align*}
+      %
+      holomorph in $\mathbb{C} \setminus \{z_0\}$.
+      %
+      \begin{gather*}
+        \mathrm{Bild}(\Phi) \subseteq \mathbb{C} \setminus \{z_0\} \\
+        \begin{aligned}
+          \implies& \text{$\Phi$ ist eine Homotopie zwischen $\gamma$ und einer} \\
+                  & \text{ konstanten Kurve in $\mathbb{C} \setminus \{z_0\}$.} \\ % FIXME: Mehrzeiliger Text im mathmode.
+          \overset{\mathllap{\gamma \text{ nullhomotop}}\mspace{-50mu}}{\implies}& \int_\gamma \frac{1}{z-z_0} \, \mathrm{d}z = 0 \\
+          \implies& \nu(\gamma,z_0) = 0 \\
+          \implies& \sum\limits_{z \in S'} \ldots = \sum\limits_{z \in S''}  \ldots \overset{\text{\ref{itm:4.15 b)}}}{=} \text{endliche Summe}. \qquad S'' \coloneq S' \cap \mathrm{Bild}(\Phi)
+        \end{aligned}
+      \end{gather*}
+    \end{enum-alph}
+    
+    \textbf{Schritt 2:} $S'' = \{ z_1,\ldots,z_n \}$, $H_j$ Hauptteil in $z_j$. Sei
+    %
+    \begin{align*}
+      g(z) \coloneq f(z) - H_j(z)
+    \end{align*}
+    %
+    holomorph in $O \setminus S$
+    %
+    \begin{align*}
+      \implies& \text{$g$ hat in $\mathrm{Bild}(\Phi)$ nur hebbare Singularitäten.} \\
+      \implies& \text{Es existiert eine holomorphe Fortsetzung $\widetilde{g}$ in einer} \\
+              & \text{offenen Umgebung $U$ von $\mathrm{Bild}(\Phi)$.} \\ % FIXME: Mehrzeiliger Text im mathmode.
+      \overset{\mathllap{\gamma \text{ nullhomotop in } U}\mspace{-50mu}}{\implies}& \int_{\gamma} g \, \mathrm{d}z = \int_\gamma \widetilde{g}(z) \, \mathrm{d}z = 0 \\
+      \implies& \int_\gamma f(z) \, \mathrm{d}z = \underbrace{\int_\gamma g(z) \, \mathrm{d}z}_{=0} + \underbrace{\sum\limits_{j=1}^{n} \int_\gamma H_j(z) \, \mathrm{d}z}_{\overset{\text{\ref{thm:4.12}}}{=} 2 \pi \mathrm{i} \nu(\gamma,z_j) \mathrm{Res}(f,z_j)}
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
+\begin{example} ~
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-1.5,-0.3)(1.5,1.5)
+      \psaxes[labels=none,ticks=none]{->}(0,0)(-1.5,-0.3)(1.5,1.5)[\color{DimGray} Re,0][\color{DimGray} Im,0]
+      \psarc[linecolor=DarkOrange3]{->}(0,0){1}{0}{180}
+      \psline[linecolor=DarkOrange3]{->}(-1,0)(1,0)
+      \psline(1,-0.1)(1,0.1)
+      \uput[-90](1,0){\color{DimGray} $R$}
+      \psline(-1,-0.1)(-1,0.1)
+      \uput[-90](-1,0){\color{DimGray} $-R$}
+      \psline(-0.1,0.5)(0.1,0.5)
+      \uput[180](0,0.5){\color{DimGray} $1$}
+      \psdots*[linecolor=MidnightBlue](0,0.5)
+      \uput[0](0,0.5){\color{MidnightBlue} $\mathrm{i}$}
+      \uput{1.2}[45](0,0){\color{DarkOrange3} $\gamma$}
+    \end{pspicture}
+    \vspace*{-4em}
+  \end{figure}
+  %
+  \begin{align*}
+    \int_\gamma \frac{\mathrm{e}^{\mathrm{i} z}}{1 + z^2} \, \mathrm{d}z
+  \end{align*}
+  %
+  $S = \{\pm \mathrm{i}\}$, $\nu(\gamma,-\mathrm{i}) = 0$. Berechne $\mathrm{Res}(f,\mathrm{i})$
+  %
+  \begin{align*}
+    \frac{\mathrm{e}^{\mathrm{i} z}}{1 + z^2}
+    &= \frac{\mathrm{e}^{\mathrm{i} z}}{2 \mathrm{i}} \left( \frac{1}{z - \mathrm{i}} - \frac{1}{z + \mathrm{i}} \right) \\
+    &= \frac{\mathrm{e}^{\mathrm{i} z}}{2 \mathrm{i}} \frac{1}{z - \mathrm{i}} + \text{etwas Holomorphes für } z \neq -\mathrm{i}
+  \end{align*}
+  %
+  $\dfrac{\mathrm{e}^{\mathrm{i} z}}{2 \mathrm{i}} \dfrac{1}{z - \mathrm{i}}$ hat in $z = \mathrm{i}$ einen Pol der Ordnung $1$.
+  %
+  \begin{gather*}
+    a_{-1} = \frac{\mathrm{e}^{\mathrm{i} z}}{2 \mathrm{i}} \Big|_{z=\mathrm{i}} = \frac{\mathrm{e}^{-1}}{2 \mathrm{i}} \\
+    \int_\gamma \frac{\mathrm{e}^{\mathrm{i} z}}{1 + z^2} \, \mathrm{d}z = 2 \pi \mathrm{i} \frac{\mathrm{e}^{-1}}{2 \mathrm{i}} 1 = \pi \mathrm{e}^{-1}
+  \end{gather*}
+\end{example}
+
+% % % Vorlesung vom 26.11.2012
+
+\begin{theorem}[Residuenberechnung] \label{thm:4.17}
+  \begin{enum-arab}
+    \item Falls $f$ in $z_0$ einen Pol der Ordnung $K$ hat:
+    %
+    \begin{align*}
+      f(z) = \sum\limits_{n=-K}^{\infty} a_n (z-z_0)^n \; , \quad |z-z_0| < r, a_{-K} \neq 0 .
+    \end{align*}
+    %
+    \begin{enum-alph}
+      \item $K=1$:
+      %
+      \begin{align*}
+        \boxed{a_{-1} = \lim\limits_{z \to z_0} (z-z_0) f(z)} = \lim\limits_{z \to z_0} \sum\limits_{n=-1}^{\infty} a_n (z-z_0)^{n+1}
+      \end{align*}
+      
+      \item $K \geq 2$:
+      %
+      \begin{gather*}
+        \frac{\mathrm{d}^{K-1}}{\mathrm{d}z^{K-1}} \left( (z-z_0)^K f(z) \right)
+        = \sum\limits_{n=-1}^{\infty} (n+K) \ldots (n+2) a_n (z-z_0)^{n+1} \\
+        \to (-1+K)(-1+K-1)\ldots(-1+2) a_{-1} \text{ für } z \to z_0 \\
+        \implies \boxed{\mathrm{Res}(f,z_0) = a_{-1} = \lim\limits_{z \to z_0} \frac{1}{(K-1)!} \frac{\mathrm{d}^{K-1}}{\mathrm{d}z^{K-1}} \left( (z-z_0)^K f(z) \right)}
+      \end{gather*}
+    \end{enum-alph}
+    
+    \item Falls $f = g/h$, $g,h$ holomorph, $g(z_0) \neq 0$, $h(z_0) = 0$, $h'(z_0) \neq 0$, dann hat $f$ in $z_0$ einen Pol erster Ordnung. Sei
+    %
+    \begin{align*}
+      \varphi(z) \coloneq
+      \begin{dcases}
+        \frac{h(z) - h(z_0)}{z - z_0} & z \neq z_0 \\
+        h'(z_0) & z = z_0
+      \end{dcases}
+    \end{align*}
+    %
+    Dann ist $\varphi$ holomorph im Definitionsbereich von $h$.
+    %
+    \begin{align*}
+      \implies&& f(z) &= (z-z_0) \varphi(z) \\
+      \implies&& f(z) &= \frac{1}{z-z_0} \frac{g(z)}{\varphi(z)} \\
+      \overset{K=1}{\implies}&& \mathrm{Res}(f,z_0) &= \lim\limits_{z \to z_0} (z-z_0) f(z) \\
+      &&&= \frac{g(z_0)}{\varphi(z_0)} \\
+      && \Aboxed{\mathrm{Res}(f,z_0) &= \frac{g(z_0)}{h'(z_0)}}
+    \end{align*}
+  \end{enum-arab}
+\end{theorem}
+
+\begin{example}
+  \begin{enum-arab}
+    \item $f(z) = \dfrac{\mathrm{e}^{\mathrm{i}z}}{1 + z^2}$, $z_0 = \mathrm{i}$.
+    %
+    \begin{align*}
+      \overset{\text{\ref{thm:4.17}}}{\implies} \mathrm{Res}(f,\mathrm{i}) = \frac{\mathrm{e}^{\mathrm{i}z}}{2z} \Big|_{z=\mathrm{i}} = \frac{\mathrm{e}^{-1}}{2 \mathrm{i}} = -\frac{\mathrm{i}}{2 \mathrm{e}}
+    \end{align*}
+    
+    \item Berechne
+    %
+    \begin{gather*}
+      \int\limits_{-\infty}^{\infty} \frac{\cos x}{(1+x^2)^2} \mathrm{d}x \\
+      \left| \frac{\cos x}{(1+x^2)^2} \right| \leq \frac{1}{1+x^2} \\
+      \int\limits_{-\infty}^{\infty} \frac{1}{1+x^2} \mathrm{d}x < \infty \\
+      \mathllap{\implies} \int\limits_{-\infty}^{\infty} \frac{\cos x}{(1+x^2)^2} \mathrm{d}x \text{ absolut konvergent}
+    \end{gather*}
+    %
+    Betrachte $f(z) = \dfrac{\mathrm{e}^{\mathrm{i}z}}{(1+z^2)^2}$, denn $\Re f(x) = \dfrac{\cos x}{(1+x^2)^2}$ für $x \in \mathbb{R}$.
+    %
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(-1.5,-0.7)(1.5,1.5)
+        \psaxes[labels=none,ticks=none]{->}(0,0)(-1.5,-0.7)(1.5,1.5)[\color{DimGray} Re,0][\color{DimGray} Im,0]
+        \psarc[linecolor=DarkOrange3]{->}(0,0){1}{0}{180}
+        \psline[linecolor=DarkOrange3]{->}(-1,0)(1,0)
+        \psline(1,-0.1)(1,0.1)
+        \uput[-90](1,0){\color{DimGray} $R$}
+        \psline(-1,-0.1)(-1,0.1)
+        \uput[-90](-1,0){\color{DimGray} $-R$}
+        \psline(-0.1,0.5)(0.1,0.5)
+        \psdots*[linecolor=MidnightBlue](0,0.5)
+        \uput[0](0,0.5){\color{MidnightBlue} $z_1 = \mathrm{i}$}
+        \psdots*[linecolor=MidnightBlue](0,-0.5)
+        \uput[-45](0,-0.5){\color{MidnightBlue} $z_2 = -\mathrm{i}$}
+        \uput{1.2}[45](0,0){\color{DarkOrange3} $\gamma$}
+      \end{pspicture}
+      \vspace*{-2em}
+    \end{figure}
+    %
+    \begin{align*}
+      \mathrm{Res}(f,\mathrm{i})
+      &\overset{K=2}{\underset{\text{\ref{thm:4.17}}}{=}} \frac{1}{1!} \frac{\mathrm{d}}{\mathrm{d}z} \left( \frac{(z-\mathrm{i})^2 \mathrm{e}^{\mathrm{i}z}}{(1+z^2)^2} \right) \bigg|_{z = \mathrm{i}} \\
+      &= \frac{\mathrm{d}}{\mathrm{d}z} \left( \frac{\mathrm{e}^{\mathrm{i}z}}{(z + \mathrm{i})^2} \right) \bigg|_{z = \mathrm{i}} \\
+      &= \frac{\mathrm{i} \mathrm{e}^{\mathrm{i}z} (z+\mathrm{i})^2 - \mathrm{e}^{\mathrm{i}z} 2 (z+\mathrm{i})}{(z+\mathrm{i})^4}  \bigg|_{z = \mathrm{i}} \\
+      &= \frac{\mathrm{i} \mathrm{e}^{-1} 2 \mathrm{i} - 2 \mathrm{e}^{-1}}{(2\mathrm{i})^3} = - \mathrm{i} \frac{\mathrm{e}^{-1}}{2}
+    \end{align*}
+    %
+    Residuensatz
+    %
+    \begin{align*}
+      \int_{\gamma_R} f(z) \, \mathrm{d}z = 2 \pi \mathrm{i} \left( - \mathrm{i} \frac{\mathrm{e}^{-1}}{2} \right) = \frac{\pi}{\mathrm{e}}
+    \end{align*}
+    %
+    Für $|z| = R$, $\Im z \geq 0$:
+    %
+    \begin{gather*}
+      |f(z)| = \left| \frac{\mathrm{e}^{\mathrm{i}z}}{(1+z^2)^2} \right| = \frac{\mathrm{e}^{-\Im z}}{|1+z^2|^2} \overset{|z^2+1|\geq||z^2|-1|}{\leq} \frac{1}{(|z|^2 - 1)^2} = \frac{1}{(R^2 - 1)^2} \\
+      \begin{aligned}
+        \implies \left| \int_{\substack{|z|=R}{\Im z > 0}} f(z) \, \mathrm{d}z \right|
+        &\leq \max |f| \, L(\gamma) \\
+        &\leq \frac{1}{(R^2 - 1)^2} \pi R \to 0 \; , \quad (R \to \infty)
+      \end{aligned} \\
+      \implies \frac{\pi}{\mathrm{e}} = \int_{\gamma_R} f(z) \, \mathrm{d}z = \lim\limits_{R \to \infty} \int_{\gamma_R} f(z) \, \mathrm{d}z = \int\limits_{-\infty}^{\infty} \frac{\cos x + \mathrm{i} \sin x}{(1+x^2)^2} \\
+      \implies \int\limits_{-\infty}^{\infty} \frac{\cos x}{(1+x^2)^2} \mathrm{d}x = \frac{\pi}{\mathrm{e}} .
+    \end{gather*}
+  \end{enum-arab}
+\end{example}
+
+\begin{theorem}[Definition] \label{thm:4.19}
+  Sei $G \subseteq \mathbb{C}$ ein Gebiet. Ein geschlossener Weg $\gamma$ in $\mathbb{C}$ \acct{berandet} $G$, falls
+  %
+  \begin{align*}
+    \nu(\gamma,z) = 
+    \begin{dcases}
+      1 & z \in G \\
+      0 & z \in \mathbb{C}\setminus \overline{G}
+    \end{dcases}
+  \end{align*}
+\end{theorem}
+
+\begin{example*}
+  \begin{enum-arab}
+    \item $G = K_1(0)$, $\gamma_N(t) = \mathrm{e}^{2 \pi \mathrm{i} t N}$, $0 \leq t \leq 1$.
+    %
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(-1.5,-1.3)(1.5,1.5)
+        \psaxes[labels=none,ticks=none]{->}(0,0)(-1.5,-1.3)(1.5,1.5)[\color{DimGray} Re,0][\color{DimGray} Im,0]
+        \psarc[linecolor=DarkOrange3]{->}(0,0){1}{30}{390}
+        \psdots*[linecolor=MidnightBlue](-0.5,0.5)
+        \uput[0](-0.5,0.5){\color{MidnightBlue} $z_1 = \mathrm{i}$}
+        \psdots*[linecolor=MidnightBlue](1,-0.7)
+        \uput[0](1,-0.7){\color{MidnightBlue} $z_2 = -\mathrm{i}$}
+        \uput{1.2}[45](0,0){\color{DarkOrange3} $\gamma$}
+      \end{pspicture}
+      \vspace*{-2em}
+    \end{figure}
+    %
+    $\nu(\gamma,z_1) = 1$, falls $|z_1| < 1$ und $\nu(\gamma,z_2) = 0$, falls $|z_2| > 1$.
+    
+    $\gamma_1$ berandet $G$, $\gamma_N$ berandet $G$ nicht.
+    
+    \item $G = K_{1,2}(0)$
+    %
+    \begin{figure}[H]
+      \centering
+      \begin{pspicture}(-1.5,-1.3)(1.5,1.5)
+        \pscircle[fillstyle=hlines,hatchcolor=DarkOrange3,linecolor=DarkOrange3](0,0){1}
+        \pscircle[fillstyle=solid,linecolor=DarkOrange3](0,0){0.5}
+        \psaxes[labels=none,ticks=none]{->}(0,0)(-1.5,-1.3)(1.5,1.5)[\color{DimGray} Re,0][\color{DimGray} Im,0]
+        \psdots*[linecolor=MidnightBlue](-0.5,0.5)
+        \uput[0](-0.5,0.5){\color{MidnightBlue} $z_1 = \mathrm{i}$}
+        \psdots*[linecolor=MidnightBlue](1,-0.7)
+        \uput[0](1,-0.7){\color{MidnightBlue} $z_2 = -\mathrm{i}$}
+        \uput{1.2}[45](0,0){\color{DarkOrange3} $\gamma$}
+      \end{pspicture}
+      \vspace*{-2em}
+    \end{figure}
+    %
+    Der Rand besteht aus zwei disjunkten Wegen (Zykel). Deshalb greift hier unsere Definition nicht.
+  \end{enum-arab}
+\end{example*}
+
+\begin{theorem}[Definition] \label{thm:4.20}
+  Sei $O \subseteq \mathbb{C}$ offen, $f$ holomorph in $O \setminus S$ (insbesondere $O \setminus S$ offen) und
+  %
+  \begin{align*}
+    \forall \, z \in S : f \text{ hat einen Pol in } z.
+  \end{align*}
+  %
+  Dann heißt $f$ \acct{meromorph} in $O$.
+  %
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-2,-1)(1,1)
+      \psccurve[fillstyle=hlines,hatchcolor=DimGray](1,0)(0,0.5)(-1,1)(-2,0.5)(-2,-0.5)(-1,-0.7)(0,-1)
+      \rput(0.7,0.7){\color{DimGray} $O$}
+      \psdot*[linecolor=DarkOrange3](0,0)
+      \psdot*[linecolor=DarkOrange3](-1,-0.5)
+      \uput[0](-1,-0.5){\color{DarkOrange3} $z_1$}
+      \uput[0](0,0){\color{DarkOrange3} $z_2$}
+      \uput[0](1.2,0){\color{DarkOrange3} $z_1$, $z_2$ Polstellen}
+    \end{pspicture}
+  \end{figure}
+\end{theorem}
+
+% % % Vorlesung vom 29.11.2012
+
+\begin{theorem}[Null- und Polstellen zählendes Integral] \label{thm:4.21}
+  Sei $f$ meromorph in $O$, $G$ ein Gebiet, $\overline{G} \subset O$ und $\gamma$ ein Weg in $O$ der $G$ berandet und keine Null- oder Polstelle trifft. Dann gilt
+  %
+  \begin{align*}
+    \frac{1}{2\pi \mathrm{i}} \int_\gamma \frac{f'(z)}{f(z)} \, \mathrm{d}x = N_G - P_G
+  \end{align*}
+  %
+  wobei $N_G$ die Anzahl der Nullstellen in $G$ und $P_G$ die Anzahl der Pole in $G$ bezeichnet, jeweils mit Ordnung gezählt.
+
+  \begin{proof}
+    Sei $S \coloneq \{ z \in O : f(z) = 0 \lor f\text{ hat Pol in }z \}$.
+    Dann besteht $S$ nur aus isolierten Punkten (Nullstellen nach \ref{thm:3.8}, Polstellen nach Definition).
+    %
+    \begin{align*}
+      g \coloneq \frac{f'}{f} \quad \text{ist holomorph in $O \setminus S$}
+    \end{align*}
+    %
+    Nach dem Residuensatz ist
+    %
+    \begin{align*}
+      \int_\gamma g(z) \, \mathrm dz = \sum_{z \in S} 2 \pi \mathrm{i} \mathrm{Res}(g,z) \underbrace{\nu(\gamma,z)}_{= \begin{cases} 1 & z \in G \\ 0 & z \in O \setminus G \end{cases}} = \sum_{z \in S \cap G} 2 \pi \mathrm{i} \mathrm{Res}(g,z)
+    \end{align*}
+    %
+    Betrachte einen einzelnen Summanden, bzw. ein $z_0 \in S \cap G$ und schreibe:
+    %
+    \begin{align*}
+      f(z) = (z-z_0)^k \widetilde{f}(z) \qquad \widetilde{f}(z_0) \neq 0
+    \end{align*}
+    %
+    mit holomorphem $\widetilde{f}$.
+    Für $k\ge 1$ ist $k$ die Ordnung der Nullstelle und für $k \le -1$ ist $-k$ die Ordnung des Pols.
+    %
+    \begin{align*}
+      f'(z) &= k (z-z_0)^{k-1} \widetilde{f}(z) + (z-z_0)^k \widetilde{f}'(z) \\
+      g(z) &= \frac{f'(z)}{f(z)} = \frac{k}{(z-z_0)} + \underbrace{\frac{\widetilde{f}'(z)}{\widetilde{f}(z)}}_{\text{holomorph bei $z_0$}}
+    \end{align*}
+    %
+    Damit ist
+    %
+    \begin{align*}
+      \mathrm{Res}(g,z_0) = \lim\limits_{z \to z_0} (z-z_0) g(z) = k
+    \end{align*}
+    %
+    Betrachtet man nun wieder die Summe, so ergibt sich sofort die Behauptung.
+  \end{proof}
+\end{theorem}
+
+\begin{example}
+  \begin{align*}
+    f(z) = \frac{(z-2)(z-3)}{(z-1)^2}
+  \end{align*}
+  %
+  ist meromorph in $\mathbb C$.
+  %
+  \begin{figure}[H]
+    \centering
+    \begin{pspicture}(-0.5,-1.5)(4,1.5)
+      \psaxes[labels=none,ticks=none]{->}(0,0)(-0.5,-1.5)(4,1.5)[\color{DimGray} Re,0][\color{DimGray} Im,0]
+      \psarc[linecolor=MidnightBlue]{->}(1,0){0.5}{45}{405}
+      \psarc[linecolor=MidnightBlue]{->}(2,0){0.5}{45}{405}
+      \psarc[linecolor=MidnightBlue]{->}(3,0){0.5}{45}{405}
+      \psarc[linecolor=MidnightBlue]{->}(2,0){1.5}{45}{405}
+      \psdots*[linecolor=DarkOrange3](1,0)(2,0)(3,0)
+      \uput{0.6}[90](1,0){\color{MidnightBlue} $\gamma_1$}
+      \uput{0.6}[90](2,0){\color{MidnightBlue} $\gamma_2$}
+      \uput{0.6}[90](3,0){\color{MidnightBlue} $\gamma_3$}
+      \uput{1.7}[45](2,0){\color{MidnightBlue} $\gamma_4$}
+    \end{pspicture}
+    \vspace*{-3em}
+  \end{figure}
+  %
+  \begin{align*}
+    \frac{1}{2\pi \mathrm{i}} \int_{\gamma_j} \frac{f'(z)}{f(z)} \, \mathrm dz 
+    =
+    \begin{cases}
+      -2 & j=1 \\
+      1 & j=2,3 \\
+      0 & j=4
+    \end{cases}
+  \end{align*}
+\end{example}
+
+\begin{notice}[Folgerung (Null- und Polstellen zählendes Integral 2)] \label{thm:4.22}
+  Seien die Voraussetzungen wie in \ref{thm:4.21}.
+  Dann gilt
+  %
+  \begin{align*}
+    N_G - P_G = \nu(f \circ \gamma, 0)
+  \end{align*}
+
+  \begin{proof}
+    Sei $\gamma : [a,b] \to \mathbb{C}$, dann gilt nach \ref{thm:4.41}: % FIXME: 4.41 existiert nicht.
+    %
+    \begin{align*}
+      N_G - P_G &= \frac{1}{2 \pi \mathrm{i}} \int_\gamma \frac{f'(z)}{f(z)} \, \mathrm{d}z \\
+      &= \frac{1}{2\pi \mathrm{i}} \int_a^b \frac{1}{\underbrace{f(\gamma(t))}_{= \frac{1}{f \circ \gamma}}} \underbrace{f'(\gamma(t)) \gamma'(t)}_{=(f \circ \gamma)'} \mathrm{d}t
+    \intertext{(wobei das Integral evtl. eine Summe über Teilintervalle ist)}
+      &= \frac{1}{2\pi \mathrm{i}} \int_{f \circ \gamma} \frac{1}{z} \, \mathrm{d}z \\
+      &= \nu(f \circ \gamma, 0)
+    \end{align*}
+  \end{proof}
+\end{notice}
+
+\begin{theorem}[Satz von Rouch\'{e}] \label{thm:4.23}
+  Seien $f$, $g$ holomorph in $\mathbb{O}$, $G \subseteq O$ berandet vom Weg $\gamma$ in $O$. Gilt
+  %
+  \begin{align*}
+    |g(z)| < |f(z)| \text{ für } z \in \mathrm{Bild}(\gamma)
+  \end{align*}
+  %
+  dann haben $f$ und $f+g$ gleich viele Nullstellen in $G$ (die Nullstellen mit Ordnung gezählt).
+  
+  \begin{proof}
+    Mit \ref{thm:4.22}
+    %
+    \begin{align*}
+      N_G(f) &= \nu(f \circ \gamma, 0) \\
+      N_G(f+g) &= \nu((f+g) \circ \gamma, 0)
+    \end{align*}
+    %
+    Zeige, dass $f \circ g \sim (f+g) \circ \gamma$ in $\mathbb{C} \setminus \{O\}$.
+    
+    $\gamma$ muss eventuell umparametrisiert werden, damit $\gamma \in C^1$.
+    %
+    \begin{align*}
+      \Phi(t,s) \coloneq (f \circ \gamma) (t) + s (g \circ \gamma)(t)
+    \end{align*}
+    %
+    dann
+    %
+    \begin{align*}
+      \left.
+      \begin{aligned}
+        \Phi &\in C^1([0,1] \times [0,1] \to \mathbb{C}) \\
+        \Phi(t,0) &= (f \circ \gamma)(t) \\
+        \Phi(t,1) &= ((f+g) \circ \gamma)(t) \\
+        \Phi &\in \mathrm{Bild}(\Phi) \qquad {\color{DarkRed} (*)}
+      \end{aligned}
+      \right\} \implies \text{ fertig}
+    \end{align*}
+    %
+    Zu ${\color{DarkRed} (*)}$:
+    %
+    \begin{align*}
+      \left| (f \circ \gamma) (t) + s (g \circ \gamma) (t) \right|
+      &= \left| f(\gamma(t)) + s \, g(\gamma(t)) \right| \\
+      &\geq \left| f(\gamma(t)) \right| - s \left| g(\gamma(t)) \right|
+    \intertext{da $0 \leq s \leq 1$}
+      &\geq \left| f(\gamma(t)) \right| - \left| g(\gamma(t)) \right| \\
+      &\geq 0 \text{ nach Vereinbarung.}
+    \end{align*}
+  \end{proof}
+\end{theorem}
+
+\begin{notice*}[Folgerung]
+  Sei
+  %
+  \begin{align*}
+    p(z) = z^n + \sum\limits_{k=0}^{n-1} a_k \, z^k .
+  \end{align*}
+  %
+  Dann hat $p$ in $\overline{K_R(0)}$ mit
+  %
+  \begin{align*}
+    R \coloneq \max \left\{ \sum\limits_{k=0}^{n-1} |a_k| , 1 \right\}
+  \end{align*}
+  %
+  genau $n$ Nullstellen (mit Vielfachheit gezählt). Dies sind alle Nullstellen von $p$.
+  
+  \begin{proof}
+    Seien
+    %
+    \begin{align*}
+      f(z) = z^n \qquad g(z) &= \sum\limits_{k=0}^{n-1} a_k \, z^k \\
+      \implies \quad f + g &= p
+    \end{align*}
+    %
+    $f$ hat die $n$-fache Nullstelle $z_0 = 0$ und sonst keine in jeder Kreisscheibe $G = K_r(0)$ mit $r > 0$. Sei nun $r > R$. Zeige
+    %
+    \begin{align*}
+      |g(z)| < |f(z)| \; , \quad \text{ für } |z| = r.
+    \end{align*}
+    %
+    Dann folgt aus Rouch\'{e} (\ref{thm:4.23}) die gesamte Behauptung.
+    %
+    \begin{align*}
+      P_N(f+g) &= P_N(f) = n \text{ in jedem } K_r(0) \text{ mit } r > R \\
+      |g(z)| &\overset{|z| = r}{\leq} \sum\limits_{k=0}^{n-1} |a_k| \, r^k
+    \intertext{aus $r > R \geq 1$ folgt $r^k \leq r^{n-1}$}
+      &\leq \underbrace{\sum\limits_{k=0}^{n-1} |a_k|}_{\leq R < r} \, r^{n-1} \\
+      &< r^n = |f(z)|
+    \end{align*}
+  \end{proof}
+\end{notice*}
