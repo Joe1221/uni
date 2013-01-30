@@ -1,19 +1,20 @@
 clear;
 
 n = 500;
-minx = -1;
-maxx = 1;
-miny = -1;
-maxy = 1;
+minx = -2;
+maxx = 2;
+miny = -2;
+maxy = 2;
 kmax = 20;
 epstol = 10^-4;
 
 % Funktion und Newton-Iteration
-f = @(z) z.^4 - 1;
-iter = @(z) (3.*z + z.^-3)./4;
+m = 4 % m-te Einheitswurzeln als Nullstellen
+f = @(z) z.^m - 1;
+iter = @(z) ((m-1).*z + z.^-(m-1))./m;
 
 % Matrix mit Startwerten aufbauen
-Z = complex(meshgrid(minx:(maxx-minx)/(n-1):maxx), -meshgrid(minx:(maxx-minx)/(n-1):maxx)');
+Z = complex(meshgrid(minx:(maxx-minx)/(n-1):maxx), -meshgrid(miny:(maxy-miny)/(n-1):maxy)');
 im = zeros(n,n,3);
 im(:,:,3) = ones(n, n); % Weiß
 
@@ -27,12 +28,12 @@ while k <= kmax
 	mask = conv - conv_old; 
 
 	% Farbwert als Argument der komplexen Zahl
-	hue = conv .* ((arg(round(Z)) + pi) ./ (2*pi));
-	light = conv .* (k / kmax);
+	hue = conv .* ((arg(Z) + pi) ./ (2*pi));
+	light = conv .* (k / kmax) * (pi/2);
 
 	im(:,:,1) = hue;
-	im(:,:,2) = im(:,:,2) .* (1 - mask) + (1 - light).^(1/1.7) .* mask;
-	im(:,:,3) = im(:,:,3) .* (1 - mask) + (light).^(1/1.7) .* mask;
+	im(:,:,2) = im(:,:,2) .* (1 - mask) + cos(light) .* mask;
+	im(:,:,3) = im(:,:,3) .* (1 - mask) + sin(light) .* mask;
 
 	%imshow(hsv2rgb(im));
 	%drawnow();
