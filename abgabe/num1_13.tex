@@ -1,0 +1,111 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage{mathe-blatt}
+\usepackage{graphicx}
+\blattnumeins
+
+\begin{document}
+
+
+\setcounter{aufgabe}{1}
+\begin{aufgabe}~
+
+	\begin{enumerate}[a)]
+		\item
+			Setze $x = (x,y)^T$, dann ergibt sich
+			\begin{align*}
+				f(x,y) &= x^2 + xy + y^2 + 4x + 5y + 3 \\
+				\nabla f(x,y) &= \begin{pmatrix}
+					2x + y + 4 \\
+					2y + x + 5
+				\end{pmatrix} \stackrel != 0
+			\end{align*}
+			Das Gleichungssystem ergibt $(x,y) = (-1,-2)$ als stationären Punkt von $f$.
+			Die Hesse-Matrix ist positiv definit, da
+			\[
+				\det(\nabla^2 f(x,y)) = \det\begin{pmatrix}
+					2 & 1 \\
+					1 & 2
+				\end{pmatrix} = 2 > 0
+			\]
+			also ist $(-1,-2)$ ein lokales Minimum.
+	\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	\begin{enumerate}[a)]
+		\item
+			Setze
+			\[
+				\nabla f(x,y) = \begin{pmatrix}
+					8x^3 - 6xy \\
+					-3x^2 + 2y
+				\end{pmatrix} = \begin{pmatrix}
+					2x(4x^2-3y) \\
+					-3x^2 + 2y
+				\end{pmatrix}\stackrel != 0
+			\]
+			Falls $x = 0$, ergibt sich $y=0$.
+			Für $x \neq 0$ ergibt sich $x^2 = y$ und somit $y=0=x$, was ein Widerspruch darstellt.
+			Also ist nur $(0,0)$ ein stationärer Punkt.
+		\item
+			Es gilt mit $d=(d_1,d_2)^T$:
+			\begin{align*}
+				f(x_d(t)) &= 2t^4d_1^4 - 3t^3 d_1^2 d_2 + t^2 d_2^2 \\
+				f'(x_d(t)) &= 8t^3d_1^4 - 9t^2 d_1^2d_2 + 2td_2^2 \\
+				f'(x_d(t)) &= 24t^2 d_1^4 - 18 t d_1^2 d_2 + 2d_2^2
+			\end{align*}
+			Im Punkt $t=0$ ergibt sich $f''(x_d(0)) = 2d_2^2 > 0$ für $d_2 \neq 0$.
+			Für $d_2 \neq 0$ ist zwangsläufig $d_1 = 0$ und damit
+			\[
+				f(x_d(t)) = 2t^4 \underbrace{d_1^4}_{>0}
+			\]
+			also ist
+			\[
+				f(x_d(t)) > f(x_d(0)) \qquad \forall t \neq 0
+			\]
+			und damit hat $f(x_d(t))$ bei $t=0$ ein strikt lokales Minimum.
+		\item
+			Nein, denn $f(0,0) = 0$ und $f(x,y) < 0$ für
+			\[
+					2x^4 + y^2 < 3x^2y
+			\]
+			Für jedes $x>0$ existiert damit mit der Wahl
+			\[
+				x^2 < y < 2x^2
+			\]
+			eine Lösung für $y$.
+			Somit findet man auch in jeder noch so kleinen Umgebung um $(0,0)$ stets einen Punkt mit kleinerem Funktionswert.
+	\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}
+	
+	\begin{enumerate}[a)]
+		\item
+			Die Nullstellen sind genau die vierten Einheitswurzeln:
+			\[
+				z_{1,2,3,4} = e^{\f {ik\pi}4} \qquad k \in \{0,1,2,3\}
+			\]
+			Als reelle Funktion geschrieben (durch Spaltung von Real- und Imaginärteil):
+			\[
+				F(x,y) = \begin{pmatrix}
+					x^4 - 6x^2y^2 + y^4 - 1 \\
+					4x^3y - 4xy^3
+				\end{pmatrix}
+			\]
+		\item
+			Routine zum Newtonverfahren für das $F$ aus der a):
+			\lstinputlisting[language=octave]{num1_13_4/findroot.m}
+			\newpage
+		\item ~
+			\lstinputlisting[language=octave]{num1_13_4/fracfast.m}
+			\newpage
+			\begin{figure*}[h]
+				\centering
+				\caption{Newton-Fraktal}
+				\includegraphics[scale=0.6]{num1_13_4/fraktal.png}
+			\end{figure*}
+	\end{enumerate}
+\end{aufgabe}
+\end{document}
