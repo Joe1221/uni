@@ -1,0 +1,49 @@
+\documentclass{scrartcl}
+\usepackage{mathe-vorlesung}
+\author{Fabian Hartkopf, Frank Heyen, Stephan Hilb}
+
+\begin{document}
+\title{Problem 3}
+\maketitle
+
+\begin{enumerate}[a)]
+	\item
+		 Betrachte einen beliebigen (2,4)-Baum der Höhe $h$.
+		 Jeder Eleternknoten hat mindestens zwei und maximal vier Kinder.
+		 Bezeichne $k_i$ die Anzahl Knoten des Baums in der $i$-ten Zeile, dann gilt also 
+		 \[
+			 2\cdot k_i \le k_{i+1} \le 4\cdot k_i
+		 \]
+		 Wendet man diese Beziehung auf die Ebene der Blätter (Zeile $h$) an und führt sie bis an die Wurzel (Zeile 0) zurück, erhält man für $n=k_h$
+		 \[
+			 2^i \le k_h \le 4^i
+		 \]
+	 \item
+		 Zu jedem Blatt $a$ existiert genau ein Schlüssel im Baum, wenn es ein Blatt $b$ mit $a<b$ gibt.
+		 Und zwar genau an der Verzweigungsstelle des Baumes in den Teilbaum, der $a$ enthält und den, der $b$ enthält.
+
+		 Da es zu jedem Blatt, bis auf das größte Blatt (ganz rechts) ein größeres Blatt gibt, beträgt die Anzahl der Schlüssel in einem Baum mit $n$ Blättern genau
+		 \[
+			 n-1
+		 \]
+	 \item
+		 Angenommen, ein Schlüssel kommt mehr als einmal in den inneren Knoten des (2,4)-Baums vor.
+		 Ein Schlüssel gibt das größte Blatt im links darunter liegenden Teilbaum an.
+		 Wenn der gleiche Schlüssel zwei mal vorkommt, dann gibt es zwei verschiedene Teilbäume mit dem selben größten Blatt, was bedeuten würde, dass entweder (wenn der eine Teilbaum im anderen enthalten ist) ein Knoten nur ein einziges Kindelement hätte, oder (im Falle von Geschwistern) dass der (2,4)-Baum doppelte Elemente enthält.
+
+		 Also kommt ein Schlüssel nur höchstens einmal in den inneren Knoten vor.
+	 \item
+		 Betrachte bei einem (2,3)-Baum einen vollbesetzten Baum mit maximaler Anzahl Kinder.
+		 Fügt man nun ein Element an beliebiger Stelle hinzu, muss die Spaltoperation durchgeführt werden (da mehr als drei Kinder).
+		 Diese wandert bis zum Wurzelknoten hoch.
+		 Es ergibt sich ein Baum, dessen Knoten jeweils minimale Anzahl Kinder (zwei) besitzen.
+		 Entfernt man das selbe Element im nächsten Schritt wieder, muss die Verschmelzoperation durchgeführt werden (da weniger als zwei Kinder und Geschwister nur zwei), welche sich ebenfalls bis zur Wurzel hocharbeitet.
+
+		 Dieses Worst-Case-Beispiel zeigt, dass (2,3)-Bäume nicht unbedingt geeignet sind.
+		 Bei (2,4)-Bäumen kann man kein solches Beispiel angeben und man kann zeigen, dass die Kosten für Einfügen und Löschen amortisiert sogarkonstant sind.
+
+		 Warum (2,n)-Bäume mit $n > 4$ nicht sinnvoll sein sollen, erschließt sich mir nicht.
+\end{enumerate}
+
+\end{document}
+

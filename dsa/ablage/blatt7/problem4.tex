@@ -1,0 +1,62 @@
+\documentclass{scrartcl}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{ngerman}
+
+\usepackage{bbm}
+\usepackage{algpseudocode}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+
+\author{Fabian Hartkopf, Frank Heyen, Stephan Hilb}
+\title{Problem 4}
+
+\begin{document}
+
+\maketitle
+
+Wir zeigen induktiv, dass mindestens $\lceil \frac {3n}2 \rceil - 2$ Vergleiche nötig sind, um in einer Menge von Elementen mit Sicherheit das Größte und Kleinste zu finden.
+\\[1em]
+
+Man überzeuge sich leicht, dass die minimale Anzahl nötiger Vergleiche für eine Menge mit einem Element $0$ und für eine Menge mit zwei Elementen $1$ beträgt.
+Das deckt sich auch mit der Formel:
+\begin{align*}	
+	\left\lceil \frac {3\cdot1}2 \right\rceil - 2 &= 2 -2 = 0\\
+   \left\lceil \frac{3\cdot 2}{2} \right\rceil -2 &= 3 - 2 = 1
+\end{align*}
+Damit haben wir den Induktionsanfang für eine gerade und eine ungerade Zahl gezeigt.
+
+Unsere Induktionsannahme sei, dass wir für eine Menge mit $n$ Elementen mindestens
+\[
+	\left\lceil \frac {3n}2 \right\rceil -2
+\]
+Vergleiche benötigen, um Größtes und Kleinstes Element zu bestimmen.
+\\[1em]
+
+Haben wir jetzt eine Menge von $n+2$ Elementen gegeben, so muss jeder Algorithmus zur Lösung des Problems zu Beginn zwei Elemente wählen und miteinander vergleichen (!).
+Wir nennen diese beiden Elemente $a$ und $b$. 
+Weiterhin sei ohne Beschränkung der Allgemeinheit $a<b$.
+Die Anzahl möglicher Elemente, die noch kleinstes \emph{oder} größtes Element sein könnten ist jetzt $n$ ($a$ könnte höchstens kleinstes Element sein, aber nicht größtes, analog $b$).
+
+Der Algorithmus muss also von diesen verbleibenden $n$ Elementen das kleinste Element $c$ und das größte Element $d$ ermitteln.
+Nach Induktionsannahme wird dazu mindestens $\lceil \frac {3n}2\rceil -2$ Vergleiche benötigt.
+
+Jetzt gibt es zwei Kandidaten $a$ und $c$ für das kleinste Element und zwei Kandidaten $b$ und $d$ für das größte Element der Menge mit $n+2$ Elementen.
+Man überzeugt sich leicht, dass für diese Ermittlung mindestens $2$ Vergleiche von nöten sind (einer zwischen $a$ und $c$ und einer zwischen $b$ und $d$).
+Es ergibt sich also insgesamt für die Mindestanzahl nötiger Vergleiche:
+\begin{align*}
+	1 + \left\lceil \frac {3n}2 \right\rceil -2 + 2 &= \left\lceil \frac{3n}2 + 3\right\rceil -2\\
+																																	 &= \left\lceil\frac{3(n+2)}2\right\rceil -2
+\end{align*}
+Damit ist der Induktionsschritt für $n+2$ elmentige Mengen gezeigt.
+Da der Induktionsanfang mit einer geraden und einer ungeraden Anzahl ausgeführt wurde, gilt die Behauptung für alle $n\ge 1$.
+
+
+
+
+
+
+\end{document}

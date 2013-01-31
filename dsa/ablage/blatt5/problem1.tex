@@ -1,0 +1,132 @@
+\documentclass[a4paper]{scrartcl}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{ngerman}
+
+\usepackage{bbm}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+
+\newcommand{\pfad}[1][]{\underset{#1}{\longrightarrow}^*}
+
+
+
+\author{Fabian Hartkopf, Frank Heyen, Stephan Hilb}
+\title{DSA – Übungsblatt 5 – Problem 1}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item
+Wurde DFS gerade auf den Knoten $v$ augerufen, dann wird in DFS jede ausgehende Kante $e=(v,w)$ betrachtet und es wird genau dann DFS auf $w$ aufgerufen, wenn $w$ noch nicht besucht ist.
+
+Also ist $e=(v,w)\in T$ genau dann, wenn DFS($w$) von DFS($v$) aufgerufen wird.
+
+Damit entsprechen die Kanten in $T$ genau dem Aufrufwald der rekursiven Aufrufen.
+
+\item
+
+$\Longrightarrow$:\\
+Existiert ein Pfad über Baumknoten von $v$ nach $w$, dann wird nach Lemma 1 DFS($w$) innerhalb von DFS($v$) ausgeführt.
+Also ist \verb|dfsnum[v]|$\le$\verb|dsfnum(w)|.
+Außerdem muss dann DFS($w$) vor DFS($v$) fertig sein, also: \verb|compnum[w]|$\le$\verb|compnum[v]|.
+
+$\Longleftarrow$:\\
+Angenommen es existiere kein Pfad $v\pfad[T] w$, dann darf wegen der Äquivalenz in Lemma 1 DFS($w$) nicht im Aufrufbaum von DFS($v$) liegen.
+Da jedoch \verb|dfsnum[w]|$\ge$\verb|dfsnum[v]| und \verb|compnum[w]|$\le$\verb|compnum[v]| wurde DFS($v$) \emph{vor} DFS($w$) aufgerufen und DFS($v$) war erst \emph{nach} DFS($w$) fertig.
+Also muss DFS($w$) innerhalb von DFS($v$) aufgerufen worden sein, also ein Widerspruch.
+
+\item
+
+\begin{enumerate}[(a)]
+\item
+Da $(w,z)\not\in T$ (sonst gäbe es $v\pfad{T}z$) war $z$ wegen der Klassifizierung der Kante bereits besucht als DFS($w$) die Kante $(w,z)$ betrachtet hat.
+Also \verb|dfsnum(z)|$<$\verb|dfsnum(w)|.
+
+\item
+Nach Lemma 4 ist $(w,z)\not\in T\cup F$, also weil $(w,z)\in E = T\uplus F\uplus B\uplus C$ (disjunkte Vereinigung) ist $(w,z)\in B\cup C$.
+
+\item
+$\Longrightarrow$:\\
+Aus Lemma 2 folgt die zweite Ungleichung in:
+\[
+\verb|compnum[z]|>\verb|compnum[v]|\ge \verb|compnum[w]|
+\]
+Zusammen mit Lemma 3a) (\verb|dfsnum[z]|$<$\verb|dfsnum[w]|) ist die Bedingung von Lemma 5 erfüllt und es gilt $(w,z)\in B$
+
+$\Longleftarrow$:\\
+Angenommen \verb|compnum[z]|$\le$\verb|compnum[v]|. 
+Weil $z\neq v$ (sonst existiert $v\pfad[T] z$) ist \verb|compnum[z]|$\neq$\verb|compnum[v]|.
+Für \verb|compnum[z]|$<$\verb|compnum[v]| gilt wegen der Hinrichtung von Lemma 3d), dass $(w,z)\in C$.
+Da die Klassifizierung der Knoten eindeutig ist, ist das ein Widerspruch zu $(w,z)\in B$.
+
+\item
+
+$\Longrightarrow$:\\
+Es gilt \verb|compnum[w]|$\neq$\verb|compnum[z]|, da $w\neq z$.
+Wenn jetzt \verb|compnum[w]|$<$\verb|compnum[z]| wäre, dann ist (mit Lemma 3a: \verb|dfsnum[z]|$<$\verb|dfsnum[w]|) nach Lemma 5 $(w,z)\in B$, was wegen der Eindeutigkeit ein Widerspruch ist.
+Also ist \verb|compnum[w]|$>$\verb|compnum[z]| und zusammen mit Lemma 3a) gilt nach Lemma 6, dass $(w,z)\in C$.
+
+$\Longleftarrow$:\\
+Angenommen \verb|compnum[z]|$\ge$\verb|compnum[v]|. 
+Weil $z\neq v$ (sonst existiert $v\pfad[T] z$) ist \verb|compnum[z]|$\neq$\verb|compnum[v]|.
+Für \verb|compnum[z]|$>$\verb|compnum[v]| gilt wegen der Hinrichtung von Lemma 3c), dass $(w,z)\in B$.
+Da die Klassifizierung der Knoten eindeutig ist, ist das ein Widerspruch zu $(w,z)\in C$.
+
+\end{enumerate}
+
+\item
+$\Longrightarrow$:\\
+Aus $(v,w) \in T\cup F$ folgt definitionsbedingt, dass ein Pfad $v\pfad[T]w$ existiert (Für $(v,w)\in F$ besagt das die Klassifizierung und für $(v,w)\in T$ ist die Aussage trivial).
+Nach Lemma 2 ist dann insbesondere \verb|dfsnum[v]|$\le$\verb|dfsnum[w]|.
+
+$\Longleftarrow$:\\
+Angenommen $(v,w)\not\in T\cup F$, dann folgt $(v,w)\in B\cup C$ also nach Lemma 5 und 6: \verb|dfsnum[w]|$>$\verb|dfsnum[z]| – ein Widerspruch.
+
+\item
+$\Longleftarrow$:\\
+Die Vorraussetzung erfüllt Lemma 2, also existiert $w\pfad[T]v$ und damit ist nach Definition $(v,w)\in B$.
+
+$\Longrightarrow$:\\
+Man zeigt analog wie in „$\Longleftarrow$“, nur muss man die Gleichheit in
+\[
+\verb|dfsnum[w]|\le\verb|dfsnum[v]| \land \verb|compnum[w]| \ge \verb|compnum[v]|
+\]
+ausschließen:
+Bestünde Gleichheit, dann wäre $v=w$ und damit $(v,w)$ keine Kante.
+
+\item
+Die Definition der Klassifizierung besagt:
+\[
+\lnot(v\pfad[T] w)\land \lnot (w\pfad[T] v) \land (\verb|dfsnum[w]|<\verb|dfsnum[v]|)
+\]
+(die letzte Bedingung bedeutet gerade, dass $w$ schon besucht ist, wenn die Kante betrachtet wird).
+Diese Aussage ist nach Lemma 2 und deMorgan äquivalent zu:
+
+\[
+(\verb|dfsnum[v]|>\verb|dfsnum[w]| \lor \verb|compnum[v]|>\verb|compnum[w]|)
+\]
+\[
+\land ( \verb|dfsnum[w]| > \verb|dfsnum[v]| \lor \verb|compnum[w]| > \verb|compnum[v]|)
+\]
+\[
+\land (\verb|dfsnum[w]|<\verb|dfsnum[v]|)
+\]
+Was sich wegen der letzten Bedingung in
+\[
+\verb|dfsnum[v]|>\verb|dfsnum[w]| \land \verb|compnum[v]|<\verb|compnum[w]|
+\]
+vereinfacht.
+
+\end{enumerate}
+
+
+
+\end{document}
+
+

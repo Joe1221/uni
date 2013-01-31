@@ -1,0 +1,2502 @@
+\documentclass[11pt]{scrartcl}
+\usepackage{mathe-vorlesung}
+
+% Needs dot2tex!
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+% Reqs
+\usepackage{xkeyval}
+\usepackage{moreverb}
+\usepackage[pgf]{dot2texi}
+
+
+
+\newcommand{\op}{\texttt{op}}
+\newcommand{\amort}{\texttt{amort}}
+\newcommand{\cost}{\texttt{cost}}
+\renewcommand{\O}{\mathcal{O}}
+
+
+%\newcommand{\graph}[2]{\begin{dot2tex} digraph #2 \end{dot2tex} }
+%\newcommand{\graph}[2]{}
+
+%\newenvironment{dot2tex}{\begin{dot2tex}}{\end{dot2tex}}
+%\newenvironment{dot2tex}{\dottex}{\enddottex}
+
+\title{Datenstrukturen und Algorithmen}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Sortieren}
+
+\section{Heap}
+Die Höhe eines Heaps beträgt $\log(n)$
+Heapeigenschaft
+Heapify(A,top)
+
+Kosten für die Initialerstellung eines Heaps lassen sich abschätzen durch
+\[
+\sum_{v\in H}\text{Höhe}(v)
+\]
+Allgemein für ein Heap mit $n$ ELementen sind die Kosten:
+\[
+\sum_{i=0}^{\log n}\frac {n+1}{2^{i+1}}(i+1)
+\]
+Auf der Wurzelebene (Ebene $i=0$) gibt es $\frac{n+1}{2^{\log(n+1)}}$.\\
+Auf der Wurzelebene ($i=0)$) gibt es einen Knoten, der $\log n$ bezahlt.
+Für $i=1$ gibt es zwei Knoten, die $\log n-1$ bezahlen.
+auf Ebene $i=\log n$ gibt es $\frac n2$ Knoten, die jeweils $1$ bezahlen.
+
+Annahme: Heap ist ein vollständiger Baum ($n=2^k-1$)
+\[
+\sum_{l=0}^{\log n}\frac {n+1}{2^{l+1}}(l+1)
+=(n+1)\sum_{i=1}^{\log n+1}\frac 1{2^i}i
+\]
+Es gilt
+\begin{align*}
+\sum_{i=0}^\infty\frac 1{2^i}\\
+\sum_{i=1}^\infty\frac i{2^i}
+\end{align*}
+divergiert nicht (beweis?)
+
+Anschaulicher: \emph{Amortisierte Analyse}:
+
+Gebe jedem Konten im Heap so viele Münzen, dass er für „seinen“ Heapify-Aufruf bezahlen kann.\\
+Knoten auf Höhe $h$ bekommt $h$ Münzen.
+Jetzt zähle die Münzen im Spiel.
+Definiere für jeden Knoten einen Pfad zu einem Blatt wie flogt:
+\begin{enumerate}
+\item Geh einmal zum rechten Kind
+\item Geh immer zum linken Kind
+\end{enumerate}
+Jeder Knoten legt seine Münzen auf die Kanten seines Pfades.\\
+Wie viele Münzen liegen dann maximal auf einer Kante, wenn alle Knoten das machen?\\
+Nur eine! (Beweis??)\\
+\begin{note}
+Jeder Baum mit $n$ Knoten hat genau $n-1$ Kanten (man ordne einfach jedem, außer dem Wurzelknoten die obere Kante zu)
+\end{note}
+\begin{thm}
+Ein Heap aus $n$ Zahlen kann in $\mathcal O(n)$ konstruiert werden.
+\end{thm}
+Wir können jetzt
+\begin{description}
+\item[create] einen Heap in $\mathcal O(n)$ Zeit aufbauen
+\item[insert] in $\mathcal O(\log n)$ ein Element hinzufügen
+\item[remove min]
+Man entferne das Wurzelelement und setze das Element ganz unten rechts als Wurzelelement.
+Die Teilbäume besitzen Heap-Eigenschaft.
+Rufe also heapify auf die Wurzel auf.
+Die Kosten des heapifty dominieren $\implies$ Kosten: $\mathcal O(\log n)$
+\item[change key]
+ändert den Wert eines Knotens
+\begin{enumerate}
+\item in einen kleineren Wert. Ändere den Wert des Knotens und tausche nach oben hin, um die Heapeigenschaft zu gewährleisten. Maximale Kosten: $\mathcal O(\log n)$
+\item in einen größeren Wert. Ändere den Wert und führe heapify auf den Knoten aus.
+\end{enumerate}
+\item[delete key]
+Mache den werte ganz klein, lass ihn hochwandern und entferne das Wurzelement.
+\end{description}
+
+\begin{note}[Sortieren mit Heap]
+Heap aufbauen $\mathcal O(n)$. $n$-mal \verb|remove_min| $\mathcal O(n)$.
+Insgesamt also $\mathcal O(n\log n)$.
+\end{note}
+
+\subsection{Quicksort}
+Ein erster randomisierter Algorithmus.\\
+Quicksort benutzt während des Ablaufs eine Zufallsquelle (Würfel).
+Je nach Wurfergebnis läuft der Algorithmus so oder ander weiter.
+
+Wir analysieren diesen \emph{randomisierten} Algorithmus für beliebige Probleminstanzen und zeigen, dass er erwartet $\mathcal O(n\log n)$ schritte braucht.
+\begin{verbatim}
+quicksort(A[1,…,n])
+	wähle p\in{1,…,n} zufällig gleichverteilt
+	rearrangiere A in 3 Bereiche
+	quicksort(A_L)
+	quicksort(A_5)
+\end{verbatim}
+Was ist eine schlechte Wahl für das Pivotelement?\\
+Jeweils das größte oder kleinste Element. Es ergibt sich $\sum_{i=1}^ni=\mathcal O(n^2)$
+
+Die beste Wahl für das Pivotelement wäre der Median: $\mathcal O(n\log n)$
+
+\begin{note}
+Für deterministische Pivotregeln sind worst-case-Varianten konstruirbar.
+\end{note}
+
+\subsubsection{Analyse des Quicksort-Algorithmus}
+
+Wir zeigen, dass unser Quicksort bei randomisierter Pivotwahl $\mathcal O(n\log n)$ vergleiche macht.
+\begin{note}
+Man kann auch zeigen, dass es sehr unwahrscheinlich ist, dass man stark von diesem Erwartungswert abweicht.
+\end{note}
+Wir betrachten die Elemente geordnet gemäß ihrere natürlichen Ordnung, d.h.
+\[
+S_1\le S_2\le …\le S_n
+\]
+Definiere Zufallsvariable
+\[
+X_{ij}=\begin{cases}1 &\text{falls $s_i$ und $s_j$ während QS verglichen wurden}\\
+0&\text{sonst}\end{cases}
+\]
+Laufzeit
+\[
+\sum_{i<j}X_{ij}
+\]
+Uns interessiert der Erwartungswert $E(\sum_{i<j}X_{ij}$
+\[
+=\sum_{i<j}E(X_{ij})
+\]
+Definiere Zufallsvariable:
+\[
+X_{ij} = \begin{cases}
+1 & \text{falls während eines QS-Laufs $s_i$ mit $s_j$ verglichen wird}\\
+0 & \text{sonst}
+\end{cases}
+\]
+Offensichtlich gilt
+\[
+\text{Anzahl Vergleiche} = \sum_{i<j}X_{ij}
+\]
+
+\begin{ex}
+\[
+X_{\text{gerade}}=\begin{cases}
+1 & \text{falls 2,4,6}\\
+0 & \text{sonst}
+\end{cases}
+\]
+Dann ist
+\begin{align*}
+E(X_{\text{gerade}})\\
+&= P(X_{\text{gerade}=1}*1 + P(X_{\text{gerade}=0}*0\\
+&= \frac 12 \cdot 1 + \frac 12 \cdots 0\\
+&= \frac 12
+\end{align*}
+\end{ex}
+
+Uns interessiert der Erwartungswert der Summe aller $X_{ij}$ von
+\begin{align*}
+E(\sum_{i<j}X_{ij})=
+&=\sum_{i<j}E(X_{ij})\\
+\end{align*}
+Es gilt:
+\begin{align*}
+E(X_{ij}) &= P(X_{ij}=1)\cdot 1 + P(X_{ij}=0)\cdot 0 \\
+&= P_{ij}\\
+&= \text{Wahrscheinlichkeit, dass $s_i$ mit $s_i$ verglichen wird}
+\end{align*}
+
+Wir stellen den Ablauf von Quicksort als Baum dar.
+Die Knoten im Baum entsprechen den Pivotelementen.
+Numeriere die Pivotelemente \emph{zeilenweise} durch.
+Wir erhalten eine Permutation der sortierten Elemente.
+
+Wie sieht $\pi$ aus, wenn $s_i$ nicht mit $s_j$ verglichen wurde?\\
+Dann taucht ein Elemente $s_k$, $i<k<j$ als Pivotelement vor $s_i$ und $s_j$ in $\pi$ auf.
+
+$s_i$ wird mit $s_j$ verglichen, genau dann wenn
+\[
+s_i \text{ oder } s_j \text{ das erste Element aus} \{s_i,s_{i+1},\dotsc,s_j\} \text{ in $\pi$ ist}
+\]
+
+Mit gleicher Wahrscheinlichkeit ist jedes der$\{s_i,\dotsc,s_j\}$ das erste Element, das in $\pi$ auftaucht.
+Also ist
+\[
+E(X_{ij})=P(\text{$s_i$ mit $svj$ verglichen wird}=\frac 2{j-i+1}
+\]
+Also:
+\begin{align*}
+E(\sum_{i<j}X_{j}&=\sum_{i<j}E(X_{ij})\\
+&=\sum_{i<j}p_{ij}
+&=\sum_{i=1}^{n-1}\sum_{j=i+1}^nX_{ij}\\
+&=\sum_{i=1}^{n-1}\sum_{j=i+1}^n\frac 2{j-i+1}\
+&=\sum_{i=1}^{n-1}\sum_{j=2}^{n-i+1}\\
+&\le \sum_{i=1}^{n-1}\underbrace{\sum_{j=1}^n\frac 1j}_{\text{Harmonische Reihe}}
+&\le n\log n
+\end{align*}
+
+Die erwartete Anzahl an Vergleichen ist $\mathcal O(n\log n)$ unabhängig von der Eingabe.
+
+\begin{note}
+\begin{description}
+\item[Bubble Sort]
+$\Theta(n^2)$
+\item[Heap Sort]
+$\Theta(n\log n)$
+\item[Merge Sort]
+$\Theta(n\log n)$
+\item[Quick Sort]
+$\Theta(n\log n]$
+\end{description}
+\end{note}
+
+Gibt es einen Sortieralgorithmus, der in $o(n\log n)$ sortieren kann?\\
+Gesucht ist eine \emph{untere Schranke} für die Anzahl Vergleiche beim Sortieren \emph{unabhängig} vom verwendeten Sortierverfahren.
+
+\begin{enumerate}
+\item Versuch
+\end{enumerate}
+
+Idee: Fasse die Ausführung eines Sortieralgorithmus A auf als eine Sequenz von Vergleichsoperationen.
+mit Ausgängen.
+Schreibe als binären Baum mit den Vergleichen als Knoten.
+
+Je nach Ausgang eines Vergleichs wird ein anderer Vergleich ausgeführt.
+Der Algorithmus $A$ stöppt (hoffentlich) nach einer bestimmten Anzahl Vergleichen und gibt eine Permutation der Eingabe zurück.
+Dies entspricht einem \emph{Blatt} im binären Baum.
+
+\begin{note}
+Verschiedene Eingaben müssen verschiedene Blätter des Baums repräsentieren.
+Jede Eingabe muss einen anderen Vergleichspfad durchlaufen haben.
+Sonst kann der Algorithmus nicht zwischen zwei verschiedenen Eingaben unterschieden haben.
+\end{note}
+
+Der Baum muss also mindestens $n!$ Blätter haben.
+Die maximale Tiefe des Baums entspricht der Worst-Case-Laufzeit des Algorithmus.
+
+Wie tief muss ein Baum mindestens sein, damit er mindestens $n!$ viele Blätter hat?.
+Ein vollästandiger Binärbaum der Höhe $h$ hat $2^h$ Blätter.
+Da
+\[
+n!\le \left(\frac ne\right)^n
+\]
+\begin{align*}
+2^n &\ge n! \\
+n &\ge \log_2 n!\\
+n &\ge \log_2 \left(\frac 2l\right)^n
+&= n\log_2 \frac n2
+\end{align*}
+Also muss die Höhe (mindestens) $\Omega (n\log n)$ sein.
+\begin{note}
+Diese Analyse gilt nur für \emph{deterministische}, vergleichsbasierte Sortierverfahren!
+\end{note}
+
+
+\section{Graphen}
+
+Ein Graph $G(V,E)$ bestehend aus Knoten (Vertices) $V$ und Kanden (Edges) $E$.
+Bei einem gerichtetem Graphen sind die Kanten bestimmt durch:
+\[
+e=(v,w)\in E\subset V\times V
+\]
+bei einem ungerichtetem Graphen durch
+\[
+e=\{v,w\}\in E
+\]
+
+\begin{ex}
+\begin{itemize}
+\item Modellierung von Straßennetzwerken
+\item „Konfliktgraphen“
+
+Platzieren von Tetrapacks in einem Gitter.
+Jeder Konflikt zwischen zwei Platzierungen ergibt eine Kante im Graphen.
+
+Suche eine \emph{unabhängige Menge} $I\subset V$ also so dass:
+\[
+\forall v,w\in I: {v,w}\not\in E
+\]
+\item Projektplanung
+Aufgaben, die in einer bestimmten Reihenfolge geschehen müssen, bzw. „Abhängigkeiten“ untereinander haben.\\
+Gesucht ist ein “Schedule” $\phi:V\to \N$, so dass:
+\[
+\forall e=(v,w): \phi(v)<\phi(w)
+\]
+und
+\[
+\forall i:|\{v\in V | \phi(v)=i\}\le m
+\]
+\item Social Networks
+„Entfernung“ von Profilen
+\end{itemize}
+\end{ex}
+
+\begin{df}[Pfad]
+Ein Pfad $\pi$ von $v$ nach $w$ ist einem (un)gerichtetem Graph $G(V,E)$ ist eine Sequenz
+$\pi=v_0,v_1,\dotsc v_k$ mit $v_0=v, v_k=w$, sodass
+\[
+(v_i,v_{i+1})\in E \qquad \forall i\in\{0,\dotsc, k-1\}
+\]
+$\pi$ heißt \emph{einfacher Pfad} falls $\forall i\neq j:v_i\neq v_j$.
+\end{df}
+
+\subsection{Interessante Operationen auf Graphen}
+\begin{itemize}
+\item Existiert eine Kante zwischen Knoten $v$ und Knoten $w$?
+\item \underline{Was sind die \emph{ajazenten} Knoten von Knoten $v$?}
+\item Füge Knoten hinzu
+\item Lösche Knoten
+\item Füge Kante zwischen $v$ und $w$ ein
+\item Lösche Kante zwischen $v$ und $w$
+\end{itemize}
+
+\subsection{Speicherung/Darstellung eines Graphen}
+Sei im folgenden $n$ immer die Anzahl Knoten und $m$ die Anzahl Kanten des Graphen.
+
+\subsubsection{Kantenliste}
+Nummeriere Knoten min $1,\dotsc,n$ durch.
+Speichere Kanten als Liste von Paaren (Kanten):
+\[
+(1,2), (3,1), (2,3), (1,4)
+\]
+Nachteile:
+\begin{itemize}
+\item Knoten schlecht zu sehen und zu finden
+\end{itemize}
+\subsubsection{Adjazenzmatrix}
+Besteht aus einer $n\times n$-Matrix und:
+\[
+a_{ij} = \begin{cases}
+1&(i,j)\in E\\
+0& \text{sonst}
+\end{cases}
+\]
+Speicherverbrauch: $n^2$\\
+\underline{Vorteile:}
+\begin{itemize}
+\item Darstellung ist praktikabel, wenn $m$ (Anzahl Kanten) sehr groß ist.
+\item Ausgehende und eingehende Kanten können in konstanter Zeit ermittelt werden.
+\end{itemize}
+
+\begin{note}[Planarer Graph]
+Wenn man den Graphen (zweidimensional) zeichnen kann, dann nennt man den Graphen \emph{planar}.
+Jeder planarer Graph hat $m=\mathcal O(n)$ Kanten.
+\end{note}
+
+\subsubsection{Knoten-Kanten Inzidenzmatrix}
+
+\subsubsection{Adjazenzlistendarstellung}
+Stelle Graph dar durch
+\begin{enumerate}
+\item Liste der Knoten (Nummeriert durch IDs)
+\item Liste der Kanten (Nummeriert durch IDs)
+\item Für jeden Knoten $v_i$: Liste der Kanten $e$ mit $\text{source}(e)=v_i$ (Sortiert nach ID)
+\item Für jeden Knoten $v_i$: LIste der Kanten $e$ mit $\text{target}(e)=v_i$ (Sortiert nach ID)
+\end{enumerate}
+
+\begin{ex}\- 
+\begin{verbatim}
+1 -> 2 [a]
+1 -> 3 [b]
+2 -> 3 [c]
+3 -> 2 [d]
+\end{verbatim}
+\end{ex}
+
+Speicherung:\\
+Knoten:\\
+ID, nächste Kante in Liste 1, erste Kante in Liste 3, erste Kante in Liste 4
+Kanten:\\
+ID, nächste Kante in Liste 2, \emph{nächste Kante in Liste 3}, \emph{nächste Kante in Liste 4}, Verweis auf Quellknoten, Verweis auf Zielknoten
+
+\begin{note}[Übung]
+Wie wird ein Knoten eingefügt/gelöscht?
+Wie viel Kosten die interessanten Operationen?
+\end{note}
+
+Platzverbrauch für einen Graph mit $n$ Knoten und $m$ Kanten ist
+\[
+p\cdot(4n + 6m) \text{ Bytes}
+\]
+wobei $p$ der Größe eines Pointers entspricht.
+
+
+\subsubsection{Alternative Darstellung für statische Graphen}
+Annahme: Knoten haben IDs von $0$ bis $n-1$.
+Wir stellen Kanten dar durch:
+\[
+\text{QuellID, ZielID, [Kosten] }
+\]
+Darstellung durch drei (integer) Arrays der Größe $m$:
+\begin{verbatim}
+int source[m]
+int target[m]
+int cost[m]
+\end{verbatim}
+Wobei das „source“-Array optional ist.
+Wir sortieren alle Kanten gemäß Quellknoten.
+
+Erstelle ein Offset-Array, das die erste Position einer ausgehenden Kante eines Knoten in den drei Arrays angibt.
+Außerdem setze den $n$-ten Eintrag auf $m$.
+
+Wir können wie folgt über alle zu einem Knoten $i$ anjazenten Kanten iterieren:
+\begin{verbatim}
+for (j = offset[i]; j < offset[i+1]; j++)
+    j durchläuft alle Kanten IDs von Kanten ausgehend von i
+\end{verbatim}
+
+Platzverbrauch:
+\[
+p\cdot (m+n) \text{ Bytes}
+\]
+
+Welche Fragestellungen interessieren uns in Graphen?
+\begin{enumerate}
+\item Gegeben Kante $v$ und Knoten $w$, gibt es einen Pfad von $v$ nach $w$ in $G$?\\
+Idee: Wir berechnen \emph{alle} von Knoten $v$ erreichbaren Knoten.
+
+Die von Knoten $v$ erreichbaren Knoten sind:
+\begin{itemize}
+\item $v$ selber
+\item die direkten Nachbarn von $v$ ($\{w:(v,w)\in E\}$)
+\item alle von den Nachbarn erreichbaren Knoten
+\end{itemize}
+Das legt folgende Prozedur nahe (Depth First Search):
+\begin{verbatim}
+DFS(v)
+    erreichbar[v] = true
+    for all e=(v,w)
+        if(erreichbar[w] == false)
+            DFS(w)
+\end{verbatim}
+Laufzeit: $\mathcal O(n+m)$
+\begin{note}[Klausuranmerkung]
+Die Kanten werden lexikographisch abgearbeitet und man gibt die Reihenfolge der abgearbeiteten Knoten, sowie die Reihenfolge in der die DFS-Aufrufe abgeschlossen werden.
+\end{note}
+
+\end{enumerate}
+
+\begin{st}
+Nach Ausführung von DFS(s) gilt:
+\begin{enumerate}
+\item $\forall v\in V: v$ erreichbar $\iff \exists $ Pfad von $s$ nach $v$ in $G$.
+\item Laufzeit ist $\mathcal O(n+m)$.
+\end{enumerate}
+\begin{proof}
+\begin{enumerate}
+\item
+Konstruiere für jeden Knoten erreichbaren Knoten $v$ einen Pfad $\pi$ von $s$ nach $v$ wie folgt:
+\[
+\pi_s=s
+\]
+Sei $v\neq s$ mit \verb|erreichbar[v]=true| und $(w,v)$ die Kante über die \verb|DFS(v)| aufgerufen wurde.
+Setze $\pi_v=\pi_w\cdot v$
+
+Sei $sv_1\dotsc v$ ein Pfad von $s$ nach $v$.
+Zeige: $v$ ist erreichbar von $s$.
+Beweis durch Induktion:\\
+$s$ ist erreichbar von $s$.
+$v_{i+1}$ ist erreichbar von $s$, da $v_i$ erreichbar von $s$ und DFS von $v_(i+1)$ wird durch den Algorithmus aufgerufen.
+\item 
+Auf jedem Knoten wird höchstens einmal DFS aufgerufen und jede Kante wird maximal zwei Mal angeschaut.
+\end{enumerate}
+\end{proof}
+\end{st}
+
+\begin{note}
+Wenn wir in einem ungerichtetem Graphen von $s$ nach $t$ gelangen können, dann auch von $t$ nach $s$
+\end{note}
+
+\begin{df}
+Eine Zusammenhangskomponente  eines ungerichteten Graphen $G(V,E)$ ist eine maximale Knotenmenge $\subset V$, sodass
+ein Pfad von $s$ nach $t$ gilt für alle $s,t\in$
+\begin{note}
+Zusammenhangskomponenten von ungerichteten Graphen können leicht mit \verb|DFS| berechnet werden.
+\end{note}
+\end{df}
+
+\subsection{Alternative Graphtraversierung – Breitensuche}
+
+\underline{Vorteile:}
+\begin{itemize}
+\item Berechnet auch gleichzeitig den kürzesten Weg vom Startknoten aus
+\end{itemize}
+\underline{Idee:}
+Bestimme iterativ Mengen $V_0,V_1,\dotsc$ mit
+\begin{align*}
+V_i&=\{v\in V|d(v)=i\}\\
+&=\{v\in V\setminus \bigcup_{j<i}V_i : \exists (u,v)\in E : u\in V_{i-1}\}
+\end{align*}
+Das legt einen Algorithmus nahe, der die $V_i$ wie folgt bestimmt:
+\begin{align*}
+V_0&=\{s\}\\
+V_1 &= \{\text{Die Nachbarn von $V_0$}\}\\
+V_2 &= \{\text{Knoten, die nicht in $V_0$ oder $V_1$ sind, aber einen Nachbarn in $V_1$ haben}\}
+&\vdots 
+\end{align*}
+
+\underline{Idee Implementierung:}
+\verb|dist[v]|:\\
+\verb|current|:\\
+\verb|next|:\\
+
+Wir iterieren über alle Knotten in \verb|current|.
+Falls ein Knoten $v\in$\verb|current| einen Nachbarn $w$ $(v,w) \in E$ mit 
+\verb|dist[w]|$=\infty$, dann füge $w$ zu \verb|next| hinzu und setze \verb|dist[w]=dist[v]+1|.
+
+Sobald \verb|current| abgearbeitet ist, setze \verb|current=next| und \verb|next=|$\emptyset$.
+
+\subsection{Datenstruktur Queue (Schlange)}
+FIFO : “First in, first out”.
+
+\begin{verbatim}
+BFS
+   queue current
+   int dist[n] = inf
+   current.push_back(s)
+   dist[s]=0
+   while current != empty
+      v = current.pop_front()
+      forall e=(v,w) do
+         if dist[w] = inf
+             dist[w] = dist[v] +1
+             currennt.push_back()
+      od
+   od
+\end{verbatim}
+
+\underline{Laufzeit:}
+$\mathcal O(n+m)$, da jeder Knoten maximal einmal in die Queue kommt und jede Kante maximal 2 mal angeschaut wird
+
+\subsection{Berechnung kürzester Wege in gewichteten Graphen}
+Gegeben Graph $G(V,E)$ und $c:E\to \R$.
+Gesucht:\\
+\[
+d(v)=\inf\{c(\pi):\pi \text{ ist Pfad von $s$ nach $v$}
+\]
+
+\subsection{Berechnung der starken Zusammenhangskomponente}
+Naiv:\\
+Berechne erreichbare Knoten von jedem $v\in V$, Kosten: $\approx n^2+mn$
+
+\subsection{Erweiterte Tiefensuche}
+
+\begin{verbatim}
+global compnum_counter = 1
+global dfsnum_counter = 1
+
+DFS(v)
+    dfsnum[v] = dfsnum_counter++
+    erreihbar[v] = true
+    for all e=(v,w)
+        if erreichbar[w] = false
+            DFS(w)
+    compunum[v] = compnum_counter++
+\end{verbatim}
+
+\verb|compnum| bezeichnet die Reihenfolge, in der die DFS-Aufrufe abgeschlossen sind, während \verb|dfsnum| angibt, in welcher Reihenfolge die DFS-Aufrufe erfolgen.
+
+Implizit partitioniert DFS die Kanten in Gruppen.
+Betrachte den Zeitpunkt, wenn DFS eine Kante $e=(v,w)$ anschaut:
+\begin{itemize}
+\item $e\in T$ (Baumkante), falls $w$ noch nicht besucht
+\item $e\in F$ (Vorwärtskante), falls $w$ schon besucht und ein Pfad von $v$ nach $w$ über Baumkanten existiert.
+\item $e\in B$ (Rückwärtskante), falls $w$ schon besucht und $\exists w\stackrel{T}\to v$
+\item $e\in C$ (Crosskante), falls $w$ schon besucht aber kein Pfad zwischen $w$ und $v$ über Baumkanten existiert.
+\end{itemize}
+
+\underline{Wie können wir entscheiden, ob ein Graph einen Zyklus hat?}\\
+Starte DFS auf bel Knoten; falls danach noch Knoten unbesucht, starte DFS darauf.
+
+\begin{lem}
+Ein gerichteter Graph $G(V,E)$ ist genau dann azyklisch, wenn in keinem DFS-Aufruf eine Rückwärtskante gefunden wird.
+
+
+\begin{proof}
+$\implies$:\\
+relativ trivial
+
+$\Longleftarrow$:\\
+Sei $v_0v_1\dotsc v_k$ ein Zyklus in $G$ und sei oBdA $v_0$ der erste Knoten auf den DFS aufgerufen wird.
+Dann werden im Folgenden alle $v_i$ besucht und nachdem $v_k$ besucht wurde, die Kante nach $v_0$.
+Diese wird als Rückwärtskante erkannt.
+\end{proof}
+\end{lem}
+
+\begin{kor}
+Wir können in $\mathcal O(n)$ Zeit entscheiden, ob in einem Graph $G(V,E)$ ein Zyklus enthalten ist.
+\end{kor}
+
+\begin{ex}
+In einer Projektplanung, in dem Teilprojekte voneinander abhängen, will man beispielsweise keinen zyklischen Graphen haben.
+\end{ex}
+
+\begin{df}
+Eine bijektive Funktion $\phi:V\to \{1,\dotsc,n\}$ heißt \emph{topologische Sortierung}, falls
+\[
+\forall e=(v,w)\in E : \phi(v) < \phi(w)
+\]
+\end{df}
+
+\begin{lem}
+Für einen gerichteten azyklischen Graphen $G(V,E)$ ist 
+\[
+\phi(v):=n+1-\verb|compnum|(v)
+\]
+eine topologische Sortierung.
+\begin{proof}
+Zeige: Für eine beliebige Kante $(v,w)\in E$ gilt: $\phi(v)<\phi(w) \iff \verb|compnum|[v]>\verb|compnum|[w]$.
+
+Angenommen, $(v,w)\in E$, aber $\phi(v)>\phi(w) \iff compnum[v] < compnum[w]$.
+Also war DFS($v$) vor DFS($w$) abgeschlossen.
+Also DFS($v$) aufgerufen wurde, wurde auch die Kante $(v,w)$ angeschaut.
+Falls $w$ dabei noch nicht besucht war, wurde DFS($w$) aus DFS($v$) heraus aufgerufen $\implies \verb|compnum[w]| < \verb|compnum|[v]$, was ein Widerspruch ist.
+Falls $w$ dabei schon besucht war (aber noch nicht abgeschlossen), dann muss DFS($v$) indirekt von DFS($w$) aufgerufen worden sein.
+Also existiert ein Pfad über Baumkanten von $w$ nach $v$ und die Kante von $v$ nach $w$, also gibt es einen Zyklus, was ein Widerspruch zur Annahme ist, dass der Graph azyklisch ist.
+\end{proof}
+\end{lem}
+
+\underline{Was sind die SZHK eines azyklischen Graphs?}\\
+Es sind genau die einzelnen Knoten (denn es existiert von keinem Knoten ein Weg wieder zurück, sonst Zyklus)
+
+\underline{Wie können wir naiv die SZHK bestimmen, in der $v\in V$ enthalten ist?}\\
+\begin{enumerate}
+\item \verb|DFS(v)| $\longrightarrow$ Menge $R(v)$ der von $v$ erreichbaren Knoten
+\item $\forall w\in R(v)$: Lasse DFS(vw) laufen und überprüfe, ob $v$ von $w$ erreichbar.
+\end{enumerate}
+\underline{2-Pass-Algorithmus für SZHK:}\\
+\begin{enumerate}
+\item Berechne für alle $v\in V$ \verb|compnum[v]|
+\item Berechne Graph $G'$, welcher alle Kanten aus $G$ „umgedreht“ enthält.
+\item Lase DFS auf $G'$ laufen (Knotenreihenfolge in abgsteigender \verb|compnum|)
+\end{enumerate}
+Jeder durch diese DFS-Aufrufe generierte Teilbaum ist eine SZHK.
+
+\begin{lem}
+Obiger Algorithmus berechnet in der Tat die SZHK.
+\begin{proof}
+\begin{note}
+Das Umedrehen der Kantenrichtungen beeinfllusst nicht die SZHK.
+\end{note}
+\begin{enumerate}
+\item Seien $v,w$ in derselben SZHK.
+Zeige: $v$ und $w$ werden vom Algorithmus in die selbe SZHK gesteckt.
+
+Sei $x$ der Knoten in der SZHK von $v$ und $w$, auf den DFS in $G$ als erstes aufgerufen wurde.
+Dieser Aufruf besucht alle Knoten in dieser SZHK, hat also die größte \verb|compnum| und wird daher in $G$ auch als erster angeschaut.
+Aufruf von DFS($x$) in $G'$ besucht alel Knoten der SZHK.
+
+\item 
+Zeige: Alle Knoten in berichteten Bäumen sind in gleichen SZHK.
+Sei $w$ in Baum von $v$ unter $G'$, d.h $w\longrightarrow v$.
+\verb|compnum|$[v] > $\verb|compnum|$[w]$.\\
+Also wurde $w$ vollständig von $v$ abgearbeitet oder lag im Unterbaum von $v$.
+Im letzteren Fall haben wir $v\longrightarrow w$.
+Im ersteren Fall wurde DFS($w$) vor DFS($v$) aufgerufen.
+$v$ lag aber nicht unter $w$ in $G$, da $w\longrightarrow v$.
+
+
+\end{enumerate}
+
+\end{proof}
+\end{lem}
+
+\subsection{Matching}
+
+\begin{df}
+Sei $G(V,E)$ ein ungerichteter Graph.
+Ein Matching $M$ ist eine Kantenmenge des Graphen so dass
+\[
+\forall e,e'\in M : e \cap e' = \emptyset
+\]
+\end{df}
+\begin{df}
+Ein \emph{maximales Matching} ist ein Matching für das gilt:
+\[
+\forall e\in E\setminus M \exists e'\in M: e\cap e'\neq \emptyset
+\]
+\end{df}
+\begin{df}
+Ein \emph{Maximum Matching} ist das größte maximale Matching in einem Graphen
+\end{df}
+\begin{df}[Perfektes Matching]
+Ein Knoten $v\in V$ ist abgedeckt, wenn
+\[
+\exists e\in M : v\in e
+\]
+Ist $V$ abgedeckt, nennen wir $M$ perfekt.
+$M$ hat dann $\frac n2$ Kanten.
+\end{df}
+
+\subsubsection{Cardinality Matching Problem}
+Gegeben ist ein ungerichteter Graph und gesucht ist ein Maximum Matching.
+
+Wir beschränken uns auf bipartite Graphen.
+
+\begin{thm}[Hall, 1935]
+$A'\subset A$.
+Die Menge der zu $A'$ anjazenten Punkte sei $B(A')$.
+Dann gibt es ein Matching $M$, welches $A$ abdeckt, genau dann wenn
+\[
+\forall A'\subset A: |B(A')| \ge |A'|
+\]
+\begin{proof}
+Die eine Richtung ist trivial.
+Die andere beweist man per Induktion:
+Induktionsanfang ist trivial. Induktionsschritt:
+\begin{enumerate}
+\item[1. Fall]
+\[
+\forall A'\le A:|B(A')|>|A'|
+\]
+Wähle Kante $(a,b)$ und entferne sie.
+Im verbleibenden Graph gilt die Hall-Bedingung, da jedes $|B(A')|$ höchstens um eins kleiner geworden ist.
+Nach Induktionsvorraussetzung
+$\exists M'$ welches $A\setminus a$ abdeckt.
+Also ist
+\[
+M'\cup \{a,b\}
+\]
+Matching in $G$.
+
+\item[2. Fall]
+\[
+\exists A''\subset A:|B(A')|=|A'|
+\]
+Nach Induktionsvorraussetzung existiert im Graph induziert von $B(A')$, $A'$ ein Matching, das $A'$ abdeckt.
+
+Zeige: In $B(A)\setminus B(A')$, $A\setminus A'$ gilt die Hall-Bedingung.
+Es gilt $A''\subset A\setminus A'$.
+\begin{align*}
+|B(A'')\setminus B(A')| &= |\underbrace{B(A''\cup A')}_{\ge A''\cup A'}| - \underbrace{|B(A')|}_{=|A'|}\\
+&\ge |A''\cup A'|-|A'| = |A''|
+\end{align*}
+Also gibt es im verbleibenden Graphen ein Matching, das $A\setminus A'$ abdeckt.
+
+
+
+\end{enumerate}
+
+\end{proof}
+\begin{note}[Spezialfall: Heiratstheorem (Frobenius 1917)]
+Genau dann, wenn $|A|=|B|$ und $\forall A'\subset A: |B(A')|\ge |A'|$, gibt es ein
+perfektes Matching.
+\end{note}
+
+
+
+\end{thm}
+
+
+\begin{ex}
+Partition A: Menge von Mitarbeitern\\
+Partition B: Menge von Aufgaben, die jeweils eine Zeiteinheit dauern
+
+Eine Kante $(a,b)$ bedeutet, Mitarbeiter $a$ kann Aufgabe $b$ bearbeiten.
+
+\underline{Frage:}Können alle Aufgaben in einer Zeiteinheit abgearbeitet werden?
+
+
+\end{ex}
+
+\begin{df}[Augmentativer Pfad]
+$M$ sei Matching in $G(V,E)$.
+\[
+p=v_1\dotsb v_n
+\]
+ist $M$-augmentierend wenn
+\begin{enumerate}
+\item $v_1$ und $v_n$ sind \emph{nicht} abgedeckt von $M$
+\item $p$ alteriert zwischen Kanten in $M$ und $p\not \in M$ 
+\end{enumerate}
+
+\end{df}
+
+\begin{thm}[Bergel, 1957]
+Ein Matching $M$ ist Maximum Matching genau dann, wenn kein $M$-augmentierender Pfad existiert.
+\begin{proof}
+Sei $M$ Maximum Matching und $p$ ist $M$-augmentierend, dann
+\[
+\exists M'=M\Delta p
+\]
+mit $|M'|>|M|$ und $M'$ ist Matching, was ein Widerspruch dazu ist, dass $M$ Maximum Matching ist.
+
+Sei umgekehrt $M$ kein Maximum Matching und $M'$ sei Maximum Matching.
+Sei $H$ von $M, M'$ induzierter Multigraph.
+Es gilt
+\[
+\forall v\in V(H):\deg(v)\le 2
+\]
+(sonst wäre Knoten adjazent zu zwei Kanten aus einem Matching).
+Jede ZHK in $H$ ist Zyklus oder Pfad.
+Zyklen haben immer gerade Anzahl von Kanten (sonst zwei Kanten aus einem Matching adjazent).
+
+Sei also $H'$ ohne Zyklen und Pfaden gerader Länge.
+Es gilt immernoch $|M'|_H|>|M|_H|$.
+Es muss also einen Pfad geben, das mit einer Kante von $M'$ anfängt und aufhört (sonst hätte $M$ mehr Kanten als $M'$).
+Dieser Pfad ist ein augmentierender Graph auf $M$, Widerspruch.
+\end{proof}
+\end{thm}
+
+\subsubsection{Algorithmus zum Finden eines Maximum Matchings}
+
+Suche $M$-augmentierenden Pfand solange (und augmentiere $M$ damit), bis kein $M$-augmentierender Pfad mehr existiert.
+
+Für bipartite Graphen:
+DFS startend in $v\in V$ mit $v$ ist nicht abgedeckt von $M$.
+Alterniere zwischen Kanten in $M$ und nicht in $M$.
+
+Laufzeit: $\mathcal O(\frac n2(n+m)) \in \mathcal O(nm)$??
+
+\subsubsection{Stabiles Matching}
+A: Männer, B: Frauen.
+Es existiere eine Totalordnung auf den Frauen und auf den Männern
+
+\begin{df}
+$M$ ist instabil, wenn
+\[
+\exists a\in A, b\in B: \{a,b\} \exists M
+\]
+so dass $a$ zieht $b$ seiner Partnerin vor und $b$ zieht $a$ ihrem Partner vor.
+\end{df}
+
+\underline{Algorithmus:}\\
+Sei $U$ die ungebundenen Männer.
+Für alle $u\in U$, mache $u$ der obersten Frau auf seiner Liste einen Antrag.\\
+Für alle $b\in B$, $b$ sucht sich aus Anträgen und evtl. aktuellem Partner den besten aus und weist die anderen ab.\\
+Füge abgewiesene Männer zu $U$ hinzu und entferne gebundene Männer aus $U$.\\
+Abgewiesene Männer streichen $b$ von der Liste.
+
+\underline{$M$ ist perfekt}\\
+\begin{proof}
+	Angenommen $b$ bleibt ledig, so auch ein $a$ (gleich viele Männer wie Frauen).
+
+$a$ hat aber Antrag gemacht.
+Ist eine Frau verheiratet, bleibt sie es.
+$b$ hatte also keinen aktuellen Partner beim Antrag von $a$.
+\end{proof}
+
+\underline{$M$ ist stabil}\\
+\begin{proof}
+Sei $\{a,b\}\in M$, $b'\neq b$ beliebige Frauen.
+Falls $a$ der $b$ Antrag gemacht hat und wegen $a'\neq a$ abgelehnt wurde, dann gilt
+$a'<_b a$ ($a'$ ist laut $b$ besser als $a$).
+
+Falls $a$ $b$ nie einen Antrag gemacht hat, dann hat $a$ bessere Partnerin.
+\end{proof}
+
+\subsection{Berechnung kürzester Wege}
+
+Für einen gegeben Knoten $s\in V$ ist gesucht $\forall v\in V$
+\[
+d(v) :=  \inf \{c(\pi):\pi \text{ Pfad von $s$ nach $v$}\}
+\]
+
+
+\begin{df}[Kantenrelaxierung]
+Gegeben sei eine Kante $e=(v,w)$ und vorläufige (temporäre) Distanzwerte $d(v), d(w)$.
+Wir können $w$ über $v$ mit Kosten
+\[
+d[v]+c_{vw}
+\]
+erreichen.
+
+Fals $d[w] > d[v] + c_{vw}$, setze
+\[
+d[w] := d[v] + c_{vw}
+\]
+
+Diese Operation nennt man \emph{Kantenrelaxierung}
+\end{df}
+
+\begin{alg}
+Idee: Kantenrelaxierung wiederholt aufrufen.
+\begin{verbatim}
+setze dist[s]=0, dist[v]=inf
+solange ein e=(v,w) existiert mit dist[w] > dist[v] + c(v,w)
+    relaxiere e
+\end{verbatim}
+\begin{note}
+Für Zyklen mit negativen Kosten terminiert der Algorithmus nicht
+\end{note}
+\begin{note}
+Dieser Algorithmus berechnet alle Distanzen $d(v)$ vom Startknoten $s$.
+Der kürzeste Pfad kann aus diesen Distanzen leicht ermittelt werden.
+\end{note}
+\end{alg}
+
+Dieser Algorithmus soll nun etwas strukturiert werden.
+Definiere $U\subset V$ als die Menge von Knoten mit
+\[
+v\not\in U \implies \verb|dist[v] + c(v,w)| \ge \verb|dist[w]| \qquad \forall(v,w)\in E
+\]
+$U$ ist also sozusagen die Menge der „unfertigen“ Knoten, bei denen es gegebenenfalls noch ausgehende Kanten zu relaxieren gibt.
+
+\begin{alg}
+\begin{verbatim}
+dist[s]=0, dist[v] = inf
+U = {s}
+while U not empty
+    entferne ein v aus U
+    for all e=(v,w)
+        x = dist[v] + c(v,w)
+        if (x < dist[w])
+            dist[w] = x
+            U = U + {w}
+\end{verbatim}
+\end{alg}
+
+\underline{Eigenschaften des Algorithmus}
+\begin{enumerate}
+\item 
+\[
+u\not\in U \implies \verb|dist[u] + c(u,v)| \ge \verb|dist[v]| \qquad \forall e=(u,v)
+\]
+\begin{proof}
+Bei der Initialisierung gilt die Aussage,
+
+Solange $u\not\in U$ ändert sich \verb|dist[u]| nicht, also auch nicht der Wert der linken Seite \verb|dist[u] + c(u,v)|.
+
+\verb|dist[v]| kann sich ändern, aber es kann nur kleiner werden.
+\end{proof}
+
+\item
+Falls \verb|dist[w]|$ > d(w) > \infty$ ($d(w)$ seien die echten Kosten des kürzesten Wegs), dann
+gibt es einen Knoten $u$, der auf dem kürzesten Weg von $s$ nach $w$ liegt, in $U$ ist und für den \verb|dist[u]|$= d(u)$ gilt.
+\begin{proof}
+Sei $v_0\dotsb v_k$, $v_0=s$, $v_k=w$ ein kürzester Weg von $s$ zu $w$.
+$i$ maximal mit \verb|dist[v_i]|$=d(v_i)$.
+
+\begin{enumerate}[(a)]
+\item
+$i$ existiert, da $d(s)=\verb|dist[s]|=0$.
+Aus $d(s)<0$ würde folgen $d(s)=-\infty$ und deshalb auch $d(w)=-\infty$.
+Also ist $i=0$ ein Kandidat ($i=k$ ist es nicht).
+
+\item
+Es gilt: $v_i\in U$, denn angenommen $v_i\not\in U$, dann müsste gelten:
+\[
+\verb|dist[v_i] + c(v_i,v_{i+1}| \ge \verb|dist[v_{i+1}]|
+\]
+Aber dann gilt $\verb|v_{i+1}|=d(v_{v+1})$, dan
+\[
+d(v_{i+1}=\sum_{l=0}^i c(v_l,v_{l+1})
+\]
+\end{enumerate}
+
+Falls es also Knoten $w$ mit \verb|dist[w]|$>d(w)>-\infty$ gibt, gibt es $u\in U$ mit
+\verb|dist[u]|$=d(u)$.
+\end{proof}
+
+\item
+
+Falls man einen Knoten $u$ aus $U$ entfernt mit \verb|dist[u]|$=d(u)$, dann wird $u$ nie wieder in $U$ aufgenommen.
+
+\end{enumerate}
+
+\subsubsection{Implementierung für verschiedene Graphklassen}
+
+\begin{enumerate}[(A)]
+\item Bellman-Ford
+
+Allgemeine Kantenkosten (positiv oder negativ):
+
+implementiere $U$ als FIFO;
+entferne immer „erstes“ Element aus $U$;
+wenn ein $v\in V$ dem $U$ hinzugefügt wird, hänge es hinten an $U$ an.
+
+\underline{Behauptung}: Wenn $d(w)> -\infty$ für alle $w\in V$, dann wird jeder Knoten höchsten $n$-mal aus $U$ entfernt
+\begin{proof}
+Betrachte $U$, wenn $v$ zu $U$ hinzukommt.
+$U$ enthält Knoten $z$ mit \verb|dist[z]|$=d(z)$.
+$z$ wird vor $v$ aus $U$ entfernt und zwar endgültig.
+Also kommt $v$ maximal $n-1$ Mal zu $U$ hinzu.
+\end{proof}
+
+Die Laufzeit des Algorithmus ist also $\O(n\cdot m)$, da jede Kante $\le$ $n$-mal angeschaut wird.
+
+\item
+
+Graph $G$ ist azyklisch.
+
+
+\item
+
+Nichtnegative Kantenkosten (z.B. Reisezeiten)
+
+Laufzeit: $\O((n+m)\log n)$
+
+Idee:
+Finde immer Knoten $u\in U$ mit \verb|dist[u]|$=d(u)$ und entferne diesen.
+Dann wird jedes $v\in V$ maximal einmal aus $U$ entnommen.
+
+\underline{Behauptung}: Sei $w\in U$ mit \verb|dist[w]| minimal (in $u$).
+Dann gilt \verb|dist[w]|$=d(w)$.
+\begin{proof}
+Falls \verb|dist[w]|$>d(w)$, dann existiert ein $v$ auf kürzestem Weg von $s$ nach $w$ mit $v\in U$ und \verb|dist[v]|$=d(v)$.
+Da $v$ auf dem kürzesten Weg von $s$ nach $w$ liegt und die Kantenkosten nicht-negativ sind, gilt
+\[
+d(v)\le d(w)
+\]
+Also \verb|dist[v]|$<$\verb|dist[w]|, was ein Widerspruch zur Wahl von $w$ ist.
+\end{proof}
+
+\end{enumerate}
+
+Wie implementieren wir (C)? Wie findent man $w\in U$ mit \verb|dist[w]| minimal?
+
+
+\begin{alg}[Dijkstra 1962]
+Boolsches Feld für $U$.\\
+Gehe alle ?? Knoten durch
+FIXME
+\end{alg}
+
+\begin{alg}[Williams 1964]
+Verwalte $U$ in einem (Min-)Heap.
+\begin{verbatim}
+insert
+change_key
+remove_min
+\end{verbatim}
+(jeweils $\O(n\log n)$)
+
+Dann: $\O((n+m) \log n)$
+\end{alg}
+
+\begin{alg}[Fredman/Tarjan]
+Fibonacci Heap: $\O(n\log n +m)$
+\end{alg}
+
+\begin{ex}
+\begin{dot2tex}
+	digraph {
+		a -> b; 1
+		b -> a; 1
+		b -> c; 3
+		c -> d; 3
+		d -> c; 9
+		d -> b; 2
+		d -> f; 3
+		d -> e; 1
+		f -> e; 8
+		f -> c; 1
+		e -> g; 7
+		g -> h: 9
+		d -> i: 2
+	}
+\end{dot2tex}
+Dijkstra in $d$.
+\end{ex}
+\subsubsection{Beschleunigung von Kürzeste-Wege-Berechnungen bei nicht-negativen Kantenkosten (Dijkstra)}
+Auf einem Graph mit $n=20\cdot 10^6$, $m=50\cdot 10^6$ braucht Dijkstra einige Sekunden.
+
+Wie sieht der \emph{Suchraum} von Dijkstra aus?\\
+Man kann sich den Suchraum als Kreise um den Ausgansknoten vorstellen, die Größe des Suchraums verhält sich annähernd wie der Flächeninhalt dieser Kreise.
+
+\begin{note}[Bidirektionaler Dijkstra]
+Man startet Dijkstra vom Start- und vom Zielknoten aus.
+\end{note}
+
+\begin{note}[$A^*$-Suche]
+„Fokusierte“ Suche
+\end{note}
+
+\subsubsection{Beschleunigung von Kürzeste-Wege-Berechnungen mit teilweise negativen Kantenkosten, aber ohne negative Zyklen}
+
+Bislang kennen wir hierzu den Bellman-Ford-Algorithmus mit einer Laufzeit von $\mathcal O(m\cdot n)$.
+
+\begin{alg}[Johnson-Shift (1975)]
+Gegeben: $G(V, E, c)$ ohne negative Zyklen.\\
+Ergebnis: $G'(V,E,c')$ mit
+\[
+c'(e)\ge 0 \forall e\in E \text { und kürzeste Wege in $G'$ sind kürzeste Wege in $G$}
+\]
+Idee: Sei $\phi: V\to \R$.
+Betrachte $e=(v,w)\in E$, definiere:
+\[
+c'(e) := c(e) +\phi(v)-\phi(w)
+\]
+Was ist interessant an $c'$?\\
+Die Kosten für einen Pfad $\pi$ von $s$ nach $t$ über die Kanten $e_i$ ergeben sich durch:
+\begin{align*}
+c(\pi) &= \sum_{i=0}^n c(e_i)\\
+c'(\pi) &= \sum_{i=0}^n (c(e_i) +\phi(v_{e_i}) -\phi(w_{e_i}) = \phi(s) -\phi(t) + \sum_{i=0}^n c(e_i)
+\end{align*}
+Wir suchen jetzt ein geeignetes $\phi$, so dass
+\[
+\forall e\in E : c'(e) \ge 0
+\]
+Idee: Lasse Belman-Ford mit beliebigen (!) Startknoten $x$ laufen und berechne in $\O (m\cdot n)$ die kürzesten-Wege-Distanzen $d_x(v)$ von $x$ zu jedem $v\in V$.
+Setze dazu
+\[
+\phi(v) := d_x(v)
+\]
+Betrachte $e=(v,w)$:
+\[
+c'(e) = d_x(v)-d_x(w) + c(v,w) \stackrel ?\ge 0
+\]
+Weil die $d_x$ kürzeste-Wege-Distanzen, gilt:
+\[
+d_x(w) \le d_x(v) +c(v,w)
+\]
+Also ist
+\[
+c'(e) = d_x(v)-d_x(w) + c(v,w) \ge 0
+\]
+Alle Kantenkosten sind also nicht-negativ, also können wir jetzt Dijkstra anwenden.
+\end{alg}
+
+\begin{alg}[Contraction Hierarchies (Geisburger/Sandr? 2008)]
+	Ziel: Nach Vorverarbeitung kürzeste-Wege-Anfragen in ca. 1ms beantworten.\\
+	\begin{enumerate}
+	\item Definiere eine Ordnung auf den Knoten in $G$ (Reihenfolge ist nur für die Geschwindigkeit relevant)
+	\item Definiere Kontraktionsoperation auf Knoten $x$.
+	Man entfernt einen Knoten $x$ und stellt sicher, dass die kürzesten Wege zwischen den Nachbarn erhalten bleiben.
+	Dazu fügt man, wenn nötig „Shortcuts“ zwischen diesen Knoten ein.
+	\end{enumerate}
+	Der Vorverarbeitungsalgorithmus sieht folgendermaßen aus:
+	\begin{algorithmic}
+	\For{$i\in \{1,\dotsc,n\}$}
+		Kontrahiere $v_i$
+	\EndFor
+	Die Ausgabe des Algorithmus ist der ursprüngliche Graph zusammen mit allen Shortcuts.
+	\end{algorithmic}
+\end{alg}
+FIXME: Struktur des augmentierten Graphen! Die Reihenfolge der Kontraktionen spielt eine entscheidende Rolle darin, welche Shortcuts nacher existieren.
+\begin{note}[Denkfehler]
+Es existieren am Ende keine Shortcuts zwischen allen Knoten!
+\end{note}
+
+Wie können wir diese Struktur ausnutzen?\\
+Bidirektionaler Dijkstra in $s$ und $t$.
+Beide sollen nur Aufwärtskanten betrachten.
+
+Betrachte am Ende alle $v\in V$, die von beiden Dijkstras besucht wurden.
+Es gilt:
+\[
+	d(s,t) = \min_{v\in V}d_S(v) +d_t(v)
+\]
+Der Gewinn liegt darin, dass der Suchraum extrem ausgedünnt wird.
+
+
+
+
+\section{Das Wörterbuchproblem (bei geordnetem Universum)}
+
+
+\begin{ex}
+	\begin{table}
+	Telefonliste:
+	\begin{tabular}{l|r}
+		Namen & Telefonnummer\\
+		\hline
+		Abele & 1234\\
+		Bauer & \dots\\
+		Dübel & \dots\\
+		Eisner &\\
+		Funke &\\
+		Hirsch&\\
+		Maier&\\
+		Müller&\\
+		Roller&\\
+		Rothermd&\\
+		Schweitz&\\
+		Wunderlich&
+	\end{tabular}
+	\end{table}
+	Suche nach Telefonnummer einer Person:\\
+	Die Binäre Suche liefert mit Laufzeit $\O(\log n)$ den gesuchten Eintrag.
+
+	Wie fügen wir einen neuen Eintrag hinzu? z.b.
+	\[
+		\text{Mayer: 0815}
+	\]
+	Das Einfügen erfordert die Verschiebung von Müller bis Wunderlich, läuft also mit Laufzeit $\Omega(n)$.
+	Genauso das Löschen eines Elements.
+\end{ex}
+
+\begin{note}
+	Skiplisten
+\end{note}
+
+Wir lernen eine Datenstruktur kennen, die in $\O(\log n)$ Zeit suchen, einfügen und löschen kann.
+
+Es gibt davon unzählig viele, z.B.: AVL-Bäume, Skiplisten, Rot-Schwarz-Bäume, (2,4)-Bäume.
+
+
+
+\subsection{Binärer Suchraum}
+
+
+Habe zu verwaltende Schlüsselmenge $S\subset U$ (wobei $U$ ein total geordnetes Universum ist)
+in der Knoten $v$ stehen mit folgender Eigenschaft:
+\begin{itemize}
+	\item alle Knoten im linken Teilbaum sind kleiner als $v$
+	\item alle Knoten im rechten Teilbaum sind größer als $v$
+\end{itemize}
+
+\begin{dot2tex}
+	digraph {
+		17 -> 8;
+		17 -> 33;
+		8 -> 5;
+		8 -> 9;
+		5 -> 1;
+		9 -> 8.5;
+		9 -> 12;
+		17 -> 33;
+		27 -> 25;
+		27 -> 28;
+	}
+\end{dot2tex}
+
+Einfügen von 26 ist einfach (gehe Suchbaum durch und hänge neues Elemente ganz unten entsprechend an)
+Wiederholtes Einfügen kann jedoch zu sehr unbalancierten Binärbäumen führen.
+
+Unser Ziel ist eine Baumstruktur, welche immer balanciert bleibt.
+
+
+\subsection{(2,4)-Bäume}
+
+
+Sei $S=\{a_1,\dotsc,a_n\}$ Teilmenge eines linear geordneten Universums $U$.
+\begin{itemize}
+	\item
+		Speichere $S$ in den Blättern des (2,4)-Baums
+	\item
+		Blätter des (2,4)-Baums haben alle die gleiche Tiefe
+	\item
+		Jeder inner Knoten hat zwischen $2$ und $4$ Kinder.
+	\item
+		Innere Knoten mit $i$ Kindern haben $i-1$ Schlüssel
+	\item
+		Der $j$-te Schlüssel in einem inneren Knoten ist das größte Element im Teilraum des $j$-ten Kindes.
+	\item
+		Die Blätter kennen jeweils ihren linken und rechten Nachbarn
+\end{itemize}
+
+\begin{ex}
+	Suche nach einem Schlüssel $k$:
+	\begin{itemize}
+		\item Beginne bei der Wurzel und bestimme Teilbaum, in welchem $k$ liegen könnte.
+		\item Gehe zu entsprechendem Kind.
+		\item Wiederhole bis bei Blatt angelangt
+	\end{itemize}
+	Die Suchzeit ist $\O(\text{Tiefe des (2,4) Baums})$.
+\end{ex}
+
+\begin{lem}
+	Sei $T$ ein (2,4)-Baum der Höhe $h$ mit $n$ Blättern.
+	Dann gilt
+	\[
+		2^h \le n \le 4^h
+	\]
+	und daher
+	\[
+		\frac 12 \log_2 n \le h \le \log_2 n
+	\]
+	\begin{proof}
+ 		Übung
+	\end{proof}
+\end{lem}
+
+\begin{alg}[Einfügen im (2,4)-Baum]
+	Wir wollen einen Schlüssel $k$ in einen bestehenden (2,4)-Baum einfügen.
+	Annahme:\\
+	Haben Zeiger auf Blatt $v$ mit
+	\[
+		\verb|key(left(v))| < k < \verb|key(v)|
+	\]
+	\begin{enumerate}
+		\item
+			Füge $k$ links von $v$ als neues Blatt hinzu.
+
+			Falls Knoten, an den $k$ angehängt wurde $2$ oder $3$ Kindere hatte, sind wir fertig.
+		\item
+			Falls Knoten $4$ Kinder hatte, hat er nun $5$ Kinder, also zu viel.
+			In diesem Fall spalten wir den Knoten:
+			Aus dem alten Knoten werden zwei Knoten, der linke mit 3 Kindern, der rechte mit 2 Kindern.
+			Das Elternknoten bekommt also ein Kind hinzu.
+			Falls keine Elternknoten existiert (bei der Wurzel), erzeuge einen.
+		\item
+			Falls der Elternknoten jetzt mehr als 4 Kinder hat, spalte auch diesen.
+		\item
+			Führe Schritte 2 und 3 so lange aus, bis ein gültiger (2,4)-Baum rauskommt
+	\end{enumerate}
+	Die Laufzeit beträgt
+	\[
+		\O(1+\texp{Anzahl Spaltungen}) = \O(\texp{Tiefe})
+	\]
+	da die Verletzung derr (2,4)-Baum-Eigenschaft (zwischen 2 und 4 Knoten) immer nach oben wandert.
+\end{alg}
+
+\begin{note}
+	Implementierung: Split-Operation
+\end{note}
+
+\begin{alg}[Löschen eines Elements aus dem (2,4)-Baum]
+	Annahme: Habe Zeiger auf zu löschendes Element $v$\\
+	\begin{enumerate}
+		\item
+			Falls $v$ nicht rechtestes Kind seines Elternknotens ist, streiche $v$ und das zweite Vorkommen von $v$ in seinem Elternknoten.
+		\item
+			Falls $v$ rechtestes Kind seines Elternknotens ist, $v'$ sein linker Nachbar, dann streiche $v$ und das Vorkommen von $v'$ im direkten Elternknoten und ersetze das zweite Vorkommen von $v$ im Baum (weiter oben) durch $v'$.
+		\item
+			Falls danach der Elternknoten vom gelöschtem Blatt zu wenige Kinder hat, „stehle“ oder „verschmelze“.\\
+			\underline{Stehlen:}\\
+			$v$ hat (direkten) Geschwisterknoten mit $\ge 3$ Kindern.\\
+			Stehle ein Kind vom Geschwisterknoten
+			\underline{Verschmelzen:}\\
+			$v$ hat keinen (direkten) Geschwisterknoten mit $\ge 3$ Kindern.
+			Verschmelze mit einem Geschwisterknoten.
+			Betrachte anschließend Elternknoten und führe erneut Schritt 3 auf den Elternknoten durch.
+
+			Falls die Wurzel dabei erreicht wird, dann lösche sie.
+	\end{enumerate}
+	Die Laufzeit beträgt
+	\[
+		\O(1+\texp{Anzahl Verschmelzungen}) = \O(\texp{Höhe des Baums} = \O(\log n)
+	\]
+\end{alg}
+
+
+\begin{ex}
+	$S= \{33,67\}$.
+	\begin{dot2tex} digraph {
+		"(33)" -> 33;
+		"(33)" -> 67
+	} \end{dot2tex}
+	\begin{dot2tex} digraph {
+		"(33,50)" -> 33;
+		"(33,50)"	-> 50;
+		"(33,50)"	-> 67
+	} \end{dot2tex}
+	\begin{dot2tex} digraph {
+		"(17,33,50)" -> 17;
+		"(17,33,50)"	-> 33;
+		"(17,33,50)"-> 50;
+		"(17,33,50)"-> 67;
+	} \end{dot2tex}
+	+256
+	\begin{dot2tex} digraph {
+		"(17,33,50,67)" -> 17;
+		"(17,33,50,67)"-> 33;
+		"(17,33,50,67)"-> 50;
+		"(17,33,50,67)"-> 67;
+		"(17,33,50,67)"-> 256;
+	} \end{dot2tex}
+	spalten
+	\begin{dot2tex} digraph {
+		"(50)" -> "(17,33)"; 
+		"(50)" -> "(67)";
+		"(17,33)" -> 17; 
+		"(17,33)" -> 33;
+		"(17,33)"-> 50;
+		"(67)" -> 67;
+		"(67)" -> 256;
+	} \end{dot2tex}
+	+40
+	\begin{dot2tex} digraph {
+		"(50)" -> "(17,33,40)";
+		"(50)" -> "(67)";
+		"(17,33,40)" -> 17;
+		"(17,33,40)" -> 33;
+		"(17,33,40)" -> 40; 
+		"(17,33,40)" -> 50
+		"(67)" -> 67; 
+		"(67)" -> 256;
+	} \end{dot2tex}
+	-67
+	\begin{dot2tex} digraph {
+		"(50)" -> "(17,33,40)";
+		"(50)" -> "()";
+		"(17,33,40)" -> 17; 
+		"(17,33,40)" -> 33;
+		"(17,33,40)" -> 40;
+		"(17,33,40)" -> 50;
+		"()" -> 256;
+	} \end{dot2tex}
+	stehlen:
+	\begin{dot2tex} digraph {
+		"(40)" -> "(17,33)";
+		"(40)" -> "(50)";
+		"(17,33)" -> 17;
+		"(17,33)"-> 33;
+		"(17,33)"-> 40;
+		"(50)" -> 50;
+		"(50)"-> 256;
+	} \end{dot2tex}
+	-40
+	\begin{dot2tex} digraph {
+		"(33)" -> "(17)";
+		"(33)" -> "(50)";
+		"(17)" -> 17;
+		"(17)" -> 33;
+		"(50)" -> 50; 
+		"(50)" -> 256;
+	} \end{dot2tex}
+	-17
+	\begin{dot2tex} digraph {
+		"(33)" -> "()"; 
+		"(33)" -> "(50)";
+		"()" -> 33;
+		"(50)" -> 50;
+		"(50)" -> 256;
+	} \end{dot2tex}
+	verschmelzen
+	\begin{dot2tex} digraph {
+		"()" -> "(33,50)";
+		"(33,50)" -> 33; 
+		"(33,50)" -> 50;
+		"(33,50)" -> 256;
+	} \end{dot2tex}
+\end{ex}
+
+Warum nicht (2,3)-Bäume?
+Betrachte einen (2,2)-Baum, der auch ein gültiger (2,3)-Baum ist.
+Wird das Element ganz rechts unten gelöscht und wieder eingefügt.
+Beim Löschen werden Verschmelz-Operationen bis an die Wurzel benötigt und beim Einfügen Split-Operationen bis an die Wurzel.
+
+Der Aufwand pro Einfügung/Löschung beträgt $\O(\log n)$ \emph{ohne} Lokalisierung.
+
+\subsection{Amortisierte Analyse}
+
+\begin{ex}[8-Bit Binärzahler]
+	Die Kosten, um 1 zu addieren ist konstant, solange kein Übertrag passiert.
+	Bei einer Addition mit $n-1$ Überträgen betragen die Kosten doch $n-1$.
+	Diese Kosten können jedoch nicht nacheinander bei jeder Operation auftauchen.
+\end{ex}
+
+\begin{df}
+	Sei $\phi$ eine Funktion, die jedem Zustand einer Datenstruktur ein Potential zuordnet.
+	Die \emph{amortisierten Kosten} einer Operation \verb|op| auf dieser Datenstruktur (welche diese von Zustand $z_i$ in Zustand $z_{i+1}$ bringt) sind definiert als
+	\[
+		\amort(\op) = \cost(\op) + \phi(z_{i+1}) - \phi(z_i)
+	\]
+\end{df}
+
+
+Betrachte eine Sequenz von Operationen $\op_1, \op_2, \dotsc, \op_k$:
+\begin{align*}
+	\sum_{i=1}^k \amort(\op_i) &= \sum_{i=1}^k (\cost(\op_i) + \phi(z_{i+1}) - \phi(z_i))\\
+																									   &=\left( \sum_{i=1}^k \cost(\op_i)\right) + \phi(z_{k+1}) - \phi(z_1)
+\end{align*}
+
+Das heißt: Wenn wir eine Potentialfunktion finden können, sodass $\amort(\op_i) = \O(1)$, dann folgt
+\begin{align*}
+	k\cdot \O(1) &= \left(\sum_{i=1}^k \cost(\op_i)\right) + \phi(z_{k+1}) - \phi(z_1)\\
+	\implies \sum_{i=1}^k \cost(\op_i)  &= k\cdot \O(1) + \phi(z_1) - \phi(z_{k+1})
+\end{align*}
+
+
+In unserem Beispiel wählen wir
+\[
+	\phi(\texp{Binärzahler-Zustand}) = \texp{Anzahl Einsen}
+\]
+Damit ist
+\[
+	\amort(+1) = \cost(+1) + \underbrace{\texp{Einsen nachher}  - \texp{Einsen vorher}}_{=1-\texp{Anzahl Überträge}}
+	= 2 = \O(1)
+\]
+mit $\cost(+1) = 1 + \texp{Anzahl Überträge}$.
+
+
+\fixme[2 Vorlesungen fehlen]
+
+
+\begin{note}[Nachtrag]
+	$|S_1| = n, |S_2| = m$.
+
+	\[
+		\O(m\cdot \log \f{m+n}m) = \O (\log \binom{m+n}{n}
+	\]
+\end{note}
+
+
+\subsection{Hashing}
+
+Sei $U$ ein Schlüsseluniversum (z.B. die Menge aller möglicher OSM-IDs) und $T[0,\dotsc, t-1]$ ein Feld, auch \emph{Hashtafel} genannt.
+
+Sei $S\subset U$ eine Schlüsselmenge, die gehasht werden soll.
+
+Gesucht ist eine Funktion $h: U \to [0,\dotsc, t-1]$.
+Sei 
+\[
+	c_x(s) = \{y\in S | h(y) = h(x)\}
+\]
+$c_x$ ist als die Menge der $y\in S$, welche auf den gleichen Wert wie $x$ gehasht werden.
+
+Am besten wäre $|c_x(S)| = 1$ für alle $x\in S$.
+Wir suchen eine Hashfunktion, die $S$ gleichmäßig über $[0,\dotsc, t-1]$ verteilt.
+
+\begin{ex}
+	$U = \N$, $S = \{20,13,6,18,28,31\}$, $t=5$.
+	\[
+		h(x) = x \mod t = x \mod 5
+	\]
+	\[
+		20\mapsto 0, 16 \mapsto 3, 6 \mapsto 1, 18 \mapsto 3, 28 \mapsto 3, 31 \mapsto 1
+	\]
+	\begin{tabular}{r|l}
+		0 & 20 \\
+		1 & 6, 31
+		2   \\
+		3 & 13, 18, 28 \\
+		4  \\
+	\end{tabular}
+	Richtig schlecht wäre aber
+	\[
+		S := \{5k + a | k\in \N, a\in \{1,\dotsc, t-1\}\}
+	\]
+\end{ex}
+
+
+\begin{df}
+	Wir definieren 
+	\[
+		c_{\max}^h(s) := \max |c_x^h (s)|
+	\]
+\end{df}
+
+
+\begin{st}
+	Seien $U, t, h$ gegeben und $|U| = k < \infty$, dann gibt es für alle $1\le n\le \f kt$ ein $T\subset U$ mit $|T|=n$ (man schreibt $T\in \binom{U}{n}$) und $c_{\max}^h(s) =n$.
+
+	Also werden alle $x\in S$ auf den selben Wert gehasht.
+	\begin{proof}
+		Nach dem Schubfachprinzip existiert ein $i$ ($0\le i<t$) mit 
+		\[
+			|h^{-1}(i)| \ge \f{|U|}t
+		\]
+		Also
+		\[
+			\f {|U|}t = \f kt \ge n
+		\]
+		Wähle also
+		\[
+		S \in \binom{ h^{-1}(i)}{n}
+		\]
+	\end{proof}
+\end{st}
+
+
+\subsubsection{Hashing mit Verkettung}
+
+
+Jede Tafelposition ist Kopf einer linearen Liste.
+Alle $x\in S$ mit $h(x)=i$ werden in $i$-ter Liste gespeichert.
+Platzbedarf: $\O(m+n) = \O(n(1+\f mn)) = \O(n(1+\f 1\beta))$ ($m=t, n = |S|$).
+Dabei ist
+\[
+	\beta = \f nm = \f {\texp{Anzahl der zu hashenden Elemente}}{\texp{Tafeleinträge}}
+\]
+Je kleiner $\beta$ ist, desto platzineffizienter wird die Hashtafel, aber Zugriffe könnten schneller werden (hoffentlich), außerdem ist es gegebenenfalls einfacher eine gute Hashfunktion zu finden.
+
+
+Wir nehmen im Folgenden an, dass $h(x)$ in $\O(1)$ berechnet werden kann.
+Die Zugriffszeit auf ein Element $x\not\in S$ beträgt
+\[
+	\O(1 + \texp{Länge der Liste $L_{h(x)}$})
+\]
+Die Zugriffszeit auf ein Element $x\in S$ beträgt
+\[
+	\O(1 + \texp{Position von $x$ in Liste $L_{h(x)}$})
+\]
+
+Wir nehmen weiter an: $h$ verteilt $U$ gleichmäßig auf die Hashtafel $T$.
+Also
+\[
+	\forall i : \Big|\{x\in U\big| h(x)=i\}\Big| \le  \f  \lceil Nt \rceil
+\]
+mit der Größe des Universums $N$ und der Größe der Hashtafel $m$.
+
+\begin{ex}
+	$h(x) = x \mod m$
+\end{ex}
+
+\begin{st}
+	Sei $x$ ein zufälliges Element aus $U\setminus S$ und $n\le \f N2$.
+	Dann ist die erwartete Zugriffszeit für $x$
+	\[
+		\O(1+\beta)
+	\]
+	mit Belegungsfaktor
+	\[
+		\beta = \f nm
+	\]
+	\begin{proof}
+		Sei $l_i = \texp{Anzahl der Elemente in $S$, die in Liste $L_i$ gespeichert werden}$, $i=0,\dotsc,m-1$.
+		Es gilt
+		\[
+			\sum_{i=0}^{m-1}l_i = n
+		\]
+		Die erwartete Suchzeit nach einem $x\in U\setminus S$ ist
+		\[
+			\sum_{i=1}^{m-1}l_i \cdot P(h(x)=i) + 1
+		\]
+		Dabei ist ($U_i$ sei die Menge der $u\in U$ mit $h(u) = i$)
+		\begin{align*}
+			P(h(x)=i) &= \f{|U_i \setminus S|}{|U\setminus s|} \\
+							&\le \f{|U_i|}{|U-S|} \\
+							&\le \f{\lceil \f Nm \rceil}{\f N2} \\
+			&\le \f{\f Nm + 1}{\f N2}\\
+			&= \f 2m + \f 2N \\
+			&\le \f2m + \f1n
+		\end{align*}
+		Damit ergibt sich
+		\begin{align*}
+			\sum_{i=1}^{m-1}l_i \cdot P(h(x)=i) + 1 &\le \sum_{i=1}^{m-1} l_i \left( \f 2m + \f 1n\right) + 1\\
+																																						  &=1 + \f 2m \sum_{i=1}^{m-1} l_i + \f 1n \sum_{i=1}^{m-1}l_i\\
+																								 &=1 + \f {2n}m + 1 \\
+															 &= 2\left(1 + \f nm\right) \\
+										&= \O(1+\beta)
+		\end{align*}	
+	\end{proof}
+\end{st}
+
+
+\begin{st}
+	Sei $x$ ein zufälliges Element aus $S$.
+	Dann ist die erwartete Zugriffszeit auf $x$
+	\[
+		\O\left( 1 + \f 1n \sum_{i} \f {l_i(l_i+1)}{2}\right)
+	\]
+	\begin{proof}
+		Wenn $x$ das $j$-te Element in der Liste $L_{h(x)}$ ist, beträgt die Zugriffszeit $\O(1+j)$.
+		Also ist die erwartete Zugriffszeit
+		\[
+			\O\left(\f 1n \sum_{i=0}^{m-1}\sum_{j=1}^{l_i}(1+j)\right) = \O\left(1+\f 1n \sum_{i=0}^{m-1}\f{l_i(l_i+1)}{2}\right)
+		\]
+	\end{proof}
+	\begin{note}
+		Das ist nicht so schön.
+		Die $l_i$ kann man nicht eliminieren.
+	\end{note}
+\end{st}
+
+Wir nehmen an, dass $S$ eine zufällige Teilmenge der Größe $n$ von $U$ ist, d.h. jede Teilmenge ist gleich wahrscheinlich.
+Es gibt $\binom Nn$ viele solche Teilmengen.
+Wir interessieren uns für $l_i = |L_i|$, was von $S$ abhängt.
+Wir schreiben deshalb $l_i(S)$.
+
+Es ergibt sich dann für den Erwartungswert der Laufzeit für solche zufällig gewählten $S$
+\begin{align*}
+	E &:= \frac 1 {\binom Nn}\sum_{\substack{S\subset U\\|S|=n}}\f 1n \sum_{i=0}^{m-1}\f{l_i(S)(l_i(S)+1)}{2}\\
+	  &=\f 1n \sum_{i=0}^{m-1}\sum_{k\ge 0}\f {k(k+1}2 \cdot \f {|\{S\subset U :|S|=n \land |S\cap U_i| = k\}|}{\binom Nn}\\
+   &=\vdots
+	&= \O\left(1+ \beta \cdot \f 32 e^3\right)
+\end{align*}
+
+
+\subsection{Universelles Hashing}
+
+
+Sei $X$ eine Menge von Hashfunktionen von $U$ nach $[0,\dotsc, m-1]$. 
+\[
+	X = \{f:U\to [0,\dotsc, m-1]\}
+\]
+\begin{df}
+	Für $c>1$ heißt $X$ $c$-universell, wenn
+	\[
+		\forall x,y\in U, x\neq y : \f{|\{h\in X : h(x) = h(y) \}|}{|X|} \le \f cm
+	\]
+\end{df}
+
+
+\begin{st}
+	Für $a,b\in [0,\dotsc, N-1]$ ($N$ prim) sei
+	\[
+		h_{a,b} : x\mapsto ((ax+b) \mod N) \mod m
+	\]
+	Dann ist die Klasse
+	\[
+		X = \{ h_{a,b} : 0\le a,b \le N-1\}
+	\]
+	$c$-universell mit
+	\[
+		c \approx \f{\lceil\f Nm\rceil}{\f Nm} \approx 1
+	\]
+	\begin{proof}
+		LGS, Faktorräume?
+	\end{proof}
+\end{st}
+
+
+\begin{st}
+	Benutzt man Hashing mit Verkettung und wählt $h\in X$ zufällig aus, mit $X$ $c$-universell,
+	dann ist die erwartete Zugriffszeit
+	\[
+		\O(1+c\cdot \beta)
+	\]
+	für beliebige Mengen $S\subset U$, $|S|=n$.
+	\begin{proof}
+		Die Zeit für den Zugriff auf $x$ beträgt
+		\[
+			1 + \texp{Anzahl der $y\in S$ mit $h(x) = h(y)$}
+		\]
+		Wir berechnen den Erwartungswert dafür, wenn $h\in X$ zufällig gewählt wurde.
+		Sei
+		\[
+			\delta_h  (x,y) = \begin{cases}1 & h(x) = h(y)\\ 0& \text{sonst}\end{cases}
+		\]
+		Uns interessiert für beliebiges $x$ die erwartete Zugriffszeit:
+		\begin{align*}
+			\f 1{|X|}\sum_{h\in X} \sum_{y\in S} \delta_h(x,y) &= 
+			\f 1{|X|}\sum_{y\in S} \underbrace{\sum_{h\in X} \delta_h(x,y)}_{\texp{Anzahl der Hashfunktionen, die $x$ und $y$ gleich hashen}} \\
+			&= \sum_{y\in S} \begin{cases} 1 & x=y \\ \f cm & x\neq y\end{cases}
+			&\le  \begin{cases} 1 + \f cm (n-1) & x\in S\\ \f cm\cdot n & x\not \in S\end{cases}
+			&\le 1 + c\cdot \beta
+		\end{align*}
+	\end{proof}
+\end{st}
+
+
+\subsection{Perfektes Hashing}
+
+Wir wollen nun nicht die \emph{erwartete} Zugriffszeit konstant halten, sondern für gegebenes $S$ die \emph{worst-case} Zugriffszeit.
+
+\subsubsection{Einstufiges perfektes Hashing}
+
+\begin{df}
+	Wir definieren die Anzahl Kollisionen einer Hashfunktion $h$ auf einer Menge $S$ als
+	\[
+		c_S(h) = |\{(x,y) \in \binom{S}{\--} \big| h(x)=h(y)\}|
+	\]
+\end{df}
+
+Es gilt
+\[
+	c_S(h) = 0 \iff h\Big|_S \text{ injektiv}
+\]
+
+\begin{st}
+	Für den Erwartungswert der Kollisionsanzahl gilt
+	\[
+		E(c_S(h)) \le \binom{n}2 \cdot \f cm
+	\]
+	\begin{proof}
+		\[
+			c_s(h) = \sum_{(x,y)\in \binom{S}{2}}\delta_{x,y}(h)
+		\]
+		Für den Erwartungswert gilt
+		\[
+			E(c_S(h)) = \sum_{(x,y)\in \binom S2}E(\delta_{x,y}(h)) \le \binom n2 \cdot \f cm
+		\]		
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	Für $m>c\cdot \binom n2$ gibt es eine Hashfunktion $h\in X$ mit $h\big|_S$ injektiv.
+	\begin{proof}
+		Durch Einsetzen ergibt sich
+		\[
+			E(c_S(h)) < \binom h2 \cdot \f c {c\cdot \binom n2} = 1
+		\]
+		Da $c_S(h)$ nur ganzzahlige Werte annimmt, muss es mindestens ein $h\in X$ geben mit $c_S(h) = 0$.
+		Sonst wäre der Erwartungswert $E(c_S(h)) \ge 1$.
+		(„probalistische Methoden“)
+	\end{proof}
+\end{kor}
+
+Wenn man $m>c\cdot \binom n2$ wähl, könnte man durch ausprobieren aller $\approx N^2$ vielen Hashfunktionen eine finden, die injektiv ist.
+Das ist aber nicht praktikabel.
+
+\begin{kor}
+	Falls $m > 2c\cdot \binom n2$ können wir in erwartet $\O(n+m)$ Zeit ein Hashfunktion $h\in X$ finden, welche eingeschränkt auf $S$ injektiv ist.
+	\begin{proof}
+		\[
+			E(c_S(h)) \le \binom n2 \cdot \f cm \le \f 12
+		\]
+		Mit der Markov Ungleichung:
+		\[
+			P(X\ge c) \le \f{E(x)}c
+		\]
+		gilt dann
+		\[
+			P(c_S(h) \ge 1) \le \f{\f 12}1 = \f 12
+		\]
+		Also
+		\[
+			P(c_S(h)=0) \ge \f 12
+		\]
+		Somit können wir $h\in X$ mit $h\big|_S$ injektiv in erwartet $\O(n+m)$ wie folgt finden:
+
+		Wähle $h\in X$ zufällig und teste auf injektivität ($\O(n+m)$).
+		Falls nicht, wiederhole.
+		Nach erwartet zwei Runden ist man fertig.
+	\end{proof}
+\end{kor}
+
+Schlecht ist aber immernoch $m=\Omega(n^2)$.
+
+
+\subsection{Zweistufiges perfektes Hashing}
+
+
+\begin{kor}
+	Falls $m>\f {n-1}2\cdot c$, dann existiert ein $h\in X$ mit $c_S(h)\le n$.
+	\begin{proof}
+		\[
+			E(c_S(h)) \le \binom n2 \cdot cm < \f 12 \f {n(n-1)}{\f{n-1}2} = n
+		\]
+		Also existiert $h\in X$ mit $c_S(h)\le n$.
+	\end{proof}
+\end{kor}
+
+Um effizient ein solches $h$ zu finden, verdoppeln  wir wieder die Hashtafelgröße.
+
+\begin{kor}
+	Für $m> (n-1)\cdot c$ gilt für mindestens die Hälfte aller $h\in X$:
+	\[
+		c_S(h) \le n
+	\]
+	\begin{note}
+		Wir können damit in $O(n+m)$ so ein $h$ finden.
+	\end{note}
+\end{kor}
+
+\begin{df}
+	Sei 
+	\[
+		B_i(h) = h_S^{-1} (i) = \{x\in S\big| h(x)=i\}
+	\]
+	der Hashbucket, der alle Elemente aus $S$ enthält, die von $h$ in die $i$-te Zeller der primären Hashtafel gemappt wird.
+\end{df}
+
+Es gilt: 
+\[
+	c_S(h) = \sum_{i}\binom{S_i(h)}2
+\]
+Wir haben $h$ so gewählt, dass $c_S(h) \le n$.
+Für jeden Hashbucket $B_i(h)$ erzeugen wir nun eine Hashfunktion $h_i$, welche $B_i(h)$ \emph{injektiv} mappt.
+
+Das können wir durch Wahl einer Hashtafel der Größe $m_i > c\cdot \binom {S_i(h)}2$.
+
+
+\subsubsection{Verfahren Zusammenfassung}
+
+\begin{alg}
+	\begin{algorithmic}
+		\Require $S\subset U, |S| = n$
+		\Statex
+		\State Finde $h:U\to[0,\dotsc,c\cdot(n-1)]$, welches maximal $n$ Kollisionen auf $S$ erzeugt (das geht randomisiert in erwartet $\O(n)$ Zeit).
+		\State Bestimme für $i=0,\dotsc, (n-1)\cdot c$
+		\[
+			B_i(h) = \{x\in S\big| h(x) = i\}
+		\]
+		in $\O(n)$ Zeit
+		\State Für jedes $i=0,\dotsc, (n-1)\cdot c$ finde ein $h_i:U\to [0,\dotsc, \binom {S_i(h)}2 - 1]$ mit $h_i\big|_{B_i(h)}$ injektiv.
+		Kostet Platz/Zeit:
+		\[
+			\O(\binom {S_i(h)}2)
+		\]
+	\end{algorithmic}
+\end{alg}
+
+\subsubsection{Platzbedarf}
+
+Platzbedarf:
+
+Die Primärtafel braucht $\O(n)$, die Sekundärtafeln:
+\[
+	\sum_{i=m}^{c(n-1)}\binom{S_i(h)}2 = c_S(h) \le n
+\]
+Insgesamt also $\O(n)$.
+
+
+\subsubsection{Zusammenfassung}
+
+
+Das zweistufige perfekte Hashing erlaubt es, eine perfekte Hashfunktion der Größe $\O(|S|)$ zu erzeugen (garantiert ohne Kollision).
+Die erwartete Konstruktionszeit ist $\O(n)$.
+
+
+
+
+\section*{Quick-Heapsort}
+
+Quick-Heapsort ist eine Mischung aus Quicksort und Heapsort.
+
+\subsection{Wiederholung}
+
+\begin{seg}{Quicksort}
+	Wähle Pivotelement.
+	Zerlege das Feld in zwei Teilfelder mit Pivot als Trennung.
+	Partitionierung: Nach linear vielen Vertauschungen sind die Elemente im linken Teilfeld kleiner oder gleich Pivot, im rechten größer oder gleich Pivot.
+	Wende auf beide Teilfelder rekursiv Quicksort an.
+	Füge die beiden Teilfelder (jetzt sortiert) aneinander, das resultierende Gesamtfeld ist sortiert.
+\end{seg}
+
+\begin{seg}{Heapsort}
+	Mache Array zu einem Min-Heap.
+	Entferne nacheinander die kleinsten Elemente des Heaps.
+\end{seg}
+
+Eine Alternative ist der \emph{Bottom-Up-Heapsort} (Binäry-Heap).
+Dabei wird beim \verb|remove_min| pro Ebene nur einmal verglichen (Einsinken) und im Nachhinein wieder nach oben geswappt.
+
+\subsection{Quick-Heapsort}
+
+Einmal mit Quicksort partitionieren, dann zwei-Schichten-Heap aufbauen, leichte Elemente sortieren, rekursiv auf schwere Aufrufen.
+
+
+
+\section{Graphalgorithmen}
+
+
+\subsection{Minimum Spanning Tree / Minimaler Spannbaum}
+
+Für einen gegebenen ungerichteten, zusammenhängenden Graphen $G(V,E)$ mit einer Kostenfunktion $c:E\to \R_0^+$.
+Gesucht ist $T\subset E$, sodass $G(V,T)$ zusammenhängend und 
+\[
+	\sum_{e\in T}c(e)
+\]
+minimal über alle Wahlen von $T$ ist.
+
+Die Kanten $T$ formen einen Baum (andernfalls könnte man durch Entfernen den Zusammenhang beibehalten, aber die Kosten reduzieren).
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Traveling Salesman Problem.
+			Gesucht ist die Kostengünstigste Rundtour durch vorgegebene Städte.
+			Das Problem ist NP-schwer (nicht in Polynomialzeit lösbar).
+			Man muss ich in der Regel mit Approximaitonen zufrieden geben.
+		\item
+			Steinerbaum?
+	\end{itemize}
+\end{ex}
+
+\begin{df}
+	Ein Approximationsalgorithmus mit Approximations-Faktor $\alpha$ ist ein Algorithmus, der für \emph{jede} Probleminstanz ein Lösung $L$ bestimmt, sodass für ein Minimirungsproblem
+	\[
+		c(L) \le \alpha \cdot c(L_{\text{opt}} \qquad \alpha \ge 1
+	\]
+	bzw. für ein Maximierungsproblem:
+	\[
+		c(L) \ge \alpha \cdot c(L_{\text{opt}} \qquad \alpha \le 1
+	\]
+\end{df}
+
+Wenn man den Minimum-Spanning-Tree lösen kann, bekommt man einfach einen 2-Approximations-Algorithmus für das Traveling Salesman Problem.
+
+\begin{note}
+	Die optimale TSP-Tour minus eine Kante ist ein Spannbaum.
+	Daraus folgt
+	\[
+		c(TSP) \ge c(MST)
+	\]
+\end{note}
+
+\begin{alg}[$2$-Approximation des Traveling Salesman Problems]
+	\begin{algorithmic}
+		\State Kontruiere Minimum Spanning Tree $T$
+		\State Konstruiere eine „Rundtour“ $R$ um den Minimum Spanning Tree ($c(R) = 2\cdot T$)
+		\State Überspringe (unter Vorraussetzung der Dreiecksungleichung) alle Knoten, die doppelt besucht werden, ohne die Kosten zu erhöhen
+	\end{algorithmic}
+\end{alg}
+
+
+\begin{note}
+	Die gesuchte Kantenmenge $E'$ bildet einen Baum!
+	\begin{proof}
+		$E'$ induziert einen zusammenhängenden Graph.
+		Falls dieser kein Baum ist, enthält er einen Zyklus.
+		Aber dann würde eine Wegnahme einer Kante dieses Zyklus den Zusammenhang nicht verletzen und die Gesamtkosten reduzieren, was ein Widerspruch dazu ist, dass $E'$ minimale Kosten hat.
+	\end{proof}
+\end{note}
+
+\begin{alg}{Prims Algorithmus}
+	\begin{algorithmic}
+		\State Setze $E = \emptyset$
+		\State Wähle beliebigen Knoten $v$
+		\State Finde Knoten $w$, der die billigste Kante $e$ an $v$ hat.
+		\State Setze $E' = \{e\}$
+		\State Finde Knoten $x\in V\setminus \{w,v\}$, welcher am günstigsten über Kante $e'$ an den bisherigen Baum in $E'$ angebunden werden kann.
+		\State Setze $E' = E \cup \{e'\}$
+		\State \dots
+	\end{algorithmic}
+\end{alg}
+
+Wie implementieren wir diesen Algorithmus effizient?
+
+Der Heap enthält alle Knoten, die noch nicht im Baum sind mit einem zugeordnetem Schlüssel, der die minimalen Kosten angibt, mit denen sie mit einer Kante an den existierenden Baum angebunden werden können.
+
+Zu Beginn starte mit einem Knoten $v$.
+Der Heap enthält alle Knoten außer $v$.
+$\texttt{key[w]}=\infty$, fall $\{v,w\} \not\in E$.
+Sonst $\texttt{key[w]}=c(v,w)$.
+
+Jede Iteration zieht den Knoten $w$ aus dem Heap, der minimalen Schlüsselwert hat.
+Dann wird für alle Kanten $e=(w,x)$ geschaut, ob sich der Schlüsselwert für $x$ über Kante $(w,x)$ verringert (falls ja, $\texttt{decrease-key}$).
+Kante zu $w$ wird zu $E''$ hinzugefügt.
+
+Laufzeit: $\O(mn \log n) = \O(m\log n)$, da die $m$ \texttt{decrease-key}-Operationen dominieren.
+
+\subsubsection{Wieso ist der Algorithmus korrekt?}
+
+Wir nehmen an, dass die Kantenkosten paarweise verschieden sind.
+
+\begin{lem}[Cut-Property]
+	Sei $G(V,E)$ ein ungerichteter Graph mit Kantenkosten $c:E\to \R^+$.
+	Sei $P\subset V$ beliebig und $e(v,w)$ die Kante mit minimalem Gewicht, die einem Knoten aus $P$ mit einem Knoten $V\setminus P$ verbindet.
+	Dann ist $e$ Teil eines jeden Minimum Spanning Trees von $G$.
+	\begin{proof}
+		Betrachte die Kantenmenge $E^*$ eines Minimum Spanning Trees, der $e$ \emph{nicht} enthält.
+		Füge $e$ dieser Menge hinzu.
+		Es entsteht ein Zyklus, der die Grenze zwischen $V\setminus P$ und $P$ an einer Stelle $e''$ überschreitet, die nicht $e$ ist.
+		Diese Kante ist teurer als $e$.
+		Löschen von $e''$ verringert die Kosten ohne den Zusammenhang zu zerstören.
+	\end{proof}
+\end{lem}
+
+\begin{kor}
+	Prims Algorithmus berechnet tatsächlich den Minimum Spanning Tree.
+	\begin{proof}
+		In jeder Iteration kommt eine Kante hinzu, die zum Minimum Spanning Tree gehört.
+		Wende dazu das Cut-Property-Lemma auf den Spanning-Tree im aktuellen Schritt an.
+	\end{proof}
+\end{kor}
+
+
+\subsection{Kruskals Algorithmus}
+
+
+\begin{alg}[Kruskals Algorithmus]
+	\begin{algorithmic}
+		\State Sortiere alle Kanten aufsteigend nach Gewicht
+		\State Wähle $E' \subset E$ wie folgt
+		\For {Kante $e=(v,w)$ in obiger Reihenfolge}
+			\If {$e$ verbindet zwei Knoten, die bislang nicht in gleicher ZHK liegen}
+				\State Füge $e$ zu $E'$ hinzu
+			\Else
+				\State Werfe $e$ weg
+			\EndIf
+		\EndFor
+	\end{algorithmic}
+
+	\begin{proof}[Korrektheit]
+		$E'$ bildet einen zusammenhängenden Graphen:
+		Angenommen nicht, dann zerfällt $(V,E')$ in mehrere ZHK.
+		Im $G(V,E)$ existiert eine Kante zwischen zwei dieser ZHKs, diese wurde von Kruskal weggeworfen, Widerspruch.
+
+		$E'$ bildet einen Baum, zyklenschließendde Kanten weggeworfen werden.
+
+		$E'$ bildet tatsächlich einen Minimum Spanning Tree, da wir zum Zeitpunkt, wenn $e$ in $E'$ eingefügt wird, folgende Partition von $V$ wählen können:
+		\[
+			P := \{u \in V \Big| \text{$v$ und $u$ sind in $G(V,E')$ in der selben Zusammenhangskomponente}\}
+		\]
+		Wenden wir darauf das Cut-Property-Lemma an, sind wir fertig
+	\end{proof}
+
+	\begin{seg}{Laufzeit}
+		Kanten sortieren: $\O(m\log n)$		
+	\end{seg}
+	\begin{seg}{Test, ob für $e=(v,w)$, $v,w$ in der selben ZHK liegen}
+		Führe Breitensuche, oder Tiefensuche von $v$ auf $G(V,E')$ und prüfe, ob $w$ erreicht wird.
+		Laufzeit: $\O(m)$.
+		Gesamtlaufzeit: $\O(n\cdot m)$ (BFS/DFS kosten bloß $\O(n)$, da sie auf $G(V,E')$ läuft und $|E'|\le n$)
+	\end{seg}
+\end{alg}
+
+\subsubsection{Bessere Methode zum Prüfen der ZHKs}
+Repräsenteiere jede ZHK durch einen eindeutigen Knoten.
+Sei $[v]$ der eindeutige Repräsentant der ZHK, in welcher $v$ liegt.
+Zu Beginn ist jeder Knoten eine ZHK.
+
+Um zu testen, ob $v,w$ in einer ZHK liegen, testet man $[v]=[w]$.
+
+Der Repräsentant $[v]$ einer ZHK ist definiert als die Wurzel dieser ZHK.
+Die Strategie für das Aneinanderhängen der Bäume ist es, den kleineren Baum unter die Wurzel des Größeren zu hängen.	
+
+\begin{lem}
+	Ein solcher Baum mit Tiefe $h$ enthält $\ge 2^h$ Knoten
+\end{lem}
+
+\begin{kor}
+	Der Weg zur Wurzel in den Bäumen hat immer die Länge $\O(\log n)$.
+\end{kor}
+
+Also können wir in Zeit $\O(\log n)$ testen, ob $[v]=[w]$.
+
+\begin{note}
+	Es geht auch in $\O(m\cdot \alpha(n))$, mit der inversen Ackermannfunktion $\alpha$.
+	Hänge dazu auf dem Weg zur Wurzel alle Knoten, denen man begegnet an die Wurzel an.
+\end{note}
+
+
+\subsection{Analogon zum MST in gerichteten Graphen: Directed Arborescence}
+
+\subsection{MST von Punktmengen}
+
+Nach Kruskal $\O(n^2\log n)$.
+Es gibt aber bessere Methoden.
+
+Konvexe Hülle (Menge) einer Punktmenge.
+
+Triangulierung einer Punktmenge hat linear viele Kanten.
+
+Delaunay Triangulierung (Triangulierung mit Dreiecken möglichst großer Flächeninhalte), berchnung in $\O(n\log n)$.
+Algorithmische Geometrie.
+
+
+\section{Dynamisches Programmieren}
+
+
+\begin{seg}{Problemstellung}
+	Sie brechen in einen Juwelier ein und haben einen Rucksach dabei, der $G$ kg tragen kann.
+	Es liegen Uhren und Schmuck rum, jeder Gegenständ $i$ der $n$ Gegenstände hat Gewicht $g_i$ und Wert $w_i$.
+
+	Bestimme eine Auswahl $I\subset \{1,\dotsc, k\}$ der Gegenstände, die sie mitnehmen wollen, sodass
+	\[
+		\sum_{i\in I} g_i \le G
+	\]
+	also die Rucksackkapazität soll nicht überschritten werden.
+	Außerdem soll
+	\[
+		\sum_{i\in I}w_i
+	\]
+	maximal werden.
+\end{seg}
+
+\begin{seg}{1. Vorschlag}
+	Berechne für jeden Gegenstande den Koeffizienten
+	\[
+		\gamma_i = \f {w_i}{g_i} \qquad \text{(Wert pro Gewicht)}
+	\]
+	Ordne die Gegenstände danach absteigend und nimm von vorne Gegenstände hinzu, bis der Sack voll ist.
+
+	\begin{note}
+		Nicht gut:
+		Seien zwei Gegenstände vorhanden, $G_1$ mit Wert 999 und Gewicht 1000 und $G_2$ mit Wert 2 und Gewicht 1.
+		Nach dieser Strategie würde $G_2$ gewählt werden, obwohl $G_1$ hier sinnvoller wäre.
+	\end{note}
+\end{seg}
+
+\begin{seg}{2. Vorschlag (Brute Force)}
+	Alle Möglichkeiten, den Rucksack zu packen auf Wert und Gewicht zu packen.
+
+	Es gibt $2^n$ Möglichkeiten, den Rucksack zu packen (??).
+\end{seg}
+
+\begin{seg}{3. Vorschlag (Sortieren nach Preis)}
+	Sortieren absteigend nach Preis und packe nacheinander ein.
+
+	\begin{note}
+		Nicht gut.
+	\end{note}
+\end{seg}
+
+Was ist das minimale Gewicht einer Gegenstandskombination $I$, welche genau Wert $x$ hat?
+
+Wenn wir dieses Problem lösen könnten, bräuchten wir nur das maximale $x$ bestimmen, für welches die leichteste Rucksackpackung Gewicht $\le G$ hat.
+
+Welche $x$ müssten wir berücksichtigen?
+Maximal $\sum_{i\in I}w_i$.
+
+\begin{df}
+	Sei $x_{i,j}$ das minimale Gewicht eines Rucksacks, der nur Gegenstände aus $\{1,\dotsc, i\}$ enthält und Wert genau $j$ hat.
+\end{df}
+
+\begin{seg}{Vorschläge}
+	\begin{enumerate}
+		\item
+			Binärsuche auf $k$ und rufe auf $(n,k)$.
+			Falsch!
+		\item
+			Aufrufe mit
+			\[
+				\left(n,\sum_{i\in I}w_i\right), \left(n,\sum_{i\in I}w_i-1\right), \dotsc,
+			\]
+	\end{enumerate}
+\end{seg}
+Insgesamt können wir $\O\left(\left( \sum_{i\in I}w_i\right)\cdot n\right)$ verschiedene Aufrufe machen.
+
+Betrachte optimalen Rucksackinhalt $I'$, der $x_{ij}$ realisiert.\\
+Falls $i\not\in I'$, gilt 
+\[
+	x_{ij}= x_{i-1,j}
+\]
+Falls $i\in I'$, gilt 
+\[
+	x_{ij} = g_i + x_{i-1,j-w_i}
+\]
+
+Mit anderen Worten können wir also die einzelnen Werte $x_{i,j}$ füllen durch
+\[
+	x_{i,j} = \min\{x_{i-1,j}, x_{i-1,j-w_i} + g_i\}
+\]
+Initialisiert wird logischerweise mit
+\begin{align*}
+	x_{i,0} &:= 0 \qquad \forall i\\
+	x_{0,j} &:= \infty \qquad \forall j
+	x_{i,j} &:= \infty \qquad \forall i,j < 0
+\end{align*}
+
+\begin{ex}
+	\begin{tabular}{l|rrrrr}
+		~ & 1 & 2 & 3 & 4 & 5 \\
+		\hline
+		Wert&2 & 3 & 1 & 2 & 1\\
+		Gewicht&108 & 99 & 113 & 74 & 88
+	\end{tabular}
+	$G=200$.
+	Gegenstände: Spalten\\
+	Werte: Zeilen
+
+	Gegenstand $4$ und $2$ ist die Optimallösung.
+
+\end{ex}
+
+Maximal klaubaren Wert unter Beachtung der Gewichtsbeschränkung?
+Welche Sachen klaut man dafür? \fixme[Kästchen nach links oben durchwandern]
+
+\begin{note}
+	Für kleine Werte ist das dynamische Programmieren gut.
+	Für größere Werte ergibt sich aber eine sehr lange Laufzeit.
+\end{note}
+
+Das Rucksackproblem gehört zur Klasse der $NP$-schweren Probleme.
+Das heißt: es ist unwahrscheinlich, dass man dieses Problem in Zeil polynomiell in der Eingabegröße (Beschreibung der Probleminstanz) lösen kann.
+
+
+\subsubsection{Approximationsalgorithmen}
+
+Es gibt allerdings Approximationsalgorithmen, welche für \emph{beliebiges} $\epsilon > 0$ einen gültigen Rucksackinhalt mit Wert
+\[
+	\ge (1-\epsilon)\cdot L_{\text{opt}}
+\]
+(mit $L_{\text{opt}}$ Wert des optimalen Rucksacks)
+liefert in einer Laufzeit von
+\[
+	\O\left( \f{n^2}{\epsilon}\right)
+\]
+
+
+\subsection{Longest Common Subsequence}
+
+\begin{df}[Subsequenz]
+	Subsequenz??
+\end{df}
+
+\begin{seg}{Fragestellung:}
+	Seien zwei Strings $A$, $B$ gegeben.
+	Was ist die längste gemeinsame Subsequenz dieser beiden Strings?
+\end{seg}
+
+\begin{seg}{Anwendungen}
+	\begin{enumerate}
+		\item
+			Korrektur von Schreibfehler:
+		\item
+			Biologie, DNA-Sequenzen von Genen vergleichen auf Ähnlichkeit
+		\item
+			Differenzen von zwei Strings.
+			Verwende das Komplement der Longest Common Subsequence, um die Differenz zu erhalten.
+	\end{enumerate}
+\end{seg}
+
+Es gibt $2^n$ viele Subsequenzen bei einem String der Länge $n$.
+Alle einzeln zu bestimmen und zu prüfen also nicht sinnvoll ($\O(2^n(m+n))$).
+
+Wir wollen das in Zeit $\O(mn)$ lösen.
+
+Jede gemeinsame Subsequenz zweier Strings kann folgendermaßen dargestellt werden:
+\[
+	\texttt{universitaetgreifswald} \qquad \texttt{anlageberater}
+\]
+(Verbinde gemeinsame Buchstaben miteinander ohne, dass Kreuzungen entstehen).
+Wir beobachten: Die Linien (Korrespondenzen) schneiden sich nicht.
+
+\begin{st}
+	Wenn beide Strings mit dem gleichen Buchstaben enden, gibt es eine $LCS$, welcher diese beiden Buchstaben miteinander assoziiert.
+	\begin{proof}
+		Wähle beliebige LCS, bei denen die letzten Buchstaben nicht miteinander assoziiert sind.
+
+		Angenommen keiner der beiden letzten Buchstaben sind assoziiiert, dann wäre es nicht die \emph{längste} gemeinsame Subsequenz
+
+		Sei also oBdA das letzte Zeichen des ersten Strings mit einem Zeichen aus dem zweiten String assoziiert, welches nicht das letzte ist.
+		Dann sind die nachfolgenden Zeichen des zweiten Strings nicht assoziiert (sonst Überschneidung), also können wir ebensogut das letzte Zeichen des ersten Strings mit dem letzten Zeichen des zweiten Strings assoziieren, ohne die Länge der Subsequenz zu ändern
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Wenn die beiden letzten Buchstaben verschieden sind, ist maximal einer der beiden Teil der LCS.
+	\begin{proof}
+		Angenommen, die beiden letzten Buchstaben beider Strings sind in der LCS, dann gäbe es eine Überschneidung, da sie nicht miteinander assoziiert sein können.
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Sei $x_{ij}$ die Länge der LCS der Strings $A[1,\dotsc,i]$ und $B[1,\dotsc,j]$.
+	Dann ist
+	\[
+		x_{i,j} = \begin{cases}
+			x_{i-1,j-1} + 1 			& A[i] = B[j] \\
+			\max\{x_{i,j-1}, x_{i-1,j}\} & A[i] \neq B[j]
+		\end{cases}
+	\]
+\end{st}
+
+\begin{note}
+	Fülle Tabelle mit den $x_{i,j}$.
+\end{note}
+
+
+\subsubsection{Edit-/Levenstein-Distanz}
+
+
+\begin{ex}
+	$A = \texttt{WISKKR}$, $B = \texttt{QUALLE}$.
+\end{ex}
+Verallgemeinerung von LCS? Wahl der Kosten von Edit, Insert, Delete.
+
+Eine komplexe Art, Ähnlichkeit zwischen Strings zu erfassen ist die Betrachtung, wie viele Änderungsoperationen (Ersetzen, Einfügen, Löschen) nötig sind, um aus String $A$ den String $B$ zu machen.
+Je nach Anwendung können diese Operationen individiuell gewichtet werden.
+Für gegeben Operationskosten ist die Suche nach der billigsten Editsequenz ein Optimierungsproblems.
+
+Seien $x_{i,j}$ die minimalen Kosten einer Editsequenz, welche aus $A[1,\dotsc,i]$ den String $B[1,\dotsc,j]$ macht.
+
+\begin{enumerate}[A)]
+	\item
+		In der optimalen Editsequenz ist $A[i]$ mit $B[j]$ assoziiert.
+		\begin{enumerate}[a)]
+			\item
+				$A[i] = B[j] \implies x_{i,j} = 0 + x_{i-1,j-1}$
+			\item
+				$A[i] \neq B[j] \implies x_{i,j} = c(A[i], B[j]) + x_{i-1,j-1}$
+		\end{enumerate}
+	\item
+		$A[i]$ ist in der optimalen Editsequenz nicht assoziiert.
+		Dann ist
+		\[
+			x_{i,j} = d(A[i]) + x_{i-1,j} \qquad \text{(Löschkosten)}
+		\]
+	\item
+		$B[i]$ ist in der optimalen Editsequenz nicht assoziiert.
+		Dann ist
+		\[
+			x_{i,j} = e(A[i]) + x_{i,j-1} \qquad \text{(Einfügekosten)}
+		\]
+\end{enumerate}
+
+\[
+	x_{i,j} = \min \{ c(A[i],B[j]) + x_{i-1,j-1}, d(A[i]) + x_{i-1,j}, e(B[j]) + x_{i,j-1}\}
+\]
+
+\begin{verbatim}
+A) 256	70%
+B) 64	80%
+C) 16	90%
+D) 4	100%
+\end{verbatim}
+
+
+\section{Algorithmische Geometrie}
+
+
+Wir wollen mit geometrischen Objekten „rechnen“.
+
+\begin{ex}
+	Sei eine Menge $S \subset \R^2$ von Punkten gegeben.
+	Es gibt jetzt Querys, die sozusagen ein „Rechteck“ aus der Punktmenge abfragen.
+	In Datenbanken könnte eine Abfrage lauten
+	\begin{quote}
+		Gebe alle Mitarbeiter aus, welche mit F\dots K anfangen und zwischen $80$ und $100$ Euro verdienen.
+	\end{quote}
+\end{ex}
+
+\subsection{Das konvexe Hülle Problem}
+
+\newcommand{\CH}{\texttt{CH}}
+
+\begin{df}
+	Eine Menge $X$ ist \emph{konvex}, falls für alle Punkte $p,q\in X$ auch jeder Punkt auf der Strecke $\_{pq}$ in $X$ ist.
+
+	$\CH(S)$ ist die minimale konvexe Menge, die $S$ enthält.
+\end{df}
+
+Es sei eine Punktmenge $S\subset \R^2$ mit $|S|=n$ Punkten gegeben.
+Gesucht ist die konvexe Hülle $\CH(S)$ von $S$.
+
+\begin{note}
+	$\CH(S)$ zu berechnen kostet mindestens $\Omega(n\log n)$ Zeit.
+	\begin{proof}
+		Angenommen, es gibt einen Algorithmus, der $\CH(S)$ in $o(n\log n)$ berechnet.
+		Dann kann man $n$ Zahlen $a_1,\dotsc, a_n$ wie folgt in $o(n\log n)$ sortieren.
+		Definiere
+		\[
+			S = \{(a_i,a_i^2) \big| i=1,\dotsc,n\}
+		\]
+		Alle Punkte in $S$ liegen auf einer konvexen Parabel, also auf dem Rand von $\CH(S)$.
+		Der Algorithmus würde die Reihenfolge dieser Punkte auf dem Rand bestimmen und somit die $a_i$ in $o(n \log n)$ Zeit sortieren.
+		
+		Ein Widerspruch dazu, dass das Sortieren von $n$ Zahlen mindestens $\O(n\log n)$ Zeit braucht.
+	\end{proof}
+\end{note}
+
+\subsection{Gift Wrapping}
+
+\begin{alg}[Gift Wrapping]
+	\begin{algorithmic}
+		\State Finde untersten Punkt
+		\State Drehe Horizontale durch Punkt, bis nächster Punkt getroffen wird
+		\State Drehe um den neuen Punkt weiter
+		\State \dots
+		\State Die konvexe Hülle ist durch die an den Punkten gebogene Strecke gegeben
+	\end{algorithmic}
+	Sei $h$ die Anzahl der Punkte auf dem Rand der konvexen Hülle.
+	Dann hat dieser Algorithmus Laufzeit
+	\[
+		\O(n\cdot h) \subset \O(n^2)
+	\]
+\end{alg}
+
+\subsection{Sweep-Line}
+
+\begin{alg}[Fegelinien-Algorithmus (Sweep-Line)]
+	\begin{algorithmic}
+		\State Sortiere Punkte nach der $x$-Koordinate
+		\State Die erste drei Punkte bilden $\CH_3$
+		\For{$i=4,\dotsc,n$}
+			\State Bestimme $\CH_i$ aus Kontruktion von oberer und unterer Tangente durch $x_i$ an $\CH_{i-1}$
+		\EndFor
+	\end{algorithmic}
+\end{alg}
+
+Wie bestimmen wir die Tangente in diesem Algorithmus und wie teuer ist das?
+
+Verbinde neuen Punkt $x_i$ mit $x_{i-1}$ zur Geraden $g$.
+Wandere an der alten konvexen Hülle entlang (in beide Richtungen) und betrachte die Winkel von $\_{xx^{(+1)}}$ zu $g$ (bzw. $\_{xx^{(-1)}}$) und entscheide, ob die Tangente durch $g$ bereits gegeben ist.
+Falls nicht, definiere $g$ neu durch $\_{x_ix^{+2}}$, usw.
+
+Alle so „übersprungene“ Punkte werden gelöscht und gehören nicht mehr zur konvexen Hülle.
+
+\fixme[Potentialfunktion, höchstens $n$ Punkte abgearbeitet]
+
+\begin{note}
+	Dieser Algorithmus kann auch gleichzeitig eine Triangulierung der Punktmenge liefern.
+\end{note}
+
+Die Laufzeit beträgt $\O(n\log n)$.
+
+
+
+Ein optimaler Algorithmus, um $\CH$ zu berechnen.
+
+Sei $h$ die Menge der Punkte auf der konvexen Hülle.
+
+\begin{algorithmic}
+	\State Teile $S$ in $\f nh$ Gruppen, je $h$ Punkte ein.
+	\State Berechne kleine \CH s mittels Sweepline (Kosten $\O(\f nh \cdot h\log h) = \O(n\log h)$)
+	\State Wende Giftwrapping an, aber prüfe für jeden Schritt nur die Punkte aus den kleinen \CH s (wandere dazu auf den kleinen \CH s entlang, um mögliche Punkte zu ermitteln, $\O(h)$ (erst einmal $h$ für alle, dann nochmal durchwandern)) (Kosten $\O(\f nh \cdot h) = \O(n)$).
+\end{algorithmic}
+
+Wir machen $h$ Giftwrappingschritte, jeder befragt $\O(\f hn)$ kleine \CH s, d.h. es wurden $\O(n)$ Fragen gestellt.
+
+Leider ist $h$ nicht bekannt.
+Wir starten mit $h=3$.
+Falls der Algorithmus nach $h$ Wickelschritten fertig ist, ok.
+Sonst setze $h := h^2$.
+
+Damit verdoppelt sich die Laufzeit in jedem Schritt und die Laufzeit der letzten Runde dominiert alle vorherigen.
+
+Sei $h^*$ das echte $h$.
+Durch das Quadrieren wird $h^*$ höchstens quadratisch überschätzt.
+Die Laufzeit in der letten Runde ist dann
+\[
+	\O(n\log({h^*}^2)) = O(n\log h^*)
+\]
+
+
+\end{document}
+
+

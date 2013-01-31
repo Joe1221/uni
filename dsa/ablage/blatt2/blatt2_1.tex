@@ -1,0 +1,141 @@
+\documentclass{scrartcl}
+\usepackage{mathe-blatt}
+\blattdsa
+
+\begin{document}
+
+\setcounter{aufgabe}{0}
+
+\begin{enumerate}
+\item
+Sei $|f(n)|\le c_1|g(n)|$ für alle $n\ge {n_0}_1$ und $|h(n)|\le c_2|i(n)|$ für alle $n\ge {n_0}_2$.
+\begin{enumerate}
+\item
+\begin{align*}
+|f(n)+h(n)|
+&\le |f(n)|+|h(n)|
+\le c_1|g(n)|+c_2|i(n)| \qquad \forall n\ge \max\left\{{n_0}_1, {n_0}_2\right\}\\
+&\le (c_1+c_2)|\max\{g(n),i(n)\}| \\
+&\implies f(n)+h(n)\in \mathcal O(\max\{g(n),i(n)\})
+\end{align*}
+\item
+\begin{align*}
+|f(n)\cdot h(n)|
+&\le |f(n)|\cdot|h(n)|
+\le c_1|g(n)|c_2|i(n)| \qquad \forall n\ge \max\left\{{n_0}_1, {n_0}_2\right\}\\
+&= (c_1c_2)|g(n),i(n)| \\
+&\implies f(n)\cdot h(n)\in \mathcal O(g(n),i(n))
+\end{align*}
+\end{enumerate}
+
+\item
+Sei $|f(n)|\le c_1|g(n)|$ für alle $n\ge {n_0}_1$ und $|g(n)|\le c_2|h(n)|$ für alle $n\ge {n_0}_2$.
+Dann gilt:
+\begin{align*}
+|f(n)|
+&\le c_1|g(n)|
+\le c_1c_2|h(n)| \qquad \forall n\ge \max\left\{{n_0}_1, {n_0}_2\right\}\\
+&\implies f\in \mathcal O(h)
+\end{align*}
+
+\item
+\begin{enumerate}
+\item
+Sei $f\in\mathcal O(g)$, mit $|f(n)|\le c|g(n)|$ für $n\ge n_0$, dann ist
+\[
+\limsup_{n\to\infty}\left|\frac{f(n)}{g(n)}\right|=c<\infty
+\]
+Sei umgekehrt $S=\limsup_{n\to\infty}\left|\frac{f()}{g(n)}\right|<\infty$ gegeben,
+dann existiert ein $N$, sodass für alle $n\ge N$ gilt:
+\[
+\sup_{m\ge n}\left|\frac{f(m)}{g(m)}\right|
+\le S
+\implies |f(n)|\le S|g(n)|
+\implies f\in\mathcal O(g)
+\]
+\item
+Sei $f\in o(g)$, dann gibt es für alle $c>0$ ein $n_0$, sodass für alle $n\ge n_0$ gilt:
+\begin{align*}
+|f(n)|\le c|g(n)|
+\iff \left|\frac{f(n)}{g(n)}\right| \le c
+\end{align*}
+Dies entspricht gerade der Grenzwert-Definition für $\lim_{n\to\infty}\left|\frac{f(n)}{g(n)}\right|=0$.
+Sei umgekehrt $\lim_{n\to\infty}\left|\frac{f(n)}{g(n)}\right|=0$, dann gibt es für alle $\varepsilon>0$ ein $N$,
+sodass für $n\ge N$ gilt:
+\[
+\left|\frac{f(n)}{g(n)}\right| \le \varepsilon
+\iff |f(n)|\le \varepsilon|g(n)|
+\implies f\in o(g)
+\]
+\end{enumerate}
+
+\item
+\begin{align*}
+a^n\in o(b^n)
+\qquad &\iff
+\lim_{n\to\infty}\frac{f(n)}{g(n)}
+=\lim_{n\to\infty}\frac{a^n}{b^n}
+=\lim_{n\to\infty}\left(\frac ab\right)^n
+=0\\
+&\iff \frac ab<1
+\iff a<b
+\end{align*}
+
+\item
+\begin{lem*}
+Es gilt $f\in\omega(g)$ genau dann, wenn $\lim_{n\to\infty}\frac{f(n)}{g(n)}=\infty$.
+Der Beweis erfolgt analog zu 3b)
+\end{lem*}
+\begin{enumerate}
+\item
+\[
+f(n) = \left|\sum_{i=0}^ka_in^k\right|
+= n^k\left|\sum_{i=0}^ka_in^{i-k}\right|
+= n^k\left|a_k+\sum_{i=1}^ka_in^{i-k}\right|
+\]
+Da jedoch $\lim_{n\to\infty}\sum_{i=1}^ka_in^{i-k}=0$, existiert $N$ und $c$, sodass für alle $n\ge N$ gilt:
+\[
+f(n)=n^k\left|a_k+\sum_{i=1}^ka_in^{i-k}\right|\le cn^k
+\]
+und damit $f\in\mathcal O(n^k)$.
+\begin{align*}
+f(n) = \left|\sum_{i=0}^ka_in^k\right|
+\ge c\left|n^k\right|\\
+\qquad \iff \left|\sum_{i=0}^ka_in^{i-k}\right| \ge c
+\end{align*}
+Da $\lim_{n\to\infty}\sum_{i=0}^ka_in^{i-k}=a_k$, existiert $N$, sodass für alle $\varepsilon>0$ und $n\ge N$ gilt:
+\begin{align*}
+\left|\sum_{i=0}^ka_in^{i-k}\right|
+\ge a_k +\varepsilon =: c\\
+\qquad \implies 
+f(n) = \left|\sum_{i=0}^ka_in^i\right|
+\ge c\left|n^k\right|
+\end{align*}
+und damit $f\in\Omega(n^k)$.
+
+\item
+Da $l>k$:
+\[
+\lim_{n\to\infty}\frac{f(n)}{n^l}
+=\lim_{n\to\infty}\frac{\sum_{i=0}^ka_in^i}{n^l}
+=\lim_{n\to\infty}\frac{\sum_{i=0}^ka_in^{i-l}}1 =0
+\]
+und damit $f\in o(n^l)$
+\item
+Beweis erfolgt analog zu 5b) mit $f\in\omega(g) \iff \lim_{n\to\infty}\frac{f(n)}{g(n)}=\infty$.
+\item
+Da $f$ von Grad $k$ ist, ist $f^{(k)}(n)$ beschränkt.
+Also gilt:
+\[
+\lim_{n\to\infty}\frac{f(n)}{a^n}=
+\lim_{n\to\infty}\frac{f^{(k)}(n)}{\ln^ka\cdot a^n}
+=0
+\]
+und damit $f\in o(a^n)$
+\item
+Beweis erfolgt analog zu 5d).
+\end{enumerate}
+\end{enumerate}
+
+
+\end{document}

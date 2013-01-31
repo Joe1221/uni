@@ -1,0 +1,35 @@
+\documentclass{scrartcl}
+\usepackage{mathe-blatt}
+\blattdsa
+
+\begin{document}
+
+Sei das zu sortierende Array der Größe $n$ durch \verb|A| gegeben und
+seien \verb|counter| und \verb|offset| Arrays der Größe $k$ (jeweils auf $0$ initialisiert).
+\verb|B| soll das sortierte Array enthalten.
+Dann ist durch folgendenen Pseudocode ein Sortieralgorithmus gegeben:
+
+\begin{verbatim}
+for i=1 to n
+    counter[A[i]]++
+for i=1 to k-1
+    offset[k+1] = offset[k] + counter[k]
+for i=1 to n
+    B[offset[A[i]]] = A[i]
+    offset[A[i]]++
+\end{verbatim}
+
+In der ersten Schleife wird die Anzahl der jeweils in \verb|A| vorkommenden Einträge gezählt und in \verb|counter| gespeichert.
+
+Die zweite Schleife generiert ein \verb|offset|-Array das die Startposition eines Eintrags in $\{1,\dotsc,k\}$ im sortierten Array festlegt.
+
+Die dritte Schleife positioniert die Einträge aus \verb|A| entsprechend des offsets in \verb|B| und erhöht für jeden eingetragenen Wert den entsprechenden offset um $1$.
+
+Es ergibt sich durch die drei Schleifen eine Laufzeit von:
+\[
+\mathcal O(n + (k-1) + n) = \mathcal O(n + k)
+\]
+Wenn die Anzahl der möglichen verschiedenen Einträge ($=k$) begrenzt groß ist, dann liegt die Laufzeit mit $\mathcal O(n)$ sogar unter $\mathcal O(n\log n)$ und es lohnt sich, diesen Algorithmus einzusetzen.
+Ist $k$ jedoch sehr groß im Verhältnis zu $n$ (z.b. $k > n\log n$), dann ergibt sich durch diesen Algorithmus keinen Vorteil mehr.
+\end{document}
+

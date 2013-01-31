@@ -1,0 +1,34 @@
+\documentclass{scrartcl}
+\usepackage{mathe-blatt}
+\blattdsa
+
+\begin{document}
+Die schlechteste Laufzeit ergibt sich, wenn bei jedem Quicksort-Aufruf für das Pivotelement das kleinste oder das größte Element des Arrays gewählt wird.
+Für ein Array der Größe $n$ ergibt sich nach der Aufteilung nämlich ein leeres Array und eins der Größe $n-1$, auf das erneut Quicksort aufgerufen wird.
+Für die Laufzeit ergibt sich dann:
+\[
+\mathcal O\left(\sum_{k=1}^nk\right) = \mathcal O(n^2)
+\]
+Setze $j=\min\{i,n\}$ und betrachte folgende Anordnung:
+\[
+(n-i+2), (n-i+3), \dotsc, n, \underbrace{1}_{j\text{-te Stelle}}, 2, \dotsc, (n-i+1)
+\]
+Beim ersten Aufruf wird das $\min\{i,n\}$-te Element als Pivotelment gewählt, also in diesem Fall die $1$, was das kleinste Element im Array ist.
+Das entstehende Arrray der Größe $n-1$, auf das wiederum Quicksort aufgerufen wird, sieht so aus:
+\[
+(n-i+2), (n-i+3), \dotsc, n, \underbrace{2}_{j\text{-te Stelle}}, 3, \dotsc, (n-i+1)
+\]
+Dabei ist $2$ wiederum das kleinste Element und an $j$-ter Stelle.
+
+Das setzt sich fort, bis das Array Länge $i-1$ und folgende Struktur hat:
+\[
+(n-i+2), (n-i+3), \dotsc, n
+\]
+Jetzt wird stets das letzte Element als Pivotelement gewählt, weil $i$ kleiner als die Größe des Arrays ist.
+Das letzte Element ist aber ab diesem Schritt stets das Größte in dieser Anordnung.
+
+Damit ist sichergestellt, dass die Laufzeit $\mathcal O(n^2)$ beträgt.
+
+
+\end{document}
+

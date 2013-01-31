@@ -1,0 +1,69 @@
+\documentclass{scrartcl}
+\usepackage{dot2texi}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\usepackage{mathe-vorlesung}
+
+\newcommand{\stehlen}{\texttt{stehlen}}
+\newcommand{\amort}{\texttt{amort}}
+\newcommand{\cost}{\texttt{cost}}
+\newcommand{\entfernen}{\texttt{entfernen}}
+
+\author{Fabian Hartkopf, Frank Heyen, Stephan Hilb}
+\title{Problem 4}
+
+\begin{document}
+\maketitle
+Wir zeigen zunächst, dass die amortisierten Kosten einer \stehlen-Operation konstant sind:
+
+Die Potentialfunktion ist (wenn $n_i$ die Anzahl der Knoten mit $i$ Kindern bezeichnet) definiert als
+\[
+	\phi(z) = 0\cdot n_3 + 1\cdot n_2 + 2\cdot n_1 + 2\cdot n_4 + 4\cdot n_5
+\]
+Bei der \stehlen-Operation wird einem Geschwisterknoten $b$ (der vor dem Stehlen mindestens drei Kinder hatte) ein Kind gestohlen und dem Knoten $a$ (das nur ein Kind besitzt) hinzugefügt.
+
+Für die restlichen Knoten ändert sich die Anzahl der Kinder nicht.
+Also reicht es, die Veränderung der Potentialfunktion für diese beiden Knoten zu betrachten:
+
+Knoten $a$ hatte ein Kind und erhält eines dazu, also sinkt die Potentialfunktion für diesen Knoten um genau $1$ ($\Delta\phi_a = -1$).
+Vom Knoten $b$ wissen wir nicht genau, wie viele Kinder er hatte, aber wenn er eines dazu bekommt, kann die Potentialfunktion für diesen Knoten maximal um $2$ zunehmen ($\Delta\phi_b \le 2$).
+
+Also erhält man für den Zustand nach dem Stehlen
+\[
+	\phi(z+1) = \phi(z) + \Delta\phi_a +\Delta\phi_b \le \phi(z) - 1 + 2 = \phi(z) + 1
+\]
+Mit anderen Worten: das Potential nimmt beim Stehlen höchstens um 1 zu.
+
+Für die amortisierten Kosten des Stehlens ergibt sich damit
+\[
+	\amort(\stehlen) = \phi(z+1) - \phi(z) + \cost(\stehlen) \le 1 + \const
+\]
+also ist $\amort(\stehlen)$ konstant.
+
+Für die $\entfernen$-Operation wird angenommen, dass der Baum nach dem Entfernen durch eine $\stehlen$-Operation balanciert werden kann und keine Verschmelz-Operation nötig ist.
+
+Beim Entfernen nimmt die Potentialfunktion höchstens um 1 zu (z.B. von 3 Kindknoten auf 2, oder von 2 auf 1).
+Außerdem muss noch eine \stehlen-Operation durchgeführt werden, bei der (wie oben gezeigt), die Potenzialfunktion ebenfalls höchstens um 1 zunimmt.
+
+Damit ergibt sich für die amortisierten Kosten der \entfernen-Operation:
+\begin{align*}
+	\amort(\entfernen) &= \phi(z+1) - \phi(z) + \cost(\entfernen)\\
+					   &\le 1 + 1 + \const = 2 +\const
+\end{align*}
+Also ebenfalls konstante Kosten.
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+

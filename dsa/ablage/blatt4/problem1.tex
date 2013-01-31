@@ -1,0 +1,61 @@
+\documentclass{scrartcl}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{ngerman}
+
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{enumerate}
+
+\renewcommand{\O}{\mathcal O}
+
+\begin{document}
+Bezeichne $n$ die Anzahl der Knoten und $m$ die Anzahl der Kanten des Graphen.
+\begin{enumerate}[(a)]
+	\item
+		Für die Adjazenzmatrix als $n\times n$-Matrix ergibt sich offensichtlich ein Speicherbedarf von $\mathcal O(n^2)$.
+
+		Die Adjazenzlistendarstellung aus der Vorlesung verwendet eine Knotenliste und eine Kantenliste, der Rest wird über Pointer realisiert. Also ergibt sich ein Speicherbedarf von $\mathcal O(n+m)$
+
+		Die Offset-Array-Darstellung besteht aus mindestens einem Array (\verb|target|) der Größe $m$, sowie dem Offset-Array für die Knoten mit Größe $n$. Es ergibt sich wieder ein Speicherbedarf von $\mathcal O(n+m)$.
+	\item
+		\begin{tabular}{p{2cm}|p{2cm}r|p{3cm}r|p{3cm}r|}
+			&Adjazenzmatrix&&Adjazenzliste&&Offset-Array\\
+			\hline
+			$e=(v,w)$ hinzüfügen&
+			&$\O(1)$&
+			Knotensuche, Kantenliste für Knoten anpassen, Kante einfügen&$\O(n)$&
+			Kante einfügen und Offsetarray anpassen&$\O(n+m)$
+			\\\hline
+			$v$ hinzufügen&
+			Matrix reallokieren (amortisiert)&$\O(1)$&
+			&$\O(1)$&
+			Eintrag im Offset-Array hinzufügen (amortisiert)&$\O(1)$
+			\\\hline
+			$v$ löschen&
+			Matrix reallokieren&$\O(n^2)$&
+			Knotensuche, Kanten löschen, Knoten löschen&$\O(n+m)$&
+			Zugehörige Kanten entfernen, Offset-Array anpassen &$\O(n+m)$
+			\\\hline
+			$e=(v,w)$ löschen&
+			&$\O(1)$&
+			Knotensuche, Kantensuche in source und target, Kante löschen&$\O(n+m)$&
+			Kante entfernen, Offset-Array anpassen &$\O(n+m)$
+			\\\hline
+			existiert $e=(v,w)$?&
+			&$\O(1)$&
+			Kantensuche & $\O(m)$&
+			Bestimme Offset, Binärsuche auf target & $\O(\log n)$
+			\\\hline
+			Ausgangsgrad von $v$&
+			Durchlaufe Zeile&$\O(n)$&
+			Kantensuche&$\O(m)$&
+			Bestimme Offset von $v$ und $v+1$&$\O(1)$
+		\end{tabular}
+
+
+\end{enumerate}
+
+\end{document}
