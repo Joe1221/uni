@@ -6020,5 +6020,287 @@ mit $f \in C^n (\R^n, \R)$ betachten.
 	\end{note}
 \end{st}
 
+Bei einem QP ist der „line search“, d.h. die 1D-Optimierung entlang einer Halbgeraden explizit lösbar:
+
+\begin{st}[1D-Optimierung] \label{4.11}
+	Für $\_x \in \R^n$, $d\in \R^n \setminus \{0\}$ wird
+	\[
+		\min_{x \/n \{\_x + \omega d : \omega \in \R} \f 12 x^T A x - b^T x + c
+	\]
+	gelöst durch $\hat x = \_x + \omega d$ mit
+	\[
+		\omega := \f {d^T r}{d^T A d} \qquad r := b - A\_x
+	\]
+	$r$: Residuum.
+	\begin{proof}
+		Setze ($A$ symmetrisch)
+		\begin{align*}
+			g(\omega) :&= \f 12 (\_x+\omega d)^TA(\_x + \omega d) - b^T(\_x + \omega d) +c \\
+			&= \f 12 d^T Ad \omega^2 + (\_x Ad - b^T d) + \f 12 \_x^T A\_x - b^T \_x + c  \\
+			g'(\omega) &= d^T Ad \omega + \underbrace{(\_x^TA - b^T)d}_{=-d^T r}
+		\end{align*}
+		Also
+		\[
+			g'(\omega) = 0 \qquad \iff \qquad \omega = \f {d^T r}{d^T A d}
+		\]
+	\end{proof}
+\end{st}
+
+Die Abstiegsrichtung
+\[
+	d^{(k)} = -\nabla f(x^{(k)}) = b - Ax^{(k)}
+\]
+ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formuliert werden:
+
+\begin{kor}[Gradientenverfahren für QP] \label{4.12}
+	Das Gradienten-Verfahren mit line search lautet für beliebigen Startwert $x^{(0)} \in \R^n$:
+	\[
+		x^{(k+1)} := x^{(k)} + \omega_k d^{(k)}
+	\]
+	mit Abstiegsrichtung
+	\[
+		d^{(k)} := -Ax^{(k)} + b
+	\]
+	und Schrittweite
+	\[
+		\omega_k := \f {(d^{(k)})^T d^{(k)}}{(d^{(k)})^T A d^{(k)}}
+	\]
+\end{kor}
+
+\begin{st}[Orthogonalität der $d^{(k)}$] \label{4.13}
+	Für die Abstiegsrichtung $d^{(k)}$ aus Korrolar \ref{4.12} gilt
+	\[
+		d^{(k)} \orth d^{(k+1)}
+	\]
+	\begin{proof}
+		Für $d^{(k+1)}$ gilt
+		\begin{align*}
+			d^{(k+1)} &= -Ax^{(k+1)} + b = -A(x^{(k)} + \omega_k d^{(k)}) + b \\
+			&= d^{(k)} - \omega_k A d^{(k)}
+		\end{align*}
+		und damit
+		\begin{align*}
+			\< d^{(k)} , d^{(k+1)} \> 
+			&= \<d^{(k)}, d^{(k)}\> - \f {\<d^{(k)},d^{(k)}}{(d^{(k)})^TAd^{(k)}} \<d^{(k)}, Ad^{(k)}\> \\
+			&= 0
+		\end{align*}
+	\end{proof}
+	\begin{proof}
+		In der Praxis führt dies zu „zigzagging“ in Abstiegsrichtungen.
+	\end{proof}
+\end{st}
+
+\begin{df}[$A$-Skalarprodukt und Norm] \label{4.14}
+	Zu $A$ symmetrisch und positiv definit definieren wir ein Skalarprodukt auf $\R^n$ durch
+	\[
+		\<x, y\>_A := x^T A y
+		\qquad x,y \in \R^n
+	\]
+	und die induzierte Norm
+	\[
+		\|x\|_A := \sqrt{\<x,x\>_A}
+		\qquad x \in \R
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die Skalarprodukt-Eigenschaften von $\<\cdot, \cdot\>_A$ sind erfüllt (einfaches Nachrechnen von Bilinearität, Symmetrie und positiver Definitheit).
+			\item
+				Analog die Norm-Eigenschaften.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Fehlerschranke Gradientenverfahren] \label{4.15}
+	Sei $(x^{(k)})_{k\in \N}$ die Sequenz aus Korrolar \ref{4.12}, dann konvergiert die Sequenz gegen das Minimum $x^*$ vom QP und es gilt die Fehlerschranke
+	\[
+		\|x^{(k)} - x^*\|_A  \le \bigg(1 - \f {2}{\kappa(A) + 1}^k \|x^{(0)} - x^*\|_A
+	\]
+	wobei für positiv definite, symmetrische Matrizen die Konditionszahl $\kappa$ von $A$ gegeben ist durch
+	\[
+		\kappa(A) := \f {\lambda_{\text{max}}}{\lambda_{\text{min}}}
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Falls $\kappa(A)$ sehr groß ist, dann ist der Reduktionsfaktor nahe $1$ (langsame Konvergenz).
+			\item
+				Falls $\kappa(A)$ klein, dann ist der Reduktionsfaktor klein (schnelle Konvergenz).
+			\item
+				Falls $\kappa(A) = 1$, so ist der Reduktionsfaktor gleich Null (Konvergenz in einem Schritt).
+		\end{itemize}
+	\end{note}
+	\begin{proof}
+		Sei zunächst $f(x) = \f 12 x^T A x$, also $b = 0$, $c = 0$ und $x^* = A^{-1}b = 0$.
+		Dann ist
+		\[
+			2 f(x) = x^T A x = \|x\|_A^2
+			\qquad
+			\nabla f(x) = Ax
+		\]
+		und
+		\[
+			x^{(k+1)} 
+			= x^{(k)} + \omega_k d^{(k)} 
+			= x^{(k)} - \omega_k \nabla f(x^{(k)})0
+			= (I - \omega_k A) x^{(k)}
+		\]
+		mit $\omega_k$ derart, dass $\|x^{(k+1)}\|_A^2 = 2 f(x^{(k+1)})$ minimal ist.
+
+		Seien $\lambda_1 \ge \dotsc \ge \lambda_n > 0$ die Eigenwerte von $A$ zu orthonormalen Eigenvektoren $v_1, \dotsc, v_n \in \R^n$.
+
+		Sei $x^{(k)} = \sum_{i=1}^n a_i v_i$, dann ist
+		\begin{align*}
+			2 f(x^{(k)}) 
+			&= \bigg(\sum_{i=1}^n a_i v_i \bigg)^T \underbrace{A \bigg( \sum_{j=1}^n a_j v_j \bigg)}_{\sum_{j=1}^n a_j \lambda_j v_j} \\
+			&= \sum_{i,j=1}^n a_i a_j \lambda_j \delta_{ij} \\
+			&= \sum_{i=1}^n a_i^2 \lambda_i
+		\intertext{und}
+			2 f(x^{(k+1)}) 
+			&= (x^{(k+1)})^T A x^{(k+1)} \\
+			&= (x^{(k)})^T (I- \omega_k A)^T A (I - \omega_k A) x^{(k)} \\
+			= \dotsc
+			&= \sum_{i=1}^n a^2 \lambda_i \Big(1-\omega_k \lambda_i\Big)^2 \\
+			&\le \sum_{i=1}^n a_i^2 \lambda_i (1-\_\omega_k \lambda_i)^2 \qquad \_\omega_k \text{ beliebig} \\
+			&\le \Big( \max_{j=1,\dotsc,n} \Big| 1-\_\omega_k \lambda_j \Big| \Big)^2 \sum_{i=1}^n a_i^2 \lambda_i
+		\end{align*}
+		Also
+		\[
+			\|x^{(k+1)} \|^2 \le C^2 \|x^{(k)}\|_A^2
+			\qquad C := \max_{j=1^n} | 1 - \_\omega_k \lambda_j |
+		\]
+		Wir zeigen jetzt noch $C \le 1 - \f {2}{\kappa(A)+1} =: \_C$ durch geeignetes $\omega_k$:
+		setze
+		\[
+			\_\omega_k := \f 2{\lambda_1 + \lambda_n}
+		\]
+		dann ist
+		\begin{align*}
+			1 - \omega_k \lambda_n 
+			\ge \_\omega_k \lambda_j 
+			\ge 1 - \_\omega_k \lambda_1 
+			= 1 - \f{2\lambda_1}{\lambda_1 + \lambda_n} 
+			= \f {\lambda_n - \lambda_1}{\lambda_n + \lambda_1}
+			= - \bigg(\f{\lambda_1 - \lambda_n}{\lambda_n + \lambda_1} \bigg)
+			= - \bigg( 1 - \f {2\lambda_n}{\lambda_1 + \lambda_n} \bigg)
+			= - (1- \_\omega_1 \lambda_n)
+		\end{align*}
+		Also
+		\[
+			|1 - \_\omega_k \lambda_j |
+			\le | 1 - \_\omega_k \lambda_n |
+			= \bigg| 1 - \f{2\lambda_n}{\lambda_1}{\lambda_n} \bigg|
+			= 1 - \f {2}{\kappa(A)+1}
+			= \_C
+		\]
+		Also $C \le \_C$ und
+		\[
+			\|x^{(k+1)}\|_A \le \_C \|x^{(k)}\|_A 
+		\]
+		und somit mit $x^* = 0$.
+		\[
+			\|x^{(k)} - x^*\|_A \le \_C^k \|x^{(0)}\|_A
+		\]
+
+		Für allgemeine $f(x) = \f 1, x^T Ax - b^Tx +c$ mit $x^* := A^{-1}b$ folgt die Behauptung durch Translationsinvarianz des Gradientenverfahrens (hier nur kurz skizziert):
+
+		\fixme[$\_f$, $f$ und $\_x$, $x$ vertauscht, richtig hinbiegen.]
+		$x^*$ ist Minimum von $\_f$ und der Grenzwert der Grandientenverfahren-Iterierten $(\_x^{(k)})$ genau dann, wenn
+		$x^* - x^* = 0$ ist Minimum von $f(x) := \_f(x - x^*)$ und der Grenzwert der Gradienten-Iterierten $(x^{(k)})$ mit $\_x^{(k)} := x^{(k)} - x^*$.
+
+		Für $f(x) = \f 12 \_x^T A \_x$ gilt die Behauptung, also
+		\[
+			\|x^{(k)} - x^*\|_A = \|\_x^{(k)}\| \le \_C^k \|\_x^{(0)}\|_A = \_C^k \|x^{(0)} - x^*\|_A
+		\]
+	\end{proof}
+\end{st}
+
+\begin{ex*}[demos optimization(5)]
+	Sei $f(x) = \f 12 x^T A x - b^Tx$ mit $A = I, b = (1,1)^T, x^* = (1,1)^T$.
+	\begin{itemize}
+		\item
+			$x^{(1)} = x^*$ unabhängig von $x^{(0)}$, Konvergenz nach einer Iteration.
+		\item
+			Die Iteration steht im Einklang mit der Fehlerschranke, denn
+			\[
+				\kappa(A) = \f 11 = 1
+				\qquad
+				\bigg( 1 - \f 2{\kappa(A) + 1}\bigg) = 0
+			\]
+			und die Fehlerschranke
+			\[
+				\|x^{(1)} - x^*\|_A \le 0 \cdot \|x^{(0)} - x^*\| = 0
+			\]
+	\end{itemize}
+	Allgemeiner konvergiert das Gradientenverfahren mit line search für radialsymmetrischen Funktionen, d.h.
+	\[
+		f(x) = \phi(\|x-x^*\|)
+		\qquad \phi : \R \to \R
+	\]
+	(mit $\phi(r)$ Minimum bei $r=0$) in einem Schritt.
+\end{ex*}
+
+\begin{ex*}[demos optimization(6)]
+	Sei
+	\[
+		A = U \begin{pmatrix}
+			10 & 0 \\
+			0 & 1
+		\end{pmatrix} U^T
+	\]
+	mit Rotationsmatrix $U$, $b = (0,0)^T, x^* = (0,0)$.
+	\begin{itemize}
+		\item
+			Fehler $0$ ist nicht in endlich vielen Schritten erreicht.
+		\item
+			„zigzagging“ der $d^{(k)}$
+		\item
+			$\kappa(A) = 10$ mit Fehlerschranke $(1- \f {2}{\kappa(A)+1}) = \f 9{11}$.
+			\begin{table}[h]
+				\centering
+				\begin{tabular}{c|c|c}
+					$k$ & $\|x^{(0)} - x^*\|_A$ & $(\f 9{11})^k \|x^{(0)} - x^*\|_A$ \\
+					0 & 2.40311 & 2.40311 \\
+					5 & 8.81089 $\cdot 10^{-1}$ & 8.81095 $\cdot 10^{-1}$ \\
+					10 & 3.23047 $\cdot 10^{-1}$ & 3.323052 $\cdot 10^{-1}$ \\
+					15 & 1.18444 $\cdot 10^{-1} $& 1.18446 $\cdot 10^{-1}$
+				\end{tabular}
+			\end{table}
+	\end{itemize}
+\end{ex*}
+
+
+\subsubsection{CG-Verfahren}
+
+
+Finde Lösung $x^*$ des QP, d.h. Lösung des LGS
+\[
+	Ax = b
+\]
+mit $A$ symmetrisch und positiv definit, $b \in \R^n$.
+
+Das Gradientenverfahren konvergiert recht langsam.
+Im allgemeinen ist der Fehler $0$ nicht mit endlich vielen Schritten erreichbar
+
+Verwende „$A$-konjugierte Richtungen“ (“conjugate gradients”) um die Konvergenz zu verbessern.
+
+\begin{df}[$A$-konjugierte Vektoren] \label{4.16}
+	Sei $A \in \R^{n\times n}$ symmetrisch und positiv definit.
+	Die Vektoren $\{d^{(k)}\}_{k=0}^n \subset \R^n \setminus \{0\}$ heißen \emph{$A$-konjugiert}, falls
+	\[
+		(d^{(k)})^T A d^{(l)} = 0
+		\qquad 
+		\forall k \neq l
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die $A$-Konjugiertheit entspricht also der Orthogonalität bezüglich des Skalarprodukts $\<\cdot, \cdot\>_A$.
+			\item
+				Das zugehörig Abstiegsverfahren konvergiert (abgesehen von Rundungsfehlern) in endlich vielen Schritten.
+
+		\end{itemize}
+	\end{note}
+\end{df}
 
 \end{document}
