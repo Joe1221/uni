@@ -1,0 +1,287 @@
+\documentclass[a4paper,10pt]{scrartcl}
+\usepackage{mathe-vorlesung}
+
+\title{Analysis 3}
+
+\begin{document}
+
+\subsection{Beispiele} % 2.1
+
+\begin{ex}[Tee] \label{2.1}
+	Beschreibe $y(t)$ die Temperatur des Tee's und $y_A = \const$ die Außentemperatur.
+	Es gilt folgende Differentialgleichung
+	\[
+		y'(t) = -K( y(t) - y_A)
+	\]
+	Die Lösung lautet
+	\[
+		y(t) = y_A + c e^{-Kt} \qquad t\in \R, c\in \R
+	\]
+	Probe:
+	\[
+		y' = c(-K)e^{-Kt} = -K(ce^{-Kt}) = -K(y(t) - y_A)
+	\]
+	Die Lösung ist erst eindeutig, wenn z.B. $y(t_0) = y_0$ vorgegeben wird (\emph{Anfangsbedingung}).
+\end{ex}
+
+\begin{df}[nicht-formale Beschreibung] \label{2.1}
+	Eine \emph{Differentialgleichung} ist eine Glichung für eine gesuchte Funktion $y$, in der auch die Ableitung(en) von $y$ auftreten.
+	Sie heißt \emph{gewöhnlich}, falls keine partiellen Ableitungen auftreten, sonst \emph{partiell}
+\end{df}
+
+\subsection{Separierbare Differentialgleichungen} % 2.2
+
+Seien $I_f, I_g \subset \R$ Intervalle und $f \in C(I_f \to \R), g \in C(I_g \to \R)$.
+Gesucht ist ein Intervall $I \subset \R$ und $y \in C^1(I \to \R)$, sodass
+\[
+	y' = f(x) g(y)
+\]
+Die Variablen sind also separierbar.
+\begin{enumerate}[a)]
+	\item
+		Falls $y_0 \in I_g$ sodass $g(y_0) = 0$, dann existiert eine konstante Lösung:
+		\[
+			y(x) = y_0
+		\]
+	\item
+		Sei $y \in C^1(I \to \R)$ eine Lösung mit $g(y(x)) \neq 0$ für $x \in I$.
+		\begin{align*}
+			y'(x) &= f(x)g(y(x)) \\
+			\iff \f {y'(x)}{g(y(x))} &= f(x) \\
+			\iff G(y(x)) + c_1 := \int \f 1{g(y)} dy = \int \f {y'(x)}{g(y(x))} dx &= \int f(x) dx = F(x) + c \qquad F' = f, G' = \f 1g \\
+			\iff G(y(x)) &= F(x) + c
+			\intertext{da $G' = \f 1g \neq 0$ ist $G$ injektiv und lokal umkehrbar.}
+			\iff y(x) &= G^{-1}(F(x) + c)
+		\end{align*}
+\end{enumerate}
+
+\begin{nt*}[Merkregel]
+	\begin{align*}
+		\f {dy}{dx} &= f(x)g(y)
+		\intertext{Alle $y$ nach links, $x$ nach rechts und Integral davor}
+		\iff \int \f{dy}{g(y)} &= \int f(x) dx
+	\end{align*}
+\end{nt*}
+
+\begin{ex} \label{2.2}
+	Sei folgende Differentialgleichung gegeben:
+	\[
+		y' = \cos^2 y \cos x
+	\]
+	\begin{enumerate}[a)]
+		\item
+			Die konstante Lösung ergibt sich für $\cos^2 y = 0$, also sind alle der Form
+			\[
+				y(x) = (n + \f 12) \pi \qquad \qquad n \in \Z
+			\]
+			konstante Lösungen.
+		\item
+			Für $y \neq \f {n + \f 12} \pi$ ergibt sich nach der Merkregel
+			\begin{align*}
+				\int \f {dy}{\cos^2 y} &= \int \cos x dx
+				\iff \tan y &= \sin x + c \\
+				\iff y &= \arctan(\sin x + c) + n \pi
+			\end{align*}
+			Die Lösungen sind demnach alle Funktionen der Form
+			\[
+				y(x) = \arctan(\sin x + c) + n \pi \qquad c \in \R, n \in \Z
+			\]
+	\end{enumerate}
+	\begin{note}[Beobachtungen]
+		\begin{itemize}
+			\item
+				Durch jeden Punkt $(x_0, y_0)$ geht genau eine Lösung.
+				\[
+					y(x) = \arctan(\sin x + \underbrace{\tan y_0 - \sin x_0}_{=c})
+				\]
+				falls $- \f \pi 2 < y_0 < \f \pi 2$.
+			\item
+				Jede Lösung ist auf ganz $\R$ definiert: \emph{globale} Lösung.
+			\item
+				Für festes $x_1 \in \R$ hängt $y(x_1)$ stetig von $(x_0, y_0)$ ab.
+			\item
+				Die Lösungsvielfalt ist durch die Parameter $c$ und $n$ beschrieben.
+			\item
+				Die Lösung ist eindeutig durch die \emph{Anfangsbedingung}
+				\[
+					y(x_0) = y_0 
+				\]
+				vorgegeben (für gegebenes $x_0, y_0$).
+		\end{itemize}
+	\end{note}
+\end{ex}
+
+\begin{ex} \label{2.3}
+	Sei folgende DGL gegeben
+	\[
+		y' = (y^2)^{\f 13}
+	\]
+	\begin{enumerate}[a)]
+		\item
+			Die konstante Lösung ergibt sich als
+			\[
+				y(x) = 0
+			\]
+		\item
+			Für $y > 0$ oder $y < 0$ ergibt sich nach der Merkregel
+			\[
+				3 y^{\f 13} = \int \f {dy}{y^{\f 23}} = \int  dx = x + c 
+			\]
+			für $x > -c$ im Fall $y > 0$, und für $x < -c$ im Fall $y < 0$.
+			Es ergibt sich dann
+			\[
+				y(x) = \f 1{27}(x + c)^3
+			\]
+	\end{enumerate}
+	\begin{note}[Beobachtungen]
+		Für $y_0 \neq 0$ geht durch jeden Punkt genau eine Lösung:
+		(exemplarisch für $y_0 > 0$):
+		\[
+			y(x) = \f 1{27}(x+c)^3  
+			\qquad x > -c, c = 3y_0^{\f 13} - x_0
+		\]
+		Dies ist keine globale Lösung (\emph{lokale Lösung}).
+
+		Setzt man diese Lösung fest zu einer globalen Lösung, geht die Eindeutigkeit verloren.
+		\[
+			y_r(x) = \begin{cases}
+				\f 1{27} x^3 \qquad x > 0 \\
+				0 & r \le x \le 0 \\
+				\f 1{27} (x+r)^3 & x < -r
+			\end{cases}
+			\qquad \forall r \le 0
+		\]
+		Außerdem: durch $(x_0, 0)$ gehen beliebig viele Lösungen.
+	\end{note}
+\end{ex}
+
+
+\subsection{Systeme von Differentialgleichungen}
+
+
+Sei $A \in \R^{n\times n}$ gegeben.
+Gesucht ist $y \in C^{\R \to \R^n}$ mit
+\[
+	y' = Ay
+\]
+ausgeschrieben ergeben sich
+\begin{align*}
+	y_1' &= a_{11} y_1 + a_{12} y_2 + \dotsb + a_{1n} y_n \\
+	\vdots \; &= \qquad\qquad\qquad \vdots \\
+	y_n' &= a_{n1} y_1 + a_{n2} y_2 + \dotsb + a_{nn} y_n \\
+\end{align*}
+also $n$ \emph{gekoppelte} Differentialgleichungen.
+
+\begin{seg}[Fall 1: ${v_1,\dotsc, v_n}$ bildet eine Basis aus Eigenvektoren: $Av_j = \lambda_j v_j$]
+	Dann ergibt sich die Lösung als
+	\[
+		y(t) := \sum_{j=1}^n c_j e^{\lambda_j t} v_j
+		\qquad c_1,\dotsc, c_m \in \R
+	\]
+	denn
+	\begin{align*}
+		y' = \sum_{j=1}^n c_j \lambda_j e^{\lambda_j t} v_j = \sum_{j=1}^n c_j e^{\lambda_j t} Av_j = A y(t)
+	\end{align*}
+	Die Eindeutigkeit ist durch Anfangsbedingungen gegeben:
+	\[
+		y(t_0) = y_0
+		\qquad t_0 \in \R, y_0 \in \R^n
+	\]
+	also
+	\[
+		\sum_{j=1}^n \underbrace{c_j e^{\lambda_j t_0}}_{d_j} v_j = y_0
+	\]
+	Die $d_j$ existieren und sind eindeutig, da $\{v_1,\dotsc,v_n\}$ Basis ist.
+	Also existieren auch
+	\[
+		c_j  = e^{-\lambda_j t_0} d_j
+	\]
+	und sind eindeutig.
+
+	\begin{note}[Beobachtungen]
+		\begin{itemize}
+			\item
+				Es existiert immer eine globale Lösung.
+			\item
+				Die Lösungsgesamtkeit ist durch $n$ skalierbare Gleichungen gegeben mit Parametern $c_j$.
+			\item
+				Die Eindeutigkeit ist stets durch die Anfangsbedingung gewährleistet.
+			\item
+				Für festes $T \in \R$ hängt $y(T)$ stetig von $(t_0, y_0)$ ab.
+			\item
+				Der Lösungsraum ist ein reeller linearer Raum mit Basis
+				\[
+					\{ t \to e^{\lambda_1 t v_1, \dotsc, t\to e^{\lambda_n t}v_n}
+				\]
+		\end{itemize}
+	\end{note}
+\end{seg}
+
+\begin{seg}[Fall 2: sonst]
+	Bilde die Jordan-Normalform:
+	\[
+		J = T^{-1} A T
+	\]
+	(Einsen auf der ersten Nebendiagonalen \fixme[Beispielmatrix])
+
+	Sei $u(t) := T^{-1} y(t)$ für eine Lösung $y(t)$.
+	Dann ist
+	\[
+		u'(t) = T^{-1}y'(t) = T^{-1}Ay(t) = T^{-1}AT u(t)
+	\]
+	Also
+	\[
+		y' = Ay
+		\qquad \iff \qquad
+		u' = Ju
+	\]
+	beispielsweise	\fixme[Jordansystem]
+	\begin{align*}
+		u_1' &= \lambda_1 u_1& &+ u_2
+	\end{align*}
+	Die Lösungen sind gegeben durch (gehe Blockweise von unten nach oben vor):
+	\begin{align*}
+		u_3 &= c_3 e^{\lambda_1 t} \\
+		u_2 &= c_2 e^{\lambda_1 t} + c_3 t e^{\lambda_1 t} \\
+		u_1 &= c_1 e^{\lambda_1 t} + c_2 t e^{\lambda_1 t} + c_3 \f {t^2}2 e^{\lambda_1 t} \\
+	\end{align*}
+	Rücktransformation ergibt dann
+	\[
+		y(t) := T u(t)
+	\]
+\end{seg}
+
+
+\subsection{Differentialgleichungen höherer Ordnung} % 2.4
+
+
+Seien $a_0, \dotsc, a_{n-1}$ gegeben, gesucht ist $y \in C^n (\R \to \R)$ mit
+\[
+	y^{n} = a_{n-1} y^{n-1} + \dotsb + a_1 y' + a_0 y
+\]
+Setze dazu
+\[
+	u_1 := y \qquad u_2 := y' \qquad \dotsc \qquad u_n := y^{(n-1)}
+\]
+Es ergibt sich im Beispiel für 
+\[
+	y''' = y'
+\]
+\begin{align*}
+	u_1' = u_2 \\
+	u_2' = u_3 \\
+	u_3' = y''' = y' = u_2
+\end{align*}
+Löse dieses System und setze dann
+\[
+	y(t) := u_1(t)
+\]
+Die Eindeutigkeit ist durch die Anfangsbedingungen
+\[
+	y(t_0) = y_0, \qquad y'(t_0) = y_1, \qquad y''(t_0) = y_2
+\]
+
+
+\end{document}
+
+
