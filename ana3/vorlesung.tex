@@ -1,7 +1,9 @@
 \documentclass[a4paper,10pt]{scrbook}
 \usepackage{mathe-vorlesung}
 \usepackage{legacy}
-\newcommand{\coloneq}{:=}
+
+\renewtheorem{thm}{Theorem}[chapter]
+\renewcommand{\thethm}{\arabic{section}.\arabic{thm}}
 
 \title{Analysis 3}
 
@@ -16,685 +18,6 @@
 \input{content/chap1.tex}
 
 \input{content/chap2.tex}
-
-%\subsection{Grundlagen}
-%
-%\begin{df}
-%	\label{df:1.1}	
-%	Die komplexen Zahlen bestehen aus
-%	\[
-%		\C := \{(x,y) : x,y\in \R\}
-%	\]
-%	und den Verknüpfungen
-%	\begin{align*}
-%		(x_1,y_1) + (x_2,y_2) &:= (x_1 + x_2, y_1 + y_2) \in \C \\
-%		(x_1,y_1) \cdot (x_2,y_2) &:= (x_1x_2 - y_1y_2, x_1y_2 + x_2y_1) \in \C
-%	\end{align*}
-%\end{df}
-%
-%\begin{nt}
-%	\label{nt:1.1}
-%	\begin{enumerate}
-%		\item $(\C,+,\cdot)$ ist ein Körper mit $(0,0)$ und Einselement $(1,0)$.
-%		\item 
-%			$\phi: \R\to \C : x\mapsto (x,0)$ ist eine injektiver Körperhomomorphismus.
-%			Insbesondere gilt
-%			\begin{align*}
-%				\phi(x_1+x_2) &= \phi(x_1) + \phi(x_2)\\
-%				\phi(x_1+x_2) &= \phi(x_1) \cdot \phi(x_2)
-%			\end{align*}
-%			Identifiziere $\R$ mit $\phi(\R) = \{(x,0) : x\in \R\}$.
-%			Schreibe dazu: $(x,0) =: x \in \R$.
-%		\item
-%			Imaginäre Einheit $i:= (0,1)$.
-%			\[
-%				\implies \begin{cases}
-%				i^2 = (0,1)\cdot (0,1) = (0\cdot 0 - 1\cdot 1, 0\cdot 1 + 0\cdot 1) = (-1,0) = -1 \\
-%				(x,y) = (x,0) + (0,y) = (x,0) + y\cdot i = x + yi
-%				\end{cases}
-%			\]
-%			Rechnen in $\C$:
-%			\begin{align*}
-%				(x_1,y_1)\cdot (x_2,y_2) &= (x_1 +iy_1)\cdot (x_2 + iy_2)\\
-%				&= x_1x_2 + ix_1y_2 + iy_1x_2 + (i)^2y_1y_2\\
-%				&= x_1x_2 - y_1y_2 + i(x_1y_2 + x_2y_1)
-%			\end{align*}
-%			oder
-%			\begin{align*}
-%				\f 1{x+iy} = \f 1{x+iy}\cdot \f {x-iy}{x-iy} = \f{x-y}{x^2-(iy)^2} = \f x{x^2+y^2} + i \f{-y}{x^2+y^2}
-%			\end{align*}
-%			Realteil: $\Re(x+iy) = x\in \R$ \\
-%			Imaginärteil: $\Im(x+iy) = y\in\R$
-%		\item
-%			Gaußsche Zahlenebene:
-%	\end{enumerate}
-%\end{nt}
-%
-%\begin{df}
-%	\label{df:1.3}
-%	\begin{enumerate}
-%		\item 
-%			Für $z=x+iy$ heißt
-%			\[
-%				\_z = x-iy
-%			\]
-%			\emph{konjugiert komplexe Zahl}
-%		\item
-%			\[
-%				|z| = \sqrt{x^2+y^2} = \sqrt{z\cdot \_z}
-%			\]
-%		\item
-%			Polardarstellung: $z=x+iy = |z|(\cos \phi + i\sin\phi)$ wobei $\phi = \arg(z)$ (Argument von $z$) eindeutig durch
-%			\[
-%			-\pi \le \phi \le \pi, \qquad \cos\phi = \f x{\sqrt{x^2+y^2}}, \qquad \sin\phi = \f y{\sqrt{x^2+y^2}}
-%			\]
-%			Rechnen mit Polardarstellung:
-%			\begin{align*}
-%				z_1 \cdot z_2 &= |z_1|\cdot |z_2|\cdot (\cos(\phi_1+\phi_2) + i\sin(\phi_1+\phi_2))\\
-%				z^n &= |z|^n (\cos(n\phi) + i\sin(n\phi))
-%			\end{align*}
-%			Lösung von $z^n=r(\cos\psi + i\sin\psi)$ ist gegeben durch
-%			\begin{align*}
-%				|z| &= r^{\f 1n}\\
-%				\phi &= \f \psi n + \f {2\pi k}n \qquad k\in 0,1,\dotsc, n-1
-%			\end{align*}
-%	\end{enumerate}
-%\end{df}
-%
-%\begin{st}
-%	\label{st:1.4}
-%	$(\C, +, \cdot, |\cdot|)$ ist ein \emph{bewerteter Körper}, d.h. für $|\cdot|: \C \to \R$ gelten:
-%	\begin{enumerate}
-%		\item $|z| \ge 0 \land (|z| = 0 \iff z = 0)$
-%		\item $|z_1\cdot z_2| = |z_1|\cdot |z_2|$
-%		\item $|z_1+z_2| \le |z_1| + |z_2|$
-%	\end{enumerate}
-%	\begin{proof}
-%		Beweis durch Nachrechnen
-%	\end{proof}
-%	\begin{note}
-%		Außerdem gilt die Dreiecksungleichung nach unten:
-%		\[
-%			|z_1 \pm z_2| \ge ||z_1| - |z_2||
-%		\]
-%		\begin{proof}
-%			Beweis durch Nachrechnen.
-%		\end{proof}
-%	\end{note}
-%\end{st}
-%
-%\begin{df}
-%	\label{df:1.5}
-%	Eine Folge $(z_n)$ in $\C$ \emph{konvergiert} gegen $z\in \C$, falls
-%	\[
-%		\forall \eps > 0 \exists \N_\eps\in \N \forall n\ge \N_\eps : |z_n -z| < \eps
-%	\]
-%	Man schreibt dann $z = \lim_{n\to \infty} z_n$ oder $z_n \to z$ $(n\to \infty)$.
-%\end{df}
-%
-%\begin{st}
-%	\label{st:1.6}
-%	Es gelte $z_n\to z$ und $w_n \to w$ in $\C$.
-%	Dann gilt
-%	\begin{enumerate}
-%		\item $z_n \pm w_n \to z \pm w$ 
-%		\item $z_n\cdot w_n \to z\cdot w$
-%		\item
-%			Falls $w\neq 0$ und $w_n' = \begin{cases} 1 & w_n=0 \\ w_n & \text{sonst}\end{cases}$, dann gilt
-%			\[
-%				\f {z_n}{w_n} \to \f zw
-%			\]
-%		\item $z_n\to z \quad\iff \Re z_n \to \Re z \land  \Im z_n \to \Im z$
-%
-%	\end{enumerate}
-%\end{st}
-%
-%\begin{df}
-%	\label{df:1.7}
-%	\begin{enumerate}
-%		\item 
-%			Sei $r> 0, z_0\in \C$.
-%			\[
-%				K_r(z_0) := \{z\in \C : |z-z_0| < r\}
-%			\]
-%			heißt \emph{offene Kreisscheibe} um $z_0$ mit Radius $r$.
-%		\item
-%			Eine Teilmenge $O \subset \C$ heißt \emph{offen}, falls
-%			\[
-%				\forall z\in 0 \exists r_z > 0 : K_{r_z}(z) \subset O
-%			\]
-%			Eine Teilmenge $A \subset \C$ heißt \emph{abgeschlossen}, falls $\C\setminus A$ offen ist.
-%
-%			Beliebige Vereinigungen und endliche Schnitte offener Mengen sind offen.
-%			Beliebige Schnitte und endliche Vereinigungen abgeschlossener Mengen sind abgeschlossen.
-%		\item
-%			Für eine beliebige Teilmenge $M\subset \C$ ist
-%			\[
-%				\mathring M := \bigcup_{O\in \{O\subset \C: O \text{ offen} \land O \subset M\}} O
-%			\]
-%			das \emph{Innere} von $M$ (die größte offene Menge $O\subset M$).
-%			\[
-%				\_M := \bigcap_{A\in \{A\subset \C: A \text{ abgeschlossen} \land M \subset A\}} A
-%			\]
-%			der \emph{Abschluss} von $M$ (die kleinste abgeschlossene Menge $A$ mit $M\subset A$).
-%	\end{enumerate}
-%\end{df}
-%
-%\begin{ex}
-%	\label{ex:1.8}
-%	\begin{enumerate}
-%		\item 
-%			$\emptyset, \C$ sind offen und abgeschlossen. 
-%			Alle anderen Teilmengen von $\C$ sind entweder offen oder abgeschlossen oder keins von beidem.
-%		\item
-%			$K_r(z_0)$ ist offen. $\_{K_r(z_0)}=\{z\in \C : |z -z_0| \le r\}$
-%		\item
-%			$\R\subset \C$, $\R$ ist nicht offen, betrachte $\C\setminus \R$.
-%			$\R\subset \C$ ist abgeschlossen, betrachte $\C\setminus \R$.			
-%	\end{enumerate}
-%\end{ex}
-%
-%\begin{df}
-%	\label{df:1.9}
-%	Sei $O\subset \C$ offen, $f: O \to \C$.
-%	Dann heißt $f$ \emph{stetig} in $z_0\in O$, falls
-%	\[
-%		\forall \eps> 0 \exists \delta_\eps > 0 \forall z\in O : |z-z_0| < \delta \implies |f(z) -f(z_0)| < \eps
-%	\]
-%	oder äquivalent
-%	\[
-%		\forall (z_n) \text{ Folge in } O: z_n \to z \implies f(z_n) \to f(z_0)
-%	\]
-%	$f$ heißt \emph{stetig}, falls $f$ in jedem $z_0\in O$ stetig ist.
-%\end{df}
-%
-%\begin{st}
-%	\label{st:1.10}
-%	\begin{enumerate}
-%		\item 
-%			Seien $f,g: O\to \C$, $z_0\in O$, $f,g$ stetig in $z_0$.
-%			Dann sind $f\pm g$, $f\cdot g$ und (falls $g(z_0)\neq 0$) $\f fg$ stetig in $z_0$.
-%		\item
-%			Sei $f:O\to \C$ stetig in $z_0\in O$ und $g:\tilde O \to \C$ stetig in $f(z_0)$, $f(O) \subset \tilde O$.
-%			Dann ist $g\circ f$ stetitg in $z_0$
-%	\end{enumerate}
-%\end{st}
-%\begin{proof}
-%Beweis über Folgendefinition der Stetigkeit.
-%\end{proof}
-%
-%\begin{nt}
-%	\label{nt:1.10}
-%	Stetigkeit genauso für $f:M\to \C$ und beliebiger Menge $M\subset \C$.
-%\end{nt}
-%
-%\begin{df}[Funktionenfolgen]
-%	Sei $M\subset \C$, $f_n,f: M \to \C$.
-%	\begin{enumerate}[1)]
-%		\item 
-%			$(f_n)$ heißt \emph{punktweise konvergent} gegen $f$ auf $M$, falls
-%			\[
-%				\forall z\in M \forall \eps > 0 \exists N_{\eps,z} \in \N \forall n>N_{\eps,z}: |f_n(z) - f(z)| < \eps
-%			\]
-%		\item
-%			$(f_n)$ heißt \emph{gleichmäßig konvergent} gegen $f$ auf $M$, falls
-%			\[
-%				\forall \eps>0 \exists N_{\eps} \in \N \forall n>N_{\eps} \forall z\in M : |f_n(z)-f(z)| < \eps
-%			\]
-%	\end{enumerate}
-%\end{df}
-%
-%\begin{st}
-%	\label{st:1.12}
-%	Seien $f_n:M\to \C$ stetig, $(f_n)$ gleichmäßig konvergent auf $M$ gegen $f$. 
-%	Dann ist $f$ auch stetig auf $M$.
-%	\begin{proof}
-%		Seien $z_0\in M, \eps > 0$ fest.
-%		\begin{align*}
-%			|f(z)-f(z_0)| &\le |f(z)-f_n(z)| + |f_n(z)-f_n(z_0) + |f_n(z)-f(z_0)|
-%		\end{align*}
-%		1. Wähle $N_{\eps}$, so, dass $|f(z)-f_n(z)| < \frac \eps 3$ für $n>N_{\eps}$. \\
-%		2. Setze jetzt aber konkret $n:= N_{\eps}+1$. Mit der Dreiecksgleichung, Stetigkeit und geschicktes Addieren mit der Null ergibt sich.
-%		
-%		 \[
-%		  |f(z)-f(z_0)|\le \underbrace{|f(z)-f_m(z)|}_{\frac\eps 3} + \underbrace{|f_m(z)-f_m(z_0)|}_{<\frac \eps 3, |z-z_0|<\delta_{\frac{\eps}{3}}}+\underbrace{|f_m(z_0)-f(z_0)|}_{<\frac{\eps}{3}}<\eps \text{für } |z-z_0|<\delta
-%		 \]
-%			
-%	\end{proof}
-%\end{st}
-%
-%\begin{df}
-%	\label{df:1.13}
-%	Eine Reihe $\sum_{n=0}^\infty a_n$ heißt \emph{absolut konvergent}, falls $\sum_{n=0}^\infty |a_n|$ konvergiert.
-%\end{df}
-%
-%\begin{thm}[Weierstraß-Kriterium]
-%	\label{thm:1.14}
-%	Ist $\sum_{n=0}^\infty a_n$ mit $a_n \ge 0$ konvergent und gilt $f_n:M\to \C$ und $f_n(z)| \le a_n$, so ist die Reihe
-%	\[
-%		\sum_{n=0}^\infty f_n(z)
-%	\]
-%	gleichmäßig konvergent auf $M$ und absolute konvergent für $z\in M$.
-%\end{thm}
-%
-%\begin{ex}
-%	$M:= \_{K_2(0)} \subset \C$, $f_n(z) := \f {z^n}{(n+1)^22^n}$.
-%	Wähle $a_n:= \f 1{(n+1)^2}$, dann folgt
-%	\[
-%		\begin{cases}
-%			\sum_{n=0}^\infty \f 1{(n+1)^2} < \infty \\
-%			|f_n(z)| \le a_n
-%		\end{cases}
-%	\]
-%	Also ist $g(z) = \sum_{n=0}^\infty f_n(z)$ nach \ref{thm:1.14} und \ref{st:1.12} stetig auf $\_{K_2(0)}$.
-%\end{ex}
-%
-%\begin{df}[Potenzreihen]
-%	Sei $(a_n)$ eine Folge in $\C$
-%	\[
-%		R := \f 1{\limsup_{n\to \infty}\sqrt[n]{|a_n|}} \qquad\left (\f 10 := \infty, \f 1\infty := 0 \right )
-%	\]
-%	dann konvergiert die Potenzreihe
-%	\[
-%		f(z) = \sum_{n=0}^\infty a_n(z-z_0)^n
-%	\]
-%	für $|z-z_0|<R$ und divergiert für $|z-z_0|>R$.
-%	Sei konvergiert gleichmäßig auf jedem Kreis $\_{K_r(z_0)}$ mit $0<r<R$.
-%	Insbesondere ist $f$ stetig auf $K_R(z_0)$.
-%
-%	Falls $(|\f {a_{n+1}}{a_n}|)$ konvergiert, gilt
-%	\[
-%		R = \f 1{\lim |\f{a_{n+1}}{a_n}|}
-%	\]
-%\end{df}
-%
-%\begin{df}
-%	Wir definieren
-%	\begin{align*}
-%		e^z &:= \sum_{n=0}^\infty \f {z^n}{n!}\\
-%		\cos z &:= \sum_{n=0}^\infty (-1)^n \f {z^2n}{(2n)!} \\
-%		\sin z &:= \sum_{n=0}^\infty (-1)^n \f{z^{2n+1}}{(2n+1)!}
-%	\end{align*}
-%	\begin{proof}
-%		Für die Konvergenz:
-%		\begin{align*}
-%			\f {a_{n+1}}{a_n} = \f {\f1{(n+1)!}}{\f 1{n!}} = \f {1}{n+1} \to 0
-%		\end{align*}
-%		Also $R=\infty$, die Potenzreihe konvergiert auf ganz $\C$.		
-%	\end{proof}
-%\end{df}
-%
-%\begin{thm}[Cauchy-Produkt von Reihen]
-%	\label{thm:1.18}
-%	Ist $\sum_{n=0}^\infty a_n$ absolut konvergent, $\sum_{n=0}^\infty b_n$ konvergent in $\C$, so gilt
-%	\[
-%		\left( \sum_{n=0}^\infty a_n\right) \left(\sum_{n=0}^\infty f_n\right) = \sum_{n=0}^\infty \sum_{k=0}^n a_k b_{n-k}
-%	\]
-%	\begin{proof}
-%		Setze $A:= \sum_{n=0}^\infty$, $B:= \sum_{n=0}^\infty b_n, b_l := \sum_{n=0}^l b_n$.
-%		\begin{align*}
-%			\sum_{n=0}^N \sum_{k=0}^n a_k b_{n-k}
-%				&= \sum_{n=0}^N a_n \sum_{m=0}^{N-n} b_m\\
-%				&= \sum_{n=0}^N a_n (B_{N-m}-B + B)\\
-%				&= \sum_{l=0}^N a_{N-l} (B_l -B) + \underbrace{\sum_{n=0}^N a_nB}_{\to AB}\\
-%		\end{align*}
-%		Weiterhin ist für entsprechendes $N_\eps$
-%		\begin{align*}
-%			\left|\sum_{l=0}^N a_{N-l} (B_l-B) \right| \\
-%				&= \left|\sum_{l=0}^{N_\eps} a_{N-l}(B_l-B) + \sum_{l=N_\eps +1}^N a_{N-l}(B_l-B)\right|\\
-%				&\le \left|\max_{0\le l \le N_\eps} |B_l-B|\sum_{n=N-N_\eps}^\infty |a_n| \right| \\ &+     \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{l=N_\eps+1}^N |a_{N-l}| |\right| \qquad n= N-l, \text{wähle hier $N_\eps$} \\
-%				&\le \f \eps 2  +  \left|\sup_{l\ge N_{\eps}+M} |B_l-B| \sum_{n=0}^\infty |a_{n}| \right| \\
-%				&<     \eps
-%		\end{align*}
-%		für $N-N_\eps > \tilde N_\eps$ bzw. für  $N>\tilde N_\eps + N_\eps$.
-%	\end{proof}
-%\end{thm}
-%
-%\begin{prop}
-%	\label{prop:1.19}
-%	Es gilt
-%	\[
-%		e^{z+w}  = e^z\cdot e^w
-%	\]
-%	\begin{proof}
-%		\begin{align*}
-%			e^ze^w &= \left(\sum_{n=0}^\infty \f{z^n}{n!}\right) \left( \sum_{n=0}^\infty \f {w^n}{n!}\right) \\
-%				&= \sum_{n=0}^\infty \sum_{k=0}^n \f {z^k}{k!} \f {w^{n-k}}{(n-k)!} \\
-%				&= \sum_{n=0}^\infty \f 1{n!} \sum_{k=0}^n \binom{n}{k}z^k w^{n-k} \\
-%				&= \sum_{n=0}^\infty \f {(z+k)^n}{n!} = e^{z+w}
-%		\end{align*}
-%	\end{proof}
-%\end{prop}
-%
-%\begin{nt}
-%	\label{1.20}
-%	Aus der Taylorreihe folgt außerdem, dass $e^z, \sin z, \cos z$ für $z\in \R$ die selben Funktionen sind, wie aus der Schule bekannt.
-%\end{nt}
-%
-%\begin{prop}
-%	\label{1.21}
-%	\begin{enumerate}[1)]
-%		\item 
-%			$e^{iz} = \cos z + i \sin z$ für $z\in \C$ (Eulersche Formel)
-%			\begin{proof}
-%				\[
-%					e^{iz} = \sum_{n=0}^\infty \f {(iz)^n}{n!} = \sum_{k=0}^\infty \f {(iz)^{2k}}{(2k)!} + \sum_{k=0}^\infty \f {(iz)^{2k+1}}{(2k+1)!} =
-%\sum_{k=0}^\infty (-1)^k\f {z^{2k}}{(2k)!} + \sum_{k=0}^\infty \f (-1)^k {z^{2k+1}}{(2k+1)!}
-%\]
-%			\end{proof}
-%		\item
-%			Mit der Polardarstellung $z = r(\cos \phi + i \sin \phi) = r e^{i\phi}$ gilt
-%			\begin{align*}
-%				z^n &= r^n e^{in\phi}\\
-%				z_1 z_2 &= r_1 r_2 e^{\phi_1 + \phi_2}\\
-%				\f {z_1}{z_2} &= \f {r_1}{r_2} e^{i(\phi_1-\phi_2)}
-%			\end{align*}
-%	\end{enumerate}
-%\end{prop}
-%
-%\begin{df}
-%	\label{df:1.22}
-%	\begin{enumerate}[1)]
-%		\item 
-%			$f: O \to \C$ heißt \emph{differenzierbar} in $z_0\in O$, falls
-%			\[
-%				f'(z_0 := \lim_{\substack{z\to z_0 \\ z\neq z_0}}\f {f(z) -f(z_0)}{z-z_0}
-%			\]
-%			existiert.
-%			$f'(z_0)$ heißt \emph{Ableitung} von $f$ in $z_0$.
-%		\item
-%			$f$ heißt \emph{differenzierbar}, falls $f$ in jedem $z_0\in O$ differenzierbar ist.
-%			$f':O\to \C$ heißt \emph{Ableitung(sfunktion)} von $f$.
-%	\end{enumerate}
-%\end{df}
-%
-%\begin{ex*}
-%	\begin{enumerate}[1)]
-%		\item 
-%			$f: \C \to \C : z\mapsto c$, dann ist $f'=0$.
-%		\item
-%			$f: \C \to \C : z\mapsto z$, dann ist $f'=1$.
-%		\item
-%			ohne Beweis: $f:\C \to \C :z\mapsto z^m$, dann ist $f'(z) = nz^{n-1}$.
-%		\item
-%			$f: \C\to \C : z\mapsto |z|^2$ ist in $z_0\neq 0$ nicht differenzierbar.
-%			\begin{proof}
-%				Sei $z_0 = x_0+iy_0 \neq 0$ und $z_h:= x_0+h +iy_0$, dann ist
-%				\[
-%					\f {|z_h|^2 -|z_0|^2}{z_h-z_0} = \f {2hx_0+h^2}h \to 2x_0
-%				\]
-%				Sei jetzt $z_h := x_0 + i(y_0+h)$, dann ist
-%				\[
-%					\f {|z_h|^2 -|z_0|^2}{z_h-z_0} := \f {2hx_0+h^2}{ih} \to -2ix_0
-%				\]
-%			\end{proof}
-%	\end{enumerate}
-%\end{ex*}
-%
-%\begin{st}
-%	\label{st:1.24}
-%	Sei $O\subset \C$ offen, $f:O\to \C$, $z_0\in O$.
-%	Dann sind äquivalent
-%	\begin{enumerate}[(i)]
-%		\item
-%			$f$ ist differenzierbar in $z_0$ mit Ableitung $f'(z_0)$
-%		\item
-%			$\exists f'(z_0) \in \C : f(z) =f(z_0)+f'(z_0)(z-z_0)+o(|z-z_0|)$
-%	\end{enumerate}
-%	\begin{proof}
-%		\begin{enumerate}
-%			\item 
-%				\[
-%					\iff \f{f(z)-f(z_0)}{z-z_0}-f'(z_0) \to 0
-%				\]
-%				\fixme
-%		\end{enumerate}
-%	\end{proof}
-%\end{st}
-%
-%\begin{st}
-%	\label{1.25}
-%	\begin{enumerate}[1)]
-%		\item 
-%			$f$ differenzierbar in $z_0$ $\implies$ $f$ stetig in $z_0$.
-%		\item
-%		\item
-%		\item
-%		\item
-%	\end{enumerate}
-%\end{st}
-%
-%\begin{ex}
-%	\begin{enumerate}[1)]
-%		\item 
-%			Polynomfunktionen sind differenzierbar auf $\C$
-%		\item
-%			Gebrochenrationale Funktionen sind auf ihrem Definitionsbereich differenzierbar
-%	\end{enumerate}
-%\end{ex}
-%
-%\begin{df}
-%	\begin{enumerate}[1)]
-%		\item 
-%			Sei $\gamma\in C^1([a,b]\to \C)$.
-%			Dann heißt $\gamma$ \emph{Weg} von $z_1=\gamma(a)$ nach $z_2=\gamma(b)$.
-%			Falls $z_1=z_2$, heißt $\gamma$ \emph{geschlossen}.
-%		\item
-%			Sei $\gamma$ eine Weg, $f\in C^1(\Re(\gamma)\to \C)$.
-%			Dann heißt
-%			\begin{align*}
-%				\int_\gamma f(z) dz := \int_a^b f(\gamma(t)) \gamma'(t) dt\\
-%				=: \int_a^b(\Re f(\gamma(t)) \Re \gamma'(z) - \Im f(\gamma(t)) \Im \gamma'(t))dt
-%				+ i\int_a^b(\Im f(\gamma(t)) \Re \gamma'(t) + \Re f(\gamma(t)) \Im \gamma'(t))dt
-%			\end{align*}
-%			das \emph{Integral} längs $\gamma$.
-%	\end{enumerate}
-%\end{df}
-%
-%\begin{nt}
-%	\label{st:1.28}
-%	\begin{enumerate}[1)]
-%		\item 
-%			Ist $\tilde \gamma$ eine andere Parametrisierung des Weges $\gamma$, sodass $\phi'\in C^1([a',b']\to [a,b])$
-%			\begin{align*}
-%				\tilde \gamma &= (\gamma \circ \phi)(s) \qquad a'\le s\le b'\\
-%				\phi(a') &= a\\
-%				\phi(b') &= b
-%			\end{align*}
-%			Dann folgt aus der Substitutionsregel für reelle Integration
-%			\begin{align*}
-%				\int_\gamma f(z) dz &= \int_a^b f(\gamma(t)) \gamma'(t) dt \\
-%				&= \int_{a'}^{b'} \underbrace{f(\gamma(\phi(s)))}_{f(\tilde \gamma(s)} \underbrace{\gamma'(\phi(s))\phi'(s)}_{\f d{dx}\tilde \gamma(s)=\f d{dx}(\gamma\circ \phi)(s)} ds\\
-%				&= \int_{\tilde \gamma} f(z) dz
-%			\end{align*}
-%		\item
-%			$-\gamma := $  derselbe Weg, aber entgegengesetzt orientiert:
-%			\[
-%				-\gamma(t) := \gamma(a+b-t) \qquad a\le t\le b
-%			\]
-%			Dann ist auch (selber nachrechnen)
-%			\[
-%				\int_{-\gamma}f(z) dz = - \int_\gamma f(z) dz
-%			\]
-%		\item
-%			Jede Kurve kann so umparametrisiert werden, dass $a=0, b=1$ gilt.
-%		\item
-%			Verbindungsstrecke $\gamma=[z_1,z_2]$ ist definiert als
-%			\[
-%				\gamma(t) = z_1 + t(z_2-z_1) \qquad 0\le t\le 1
-%			\]
-%		\item
-%			Verallgemeinerung: Ein Weg kannn auch nur stückweise $C^1$ sein:
-%			\[
-%				\gamma\in C([a,b]\to \C)
-%			\]
-%			(stetig).
-%			Es existieren $t_0=a<t_1<t_2<\dotsb<t_n=b$ so dass
-%			\[
-%				\gamma_j = \gamma\big|_[t_{j-1},t_j] \in C^1([t_{j-1},t_j]\to \C)
-%			\]
-%			d.h. die Ableitung, darf endlich viele Sprünge haben.
-%			Dann ist
-%			\[
-%				\int_\gamma f(z) dz := \sum_{j-1}^n \int_{\gamma_j}f(z) dz
-%			\]
-%	\end{enumerate}
-%\end{nt}
-%
-%\begin{ex}
-%	\begin{enumerate}[1)]
-%		\item 
-%			$f(z)=z^3$, Verbindungsstrecke: $\gamma=[0,1+i]$
-%			Dann ist
-%			\[
-%				\int_{[0,1+i]}z^3 dz = \int_0^1(t(1+i))^3(1+i) dt = (1+i)^4 \int_0^1 t^3 dt = \f {(1+i)^4}4
-%			\]
-%		\item
-%			$f(z)=\f 1z$, $\gamma(t)=e^{it}$, $0\le t\le 2\pi$.
-%			Das ist wegen $\gamma(0)=\gamma(2\pi)$ ein geschlossener Weg.
-%			\[
-%				\int_\gamma \f 1z dz = \int_0^{2\pi}\f 1{e^{it}} ie^{it} dt = 2\pi i \neq 0 
-%			\]
-%			Obwohl die Kurve geschlossen ist, kommt nicht $0$ heraus!
-%	\end{enumerate}
-%\end{ex}
-%
-%\begin{st}
-%	\label{st:1.30}
-%	Sei $O\subset \C$ offen, $F:O\to \C$ differenzierbar, $f=F'$ in $O$ (d.h. $F$ ist eine \emph{Stammfunktion} von $f$).
-%	Ist $\gamma$ ein Weg in $O$, so gilt
-%	\[
-%		\int_\gamma f(z) dz f F(\gamma(b)) - F(\gamma(a))
-%	\]
-%	\begin{proof}
-%		\begin{align*}
-%			\int_\gamma f(z) dz &= \int_a^b f(\gamma(t)) \gamma'(t) dt \\
-%			\intertext{
-%				Wegen
-%				\begin{align*}
-%					\f d{dt} F(\gamma(t)) &= \lim_{\substack{s \to t \\ s\neq t}} \f {F(\gamma(s) -F(\gamma(t))}{\gamma(s) - \gamma(t)} \cdot \f {\gamma(s)-\gamma(t)}{s-t} \\
-%				&= F'(\gamma(t)) \cdot \gamma'(t) \\
-%				&= f(\gamma(t)) \gamma'(t)
-%				\end{align*}
-%				gilt weiter
-%			}
-%			&= \int_a^b (\f d{dt} \Re F( \gamma(t)) + i \f d{dt} \Im F(\gamma(t))) dt \\
-%			&= \int_a^b \Re F(\gamma(b)) + i \Im F(\gamma(b))\\
-%			&= F(\gamma(b)r - F(\gamma(a))
-%		\end{align*}
-%	\end{proof}
-%\end{st}
-%
-%\begin{prop}
-%	\label{prop:1.31}
-%	\begin{enumerate}[1)]
-%		\item 
-%			Besitzt $f$ eine Stammfunktion und ist $\gamma$ geschlossen, folgt $\int_\gamma f(z)dz = 0$.
-%		\item
-%			$f:\C\setminus \{0\} \to \C : z\mapsto \f 1z$ besitzt kein Stammfunktion (siehe \ref{ex:1.29} 2.)
-%	\end{enumerate}
-%\end{prop}
-%
-%\begin{st}
-%	\label{st:1.32}
-%	Sei $\gamma$ Weg, $f\in C(\im(\gamma) \to \C)$.
-%	Dann ist
-%	\[
-%		\left| \int_\gamma f(z) dz \right| \le \int_a^b |f(\gamma(t))| |\gamma'(t)| dt \le
-%\le \max_{a\le t \le b} |f(\gamma(t))| \int_a^b |\gamma'(t)|| dt
-%	\]
-%	\begin{proof}
-%		\begin{align*}
-%			\left| \int_\gamma f(z) dz \right| &= e^{i\phi} \int_\gamma f(z) dz \qquad \phi= -\arg\left(\int_\gamma f(z)dz\right)\\
-%			&= \int_a^b e^{i\phi} f(\gamma(t) \gamma'(t) dt \\
-%			&= \int_a^b \Re\left(e^{i\phi} f(\gamma(t)) \gamma'(t)\right)dt + i \underbrace{\int_a^b \Im\left( \dotso\right)dt}_{=0} \\
-%			&\le \int_a^b |\Re e^{i\phi} f(\gamma(t)) \gamma'(t)| dt\\
-%			&\le \int_a^b |e^{i\phi} f(\gamma(t)) \gamma'(t)| dt\\
-%			&\le \int_a^b |e^{i\phi}| |f(\gamma(t))| |\gamma'(t)| dt\\
-%			&\le \int_a^b |f(\gamma(t))| |\gamma'(t)| dt\\
-%		\end{align*}
-%		Der Beweis funktioniert auch, falls $\gamma$ nur stückweise $C^1$ ist.
-%	\end{proof}
-%\end{st}
-%
-%\begin{df}
-%	\label{df:1.33}
-%	Man nennt
-%	\[
-%		L(\gamma) := \int_a^b |\gamma'(t)| dt
-%	\]
-%	\emph{Länge} von $\gamma$.
-%	Damit wird \ref{st:1.32} zu
-%	\[
-%		\left| \int_\gamma f(z) dz \right| \le L(\gamma) \cdot \max_{a\le t\le b}|f(\gamma(t))|
-%	\]
-%\end{df}
-%
-%\begin{ex}
-%	\begin{enumerate}[1)]
-%		\item 
-%			$\gamma=[z_1,z_2]$, $\gamma(t) = z_1+t(z_2+z_1)$, dann ist
-%			\[
-%				L(\gamma) = \int_0^1 |z_2-z_1| dt = |z_2-z_1|
-%			\]
-%		\item
-%			\begin{enumerate}[a)]
-%				\item 
-%					$\gamma(t) = e^{it}$, $0\le t\le 2\pi$.
-%					Es gilt nach 1.29 und 1.32
-%					\[
-%						|2\pi i| = \left| \int_\gamma \f 1z dz \right| \le \max_{\substack{z=e^{it}\\0\le t \le 2\pi}} \cdot \int_0^{2\pi} |ie^{it}| dt = 2\pi
-%					\]
-%				\item
-%					Es gilt
-%					\[
-%						|0| = \left|\int_\gamma z dz\right| \le \max_{\substack{z=e^{it}}} \cdot 2\pi = 2\pi
-%					\]
-%			\end{enumerate}
-%	\end{enumerate}
-%\end{ex}
-%
-%\begin{st}
-%	Sei $(a_n)$ eine Folge in $\C$ mit Konvergenzradius $R:= \f {1}{\limsup_{n\to \infty}\sqrt[n]{|a_n|}}>0$ und 
-%	\[
-%		f(z) := \sum_{n=0}^\infty a_n z^n
-%	\]
-%	ür $|z|<R$.
-%	Dann ist $f$ in $K_R(0)$ beliebig oft differenzierbar mit
-%	\[
-%		f'(z) = \sum_{n=1}^\infty a_n nz^{n-1}, \qquad f''(z) = \sum_{n=2}^\infty a_nn(n-1)z^{n-2}
-%	\]
-%	\begin{proof}
-%		Sei $g(z) := \sum_{n=1}^{\infty}a_n nz^{n-1}, R':= \f 1{\limsup_{n\to \infty}\sqrt[n]{a_n n}}$ (Konvergenzradius für $z$ ist der selbe wie für $g(z)$).
-%		\begin{enumerate}[1)]
-%			\item 
-%				$R'=R$ wegen $\lim_{n\to \infty} \sqrt[n]{a_n} = 1$.
-%				D.h. $g$ ist auf demselbe $K_R(0)$ definiert, wi $f$.
-%			\item
-%				$g=f'$: Seien $w\in K_R(0), z\in K_R(0)\setminus \{w\}$.
-%				\begin{align*}
-%					\f {f(z) -f(w)}{z-w} - g(w) &= \sum_{n=1}^\infty a_n \left( \f {z^n-w^n}{z-w} - nw^{n-1}\right) \\
-%					&= \sum_{n=1}^\infty a_n \left( \f 1{z-w}\int_{[w,z]}nu^{n-1}-nw^{n-1}dt\right) \\
-%					|\cdot| &\le \sum_{n=1}^\infty |a_n| \f 1{|z-w|} \cdot L([w,z]) \cdot n|z^{n-1}-w^{n-1}| \\
-%					&= \begin{cases} \to 0  & z\to w\\
-%						\le n|z|^{n-1}+ n|w|^{n-1} & \text{sonst}
-%					\end{cases}
-%				\end{align*}
-%				Die Reihe konvergiert also gleichmäßig in $K_r(0)$ für jedes $r<R$.
-%				Also ist der Grenzwert $z\to w$ und die Reihe vertauschbar.
-%				Damit gilt
-%				\[
-%					\f {f(z) -f(w)}{z-w}- g(w) \to 0
-%				\]
-%		\end{enumerate}
-%	\end{proof}
-%\end{st}
-%
-
-
-
-\section{Vektoranalysis}
-
 
 
 \begin{proof}
@@ -779,44 +102,49 @@
 \chapter{Gewöhnliche Differentialgleichungen}
 
 
-\section{Funktionalanalysis}
+\section{Funktionalanalysis} % Nummerierung?
 
-\begin{def} \label{1.1}
-	Sei $(B,+,\cdot)$ ein linearer Raum, d.h. Vektoraum und $\|\cdot\|: B \to \R$ eine Norm (d.h. $\|u\| \ge 0$, $\|u\|=0 \iff u = 0$, $\|u+v\| \le \|u\| + \|v\|$) (Dreiecksungleichung), $\|\alpha u \| = |\alpha| \|u\|$)
-	Ist $B$ vollständig, d.h. jede Cauchy-Folge 
-\end{def}
+
+\begin{df} \label{1.1}
+	Sei $(B,+,\cdot)$ ein linearer Raum (d.h. ein Vektorraum) und $\|\cdot\|: B \to \R$ eine Norm (d.h. $\|u\| \ge 0$, $\|u\|=0 \iff u = 0$, $\|u+v\| \le \|u\| + \|v\|$ und $\|\alpha u \| = |\alpha| \|u\|$).
+
+	Ist $B$ vollständig, d.h. jede Cauchy-Folge $(a_k)_{k\in \N} \in B$ konvergiert gegen einen Grenzwert in $B$, so nennt man $B$ mit der Norm $\|\cdot\|$ \emph{Banachraum}.
+\end{df}
 
 \begin{ex} \label{1.2}
 	\begin{enumerate}[1)]
 		\item
+			Die komplexen Zahlen mit der $p$-Norm
 			\[
-				B = \C^n, \|u\| = (|u_1|^p + \dotsb + |u_n|^p)^{\f 1p} \qquad 1 \le p < \infty
+				B := \C^n,
+				\qquad \|u\| := (|u_1|^p + \dotsb + |u_n|^p)^{\f 1p} \qquad 1 \le p < \infty
 			\]
 		\item
-			Sei $B = C([a,b] \to \C)$ mit
+			Sei $B = C([a,b] \to \C)$ mit der Norm
 			\[
 				\|f\|_\infty = \max_{a \le x \le b} |f(x)|
 			\]
-			z.B. $\|f\|_2^2 = \int_a^b |f(x)|^2 dx$, dann ist $B$ kein Banach-Raum.
+			z.B. $\|f\|_2^2 = \int_a^b |f(x)|^2 dx$, dann ist $B$ kein Banach-Raum (\fixme[warum?]).
 		\item
 			Definiere
 			\[
 				L^p(I) := \bigg\{ f : I \to \C : f \text{ messbar} \land \int_I |f|^p d\my < \infty \bigg\}
 			\]
 			für ein Intervall $I \subset \R$.
-			$L^p(I)$ mit
+			Dann bildet $L^p(I)$ mit der Norm
 			\[
 				\|f\|_p := \bigg( \int_I |f|^p d\my \bigg)^{\f 1p}
 			\]
 			(Identifiziere $f,\tilde f$, falls $\int_I |f-\tilde f| d\my = 0$)
+			einen Banachraum.
 	\end{enumerate}
 \end{ex}
 
 
 \begin{st}[Banachscher Fixpunktsatz] \label{1.3}
-	Sei $B$ ein Banaachraum, $\emptyset \neq D \subset B$ mit $D$ abgeschlossen und $F: D \to B$ eine \emph{Kontraktion}, d.h.
+	Sei $B$ ein Banachraum, $\emptyset \neq D \subset B$ mit $D$ abgeschlossen und $F: D \to B$ eine \emph{Kontraktion}, d.h.
 	\[
-		\exists q \in [0,1[ \forall x,y \in D : \|F(x) - F(y)\| \le q\|x-y\|
+		\exists q \in [0,1[ \; \forall x,y \in D : \|F(x) - F(y)\| \le q\|x-y\|
 	\]
 	mit $F(D) \subset D$. Dann gilt
 	\begin{enumerate}[1)]
@@ -831,39 +159,39 @@
 			\[
 				\|x_n - x\| \le \f{q^n}{1-q} \|x_1 - x_0\|
 			\]
-\fixme[Es scheint was zu fehlen?]
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
-				Wegen $F(D) \subset D$ ist $x_n$ für $n\in \N_0$ definiert
-			\item
-				Zeige 
-				\[
-					\|x_{n+1} - x_n\| \le q^n \|x_1 - x_0\|
-				\]
-				induktiv
-			\item
-				Siehe Numerik (wurde dort schöner bewiesen).
-			\item
-				Eindeutigkeit:
+				Eindeutigkeit: Seien $x,y$ zwei Fixpunkte, dann ist
 				\[
 					\|x-y\| = \|F(x) - F(y)\| \le q \|x-y\|
 				\]
-				und damit $\|x-y\| = 0$, also $x=y$.
+				wegen $q < 1$ folgt $\|x-y\| = 0$, also $x=y$.
+			\item
+				Wegen $F(D) \subset D$ ist $x_n$ für $n\in \N_0$ wohldefiniert.
+
+				Zeige zunächst
+				\[
+					\|x_{n+1} - x_n\| \le q^n \|x_1 - x_0\|
+				\]
+				induktiv.
+
+				Für den Rest (\ref{1.4}) siehe Numerik (wurde dort schöner bewiesen).
 		\end{enumerate}
 	\end{proof}
 \end{st}
 
 \begin{nt} \label{1.4}
-	Man kann genauso beweisen
+	Es lässt sich ebenfalls zeigen:
 	\[
-		\|x - x_n\| \le \f 1{1-q} \|x_{n+1} -x_n \|
+		\|x_n - x\| \le \f 1{1-q} \|x_{n+1} -x_n \|
 	\]
 \end{nt}
 
 
-\subsection{Beispiele} % 2.1
+\setcounter{section}{0}
+\section{Beispiele} % 2.1
 
 \begin{ex}[Tee] \label{2.1}
 	Beschreibe $y(t)$ die Temperatur des Tee's und $y_A = \const$ die Außentemperatur.
@@ -887,7 +215,7 @@
 	Sie heißt \emph{gewöhnlich}, falls keine partiellen Ableitungen auftreten, sonst \emph{partiell}
 \end{df}
 
-\subsection{Separierbare Differentialgleichungen} % 2.2
+\section{Separierbare Differentialgleichungen} % 2.2
 
 Seien $I_f, I_g \subset \R$ Intervalle und $f \in C(I_f \to \R), g \in C(I_g \to \R)$.
 Gesucht ist ein Intervall $I \subset \R$ und $y \in C^1(I \to \R)$, sodass
@@ -897,27 +225,31 @@ Gesucht ist ein Intervall $I \subset \R$ und $y \in C^1(I \to \R)$, sodass
 Die Variablen sind also separierbar.
 \begin{enumerate}[a)]
 	\item
-		Falls $y_0 \in I_g$ sodass $g(y_0) = 0$, dann existiert eine konstante Lösung:
+		Falls $g(y)$ in $y_0$ eine Nullstelle hat, dann existiert die konstante Lösung:
 		\[
 			y(x) = y_0
 		\]
+		Alle Nullstellen von $g(y)$ repräsentieren also konstante Lösungen.
 	\item
 		Sei $y \in C^1(I \to \R)$ eine Lösung mit $g(y(x)) \neq 0$ für $x \in I$.
+		Forme $y'(x) = f(x)g(y(x))$ um und betrachte die Stammfunktionen:
 		\begin{align*}
-			y'(x) &= f(x)g(y(x)) \\
-			\iff \f {y'(x)}{g(y(x))} &= f(x) \\
-			\iff G(y(x)) + c_1 := \int \f 1{g(y)} dy = \int \f {y'(x)}{g(y(x))} dx &= \int f(x) dx = F(x) + c \qquad F' = f, G' = \f 1g \\
-			\iff G(y(x)) &= F(x) + c
+			& &\f {y'(x)}{g(y(x))} &= f(x) \\
+			&\iff& G(y(x)) + c_1 := \int \f 1{g(y)} dy 
+			= \int \f {y'(x)}{g(y(x))} dx &= \int f(x) dx 
+			=: F(x) + c_2
+			\qquad F' = f, G' = \f 1g \\
+			&\iff& G(y(x)) &= F(x) + c
 			\intertext{da $G' = \f 1g \neq 0$ ist $G$ injektiv und lokal umkehrbar.}
-			\iff y(x) &= G^{-1}(F(x) + c)
+			&\iff& y(x) &= G^{-1}(F(x) + c)
 		\end{align*}
 \end{enumerate}
 
 \begin{nt*}[Merkregel]
 	\begin{align*}
 		\f {dy}{dx} &= f(x)g(y)
-		\intertext{Alle $y$ nach links, $x$ nach rechts und Integral davor}
-		\iff \int \f{dy}{g(y)} &= \int f(x) dx
+		\intertext{Alle $y$ nach links, $x$ nach rechts und Integral davor:}
+		\int \f{dy}{g(y)} &= \int f(x) dx
 	\end{align*}
 \end{nt*}
 
@@ -928,15 +260,15 @@ Die Variablen sind also separierbar.
 	\]
 	\begin{enumerate}[a)]
 		\item
-			Die konstante Lösung ergibt sich für $\cos^2 y = 0$, also sind alle der Form
+			Die konstante Lösung ergibt sich für $\cos^2 y = 0$, also sind alle Funktionen der Form
 			\[
-				y(x) = (n + \f 12) \pi \qquad \qquad n \in \Z
+				y(x) = (n + \tf 12) \pi \qquad \qquad n \in \Z
 			\]
 			konstante Lösungen.
 		\item
-			Für $y \neq \f {n + \f 12} \pi$ ergibt sich nach der Merkregel
+			Für $y \neq (n + \f 12) \pi$ ergibt sich nach der Merkregel
 			\begin{align*}
-				\int \f {dy}{\cos^2 y} &= \int \cos x dx
+				\int \f {dy}{\cos^2 y} &= \int \cos x dx \\
 				\iff \tan y &= \sin x + c \\
 				\iff y &= \arctan(\sin x + c) + n \pi
 			\end{align*}
@@ -948,7 +280,7 @@ Die Variablen sind also separierbar.
 	\begin{note}[Beobachtungen]
 		\begin{itemize}
 			\item
-				Durch jeden Punkt $(x_0, y_0)$ geht genau eine Lösung.
+				Durch jeden Punkt $(x_0, y_0)$ geht genau eine Lösung:
 				\[
 					y(x) = \arctan(\sin x + \underbrace{\tan y_0 - \sin x_0}_{=c})
 				\]
@@ -993,32 +325,33 @@ Die Variablen sind also separierbar.
 	\end{enumerate}
 	\begin{note}[Beobachtungen]
 		Für $y_0 \neq 0$ geht durch jeden Punkt genau eine Lösung:
-		(exemplarisch für $y_0 > 0$):
+		(jetzt exemplarisch für $y_0 > 0$):
 		\[
 			y(x) = \f 1{27}(x+c)^3  
-			\qquad x > -c, c = 3y_0^{\f 13} - x_0
+			\qquad c = 3y_0^{\f 13} - x_0
 		\]
-		Dies ist keine globale Lösung (\emph{lokale Lösung}).
+		Dies ist wegen der Bedingung $x > -c$ keine globale Lösung (\emph{lokale Lösung}).
 
 		Setzt man diese Lösung fest zu einer globalen Lösung, geht die Eindeutigkeit verloren.
+		Man kann beispielsweise den unteren Ast an einer beliebigen Stelle $r \le 0$ ansetzen:
 		\[
 			y_r(x) = \begin{cases}
-				\f 1{27} x^3 \qquad x > 0 \\
+				\f 1{27} x^3  & x > 0 \\
 				0 & r \le x \le 0 \\
-				\f 1{27} (x+r)^3 & x < -r
+				\f 1{27} (x-r)^3 & x < r
 			\end{cases}
 			\qquad \forall r \le 0
 		\]
-		Außerdem: durch $(x_0, 0)$ gehen beliebig viele Lösungen.
+		Insbesondere gehen durch $(x_0, 0)$ beliebig viele Lösungen.
 	\end{note}
 \end{ex}
 
 
-\subsection{Systeme von Differentialgleichungen}
+\section{Systeme von Differentialgleichungen}
 
 
 Sei $A \in \R^{n\times n}$ gegeben.
-Gesucht ist $y \in C^{\R \to \R^n}$ mit
+Gesucht ist $y \in C^1(\R \to \R^n)$ mit
 \[
 	y' = Ay
 \]
@@ -1034,7 +367,7 @@ also $n$ \emph{gekoppelte} Differentialgleichungen.
 	Dann ergibt sich die Lösung als
 	\[
 		y(t) := \sum_{j=1}^n c_j e^{\lambda_j t} v_j
-		\qquad c_1,\dotsc, c_m \in \R
+		\qquad c_1,\dotsc, c_n \in \R
 	\]
 	denn
 	\begin{align*}
@@ -1045,12 +378,12 @@ also $n$ \emph{gekoppelte} Differentialgleichungen.
 		y(t_0) = y_0
 		\qquad t_0 \in \R, y_0 \in \R^n
 	\]
-	also
+	damit gilt	
 	\[
-		\sum_{j=1}^n \underbrace{c_j e^{\lambda_j t_0}}_{d_j} v_j = y_0
+		\sum_{j=1}^n \underbrace{c_j e^{\lambda_j t_0}}_{=:d_j} v_j = y_0
 	\]
 	Die $d_j$ existieren und sind eindeutig, da $\{v_1,\dotsc,v_n\}$ Basis ist.
-	Also existieren auch
+	Also existieren auch die
 	\[
 		c_j  = e^{-\lambda_j t_0} d_j
 	\]
@@ -1061,15 +394,15 @@ also $n$ \emph{gekoppelte} Differentialgleichungen.
 			\item
 				Es existiert immer eine globale Lösung.
 			\item
-				Die Lösungsgesamtkeit ist durch $n$ skalierbare Gleichungen gegeben mit Parametern $c_j$.
+				Die Lösungsgesamtheit ist durch $n$ skalierbare Gleichungen gegeben mit Parametern $c_j$.
 			\item
 				Die Eindeutigkeit ist stets durch die Anfangsbedingung gewährleistet.
 			\item
-				Für festes $T \in \R$ hängt $y(T)$ stetig von $(t_0, y_0)$ ab.
+				Für festes $t \in \R$ hängt $y(t)$ stetig von $(t_0, y_0)$ ab.
 			\item
 				Der Lösungsraum ist ein reeller linearer Raum mit Basis
 				\[
-					\{ t \to e^{\lambda_1 t v_1, \dotsc, t\to e^{\lambda_n t}v_n}
+					\{ t \to e^{\lambda_1 t v_1}, \dotsc, t\to e^{\lambda_n t}v_n\}
 				\]
 		\end{itemize}
 	\end{note}
@@ -1080,9 +413,15 @@ also $n$ \emph{gekoppelte} Differentialgleichungen.
 	\[
 		J = T^{-1} A T
 	\]
-	(Einsen auf der ersten Nebendiagonalen \fixme[Beispielmatrix])
-
-	Sei $u(t) := T^{-1} y(t)$ für eine Lösung $y(t)$.
+	beispielsweise
+	\[
+		J = \begin{pmatrix}
+			\lambda_1 & 1 & 0\\
+			0 & \lambda_1 & 1 \\
+			0 & 0 & \lambda_1
+		\end{pmatrix}
+	\]
+	Setze $u(t) := T^{-1} y(t)$ für eine Lösung $y(t)$.
 	Dann ist
 	\[
 		u'(t) = T^{-1}y'(t) = T^{-1}Ay(t) = T^{-1}AT u(t)
@@ -1093,11 +432,14 @@ also $n$ \emph{gekoppelte} Differentialgleichungen.
 		\qquad \iff \qquad
 		u' = Ju
 	\]
-	beispielsweise	\fixme[Jordansystem]
-	\begin{align*}
-		u_1' &= \lambda_1 u_1& &+ u_2
-	\end{align*}
-	Die Lösungen sind gegeben durch (gehe Blockweise von unten nach oben vor):
+	Wir können also statt $y' = Ay$ das System $u' = Ju$ berechnen und anschließend zurücktransformieren.
+	In unserem Beispiel:
+	\begin{alignat*}{3}
+		u_1' &= \lambda_1 u_1& &+ u_2 \\
+		u_2' &= &&+ \lambda_1 u_2 && + u_3 \\
+		u_3' &= && &&+\lambda_1 u_3
+	\end{alignat*}
+	Die Lösungen sind gegeben durch (gehe Blockweise von unten nach oben vor und nutze die umgekehrte Produktregel):
 	\begin{align*}
 		u_3 &= c_3 e^{\lambda_1 t} \\
 		u_2 &= c_2 e^{\lambda_1 t} + c_3 t e^{\lambda_1 t} \\
@@ -1110,7 +452,7 @@ also $n$ \emph{gekoppelte} Differentialgleichungen.
 \end{seg}
 
 
-\subsection{Differentialgleichungen höherer Ordnung} % 2.4
+\section{Differentialgleichungen höherer Ordnung} % 2.4
 
 
 Seien $a_0, \dotsc, a_{n-1}$ gegeben, gesucht ist $y \in C^n (\R \to \R)$ mit
@@ -1121,15 +463,15 @@ Setze dazu
 \[
 	u_1 := y \qquad u_2 := y' \qquad \dotsc \qquad u_n := y^{(n-1)}
 \]
-Es ergibt sich im Beispiel für 
+Es ergibt sich im Beispiel für die DGL
 \[
 	y''' = y'
 \]
-\begin{align*}
-	u_1' = u_2 \\
-	u_2' = u_3 \\
-	u_3' = y''' = y' = u_2
-\end{align*}
+\begin{alignat*}{2}
+	u_1' &= &&u_2 \\
+	u_2' &= &&u_3 \\
+	u_3' &= y''' = y' = &&u_2
+\end{alignat*}
 Löse dieses System und setze dann
 \[
 	y(t) := u_1(t)
@@ -1138,4 +480,5 @@ Die Eindeutigkeit ist durch die Anfangsbedingungen
 \[
 	y(t_0) = y_0, \qquad y'(t_0) = y_1, \qquad y''(t_0) = y_2
 \]
+gegeben.
 \end{document}
