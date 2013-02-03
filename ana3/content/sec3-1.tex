@@ -1,0 +1,120 @@
+% Stephan Hilb, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Funktionalanalysis} % Nummerierung?
+
+
+\begin{df} \label{1.1}
+	Sei $(B,+,\cdot)$ ein linearer Raum (d.h. ein Vektorraum) und $\|\cdot\|: B \to \R$ eine Norm (d.h. $\|u\| \ge 0$, $\|u\|=0 \iff u = 0$, $\|u+v\| \le \|u\| + \|v\|$ und $\|\alpha u \| = |\alpha| \|u\|$).
+
+	Ist $B$ vollständig, d.h. jede Cauchy-Folge $(a_k)_{k\in \N} \in B$ konvergiert gegen einen Grenzwert in $B$, so nennt man $B$ mit der Norm $\|\cdot\|$ \emph{Banachraum}.
+\end{df}
+
+\begin{ex} \label{1.2}
+	\begin{enumerate}[1)]
+		\item
+			Die komplexen Zahlen mit der $p$-Norm
+			\[
+				B := \C^n,
+				\qquad \|u\| := (|u_1|^p + \dotsb + |u_n|^p)^{\f 1p} \qquad 1 \le p < \infty
+			\]
+		\item
+			Sei $B = C([a,b] \to \C)$ mit der Norm
+			\[
+				\|f\|_\infty = \max_{a \le x \le b} |f(x)|
+			\]
+			z.B. $\|f\|_2^2 = \int_a^b |f(x)|^2 dx$, dann ist $B$ kein Banach-Raum (\fixme[warum?]).
+		\item
+			Definiere
+			\[
+				L^p(I) := \bigg\{ f : I \to \C : f \text{ messbar} \land \int_I |f|^p d\my < \infty \bigg\}
+			\]
+			für ein Intervall $I \subset \R$.
+			Dann bildet $L^p(I)$ mit der Norm
+			\[
+				\|f\|_p := \bigg( \int_I |f|^p d\my \bigg)^{\f 1p}
+			\]
+			(Identifiziere $f,\tilde f$, falls $\int_I |f-\tilde f| d\my = 0$)
+			einen Banachraum.
+	\end{enumerate}
+\end{ex}
+
+
+\begin{st}[Banachscher Fixpunktsatz] \label{1.3}
+	Sei $B$ ein Banachraum, $\emptyset \neq D \subset B$ mit $D$ abgeschlossen und $F: D \to B$ eine \emph{Kontraktion}, d.h.
+	\[
+		\exists q \in [0,1[ \; \forall x,y \in D : \|F(x) - F(y)\| \le q\|x-y\|
+	\]
+	mit $F(D) \subset D$. Dann gilt
+	\begin{enumerate}[1)]
+		\item
+			Es existiert $x\in D$ mit $F(x)=x$, d.h. die Abbildung $F$ hat genau einen \emph{Fixpunkt} $x\in D$.
+		\item
+			Ist $x_0 \in D$ und $x_n := F(x_{n-1})$ für $n\in \N$, so gilt
+			\[
+				x_n \to x \qquad n \to \infty
+			\]
+			mit der \emph{Fehlerabschätzung}
+			\[
+				\|x_n - x\| \le \f{q^n}{1-q} \|x_1 - x_0\|
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Eindeutigkeit: Seien $x,y$ zwei Fixpunkte, dann ist
+				\[
+					\|x-y\| = \|F(x) - F(y)\| \le q \|x-y\|
+				\]
+				wegen $q < 1$ folgt $\|x-y\| = 0$, also $x=y$.
+			\item
+				Wegen $F(D) \subset D$ ist $x_n$ für $n\in \N_0$ wohldefiniert.
+
+				Zeige zunächst
+				\[
+					\|x_{n+1} - x_n\| \le q^n \|x_1 - x_0\|
+				\]
+				induktiv.
+
+				Für den Rest (\ref{1.4}) siehe Numerik (wurde dort schöner bewiesen).
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{nt} \label{1.4}
+	Es lässt sich ebenfalls zeigen:
+	\[
+		\|x_n - x\| \le \f 1{1-q} \|x_{n+1} -x_n \|
+	\]
+\end{nt}
+
+\setcounter{section}{0}
+\section{Beispiele} % 2.1
+
+\begin{ex}[Tee] \label{2.1}
+	Beschreibe $y(t)$ die Temperatur des Tee's und $y_A = \const$ die Außentemperatur.
+	Es gilt folgende Differentialgleichung
+	\[
+		y'(t) = -K( y(t) - y_A)
+	\]
+	Die Lösung lautet
+	\[
+		y(t) = y_A + c e^{-Kt} \qquad t\in \R, c\in \R
+	\]
+	Probe:
+	\[
+		y' = c(-K)e^{-Kt} = -K(ce^{-Kt}) = -K(y(t) - y_A)
+	\]
+	Die Lösung ist erst eindeutig, wenn z.B. $y(t_0) = y_0$ vorgegeben wird (\emph{Anfangsbedingung}).
+\end{ex}
+
+\begin{df}[nicht-formale Beschreibung] \label{2.1}
+	Eine \emph{Differentialgleichung} ist eine Glichung für eine gesuchte Funktion $y$, in der auch die Ableitung(en) von $y$ auftreten.
+	Sie heißt \emph{gewöhnlich}, falls keine partiellen Ableitungen auftreten, sonst \emph{partiell}
+\end{df}

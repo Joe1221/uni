@@ -1,0 +1,139 @@
+% Stephan Hilb, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Separierbare Differentialgleichungen} % 2.2
+
+Seien $I_f, I_g \subset \R$ Intervalle und $f \in C(I_f \to \R), g \in C(I_g \to \R)$.
+Gesucht ist ein Intervall $I \subset \R$ und $y \in C^1(I \to \R)$, sodass
+\[
+	y' = f(x) g(y)
+\]
+Die Variablen sind also separierbar.
+\begin{enumerate}[a)]
+	\item
+		Falls $g(y)$ in $y_0$ eine Nullstelle hat, dann existiert die konstante Lösung:
+		\[
+			y(x) = y_0
+		\]
+		Alle Nullstellen von $g(y)$ repräsentieren also konstante Lösungen.
+	\item
+		Sei $y \in C^1(I \to \R)$ eine Lösung mit $g(y(x)) \neq 0$ für $x \in I$.
+		Forme $y'(x) = f(x)g(y(x))$ um und betrachte die Stammfunktionen:
+		\begin{align*}
+			& &\f {y'(x)}{g(y(x))} &= f(x) \\
+			&\iff& G(y(x)) + c_1 := \int \f 1{g(y)} dy 
+			= \int \f {y'(x)}{g(y(x))} dx &= \int f(x) dx 
+			=: F(x) + c_2
+			\qquad F' = f, G' = \f 1g \\
+			&\iff& G(y(x)) &= F(x) + c
+			\intertext{da $G' = \f 1g \neq 0$ ist $G$ injektiv und lokal umkehrbar.}
+			&\iff& y(x) &= G^{-1}(F(x) + c)
+		\end{align*}
+\end{enumerate}
+
+\begin{nt*}[Merkregel]
+	\begin{align*}
+		\f {dy}{dx} &= f(x)g(y)
+		\intertext{Alle $y$ nach links, $x$ nach rechts und Integral davor:}
+		\int \f{dy}{g(y)} &= \int f(x) dx
+	\end{align*}
+\end{nt*}
+
+\begin{ex} \label{2.2}
+	Sei folgende Differentialgleichung gegeben:
+	\[
+		y' = \cos^2 y \cos x
+	\]
+	\begin{enumerate}[a)]
+		\item
+			Die konstante Lösung ergibt sich für $\cos^2 y = 0$, also sind alle Funktionen der Form
+			\[
+				y(x) = (n + \tf 12) \pi \qquad \qquad n \in \Z
+			\]
+			konstante Lösungen.
+		\item
+			Für $y \neq (n + \f 12) \pi$ ergibt sich nach der Merkregel
+			\begin{align*}
+				\int \f {dy}{\cos^2 y} &= \int \cos x dx \\
+				\iff \tan y &= \sin x + c \\
+				\iff y &= \arctan(\sin x + c) + n \pi
+			\end{align*}
+			Die Lösungen sind demnach alle Funktionen der Form
+			\[
+				y(x) = \arctan(\sin x + c) + n \pi \qquad c \in \R, n \in \Z
+			\]
+	\end{enumerate}
+	\begin{note}[Beobachtungen]
+		\begin{itemize}
+			\item
+				Durch jeden Punkt $(x_0, y_0)$ geht genau eine Lösung:
+				\[
+					y(x) = \arctan(\sin x + \underbrace{\tan y_0 - \sin x_0}_{=c})
+				\]
+				falls $- \f \pi 2 < y_0 < \f \pi 2$.
+			\item
+				Jede Lösung ist auf ganz $\R$ definiert: \emph{globale} Lösung.
+			\item
+				Für festes $x_1 \in \R$ hängt $y(x_1)$ stetig von $(x_0, y_0)$ ab.
+			\item
+				Die Lösungsvielfalt ist durch die Parameter $c$ und $n$ beschrieben.
+			\item
+				Die Lösung ist eindeutig durch die \emph{Anfangsbedingung}
+				\[
+					y(x_0) = y_0 
+				\]
+				vorgegeben (für gegebenes $x_0, y_0$).
+		\end{itemize}
+	\end{note}
+\end{ex}
+
+\begin{ex} \label{2.3}
+	Sei folgende DGL gegeben
+	\[
+		y' = (y^2)^{\f 13}
+	\]
+	\begin{enumerate}[a)]
+		\item
+			Die konstante Lösung ergibt sich als
+			\[
+				y(x) = 0
+			\]
+		\item
+			Für $y > 0$ oder $y < 0$ ergibt sich nach der Merkregel
+			\[
+				3 y^{\f 13} = \int \f {dy}{y^{\f 23}} = \int  dx = x + c 
+			\]
+			für $x > -c$ im Fall $y > 0$, und für $x < -c$ im Fall $y < 0$.
+			Es ergibt sich dann
+			\[
+				y(x) = \f 1{27}(x + c)^3
+			\]
+	\end{enumerate}
+	\begin{note}[Beobachtungen]
+		Für $y_0 \neq 0$ geht durch jeden Punkt genau eine Lösung:
+		(jetzt exemplarisch für $y_0 > 0$):
+		\[
+			y(x) = \f 1{27}(x+c)^3  
+			\qquad c = 3y_0^{\f 13} - x_0
+		\]
+		Dies ist wegen der Bedingung $x > -c$ keine globale Lösung (\emph{lokale Lösung}).
+
+		Setzt man diese Lösung fest zu einer globalen Lösung, geht die Eindeutigkeit verloren.
+		Man kann beispielsweise den unteren Ast an einer beliebigen Stelle $r \le 0$ ansetzen:
+		\[
+			y_r(x) = \begin{cases}
+				\f 1{27} x^3  & x > 0 \\
+				0 & r \le x \le 0 \\
+				\f 1{27} (x-r)^3 & x < r
+			\end{cases}
+			\qquad \forall r \le 0
+		\]
+		Insbesondere gehen durch $(x_0, 0)$ beliebig viele Lösungen.
+	\end{note}
+\end{ex}
