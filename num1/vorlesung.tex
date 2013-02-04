@@ -6205,10 +6205,10 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 		Für allgemeine $f(x) = \f 1, x^T Ax - b^Tx +c$ mit $x^* := A^{-1}b$ folgt die Behauptung durch Translationsinvarianz des Gradientenverfahrens (hier nur kurz skizziert):
 
 		\fixme[$\_f$, $f$ und $\_x$, $x$ vertauscht, richtig hinbiegen.]
-		$x^*$ ist Minimum von $\_f$ und der Grenzwert der Grandientenverfahren-Iterierten $(\_x^{(k)})$ genau dann, wenn
-		$x^* - x^* = 0$ ist Minimum von $f(x) := \_f(x - x^*)$ und der Grenzwert der Gradienten-Iterierten $(x^{(k)})$ mit $\_x^{(k)} := x^{(k)} - x^*$.
+		$\_x^*$ ist Minimum von $f$ und der Grenzwert der Grandientenverfahren-Iterierten $(\_x^{(k)})$ genau dann, wenn
+		$\_x^* = x^* - x^* = 0$ ist Minimum von $\_f(\_x) := \_f(\_x + x^*)$ und der Grenzwert der Gradienten-Iterierten $(x^{(k)})$ mit $\_x^{(k)} := x^{(k)} - x^*$.
 
-		Für $f(x) = \f 12 \_x^T A \_x$ gilt die Behauptung, also
+		Für $\_f(\_x) = \f 12 \_x^T A \_x$ mit $\_b = 0$ (denn $0= \_x^* = A^{-1}b$) gilt die Behauptung, also
 		\[
 			\|x^{(k)} - x^*\|_A = \|\_x^{(k)}\| \le \_C^k \|\_x^{(0)}\|_A = \_C^k \|x^{(0)} - x^*\|_A
 		\]
@@ -6302,5 +6302,199 @@ Verwende „$A$-konjugierte Richtungen“ (“conjugate gradients”) um die Kon
 		\end{itemize}
 	\end{note}
 \end{df}
+
+\begin{st}[Konvergenz] \label{4.17}
+	Seien $\{d^{(k)}\}_{k=0}^{n-1} \subset \R^n \setminus \{0\}$ $A$-konjugiert.
+	Das Abstiegsverfahren mit line search für das QP, d.h.
+	\[
+		x^{(0)} \in \R^n \text{ beliebig},
+		\qquad x^{(k+1)} := x^{(k)} + \omega_k d^{(k)},
+		\qquad \omega_k = \f{(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2},
+		\qquad r^{(k)} := b - Ax^{(k)}
+	\]
+	liefert $x^{(n)} = x^*$ das Minimum des QP bzw. die Lösung des LGS.
+	\begin{proof}
+		Die $\{d^{(k)}\}$ sind linear unabhängig, denn für $\sum_{i=0}^{n-1} a_i d^{(i)} = 0$ ist
+		\begin{align*}
+			(d^{(j)})^T A \sum_{i=0}^{n-1} a_i d^{(i)} &= 0  \qquad j= 0, \dotsc, n-1
+			\implies \qquad a_j \underbrace{\|d^{(j)}\|_A^2}_{\neq 0} &= 0 
+		\end{align*}
+		also $a_j = 0$ für $j=0,\dotsc,n-1$.
+		Damit bilden die $\{d^{(k)}\}$ eine Basis des $\R^n$.
+
+		Sei $x^{(0)} = \sum_{i=0}^n a_i^{(0)} d^{(i)}$.
+		Wegen $x^{(k+1)} = x^{(k)} + \omega_k d^{(k)}$ gilt
+		\[
+			x^{(k)} = \sum_{i=0}^{k-1} (a_i^{(0)} - \omega_i)d^{(i)} + \sum_{i=k}^{n-1} a_i^{(0)} d^{(i)}
+		\]
+		also $x^{(1)} = \sum_{i=0}^{n-1} (a_i^{(0)}+\omega_i) d^{(i)}$.
+		Formuliere die Behauptung um:
+		\[
+			x^{(n)} = x^* \qquad \iff \qquad Ax^{(n)} = A x^{(k)} = b
+			\qquad \iff \qquad \forall j=0,\dotsc,n-1 : (d^{(j)})^T A x^{(n)} = (d^{(j)})^T b
+		\]
+		Aus letzterem folgt
+		\begin{align*}
+			(d^{(j)})^T A x^{(n)} 
+			&= (d^{(j)})^T A \sum_{i=0}^{n-1} (a_i^{(0)}-\omega_i) d^{(i)} \\
+			&= \|d^{(j)}\|_A^2 (a_j^{(0)}+\omega_j) \\
+			&= \|d^{(j)}\|_A^2 \bigg( a_j^{(0)} - \f{(d^{(j)})^T (Ax^{(j)}-b)}{\|d^{(j)}\|_A^2} \\
+			&= \|d^{(j)}\|_A^2 a_j^{(0)} - \underbrace{(d^{(j)})^T Ax^{(j)}}_{= (d^{(j)})^T A d^{(j)}a_j^{(0)}} + (d^{(j)})^T b \\
+			&= (d^{j})^T b
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{lem}[Orthogonalität] \label{4.18}
+	Unter den Vorrausetzungen von \ref{4.17} gilt
+	\[
+		(d^{(k)})^T r^{(l)} = 0
+		\qquad \forall k < l < n
+	\]
+	\begin{proof}
+		\begin{align*}
+			(d^{(k)})^T r^{(l)}
+			&= (d^{(k)})^T (b-Ax^{(k)}) \\
+			&= (d^{(k)})^T \bigg( b - A \bigg(x^{(k)} + \sum_{i=k}^{l-1} \omega_i d^{(i)} \bigg) \bigg) \\
+			&= (d^{(k)})^T r^{(k)} - \underbrace{(d^{(k)})^T \sum_{i=k}^{l-1} \omega_i A d^{(i)}}_{= \omega_k \|d^{(k)}\|_A^2} \\
+			&= (d^{(k)})^T r^{(k)} - \f{(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2} \|d^{(k)}\|_A^2 = 0
+		\end{align*}
+	\end{proof}
+\end{lem}
+
+Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen.
+
+\begin{df}[Krylov-Raum] \label{4.19}
+	Zu einem $A \in \R^{n\times n}$, $r\in \R^n$ und $m\in \N_0$ definieren wir den \emph{Krylov-Unterraum} der Ordnung $m$  durch
+	\[
+		\scr K_m(A, r) := \Span\{ r, Ar, \dotsc, A^{m-1}r \} \subset \R^n
+	\]
+\end{df}
+
+\begin{st} \label{4.20}
+	Sei $d^{(0)} = r^{(0)} \in \R^n \setminus \{0\}$ beliebig.
+	Die Rekursion
+	\begin{align*}
+		r^{(k+1)} &:= r^{(k)} + \omega_k Ad^{(k)}
+		& d^{(k+1)} &:= r^{(k)} - \beta_k d^{(k)} \\
+		\omega_k &:= \f {(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2}
+		& \beta_k &:= \f{(d^{(k)})^T Ar^{(k+1)}}{\|d^{(k)}\|_A^2}
+	\end{align*}
+	erzeugt eine Folge $\{d^{(k)}\}_{k=0}^m$ $A$-konjugierter Vektoren, $d^{(k)} \neq 0$ bis $r^{(m+1)} = 0$.
+	Für alle $k$ gilt
+	\[
+		\boxed{
+			\scr K_k(A, r^{(0)}) = \Span\{r^{(0)}, \dotsc, r^{(k-1)}\} = \Span \{d^{(0)}, \dotsc, d^{(k-1)} \}
+		}
+	\]
+	\begin{proof}
+		Wir zeigen die Gleichung per Induktion.
+		Für $k=1$ ist $d^{(0)} = r^{(0)} = A^0r^{(0)}$.
+
+		Die Aussage gelte für $k$. Für $r^{(k)}$ folgt
+		\[
+			r^{(k)} = \underbrace{r^{(k-1)}}_{\in \scr K_k(A, r^{(0)})} - \omega_{k-1} \underbrace{A d^{(k-1)}}_{\in \scr K_{k+1}(A, r^{0})}
+		\]
+		also ist $r^{(k)} \in \scr K_{k+1}(A, r^{(0)})$ und
+		\[
+			\scr K_k(A, r^{(0)}) \subset \Span\{r^{(0)}, \dotsc, r^{(k)}\} \subset \scr K_{k+1}(A, r^{(0)})
+		\]
+		Es gilt $\dim \scr K_{k+1} - \dim \scr K_k \le 1$, weil die Erzeugendensysteme sich nur um einen Vektor unterscheiden.
+		Damit muss Gleichheit an einer der beiden Stellen in obiger Teilmengenbetrachtung gelten.
+		Gemäß Lemma \ref{4.18} ist $r^{(k)} \orth \Span\{d^{(0)}, d^{(k-1)}\} = \scr K_k$ und $r^{(k)} \neq 0$ also ergibt sich die Gleichheit in der zweiten Relation:
+		\[
+			\Span\{r^{(0)}, \dotsc, r^{(k)}\} = \scr K_{k+1} (A,r^{0})
+		\]
+		Es ist $r^{(k)} = d^{(k)} + \beta_{k-1} d^{(k-1)}$ und 
+		\[
+			\Span\{d^{(0)}, \dotsc, d^{(k)}\} 
+			= \Span\{d^{(0)}, \dotsc, d^{(k-1)}, r^{(k)}\} 
+			= \Span\{r^{(0)}, \dotsc, r^{(k-1)}, r^{(k)}\}
+			= \scr K_{k+1} (A, r^{(0)})
+		\]
+		also ist 
+		\[
+			\scr K_k(A, r^{(0)}) = \Span\{r^{(0)}, \dotsc, r^{(k-1)}\} = \Span \{d^{(0)}, \dotsc, d^{(k-1)} \}
+		\]
+		gezeigt.
+
+		Zeige die $A$-Konjugiertheiti der $d^{(k)}$ per Induktion.
+		Nach Vereinbarung ist $d^{(0)} = r^{(0)} \neq 0$.
+
+		Seien also $\{d^{(i)}\}_{i=0}^k$ $A$-konjugiert.
+		Betrachte $(d^{(i)})^T A d^{(k+1)}$ für $i=0,\dotsc, k$.
+		\begin{seg}[$i=k$]
+			\begin{align*}
+				(d^{(k)})^T A d^{(k+1)} 
+				&= (d^{(k)})^T A (r^{(k+1)} - \beta_k d^{(k)}) \\
+				&= (d^{(k)})^T A r^{(k+1)} - \f {(d^{(k)})^T A r^{(k+1)}}{\|d^{(k)}\|_A^2} \|d^{(k)}\|_A^2 \\
+				&= 0
+			\end{align*}
+		\end{seg}
+		\begin{seg}[$i<k$]
+			\begin{align*}
+				(d^{(i)})^T A d^{(k+1)}
+				&= (d^{(i)})^T A r^{(k+1)} - \f {(d^{(k)})^T A r^{(k+1)}}{\|d^{(k)}\|_A^2} \underbrace{(d^{(i)})^T A d^{(k)}}_{=0} \\
+				&= (Ad^{(i)})^T r^{(k+1)} = 0
+			\end{align*}
+			da 
+			\[
+				Ad^{(i)} \in \scr K_{i+2}(A, r^{(0)})
+				\subset \scr K_{k+1} (A, r^{(0)})
+				= \Span\{d^{(0)}, \dotsc, d^{(k)}\} \stackrel{\ref{4.18}}\orth r^{(k+1)}
+			\]
+		\end{seg}
+	\end{proof}
+	\begin{note}[Anschauung/Herleitung der Formeln aus \ref{4.20}]
+		\begin{itemize}
+			\item
+				$\omega_k$: optimale Schrittweite für Abstiegsverfahren gemäß \ref{4.11}
+			\item
+				$r^{(k+1)}$ ist Residuum des Gradientenverfahrens:
+				\[
+					r^{(k+1)} := b - Ax^{(k+1)}
+					= b - A(x^{(k)} + \omega_k d^{(k)})
+					= r^{(k)} - \omega_k A d^{(k)}
+				\]
+			\item
+				$d^{(k+1)}$ und $\beta_k$ können als Orthogonalisierungsschritt aufgefasst werden gemäß folgendem Korollar.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{kor} \label{4.21}
+	Die Basis $\{d^{(k)}\}_{k=0}^m$ ist die Gram-Schmidt-Orthogonalisierte Basis, welche aus $\{r^{(k)}\}_{k=0}^m$ entsteht bezüglich dem $A$-Skalarprodukt $\<\cdot,\cdot\>_A$.
+	\begin{proof}
+		Sei $\{\_d^{(k)}\}$ die Gram-Schmidt-orthogonalisierte Sequenz aus $\{r^{(k)}\}$ bezüglich $\<\cdot,\cdot\>_A$ aus $\{r^{(k)}\}$ generiert.
+		Zeige per Induktion $d^{(k)} = \_d^{(k)}$.
+		Für $k=0$ ist $\_d^{(0)} = r^{(0)} = d^{(0)}$.
+
+		Gelte  $d^{(k)} = \_d^{(k)}$, dann ist
+		\[
+			\_d^{(k+1)} := r^{(k+1)} - Pr^{(k+1)}
+		\]
+		mit $P : \R^n \to \Span\{d^{(0)}, d^{(k)}\}$ eine $A$-orthogonale Projektion, d.h.
+		\[
+			\<x-Px, d^{(i)}\>_A = 0
+			\qquad i = 0, \dotsc, k
+		\]
+		Sei zunächst $i<k$, dann ist
+		\begin{align*}
+			\< r^{(k+1)} - \beta_k d^{(k)}, d^{()} \>_A
+			&= \< r^{(k+1)}, d^{()} \>_A - \beta_k \underbrace{\<d^{(k)}, d^{()} \>_A}_{=0} \\
+			&= (r^{(k+1)})^T A d^{(i)}
+			= 0
+		\end{align*}
+		weil $r^{(k+1)} \orth \scr K_{k+1} (A, r^{(0)}) \ni Ad^{(i)}$.
+
+		Für $i = k$ ist
+		\begin{align*}
+			\<r^{(k+1)} - \beta_k d^{(k)}, d^{(k)}\>_A
+			= \< r^{(k+1)}, d^{(k)}\>_A - \f{(d^{(k)})^T A r^{(k+1)}}{\|d^{(k)}\|_A^2} \<d^{(k)},d^{(k)}\>_A
+			= 0
+		\end{align*}
+		also $P r^{(k+1)} = \beta_k d^{(k)}$ und damit $\_d^{(k+1)} = d^{(k+1)}$.
+	\end{proof}
+\end{kor}
 
 \end{document}
