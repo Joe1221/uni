@@ -7,3 +7,4 @@ clean:
 		rm -f *.aux *.bbl *.bib *.bcf *.blg *.dvi *.lof *.log *.fdb_latexmk *.fls *.idx *.ilg *.ind *.out *.ps *.run.xml *.thm *.toc
 
 distclean: clean
+		rm -f *.pdf
