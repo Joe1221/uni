@@ -7,7 +7,37 @@
 % brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
 % California, 94041, USA.
 
-\section{Separierbare Differentialgleichungen} % 2.2
+\section{\fixme[Überschrift]}
+
+
+\subsection{Beispiele} % 2.1
+
+
+\begin{ex}[Tee] \label{2.1}
+	Beschreibe $y(t)$ die Temperatur des Tee's und $y_A = \const$ die Außentemperatur.
+	Es gilt folgende Differentialgleichung
+	\[
+		y'(t) = -K( y(t) - y_A)
+	\]
+	Die Lösung lautet
+	\[
+		y(t) = y_A + c e^{-Kt} \qquad t\in \R, c\in \R
+	\]
+	Probe:
+	\[
+		y' = c(-K)e^{-Kt} = -K(ce^{-Kt}) = -K(y(t) - y_A)
+	\]
+	Die Lösung ist erst eindeutig, wenn z.B. $y(t_0) = y_0$ vorgegeben wird (\emph{Anfangsbedingung}).
+\end{ex}
+
+\begin{df}[nicht-formale Beschreibung] \label{2.1}
+	Eine \emph{Differentialgleichung} ist eine Glichung für eine gesuchte Funktion $y$, in der auch die Ableitung(en) von $y$ auftreten.
+	Sie heißt \emph{gewöhnlich}, falls keine partiellen Ableitungen auftreten, sonst \emph{partiell}
+\end{df}
+
+
+\subsection{Separierbare Differentialgleichungen} % 2.2
+
 
 Seien $I_f, I_g \subset \R$ Intervalle und $f \in C(I_f \to \R), g \in C(I_g \to \R)$.
 Gesucht ist ein Intervall $I \subset \R$ und $y \in C^1(I \to \R)$, sodass
@@ -137,3 +167,139 @@ Die Variablen sind also separierbar.
 		Insbesondere gehen durch $(x_0, 0)$ beliebig viele Lösungen.
 	\end{note}
 \end{ex}
+
+
+\subsection{Systeme von Differentialgleichungen} % 2.3
+
+
+Sei $A \in \R^{n\times n}$ gegeben.
+Gesucht ist $y \in C^1(\R \to \R^n)$ mit
+\[
+	y' = Ay
+\]
+ausgeschrieben ergeben sich
+\begin{align*}
+	y_1' &= a_{11} y_1 + a_{12} y_2 + \dotsb + a_{1n} y_n \\
+	\vdots \; &= \qquad\qquad\qquad \vdots \\
+	y_n' &= a_{n1} y_1 + a_{n2} y_2 + \dotsb + a_{nn} y_n \\
+\end{align*}
+also $n$ \emph{gekoppelte} Differentialgleichungen.
+
+\begin{seg}[Fall 1: ${v_1,\dotsc, v_n}$ bildet eine Basis aus Eigenvektoren: $Av_j = \lambda_j v_j$]
+	Dann ergibt sich die Lösung als
+	\[
+		y(t) := \sum_{j=1}^n c_j e^{\lambda_j t} v_j
+		\qquad c_1,\dotsc, c_n \in \R
+	\]
+	denn
+	\begin{align*}
+		y' = \sum_{j=1}^n c_j \lambda_j e^{\lambda_j t} v_j = \sum_{j=1}^n c_j e^{\lambda_j t} Av_j = A y(t)
+	\end{align*}
+	Die Eindeutigkeit ist durch Anfangsbedingungen gegeben:
+	\[
+		y(t_0) = y_0
+		\qquad t_0 \in \R, y_0 \in \R^n
+	\]
+	damit gilt	
+	\[
+		\sum_{j=1}^n \underbrace{c_j e^{\lambda_j t_0}}_{=:d_j} v_j = y_0
+	\]
+	Die $d_j$ existieren und sind eindeutig, da $\{v_1,\dotsc,v_n\}$ Basis ist.
+	Also existieren auch die
+	\[
+		c_j  = e^{-\lambda_j t_0} d_j
+	\]
+	und sind eindeutig.
+
+	\begin{note}[Beobachtungen]
+		\begin{itemize}
+			\item
+				Es existiert immer eine globale Lösung.
+			\item
+				Die Lösungsgesamtheit ist durch $n$ skalierbare Gleichungen gegeben mit Parametern $c_j$.
+			\item
+				Die Eindeutigkeit ist stets durch die Anfangsbedingung gewährleistet.
+			\item
+				Für festes $t \in \R$ hängt $y(t)$ stetig von $(t_0, y_0)$ ab.
+			\item
+				Der Lösungsraum ist ein reeller linearer Raum mit Basis
+				\[
+					\{ t \to e^{\lambda_1 t v_1}, \dotsc, t\to e^{\lambda_n t}v_n\}
+				\]
+		\end{itemize}
+	\end{note}
+\end{seg}
+
+\begin{seg}[Fall 2: sonst]
+	Bilde die Jordan-Normalform:
+	\[
+		J = T^{-1} A T
+	\]
+	beispielsweise
+	\[
+		J = \begin{pmatrix}
+			\lambda_1 & 1 & 0\\
+			0 & \lambda_1 & 1 \\
+			0 & 0 & \lambda_1
+		\end{pmatrix}
+	\]
+	Setze $u(t) := T^{-1} y(t)$ für eine Lösung $y(t)$.
+	Dann ist
+	\[
+		u'(t) = T^{-1}y'(t) = T^{-1}Ay(t) = T^{-1}AT u(t)
+	\]
+	Also
+	\[
+		y' = Ay
+		\qquad \iff \qquad
+		u' = Ju
+	\]
+	Wir können also statt $y' = Ay$ das System $u' = Ju$ berechnen und anschließend zurücktransformieren.
+	In unserem Beispiel:
+	\begin{alignat*}{3}
+		u_1' &= \lambda_1 u_1& &+ u_2 \\
+		u_2' &= &&+ \lambda_1 u_2 && + u_3 \\
+		u_3' &= && &&+\lambda_1 u_3
+	\end{alignat*}
+	Die Lösungen sind gegeben durch (gehe Blockweise von unten nach oben vor und nutze die umgekehrte Produktregel):
+	\begin{align*}
+		u_3 &= c_3 e^{\lambda_1 t} \\
+		u_2 &= c_2 e^{\lambda_1 t} + c_3 t e^{\lambda_1 t} \\
+		u_1 &= c_1 e^{\lambda_1 t} + c_2 t e^{\lambda_1 t} + c_3 \f {t^2}2 e^{\lambda_1 t} \\
+	\end{align*}
+	Rücktransformation ergibt dann
+	\[
+		y(t) := T u(t)
+	\]
+\end{seg}
+
+
+\subsection{Differentialgleichungen höherer Ordnung} % 2.4
+
+
+Seien $a_0, \dotsc, a_{n-1}$ gegeben, gesucht ist $y \in C^n (\R \to \R)$ mit
+\[
+	y^{n} = a_{n-1} y^{n-1} + \dotsb + a_1 y' + a_0 y
+\]
+Setze dazu
+\[
+	u_1 := y \qquad u_2 := y' \qquad \dotsc \qquad u_n := y^{(n-1)}
+\]
+Es ergibt sich im Beispiel für die DGL
+\[
+	y''' = y'
+\]
+\begin{alignat*}{2}
+	u_1' &= &&u_2 \\
+	u_2' &= &&u_3 \\
+	u_3' &= y''' = y' = &&u_2
+\end{alignat*}
+Löse dieses System und setze dann
+\[
+	y(t) := u_1(t)
+\]
+Die Eindeutigkeit ist durch die Anfangsbedingungen
+\[
+	y(t_0) = y_0, \qquad y'(t_0) = y_1, \qquad y''(t_0) = y_2
+\]
+gegeben.
