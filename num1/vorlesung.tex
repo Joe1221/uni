@@ -5968,7 +5968,7 @@ mit $f \in C^n (\R^n, \R)$ betachten.
 \begin{df}[Unrestringiertes QP] \label{4.9}
 	Wir nennen
 	\[
-		f(x) = \min_{x\in \R^n} \f 12 x^T A x - b^T x + c
+		\min_{x\in \R^n} \underbrace{\f 12 x^T A x - b^T x + c}_{=:f(x)}
 	\]
 	mit $A \in \R^{n\times n}$ symmetrisch und positiv definit, $b\in \R^n, c\in \R$ ein
 	\emph{unrestringiertes, konvexes quadratisches Programm} (QP).
@@ -6115,7 +6115,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 \begin{lem*}[Translationsinvarianz]
 	Seien $(x^{(k)}), (\_x^{(k)})$ zwei Sequenzen der Gradienten-Verfahren-Iterierten zu $f(x)$, bzw. $\_f(\_x)$ mit Grenzwert $x^*$, bzw. $\_x^*$ und identischer Schrittwahl-Regel.
 
-	Falls $\_f(\_x) = f(\_x + a)$ und $x^{(0)} = \_x^{(0)}$ für $a \in \R$, so gilt
+	Falls $\_f(\_x) = f(\_x + a)$ und $x^{(0)} = \_x^{(0)} + a$ für $a \in \R$, so gilt
 	\[
 		x^{(k)} = \_x^{(k)} + a
 		\qquad \land \qquad
@@ -6149,7 +6149,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 \begin{st}[Fehlerschranke Gradientenverfahren] \label{4.15}
 	Sei $(x^{(k)})_{k\in \N}$ die Sequenz aus Korrolar \ref{4.12}, dann konvergiert die Sequenz gegen das Minimum $x^*$ vom QP und es gilt die Fehlerschranke
 	\[
-		\|x^{(k)} - x^*\|_A  \le \bigg(1 - \f {2}{\kappa(A) + 1}^k \|x^{(0)} - x^*\|_A
+		\|x^{(k)} - x^*\|_A  \le \bigg(\underbrace{1 - \f {2}{\kappa(A) + 1}}_{\text{Reduktionsfaktor}}\bigg)^k \|x^{(0)} - x^*\|_A
 	\]
 	wobei für positiv definite, symmetrische Matrizen die Konditionszahl $\kappa$ von $A$ gegeben ist durch
 	\[
@@ -6168,16 +6168,16 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 	\begin{proof}
 		Sei zunächst $f(x) = \f 12 x^T A x$, also $b = 0$, $c = 0$ und $x^* = A^{-1}b = 0$.
 		Dann ist
-		\[
-			2 f(x) = x^T A x = \|x\|_A^2
-			\qquad
-			\nabla f(x) = Ax
-		\]
+		\begin{align*}
+			2 f(x) = x^T A x &= \|x\|_A^2
+			&
+			\nabla f(x) &= Ax
+		\end{align*}
 		und
 		\[
 			x^{(k+1)} 
 			= x^{(k)} + \omega_k d^{(k)} 
-			= x^{(k)} - \omega_k \nabla f(x^{(k)})0
+			= x^{(k)} - \omega_k \nabla f(x^{(k)})
 			= (I - \omega_k A) x^{(k)}
 		\]
 		mit $\omega_k$ derart, dass $\|x^{(k+1)}\|_A^2 = 2 f(x^{(k+1)})$ minimal ist.
@@ -6187,9 +6187,9 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 		Sei $x^{(k)} = \sum_{i=1}^n a_i v_i$, dann ist
 		\begin{align*}
 			2 f(x^{(k)}) 
-			&= \bigg(\sum_{i=1}^n a_i v_i \bigg)^T \underbrace{A \bigg( \sum_{j=1}^n a_j v_j \bigg)}_{\sum_{j=1}^n a_j \lambda_j v_j} \\
-			&= \sum_{i,j=1}^n a_i a_j \lambda_j \delta_{ij} \\
-			&= \sum_{i=1}^n a_i^2 \lambda_i
+			&= \bigg(\sum_{i=1}^n a_i v_i \bigg)^T \underbrace{A \bigg( \sum_{j=1}^n a_j v_j \bigg)}_{\sum_{j=1}^n a_j \lambda_j v_j}
+			= \sum_{i,j=1}^n a_i a_j \lambda_j \delta_{ij}
+			= \sum_{i=1}^n a_i^2 \lambda_i
 		\intertext{und}
 			2 f(x^{(k+1)}) 
 			&= (x^{(k+1)})^T A x^{(k+1)} \\
@@ -6237,13 +6237,15 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 			\|x^{(k)} - x^*\|_A \le \_C^k \|x^{(0)}\|_A
 		\]
 
-		Für allgemeine $f(x) = \f 1, x^T Ax - b^Tx +c$ mit $x^* := A^{-1}b$ folgt die Behauptung durch Translationsinvarianz des Gradientenverfahrens (hier nur kurz skizziert):
+		Für allgemeine $f(x) = \f 12 x^T Ax - b^Tx +c$ mit $x^* := A^{-1}b$ folgt die Behauptung durch Translationsinvarianz des Gradientenverfahrens:
 
-		\fixme[$\_f$, $f$ und $\_x$, $x$ vertauscht, richtig hinbiegen.]
-		$\_x^*$ ist Minimum von $f$ und der Grenzwert der Grandientenverfahren-Iterierten $(\_x^{(k)})$ genau dann, wenn
-		$\_x^* = x^* - x^* = 0$ ist Minimum von $\_f(\_x) := \_f(\_x + x^*)$ und der Grenzwert der Gradienten-Iterierten $(x^{(k)})$ mit $\_x^{(k)} := x^{(k)} - x^*$.
+		Der Ausdruck „$+c$“ ist für das Minimum unwesentlich und kann ignoriert werden, betrachte also $f(x) = \f 12 x^T Ax - b^T x$.
 
-		Für $\_f(\_x) = \f 12 \_x^T A \_x$ mit $\_b = 0$ (denn $0= \_x^* = A^{-1}b$) gilt die Behauptung, also
+		Definiere $\_f(\_x) := f(\_x + x^*)$ mit Gradientenverfahren-Iterierten $(x^{(k)})$ und $\_x^{(0)} := x^{(k)} - x^*$.
+		Nach dem letzten Lemma der Translationsinvarianz ist dann $\_x^{(k)} = x^{(k)} - x^*$ und das Minimum von $\_f(\_x)$ wird in $\_x^* = x^* - x^* = 0$ angenommen.
+		Jetzt ist für $\_f(\_x) = \_x\_A\_x + \_b^T\_x$ jedoch das Minimum eindeutig durch $0 = \_x^* = A^{-1}b$ gegeben, also ist $\_b = 0$.
+
+		Für $\_f(\_x) = \f 12 \_x^T A \_x$ gilt die Behauptung bereits, also
 		\[
 			\|x^{(k)} - x^*\|_A = \|\_x^{(k)}\| \le \_C^k \|\_x^{(0)}\|_A = \_C^k \|x^{(0)} - x^*\|_A
 		\]
