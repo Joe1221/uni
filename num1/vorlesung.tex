@@ -6112,6 +6112,40 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 	\end{note}
 \end{df}
 
+\begin{lem*}[Translationsinvarianz]
+	Seien $(x^{(k)}), (\_x^{(k)})$ zwei Sequenzen der Gradienten-Verfahren-Iterierten zu $f(x)$, bzw. $\_f(\_x)$ mit Grenzwert $x^*$, bzw. $\_x^*$ und identischer Schrittwahl-Regel.
+
+	Falls $\_f(\_x) = f(\_x + a)$ und $x^{(0)} = \_x^{(0)}$ für $a \in \R$, so gilt
+	\[
+		x^{(k)} = \_x^{(k)} + a
+		\qquad \land \qquad
+		x^* = \_x^* + a
+	\]
+	\begin{proof}
+		Wir zeigen die Aussage induktiv.
+		Für $k=0$ ist es gerade die Vorraussetzung.
+		Sei also $x^{k} = \_x^{(k)} + a$.
+		Wir zeigen, dass in den Iterationen
+		\begin{align*}
+			x^{(k+1)} &:= x^{(k)} + \omega_k d^{(k)} \\
+			\_x^{(k+1)} &:= \_x^{(k)} + \_\omega_k \_d^{(k)}
+		\end{align*}
+		jeweils $\omega_k, \_\omega_k$ und $d^{(k)}, \_d^{(k)}$ übereinstimmen:
+		\begin{align*}
+			\_d^{(k)} = -\nabla \_f(\_x^{(k)}) = - \nabla f(\_x^{(k)} + a) = - \nabla f(x^{(k)}) = d^{(k)}
+		\end{align*}
+		$\omega_k = \_\omega_k$ zeigen wir am Beispiel von line search (ähnlich für Armijio):
+		\[
+			\omega_k = \argmin_{\omega\in\R} f(x^{(k)} + \omega d^{(k)}) = \argmin_{\omega\in \R} f(\_x^{(k)} + a + \omega \_d^{(k)})  = \argmin_{\omega\in \R} \_f(\_x^{(k)} + \omega \_d^{(k)}) = \_\omega_k
+		\]
+		also
+		\[
+			x^{(k+1)} = x^{(k)} + \omega_k d^{(k)} = \_x^{(k)} + a + \_\omega_k \_d^{(k)} = x^{(k+1)} +a
+		\]
+		und damit auch für den Grenzwert $x^* = \_x^* + a$ ($k \to \infty$).
+	\end{proof}
+\end{lem*}
+
 \begin{st}[Fehlerschranke Gradientenverfahren] \label{4.15}
 	Sei $(x^{(k)})_{k\in \N}$ die Sequenz aus Korrolar \ref{4.12}, dann konvergiert die Sequenz gegen das Minimum $x^*$ vom QP und es gilt die Fehlerschranke
 	\[
