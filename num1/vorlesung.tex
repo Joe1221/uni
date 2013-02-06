@@ -5795,7 +5795,7 @@ Wir wollen
 \[
 	\min_{x\in \R^n} f(x)
 \]
-mit $f \in C^n (\R^n, \R)$ betachten.
+mit $f \in C^m (\R^n, \R)$ betachten.
 
 \begin{seg}[„Methode des steilsten Abstieges“]
 	\begin{itemize}
@@ -5818,7 +5818,7 @@ mit $f \in C^n (\R^n, \R)$ betachten.
 \end{seg}
 
 \begin{df}[Gradientenverfahren] \label{4.6}
-	Sei $f \in C^1(\R^n, \R)$, $x^{(0)} \in \R^n$ und $\omega_k \in \R^+$ für $k \in \N_0$ \emph{Schrittweiten}.
+	Seien $f \in C^1(\R^n, \R)$, $x^{(0)} \in \R^n$ und $\omega_k \in \R^+$ \emph{Schrittweiten} (für $k \in \N_0$).
 	Definiere
 	\[
 		x^{(k+1)} := x^{(k)} + \omega_k d^{(k)}
@@ -5859,7 +5859,7 @@ mit $f \in C^n (\R^n, \R)$ betachten.
 				\[
 					\omega_k = \argmin_{\omega \in \R^+} f(x^{(k)} + \omega d^{(k)})
 				\]
-				Diese Optimierung ist aber eventuelle aufwändig.
+				Diese Optimierung ist aber eventuell aufwändig.
 			\item
 				Eine andere Möglichkeit ist die „\emph{Armijo Schrittwahl}“: wähle $\sigma \in (0,1)$ und $\omega_k$ als größte Zahl in $\{2^{-j}\}_{j\in \N_0}$ so dass
 				\[
@@ -5904,25 +5904,28 @@ mit $f \in C^n (\R^n, \R)$ betachten.
 		Die Stetigkeit von $\nabla f$ liefert $\|\nabla f(x^{(k)})\| \to \|\nabla f(x^*)\|$ also $\omega_k \to 0$.
 
 		Sei $k_0$ groß genug, sodass $\omega_k \le \f 12$ für $k \ge k_0$.
-		Die Armijo-Regel liefert für $k\ge k_0$
+		Das $\omega_k$ nach der Armijo-Regel die größte Zahl in $\{2^{-j}\}_{j\in\N_0}$ ist, so dass die Ungleichung erfüllt ist, liefert die Armijo-Regel für $k\ge k_0$ zwangsläufig:
 		\[
-			f(x^{(k)} + \underbrace{2 \omega_k}_{\in \{2^{-j}\}_{j\in \N_0}} d^{(k)}) > f(x^{(k)}) + 2 \omega_k \sigma \nabla f(x^{(k)})^T d^{(k)}
+			f(x^{(k)} + \underbrace{2 \omega_k}_{\mathclap{ \in \{2^{-j}\}_{j\in \N_0}}} d^{(k)}) > f(x^{(k)}) + 2 \omega_k \sigma \nabla f(x^{(k)})^T d^{(k)}
 		\]
-		Mit der Taylorentwicklung folgt
+		Mit der Taylorentwicklung folgt für $\xi^{(k)}$ zwischen $x^{(k)}$ und $x^{(k)} + 2 \omega_k d^{(k)}$:
 		\begin{align*}
 			f(x^{(k)} + 2\omega_k d^{(k)}) 
-			&= f(x^{(k)}) + 2 \omega_k \nabla f(\xi^{(k)})^T \cdot d^{(k)}  \qquad \xi^{(k)} \text{ zwischen $x^{(k)}$ und $x^{(k)} + 2 \omega_k d^{(k)}$}
+			&= f(x^{(k)}) + 2 \omega_k \nabla f(\xi^{(k)})^T d^{(k)}
 		\end{align*}
-		Wegen $2 \omega_k > 0$ folgt
-		\[
-			\nabla f(\xi^{(k)})^T \cdot d^{(k)} > \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
-		\]
-		Aus $\omega_k \to 0$ und $x^{(k)} \to x^*$ und $d^{(k)} \to -\nabla f(x^*)$ folgt, dass $\xi^{(k)} \to x^*$ und es ergibt sich im Grenzwert $k\to \infty$:
+		Also
 		\begin{align*}
+			f(x^{(k)}) + 2\omega_k \nabla f(\xi^{(k)})^T d^{(k)} &> 2 \omega_k \sigma \nabla f(x^{(k)})^T d^{(k)} \\
+		\intertext{Wegen $2 \omega_k > 0$ folgt}
+			\iff \qquad
+			\nabla f(\xi^{(k)})^T \cdot d^{(k)} &> \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
+		\intertext{Aus $\omega_k \to 0$ und $x^{(k)} \to x^*$ und $d^{(k)} \to -\nabla f(x^*)$ folgt, dass $\xi^{(k)} \to x^*$ und es ergibt sich im Grenzwert $k\to \infty$:}
 			\nabla f(x^*)^T\cdot (-\nabla f(x^*)) &\ge \sigma \nabla f(x^*)^T \cdot (-\nabla f(x^*)) \\
 			\iff \qquad -\|\nabla f(x^*)\|^2 &\ge - \sigma \|\nabla f(x^*)\|^2 \\
 			\iff \qquad 1 &\le \sigma
 		\end{align*}
+		ein Widerspruch zur Wahl von $\sigma \in (0,1)$.
+		Also ist $\nabla f(x^*) = 0$.
 	 \end{proof}
 	 \begin{note}
 		 \begin{itemize}
@@ -5950,7 +5953,7 @@ mit $f \in C^n (\R^n, \R)$ betachten.
 				Häufungspunkte müssen nicht eindeutig sein (z.B. „Spiralfunktion“, Jarre/Stoer 6.2.2.).
 			\item
 				Das Gradientenverfahren ist sehr robust aber langsam konvergent.
-				Siehe \verb|demos_optimization(4)|, Rosenbrook-Funktion:
+				Siehe \texttt{demos\textunderscore optimization(4)}, Rosenbrook-Funktion:
 				\[
 					f(x_1, x_2) = 50 (x_2-x_1^2)^2 + (x_1-1)^2
 				\]
@@ -6296,7 +6299,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 			\begin{table}[h]
 				\centering
 				\begin{tabular}{c|c|c}
-					$k$ & $\|x^{(0)} - x^*\|_A$ & $(\f 9{11})^k \|x^{(0)} - x^*\|_A$ \\
+					$k$ & $\|x^{(0)} - x^*\|_A$ & $(\f 9{11})^k \|x^{(0)} - x^*\|_A$ \\ \hline
 					0 & 2.40311 & 2.40311 \\
 					5 & 8.81089 $\cdot 10^{-1}$ & 8.81095 $\cdot 10^{-1}$ \\
 					10 & 3.23047 $\cdot 10^{-1}$ & 3.323052 $\cdot 10^{-1}$ \\
@@ -6366,10 +6369,10 @@ Verwende „$A$-konjugierte Richtungen“ (“conjugate gradients”) um die Kon
 		\]
 		also $x^{(1)} = \sum_{i=0}^{n-1} (a_i^{(0)}+\omega_i) d^{(i)}$.
 		Formuliere die Behauptung um:
-		\[
-			x^{(n)} = x^* \qquad \iff \qquad Ax^{(n)} = A x^{(k)} = b
-			\qquad \iff \qquad \forall j=0,\dotsc,n-1 : (d^{(j)})^T A x^{(n)} = (d^{(j)})^T b
-		\]
+		\begin{align*}
+			x^{(n)} = x^* \qquad &\iff \qquad Ax^{(n)} = A x^{(k)} = b \\
+			\qquad &\iff \qquad \forall j=0,\dotsc,n-1 : (d^{(j)})^T A x^{(n)} = (d^{(j)})^T b
+		\end{align*}
 		Aus letzterem folgt
 		\begin{align*}
 			(d^{(j)})^T A x^{(n)} 
@@ -6378,7 +6381,7 @@ Verwende „$A$-konjugierte Richtungen“ (“conjugate gradients”) um die Kon
 			&= \|d^{(j)}\|_A^2 \bigg( a_j^{(0)} - \f{(d^{(j)})^T (Ax^{(j)}-b)}{\|d^{(j)}\|_A^2} \\
 			&= \|d^{(j)}\|_A^2 a_j^{(0)} - \underbrace{(d^{(j)})^T Ax^{(j)}}_{= (d^{(j)})^T A d^{(j)}a_j^{(0)}} + (d^{(j)})^T b \\
 			&= (d^{j})^T b
-		\end{align*}
+		\end{align*}~
 	\end{proof}
 \end{st}
 
