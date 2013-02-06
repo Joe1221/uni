@@ -5702,7 +5702,7 @@ Die eindimensionalen Probleme sind wichtig als Zwischenschritt zur mehrdimension
 
 \begin{df}[Verfahren des Goldenen Schnitts] \label{4.3}
 	Gegeben $f:[a,b] \to \R$.
-	Setze $\tau := \f {\sqrt - 1}2$ und
+	Setze $\tau := \f {\sqrt 5 - 1}2$ und
 	\begin{gather*}
 		a^{(0)} := a, \quad b^{(0)} := b
 		x_2^{(k)} := a{(k)} + \tau(b^{(k)}-a^{(k)}), \quad x_1^{(k)} := b^{(k)} - \tau(b^{(k)}-a^{(k)})
@@ -5795,18 +5795,18 @@ Wir wollen
 \[
 	\min_{x\in \R^n} f(x)
 \]
-mit $f \in C^m (\R^n, \R)$ betachten.
+mit $f \in C^1 (\R^n, \R)$ betachten.
 
 \begin{seg}[„Methode des steilsten Abstieges“]
 	\begin{itemize}
 		\item
-			$\nabla f(x)$ ist die Richtung des steilsten Anstiegs, also
+			$\nabla f(x)$ ist die Richtung des steilsten Anstiegs, also ist
 			\[
 				d := -\nabla f(x)
 			\]
-			ist eine „\emph{Abstiegsrichtung}“.
+			eine „\emph{Abstiegsrichtung}“.
 		\item
-			Falls $\nabla f(x) \neq 0$ ist für genügend kleines $\omega \in \R^+$
+			Falls $\nabla f(x) \neq 0$, dann gilt für genügend kleines $\omega \in \R^+$
 			\[
 				f(x + \omega d) < f(x)
 			\]
@@ -6029,13 +6029,15 @@ Bei einem QP ist der „line search“, d.h. die 1D-Optimierung entlang einer Ha
 \begin{st}[1D-Optimierung] \label{4.11}
 	Für $\_x \in \R^n$, $d\in \R^n \setminus \{0\}$ wird
 	\[
-		\min_{x \/n \{\_x + \omega d : \omega \in \R} \f 12 x^T A x - b^T x + c
+		\min_{x \in \{\_x + \omega d : \omega \in \R\}} \f 12 x^T A x - b^T x + c
 	\]
 	gelöst durch $\hat x = \_x + \omega d$ mit
 	\[
 		\omega := \f {d^T r}{d^T A d} \qquad r := b - A\_x
 	\]
-	$r$: Residuum.
+	\begin{note}
+		Man nennt $r$ \emph{Residuum}.
+	\end{note}
 	\begin{proof}
 		Setze ($A$ symmetrisch)
 		\begin{align*}
@@ -6433,7 +6435,7 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 
 		Die Aussage gelte für $k$. Für $r^{(k)}$ folgt
 		\[
-			r^{(k)} = \underbrace{r^{(k-1)}}_{\in \scr K_k(A, r^{(0)})} - \omega_{k-1} \underbrace{A d^{(k-1)}}_{\in \scr K_{k+1}(A, r^{0})}
+			r^{(k)} = \underbrace{r^{(k-1)}}_{\in \scr K_k(A, r^{(0)})} - \omega_{k-1} \underbrace{A d^{(k-1)}}_{\in \scr K_{k+1}(A, r^{(0)})}
 		\]
 		also ist $r^{(k)} \in \scr K_{k+1}(A, r^{(0)})$ und
 		\[
@@ -6443,7 +6445,7 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 		Damit muss Gleichheit an einer der beiden Stellen in obiger Teilmengenbetrachtung gelten.
 		Gemäß Lemma \ref{4.18} ist $r^{(k)} \orth \Span\{d^{(0)}, d^{(k-1)}\} = \scr K_k$ und $r^{(k)} \neq 0$ also ergibt sich die Gleichheit in der zweiten Relation:
 		\[
-			\Span\{r^{(0)}, \dotsc, r^{(k)}\} = \scr K_{k+1} (A,r^{0})
+			\Span\{r^{(0)}, \dotsc, r^{(k)}\} = \scr K_{k+1} (A,r^{(0)})
 		\]
 		Es ist $r^{(k)} = d^{(k)} + \beta_{k-1} d^{(k-1)}$ und 
 		\[
