@@ -11,86 +11,86 @@
 
 
 \begin{theorem}[Definition] \label{1.1}
-	Sei $(B,+,\cdot)$ ein linearer Raum (d.h. ein Vektorraum) und $\|\cdot\|: B \to \mathbb{R}$ eine Norm (d.h. $\|u\| \ge 0$, $\|u\|=0 \iff u = 0$, $\|u+v\| \le \|u\| + \|v\|$ und $\|\alpha u \| = |\alpha| \|u\|$).
+  Sei $(B,+,\cdot)$ ein linearer Raum (d.h. ein Vektorraum) und $\|\cdot\|: B \to \mathbb{R}$ eine Norm (d.h. $\|u\| \ge 0$, $\|u\|=0 \iff u = 0$, $\|u+v\| \le \|u\| + \|v\|$ und $\|\alpha u \| = |\alpha| \|u\|$).
 
-	Ist $B$ vollständig, d.h. jede Cauchy-Folge $(a_k)_{k\in \mathbb{N}} \in B$ konvergiert gegen einen Grenzwert in $B$, so nennt man $B$ mit der Norm $\|\cdot\|$ \emph{Banachraum}.
+  Ist $B$ vollständig, d.h. jede Cauchy-Folge $(a_k)_{k\in \mathbb{N}} \in B$ konvergiert gegen einen Grenzwert in $B$, so nennt man $B$ mit der Norm $\|\cdot\|$ \emph{Banachraum}.
 \end{theorem}
 
 \begin{example} \label{1.2}
-	\begin{enum-arab}
-		\item
-			Die komplexen Zahlen mit der $p$-Norm
-			\begin{align*}
-				B := \mathbb{C}^n,
-				\qquad \|u\| := (|u_1|^p + \dotsb + |u_n|^p)^{\frac 1p} \qquad 1 \le p < \infty
-			\end{align*}
-		\item
-			Sei $B = C([a,b] \to \mathbb{C})$ mit der Norm
-			\begin{align*}
-				\|f\|_\infty = \max_{a \le x \le b} |f(x)|
-			\end{align*}
-			z.B. $\|f\|_2^2 = \int_a^b |f(x)|^2 dx$, dann ist $B$ kein Banach-Raum (% FIXME: warum?
-).
-		\item
-			Definiere
-			\begin{align*}
-				L^p(I) := \bigg\{ f : I \to \mathbb{C} : f \text{ messbar} \land \int_I |f|^p d\mu < \infty \bigg\}
-			\end{align*}
-			für ein Intervall $I \subset \mathbb{R}$.
-			Dann bildet $L^p(I)$ mit der Norm
-			\begin{align*}
-				\|f\|_p := \bigg( \int_I |f|^p d\mu \bigg)^{\frac 1p}
-			\end{align*}
-			(Identifiziere $f,\tilde f$, falls $\int_I |f-\tilde f| d\mu = 0$)
-			einen Banachraum.
-	\end{enum-arab}
+  \begin{enum-arab}
+  \item
+    Die komplexen Zahlen mit der $p$-Norm
+    \begin{align*}
+      B := \mathbb{C}^n,
+      \qquad \|u\| := (|u_1|^p + \dotsb + |u_n|^p)^{\frac 1p} \qquad 1 \le p < \infty
+    \end{align*}
+  \item
+    Sei $B = C([a,b] \to \mathbb{C})$ mit der Norm
+    \begin{align*}
+      \|f\|_\infty = \max_{a \le x \le b} |f(x)|
+    \end{align*}
+    z.B. $\|f\|_2^2 = \int_a^b |f(x)|^2 dx$, dann ist $B$ kein Banach-Raum (% FIXME: warum?
+    ).
+  \item
+    Definiere
+    \begin{align*}
+      L^p(I) := \bigg\{ f : I \to \mathbb{C} : f \text{ messbar} \land \int_I |f|^p d\mu < \infty \bigg\}
+    \end{align*}
+    für ein Intervall $I \subset \mathbb{R}$.
+    Dann bildet $L^p(I)$ mit der Norm
+    \begin{align*}
+      \|f\|_p := \bigg( \int_I |f|^p d\mu \bigg)^{\frac 1p}
+    \end{align*}
+    (Identifiziere $f,\tilde f$, falls $\int_I |f-\tilde f| d\mu = 0$)
+    einen Banachraum.
+  \end{enum-arab}
 \end{example}
 
 
 \begin{theorem}[Satz: Banachscher Fixpunktsatz] \label{1.3}
-	Sei $B$ ein Banachraum, $\emptyset \neq D \subset B$ mit $D$ abgeschlossen und $F: D \to B$ eine \emph{Kontraktion}, d.h.
-	\begin{align*}
-		\exists q \in [0,1[ \; \forall x,y \in D : \|F(x) - F(y)\| \le q\|x-y\|
-	\end{align*}
-	mit $F(D) \subset D$. Dann gilt
-	\begin{enum-arab}
-		\item
-			Es existiert $x\in D$ mit $F(x)=x$, d.h. die Abbildung $F$ hat genau einen \emph{Fixpunkt} $x\in D$.
-		\item
-			Ist $x_0 \in D$ und $x_n := F(x_{n-1})$ für $n\in \mathbb{N}$, so gilt
-			\begin{align*}
-				x_n \to x \qquad n \to \infty
-			\end{align*}
-			mit der \emph{Fehlerabschätzung}
-			\begin{align*}
-				\|x_n - x\| \le \frac{q^n}{1-q} \|x_1 - x_0\|
-			\end{align*}
-	\end{enum-arab}
-	\begin{proof}
-		\begin{enum-arab}
-			\item
-				Eindeutigkeit: Seien $x,y$ zwei Fixpunkte, dann ist
-				\begin{align*}
-					\|x-y\| = \|F(x) - F(y)\| \le q \|x-y\|
-				\end{align*}
-				wegen $q < 1$ folgt $\|x-y\| = 0$, also $x=y$.
-			\item
-				Wegen $F(D) \subset D$ ist $x_n$ für $n\in \mathbb{N}_0$ wohldefiniert.
+  Sei $B$ ein Banachraum, $\emptyset \neq D \subset B$ mit $D$ abgeschlossen und $F: D \to B$ eine \emph{Kontraktion}, d.h.
+  \begin{align*}
+    \exists q \in [0,1[ \; \forall x,y \in D : \|F(x) - F(y)\| \le q\|x-y\|
+  \end{align*}
+  mit $F(D) \subset D$. Dann gilt
+  \begin{enum-arab}
+  \item
+    Es existiert $x\in D$ mit $F(x)=x$, d.h. die Abbildung $F$ hat genau einen \emph{Fixpunkt} $x\in D$.
+  \item
+    Ist $x_0 \in D$ und $x_n := F(x_{n-1})$ für $n\in \mathbb{N}$, so gilt
+    \begin{align*}
+      x_n \to x \qquad n \to \infty
+    \end{align*}
+    mit der \emph{Fehlerabschätzung}
+    \begin{align*}
+      \|x_n - x\| \le \frac{q^n}{1-q} \|x_1 - x_0\|
+    \end{align*}
+  \end{enum-arab}
+  \begin{proof}
+    \begin{enum-arab}
+    \item
+      Eindeutigkeit: Seien $x,y$ zwei Fixpunkte, dann ist
+      \begin{align*}
+        \|x-y\| = \|F(x) - F(y)\| \le q \|x-y\|
+      \end{align*}
+      wegen $q < 1$ folgt $\|x-y\| = 0$, also $x=y$.
+    \item
+      Wegen $F(D) \subset D$ ist $x_n$ für $n\in \mathbb{N}_0$ wohldefiniert.
 
-				Zeige zunächst
-				\begin{align*}
-					\|x_{n+1} - x_n\| \le q^n \|x_1 - x_0\|
-				\end{align*}
-				induktiv.
+      Zeige zunächst
+      \begin{align*}
+        \|x_{n+1} - x_n\| \le q^n \|x_1 - x_0\|
+      \end{align*}
+      induktiv.
 
-				Für den Rest (\ref{1.4}) siehe Numerik (wurde dort schöner bewiesen).
-		\end{enum-arab}
-	\end{proof}
+      Für den Rest (\ref{1.4}) siehe Numerik (wurde dort schöner bewiesen).
+    \end{enum-arab}
+  \end{proof}
 \end{theorem}
 
 \begin{notice} \label{1.4}
-	Es lässt sich ebenfalls zeigen:
-	\begin{align*}
-		\|x_n - x\| \le \frac 1{1-q} \|x_{n+1} -x_n \|
-	\end{align*}
+  Es lässt sich ebenfalls zeigen:
+  \begin{align*}
+    \|x_n - x\| \le \frac 1{1-q} \|x_{n+1} -x_n \|
+  \end{align*}
 \end{notice}
