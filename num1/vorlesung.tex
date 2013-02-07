@@ -6535,6 +6535,278 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 		\end{align*}
 		also $P r^{(k+1)} = \beta_k d^{(k)}$ und damit $\_d^{(k+1)} = d^{(k+1)}$.
 	\end{proof}
+	\begin{note}
+		Dieses Korrolar stellt eine Vereinfachung von $\omega_k$ und $\beta_k$ dar.
+		\begin{itemize}
+			\item
+				Es gilt
+				\[
+					\omega_k = \f {(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2} = \f {(r^{(k)}-\beta_{k-1}d^{(k-1)})^T r^{(k)}}{\|d^{(k)}\|_A^2} = \f{\|r^{(k)}\|^2}{\|d^{(k)}\|_A^2}
+				\]
+			\item
+				Es gilt
+				\begin{align*}
+					(d^{(k)})^T A r^{(k+1)}
+					&= (A d^{(k)})^T r^{(k+1)} \\
+					\intertext{da $r^{(k+1)} := r^{(k)}-\omega_k A d^{(k)}$}
+					&= \f 1{\omega_k} (r^{(k)} - r^{(k+1)})^T r^{(k+1)}
+					&\stack{r^{(k+1)} \orth r^{(k)}} =   - \f {\|r^{(k-1)}\|^2}{\omega_k} \\
+					&= - \f {\|d^{(k)}\|_A^2}{\|r^{(k)}\|^2} \|r^{(k-1)}\|^2
+				\end{align*}
+				also
+				\[
+					\beta_k = \f{(d^{(k)})^T A r^{(k+1)}}{\|d^{(k)}\|_A^2} = - \f{\|r^{(k+1)}\|^2}{\|r^{(k)}\|^2} =: - \gamma_k
+				\]
+		\end{itemize}
+	\end{note}
 \end{kor}
+
+\begin{df}[CG-Verfahren] \label{4.22}
+	Sei $A \in \R^{n\times n}$ symmetrisch und positiv definit, $b \in \R^n$.
+	Wähle $x^{(0)} \in \R^n$, $d^{(0)} := r^{(0)} := b - Ax^{(0)}$ und setze iterativ
+	\begin{align*}
+		x^{(k+1)} &:= x^{(k)} + \omega_k d^{(k)} \\
+		\omega_k &:= \f {\|r^{(k)}\|^2}{\|d^{(k)}\|_A^2} \\
+		r^{(k+1)} &:= r^{(k)} - \omega_k Ad^{(k)} \\
+		\gamma_k &:= \f {\|r^{(k+1)}\|^2}{\|r^{(k)}\|^2} \\
+		d^{(k+1)} &:= r^{(k+1)} + \gamma_k d^{(k)}
+	\end{align*}
+	solange bis $\|r^{(k+1)}\| = 0$.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Zu $f(x) = \f 12 x^T A x - b^T x$ ist
+				\[
+					r^{(k)} := b - Ax^{(k)} = - \nabla f(x^{(k)})
+				\]
+				die $d^{(k+1)}$ daher die „A-konjugierte-Gradienten“.
+			\item
+				Falls $\|r^{(k+1)}\| = 0$, dann ist $\nabla f(x^{(k+1)}) = 0$, als wurde das Optimum des QPs gefunden.
+			\item
+				Das CG-Verfahren ist ein Krylovraum-Verfahren
+			\item
+				Es ist nur eine Matrixmultiplikation erforderlich, für große Matrizen anwendbar.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Optimierung über verschobenen Krylovraum] \label{4.23}
+	Das CG-Verfahren aus Definition \ref{4.22} liefert
+	\[
+		x^{(k)} = \argmin_{x \in x^{0} + \scr K_k(A, r^{(0)})} f(x)
+	\]
+	\begin{proof}
+		Zeige per Induktion.
+		Für $k=0$ ist $\scr K(A, r^{(0)}) = \{0\}$ und $x^{(0)} = \argmin_{x \in \{x^{(0)}\}} f(x)$ ist klar.
+
+		Sei $x^{(k)}$ die $k$-te CG-Iterierte und Minimierer.
+		Jedes $\_x^{(k+1)} \in x^{(0)} + \scr K_{k+1}(A, r^{(0)})$ ist zerlegbar:
+		\begin{align*}
+			\_x^{(k+1)} = \_x^{(k)} + ad^{(k)} 
+		\end{align*}
+		für $\_x^{(k)} \in x^{(0)} + \scr K_k (A, r^{(0)})$ und $a \in \R$.
+		Also
+		\begin{align*}
+			f(\_x^{(k+1)}) 
+			&= f(\_x^{(k)}) + a(d^{(k)})^T A \_x^{(k)} + \f 12 a^2 (d^{(k)})^T A d^{(k)} - a(d^{(k)})^T b \\
+			&= f(\_x^{(k)}) + a(d^{(k)})^T A (x^{(k)} + \tilde x^{(k)}) + \f 12 a^2 (d^{(k)})^T A d^{(k)} - a(d^{(k)})^T b \\
+			&= f(\_x^{(k)}) + a (d^{(k)})^T A x^{(k)} + \tilde x^{(k)}) + \f 12 a^2 (d^{(k)})^T A d^{(k)} - a(d^{(k)})^T b \\
+			\intertext{mit $\tilde x^{(k)} := \_x^{(k)}- x^{(k)} \in \scr K_k(A, r^{(0)}) = \Span \{d^{(0)}, \dotsc, d^{(k-1)}\}$}
+			&= f(\_x^{(k)}) + g(a)
+		\end{align*}
+		mit $g(a) = (d^{(k)})^T (Ax^{(k)} + b)a + \f 12 (d^{(k)})^T A d^{(k)} a^2$.
+		Die Minimierung von $f(\_x^{(k+1)}$ ist damit entkoppelt.
+		\begin{align*}
+			\_x^{(k+1)} = \argmin_{x\in x^{(0)} + \scr K_{k+1}}
+			\qquad &\iff \qquad \_x^{(k)} = \argmin_{x \in x^{(0)} + \scr K_k} f(x) \qquad\land\qquad a^* := \argmin_{a\in \R} g(a) \\
+			\qquad &\iff \qquad \_x^{(k)} = x^{(k)} \qquad \land \qquad g'(a^*) = 0 \\
+			\qquad &\iff \qquad \_x^{(k)} = x^{(k)} \qquad \land \qquad a^* = \f {(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2} \\
+			\qquad &\iff \qquad \_x^{(k+1)} = x^{(k)}  + \omega_k d^{(k)} = x^{(k+1)}
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{st}[Fehlerschranke CG-Verfahren] \label{4.24}
+	Für das CG-Verfahren gilt für den Fehler zu $x^* := A^{-1} b$
+	\[
+		\|x^{(k)} - x^*\|_A \le 2 \bigg( 1 - \f 2{{\sqrt {\kappa(A)}}+1} \bigg)^k \|x^{(0)} - x^*\|_A
+	\]
+	\begin{proof}
+		Ähnlich wie \ref{4.15}, sie Plato 11.5
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Obiger Fehler ist für große $\kappa(A)$ und $k$ besser als der Faktor aus \ref{4.15} des Gradientenverfahrens.
+			\item
+				Das CG-Verfahren weißt kein „zigzagging“ auf, da alle $d^{(k)}$ linear unabhängig sind.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{ex*}[\texttt{demos\textunderscore optimization(7)}]
+	Sei $f(x) = \f 12 x^T A x$ und $A = U I U^T$ mit Rotationsmatrix $U$.
+
+	Nach zwei Schritten ist der Fehler 0.
+\end{ex*}
+
+
+\subsection{PCG-Verfahren}
+
+
+Falls $\kappa(A)$ sehr groß ist, benötigt das CG-Verfahren viele Iterationen.
+Wende also Vorkonditionierung an (Preconditioning).
+
+Sei dazu $L$ reguläre, untere Dreiecksmatrix, dann ist
+\[
+	Ax = b
+	\qquad \iff \qquad
+	LAL^T z = Lb
+\]
+Setze jetzt $A_z := LAL^T$ und $b_z := Lb$ (mit $A_z$ symmetrisch und positiv definit) an.
+Wähle $L$ so, dass $\kappa(A_z)$ klein und $L$ dünn besetzt ist.
+
+Wende das CG-Verfahren für $z$ zur Lösung von $A_z z = b_z$ an.
+Nenne dessen Größen $z^{(k)}, d_z^{(k)}, r_z^{(k)} , \omega_k, \gamma_k$.
+Berechne nicht $z^{(k)}, d_z^{(k)}, r_z^{(k)}$, sondern direkt
+\begin{align*}
+	x^{(k)} &:= L^{-T}z^{(k)} \\
+	d^{(k)} &:= L^{-T}d_z^{(k)} \\
+	r^{(k)} &:= L^{-T}r_z^{(k)}
+\end{align*}
+mit Hilfsvariable $s(k) := L r_z^{(k)}$.
+Es taucht statt $L$ die einzelne Matrix $M := LL^T$ auf (genannt \emph{Vorkonditionierer}).
+Es muss in jeder Iteration ein LGS mit Matrix $M$ gelöst werden.
+
+\begin{df}[PCG-Verfahren] \label{4.25}
+	Setze $s^{(0)} := b - Ax^{(0)}, d^{(0)} = r^{(0)} = M^{-1}s^{(0)}$ und setze iterativ
+	\begin{align*}
+		\omega_k &:= \f {(s^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2} \\
+		x^{(k+1)} &:= x^{(k)} + \omega_k d^{(k)} \\
+		s^{(k+1)} &:= s^{(k)} - \omega_k A d^{(k)} \\
+		r^{(k+1)} &:= M^{-1}s^{(k+1)} \\
+		\gamma_k &:= \f {(s^{(k+1)})^T r^{(k+1)}}{(s^{(k)})^T r^{(k)}} \\
+		d^{(k+1)} &:= r^{(k+1)} + \gamma_k d^{(k)}
+	\end{align*}
+	\begin{note}
+		Für Details, siehe Deufhard/Hohmann 8.4 oder Jarre/Stoer 6.3.1.
+	\end{note}
+	\begin{note}[Wahl von $M$]
+		\begin{itemize}
+			\item
+				Schlechte Wahlen sind $M = I$ (CG-Verfahren), $M=A$ ($A_z = I$, Konvergenz in einer Iteration, aber $Mr^{(0)} = s^{(0)}$ ist so kompliziert wie das ursprüngliche QP).
+			\item
+				Eine mögliche Wahl ist $M := \diag(A)$ (Diagonalvorkonditionierung)
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{ex*}[\texttt{demos\textunderscore optimization(8)}]
+	Sei $n = 50$ mit
+	\[
+		A = \begin{pmatrix}
+			2 & - 1 & \cdots & 0 \\
+			\vdots & \ddots & \ddots & -1 \\
+			0 & \cdots & -1 & 51 
+		\end{pmatrix}
+	\]
+\end{ex*}
+
+
+\subsection{Newton-Verfahren}
+
+
+Betrachte für $f \in C^2(\R^n, \R)$:
+\[
+	\min_{x \in \R^n} f(x)
+\]
+Finde dazu den stationären Punkt $x^*$ mit Newton-Verfahren zur Nullstellensuche von $F(x) = \nabla f(x)$, also $DF(x) = \nabla^2 f(x)$.
+
+\begin{kor}[Newtonverfahren zur Optimierung] \label{4.26}
+	Falls $f \in C^2 (\R^n, \R)$ mit $x^*$ striktes lokales Minimum, so ist das Newton-Verfahren mit $x^{(0)} \in \R^n$:
+	\[
+		x^{(k+1)} := x^{(k)} - \Big( \nabla^2 f(x^{(k)}) \Big)^{-1} \nabla f(x^{(k)})
+	\]
+	lokal quadratisch konvergent gegen $x^*$.
+	\begin{proof}
+		Klar mit \ref{3.23}, denn $\nabla f(x^*) = 0$ und $\nabla^2 f(x^*)$ positiv definit, also regulär.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Das Newton-Verfahren liefert nicht immer eine Abstiegsrichtung und die Konvergenz ist nur lokal.
+			\item
+				Das Gradientenverfahren hat einen großen Konvergenzbereich, konvergiert aber langsam
+			\item
+				Kombination zu „globalisierten Newton“-Verfahren: erst Gradienten-Schritte, bis nahe am Optimum, dann Newton-Schritte um schnelle lokale Konvergenz zu erhalten.
+			\item
+				Für große $n$ ist die Berechnung von $\nabla^2 f(x)$  problematisch.
+		\end{itemize}
+	\end{note}
+\end{kor}
+
+
+\subsection{Gauß-Newton-Verfahren}
+
+
+Betrachte ein spezielles Optimierungsproblem: „Nichtlineare Ausgleichsrechnung/Interpolation“.
+Gegeben sei (siehe Kapitel 1) eine parametrisierte skalare Funktion $\Phi(x, a)$  für $x \in \R^n$ nichtlinear und $C^2$ bezüglich des Parametervektors $a \in \R^p$.
+Weiter sind Daten $x_1, \dotsc, x_m \in \R^n$ und Zielwerte $y_1, \dotsc, y_m \in \R$ gegeben.
+
+Suche $a \in \R^p$ als Lösung von
+\[
+	\min_{a \in \R^p} \sum_{i=1}^m \Big| \Phi(x,a) - y_i \Big|^2
+\]
+(Optimierung über $a$)
+oder kompakter mit dem Residuenvektor
+\[
+	R(a) := \begin{pmatrix}
+		\Phi(x_1,a) - y_1 \\
+		\vdots \\
+		\Phi(x_m, a) - y_m
+	\end{pmatrix}
+\]
+suche $a \in \R^p$ als Lösung von
+\[
+	\min_{a \in \R^p} \|R(a)\|^2
+\]
+Die Ableitungen sind berechenbar, für Newton ist die Hesse-Matrix erforderlich.
+Löse zur Vereinfachung die Sequenz von linearen Ausgleichsproblemen ohne Hesse-Matrix.
+
+Falls $\Phi(x,a)$ linear in $a$ ist:
+\[
+	(\Phi(x_i, a))_{i=1}^m = A a
+	\qquad y = (y_i)_{i=1}^m
+\]
+dann entspricht die Lösung von $\min_{a} \| Aa - y\|^2$ der Lösung der Normalengleichung $A^TA a = A^T y$.
+
+Sei in unserem Fall $a^{(k)}$ die Approximation des nichtlinearen Ausgleichsproblems.
+Bestimme $a^{(k+1)}$ als Lösung eines linearisierten Problems:
+\[
+	\min_{a^{(k+1)}} \sum_{i=1}^m \Big| \Phi(x_i, a^{(k)}) + \nabla_a(\Phi(x_i, a))^T (\underbrace{a^{(k+1)} - a^{(k)}}_{=: \delta^{(k)}}) - y_i \Big|^2
+\]
+mit
+\[
+	DR (a^{(k)}) = \begin{pmatrix}
+		\nabla_a \Phi(x_1, a^{(k)})^T \\
+		\vdots \\
+		\nabla_a \Phi(x_m, a^{(k)})^T \\
+	\end{pmatrix}
+\]
+
+\begin{df}[Gauß-Newton-Verfahren] \label{4.27}
+	Wähle $a^{(0)} \in \R^p$ und setze iterativ
+	\begin{align*}
+		a^{(k+1)} &:= a^{(k)} + \delta^{(k)} \\
+		d^{(k)} &:=  \argmin_{\delta} \Big\| R(a^{(k)}) + DR(a^{(k)}) \delta \Big\|^2
+	\end{align*}
+\end{df}
+
+\begin{ex*}[\texttt{demos\textunderscore optimization(9)}]
+	Sei
+	\[
+		\Phi(x, a) = a_1 e^{-|x - a_2|^2 \cdot 50} + a_3 e^{-|x-a_2|^2 \cdot 50}
+	\]
+\end{ex*}
 
 \end{document}
