@@ -1,4 +1,4 @@
-\documentclass[11pt]{scrartcl}
+\documentclass[11pt]{scrbook}
 \usepackage{mathe-vorlesung}
 
 % Needs dot2tex!
@@ -33,9 +33,9 @@
 \tableofcontents
 \newpage
 
-\section{Sortieren}
+\chapter{Sortieren}
 
-\section{Heap}
+\chapter{Heap}
 Die Höhe eines Heaps beträgt $\log(n)$
 Heapeigenschaft
 Heapify(A,top)
@@ -108,7 +108,7 @@ Heap aufbauen $\mathcal O(n)$. $n$-mal \verb|remove_min| $\mathcal O(n)$.
 Insgesamt also $\mathcal O(n\log n)$.
 \end{note}
 
-\subsection{Quicksort}
+\section{Quicksort}
 Ein erster randomisierter Algorithmus.\\
 Quicksort benutzt während des Ablaufs eine Zufallsquelle (Würfel).
 Je nach Wurfergebnis läuft der Algorithmus so oder ander weiter.
@@ -130,7 +130,7 @@ Die beste Wahl für das Pivotelement wäre der Median: $\mathcal O(n\log n)$
 Für deterministische Pivotregeln sind worst-case-Varianten konstruirbar.
 \end{note}
 
-\subsubsection{Analyse des Quicksort-Algorithmus}
+\subsection{Analyse des Quicksort-Algorithmus}
 
 Wir zeigen, dass unser Quicksort bei randomisierter Pivotwahl $\mathcal O(n\log n)$ vergleiche macht.
 \begin{note}
@@ -279,7 +279,7 @@ Diese Analyse gilt nur für \emph{deterministische}, vergleichsbasierte Sortierv
 \end{note}
 
 
-\section{Graphen}
+\chapter{Graphen}
 
 Ein Graph $G(V,E)$ bestehend aus Knoten (Vertices) $V$ und Kanden (Edges) $E$.
 Bei einem gerichtetem Graphen sind die Kanten bestimmt durch:
@@ -327,7 +327,7 @@ $\pi=v_0,v_1,\dotsc v_k$ mit $v_0=v, v_k=w$, sodass
 $\pi$ heißt \emph{einfacher Pfad} falls $\forall i\neq j:v_i\neq v_j$.
 \end{df}
 
-\subsection{Interessante Operationen auf Graphen}
+\section{Interessante Operationen auf Graphen}
 \begin{itemize}
 \item Existiert eine Kante zwischen Knoten $v$ und Knoten $w$?
 \item \underline{Was sind die \emph{ajazenten} Knoten von Knoten $v$?}
@@ -337,10 +337,10 @@ $\pi$ heißt \emph{einfacher Pfad} falls $\forall i\neq j:v_i\neq v_j$.
 \item Lösche Kante zwischen $v$ und $w$
 \end{itemize}
 
-\subsection{Speicherung/Darstellung eines Graphen}
+\section{Speicherung/Darstellung eines Graphen}
 Sei im folgenden $n$ immer die Anzahl Knoten und $m$ die Anzahl Kanten des Graphen.
 
-\subsubsection{Kantenliste}
+\subsection{Kantenliste}
 Nummeriere Knoten min $1,\dotsc,n$ durch.
 Speichere Kanten als Liste von Paaren (Kanten):
 \[
@@ -350,7 +350,7 @@ Nachteile:
 \begin{itemize}
 \item Knoten schlecht zu sehen und zu finden
 \end{itemize}
-\subsubsection{Adjazenzmatrix}
+\subsection{Adjazenzmatrix}
 Besteht aus einer $n\times n$-Matrix und:
 \[
 a_{ij} = \begin{cases}
@@ -370,9 +370,9 @@ Wenn man den Graphen (zweidimensional) zeichnen kann, dann nennt man den Graphen
 Jeder planarer Graph hat $m=\mathcal O(n)$ Kanten.
 \end{note}
 
-\subsubsection{Knoten-Kanten Inzidenzmatrix}
+\subsection{Knoten-Kanten Inzidenzmatrix}
 
-\subsubsection{Adjazenzlistendarstellung}
+\subsection{Adjazenzlistendarstellung}
 Stelle Graph dar durch
 \begin{enumerate}
 \item Liste der Knoten (Nummeriert durch IDs)
@@ -408,7 +408,7 @@ p\cdot(4n + 6m) \text{ Bytes}
 wobei $p$ der Größe eines Pointers entspricht.
 
 
-\subsubsection{Alternative Darstellung für statische Graphen}
+\subsection{Alternative Darstellung für statische Graphen}
 Annahme: Knoten haben IDs von $0$ bis $n-1$.
 Wir stellen Kanten dar durch:
 \[
@@ -502,7 +502,7 @@ Zusammenhangskomponenten von ungerichteten Graphen können leicht mit \verb|DFS|
 \end{note}
 \end{df}
 
-\subsection{Alternative Graphtraversierung – Breitensuche}
+\section{Alternative Graphtraversierung – Breitensuche}
 
 \underline{Vorteile:}
 \begin{itemize}
@@ -533,7 +533,7 @@ Falls ein Knoten $v\in$\verb|current| einen Nachbarn $w$ $(v,w) \in E$ mit
 
 Sobald \verb|current| abgearbeitet ist, setze \verb|current=next| und \verb|next=|$\emptyset$.
 
-\subsection{Datenstruktur Queue (Schlange)}
+\section{Datenstruktur Queue (Schlange)}
 FIFO : “First in, first out”.
 
 \begin{verbatim}
@@ -555,18 +555,18 @@ BFS
 \underline{Laufzeit:}
 $\mathcal O(n+m)$, da jeder Knoten maximal einmal in die Queue kommt und jede Kante maximal 2 mal angeschaut wird
 
-\subsection{Berechnung kürzester Wege in gewichteten Graphen}
+\section{Berechnung kürzester Wege in gewichteten Graphen}
 Gegeben Graph $G(V,E)$ und $c:E\to \R$.
 Gesucht:\\
 \[
 d(v)=\inf\{c(\pi):\pi \text{ ist Pfad von $s$ nach $v$}
 \]
 
-\subsection{Berechnung der starken Zusammenhangskomponente}
+\section{Berechnung der starken Zusammenhangskomponente}
 Naiv:\\
 Berechne erreichbare Knoten von jedem $v\in V$, Kosten: $\approx n^2+mn$
 
-\subsection{Erweiterte Tiefensuche}
+\section{Erweiterte Tiefensuche}
 
 \begin{verbatim}
 global compnum_counter = 1
@@ -688,7 +688,7 @@ $v$ lag aber nicht unter $w$ in $G$, da $w\longrightarrow v$.
 \end{proof}
 \end{lem}
 
-\subsection{Matching}
+\section{Matching}
 
 \begin{df}
 Sei $G(V,E)$ ein ungerichteter Graph.
@@ -715,7 +715,7 @@ Ist $V$ abgedeckt, nennen wir $M$ perfekt.
 $M$ hat dann $\frac n2$ Kanten.
 \end{df}
 
-\subsubsection{Cardinality Matching Problem}
+\subsection{Cardinality Matching Problem}
 Gegeben ist ein ungerichteter Graph und gesucht ist ein Maximum Matching.
 
 Wir beschränken uns auf bipartite Graphen.
@@ -825,7 +825,7 @@ Dieser Pfad ist ein augmentierender Graph auf $M$, Widerspruch.
 \end{proof}
 \end{thm}
 
-\subsubsection{Algorithmus zum Finden eines Maximum Matchings}
+\subsection{Algorithmus zum Finden eines Maximum Matchings}
 
 Suche $M$-augmentierenden Pfand solange (und augmentiere $M$ damit), bis kein $M$-augmentierender Pfad mehr existiert.
 
@@ -835,7 +835,7 @@ Alterniere zwischen Kanten in $M$ und nicht in $M$.
 
 Laufzeit: $\mathcal O(\frac n2(n+m)) \in \mathcal O(nm)$??
 
-\subsubsection{Stabiles Matching}
+\subsection{Stabiles Matching}
 A: Männer, B: Frauen.
 Es existiere eine Totalordnung auf den Frauen und auf den Männern
 
@@ -872,7 +872,7 @@ $a'<_b a$ ($a'$ ist laut $b$ besser als $a$).
 Falls $a$ $b$ nie einen Antrag gemacht hat, dann hat $a$ bessere Partnerin.
 \end{proof}
 
-\subsection{Berechnung kürzester Wege}
+\section{Berechnung kürzester Wege}
 
 Für einen gegeben Knoten $s\in V$ ist gesucht $\forall v\in V$
 \[
@@ -981,7 +981,7 @@ Falls man einen Knoten $u$ aus $U$ entfernt mit \verb|dist[u]|$=d(u)$, dann wird
 
 \end{enumerate}
 
-\subsubsection{Implementierung für verschiedene Graphklassen}
+\subsection{Implementierung für verschiedene Graphklassen}
 
 \begin{enumerate}[(A)]
 \item Bellman-Ford
@@ -1075,7 +1075,7 @@ Fibonacci Heap: $\O(n\log n +m)$
 \end{dot2tex}
 Dijkstra in $d$.
 \end{ex}
-\subsubsection{Beschleunigung von Kürzeste-Wege-Berechnungen bei nicht-negativen Kantenkosten (Dijkstra)}
+\subsection{Beschleunigung von Kürzeste-Wege-Berechnungen bei nicht-negativen Kantenkosten (Dijkstra)}
 Auf einem Graph mit $n=20\cdot 10^6$, $m=50\cdot 10^6$ braucht Dijkstra einige Sekunden.
 
 Wie sieht der \emph{Suchraum} von Dijkstra aus?\\
@@ -1089,7 +1089,7 @@ Man startet Dijkstra vom Start- und vom Zielknoten aus.
 „Fokusierte“ Suche
 \end{note}
 
-\subsubsection{Beschleunigung von Kürzeste-Wege-Berechnungen mit teilweise negativen Kantenkosten, aber ohne negative Zyklen}
+\subsection{Beschleunigung von Kürzeste-Wege-Berechnungen mit teilweise negativen Kantenkosten, aber ohne negative Zyklen}
 
 Bislang kennen wir hierzu den Bellman-Ford-Algorithmus mit einer Laufzeit von $\mathcal O(m\cdot n)$.
 
@@ -1169,7 +1169,7 @@ Der Gewinn liegt darin, dass der Suchraum extrem ausgedünnt wird.
 
 
 
-\section{Das Wörterbuchproblem (bei geordnetem Universum)}
+\chapter{Das Wörterbuchproblem (bei geordnetem Universum)}
 
 
 \begin{ex}
@@ -1213,7 +1213,7 @@ Es gibt davon unzählig viele, z.B.: AVL-Bäume, Skiplisten, Rot-Schwarz-Bäume,
 
 
 
-\subsection{Binärer Suchraum}
+\section{Binärer Suchraum}
 
 
 Habe zu verwaltende Schlüsselmenge $S\subset U$ (wobei $U$ ein total geordnetes Universum ist)
@@ -1244,7 +1244,7 @@ Wiederholtes Einfügen kann jedoch zu sehr unbalancierten Binärbäumen führen.
 Unser Ziel ist eine Baumstruktur, welche immer balanciert bleibt.
 
 
-\subsection{(2,4)-Bäume}
+\section{(2,4)-Bäume}
 
 
 Sei $S=\{a_1,\dotsc,a_n\}$ Teilmenge eines linear geordneten Universums $U$.
@@ -1447,7 +1447,7 @@ Beim Löschen werden Verschmelz-Operationen bis an die Wurzel benötigt und beim
 
 Der Aufwand pro Einfügung/Löschung beträgt $\O(\log n)$ \emph{ohne} Lokalisierung.
 
-\subsection{Amortisierte Analyse}
+\section{Amortisierte Analyse}
 
 \begin{ex}[8-Bit Binärzahler]
 	Die Kosten, um 1 zu addieren ist konstant, solange kein Übertrag passiert.
@@ -1501,7 +1501,7 @@ mit $\cost(+1) = 1 + \texp{Anzahl Überträge}$.
 \end{note}
 
 
-\subsection{Hashing}
+\section{Hashing}
 
 Sei $U$ ein Schlüsseluniversum (z.B. die Menge aller möglicher OSM-IDs) und $T[0,\dotsc, t-1]$ ein Feld, auch \emph{Hashtafel} genannt.
 
@@ -1568,7 +1568,7 @@ Wir suchen eine Hashfunktion, die $S$ gleichmäßig über $[0,\dotsc, t-1]$ vert
 \end{st}
 
 
-\subsubsection{Hashing mit Verkettung}
+\subsection{Hashing mit Verkettung}
 
 
 Jede Tafelposition ist Kopf einer linearen Liste.
@@ -1676,7 +1676,7 @@ Es ergibt sich dann für den Erwartungswert der Laufzeit für solche zufällig g
 \end{align*}
 
 
-\subsection{Universelles Hashing}
+\section{Universelles Hashing}
 
 
 Sei $X$ eine Menge von Hashfunktionen von $U$ nach $[0,\dotsc, m-1]$. 
@@ -1739,11 +1739,11 @@ Sei $X$ eine Menge von Hashfunktionen von $U$ nach $[0,\dotsc, m-1]$.
 \end{st}
 
 
-\subsection{Perfektes Hashing}
+\section{Perfektes Hashing}
 
 Wir wollen nun nicht die \emph{erwartete} Zugriffszeit konstant halten, sondern für gegebenes $S$ die \emph{worst-case} Zugriffszeit.
 
-\subsubsection{Einstufiges perfektes Hashing}
+\subsection{Einstufiges perfektes Hashing}
 
 \begin{df}
 	Wir definieren die Anzahl Kollisionen einer Hashfunktion $h$ auf einer Menge $S$ als
@@ -1818,7 +1818,7 @@ Das ist aber nicht praktikabel.
 Schlecht ist aber immernoch $m=\Omega(n^2)$.
 
 
-\subsection{Zweistufiges perfektes Hashing}
+\section{Zweistufiges perfektes Hashing}
 
 
 \begin{kor}
@@ -1861,7 +1861,7 @@ Für jeden Hashbucket $B_i(h)$ erzeugen wir nun eine Hashfunktion $h_i$, welche 
 Das können wir durch Wahl einer Hashtafel der Größe $m_i > c\cdot \binom {S_i(h)}2$.
 
 
-\subsubsection{Verfahren Zusammenfassung}
+\subsection{Verfahren Zusammenfassung}
 
 \begin{alg}
 	\begin{algorithmic}
@@ -1881,7 +1881,7 @@ Das können wir durch Wahl einer Hashtafel der Größe $m_i > c\cdot \binom {S_i
 	\end{algorithmic}
 \end{alg}
 
-\subsubsection{Platzbedarf}
+\subsection{Platzbedarf}
 
 Platzbedarf:
 
@@ -1892,7 +1892,7 @@ Die Primärtafel braucht $\O(n)$, die Sekundärtafeln:
 Insgesamt also $\O(n)$.
 
 
-\subsubsection{Zusammenfassung}
+\subsection{Zusammenfassung}
 
 
 Das zweistufige perfekte Hashing erlaubt es, eine perfekte Hashfunktion der Größe $\O(|S|)$ zu erzeugen (garantiert ohne Kollision).
@@ -1901,11 +1901,11 @@ Die erwartete Konstruktionszeit ist $\O(n)$.
 
 
 
-\section*{Quick-Heapsort}
+\chapter*{Quick-Heapsort}
 
 Quick-Heapsort ist eine Mischung aus Quicksort und Heapsort.
 
-\subsection{Wiederholung}
+\section{Wiederholung}
 
 \begin{seg}{Quicksort}
 	Wähle Pivotelement.
@@ -1923,16 +1923,16 @@ Quick-Heapsort ist eine Mischung aus Quicksort und Heapsort.
 Eine Alternative ist der \emph{Bottom-Up-Heapsort} (Binäry-Heap).
 Dabei wird beim \verb|remove_min| pro Ebene nur einmal verglichen (Einsinken) und im Nachhinein wieder nach oben geswappt.
 
-\subsection{Quick-Heapsort}
+\section{Quick-Heapsort}
 
 Einmal mit Quicksort partitionieren, dann zwei-Schichten-Heap aufbauen, leichte Elemente sortieren, rekursiv auf schwere Aufrufen.
 
 
 
-\section{Graphalgorithmen}
+\chapter{Graphalgorithmen}
 
 
-\subsection{Minimum Spanning Tree / Minimaler Spannbaum}
+\section{Minimum Spanning Tree / Minimaler Spannbaum}
 
 Für einen gegebenen ungerichteten, zusammenhängenden Graphen $G(V,E)$ mit einer Kostenfunktion $c:E\to \R_0^+$.
 Gesucht ist $T\subset E$, sodass $G(V,T)$ zusammenhängend und 
@@ -2021,7 +2021,7 @@ Kante zu $w$ wird zu $E''$ hinzugefügt.
 
 Laufzeit: $\O(mn \log n) = \O(m\log n)$, da die $m$ \texttt{decrease-key}-Operationen dominieren.
 
-\subsubsection{Wieso ist der Algorithmus korrekt?}
+\subsection{Wieso ist der Algorithmus korrekt?}
 
 Wir nehmen an, dass die Kantenkosten paarweise verschieden sind.
 
@@ -2047,7 +2047,7 @@ Wir nehmen an, dass die Kantenkosten paarweise verschieden sind.
 \end{kor}
 
 
-\subsection{Kruskals Algorithmus}
+\section{Kruskals Algorithmus}
 
 
 \begin{alg}[Kruskals Algorithmus]
@@ -2087,7 +2087,7 @@ Wir nehmen an, dass die Kantenkosten paarweise verschieden sind.
 	\end{seg}
 \end{alg}
 
-\subsubsection{Bessere Methode zum Prüfen der ZHKs}
+\subsection{Bessere Methode zum Prüfen der ZHKs}
 Repräsenteiere jede ZHK durch einen eindeutigen Knoten.
 Sei $[v]$ der eindeutige Repräsentant der ZHK, in welcher $v$ liegt.
 Zu Beginn ist jeder Knoten eine ZHK.
@@ -2113,9 +2113,9 @@ Also können wir in Zeit $\O(\log n)$ testen, ob $[v]=[w]$.
 \end{note}
 
 
-\subsection{Analogon zum MST in gerichteten Graphen: Directed Arborescence}
+\section{Analogon zum MST in gerichteten Graphen: Directed Arborescence}
 
-\subsection{MST von Punktmengen}
+\section{MST von Punktmengen}
 
 Nach Kruskal $\O(n^2\log n)$.
 Es gibt aber bessere Methoden.
@@ -2128,7 +2128,7 @@ Delaunay Triangulierung (Triangulierung mit Dreiecken möglichst großer Fläche
 Algorithmische Geometrie.
 
 
-\section{Dynamisches Programmieren}
+\chapter{Dynamisches Programmieren}
 
 
 \begin{seg}{Problemstellung}
@@ -2248,7 +2248,7 @@ Das Rucksackproblem gehört zur Klasse der $NP$-schweren Probleme.
 Das heißt: es ist unwahrscheinlich, dass man dieses Problem in Zeil polynomiell in der Eingabegröße (Beschreibung der Probleminstanz) lösen kann.
 
 
-\subsubsection{Approximationsalgorithmen}
+\subsection{Approximationsalgorithmen}
 
 Es gibt allerdings Approximationsalgorithmen, welche für \emph{beliebiges} $\epsilon > 0$ einen gültigen Rucksackinhalt mit Wert
 \[
@@ -2261,7 +2261,7 @@ liefert in einer Laufzeit von
 \]
 
 
-\subsection{Longest Common Subsequence}
+\section{Longest Common Subsequence}
 
 \begin{df}[Subsequenz]
 	Subsequenz??
@@ -2331,7 +2331,7 @@ Wir beobachten: Die Linien (Korrespondenzen) schneiden sich nicht.
 \end{note}
 
 
-\subsubsection{Edit-/Levenstein-Distanz}
+\subsection{Edit-/Levenstein-Distanz}
 
 
 \begin{ex}
@@ -2380,7 +2380,7 @@ D) 4	100%
 \end{verbatim}
 
 
-\section{Algorithmische Geometrie}
+\chapter{Algorithmische Geometrie}
 
 
 Wir wollen mit geometrischen Objekten „rechnen“.
@@ -2394,7 +2394,7 @@ Wir wollen mit geometrischen Objekten „rechnen“.
 	\end{quote}
 \end{ex}
 
-\subsection{Das konvexe Hülle Problem}
+\section{Das konvexe Hülle Problem}
 
 \newcommand{\CH}{\texttt{CH}}
 
@@ -2423,7 +2423,7 @@ Gesucht ist die konvexe Hülle $\CH(S)$ von $S$.
 	\end{proof}
 \end{note}
 
-\subsection{Gift Wrapping}
+\section{Gift Wrapping}
 
 \begin{alg}[Gift Wrapping]
 	\begin{algorithmic}
@@ -2440,7 +2440,7 @@ Gesucht ist die konvexe Hülle $\CH(S)$ von $S$.
 	\]
 \end{alg}
 
-\subsection{Sweep-Line}
+\section{Sweep-Line}
 
 \begin{alg}[Fegelinien-Algorithmus (Sweep-Line)]
 	\begin{algorithmic}
