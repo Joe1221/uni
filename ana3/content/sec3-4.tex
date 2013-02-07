@@ -7,3 +7,349 @@
 % brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
 % California, 94041, USA.
 
+\section{Lineare Differentialgleichungen}
+
+\begin{df} \label{4.1}
+	Sei $I \subset \R$ ein Intervall, $A \in C(I \to \R^{n^2})$, $g \in C(I \to \R^n)$.
+	Die Differentialgleichung
+	\[
+		y' = \underbrace{A(x)y + g(x)}_{=R(y)}
+	\]
+	für die Unbekannte $y \in C^1(I \to \R)$ heißt \emph{lineares System 1. Ordnung}.
+	Für $g = 0$ nennen wir es \emph{homogen}, sonst \emph{inhomogen}.
+\end{df}
+
+\begin{nt} \label{4.2}
+	Anwendung von Picard-Lindelöf auf obige Differentialgleichung mit $y(x_0) = y_0$ (für vorgegebenes $(x_0,y_0) \in I \times \R^n$), $B := \R^n$, $D = \R^n$ und Lipschitzbedingung
+	\[
+		\|f(x,y) - f(x,\tilde y) \| = \| A(x) (y-\tilde y) \| \le c \|y - \tilde y\|
+	\]
+	für $x \in K \subset I$ mit $K$ kompakt.
+
+	Der Satz liefert also eine lokale Lösung $\phi := y \in C^1([x_0 - r, x_0 + r] \to \R^n)$.
+	Erneute Anwendung mit Anfangsbedingung $y(x_0 + r) = \phi(x_0 + r)$ liefert die Lösung
+	\[
+		\psi := y \in C^1([x_0 + r - \tilde r, x_0 + r + \tilde r] \to \R^n)
+	\]
+	Zusammenkleben der Lösungen liefert
+	\[
+		y(x) = \begin{cases}
+			\phi(x) & x_0-r \le x \le x_0 + r \\
+			\psi(x) & x_0+r \le x \le x_0 + r + \tilde r
+		\end{cases}
+	\]
+	Dieses $y$ ist stetig auf $[x_0-r, x_0 + r + \tilde r]$.
+	Weiter ist $y'$ stetig auf dem selben Intervall, da
+	\begin{align*}
+		\phi'(x_0 + r) &= A(x_0 + r) \phi(x_0 + r) + g(x_0 + r) \\
+		&= A(x_0+r) \psi(x_0+r) + g(x_0 +r) \\
+		&= \psi'(x_0 +r)
+	\end{align*}
+	Als ist dieses $y \in C^1([x_0-r, x_0+r+r'] \to \R^n)$ eine Lösung von
+	\[
+		y' = A(x)y + g(x)
+		\qquad \land \qquad
+		y(x_0) = y_0
+	\]
+	Die Fortsetzung ist so lange möglich, bis $y \in C^1(I \to \R^n)$ (ohne Beweis).
+\end{nt}
+
+\begin{st} \label{4.2}
+	\begin{enumerate}[1)]
+		\item
+			Homogener Fall ($g = 0$):
+			\begin{enumerate}[a)]
+				\item
+					Die Menge der Lösungen
+					\[
+						\scr L_{\text{hom}} = \{y \in C^1(I \to \R^n : y' = A(x)y)
+					\]
+					bildet einen Untervektorraum von $C^1(I \to \R^n)$ der Dimension $n$.
+					Für festes $x_0 \in I$ ist
+					\[
+						P_{x_0} : \scr L_{\text{hom}} \to \R^n : y \mapsto P_{x_0} y := y(x_0)
+					\]
+					ein Vektorraum-Isomorphismus.
+					Eine Basis von $\scr L_{\text{hom}}$ heißt \emph{Fundamentalsystem} (auch im Fall $g \neq 0$).
+				\item
+					Für $n$ Lösungen $y_1, \dotsc, y_n \in \scr L_{\text{hom}}$ sind äquivalent:
+					\begin{enumerate}[(i)]
+						\item
+							$\{y_1,\dotsc,y_n\}$ ist ein Fundamentalsystem
+						\item
+							$\forall x \in I : W(x) := \det(y_1(x) \dotso y_n(x)) \neq 0$ (Wronski-Determinante)
+						\item
+							$\exists x_0 \in I : W(x_0) \neq 0$.
+					\end{enumerate}
+			\end{enumerate}
+		\item
+			Inhomogener Fall ($g \neq 0$):
+			\begin{enumerate}[a)]
+				\item
+					Die Menge der Lösungen $\scr L_{\text{inhom}}$ bildet einen affinen Unterraum von $C^1(I \to \R^n)$
+					\[
+						\scr L_{\text{inhom}} = \{y \in C^1(I \to \R^n: y' = A(x)y + g(x))
+					\]
+
+					Ist $y_{\text{part}} \in \scr L_{\text{inhom}}$ eine beliebige, aber fest gewählt (\emph{partikuläre Lösung}), so gilt
+					\[
+						\scr L_{\text{inhom}} = y_{\text{part}} + \scr L_{\text{hom}}
+					\]
+				\item
+					Nutze \emph{Variaton der Konstanten}:
+					Ist $\{y_1,\dotsc, y_n\}$ ein Fundamentalsystem, so ist
+					\[
+						y(x) = c_1(x) y_1(x) + \dotsb + c_n(x) y_n(x)
+					\]
+					genau dann Lösung von $y' = A(x)y + g(x)$, wenn
+					\begin{align*}
+						c_1'y_1 + \dotsb + c_n'y_n = g
+						\qquad &\iff \quad
+						\underbrace{\begin{pmatrix}
+							y_1 & \cdots & y_n
+						\end{pmatrix}}_{\det(\dotsc) = W(x) \neq 0} \begin{pmatrix}
+							c_1' \\ \vdots \\ c_n'
+						\end{pmatrix} = g \\
+						& \iff \qquad \begin{pmatrix}
+							c_1' \\ \vdots \\ c_n'
+						\end{pmatrix} = \begin{pmatrix}
+							y_1 & \cdots & y_n
+						\end{pmatrix}^{-1} g
+					\end{align*}
+			\end{enumerate}
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[{1}a)]
+			\item
+				Nach \ref{4.1} ist $\scr L_{\text{hom}} \neq \emptyset$.
+				Seien $y, \tilde y$ Lösungen von $y' = A(x)y$ und $\alpha, \beta \in \R$, dann ist für $u = \alpha y + \beta \tilde y$
+				\[
+					u' = \alpha y' + \beta \tilde y' = \alpha Ay' + \beta A \tilde y' = Au
+				\]
+				und damit $u \in \scr L_{\text{hom}}$.
+				Damit ist $\scr L_{\text{hom}}$ Untervektorraum.
+				Die Abbildung $P_{x_0}$ ist linear und wohldefiniert, da die Lösung der DGL eindeutig.
+			\item
+				$P_{x_0}$ ist ein Vektorraum-Isomorphismus, da
+				\begin{align*}
+					\{y_1, \dotsc, y_n\} \text{ lin. unabhängig}
+					& \iff \{P_{x_0} y_1, \dotsc, P_{x_0} y_n \} \text{ lin. unabhängig} \\
+					& \iff \det(y_1(x_0) \dotso y_n(x_0)) = W(x_0) \neq 0
+				\end{align*}
+		\end{enumerate}
+		\fixme[zu zeigende Äquivalenzen verdeutlichen]
+		\begin{enumerate}[{2}a)]
+			\item
+				Zeige $y_{\text{part}} + \scr L_{\text{hom}} \subset \scr L_{\text{inhom}}$.
+				Sei $y \in \scr L_{\text{hom}}, u := y + y_{\text{part}}$, dann ist
+				\[
+					u' = y' + y_{\text{part}}' = Ay + Ay_{\text{part}} + g = Au + g
+				\]
+				also $u \in \scr L_{\text{inhom}}$.
+
+				Zeige $\scr L_{\text{inhom}} \subset y_{\text{part}} + \scr L_{\text{hom}}$.
+				Sei $u \in \scr L_{\text{inhom}}, y := u - y_{\text{part}}$, dann ist
+				\[
+					y' = Au + g - (A y_{\text{part}} + g) = Ay
+				\]
+				also $y \in \scr L_{\text{hom}}$ und damit $u = y_{\text{part}} + y \in y_{\text{part}} + \scr L_{\text{hom}}$.
+			\item
+				Setze $y(x) = c_1(x) y_1(x) + \dotsb + c_n(x) y_n(x)$ in die DGL ein:
+				\begin{align*}
+					y' = \sum_{i=1}^n (c_j' y_j + c_j y_j') &\stackrel != A(x) \bigg( \sum_{j=1}^n c_j y_j \bigg) + g \\
+					\iff \qquad \sum_{j=1}^n c_j'y_j + \sum_{j=1}^n c_j y_j' &= \sum_{j=1}^n c_j \underbrace{A(x) y_j}_{y_j'} + g \\
+					\iff \sum_{j=1}^n c_j' y_j' &= g
+				\end{align*}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{df} \label{4.4}
+	Sei $I \subset \R$ ein Intervall und $a_0, \dotsc, a_{n-1}, g \in C(I \to \R)$.
+	Dann heißt
+	\[
+		y^{(n)} + a_{n-1} y^{(n-1)} + \dotsb + a_1 y' + a_0 y = g
+	\]
+	für die Unbekannte $y \in C^n(I \to \R)$ \emph{lineare Differentialgleichung $n$-ter Ordnung}.
+	Für $g = 0$ nennen wir sie \emph{homogen}, sonst \emph{inhomogen}.
+\end{df}
+
+\begin{nt} \label{4.5}
+	\begin{enumerate}[1)]
+		\item
+			Sei $y \in C^n(I \to \R)$ eine Lösung von obiger DGL, $u_1 := y, u_2 := y', \dotsc, u_n := y^{(n-1)}$, dann ist
+			\[
+				u' =
+				\begin{pmatrix}
+					y' \\ y'' \\ \vdots \\ y^{(n-1)} \\ y^{(n)}
+				\end{pmatrix}
+				=
+				\begin{pmatrix}
+					u_2 \\ u_3 \\ \vdots \\ u_n \\ -a_{n-1} u_n - a_{n-2} u_{n-1} - \dotsb - a_0 u_1 + g
+				\end{pmatrix}
+				= \begin{pmatrix}
+					0 & 1 & \cdots & 0 \\
+					\vdots  & \ddots & \ddots & 0 \\
+					0 & 0 & 0 & 1 \\
+					-a_0 & -a_1 & \cdots & -a_{n-1}
+				\end{pmatrix} + \begin{pmatrix}
+					0 \\ \vdots \\ 0 \\ g
+				\end{pmatrix}
+			\]
+		\item
+			Ist umgekehrt $u \in C^1(I \to \R^n)$ Lösung von obigem System und $y := u_1$, dann löst $y \in C^n(I \to \R)$ die ursprünglich lineare DGL $n$-ter Ordnung.
+	\end{enumerate}
+\end{nt}
+
+\begin{kor}[Folgerung] \label{4.6}
+	\begin{enumerate}[1)]
+		\item
+			Im Fall $g = 0$:
+			\begin{enumerate}[a)]
+				\item
+					Die Menge der Lösungen
+					\[
+						\scr L_{\text{hom}} = \{y \in C^n(I \to \R) : \dotso \}
+					\]
+					bildet einen linearen Unterraumvektor von $C^n(I \to \R)$ der Dimension $n$.
+					Die Abbildung
+					\[
+						P_{x_0} : \scr L_{\text{hom}} \to \R^n : y \mapsto P_{x_0}(y) := \begin{pmatrix}
+							y(x_0) \\ y'(x_1) \\ \vdots \\ y^{(n-1)}(x_0)
+						\end{pmatrix}
+					\]
+					ist ein Vektorraum-Isomorphismus.
+					Eine Basis von $\scr L_{\text{hom}}$ heißt \emph{Fundamentalsystem}.
+				\item
+					Für $y_1, \dotsc, y_n \in \scr L_{\text{hom}}$ sind äquivalent
+					\begin{enumerate}[(i)]
+						\item
+							$\{y_1,\dotsc,y_n\}$ ist Fundamentalsystem
+						\item
+							\[
+									\forall x \in I : W(x) = \det \begin{pmatrix}
+									y_1(x) & \cdots & y_n(x) \\
+									\vdots & \ddots & \vdots \\
+									y_1^{(n-1)}(x) & \cdots & y_n^{(n-1)}(x)
+								\end{pmatrix} \neq 0
+							\]
+							(Wronski-Determinante)
+						\item
+							$\exists x_0 \in I : W(x) \neq 0$
+					\end{enumerate}
+			\end{enumerate}
+		\item
+			Im inhomogenen Fall ($g \neq 0$):
+
+			\begin{enumerate}[a)]
+				\item
+					\[
+						\scr L_{\text{inhom}} = y_{\text{part}} + \scr L_{\text{hom}}
+					\]
+					wobei $y_{\text{part}} \in \scr L_{\text{inhom}}$ beliebig aber fest gewählt.
+				\item
+					Variation der Konstanten: Ist $\{y_1, \dotsc, y_n\}$ ein Fundamentalsystem, so ist
+					\[
+						y(x) := c_1(x) y_1(x) + \dotsb + c_n(x)y_n(x)
+					\]
+					genau dann Lösung der DGL, falls
+					\begin{align*}
+						c_1' \begin{pmatrix}
+							y_1 \\ y_1' \\ \vdots \\ y_1^{(n-1)}
+						\end{pmatrix} +
+						c_2' \begin{pmatrix}
+							y_1 \\ y_1' \\ \vdots \\ y_1^{(n-1)}
+						\end{pmatrix} + \dotsb +
+						c_n' \begin{pmatrix}
+							y_1 \\ y_1' \\ \vdots \\ y_1^{(n-1)}
+						\end{pmatrix} &= \begin{pmatrix}
+							0 \\ 0 \\ \vdots \\ g
+						\end{pmatrix} \\
+						\iff \qquad
+						\begin{pmatrix}
+							c_1' \\ \vdots \\ c_n'
+						\end{pmatrix} &=
+						\underbrace{\begin{pmatrix}
+							y_1(x) & \cdots & y_n(x) \\
+							\vdots & \ddots & \vdots \\
+							y_1^{(n-1)}(x) & \cdots & y_n^{(n-1)}
+						\end{pmatrix}^{-1}}_{\det(\dotso) = W(x) \neq 0} \begin{pmatrix}
+							0 \\ \vdots \\ 0 \\ g
+						\end{pmatrix}
+					\end{align*}
+			\end{enumerate}
+	\end{enumerate}
+\end{kor}
+
+\begin{ex} \label{4.7}
+	Gegeben sei
+	\[
+		xy'' + 2(x+1)y' + 2y = 1 - e^{-2x}
+	\]
+	Forme in passende Form um:
+	\[
+		y'' + 2(1+\tf 1x) y' + \f 2x y = \f {1-e^{-2x}}x
+	\]
+	Die Lösung existiert auf $I = (0,\infty)$ oder auf $I' = (-\infty,0)$
+	\begin{enumerate}[1)]
+		\item
+			Löse zunächst das homogene System.
+			Der Ansatz $y = x^{\alpha}$ liefert ein Lösung
+			\[
+				y_1(x) = \f 1 x
+			\]
+			für $x \in I$.
+			Der Ansatz von d'Alembert:
+			\[
+				y(x) = c(x) \f 1x
+			\]
+			führt zu
+			\[
+				y_2(x) = \f {e^{-2x}}x
+			\]
+			auf $I$.
+			Es ergibt sich
+			\[
+				W(x) = \det \underbrace{\begin{pmatrix}
+					\f 1x & \f {e^{-2x}}{x} \\
+					- \f 1{x^2} & \f {-2xe^{-2x}-e^{-2x}}{x^2}
+				\end{pmatrix}}_{=:B} = - \f {2e^{-2x}}{x^2} \neq 0 \qquad \text{(auf $I$)}
+			\]
+			und
+			\[
+				B^{-1} = \begin{pmatrix}
+					x+\f 12 & \f x2 \\
+					-\f {e^{2x}}{2} & \f {xe^{2x}}2
+				\end{pmatrix}
+			\]
+			Variation der Konstanten:
+			\[
+				\begin{pmatrix}
+					c_1' \\ c_2'
+				\end{pmatrix} = B^{-1} \begin{pmatrix}
+					0 \\ \f {1-e^{-2x}}x
+				\end{pmatrix} = \f 12 \begin{pmatrix}
+					1 - e^{-2x} \\ 1 - e^{2x}
+				\end{pmatrix}
+			\]
+			berechne $c_1, c_2$:
+			\[
+				c_1 = \f 12 (x + \tf {e^{-2x}}2)
+				\qquad
+				c_2 = \f 12 (x - \tf {e^{2x}}2)
+			\]
+			für $y_{\text{part}} (x)$ muss gelten
+			\begin{align*}
+				y_{\text{part}} (x) &= \f 12 (x + \tf{e^{-2x}}2)\f 1x + \f 12 (x - \tf {e^{2x}}2) \f {e^{-2x}}x
+				&= \f 12 + \f {e^{-2x}}{4x} + \f {e^{-2x}}2 - \f 1{4x}
+			\end{align*}
+			Wähle $y_{\text{part}} = \f 12 + \f {e^{-2x}}2$ und damit
+			\[
+				y_{\text{inhom}} = \f 12 + \f {e^{-2x}}2 + c_1 \f 1x + c_2 \f {e^{-2x}}x
+				\qquad
+				c_1, c_2 \in \R
+			\]
+	\end{enumerate}
+\end{ex}
+
+
