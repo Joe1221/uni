@@ -1,0 +1,92 @@
+% Stephan Hilb, 2012 Universität Stuttgart.
+%
+% Dieses Werk ist unter einer Creative Commons Lizenz vom Typ
+% Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 3.0 Deutschland
+% zugänglich. Um eine Kopie dieser Lizenz einzusehen, konsultieren Sie
+% http://creativecommons.org/licenses/by-nc-sa/3.0/de/ oder wenden Sie sich
+% brieflich an Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\section{Vektoranalysis}
+\addtocounter{thmn}{1}
+\setcounter{theorem}{0}
+
+\begin{proof}
+  \begin{enum-arab}
+    \item
+      Es gelte o.B.d.A
+      \[
+        \omega = a(x) dx_J \qquad J \in \mathcal{G}^{(k)}
+      \]
+    \item
+      Lokalisierung:
+      Sei $A(S)$ orientierter Atlas, sortiert wie in \ref{8.6}.
+      \begin{align*}
+        \int_S d\omega &= \sum_{j=1}^N \int_{U_j} \psi_j d\omega \\
+        &= \sum_{i=1}^n \sum_{j=1}^N \int_{U_j}\partial_{x_i}(\psi_j a) dx_i \wedge dx_J \\
+        &= \sum_{i=1}^n \underbrace{\sum_{j=1}^N \int_{U_j}(\partial_{x_i}\psi_j) a xx_i \wedge dx_J}_{\int_S (\underbrace{\sum_{j=1}^N \partial_{x_i}\psi_j)}_{\partial x_i \sum \psi_j = \partial x_{i}1 = 0}a dx_i \wedge dx_J} \\
+        &= \sum_{j=1}^N \int_{U_j}d(\psi_j \omega)
+      \end{align*}
+      Wir zeigen jetzt
+      \[
+        \int_{U_j} d(\psi_j \omega) = \begin{cases}
+          \int_{\tilde U_j = U_j \cap \partial S} \psi_j \omega & 1 \le j \le L \\
+          0& L+1 \le j \le N
+        \end{cases}
+      \]
+      Dann gilt, da $\{\psi_1,\dotsc, \psi_L\}$ eine Zerlegung der Eins ist für $\partial S$ mit Altas $\{(\tilde \phi_j, \tilde U_j), 1 \le j \le L \}$
+      \[
+        \int_S d\omega = \sum_{j=1}^L \int_{\tilde U_j} \psi_j \omega  = \int_{\partial S} \omega
+      \]
+    \item
+      Sei $j= \{1,\dotsc, N\}$ fest, $\phi_j = (g_1,\dotsc, g_n)$, $D=K_1^{(k+1)}(0)$ falls $1\le j \le L$, $D=K_1^{(k+1)}(0)$ sonst.
+      Also
+      \begin{align*}
+        \int_{U_j} d(\psi_j \omega) &= \sum_{i=1}^n \int_{y\in D} \partial_{x_i} (\psi_j a)(\phi_j(y))) \det(\tfrac{\partial(g_i,g_J)}{\partial y}) dy 
+        \intertext{
+          Entwickeln der Determinante nach der ersten Zeile ergibt
+        }
+        &= \sum_{i=1}^n \sum_{l=1}^{k+1} (-1)^{k+1} \int_{y\in D} \partial_{x_i}(\psi_j a)(\phi_j(y)) \tfrac{\partial_{g_i}}{\partial_{y_l}}(y) \cdot \det \bigg( \frac{\partial(g_{i_1},\dotsc,g_{i_k})}{\underbrace{\partial(y_1,\dotsc, y_{l-1},y_{l+1},\dotsc, y_{k+1})}_{y^{(l)}}} dy \\
+        &= \sum_{l=1}^{k+1} (-1)^{l+1} \int_{y \in D} \partial_{y_l}((\psi_j a)\circ \phi_j)(y) \det(\dotsc) dy \\
+        &= \sum_{l=1}^{k+1} (-1)^{l+1} \int_{y^{(l)}\in K_1^{(k)}(0)} \int_{y_l=- \sqrt{1 - |y^{(l)}|^2}}^{y_l = + \sqrt{1-|y^{(l)}|^2} \text{ oder $y_l=0$ falls $1\le j \le L$}} \dotsc d y_l dy^{(l)}
+        \intertext{
+          Integriere jetzt partiell und beachte: $(\psi_j a)\circ \psi = 0$ für $y_l = \pm \sqrt{1-|y^{(l)}|^2}$ da $\mathrm{supp} \psi_j \le U_j$.
+          Außerdem $\sum_{l=1}^{k+1} (-1)^{l+1} \partial y_l (\det (\dotsc)) = 0$ (Nachrechnen).
+        }
+        &= \begin{cases}
+          0 & L+1 \le j \le N \\
+          \int_{\tilde U_j} \psi \omega \stackrel{\tilde U_j = \tilde \phi_j(K_1^{(k)}(0))}= (-1)^{i+1} \int_{y^{(i)}\in K_1^{(k)}(0)} (\psi_j a) \circ \phi_j (0,y^{(1)}) \det(\tfrac{\partial g_J}{\partial y^{(1)}}) dy^{(1)} & 
+        \end{cases}
+      \end{align*}
+  \end{enum-arab}
+\end{proof}
+
+\begin{notice*} \label{8.8}
+  \begin{enum-arab}
+    \item
+      Im Fall $k=0, \omega = a(x), S = \phi([\alpha,\beta]), \partial S = \{\phi(\alpha), \phi(\beta)\}$.
+      Nach \ref{8.4}:
+    \item
+      Satz von Stokes gilt auch für $S= \_{O}$, d.h. $S \subset O$ nicht notwendig.
+    \item
+      Folgerungen
+      \begin{enum-alph}
+        \item
+          Der Satz von Gauß-Ostrogradski:
+          Sei $f\in C^1(O\to \mathbb{R}^n)$.
+          \[
+            \int_{S} \nabla \cdot f dV^{(n)} = \int_{\partial S} \braket{f,n_0} dV^{(n-1)}
+          \]
+          Setze dazu $\omega := \sum_{j=1}^n (f_j dx_1 \wedge \dotsc \wedge dx_{j-1} \wedge dx_{j+1} \wedge \dotsc \wedge dx_n)$
+        \item
+          Klassischer Satz von Stokes:
+          Sei $S \subset \mathbb{R}^3$ eine Mannigfaltigkeit der Dimension $2$ und $f \in C^1(S \to \mathbb{R}^3)$, dann gilt
+          \[
+            \int_S (\nabla \times f) dV^{(2)} = \int_{\partial S}\braket{f,t_0} dV^{(1)}
+          \]
+          Setze dazu $\omega := f_1 dx_1 + f_2 dx_2 + f_3 dx_3$.
+      \end{enum-alph}
+  \end{enum-arab}
+\end{notice*}
+
+
