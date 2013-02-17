@@ -2,4 +2,5 @@
 
 https://bitbucket.org/hmenke/analysis-3
 
-Wird nunmehr wieder gepflegt, da Henri nicht mehr mitschreibt.
+~~Wird nunmehr wieder gepflegt, da Henri nicht mehr mitschreibt.~~
+Wurde wieder in Henris Skript integriert.
