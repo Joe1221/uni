@@ -686,7 +686,8 @@ bijektiv. Die Riemannsche Fläche hat zwei Blätter.
     f_{+} \coloneq f \Big|_{[x_0,x_0+\varepsilon[} \qquad f_{-} \coloneq f \Big|_{]x_0-\varepsilon,x_0]}
   \end{align*}
   %
-  injektiv sind, dass $f_{+}^{-1}$, $f_{-}^{-1}$ sind als \acct{Puiseux-Reihen} darstellbar.
+  injektiv sind. 
+  $f_{+}^{-1}$ und $f_{-}^{-1}$ sind dann als \acct{Puiseux-Reihen} darstellbar:
   %
   \begin{align*}
     f_{\pm}^{-1}(y) = x_0 + \sum\limits_{n=1}^{\infty} b_n \left( \pm |y-y_0|^{1/K} \right)^n
@@ -697,12 +698,13 @@ bijektiv. Die Riemannsche Fläche hat zwei Blätter.
     \end{dcases}
   \end{align*}
   %
-  ($b_n \in \mathbb{R}$, $b_1 = |a_K|^{-1/K} \neq 0$)
-  
-  Die Reihen für $f_{+}$ und $f_{-}$ haben dieselben Koeffizienten $b_n$. Einziger Unterschied: $+$ oder $-$ in $(\cdot)^n$.
+  mit Koeffizienten $b_n \in \mathbb{R}$.
+  Außerdem ist $b_1 = |a_K|^{-1/K} \neq 0$.
+
+  Die Reihen für $f_{+}$ und $f_{-}$ haben dieselben Koeffizienten $b_n$. Einziger Unterschied ist das Vorzeichen in der Klammer.
   
   \begin{proof} % % % Vorlesung vom 19.11.2012
-    O.B.d.A. $a_K > 0$. Sei
+    Wir nehmen o.B.d.A. $a_K > 0$ an. Definiere
     %
     \begin{align*}
       g(z) &\coloneq \sum\limits_{n=K}^{\infty} a_n (z-x_0)^n \quad \text{für } |z-x_0| < r \\
@@ -714,57 +716,83 @@ bijektiv. Die Riemannsche Fläche hat zwei Blätter.
       \end{dcases}
     \end{align*}
     %
-    $\overset{\text{\ref{thm:3.4}}}{\implies}$ $g(z) = h(z)^K$ für $|z-x_0| < \varepsilon$, $h$ holomorph und $h'(x_0) \neq 0$.
+    Nach \ref{thm:3.4} existiert $\varepsilon > 0$ und eine holomorphe Funktion $h$ mit $g(z) = h(z)^K$ für $|z-x_0| < \varepsilon$ und $h'(x_0) \neq 0$.
     
-    Aus dem Beweis von \ref{thm:3.4}:
+    Aus dem Beweis von \ref{thm:3.4} entnehmen wir die Darstellung
     %
     \begin{align*}
-      h(z) = (z-x_0) \underbrace{\left( \sum\limits_{n=K}^{\infty} a_n (z-x_0)^{n-K} \right){1/K}}_{=a_K > 0 \text{ für } z=x_0}
+      h(z) &= (z-x_0) \left( \sum\limits_{n=K}^{\infty} a_n (z-x_0)^{n-K} \right)^{1/K} 
     \end{align*}
     %
-    also $(\cdot)^{1/K} : \mathbb{C}_0 \to \mathbb{C}$, insbesondere $(\cdot)^{1/K} : [0,\infty[ \to \mathbb{R}$ ist die reelle $K$-te Wurzel.
+    Diese Darstellung ist wohldefiniert in einer Umgebung um $x_0$, da dort
     %
     \begin{align*}
-      &\implies
-      \begin{dcases}
-        h^{-1} \text{ holomorph nach \ref{thm:3.6}} \\
-        h(x) \in \mathbb{R} \text{ für } x_0-\varepsilon < x < x_0+\varepsilon \\
-        h'(x_0) = 1 \cdot a_K^{1/K} + 0 \cdot \ldots = a_K^{1/K} > 0 \\
-        \implies h \text{ streng monoton wachsend in } ]x_0-\varepsilon',x_0+\varepsilon'[ \text{ und reell} \\
-        \implies h^{-1} \text{ streng monoton wachsend und reell}
-      \end{dcases} \\
-      &\implies
-      \begin{dcases}
-        h^{-1}(z) = x_0 + \sum\limits_{n=1}^{\infty} b_n \, z^n \text{ für } |z-x_0| < r' \\
-        b_1 = \frac{{h^{-1}}'(0)}{1!} = \frac{1}{h'(x_0)} = \frac{1}{a_K^{1/K}} \\
-        b_n \in \mathbb{R} \text{, da } b_n = \frac{1}{n!} \frac{\mathrm{d}^n h^{-1}}{\mathrm{d}x^n}(x_0) = \text{reeller Ableitung von } h^{-1}\Big|_{]x_0-r',x_0+r'[}
-      \end{dcases} \\
+      \sum_{n=K}^\infty a_n (z-x_0)^{n-K} > 0
+    \end{align*}
+    (betrachte für $z=x_0$ und folge aus der Stetigkeit).
+    Man sieht, dass $h(x) \in \mathbb{R}$ für $x \in (x_0 - \varepsilon, x_0 + \varepsilon)$, wir können also $h$ eingeschränkt auf $(x_0-\varepsilon, x_0+\varepsilon)$ als reelle Funktion betrachten.
+    %
+    Außerdem ist
+    %
+    \begin{align*}
+      h'(x_0) &= 1 \cdot a_K^{1/K} + 0 \cdot \dotso = a_K^{1/K} > 0
     \end{align*}
     %
-    Also: 
-    \begin{gather*}
-      \begin{aligned}
+    Nach \ref{thm:3.6} ist dann $h^{-1}$ definiert und holomorph in einer entpsrechenden Umgebung von $x_0$.
+    Wir folgern weiter aus $h'(x_0) > 0$, dass $h$ streng monoton wachsend in einer Umgebung von $x_0$ ist.
+
+    Da $h^{-1}$ holomorph ist mit $h^{-1}(0) = x_0$, können wir für ein $r'>0$ schreiben:
+    %
+    \begin{align*}
+      h^{-1}(z) = x_0 + \sum_{n=1}^\infty b_n z^n
+      \qquad |z| < r'
+    \end{align*}
+    %
+    Wir erhalten für die Koeffizienten der Potenzreihe
+    %
+    \begin{align*}
+      b_n = \frac 1{n!} \frac{\mathrm d^n}{\mathrm dx^n} h^{-1}(0)
+    \end{align*}
+    %
+    und damit als reelle Ableitungen von $h^{-1}$ betrachtet: $b_n \in \R$.
+    Für $b_1$ gilt außerdem
+    %
+    \begin{align*}
+      b_1 = (h^{-1})'(0) = \frac 1{h'(x_0)} = \frac 1{a_K^{1/K}}
+    \end{align*}
+    %
+    Sei $y_0 \coloneq f(x_0)$.
+    Dann ist
+    %
+    \begin{align*}
         f(x) = y
-        &\iff g(x) = y-y_0 \\
-        &\iff h(x)^K = y-y_0 \\
-      \end{aligned} \\
-      \implies
-      \left\{
-      \begin{aligned}
-        &x \geq x_0 : h(x) \geq h(x_0) = 0 \implies y \geq y_0 \\
-        &\qquad \implies h(x) = (y-y_0)^{1/K} \\
-        &\qquad \implies x = h^{-1} (y-y_0)^{1/K} = \underbrace{x_0 + \sum\limits_{n=1}^{\infty} b_n \left( (y-y_0)^{1/K} \right)^n}_{\eqcolon f_{+}^{-1}} \\
-        &x \leq x_0 : h(x) \leq h(x_0) = 0 \implies y \leq y_0 \\
-        &\qquad \implies h(x) = - |y-y_0|^{1/K} \\
-        &\qquad \implies x = h^{-1}\left(-|y-y_0|^{1/K}\right) = \underbrace{x_0 + \sum\limits_{n=1}^{\infty} b_n \left( -|y-y_0|^{1/K} \right)^n}_{\eqcolon f_{-}^{-1}}
-      \end{aligned}
-      \right.
-    \end{gather*}
+        \quad\iff\quad g(x) = y-y_0
+        \quad\iff\quad h(x)^K = y-y_0
+    \end{align*}
+    %
+    Für $x \ge x_0$ ist (weil $h$ streng monoton wachsend) $h(x) \ge h(x_0) = 0$ und damit
+    %
+    \begin{align*}
+      y = h(x)^K + y_0 \ge h(x_0)^K + y_0 = y_0
+    \end{align*}
+    %
+    in diesem Fall ist $h(x) = (y-y_0)^{1/K}$ und damit
+    %
+    \begin{align*}
+      x = h^{-1}\Big((y-y_0)^{1/K}\Big) = \underbrace{x_0 + \sum\limits_{n=1}^{\infty} b_n \left( (y-y_0)^{1/K} \right)^n}_{\eqcolon f_{+}^{-1}}
+    \end{align*}
+    %
+    Für $x \le x_0$ ergibt sich umgekehrt $y \le y_0$, $h(x) = -|y-y_0|^{1/K}$ und somit
+    %
+    \begin{align*}
+      x = h^{-1}\Big(|y-y_0|^{1/K}\Big) = \underbrace{x_0 + \sum\limits_{n=1}^{\infty} b_n \left( -|y-y_0|^{1/K} \right)^n}_{\eqcolon f_{-}^{-1}}
+    \end{align*}
+    %
   \end{proof}
 \end{theorem}
 
 \begin{example}
-  $f(x) = c (x-x_0)^4$, $x \in \mathbb{R}$
+  Sei $f: \mathbb{R} \to \mathbb{R}$ mit $f(x) = c (x-x_0)^4$ und $x_0 \in \R$.
   %
   \begin{figure}[H]
     \centering
@@ -790,5 +818,5 @@ bijektiv. Die Riemannsche Fläche hat zwei Blätter.
     f_{-}^{-1}(y) = x_0 - \left| \frac{y}{c} \right|^{1/4}
   \end{gather*}
   %
-  Für $c<0$ dieselben Abbildungsvorschriften für $f_{+}^{-1}$, $f_{-}^{-1}$.
+  Für $c>0$ ergeben sich dieselben Abbildungsvorschriften für $f_{+}^{-1}$, $f_{-}^{-1}$.
 \end{example}
