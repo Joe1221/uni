@@ -210,22 +210,29 @@
 %  \array{#1}}
 %\makeatother
 
-\@ifundefined{c@lor@to@ps}{\def\c@lor@to@ps#1 #2\@@{}}{}%
-\usepackage{stmaryrd}
-\usepackage[l2tabu, orthodox]{nag}
+%\usepackage[l2tabu, orthodox]{nag}
 
-\usepackage[svgnames,x11names]{xcolor}
-\usepackage{scrpage2}
+\usepackage[svgnames]{xcolor}
 
-\setkomafont{pageheadfoot}{\normalfont \small \scshape \color{gray}}
-\setkomafont{pagenumber}{\normalfont \color{gray}}
-\renewcommand{\chaptermark}[1]{\markboth{\llap{\thechapter ~ $\Bigg|$} ~ #1}{#1 ~ \rlap{$\Bigg|$ ~ \thechapter}}}
-\renewcommand{\sectionmark}[1]{\markleft{\llap{\thesection ~ $\Bigg|$} ~ #1}}
-\clearscrheadfoot
-\rohead[]{\rightmark}
-\lehead[]{\leftmark}
-\rofoot[\rlap{$\Bigg|$ ~ \pagemark}]{\rlap{$\Bigg|$ ~ \pagemark}}
-\lefoot[\llap{\pagemark ~ $\Bigg|$}]{\llap{\pagemark ~ $\Bigg|$}}
-\pagestyle{scrheadings}
-\renewcommand{\chapterpagestyle}{scrheadings}
-\renewcommand{\indexpagestyle}{scrheadings}
+\usepackage{fancyhdr}
+\usepackage{calc}
+\pagestyle{fancy}
+
+\fancyhead{}
+\fancyfoot{}
+
+\fancyheadoffset[RE,LO]{\marginparsep+\marginparwidth}
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+%\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter ~ \textbar ~ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection ~ \textbar ~ #1}}
+\fancyhf{}
+\newcommand{\headerfont}{\normalfont \scshape \color{gray}}
+\fancyfoot[LE,RO]{\thepage}
+\fancyhead[RO]{\headerfont\rightmark}
+\fancyhead[LE]{\headerfont\leftmark}
+%\renewcommand{\headrulewidth}{0pt}
+
+\renewcommand{\headrule}{{\color{gray}%
+\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}}
+
