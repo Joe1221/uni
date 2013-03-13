@@ -429,10 +429,7 @@ Vereinfachung der Rekursion aus \ref{1.5} für $x=0$:
 \end{ex*}
 
 \begin{note}
-	\begin{enumerate}
-		\item 
-			Die Richardson-Extrapolation lohnt sich insbesondere für Funktionen, deren Auswertung für kleine $h$ teuer ist, z.B. $\mathcal O(\f 1n)$.
-	\end{enumerate}
+	Die Richardson-Extrapolation lohnt sich insbesondere für Funktionen, deren Auswertung für kleine $h$ teuer ist, z.B. $\mathcal O(\f 1n)$.
 \end{note}
 
 \begin{note}
@@ -1008,17 +1005,14 @@ mit $t(x_k)=f_k$ gesucht.
 		\end{align*}
 	\end{proof}
 	\begin{note}
-		\begin{itemize}
-			\item
-				Die reelle Fourier-Summe ergibt also die komplexe Fouriersumme mit entsprechend gewählten $c_k$.
+			Die reelle Fourier-Summe ergibt also die komplexe Fouriersumme mit entsprechend gewählten $c_k$.
 
-				Das funktioniert auch umgekehrt für eine gegebene Fouriersumme $\{c_k\}_{k=-m}^m\subset \C$ mit $c_k=\_{c_{-k}}$, $c_0\in \R$.
-				Die Wahl
-				\[
-					a_k := c_k +c_{-k}, \qquad b_k := i(c_k-c_{-k}) \qquad k=0,\dotsc,m
-				\]
-				erfüllt alle Bedingungen aus Lemma \ref{1.22}.
-		\end{itemize}
+			Das funktioniert auch umgekehrt für eine gegebene Fouriersumme $\{c_k\}_{k=-m}^m\subset \C$ mit $c_k=\_{c_{-k}}$, $c_0\in \R$.
+			Die Wahl
+			\[
+				a_k := c_k +c_{-k}, \qquad b_k := i(c_k-c_{-k}) \qquad k=0,\dotsc,m
+			\]
+			erfüllt alle Bedingungen aus Lemma \ref{1.22}.
 	\end{note}
 \end{lem}
 
@@ -1156,10 +1150,7 @@ mit $t(x_k)=f_k$ gesucht.
 		für $b_k$ analog mit $b_k := i(c_k -c_{-k})$.
 	\end{proof}
 	\begin{note}
-		\begin{itemize}
-			\item
-				Es gilt zwar $t(x_l)=q(x_l)$, aber im Allgemeinen ist $t(x)\neq q(x)$ und auch $t(x)\neq \Re(q(x))$ für $x\neq x_l$.
-		\end{itemize}		
+		Es gilt zwar $t(x_l)=q(x_l)$, aber im Allgemeinen ist $t(x)\neq q(x)$ und auch $t(x)\neq \Re(q(x))$ für $x\neq x_l$.
 	\end{note}
 \end{st}
 
@@ -1342,9 +1333,9 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 \begin{st}[Fast-Fourier-Transformation] \label{1.29}
 	Die DFT lässt sich für $N=2^Q$ rekursiv berechnen über
 	\[
-		F_N(f) = \f 12 
+		\scr F_N(f) = \f 12 
 		\begin{pmatrix}I & I \\ I & -I\end{pmatrix} 
-		\begin{pmatrix} F_{\f N2}(f_{\text{even}}) \\ D_{\f N2} F_{\f N2}(f_{\text{odd}})\end{pmatrix}
+		\begin{pmatrix} \scr F_{\f N2}(f_{\text{even}}) \\ D_{\f N2} \scr F_{\f N2}(f_{\text{odd}})\end{pmatrix}
 	\]
 	Dies nennt man \emph{schnelle Fouriertransformation} (Fast Fourier Transformation).
 	\begin{proof}
@@ -1468,14 +1459,14 @@ Wir suchen deshalb eine interpolierende Funktion, welche auf Teilintervallen aus
 	\]
 	\begin{proof}
 		Auf jedem Teilintervall ist die lineare Interpolation eindeutig durch die obige Lagrange-Form festgelegt.
-		Also auch für das gesamte Spline.
+		Also auch für den gesamte Spline.
 	\end{proof}
 \end{st}
 
 \subsection{Kubische Splines}
 
 Bei kubischen Splines ($m=3$) fehlen 2 Bedingungen.
-In diesem Fall gibt es folgende Möglichkeiten
+In diesem Fall gibt es folgende Möglichkeiten:
 \begin{enumerate}[{(R}1{)}]
 	\item
 		Natürliche Splines
@@ -1553,7 +1544,7 @@ In diesem Fall gibt es folgende Möglichkeiten
 			&= \f {f_j-f_{j-1}}h_j + h_j \l( \f{M_j}3 - \f{M_{j-1}}6\r) \qquad j=1,\dotsc,n \\
 			p_{j+1}'(x_j) &= c_{j+1} = \f {f_{j+1}-f_j}{h_{j+1}} - h_{j+1}\left( \f{M_{j+1}}6 + \f {M_j}33\right) \stackrel != p_j'(x_j) \qquad j=1,\dotsc,n-1
 		\end{align*}
-		Wir erhalten also ein lineares Gleichungssystem mit $n-1$ für $n-1$ Unbekannte $M_1,\dotsc,M_{n-1}$:
+		Wir erhalten also ein lineares Gleichungssystem für $n-1$ Unbekannte $M_1,\dotsc,M_{n-1}$:
 		\[
 			\f {h_j}6 M_{j-1} + \f {h_j + h_{j+1}}3 M_j + \f{h_{j+1}}6 M_{j+1} = \f {f_{j-1}-f_j}{h_{j+1}} - \f{f_j-f_{j-1}}{h_j}
 		\]
@@ -1575,8 +1566,8 @@ In diesem Fall gibt es folgende Möglichkeiten
 				\f 6{h_n}(f_n-f_{n-1})- \f 6{h_{n-1}}(f_{n-1}-f_{n-2})
 			\end{pmatrix}
 		\]
-		Die Matrix ist sogar streng diagonaldominant, positiv definit und symmetrisch also regulär.
-		Damit ist das LGS eindeutig Lösbar.
+		Die Matrix ist sogar streng diagonaldominant, positiv definit und symmetrisch, also regulär.
+		Damit ist das LGS eindeutig lösbar.
 	\end{proof}
 	\begin{note}
 		\begin{itemize}
@@ -1584,9 +1575,9 @@ In diesem Fall gibt es folgende Möglichkeiten
 				Der Beweis war konstruktiv.
 			\item
 				Das Umschreiben des Systems durch zusätzliche Variablen $M_j$ als Tridiagonalsystem ist eine große Vereinfachung.
-				Damit müssen nur $n-1$ Gleichungen mit jeweils nur $3$ gekoppelten Unbekannten lösen (vorher waren das $4n$ Unbekannte und bis zu $5$ gekoppelte Variablen pro Gleichung).
+				Damit müssen nur $n-1$ Gleichungen mit jeweils nur $3$ gekoppelten Unbekannten gelöst werden (vorher waren das $4n$ Unbekannte und bis zu $5$ gekoppelte Variablen pro Gleichung).
 			\item
-				Die Lösung eines Tridiagonalsystems ist sehr effizient ($\mathcal O(n)$) lösbar durch eine LR-Zerlegung mit tridiagonalen unteren (bzw. oberen) Dreiecksmatrizen $L$ und $R$ und anschließender Vorwärts und Rückwärtssubstitution.
+				Die Lösung eines Tridiagonalsystems ist sehr effizient ($\mathcal O(n)$) lösbar durch eine LR-Zerlegung mit tridiagonalen unteren (bzw. oberen) Dreiecksmatrizen $L$ und $R$ und anschließender Vorwärts- und Rückwärtssubstitution.
 		\end{itemize}
 	\end{note}
 \end{st}
@@ -1601,8 +1592,8 @@ In diesem Fall gibt es folgende Möglichkeiten
 		\int_a^b |f''(x)|^2 dx \ge \int_a^b |s''(x)|^2  dx
 	\]
 	\begin{note}
-		Dies hat eine Physikalische Interpretation.
-		Spline bedeutet soviel wie „biegsamer Stab“ und wird mit Nägeln sozusagen in den Punkten $(x_j,f_j)$ befestigt.
+		 Physikalische Interpretation: \\
+		Ein „biegsamer Stab“ (engl. spline) wird mit Nägeln in den Punkten $(x_j,f_j)$ befestigt.
 		Der Verlauf $f(x)$ des Splines minimiert die Biegeenergie
 		\[
 			E = \alpha \int_{x_0}^{x_n}\f {(f''(x))^2}{(1+f'(x)^2)^3} dx \qquad \alpha \text{ Materialkonstante mit Einheiten}
@@ -1624,15 +1615,14 @@ In diesem Fall gibt es folgende Möglichkeiten
 				s''(a) = s''(b) = 0 & \text{falls (R1)} \\
 				f'(b) = s'(b) = \beta, f'(a) = s'(a) = \alpha  &\text{falls (R2)} \\
 				f'(a) = f'(b), s'(a)=s'(b), s''(a)=s''(b) & \text{falls (R3)}
-				\end{cases}} + ??
-			\\
+				\end{cases}}  \\
+			&- \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-s)'(x))s'''(x) dx \\
 		\end{align*}
-		\fixme[Was sollen die ??]\\
 		Es folgt also
 		\begin{align*}
-			\int_a^b (f-s)''(x) s''(x) dx = \sum_{j=1}^n \underbrace{\big(-[(f-s)(x)p_j'''(x)]\big)_{x_{j-1}}^{x_j}}_{=0 (f(x_j)=s(x_j)} + \underbrace{\int_{x_{j-1}}^{x_j} (f-s)(x)s^{(k)}(x)}_{=0}
+			\int_a^b (f-s)''(x) s''(x) dx = \sum_{j=1}^n \underbrace{\big(-[(f-s)(x)p_j'''(x)]_{x_{j-1}}^{x_j}\big)}_{=0 \text{, da } f(x_j)=s(x_j)} + \underbrace{\int_{x_{j-1}}^{x_j} (f-s)(x)s^{(4)}(x)}_{=0}
 		\end{align*}
-		Insegsamt gilt dann
+		Insgesamt gilt dann
 		\begin{align*}
 			\int_a^b |s''(x)|^2 dx &= \int_a^b (s''(x) + \underbrace{(f-s)''(x)) s''(x)}_{=0} dx \\
 			&= \int_a^b f''(x) s''(x) \\
@@ -1648,9 +1638,9 @@ In diesem Fall gibt es folgende Möglichkeiten
 
 \begin{st}[Fehleraussage und Konvergenz]
 	\label{1.34}
-	Sei $f\in C^4([a,b])$, $f_i=f(x_i)$, $\{x_i\}_{i=0}^n$ aquidistant mit $\f {b-a}n$.
+	Sei $f\in C^4([a,b])$, $f_i=f(x_i)$, $\{x_i\}_{i=0}^n$ äquidistant mit $\f {b-a}n$.
 	Sei $s\in S_3$ mit (R2), d.h. $s'(a)=f'(a)$ und $s'(b)=f'(b)$.
-	Dann gilt für $l=0,1,2,3$ 
+	Dann gilt für $l=0,1,2,3$:
 	\[
 		\|f^{(l)} - s^{(l)}\|_\infty \le 2 \|f^{(4)}\|_\infty \cdot h^{4-l}
 	\]
@@ -1662,11 +1652,11 @@ In diesem Fall gibt es folgende Möglichkeiten
 		Siehe Stoer-Bulirsch Thm. 2.5.3.3.
 	\end{proof}
 	\begin{note}
-		Es gilt Konvergenz für jedes $f\in C^4$ im Gegensatz zur Polynominterpolation.
+		Es gilt Konvergenz für jedes $f\in C^4$, im Gegensatz zur Polynominterpolation.
 	\end{note}
 \end{st}
 
-Kann man auf einfache Weise eine Basis für $S_m$ angeben?
+Frage: Kann man auf einfache Weise eine Basis für $S_m$ angeben?
 
 \begin{df}[B-Splines]
 	\label{1.35}
