@@ -1267,7 +1267,7 @@ mit $t(x_k)=f_k$ gesucht.
 				\[
 					\scr F_N (W_N^* c) = \f 1N W_N W_N^* c \stackrel{iii)}= \f N N \cdot c = c
 				\]
-				also $\scr F_N^{-1} (c) = W_N^* c$ gilt
+				ist also $\scr F_N^{-1} (c) = W_N^* c$ und es gilt
 				\[
 					N \_{\scr F_N(\_c)}
 					= N \_{\left(\f {1}{N} W_N \_c\right)} 
@@ -1284,12 +1284,12 @@ mit $t(x_k)=f_k$ gesucht.
 
 Der Berechnungsaufwand der DFT ist $\mathcal O(N^2)$ (für die Matrixvektormultiplikation).
 
-Für $N=2^Q$, $Q\in \N$ lässt sich die Berechnung auf $\mathcal O(N\log N)$ beschleunigen.
+Für $N=2^Q$, $Q\in \N$, lässt sich die Berechnung auf $\mathcal O(N\log N)$ beschleunigen.
 Die Idee ist “Divide and Conquer”: Zerlege das Problem der Größe $N$ rekursiv in 2 Teilprobleme der Größe $\f N2$ und führe diese Lösungen zur Gesamtlösung zusammen.
 
-Sei im Folgenden immer $N=2^Q$, $Q\in \N$ und $x=(x_i)_{i=0}^{N-1} \in \C^N$.
 \newcommand{\xeven}{\ensuremath{x_{\text{even}}}}
 \newcommand{\xodd}{\ensuremath{x_{\text{odd}}}}
+Sei im Folgenden immer $N=2^Q$, $Q\in \N$ und $x=(x_i)_{i=0}^{N-1} \in \C^N$.
 Außerdem sei $P_N \in \C^{\N\times \N}$ eine Permutationsmatrix und $\xeven, \xodd \in \C^{\f N2}$ Teilvektoren von $x$, die jeweils nur die geraden (bzw. ungeraden) Einträge besitzen.
 Sei $P_N$ so gewählt, dass folgender Zusammenhang besteht:
 \[
@@ -1297,11 +1297,11 @@ Sei $P_N$ so gewählt, dass folgender Zusammenhang besteht:
 	= \begin{pmatrix} x_0 \\ x_2 \\ \vdots \\ x_{N-2} \\ x_1 \\ x_3 \\\vdots \\ x_{N-1}\end{pmatrix}
 	= \begin{pmatrix} \xeven \\ \xodd \end{pmatrix}
 \]
-Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der ersten Hälfte erst die geraden Einträge und dann in der zweiten Hälfte die geraden Einträge auftreten.
+Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der ersten Hälfte erst die geraden Einträge und dann in der zweiten Hälfte die ungeraden Einträge auftreten.
 
 \begin{lem}[Rekursion für $W_N$]
 	\label{1.28}
-	Seien $W_N$, $W_{\f N2}$ Matrizen der DFT aus , setze 
+	Seien $W_N$, $W_{\f N2}$ Matrizen der DFT aus \ref{1.26}. Setze 
 	\[
 		\omega := e^{i\f {2\pi}N}, \quad D_{\f N2} := \diag(\omega^0, \dotsc, \omega^{-\l(\f N2 -1\r)}) \in \C^{\f N2 \times \f N2}
 	\]
@@ -1339,14 +1339,14 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 	\end{proof}
 \end{lem}
 
-\begin{st}[Fast-Fourier-Transform] \label{1.29}
+\begin{st}[Fast-Fourier-Transformation] \label{1.29}
 	Die DFT lässt sich für $N=2^Q$ rekursiv berechnen über
 	\[
 		F_N(f) = \f 12 
 		\begin{pmatrix}I & I \\ I & -I\end{pmatrix} 
 		\begin{pmatrix} F_{\f N2}(f_{\text{even}}) \\ D_{\f N2} F_{\f N2}(f_{\text{odd}})\end{pmatrix}
 	\]
-	Dies nennt man \emph{schnelle Fouriertransformation} (Fast Fourier Transform).
+	Dies nennt man \emph{schnelle Fouriertransformation} (Fast Fourier Transformation).
 	\begin{proof}
 		\begin{align*}
 			\scr F_N(f) &= \f 1N W_N f 
@@ -1397,7 +1397,7 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 			\item
 				Dies ist eine wesentliche Beschleunigung der DFT.
 			\item
-				Damit sind wesentlich größere Probleme behandelbar denn $W_N$ muss nicht aufgestellt werden.
+				Damit sind wesentlich größere Probleme behandelbar, denn $W_N$ muss nicht aufgestellt werden.
 		\end{itemize}
 \end{nt*}
 
@@ -1407,7 +1407,7 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 			Bei der Interpolation von Punkten im $\R^2$ mit geschlossener Kurve ergibt sich eine $2\pi$-periodische Funktion $r(\phi)$, die den Rand eines sternförmigen Gebiets beschreibt.
 		\item
 			Entrauschen von Signalen (eindimensional) und Bildern (zweidimensional).
-			Dazu führt man eine FFT durch und setzt $c_k= 0$ für $k$, die zu hohen Frequenzen gehören, inverse FFT.
+			Dazu führt man eine FFT durch und setzt $c_k= 0$ für $k$, die zu hohen Frequenzen gehören, anschließend inverse FFT.
 	\end{itemize}
 \end{nt*}
 
