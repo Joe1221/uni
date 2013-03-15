@@ -9,20 +9,24 @@
 \begin{aufgabe}
 	\begin{enumerate}[a)]
 		\item
-			Sei $A^{(k)}$ die Matrix $A$ im $k$-ten Schritt der LR-Zerlegung (also $A^{(k-1)}=R, A^{(0)}=A$).
+			Sei $A^{(k)}$ die Matrix $A$ im $k$-ten Schritt der LR-Zerlegung (also $A^{(n-1)}=R, A^{(0)}=A$).
 
 			Zeige induktiv, dass alle Pivotelemente $a_{k,k}^{(k-1)}$ für $k=1,\dotsc,n-1$ ungleich Null sind, dann existiert nämlich nach dem Algorithmus die LR-Zerlegung für $A$.
 
-			\begin{seg}{Induktionsanfang ($n=1$)}
-				$\displaystyle 1 \neq \det(\tilde A_1) = a_{1,1} = a_{1,1}^{(0)}$
+			\begin{seg}[Induktionsanfang ($n=1$)]
+				$\displaystyle 0 \neq \det(\tilde A_1) = a_{1,1} = a_{1,1}^{(0)}$
 			\end{seg}
-			\begin{seg}{Induktionsschritt}
-				Seien $a_{j,j}^{(j-1)}$ für $j=1,\dotsc,k$ ungleich Null, dann existiert die LR-Zerlegung $\tilde A_{k+1} = \tilde L_{k+1} \tilde R_{k+1}$ für die $(k+1)\times (k+1)$-Matrix $\tilde A_{k+1}$.
+			\begin{seg}[Induktionsschritt]
+				Seien die Pivotelemente $a_{j,j}^{(j-1)}$ für $j=1,\dotsc,k$ ungleich Null, dann existiert die LR-Zerlegung $\tilde A_{k+1} = \tilde L_{k+1} \tilde R_{k+1}$ für die $(k+1)\times (k+1)$-Matrix $\tilde A_{k+1}$.
+				Man vergewissere sich, dass der letzte Eintrag von $\tilde R_{k+1}$ gerade das Pivotelement im nächsten Schritt $a_{k+1,k+1}^{(k)}$ ist:
+				\[
+					\tilde r_{k+1,k+1} = a^{(k)}_{k+1,k+1}
+				\]
 				Angenommen, $a_{k+1,k+1}^{(k)} = 0$, dann besitzt $\tilde R_{k+1}$ unten eine Nullzeile und demnach
 				\[
 					\det(\tilde A_{k+1}) = \det(\tilde L_{k+1}) \cdot \underbrace{\det(\tilde R_{k+1})}_{=0} = 0
 				\]
-				Ein Widerspruch zu der Vorraussetzung $\det(A_{k+1}) \neq 0$.
+				Ein Widerspruch zu der Vorraussetzung $\det(\tilde A_{k+1}) \neq 0$.
 				Damit gilt für das Pivotelement: $a_{k+1,k+1}^{(k)} \neq 0$.
 			\end{seg}
 		\item
@@ -31,11 +35,18 @@
 				L_2^{-1}L_1 = R_2R_1^{-1}
 			\]
 			Da Dreiecksmatrizen bezüglich der Matrixmultiplikation eine Gruppe bilden, sind die Inversen auch jeweils (linke, bzw. rechte) Dreiecksmatrizen, insbesondere auch das Produkt zweier.
-			Es muss sich also eine Diagonalmatrix ergeben: $L_2^{-1}L_1 = R_2R_1^{-1} = D$.
-			Da jedoch $L_2^{-1}$ nur Einsen auf der Diagonalen haben kann (verifiziere durch die Matrixmultiplikation $L_2^{-1}L = I$, ergibt sich für $D$ die Einheitsmatrix $I$.
+			Es muss sich also eine Diagonalmatrix ergeben: 
+			\[
+				L_2^{-1}L_1 = R_2R_1^{-1} = D
+			\]
+			Da jedoch $L_2^{-1}$ nur Einsen auf der Diagonalen haben kann (verifiziere durch die Matrixmultiplikation $L_2^{-1}L_2 = I$), ergibt sich für $D$ die Einheitsmatrix $I$.
 			Damit gilt offensichtlich
 			\[
 				L_1 = L_2
+			\]
+			Da die Determinanten von Dreiecksmatrizen durch das Produkt der Diagonaleinträge gegeben ist, gilt weiter:
+			\[
+				\det(A) = \det(LR) = \underbrace{\det(L)}_{=1} \cdot \det(R) = \prod_{k=1}^n r_{kk}
 			\]
 	\end{enumerate}
 \end{aufgabe}
@@ -58,7 +69,7 @@
 	Diese 16 Gleichungen bilden ein Gleichungssystem mit 16 Unbekannten, das eindeutig lösbar ist (betrachte die Determinante)
 	\setcounter{MaxMatrixCols}{16}
 	\[
-		\begin{pmatrix}[rrrrrrrrrrrrrrrr]
+		\begin{pmatrix}
 			0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 			0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 			0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
