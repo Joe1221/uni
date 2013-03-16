@@ -43,7 +43,7 @@ oder allgemeiner so dass
 			Spline-Interpolation:
 			Sei $a=x_0< x_1 < \dotsb < x_n = b$, $q,r\in \N_0$, $q\le r$
 			\[
-			V := \{f\in \C^q([a,b]) | f_{[x_i,x_{ibm}]}\in \P_r, i=0,\dotsc,n-1\}
+			V := \Big\{ f\in C^q([a,b]) : f_{[x_i,x_{i+1}]}\in \P_r, i=0,\dotsc,n-1 \Big\}
 			\]
 			(global $q$-mal stetig differenzierbare Fuktionen, stückweise polynomial vom Grad $r$)
 		\item
@@ -62,12 +62,14 @@ oder allgemeiner so dass
 Potentielle Fragestellungen:
 \begin{itemize}
 	\item 
-		Ist die Approximations-/Interpolationsaufgabe zu gegebenem $V$ und Daten $(x_i,f_i)$ lösbar? eindeutig?
+		Ist die Approximations-/Interpolationsaufgabe zu gegebenem $V$ und Daten $(x_i,f_i)$ lösbar?
+		Wenn ja, ist die Lösung eindeutig?
 	\item
 		Wie finden wir algorithmisch die Koeffizienten?
 	\item
 		Können wir Fehleraussagen treffen?
 	\item
+		Im Falle, dass die Daten aus Funktionsauswertungen stammen:
 		Was ist die optimale Stützstellenwahl?
 	\item
 		\dots
@@ -80,7 +82,7 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 
 \begin{st}[Existenz und Eindeutigkeit]
 	\label{1.1}
-	Es existiert genau ein Polynom $p\in \P$ mit $p(x_i)=f_i$ für $i=0,\dotsc,n$.
+	Es existiert genau ein Polynom $p\in \P_n$ mit $p(x_i)=f_i$ für $i=0,\dotsc,n$.
 	\begin{proof}
 		$p(x) = \sum_{k=0}^n a_k x^k$ löst das Interpolationsproblem $p(x_i)=f_i$ genau dann, wenn $a=(a_k)_{k=0}^n \in \R^{n+1}$ löst $a_0 +a_1x_i^1 + \dotsb a_nx_i^n = f_i$ für $i=0,\dotsc,n$.
 		Das ist äquivalent zu $Aa=f$ mit
@@ -92,7 +94,12 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 		Wir zeigen, dass $A$ regulär ist, bzw. $\ker(A) = \{0\}$.
 		Sei $\_a \in \R^{n+1}, A\_a=0$, dann erfüllt
 		$\_p(x) := \sum_{k=0}^n\_a_k x^k$ die Gleichung $\_p(x_i)=0$.
-		$\_p$ ist Polynom von Grad $n$ und hat $n+1$ Nullstellen. Also $\_p=0 \implies \_a_k=0 \implies \_a=0$
+		$\_p$ ist Polynom von Grad $n$ und hat $n+1$ Nullstellen. 
+		Also 
+		\[
+			\_p=0 \implies \_a_k=0 \implies \_a=0
+		\]
+		Damit ist $A$ regulär, das LGS $Aa=f$ eindeutig lösbar und $p$ damit eindeutig bestimmt.
 	\end{proof}
 	\begin{note}
 		\begin{enumerate}
@@ -105,12 +112,16 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 				Bei Verwendung anderer Basen ist das Interpolationsproblem leichter zu lösen.
 			\item
 				Allgemeine lineare Interpolation:
-				Sei $\{\phi_k\}_{k=0}^n$ linear unabhängig. Dann gilt
+				Seien linear unabhängige Polynome $\{\phi_k\}_{k=0}^n \subset \P_n$ gegeben.
+				Dann gilt
 				\begin{align*}
-					&p(x) = \sum_{k=0}^n a_k \phi_k(x) \text{löst die Interpolationsaufgabe}\\
-					&\iff a\in \R^{n+1} \text{löst} Aa=f \text{mit} f=(f_i)_{i=0}^n \text{und} A= \begin{pmatrix}\phi_0(x_0) & \hdots & \phi_n(x_0)\\
+					p(x) = \sum_{k=0}^n a_k \phi_k(x) &\text{ löst die Interpolationsaufgabe}\\
+					\iff \qquad a\in \R^{n+1} &\text{ löst } Aa=f \text{ mit } f=(f_i)_{i=0}^n \text{ und } A= \begin{pmatrix}\mid & \cdots & \mid \\
+						\phi_0(x) & \cdots & \phi_n(x)\\
+						\mid & \cdots & \mid
 					\end{pmatrix}
 				\end{align*}
+				Dieses Prinzip wenden wir im Folgenden auf die Lagrange-Polynome (\ref{1.2}) und die Newton-Polynome (\ref{1.3}) an.
 		\end{enumerate}
 		
 	\end{note}
@@ -135,10 +146,10 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 	\end{proof}
 	\begin{note}
 		\begin{enumerate}
-			\item Wegen $L_k^n(x_i)=\delta_{ik}$ nennt man die $\{L_k\}_{k=0}^n$ eine nodale Basis
-			\item Lösen eines LGS entfällt, da zugehörige Matrix $A=I$.
-			\item $L_k^n(x)$ recht aufwändig auszuwerten
-			\item Die Basen sind nicht hierarchisch, d.h. ${L_k^n} \not\subset \{L_k^{n'}\}$ für $n'> n$.
+			\item Wegen $L_k^n(x_i)=\delta_{ik}$ nennt man die $\{L_k\}_{k=0}^n$ eine \emph{nodale Basis}.
+			\item Lösen eines LGS entfällt, da für die zugehörige Matrix $A=I$ gilt.
+			\item Die $L_k^n(x)$ sind recht aufwändig auszuwerten ($\mathcal O(n^2)$).
+			\item Die Basen sind nicht hierarchisch, d.h. $\{L_k^n\} \not\subset \{L_k^{n'}\}$ für $n'> n$.
 		\end{enumerate}
 	\end{note}
 \end{st}
@@ -147,7 +158,7 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 	\label{1.3}
 	Wir nennen
 	\[
-		N_k^n(x) := \prod_{j=0}^{k-1}(x-x_j) \qquad k=0,\dotsc,n
+		N_k^n(x) := \prod_{i=0}^{k-1}(x-x_i) \qquad k=0,\dotsc,n
 	\]
 	\emph{Newton-Polynome} und die Darstellung des Interpolationspolynoms
 	\[
@@ -155,6 +166,13 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 	\]
 	\emph{Newton-Form} der Interpolierenden
 \end{df}
+
+\begin{note*}
+	Im Gegensatz zu den Lagrange-Polynomen ($\deg(L_k^n) = n$) gilt für die Newton-Polynome:
+	\[
+		\deg(N_k^n) = k
+	\]
+\end{note*}
 
 \begin{lem}[Eigenschaften der Newton-Polynome]
 	\label{1.4}
@@ -210,7 +228,7 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 
 \begin{st}[Rekursionsformel]
 	\label{1.5}
-	Sei $p_{ij}\in \P_j$ das Interpolationspolynom zu den Daten $(x_i,f_l)$, $l=i,\dotsc,i+j$.
+	Sei $p_{i,j}\in \P_j$ das Interpolationspolynom zu den Daten $\{x_l,f_l\}$, $l=i,\dotsc,i+j$.
 	Dann gilt für $j\ge 1$
 	\[
 		p_{i,j}(x) = \f {(x-x_i)p_{i+1,j-1} - (x-x_{i+j})p_{i,j-1}}{x_{i+j}-x_i}
@@ -218,8 +236,8 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 	\begin{proof}
 		Es gilt
 		\begin{align*}
-			p_{i+1,j-1}(x_i) &= f_l \qquad l=i+1,\dotsc,i+j\\
-			p_{i,j-1}(x_i) &= f_l \qquad l=i,\dotsc,i+j-1
+			p_{i+1,j-1}(x_l) &= f_l \qquad l=i+1,\dotsc,i+j\\
+			p_{i,j-1}(x_l) &= f_l \qquad l=i,\dotsc,i+j-1
 		\end{align*}
 		Mit
 		\[
@@ -232,10 +250,10 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 		\end{align*}
 		für die Zwischenstellen $l=i+1,\dotsc,i+j-1$ gilt
 		\begin{align*}
-			q(x_l) &= \f {(x_l-x_i)p_{i+1,j-1}(x_l) - (x_l-x_{i+j})p_{i,j-1}(x_i)}{x_{i+j}-x_l}\\
+			q(x_l) &= \f {(x_l-x_i)p_{i+1,j-1}(x_l) - (x_l-x_{i+j})p_{i,j-1}(x_l)}{x_{i+j}-x_i}\\
 				   &= \f {(x_l-x_i)f_l - (x_l-x_{i+j})f_l}{x_{i+j}-x_i} = f_l
 		\end{align*}
-		Damit ist $q(x)$ ein Interpolationspolynom und wegen der Eindeutigkeit $p_{i,j}=q$.
+		Damit ist $q(x)$ ein Interpolationspolynom zu den Daten $\{x_l,f_l\}_{l=i}^{i+j}$ und wegen der Eindeutigkeit aus \ref{1.1} $p_{i,j}=q$.
 	\end{proof}
 \end{st}
 
@@ -266,7 +284,7 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 		\]
 		Interpolierende zu den Daten $(x_j,f_j)$ für $j=0,\dotsc,k$, denn
 		\begin{align*}
-			f_j = p(x_j) &= \underbrace{\sum_{k'=0}^ka_{k'}N_{k'}^n(x_j)}_{p_{0,k(x_j)}} + \sum_{k'=k+1}^n a_{k'}\underbrace{\prod_{i=0}^{k'-1}(xj-x_i)}_{=0}\\
+			f_j = p(x_j) &= \underbrace{\sum_{k'=0}^ka_{k'}N_{k'}^n(x_j)}_{p_{0,k(x_j)}} + \sum_{k'=k+1}^n a_{k'}\underbrace{\prod_{i=0}^{k'-1}(x_j-x_i)}_{=0}\\
 			&= p_{0,k}(x_j)
 		\end{align*}
 		also ist $a_k$ Koeffizient vor dem höchsten Term in $p_{0,k}$.
@@ -277,7 +295,7 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 			a_{i,j} &= \f {a_{i+1,j-1} - a_{i,j-1}}{x_{i+j}-x_i}\\
 			a_{i,0} &= f_i
 		\end{align*}
-		Per Induktion über $j$ folgt leicht, dass
+		Betrachte \ref{1.6} und identifiziere $a_{i,j}$ mit $f[x_i,\dotsc,x_{i+j}]$, damit ist:
 		\[
 			a_{i,j} = f[x_i,\dotsc, x_{i+j}]
 		\]
@@ -292,21 +310,35 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 
 Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 
-\begin{tabular}{cccc}
-$x_0$ & $f[x_0]=f_0$ & $f[x_0,x_1]$ & $f[x_0,x_1,x_2]$ \\
-$x_1$ & $f[x_1]=f_1$ & $f[x_1,x_2]$ &  \\
-\vdots & \vdots & \vdots\\
-$x_n$ & $f[x_n]=f_n$ &\\
-\end{tabular}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{cccc}
+	$x_0$ & $f[x_0]=f_0$ & $f[x_0,x_1]$ & $f[x_0,x_1,x_2]$ \\
+	$x_1$ & $f[x_1]=f_1$ & $f[x_1,x_2]$ &  \\
+	\vdots & \vdots & \vdots\\
+	$x_n$ & $f[x_n]=f_n$ &\\
+	\end{tabular}
+\end{table}
 
 \begin{ex*}
-	Sei $n=2$.	
-	\begin{tabular}{l|rrr}
-		$x_i$ & 1 & 2 & 3  \\ \hline
-		$f_i$ & 2 & 3 & 6 
-	\end{tabular}
-	
-	\fixme[Neville-Schema]
+	Sei $n=2$ und folgende Daten gegeben
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{l|rrr}
+			$x_i$ & 1 & 2 & 3  \\ \hline
+			$f_i$ & 2 & 3 & 6 
+		\end{tabular}
+	\end{table}
+	Nutze das Neville-Schema, um die Koeffizienten in der Newton-Basis zu ermitteln:
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{c|ccc}
+			$x_i$ & $f_i=a_{i,0}$ & $a_{i,1}$ & $a_{i,2}$ \\ \hline
+			1 & \emph{2} & \emph{1} & \emph{1} \\
+			2 & 3 & 3 & \\
+			3 & 6 & &
+		\end{tabular}
+	\end{table}
 	Es ergibt sich das Interpolationspolynom
 	\[
 		p(x) = 2+ 1(x-1) + 1(x-1)(x-2) = x^2 -2x+3
@@ -334,7 +366,7 @@ $x_n$ & $f[x_n]=f_n$ &\\
 			p(x) &= a_0 + a_1(x-x_0) + \dotsb + a_n\prod_{i=0}^{n-1}(x-x_i)\\
 				&= \bigg(\dotso \Big(a_n(x-x_{n-1}) + a_{n-1}\Big)(x-x_{n-2}) + \dotso \bigg)(x-x_0) +  a_0
 		\end{align*}
-		Satt $\mathcal O(n^2)$ Produkte sind nur  $\mathcal O(n)$ Produkte erforderlich.
+		Statt $\mathcal O(n^2)$ Produkte sind nur  $\mathcal O(n)$ Produkte erforderlich.
 	\item
 		Man kann das Interpolationspolynom auswerten, ohne es vorliegen zu haben.
 		Verwende dazu das Neville-Schema für die Rekursion aus Satz \ref{1.5} nur für Stelle $x$.
@@ -352,7 +384,7 @@ $x_n$ & $f[x_n]=f_n$ &\\
 \begin{ex*}
 	\begin{enumerate}[a)]
 		\item 
-			Horner-Schema mit Newton-Form
+			Für die Daten aus dem letzten Beispiel ergibt sich das Horner-Schema für die Newton-Form als
 			\[
 				p(x) = \Big(1(x-2)+1\Big)(x-1) +2
 			\]
@@ -361,24 +393,69 @@ $x_n$ & $f[x_n]=f_n$ &\\
 				f(4) = 11
 			\]
 		\item
-			Mit dem Neville-Schema
-			\begin{tabular}{cccc}
-				$x_i$ & $f_i$ &  & \\ \hline
-				1 & 2 & 5 & 11\\
-				2 & 3 & 9\\
-				3 & 6
-			\end{tabular}
+			Selbiges mit dem Neville-Schema:
+			\begin{table}[H]
+				\centering
+				\begin{tabular}{c|ccc}
+					$x_i$ & $f_i$ &  & $f(4)$ \\ \hline
+					1 & 2 & 5 & \emph{11}\\
+					2 & 3 & 9\\
+					3 & 6
+				\end{tabular}
+			\end{table}
 	\end{enumerate}
 \end{ex*}
 
 \subsection{Zusammenfassung}
 
-\begin{tabular}{l|c|c}
-	 & Lösen des LGS & Punktauswertung\\ \hline
-	 Monombasis  & $\mathcal O(n^3)$ & $\mathcal O(n)$ via Horner \\ \hline
-	 Lagrange-Basis & $\mathcal O(n)$ & $\mathcal O(n^2)$ \\ \hline
-	 Newton-Basis & $\mathcal O(n^2)$ & $\mathcal O(n)$ via Horner
-\end{tabular}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{p{0.23\textwidth}|p{0.22\textwidth}|p{0.24\textwidth}|p{0.23\textwidth}}
+		\centering Allgemein & \centering Monombasis & \centering Lagrange-Basis & \centering Newton-Basis \tabularnewline \hline
+
+		\centering $\displaystyle \phi_k(x)$ & 
+		\centering $\displaystyle x^k$ & 
+		\centering $\displaystyle L_k^n(x) = \prod_{\substack{i=0 \\ i\neq j}}^n \f{x-x_i}{x_k-x_i}$ & 
+		\centering $\displaystyle N_k^n(x) = \prod_{i=0}^{k-1} (x-x_i)$ \tabularnewline
+
+		\centering $\begin{pmatrix}
+			\phi_0(x_0) & \cdots & \phi_n(x_0) \\
+			\vdots & \ddots & \vdots \\
+			\phi_0(x_n) & \cdots & \phi_n(x_n)
+		\end{pmatrix}$ &
+		\centering $\begin{pmatrix}
+			1 & x_0 & \cdots & x_0^n \\
+			\vdots & \vdots & \ddots & \vdots \\
+			1 & x_n & \cdots & x_n^n
+		\end{pmatrix}$ &
+		\centering $\begin{pmatrix}
+			1 & & 0 \\
+			 & \ddots &   \\
+			0 & & 1
+		\end{pmatrix}$ &
+		\centering $\begin{pmatrix}
+			1 &  & 0 \\
+			\vdots & \ddots &  \\
+			1 & \cdots & *
+		\end{pmatrix}$ \tabularnewline
+
+		&
+		\begin{itemize}
+			\item Van\-der\-mon\-de\-ma\-trix $A$ ist schlecht konditioniert.
+		\end{itemize} &
+		\begin{itemize}
+			\item Es gibt kein LGS zu lösen ($A=I$).
+			\item Punktauswertung ist teuer.
+		\end{itemize} &
+		\begin{itemize}
+			\item $A$ ist Dreiecksmatrix.
+			\item Neville-Schema einsetzbar (auch für direkte Punktauswertung)
+		\end{itemize} \\
+
+		LGS lösen: & \centering $\mathcal O(n^3)$ & \centering $\mathcal O(1)$ & \centering $\mathcal O(n^2)$ \tabularnewline
+		Punktauswertung: & \centering $\mathcal O(n)$ via Horner & \centering $\mathcal O(n^2)$ & \centering $\mathcal O(n)$ via Horner \tabularnewline
+	\end{tabular}
+\end{table}
 
 \subsection{Anwendung: Richardson-Extrapolation}
 
@@ -393,8 +470,8 @@ Nach vorigem Abschnitt b) ist $p(0)$ ohne Interpolationspolynom auswertbar.
 Vereinfachung der Rekursion aus \ref{1.5} für $x=0$:
 \begin{align*}
 	p_{i,j}(0) &= \f {(0-h_i)p_{i+1,j-1}(0) - (0-h_{i+j})p_{i,j-1}(0)}{h_{i+j}-h_i} \\
-	&= \f {(h_{i+j}-h_i)p_{i+1,j-1}(0)}{h_{i+j}-h_i} - \f {h_{i+j}(p_{i+1,j-1}(0)-p_{i,j-1}(0))}{h_{i+j}-h_i}\\
-	&= p_{i+1,j-1}(0) + \f {p_{i+j,j-1}(0) -p_{i,j-1}(0)}{\f {h_i}{h_{i+j}} - 1}
+	&= \f {(h_{i+j}-h_i)p_{i+1,j-1}(0)}{h_{i+j}-h_i} - \f {h_{i+j}\Big(p_{i+1,j-1}(0)-p_{i,j-1}(0)\Big)}{h_{i+j}-h_i}\\
+	&= p_{i+1,j-1}(0) + \f {p_{i+1,j-1}(0) -p_{i,j-1}(0)}{\f {h_i}{h_{i+j}} - 1}
 \end{align*}
 \end{seg}
 
@@ -462,7 +539,7 @@ Wie gut apporximiert die Interpolierende die Funktion?
 	\]
 	als Raum der stetigen Funktionen und
 	\[
-		C^m(I) := \{f: I\to \R : f,f',\dotsc,f^{(m)} \text{ existieren und stetig}\}
+		C^m(I) := \Big\{f: I\to \R : f,f',\dotsc,f^{(m)} \text{ existieren und stetig}\Big\}
 	\]
 	als Raum der $m$-mal stetig differenzierbaren Funktionen ($m\in \N$) und
 	\[
@@ -481,11 +558,12 @@ Wie gut apporximiert die Interpolierende die Funktion?
 		\item 
 			Es gilt $C^\infty(I) \subsetneq \dotsb \subsetneq C^0(I)$.
 		\item
-			$(C(I), \|\cdot\|_\infty)$ ist normierter Raum für $I$ beschränkt.
+			Für beschränktes $I$ ist $(C(I), \|\cdot\|_\infty)$ ein normierter Raum.
 		\item
 			$(C(I),\|\cdot\|_\infty)$ ist vollständig, d.h. jede Cauchy-Folge konvergiert in $C(I)$.
 		\item
-			Eine vollständigen, normierten Vektorraum nennen wir Banachraum, $(C(I),\|\cdot\|_\infty)$ Banachraum.
+			Eine vollständigen, normierten Vektorraum nennen wir Banachraum.
+			Für beschränktes $I$ ist $(C(I),\|\cdot\|_\infty)$ Banachraum.
 	\end{itemize}
 \end{note}
 
@@ -512,18 +590,19 @@ Wie gut apporximiert die Interpolierende die Funktion?
 		\[
 			w(x) := \prod_{i=0}^n (x-x_i) \qquad \text{„Knotenpolynom“}
 		\]
-		und definiere $g(t):= f(t)-p(t)-\f {w(t)}{w(x)}(f(x)-p(x))$.
+		und definiere 
+		\[
+			g(t):= f(t)-p(t)-\f {w(t)}{w(x)}(f(x)-p(x))
+		\]
 		
 		Es gilt $g(x_i)=0$, $i=0,\dotsc,n$ (wegen $f(x_i)=p(x_i)$) und $g(x)=0$.
-		Also hat $g$ mindestens $n+2$verschiedene Nullstellen in $I$.
-		Nach dem Satz von Rolle hat $g'$ mindestens $n+1$ verschiedene Nullstellen, usw.
-		
-		$g^{(n+1)}$ hat mindestens $1$ Nullstelle $\xi\in I$. 
+		Also hat $g$ mindestens $n+2$ verschiedene Nullstellen in $I$.
+		Nach dem Satz von Rolle hat $g'$ mindestens $n+1$ verschiedene Nullstellen, usw. und schließlich $g^{(n+1)}$ mindestens $1$ Nullstelle $\xi\in I$. 
 
-		Mit $p^{(n+1)}(\xi) = 0$, $w^{(n+1)}(\xi) = (n+1)!$ folgt
+		Mit $p^{(n+1)} = 0$, $w^{(n+1)}(x) = (n+1)!$ folgt
 		\begin{align*}
-			0 = g^{(n+1)}(\xi) &= f^{(n+1)}(\xi) - p^{(n+1)}(\xi) - \f {((n+1)!}{w(x)}(f(x)-p(x))\\
-			&= f^{(n+1)}(\xi) - 0 - \f {((n+1)!}{w(x)}(f(x)-p(x))\\
+			0 = g^{(n+1)}(\xi) &= f^{(n+1)}(\xi) - p^{(n+1)}(\xi) - \f {(n+1)!}{w(x)}\Big(f(x)-p(x)\Big)\\
+			&= f^{(n+1)}(\xi) - 0 - \f {((n+1)!}{w(x)}\Big(f(x)-p(x)\Big)\\
 		\end{align*}
 		Also 
 		\[
@@ -534,7 +613,7 @@ Wie gut apporximiert die Interpolierende die Funktion?
 
 \begin{kor}[Fehlerschranke]
 	\label{1.11}
-	Für alle beschränkte Intervalle $I\subset \R$, mit $\{x_0,\dotsc,x_n\}\subset I$ gilt
+	Für alle beschränkten Intervalle $I\subset \R$, mit $\{x_0,\dotsc,x_n\}\subset I$ gilt
 	\[
 		\|p-f\|_\infty \le \f 1{(n+1)!}\|w\|_\infty \|f^{(n+1)}\|_\infty
 	\]
@@ -573,7 +652,7 @@ Wie gut apporximiert die Interpolierende die Funktion?
 	Vergleiche Stoer-Bulirsch.
 	\begin{itemize}
 		\item
-			Ohne Einschränkungen an $(\Delta_n)_{n\in \N}$ oder $f\in C(I)$ kann man \emph{keine} gleichmäßige Konvergenz und nicht einmal punktweise Konvergenz erwarten.
+			Ohne Einschränkungen an $(\Delta_n)_{n\in \N}$ oder $f\in C^\infty(I)$ kann man \emph{keine} gleichmäßige Konvergenz und nicht einmal punktweise Konvergenz erwarten.
 			Das Problem ist, dass $f^{(n+1)}(\xi)$ schneller mit $n$ wachsen kann als $\left(\f {w(x)}{(n+1)!}\right)^{-1}$.	
 		\item
 			Für jedes $f\in C(I)$ existiert Folge $(\Delta_n)_{n\in \N}$, sodass $p_n\to f$ gleichmäßig.
@@ -585,7 +664,7 @@ Wie gut apporximiert die Interpolierende die Funktion?
 \end{note}
 
 \begin{ex*}[Runge]
-	Sei $f(x)= \f 1{1+x^2}$ mit $I=[-5,5]$ und $x_k^n := -5+k*h_n$ ($k=0,\dotsc,n$) mit $h_n:= \f {10}n$ äquidistanten Stützstellen.
+	Sei $f(x)= \f 1{1+x^2}$ mit $I=[-5,5]$ und $x_k^n := -5+k h_n$ ($k=0,\dotsc,n$) mit $h_n:= \f {10}n$ äquidistanten Stützstellen.
 
 	Sei $p_n\in \P_n$ mit $p_n(x_k^n) = f(x_k^n)$, dann ergibt sich \fixme[Oszillationen].
 	
@@ -604,7 +683,9 @@ Dann ist die Schranke in \ref{1.11} am kleinsten.
 		T_1(x) &:= x\\
 		T_{n+1}(x) &:= 2x\cdot T_n(x) - T_{n-1}(x)\\
 	\intertext{und \emph{normierte Tschebyscheff-Polynome} durch}
-		\hat T_n(x) &:= 2^{1-n} \cdot T_n(x)
+		\hat T_n(x) &:= \begin{cases} T_n(x) & n \in \{0,1\} \\
+			2^{1-n} \cdot T_n(x) & n \ge 2
+		\end{cases}
 	\end{align*}
 \end{df}
 
@@ -631,9 +712,15 @@ Dann ist die Schranke in \ref{1.11} am kleinsten.
 		\item
 			$|T_n(x)| \le 1$
 		\item
-			$T_n(\cos(\f {j\pi}n)) = (-1)^j$ Extrema für $j=0,\dotsc,n$.
+			Extrema für $j=0,\dotsc,n$:
+			\[
+				T_n\Big(\cos(\tf \pi n \cdot j)\Big) = (-1)^j
+			\]
 		\item
-			$T_n(\cos(\pi \f {2j-1}{2n})) = 0$ Nullstellen für $j=1,\dotsc,n$.
+			Nullstellen für $j=0,\dotsc,n-1$:
+			\[
+				T_n\Big(\cos(\tf\pi n (j + \tf 12)\Big) = 0
+			\]
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[i)]
@@ -672,21 +759,25 @@ Dann ist die Schranke in \ref{1.11} am kleinsten.
 
 \begin{st}[Optimalität]
 	\label{1.15}
+	Sei $I := [-1,1]$ ein Intervall;
 	\begin{enumerate}[i)]
 		\item 
-			Sei $p\in \P_n$ normiert auf $[-1,1] =: I$, dann gilt
+			Sei $p\in \P_n$ normiert auf $I$, dann gilt
 			\[
 				\|p\|_\infty \ge 2^{1-n}
 			\]
 		\item
-			$\displaystyle \|\hat T_n \|_\infty = 2^{1-n}$
+			Auf $I$ gilt
+			\[
+				\displaystyle \|\hat T_n \|_\infty = 2^{1-n}
+			\]
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[i)]
 			\item 
 				Wir nehmen an, es existiert ein normiertes $p\in \P_n$ mit $|p(x)|<2^{1-n}$ für alle $x\in I$.
 				Sei $x_j= \cos(\f {j\pi}{n})$.
-				Mit \ref{1.15} und der Definition von $\hat T_n$ folgt
+				Mit \ref{1.14} und der Definition von $\hat T_n$ folgt
 				\[
 					(-1)^j p(x_j) \le |p(x_j)| < 2^{1-n} = 2^{1-n}\underbrace{(-1)^j}_{T_n(x_j)}(-1)^j = \hat T(x_j)(-1)^j
 				\]
@@ -694,7 +785,8 @@ Dann ist die Schranke in \ref{1.11} am kleinsten.
 				\[
 					(-1)^j(\hat T_n(x_j)-p(x_j)) > 0 \qquad j=0,\dotsc,n
 				\]
-				also hat $\hat T_n -p$ mindestens $n$ verschiedene Nullstellen. $\hat T_n-p\in \P_{n-1}$, da beide normiert sind, ein Widerspruch.
+				also hat $\hat T_n -p$ mindestens $n$ Vorzeichenwechsel und somit auch $n$ verschiedene Nullstellen. 
+				Da beide Polynome normiert waren, ist $\hat T_n-p\in \P_{n-1}$, ein Widerspruch.
 				Also gilt
 				\[
 					|p(x)| \ge 2^{1-n} \qquad \forall p\in \P_n \text{ normiert}
@@ -717,7 +809,7 @@ Dann ist die Schranke in \ref{1.11} am kleinsten.
 	\label{1.16}
 	Setze $\{x_0,\dotsc,x_n\}$ als Nullstellen von den Tschebyscheff-Polynomen $T_{n+1}$:
 	\[
-		x_i := \cos\left(\pi\f{2i+1}{2(n+1)}\right) \qquad i=0,\dotsc,n
+		x_i := \cos\Big(\tf \pi{n+1}(i + \tf 12)\Big) \qquad i=0,\dotsc,n
 	\]
 	Dann ist $\omega(x) := \prod_{i=0}^n (x-x_i) = \hat T_{n+1}$ Knotenpolynom mit minimalem $\|\omega\|_\infty$.
 \end{kor}
@@ -739,7 +831,7 @@ Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=
 \end{df}
 
 \begin{note}
-	$\Lambda_n$ ist insbesondere auch für Interpolation mit anderen Funktionen als Polynome definiert.
+	$\Lambda_n$ ist insbesondere auch für Interpolation mit anderen Funktionen statt Polynomen definiert.
 
 	Sei $V=\<\{\phi_k\}_{k=0}^n\> \subset C(I)$ mit Basis $\{\phi_k\}_{k=0}^n$.
 	Falls die Interpolationsmatrix regulär ist, so existiert eine nodale Basis von $V$:
@@ -766,29 +858,29 @@ Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=
 	\]
 	Diese Abschätzung ist scharf (d.h. $\Lambda_n$ kann nicht kleiner gewählt werden, wir finden Beispiele $\{f_i\},\{\tilde f_i\}$ für die Gleichheit gilt).
 	\begin{proof}
-		Zeige zunächst: $\forall \{\_{f_i}\}\subset \R$ und interpolierende Funktionen $\_p\in V$, gilt:
+		Zeige zunächst: $\forall \{\_{f_i}\}\subset \R$ und interpolierender Funktion $\_p\in V$, gilt:
 		\[
 			\|\_p\|\infty \le \Lambda_n \max_{i=0,\dotsc,n}|\_{f_i}| \qquad \text{und ist scharf}
 		\]
 		Für $t\in I$ gilt
 		\begin{align*}
-			|\_p(t)| &= \left| \sum_{i=0}^n \_{f_i} L_i^n(t)\right| \\
-			&\le \sum_{i=0}^n |\_{f_i}||L_i^n(t)|\\
-			&\le \sum_{i=0}^n (\max_{j=0,\dotsc,n}|\_{f_j})|L_i^n(t)|\\
-			&\le \max_{j=0,\dotsc,n}|\_{f_j}| \sum_{i=0}^n|L_i^n(t)|
+			|\_p(t)| &= \left| \sum_{i=0}^n \_{f_i} L_i^n(t)\right| 
+			\le \sum_{i=0}^n |\_{f_i}||L_i^n(t)|\\
+			&\le \sum_{i=0}^n \max_{j=0,\dotsc,n}|\_{f_j}||L_i^n(t)|
+			= \bigg(\sum_{i=0}^n|L_i^n(t)| \bigg)\max_{j=0,\dotsc,n} |\_{f_j}|
 		\end{align*}
-		Also ist
+		Also ist im Supremum über $t \in I$:
 		\[
 			\|\_p\|_\infty \le \Lambda_n \max_{j=0,\dotsc,n}|\_{f_j}|
 		\]
 
-		Sei $\tau := \argmax_{x\in I} \sum_{i=0}^n|L_i^n(x)|$ und $\_{f_i} := \sgn(L_i^n(\tau))$.
+		Sei $\tau := \argmax\limits_{x\in I} \sum_{i=0}^n|L_i^n(x)|$ und $\_{f_i} := \sgn(L_i^n(\tau))$.
 		Dann gilt
 		\begin{align*}
-			\_p(\tau) &= \left| \sum_{i=0}^n \underbrace{\_{f_i}L_i^n(\tau)}_{\ge 0}\right| \\
-			&= \sum_{i=0}^n |L_i^n(\tau)| \\
-			&= \max_{x\in I} \sum_{i=0}^n |L_i^n(x)| \\
-			&= \Lambda_n \cdot \underbrace{1}_{=\max_{i=0,\dotsc,n}|\_{f_i}|}
+			\_p(\tau) &= \left| \sum_{i=0}^n \underbrace{\_{f_i}L_i^n(\tau)}_{\ge 0}\right| 
+			= \sum_{i=0}^n |L_i^n(\tau)| \\
+			&= \max_{x\in I} \sum_{i=0}^n |L_i^n(x)| 
+			= \Lambda_n \cdot \underbrace{1}_{=\max\limits_{i=0,\dotsc,n}|\_{f_i}|}
 		\end{align*}
 		also ist 
 		\[
@@ -796,7 +888,7 @@ Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=
 		\]
 		scharf.
 
-		Der Satz folgt, da $\_p := p-\tilde p$ das Interpolationspolynom zu den Daten $\_{f_i} := f_i - \tilde {f_i}$
+		Der Satz folgt, da $\_p := p-\tilde p$ das Interpolationspolynom zu den Daten $\_{f_i} := f_i - \tilde {f_i}$ ist.
 	\end{proof}
 \end{st}
 
@@ -820,7 +912,7 @@ Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=
 
 Wir wollen jetzt nicht nur Funktionswerte für die Interpolierende vorgeben, sondern auch Werte für ihre Ableitungen.
 
-Seien $\{x_i\}_{i=0}^m \subset \R$ paarweise verschiedene Knoten und $\{f_i^{(j)}\}_{j=0}^{m_i-1}$ Zielwerte für $i=0,\dotsc, m$ (d.h. $m_i$ viele Zielwerte für $i=0,\dotsc, m$, macht $n := \sum_{i=0}^m m_i$ viele Zielwerte).
+Seien $\{x_i\}_{i=0}^m \subset \R$ paarweise verschiedene Knoten und $\{f_i^{(j)}\}_{j=0}^{m_i-1}$ Zielwerte für $i=0,\dotsc, m$ (d.h. $m_i$ viele Zielwerte für jedes $i \in \{0,\dotsc, m\}$, macht $n := \sum_{i=0}^m m_i$ viele Zielwerte).
 
 Gesucht ist ein Polynom $p\in \P_n$ mit 
 \[
@@ -843,13 +935,13 @@ mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stütz
 				\phi_0^{(0)}(x_0) &\hdots &\phi_n^{(0)}(x_0)\\
 				\phi_0^{(1)}(x_0) &\hdots &\phi_n^{(1)}(x_0)\\
 				\vdots &  & \vdots \\
-				\phi_0^{(m_0)}(x_0)& \hdots &\phi_n^{(m_0)}(x_0)\\
+				\phi_0^{(m_0-1)}(x_0)& \hdots &\phi_n^{(m_0-1)}(x_0)\\
 				\phi_0^{(0)}(x_1) &\hdots &\phi_n^{(0)}(x_1)\\
 				\vdots& & \vdots \\
-				\phi_0^{(m_1)}(x_1)& \hdots &\phi_n^{(m_1)}(x_1)\\
+				\phi_0^{(m_1-1)}(x_1)& \hdots &\phi_n^{(m_1-1)}(x_1)\\
 				\phi_0^{(0)}(x_2) &\hdots &\phi_n^{(m_2)}(x_2)\\
 				\vdots& & \vdots \\
-				\phi_0^{(m_m)}(x_m) &\hdots &\phi_n^{(m_m)}(x_m)
+				\phi_0^{(m_m-1)}(x_m) &\hdots &\phi_n^{(m_m-1)}(x_m)
 			\end{pmatrix}
 			\qquad \text{ist quadratisch}
 		\]
@@ -874,20 +966,20 @@ mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stütz
 \end{st}
 
 \begin{note}
-	Falls nicht alle Ableitungen $p^{(j)}(x_i) =f_i^{(j)}$ für $j=0,\dotsc,m_i-1$ vorgeschrieben sind, ist die Interpolations-Aufgabe nicht immer lösbar.
+	Falls nicht alle Ableitungen $p^{(j)}(x_i) =f_i^{(j)}$ für $j=0,\dotsc,m_i-1$ vorgeschrieben sind, ist die Interpolations-Aufgabe im Allgemeinen \emph{nicht} lösbar.
 
 	\begin{ex*}
-		Sei $m=1$, $n=1$.
+		Sei $m=1$.
 		Gesucht ist $p\in \P_1$ mit
 		\[
-			p'(x_0) = 1 \qquad \land \qquad p'(x_2) = 2
+			p'(x_0) = 1 \qquad \land \qquad p'(x_1) = 2
 		\]
 		Dazu gibt es keine Lösung (keine Existenz).
-
+		Für
 		\[
-			p'(x_0) = 1 \qquad \land \qquad p'(x_2) = 1
+			p'(x_0) = 1 \qquad \land \qquad p'(x_1) = 1
 		\]
-		Hierzu sind alle $(x) = x+a$, $a\in \R$ Lösungen (keine Eindeutigkeit).
+		sind alle $(x) = x+a$, $a\in \R$ Lösungen (keine Eindeutigkeit).
 	\end{ex*}
 \end{note}
 
@@ -927,6 +1019,9 @@ mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stütz
 			\displaystyle \f {a_{k+1,j-1} - a_{k,j-1}}{z_{k+j} - z_k} & \text{sonst}
 		\end{cases}
 	\end{align*}
+	\begin{proof}
+		\fixme[Fehlt und sieht nicht so trivial aus]
+	\end{proof}
 \end{st}
 
 \begin{ex*}
