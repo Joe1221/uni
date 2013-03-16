@@ -1748,7 +1748,7 @@ Die “Minimum Norm Least Squares”-Approximation liefert eine Antwort auf dies
 	\begin{note}
 		\begin{itemize}
 			\item
-				Falls $A$ reell ist, sind auch $U,V$ reell, also orthogona,l und es gilt
+				Falls $A$ reell ist, sind auch $U,V$ reell, also orthogonal, und es gilt
 				\[
 					A=U\Sigma V^T
 				\]
@@ -2244,7 +2244,7 @@ Gesucht ist eine Approximation für das Integral
 Anwendungsgebiete sind beispielsweise:
 \begin{itemize}
 	\item
-		Integration von Funktionen, deren Stammfunktionen nicht analytisch vorliegt, z.B.
+		Integration von Funktionen, deren Stammfunktionen nicht analytisch vorliegen, z.B.
 		\[
 			\int_a^b e^{-x^2} dx
 		\]
@@ -2460,7 +2460,7 @@ Also $I_n(f) = I(p)$.
 	folgende Schranken:
 	\begin{enumerate}[i)]
 		\item
-			$\displaystyle |R_n(f)| \le \f {(b-a)^{n+2}}{(n+1)!}\|f^{(n+1)}\| \qquad f\in C^{n+1}([a,b])$
+			$\displaystyle |R_n(f)| \le \f {(b-a)^{n+2}}{(n+1)!}\|f^{(n+1)}\|_\infty \qquad f\in C^{n+1}([a,b])$
 		\item
 			falls $I_n$ symmetrisch und $n$ gerade, dann gilt
 			\[
@@ -2484,7 +2484,7 @@ Also $I_n(f) = I(p)$.
 				\end{align*}
 			\item
 				Sei $q_{n+1}\in \P_{n+1}$ eine Hermite-Interpolation zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$ und $(x_l,f'(x_l))$ beliebig.
-				Sei $p_n\in \P_n$ ein standard Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$.
+				Sei $p_n\in \P_n$ ein Standard-Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$.
 
 				Wie im Beweis von \ref{2.6}	ist für geeignete $q_n\in \P_n, c\in \R$ 
 				\[
@@ -2496,7 +2496,7 @@ Also $I_n(f) = I(p)$.
 					= I(p_n)
 					= I(q_n)
 					= I(q_n) + c\cdot I(N)
-					= I(q_{n+1}
+					= I(q_{n+1}).
 				\end{align*}
 				Damit gilt
 				\[
@@ -2521,11 +2521,11 @@ Also $I_n(f) = I(p)$.
 		\item
 			Dann ist
 			\[
-				I_n(f) := \sum_{j=0}^n \omega_j f(x_j), \qquad \omega_j = \f{b-a}{\hat b - \hat a}\hat \omega_j, \qquad x_j =a + \f{b-a}{\hat b -a}(\hat b - \hat a)
+				I_n(f) := \sum_{j=0}^n \omega_j f(x_j), \qquad \omega_j = \f{b-a}{\hat b - \hat a}\hat \omega_j, \qquad x_j =a + \f{b-a}{\hat b - \hat a}(\hat x_j - \hat a)
 			\]
 			eine Interpolatorische Quadratur auf $[a,b]$.
 		\item
-			Gilt für ein geignetes $K\in \R$ und $m$
+			Gilt für ein geignetes $K\in \R$ und $m \in \N$
 			\[
 				|\hat I(\hat f) - \hat I_n(\hat f) | \le K \cdot \|\hat f^{(m)}\|_\infty \cdot (\hat b - \hat a)^{m+1}
 			\]
@@ -2535,14 +2535,14 @@ Also $I_n(f) = I(p)$.
 			\]
 	\end{enumerate}
 	\begin{note}
-		Also reicht es interpolatorische Quadraturen auf einfachen Intervallen zu konstruieren.
+		Also reicht es, interpolatorische Quadraturen auf einfachen Intervallen zu konstruieren.
 		Diese sind nach Skalierung auf jedes beliebige Intervall anwendbar.
 	\end{note}
 	\begin{proof}
 		\begin{enumerate}[i)]
 			\item
 				Zeige, dass $I_n(f)$ exakt auf $\P_n$ ist.
-				Sei $p\in \P_n$, setze $\hat p(\hat x) := p(a- \f {b-a}{\hat b- \hat a}(\hat x- \hat x)) \in \P_n$.
+				Sei $p\in \P_n$, setze $\hat p(\hat x) := p(a- \f {b-a}{\hat b- \hat a}(\hat x- \hat a)) \in \P_n$.
 				\begin{align*}
 					I_n(p) 
 					&= \sum_{j=0}^{n} \f {b-a}{\hat b - \hat a} \hat \omega_j p\l(a + \f {b-a}{\hat b - \hat a}(\hat x_j - \hat a)\r) \\
@@ -2564,7 +2564,7 @@ Also $I_n(f) = I(p)$.
 				\begin{align*}
 					|I(f) - I_n(f)| 
 					&= \l| \int_a^b f(x) dx - \sum_{j=0}^n \omega_j f(x_j) \r| \\
-					&= \l| \f {b-a}{\hat b- \hat a} \int_a^b \hat f(\hat x) d\hat x - \sum_{j=0}^n \f {b-a}{\hat b - \hat a} \hat \omega_j \hat f(\hat x_j) \r| \\
+					&= \l| \f {b-a}{\hat b- \hat a} \int_{\hat a}^{\hat b} \hat f(\hat x) d\hat x - \sum_{j=0}^n \f {b-a}{\hat b - \hat a} \hat \omega_j \hat f(\hat x_j) \r| \\
 					&= \l| \f {b-a}{\hat b - \hat a} (\hat I(\hat f) - \hat I_n(\hat f)) \r| \\
 					&\stackrel{\text{Ann}}\le \f {b-a}{\hat b - \hat a}K\cdot \|\hat f^{(m)}\|_\infty (\hat b - \hat a)^{m+1} \\
 					&\stackrel{\text{nach obigem}}\le \f {b-a}{\hat b - \hat a} K \cdot \f {(b-a)^m}{(\hat b - \hat a)^m} \|f^{(m)}\|_\infty \cdot (\hat b - \hat a)^{m+1} \\
