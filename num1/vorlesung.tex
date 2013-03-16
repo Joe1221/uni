@@ -2580,7 +2580,7 @@ Also $I_n(f) = I(p)$.
 
 \begin{df}
 	\label{2.9}
-	\emph{Newton-Cotes Quadraturen} (N.-C.) sind Interpolatorische Quadraturen zu äquidistanten Stützstellen.
+	\emph{Newton-Cotes-Quadraturen} (N.-C.) sind Interpolatorische Quadraturen zu äquidistanten Stützstellen.
 	Wir unterscheiden
 	\begin{itemize}
 		\item
@@ -2591,7 +2591,7 @@ Also $I_n(f) = I(p)$.
 		\item
 			offene Newton-Cotes-Formeln:
 			\[
-				h:= \f {b-a}{n+2}, \qquad x_k = a+ (k+1)h, \quad (k=0,\dotsc,n)r
+				h:= \f {b-a}{n+2}, \qquad x_k = a+ (k+1)h, \quad (k=0,\dotsc,n)
 			\]
 			(d.h. die Randpunkte sind keine Stützstellen)
 	\end{itemize}
@@ -2646,13 +2646,13 @@ Also $I_n(f) = I(p)$.
 			\[
 				\omega_j := \int_0^1 L_j^n(x) dx
 			\]
-			lassen sich kompakt als Lösung eines LGS schreiben mit Hilfe einer transponierten Vandermondematrix darstellen (siehe Satz \ref{2.10}).
+			lassen sich kompakt als Lösung eines LGS mit Hilfe einer transponierten Vandermondematrix darstellen (siehe Satz \ref{2.10}).
 	\end{itemize}
 \end{nt*}
 
 \begin{st}
 	\label{2.10}
-	Für das Intervall $[0,1]$ sind die Gewichte $\{\omega_j\}_{j=0}^n$ der geschlossenen Newton-Cotes Formel Lösung des linearen Gleichungsystems
+	Für das Intervall $[0,1]$ sind die Gewichte $\{\omega_j\}_{j=0}^n$ der geschlossenen Newton-Cotes-Formeln die Lösung des linearen Gleichungsystems
 	\[
 		\begin{pmatrix}
 			1 & 1 & 1 & \dotsc & 1 \\
@@ -2782,7 +2782,7 @@ Also $I_n(f) = I(p)$.
 		\item
 			Die zusammengesetzte Mittelpunktsregel ($\hat n = 0, \hat \omega_0 = 1, \hat x_0 = \f 12$) ergibt eine Riemann-Summe:
 			\[
-				I_h(t) := H \cdot \sum_{l=1}^N f (x_l) \qquad x_l = a + \l(l- \f 12\r) H
+				I_h(f) := H \cdot \sum_{l=1}^N f (x_l) \qquad x_l = a + \l(l- \f 12\r) H
 			\]
 		\item
 			Die zusammengesetzte Trapezregel ergibt ($\hat n = 1, \hat \omega_0 = \hat \omega_1 = \f 12, \hat x_0 = 0, \hat x_1 = 1, h := H = \f {b-a}N$):
@@ -2794,7 +2794,7 @@ Also $I_n(f) = I(p)$.
 			\[
 				\hat n = 2, \quad h := \f H2, \qquad x_k := a+kh, \quad k=0,\dotsc, 2N
 			\]
-			ergibt sich
+			ergibt:
 			\[
 				I_h(f) = \f h3 \l( f(a) + 2 \sum_{l=1}^{N-1}f(x_{2l}) + 4 \sum_{l=1}^{N}f(x_{2l-1}) + f(b)\r)
 			\]
@@ -2802,7 +2802,7 @@ Also $I_n(f) = I(p)$.
 			Verbesserung der Quadratur durch Erhöhen der Intervall-Anzahl, z.B. $f(x)= \sqrt{|x|}$, $[a,b]=[-1,1]$ mit der zusammengesetzten Simpson-Regel.
 			\begin{table}[H]
 				\centering
-				\caption{Es ergibt sich eine konvergente für gerade $N$}
+				\caption{Es ergibt sich eine konvergente Teilfolge für gerade $N$}
 				\begin{tabular}{c|c}
 					N & $|I(f)-I_h(f)|$ \\ \hline
 					1 & 0.6667 \\
@@ -2817,15 +2817,15 @@ Also $I_n(f) = I(p)$.
 
 \begin{st}[Fehlerschranke für zusammengesetzte Quadraturen]
 	\label{2.14}
-	Sei $\hat I_n$ auf $[0,1]$ derart, dass für $m\in \N$, $K\in \R$
+	Sei $\hat I_{\hat n}$ auf $[0,1]$ derart, dass für $m\in \N$, $K\in \R$
 	\[
 		|\hat I(\hat f) - \hat I_{\hat n}(\hat f)| \le K \cdot \|\hat f^{(m)}\|_\infty
-		\qquad \hat f \in C^m([0,1])		
+		\qquad \forall \hat f \in C^m([0,1])		
 	\]
 	Dann erfüllt die zusammengesetzte Quadratur $I_h$ die Fehlerschranke
 	\[
-		|I(f) - I_{h}(f)| \le K \cdot \|\hat f^{(m)}\|_\infty (b-a) H^m
-		\qquad \hat f \in C^m([a,b])	
+		|I(f) - I_{h}(f)| \le K \cdot \| f^{(m)}\|_\infty (b-a) H^m
+		\qquad \forall f \in C^m([a,b])	
 	\]
 	\begin{proof}
 		Transformiere $\hat I_{\hat n}$ auf $[a+(l-1)H, a+lH]$, $l=1,\dotsc,N$
@@ -2850,7 +2850,7 @@ Also $I_n(f) = I(p)$.
 	\label{2.15}
 	\begin{enumerate}[i)]
 		\item
-			Für die zusammengesetzt Trapezregel lautet die Fehlerabschätzung
+			Für die zusammengesetzte Trapezregel lautet die Fehlerabschätzung
 			\[
 				|I(f) - I_h(f)| \le \f {\|f''\|_{\infty}}{12} (b-a) h^2 \qquad \forall f \in C^2 ([a,b])
 			\]
@@ -2952,7 +2952,7 @@ Also $I_n(f) = I(p)$.
 				Also ist $\{p_i\}_{i=0}^{n+1}$ Erzeugenden-System für $\P_{n+1}$ aus $n+2$ Elementen.
 				Wegen $\dim \P_{n+1} = n+2$ ist $\{p_i\}_{i=0}^{n+1}$ linear unabhängig und damit eine Basis
 			\item
-				Nach i) ist $\P_{n+1} = \<p_0,\dotsc, p_{n-1}\>$ also reicht es zu zeigen, dass $\<p_n,p_i\>=0$ für $i=0,\dotsc, n-1$.
+				Nach i) ist $\P_{n+1} = \<p_0,\dotsc, p_{n-1}\>$, also reicht es zu zeigen, dass $\<p_n,p_i\>=0$ für $i=0,\dotsc, n-1$.
 				Zeige per Induktion.
 				Für $n=1$ ist $\<p_1,p_0\> = \int_{-1}^1 x = 0$.
 				Sei $j\in \{0,\dotsc,n\}$.
@@ -2974,7 +2974,7 @@ Also $I_n(f) = I(p)$.
 				\]
 				Dann kann man schreiben
 				\[
-					0 = \<q,p_n\> = \int_{-1}^1 \f {p_n(x)^2}{|x-2|^2} dx \implies p_n(x) = 0
+					0 = \<q,p_n\> = \int_{-1}^1 \f {p_n(x)^2}{|x-z|^2} dx \implies p_n(x) = 0
 				\]
 				was ein Widerspruch ist.
 
@@ -3006,8 +3006,8 @@ Also $I_n(f) = I(p)$.
 
 \begin{df}[Gauß'sche Quadraturen]
 	\label{2.19}
-	Sei $n\in \N$, wäle $\{x_i\}_{i=0}^n$ als Nullstellen von $p_{n+1} \in \P_{n+1}$.
-	Dann nennen wir die zugehörigen Interpolations-Quadratur \emph{Gauß-Quadratur} (G.Q.).
+	Sei $n\in \N$, wähle $\{x_i\}_{i=0}^n$ als Nullstellen von $p_{n+1} \in \P_{n+1}$.
+	Dann nennen wir die zugehörige Interpolations-Quadratur \emph{Gauß-Quadratur} (G.Q.) auf $[-1,1]$.
 \end{df}
 
 \begin{ex*}
@@ -3044,7 +3044,7 @@ Also $I_n(f) = I(p)$.
 	\[
 		p_n(x) = \f {n!}{(2n)!} \f {d^n}{dx^n} (x^2-1)^n
 	\]
-	Gauß-Quadraturen auf $[-1,1]$ werden auf Gauß-Legendre-Quadraturen genannt.
+	Gauß-Quadraturen auf $[-1,1]$ werden auch Gauß-Legendre-Quadraturen genannt.
 \end{nt*}
 
 \begin{st}[Symmetrie]
@@ -3065,10 +3065,10 @@ Also $I_n(f) = I(p)$.
 		\[
 			\<x^{n+1},p_i\> = \int_{-1}^1 \underbrace{x^{n+1}}_{\text{gerade}} \underbrace{p_i(x)}_{\text{ungerade}} dx = 0
 		\]
-		Für $i$ gerade ist $p_i(x)$ gerade ist $p_{n+1}$ eine Linearkombination von geraden Funktionen, also $p_{n+1}$ gerade.
+		Für $i$ gerade ist $p_i(x)$ gerade, also ist $p_{n+1}$ eine Linearkombination von geraden Funktionen, also ist $p_{n+1}$ gerade.
 		Analog für $n$ gerade.
 
-		Falls $x$ Nullstelle von $p_n$, dann ist auch $-p_n$ Nullstelle von $p_n$.
+		Falls $x$ Nullstelle von $p_n$, dann ist auch $-x$ Nullstelle von $p_n$.
 		Damit sind die Stützstellen der Gauß-Quadratur symmetrisch und somit auch die Gewichte (da Interpolations-Quadratur).
 	\end{proof}
 \end{st}
@@ -3129,11 +3129,11 @@ Also $I_n(f) = I(p)$.
 		Die Existenz ist klar: Gauß-Quadratur \ref{2.21}.
 
 		Sei $I_n$ die Gauß-Quadratur und $\_{I_n}$ eine Quadratur, welche exakt auf $\P_{2n+1}$ ist.
-		Es reicht zu zeigen, dass die Stützstellen $\{x_i\}_{i=0}^n$ von $\_{I_n}$ Nullstellen vom orthogonalen Polynom $p_{n+1}$, denn dann sind auch die Gewichte identisch zu $I_n$, da beide Interpolations-Quadraturen und exakt auf $\P_n$ sind.
+		Es reicht zu zeigen, dass die Stützstellen $\{x_i\}_{i=0}^n$ von $\_{I_n}$ Nullstellen vom orthogonalen Polynom $p_{n+1}$ sind, denn dann sind auch die Gewichte identisch zu $I_n$, da beide Interpolations-Quadraturen und exakt auf $\P_n$ sind.
 	
 		Sei $q\in \P_n$, $\_p_{n+1} := \prod_{i=0}^n (x-x_i) \in \P_{n+1}$.
 		\[
-			\int_{-1}^1 \_p_{n+1}(x) q(x) 
+			\int_{-1}^1 \_p_{n+1}(x) q(x) dx 
 			= I(\underbrace{\_p_{n+1} q}_{\in \P_{2n+1}})
 			\stackrel{\text{Exaktheit}}= \_I_n (\_p_{n+1}q)
 			\stackrel{\_p_{n+1}(x_i)=0}= 0
@@ -3153,26 +3153,27 @@ Also $I_n(f) = I(p)$.
 	\end{proof}
 \end{st}
 
-\begin{ex*}[Vergleich von Newton-Cotes und Gauß-Quadratur auf $f(x)=\cos(x\f \pi 2)$ auf]
+\begin{ex*}
+Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[-1,1]$: \\
 	\begin{table}[H]
 		\centering
 		\caption{Fehlervergleich auf $[-1,1]$}
-		\begin{tabular}{c|r|r}
+		\begin{tabular}{c|r|c}
 			n & Gauß-Quadratur & Newton-Cotes-Quadratur \\ \hline
 			0 & 0.7268 & 0.7268 \\
 			1 & 0.0401 & 1.2732 \\
 			2 & 0.0009 & 0.0601 \\
 			3 & 0.0000 & 0.0258 \\
-			4 & 0.0000 & 0.0009
+			4 & 0.0000 & 0.0009 \\
 		\end{tabular}
 	\end{table}
 \end{ex*}
 
 \begin{st}[Fehlerschranke]
 	\label{2.24}
-	Für $f\in C^{2n+2} ([-1,1])$, dann gilt für Fehler der Gauß-Quadratur
+	Sei $f\in C^{2n+2} ([-1,1])$, dann gilt für den Fehler der Gauß-Quadratur:
 	\[
-		|I(f) - I_n(f) \le K \cdot 2^{2n+3} \|f^{2n+2}\|_\infty
+		|I(f) - I_n(f)| \le K \cdot 2^{2n+3} \|f^{2n+2}\|_\infty
 	\]
 	mit
 	\[
@@ -3203,7 +3204,7 @@ Also $I_n(f) = I(p)$.
 
 				Dann ist
 				\[
-					|I(f) - I_n(f) | \le K \cdot (b-a)^{d+2} \|f^{d-1}\|_\infty
+					|I(f) - I_n(f) | \le K \cdot (b-a)^{d+2} \|f^{d+1}\|_\infty
 				\]
 				für geeignetes $K$.
 		\end{itemize}
@@ -3230,9 +3231,9 @@ Also $I_n(f) = I(p)$.
 	\]
 	\begin{proof}
 		Sei $\eps > 0$.
-		Nach dem Weierstrass-Approximationssatz existiert $p\in \P_{n_0}$ für genügend großen $n_0\in \N$, so dass
+		Nach dem Weierstrass-Approximationssatz existiert $p\in \P_{n_0}$ für genügend großes $n_0\in \N$, so dass
 		\[
-			|f(x) - p(x)| \le \f {\eps}{2(b-a)} \qquad x\in [a,b]
+			|f(x) - p(x)| \le \f {\eps}{2(b-a)} \qquad \forall x\in [a,b]
 		\]
 		Dann gilt für alle $n\ge n_0$:
 		\begin{align*}
@@ -3246,13 +3247,13 @@ Also $I_n(f) = I(p)$.
 	\begin{note}
 		\begin{itemize}
 			\item
-				Trotz eventuelle Fehlender gleichmäßiger Konvergenz der Interpolations-Polynome, d.h.
+				Trotz eventuell fehlender gleichmäßiger Konvergenz der Interpolations-Polynome, d.h.
 				\[
 					\|p_n - f\|_\infty \not \to 0
 				\]
 				konvergieren die Integrale $I_n(f) \to I(f)$.
 			\item
-				Die Aussage von \ref{2.6} ist nicht auf Newton-Cotes übertragbar ($\sum_{i=0}^n |\omega_i| \to \infty$ der Beweis nutzt $\sum_{i=0}^n |\omega_i| = b-a$).
+				Die Aussage von \ref{2.6} ist nicht auf Newton-Cotes oder allgemeinere Interpolations-Quadraturen übertragbar, da i.A. $\sum_{i=0}^n |\omega_i| \to \infty$, der Beweis nutzt aber $\sum_{i=0}^n |\omega_i| = b-a$.
 		\end{itemize}
 	\end{note}
 \end{st}
@@ -3275,7 +3276,7 @@ Also $I_n(f) = I(p)$.
 	Es existieren einige spezielle Versionen
 	\begin{itemize}
 		\item
-			$I=[-1,1], \omega(x) =1$, dann sind $\{x_i\}$ die Nullstellen der Legendre Polynome („Gauß-Legendre-Quadraturen“).
+			$I=[-1,1], \omega(x) =1$, dann sind $\{x_i\}$ die Nullstellen der Legendre-Polynome („Gauß-Legendre-Quadraturen“).
 		\item
 			$I=(-1,1), \omega(x) = \f 1{\sqrt{1-x^2}}$, dann sind die Tschebyscheff-Polynome ein Orthonormalsystem bezüglich $\<\cdot,\cdot\>_\omega$, $p_n= \hat T_n$.
 			\[
@@ -3317,7 +3318,7 @@ Also $I_n(f) = I(p)$.
 	\[
 		\int_{-1}^1 f(x) dx = \sum_{i=0}^2 \omega_i x_i^2 = \f {\pi}3 \cdot \f 64 = \f \pi2
 	\]
-	das stimmt mit der analytischen Lösung überein:
+	Das stimmt mit der analytischen Lösung überein:
 	\[
 		\int_{-1}^1 \f {x^2}{\sqrt{1-x^2}} dx = \f 12 \sin^{-1}(x) - \f 12 x\sqrt{1-x^2} \; \Big|_{-1}^1 = \f 12 \l( \f \pi 2 - \l(-\f \pi 2\r) \r) = \f \pi2
 	\]
@@ -3326,9 +3327,9 @@ Also $I_n(f) = I(p)$.
 \begin{nt*}[Zusammengesetzte Gauß-Quadraturen]
 	\begin{itemize}
 		\item
-			Berechnung der Nullstellen von $p_n$ in hoher Präzision kann für gorße $n$ schwierig sein.
+			Berechnung der Nullstellen von $p_n$ in hoher Präzision kann für große $n$ schwierig sein.
 		\item
-			Daher sind auch zusammengesetzt Gauß-Quadraturen praktikable Alternativen.
+			Daher sind auch zusammengesetzte Gauß-Quadraturen praktikable Alternativen.
 			\begin{ex*}
 				Zusammengesetzte 2-Punkt-Gauß-Quadratur auf $[a,b]$, $N\in \N$, $h=\f {b-a}N$, $n:= N\cdot 2 - 1$, Mittelpunkte $m_l := a+ (l-\f 12)h$ , $l= 1,\dotsc, N$.
 				\[
@@ -3336,7 +3337,7 @@ Also $I_n(f) = I(p)$.
 				\]
 			\end{ex*}
 		\item
-			Die Fehlerschranke \ref{2.24} überträgt sich mittels \ref{2.8} ii) auf zusammengesetzte Gauß-Quadraturen.
+			Die Fehlerschranke \ref{2.24} überträgt sich mittels \ref{2.8} ii) auch auf zusammengesetzte Gauß-Quadraturen.
 	\end{itemize}
 \end{nt*}
 
