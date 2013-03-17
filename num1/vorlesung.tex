@@ -3439,7 +3439,7 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 
 \section{Fehlerdarstellung nach Peano}
 
-Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche insbesondere einige der vorhergehenden Fehleraussagen impliziert.
+Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher insbesondere einige der vorhergehenden Fehleraussagen impliziert.
 
 \begin{df}[Zulässige Funktionale]
 	\label{2.27}
@@ -3473,7 +3473,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 
 \begin{lem}[Vertauschungsregel]
 	\label{2.28}	
-	Für ein zulässiges Funktional $R$, stetigem $u\in C^0([a,b])$ und $K\in C^k([a,b]^2)$ gilt
+	Für ein zulässiges Funktional $R$, stetiges $u\in C^0([a,b])$ und $K\in C^k([a,b]^2)$ gilt
 	\[
 		R\l( \int_a^b K(t,\cdot) u(t) dt \r) 
 		= \int_a^b R\Big(K(t,\cdot)\Big) u(t) dt
@@ -3487,7 +3487,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 		Zu zeigen ist dann $R(y) = \int_a^b v(t) u(t) dt$.
 		Wir zeigen zunächst für $R(f) = f^{(m)}(x_0)$:
 		\begin{align*}
-			R(y) = \f {d^m}{dx^m} \Big( \int_a^b K(t,x) u(t) dx \Big) \Big|_{x_0}
+			R(y) = \f {d^m}{dx^m} \Big( \int_a^b K(t,x) u(t) dt \Big) \Big|_{x_0}
 			= \int_a^b \Big( \f {d^m}{dx^m} K(t,x) \Big) u(t) dt \Big|_{x_0}
 			= \int_a^b v(t) u(t) dt
 		\end{align*}
@@ -3501,7 +3501,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 	\[
 		h_+^l := \begin{cases}h^l & h\ge 0 \\ 0 & \text{sonst}\end{cases}
 	\]
-	Es gilt für $f\in C^{k+1}([a,b])$
+	Es gilt für $f\in C^{k+1}([a,b])$:
 	\[
 		f(x) = (P_kf)(x) + \int_a^b K_k(t,x) f^{(k+1)}(t) dt
 	\]
@@ -3562,8 +3562,9 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 	\end{proof}
 \end{lem}
 
-\begin{kor}[Fehlerdarstellung durch Monoauswertung] \label{2.32}
-	Falls Peano-Kern $K(t)$ auf $[a,b]$ keinen Vorzeichenwechsel hat, so gilt für alle $f\in C^{n+1}([a,b])$ existiert $\xi\in [a,b]$ mit
+\begin{kor}[Fehlerdarstellung durch Monomauswertung] \label{2.32}
+	Falls Peano-Kern $K(t)$ auf $[a,b]$ keinen Vorzeichenwechsel hat, so gilt: \\
+	$\forall f\in C^{n+1}([a,b])$  $\exists $  $\xi\in [a,b]$ mit
 	\[
 		R(f) = f^{(n+1)}(\xi) \f 1{(n+1)!} R(x^{n+1})
 	\]
@@ -3582,7 +3583,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 \end{kor}
 
 \begin{ex*}
-	Anwendung auf Simpson-Quadratur auf $[-1,1]$.
+	Anwendung auf Simpson-Quadratur auf $[-1,1]$:
 	\[
 		R(f) = \f 13 \big(f(-1) + 4f(0) + f(1)\big) -\int_{-1}^1 f(x) dx
 	\]
@@ -3645,14 +3646,16 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 
 \begin{df}[Romberg-Verfahren]
 	\label{2.33}
-	Sei $I_h$ eine zusammengesetzte Quadratur auf $[a,b]$ mit Diskretisierungsparameter $h\in \R^+$.
-	Sei $f\in C^0([a,b])$.
-	Setze $b(h) := I_h(f)$.
+	Sei $I_h$ eine zusammengesetzte Quadratur auf $[a,b]$ mit Diskretisierungsparameter $h\in \R^+$.  \\
+	Sei $f\in C^0([a,b])$. \\
+	Setze $b(h) := I_h(f)$. \\
 	Wähle $h_i := h_0 2^{-i}$ für $i=1,\dotsc,n$ mit $n\in \N$ (Romberg-Folge), so dass $b(h_i)$ wohldefiniert ist.
 	Führe Richardson-Extrapolation gemäß Definition \ref{1.8} auf $\{h_i\}_{i=0}^n$ und $\{I_{h_i}(f)\}_{i=0}^n$ durch, um eine Approximation für
 	\[
 		\lim_{h\to 0} b(h) = \lim_{h\to 0} I_h(f) = I(f)
 	\]
+	zu bekommen. 
+	
 	\begin{note}
 		\begin{itemize}
 			\item
@@ -3738,11 +3741,11 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 				Für $k=0, k=1$ ist die Aussage klar.
 				Gelte die Behauptung für $k-1$.
 
-				Falls $k$ gerade, dann ist $B_{k-1}$ punktsymmetrisch zu $(\f 12, 0)$
+				Falls $k$ gerade, dann ist $B_{k-1}$ punktsymmetrisch zu $(\f 12, 0)$:
 				\[
 					B_k (\tf 12 + \tau) = B_k(\tf 12 - \tau)  + \underbrace{\int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt}_{=0}
 				\]
-				und damit $B_k(\f 12 + \tau) = B_k(\f 12 - \tau)$
+				und damit $B_k(\f 12 + \tau) = B_k(\f 12 - \tau)$.
 
 				Falls $k$ ungerade, dann ist $B_{k-1}$ achsensymmetrisch zu $x=\f 12$ und
 				\[
@@ -3762,7 +3765,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 				\]
 				womit $B_k$ punktsymmetrisch zu $(\f 12,0)$ ist.
 			\item
-				Für $k'=2k+1$ ist $B_{k'}$ punktsymmetrisc zu $(\f 12,0)$ nach ii), also $B_{k'}(\f 12) = 0$.
+				Für $k'=2k+1$ ist $B_{k'}$ punktsymmetrisch zu $(\f 12,0)$ nach ii), also $B_{k'}(\f 12) = 0$.
 				$B_{k'-1}$ ist achsensymmetrisch, also
 				\[
 					0 = \int_0^1 B_{k'-1}(t) dt = 2 \int_0^{\f 12} B_{k'-1} (t) dt 
@@ -3783,18 +3786,18 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 	\]
 	dann gilt für den Fehler
 	\[
-		I_h(f) - I(f) = \sum_{k=1}^{m-1} h^{2k} \f{\beta_{2k}}{(2k)K} \Big( f^{(2k-1)}(b) - f^{(2k-1)}(a) \Big) + o(h^{2m})
+		I_h(f) - I(f) = \sum_{k=1}^{m-1} h^{2k} \f{\beta_{2k}}{(2k)!} \Big( f^{(2k-1)}(b) - f^{(2k-1)}(a) \Big) + o(h^{2m})
 	\]
 	\begin{proof}
 		Sei $\phi \in \C^{2m}([0,1])$, dann gilt wegen $\f{B_k'}k = B_{k-1}$, $B_1(1) = \f 12, B_1(0) = - \f 12$:
 		\begin{align*}
 			&\int_0^1 B_0(t) \phi(t) dt 
-			= B_1(t) \phi(t) \Big|_{0}^1 - \int_0^1 B_1(t) \phi'(t) \\
-			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \int_0^1 \f 12 B_2(t) \phi'(t) dt \\
+			= B_1(t) \phi(t) \Big|_{0}^1 - \int_0^1 B_1(t) \phi'(t) dt \\
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \int_0^1 \f 12 B_2(t) \phi''(t) dt \\
 			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \underbrace{\f 1{2\cdot 3} B_3(t) \phi''(t) \Big|_0^1}_{=0 \text{ \ref{2.35} ii)}} - \int_0^1 \f 1{3!} B_3(t) \phi^{(3)}(t) dt \\
 			&\quad= \dotsc \\
 			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \sum_{k=1}^{m-1} \l( \f {B_{2k}(1)}{(2k)!} \phi^{(2k-1)}(1) - \f {B_{2k}(0)}{(2k)!} \phi^{(2k-1)}(0) \r) + \int_0^1 \f 1{(2m)!} B_{2m}(t) \phi^{(2m)}(t) \; dt \\
-			&\quad\stackrel{\ref{2.35} i)}=  \f 12 \big(\phi(1) - \phi(0)\big) - \sum_{k=1}^{m-1} \f {\beta_{2k}}{(2k)} \big( \phi^{(2k-1)}(1) - \phi^{(2k-1)}(0) \big) + \int_0^1 \f {B_{2m}(t)}{(2m)!} \phi^{(2m)}(t) \; dt
+			&\quad\stackrel{\ref{2.35} i)}=  \f 12 \big(\phi(1) - \phi(0)\big) - \sum_{k=1}^{m-1} \f {\beta_{2k}}{(2k)!} \big( \phi^{(2k-1)}(1) - \phi^{(2k-1)}(0) \big) + \int_0^1 \f {B_{2m}(t)}{(2m)!} \phi^{(2m)}(t) \; dt
 		\end{align*}
 		Wähle  $\phi_j(t) := h \cdot f(x_{j-1} + th)$, $x_j := a+jh$, $j=1,\dotsc, N$ (bzw. $j=0,\dotsc, N$).
 		Dann gilt
@@ -3816,19 +3819,20 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 				\phi_j^{2k-1}(1) = \phi_{j+1}^{2k-1}(0)
 				$
 		\end{itemize}
-		\fixme[Vorzeichenfehler irgendwo, Beweis nachvollziehen]
+		\fixme[Vorzeichenfehler irgendwo, Beweis nachvollziehen]: Vllt bei $\f 12 \big( \phi(1) - \phi(0) \big)$, da $B_1(0) = - \f 12$  \\
 		Damit folgt:
 		\begin{align*}
-			I(f)&=\int_a^b f(x)\, dx = \sum_{j=1}^N \int_{x_{j-1}}^{x_j} f(x) \, dx = \int_{j=1}^N \int_0^1 \phi_j(t)\, dt\\
+			I(f)&=\int_a^b f(x)\, dx = \sum_{j=1}^N \int_{x_{j-1}}^{x_j} f(x) \, dx = \sum_{j=1}^N \int_0^1 \phi_j(t)\, dt\\
 			&= \sum_{j=1}^N \frac{1}{2}(\phi_j(0)+ \phi_j(1))- \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} ( \phi_j^{(2k-1)} (1)-\phi_j^{(2k-1)}(0))+\sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} \phi_j^{(2m)}(t)\, dt\\
-			&= \sum_{j=1}^N \frac{h}{2} (f(x_j)+f(x_{j-1})) - \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)}(x_j)-f^{(2k-1)} (x_{j-1}))+ \sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} h^{2m+1} \cdot f^{(2m)}(x_{j-1}+ ht)\, dt\\
-			&= I_h(f)- \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)} ( f^{(2k-1)}(b)-f^{(2k-1)}(b)-f^{(2k-1)}(a))+h^{2m}\left [h \sum_{j=1}^N \int_0^1 f^{(2m)} (x_{j-1}+ht)\, dt\right ]
+			&= \sum_{j=1}^N \frac{h}{2} (f(x_j)+f(x_{j-1})) - \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)}(x_j)-f^{(2k-1)} (x_{j-1})) \\
+			&\qquad \qquad + \sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} h^{2m+1} \cdot f^{(2m)}(x_{j-1}+ ht)\, dt\\
+			&= I_h(f)- \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)} (b)-f^{(2k-1)}(a)) +h^{2m}\left [h \sum_{j=1}^N \int_0^1 f^{(2m)} (x_{j-1}+ht)\, \frac{B_{2m}(t)}{(2m)!} dt\right ]
 		\end{align*}
 		Dies ist die Behauptung falls der Term $[...]$ durch Konstante unabhängig von $h$ bechränkt werden kann. Dies ist der Fall:
 		\[
 			|h\sum_{j=1}^N \int_0^1 f^{(2m)}(x_{j-1}+t\cdot h) \frac{B_{2m}(t)}{(2m)!} \, dt|\le h \frac{1}{(2m)!} \sum_{j=1}^N ||f^{(2m)}||_\infty \cdot ||B_{2m}||_\infty = \underbrace{h\cdot N}_{b-a}\cdot \frac{1}{(2m)!} ||f^{(2m)}||_\infty ||B_{2m}||_\infty
 		\]
-		unabhängig von $h$.
+		und dies ist unabhängig von $h$.
 	\end{proof}
 \end{st}
 \begin{note*}
@@ -3837,85 +3841,87 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welche ins
 			\[
 				f^{(2k-1)}(b)=f^{(2k-1)}(a) \implies I_h(f)-I(f)=O(h^{2m})
 			\]
-		\item Zusammengesetzte Trapezregel erlaubt asymptotische Entwicklung in $h^2$. Dies kann durch Wahl $q=2$ in der Richardson-Extrapolation/(Romberg-Verfahren) ausgenutzt werden.
+		\item Zusammengesetzte Trapezregel erlaubt asymptotische Entwicklung in $h^2$. Dies kann durch Wahl $q=2$ in der Richardson-Extrapolation (Romberg-Verfahren) ausgenutzt werden.
 	\end{itemize}
-	(Anmerkung: eine Wahl für $q2$ in Richardson-Extrapolation zu wählen bedeutet, dass wir bezüglich $b(h)=\sum_{n\in \N} h^{qn} c_n$
+	(Anmerkung: $q=2$ für die Richardson-Extrapolation zu wählen bedeutet, dass wir bezüglich $b(h)=\sum_{n\in \N} h^{qn} c_n$ ) \\
+	\fixme[Anmerkung vervollständigen!]
 \end{note*}
 \section{Weiterführende Techniken}
 \begin{seg}[Adaptive Quadraturen]
-	Problem: Integration verfeinern, welches Bereiche mit großer Variation und Bereiche mit kleiner Variation besitzt. Es ergeben sich stets zwei grundlegende Probleme:
+	Problem: Integration von Funktionen, welche Bereiche mit großer Variation und Bereiche mit kleiner Variation besitzen. Es ergeben sich stets zwei grundlegende Probleme:
 	\begin{enumerate}[a)]
-		\item Zusammengesetzte Quadratur mit zu groben $h$: Bereiche mit hohen Variationen werden nicht aufgelöst. Dies führt zu einem großen Fehler
-		\item $I_h$ mit feinem h: gesamtes Intervall gut aufgelöst, aber in glatten Bereichen ergeben sich viel überflüssige Stützstellen. Dies führt zu einer langen Rechenzeit.
+		\item Zusammengesetzte Quadratur mit zu groben $h$: Bereiche mit hohen Variationen werden nicht aufgelöst. Dies führt zu einem großen Fehler.
+		\item $I_h$ mit feinem h: gesamtes Intervall gut aufgelöst, aber in glatten Bereichen ergeben sich viele überflüssige Stützstellen. Dies führt zu einer langen Rechenzeit.
 	\end{enumerate}
 \end{seg}
 \begin{seg}[Idee:]
 	Dies motiviert folgendes:
 	\begin{itemize}
 		\item unterschiedliche Teilintervall-Größen
-		\item automatische Anpassung der Teilintervall-Größen: Beginne mit grober Intervall-Zerlegung, Berechne Quadratur, berechne einen Fehlerschätzer für alle Teilintervalle markiere alle Teilintervalle, auf denen der Fehler zu groß ist, halbiere die markierten Intervalle und wiederhole diese Schritte bis gewünschte Genauigkeit erreicht ist.
+		\item automatische Anpassung der Teilintervall-Größen:\\
+		 Beginne mit grober Intervall-Zerlegung; Berechne Quadratur, berechne einen Fehlerschätzer für alle Teilintervalle; markiere alle Teilintervalle, auf denen der Fehler zu groß ist, halbiere die markierten Intervalle und wiederhole diese Schritte bis die gewünschte Genauigkeit erreicht ist.
 	\end{itemize}
 \end{seg}
-\begin{seg}[Allgemeines Prinzip:]
+\begin{seg}[Allgemeines Prinzip:] 
+Endliche Wiederholung von: \\
 	\begin{figure}[H]
-		\fbox{Lösung $\rightarrow$ Schätzung $\rightarrow$ Markierung $\rightarrow$ Verfeinerung}
+		\fbox{Lösung $\rightarrow$ Schätzung $\rightarrow$ Markierung $\rightarrow$ Verfeinerung $\rightarrow$ Lösung $\rightarrow$ Schätzung $\rightarrow \cdots$}  \\
 \end{figure}
-und dieser Schritt wiederholt sich schließlich.
 \end{seg}
 \begin{alg*}
-	\begin{algorithmic}
+	\begin{algorithmic}[Adaptive Quadratur]
 		\Require $f:[a,b]\to \R$
 		\Require $\Delta^{(0)}:=\{x_0^{(0)},..., x_{n_0}^{(0)}\}$, Anfangszerlegung $a=x_0^{(0)}<...<x_{n_0}^{(0)}=b$. 
-		Wir bezeichnen im Folgenden $K_i^{(0)}:=[x_{i-1}^{(0)},..., x_{i}^{(0)}]$ Teilintervalle von $\Delta^{(0)}$.
-		\Require $L_max$: Maximalzahl der Verfeinerungsiterationen
+		Wir bezeichnen im Folgenden $K_i^{(0)}:=[x_{i-1}^{(0)}, x_{i}^{(0)}]$ Teilintervalle von $\Delta^{(0)}$.
+		\Require $L_{max}$: Maximalzahl der Verfeinerungsiterationen
 		\Require $\epsilon_{tol}>0$: gewünschte Toleranzgrenze
-		\Require $\theta\in (0,1)$: Anteil der in jeder Iteration zu verfeinernden Intervalle.
+		\Require $\theta\in (0,1)$: Parameter für den Anteil der in jeder Iteration zu verfeinernden Intervalle.
 		\State $l:=0$
 		\State fertig$:= 0$ % Alternativ do-while Schleife (weiß nicht wie ich das definiere
 		\While {fertig $\neq 1$}
-		\State 1. $I_h(f; \Delta^{(l)}):= \sum_{i=1}^{n_l} I_h (f, f_{k}^{(2)})$ als zusamengesetzte Quadratur bezüglich einer einfachen Quadratur $I_h$, zum Beispiel Trapezregel.
-		\State 2. Berechne $\eta_i^{(l)}, i=1,..., n_l$ lokale Fehlerschätzer. zum Beispiel $\eta_i^{(l)}=|I_n(f, K_i^{(l)})- I_{\hat n} (f, K_i^{(l)})|$ mit $I_{\hat n}$ "`bessere Quadratur"' zum Beispiel Simson-Regel.
+		\State 1. $I_h(f, \Delta^{(l)}):= \sum_{i=1}^{n_l} I_n (f, K_{i}^{(l)})$ als zusammengesetzte Quadratur bezüglich einer einfachen Quadratur $I_n$, zum Beispiel Trapezregel.
+		\State 2. Berechne $\eta_i^{(l)}, i=1,..., n_l$ lokale Fehlerschätzer, zum Beispiel $\eta_i^{(l)}=|I_n(f, K_i^{(l)})- I_{\hat n} (f, K_i^{(l)})|$ mit $I_{\hat n}$ "`bessere Quadratur"', zum Beispiel Simson-Regel.
 		\State 3. $\eta^{(l)}=\sum_{i=1}^{n_l} \eta_i^{(l)}$ Gesamtfehlerschätzer
 		\State 4.
-		\If{$\eta^{(l)}\le \epsilon_{tol}$ oder $l\ge l_max$} fertig$:= 1$ \Else fertig$:=0$ \EndIf
+		\If{$\eta^{(l)}\le \epsilon_{tol}$ oder $l\ge l_{max}$} fertig$:= 1$ \Else $ $ fertig$:= 0$ \EndIf
 		\State 5. \If {fertig$\neq 1$}
-		\State $\eta_{max}^{(l)}:= \max \eta_i^{(l)}:= \max \eta_i^{(l)}$ maximaler lokaler Fehlerschätzer
-		\State $m_i^{l}:=\begin{cases} 1 &, \text{falls $\eta_i^{(l)}>\theta, \eta_{\max}^{(l)}$ (soll verfeinert werden)}\\ 0 &, \text{sonst}\end{cases}$
+		\State $\eta_{max}^{(l)}:= \max \eta_i^{(l)}$ maximaler lokaler Fehlerschätzer
+		\State $m_i^{l}:=\begin{cases} 1 &, \text{falls $\eta_i^{(l)}>\theta \cdot \eta_{\max}^{(l)}$ (soll verfeinert werden)}\\ 0 &, \text{sonst}\end{cases}$
 		\State $\Delta^{(l+1)}:= \Delta^{(l)} \cup \{ \frac{x_{i-1}^{(l)}+x_{i}^{(l)}}{2}$, für $i$ mit $m_i^{(l)}=1\}$
 		\State $l:=l+1$
 		\EndIf 
-		\EndWhile
+		\EndWhile  \\
 		\Return $I_h^{(l)}$ (eventuell $\Delta^{(l)}, l, \eta_i^{(l)}, \eta^{(l)}$, etc. )
 	\end{algorithmic}
 \end{alg*}
 \begin{note*}
 	Alternativen:
 	\begin{itemize}
-		\item andere Markierungsstrategien
+		\item andere Markierungsstrategien:
 			\begin{itemize}
 				\item Wähle $k\in \N$, markiere in jeder Iteration die $k$ Intervalle mit $\max \eta_i^{(l)}$
-				\item Wähle $\theta$: Anteil der Intervalle zur Verfeinerung
-				\item Verwende ein Extrapolationsverfahren oder $\{I_n(f, k_i^{(l)}\}$ um den erwarteten Fehlerabfall vorherzusagen $\rightarrow$ siehe Stoer-Bulirsch.
+				\item Wähle $\theta$ - Anteil der Intervalle zur Verfeinerung
+				\item Verwende ein Extrapolationsverfahren der $\{I_n(f, K_i^{(l)})\}$ um den erwarteten Fehlerabfall vorherzusagen $\rightarrow$ siehe Stoer-Bulirsch.
 		\end{itemize}
 	\item Art der Verfeinerung ist austauschbar (andere/mehr Zwischenpunkte)
-	\item Abbruchkriterium ist modifizierbar
+	\item Abbruchkriterium ist modifizierbar:
 		\begin{itemize}
 			\item Wähle $\sigma\in (0,1)$, Abbruch falls Änderung zu gering:
 				\[
 					|I_h(f,\Delta^{(l)})-I_{h}(f, \Delta^{(l-1)} )|\le \sigma \epsilon_{tol}
 				\]
-			\item Falls $\eta_i^{(l)}$ durch verbesserte Quadratur $I_{\hat h}$ berechnet werden, kann man auch $\hat I_h(f, \Delta^{(i)}):=\sum_{i=1}^{n^{(l)}} I_{\hat h} (f, K_i^{(n)})$ als bessere QUadratur zurückgeben.
+			\item Falls $\eta_i^{(l)}$ durch verbesserte Quadratur $I_{\hat n}$ berechnet werden, kann man auch $\hat I_h(f, \Delta^{(i)}):=\sum_{i=1}^{n_l} I_{\hat n} (f, K_i^{(n)})$ als bessere Quadratur zurückgeben.
 		\end{itemize}
 \end{itemize}
 \end{note*}
 \begin{note*}[Effizienz und Zuverlässigkeit]
 	\begin{itemize}
-		\item Sei $E_h(f, \Delta^{(l)}):= \sum_{i=1}^{n^{(l)}} |I_h(f,K_i^{(l)} - \int_{K_i^{(l)}} f(x)\, dx|$ Summe der lokalen Integrationsfehler.
-		\item Wir nennen einen Fehlerschätzer $\eta^{(l)}$ \emph{zuverlässig}, falls er (bis auf Faktor) obere Schranke für Fehler ist, dass heißt es existiert $\gamma >0$ unabhängig von $l$ und $\Delta^{(l)}$ mit 
+		\item Sei $E_n(f, \Delta^{(l)}):= \sum_{i=1}^{n_l} |I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x)\, dx|$ Summe der lokalen Integrationsfehler.
+		\item Wir nennen einen Fehlerschätzer $\eta^{(l)}$ \emph{zuverlässig}, falls er (bis auf Faktor) obere Schranke für Fehler ist, das heißt es existiert $\gamma >0$ unabhängig von $l$ und $\Delta^{(l)}$ mit 
 			\[
-				E_h(f, \Delta^{(l)}\le \gamma \cdot \eta^{(l)}
+				E_n(f, \Delta^{(l)})\le \gamma \cdot \eta^{(l)}
 			\]
-		\item Wir nennen $\eta^{(l)}$ \emph{effizient}, falls er den Fehler nicht beliebig überschätzt, dass heißt es existiert $T>0$ unabhängig von $l$ und $\Delta^{(l)}$ mit 
+		\item Wir nennen $\eta^{(l)}$ \emph{effizient}, falls er den Fehler nicht beliebig überschätzt, das heißt es existiert $T>0$ unabhängig von $l$ und $\Delta^{(l)}$ mit 
 			\[
 				\eta^{(l)}\le T \cdot E_n(f, \Delta^{(l)})
 			\]
