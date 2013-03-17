@@ -3931,9 +3931,9 @@ Endliche Wiederholung von: \\
 
 \begin{st}[Effizienz und Zuverlässigkeit der $\eta_i^{(l)}$]
 	\label{2.37}
-	Sei $\eta^{(l)} = \sum_{i=1}^{n^{l}} \eta_v^{(l)}$, $\eta_i^{(l)} = | I_n(f, K_i^{(l)} - I_{\hat n}(f, K_i^{(l)}|$ und
+	Sei $\eta^{(l)} = \sum_{i=1}^{n_l} \eta_v^{(l)}$, $\eta_i^{(l)} = | I_n(f, K_i^{(l)}) - I_{\hat n}(f, K_i^{(l)})|$ und
 	\[
-		R_n (f, K_i^{()}) := I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x) dx
+		R_n (f, K_i^{(l)}) := I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x) dx
 	\]
 	als lokales Fehlerfunktional (analog $R_{\hat n}$ für $I_{\hat n}$).
 	Sei außerdem $h_0 := \max |K_i^{(0)}|$.
@@ -3941,24 +3941,24 @@ Endliche Wiederholung von: \\
 	Falls $q \in (0,1)$ existiert, so dass
 	\[
 		| R_{\hat n}(f,K)| \le q |R_n(f,K)|
-		\qquad \forall K\subset [a,b], |K| \le h_0
+		\qquad \forall K\subset [a,b], |K| \le h_0,
 	\]
-	So ist $\eta^{(l)}$ zuverlässiger und effizienter Schätzer für $E_h(f,\Delta^{(l)})$.
+	so ist $\eta^{(l)}$ zuverlässiger und effizienter Schätzer für $E_h(f,\Delta^{(l)})$.
 	\begin{proof}
 		Es gilt
 		\begin{align*}
-			|R_n(f,K_i^{(l)}|
-			&\le \Big|I_n(f,K_i^{(l)}) - I_{\hat n}(f,K_i^{(l)} \Big| + \l|I_{\hat n}(f,K_i^{(l)}) - \int_{K_i^{(l)}}f(x) dx \r| \\
-			&= \eta_i^{l} + |R_{\hat n}(f,K_i^{(l)}) | \\
+			|R_n(f,K_i^{(l)})|
+			&\le \Big|I_n(f,K_i^{(l)}) - I_{\hat n}(f,K_i^{(l)}) \Big| + \l|I_{\hat n}(f,K_i^{(l)}) - \int_{K_i^{(l)}}f(x) dx \r| \\
+			&= \eta_i^{(l)} + |R_{\hat n}(f,K_i^{(l)}) | \\
 			&\le \eta_i^{(l)} + q |R_n(f,K_i^{(l)})|
 		\end{align*}
 		Also ist
 		\[
-			\l|R_n(f,K_i^{(l)}\r| \le \f 1{1-q} \eta_i^{(l)}
+			\l|R_n(f,K_i^{(l)})\r| \le \f 1{1-q} \eta_i^{(l)}
 		\]
 		und damit
 		\begin{align*}
-			E_h(f, A^{(l)} = \sum_{i=1}^{\eta^{(l)}} \l|R_n(f, K_i^{(l)} \r| \le \f 1{1-q} \sum_{i=1}^{\eta^{(l)}} \eta_i^{(l)} = \f 1{1-q} \eta^{(l)}
+			E_h(f, K_i^{(l)}) = \sum_{i=1}^{n_{l}} \l|R_n(f, K_i^{(l)}) \r| \le \f 1{1-q} \sum_{i=1}^{n_{(l)}} \eta_i^{(l)} = \f 1{1-q} \eta^{(l)}
 		\end{align*}
 		also zuverlässig mit $\gamma = \f 1{1-q}$.
 
@@ -3969,21 +3969,21 @@ Endliche Wiederholung von: \\
 		\end{align*}
 		Also ist
 		\[
-			\l|R_n(f, K_i^{(l)}\r| \ge \f 1{1+q} \eta_i^{(l)}
+			\l|R_n(f, K_i^{(l)})\r| \ge \f 1{1+q} \eta_i^{(l)}
 		\]
 		und
 		\[
-			\eta^{(l)} = \sum_{i=1}^{\eta^{(l)}}{\eta_i^{(l)}} \le (1+q) \sum_{n=1}^{\eta^{(l)}} | R_n(f, K_i^{(l)}) | = (1+q) E_h
+			\eta^{(l)} = \sum_{i=1}^{n_{l}}{\eta_i^{(l)}} \le (1+q) \sum_{n=1}^{n_{l}} | R_n(f, K_i^{(l)}) | = (1+q) E_h
 		\]
-		also effizient mit $\Gamma = 1+q$.
+		also effizient mit $\gamma = 1+q$.
 	\end{proof}
 	\begin{note}
 		\begin{itemize}
 			\item
 				Falls die adaptive Quadratur abbricht mit $\eta^{(l)} \le \eps_{\text{tol}}$ und die Vorraussetzungen von \ref{2.37} erfüllt sind, dann ist der Integrationsfehler garantiert klein
 				\[
-					\Big| I_h(f,\Delta^{(l)} - \int_a^b f(x) dx \big|
-					\le \sum_{i=1}^{\eta^{(l)}} \Big| I_n(f,K_i^{(l)} - \int_{K_i^{(l)}} f(x) dx \Big|
+					\Big| I_h(f,\Delta^{(l)}) - \int_a^b f(x) dx \big|
+					\le \sum_{i=1}^{n_{l}} \Big| I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x) dx \Big|
 					= E_h(f,\Delta^{(l)})
 					\le \f 1{1-q} \eta^{(l)}
 					\le \f 1{1-q} \eps_{\text{tol}}
@@ -3992,10 +3992,10 @@ Endliche Wiederholung von: \\
 				Man nennt die Bedingung an die $R_{\hat n, K}$ auch „Saturierungsbedingung“, welche meistens durch genügend feine Initialzerlegung erreicht werden kann.
 
 				Sei z.B. $I_n$ die Trapez- und $I_{\hat n}$  die Simpsonregel.
-				Nach der Peano-Fehlerdarstellung gilt für $f\in C^4([a,b])$.
+				Nach der Peano-Fehlerdarstellung gilt für $f\in C^4([a,b])$:
 				\begin{align*}
-					|R_{\hat n}(f, K)| &= \f {|K|^5}{2880} |f^{(4)(\hat \xi)}
-					|R_{n}(f, K)| &= \f {|K|^3}{12} |f^{(3)(\xi)}
+					|R_{\hat n}(f, K)| &= \f {|K|^5}{2880} |f^{(4)}(\hat \xi)| \\
+					|R_{n}(f, K)| &= \f {|K|^3}{12} |f^{(2)}(\xi)|
 				\end{align*}
 				also für $f^{(2)}(\xi) \neq 0$:
 				\begin{align*}
