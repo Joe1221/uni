@@ -1522,19 +1522,19 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 \section{Spline-Interpolation}
 
 
-Sei ein kompaktes Intervall $I=[a,b]$, $a=x_0<x_1 < \dotsb < x_n = b$ und Zielwerte $\{f_j\}_{j=0}^n$.
+Seien ein kompaktes Intervall $I=[a,b]$, $a=x_0<x_1 < \dotsb < x_n = b$ und Zielwerte $\{f_j\}_{j=0}^n$ gegeben.
 Die normale Polynominterpolation führt häufig zu Oszillationen.
-Wir suchen deshalb eine interpolierende Funktion, welche auf Teilintervallen aus unterschiedlichen Polynomen besteht, aber trotzdem eine gewissen globale Differenzierbarkeit aufweist.
+Wir suchen deshalb eine interpolierende Funktion, welche auf Teilintervallen aus unterschiedlichen Polynomen besteht, aber trotzdem eine gewisse globale Differenzierbarkeit aufweist.
 
 \begin{df}[Spline-Räume]
 	\label{1.30}
-	Zu Stützstellen $a=x_0 < x_1 < \dotsb < x_n = b$, $I=[a,b]$ und $m\in \N$ definieren wir den Spline-Raum der Ordnung $n$ als
+	Zu Stützstellen $a=x_0 < x_1 < \dotsb < x_n = b$, $I=[a,b]$ und $m\in \N$ definieren wir den Spline-Raum der Ordnung $m$ als
 	\[
-		S_m := \big\{ f\in C^{m-1}(I) : f\big|_{[x_{i-1},x_i]}\in \P_m\big\}
+		S_m := \Big\{ f\in C^{m-1}(I) : f\big|_{[x_{i-1},x_i]}\in \P_m\Big\}
 	\]
 	Zu einem Spline $s\in S_m$ bezeichnen wir die Teilpolynome als
 	\[
-		p_i(x) = s(x)\big|_{[x_{i-1},x_i]} \in \P_m \qquad i=1,\dotsc,n
+		p_i(x) := s(x)\big|_{[x_{i-1},x_i]} \in \P_m \qquad i=1,\dotsc,n
 	\]
 \end{df}
 
@@ -1543,9 +1543,9 @@ Wir suchen deshalb eine interpolierende Funktion, welche auf Teilintervallen aus
 		\item
 			Die Anzahl der Freiheitsgrade beträgt $n(m+1)$ für $n$ unabhängige Teilpolynome von Grad $m$.
 
-			Für $n-1$ innere Punkte gibt es jeweils $m$ Bedingungen, nämlich
+			Für jeden der $n-1$ inneren Punkte $x_j$ ($j=1,\dotsc,n-1$) gibt es jeweils $m$ Bedingungen, nämlich
 			\[
-				p_j^{(k)}(x_j) = p_{j+1}^{(k)}(x_j) \qquad j=1,\dotsc,n-1
+				p_j^{(k)}(x_j) = p_{j+1}^{(k)}(x_j) \qquad k = 0, \dotsc, m-1
 			\]
 			Damit bleiben $n(m+1)-(n-1)m = n+m$ Freiheitsgrade für Interpolationspolynome aus $S_m$.
 			Es gilt
@@ -1582,7 +1582,7 @@ Wir suchen deshalb eine interpolierende Funktion, welche auf Teilintervallen aus
 \subsection{Kubische Splines}
 
 Bei kubischen Splines ($m=3$) fehlen 2 Bedingungen.
-In diesem Fall gibt es folgende Möglichkeiten:
+In diesem Fall gibt es folgende Möglichkeiten, zusätzliche sogenannte \emph{Randbedingungen} zu wählen:
 \begin{enumerate}[{(R}1{)}]
 	\item
 		Natürliche Splines
@@ -1591,9 +1591,9 @@ In diesem Fall gibt es folgende Möglichkeiten:
 		\]
 		Mit anderen Worten: keine Krümmung an den Randpunkten
 	\item
-		Hermite Randbedingungen
+		Hermite Randbedingungen für gegebenes $\alpha, \beta \in \R$
 		\[
-			p_1'(a) = \alpha, \quad p_n'(b) = \beta \qquad \alpha,\beta\in \R
+			p_1'(a) = \alpha, \quad p_n'(b) = \beta
 		\]
 	\item
 		Periodische Splines
@@ -1613,8 +1613,8 @@ In diesem Fall gibt es folgende Möglichkeiten:
 		\]
 		Die Bedingungen sind
 		\begin{alignat*}{5}
-			p_j(x_{j-1}) &= f_{j-1}& \quad p_j(x_j) &= f_j & \qquad j&=1,\dotsc,n & &\qquad \text{(zusammenhängend)} &\\
-			p_j'(x_j) &= p_{j+1}'(x_j) & \quad p_j''(x_j) &= p_{j+1}''(x_j) &  \qquad j&=1,\dotsc,n-1 & &\qquad \text{(glatt)} &\\
+			p_j(x_{j-1}) &= f_{j-1}& \quad p_j(x_j) &= f_j & \qquad j&=1,\dotsc,n & &\qquad \text{(Zusammenhang)} &\\
+			p_j'(x_j) &= p_{j+1}'(x_j) & \quad p_j''(x_j) &= p_{j+1}''(x_j) &  \qquad j&=1,\dotsc,n-1 & &\qquad \text{(Glattheit)} &\\
 			p_1''(x_0)&=0& \quad p_n''(x_n) &= 0 & & & &\qquad \text{(Randbedingung)} &
 		\end{alignat*}
 		Sei $h_j := x_j - x_{j-1}$.
@@ -1624,47 +1624,42 @@ In diesem Fall gibt es folgende Möglichkeiten:
 			p_j'(x) &= 3a_j(x-x_{j-1})^2 + 2b_j(x-x_{j-1})+c_j \\
 			p_j''(x) &= 6a_j(x-x_{j-1}) + 2b_j
 		\end{align*}
-		$b_j$ ist eindeutig durch $M_j$ bestimmt:
+		für $a_j, b_j, c_j, d_j$ gilt
 		\begin{align*}
-			p_j''(x_{j-1}) 
-				&= 2b_j 
-				= M_{j-1}  \\
+			M_{j-1} &= p_j''(x_{j-1}) 
+				= 2b_j  \\
 				&\implies b_j
 					=\f {M_{j-1}}2 \\
-			p_j''(x_j) 
-				&= 6a_j(x_j-x_{j-1}) + 2b_j 
-				= M_j \\
+			M_j &= p_j''(x_j) 
+				= 6a_j(x_j-x_{j-1}) + 2b_j \\
 				&\implies a_j 
 					= \f {M_j - 2b_j}{6h_j} 
 					= \f {M_j - M_{j-1}}{6h_j} \\
-			p_j(x_{j-1}) 
-				&= d_j 
-				= f_{j-1} \\
-			p_j(x_j) 
-				&= a_j h_j^3 + b_jh_j^2 + c_jh_j + d_j 
-				= f_j \\
+			f_{j-1} &= p_j(x_{j-1}) 
+				= d_j  \\
+				&\implies d_j 
+					= f_{j-1} \\
+			f_j &= p_j(x_j) 
+				= a_j h_j^3 + b_jh_j^2 + c_jh_j + d_j \\
 				&\implies c_j 
 					= \f{f_j-d_j}{h_j} - a_jh_j^2 - b_jh_j 
 					= \f {f_j-f_{j-1}}{h_j} - h_j\left(\f {M_j}6 + \f{M_{j-1}}3 \right)
 		\end{align*}
-		Es reicht also die Eindeutigkeit der $M_j$ zu zeigen, da $a_j,b_j,c_j,d_j$ durch $M_j$ eindeutig bestimmt sind.
+		Damit haben wir die Bedingungen des Zusammenhangs und $p_j''(x_j) = p_{j+1}''(x_j)$ verarbeitet.
+		Da $a_j,b_j,c_j,d_j$ durch $M_j$ eindeutig bestimmt sind, reicht es die Eindeutigkeit der $M_j$ unter den übrigen Bedingungen zu zeigen.
 
-		Durch (R1) ist $M_0$ festgelegt:
-		\[
-			M_0 = M_n = 0
-		\]
-		Es gilt weiter
+		Es gilt
 		\begin{align*}
 			p_j'(x_j) &= 3a_jh_j^2 + 2b_jh_j + c_j \\
-			&= \f {M_j-M_{j-1}}2 h_j + h_j M_{j-1} + \f {f_j - f_{j-1}}h_j - h_j \l( \f {M_j}6 + \f{M_{j-1}}3\r) \\
-			&= \f {f_j-f_{j-1}}h_j + h_j \l( \f{M_j}3 - \f{M_{j-1}}6\r) \qquad j=1,\dotsc,n \\
-			p_{j+1}'(x_j) &= c_{j+1} = \f {f_{j+1}-f_j}{h_{j+1}} - h_{j+1}\left( \f{M_{j+1}}6 + \f {M_j}33\right) \stackrel != p_j'(x_j) \qquad j=1,\dotsc,n-1
+			&= \f {M_j-M_{j-1}}2 h_j + h_j M_{j-1} + \f {f_j - f_{j-1}}{h_j} - h_j \l( \f {M_j}6 + \f{M_{j-1}}3\r) \\
+			&= \f {f_j-f_{j-1}}{h_j} + h_j \l( \f{M_j}3 + \f{M_{j-1}}6\r) \qquad j=1,\dotsc,n \\
+			p_{j+1}'(x_j) &= c_{j+1} = \f {f_{j+1}-f_j}{h_{j+1}} - h_{j+1}\left( \f{M_{j+1}}6 + \f {M_j}3\right) \qquad j=1,\dotsc,n-1
 		\end{align*}
-		Wir erhalten also ein lineares Gleichungssystem für $n-1$ Unbekannte $M_1,\dotsc,M_{n-1}$:
+		Wegen der Bedingung $p_j'(x_j) = p_{j+1}'(x_j)$, erhalten wir ein lineares Gleichungssystem für $n-1$ Unbekannte $M_1,\dotsc,M_{n-1}$:
 		\[
 			\f {h_j}6 M_{j-1} + \f {h_j + h_{j+1}}3 M_j + \f{h_{j+1}}6 M_{j+1} = \f {f_{j-1}-f_j}{h_{j+1}} - \f{f_j-f_{j-1}}{h_j}
 		\]
-		Multipliziert mit $6$ und mit $M_0=M_n=0$, ergibt sich
+		Multipliziert mit $6$ und der Randbedingung $p_1''(x_0) = M_0 = 0 = M_n = p_n''(x_n)$, ergibt sich
 		\[
 			\begin{pmatrix}
 				2(h_1+h_2) & h_2 &  \cdots & 0 \\
@@ -1684,6 +1679,8 @@ In diesem Fall gibt es folgende Möglichkeiten:
 		\]
 		Die Matrix ist sogar streng diagonaldominant, positiv definit und symmetrisch, also regulär.
 		Damit ist das LGS eindeutig lösbar.
+
+		\fixme[Beweis für (R2) und (R3) fehlt?]
 	\end{proof}
 	\begin{note}
 		\begin{itemize}
@@ -1725,24 +1722,25 @@ In diesem Fall gibt es folgende Möglichkeiten:
 		Sei $f\in C^2([a,b])$ eine zu interpolierende Funktion.
 		Dann gilt
 		\begin{align*}
-			\int_a^b (f-s)''(x) s''(x) dx &=  \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-s)''(x)s''(x)) dx \\
-			&= \sum_{j=1}^n \Big( \big[(f-s)'(x)s''(x)\big]_{x_{j-1}}^{x_j} - \int_{x_{j-1}}^{x_j} (f-s)'(x))s'''(x) dx \Big)\\
-			&= \underbrace{\big( f'(b) - s'(b)\big) s''(b) - \big( f'(a)-s'(a)\big) s''(a)}_{=0 \text{ wegen } \begin{cases}
-				s''(a) = s''(b) = 0 & \text{falls (R1)} \\
-				f'(b) = s'(b) = \beta, f'(a) = s'(a) = \alpha  &\text{falls (R2)} \\
-				f'(a) = f'(b), s'(a)=s'(b), s''(a)=s''(b) & \text{falls (R3)}
+			\int_a^b (f-s)''(x) s''(x) dx 
+			&= \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-p_j)''(x)p_j''(x)) dx \\
+			&= \sum_{j=1}^n \bigg( \Big[(f-p_j)'(x)p_j''(x)\Big]_{x_{j-1}}^{x_j} - \int_{x_{j-1}}^{x_j} (f-p_j)'(x)p_j'''(x) dx \bigg)\\
+			&= \underbrace{\Big( f'(b) - p_n'(b)\Big) p_n''(b) - \Big( f'(a)-p_1'(a)\Big) p_1''(a)}_{\displaystyle =0 \text{ wegen } \begin{cases} 
+				p_1''(a) = p_n''(b) = 0 & \text{falls (R1)} \\
+				f'(b) = p_n'(b) = \beta,\quad f'(a) = p_1'(a) = \alpha  &\text{falls (R2)} \\
+				f'(a) = f'(b),\quad p_1'(a)=p_n'(b),\quad p_1''(a)=p_n''(b) & \text{falls (R3)}
 				\end{cases}}  \\
-			&- \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-s)'(x))s'''(x) dx \\
-		\end{align*}
-		Es folgt also
-		\begin{align*}
-			\int_a^b (f-s)''(x) s''(x) dx = \sum_{j=1}^n \underbrace{\big(-[(f-s)(x)p_j'''(x)]_{x_{j-1}}^{x_j}\big)}_{=0 \text{, da } f(x_j)=s(x_j)} + \underbrace{\int_{x_{j-1}}^{x_j} (f-s)(x)s^{(4)}(x)}_{=0}
+			&\qquad - \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-s)'(x))s'''(x) dx \\
+			&= \sum_{j=1}^n \underbrace{\bigg(-\Big[(f-p_j)(x)p_j'''(x)\Big]_{x_{j-1}}^{x_j}\bigg)}_{=0 \text{, da } f(x_j)=p_j(x_j)} + \underbrace{\int_{x_{j-1}}^{x_j} (f-s)(x)s^{(4)}(x)}_{=0}
 		\end{align*}
 		Insgesamt gilt dann
 		\begin{align*}
-			\int_a^b |s''(x)|^2 dx &= \int_a^b (s''(x) + \underbrace{(f-s)''(x)) s''(x)}_{=0} dx \\
-			&= \int_a^b f''(x) s''(x) \\
-			\stackrel{Cauchy-Schwarz}\le \sqrt{\int_a^b (f''(x))^2 dx} \sqrt{\int_a^b (s''(x))^2 dx} \\
+			\int_a^b |s''(x)|^2 dx 
+			&= \int_a^b (s''(x))^2 dx + \underbrace{\int_a^b (f-s)''(x)s''(x) dx}_{=0} \\
+			&= \int_a^b (s''(x) + (f-s)''(x)) s''(x) dx \\
+			&= \int_a^b f''(x) s''(x) 
+			\intertext{und mit Cauchy-Schwarz:}
+			& \le \sqrt{\int_a^b (f''(x))^2 dx} \sqrt{\int_a^b (s''(x))^2 dx} \\
 		\end{align*}
 		Division ergibt dann
 		\begin{align*}
@@ -1762,7 +1760,7 @@ In diesem Fall gibt es folgende Möglichkeiten:
 	\]
 	also insbesondere
 	\[
-		\|f-s\|_\infty \le 2\|f^{(n)}\|_\infty \cdot h^4
+		\|f-s\|_\infty \le 2\|f^{(4)}\|_\infty \cdot h^4
 	\]
 	\begin{proof}
 		Siehe Stoer-Bulirsch Thm. 2.5.3.3.
