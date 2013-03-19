@@ -2861,7 +2861,7 @@ Also $I_n(f) = I(p)$.
 
 \begin{df}[Zusammengesetzte Quadratur]
 	\label{2.13}
-	Sei $\hat n \in \N$, $\hat I_{\hat n}(\hat f) = \sum_{i=0}^{\hat n}\hat \omega_k \hat f(\hat x_k)$ eine Interpolations-Quadratur auf $[0,1]$.
+	Sei $\hat n \in \N$, $\hat I_{\hat n}(\hat f) = \sum_{k=0}^{\hat n}\hat \omega_k \hat f(\hat x_k)$ eine Interpolations-Quadratur auf $[0,1]$.
 
 	Sei $[a,b]\subset \R$, $N\in \N$, $H:= \f {b-a}N$, dann ist
 	\[
@@ -2979,7 +2979,7 @@ Also $I_n(f) = I(p)$.
 	\item
 		Satz \ref{2.5} besagt, dass zu vorgegebene Stützstellen $\{x_k\}_{k=0}^n$ eine Interpolations-Quadratur existiert, welche exakt auf $\P_n$ ist.
 	\item
-		Fall $\{x_i\}$ symmetrisch im Intervall und $n$ gerade, dann ist die Interpolations-Quadratur nach \ref{2.6} sogar exakt auf $\P_{n+1}$.
+		Falls $\{x_i\}$ symmetrisch im Intervall und $n$ gerade, dann ist die Interpolations-Quadratur nach \ref{2.6} sogar exakt auf $\P_{n+1}$.
 	\item
 		Kann durch geeignete Wahl von Stützstellen der Grad der Exaktheit weiter gesteigert werden? Bis zu welchem Grad?
 \end{itemize}
@@ -3782,11 +3782,11 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 \begin{st}[Euler-MacLaurin'sche Summenformel]
 	Sei $f\in C^{2m}([a,b])$, $m\in \N$, $h:= \f {b-a}N$, $N\in \N$ und $I_h$ die zusammengesetzte Trapezregel
 	\[
-		T_h(f) = \f h2 \big(f(a) + f(b)\big) + h \cdot \sum_{j=1}^{N-1} f(a+jh)
+		I_h(f) = \f h2 \big(f(a) + f(b)\big) + h \cdot \sum_{j=1}^{N-1} f(a+jh)
 	\]
 	dann gilt für den Fehler
 	\[
-		I_h(f) - I(f) = \sum_{k=1}^{m-1} h^{2k} \f{\beta_{2k}}{(2k)!} \Big( f^{(2k-1)}(b) - f^{(2k-1)}(a) \Big) + o(h^{2m})
+		I_h(f) - I(f) = \sum_{k=1}^{m-1} h^{2k} \f{\beta_{2k}}{(2k)!} \Big( f^{(2k-1)}(b) - f^{(2k-1)}(a) \Big) + O(h^{2m})
 	\]
 	\begin{proof}
 		Sei $\phi \in \C^{2m}([0,1])$, dann gilt wegen $\f{B_k'}k = B_{k-1}$, $B_1(1) = \f 12, B_1(0) = - \f 12$:
@@ -3828,7 +3828,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 			&\qquad \qquad + \sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} h^{2m+1} \cdot f^{(2m)}(x_{j-1}+ ht)\, dt\\
 			&= I_h(f)- \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)} (b)-f^{(2k-1)}(a)) +h^{2m}\left [h \sum_{j=1}^N \int_0^1 f^{(2m)} (x_{j-1}+ht)\, \frac{B_{2m}(t)}{(2m)!} dt\right ]
 		\end{align*}
-		Dies ist die Behauptung falls der Term $[...]$ durch Konstante unabhängig von $h$ bechränkt werden kann. Dies ist der Fall:
+		Dies ist die Behauptung falls der Term $[...]$ durch Konstante unabhängig von $h$ beschränkt werden kann. Dies ist der Fall:
 		\[
 			|h\sum_{j=1}^N \int_0^1 f^{(2m)}(x_{j-1}+t\cdot h) \frac{B_{2m}(t)}{(2m)!} \, dt|\le h \frac{1}{(2m)!} \sum_{j=1}^N ||f^{(2m)}||_\infty \cdot ||B_{2m}||_\infty = \underbrace{h\cdot N}_{b-a}\cdot \frac{1}{(2m)!} ||f^{(2m)}||_\infty ||B_{2m}||_\infty
 		\]
@@ -3872,7 +3872,7 @@ Endliche Wiederholung von: \\
 	\begin{algorithmic}[Adaptive Quadratur]
 		\Require $f:[a,b]\to \R$
 		\Require $\Delta^{(0)}:=\{x_0^{(0)},..., x_{n_0}^{(0)}\}$, Anfangszerlegung $a=x_0^{(0)}<...<x_{n_0}^{(0)}=b$. 
-		Wir bezeichnen im Folgenden $K_i^{(0)}:=[x_{i-1}^{(0)}, x_{i}^{(0)}]$ Teilintervalle von $\Delta^{(0)}$.
+		Wir bezeichnen im Folgenden mit $K_i^{(0)}:=[x_{i-1}^{(0)}, x_{i}^{(0)}]$ die Teilintervalle von $\Delta^{(0)}$.
 		\Require $L_{max}$: Maximalzahl der Verfeinerungsiterationen
 		\Require $\epsilon_{tol}>0$: gewünschte Toleranzgrenze
 		\Require $\theta\in (0,1)$: Parameter für den Anteil der in jeder Iteration zu verfeinernden Intervalle.
@@ -3880,7 +3880,7 @@ Endliche Wiederholung von: \\
 		\State fertig$:= 0$ % Alternativ do-while Schleife (weiß nicht wie ich das definiere
 		\While {fertig $\neq 1$}
 		\State 1. $I_h(f, \Delta^{(l)}):= \sum_{i=1}^{n_l} I_n (f, K_{i}^{(l)})$ als zusammengesetzte Quadratur bezüglich einer einfachen Quadratur $I_n$, zum Beispiel Trapezregel.
-		\State 2. Berechne $\eta_i^{(l)}, i=1,..., n_l$ lokale Fehlerschätzer, zum Beispiel $\eta_i^{(l)}=|I_n(f, K_i^{(l)})- I_{\hat n} (f, K_i^{(l)})|$ mit $I_{\hat n}$ "`bessere Quadratur"', zum Beispiel Simson-Regel.
+		\State 2. Berechne $\eta_i^{(l)}, i=1,..., n_l$ lokale Fehlerschätzer, zum Beispiel $\eta_i^{(l)}=|I_n(f, K_i^{(l)})- I_{\hat n} (f, K_i^{(l)})|$ mit $I_{\hat n}$ "`bessere Quadratur"', zum Beispiel Simpson-Regel.
 		\State 3. $\eta^{(l)}=\sum_{i=1}^{n_l} \eta_i^{(l)}$ Gesamtfehlerschätzer
 		\State 4.
 		\If{$\eta^{(l)}\le \epsilon_{tol}$ oder $l\ge l_{max}$} fertig$:= 1$ \Else $ $ fertig$:= 0$ \EndIf
@@ -4074,7 +4074,7 @@ Die Gewichte wählen wir dabei konstant.
 		\[
 			\Var(I_n) := E[(I_n-E[I_n])^2] = \f 1n \Var(f(X)) = \f 1n \int_{[0,1]^d} (f(x) - I)^2 dx = \f 1n \sigma_f^2
 		\]
-		also gilt für die Standardabweichung (Wurzel aus der Varianz):
+		Also gilt für die Standardabweichung (Wurzel aus der Varianz):
 		\[
 			\sigma_{I_n} = \sqrt{\Var(I_n)} = n^{-\f 12} \sigma_f
 		\]
@@ -4249,7 +4249,7 @@ Der Beweis nutzte die Intervallschachtelung.
 			oder eine ähnliche Abbruchbedingung.
 		\item
 			Das Verfahren ist sehr robust, es kann nicht divergieren.
-			Trotzdem ist es sehr langsam: man braucht etwa 3 Iterationen um eine Dezimalstelle an Genauigkeit zu gewinnen.
+			Trotzdem ist es sehr langsam: man braucht etwa 3 Iterationen, um eine Dezimalstelle an Genauigkeit zu gewinnen.
 		\item
 			Sei $f(x) = x^2 - 2$, $a=0, b=2$
 			\begin{table}[H]
@@ -4269,7 +4269,7 @@ Der Beweis nutzte die Intervallschachtelung.
 			Das Verfahren wird in der Regel eingesetzt, um grob ein Intervall $[a_k,b_k]$ zu bestimmen, in dem eine Nullstelle liegt.
 			Zur genaueren Berechnung verwendet man dann schneller konvergierende Verfahren.
 		\item
-			Das Verfahren setzt keine Differenzierbarkeit vorraus.
+			Das Verfahren setzt keine Differenzierbarkeit voraus.
 	\end{itemize}
 \end{nt*}
 
@@ -4416,7 +4416,7 @@ Der Beweis nutzte die Intervallschachtelung.
 			\item
 				Falls $f$ nicht injektiv und $f'(x^*) \neq 0$, kann man $[\_a, \_b]$ als kleineres Teilintervall um $x^*$ wählen, sodass $f$ injektiv auf $[\_a,\_b]$ ist, womit der Satz wieder anwendbar wird.
 			\item
-				Falls $x^*$ mehrfache Nullstelle ist ($f'(x^*)=0$), dann ist die Konvergenz immernoch gewährleistet, aber langsamer (siehe Satz \ref{3.15}).
+				Falls $x^*$ mehrfache Nullstelle ist ($f'(x^*)=0$), dann ist die Konvergenz immer noch gewährleistet, aber langsamer (siehe Satz \ref{3.15}).
 		\end{itemize}
 		\begin{proof}
 			Die Taylor-Entwicklung von $f$ an $x$ liefert
@@ -4434,13 +4434,13 @@ Der Beweis nutzte die Intervallschachtelung.
 			\[
 				|R(x,x_0) | \le (x-x_0)^2 M \int_0^1 (1-s) ds = \f M2 (x-x_0)^2
 			\]
-			Für die Newtoniteration $\Phi(x) := x - \f {f(x)}{f'(x)}$, gilt
+			Für die Newtoniteration $\Phi(x) := x - \f {f(x)}{f'(x)}$ gilt
 			\begin{align*}
 				|\Phi(x) - x^*|
 				&= \Big|x-x^* - \f {f(x)}{f'(x)}\Big| \\
 				&= \Big| -\f 1{f'(x)} \big(f(x) + (x-x^*)f'(x) \big) \Big| \\
 			\intertext{
-				zusammen mit der Taylorentwicklung für $f(x)$ an $x^*$ ergibt sich
+				Zusammen mit der Taylorentwicklung für $f(x)$ an $x^*$ ergibt sich
 			}
 				&= \Big| -\f 1{f'(x)} \Big(f(x^*) + f'(x^*)(x-x^*) + R(x,x^*) + (x-x^*)f'(x)\Big) \Big| \\
 				&= \Big| \f 1{f'(x)} R(x,x^*) \Big| 
@@ -4455,7 +4455,7 @@ Der Beweis nutzte die Intervallschachtelung.
 
 			\begin{enumerate}[i)]
 				\item
-					Mit obiger Abschätung folgt
+					Mit obiger Abschätzung folgt
 					\begin{align*}
 						|x^{(k)}-x^*| = |\Phi(x^{(k-1)}) - x^*| \le \f M{2m} \big|x^{(k-1)} - x^*\big|^2
 					\end{align*}
