@@ -4553,7 +4553,7 @@ Der Beweis nutzte die Intervallschachtelung.
 			\item
 				Das Verfahren braucht pro Schritt eine Funktionsauswertung (man speichert die aus dem letzten Schritt).
 			\item
-				Das Verfehren ist auch auf nicht-differenzierbare Funktionen anwendbar.
+				Das Verfahren ist auch auf nicht-differenzierbare Funktionen anwendbar.
 		\end{itemize}
 	\end{note}
 \end{df}
@@ -4575,7 +4575,7 @@ Der Beweis nutzte die Intervallschachtelung.
 		\item
 			Die a-posteriori Fehlerschranke:
 			\[
-				|x^{(k)}-x^*| \le \f 1m \big| f(x^{(k)} | \le \f M{2m} |x^{(k)} - x^{(k-1)}| \cdot |x^{(k)}-x^{(k-2)}|
+				|x^{(k)}-x^*| \le \f 1m \big| f(x^{(k)}) | \le \f M{2m} |x^{(k)} - x^{(k-1)}| \cdot |x^{(k)}-x^{(k-2)}|
 			\]
 		\item
 			Konvergenz
@@ -4589,7 +4589,7 @@ Der Beweis nutzte die Intervallschachtelung.
 	\begin{note}
 		\begin{itemize}
 			\item
-				Ein Problem beim Sekantenverfahren sind Rundungsfehler, falls $f(x^{(k)})$ und $f(x^{(k-1)}$ sehr nache beieinander liegen.
+				Ein Problem beim Sekantenverfahren sind Rundungsfehler, falls $f(x^{(k)})$ und $f(x^{(k-1)})$ sehr nahe beieinander liegen.
 			\item
 				Es liegt wie beim Newtonverfahren wieder lokale Konvergenz vor.
 			\item
@@ -4615,16 +4615,16 @@ Der Beweis nutzte die Intervallschachtelung.
 			\end{alignat*}
 			Die Bisektion und das Sekantenverfahren benötigt eine Auswertung von $f$ pro Iteration, das Newtonverfahren eine von $f$ und eine von $f'$ pro Iteration.
 
-			Man sieht, dass das Newtonverfahren am schnellsten bezüglich der Iterationszahl konvergiert
+			Man sieht, dass das Newtonverfahren am schnellsten bezüglich der Iterationszahl konvergiert.
 		\item
 			Bezüglich dem Aufwand (Auswertungen von $f$ und $f''$):
 
-			Setze $z^{(k)} = x^{(2k)}$ beim Besektions- und Sekantenverfahren.
+			Setze $z^{(k)} = x^{(2k)}$ beim Bisektions- und Sekantenverfahren.
 			Dann ist der Aufwand für $z^{(k)}$ und $x^{(k)}$ aus dem Newtonverfahren vergleichbar.
 			\begin{alignat*}{3}
 				\text{Bisektion:}&\qquad& |z^{(k)} -x^*| &\le \f {(b-a)}2 (\tf 14)^k \\
-				\text{Newton-Verfahren:}&\qquad& |z^{(k)} -x^*| &\le \f {2m}M q^{2^k} \\
-				\text{Sekantenverfahren:}&\qquad& |x^{(k)} -x^*| &\le \f {2m}M q^{\phi^{2k}} 
+				\text{Newton-Verfahren:}&\qquad& |x^{(k)} -x^*| &\le \f {2m}M q^{2^k} \\
+				\text{Sekantenverfahren:}&\qquad& |z^{(k)} -x^*| &\le \f {2m}M q^{\phi^{2k}} 
 			\end{alignat*}
 			Bezüglich der Funktionsauswertungen konvergiert das Sekantenverfahren am schnellsten.
 
@@ -4651,12 +4651,12 @@ Für allgemeine Polynome sind daher numerische Verfahren erforderlich, z.B. das 
 				Falls $x_n \not\in \R$, dann ist auch $\_{x_n}$ eine Nullstelle des reellen Polynoms $p$.
 				Das Monom
 				\[
-					(x-x_n){x-\_{x_n}} = x^2 - rx - q
+					(x-x_n)(x-\_{x_n}) = x^2 - rx - q
 					\qquad r,q \in \R
 				\]
 				ist ein Teiler von $p$.
 				Mit dem \emph{Verfahren von Bairstow} bestimmt man $r,q$ derart, dass die Polynomdivision aufgeht.
-				Dies ergibt $x_n$ und $\_{x_n}$ durch Lösen der quadratischen Gleichung.
+				Dies ergibt $x_n$ und $\_{x_n}$ durch Lösen der quadratischen Gleichung (z.B. mit der Mitternachtsformel/p-q-Formel).
 				(Details: Stoer-Bulirsch 5.8)
 			\item
 				Wenn man $x_n \in \R$ gefunden hat, führt eine „\emph{Deflation}“ zum Polynom $\hat p(x) := \f {p(x)}{x-x_n}$.
@@ -4673,7 +4673,7 @@ Für allgemeine Polynome sind daher numerische Verfahren erforderlich, z.B. das 
 		\[
 			p'(x) = \sum_{k=1}^n \prod_{\substack{i=1 \\ i\neq k}}^n (x-x_i) = \sum_{k=1}^n \f 1{x-x_k} p(x)
 		\]
-		Seien $y_1,\dotsc,y_l \in \R$ die reellen Nullstellen und $z_1,\dotsc,z_m,\_{z_1}, \dotsc, \_{z_m} \in \C \setminus \R$ die komplexen Nullstellen $p$:
+		Seien $y_1,\dotsc,y_l \in \R$ die reellen Nullstellen und $z_1,\dotsc,z_m,\_{z_1}, \dotsc, \_{z_m} \in \C \setminus \R$ die komplexen Nullstellen von $p$:
 		\[
 			p(x) = \prod_{i=1}^l (x-y_i)\prod_{k=1}^m (x-z_k)(x-\_{z_k})
 		\]
@@ -4683,10 +4683,10 @@ Für allgemeine Polynome sind daher numerische Verfahren erforderlich, z.B. das 
 			&= \bigg( \sum_{i=1}^l \f 1{x-y_i} + \sum_{k=1}^m \Big(\f 1{x-z_k} + \f 1{x-\_{z_k}}\Big) \bigg) p(x) \\
 			&= \bigg( \sum_{i=1}^l \f 1{x-y_i} + \sum_{k=1}^m \f {2x - 2\Re(z_k)}{(x-z_k)(x-\_{z_k})}\bigg) p(x)
 		\end{align*}
-		Für $x>x_n$ gilt $x\neq z_k, x\ge \R(z_k)$, $x > y_i$ und
+		Für $x>x_n$ gilt $x\neq z_k, x\ge \Re(z_k)$, $x > y_i$ und
 		\[
 			(x-z_k)(x-\_{z_k}) 
-			= (x-z_k){\_{x-z_k}}
+			= (x-z_k)(\_{x-z_k})
 			= |x-z_k|^2
 			> 0
 		\]
@@ -4695,7 +4695,7 @@ Für allgemeine Polynome sind daher numerische Verfahren erforderlich, z.B. das 
 		\[
 			\Phi(x) := x - \f {p(x)}{p'(x)} < x
 		\]
-		also ist $(x^{(k)})$ streng monoton fallend falls $x^{(0)} > x_n$.
+		also ist $(x^{(k)})$ streng monoton fallend, falls $x^{(0)} > x_n$.
 
 		Da alle Summanden in der Darstellung von $p'(x)$ nichtnegativ sind, schätzen wir alle bis auf einen nach unten durch $0$ ab:
 		\[
@@ -4716,21 +4716,21 @@ Für allgemeine Polynome sind daher numerische Verfahren erforderlich, z.B. das 
 			\Phi(x^*) = x^*
 			\qquad k\to\infty
 		\]
-		also $x^* = x^* - \f {p(x^*)}{p'(x^*)}$ und $p(x^*) = 0$, also $x^* \le x^n$ und damit $x^*=n$.
+		also $x^* = x^* - \f {p(x^*)}{p'(x^*)}$ und $p(x^*) = 0$, also $x^* \le x^n$ und damit $x^*=x_n$.
 	\end{note}
 \end{st}
 
 \begin{st}[Induzierte Matrixnormen] \label{3.8}
-	Zu den Vektornormen definiert für Vektoren $x=(x_i)_{i=1}^n \in \C^n$.
+	Zu den Vektornormen definiert für Vektoren $x=(x_i)_{i=1}^n \in \C^n$,
 	\begin{align*}
 		\|x\|_1 &:= \sum_{i=1}^n |x_i| \\
 		\|x\|_\infty &:= \max_{i = 1,\dotsc,n} |x_i|
 	\end{align*}
-	sind die induzierten Matrixnormen für $A=(a_{ij}) \in \C^{n\times n}$
+	sind die induzierten Matrixnormen für $A=(a_{ij}) \in \C^{n\times n}$:
 	\begin{alignat*}{3}
 		\|A\|_\infty &:= \sup_{x\in \C^n} \f{\|Ax\|_\infty}{\|x\|_\infty} = \max_{i=1,\dotsc,n} \sum_{j=1}^n |a_{ij}| &
 			& \qquad\text{Zeilensummennorm} \\
-		\|A\|_1 &:= \sup_{x\in \C^n} \f{\|Ax\|_\infty}{\|x\|_\infty} = \max_{j=1,\dotsc,n} \sum_{i=1}^n |a_{ij}| &
+		\|A\|_1 &:= \sup_{x\in \C^n} \f{\|Ax\|_1}{\|x\|_1} = \max_{j=1,\dotsc,n} \sum_{i=1}^n |a_{ij}| &
 			& \qquad\text{Spaltensummennorm}
 	\end{alignat*}
 \end{st}
@@ -4756,15 +4756,15 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 			\item
 				Für $p(x) = x^2-2$ ergibt sich $A=B=2$, tatsächlich ist $|\pm \sqrt2| \le 2$.
 			\item
-				Für weitere Schranken siehe Plato, Stoer/Bulirsh.
+				Für weitere Schranken siehe Plato, Stoer/Bulirsch.
 		\end{itemize}
 	\end{note}
 	\begin{proof}
 		Setze
 		\[
 			M := \begin{pmatrix}
-				0 & \cdots & -a_0 \\
-				1 & \ddots & \vdots \\
+				0 & \cdots & 0 & -a_0 \\
+				1 & \ddots & \vdots & \vdots \\
 				\vdots & \ddots & 0 & \vdots \\
 				0 & \cdots & 1 & -a_{n-1}
 			\end{pmatrix}
@@ -4777,16 +4777,16 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 		durch Entwicklung nach der letzten Zeile.
 		\[
 			\lambda I - M := \begin{pmatrix}
-				\lambda & \cdots & a_0 \\
-				-1 & \ddots & \vdots \\
+				\lambda & \cdots & 0 & a_0 \\
+				-1 & \ddots & \vdots & \vdots \\
 				\vdots & \ddots & \lambda & \vdots \\
-				0 & \cdots & 1 & -1 + a_{n-1}
+				0 & \cdots & -1 & \lambda + a_{n-1}
 			\end{pmatrix}
 		\]
 		Es gilt
 		\begin{align*}
 			\det(\lambda I - M) = (-1)^{n+n-1}(-1) \det \begin{pmatrix}
-				\lambda & \cdots & & a_0 \\
+				\lambda & \cdots & \cdots & a_0 \\
 				-1 & \ddots & & \vdots \\
 				\vdots & \cdots & \lambda & \vdots \\
 				0 & \cdots & -1 & a_{n-2}
@@ -4810,10 +4810,10 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 			\end{pmatrix}
 			+ 1 \cdot a_k 
 			\det \begin{pmatrix}
-				\lambda & &  0 \\
-				-1 & \ddots &  \vdots \\
-				\vdots & \ddots & \lambda  \\
-				0 & \cdots & -1 & 
+				\lambda & 0 & \cdots &  0 \\
+				-1 & \ddots & \ddots &  \vdots \\
+				\vdots & \ddots & \ddots & 0  \\
+				0 & \cdots & -1 & \lambda
 			\end{pmatrix} \\
 			&= \det T_{k-1} + a_k \lambda^k
 		\end{align*}
@@ -4858,7 +4858,7 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 \end{df}
 
 \begin{df}[Konvergenzordnung] \label{3.11}
-	Wir nennen ein iterationsverfahren \emph{lokal konvergent} von mindestens Ordnung $p$, wenn ein $\delta > 0$ existiert, sodass $\forall x^{(0)} \in B_\delta(x^*)$ gilt
+	Wir nennen ein Iterationsverfahren \emph{lokal konvergent} von mindestens Ordnung $p$, wenn ein $\delta > 0$ existiert, sodass $\forall x^{(0)} \in B_\delta(x^*)$ gilt
 	\[
 		\|x^{(k+1)} - x^*\| \le C \cdot \|x^{(k)} - x^*\|^p
 		\qquad \forall k\in \N
@@ -4996,7 +4996,7 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 
 
 \begin{seg}[1. Idee: Linearkombination aus Verfahren niederer Ordnung]
-	Seien $\Phi_0, \Phi_1$ Iterationsfuktionen mit Konvergenzordnung $p$, gemeinsamen Fixpunkt $x^*$ und $\Phi_0^{(p)}(x^*) \neq \Phi_1^{(p)}(x^*)$.
+	Seien $\Phi_0, \Phi_1$ Iterationsfunktionen mit Konvergenzordnung $p$, gemeinsamem Fixpunkt $x^*$ und $\Phi_0^{(p)}(x^*) \neq \Phi_1^{(p)}(x^*)$.
 
 	Setze
 	\[
@@ -5017,9 +5017,9 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 	Bestimme jetzt $g(x),h(x)$ so, dass $\Phi'(x^*) = \Phi''(x^*) = 0$ gilt.
 	\begin{align*}
 		\Phi'(x) &= 1 - g'(x)f(x) - g(x)f'(x) - h(x)2f(x)f'(x) -h'(x)f(x)^2 \\
-		0 \stackrel != \Phi'(x^*) &= 1 -g(x^*)f(x^*) \quad\iff\quad g(x^*) = \f 1{f'(x^*)}
+		0 \stackrel != \Phi'(x^*) &= 1 -g(x^*)f'(x^*) \quad\iff\quad g(x^*) = \f 1{f'(x^*)}
 	\end{align*}
-	Wähle also $g(x) := \f 1{f'(x^*)}$, dann ist $g'(x) = - \f {f''(x^*)}{f'(x^*)}$.
+	Wähle also $g(x) := \f 1{f'(x)}$, dann ist $g'(x) = - \f {f''(x)}{f'(x)}$.
 	Weiter mit der zweiten Ableitung:
 	\begin{align*}
 		\Phi''(x) &= -g'(x)f'(x) -g'(x)f'(x) - g(x)f''(x) - 2h(x)f'(x)f'(x) + f(x)\Big( \dotso \Big) \\
@@ -5039,12 +5039,12 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 	lokal konvergent gegen $x^*$ mit Ordnung $3$.
 \end{kor}
 
-Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren wären:
+Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren, wären:
 \begin{description}
 	\item[Newton-Raphson-Verfahren]
 		Approximiere $f$ durch Hermite-Interpolationspolynom $p\in \P_n$ mit 
 		\[
-			p^{(m)}(x^{(k)}) = f^{(m)}(x^{(k)}) \qquad m=0,\dotsc,n
+			p^{(m)}(x^{(k)}) = f^{(m)}(x^{(k)}) \qquad m=0,\dotsc,n.
 		\]
 		Bestimme $x^{(k+1)}$ als Nullstelle von $p$, welche am nächsten an $x^{(k)}$ liegt.
 
@@ -5074,7 +5074,7 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren wären:
 \end{df}
 
 \begin{nt*}
-	In Satz \ref{3.4} haben wir gesehn, dass das Newton-Verfahren bei einfachen Nullstellen lokal quadratisch konvergiert.
+	In Satz \ref{3.4} haben wir gesehen, dass das Newton-Verfahren bei einfachen Nullstellen lokal quadratisch konvergiert.
 	Für mehrfache Nullstellen ist das im Allgemeinen nicht der Fall.
 \end{nt*}
 
@@ -5090,24 +5090,24 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren wären:
 		Wegen $f\in C^{n+2}([a,b])$ ist $g\in C^2([a,b])$.
 		Für die Ableitung gilt
 		\begin{align*}
-			f'(x) &= n(x-x^*)^{n-1}g(x) + (x-x^*)^n g'(x)
+			f'(x) &= n(x-x^*)^{n-1}g(x) + (x-x^*)^n g'(x),
 		\end{align*}
-		also für die Iteration
+		also für die Iteration:
 		\begin{align*}
 			\Phi(x) = x - \f {f(x)}{f'(x)} 
-			&= x - \f {(x-x^*)g(x)}{n(x-x^*)^{n-1}g(x) + (x-x^*)^ng'(x)} \\
+			&= x - \f {(x-x^*)^ng(x)}{n(x-x^*)^{n-1}g(x) + (x-x^*)^ng'(x)} \\
 			&= x - \f {\overbrace{(x-x^*)g(x)}^{=:Z(x)}}{\underbrace{ng(x) + (x-x^*)g'(x)}_{=:N(x)}}
 		\end{align*}
 		Also
 		\begin{align*}
 			\Phi'(x) &= 1 - \f{\big(g(x) + (x-x^*)g'(x)\big)N(x) - Z(x)\big(ng'(x)+g'(x)+(x-x^*)g''(x)\big)}{N(x)^2}
-			\intertext{mit $Z(x^*) = 0$ und $N(x^*) = ng(x^*)$ folgt}
+			\intertext{Mit $Z(x^*) = 0$ und $N(x^*) = ng(x^*)$ folgt}
 			&= 1 - \f{g(x^*)ng(x^*)}{n^2g(x^*)^2}
 			= 1 - \f 1n
 		\end{align*}
 		Also folgt aus $|\Phi'(x^*)| < 1$ mit \ref{3.12} mindestens lineare Konverenz.
 		Weil aber gleichzeitig $\Phi'(x^*) \neq 0$, liegt keine quadratische Konvergenz vor.
-		Es ergibt sich also die Konverenzordnung $1$.
+		Es ergibt sich also die Konvergenzordnung $1$.
 		\begin{note}
 			Der Beweis liefert gleich eine Idee, das Newton-Verfahren für mehrere Nullstellen zu verbessern, siehe Korrolar \ref{3.16}.
 		\end{note}
@@ -5124,7 +5124,7 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren wären:
 		Mit der Notation aus dem vorigen Beweis gilt
 		\begin{align*}
 			\Phi(x) &= x - n\f{f(x)}{f'(x)} = x - n \f {Z(x)}{N(x)} \\
-			\Phi'(x) &= 1 - n\f 1n = 0
+			\Phi'(x) &= 1 - n\f 1n = 0.
 		\end{align*}
 	\end{proof}
 \end{kor}
