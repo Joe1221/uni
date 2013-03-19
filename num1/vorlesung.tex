@@ -1067,7 +1067,7 @@ mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stütz
 
 \section{Trigonometrische Interpolation}
 
-Für gegebenes $n\in \N$, $x_k = \f {2\pi}{n+1}k \in [0,2\pi)$, $k=0,\dotsc,n$ ($n+1$ äquidistante Stützstellen) und $\{f_k\}_{k=0}^n\subset \R$ ist eine $2\pi$-periodische Funktion der Gestalt
+Für gegebenes $n\in \N$, $x_k = 2\pi \f {k}{n+1} \in [0,2\pi)$, $k=0,\dotsc,n$ ($n+1$ äquidistante Stützstellen) und $\{f_k\}_{k=0}^n\subset \R$ ist eine $2\pi$-periodische Funktion der Gestalt
 \[
 	t(x) = \f {a_0}2 + \sum_{k=1}^n \Big(a_k \cos(kx) + b_k \sin(kx) \Big) \qquad a_k,b_k \in \R
 \]
@@ -1131,7 +1131,7 @@ mit $t(x_k)=f_k$ gesucht.
 
 \begin{st}[Trigonometrische Interpolation in $\C$]
 	\label{1.24}
-	Zu $\{f_k\}_{k=0}^n \subset \C$ existiert genau ein $q\in T_n$ mit $q(x_k) = f_k$, $k=0,\dotsc, n$.
+	Zu den Daten $\{f_k\}_{k=0}^n \subset \C$ mit Stützstellen $x_k = 2\pi \f k{n+1}$ existiert genau ein $q\in T_n$ mit $q(x_k) = f_k$, $k=0,\dotsc, n$.
 
 	Die Koeffizienten sind gegeben durch
 	\[
@@ -1149,7 +1149,7 @@ mit $t(x_k)=f_k$ gesucht.
 		Es gilt
 		\begin{enumerate}[i)]
 			\item
-				$\displaystyle \omega_k^{-j} = e^{-ij\f {2\pi}{n+1}k} = \omega_j^{-k}$
+				$\displaystyle \omega_k^{-j} = e^{-ij x_k} = e^{-ij 2\pi \f k{n+1}} = \omega_j^{-k}$
 			\item
 				$\displaystyle \sum_{j=0}^n (\omega_{l-k})^j = (n+1)\delta_{lk}$
 				\begin{proof}
@@ -1161,7 +1161,7 @@ mit $t(x_k)=f_k$ gesucht.
 					\]
 					Da jedoch 
 					\[
-						(\omega_{l-k})^{n+1} = e^{i\f {2\pi}{n+1}(l-k)(n+1)} = e^{i2\pi(l-k)} = 1
+						(\omega_{l-k})^{n+1} = e^{i 2\pi\f {l-k}{n+1}(n+1)} = e^{i2\pi(l-k)} = 1
 					\]
 					folgt
 					\[
@@ -1174,11 +1174,11 @@ mit $t(x_k)=f_k$ gesucht.
 		\end{enumerate}
 		Daher gilt für Koeffizienten von $q(z)$
 		\begin{align*}
-			\sum_{j=0}^n f_j \omega_k^{-j} &= \sum_{j=0}^n p(\omega_j) \omega_k^{-j}\\
-			&= \sum_{j=0}^n\left( \sum_{l=0}^n c_l \omega_j^l\right) \omega_k^{-j}\\
-			&= \sum_{j,l=0}^n c_l \omega_j^{l-k} \\
-			&= \sum_{l=0}^n c_l \sum_{j=0}^n \omega_{l-k}^j\\
-			&= \sum_{l=0}^n c_l (n+1) \delta_{lk} = c_k (n+1)
+			\sum_{j=0}^n f_j \omega_k^{-j} &= \sum_{j=0}^n p(\omega_j) \omega_k^{-j}
+			= \sum_{j=0}^n\left( \sum_{l=0}^n c_l \omega_j^l\right) \omega_k^{-j}\\
+			&\stack{\text{i)}} = \sum_{j,l=0}^n c_l \omega_j^{l-k} 
+			= \sum_{l=0}^n c_l \sum_{j=0}^n \omega_{l-k}^j\\
+			&\stack{\text{ii)}} = \sum_{l=0}^n c_l (n+1) \delta_{lk} = c_k (n+1)
 		\end{align*}
 		Dividieren durch $n+1$ liefert die Behauptung.
 	\end{proof}
@@ -1193,7 +1193,7 @@ mit $t(x_k)=f_k$ gesucht.
 		\qquad 
 		\theta := \begin{cases} 0 & \text{falls $n$ gerade} \\ 1 & \text{falls $n$ ungerade}\end{cases}
 	\]
-	Zu $x_k:=\f {2\pi}{n+1}k$ und Daten $\{f_k\}_{k=0}^n\subset \R$ existiert dann genau eine Funktion
+	Zu $x_k:=\f 2\pi k{n+1}$ und Daten $\{f_k\}_{k=0}^n\subset \R$ existiert genau eine Funktion
 	\[
 		t(x) = \f {a_0}2 + \sum_{k=1}^m \Big(a_k \cos(kx) + b_k \sin(kx)\Big) + \f{\theta}2 a_{m+1}\cos\big((m+1)x\big)
 	\]
@@ -1205,14 +1205,19 @@ mit $t(x_k)=f_k$ gesucht.
 		b_k &:= \f 2{n+1} \sum_{j=0}^n f_j(\sin(jx_k))
 	\end{align*}
 	\begin{proof}
-		Nach \ref{1.24} existiert ein eindeutiges $q\in T_n$ mit $q(x_k)=f_k$,
+		Nach \ref{1.24} existiert ein eindeutiges $t\in T_n$ mit $t(x_k)=f_k$,
 		\[
-			q(z) = \sum_{k=0}^nn c_k e^{ikz}, \qquad c_k = \f 1{n+1}\sum_{j=0}^n f_j \omega_k^{-j}
+			t(x) = \sum_{k=0}^n c_k e^{ikx}, \qquad c_k = \f 1{n+1}\sum_{j=0}^n f_j \omega_k^{-j}
 		\]
-		Setze $c_{-k} := c_{n+1-k}$ für $k=1,\dotsc,m$.
+		Setzen wir jetzt $c_{-k} := c_{n+1-k}$, so können wir $q$ auch schreiben als
+		\[
+			t(x) = \sum_{k=-m}^m c_k e^{ikx} + \theta c_{m+1} e^{i(m+1)x}
+		\]
+		mit $\theta$ wie oben im Satz definiert.
+
 		Wegen
 		\[
-			\_{w_k} = e^{-i \f {2\pi}{n+1}k} = e^{i \f{2\pi}{n+1}(n+1-k)} = \omega_{n+1-k}
+			\_{w_k} = e^{-i 2\pi \f k{n+1}} = e^{i 2\pi \f {n+1-k}{n+1}} = \omega_{n+1-k}
 		\]
 		gilt
 		\[
@@ -1220,21 +1225,30 @@ mit $t(x_k)=f_k$ gesucht.
 		\]
 		Also ist Lemma \ref{1.22} anwendbar und mit der Wahl $a_k := c_k +c_{-k}$, $b_k := i(c_k-c_{-k})$, $k=0,\dotsc, m$ gilt:
 		\[
-			\f{a_0}2 + \sum_{k=1}^m \Big(a_k \cos(kx) + b_k \sin(kx) \Big) = \sum_{k=-m}^m c_k e^{ikx}
+			\sum_{k=-m}^m c_k e^{ikx} = \f{a_0}2 + \sum_{k=1}^m \Big(a_k \cos(kx) + b_k \sin(kx) \Big)
 		\]
-		Es gilt außerdem
+		Für gerade $n$ entspricht das genau $t(x)$ und es bleibt noch die Darstellung der $a_k$ und $b_k$ zu zeigen.
+
+		Für ungerade $n$ betrachten wir in $t(x)$ den Ausdruck $\theta c_{m+1} e^{i(m+1)x}$.
+		In diesem Fall ist $m+1 = \f {n+1}2$ und wir setzen 
 		\[
-			f_l = \sum_{k=0}^n c_k \omega_l^k = \sum_{k=0}^m c_k \omega_l^k + \sum_{k=1}^m c_{n+1-k}\omega_l^{-k} + \theta c_{m+1} \omega_l^{m+1}
+			a_{m+1} := c_{m+1} + c_{-(m+1)} = c_{m+1} + c_{n+1-(m+1)}0= c_{m+1} + c_{2(m+1)-(m+1)} = 2 c_{m+1}
 		\]
-		Für $n$ ungerade ist $m+1 = \f {n+1}2$ und 
-		\[
-			\omega_{l}^{m+1} = e^{i(m+1)\f{2\pi}{n+1}l} = e^{i\pi l} = \cos(\pi l) = \cos\left( \f {2\pi}{n+1} l \cdot \f{n+1}2\right) = \cos((m+1)x_l)
-		\]
-		Zusammen mit obigem ergibt sich mit der Wahl $a_{m+1}:= 2c_{m+1}$.
+		also gilt
 		\begin{align*}
-			f_l = \f {a_0}2 + \sum_{k=1}^m \Big(a_k \cos(kx_l) + b_k \sin(kx_l)\Big) + \theta \f {a_{m+1}}2 \cos((m+1)l) 
-			=  t(x_l)
+			\theta c_{m+1} e^{i(m+1)x} 
+			&= \theta \f {a_{m+1}}2 e^{2\pi \f l{n+1}(m+1)}
+			= \f \theta 2 a_{m+1} e^{i\pi l}
+			= \f \theta 2 a_{m+1} \cos(\pi l) \\
+			&= \f \theta 2 a_{m+1} \cos\Big( \underbrace{2 \pi \f l{n+1}}_{x_l} \cdot \underbrace{\f {n+1}2}_{m+1} \Big) 
+			= \f \theta 2 a_{m+1} \cos((m+1)x_l)
 		\end{align*}
+		Für $t(x)$ ergibt sich dann
+		\begin{align*}
+			t(x) &= \sum_{k=-m}^m c_k e^{ikx} + \theta c_{m+1} e^{i(m+1)x}\\
+			&= \f {a_0}2 + \sum_{k=1}^m \Big(a_k \cos(kx) + b_k \sin(kx)\Big) + \f \theta 2 a_{m+1} \cos\Big((m+1)x_l\Big)
+		\end{align*}
+		und die gesuchte Darstellung für $t(x)$ ist gefunden.
 
 		Für die Koeffizienten gilt 
 		\begin{align*}
@@ -1314,10 +1328,10 @@ mit $t(x_k)=f_k$ gesucht.
 				\end{align*}
 				und
 				\begin{align*}
-					(\scr F_n)(f))_k = \left( \f 1N W_n f\right)_k &= \f 1N \sum_{j=0}^{N-1}w_k^{-j} f_j \\
-					&= \f 1{n+1} \sum_{j=0}^{N-1}w_k^{-j} f_j = c_k
+					(\scr F_n(f))_k = \left( \f 1N W_n f\right)_k &= \f 1N \sum_{j=0}^{N-1}w_k^{-j} f_j \\
+					&= \f 1{n+1} \sum_{j=0}^{n}w_k^{-j} f_j = c_k
 				\end{align*}
-				also werden die Koeffizienten $c_k$ durch die DFT erhalten:
+				also werden die Koeffizienten $c_k$ der komplexen trigonometrischen Interpolation durch die DFT erhalten:
 				\[
 					(c_k)_{k=0}^n = \scr F_N(f)
 				\]
@@ -1387,10 +1401,12 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 
 \begin{lem}[Rekursion für $W_N$]
 	\label{1.28}
-	Seien $W_N$, $W_{\f N2}$ Matrizen der DFT aus \ref{1.26}. Setze 
+	Sei $\omega := e^{i\f {2\pi}N}$ und
 	\[
-		\omega := e^{i\f {2\pi}N}, \quad D_{\f N2} := \diag(\omega^0, \dotsc, \omega^{-\l(\f N2 -1\r)}) \in \C^{\f N2 \times \f N2}
+		W_N := (\omega^{-kj})_{k,j=0}^N \qquad
+		D_N := \diag\Big(\omega^0, \omega^{-1}, \dotsc, \omega^{-(N-1)}) \in \C^{N\times N}
 	\]
+	$W_N$ ist genau die Matrix der DFT aus \ref{1.26}.
 	Dann ist
 	\[
 		W_N = \begin{pmatrix}W_{\f N2} & D_{\f N2}W_{\f N2} \\
@@ -1413,14 +1429,18 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 		\]
 		Wir zeigen die Übereinstimmung für die einzelnen Blöcke.
 		\begin{align*}
-			(A_{11})_{k,j} &= (W_NP_N^T)_{k,j} \\
-				&= (W_N)_{k,2j} = \omega_k^{-2j} = e^{i\f {2\pi}{\f N2}jk} = (W_{\f N2})_{k,j}\\
-			(A_{21})_{k,j} &= (W_NP_N^T)_{k+\f{N}{2},j} \\
-				&= (W_N)_{k+\f N2,2j} = e^{-i \f {2\pi}N (k+\f N2) 2j} = e^{-i \f {2\pi}{\f N2}kj} \cdot e^{-2\pi i j} = (W_{\f N2})_{k,j}\\
-			(A_{12})_{k,j} &= (W_NP_N^T)_{k,j+\f N2} \\
-				&= (W_N)_{k,2j+1} = \omega_{k}^{-(2j+1)} = \omega^{-k(2j+1)} = \omega^{-2kj} \cdot \omega^{-k} = (D_{\f N2} \cdot W_{\f N2})_{k,j}\\
-			(A_{22})_{k,j} &= (W_NP_N^T)_{k+\f N2, j+\f N2} \\
-				&= (W_N)_{k+\f N2, 2j +1} = \omega^{-(k+\f N2)(2j+1)} = \omega^{-2kj-k-Nj - \f N2} = \omega^{-2kj}\cdot \omega^{-jN}\cdot \omega^{-k} \omega^{-\f N2} = (-D_{\f N2}W_{\f N2})_{k,j}
+			(A_{11})_{k,j}
+			&= (W_N P_N^T)_{k,j} = (W_N)_{k,2j} \\
+			&= e^{-i2\pi \f {k2j}N} = e^{-i2\pi \f {kj}{\f N2}} = (W_{\f N2})_{k,j} \\
+			(A_{21})_{k,j}
+			&= (W_N P_N^T)_{\f N2 + k,j} = (W_N)_{\f N2+k,2j} \\
+			&= e^{-i2\pi \f {(\f N2 + k)+2j}{N}} = \underbrace{e^{-i2\pi j}}_{=1} e^{-i2\pi {kj}{\f N2}} = (W_{\f N2})_{k,j} \\
+			(A_{12})_{k,j} 
+			&= (W_NP_N^T)_{k,\f N2 +j} = (W_N)_{k,2j+1} \\
+			&= e^{-i2\pi \f {k(2j+1)}N} = e^{-i2\pi \f {kj}{\f N2}} \underbrace{e^{-i \f {2\pi}N k}}_{\omega^{-k}} = (D_{\f N2}W_{\f N2})_{k,j} \\
+			(A_{22})_{k,j} 
+			&= (W_NP_N^T)_{\f N2+k,\f N2+j} = (W_N)_{\f N2+k, 2j+1} \\
+			&= e^{-2\pi\f {(\f N2 +k)(2j+1)}N} = \underbrace{e^{-i2\pi j}}_{=1} \underbrace{e^{-i\pi}}_{=-1} e^{-i2\pi \f {kj}{\f N2}} \underbrace{e^{-i\f {2\pi}N k}}_{=\omega^{-k}} = (-D_{\f N2}W_{\f N2})_{k,j}
 		\end{align*}
 	\end{proof}
 \end{lem}
@@ -1477,7 +1497,7 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 				\begin{align*}
 					C(N) &= 2C\l(\f N2\r) + KN = 2\l(2C\l(\f N4\r) + K\f N2\r) + KN \\
 					&= 4C\l(\f N4\r) + KN + KN \\
-					&= NC(1) + QKN = N + K(\log_2 N)N 
+					= \dotso &= NC(1) + QKN = N + K(\log_2 N)N 
 				\end{align*}
 				also $\mathcal O(N\log N)$.
 			\item
@@ -1492,8 +1512,9 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 		\item
 			Bei der Interpolation von Punkten im $\R^2$ mit geschlossener Kurve ergibt sich eine $2\pi$-periodische Funktion $r(\phi)$, die den Rand eines sternförmigen Gebiets beschreibt.
 		\item
-			Entrauschen von Signalen (eindimensional) und Bildern (zweidimensional).
-			Dazu führt man eine FFT durch und setzt $c_k= 0$ für $k$, die zu hohen Frequenzen gehören, anschließend inverse FFT.
+			Eine interessante Anwendung ist z.B. das Entrauschen von Signalen (eindimensional) und Bildern (zweidimensional).
+			Dazu führt man eine FFT durch und setzt $c_k= 0$ für diejenigen $k$, die zu hohen Frequenzen gehören. 
+			Anschließend wird eine inverse FFT durchgeführt.
 	\end{itemize}
 \end{nt*}
 
