@@ -5252,6 +5252,7 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren, wären:
 	\[
 		y^T DF(x) y \ge \gamma \ge \gamma \|y\|^2 \qquad x,y \in \R^n
 	\]
+\fixme[Ungleichung überprüfen:Stimmt das gamma in der Mitte?]
 	\begin{proof}
 		\begin{seg}[„$\implies$“]
 			\begin{align*}
@@ -5284,7 +5285,7 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren, wären:
 	\[
 		\|x^{(k)} - x^*\| \le L^k \|x^{(0)} - x^*\|
 	\]
-	mit $L := \sqrt{1- 2 \gamma_\omega + \omega^2 L_F^2}$.
+	mit $L := \sqrt{1- 2 \gamma\omega + \omega^2 L_F^2}$.
 	\begin{proof}
 		Die Menge $M := \R^n$ ist abgeschlossen und $\Phi: M \to M : x \mapsto x - \omega F(x)$ ist eine Kontraktion:
 		\begin{align*}
@@ -5339,7 +5340,7 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren, wären:
 \end{st}
 
 \begin{ex*}
-	Sei $f(x) = x - x^{-x^2}$.
+	Sei $f(x) = x - e^{-x^2}$.
 	Dann ist
 	\[
 		f'(x) = 1 + 2xe^{-x^2}
@@ -5426,12 +5427,12 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren, wären:
 \end{nt*}
 
 \begin{lem}[Globale Konvergenz für affin-lineares $F$] \label{3.22}
-	Für $F(x) = Ax - b$ mit $A\in \R^{n\times n}$ regulär und $b\in \R^n$, also $F(x^*)=0$ hat die eindeutige Lösung $x^* = A^{-1}b$.
+	Für $F(x) = Ax - b$ mit $A\in \R^{n\times n}$ regulär und $b\in \R^n$ hat $F(x^*)=0$ die eindeutige Lösung $x^* = A^{-1}b$.
 	Dann gilt für alle $x^{(0)} \in \R^n$, dass
 	\[
 		x^{(1)} = x^*
 		\quad\text{und}\quad
-		\|F(x^{(1)}\| = 0
+		\|F(x^{(1)})\| = 0
 	\]
 	also terminiert das Newton-Verfahren nach einer Iteration
 	\begin{note}
@@ -5445,7 +5446,7 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren, wären:
 		\begin{align*}
 			x^{(1)} = x^{(0)} - DF(x^{(0)})^{-1}F(x^{(0)}) = x^{(0)} - A^{-1} (Ax^{(0)}-b) = x^{(0)} - x^{(0)} + A^{-1}b = x^*
 		\end{align*}
-		Außerdem damit
+		Außerdem gilt damit
 		\[
 			F(x^{(1)}) = F(x^*) = 0
 		\]
@@ -5519,13 +5520,13 @@ Das Newton-Verfahren ist unabhängig von der Basis des $\R^n$.
 	Wende jetzt das vektorielle Newton-Verfahren aus Definition \ref{3.21} an.
 	Es ergibt sich dann
 	\[
-		z^{(k)} := a^{(k)}0+ ib^{(k)}
+		z^{(k)} := a^{(k)}+ ib^{(k)}
 	\]
-	Als Sequenz der Iterierten zum Startwert $z^{(0)} = a^{(0)} +ib^{(0)}$.
+	als Sequenz der Iterierten zum Startwert $z^{(0)} = a^{(0)} +ib^{(0)}$.
 
-	Für viele $z^{(0)}$ ist die Iteration konvergenzt, für einige $z^{(0)}$ jedoch nicht.
+	Für viele $z^{(0)}$ ist die Iteration konvergent, für einige $z^{(0)}$ jedoch nicht.
 
-	Definiere das sogenannte \emph{Newton-Fraktal zu $f(z)$}.
+	Definiere das sogenannte \emph{Newton-Fraktal zu $f(z)$}:
 	\[
 		\scr F := \Big\{ z^{(0)} \in \C : \text{ Newton-Verfahren mit Startwert $z^{(0)}$ konvergiert nicht} \Big\}
 	\]
@@ -5539,16 +5540,16 @@ Das Newton-Verfahren ist unabhängig von der Basis des $\R^n$.
 
 \section{Variationen von Newton-Verfahren}
 
-Die Berechnung der $DF(x^{(k)})$ und das Lösen von $DF(x^{(k)}) \delta^{(k)} = -F(x^{(k)})$ ist rechenaufwändig insbesondere für hohe Dimensionen, komplizierte $F$, etc.
+Die Berechnung der $DF(x^{(k)})$ und das Lösen von $DF(x^{(k)}) \delta^{(k)} = -F(x^{(k)})$ ist rechenaufwändig, insbesondere für hohe Dimensionen, komplizierte $F$, etc.
 
-\begin{seg}[„Vereinfachtes Newton-Verfahren]
+\begin{seg}[„Vereinfachtes Newton-Verfahren"]
 	Ein Ansatz ist das sogennante „Vereinfachte Newton-Verfahren“:
 	Verwende in jedem Schritt $DF(x^{(0)})$ statt $DF(x^{(k)})$.
 
 	Damit ist nur eine Berechnung der Jacobi-Matrix $DF(x^{(0)})$ zu Beginn notwendig.
 	Die sich ergebenden Systeme der Form 
 	\[
-		F(x^{(0)}) \delta^{(k)} = -F(x^{(k)})
+		DF(x^{(0)}) \delta^{(k)} = -F(x^{(k)})
 	\]
 	können effizient durch einmalige LR-Zerlegung und mehrfaches Vorwärts-/Rückwärts-Einsetzen gelöst werden.
 
@@ -5559,7 +5560,7 @@ Die Berechnung der $DF(x^{(k)})$ und das Lösen von $DF(x^{(k)}) \delta^{(k)} = 
 	Verwende $A^{(k)} \in \R^{n\times n}$ statt $DF(x^{(k)})$, d.h.
 	\[
 		x^{(k+1)} := x^{(k)} + \delta^{(k)}
-		\qquad A^{(k)} \delta^{(k)}0= -F(x^{(k)})
+		\qquad A^{(k)} \delta^{(k)}= -F(x^{(k)})
 	\]
 	mit $A^{(k)}$ einfach zu berechnen.
 
@@ -5570,9 +5571,9 @@ Die Berechnung der $DF(x^{(k)})$ und das Lösen von $DF(x^{(k)}) \delta^{(k)} = 
 	\[
 		A^{(k)} := \f {f(x^{(k)}) - f(x^{(k-1)})}{x^{(k)} - x^{(k-1)}} \approx f'(x^{(k)})
 	\]
-	Damit ist das Sekanten-Verfahren auch ein Quasi-Newton-Verfahren.
+	 ist das Sekanten-Verfahren auch ein Quasi-Newton-Verfahren.
 
-	Betrachte iterative LGS-Löser zum Lösen von $Ax=:$ (siehe NLA) basierend auf der Zerlegung:
+	Betrachte iterative LGS-Löser zum Lösen von $Ax=-b$ (siehe NLA) basierend auf der Zerlegung:
 	\[
 		A = L + D + R 
 		\qquad F(x) := Ax + b
@@ -5589,7 +5590,7 @@ Die Berechnung der $DF(x^{(k)})$ und das Lösen von $DF(x^{(k)}) \delta^{(k)} = 
 	Diese sind also auch Quasi-Newton-Verfahren.
 \end{seg}
 
-Im Allgemeinen besitzt das Newton-Verfahren zur lokale Konvergenz, die Menge der Startwerte mit Konvergenz kann klein sein, Divergenz ist möglich.
+Im Allgemeinen besitzt das Newton-Verfahren nur lokale Konvergenz, die Menge der Startwerte mit Konvergenz kann klein sein, Divergenz ist möglich.
 
 Ein Grund für die Divergenz kann das Phänomen sein, dass $\|F(x^{(k+1)})\| > \|F(x^{(k)})\|$.
 Das widerspricht dem Ziel $F(x^*) = 0$ (Beispiel: \texttt{newton\textunderscore examples(3)}).
@@ -5620,11 +5621,11 @@ Das widerspricht dem Ziel $F(x^*) = 0$ (Beispiel: \texttt{newton\textunderscore 
 	garantiert werden.
 	Für $\beta \in (0,1)$ gilt für genügend kleines $\omega$
 	\[
-		\|F(x^{(k)} + \omega \delta^{(k)})\|  \le (1 - \beta_\omega)) \|F(x^{(k)})\|
+		\|F(x^{(k)} + \omega \delta^{(k)})\|  \le (1 - \beta\omega)) \|F(x^{(k)})\|
 	\]
 	\begin{ex*}
-		\texttt{demos\textunderscore nonlin\textunderscore systems(7)}.
-		$f(x) = \arctan(x)$
+		\texttt{demos\textunderscore nonlin\textunderscore systems(7)}: \\
+		$f(x) = \arctan(x)$  \\
 		Mit $\omega = 1$ ergibt sich Konvergenz in $x^{(0)} \in (-1.3, 1.3)$.
 		Mit der Wahl $\omega = 0.1$ ergibt sich Konvergenz auf $x^{(0)} \in [-10, 10]$.
 
@@ -5657,7 +5658,7 @@ unter den Nebenbedingungen
 		\]
 		die Menge der \emph{zulässigen Punkte}.
 	\item
-		Es reicht das Minimierungsproblem zu betrachten, denn
+		Es reicht, das Minimierungsproblem zu betrachten, denn
 		\[
 			\max_{x\in \R^n} f(x) = -\min_{x\in\R^n} -f(x)
 		\]
@@ -5673,20 +5674,20 @@ unter den Nebenbedingungen
 			\item
 				die nach Existenz und Eindeutigkeit von Optima 
 			\item
-				hinreichende und notwendige Bedingungen zuum Vorliegen eines Optimums in einem vorgegebenem Punkt
+				hinreichende und notwendige Bedingungen zum Vorliegen eines Optimums in einem vorgegebenem Punkt
 			\item
 				numerische Verfahren zur approximativen Lösung, deren Konvergenz und Fehleraussagen
 		\end{itemize}
 	\item
 		Falls $f,g_i,h_i$ glatte Funktionen sind, haben viele Lösungsansätze polynomielle Komplexität in $n$.
 	\item
-		Falls statt $x\in\R^n$, eine diskrete Grundmenge vorliegt, z.B. $\Z^n$, so ist die Optimierung wesentlich schwieriger.
-		Man spricht dann auch von \emph{diskreter Optimierung} oder \emph{kombinatorischer Optimierung}, deren Lösung häufig Berechnungskomplexität expoentiell in $n$ aufweist.
+		Falls statt $x\in\R^n$ eine diskrete Grundmenge vorliegt, z.B. $\Z^n$, so ist die Optimierung wesentlich schwieriger.
+		Man spricht dann auch von \emph{diskreter Optimierung} oder \emph{kombinatorischer Optimierung}, deren Lösung häufig Berechnungskomplexität exponentiell in $n$ aufweist.
 \end{itemize}
 
 \begin{seg}[Spezielle Klassen von Problemen]
 	\begin{description}
-		\item[Lineares Optimierungsproblem, „\emph{lineare Programme}“ (LP)]
+		\item[Lineares Optimierungsproblem, „\emph{lineare Programme}“ (LP)]\textbf{:} \\  
 			Sei $f(x) = c^Tx$ mit $c\in \R^n$ und  $g_i(x) = a_i^Tx + b_i, h_i(x) = c_i^Tx + d_i$.
 
 			Die Menge $X$ der zulässigen Punkte ist ein Schnitt von Halbräumen und Hyperebenen und insbesondere konvex.
@@ -5711,13 +5712,13 @@ unter den Nebenbedingungen
 				\nabla f(x) = 0 \quad \iff \quad Ax = b
 			\]
 			Siehe Kapitel 4.1 Gradientenverfahren und CG-Verfahren.
-		\item[Konvexe Optimierung]
-			Sei $f$ konvex und $X$ konvex (d.h. $g_i$ konvex und $h_i$ affinn linear).
+		\item[Konvexe Optimierung]\textbf{:} \\
+			Sei $f$ konvex und $X$ konvex (d.h. $g_i$ konvex und $h_i$ affin linear). \\
 			Siehe Kapitel 4.2.
 		\item
 			In Matlab: \texttt{linprog,quadprog,fmincon} sind Beispiele für Lösungsalgorithmen.
 		\item
-			Sehr gute Buchreferenz: Jarre/Soer: Optimierung, Springer 2004.
+			Sehr gute Buchreferenz: Jarre/Stoer: Optimierung, Springer 2004.
 	\end{description}
 \end{seg}
 
@@ -5815,8 +5816,8 @@ Die eindimensionalen Probleme sind wichtig als Zwischenschritt zur mehrdimension
 	Gegeben $f:[a,b] \to \R$.
 	Setze $\tau := \f {\sqrt 5 - 1}2$ und
 	\begin{gather*}
-		a^{(0)} := a, \quad b^{(0)} := b
-		x_2^{(k)} := a{(k)} + \tau(b^{(k)}-a^{(k)}), \quad x_1^{(k)} := b^{(k)} - \tau(b^{(k)}-a^{(k)})
+		a^{(0)} := a, \quad b^{(0)} := b \\
+		x_2^{(k)} := a^{(k)} + \tau(b^{(k)}-a^{(k)}), \quad x_1^{(k)} := b^{(k)} - \tau(b^{(k)}-a^{(k)})
 	\end{gather*}
 	Falls $f(x_1^{(k)}) > f(x_2^{(k)})$, setze
 	\[
