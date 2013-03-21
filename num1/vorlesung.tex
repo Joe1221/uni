@@ -5821,11 +5821,11 @@ Die eindimensionalen Probleme sind wichtig als Zwischenschritt zur mehrdimension
 	\end{gather*}
 	Falls $f(x_1^{(k)}) > f(x_2^{(k)})$, setze
 	\[
-		[a^{(k+1)},b^{(k+1)}] := [x_1^{(k)}, b]
+		[a^{(k+1)},b^{(k+1)}] := [x_1^{(k)}, b^{(k)}]
 	\]
 	sonst
 	\[
-		[a^{(k+1)},b^{(k+1)}] := [a, x_2^{(k)}]
+		[a^{(k+1)},b^{(k+1)}] := [a^{(k)}, x_2^{(k)}]
 	\]
 \end{df}
 
@@ -5891,7 +5891,7 @@ Die eindimensionalen Probleme sind wichtig als Zwischenschritt zur mehrdimension
 				liefert ein korrektes globales Minimum.
 
 				Betrachte nun $\tilde f\in C^1$ derart, dass es an allen Stellen $a^{(k)},b^{(k)},x_1^{(k)},x_2^{(k)}$ übereinstimmt mit $f$.
-				Aber $\tilde f$ besitzt lokale Minima zwischen jeweils $2$ Punkten min negativem Funktionswert.
+				Aber $\tilde f$ besitzt lokale Minima zwischen jeweils $2$ Punkten mit negativem Funktionswert.
 
 				Das Verfahren liefert dann die identische Punktsequenz für $\tilde f$, aber $0$ ist kein Minimum.
 			\item
@@ -5993,21 +5993,22 @@ mit $f \in C^1 (\R^n, \R)$ betachten.
 		\begin{align*}
 			f(x^{(k)}+ \omega_k d^{(k)}) &= f(x^{(k)}) + \omega_k \nabla f(\xi)^T \cdot d^{(k)} \\
 			&= f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
-			+ \omega_k \big(\sigma (\nabla f(\xi)) - \nabla f(x^{(k)})^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \Big)
+			+ \omega_k \big(\sigma (\nabla f(\xi) - \nabla f(x^{(k)}))^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \Big)
 		\end{align*}
 		Für $\omega_k \to 0$ ist $\nabla f(\xi) - \nabla f(x^{(k)}) \to 0$ und $(1-\sigma) \nabla f(\xi)^T d^{(k)} \to -(1-\sigma)\|\nabla f(x^{(k)})\|^2 < 0$ für genügend kleines $\omega_k$.
 		Damit ist
 		\[
-			\omega_k \big(\sigma (\nabla f(\xi)) - \nabla f(x^{(k)})^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \Big)
+			\omega_k \big(\sigma (\nabla f(\xi) - \nabla f(x^{(k)}))^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \Big)
 		\]
 		und die Armijo-Regel ist erfüllt.
 	\end{proof}
 \end{lem}
+\fixme[Was ist das omega mal den Rest damit? Bitte ergänzen.]
 
 \begin{st}[Konvergenz] \label{4.8}
 	 Jeder Häufungspunkt $x^* \in \R^n$ von $\{x^{(k)}\}_{k\in \N}$ aus dem Gradientenverfahren mit Armijo-Regel ist ein stationärer Punkt von $f$, d.h. $\nabla f(x^*) = 0$.
 	 \begin{proof}
-	 	Sei $x^*$ Häufungspunkt und $(x^{(k)})_{k\in \N}$ o.B.d.A. konvergent gegen $x^*$ (sonst wähle Teilfolge).
+	 	Sei $x^*$ Häufungspunkt und o.B.d.A. $(x^{(k)})_{k\in \N}$  konvergent gegen $x^*$ (sonst wähle Teilfolge).
 		Angenommen $\nabla f(x^*) \neq 0$.
 		Es gilt
 		\[
@@ -6016,7 +6017,7 @@ mit $f \in C^1 (\R^n, \R)$ betachten.
 		Die Stetigkeit von $\nabla f$ liefert $\|\nabla f(x^{(k)})\| \to \|\nabla f(x^*)\|$ also $\omega_k \to 0$.
 
 		Sei $k_0$ groß genug, sodass $\omega_k \le \f 12$ für $k \ge k_0$.
-		Das $\omega_k$ nach der Armijo-Regel die größte Zahl in $\{2^{-j}\}_{j\in\N_0}$ ist, so dass die Ungleichung erfüllt ist, liefert die Armijo-Regel für $k\ge k_0$ zwangsläufig:
+		Da $\omega_k$ nach der Armijo-Regel die größte Zahl in $\{2^{-j}\}_{j\in\N_0}$ ist, so dass die Ungleichung erfüllt ist, liefert die Armijo-Regel für $k\ge k_0$ zwangsläufig:
 		\[
 			f(x^{(k)} + \underbrace{2 \omega_k}_{\mathclap{ \in \{2^{-j}\}_{j\in \N_0}}} d^{(k)}) > f(x^{(k)}) + 2 \omega_k \sigma \nabla f(x^{(k)})^T d^{(k)}
 		\]
@@ -6042,7 +6043,7 @@ mit $f \in C^1 (\R^n, \R)$ betachten.
 	 \begin{note}
 		 \begin{itemize}
 		 	\item
-		 		Man kann eine ähnliche Aussage für “line search” erhalten
+		 		Man kann eine ähnliche Aussage für “line search” erhalten.
 			\item
 				Die Menge $\{x^{(k)}\}$ muss keinen Häufungspunkt besitzen, z.B.
 				\[
@@ -6053,7 +6054,7 @@ mit $f \in C^1 (\R^n, \R)$ betachten.
 				\[
 					f(x^{(k)} +\omega_k d^{(k)}) = f(x^{(k)} - c) = c^T x^{(k)} - \|c\|^2 \le c^T x^{(k)} - \sigma \|c\|^2 = f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
 				\]
-				damit ist
+				Damit ist
 				\[
 					x^{(k)} := x^{(0)} - k c
 				\]
@@ -6136,12 +6137,12 @@ mit $f \in C^1 (\R^n, \R)$ betachten.
 	\end{note}
 \end{st}
 
-Bei einem QP ist der „line search“, d.h. die 1D-Optimierung entlang einer Halbgeraden explizit lösbar:
+Bei einem QP ist der „line search“, d.h. die 1D-Optimierung entlang einer Halbgeraden, explizit lösbar:
 
 \begin{st}[1D-Optimierung] \label{4.11}
 	Für $\_x \in \R^n$, $d\in \R^n \setminus \{0\}$ wird
 	\[
-		\min_{x \in \{\_x + \omega d : \omega \in \R\}} \f 12 x^T A x - b^T x + c
+		\min_{x \in \{\_x + \omega d : \, \omega \in \R\}} \f 12 x^T A x - b^T x + c
 	\]
 	gelöst durch $\hat x = \_x + \omega d$ mit
 	\[
@@ -6154,7 +6155,7 @@ Bei einem QP ist der „line search“, d.h. die 1D-Optimierung entlang einer Ha
 		Setze ($A$ symmetrisch)
 		\begin{align*}
 			g(\omega) :&= \f 12 (\_x+\omega d)^TA(\_x + \omega d) - b^T(\_x + \omega d) +c \\
-			&= \f 12 d^T Ad \omega^2 + (\_x Ad - b^T d) + \f 12 \_x^T A\_x - b^T \_x + c  \\
+			&= \f 12 d^T Ad \omega^2 + (\_x Ad - b^T d)\omega + \f 12 \_x^T A\_x - b^T \_x + c  \\
 			g'(\omega) &= d^T Ad \omega + \underbrace{(\_x^TA - b^T)d}_{=-d^T r}
 		\end{align*}
 		Also
@@ -6171,7 +6172,7 @@ Die Abstiegsrichtung
 ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formuliert werden:
 
 \begin{kor}[Gradientenverfahren für QP] \label{4.12}
-	Das Gradienten-Verfahren mit line search lautet für beliebigen Startwert $x^{(0)} \in \R^n$:
+	Das Gradienten-Verfahren mit "line search" lautet für beliebigen Startwert $x^{(0)} \in \R^n$:
 	\[
 		x^{(k+1)} := x^{(k)} + \omega_k d^{(k)}
 	\]
@@ -6199,7 +6200,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 		und damit
 		\begin{align*}
 			\< d^{(k)} , d^{(k+1)} \> 
-			&= \<d^{(k)}, d^{(k)}\> - \f {\<d^{(k)},d^{(k)}}{(d^{(k)})^TAd^{(k)}} \<d^{(k)}, Ad^{(k)}\> \\
+			&= \<d^{(k)}, d^{(k)}\> - \f {\<d^{(k)},d^{(k)}\>}{(d^{(k)})^TAd^{(k)}} \<d^{(k)}, Ad^{(k)}\> \\
 			&= 0
 		\end{align*}
 	\end{proof}
@@ -6251,13 +6252,13 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 		\begin{align*}
 			\_d^{(k)} = -\nabla \_f(\_x^{(k)}) = - \nabla f(\_x^{(k)} + a) = - \nabla f(x^{(k)}) = d^{(k)}
 		\end{align*}
-		$\omega_k = \_\omega_k$ zeigen wir am Beispiel von line search (ähnlich für Armijio):
+		$\omega_k = \_\omega_k$ zeigen wir am Beispiel von line search (ähnlich für Armijo):
 		\[
 			\omega_k = \argmin_{\omega\in\R} f(x^{(k)} + \omega d^{(k)}) = \argmin_{\omega\in \R} f(\_x^{(k)} + a + \omega \_d^{(k)})  = \argmin_{\omega\in \R} \_f(\_x^{(k)} + \omega \_d^{(k)}) = \_\omega_k
 		\]
 		also
 		\[
-			x^{(k+1)} = x^{(k)} + \omega_k d^{(k)} = \_x^{(k)} + a + \_\omega_k \_d^{(k)} = x^{(k+1)} +a
+			x^{(k+1)} = x^{(k)} + \omega_k d^{(k)} = \_x^{(k)} + a + \_\omega_k \_d^{(k)} =\_ x^{(k+1)} +a
 		\]
 		und damit auch für den Grenzwert $x^* = \_x^* + a$ ($k \to \infty$).
 	\end{proof}
@@ -6286,7 +6287,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 		Sei zunächst $f(x) = \f 12 x^T A x$, also $b = 0$, $c = 0$ und $x^* = A^{-1}b = 0$.
 		Dann ist
 		\begin{align*}
-			2 f(x) = x^T A x &= \|x\|_A^2
+			2 f(x) = x^T A x &= \|x\|_A^2 
 			&
 			\nabla f(x) &= Ax
 		\end{align*}
@@ -6319,10 +6320,10 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 		Also
 		\[
 			\|x^{(k+1)} \|^2 \le C^2 \|x^{(k)}\|_A^2
-			\qquad C := \max_{j=1^n} | 1 - \_\omega_k \lambda_j |
+			\qquad C := \max_{j=1,\dotsc,n} | 1 - \_\omega_k \lambda_j |
 		\]
 		Wir zeigen jetzt noch $C \le 1 - \f {2}{\kappa(A)+1} =: \_C$ durch geeignetes $\omega_k$:
-		setze
+		Setze
 		\[
 			\_\omega_k := \f 2{\lambda_1 + \lambda_n}
 		\]
@@ -6335,13 +6336,14 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 			= \f {\lambda_n - \lambda_1}{\lambda_n + \lambda_1}
 			= - \bigg(\f{\lambda_1 - \lambda_n}{\lambda_n + \lambda_1} \bigg)
 			= - \bigg( 1 - \f {2\lambda_n}{\lambda_1 + \lambda_n} \bigg)
-			= - (1- \_\omega_1 \lambda_n)
+			= - (1- \_\omega_k \lambda_n)
 		\end{align*}
 		Also
 		\[
 			|1 - \_\omega_k \lambda_j |
 			\le | 1 - \_\omega_k \lambda_n |
-			= \bigg| 1 - \f{2\lambda_n}{\lambda_1}{\lambda_n} \bigg|
+			= \bigg| 1 - \f{2\lambda_n}{\lambda_1 + \lambda_n} \bigg|
+			= \bigg| 1 - \f{2\lambda_n}{\lambda_n  (\f{\lambda_1}{\lambda_n} + 1)} \bigg|
 			= 1 - \f {2}{\kappa(A)+1}
 			= \_C
 		\]
@@ -6349,7 +6351,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 		\[
 			\|x^{(k+1)}\|_A \le \_C \|x^{(k)}\|_A 
 		\]
-		und somit mit $x^* = 0$.
+		und somit mit $x^* = 0$:
 		\[
 			\|x^{(k)} - x^*\|_A \le \_C^k \|x^{(0)}\|_A
 		\]
