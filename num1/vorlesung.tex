@@ -5982,7 +5982,7 @@ mit $f \in C^1 (\R^n, \R)$ betachten.
 \end{df}
 
 \begin{lem}[Wohldefiniertheit Armijo] \label{4.7}
-	Für genügend kleines $\omega_k$ und $\nabla f(x^{(k)}) \neq 0$ ist Armijo-Regel
+	Für genügend kleines $\omega_k$ und $\nabla f(x^{(k)}) \neq 0$ ist die Armijo-Regel
 	\[
 		f(x^{(k)} + \omega_k d^{(k)}) \le f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
 	\]
@@ -5992,18 +5992,18 @@ mit $f \in C^1 (\R^n, \R)$ betachten.
 		Die Taylorentwicklung liefert für ein $\xi$ zwischen $x^{(k)}, x^{(k)} + \omega_k d^{(k)}$:
 		\begin{align*}
 			f(x^{(k)}+ \omega_k d^{(k)}) &= f(x^{(k)}) + \omega_k \nabla f(\xi)^T \cdot d^{(k)} \\
+			&= f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)} - \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)} + \omega_k \Big(\sigma + (1- \sigma)\Big) \nabla f(\xi)^T d^{(k)}\\
 			&= f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
-			+ \omega_k \big(\sigma (\nabla f(\xi) - \nabla f(x^{(k)}))^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \Big)
+			+ \omega_k \bigg(\sigma \Big(\nabla f(\xi) - \nabla f(x^{(k)})\Big)^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \bigg)
 		\end{align*}
-		Für $\omega_k \to 0$ ist $\nabla f(\xi) - \nabla f(x^{(k)}) \to 0$ und $(1-\sigma) \nabla f(\xi)^T d^{(k)} \to -(1-\sigma)\|\nabla f(x^{(k)})\|^2 < 0$ für genügend kleines $\omega_k$.
-		Damit ist
+		Für $\omega_k \to 0$ ist $\xi \to x^{(k)}$ und daher $\nabla f(\xi) - \nabla f(x^{(k)}) \to 0$ und $(1-\sigma) \nabla f(\xi)^T d^{(k)} \to -(1-\sigma)\|\nabla f(x^{(k)})\|^2 < 0$.
+		Damit ist für genügend kleine $\omega_k$
 		\[
-			\omega_k \big(\sigma (\nabla f(\xi) - \nabla f(x^{(k)}))^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \Big)
+			\omega_k \bigg(\sigma \Big(\nabla f(\xi) - \nabla f(x^{(k)})\Big)^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \bigg) \le 0
 		\]
-		und die Armijo-Regel ist erfüllt.
+		und damit die Armijo-Regel erfüllt.
 	\end{proof}
 \end{lem}
-\fixme[Was ist das omega mal den Rest damit? Bitte ergänzen.]
 
 \begin{st}[Konvergenz] \label{4.8}
 	 Jeder Häufungspunkt $x^* \in \R^n$ von $\{x^{(k)}\}_{k\in \N}$ aus dem Gradientenverfahren mit Armijo-Regel ist ein stationärer Punkt von $f$, d.h. $\nabla f(x^*) = 0$.
