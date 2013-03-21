@@ -6388,7 +6388,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 				\|x^{(1)} - x^*\|_A \le 0 \cdot \|x^{(0)} - x^*\| = 0
 			\]
 	\end{itemize}
-	Allgemeiner konvergiert das Gradientenverfahren mit line search für radialsymmetrischen Funktionen, d.h.
+	Allgemeiner konvergiert das Gradientenverfahren mit line search für radialsymmetrische Funktionen, d.h.
 	\[
 		f(x) = \phi(\|x-x^*\|)
 		\qquad \phi : \R \to \R
@@ -6415,7 +6415,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 			\begin{table}[H]
 				\centering
 				\begin{tabular}{c|c|c}
-					$k$ & $\|x^{(0)} - x^*\|_A$ & $(\f 9{11})^k \|x^{(0)} - x^*\|_A$ \\ \hline
+					$k$ & $\|x^{(k)} - x^*\|_A$ & $(\f 9{11})^k \|x^{(0)} - x^*\|_A$ \\ \hline
 					0 & 2.40311 & 2.40311 \\
 					5 & 8.81089 $\cdot 10^{-1}$ & 8.81095 $\cdot 10^{-1}$ \\
 					10 & 3.23047 $\cdot 10^{-1}$ & 3.323052 $\cdot 10^{-1}$ \\
@@ -6436,7 +6436,7 @@ Finde Lösung $x^*$ des QP, d.h. Lösung des LGS
 mit $A$ symmetrisch und positiv definit, $b \in \R^n$.
 
 Das Gradientenverfahren konvergiert recht langsam.
-Im allgemeinen ist der Fehler $0$ nicht mit endlich vielen Schritten erreichbar
+Im Allgemeinen ist der Fehler $0$ nicht mit endlich vielen Schritten erreichbar.
 
 Verwende „$A$-konjugierte Richtungen“ (“conjugate gradients”) um die Konvergenz zu verbessern.
 
@@ -6468,7 +6468,7 @@ Verwende „$A$-konjugierte Richtungen“ (“conjugate gradients”) um die Kon
 		\qquad \omega_k = \f{(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2},
 		\qquad r^{(k)} := b - Ax^{(k)}
 	\]
-	liefert $x^{(n)} = x^*$ das Minimum des QP bzw. die Lösung des LGS.
+	liefert $x^{(n)} = x^*$ als das Minimum des QP bzw. die Lösung des LGS.
 	\begin{proof}
 		Die $\{d^{(k)}\}$ sind linear unabhängig, denn für $\sum_{i=0}^{n-1} a_i d^{(i)} = 0$ ist
 		\begin{align*}
@@ -6483,13 +6483,13 @@ Verwende „$A$-konjugierte Richtungen“ (“conjugate gradients”) um die Kon
 		\[
 			x^{(k)} = \sum_{i=0}^{k-1} (a_i^{(0)} - \omega_i)d^{(i)} + \sum_{i=k}^{n-1} a_i^{(0)} d^{(i)}
 		\]
-		also $x^{(1)} = \sum_{i=0}^{n-1} (a_i^{(0)}+\omega_i) d^{(i)}$.
+		also $x^{(n)} = \sum_{i=0}^{n-1} (a_i^{(0)}+\omega_i) d^{(i)}$.
 		Formuliere die Behauptung um:
 		\begin{align*}
-			x^{(n)} = x^* \qquad &\iff \qquad Ax^{(n)} = A x^{(k)} = b \\
+			x^{(n)} = x^* \qquad &\iff \qquad Ax^{(n)} = A x^{*} = b \\
 			\qquad &\iff \qquad \forall j=0,\dotsc,n-1 : (d^{(j)})^T A x^{(n)} = (d^{(j)})^T b
 		\end{align*}
-		Aus letzterem folgt
+		Letzteres folgt aus
 		\begin{align*}
 			(d^{(j)})^T A x^{(n)} 
 			&= (d^{(j)})^T A \sum_{i=0}^{n-1} (a_i^{(0)}-\omega_i) d^{(i)} \\
