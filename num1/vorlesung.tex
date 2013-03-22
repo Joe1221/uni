@@ -6494,7 +6494,7 @@ Verwende „$A$-konjugierte Richtungen“ (“conjugate gradients”) um die Kon
 			(d^{(j)})^T A x^{(n)} 
 			&= (d^{(j)})^T A \sum_{i=0}^{n-1} (a_i^{(0)}-\omega_i) d^{(i)} \\
 			&= \|d^{(j)}\|_A^2 (a_j^{(0)}+\omega_j) \\
-			&= \|d^{(j)}\|_A^2 \bigg( a_j^{(0)} - \f{(d^{(j)})^T (Ax^{(j)}-b)}{\|d^{(j)}\|_A^2} \\
+			&= \|d^{(j)}\|_A^2 \bigg( a_j^{(0)} - \f{(d^{(j)})^T (Ax^{(j)}-b)}{\|d^{(j)}\|_A^2} \bigg)\\
 			&= \|d^{(j)}\|_A^2 a_j^{(0)} - \underbrace{(d^{(j)})^T Ax^{(j)}}_{= (d^{(j)})^T A d^{(j)}a_j^{(0)}} + (d^{(j)})^T b \\
 			&= (d^{j})^T b
 		\end{align*}~
@@ -6510,7 +6510,7 @@ Verwende „$A$-konjugierte Richtungen“ (“conjugate gradients”) um die Kon
 	\begin{proof}
 		\begin{align*}
 			(d^{(k)})^T r^{(l)}
-			&= (d^{(k)})^T (b-Ax^{(k)}) \\
+			&= (d^{(k)})^T (b-Ax^{(l)}) \\
 			&= (d^{(k)})^T \bigg( b - A \bigg(x^{(k)} + \sum_{i=k}^{l-1} \omega_i d^{(i)} \bigg) \bigg) \\
 			&= (d^{(k)})^T r^{(k)} - \underbrace{(d^{(k)})^T \sum_{i=k}^{l-1} \omega_i A d^{(i)}}_{= \omega_k \|d^{(k)}\|_A^2} \\
 			&= (d^{(k)})^T r^{(k)} - \f{(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2} \|d^{(k)}\|_A^2 = 0
@@ -6531,7 +6531,7 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 	Sei $d^{(0)} = r^{(0)} \in \R^n \setminus \{0\}$ beliebig.
 	Die Rekursion
 	\begin{align*}
-		r^{(k+1)} &:= r^{(k)} + \omega_k Ad^{(k)}
+		r^{(k+1)} &:= r^{(k)} - \omega_k Ad^{(k)}
 		& d^{(k+1)} &:= r^{(k)} - \beta_k d^{(k)} \\
 		\omega_k &:= \f {(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2}
 		& \beta_k &:= \f{(d^{(k)})^T Ar^{(k+1)}}{\|d^{(k)}\|_A^2}
@@ -6572,7 +6572,7 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 		\]
 		gezeigt.
 
-		Zeige die $A$-Konjugiertheiti der $d^{(k)}$ per Induktion.
+		Zeige die $A$-Konjugiertheit der $d^{(k)}$ per Induktion.
 		Nach Vereinbarung ist $d^{(0)} = r^{(0)} \neq 0$.
 
 		Seien also $\{d^{(i)}\}_{i=0}^k$ $A$-konjugiert.
@@ -6619,7 +6619,7 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 \begin{kor} \label{4.21}
 	Die Basis $\{d^{(k)}\}_{k=0}^m$ ist die Gram-Schmidt-Orthogonalisierte Basis, welche aus $\{r^{(k)}\}_{k=0}^m$ entsteht bezüglich dem $A$-Skalarprodukt $\<\cdot,\cdot\>_A$.
 	\begin{proof}
-		Sei $\{\_d^{(k)}\}$ die Gram-Schmidt-orthogonalisierte Sequenz aus $\{r^{(k)}\}$ bezüglich $\<\cdot,\cdot\>_A$ aus $\{r^{(k)}\}$ generiert.
+		Sei $\{\_d^{(k)}\}$ die Gram-Schmidt-orthogonalisierte Sequenz aus $\{r^{(k)}\}$ generiert bezüglich $\<\cdot,\cdot\>_A$. \\
 		Zeige per Induktion $d^{(k)} = \_d^{(k)}$.
 		Für $k=0$ ist $\_d^{(0)} = r^{(0)} = d^{(0)}$.
 
@@ -6634,8 +6634,8 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 		\]
 		Sei zunächst $i<k$, dann ist
 		\begin{align*}
-			\< r^{(k+1)} - \beta_k d^{(k)}, d^{()} \>_A
-			&= \< r^{(k+1)}, d^{()} \>_A - \beta_k \underbrace{\<d^{(k)}, d^{()} \>_A}_{=0} \\
+			\< r^{(k+1)} - \beta_k d^{(k)}, d^{(i)} \>_A
+			&= \< r^{(k+1)}, d^{(i)} \>_A - \beta_k \underbrace{\<d^{(k)}, d^{(i)} \>_A}_{=0} \\
 			&= (r^{(k+1)})^T A d^{(i)}
 			= 0
 		\end{align*}
@@ -6663,9 +6663,8 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 					(d^{(k)})^T A r^{(k+1)}
 					&= (A d^{(k)})^T r^{(k+1)} \\
 					\intertext{da $r^{(k+1)} := r^{(k)}-\omega_k A d^{(k)}$}
-					&= \f 1{\omega_k} (r^{(k)} - r^{(k+1)})^T r^{(k+1)}
-					&\stack{r^{(k+1)} \orth r^{(k)}} =   - \f {\|r^{(k-1)}\|^2}{\omega_k} \\
-					&= - \f {\|d^{(k)}\|_A^2}{\|r^{(k)}\|^2} \|r^{(k-1)}\|^2
+					&= \f 1{\omega_k} (r^{(k)} - r^{(k+1)})^T r^{(k+1)} \qquad \stack{r^{(k+1)} \orth r^{(k)}} = \quad  - \f {\|r^{(k+1)}\|^2}{\omega_k} \\
+					&= - \f {\|d^{(k)}\|_A^2}{\|r^{(k)}\|^2} \|r^{(k+1)}\|^2
 				\end{align*}
 				also
 				\[
@@ -6691,13 +6690,13 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 			\item
 				Zu $f(x) = \f 12 x^T A x - b^T x$ ist
 				\[
-					r^{(k)} := b - Ax^{(k)} = - \nabla f(x^{(k)})
+					r^{(k)} := b - Ax^{(k)} = - \nabla f(x^{(k)}) ,
 				\]
-				die $d^{(k+1)}$ daher die „A-konjugierte-Gradienten“.
+				die $d^{(k+1)}$ sind daher „A-konjugierte Gradienten“.
 			\item
 				Falls $\|r^{(k+1)}\| = 0$, dann ist $\nabla f(x^{(k+1)}) = 0$, als wurde das Optimum des QPs gefunden.
 			\item
-				Das CG-Verfahren ist ein Krylovraum-Verfahren
+				Das CG-Verfahren ist ein Krylovraum-Verfahren.
 			\item
 				Es ist nur eine Matrixmultiplikation erforderlich, für große Matrizen anwendbar.
 		\end{itemize}
@@ -6710,8 +6709,8 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 		x^{(k)} = \argmin_{x \in x^{0} + \scr K_k(A, r^{(0)})} f(x)
 	\]
 	\begin{proof}
-		Zeige per Induktion.
-		Für $k=0$ ist $\scr K(A, r^{(0)}) = \{0\}$ und $x^{(0)} = \argmin_{x \in \{x^{(0)}\}} f(x)$ ist klar.
+		Zeige per Induktion. \\
+		Für $k=0$ ist $\scr K_0(A, r^{(0)}) = \{0\}$ und $x^{(0)} = \argmin_{x \in \{x^{(0)}\}} f(x)$ ist klar.
 
 		Sei $x^{(k)}$ die $k$-te CG-Iterierte und Minimierer.
 		Jedes $\_x^{(k+1)} \in x^{(0)} + \scr K_{k+1}(A, r^{(0)})$ ist zerlegbar:
@@ -6724,17 +6723,17 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 			f(\_x^{(k+1)}) 
 			&= f(\_x^{(k)}) + a(d^{(k)})^T A \_x^{(k)} + \f 12 a^2 (d^{(k)})^T A d^{(k)} - a(d^{(k)})^T b \\
 			&= f(\_x^{(k)}) + a(d^{(k)})^T A (x^{(k)} + \tilde x^{(k)}) + \f 12 a^2 (d^{(k)})^T A d^{(k)} - a(d^{(k)})^T b \\
-			&= f(\_x^{(k)}) + a (d^{(k)})^T A x^{(k)} + \tilde x^{(k)}) + \f 12 a^2 (d^{(k)})^T A d^{(k)} - a(d^{(k)})^T b \\
+			&= f(\_x^{(k)}) + a (d^{(k)})^T A x^{(k)}  + \f 12 a^2 (d^{(k)})^T A d^{(k)} - a(d^{(k)})^T b \\
 			\intertext{mit $\tilde x^{(k)} := \_x^{(k)}- x^{(k)} \in \scr K_k(A, r^{(0)}) = \Span \{d^{(0)}, \dotsc, d^{(k-1)}\}$}
 			&= f(\_x^{(k)}) + g(a)
 		\end{align*}
-		mit $g(a) = (d^{(k)})^T (Ax^{(k)} + b)a + \f 12 (d^{(k)})^T A d^{(k)} a^2$.
-		Die Minimierung von $f(\_x^{(k+1)}$ ist damit entkoppelt.
+		mit $g(a) = (d^{(k)})^T (Ax^{(k)} - b)a + \f 12 (d^{(k)})^T A d^{(k)} a^2$.
+		Die Minimierung von $f(\_x^{(k+1)})$ ist damit entkoppelt.
 		\begin{align*}
 			\_x^{(k+1)} = \argmin_{x\in x^{(0)} + \scr K_{k+1}}
 			\qquad &\iff \qquad \_x^{(k)} = \argmin_{x \in x^{(0)} + \scr K_k} f(x) \qquad\land\qquad a^* := \argmin_{a\in \R} g(a) \\
 			\qquad &\iff \qquad \_x^{(k)} = x^{(k)} \qquad \land \qquad g'(a^*) = 0 \\
-			\qquad &\iff \qquad \_x^{(k)} = x^{(k)} \qquad \land \qquad a^* = \f {(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2} \\
+			\qquad &\iff \qquad \_x^{(k)} = x^{(k)} \qquad \land \qquad a^* = \f {(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2} = \omega_k \\
 			\qquad &\iff \qquad \_x^{(k+1)} = x^{(k)}  + \omega_k d^{(k)} = x^{(k+1)}
 		\end{align*}
 	\end{proof}
@@ -6746,7 +6745,7 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 		\|x^{(k)} - x^*\|_A \le 2 \bigg( 1 - \f 2{{\sqrt {\kappa(A)}}+1} \bigg)^k \|x^{(0)} - x^*\|_A
 	\]
 	\begin{proof}
-		Ähnlich wie \ref{4.15}, sie Plato 11.5
+		Ähnlich wie \ref{4.15}, siehe Plato 11.5
 	\end{proof}
 	\begin{note}
 		\begin{itemize}
@@ -6771,13 +6770,13 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 Falls $\kappa(A)$ sehr groß ist, benötigt das CG-Verfahren viele Iterationen.
 Wende also Vorkonditionierung an (Preconditioning).
 
-Sei dazu $L$ reguläre, untere Dreiecksmatrix, dann ist
+Sei dazu $L$ reguläre, untere Dreiecksmatrix, dann ist mit $ x = L^{-T}z$
 \[
 	Ax = b
 	\qquad \iff \qquad
-	LAL^T z = Lb
+	LAL^{-T} z = Lb
 \]
-Setze jetzt $A_z := LAL^T$ und $b_z := Lb$ (mit $A_z$ symmetrisch und positiv definit) an.
+Setze jetzt $A_z := LAL^{-T}$ und $b_z := Lb$ (mit $A_z$ symmetrisch und positiv definit) an.
 Wähle $L$ so, dass $\kappa(A_z)$ klein und $L$ dünn besetzt ist.
 
 Wende das CG-Verfahren für $z$ zur Lösung von $A_z z = b_z$ an.
@@ -6788,7 +6787,7 @@ Berechne nicht $z^{(k)}, d_z^{(k)}, r_z^{(k)}$, sondern direkt
 	d^{(k)} &:= L^{-T}d_z^{(k)} \\
 	r^{(k)} &:= L^{-T}r_z^{(k)}
 \end{align*}
-mit Hilfsvariable $s(k) := L r_z^{(k)}$.
+mit Hilfsvariable $s^{(k)} := L r_z^{(k)}$.
 Es taucht statt $L$ die einzelne Matrix $M := LL^T$ auf (genannt \emph{Vorkonditionierer}).
 Es muss in jeder Iteration ein LGS mit Matrix $M$ gelöst werden.
 
@@ -6803,14 +6802,14 @@ Es muss in jeder Iteration ein LGS mit Matrix $M$ gelöst werden.
 		d^{(k+1)} &:= r^{(k+1)} + \gamma_k d^{(k)}
 	\end{align*}
 	\begin{note}
-		Für Details, siehe Deufhard/Hohmann 8.4 oder Jarre/Stoer 6.3.1.
+		Für Details, siehe Deuflhard/Hohmann 8.4 oder Jarre/Stoer 6.3.1.
 	\end{note}
 	\begin{note}[Wahl von $M$]
 		\begin{itemize}
 			\item
 				Schlechte Wahlen sind $M = I$ (CG-Verfahren), $M=A$ ($A_z = I$, Konvergenz in einer Iteration, aber $Mr^{(0)} = s^{(0)}$ ist so kompliziert wie das ursprüngliche QP).
 			\item
-				Eine mögliche Wahl ist $M := \diag(A)$ (Diagonalvorkonditionierung)
+				Eine mögliche Wahl ist $M := \diag(A)$ (Diagonalvorkonditionierung).
 		\end{itemize}
 	\end{note}
 \end{df}
@@ -6850,11 +6849,11 @@ Finde dazu den stationären Punkt $x^*$ mit Newton-Verfahren zur Nullstellensuch
 			\item
 				Das Newton-Verfahren liefert nicht immer eine Abstiegsrichtung und die Konvergenz ist nur lokal.
 			\item
-				Das Gradientenverfahren hat einen großen Konvergenzbereich, konvergiert aber langsam
+				Das Gradientenverfahren hat einen großen Konvergenzbereich, konvergiert aber langsam.
 			\item
-				Kombination zu „globalisierten Newton“-Verfahren: erst Gradienten-Schritte, bis nahe am Optimum, dann Newton-Schritte um schnelle lokale Konvergenz zu erhalten.
+				Kombination zum „globalisierten Newton-Verfahren": erst Gradienten-Schritte bis nahe am Optimum, dann Newton-Schritte um schnelle lokale Konvergenz zu erhalten.
 			\item
-				Für große $n$ ist die Berechnung von $\nabla^2 f(x)$  problematisch.
+				Für große $n$ ist die Verwendung/Berechnung von $\nabla^2 f(x)$  problematisch.
 		\end{itemize}
 	\end{note}
 \end{kor}
@@ -6863,13 +6862,13 @@ Finde dazu den stationären Punkt $x^*$ mit Newton-Verfahren zur Nullstellensuch
 \subsection{Gauß-Newton-Verfahren}
 
 
-Betrachte ein spezielles Optimierungsproblem: „Nichtlineare Ausgleichsrechnung/Interpolation“.
+Betrachte ein spezielles Optimierungsproblem: „Nichtlineare Ausgleichsrechnung/Interpolation“ \\
 Gegeben sei (siehe Kapitel 1) eine parametrisierte skalare Funktion $\Phi(x, a)$  für $x \in \R^n$ nichtlinear und $C^2$ bezüglich des Parametervektors $a \in \R^p$.
 Weiter sind Daten $x_1, \dotsc, x_m \in \R^n$ und Zielwerte $y_1, \dotsc, y_m \in \R$ gegeben.
 
 Suche $a \in \R^p$ als Lösung von
 \[
-	\min_{a \in \R^p} \sum_{i=1}^m \Big| \Phi(x,a) - y_i \Big|^2
+	\min_{a \in \R^p} \sum_{i=1}^m \Big| \Phi(x_i,a) - y_i \Big|^2
 \]
 (Optimierung über $a$)
 oder kompakter mit dem Residuenvektor
@@ -6897,7 +6896,7 @@ dann entspricht die Lösung von $\min_{a} \| Aa - y\|^2$ der Lösung der Normale
 Sei in unserem Fall $a^{(k)}$ die Approximation des nichtlinearen Ausgleichsproblems.
 Bestimme $a^{(k+1)}$ als Lösung eines linearisierten Problems:
 \[
-	\min_{a^{(k+1)}} \sum_{i=1}^m \Big| \Phi(x_i, a^{(k)}) + \nabla_a(\Phi(x_i, a))^T (\underbrace{a^{(k+1)} - a^{(k)}}_{=: \delta^{(k)}}) - y_i \Big|^2
+	\min_{a^{(k+1)}} \sum_{i=1}^m \Big| \Phi(x_i, a^{(k)}) + \nabla_a(\Phi(x_i, a^{(k)}))^T (\underbrace{a^{(k+1)} - a^{(k)}}_{=: \delta^{(k)}}) - y_i \Big|^2
 \]
 mit
 \[
@@ -6912,7 +6911,7 @@ mit
 	Wähle $a^{(0)} \in \R^p$ und setze iterativ
 	\begin{align*}
 		a^{(k+1)} &:= a^{(k)} + \delta^{(k)} \\
-		d^{(k)} &:=  \argmin_{\delta} \Big\| R(a^{(k)}) + DR(a^{(k)}) \delta \Big\|^2
+		\delta^{(k)} &:=  \argmin_{\delta} \Big\| R(a^{(k)}) + DR(a^{(k)}) \delta \Big\|^2
 	\end{align*}
 \end{df}
 
