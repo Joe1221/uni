@@ -407,6 +407,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 \end{ex*}
 
 \subsection{Zusammenfassung}
+\label{sec:polintsum}
 
 \begin{table}[H]
 	\centering
@@ -1850,7 +1851,7 @@ Die “Minimum Norm Least Squares”-Approximation liefert eine Antwort auf dies
 
 \begin{st}[Singulärwertzerlegung (SVD)]
 	\label{1.37}
-	Sei $A\in \C^{m\times n}$, dann existieren unitäre Matrizen $U\in \C^{m\times m}$, $V\in \C^{n\times n}$ und ein reelle Diagonalmatrix
+	Sei $A\in \C^{m\times n}$, dann existieren unitäre Matrizen $U\in \C^{m\times m}$, $V\in \C^{n\times n}$ und eine reelle Diagonalmatrix
 	\[
 		\Sigma := \diag( \sigma_1, \dotsc, \sigma_r)  \in \R^{m\times n}
 	\]
@@ -1858,7 +1859,7 @@ Die “Minimum Norm Least Squares”-Approximation liefert eine Antwort auf dies
 	\[
 		A = U \Sigma V^*
 	\]
-	Wir nennen dies Singulärwertzerlegung (Singular Value Decomposition) und die $\sigma_i$ Singulärwerte.
+	Wir nennen dies \emph{Singulärwertzerlegung} (\emph{Singular Value Decomposition}) und die $\sigma_i$ Singulärwerte.
 	\begin{note}
 		\begin{itemize}
 			\item
@@ -1974,7 +1975,7 @@ Die “Minimum Norm Least Squares”-Approximation liefert eine Antwort auf dies
 		\end{align*}
 		Also bilden die $\{u_i\}_{i=1}^k$ eine Orthonormalbasis von $\im(A)$.
 
-		Wähle $\{u_{k+1},\dotsc, u_n\}$ als Orthonormalbasis von $\im( A)^\orth \subset \C^m$.
+		Wähle $\{u_{k+1},\dotsc, u_m\}$ als Orthonormalbasis von $\im( A)^\orth \subset \C^m$.
 		Definiere 
 		\[
 			U := (u_1,\dotsc, u_m)
@@ -2008,32 +2009,52 @@ Die “Minimum Norm Least Squares”-Approximation liefert eine Antwort auf dies
 				Der Beweis ist konstruktiv und liefert damit ein Verfahren zur Erzeugung einer SVD.
 			\item
 				$\displaystyle \im A = \<u_1,\dotsc,u_k\>$
+				\begin{proof}
+					Wurde im Beweis von \ref{1.37} gezeigt.
+				\end{proof}
 			\item
-				$\displaystyle \im A^* = \<v_1,\dotsc, v_k\>$
+				$\displaystyle \im A^* = \<v_1,\dotsc, v_k\> = \im A^*A$
+				\begin{proof}
+					Zunächst ist
+					\[
+						\<v_1, \dotsc, v_n\> = \im A^*A \subset \im A^*
+					\]
+					Aus $\dim \im A^* = \dim \im A = k$ folgt die Gleichheit.
+				\end{proof}
 			\item
-				$\displaystyle \ker A = \<v_{k+1},\dotsc, v_n\>$
+				$\displaystyle \ker A = \<v_{k+1},\dotsc, v_n\> = \ker A^*A$
+				\begin{proof}
+					$\<v_{k+1}, \dotsc, v_n\> = \ker A^*A$, da Eigenvektoren zum Eigenwert $0$.
+					$\ker A^*A = \ker A$ wurde im Beweis von \ref{1.37} gezeigt.
+				\end{proof}
 			\item
-				$\displaystyle \ker A^* = \<u_k,\dotsc, u_{k+1}\>$
+				$\displaystyle \ker A^* = \<u_{k+1},\dotsc, u_m\>$
+				\begin{proof}
+					Wegen $\ker A^* \cap \im A = \emptyset$ (sonst Widerspruch zu $\ker A = \ker A^*A$) ist
+					\[
+						\ker A^* \subset (\im A)^\orth = \<u_{k+1}, \dotsc, u_m\>
+					\]
+					Aus $\dim \ker A^* = m - \dim \im A^* = m - k$ folgt die Gleichheit.
+				\end{proof}
 		\end{itemize}
 	\end{note}
 \end{st}
 \begin{alg*}[SVD]
-\begin{algorithmic}
-\Assume $ A\in \C^{n\times m} $
-\Ensure $ A=U\Sigma V*$, mit $ U,V $  unitär und $\Sigma$ Diagonalmatrix. 
-\State 1. Berechne Eigenwertzerlegung von $ A^*A=S\Lambda \tilde{S}^* $ mit $ \Lambda=\diag\{\lambda_1,..., \lambda_k, \lambda_{k+1},...,\lambda_{n}\} $, sodass $ \lambda_i>0, $ für $ i\le k $ und $ \lambda_i=0, $ für $ i>k $ und $ S=(v_1,...,v_n) $
-\State 2. Setze $ \Sigma=\diag{\sqrt{\lambda_1}, ..., \sqrt{\lambda_n}} $
-\State 3. Setze $ V=S $
-\State 4. Berechne $ U=(u_1,...,u_m) $
-\For{$ i=1:k $}
-\State $ u_i=\sigma^{-1}Av_i $
-\EndFor
-\State Ergänze Rest zur orthonormalen Basis.
-\end{algorithmic}
+	\begin{algorithmic}
+		\Assume $A\in \C^{m\times n}$
+		\Ensure $V\in \C^{n\times n}, U\in \C^{m\times n}$ unitär, $\Sigma \in \R^{m\times n}$ Diagonalmatrix. 
+		\Ensure $A=U\Sigma V^*$
+
+		\State Berechne Eigenwerte $\lambda_1 \ge \dotsb \ge \lambda_n$ von $A^*A$ mit Eigenvektoren $v_1,\dotsc,v_n$
+		\State $\Sigma \gets \diag (\sqrt{\lambda_1}, ..., \sqrt{\lambda_n}) \in \R^{m\times n}$
+		\State $V \gets (v_1, \dotsc, v_n)$
+		\For{$i=1 \to k$}
+			\State $\displaystyle u_i = \f{Av_i}{\sqrt{\lambda_i}}$
+		\EndFor
+		\State Ergänze $u_1, \dotsc, u_k$ durch $u_{k+1}, \dotsc, u_m$ zu orthonormaler Basis von $\C^m$
+		\State $U \gets (u_1, \dotsc, u_m)$ 
+	\end{algorithmic}
 \end{alg*}
-\begin{note*}
-Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, wobei diese sich analog wie in $ 1. $ ergibt.
-\end{note*}
 
 \begin{st}[Niedrigrang-Matrixbestapproximation]
 	\label{1.38}
@@ -2041,7 +2062,7 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 
 	Definiere für $k=1,\dotsc,r-1$:
 	\[
-		\hat\Sigma_k := \diag\{\sigma_1,\dotsc,\sigma_k,0,\dotsc,0\} \in \R^{m\times n}, \qquad \hat A_k := U \hat \Sigma_k V^*
+		\hat\Sigma_k := \diag(\sigma_1,\dotsc,\sigma_k,0,\dotsc,0) \in \R^{m\times n}, \qquad \hat A_k := U \hat \Sigma_k V^*
 	\]
 	Dann gilt
 	\[
@@ -2049,7 +2070,7 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 	\]
 	Mit anderen Worten: $\hat A_k$ ist diejenige Matrix mit Rang $\le k$, die $A$ am besten approximiert.
 	\begin{proof}
-		Sei $V=(v_1,\dotsc, v_n)$, $k\in \{1,\dotsc,r-1\}$, $B\in \C^{m\times n}$, $\rg(B) =  k' \le k$.
+		Sei $(v_1,\dotsc, v_n):=V$, $k\in \{1,\dotsc,r-1\}$, $B\in \C^{m\times n}$, $\rg(B) =  k' \le k$.
 		Dann gilt
 		\[
 			\dim(\ker B) = n - k'
@@ -2059,12 +2080,12 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 		\[
 			z = \sum_{i=1}^{k'+1}a_i v_i
 		\]
-		Da $v_1,\dotsc,v_{k'+1}$ orthonormal ist folgt außerdem $\sum_{i=1}^{k'+1}|a_i|^2 = 1$.
+		Da $v_1,\dotsc,v_{k'+1}$ orthonormal sind, folgt außerdem $\sum_{i=1}^{k'+1}|a_i|^2 = 1$.
 		Setze $a:=(a_1,\dotsc, a_{k'+1},0,\dotsc,0)^T \in \C^n$.
 		Dann gilt
 		\begin{align*}
 			\|A-B\|^2 &= \sup_{x\neq 0} \f {\|(A-B)x\|^2}{\|x\|^2}
-			\ge \f {\|(Az-\overbrace{Bz}^{=0}\|^2}{\underbrace{\|z\|^2}_{=1}}
+			\ge \f {\|Az-\overbrace{Bz}^{=0}\|^2}{\underbrace{\|z\|^2}_{=1}}
 			= \|Az\|^2 
 			= \l\|U\Sigma V^*\sum_{i=1}^n a_i v_i \r\|^2 \\
 			&= \|U\Sigma V^* Va \|^2
@@ -2073,14 +2094,14 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 			= \l\|\l(\begin{smallmatrix}\sigma_1 a_1 \\ \vdots \\ \sigma_{k'+1}a_{k'+1} \\ 0 \\ \vdots \\ 0\end{smallmatrix}\r)\r\| \\
 			&= \sum_{i=1}^{k'+1} \sigma_i^2 \cdot |a_i|^2 
 			\ge  \sum_{i=1}^{k'+1}\sigma_{k'+1}^2 |a_i|^2 
-			= \sigma_{k'+1}^2 \sum_{i=1}^{k'+1} |a_i|^2 
+			= \sigma_{k'+1}^2 \underbrace{\sum_{i=1}^{k'+1} |a_i|^2}_{=1}
 			= \sigma_{k'+1}^2 
 			\ge \sigma_{k+1}^2
 		\end{align*}
 		Andererseits wird dieser Fehler auch realisiert durch $\hat A_k$:
 		\begin{align*}
 			\|A-\hat A_k\| &= \|U\Sigma V^* - U\hat \Sigma_k V^*\| = \|U(\Sigma - \hat \Sigma_k) V^*\| \stackrel{\text{Rotationsinvarianz}}= \|\Sigma - \hat \Sigma_k\|\\
-			&= \|\diag\{0,\dotsc, 0, \sigma_{k+1},\dotsc, \sigma_r\}\|
+			&= \Big\|\diag (0,\dotsc, 0, \sigma_{k+1},\dotsc, \sigma_r)\Big\|
 			= \sigma_{k+1}
 		\end{align*}
 	\end{proof}
@@ -2094,7 +2115,7 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 	\]
 	mit
 	\[
-		\Sigma^+ := \diag\{\sigma_1^+,\dotsc, \sigma_r^+\} \in \R^{n\times m}
+		\Sigma^+ := \diag(\sigma_1^+,\dotsc, \sigma_r^+) \in \R^{n\times m}
 		,\qquad \sigma_i^+ := \begin{cases}
 			\f 1{\sigma_i}	& \sigma_i \neq 0 \\
 			0 & \sigma_i = 0
@@ -2116,7 +2137,7 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 			$(BA)^* = BA$
 	\end{enumerate}
 	\begin{proof}
-		\begin{seg}{$A^+$ erfülle die Bedingungen:} \\
+		\begin{seg}[$A^+$ erfülle die Bedingungen:]
 			Sei $A=U\Sigma V^*$, $A^+ := V\Sigma^+U^*$.
 			\begin{enumerate}[i)]
 				\item
@@ -2134,16 +2155,16 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 				\item
 					Es gilt
 					\begin{align*}
-						AA^+ &= U \Sigma V^* V \Sigma^+ U^* = U \diag\{\underbrace{1,\dotsc,1}_{k\text{-mal}},0,\dotsc, 0\} U^*\\ &= \big(U \diag\{1,\dotsc,1,0,\dotsc,0\} U^*\big)^* = (AA^+)^*
+						AA^+ &= U \Sigma V^* V \Sigma^+ U^* = U \diag\Big(\underbrace{1,\dotsc,1}_{k\text{-mal}},0,\dotsc, 0\Big) U^*\\ &= \Big(U \diag\big(1,\dotsc,1,0,\dotsc,0\big) U^*\Big)^* = (AA^+)^*
 					\end{align*}
 				\item
 					Analog zu iii).
 			\end{enumerate}
 		\end{seg}
-		\begin{seg}{$B$ erfüllt die Bedingungen $\implies$ $B=A^+$} \\
+		\begin{seg}[$B$ erfüllt die Bedingungen $\implies$ $B=A^+$] 
 			Zeige zunächst $BA=A^+A$
 			\begin{align*}
-				BA &\stackrel{\text{iv)}}= (BA)^* = A^*B^* = (AA^+A)^*B^* = A^*(A^+)^*A^*B^*\\ &= (A^+A)^*(BA)* \stackrel{\text{iii) + iv)}}= A^+ABA \stackrel{\text{i)}} = A^+A
+				BA &\stackrel{\text{iv)}}= (BA)^* = A^*B^* = (AA^+A)^*B^* = A^*(A^+)^*A^*B^*\\ &= (A^+A)^*(BA)^* \stackrel{\text{iii) + iv)}}= A^+ABA \stackrel{\text{i)}} = A^+A
 			\end{align*}
 			$AB=AA^+$ verläuft analog.
 			Daraus folgt
@@ -2238,7 +2259,7 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 	\begin{proof}
 		\begin{enumerate}[i)]
 			\item
-				Zeige $\<y-AA^+y, z\>$ für $z\in \im A$ und $y\in \C^m$.
+				Zeige $\<y-AA^+y, z\> = 0$ für $z\in \im A$ und $y\in \C^m$.
 				Sei also $z=Ax$ mit $x\in \C^n$, dann gilt
 				\[
 					\<y-AA^+y,Ax\> = \<A^*(y-AA^+y),x\> = \<A^*y - A^*AA^+y,x\> = 0
@@ -2262,30 +2283,30 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 	Sei $A\in \R^{m\times n}, b\in \R^m$.
 	Setze
 	\[
-		M := \{ \tilde x\in \R^n : \|A\tilde x-b\|^2 = \min_{x\in \R^n}\|Ax-b\|^2\}
+		M := \Big\{ \tilde x\in \R^n : \|A\tilde x-b\|^2 = \min_{x\in \R^n}\|Ax-b\|^2 \Big\}
 	\]
-	als Menge der \emph{Least-Squares-Approximation} zum linearen Gleichungssystem $Ax=b$.
+	als Menge der \emph{Least-Squares-Approximationen} zum linearen Gleichungssystem $Ax=b$.
 	Dann ist $x^* := A^+b \in M$ und für alle $\tilde x\in M, \tilde x \neq x^*$ gilt
 	\[
 		\|x^*\| < \| \tilde x \|
 	\]
 	Also ist $x^*$ die eindeutige \emph{Minimum-Norm-Least-Squares-Approximation (MNLS)} zum LGS $Ax=b$.
 	\begin{proof}
-		Sei $P: \R^m \to \im(A)$ eine orthogonale Projektion auf dem Bild von $A$, siehe \ref{1.42}.
+		Sei $P: \R^m \to \im(A)$ eine orthogonale Projektion auf das Bild von $A$, siehe \ref{1.42}.
 		Setze $y:= Pb$, dann ist
 		\[
 			\|y-b\| = \min_{z\in \im(A)}\|z-b\| = \min_{x\in \R^n}\|Ax-b\|
 		\]
 		Dann lässt sich $M$ darstellen als
 		\[
-			M := \{ \tilde x \in \R^n : A\tilde x = y\}
+			M := \Big\{ \tilde x \in \R^n : A\tilde x = y = Pb \;\land\; P: \R^m \to \im(A) \text{ orthogonale Projektion}\Big\}
 		\]
-		also ein affin-lineare Unterraum von $\R^n$.
+		also als affin-linearer Unterraum von $\R^n$.
 		Weiter ist $x^* \in M$, denn 
 		\[
-			Ax^* = AA^+ b = Pb = y
+			Ax^* = \underbrace{AA^+}_{\mathclap{\text{orthogonale Projektion}}} b
 		\]
-		und
+		und außerdem ist
 		\[
 			M = \{x^*\} + \ker A
 		\]
@@ -2304,28 +2325,30 @@ Der 4. Schritt kann ersetzt werden durch eine Eigenwertzerlegung von $ AA^* $, w
 
 \subsection{Anwendung: Ausgleichsrechnung}
 
-Such $p\in \P_{n-1}$ mit $p(x_i)=f_i$, $i=1,\dotsc,m$.
-Es ergibt sich das lineare Gleichungssystem $Aa = f$.
+Zu den Stützstellen $\{x_i\}_{i=1}^m$ und den Daten $\{f_i\}_{i=1}^m$ suchen wir $p\in \P_{n-1}$ mit $p(x_i)=f_i$.
+Mit beliebiger Polynombasis und entsprechender Matrix $A$ ( \ref{sec:polintsum}) ergibt sich das lineare Gleichungssystem $Aa = f$.
 Definiere $a^* := A^+f$.
 
 \begin{seg}[$m=n$ (Polynominterpolation)]
 	Es gilt in diesem Fall
 	\[
-		\|Aa^*-f\| = 0, \qquad \ker A = \{0\}, \qquad M = \{a^*\}, \qquad a^* = A^{-1}f
+		\|Aa^*-f\| = 0, \qquad \ker A = \{0\}, \qquad M = \{a^*\}
 	\]
+	mit $a^* = A^+f = A^{-1}f$.
 \end{seg}
 \begin{seg}[$m>n$]
 	Es gilt
 	\[
 		\|Aa^*-f\| > 0, \qquad \ker A = \{0\}, \qquad M = \{a^*\}
 	\]
-	und wir erhalten eine eindeutige LS-Approximation.
+	Wir erhalten eine eindeutige Least-Squares-Approximation.
 \end{seg}
 \begin{seg}[$m<n$]
 	Es gilt
 	\[
-		\|Aa^*-f\| = 0 = \|A\_a-f\|, \qquad \ker A \supsetneq \{0\}, \qquad \_a \in M = a^* + \ker A \implies \|a^*\| \le \|\_a\|
+		\|Aa^*-f\| = 0, \qquad \ker A \supsetneq \{0\}, \qquad M = a^* + \ker A
 	\]
+	und für jedes $\_a \in M$ mit $\_a \neq a^*$ ist $\|a^*\| < \|\_a\|$.
 	Wir erhalten eine mehrdeutige Least-Squares-Lösung, aber eine eindeutige Minimum-Norm-Least-Squares-Lösung.
 \end{seg}
 \begin{nt*}
