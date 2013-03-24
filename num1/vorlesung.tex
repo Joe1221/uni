@@ -2733,37 +2733,48 @@ Also $I_n(f) = I(p)$.
 	Wir unterscheiden
 	\begin{itemize}
 		\item
-			geschlosse Newton-Cotes-Formeln:
+			geschlosse Newton-Cotes-Formeln (für $n\ge 1$):
 			\[
 				h:= \f {b-a}n, \qquad x_k := a + kh, \quad (k=0,\dotsc,n)
 			\]
+			\begin{table}[H]
+				\centering
+				\caption{Koeffiziententabelle geschlossener Newton-Cotes Formeln auf $[0,1]$}
+				\begin{tabular}{l|cl}
+					n & $(\omega_0, \dotsc, \omega_n)$ & Geläufige Bezeichnung \\ \hline
+					1 & $(\f 12, \f 12)$ & „Trapezregel“ \\ 
+					2 & $\f 16 (1,4,1)$ & „Simpsonregel“, Kepplersche Fassregel \\
+					3 & $\f 18 (1,3,3,1)$ & „$\f 38$-Regel“ \\
+					4 & $\f 1{90} (7,32,12,32,7)$ & „Milne-Regel“ \\
+					5 & $\f 1{288} (19,75,50,50,75,19)$ & \\
+					6 & $\f 1{840} (41,216,27,272,27,216,41)$ &
+				\end{tabular}
+			\end{table}
 		\item
-			offene Newton-Cotes-Formeln:
+			offene Newton-Cotes-Formeln (für $n\ge 0$):
 			\[
 				h:= \f {b-a}{n+2}, \qquad x_k = a+ (k+1)h, \quad (k=0,\dotsc,n)
 			\]
 			(d.h. die Randpunkte sind keine Stützstellen)
+			\begin{table}[H]
+				\centering
+				\caption{Koeffiziententabelle offener Newton-Cotes Formeln auf $[0,1]$}
+				\begin{tabular}{l|cl}
+					n & $(\omega_0, \dotsc, \omega_n)$ & Geläufige Bezeichnung\\ \hline
+					0 & 1 & „Mittelpunktsregel“ \\ 
+					1 & $(\f 12, \f 12)$ & \\
+					2 & $(\f 23, -\f 13, \f 23)$ &  \\
+					3 & $\f 1{24} (11,1,1,11)$ &
+				\end{tabular}
+			\end{table}
 	\end{itemize}
 \end{df}
 
-\begin{table}[H]
-	\centering
-	\caption{Koeffiziententabelle geschlossener Newton-Cotes Formeln auf $[0,1]$}
-	\begin{tabular}{l|cl}
-		n & $(\omega_0, \dotsc, \omega_n)$ \\ \hline
-		1 & $(\f 12, \f 12)$ & „Trapezregel“ \\ 
-		2 & $\f 16 (1,4,1)$ & „Simpsonregel“, Kepplersche Fassregel \\
-		3 & $\f 18 (1,3,3,1)$ & „$\f 38$-Regel“ \\
-		4 & $\f 1{90} (7,32,12,32,7)$ & „Milne-Regel“ \\
-		5 & $\f 1{288} (19,75,50,50,75,19)$ & \\
-		6 & $\f 1{840} (41,216,27,272,27,216,41)$ &
-	\end{tabular}
-\end{table}
 
 \begin{nt*}
 	\begin{itemize}
 		\item
-			Nach \ref{2.6} i) sind die $\{\omega_i\}$ symmetrisch, da die Stützstellen $\{x_i\}$ symmetrisch sind.
+			Nach \ref{2.6} i) sind die Gewichte $\{\omega_i\}$ symmetrisch, da die Stützstellen $\{x_i\}$ symmetrisch sind.
 		\item
 			Falls $[a,b] \neq [0,1]$ erhält man die Gewichte durch die Skalierung aus \ref{2.8}, z.B.
 			\[
@@ -2774,22 +2785,12 @@ Also $I_n(f) = I(p)$.
 	\end{itemize}
 \end{nt*}
 
-\begin{table}[H]
-	\centering
-	\caption{Koeffiziententabelle offener Newton-Cotes Formeln auf $[0,1]$}
-	\begin{tabular}{l|cl}
-		n & $(\omega_0, \dotsc, \omega_n)$ \\ \hline
-		0 & 1 & „Mittelpunktsregel“ \\ 
-		1 & $(\f 12, \f 12)$ & \\
-		2 & $(\f 23, -\f 13, \f 23)$ &  \\
-		3 & $\f 1{24} (11,1,1,11)$ &
-	\end{tabular}
-\end{table}
 
 \begin{nt*}
 	\begin{itemize}
 		\item
-			Ab $n=2$ treten negative Gewichte auf (bei geschlossenen Newton-Cotes Formeln ab $n=7$), was zu numerischen Auslöschungseffekten führen kann.
+			Bei den offenen Newton-Cotes Formeln treten ab $n=2$ negative Gewichte auf, bei den geschlossenen Newton-Cotes Formeln ab $n=7$.
+			Dies kann zu numerischen Auslöschungseffekten führen.
 		\item
 			Die Gewichte
 			\[
@@ -2866,12 +2867,12 @@ Also $I_n(f) = I(p)$.
 		Der Satz \ref{2.12} ist also eine Verbesserung um Faktor 6 in i) und 120 in ii) wegen der speziellen Wahl der Stützstellen.
 	\end{note}
 	\begin{proof}
-		In Beweis von \ref{2.7} wurde verwendet.
-		\[
-			\int_a^b \l| \prod_{i=0}^n (x-x_i)\r| dx \le (b-a)^{n+1}
-		\]
 		\begin{enumerate}[i)]
 			\item
+				In Beweis von \ref{2.7} wurde folgende Abschätzung verwendet:
+				\[
+					\int_a^b \l| \prod_{i=0}^n (x-x_i)\r| dx \le (b-a)^{n+1}
+				\]
 				Dies wird um Faktor 6 verbessert durch:
 				\[
 					\int_a^b |x-a||x-b| = \int_a^b (x-a)(b-x) dx = \dotsb = \f {(b-a)^3}6
@@ -2893,22 +2894,23 @@ Also $I_n(f) = I(p)$.
 			Für „schöne“ Funktionen kann man Konvergenz zeigen, z.B. bei Polynomen oder bei Funktionen gemäß Satz \ref{1.12}.
 			(Konvergenz genau dann, wenn die Polynominterpolation gleichmäßig konvergiert)
 		\item
-			Gegenbeispiel für Konvergenz: 	
-\begin{table}[H]
-	\centering
-	\caption{$[a,b]=[-1,1], f(x) = \sqrt{|x|}$.}
-	\begin{tabular}{l|r}
-		n & $I_n(f)$ \\ \hline
-		1 & 0.6667 \\
-		2 & 0.6667 \\
-		3 & 0.0327 \\
-		4 & 0.0166 \\
-		5 & 0.0480 \\
-		6 & 0.2240 
-	\end{tabular}
-\end{table}
+			Als Gegenbeispiel für Konvergenz betrachte $f(x) = \sqrt{|x|}$ auf $[a,b]=[-1,1]$:
+			\begin{table}[H]
+				\centering
+				\caption{Integrationsfehler \fixme[Werte stimmen nicht]}
+				\begin{tabular}{l|r}
+					n & $|I(f) - I_n(f)|$ \\ \hline
+					1 & 0.6667 \\
+					2 & 0.6667 \\
+					3 & 0.0327 \\
+					4 & 0.0166 \\
+					5 & 0.0480 \\
+					6 & 0.2240 
+				\end{tabular}
+			\end{table}
 		\item
-			Eine Idee zur Verbesserung wäre das Zerlegen des Intervalls: „zusammengesetzten Quadraturen“
+			Eine Idee zur Verbesserung wäre das Zerlegen des Intervalls und das Anwenden der Quadraturen auf die Teilintervalle.
+			Es ergeben sich so die sogenannten „zusammengesetzten Quadraturen“.
 	\end{itemize}
 \end{nt*}
 
@@ -2919,9 +2921,10 @@ Also $I_n(f) = I(p)$.
 
 	Sei $[a,b]\subset \R$, $N\in \N$, $H:= \f {b-a}N$, dann ist
 	\[
-		I_h (f) := H \cdot \sum_{l=1}^N \sum_{k=0}^{\hat n}\hat \omega_k f\Big(a+(l-1)H + \hat x_k H\Big)
+		I_h (f) := H \cdot \sum_{l=1}^N \sum_{k=0}^{\hat n}\hat \omega_k f(x_{l,k})
+		\qquad x_{l,k} := a+(l-1)H + \hat x_k H
 	\]
-	eine \emph{zusammengesetzte Quadratur}.
+	eine \emph{zusammengesetzte Quadratur} auf $[a,b]$.
 \end{df}
 
 \begin{nt*}
@@ -2931,12 +2934,16 @@ Also $I_n(f) = I(p)$.
 		\item
 			Die zusammengesetzte Mittelpunktsregel ($\hat n = 0, \hat \omega_0 = 1, \hat x_0 = \f 12$) ergibt eine Riemann-Summe:
 			\[
-				I_h(f) := H \cdot \sum_{l=1}^N f (x_l) \qquad x_l = a + \l(l- \f 12\r) H
+				I_h(f) := H \cdot \sum_{l=1}^N f (x_l) 
+				\qquad x_l = a + \l(l- \f 12\r) H
+				\qquad l=1,\dotsc,N
 			\]
 		\item
 			Die zusammengesetzte Trapezregel ergibt ($\hat n = 1, \hat \omega_0 = \hat \omega_1 = \f 12, \hat x_0 = 0, \hat x_1 = 1, h := H = \f {b-a}N$):
 			\[
-				I_h(f) = \f h2 \l(f(a) + 2 \sum_{l=1}^{N-1}f(x_l) + f(b)\r) \qquad x_l := a+ lh \qquad l=0,\dotsc,N
+				I_h(f) = \f h2 \l(f(a) + 2 \sum_{l=1}^{N-1}f(x_l) + f(b)\r) 
+				\qquad x_l := a+ lh 
+				\qquad l=0,\dotsc,N
 			\]
 		\item
 			Zusammengesetzte Simpsonregel mit
@@ -2979,13 +2986,13 @@ Also $I_n(f) = I(p)$.
 	\begin{proof}
 		Transformiere $\hat I_{\hat n}$ auf $[a+(l-1)H, a+lH]$, $l=1,\dotsc,N$
 		\[
-			I_{\hat n}^{(l)}(f) := \sum_{k=0}^{\hat n} \hat \omega_k H f(a+(l-1)H + \hat x_k H)
+			I_{\hat n}^{(l)}(f) := \sum_{k=0}^{\hat n} \hat \omega_k H f\Big(a+(l-1)H + \hat x_k H\Big)
 		\]
 		Gemäß \ref{2.8} ii) gilt
 		\[
-			\l| \int_{a+(l-1)H}^{a+lH} f(x) dx - I_{\hat n}^{(l)}\r| \le K \sup_{x\in [a+(l-1)H,a+lH]} |f^{(m)}(x)| H^{m+1}
+			\l| \int_{a+(l-1)H}^{a+lH} f(x) dx - I_{\hat n}^{(l)}(f)\r| \le K \sup_{x\in [a+(l-1)H,a+lH]} |f^{(m)}(x)| H^{m+1}
 		\]
-		Für Gesamtfehler also
+		Für den Gesamtfehler also
 		\begin{align*}
 			|I(f) - I_h(f)| 
 			&= \l| \sum_{l=1}^N \int_{a+(l-1)H}^{a+lH} f(x) dx - I_{\hat n}^{(l)}(f)\r| \\
@@ -3012,7 +3019,7 @@ Also $I_n(f) = I(p)$.
 	\begin{proof}
 		\begin{enumerate}[i)]
 			\item
-				Satz \ref{2.14} mit $m=2$, $K=\f 1{12}$ (Satz \ref{2.12} i) ).
+				Satz \ref{2.14} mit $m=2$, $K=\f 1{12}$, $h=H$ (Satz \ref{2.12} i) ).
 			\item
 				Satz \ref{2.14} mit $m=4$, $K=\f 1{2880}$, $h=\f H2$ (Satz \ref{2.12} i) ).
 		\end{enumerate}
@@ -3021,7 +3028,7 @@ Also $I_n(f) = I(p)$.
 
 \begin{kor}[Konvergenz]
 	\label{2.16}
-	Für zusammengesetzte Quadraturen und $f$ gemäß \ref{2.15} gilt
+	Für zusammengesetzte Quadraturen und $f$ gemäß \ref{1.12} gilt
 	\[
 		\lim_{h \to 0} I_h(f) = I(f)
 	\]
