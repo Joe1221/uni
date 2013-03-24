@@ -2388,7 +2388,7 @@ Anwendungsgebiete sind beispielsweise:
 	\item
 		Integration von Funktionen, die nicht vollständig bekannt sind: Messungen oder Computer-Routinen.
 	\item
-		Numerisches Lösungen von gewöhnlichen oder partiellen Differentialgleichungen (Numerik 2 und Folgende)
+		Numerisches Lösen von gewöhnlichen oder partiellen Differentialgleichungen (Numerik 2 und Folgende)
 \end{itemize}
 
 \begin{df}[Quadratur]
@@ -2477,7 +2477,7 @@ Also $I_n(f) = I(p)$.
 	\label{2.3}
 	Eine Quadratur $I_n(f) = \sum_{j=0}^n \omega_j f(x_j)$ ist eine \emph{Interpolatorische Quadratur}, falls die Gewichte folgendermaßen durch die Lagrange-Polynome gegeben sind:
 	\[
-		\omega_j := \int_a^b L_j^n \;dx
+		\omega_j := \int_a^b L_j^n(x) \;dx
 		\qquad \text{mit} 
 		\qquad L_j^n(x) := \prod_{\substack{k=0\\k\neq j}}^n \f{x-x_k}{x_j-x_k}
 	\]
@@ -2519,8 +2519,7 @@ Also $I_n(f) = I(p)$.
 		Sei $I_n(f) = \sum_{j=0}^n \omega_j f(x_j)$ exakt auf $\P_n$.
 		Für Lagrange-Polynome gilt $L_j^n \in \P_n$, also
 		\[
-			\int_{a}^b \prod_{\substack{k=0\\k\neq j}}^n \f {x-x_k}{x_j-x_k} \; dx \\\
-			= \int_a^b L_j^n (x) dx = I(L_j^n) = I_n(L_j^n) = \sum_{i=0}^n \omega_i L_j^n(x_i) = \omega_j
+			\int_a^b L_j^n (x) dx = I(L_j^n) = I_n(L_j^n) = \sum_{i=0}^n \omega_i L_j^n(x_i) = \omega_j
 		\]
 	\end{proof}
 	also ist $I_n$ schon die interpolatorische Quadratur.
@@ -2528,16 +2527,16 @@ Also $I_n(f) = I(p)$.
 
 \begin{st}
 	\label{2.6}
-	Sei $I_n(f) = \sum_{j=0}^n \omega_j f(x_j)$ eine Interpolatorische Quadratur mit
+	Sei $I_n(f) = \sum_{j=0}^n \omega_j f(x_j)$ eine Interpolatorische Quadratur mit symmetrisch angeordneten Stützstellen:
 	\[
 		x_j - a = b - x_{n-j} \qquad j=0,\dotsc,n
 	\]
-	Dann gilt
+	Dann gilt:
 	\begin{enumerate}[i)]
 		\item
 			$\omega_j = \omega_{n-j}$ , d.h. die Interpolatorische Quadratur ist symmetrisch.
 		\item
-			falls $n$ gerade, so ist $I_n$ exakt auf $\P_{n+1}$.
+			Falls $n$ gerade ist, so ist $I_n$ exakt auf $\P_{n+1}$.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[i)]
@@ -2545,7 +2544,7 @@ Also $I_n(f) = I(p)$.
 				Setze $\_{I_n} := \sum_{j=0}^n \omega_{n-j}f(x_j)$.
 				Es reicht zu zeigen, dass $\_{I_n}$ exakt ist auf $\P_n$, denn wegen der Eindeutigkeit in \ref{2.5} gilt $\_{I_n}=I_n$ also $\omega_j=\omega_{n-j}$.
 				Sei $p\in \P_n$ und setze $\_p(x) := p(a+b-x)$.
-				Dann ist $p(x) \in \P_n$ und $I(p) = \_I(\_p)$ wegen „Spiegelung‘.
+				Dann ist $\_p \in \P_n$ und aus Symmetriegründen $I(p) = I(\_p)$.
 
 				Damit folgt
 				\begin{align*}
@@ -2556,30 +2555,37 @@ Also $I_n(f) = I(p)$.
 					= I_n (\_p) = I(\_p) = I(p)
 				\end{align*}
 			\item
-				Sei $n=2m$ ,d.h. $x_m = \f {a+b}2$ wegen der Symmetrie.
+				Sei $n=2m$.
+				Wegen der Symmetrie gilt für die mittlere Stützstelle $x_m = \f {a+b}2$.
 				Wir überlegen uns zunächst
 				\begin{align*}
 					N(x) &:= \prod_{l=0}^n (x-x_l) \in \P_{n+1} \\
-					&= \l( \prod_{l=0}^{m-1}(x-x_l)\r) \cdot \l(x-\f {a+b}2\r) \prod_{l=0}^{m-1}(x-(a+b-x_l))
+					&= \bigg(\prod_{l=0}^{m-1}\Big(x-x_l\Big)\bigg) \cdot \bigg(x-\f {a+b}2\bigg) \cdot \bigg(\prod_{l=0}^{m-1}\Big(x-(a+b-x_l)\Big)\bigg)
 				\end{align*}
-				wegen $((a+b-x)-x_l) = -(x-(a+b-x_l))$ folgt
-				\[
-					N(a+b-x) = (-1)^{n+1}N(x) = - N(x)
-				\]
-				Also eine „Punktsymmetrie“ um $x = \f {a+b}2$.
+				und
+				\begin{align*}
+					N(a+b-x)
+					&= \bigg(\prod_{l=0}^{m-1}\Big((a+b-x)-x_l\Big)\bigg) \cdot \bigg(a+b-x-\f{a+b}2\bigg) \\
+					&\qquad \cdot \bigg(\prod_{l=0}^{m-1} \Big((a+b-x)-(a+b-x_l)\Big)\bigg) \\
+					&= \bigg(\prod_{l=0}^{m-1} -\Big(x-(a+b-x_l)\Big)\bigg) \cdot \bigg( \f{a+b}2 - x \bigg) \cdot \bigg(\prod_{l=0}^{m-1} -\Big(x-x_l\Big)\bigg) \\
+					&= (-1)^{n+1} N(x)
+					= -N(x)
+				\end{align*}
+				Also ist $N$ punktsymmetrisch um $x = \f {a+b}2$.
 				Damit ist
 				\[
-					I(N) = 0
+					I(N) = \int_a^b N(x) dx = 0
 				\]
 				Zeige nun die Exaktheit von $I_n$ auf $\P_{n+1}$.
 
-				Sei $p\in \P_{n+1}$, dann existiert $q\in \P_n, c\in \R$ mit $p=q+c\cdot N$.
-				Sei $p_n$ Interpolationspolynom zu Daten $(x_i,p(x_i))$, $i=0,\dotsc,n$.
+				Sei $p\in \P_{n+1}$, dann existieren $q\in \P_n, c\in \R$ mit $p=q+c\cdot N$.
+				Sei $p_n$ das Interpolationspolynom zu den Daten $(x_i,p(x_i))$, $i=0,\dotsc,n$.
 				Es gilt
 				\[
-					p(x_l) = q(x_l) + c\cdot \underbrace{N(x_l)}_{=0} = q(x_l) \qquad l=0,\dotsc,N
+					p(x_l) = q(x_l) + c\cdot \underbrace{N(x_l)}_{=0} = q(x_l) \qquad l=0,\dotsc,n
 				\]
-				Also ist $q=p_1$ wegen der Eindeutigkeit der Interpolation.
+				Also ist $q=p_n$ wegen der Eindeutigkeit der Interpolation.
+				Damit ist
 				\[
 					I(p) = I(q+cN) = I(q) + c\underbrace{I(N)}_{=0} = I(q) = I(p_n) = I_n(p)
 				\]
@@ -2620,14 +2626,14 @@ Also $I_n(f) = I(p)$.
 					&= \f {(b-a)^{n+2}}{(n+1)!}\|f^{(n+1)}\|_\infty
 				\end{align*}
 			\item
-				Sei $q_{n+1}\in \P_{n+1}$ eine Hermite-Interpolation zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$ und $(x_l,f'(x_l))$ beliebig.
-				Sei $p_n\in \P_n$ ein Standard-Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$.
+				Sei $p_n\in \P_n$ ein Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$.
+				Sei $q_{n+1}\in \P_{n+1}$ ein \emph{Hermite}-Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$ und $(x_l,f'(x_l))$ mit $l\in\{0,\dotsc,n\}$ beliebig.
 
 				Wie im Beweis von \ref{2.6}	ist für geeignete $q_n\in \P_n, c\in \R$ 
 				\[
 					q_{n+1} = q_n + c\cdot N(x)
 				\]
-				wegen $f(x_i) = q_{n+1}(x_i) = q_n(x_i) + c\cdot N(x_i) = q_n(x_i)$ ist $q_n = p_n$ das Interpolationspolynom, also
+				wegen $f(x_i) = q_{n+1}(x_i) = q_n(x_i) + c\cdot N(x_i) = q_n(x_i)$ und der Eindeutigkeit des Interpolationspolynoms ist $q_n = p_n$, also
 				\begin{align*}
 					I_n(f)
 					= I(p_n)
@@ -2643,7 +2649,7 @@ Also $I_n(f) = I(p)$.
 					= |I(f-q_{n+1})|
 					= \l| \int_a^b f(x) - q_{n+1}(x) \r|
 				\]
-				Die Behauptung folgt wie in i) mittels der Hermite-Interpolationsdarstellung aus Satz \ref{1.17}.
+				Der Rest folgt analog zum Beweis von Teil i) zusammen mit der Hermite-Interpolationsdarstellung aus Satz \ref{1.20}.
 		\end{enumerate}
 	\end{proof}
 	\begin{note}
@@ -2686,23 +2692,29 @@ Also $I_n(f) = I(p)$.
 					&=\f {b-a}{\hat b - \hat a}\sum_{j=0}^n \hat \omega_j \hat p(\hat x_j) \\
 					&= \f {b-a}{\hat b - \hat a}\hat I_n(\hat p) \\
 					&= \f {b-a}{\hat b - \hat a}\int_{\hat a}^{\hat b}\hat p(\hat x) d\hat x \\
-					&\stackrel{x:= a+ \f{b-a}{\hat b - \hat a}(\hat x - \hat a)} = \f {b-a}{\hat b - \hat a} \int_a^b p(x) \f {\hat b - \hat a}{b-a} dx \\
+				\intertext{
+					Substituiere $x= a+\f{b-a}{\hat b - \hat a}(\hat x - \hat a)$
+				}
+					&= \f {b-a}{\hat b - \hat a} \int_a^b p(x) \f {\hat b - \hat a}{b-a} dx \\
 					&= I(p)
 				\end{align*}
 			\item
-				Sei $f\in C^m([a,b]), \hat f(\hat x) := f(a + \f {b-a}{\hat b - \hat a}(\hat x - \hat a) \in C^m([\hat a,\hat b])$
-				Dann ist
+				Sei $f\in C^m([a,b])$ und setze $\hat f(\hat x) := f(a + \f {b-a}{\hat b - \hat a}(\hat x - \hat a)) = f(x)$, dann ist $\hat f \in C^m([\hat a,\hat b])$ und
 				\begin{align*}
 					\hat f'(\hat x) &= \f {b-a}{\hat b - \hat a}f'(x) \\
-					\vdots \quad &= \quad \vdots \\
+					\vdots \quad &= \qquad \vdots \\
 					\hat f^{(m)}(\hat x) &= \l( \f {b-a}{\hat b-\hat a} \r)^m f^{(m)}(x)
 				\end{align*}
 				Außerdem
 				\begin{align*}
 					|I(f) - I_n(f)| 
 					&= \l| \int_a^b f(x) dx - \sum_{j=0}^n \omega_j f(x_j) \r| \\
+					&= \l| \int_{a}^{b} \hat f(\hat x) dx - \sum_{j=0}^n  \omega_j \hat f(\hat x_j) \r| \\
+				\intertext{
+					Substituiere $\hat x = \hat a + \f {\hat b - \hat a}{b-a}(x-a)$
+				}
 					&= \l| \f {b-a}{\hat b- \hat a} \int_{\hat a}^{\hat b} \hat f(\hat x) d\hat x - \sum_{j=0}^n \f {b-a}{\hat b - \hat a} \hat \omega_j \hat f(\hat x_j) \r| \\
-					&= \l| \f {b-a}{\hat b - \hat a} (\hat I(\hat f) - \hat I_n(\hat f)) \r| \\
+					&= \f {b-a}{\hat b - \hat a} \Big|\hat I(\hat f) - \hat I_n(\hat f)\Big| \\
 					&\stackrel{\text{Ann}}\le \f {b-a}{\hat b - \hat a}K\cdot \|\hat f^{(m)}\|_\infty (\hat b - \hat a)^{m+1} \\
 					&\stackrel{\text{nach obigem}}\le \f {b-a}{\hat b - \hat a} K \cdot \f {(b-a)^m}{(\hat b - \hat a)^m} \|f^{(m)}\|_\infty \cdot (\hat b - \hat a)^{m+1} \\
 					&= (b-a)^{m+1}\|f^{(m)}\|_\infty \cdot K
