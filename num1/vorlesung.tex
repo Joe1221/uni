@@ -3040,11 +3040,12 @@ Also $I_n(f) = I(p)$.
 
 \begin{itemize}
 	\item
-		Satz \ref{2.5} besagt, dass zu vorgegebene Stützstellen $\{x_k\}_{k=0}^n$ eine Interpolations-Quadratur existiert, welche exakt auf $\P_n$ ist.
+		Satz \ref{2.5} besagt, dass zu vorgegebenen Stützstellen $\{x_k\}_{k=0}^n$ die Interpolations-Quadratur exakt auf $\P_n$ ist.
 	\item
-		Falls $\{x_i\}$ symmetrisch im Intervall und $n$ gerade, dann ist die Interpolations-Quadratur nach \ref{2.6} sogar exakt auf $\P_{n+1}$.
+		Falls die $\{x_i\}$ symmetrisch im Intervall sind und $n$ gerade ist, dann ist die Interpolations-Quadratur nach \ref{2.6} sogar exakt auf $\P_{n+1}$.
 	\item
-		Kann durch geeignete Wahl von Stützstellen der Grad der Exaktheit weiter gesteigert werden? Bis zu welchem Grad?
+		Kann durch geeignete Wahl von Stützstellen der Grad der Exaktheit weiter gesteigert werden? 
+		Wenn ja, bis zu welchem Grad?
 \end{itemize}
 
 \begin{df}[Orthogonale Polynome]
@@ -3066,7 +3067,7 @@ Also $I_n(f) = I(p)$.
 
 				$(C([a,b]),\<\cdot,\cdot\>)$ ist nicht vollständig bezüglich der $L^2$-Norm, daher ein Prä-Hilbertraum.
 			\item
-				Die orthonormalen Polynome aus \ref{2.17} werden durch das Gram-Schmidt'sche Orthonormalisierungsverfahren konstruiert, angewandt auf Monome $\{x^i\}_{i\in \N_0}$.
+				Die orthogonalen Polynome aus \ref{2.17} werden durch das Gram-Schmidt'sche Orthogonalisierungsverfahren konstruiert, angewandt auf Monome $\{x^i\}_{i\in \N_0}$.
 
 		\end{itemize}
 	\end{note}
@@ -3100,17 +3101,18 @@ Also $I_n(f) = I(p)$.
 				Dann ist $p_i\neq 0$, für $i=0,\dotsc,n$, denn sonst wäre $\{p_0,\dotsc,p_n\}$ linear abhängig.
 				Also sind alle $\<p_i,p_i\> \neq 0$ und damit $p_{n+1}$ wohldefiniert.
 
-				Es ist $V_{n+1} := \<p_0,\dotsc,p_{n+1}\> \in \P_{n+1}$ nach Konstruktion.
+				Es ist $V_{n+1} := \<p_0,\dotsc,p_{n+1}\> \subset \P_{n+1}$ nach Konstruktion.
 				Wegen
 				\[
-					x^{n+1} = p_{n+1} + \sum_{i=0}^n \f {\<x^{n+1},p_i}{\<p_i,p_i\>} p_i(x)
+					x^{n+1} = p_{n+1} + \sum_{i=0}^n \f {\<x^{n+1},p_i\>}{\<p_i,p_i\>} p_i(x)
 				\]
 				ist $x^{n+1} \in V_{n+1}$.
-				Nach Induktionsvoraussetzung ist auch $\P_n \subset V_{n+1}$ also $\P_{n+1}\subset V_{n+1}$ also $\P_{n+1} = V_{n+1}$.
-				Also ist $\{p_i\}_{i=0}^{n+1}$ Erzeugenden-System für $\P_{n+1}$ aus $n+2$ Elementen.
+				Nach Induktionsvoraussetzung ist auch $\P_n \subset V_{n+1}$ und damit $\P_{n+1}\subset V_{n+1}$.
+				Also $\P_{n+1} = V_{n+1}$.
+				Somit ist $\{p_i\}_{i=0}^{n+1}$ Erzeugenden-System für $\P_{n+1}$ aus $n+2$ Elementen.
 				Wegen $\dim \P_{n+1} = n+2$ ist $\{p_i\}_{i=0}^{n+1}$ linear unabhängig und damit eine Basis
 			\item
-				Nach i) ist $\P_{n+1} = \<p_0,\dotsc, p_{n-1}\>$, also reicht es zu zeigen, dass $\<p_n,p_i\>=0$ für $i=0,\dotsc, n-1$.
+				Nach i) ist $\P_{n-1} = \<p_0,\dotsc, p_{n-1}\>$, also reicht es zu zeigen, dass $\<p_n,p_i\>=0$ für $i=0,\dotsc, n-1$.
 				Zeige per Induktion.
 				Für $n=1$ ist $\<p_1,p_0\> = \int_{-1}^1 x = 0$.
 				Sei $j\in \{0,\dotsc,n\}$.
@@ -3121,6 +3123,8 @@ Also $I_n(f) = I(p)$.
 					&= \<x^{n+1},p_j\> - \f {\<x^{n+1},p_j\>}{\<p_j,p_j\>} \<p_j,p_j\> = 0
 				\end{align*}
 			\item
+				Die Existenz der Nullstellen sichert uns der Fundamentalsatz der Algebra.
+				\begin{seg}[Nullstellen sind reell]
 				Angenommen $z\in \C\setminus \R$ ist Nullstelle von $p_n(x) = \sum_{i=0}^n a_i x^i$ mit $a_i\in \R$.
 				Dann ist $\_z$ auch Nullstelle von $p$, denn
 				\[
@@ -3135,7 +3139,9 @@ Also $I_n(f) = I(p)$.
 					0 = \<q,p_n\> = \int_{-1}^1 \f {p_n(x)^2}{|x-z|^2} dx \implies p_n(x) = 0
 				\]
 				was ein Widerspruch ist.
+				\end{seg}
 
+				\begin{seg}[Nullstellen sind paarweise verschieden]
 				Angenommen $z\in (-1,1)$ ist eine mehrfache Nullstelle von $p_n$, definiere
 				\[
 					q(x) := \f {p_n(x)}{(x-z)^2} \in \P_{n-2}
@@ -3145,7 +3151,9 @@ Also $I_n(f) = I(p)$.
 					0= \<q,p_n\> = \int_{-1}^1 \f {p_n(x)^2}{(x-z)^2} dx  \implies p_n = 0
 				\]
 				was ein Widerspruch ist.
+				\end{seg}
 
+				\begin{seg}[Nullstellen liegen in $(-1,1)$]
 				Angenommen $z\in \R\setminus (-1,1)$ ist eine Nullstelle, definiere
 				\[
 					q(x) := \f {p_n(x)}{x-z} \in \P_{n-1}
@@ -3156,6 +3164,7 @@ Also $I_n(f) = I(p)$.
 				\]
 				($x-z$ ist entweder $\ge 0$ oder $\le 0$ für alle $x\in [-1,1]$)
 				was ein Widerspruch ist.
+				\end{seg}
 
 
 		\end{enumerate}
@@ -3172,7 +3181,7 @@ Also $I_n(f) = I(p)$.
 	\begin{itemize}
 		\item
 			Sei $n=1$, $p_2(x) = x^2-\f 13$ mit den Nullstellen $x_0=-\sqrt{\f 13}, x_1 = \sqrt{\f 13}$.
-			Gewichte: $\omega_0=\omega_1 = 1$, da Interpolations-Quadratur.
+			Für die Gewichte gilt $\omega_0=\omega_1 = 1$, da Interpolations-Quadratur.
 
 			\begin{table}[H]
 				\centering
@@ -3180,7 +3189,7 @@ Also $I_n(f) = I(p)$.
 				\begin{tabular}{c|c|c}
 					n & $(x_0, \dotsc, x_n)$ & ($\omega_0,\dotsc,\omega_n$) \\ \hline
 					0 & 0 & 2 \\
-					1 & $\l(-\sqrt{\f 13}, -\sqrt{\f 13}\r)$ & (1,1) \\
+					1 & $\l(-\sqrt{\f 13}, +\sqrt{\f 13}\r)$ & $(1,1)$ \\
 					2 & $\l(-\sqrt{\f 35}, 0, \sqrt{\f 35}\r)$ & $\l(\f 59, \f 89, \f 59\r)$ \\
 					3 & $\l(- \sqrt{\f 37 + \f 27 \sqrt{\f 65}}, - \sqrt{\f 37 - \f 27\sqrt{\f 65}}, \sqrt{\f 37 - \f 27\sqrt{\f 65}}, \sqrt{\f 37 + \f 27\sqrt{\f 65}} \r)$
 					& $\l(\f {18-\sqrt{30}}{36}, \f {18+\sqrt{30}}{36}, \f {18+\sqrt{30}}{36},\f {18-\sqrt{30}}{36}\r)$
@@ -3202,6 +3211,9 @@ Also $I_n(f) = I(p)$.
 	\[
 		p_n(x) = \f {n!}{(2n)!} \f {d^n}{dx^n} (x^2-1)^n
 	\]
+	\begin{proof}
+		Siehe Übungsblatt 8, Aufgabe 3.
+	\end{proof}
 	Gauß-Quadraturen auf $[-1,1]$ werden auch Gauß-Legendre-Quadraturen genannt.
 \end{nt*}
 
@@ -3218,7 +3230,7 @@ Also $I_n(f) = I(p)$.
 		\[
 			p_{n+1}(x) = x^{n+1} - \sum_{i=0}^n \f{\<x^{n+1},p_i\>}{\<p_i,p_i\>} p_i(x)
 		\]
-		Sei $n$ ungerade, dann ist $x^{n+1}$ gerade.
+		Sei $n$ zunächst ungerade, dann ist $x^{n+1}$ gerade.
 		Für $i$ ungerade ist
 		\[
 			\<x^{n+1},p_i\> = \int_{-1}^1 \underbrace{x^{n+1}}_{\text{gerade}} \underbrace{p_i(x)}_{\text{ungerade}} dx = 0
@@ -3227,7 +3239,7 @@ Also $I_n(f) = I(p)$.
 		Analog für $n$ gerade.
 
 		Falls $x$ Nullstelle von $p_n$, dann ist auch $-x$ Nullstelle von $p_n$.
-		Damit sind die Stützstellen der Gauß-Quadratur symmetrisch und somit auch die Gewichte (da Interpolations-Quadratur).
+		Damit sind die Stützstellen der Gauß-Quadratur symmetrisch und somit auch die Gewichte (nach Satz \ref{2.6}, da Interpolations-Quadratur).
 	\end{proof}
 \end{st}
 
@@ -3235,10 +3247,11 @@ Also $I_n(f) = I(p)$.
 	\label{2.21}
 	Die Gauß-Quadratur $I_n$ ist exakt auf $\P_{2n+1}$.
 	\begin{proof}
+		Die Stützstellen von $I_n$ sind bei der Gauß-Quadratur als Nullstellen von $p_{n+1}$ gewählt.
 		Sei $p\in \P_{2n+1}$.
-		Polynomdivision mit $q\in \P_n$ liefert
+		Polynomdivision mit $p_{n+1}$ liefert
 		\[
-			p= p_{n+1} \cdot q + r \qquad  q,r\in \P_n
+			p= p_{n+1} \cdot q + r \qquad  q\in \P_n, r \in \P_{n-1}
 		\]
 		Es folgt
 		\begin{align*}
@@ -3250,11 +3263,11 @@ Also $I_n(f) = I(p)$.
 		Außerdem
 		\begin{align*}
 			I_n(p) 
-			= \sum_{i=0}^n \omega_i p(x_i) \\
-			= \sum_{i=0}^n \omega_i \underbrace{p_{n+1}(x_i)}_{=0} q(x_i) + \sum_{i=0}^n \omega_i r(x_i) \\
+			= \sum_{i=0}^n \omega_i p(x_i) 
+			= \sum_{i=0}^n \omega_i \underbrace{p_{n+1}(x_i)}_{=0} q(x_i) + \sum_{i=0}^n \omega_i r(x_i) 
 			= I_n(r) = I(r)
 		\end{align*}
-		da $I_n$ exakt auf $\P_n$.
+		da $I_n$ das Polynom $r \in \P_{n-1}$ exakt integriert.
 		Also $I_n(p) = I(p)$.
 	\end{proof}
 \end{st}
@@ -3280,21 +3293,23 @@ Also $I_n(f) = I(p)$.
 	\end{proof}
 \end{st}
 
-\begin{st}[Eindeutigket der Gauß-Quadratur]
+\begin{st}[Eindeutigkeit der Gauß-Quadratur]
 	\label{2.23}
 	Es existiert genau eine Quadratur $I_n$, welche exakt auf $\P_{2n+1}$ ist.
 	\begin{proof}
-		Die Existenz ist klar: Gauß-Quadratur \ref{2.21}.
+		Die Existenz ist klar, die Gauß-Quadratur tuts nach \ref{2.21}.
 
 		Sei $I_n$ die Gauß-Quadratur und $\_{I_n}$ eine Quadratur, welche exakt auf $\P_{2n+1}$ ist.
 		Es reicht zu zeigen, dass die Stützstellen $\{x_i\}_{i=0}^n$ von $\_{I_n}$ Nullstellen vom orthogonalen Polynom $p_{n+1}$ sind, denn dann sind auch die Gewichte identisch zu $I_n$, da beide Interpolations-Quadraturen und exakt auf $\P_n$ sind.
 	
-		Sei $q\in \P_n$, $\_p_{n+1} := \prod_{i=0}^n (x-x_i) \in \P_{n+1}$.
+		Sei $q\in \P_n$ und $\_p_{n+1} := \prod_{i=0}^n (x-x_i) \in \P_{n+1}$.
 		\[
-			\int_{-1}^1 \_p_{n+1}(x) q(x) dx 
+			\<\_p_{n+1},q\>
+			= \int_{-1}^1 \_p_{n+1}(x) q(x) dx 
 			= I(\underbrace{\_p_{n+1} q}_{\in \P_{2n+1}})
 			\stackrel{\text{Exaktheit}}= \_I_n (\_p_{n+1}q)
-			\stackrel{\_p_{n+1}(x_i)=0}= 0
+			= \sum_{j=0}^n \_{\omega_k}\underbrace{\_p_{n+1}(x_j)}_{=0}q(x_j)
+			= 0
 		\]
 		Also ist $\_p_{n+1} \orth \P_n$.
 
@@ -3306,13 +3321,13 @@ Also $I_n(f) = I(p)$.
 		\[
 			 \<p_{n+1}\> = \P_n^\orth \cap \P_{n+1} = \<\_p_{n+1}\>
 		\]
-		Also sind die $p_{n+1}$ und $\_p_{n+1}$ linear abhängig: $\_p_{n+1} = \lambda p_{n+1}$.
-		Damit sind die Nullstellen identisch, also auch die Stützstellen von $I_n$ und $\_I_n$.
+		Also sind $p_{n+1}$ und $\_p_{n+1}$ linear abhängig: $\_p_{n+1} = \lambda p_{n+1}$.
+		Damit sind ihre Nullstellen identisch, also auch die Stützstellen von $I_n$ und $\_I_n$.
 	\end{proof}
 \end{st}
 
 \begin{ex*}
-Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[-1,1]$: \\
+Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[-1,1]$: 
 	\begin{table}[H]
 		\centering
 		\caption{Fehlervergleich auf $[-1,1]$}
@@ -3373,7 +3388,7 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 	\label{2.25}	
 	Alle Gewichte $\{\omega_j\}_{j=0}^n$ der Gauß-Quadratur sind positiv: $\omega_j > 0$.
 	\begin{proof}
-		$I_n$ ist exakt auf $\P_{2n+1}$ also werden quadrierte Lagrange-Polynome exakt integriert:
+		$I_n$ ist exakt auf $\P_{2n+1}$ also werden damit insbesondere quadrierte Lagrange-Polynome exakt integriert:
 		\[
 			\omega_j = \sum_{i=0}^n \omega_i (\underbrace{L_j^n(x_i)}_{\delta_{ij}})^2 = I_n((L_j^n)^2) = I((L_j^n)^2) =\int_{-1}^1 \underbrace{(L_j^n(x))^2}_{\ge 0} dx > 0
 		\]
@@ -3396,10 +3411,13 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 		Dann gilt für alle $n\ge n_0$:
 		\begin{align*}
 			|I(f) - I_n(f)|
-			\le \underbrace{|I(f) - I(p)|}_{\le \int_a^b |f(x) - p(x)| dx \le (b-a)\f \eps{2(b-a)}= \f \eps 2} 
+			&\le |I(f) - I(p)| 
 			+ \underbrace{|I(p) - I_n(p)|}_{=0 \text{ da $I_n$ exakt auf $\P_{n_0}$}} 
-			+ \underbrace{|I_n(p)-I_n(f)|}_{\le \sum_{i=0}^n |\omega_i||p(x_i)-f(x_i)| \le (b-a) \f {\eps}{2(b-a)} } \\
-			= \f \eps 2 + 0 + \f \eps 2 = \eps
+			+ |I_n(p)-I_n(f)| \\
+			&\le \int_a^b |f(x)-p(x)| dx + \sum_{i=0}^n |\omega_i||p(x_i)-f(x_i)| \\
+		\intertext{wegen $\sum_{j=0}^n |\omega_j| = \sum_{j=0}^n \omega_j = I_n(1) = I(1) = \int_a^b dx = b-a$ gilt}
+			&\le (b-a)\f {\eps}{2(b-a)} + (b-a)\f{\eps}{2(b-a)} \\
+			&= \f \eps 2 + 0 + \f \eps 2 = \eps
 		\end{align*}
 	\end{proof}
 	\begin{note}
@@ -3491,7 +3509,7 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 			\begin{ex*}
 				Zusammengesetzte 2-Punkt-Gauß-Quadratur auf $[a,b]$, $N\in \N$, $h=\f {b-a}N$, $n:= N\cdot 2 - 1$, Mittelpunkte $m_l := a+ (l-\f 12)h$ , $l= 1,\dotsc, N$.
 				\[
-					I_h (f) = \f h2 \sum_{l=1}^N \Big( f\l(m_l- \f 1{2\sqrt 3} h\r) + f\l( m_l + \f 1{2\sqrt 3} h\r) \Big)
+					I_h (f) = \f h2 \sum_{l=1}^N \bigg( f\Big(m_l- \f 1{2\sqrt 3} h\Big) + f\Big( m_l + \f 1{2\sqrt 3} h\Big) \bigg)
 				\]
 			\end{ex*}
 		\item
