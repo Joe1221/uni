@@ -25,6 +25,8 @@ ifneq ($(strip $(INCLUDEDTEX)),)
 INCLUDEDTEX := $(patsubst %,%.tex,\
 		$(shell sed -rn 's/^[^%]*\\(input|include)\{([^\.\}]*)(\.tex)?\}/\2/p' $(TARGET).tex))
 endif
+# quick-hack to get sty dependency
+INCLUDEDTEX += mathe-vorlesung.sty
 #=================================
 
 AUXFILES = $(foreach T,$(PDFTARGETS:.pdf=), $(T).aux)
