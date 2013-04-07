@@ -1,12 +1,35 @@
-\ProvidesPackage{mathe-vorlesung}
+% Class für Abgaben, etc.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{mywork}
+
+\LoadClass{scrartcl}
+
+%==================================
+% Options
+%==================================
+
+
+\ProcessOptions\relax
+
+
+%==================================
+% Fonts / Encoding
+%==================================
 
 \usepackage[ngerman]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
 \usepackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
 \usepackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
 \usepackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
 
-% Seitenkonfiguration
+%==================================
+% 
+%==================================
+
+%\usepackage[l2tabu, orthodox]{nag}
+
 \usepackage[a4paper, left=20mm, right=20mm, top=20mm, bottom=30mm]{geometry}
+\usepackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
 %\usepackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 \usepackage{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
@@ -15,22 +38,9 @@
     pdfborder={0 0 0},
 }
 
-% Erzeuge pdf-bookmark für das Inhaltsverzeichnis
-%\BeforeTOCHead[toc]{{\pdfbookmark[0]{\contentsname}{toc}}}
-
-\usepackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
-
-% Font für Zeichen mit Doppelstrich, nur für die 1 benötigt
-\IfFileExists{bbm.sty}{
-	\usepackage{bbm}
-	\newcommand{\1}{\mathbbm{1}}
-}{
-	\newcommand{\1}{\operatorname{Id}}
-}
-
 \usepackage{enumerate}			% Aufzählungen wie a), (I), etc. als optionales Argument
 \usepackage{parskip}			% Entfernt Einrückung bei Absätzen und fügt vertikalen Abstand ein
-\usepackage{float}
+\usepackage{float}              % Erlaubt [H] Option für table/figure
 %\usepackage{scrhack} 			% Wegen float-package, das eine warnung mit scrbook erzeugt
 
 \usepackage{algpseudocode}		% algorithmicx package für Pseudo-Code
@@ -59,7 +69,7 @@
 }
 
 %========================
-% Theorems
+% Theorems (TODO: extra package)
 %========================
 
 % TODO: \theoremheadertypefont{bla} sollte funktionieren, wie?
@@ -142,109 +152,6 @@
 }
 \newtheorem{seg}{}
 
-
-
-
-
-% Skript Zeichen
-\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
-\newcommand{\scr}[1]{\mathpzc {#1}}
-
-% Zahlenmengen
-\newcommand{\K}{\mathbb{K}} % Körper
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\Z}{\mathbb{Z}}
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\C}{\mathbb{C}}
-\newcommand{\F}{\mathbb{F}}
-\newcommand{\Q}{\mathbb{Q}}
-\renewcommand{\P}{\mathbb{P}}
-
-% Diakritische Zeichen
-\renewcommand{\tilde}{\widetilde}
-
-% Griechische Buchstaben
-\renewcommand{\phi}{\varphi}
-\renewcommand{\epsilon}{\varepsilon}
-\newcommand{\eps}{\epsilon}
-
-
-\newcommand{\Id}{\operatorname{Id}}
-\newcommand{\Eins}{\1}
-\renewcommand{\Re}{\operatorname{Re}}
-\renewcommand{\Im}{\operatorname{Im}}
-
-\newcommand{\diag}{\operatorname{diag}}
-\newcommand{\Eig}{\operatorname{Eig}}
-\newcommand{\Mat}{\operatorname{Mat}}
-\newcommand{\im}{\operatorname{im}}
-\newcommand{\adj}{\operatorname{adj}}
-\newcommand{\ad}{\operatorname{ad}}
-\newcommand{\End}{\operatorname{End}}
-\newcommand{\Abb}{\operatorname{Abb}}
-\newcommand{\Hom}{\operatorname{Hom}}
-\newcommand{\rg}{\operatorname{rg}}
-\newcommand{\GL}{\operatorname{GL}}
-\newcommand{\isomorph}{\cong}
-\newcommand{\orth}{\perp}
-\newcommand{\cond}{\operatorname{cond}}
-\newcommand{\sgn}{\operatorname{sgn}}
-\newcommand{\supp}{\operatorname{supp}}
-\newcommand{\ggT}{\operatorname{ggT}}
-\newcommand{\kgV}{\operatorname{kgV}}
-\newcommand{\tr}{\operatorname{tr}}
-\newcommand{\card}{\operatorname{card}}
-\newcommand{\SO}{\operatorname{SO}}
-\newcommand{\Index}{\operatorname{Index}}
-\newcommand{\argmax}{\operatornamewithlimits{arg\,max}}
-\newcommand{\argmin}{\operatornamewithlimits{arg\,min}}
-\newcommand{\Res}{\operatorname{Res}}
-\newcommand{\Var}{\operatorname{Var}}
-\renewcommand{\div}{\operatorname{div}}
-\newcommand{\Span}{\operatorname{span}}
-
-
-\newcommand{\fixme}[1][]{\;\texttt{FIXME:} #1\;}
-
-\newcommand{\texp}[1]{\text{\footnotesize [#1]}}
-\newcommand{\const}{\text{const}}
-\renewcommand{\d}{\partial}
-\renewcommand{\_}[1]{\overline{#1}}
-\newcommand{\f}[2]{\frac{#1}{#2}}
-\newcommand{\tf}[2]{\tfrac{#1}{#2}}
-\renewcommand{\l}{\left}
-\renewcommand{\r}{\right}
-
-\renewcommand{\vec}[1]{\overrightarrow{#1}}
-
-\newcommand{\stack}[2]{\stackrel{\mathclap{#1}}{#2}}
-
-% Skalarprodukt
-\newcommand{\<}{\langle}
-\renewcommand{\>}{\rangle}
-
-% Algorithmen
-\newcommand{\Input}{\Require}
-\newcommand{\Assume}{\Require}
-\newcommand{\Assert}{\Require}
-\newcommand{\Output}{\Ensure}
-
-% Typos, etc.
-\newcommand{\jota}{\iota}
-\newcommand{\my}{\mu}
-
-% Leckerli für amsmath-Matrizen
-%\makeatletter
-%\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
-%  \hskip -\arraycolsep
-%  \let\@ifnextchar\new@ifnextchar
-%  \array{#1}}
-%\makeatother
-
-%\usepackage[l2tabu, orthodox]{nag}
-
-%\usepackage[svgnames]{xcolor}
-
 \usepackage{fancyhdr}
 \usepackage{calc}
 \pagestyle{fancy}
@@ -277,3 +184,88 @@
 	}
 }{
 }
+
+%========================
+% Common Math Things
+%========================
+
+\RequirePackage{mymath}
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage{titling}
+
+\author{Stephan Hilb}
+
+%\theoremstyle{break}
+%\theorembodyfont{\normalfont}
+%\theorempreskipamount 1.5em
+%\theoremindent 1em
+%\theoremheaderfont{\kern-1em\normalfont\bfseries}
+%\newtheorem*{seg}{}
+
+\newcounter{aufgabe} 
+\newenvironment{aufgabe}{\refstepcounter{aufgabe}\par\medskip\noindent%
+	\textbf{Aufgabe \theaufgabe}\rmfamily}
+{\medskip}
+
+\newcommand{\blattana}{
+\addtolength{\headheight}{\baselineskip}
+\lhead{Ana2 \\ \today}
+\chead{Gruppe 6}
+\rhead{\theauthor \\ 2706616}
+
+\renewenvironment{aufgabe}{\refstepcounter{aufgabe}\par\medskip\noindent%
+	\textbf{Aufgabe \thesection.\theaufgabe}\rmfamily}
+{\medskip}
+
+}
+
+\newcommand{\blattanadrei}{
+	\addtolength{\headheight}{\baselineskip}
+	\lhead{Analysis 3 \\ \today}
+	\chead{Gruppe 1}
+	\rhead{\theauthor \\ 2706616}
+
+	\renewenvironment{aufgabe}{\refstepcounter{aufgabe}\par\medskip\noindent%
+		\textbf{Aufgabe \thesection.\theaufgabe}\rmfamily}
+	{\medskip}
+}
+
+\newcommand{\blattnumeins}{
+	\addtolength{\headheight}{\baselineskip}
+	\lhead{Numerische Mathematik 1 \\ \today}
+	\chead{Gruppe 5}
+	\rhead{\theauthor \\ 2706616}
+}
+
+\newcommand{\blattlaag}{
+	\addtolength{\headheight}{\baselineskip}
+	\lhead{LAAG2 \\ \today}
+	\chead{Gruppe 5}
+	\rhead{\theauthor \\ 2706616}
+}
+
+\newcommand{\blattnla}{
+	\addtolength{\headheight}{\baselineskip}
+	\lhead{NLA \\ \today}
+	\chead{Gruppe 5}
+	\rhead{\theauthor \\ 2706616}
+}
+
+\newcommand{\blattdsa}{
+	\addtolength{\headheight}{\baselineskip}
+	\lhead{DsA \\ \today}
+	\chead{}
+	\rhead{\theauthor \\ 2706616}
+}
+
+\newcommand{\blattpse}{
+	\author{Stephan Hilb, Wan-Yi Lee, Daniel Steinacker}
+	\addtolength{\headheight}{\baselineskip}
+	\lhead{Programmierung und Softwareentwicklung \\ \today}
+	\chead{}
+	\rhead{Gruppe 153\\ \theauthor}
+}
+

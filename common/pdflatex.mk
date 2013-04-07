@@ -4,20 +4,27 @@ PDFLATEX    ?= pdflatex
 BIBTEX      ?= bibtex
 PDFVIEWER   ?= xdg-open
 
+ifneq ($(strip $(TARGET)),)
 PDFTARGETS  += $(TARGET).pdf
+endif
+
+INCLUDEDIR   := $(shell git rev-parse --show-toplevel)/common
 
 #=================================
 # grep bibtex dependencies
 #---------------------------------
+ifneq ($(strip $(TARGET)),)
 BIBFILES = $(patsubst %,%.bib,\
 		$(shell grep '^[^%]*\\bibliography{' $(TARGET).tex | \
 			sed -e 's/^[^%]*\\bibliography{\([^}]*\)}.*/\1/' \
 			    -e 's/, */ /g'))
+endif
 
 
 #=================================
 # \input and \include dependencies
 #---------------------------------
+ifneq ($(strip $(TARGET)),)
 INCLUDEDTEX := $(patsubst %,%.tex,\
 		$(shell sed -rn 's/^[^%]*\\(input|include)\{([^\.\}]*)(\.tex)?\}/\2/p' $(TARGET).tex))
 # second depth
@@ -25,8 +32,9 @@ ifneq ($(strip $(INCLUDEDTEX)),)
 INCLUDEDTEX := $(patsubst %,%.tex,\
 		$(shell sed -rn 's/^[^%]*\\(input|include)\{([^\.\}]*)(\.tex)?\}/\2/p' $(TARGET).tex))
 endif
-# quick-hack to get sty dependency
-INCLUDEDTEX += mathe-vorlesung.sty
+endif
+# quick-hack to get sty dependency (TODO: a clean solution)
+INCLUDEDPKG += $(wildcard $(INCLUDEDIR)/*.sty) $(wildcard $(INCLUDEDIR)/*.cls)
 #=================================
 
 AUXFILES = $(foreach T,$(PDFTARGETS:.pdf=), $(T).aux)
@@ -58,14 +66,14 @@ BIBDEPS = %.bbl
 endif
 
 #$(PDFTARGETS): %.pdf: %.tex %.aux $(BIBDEPS) $(INCLUDEDTEX)
-$(PDFTARGETS): %.pdf: %.tex $(BIBDEPS) $(INCLUDEDTEX)
-	$(PDFLATEX) $*
+$(PDFTARGETS): %.pdf: %.tex $(BIBDEPS) $(INCLUDEDTEX) $(INCLUDEDPGK)
+	(TEXINPUTS=.:$(INCLUDEDIR):$(TEXINPUTS) $(PDFLATEX) $*)
 ifneq ($(strip $(BIBFILES)),)
 	@if grep -q "undefined references" $*.log; then \
 		$(BIBTEX) $* && $(PDFLATEX) $*; fi
 endif
 	@while grep -q "Rerun to" $*.log; do \
-		$(PDFLATEX) $*; done
+		(TEXINPUTS=.:$(INCLUDEDIR):$(TEXINPUTS) $(PDFLATEX) $*); done
 
 clean:
 	rm -f $(foreach T,$(PDFTARGETS:.pdf=), \
