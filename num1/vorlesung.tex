@@ -418,7 +418,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 
 		\centering $\displaystyle \phi_k(x)$ & 
 		\centering $\displaystyle x^k$ & 
-		\centering $\displaystyle L_k^n(x) = \prod_{\substack{i=0 \\ i\neq j}}^n \f{x-x_i}{x_k-x_i}$ & 
+		\centering $\displaystyle L_k^n(x) = \prod_{\substack{i=0 \\ i\neq k}}^n \f{x-x_i}{x_k-x_i}$ & 
 		\centering $\displaystyle N_k^n(x) = \prod_{i=0}^{k-1} (x-x_i)$ \tabularnewline
 
 		\centering $\begin{pmatrix}
@@ -4304,8 +4304,8 @@ Der Beweis nutzte die Intervallschachtelung.
 		$x^*$ ist eine Nullstelle, denn $f(a_k) \le 0$ und $f(b_k) \ge 0$.
 		Aus der Stetigkeit von $f$ folgt
 		\begin{align*}
-			f(x^*) &= f\big( \lim_{k=\to \infty}a_k \big) \le 0 \\
-			f(x^*) &= f\big( \lim_{k=\to \infty}b_k \big) \ge 0
+			f(x^*) &= f\big( \lim_{k\to \infty}a_k \big) \le 0 \\
+			f(x^*) &= f\big( \lim_{k\to \infty}b_k \big) \ge 0
 		\end{align*}
 		also $f(x^*) = 0$.
 
@@ -4373,10 +4373,10 @@ Der Beweis nutzte die Intervallschachtelung.
 				Sei $x^{(k)}$ eine Approximation von $x^*$ und $h:= x^* - x^{(k)}$ klein.
 				Dann gilt
 				\[
-					0 
-					= f(x^*) 
+					0
+					= f(x^*)
 					= f(x^{(k)}) + h \cdot f'(x^{(k)}) + o(h^2)
-					= f(x^{(k)}) + h \cdot f'(x^{(k)})
+					\approx f(x^{(k)}) + h \cdot f'(x^{(k)})
 				\]
 				Wir vernachlässigen also Terme höherer Ordnung und erhalten
 				\[
@@ -4388,7 +4388,7 @@ Der Beweis nutzte die Intervallschachtelung.
 				\]
 			\item
 				Man kann das Verfahren auch geometrisch Interpretieren:
-				wir wählen $x^{(k+1)}$ nämlich als Nullstelle der Tangente $t_{k+1}$ im Punkt $(x^{(k)}, f(x^{(k)})$.
+				wir wählen $x^{(k+1)}$ nämlich als Nullstelle der Tangente $t_{k+1}$ im Punkt $(x^{(k)}, f(x^{(k)}))$.
 				\[
 					t_{k+1}(x) = f'(x^{(k)}) (x-x^{(k)}) + f(x^{(k)}) \stackrel != 0
 				\]
@@ -4407,7 +4407,7 @@ Der Beweis nutzte die Intervallschachtelung.
 	Sei $a \ge 0$ und $f(x) = x^2 - a$, also $f'(x) = 2x$.
 	Wähle $x^{(a)} > 0$, dann ist
 	\[
-		x^{(k+1)} = x^{(t)} - \f {(x^{(k)})^2 - a}{2 x^{(k)}} = \f 12 (x^{(k)} + \tfrac a{x^{(k)}})
+		x^{(k+1)} = x^{(k)} - \f {(x^{(k)})^2 - a}{2 x^{(k)}} = \f 12 (x^{(k)} + \tfrac a{x^{(k)}})
 	\]
 	$x^{(k)}$ approximiert dann $\sqrt a$
 
@@ -4677,7 +4677,7 @@ Der Beweis nutzte die Intervallschachtelung.
 
 			Man sieht, dass das Newtonverfahren am schnellsten bezüglich der Iterationszahl konvergiert.
 		\item
-			Bezüglich dem Aufwand (Auswertungen von $f$ und $f''$):
+			Bezüglich dem Aufwand (Auswertungen von $f$ und $f'$):
 
 			Setze $z^{(k)} = x^{(2k)}$ beim Bisektions- und Sekantenverfahren.
 			Dann ist der Aufwand für $z^{(k)}$ und $x^{(k)}$ aus dem Newtonverfahren vergleichbar.
@@ -4724,7 +4724,7 @@ Für allgemeine Polynome sind daher numerische Verfahren erforderlich, z.B. das 
 				Iterativ bekommen wir so „alle“ Nullstellen von $p$.
 		\end{itemize}
 	\end{note}
-	\begin{note}
+	\begin{proof}
 		Sei o.B.d.A. $p$ normiert, dann ist
 		\[
 			p(x) = \prod_{i=1}^n (x-x_i)
@@ -4777,7 +4777,7 @@ Für allgemeine Polynome sind daher numerische Verfahren erforderlich, z.B. das 
 			\qquad k\to\infty
 		\]
 		also $x^* = x^* - \f {p(x^*)}{p'(x^*)}$ und $p(x^*) = 0$, also $x^* \le x^n$ und damit $x^*=x_n$.
-	\end{note}
+	\end{proof}
 \end{st}
 
 \begin{st}[Induzierte Matrixnormen] \label{3.8}
@@ -4793,6 +4793,9 @@ Für allgemeine Polynome sind daher numerische Verfahren erforderlich, z.B. das 
 		\|A\|_1 &:= \sup_{x\in \C^n} \f{\|Ax\|_1}{\|x\|_1} = \max_{j=1,\dotsc,n} \sum_{i=1}^n |a_{ij}| &
 			& \qquad\text{Spaltensummennorm}
 	\end{alignat*}
+	\begin{proof}
+		Siehe NLA oder Übungsblatt 10, Aufgabe 3.
+	\end{proof}
 \end{st}
 
 Mit diesem Hilfssatz lassen sich die folgenden Schranken für Nullstellen von Polynomen beweisen.
@@ -4825,8 +4828,8 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 			M := \begin{pmatrix}
 				0 & \cdots & 0 & -a_0 \\
 				1 & \ddots & \vdots & \vdots \\
-				\vdots & \ddots & 0 & \vdots \\
-				0 & \cdots & 1 & -a_{n-1}
+				 & \ddots & 0 & \vdots \\
+				0 &  & 1 & -a_{n-1}
 			\end{pmatrix}
 			\in \R^{n\times n}
 		\]
@@ -4837,43 +4840,43 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 		durch Entwicklung nach der letzten Zeile.
 		\[
 			\lambda I - M := \begin{pmatrix}
-				\lambda & \cdots & 0 & a_0 \\
-				-1 & \ddots & \vdots & \vdots \\
-				\vdots & \ddots & \lambda & \vdots \\
-				0 & \cdots & -1 & \lambda + a_{n-1}
+				\lambda &  & 0 & a_0 \\
+				-1 & \ddots &  & \vdots \\
+				 & \ddots & \lambda & a_{n-2} \\
+				0 &  & -1 & \lambda + a_{n-1}
 			\end{pmatrix}
 		\]
 		Es gilt
 		\begin{align*}
 			\det(\lambda I - M) = (-1)^{n+n-1}(-1) \det \begin{pmatrix}
-				\lambda & \cdots & \cdots & a_0 \\
-				-1 & \ddots & & \vdots \\
-				\vdots & \cdots & \lambda & \vdots \\
-				0 & \cdots & -1 & a_{n-2}
+				\lambda &  & 0 & a_0 \\
+				-1 & \ddots &  &  \vdots \\
+				 & \ddots & \lambda & \vdots \\
+				0 &  & -1 & a_{n-2}
 			\end{pmatrix}
 			 + (-1)^{n+n} (\lambda + a_{n-1}) \underbrace{\det (\dotsc)}_{=\lambda^{(n-1)}}
 		\end{align*}
 		Wegen
 		\begin{align*}
 			\det T_k = \det \begin{pmatrix}
-				\lambda & \cdots & \cdots & a_0 \\
+				\lambda &  & 0 & a_0 \\
 				-1 & \ddots &  &\vdots \\
-				\vdots & \ddots & \lambda &\vdots \\
-				0 & \cdots & -1 & a_k 
+				 & \ddots & \lambda &\vdots \\
+				0 &  & -1 & a_k 
 			\end{pmatrix}
 			&= (-1)(-1) 
 			\det \begin{pmatrix}
-				\lambda & \cdots & \cdots & a_0 \\
+				\lambda &  & 0 & a_0 \\
 				-1 & \ddots &  &\vdots \\
-				\vdots & \ddots & \lambda &\vdots \\
-				0 & \cdots & -1 & a_{k-1} 
+				 & \ddots & \lambda &\vdots \\
+				0 &  & -1 & a_{k-1} 
 			\end{pmatrix}
 			+ 1 \cdot a_k 
 			\det \begin{pmatrix}
-				\lambda & 0 & \cdots &  0 \\
-				-1 & \ddots & \ddots &  \vdots \\
-				\vdots & \ddots & \ddots & 0  \\
-				0 & \cdots & -1 & \lambda
+				\lambda &  &  &  0 \\
+				-1 & \ddots &  &   \\
+				 & \ddots & \ddots &   \\
+				0 &  & -1 & \lambda
 			\end{pmatrix} \\
 			&= \det T_{k-1} + a_k \lambda^k
 		\end{align*}
@@ -6266,9 +6269,9 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 			&= 0
 		\end{align*}
 	\end{proof}
-	\begin{proof}
+	\begin{note}
 		In der Praxis führt dies zu „zigzagging“ in Abstiegsrichtungen.
-	\end{proof}
+	\end{note}
 \end{st}
 
 \begin{df}[$A$-Skalarprodukt und Norm] \label{4.14}
