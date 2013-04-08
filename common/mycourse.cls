@@ -51,7 +51,7 @@
 }
 
 % Erzeuge pdf-bookmark für das Inhaltsverzeichnis
-\BeforeTOCHead[toc]{{\pdfbookmark[0]{\contentsname}{toc}}}
+%\BeforeTOCHead[toc]{{\pdfbookmark[0]{\contentsname}{toc}}}
 
 \usepackage{enumerate}			% Aufzählungen wie a), (I), etc. als optionales Argument
 \usepackage{parskip}			% Entfernt Einrückung bei Absätzen und fügt vertikalen Abstand ein
