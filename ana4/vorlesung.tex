@@ -1,0 +1,288 @@
+\documentclass{mycourse}
+
+\title{Höhere Analysis}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\chapter{Fourierreihen}
+
+\section{Orthonormalsysteme}
+
+\begin{df} \label{1.1}
+	Sei $L$ ein linearer Raum über $\C$.
+	Eine Abbildung $\<,\>: L \times L \to \C$ heißt \emph{Skalarprodukt}, falls
+	\begin{enumerate}[(S1)]
+		\item
+			$\<\alpha x_1 + \beta x_2, y \> = \alpha \<x_1,y\> + \beta \<x_2, y\>$
+		\item
+			$\<y,x\> = \_{\<x,y\>}$
+		\item
+			$\forall x\in L\setminus \{0\} : \<x,x\> > 0$
+	\end{enumerate}
+\end{df}
+
+\begin{nt} \label{1.2}
+	\begin{enumerate}[1)]
+		\item
+			Aus (S2) folgt $\<x,x\> \in \R$.
+		\item
+			Aus (S1) und (S2) folgt
+			\[
+				\<x, \alpha y_1 + \beta y_2\> = \_\alpha \<x,y_1\> + \_\beta \<x,y_2\>
+			\]
+		\item
+			Aus (S1) folgt $\<0,0\> = 0$ und mit (S3):
+			\[
+				\<x,x\> = 0 \quad\iff\quad x=0
+			\]
+	\end{enumerate}
+\end{nt}
+
+\begin{st} \label{1.3}
+	Durch
+	\[
+		\|x\| := \<x,x\>^{\f 12}
+	\]
+	wird auf $L$ eine Norm definiert, die \emph{induzierte Norm}.
+	Es gilt die sogennante \emph{Cauchy-Schwarz-Bunjakowski-Ungleichung} (CSB):
+	\[
+		| \<x,y\> | \le \|x\| \cdot \|y\|
+		\qquad \forall x,y \in L
+	\]
+	\begin{proof}
+		Die Positivität folgt aus (S3) und \ref{1.2}.
+		Die Homogenität $\|\alpha x\| = |\alpha| \|x\|$ ist eine leichte Übung.
+
+		Zeige für die Dreiecksungleichung zunächst die CSB für reelles $c$:
+		\begin{align*}
+			0 &\le \< x + c\<x,y\> y, x + c \<x,y\> y\> \\
+			&= \|x\|^2 + \underbrace{c\_{\<x,y\>}\<x,y\> + c \<x,y\>\<x,y\>}_{= 2|\<x,y\>|^2 c} + c^2|\<x,y\>|^2 \|y\|^2 \\
+			&= \|x\|^2 + 2|\<x,y\>|^2 c + \|y\|^2 |\<x,y\>|^2 c^2 
+			=: p(c)
+		\end{align*}
+		Wegen $p(c) \ge 0$ für alle $c\in \R$ gilt für die Diskriminante
+		\begin{align*}
+			0 \ge D 
+			&= \tilde b^2 - 4\tilde a \tilde c \\
+			&= 4 |<x,y\>|^4 - 4 \|y\|^2 |\<x,y\>|^2 \|x\|^2
+		\end{align*}
+		Also
+		\[
+			|\<x,y\>|^4 \le |\<x,y\>|^2 \|x\|^2 \|y\|^2
+		\]
+		Daraus folgt die CSB.
+
+		Zeige jetzt die Dreiecksungleichung:
+		\begin{align*}
+			\|x+y\|^2 = \<x+y, x+y\>
+			&= \|x\|^2 + \underbrace{\<x,y\> + \<y,x\>}_{= 2\Re \<x,y\>} + \|y\|^2 \\
+			&\le \|x\|^2 + 2 |\<x,y\>|  + \|y\|^2 \\
+			&\le \|x\|^2 + 2\|x\|\|y\| + \|y\|^2 \\
+			&\le (\|x\| + \|y\|)^2
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{kor}[Stetigkeit des Skalarprodukts]
+	Das Skalarprodukt ist stetig bezüglich der induzierten Norm in beiden Argumenten, d.h.
+	\[
+		x_n \to x \quad\land\quad y_n \to y
+		\qquad \implies \qquad
+		\<x_n, y_n\> \to \<x,y\>
+	\]
+	oder
+	\[
+		\lim_{n\to \infty} \<x_n, y_n\> = \l\<\lim_{n\to \infty} x_n, \lim_{n\to\infty} y_n \r\>
+	\]
+	\begin{proof}
+		\begin{align*}
+			|\<x_n,y_n\> - \<x,y\>|
+			&= |\<x_n, y_n - y\> - \<x-x_n,y\>| \\
+			&\le |\<x_n,y_n -y\>| + |\<x-x_n,y\>| \\
+			&\stack{CSB}{\le} \|x_n\| \underbrace{\|y_n -y\|}_{\to 0} + \underbrace{\|x-x_n\|}_{\to 0} \underbrace{\|y\|}_{=\const}
+		\intertext{Da $(x_n)$ konvergent in $L$, ist $x_n$ beschränkt (Beweis dazu analog wie in $\C$) und daher}
+			&\to 0 \qquad (n\to \infty)
+		\end{align*}
+	\end{proof}
+\end{kor}
+
+\begin{df}[Hilbertraum] \label{1.5}
+	$(L, \<,\>)$ heißt \emph{Hilbertraum}, wenn $L$ bezüglich der induzierten Norm vollständig ist, d.h. jede Cauchy-Folge konvergiert.
+\end{df}
+
+\begin{ex} \label{1.6}
+	\begin{enumerate}[1)]
+		\item
+			Sei 
+			\[
+				L = \bigg\{(x_n) \text{ Folge in } \C : \sum_{n=1}^\infty |x_n|^2 < \infty \bigg\}
+			\]
+			Setze 
+			\[
+				\<(x_n),(y_n)\> := \sum_{n=1}^\infty x_n\_{y_n}
+			\]
+			(konvergent, da Cauchy-Folge in $\C$).
+			Dann ist
+			\begin{align*}
+				\Big| \sum_{j=n}^m x_j\_{y_j} \Big|
+				&=\Big| \<(x_n,\dotsc,x_m), (y_n,\dotsc,y_m)\>_{\C^{m-n+1}} \Big|
+			\intertext{mit der CSB in $\C^{m-n+1}$ gilt}
+				&< \bigg( \sum_{j=n}^m |x_j|^2 \bigg)^{\f 12} \bigg( \sum_{j=n}^m |y_j|^2 \bigg)^{\f 12}
+			\intertext{für $m \ge n > \max\{N_\eps, \tilde N_\eps\}$ also}
+				&< \eps
+			\end{align*}
+			Gültigkeit von (S1) bis (S3) ist eine leichte Übung.
+
+			$(L, \<x,\>)$ ist ein Hilbertraum.
+			Man nennt ihn $\ell^2$, je nach Kontext: $\ell^2 := L$ oder $\ell^2 := (L,\<,\>)$.
+		\item
+			Sei $L = C([a,b] \to \C)$ und
+			\[
+				\<f,g\> := \int_a^b f(x)\_{g(x)} dx
+			\]
+			(S1) bis (S3) ist eine Übung.
+
+			$(L,\<,\>)$ ist kein Hilbertraum (Gegenbeispiel Übung).
+
+			Erweitere $L$ zu 
+			\begin{align*}
+				\tilde L &:= L^2\Big(]a,b[\Big) \\
+				\<f,g\>^{\sim} := \int_{]a,b[} f\_{g} d\my
+			\end{align*}
+			$(\tilde L, \<,\>^\sim)$ ist ein Hilbertraum.
+			
+			Es gelten
+			\begin{itemize}
+				\item
+					$L \subset \tilde L$
+				\item
+					$\<f,g\>^\sim = \<f,g\>$ für $f,g \in L$
+				\item
+					$L$ ist dicht in $\tilde L$.
+			\end{itemize}
+	\end{enumerate}
+\end{ex}
+
+\begin{df}[Prä-Hilbertraum] \label{1.7}
+	Ein linearer Raum mit Skalarprodukt heißt \emph{Prä-Hilbertraum}.
+\end{df}
+
+\begin{st} \label{1.8}
+	Zu jedem \emph{Prä-Hilbertraum} $(L,\<,\>_L)$ existiert ein bis auf Isomorphie eindeutiger Hilbertraum $(H,\<,\>_H)$ mit
+	\begin{itemize}
+		\item
+			$L \subset H$
+		\item
+			$\<,\>_H = \<,\>_L$ auf $L\times L$
+		\item
+			$L$ ist dicht in $H$.
+	\end{itemize}
+	$(H,\<,\>_H)$ heißt \emph{Vervollständigung} von $L$.
+	\begin{note}
+		Die Isomorphie bedeutet in diesem Fall eine lineare, bijektive Funktion $\Phi$
+		\[
+			\Phi: (H,\<,\>_H) \to (\tilde H,\<,\>_{\tilde H})
+		\]
+		mit
+		\[
+			\<\Phi(f),\Phi(g)\>_{\tilde H} = \<f,g\>_H
+		\]
+	\end{note}
+	\begin{proof}
+		Genauso wie die Erweiterung von $\Q$ zu $\R$.
+	\end{proof}
+\end{st}
+
+\begin{df} \label{1.9}
+	Eine Folge $(e_j)$ im Prä-Hilbertraum $(L,\<,\>)$ heißt \emph{Orthonormalsystem}, falls
+	\[
+		\<e_j,e_k\> = \delta_{j,k}
+	\]
+	Insbesondere ist damit $\|e_j\| = 1$.
+\end{df}
+
+\begin{df}[Vereinbarung] \label{1.10}
+	In $(L,\<,\>)$ verwenden wir ab jetzt immer für $\|\cdot\|$ die induzierte Norm.
+	Außerdem ist $(L,\<,\>)$ im Folgenden immer ein Prä-Hilbertraum.
+\end{df}
+
+\begin{st} \label{1.11}
+	Sei $(e_j)$ ein Orthonormalsystem.
+	Dann gelten
+	\begin{enumerate}[1)]
+		\item
+			Falls 
+			\[
+				x = \sum_{j=1}^\infty x_j e_j
+			\]
+			mit $x_j \in \C$, so ist
+			\[
+				x_j = \<x,e_j\>
+			\]
+		\item
+			$\{e_1,e_2, \dotsc \}$ ist linear unäbhängig, d.h. jede endliche Teilmenge ist linear unabhängig.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				\begin{align*}
+					\<x,e_k\> 
+					&= \bigg\< \sum_{j=1}^\infty x_j e_j, e_k \bigg\>
+				\intertext{wegen der Stetigkeit des Skalarprodukts:}
+					&= \sum_{j=1}^\infty \underbrace{\<x_j e_j, e_k\>}_{= 0 \text{ für $j\neq k$}} \\
+					&= x_k \<e_k, e_k\> =1
+				\end{align*}
+			\item
+				Sei $\sum_{j=1}^N \alpha_j e_j = 0$.
+				Aus 1) folgt
+				\[
+					\alpha_j = x_j = \<x,e_j\> = \<0,e_j\> = 0
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{1.12}
+	Sei $(e_j)$ ein Orthonormalsystem in $(L,\<,\>)$ und $x\in L$.
+	Dann gelten
+	\begin{enumerate}[1)]
+		\item
+			die \emph{Besselsche Ungleichung}:
+			\[
+				\sum_{j=1}^\infty |\<x,e_j\>|^2 \le \|x\|^2
+			\]
+		\item
+			die \emph{Parsevalsche Gleichung}:
+			\[
+				\sum_{j=1}^\infty |\<x,e_j\>|^2 = \|x\|^2
+			\]
+			genau dann, wenn
+			\[
+				x = \sum_{j=1}^\infty \<x,e_j\> e_j
+			\]
+		\item
+			Die Menge
+			\[
+				M := \bigg\{ x\in L : x = \sum_{j=1}^\infty \<x,e_j\> e_j \bigg\}
+			\]
+			ist abgeschlossen in $L$.
+		\item
+			Ist $(L, \<,\>)$ zusätzlich Hilbertraum, so ist $\sum_{j=1}^\infty \<x,e_j\> e_j$ konvergent (aber nicht unbedingt gegen $x$).
+	\end{enumerate}
+	\begin{proof}
+		\begin{align*}
+			0 &\le \Big\|x - \sum_{j=1}^N \<x,e_j\> e_j \Big\|^2
+			= \< \dotso, \dotso \> \\
+			&= \|x\|^2 - \underbrace{\Big\<x, \sum_{j=1}^N \<x,e_j\> e_j\Big\>}_{= \sum_{j=1}^N |\<x,e_j\>|^2} - \underbrace{\Big\<\sum_{j=1}^N \<x,e_j\> e_j,x\Big\>}_{= \sum_{j=1}^N |\<x,e_j\>|^2} + \underbrace{\Big\<\sum_{j=1}^N\<x,e_j\> e_j, \sum_{k=1}^N \<x,e_k\> e_k\Big\> }_{= \sum_{j,k=1} \<x,e_j\>\_{\<x,e_k\>}\<e_j,e_k\> 
+			= \sum_{j=1}^N |\<x,e_j\>|^2} 
+		\end{align*}
+		Also
+		\[
+			0 \le \|x\|^2 - \sum_{j=1}^N |\<x,e_j\>|^2
+		\]
+	\end{proof}
+\end{st}
+\end{document}

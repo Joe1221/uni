@@ -133,13 +133,14 @@
 \newtheorem{alg}[thm]{Algorithmus}
 \renewtheorem*{alg*}{Algorithmus}
 
-%\theoremheadertypefont{\color{black}} % Font für Theorem-Typ (Satz, Definition, etc.)
-\theoremstyle{break}
-
 \newtheorem{nt}[thm]{Bemerkung}
 \renewtheorem*{nt*}{Bemerkung}
 \newtheorem{ex}[thm]{Beispiel}
 \renewtheorem*{ex*}{Beispiel}
+
+%\theoremheadertypefont{\color{black}} % Font für Theorem-Typ (Satz, Definition, etc.)
+\theoremstyle{break}
+
 
 \theorempreskipamount 1.5em 								% Abstand vor Theroem
 \theoremheaderfont{\kern-1em\bfseries\small\itshape}% Kursiv und kleiner als oben
