@@ -29,17 +29,17 @@ INCLUDEDTEX := $(patsubst %,%.tex,\
 		$(shell sed -rn 's/^[^%]*\\(input|include)\{([^\.\}]*)(\.tex)?\}/\2/p' $(TARGET).tex))
 # second depth
 ifneq ($(strip $(INCLUDEDTEX)),)
-INCLUDEDTEX := $(patsubst %,%.tex,\
-		$(shell sed -rn 's/^[^%]*\\(input|include)\{([^\.\}]*)(\.tex)?\}/\2/p' $(TARGET).tex))
+INCLUDEDTEX += $(foreach INCFILE,$(INCLUDEDTEX),$(patsubst %,%.tex,\
+		$(shell sed -rn 's/^[^%]*\\(input|include)\{([^\.\}]*)(\.tex)?\}/\2/p' $(INCFILE))))
 endif
 endif
 # quick-hack to get sty dependency (TODO: a clean solution)
-INCLUDEDPKG += $(wildcard $(INCLUDEDIR)/*.sty) $(wildcard $(INCLUDEDIR)/*.cls)
+INCLUDEDPKG = $(wildcard $(INCLUDEDIR)/*.sty) $(wildcard $(INCLUDEDIR)/*.cls)
 #=================================
 
-AUXFILES = $(foreach T,$(PDFTARGETS:.pdf=), $(T).aux)
-AUXFILES += $(patsubst %.tex,%.aux, $(INCLUDEDTEX))
-LOGFILES = $(patsubst %.aux,%.log, $(AUXFILES))
+AUXFILES = $(PDFTARGETS:.pdf=.aux)
+AUXFILES += $(INCLUDEDTEX:.tex=.aux)
+LOGFILES = $(AUXFILES:.aux=.log)
 
 # short git revision
 REVISION := $(shell git rev-parse --short HEAD)
@@ -66,7 +66,7 @@ BIBDEPS = %.bbl
 endif
 
 #$(PDFTARGETS): %.pdf: %.tex %.aux $(BIBDEPS) $(INCLUDEDTEX)
-$(PDFTARGETS): %.pdf: %.tex $(BIBDEPS) $(INCLUDEDTEX) $(INCLUDEDPGK)
+$(PDFTARGETS): %.pdf: %.tex $(BIBDEPS) $(INCLUDEDTEX) $(INCLUDEDPKG)
 	(TEXINPUTS=.:$(INCLUDEDIR):$(TEXINPUTS) $(PDFLATEX) $*)
 ifneq ($(strip $(BIBFILES)),)
 	@if grep -q "undefined references" $*.log; then \
