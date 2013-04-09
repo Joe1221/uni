@@ -1,0 +1,218 @@
+\documentclass[
+	%noproofs
+]{mycourse}
+
+\title{Numerische Mathematik 2}
+\author{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\chapter{Gewöhnliche Differentialgleichungen}
+
+
+\section{Einführung und Beispiele}
+
+
+\subsection{Mathematische Beispiele gewöhnlichere DGLs}
+
+Eine DGL ist eine Gleichung, die eine unbekannte Funktion zusammen mit ihren Ableitungen enthält.
+
+\begin{ex} \label{1.1}
+	\begin{enumerate}[a)]
+		\item
+			Betrachte
+			\[
+				y'(x) = 0
+			\]
+			oder kurz $y' = 0$.
+			Gesucht ist
+			\begin{align*}
+				y: \R &\to \R \\
+				x \mapsto y(x)
+			\end{align*}
+			mit $y$ differenzierbar und $y'(x) = 0$ für alle $x \in \R$.
+			\begin{itemize}
+				\item
+					Spezielle Lösungen sind z.B. $y(x)=0$, $y(x)=1$, $y(x) = 37$.
+				\item
+					Die \emph{allgemeine} Lösung ist $y(x) = C$, $C \in \R$, d.h. man kann zeigen, dass jede solche Funktion die DGL löst und jede Lösung in dieser Form geschrieben werden kann
+			\end{itemize}
+		\item
+			Betrachte
+			\[
+				y'(x) = r y(x),
+				\qquad r\in \R
+			\]
+			oder kurz $y' = ry$.
+			\begin{itemize}
+				\item
+					Spezielle Lösungen sind $y(x)=e^{rx}$, $y(x)=0$, $y(x)=3e^{rx}$.
+				\item
+					Die \emph{allgemeine} Lösung ist $y(x) = C e^{rx}$, $C\in \R$.
+			\end{itemize}
+		\item
+			Betrachte die DGL höherer Ordnung
+			\[
+				y''(x) = -y(x)
+			\]
+			oder kurz $y'' = -y$.
+			\begin{itemize}
+				\item
+					Spezielle Lösungen sind $y(x) = 0$, $y(x) = \sin x$, $y(x)=\cos x$.
+				\item
+					Die allgemeine Lösung ist
+					\[
+						y(x) = C_1 \sin x + C_2 \cos x,
+						\qquad C_1, C_2 \in \R
+					\]
+			\end{itemize}
+		\item
+			Betrachte das DGL-System
+			\begin{align*}
+				y_1''(x) &= -y_1(x) \\
+				y_2''(x) &= y_3(x) \\
+				y_3''(x) &= y_3(x) \\
+			\end{align*}
+			\begin{itemize}
+				\item
+					Eine spezielle Lösung ist
+					\begin{align*}
+						y_1(x) &= \sin x \\
+						y_2(x) &= 37 \\
+						y_3(x) &= 0
+					\end{align*}
+				\item
+					Die allgemeine Lösung ist (für $C_1,C_2,C_3,C_4 \in \R$)
+					\begin{align*}
+						y_1(x) &= C_1 \sin x + C_2 \cos x \\
+						y_2(x) &= C_3 e^x + C_4 \\
+						y_3(x) &= C_3 e^x
+					\end{align*}
+			\end{itemize}
+		\item
+			Betrachte die DGL $y' = y$ für eine vektorwertige Funktion.
+			Gesucht ist also
+			\begin{align*}
+				y: \R &\to \R^2 \\
+				& x \mapsto y(x) = \begin{pmatrix}
+					y_1(x) \\ y_2(x)
+				\end{pmatrix}
+			\end{align*}
+			mit
+			\begin{align*}
+				\begin{pmatrix}
+					y_1'(x) \\ y_2'(x)
+				\end{pmatrix}
+				=
+				\begin{pmatrix}
+					y_1(x) \\ y_2(x)
+				\end{pmatrix}
+			\end{align*}
+			Man sieht hier sofort die Äquivalenz zu einem entsprechenden DGL-System.
+	\end{enumerate}
+\end{ex}
+
+Bei gewöhnlichen DGLs beziehen sich alle Ableitungen auf die selbe eindimensionale Variable.
+
+\begin{ex} \label{1.2}
+	Betrachte $y : \R^2 \to \R : (x_1,x_2) \mapsto y(x) = y(x_1,x_2)$ mit einer sogenannten partielle Differentialgleichung (PDGL):
+	\[
+		\f{\d^2y}{\d x_1^2} + \f{\d^2 y}{\d x_2^2 }
+	\]
+	\begin{itemize}
+		\item
+			Spezielle Lösungen sind $y(x) = 0, y(x) = x_1 + x_2$.
+		\item
+			Allgemeine Lösungen sind schwierig.
+	\end{itemize}
+\end{ex}
+
+\subsection{Anwendungsbeispiele für gewöhnliche Differentialgleichungen}
+
+\subsubsection{Continuous compounding-stetige Verzinsung}
+
+Beschreibe $y(t)$ das Sparguthaben zum Zeitpunkt $t$.
+
+\fixme[Bild Zinsen]
+
+Die Bank zahlt Zinsen proportional zum Guthaben und Zeitspanne
+\[
+	\Delta y(t) = y(t + \Delta t) - y(t) = r y(t) \Delta t
+\]
+mit festgelegtem Zinssatz $r$.
+Für $\Delta t \to 0$ ergibt sich
+\[
+	\dot y (t) = ry(t),
+\]
+eine DGL mit der Lösung
+\[
+	y(t) = Ce^{rt}
+\]
+
+\subsubsection{Populationsdynamik}
+
+Beschreibe $y(t)$ die Anzahl von Individuen in einer Population.
+
+\begin{description}
+	\item[Model 1 (Malthus)]
+		Die Population wächst mit konstanter Rate $r \in \R$.
+		In einer kurzen Zeiteinheit $\Delta t$ ist
+		\[
+			\Delta y \approx ry \Delta t
+			\quad \implies \quad
+			\dot y = r y
+		\]
+	\item[Model 2 (Verhulst)]
+		Es existiert eine Maximalbevölkerung $M > 0$.
+		Die Population wächst mit von $y$ abhängiger Rate
+		\[
+			\begin{cases}
+				\text{Wachstum mit Rate $r$} & y << M \\
+				\text{Wachstum mit Rate $0$} & y \approx M
+			\end{cases}
+		\]
+		Im Zeitintervall $\Delta t$ wächst die Population um $\Delta y \approx r(1-\f yM) M \Delta t$.
+		Es ergibt sich die DLG
+		\[
+			\dot y = r \Big(1 - \f yM\Big) y = ry \underbrace{- \f rM y^2}_{\text{Todesrate aufgrund zu hoher Population}}
+		\]
+	\item[Model 3 (Lofka-Volterra, Räuber-Beute Modell)]
+		Betrachte zwei Populationen $y_1(t), y_2(t)$ (Räuber und Beutetiere).
+		\begin{align*}
+			\dot y_1 &= r_1 y_1 - f_1y_1y_2
+			\qquad r_1,f_1 \in \R \\
+			\dot y_2 &= -r_2 y_2 + f_2 y_1y_2
+		\end{align*}
+\end{description}
+
+
+\subsubsection{Chemische Reaktionen}
+
+
+Seien $A(t), B(t), C(t)$ Konzentrationen der Chemikalien $A,B,C$.
+Betrachte die Reaktion
+\[
+	A \overset{k}{\longrightarrow} B.
+\]
+In einem kurzen Zeitinvervall $\Delta t$ wandeln sich $k A(t) \Delta t$ Moleküle von $A$ in $B$ um.
+\begin{align*}
+	\dot A(t) &= -k A(t) \\
+	\dot B(t) &= k A(t)
+\end{align*}
+Betrachte die Reaktion
+\[
+	A + B \overset{k}{\longrightarrow} C + 2D.
+\]
+\begin{align*}
+	\dot A &= -kAB,  \\
+	\dot B &= -kAB, \\
+	\dot C &= kAB, \\
+	\dot D &= 2kAB
+\end{align*}
+
+
+
+\end{document}
