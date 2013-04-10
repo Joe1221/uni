@@ -214,5 +214,200 @@ Betrachte die Reaktion
 \end{align*}
 
 
+\subsubsection{Newtonsche Gesetze}
+
+\fixme[Bild]
+
+Beschreibe $x(t)$ die Position, $v(t) = \dot x(t)$ die Geschwindigkeit und $a(t) = \dot v(t) = \ddot x(t)$ die Beschleunigung eines Teilchens im $\R^3$ zu einem Zeitpunkt $t$.
+
+Newton: Wirkt eine Kraft $F(t)$ auf einen Körper der Masse $m$, so ist
+\[
+	F(t) = m a(t) = m\ddot x(t)
+\]
+
+
+\subsubsection{Elektrische Schaltkreise}
+
+\fixme[Bild: Schaltkreis]
+
+Betrachte eine RLC-Reihenschaltung.
+\begin{itemize}
+	\item
+		Stromstärke $I_R$ durch den Widerstand
+		\[
+			I_R(t) = \f {U_R(t)}R
+		\]
+		für $R \in \R$.
+	\item
+		Stromstärke $I_C$ durch den Kondensator
+		\[
+			I_C(t) = \dot  U_C(t) C
+		\]
+		für $C \in \R$.
+	\item
+		Stromstärke $I_L$ durch die Spule
+		\[
+			\dot I_L(t) = \f {U_L(t)}L
+		\]
+		für $L \in \R$.
+\end{itemize}
+
+Die Kirchhoffschen Gesetze besagen
+\begin{gather*}
+	U(t) = U_R(t) + U_C(t) + U_L(t), \qquad \text{(Spannungsbilanz)}
+	I_L(t) =  I_C(t)0= I_R(t). \qquad \text{Strombilanz}
+\end{gather*}
+Es ergibt sich mit obigen Gleichungen
+\begin{align*}
+	U_R(t) &= RC \dot U_C(t) \\
+	U_L(t) &= L \dot I_L(t) = LC \ddot U_C(t) \\
+\end{align*}
+also ergibt sich die DGL
+\[
+	U(t) = U_C(t) + RC \dot U_C(t) + LC \ddot U_C(t)
+\]
+
+
+\subsection{Anfangswertprobleme}
+
+
+Die Lösung einer gewöhnlichen DGL ist üblicherweise nicht eindeutig bestimmt.
+Die allgemeine Lösung von
+\[
+	\dot y(t) = ry(t)
+	\qquad \text{ist} \qquad
+	y(t) = Ce^{rt}
+\]
+mit Parameter $C \in \R$.
+In viele Anwendungen sind die Parameter eindeutig bestimmt durch die Anfangswerte von $y$.
+Beispielsweise bei stetiger Verzinsung gibt $C=y(0)$ das Anfangsguthaben an.
+
+Intuitiv erwarten wir, dass die Lösung eindeutig durch folgende Vorgaben bestimmt wird:
+\begin{itemize}
+	\item
+		Bei der Populationsdynamik durch die anfängliche Population $y(0)$, bzw. $y_1(0)$ und $y_2(0)$.
+	\item
+		Bei der Chemischen Reaktion durch die anfänglichen Konzentrationen $A(0), B(0)$.
+	\item
+		Bei den Newtonschen Gesetzen durch die anfängliche Position $x_1(0),x_2(0),x_3(0)$, und die anfänglichen Geschwindigkeiten $v_1(0), v_2(0), v_3(0)$.
+	\item
+		Bei den Elektrischen Schaltkreisen durch die anfängliche Spannung $U_C(0)$ und Stromstärke $\dot U_C(0)$ am Kondensator.
+\end{itemize}
+Eine gewöhnliche DGL zusammen mit Anfangsbedingungen heißt \emph{Anfangswertproblem} (AWP).
+
+
+\subsection{Elementare Lösungsmethoden}
+
+
+\subsubsection{Raten/Wissen der Lösung}
+
+Siehe \ref{1.1}.
+
+\subsection{Separation der Variablen}
+
+
+Für eine gewöhnliche DGL der Form
+\[
+	y'(x) = g(x) h(y(x))
+\]
+schreiben wir formal
+\[
+	\f {dy}{dx} = g(x) h(y)
+	\qquad \leadsto \qquad
+	\int \f 1{h(y)} dy = \int g(x) dx
+\]
+
+\begin{ex} \label{1.3}
+	Betrachte Modell 2 aus der Populationsdynamik ($M=1=r$).
+	\begin{align*}
+		\f {dy}{dt} = \dot y(t) = (1-y)y
+		\qquad \leadsto \qquad
+		\int \f 1{(1-y)y} dy = \int 1 dt
+	\end{align*}
+	Für einen Startwert $y(0) > 1$ erwarten wir $y(t) \ge 1$ für $t \ge 0$.
+	Sei num $y(0) > 1$.
+
+	Es ergibt sich durch Partialbruchzerlegung
+	\begin{align*}
+		\int \f 1{(1-y)y} dy 
+		= \int \f 1y dy + \int 1{1-y} dy
+		= - \ln (y-1) + \ln(y) + \const
+		= \ln \f {y}{y-1} + \const
+	\end{align*}
+	Also 
+	\begin{align*}
+		\ln \f {y}{y-1} &= t + \const \\
+		\implies \qquad	\f y{y-1} &= C e^t \qquad C \ge 0 \\
+		\implies \qquad y(t)= \f {Ce^t}{Ce^t - 1}
+	\end{align*}
+	Das Vorgehen war \emph{formal} und beweist weder, dass dies eine Lösung ist, noch, dass alle Lösungen so aussehen.
+	Erst Einsetzen von $y(t)$ in die DGL beweist, dass dies eine Lösung (für jedes $C>0$) ist.
+
+	$C$ kann aus Anfangswerten bestimmt werden:
+	\[
+		y_0 := y(0) = \f C{C-1}
+		\qquad \implies \qquad
+		C = \f {y_0}{y_0-1}
+	\]
+\end{ex}
+
+\subsubsection{Variation der Konstanten}
+
+Betrachte eine lineare inhomogene DGL
+\[
+	y'(x) = ry(x) + z(x).
+\]
+Die allgemeine Lösung der \emph{homogenen Gleichung} $y'(x) = ry(x)$ ist $y(x) = Ce^{rx}$.
+
+Ansatz: Ersetze zur Lösung der inhomogenen Gleichung die Konstante $C$ durch eine Funktion $C(x)$:
+\[
+	y(x) = C(x) e^{rx}
+\]
+Löst $y$ die DGL, so ist
+\[
+	rC(x)e^{rx} + C'(x)e^{rx} = y'(x) = ry(x) + z(x) = rC(x)e^{rx} + z(x)
+\]
+also $C'(x) e^{rx} = z(x)$ und damit
+\[
+	C'(x) = z(x) e^{-rx}
+\]
+Integration liefert $C(x)$ und Nachprüfen zeigt, dass die so gefundene Funktion tatsächlich die DGL löst.
+
+
+
+\section{Theorie gewöhnlicher Differentialgleichungen}
+
+
+
+\subsection{Eine allgemeine Form}
+
+
+\begin{ex} \label{1.4}
+	Die DGL $y'' = -y$ kann in ein System erster Ordnung transformiert werden.
+	Setze dazu
+	\begin{align*}
+		u = \begin{pmatrix}
+			u_1(x) \\ u_2(x)
+		\end{pmatrix} = \begin{pmatrix}
+			y(x) \\ y'(x)
+		\end{pmatrix}
+	\end{align*}
+	Die DGL lässt sich jetzt schreiben als
+	\begin{align*}
+		u'(x) =
+		\begin{pmatrix}
+			y'(x) \\ y''(x)
+		\end{pmatrix}
+		= \begin{pmatrix}
+			y'(x) \\ -y(x)
+		\end{pmatrix}
+		= \begin{pmatrix}
+			u_2(x) \\ -u_1(x)
+		\end{pmatrix}
+		=: f(x, u(x))
+	\end{align*}
+\end{ex}
 
 \end{document}
+
+
