@@ -150,7 +150,7 @@
 % Beweis
 % TODO: Beweissymbol taucht nicht auf, wenn Beweis mit einer environment abgeschlossen wurde
 \theoremsymbol{\ensuremath{\square}}
-\newtheorem*{proof}{Beweis}
+\newtheorem*{proof}{Beweis:}
 \theoremsymbol{}
 
 
