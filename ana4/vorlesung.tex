@@ -46,22 +46,22 @@
 \begin{st} \label{1.3}
 	Durch
 	\[
-		\|x\| := \<x,x\>^{\f 12}
+		\|x\| := \sqrt{\<x,x\>}
 	\]
 	wird auf $L$ eine Norm definiert, die \emph{induzierte Norm}.
-	Es gilt die sogennante \emph{Cauchy-Schwarz-Bunjakowski-Ungleichung} (CSB):
+	Es gilt die sogenante \emph{Cauchy-Schwarz-Bunjakowski-Ungleichung} (CSB):
 	\[
 		| \<x,y\> | \le \|x\| \cdot \|y\|
 		\qquad \forall x,y \in L
 	\]
 	\begin{proof}
-		Die Positivität folgt aus (S3) und \ref{1.2}.
+		Die Positivität folgt aus \ref{1.1} (S3) und \ref{1.2}.
 		Die Homogenität $\|\alpha x\| = |\alpha| \|x\|$ ist eine leichte Übung.
 
 		Zeige für die Dreiecksungleichung zunächst die CSB für reelles $c$:
 		\begin{align*}
-			0 &\le \< x + c\<x,y\> y, x + c \<x,y\> y\> \\
-			&= \|x\|^2 + \underbrace{c\_{\<x,y\>}\<x,y\> + c \<x,y\>\<x,y\>}_{= 2|\<x,y\>|^2 c} + c^2|\<x,y\>|^2 \|y\|^2 \\
+			0 &\le \Big\< x + c\<x,y\> y, x + c \<x,y\> y\Big\> \\
+			&= \|x\|^2 + \underbrace{c\_{\<x,y\>}\<x,y\> + c \<x,y\>\<y,x\>}_{= 2|\<x,y\>|^2 c} + c^2\<x,y\>\_{\<x,y\>} \|y\|^2 \\
 			&= \|x\|^2 + 2|\<x,y\>|^2 c + \|y\|^2 |\<x,y\>|^2 c^2 
 			=: p(c)
 		\end{align*}
@@ -69,7 +69,7 @@
 		\begin{align*}
 			0 \ge D 
 			&= \tilde b^2 - 4\tilde a \tilde c \\
-			&= 4 |<x,y\>|^4 - 4 \|y\|^2 |\<x,y\>|^2 \|x\|^2
+			&= 4 |\<x,y\>|^4 - 4 \|y\|^2 |\<x,y\>|^2 \|x\|^2
 		\end{align*}
 		Also
 		\[
@@ -89,7 +89,7 @@
 \end{st}
 
 \begin{kor}[Stetigkeit des Skalarprodukts]
-	Das Skalarprodukt ist stetig bezüglich der induzierten Norm in beiden Argumenten, d.h.
+	Das Skalarprodukt ist bezüglich der induzierten Norm in beiden Argumenten stetig, d.h.
 	\[
 		x_n \to x \quad\land\quad y_n \to y
 		\qquad \implies \qquad
@@ -126,20 +126,21 @@
 			\[
 				\<(x_n),(y_n)\> := \sum_{n=1}^\infty x_n\_{y_n}
 			\]
-			(konvergent, da Cauchy-Folge in $\C$).
-			Dann ist
+			Die Reihe konvergiert, da sie eine Cauchy-Folge in $\C$ ist:
 			\begin{align*}
-				\Big| \sum_{j=n}^m x_j\_{y_j} \Big|
-				&=\Big| \<(x_n,\dotsc,x_m), (y_n,\dotsc,y_m)\>_{\C^{m-n+1}} \Big|
+				\bigg| \sum_{j=n}^m x_j\_{y_j} \bigg|
+				&=\bigg| \Big\<(x_n,\dotsc,x_m), (y_n,\dotsc,y_m)\Big\>_{\C^{m-n+1}} \bigg|
 			\intertext{mit der CSB in $\C^{m-n+1}$ gilt}
-				&< \bigg( \sum_{j=n}^m |x_j|^2 \bigg)^{\f 12} \bigg( \sum_{j=n}^m |y_j|^2 \bigg)^{\f 12}
-			\intertext{für $m \ge n > \max\{N_\eps, \tilde N_\eps\}$ also}
+				&\le \bigg( \sum_{j=n}^m |x_j|^2 \bigg)^{\f 12} \bigg( \sum_{j=n}^m |y_j|^2 \bigg)^{\f 12}
+			\intertext{
+				Wegen $\sum_{n=1}^\infty |x_n|^2 < \infty$ (für alle $(x_n) \in L$) sind die beiden Summen $< \eps$ für $m \ge n > N_\eps$ (bzw. $\tilde N_\eps$). 
+				Für $m \ge n > \max\{N_\eps, \tilde N_\eps\}$ also}
 				&< \eps
 			\end{align*}
 			Gültigkeit von (S1) bis (S3) ist eine leichte Übung.
 
-			$(L, \<x,\>)$ ist ein Hilbertraum.
-			Man nennt ihn $\ell^2$, je nach Kontext: $\ell^2 := L$ oder $\ell^2 := (L,\<,\>)$.
+			$(L, \<,\>)$ ist ein Hilbertraum (Beweis: Übungsaufgabe 1.2a).
+			Man nennt ihn $\ell^2$, je nach Kontext mit oder ohne dem Skalarprodukt aus diesem Beispiel: $\ell^2 := L$ oder $\ell^2 := (L,\<,\>)$.
 		\item
 			Sei $L = C([a,b] \to \C)$ und
 			\[
@@ -151,8 +152,8 @@
 
 			Erweitere $L$ zu 
 			\begin{align*}
-				\tilde L &:= L^2\Big(]a,b[\Big) \\
-				\<f,g\>^{\sim} := \int_{]a,b[} f\_{g} d\my
+				\tilde L &:= L^2(]a,b[) \\
+				\<f,g\>^{\sim} &:= \int_{]a,b[} f\_{g} d\my
 			\end{align*}
 			$(\tilde L, \<,\>^\sim)$ ist ein Hilbertraum.
 			
@@ -186,11 +187,11 @@
 	\begin{note}
 		Die Isomorphie bedeutet in diesem Fall eine lineare, bijektive Funktion $\Phi$
 		\[
-			\Phi: (H,\<,\>_H) \to (\tilde H,\<,\>_{\tilde H})
+			\Phi: \Big(H,\<,\>_H\Big) \to \Big(\tilde H,\<,\>_{\tilde H}\Big)
 		\]
 		mit
 		\[
-			\<\Phi(f),\Phi(g)\>_{\tilde H} = \<f,g\>_H
+			\Big\<\Phi(f),\Phi(g)\Big\>_{\tilde H} = \<f,g\>_H
 		\]
 	\end{note}
 	\begin{proof}
@@ -310,8 +311,8 @@
 					&\le \|x-x_N\| + \Big\|x_N - \sum_{j=1}^m \<x_N,e_j\> e_j \Big\| + \Big\| \sum_{j=1}^m \<x_N-x,e_j\> e_j \Big\|	\\
 					&\le \eps + \eps + \bigg(\sum_{j=1}^m |\<x_N-x,e_j\>|^2 \bigg)^{\f 12} \\
 					&\le 2\eps + \bigg(\sum_{j=1}^\infty |\<x_N-x,e_j\>|^2 \bigg)^{\f 12} \\
-					&\stack{1)}\le 2\eps\|x_N-x\|
-					< \eps
+					&\stack{1)}\le 2 + \eps\|x_N-x\|
+					< 3 \eps
 				\end{align*}
 		\end{enumerate}
 	\end{proof}
@@ -438,7 +439,7 @@
 	Sei $(e_n)$ ein ONS im Hilbertraum $H$ und $(\lambda_j)$ ein Folge in $\C$.
 	Definiere
 	\begin{align*}
-		D(A) &:= \Big\{x \in H : \sum_{j=1}^\infty |\lambda_j \<x,e_j\> |^2 < \infty \Big\}
+		D(A) &:= \Big\{x \in H : \sum_{j=1}^\infty |\lambda_j \<x,e_j\> |^2 < \infty \Big\} \\
 		Ax &:= \sum_{j=1}^\infty \lambda_j \<x,e_j\> e_j \qquad \text{für } x \in D(A)
 	\end{align*}
 	\begin{enumerate}[1)]
@@ -486,7 +487,7 @@
 			$A$ symmetrisch $\iff \forall j \in \N : \lambda_j \in \R$
 			\begin{proof}
 				\begin{seg}[$\implies$]
-					Gilt nach \ref{1.18}
+					Gilt nach \ref{1.18}.
 				\end{seg}
 				\begin{seg}[$\Longleftarrow$]
 					Sei $x,y \in D(A)$, dann ist wegen der Stetigkeit des Skalarproduktes
@@ -494,16 +495,16 @@
 						\<Ax,y\>
 						&= \sum_{j=1}^\infty \<\lambda_j \<x,e_j\> e_j, y\> \\
 						&= \sum_{j=1}^\infty \lambda_j \<x,e_j\> \<e_j, y\> \\
-						&= \sum_{j=1}^\infty \lambda_j \_{<y,e_j\>} \<x, e_j\> \\
+						&= \sum_{j=1}^\infty \lambda_j \_{\<y,e_j\>} \<x, e_j\> \\
 						&= \sum_{j=1}^\infty \<x,\lambda_j \<y,e_j\> e_j\> \\
-						&= \<x, Ay\>
+						&= \<x, Ay\>.
 					\end{align*}
 				\end{seg}
 			\end{proof}
 		\item
 			Falls $(\lambda_j)$ beschränkt, so ist $D(A) = H$
 			\begin{proof}
-				Siehe \ref{eq:bessel}.
+				Siehe Besselsche Ungleichung (\ref{eq:bessel}).
 			\end{proof}
 		\item
 			Falls $(e_j)$ VONS in $H$, so ist $D(A)$ dicht in $H$.
@@ -516,12 +517,17 @@
 \end{ex}
 
 \begin{df} \label{1.20}
-	Die Darstellung ? des Operators $A$ heißt \emph{Spektraldarstellung} von $A$.
+	Die Darstellung 
+	\[
+		Ax := \sum_{j=1}^\infty \lambda_j \<x,e_j\> e_j
+	\]
+	des Operators $A$ heißt \emph{Spektraldarstellung} von $A$.
 	Die Menge
 	\[
 		\sigma(A) := \_{\{\lambda \in \C : \lambda \text{ ist Eigenwert von $A$} \}}
 	\]
-	Ein Operator $A$, der durch die Darstellung ? gegeben ist, heißt \emph{diskreter Spektraloperator}.
+	heißt \emph{Spektrum} von $A$.
+	Ein Operator $A$, der durch diese Darstellung gegeben ist, heißt \emph{diskreter Spektraloperator}.
 	\begin{note}
 		Die Spektraldarstellung entspricht der Diagonalisierung bei Matrizen.
 	\end{note}
