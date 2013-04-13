@@ -1,0 +1,228 @@
+\documentclass[11pt]{scrbook}
+\usepackage{mathe-vorlesung2}
+\renewtheorem{thm}{Theorem}[section]
+\renewcommand{\thethm}{\arabic{section}.\arabic{thm}}
+
+
+\title{Geometrie}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\textbf{Was ist Geometrie?}
+\begin{itemize}
+	\item
+		Keine präzise Definition möglich, umfasst verschiedene mathematische \emph{Teilgebiete} (algebraische Geometrie, Differentialgeometrie, \dots ), eine mögliche Beschreibung ist: \\
+		\emph{untersucht Größe und Lage von Figuren im Raum und Eigenschaft des Raumes}
+	\item
+		Das Wort \emph{Geometrie}  setzt sich zusammen aus dem griechischen $ \gamma \eps \omega $ ( = Land) und $ \mu \eps \tau \rho \iota \alpha$ ( = Vermessung)
+	\item
+		Eine der ältesten Wissenschaften (> 5000 Jahre)
+	\item
+		Verschiedene \emph{Zugänge}: 
+		\begin{itemize}
+			\item axiomatisch (Euklid)
+			\item analytisch (Descartes): z.B. kartesisches Modell $\R^2$
+		\end{itemize}
+	\item
+		Verschiedene \emph{Geometrien}:
+		\begin{itemize}
+			\item euklidische Geometrie
+			\item hyperbolische Geometrie: Lobatchewski 1829, Bolyai 1848
+			\item sphärische Geometrie
+			\item Riemannsche Geometrie: Riemann 1854
+		\end{itemize}
+	\item 
+		Wichtiges Konzept: \emph{Symmetrie} \\
+		Felix Klein: Erlanger Programm: Klassifikation geometrischer Teildisziplinen nach den zugelassenen \emph{Symmetrien = Transformationen}
+		\begin{itemize}
+			\item euklidisch: abstandserhaltende Abbildungen
+			\item affine Geometrien: Kollinearität, Abstandsverhältnisse
+			\item projektive Geometrie: Doppelverhältnisse \\
+				 \vdots
+			\item Topologie: Homöomorphismen
+		\end{itemize}
+	\item
+		Starke Bezüge zur \emph{Physik}: \emph{Allgemeine Relativitätstheorie} (Differentialgeometrie) \\
+		Raumzeit = 4 - dimensionale pseudo-Riemannsche Mannigfaltigkeit
+\end{itemize}
+
+\textbf{In dieser Vorlesung:} Einführung in die (elementare) Differentialgeometrie \\
+\textbf{Differentialgeometrie}: Studium von \emph{glatten} Objekten (Kurven, Flächen, \dots) mit Hilfe der Differentialrechnung und Integralrechnung.
+Glatt bedeutet hierbei differenzierbar und regulär parametrisiert.
+Ein zentraler Begriff in der Geometrie ist die \emph{Krümmung}.
+
+\newpage
+
+
+\chapter{Kurventheorie}
+
+\section{Bogenlänge einer Kurve}
+
+Eine Kurve ist ein in die Ebene oder den Raum abgebildetes Geradenstück. Solche Kurven wreden durch eine Abbildung $c: I \to \R^n$ beschrieben, wobei  $I$ ein Intervall ist. Für $n = 2$ ist es eine ebene Kurve, für $n = 3$ eine Raumkurve.
+
+\begin{ex}[Beispiele für Kurven]
+\label{1.1}
+\begin{itemize}
+	\item Gerade: $ c: \R \to \R^n , c(t) = a + t v $ für $ a, v \in \R^n$
+	\item Kreislinie in der Ebene mit Radius $ r > 0$ und Mittelpunkt $(0,0)$: \[ c: \R \to \R^2, \qquad c(t) = \begin{pmatrix} r \cos(t) \\  r \sin(t) \end{pmatrix} \]
+	\item Schraubenlinie im $\R^3$: $c(t) = \begin{pmatrix} r \cos(t) \\ r \sin(t) \\  h \cdot t \end{pmatrix}$
+	\item Archimedische Spirale: $ c: (0,\infty) \to \R^2 , \quad a > 0, \quad c(t) = \begin{pmatrix} a  t  \cos(t) \\ a  t  \sin(t)) \end{pmatrix}$
+\end{itemize}
+\end{ex}
+
+Wie kann man die \textbf{Länge} einer Kurve bestimmen? \\
+Seien $a,b \in \R$ und $c: [a,b] \to \R^n$ eine stetige Abbildung (\glqq stetiger Weg\grqq). \\
+
+\textbf{Nahe liegende Idee}: Approximation durch einbeschriebenen Polygonzug \\
+Sei also $ a = t_0 < t_1 < \dots < t_k = b$ eine \emph{Unterteilung} des Intervalls. Die Länge des dadurch eingeschriebenen Polygonzuges ist 
+\[
+	||c(a) - c(t_1)|| + ||c(t_1) - c(t_2)|| + \dots + ||c(t_{k-1}) - c(b)|| = \sum_{i=0}^{k-1} ||c(t_i) - c(t_{i+1})||
+\]
+Wählt man eine \emph{Verfeinerung} $ a = s_0 < s_1 < s_2 < \dots < s_l = b$ mit $l > k$ und $\{t_0, \dots t_k\} \subset \{s_0, \dots s_l\}$, so erhält man einen Polygonzug, dessen Länge größer gleich der Länge des ursprünglichen Polygonzuges ist (aufgrund der Dreiecksungleichung). 
+
+\begin{df}
+Sei $c: [a,b] \to \R^n$ stetig. Setze 
+\[
+     L(c) := \sup \Big\{ \sum_{i=0}^{k-1} ||c(t_i) - c(t_{i+1})|| : a = t_0 < t_1 < \dots < t_k = b \Big\}.
+\]
+\end{df}
+
+Kann es vorkommen, dass $L(c) = \infty$ ist? Ja! 
+
+\begin{ex}[Kochsche Schneeflocke]
+Die Kochsche Schneeflocke oder auch Kochsche Kurve entsteht aus einer Folge von Wegen: \\
+$c_0$: $L(c_0) = 1$  \\
+$c_1$: $L(c_1) = \f{4}{3}$  \\
+$c_2$: $L(c_2) = (\f{4}{3})^2$  \\
+$c_3$: $L(c_3) = (\f{4}{3})^3$  \\
+
+Für $c_k$ ist $L(c_k) = (\f{4}{3})^k$. Die $c_k$ konvergieren gleichmäßig gegen einen stetigen Limes-Weg $c_{\infty}$ und es gilt $L(c_{\infty}) = \infty$. \\
+Beweis: Übung. \\
+\fixme[Bilder]
+\end{ex}
+
+\begin{note}
+\textbf{Vorsicht:} Im Allgemeinen gilt \underline{nicht} $L(c_k) \to L(c_{\infty})$ falls die $c_k$ gleichmäßig gegen $c_{\infty}$ konvergieren.
+\begin{ex*}
+\[ 2 = L(c_0) = L(c_1) = L(c_2) = L(c_3), \text{aber } L(c_{\infty}) = \sqrt{2}. \]
+\end{ex*}
+\fixme[Bilder]
+\end{note}
+
+\begin{df}
+$c: [a,b] \to \R^n$ heißt \emph{rektifizierbar}, wenn $L(c) < \infty$.
+\end{df}
+
+Die Kochsche Kurve ist also eine nicht-rektifizierbare Kurve. Welche Kurven sind rektifizierbar?
+
+\begin{st}
+\label{1.5}
+Sei $c: [a,b] \to \R^n$ stetig differenzierbar. Dann ist $c$ rektifizierbar und es gilt:
+\[ 
+	L(c) = \int_a^b ||\dot{c} (t)|| dt , \quad \text{wobei } \dot{c} (t) = \begin{pmatrix} \dot c_1(t) \\ \vdots \\ \dot c_n(t) \end{pmatrix} = \begin{pmatrix} \f{dc_1}{dt} (t) \\ \vdots \\  \f{dc_n}{dt} (t) \end{pmatrix}
+\]
+\begin{proof}
+Wir zeigen, dass der Wert $L(c) = \int_a^b ||\dot{c} (t)|| dt$ beliebig genau durch die Länge eines einbeschriebenen Polygonzuges approximiert werden kann. Dies zeigt auch, dass es keinen Polygonzug der Länge $l' > l$ geben kann, denn sonst gäbe es Verfeinerungen der Unterteilung, deren Länge also $\le l$ sein müssten, mit Länge beliebig nahe an $l'$. Nach dem Satz über Riemannsche Summen (z.B. Foster I), angewandt auf das Integral $\int_a^b ||\dot{c} (t)|| dt$, gibt es zu jedem $\eps'$ ein $\delta_0> 0$, so dass für fast jede Unterteilung $a = t_0 < t_1 < \dots < t_k = b$ mit Feinheit kleiner als $\delta_0$ gilt, dass
+\[ \Big | \sum_{i=0}^{k-1} ||\dot{c} (t_{i+1})|| \cdot [t_{i+1} - t_i) - l\Big | < \eps'. \]
+Die Komponentenfunktionen $\dot(c_j)$ der Ableitung von $c$ sind als stetige Funktionen auf dem kompakten Intervall $[a,b]$ sogar gleichmäßig stetig, d.h. es gibt zu jedem $\eps' > 0$ ein $\delta_j > 0$, so dass gilt:
+\[ |s - t| < \delta_j  \rightarrow |\dot{c_j}(s) - \dot{c_j}(t)| < \eps' .\]
+Wähle eine Unterteilung der Feinheit $< \min \{ \delta_1, \dots, \delta_n, \delta_0 \}$. Nun gilt für die Länge des Polygonzuges:
+\begin{align*}
+ \hat l &:= \sum_{i=0}^{k-1} \|c(t_{i+1}) - c(t_i)\|  = \sum_{i=0}^{k-1} \Big \|  \f{c(t_{i+1}) - c(t_i)}{t_{i+1}-t_i} \Big \| \cdot (t_{i+1} - t_i) \\
+ &= \sum_{i=0}^{k-1} \Big \| \Big (  \f{c_1(t_{i+1}) - c_1(t_i)}{t_{i+1}-t_i}, \quad \dots \quad , \f{c_n(t_{i+1}) - c_n(t_i)}{t_{i+1}-t_i} \Big ) \Big \| \cdot (t_{i+1} - t_i) \\
+ &= \sum_{i=0}^{k-1} \Big \| \Big (  \dot c_1(\xi_{1,i}), \quad \dots \quad , \dot c_n(\xi_{n,i}) \Big ) \Big \| \cdot (t_{i+1} - t_i)
+\end{align*}
+Die $\xi_{i,j} \in (t_{i+1},t_i)$ existieren nach dem Mittelwertsatz der Differentialrechnung. 
+Ersetzen wir in dem obigen Term die $\dot c(\xi_{i,j})$ durch $\dot c(t_{i+1})$, so haben wir im $i$-ten Summanden den Fehler
+\begin{align*}
+ (t_{i+1} - t_i) \cdot \Big | \| \big( \dot c_1(\xi_{1,i}),  \dots  , \dot c_n(\xi_{n,i}) \big)\| - \| \big( \dot c_1(t_{i+1}),  \dots  , \dot c_n(t_{i+1}) \big)\| \Big| \\
+\le (t_{i+1} - t_i) \cdot \underbrace{\big \| \big(   \dot c_1(\xi_{1,i}) - \dot c_1(t_{i+1}),  \dots  , \dot c_n(\xi_{n,i}) - \dot c_n(t_{i+1}) \big) \big \| }_{\sqrt{n} \cdot \eps'}
+\end{align*}
+gemacht, insgesamt also höchstens den Fehler $\sqrt{n} \cdot \eps' \cdot (b-a)$. Insgesamt folgt damit
+\[ |l-l'| < \eps' + \sqrt{n} \, (b-a) \eps' = \eps' \cdot (1 + \sqrt{n} \,  (b-a)). \]
+Wähle also  $\eps' < \f{1}{1+\sqrt{n} \, (b-a)}$.
+\end{proof}
+\end{st}
+
+\begin{ex}[Bogenlänge für die logarithmische Spirale]
+\[ c(t) = \begin{pmatrix} e^{\alpha t} \cos(t) \\ e^{\alpha t} \sin(t) \end{pmatrix} , \quad c: \R \to \R^2, \quad \alpha > 0. \]
+Erinnerung: \[ L(c \big |_{[a,b]}) = \int_a^b \| \dot c(t) \| dt  \]
+Berechne: 
+\begin{align*}
+ \dot c (t) &= \begin{pmatrix} e^{\alpha t} (\alpha \cos(t) - \sin(t)) \\ e^{\alpha t} (\alpha \sin(t) + \cos(t)) \end{pmatrix}  \\
+  \| \dot c(t) \| &= e^{\alpha t} \sqrt{\alpha^2 \cos^2(t) + \sin^2(t) - 2 \alpha \cos(t) \sin(t) + \alpha^2 \sin^2(t) + cos^2(t) + 2 \alpha \sin(t) \cos(t)} \\
+ &= e^{\alpha t} \sqrt{(\alpha^2 +  1) (\sin^2(t) + \cos^2(t) )} = e^{\alpha t} \sqrt{\alpha^2 + 1} 
+\end{align*}
+Nun folgt: 
+\[
+ L(c \big |_{[a,b]}) =  \int_a^b \| \dot c(t) \| dt  = \sqrt{\alpha^2 + 1}  \int_a^b  e^{\alpha t} dt  
+ = \sqrt{\alpha^2 + 1} \; \Big [ \f{1}{\alpha} e^{\alpha t} \Big ]_a^b  = \f{\sqrt{\alpha^2 + 1}}{\alpha} \; (e^{\alpha b} - e^{\alpha a} ) 
+\]
+
+\end{ex}
+
+\section{Kurven im $\R^n$}
+Wir wollen nun Kurven im $\R^n$ mit Mitteln der Differential- und Integralrechnung studieren. Wir setzen voraus, dass die Kurven durch beliebig oft differenzierbare Wege gegeben sind.
+
+\begin{df}
+Sei $I \subseteq \R$ ein Intervall. Eine \emph{parametrisierte Kurve} ist eine unendlich oft differenzierbare Abbildung $c: I \to \R^n$. Eine parametrisierte Kurve heißt \emph{regulär}, falls ihr Geschwindigkeitsvektor nirgends verschwindet, d.h. falls $\dot c (t) \neq 0 \; \forall t \in \R$ gilt.
+\end{df}
+
+\begin{ex*}
+\begin{itemize}
+	\item für regulär parametrisierte Kurven: Alle Beispiele in \ref{1.1}, z.B. ist die Gerade $c(t) = a+tv$ regulär, da $\dot c(t) = v \neq 0$.
+	\item  für eine \underline{nicht}-regulär parametrisierte Kurve: Die Neilsche Parabel \[ c:\R \to \R^2, t \mapsto (t^2, t^3) \text{ ist nicht regulär, da } \dot c(0) = (0,0). \]
+\end{itemize}
+\end{ex*}
+
+\begin{note}
+Wir setzen meist voraus, dass Kurven regulär parametrisiert sind. \\
+Eine parametrisierte Kurve enthält mehr Informationen als nur das Bild $c(I) \subseteq \R^n$ (die sogenannte \emph{Spur} der Kurve), nämlich auch die Information, wie dieses Bild durchlaufen wird (mit welcher Geschwindigkeit, in welche Richtung). Diese zusätzliche Information wird aber in der Geometrie als eher irrelevant angesehen. \\
+Man möchte oft auch die Parametrisierung abändern, ohne dabei das Bild der Kurve zu verändern.
+\end{note}
+
+\begin{df}
+Sei $c: I \to \R^n$ eine parametrisierte Kurve. Eine \emph{Parameterstransformation} von $c$ ist eine bijektive Abbildung $\phi: J \to I$, wobei $J$ ein weiteres Intervall ist und sowohl $\phi$ als auch $\phi^{-1}$ unendlich oft differenzierbar sind. Die parametrisierte Kurve $\tilde c = c \circ \phi : J \to \R^n$ nennen wir \emph{Umparametrisierung} von $c$. 
+\end{df}
+
+\begin{note}
+Wegen $c = \tilde c \circ \phi^{-1} = c \circ \phi \circ \phi^{-1}$ kann man $c$ aus $\tilde c$ wieder zurückgewinnen. Man beachte, dass die Ableitung einer Parametertransformation nirgends verschwindet, denn:
+\[ \phi^{-1} \circ \phi(t) = t \qquad \stack{Kettenregel}{\Longrightarrow} \qquad  (\phi^{-1})' (\phi(t)) \cdot \phi'(t) = 1. \]
+Also folgt, dass $\phi'(t) \neq 0 \; \forall t \in J$. \\
+Daraus folgt, dass \emph{die Umparametrisierung einer regulär parametrisierten Kurve wieder regulär parametrisiert ist}: 
+\begin{align*}
+\dot{\tilde{c}}(t) = (c \circ \phi)' (t) = \underbrace{\dot c(\phi(t))}_{\neq 0} \cdot \underbrace{\phi'(t)}_{\neq 0} \neq 0 \\
+\text{bzw. }  \f{d \tilde c}{dt} (t) = \f{d(c \circ \phi)}{dt} (t) = \f{dc}{dt} (\phi (t)) \cdot \f{d \phi}{dt}
+\end{align*}
+Da die Ableitung einer Parametertransformation nirgends verschwindet, gilt nach dem Zwischenwertsatz, dass entweder $\phi'(t) > 0 \; \forall t \in J$ oder $\phi'(t) < 0 \; \forall t \in J$ ist.
+\end{note}
+
+\begin{df}
+Eine Parametertransformation heißt \emph{orientierungserhaltend}, falls $\phi'(t) > 0$ gilt, sonst \emph{orientierungsumkehrend}.
+\end{df}
+
+\begin{df}
+Eine \emph{Kurve}  ist eine Äquivalenzklasse von regulären parametrisierten Kurven, wobei zwei Kurven als äquivalent angesehen werden, wenn sie durch Umparametrisierung auseinander hervorgehen. Eine \emph{orientierte Kurve} ist eine Äquivalenzklasse von regulären parametrisierten Kurven, wobei zwei Kurven als äquivalent angesehen werden, wenn sie durch eine orientierungserhaltende Parametertransformation auseinander hervorgehen.
+\end{df}
+
+\begin{note}
+\begin{itemize}
+	\item Diese Definition drückt aus, dass nicht die Abbildungen $c: I \to \R^n$ unsere Studienobjekte sind, sondern die Kurven, die sie beschreiben.
+	\item Eine orientierte Kurve bestimmt genau eine Kurve, und eine Kurve zwei orientierte Kurven.
+	\item \emph{Geometrische Begriffe} sind eben solche, die nicht von der Wahl der Parametrisierung abhängen.
+	\item Eine Kurve ist im Allgemeinen \underline{nicht} durch ihre Spur gegeben (da es z.B. bei einer Kurve mit mehreren Schleifen beliebig viele Möglichkeiten gibt, selbige zu durchlaufen, und auch die Anzahl und Reihenfolge der Durchläufe nicht festgelegt sind), dies gilt aber, wenn $c$ injektiv ist.
+\end{itemize}
+\end{note}
+
+Nach Satz \ref{1.5} ist eine auf einem kompakten Intervall parametrisierbare Kurve rektifizierbar. Die \emph{Länge} ändert sich bei Umparametrisierung nicht, allgemeiner gilt:
+\begin{st}
+Sei $s: [a,b] \to \R^n$ stetig, $[\tilde a, \tilde b]$ ein Intervall und die stetige Abbildung $\phi: [\tilde a, \tilde b] \to [a,b]$ streng monoton, dann gilt für den stetigen Weg $\tilde c: [\tilde a, \tilde b] \to \R^n, \; \tilde c(t) := c(\phi(t))$, dass $L(\tilde c) = L(c) \in \R \cup \{ \infty \}$.
+\end{st}
+
+\end{document}
