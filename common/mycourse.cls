@@ -51,7 +51,9 @@
 }
 
 % Erzeuge pdf-bookmark für das Inhaltsverzeichnis
-%\BeforeTOCHead[toc]{{\pdfbookmark[0]{\contentsname}{toc}}}
+\let\oldtableofcontents\tableofcontents
+\renewcommand{\tableofcontents}{\pdfbookmark[0]{\contentsname}{toc}\oldtableofcontents}
+%\BeforeTOCHead[toc]{{\pdfbookmark[0]{\contentsname}{toc}}} % Funktioniert nicht im CIP-Pool
 
 \usepackage{enumerate}			% Aufzählungen wie a), (I), etc. als optionales Argument
 \usepackage{parskip}			% Entfernt Einrückung bei Absätzen und fügt vertikalen Abstand ein
