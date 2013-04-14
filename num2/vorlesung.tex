@@ -16,7 +16,7 @@
 \section{Einführung und Beispiele}
 
 
-\subsection{Mathematische Beispiele gewöhnlichere DGLs}
+\subsection{Mathematische Beispiele gewöhnlicher Differentialgleichungen}
 
 Eine DGL ist eine Gleichung, die eine unbekannte Funktion zusammen mit ihren Ableitungen enthält.
 
@@ -31,7 +31,7 @@ Eine DGL ist eine Gleichung, die eine unbekannte Funktion zusammen mit ihren Abl
 			Gesucht ist
 			\begin{align*}
 				y: \R &\to \R \\
-				x \mapsto y(x)
+				x &\mapsto y(x)
 			\end{align*}
 			mit $y$ differenzierbar und $y'(x) = 0$ für alle $x \in \R$.
 			\begin{itemize}
@@ -97,7 +97,7 @@ Eine DGL ist eine Gleichung, die eine unbekannte Funktion zusammen mit ihren Abl
 			Gesucht ist also
 			\begin{align*}
 				y: \R &\to \R^2 \\
-				& x \mapsto y(x) = \begin{pmatrix}
+				x &\mapsto y(x) = \begin{pmatrix}
 					y_1(x) \\ y_2(x)
 				\end{pmatrix}
 			\end{align*}
@@ -115,10 +115,10 @@ Eine DGL ist eine Gleichung, die eine unbekannte Funktion zusammen mit ihren Abl
 	\end{enumerate}
 \end{ex}
 
-Bei gewöhnlichen DGLs beziehen sich alle Ableitungen auf die selbe eindimensionale Variable.
+Bei \emph{gewöhnlichen} DGLs beziehen sich alle Ableitungen auf die selbe eindimensionale Variable.
 
 \begin{ex} \label{1.2}
-	Betrachte $y : \R^2 \to \R : (x_1,x_2) \mapsto y(x) = y(x_1,x_2)$ mit einer sogenannten partielle Differentialgleichung (PDGL):
+	Betrachte $y : \R^2 \to \R : (x_1,x_2) \mapsto y(x) = y(x_1,x_2)$ mit einer sogenannten \emph{partielle Differentialgleichung} (PDGL):
 	\[
 		\f{\d^2y}{\d x_1^2} + \f{\d^2 y}{\d x_2^2 }
 	\]
@@ -130,6 +130,8 @@ Bei gewöhnlichen DGLs beziehen sich alle Ableitungen auf die selbe eindimension
 	\end{itemize}
 \end{ex}
 
+Wir werden uns im Folgenden nur mit gewöhnlichen Differentialgleichungen beschäftigen.
+
 \subsection{Anwendungsbeispiele für gewöhnliche Differentialgleichungen}
 
 \subsubsection{Continuous compounding-stetige Verzinsung}
@@ -140,7 +142,7 @@ Beschreibe $y(t)$ das Sparguthaben zum Zeitpunkt $t$.
 
 Die Bank zahlt Zinsen proportional zum Guthaben und Zeitspanne
 \[
-	\Delta y(t) = y(t + \Delta t) - y(t) = r y(t) \Delta t
+	\Delta y(t) := y(t + \Delta t) - y(t) = r y(t) \Delta t
 \]
 mit festgelegtem Zinssatz $r$.
 Für $\Delta t \to 0$ ergibt sich
@@ -149,7 +151,7 @@ Für $\Delta t \to 0$ ergibt sich
 \]
 eine DGL mit der Lösung
 \[
-	y(t) = Ce^{rt}
+	y(t) = Ce^{rt}.
 \]
 
 \subsubsection{Populationsdynamik}
@@ -170,22 +172,25 @@ Beschreibe $y(t)$ die Anzahl von Individuen in einer Population.
 		Die Population wächst mit von $y$ abhängiger Rate
 		\[
 			\begin{cases}
-				\text{Wachstum mit Rate $r$} & y << M \\
+				\text{Wachstum mit Rate $r$} & y \ll M \\
 				\text{Wachstum mit Rate $0$} & y \approx M
 			\end{cases}
 		\]
 		Im Zeitintervall $\Delta t$ wächst die Population um $\Delta y \approx r(1-\f yM) M \Delta t$.
-		Es ergibt sich die DLG
+		Es ergibt sich die DGL
 		\[
-			\dot y = r \Big(1 - \f yM\Big) y = ry \underbrace{- \f rM y^2}_{\text{Todesrate aufgrund zu hoher Population}}
+			\dot y = r \Big(1 - \f yM\Big) y = ry \underbrace{- \f rM y^2}_{\mathclap{\text{Todesrate aufgrund zu hoher Population}}}
 		\]
 	\item[Model 3 (Lofka-Volterra, Räuber-Beute Modell)]
-		Betrachte zwei Populationen $y_1(t), y_2(t)$ (Räuber und Beutetiere).
+		Betrachte zwei Populationen $y_1(t), y_2(t)$ (Räuber und Beutetiere), beschrieben durch folgenden DGLs:
 		\begin{align*}
 			\dot y_1 &= r_1 y_1 - f_1y_1y_2
 			\qquad r_1,f_1 \in \R \\
 			\dot y_2 &= -r_2 y_2 + f_2 y_1y_2
+			\qquad r_2,f_2 \in \R \\
+			\dot y_2 &= -r_2 y_2 + f_2 y_1y_2
 		\end{align*}
+		\fixme[Bild Populationsentwicklung $y_1$ zu $y_2$, Kreis]
 \end{description}
 
 
@@ -206,11 +211,12 @@ Betrachte die Reaktion
 \[
 	A + B \overset{k}{\longrightarrow} C + 2D.
 \]
+Diese kann durch folgende DGLs beschrieben werden:
 \begin{align*}
 	\dot A &= -kAB,  \\
 	\dot B &= -kAB, \\
 	\dot C &= kAB, \\
-	\dot D &= 2kAB
+	\dot D &= 2kAB.
 \end{align*}
 
 
@@ -231,6 +237,7 @@ Newton: Wirkt eine Kraft $F(t)$ auf einen Körper der Masse $m$, so ist
 \fixme[Bild: Schaltkreis]
 
 Betrachte eine RLC-Reihenschaltung.
+Es lassen sich folgende Größen beschreiben:
 \begin{itemize}
 	\item
 		Stromstärke $I_R$ durch den Widerstand
@@ -254,8 +261,8 @@ Betrachte eine RLC-Reihenschaltung.
 
 Die Kirchhoffschen Gesetze besagen
 \begin{gather*}
-	U(t) = U_R(t) + U_C(t) + U_L(t), \qquad \text{(Spannungsbilanz)}
-	I_L(t) =  I_C(t)0= I_R(t). \qquad \text{Strombilanz}
+	U(t) = U_R(t) + U_C(t) + U_L(t), \qquad \text{(Spannungsbilanz)} \\
+	I_L(t) =  I_C(t) = I_R(t). \qquad \text{(Strombilanz)}
 \end{gather*}
 Es ergibt sich mit obigen Gleichungen
 \begin{align*}
@@ -279,7 +286,7 @@ Die allgemeine Lösung von
 	y(t) = Ce^{rt}
 \]
 mit Parameter $C \in \R$.
-In viele Anwendungen sind die Parameter eindeutig bestimmt durch die Anfangswerte von $y$.
+In vielen Anwendungen sind die Parameter eindeutig bestimmt durch die Anfangswerte von $y$.
 Beispielsweise bei stetiger Verzinsung gibt $C=y(0)$ das Anfangsguthaben an.
 
 Intuitiv erwarten wir, dass die Lösung eindeutig durch folgende Vorgaben bestimmt wird:
@@ -322,15 +329,15 @@ schreiben wir formal
 	\begin{align*}
 		\f {dy}{dt} = \dot y(t) = (1-y)y
 		\qquad \leadsto \qquad
-		\int \f 1{(1-y)y} dy = \int 1 dt
+		\int \f 1{(1-y)y} dy = \int 1 dt = t + \const
 	\end{align*}
 	Für einen Startwert $y(0) > 1$ erwarten wir $y(t) \ge 1$ für $t \ge 0$.
-	Sei num $y(0) > 1$.
+	Sei nun $y(0) > 1$.
 
 	Es ergibt sich durch Partialbruchzerlegung
 	\begin{align*}
 		\int \f 1{(1-y)y} dy 
-		= \int \f 1y dy + \int 1{1-y} dy
+		= \int \f 1y dy + \int \f1{1-y} dy
 		= - \ln (y-1) + \ln(y) + \const
 		= \ln \f {y}{y-1} + \const
 	\end{align*}
@@ -338,7 +345,7 @@ schreiben wir formal
 	\begin{align*}
 		\ln \f {y}{y-1} &= t + \const \\
 		\implies \qquad	\f y{y-1} &= C e^t \qquad C \ge 0 \\
-		\implies \qquad y(t)= \f {Ce^t}{Ce^t - 1}
+		\implies \qquad y(t) &= \f {Ce^t}{Ce^t - 1}
 	\end{align*}
 	Das Vorgehen war \emph{formal} und beweist weder, dass dies eine Lösung ist, noch, dass alle Lösungen so aussehen.
 	Erst Einsetzen von $y(t)$ in die DGL beweist, dass dies eine Lösung (für jedes $C>0$) ist.
@@ -346,7 +353,7 @@ schreiben wir formal
 	$C$ kann aus Anfangswerten bestimmt werden:
 	\[
 		y_0 := y(0) = \f C{C-1}
-		\qquad \implies \qquad
+		\quad \implies \quad
 		C = \f {y_0}{y_0-1}
 	\]
 \end{ex}
