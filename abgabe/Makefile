@@ -1,7 +1,4 @@
-LATEXMKFLAGS = -silent
 TEX_SOURCES = $(wildcard *.tex)
-PDF_TARGETS = $(patsubst %.tex,%.pdf,$(TEX_SOURCES))
-
 PDFTARGETS = $(patsubst %.tex,%.pdf,$(TEX_SOURCES))
 
 include ../common/pdflatex.mk
