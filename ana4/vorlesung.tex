@@ -576,8 +576,253 @@
 
 				Da $A$ symmetrisch und $\|e_j\| = 1$ bilden die $(e_j)$ ein ONS.
 			\end{proof}
+		\item
+			Sei $e_j : x \mapsto \sqrt{\f 2\pi} \sin(jx)$ (also $(e_j)$ ein ONS in $L^2([0,\pi])$).
+			Setze
+			\begin{align*}
+				D(\tilde A) &:= \Big\{ f\in L^2([0,\pi]) : \sum_{j=1}^\infty j^4 |\<f,e_j\>|^2 < \infty \Big\}, \\
+				\tilde A f &:= \sum_{i=1}^\infty j^2 \<f, \sqrt{\f 2\pi}\sin(j\cdot) \> \sqrt{2\pi}\sin(j\cdot).
+			\end{align*}
+			Dann gelten
+			\begin{itemize}
+				\item
+					$D(A) \subset D(\tilde A)$,
+				\item
+					$\tilde A \Big|_{D(A)} = A$, bzw. $\tilde Af = Af$ für $f \in D(A)$.
+			\end{itemize}
+			Man sagt: $\tilde A$ ist die \emph{Erweiterung} des Operators $A$ und schreibt $A \subset \tilde A$.
+			\begin{proof}
+				\begin{enumerate}[a)]
+					\item
+						Zeige $D(A) \subset D(\tilde A)$.
+						Sei $f \in D(A)$, dann ist
+						\[
+							f \in C^2([0,\pi]\to \C) \subset L^2([0,\pi])
+						\]
+						und
+						\begin{align*}
+							j^2\<f,e_j\> = \<f,j^2e_j\> &= \<f,Ae_j\>
+							\intertext{Wegen $e_j, f \in D(A)$ und $A$ symmetrisch:}
+							&= \<Af, e_j\>
+						\end{align*}
+						Also
+						\[
+							\sum_{j=1}^\infty j^4|\<f,e_j\>|^2 
+							= \sum_{j=1}^\infty |\<Af,e_j\>|^2 
+							\stack{\text{Bessel}}\le \|Af\|^2 
+							< \infty
+						\]
+					\item
+						Zeige $\tilde A \Big|_{D(A)} = A$, bzw. $\tilde Af = Af$ für $f \in D(A)$.
 
+						Sei $f \in D(A)$
+						\begin{align*}
+							\tilde Af 
+							&= \sum_{j=1}^\infty j^2 \<f,e_j\> e_j \\
+							&= \sum_{j=1}^\infty \<f,\underbrace{j^2e_j}_{=Ae_j}\> e_j \\
+							&= \sum_{j=1}^\infty \<Af, e_j\> e_j
+							\intertext{da $(e_j)$ ein VONS in $\im A$ ist (wird später gezeigt)}
+							&= Af
+						\end{align*}
+				\end{enumerate}
+			\end{proof}
 	\end{enumerate}
+\end{ex}
+
+\begin{df*}
+	Man nennt $A$ \emph{positiv}, falls
+	\[
+		\forall x \in D(A) : \<Ax,x\> \ge 0
+	\]
+\end{df*}
+
+\begin{nt} \label{1.22}
+	Es liege $A$ in der Spektraldarstellung aus \ref{1.19} vor.
+	Dann ist
+	\[
+		A \text{ positiv }  \quad\iff\quad \forall j\in \N : \lambda_j \ge 0
+	\]
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			\<Ax, x \> 
+			&= \sum_{j=1}^\infty \underbrace{\<\lambda_j \<x,e_j\> e_j, x\>}_{= \lambda_j\<x,e_j\> \<e_j,x\>} \\
+			&= \sum_{j=1}^\infty \lambda_j |\<x,e_j\>|^2
+		\end{align*}
+	\end{proof}
+\end{nt}
+
+\begin{df} \label{1.23}
+	Ein linearer Operator $A$ in $L$ mit $D(A) = L$ heißt \emph{beschränkt}, falls
+	\[
+		\exists c > 0 \forall x \in L : \|Ax\| \subset c\|x\|.
+	\]
+	Dann heißt
+	\begin{align*}
+		\|A\| &:= \inf \Big\{ c > 0 : \forall x \in L : \|Ax\| \le c\|x\| \Big\}
+		&= \sup_{\|x\|=1} \|Ax\|
+		&= \sup_{\|x\|\le 1} \|Ax\|
+		&= \sup_{\|x\|\neq 0} \f{\|Ax\|}{\|x\|}
+	\end{align*}
+	(Beweis: Einfache Übung zum Supremum, linearer Operator, Norm)
+	die \emph{(Operator)-Norm} von $A$.
+
+	Insbesondere gilt
+	\[
+		\forall x\in L : \|Ax\| \le \|A\| \|x\|
+	\]
+\end{df}
+
+\begin{nt} \label{1.24}
+	$A$ besitze die Spektraldarstellung aus \ref{1.19}.
+	Dann gilt
+	\[
+		(\lambda_j) \text{ beschränkt} \quad\iff\quad D(A)=H \;\land\; A \text{ beschränkt}
+	\]
+	\begin{proof}
+		Zeige durch vollständige Fallunterscheidung:
+		\begin{seg}[$(\lambda_j)$ beschränkt: $|\lambda_j| \le c$]
+			Sei $x \in L$.
+			Nach Bessel ist $\sum_{j=1}^\infty c^2 |\<x,e_j\>|^2 \le c^2 \|x\|^2$ konvergent, also ist
+			\[
+				\sum_{j=1}^\infty \underbrace{|\lambda_j|^2 |\<x,e_j\>|^2}_{\le c^2|\<x,e_j\>|^2}
+			\]
+			nach dem Vergleichskriterium konvergent, also $D(A) = H$.
+
+			\begin{align*}
+				\|Ax\|^2 
+				&= \bigg\|\sum_{j=1}^\infty \lambda_j \<x,e_j\> e_j\bigg\|^2 \\
+				&\stack{\text{Parseval}} = \sum_{j=1}^\infty |\lambda_j|^2 |\<x,e_j\>|^2 \\
+				&\stack{\text{s.o.}}\le c^2 \|x\|^2
+			\end{align*}
+			Also $\|Ax\| \le c\|x\|$ und damit $A$ beschränkt.
+		\end{seg}
+		\begin{seg}[$(\lambda_j)$ nicht beschränkt]
+			Es existiert eine Teilfolge mit $|\lambda_{j_k}| \to \infty$ ($k\to \infty$) und damit
+			\[
+				\|A e_{j_k}\| = \|\lambda_{j_k} e_{j_k}\| = |\lambda_{j_k}| \to \infty
+			\]
+			und damit $\sup_{\|x\|=1} \|Ax\| = \infty$, also $A$ nicht beschränkt.
+		\end{seg}
+	\end{proof}
+\end{nt}
+
+\begin{nt*}
+	$M$ heißt \emph{folgenkompakt}, falls jede Folge in $M$ eine konvergente Teilfolge besitzt.
+
+	$M$ heißt \emph{überdeckungskompakt}, falls für jede offene Überdeckung $(O_\alpha)_{\alpha \in A}$ von $M$ eine endliche Teilmenge $(O_{\alpha_i})_{i=1,\dotsc,N}$ existiert, die $M$ überdeckt.
+\end{nt*}
+
+\begin{df} \label{1.25}
+	Ein linearer Operator $A$ in $L$ mit $D(A) = L$ heißt \emph{kompakt}, falls
+	\[
+		(x_j) \text{ beschränkt} \quad\implies\quad \text{$(Ax_j)$ besitzt eine in $L$ konvergente Teilfolge}
+	\]
+	oder äquivalent
+	\[
+		M \subset L \text{ beschränkt} \quad\implies\quad \text{$A(M)$ ist präkompakt, d.h. $\_{A(M)}$ ist kompakt in $L$}
+	\]
+\end{df}
+
+\begin{st} \label{1.26}
+	Jeder kompakte Operator $A$ ist beschränkt.
+	\begin{proof}
+		Zeige durch Kontraposition.
+		Sei $A$ nicht beschränkt, dann existiert $(x_j) \subset L$ mit 
+		\[
+			\|x_j\| = 1  \quad\land\quad \|Ax_j\| \to \infty
+		\]
+		Also für jede Teilfolge $\|Ax_{j_k}\| \to \infty$.
+		Damit ist $A$ nicht kompakt.
+	\end{proof}
+\end{st}
+
+\begin{st} \label{1.27}
+	Sei $A$ ein linearer Operator in $L$ mit $D(A) = L$.
+	Dann gilt
+	\begin{align*}
+		A \text{ beschränkt} 
+		&\quad\iff\quad A \text{ stetig in } x = 0 \\
+		&\quad\iff\quad A \text{ ist stetig}
+	\end{align*}
+	\begin{proof}
+		\begin{seg}[$A$ beschränkt $\implies$ $A$ stetig in $x=0$]
+			Sei $x_j \to 0$, dann ist
+			\[
+				\|Ax_j - A 0 \| = \|Ax_j\| \le \|A\| \|x_j\| \to 0
+			\]
+			also $Ax_j \to 0$ und somit $A$ stetig in $x=0$.
+		\end{seg}
+		\begin{seg}[$A$ stetig in $x_0=0$ $\implies$ $A$ stetig]
+			Sei $x_j \to x$, also $x_j - x \to 0$., dann ist
+			\[
+				Ax_j - Ax = A(x_j - x) \to 0,
+			\]
+			also $Ax_j \to Ax$ und somit $A$ stetig.
+		\end{seg}
+		\begin{seg}[$A$ stetig $\implies$ $A$ beschränkt]
+			Zeige durch Kontraposition.
+			Sei $A$ nicht beschränkt und $(x_j) \subset L$ mit $\|x_j\| = 1$, $\|Ax_j\| \to \infty$.
+			Definiere $y_j := \f 1{\|Ax_j\|}x_j$.
+			Dann ist
+			\[
+				\|y_j\| = \f {\|x_j\|}{\|Ax_j\|} \to 0
+			\]
+			und
+			\[
+				\|Ay_j\| = \f 1{\|Ax_j\|} \|Ax_j\| = 1
+			\]
+			also konvergiert $Ay_j$ nicht gegen $A0 = 0$ und somit $A$ nicht stetig.
+		\end{seg}
+	\end{proof}
+\end{st}
+
+\begin{ex} \label{1.28}
+	Sei $K \subset \R^n$ kompakt, $G \in C(K\times K \to \C)$, $L := C(K \to \C)$ und
+	\[
+		Af(x) := \int_{K} G(x,y) f(y) dy
+		\qquad \text{für $f\in L$}
+	\]
+	($A$ nennt man auch \emph{Integraloperator})
+
+	Dann ist $A : L \to L$ kompakt.
+	\begin{proof}
+		Sei $(f_j)$ beschränkt in $L$
+		\begin{enumerate}[1)]
+			\item
+				Zeige: $(A f_j(x))$ gleichmäßig beschränkt auf $K$.
+
+				$K\times K$ ist kompakt, also $|G(x,y)| \le c$ auf $K\times C$.
+				Dann ist
+				\begin{align*}
+					|Af_j(x)| 
+					&\le \underbrace{\int_{K} |G(x,y) |f(y)| dy}_{\<c,|f_j|\>} \\
+					&\stack{CSB} \|c\| \|f_j\| \\
+					&\le \tilde c
+				\end{align*}
+			\item
+				Zeige: Die Folge $(Af_j)$ ist gleichgradig stetig auf $K$, d.h.
+				\[
+					\forall \eps > 0 \exists \delta > 0 \underbrace{\forall x,\tilde x \in C \forall j \in \N}_{\mathclap{\text{gleichmäßig stetig bezüglich $x$ und $j$}}} : |x-\tilde x| < \delta \;\implies\; |f_j(x)-f_j(\tilde x)| < \eps
+				\]
+				Wegen $K\times K$ kompakt, ist $|G(x,y) - G(\tilde x,y)| \le \eps$ für $|x-\tilde x| < \delta$ ($G$ gleichmäßig stetig).
+				Also
+				\begin{align*}
+					|Af_j(x) - Af_j(\tilde x)|
+					&= \underbrace{\bigg| \int_K \Big(\underbrace{G(x,y) - G(\tilde x, y)}_{|\cdot|< \eps}\Big) f_j(y) dy \bigg|}_{\le \<\eps, |f_j|\> = \int_K \eps |f_j(y)| dy} \\
+					&\stack{CSB}\le \|\eps\| \|f_j\| \\
+					&= \sqrt{N(K)} \eps \|f_j\|  \qquad \|\eps\| = \sqrt{\int_{K}|\eps|^2 dx}
+					&\le c\eps
+				\end{align*}
+			\item
+				Nach dem Satz von Arzelá-Ascoli enthält $(Af_j)$ eine gleichmäßig auf $K$ konvergente Teilfolge.
+			\item
+				Weil $(Af_j)$ gleichmäßig konvergent gegen $g$ ist $g$ stetig auf $K$ (also $g \in L$) und 
+				\[
+					\|Af_{j_k} - g\| \to 0
+				\]
+		\end{enumerate}
+	\end{proof}
 \end{ex}
 
 \end{document}
