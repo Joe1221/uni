@@ -22,8 +22,17 @@
     }
 }
 
-\ProcessOptions\relax
+% [sectionpagebreak] Neue Seite für den Beginn jeder section
+% ----------------------------------------------------------
+\DeclareOption{sectionpagebreak}{
+    \AtEndOfClass{
+		\let\oldsection\section
+		\renewcommand\section{\clearpage\oldsection}
+	}
+}
 
+
+\ProcessOptions\relax
 
 %==================================
 % Fonts / Encoding
@@ -49,6 +58,7 @@
     colorlinks=false,
     pdfborder={0 0 0},
 }
+
 
 % Erzeuge pdf-bookmark für das Inhaltsverzeichnis
 \let\oldtableofcontents\tableofcontents
