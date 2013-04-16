@@ -415,6 +415,235 @@ Integration liefert $C(x)$ und Nachprüfen zeigt, dass die so gefundene Funktion
 	\end{align*}
 \end{ex}
 
+
+Von nun an betrachten wir das AWP in der folgenden allgemeinen Form:
+\[
+	y'(x) = f(x,y(x))
+	\qquad y(x_0) = y_0
+\]
+wobei $x \in [x_0,\infty) \subset \R$, $y(x) = (y_1(x)),\dotsc,y_d(x))^T \in \R^d$ vektorwertig, $d \in \N$ und $f : \R^{d+1} \to \R^d$ mit
+\[
+	f(x,y) = \begin{pmatrix}
+		f_1(x,y_1,\dotsc, y_d) \\
+		\vdots \\
+		f_d(x,y_1,\dotsc, y_d)
+	\end{pmatrix}
+\]
+Die DGl $y' = f(x,y(x))$ ist äquivalent zum DGL-System
+\begin{align*}
+	y_1.(x) &= f_1(x,y_1(x),\dotsc,y_d(x)) \\
+	\vdots \quad &= \qquad \vdots \\
+	y_d.(x) &= f_d(x,y_1(x),\dotsc,y_d(x)) \\
+\end{align*}
+Geichungen höherer Ordnung (also solche, die $y'', y''', \dotsc$ enthalten), können in diese Form transformiert werden, indem $y$ und seine Ableitungen (zis zur zweithöchsten Ordnung in einer vektorwertigen Hilfsfunktion $u=(u_1,u_2,\dotsc)$ zusammengefasst werden:
+\begin{align*}
+	u_1(x) &= y(x) \\
+	u_2(x) &= y'(x) \\
+	u_3(x) &= y''(x) \\
+	\vdots \quad&= \qquad \vdots
+\end{align*}
+
+
+\begin{ex} \label{1.4}
+	\fixme[$y'=y'''$]
+\end{ex}
+
+
+\subsection{Existenz, Eindeutigkeit und Stabilität}
+
+
+Ein Problem heißt \emph{wohlgestellt} (nach Hadamard), wenn
+\begin{enumerate}[a)]
+	\item
+		eine Lösung existiert (Existenz)
+	\item
+		die Lösung eindeutig ist (Eindeutigkeit)
+	\item
+		die Lösung stetig von den Eingabeparametern abhängt (Stabilität)
+\end{enumerate}
+Für das AWP $y'(x) = f(x,y(x))$, $y(x_0) = y_0$ bedeutet Wohlgestelltheit, dass eine eindeutige Lösung $y(x)$ existiert und diese stetig von den Anfangswerten $y_0$ (und evtl in $f$ vorhandenen Parametern) abhängt.
+
+
+\subsubsection{Existenz und Eindeutigkeit}
+
+
+\begin{st}[Picard-Lindelöfscher Existenz und Eindeutigkeitssatz] \label{1.5}
+	Seien $x_0, x_{\text{end}} \in \R$ mit $x_0 < x_{\text{end}}$ und $y_0 \in \R^d$.
+	Für
+	\begin{align*}
+		f: [x_0, x_{\text{end}}] \times \R^d &\to \R^d \\
+		(x,y) & \mapsto f(x,y)
+	\end{align*}
+	gelte
+	\begin{enumerate}[a)]
+		\item
+			$f$ ist stetig
+		\item
+			$f$ ist (global in $\R^d$ und bezüglich $x$ gleichmäßig) Lipschitzstetig in $y$, d.h. es existiert $L > 0$ mit
+			\[
+				\|f(x,y) - f(x,z)\| \le L \|y-z\|
+				\qquad \forall x\in [x_0,x_{\text{end}}], y,z \in \R^d
+			\]
+	\end{enumerate}
+	Dann existiert eine stetig differenzierbare Funktion $y : [x_0,x_{\text{end}}] \to \R^d$ mit
+	\begin{align*}
+		y' &= f(x,y(x)) \qquad x\in(x_0,x_{\text{end}}) \\
+		y(x0) &= y_0
+	\end{align*}
+\end{st}
+
+Wir werden \ref{1.5} mit Hilfe von \ref{1.6} und anderen Hilfssätzen beweisen.
+
+\begin{st}[Banachscher Fixpunktsatz] \label{1.6}
+	Sei $(X,d)$ ein vollständiger metrischer Raum und $\Phi: X \to X$ ein kontrahierende Selbstabbildung, d.h. es existiert $q < 1$ mit
+	\[
+		d(\Phi(x), \Phi(y)) \le q d(x,y)
+		\qquad x,y \in X
+	\]
+	Dann besitzt $\Phi$ genau einen Fixpunkt $\hat x \in X$, d.h. $\Phi(\hat x) = \hat x$.
+
+	Für jeden Startwert $x^{(0)} \in X$ konvergiert die durch die Fixpunktiteration definierte Folge
+	\[
+		x^{(k+1)} = \Phi(x^{(k)})
+	\]
+	in der gegebenen Metrik gegen $\hat x$, d.h. $d(x^{(k)},\hat x) \to 0$ ($k \to \infty$).
+	\begin{proof}
+		siehe Numerik 1.
+	\end{proof}
+\end{st}
+
+
+Als vollständiger metrischer Raum werden wir den Raum der stetigen Funktionen betrachten
+
+\begin{lem} \label{1.7}
+	Die Menge der auf $[x_0, x_{\text{end}}]$ stetigen Funktionen
+	\[
+		C([x_0,x_{\text{end}}])^d := \Big\{ y:[x_0,x_{\text{end}}] \to \R^d \text{ stetig} \Big\}
+	\]
+	ist bezüglich der Supremumsnorm (Maximumsnorm) $\|y\|_\infty = \max_{x\in [x_0,x_{\text{end}}]} \|y(x)\|$ ein Banachraum (bezüglich der induzierten Metrik $d(y_1,y_2) = \|y_1-y_2\|_\infty$ ein vollständiger metrischer Raum).
+	\begin{proof}
+		Die Vektorraumaxiome und Normeigenschaften sind eine Übung.
+
+		\begin{seg}[Vollständigkeit]
+			Zeige: jede Cauchyfolge konvergiert in $C([x_0,x_{\text{end}}])^d$ bezüglich $\|\cdot\|_\infty$.
+			Sei $(y^{(n)})_{n \in \N}$ eine Cauchyfolge bezüglich $\|\cdot\|_\infty$, d.h. $\forall \eps > 0 \exists N \in \N : \forall n,m \ge N$ gilt:
+			\[
+				\eps > \|y^{(n)} -y^{(m)}\|_\infty = \max_{x\in [x_0,x_{\text{end}}]} \|y^{(n)}(x) - y^{(m)}(x) \|
+			\]
+			Für jedes feste $x \in [x_0,x_{\text{end}}]$ ist dann $\eps > \| y^{(n)}(x) - y^{(m)}(x)\|$ für $n,m \ge \N$.
+			Also ist $(y^{(n)}(x))_{n\in \N} \subset \R^d$ Cauchyfolge und konvergiert in $\R^d$.
+
+			Definiere damit $y : [x_0,x_{\text{end}}] \to \R^d$ durch 
+			\[
+				y := \lim_{n\to \infty} y^{(n)}(x).
+			\]
+			Es ergibt sich im Grenzwert die Beziehung
+			\[
+				\eps \ge \|y^{(n)}(x) - y(x)\|
+				\qquad \forall n \ge \N
+			\]
+			d.h.
+			\[
+				\forall \eps > 0 \exists N \in \N: \qquad
+				\eps \ge \max_{x\in [x_0,x_{\text{end}}]} \|y^{(n)}(x)-y(x)\|
+			\]
+			Damit konvergiert $y^{(n)}$ gleichmäßig gegen $y$, also ist $y$ stetig, d.h. $y\in C([x_0,x_{\text{end}}])^d$.
+			\[
+				\|y^{(n)} - y\|_\infty = \max_{x\in [x_0,x_{\text{end}}]} \|y^{(n)}(x) - y(x)\| \to 0
+				\qquad y^{(n)} \to y
+			\]
+		\end{seg}
+	\end{proof}
+\end{lem}
+
+Wir benötigen eine abgewandelte Norm:
+
+\begin{kor} \label{1.8}
+	Für ein $\omega \in C([x_0,x_{\text{end}}])$ gelte für alle $x\in [x_0,x_{\text{end}}]$:
+	\[
+		\exists c,C > 0 : c \le \omega(x) \le C
+	\]
+	Dann ist $C([x_0,x_{\text{end}}])^d$ auch bezüglich der gewichteten Supremumsnorm
+	\[
+		\|y\|_\omega = \max_{x \in [x_0,x_{\text{end}}]}(\omega(x) \|y(x)\|)
+	\]
+	ein Banachraum.
+	
+	\begin{proof}
+		$\|\cdot\|_\omega$ ist offensichtlich tatsächlich eine Norm und es gilt
+		\[
+			c \|y\|_\infty \le \|y\|_\infty \le C \|y\|_\infty
+			\qquad \forall y\in C([x_0,x_{\text{end}}])^d.
+		\]
+		Also ist jede Cauchyfolge bezüglich $\|\cdot\|_\omega$ auch Cauchyfolge bezüglich $\|\cdot\|_\infty$ und der Grenzwert bezüglich $\|\cdot\|_\infty$ ist auch Grenzwert bezüglich $\|\cdot\|_\omega$.
+	\end{proof}
+\end{kor}
+
+Wir formulieren nun das AWP in eine Fixpunktgleichung um.
+
+\begin{lem} \label{1.9}
+	Es gelten die Voraussetzungen von \ref{1.5}.
+	Sei $y:[x_0,x_{\text{end}}] \to \R^d$.
+
+	Dann ist $y$ stetig differenzierbar und erfüllt das AWP
+	\[
+		\forall x \in (x_0,x_{\text{end}}): y'=f(x,y(x))  \qquad y(x_0) = y_0
+	\]
+	genau dann, wenn $y$ stetig ist und folgende Fixpunktgleichung erfüllt:
+	\[
+		y(x) = y_0 + \int_{x_0}^{x} f(t, y(t)) dt
+		\qquad \forall x \in [x_0,x_{\text{end}}]
+	\]
+	\begin{proof}
+		\begin{seg}[$\implies$]
+			Ist $y$ stetig differenzierbar und erfüllt das AWP, so ist
+			\[
+				y(x) = y(x_0) + \int_{x_0}^x y'(t) dt = y_0 + \int_{x_0}^x f(t,y(t)) dt
+			\]
+		\end{seg}
+		\begin{seg}[$\Longleftarrow$]
+			Sei $y$ stetig und erfülle die Fixpunktgleichung.
+			Dann ist $f \mapsto f(t, y(t))$ stetig und
+			\[
+				y(x) = y_0 + \int_{x_0}^x f(t,y(t)) dt
+			\]
+			differenzierbar mit
+			\[
+				y'(x) = f(x,y(x))
+				\qquad y(x_0) = y_0
+			\]
+		\end{seg}
+	\end{proof}
+\end{lem}
+
+\begin{proof}[Beweis von \ref{1.5}]
+	Jetzt genügt es zu zeigen, dass
+	\begin{align*}
+		\Phi: y &\mapsto \Phi(y)
+		\Phi(y): x &\mapsto y_0 + \int_{x_0}^x f(t,y(t)) dt
+	\end{align*}
+	eine bezüglich einer gewichteten Supremumsnorm kontrahierende Selbstabbildung von $C([x_0,x_{\text{end}}])^d$ ist.
+
+	Die Selbstabbildungseigenschaften sind klar.
+	Für die Kontraktionseigenschaften betrachte $y^{(1)}, y^{(2)} \in C([x_0,x_\text{end}])^d$ in einem festen Punkt $x$:
+	\begin{align*}
+		\|\Phi(y^{(1)}(x)) - \Phi(y^{(2)}(x))\|
+		= \bigg\| \int_{x_0}^x f(t,y^{(t)}(t)) - f(t,y^{(2)}(t)) dt \bigg\| \\
+		\le \int_{x_0}^x \| f(t, y^{(1)}(t) - f(t, y^{(2)}(t))) \| dt
+		\le L \int_{x_0}^x \| y^{(1)}(t) - y^{(2)}(t) \| dt
+	\end{align*}
+	Also
+	\[
+		\|\Phi(y^{(1)}) - \Phi(y^{(2)}) \|_\infty \le L(x_{\text{end}}-x_0) \|y^{(1)}  - y^{(2)}\|_\infty,
+	\]
+	so dass $\Phi$ nur für kleine $L$ oder nahe $x_0$ eine Kontraktion ist.
+
+\end{proof}
+
+
+
+
+
 \end{document}
 
 
