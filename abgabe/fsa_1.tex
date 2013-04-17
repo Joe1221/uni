@@ -1,0 +1,91 @@
+\documentclass{mywork}
+\blattfsa
+
+\begin{document}
+
+\begin{aufgabe}
+	\begin{enumerate}[a)]
+		\item
+			Die Grammatik $G = (V, \Sigma, P, S)$ mit $V=\{S,M,F\}$ und Produktionsregeln:
+			\begin{align*}
+				P = \Big\{
+				S &\to FaMaF, & F &\to a, & M &\to MF, \\
+				S &\to FbMbF, & F &\to b, & M &\to \eps \Big\}
+			\end{align*}
+			erzeugt die gewünschte Sprache ($a_2 = a_{n-1}$ ist stets erfüllt, $a_1$ und $a_n$ sind beliebig und der Rest kann frei gewählt werden).
+
+			Es gilt $aaaaa \in L_1$ und $aaaba \not\in L_1$.
+		\item
+			Die Grammatik $G = (V, \Sigma, P, S)$ mit $V=\{S,A,B\}$ und Produktionsregeln:
+			\begin{align*}
+				P = \Big\{
+				S &\to SAAB, & AB &\to BA, & A &\to a, \\
+				S &\to \eps, & BA &\to AB, & B &\to b \Big\}
+			\end{align*}
+			erzeugt die gewünschte Sprache (es gibt stets doppelt so viel $A$s wie $B$s, welche beliebig umsortiert werden können, bevor sie in $a$, bzw. $b$ umgewandelt werden).
+
+			Es gilt $aaaabb \in L_2$ und $aaaaa \not\in L_2$. 
+		\item
+			Die Grammatik $G = (V, \Sigma, P, S)$ mit $V=\{S,A,B,L,M,R\}$ und Produktionsregeln:
+			\begin{align*}
+				P = \Big\{
+				S &\to aLMR, & La &\to aL, & LB &\to bL, & M &\to \eps \\
+				M &\to aMBA, & AB &\to BA, & AR &\to Ra, & LR &\to \eps \Big\}
+			\end{align*}
+			erzeugt die gewünschte Sprache:
+
+			Erzeuge zuerst links ein zusätzliches $a$ mit Links- und Rechtsmarkern ($L$ und $R$) und anschließend mit $M\to aMBA$ beliebig viele $a$, $B$, $A$ (aber in gleicher Anzahl).
+			Alle $a$s fallen nach links durch und die $A$ und $B$s werden sortiert ($a\dotso aLB\dotso BA\dotso AR$).
+			$LB \to bL$ und $AR \to Ra$ lösen von links und rechts die $B$s und $A$s auf bis sie aufeinandertreffen.
+
+			Es gilt $aaabbaa \in L_3$ und $aaaaa \not\in L_3$. 
+	\end{enumerate}
+\end{aufgabe}
+
+\begin{aufgabe}~
+
+	Die Anzahl Vertauschungen $AB \to BA$, die man benötigt, um
+	\[
+		\underbrace{AA\dotso AA}_{n}\underbrace{BB\dotso BB}_{m}
+	\]
+	in die Form $B \dotso BA \dotso A$ zu bringen beträgt genau $n\cdot m$, wie sich leicht nachvollziehen lässt.
+
+	Zunächst ist $n^2-1 = (n+1)(n-1)$.
+	Die Idee ist jetzt einfach: Produziere zunächst einen Ausdruck der Form
+	\[
+		AAL\underbrace{AA \dotso AA}_{n-1} \underbrace{BB \dotso BB}_{n-1}R
+		\qquad n \in \N
+	\]
+	durch die Regeln $S \to AALMR$, $M \to AMB$, $M \to \eps$.
+	Vertausche nun $A$ und $B$ und produziere dabei immer ein $a$:
+	\[
+		AB \to aBA
+	\]
+	dabei sollen alle $a$s stets nach links zurückfallen:
+	\begin{align*}
+		Aa &\to aA, &
+		Ba &\to aB, &
+		La &\to aL
+	\end{align*}
+	Ist die Form
+	\[
+		\underbrace{aa \dotso aa}_{n^2-1} L \underbrace{B \dotso B}_{n-1} \underbrace{A \dotso A}_{n-1} R
+	\]
+	erreicht (oder auch früher), kann aufgeräumt werden:
+	\begin{align*}
+		LB &\to L, &
+		AR &\to R, &
+		LR &\to \eps
+	\end{align*}
+
+	Die Grammatik $G = (V, \Sigma, P, S)$ mit $V=\{S,A,B,L,M,R\}$ mit Produktionsregeln
+	\begin{align*}
+		P = \Big\{
+		S &\to AALMR, & AB &\to aBA, & Aa &\to aA, & LB &\to L, \\
+		M &\to AMB, & & & Ba &\to aB, & AR &\to R, \\
+		M &\to \eps, & & & La &\to aL, & LR &\to \eps \Big\}
+	\end{align*}
+	erzeugt also die gewünschte Sprache.
+\end{aufgabe}
+
+\end{document}

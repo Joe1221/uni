@@ -269,3 +269,10 @@
 	\rhead{Gruppe 153\\ \theauthor}
 }
 
+\newcommand{\blattfsa}{
+	\author{Stephan Hilb}
+	\addtolength{\headheight}{\baselineskip}
+	\lhead{Formale Sprachen und Automatentheorie \\ \today}
+	\chead{}
+	\rhead{Übungsgruppe 4\\ \theauthor}
+}
