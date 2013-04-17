@@ -858,4 +858,183 @@
 	\end{proof}
 \end{ex}
 
+
+\begin{st}[Azelá-Ascoli] \label{1.29}
+	Sei $K \subset \R^n$ kompakt und $f_j : K \to \C$, $(f_j)$ punktweise beschränkt $(\forall x \in K \exists c_x >0 \forall j\in \N : |f_j(x)|\le c_x)$ und gleichgradig stetig, also:
+	\[
+		\forall \eps > 0 \exists \delta > 0 \forall x,x' \in K \forall j \in \N : \|x-x'\| < \delta \implies |f_j(x)-f_j(x')| < \eps
+	\]
+	Dann besitzt $(f_j)$ eine Teilfolge, die auf $K$ gleichmäßig gegen $f\in C(K \to \C)$ konvergiert.
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Es existiert $M \subset K$ mit $M$ abzählbar und dicht in $K$.
+				\begin{proof}
+					Da $K$ kompakt, lässt sich folgende endliche Teilüberdeckung (von $\bigcup_{x\in K} K_{\f 1l}(x)$) finden:
+					\begin{align*}
+						K &\subset \bigcup_{j=1}^{N_1} K_1(x_j^{(1)})
+						\qquad x_j^{(1)} \in K, K_\delta(x) := \{y \in \R^n : \|y-x\| < \delta \} \\
+						K &\subset \bigcup_{j=1}^{N_1} K_{\f 12}(x_j^{(2)})
+						\qquad x_j^{(2)} \in K \\
+						K &\subset \bigcup_{j=1}^{N_1} K_{\f 13}(x_j^{(3)})
+						\qquad x_j^{(3)} \in K \\
+						\vdots \quad &\subset \qquad \vdots
+					\end{align*}
+					Definiere
+					\[
+						M := \bigcup_{k=1}^\infty \Big\{x_1^{(k)}, \dotsc, x_{N_k}^{(k)}\Big\} =: \{\xi_1, \xi_2, \dotsc \}
+					\]
+					Offensichtlich ist $M \subset K$, $M$ dicht und abzählbar.
+				\end{proof}
+			\item
+				Konstruiere konvergente Teilfolge $(g_j)$ von $(f_j)$.
+				\begin{proof}
+					Wegen $(f_j(\xi_1))$ beschränkt existiert nach Bolzano Weierstraß eine konvergente Teilfolge $(f_j^{(1)}(\xi_1))$.
+					Diese ist wiederum beschränkt in $\xi_2$, also existiert eine konvergente Teilfolge $(f_j^{(2)}(\xi_2))$ (auch $(f_j^{(2)}(\xi_1))$ konvergent), usw.
+
+					Wähle jetzt $g_j := f_j^{(j)}$ als Diagonalfolge (Teilfolge von $(f_j)$).
+
+					Dann ist $(g_j)$ Teilfolge von $(f_j^{(k)})$ und $(g_j(\xi_k))$ konvergent für alle $\xi_k \in M$.
+				\end{proof}
+			\item
+				$(g_j)$ konvergiert gleichmäßig auf $K$
+				\begin{proof}
+					Zeige: $(g_j)$ ist gleichmäßige Cauchy-Folge:
+					\[
+						|g_j(x) - g_k(x)| < \eps
+						\qquad \forall j,k > J, x \in K
+					\]
+					Es gilt
+					\begin{align*}
+						|g_j(x) - g_k(x)| 
+						&\le \underbrace{\Big|g_j(x)-g_j(\xi_l)\Big|}_{\text{$< \eps$ falls $x-\xi_l|<\delta$}} 
+						+ \underbrace{\Big|g_j(\xi_l) - g_k(\xi_l)\Big|}_{\text{$<\eps$ falls $j,k > J$, $J$ abhängig von $\xi_l$}}  + \underbrace{\Big| g_k(\xi_l) - g_k(x)\Big|}_{\text{$<\eps$ falls $x-\xi_l < \delta$, $\delta$ unabhängig von $k$ bzw. $j$}} 
+					\end{align*}
+					\begin{enumerate}[a)]
+						\item
+							Wähle $\{\xi_{l_1}, \dotsc, \xi_{l_N} \subset M$ so dass $K \in \bigcup_{m=1}^N K_\delta (\xi_{l_m})$ (vgl 1.).
+						\item
+							Wähle $J \in \N$, sodass 
+							\[
+								\Big| g_j(\xi_{l_m}) - g_k{\xi_{l_m}} \Big| < \eps
+							\]
+							für $j,k > J$ für alle $\xi_{l_1}, \dotsc, \xi_{l_N}$ (endlich viele).
+					\end{enumerate}
+					Also ist $g_j(x) - g_k(x)| < 3 \eps$ für $j,k > J$, $x\in K$.
+				\end{proof}
+			\item
+				Die $g_j$ sind stetig und gleichmäßig konvergent, also ist
+				\begin{align*}
+					g: K &\to \C \\
+					x &\mapsto \lim_{j\to \infty} g_j(x)
+				\end{align*}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+
+
+\chapter{\texorpdfstring{$L^n$}{Ln}-Räume}
+
+
+\begin{df} \label{2.1}
+	\begin{enumerate}[1)]
+		\item
+			Ein Maßraum $(\Omega, \Sigma, \my)$ besteht aus einer Menge $\Omega$, einer $\sigma$-Algebra $\Sigma \subset P(\Omega)$ (d.h. $\emptyset \in \Sigma, A^C \in \Sigma, \bigcup_{j\in \N} Aj \in \Sigma$) und einem Maß $\my$ (d.h. $\my(\emptyset) = 0, \my(A) \ge 0, \my(\dot\bigcup_{j\in \N}A_j = \sum_{j\in \N} \my(A_j))$).
+		\item
+			$f: \Omega \to \Omega'$ heißt messbar, falls
+			\[
+				\forall A' \in \Sigma' : f^{-1}(A') \in \Sigma
+			\]
+			(ideal ist $\Sigma'$ „klein“, $\Sigma$ „groß“, also „viele“ $f$ messbar)
+	\end{enumerate}
+\end{df}
+
+\begin{ex}[Anwendung]
+	Sei $\Sigma = \R^n$ und $\Sigma$ die Borel $\sigma$-Algebra, d.h. die von den offenen Intervallen $\bigtimes_{j=1}^n ]a_j,b_j[$ erzeugte (kleinste) $\sigma$-Algebra
+	\[
+		\my \bigg( \bigtimes_{j=1}^n ]a_j,b_j[ \bigg) := \prod_{j=1}^n (b_j - a_j)
+	\]
+	für $b_j > a_j$ fortgesetzt auf $\Sigma$ heißt \emph{Lebesgue-Borel-Maß}.
+
+	Definiere die Vervollständigung:
+	\[
+		\Sigma^* := \bigg\{ A \subset \Omega : \exists B,C \in \Sigma : B \subset A \subset C \land \my(C \setminus B) = 0 \bigg\}
+	\]
+	Dann heißt
+	\[
+		\my^*(A) := \my(B) = \my(C)
+	\]
+	\emph{Lebesgue-Maß} auf $\R^n$.
+
+	Für $A \in \Sigma$ verwende
+	\begin{align*}
+		\Sigma_A := \{ B \cap A : B \in \Sigma \} \\
+		\my_A := \my^* \Big|_{\Sigma_A}
+	\end{align*}
+\end{ex}
+
+\begin{df*}
+	Eine Funktion $\chi_M: \Sigma \to \{0,1\}$ mit
+	\[
+		\chi_M (x) = \begin{cases}
+			1 & x\in M \\
+			0 & x \in \Omega \setminus M
+		\end{cases}
+	\]
+	nennt man \emph{Indikatorfunktion} oder \emph{charakteristische Funktion}.
+
+	$s$ ist genau dann eine \emph{einfache} Funktion, wenn
+	\[
+		\exists N \in \N, \alpha_1, \dotsc, \alpha_N \in \R, M_1, \dotsc, M_N \in \Sigma : s = \sum_{j=1}^N \alpha_j \chi_{M_j}
+	\]
+	Dann kann man
+	\[
+		\int_{\Omega} s d\my := \sum_{j=1}^N \alpha_j \my(M_j)
+	\]
+	für $s \ge 0$ (also  $\alpha_j \ge 0$) wählen.
+\end{df*}
+
+\begin{df}[Lebesgue-Integral]
+	Sei $(\Omega, \Sigma, \my)$ ein Maßraum.
+	
+	\begin{enumerate}[1)]
+		\item
+			Sei $f: \Omega \to \R$ Borel-messbar (d.h. im Bildraum wird die Borel-$\sigma$-Algebra verwendet).
+
+			\begin{enumerate}[a)]
+				\item
+					Definiere für $f \ge 0$:
+					\[
+						\int_{\Omega} f d\my 
+						:= \sup \bigg\{ \int_{\Omega} s d\my : 0 \le s(x) \le f(x), x \in \Omega \land s : \Omega \to \R \text{ einfach} \bigg\}
+					\]
+				\item
+					Für $f: \Omega \to \R$ ohne Vorzeichenbedingung definiert man
+					\begin{align*}
+						f_+ (x) &:= \max\{f(x), 0 \} \qquad x \in \Omega \\
+						f_- (x) &:= \min\{ f(x), 0 \} \qquad x \in \Omega
+					\end{align*}
+					Dann ist $f_+, f_- \ge 0$, $f = f_+ - f_-$ und $f_+, f_-$ messbar.
+					
+					Definiere
+					\[
+						\int_{\Omega} f d\my := \int_{\Omega} f_+ d\my - \int_{\Omega} f_- d\my
+					\]
+					solange nicht beide Integrale der rechten Seite $\infty$ sind.
+
+					Wir nennen $f$ integrierbar, wenn $f$ messbar ist und obiges Integral definiert ist.
+			\end{enumerate}
+		\item
+			$f : \Omega \to \C$ heißt \emph{messbar}, falls $\Re f$ und $\Im f$ Borel-messbar sind.
+
+			$f$ heißt \emph{integrierbar}, falls $\Re f$ und $\Im f$ integrierbar sind und endlich. Dann
+			\[
+				\int_{\Omega} f d\my := \int_{\Omega} (\Re f) d\my + i \int_{\Omega} (\Im f) d\my 
+			\]
+	\end{enumerate}
+
+\end{df}
+	
+
 \end{document}
