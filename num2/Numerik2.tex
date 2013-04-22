@@ -1,0 +1,2578 @@
+\documentclass[12pt,a4paper]{book}
+
+%\usepackage[latin1]{inputenc} 
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage{algorithm,algorithmic}   
+
+\usepackage{german} 
+\usepackage[thmmarks]{ntheorem} 
+\usepackage{bbm}        % Blackboard bold
+\usepackage{psfrag}
+\usepackage{enumerate}  
+\usepackage{amssymb}    
+\usepackage{graphicx}   
+\usepackage{color}   
+\usepackage{pb-diagram} 
+
+\usepackage{amsmath} 
+\usepackage{fancyhdr}
+
+% Umgebungen:
+\theoremstyle{break}
+\newtheorem{theorem}{Satz}[chapter]
+\newtheorem{bemerkung}[theorem]{Bemerkung}
+\newtheorem{korollar}[theorem]{Folgerung}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{beispiele}[theorem]{Beispiele}
+\newtheorem{beispiel}[theorem]{Beispiel}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{definitiontheorem}[theorem]{Definition und Satz}
+
+% Beweise:
+
+\theoremstyle{nonumberplain}
+\theoremsymbol{\ensuremath{\Box}}  
+\theorembodyfont{\upshape}
+\newtheorem{beweis}{Beweis:}
+
+
+% Bezeichner:
+% %%%%%%%%%%%
+
+% Abkürzungen und Symbole
+% %%%%%%%%%%%%%%%%%%%%%%%%
+%
+
+\newcommand{\N}{\mathbbm N}				
+\newcommand{\C}{\mathbbm C}				
+\newcommand{\Q}{\mathbbm Q}				
+\newcommand{\R}{\mathbbm R}
+\renewcommand{\Re}{\mathrm{Re}}
+\renewcommand{\Im}{\mathrm{Im}}
+\newcommand{\Range}{\mathcal{R}}
+\newcommand{\Kern}{\mathcal{N}}
+\newcommand{\rang}{\mathrm{rang}}
+
+\newcommand{\DS}{\displaystyle}
+
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}		% Norm
+\newcommand{\Langle}{\left\langle}
+\newcommand{\Rangle}{\right\rangle}
+
+\newcommand{\1}{\mathbbm{1}} 			      	% Funktion, die konstant 1 ist
+\newcommand{\im}{\ensuremath{\mathrm{i}}} 			      	% komplexe Einheit
+\newcommand{\dd}{\; : \;}    			      	% ,,derart, dass''
+\newcommand{\dx}[1][x]{\ensuremath{\, \mathrm{d} #1}} 	% Integral dx
+
+\newcommand{\labeq}[1]{\label{eq:#1}}			% Nummerierung von Gleichung
+\newcommand{\req}[1]{(\ref{eq:#1})}
+
+\newcommand{\QED}{\hfill \ensuremath{\Box}}		% Beweisende - Box
+
+\newcommand{\kommentar}[1]{}
+
+% Sonstiges:
+
+\setcounter{secnumdepth}{3}
+\setlength{\parskip}{1ex plus0.5ex minus0.2ex}
+\setlength{\parindent}{0cm}
+
+
+
+% Trennhilfen
+\hyphenation{Nor-ma-len-ab-lei-tung Grund-idee}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%
+% NOTATIONEN
+%
+%%%%%%%%%%%%%%%%%%%
+
+% n: Raumdimension, \R^n
+
+% Fancy Header:
+\fancyhead{}
+\fancyhead[LE]{\leftmark}
+\fancyhead[RO]{\rightmark}
+\fancyfoot{}
+\fancyfoot[LE,RO]{\thepage}
+\pagestyle{fancy}
+
+\fancypagestyle{plain}{
+\fancyhf{}
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0pt}}
+\setlength{\headheight}{28pt}
+
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% TITELSEITE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+
+\begin{center}
+    \textbf{\Huge \sc Numerische Mathematik 2 }
+\end{center}
+
+\vspace{3cm}
+
+\begin{center}
+
+{\Large \bf Prof. Dr. Bastian von Harrach}
+
+\vspace{1cm}
+
+{\Large Universität Stuttgart,\\[+1ex] Fachbereich Mathematik - IMNG\\[+1ex]
+Lehrstuhl für Optimierung und inverse Probleme}
+
+\vspace{1cm}
+
+{\Large Sommersemester 2013}
+
+\vspace{2cm}
+
+{\verb|http://www.mathematik.uni-stuttgart.de/oip|}
+
+\end{center} 
+\end{titlepage}
+
+
+\thispagestyle{empty}
+\cleardoublepage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% Inhaltsverzeichnis
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\pagenumbering{roman}
+\tableofcontents
+
+\cleardoublepage
+\pagenumbering{arabic}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter[Gewöhnliche Differentialgleichungen]{Gewöhnliche Differentialgleichungen}
+
+In diesem Kapitel beschäftigen wir uns mit der Lösung \emph{gewöhnlicher Differentialgleichungen} (engl.: ordinary differential equations, ODE) 
+bzw. \emph{Anfangswertproblemen}. Wir setzen dabei keinerlei Vorkenntnisse über die Theorie gewöhnlicher Differentialgleichungen voraus.
+
+Wir beginnen mit einigen Beispielen.
+
+\section{Einführung und Beispiele}\label{sect:ODE_intro}
+
+\subsection{Mathematische Beispiele gewöhnlicher DGL}
+
+\begin{description}
+\item[Differentialgleichung:] Gleichung die eine unbekannte Funktion zusammen mit ihren Ableitungen enthält.
+\end{description}
+
+\begin{beispiel}\label{bsp:ODE_math}
+Einfache mathematische Beispiele für Differentialgleichungen:
+
+\begin{enumerate}
+\item[(a)] Betrachte die Differentialgleichung 
+\[
+y'(x)=0 \quad \mbox{(kurz: $y'=0$)},
+\]
+d.h. gesucht ist eine differenzierbare Funktion 
+\[
+y: \R\to \R,\ y: x \mapsto y(x)\quad \mbox{ mit } \quad y'(x)=0 \quad \forall x\in \R.
+\]
+\begin{itemize}
+\item \emph{Spezielle} Lösungen sind z.B.: 
+\[
+y(x)=0, \quad  y(x)=1, \quad y(x)=-37, \quad \ldots
+\]
+\item Die \emph{allgemeine} Lösung ist $y(x)=C$, $C\in \R$, d.h. man kann zeigen, dass jede solche Funktion
+die ODE löst und jede Lösung in dieser Form geschrieben werden kann.
+\end{itemize}
+%
+\item[(b)] Betrachte die Differentialgleichung 
+\[
+y'(x)= r y(x), \quad r\in \R \quad \mbox{(kurz: $y'=r y$)}.
+\]
+\begin{itemize}
+\item \emph{Spezielle} Lösungen sind z.B.: 
+\[
+y(x)=0, \quad y(x)=e^{rx}, \quad y(x)=-37e^{rx}, \quad \ldots
+\]
+\item Die \emph{allgemeine} Lösung ist $y(x)=Ce^{rx}$, $C\in \R$.
+\end{itemize}
+%
+\item[(c)] 
+Betrachte die Differentialgleichung \emph{höherer Ordnung} 
+\[
+y''(x)=-y(x) \quad \mbox{(kurz: $y''=-y$)}.
+\]
+\begin{itemize}
+\item \emph{Spezielle} Lösungen sind z.B.: 
+\[
+y(x)=0, \quad y(x)=\sin (x), \quad y(x)=37\cos (x), \quad \ldots
+\]
+\item Die \emph{allgemeine} Lösung ist $C_1 \sin(x) + C_2 \cos(x)$, \quad $C_1,C_2\in \R$.
+\end{itemize}
+%
+\item[(d)] 
+Betrachte das \emph{Differentialgleichungssystem} 
+\begin{align*}
+y_1''(x)& = -y_1(x)\\
+y_2'(x)& = y_3(x)\\
+y_3'(x)& = y_3(x)
+\end{align*}
+\begin{itemize}
+\item Eine \emph{spezielle} Lösung ist z.B.: 
+\begin{align*}
+y_1(x)& = \sin(x)\\
+y_2(x)& = 37\\
+y_3(x)& = 0
+\end{align*}
+\item Die \emph{allgemeine} Lösung ist
+\begin{align*}
+y_1(x)& = C_1 \sin(x) + C_2 \cos(x)\\
+y_2(x)& = C_3 e^x+C_4\\
+y_3(x)& = C_3 e^x\\
+\end{align*}
+mit $C_1,\ldots,C_4\in \R.$
+\end{itemize}
+%
+\item[(e)] Betrachte die Differentialgleichung für eine \emph{vektorwertige} Funktion:
+
+Gesucht ist (eine differenzierbare Funktion) 
+\[
+y: \R \to \R^2,\quad y:\ x\mapsto y(x):=\begin{pmatrix} y_1(x)\\ y_2(x) \end{pmatrix}.
+\]
+mit $y'=y$, also
+\[
+y'(x)=y(x) \;  \Longleftrightarrow \;
+\left( \begin{array}{c} y_1'(x)\\ y_2'(x) \end{array} \right)= \left( \begin{array}{c} y_1(x)\\ y_2(x) \end{array} \right)
+\;  \Longleftrightarrow \;
+\left\{ \begin{array}{r@{\,}  l}
+y_1'(x)&=y_1(x)\\  y_2'(x)&=y_2(x)
+\end{array} \right.
+\]
+\end{enumerate}
+\end{beispiel}
+
+
+
+\begin{description}
+\item[\emph{Gewöhnliche} Differentialgleichung:] Alle Ableitung beziehen sich auf die selbe eindimensionale Variable.
+\end{description}
+
+\begin{beispiel}
+Betrachte $y:\R^2 \to \R, \quad (x_1,x_2)\mapsto y(x)=y(x_1,x_2)$
+
+Eine nicht gewöhnliche, \emph{partielle} Differentialgleichung (engl.: Partial Differential Equation, PDE) ist 
+\[
+\frac{\partial^2 y}{\partial x_1^2}+\frac{\partial^2 y}{\partial x_2^2}=0
+\]
+
+\emph{Spezielle} Lösungen sind z.B.:  $y(x)=0$, $y(x)=x_1+x_2$, \ldots
+\end{beispiel}
+
+PDEs sind Gegenstand der im nächsten Semester angebotenen Vorlesung \emph{Numerik partieller Differentialgleichungen}.
+
+\subsection{Anwendungsbeispiele für gewöhnliche DGL}
+
+Je nach Anwendung verwenden wir in diesem Abschnitt unterschiedliche Bezeichner für die Funktion und
+die Variable. Für Ableitungen bezüglich der Zeit schreiben wir auch 
+$\dot y(t)=y'(x)$.
+
+\paragraph{Continuous compounding -- stetige Verzinsung} 
+
+
+\begin{description}
+\item[$y(t)$:] Sparguthaben zum Zeitpunkt $t$.
+\end{description}
+
+Bank zahlt Zinsen proportional zu Guthaben und Zeitspanne:
+\[
+\Delta y(t)=y(t+\Delta t)-y(t)= r y(t) \Delta t
+\]
+Gutgeschriebene (kapitalisierte) Zinsen generieren \emph{Zinseszinsen}.
+
+Stetige Verzinsung: instantane Kapitalisierung, d.h. $\Delta t\to 0$:
+\[
+\dot y(t)=r y(t).
+\]
+
+
+\paragraph{Populationsdynamik}
+
+\begin{description}
+\item[$y(t)$:] Anzahl von Individuen einer Population
+\end{description}
+
+\begin{itemize}
+\item \underline{Model 1 (Malthus):} Population wächst mit konstanter Rate $r\in \R$. 
+In einem kurzen Zeitintervall $\Delta t$, wächst die Population um $\Delta y \approx r y \Delta t$.
+\[
+\dot y=r y.
+\]
+
+\item \underline{Model 2 (Verhulst):} Es existiert Maximalbevölkerung $M>0$, Population wächst mit von $y$ abhängiger Rate
+\begin{description}
+\item[$y<<M $:] Wachstum mit Rate $r$
+\item[$y\approx M$:] Wachstum mit Rate $0$
+\end{description}
+In Zeitintervall $\Delta t$, wächst die Population um $\Delta y \approx r (1-y/M) y \Delta t$.
+\[
+\dot y=r\left( 1- \frac{y}{M} \right) y=r y - \frac{r}{M} y^2.
+\]
+$\frac{r}{M} y^2$: Todesrate aufgrund zu hoher Population.
+%
+\item \underline{Model 3 (Lotka-Volterra / Räuber-Beute Modell):}
+
+Zwei Populationen $y_1(t), y_2(t)$, Räuber und Beutetiere:
+\begin{align*}
+\dot y_1 &= r_1 y_1 - f_1 y_1 y_2\\
+\dot y_2 &= - r_2 y_2  + f_2 y_1 y_2
+\end{align*}
+\end{itemize}
+%
+\paragraph{Chemische Reaktionen}
+
+\begin{description}
+\item[$A(t)$, $B(t)$, $C(t)$, \ldots:] Konzentration der Chemikalien $A$,$B$,$C$,\ldots 
+\end{description}
+
+\begin{itemize}
+\item $A \stackrel{k}{\longrightarrow} B$
+
+In einem kurzen Zeitintervall $\Delta t$ wandeln sich $kA(t) \Delta t$ Moleküle von $A$ in $B$ um.
+\[
+\dot A(t)=-kA(t), \qquad \dot B(t)=kA(t).
+\]
+
+\item $A  + B \stackrel{k}{\longrightarrow} C + 2D$
+\[
+\dot A=-kA B, \quad \dot B=-kAB, \quad \dot C=kAB, \quad \dot D=2kAB.
+\]
+\end{itemize}
+%
+\paragraph{Newtonsche Gesetze}
+
+\begin{description}
+\item[$x(t)=(x_1(t), x_2(t), x_3(t))^T$:] Position eines Körpers zum Zeitpunkt $t$ 
+\item[$v(t)=\dot x(t)=(\dot x_1(t), \dot x_2(t), \dot x_3(t))^T$:] Geschwindigkeit
+\item[$a(t)=\dot v(t)=  \ddot x(t)=(\ddot x_1(t), \ddot x_2(t), \ddot x_3(t))^T$:] Beschleunigung
+\end{description}
+
+\underline{Newtonsches Gesetz:} Wirkt eine Kraft $F(t)$ auf einen Körper der Masse $m$, so ist
+\[
+F(t)= m a(t) = m \ddot x(t)
+\]
+%
+\paragraph{Elektrische Schaltkreise}
+
+Betrachte eine \emph{RLC-Reihenschaltung}, d.h. eine Reihenschaltung von Widerstand (R), 
+Induktivität (L), und Kapazität (C). 
+\begin{itemize}
+\item Stromstärke $I_R(t)$ durch einen Widerstand $R$ bei Anlegen einer Spannung $U_R(t)$:
+\[
+I_R(t)= U_R(t) / R.
+\]
+\item Stromstärke $I_C(t)$ durch einen Kondensator mit Kapazität $C$ bei Anlegen einer Spannung $U_C(t)$:
+\[
+I_C(t)= \dot U_C(t) C 
+\]
+\item Stromstärke $I_L(t)$ durch eine Spule mit Induktivität $L$ bei Anlegen einer Spannung
+$U_L(t)$:
+\[
+\dot I_L(t)= U_L(t)/L.
+\]
+\end{itemize}
+
+Aus den \emph{Kirchhoffschen Gesetzen} folgt
+\begin{align*}
+U(t)&=U_R(t)+U_C(t)+U_L(t) \quad \mbox{(Spannungsbilanz)}\\
+I_L(t)&=I_C(t)=I_R(t) \quad \mbox{(Strombilanz)}
+\end{align*}
+Es folgt, dass $U_L(t)=C L \ddot U_C(t)$ und $U_R(t)=R C \dot U_C(t)$, und damit
+\[
+U(t)=U_C(t)+RC\dot U_C(t) + LC \ddot U_C(t).
+\]
+
+
+\subsection{Anfangswertprobleme}
+
+Die Lösung einer gewöhnlichen DGL ist üblicherweise nicht eindeutig. Die allgemeine Lösung von $\dot y(t)=ry(t)$ 
+ist $y(t)=Ce^{rt}$ mit einem Parameter $C\in \R$. In vielen Anwendungen sind die Parameter eindeutig
+bestimmt durch die Anfangswerte von $y$. Bei der stetigen Verzinsung ist z.B.\ $C=y(0)$ das anfängliche
+Sparguthaben.
+
+Intuitiv erwarten wir in den anderen Beispielen, dass die Lösung durch folgende Informationen eindeutig bestimmt wird:
+\begin{itemize}
+\item Populationsdynamik: anfängliche Population $y(0)$, bzw., $y_1(0),y_2(0)$
+\item Chemische Reaktionen: anfängliche Konzentrationen $A(0)$, $B(0)$, \ldots
+\item Newtonsche Gesetze: anfängliche Position $x_1(0),x_2(0),x_3(0)$ und Geschwindigkeit $v_1(0),v_2(0),v_3(0)$
+\item Elektrische Schaltkreise: Anfängliche Strom- und Spannungswerte am Kondensator $U_C(0)$ and $\dot U_C(0)$
+\end{itemize}
+
+Eine gewöhnliche DGL zusammen mit Anfangsbedingungen heißt auch \emph{Anfangswertproblem} (AWP).
+
+\subsection{Elementare Lösungsmethoden}
+
+Ähnlich wie Integrale lassen sich manche (aber nicht alle) gewöhnliche
+Differentialgleichungen analytisch, d.h. in geschlossener Form lösen. Wir geben hier nur Beispiele 
+besonders einfacher Lösungsmethoden an. Es existieren noch einige weitere wichtige Lösungsmethoden,
+aber im Allgemeinen lassen sich gewöhnliche Differentialgleichungen nur numerisch lösen.
+
+
+
+\paragraph{Raten/Wissen der Lösung}
+
+siehe Beispiel~\ref{bsp:ODE_math}.
+
+\paragraph{Separation der Variablen}
+
+Gewöhnliche DGL der Form 
+\[
+y'(x)=g(x) h(y(x))
+\]
+lassen sich formal(!) schreiben als
+\begin{equation}
+\frac{\dx[y]}{h(y)}=g(x)\dx
+\end{equation}
+und durch Integration lösen
+\begin{equation}
+\int \frac{1}{h(y)} \dx[y]=\int g(x)\dx.
+\end{equation}
+Formal bedeutet dabei, dass dies keine mathematisch rigorosen Umformulierungen sind.
+Die Ausdrücke $\dx$ sind nicht definiert! 
+
+Man kann diese Methode rigoros formulieren und rechtfertigen. % (siehe ??). 
+Aber auch ohne rigorose Rechtfertigung haben formale Methoden einen großen Nutzen
+(nicht nur im Bereich gewöhnlicher DGL). Oft lässt sich nämlich durch formales Vorgehen ein Lösungskandidat bestimmen und für diesen dann rigoros überprüfen, ob er tatsächlich eine Lösung ist. 
+
+
+\begin{beispiel}
+Betrachte Modell 2 aus der Populationsdynamik ($M=r=1$):
+\begin{align*}
+\frac{\dx[y]}{\dx[t]} = \left(1-y\right) y
+\end{align*}
+mit Anfangwert $y(0)>1$. 
+
+Obiges formales Vorgehen liefert
+\[
+\int \frac{1}{\left(1-y\right)y} \dx[y]  =\int 1 \dx[t].
+\]
+Wir erwarten anschaulich, dass die Population von oben gegen ihren Maximalwert $M=1$ konvergieren 
+diesen aber nicht unterschreiten wird. Wir lösen also die Integrale auf beiden Seiten unter der
+Annahme $y>1$:
+\begin{align*}
+\int 1 \dx[t] &= t + \mbox{const.}\\
+\int \frac{1}{\left(1-y\right)y} \dx[y] 
+&= - \int \frac{1}{y-1} \dx[y] + \int \frac{1}{y} \dx[y]\\
+&= - \ln (y-1) + \ln (y) + \mbox{const.}=\ln \frac{y}{y-1} + \mbox{const.}
+\end{align*}
+Wir erhalten
+\begin{align*}
+\ln \frac{y}{y-1} &= t + \mbox{const.} \quad 
+\Longrightarrow \quad \frac{y}{y-1} = C e^t\\
+\Longrightarrow \quad y &= \frac{Ce^t}{Ce^t-1}.\\
+\end{align*}
+$C$ kann aus dem Anfangswert $y(0)=y_0$ bestimmt werden:
+\begin{align*}
+y_0 &= \frac{C}{C-1} \quad \Longrightarrow \quad  C=\frac{y_0}{y_0-1}.
+\end{align*}
+
+Man prüft leicht (und mathematisch rigoros) nach, dass der so bestimmte Lösungskandidat für $y_0>1$ tatsächlich
+das AWP
+\[
+\frac{\dx[y]}{\dx[t]} =\left(1-y\right) y,  \quad y(0)=y_0
+\]
+löst. 
+\end{beispiel}
+
+\paragraph{Variation der Konstanten}
+
+Betrachte $y'(x)=r y(x) + z(x)$.
+
+Allgemeine Lösung der \emph{homogenen} Gleichung $y'(x)=r y(x)$ ist $y(x)=C e^{rx}$ mit einer Konstante $C\in \R$.
+
+\emph{Ansatz:} Ersetze zur Lösung der inhomogenen Gleichung die Konstante durch eine Funktion $C(x)$:
+\begin{align*}
+C'(x) e^{rx} + C(x) r e^{rx}& =y'(x)= r y(x) + z(x)= r C(x) e^{rx} + z(x)\\
+\quad \Longrightarrow \quad C'(x)= z(x) e^{-rx} 
+\end{align*}
+Durch Integration erhalten wir $C(x)$ und damit die Lösung $y(x)=C(x)e^{rx}$.
+
+
+
+\section{Theorie gewöhnlicher DGL}
+
+\subsection{Eine allgemeine Form}
+
+Von nun an betrachten wir stets Anfangswertprobleme in der folgenden allgemeinen Form
+\[
+y'(x)=f(x,y(x)), \qquad y(x_0)=y_0
+\]
+wobei $x\in [x_0,\infty)\subset \R$, $y(x)=(y_1(x),\ldots, y_d(x))^T\in \R^d$ vektorwertig ist, $d\in \N$, und
+\[
+f:\ \R^{d+1}\to \R^d, \quad f(x,y)=\left( \begin{array}{c} f_1(x,y_1,\ldots,y_d)\\ \vdots \\ f_d(x,y_1,\ldots,y_d) \end{array} \right).
+\]
+
+Die Differentialgleichung $y'=f(x,y(x))$ ist äquivalent zum Differentialgleichungssystem
+\[
+\left. \begin{array}{r@{\,} l} 
+y'_1(x) &= f_1(x,y_1(x),\ldots,y_d(x))\\ 
+&\vdots\\
+y'_d(x) &= f_d(x,y_1(x),\ldots,y_d(x))
+\end{array}\right.
+\]
+ 
+Gleichungen höherer Ordnung (d.h. solche, die höhere Ableitungen von $y$ enthalten) können 
+in diese Form transformiert werden, indem $y$ und seine Ableitungen (bis zur zweithöchsten) in
+einer vektorwertigen Hilfsfunktion  $u=(u_1,u_2,\ldots)$ zusammengefasst werden
+\[
+u_1(x):=y(x), \quad u_2(x):=y'(x), \quad u_3(x)=y''(x), usw.
+\]
+
+\begin{beispiel}
+$y''=-y$ kann in obige Form transformiert werden durch
+\[
+u=\left( \begin{array}{c} u_1(x)\\ u_2(x) \end{array}\right) := \left( \begin{array}{c} y(x)\\ y'(x) \end{array}\right).
+\]
+Damit ist $y''=-y$ äquivalent zu
+\[
+u'=\left( \begin{array}{c} u_1'(x)\\ u_2'(x) \end{array}\right)
+= \left( \begin{array}{c} y'(x)\\ y''(x) \end{array}\right)
+= \left( \begin{array}{c} y'(x)\\ -y(x) \end{array}\right)
+= \left( \begin{array}{c} u_2(x)\\ -u_1(x) \end{array}\right)
+=:f(x,u(x)).
+\]
+\end{beispiel}
+
+\subsection{Existenz, Eindeutigkeit und Stabilität}\label{subsec:wohlgestellt}
+
+Ein Problem heißt \emph{wohlgestellt} (nach Hadamard) wenn
+\begin{enumerate}[(a)]
+\item eine Lösung existiert (\emph{Existenz}),
+\item die Lösung eindeutig ist (\emph{Eindeutigkeit}),
+\item die Lösung stetig von den Eingabeparametern abhängt (\emph{Stabilität}).
+\end{enumerate}
+
+Für das Anfangswertproblem 
+\[
+y'(x)=f(x,y(x)), \qquad y(x_0)=y_0.
+\]
+bedeutet Wohlgestelltheit, dass eine eindeutige Lösung $y(x)$ existiert und diese Lösung 
+stetig von den Anfangswerten $y_0$ (und ggf. weiteren in $f$ vorhandenen Parametern) abhängt.
+Dies werden wir in diesem Abschnitt untersuchen.
+
+\paragraph{Existenz und Eindeutigkeit.} 
+In diesem Abschnitt beweisen wir den Exis\-tenz- und Eindeutigkeitssatz von Picard-Lindel\"of in seiner einfachsten Form
+\begin{theorem}[Picard-Lindel\"of]\label{thm:PL}
+Seien $x_0,x_\mathrm{end}\in \R$, $x_0<x_\mathrm{end}$, $y_0\in \R^d$. Für 
+\[
+f:\ [x_0,x_\mathrm{end}]\times \R^{d}\to \R^d,  \quad f:\ (x,y)\mapsto f(x,y)
+\]
+gelte
+\begin{enumerate}[(a)]
+\item $f$ ist stetig
+\item $f$ ist (global und bzgl. $x$ gleichmäßig) Lipschitz-stetig in $y$, d.h.
+es existiert ein $L>0$ so dass
+\[
+\norm{f(x,y)-f(x,z)}\leq L \norm{y-z} \quad \forall x\in [x_0,x_\mathrm{end}],\ y,z\in \R^d.
+\]
+\end{enumerate}
+
+Dann existiert genau eine stetig differenzierbare Funktion
+$y: [x_0,x_\mathrm{end}]\to \R^d$ mit 
+\[
+y'(x)=f(x,y(x)) \quad \forall x\in (x_0,x_\mathrm{end}) \quad \mbox{ und } \quad y(x_0)=y_0.
+\]
+%$y$ ist stetig differenzierbar. Insbesondere erfüllt $y$ die DGL (im Sinne einseitiger
+%Ableitungen) auch für $x=x_0$ und $x=x_\mathrm{end}$. 
+\end{theorem}
+
+Wir werden Satz \ref{thm:PL} mit Hilfe des Banachschen Fixpunktsatz und einigen Hilfssätzen beweisen. 
+\begin{theorem}[Banachscher Fixpunktsatz]
+Sei $(X,d)$ ein vollständiger metrischer Raum und $\Phi$ eine 
+\emph{kontrahierende Selbstabbildung} von $X$, d.h. es existiere ein $q<1$ mit
+\[
+\Phi: X\to X  \quad \mbox{ und } \quad d(\Phi(x), \Phi(y))\leq q\,  d(x,y)  \quad \forall x,y\in X.
+\]
+Dann besitzt $\Phi$ genau einen \emph{Fixpunkt} $\hat x$, d.h. genau ein $\hat x\in K$ mit $\Phi(\hat x)=\hat x$.
+
+Für jeden Startwert $x^{(0)}\in X$ konvergiert die durch \emph{Fixpunktiteration} definierte Folge 
+\[
+(x^{(k)})_{k\in \N_0}, \qquad x^{(k+1)}:=\Phi(x^{(k)}) \quad \forall k\in \N_0.
+\]
+(in der Metrik $d$) gegen $\hat x$, d.h.
+\[
+d(x^{(k)}, \hat x)\to 0.
+\]
+\end{theorem}
+\begin{beweis}
+aus der Numerik I bekannt.
+%\cite[Satz~3.1 und Bem. 3.2]{NumI}
+\end{beweis}
+
+Als vollständigen metrischen Raum werden wir den Raum stetiger Funktionen betrachten:
+\begin{lemma}
+Die Menge der auf $[x_0,x_\mathrm{end}]$ stetigen Funktionen
+\[
+C([x_0,x_\mathrm{end}])^d:=\{ y: \ [x_0,x_\mathrm{end}]\to \R^d \ \mathrm{stetig} \} 
+\]
+ist bezüglich der \emph{Supremums-} (auch: \emph{Maximumsnorm})
+\[
+\norm{y}_\infty:= \max_{x\in [x_0,x_\mathrm{end}]} \norm{y(x)}
+\]
+ein \emph{Banachraum}, d.h. ein vollständiger normierter Vektorraum
+(und damit insbesondere bzgl. der induzierten Metrik $d(y_1,y_2):=\norm{y_1-y_2}_\infty$ ein 
+vollständiger normierter Raum).
+\end{lemma}
+\begin{beweis}
+Die Vektorraum- und Normeigenschaften lassen sich einfach nachrechnen (siehe Übungsaufgabe ??).
+
+Zum Beweis der Vollständigkeit müssen wir zeigen, dass (bzgl. $\norm{\cdot}_\infty$) jede Cauchy-Folge
+konvergiert. Sei also $(y^ {(n)})_{n\in \N}\subset C([x_0,x_\mathrm{end}])$ eine Cauchy-Folge bzgl. $\norm{\cdot}_\infty$, d.h. für jedes $\epsilon>0$ existiert $N\in \N$, so dass
+\[
+\epsilon>  \norm{y^{(n)}-y^{(m)}}=  \max_{x\in [x_0,x_\mathrm{end}]}  \norm{y^{(n)}(x)-y^{(m)}(x)} \quad \forall n,m\geq N.
+\]
+Für jedes feste $x\in [x_0,x_\mathrm{end}]$ ist dann
+\[
+\epsilon>  \norm{y^{(n)}(x)-y^{(m)}(x)}  \quad \forall n,m\geq N,
+\]
+also $(y^{(n)}(x))_{n\in \N}\subset \R^d$ eine Cauchy-Folge. Diese besitzt einen Grenzwert,
+so dass wir 
+\[
+y:\ [x_0,x_\mathrm{end}]\to \R^d \quad \mbox{ durch } \quad y(x):=\lim_{n\to \infty} y^{(n)}(x).
+\]
+definieren können.
+
+Aus 
+\[
+\epsilon>  \norm{y^{(n)}(x)-y^{(m)}(x)}  \quad \forall n,m\geq N
+\]
+folgt dass
+\[
+\epsilon\geq \norm{y^{(n)}(x)-y(x)} \quad \forall n\geq N
+\]
+und so gibt es also zu jedem $\epsilon>0$ ein $N\in \N$, so dass
+\[
+\epsilon\geq \max_{x\in [x_0,x_\mathrm{end}]}  \norm{y^{(n)}(x)-y(x)}.
+\]
+Die Funktionenfolge $y^{(n)}$ konvergiert also gleichmäßig gegen $y$, womit die Stetigkeit von 
+$y$ folgt, also $y\in C([x_0,x_\mathrm{end}])^d$. Damit gilt also
+\[
+\norm{y^{(n)}-y}_\infty = \max_{x\in [x_0,x_\mathrm{end}]}  \norm{y^{(n)}(x)-y(x)}\to 0,
+\]
+d.h. $y^{(n)}\to y$ bzgl. der Supremumsnorm.
+\end{beweis}
+
+Wir benötigen aber noch eine etwas abgewandelte Norm:
+\begin{korollar}\label{kor:gewSupNorm}
+Für eine Funktion $w\in C([x_0,x_\mathrm{end}])$ gelte
+\[
+\exists c,C>0:\ c\leq w(x)\leq C \quad \forall x\in [x_0,x_\mathrm{end}].
+\]
+
+Dann ist $C([x_0,x_\mathrm{end}])^d$ auch bzgl. der 
+\emph{gewichteten Supremumsnorm} 
+\[
+\norm{y}_w:= \max_{x\in [x_0,x_\mathrm{end}]} \left( w(x) \norm{y(x)}\right)
+\]
+ein Banachraum.
+\end{korollar}
+\begin{beweis}
+Offenbar ist $\norm{\cdot}_w$ tatsächlich eine Norm und es gilt 
+\[
+c\norm{y}_\infty \leq \norm{y}_w\leq C\norm{y}_\infty \quad \forall y\in C([x_0,x_\mathrm{end}])^d.
+\]
+Insbesondere ist jede Cauchy-Folge bzgl. $\norm{\cdot}_w$ auch eine bzgl. $\norm{\cdot}_\infty$ und
+der Grenzwert bzgl. $\norm{\cdot}_\infty$ ist auch der Grenzwert bzgl. $\norm{\cdot}_w$.
+\end{beweis}
+
+Wir formulieren noch die Anfangswertaufgabe in eine Fixpunktgleichung um.
+\begin{lemma}\label{lemma:PL_hilf}
+Es gelten die Voraussetzungen von  Satz \ref{thm:PL}. Eine 
+%in $[x_0,x_\mathrm{end}]$ stetige und in $(x_0,x_\mathrm{end})$ 
+stetig differenzierbare Funktion $y:\ [x_0,x_\mathrm{end}]\to \R^d$ erfüllt genau dann das AWP
+\[
+y'(x)=f(x,y(x)) \quad \forall x\in (x_0,x_\mathrm{end}) \quad \mbox{ und } \quad y(x_0)=y_0,
+\]
+wenn $y$ stetig ist und die folgende Fixpunktgleichung löst:
+\[
+y(x)=y_0+ \int_{x_0}^x f(t,y(t))\dx[t] \quad \forall x\in  [x_0,x_\mathrm{end}].
+\]
+\end{lemma}
+\begin{beweis}
+Ist $y$ stetig differenzierbar und erfüllt das AWP, so ist 
+\[
+y(x)=y(x_0)+\int_{x_0}^x y'(t) \dx[t]=y_0+ \int_{x_0}^x f(t,y(t))\dx[t] \quad \forall x\in  [x_0,x_\mathrm{end}].
+\]
+
+Ist umgekehrt $y$ stetig und erfüllt die Fixpunktgleichung,
+so ist auch $t\mapsto f(t,y(t))$ stetig und
+\[
+y(x)=y_0+ \int_{x_0}^x f(t,y(t))\dx[t]
+\]
+ist differenzierbar, $y'(x)=f(x,y(x))$ und $y(x_0)=y_0$.
+\end{beweis}
+
+Jetzt können wir Satz \ref{thm:PL} beweisen:
+
+\textbf{Beweis von Satz \ref{thm:PL}:} Nach unserer Vorarbeit genügt es zu zeigen, 
+dass durch
+\[
+y \mapsto \Phi(y), \quad \Phi(y): x\mapsto y_0+ \int_{x_0}^x f(t,y(t))\dx[t]
+\]
+eine bzgl. einer gewichteten Supremumsnorm kontrahierende Selbstabbildung von 
+$C([x_0,x_\mathrm{end}])^d$ ist.
+
+Die Selbstabbildungseigenschaft ist klar. Für die Kontraktionseigenschaft betrachten wir
+für zwei Funktionen $y^{(1)},y^{(2)}\in C([x_0,x_\mathrm{end}])^d$
+\begin{align*}
+\lefteqn{\norm{\Phi(y^{(1)})(x)-\Phi(y^{(2)})(x)}}\\
+&=\norm{ \int_{x_0}^x \left( f(t,y^{(1)}(t)) - f(t,y^{(2)}(t)) \right)\dx[t]}\\
+&\leq \int_{x_0}^x \norm{ f(t,y^{(1)}(t)) - f(t,y^{(2)}(t)) } \dx[t]
+\leq \int_{x_0}^x L \norm{ y^{(1)}(t) - y^{(2)}(t) } \dx[t]
+\end{align*}
+Hieraus folgt 
+\[
+\norm{\Phi(y^{(1)}) - \Phi(y^{(2)}) }_\infty  \leq L (x_\mathrm{end}-x_0) \norm{y^{(1)} - y^{(2)}}_\infty,
+\]
+so dass $\Phi$ nur für kleine $L$ oder nah an $x_0$ liegendes $x_\mathrm{end}$ eine Kontraktion ist.
+
+Durch Einfügen einer Gewichtsfunktion $w(x)$ (mit den in Folgerung \ref{kor:gewSupNorm} genannten Eigenschaften) erhalten wir jedoch
+\begin{align*}
+\lefteqn{w(x) \norm{\Phi(y^{(1)})(x)-\Phi(y^{(2)})(x)}}\\
+&\leq w(x) \int_{x_0}^x L \frac{1}{w(t)} w(t) \norm{ y^{(1)}(t) - y^{(2)}(t) } \dx[t]\\
+&\leq w(x) L \norm{y^{(1)} - y^{(2)}}_w \int_{x_0}^x \frac{1}{w(t)} \dx[t]
+\end{align*}
+und damit
+\begin{align*}
+\norm{\Phi(y^{(1)}) - \Phi(y^{(2)}) }_w&\leq \norm{y^{(1)} - y^{(2)}}_w
+L \max_{x\in [x_0,x_\mathrm{end}]} \left(w(x) \int_{x_0}^x \frac{1}{w(t)} \dx[t]\right).
+\end{align*}
+$\Phi$ ist also eine Kontraktion bzgl. $\norm{\cdot}_w$ wenn wir eine Gewichtsfunktion 
+$w$ finden mit
+\[
+L\left(w(x) \int_{x_0}^x \frac{1}{w(t)} \dx[t]\right)<1 \quad \forall x\in [x_0,x_\mathrm{end}].
+\]
+Offenbar gilt dass 
+\[
+e^{-a(x-x_0)} \int_{x_0}^x \frac{1}{e^{-a(t-x_0)}} \dx[t]\leq\frac{1}{a}.
+\]
+Mit $w(x)=e^{- L/2(x-x_0)}$ ist also $\Phi$ eine Kontraktion (mit Kontraktionskonstante $1/2$) 
+bzgl. $\norm{\cdot}_w$, womit Satz \ref{thm:PL} bewiesen ist. \hfill $\Box$
+
+\begin{beispiel}\label{bsp:PL}
+Auf die Voraussetzung der Lipschitz-Stetigkeit kann nicht verzichtet werden, wie die folgenden
+Beispiele zeigen:
+\begin{enumerate}[(a)]
+\item  Betrachte das AWP
+\[
+y'=\sqrt{y}, \quad y(0)=0.
+\]
+Die rechte Seite $f(x,y):=\sqrt{y}$ ist nicht Lipschitz-stetig. Tatsächlich ist die Lösung des AWP nicht eindeutig. Zwei Lösungen sind z.B.
+\[
+y(x)=0 \quad \mbox{ und } \quad y(x)=\left\{ \begin{array}{l l} 0 & \mbox{ für } 0\leq x\leq 1,\\ \frac{1}{4}(x-1)^2 & \mbox{ für } x>1.
+\end{array} \right. 
+\]
+%
+\item Betrachte das AWP
+\[
+y'=y^2,\quad y(0)=1.
+\]
+Die rechte Seite $f(x,y)=y^2$ ist nur lokal aber nicht global Lipschitz stetig. Man kann zeigen, dass nur 
+\[
+y(x)=\frac{1}{1-x}
+\]
+das AWP lösen kann. Die Lösung existiert also nur auf dem Intervall $[0,1)$.
+\end{enumerate}
+\end{beispiel}
+
+\begin{bemerkung}
+Beispiel~\ref{bsp:PL}(b) zeigt in gewisser Weise das Schlimmste, was für eine nur lokal Lipschitz-stetige rechte Seite passieren kann. 
+$f$ erfülle die Lipschitz-Bedingung
+\[
+\norm{f(x,y^{(1)})-f(x,y^{(2)})}\leq L \norm{y^{(1)}-y^{(2)}} \quad \forall x\in [x_0,x_\mathrm{end}],\ y^{(1)},y^{(2)}\in \overline Q.
+\]
+nur in einem Rechteck $Q:=(a_1,b_1)\times \dots \times (a_d,b_d)$.
+Dann kann man zeigen, dass für jeden Anfangswert $y_0\in Q$, ein nichtleeres Teilintervall $[x_0,x_1]$ existiert auf dem genau eine Lösung existiert.
+Darüber hinaus kann man zeigen, dass sich die Lösungskurve $(x,y(x))$ bis zum Rand des Rechtecks eindeutig fortsetzen lässt.
+\end{bemerkung}
+
+\paragraph{Stabilität}
+
+Nun untersuchen wir wie sich eine Störung der Anfangswerte auf die Lösung auswirkt.
+
+\begin{theorem}\label{thm:stability}
+Es gelten weiterhin die Voraussetzungen von Satz \ref{thm:PL}.
+$y$ und $z$ seien zwei Lösungen der gleichen DGL, aber mit verschiedenen Anfangswerten, also
+\begin{align*}
+y'(x)&=f(x,y(x)), \qquad y(x_0)=y_0,\\
+z'(x)&=f(x,z(x)), \qquad z(x_0)=z_0.
+\end{align*}
+Dann gilt
+\[
+\norm{y(x)-z(x)} \leq e^{L (x-x_0)} \norm{y_0-z_0} \quad \forall x\in [x_0,x_\mathrm{end}].
+\]
+\end{theorem}
+\begin{beweis}
+Betrachte die Differenz
+\[
+s(x):=\norm{y(x)-z(x)}^2=(y(x)-z(x))^T (y(x)-z(x)).
+\]
+Es ist
+\begin{align*}
+s'(x) &= 2 (y'(x)-z'(x))^T (y(x)-z(x))\\
+ &= 2 (f(x,y(x))-f(x,z(x)))^T (y(x)-z(x))\\
+&\leq 2 \norm{ f(x,y(x))-f(x,z(x)) }\, \norm{y(x)-z(x)}\\
+&\leq 2 L \norm{y(x)-z(x)}^2=2L s(x).
+\end{align*}
+
+Im Fall $y_0=z_0$ gilt nach Satz~\ref{thm:PL} $y(x)=z(x)$ für alle $x\geq x_0$ und die Behauptung ist bewiesen. Ansonsten existiert ein größtmögliches Intervall $[x_0,x_0+\delta)$ auf dem 
+$s(x)\neq 0$ gilt und im Falle $x_0+\delta<x_\mathrm{end}$ ist $s(x_0+\delta)=0$
+(siehe Übungsaufgabe ??). Es genügt die Behauptung in diesem Intervall zu zeigen,
+da für $s(x_0+\delta)=0$ nach Satz~\ref{thm:PL} $y(x)$ und $z(x)$
+ab $x\geq x_0+\delta$ übereinstimmen.
+
+Tatsächlich gilt für alle $x\in [x_0,x_0+\delta)$
+\[
+\frac{d}{d x} \ln s(x)=\frac{s'(x)}{s(x)}\leq 2L
+\]
+also
+\[
+\ln s(x)=\int_{x_0}^x \frac{d}{d t} \ln s(t) \dx[t] + \ln s(x_0) \leq 2L (x-x_0) + \ln s(x_0)
+\]
+d.h.
+\[
+\norm{y(x)-z(x)}^2=s(x)\leq e^{2L(x-x_0)} s(x_0)=e^{2L(x-x_0)} \norm{y_0-z_0}^2,
+\]
+womit die Behauptung gezeigt ist.
+\end{beweis}
+%
+
+\begin{bemerkung}
+\begin{enumerate}[(a)]
+\item Auch wenn $f$ nur lokal Lipschitz-stetig, gilt das Stabilitätsresultat in Satz \ref{thm:stability} noch dort, wo die eindeutige Existenz der Lösungen gesichert ist.
+
+\item 
+Wir werden in dieser Vorlesung im Folgenden annehmen, dass $f$ beliebig oft stetig differenzierbar (und damit inbesondere in jeder kompakten Menge Lipschitz-stetig) ist, so dass das AWP
+\[
+y'(x)=f(x,y(x)), \qquad y(x_0)=y_0.
+\]
+zumindest in einem hinreichend kleinen Intervall $[x_0,x_\mathrm{end}]$ wohlgestellt ist, also 
+eine eindeutige Lösung existiert und diese (im Sinne von Satz \ref{thm:stability}) stabil vom
+Anfangswert abhängt.
+
+Außerdem kann man zeigen, dass die Lösung des AWP dann ebenfalls unendlich oft stetig 
+differenzierbar ist.
+\end{enumerate}
+\end{bemerkung}
+
+\section{Erste Lösungsmethoden}\label{Sect:NumODE_Motivation}
+
+\subsection{Das Richtungsfeld}
+
+Zur anschaulichen Herleitung einfacher erster Lösungsmethoden betrachten wir ein skalares AWP, 
+in dem wir die Lösung $y: [x_0,\infty)\to \R$ von
+\[
+y'(x)=f(x,y(x)), \qquad y(x_0)=y_0\in \R
+\]
+suchen.
+
+Wir können uns die DGL $y'(x)=f(x,y(x))$ durch das dazugehörige Richtungsfeld veranschaulichen: Zu jedem Punkt
+$(x,y)\in \R^2$ zeichnen wir einen Richtungspfeil mit Steigung $f(x,y)$, z.B. den Vektor $(1,f(x,y))^T$ (vgl. die in der Vorlesung  
+gezeichnete Skizze). Eine Funktion löst die DGL genau dann, wenn an jedem
+Punkt durch den die Funktion geht, die Steigung der Funktion und die Steigung des Richtungspfeils übereinstimmen.
+Wir können die DGL zeichnerisch lösen, indem wir ausgehend vom Startwert $(x,y_0)$ die Funktion passend 
+zu den Richtungspfeilen zeichnen.
+
+\subsection{Explizites Euler-Verfahren}
+
+Basierend auf dieser zeichnerischen Idee gehen wir nun systematischer vor und entwickeln ein erstes numerisches Lösungsverfahren.
+Betrachte das allgemeine (vektorwertige) AWP
+\[
+y'(x)=f(x,y(x)), \qquad y(x_0)=y_0\in \R^d
+\]
+auf dem Intervall $x\in [a,b]$, $a=x_0$. Wir diskretisieren das Intervall durch $n+1$ Punkte
+\[
+a=x_0 < x_1 < \ldots < x_n=b,
+\]
+also unter Verwendung der \emph{Schrittweite}
+$h_i:=x_{i+1}-x_i$, $i=0,\ldots,n-1$.
+Beginnend mit $x_0$ (wo wir die Lösung kennen, $y(x_0)=y_0$) berechnen wir 
+nun sukzessiv Approximationen $y_i\approx y(x_i)$. 
+
+Der einfachste Möglichkeit ist die \emph{explizite Eulermethode}, bei der wie die Steigung im aktuellen
+Punkt verwenden, um die Approximation im nächsten Punkt zu berechnen:\footnote{Hier und im Folgenden bezeichen wir mit $y_0, y_1,\ldots, y_n\in \R^d$ $d$-dimensionale Vektoren und nicht die Einträge eines Vektors.}
+
+\begin{align*}
+y_1 & :=y_0+h_0 f(x_0,y_0)\\
+y_2 & :=y_1+h_1 f(x_1,y_1)\\
+& \vdots\\
+y_{i+1} & :=y_i+h_i f(x_i,y_i)\\
+& \vdots\\
+y_n & :=y_{n-1}+h_{n-1} f(x_{n-1},y_{n-1})
+\end{align*}
+
+Dies entspricht dem zeichnerischen Lösen der DGL im Richtungsfeld durch eine stückweise lineare Funktion,
+bei der die Steigung der Liniensegmente im \emph{linken Punkt} mit dem Richtungsfeld übereinstimmt.
+
+Das gleiche Verfahren erhalten wir auch durch Diskretisierung der DGL mit finiten Differenzen (Vorwärtsdifferenzenquotient):
+\begin{align*}
+\frac{y_{i+1}-y_i}{x_{i+1}-x_i}
+\approx \frac{y(x_{i+1})-y(x_{i})}{x_{i+1}-x_i} \approx y'(x_i)= f(x_i,y(x_i))\approx f(x_i,y_i).
+\end{align*}
+Das explizite Eulerverfahren heißt auch Vorwärts-Euler-Verfahren (engl.: foward Euler).
+
+
+\subsection{Implizites Euler-Verfahren}
+
+Bei der zeichnerischen Lösung der DGL im Richtungsfeld durch eine stückweise lineare Funktion,
+könnten wir auch versuchen die Funktion so zu wählen, dass die Steigung der Liniensegmente
+im \emph{rechten Punkt} mit dem Richtungsfeld übereinstimmt.
+
+Dann haben wir keine explizite Formel für die Berechnung von $y_{i+1}$ aus $y_i$.
+Statt dessen ist $y_{i+1}$ \emph{implizit} gegeben als Lösung von 
+\[
+y_{i+1} = y_i+h_i f(x_{i+1},y_{i+1}).
+\]
+
+Bei diesem \emph{impliziten Euler-Verfahren} müssen wir also für jedes $y_i\in \R^d$, $i=2,\ldots,n$,
+ein (üblicherweise nicht-lineares) $d$-dimensionales Gleichungssytem lösen.
+
+Wieder erhalten wir das Verfahren auch durch Diskretisierung der DGL mit finiten Differenzen, diesmal mit 
+dem Rückwärtsdifferenzenquotienten:
+\begin{align*}
+\frac{y_{i+1}-y_i}{x_{i+1}-x_i}
+\approx \frac{y(x_{i+1})-y(x_{i})}{x_{i+1}-x_i} \approx y'(x_{i+1})= f(x_{i+1},y(x_{i+1}))\approx f(x_{i+1},y_{i+1}).
+\end{align*}
+Enstprechend heißt das implizite Euler-Verfahren auch Rückwärts-Euler-Ver\-fah\-ren (engl.: \emph{backward} Euler).
+
+\begin{bemerkung}
+Wie wir noch sehen werden, besitzen implizite Verfahren für manche (die sogenannten \emph{steifen}) Differentialgleichungen so große Vorteile, dass sie den erhöhten Aufwand wert sind.
+\end{bemerkung}
+
+\subsection{Weitere explizite und implizite Methoden}\label{subsect:More_ex_and_im_methods}
+
+Die anschauliche Idee, stückweise lineare Funktion ins Richtungsfeld zu zeichnen, führt auf 
+viele weitere explizite und implizite Methoden:
+
+\paragraph{Implizite Mittelpunktsregel.}
+Zuerst zeichnen wir die Liniensegmente so, dass die Steigung der Segmente in ihrem \emph{Mittelpunkt}
+mit dem Richtungsfeld übereinstimmt.
+
+Wir bestimmen also erst $y_{i+1/2}$ durch Lösung der Gleichung
+\[
+y_{i+1/2}  =y_i+\frac{h_i}{2} f\left( \frac{x_{i+1}+x_i}{2},y_{i+1/2} \right)
+\]
+und setzen dann
+\[
+y_{i+1}:=y_i+ h_i  f\left( \frac{x_{i+1}+x_i}{2},y_{i+1/2} \right)
+\]
+Dies ist die sogenannte \emph{implizite Mittelpunktsregel}, die auch als Kombination eines
+halben impliziten Eulerschrittes mit einem halben expliziten Eulerschritt interpretiert (und implementiert) 
+werden kann.
+
+\paragraph{Verfahren von Runge.}
+Wir können auch versuchen, eine explizite Formel für $y_{i+1/2}$ zu finden. Dafür setzen wir
+\[
+y_{i+1/2}  :=y_i+\frac{h_i}{2} f(x_i,y_i)
+\]
+und wählen dann
+\[
+y_{i+1}:=y_i+ h_i  f\left( \frac{x_{i+1}+x_i}{2},y_{i+1/2} \right).
+\]
+Dies ist das \emph{Verfahren von Runge}. Beachte dass dies nicht nur die Kombination 
+zweier Halbschritte des expliziten Eulerverfahrens ist.
+
+\paragraph{Crank-Nicolson Methode.}
+Die nächste Methode erhalten wir durch die Forderung, dass die Steigung der Liniensegmente mit dem Mittelwert
+der Steigungen im Richtungsfeld im linken und rechten Randpunkt des Segments übereinstimmen soll:
+\[
+y_{i+1} = y_i+h_i \frac{f(x_{i},y_{i})+f(x_{i+1},y_{i+1})}{2}.
+\]
+Dies ist die \emph{Crank-Nicolson Methode}.
+
+\paragraph{Verfahren von Heun.}
+Eine explizite Alternative zur Crank-Nicolson Methode erhalten wir, indem wir $y_{i+1}$ auf der rechten Seite 
+der Crank-Nicolson-Formel durch einen Schritt mit dem expliziten Euler-Verfahren approximieren:
+\begin{align*}
+\eta & :=y_i+h_i f(x_i,y_i)\\
+y_{i+1} &:= y_i+h_i \frac{f(x_{i},y_{i})+f(x_{i+1},\eta)}{2}.
+\end{align*}
+
+
+
+
+
+
+\section{Einschrittmethoden höherer Ordnung}
+
+\paragraph{Generalvoraussetzung:} In diesem Abschnitt sei $[a,b]\subset \R$, $b>a$ stets ein festes Intervall. Wir werden im Folgenden nur Differentialgleichungen
+\[
+y'(x)=f(x,y(x))
+\]
+mit unendlich oft differenzierbarer rechter Seite $f$ betrachten. Insbesondere ist $f$ also lokal Lipschitz stetig.
+
+Der Einfachheit halber fordern wir zusätzlich dass \textbf{alle partiellen Ableitungen (jeder Ordnung)} von $f$ in $[a,b]\times \R^d$ beschränkt sind.
+Insbesondere existiert ein $L>0$ so dass
+\[
+\norm{f_y(x,y)}\leq L \quad \forall (x,y)\in [a,b]\times \R^d,
+\]
+wobei 
+\[
+f_y(x,y):=\frac{\partial f}{\partial y} (x,y)= \left( \frac{\partial f_i}{\partial y_j}(x,y) \right)_{i,j=1}^d\in \R^{d\times d}.
+\]
+Damit gilt also für alle $x\in [a,b]$ und $y,z\in \R^d$ 
+\[
+\norm{f(x,y)-f(x,z)}=\norm{\int_0^1 f_y(x,y+t(z-y)) (z-y) \dx[t]}\leq L \norm{y-z}
+\]
+und nach Abschnitt \ref{subsec:wohlgestellt} ist somit für jede Wahl der Anfangswerte $x_0\in [a,b]$ und $y_0\in \R^d$ die eindeutige Existenz von Lösungen und ihre stetige Abhängigkeit von den Anfangswerten garantiert.
+
+Außerdem folgt wie in A7.2 aus dieser Zusatzvoraussetzung, dass dann alle Ableitungen jeder Lösung eines AWP mit rechter Seite $f$ beschränkt sind. Präzise ausgedrückt: Zu jeder solchen rechten Seite $f$ existieren Konstanten $C_k>0$ ($k\in \N_0$), so dass für jede Wahl der Anfangswerte $x_0\in [a,b]$ und $y_0\in \R^d$ die zugehörige 
+Lösung von 
+\[
+y'(x)=f(x,y(x)), \qquad y(x_0)=y_0\in \R^d
+\]
+erfüllt, dass
+\[
+\sup_{x\in [x_0,b]} \norm{y^{(k)}(x)} \leq C_k.
+\]
+
+Auf diese globale Zusatzvoraussetzung kann verzichtet werden, wenn die Lösbarkeit sichergestellt ist und die Approximationen an die Lösung beschränkt bleiben.
+
+
+\subsection{Konsistenz und Konvergenz}\label{subsect:ConsitencyOrder}
+
+Zur Lösung des AWP
+\[
+y'(x)=f(x,y(x)), \qquad y(x_0)=y_0\in \R^d
+\]
+diskretisieren wir das Intervall in $n+1$ Punkte
+\[
+a=x_0 < x_1 < \ldots < x_n=b.
+\]
+Beginnend mit $x_0$ (wo wir die Lösung $y(x_0)=y_0$ kennen) versuchen wir sukzessive Approximationen $y_i\approx y(x_i)\in \R^d$ zu bestimmen.
+
+\begin{description}
+\item[Einschrittmethoden:] Nur der vorherige Punkt $y_i$ (und $x_i$, $x_{i+1}$, $h_i:=x_{i+1}-x_i$) wird zur Berechnung von $y_{i+1}$ verwendet.
+\item[Mehrschrittmethoden:] Mehrere vorherige Punkte $y_i$, $y_{i-1}$, \ldots $y_{i-m}$ (und $x_{i+1}$, $x_{i}$, \ldots, $x_{i-m}$ ) 
+werden zur Berechnung von $y_{i+1}$ verwendet.
+($m+1$-Schritt Methode benötigt \emph{Startprozedur} zur Berechnung der ersten $m$ Werte $y_1$,\ldots, $y_m$).
+\end{description}
+
+Die Methoden in Abschnitt \ref{Sect:NumODE_Motivation} sind allesamt Einschrittmethoden. 
+
+\begin{definition}\label{def:Konsistenz}
+Eine Einschrittmethode heißt \emph{konsistent}, falls für jede (unsere Generalvoraussetzung erfüllende) rechte Seite
+$f$ gilt, dass
+\[
+\lim_{h\to 0} \sup_{x_i\in [a,b], y_i\in \R^d} \frac{\left| y_{i+1}- y(x_i+h) \right|}{h}\to 0
+\]
+wobei $y$ die Lösung des AWP
+\[
+y'(x)=f(x,y(x)), \qquad y(x_i)=y_i
+\]
+ist, und $y_{i+1}$ durch Anwendung der Methode auf $y_i$ mit Schrittweite $h$ erzeugt wurde.
+
+Die Methode besitzt \emph{Konsistenzordnung} $p\in \N$, falls 
+für jede (unsere Generalvoraussetzung erfüllende) rechte Seite
+$f$ 
+\[
+\limsup_{h\to 0} \sup_{x_i\in [a,b], y_i\in \R^d} \frac{\left| y_{i+1}- y(x_i+h) \right|}{h^{p+1}}<\infty,
+\]
+d.h. Konstanten $C>0$, $h_0>0$ existieren, so dass
+\[
+\sup_{x_i\in [a,b], y_i\in \R^d} \left| y_{i+1}- y(x_i+h) \right| \leq C h^{p+1} \quad \forall 0<h<h_0.
+\]
+\end{definition}
+
+
+Eine Methode der Konsistenzordnung $p$ macht in jedem Intervall $[x_i,x_{i+1}]$ einen \emph{lokalen Fehler} 
+der Größenordnung $O(h^{p+1})$. Da es $n=\frac{b-a}{h}=O(h^{-1})$ solche Intervalle gibt, erwarten wir dass der \emph{globale Fehler}
+in der Größenordnung $O(h^p)$ liegen wird. Der folgende Satz zeigt, dass dies tatsächlich der Fall ist.
+
+
+\begin{theorem}
+Sei $y:\ [a,b]\to \R^d$ die Lösung des AWP
+\[
+y'(x)=f(x,y(x)), \qquad y(x_0)=y_0\in \R^d
+\]
+
+Wir betrachten die Anwendung einer Einschrittmethode mit
+äquidistanter Diskretisierung, d.h. mit Schrittweite $h:=\frac{b-a}{n}>0$,
+\[
+a=x_0 < x_1 < \ldots < x_n=b, \qquad x_i=x_0+ih \quad (i=1,\ldots,n).
+\]
+%
+\begin{enumerate}[(a)]
+\item Ist die Methode konsistent, so gilt
+\[
+\max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\to 0 \quad \mbox{ für $n\to \infty$}.
+\]
+%
+\item Besitzt die Methode Konsistenzordnung $p$, so gilt
+\[
+\max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\leq \frac{e^{L(b-a)}-1}{L} C h^p \quad \forall 0<h<h_0.
+\]
+wobei $C,h_0>0$ die Konstanten aus der Definition der Konsistenzordnung und $L$ die Lipschitz-Konstante
+aus der Generalvoraussetzung ist.
+\end{enumerate}
+\end{theorem}
+\begin{beweis}
+Wir beginnen mit (b). Für die Schrittweite gelte $h=\frac{b-a}{n}<h_0$.
+Da wir mit dem korrekten Startwert $y_0=y(x_0)$ beginnen, gilt für den Fehler nach dem ersten Schritt
+\[
+\norm{y_1-y(x_1)}\leq C h^{p+1}.
+\]
+Im nächsten Schritt, bei dem wir $y_2$ aus $y_1$ berechnen, gibt es zwei Fehlerquellen:
+\begin{enumerate}[(i)]
+\item Die Berechnung von $y_2$ aus $y_1$ mit dem Einschrittverfahren entspricht der Anwendung des 
+Verfahrens auf das (wegen unserer Generalvoraussetzung eindeutig lösbare) AWP 
+\begin{equation}\labeq{Kons_AWPz}
+z'(x)=f(x,z(x)), \qquad z(x_1)=y_1\in \R^d
+\end{equation}
+Dabei macht das Verfahren den Fehler
+\[
+\norm{z(x_2)-y_2}\leq C h^{p+1}.
+\]
+
+\item Da $y_1$ nur eine Approximation an $y(x_1)$ ist, stimmt die Lösung $z(x)$ von \req{Kons_AWPz}
+nicht mit $y(x)$ überein. Nach Satz \ref{thm:stability} gilt aber
+\[
+\norm{y(x_2)-z(x_2)} \leq e^{L (x_2-x_1)} \norm{y(x_1)-y_1}.
+\]
+\end{enumerate}
+
+Insgesamt erhalten wir also
+\begin{align*}
+\norm{y_2-y(x_2)} &\leq \norm{y_2-z(x_2)} + \norm{z(x_2)-y(x_2)}\\
+&\leq  C h^{p+1} + e^{Lh} \norm{y_1-y(x_1)}\\
+&\leq  (1 + e^{Lh}) C h^{p+1}.
+\end{align*}
+
+Mit trivialer Induktion erhalten wir für alle $i=1,\ldots,n$:
+\begin{align*}
+\norm{y_i-y(x_i)} &\leq C h^{p+1} + e^{Lh} \norm{|y_{i-1}-y(x_{i-1})|} \\
+&\leq C h^{p+1} + e^{Lh} \left( C h^{p+1} + e^{Lh} \norm{y_{i-2}-y(x_{i-2})} \right)  \\
+&\leq \ldots \leq  \left( 1+ e^{Lh} + e^{2Lh} + e^{(i-1) Lh} \right) C h^{p+1}\\
+& \leq \sum_{j=0}^{n-1} \left(e^{Lh}\right)^{j}  C h^{p+1}
+= \frac{(e^{Lh})^n-1}{e^{Lh}-1} C h^{p+1}.
+\end{align*}
+und mit $e^{Lh}\geq 1+Lh$ folgt 
+\begin{align*}
+\max_{i=1,\ldots,n} \norm{y_i-y(x_i)}&\leq  \frac{e^{nhL}-1}{Lh} C h^{p+1}= \frac{e^{L(b-a)}-1}{L} C h^{p}.
+\end{align*}
+
+Der Beweis von (a) geht analog.
+\end{beweis}
+
+\medskip
+\textbf{Bemerkung}\\
+Im Folgenden verwenden wir im Zusammenhang mit Anfangswertproblemen
+die Landau-Notation $O(h^p)$, $o(h)$, etc., mit der Konvention, dass
+die darin vorkommenden Konstanten von der rechten Seite $f$ nicht jedoch von dem Anfangswert $x_0\in [a,b]$, $y_0\in \R^d$
+abhängen dürfen. Mit dieser Konvention ist ein Einzelschrittverfahren
+\begin{itemize}
+\item konsistent, falls aus $y_i=y(x_i)$ folgt, dass 
+\[
+y(x_{i+1})-y_{i+1}=o(h).
+\]
+\item konsistent mit Ordnung $p$, falls aus $y_i=y(x_i)$ folgt, dass 
+\[
+y(x_{i+1})-y_{i+1}=O(h^{p+1}).
+\]
+\end{itemize}
+%\end{bemerkung*}
+
+\medskip
+
+\begin{beispiele}
+\begin{enumerate}[(a)]
+\item \textbf{Explizites Euler-Verfahren:} Für $y(x_i)=y_i$ erhalten wir durch Taylorentwicklung
+\begin{align*}
+\norm{y(x_{i+1}) - y(x_i)+h y'(x_i)}
+\leq \frac{h^2}{2} \max_{\xi\in [x_i,x_{i+1}]} \norm{y''(\xi)}\leq \frac{h^2}{2} C_2
+\end{align*}
+mit einer (aufgrund unserer Generalvoraussetzung nur von der rechten Seite $f$ abhängigen) Konstante $C_2$. Es ist also mit obiger Konvention
+\begin{align*}
+y(x_{i+1}) &= y(x_i)+h y'(x_i) + O(h^2)\\
+&= y(x_i)+h f(x_i,y_i) + O(h^2) = y_{i+1} + O(h^2)
+\end{align*}
+und das explizite Euler-Verfahren besitzt somit Konsistenzordnung $1$.
+%
+\item \textbf{Implizites Euler-Verfahren:} Für $y(x_i)=y_i$ erhalten wir wiederum durch Taylorentwicklung
+\begin{align*}
+y(x_i) &=y(x_{i+1})- h y'(x_{i+1}) + O(h^2)\\
+       &=y(x_{i+1})- h f(x_{i+1},y(x_{i+1})) + O(h^2)
+\end{align*}
+Zusammen mit $y_{i+1}=y_i+hf(x_{i+1},y_{i+1})$ erhalten wir
+\begin{align*}
+\norm{y_{i+1}-y(x_{i+1})} &= \norm{ y_i+h f(x_{i+1},y_{i+1}) - y(x_{i+1})}\\
+&= h \norm{ f(x_{i+1},y_{i+1})-f(x_{i+1},y(x_{i+1})) } + O(h^2)\\
+& \leq h L \norm{ y_{i+1}-y(x_{i+1})}+ O(h^2).
+\end{align*}
+Für hinreichend kleine $h$ gilt also
+\begin{align*}
+\norm{y_{i+1}-y(x_{i+1})} &= \frac{1}{1-hL} O(h^2)=O(h^2).
+\end{align*}
+Das implizite Euler-Verfahren besitzt also Konsistenzordnung 1.
+\end{enumerate}
+\end{beispiele}
+
+
+\subsection{Runge Kutta Methoden}
+
+Wir betrachten nun einen allgemeinen Ansatz um Einschrittmethoden hoher Konsistenzordnung zu konstruieren. 
+Im ersten Schritt (mit $h=x_1-x_0$) soll gelten 
+\[
+y_{1}\approx y(x_{1})=y_0 + \int_{x_0}^{x_{1}} y'(t)\dx[t]=y_0 + \int_{x_0}^{x_{1}} f(t,y(t))\dx[t]
+% h \sum_{j=1}^s b_j f(x_i+c_j h,\eta_j), \quad \sum_{j=1}^s b_j=1,
+\]
+Durch Approximation des Integrals auf der rechten Seite durch eine Quadraturformel erhalten wir 
+\[
+\int_{x_0}^{x_{1}} f(t,y(t))\dx[t] \approx h \sum_{j=1}^s b_j f(x_0+c_j h,\eta_j).
+\]
+Die Quadraturformel sollte zumindest konstante Funktion exakt integrieren, deshalb fordern wir
+\[
+\sum_{j=1}^s b_j=1.
+\]
+Die $c_j$ heißen \emph{Knoten}, $b_j$ \emph{Gewichte} und $s$ heißt \emph{Stufenzahl} des Verfahrens.
+
+Dieser Ansatz verallgemeinert die Ideen aus Abschnitt \ref{subsect:More_ex_and_im_methods},
+indem nun eine gewichtetes Mittel aus $s$ unterschiedlichen Steigungnen im Richtungsfeld an 
+den Punkten $(x_0+c_j h,\eta_j)$, $j=1,\ldots,s$ verwendet werden.
+Für das explizite Eulerverfahren ist $s=1$, $c_1=0$, and $\eta_1=y_0$.
+
+$b_j$ und $c_j$ sollten aus den Knoten und Gewichten eines möglichst guten Quadraturverfahren bestimmt werden.
+Zur Wahl der $\eta_j$ fordern wir dass 
+\[
+\eta_j \approx y(x_0+c_j h)=y_0 + \int_{x_0}^{x_0 + c_j h} y'(t)\dx[t]=y_0 + \int_{x_0}^{x_0 + c_j h} f(t,y(t))\dx[t].
+\]
+Wir wenden wiederum ein Quadraturverfahren für die Integrale auf der rechten Seite an und verwenden 
+dabei die gleichen Quadraturpunkte wie für das erste Integral, d.h. für $j=1,\ldots, s$ verwenden wir
+\[
+\int_{x_0}^{x_0 + c_j h} f(t,y(t))\dx[t].\approx h \sum_{l=1}^s a_{jl} f(x_0 + c_l h,\eta_l).
+\]
+Wiederum sollten die Quadraturformeln zumindest konstante Funktionen exakt integrieren, deshalb fordern wir
+\[
+\sum_{l=1}^s a_{jl}=c_j.
+\]
+
+So erhalten wir die allgemeinen \emph{Runge-Kutta Methoden}:
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+Gegeben $a_{jl}, b_j, c_j\in \R$, $j=1,\ldots, s$, $l=1,\ldots,s$ mit
+\[
+\sum_{j=1}^s b_j=1 \quad \mbox{ und } \quad \sum_{l=1}^s a_{jl}=c_j.
+\]
+\begin{itemize}
+\item Bestimme $\eta_j\in \R^d$, $j=1,\ldots,s$ aus
+\begin{equation}\labeq{RK_eta}
+\eta_j = y_i + h_i \sum_{l=1}^s a_{jl} f(x_i + c_l h_i,\eta_l), \quad j=1,\ldots,s.
+\end{equation}
+\item Setze
+\[
+y_{i+1}:=y_i +  h_i \sum_{j=1}^s b_j f(x_i+c_j h_i,\eta_j).
+\]
+\end{itemize}
+\end{minipage}}\end{center}
+
+Runge-Kutta Methoden können explizit oder implizit sein. Ist
+\[
+a_{jl}=0 \quad \mbox{ für } l\geq j
+\]
+dann ist $\eta_1=y_1$, $\eta_2$ kann aus $\eta_1$ berechnet werden, usw. (explizite Runge-Kutta Methoden).
+Ansonsten ist \req{RK_eta} ein System aus $sd$ Gleichungen für die $sd$ unbekannten Einträge der $d$-dimensionalen Vektoren
+$\eta_j\in \R^d$, $j=1,\ldots,s$ (implizite Runge-Kutta Methoden).
+
+Eine äquivalente Formulierung erhalten wir durch
+\[
+k_j:=f(x_i+c_j h,\eta_j)
+\]
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+Gegeben $a_{jl}, b_j, c_j\in \R$, $j=1,\ldots, s$, $l=1,\ldots,s$ mit
+\[
+\sum_{j=1}^s b_j=1 \quad \mbox{ und } \quad \sum_{l=1}^s a_{jl}=c_j.
+\]
+\begin{itemize}
+\item Bestimme $k_j\in \R^d$, $j=1,\ldots,s$ aus
+\[
+k_j=f(x_i+c_j h, y_i + h \sum_{l=1}^s a_{jl} k_l), \quad j=1,\ldots,s.
+\]
+\item Setze
+\[
+y_{i+1}:=y_i +  h \sum_{j=1}^s b_j k_j.
+\]
+\end{itemize}
+\end{minipage}}\end{center}
+
+Die Koeffizienten $A=(a_{jl})\in \R^{s\times s}$, $b=(b_j)\in \R^s$ und $c=(c_j)\in \R^s$
+einer Runge-Kutta Methode lassen sich im sogenannten \emph{Butcher Tableau} zusammenfassen:
+\[
+\begin{array}{c | c}
+c & A \\ \hline 
+& b^T
+\end{array} \qquad \qquad
+%
+\begin{array}{c | c c c c}
+c_1 & a_{11} & a_{12} & \hdots & a_{1s}\\
+c_2 & a_{21} & a_{22} & \ldots&  a_{2s}\\
+\vdots & \vdots & \vdots & & \vdots\\
+c_s & a_{s1} & a_{s2} & \hdots & a_{ss}\\ \hline
+ & b_1 & b_2 & \hdots & b_s
+\end{array}
+\]
+
+Mit dieser Notation erhalten wir für das explizite und implizite Euler Verfahren
+\[
+\begin{array}{c | c}
+0 & 0 \\ \hline 
+& 1
+\end{array} \qquad \qquad
+\begin{array}{c | c}
+1 & 1 \\ \hline 
+& 1
+\end{array}
+\]
+
+
+\subsection{Wohldefiniertheit impliziter Methoden}
+
+Die Vorteile impliziter Runge-Kutta Methoden werden wir erst in Abschnitt ?? kennenlernen. 
+Wir zeigen aber an dieser Stelle schon, dass das nicht-lineare Gleichungssystem \req{RK_eta} für hinreichend kleine Schrittweiten eindeutig lösbar ist.
+
+\begin{theorem}
+Zu jeder rechten Seite $f$ (die die Generalvoraussetzung erfüllt)
+und jedem Runge-Kutta Verfahren $(A,b,c)$ existiert eine Schrittweite $h_0>0$,
+so dass für jedes $x\in [a,b]$, $y\in \R^d$ und $0<h\leq h_0$ das 
+Gleichungsystem für die $\eta_j$
+\begin{equation*}%\labeq{RK_eta}
+\eta_j = y + h \sum_{l=1}^s a_{jl} f(x + c_l h,\eta_l), \quad j=1,\ldots,s.
+\end{equation*}
+eindeutig lösbar ist.
+\end{theorem}
+\begin{beweis}
+Wir schreiben das Gleichungssystem als Fixpunktgleichung 
+\[
+\eta=\Phi(\eta)
+\]
+mit 
+\[
+\eta:=\begin{pmatrix} \eta_1\\ \vdots \\ \eta_s \end{pmatrix}\in \R^{ds}, \quad
+\Phi(\eta):=\begin{pmatrix} \Phi_1(\eta)\\ \vdots \\ \Phi_s(\eta) \end{pmatrix}\in \R^{ds}
+\]
+und 
+\[
+\Phi_j(\eta):=y + h \sum_{l=1}^s a_{jl} f(x + c_l h,\eta_l)\in \R^d.
+\]
+
+Es ist
+\begin{align*}
+\Phi'(\eta)&=\begin{pmatrix} \Phi_1'(\eta)\\ \vdots \\ \Phi_s'(\eta) \end{pmatrix}\in \R^{ds\times ds}\\
+\Phi_j'(\eta)&= \begin{pmatrix} \frac{\partial \Phi_j}{\partial \eta_1} & \dots & \frac{\partial \Phi_j}{\partial \eta_s} \end{pmatrix}\in \R^{d\times ds}\\
+\frac{\partial \Phi_j}{\partial \eta_l} &=  h a_{jl} f_y(x + c_l h,\eta_l) \in \R^{d\times d}.
+\end{align*}
+Aufgrund unserer Generalvoraussetung und der Äquivalenz aller Normen auf dem $\R^{d\times d}$ existiert ein $C>0$, so
+dass für alle $j,l=1,\ldots,d$ jeder Eintrag der Matrix $\frac{\partial \Phi_j}{\partial \eta_l}$ durch $Ch$ beschränkt ist.
+Damit ist jeder Eintrag von $\Phi'(\eta)$ durch $Ch$ beschränkt und (wegen der Äquivalenz aller Normen auf dem $\R^{ds\times ds}$) existiert ein $C'>0$ mit
+\[
+\norm{\Phi'(\eta)}\leq Ch.
+\]
+Für hinreichend kleine $h$ ist $\Phi$ also eine Kontraktion und die Behauptung 
+wie in der Numerik I aus dem Banachschen Fixpunktsatz.
+\end{beweis}
+
+
+
+
+\subsection{Runge-Kutta Ordnungsbedingungen}
+
+Im letzten Abschnitt haben wir gesehen, dass jede Wahl der Runge-Kutta Koeffizienten $(A,b,c)$ auf 
+lösbare implizite (oder sogar explizite) Gleichung führt, das Verfahren also für jede Wahl der Koeffizienten durchführbar ist.
+Jetzt wenden wir uns der Frage zu, wie die Koeffizienten gewählt werden müssen, um ein Verfahren möglichst hoher Ordnung zu erhalten.
+
+
+\begin{theorem}\label{thm:RungeKuttaOrderCond}
+Seien $A=(a_{ij})_{i,j=1,\ldots,s}$, $b=(b_i)_{i=1,\ldots,s}$ und $c=(c_i)_{i=1,\ldots,s}$ die Koeffizienten eines Runge-Kutta-Verfahrens.
+%
+\begin{enumerate}[(a)]
+\item Aus
+\[
+\sum_{j=1}^s b_j=1 \quad \mbox{ und } \quad \sum_{k=1}^s a_{jk}=c_j  
+\]
+folgt dass das Verfahren (mindestens) Konsistenzordnung $1$ besitzt.
+\item Gilt zusätzlich 
+\[
+\sum_{j=1}^s b_jc_j=\frac{1}{2}
+\]
+dann hat das Verfahren (mindestens) Konsistenzordnung $2$.
+\item Gilt zusätzlich 
+\[
+\sum_{j=1}^s b_j c_j^2 = \frac{1}{3}  \quad \mbox{ and } \quad  
+\sum_{j=1}^s b_j \sum_{k=1}^s a_{jk} c_k = \frac{1}{6} 
+\]
+dann hat das Verfahren (mindestens) Konsistenzordnung $3$.
+\end{enumerate}
+\end{theorem}
+\begin{beweis}
+Wegen Übungsaufgabe ?? genügt es, die Behauptung für \emph{autonome} Differentialgleichungen
+\[
+y'=f(y), \quad f:\R^d \to \R^d
+\]
+zu beweisen.
+
+Sei $y$ eine Lösung der DGL, $x_i\in [a,b]$, $y_i=y(x_i)$, $h=x_{i+1}-x_i$ und $y_{i+1}$ die durch das Runge-Kutta Verfahren 
+erzielte Näherung. Nach Übungsaufgabe ?? gilt
+\begin{align*}
+y(x_{i+1})=y_i+h f+1/2 h^2 f' f + 1/6 h^3 ( f^T f'' f + (f')^2 f ) + O(h^4)
+\end{align*}
+wobei wir das Argument $(y_i)$ bei $f$ und seinen Ableitungen zur Vereinfachung der Schreibweise weglassen.
+
+Genauso entwickeln wir die Näherung $y_{i+1}$. Dabei verwenden wir immer wieder
+\begin{equation}\labeq{RK_opt_cond}
+\eta_j = y_i + h \sum_{k=1}^s a_{jk} f(\eta_k), \qquad  \sum_{k=1}^s a_{jk}=c_j 
+\end{equation}
+
+Zuerst erhalten wir damit
+\[
+\eta_j=y_i + O(h) \quad \Longrightarrow \quad f(\eta_j)=f(y_i) + O(h) \quad \forall j=1,\ldots,s.
+\]
+Nochmalige Anwendung von \req{RK_opt_cond} führt zu
+\[
+\eta_j - y_i = h \sum_{k=1}^s a_{jk} f(\eta_k) = h \sum_{k=1}^s a_{jk} f(y_i) + O(h^2)= h c_j f(y_i) + O(h^2).
+\]
+Ein weiteres Mal verwenden wir \req{RK_opt_cond} und kombinieren es mit
+\[
+f(\eta_k)=f(y_i)+f'(y_i)(\eta_k-y_i) + O(h^2).
+\]
+So erhalten wir 
+\begin{align*}
+\eta_j &=  y_i + h \sum_{k=1}^s a_{jk} f(\eta_k) 
+= y_i + h \sum_{k=1}^s a_{jk} (f(y_i) + f'(y_i) (\eta_k-y_i) + O(h^2))\\
+&= y_i + h \sum_{k=1}^s a_{jk} (f(y_i) + f'(y_i) \left(h c_k f(y_i) + O(h^2) \right) + O(h^2))\\
+&= y_i + h c_j f(y_i)
++ h^2 f'(y_i) f(y_i) \sum_{k=1}^s a_{jk} c_k  
++ O(h^3)
+\end{align*}
+
+Mit 
+\[
+y_{i+1}:=y_i +  h \sum_{j=1}^s b_j f(\eta_j), \quad \sum_{j=1}^s b_j=1
+\]
+folgt (wobei wir das Argument $(y_i)$ bei $f$ und seinen Ableitungen weglassen)
+\begin{align*}
+y_{i+1} &= y_i +  h \sum_{j=1}^s b_j f(\eta_j)\\
+&=  y_i + h  \sum_{j=1}^s b_j \left( f + f' (\eta_j-y_i) + \frac{1}{2} (\eta_j-y_i)^T f'' (\eta_j-y_i)  + O(h^3) \right)\\
+&= y_i + h f + h f'  \sum_{j=1}^s b_j  (\eta_j-y_i) + \frac{1}{2} h \sum_{j=1}^s b_j (\eta_j-y_i)^T f'' (\eta_j-y_i) + O(h^4)\\
+&= y_i + h f + h f'  \sum_{j=1}^s b_j  \left( h c_j f + h^2 f' f \sum_{k=1}^s a_{jk} c_k + O(h^3)\right)\\
+& \quad {}   + \frac{1}{2} h \sum_{j=1}^s b_j \left( h c_j f + O(h^2)\right)^T f'' \left( h c_j f + O(h^2) \right) + O(h^4)\\
+&= y_i + h f + h^2 f' f  \sum_{j=1}^s b_j  c_j + h^3 (f')^2 f \sum_{j=1}^s b_j \sum_{k=1}^s a_{jk} c_k\\
+& \quad {} + \frac{1}{2} h^3 f^T f'' f \sum_{j=1}^s b_j c_j^2 + O(h^4)
+\end{align*}
+
+Die Behauptung folgt nun aus dem Vergleich der Entwicklungen von $y(x_{i+1})$ und $y_{i+1}$.
+\end{beweis}
+
+\begin{bemerkung}\label{remark:after_ordercond}
+\begin{enumerate}[(a)]
+\item Mit Satz~\ref{thm:RungeKuttaOrderCond} lässt sich die Ordnung der Verfahren in \ref{subsect:More_ex_and_im_methods} bestimmen.
+\item Mit einem systematischeren \emph{symbolischen} Ansatz können Methoden beliebig hoher Ordnung konstruiert werden.
+\item Man kann zeigen, dass die Ordnung eines $s$-stufigen Runge-Kutta Verfahrens höchstens $2s$ ist. Explizite Runge-Kutta
+Verfahren können höchstens Ordnung $s$ haben (siehe Abschnitt \ref{subsect:limit_expl}).
+\item Die in der Praxis wohl am häufigsten verwendete explizite Runge-Kutta Methode ist eine Methode 5. Ordnung von \emph{Dormand und Prince},
+die durch folgendes Tableau gegeben ist:
+\[
+%
+\begin{array}{c | c c c c c c}
+0\\[+1ex]
+\frac{1}{5} & \frac{1}{5}\\[+1ex]
+\frac{3}{10} & \frac{3}{40} & \frac{9}{40}\\[+1ex]
+\frac{4}{5} & \frac{44}{45} & -\frac{56}{15} & \frac{32}{9}\\[+1ex]
+\frac{8}{9} & \frac{19372}{6561} & -\frac{25360}{2187} & \frac{64448}{6561} & -\frac{212}{729}\\[+1ex]
+1 & \frac{9017}{3168} & -\frac{355}{33} & \frac{46732}{5247} & \frac{49}{176} & -\frac{5103}{18656}\\[+1ex] \hline 
+\phantom{\frac{3}{3}^{\frac{3}{3}}}
+& \frac{35}{384} & 0 & \frac{500}{1113} & \frac{125}{192} & -\frac{2187}{6784} & \frac{11}{84}
+\end{array}
+\]
+
+Dieses Verfahren ist (in Kombination mit einer zur adaptiven Schrittweitensteuerung verwendeten Methode 4. Ordnung) unter dem Namen \texttt{dopri5} oder \texttt{ode45} in vielen Programmpaketen der Standardlöser für Anfangswertprobleme.
+\end{enumerate}
+\end{bemerkung}
+
+
+
+
+\section{Numerik steifer Differentialgleichungen}
+
+\subsection{Steife Differentialgleichungen}\label{subsect:stiffness}
+
+Bei dem Pendel aus Übungsaufgabe ?? waren implizite Verfahren (trotz gleicher Konsistenzordnung) den expliziten weit überlegen. 
+Differentialgleichungen, in denen dieser Effekt auftritt, werden \emph{steif} genannt. Steif ist dabei kein mathematisch präzise definierter Begriff, sondern wird anschaulich für solche Differentialgleichungen verwendet, bei denen naheliegende Standardverfahren (z.B. explizite Runge-Kutta-Verfahren) keine (oder nur für extrem kleine Schrittweiten) zufriedenstellenden Ergebnisse liefern. 
+
+Betrachten wir das einfache Beispiel 
+\[
+y'(x)=\lambda y,\quad y(0)=1, \quad \lambda<0.
+\]
+Offenbar ist die Lösung $y(x)=e^{\lambda x}$. Aufgrund der Annahme $\lambda<0$ konvergiert die
+Lösung mit exponentiell Geschwindigkeit gegen Null.
+
+Durch Anwendung des expliziten Euler-Verfahrens mit Schrittweite $h$ auf dieses AWP erhalten wir
+\begin{align*}
+y_1 &= y_0 + h \lambda y_0=(1+h\lambda)\\
+y_2 &= y_1 + h \lambda y_1=(1+h\lambda)y_1=(1+h\lambda)^2\\
+& \vdots\\
+y_n&= (1+h\lambda)^n 
+\end{align*}
+
+Da $\lambda<0$ folgt für $n\to \infty$ 
+\[
+\left\{ \begin{array}{l l} \mbox{$y_n>0$ und $y_n\to 0$} & \mbox{ für $1+h\lambda \geq 0$}\\
+\mbox{$y_n$ alterniert im Vorzeichen, $y_n\to 0$} & \mbox{ für $0>1+h\lambda>-1$}\\
+\mbox{$y_n$ alterniert zwischen $+1$ und $-1$} & \mbox{ für $1+h\lambda=-1$}\\
+\mbox{$y_n$ alterniert im Vorzeichen, $|y_n|\to \infty$} & \mbox{ für $1+h\lambda<-1$}
+\end{array}\right.
+\] 
+
+Nur für $1+h\lambda \geq -1$ (d.h. $h\leq -2/\lambda$) zeigen die Approximationen also das korrekte Langzeitverhalten und 
+konvergieren gegen Null, und für $h> -1/\lambda$ oszillieren die Approximationen.
+Für dieses AWP mit stark negativem $\lambda$ liefert die explizite Euler Methode also nur
+für extrem kleine Schrittweiten brauchbare Ergebnisse.
+
+Betrachten wir zum Vergleich die implizite Euler-Methode:
+\begin{alignat*}{2}
+y_1 &= y_0 + h \lambda y_1 &\Longrightarrow y_1&= (1-h\lambda)^{-1}\\
+y_2 &= y_1 + h \lambda y_2 &\Longrightarrow y_2&= (1-h\lambda)^{-1} y_1= (1-h\lambda)^{-2}\\ 
+& \vdots\\
+y_n&=  (1-h\lambda)^{-n}
+\end{alignat*}
+Für jede Schrittweite $h$, ist $1-h\lambda>1$. $y_n$ bleibt also stets positiv und konvergiert gegen Null für $n\to \infty$.
+
+Implizites und explizites Euler-Verfahren besitzen die gleiche Konsistenzordnung. Für $h\to 0$ konvergieren sie gleich schnell gegen die wahre Lösung. Jedoch gibt es zwei Eigenschaften der wahren Lösung, Positivität und Abfallverhalten, 
+die nur die Iterierten des impliziten Euler-Verfahren für alle Schrittweiten zeigen. Die Iterierten des expliziten Euler-Verfahrens haben diese Eigenschaften erst für extrem kleine Schrittweiten.
+
+Das betrachtete AWP ist also \emph{steif} in dem Sinne, dass die wahre Lösung gewisse Eigenschaften besitzt, die 
+so wichtig sind, dass man nur solche numerischen Approximationen akzeptieren wird, die diese Eigenschaften auch besitzen.
+
+\subsection{Die Testgleichung}
+
+Wir motivieren nun heuristisch, dass das im letzten Abschnitt beobachtete Verhalten
+auch in allgemeine Anfangswertprobleme wiederfinden lässt.
+
+
+Betrachten wir das allgemeine AWP
+\[
+y'(x)=f(x,y), \quad y(x_0)=y_0\in \R^d
+\]
+Gemäß Übungsaufgabe ?? können wir es in eine autonome Gleichung umformen. Außerdem können wir durch Verschiebung annehmen, 
+dass $x_0=0$.
+\[
+y'(x)=f(y),  \quad y(0)=y_0\in \R^d
+\]
+Für kleine $x$ wird sich die Lösung nur wenig verändern. Wir erwarten also, dass sich 
+$y$ \emph{lokal} wie die Lösung linearisierten Gleichung
+\[
+y'(x)=f(y)\approx f(y_0)+f'(y_0)(y-y_0), \quad y(0)=y_0\in \R^d
+\]
+verhält. 
+
+Wir nehmen noch an, dass sich die Shifts $f(y_0)$ und $y_0$ durch geeignete Transformationen eliminieren lassen. 
+%Uebungsaufgabe dazu?
+Lokal lässt sich das AWP dann durch die Lösung der Gleichung 
+\[
+y'(x)=M y
+\]
+mit einer Matrix $M\in \R^{d\times d}$ approximieren. Ist $M$ diagonalisierbar mit Eigenwerten $\lambda_1,\ldots,\lambda_d$, dann ist dies äquivalent zu $d$ skalaren Testgleichungen
+\[
+y_j'=\lambda_j y_j, \quad j=1,\ldots,d.
+\] 
+Die Eigenwerte $\lambda_j$ werden im Allgemeinen komplex sein. Offenbar gelten aber alle Ergebnisse dieses Kapitels auch genauso für komplexwertige Gleichungen.
+
+Insgesamt scheint es also erstrebenswert, Methoden zu konstruieren, die nicht nur möglichst schnell konvergieren, sondern auch
+qualitativ richtiges Verhalten zeigen für die komplexe skalare Testgleichung
+\[
+y'=\lambda y, \quad \lambda\in \C.
+\] 
+Aufgrund der Linearität der Gleichung können wir dabei den Anfangswert auf $y(0)=1$ setzen.
+
+
+
+\subsection{Die Stabilitätsfunktion}
+
+Nach Abschnitt \ref{subsect:stiffness} gilt für die Iterierten des expliziten und impliziten Euler-Verfahrens
+bei Anwendung auf die Testgleichung (mit $\lambda<0$)
+\begin{align*}
+y_i^{\mbox{\scriptsize (expl)}}&=(1+h\lambda )^i y_0=R^{\mbox{\scriptsize (expl)}}(h\lambda)^i y_0,\\
+y_i^{\mbox{\scriptsize (impl)}}&=(1-h\lambda )^{-i} y_0=R^{\mbox{\scriptsize (impl)}}(h\lambda)^i y_0
+\end{align*}
+wobei
+\[
+R^{\mbox{\scriptsize (expl)}}(\zeta):=(1+\zeta ), \quad \mbox{ and } \quad R^{\mbox{\scriptsize (impl)}}(\zeta)=(1-\zeta )^{-1}
+\]
+Offenbar gilt das auch für $\lambda\in \C$. Wie gut die Verfahren für die Testgleichung funktionieren, lässt sich also
+vollständig mit der Funktion $R(\zeta)$ beschreiben. Gleiches gilt für allgemeine Runge Kutta Methoden.
+
+\begin{definition}
+Seien
+\[
+A=(a_{ij})_{i,j=1,\ldots,s}\in \R^{s\times s},\quad b=(b_i)_{i=1,\ldots,s}\in \R^s, \mbox{ und } c=(c_i)_{i=1,\ldots,s}\in \R^s
+\]
+die Koeffizienten einer Runge-Kutta-Methode. Sei
+ $\1:=(1,\ldots,1)^T\in \R^s$ und $I\in \R^{s\times s}$ sei die Einheitsmatrix. Für $\zeta\in \C$ definieren wir
+\[
+R(\zeta):=1+\zeta b^T (I-\zeta A)^{-1} \1\in \C
+\]
+falls $I-\zeta A$ invertierbar ist. Ansonsten schreiben wir formal $R(\zeta)=\infty$.
+(Offenbar ist dies genau dann der Fall, wenn $\frac{1}{\zeta}$ ein Eigenwert von $A$ ist,
+also für höchstens $s$ komplexe Zahlen).
+\end{definition}
+
+\begin{theorem}\label{thm:R_for_RK}
+Betrachte die Anwendung des Runge-Kutta Verfahrens mit Koeffizienten $A\in \R^{s\times s}$, $b,c\in \R^s$ 
+auf die Testgleichung
+\[
+y'(x)=\lambda y(x), \quad y_0=1. 
+\]
+mit $\lambda\in \C$ und Schrittweite $h>0$.
+
+Ist die Matrix $I-h \lambda A\in \C^{s\times s}$ invertierbar, so ist die Runge Kutta Methode 
+anwendbar (d.h. die möglicherweise impliziten Gleichungen lösbar) und ihre Iterierten sind gegeben durch
+\[
+y_i=(R(h\lambda))^i.
+\]
+\end{theorem}
+\begin{beweis}
+Anwendung der Runge-Kutta Methode liefert das (möglicherweise implizite) Gleichungssystem
+\[
+\eta_j = y_i + h \sum_{l=1}^s a_{jl} \lambda \eta_l, \quad j=1,\ldots,s.
+\]
+Mit $\eta:=(\eta_1,\ldots,\eta_s)\in \C^s$ ist das äquivalent zu 
+\[
+\eta = y_i \1 + h\lambda A \eta \quad \Longleftrightarrow \quad (I-h\lambda A )\eta = y_i \1
+\]
+Ist $I-h \lambda A$ invertierbar, so existiert eine eindeutige Lösung $\eta$ und wir erhalten
+\begin{align*}
+y_{i}&:=y_{i-1} +  h \sum_{j=1}^s b_j \lambda \eta_j= y_{i-1} + h \lambda b^T \eta\\
+&= y_{i-1} + h \lambda b^T (I-h\lambda A )^{-1} y_{i-1} \1 
+= (1+h \lambda b^T (I-h\lambda A )^{-1} \1)y_{i-1}\\
+&= (1+\zeta b^T (I- \zeta A )^{-1} \1)^{i} y_0=(R(\zeta))^i, \quad \zeta:=h\lambda\qquad \Box
+\end{align*}
+\end{beweis}
+
+
+\begin{beispiel}
+\begin{enumerate}[(a)]
+\item Die Stabilitätsfunktion des expliziten Eulerverfahrens ist
+$R(\zeta):=1+\zeta$.
+\item Die Stabilitätsfunktion des impliziten Eulerverfahrens ist $R(\zeta)=(1-\zeta )^{-1}$.
+\item Das Butcher Tableau für die implizite Mittelpunktsformel aus Abschnitt \ref{subsect:More_ex_and_im_methods} 
+ist (vgl. Übungsaufgabe ??)
+\[
+\begin{array}{c | c}
+1/2 & 1/2\\ \hline
+ & 1
+\end{array}
+\]
+Die Stabilitätsfunktion ist also
+\begin{align*}
+R(\zeta) &= 1+\zeta b^T (I-\zeta A)^{-1} \1= 1+\zeta 1 (1-\zeta\, 1/2)^{-1} 1
+= \frac{1+\zeta/2}{1-\zeta/2}.
+\end{align*}
+% Übungsaufgabe:
+% \item For the classical Runge-Kutta method (cf.\ Example \ref{ex:dopri45}(a))
+% \[
+% \begin{array}{c | c c c c}
+% 0\\
+% 1/2 & 1/2 \\
+% 1/2 & 0 & 1/2\\
+% 1 & 0 & 0 & 1\\ \hline
+%  & 1/6 & 2/6 & 2/6 & 1/6
+% \end{array}
+% \]
+% the stability function is
+% \begin{align*}
+% R(\zeta) &= 1+\zeta b^T (I-\zeta A)^{-1} \1\\
+% &= 1+ \zeta \left( \begin{array}{c c c c}1/6 & 2/6 & 2/6 & 1/6\end{array} \right)
+% \left( \begin{array}{c c c c}
+% 1 & 0 & 0 & 0\\
+% -\zeta/2 & 1 & 0 & 0\\
+% 0 & -\zeta/2 & 1 & 0\\
+% 0 & 0 & -\zeta & 1\end{array} \right)^{-1} 
+% \left( \begin{array}{c}1\\ 1 \\ 1 \\ 1\end{array} \right)\\
+% &= 1+ \zeta \left( \begin{array}{c c c c}1/6 & 2/6 & 2/6 & 1/6\end{array} \right)
+% \left( \begin{array}{c c c c}
+% 1 & 0 & 0 & 0\\
+% \zeta/2 & 1 & 0 & 0\\
+% \zeta^2/4 & \zeta/2 & 1 & 0\\
+% \zeta^3/4 & \zeta^2/2 & \zeta & 1\end{array} \right)
+% \left( \begin{array}{c}1\\ 1 \\ 1 \\ 1\end{array} \right)\\
+% &= 1+ \zeta \left( \begin{array}{c c c c}1/6 & 2/6 & 2/6 & 1/6\end{array} \right)
+% \left( \begin{array}{c}1\\ \zeta/2 + 1 \\ \zeta^2/4+\zeta/2 + 1 \\ \zeta^3/4 + \zeta^2/2 + \zeta + 1\end{array} \right)\\
+% &= 1+ \zeta + \zeta^2/2 + \zeta^3/6 + \zeta^4/24.
+% \end{align*}
+\end{enumerate}
+\end{beispiel}
+
+
+\subsection{Stabilität}
+
+Die exakte Lösung der Testgleichung $y'=\lambda y$, $y(0)=1$ ist 
+\[
+y(x)=e^{\lambda x}%=e^{\Re(\lambda) x} e^{\im \Im(\lambda)x}.
+\]
+Es gilt also
+\[
+|y(x)| \left\{ \begin{array}{l l l} \to \infty & \mbox{ für $x\to \infty$} & \mbox{ wenn } \Re(\lambda)>0 \\
+\to 0 & \mbox{ für $x\to \infty$} & \mbox{ wenn } \Re(\lambda)<0 \\
+=1 & \mbox{ für alle $x\geq 0$} & \mbox{ wenn } \Re(\lambda)=0
+\end{array}\right.
+\]
+und außerdem ist, für alle $x>0$,
+\[
+|y(x)|\to 0, \quad \mbox{ wenn } \Re(\lambda)\to -\infty.
+\]
+
+Dies motiviert die folgende Definition.
+\begin{definitiontheorem}\label{defthm:stability}
+$y_i\approx y(hi)$ seien die Approximationen einer Einschrittmethode auf die Testgleichung $y'=\lambda y$, $y(0)=1$.
+Die Methode heißt
+\begin{itemize}
+\item \emph{A-stabil} falls für $\Re(\lambda)\leq 0$ stets gilt, dass
+\[
+|y_{i+1}|\leq |y_i| \quad \mbox{ für alle $i$ und alle Schrittweiten $h$}
+\]
+\item \emph{Isometrie-erhaltend} wenn für $\Re(\lambda)=0$ stets gilt, dass
+\[
+|y_{i+1}|=|y_i|\quad \quad \mbox{ für alle $i$ und alle Schrittweiten $h$}
+\]
+\item \emph{L-stabil}, wenn sie A-stabil ist und (für alle $h>0$) 
+\[
+|y_1|\to 0 \quad \mbox{ für } |\lambda|\to \infty.
+\]
+\end{itemize}
+Eine Runge-Kutta Methode ist genau dann
+\begin{itemize}
+\item A-stabil, wenn $|R(\zeta)|\leq 1$ für all $\zeta\in \C$ mit $\Re(\zeta)\leq 0$,
+\item Isometrie-erhaltend, wenn $|R(\zeta)|=1$ für alle $\zeta\in \C$ mit $\Re(\zeta)= 0$,
+\item L-stabil, wenn A-stabil und $|R(\zeta)|\to 0$ für $|\zeta|\to \infty$.
+\end{itemize}
+\end{definitiontheorem}
+\begin{beweis}
+Die Äquivalenzen folgen aus $y_i=(R(h\lambda))^i$.
+\end{beweis}
+
+Man kann zeigen, dass die Stabilitätsfunktion eines Runge-Kutta Verfahrens stets eine rationale Funktion ist, so
+dass das (bei der Definition der L-Stabilität) das Verhalten für $|\zeta|\to \infty$ mit dem für $\Re(\zeta)\to -\infty$ übereinstimmt.
+
+\begin{beispiel}
+\begin{enumerate}[(a)]
+\item Explizites Euler-Verfahren:
+\[
+|R(\im)|=|1+\im|=\sqrt{2}>1.
+\]
+Das explizite Euler-Verfahren ist also weder A-stabil noch Isometrie-erhaltend.
+%
+\item Implizites Euler-Verfahren:
+
+Für alle $\zeta\in \C$ mit $\Re(\zeta)\leq 0$ ist
+\[
+|R(\zeta)|=\frac{1}{|1-\zeta|}=\frac{1}{(1-\Re(\zeta))^2+\Im(\zeta)^2}\leq 1.
+\]
+Das implizite Euler-Verfahren ist also A-stabil. Außerdem ist $|R(\zeta)|\to 0$ für $|\zeta|\to \infty$, das Verfahren ist also auch L-stabil.
+
+Es ist jedoch $R(\im)=1/|1-\im|=1/\sqrt{2}< 1$, das Verfahren ist also nicht Isometrie-erhaltende.
+\item Die implizite Mittelpunktsformel ist A-stabil (jedoch nicht L-stabil) und Isometrie-erhaltend (siehe Übungsaufgabe ??).
+\end{enumerate}
+\end{beispiel}
+
+Betrachten wir noch einmal die Testgleichung mit $\Re(\lambda)<0$. A-Stabilität bedeutet, dass die Approximationen das 
+korrekte qualitative Verhalten 
+$|y_{i+1}|\leq |y_i|$ für jede Schrittweite $h>0$ zeigen. Auch wenn eine Methode nicht A-stabil ist, kann sie dennoch dieses
+korrekte Verhalten zeigen, wenn nur die Schrittweite klein genug gewählt ist (so dass $|R(h\lambda)|\leq 1$).
+Dies motiviert die folgende Definition.
+
+\begin{definition}
+Zu einer Runge-Kutta Methode mit Stabilitätsfunktion $R(\zeta)$ definieren wir 
+das \emph{Stabilitätsgebiet} durch 
+\[
+\mathcal S:=\left\{ \zeta\in \C\ : \ |R(\zeta)|\leq 1\right\}\subseteq \C.
+\]
+\end{definition}
+
+Beispielsweise besteht das Stabilitätsgebiet des expliziten Euler-Verfahrens 
+aus allen $\zeta\in \C$ mit
+\begin{align*}
+1\geq |R(\zeta)|^2=|1+\zeta|^2=(1+\Re(\zeta))^2+\Im(\zeta)^2,
+\end{align*}
+d.h. dem abgeschlossenen Kreis mit Radius 1 um $z=-1$ in der komplexen Ebene. 
+
+
+%In Übungsaufgabe ?? plotten wir das Stabilitätsgebiet für einige der bisher kennengelernten Methoden.
+
+
+
+\subsection{Nachteile expliziter Verfahren}\label{subsect:limit_expl}
+
+In unseren Beispielen waren nur implizite Verfahren A-stabil oder Isometrie-erhaltend. Tatsächlich
+gibt es expliziten Verfahren diesen Eigenschaften, wie wir in diesem Abschnitt zeigen.
+
+\begin{theorem}\label{thm:expl_RK_polynomial}
+Die Stabilitätsfunktion einer expliziten Runge-Kutta Methode mit $s$ Stufen ist ein Polynom der Ordnung $s$.
+\end{theorem}
+\begin{beweis}
+Seien $A\in \R^{s\times s}$, $b\in \R^s$, $c\in \R^s$ die Koeffizienten der Methode. 
+Da die Methode explizit ist, ist $A$ eine strikte untere Dreiecksmatrix. Man zeigt leicht, 
+dass in höheren Potenzen von $A$ immer mehr Diagonalen durch Nullen aufgefüllt werden, und
+schließlich $A^s=0$ gilt:
+\begin{align*}
+A&=\left( \begin{array}{c c c c c c}
+0 & 0 & 0 & 0 & \dots & 0\\
+* & 0 & 0 & 0 & \dots & 0\\
+* & * & 0 & 0 & \dots & 0\\
+* & * & * & 0 & \dots & 0\\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\
+* & * & * & * &  \dots & 0\\
+\end{array}\right), \quad
+A^2=\left( \begin{array}{c c c c c c}
+0 & 0 & 0 & 0 & \dots & 0\\
+0 & 0 & 0 & 0 & \dots & 0\\
+* & 0 & 0 & 0 & \dots & 0\\
+* & * & 0 & 0 & \dots & 0\\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\
+* & * & * & * &  \dots & 0\\
+\end{array}\right),\\
+A^3&=\left( \begin{array}{c c c c c c}
+0 & 0 & 0 & 0 & \dots & 0\\
+0 & 0 & 0 & 0 & \dots & 0\\
+0 & 0 & 0 & 0 & \dots & 0\\
+* & 0 & 0 & 0 & \dots & 0\\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\
+* & * & * & * &  \dots & 0\\
+\end{array}\right), \quad
+A^s=\left( \begin{array}{c c c c c c}
+0 & 0 & 0 & 0 & \dots & 0\\
+0 & 0 & 0 & 0 & \dots & 0\\
+0 & 0 & 0 & 0 & \dots & 0\\
+0 & 0 & 0 & 0 & \dots & 0\\
+\vdots & \vdots & \vdots & \vdots & \ddots & \vdots\\
+0 & 0 & 0 & 0 &  \dots & 0\\
+\end{array}\right)
+\end{align*}
+
+Aus $A^s=0$ folgt dass
+\[
+(I-\zeta A) ( I+\zeta A + \ldots \zeta^{s-1} A^{s-1}) = I
+\]
+also $(I-\zeta A)^{-1}=I+\zeta A + \ldots \zeta^{s-1} A^{s-1}$.
+
+$R(\zeta):=1+\zeta b^T (I-\zeta A)^{-1} \1$ ist also ein Polynom der Ordnung $s$. $\quad \Box$
+\end{beweis}
+
+\begin{theorem}
+Explizites Runge-Kutta Methode sind weder A-stabil noch Isometrie-erhaltend.
+\end{theorem}
+\begin{beweis}
+Für jedes Polynom $R(\zeta)$ gilt $|R(\zeta)|\to \infty$ für $|\zeta|\to \infty$. 
+\end{beweis}
+
+Außerdem erhalten wir noch die schon in Bemerkung \ref{remark:after_ordercond} angesprochene 
+Höchstgrenze in der Ordnung expliziter Verfahren:
+\begin{theorem}
+Die Konsistenzordnung einer expliziten Runge-Kutta Methode mit $s$ Stufen ist höchstens $s$.
+\end{theorem}
+\begin{beweis}
+Nach Satz \ref{thm:expl_RK_polynomial} ist die Stabilitätsfunktion eine Polynom der Ordnung $s$:
+\[
+R(\zeta)=r_0+r_1\zeta+\ldots+r_s \zeta^s,\quad r_0,\ldots,r_s\in \R.
+\]
+
+Betrachte die Anwendung der Methode auf die Testgleichung mit $\lambda=1$, also $y'=y$, $y(0)=1$:
+\begin{align*}
+y_1&=R(h)=r_0+r_1 h+\ldots+r_s h^s.\\
+y(x_1)&=e^{h}=1+h+\frac{1}{2}h^2+\ldots +\frac{1}{s!} h^s + \frac{1}{(s+1)!} h^{s+1} + O(h^{s+2})
+\end{align*}
+Höchstens die ersten $s$ Terme der Entwicklungen können übereinstimmen, so dass der lokale Fehler einer
+expliziten Methode höchstens $O(h^{s+1})$, also die Ordnung höchstens $s$ sein kann.
+\end{beweis}
+
+
+
+\section{Linear implizite Methoden}
+
+Wir haben gesehen, dass steife Differentialgleichungen implizite Methoden erfordern. Im Allgemeinen
+erfordert die Anwendung eines impliziten Runge-Kutta Verfahrens aber die Lösung
+von $s$ gekoppelten $d$-dimensionalen nicht-linearen Gleichungen 
+\[
+k_j=f(x_i+c_j h, y_i + h \sum_{l=1}^s a_{jl} k_l), \quad j=1,\ldots,s,
+\]
+nach den $sd$ unbekannten Einträgen der $k_j$, $j=1,\ldots,s$. Ziel dieses Abschnitts 
+ist die Herleitung von einfacheren und weniger Rechenaufwand erfordernden, aber dennoch stabilen Methoden.
+
+Wir beschränken uns dabei auf autonome AWP
+\[
+y'=f(y), \quad y(x_0)=y_0
+\]
+(nach Aufgabe ?? kann jedes AWP in diese Form gebracht werden).
+
+Die erste Vereinfachung ist, dass wir eine Runge-Kutta Methode verwenden, für die $A$ eine linke untere Dreiecksmatrix ist, also  $a_{jl}=0$ für $l>j$. Dann können die Gleichungen für die $k_j$,
+\[
+k_j=f(y_i + h \sum_{l=1}^{j-1} a_{jl} k_l +  a_{jj} h k_j), \quad j=1,\ldots,s,
+\]
+beginnend mit $k_1$ eine nach der anderen gelöst werden. Statt eines $sd$-dimensionalen nicht-linearen
+Gleichungssystems müssen wir so nur $s$ mal ein $d$-dimensionales nicht-lineares Gleichungssystem lösen.
+Diese bringen wir auf Nullstellenform, also gegeben $k_1,\ldots,k_{j-1}$ ist $k_j$ so zu bestimmen, dass
+\[
+0=F_j(k_j):=k_j - f(y_i + h \sum_{l=1}^{j-1} a_{jl} k_l +  a_{jj} h k_j).
+\]
+Anwendung des Newton-Verfahrens ergibt ausgehend von einer Startnäherung $k_j^{(0)}$ die 
+Iterationen
+\[
+k_j^{(n+1)}:=k_j^{(n)}-F_j'(k_j^{(n)})^{-1}F_j(k_j^{(n)}),
+\]
+wobei
+\[
+F_j'(k_j)=I- f'(y_i + h \sum_{l=1}^{j-1} a_{jl} k_l +  a_{jj} h k_j)a_{jj} h.
+\]
+
+Als weitere Vereinfachung ersetzen wir für alle $j$ die wahre Jacobi-Matrix $F_j'(k_j)$ durch 
+\[
+F_j'(k_j)\approx I- a_{jj} h J, \quad  J:=f'(y_i).
+\] 
+Außerdem führen wir nur einen einzelnen Newton-Schritt durch, d.h. für alle $j=1,\ldots, s$ setzen wir
+\begin{align*}
+ k_j & :=k_j^{(0)}-(I- a_{jj} h J)^{-1} F_j(k_j^{(0)})\\
+&= k_j^{(0)}-(I- a_{jj} h J)^{-1} \left( k^{(0)}_j - f(y_i + h \sum_{l=1}^{j-1} a_{jl} k_l +  a_{jj} h k_j^{(0)}) \right)\\
+&= (I- a_{jj} h J)^{-1} \left( f(y_i + h \sum_{l=1}^{j-1} a_{jl} k_l +  a_{jj} h k_j^{(0)}) - a_{jj} h J k_j^{(0)} \right)
+\end{align*}
+
+Es bleibt noch die Wahl des Startwerte $k_j^{(0)}$ zu klären. Hierzu verwenden wir eine 
+lineare Kombination der bereits berechneten $k_l$, $l=1,\ldots,j-1$:
+\[
+k_j^{(0)}:=\sum_{l=1}^{j-1} d_{jl} / a_{jj} k_l
+\]
+mit noch zu bestimmenden Koeffizienten $d_{jl}$. Insgesamt erhalten wir so die \emph{linear impliziten} (auch: \emph{Rosenbrock}-) Runge Kutta Methoden.
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+
+Gegeben $a_{jl}, d_{jl}, b_j, c_j\in \R$, $j=1,\ldots, s$, $l=1,\ldots,s$.
+\begin{itemize}
+\item Setze $J:=f'(y_i)$ und bestimme $k_j$, $j=1,\ldots,s$ nacheinander aus
+\[
+k_j:=  (I- a_{jj} h J)^{-1} \left( f(y_i + h \sum_{l=1}^{j-1} (a_{jl}+d_{jl}) k_l ) - h J \sum_{l=1}^{j-1} d_{jl} k_l \right)
+\]
+\item Setze
+\[
+y_{i+1}:=y_i +  h \sum_{j=1}^s b_j k_j.
+\]
+\end{itemize}
+\end{minipage}}\end{center}
+
+\begin{bemerkung}\label{rem:LinImpl_invertible}
+$I-a_{jj} hJ$ ist offenbar invertierbar für $0<h<\frac{1}{|a_{jj}|\, \norm{J}}$.
+\end{bemerkung}
+
+\begin{theorem}\label{thm:lin_impl_stab}
+Seien $(A,b,c)$ die Koeffizienten einer Runge-Kutta Methode, wobei $A$ eine linke untere Dreiecksmatrix und $a_{jj}\neq 0$ sei. Dann hat die dazugehörige linear implizite Runge-Kutta Methode im folgenden Sinne die gleichen Stabilitätseigenschaften wie die ursprüngliche Methode:
+
+Ist $R(\zeta)$ die Stabilitätsfunktion der ursprünglichen Methode, dann ergibt sich für jede Wahl der $d_{jl}$ bei Anwendung der linear impliziten Methode auf die Testgleichung
+\[
+y'=\lambda y, \quad y(0)=1
+\]
+die Approximationen
+\[
+y_i=R(h\lambda)^i,
+\]
+wenn $I-h\lambda A$ invertierbar ist (also $\frac{1}{h\lambda}\neq a_{jj}$ für alle $j$).
+\end{theorem}
+\begin{beweis}
+Wir wenden die linear implizite Methode auf die Testgleichung an
+\[
+y'=\lambda y=:f(y), \quad y(0)=1.
+\]
+Für alle $y$ ist $J=f'(y)=\lambda$ und damit
+\begin{align*}
+k_j &:=  (1- a_{jj} h \lambda)^{-1} \left( \lambda(y_i + h \sum_{l=1}^{j-1} (a_{jl}+d_{jl}) k_l ) - h \lambda \sum_{l=1}^{j-1} d_{jl} k_l \right)\\
+&= (1- a_{jj} h \lambda)^{-1} \left( \lambda y_i + h \lambda \sum_{l=1}^{j-1} a_{jl} k_l  \right).
+\end{align*}
+Mit $k:=(k_1,\ldots,k_s)^T$ ist das äquivalent zu
+\[
+\left( \begin{array}{c c c c}
+1-a_{11}h\lambda & 0 & \dots & 0\\
+-a_{21} h\lambda & 1-a_{22}h\lambda & \dots & 0\\
+\vdots & \vdots & \ddots \\
+-a_{s1} h\lambda & -a_{s2} h\lambda &  \dots & 1-a_{ss}h\lambda
+\end{array}\right)
+\left( \begin{array}{c} k_1\\ k_2\\ \vdots \\ k_s \end{array} \right)
+= \left( \begin{array}{c} \lambda y_i\\ \lambda y_i\\ \vdots \\ \lambda y_i \end{array} \right).
+\]
+Wenn $I-h\lambda A$ invertierbar ist, dann ist also
+\[
+k=\lambda y_i (I-h\lambda A)^{-1}  \1
+\]
+und damit
+\[
+y_{i+1}=y_i+h b^T k=(1+ h \lambda b^T(I-h\lambda A)^{-1} \1)y_i=R(h\lambda)y_i.\quad \Box
+\]
+\end{beweis}
+
+\begin{beispiel}\label{bsp:lin_impl}
+\begin{enumerate}[(a)]
+\item {\bf Linear-implizites Euler-Verfahren}
+
+Für das implizite Euler-Verfahren
+\[
+\begin{array}{c | c}
+1 & 1 \\ \hline 
+& 1
+\end{array}
+\]
+ist $A$ eine linke untere Dreiecksmatrix und keine $d$-Koeffizienten nötig. Das dazugehörige \emph{linear-implizite Euler Verfahren} lautet
+\[
+y_{i+1}:=y_i+hk, \quad \mbox{ mit } \quad k:=(I-hf'(y_i))^{-1} f(y_i).
+\]
+\item {\bf Linear-implizites Mittelpunktsverfahren}
+
+Genauso erhalten wir das \emph{linear-implizite Mittelpunktsverfahren}:
+\[
+y_{i+1}:=y_i+hk, \quad \mbox{ with } \quad k:=(I-h/2 f'(y_i))^{-1} f(y_i).
+\]
+ 
+\item  {\bf\tt ode23s} 
+
+Das wohl am häufigsten verwendete linear-implizite Verfahren besteht aus der folgenden Kombination 
+einer zweistufigen ($y$) und einer dreistufigen ($\hat y$) Methode:
+\begin{align*}
+k_1&:=(I-ahJ)^{-1} f(y_i)\\
+k_2&:=(I-ahJ)^{-1} \left( f(y_i+h/2\, k_1)-ahJk_1\right)\\
+k_3&:=(I-ahJ)^{-1} \left( f(y_i+h k_2)-d_{31}hJk_1 - d_{32} hJk_2 \right)\\[+1ex]
+y_{i+1}&:=y_i+hk_2\\
+\hat y_{i+1}&:=y_i+\frac{h}{6} (k_1+4 k_2 + k_3),
+\end{align*}
+mit
+\[
+J:=f'(y_i), \quad a:=\frac{1}{2+\sqrt{2}}, \quad d_{31}:=-\frac{4+\sqrt{2}}{2+\sqrt{2}}, \quad d_{32}:=\frac{6+\sqrt{2}}{2+\sqrt{2}}.
+\]
+$y$ und $\hat y$ werden wir in Übungsaufgabe ?? zur adaptiven Schrittweitensteuerung kombiniert. 
+Das Verfahren ist in Matlab unter dem Namen {\tt ode23s} eines der zur Lösung steifer DGL empfohlenen Verfahren.
+\end{enumerate}
+\end{beispiel}
+
+
+\begin{lemma}\label{lemma:stab_lin_impl}
+Das linear implizite Euler Verfahren ist L-stabil, das linear implizite Mittelpunktsverfahren ist A-stabil und
+Isometrie-erhaltend.
+\end{lemma}
+\begin{beweis}
+Dies folgt aus Satz ~\ref{thm:lin_impl_stab} und den Stabilitätseigenschaften des impliziten Eulerverfahrens und
+des impliziten Mittelpunktsverfahrens.
+\end{beweis}
+
+\textbf{Bemerkung}\\
+{\it Gemäß Satz~\ref{thm:lin_impl_stab} definieren wir die Stabilitätsfunktion eines
+linear impliziten Verfahrens durch die des zugrundeliegenden Runge-Kutta-Verfahrens. Entsprechend nennen wir (wie in Lemma~\ref{lemma:stab_lin_impl} schon praktiziert) 
+ein linear implizites Verfahren A-stabil, L-stabil oder Isometrie-erhaltend, wenn das 
+zugrundeliegende Runge-Kutta-Verfahren diese Eigenschaften hat.}
+
+Eine linear implizite Method besitzt die gleichen Stabilitätseigenschaften wie die ursprüngliche Methode aber (je nach Wahl der $d_{jl}$) kann sich die Konsistenzordnung unterscheiden. Wie in Satz \ref{thm:RungeKuttaOrderCond}, lassen sich Ordnungsbedingungen für die Koeffizienten von linear impliziten Verfahren herleiten. 
+Wir zeigen nur exemplarisch am Beispiel \verb.ode23s. die Berechnung der Ordnung eines linear impliziten Verfahrens.
+
+\begin{theorem}
+Die in Beispiel \ref{bsp:lin_impl} beschriebene zweistufige Methode zur Berechnung von $y$ in \verb.ode23s. besitzt Konsistenzordnung 2.
+\end{theorem}
+
+\begin{beweis}
+Für jedes $k\in \R^d$ ist 
+\[
+\norm{(I-ahJ)k}\geq \norm{k}-ah\norm{J}\norm{k}
+\]
+und $J=f'(y_i)$ ist aufgrund unserer Generalvoraussetzung unabhängig vom Anfangswert $x_i$, $y_i$ beschränkt.
+
+Für hinreichend kleine $h>0$ ist die Matrix $I-ahJ$ also invertierbar und es gilt (mit unserer Konvention bzgl. der Landau-Notation aus Abschnitt~\ref{subsect:ConsitencyOrder})
+\[
+\norm{(I-ahJ)^{-1}}\leq \frac{1}{1-ah\norm{J}}=\frac{1}{1+O(h)}=O(1).
+\]
+
+Wir gehen nun wie im Beweis von Satz~\ref{thm:RungeKuttaOrderCond} vor. Nach Übungsaufabe ?? gilt 
+für die Lösung von $y'=f(y)$, $y(x_i)=y_i$ 
+\[
+y(x_{i+1})=y_i+h f+1/2 h^2 f' f + O(h^3)
+\]
+wobei wir wieder das Argument $(y_i)$ von $f$ und $f'$ weglassen.
+
+Wir wollen dies mit 
+\[
+y_{i+1}=y_i+hk_2,
+\]
+vergleichen und müssen dazu also $k_2$ bis zur Ordnung $O(h^2)$ entwickeln. Dazu benötigen wie die Entwicklung von $k_1$.
+Aus 
+\[
+k_1=(I-ahJ)^{-1} f\quad \mbox{ und } \quad \norm{(I-ahJ)^{-1}}=O(1)
+\]
+folgt $k_1=O(1)$. Wir verwenden die Definition von $k_1$ nocheinmal und erhalten 
+\begin{align*}
+k_1&=f + ahJ k_1=f+O(h).        %=f+ahJ (f+ahJ k_1) %=f+ahJ (f+ahJ (f+ahJ k_1))
+\end{align*}
+
+Für $k_2$ folgt zuerst
+\begin{align*}
+k_2&= (I-ahJ)^{-1} \left(f(y_0+ h/2\, k_1) - ahJk_1 \right)=O(1).
+\end{align*}
+und dann durch nochmalige Anwendung der Definition von $k_2$
+\begin{align*}
+k_2&=f(y_0+ h/2\, k_1) - ahJk_1 + ahJ k_2\\
+&=  f + h/2 k_1 f' +O(h^2) - ahJ k_1 + ahJ k_2= f + O(h).
+\end{align*}
+Noch ein weiteres Mal verwenden wir die Definition von $k_2$ und erhalten zusammen mit $k_1=f+O(h)$, dass
+\begin{align*}
+k_2&=  f + h/2\, k_1 f' +O(h^2) - ahJ k_1 + ahJ k_2\\
+&= f+ h/2\, f f' - ahJ f + ahJ f  +O(h^2)= f+ h/2 f f' +O(h^2).
+\end{align*}
+
+Insgesamt ist also
+\[
+y_{i+1}=y_i+hk_2=y_i+hf+h^2/2\, f f' + O(h^3)=y(x_i)+O(h^3),
+\]
+die Methode besitzt also Konsistenzordnung 2. 
+\end{beweis}
+
+
+\section{Randwertprobleme}
+
+\subsection{Motivation: Diffusionsprozesse}
+Neben Anfangswertproblemen treten in der Praxis auch \emph{Randwertprobleme} für gewöhnliche Differentialgleichungen auf. Die Theorie und Numerik dieser Probleme ist eng mit der für partielle Differentialgleichung verwandt, da (wie in der folgenden Motivation)  Randwertprobleme für gewöhnliche Differentialgleichungen oft als eindimensionale stationäre Spezialfälle von Randwertproblemen für PDGL auftreten. Die folgende Modellierung
+von Diffusionsprozessen folgt dem sehr lesenswerten Buch \cite{FulfordBroadbridge}.
+
+Wir betrachten ein Rohr mit Querschnitt $A$, das von einer Lösung durchflossen wird. Wir bezeichnen mit
+\begin{description}
+\item[$x$:] die Position innerhalb des Rohres, etwa $x\in [0,1]$
+\item[$C(x,t)$:] die Konzentration des gelösten Stoffes 
+am Ort $x$ zur Zeit $t$
+\item[$J(x,t)$:] Flussdichte der Lösung, d.h. welche Masse des Stoffes
+einen Einheitsquerschnitt pro Zeiteinheit durchquert.
+\end{description}
+
+Wir betrachten den Rohrabschnitt zwischen $x$ und $x+\delta x$. Dabei nehmen wir an, dass
+$\delta x$ so klein ist, dass die Konzentration in diesem Abschnitt
+räumlich konstant ist. Die Gesamtmasse innerhalb des Abschnitts ist also
+\[
+A \delta x C(x,t).
+\]
+
+Nun nehmen wir an, dass $\delta t$ so klein ist, dass der Fluss im Zeitabschnitt zwischen $t$ und $t+\delta t$ zeitlich konstant ist. Augrund des Flusses wird sich im betrachteten Abschnitt des Rohres die Gesamtmasse in diesem Zeitabschnitt ändern um
+\[
+J(x,t)A \delta t - J(x+\delta x,t) A \delta t,
+\]
+vgl.\ die in der Vorlesung gemalten Skizzen.
+
+Wenn es keine anderen die Masse ändernden Phänomene gibt, so gilt also
+\[
+A\delta x C(x,t+\delta t)=A\delta x C(x,t) + J(x,t)A \delta t - J(x+\delta x,t) A \delta t
+\]
+also
+\[
+\frac{C(x,t+\delta t)-C(x,t)}{\delta t}=-\frac{J(x+\delta x,t)-J(x,t)}{\delta x}
+\]
+und mit $\delta x\to 0$, $\delta t\to 0$ erhalten wir die \emph{Bilanzgleichung}
+\[
+\frac{\partial C(x,t)}{\partial t}=-\frac{\partial J(x,t)}{\partial x}.
+\]
+
+Die einfachste Model für Diffusion ist \emph{Fick's Gesetz}, das besagt, dass die
+Flussdichte proportional ist zum Konzentrationsgefälle
+\[
+J(x,t)=- D(x) \frac{\partial C(x,t)}{\partial x}.
+\]
+($D(x,t)$ heißt Diffusionskonstante). %For simplicity, let $D=1$.
+
+So erhalten wir eine partielle Differentialgleichung, die sogenannte
+\emph{Diffusionsgleichung} oder auch \emph{Wärmeleitungsgleichung}
+\[
+\frac{\partial C(x,t)}{\partial t}=\frac{\partial}{\partial x} \left(D(x,t) \frac{\partial  C(x,t)}{\partial x}\right).
+\]
+
+Konvektion und Absorption können ähnlich modelliert werden. Wenn die Flüssigkeit sich
+mit der Geschwindigkeit $v(x,t)$ bewegt, dann muss der Term $v(x,t)C(x,t)$ zum Fluss addiert werden. Wenn pro Zeiteinheit und Raumeinheit die Masse $M(x,t)$ hinzugegeben wird oder $a(x,t)C(x,t)$ z.B. aufgrund einer chemischen Reaktion verbraucht wird, so müssen diese
+Änderungen in der Massenbilanz berücksichtigt werden.
+Insgesamt erhalten wir 
+\[
+\frac{\partial C}{\partial t}(x,t) =   \frac{\partial}{\partial x} \left( D(x,t) \frac{\partial}{\partial x} C(x,t)\right) - \frac{\partial}{\partial x} (v(x,t) C(x,t)) - a(x,t)C(x,t) + M(x,t). 
+\]
+
+Es erscheint natürlich, dass diese partielle Differentialgleichung Anfangsbedingungen 
+$C(x,0)$ für alle $x\in (0,1)$ und Randbedingungen für $x=0$ und $x=1$ benötigt. 
+Als Randbedingungen können wir z.B.\ die Konzentration $C(0,t)$ and $C(1,t)$ für alle $t>0$
+(Dirichlet Randbedingungen) oder den Fluss  $-D(0)\frac{\partial C(0,t)}{\partial x}$ und $-D(1)\frac{\partial C(1,t)}{\partial x}$ (Neumann Randbedingungen) vorschreiben.
+
+Sind alle Koeffizienten der Gleichung von der Zeit unabhängig, so stellt sich oft 
+mit der Zeit ein Gleichgewichtszustand ein, d.h. die Konzentration ändert sich nicht mehr.
+Für diesen muss also gelten 
+\[
+\frac{\partial}{\partial x} \left( D(x) \frac{\partial}{\partial x} C(x)\right) - \frac{\partial}{\partial x} (v(x) C(x)) - a(x)C(x) + M(x)=0
+\]
+Dies ist wieder eine \emph{gewöhnliche Differentialgleichung}, für die wir jedoch 
+(Dirichlet- oder Neumann-)Randwerte anstelle von Anfangswerten kennen.
+
+\subsection{Differenzenverfahren}\label{subsect:FD_1D_BVP}
+
+Motiviert durch den letzten Abschnitt betrachten wir nun
+die leicht vereinfachte Diffusionsgleichung
+\[
+L[u]:=-u''(x) + b(x)u'(x) + c(x)u(x)=f(x) \quad x\in (0,1)
+\]
+und zwar zuerst mit \emph{homogenen} Dirichlet-Randbedingungen $u(0)=u(1)=0$. 
+
+Es ist naheliegend, dass Randwertproblem zu lösen, indem wir die Funktion
+$u$ diskretisieren durch ein äquidistantes Gitter $x_i=ih$, $i=0,\ldots n+1$, $h:=1/(n+1)$. 
+Es bezeichne
+\[
+U:=(u(x_1),\ldots,u(x_{n}))^T\quad \mbox{ und } \quad F:=(f(x_1),\ldots,f(x_{n}))^T
+\]
+die Auswertungen von $u$ und $f$ auf diesem Gitter.
+
+Wir ersetzen die Ableitungen durch \emph{zentrale finite Differenzen}
+\begin{align*}
+u'(x) &\approx D_h[U](x):=\frac{u(x+h)-u(x-h)}{2h}\\
+u''(x)& \approx D^2_h[U](x):= \frac{u(x+h)-2u(x)+u(x-h)}{h^2}
+\end{align*}
+(wobei wir am Rand $u(0)=0=u(1)$ verwenden).
+
+Aus der Gleichung $L[u]=f$ ergibt sich so das LGS
+\[
+L_h U_h = F
+\]
+mit einer Matrix $L_h\in \R^{n \times n}$. Durch Lösung des LGS erhalten wir einen Vektor
+\[
+U_h:=(u_1,\ldots, u_{n})^T\in \R^n
+\]
+von Approximationen an $(u(x_1),\ldots,u(x_{n}))^T$.
+
+\paragraph{Finite Differenzen für ein einfaches Beispiel.}
+Mit diesem Ansatz ergibt sich für das einfache Beispiel $-u''=f$ 
+\[
+\underbrace{\left( \begin{array}{c} f(x_1)\\ f(x_2)\\ \vdots \\ f(x_{n}) \end{array}\right)}_{=:F}
+= \left( \begin{array}{c} u''(x_1)\\ u''(x_2)\\ \vdots \\ u''(x_{n}) \end{array}\right)
+\approx \underbrace{h^{-2} \left( \begin{array}{c c c c} 2 & -1 &  & 0\\ -1 & 2 & -1 \\ & \ddots & \ddots & -1\\ 0 & & -1 & 2\end{array}\right)}_{=:L_h}
+\left( \begin{array}{c} u(x_1)\\ u(x_2)\\ \vdots \\ u(x_{n}) \end{array}\right).
+\]
+Wir können daher erwarten, dass wir durch Lösung von $F=L_h U_h$ einen
+Vektor $U_h=(u_1,\ldots,u_{n})^T$ aus Approximationen an $(u(x_1),\ldots,u(x_{n}))^T$
+erhalten.
+
+\paragraph{FD für die Diffusionsgleichung.}
+Genauso diskretisieren wir
+\[
+-u''(x) + b(x)u'(x) + c(x)u(x)=f(x), \quad u(0)=u(1)=0
+\]
+und erhalten
+\[
+\left( \begin{array}{c} f(x_1)\\ f(x_2)\\ \vdots \\ f(x_{n}) \end{array}\right)
+\approx h^{-2} \left( \begin{array}{c c c c} d_1 & s_1 &  & 0\\ r_2 & d_2 & s_2 \\ & \ddots & \ddots & s_{n-1}\\ 0  &  & r_{n} & d_{n}\end{array}\right) 
+\left( \begin{array}{c} u(x_1)\\ u(x_2)\\ \vdots \\ u(x_{n}) \end{array}\right)
+\]
+mit
+\begin{align*}
+d_i&=2+h^2 c(x_i),\\
+r_i&=-1-hb(x_i)/2,\\
+s_i&=-1+hb(x_i)/2.
+\end{align*}
+Wiederum ergibt sich ein LGS $F\approx L_h U$, und wir können erwarten, dass die
+Lösung $U_h:=L_h^{-1} F$ die wahren Lösungswerte in $U$ approximiert.
+
+\paragraph{Inhomogene Dirichlet-Bedingungen.} 
+Im Falle inhomogener Dirichlet-Bedingungen $u(0)=\alpha\in \R$, $u(1)=\beta\in \R$ ergibt sich
+\[
+\left( \begin{array}{c} f(x_1)\\ f(x_2)\\ \vdots \\ f(x_{n-1}) \end{array}\right)
+\approx h^{-2} \left( \begin{array}{c c c c} d_1 & s_1 &  & 0\\ r_2 & d_2 & s_2 \\ & \ddots & \ddots & s_{n-1}\\ 0  &  & r_{n} & d_{n}\end{array}\right) 
+\left( \begin{array}{c} u(x_1)\\ u(x_2)\\ \vdots \\ u(x_{n}) \end{array}\right)
++ h^{-2}
+\left( \begin{array}{c} r_1 \alpha\\ 0 \\ \vdots \\ s_{n} \beta \end{array}\right).
+\]
+Wir erhalten das LGS $F\approx L_h U+B_h$ und können erwarten, dass \[
+U_h:=L_h^{-1} (F-B_h)\approx U.
+\]
+
+\paragraph{Neumann Randbedingungen.} 
+Neumann Randbedingungen $u'(0)=\alpha$, $u'(1)=\beta$ können behandelt werden, in dem 
+wir die unbekannten Auswertungen an den Randwerten $x_0$ und $x_{n+1}$ zu den Vektoren hinzufügen
+\[
+\left( \begin{array}{c} f(x_0)\\ f(x_1)\\ f(x_2)\\ \vdots \\ f(x_{n})\\ f(x_{n+1}) \end{array}\right)
+\approx h^{-2} \left( \begin{array}{c c c c c c} r_1 & d_1 & s_1 &  & & 0\\ & r_2 & d_2 & s_2 \\ & & \ddots & \ddots & s_{n-1} & 0\\ 0 &  &  & r_{n} & d_{n} & s_{n}\end{array}\right) 
+\left( \begin{array}{c} u(x_0) \\ u(x_1)\\ u(x_2)\\ \vdots \\ u(x_{n}) \\ u(x_{n+1})\end{array}\right).
+\]
+Um Gleichungen für $u(x_0)=u(0)$ und $u(x_n)=u(1)$ zu erhalten vewenden wir die Näherungen
+\begin{align*}
+u(-h) & \approx u(0)-hu'(0)=u(0)-\alpha h\\
+u(1+h) & \approx u(1)+hu'(1)=u(1)+ \beta h.
+\end{align*}
+Damit ist
+\begin{align*}
+\left( \begin{array}{c} f(x_0)\\ f(x_1)\\ f(x_2)\\ \vdots \\ f(x_{n-1})\\ f(x_n) \end{array}\right)&\approx
+h^{-2} \left( \begin{array}{c c c c c} d_0 & s_0 \\
+r_1 & d_1 & s_1 &  & \\ & \ddots & \ddots & \ddots & \\  &  & r_{n} & d_{n} & s_{n}\\
+  &  & & r_{n+1} & d_{n+1} 
+\end{array}\right) 
+\left( \begin{array}{c} u(x_0) \\ u(x_1)\\  \vdots  \\ u(x_{n+1})\end{array}\right) \\
+& \quad 
+ + h^{-2} \left( \begin{array}{c} r_0 (u(x_0)-\alpha h)  \\ 0 \\ \vdots \\ s_{n+1} (u(x_{n+1})+\beta h) \end{array}\right)\\
+%
+& = h^{-2} \left( \begin{array}{c c c c c} d_0+r_0 & s_0 \\
+r_1 & d_1 & s_1 &  & \\ & \ddots & \ddots & \ddots & \\  &  & r_{n} & d_{n} & s_{n}\\
+  &  & & r_{n+1} & d_{n+1}+s_{n+1} 
+\end{array}\right) 
+\left( \begin{array}{c} u(x_0) \\ u(x_1)\\  \vdots  \\ u(x_{n+1})\end{array}\right)\\
+ & \quad + h^{-1} \left( \begin{array}{c} -  r_0 \alpha  \\ 0 \\ \vdots \\ s_{n+1} \beta  \end{array}\right)
+\end{align*}
+Wiederum ergibt sich ein LGS $f\approx L_h u+b_h$, und wir erwarten dass
+\[
+u_h:=L_h^{-1} (f-b_h)\approx u.
+\] 
+
+
+\subsection{Konsistenz, Stabilität und Konvergenz}
+
+Wir betrachten in diesem Abschnitt nur das spezielle Randwertproblem
+\[
+L[u]:=-u''(x) + b(x)u'(x) + c(x)u(x)=f(x) \quad x\in (0,1)
+\]
+mit homogenen Dirichletrandbedingungen und die dazugehörige Diskretisierung
+\[
+L_h U_h=F
+\]
+aus dem letzten Abschnitt. Außerdem nehmen wir an, dass $b\in C^2[0,1]$, $c\in C[0,1]$
+sowie $c>0$ gilt\footnote{Da die stetige Funktion $c$ auf dem Kompaktum $[0,1]$ ihr Minimum annimmt gilt damit sogar $c(x)\geq c_0:=\min_{x\in [0,1]} c(x)>0$.}, und dass das Randwertproblem
+eine eindeutige Lösung $u\in C^4([0,1])$ besitzt. 
+
+Zuerst charakterisieren wir, wie gut die wahren Lösungswerte
+\[
+U:=(u(x_1),\ldots,u(x_{n}))^T
+\]
+die diskretisierte Gleichung lösen.
+
+\begin{lemma}\label{lemma:RW_Konsistenz}
+Es existiert ein $C>0$, so dass 
+\[
+\norm{L_h U - F}_\infty \leq C h^2.
+\]
+Man sagt auch, das Differenzenverfahren hat \emph{Konsistenzordnung} 2.
+\end{lemma}
+\begin{beweis}
+Der $i$-te Eintrag von  ($i=1,\ldots,n$, $x_0=0$, $x_{n+1}=0$) von  $L_h U  - F$ ist 
+\[
+D_h^2[U](x_i)+b(x_i)D_h[U](x_i)+c(x_i)u(x_i)-f(x_i).
+\]
+Da $u$ die DGL $u''(x_i)+b(x_i)u'(x_i)+c(x_i)u(x_i)-f(x_i)=0$ löst, genügt es zu zeigen, dass
+\[
+D_h[u](x_i)=u'(x_i)+O(h^2)\quad \mbox{ und } \quad D_h^2[u](x_i)=u''(x_i)+O(h^2).
+\]
+
+In der Tat erhalten wir durch Taylorentwichlung
+\begin{align*}
+u(x_i+h) &=u(x_i)+hu'(x_i)+\frac{1}{2}h^2u''(x_i)+\frac{1}{3!}h^3u'''(x_i)+O(h^4)\\
+u(x_i-h) &=u(x_i)-hu'(x_i)+\frac{1}{2}h^2u''(x_i)-\frac{1}{3!}h^3u'''(x_i)+O(h^4)
+\end{align*}
+und damit
+\begin{align*}
+D_h[u](x_i)&=\frac{u(x_i+h)-u(x_i-h)}{2h}= \frac{2h u'(x_i)+O(h^3)}{2h}=u'(x_i)+O(h^2)\\
+D^2_h[u](x_i)&= \frac{u(x_i+h)-2u(x_i)+u(x_i-h)}{h^2}=
+\frac{h^2u''(x_i) + O(h^4)}{h^2}\\
+&=u''(x_i)+O(h^2),
+\end{align*}
+womit die Behauptung gezeigt ist.
+\end{beweis}
+
+Aus Konsistenz (im Sinne von Lemma~\ref{lemma:RW_Konsistenz}) folgt mit 
+dem folgenden einfachen Argument Konvergenz
+\[
+\norm{U-U_h}_\infty = \norm{L_h^{-1} L_h (U-U_h)}_\infty\leq \norm{L_h^{-1}}_\infty \norm{L_h U-F}_\infty,
+\]
+wenn wir zeigen können, dass $L_h$ invertierbar ist {\bf und $\norm{L_h^{-1}}_\infty$ (gleichmäßig in $h$) beschränkt ist}. Die zweite Eigenschaft heißt auch \emph{Stabilität} des Differenzenverfahrens. Um die Stabilität zu zeigen, 
+konstruieren wir eine Lösung $w$ eines Randwertproblems, für den die zugehörigen Auswertungen $W$ 
+\[
+L_h W\geq \1
+\]
+erfüllen. Zusammen mit einer noch zu zeigenden Monotonieeigenschaft von $L_h^{-1}$ folgt
+dann
+\[
+\norm{L_h^{-1}}_\infty = \norm{L_h^{-1} \1}_\infty \leq \norm{L_h^{-1} L_h W}_\infty\leq \max_{x\in [0,1]} w(x).
+\]
+
+
+
+%\begin{definition}
+%Eine Matrix $A=(a_{ij})_{i,j=1}^n\in \R^{n\times n}$ heißt
+%\begin{enumerate}[(a)]
+%\item \emph{strikt diagonaldominant}, falls 
+%\[
+%|a_{ii}|>\sum_{j=1 \atop j\neq i}^n |a_{ij}| \quad \forall i=1,\ldots,n.
+%\]
+%\item \emph{M-Matrix}, falls $A$ invertierbar ist, $a_{ij}\leq 0$ für alle $i\neq j$ und 
+%alle Einträge von $A^{-1}$ nicht-negativ sind.
+%\end{enumerate}
+%\end{definition}
+
+\begin{bemerkung}\label{bem:monotonie}
+Eine komponentenweise nicht-negative Matrix $M=(m_{ij})_{i,j=1}^n$ hat die Monotonieeigenschaft
+\[
+x\leq y \quad \Longrightarrow \quad Mx\leq My, 
+\]
+wobei die Ungleichheitszeichen für die Vektoren $x,y,Mx,My\in \R^n$ komponentenweise zu verstehen sind.
+\end{bemerkung}
+
+%Für hinreichend kleine $h$ ist $L_h$ offenbar strikt diagonaldominant und damit (z.B. nach \cite[Satz 3.7]{Num_I}) invertierbar. 
+%Das folgende Lemma zeigt, dass $L_h$ sogar eine M-Matrix ist.
+
+Um die Monotonieeigenschaft von unserem $L_h^{-1}$ zu zeigen, benötigen 
+wir noch ein Hilfsresultat:
+
+\begin{lemma}[Neumannsche Reihe]\label{lemma:NR}
+Ist $R\in \R^{n\times n}$ und gilt $\norm{R}<1$ in einer submultiplikativen Matrixnorm,
+so ist $I-R$ invertierbar und es gilt $(I-R)^{-1}=\sum_{k=0}^\infty R^k$.
+\end{lemma}
+\begin{beweis}
+Betrachte die Folge der Partialsummen $S_N:=\sum_{k=0}^N R^k$. Da
+\[
+\norm{\sum_{k=0}^N R^k - \sum_{k=0}^M R^k}\leq \sum_{k=M+1}^N \norm{R}^k \quad \forall N>M
+\]
+und die geometrische Reihe $\sum_{k=0}^\infty \norm{R}^k$ konvergiert, folgt dass
+$(S_N)_{N\in \N}$ eine Cauchy-Folge ist und damit konvergiert. 
+Genauso folgt $R^k\to 0$, so dass wegen
+\[
+(I-R) \sum_{k=0}^N R^k= \sum_{k=0}^N R^k (I-R) = I- R^{k+1}\to I.
+\]
+der Grenzwert $S:=\lim_{N\to \infty}S_N=\sum_{k=0}^\infty R^k$  die Inverse von $(I-R)$ ist.
+\end{beweis}
+
+
+
+
+\begin{lemma}\label{lemma:wann_M}
+Ist $A\in \R^{n\times n}$ eine strikt diagonaldominante Matrix mit positiven Diagonalelementen und nicht-positiven Nichtdiagonalelementen, dann ist $A$ invertierbar und $A^{-1}$ komponentenweise nicht-negativ.
+\end{lemma}
+\begin{beweis}
+Wir zerlegen $A=D-N$ in seinen Diagonal- und Nichtdiagonalanteil. Nach Voraussetzung ist $D\geq 0$ und $R\geq 0$. Für $R=D^{-1} N$ gilt offenbar
+\[
+A=D (I-R), \quad R\geq 0, \quad \norm{R}_\infty=\norm{D^{-1} N}_\infty<1.
+\]
+Aus Lemma~\ref{lemma:NR} folgt die Invertierbarkeit von $I-R$ und damit die von $A$.
+Außerdem folgt
+\[
+A^{-1}=(I-R)^{-1} D^{-1} =\sum_{k=0}^\infty {R^k} D^{-1}
+\]
+Die Einträge von $A^{-1}$ sind also Grenzwerte von Summen und Produkten nicht-negativer Zahlen und damit nicht-negativ.
+\end{beweis}
+
+
+\begin{lemma}\label{lemma:RW_stabil}
+Es existieren $h_0>0$ und $C>0$ mit 
+\[
+\norm{L_h^{-1}}_\infty\leq C \quad \mbox{ für alle } 0<h<h_0.
+\]
+\end{lemma}
+\begin{beweis}
+Nach Übungsaufgabe ?? existiert eine eindeutige Lösung $w\in C^4[0,1]$ des Randwertproblems
+\[
+-w''(x) + b(x)w'(x) = 1 \quad x\in (0,1), \qquad w(0)=0=w(1).
+\]
+
+Da $w$ stetig ist, besitzt $w$ sein globales Minimum in $[0,1]$. Da in jedem Minimum $w'(x)=0\geq w''(x)$
+gilt und damit die DGL nicht erfüllt sein kann, muss das Minimum auf dem Rand liegen und es folgt
+\[
+w(x)\geq 0 \quad \forall x\in [0,1].
+\]
+
+
+$w$ erfüllt
+\[
+L[w]=-w''(x) + b(x)w'(x) + c(x)w(x)= 1+c(x)w(x).
+\]
+Nach Lemma~\ref{lemma:RW_Konsistenz} existiert deshalb ein $C'>0$, so dass für 
+$W=(w(x_1),\ldots,w(x_{n}))^T$ 
+und $G=(1+c(x_1)w(x_1),\ldots,1+c(x_n)w(x_{n}))^T$ gilt
+\[
+\norm{L_h W - G}_\infty \leq C' h^2,
+\]
+und damit insbesondere
+\[
+L_h W \geq G- C'h^2 \1.
+\]
+
+Da $c$ und $w$ nicht-negativ sind, ist $G\geq \1$ und es folgt
+\[
+L_h W \geq \1 - C' h^2\1.
+\]
+
+Für hinreichend kleine $h$ ist $1-C'h^2>\frac{1}{2}$ und die Matrix 
+$L_h$ erfüllt die Voraussetzungen von Lemma~\ref{lemma:wann_M}. Mit Bemerkung~\ref{bem:monotonie}
+folgt dann
+\[
+L_h W\geq \frac{1}{2} \1 \quad \Longrightarrow \quad W\geq \frac{1}{2}{L_h^{-1}\1}
+\]
+und damit 
+\[
+\norm{L_h^{-1}}_\infty = \norm{L_h^{-1} \1}_\infty \leq 2 \norm{W}_\infty\leq \max_{x\in [0,1]} w(x),
+\]
+womit die Behauptung gezeigt ist.
+\end{beweis}
+
+\begin{korollar}
+Es existieren $h_0>0$ und $C>0$ mit 
+\[
+\norm{U-U_h}_\infty\leq C h^2 \quad \mbox{ für alle } 0<h<h_0.
+\]
+\end{korollar}
+\begin{beweis}
+Mit
+\[
+\norm{U-U_h}_\infty = \norm{L_h^{-1} L_h (U-U_h)}\leq \norm{L_h^{-1}} \norm{L_h U-F}
+\]
+folgt die Behauptung aus Lemma~\ref{lemma:RW_Konsistenz} und Lemma~\ref{lemma:RW_stabil}.
+\end{beweis}
+
+
+
+
+\begin{thebibliography}{100}
+
+\bibitem[FulfordBroadbridge]{FulfordBroadbridge}
+G. R. Fulford, P. Broadbridge: \emph{Industrial Mathematics: Case Studies in the Diffusion of Heat and Matter}, 
+Australian Mathematical Society Lecture Series 16, Cambridge University Press, Cambridge, 2002.
+
+\bibitem[Hanke]{Hanke} 
+M. Hanke-Bourgeois: \emph{Grundlagen der Numerischen Mathematik und des Wissenschaftlichen Rechnens}, Teubner Verlag, Wiesbaden, 2009. 
+
+%\bibitem[Num I]{NumI} 
+%B. Harrach: Vorlesung \emph{Numerische Mathematik I} (WS11/12).\\ 
+%{\footnotesize \verb|http://www.mathematik.uni-wuerzburg.de/~harrach/lehre/Numerik_I.pdf|}
+
+
+%\bibitem[Heuser]{Heuser} 
+%H. Heuser: \emph{Lehrbuch der Analysis Teil 1}, Teubner Verlag, Wiesbaden, 2009. 
+
+
+%\bibitem[Forster3]{Forster3} O. Forster: \emph{Analysis 3. Integralrechnung im $\R^n$ mit Anwendungen}. 3. Auflage, Vieweg, Braunschweig, 1996.
+
+
+
+\end{thebibliography}
+
+\end{document}
