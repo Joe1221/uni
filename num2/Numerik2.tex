@@ -890,8 +890,7 @@ y'(x)=f(x,y(x)), \qquad y(x_0)=y_0\in \R
 suchen.
 
 Wir können uns die DGL $y'(x)=f(x,y(x))$ durch das dazugehörige Richtungsfeld veranschaulichen: Zu jedem Punkt
-$(x,y)\in \R^2$ zeichnen wir einen Richtungspfeil mit Steigung $f(x,y)$, z.B. den Vektor $(1,f(x,y))^T$ (vgl. die in der Vorlesung  
-gezeichnete Skizze). Eine Funktion löst die DGL genau dann, wenn an jedem
+$(x,y)\in \R^2$ zeichnen wir einen Richtungspfeil mit Steigung $f(x,y)$, z.B. den Vektor $(1,f(x,y))^T$ (\fixme[Bild: Richtungsfeld $f(x,y(x))=x$]). Eine Funktion löst die DGL genau dann, wenn an jedem
 Punkt durch den die Funktion geht, die Steigung der Funktion und die Steigung des Richtungspfeils übereinstimmen.
 Wir können die DGL zeichnerisch lösen, indem wir ausgehend vom Startwert $(x,y_0)$ die Funktion passend 
 zu den Richtungspfeilen zeichnen.
@@ -903,7 +902,7 @@ Betrachte das allgemeine (vektorwertige) AWP
 \[
 y'(x)=f(x,y(x)), \qquad y(x_0)=y_0\in \R^d
 \]
-auf dem Intervall $x\in [a,b]$, $a=x_0$. Wir diskretisieren das Intervall durch $n+1$ Punkte
+auf dem Intervall $x\in [a,b]$, $a:=x_0$. Wir diskretisieren das Intervall durch $n+1$ Punkte
 \[
 a=x_0 < x_1 < \ldots < x_n=b,
 \]
@@ -918,9 +917,9 @@ Punkt verwenden, um die Approximation im nächsten Punkt zu berechnen:\footnote{
 \begin{align*}
 y_1 & :=y_0+h_0 f(x_0,y_0)\\
 y_2 & :=y_1+h_1 f(x_1,y_1)\\
-& \vdots\\
+\vdots \;&\qquad\qquad \vdots\\
 y_{i+1} & :=y_i+h_i f(x_i,y_i)\\
-& \vdots\\
+\vdots \;&\qquad\qquad \vdots\\
 y_n & :=y_{n-1}+h_{n-1} f(x_{n-1},y_{n-1})
 \end{align*}
 
@@ -932,7 +931,13 @@ Das gleiche Verfahren erhalten wir auch durch Diskretisierung der DGL mit finite
 \frac{y_{i+1}-y_i}{x_{i+1}-x_i}
 \approx \frac{y(x_{i+1})-y(x_{i})}{x_{i+1}-x_i} \approx y'(x_i)= f(x_i,y(x_i))\approx f(x_i,y_i).
 \end{align*}
-Das explizite Eulerverfahren heißt auch Vorwärts-Euler-Verfahren (engl.: foward Euler).
+Man erhält die Iteration
+\[
+	y_{i+1} \approx y_i + \underbrace{(x_{i+1} - x_{i})}_{h_i} f(x_i, y_i)
+\]
+in Übereinstimmung mit der grafischen Lösungsmethode.
+
+Das explizite Eulerverfahren heißt auch Vorwärts-Euler-Verfahren (engl.: \emph{forward Euler}).
 
 
 \subsection{Implizites Euler-Verfahren}
@@ -968,6 +973,7 @@ Die anschauliche Idee, stückweise lineare Funktion ins Richtungsfeld zu zeichne
 viele weitere explizite und implizite Methoden:
 
 \paragraph{Implizite Mittelpunktsregel.}
+
 Zuerst zeichnen wir die Liniensegmente so, dass die Steigung der Segmente in ihrem \emph{Mittelpunkt}
 mit dem Richtungsfeld übereinstimmt.
 
@@ -988,7 +994,7 @@ Wir können auch versuchen, eine explizite Formel für $y_{i+1/2}$ zu finden. Da
 \[
 y_{i+1/2}  :=y_i+\frac{h_i}{2} f(x_i,y_i)
 \]
-und wählen dann
+und wählen dann wie in der impliziten Mittelpunktsregel
 \[
 y_{i+1}:=y_i+ h_i  f\left( \frac{x_{i+1}+x_i}{2},y_{i+1/2} \right).
 \]
@@ -1018,7 +1024,8 @@ y_{i+1} &:= y_i+h_i \frac{f(x_{i},y_{i})+f(x_{i+1},\eta)}{2}.
 
 \section{Einschrittmethoden höherer Ordnung}
 
-\paragraph{Generalvoraussetzung:} In diesem Abschnitt sei $[a,b]\subset \R$, $b>a$ stets ein festes Intervall. Wir werden im Folgenden nur Differentialgleichungen
+\paragraph{Generalvoraussetzung:} 
+In diesem Abschnitt sei $[a,b]\subset \R$, $b>a$ stets ein festes Intervall. Wir werden im Folgenden nur Differentialgleichungen
 \[
 y'(x)=f(x,y(x))
 \]
