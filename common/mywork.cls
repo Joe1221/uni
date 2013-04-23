@@ -240,6 +240,16 @@
 	\rhead{\theauthor \\ 2706616}
 }
 
+\newcommand{\blattnumzwei}{
+	\addtolength{\headheight}{\baselineskip}
+	\lhead{Numerische Mathematik 2 \\ \today}
+	\chead{Gruppe 1}
+	\rhead{\theauthor \\ 2706616}
+	\renewenvironment{aufgabe}{\refstepcounter{aufgabe}\par\medskip\noindent%
+		\textbf{Aufgabe \thesection.\theaufgabe}\rmfamily}
+	{\medskip}
+}
+
 \newcommand{\blattlaag}{
 	\addtolength{\headheight}{\baselineskip}
 	\lhead{LAAG2 \\ \today}

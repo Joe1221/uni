@@ -1,0 +1,72 @@
+\documentclass{mywork}
+\blattnumzwei
+
+\begin{document}
+
+
+\setcounter{section}{2}
+\setcounter{aufgabe}{5}
+
+\begin{aufgabe}~
+
+	\begin{enumerate}[a)]
+		\item
+			Berechne $y^{(1)}, y^{(2)}, y^{(3)}$ mit der Picard-Lindelöf-Iteration.
+			Setze dazu $y^{(0)}(x) = y_0 = 0$, dann gilt
+			\begin{align*}
+				y^{(1)}(t) &= y_0 + \int_0^t y^{(0)}(\tau)^2 + \tau^2 d\tau = \int_0^t t^2 dt  \\
+				&= \f 13 t^3 \\
+				y^{(2)}(t) &= \int_0^t \f 19 \tau^6 + \tau^2 d\tau \\
+				&= \f 1{63} t^7 + \f 13 t^3 \\
+				y^{(3)}(t) &= \int_0^t \Big( \f 1{63}\tau^7 + \f 13 \tau^3 \Big)^2 + \tau^2 d\tau \\
+				&= \int_0^t \f 1{3969}\tau^{14} + \f 2{189} \tau^{10}  + \f 19 \tau^6 + \tau^2 d\tau \\ 
+				&= \f 1{59535}t^{15} + \f 2{2079} t^{11} + \f 1{63} t^7 + \f 13 t^3
+			\end{align*}
+		\item
+			Gehe vor wie in der a):
+			\begin{align*}
+				y^{(1)}(t) &= \begin{pmatrix}
+					1 \\ 1 \\ 0
+				\end{pmatrix} + \int_0^t \begin{pmatrix}
+					0 \\ 0 \\ 1
+				\end{pmatrix} d\tau
+				= \begin{pmatrix}
+					1 \\ 1 \\ t
+				\end{pmatrix} \\
+				y^{(2)}(t) &= \begin{pmatrix}
+					1 \\ 1 \\ 0
+				\end{pmatrix} + \int_0^t \begin{pmatrix}
+					\tau \\ - \tau \\ 1
+				\end{pmatrix} = \begin{pmatrix}
+					1 + \f 12 t^2  \\ 1 - \f 12 t^2 \\ t
+				\end{pmatrix} \\
+				y^{(3)}(t) &= \begin{pmatrix}
+					1 \\ 1 \\ 0
+				\end{pmatrix} + \int_0^t \begin{pmatrix}
+					\tau + \f 12 \tau^3 \\ - \tau + \f 12 \tau^3 \\ 1
+				\end{pmatrix} = \begin{pmatrix}
+					1 + \f 12 t^2 + \f 16 t^4 \\ 1 - \f 12 t^2 + \f 16 t^4 \\ t
+				\end{pmatrix}
+			\end{align*}
+			Aufgrund der Taylorentwicklung von $e^x = \sum_{k=0}^\infty \f {x^k}{k!}$ raten wir die Lösung:
+			\[
+				y(t) = \begin{pmatrix}
+					e^{\f {t^2}2} \\ e^{- \f {t^2}2} \\ t
+				\end{pmatrix}
+			\]
+			Diese ist tatsächlich Lösung des AWPs, denn:
+			\[
+				y'(t) = \begin{pmatrix}
+					t e^{\f {t^2}2} \\
+					-t e^{\f {-t^2}2} \\
+					1
+				\end{pmatrix} = \begin{pmatrix}
+					y_1(t) y_3(t) \\
+					-y_2(t) y_3(t) \\
+					1
+				\end{pmatrix}
+			\]
+	\end{enumerate}
+
+\end{aufgabe}
+\end{document}
