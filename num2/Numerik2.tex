@@ -1025,6 +1025,7 @@ y_{i+1} &:= y_i+h_i \frac{f(x_{i},y_{i})+f(x_{i+1},\eta)}{2}.
 \section{Einschrittmethoden höherer Ordnung}
 
 \paragraph{Generalvoraussetzung:} 
+
 In diesem Abschnitt sei $[a,b]\subset \R$, $b>a$ stets ein festes Intervall. Wir werden im Folgenden nur Differentialgleichungen
 \[
 y'(x)=f(x,y(x))
@@ -1032,6 +1033,9 @@ y'(x)=f(x,y(x))
 mit unendlich oft differenzierbarer rechter Seite $f$ betrachten. Insbesondere ist $f$ also lokal Lipschitz stetig.
 
 Der Einfachheit halber fordern wir zusätzlich dass \textbf{alle partiellen Ableitungen (jeder Ordnung)} von $f$ in $[a,b]\times \R^d$ beschränkt sind.
+\begin{note}
+	Im Folgenden bezeichnet $\|\cdot\|$ auf $\R^d$ immer die Euklidische Norm und auf $\R^{d\times d}$ die davon induzierte Form.
+\end{note}
 Insbesondere existiert ein $L>0$ so dass
 \[
 \norm{f_y(x,y)}\leq L \quad \forall (x,y)\in [a,b]\times \R^d,
@@ -1041,9 +1045,13 @@ wobei
 f_y(x,y):=\frac{\partial f}{\partial y} (x,y)= \left( \frac{\partial f_i}{\partial y_j}(x,y) \right)_{i,j=1}^d\in \R^{d\times d}.
 \]
 Damit gilt also für alle $x\in [a,b]$ und $y,z\in \R^d$ 
-\[
-\norm{f(x,y)-f(x,z)}=\norm{\int_0^1 f_y(x,y+t(z-y)) (z-y) \dx[t]}\leq L \norm{y-z}
-\]
+\begin{align*}
+\norm{f(x,y)-f(x,z)}
+&=\|g(1)-g(0)\| \qquad g(t) := f(x,y+t(z-y)) \\
+&=\norm{\int_0^1 g'(t) \dx[t]} \qquad g'(t) = f_y(x,y+t(z-y))(z-y) \\
+&=\norm{\int_0^1 f_y(x,y+t(z-y)) (z-y) \dx[t]} \\
+&\leq L \norm{y-z}
+\end{align*}
 und nach Abschnitt \ref{subsec:wohlgestellt} ist somit für jede Wahl der Anfangswerte $x_0\in [a,b]$ und $y_0\in \R^d$ die eindeutige Existenz von Lösungen und ihre stetige Abhängigkeit von den Anfangswerten garantiert.
 
 Außerdem folgt wie in A7.2 aus dieser Zusatzvoraussetzung, dass dann alle Ableitungen jeder Lösung eines AWP mit rechter Seite $f$ beschränkt sind. Präzise ausgedrückt: Zu jeder solchen rechten Seite $f$ existieren Konstanten $C_k>0$ ($k\in \N_0$), so dass für jede Wahl der Anfangswerte $x_0\in [a,b]$ und $y_0\in \R^d$ die zugehörige 
@@ -1056,7 +1064,7 @@ erfüllt, dass
 \sup_{x\in [x_0,b]} \norm{y^{(k)}(x)} \leq C_k.
 \]
 
-Auf diese globale Zusatzvoraussetzung kann verzichtet werden, wenn die Lösbarkeit sichergestellt ist und die Approximationen an die Lösung beschränkt bleiben.
+Auf diese globale Zusatzvoraussetzung kann verzichtet werden, wenn die Lösbarkeit sichergestellt ist und die Approximationen an die Lösung beschränkt bleiben (z.B. auf einem beschränkten Gebiet).
 
 
 \subsection{Konsistenz und Konvergenz}\label{subsect:ConsitencyOrder}
@@ -1071,6 +1079,7 @@ a=x_0 < x_1 < \ldots < x_n=b.
 \]
 Beginnend mit $x_0$ (wo wir die Lösung $y(x_0)=y_0$ kennen) versuchen wir sukzessive Approximationen $y_i\approx y(x_i)\in \R^d$ zu bestimmen.
 
+Wir unterscheiden zwei verschiedene Approximationsmethoden:
 \begin{description}
 \item[Einschrittmethoden:] Nur der vorherige Punkt $y_i$ (und $x_i$, $x_{i+1}$, $h_i:=x_{i+1}-x_i$) wird zur Berechnung von $y_{i+1}$ verwendet.
 \item[Mehrschrittmethoden:] Mehrere vorherige Punkte $y_i$, $y_{i-1}$, \ldots $y_{i-m}$ (und $x_{i+1}$, $x_{i}$, \ldots, $x_{i-m}$ ) 
@@ -1078,36 +1087,36 @@ werden zur Berechnung von $y_{i+1}$ verwendet.
 ($m+1$-Schritt Methode benötigt \emph{Startprozedur} zur Berechnung der ersten $m$ Werte $y_1$,\ldots, $y_m$).
 \end{description}
 
-Die Methoden in Abschnitt \ref{Sect:NumODE_Motivation} sind allesamt Einschrittmethoden. 
+Im Folgenden betrachten wir nur die Einschrittmethoden (alle in Abschnitt \ref{Sect:NumODE_Motivation} sind Einschrittmethoden).
 
 \begin{definition}\label{def:Konsistenz}
 Eine Einschrittmethode heißt \emph{konsistent}, falls für jede (unsere Generalvoraussetzung erfüllende) rechte Seite
 $f$ gilt, dass
 \[
-\lim_{h\to 0} \sup_{x_i\in [a,b], y_i\in \R^d} \frac{\left| y_{i+1}- y(x_i+h) \right|}{h}\to 0
+\lim_{h\to 0} \sup_{\substack{x_i\in [a,b]\\ y_i\in \R^d}} \frac{\left| y_{i+1}- y(x_i+h) \right|}{h} = 0
 \]
 wobei $y$ die Lösung des AWP
 \[
 y'(x)=f(x,y(x)), \qquad y(x_i)=y_i
 \]
-ist, und $y_{i+1}$ durch Anwendung der Methode auf $y_i$ mit Schrittweite $h$ erzeugt wurde.
+ist und $y_{i+1}$ durch Anwendung der Methode auf $y_i$ mit Schrittweite $h$ erzeugt wurde.
 
 Die Methode besitzt \emph{Konsistenzordnung} $p\in \N$, falls 
 für jede (unsere Generalvoraussetzung erfüllende) rechte Seite
 $f$ 
 \[
-\limsup_{h\to 0} \sup_{x_i\in [a,b], y_i\in \R^d} \frac{\left| y_{i+1}- y(x_i+h) \right|}{h^{p+1}}<\infty,
+\limsup_{h\to 0} \sup_{\substack{x_i\in [a,b]\\ y_i\in \R^d}} \frac{\left| y_{i+1}- y(x_i+h) \right|}{h^{p+1}}<\infty,
 \]
-d.h. Konstanten $C>0$, $h_0>0$ existieren, so dass
+d.h. Konstanten $C>0$, $h_0>0$ existieren, so dass für alle $0<h<h_0$:
 \[
-\sup_{x_i\in [a,b], y_i\in \R^d} \left| y_{i+1}- y(x_i+h) \right| \leq C h^{p+1} \quad \forall 0<h<h_0.
+\sup_{\substack{x_i\in [a,b]\\ y_i\in \R^d}} \left| y_{i+1}- y(x_i+h) \right| \leq C h^{p+1}.
 \]
 \end{definition}
 
 
 Eine Methode der Konsistenzordnung $p$ macht in jedem Intervall $[x_i,x_{i+1}]$ einen \emph{lokalen Fehler} 
-der Größenordnung $O(h^{p+1})$. Da es $n=\frac{b-a}{h}=O(h^{-1})$ solche Intervalle gibt, erwarten wir dass der \emph{globale Fehler}
-in der Größenordnung $O(h^p)$ liegen wird. Der folgende Satz zeigt, dass dies tatsächlich der Fall ist.
+der Größenordnung $\mathcal{O}(h^{p+1})$. Da es $n=\frac{b-a}{h}=\mathcal{O}(h^{-1})$ solche Intervalle gibt, erwarten wir dass der \emph{globale Fehler}
+in der Größenordnung $\mathcal{O}(h^p)$ liegen wird. Der folgende Satz zeigt, dass dies tatsächlich der Fall ist.
 
 
 \begin{theorem}
@@ -1128,9 +1137,9 @@ a=x_0 < x_1 < \ldots < x_n=b, \qquad x_i=x_0+ih \quad (i=1,\ldots,n).
 \max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\to 0 \quad \mbox{ für $n\to \infty$}.
 \]
 %
-\item Besitzt die Methode Konsistenzordnung $p$, so gilt
+\item Besitzt die Methode Konsistenzordnung $p$, so gilt für alle $0<h<h_0$
 \[
-\max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\leq \frac{e^{L(b-a)}-1}{L} C h^p \quad \forall 0<h<h_0.
+\max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\leq \frac{e^{L(b-a)}-1}{L} C h^p,
 \]
 wobei $C,h_0>0$ die Konstanten aus der Definition der Konsistenzordnung und $L$ die Lipschitz-Konstante
 aus der Generalvoraussetzung ist.
@@ -1187,7 +1196,7 @@ Der Beweis von (a) geht analog.
 \medskip
 \textbf{Bemerkung}\\
 Im Folgenden verwenden wir im Zusammenhang mit Anfangswertproblemen
-die Landau-Notation $O(h^p)$, $o(h)$, etc., mit der Konvention, dass
+die Landau-Notation $\mathcal{O}(h^p)$, $o(h)$, etc., mit der Konvention, dass
 die darin vorkommenden Konstanten von der rechten Seite $f$ nicht jedoch von dem Anfangswert $x_0\in [a,b]$, $y_0\in \R^d$
 abhängen dürfen. Mit dieser Konvention ist ein Einzelschrittverfahren
 \begin{itemize}
@@ -1197,7 +1206,7 @@ y(x_{i+1})-y_{i+1}=o(h).
 \]
 \item konsistent mit Ordnung $p$, falls aus $y_i=y(x_i)$ folgt, dass 
 \[
-y(x_{i+1})-y_{i+1}=O(h^{p+1}).
+y(x_{i+1})-y_{i+1}=\mathcal{O}(h^{p+1}).
 \]
 \end{itemize}
 %\end{bemerkung*}
@@ -1213,25 +1222,25 @@ y(x_{i+1})-y_{i+1}=O(h^{p+1}).
 \end{align*}
 mit einer (aufgrund unserer Generalvoraussetzung nur von der rechten Seite $f$ abhängigen) Konstante $C_2$. Es ist also mit obiger Konvention
 \begin{align*}
-y(x_{i+1}) &= y(x_i)+h y'(x_i) + O(h^2)\\
-&= y(x_i)+h f(x_i,y_i) + O(h^2) = y_{i+1} + O(h^2)
+y(x_{i+1}) &= y(x_i)+h y'(x_i) + \mathcal{O}(h^2)\\
+&= y(x_i)+h f(x_i,y_i) + \mathcal{O}(h^2) = y_{i+1} + \mathcal{O}(h^2)
 \end{align*}
 und das explizite Euler-Verfahren besitzt somit Konsistenzordnung $1$.
 %
 \item \textbf{Implizites Euler-Verfahren:} Für $y(x_i)=y_i$ erhalten wir wiederum durch Taylorentwicklung
 \begin{align*}
-y(x_i) &=y(x_{i+1})- h y'(x_{i+1}) + O(h^2)\\
-       &=y(x_{i+1})- h f(x_{i+1},y(x_{i+1})) + O(h^2)
+y(x_i) &=y(x_{i+1})- h y'(x_{i+1}) + \mathcal{O}(h^2)\\
+       &=y(x_{i+1})- h f(x_{i+1},y(x_{i+1})) + \mathcal{O}(h^2)
 \end{align*}
 Zusammen mit $y_{i+1}=y_i+hf(x_{i+1},y_{i+1})$ erhalten wir
 \begin{align*}
 \norm{y_{i+1}-y(x_{i+1})} &= \norm{ y_i+h f(x_{i+1},y_{i+1}) - y(x_{i+1})}\\
-&= h \norm{ f(x_{i+1},y_{i+1})-f(x_{i+1},y(x_{i+1})) } + O(h^2)\\
-& \leq h L \norm{ y_{i+1}-y(x_{i+1})}+ O(h^2).
+&= h \norm{ f(x_{i+1},y_{i+1})-f(x_{i+1},y(x_{i+1})) } + \mathcal{O}(h^2)\\
+& \leq h L \norm{ y_{i+1}-y(x_{i+1})}+ \mathcal{O}(h^2).
 \end{align*}
 Für hinreichend kleine $h$ gilt also
 \begin{align*}
-\norm{y_{i+1}-y(x_{i+1})} &= \frac{1}{1-hL} O(h^2)=O(h^2).
+\norm{y_{i+1}-y(x_{i+1})} &= \frac{1}{1-hL} \mathcal{O}(h^2)=\mathcal{O}(h^2).
 \end{align*}
 Das implizite Euler-Verfahren besitzt also Konsistenzordnung 1.
 \end{enumerate}
@@ -1444,7 +1453,7 @@ zu beweisen.
 Sei $y$ eine Lösung der DGL, $x_i\in [a,b]$, $y_i=y(x_i)$, $h=x_{i+1}-x_i$ und $y_{i+1}$ die durch das Runge-Kutta Verfahren 
 erzielte Näherung. Nach Übungsaufgabe ?? gilt
 \begin{align*}
-y(x_{i+1})=y_i+h f+1/2 h^2 f' f + 1/6 h^3 ( f^T f'' f + (f')^2 f ) + O(h^4)
+y(x_{i+1})=y_i+h f+1/2 h^2 f' f + 1/6 h^3 ( f^T f'' f + (f')^2 f ) + \mathcal{O}(h^4)
 \end{align*}
 wobei wir das Argument $(y_i)$ bei $f$ und seinen Ableitungen zur Vereinfachung der Schreibweise weglassen.
 
@@ -1455,24 +1464,24 @@ Genauso entwickeln wir die Näherung $y_{i+1}$. Dabei verwenden wir immer wieder
 
 Zuerst erhalten wir damit
 \[
-\eta_j=y_i + O(h) \quad \Longrightarrow \quad f(\eta_j)=f(y_i) + O(h) \quad \forall j=1,\ldots,s.
+\eta_j=y_i + \mathcal{O}(h) \quad \Longrightarrow \quad f(\eta_j)=f(y_i) + \mathcal{O}(h) \quad \forall j=1,\ldots,s.
 \]
 Nochmalige Anwendung von \req{RK_opt_cond} führt zu
 \[
-\eta_j - y_i = h \sum_{k=1}^s a_{jk} f(\eta_k) = h \sum_{k=1}^s a_{jk} f(y_i) + O(h^2)= h c_j f(y_i) + O(h^2).
+\eta_j - y_i = h \sum_{k=1}^s a_{jk} f(\eta_k) = h \sum_{k=1}^s a_{jk} f(y_i) + \mathcal{O}(h^2)= h c_j f(y_i) + \mathcal{O}(h^2).
 \]
 Ein weiteres Mal verwenden wir \req{RK_opt_cond} und kombinieren es mit
 \[
-f(\eta_k)=f(y_i)+f'(y_i)(\eta_k-y_i) + O(h^2).
+f(\eta_k)=f(y_i)+f'(y_i)(\eta_k-y_i) + \mathcal{O}(h^2).
 \]
 So erhalten wir 
 \begin{align*}
 \eta_j &=  y_i + h \sum_{k=1}^s a_{jk} f(\eta_k) 
-= y_i + h \sum_{k=1}^s a_{jk} (f(y_i) + f'(y_i) (\eta_k-y_i) + O(h^2))\\
-&= y_i + h \sum_{k=1}^s a_{jk} (f(y_i) + f'(y_i) \left(h c_k f(y_i) + O(h^2) \right) + O(h^2))\\
+= y_i + h \sum_{k=1}^s a_{jk} (f(y_i) + f'(y_i) (\eta_k-y_i) + \mathcal{O}(h^2))\\
+&= y_i + h \sum_{k=1}^s a_{jk} (f(y_i) + f'(y_i) \left(h c_k f(y_i) + \mathcal{O}(h^2) \right) + \mathcal{O}(h^2))\\
 &= y_i + h c_j f(y_i)
 + h^2 f'(y_i) f(y_i) \sum_{k=1}^s a_{jk} c_k  
-+ O(h^3)
++ \mathcal{O}(h^3)
 \end{align*}
 
 Mit 
@@ -1482,12 +1491,12 @@ y_{i+1}:=y_i +  h \sum_{j=1}^s b_j f(\eta_j), \quad \sum_{j=1}^s b_j=1
 folgt (wobei wir das Argument $(y_i)$ bei $f$ und seinen Ableitungen weglassen)
 \begin{align*}
 y_{i+1} &= y_i +  h \sum_{j=1}^s b_j f(\eta_j)\\
-&=  y_i + h  \sum_{j=1}^s b_j \left( f + f' (\eta_j-y_i) + \frac{1}{2} (\eta_j-y_i)^T f'' (\eta_j-y_i)  + O(h^3) \right)\\
-&= y_i + h f + h f'  \sum_{j=1}^s b_j  (\eta_j-y_i) + \frac{1}{2} h \sum_{j=1}^s b_j (\eta_j-y_i)^T f'' (\eta_j-y_i) + O(h^4)\\
-&= y_i + h f + h f'  \sum_{j=1}^s b_j  \left( h c_j f + h^2 f' f \sum_{k=1}^s a_{jk} c_k + O(h^3)\right)\\
-& \quad {}   + \frac{1}{2} h \sum_{j=1}^s b_j \left( h c_j f + O(h^2)\right)^T f'' \left( h c_j f + O(h^2) \right) + O(h^4)\\
+&=  y_i + h  \sum_{j=1}^s b_j \left( f + f' (\eta_j-y_i) + \frac{1}{2} (\eta_j-y_i)^T f'' (\eta_j-y_i)  + \mathcal{O}(h^3) \right)\\
+&= y_i + h f + h f'  \sum_{j=1}^s b_j  (\eta_j-y_i) + \frac{1}{2} h \sum_{j=1}^s b_j (\eta_j-y_i)^T f'' (\eta_j-y_i) + \mathcal{O}(h^4)\\
+&= y_i + h f + h f'  \sum_{j=1}^s b_j  \left( h c_j f + h^2 f' f \sum_{k=1}^s a_{jk} c_k + \mathcal{O}(h^3)\right)\\
+& \quad {}   + \frac{1}{2} h \sum_{j=1}^s b_j \left( h c_j f + \mathcal{O}(h^2)\right)^T f'' \left( h c_j f + \mathcal{O}(h^2) \right) + \mathcal{O}(h^4)\\
 &= y_i + h f + h^2 f' f  \sum_{j=1}^s b_j  c_j + h^3 (f')^2 f \sum_{j=1}^s b_j \sum_{k=1}^s a_{jk} c_k\\
-& \quad {} + \frac{1}{2} h^3 f^T f'' f \sum_{j=1}^s b_j c_j^2 + O(h^4)
+& \quad {} + \frac{1}{2} h^3 f^T f'' f \sum_{j=1}^s b_j c_j^2 + \mathcal{O}(h^4)
 \end{align*}
 
 Die Behauptung folgt nun aus dem Vergleich der Entwicklungen von $y(x_{i+1})$ und $y_{i+1}$.
@@ -1908,10 +1917,10 @@ R(\zeta)=r_0+r_1\zeta+\ldots+r_s \zeta^s,\quad r_0,\ldots,r_s\in \R.
 Betrachte die Anwendung der Methode auf die Testgleichung mit $\lambda=1$, also $y'=y$, $y(0)=1$:
 \begin{align*}
 y_1&=R(h)=r_0+r_1 h+\ldots+r_s h^s.\\
-y(x_1)&=e^{h}=1+h+\frac{1}{2}h^2+\ldots +\frac{1}{s!} h^s + \frac{1}{(s+1)!} h^{s+1} + O(h^{s+2})
+y(x_1)&=e^{h}=1+h+\frac{1}{2}h^2+\ldots +\frac{1}{s!} h^s + \frac{1}{(s+1)!} h^{s+1} + \mathcal{O}(h^{s+2})
 \end{align*}
 Höchstens die ersten $s$ Terme der Entwicklungen können übereinstimmen, so dass der lokale Fehler einer
-expliziten Methode höchstens $O(h^{s+1})$, also die Ordnung höchstens $s$ sein kann.
+expliziten Methode höchstens $\mathcal{O}(h^{s+1})$, also die Ordnung höchstens $s$ sein kann.
 \end{beweis}
 
 
@@ -2109,13 +2118,13 @@ und $J=f'(y_i)$ ist aufgrund unserer Generalvoraussetzung unabhängig vom Anfang
 
 Für hinreichend kleine $h>0$ ist die Matrix $I-ahJ$ also invertierbar und es gilt (mit unserer Konvention bzgl. der Landau-Notation aus Abschnitt~\ref{subsect:ConsitencyOrder})
 \[
-\norm{(I-ahJ)^{-1}}\leq \frac{1}{1-ah\norm{J}}=\frac{1}{1+O(h)}=O(1).
+\norm{(I-ahJ)^{-1}}\leq \frac{1}{1-ah\norm{J}}=\frac{1}{1+\mathcal{O}(h)}=\mathcal{O}(1).
 \]
 
 Wir gehen nun wie im Beweis von Satz~\ref{thm:RungeKuttaOrderCond} vor. Nach Übungsaufabe ?? gilt 
 für die Lösung von $y'=f(y)$, $y(x_i)=y_i$ 
 \[
-y(x_{i+1})=y_i+h f+1/2 h^2 f' f + O(h^3)
+y(x_{i+1})=y_i+h f+1/2 h^2 f' f + \mathcal{O}(h^3)
 \]
 wobei wir wieder das Argument $(y_i)$ von $f$ und $f'$ weglassen.
 
@@ -2123,34 +2132,34 @@ Wir wollen dies mit
 \[
 y_{i+1}=y_i+hk_2,
 \]
-vergleichen und müssen dazu also $k_2$ bis zur Ordnung $O(h^2)$ entwickeln. Dazu benötigen wie die Entwicklung von $k_1$.
+vergleichen und müssen dazu also $k_2$ bis zur Ordnung $\mathcal{O}(h^2)$ entwickeln. Dazu benötigen wie die Entwicklung von $k_1$.
 Aus 
 \[
-k_1=(I-ahJ)^{-1} f\quad \mbox{ und } \quad \norm{(I-ahJ)^{-1}}=O(1)
+k_1=(I-ahJ)^{-1} f\quad \mbox{ und } \quad \norm{(I-ahJ)^{-1}}=\mathcal{O}(1)
 \]
-folgt $k_1=O(1)$. Wir verwenden die Definition von $k_1$ nocheinmal und erhalten 
+folgt $k_1=\mathcal{O}(1)$. Wir verwenden die Definition von $k_1$ nocheinmal und erhalten 
 \begin{align*}
-k_1&=f + ahJ k_1=f+O(h).        %=f+ahJ (f+ahJ k_1) %=f+ahJ (f+ahJ (f+ahJ k_1))
+k_1&=f + ahJ k_1=f+\mathcal{O}(h).        %=f+ahJ (f+ahJ k_1) %=f+ahJ (f+ahJ (f+ahJ k_1))
 \end{align*}
 
 Für $k_2$ folgt zuerst
 \begin{align*}
-k_2&= (I-ahJ)^{-1} \left(f(y_0+ h/2\, k_1) - ahJk_1 \right)=O(1).
+k_2&= (I-ahJ)^{-1} \left(f(y_0+ h/2\, k_1) - ahJk_1 \right)=\mathcal{O}(1).
 \end{align*}
 und dann durch nochmalige Anwendung der Definition von $k_2$
 \begin{align*}
 k_2&=f(y_0+ h/2\, k_1) - ahJk_1 + ahJ k_2\\
-&=  f + h/2 k_1 f' +O(h^2) - ahJ k_1 + ahJ k_2= f + O(h).
+&=  f + h/2 k_1 f' +\mathcal{O}(h^2) - ahJ k_1 + ahJ k_2= f + \mathcal{O}(h).
 \end{align*}
-Noch ein weiteres Mal verwenden wir die Definition von $k_2$ und erhalten zusammen mit $k_1=f+O(h)$, dass
+Noch ein weiteres Mal verwenden wir die Definition von $k_2$ und erhalten zusammen mit $k_1=f+\mathcal{O}(h)$, dass
 \begin{align*}
-k_2&=  f + h/2\, k_1 f' +O(h^2) - ahJ k_1 + ahJ k_2\\
-&= f+ h/2\, f f' - ahJ f + ahJ f  +O(h^2)= f+ h/2 f f' +O(h^2).
+k_2&=  f + h/2\, k_1 f' +\mathcal{O}(h^2) - ahJ k_1 + ahJ k_2\\
+&= f+ h/2\, f f' - ahJ f + ahJ f  +\mathcal{O}(h^2)= f+ h/2 f f' +\mathcal{O}(h^2).
 \end{align*}
 
 Insgesamt ist also
 \[
-y_{i+1}=y_i+hk_2=y_i+hf+h^2/2\, f f' + O(h^3)=y(x_i)+O(h^3),
+y_{i+1}=y_i+hk_2=y_i+hf+h^2/2\, f f' + \mathcal{O}(h^3)=y(x_i)+\mathcal{O}(h^3),
 \]
 die Methode besitzt also Konsistenzordnung 2. 
 \end{beweis}
@@ -2382,20 +2391,20 @@ D_h^2[U](x_i)+b(x_i)D_h[U](x_i)+c(x_i)u(x_i)-f(x_i).
 \]
 Da $u$ die DGL $u''(x_i)+b(x_i)u'(x_i)+c(x_i)u(x_i)-f(x_i)=0$ löst, genügt es zu zeigen, dass
 \[
-D_h[u](x_i)=u'(x_i)+O(h^2)\quad \mbox{ und } \quad D_h^2[u](x_i)=u''(x_i)+O(h^2).
+D_h[u](x_i)=u'(x_i)+\mathcal{O}(h^2)\quad \mbox{ und } \quad D_h^2[u](x_i)=u''(x_i)+\mathcal{O}(h^2).
 \]
 
 In der Tat erhalten wir durch Taylorentwichlung
 \begin{align*}
-u(x_i+h) &=u(x_i)+hu'(x_i)+\frac{1}{2}h^2u''(x_i)+\frac{1}{3!}h^3u'''(x_i)+O(h^4)\\
-u(x_i-h) &=u(x_i)-hu'(x_i)+\frac{1}{2}h^2u''(x_i)-\frac{1}{3!}h^3u'''(x_i)+O(h^4)
+u(x_i+h) &=u(x_i)+hu'(x_i)+\frac{1}{2}h^2u''(x_i)+\frac{1}{3!}h^3u'''(x_i)+\mathcal{O}(h^4)\\
+u(x_i-h) &=u(x_i)-hu'(x_i)+\frac{1}{2}h^2u''(x_i)-\frac{1}{3!}h^3u'''(x_i)+\mathcal{O}(h^4)
 \end{align*}
 und damit
 \begin{align*}
-D_h[u](x_i)&=\frac{u(x_i+h)-u(x_i-h)}{2h}= \frac{2h u'(x_i)+O(h^3)}{2h}=u'(x_i)+O(h^2)\\
+D_h[u](x_i)&=\frac{u(x_i+h)-u(x_i-h)}{2h}= \frac{2h u'(x_i)+\mathcal{O}(h^3)}{2h}=u'(x_i)+\mathcal{O}(h^2)\\
 D^2_h[u](x_i)&= \frac{u(x_i+h)-2u(x_i)+u(x_i-h)}{h^2}=
-\frac{h^2u''(x_i) + O(h^4)}{h^2}\\
-&=u''(x_i)+O(h^2),
+\frac{h^2u''(x_i) + \mathcal{O}(h^4)}{h^2}\\
+&=u''(x_i)+\mathcal{O}(h^2),
 \end{align*}
 womit die Behauptung gezeigt ist.
 \end{beweis}
