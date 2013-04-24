@@ -1080,7 +1080,7 @@
 			\begin{proof}
 				\begin{align*}
 					|(f+g)(\omega)|
-					& \le |f(\omega)| + |g(\omega)|
+					& \le |f(\omega)| + |g(\omega)| \\
 					& \le N_\infty(f) + N_\infty(g) \qquad \text{$\my$-fast-überall}
 				\end{align*}
 			\end{proof}
@@ -1088,7 +1088,7 @@
 \end{st}
 
 \begin{df} \label{2.6}
-	$p,q$ mit $1 \le p,q \le \infty$ heißen \emph{kojugiert}, falls
+	$p,q$ mit $1 \le p,q \le \infty$ heißen \emph{konjugiert}, falls
 	\[
 		1 < p, q < \infty \quad\land\quad \f 1p + \f 1q = 1
 	\]
@@ -1316,5 +1316,257 @@
 	d.h. falls ein Vertreter $f$ der Äquivalenzklasse $[f]$ stetig ist, sind alle anderen Vertreter unstetig.
 	Oder mit anderen Worten: jede Äquivalenzklasse $[f]$ enthält höchstens einen stetigen Vertreter.
 \end{nt}
+
+\begin{st}[Fischer-Riesz] \label{2.12}
+	Für $1 \le p \le \infty$ ist $L^p(\Omega, \Sigma, \my)$ ein Banachraum.
+	\begin{proof}
+		Wir müssen nur noch die Vollständigkeit nachweisen.
+		\begin{seg}[$p=\infty$]
+			Sei $(f_j)$ Cauchy-Folge.
+			Definiere
+			\[
+				B_{jk} := \Big\{ \omega \in \Omega : |f_j(\omega) - f_k(\omega)| > \|f_j-f_k\|_\infty \Big\}
+			\]
+			Nach \ref{2.5} ist dann $\my(B_{jk}) = 0$ für $j,k\in \N$. 
+			Setze
+			\[
+				B := \bigcup_{j,k\in \N} B_{jk}
+			\]
+			Dann ist wieder $\my(B) = 0$.
+
+			Für $\omega \in \Omega \setminus B$ gilt
+			\[
+				|f_j(\omega) - f_k(\omega)| \le \|f_j-f_k\|_\infty.
+			\]
+			Da $\C$ vollständig ist, konvergiert $(f_j)$ auf $\Omega \setminus B$ gleichmäßig.
+
+			Definiere
+			\[
+				f(\omega) := \begin{cases}
+					\lim_{j \to \infty} f_j(\omega) & \omega \in \Omega \setminus B \\
+					0 & \text{sonst}
+				\end{cases}
+			\]
+			Dann ist
+			\[
+				f := \lim_{j\to \infty} \chi_{\Omega \setminus B} f_j
+			\]
+			als punktweiser Grenzwert von messbaren Funktionen wieder messbar.
+			Außerdem gilt
+			\begin{align*}
+				|f_j(\omega) - f(\omega) |
+				= \lim_{h\to \infty} |f_j(\omega) - f_k(\omega)| \\
+				\le \lim_{h\to \infty} \|f_j - f_k\|_{\infty}
+				\le \eps
+			\end{align*}
+			für ein $j > J_\eps$ und $\omega \in \Omega \setminus B$.
+
+			Da $B$ Nullmenge, ist $\|f_j - f\|_\infty \le \eps$ und daher $f_j - f \in L^\infty$ für $j > J_\eps$.
+			Somit ist
+			\[
+				f = \underbrace{f - f_j}_{\in L^\infty} + \underbrace{f_j}_{\in L^\infty} \in L^\infty
+			\]
+		\end{seg}
+		\begin{seg}[$1 \le p < \infty$]
+			Sei $(f_j)$ Cauchy-Folge.
+			\begin{enumerate}[a)]
+				\item
+					Wähle eine „gut konvergente“ Teilfolge $({f_j}_k)$.
+					Sei dazu $j_l$ so, dass 
+					\[
+						\|{f_j}_l - f_k\|_p < \f 1{2^k} \qquad \text{für $k>j_l$}
+					\]
+					Damit gilt
+					\[
+						\|{f_j}_k - {f_j}_{k+1} \|_p < \f 1{2^k} \qquad \text{für $k \in \N$}
+					\]
+				\item
+					Zeige jetzt die Existenz der Grenzfunktion.
+
+					Setze
+					\begin{align*}
+						g_n(\omega) &:= \sum_{k=1}^n |{f_j}_k(\omega) - {f_j}_{k+1}(\omega)|  \qquad \omega \in \Omega \\
+						g(\omega) &:= \sum_{k=1}^\infty |{f_j}_k(\omega) - {f_j}_{k+1}(\omega)| 
+					\end{align*}
+					(evtl. ist $g(\omega) = \infty$)
+					Dann gilt
+					\begin{align*}
+						\|g_n\|_p &= \bigg\|\sum_{k=1}^n |{f_j}_k(\omega) - {f_j}_{k+1}(\omega)| \bigg\| \\
+						&\le \sum_{k=1}^n \|{f_j}_k - {f_j}_{k+1} \|_p \\
+						&\le \sum_{k=1}^\infty \f 1{2^k}
+						= 1
+					\end{align*}
+					Damit konvergiert $0 \le g_n$ monoton wachsend gegen $g$ und somit auch $0 \le g_n^p$ monoton wachsend gegen $g^p$ (jeweils punktweise).
+					Wegen $g_n$ messbar, ist $g_n^p$ messbar und somit wegen der punktweisen Konvergenz auch $g^p$.
+
+					Nach dem Satz über monotone Konvergenz gilt
+					\begin{align*}
+						\|g\|_p = \int_{\Omega} g^p d\my
+						&= \int_{\Omega} \lim_{n\to \infty} g_n^p d\my \\
+						&= \lim_{n\to \infty} \int_{\Omega} g_n^p d\my
+						&= \lim_{n\to \infty} \|g_n\|_p^p
+						\le 1
+					\end{align*}
+					Also $\|g\|_p \le 1$ und somit
+					\[
+						g(\omega) < \infty
+					\]
+					$\my$-fast-überall.
+					Sei $\Omega'$ so, dass $g(\omega) < \infty$ für $\omega \in \Omega'$ und $\my(\Omega \setminus \Omega') = 0$.
+
+					Also ist $g_n(\omega) \to g(\omega)$ in $\R$ für $\omega \in \Omega'$.
+					Mit 
+					\[
+						{f_j}_k(\omega) = {f_j}_1(\omega) + \sum_{l=1}^{k-1} \Big({f_j}_{l+1}(\omega) - {f_j}_l(\omega)\Big)
+					\]
+					und der absoluten Konvergenz
+					\[
+						\sum_{l=1}^{k-1} \Big|{f_j}_{l+1}(\omega) - {f_j}_l(\omega)\Big| < \infty
+					\]
+					folgt, dass $({f_j}_k(\omega))$ konvergent ist für $k \to \infty$ und $\omega \in \Omega'$.
+
+					Setze
+					\[
+						f(\omega) := \begin{cases}
+							\lim_{k\to \infty} {f_j}_k (\omega) & \omega \in \Omega' \\
+							0 & \omega \in \Omega \setminus \Omega'
+						\end{cases}
+					\]
+				\item
+					Zeige jetzt $f \in L^p$ und $\|f_j - f\|_p \to 0$.
+
+					Sei $\eps > 0$ und $K \in \N$ mit
+					\[
+						\|{f_j}_k - {f_j}_l \|_p < \eps  \qquad \text{für $k,l > K$.}
+					\]
+					Nach dem Lemma von Fatou ist
+					\begin{align*}
+						\int_{\Omega} |{f_j}_k - f|^p d\my
+						&= \int_{\Omega} \lim_{l\to \infty} |{f_j}_k - {f_j}_l |^p d\my
+						&\stack{\text{Fatou}}\le \liminf_{l\to \infty} \underbrace{\int_{\Omega} |{f_j}_k - {f_j}_l |^p d\my}_{= \|{f_j}_k - {f_j}_l\|_p^p < \eps^p} \\
+						&\le \eps^p
+					\end{align*}
+					($f$ ist messbar als punktweiser Grenzwert messbarer Funktionen)
+					Also ist ${f_j}_k - f \in L^p$, $\|{f_j}_k - f\|_p \le \eps$ und somit $f = f - {f_j}_k + {f_j}_k \in L^p$.
+
+					Wegen $(f_j)$ Cauchy-Folge, konvergiert die Teilfolge ${f_j}_k \to f$ bezüglich $\|\cdot\|_p$.
+					Also
+					\[
+						\|f_j - f\|_p 
+						\le \underbrace{\|f_j - {f_j}_k \|_p}_{< \eps} + \underbrace{\|{f_j}_k}_{< \eps} - f\|_p 
+						< 2 \eps
+					\]
+					für hinreichend großes $j, j_k$ und $k$.
+			\end{enumerate}
+		\end{seg}
+	\end{proof}
+\end{st}
+
+\begin{kor}[Wegl] \label{2.14}
+	Sei $1 \le p \le \infty$ und $(f_j)$ Cauchy-Folge in $L^p$.
+	
+	Dann existiert $f \in L^p$ mit $\|f - f_j\|_p \to 0$ und eine Teilfolge $({f_j}_k)$ mit ${f_j}_k(\omega) \to f(\omega)$ $\my$-fast-überall in $\Omega$.
+\end{kor}
+
+\begin{st} \label{2.15}
+	Sei $1 \le p < \infty$.
+	\begin{enumerate}[1)]
+		\item
+			Für eine einfache Funktion $s$ gilt
+			\[
+				s \in L^p
+				\quad \iff \quad
+				\my\Big( \big\{ \omega \in \Omega : s(\omega) \neq 0 \big\} \Big) < \infty
+			\]
+		\item
+			Die Menge
+			\[
+				\Big\{ s \in L^p : s \text{ ist einfach} \Big\}
+			\]
+			ist dicht in $L^p$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Dies ist eine einfache Übungsaufgabe.
+			\item
+				\begin{enumerate}[a)]
+					\item
+						Betrachte den Fall $f \ge 0$, $f \in L^p$.
+
+						Es existiert eine Folge $(s_j)$ einfacher Funktionen mit (punktweise):
+						\[
+							0 \le s_1 \le s_2 \le \dotsb \le f
+							\qquad \text{und} \qquad
+							f = \lim_{j\to \infty} s_j
+						\]
+						(siehe Maßtheorie)
+						Damit ist
+						\[
+							\int_{\Omega} |s_j|^p d\my
+							\le \int_{\Omega} |f|^p d\my
+							< \infty
+						\]
+						Also ist $s_j, f-s_j \in L^p$.
+						Weiter gilt punktweise
+						\[
+							|\underbrace{f - s_j}_{\ge 0}|^p \le |f|^p.
+						\]
+						Mit dem Satz über majorisierte Konvergenz gilt
+						\begin{align*}
+							\lim_{j\to \infty} \|f - s_j\|^p
+							&= \lim_{j\to \infty} \int_{\Omega} \underbrace{|f-s_j|^p}_{|f|^p} d\my  \qquad \int_{\Omega} |f|^p d\my < \infty\\
+							&= \int_{\Omega} \lim_{j\to \infty} |f- s_j |^p d\my \\
+							&= \int_{\Omega} 0 d\my
+							= 0
+						\end{align*}
+						Also $\|f-s_j\|_p \to 0$.
+					\item
+						Für beliebige Funktionen $f: \Omega \to \C$ zerlege diese in vier positive Funktionen.
+				\end{enumerate}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{2.16}
+	\begin{enumerate}[1)]
+		\item
+			Sei $\my(\Omega) < \infty$, $1 \le p \le p' \le \infty$ und $f \in L^{p'}(\Omega)$.
+
+			Dann ist $f \in L^p(\Omega)$ und 
+			\[
+				\|f\|_p \le \my(\Omega)^{\f 1p - \f 1{p'}} \|f\|_{p'}
+			\]
+			\begin{note}
+				
+			\end{note}
+		\item
+			Sei $1 \le p < p' \le \infty$, dann ist
+			\[
+				L^p(\R) \setminus L^{p'}(\R) \neq \emptyset \neq L^{p'}(\R) \setminus L^p(\R)
+			\]
+		\item
+			Sei $\Omega = \N$, $\Sigma := P(\Omega)$ und $\my(M) := \#M$ für $M \subset \Omega$.
+			Für $1 \le p \le \infty$ ist dann
+			\begin{align*}
+				L^p(\Omega, \Sigma, \my) &= \ell^p \\
+				\ell^p &:= \bigg\{ (x_j) \text{ Folge in $\C$: } \sum_{j=1}^\infty |x_j|^p < \infty \bigg\} \\
+				\|(x_j)\|_p &= \bigg( \sum_{j=1}^\infty |x_j|^p \bigg)^{\f 1p}
+			\end{align*}
+			Für $p = \infty$ ist
+			\begin{align*}
+				\ell^\infty &= \Big\{ \text{beschränkte Folgen} \Big\} \\
+				\|(x_j)\|_\infty &:= \sup_{j\in \N} |x_j|
+			\end{align*}
+		\item
+			Für den Spezialfall $p=2$ ist $L^2(\Omega, \Sigma, \my)$ vollständig und
+			\[
+				\|f\|_2 = \bigg( \int_{\Omega} |f|^2 d\my \bigg)^{\f 12}
+			\]
+			wird erzeugt vom Skalarprodukt $\<f,g\> := \int_{\Omega} f \_g d\my$ (Wegen Hölder: $\int_{\Omega} |f \_g|d\my \le \|f\|_2 \|g\|_2 < \infty$, konvergiert das Integral)
+
+			Also ist $L^2$ ein Hilbertraum.
+	\end{enumerate}
+\end{st}
 
 \end{document}
