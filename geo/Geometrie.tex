@@ -319,4 +319,84 @@ c(t) &= \begin{pmatrix} r \cdot \cos(\f{t}{r}) \\ r \cdot \sin(\f{t}{r}) \end{pm
 \end{enumerate}
 \end{ex}
 
+\fixme[Vorlesung vom 18.4.13]
+
+\begin{st}[Hauptsatz der ebenen Kurventheorie]
+Ist $I \subset \R$  ein Intervall und $\kappa : I \to \R$ eine beliebig oft differenzierbare Funktion, dann gibt es eine n.Bl.par. Kurve $c: I \to \R^2$ mit Krümmung $\kappa$ und zu jeder weiteren n.Bl.par. Kurve $\tilde c: I \to \R^2$ mit Krümmung $\kappa$ gibt es eine \emph{eigentliche Bewegung} $F$ des $\R^2$, so dass $\tilde c = F \circ c$.
+
+\begin{proof}
+\textbf{Existenz:}
+Sei $t_0 \in I$ und $v_0 := \begin{pmatrix} 1 \\ 0 \end{pmatrix}$. Nach Lemma 3.6 gibt es eine (sogar beliebig oft) differenzierbare Abbildung $v : I \to S^1$ mit $\< v, Jv \> = \kappa$ und $v(t_0) = v_0$. \\
+Dann ist
+\[ c(t) := \begin{pmatrix}  \int_{t_0}^t v_1(s) ds \\ \int_{t_0}^t v_2(s) ds \end{pmatrix} , \qquad c:I \to \R^2, \]
+eine Abbildung mit 
+\[ \< \ddot c(t), J \dot c(t) \> = \kappa(t) \quad \forall t \in I. \]
+\textbf{Eindeutigkeit:}
+Sei nun $\tilde c: I \to \R^2$ eine weitere Kurve mit Krümmungsfunktion $\kappa$.\\ Setze $\tilde c_0 := \tilde c(t_0) \in \R^2, \quad \tilde v_0 := \dot{\tilde c}(t_0) \in S^1$. \\
+Definiere eine eigentliche Bewegung des $\R^2$ durch $F(x) = Ax + b$, wobei $b := \tilde c_0$ und $A$ die Matrix $(\tilde v_0, J \tilde v_0)$ ist. Dann ist
+\[ \det(A) = \det \begin{pmatrix} \tilde v_0^1 & - \tilde v_0^2 \\ \tilde v_0^2 & \tilde v_0^1 \end{pmatrix} = (\tilde v_0^1)^2 + (\tilde v_0^2)^2 = 1 \]
+(siehe Definition der eigentlichen Bewegung). Setze $d := F \circ c, \: d: I \to \R^2$. \\
+Nach Satz 3.5 gilt: $ \< \ddot d, J \dot d \> = \< \ddot c, J \dot c \> = \kappa$. Mit Lemma 3.6 folgt $ \dot d = \dot{\tilde c}, \; \dot d(t_0) = A \dot c(t_0) = \dot{\tilde c}(t_0) = \tilde v_0$.
+Also folgt
+\[ d(t) = \tilde c_0 + \begin{pmatrix}  \int\limits_{t_0}^t \dot{\tilde c_1}(s) ds \\ \int\limits_{t_0}^t \dot{\tilde c_2}(s) ds \end{pmatrix} = \tilde c(t). \]
+\end{proof}
+\end{st}
+\fixme[Referenzen!]
+
+Der Satz liefert ein explizites Verfahren, um Kurven mit vorgegebener Krümmungsfunktion zu konstruieren:
+
+\begin{ex}
+\begin{enumerate}[i)]
+	\item
+	 $\kappa \neq 0$ konstant, $\kappa \equiv \f{1}{r}, \; I = \R, \; t_0 = 0$. Setze $\vartheta_0 = 0$. Dann folgt:
+	 \[
+	 \vartheta(t)=\int_0^t \frac{1}{r} \mathrm d s= \frac{t}{r}, \quad v(t)=\begin{pmatrix} \cos\left (\frac{t}{r}\right ) \\ -r \cdot \cos\left ( \frac t r \right ) \end{pmatrix},
+	 \]
+	 somit 
+	 \[
+	 c(t)=\begin{pmatrix} r \cdot \sin\left ( \frac t r \right ) \\ -r \cdot \cos \left ( \frac t r \right ) +r \end{pmatrix}
+	 \]
+	 Dies liefert also einen Kreis mit Radius r um den Punkt $(r,0)^T$.
+	 
+	 \item \emph{ $\kappa$ linear:} $\kappa (t) = \alpha t, \; \alpha > 0, \; I = \R, \; t_0 = 0, \; \vartheta_0 = 0$. Dann gilt: 
+	 \[ \vartheta(t) = \f{\alpha}{2} t^2 \qquad \Rightarrow \qquad c(t) = \begin{pmatrix} \int\limits_0^t \cos \left (\f{\alpha}{2} s^2 \right ) \mathrm d s \\ \int\limits_0^t \sin \left (\f{\alpha}{2} s^2 \right ) \mathrm d s \end{pmatrix}
+	 \]
+	 Diese Kurve wird auch \emph{Klotoide}, \emph{Cornu'sche Spirale} oder \emph{Spinnkurve} genannt. Sie wird im Straßenbau eingesetzt als Übergang zwischen Kurven- und Geradenstücken.  
+\end{enumerate}
+\end{ex}
+
+\section{Tangentendrehzahl und Umlaufsatz}
+Wir wollen nun einige globale Resultate über ebene Kurven beweisen. \\
+Dazu betrachten wir \emph{geschlossene Kurven}. \\
+\fixme[Bilder]
+
+\begin{df}
+Eine parametrisierte Kurve $c: \R \to \R^n$ heißt \textbf{periodisch mit Periode $L$}, falls für alle $t \in \R$ gilt $c(t+L) = c(t)$ für ein festes $L > 0$, und es kein $ 0 < L' < L$ gibt, so dass ebenfalls $c(t+L') = c(t) \forall t \in \R$ gelten würde. \\
+Eine Kurve heißt \textbf{geschlossen}, wenn sie eine reguläre periodische Parametrisierung besitzt.
+\end{df}
+
+\begin{ex*}
+\begin{itemize}
+	\item $c: \R \to \R^2, \; t \mapsto \left(\cos(t), \sin(t)\right)$ ist periodisch mit Periode $2 \pi$.
+	\item $c: \R \to \R^2, \; t \mapsto \left(\cos(t^3), \sin(t^3)\right)$ ist \emph{geschlossen}, aber \emph{nicht periodisch}. Ist $c: \R \to \R^n$ eine Parametrisierung n.Bl. einer geschlossenen Kurve, so ist $c$ periodisch (Übungsaufgabe).
+\end{itemize}
+\end{ex*}
+
+\begin{df}
+Eine geschlossene Kurve heißt \textbf{einfach geschlossen}, falls sie eine periodische reguläre Parametrisierung $c$ mit Periode $L$ hat, so dass $c \big|_{[0,L)}$ injektiv ist.
+\end{df}
+
+\begin{note}
+Sei $c: \R \to \R^2$ eine n.Bl.par. periodische Kurve mit Periode $L$. Da $\dot c(0) = \dot c(L)$, hat der Tangentenvektor $\dot c(t)$ nach dem Durchlauf des Intervalls $[0,L]$ eventuell eine oder mehrere Umläufe um den Einheitskreis vollführt:
+\fixme[Zeichnungen Anzahl Umläufe]
+
+Wir wollen den \emph{Umlaufsatz} beweisen: bei einer {\color{Green} einfach geschlossenen Kurve} ist die hier veranschaulichte \emph{Tangentendrehzahl} entweder gleich {\color{Orange} $-1$} oder gleich {\color{Orange} $+1$}. \\
+Dazu benötigen wir ein paar Vorbereitungen, unter anderem, um die Tangentendrehzahl überhaupt definieren zu können.
+\end{note}
+
+\begin{df}
+Sei $X \subset \R^n$ eine Teilmenge und $x_0 \in X$. Dann heißt $X$ \textbf{sternförmig bezüglich $x_0$}, falls für jeden Punkt $x \in X$ die Strecke zwischen $x_0$ und $x$ ganz in $X$ enthalten ist, d.h. \[ \forall x \in X, \; t \in [0,1]: \quad tx + (1-t) x_0 \in X. \]
+\fixme[Zeichnungen sternförmig]
+\end{df}
+
 \end{document}
