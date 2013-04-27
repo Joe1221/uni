@@ -1702,18 +1702,18 @@ In diesem Fall gibt es folgende Möglichkeiten, zusätzliche sogenannte \emph{Ra
 
 	Dann gilt für alle $f\in C^2([a,b])$ mit denselben Bedingungen (d.h. $f(x_i)=f_i$ und eine der Randbedingungen (R1,R2,R3)):
 	\[
-		\int_a^b |f''(x)|^2 dx \ge \int_a^b |s''(x)|^2  dx
+		\int_a^b |f''(x)|^2 \dx \ge \int_a^b |s''(x)|^2  \dx
 	\]
 	\begin{note}
 		 Physikalische Interpretation: \\
 		Ein „biegsamer Stab“ (engl. spline) wird mit Nägeln in den Punkten $(x_j,f_j)$ befestigt.
 		Der Verlauf $f(x)$ des Splines minimiert die Biegeenergie
 		\[
-			E = \alpha \int_{x_0}^{x_n}\f {(f''(x))^2}{(1+f'(x)^2)^3} dx \qquad \alpha \text{ Materialkonstante mit Einheiten}
+			E = \alpha \int_{x_0}^{x_n}\f {(f''(x))^2}{(1+f'(x)^2)^3} \dx \qquad \alpha \text{ Materialkonstante mit Einheiten}
 		\]
 		Falls $f'(x)$ klein ist, kann dies durch
 		\[
-			\int_{x_0}^{x_n} (f''(x))^2 dx
+			\int_{x_0}^{x_n} (f''(x))^2 \dx
 		\]
 		approximiert werden.
 		Damit approximieren kubische Splines den Verlauf eines eingespannten Stabes.
@@ -1722,29 +1722,29 @@ In diesem Fall gibt es folgende Möglichkeiten, zusätzliche sogenannte \emph{Ra
 		Sei $f\in C^2([a,b])$ eine zu interpolierende Funktion.
 		Dann gilt
 		\begin{align*}
-			\int_a^b (f-s)''(x) s''(x) dx 
-			&= \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-p_j)''(x)p_j''(x)) dx \\
-			&= \sum_{j=1}^n \bigg( \Big[(f-p_j)'(x)p_j''(x)\Big]_{x_{j-1}}^{x_j} - \int_{x_{j-1}}^{x_j} (f-p_j)'(x)p_j'''(x) dx \bigg)\\
+			\int_a^b (f-s)''(x) s''(x) \dx 
+			&= \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-p_j)''(x)p_j''(x)) \dx \\
+			&= \sum_{j=1}^n \bigg( \Big[(f-p_j)'(x)p_j''(x)\Big]_{x_{j-1}}^{x_j} - \int_{x_{j-1}}^{x_j} (f-p_j)'(x)p_j'''(x) \dx \bigg)\\
 			&= \underbrace{\Big( f'(b) - p_n'(b)\Big) p_n''(b) - \Big( f'(a)-p_1'(a)\Big) p_1''(a)}_{\displaystyle =0 \text{ wegen } \begin{cases} 
 				p_1''(a) = p_n''(b) = 0 & \text{falls (R1)} \\
 				f'(b) = p_n'(b) = \beta,\quad f'(a) = p_1'(a) = \alpha  &\text{falls (R2)} \\
 				f'(a) = f'(b),\quad p_1'(a)=p_n'(b),\quad p_1''(a)=p_n''(b) & \text{falls (R3)}
 				\end{cases}}  \\
-			&\qquad - \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-s)'(x))s'''(x) dx \\
+			&\qquad - \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-s)'(x))s'''(x) \dx \\
 			&= \sum_{j=1}^n \underbrace{\bigg(-\Big[(f-p_j)(x)p_j'''(x)\Big]_{x_{j-1}}^{x_j}\bigg)}_{=0 \text{, da } f(x_j)=p_j(x_j)} + \underbrace{\int_{x_{j-1}}^{x_j} (f-s)(x)s^{(4)}(x)}_{=0}
 		\end{align*}
 		Insgesamt gilt dann
 		\begin{align*}
-			\int_a^b |s''(x)|^2 dx 
-			&= \int_a^b (s''(x))^2 dx + \underbrace{\int_a^b (f-s)''(x)s''(x) dx}_{=0} \\
-			&= \int_a^b (s''(x) + (f-s)''(x)) s''(x) dx \\
+			\int_a^b |s''(x)|^2 \dx 
+			&= \int_a^b (s''(x))^2 \dx + \underbrace{\int_a^b (f-s)''(x)s''(x) \dx}_{=0} \\
+			&= \int_a^b (s''(x) + (f-s)''(x)) s''(x) \dx \\
 			&= \int_a^b f''(x) s''(x) 
 			\intertext{und mit Cauchy-Schwarz:}
-			& \le \sqrt{\int_a^b (f''(x))^2 dx} \sqrt{\int_a^b (s''(x))^2 dx} \\
+			& \le \sqrt{\int_a^b (f''(x))^2 \dx} \sqrt{\int_a^b (s''(x))^2 \dx} \\
 		\end{align*}
 		Division ergibt dann
 		\begin{align*}
-			\sqrt{\int_a^b (s''(x))^2 dx} \le \sqrt{\int_a^b (f''(x))^2 dx}
+			\sqrt{\int_a^b (s''(x))^2 \dx} \le \sqrt{\int_a^b (f''(x))^2 \dx}
 		\end{align*}
 		Quadrieren ergibt die Behauptung.
 	\end{proof}
@@ -2375,14 +2375,14 @@ Seien Stützstellen $\{x_i\}_{i=0}^n \subset [a,b]$ und Werte $\{f(x_i)\}_{i=0}^
 
 Gesucht ist eine Approximation für das Integral
 \[
-	I(f) = \int_a^b f(x) \;dx
+	I(f) = \int_a^b f(x) \dx
 \]
 Anwendungsgebiete sind beispielsweise:
 \begin{itemize}
 	\item
 		Integration von Funktionen, deren Stammfunktionen nicht analytisch vorliegen, z.B.
 		\[
-			\int_a^b e^{-x^2} dx
+			\int_a^b e^{-x^2} \dx
 		\]
 	\item
 		Integration von Funktionen, die nicht vollständig bekannt sind: Messungen oder Computer-Routinen.
@@ -2468,7 +2468,7 @@ Mit Hilfe der Lagrange-Darstellung von $p$:
 \]
 Wir integrieren:
 \[
-	\int_a^b p(x) dx = \sum_{j=0}^n f(x_j) \cdot \underbrace{\int_a^b L_j^n (x) dx}_{=:\omega_j} =: I_n(f)
+	\int_a^b p(x) \dx = \sum_{j=0}^n f(x_j) \cdot \underbrace{\int_a^b L_j^n (x) \dx}_{=:\omega_j} =: I_n(f)
 \]
 Also $I_n(f) = I(p)$.
 
@@ -2476,7 +2476,7 @@ Also $I_n(f) = I(p)$.
 	\label{2.3}
 	Eine Quadratur $I_n(f) = \sum_{j=0}^n \omega_j f(x_j)$ ist eine \emph{Interpolatorische Quadratur}, falls die Gewichte folgendermaßen durch die Lagrange-Polynome gegeben sind:
 	\[
-		\omega_j := \int_a^b L_j^n(x) \;dx
+		\omega_j := \int_a^b L_j^n(x) \dx
 		\qquad \text{mit} 
 		\qquad L_j^n(x) := \prod_{\substack{k=0\\k\neq j}}^n \f{x-x_k}{x_j-x_k}
 	\]
@@ -2486,9 +2486,9 @@ Also $I_n(f) = I(p)$.
 	Sei $[a,b] = [0,1]$, $n=2$, $x_0=0, x_1=\f 12, x_2 = 1$.
 	Dann ist
 	\begin{align*}
-		\omega_0 &= \int_0^1 \f {(x-\f 12) (x-1)}{(0-\f 12)(0-1)} \; dx = \int_0^1 2x^2 - 3x+1 \; dx = \f 23 - \f 32 + 1 = \f 16 \\
-		\omega_1 &= \int_0^1 \f {(x-0)(x-1)}{(\f 12 - 0)(\f 12 -1)} \; dx = -4 \int_0^1x^2 - x \; dx = -4 \l( \f 13 - \f 12 \r) = \f 23 \\
-		\omega_2 &= \int_0^1 \f {(x-0)(x-\f 12)}{(1-0)(1-\f 12)} \; dx = \int_0^1 2x^2 -x \; dx = \f 23 - \f 12 = \f 16
+		\omega_0 &= \int_0^1 \f {(x-\f 12) (x-1)}{(0-\f 12)(0-1)} \dx = \int_0^1 2x^2 - 3x+1 \dx = \f 23 - \f 32 + 1 = \f 16 \\
+		\omega_1 &= \int_0^1 \f {(x-0)(x-1)}{(\f 12 - 0)(\f 12 -1)} \dx = -4 \int_0^1x^2 - x \dx = -4 \l( \f 13 - \f 12 \r) = \f 23 \\
+		\omega_2 &= \int_0^1 \f {(x-0)(x-\f 12)}{(1-0)(1-\f 12)} \dx = \int_0^1 2x^2 -x \dx = \f 23 - \f 12 = \f 16
 	\end{align*}
 	Damit lautet die Quadraturformel
 	\[
@@ -2502,8 +2502,8 @@ Also $I_n(f) = I(p)$.
 	\begin{proof}
 		Sei $p\in \P_n$, dann ist
 		\begin{align*}
-			I(p) = \int_a^b p(x) dx &= \int_a^b \sum_{j=0}^n p(x_j) L_j^n(x) dx \\
-			&= \sum_{j=0}^n p(x_j) \int_a^b L_j^n(x) dx = I_n(p)
+			I(p) = \int_a^b p(x) \dx &= \int_a^b \sum_{j=0}^n p(x_j) L_j^n(x) \dx \\
+			&= \sum_{j=0}^n p(x_j) \int_a^b L_j^n(x) \dx = I_n(p)
 		\end{align*}
 	\end{proof}
 \end{st}
@@ -2518,7 +2518,7 @@ Also $I_n(f) = I(p)$.
 		Sei $I_n(f) = \sum_{j=0}^n \omega_j f(x_j)$ exakt auf $\P_n$.
 		Für Lagrange-Polynome gilt $L_j^n \in \P_n$, also
 		\[
-			\int_a^b L_j^n (x) dx = I(L_j^n) = I_n(L_j^n) = \sum_{i=0}^n \omega_i L_j^n(x_i) = \omega_j
+			\int_a^b L_j^n (x) \dx = I(L_j^n) = I_n(L_j^n) = \sum_{i=0}^n \omega_i L_j^n(x_i) = \omega_j
 		\]
 	\end{proof}
 	also ist $I_n$ schon die interpolatorische Quadratur.
@@ -2573,7 +2573,7 @@ Also $I_n(f) = I(p)$.
 				Also ist $N$ punktsymmetrisch um $x = \f {a+b}2$.
 				Damit ist
 				\[
-					I(N) = \int_a^b N(x) dx = 0
+					I(N) = \int_a^b N(x) \dx = 0
 				\]
 				Zeige nun die Exaktheit von $I_n$ auf $\P_{n+1}$.
 
@@ -2694,7 +2694,7 @@ Also $I_n(f) = I(p)$.
 				\intertext{
 					Substituiere $x= a+\f{b-a}{\hat b - \hat a}(\hat x - \hat a)$
 				}
-					&= \f {b-a}{\hat b - \hat a} \int_a^b p(x) \f {\hat b - \hat a}{b-a} dx \\
+					&= \f {b-a}{\hat b - \hat a} \int_a^b p(x) \f {\hat b - \hat a}{b-a} \dx \\
 					&= I(p)
 				\end{align*}
 			\item
@@ -2707,8 +2707,8 @@ Also $I_n(f) = I(p)$.
 				Außerdem
 				\begin{align*}
 					|I(f) - I_n(f)| 
-					&= \l| \int_a^b f(x) dx - \sum_{j=0}^n \omega_j f(x_j) \r| \\
-					&= \l| \int_{a}^{b} \hat f(\hat x) dx - \sum_{j=0}^n  \omega_j \hat f(\hat x_j) \r| \\
+					&= \l| \int_a^b f(x) \dx - \sum_{j=0}^n \omega_j f(x_j) \r| \\
+					&= \l| \int_{a}^{b} \hat f(\hat x) \dx - \sum_{j=0}^n  \omega_j \hat f(\hat x_j) \r| \\
 				\intertext{
 					Substituiere $\hat x = \hat a + \f {\hat b - \hat a}{b-a}(x-a)$
 				}
@@ -2793,7 +2793,7 @@ Also $I_n(f) = I(p)$.
 		\item
 			Die Gewichte
 			\[
-				\omega_j := \int_0^1 L_j^n(x) dx
+				\omega_j := \int_0^1 L_j^n(x) \dx
 			\]
 			lassen sich kompakt als Lösung eines LGS mit Hilfe einer transponierten Vandermondematrix darstellen (siehe Satz \ref{2.10}).
 	\end{itemize}
@@ -2824,7 +2824,7 @@ Also $I_n(f) = I(p)$.
 		$I_n$ ist eine Interpolatorische Qudratur, also exakt auf $\P_n$.
 		Wähle $p(x) = x^i$, dann gilt
 		\[
-			\sum_{j=0}^n \omega_j \l( \f jn \r)^i = I_n(p) = I(p) = I(x^i) = \int_0^1 x^i dx = \f 1{i+1}
+			\sum_{j=0}^n \omega_j \l( \f jn \r)^i = I_n(p) = I(p) = I(x^i) = \int_0^1 x^i \dx = \f 1{i+1}
 		\]
 		Dies ist gerade die $i$-te Zeile im System.
 	\end{proof}
@@ -2870,11 +2870,11 @@ Also $I_n(f) = I(p)$.
 			\item
 				In Beweis von \ref{2.7} wurde folgende Abschätzung verwendet:
 				\[
-					\int_a^b \l| \prod_{i=0}^n (x-x_i)\r| dx \le (b-a)^{n+1}
+					\int_a^b \l| \prod_{i=0}^n (x-x_i)\r| \dx \le (b-a)^{n+1}
 				\]
 				Dies wird um Faktor 6 verbessert durch:
 				\[
-					\int_a^b |x-a||x-b| = \int_a^b (x-a)(b-x) dx = \dotsb = \f {(b-a)^3}6
+					\int_a^b |x-a||x-b| = \int_a^b (x-a)(b-x) \dx = \dotsb = \f {(b-a)^3}6
 				\]
 			\item
 				analog
@@ -2989,12 +2989,12 @@ Also $I_n(f) = I(p)$.
 		\]
 		Gemäß \ref{2.8} ii) gilt
 		\[
-			\l| \int_{a+(l-1)H}^{a+lH} f(x) dx - I_{\hat n}^{(l)}(f)\r| \le K \sup_{x\in [a+(l-1)H,a+lH]} |f^{(m)}(x)| H^{m+1}
+			\l| \int_{a+(l-1)H}^{a+lH} f(x) \dx - I_{\hat n}^{(l)}(f)\r| \le K \sup_{x\in [a+(l-1)H,a+lH]} |f^{(m)}(x)| H^{m+1}
 		\]
 		Für den Gesamtfehler also
 		\begin{align*}
 			|I(f) - I_h(f)| 
-			&= \l| \sum_{l=1}^N \int_{a+(l-1)H}^{a+lH} f(x) dx - I_{\hat n}^{(l)}(f)\r| \\
+			&= \l| \sum_{l=1}^N \int_{a+(l-1)H}^{a+lH} f(x) \dx - I_{\hat n}^{(l)}(f)\r| \\
 			&\le \sum_{l=1}^N K \cdot \|f^{(m)}\|_\infty H^{m+1} \\
 			&= \underbrace{N H}_{=b-a} K \|f^{(m)}\|_\infty H^m
 		\end{align*}
@@ -3049,7 +3049,7 @@ Also $I_n(f) = I(p)$.
 	\label{2.17}	
 	Sei $[a,b] = [-1,1]$ und $\<\cdot, \cdot\>$ das $L^2$-Skalarprodukt auf $C([a,b])$, d.h.
 	\[
-		\<f,g\> = \int_a^b f(x)g(x) dx
+		\<f,g\> = \int_a^b f(x)g(x) \dx
 	\]
 	Wir definieren rekursiv
 	\begin{align*}
@@ -3133,7 +3133,7 @@ Also $I_n(f) = I(p)$.
 				\]
 				Dann kann man schreiben
 				\[
-					0 = \<q,p_n\> = \int_{-1}^1 \f {p_n(x)^2}{|x-z|^2} dx \implies p_n(x) = 0
+					0 = \<q,p_n\> = \int_{-1}^1 \f {p_n(x)^2}{|x-z|^2} \dx \implies p_n(x) = 0
 				\]
 				was ein Widerspruch ist.
 				\end{seg}
@@ -3145,7 +3145,7 @@ Also $I_n(f) = I(p)$.
 				\]
 				dann ist
 				\[
-					0= \<q,p_n\> = \int_{-1}^1 \f {p_n(x)^2}{(x-z)^2} dx  \implies p_n = 0
+					0= \<q,p_n\> = \int_{-1}^1 \f {p_n(x)^2}{(x-z)^2} \dx  \implies p_n = 0
 				\]
 				was ein Widerspruch ist.
 				\end{seg}
@@ -3198,7 +3198,7 @@ Also $I_n(f) = I(p)$.
 \begin{nt*}
 	Die sogenannten \emph{Legendre-Polynome} sind definiert durch
 	\[
-		P_n(x) := \f 1{2^n n!} \f {d^n}{dx^n} (x^2 - 1)^n
+		P_n(x) := \f 1{2^n n!} \f {\mathrm{d}^n}{\mathrm{d}x^n} (x^2 - 1)^n
 	\]
 	und erfüllen eine sogenannte „3-Term-Rekursion“:
 	\[
@@ -3206,7 +3206,7 @@ Also $I_n(f) = I(p)$.
 	\]
 	Die orthogonalen Polynome aus Definition \ref{2.17} sind also skalierte Legendre-Polynome
 	\[
-		p_n(x) = \f {n!}{(2n)!} \f {d^n}{dx^n} (x^2-1)^n
+		p_n(x) = \f {n!}{(2n)!} \f {\mathrm{d}^n}{\mathrm{d}x^n} (x^2-1)^n
 	\]
 	\begin{proof}
 		Siehe Übungsblatt 8, Aufgabe 3.
@@ -3230,7 +3230,7 @@ Also $I_n(f) = I(p)$.
 		Sei $n$ zunächst ungerade, dann ist $x^{n+1}$ gerade.
 		Für $i$ ungerade ist
 		\[
-			\<x^{n+1},p_i\> = \int_{-1}^1 \underbrace{x^{n+1}}_{\text{gerade}} \underbrace{p_i(x)}_{\text{ungerade}} dx = 0
+			\<x^{n+1},p_i\> = \int_{-1}^1 \underbrace{x^{n+1}}_{\text{gerade}} \underbrace{p_i(x)}_{\text{ungerade}} \dx = 0
 		\]
 		Für $i$ gerade ist $p_i(x)$ gerade, also ist $p_{n+1}$ eine Linearkombination von geraden Funktionen, also ist $p_{n+1}$ gerade.
 		Analog für $n$ gerade.
@@ -3253,9 +3253,9 @@ Also $I_n(f) = I(p)$.
 		Es folgt
 		\begin{align*}
 			I(p) 
-			&= \int_{-1}^1 p(x) dx 
-			= \underbrace{\int_{-1}^1 p_{n+1}q(x) dx}_{=0 \text{ da $p_{n+1}\orth \P_n$}} + \int_{-1}^1 r(x) dx
-			= \int_{-1}^1 r(x) dx 
+			&= \int_{-1}^1 p(x) \dx 
+			= \underbrace{\int_{-1}^1 p_{n+1}q(x) \dx}_{=0 \text{ da $p_{n+1}\orth \P_n$}} + \int_{-1}^1 r(x) \dx
+			= \int_{-1}^1 r(x) \dx 
 		\end{align*}
 		Außerdem
 		\begin{align*}
@@ -3284,7 +3284,7 @@ Also $I_n(f) = I(p)$.
 		\]
 		aber
 		\[
-			I(p) = \int_{-1}^1 \underbrace{\prod_{i=0}^n (x-x_i)^2 }_{\ge 0} dx > 0
+			I(p) = \int_{-1}^1 \underbrace{\prod_{i=0}^n (x-x_i)^2 }_{\ge 0} \dx > 0
 		\]
 		also $I_n(p) \neq I(p)$ also nicht exakt auf $\P_{2n+2}$.
 	\end{proof}
@@ -3302,7 +3302,7 @@ Also $I_n(f) = I(p)$.
 		Sei $q\in \P_n$ und $\_p_{n+1} := \prod_{i=0}^n (x-x_i) \in \P_{n+1}$.
 		\[
 			\<\_p_{n+1},q\>
-			= \int_{-1}^1 \_p_{n+1}(x) q(x) dx 
+			= \int_{-1}^1 \_p_{n+1}(x) q(x) \dx 
 			= I(\underbrace{\_p_{n+1} q}_{\in \P_{2n+1}})
 			\stackrel{\text{Exaktheit}}= \_I_n (\_p_{n+1}q)
 			= \sum_{j=0}^n \_{\omega_k}\underbrace{\_p_{n+1}(x_j)}_{=0}q(x_j)
@@ -3387,7 +3387,7 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 	\begin{proof}
 		$I_n$ ist exakt auf $\P_{2n+1}$ also werden damit insbesondere quadrierte Lagrange-Polynome exakt integriert:
 		\[
-			\omega_j = \sum_{i=0}^n \omega_i (\underbrace{L_j^n(x_i)}_{\delta_{ij}})^2 = I_n((L_j^n)^2) = I((L_j^n)^2) =\int_{-1}^1 \underbrace{(L_j^n(x))^2}_{\ge 0} dx > 0
+			\omega_j = \sum_{i=0}^n \omega_i (\underbrace{L_j^n(x_i)}_{\delta_{ij}})^2 = I_n((L_j^n)^2) = I((L_j^n)^2) =\int_{-1}^1 \underbrace{(L_j^n(x))^2}_{\ge 0} \dx > 0
 		\]
 	\end{proof}
 \end{st}
@@ -3411,8 +3411,8 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 			&\le |I(f) - I(p)| 
 			+ \underbrace{|I(p) - I_n(p)|}_{=0 \text{ da $I_n$ exakt auf $\P_{n_0}$}} 
 			+ |I_n(p)-I_n(f)| \\
-			&\le \int_a^b |f(x)-p(x)| dx + \sum_{i=0}^n |\omega_i||p(x_i)-f(x_i)| \\
-		\intertext{wegen $\sum_{j=0}^n |\omega_j| = \sum_{j=0}^n \omega_j = I_n(1) = I(1) = \int_a^b dx = b-a$ gilt}
+			&\le \int_a^b |f(x)-p(x)| \dx + \sum_{i=0}^n |\omega_i||p(x_i)-f(x_i)| \\
+		\intertext{wegen $\sum_{j=0}^n |\omega_j| = \sum_{j=0}^n \omega_j = I_n(1) = I(1) = \int_a^b \dx = b-a$ gilt}
 			&\le (b-a)\f {\eps}{2(b-a)} + (b-a)\f{\eps}{2(b-a)} \\
 			&= \f \eps 2 + 0 + \f \eps 2 = \eps
 		\end{align*}
@@ -3432,20 +3432,20 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 \end{st}
 
 \begin{nt*}[Allgemeinere Integrale]
-	Sei $\omega \in C^0(I)$ eine „Gewichtsfunktion“ auf dem Intervall $I\subset \R$ mit $\int_I \omega(x) dx < \infty$ und $\omega(x) \ge 0$ für alle $x\in I$.
+	Sei $\omega \in C^0(I)$ eine „Gewichtsfunktion“ auf dem Intervall $I\subset \R$ mit $\int_I \omega(x) \dx < \infty$ und $\omega(x) \ge 0$ für alle $x\in I$.
 
 	Dann definiert 
 	\[
-		\<f,g\>_\omega := \int_I f(x) g(x) \omega(x) dx
+		\<f,g\>_\omega := \int_I f(x) g(x) \omega(x) \dx
 	\]
 	ein Skalarprodukt auf $C^0(I)$.
 
 	Definiere analog zu \ref{2.17} $\{p_i\}_{i=0}^{n+1}$ als Orthogonalsystem bezüglich $\<\cdot,\cdot\>_\omega$ von $\P_{n+1}$.
 	Wähle die Quadraturpunkte $\{x_i\}_{i=0}^n$ als Nullstellen von $p_{n+1}$ und setze $\{\omega_j\}_{j=0}^n$ als gewichtete Integrale der Lagrange-Polynome:
 	\[
-		\omega_i := \int_I L_i^n(x) \omega(x) dx
+		\omega_i := \int_I L_i^n(x) \omega(x) \dx
 	\]
-	Dann ist $I_n(f) = \sum_{i=0}^n\omega_i f(x_i)$ eine Approximation für $I(f) := \int_I f(x) \omega(x) dx$.
+	Dann ist $I_n(f) = \sum_{i=0}^n\omega_i f(x_i)$ eine Approximation für $I(f) := \int_I f(x) \omega(x) \dx$.
 	Es existieren einige spezielle Versionen
 	\begin{itemize}
 		\item
@@ -3472,7 +3472,7 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 			$\alpha, \beta > -1$, $\omega(x) = (1-x)^\alpha (1+x)^\beta$, $I=(-1,1)$.
 			Dann bilden \emph{Jacobi-Polynome} ein Orthogonalsystem:
 			\[
-				J_n(x;\alpha,\beta) = \f 1{2^n n! \omega(x)}\f {d^n}{dx^n}\Big( (x^2-1)^n \omega(x)\Big)
+				J_n(x;\alpha,\beta) = \f 1{2^n n! \omega(x)}\f {\mathrm d^n}{\mathrm {d}x^n}\Big( (x^2-1)^n \omega(x)\Big)
 			\]
 			Es ergibt sich die „Gauß-Jacobi-Quadratur“.
 			Für $\alpha=\beta=0$ ergibt sich die Gauß-Legendre-Quadratur.
@@ -3482,18 +3482,18 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 \end{nt*}
 
 \begin{ex*}
-	Sei $f(x) = \f {x^2}{\sqrt{1-x^2}}$ und $\int_{-1}^1 f(x) dx = \int_{-1}^1 x^2 \underbrace{\f 1{\sqrt{1-x^2}}}_{\omega(x)} dx$.
+	Sei $f(x) = \f {x^2}{\sqrt{1-x^2}}$ und $\int_{-1}^1 f(x) \dx = \int_{-1}^1 x^2 \underbrace{\f 1{\sqrt{1-x^2}}}_{\omega(x)} \dx$.
 	Wähle die Gauß-Tschebyscheff-Quadratur mit $n=2$ (für $p(x) = x^2$ exakt).
 	\begin{align*}
 		x_0 := \cos\l(\pi \f 16 \r) = \sqrt{\f 34}, \qquad x_1 &= \cos\l(\pi \f 36\r) = 0, \qquad x_2 = \cos \l(\pi\f 56\r) = -\sqrt{\f 34}
 	\end{align*}
 	mit $\omega_0 = \omega_1 = \omega_2 = \f {\pi}3$
 	\[
-		\int_{-1}^1 f(x) dx = \sum_{i=0}^2 \omega_i x_i^2 = \f {\pi}3 \cdot \f 64 = \f \pi2
+		\int_{-1}^1 f(x) \dx = \sum_{i=0}^2 \omega_i x_i^2 = \f {\pi}3 \cdot \f 64 = \f \pi2
 	\]
 	Das stimmt mit der analytischen Lösung überein:
 	\[
-		\int_{-1}^1 \f {x^2}{\sqrt{1-x^2}} dx = \f 12 \sin^{-1}(x) - \f 12 x\sqrt{1-x^2} \; \Big|_{-1}^1 = \f 12 \l( \f \pi 2 - \l(-\f \pi 2\r) \r) = \f \pi2
+		\int_{-1}^1 \f {x^2}{\sqrt{1-x^2}} \dx = \f 12 \sin^{-1}(x) - \f 12 x\sqrt{1-x^2} \; \Big|_{-1}^1 = \f 12 \l( \f \pi 2 - \l(-\f \pi 2\r) \r) = \f \pi2
 	\]
 \end{ex*}
 
@@ -3528,7 +3528,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\]
 	oder ein gewichtetes Integral
 	\[
-		\int_a^b f^{(m)}(x) \omega(x) \; dx
+		\int_a^b f^{(m)}(x) \omega(x) \dx
 		\qquad (m \in \{0,\dotsc,k\})
 	\]
 	oder eine endliche Linearkombination dieser beiden ist.
@@ -3539,7 +3539,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 		\item
 			Fehlerfunktionale für Quadraturen sind zulässig
 			\[
-				R(f) = \int_a^b f(x) dx - \sum_{i=0}^n \omega_i f(x_i)
+				R(f) = \int_a^b f(x) \dx - \sum_{i=0}^n \omega_i f(x_i)
 			\]
 		\item
 			Fehlerfunktionale für Finite-Differenzen-Approximation sind zulässig
@@ -3553,23 +3553,23 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\label{2.28}	
 	Für ein zulässiges Funktional $R$, stetiges $u\in C^0([a,b])$ und $K\in C^k([a,b]^2)$ gilt
 	\[
-		R\l( \int_a^b K(t,\cdot) u(t) dt \r) 
-		= \int_a^b R\Big(K(t,\cdot)\Big) u(t) dt
+		R\l( \int_a^b K(t,\cdot) u(t) \dx[t] \r) 
+		= \int_a^b R\Big(K(t,\cdot)\Big) u(t) \dx[t]
 	\]
 	\begin{proof}
 		Setze
 		\begin{align*}
-			y(\cdot) &= \int_a^b K(t,\cdot) u(t) dt \\
+			y(\cdot) &= \int_a^b K(t,\cdot) u(t) \dx[t] \\
 			v(t) &= R\big(K(t,\cdot)\big)
 		\end{align*}
-		Zu zeigen ist dann $R(y) = \int_a^b v(t) u(t) dt$.
+		Zu zeigen ist dann $R(y) = \int_a^b v(t) u(t) \dx[t]$.
 		Wir zeigen zunächst für $R(f) = f^{(m)}(x_0)$:
 		\begin{align*}
-			R(y) = \f {d^m}{dx^m} \Big( \int_a^b K(t,x) u(t) dt \Big) \Big|_{x_0}
-			= \int_a^b \Big( \f {d^m}{dx^m} K(t,x) \Big) u(t) dt \Big|_{x_0}
-			= \int_a^b v(t) u(t) dt
+			R(y) = \f {\dx[^m]}{\dx[x^m]} \Big( \int_a^b K(t,x) u(t) \dx[t] \Big) \Big|_{x_0}
+			= \int_a^b \Big( \f {\dx[^m]}{\dx[x^m]} K(t,x) \Big) u(t) \dx[t] \Big|_{x_0}
+			= \int_a^b v(t) u(t) \dx[t]
 		\end{align*}
-		Für $R(f) = \int_a^b f^{(m)}(x) \omega(x) dx$ verläuft der Beweis analog und für Linearkombinationen aus beiden folgt die Behauptung aus der Linearität der Punktauswertung und des Integrals.
+		Für $R(f) = \int_a^b f^{(m)}(x) \omega(x) \dx$ verläuft der Beweis analog und für Linearkombinationen aus beiden folgt die Behauptung aus der Linearität der Punktauswertung und des Integrals.
 	\end{proof}
 \end{lem}
 
@@ -3581,7 +3581,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\]
 	Es gilt für $f\in C^{k+1}([a,b])$:
 	\[
-		f(x) = (P_kf)(x) + \int_a^b K_k(t,x) f^{(k+1)}(t) dt
+		f(x) = (P_kf)(x) + \int_a^b K_k(t,x) f^{(k+1)}(t) \dx[t]
 	\]
 	mit $P_k \in \P_k$ und $K_k \in C^{k-1}([a,b]^2)$ gegeben durch
 	\begin{align*}
@@ -3591,8 +3591,8 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\begin{proof}
 		Nutze Taylor mit Integralrestglied:
 		\begin{align*}
-			f(x) &= \sum_{j=0}^k f^{(j)}(a) \f {(x-a)^j}{j!} + \int_a^x \f {(x-t)^k}{k!} f^{(k+1)}(t) dt
-			&= P_k f + \int_a^b \f {(x-t)^k_+}{k!} f^{(k+1)} (t) dt
+			f(x) &= \sum_{j=0}^k f^{(j)}(a) \f {(x-a)^j}{j!} + \int_a^x \f {(x-t)^k}{k!} f^{(k+1)}(t) \dx[t]
+			&= P_k f + \int_a^b \f {(x-t)^k_+}{k!} f^{(k+1)} (t) \dx[t]
 		\end{align*}
 	\end{proof}
 \end{lem}
@@ -3602,7 +3602,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	Sei $R$ ein zulässiges Funktional auf $C^k([a,b])$ welches für ein $n>k$ auf $\P_n$ verschwindet (d.h. $\forall p\in \P_n : R(p)=0$).
 	Dann gilt für alle $f\in C^{n+1}([a,b])$:
 	\[
-		R(f) = \int_a^b K(t) f^{(n+1)}(t) dt
+		R(f) = \int_a^b K(t) f^{(n+1)}(t) \dx[t]
 	\]
 	mit Peano-Kern 
 	\[
@@ -3612,9 +3612,9 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\begin{proof}
 		Da $f\in C^{n+1}([a,b])$, ist $f,P_nf,f-P_nf \in C^k([a,b])$
 		\begin{align*}
-			R(f) &\stackrel{\ref{2.29}}= R(P_n f) + R \Big( \int_a^b \underbrace{K_n(t,\cdot)}_{\in C^k([a,b])} f^{(n+1)}(t) dt \Big)
-			&\stackrel{\ref{2.28}} =  \int_a^b R\big(K_n(t,\cdot)\big) f^{(n+1)}(t) dt \\
-			&= \int_a^b R \Big( \f 1{n!}(\cdot - t)^n_+ \Big) f^{(n+1)}(t) dt
+			R(f) &\stackrel{\ref{2.29}}= R(P_n f) + R \Big( \int_a^b \underbrace{K_n(t,\cdot)}_{\in C^k([a,b])} f^{(n+1)}(t) \dx[t] \Big)
+			&\stackrel{\ref{2.28}} =  \int_a^b R\big(K_n(t,\cdot)\big) f^{(n+1)}(t) \dx[t] \\
+			&= \int_a^b R \Big( \f 1{n!}(\cdot - t)^n_+ \Big) f^{(n+1)}(t) \dx[t]
 		\end{align*}
 	\end{proof}
 \end{st}
@@ -3623,10 +3623,10 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	Seien $f,g \in C^0([a,b])$ mit $g\ge 0$.
 	Dann existiert $\zeta \in [a,b]$ so dass
 	\[
-		\int_a^b f(x) g(x) dx = f(\zeta) \int_a^b g(x) dx
+		\int_a^b f(x) g(x) \dx = f(\zeta) \int_a^b g(x) \dx
 	\]
 	\begin{proof}
-		Setze $r(t) := \int_a^b f(x)g(x) dx - f(t) \int_a^b g(x) dx \in C^0([a,b])$.
+		Setze $r(t) := \int_a^b f(x)g(x) \dx - f(t) \int_a^b g(x) \dx \in C^0([a,b])$.
 		Wir suchen die Nullstelle $\xi \in [a,b]$.
 
 		Seien $x_{\text{min}}, x_{\text{max}} \in [a,b]$ mit
@@ -3635,7 +3635,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 			\qquad
 			f(x_{\text{max}}) = \max_{x\in[a,b]} f(x)
 		\]
-		Daraus folgt $r(x_{\text{min}}) = \int_a^b \big(f(x)-f(x_{\text{min}})\big)g(x) dx \ge 0$ und analog $r(x_{\text{max}}) \le 0$.
+		Daraus folgt $r(x_{\text{min}}) = \int_a^b \big(f(x)-f(x_{\text{min}})\big)g(x) \dx \ge 0$ und analog $r(x_{\text{max}}) \le 0$.
 		Aus dem Zwischenwertsatz folgt dann, dass das gesuchte $\xi \in[x_{\text{min}}, x_{\text{max}}] \subset [a,b]$ existiert sodass $r(t) = 0$.
 	\end{proof}
 \end{lem}
@@ -3648,13 +3648,13 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\]
 	\begin{proof}
 		\[
-			R(f) \stackrel{\ref{2.30}}= \int_a^b K(t) f^{(n+1)}(t) dt 
-			\stackrel{\ref{2.31}}= f^{(n+1)}(\xi)\int_a^b K(t) dt
+			R(f) \stackrel{\ref{2.30}}= \int_a^b K(t) f^{(n+1)}(t) \dx[t] 
+			\stackrel{\ref{2.31}}= f^{(n+1)}(\xi)\int_a^b K(t) \dx[t]
 		\]
 		Anwendung auf $x^{n-1}$:
 		\[
-			R(x^{n+1}) = \underbrace{(n+1)!}_{=\f {d^{n+1}}{dx^{n+1}}x^{n+1}} \int_a^b K(t) dt \quad 
-			\implies \quad \int_a^b K(t) dt = \f {R(x^{n+1})}{(n+1)!}
+			R(x^{n+1}) = \underbrace{(n+1)!}_{=\f {\\dx[^{n+1}]}{\\dx[x^{n+1}]}x^{n+1}} \int_a^b K(t) \dx[t] \quad 
+			\implies \quad \int_a^b K(t) \dx[t] = \f {R(x^{n+1})}{(n+1)!}
 		\]
 		Dies in die vorige Gleichung eingesetzt ergibt die Behauptung.
 	\end{proof}
@@ -3663,17 +3663,17 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 \begin{ex*}
 	Anwendung auf Simpson-Quadratur auf $[-1,1]$:
 	\[
-		R(f) = \f 13 \big(f(-1) + 4f(0) + f(1)\big) -\int_{-1}^1 f(x) dx
+		R(f) = \f 13 \big(f(-1) + 4f(0) + f(1)\big) -\int_{-1}^1 f(x) \dx
 	\]
 	$R: C^0 ([a,b]) \to \R$, $k=0$.
 	Die Simpson-Quadratur ist exakt auf $n=3$, also mit \ref{2.30} ist
 	\[
-		R(f) = \int_{-1}^1 K(t) \cdot f^{(4)}(t) dt \qquad f\in C^4([-1,1])
+		R(f) = \int_{-1}^1 K(t) \cdot f^{(4)}(t) \dx[t] \qquad f\in C^4([-1,1])
 	\]
 	mit
 	\begin{align*}
 		K(t) &= \f 1{3!}R \big((\cdot - t)_+^3\big) \\
-		&= \f 1{18} \big((-1-t)_+^3+ 4(0-t)_+^3 + (1-t)_+^3 \big) - \f 16 \int_{-1}^1 (x-t)_+^3 dx \\
+		&= \f 1{18} \big((-1-t)_+^3+ 4(0-t)_+^3 + (1-t)_+^3 \big) - \f 16 \int_{-1}^1 (x-t)_+^3 \dx \\
 	\end{align*}
 	Es ist $(-1-t)_+^3 = 0$ für $t\in [-1,1]$ und
 	\begin{align*}
@@ -3682,7 +3682,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 			0 & t\in[0,1]
 		\end{cases} \\
 		(1-t)_+^3 &= (1-t)^3 \\
-		\int_{-1}^1 (x-t)_+^3 dx &= \int_t^1 (x-t)^3 dx = \f 14(1-t)^4
+		\int_{-1}^1 (x-t)_+^3 \dx &= \int_t^1 (x-t)^3 \dx = \f 14(1-t)^4
 	\end{align*}
 	Also für $t\in [0,1]$:
 	\begin{align*}
@@ -3701,7 +3701,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\]
 	also
 	\begin{align*}
-		R(x^4) &= \f 13 (1+4\cdot 0 + 1) - \int_{-1}^1 x^4 dx \\
+		R(x^4) &= \f 13 (1+4\cdot 0 + 1) - \int_{-1}^1 x^4 \dx \\
 		&= \f 23 - \f 15 x^5 \Big|_{-1}^1
 		= \f {10}{15} - \f {6}{15} = \f 4{15}
 	\end{align*}
@@ -3752,7 +3752,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	Wir definieren rekursiv die \emph{Bernoulli-Polynome} $B_k \in \P_k$ durch
 	\[
 		B_0(x) := 1 \qquad
-		\f d{dx} B_k(x) := k \cdot B_{k-1}(x) \quad \land \quad \forall k\ge 1 : \int_0^1 B_k(x) dx = 0
+		\f {\dx[]}{\dx} B_k(x) := k \cdot B_{k-1}(x) \quad \land \quad \forall k\ge 1 : \int_0^1 B_k(x) \dx = 0
 	\]
 	Die \emph{Bernoulli-Zahlen} sind gegeben durch
 	\[
@@ -3763,9 +3763,9 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 			\item
 				Die $B_k$ sind wohldefiniert durch
 				\[
-					\_{B_k}(x) := \int_0^x k B_{k-1}(t) dt 
+					\_{B_k}(x) := \int_0^x k B_{k-1}(t) \dx[t] 
 					\quad \text{und} \quad
-					B_k(x) := \_{B_k}(x) - \int_0^1 \_{B_k}(t) dt
+					B_k(x) := \_{B_k}(x) - \int_0^1 \_{B_k}(t) \dx[t]
 				\]
 			\item
 				Die ersten Bernoulli-Polynome sind
@@ -3806,11 +3806,11 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\begin{proof}
 		Es gilt
 		\[
-			B_k (\tf 12 + \tau) = B_k(\tf 12 - \tau)  + \int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt
+			B_k (\tf 12 + \tau) = B_k(\tf 12 - \tau)  + \int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) \dx[t]
 		\]
 		\begin{enumerate}[i)]
 			\item
-				Für $\tau = \f 12$ folgt mit $\int_{0}^1 B_{k-1}(t) dt = 0$ für $k\ge 2$
+				Für $\tau = \f 12$ folgt mit $\int_{0}^1 B_{k-1}(t) \dx[t] = 0$ für $k\ge 2$
 				\[
 					B_k(1) = B_k(0) + 0
 				\]
@@ -3821,36 +3821,36 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 
 				Falls $k$ gerade, dann ist $B_{k-1}$ punktsymmetrisch zu $(\f 12, 0)$:
 				\[
-					B_k (\tf 12 + \tau) = B_k(\tf 12 - \tau)  + \underbrace{\int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) dt}_{=0}
+					B_k (\tf 12 + \tau) = B_k(\tf 12 - \tau)  + \underbrace{\int_{\f 12 - \tau}^{\f 12 + \tau} k B_{k-1}(t) \dx[t]}_{=0}
 				\]
 				und damit $B_k(\f 12 + \tau) = B_k(\f 12 - \tau)$.
 
 				Falls $k$ ungerade, dann ist $B_{k-1}$ achsensymmetrisch zu $x=\f 12$ und
 				\[
-					\int_{\f 12 - \tau}^{\f 12} B_{k-1}(t) dt = \int_{\f 12}^{\f 12 + \tau} B_{k-1}(t) dt
+					\int_{\f 12 - \tau}^{\f 12} B_{k-1}(t) \dx[t] = \int_{\f 12}^{\f 12 + \tau} B_{k-1}(t) \dx[t]
 				\]
 				Setze $c := B_k(\f 12)$
 				\begin{align*}
 					B_k(\tf 12 + \tau) - c 
-					&= B_k (\tf 12) + \int_{\f 12}^{\f 12 + \tau} k B_{k=1}(t) dt - B_k(\tf 12) \\
-					&= c - \l( \int_{\f 12}^{\f 12 - \tau} k B_{k-1}(t) dt + B_k( \tf 12) \r) \\
+					&= B_k (\tf 12) + \int_{\f 12}^{\f 12 + \tau} k B_{k=1}(t) \dx[t] - B_k(\tf 12) \\
+					&= c - \l( \int_{\f 12}^{\f 12 - \tau} k B_{k-1}(t) \dx[t] + B_k( \tf 12) \r) \\
 					&= c - B_k(\tf 12 - \tau)
 				\end{align*}
 				also ist $B_k$ punktsymmetrisch zu $(\f 12, c)$.
 				Außerdem
 				\[
-					c = \int_{0}^1 B_k(x) dx = 0
+					c = \int_{0}^1 B_k(x) \dx = 0
 				\]
 				womit $B_k$ punktsymmetrisch zu $(\f 12,0)$ ist.
 			\item
 				Für $k'=2k+1$ ist $B_{k'}$ punktsymmetrisch zu $(\f 12,0)$ nach ii), also $B_{k'}(\f 12) = 0$.
 				$B_{k'-1}$ ist achsensymmetrisch, also
 				\[
-					0 = \int_0^1 B_{k'-1}(t) dt = 2 \int_0^{\f 12} B_{k'-1} (t) dt 
+					0 = \int_0^1 B_{k'-1}(t) \dx[t] = 2 \int_0^{\f 12} B_{k'-1} (t) \dx[t] 
 				\]
 				Es gilt
 				\[
-					0 = B_{k'}(\tf 12) = B_{k'}(0) + \int_{0}^{\f 12} k' B_{k'-1}(t) dt = B_{k'}(0)
+					0 = B_{k'}(\tf 12) = B_{k'}(0) + \int_{0}^{\f 12} k' B_{k'-1}(t) \dx[t] = B_{k'}(0)
 				\]
 				und $B_{k'}(1) = 0$ wegen der Punktsymmetrie.
 		\end{enumerate}
@@ -3869,20 +3869,20 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\begin{proof}
 		Sei $\phi \in \C^{2m}([0,1])$, dann gilt wegen $\f{B_k'}k = B_{k-1}$, $B_1(1) = \f 12, B_1(0) = - \f 12$:
 		\begin{align*}
-			&\int_0^1 B_0(t) \phi(t) dt 
-			= B_1(t) \phi(t) \Big|_{0}^1 - \int_0^1 B_1(t) \phi'(t) dt \\
-			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \int_0^1 \f 12 B_2(t) \phi''(t) dt \\
-			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \underbrace{\f 1{2\cdot 3} B_3(t) \phi''(t) \Big|_0^1}_{=0 \text{ \ref{2.35} ii)}} - \int_0^1 \f 1{3!} B_3(t) \phi^{(3)}(t) dt \\
+			&\int_0^1 B_0(t) \phi(t) \dx[t] 
+			= B_1(t) \phi(t) \Big|_{0}^1 - \int_0^1 B_1(t) \phi'(t) \dx[t] \\
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \int_0^1 \f 12 B_2(t) \phi''(t) \dx[t] \\
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \underbrace{\f 1{2\cdot 3} B_3(t) \phi''(t) \Big|_0^1}_{=0 \text{ \ref{2.35} ii)}} - \int_0^1 \f 1{3!} B_3(t) \phi^{(3)}(t) \dx[t] \\
 			&\quad= \dotsc \\
-			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \sum_{k=1}^{m-1} \l( \f {B_{2k}(1)}{(2k)!} \phi^{(2k-1)}(1) - \f {B_{2k}(0)}{(2k)!} \phi^{(2k-1)}(0) \r) + \int_0^1 \f 1{(2m)!} B_{2m}(t) \phi^{(2m)}(t) \; dt \\
-			&\quad\stackrel{\ref{2.35} i)}=  \f 12 \big(\phi(1) - \phi(0)\big) - \sum_{k=1}^{m-1} \f {\beta_{2k}}{(2k)!} \big( \phi^{(2k-1)}(1) - \phi^{(2k-1)}(0) \big) + \int_0^1 \f {B_{2m}(t)}{(2m)!} \phi^{(2m)}(t) \; dt
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \sum_{k=1}^{m-1} \l( \f {B_{2k}(1)}{(2k)!} \phi^{(2k-1)}(1) - \f {B_{2k}(0)}{(2k)!} \phi^{(2k-1)}(0) \r) + \int_0^1 \f 1{(2m)!} B_{2m}(t) \phi^{(2m)}(t)  \dx[t] \\
+			&\quad\stackrel{\ref{2.35} i)}=  \f 12 \big(\phi(1) - \phi(0)\big) - \sum_{k=1}^{m-1} \f {\beta_{2k}}{(2k)!} \big( \phi^{(2k-1)}(1) - \phi^{(2k-1)}(0) \big) + \int_0^1 \f {B_{2m}(t)}{(2m)!} \phi^{(2m)}(t)  \dx[t]
 		\end{align*}
 		Wähle  $\phi_j(t) := h \cdot f(x_{j-1} + th)$, $x_j := a+jh$, $j=1,\dotsc, N$ (bzw. $j=0,\dotsc, N$).
 		Dann gilt
 		\begin{itemize}
 			\item
 				$\displaystyle
-				\int_0^1 \phi_j(t) dt = \int_{x_{j-1}}^{x_j} f(x) dx
+				\int_0^1 \phi_j(t) \dx[t] = \int_{x_{j-1}}^{x_j} f(x) \dx
 				$
 			\item
 				$\displaystyle
@@ -3900,15 +3900,15 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 		\fixme[Vorzeichenfehler irgendwo, Beweis nachvollziehen]: Vllt bei $\f 12 \big( \phi(1) - \phi(0) \big)$, da $B_1(0) = - \f 12$  \\
 		Damit folgt:
 		\begin{align*}
-			I(f)&=\int_a^b f(x)\, dx = \sum_{j=1}^N \int_{x_{j-1}}^{x_j} f(x) \, dx = \sum_{j=1}^N \int_0^1 \phi_j(t)\, dt\\
-			&= \sum_{j=1}^N \frac{1}{2}(\phi_j(0)+ \phi_j(1))- \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} ( \phi_j^{(2k-1)} (1)-\phi_j^{(2k-1)}(0))+\sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} \phi_j^{(2m)}(t)\, dt\\
+			I(f)&=\int_a^b f(x)\, \dx = \sum_{j=1}^N \int_{x_{j-1}}^{x_j} f(x) \, \dx = \sum_{j=1}^N \int_0^1 \phi_j(t)\, \dx[t]\\
+			&= \sum_{j=1}^N \frac{1}{2}(\phi_j(0)+ \phi_j(1))- \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} ( \phi_j^{(2k-1)} (1)-\phi_j^{(2k-1)}(0))+\sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} \phi_j^{(2m)}(t)\, \dx[t]\\
 			&= \sum_{j=1}^N \frac{h}{2} (f(x_j)+f(x_{j-1})) - \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)}(x_j)-f^{(2k-1)} (x_{j-1})) \\
-			&\qquad \qquad + \sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} h^{2m+1} \cdot f^{(2m)}(x_{j-1}+ ht)\, dt\\
-			&= I_h(f)- \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)} (b)-f^{(2k-1)}(a)) +h^{2m}\left [h \sum_{j=1}^N \int_0^1 f^{(2m)} (x_{j-1}+ht)\, \frac{B_{2m}(t)}{(2m)!} dt\right ]
+			&\qquad \qquad + \sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} h^{2m+1} \cdot f^{(2m)}(x_{j-1}+ ht)\, \dx[t]\\
+			&= I_h(f)- \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)} (b)-f^{(2k-1)}(a)) +h^{2m}\left [h \sum_{j=1}^N \int_0^1 f^{(2m)} (x_{j-1}+ht)\, \frac{B_{2m}(t)}{(2m)!} \dx[t]\right ]
 		\end{align*}
 		Dies ist die Behauptung falls der Term $[...]$ durch Konstante unabhängig von $h$ beschränkt werden kann. Dies ist der Fall:
 		\[
-			|h\sum_{j=1}^N \int_0^1 f^{(2m)}(x_{j-1}+t\cdot h) \frac{B_{2m}(t)}{(2m)!} \, dt|\le h \frac{1}{(2m)!} \sum_{j=1}^N ||f^{(2m)}||_\infty \cdot ||B_{2m}||_\infty = \underbrace{h\cdot N}_{b-a}\cdot \frac{1}{(2m)!} ||f^{(2m)}||_\infty ||B_{2m}||_\infty
+			|h\sum_{j=1}^N \int_0^1 f^{(2m)}(x_{j-1}+t\cdot h) \frac{B_{2m}(t)}{(2m)!} \, \dx[t]|\le h \frac{1}{(2m)!} \sum_{j=1}^N ||f^{(2m)}||_\infty \cdot ||B_{2m}||_\infty = \underbrace{h\cdot N}_{b-a}\cdot \frac{1}{(2m)!} ||f^{(2m)}||_\infty ||B_{2m}||_\infty
 		\]
 		und dies ist unabhängig von $h$.
 	\end{proof}
@@ -3994,7 +3994,7 @@ Endliche Wiederholung von: \\
 \end{note*}
 \begin{note*}[Effizienz und Zuverlässigkeit]
 	\begin{itemize}
-		\item Sei $E_n(f, \Delta^{(l)}):= \sum_{i=1}^{n_l} |I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x)\, dx|$ Summe der lokalen Integrationsfehler.
+		\item Sei $E_n(f, \Delta^{(l)}):= \sum_{i=1}^{n_l} |I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x)\, \dx|$ Summe der lokalen Integrationsfehler.
 		\item Wir nennen einen Fehlerschätzer $\eta^{(l)}$ \emph{zuverlässig}, falls er (bis auf Faktor) obere Schranke für Fehler ist, das heißt es existiert $\gamma >0$ unabhängig von $l$ und $\Delta^{(l)}$ mit 
 			\[
 				E_n(f, \Delta^{(l)})\le \gamma \cdot \eta^{(l)}
@@ -4011,7 +4011,7 @@ Endliche Wiederholung von: \\
 	\label{2.37}
 	Sei $\eta^{(l)} = \sum_{i=1}^{n_l} \eta_v^{(l)}$, $\eta_i^{(l)} = | I_n(f, K_i^{(l)}) - I_{\hat n}(f, K_i^{(l)})|$ und
 	\[
-		R_n (f, K_i^{(l)}) := I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x) dx
+		R_n (f, K_i^{(l)}) := I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x) \dx
 	\]
 	als lokales Fehlerfunktional (analog $R_{\hat n}$ für $I_{\hat n}$).
 	Sei außerdem $h_0 := \max |K_i^{(0)}|$.
@@ -4026,7 +4026,7 @@ Endliche Wiederholung von: \\
 		Es gilt
 		\begin{align*}
 			|R_n(f,K_i^{(l)})|
-			&\le \Big|I_n(f,K_i^{(l)}) - I_{\hat n}(f,K_i^{(l)}) \Big| + \l|I_{\hat n}(f,K_i^{(l)}) - \int_{K_i^{(l)}}f(x) dx \r| \\
+			&\le \Big|I_n(f,K_i^{(l)}) - I_{\hat n}(f,K_i^{(l)}) \Big| + \l|I_{\hat n}(f,K_i^{(l)}) - \int_{K_i^{(l)}}f(x) \dx \r| \\
 			&= \eta_i^{(l)} + |R_{\hat n}(f,K_i^{(l)}) | \\
 			&\le \eta_i^{(l)} + q |R_n(f,K_i^{(l)})|
 		\end{align*}
@@ -4060,8 +4060,8 @@ Endliche Wiederholung von: \\
 			\item
 				Falls die adaptive Quadratur abbricht mit $\eta^{(l)} \le \eps_{\text{tol}}$ und die Vorraussetzungen von \ref{2.37} erfüllt sind, dann ist der Integrationsfehler garantiert klein
 				\[
-					\Big| I_h(f,\Delta^{(l)}) - \int_a^b f(x) dx \big|
-					\le \sum_{i=1}^{n_{l}} \Big| I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x) dx \Big|
+					\Big| I_h(f,\Delta^{(l)}) - \int_a^b f(x) \dx \big|
+					\le \sum_{i=1}^{n_{l}} \Big| I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x) \dx \Big|
 					= E_h(f,\Delta^{(l)})
 					\le \f 1{1-q} \eta^{(l)}
 					\le \f 1{1-q} \eps_{\text{tol}}
@@ -4107,7 +4107,7 @@ Die Gewichte wählen wir dabei konstant.
 	\]
 	eine Monte-Carlo-Approximation für
 	\[
-		\int_{[0,1]^d} f(x) dx
+		\int_{[0,1]^d} f(x) \dx
 	\]
 \end{df}
 
@@ -4127,7 +4127,7 @@ Die Gewichte wählen wir dabei konstant.
 		Sei $X$ gleichverteilte Zufallsvariable mit Werten in $[0,1]^d$.
 		Dann ist $f(X)$ eine Zufallsvariable und der \emph{Erwartungswert} von $f(X)$ ist
 		\[
-			E[f(X)] := \int_{[0,1]^d} f(x) dx =: I
+			E[f(X)] := \int_{[0,1]^d} f(x) \dx =: I
 		\]
 
 		Der sogenannte \emph{empirische Erwartungswert} ist
@@ -4150,7 +4150,7 @@ Die Gewichte wählen wir dabei konstant.
 	\item
 		Man kann auch zeigen, dass für die quadratische Abweichung vom Erwartungswert (auch \emph{Varianz} genannt) gilt:
 		\[
-			\Var(I_n) := E[(I_n-E[I_n])^2] = \f 1n \Var(f(X)) = \f 1n \int_{[0,1]^d} (f(x) - I)^2 dx = \f 1n \sigma_f^2
+			\Var(I_n) := E[(I_n-E[I_n])^2] = \f 1n \Var(f(X)) = \f 1n \int_{[0,1]^d} (f(x) - I)^2 \dx = \f 1n \sigma_f^2
 		\]
 		Also gilt für die Standardabweichung (Wurzel aus der Varianz):
 		\[
@@ -4185,7 +4185,7 @@ Die Gewichte wählen wir dabei konstant.
 
 			Sei $D\subset [0,1]^d$, dann ist das Volumen von $D$ approximiert durch
 			\[
-				|D| = \int_{[0,1]^d} \1_d(x) dx \approx \f 1n \sum_{i=1}^n \1_D (x_i)
+				|D| = \int_{[0,1]^d} \1_d(x) \dx \approx \f 1n \sum_{i=1}^n \1_D (x_i)
 			\]
 			also durch die Monte-Carlo-Approximation für das Integral von $f(x) := \1_D(x)$.
 		\item
@@ -4207,7 +4207,7 @@ Die Gewichte wählen wir dabei konstant.
 	\]
 	Für die Varianz gilt
 	\[
-		\Var(\1_D(X)) = \int_{[0,1]}(f(x) - \tfrac \pi 4)^2 dx = (1-\tfrac \pi 4) \f \pi 4
+		\Var(\1_D(X)) = \int_{[0,1]}(f(x) - \tfrac \pi 4)^2 \dx = (1-\tfrac \pi 4) \f \pi 4
 	\]
 	\begin{figure}[H]
 		\centering
@@ -4504,7 +4504,7 @@ Der Beweis nutzte die Intervallschachtelung.
 			mit Integralrestglied
 			\begin{align*}
 				R(x,x_0) 
-				&= \int_{x_0}^x f''(t) (x-t) dt \\
+				&= \int_{x_0}^x f''(t) (x-t) \dx[t] \\
 				&= \int_0^1 f''\Big(x_0+s(x-x_0)\Big)  \Big(x-x_0-s(x-x_0)\Big)(x-x_0) ds \\
 				&= (x-x_0)^2 \int_0^1 \underbrace{f''\big(x_0+s(x-x_0)\big)}_{\le M} (1-s) ds
 			\end{align*}
@@ -5327,8 +5327,8 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren, wären:
 		\begin{seg}[„$\Longleftarrow$“]
 			\begin{align*}
 				\big(F(x) - F(y)\big)^T (x-y) 
-				&= \bigg( \int_0^1 DF(y+t(x-y))(x-y) \;dt \bigg)^T(x-y) \\
-				&\ge \int_0^1 \gamma \|x-y\|^2 \;dt 
+				&= \bigg( \int_0^1 DF(y+t(x-y))(x-y) \dx[t] \bigg)^T(x-y) \\
+				&\ge \int_0^1 \gamma \|x-y\|^2 \dx[t] 
 				= \gamma \|x-y\|^2
 			\end{align*}
 		\end{seg}
