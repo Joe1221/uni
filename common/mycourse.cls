@@ -139,6 +139,8 @@
 \renewtheorem*{lem*}{Lemma}
 \newtheorem{df}[thm]{Definition}
 \renewtheorem*{df*}{Definition}
+\newtheorem{conv}[thm]{Konvention}
+\renewtheorem*{conv*}{Konvention}
 \newtheorem{kor}[thm]{Korrolar}
 \renewtheorem*{kor*}{Korrolar}
 \newtheorem{prop}[thm]{Proposition}
