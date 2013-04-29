@@ -1578,4 +1578,217 @@ In dem Beweis benutzen wir die Tatsache, dass $ K $ nichtleer ist.
 	\end{enumerate}
 \end{st}
 
+
+\chapter{Fourierreihen II}
+
+
+\section{Kompakte symmetrische Operatoren}
+
+
+\begin{df} \label{3.1}
+	Sei $M \subset L$ ($L$ Prä-Hilbertraum).
+	Dann heißt
+	\[
+		M^\orth := \Big\{ x \in L \mid| \forall y \in M : \<x,y\> = 0 \Big\}
+	\]
+	\emph{orthogonales Komplement} von $M$.
+\end{df}
+
+\begin{st} \label{3.2}
+	\begin{enumerate}[1)]
+		\item
+			$M^\orth$ ist ein linearer Teilraum und abgeschlossen (d.h. enthält alle Häufungspunkte).
+		\item
+			\begin{align*}
+				(\LH \{M\})^\orth &= M\orth \\
+				\_M^\orth = M^\orth
+			\end{align*}
+	\end{enumerate}
+	\begin{proof}
+		Einfache Übung.
+	\end{proof}
+\end{st}
+
+\begin{conv*}
+	Wir betrachten hier und im Folgenden nur \emph{lineare} Operatoren.
+\end{conv*}
+
+\begin{st} \label{3.3}
+	Sei $A: L \to L$ symmerisch und beschränkt.
+	Dann gilt
+	\begin{enumerate}[1)]
+		\item
+			$\displaystyle \<Ax,x\> \in \R$,
+		\item
+			$\displaystyle \im(A)^\orth = \ker(A)$,
+		\item
+			$\displaystyle A \Big|_{\_{\im (A)} }$ ist injektiv und $A \Big|_{\ker(A)} = 0$,
+		\item
+			$\displaystyle \|A\| = \sup_{\|x\|=1} |\<Ax,x\>|$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Da $A$ symmetrisch, gilt
+				\[
+					\<Ax, x\> = \<x, Ax\> = \_{\<Ax,x\>}.
+				\]
+				Also $\<Ax, x\> \in \R$.
+			\item
+				Da $A$ symmetrisch, gilt
+				\begin{align*}
+					x \in \im(A)^\orth
+					& \iff \forall y \in \im(A) : \<x,y\> = 0 \\
+					& \iff \forall \tilde y \in L: \<x, A\tilde y\> = 0 \\
+					& \iff \forall \tilde y \in L: \<Ax,\tilde y\> = 0 \\
+					& \iff Ax = 0 \\
+					& \iff x \in \ker(A)
+				\end{align*}
+			\item
+				Seien $x,y \in \_{\im(A)}$, also auch $x-y \in \_{\im(A)}$ (Betrachte dazu $x,y$ als Folgengrenzwerte).
+
+				Sei $Ax = Ay$.
+				Dann ist $A(x-y) = 0$, also nach 2)
+				\[
+					x-y \in \ker (A) = \im(A)^\orth = \_{\im(A)}^\orth
+				\]
+				Also 
+				\[
+					x-y \in \_{\im(A)} \cap \_{\im(A)}^\orth = \{0\}.
+				\]
+				und damit $A$ injektiv.
+			\item
+				Falls $\|A\| = 0$, also $A=0$, dann ist $0 = \sup |\<Ax,x\>|$ trivial.
+
+				Sei nun $\|A\| > 0$ und $d := \sup_{\|x\|=1} |\<Ax,x\>|$.
+				Zeige $d = \|A\|$:
+				\begin{enumerate}[a)]
+					\item
+						Es gilt $d \le \|A\|$, denn
+						\begin{align*}
+							|\<Ax,x\>| 
+							&\stack{\text{CSB}} \le \|Ax\| \underbrace{\|x\|}_{=1} \\
+							&\stack{\ref{1.23}}\le \|A\| \|x\|
+							= \|A\|.
+						\end{align*}
+					\item
+						Zeige $d \ge \|A\|$.
+
+						Für $y \neq 0$ gilt
+						\[
+							|\<Ay,y\>| 
+							= \|y\|^2 \Big| \< A \tf{y}{\|y\|}, \tf{y}{\|y\|} \> \Big| 
+							\le d\|y\|^2
+						\]
+
+						Für $\alpha > 0$ gilt
+						\begin{align*}
+							\Big\< A(\alpha x + \tf 1\alpha Ax), \alpha x + \f 1\alpha A x \Big\>
+							- \Big\< A(\alpha x - \tf 1\alpha Ax), \alpha x - \f 1\alpha A x \Big\>
+							&= 2\< A\alpha x, \tf 1\alpha A x\> + 2\<A (\tf 1\alpha Ax), \alpha x\> \\
+							&= 4 \|Ax\|^2
+						\end{align*}
+						Falls $\|Ax\| = 0$, dann ist offensichtlich $\|Ax\| \le d$.
+						Sei also $\|x\| = 1$ mit $\|Ax\| \neq 0$.
+						Setze $\alpha^2 := \|Ax\|$, dann ist
+						\begin{align*}
+							4\|Ax\|^2
+							&= 
+							\bigg| \Big\< A(\alpha x + \tf 1\alpha Ax), \alpha x + \tf 1\alpha A x \Big\>
+							- \Big\< A(\alpha x - \tf 1\alpha Ax), \alpha x - \tf 1\alpha A x \Big\> \bigg| \\
+							&\le \bigg| \Big\< A(\alpha x + \tf 1\alpha Ax), \alpha x + \tf 1\alpha A x \Big\>
+							\bigg| + \bigg| \Big\< A(\alpha x - \tf 1\alpha Ax), \alpha x - \tf 1\alpha A x \Big\> \bigg| \\
+							&\le  d \Big\| \alpha x + \tf 1\alpha Ax \Big\|^2 + d \Big\| \alpha x - \tf 1\alpha Ax \Big\|^2 \\
+							&= d ( \|\alpha x\|^2 + 2 \Re \<\alpha x, \tf 1\alpha Ax\> + \| \tf 1\alpha Ax\|^2
+							+  \|\alpha x\|^2 - 2 \Re \<\alpha x, \tf 1\alpha Ax\> + \| \tf 1\alpha Ax\|^2) \\
+							&= 2d (\|\alpha x\|^2 + \|\tf 1\alpha Ax\|^2) \\
+							&= 2d (\|A x\|\|x\|^2 + \f 1{\|Ax\|}\|Ax\|^2) \\
+							&= 4d \|Ax\|
+						\end{align*}
+						Also $\|Ax\| \le d$ für $\|x\| = 1$ und damit
+						\[
+							\|A\| = \sup_{\|x\|=1} \|Ax\| \le d
+						\]
+				\end{enumerate}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{nt} \label{3.4}
+	Ist zusätzlich zu \ref{3.3} $(L,\<\cdot,\cdot\>)$ ein Hilbertraum, dann kann 2) in der Form
+	\[
+		L = \_{\im(A)} \oplus \ker(A)
+	\]
+	als direkte Summe geschrieben werden.
+	Dies bedeutet
+	\[
+		\forall x \in L \exists! y \in \_{\im(A)} \exists! z \in \ker(A) : x = y + z
+	\]
+	\begin{proof}
+		Folgt aus dem Projektionssatz (siehe Funktionalanalysis).
+	\end{proof}
+\end{nt}
+
+
+\begin{st}[Hauptsatz über symmetrische, kompakte Operatoren] \label{3.5}
+	Sei $(L, \<\cdot,\cdot\>)$ unendlichdimensionaler Prähilbertraum, $A: L \to L$ linear, symmetrisch und kompakt.
+
+	Dann gelten
+	\begin{enumerate}[1)]
+		\item
+			$\lambda = \|A \|$ oder $\lambda = - \|A\|$ ist Eigenwert von $A$.
+		\item
+			Jeder Eigenwert $\lambda \neq 0$ ist reell und hat endliche Vielfachheit.
+		\item
+			Entweder $A$ hat nur endlich viele Eigenvektoren.
+			Dann ist $\lambda = 0$ Eigenwert mit unendlicher Vielfachheit (d.h. $\dim (\ker (A)) = \infty)$.
+
+			Oder $A$ hat unendlich viele Eigenwerte.
+			Dann ist die Menge der Eigenwerte abzählbar und für die Folge $(\lambda_j)$ der Eigenwerte gilt $\lambda_j \to 0$ ($j \to \infty$).
+		\item
+			Sei $(\lambda_j)$ eine Abzählung der Eigenwerte, die so gebildet wird, dass
+			\begin{itemize}
+				\item
+					$|\lambda_j|$ ist monoton fallend.
+				\item
+					Jeder Eigenwert $\lambda$ kommt in der Folge so oft vor, wie es seiner Vielfachheit entspricht.
+			\end{itemize}
+			Zu dieser Folge existiert ein ONS $(e_j)$ aus Eigenelementen.
+			Dieses ONS ist vollständig in $\_{\im (A)}$, d.h.
+			\[
+				\forall x \in \_{\im(A)} : x = \sum_{j=1}^\infty \<x,e_j\> e_j
+			\]
+	\end{enumerate}
+	\begin{proof}
+		Falls $A = 0$ ist nichts zu beweisen.
+		Sei also $A \neq 0$ und damit insbesondere $\|A\| > 0$.
+		\begin{enumerate}[1)]
+			\item
+				Wegen \ref{3.3} 4) existiert eine Folge $(x_n)$ mit
+				\[
+					\|x_n\| = 1 \qquad \land \qquad |\<Ax_n,x_n\>| \to \|A\|
+				\]
+				Eventuell hat es Teilfolgen von $(x_n)$, die gegen $\pm \|A\|$ konvergieren.
+
+				Da $A$ kompakt existiert eine Teilfolge  $Ax_{n_k} \to y \in L$ ($k \to \infty$).
+				Es gilt
+				\begin{align*}
+					0 
+					&\le \|Ax_{n_k} - \lambda x_{n_k}\|^2 \\
+					&= \underbrace{\|Ax_{n_k} \|^2}_{\le \|A\|^2 \|x_{n_k}\|^2} - 2 \Re \underbrace{\< Ax_{n_k}, \lambda x_{n_k} \>}_{\in \R} + \lambda^2 \underbrace{\|x_{n_k}\|^2}_{=1} \\
+					&\le \underbrace{\|A\|^2 + \lambda^2}_{=2\lambda^2} - 2 \lambda \underbrace{\<Ax_{n_k}, x_{n_k}\>}_{\to \lambda} \\
+					& \to 0
+				\end{align*}
+				Also $\lambda x_{n_k} \to y$, bzw. $x_{n_k} \to \f 1\lambda y$.
+				Da $A$ stetig (da beschränkt, siehe \ref{1.27} und \ref{1.25}) gilt $Ax_{n_k} \to \f 1\lambda A y$.
+
+				Wegen $Ax_{n_k} \to y$ ist folglich $Ay = \lambda y$.
+				Aus $\|\lambda x_{n_k}\| = |\lambda | \|x_{n_k}\| = |\lambda| \neq 0$ und $\|\lambda x_{n_k}\| \to \|y\|
+				$ folgt $y\neq 0$.
+
+				Also ist $\lambda$ Eigenwert und $\lambda = \|A\|$ oder $\lambda = - \|A\|$. 
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
 \end{document}
