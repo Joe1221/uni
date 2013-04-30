@@ -1221,15 +1221,20 @@ y(x_{i+1})-y_{i+1}=\mathcal{O}(h^{p+1}).
 \begin{enumerate}[(a)]
 \item \textbf{Explizites Euler-Verfahren:} Für $y(x_i)=y_i$ erhalten wir durch Taylorentwicklung
 \begin{align*}
-\norm{y(x_{i+1}) - y(x_i)+h y'(x_i)}
-\leq \frac{h^2}{2} \max_{\xi\in [x_i,x_{i+1}]} \norm{y''(\xi)}\leq \frac{h^2}{2} C_2
+\norm{y(x_{i+1}) - y_{i+1}} &= \norm{y(x_{i+1}) - y_i - h f(x_i,y_i)}   = \norm{y(x_{i+1}) - y(x_i) - h f(x_i,y(x_i))} \\ &= \norm{y(x_{i+1}) - y(x_i) - h y'(x_i)} 
+\stack{(*)}{\leq} \frac{h^2}{2} \max_{\xi\in [x_i,x_{i+1}]} \norm{y''(\xi)}\leq \frac{h^2}{2} C_2
 \end{align*}
-mit einer (aufgrund unserer Generalvoraussetzung nur von der rechten Seite $f$ abhängigen) Konstante $C_2$. Es ist also mit obiger Konvention
+mit einer (aufgrund unserer Generalvoraussetzung nur von der rechten Seite $f$ und nicht von $x_i, y_i$ abhängigen) Konstante $C_2$. Es ist also mit obiger Konvention
 \begin{align*}
 y(x_{i+1}) &= y(x_i)+h y'(x_i) + \mathcal{O}(h^2)\\
 &= y(x_i)+h f(x_i,y_i) + \mathcal{O}(h^2) = y_{i+1} + \mathcal{O}(h^2)
 \end{align*}
 und das explizite Euler-Verfahren besitzt somit Konsistenzordnung $1$.
+
+\textit{Beweis von $(*)$:} 
+Für $y(x) = \left( \begin{array}{c} y^1(x)\\  \vdots \\ y^d(x) \end{array} \right) $  und $\forall j \in \{ 1, \dots , d\}$ folgt:
+\[  | y^j(x_{i+1}) - y^j(x_i) - h (y^j)'(x_i) | \leq \frac{h^2}{2} \max_{\xi} | (y^j)''(\xi) | \] Damit folgt insgesamt:
+\[ \norm{y(x_{i+1}) - y(x_i) - h y'(x_i)}  = \sqrt{\sum_{j=1}^d | y^j(x_{i+1}) - y^j(x_i) - h (y^j)'(x_i) |^2} \leq \frac{h^2}{2} \cdot \max_{\xi} \underbrace{\sqrt{ \sum_j  | (y^j)''(\xi) |^2}}_{ \leq \norm{y''(\xi)}}  \]
 %
 \item \textbf{Implizites Euler-Verfahren:} Für $y(x_i)=y_i$ erhalten wir wiederum durch Taylorentwicklung
 \begin{align*}
@@ -1244,8 +1249,9 @@ Zusammen mit $y_{i+1}=y_i+hf(x_{i+1},y_{i+1})$ erhalten wir
 \end{align*}
 Für hinreichend kleine $h$ gilt also
 \begin{align*}
-\norm{y_{i+1}-y(x_{i+1})} &= \frac{1}{1-hL} \mathcal{O}(h^2)=\mathcal{O}(h^2).
+\norm{y_{i+1}-y(x_{i+1})} &= \frac{1}{1-hL} \mathcal{O}(h^2)=\mathcal{O}(h^2),
 \end{align*}
+da $ 1 \leq \frac{1}{1-hL} $ ist für $hL < 1$ und für $hL \leq \frac{1}{2}$ ist $ \frac{1}{1-hL} \leq 2$.
 Das implizite Euler-Verfahren besitzt also Konsistenzordnung 1.
 \end{enumerate}
 \end{beispiele}
@@ -1261,13 +1267,13 @@ y_{1}\approx y(x_{1})=y_0 + \int_{x_0}^{x_{1}} y'(t)\dx[t]=y_0 + \int_{x_0}^{x_{
 \]
 Durch Approximation des Integrals auf der rechten Seite durch eine Quadraturformel erhalten wir 
 \[
-\int_{x_0}^{x_{1}} f(t,y(t))\dx[t] \approx h \sum_{j=1}^s b_j f(x_0+c_j h,\eta_j).
+\int_{x_0}^{x_{1}} f(t,y(t))\dx[t] \approx h \sum_{j=1}^s b_j f(x_0+c_j h, y(x_0 + c_j h)) \approx h \sum_{j=1}^s b_j f(x_0+c_j h,\eta_j).
 \]
 Die Quadraturformel sollte zumindest konstante Funktion exakt integrieren, deshalb fordern wir
 \[
 \sum_{j=1}^s b_j=1.
 \]
-Die $c_j$ heißen \emph{Knoten}, $b_j$ \emph{Gewichte} und $s$ heißt \emph{Stufenzahl} des Verfahrens.
+Die $c_j$ heißen \emph{Knoten}, $b_j$ \emph{Gewichte} und $s$ heißt \emph{Stufenzahl} des Verfahrens. $\eta_j \approx y(x_0 + c_j h). $
 
 Dieser Ansatz verallgemeinert die Ideen aus Abschnitt \ref{subsect:More_ex_and_im_methods},
 indem nun eine gewichtetes Mittel aus $s$ unterschiedlichen Steigungnen im Richtungsfeld an 
