@@ -2,6 +2,7 @@
 \usepackage{mathe-vorlesung2}
 \renewtheorem{thm}{Theorem}[section]
 \renewcommand{\thethm}{\arabic{section}.\arabic{thm}}
+\newcommand{\tta}{\vartheta}
 
 
 \title{Geometrie}
@@ -259,6 +260,7 @@ D.h. $c \circ \phi$ ist n.Bl.par.
 \end{st}
 
 \begin{lem}
+\label{2.8}
 Sind $c_1: I_1 \to \R^n$ und $c_2: I_2 \to \R^n$ Parametrisierungen n.Bl. der selben Kurve, so sit eine zugehörige Parametertransformation $\phi:I_1 \to I_2$ mit $c_1 = c_2 \circ \phi$ von der Form $\phi(t) = t + t_0$ für ein festes $t_0 \in \R$, falls $c_1$ und $c_2$ gleich orientiert sind, und $\phi(t) = -t + t_0$ falls sie entgegengesetzt orientiert sind.
 \begin{proof}
 Es gilt:
@@ -318,6 +320,7 @@ c(t) &= \begin{pmatrix} r \cdot \cos(\f{t}{r}) \\ r \cdot \sin(\f{t}{r}) \end{pm
 \end{align*}
 \end{enumerate}
 \end{ex}
+
 % Vorlesung 18.4.13
 \begin{df}
 Als \textbf{euklidische Bewegungen} oder \textbf{Isometrien} des $\R^2$ bezeichnen wir alle abstandserhaltenden Abbildungen $F: \R^2 \to \R^2$, d.h. solche, für die gilt:
@@ -345,6 +348,7 @@ Wir nennen eine euklidische Bewegung \textbf{orientierungserhaltend}, oder \text
 \end{df*}
 
 \begin{st}
+\label{3.5}
 Sei $c$ eine n.Bl.par. ebene Kurve und $F: \R^2 \to \R^2$ eine eigentliche Bewegung. Dann ist $F \circ c$ ebenfalls n.Bl.par. Kurve, die dieselbe Krümmung hat.
 \begin{proof}
 Übung.
@@ -352,18 +356,45 @@ Sei $c$ eine n.Bl.par. ebene Kurve und $F: \R^2 \to \R^2$ eine eigentliche Beweg
 \end{st}
 
 \begin{note}
-Falls $F$ uneigentliche Bewegung, ändert sich das Vorzeichen der Krümmung.
+Falls $F$ uneigentliche Bewegung, ändert sich nur das Vorzeichen der Krümmung. Die Krümmung einer ebenen Kurve ist also eine geometrischen Größe, da
+\begin{itemize}
+	\item invariant unter (eigentlichen) euklidischen Bewegungen
+	\item invariant unter Umparametrisierungen (da zunächst nur für n.Bl.par. Kurven definiert), vgl Übungsblatt 2 Aufgabe 3.
+\end{itemize}
+Im Folgenden wollen wir zeigen, dass $\kappa(t)$ \glqq im Wesentlichen\grqq die Kurve bestimmt, d.h. bis auf eigentliche euklidische Bewegungen.
 \end{note}
 
+Ab jetzt gilt $J = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$.
 
-\fixme[Vorlesung vom 18.4.13]
+\begin{lem}
+\label{3.6}
+Sei $\kappa: I \to \R$ stetig, $t_0 \in I$, $v_0 \in \R^2$ mit $\| v_0 \| = 1$. Dann gibt es genau eine differenzierbare Abbildung $ v: I \to S^1$, so dass $\< \dot v, J v(t) \> = \kappa(t)$ und $v(t_0) = v_0$ gilt, nämlich
+\[ v(t) = \begin{pmatrix} \cos(\vartheta(t)) \\ \sin(\vartheta(t)) \end{pmatrix}, \]
+wobei $\vartheta: I \to \R$ eine Funktion mit $\vartheta(t) = \vartheta_0 + \int_{t_0}^t \kappa(s) ds$ ist, so dass $\begin{pmatrix} \cos(\vartheta_0) \\ \sin(\vartheta_0) \end{pmatrix} = v_0$ ist.
+\begin{proof}
+Wir zeigen zunächst, dass die wie oben definierte Abbildung $v: I \to S^1$ die behaupteten Eigenschaften erfüllt. Betrachte
+\begin{align*}
+\< \dot v(t) , J v(t) \> &= \left \< \begin{pmatrix} (\cos \circ \vartheta)' (t) \\ (\sin \circ \vartheta)'(t) \end{pmatrix} , \begin{pmatrix} - \sin \circ \vartheta (t) \\ \cos \circ \vartheta (t) \end{pmatrix} \right \> = \left \< \begin{pmatrix}-\sin(\vartheta (t)) \cdot \vartheta'(t) \\ \cos(\vartheta(t)) \cdot \vartheta'(t) \end{pmatrix} , \begin{pmatrix} - \sin(\vartheta (t)) \\ \cos(\vartheta (t)) \end{pmatrix} \right \> \\
+&= \vartheta'(t) \cdot \underbrace{(\sin(\vartheta(t))^2 + \cos(\vartheta(t))^2)}_1 = \kappa(t) 
+\end{align*}
+Außerdem gilt $v(t_0) = \begin{pmatrix} \cos(\vartheta_0) \\ \sin(\vartheta_0) \end{pmatrix} = v_0$. Dies zeigt die Existenz. Nun die Eindeutigkeit: \\
+Sei $\tilde v: I \to S^1$ eine zweite Abbildung mit $\dot{\tilde v} = \kappa J \tilde v$ und $\tilde v (0) = v_0$ (es gilt, dass $\dot v = \kappa J v$ äquivalent zu $\< \dot v, J v \> = \kappa$ ist, da $\dot v$ auf $v$ senkrecht steht). Dann folgt
+\begin{align*} 
+\dot v = \kappa J v , \quad \dot{\tilde v} = \kappa J \tilde v. \quad \text{Sei } w &:= v - \tilde v, \quad \dot w = \kappa J w. \\
+\Rightarrow \quad \f{d}{dt} \| w(t) \|^2 = \f{d}{dt} \< w(t), w(t)  \> &= 2 \< \dot w(t), w(t) \> = \< \kappa J w, w \> = 0. \\
+\intertext{Also ist } \| w \| = \text{konst., und da gilt } w(t_0) = v(t_0) - \tilde v(t_0) &= v_0 - v_0 = 0 \quad \Rightarrow w \equiv 0 \Longrightarrow v = \tilde v. 
+\end{align*}
+\end{proof}
+\end{lem}
+
 % Vorlesung 23.4.13
 \begin{st}[Hauptsatz der ebenen Kurventheorie]
+\label{3.7}
 Ist $I \subset \R$  ein Intervall und $\kappa : I \to \R$ eine beliebig oft differenzierbare Funktion, dann gibt es eine n.Bl.par. Kurve $c: I \to \R^2$ mit Krümmung $\kappa$ und zu jeder weiteren n.Bl.par. Kurve $\tilde c: I \to \R^2$ mit Krümmung $\kappa$ gibt es eine \emph{eigentliche Bewegung} $F$ des $\R^2$, so dass $\tilde c = F \circ c$.
 
 \begin{proof}
 \textbf{Existenz:}
-Sei $t_0 \in I$ und $v_0 := \begin{pmatrix} 1 \\ 0 \end{pmatrix}$. Nach Lemma 3.6 gibt es eine (sogar beliebig oft) differenzierbare Abbildung $v : I \to S^1$ mit $\< v, Jv \> = \kappa$ und $v(t_0) = v_0$. \\
+Sei $t_0 \in I$ und $v_0 := \begin{pmatrix} 1 \\ 0 \end{pmatrix}$. Nach Lemma \ref{3.6} gibt es eine (sogar beliebig oft) differenzierbare Abbildung $v : I \to S^1$ mit $\< \dot v, Jv \> = \kappa$ und $v(t_0) = v_0$. \\
 Dann ist
 \[ c(t) := \begin{pmatrix}  \int_{t_0}^t v_1(s) ds \\ \int_{t_0}^t v_2(s) ds \end{pmatrix} , \qquad c:I \to \R^2, \]
 eine Abbildung mit 
@@ -373,12 +404,11 @@ Sei nun $\tilde c: I \to \R^2$ eine weitere Kurve mit Krümmungsfunktion $\kappa
 Definiere eine eigentliche Bewegung des $\R^2$ durch $F(x) = Ax + b$, wobei $b := \tilde c_0$ und $A$ die Matrix $(\tilde v_0, J \tilde v_0)$ ist. Dann ist
 \[ \det(A) = \det \begin{pmatrix} \tilde v_0^1 & - \tilde v_0^2 \\ \tilde v_0^2 & \tilde v_0^1 \end{pmatrix} = (\tilde v_0^1)^2 + (\tilde v_0^2)^2 = 1 \]
 (siehe Definition der eigentlichen Bewegung). Setze $d := F \circ c, \: d: I \to \R^2$. \\
-Nach Satz 3.5 gilt: $ \< \ddot d, J \dot d \> = \< \ddot c, J \dot c \> = \kappa$. Mit Lemma 3.6 folgt $ \dot d = \dot{\tilde c}, \; \dot d(t_0) = A \dot c(t_0) = \dot{\tilde c}(t_0) = \tilde v_0$.
+Nach Satz \ref{3.5} gilt: $ \< \ddot d, J \dot d \> = \< \ddot c, J \dot c \> = \kappa$. Mit Lemma \ref{3.6} folgt $ \dot d = \dot{\tilde c}, \; \dot d(t_0) = A \dot c(t_0) = \dot{\tilde c}(t_0) = \tilde v_0$.
 Also folgt
 \[ d(t) = \tilde c_0 + \begin{pmatrix}  \int\limits_{t_0}^t \dot{\tilde c_1}(s) ds \\ \int\limits_{t_0}^t \dot{\tilde c_2}(s) ds \end{pmatrix} = \tilde c(t). \]
 \end{proof}
 \end{st}
-\fixme[Referenzen!]
 
 Der Satz liefert ein explizites Verfahren, um Kurven mit vorgegebener Krümmungsfunktion zu konstruieren:
 
@@ -435,5 +465,67 @@ Dazu benötigen wir ein paar Vorbereitungen, unter anderem, um die Tangentendreh
 Sei $X \subset \R^n$ eine Teilmenge und $x_0 \in X$. Dann heißt $X$ \textbf{sternförmig bezüglich $x_0$}, falls für jeden Punkt $x \in X$ die Strecke zwischen $x_0$ und $x$ ganz in $X$ enthalten ist, d.h. \[ \forall x \in X, \; t \in [0,1]: \quad tx + (1-t) x_0 \in X. \]
 \fixme[Zeichnungen sternförmig]
 \end{df}
+
+% Vorlesung 25.4.13
+\begin{lem}[Hochhebungslemma]
+\label{4.4}
+Sei die kompakte Menge $X \subset \R^n$ sternförmig bzgl. $x_0$. Sei $e : X \to S^1$ eine stetige Abbildung. Dann existiert eine stetige Abbildung $\vartheta: X \to \R$, so dass 
+\[ e(x) = \begin{pmatrix} \cos (\vartheta(x)) \\ \sin(\vartheta(x)) \end{pmatrix} \qquad \forall x \in X. \]
+Die Abbildung $\vartheta$ ist durch die Vorgabe $\vartheta(x_0) = \vartheta_0$ eindeutig bestimmt.
+\begin{note}
+Dies ist i.A. falsch für nicht sternförmige Mengen, z.B. $X = S^1$, $e = \text{id}_{S^1}$. Wir nennen im Fall von \ref{4.4} die Abbildung $\tta$ eine \textbf{Hochhebung} von $e$. Eine Hochhebung von $\dot c$ für eine parametrisierte Kurve $c: I \to \R^2$ nennen wir auch \emph{Winkelfunktion} von $c$.
+\end{note}
+\begin{proof}
+\begin{enumerate}[a)]
+	\item 
+Wir betrachten zunächst den Fall, dass $e$ nicht surjektiv ist, d.h. $\exists \hat \tta \in \R$, so dass \\  $\begin{pmatrix} \cos(\hat \tta) \\ \sin(\hat \tta) \end{pmatrix} \notin e(X) $. Dann ist die Abbildung $\psi_k: \underbrace{(\hat \tta + 2\pi k, \hat \tta + 2 \pi (k+1))}_{=: I_k} \to S^1 \setminus \begin{pmatrix} \cos(\hat \tta) \\ \sin(\hat \tta) \end{pmatrix} $ gegeben durch $t \mapsto \begin{pmatrix} \cos(t) \\ \sin(t) \end{pmatrix}$ ein Homöomorphismus, und $\psi_k^{-1} \circ e =: \tta$ liefert die gewünschte Funktion, wobei $\tta$ durch die Wahl von $\tta_0$ eindeutig bestimmt ist.
+
+	\item 
+Wir betrachten einen weiteren Spezialfall, nämlich $n = 1, \; X = [0,1]$ und $x_0 = 0$, aber $e$ surjektiv. \\
+Da $e$ auf dem kompakten Intervall gleichmäßig stetig ist, existiert eine äquidistante Unterteilung $a = t_0 < t_1 < \dots < t_k = b$, so dass $e$ auf keinem der Teilintervalle surjektiv ist. Dann gibt es nach a) genau eine stetige Abbildung $\tta: [t_0, t_1] \to \R$ mit $\tta(t_0) = \tta_0$, so dass \\ $e\big |_{[t_0, t_1]}(s) = \begin{pmatrix} \cos(\tta(s)) \\ \sin(\tta(s)) \end{pmatrix}$ gilt. Nun lässt sich $\tta$ induktiv auf die Teilintervalle $[t_i, t_{i+1}]$ fortsetzen, wobei die Eindeutigkeit durch die Vorgabe von $\tta(t_i)$ gewährleistet ist.
+
+	\item 
+Sei nun $X \subset \R^n$ eine allgemeine kompakte, sternförmige Menge bzgl. $x_0$. \\  Dann liegt die Strecke von $x_0$ nach $x$ ganz in $X$ und wir können die stetige Abbildung \\ $e_x: [0,1] \to S^1$,  $ e_x(t) = e(tx + (1-t) x_0)$ betrachten. Angenommen, $\exists \tta: X \to \R$ wie in der Behauptung. Nach b) gibt es ein $\tta_x: [0,1] \to \R$ und $e_x(t) = \begin{pmatrix} \cos(\tta_x(t)) \\ \sin(\tta_x(t)) \end{pmatrix}$. Wegen der Eindeutigkeit von $\tta_x$ folgt  $\tta_x(t) = \tta(tx + (1-t) x_0)$, insbesondere $\tta_x(1) = \tta(x)$. Dies zeigt die Eindeutigkeit von $\tta$.
+
+	\item 
+Es bleibt die Existenz zu zeigen (mit anderen Worten: \emph{zz:} $\tta$ (wie oben def./konstruiert) ist stetig). \\
+Dazu definiere $\tta(x) := \tta_x(t)$. Dann gilt $\begin{pmatrix} \cos(\tta(x)) \\ \sin(\tta(x)) \end{pmatrix} = \begin{pmatrix} \cos(\tta_x(1)) \\ \sin(\tta_x(1)) \end{pmatrix} = e_x(1) = e(x)$ und $\tta(x_0) = \tta_0$. Zeige also, dass $\tta$ stetig ist: \\
+Da $X$ kompakt ist, ist $e$ auf $X$ gleichmäßig stetig, d.h. es gibt zu jedem $\eps > 0$ ein $\delta > 0$, so dass $\| x - y \| < \delta \; \Rightarrow \; \| e(x) - e(y) \| < \eps$. Insbesondere gilt für $x,y \in X$ mit $\| x - y \| < \delta$ und alle $t \in [0,1]$, dass $\| e_x(t) - e_y(t) \| < \eps$. \\
+Nun seien $\tta_x,  \tta_y$ zwei Abb. $[0,1] \to \R$ mit $\Big \| \begin{pmatrix} \cos(\tta_x(t)) \\ \sin(\tta_x(t)) \end{pmatrix} - \begin{pmatrix} \cos(\tta_y(t)) \\ \sin(\tta_y(t)) \end{pmatrix} \Big \| < \eps \quad \forall t \in [0,1]$. Aus Stetigkeitsgründen (Lipschitzstetigkeit der in a) konstruierten Funktion $\tta$ mit Faktor $\f{\pi}{2}$) folgt, dass die Funktion $\tta_y$ in einem $\f{\pi}{2} \eps$- \glqq Schlauch \grqq um die Funktion $\tta_x$ verläuft. Es folgt $|\tta(x) - \tta(y)| < \f{\pi}{2} \eps$.
+\end{enumerate}
+\end{proof}
+\end{lem}
+
+\begin{df}
+Sei $c: \R \to \R^2$ eine ebene n.Bl.par. Kurve, periodisch mit Periode $L$. Sei $\tta: \R \to \R$ eine Winkelfunktion von $c$ (d.h. wie in \ref{4.4}, wobei $e(t) := \dot c(t)$). Dann heißt 
+\[ \eta_c := \f{1}{2 \pi} (\tta(L) - \tta(0)) \]
+die \textbf{Tangentendrehzahl} von $c$.
+(Die Funktion $\tta$ ist zwar nur bis auf Addition eines ganzzahligen Vielfachen von $2 \pi$ definiert, dieses fällt aber in der Differenz $\tta(L)  - \tta(0)$ weg.) 
+\end{df}
+
+\begin{lem}
+Seien $c_1, c_2: \R \to \R^2$ zwei ebene n.Bl.par. Kurven, periodisch mit Periode $L$, mit $c_1 = c_2 \circ \phi$, wobei $\phi$ eine Parametertransformation ist. Ist $\phi$ orientierungserhaltend, dann gilt $\eta_{c_1} = \eta_{c_2}$, ist $\phi$ orientierungsumkehrend, so ist $\eta_{c_1} = - \eta_{c_2}$.
+\begin{proof}
+Nach Lemma \ref{2.8} gilt für die Parametertransformation $\phi(t) = \pm t + t_0$, wobei das Vorzeichen die Orientierungserhaltung (+) bzw. -umkehrung (-) bestimmt. \\
+Sei $\tta_2$ eine Winkelfunktion von $c_2$. Dann ist im orientierungserhaltenden Fall $\tta_1 = \tta_2 \circ \phi$, denn $\dot c_1(t) = \dot c_2(t + t_0) = \begin{pmatrix} \cos(\tta_2(t + t_0)) \\ \sin(\tta_2(t + t_0)) \end{pmatrix} $. Mit $\tta_1$ ist aber auch $\tilde \tta_1$ eine Winkelfunktion für $c_1$, wobei $\tilde \tta_1(t) := \tta_1(t + L)$. Es folgt:
+\begin{align*} 
+2 \pi (\eta_{c_2} - \eta_{c_1}) &= (\tta_2(L) - \tta_2(0)) - (\tta_1(L) - \tta_1(0)) = \tta_1(L - t_0) - \tta_1(-t_0) - \tta_1(L) + \tta_1(0)  \\
+& = \tilde \tta_1(-t_0) - \tilde \tta_1(0) - (\tta_1(-t_0) - \tta_1(0)) = (\tilde \tta_1(-t_0) - \tilde \tta_1(0)) - (\tta_1(-t_0) - \tta_1(0)) \\ &= 2 \pi \eta_{c_1} - 2 \pi \eta_{c_1} = 0.
+\end{align*}
+Im orientierungsumkehrenden Fall ist auch die Funktion $\tta_1(t) := \tta_2(- t + t_0)  + \pi$ eine Winkelfunktion für $c_1$, denn
+\[ \dot c_1(t) = \dot c_2(\phi(t)) \phi'(t) = - \dot c_2(-t + t_0) = \begin{pmatrix} -\cos(\tta_2(-t+t_0)) \\ -\sin(\tta_2(-t+t_0)) \end{pmatrix} = \begin{pmatrix} \cos(\tta_2(-t+t_0) + \pi) \\ \sin(\tta_2(-t+t_0) + \pi) \end{pmatrix}. \]
+Damit folgt
+\begin{align*}
+ 2 \pi (\eta_{c_2} - \eta_{c_1})  &= (\tta_2(L) - \tta_2(0)) + (\tta_1(L) - \tta_1(0)) = \tta_1(-L + t_0) - \tta_1(t_0) + \tta_1(L) - \tta_1(0)  \\
+& =  (\tta_1(-L+t_0) - \tta_1(0)) - (\tilde \tta_1(-L+t_0) - \tilde \tta_1(0)) \\ 
+&= (\tta_1(t_0) -\tta_1(L)) - (\tta_1(t_0) - \tta_1(L))  = 0.
+\end{align*}
+\end{proof}
+\end{lem}
+
+% Vorlesung 30.4.13
+% Folgt sobald ich Zeit habe
+
+% Vorlesung 2.5.13
 
 \end{document}
