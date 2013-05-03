@@ -78,7 +78,7 @@
 \usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage[hyperref,thmmarks]{ntheorem}			% Alternative theorems für leichteres Anpassen
-%\usepackage{tikz}
+\usepackage{tikz}
 
 
 \usepackage{listings}			% Einbinden von Code-Schnipsel
