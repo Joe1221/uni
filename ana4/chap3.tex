@@ -211,6 +211,237 @@
 				$ folgt $y\neq 0$.
 
 				Also ist $\lambda$ Eigenwert und $\lambda = \|A\|$ oder $\lambda = - \|A\|$. 
+			\item
+
+				Angenommen $\lambda \neq 0$ sei Eigenwert mit unendlicher Vielfachheit, also
+				\[
+					\dim \ker (A - \lambda \Id) = \infty
+				\]
+				Sei $\{v_1,v_2,\dotsc\}$ eine abzählbar unendliche linear unabhängige Teilmenge von $\ker(A-\lambda \Id)$.
+				Gram-Schmidt auf $\{v_1,v_2,\dotsc\}$ angewendet liefert ein abzählbar unendliches ONS $(e_j)$ in $\ker (A-\lambda \Id)$.
+				Dann gilt
+				\begin{itemize}
+					\item
+						$Ae_j = \lambda e_j$,
+					\item
+						$(e_j)$ ist beschränkt.
+				\end{itemize}
+				Da $A$ kompakt, müsste $(Ae_j)$ eine konvergente Teilfolge besitzen.
+				$(Ae_j)$ kann jedoch keine konvergente Teilfolge enthalten, denn
+				\[
+					\|Ae_j - Ae_k\| = |\lambda| \|e_j-e_k\| = |\lambda| \sqrt 2 = \const \neq 0.
+				\]
+				Ein Widerspruch, also hat $\lambda$ endliche Vielfachheit.
+
+				Dass $\lambda$ reell ist folgt direkt aus der Symmetrie.
+			\item
+				Wegen 1) existiert $v_1 \neq 0$ mit $Av_1 = \lambda_1v_1$ und $|\lambda_1| = \|A\|$.
+
+				Betrachte nun $A_1 = A \Big|_{\{v_1\}^\orth}$.
+				Es gilt für $v \orth v_1$:
+				\[
+					\<A_1v,v_1\> = \<Av,v_1\> = \<v,Av_1\> = \lambda_1\<v,v_1\> = 0
+				\]
+				$A$ operiert als im Prähilbertraum $\{v_1\}^\orth$.
+				Außerdem gilt
+				\begin{align*}
+					\|A_1\| 
+					&= \sup_{\substack{\|v\|=1 \\ v\in \{v1\}^\orth}} \|A_1 v\| \\
+					&\le \sup_{\substack{\|v\|=1 \\ v\in L}} \|A v\| 
+					= \|A\|
+				\end{align*}
+				$A_1$ ist kompakt, denn für eine beschränkte Folge $\{x_n\}$ in $\{v_1\}^\orth$ existiert eine konvergente Teilfolge bezüglich $A$:
+				\[
+					A x_{n_k} \to y \in L
+				\]
+				Es gilt $A_1 x_{n_k} \in \{v_1\}^\orth$ und $y \in \{v_1\}^\orth$, da $\{v_1\}^\orth$ abgeschlossen.
+				Außerdem ist $A_1$ symmetrisch.
+
+				Wegen 1) existiert $v_2 \neq 0$ mit $Av_2 = \lambda_2v_2$ und $|\lambda_2| = \|A_1\| \le \|A\|$.
+				Betrachte nun 
+				\[
+					A_2 = A \Big|_{\{v_1,v_2\}^\orth} 
+				\]
+				Setze dies induktiv fort und erhalte eine Folge von Eigenwerten $(\lambda_j)$ von $A$ mit $|\lambda_{j+1}| \le |\lambda_j|$.
+				Betrachte zwei Fälle:
+				\begin{enumerate}[1. {Fall}]
+					\item
+						Es existiert $j$ mit $\lambda_j = 0$, dann gilt
+						\[
+							\|A_{j-1}\| = 0, \qquad \ker(A_{j-1}) = \{v_1,\dotsc,v_{j-1}\}^\orth
+						\]
+						Also $\ker(A) = \{v_1, \dotsc, v_{j-1}\}^\orth$ und $\lambda = 0$ ist Eigenwert von $A$ mit unendlicher Vielfachheit.
+					\item
+						Für alle $j \in \N$ ist $\lambda_j \neq 0$.
+						Angenommen $\lambda_j \not\to 0$ ($j \to \infty$), d.h. es existiert $a > 0$ mit $|\lambda_j| \ge a$ für alle $j \in \N$.
+
+						Eigenvektoren zu verschiedenen Eigenwerten sind orthogonal.
+						Wende in jedem Eigenraum Gram-Schmidt an und erhalte ein ONS aus Eigenvektoren:
+						\[
+							A e_j = \lambda_j e_j
+						\]
+						$(\f 1 {\lambda_j} e_j)$ ist beschränkt, aber$(A \f 1 {\lambda_j} e_j)$ kann keine konvergente Teilfolge enthalten, da $A \f 1 {\lambda_j} e_j = e_j$.
+						Ein Widerspruch, also gilt $\lambda_j \to 0$.
+				\end{enumerate}
+			\item
+				Verwende die Folge $(\lambda_j)$ mit zugehörigem ONS $(e_j)$ wie im Beweis von 3) konstruiert.
+
+				Sei $x \in L$ und definiere
+				\[
+					x_n := x - \sum_{j=1}^n \<x,e_j\> e_j.
+				\]
+				Es gilt
+				\begin{itemize}
+					\item
+						$x_n \in \{e_1,\dotsc,e_n\}^\orth$, denn
+						\[
+							\<x_n, e_k\> = \<x, e_k\> - \sum_{j=1}^n \<x,e_j\> \<e_j, e_k\> = 0
+						\]
+					\item
+						$\|Ax_n\| \to 0$ für $n\to \infty$, denn
+						\begin{align*}
+							\|x_n\|^2  = \<x_n, x_n\>
+							&= \|x\|^2 - \sum_{j=1}^n \_{\<x,e_j\>}\<x,e_j\> - \sum_{j=1}^n \<x,e_j\> \<e_j,x\> - \sum_{j=1}^n |\<x,e_j\>|^2 \\
+							&\le \|x\|^2
+						\end{align*}
+						Also $\|x_n\| \le \|x\|$ und
+						\[
+							\|Ax_n\| = \|A_{n-1}x_n\| \le \|A_{n-1}\| \|x_n\| \le \|A_{n-1}\| \|x|\ \to 0
+							\qquad n \to \infty
+						\]
+				\end{itemize}
+				Es gilt
+				\[
+					\<x,e_j\> A e_j
+					= \<x,e_j\> \lambda_j e_j
+					= \<x,\lambda_j e_j\> e_j
+					= \<x,A e_j\> e_j
+					= \<Ax,e_j\> e_j
+				\]
+				Somit ist
+				\[
+					Ax = \sum_{j=1}^\infty \<Ax, e_j\> e_j \in \im (A)
+				\]
+				und damit für alle $y \in \im (A)$
+				\[
+					y = \sum_{j=1}^\infty \<y,e_j\> e_j
+				\]
+				Nach \ref{1.12} 3) gilt selbiges für $\_{\im (A)}$.
 		\end{enumerate}
 	\end{proof}
 \end{st}
+
+\setcounter{thm}{4} % Nummerierung wurde in der Vorlesung wiederholt
+\begin{ex}[Schwingende Saite] \label{3.5}
+	$u(t,x)$ gebe die Auslenkung der Saite im Punkt $x$ zur Zeit $t$ an. 
+	Die Physik liefert die DGL:
+	\[
+		\rho(x) \partial_t^2 u(t,x) - \sigma(x) \partial_x^2 u(t,x) = 0
+	\]
+	Dabei bezeichnet $\rho(x) > 0$ die Massendichte und $\sigma(x) > 0$ die Federkonstante.
+	Außerdem gilt die Randbedingung für die eingespannte Saite
+	\[
+		u(t,0) = u(t,l) = 0
+		\qquad t \ge 0
+	\]
+	und die Anfangswertbedingungen
+	\begin{align*}
+		u(0,x) &= u_0(x) \\
+		\partial_t u(0,x) &= u_1(x)
+	\end{align*}
+	für gegebene Anfangsauslenkung $u_0(x)$ und Anfangsgeschwindigkeit $u_1(x)$ im Zeitpunkt $t = 0$.
+
+	Wir zeigen jetzt die Existenz einer Lösung.
+
+	Setze $c(x) := \sqrt{\f {\sigma(x)}{\rho(x)}}$ und schreibe
+	\[
+		\partial_t^2 u(t,x) - c^2(x) \partial_x^2 u(t,x) = 0
+	\]
+	Als Naiver Ansatz, setze $u(t,x) = v(t)w(x)$ in die DGL ein.
+	\[
+		v''(t) w(x) - c^2(x) v(t) w''(x) = 0
+	\]
+	Falls $v,w \neq 0$, ist
+	\[
+		\f {v''(t)}{v(t)} = c^2(x) \f {w''(x)}{w(x)} = \const =: - \lambda
+	\]
+	(die linke Seite ist nur von $t$ und die rechte nur von $x$ abhängig, also müssen sie konstant sein).
+	Wir erhalten zwei DGLs:
+	\begin{align*}
+		v''(t) + \lambda v(t) &= 0 \quad \land  \quad v(0), v'(0) \text{ vorgegeben} \qquad t \ge 0 \\
+		c^2 w''(t) + \lambda w(t) &= 0 \quad \land \quad w(0) = w(l) = 0 \qquad 0 \le x \le l
+	\end{align*}
+	Erstere stellt ein Anfangswertproblem, zweitere ein Randwertproblem dar.
+
+	Betrachte den Spezialfall $c = 1$.
+	Das Randwertproblem besitzt nur für 
+	\[
+		0 < \lambda = \lambda_j = \Big( \f {j\pi}{l} \Big)^2
+	\]
+	die Lösungen
+	\[
+		w_j(x) = \sqrt{\f 2l} \sin( \tf {j\pi}l x)
+	\]
+	Die $w_j$ sind normiert, denn $\int_{0}^l \omega_j \omega_k \dx = \delta_{jk}$.
+
+	Die dazugehörige Lösung des Anfangswertproblems ist
+	\[
+		v_j(t) = v_j(0) \cos(\tf {j\pi}l t) + \f l{j\pi} v_j'(0) \sin(\tf{j\pi}l t)
+	\]
+	Die Lösungen
+	\[
+		u_j(t,x) = w_j(x) v_j(x)
+	\]
+	sind Eigenschwingenen der Saite (es sind auch alle Lösungen, ohne Beweis).
+	
+	Die allgemeine Lösung lässt sich auch als Fourierreihe darstellen:
+	\[
+		u(t,x) = \sum_{j=1}^\infty w_j(x) v_j(t)
+	\]
+	Es bleibt zu zeigen, dass die Reihe und ihre Ableitungen gleichmäßig konvergieren.
+\end{ex}
+
+
+\begin{df}[Sturm-Liouville'sches Eigenwertproblem] \label{3.6}
+	Gesucht sind $\lambda \in \R$ und $u \in C^2([a,b]\to \R)$ mit $u \neq 0$ und
+	\begin{align} \label{eq:3.1}
+		\begin{aligned}
+		(p'u')' - qu + \lambda ru &= 0 \qquad a\le x \le b \\
+		R_1 u := \alpha_1 u(a) + \alpha_2 u'(a) &= 0 \\
+		R_2 u := \beta_1 u(b) + \beta_2 u'(b) &= 0
+		\end{aligned}
+	\end{align}
+	wobei $p \in C^2([a,b] \to \R)$, $p > 0$ auf $[a,b]$, $q,r \in C([a,b] \to \R)$, $r>0$, $\alpha_1^2 + \alpha_2^2 > 0$, $\beta_1^2 + \beta_2^2 > 0$.
+
+	$\lambda$ heißt \emph{Eigenwert}, $u$ \emph{Eigenfunktion} von \ref{eq:3.1}.
+\end{df}
+
+\begin{nt} \label{3.7}
+	\begin{enumerate}[1)]
+		\item
+			Wir unterscheiden folgende Sezialfälle bei der Randwertbedingung $u(a) = u(b) = 0$:
+
+			Die \emph{Dirichletsche Randbedingung}: $\alpha_1 = \beta_1 = 1, \alpha_2 = \beta_2 = 0$.
+
+			Die \emph{Neumannsche Randbedingung}: $\alpha_1 = \beta_1 = 0, \alpha_2 = \beta_2 = 1$.
+		\item
+			Es gilt
+			\begin{align*}
+				R_1 u = 0
+				&\iff \begin{pmatrix}
+					u(a) \\ u'(a) 
+				\end{pmatrix} \orth \begin{pmatrix}
+					\alpha_1 \\ \alpha_2
+				\end{pmatrix} \\
+				&\iff \exists c \in \R : \begin{pmatrix}
+					u(a) \\ u'(a)
+				\end{pmatrix} = c \begin{pmatrix}
+					\alpha_2 \\ -\alpha_1
+				\end{pmatrix}
+			\end{align*}
+
+
+	\end{enumerate}
+\end{nt}
+
+\section{Randwertprobleme zweiter Ordnung}
