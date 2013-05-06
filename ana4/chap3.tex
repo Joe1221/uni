@@ -155,20 +155,18 @@
 
 
 \begin{st}[Hauptsatz über symmetrische, kompakte Operatoren] \label{3.5}
-	Sei $(L, \<\argdot,\argdot\>)$ unendlichdimensionaler Prähilbertraum, $A: L \to L$ linear, symmetrisch und kompakt.
+	Sei $(L, \<\argdot,\argdot\>)$ unendlichdimensionaler Prähilbertraum und $A: L \to L$ linearer, symmetrischer, kompakter Operator.
 
-	Dann gelten
+	Dann gilt:
 	\begin{enumerate}[1)]
 		\item
 			$\lambda = \|A \|$ oder $\lambda = - \|A\|$ ist Eigenwert von $A$.
 		\item
 			Jeder Eigenwert $\lambda \neq 0$ ist reell und hat endliche Vielfachheit.
 		\item
-			Entweder $A$ hat nur endlich viele Eigenvektoren.
-			Dann ist $\lambda = 0$ Eigenwert mit unendlicher Vielfachheit (d.h. $\dim (\ker (A)) = \infty)$.
+			Falls $A$ nur endlich viele Eigenwerte ungleich $0$ besitzt, dann ist $\lambda = 0$ Eigenwert mit unendlicher Vielfachheit (d.h. $\dim (\ker (A)) = \infty)$.
 
-			Oder $A$ hat unendlich viele Eigenwerte.
-			Dann ist die Menge der Eigenwerte abzählbar und für die Folge $(\lambda_j)$ der Eigenwerte gilt $\lambda_j \to 0$ ($j \to \infty$).
+			Falls $A$ unendlich viele Eigenwerte ungleich $0$ besitzt, dann ist die Menge dieser Eigenwerte abzählbar und für die Folge $(\lambda_j)$ der Eigenwerte gilt $\lambda_j \to 0$ ($j \to \infty$).
 		\item
 			Sei $(\lambda_j)$ eine Abzählung der Eigenwerte, die so gebildet wird, dass
 			\begin{itemize}
@@ -192,25 +190,39 @@
 				\[
 					\|x_n\| = 1 \qquad \land \qquad |\<Ax_n,x_n\>| \to \|A\|
 				\]
-				Eventuell hat es Teilfolgen von $(x_n)$, die gegen $\pm \|A\|$ konvergieren.
-
-				Da $A$ kompakt existiert eine Teilfolge  $Ax_{n_k} \to y \in L$ ($k \to \infty$).
+				Da $A$ kompakt, existiert eine Teilfolge $(x_{n_k})_{k\in \N}$ mit $Ax_{n_k} \to y \in L$ für $k \to \infty$.
+				Sei 
+				\[
+					\lambda := \lim_{k\to\infty} \<Ax_{n_k},x_{n_k}\> = \pm \|A\| \neq 0
+				\]
 				Es gilt
 				\begin{align*}
-					0 
-					&\le \|Ax_{n_k} - \lambda x_{n_k}\|^2 \\
+					\|Ax_{n_k} - \lambda x_{n_k}\|^2
 					&= \underbrace{\|Ax_{n_k} \|^2}_{\le \|A\|^2 \|x_{n_k}\|^2} - 2 \Re \underbrace{\< Ax_{n_k}, \lambda x_{n_k} \>}_{\in \R} + \lambda^2 \underbrace{\|x_{n_k}\|^2}_{=1} \\
 					&\le \underbrace{\|A\|^2 + \lambda^2}_{=2\lambda^2} - 2 \lambda \underbrace{\<Ax_{n_k}, x_{n_k}\>}_{\to \lambda} \\
-					& \to 0
+					& \to 0 \qquad (k\to \infty).
 				\end{align*}
-				Also $\lambda x_{n_k} \to y$, bzw. $x_{n_k} \to \f 1\lambda y$.
-				Da $A$ stetig (da beschränkt, siehe \ref{1.27} und \ref{1.25}) gilt $Ax_{n_k} \to \f 1\lambda A y$.
-
-				Wegen $Ax_{n_k} \to y$ ist folglich $Ay = \lambda y$.
-				Aus $\|\lambda x_{n_k}\| = |\lambda | \|x_{n_k}\| = |\lambda| \neq 0$ und $\|\lambda x_{n_k}\| \to \|y\|
-				$ folgt $y\neq 0$.
-
-				Also ist $\lambda$ Eigenwert und $\lambda = \|A\|$ oder $\lambda = - \|A\|$. 
+				Also 
+				\[
+					y = \lim_{k\to \infty} Ax_{n_k} = \lim_{k\to \infty} \lambda x_{n_k}.
+				\]
+				Weil $A$ stetig ist (da beschränkt, siehe \ref{1.27} und \ref{1.25}), gilt:
+				\[
+					Ay 
+					= A \lim_{k\to\infty} A x_{n_k} 
+					= A \lim_{k\to\infty} \lambda x_{n_k}
+					= \lambda \lim_{k\to\infty} Ax_{n_k}
+					= \lambda y
+				\]
+				Weiter ist
+				\[
+					\|y\| 
+					= \Big\|\lim_{k\to\infty} \lambda x_{n_k}\Big\|
+					= \lim_{k\to\infty} |\lambda| \|x_{n_k}\|
+					= |\lambda|
+					> 0
+				\]
+				Also ist $\lambda = \pm \|A\|$ Eigenwert zum Eigenvektor $y$. 
 			\item
 
 				Angenommen $\lambda \neq 0$ sei Eigenwert mit unendlicher Vielfachheit, also
@@ -218,8 +230,8 @@
 					\dim \ker (A - \lambda \Id) = \infty
 				\]
 				Sei $\{v_1,v_2,\dotsc\}$ eine abzählbar unendliche linear unabhängige Teilmenge von $\ker(A-\lambda \Id)$.
-				Gram-Schmidt auf $\{v_1,v_2,\dotsc\}$ angewendet liefert ein abzählbar unendliches ONS $(e_j)$ in $\ker (A-\lambda \Id)$.
-				Dann gilt
+				Gram-Schmidt auf $\{v_1,v_2,\dotsc\}$ angewandt liefert ein abzählbar unendliches ONS $(e_j)$ in $\ker (A-\lambda \Id)$.
+				Es gilt
 				\begin{itemize}
 					\item
 						$Ae_j = \lambda e_j$,
@@ -238,23 +250,24 @@
 				Wegen 1) existiert $v_1 \neq 0$ mit $Av_1 = \lambda_1v_1$ und $|\lambda_1| = \|A\|$.
 
 				Betrachte nun $A_1 = A \Big|_{\{v_1\}^\orth}$.
-				Es gilt für $v \orth v_1$:
+				Es gilt für alle $v \orth v_1$:
 				\[
 					\<A_1v,v_1\> = \<Av,v_1\> = \<v,Av_1\> = \lambda_1\<v,v_1\> = 0
 				\]
-				$A$ operiert als im Prähilbertraum $\{v_1\}^\orth$.
+				bzw. $\im (A_1) \subset \{v_1\}^\orth$, $A$ operiert also im Prähilbertraum $\{v_1\}^\orth$.
 				Außerdem gilt
 				\begin{align*}
 					\|A_1\| 
-					&= \sup_{\substack{\|v\|=1 \\ v\in \{v1\}^\orth}} \|A_1 v\| \\
-					&\le \sup_{\substack{\|v\|=1 \\ v\in L}} \|A v\| 
+					&= \sup_{\substack{v\in \{v_1\}^\orth \\ \|v\|=1}} \|A_1 v\| \\
+					&\le \sup_{\substack{v\in L \\ \|v\|=1}} \|A v\| 
 					= \|A\|
 				\end{align*}
-				$A_1$ ist kompakt, denn für eine beschränkte Folge $\{x_n\}$ in $\{v_1\}^\orth$ existiert eine konvergente Teilfolge bezüglich $A$:
+				$A_1$ ist kompakt: für eine beschränkte Folge $\{x_n\}$ in $\{v_1\}^\orth$ existiert eine konvergente Teilfolge bezüglich $A$:
 				\[
 					A x_{n_k} \to y \in L
 				\]
 				Es gilt $A_1 x_{n_k} \in \{v_1\}^\orth$ und $y \in \{v_1\}^\orth$, da $\{v_1\}^\orth$ abgeschlossen.
+
 				Außerdem ist $A_1$ symmetrisch.
 
 				Wegen 1) existiert $v_2 \neq 0$ mit $Av_2 = \lambda_2v_2$ und $|\lambda_2| = \|A_1\| \le \|A\|$.
@@ -266,21 +279,23 @@
 				Betrachte zwei Fälle:
 				\begin{enumerate}[1. {Fall}]
 					\item
-						Es existiert $j$ mit $\lambda_j = 0$, dann gilt
+						Es existiert ein (minimales) $j\in\N$ mit $\lambda_j = 0$, dann ist	wegen $\|A_{j-1}\| = 0$ und $Av_i\neq 0$ (für $1\le i \le j-1$)
 						\[
-							\|A_{j-1}\| = 0, \qquad \ker(A_{j-1}) = \{v_1,\dotsc,v_{j-1}\}^\orth
+							\{v_1,\dotsc,v_{j-1}\}^\orth = \ker(A_{j-1}) = \ker(A)
 						\]
-						Also $\ker(A) = \{v_1, \dotsc, v_{j-1}\}^\orth$ und $\lambda = 0$ ist Eigenwert von $A$ mit unendlicher Vielfachheit.
+						und somit $\dim (\ker(A)) = \dim \{v_1,\dotsc, v_{j-1}\}^\orth = \infty$.
+						Also ist $\lambda = 0$ Eigenwert von $A$ mit unendlicher Vielfachheit.
 					\item
 						Für alle $j \in \N$ ist $\lambda_j \neq 0$.
 						Angenommen $\lambda_j \not\to 0$ ($j \to \infty$), d.h. es existiert $a > 0$ mit $|\lambda_j| \ge a$ für alle $j \in \N$.
 
-						Eigenvektoren zu verschiedenen Eigenwerten sind orthogonal.
-						Wende in jedem Eigenraum Gram-Schmidt an und erhalte ein ONS aus Eigenvektoren:
+						Wende in jedem Eigenraum Gram-Schmidt an (Eigenvektoren zu verschiedenen Eigenwerten sind schon orthogonal) und erhalte ein ONS $(e_j)_{j\in\N}$ aus Eigenvektoren mit
 						\[
 							A e_j = \lambda_j e_j
+							\qquad \text{und} \qquad
+							\text{$\lambda_j$ monoton fallend}
 						\]
-						$(\f 1 {\lambda_j} e_j)$ ist beschränkt, aber$(A \f 1 {\lambda_j} e_j)$ kann keine konvergente Teilfolge enthalten, da $A \f 1 {\lambda_j} e_j = e_j$.
+						$(\f 1 {\lambda_j} e_j)$ ist beschränkt, aber $(A \f 1 {\lambda_j} e_j)$ kann keine konvergente Teilfolge enthalten, da $A \f 1 {\lambda_j} e_j = e_j$.
 						Ein Widerspruch, also gilt $\lambda_j \to 0$.
 				\end{enumerate}
 			\item
@@ -301,13 +316,14 @@
 						$\|Ax_n\| \to 0$ für $n\to \infty$, denn
 						\begin{align*}
 							\|x_n\|^2  = \<x_n, x_n\>
-							&= \|x\|^2 - \sum_{j=1}^n \_{\<x,e_j\>}\<x,e_j\> - \sum_{j=1}^n \<x,e_j\> \<e_j,x\> - \sum_{j=1}^n |\<x,e_j\>|^2 \\
+							&= \|x\|^2 - \sum_{j=1}^n \underbrace{\<x,e_j\>\<e_j,x\>}_{=|\<x,e_j\>|^2} - \sum_{j=1}^n \underbrace{\_{\<x,e_j\>} \<x,e_j\>}_{=|\<x,e_j\>|^2} + \sum_{j=1}^n |\<x,e_j\>|^2 \\
+							&= \|x\|^2 - \sum_{j=1}^n (\<x,e_j\>)^2 \\
 							&\le \|x\|^2
 						\end{align*}
-						Also $\|x_n\| \le \|x\|$ und
+						Also $\|x_n\| \le \|x\|$ und deswegen
 						\[
-							\|Ax_n\| = \|A_{n-1}x_n\| \le \|A_{n-1}\| \|x_n\| \le \|A_{n-1}\| \|x|\ \to 0
-							\qquad n \to \infty
+							\|Ax_n\| = \|A_{n-1}x_n\| \le \|A_{n-1}\| \|x_n\| \le \|A_{n-1}\| \|x\| \to 0
+							\qquad (n \to \infty).
 						\]
 				\end{itemize}
 				Es gilt
@@ -318,13 +334,13 @@
 					= \<x,A e_j\> e_j
 					= \<Ax,e_j\> e_j
 				\]
-				Somit ist
+				Damit ist
 				\[
-					Ax = \sum_{j=1}^\infty \<Ax, e_j\> e_j \in \im (A)
+					Ax = \lim_{n\to\infty} Ax_n + \sum_{j=1}^n \<x,e_j\> Ae_j = \sum_{j=1}^\infty \<Ax, e_j\> e_j \in \im (A)
 				\]
-				und damit für alle $y \in \im (A)$
+				und somit für alle $y \in \im (A)$
 				\[
-					y = \sum_{j=1}^\infty \<y,e_j\> e_j
+					y = \sum_{j=1}^\infty \<y,e_j\> e_j.
 				\]
 				Nach \ref{1.12} 3) gilt selbiges für $\_{\im (A)}$.
 		\end{enumerate}
