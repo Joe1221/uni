@@ -464,3 +464,190 @@
 	\end{enumerate}
 \end{nt}
 
+\begin{st} \label{3.8}
+	Jeder Eigenwert $\lambda$ von \eqref{eq:3.1} hat Vielfachheit $1$.
+	\begin{proof}
+		Wir nehmen an, $\lambda$ habe Vielfachheit $\ge 2$.
+
+		Seien $u_1, u_2$ Lösungen von \eqref{eq:3.1} und $\{u_1,u_2\}$ linear unabhängig.
+		$\{u_1,u_2\}$ spannt den ganzen Lösungsraum der DGL in \eqref{3.1} auf.
+
+		Es existiert $(c_1,c_2)^T \in \R$ mit
+		\[
+			\underbrace{\begin{pmatrix}
+				u_1(a) & u_2(a) \\
+				u_1'(a) & u_2'(a)
+			\end{pmatrix}}_{\det(\argdot) \neq 0}
+			\begin{pmatrix}
+				c_1 \\ c_2
+			\end{pmatrix}
+			= \begin{pmatrix}
+				\alpha_1 \\ \f{\alpha_2}{p(a)}
+			\end{pmatrix}
+		\]
+		Also gilt für $u:= c_1u_1 + c_2 u_2$:
+		\begin{align*}
+			R_1 u &= \alpha_1(c_1u_1(a) + c_2u_2(a)) + \alpha_2 p(a) (c_1u_1'(a) + c_2u_2'(a)) \\
+			&= \alpha_1^2 + \alpha_2^2
+			\neq 0
+		\end{align*}
+		Was im Widerspruch zu $R_1u = c_1R_1u_1 + c_2R_1u_2 = 0$ steht.
+		Also hat $\lambda$ Vielfachheit $1$.
+	\end{proof}
+\end{st}
+
+\begin{df} \label{3.9}
+	Sei $J := [a,b]$, $L := C([a,b] \to \R)$ mit $\<f,g\> := \int_a^b f(x)g(x) \dx$ Prähilbertraum über $\R$.
+	Definiere
+	\begin{align}
+		\label{eq:3.2}
+		\begin{aligned}
+			\tilde A u &:= (pu')' - qu \\
+			D(A) &:= \Big\{ u \in C^2([a,b] \to \R) : R_1u = R_2u = 0 \Big\} \\
+			Au &:= \tilde A u \qquad \text{für $u\in D(A)$}
+		\end{aligned}
+	\end{align}
+\end{df}
+
+\setcounter{thm}{8}
+\begin{st} \label{3.9}
+	Mit den Vorrausetzungen aus \eqref{eq:3.2} ist $A$ symmetrisch.
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			\<Au,v\> 
+			&= \int_a^b (pu')'v - quv) \dx \\
+			&= pu'v \Big|_a^b - \int_a^b (pu'v' + quv) \dx \\
+			&= \underbrace{\Big[ pu'v - upv' \Big]_{x=a}^b}_{\text{=0 \text{ (s.u.)}}} + \underbrace{\int_a^b (u(pv')' - quv) \dx}_{= \<u,Av\>} \\
+		\end{align*}
+		Außerdem:
+		\begin{align*}
+			pu'v - upv' 
+			&= \f 1{\alpha_1^2 + \alpha_2^2} \Big( \alpha_1^2 (pu'v - upv') + \alpha_2^2 (pu'v-upv') \Big) \\
+			&= \f 1{\alpha_1^2 + \alpha_2^2} \bigg( \alpha_1^2 pu'\underbrace{(\alpha_1 v + \alpha_2 pv')}_{=R_1v = 0} - \alpha_1^2 pv'\underbrace{(\alpha_2pu'+ \alpha_1 u)}_{= R_1u = 0} \\
+			 & \qquad\qquad\qquad + \alpha_2 v\underbrace{(\alpha_2 p u' + \alpha_1 u}_{=R_1 u = 0}  - \alpha_2 u \underbrace{(\alpha_1 v + \alpha_2 pv')}_{= R_1v= 0} \bigg)  \\
+			 &= 0
+		\end{align*}
+		Also ist $\<Au,v\> = \<Av,u\>$ und damit $A$ symmetrisch.
+	\end{proof}
+\end{st}
+
+\begin{nt} \label{3.10}
+	Nur im Fall $r= 1$ sind die Eigenwerte von $A$ und von \eqref{eq:3.1} die selben.
+	Ist $\lambda$ Eigenwert von \eqref{eq:3.1} mit Eigenfunktion $u$, so gilt
+	\[
+		A u(x) = \lambda r(x) u(x)
+	\]
+\end{nt}
+
+\begin{df} \label{3.11}
+	Eine Funktion $G: I \times I \to \R$ heißt \emph{Greensche Funktion} zu $A$, falls
+	\begin{enumerate}[1)]
+		\item
+			$G \in C(I\times I \to \R)$
+		\item
+			\fixme[Bild]
+			$\partial_1 G, \partial_1^2 G \in C(\Delta_1 \to \R)$ und sind stetig fortsetzbar auf $\_{\Delta_1}$.
+
+			$\partial_1 G, \partial_1^2 G \in C(\Delta_2 \to \R)$ und sind stetig fortsetzbar auf $\_{\Delta_2}$.
+		\item
+			Für festes $\xi \in I$ gilt
+			\begin{align*}
+				\tilde A G(\argdot, \xi) = 0 \qquad \text{in $I \setminus \{\xi\}$} \\
+				R_1 G(\argdot, \xi) = R_2 G(\argdot, \xi) = 0 
+			\end{align*}
+		\item
+			Für $\xi \in ]a,b[$ gilt
+			\begin{align*}
+				\partial_1 G (\xi + 0, \xi) - \partial_1 G(\xi - 0, \xi) = -\f 1{p(\xi)}
+			\end{align*}
+	\end{enumerate}
+\end{df}
+
+\begin{st} \label{3.12}
+	Existiert eine Greensche Funktion $G$ zu $A$, so sind für $\phi \in C(I \to \R)$ folgende Aussagen äquivalent:
+	\begin{enumerate}[(i)]
+		\item
+			$Au = -\phi$, also insbesondere $u \in D(A)$,
+		\item
+			$u(x) = \int_a^b G(x,y) \phi(y) \dx[y]$
+	\end{enumerate}
+	\begin{proof}
+		\begin{seg}[(ii) $\implies$ (i)]
+			Es gilt
+			\begin{align*}
+				u(x)
+				&= \int_a^x G(\underbrace{x,y}_{\in \Delta_2})\phi(y) \dx[y] + \int_x^b G(\underbrace{x,y}_{\in \Delta_1})\phi(y) \dx[y] \\
+				\implies \quad u'(x) &=
+				G(x,x) \phi(x) - 0 + \int_a^x \partial_1 G(x,y) \phi(y) \dx[y] + 0 - G(x,x) \phi(x) + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y] \\
+				&=\int_a^x \partial_1 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y]  \\
+				\implies \quad u''(x) &=
+				\underbrace{\partial_1 G(x,x-0)}_{= \partial_1 G(x+0,x)} \phi(x) + 0 - \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] \\
+				&\qquad\qquad+ 0 - \underbrace{\partial_1 G(x,x+0)}_{=\partial_1 G(x-0,x)} \phi(x) + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] \\
+				&= \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] \phi(x)\underbrace{\partial_1 G(x+0,x) + \partial_1 G(x-0,x)}_{= - \f 1{p(x)}} \\
+				&= \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] - \f {\phi(x)}{p(x)} \\
+			\end{align*}
+			Also
+			\[
+				\tilde A u = \int_a^b \underbrace{\tilde A G(\argdot , y)}_{=0 \text{ nach 3)}} \dx[y] + p \Big( - \f {\phi(x)}{p(x)} \Big) = - \phi(x)
+			\]
+			Damit ist $u \in C^2$.
+			Außerdem
+			\[
+				R_1 u = \int_a^b \underbrace{R_1G(\argdot, y)}_{=0 \text{ nach 3)}} \dx[y] = 0
+			\]
+			und $R_2 u = 0$, also $u \in D(A)$.
+		\end{seg}
+		\begin{seg}[(i) $\implies$ (ii)]
+			Sei $x \in ]a,b[$ fest, dann ist
+			\begin{align*}
+				\int_a^b G(x,y) \phi(y) \dx[y]
+				&\stack{\text{(i)}}= - \int_a^b G(x,y) Ax(y) \dx[y] \\
+				&= -\int_a^b \underbrace{G(x,y)}_{=G(y,x) \text{ nach \ref{3.13}}} \Big( (p(y)u'(y) )' - q(y)u(y) \Big) \dx[y] \\
+				&= -\int_a^x G(y,x) \Big( (p(y)u'(y) )' - q(y)u(y) \Big) \dx[y] - \int_x^b G(y,x) \Big( (p(y)u'(y) )' - q(y)u(y) \Big) \dx[y] \\
+				&= - \Big[G(y,x)p(y) u'(y) - \partial_1 G(y,x) p(y) u(y) \Big]_{y=a}^x \Big|_{y=x}^b \\
+				& \qquad- \int_a^b \Big( \partial_1(p(y)\partial_1 G(y,x)) u(y) - G(y,x) q(y) u(y) \Big) \dx[y]
+			\end{align*}
+			\fixme[Ende fehlt]
+		\end{seg}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{3.13}
+	Es gilt
+	\begin{enumerate}[1)]
+		\item
+			$G$ ist symmetrisch: $G(x,y) = G(y,x)$.
+		\item
+			Zu $A$ existiert höchstens eine Greensche Funktion.
+	\end{enumerate}
+	\begin{proof}
+		Seien $G,H$ Greensche Funktionen zu $A$ und $\phi, \psi \in C(I \to \R)$.
+		Setze
+		\begin{align*}
+			u(x) := \int_a^b G(x,y) \phi(y) \dx[y] \\
+			v(x) := \int_a^b H(x,y) \psi(y) \dx[y] \\
+		\end{align*}
+		Dann ist
+		\begin{align*}
+			\int_a^b \Big(u \cdot \underbrace{Av}_{= -\psi} - \underbrace{Au}_{= - \phi} \cdot v\Big) \dx
+			&= \<u,Av\> - \<Au,v\> = 0
+		\end{align*}
+		Also
+		\begin{align*}
+			-\int_a^b \underbrace{\int_a^b G(x,y) \phi(y) \dx[y]}_{= u(x)} \psi(x) \dx + \int_a^b \phi(y) \underbrace{\int_a^b H(y,x) \psi(x) \dx}_{= v(y)} \dx[y] = 0
+		\end{align*}
+		und
+		\[
+			\int_a^b \int_a^b (G(x,y - H(y,x)) \phi(y) \dx[y] \psi(x) \dx = 0
+		\]
+		für alle $\phi, \psi \in C(I \to \R)$ und damit $G(x,y) = H(y,x)$ für alle $(x,y) \in I\times I$, da $G$ und $H$ stetig.
+
+		1) folgt dann für $H:= G$ und 2) da $H$ symmetrisch nach 1):
+		\[
+			G(x,y) = H(y,x) = H(x,y) 
+		\]
+	\end{proof}
+\end{st}
+
+
