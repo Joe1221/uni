@@ -10,7 +10,7 @@
 \begin{df} \label{2.1}
 	\begin{enumerate}[1)]
 		\item
-			Ein Maßraum $(\Omega, \Sigma, \my)$ besteht aus einer Menge $\Omega$, einer $\sigma$-Algebra $\Sigma \subset P(\Omega)$ (d.h. $\emptyset \in \Sigma, A^C \in \Sigma, \bigcup_{j\in \N} Aj \in \Sigma$) und einem Maß $\my$ (d.h. $\my(\emptyset) = 0, \my(A) \ge 0, \my(\dot\bigcup_{j\in \N}A_j = \sum_{j\in \N} \my(A_j))$).
+			Ein Maßraum $(\Omega, \Sigma, \my)$ besteht aus einer Menge $\Omega$, einer $\sigma$-Algebra $\Sigma \subset P(\Omega)$ (d.h. $\emptyset \in \Sigma, A^C \in \Sigma, \bigcup_{j\in \N} Aj \in \Sigma$) und einem Maß $\my$ (d.h. $\my(\emptyset) = 0, \my(A) \ge 0, \my(\dot\bigcup_{j\in \N}A_j) = \sum_{j\in \N} \my(A_j))$).
 		\item
 			$f: \Omega \to \Omega'$ heißt messbar, falls
 			\[
@@ -21,11 +21,13 @@
 \end{df}
 
 \begin{ex}[Anwendung]
-	Sei $\Sigma = \R^n$ und $\Sigma$ die Borel $\sigma$-Algebra, d.h. die von den offenen Intervallen $\bigtimes_{j=1}^n ]a_j,b_j[$ erzeugte (kleinste) $\sigma$-Algebra
+	Sei $\Sigma = \R^n$ und $\Sigma$ die Borel $\sigma$-Algebra, d.h. die von den offenen Intervallen $\bigtimes_{j=1}^n ]a_j,b_j[$ erzeugte (kleinste) $\sigma$-Algebra.
+	Das Maß
 	\[
 		\my \bigg( \bigtimes_{j=1}^n ]a_j,b_j[ \bigg) := \prod_{j=1}^n (b_j - a_j)
+		\qquad \text{für $b_j > a_j$}
 	\]
-	für $b_j > a_j$ fortgesetzt auf $\Sigma$ heißt \emph{Lebesgue-Borel-Maß}.
+	fortgesetzt auf $\Sigma$ heißt \emph{Lebesgue-Borel-Maß}.
 
 	Definiere die Vervollständigung:
 	\[
@@ -39,8 +41,8 @@
 
 	Für $A \in \Sigma$ verwende
 	\begin{align*}
-		\Sigma_A := \{ B \cap A : B \in \Sigma \} \\
-		\my_A := \my^* \Big|_{\Sigma_A}
+		\Sigma_A &:= \{ B \cap A : B \in \Sigma \} \\
+		\my_A &:= \my^* \Big|_{\Sigma_A}
 	\end{align*}
 \end{ex}
 
@@ -54,15 +56,15 @@
 	\]
 	nennt man \emph{Indikatorfunktion} oder \emph{charakteristische Funktion}.
 
-	$s$ ist genau dann eine \emph{einfache} Funktion, wenn
+	$s:\Omega \to \R$ ist genau dann eine \emph{einfache} Funktion, wenn
 	\[
 		\exists N \in \N, \alpha_1, \dotsc, \alpha_N \in \R, M_1, \dotsc, M_N \in \Sigma : s = \sum_{j=1}^N \alpha_j \chi_{M_j}
 	\]
-	Dann kann man
+	In diesem Fall setzt man
 	\[
 		\int_{\Omega} s d\my := \sum_{j=1}^N \alpha_j \my(M_j)
 	\]
-	für $s \ge 0$ (also  $\alpha_j \ge 0$) wählen.
+	für $s \ge 0$ (also  $\alpha_j \ge 0$).
 \end{df*}
 
 \begin{df}[Lebesgue-Integral]
@@ -83,7 +85,7 @@
 					Für $f: \Omega \to \R$ ohne Vorzeichenbedingung definiert man
 					\begin{align*}
 						f_+ (x) &:= \max\{f(x), 0 \} \qquad x \in \Omega \\
-						f_- (x) &:= \min\{ f(x), 0 \} \qquad x \in \Omega
+						f_- (x) &:= -\min\{ f(x), 0 \} \qquad x \in \Omega
 					\end{align*}
 					Dann ist $f_+, f_- \ge 0$, $f = f_+ - f_-$ und $f_+, f_-$ messbar.
 					
@@ -98,9 +100,10 @@
 		\item
 			$f : \Omega \to \C$ heißt \emph{messbar}, falls $\Re f$ und $\Im f$ Borel-messbar sind.
 
-			$f$ heißt \emph{integrierbar}, falls $\Re f$ und $\Im f$ integrierbar sind und endlich. Dann
+			$f$ heißt \emph{integrierbar}, falls $\Re f$ und $\Im f$ integrierbar sind und endlich. 
+			Dann gilt
 			\[
-				\int_{\Omega} f d\my := \int_{\Omega} (\Re f) d\my + i \int_{\Omega} (\Im f) d\my 
+				\int_{\Omega} f d\my := \int_{\Omega} (\Re f) d\my + i \int_{\Omega} (\Im f) d\my .
 			\]
 	\end{enumerate}
 
@@ -348,7 +351,7 @@
 		\tilde {L^p} (\Omega, \Sigma, \my)
 		:= \Big\{ f : \Omega \to \C \text{ messbar} : N_p(f) < \infty \Big\}
 	\]
-	Dann ist $\tilde{L^p}(\dots)$ ein linearer Raum (Vektorraum) und $N_p$ ist Halbnorm auf $\tilde{L^p}(\dots)$.
+	Dann ist $\tilde{L^p}(\Omega, \Sigma, \my)$ ein linearer Raum (Vektorraum) und $N_p$ ist Halbnorm auf $\tilde{L^p}(\Omega, \Sigma, \my)$.
 \end{df}
 
 \begin{df} \label{2.10}
@@ -360,7 +363,7 @@
 	\[
 		f \sim g :\iff f-g \in N
 	\]
-	wird eine Äquivalenzrelation auf $\tilde{L^p}(\dots)$ definiert.
+	wird eine Äquivalenzrelation auf $\tilde{L^p}(\Omega, \Sigma, \my)$ definiert.
 
 	Setze
 	\begin{align*}
@@ -369,7 +372,7 @@
 		= \tilde {L^p} (\Omega, \Sigma, \my) / N \\
 		\| [f] \|_p &:= N_p(f) \qquad \text{ für } [f] \in L^p(\dots)
 	\end{align*}
-	Dann ist $\|\argdot\|_p$ eine Norm auf $L^p(\dots)$ (leicht zu zeigen).
+	Dann ist $\|\argdot\|_p$ eine Norm auf $L^p(\Omega, \Sigma, \my)$ (leicht zu zeigen).
 
 	Im Folgenden schreiben wir $L^p$ oder $L^p(\Omega)$ statt $L^p(\Omega, \Sigma, \my)$ und $f$ statt $[f]$.
 \end{df}
@@ -472,7 +475,7 @@
 					\begin{align*}
 						\|g\|_p = \int_{\Omega} g^p d\my
 						&= \int_{\Omega} \lim_{n\to \infty} g_n^p d\my \\
-						&= \lim_{n\to \infty} \int_{\Omega} g_n^p d\my
+						&= \lim_{n\to \infty} \int_{\Omega} g_n^p d\my \\
 						&= \lim_{n\to \infty} \|g_n\|_p^p
 						\le 1
 					\end{align*}
@@ -511,7 +514,7 @@
 					Nach dem Lemma von Fatou ist
 					\begin{align*}
 						\int_{\Omega} |{f_j}_k - f|^p d\my
-						&= \int_{\Omega} \lim_{l\to \infty} |{f_j}_k - {f_j}_l |^p d\my
+						&= \int_{\Omega} \lim_{l\to \infty} |{f_j}_k - {f_j}_l |^p d\my \\
 						&\stack{\text{Fatou}}\le \liminf_{l\to \infty} \underbrace{\int_{\Omega} |{f_j}_k - {f_j}_l |^p d\my}_{= \|{f_j}_k - {f_j}_l\|_p^p < \eps^p} \\
 						&\le \eps^p
 					\end{align*}
@@ -522,7 +525,7 @@
 					Also
 					\[
 						\|f_j - f\|_p 
-						\le \underbrace{\|f_j - {f_j}_k \|_p}_{< \eps} + \underbrace{\|{f_j}_k}_{< \eps} - f\|_p 
+						\le \underbrace{\|f_j - {f_j}_k \|_p}_{< \eps} + \underbrace{\|{f_j}_k - f\|_p}_{< \eps}
 						< 2 \eps
 					\]
 					für hinreichend großes $j, j_k$ und $k$.
