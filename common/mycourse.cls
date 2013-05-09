@@ -4,7 +4,7 @@
 \ProvidesClass{mycourse}
 
 % Load base class and pass-through unknown options
-\LoadClass{scrbook}
+\LoadClass[11pt]{scrbook}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
 
 %==================================
