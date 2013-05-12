@@ -89,8 +89,8 @@
 
 
 % Deprecated: (use \theorempreskip instead)
-\theorempreskipamount 2.5em 						% Abstand vor Theroem
-\theoremindent 2ex 									% Theroem einrücken
+\theorempreskipamount 2.5em 						% Abstand vor Theorem
+\theoremindent 2ex 									% Theorem einrücken
 \theoremheaderfont{\kern-1em\normalfont\bfseries} 	% Überschrift wieder ausrücken
 %\theoremheadertypefont{\color{green!25!black}}% Font für Theorem-Typ (Satz, Definition, etc.)
 \theorembodyfont{\normalfont} 						% Aufrecht statt kursiv im body-Teil
