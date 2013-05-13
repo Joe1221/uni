@@ -502,7 +502,7 @@
 	\begin{align}
 		\label{eq:3.2}
 		\begin{aligned}
-			\tilde A u &:= (pu')' - qu \\
+			\tilde A u &:= -(pu')' + qu \\
 			D(A) &:= \Big\{ u \in C^2([a,b] \to \R) : R_1u = R_2u = 0 \Big\} \\
 			Au &:= \tilde A u \qquad \text{für $u\in D(A)$}
 		\end{aligned}
@@ -649,5 +649,196 @@
 		\]
 	\end{proof}
 \end{st}
+
+\begin{st}[Konstruktion der Greenschen Funktion] \label{3.14}
+	Folgende zwei Aussagen sind äquivalent:
+	\begin{enumerate}[(i)]
+		\item
+			Zu $A$ existiert eine Greensche Funktion
+		\item
+			$\lambda = 0$ ist kein Eigenwert von $A$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{seg}[(i)$\implies$(ii)]
+			Aus (i) folgt mit \ref{3.12}, dass
+			\[
+				Au = 0 \quad\implies\quad u = \int_a^b G 0 \dx[y] = 0
+			\]
+			Also kann $0$ kein Eigenwert von $A$ sein.
+		\end{seg}
+		\begin{seg}[(ii)$\implies$(i)]
+			Seien $u_1,u_2$ reelle Lösungen von 
+			\[
+				\tilde A u = -(pu')' + qu = 0
+			\]
+			mit
+			\begin{align*}
+				R_1u_1 &= 0, \qquad u_1 \neq 0 \\
+				R_2u_2 &= 0, \qquad u_2 \neq 0
+			\end{align*}
+			(z.B. $\tilde A u_1 = 0, u_1(a) = \alpha_2 p(a), u_1'(a) = - \alpha_1$).
+			Dann gilt
+			\begin{itemize}
+				\item
+					$\{u_1,u_2\}$ ist linear unabhängig:
+
+					Angenommen $u_1 = c u_2$, dann ist
+					\[
+						R_2 u_1 = c R_2 u_2 = 0
+					\]
+					also $Au_1 = 0$ und nach (ii) $u_1 = 0$, ein Widerspruch.
+				\item
+					Die Wronskideterminante lässt sich mit $c_0 \in \R \setminus \{0\}$ schreiben als:
+					\[
+						W(x) = \begin{vmatrix}
+							u_1 & u_2 \\
+							u_1' & u_2'
+						\end{vmatrix}
+						= u_1u_2' - u_2u_1' = \f {c_0}{p(x)}
+					\]
+					Denn es gilt für $j\in \{1,2\}$
+					\[
+						0 = \tilde A u_j = -pu_j'' - p'u_j' + qu_j
+						\quad\implies\quad
+						u_j'' = \f 1{p}(-p'u_j' + qu_j).
+					\]
+					Eingesetzt in die Wronski-Determinante ergibt sich
+					\begin{align*}
+						\f {\dx[]}{\dx} W(x) 
+						&= u_1'u_2' + u_1u_2'' - u_2'u_1' - u_2u_1'' \\
+						&= u_1 \f 1p (-p'u_2' + qu_2) - u_2 \f 1p (-p'u_1' + u_1) \\
+						&= -\f {p'}p \underbrace{(u_1u_2' - u_2u_1')}_{=W(x)} \\
+					\end{align*}
+					Also
+					\[
+						W'(x) = - \f {p'}p W(x).
+					\]
+					Als Lösungen für $W(x)$ ergibt sich
+					\[
+						W(x) = \f {c}{p(x)} 
+						\qquad c\in \R \quad \text{(betrachte nur relle Lösungen)}
+					\]
+					Da $\{u_1,u_2\}$ linear unabhängig, muss $W(x) \neq 0$ auf $[a,b]$, also $c\neq 0$.
+				\item
+					Definiere
+					\[
+						G(x,\xi) := \begin{cases}
+							-\f 1{c_0} u_2(\xi)u_1(x) & a \le x \le \xi \le b \\
+							-\f 1{c_0} u_1(\xi)u_2(x) & a \le \xi < x \le b
+						\end{cases}
+					\]
+					wobei $c_0 \in \R \setminus \{0\}$ die Konstante von vorhin mit $W(x) = \f {c_0}{p(x)}$ ist.
+					Dann sind die Eigenschaften aus \ref{3.11} für die Greensche Funktion erfüllt:
+					\begin{enumerate}[1)]
+						\item
+							$G \in C^0(I \times I \to \R)$, da beide Definitionszweige bei $x = \xi$ übereinstimmen.
+						\item
+							Es gilt
+							\begin{align*}
+								\partial_1 G &= \begin{cases}
+									-\f 1{c_0} u_2(\xi) u_1'(x) & a \le x < \xi \le b, \text{ bzw. $(x,\xi) \in \Delta_1$} \\
+									-\f 1{c_0} u_1(\xi) u_2'(x) & a \le \xi < x \le b, \text{ bzw. $(x,\xi) \in \Delta_2$} 
+								\end{cases} \\
+								\partial_2 G &= \begin{cases}
+									-\f 1{c_0} u_2(\xi) u_1''(x) & a \le x < \xi \le b, \text{ bzw. $(x,\xi) \in \Delta_1$} \\
+									-\f 1{c_0} u_1(\xi) u_2''(x) & a \le \xi < x \le b, \text{ bzw. $(x,\xi) \in \Delta_2$} 
+								\end{cases}
+							\end{align*}
+							Also sind $\partial_j G \in C(\Delta_j \to \R)$ ($j\in \{1,2\}$) und stetig fortsetzbar auf $\_{\Delta_j}$.
+						\item
+							Sei $x < \xi$, dann ist
+							\begin{align*}
+								\tilde A G(\argdot, \xi) 
+								&= -(p\partial_1 G(\argdot, \xi))' + qG(\argdot, \xi)  \\
+								&= - \f 1{c_0} u_2(\xi) \tilde A u_1 
+								= 0
+							\end{align*}
+							Analog für $x > \xi$.
+
+							Es gilt
+							\begin{align*}
+								R_1 G(\argdot, \xi) &\stackrel{\xi \ge a}= R_1 (-\f 1{c_0} u_2(\xi) u_1) = -\f 1{c_0} u_2(\xi) R_1u_1 = 0 \\
+								R_2 G(\argdot, \xi) &\stackrel{\xi < b}= R_2 (-\f 1{c_0} u_1(\xi) u_2) = -\f 1{c_0} u_1(\xi) R_2u_2 = 0
+							\end{align*}
+							Für $\xi = b$ folgt die letzte Aussage durch stetige Fortsetzung von $\partial_1 G $ auf $\_{\Delta_2}$.
+						\item
+							Es gilt
+							\begin{align*}
+								\partial_1 G(\xi + 0, \xi) - \partial_1 G(\xi - 0, \xi)
+								&= \lim_{x \searrow \xi} \partial_1 G(x, \xi) - \lim_{x \nearrow \xi} \partial_1 G(x,\xi) \\
+								&= - \f 1{c} u_1(\xi) u_2'(\xi) + \f 1c u_2(\xi) u_1'(\xi) \\
+								&= - \f 1{c_0} W(\xi)
+								= - \f 1{c_0} \f {c_0}{p(\xi)} = - \f 1{p(\xi)}
+							\end{align*}
+					\end{enumerate}
+					Somit ist $G$ die gesuchte Greensche Funktion.
+			\end{itemize}
+		\end{seg}
+	\end{proof}
+\end{st}
+
+\begin{lem}
+	Es existiert $c \in \R$ sodass für alle $u \in D(A)$:
+	\[
+		\<Au,u\> \ge -c \|u\|^2.
+	\]
+	Falls
+	\[
+		\alpha_1 = \beta_1 = 0 \text{ (Neumann-Randbedingung)} 
+		\qquad \text{oder} \qquad
+		\alpha_2 = \alpha_2 = 0 \text{ (Dirichlet-Randbedingung)}
+	\]
+	gilt, kann
+	\[
+		-c = \min_{a \le x \le b} q(x) > 0
+	\]
+	gewählt werden.
+
+	Für alle Eigenwerte von $A$ gilt damit
+	\[
+		\lambda \ge -c
+	\]
+	\begin{proof}
+		Es gilt (betrachte zur Vereinfachung nur den reellen Fall):
+		\begin{align*}
+			\<Au,u\> 
+			&= \int_a^b (-(pu')' + qu) u \dx \\
+			&= -pu'u \Big|_{x=a}^b + \int_a^b (\underbrace{p(u')^2}_{\ge 0} + qu^2) \dx
+		\end{align*}
+		Falls die Randbedingung gelten, dann ist $pu'u \big|_a^b = 0$ und damit 
+		\[
+			\<Au,u\> 
+			\ge  \int_a^b q \underbrace{u^2}_{\ge 0} \dx 
+			\ge \underbrace{\min q(x)}_{=: -c} \int_a^b u^2 \dx.
+		\]
+		Betrachte jetzt den allgemeinen Fall.
+		Mit $p(x) := \f {x-a}{b-a}$ folgt
+		\begin{align*}
+			u(b)^2 
+			&= \int_a^b \f {\dx[]}{\dx} (\phi(x) u^2(x)) \dx \\
+			&= \int_a^b \underbrace{\f 1{b-a}}_{p'(x)} u^2(x) \dx + \int_a^b \underbrace{\phi(x)}_{0\le \phi \le 1} \underbrace{2u(x) u'(x)}_{= 2(\f 1\eps u(x))(\eps u'(x))} \dx \\
+			&\le \Big( \f 1{b-a} + \f 1{\eps^2}\Big)\|u\|^2 + \eps^2 \|u'\|^2
+		\end{align*}
+		Mit der Wahl $\phi = \f {b-x}{b-a}$ gilt analog
+		\[
+			u(a)^2 \le \Big( \f 1{b-a} + \f 1{\eps^2}\Big)\|u\|^2 + \eps^2 \|u'\|^2
+		\]
+		Also
+		\begin{align*}
+			\<Au,u\> 
+			&= -pu'u \Big|_{x=a}^b + \int_a^b \Big(p(u')^2 + \underbrace{qu^2}_{\ge 0}\Big) \dx \\
+			&\ge - \max_{a \le x \le b} p(x) \Big( |u'(b)u(b)| + |u'(a)u(a)|\Big)  + \Big( \min_{a \le x \le b} p(x) \Big) \|u'\|^2
+		\intertext{Dabei ist $|u'(a)u(a)| = 0$ falls $\alpha_2 = 0$ und sonst $|u'(a)u(a)| = c|u(a)|^2 = cu^2(a)$. 
+			Analog für $|u'(b)u(b)$ und $\beta_2$. 
+			Es genügt also den folgenden Fall zu betrachten}
+			&\ge - \Big(\max_{a \le x \le b} p(x)\Big) c \Big( |u(a)|^2 + |u(b)|^2 \Big) + \Big(\min p(x)\Big) \|u'\|^2 \\
+		\intertext{Mit der Abschätzung für $u(b)$, bzw. $u(a)$ von vorhin ergibt sich}
+			&\ge - \Big(\max_{a \le x \le b} p(x) \Big) c \cdot 2  \Big( \f 1{b-a} + \f 1{\eps^2} \Big) \|u\|^2 
+			 - \Big(\max_{a \le x \le b} p(x) \Big) c \cdot 2  \eps^2 \| u'\|^2 + \underbrace{\min_{a \le x \le b} \|u\|^2}_{> 0}
+		\intertext{Wählt man $\eps$ so klein, dass $-(\max p) c 2\eps^2 + \min p = 0$}
+			&= - \Big(\max_{a \le x \le b} p\Big) \cdot 2 c \Big(\tf 1{b-a} + \tf 1{\eps^2}\Big) \|u\|^2
+		\end{align*}
+	\end{proof}
+\end{lem}
 
 
