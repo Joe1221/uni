@@ -1,6 +1,6 @@
 \documentclass{mycourse}
 
-\numberwithin{equation}{section}
+%\numberwithin{equation}{section}
 
 \DeclareMathOperator{\Inf}{Inf}
 \DeclareMathOperator{\rd}{rd}
@@ -201,10 +201,10 @@ $\pm \Inf$ für $\pm\infty$ als Resultat der Division durch Null oder Überschre
 Die wichtigste Eigenschaft der Gleitkommazahlen ist eine relative Genauigkeit der Zahldarstellung zu garantieren.
 Zu jedem $x\in \R$ gibt es eine „gerundete“ Gleitkommazahl $\rd(x)$, so dass der \emph{relative Fehler} für $x\neq 0$ durch eine feste Konstante $\varepsilon >0$ beschränkt ist.
 D.h.:
-\begin{equation}
+\begin{align}
 \label{eps}
 \frac{|x-\rd(x)|}{|x|}\le \varepsilon
-\end{equation}
+\end{align}
 Sei für $x\in \R$ eine infinite $B$-adische Darstellung
 \[
 x=\sum_{k=-\infty}^{n(x)}x_kB^k \qquad x_k\in \{0,\dotsc,B-1\}
@@ -224,10 +224,10 @@ Dann gilt:
   &=\rd(x)+B^{1+n(x)}\sum_{k=-\infty}^{-m-1}x_{n(x)+1+k}B^k  
 \end{align*}
 Also ist
-\begin{equation}
+\begin{align}
 	\label{eq:2.2}
 	B^{1+n(x)}\sum_{k=-\infty}^{-m-1}x_{n(x)+1+k}B^k = x - \rd(x)
-\end{equation}
+\end{align}
 \begin{st}
 Definiert man die Rundung $\rd(x)$ jeder Zahl $x\in\R\setminus \{0\}$, durch die Vorschrift, dass die führenden $m$ Stellen der $B$-adischen Darstellung verwendet werden, so gilt das Rundungsgesetz \eqref{eps} mit $\eps = \epsilon := B^{1-m}$.
 Also
@@ -421,10 +421,10 @@ Die \emph{Stabilität} eines Algorithmus bestimmt, ob die berechnete Näherungsl
 Für die Auswertung von $f$ sei ein Algorithmus $x\mapsto F(x)$ gegeben.
 In diesem Algorithmus treten Rundungsfehler der Größenordnung $\eps$ auf.
 Wegen der relativen Fehlerfortpflanzung $\kondrel$ von $f$ kann man bestenfalls von $F$ erwarten, dass die Gleichung \eqref{eq:2.3} gilt:
-\begin{equation}
+\begin{align}
 \label{eq:2.3}
 \left|\frac{F(x)-f(x)}{f(x)}\right|\le c\kondrel\eps
-\end{equation}
+\end{align}
 für ein von $x$ unabhängiges $c>0$.
 Ein Algorithmus, der \eqref{eq:2.3} genügt heißt (vorwärts) stabil.
 
@@ -771,10 +771,10 @@ und es gilt
 \section{Einführung}
 
 In diesem Kapitel geht es darum zu $A\in \R^{n\times n}$, $\det A\neq 0$ und $b\in \R^n$ die Lösung $x\in\R^n$ zu bestimmen, sodass:
-\begin{equation}
+\begin{align}
 \label{eq:3.1}
 Ax=b
-\end{equation}
+\end{align}
 Falls $A^{-1}$ bekannt ist, gilt:
 \[
 x=A^{-1}b
@@ -810,10 +810,10 @@ Während dies für sehr kleine Systeme akzeptabel ist, sind jedoch für ein imme
 \begin{ex}[Gauß-Elimination]
 \label{ex:3.2}
 Bei der Gauß-Elimination wird das lineare Gleichungssystem \eqref{eq:3.1} durch Linearkombinationen von Gleichungen schrittweise in ein LGS der Form
-\begin{equation}
+\begin{align}
 \label{eq:3.2}
 Rx=c \qquad R\text{ rechte obere Dreiecksmatrix}
-\end{equation}
+\end{align}
 überführt, das die gleiche Lösung wie \eqref{eq:3.1} hat.
 Aus \eqref{eq:3.2} lässt sich $x$ leicht ablesen.
 Wir verzichten auf Vertauschen von Zeilen und wollen das Verfahren nur an einem Beispiel erläutern.
@@ -868,10 +868,10 @@ Analog wird der Begriff \emph{linke untere Dreiecksmatrix} verwendet.
 \end{df}
 
 Ziel der LR-Zerlegung ist nun eine linke untere Dreiecksmatrix $L$ mit $L_{ij}=1, \forall i=j$ und eine rechte obere Dreiecksmatrix zu finden, sodass
-\begin{equation}
+\begin{align}
 \label{eq:3.3}
 A=L\cdot R
-\end{equation}
+\end{align}
 gilt.
 Mit einer solchen Zerlegung lässt sich \eqref{eq:3.1} einfach lösen.
 \[
@@ -893,7 +893,7 @@ Sei außerdem
 	\qquad l_k = \begin{pmatrix}0 \\ \vdots \\ 0 \\ l_{k+1,k} \\ \vdots \\ l_{n,k}\end{pmatrix}
 \]
 Wenn wir $L_k$ als
-\begin{equation}
+\begin{align}
 \label{eq:3.4}
 L_k = I-l_ke_k^T 
 = \begin{pmatrix}
@@ -904,7 +904,7 @@ L_k = I-l_ke_k^T
 		   & & \vdots & & \ddots & \\
 	  0 &  & -l_{n,k} & & & 1
 \end{pmatrix}
-\end{equation}
+\end{align}
 definieren, dann gilt für $L_kv$:
 \[
 L_kv
@@ -1117,13 +1117,13 @@ Dieses Verfahren heißt \emph{Spaltenpivotisierung} und erzeugt nur sehr wenig n
 Um das ausgewählte Element als Pivotelement zu nutzen, müssen wir die $i$-te und $k$-te Zeile vertauschen.
 Wir erreichen dies durch Multiplikation mit einer Permutationsmatrix
 
-\begin{equation}
+\begin{align}
 \label{eq:3.5}
 \setcounter{MaxMatrixCols}{12}
 P_i = \begin{pmatrix}
 e_1 & e_2 & \dotsc & e_{i-1} & e_k & e_{i+1} & \dotsc & e_{k-1} & e_i & e_{k+1} & \dotsc & e_n \\
 \end{pmatrix}
-\end{equation}
+\end{align}
 Im $i$-ten Iterationsschritt ist $P_i$ also die Einheitsmatrix mit vertauschter $i$-ten und $k$-ten Spalte ($i\le k\le n$).
 \begin{itemize}
 \item $P_i A$ vertauscht die $i$-te und $k$-te Zeile von $A$
@@ -1428,13 +1428,13 @@ weitesten rechts gelegenen Spalten und $n - k$ untersten Zeilen entsteht. Die De
 			L = \begin{pmatrix} L_{n-1} & 0 \\ c^T & \alpha \end{pmatrix}
 		\]
 		Versuche $c\in \R^{(n-1)}$, $\alpha > 0$ so zu bestimmen, dass
-		\begin{equation}
+		\begin{align}
 			\label{eq:3.14.6}
 			\begin{pmatrix}L_{n-1} & 0 \\ c^T & \alpha\end{pmatrix}
 			\begin{pmatrix}L_{n-1}^T & c \\ 0 & \alpha\end{pmatrix}
 			= \begin{pmatrix}L_{n-1}L_{n-1}^T & L_{n-1}c \\ c^TL_{n-1}^T & c^Tc + \alpha^2\end{pmatrix}
 			= \begin{pmatrix}A_{n-1} & b \\ b^T & a_{nn}\end{pmatrix}
-		\end{equation}
+		\end{align}
 		Das gilt falls
 		\begin{align}
 			L_{n-1}c &= b \tag{3.6b}\\
@@ -1995,10 +1995,10 @@ Die Konvergenzgeschwindigkeit des Gauss-Seidel-Verfahrens (und des Jacobi-Verfah
 
 Gegeben sei $\Phi$, eine Funktion von $x$ und von $n+1$ weiteren Parametern $a_0,\dotsc, a_n$.
 Ein \emph{Interpolationsproblem} besteht darin, die Parameter $a_0,\dotsc, a_n$ so zu bestimmen, dass für $n+1$ gegebene Paare $(x_i, f_i)$ ($i=1,\dotsc,n$) mit $x_i\neq x_k$ für $i\neq k$ reellen Zahlen, folgendes gilt:
-\begin{equation}
+\begin{align}
 	\label{eq:5.1}
 	\Phi(x_i, a_0,\dotsc, a_n) = f_i
-\end{equation}
+\end{align}
 Die Paare $(x_i, f_i)$ heißen Stützpunkte.
 
 Ein Interpolationsproblem heißt linear, falls $\Phi$ von den $a_i$ linear abhängt.
@@ -2032,9 +2032,9 @@ Um das Interpolationsproblem
 	\Phi(x,a_0,\dotsc, a_n) = \sum_{k=0}^n a_kx^k
 \]
 zu lösen, betrachte man das Gleichungssystem:
-\begin{equation}
+\begin{align}
 	\sum_{k=0}^n a_kx_j^k = f_j \qquad j=0,\dotsc, n \label{eq:5.2}
-\end{equation}
+\end{align}
 was geschrieben werden kann als
 \[
 	V a = f
@@ -2099,11 +2099,11 @@ Die so entstehenden überbestimmten Gleichungssysteme sind nicht lösbar.
 Wir können nur fordern, dass der Fehler in einer geeigneten Norm klein ist.
 
 Wir betrachten das \emph{lineare} Ausgleichsproblem, d.h. wir haben ein lineares Gleichungssystem mit $N$ Gleichungen und $n$ Unbekannten $x_k$ ($k=1,\dotsc,n$).
-\begin{equation}
+\begin{align}
 	\label{eq:5.3}
 	\sum_{k=1}^n c_{ik}x_k + d_i = r_i
 	\qquad i=1,\dotsc, N
-\end{equation}
+\end{align}
 mit sogenanntem \emph{Residuum} $r_i$.
 Beziehungsweise in Matrizenschreibweise:
 \[
@@ -2127,23 +2127,23 @@ Falls $C$ maximalen Rang hat, ist $A$ symmetrisch und positiv definit.
 Dies nehmen wir im Folgenden an.
 
 Wir müssen also folgende Funktion minimieren
-\begin{equation}
+\begin{align}
 	\label{eq:5.5}
 	F(x) = x^TAx + 2b^Tx + d^Td
-\end{equation}
+\end{align}
 Für Minima sind folgende Bedingung notwendig:
-\begin{equation}
+\begin{align}
 	\label{eq:5.6}
 	\f {\d F}{\d x_i}(x) = 2\sum_{j=1}^n a_{ij}x_j + 2b_i \stackrel != 0
-\end{equation}
+\end{align}
 und die Hessematrix $H_F(x) = 2A$ muss positiv definit sein.
 Da $A$ positiv definit, ist auch die Hessematrix positiv definit und es ergeben sich für die kritischen Punkte auf jeden Fall Minima.
 
 Es bleibt also die Bedingung $Ax + b=0$ zu lösen, bzw.
-\begin{equation}
+\begin{align}
 	\label{eq:5.7}
 	C^TCx = -C^Td
-\end{equation}
+\end{align}
 Diese Gleichung heißt \emph{Normalengleichung}.
 
 Klassisch löst man also das lineare Ausgleichsproblem:
@@ -2232,10 +2232,10 @@ mit $C\in \R^{N\times n}, x\in \R^n, d,r\in \R^N$ folgendermaßen:
 \begin{df}[Lineares Programm in Normalform]
 	\label{df:5.3}
 	Maximiere $x_p$ unter den Nebenbedingungen
-	\begin{equation}
+	\begin{align}
 		\label{eq:6.7}
 		x\in \R^n, \qquad Ax=b, \qquad x_1 \ge 0  \qquad \text{für } i\in I
-	\end{equation}
+	\end{align}
 	Dabei ist $I\subset N:=\{1,\dotsc,n\}$ eine eventuell bessere Indexmenge, $p\in N\setminus I$,
 	\[
 		A = \begin{pmatrix}a_1 & \cdots a_n\end{pmatrix} \in \R^{m\times n}
@@ -2351,10 +2351,10 @@ Wegen
 	b = A\_x = A_J \_x_J + A_K \cdot \_x_K = A_J\_x_J
 \]
 ist $\_x$ gegeben durch
-\begin{equation}
+\begin{align}
 	\label{eq:5.8}
 	\_x_J = A_;^{-1}b, \_x_K = 0
-\end{equation}
+\end{align}
 Für gegebenes $J$ ist jede Lösung von $Ax=b$ durch die Basislösung und eine Nichtbasisanteil eindeutig bestimmt.
 \begin{align}
 	Ax &=A_J x_J + A_K x_k = b\\
@@ -2363,16 +2363,16 @@ Für gegebenes $J$ ist jede Lösung von $Ax=b$ durch die Basislösung und eine N
 \setcounter{equation}{9}
 
 Falls die Basislösung $\_x$ zur Basis $J$ zulässig ist, d.h. $\_x\in P$, also zusätzlich zu $\_x_k=0$ auch
-\begin{equation}
+\begin{align}
 	\label{eq:5.10}
 	\_x_i \ge 0 \qquad \forall i\in I\cap J
-\end{equation}
+\end{align}
 gilt, so heißt $J$ eine \emph{zulässige Basis} und $\_x$ eine \emph{zulässige Basislösung}.
 Eine zulässige Basis heißt \emph{nicht-entartet}, falls die Verschärfung von \ref{eq:5.10}:
-\begin{equation}
+\begin{align}
 	\label{eq:5.11}
 	\_x_i > 0 \qquad \forall i\in I\cap j
-\end{equation}
+\end{align}
 gilt.
 
 Ein lineares Programm heißt \emph{nicht-entartet}, falls alle zulässigen Basislösungen nicht-entartet sind.
@@ -2442,15 +2442,15 @@ Falls das Problem nicht entartet ist und eine Optimallösung besitzt, bricht die
 	Also muss in diesem Fall $\_x$ die Optimallösung sein.
 	
 	Falls 5.12 nicht erfüllt ist, gibt es ein $s\in K$ mit %\ref{eq:5.12}
-	\begin{equation}
+	\begin{align}
 		\label{eq:5.14} 
 		s\in K \cap I \land c_s < 0
-	\end{equation}
+	\end{align}
 	oder
-	\begin{equation}
+	\begin{align}
 		\label{eq:5.15}
 		s\in K\setminus I \land c_s \neq 0
-	\end{equation}
+	\end{align}
 	Nach \ref{eq:5.13} führt eine Verkleinerung von $c_sx_s$ zu einer Vergrößerung von $x_p$.
 	Betrachte zu $\theta\in \R$ den Vektor $x(\theta) \in \R^n$ mit
 	\begin{align*}
@@ -2468,10 +2468,10 @@ Falls das Problem nicht entartet ist und eine Optimallösung besitzt, bricht die
 
 	Wir suchen das größte $\theta$ sodass $x(\theta)_l \ge 0 \forall l\in I$.
 	Nach \ref{eq:5.16} ist das äquivalent zu
-	\begin{equation}
+	\begin{align}
 		\label{eq:5.16}
 		x(\theta)_{j_i} = \_b_i - \theta \sigma \_a_i \ge 0 \qquad \forall i : j_i \in I
-	\end{equation}
+	\end{align}
 	da $x(\theta)_k=0 \forall k\in K\setminus \{s\}$.
 	Falls $\sigma \_a_i \le 0 \forall i: j_i \in I$, so ist $x(\theta)_p$ nicht nach oben beschränkt, d.h. es gibt kein endliches Optimum.
 
@@ -2480,10 +2480,10 @@ Falls das Problem nicht entartet ist und eine Optimallösung besitzt, bricht die
 		\_\theta = \f {\_b_r}{\sigma \_a_r} = \min \{\f{\_b_i}{\sigma \_a_i} : i : j_i\in I \land \sigma \_a_i > 0\}
 	\]
 	Dies bestimmt ein $r$ mit $j_r\in I, \sigma \_a_r > 0$ und
-	\begin{equation}
+	\begin{align}
 		\label{eq:5.17}
 		x(\theta)_{j_r} = \_b_r - \_\theta \sigma \_a_r = 0
-	\end{equation}
+	\end{align}
 	$x(\_\theta)$ ist zulässige Lösung.
 	Desweiteren ist $\_\theta \ge 0$.
 	Falls $J$ nicht entartet ist, gilt
