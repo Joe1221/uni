@@ -1449,15 +1449,15 @@ Seien $A=(a_{ij})_{i,j=1,\ldots,s}$, $b=(b_i)_{i=1,\ldots,s}$ und $c=(c_i)_{i=1,
 \]
 folgt dass das Verfahren (mindestens) Konsistenzordnung $1$ besitzt.
 \item 
-	Das Verfahren hat genau dann (mindestens) Konsistenzordnung $2$, wenn zusätlich gilt:
+	Das Verfahren hat genau dann (mindestens) Konsistenzordnung $2$, wenn zusätzlich gilt:
 \[
-\sum_{j=1}^s b_jc_j=\frac{1}{2}
+\sum_{j=1}^s b_jc_j=\frac{1}{2}.
 \]
 \item
-	Das Verfahren hat genau dann (mindestens) Konsistenzordnung $3$, wenn zusätlich gilt:
+	Das Verfahren hat genau dann (mindestens) Konsistenzordnung $3$, wenn zusätzlich gilt:
 \[
 \sum_{j=1}^s b_j c_j^2 = \frac{1}{3}  \quad \mbox{ und } \quad  
-\sum_{j=1}^s b_j \sum_{k=1}^s a_{jk} c_k = \frac{1}{6} 
+\sum_{j=1}^s b_j \sum_{k=1}^s a_{jk} c_k = \frac{1}{6}.
 \]
 \end{enumerate}
 \end{theorem}
@@ -1567,14 +1567,15 @@ Betrachten wir das einfache Beispiel
 y'(x)=\lambda y,\quad y(0)=1, \quad \lambda<0.
 \]
 Offenbar ist die Lösung $y(x)=e^{\lambda x}$. Aufgrund der Annahme $\lambda<0$ konvergiert die
-Lösung mit exponentiell Geschwindigkeit gegen Null.
+Lösung mit exponentieller Geschwindigkeie gegen Null.
 
 Durch Anwendung des expliziten Euler-Verfahrens mit Schrittweite $h$ auf dieses AWP erhalten wir
 \begin{align*}
-y_1 &= y_0 + h \lambda y_0=(1+h\lambda)\\
-y_2 &= y_1 + h \lambda y_1=(1+h\lambda)y_1=(1+h\lambda)^2\\
-& \vdots\\
-y_n&= (1+h\lambda)^n 
+	y_0 &= 1,\\
+y_1 &= y_0 + h \lambda y_0=(1+h\lambda),\\
+y_2 &= y_1 + h \lambda y_1=(1+h\lambda)y_1=(1+h\lambda)^2,\\
+\vdots \; &= \qquad \vdots\\
+y_n&= (1+h\lambda)^n.
 \end{align*}
 
 Da $\lambda<0$ folgt für $n\to \infty$ 
@@ -1586,37 +1587,37 @@ Da $\lambda<0$ folgt für $n\to \infty$
 \end{array}\right.
 \] 
 
-Nur für $1+h\lambda \geq -1$ (d.h. $h\leq -2/\lambda$) zeigen die Approximationen also das korrekte Langzeitverhalten und 
-konvergieren gegen Null, und für $h> -1/\lambda$ oszillieren die Approximationen.
+Nur für $1+h\lambda \geq -1$ (d.h. $h\leq -\f 2\lambda$) zeigen die Approximationen also das korrekte Langzeitverhalten und 
+konvergieren gegen Null, und für $h> -\f 1\lambda$ oszillieren die Approximationen.
 Für dieses AWP mit stark negativem $\lambda$ liefert die explizite Euler Methode also nur
 für extrem kleine Schrittweiten brauchbare Ergebnisse.
 
 Betrachten wir zum Vergleich die implizite Euler-Methode:
 \begin{alignat*}{2}
-y_1 &= y_0 + h \lambda y_1 &\Longrightarrow y_1&= (1-h\lambda)^{-1}\\
-y_2 &= y_1 + h \lambda y_2 &\Longrightarrow y_2&= (1-h\lambda)^{-1} y_1= (1-h\lambda)^{-2}\\ 
-& \vdots\\
-y_n&=  (1-h\lambda)^{-n}
+y_1 &= y_0 + h \lambda y_1 &\implies y_1&= (1-h\lambda)^{-1}\\
+y_2 &= y_1 + h \lambda y_2 &\implies y_2&= (1-h\lambda)^{-1} y_1= (1-h\lambda)^{-2}\\ 
+&&\vdots \qquad & \\
+&&\implies y_n&=  (1-h\lambda)^{-n}
 \end{alignat*}
-Für jede Schrittweite $h$, ist $1-h\lambda>1$. $y_n$ bleibt also stets positiv und konvergiert gegen Null für $n\to \infty$.
+Für jede Schrittweite $h>0$ ist $1-h\lambda>1$. $y_n$ bleibt also stets positiv und konvergiert gegen Null für $n\to \infty$.
 
 Implizites und explizites Euler-Verfahren besitzen die gleiche Konsistenzordnung. Für $h\to 0$ konvergieren sie gleich schnell gegen die wahre Lösung. Jedoch gibt es zwei Eigenschaften der wahren Lösung, Positivität und Abfallverhalten, 
-die nur die Iterierten des impliziten Euler-Verfahren für alle Schrittweiten zeigen. Die Iterierten des expliziten Euler-Verfahrens haben diese Eigenschaften erst für extrem kleine Schrittweiten.
+die nur die Iterierten des impliziten Euler-Verfahren für alle Schrittweiten zeigen. Die Iterierten des expliziten Euler-Verfahrens haben diese Eigenschaften erst für extrem kleine Schrittweiten $h$ (z.B. für $\lambda \ll 0$).
 
 Das betrachtete AWP ist also \emph{steif} in dem Sinne, dass die wahre Lösung gewisse Eigenschaften besitzt, die 
 so wichtig sind, dass man nur solche numerischen Approximationen akzeptieren wird, die diese Eigenschaften auch besitzen.
 
 \subsection{Die Testgleichung}
 
-Wir motivieren nun heuristisch, dass das im letzten Abschnitt beobachtete Verhalten
-auch in allgemeine Anfangswertprobleme wiederfinden lässt.
+Wir motivieren nun heuristisch, dass sich das im letzten Abschnitt beobachtete Verhalten
+auch in allgemeinen Anfangswertproblemen wiederfinden lässt.
 
 
 Betrachten wir das allgemeine AWP
 \[
 y'(x)=f(x,y), \quad y(x_0)=y_0\in \R^d
 \]
-Gemäß Übungsaufgabe ?? können wir es in eine autonome Gleichung umformen. Außerdem können wir durch Verschiebung annehmen, 
+Gemäß Übungsaufgabe 4.2 können wir es in eine autonome Gleichung umformen. Außerdem können wir durch Verschiebung annehmen, 
 dass $x_0=0$.
 \[
 y'(x)=f(y),  \quad y(0)=y_0\in \R^d
