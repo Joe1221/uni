@@ -1,0 +1,75 @@
+\documentclass{mywork}
+
+\addtolength{\headheight}{\baselineskip}
+\lhead{Höhere Analysis \\ \today}
+\chead{}
+\rhead{\theauthor \\ 2706616}
+
+\renewenvironment{aufgabe}{\refstepcounter{aufgabe}\par\medskip\noindent%
+	\textbf{Aufgabe \thesection.\theaufgabe}\rmfamily}
+{\medskip}
+
+\begin{document}
+
+	\setcounter{section}{6}
+
+	\begin{aufgabe}~
+
+		\begin{enumerate}[(I)]
+			\item
+				Da $H$ Hilbertraum und $T$ symmetrisch und beschränkt, können wir $x$ und $y$ schreiben als (siehe Bemerkung 3.4)
+				\begin{align*}
+					y &= y_0 + y_1, \\
+					x &= x_0 + x_1.
+				\end{align*}
+				mit $x_0,y_0 \in \_{\Im(T)}$ und $x_1,y_1 \in \ker(T)$.
+				Man erhält aus $(T-\lambda)x = y$ die Bedingungen
+				\begin{align*}
+					(T-\lambda) x_0 &= y_0, \\
+					-\lambda x_1 &= y_1.
+				\end{align*}
+				Wir wählen also $x_1 := - \f{y_1}{\lambda}$.
+				In der anderen Gleichung entwickeln wir $x_0 = \sum_{j=1}^\infty \alpha_j e_j$ und $y_0 = \sum_{j=1}^\infty \beta_j e_j$ in Fourierreihen mit ONS $(e_j)$ aus Eigenfunktionen von $T$ (möglich nach Hauptsatz 3.5):
+				\begin{align*}
+					(T-\lambda) \sum_{j=1}^\infty \alpha_j e_j &= \sum_{j=1}^\infty \beta_j e_j \\
+					\iff \qquad \sum_{j=1}^\infty \alpha_j (\lambda_j-\lambda) e_j &= \sum_{j=1}^\infty \beta_j e_j
+				\end{align*}
+				Mit der Wahl (nach Vorraussetzung ist $\lambda \neq \lambda_j$ für alle $j \in \N$):
+				\[
+					\alpha_j := \f{\beta_j}{\lambda_j - \lambda}
+				\]
+				ist nun auch $x_0$ festgelegt und die so konstruierte Lösung $x := x_0 + x_1$ erfüllt die gegeben Gleichung.
+
+				Für die Eindeutigkeit betrachte zwei Lösungen $x, x'$.
+				Es gilt $(T-\lambda) x = y = (T-\lambda) x'$, also $(T-\lambda)(x - x') = 0$.
+				Da $\lambda$ kein Eigenwert von $T$, ist $\ker(T-\lambda) = \{0\}$ und somit $x = x'$.
+			\item
+				Sei $\lambda$ Eigenwert von $T$.
+				\begin{seg}[„$\implies$“]
+					Sei $z \in \ker(T-\lambda)$ beliebig. Zeige $y \orth z$:
+					\begin{align*}
+						\<y,z\> = \<(T-\lambda)x,z\> = \<Tx,z\> - \<\lambda x, z\> = \<x,Tz\> - \<x,\lambda z\> = \<x,\underbrace{(T-\lambda) z}_{=0}\> = 0.
+					\end{align*}
+				\end{seg}
+				\begin{seg}[„$\Longleftarrow$“]
+					Wir verwenden die Konstruktion aus Teil (I) und betrachten $y_0$:
+					\[
+						y_0 = \sum_{j=1}^\infty \underbrace{\<y_0,e_j\>}_{\beta_j} e_j
+					\]
+					Für alle $k$ mit $e_k$ Eigenfunktion zum Eigenwert $\lambda_k = \lambda$ ist wegen $y_0 \orth e_k$ der Koeffizient $\beta_k = 0$.
+					Somit lassen sich die $\alpha_j$ aus (I) wählen als
+					\begin{align*}
+						\alpha_j = \begin{cases}
+							\f {\beta_j}{\lambda_j - \lambda} & \lambda_j \neq \lambda \\
+							0 & \lambda_j = \lambda
+						\end{cases}
+					\end{align*}
+					Also ist $x$ Lösung der Gleichung.
+					(Die Eindeutigkeit lässt sich nicht analog übertragen, aber war auch nihct gefordert).
+				\end{seg}
+		\end{enumerate}
+	\end{aufgabe}
+
+\end{document}
+
+
