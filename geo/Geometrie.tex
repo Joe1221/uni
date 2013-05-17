@@ -524,8 +524,96 @@ Damit folgt
 \end{lem}
 
 % Vorlesung 30.4.13
-% Folgt sobald ich Zeit habe
+Das Lemma \ref{4.6} hat gezeigt, dass sich die Tangentendrehzahl $n_c$ bei einer orientierungserhaltenden Umparametrisierung nicht ändert. Somit ist die Tangentendrehzahl einer geschlossenen orientierten ebenen Kurve wohldefiniert. Bei einer orientierungsumkehrenden Umparametrisierung ändert sich das Vorzeichen von $n_c$. Ferner folgt aus der Definition $n_c := \f{1}{2 \pi} (\tta(L) - \tta(0))$, dass $n_c$ eine ganze Zahl ist.
+
+\begin{st}
+\label{4.7}
+Sei $c: \R \to \R^2$ eine n.Bl.par. periodische ebene Kurve mit Periode $L$. Sei $\kappa : \R \to \R$ die Krümmung von $c$. Dann gilt
+\[ 2 \pi n_c = \int_0^L \kappa(t) dt .\]
+\begin{proof}
+Sei $e(t) = \dot c(t)$ und $\tta$ wie in \ref{4.3}. Aus \ref{3.6} folgt, dass $\tta$ eine Stammfunktion von $\kappa$ ist, also gilt \[ 2 \pi n_c = (\tta(L) - \tta(0)) = \int_0^L \kappa(t) dt . \]
+\end{proof}
+\end{st}
+
+\begin{st}[Umlaufsatz]
+\label{4.8}
+Eine einfach geschlossene orientierte ebene Kurve hat Tangentendrehzahl $+1$ oder $-1$.
+
+\begin{proof}
+\begin{enumerate}[a)]
+	\item
+		Sei $c$ eine Parametrisierung n.Bl. einer einfach geschlossenen ebenen Kurve, somit ist $c$ periodisch nach Aufgabe 1, Blatt 4. Sei $L$ die Periode. Wir betrachten zunächst die erste Komponente $c_1$ von $c = \begin{pmatrix} c_1 \\ c_2 \end{pmatrix}$, diese nimmt als stetige Funktion auf dem kompakten Intervall $[0, L]$ ihr Maximum an. Sei $x_0 := \max \{ c_1(t) | t \in \R \}$ und $t_0 \in [0, L]$ eine Zahl, so dass $c_1(t0) = x_0$. Nach einer Parametertransformation $t \mapsto t + t_0$ können wir annehmen, dass $c_1(0) = x_0$ gilt. Da die erste Komponente von $c$ nun bei $0$ ihr Maximum annimmt, gilt $\dot c(0) = \begin{pmatrix} 0 \\ \pm 1 \end{pmatrix}$. Indem wir, falls nötig, noch die orientierungsumkehrende Parametertransformation $t \mapsto -t$ anwenden, können wir annehmen, dass $\dot c = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$ gilt (dadurch ändert sich ja nur das Vorzeichen der Tangentendrehzahl). Nun liegt folgende Situation vor: Kein Bildpunkt von $c$ liegt rechts von der Geraden $c(0) + \R \dot c(0)$. Nun können wir für alle $0 \leq t_1 < t_2 < L$ den Einheitsvektor $\f{c(t_2) - c(t_1)}{\| c(t_2) - c(t_1) \|}$ definieren. Dies ist möglich, da die Kurve aufgrund der Einschränkung injektiv und einfach geschlossen ist, also $c(t_2) \neq c(t_1)$ gilt. Der obige Vektor gibt die Richtung einer Sekante an die Kurve durch $c(t_1)$ und $c(t_2)$ an.
+
+	\item
+		Sei nun $X = \{ \begin{pmatrix} t_1 \\ t_2 \end{pmatrix} \in \R^2 \; | \; 0 \leq t_1 \leq t_2 \leq L \}$. Wir können den oben definierten Sekantenvektor stetig auf dieser Menge X fortsetzen, indem wir definieren: 
+\[
+e : X \to S^1 , \qquad e(t_1, t_2 ) := \begin{cases} 
+					\displaystyle \f{c(t_2) - c(t_1)}{\| c(t_2) - c(t_1) \|} & \text{, falls } t_1 < t_2 \text{ und } (t_1, t_2) \neq (0, L) \\
+					\displaystyle \dot c(t_1) & \text{ , falls } t_1 = t_2 \\
+					\displaystyle - \dot c(0)  & \text{, falls } (t_1, t_2) = (0, L). 
+\end{cases}
+\]
+Nach dem Hochhebungslemma \ref{4.4} können wir eine Funktion $\tta: X \to \R$ wählen, so dass für alle $(t_1, 1_2) \in X$ gilt: 
+\[ \begin{pmatrix} \cos(\tta(t_1, t_2)) \\ \sin(\tta(t_1, t_2)) \end{pmatrix} = e(t_1, t_2). \]
+Wegen $e(t,t) = \dot c(t) $ ist $t \mapsto \tta(t, t)$ eine Winkelfunktion wie in der Definition der Tangentendrehzahl. Deshalb gilt: 
+\[ 2 \pi n_c = (\tta(L,L) - \tta(0, 0)) = \underbrace{\tta(L, L) - \tta(0, L)}_d + \underbrace{\tta(0, L) - \tta(0, 0)}_c .\]
+
+	\item
+		Wir betrachten die Abbildung $t \mapsto e(0, t)$. Diese nimmt den Wert $\begin{pmatrix} 1 \\ 0 \end{pmatrix}$ nicht an (denn sonst wäre $c(0)$ kein Bildpunkt der Kurve mit maximaler erster Komponente). Also nimmt $t \mapsto \tta(0, t)$ wie im Beweis des Hochhebungslemmas Teil a) nur Werte in einem Intervall der Form $(2 \pi k, 2 \pi (k+1))$ für ein $k \in \Z$ an. Es gilt:
+\begin{align*}
+ e(0, L) = - \dot c(0) = \begin{pmatrix} 0 \\ -1 \end{pmatrix} \qquad &\Longrightarrow \quad \tta(0, L) = \f{3}{2} \pi + 2 \pi k \\
+\intertext{und} e(0, 0) = \dot c(0) = \begin{pmatrix} 0 \\ 1 \end{pmatrix} \qquad &\Longrightarrow \quad \tta(0, 0) = \f{\pi}{2} + 2 \pi k. \\
+& \Longrightarrow \quad \tta(0, L) - \tta(0, 0) = \pi.
+\end{align*}
+Anschaulich: Da der Sekantenvektor nicht nach rechts zeigen kann, muss er eine $180^{\circ}$-Drehung gegen den Uhrzeigersinn vollführen, um von $\begin{pmatrix} 0 \\ 1 \end{pmatrix}$ nach $\begin{pmatrix} 0 \\ -1 \end{pmatrix}$ zu gelangen.
+
+	\item
+		Analog ist  $\begin{pmatrix} -1 \\ 0 \end{pmatrix}$ ist nicht im Bild der Abbildung $t \mapsto e(t, L)$ und es folgt $\tta(L, L) - \tta(0, L) = \pi$.
+
+	\item
+		Insgesamt gilt also $2 \pi n_c = \pi + \pi = 2 \pi$.
+\end{enumerate}
+\end{proof}
+\end{st}
+
+\section{Konvexe Kurven und Vierscheitelsatz}
+\fixme{Bilder konvex und nicht konvex}
+\begin{df}
+Eine ebene Kurve heißt \textbf{konvex}, falls für jeden ihrer Punkte gilt: Die Kurve liegt ganz auf einer Seite ihrer Tangente durch jeden Punkt, genauer: Ist $c$ eine Parametrisierung n.Bl. und $n$ das Normalenfeld längs $c$, so gilt für jeden Punkt $c(t_0)$ entweder
+\[ \< c(t) - c(t_0), n(t_0) \> \geq 0 \; \forall t \qquad \text{ oder } \qquad \< c(t) - c(t_0), n(t_0) \> \leq 0 \; \forall t. \]
+\end{df}
+
+\begin{lem}
+Sei $c: I  \to \R^2$ eine n.Bl.par. ebene Kurve mit Normalenfeld $n$. Dann ist $c$ genau dann konvex, wenn (für alle $t, t_0 \in I$ gilt:
+\[ \< c(t) - c(t_0), n(t_0) \> \geq 0 \; \forall t, t_0 \in I \quad \text{ oder } \quad \< c(t) - c(t_0) , n(t_0) \> \leq 0 \; \forall t, t_0 \in I. \]
+\begin{proof}
+Sei $c$ konvex und seien $t_1, t_2$ so, dass $\< c(t) - c(t_1), n(t_1) \> \leq 0 \; \forall t \in I$ und $\< c(t) - c(t_2), n(t_2) \> \geq 0 \; \forall t \in I$. Sei o.E. $t_1 < t_2$. Setze $t_3 := \sup \{\tilde t \in [t_1, t_2] \; \big| \; \< c(t) - c(\tilde t), n(\tilde t) \> \geq 0 \; \forall t \in I \}$. Aus Stetigkeitsgründen gilt $\< c(t) - c(t_3), n(t_3) \> = 0 \; \forall t \in I$ und es folgt, dass $c$ eine Gerade ist (und beide Bedingungen erfüllt sind).
+\end{proof}
+\end{lem}
 
 % Vorlesung 2.5.13
+
+\newpage
+% Vorlesung 7.5.13
+\setcounter{thm}{7}
+Erinnerung: \textbf{Vierscheitelsatz} \\
+Ist $c: \R \to \R^2$ eine periodische n.Bl.par. konvexe ebene Kurve mit Periode $L$, dann hat $c$ mindestens vier Scheitel in $[0, L)$. Scheitel: $t$, falls $\dot \kappa(t) = 0$.
+
+\begin{lem}
+\label{5.8}
+Schneidet eine einfach geschlossene ebene konvexe Kurve eine Gerade in mehr als 2 Punkten, so enthält die Kurve ein ganzes Segment dieser Geraden und hat damit insbesondere unendlich viele Schnittpunkte. \\
+\fixme{Bilder Schnittpunkte}
+\begin{proof}
+Sei $c: \R \to \R^2$ eine Parametrisierung n.Bl. mit Periode $L$. Nach einer Parametertransformation können wir annehmen, dass $c(0)$ einer der Schnittpunkte mit der Geraden ist. Wir können auch annehmen, dass $\kappa \geq 0$ ist (indem wir eventuell mit $t \mapsto -t$ umparametrisieren). \\
+Eine Winkelfunktion $\tta$ erfüllt also $\tta' = \kappa \geq 0$, d.h. sie ist monoton wachsend. Nach dem Umlaufsatz \ref{4.8} gilt $\tta(L) - \tta(0) = 2 \pi \underbrace{n_c}_{+1} = 2 \pi$. Also ist $\tta : [0, L] \to [\tta_0, \tta_0 + 2 \pi]$ eine differenzierbare, monoton wachsende, surjektive Funktion mit $\tta_0 = \tta(0)$. \\
+Die Kurve $c$ schneidet die Gerade $G$ bei den Parameterwerten $0 = t_0 < t_1 < t_2 < L$. Sei $G$ parametrisiert durch $t \mapsto p + t \cdot v, \; \| v \| = 1$. 
+\end{proof}
+\fixme{Beweis fertig}
+\end{lem}
+
+
+% Vorlesung 14.5.13
+
+% Vorlesung 16.5.13
 
 \end{document}
