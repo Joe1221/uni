@@ -68,6 +68,8 @@
 
 \usepackage{enumerate}			% Aufzählungen wie a), (I), etc. als optionales Argument
 \usepackage{parskip}			% Entfernt Einrückung bei Absätzen und fügt vertikalen Abstand ein
+\setlength{\parskip}{0.5em}
+
 \usepackage{float}              % Erlaubt [H] Option für table/figure
 %\usepackage{scrhack} 			% Wegen float-package, das eine warnung mit scrbook erzeugt
 
