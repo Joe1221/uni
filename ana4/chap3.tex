@@ -426,7 +426,7 @@
 	Gesucht sind $\lambda \in \R$ und $u \in C^2([a,b]\to \R)$ mit $u \neq 0$ und
 	\begin{align} \label{eq:3.1}
 		\begin{aligned}
-		(p'u')' - qu + \lambda ru &= 0 \qquad a\le x \le b \\
+		(pu')' - qu + \lambda ru &= 0 \qquad a\le x \le b \\
 		R_1 u := \alpha_1 u(a) + \alpha_2 u'(a) &= 0 \\
 		R_2 u := \beta_1 u(b) + \beta_2 u'(b) &= 0
 		\end{aligned}
@@ -439,11 +439,19 @@
 \begin{nt} \label{3.7}
 	\begin{enumerate}[1)]
 		\item
-			Wir unterscheiden folgende Sezialfälle bei der Randwertbedingung $u(a) = u(b) = 0$:
-
-			Die \emph{Dirichletsche Randbedingung}: $\alpha_1 = \beta_1 = 1, \alpha_2 = \beta_2 = 0$.
-
-			Die \emph{Neumannsche Randbedingung}: $\alpha_1 = \beta_1 = 0, \alpha_2 = \beta_2 = 1$.
+			Wir unterscheiden folgende Sezialfälle bei den Randwertbedingungen:
+			\begin{enumerate}[i)]
+				\item
+					Die \emph{Dirichletsche Randbedingung}: $\alpha_1 = \beta_1 = 1, \alpha_2 = \beta_2 = 0$, also
+					\[
+						u(a) = u(b) = 0.
+					\]
+				\item
+					Die \emph{Neumannsche Randbedingung}: $\alpha_1 = \beta_1 = 0, \alpha_2 = \beta_2 = 1$, also
+					\[
+						u'(a) = u'(b) = 0.
+					\]
+			\end{enumerate}
 		\item
 			Es gilt
 			\begin{align*}
@@ -496,7 +504,7 @@
 	\end{proof}
 \end{st}
 
-\begin{df} \label{3.9}
+\begin{df}[Sturm-Liouville-Operator] \label{3.9}
 	Sei $J := [a,b]$, $L := C([a,b] \to \R)$ mit $\<f,g\> := \int_a^b f(x)g(x) \dx$ Prähilbertraum über $\R$.
 	Definiere
 	\begin{align}
@@ -546,9 +554,9 @@
 		\item
 			$G \in C(I\times I \to \R)$
 		\item
-			\fixme[Bild]
-			$\partial_1 G, \partial_1^2 G \in C(\Delta_1 \to \R)$ und sind stetig fortsetzbar auf $\_{\Delta_1}$.
+			\fixme[Bild für $\Delta_1$ und $\Delta_2$]
 
+			$\partial_1 G, \partial_1^2 G \in C(\Delta_1 \to \R)$ und sind stetig fortsetzbar auf $\_{\Delta_1}$.
 			$\partial_1 G, \partial_1^2 G \in C(\Delta_2 \to \R)$ und sind stetig fortsetzbar auf $\_{\Delta_2}$.
 		\item
 			Für festes $\xi \in I$ gilt
@@ -570,49 +578,58 @@
 		\item
 			$Au = \phi$, also insbesondere $u \in D(A)$,
 		\item
-			$u(x) = \int_a^b G(x,y) \phi(y) \dx[y]$
+			$u$ ist eindeutig bestimmt durch
+			\[
+				u(x) = \int_a^b G(x,y) \phi(y) \dx[y].
+			\]
 	\end{enumerate}
 	\begin{proof}
 		\begin{seg}[(ii) $\implies$ (i)]
-			Es gilt
+			Wir teilen das Integral in $u(x)$ auf und leiten es nach der Leibnitzregel ab:
 			\begin{align*}
 				u(x)
 				&= \int_a^x G(\underbrace{x,y}_{\in \Delta_2})\phi(y) \dx[y] + \int_x^b G(\underbrace{x,y}_{\in \Delta_1})\phi(y) \dx[y] \\
 				\implies \quad u'(x) &=
-				G(x,x) \phi(x) - 0 + \int_a^x \partial_1 G(x,y) \phi(y) \dx[y] + 0 - G(x,x) \phi(x) + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y] \\
+				G(x,x) \phi(x) - 0 + \int_a^x \partial_1 G(x,y) \phi(y) \dx[y]  \\
+				&\quad + 0 - G(x,x) \phi(x) + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y] \\
 				&=\int_a^x \partial_1 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y]  \\
 				\implies \quad u''(x) &=
 				\underbrace{\partial_1 G(x,x-0)}_{= \partial_1 G(x+0,x)} \phi(x) + 0 - \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] \\
-				&\qquad\qquad+ 0 - \underbrace{\partial_1 G(x,x+0)}_{=\partial_1 G(x-0,x)} \phi(x) + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] \\
-				&= \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] \phi(x)\underbrace{\partial_1 G(x+0,x) + \partial_1 G(x-0,x)}_{= - \f 1{p(x)}} \\
+				&\quad+ 0 - \underbrace{\partial_1 G(x,x+0)}_{=\partial_1 G(x-0,x)} \phi(x) + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] \\
+				&= \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y]  \\
+				&\quad + \phi(x)\Big(\underbrace{\partial_1 G(x+0,x) + \partial_1 G(x-0,x)}_{= - \f 1{p(x)}}\Big) \\
 				&= \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] - \f {\phi(x)}{p(x)} \\
 			\end{align*}
-			Also
+			Damit ist $u \in C^2$ und es gilt
 			\begin{align*}
-				\tilde A u 
-				&= -p u'' - p'u' + qu \\
-				&= -p\Big( \partial_1 G(x+0,x) - \partial_1 G(x-0,x)) \Big) \phi + \int_a^b \tilde A G (\argdot, y) \dx[y] \\
-				&= \phi %\\
-				%&= \int_a^b \underbrace{\tilde A G(\argdot , y)}_{=0 \text{ nach 3)}} \dx[y] + p \Big( - \f {\phi(x)}{p(x)} \Big) = - \phi(x)
+				\tilde A u(x) 
+				&= -p u''(x) - p'u'(x) + qu(x) \\
+				&= \phi(x) - \int_a^b \underbrace{\Big( -p \partial_1^2 G(x,y) - p' \partial_1 G(x,y) + qG(x,y) \Big)}_{=\tilde A G(x,y)} \phi(y) \dx[y] \\
+				&= \phi(x) + \int_a^b \underbrace{\tilde A G (\argdot, y)}_{=0 \text{ nach 3)}} \dx[y] \\
+				&= \phi(x). %\\
 			\end{align*}
-			Damit ist $u \in C^2$.
-			Außerdem
+			Außerdem gilt für die Randbedingungen
 			\[
 				R_1 u = \int_a^b \underbrace{R_1G(\argdot, y)}_{=0 \text{ nach 3)}} \dx[y] = 0
 			\]
-			und $R_2 u = 0$, also $u \in D(A)$.
+			und ebenso $R_2 u = 0$, also $u \in D(A)$.
 		\end{seg}
 		\begin{seg}[(i) $\implies$ (ii)]
 			Sei $x \in ]a,b[$ fest, dann ist
 			\begin{align*}
 				\int_a^b G(x,y) \phi(y) \dx[y]
-				&\stack{\text{(i)}}= - \int_a^b G(x,y) Ax(y) \dx[y] \\
-				&= -\int_a^b \underbrace{G(x,y)}_{=G(y,x) \text{ nach \ref{3.13}}} \Big( (p(y)u'(y) )' - q(y)u(y) \Big) \dx[y] \\
-				&= -\int_a^x G(y,x) \Big( (p(y)u'(y) )' - q(y)u(y) \Big) \dx[y] - \int_x^b G(y,x) \Big( (p(y)u'(y) )' - q(y)u(y) \Big) \dx[y] \\
-				&= - \Big[G(y,x)p(y) u'(y) - \partial_1 G(y,x) p(y) u(y) \Big]_{y=a}^x \Big|_{y=x}^b \\
-				& \qquad- \int_a^b \Big( \partial_1(p(y)\partial_1 G(y,x)) u(y) - G(y,x) q(y) u(y) \Big) \dx[y]
+				&\stack{\text{(i)}}= \int_a^b G(x,y) Au(y) \dx[y] \\
+				&= \int_a^b \underbrace{G(x,y)}_{=G(y,x) \text{ nach \ref{3.13}}} \Big( -(p(y)u'(y) )' + q(y)u(y) \Big) \dx[y] \\
+				&= -\int_a^x G(y,x) \Big(p(y)u'(y)\Big)' \dx[y] - \int_x^b G(y,x) \Big(p(y)u'(y)\Big)' \dx[y] \\
+					&\quad + \int_a^b G(y,x) q(y) u(y) \dx[y] \\
+				&= \underbrace{\bigg[ -G(y,x)p(y)u'(y) \bigg]^{y=b}_{y=a}}_{=0 \text{ da $R_j G = 0$}} + \int_a^x \partial_y G(y,x) p(y)u'(y) \dx[y] \\ 
+					&\quad + \int_x^b \partial_y G(y,x) p(y) u'(y) \dx[y] + \int_a^b G(y,x) q(y)u(y) \dx[y] \\
+				&= \underbrace{\bigg[ \partial_y G(y,x) p(y) u(y) \bigg]^{y=b}_{y=a}}_{=0 \text{ da $R_j u = 0$}} + \bigg[ \partial_y G(y,x) p(y) u(y) \bigg]_{y=x+0}^{y=x-0} \\
+					&\quad - \int_a^b \partial_y \Big( p(y) \partial_y G(y,x) \Big) u(y) \dx[y] + \int_a^b G(y,x) q(y) u(y) \dx[y] \\
+				&= p(x)u(x) \underbrace{\Big( \partial_1 G(x-0,x) - \partial_1 G(x+0,x) \Big)}_{= \f 1{p(x)}} \\
+					&\quad + \int_a^b u(y) \underbrace{\Big(- \partial_y \big( p(y) \partial_y G(y,x) \big) + q(y) G(y,x)\Big)}_{=\tilde A G(y,x) = 0} \dx[y] \\
+				&= u(x)
 			\end{align*}
-			\fixme[Ende fehlt]
 		\end{seg}
 	\end{proof}
 \end{st}
