@@ -910,10 +910,10 @@
 
 	Sei weiter $G'$ die Greensche Funktion zu $A'$ (existiert nach \ref{3.14}).
 	Definiere
-	\[
-		G(x,y) := \sqrt {r(x)} G'(x,y) \sqrt{r(y)} \\
-		\scr K u(x) := \int_a^b G(x,y) u(y) \dx[y]  \qquad \text{für $u\in C(I\to \R)$}
-	\]
+	\begin{align*}
+		G(x,y) &:= \sqrt {r(x)} G'(x,y) \sqrt{r(y)} \\
+		\scr K u(x) &:= \int_a^b G(x,y) u(y) \dx[y]  \qquad \text{für $u\in C(I\to \R)$}
+	\end{align*}
 	Dann ist $\my = 0$ kein Eigenwert von $\scr K$ und folgende Aussagen sind äquivalent:
 	\begin{enumerate}[(i)]
 		\item
@@ -1032,11 +1032,227 @@
 	\[
 		(\scr K f)(x) := \int_K G(x,y) f(y) \dx[y] \qquad \text{für $f \in L$}
 	\]
-	Sei $(e_j)$ das ONS aus Eigenfunktionen mit Eigenwerten $(\lambda_j)$ (existiert nach \ref{1.28} und \ref{3.4}).
+	Sei $(e_j)$ das ONS aus Eigenfunktionen von $\scr K$ mit Eigenwerten $(\lambda_j)$ (existiert nach \ref{1.28} und \ref{3.4}).
 	
 	Dann konvergiert für $f \in \im(\scr K)$ die Fourierreihe
 	\[
 		f(x) = \sum_{i=1}^\infty \<f,e_j\>  e_j(x)
 	\]
 	absolut und gleichmäßig auf $K$.
+	\begin{proof}
+		Sei $f = \scr K g$ mit $g \in L$.
+		Dann ist
+		\begin{align*}
+			\<f,e_j\> 
+			= \<\scr K g, e_j\>
+			= \<g, \underbrace{\scr K e_j}_{= \lambda_j e_j}\>
+			= \lambda_j \<g, e_j\>
+		\end{align*}
+		\begin{align*}
+			\bigg( \sum_{j=N}^{M+N} |\<f,e_j\> e_j(x) | \bigg)^2
+			&= \bigg( \sum_{j=N}^{M+N} | \lambda_j \<g, e_j\> e_j(x) | \bigg)^2 \\
+			&= \l\< \begin{psmallmatrix} 
+				|\<g,e_N\>| \\ \vdots \\ |\<g,e_{N+M}\>|
+			\end{psmallmatrix}, \begin{psmallmatrix}
+				|\lambda_N e_N(x)| \\ \vdots \\ |\lambda_{N+M} e_{N+M}(x) |
+			\end{psmallmatrix} \r\>_{\R^{M+1}}^2 \\
+			&\stack{CSB}{\le} \bigg( \sum_{j=N}^{M+N} |\<g,e_j\>|^2 \bigg) \bigg(\sum_{j=N}^{M+N}|\lambda_j e_j(x)|^2\bigg) \tag{$*$}
+		\end{align*}
+		Da $\sum_{j=1}^\infty |\<g,e_j\>|^2 \le \|g\|^2$ (nach Bessel) konvergiert, lässt sich oben die linke Summe durch beliebiges $\eps > 0$ abschätzen für genügend großes $N$.
+
+		Betrachte nun die rechte Summe.
+		Es gilt
+		\begin{align*}
+			|\lambda_j e_j(x)|
+			= |(\scr K e_j)(x)| 
+			&= \bigg|\int_{K} G(x,y) e_j(y) \dx[y]\bigg|  \\
+			&= \bigg|\_{\int_{K} G(x,y) e_j(y) \dx[y]}\bigg| 
+			= \bigg|\int_{K} G(x,y) \_{e_j(y)} \dx[y]\bigg| 
+			= \Big|\<G(x,\argdot), e_j \>_L \Big|,
+		\end{align*}
+		also für die Summe
+		\begin{align*}
+			\sum_{j=N}^{M+N} |\lambda_j e_j(x)|^2
+			&= \sum_{j=N}^{M+N} |\<G(x,\argdot), e_j\>|^2 \\
+			&\le \sum_{j=1}^\infty |\<G(x,\argdot), e_j\>|^2 \\
+			&\stack{Bessel}{\le} \|G(x,\argdot)\|^2 
+			= \int_K |G(x,y)|^2 \dx[y]\\
+			&\le \max_{x,y \in K} |G(x,y)|^2 \underbrace{\my(K)}_{< \infty}  \qquad \text{($G$ stetig auf kompakter Menge)} \\
+			&\le c.
+		\end{align*}
+		Also lässt sich $(*)$ für genügend großes $N$ abschätzen:
+		\[
+			\bigg( \sum_{j=N}^{M+N} |\<f,e_j\> e_j(x) | \bigg)^2
+			\le \dotsc \le 
+			\bigg( \sum_{j=N}^{M+N} |\<g,e_j\>|^2 \bigg) \bigg(\sum_{j=N}^{M+N}|\lambda_j e_j(x)|^2\bigg)
+			< \eps \cdot c.
+		\]
+		Damit ist $\sum_{i=1}^\infty \<f,e_j\>e_j(x)$ absolut und gleichmäßig konvergent.
+	\end{proof}
 \end{st}
+
+
+\section{Sinus-Cosinus-Reihen}
+
+Das bekannteste Orthonormalsystem in $L = L^2([-\pi, \pi])$ ist
+\begin{align*}
+	(e_1, e_2, \dotsc ) = \bigg( x \mapsto \f 1{\sqrt{2\pi}},\; 
+	x \mapsto \f 1{\sqrt \pi} \cos x,\; 
+	x \mapsto \f 1{\sqrt \pi} \sin x, \;
+	x \mapsto \f 1{\sqrt \pi} \cos(2x), \;
+	x \mapsto \f 1{\sqrt \pi} \sin(2x),\; \dotsc \bigg)
+\end{align*}
+Für die Fourierreihe für $f \in L$ ergibt sich dann
+\begin{align*}
+	\sum_{j=1}^\infty \<f,e_j\> e_j(x)
+	= \f 1{2\pi} \int_{-\pi}^{\pi} f(t) \dx[t] + \sum_{j=1}^\infty \f 1{\pi} \int_{-\pi}^{\pi} f(t) \Big( \cos(jt) \cos(jx) + \sin(jt) \sin(jx) \Big) \dx[t]
+\end{align*}
+
+\begin{nt}[Notation] \label{3.21}
+	Wir schreiben im Folgenden:
+	\begin{align*}
+		a_j &:= \f 1{\pi} \int_{-\pi}^{\pi} f(t) \cos(jt) \dx[t] \qquad j\in \N_0, \\
+		b_j &:= \f 1{\pi} \int_{-\pi}^{\pi} f(t) \sin(jt) \dx[t] \qquad j\in \N, \\
+		s_n(x) &:= \f {a_0}2 + \sum_{j=1}^n \Big( a_j \cos(jx) + b_j \sin(jx) \Big), \\
+		s(x) &:= \lim_{n\to \infty} s_n(x) \qquad \text{(falls existent)}.
+	\end{align*}
+\end{nt}
+
+Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
+
+\begin{nt}[Beobachtungen] \label{3.22}
+	\begin{enumerate}[1)]
+		\item
+			$s_n$ (und gegebenenfalls $s$) ist $2\pi$-periodisch.
+		\item
+			Ist $f$ auf $\R$ definiert und $2\pi$-periodisch, so können die Integralgrenzen bei $a_j, b_j$ „verschoben“ werden, also für alle $c \in \R$:
+			\begin{align*}
+				a_j = \f 1{\pi} \int_{c-\pi}^{c+\pi} f(t) \cos(jt) \dx[t]
+				b_j = \f 1{\pi} \int_{c-\pi}^{c+\pi} f(t) \sin(jt) \dx[t]
+			\end{align*}
+		\item
+			$a_j, b_j$ ändern sich nicht, wenn $f$ auf einer Nullmenge abgeändert wird.
+		\item
+			Zur Definition von $a_j, b_j$ reicht die Voraussetzung $f \in L^1([-\pi, \pi]) \supsetneq L^2([-\pi, \pi])$.
+	\end{enumerate}
+\end{nt}
+
+\begin{lem} \label{3.23}
+	Für $f \in C^1([-\pi, \pi] \to \C)$ gilt
+	\[
+		\int_{-\pi}^{\pi} f(t) \cos(\omega t) \dx[t] \to 0, \qquad
+		\int_{-\pi}^{\pi} f(t) \sin(\omega t) \dx[t] \to 0 \qquad (\omega \to \infty).
+	\]
+	\begin{proof}
+		Es gilt für $\omega > 0$:
+		\begin{align*}
+			\bigg| \int_{-\pi}^{\pi} f(t) \cos(\omega t) \dx[t] \bigg|
+			&= \bigg| f(t) \f 1{\omega} \sin(\omega t) - \int_{-\pi}^{\pi} f'(t) \f 1{\omega} \sin(\omega t) \bigg| \\
+			&\le \underbrace{|f(t)|}_{\le c_1} \underbrace{\f 1{\omega} |\sin(\omega t)|}_{|\argdot| \le \f 1{\omega}} + \int_{-\pi}^{\pi} \underbrace{|f'(t)|}_{\le c_2} \underbrace{\f 1{\omega} |\sin(\omega t)|}_{|\argdot|\le \f 1{\omega}} \dx[t] \\
+			&\le \f {c_1 + 2\pi c_2}\omega \to 0 \qquad (\omega \to \infty)
+		\end{align*}
+	\end{proof}
+\end{lem}
+
+\begin{lem} \label{3.24}
+	Für $k \in \N_0$ und $1 \le p < \infty$ ist $C^k([-\pi, \pi] \to \C)$ dicht in $L^p([-\pi, \pi])$.
+	\begin{proof}
+		Später
+	\end{proof}
+\end{lem}
+
+\begin{st}[Lemma von Riesz] \label{3.25}
+	Für $f \in L^1([-\pi, \pi])$ gilt die Aussage aus \ref{3.23}:
+	\[
+		\int_{-\pi}^{\pi} f(t) \cos(\omega t) \dx[t] \to 0, \qquad
+		\int_{-\pi}^{\pi} f(t) \sin(\omega t) \dx[t] \to 0 \qquad (\omega \to \infty).
+	\]
+	\begin{proof}
+		Zu $f$ wähle $f_\eps \in C^1 ([-\pi,\pi] \to \C)$ mit $\|f_\eps - f\|_{C^1} < \eps$ (\ref{3.24} mit $k=1, p=1$).
+		Dann gilt
+		\begin{align*}
+			\bigg|\int_{-\pi}^{\pi} f(t) \cos(\omega t) \dx[t] \bigg|
+			&= \bigg| \underbrace{\int_{-\pi}^{\pi} \underbrace{(f(t) - f_\eps(t)) \cos(\omega t)}_{|\argdot| \le |f-f_\eps|} \dx[t]}_{\le \|f - f_\eps\|_{L^1} = \int_{-\pi}^\pi |f-f_\eps| \dx[t] < \eps} + \underbrace{\int_{-\pi}^{\pi} f_\eps (t) \cos(\omega t) \dx[t]}_{\to 0 \text{ für $\omega \to \infty$ nach \ref{3.23}}} \bigg| \\
+			&< 2\eps \qquad (\omega > K_\eps)
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{nt*}[Dirichlet-Kern]
+	Wir nennen die Funktionenfolge
+	\[
+		D_n(x) = \sum_{j=-n}^n e^{ijx}
+	\]
+	\emph{Dirichlet-Kern}.
+
+	$D_n(x)$ ist symmetrisch und $2\pi$-periodisch und hat die alternative Darstellung
+	\[
+		D_n(x) = \f {\sin((n+\f 12)x)}{\sin(\f 12 x)}
+	\]
+	(an den Stellen $x = 2k\pi$ für $k \in \Z$ durch $2n + 1$ stetig fortsetzbar).
+	Außerdem gilt für $c \in \R$:
+	\begin{align*}
+		\f 1{2\pi} \int_{c-\pi}^{c+\pi} D_n(t) \dx[t] = 1.
+	\end{align*}
+	\begin{proof}
+		Für $D_n(x)$ gilt ($x \neq 0$):
+		\begin{align*}
+			D_n(x)
+			&= \sum_{j=-n}^n e^{ijx}
+			= \sum_{j=0}^{2n} e^{i(j-n)x}
+			= e^{-inx} \sum_{j=0}^{2n} (e^{ix})^{j} \\
+			&= \underbrace{e^{-inx}}_{= \f {e^{-i(n-\f 12)x}}{e^{-i \f{x}2}}} \f {1- e^{i(2n+1)x}}{1- e^{ix}}
+			= \f {e^{-i(n+\f 12)x} - e^{i (n+\f 12)x}}{e^{-i\f{x}2}-e^{i \f x 2}} \\
+			&= \f {\sin((n+ \f 12)x)}{\sin(\f x 2)}
+		\end{align*}
+		und damit
+		\[
+			D_n(x) = \f 1{2\pi} \f {\sin((n+\f 12)x)}{\sin(\f 12 x)} = D_n(-x).
+		\]
+		Außerdem ist
+		\begin{align*}
+			\f 1{2\pi} \int_{-\pi}^\pi D_n(t) \dx[t]
+			&= \f 1{2\pi} \int_{-\pi}^\pi \sum_{j=-n}^n e^{ijt} \dx[t]
+			= \f 1{2\pi} \sum_{j=-n}^n \int_{-\pi}^\pi e^{ijt} \dx[t] \\
+			&= \f 1{2\pi} \Bigg( \underbrace{\sum_{\substack{j=-n \\ j\neq 0}}^n}_{= 0} \Big[ \f 1{ij} e^{ijt} \Big]_{t=-\pi}^{t=\pi} + 2\pi \Bigg)
+			= 1.
+		\end{align*}
+		Aufgrund der $2\pi$-Periodizität ergibt sich die Translationsinvarianz des Integrals.
+	\end{proof}
+\end{nt*}
+
+\begin{lem} \label{3.26}
+	Für $f \in L^1([-\pi, \pi])$ $2\pi$-periodisch fortgesetzt auf $\R$ gilt
+
+	\begin{align*}
+		s_n(x) - f(x) = \f 1{2\pi}\int_{-\pi}^{\pi} \Big(f(x+t) - f(x)\Big) D_n(x) \dx[t]
+	\end{align*}
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			s_n(x) 
+			&= \f {a_0}2 + \sum_{j=1}^n \Big( a_j \cos(jx) + b_j \sin(jx) \Big) \\
+			&= \f 1{2 \pi} \int_{-\pi}^{\pi} f(t) \dx[t] + \sum_{j=1}^n \f 1{\pi} \int_{-\pi}^{\pi} f(t) \Big( \underbrace{\cos(jt) \cos(jx) + \sin(jt) \sin(jx)}_{= \f 12 ( e^{ij(x-t)} + e^{ij(t-x)})} \Big) \dx[t] \\
+			&= \f 1{2\pi} \int_{-\pi}^{\pi} \f 1{2\pi} \bigg( \sum_{j=-n}^n e^{ij(x-t)} \bigg) f(t) \dx[t] \\
+			&= \f 1{2\pi} \int_{-\pi}^{\pi} D_n(x-t) f(t) \dx[t].
+		\end{align*}
+		Und damit
+		\begin{align*}
+			s_n(x) - f(x) 
+			&= \int_{-\pi}^{\pi} f(\tau) D_n(x-\tau) \dx[\tau] - f(x) \underbrace{\int_{-\pi}^{\pi} D_n(t) \dx[t]}_{=1} \\
+			&= \int_{-\pi-x}^{\pi-x} \underbrace{f(t + x)\underbrace{D_n(-t)}_{=D_n(t)}}_{\text{$2\pi$-periodisch in $t$}} \dx[t] - \int_{-\pi}^\pi f(x) D_n(t) \dx[t] \\
+			&= \int_{-\pi}^{\pi} \Big( f(t + x) - f(x) \Big) D_n(t).
+		\end{align*}
+	\end{proof}
+	\begin{note}
+		Aus dem Beweis geht insbesondere folgende Darstellung für $s_n(x)$ hervor:
+		\begin{align*}
+			s_n(x) = \f 1{2\pi} \int_{-\pi}^{\pi} D_n(x-t) f(t) \dx[t]
+		\end{align*}
+	\end{note}
+\end{lem}
+
+
+
+
+
