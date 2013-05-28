@@ -54,11 +54,21 @@
 \usepackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
 %\usepackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
-\usepackage{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
+\usepackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 \hypersetup{
     colorlinks=false,
     pdfborder={0 0 0},
 }
+
+% PDF Meta-Informationen setzen
+%\makeatletter
+\AtBeginDocument{
+  \hypersetup{
+    pdftitle = {\@title},
+    pdfauthor = {\@author}
+  }
+}
+%\makeatother
 
 
 % Erzeuge pdf-bookmark für das Inhaltsverzeichnis
