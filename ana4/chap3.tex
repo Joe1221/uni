@@ -1252,7 +1252,170 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 	\end{note}
 \end{lem}
 
+\begin{st}[Kriterium von Dini] \label{3.27}
+	Sei $f \in L^1([-\pi,\pi])$ $2\pi$-periodisch fortgesetzt, $x \in [-\pi,\pi]$ fest und
+	\[
+		\exists \delta > 0 : \int_{-\delta}^{\delta} \l| \f{f(x+t)-f(x)}{t} \r| \dx[t] < \infty
+	\]
+	Dann gilt $f(x) = \lim_{n\to\infty} s_n(x)$.
+	\begin{proof}
+		Nach \ref{3.26} ist
+		\begin{align*}
+			s_n(x)-f(x)
+			&= \int_{-\pi}^\pi \Big( f(t+x)-f(x) \Big) \f 1{2\pi \sin(\f t2)} \sin((n+\f 12) t) \dx[t] \\
+			&= \int_{-\pi}^\pi \underbrace{\underbrace{\f {f(t+x)-f(x)}{t}}_{\in L^1([-\pi,\pi])} \underbrace{\f t{2\pi \sin(\f t2)}}_{\text{stetig ergänzbar in $t=0$}}}_{\in L^1([-\pi,\pi])} \sin((n+\f 12) t) \dx[t] \\
+			\intertext{Hier liefert \ref{3.25} schließlich:}
+			&\to 0 \qquad (n\to \infty).
+		\end{align*}
+	\end{proof}
+\end{st}
 
+\begin{nt} \label{3.28}
+	Die Bedingung von Dini (aus \ref{3.27}) ist erfüllt, falls $f \in L^1([-\pi,\pi])$ $2\pi$-periodisch fortgesetzt und $f$ Hölder-stetig bei $x$ ist, d.h.
+	\[
+		\exists \alpha, c, \delta > 0 \forall t \in [-\delta, \delta] : |f(x+t) - f(x)| < c |t|^\alpha
+	\]
+	\begin{proof}
+		Es gilt
+		\[
+			\int_{-\delta}^{\delta} \l| \f{f(x+t) - f(x)}t \r| \dx[t] 
+			\le c \int_{-\delta}^\delta |t|^{\overbrace{\alpha - 1}^{>-1}} \dx[t]
+			< \infty
+		\]
+		und somit nach \ref{3.27} $f(x) = \lim_{n\to\infty} s_n(x)$.
+	\end{proof}
+\end{nt}
 
+\begin{st}[Erweitertes Kriterium von Dini] \label{3.29}
+	Sei $f \in L^1([-\pi,\pi])$ $2\pi$-periodisch fortgesetzt, $x \in [-\pi,\pi]$ Unstetigkeitsstelle erster Art (d.h. $f(x-0)$ und $f(x+0)$ existieren).
+	Gilt
+	\[
+		\exists \delta > 0 :
+		\int_{-\delta}^0 \l| \f{f(x+t)-f(x-0)}t \r| \dx[t] < \infty
+		\;\land\; \int_{0}^{\delta} \l| \f{f(x+t)-f(x-0)}t \r| \dx[t] < \infty
+	\]
+	so konvergiert die Fourierreihe $s(x)$ und es gilt
+	\[
+		s(x) = \f 12 \Big( f(x+0) + f(x-0) \Big)
+	\]
+	\begin{proof}
+		Wegen $D_n(-t) = D_n(t)$ und $\int_{-\pi}^\pi D_n(t) \dx[t] = 1$ ist
+		\[
+			\int_{-\pi}^0 D_n(t) \dx[t] = \int_0^\pi D_n(t) \dx[t] = \f 12
+		\]
+		Also
+		\[
+			\f 12 \Big(f(x+0) + f(x-0) \Big) = \int_{-\pi}^0 f(x-0) D_n(t) \dx[t] + \int_{0}^\pi f(x+0) D_n(t) \dx[t]
+		\]
+		und somit
+		\begin{align*}
+			s_n(x) - \f 12 \Big( f(x-0) + f(x+0)\Big)
+			&= \int_{-\pi}^\pi f(t+x) D_n(t) \dx[t] - \f 12 \Big( f(x-0) + f(x+0)\Big) \\
+			&= \int_{-\pi}^0 \Big( f(t+x) - f(x-0) \Big) D_n(t) \dx[t]
+			+ \int_{0}^\pi \Big( f(t+x) - f(x-0) \Big) D_n(t) \dx[t] \\
+			&= \int_{-\pi}^\pi \underbrace{g_1(t)}_{\in L^1([-\pi,\pi])} \sin((n+\f 12)t) \dx[t]
+			+ \int_{-\pi}^\pi \underbrace{g_2(t)}_{\in L^1([-\pi,\pi])} \sin((n+\f 12)t) \dx[t]
+		\intertext{nach \ref{3.25} also}
+			&\to 0 \qquad (n\to \infty)
+		\end{align*}
+	\end{proof}
+\end{st}
 
+\begin{st}[Kriterium von Lipschitz] \label{3.30}
+	Sei $f \in C(\R \to \C)$ $2\pi$-periodisch mit
+	\[
+		\exists \alpha, c > 0 \forall x, x' \in \R : |f(x) - f(x')| \le c | x -x'|^\alpha
+	\]
+	(d.h. $f$ ist Hölder-stetig auf $\R$).
+	Dann konvergiert $(s_n)$ auf $\R$ gleichmäßig gegen $f$.
+	\begin{proof}
+		\begin{enumerate}[1]
+			\item
+				Es gelten
+				\begin{enumerate}[a)]
+					\item
+						Für die Bedingungen aus \ref{3.28} gilt $\forall x \in \R : s_n(x) \to f(x)$.
+					\item
+						$s_n$ ist gleichgradig stetig auf $\R$:
+						\[
+							\forall \eps > 0 \exists \delta > 0 \forall n \in \N \forall x,x' \in \R : |x-x'|< \delta \implies |s_n(x)-s_n(x')| < \eps.
+						\]
 
+						Seien dazu $x, x' \in \R$.
+						\begin{align*}
+							|s_n(x) - s_n(x)|
+							&= \bigg| \int_{-\pi}^\pi f(x+t) D_n(t) \dx[t] - \int_{-\pi}^\pi f(x'+t) D_n(t) \dx[t] \bigg| \\
+							&= \Bigg| \int\limits_{[-\pi,-\delta] \cup [\delta, \pi]} \Big( f(x+t) - f(x'+t) \Big) D_n(t) \dx[t]  \\
+								&\qquad + \int_{-\delta}^\delta \Big( f(x+t) -f(x) \Big) D_n(t) \dx[t] 
+								+ \underbrace{\int_{-\delta}^\delta \Big(f(x) - f(x')\Big) D_n(t) \dx[t]}_{= f(x)-f(x')} \\
+								&\qquad - \int_{[-\pi,-\delta]}^{[\delta,\pi]} \Big(f(x) - f(x')\Big) D_n(t) \dx[t] 
+								 - \int_{-\delta}^\delta \Big(f(x'+t) - f(x') \Big) D_n(t) \dx[t]
+								\Bigg| \\
+							&\le \int\limits_{[-\pi,-\delta]\cup [\delta, \pi]}  \Big(\underbrace{|f(x+t) - f(x'+t)| + | f(x) -f(x')|}_{\le c |x-x'|^\alpha}\Big) \underbrace{D_n(t)}_{\le \f 1{2\pi \sin(\f \delta 2)}} \dx[t] \\
+								&\quad + \int_{-\delta}^\delta \Big(\underbrace{|f(x+t) - f(x)| + |f(x'+t)-f(x')|}_{\le c|t|^\alpha}\Big) D_n(t) \dx[t] \\
+								&\quad + \underbrace{|f(x) - f(x')|}_{\le c |x-x'|^\alpha} \\
+							&\le c |x-x'|^\alpha \bigg( 1 + \int\limits_{[-\pi,-\delta] \cup [\delta, \pi]} \f 1{2\pi \sin(\f \delta 2)} \dx[t] \bigg)
+							+ c \int_{-\delta}^\delta \f {|t|^\alpha}{|\sin(\f t2)|} |\sin(n+\f 12) t | \dx[t] \\
+							&\le c |x-x'|^\alpha \bigg( 1 + \int\limits_{[-\pi,-\delta] \cup [\delta, \pi]} \f 1{2\pi \sin(\f \delta 2)} \dx[t] \bigg)
+							+ c \int_{-\delta}^\delta \f {|t|^\alpha}{|\sin(\f t2)|} \dx[t]
+						\intertext{
+						 Da $\int_{-1}^1 \f {|t|^\alpha}{|\sin \f t2|} \dx[t] < \infty$, wählen wir $\delta > 0$, so dass
+						 \[
+						 	c \int_{-\delta}^\delta \f {|t|^\alpha}{|\sin (\f t2)|} \dx[t] < \eps
+						 \]
+						 Betrachte
+						 \[
+							 \underbrace{ c |x-x'|^\alpha \bigg( 1 + \int\limits_{[-\pi,-\delta] \cup [\delta, \pi]} \f 1{2\pi \sin(\f \delta 2)} \dx[t] \bigg)}_{ = c(\delta) |x-x'|^\alpha}
+						 \]
+						 Wähle zu festem $\delta$ $\xi > 0$ mit $c(\delta) |x-x'|^\alpha < \eps$ für $|x-x'| < \eps$.
+						 Damit sind beide Summanden abgeschätzt durch
+						}
+							&< 2 \eps \qquad \text{für $|x-x'| < \xi$}
+						\end{align*}
+						unabhängig von $n \in \N$ und der Lage von $x$.
+					\item
+						$f$ ist stetig.
+				\end{enumerate}
+			\item
+				Sei $\eps > 0$, $x_0 \in \R$ vorgegeben, dann folgt aus obigen drei Aussagen:
+				\begin{enumerate}[a)]
+					\item
+						$|s_n(x_0) - f(x_0) < \eps$ für $n > N_{\eps, x_0}$
+					\item
+						$|s_n(x) - s_n(x_0)| < \eps$ für $|x-x_0| < \delta', n\in \N$.
+					\item
+						$f(x) - f(x_0)| < \eps$ für $|x-x_0| < \delta''$.
+				\end{enumerate}
+				Für $\delta := \min\{\delta', \delta''\}$, $|x-x_0| < \delta$, $n > N_{\eps, x_0}$ folgt aus den obigen drei Aussagen:
+				\[
+					|f(x) - s_n(x)| 
+					\le |f(x) - f(x_0)| + |f(x_0)-s_n(x)| + |s_n(x_0) - s_n(x)|
+					< 3\eps.
+				\]
+			\item
+				Zu jedem $x_0 \in \R$ wurde eine Umgebung $I := ]x_0-\delta_{\eps, x_0}, x_0 + \delta_{\eps, x_0}[$ gefunden mit $|f(x) - s_n(x)| < \eps$ für $n > N_{\eps, x_0}$, $x \in  I$.
+
+				Da $[-\pi,\pi]$ kompakt, überdecken endlich viele solcher Intervalle $[-\pi, \pi]$:
+				\[
+					[-\pi,\pi] \subset \bigcup_{k=1}^K \Big] x_k - \delta_{\eps, x_k}, x_k + \delta_{\eps, x_k} \Big[
+				\]
+				Für $n > N_\eps := \max\{N_{\eps, x_1}, \dotsc, N_{\eps, x_K}\}$ folgt somit
+				\[
+					|f(x) - s_n(x)| < 3\eps
+				\]
+				Da $f, s_n$ $2\pi$-periodisch waren, ist also
+				\[
+					|f(x) - s_n(x)| < 3\eps \qquad \text{für $n> N_\eps, x\in \R$.}
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{nt} \label{3.31}
+	Sei $f \in C^1(\R \to \C)$ $2\pi$-periodisch.
+	Dann ist
+	\[
+		|f(x) - f(x')| = |f'(\xi)||x-x'| \le \max_{[-\pi,\pi]} |f'|\cdot |x-x'|.
+	\]
+	Nach \ref{3.30} also $s_n \to f$ gleichmäßig auf $\R$.
+\end{nt}
