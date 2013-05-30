@@ -19,7 +19,7 @@
 
 
 	<!-- Style theme. More available in /themes/style/ or create your own. -->
-	<link rel="stylesheet" href="css/mymath.css">
+	<link rel="stylesheet" href="css/mytheme.css">
 	
 	<!-- Transition theme. More available in /themes/transition/ or create your own. -->
 	<link rel="stylesheet" href="lib/deck.js/themes/transition/fade.css">
@@ -31,31 +31,118 @@
 </head>
 <body class="deck-container">
 
-<!-- Begin slides. Just make elements with a class of slide. -->
+
+<!-- BEGIN CONTENT -->
+
 
 <section class="slide">
-	<h1>Slide</h1>
+	<h1>Der Algorithmus von de Casteljau</h1>
 </section>
 
 <section class="slide">
-	<h2>Content</h2>
+	<h2>Bézierkurve in parametrisierter Form</h2>
 	<p>
-		This is content: $a^2 + b^2 = c^2$:
 		\[
-			\sum_{k=0}^\infty \frac{x^k}{k!} = e^x
+			p(t) = \sum_{j=0}^n c_j b_j^n(t),
+			\qquad t \in [0,1]
 		\]
 	</p>
-	<div id="vis" style="position: relative; height: 500px; width: 600px;">
-		<svg id="vissvg" style="position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;"></svg>
-	</div>
 
+	<div id="visdiv01" class="visdiv">
+		<svg id="vissvg01" class="vissvg"></svg>
+	</div>
 </section>
 
 <section class="slide">
-	<h1>Here</h1>
+	<h2>Geometrische Betrachtung des Algorithmus</h2>
+	<div style="display: block; margin: 0 auto; width: 400px">
+		<input style="width: 250px;" type="range"  min="0" max="1" value="0.50" step="0.001" onchange="bezier02.setT(this.value)" />
+		<span id="t">t = 0.50</span>
+	</div>
+
+	<div id="visdiv02" class="visdiv">
+		<svg id="vissvg02" class="vissvg"></svg>
+	</div>
 </section>
 
-<!-- End slides. -->
+<section class="slide">
+	<h2>Pseudo-Algorithmus</h2>
+	<p>
+		<ol>
+			<li>Verbinde die Kontrollpunkte $c_0, c_1, \dotsc, c_n$ zum Kontrollpolygon</li>			
+			<li>Teile jeden Streckenabschnitt im Polyon im Verhältnis $t$ zu $1-t$ und verbinde die erhaltenen Punkte zu einem neuen Polygon</li>			
+			<li>Wiederhole Schritt 2. bis nur ein Punkt übrig bleibt. Dies ist der gesuchte Punkt $p(t)$.</li>			
+		</o>
+	</p>
+</section>
+
+<section class="slide">
+	<h2>Benennung der Teil-Bézierkurven</h2>
+	<p>
+	Definiere
+	\[
+		p_k^m(t) := \sum_{j=0}^m c_{k+j}b_j^m(t)
+	\]
+	als <em>„Beziérkurve mit $m$ Kontrollpunkten beginnend ab Kontrollpunkt $k$“</em>.
+	</p>
+	<p>
+	Insbesondere: 
+	\begin{align*}
+		p_0^n(t) &= \sum_{j=0}^n c_j b_j^n(t) = p(t), \\
+		p_k^0(t) &= c_{k+0}b_0^0(t) = c_k.
+	\end{align*}
+	</p>
+</section>
+
+<section class="slide">
+	<h2>Rekursion</h2>
+	<p style="font-size: 1.2em">
+	\[
+	p_k^m(t) = (1-t)\cdot p_k^{m-1}(t) + t \cdot p_{k+1}^{m-1}(t)
+	\]
+	</p>
+	<p style="font-size: 0.9em; text-align: center">
+	„Strecke $\overline{p_k^{m-1}(t) p_{k+1}^{m-1}(t)}$ geteilt im Verhältnis $t$ zu $1-t$“
+	</p>
+</section>
+
+<section class="slide">
+	<h2>Zum Beweis der Rekursion</h2>
+	<p style="text-align: left;">
+	Rekursion für Bernsteinpolynome:
+	\begin{align*}
+		b_k^n(x) &= x b_{k-1}^{n-1}(x) + (1-x)b_k^{n-1}(x), \\
+		b_{-1}^n(x) &= 0, \\
+		b_{n+1}^n(x) &= 0.
+	\end{align*}
+	</p>
+	<p style="text-align: left;">
+	Definition der Teil-Bézierkurven:
+	\[
+		p_k^m(t) = \sum_{j=0}^m c_{k+j} b_j^m(t).
+	\]
+	</p>
+</section>
+
+<section class="slide">
+	<h2>Anwendungen</h2>
+	<ul>
+		<li>Numerisch stabile Berechnung</li>
+		<li>„Splitten“ von Bézier-Kurven</li>
+		<li>Geometrische Konstruktion von Kurvenpunkten mit Zirkel und Lineal</li>
+	</ul>
+</section>
+
+<section class="slide">
+	<h2>Ende</h2>
+	<p>
+		Der Quellcode der Präsentation und des Handouts findet sich auf:
+		<div><a href="https://github.com/stev47/uni/tree/master/psem/casteljau">https://github.com/stev47/uni/tree/master/psem/casteljau</a></div>
+	</p>
+</section>
+
+<!-- END CONTENT -->
+
 
 
 <!-- deck.status snippet -->
@@ -73,12 +160,14 @@
 <script src="lib/deck.js/core/deck.core.js"></script>
 <script src="lib/d3/d3.min.js"></script>
 
-<script src="js/bezier.js"></script>
+<script src="js/bezier01.js"></script>
+<script src="js/bezier02.js"></script>
 
 
 <!-- Extension JS files. Add or remove as needed. -->
 <script src="lib/deck.js/core/deck.core.js"></script>
 <script src="lib/deck.js/extensions/menu/deck.menu.js"></script>
+<script src="lib/deck.js/extensions/hash/deck.hash.js"></script>
 <script src="lib/deck.js/extensions/status/deck.status.js"></script>
 <script src="lib/deck.js/extensions/navigation/deck.navigation.js"></script>
 <script src="lib/deck.js/extensions/scale/deck.scale.js"></script>

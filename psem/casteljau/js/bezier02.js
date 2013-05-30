@@ -1,11 +1,14 @@
-var t = .5,
+var bezier02 = function () {
+
+var t = 0.5,
     delta = .01,
     points = [{x: 137, y: 214}, {x: 83, y: 83}, {x: 255, y: 69}, {x: 413, y: 187}],
     bezier = {},
-    line = d3.svg.line().x(x).y(y),
+    bezierCurve = d3.svg.line().x(x).y(y),
     stroke = d3.scale.category20b(); // Color?
 
-var vis = d3.select("#vissvg");
+var visdiv = d3.select("#visdiv02");
+var vis = visdiv.select(".vissvg");
 vis.append("g");
 
 update();
@@ -22,10 +25,11 @@ vis.selectAll("circle.control")
         update();
 		  var radius = d3.select(this).attr("r");
         d3.select(this)
-          .attr("cx", d.x = d3.event.x)
-          .attr("cy", d.y = d3.event.y);
-      }));
-
+          .attr("cx", d.x  = d3.event.x)
+          .attr("cy", d.y  = d3.event.y);
+      })
+	);
+/*
 vis.append("text")
   .attr("class", "t")
   .attr("x", 300 / 2)
@@ -34,8 +38,8 @@ vis.append("text")
 // Update time text
 vis.selectAll("text.t")
   .text("$t = " + t.toFixed(2) + "$");
-
-d3.select(".visdiv").selectAll("div.controltext")
+*/
+visdiv.selectAll("div.controltext")
     .data(points)
   .enter().append("div")
     .attr("class", "controltext")
@@ -64,13 +68,45 @@ update();
 
 function update() {
   var interpolation = vis.selectAll("g")
-      .data(function(d) { return getLevels(5, t); });
+      .data(function(d) { return getLevels2(4, t, 0, 4)
+			; 
+	  
+	  });
   interpolation.enter().append("g")
-      .style("fill", colour)
-      .style("stroke", colour);
+      .style("fill", colour);
 
+  var path = interpolation.selectAll("path")
+      .data(function(d) { return [d]; });
+  path.enter().append("path")
+      .attr("class", "line")
+      .attr("d", bezierCurve);
+  path.attr("d", bezierCurve);
 
-
+  var curve = vis.selectAll("path.curve")
+      .data(
+		  getCurve2(0,2)
+		  .concat(getCurve2(1,2))
+		  .concat(getCurve2(2,2))
+		  .concat(getCurve2(0,3))
+		  .concat(getCurve2(1,3))
+		  .concat(getCurve2(0,4))
+	  );
+  curve.enter().append("path")
+      .attr("class", "curve")
+      .style("stroke", function (d,i) {
+			if (i < 3) {
+				return stroke(1);
+			} else if (i < 5) {
+				return stroke(2);
+			} else {
+				return "red";
+			}
+	  }).style("stroke-width", "1pt");
+  curve.attr("d", bezierCurve);
+/*
+  var interpolation = vis.selectAll("g")
+      .data(function(d) { return getLevels2(4, t, 3); });
+*/
   var circle = interpolation.selectAll("circle")
       .data(Object);
   circle.enter().append("circle")
@@ -79,21 +115,10 @@ function update() {
       .attr("cx", x)
       .attr("cy", y);
 
-  var path = interpolation.selectAll("path")
-      .data(function(d) { return [d]; });
-  path.enter().append("path")
-      .attr("class", "line")
-      .attr("d", line);
-  path.attr("d", line);
 
-  var curve = vis.selectAll("path.curve")
-      .data(getCurve);
-  curve.enter().append("path")
-      .attr("class", "curve");
-  curve.attr("d", line);
 
   // Update control point text position
-  var controltext = d3.select(".visdiv").selectAll("div.controltext");
+  var controltext = visdiv.selectAll("div.controltext");
   controltext
       .style("left", function(d) { return d.x + "px" })
 	  .style("top", function(d) { return d.y + "px" });
@@ -122,16 +147,40 @@ function getLevels(d, t_) {
   return x;
 }
 
+function getLevels2(d, t_, k, l) {
+  if (arguments.length < 2) t_ = t;
+  var x = [points.slice(0, d)];
+  for (var i=1; i<d; i++) {
+    x.push(interpolate(x[x.length-1], t_));
+  }
+  return x.slice(k,l);
+}
+
+
 function getCurve(d) {
-  var curve = bezier[d];
-  if (!curve) {
+	d = 4;
+  /*var curve = bezier[d];
+  if (!curve) {*/
     curve = bezier[d] = [];
     for (var t_=0; t_<=1; t_+=delta) {
       var x = getLevels(d, t_);
       curve.push(x[x.length-1][0]);
     }
-  }
-  return [curve.slice(0, t / delta + 1)];
+  //}
+  //return [curve.slice(0, t / delta + 1)];
+  return [curve];
+}
+function getCurve2(k, m) {
+	var d = m;
+
+    curve = bezier[d] = [];
+    for (var t_=0; t_<=1; t_+=delta) {
+      var x = getLevels(4, t_);
+      curve.push(x[d-1][k]);
+    }
+  //}
+  //return [curve.slice(0, t / delta + 1)];
+  return [curve];
 }
 
 function x(d) { return d.x; }
@@ -140,4 +189,21 @@ function colour(d, i) {
   stroke(-i);
   return d.length > 1 ? stroke(i) : "red";
 }
+
+function setT(time) {
+  t = time;
+  update();
+  d3.select('#t').text("t = " + parseFloat(t).toFixed(2));
+}
+
+return {
+ getCurve: getCurve,
+ getLevels: getLevels,
+ getPoints: function () {
+	 return points;
+ },
+ setT: setT
+}
+
+}();
 
