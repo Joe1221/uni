@@ -1228,7 +1228,7 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 		s_n(x) - f(x) = \f 1{2\pi}\int_{-\pi}^{\pi} \Big(f(x+t) - f(x)\Big) D_n(x) \dx[t]
 	\end{align*}
 	\begin{proof}
-		Es gilt
+		Es gilt \fixme[Hier stimmt was nicht]
 		\begin{align*}
 			s_n(x) 
 			&= \f {a_0}2 + \sum_{j=1}^n \Big( a_j \cos(jx) + b_j \sin(jx) \Big) \\
@@ -1419,3 +1419,175 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 	\]
 	Nach \ref{3.30} also $s_n \to f$ gleichmäßig auf $\R$.
 \end{nt}
+
+\begin{st}[Komplexe Darstellung von Fourierreihen] \label{3.32}
+	\begin{align*}
+		s_n(x) 
+		&= \int_{-\pi}^{\pi} f(t) \f 1{2\pi} D_n(t) \dx[t]
+		&= \sum_{j=-n}^n \f 1{2\pi} \int_{-\pi}^\pi f(t) e^{ijt} \dx[t] e^{ijx}
+	\end{align*}
+	Neue Interpretation mit $e_j(x) := \f 1{\sqrt{2\pi}} e^{ijx}$ ergibt
+	\[
+		s_n(x) = \sum_{j=-n}^n \<f,e_j\> e_j(x)
+	\]
+	Es gilt
+	\begin{align*}
+		\<e_j, e_k\> &= \f 1{2\pi} \int_{-\pi}^\pi e^{ijt}\_{e^{ikt}} \dx[t] \\
+		&= \begin{cases}
+			1 & j=k \\
+			0 & j\neq k
+		\end{cases}
+	\end{align*}
+\end{st}
+
+\begin{st} \label{3.33}
+	$(e_j)_{j\in \Z}$ ist VONS in $L^2([-\pi,\pi])$.
+	Sei $f \in L^2([-\pi,\pi])$, $\eps > 0$. 
+	Wähle $f_\eps \in C^1([-\pi,\pi] \to \C)$ mit $\|f_\eps - f\| < \eps$ (vgl. \ref{3.24}).
+	$f_\eps$ kann sogar so gewählt werden, dass $f_\eps(\pm\pi) = 0 = f_\eps'(\pm \pi)$.
+	Setze $f_\eps$ $2\pi$-periodisch fort. 
+	Dann ist $f_\eps \in C^1([-\pi,\pi] \to \C)$.
+	Sei $s_n^{(\eps)} := \sum_{j=-n}^n \<f_\eps, e_j\> e_j$. 
+
+	Dann ist
+	\begin{align*}
+		\|f - s_n\| 
+		&\le \underbrace{\|f - f_\eps\|}_{<\eps} + \|f_\eps - s_n^{(\eps)}\| + \|s_n^{(\eps)} - s_n\| \\
+		&\le \eps + \|f_\eps - s_n^{(\eps)}\| + \bigg\| \sum_{j=-n}^n \<f_\eps - f, e_j\> e_j \bigg\|^2 \\
+		&\stack{Bessel}\le \eps + \|f_\eps - s_n^{(\eps)}\| + \underbrace{\|f_\eps - f\|}_{<\eps} \\
+		&\stack{Bessel}\le \eps + \|f_\eps - s_n^{(\eps)}\| + \underbrace{\|f_\eps - f\|}_{<\eps} \\
+		&< 2\eps + \sqrt{\int_{-\pi}^\pi \Big|f_\eps} - s_n^{(\eps)}(t)\Big|^2 \dx[t] \\
+		&\le 2\eps + \sqrt{\max_{[-\pi,\pi]} \Big|f_\eps} - s_n^{(\eps)}\Big|^2 \cdot 2\pi \\
+		&< 3\eps  \qquad \text{für $n > N_\eps$ nach \ref{3.31}} \\
+	\end{align*}
+	und damit $\|f - s_n\| \to 0$ für $n \to \infty$.
+\end{st}
+
+\begin{nt} \label{3.34}
+	\begin{enumerate}[1)]
+		\item
+			Genauso wie in \ref{3.33} lässt sich zeigen, dass
+			\[
+				(e_j)_{j\in \N} = \Bigg( \f 1{\sqrt{2\pi}}, \; \f 1{\sqrt{\pi}} \sin x,\; \f 1{\sqrt{\pi}} \cos x,\; \dotsc \Bigg)
+			\]
+			ist VONS in $L^2([-\pi,\pi])$ ($s_n$ ist dieselbe Funktion wie vorher).
+		\item
+			Zusammenfassung:
+			\begin{enumerate}[a)]
+				\item
+					Für $f \in L^2([-\pi,\pi])$ gilt
+					\[
+						f = \lim_{n\to \infty} \sum_{i=-n}^n \<f,e_j\> e_j
+					\]
+					(Konvergenz bezüglich $\|\argdot\|$).
+				\item
+					Wenn $f$ den Satz von Dini in jedem $x\in [-\pi,\pi]$ erfüllt, gilt
+					\[
+						f(x) = \lim_{n\to \infty} \sum_{j=-n}^n \<f,e_j\> e_j(x)
+					\]
+					(punktweise Konvergenz in $\C$).
+				\item
+					Wenn $f$ die Lipschitz-Bedingung erfüllt, gilt
+					\[
+						f(x) = \lim_{n\to\infty} \sum_{j=-n}^n \<f,e_j\> e_j(x)
+					\]
+					gleichmäßig auf $[-\pi,\pi]$.
+			\end{enumerate}
+	\end{enumerate}
+\end{nt}
+
+\begin{nt}[Andere Intervalle] \label{3.35}
+	Sei $f \in C(\R \to \C)$ $2L$-periodisch und
+	\[
+		|f(x) - f(x')| \le c |x-x'|^\alpha \qquad c,\alpha > 0.
+	\]
+	$g(x) := f(\f L\pi x)$ erfüllt \ref{3.31} (Lipschitz-Bedingung).
+	Also
+	\begin{align*}
+		f(\f L\pi x) = g(x) 
+		&= \sum_{j=-\infty}^\infty \f 1{2\pi} \int_{-\pi}^\pi \underbrace{g(t)}_{=f(\f L\pi t)} e^{-ijt} \dx[t] e^{ijx} \\
+		&\stack{s = \f L\pi t}= \sum_{j=-\infty}^\infty \f 1{2\pi} \f \pi L \int_{-L}^L f(s) e^{-ij \f \pi L s} \dx[s] e^{ijx}
+	\end{align*}
+	und mit $y = \f L \pi$
+	\[
+		f(y) = \sum_{j=-\infty}^\infty \f 1{2L} \int_{-L}^L f(s) e^{-ij\f \pi L s} \dx[s] e^{ij \f \pi L y}.
+	\]
+	Setze $\tilde e_j(y) := \f 1{\sqrt{2L}} e^{ij \f \pi L y}$.
+	Dann ist $(\tilde e_j)_{j\in \Z}$ VONS in $L^2([-L,L])$.
+	Mit $\tilde e_j$ anstelle von $e_j$, gilt alles wie vorher im Intervall $[-L,L]$ bzw. für $2L$-periodische Funktionen.
+\end{nt}
+
+\begin{ex} \label{3.36}
+	Gegeben $a,b \in \R, a,b \neq 0, f \in [-L,L] \to \C$.
+
+	Gesucht $y \in C^2([-L,L] \to \C)$ als Lösung von 
+	\begin{gather*}
+		ay'' + by' + y = f \qquad \text{ in $[-L,L]$} \\
+		y(-L) = y(L) \quad \land \quad y'(-L) = y'(L) \quad \text{(periodische Randbedingung)}
+	\end{gather*}
+	Zunächst formale Rechnung: Vertausche Ableitung und Reihe, Konvergenzüberlegungen erst später.
+
+	Seien
+	\begin{align*}
+		f(x) &= \sum_{j=-\infty}^\infty \<f,\tilde e_j\> \tilde e_j(x) \\
+		y(x) &= \sum_{j=-\infty}^\infty y_j \tilde e_j(x)
+	\end{align*}
+	Ziel der formalen Rechnung ist die Bestimmung von $(y_j)$.
+	\begin{align*}
+		y'(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j'(x) = \sum_{j=-\infty} y_j ij \f {\pi}L \tilde e_j(x) \\
+		y''(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j''(x) = -\sum_{j=-\infty} y_j \Big( j \f {\pi}L \Big)^2 \tilde e_j(x) 
+	\end{align*}
+	Eingesetzt in die DGL ergibt sich
+	\begin{align*}
+		\sum_{j=-\infty}^\infty y_j\Big( -a (\tf {j\pi}L)^2 + b ij \tf \pi L + 1 \Big) \tilde e_j(x)
+		&\stack != \sum_{j=-\infty}^\infty <f, \tilde e_j\> \tilde e_j(x) \\
+		\iff \qquad y_j &= \dfrac 1{-a (\tf \pi L)^2 + b ij \tf \pi L + 1} \<f,\tilde e_j\>
+		\qquad \text{(Fourierkoeffzienten müssen gleich sein)}
+	\end{align*}
+	Es ergibt sich als Kandidaten für die Lösung also
+	\[
+		y(x) = \sum_{j=-\infty}^\infty \f 1{-a (\tf {j\pi}L )^2 + b ij \f \pi L + 1} \<f, \tilde e_j\> \tilde e_j(x)
+	\]
+	Falls Reihe gleichmäßig konvergent und erste und zweite Ableitung mit Reihe vertauschbar sind, dann ist $y \in C^2([-L,L]\to \C)$ und $y$ ist Lösung.
+
+	Setze voraus: $f \in C^1(\R \to \C)$ $2\pi$-periodisch.
+	Dann gilt
+	\begin{enumerate}[1)]
+		\item
+			Nach \ref{3.31}, \ref{3.30} ist für $[-L,L]$
+			\[
+				f(x) = \sum_{j=-\infty}^\infty \<f,\tilde e_j\> \tilde e_j(x)
+			\]
+			gleichmäßig konvergent auf $\R$.
+		\item
+			Mit partieller Integration gilt, da $f'$ stetig:
+			\[
+				|\<f, \tilde e_j\>| \le \f c j \qquad c \in \R.
+			\]
+		\item
+			\begin{enumerate}[a)]
+				\item
+					$y(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j(x)$ ist gleichmäßig konvergent auf $\R$, da $|y_j \tilde e_j(x)| \le \f {c_1}{j^2} |\<f, \tilde e_j\>| |\tilde e_j(x)| \le \f {c_2}{j^3}$ ($\sum \f 1{j^3} < \infty$, Weierstraß-Kriterium).
+				\item
+					$y'(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j'(x)$ ist gleichmäßig konvergent.
+
+					\begin{align*}
+						|y_j \tilde e_j'(x)| \le \f {c_1}{j^2} |\<f,\tilde e_j\>| \underbrace{|\tilde e_j'(x)|}_{\le \f j {\sqrt{2L}}} \le \f {c^2}{j^2}
+					\end{align*}
+				\item
+					Die Reihe $y''(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j''(x)$ konvergiert gleichmäßig:
+
+					\begin{align*}
+						y_j e_j''(x)
+						= \f 1{a} \Big(\underbrace{\<f, \tilde e_j\> \tilde e_j(x)}_{\text{glm. konv. nach 1)}} - \underbrace{b y_j \tilde e_j'(x)}_{\text{glm. konv. nach 3b)}} - \underbrace{y_j \tilde e_j(x)}_{\text{glm. konv. nach 3a)}} \Big)
+					\end{align*}
+			\end{enumerate}
+	\end{enumerate}
+
+	Sichtwechsel: Da die Reihe für $y$ gleichmäßig konvergent ist, gilt
+	\begin{align*}
+		y(x) = \int_{-\pi}^\pi f(t) \underbrace{\sum_{j=-\infty}^\infty y_j e^{\f \pi L ij(x-t)}}_{=G(x-t)} \dx[t].
+	\end{align*}
+	$G(x-t)$ entspricht der Greenschen Funktion.
+\end{ex}
+
