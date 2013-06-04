@@ -4,15 +4,6 @@
 
 %\usepackage{psfrag}
 %\usepackage{pb-diagram} 
-
-% Umgebungen:
-\theoremstyle{mythm}
-\theorempreskipamount 2.5em 						% Abstand vor Theroem
-\theoremindent 2ex 									% Theroem einrücken
-\theoremheaderfont{\kern-1em\normalfont\bfseries} 	% Überschrift wieder ausrücken
-%\theoremheadertypefont{\color{green!25!black}}% Font für Theorem-Typ (Satz, Definition, etc.)
-\theorembodyfont{\normalfont} 						% Aufrecht statt kursiv im body-Teil
-
 \newtheorem{theorem}{Satz}[chapter]
 \newtheorem{bemerkung}[theorem]{Bemerkung}
 \newtheorem{korollar}[theorem]{Folgerung}
@@ -641,7 +632,7 @@ ein \emph{Banachraum}, d.h. ein vollständiger normierter Vektorraum
 vollständiger normierter Raum).
 \end{lemma}
 \begin{beweis}
-Die Vektorraum- und Normeigenschaften lassen sich einfach nachrechnen (siehe Übungsaufgabe ??).
+Die Vektorraum- und Normeigenschaften lassen sich einfach nachrechnen (siehe Übungsaufgabe 2.2).
 
 Zum Beweis der Vollständigkeit müssen wir zeigen, dass (bzgl. $\norm{\cdot}_\infty$) jede Cauchy-Folge
 konvergiert. Sei also $(y^ {(n)})_{n\in \N}\subset C([x_0,x_\mathrm{end}])$ eine Cauchy-Folge bzgl. $\norm{\cdot}_\infty$, d.h. für jedes $\epsilon>0$ existiert $N\in \N$, so dass
@@ -844,7 +835,7 @@ s'(x) &= 2 (y'(x)-z'(x))^T (y(x)-z(x))\\
 
 Im Fall $y_0=z_0$ gilt nach Satz~\ref{thm:PL} $y(x)=z(x)$ für alle $x\geq x_0$ und die Behauptung ist bewiesen. Ansonsten existiert ein größtmögliches Intervall $[x_0,x_0+\delta)$ auf dem 
 $s(x)\neq 0$ gilt und im Falle $x_0+\delta<x_\mathrm{end}$ ist $s(x_0+\delta)=0$
-(siehe Übungsaufgabe ??). Es genügt die Behauptung in diesem Intervall zu zeigen,
+(siehe Übungsaufgabe 2.5). Es genügt die Behauptung in diesem Intervall zu zeigen,
 da für $s(x_0+\delta)=0$ nach Satz~\ref{thm:PL} $y(x)$ und $z(x)$
 ab $x\geq x_0+\delta$ übereinstimmen.
 
@@ -1049,16 +1040,13 @@ wobei
 f_y(x,y):=\frac{\partial f}{\partial y} (x,y)= \left( \frac{\partial f_i}{\partial y_j}(x,y) \right)_{i,j=1}^d\in \R^{d\times d}.
 \]
 Damit gilt also für alle $x\in [a,b]$ und $y,z\in \R^d$ 
-\begin{align*}
-\norm{f(x,y)-f(x,z)}
-&=\|g(1)-g(0)\| \qquad g(t) := f(x,y+t(z-y)) \\
-&=\norm{\int_0^1 g'(t) \dx[t]} \qquad g'(t) = f_y(x,y+t(z-y))(z-y) \\
-&=\norm{\int_0^1 f_y(x,y+t(z-y)) (z-y) \dx[t]} \\
-&\leq L \norm{y-z}
-\end{align*}
+\[
+\norm{f(x,y)-f(x,z)}=\norm{\int_0^1 f_y(x,y+t(z-y)) (z-y) \dx[t]}\leq L \norm{y-z}
+\]
 und nach Abschnitt \ref{subsec:wohlgestellt} ist somit für jede Wahl der Anfangswerte $x_0\in [a,b]$ und $y_0\in \R^d$ die eindeutige Existenz von Lösungen und ihre stetige Abhängigkeit von den Anfangswerten garantiert.
 
-Außerdem folgt wie in A7.2 aus dieser Zusatzvoraussetzung, dass dann alle Ableitungen jeder Lösung eines AWP mit rechter Seite $f$ beschränkt sind. Präzise ausgedrückt: Zu jeder solchen rechten Seite $f$ existieren Konstanten $C_k>0$ ($k\in \N_0$), so dass für jede Wahl der Anfangswerte $x_0\in [a,b]$ und $y_0\in \R^d$ die zugehörige 
+Außerdem kann man zeigen, dass dann alle Ableitungen jeder Lösung eines AWP mit rechter 
+Seite $f$ beschränkt sind. Präzise ausgedrückt: Zu jeder solchen rechten Seite $f$ existieren Konstanten $C_k>0$ ($k\in \N_0$), so dass für jede Wahl der Anfangswerte $x_0\in [a,b]$ und $y_0\in \R^d$ die zugehörige 
 Lösung von 
 \[
 y'(x)=f(x,y(x)), \qquad y(x_0)=y_0\in \R^d
@@ -1091,7 +1079,7 @@ werden zur Berechnung von $y_{i+1}$ verwendet.
 ($m+1$-Schritt Methode benötigt \emph{Startprozedur} zur Berechnung der ersten $m$ Werte $y_1$,\ldots, $y_m$).
 \end{description}
 
-Im Folgenden betrachten wir nur die Einschrittmethoden (alle in Abschnitt \ref{Sect:NumODE_Motivation} sind Einschrittmethoden).
+Die Methoden in Abschnitt \ref{Sect:NumODE_Motivation} sind allesamt Einschrittmethoden. 
 
 \begin{definition}\label{def:Konsistenz}
 Eine Einschrittmethode heißt \emph{konsistent}, falls für jede (unsere Generalvoraussetzung erfüllende) rechte Seite
@@ -1103,7 +1091,7 @@ wobei $y$ die Lösung des AWP
 \[
 y'(x)=f(x,y(x)), \qquad y(x_i)=y_i
 \]
-ist und $y_{i+1}$ durch Anwendung der Methode auf $y_i$ mit Schrittweite $h$ erzeugt wurde.
+ist, und $y_{i+1}$ durch Anwendung der Methode auf $y_i$ mit Schrittweite $h$ erzeugt wurde.
 
 Die Methode besitzt \emph{Konsistenzordnung} $p\in \N$, falls 
 für jede (unsere Generalvoraussetzung erfüllende) rechte Seite
@@ -1123,7 +1111,7 @@ der Größenordnung $\mathcal{O}(h^{p+1})$. Da es $n=\frac{b-a}{h}=\mathcal{O}(h
 in der Größenordnung $\mathcal{O}(h^p)$ liegen wird. Der folgende Satz zeigt, dass dies tatsächlich der Fall ist.
 
 
-\begin{theorem}
+\begin{theorem}\label{satz:konv_Einschritt}
 Sei $y:\ [a,b]\to \R^d$ die Lösung des AWP
 \[
 y'(x)=f(x,y(x)), \qquad y(x_0)=y_0\in \R^d
@@ -1141,9 +1129,9 @@ a=x_0 < x_1 < \ldots < x_n=b, \qquad x_i=x_0+ih \quad (i=1,\ldots,n).
 \max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\to 0 \quad \mbox{ für $n\to \infty$}.
 \]
 %
-\item Besitzt die Methode Konsistenzordnung $p$, so gilt für alle $0<h<h_0$
+\item Besitzt die Methode Konsistenzordnung $p$, so gilt
 \[
-\max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\leq \frac{e^{L(b-a)}-1}{L} C h^p,
+\max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\leq \frac{e^{L(b-a)}-1}{L} C h^p \quad \forall 0<h<h_0.
 \]
 wobei $C,h_0>0$ die Konstanten aus der Definition der Konsistenzordnung und $L$ die Lipschitz-Konstante
 aus der Generalvoraussetzung ist.
@@ -1221,20 +1209,15 @@ y(x_{i+1})-y_{i+1}=\mathcal{O}(h^{p+1}).
 \begin{enumerate}[(a)]
 \item \textbf{Explizites Euler-Verfahren:} Für $y(x_i)=y_i$ erhalten wir durch Taylorentwicklung
 \begin{align*}
-\norm{y(x_{i+1}) - y_{i+1}} &= \norm{y(x_{i+1}) - y_i - h f(x_i,y_i)}   = \norm{y(x_{i+1}) - y(x_i) - h f(x_i,y(x_i))} \\ &= \norm{y(x_{i+1}) - y(x_i) - h y'(x_i)} 
-\stack{(*)}{\leq} \frac{h^2}{2} \max_{\xi\in [x_i,x_{i+1}]} \norm{y''(\xi)}\leq \frac{h^2}{2} C_2
+\norm{y(x_{i+1}) - y(x_i)+h y'(x_i)}
+\leq \frac{h^2}{2} \max_{\xi\in [x_i,x_{i+1}]} \norm{y''(\xi)}\leq \frac{h^2}{2} C_2
 \end{align*}
-mit einer (aufgrund unserer Generalvoraussetzung nur von der rechten Seite $f$ und nicht von $x_i, y_i$ abhängigen) Konstante $C_2$. Es ist also mit obiger Konvention
+mit einer (aufgrund unserer Generalvoraussetzung nur von der rechten Seite $f$ abhängigen) Konstante $C_2$. Es ist also mit obiger Konvention
 \begin{align*}
-y(x_{i+1}) &= y(x_i)+h y'(x_i) + \mathcal{O}(h^2)\\
-&= y(x_i)+h f(x_i,y_i) + \mathcal{O}(h^2) = y_{i+1} + \mathcal{O}(h^2)
+y(x_{i+1}) &= y(x_i)+h y'(x_i) + O(h^2)\\
+&= y(x_i)+h f(x_i,y_i) + O(h^2) = y_{i+1} + O(h^2)
 \end{align*}
 und das explizite Euler-Verfahren besitzt somit Konsistenzordnung $1$.
-
-\textit{Beweis von $(*)$:} 
-Für $y(x) = \left( \begin{array}{c} y^1(x)\\  \vdots \\ y^d(x) \end{array} \right) $  und $\forall j \in \{ 1, \dots , d\}$ folgt:
-\[  | y^j(x_{i+1}) - y^j(x_i) - h (y^j)'(x_i) | \leq \frac{h^2}{2} \max_{\xi} | (y^j)''(\xi) | \] Damit folgt insgesamt:
-\[ \norm{y(x_{i+1}) - y(x_i) - h y'(x_i)}  = \sqrt{\sum_{j=1}^d | y^j(x_{i+1}) - y^j(x_i) - h (y^j)'(x_i) |^2} \leq \frac{h^2}{2} \cdot \max_{\xi} \underbrace{\sqrt{ \sum_j  | (y^j)''(\xi) |^2}}_{ \leq \norm{y''(\xi)}}  \]
 %
 \item \textbf{Implizites Euler-Verfahren:} Für $y(x_i)=y_i$ erhalten wir wiederum durch Taylorentwicklung
 \begin{align*}
@@ -1273,7 +1256,7 @@ Die Quadraturformel sollte zumindest konstante Funktion exakt integrieren, desha
 \[
 \sum_{j=1}^s b_j=1.
 \]
-Die $c_j$ heißen \emph{Knoten}, $b_j$ \emph{Gewichte} und $s$ heißt \emph{Stufenzahl} des Verfahrens. $\eta_j \approx y(x_0 + c_j h). $
+Die $c_j$ heißen \emph{Knoten}, $b_j$ \emph{Gewichte} und $s$ heißt \emph{Stufenzahl} des Verfahrens.
 
 Dieser Ansatz verallgemeinert die Ideen aus Abschnitt \ref{subsect:More_ex_and_im_methods},
 indem nun eine gewichtetes Mittel aus $s$ unterschiedlichen Steigungnen im Richtungsfeld an 
@@ -1380,7 +1363,7 @@ Mit dieser Notation erhalten wir für das explizite und implizite Euler Verfahre
 
 \subsection{Wohldefiniertheit impliziter Methoden}
 
-Die Vorteile impliziter Runge-Kutta Methoden werden wir erst in Abschnitt ?? kennenlernen. 
+Die Vorteile impliziter Runge-Kutta Methoden werden wir erst in Abschnitt \ref{sect:steif} kennenlernen. 
 Wir zeigen aber an dieser Stelle schon, dass das nicht-lineare Gleichungssystem \req{RK_eta} für hinreichend kleine Schrittweiten eindeutig lösbar ist.
 
 \begin{theorem}
@@ -1447,14 +1430,14 @@ Seien $A=(a_{ij})_{i,j=1,\ldots,s}$, $b=(b_i)_{i=1,\ldots,s}$ und $c=(c_i)_{i=1,
 \[
 \sum_{j=1}^s b_j=1 \quad \mbox{ und } \quad \sum_{k=1}^s a_{jk}=c_j  
 \]
-folgt, dass das Verfahren (mindestens) Konsistenzordnung $1$ besitzt.
-\item 
-	Das Verfahren hat genau dann (mindestens) Konsistenzordnung $2$, wenn zusätzlich gilt:
+folgt dass das Verfahren (mindestens) Konsistenzordnung $1$ besitzt.
+\item Das Verfahren hat genau dann mindestens Konsistenzordnung $2$, wenn
+zusätzlich gilt, dass
 \[
 \sum_{j=1}^s b_jc_j=\frac{1}{2}.
 \]
-\item
-	Das Verfahren hat genau dann (mindestens) Konsistenzordnung $3$, wenn zusätzlich gilt:
+\item Das Verfahren hat genau dann mindestens Konsistenzordnung $3$, wenn
+zusätzlich gilt, dass
 \[
 \sum_{j=1}^s b_j c_j^2 = \frac{1}{3}  \quad \mbox{ und } \quad  
 \sum_{j=1}^s b_j \sum_{k=1}^s a_{jk} c_k = \frac{1}{6}.
@@ -1555,11 +1538,11 @@ Dieses Verfahren ist (in Kombination mit einer zur adaptiven Schrittweitensteuer
 
 
 
-\section{Numerik steifer Differentialgleichungen}
+\section{Numerik steifer Differentialgleichungen}\label{sect:steif}
 
 \subsection{Steife Differentialgleichungen}\label{subsect:stiffness}
 
-Bei dem Pendel aus Übungsaufgabe ?? waren implizite Verfahren (trotz gleicher Konsistenzordnung) den expliziten weit überlegen. 
+Bei dem Pendel aus Übungsaufgabe 3.4 waren implizite Verfahren (trotz gleicher Konsistenzordnung) den expliziten weit überlegen. 
 Differentialgleichungen, in denen dieser Effekt auftritt, werden \emph{steif} genannt. Steif ist dabei kein mathematisch präzise definierter Begriff, sondern wird anschaulich für solche Differentialgleichungen verwendet, bei denen naheliegende Standardverfahren (z.B. explizite Runge-Kutta-Verfahren) keine (oder nur für extrem kleine Schrittweiten) zufriedenstellenden Ergebnisse liefern. 
 
 Betrachten wir das einfache Beispiel 
@@ -1587,8 +1570,8 @@ Da $\lambda<0$ folgt für $n\to \infty$
 \end{array}\right.
 \] 
 
-Nur für $1+h\lambda \geq -1$ (d.h. $h\leq -\f 2\lambda$) zeigen die Approximationen also das korrekte Langzeitverhalten und 
-konvergieren gegen Null, und für $h> -\f 1\lambda$ oszillieren die Approximationen.
+Nur für $1+h\lambda \geq -1$ (d.h. $h\leq -\frac 2\lambda$) zeigen die Approximationen also das korrekte Langzeitverhalten und 
+konvergieren gegen Null, und für $h> -\frac 1\lambda$ oszillieren die Approximationen.
 Für dieses AWP mit stark negativem $\lambda$ liefert die explizite Euler Methode also nur
 für extrem kleine Schrittweiten brauchbare Ergebnisse.
 
@@ -1719,7 +1702,7 @@ y_{i}&:=y_{i-1} +  h \sum_{j=1}^s b_j \lambda \eta_j= y_{i-1} + h \lambda b^T \e
 $R(\zeta):=1+\zeta$.
 \item Die Stabilitätsfunktion des impliziten Eulerverfahrens ist $R(\zeta)=(1-\zeta )^{-1}$.
 \item Das Butcher Tableau für die implizite Mittelpunktsformel aus Abschnitt \ref{subsect:More_ex_and_im_methods} 
-ist (vgl. Übungsaufgabe ??)
+ist (vgl. Übungsaufgabe 4.1)
 \[
 \begin{array}{c | c}
 1/2 & 1/2\\ \hline
@@ -1834,7 +1817,7 @@ Für alle $\zeta\in \C$ mit $\Re(\zeta)\leq 0$ ist
 Das implizite Euler-Verfahren ist also A-stabil. Außerdem ist $|R(\zeta)|\to 0$ für $|\zeta|\to \infty$, das Verfahren ist also auch L-stabil.
 
 Es ist jedoch $R(\im)=1/|1-\im|=1/\sqrt{2}< 1$, das Verfahren ist also nicht Isometrie-erhaltende.
-\item Die implizite Mittelpunktsformel ist A-stabil (jedoch nicht L-stabil) und Isometrie-erhaltend (siehe Übungsaufgabe 6.1).
+\item Die implizite Mittelpunktsformel ist A-stabil (jedoch nicht L-stabil) und Isometrie-erhaltend (siehe Übungsaufgabe ??).
 \end{enumerate}
 \end{beispiel}
 
@@ -1965,7 +1948,7 @@ Wir beschränken uns dabei auf autonome AWP
 \[
 y'=f(y), \quad y(x_0)=y_0
 \]
-(nach Aufgabe ?? kann jedes AWP in diese Form gebracht werden).
+(nach Aufgabe 4.2 kann jedes AWP in diese Form gebracht werden).
 
 Die erste Vereinfachung ist, dass wir eine Runge-Kutta Methode verwenden, für die $A$ eine linke untere Dreiecksmatrix ist, also  $a_{jl}=0$ für $l>j$. Dann können die Gleichungen für die $k_j$,
 \[
@@ -2188,6 +2171,191 @@ y_{i+1}=y_i+hk_2=y_i+hf+h^2/2\, f f' + \mathcal{O}(h^3)=y(x_i)+\mathcal{O}(h^3),
 \]
 die Methode besitzt also Konsistenzordnung 2. 
 \end{beweis}
+
+
+\section{Mehrschrittverfahren}
+
+Wir beschreiben nun noch kurz die wesentliche Idee der Mehrschrittverfahren. 
+Dabei beschränken wir uns in diesem Abschnitt auf äquidistant gewählte Gitterpunkte 
+\[
+x_i=x_0+ih, \quad h>0. 
+\]
+In einem $m$-Schritt Verfahren verwenden wir die letzten $m$ Approximationen
+\[
+-y(x_i),\ldots, y_{i-m+1}\approx y(x_{i-m+1}),\ldots, y_{i-m+1}\approx y(x_{i-m+1})
+\]
+zur Bestimmung der nächsten Approximation $y_{i+1}\approx y(x_{i+1})$.
+Für die Bestimmung der dafür nötigen ersten Werte $y_1,\ldots, y_{m-1}$ 
+können dabei Einzelschrittverfahrens oder Mehrschrittverahren mit weniger Schritten 
+verwendet werden
+
+\subsection{Adams-Bashforth Methoden}\label{subsect:adam_bashforth}
+Zur Bestimmung von $y_{i+1}\approx y(x_{i+1})$ aus $y_{i-m+1},\ldots,y_i$ 
+verwenden wir zuerst wie bei der
+Herleitung der Runge Kutta Methoden
+\[
+y_{i+1}-y_i\approx y(x_{i+1})-y(x_i)=\int_{x_i}^{x_{i+1}} y'(x) \dx
+=\int_{x_i}^{x_{i+1}} f(x,y(x)) \dx[x]
+\]
+Die Funktion 
+\[
+x\mapsto f(x,y(x))
+\]
+ist (zumindest näherungsweise) an den Stellen 
+\[
+f_j:=f(x_j,y_j)\approx f(x_j,y(x_j)), \quad j=i-m+1,\ldots,i
+\]
+bekannt. Es liegt daher nahe, die unbekannte Funktion $x\mapsto f(x,y(x))$ durch ihr 
+Interpolationspolynom $f(x,y(x))\approx p(x)$, $p\in \Pi_{m-1}$ durch die Stützstellen $(x_j,f_j)$, $j=i-m+1,\ldots,i$ zu ersetzen. 
+Mit Hilfe der (aus der Numerik I bekannten) Lagrange-Grundpo\-ly\-no\-me
+\[
+l_k(x)=\prod_{l=i-m+1,\dots,i \atop l\neq j} \frac{x-x_l}{x_k-x_l}, \quad k=i-m+1,\ldots,i
+\]
+können wir das Interpolationspolynom schreiben als
+\[
+p(x)=\sum_{k=i-m+1}^i f_k l_k(x).
+\]
+So erhalten wir
+\begin{align*}
+y_{i+1}-y_i&= \int_{x_{i}}{x_{i+1}} p(t) \dx
+=\sum_{k=i-m+1}^i f_k \int_{x_{i}}{x_{i+1}} l_k(x)\dx\\
+&=h \sum_{k=i-m+1}^i f_k \int_0^1 l_k(x_i+th)\dx[t]\\
+&= h \sum_{k=i-m+1}^i f_k \int_0^1 \prod_{l=i-m+1,\dots,i \atop l\neq k} \frac{x_i+th - x_l}{x_k-x_l}\dx[t]\\
+&= h \sum_{k=i-m+1}^i f_k \int_0^1 \prod_{l=i-m+1,\dots,i \atop l\neq k}
+ \frac{i-l+t}{k-l}\dx[t]
+\end{align*}
+Mit der Umnummerierung $k=i-m+j$ und $l=i-m+j'$ können wir das schreiben als
+\begin{align*}
+y_{i+1}-y_i&= h \sum_{j=1}^m f_{i-m+j} \underbrace{\int_0^1 \prod_{j'=1,\ldots,m \atop j'\neq j}
+ \frac{m-j'+t}{j-j'}\dx[t]}_{=:\beta_j}
+=h\sum_{j=1}^m\beta_j f_{i-m + j},
+\end{align*}
+mit (von $h$ und $i$ unabhängigen!) Konstanten $\beta_j\in \R$.
+
+Die so erhaltenen Methoden heißen \emph{explizite Adams Methoden} oder \emph{Adams-Bashforth Methoden}. 
+\begin{beispiel}
+Für den Spezialfall $m=1$ ergibt sich die explizite Euler-Methode.
+Für $m=2$ ist
+\begin{align*}
+\beta_1&:= \int_0^1 \frac{2-2+t}{1-2}\dx[t]=-\int_0^1 t\dx[t]=-\frac{1}{2}\\
+\beta_2&:= \int_0^1 \frac{2-1+t}{1-2}\dx[t]=-\int_0^1 (t+1)\dx[t]=\frac{3}{2},
+\end{align*}
+also $y_{i+1}:=y_i + h (\frac{3}{2}f_i-\frac{1}{2}f_{i-1})$.
+\end{beispiel}
+
+\subsection{Weitere auf Integration basierende Methoden}\label{subsect:multistep_int}
+
+Analog lassen sich implizite Adams Methoden (die \emph{Adams-Moulton-Methoden}) aufstellen,
+indem das Interpolationspolynom durch die Stützstellen $(x_j,f_j)$ für $j=i-m+1,\ldots,i+1$,
+also inklusive der noch zu bestimmenden Stützstelle gewählt wird. Dies führt auf Formeln 
+der Form 
+\begin{equation}\labeq{Impl_Adam}
+y_{i+1}=y_i+h\sum_{j=1}^{m+1}\beta_j f_{i-m + j}
+=y_i+h\sum_{j=1}^{m+1}\beta_j f(x_{i-m+j},y_{i-m+j})
+\end{equation}
+
+Eine verbreitete Methode diese impliziten Gleichungen zu lösen, ist es zuerst eine Näherung an
+$y_{i+1}$ (und damit an $f_{i+1}$) durch die explizite Adams Methode zu bestimmen. Diese Näherung
+wird dann als Startwert für eine Fixpunktiteration der Gleichung \req{Impl_Adam} verwendet
+(üblich sind ein oder zwei Iterationsschritte).
+Dieses Vorgehen heißt \emph{Predictor-Corrector-Verfahren}.
+
+Das Integrationsintervall bei der Herleitung der Methoden könnte auch vor $x_i$ liegende
+Bereiche umfassen, z.B.
+\[
+y_{i+1}-y_{i-1}\approx y(x_{i+1})-y(x_{i-1})=\int_{x_{i-1}}^{x_{i+1}} y'(x) \dx
+=\int_{x_{i-1}}^{x_{i+1}} f(x,y(x)) \dx[x]
+\]
+Analag zum Adams-Verfahren können wir $f$ durch sein Interpolationspolynom (mit oder ohne
+Verwendung der unbekannten Stützstelle $x_{i+1},f_{i+1}$) annähern und erhalten 
+(implizite bzw. explizite) bzw. Formeln der Form
+\begin{equation*}
+y_{i+1}=y_{i-1}+h\sum_{j=1}^{m+1}\beta_j f_{i-m + j} \quad \mbox{ bzw. } \quad
+y_{i+1}:=y_{i-1}+h\sum_{j=1}^{m}\beta_j f_{i-m + j}.
+\end{equation*}
+Diese Formeln heißen \emph{Nyström-Methoden} (die explizite Variante) oder \emph{Milne-Simpson}
+(die implizite Variante).
+
+\subsection{Auf Differentiation basierende Methoden}
+
+Die bisher betrachteten Mehrschrittverfahren beruhten auf der Idee die Funktion $x\mapsto f(x,y(x))=y'(x)$
+durch ein Interpolationspolynom zu approximieren und dieses zu integrieren. 
+Statt dessen können wir auch die (Approximationen an die) Funktionswerte
+$y_{i-m+1},\ldots,y_{i+1}$ durch ein Polynom interpolieren. 
+Wie bei der Herleitung der Adams-Bashforth Methode lässt sich das Interpolationspolynom 
+$q\in \Pi_m$
+schreiben als
+\[
+q(x_i+th)=\sum_{j=1}^{m+1} y_{i-m+j} \prod_{j'=1,\ldots,m+1 \atop j'\neq j}
+ \frac{m+1-j'+t}{j-j'}.
+\]
+
+Wir können nun versuchen, den unbekannten Wert $y_{i+1}$ so zu bestimmen, 
+dass das Interpolationspolynom $q$ im aktuellen Gitterpunkt $x_i$ 
+die Differentialgleichung erfüllt, also
+\[
+q'(x_i)=f(x_i,y_i).
+\]
+Wegen
+\begin{align*}
+q'(x_i)&=\frac{1}{h} \frac{\partial}{\partial t} q(x_i+th)|_{t=0}\\
+&=\frac{1}{h} \sum_{j=1}^{m+1} y_{i-m+j} \underbrace{\left( \frac{\partial}{\partial t}  \prod_{j'=1,\ldots,m+1 \atop j'\neq j}
+ \frac{m+1-j'+t}{j-j'}\right)\Big|_{t=0}}_{=:\alpha_j}
+\end{align*}
+führt dies auf Formeln der Form
+\[
+\sum_{j=1}^{m+1} \alpha_j  y_{i-m+j} = h f(x_i,y_i),
+\]
+die sich (für $\alpha_{m+1}\neq 0$) explizit nach $y_{i+1}$ auflösen lassen.
+
+Genauso führt die Forderung, dass das Interpolationspolynom $q$ im nächsten Gitterpunkt $x_i$ 
+die Differentialgleichung erfüllt, auf implizite Methoden der Form
+\[
+\sum_{j=1}^{m+1} \alpha_j  y_{i-m+j} = h f(x_{i+1},y_{i+1}).
+\]
+Die so entstandenen impliziten Formeln heißen auch \emph{BDF-Methoden} (Backward differentiation formula).
+
+\begin{beispiel}
+Für die BDF-Methode mit $m=1$ ergibt sich
+\begin{align*}
+\alpha_1 &=  \frac{\partial}{\partial t}  
+ \frac{1+1-2+t}{1-2}\Big|_{t=0}=-1,\\
+\alpha_2 &=\frac{\partial}{\partial t}  
+ \frac{1+1-1+t}{2-1}\Big|_{t=0}=1,
+\end{align*}
+also 
+\[
+-1 y_i + 1y_{i+1} = hf(x_{i+1},y_{i+1}),
+\]
+und damit gerade die implizite Euler-Methode.
+\end{beispiel}
+
+\subsection{Konvergenz linearer Mehrschrittmethoden}
+
+Alle bisher kennengelernten Mehrschrittmethoden können wir in der allgemeinen Form
+\[
+\sum_{j=1}^{m+1} \alpha_j  y_{i-m+j} = h \sum_{j=1}^{m+1} \beta_j  f_{i-m+j}
+\]
+mit Konstanten $\alpha_1,\ldots,\alpha_{m+1},\beta_1,\ldots,\beta_{m+1}\in \R$ schreiben.
+
+Wir geben in dieser Vorlesung nur eine ganz kurze Zusammenfassung der Theorie dieser Methoden.
+Eine ausführlichere Darstellung findet sich z.B. in \cite{HairerNorsettWanner}.
+
+Analog zu Einschrittmethoden wird die \emph{Konsistenzordnung} eines Mehrschrittverfahren
+durch Betrachtung des \emph{lokalen Fehlers} $\norm{y_{i+1}-y(x_{i+1}})$
+definiert, der sich ergibt, wenn die Methode
+auf $m$ exakte Werte 
+\[
+y_{i-m+1}=y(x_{i-m+1}),\ldots,y_{i}=y(x_i)
+\]
+angewendet wird.
+
+Satz \ref{satz:konv_Einschritt} lässt sich jedoch nicht unmittelbar auf Mehrschrittverfahren
+übertragen. Im Gegensatz zu Einschrittverfahren folgt aus der Konsistenz eines Mehrschrittverfahrens
+nicht automatisch Konvergenz, sondern dies erfordert eine zusätzliche Stabilitätseigenschaft.
+Die in Abschnitt \ref{subsect:adam_bashforth} und \ref{subsect:multistep_int} vorgestellten
+Adam-Varianten erfüllen diese zusätzliche Eigenschaften, die BDF-Formeln jedoch nur bis
+$m\leq 6$.
 
 
 \section{Randwertprobleme}
@@ -2582,6 +2750,126 @@ Mit
 folgt die Behauptung aus Lemma~\ref{lemma:RW_Konsistenz} und Lemma~\ref{lemma:RW_stabil}.
 \end{beweis}
 
+\begin{appendix} 
+
+\chapter{Hilfsmittel aus der Analysis}
+
+\section{Der mehrdimensionale Mittelwertsatz}
+Alle im Folgenden vorkommenenden Funktionen werden als stetig differenzierbar vorausgesetzt.
+
+Für eine Funktion $f:\ \R\to \R$ und $a,b\in \R$, $a<b$ gilt der eindimensionale
+Mittelwertsatz 
+\[
+\exists \xi\in [a,b]:\ \frac{f(b)-f(a)}{b-a}=f'(\xi)
+\]
+Die in der Numerik am häufigsten verwendete Folgerung daraus ist
+\[
+|f(b)-f(a)|\leq |b-a| \sup_{\xi \in [a,b]} |f'(\xi)|.
+\]
+Die Änderung von $f$ zwischen $a$ und $b$ lässt sich also durch Kenntnis der Ableitung
+an allen Mittelwerten zwischen $a$ und $b$ abschätzen.
+
+Der eigentliche Mittelwertsatz lässt sich nicht ohne weiteres ins Mehrdimensionale übertragen, die Folgerung
+jedoch schon. Das folgende Lemma wird deshalb oft als \emph{Mittelwertsatz im Mehrdimensionalen}
+bezeichnet.
+
+\begin{lemma}
+Für $F:\ \R^n\to \R^m$ und $x,y\in \R^n$ gilt
+\[
+F(x)-F(y)=\int_0^1 F'(x+t(y-x))(y-x)\dx[t]=\int_0^1 F'(x+t(y-x))\dx[t](y-x),
+\]
+also insbesondere
+\[
+\norm{F(x)-F(y)}\leq \norm{y-x} \sup_{t\in [0,1]} \norm{F'(x+t(y-x))}.
+\]
+\end{lemma}
+\begin{beweis}
+\begin{enumerate}[(a)]
+\item
+Wir erinnern zunächst an die Kettenregel im Mehrdimensionalen. Sind 
+\[
+g:\ R^s\to R^n, \quad h:\ R^n\to \R^m
+\]
+zwei Funktionen und ist
+\[
+f:\ \R^s\to \R^m,\quad f(x):=h(g(x))
+\]
+ihre Komposition, so gilt für die zugehörigen Jacobi Matrizen
+\begin{align*}
+f'(x)&=
+\begin{pmatrix}
+\frac{\partial f_1(x)}{\partial x_1} & \dots & \frac{\partial f_1(x)}{\partial x_s}\\
+\vdots & & \vdots\\
+\frac{\partial f_m(x)}{\partial x_1} & \dots & \frac{\partial f_m(x)}{\partial x_s}\\
+\end{pmatrix}\in \R^{m\times s},\\
+g'(x)&=
+\begin{pmatrix}
+\frac{\partial g_1(x)}{\partial x_1} & \dots & \frac{\partial g_1(x)}{\partial x_s}\\
+\vdots & & \vdots\\
+\frac{\partial g_n(x)}{\partial x_1} & \dots & \frac{\partial g_n(x)}{\partial x_s}\\
+\end{pmatrix}\in \R^{n\times s}\\
+h'(y)&=
+\begin{pmatrix}
+\frac{\partial h_1(x)}{\partial y_1} & \dots & \frac{\partial h_1(x)}{\partial y_n}\\
+\vdots & & \vdots\\
+\frac{\partial h_n(x)}{\partial y_1} & \dots & \frac{\partial h_m(x)}{\partial y_n}\\
+\end{pmatrix}\in \R^{m\times n}
+\end{align*}
+die Kettenregel
+\[
+f'(x)=h'(g(x)) g'(x).
+\]
+
+\item Außerdem benötigen wir den Hauptsatz der Differential- und Integralrechnung. Für
+$f:\ \R\to \R$ und $x,y\in \R$ gilt
+\[
+f(y)-f(x)=\int_x^y f'(t)\dx[t].
+\]
+Für eine vektorwertige Funktion 
+\[
+f:\ \R\to \R^m,\quad f(x)=\begin{pmatrix}f_1(x)\\ \vdots \\ f_m(x)\end{pmatrix} 
+\]
+gilt diese Aussage ebenfalls, da sie komponentenweise gilt:
+\[
+f(y)-f(x)=\begin{pmatrix}f_1(y)-f_1(x)\\ \vdots \\ f_m(y)-f_m(x)\end{pmatrix} 
+=\begin{pmatrix}\int_x^y f_1'(t)\dx[t]\\ \vdots \\ \int_x^y f_m'(t)\dx[t]\end{pmatrix} 
+= \int_x^y f'(t)\dx[t].
+\]
+\end{enumerate}
+Nun können wir den Mittelwertsatz im Mehrdimensionalen beweisen. 
+Sei $F:\ \R^n\to \R^m$ und $x,y\in \R^n$. Wir definieren
+\[
+f:\ \R\to \R^m, \quad f(t):=F(x+t(y-x))
+\]
+Offenbar ist $f(t)=F(g(t))$, wobei
+\begin{align*}
+g: \R\to \R^n, & \quad g(t):=x+t(y-x)\\
+\end{align*}
+und es ist
+\[
+g'(t)=\begin{pmatrix} 
+\frac{\partial g_1}{\partial t}\\ \vdots \\ \frac{\partial g_n}{\partial t}
+\end{pmatrix}
+= y-x.
+\]
+
+Aus der mehrdimensionalen Kettenregel (siehe (a)) folgt 
+\[
+f'(t)=F'(g(t))g'(t)=F'(x+t(y-x))(y-x)
+\]
+und mit dem Hauptsatz der Differential- und Integralrechnung (siehe (b)) erhalten wir
+\[
+F(y)-F(x)=f(1)-f(0)=\int_0^1 f'(t)\dx[t]=\int_0^1 F'(x+t(y-x))(y-x)\dx[t]
+\]
+und damit die Behauptung.
+\end{beweis}
+
+
+
+
+\end{appendix}
+
+
 
 
 
@@ -2593,6 +2881,11 @@ Australian Mathematical Society Lecture Series 16, Cambridge University Press, C
 
 \bibitem[Hanke]{Hanke} 
 M. Hanke-Bourgeois: \emph{Grundlagen der Numerischen Mathematik und des Wissenschaftlichen Rechnens}, Teubner Verlag, Wiesbaden, 2009. 
+
+\bibitem[HairerNorsettWanner]{HairerNorsettWanner}
+E Hairer, SP N{\o}rsett, G Wanner: 
+\emph{Solving ordinary differential equations I. Nonstiff problems},
+Springer, 1987.
 
 %\bibitem[Num I]{NumI} 
 %B. Harrach: Vorlesung \emph{Numerische Mathematik I} (WS11/12).\\ 
