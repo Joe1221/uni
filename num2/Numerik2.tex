@@ -2166,7 +2166,7 @@ x_i=x_0+ih, \quad h>0.
 \]
 In einem $m$-Schritt Verfahren verwenden wir die letzten $m$ Approximationen
 \[
--y(x_i),\ldots, y_{i-m+1}\approx y(x_{i-m+1}),\ldots, y_{i-m+1}\approx y(x_{i-m+1})
+y_{i-m+1}\approx y(x_{i-m+1}),\ldots, y_{i}\approx y(x_{i})
 \]
 zur Bestimmung der nächsten Approximation $y_{i+1}\approx y(x_{i+1})$.
 Für die Bestimmung der dafür nötigen ersten Werte $y_1,\ldots, y_{m-1}$ 
@@ -2201,8 +2201,8 @@ p(x)=\sum_{k=i-m+1}^i f_k l_k(x).
 \]
 So erhalten wir
 \begin{align*}
-y_{i+1}-y_i&= \int_{x_{i}}{x_{i+1}} p(t) \dx
-=\sum_{k=i-m+1}^i f_k \int_{x_{i}}{x_{i+1}} l_k(x)\dx\\
+y_{i+1}-y_i&= \int_{x_{i}}^{x_{i+1}} p(t) \dx
+=\sum_{k=i-m+1}^i f_k \int_{x_{i}}^{x_{i+1}} l_k(x)\dx\\
 &=h \sum_{k=i-m+1}^i f_k \int_0^1 l_k(x_i+th)\dx[t]\\
 &= h \sum_{k=i-m+1}^i f_k \int_0^1 \prod_{l=i-m+1,\dots,i \atop l\neq k} \frac{x_i+th - x_l}{x_k-x_l}\dx[t]\\
 &= h \sum_{k=i-m+1}^i f_k \int_0^1 \prod_{l=i-m+1,\dots,i \atop l\neq k}
@@ -2222,7 +2222,7 @@ Für den Spezialfall $m=1$ ergibt sich die explizite Euler-Methode.
 Für $m=2$ ist
 \begin{align*}
 \beta_1&:= \int_0^1 \frac{2-2+t}{1-2}\dx[t]=-\int_0^1 t\dx[t]=-\frac{1}{2}\\
-\beta_2&:= \int_0^1 \frac{2-1+t}{1-2}\dx[t]=-\int_0^1 (t+1)\dx[t]=\frac{3}{2},
+\beta_2&:= \int_0^1 \frac{2-1+t}{1-2}\dx[t]=\int_0^1 (t+1)\dx[t]=\frac{3}{2},
 \end{align*}
 also $y_{i+1}:=y_i + h (\frac{3}{2}f_i-\frac{1}{2}f_{i-1})$.
 \end{beispiel}
