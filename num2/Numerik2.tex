@@ -445,13 +445,13 @@ Gewöhnliche DGL der Form
 y'(x)=g(x) h(y(x))
 \]
 lassen sich formal(!) schreiben als
-\begin{equation}
+\begin{align}
 \frac{\dx[y]}{h(y)}=g(x)\dx
-\end{equation}
+\end{align}
 und durch Integration lösen
-\begin{equation}
+\begin{align}
 \int \frac{1}{h(y)} \dx[y]=\int g(x)\dx.
-\end{equation}
+\end{align}
 Formal bedeutet dabei, dass dies keine mathematisch rigorosen Umformulierungen sind.
 Die Ausdrücke $\dx$ sind nicht definiert! 
 
@@ -1154,9 +1154,9 @@ Im nächsten Schritt, bei dem wir $y_2$ aus $y_1$ berechnen, gibt es zwei Fehler
 \begin{enumerate}[(i)]
 \item Die Berechnung von $y_2$ aus $y_1$ mit dem Einschrittverfahren entspricht der Anwendung des 
 Verfahrens auf das (wegen unserer Generalvoraussetzung eindeutig lösbare) AWP 
-\begin{equation}\labeq{Kons_AWPz}
+\begin{align}\labeq{Kons_AWPz}
 z'(x)=f(x,z(x)), \qquad z(x_1)=y_1\in \R^d
-\end{equation}
+\end{align}
 Dabei macht das Verfahren den Fehler
 \[
 \norm{z(x_2)-y_2}\leq C h^{p+1}.
@@ -1295,9 +1295,9 @@ So erhalten wir die allgemeinen \emph{Runge-Kutta Methoden}:
 			\]
 		}
 		\State{Bestimme $\eta_j\in \R^d$, $j=1,\ldots,s$ aus 
-			\begin{equation}\labeq{RK_eta}
+			\begin{align}\labeq{RK_eta}
 				\eta_j = y_i + h_i \sum_{l=1}^s a_{jl} f\Big(x_i + c_l h_i,\eta_l\Big), \quad j=1,\ldots,s.
-			\end{equation}
+			\end{align}
 		}
 		\State{Setze
 			\[
@@ -1378,9 +1378,9 @@ Zu jeder rechten Seite $f$ (die die Generalvoraussetzung erfüllt)
 und jedem Runge-Kutta Verfahren $(A,b,c)$ existiert eine Schrittweite $h_0>0$,
 so dass für jedes $x\in [a,b]$, $y\in \R^d$ und $0<h\leq h_0$ das 
 Gleichungsystem für die $\eta_j$:
-\begin{equation*}%\labeq{RK_eta}
+\begin{align*}%\labeq{RK_eta}
 \eta_j = y + h \sum_{l=1}^s a_{jl} f(x + c_l h,\eta_l), \quad j=1,\ldots,s
-\end{equation*}
+\end{align*}
 eindeutig lösbar ist.
 \end{theorem}
 \begin{beweis}
@@ -1473,9 +1473,9 @@ wobei wir das Argument $(y_i)$ bei $f$ und seinen Ableitungen zur Vereinfachung 
 	= \Bigg( \sum_{j,k=1}^d \f{\partial^2 f_l(y_i)}{\partial y^{(j)}\partial y^{(k)}} u_jv_k \Bigg)_{l=1}^d
 \end{align*}
 Genauso entwickeln wir die Näherung $y_{i+1}$. Dabei verwenden wir immer wieder
-\begin{equation}\labeq{RK_opt_cond}
+\begin{align}\labeq{RK_opt_cond}
 \eta_j = y_i + h \sum_{k=1}^s a_{jk} f(\eta_k), \qquad  \sum_{k=1}^s a_{jk}=c_j 
-\end{equation}
+\end{align}
 Zuerst erhalten wir damit (da $f$ insbesondere Lipschitzstetig)
 \[
 \eta_j=y_i + \mathcal{O}(h) \quad \Longrightarrow \quad f(\eta_j)=f(y_i) + \mathcal{O}(h) \quad \forall j=1,\ldots,s.
@@ -2256,10 +2256,10 @@ Analog lassen sich implizite Adams Methoden (die \emph{Adams-Moulton-Methoden}) 
 indem das Interpolationspolynom durch die Stützstellen $(x_j,f_j)$ für $j=i-m+1,\ldots,i+1$,
 also inklusive der noch zu bestimmenden Stützstelle gewählt wird. Dies führt auf Formeln 
 der Form 
-\begin{equation}\labeq{Impl_Adam}
+\begin{align}\labeq{Impl_Adam}
 y_{i+1}=y_i+h\sum_{j=1}^{m+1}\beta_j f_{i-m + j}
 =y_i+h\sum_{j=1}^{m+1}\beta_j f(x_{i-m+j},y_{i-m+j})
-\end{equation}
+\end{align}
 
 Eine verbreitete Methode diese impliziten Gleichungen zu lösen, ist es zuerst eine Näherung an
 $y_{i+1}$ (und damit an $f_{i+1}$) durch die explizite Adams Methode zu bestimmen. Diese Näherung
@@ -2276,10 +2276,10 @@ y_{i+1}-y_{i-1}\approx y(x_{i+1})-y(x_{i-1})=\int_{x_{i-1}}^{x_{i+1}} y'(x) \dx
 Analag zum Adams-Verfahren können wir $f$ durch sein Interpolationspolynom (mit oder ohne
 Verwendung der unbekannten Stützstelle $x_{i+1},f_{i+1}$) annähern und erhalten 
 (implizite bzw. explizite) bzw. Formeln der Form
-\begin{equation*}
+\begin{align*}
 y_{i+1}=y_{i-1}+h\sum_{j=1}^{m+1}\beta_j f_{i-m + j} \quad \mbox{ bzw. } \quad
 y_{i+1}:=y_{i-1}+h\sum_{j=1}^{m}\beta_j f_{i-m + j}.
-\end{equation*}
+\end{align*}
 Diese Formeln heißen \emph{Nyström-Methoden} (die explizite Variante) oder \emph{Milne-Simpson}
 (die implizite Variante).
 
