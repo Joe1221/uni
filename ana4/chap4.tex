@@ -1,0 +1,219 @@
+% This work is licensed under the Creative Commons
+% Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of
+% this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send
+% a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\chapter{Fouriertransformation}
+
+\section{Grundlagen}
+
+
+\begin{df} \label{4.1}
+	\begin{enumerate}[1)]
+		\item
+			Für $f \in C^\infty(\R \to \C)$, $j,k \in \N_0$ sei
+			\[
+				\|f\|_{j,k} := \sup_{x\in \R} |x^j f^{(k)}(x)|
+			\]
+			(für $k \ge 1$ Halbnorm).
+			Der \emph{Schwartz-Raum} über $\R$ ist
+			\[
+				\scr S (\R) := \Big\{ f \in C^\infty(\R \to \C) \suchthat  \forall j,k \in \N_0 : \|f\|_{j,k} < \infty \Big\}
+			\]
+		\item
+			Für $f : \R \to \C$ ist
+			\[
+				\supp(f) := \_{\{x \in \R : f(x) \neq 0}
+			\]
+			der \emph{Träger} oder \emph{Support} von $f$.
+
+			Der Testraum über $\R$ ist
+			\[
+				C_0^\infty(\R) := \{f \in C^\infty(\R\to\C) : \supp(f) \text{ ist kompakt} \Big\}
+			\]
+			Offensichtlich ist $C_0^\infty (\R) \subset \scr S(R)$.
+	\end{enumerate}
+\end{df}
+
+\begin{ex} \label{4.2}
+	\begin{enumerate}[1)]
+		\item
+			$f(x) = x^j e^{-\alpha x^2}, j \in \N_0, \alpha > 0$, dann ist $f \in \scr S(\R) \setminus \C_0^\infty (\R)$.
+		\item
+			Sei
+			\[
+				\tilde j_1(x) := \begin{cases}
+					e^{-\tf 1{1-x^2}} & -1 < x < 1 \\
+					0 & \text{sonst}
+				\end{cases}
+			\]
+			Dann ist $\supp(\tilde j_1) = [-1,1]$, $\tilde j_1 \in C^\infty(\R \to \R)$, also $\tilde j_1 \in C_0^\infty(\R)$.
+			Außerdem $\tilde j_1(x) \ge 0$.
+
+			Setze $j_1(x) := c \tilde j_1(x)$ mit
+			\[
+				c = \dfrac 1{\int_{-1}^1 e^{- \f 1{1-x^2}} \dx}.
+			\]
+			Dann hat $j_1$ die zusätzliche Eigenschaft $\int_{\R} j_1(x) \dx = 1$.
+
+			Setze
+			\[
+				j_\eps(x) := \f 1\eps j_1(\f x\eps).
+			\]
+			Dann ist $\supp(j_\eps) = [-\eps, \eps]$, $\int_\R j_\eps \dx = 1$, $j_\eps \in C_0^\infty$.
+		\item
+			Abschneidefunktionen
+
+			Definiere für $R > \eps > 0$
+			\[
+				\psi_{R, \eps}(x) := \int_{-R-\eps}^{R+ \eps} j_\eps(x-y) \dx[y].
+			\]
+			Für $-R \le x \le \R$ ist
+			\begin{align*}
+				\psi_{R, \eps}(x) 
+				&= \int_{x-\eps}^{x+\eps} j_\eps (x-y) \dx[y] \\
+				&= \int_{-\infty}^\infty j_\eps(x-y) \dx[y] \\
+				&\stack{\xi = x-y} = -\int_{+\infty}^{-\infty}  j_\eps (\xi) \dx[\xi] = 1
+			\end{align*}
+			Für $x \ge R + 2\eps$ oder $x \le - R - 2\eps$ ist
+			\[
+				\psi_{R,\eps}(x) = \int 0 \dx[y] = 0.
+			\]
+			Es gilt
+			\[
+				\f {\mathrm{d}^k}{\mathrm{d}x^k} \psi_{R,\eps}(x) 
+				= \int_{-R-\eps}^{R+\eps} j_\eps^{(k)} (x-y) \dx[y],
+			\]
+			also $\psi_{R,\eps} \in C_0^\infty (\R)$.
+
+			Der Betrag der Ableitung lässt sich abschätzen:
+			\begin{align*}
+				\Big| \f {\mathrm{d}^k}{\mathrm{d}x^k} \psi_{R,\eps}(x) \Big|
+				&\le \int_{R-\eps}^{R+\eps} |j_\eps^{(k)}(x-y)| \dx[y] \\
+				&\stack{\xi = x-y}\le \int_{-\eps}^\eps |j_\eps^{(k)}(\xi)| \dx[\xi] \\
+				&\le c(\eps),
+			\end{align*}
+			unabhängig von $R$ und $x$.
+	\end{enumerate}
+\end{ex}
+
+\begin{nt} \label{4.3}
+	Mit
+	\[
+		d(f,g) := \sum_{j,k = 0}^\infty \f 1{2^{j+k}} \f {\|f-g\|_{j,k}}{1+ \|f-g\|_{j,k}}
+	\]
+	ist $\scr S(\R)$ ein vollständiger metrischer Raum
+\end{nt}
+
+\begin{nt}[Eigenschaften] \label{4.4}
+	\begin{enumerate}[1)]
+		\item
+			$\scr S(\R)$ ist linearer Raum über $\C$.
+		\item
+			Für $f,g \in \scr S (\R)$ ist $fg \in \scr S(\R)$.
+			Insbesondere ist mit 1) $\scr S(\R)$ Algebra ohne Einselement.
+		\item
+			Für $f \in \scr S(R)$, $j,k \in \N$, $g(x) := x^j f^{(k)}(x)$ ist $g \in \scr S(\R)$.
+	\end{enumerate}
+	Die selben Eigenschaften besitzt auch $C_0^\infty(\R)$.
+\end{nt}
+
+\begin{df} \label{4.5}
+	Für $f \in \scr S (\R)$ ist
+	\[
+		Ff(\omega) := \hat f(\omega) := \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty f(x) e^{i\omega x} \dx
+	\]
+	die \emph{Fourier-Transformierte} von $f$.
+\end{df}
+
+\begin{ex} \label{4.6}
+	Sei $f(x) = e^{-\f {x^2}2}$, dann ist die Fourier-Transformierte $\hat f(\omega) = e^{-\f {\omega^2}2}$.
+
+	Damit ist $f$ Eigenfunktion von $F$ zum Eigenwert $\lambda = 1$.
+\end{ex}
+
+\begin{st} \label{4.7}
+	Für $f \in \scr S(\R)$, $j, k \in \N_0$ gelten:
+	\begin{gather*}
+		\widehat {f^{(j)}}(\omega) = (i \omega)^j \hat f(\omega) \\
+		\begin{aligned}
+			g(x) := x^k f(x) \quad \implies \quad \hat g(\omega) = i^k \hat f^{(k)} (\omega) \\
+			g(x) := x^k f^{(j)}(x) \quad \implies \quad \hat g(\omega) = i^{j+k} \omega^j \hat f^{(k)} (\omega) \\
+		\end{aligned}
+	\end{gather*}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Mit partieller Integration ergibt sich
+				\begin{align*}
+					\sqrt {2\pi} \hat{f'}(\omega) 
+					&= \int_{-\infty}^\infty f'(x) e^{-i\omega x} \dx \\
+					&= \underbrace{\Big[f(x) e^{-i\omega x}  \Big]_{x=-\infty}^\infty}_{=0 \text{ ($f \in \scr S$)}} + i\omega \underbrace{\int_{-\infty}^\infty f(x) e^{-i\omega x} \dx}_{= \sqrt{2\pi} \hat f(\omega)} \\
+					&= \sqrt{2\pi} i \omega \hat f(\omega). \\
+				\end{align*}
+			\item
+				Sei $g(x) = x f(x)$, dann gilt
+				\begin{align*}
+					\sqrt{2\pi} \hat g(x)
+					&= \int_{-\infty}^\infty f(x) \underbrace{ xe^{-i \omega x}}_{= i \f{\mathrm d}{\mathrm d \omega} e^{-i \omega x}} \dx \\
+					&= i \int_{-\infty}^\infty f(x) \f {\mathrm d}{\mathrm d \omega} (e^{-i \omega x}) \dx
+				\intertext{
+					Das Integral konvergiert gleichmäßig bezüglich $\omega$, da $|f(x) x e^{-i \omega x} | \le |x f(x)| \le \f c{1+x^2}$ da $f \in \scr S$.
+				}
+					&= i \f {\mathrm d}{\mathrm d \omega} \int_{-\infty}^\infty f(x) e^{-i \omega x} \dx \\
+					&=\sqrt{2\pi} i \f {\mathrm d}{\mathrm d \omega} \hat f(\omega)
+					= i \hat f^{(1)} (\omega) \sqrt{2\pi}
+				\end{align*}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{4.8}
+	Für $F : f \to \hat f$ ist eine lineare Abbildung von $\scr S(\R)$ in $\scr S(\R)$.
+
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				$F$ linear ist klar.
+			\item
+				Sei $f \in \scr S(\R)$.
+				Zeige $\hat f \in \scr S(\R)$.
+				\begin{enumerate}[a)]
+					\item
+						Es gilt
+						\begin{align*}
+							|\hat f(\omega)|
+							&= \f 1{\sqrt{2\pi}} \bigg| \int_{-\infty}^\infty f(x) e^{-i \omega x} \dx \bigg| \\
+							&\le \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty  |f(x)| \dx
+							< \infty
+						\end{align*}
+						(wegen $|f(x)| \le \f {c}{1+x^2}$, da $f \in \scr S(\R)$)
+						und damit $\sup_{\omega \in \R}|\hat f(\omega)| < \infty$.
+					\item
+						Es gilt
+						\begin{align*}
+							\sqrt{2\pi} \f {\mathrm d^k}{\mathrm d \omega^k} \hat f(\omega)
+							&= \f {\mathrm d^k}{\mathrm d \omega^k} \hat f(\omega) \int_{-\infty}^\infty f(x) e^{i \omega x} \dx \\
+							&= \int_{-\infty}^\infty \underbrace{f(x) \underbrace{\f {\mathrm d^k}{\mathrm d \omega^k} e^{- i \omega x}}_{= (-ix)^k e^{-i\omega x}}}_{|\argdot| \le \f {c}{1+|x|^{k+2}|x|^k}} \dx
+						\end{align*}
+						Das Abgeleitete Integral konvergiert gleichmäßig bezüglich $\omega$.
+						Damit ist die Vertauschung von Ableitung und Integral gerechtfertigt.
+						Außerdem hängt das Integral stetig von $\omega$ ab.
+
+						Somit ist $\hat f \in C^\infty(\R \to \C)$.
+				\end{enumerate}
+		\end{enumerate}
+		Es gilt
+		\begin{align*}
+			\sup_{\omega \in \R} |\omega^j \hat f^{(k)}(\omega) |
+			\stackrel{\ref{4.7}} \sup_{\omega \in \R} \Big| \tf {1}{i^{j+k}} \hat g(\omega) \Big| \qquad \text{mit $g(x) = x^k f^{(j)}(x)$}
+		\text{also insbesondere $g \in \scr S(\R)$}
+			&\stack{\text{a)}}< \infty \qquad \text{für alle $j,k \in \N_0$}.
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{nt} \label{4.9}
+	$F : \scr S(\R) \to \scr S(\R)$ ist stetig bezüglich der Metrik $d$ aus \ref{4.3}.
+\end{nt}
