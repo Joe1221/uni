@@ -180,6 +180,7 @@
 \newtheorem*{proof}{Beweis:}
 \theoremsymbol{}
 
+\newcommand{\qedhere}{ \vspace{-\belowdisplayskip}\[\] \\}
 
 
 % Segment-Environment für kleinere gedankliche Abschnitte
