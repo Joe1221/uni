@@ -48,7 +48,7 @@
 	Es gilt die sogenante \emph{Cauchy-Schwarz-Bunjakowski-Ungleichung} (CSB)
 	\[
 		| \<x,y\> | \le \|x\| \cdot \|y\|,
-		\qquad x,y \in L
+		\qquad x,y \in L.
 	\]
 	\begin{proof}
 		Die Positivität folgt aus \ref{1.1} (S3) und \ref{1.2}.
@@ -79,8 +79,9 @@
 			&= \|x\|^2 + \underbrace{\<x,y\> + \<y,x\>}_{= 2\Re \<x,y\>} + \|y\|^2 \\
 			&\le \|x\|^2 + 2 |\<x,y\>|  + \|y\|^2 \\
 			&\le \|x\|^2 + 2\|x\|\|y\| + \|y\|^2 \\
-			&\le (\|x\| + \|y\|)^2.
+			&\le (\|x\| + \|y\|)^2. 
 		\end{align*}
+ 		\qedhere
 	\end{proof}
 \end{st}
 
@@ -96,16 +97,14 @@
 		\lim_{n\to \infty} \<x_n, y_n\> = \l\<\lim_{n\to \infty} x_n, \lim_{n\to\infty} y_n \r\>.
 	\]
 	\begin{proof}
-	Seien $ (x_n) $ und $ (y_n) $ konvergente Folgen, sodass $ x_n \to x, y_n \to x $, dann folgt
+	Seien $ (x_n) $ und $ (y_n) $ konvergente Folgen, sodass $ x_n \to x, y_n \to x $. Dann folgt
 		\begin{align*}
 			|\<x_n,y_n\> - \<x,y\>|
 			&= |\<x_n, y_n - y\> - \<x-x_n,y\>| \\
 			&\le |\<x_n,y_n -y\>| + |\<x-x_n,y\>| \\
-			&\stack{CSB}{\le} \|x_n\| \underbrace{\|y_n -y\|}_{\to 0} + \underbrace{\|x-x_n\|}_{\to 0} \underbrace{\|y\|}_{=\const}
+			&\stack{CSB}{\le} \|x_n\| \underbrace{\|y_n -y\|}_{\to 0} + \underbrace{\|x-x_n\|}_{\to 0} \underbrace{\|y\|}_{=\const}.
 			\end{align*}
-		Da $(x_n)$ konvergent in $L$, ist $x_n$ beschränkt (Beweis dazu analog wie in $\C$) und der obige Ausdruck konvergiert gegen $ 0 $ für $ n\to \infty $
-			
-		
+		Da $(x_n)$ konvergent in $L$, ist $x_n$ beschränkt (Beweis dazu analog wie in $\C$) und der obige Ausdruck konvergiert gegen $ 0 $ für $ n\to \infty $.
 	\end{proof}
 \end{kor}
 
@@ -118,11 +117,11 @@
 		\item
 			Sei 
 			\[
-				L := \bigg\{(x_n) \text{ Folge in } \C : \sum_{n=1}^\infty |x_n|^2 < \infty \bigg\}
+				L := \bigg\{(x_n) \text{ Folge in } \C : \sum_{n=1}^\infty |x_n|^2 < \infty \bigg\}.
 			\]
 			Setze 
 			\[
-				\<(x_n),(y_n)\> := \sum_{n=1}^\infty x_n\_{y_n}
+				\<(x_n),(y_n)\> := \sum_{n=1}^\infty x_n\_{y_n}.
 			\]
 			Die Reihe konvergiert, da sie eine Cauchy-Folge in $\C$ ist:
 			\begin{align*}
@@ -150,16 +149,16 @@
 			Erweitere $L$ zu 
 			\begin{align*}
 				\tilde L &:= L^2(]a,b[) \\
-				\<f,g\>^{\sim} &:= \int_{]a,b[} f\_{g} d\my
+				\<f,g\>^{\sim} &:= \int_{]a,b[} f\_{g} \dx[\my]. %sieht zwar komisch aus ist aber richtig so.
 			\end{align*}
 			$(\tilde L, \<\argdot,\argdot\>^\sim)$ ist ein Hilbertraum.
 			
 			Es gelten
 			\begin{itemize}
 				\item
-					$L \subset \tilde L$
+					$L \subset \tilde L$;
 				\item
-					$\<f,g\>^\sim = \<f,g\>$ für $f,g \in L$
+					$\<f,g\>^\sim = \<f,g\>$ für $f,g \in L$;
 				\item
 					$L$ ist dicht in $\tilde L$.
 			\end{itemize}
@@ -199,7 +198,7 @@
 \begin{df} \label{1.9}
 	Eine Folge $(e_j)$ im Prähilbertraum $(L,\<\argdot,\argdot\>)$ heißt \emph{Orthonormalsystem}, falls
 	\[
-		\<e_j,e_k\> = \delta_{j,k}.
+		\<e_j,e_k\> = \delta_{jk}.
 	\]
 	Insbesondere ist damit $\|e_j\| = 1$.
 \end{df}
@@ -227,7 +226,7 @@
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
-			wegen der Stetigkeit des Skalarprodukts gilt:
+			Wegen der Stetigkeit des Skalarprodukts gilt:
 				\begin{align*}
 					\<x,e_k\> 
 					= \bigg\< \sum_{j=1}^\infty x_j e_j, e_k \bigg\>
@@ -287,15 +286,16 @@
 				\[
 					0 \le \|x\|^2 - \sum_{j=1}^N |\<x,e_j\>|^2.
 				\]
-			\item[4)]
-				Für $m\ge n > N_\eps$ gilt
-				\begin{align*}
-					\bigg\|\sum_{j=n}^m \<x,e_j\>e_j\bigg\|^2
-					&\stack{2)}= \sum_{j=n}^m |\<y,e_j\>|^2 \\
-					&= \sum_{j=n}^m |\<x,e_j\>|^2
-					\stack{1)}< \eps.
-				\end{align*}					
-			\item[3)]
+			\item Insbesondere folgt
+			       \[
+					 \Big\|x - \sum_{j=1}^N \<x,e_j\> e_j \Big\|^2=\|x\|^2 - \sum_{j=1}^N |\<x,e_j\>|^2.
+				\]
+				Also 
+				\[
+					x=\sum_{j=1}^N \<x,e_j\> e_j  \iff  \|x\|^2 =\sum_{j=1}^N |\<x,e_j\>|^2.
+				\]
+						
+			\item
 				Sei $x \in \_M$, zeige $x \in M$.
 				Wähle $(x_n)$ als Folge in $M$ mit $x_n \to x$.
 				Zu $\eps > 0$ wähle $N\in \N$ mit $\|x_N-x\| < \eps$.
@@ -313,6 +313,15 @@
 					&\stack{1)}\le 2 + \eps\|x_N-x\|
 					< 3 \eps.
 				\end{align*}
+			\item
+				Für $m\ge n > N_\eps$ gilt
+				\begin{align*}
+					\bigg\|\underbrace{\sum_{j=n}^m \<x,e_j\>e_j}_{=:y}\bigg\|^2
+					&\stack{2)}= \sum_{j=n}^m |\<y,e_j\>|^2 \\
+					&= \sum_{j=n}^m |\<x,e_j\>|^2
+					\stack{1)}< \eps.
+				\end{align*}	
+				\qedhere	
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -334,7 +343,7 @@
 
 	Man definiert
 	\[
-		L^2(]-\pi,\pi[) := \bigg\{ f: ]-\pi,\pi[ \to \C : f \text{ messbar } \land \int_{]-\pi,\pi[}|f|^2 d\my < \infty \bigg\}.
+		L^2(]-\pi,\pi[) := \bigg\{ f: ]-\pi,\pi[ \to \C : f \text{ messbar } \land \int_{]-\pi,\pi[}|f|^2 \dx[\my] < \infty \bigg\}.
 	\]
 	$(e_j)$ ist genauso ein Orthonormalsystem in $L^2(]-\pi,\pi[)$.
 	Nach \ref{1.12} 4) ist für alle $f \in L^2(]-\pi,\pi[)$ die Reihe
@@ -353,7 +362,7 @@
 				\sum_{j=1}^\infty \<x,e_j\> e_j
 			\]
 			die \emph{Fourierreihe} von $x$.
-			Die Koeffizienten $\<x,e_j\>$ heißen \emph{Fourierkoeffizienten}
+			Die Koeffizienten $\<x,e_j\>$ heißen \emph{Fourierkoeffizienten}.
 		\item
 			$(e_j)$ heißt \emph{vollständiges Orthonormalsystem} (VONS), falls für alle $ x\in L $
 			\[
@@ -401,8 +410,9 @@
 		\item
 			Sei $D(A)$ ein linearer Teilraum von $L$ und
 			\[
-				A : D(A) \to L.
+				A : D(A) \to L
 			\]
+			eine lineare Abbildung. 
 			Dann heißt $A$ \emph{linearer Operator} in $L$.
 		\item
 			Ein linearer Operator $A$ heißt \emph{symmetrisch}, falls
@@ -483,6 +493,7 @@
 						\[
 							\{ \lambda_j : j \in \N \} \quad \text{oder}\quad \{\lambda_j : j \in \N\} \cup \{0\}.
 						\]
+						\qedhere
 					\end{proof}
 			\end{enumerate}
 		\item
@@ -502,6 +513,7 @@
 						&= \<x, Ay\>.
 					\end{align*}
 				\end{seg}
+				\qedhere
 			\end{proof}
 		\item
 			Falls $(\lambda_j)$ beschränkt, so ist $D(A) = H$
@@ -572,6 +584,7 @@
 					\<Af, g\>&= \underbrace{\Big[ - f'\_g + f \_g' \Big]_{x=0}^\pi}_{=0} - \int_0^\pi f \_g'' \dx \\
 					&= \<f, Ag\>.
 				\end{align*}
+				\qedhere
 			\end{proof}
 			Insbesondere hat $A$ damit nach \ref{1.18} 1) nur reelle Eigenwerte.
 		\item
@@ -585,6 +598,7 @@
 					&= - \underbrace{\big[f' \_f \big]_{x=0}^\pi}_{=0} + \int_0^\pi \underbrace{f' \_f'}_{= |f'|^2 \ge 0} \dx
 					\ge 0.
 				\end{align*}
+				\qedhere
 			\end{proof}
 			Insbesondere sind damit alle Eigenwerte $\ge 0$.
 		\item
@@ -650,15 +664,10 @@
 
 						Sei $f \in D(A)$. Dann
 						\begin{align*}
-							\tilde Af 
-							&= \sum_{j=1}^\infty j^2 \<f,e_j\> e_j \\
-							&= \sum_{j=1}^\infty \<f,\underbrace{j^2e_j}_{=Ae_j}\> e_j \\
-							&= \sum_{j=1}^\infty \<Af, e_j\> e_j
-							&= Af,
-							\end{align*}
-							da $(e_j)$ ein VONS von $\im(A)$ ist (wird später gezeigt)
-							
-						
+							\tilde Af = \sum_{j=1}^\infty j^2 \<f,e_j\> e_j = \sum_{j=1}^\infty \<f,\underbrace{j^2e_j}_{=Ae_j}\> e_j = \sum_{j=1}^\infty \<Af, e_j\> e_j= Af,
+						\end{align*}
+						da $(e_j)$ ein VONS von $\im(A)$ ist. (wird später gezeigt)
+						\qedhere
 				\end{enumerate}
 			\end{proof}
 	\end{enumerate}
@@ -735,6 +744,7 @@
 			\]
 			und $\sup_{\|x\|=1} \|Ax\| = \infty$, also ist $A$ nicht beschränkt.
 		\end{seg}
+		\qedhere
 	\end{proof}
 \end{nt}
 
@@ -805,6 +815,7 @@
 			\]
 			also konvergiert $Ay_j$ nicht gegen $A0 = 0$ und somit ist $A$ nicht stetig.
 		\end{seg}
+		\qedhere
 	\end{proof}
 \end{st}
 
