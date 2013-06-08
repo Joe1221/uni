@@ -58,13 +58,13 @@
 
 	$s:\Omega \to \R$ ist genau dann eine \emph{einfache} Funktion, wenn
 	\[
-		\exists N \in \N, \alpha_1, \dotsc, \alpha_N \in \R, M_1, \dotsc, M_N \in \Sigma : s = \sum_{j=1}^N \alpha_j \chi_{M_j}
+		\exists N \in \N, \alpha_1, \dotsc, \alpha_N \in \R, M_1, \dotsc, M_N \in \Sigma : s = \sum_{j=1}^N \alpha_j \chi_{M_j}.
 	\]
 	In diesem Fall setzt man
 	\[
 		\int_{\Omega} s d\my := \sum_{j=1}^N \alpha_j \my(M_j)
 	\]
-	für $s \ge 0$ (also  $\alpha_j \ge 0$).
+	für $\alpha_j \ge 0$.
 \end{df*}
 
 \begin{df}[Lebesgue-Integral]
@@ -79,7 +79,7 @@
 					Definiere für $f \ge 0$:
 					\[
 						\int_{\Omega} f d\my 
-						:= \sup \bigg\{ \int_{\Omega} s d\my : 0 \le s(x) \le f(x), x \in \Omega \land s : \Omega \to \R \text{ einfach} \bigg\}
+						:= \sup \bigg\{ \int_{\Omega} s d\my : 0 \le s(x) \le f(x), x \in \Omega \land s : \Omega \to \R \text{ einfach} \bigg\}.
 					\]
 				\item
 					Für $f: \Omega \to \R$ ohne Vorzeichenbedingung definiert man
@@ -95,12 +95,12 @@
 					\]
 					solange nicht beide Integrale der rechten Seite $\infty$ sind.
 
-					Wir nennen $f$ integrierbar, wenn $f$ messbar ist und obiges Integral definiert ist.
+					Wir nennen $f$ integrierbar, wenn $f$ messbar ist und obiges Integral endlich ist.
 			\end{enumerate}
 		\item
 			$f : \Omega \to \C$ heißt \emph{messbar}, falls $\Re f$ und $\Im f$ Borel-messbar sind.
 
-			$f$ heißt \emph{integrierbar}, falls $\Re f$ und $\Im f$ integrierbar sind und endlich. 
+			$f$ heißt \emph{integrierbar}, falls $\Re f$ und $\Im f$ integrierbar sind. 
 			Dann gilt
 			\[
 				\int_{\Omega} f d\my := \int_{\Omega} (\Re f) d\my + i \int_{\Omega} (\Im f) d\my .
@@ -114,12 +114,11 @@
 	Sei $f: (\Omega, \Sigma, \my) \to \C$ messbar.
 	\begin{enumerate}[1)]
 		\item
-			Für $1 \le p < \infty$ ist
+			Für $1 \le p < \infty$ setze
 			\[
 				N_p(f) := \bigg( \int_{\Omega} |f|^p d\my \bigg)^{\f 1p}
-				\qquad \Big( |f|^n = (\argdot)^n \circ |f| \Big)
+				\qquad \Big( |f|^n = (\argdot)^n \circ |f| \Big).
 			\]
-			messbar.
 		\item
 			Wir nennen
 			\begin{align*}
@@ -136,27 +135,35 @@
 		\item
 			Für $1 \le p \le \infty$ gilt $0 \le N_p(f) \le \infty$ und $N_p(\alpha f) = |\alpha| N_p(f)$ für $\alpha \in \C$.
 		\item
-			Es gilt $|f| \le N_\infty(f)$ $\my$-fast-überall und
-			\begin{align*}
+			Es gilt $|f| \le N_\infty(f)$ $\my$-fast-überall und 
+			\[
 				\my \Big\{ \omega \in \Omega : |f(\omega)| > N_\infty(f) \Big\}
-				&= \my \bigg( \bigcup_{n\in \N} \Big\{ \omega \in \Omega : |f(\omega)| > N_\infty(f) + \f 1n \Big\} \bigg) \\
-				&= \lim_{n\to \infty }\underbrace{\my \bigg( \Big\{ \omega \in \Omega : |f(\omega)| > N_\infty(f) + \f 1n \Big\} \bigg)}_{=0} \\
-				&=  0
-			\end{align*}
+				\]
 			Insbesondere ist das Infimum in \ref{2.4} 2) ein Minimum.
 		\item
 			Es gilt
 			\[
-				N_\infty(f+g) \le N_\infty (f) + N_\infty(g)
+				N_\infty(f+g) \le N_\infty (f) + N_\infty(g).
 			\]
-			\begin{proof}
-				\begin{align*}
-					|(f+g)(\omega)|
-					& \le |f(\omega)| + |g(\omega)| \\
-					& \le N_\infty(f) + N_\infty(g) \qquad \text{$\my$-fast-überall}
-				\end{align*}
-			\end{proof}
 	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item Leicht zu zeigen.
+			\item
+			\begin{align*}
+				\my \Big\{ \omega \in \Omega : |f(\omega)| > N_\infty(f) \Big\}
+				&= \my \bigg( \bigcup_{n\in \N} \Big\{ \omega \in \Omega : |f(\omega)| > N_\infty(f) + \f 1n \Big\} \bigg) \\
+				&= \lim_{n\to \infty }\underbrace{\my \bigg( \Big\{ \omega \in \Omega : |f(\omega)| > N_\infty(f) + \f 1n \Big\} \bigg)}_{=0} \\
+				&=  0.
+			\end{align*}
+			\item 
+			\begin{align*}
+				|(f+g)(\omega)|
+				& \le |f(\omega)| + |g(\omega)| \\
+				& \le N_\infty(f) + N_\infty(g) \qquad \text{$\my$-fast-überall}
+			\end{align*}
+		\end{enumerate}
+	\end{proof}
 \end{st}
 
 \begin{df} \label{2.6}
@@ -170,7 +177,7 @@
 	\]
 	oder
 	\[
-		p = \infty \quad\land\quad q = 1
+		p = \infty \quad\land\quad q = 1.
 	\]
 	\begin{note}
 		Ein wichtiger Spezialfall ist $p=q=2$.
@@ -208,37 +215,36 @@
 						Für $N_p(f) = 0$ ist $f =0 $ $\my$-fast-überall, also $fg = 0$ $\my$-fast-überall und damit $N_1(fg) = 0$.
 						Genauso $N_q(g) = 0 \implies N_1(fg) = 0$.
 
-						Aus $N_p(f) > 0 \land N_q(g) = \infty$ und $N_q(g) \ge 0 \land N_p(f) = \infty$ folgt die Behauptung
+						Für $N_p(f) > 0 \land N_q(g) = \infty$ und $N_q(g) \ge 0 \land N_p(f) = \infty$ ist die Aussage klar.
 					\item
 						Für $N_p(f) = N_q(g) = 1$, zeige zunächst $N_1(fg) \le 1$.
 
-						Wegen $t \mapsto e^t$ konvex (\fixme[Zeichnung]) gilt für $0 \le \lambda \le 1$ und $s,t \in \R$.
+						Wegen $t \mapsto e^t$ konvex (\fixme[Zeichnung]) gilt für $0 \le \lambda \le 1$ und $s,t \in \R$
 						\[
-							e^{\lambda t + (1-\lambda)s} \le \lambda e^t + (1-\lambda)e^s
+							e^{\lambda t + (1-\lambda)s} \le \lambda e^t + (1-\lambda)e^s.
 						\]
 						Für $0 < x,y < \infty$ sei
 						\[
-							x = e^{\f \alpha p}, y = e^{\f \beta q} = e^{\beta (1 - \f 1p)}
+							x = e^{\f \alpha p}, y = e^{\f \beta q} = e^{\beta (1 - \f 1p)}.
 						\]
-						damit gilt
+						Damit gilt
 						\begin{align*}
 							xy = e^{\f 1p \alpha + (1-\f 1p)\beta} 
-							&= e^{\lambda \alpha + (1-\lambda) \beta} \qquad \lambda := \f 1p, \quad 1-\lambda = \f 1q \\
-							&\le \lambda e^{\alpha}  + (1-\lambda) e^{\beta} \\
-							&= \f 1p x^p + \f 1q y^q
+							&= e^{\lambda \alpha + (1-\lambda) \beta}; \qquad \lambda := \f 1p, \quad 1-\lambda = \f 1q \\
+							&\le \lambda e^{\alpha}  + (1-\lambda) e^{\beta} 
+							= \f 1p x^p + \f 1q y^q
 						\end{align*}
-						Also für $0 \le x,y < \infty$:
+						Also gilt für beliebige $0 \le x,y < \infty$:
 						\[
 							xy \le \f 1p x^p + \f 1q y^q
 						\]
-
-						Damit gilt
+						und damit gilt
 						\begin{align*}
 							N_1(fg) 
 							&= \int_{\Omega} |fg| d\my \\
 							&\le \int_{\Omega} \f 1p |f|^p + \f 1q |g|^q d\my \\
 							&\le \f 1p \underbrace{N_p(f)^p}_{=1} + \f 1q \underbrace{N_q(g)^q}_{=1} \\
-							&\le \f 1p + \f 1q = 1
+							&\le \f 1p + \f 1q = 1.
 						\end{align*}
 					\item
 						Sei $0 < N_p(f), N_q(g) < \infty$, dann ist
@@ -251,39 +257,37 @@
 			\item
 				Der Fall $p=1$ folgt direkt aus $|f+g| \le |f| + |g|$ (punktweise).
 
-				Triviale Fäll sind $N_p(f+g) = 0$, $N_p(f) = \infty$ und $N_p(g) = \infty$.
+				Die trivialen Fälle sind $N_p(f+g) = 0$, $N_p(f) = \infty$ und $N_p(g) = \infty$.
 
 				Betrachte nun $N_p(f), N_p(g) < \infty$ und $N_p(f+g) > 0$ und $p>1$.
-				\begin{enumerate}[a)]
-					\item
-						Für $N_p(f+g) < \infty$ gilt punktweise:
-						\begin{align*}
-							|f+g|^p
-							&\le \Big( |f| + |g| \Big)^p \\
-							&\le \Big( 2 \max \{|f|, |g|\} \Big)^p \\
-							&= 2^p \max \{|f|^p, |g|^p \} \\
-							&\le 2^p \Big( |f|^p + |g|^p \Big)
-						\end{align*}
-						und damit
-						\[
-							N_p(f+g) \le 2^p \Big( N_p(f) + N_q(g) \Big) < \infty
-						\]
-					\item
-						\begin{align*}
-							\Big( N_p(f+g) \Big)^p
-							&= \int_{\Omega} |f+g|^p d\my \\
-							&= \int_{\Omega} |f+g| |f+g|^{p-1} d\my \\
-							&\le \int_{\Omega} |f| |f+g|^{p-1} d\my + \int_{\Omega} |g| |f+g|^{p-1} d\my
+				
+				Sei $p$ fest aber beliebig, dann gilt:
+					\begin{align*}
+						|f+g|^p
+						&\le \Big( |f| + |g| \Big)^p \\
+						&\le \Big( 2 \max \{|f|, |g|\} \Big)^p \\
+						&= 2^p \max \{|f|^p, |g|^p \} \\
+						&\le 2^p \Big( |f|^p + |g|^p \Big)
+					\end{align*}
+				und damit
+					\[
+						N_p(f+g) \le 2^p \Big( N_p(f) + N_q(g) \Big) < \infty.
+					\]
+				Daraus folgt
+					\begin{align*}
+						\Big( N_p(f+g) \Big)^p
+						&= \int_{\Omega} |f+g|^p d\my \\
+						&= \int_{\Omega} |f+g| |f+g|^{p-1} d\my \\
+						&\le \int_{\Omega} |f| |f+g|^{p-1} d\my + \int_{\Omega} |g| |f+g|^{p-1} d\my.
 						\intertext{Wähle $q \in ]1,\infty[$ mit $\f 1q + \f 1p = 1$ (oder äquivalent $\f pq = p-1$) und wende die Höldersche Ungleichung an:}
 							&\le \underbrace{\bigg( \int_{\Omega} |f|^p d\my \bigg)^{\f 1p}}_{N_p(f)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} d\my \bigg)^{\f 1q}}_{N_p(f+g)^{\f pq}} 
-							+ \underbrace{\bigg( \int_{\Omega} |g|^p d\my \bigg)^{\f 1p}}_{N_p(g)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} d\my \bigg)^{\f 1q} }_{N_p(f+g)^{\f pq}}
+							+ \underbrace{\bigg( \int_{\Omega} |g|^p d\my \bigg)^{\f 1p}}_{N_p(g)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} d\my \bigg)^{\f 1q} }_{N_p(f+g)^{\f pq}}.
 						\end{align*}
-						Wegen $0 < N_p(f+g)^{\f pq} < \infty$ also
+						Da $0 < N_p(f+g)^{\f pq} < \infty$ gilt also
 						\[
-							\Big(N_p(f+g)\Big)^{p- \f pq} \le N_p(f) + N_p(g)
+							\Big(N_p(f+g)\Big)^{p- \f pq} \le N_p(f) + N_p(g).
 						\]
 						Wegen $p-\f pq = 1$ ist dies genau die Behauptung.
-				\end{enumerate}
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -293,7 +297,7 @@
 		\item
 			Für $1 \le p,q \le \infty$ und $p,q$ konjugiert gilt
 			\[
-				N_1(fg) \le N_p(f) N_q(g)
+				N_1(fg) \le N_p(f) N_q(g).
 			\]
 			\begin{note}
 				Wichtiger Spezialfall:
@@ -308,7 +312,7 @@
 		\item
 			Für $1 \le p \le \infty$ gilt die Dreiecksungleichung
 			\[
-				N_p(f+g) \le N_p(f) + N_p(g)
+				N_p(f+g) \le N_p(f) + N_p(g).
 			\]
 	\end{enumerate}
 	\begin{proof}
@@ -319,7 +323,7 @@
 				Sei $p=1, q = \infty$.
 				Dann folgt aus \ref{2.5} $|g| \le N_\infty(g)$ $\my$-fast-überall und damit
 				\[
-					N_1(fg) = \int_{\Omega} |fg| d\my \le \int_{\Omega}|f| N_\infty (g) d\my
+					N_1(fg) = \int_{\Omega} |fg| d\my \le \int_{\Omega}|f| N_\infty (g) d\my.
 				\]
 			\item
 				Vergleiche \ref{2.5} und Minkowski.
@@ -372,7 +376,7 @@
 		= \tilde {L^p} (\Omega, \Sigma, \my) / N \\
 		\| [f] \|_p &:= N_p(f) \qquad \text{ für } [f] \in L^p(\dots)
 	\end{align*}
-	Dann ist $\|\argdot\|_p$ eine Norm auf $L^p(\Omega, \Sigma, \my)$ (leicht zu zeigen).
+	Dann ist $\|\argdot\|_p$ eine Norm auf $L^p(\Omega, \Sigma, \my)$, was leicht zu zeigen ist.
 
 	Im Folgenden schreiben wir $L^p$ oder $L^p(\Omega)$ statt $L^p(\Omega, \Sigma, \my)$ und $f$ statt $[f]$.
 \end{df}
@@ -397,12 +401,12 @@
 			Sei $(f_j)$ Cauchy-Folge.
 			Definiere
 			\[
-				B_{jk} := \Big\{ \omega \in \Omega : |f_j(\omega) - f_k(\omega)| > \|f_j-f_k\|_\infty \Big\}
+				B_{jk} := \Big\{ \omega \in \Omega : |f_j(\omega) - f_k(\omega)| > \|f_j-f_k\|_\infty \Big\}.
 			\]
 			Nach \ref{2.5} ist dann $\my(B_{jk}) = 0$ für $j,k\in \N$. 
 			Setze
 			\[
-				B := \bigcup_{j,k\in \N} B_{jk}
+				B := \bigcup_{j,k\in \N} B_{jk}.
 			\]
 			Dann ist wieder $\my(B) = 0$.
 
@@ -415,8 +419,8 @@
 			Definiere
 			\[
 				f(\omega) := \begin{cases}
-					\lim_{j \to \infty} f_j(\omega) & \omega \in \Omega \setminus B \\
-					0 & \text{sonst}
+					\lim_{j \to \infty} f_j(\omega) & \omega \in \Omega \setminus B ;\\
+					0 & \text{sonst.}
 				\end{cases}
 			\]
 			Dann ist
@@ -436,7 +440,7 @@
 			Da $B$ Nullmenge, ist $\|f_j - f\|_\infty \le \eps$ und daher $f_j - f \in L^\infty$ für $j > J_\eps$.
 			Somit ist
 			\[
-				f = \underbrace{f - f_j}_{\in L^\infty} + \underbrace{f_j}_{\in L^\infty} \in L^\infty
+				f = \underbrace{f - f_j}_{\in L^\infty} + \underbrace{f_j}_{\in L^\infty} \in L^\infty.
 			\]
 		\end{seg}
 		\begin{seg}[$1 \le p < \infty$]
@@ -446,21 +450,21 @@
 					Wähle eine „gut konvergente“ Teilfolge $({f_j}_k)$.
 					Sei dazu $j_l$ so, dass 
 					\[
-						\|{f_j}_l - f_k\|_p < \f 1{2^k} \qquad \text{für $k>j_l$}
+						\|{f_j}_l - f_k\|_p < \f 1{2^k} \qquad \text{für $k>j_l$}.
 					\]
 					Damit gilt
 					\[
-						\|{f_j}_k - {f_j}_{k+1} \|_p < \f 1{2^k} \qquad \text{für $k \in \N$}
+						\|{f_j}_k - {f_j}_{k+1} \|_p < \f 1{2^k} \qquad \text{für $k \in \N$}.
 					\]
 				\item
 					Zeige jetzt die Existenz der Grenzfunktion.
 
 					Setze
 					\begin{align*}
-						g_n(\omega) &:= \sum_{k=1}^n |{f_j}_k(\omega) - {f_j}_{k+1}(\omega)|  \qquad \omega \in \Omega \\
+						g_n(\omega) &:= \sum_{k=1}^n |{f_j}_k(\omega) - {f_j}_{k+1}(\omega)|; \qquad \omega \in \Omega, \\
 						g(\omega) &:= \sum_{k=1}^\infty |{f_j}_k(\omega) - {f_j}_{k+1}(\omega)| 
 					\end{align*}
-					(evtl. ist $g(\omega) = \infty$)
+					(evtl. ist $g(\omega) = \infty$).
 					Dann gilt
 					\begin{align*}
 						\|g_n\|_p &= \bigg\|\sum_{k=1}^n |{f_j}_k(\omega) - {f_j}_{k+1}(\omega)| \bigg\| \\
@@ -477,14 +481,14 @@
 						&= \int_{\Omega} \lim_{n\to \infty} g_n^p d\my \\
 						&= \lim_{n\to \infty} \int_{\Omega} g_n^p d\my \\
 						&= \lim_{n\to \infty} \|g_n\|_p^p
-						\le 1
+						\le 1.
 					\end{align*}
 					Also $\|g\|_p \le 1$ und somit
 					\[
 						g(\omega) < \infty
 					\]
-					$\my$-fast-überall.
-					Sei $\Omega'$ so, dass $g(\omega) < \infty$ für $\omega \in \Omega'$ und $\my(\Omega \setminus \Omega') = 0$.
+					Für $\my$-fast-alle $\omega\in \Omega$
+					sei $\Omega'\subset \Omega$ so, dass $g(\omega) < \infty$ für $\omega \in \Omega'$ und $\my(\Omega \setminus \Omega') = 0$.
 
 					Also ist $g_n(\omega) \to g(\omega)$ in $\R$ für $\omega \in \Omega'$.
 					Mit 
@@ -500,8 +504,8 @@
 					Setze
 					\[
 						f(\omega) := \begin{cases}
-							\lim_{k\to \infty} {f_j}_k (\omega) & \omega \in \Omega' \\
-							0 & \omega \in \Omega \setminus \Omega'
+							\lim_{k\to \infty} {f_j}_k (\omega) & \omega \in \Omega'; \\
+							0 & \omega \in \Omega \setminus \Omega'.
 						\end{cases}
 					\]
 				\item
@@ -521,8 +525,8 @@
 					($f$ ist messbar als punktweiser Grenzwert messbarer Funktionen)
 					Also ist ${f_j}_k - f \in L^p$, $\|{f_j}_k - f\|_p \le \eps$ und somit $f = f - {f_j}_k + {f_j}_k \in L^p$.
 
-					Wegen $(f_j)$ Cauchy-Folge, konvergiert die Teilfolge ${f_j}_k \to f$ bezüglich $\|\argdot\|_p$.
-					Also
+					Da $(f_j)$ Cauchy-Folge, konvergiert die Teilfolge ${f_j}_k \to f$ bezüglich $\|\argdot\|_p$.
+					Also gilt
 					\[
 						\|f_j - f\|_p 
 						\le \underbrace{\|f_j - {f_j}_k \|_p}_{< \eps} + \underbrace{\|{f_j}_k - f\|_p}_{< \eps}
@@ -533,7 +537,7 @@
 		\end{seg}
 	\end{proof}
 \end{st}
-
+\setcounter{thm}{13}
 \begin{kor}[Weyl] \label{2.14}
 	Sei $1 \le p \le \infty$ und $(f_j)$ Cauchy-Folge in $L^p$.
 	
@@ -548,7 +552,7 @@
 			\[
 				s \in L^p
 				\quad \iff \quad
-				\my\Big( \big\{ \omega \in \Omega : s(\omega) \neq 0 \big\} \Big) < \infty
+				\my\Big( \big\{ \omega \in \Omega : s(\omega) \neq 0 \big\} \Big) < \infty.
 			\]
 		\item
 			Die Menge
@@ -572,14 +576,14 @@
 							\qquad \text{und} \qquad
 							f = \lim_{j\to \infty} s_j
 						\]
-						(siehe Maßtheorie)
+						(siehe Maßtheorie).
 						Damit ist
 						\[
 							\int_{\Omega} |s_j|^p d\my
 							\le \int_{\Omega} |f|^p d\my
-							< \infty
+							< \infty.
 						\]
-						Also ist $s_j, f-s_j \in L^p$.
+						Also ist $s_j$ und $f-s_j \in L^p$.
 						Weiter gilt punktweise
 						\[
 							|\underbrace{f - s_j}_{\ge 0}|^p \le |f|^p.
@@ -590,11 +594,11 @@
 							&= \lim_{j\to \infty} \int_{\Omega} \underbrace{|f-s_j|^p}_{|f|^p} d\my  \qquad \int_{\Omega} |f|^p d\my < \infty\\
 							&= \int_{\Omega} \lim_{j\to \infty} |f- s_j |^p d\my \\
 							&= \int_{\Omega} 0 d\my
-							= 0
+							= 0,
 						\end{align*}
-						Also $\|f-s_j\|_p \to 0$.
+						also $\|f-s_j\|_p \to 0$.
 					\item
-						Für beliebige Funktionen $f: \Omega \to \C$ zerlege diese in vier positive Funktionen.
+						Für beliebige Funktionen $f: \Omega \to \C$ zerlege diese in vier positive Funktionen und die Aussage folgt mit a).
 				\end{enumerate}
 		\end{enumerate}
 	\end{proof}
@@ -609,9 +613,9 @@
 			\[
 				\|f\|_p \le \my(\Omega)^{\f 1p - \f 1{p'}} \|f\|_{p'}
 			\]
-			\begin{note}
-				
-			\end{note}
+%			\begin{note}
+%				
+%			\end{note}
 		\item
 			Sei $1 \le p < p' \le \infty$, dann ist
 			\[
@@ -639,4 +643,6 @@
 
 			Also ist $L^2$ ein Hilbertraum.
 	\end{enumerate}
+	\begin{proof}[Übung]
+	\end{proof}
 \end{st}
