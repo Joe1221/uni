@@ -3,13 +3,15 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{mycourse}
 
-% Load base class and pass-through unknown options
-\LoadClass[11pt]{scrbook}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
+% 
+\PassOptionsToClass{fontsize=12pt}{scrbook}
 
 %==================================
 % Options
 %==================================
+% pass-through unknown options
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
+
 
 % [noproofs] compile without proofs
 % ---------------------------------
@@ -34,27 +36,32 @@
 
 \ProcessOptions\relax
 
+
 %==================================
 % Fonts / Encoding
 %==================================
 
-\usepackage[ngerman]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
-\usepackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
-\usepackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
-\usepackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
+\RequirePackage[ngerman]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
+\RequirePackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
+\RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
+\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
 
+% Load base class
+\LoadClass{scrbook}
 %==================================
 % 
 %==================================
 
-%\usepackage[l2tabu, orthodox]{nag}
-\usepackage{etex}
+%\RequirePackage[l2tabu, orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
+\RequirePackage{etex}
 
-\usepackage[a4paper, left=20mm, right=20mm, top=20mm, bottom=30mm]{geometry}
-\usepackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
+\RequirePackage{microtype} 			% Für typographische Perfektion
 
-%\usepackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
-\usepackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
+\RequirePackage[a4paper, left=20mm, right=20mm, top=20mm, bottom=30mm]{geometry}
+\RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
+
+%\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
+\RequirePackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 \hypersetup{
     colorlinks=false,
     pdfborder={0 0 0},
@@ -76,24 +83,24 @@
 \renewcommand{\tableofcontents}{\pdfbookmark[0]{\contentsname}{toc}\oldtableofcontents}
 %\BeforeTOCHead[toc]{{\pdfbookmark[0]{\contentsname}{toc}}} % Funktioniert nicht im CIP-Pool
 
-\usepackage{enumerate}			% Aufzählungen wie a), (I), etc. als optionales Argument
-\usepackage{parskip}			% Entfernt Einrückung bei Absätzen und fügt vertikalen Abstand ein
+\RequirePackage{enumerate}			% Aufzählungen wie a), (I), etc. als optionales Argument
+\RequirePackage{parskip}			% Entfernt Einrückung bei Absätzen und fügt vertikalen Abstand ein
 \setlength{\parskip}{0.5em}
 
-\usepackage{float}              % Erlaubt [H] Option für table/figure
-%\usepackage{scrhack} 			% Wegen float-package, das eine warnung mit scrbook erzeugt
+\RequirePackage{float}              % Erlaubt [H] Option für table/figure
+%\RequirePackage{scrhack} 			% Wegen float-package, das eine warnung mit scrbook erzeugt
 
-\usepackage{algpseudocode}		% algorithmicx package für Pseudo-Code
-\usepackage{verbatim}			% Für Ascii-Art ;-)
+\RequirePackage{algpseudocode}		% algorithmicx package für Pseudo-Code
+\RequirePackage{verbatim}			% Für Ascii-Art ;-)
 
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{mathtools}
-\usepackage[hyperref,thmmarks]{ntheorem}			% Alternative theorems für leichteres Anpassen
-\usepackage{tikz}
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{mathtools}
+\RequirePackage[amsmath,hyperref,thmmarks]{ntheorem}			% Alternative theorems für leichteres Anpassen
+\RequirePackage{tikz}
 
 
-\usepackage{listings}			% Einbinden von Code-Schnipsel
+\RequirePackage{listings}			% Einbinden von Code-Schnipsel
 % Hack um deutsche Sonderzeichen in lstinputlisting zu unterstützen
 \lstset{literate={Ö}{{\"O}}1{Ä}{{\"A}}1{Ü}{{\"U}}1{ß}{{\ss}}2{ü}{{\"u}}1{ä}{{\"a}}1{ö}{{\"o}}1}
 \lstset{
@@ -196,8 +203,8 @@
 }
 \newtheorem{seg}{}
 
-\usepackage{fancyhdr}
-\usepackage{calc}
+\RequirePackage{fancyhdr}
+\RequirePackage{calc}
 \pagestyle{fancy}
 
 \fancyhead{}
