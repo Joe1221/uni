@@ -177,7 +177,7 @@ Wir beginnen mit einigen Beispielen.
 \subsection{Mathematische Beispiele gewöhnlicher DGL}
 
 \begin{description}
-\item[Differentialgleichung:] Gleichung die eine unbekannte Funktion zusammen mit ihren Ableitungen enthält.
+\item[Differentialgleichung:] Gleichung, die eine unbekannte Funktion zusammen mit ihren Ableitungen enthält.
 \end{description}
 
 \begin{beispiel}\label{bsp:ODE_math}
@@ -326,7 +326,7 @@ In einem kurzen Zeitintervall $\Delta t$, wächst die Population um $\Delta y \a
 
 \item \underline{Model 2 (Verhulst):} Es existiert Maximalbevölkerung $M>0$, Population wächst mit von $y$ abhängiger Rate
 \begin{description}
-\item[$y<<M $:] Wachstum mit Rate $r$
+\item[$y\ll M $:] Wachstum mit Rate $r$
 \item[$y\approx M$:] Wachstum mit Rate $0$
 \end{description}
 In Zeitintervall $\Delta t$, wächst die Population um $\Delta y \approx r (1-y/M) y \Delta t$.
@@ -1557,7 +1557,7 @@ Betrachten wir das einfache Beispiel
 y'(x)=\lambda y,\quad y(0)=1, \quad \lambda<0.
 \]
 Offenbar ist die Lösung $y(x)=e^{\lambda x}$. Aufgrund der Annahme $\lambda<0$ konvergiert die
-Lösung mit exponentieller Geschwindigkeie gegen Null.
+Lösung mit exponentieller Geschwindigkeit gegen Null.
 
 Durch Anwendung des expliziten Euler-Verfahrens mit Schrittweite $h$ auf dieses AWP erhalten wir
 \begin{align*}
@@ -1570,7 +1570,7 @@ y_n&= (1+h\lambda)^n.
 
 Da $\lambda<0$ folgt für $n\to \infty$ 
 \[
-\left\{ \begin{array}{l l} \mbox{$y_n>0$ und $y_n\to 0$} & \mbox{ für $1+h\lambda \geq 0$}\\
+\left\{ \begin{array}{l l} \mbox{$y_n\ge 0$ und $y_n\to 0$} & \mbox{ für $1+h\lambda \geq 0$}\\
 \mbox{$y_n$ alterniert im Vorzeichen, $y_n\to 0$} & \mbox{ für $0>1+h\lambda>-1$}\\
 \mbox{$y_n$ alterniert zwischen $+1$ und $-1$} & \mbox{ für $1+h\lambda=-1$}\\
 \mbox{$y_n$ alterniert im Vorzeichen, $|y_n|\to \infty$} & \mbox{ für $1+h\lambda<-1$}
@@ -1592,7 +1592,7 @@ y_2 &= y_1 + h \lambda y_2 &\implies y_2&= (1-h\lambda)^{-1} y_1= (1-h\lambda)^{
 Für jede Schrittweite $h>0$ ist $1-h\lambda>1$. $y_n$ bleibt also stets positiv und konvergiert gegen Null für $n\to \infty$.
 
 Implizites und explizites Euler-Verfahren besitzen die gleiche Konsistenzordnung. Für $h\to 0$ konvergieren sie gleich schnell gegen die wahre Lösung. Jedoch gibt es zwei Eigenschaften der wahren Lösung, Positivität und Abfallverhalten, 
-die nur die Iterierten des impliziten Euler-Verfahren für alle Schrittweiten zeigen. Die Iterierten des expliziten Euler-Verfahrens haben diese Eigenschaften erst für extrem kleine Schrittweiten $h$ (z.B. für $\lambda \ll 0$).
+die nur die Iterierten des impliziten Euler-Verfahren für alle Schrittweiten zeigen. Die Iterierten des expliziten Euler-Verfahrens haben diese Eigenschaften erst für extrem kleine Schrittweiten $h$ (in unserem Beispiel für $\lambda \ll 0$).
 
 Das betrachtete AWP ist also \emph{steif} in dem Sinne, dass die wahre Lösung gewisse Eigenschaften besitzt, die 
 so wichtig sind, dass man nur solche numerischen Approximationen akzeptieren wird, die diese Eigenschaften auch besitzen.
@@ -1608,12 +1608,12 @@ Betrachten wir das allgemeine AWP
 y'(x)=f(x,y), \quad y(x_0)=y_0\in \R^d
 \]
 Gemäß Übungsaufgabe 4.2 können wir es in eine autonome Gleichung umformen. Außerdem können wir durch Verschiebung annehmen, 
-dass $x_0=0$.
+dass $x_0=0$ ist.
 \[
 y'(x)=f(y),  \quad y(0)=y_0\in \R^d
 \]
 Für kleine $x$ wird sich die Lösung nur wenig verändern. Wir erwarten also, dass sich 
-$y$ \emph{lokal} wie die Lösung linearisierten Gleichung
+$y$ \emph{lokal} wie die Lösung der linearisierten Gleichung
 \[
 y'(x)=f(y)\approx f(y_0)+f'(y_0)(y-y_0), \quad y(0)=y_0\in \R^d
 \]
@@ -1646,22 +1646,22 @@ Nach Abschnitt \ref{subsect:stiffness} gilt für die Iterierten des expliziten u
 bei Anwendung auf die Testgleichung (mit $\lambda<0$)
 \begin{align*}
 y_i^{\mbox{\scriptsize (expl)}}&=(1+h\lambda )^i y_0=R^{\mbox{\scriptsize (expl)}}(h\lambda)^i y_0,\\
-y_i^{\mbox{\scriptsize (impl)}}&=(1-h\lambda )^{-i} y_0=R^{\mbox{\scriptsize (impl)}}(h\lambda)^i y_0
+y_i^{\mbox{\scriptsize (impl)}}&=(1-h\lambda )^{-i} y_0=R^{\mbox{\scriptsize (impl)}}(h\lambda)^i y_0,
 \end{align*}
 wobei
 \[
-R^{\mbox{\scriptsize (expl)}}(\zeta):=(1+\zeta ), \quad \mbox{ and } \quad R^{\mbox{\scriptsize (impl)}}(\zeta)=(1-\zeta )^{-1}
+R^{\mbox{\scriptsize (expl)}}(\zeta):=(1+\zeta ), \quad \mbox{ und } \quad R^{\mbox{\scriptsize (impl)}}(\zeta)=(1-\zeta )^{-1}.
 \]
 Offenbar gilt das auch für $\lambda\in \C$. Wie gut die Verfahren für die Testgleichung funktionieren, lässt sich also
 vollständig mit der Funktion $R(\zeta)$ beschreiben. Gleiches gilt für allgemeine Runge Kutta Methoden.
 
-\begin{definition}
+\begin{definition}[Stabilitätsfunktion]
 Seien
 \[
 A=(a_{ij})_{i,j=1,\ldots,s}\in \R^{s\times s},\quad b=(b_i)_{i=1,\ldots,s}\in \R^s, \mbox{ und } c=(c_i)_{i=1,\ldots,s}\in \R^s
 \]
 die Koeffizienten einer Runge-Kutta-Methode. Sei
- $\1:=(1,\ldots,1)^T\in \R^s$ und $I\in \R^{s\times s}$ sei die Einheitsmatrix. Für $\zeta\in \C$ definieren wir
+ $\1:=(1,\ldots,1)^T\in \R^s$ und $I\in \R^{s\times s}$ die Einheitsmatrix. Für $\zeta\in \C$ definieren wir
 \[
 R(\zeta):=1+\zeta b^T (I-\zeta A)^{-1} \1\in \C
 \]
@@ -1706,7 +1706,7 @@ y_{i}&:=y_{i-1} +  h \sum_{j=1}^s b_j \lambda \eta_j= y_{i-1} + h \lambda b^T \e
 \begin{beispiel}
 \begin{enumerate}[(a)]
 \item Die Stabilitätsfunktion des expliziten Eulerverfahrens ist
-$R(\zeta):=1+\zeta$.
+$R(\zeta)=1+\zeta$.
 \item Die Stabilitätsfunktion des impliziten Eulerverfahrens ist $R(\zeta)=(1-\zeta )^{-1}$.
 \item Das Butcher Tableau für die implizite Mittelpunktsformel aus Abschnitt \ref{subsect:More_ex_and_im_methods} 
 ist (vgl. Übungsaufgabe 4.1)
@@ -1776,7 +1776,7 @@ und außerdem ist, für alle $x>0$,
 \]
 
 Dies motiviert die folgende Definition.
-\begin{definitiontheorem}\label{defthm:stability}
+\begin{definitiontheorem}[Stabilitätskriterien] \label{defthm:stability}
 $y_i\approx y(hi)$ seien die Approximationen einer Einschrittmethode auf die Testgleichung $y'=\lambda y$, $y(0)=1$.
 Die Methode heißt
 \begin{itemize}
@@ -1795,7 +1795,7 @@ Die Methode heißt
 \end{itemize}
 Eine Runge-Kutta Methode ist genau dann
 \begin{itemize}
-\item A-stabil, wenn $|R(\zeta)|\leq 1$ für all $\zeta\in \C$ mit $\Re(\zeta)\leq 0$,
+\item A-stabil, wenn $|R(\zeta)|\leq 1$ für alle $\zeta\in \C$ mit $\Re(\zeta)\leq 0$,
 \item Isometrie-erhaltend, wenn $|R(\zeta)|=1$ für alle $\zeta\in \C$ mit $\Re(\zeta)= 0$,
 \item L-stabil, wenn A-stabil und $|R(\zeta)|\to 0$ für $|\zeta|\to \infty$.
 \end{itemize}
@@ -1857,7 +1857,7 @@ d.h. dem abgeschlossenen Kreis mit Radius 1 um $z=-1$ in der komplexen Ebene.
 \subsection{Nachteile expliziter Verfahren}\label{subsect:limit_expl}
 
 In unseren Beispielen waren nur implizite Verfahren A-stabil oder Isometrie-erhaltend. Tatsächlich
-gibt es expliziten Verfahren diesen Eigenschaften, wie wir in diesem Abschnitt zeigen.
+gibt es keine expliziten Verfahren diesen Eigenschaften, wie wir in diesem Abschnitt zeigen.
 
 \begin{theorem}\label{thm:expl_RK_polynomial}
 Die Stabilitätsfunktion einer expliziten Runge-Kutta Methode mit $s$ Stufen ist ein Polynom der Ordnung $s$.
@@ -1912,7 +1912,7 @@ $R(\zeta):=1+\zeta b^T (I-\zeta A)^{-1} \1$ ist also ein Polynom der Ordnung $s$
 \end{beweis}
 
 \begin{theorem}
-Explizites Runge-Kutta Methode sind weder A-stabil noch Isometrie-erhaltend.
+Explizite Runge-Kutta Methode sind weder A-stabil noch Isometrie-erhaltend.
 \end{theorem}
 \begin{beweis}
 Für jedes Polynom $R(\zeta)$ gilt $|R(\zeta)|\to \infty$ für $|\zeta|\to \infty$. 
@@ -1924,7 +1924,7 @@ Höchstgrenze in der Ordnung expliziter Verfahren:
 Die Konsistenzordnung einer expliziten Runge-Kutta Methode mit $s$ Stufen ist höchstens $s$.
 \end{theorem}
 \begin{beweis}
-Nach Satz \ref{thm:expl_RK_polynomial} ist die Stabilitätsfunktion eine Polynom der Ordnung $s$:
+Nach Satz \ref{thm:expl_RK_polynomial} ist die Stabilitätsfunktion ein Polynom der Ordnung $s$:
 \[
 R(\zeta)=r_0+r_1\zeta+\ldots+r_s \zeta^s,\quad r_0,\ldots,r_s\in \R.
 \]
@@ -1935,7 +1935,7 @@ y_1&=R(h)=r_0+r_1 h+\ldots+r_s h^s.\\
 y(x_1)&=e^{h}=1+h+\frac{1}{2}h^2+\ldots +\frac{1}{s!} h^s + \frac{1}{(s+1)!} h^{s+1} + \mathcal{O}(h^{s+2})
 \end{align*}
 Höchstens die ersten $s$ Terme der Entwicklungen können übereinstimmen, so dass der lokale Fehler einer
-expliziten Methode höchstens $\mathcal{O}(h^{s+1})$, also die Ordnung höchstens $s$ sein kann.
+expliziten Methode bestenfalls in $\mathcal{O}(h^{s+1})$ liegt, also die Ordnung höchstens $s$ sein kann.
 \end{beweis}
 
 
@@ -1957,7 +1957,7 @@ y'=f(y), \quad y(x_0)=y_0
 \]
 (nach Aufgabe 4.2 kann jedes AWP in diese Form gebracht werden).
 
-Die erste Vereinfachung ist, dass wir eine Runge-Kutta Methode verwenden, für die $A$ eine linke untere Dreiecksmatrix ist, also  $a_{jl}=0$ für $l>j$. Dann können die Gleichungen für die $k_j$,
+Die erste Vereinfachung ist, dass wir eine explizite Runge-Kutta Methode verwenden, für die $A$ eine linke untere Dreiecksmatrix ist, also  $a_{jl}=0$ für $l>j$. Dann können die Gleichungen für die $k_j$,
 \[
 k_j=f(y_i + h \sum_{l=1}^{j-1} a_{jl} k_l +  a_{jj} h k_j), \quad j=1,\ldots,s,
 \]
@@ -1965,7 +1965,7 @@ beginnend mit $k_1$ eine nach der anderen gelöst werden. Statt eines $sd$-dimen
 Gleichungssystems müssen wir so nur $s$ mal ein $d$-dimensionales nicht-lineares Gleichungssystem lösen.
 Diese bringen wir auf Nullstellenform, also gegeben $k_1,\ldots,k_{j-1}$ ist $k_j$ so zu bestimmen, dass
 \[
-0=F_j(k_j):=k_j - f(y_i + h \sum_{l=1}^{j-1} a_{jl} k_l +  a_{jj} h k_j).
+0\stackrel !=F_j(k_j):=k_j - f(y_i + h \sum_{l=1}^{j-1} a_{jl} k_l +  a_{jj} h k_j).
 \]
 Anwendung des Newton-Verfahrens ergibt ausgehend von einer Startnäherung $k_j^{(0)}$ die 
 Iterationen
@@ -1991,7 +1991,7 @@ Außerdem führen wir nur einen einzelnen Newton-Schritt durch, d.h. für alle $
 Es bleibt noch die Wahl des Startwerte $k_j^{(0)}$ zu klären. Hierzu verwenden wir eine 
 lineare Kombination der bereits berechneten $k_l$, $l=1,\ldots,j-1$:
 \[
-k_j^{(0)}:=\sum_{l=1}^{j-1} d_{jl} / a_{jj} k_l
+k_j^{(0)}:=\sum_{l=1}^{j-1} \dfrac {d_{jl}}{a_{jj}} k_l
 \]
 mit noch zu bestimmenden Koeffizienten $d_{jl}$. Insgesamt erhalten wir so die \emph{linear impliziten} (auch: \emph{Rosenbrock}-) Runge Kutta Methoden.
 
@@ -2002,7 +2002,7 @@ Gegeben $a_{jl}, d_{jl}, b_j, c_j\in \R$, $j=1,\ldots, s$, $l=1,\ldots,s$.
 \begin{itemize}
 \item Setze $J:=f'(y_i)$ und bestimme $k_j$, $j=1,\ldots,s$ nacheinander aus
 \[
-k_j:=  (I- a_{jj} h J)^{-1} \left( f(y_i + h \sum_{l=1}^{j-1} (a_{jl}+d_{jl}) k_l ) - h J \sum_{l=1}^{j-1} d_{jl} k_l \right)
+k_j:=  (I- a_{jj} h J)^{-1} \left( f\Big(y_i + h \sum_{l=1}^{j-1} (a_{jl}+d_{jl}) k_l \Big) - h J \sum_{l=1}^{j-1} d_{jl} k_l \right)
 \]
 \item Setze
 \[
@@ -2117,7 +2117,7 @@ linear impliziten Verfahrens durch die des zugrundeliegenden Runge-Kutta-Verfahr
 ein linear implizites Verfahren A-stabil, L-stabil oder Isometrie-erhaltend, wenn das 
 zugrundeliegende Runge-Kutta-Verfahren diese Eigenschaften hat.}
 
-Eine linear implizite Method besitzt die gleichen Stabilitätseigenschaften wie die ursprüngliche Methode aber (je nach Wahl der $d_{jl}$) kann sich die Konsistenzordnung unterscheiden. Wie in Satz \ref{thm:RungeKuttaOrderCond}, lassen sich Ordnungsbedingungen für die Koeffizienten von linear impliziten Verfahren herleiten. 
+Eine linear implizite Methode besitzt die gleichen Stabilitätseigenschaften wie die ursprüngliche Methode aber (je nach Wahl der $d_{jl}$) kann sich die Konsistenzordnung unterscheiden. Wie in Satz \ref{thm:RungeKuttaOrderCond}, lassen sich Ordnungsbedingungen für die Koeffizienten von linear impliziten Verfahren herleiten. 
 Wir zeigen nur exemplarisch am Beispiel \verb.ode23s. die Berechnung der Ordnung eines linear impliziten Verfahrens.
 
 \begin{theorem}
