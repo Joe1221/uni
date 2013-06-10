@@ -138,8 +138,8 @@
 	\begin{gather*}
 		\widehat {f^{(j)}}(\omega) = (i \omega)^j \hat f(\omega) \\
 		\begin{aligned}
-			g(x) := x^k f(x) \quad \implies \quad \hat g(\omega) = i^k \hat f^{(k)} (\omega) \\
-			g(x) := x^k f^{(j)}(x) \quad \implies \quad \hat g(\omega) = i^{j+k} \omega^j \hat f^{(k)} (\omega) \\
+			g(x) := x^k f(x) \quad &\implies \quad \hat g(\omega) = i^k \hat f^{(k)} (\omega) \\
+			g(x) := x^k f^{(j)}(x) \quad &\implies \quad \hat g(\omega) = i^{j+k} \omega^j \hat f^{(k)} (\omega) \\
 		\end{aligned}
 	\end{gather*}
 	\begin{proof}
@@ -217,3 +217,180 @@
 \begin{nt} \label{4.9}
 	$F : \scr S(\R) \to \scr S(\R)$ ist stetig bezüglich der Metrik $d$ aus \ref{4.3}.
 \end{nt}
+
+\begin{st} \label{4.10}
+	$F: \scr S(\R) \to \scr S(\R): f \mapsto \hat f$ ist bijektiv und $F^{-1}: \scr S(\R) \to \scr S(\R) : g \mapsto \check g$ ist gegeben durch
+	\[
+		\check g(x) := \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty g(\omega) e^{i \omega x} \dx[\omega]
+	\]
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Sei zunächst $f \in C_0^\infty(\R)$.
+				Wähle $\eps > 0$, so dass $\supp f \subset ]-\f 1\eps, \f 1\eps[$.
+				Setze $f$ $\f 2\eps$-periodisch auf $\R$ fort, dann ist $f \in C^\infty (\R \to \C)$.
+				Aus \ref{3.35} folgt: für $y \in ]-\f 1\eps, \f 1\eps[$ gilt
+				\begin{align*}
+					f(y) 
+					&= \sum_{j=-\infty}^\infty \f 1{2 \f 1\eps} \int_{-\f 1\eps}^{\f 1\eps} e^{ij\pi s \eps} f(s) \dx[s] e^{ij\pi y \eps} \qquad \text{(nicht-fortgesetztes $f$)}\\
+					&= \sum_{j=-\infty}^\infty \underbrace{\f \eps 2 \sqrt{2\pi}}_{= \f {\Delta \omega_j}{\sqrt{2\pi}}} \hat f(\underbrace{j\pi \eps}_{\omega_j}) e^{\overbrace{ij\pi y \eps}^{i\omega_j y}} \\
+					&\stack{\eps \searrow 0}= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty f(\omega) e^{i\omega y} \dx[\omega]
+				\end{align*}
+				Also gilt für $\forall y \in \R$:
+				\[
+					f(y) = \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat f(\omega) e^{i \omega y} \dx[\omega]
+				\]
+			\item
+				Sei $f \in \scr S(\R)$.
+				Multipliziere mit der Abschneidefunktion $\psi_{R,1}$ aus \ref{4.2}: $\psi_{R,1}\cdot f \in C_0^\infty(\R)$.
+				Für $-R < y < R$ gilt
+				\begin{align*}
+					f(y) 
+					&= (\psi_{R,1}\cdot f)(y)
+					&\stack{1)}= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \widehat{\psi_{R,1} \cdot f}(\omega) e^{i\omega y} \dx[\omega]
+				\end{align*}
+				\begin{align*}
+					\widehat{\psi_{R,1} \cdot f}(\omega) 
+					&= \f 1{\sqrt{2\omega}} \int_{-\infty}^\infty \psi_{R_1}(x) f(x) e^{-i \omega x} \dx \\
+					&\stack{R\to \infty}\to \hat f(\omega)  \qquad \text{(für jedes feste $\omega$)}
+				\end{align*}
+				Für $|\omega| \ge 1$ ist
+				\begin{align*}
+					\Big|\widehat{\psi_{R,1} \cdot f}(\omega)  \Big|
+					&= \Bigg| \f 1{\sqrt{2\pi}} \f 1{(-i\omega)^2} \int_{-\infty}^\infty (\psi_{R,1}\cdot f)''(x) e^{-i \omega x} \dx[x] \Bigg| \\
+					&= \f 1{\sqrt{2\pi} \omega^2} \int_{-\infty}^\infty \underbrace{\Big| (\psi_{R,1} \cdot f)'' (x))\Big|}_{c (|f(x)| + |f'(x)| + |f''(x)| \le \f {\tilde c}{1+x^2}} 1 \dx \\
+					&\le \f {c'}{\omega^2}.
+				\end{align*}
+				Für $|\omega| \le 1$ ist
+				\begin{align*}
+					\Big|\widehat{\psi_{R,1} \cdot f}(\omega)  \Big|
+					&\le  \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \underbrace{|\psi_{R,1}(x)|}_{\le 1} |f(x)| |e^{-i\omega x}| \dx \\
+					&\le c'' \qquad \text{(unabhängig von $R$).}
+				\end{align*}
+				Nach dem Satz von der majorisierten Konvergenz gilt also
+				\begin{align*}
+					f(y) 
+					&= \lim_{R\to \infty} \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty (\widehat{\psi_{R,1}\cdot f})(\omega) e^{ \omega y} \dx[\omega] \\
+					&= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \lim_{R\to \infty} (\widehat{\psi_{R,1}\cdot f})(\omega) e^{ \omega y} \dx[\omega] \\
+					&= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat f(\omega) e^{i \omega y} \dx[\omega]
+				\end{align*}
+				für alle $y \in \R$.
+				Damit ist $F$ insbesondere injektiv.
+			\item
+				$F$ ist surjektiv:
+
+				Sei $g \in \scr S(\R)$.
+				Aus 2) folgt
+				\begin{align*}
+					g(\omega) 
+					&= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat g(x) e^{i\omega x} \dx \\
+					&= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat g(-x) e^{-i\omega x} \dx \\
+				\end{align*}
+				Wegen $g \in \scr S(\R)$ ist nach \ref{4.8} auch $\hat g \in \scr S(\R)$.
+				Also $g = \widehat{\hat g(- \argdot)} \in \im(F)$.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{ex}[Durchbiegung eines unendlich langen Balkens] \label{4.11}
+	Sei $u(x)$ der Verlauf des Balkens und $f(x)$ die einwirkende Kraft an jedem Punkt.
+	Es gilt folgende DGL:
+	\[
+		u^{(4)} + \alpha^4 u(x) = f(x)
+	\]
+	Wir nehmen an, dass $f, u \in \scr S(\R)$.
+	Wegen $\widehat{u^{(k)}(\omega)} = (i\omega)^k \hat u(\omega)$ vereinfacht sich die DGL nach Fouriertransformation zu
+	\begin{align*}
+		\omega^4 \hat u(\omega) + \alpha^4 \hat u(\omega) &= \hat f(\omega) \\
+		\iff \qquad  \hat u(\omega) &= \f 1{\omega^4 + \alpha^4} \hat f(\omega)
+	\end{align*}
+	Wegen $f \in \scr S(\R)$ ist auch $\hat f \in \scr S(\R)$.
+	Mit $\phi(\omega) := \f 1{\omega^4 + \alpha^4}$ gelten $\phi \in C^\infty (\R \to \R)$ und $|\phi^{(k)}(\omega)| \le c_k$ (es reicht $\le |x^{N_k}|c_k$).
+	Damit ist $\phi \hat f \in \scr S(\R)$ (Beweis: Übung) und somit
+	\[
+		u = (\phi \hat f)^{\vee} \in \scr S(\R)
+	\]
+	Also existiert die Lösung und ist eindeutig.
+
+	Manche Leute würden die Lösung auch gerne ausrechnen können.
+	Wie berechnet man $(\phi \psi)^{\vee}$ aus $\check \phi$, $\check \psi$?
+\end{ex}
+
+\begin{df} \label{4.12}
+	Für $f, g \in \scr S(\R)$ ist
+	\[
+		(f \ast g)(y) := \int_{-\infty}^\infty f(y-x) g(x) \dx
+	\]
+	die \emph{Faltung} von $f$ mit $g$.
+\end{df}
+
+\begin{ex} \label{4.13}
+	Betrachte die Abschneidefunktion aus \ref{4.2} 3):
+	\begin{align*}
+		\psi_{R,\eps} (x) 
+		&:= \int_{-R-\eps}^{R+\eps} j_\eps (x-y) \dx[y],
+	\intertext{diese lässt sich schreiben als}
+		&= \int_{-\infty}^\infty j_\eps(x-y) \cdot  \chi_{[-R-\eps,R+\eps]}(y) \dx[y] \\
+		&= \Big( j_\eps \ast \chi_{[-R-\eps, R+\eps]} \Big) (x)
+	\end{align*}
+\end{ex}
+
+\begin{st} \label{4.13}
+	Für $f, g,h  \in \scr S(\R)$ gelten
+	\begin{enumerate}[1)]
+		\item
+			$f \ast g \in \scr S(\R)$
+		\item
+			Es gilt
+			\begin{align*}
+				\widehat{f\cdot g} &= \f 1{\sqrt{2\pi}} \hat f \ast \hat g, \\
+				\widehat{f\ast g} &= \sqrt{2\pi} \hat f \cdot \hat g.
+			\end{align*}
+			Insbesondere auch $(\phi \psi)^\vee = \f 1{\sqrt{2\pi}} \check \phi \ast \check \psi$.
+		\item
+			Es gilt
+			\begin{align*}
+				f \ast (g \ast h) &=  (f\ast g) \ast h, \\
+				f \ast g &= g \ast f.
+			\end{align*}
+	\end{enumerate}
+	\begin{note}
+		Mit dem Satz gilt für das Beispiel \ref{4.11}:
+		\[
+			u = \f 1{\sqrt{2\pi}}\check \phi \ast f
+			= \f 1{\sqrt{2\pi}}\check \phi \ast (\hat f)^\vee.
+		\]
+		Damit ist $u$ explizit berechenbar mittels $(\f 1{\omega^4 + \alpha^4})^\vee$.
+	\end{note}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Wegen $f, g \in \scr S(\R)$ ist nach \ref{4.8} $\hat f, \hat g \in \scr S(\R)$, also $\hat f \cdot \hat g \in \scr S(\R)$, also nach \ref{4.10} $(\hat f \hat g)^\vee \in \scr S(\R)$ und somit
+				\[
+					f \ast g \stack{2)}= \sqrt{2\pi} (\hat f \hat g)^\vee \in \scr S(\R)
+				\]
+			\item
+				Die Fouriertransformation erhält das Skalarprodukt (siehe später), daher gilt
+				\begin{align*}
+					\sqrt{2\pi} \widehat{f g}(\omega) 
+					&= \int_{-\infty}^\infty f(x) g(x) e^{-i\omega x} \dx \\
+					&= \< g, \_f e^{i\omega \argdot} \>_{L^2(\R)} \\
+					&= \Big\< \hat g, \widehat{\_ f e^{i\omega \argdot}} \Big\>_{L^2(\R)} \\
+					&= \int_{-\infty}^\infty \hat g(\tilde \omega) \_{\bigg( \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \_f(x) e^{i\omega x} e^{-i \tilde \omega x} \dx \bigg)} \dx[\tilde \omega] \\
+					&= \int_{-\infty}^\infty \hat g(\tilde \omega) \underbrace{\f 1{\sqrt{2\pi}} \int_{-\infty}^{\infty} f(x) e^{-i(\omega - \tilde \omega)} \dx}_{=\hat f(\omega - \tilde \omega)} \dx[\tilde \omega] \\
+					&= \int_{-\infty}^\infty \hat g(\tilde \omega)\hat f(\omega - \tilde \omega) \dx[\omega] \\
+					&= (\hat f \ast \hat g)(\omega)
+				\end{align*}
+				Genauso folgt
+				\[
+					(\hat f \hat g)^\vee = \f 1{\sqrt{2\pi}} f \ast g.
+				\]
+			\item
+				Es gilt
+				\[
+					(f\ast g) \ast h = \f 1{\sqrt{2\pi}} (\widehat {f \ast g}  \ast \hat h)^\vee = (\hat f \hat g) \hat h
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
