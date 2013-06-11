@@ -1,6 +1,6 @@
 # TARGET has to be specified
 
-PDFLATEX    ?= pdflatex
+PDFLATEX    ?= pdflatex -synctex=1
 BIBTEX      ?= bibtex
 PDFVIEWER   ?= xdg-open
 
