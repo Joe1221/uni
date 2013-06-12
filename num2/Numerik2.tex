@@ -11,6 +11,8 @@
 
 %\usepackage{psfrag}
 %\usepackage{pb-diagram} 
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
 \newtheorem{theorem}{Satz}[chapter]
 \newtheorem{bemerkung}[theorem]{Bemerkung}
 \newtheorem{korollar}[theorem]{Folgerung}
@@ -3575,20 +3577,19 @@ Die Konvergenz der Potenzmethode kann auch ohne die Annahme der Diagonalisierbar
 dass genau ein \emph{betragsgrößter} Eigenwert existiert, kann jedoch nicht verzichtet werden.
 \end{bemerkung}
 
-\begin{algorithm}
-\caption{Potenzmethode (von Mises-Verfahren)}
+\begin{alg}[Potenzmethode (von Mises-Verfahren)]
 \label{algo:Potenzmethode}
 \begin{algorithmic}
-\STATE{Gegeben Matrix $A\in \C^{n\times n}$ und Startvektor $x\in \C^n$.}
-\REPEAT
-\STATE{$\tilde x:=Ax$}
-\STATE{$\lambda:=x^* \tilde x$}
-\STATE{$x:=\tilde x / \norm{\tilde x}$}
-\UNTIL{STOP}
-\RETURN $\lambda\in \C$, $x\in C^n$ approximiert betragsgrößten Eigenwert von $A$ und dazugehörigen Eigenvektor (unter den Voraussetzungen von Satz 
+\State{Gegeben Matrix $A\in \C^{n\times n}$ und Startvektor $x\in \C^n$.}
+\Repeat
+\State{$\tilde x:=Ax$}
+\State{$\lambda:=x^* \tilde x$}
+\State{$x:=\tilde x / \norm{\tilde x}$}
+\Until{STOP}
+\State \Return $\lambda\in \C$, $x\in C^n$ approximiert betragsgrößten Eigenwert von $A$ und dazugehörigen Eigenvektor (unter den Voraussetzungen von Satz 
 \ref{satz:Potenzmethode}).
 \end{algorithmic}
-\end{algorithm}
+\end{alg}
 
 
 \begin{bemerkung}\label{bem:PM_andereEW}
@@ -3608,20 +3609,19 @@ am nächsten an $\mu$ liegen. Gibt es davon genau einen, so lässt er sich durch
 Das in Bemerkung \ref{bem:PM_andereEW}(b) skizzierte Verfahren wird umso schneller konvergieren, umso besser $\mu$ den gesuchten Eigenwert 
 approximiert. Es liegt daher nahe, in jedem Schritt $\mu$ durch die aktuelle Näherung an den Eigenwert zu ersetzen. 
 
-\begin{algorithm}
-\caption{Rayleigh-Quotient-Iteration}
+\begin{alg}[Rayleigh-Quotient-Iteration]
 \label{algo:RQ_Iteration}
 \begin{algorithmic}
-\STATE{Gegeben Matrix $A\in \C^{n\times n}$ und Startwerte $x\in \C^n$, $\mu\in \C$.}
-\REPEAT
-\STATE{Löse $(A-\mu I) \tilde x=x$}
-\STATE{$x:=\tilde x / \norm{\tilde x}$}
-\STATE{$\mu:=x^* A x$}
-\UNTIL{STOP}
-\RETURN $\mu\in \C$ approximiert Eigenwert, der am nächsten am Startwert liegt, $x$ approximiert dazugehörigen
+\State{Gegeben Matrix $A\in \C^{n\times n}$ und Startwerte $x\in \C^n$, $\mu\in \C$.}
+\Repeat
+\State{Löse $(A-\mu I) \tilde x=x$}
+\State{$x:=\tilde x / \norm{\tilde x}$}
+\State{$\mu:=x^* A x$}
+\Until{STOP}
+\State \Return $\mu\in \C$ approximiert Eigenwert, der am nächsten am Startwert liegt, $x$ approximiert dazugehörigen
 Eigenvektor (vgl. Satz~\ref{thm:RQ} für die rigorose Formulierung der Konvergenzaussage).
 \end{algorithmic}
-\end{algorithm}
+\end{alg}
 
 Für die Konvergenzuntersuchung dieses Verfahrens benötigen wir den Begriff des Betrags einer normalen Matrix.
 \begin{definition}
@@ -3848,35 +3848,33 @@ im den ersten Schritt immer $A$, so dass wir auch gleich mit
 starten können. Insgesamt erhalten wir also den folgenden Algorithmus
 
 
-\begin{algorithm}
-\caption{Simultane Potenzmethode}
+\begin{alg}[Simultane Potenzmethode]
 \label{algo:simultan_Potenz}
 \begin{algorithmic}
-\STATE{Gegeben Matrix $A\in \C^{n\times n}$. Setze $\tilde A_0=A$.}
-\FOR{$k=0,1,\ldots$}
-\STATE{Berechne $QR$-Zerlegung $\tilde A_k=\tilde Q_k \tilde R_k$}
-\STATE{$\tilde A_{k+1}:=A \tilde Q_k$}
-\ENDFOR
-\RETURN $\tilde Q_k$ approximiert spaltenweise Eigenvektoren von $A$. Die Diagonaleinträge von $\tilde Q_k^* A \tilde Q_k$ approximieren die Eigenwerte.
+\State{Gegeben Matrix $A\in \C^{n\times n}$. Setze $\tilde A_0=A$.}
+\For{$k=0,1,\ldots$}
+\State{Berechne $QR$-Zerlegung $\tilde A_k=\tilde Q_k \tilde R_k$}
+\State{$\tilde A_{k+1}:=A \tilde Q_k$}
+\EndFor
+\State \Return $\tilde Q_k$ approximiert spaltenweise Eigenvektoren von $A$. Die Diagonaleinträge von $\tilde Q_k^* A \tilde Q_k$ approximieren die Eigenwerte.
 \end{algorithmic}
-\end{algorithm}
+\end{alg}
 
 \subsection{Das QR-Verfahren}
 
 Durch Umformulierung der simultanen Potenzmethode in Algorithmus \ref{algo:simultan_Potenz} erhalten wir das QR-Verfahren in seiner einfachsten Form:
 
-\begin{algorithm}
-\caption{$QR$-Verfahren}
+\begin{alg}[$QR$-Verfahren]
 \label{algo:QR_Eigenwerte}
 \begin{algorithmic}
-\STATE{Gegeben Matrix $A\in \C^{n\times n}$. Setze $A_0=A$.}
-\FOR{$k=0,1,\ldots$}
-\STATE{Berechne $QR$-Zerlegung $A_k= Q_k R_k$}
-\STATE{$A_{k+1}:=R_k Q_k$}
-\ENDFOR
-\RETURN Die Diagonaleinträge von $A_k$ approximieren die Eigenwerte.
+\State{Gegeben Matrix $A\in \C^{n\times n}$. Setze $A_0=A$.}
+\For{$k=0,1,\ldots$}
+\State{Berechne $QR$-Zerlegung $A_k= Q_k R_k$}
+\State{$A_{k+1}:=R_k Q_k$}
+\EndFor
+\State \Return Die Diagonaleinträge von $A_k$ approximieren die Eigenwerte.
 \end{algorithmic}
-\end{algorithm}
+\end{alg}
 
 \begin{lemma}\label{lemma_QR_hilf}
 Sei $A\in \C^{n\times n}$. % $\tilde A_k$, $\tilde Q_k$ und $\tilde R_k$ seien durch Algorithmus \ref{algo:simultan_Potenz} definiert.
