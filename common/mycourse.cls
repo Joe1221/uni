@@ -52,6 +52,13 @@
 % 
 %==================================
 
+\IfFileExists{CJK.sty}{
+	\usepackage[encapsulated]{CJK}
+	\newcommand{\japtext}[1]{\begin{CJK}{UTF8}{min}##1\end{CJK}}
+}{
+	\newcommand{\japtext}[1]{}
+}
+
 %\RequirePackage[l2tabu, orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
 \RequirePackage{etex}
 
