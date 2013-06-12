@@ -622,7 +622,6 @@ d(x^{(k)}, \hat x)\to 0.
 \end{theorem}
 \begin{beweis}
 aus der Numerik I bekannt.
-%\cite[Satz~3.1 und Bem. 3.2]{NumI}
 \end{beweis}
 
 Als vollständigen metrischen Raum werden wir den Raum stetiger Funktionen betrachten:
@@ -1851,10 +1850,6 @@ aus allen $\zeta\in \C$ mit
 d.h. dem abgeschlossenen Kreis mit Radius 1 um $z=-1$ in der komplexen Ebene. 
 
 
-%In Übungsaufgabe ?? plotten wir das Stabilitätsgebiet für einige der bisher kennengelernten Methoden.
-
-
-
 \subsection{Nachteile expliziter Verfahren}\label{subsect:limit_expl}
 
 In unseren Beispielen waren nur implizite Verfahren A-stabil oder Isometrie-erhaltend. Tatsächlich
@@ -2294,9 +2289,14 @@ Wie bei der Herleitung der Adams-Bashforth Methode lässt sich das Interpolation
 $q\in \Pi_m$
 schreiben als
 \[
-q(x_i+th)=\sum_{j=1}^{m+1} y_{i-m+j} \prod_{j'=1,\ldots,m+1 \atop j'\neq j}
- \frac{m+1-j'+t}{j-j'}.
+q(x)=\sum_{k=i+1-m}^{i+1} y_k l_k(x), \quad l_k(x)=\prod_{l=i+1-m,\ldots,i+1 \atop l\neq k} \frac{x-x_l}{x_k-x_l}
 \]
+also
+\begin{align*}
+q(x_i+th)& =\sum_{k=i+1-m}^{i+1} y_k \prod_{l=i+1-m,\ldots,i+1 \atop l\neq k} \frac{x_i + th -x_l}{x_k-x_l}\\
+&=\sum_{k=i+1-m}^{i+1} y_k \prod_{l=i+1-m,\ldots,i+1 \atop l\neq k} \frac{i-l+t}{k-l}\\
+&=\sum_{j=1}^{m+1} y_{i-m+j} \prod_{j'=1,\ldots,m+1 \atop j'\neq j} \frac{m-j'+t}{j-j'}
+\end{align*}
 
 Wir können nun versuchen, den unbekannten Wert $y_{i+1}$ so zu bestimmen, 
 dass das Interpolationspolynom $q$ im aktuellen Gitterpunkt $x_i$ 
@@ -2308,7 +2308,7 @@ Wegen
 \begin{align*}
 q'(x_i)&=\frac{1}{h} \frac{\partial}{\partial t} q(x_i+th)|_{t=0}\\
 &=\frac{1}{h} \sum_{j=1}^{m+1} y_{i-m+j} \underbrace{\left( \frac{\partial}{\partial t}  \prod_{j'=1,\ldots,m+1 \atop j'\neq j}
- \frac{m+1-j'+t}{j-j'}\right)\Big|_{t=0}}_{=:\alpha_j}
+ \frac{m-j'+t}{j-j'}\right)\Big|_{t=0}}_{=:\alpha_j}
 \end{align*}
 führt dies auf Formeln der Form
 \[
@@ -2316,15 +2316,21 @@ führt dies auf Formeln der Form
 \]
 die sich (für $\alpha_{m+1}\neq 0$) explizit nach $y_{i+1}$ auflösen lassen.
 
-Genauso führt die Forderung, dass das Interpolationspolynom $q$ im nächsten Gitterpunkt $x_i$ 
-die Differentialgleichung erfüllt, auf implizite Methoden der Form
+Genauso führt die Forderung, dass das Interpolationspolynom $q$ im nächsten Gitterpunkt $x_{i+1}$ 
+die Differentialgleichung erfüllt, mittels
+\begin{align*}
+q'(x_{i+1})&=\frac{1}{h} \frac{\partial}{\partial t} q(x_{i+1}+th)|_{t=0}\\
+&=\frac{1}{h} \sum_{j=1}^{m+1} y_{i-m+j} \underbrace{\left( \frac{\partial}{\partial t}  \prod_{j'=1,\ldots,m+1 \atop j'\neq j}
+ \frac{m+1-j'+t}{j-j'}\right)\Big|_{t=0}}_{=:\alpha_j}
+\end{align*}
+auf implizite Methoden der Form
 \[
 \sum_{j=1}^{m+1} \alpha_j  y_{i-m+j} = h f(x_{i+1},y_{i+1}).
 \]
 Die so entstandenen impliziten Formeln heißen auch \emph{BDF-Methoden} (Backward differentiation formula).
 
 \begin{beispiel}
-Für die BDF-Methode mit $m=1$ ergibt sich
+Für die implizite BDF-Methode mit $m=1$ ergibt sich
 \begin{align*}
 \alpha_1 &=  \frac{\partial}{\partial t}  
  \frac{1+1-2+t}{1-2}\Big|_{t=0}=-1,\\
@@ -2628,18 +2634,6 @@ dann
 
 
 
-%\begin{definition}
-%Eine Matrix $A=(a_{ij})_{i,j=1}^n\in \R^{n\times n}$ heißt
-%\begin{enumerate}[(a)]
-%\item \emph{strikt diagonaldominant}, falls 
-%\[
-%|a_{ii}|>\sum_{j=1 \atop j\neq i}^n |a_{ij}| \quad \forall i=1,\ldots,n.
-%\]
-%\item \emph{M-Matrix}, falls $A$ invertierbar ist, $a_{ij}\leq 0$ für alle $i\neq j$ und 
-%alle Einträge von $A^{-1}$ nicht-negativ sind.
-%\end{enumerate}
-%\end{definition}
-
 \begin{bemerkung}\label{bem:monotonie}
 Eine komponentenweise nicht-negative Matrix $M=(m_{ij})_{i,j=1}^n$ hat die Monotonieeigenschaft
 \[
@@ -2648,8 +2642,6 @@ x\leq y \quad \Longrightarrow \quad Mx\leq My,
 wobei die Ungleichheitszeichen für die Vektoren $x,y,Mx,My\in \R^n$ komponentenweise zu verstehen sind.
 \end{bemerkung}
 
-%Für hinreichend kleine $h$ ist $L_h$ offenbar strikt diagonaldominant und damit (z.B. nach \cite[Satz 3.7]{Num_I}) invertierbar. 
-%Das folgende Lemma zeigt, dass $L_h$ sogar eine M-Matrix ist.
 
 Um die Monotonieeigenschaft von unserem $L_h^{-1}$ zu zeigen, benötigen 
 wir noch ein Hilfsresultat:
@@ -2757,6 +2749,1331 @@ Mit
 \]
 folgt die Behauptung aus Lemma~\ref{lemma:RW_Konsistenz} und Lemma~\ref{lemma:RW_stabil}.
 \end{beweis}
+
+%%%%%%%%%%%%%%%%%
+
+\section{Mehrdimensionale Randwertprobleme}
+
+Mit Finite Differenzen Verfahren lassen sich auch mehrdimensionale (partielle) Differentialgleichungen
+lösen. Wir betrachten dies zum Abschluss des Kapitels examplarisch an der mehrdimensionalen 
+stationären Wärmeleitungsgleichung
+\begin{equation}\labeq{laplace1}
+-\sum \frac{\partial^2}{\partial x_j^2} u(x)=-\Delta u(x)=f(x).
+\end{equation}
+in einer beschränkten offenen Menge $\Omega\subseteq \R^n$. Dabei sei $f\in C(\Omega)$ eine stetige Funktion.
+Ähnlich wie in der Modellierung der eindimensionalen Diffusion können wir uns $f$ als die Verteilung angelegter
+Wärmequellen vorstellen und die Lösung $u$ beschreibt dann die sich im Gleichgewicht einstellende Temperatur.
+
+Es ist anschaulich klar, dass für Gleichgewichtstemperatur auch der Rand des Gebiets
+$\partial \Omega$ eine Rolle spielen wird, etwa wenn dieser Rand immer auf einer konstanten Temperatur gehalten wird.
+Tatsächlich werden wir sehen, dass $u$ durch \req{laplace1} und Vorgabe von $u|_{\partial \Omega}$ eindeutig bestimmt ist.
+
+Damit die Gleichung \req{laplace} und eventuelle Randwerte überhaupt einen Sinn ergeben,
+betrachten wir als Lösungskandidaten nur Funktionen $u\in C^2(\Omega)\cap C(\overline \Omega)$ (sogenannte \emph{klassische Lösungen}). Lösungen der Laplace-Gleichung $\Delta u=0$ heißen auch \emph{harmonische} Funktionen.
+
+\subsection{Das Maximumsprinzip}
+
+
+\begin{theorem}[Maximumsprinzip]\label{satz:maxprinzip}
+Es sei $f\in C(\Omega)$ punktweise nicht-positiv und die Funktion $u\in C^2(\Omega)\cap C(\overline \Omega)$ erfülle
+\begin{equation}\labeq{laplace}
+-\Delta u(x)=f(x)\leq 0 \quad \forall x\in \Omega.
+\end{equation}
+Dann nimmt $u$ sein Maximum auf dem Rand $\partial \Omega$ an (d.h. mindestens ein globales Maximum von $u$ liegt auf  $\partial \Omega$).
+\end{theorem}
+\begin{beweis}
+\begin{enumerate}[(i)]
+\item Betrachte zunächst den Fall $f(x)<0$ für alle $x\in \Omega$. 
+
+Angenommen es gibt ein inneres Maximum, also $y\in \Omega$ mit
+\[
+u(y)\geq u(x) \quad \forall x\in \overline{\Omega}.
+\]
+Dann ist $y$ insbesondere ein Maximum in jeder Koordinatenrichtung, also
+\[
+\frac{\partial^2}{\partial x_j^2} u(y)\leq 0 \quad j=1,\ldots,n
+\]
+und damit $-\Delta u\geq 0$, was $-\Delta u=f<0$ widerspricht. $u$ kann also kein 
+innereres Maximum haben. Da $u$ als stetige Funktion auf dem Kompaktum $\overline \Omega$ aber mindestens ein Maximum besitzt, muss ein Maximum auf dem Rand liegen.
+%
+\item Nun sei $f(x)\leq 0$ für alle $x\in \Omega$. 
+Angenommen es liegt kein Maximum auf dem Rand, dann gibt es ein inneres Maximum $y\in \Omega$ mit
+\[
+u(y)\geq u(x) \quad \forall x\in \Omega\quad \mbox{ und } \quad
+u(y)> u(x) \quad \forall x\in \partial \Omega.
+\]
+Mit diesem $y$ definieren wir die Funktion
+\[
+h(x):=\norm{x-y}^2=\sum_{j=1}^n (x_i-y_i)^2.
+\]
+Da $\Omega$ beschränkt ist, ist $\partial \Omega$ kompakt. 
+$h$ ist auf also auf $\partial \Omega$ beschränkt und es gilt $h(y)=0$. Für hinreichend kleines $\delta>0$ nimmt deshalb 
+\[
+w(x):=u(x)+\delta h(x)
+\]
+sein Maximum nicht auf dem Rand an. Aus $\Delta h(x)=2n$ folgt aber
+\[
+-\Delta w(x)=f-2n\delta<0,
+\]
+und wir erhalten den Widerspruch aus der in Teil (i) gezeigten Aussage.
+\end{enumerate}
+\end{beweis}
+
+\begin{theorem}\label{thm:MaxPrinzipFolgerungen}
+Sei $f\in C(\Omega)$. 
+\begin{enumerate}[(a)]
+\item Ist $f\geq 0$ und $u\in C^2(\Omega)\cap C(\overline\Omega)$ eine Lösung von 
+$-\Delta u=f\geq 0$ in $\Omega$, so nimmt $u$ sein Minimum auf dem
+Rand $\partial \Omega$ an. (\emph{Minimumsprinzip}).
+%
+\item Gilt für $u,v\in C^2(\Omega)\cap C(\overline\Omega)$
+\[
+-\Delta u\leq -\Delta v \mbox{ in $\Omega$} \quad \mbox{ und } \quad u\leq v \mbox{ auf $\partial \Omega$}
+\]
+so gilt $u\leq v$ in ganz $\Omega$.
+%
+\item Die Nullfunktion ist die einzige Lösung $u\in C^2(\Omega)\cap C(\overline\Omega)$ von \[
+-\Delta u=0, \qquad u|_{\partial \Omega}.
+\]
+Eine Lösung $u\in C^2(\Omega)\cap C(\overline\Omega)$ 
+\[
+-\Delta u=f
+\]
+ist also (wenn sie existiert) eindeutig durch $f$ und $u|_{\partial \Omega}$ bestimmt.
+%
+\item Erfüllen $u_1,u_2\in C^2(\Omega)\cap C(\overline\Omega)$ 
+\[
+-\Delta u_1=f= -\Delta u_2
+\]
+so ist 
+\[
+\norm{u_1-u_2}_\infty:=\max_{x\in \overline{\Omega}}|u_1(x)-u_2(x)|=\max_{x\in \partial \Omega}|u_1(x)-u_2(x)|.
+\]
+Die Lösung des Dirichlet-Problems hängen also (so sie denn existieren) stetig von den vorgegebenen Dirichlet-Randdaten ab.
+%
+\item Es existiert ein (vom Gebiet $\Omega$ abhängiges) $C>0$, so dass für alle $u\in C^2(\Omega)\cap C(\overline\Omega)$ 
+\[
+\norm{u}_\infty=\max_{x\in \overline\Omega} |u(x)|\leq \max_{x\in \partial \Omega} |u(x)|+C\sup_{x\in \Omega} |\Delta u|.
+\]
+In diesem Sinne hängt eine Lösung von $\Delta u=f$ (so sie denn existiert) also auch stetig von der rechten Seite ab.
+%
+\item Sind $c,f\in C(\Omega)$, $c\geq 0$, $f\leq 0$ und $u\in C^2(\Omega)\cap C(\overline\Omega)$ erfüllt
+\[
+-\Delta u + cu =f \leq 0,
+\]
+so gilt
+\[
+\max_{x\in \Omega}{u(x)} \leq \max\{0,\max_{x\in \partial \Omega}{u(x)}\}
+\]
+
+\end{enumerate}
+\end{theorem}
+\begin{beweis}
+\begin{enumerate}[(a)]
+\item folgt aus Anwendung des Maximumprinzips auf $-u$.
+\item folgt aus Anwendung des Maximumprinzips auf $u-v$.
+\item folgt aus Anwendung des Maximumsprinzips und des Minimumsprinzips.
+\item folgt aus Anwendung des Maximums- und Minimumprinzips auf $u-v$.
+\item Für $\sup_{x\in \Omega}|\Delta u(x)|=\infty$ ist die Aussage erfüllt. Sei also $\Delta u(x)$ beschränkt.
+
+Wähle $R>0$ so groß, dass $\Omega\subseteq B_R(0):=\{ x\in \R^n\;|\; \norm{x}=R\}$.
+Für
+\[
+w(x):=R^2-\frac{1}{n}\norm{x}^2
+\]
+gilt $-\Delta w=2$ und $w(x)\geq 0$ für alle $x\in \Omega$.
+
+Definiere außerdem
+\[
+v(x):=\max_{z\in \partial \Omega} |u(z)| + \frac{w(x)}{2} \sup_{z\in \Omega}|\Delta u(z)|
+\]
+Dann ist
+\[
+-\Delta v(x)=  \sup_{z\in \Omega}|\Delta u(z)|\geq -\Delta u(x) \ \forall x\in \Omega \quad \mbox{ und } \quad
+v|_{\partial \Omega} \geq u|_{\partial \Omega}
+\]
+also nach (b) $u\leq v$ auf $\Omega$. Genauso folgt $u\geq -v$ auf $\Omega$ und damit
+\begin{align*}
+|u(x)|&\leq |v(x)|=v(x)\leq \max_{z\in \partial \Omega} |u(z)| + \frac{w(x)}{2} \sup_{z\in \Omega}|\Delta u(z)|\\
+&\leq \max_{z\in \partial \Omega} |u(z)| + \frac{R^2}{2} \sup_{z\in \Omega}|\Delta u(z)|,
+\end{align*}
+also folgt die Behauptung mit $C:=\frac{R^2}{2}$.
+%
+\item Angenommen, es existiert ein $y\in \Omega$ mit 
+\[
+u(y)=\max_{x\in \overline \Omega} u(x)>\max_{x\in \partial \Omega} u(x) \quad \mbox{ und } \quad u(y)>0.
+\]
+Dann gilt $-\Delta u(y)=f(y)-c(y)u(y)\leq 0$ und wir erhalten den gleichen Widerspruch wie im Beweis von Satz \ref{satz:maxprinzip}.
+\end{enumerate}
+
+\end{beweis}
+%(e),(f) sind schöne Übungsaufgaben
+%Ü: Max.prinzip für allg. elliptische
+
+%FD Konsistenzordnung als Ü-Aufgabe
+
+
+
+\subsection{Finite Differenzen im Mehrdimensionalen}
+
+Wie im Eindimensionalen betrachten wir finite Differenzen und definieren für eine Funktion $u(x)$
+\begin{align*}
+D_{h,i}^{+} u(x)&:=\frac{u(x+he_i)-u(x)}{h}\\
+D_{h,i}^{-} u(x)&:=\frac{u(x)-u(x-he_i)}{h}\\
+D_{h,i} u(x)&:=\frac{u(x+he_i)-u(x-he_i)}{2h}\\
+D_{h,i}^2 u(x)&:=D_{h,i}^{+} D_{h,i}^{-}  u(x)= D_{h,i}^{-} D_{h,i}^{+}  u(x)=  \frac{u(x+he_i)-2u(x) + u(x-he_i)}{h^2}\\
+\end{align*}
+
+%Für die partielle Ableitung schreiben wir auch $D_i u=\frac{\partial}{\partial x_i} u$
+Wir verwenden für mehrfache partielle Ableitungen auch die \emph{Multiindex-Notation}: Für $\alpha:=(\alpha_1,\ldots,\alpha_n)\in \N_0^n$ ist
+\[
+D^\alpha u=\frac{\partial^{|\alpha|}u}{\partial x_1^{\alpha_1}\cdots \partial x_n^{\alpha_n}},
+\]
+und $|\alpha|=\alpha_1+\ldots+\alpha_n$, $\alpha!=\alpha_1!\cdots \alpha_n!$. Für
+$\alpha, \beta \in \N_0^n$, $\beta\leq \alpha$ ist außerdem ${\alpha \choose \beta}=\frac{\alpha!}{\beta!(\alpha-\beta)!}$ wobei
+\[
+\alpha\leq \beta \quad :\Longleftrightarrow \quad
+\alpha_j\leq \beta_j \quad \mbox{ für alle } j=1,\ldots,n.
+\]
+Mit dieser Notation definieren wir für $u\in C^k(\overline\Omega)$ die Halbnormen
+\[
+|u|_{C^k(\overline\Omega)}=\max_{|\alpha|= k} \max_{x\in \overline\Omega} |D^\alpha u(x)|.
+\]
+und die Norm 
+\[
+\norm{u}_{C^k(\overline\Omega)}=\max_{|\alpha|\leq k} \max_{x\in \overline\Omega} |D^\alpha u(x)|.
+\]
+Man rechnet leicht nach, dass letzteres tatsächlich eine Norm ist, die $C^k(\overline\Omega)$ 
+zu einem Banachraum (also einem vollständigen normierten Vektorraum) macht.
+
+\begin{lemma}\label{lemma:FD_konsistenz1}
+Sei $x\in \Omega$, $j\in \{1,\ldots,n \}$ und $h>0$ hinreichend klein, so dass 
+\[
+x\pm t h e_j\in \Omega \quad \mbox{ für alle } t\in [-1,1].
+\]
+\begin{enumerate}[(a)]
+\item Für $u\in C^2(\overline\Omega)$ ist $\DS \left| D_{h,i}^{+} u(x) - \frac{\partial}{\partial x_i}u(x)\right| \leq \frac{h}{2} |u|_{C^2(\overline\Omega)}$.
+\item Für $u\in C^2(\overline\Omega)$ ist $\DS \left| D_{h,i}^{-} u(x) - \frac{\partial}{\partial x_i}u(x)\right| \leq \frac{h}{2} |u|_{C^2(\overline\Omega)}$.
+\item Für $u\in C^3(\overline\Omega)$ ist $\DS \left| D_{h,i} u(x) - \frac{\partial}{\partial x_i}u(x)\right| \leq \frac{h^2}{6} |u|_{C^3(\overline\Omega)}$.
+\item Für $u\in C^4(\overline\Omega)$ ist $\DS \left| D_{h,i}^2 u(x) - \frac{\partial^2}{\partial x_i^2}u(x)\right| \leq \frac{h^2}{12} |u|_{C^4(\overline\Omega)}$.
+\end{enumerate}
+\end{lemma}
+\begin{beweis}
+wie im Eindimensionalen
+\end{beweis}
+
+\begin{beispiel}\label{bsp:poisson}
+Wir betrachten die Gleichung
+\[
+-\Delta u=f \quad \mbox{ in $\Omega$} \quad \mbox{ und } \quad u|_{\partial \Omega}=0,
+\]
+%zu gegebenen Quelltermen und Randvorgaben $f:\Omega \to \R$ und $g:\ \partial \Omega\to \R$,
+zu gegebenen Quelltermen $f:\Omega \to \R$, wobei $\Omega=(0,1)^2\subset \R^2$ ein zweidimensionales Quadrat mit Seitenlänge $1$ sei.
+
+Wir diskretisieren $\Omega$ durch ein Punktegitter mit der Schrittweite 
+ \[
+h=1/(k+1),\quad k\in \N,
+\]
+und ordnen 
+die inneren Punkte entsprechend der in der Vorlesung gemalten Skizze an
+\[
+x^{(i+(j-1)k)}:=(ih,jh)\in \Omega, \quad i,j=1,\ldots,k.
+\]
+Wir setzen noch $f_h=(f^{(i)})_{i=1,\ldots,k^2}\in \R^{k^2}$, $f^{(i)}=f(x^{(i)})$ und versuchen einen
+Vektor von Approximationen 
+\[
+u_h=(u^{(i)})_{i=1,\ldots,k^2}\in \R^{k^2}, \quad u^{(i)}=u(x^{(i)})
+\]
+zu finden. Für jeden inneren Gitterpunkt $x^{(i)}\in \Omega$ erhalten wir durch die obigen Differenzenverfahren 2. Ordnung
+die lineare Gleichung
+\begin{align*}
+f^{(i)}&=f(x^{(i)})=- \Delta u|_{x=x^{(i)}}\approx - D_{h,1}^2 u(x)|_{x=x^{(i)}} - D_{h,2}^2 u(x)|_{x=x^{(i)}}\\
+&= -\frac{1}{h^2}\left( u(x^{(i)} + he_1)-2u(x^{(i)})+u(x^{(i)}-he_1) \right.\\
+& \qquad \left. {} + u(x^{(i)} + he_2)-2u(x^{(i)})+u(x^{(i)}-he_2)\right)\\
+&\approx \frac{1}{h^2} \left( 4 u^{(i)} - u^{(i-1)} - u^{(i+1)} -  u^{(i-k))} - u^{(i+k)} \right).
+\end{align*}
+falls alle benachbarten Punkte ebenfalls innere Punkte sind. Ist ein benachbarter Punkt ein Randpunkt, so erhalten
+wir einen analogen Ausdruck, bei dem der zum Randpunkt gehörige Summand (wegen $u|_{\partial \Omega}=0$) fehlt.
+
+Insgesamt erhalten wir so ein lineares Gleichungssystem
+\[
+A_h u_h = f_h
+\]
+wobei die Matrix $A_h$ die folgende Blocktridiagonalgestalt besitzt
+\[
+A_h=\frac{1}{h^2}\left( \begin{array}{r r r r r} C & -I\\ -I & C & -I\\ & -I & \ddots & \ddots\\ & & \ddots & \ddots & -I\\ & & & -I & C\end{array}\right)\in \R^{k^2\times k^2}
+\]
+mit
+\[
+C:=\left( \begin{array}{r r r r r} 4 & -1\\ -1 & 4 & -1\\ & -1 & \ddots & \ddots\\ & & \ddots & \ddots & -1\\ & & & -1 & 4\end{array}\right)\in \R^{k\times k},
+\]
+und der $k\times k$-Einheitsmatrix $I$.
+\end{beispiel}
+
+\begin{bemerkung}
+Für zwei Matrizen $K=(k_{i,j})\in \R^{l \times m}$ und $L\in \R^{r \times s}$ ist das \emph{Kronecker Produkt} definiert durch
+\[
+K\otimes L =  \left( \begin{array}{c c c c} k_{1,1} L & k_{1,2}L & \dots & k_{1,m}L \\ k_{2,1} L & k_{2,2}L & \dots & k_{1,m}L \\ \vdots & \vdots & & \vdots\\
+k_{l,1} L & k_{l,2}L & \dots & k_{l,m}L\end{array} \right) \in \R^{lr\times ms}.
+\]
+
+Damit lässt sich die Matrix $A_h$ aus \ref{bsp:poisson} schreiben als
+\[
+A_h=\frac{1}{h^2} \left( I \otimes T + T \otimes I \right)
+\]
+mit
+\[
+T:=\left( \begin{array}{r r r r r} 2 & -1\\ -1 & 2 & -1\\ & -1 & \ddots & \ddots\\ & & \ddots & \ddots & -1\\ & & & -1 & 2\end{array}\right)\in \R^{k\times k}.
+\]
+\end{bemerkung}
+
+Inhomogene Dirichlet-Probleme
+\[
+-\Delta u =f, \qquad u|_{\partial \Omega}=g
+\]
+lassen sich analog behandeln, indem entweder (wie im Eindimensionalen vorgeführt) der Effekt der Randpunkte auf die Differenzenverfahren der randnahen Punkte  
+in der rechten Seite berücksichtigt wird, oder indem die Randpunkte als Unbekannte hinzugenommen werden und für jeden Randpunkt $x^{(j)}$
+die Gleichung
+\[
+u^{(j)}=g(x^{(j)}).
+\]
+aufgenommen wird.
+
+
+\subsection{Ein diskretes Maximumsprinzip}
+
+Offensichtlich lassen sich auch allgemeinere Gleichungen (mit veränderlichen Diffusionskoeeffizienten, Absorptions- und Konvektionstermen)
+analog behandeln und führen wiederum auf lineare Gleichungssysteme der Form
+\begin{align*}
+A_h u_h =f_h.
+\end{align*}
+
+Die so entstehenden Diskretisierungsmatrizen $A_h$ sind üblicherweise von der Gestalt, dass die Diagonaleinträge positiv sind, die Nebendiagonaleinträge
+negativ sind, und zeilenweise der Diagonaleintrag die Zeile dominiert. 
+Wir werden sehen, dass solche Matrizen ein diskretes Maximumsprinzip erfüllen und benötigen dafür noch das folgende Lemma:
+
+\begin{lemma}[Sternlemma]\label{lemma:stern}
+Sei $L\geq 0$ und $\alpha_l,x_l$, $l=0,\ldots,L$ erfüllen
+\[
+\alpha_l<0 \quad \forall l>0,\qquad \sum_{l=0}^L \alpha_l\geq 0, \qquad
+\sum_{l=0}^L \alpha_l x_l\leq 0 \quad \mbox{ und } \quad x_0\geq 0.
+\]
+Ist $x_0\geq \max_{l=1,\ldots,L} x_l$, so gilt $x_0=x_1=\ldots=x_L$.
+\end{lemma}
+\begin{beweis}
+Für $L=0$ ist die Aussage trivial. Ansonsten ist
+\[
+\sum_{l=1}^L \underbrace{\alpha_l}_{< 0} \underbrace{(x_l - x_0)}_{\leq 0}=\sum_{l=0}^L \alpha_l (x_l - x_0)=\underbrace{\sum_{l=0}^L \alpha_l x_l}_{\leq 0} - \underbrace{x_0\sum_{l=0}^L\alpha_l}_{\geq 0}\leq 0
+\]
+und es folgt $x_l=x_0$ für alle $l=1,\ldots,L$.
+\end{beweis}
+Offenbar kann für $\sum_{l=0}^L\alpha_l=0$ auf die Voraussetzung $x_0\geq 0$ in Lemma~\ref{lemma:stern} verzichtet werden.
+
+\begin{theorem}\label{thm:diskretes_maxprinzip}
+Sei $A_h\in \R^{N\times N}$ eine (nicht-notwendigerweise strikt) diagonaldominante Matrix mit positiven Diagonal- und negativen 
+Nebendiagonaleinträgen, also
+\[
+a^h_{ii}\geq \sum_{i\neq j} |a^h_{ij}|  \quad \forall i=1,\ldots,N, \qquad a^h_{ij}\leq 0 \quad \forall i\neq j.
+%\sum_{j=1}^N a_{ij} \geq 0 \quad \forall i=1,\ldots,N, \qquad a_{ij}\neq 0 \quad \forall i\neq j.
+\]
+Sei $f_h\in \R^{N}$ und $u_h\in \R^N$ sei eine Lösung von $A_h u_h=f_h$. Außerdem sei $f_h\leq 0$, also komponentenweise 
+nicht-positiv. 
+
+Betrachte die $i$-te Zeile des LGS $A_h u_h =f_h$,
+\[
+\sum_{j=1}^N a^h_{ij} u^{h}_j =f^h_i\leq 0.
+\]
+Ist $u^h_i\geq \max\{0,\max_{j:\ j\neq i, a_{ij}\neq 0} u^h_j\}$, so 
+ist $u^h_i=u^h_j$ für alle $j$ mit $a_{ij}\neq 0$.
+\end{theorem}
+\begin{beweis}
+Wir setzen $\alpha_0=a^h_{ii}$, $x_0=u^h_i$. Entsprechend seien $\alpha_l$ und $x_l$, $l=1,\ldots,k$ die anderen
+von Null verschiedenen Einträge $a^h_{ij}$, $j\neq i$ und dazugehörigen $u^h_j$. Dann folgt die Behauptung aus
+Lemma~\ref{lemma:stern}.
+\end{beweis}
+
+
+
+\begin{bemerkung}
+\begin{enumerate}[(a)]
+\item
+Im Kontext unserer Finite-Differenzen-Diskretisierungen kann Theorem \ref{thm:diskretes_maxprinzip}
+als \emph{diskretes Maximumsprinzip} (in Analogie zu Theorem~\ref{thm:MaxPrinzipFolgerungen}(f)) interpretiert werden.
+Die diskrete Lösung $u_h$ kann nicht in einem Gitterpunkt einen nicht-negativen Wert annehmen, der strikt maximal ist unter
+allen im Rahmen der Differenzenquotienten betrachten Nachbarwerten. Mehr noch: nimmt die diskrete Lösung
+einen in diesem Sinne maximalen Wert an, so besitzen alle (in diesem Sinne) benachbarten Werte den gleichen maximalen Wert.
+\item Mit dem diskreten Maximumsprinzip lässt sich oft die Lösbarkeit der diskretisierten Gleichung beweisen. Betrachten wir exemplarisch die Matrix
+$A_h$ aus der Diskretisierung des Poisson-Problems auf dem Einheitsquadrat. $A_h$ ist genau dann invertierbar, wenn es injektiv ist,
+also nur der Nullvektor das homogenen LGS $A_h u_h=0$ löst. Sei also $u_h$ eine solche Lösung. Dann besitzt $u_h$ einen maximalen Eintrag $u^h_j$.
+O.B.d.A. sei $u_h^j\geq 0$, ansonsten betrachten wir $-u_h$. 
+Da wir jeden anderen Gitterpunkt über einen Weg aus (bei den Differenzenquotienten vorkommenden) Nachbarwerten erreichen können 
+(das Gitter ist \emph{diskret zusammenhängend}), folgt aus dem diskreten Maximumsprinzip, dass alle Einträge von 
+$u^h_j$ übereinstimmen. Aus der ersten Zeile von $A_h$ folgt dann, dass $u_h=0$ gelten muss.
+\end{enumerate}
+\end{bemerkung}
+
+Die folgende Verschärfung von Lemma~\ref{lemma:wann_M}
+können wir als diskretes Analogon zur 
+Monotonieeigenschaft aus Theorem~\ref{thm:MaxPrinzipFolgerungen}(b) interpretieren:
+\begin{theorem}
+Sei $A\in \R^{N\times N}$ eine invertierbare, diagonaldominante Matrix mit positiven Diagonalelementen und nicht-positiven Nichtdiagonalelementen, 
+\[
+a_{ii}\geq \sum_{j=1}^N |a_{ij}|. 
+\]
+Dann ist $A^{-1}$ komponentenweise nicht-negativ.
+
+Insbesondere gilt (komponentenweise)
+\[
+A u\leq A v \quad \Longrightarrow \quad u\leq v.
+\]
+\end{theorem}
+\begin{beweis}
+\begin{enumerate}[(a)]
+\item Nach Lemma~\ref{lemma:wann_M} ist jede strikt-diagonaldominante Matrix $A\in \R^{N\times N}$
+(mit positiven Diagonalelementen und nicht-positiven Nichtdiagonalelementen) invertierbar 
+und $A^{-1}$ ist komponentenweise nicht-negativ.
+%
+\item Für (nicht notwendigerweise strikt) diagonaldominantes und invertierbares $A$ (mit positiven Diagonalelementen und nicht-positiven Nichtdiagonalelementen) erhalten wir aus Teil (a),
+dass $(A+\epsilon I)$ invertierbar ist, und dass $(A+\epsilon I)^{-1}$ komponentenweise nicht-negativ ist. Da $A$ nach Voraussetzung invertierbar ist, konvergiert (für $\epsilon\to 0$) $(A+\epsilon I)^{-1}\to A^{-1}$ und es folgt die Behauptung.
+\end{enumerate}
+\end{beweis}
+
+\subsection{Konsistenz, Stabilität und Konvergenz}
+
+Sei $A_h u_h=f_h$ die entsprechend den letzten Abschnitten erstellte Diskretisierung des Poisson-Problems
+\[
+-\Delta u=f, \quad u|_{\partial \Omega}=g.
+\]
+Der Einfachheit halber bezeichnen wir mit $u\in \R^N$ auch den Vektor der Auswertungen der Funktion $u(x)$
+auf den Gitterpunkten der Diskretisierung.
+
+Wie im Eindimensionalen gilt der folgende Zusammenhang zwischen Konsistenz, Stabilität und Konvergenz:
+\[
+\norm{u-u_h}_\infty = \norm{A_h^{-1} A_h (u-u_h)}_\infty\leq \norm{A_h^{-1}}_\infty \norm{A_h u - f_h}_\infty.
+\]
+Erfüllt also (für $h\to 0$) die wahre Lösung (genauer: ihre Auswertungen) immer besser die diskretisierte Gleichung (Konsistenz),
+d.h. $\lim_{h\to 0} \norm{A_h u - f_h}_\infty=0$, und bleibt $\norm{A_h^{-1}}_\infty$ beschränkt (Stabilität), so nähert die
+Lösung der diskreten Gleichung die wahre Lösung immer besser an.
+
+Die Konsistenz von finiten Differenzenverfahren erhalten wir sofort aus Abschätzungen, wie sie in Lemma~\ref{lemma:FD_konsistenz1}
+vorkommen, die ihrerseits leicht aus Anwendungen der Taylor-Formel folgen. Konsistente Differenzenverfahren
+lassen sich deshalb in der Praxis meist sehr leicht für eine gegebene partielle Differentialgleichung konstruieren. 
+
+Der Beweis von Stabilität ist ungleich schwerer. %und erfordert üblicherweise die Ausnutzung spezieller Lösungen der betrachten PDGL.
+Wir zeigen im Rahmen dieser Vorlesung die Stabilität nur für das hier exemplarisch betrachtete 
+Problem $-\Delta u=f$.
+
+\begin{theorem}
+Sei $\Omega=(0,1)^2\subseteq \R^2$. Dann existiert ein $C>0$, so dass für die entsprechend den
+letzten Abschnitten erstellte Diskretisierungsmatrix $A_h$ zum Problem 
+\[
+-\Delta u=f, \quad u|_{\partial \Omega}=g
+\]
+gilt $\norm{A_h^{-1}}_\infty < C$ für alle $h>0$. 
+\end{theorem}
+\begin{beweis}
+Sei $R>0$ hinreichend groß, so dass $\Omega\subseteq B_{R}$ und betrachte die Funktion $w(x)=\frac{1}{4}\left( R^2 -\norm{x}^2 \right)+1$. 
+Offenbar gilt $-\Delta w=1$. $w$ ist ein Polynom zweiten Grades und die verwendeten Differenzenquotienten sind dafür in allen nicht randnahen Gitterpunkten 
+exakt, so dass an diesen Punkten $(A_h w)_j=1$ gilt. (Dabei bezeichnen wir der 
+Einfachheit halber auch den Vektor der Auswertungen von $w(x)$ in den Gittepunkten mit $w$.) Für die randnahen Punkte bleibt der positive Wert $w(x)\geq 0$ mit einem negativen Gewicht unberücksichtigt, so dass in diesen Punkten $(A_h w)_j\geq 1$ gilt. (Dabei bezeichnen wir wieder auch den Vektor der Gitterauswertungen von $w(x)$ mit $w$.)
+Insgesamt ist also 
+\[
+A_h w\geq 1.
+\]
+Damit folgt
+\[
+\norm{A_h^{-1}}_\infty= \norm{A_h^{-1} \1}_\infty\leq \norm{A_h^{-1} A_h w}_\infty \leq \max_{x\in \overline{B_R(0)}} |w(x)|= \frac{R^2}{4}.
+\]
+\end{beweis}
+
+\begin{korollar}
+Falls eine Lösung des Poisson-Problems
+\[
+-\Delta u=f, \quad u|_{\partial \Omega}=g
+\]
+existiert, so konvergieren die durch Finite Differenzen erhaltenenen Approximationen $u_h$ gegen die Lösung. 
+\end{korollar}
+
+
+
+%%%%%%%%%%%%%%%%%
+
+\chapter{Eigenwertprobleme}
+
+\section{Einleitung}
+
+Wir untersuchen in diesem Kapitel, wie sich die Eigenwerte einer gegebenen Matrix numerisch bestimmen lassen.
+In diesem Kapitel sei $A\in \C^{n\times n}$ stets eine quadratische Matrix mit Einträgen $a_{ij}\in \C$.
+Oft werden wir uns dabei auf den Fall hermitescher $A=A^*$ (oder zumindest diagonalisierbarer) Matrizen beschränken. 
+Für die Praxis reicht dies oft aus, da für allgemeine Matrizen damit die (auf den Eigenwerten von $A^*A$ beruhende)
+\emph{Singulärwertzerlegung} bestimmt werden kann.
+
+Wir erinnern zuerst an ein paar grundlegende Resultate aus der linearen Algebra.
+
+\begin{definition}
+Zu einer quadratischen Matrix $A\in \C^{n\times n}$ heißt $\lambda\in \C$ \emph{Eigenwert}, falls ein Vektor
+$0\neq x\in \C^n$ existiert, so dass
+\[
+Ax=\lambda x.
+\]
+$x$ heißt \emph{Eigenvektor}. 
+
+Die Menge aller Eigenwerte heißt \emph{Spektrum}
+\[
+\sigma(A):=\left\{ \lambda\in \C \dd \exists x\in \C^n\setminus\{0\} \dd Ax=\lambda x \right\}.
+\]
+Der Betrag des betragsgrößten Eigenwertes heißt \emph{Spektralradius}
+\[
+\rho(A)=\max\{|\lambda|\dd \lambda\in \sigma(A)\}.
+\]
+\end{definition}
+
+\begin{bemerkung}\label{bem:EWe}
+\begin{enumerate}[(a)]
+\item $\lambda$ ist genau dann Eigenwert von $A$, wenn $A-\lambda I$ nicht injektiv ist. Da $A-\lambda I$ quadratisch ist, ist das äquivalent dazu, dass $A-\lambda I$ nicht surjektiv ist. $\Kern(A-\lambda I)$ ist der \emph{Eigenraum} zum Eigenwert $\lambda$. Die Dimension des Eigenraums
+heißt auch \emph{geometrische Vielfachheit} des Eigenwerts. 
+%
+\item Eigenwerte sind genau die Nullstellen des komplexen \emph{charakteristischen Polynoms} $p(\lambda)=\det(A-\lambda I)$ vom Grad $n$.
+ Aus dem Fundamentalsatz der Algebra folgt deshalb, dass jedes $A\in \C^{n\times n}$ mindestens einen und höchstens $n$ Eigenwerte
+ besitzt. Die Vielfachheit des Eigenwerts als Nullstelle von $p$ heißt \emph{algebraische Vielfachheit}.
+ %
+ \item Eine Matrix ist genau dann \emph{diagonaliserbar}, wenn eine Basis aus Eigenvektoren besteht. Dies ist genau dann der Fall wenn für jeden Eigenwert die geometrische und algebraische Vielfachheit übereinstimmen.
+ %
+ \item $\norm{A}$ ist der größte Singulärwert von $A$, d.h. die Wurzel des größten Eigenwertes der Matrix $A^*A$. Es gilt also
+ \[
+ \norm{A}=\sqrt{\rho(A^*A)}.
+ \] 
+\item Für eine \emph{hermitesche} Matrix $A=A^*$ sind alle Eigenwerte reell und es existierte eine Orthogonalbasis aus Eigenvektoren. Offenbar folgt damit auch
+\[
+\norm{A}=\sqrt{\rho(A^2)}=\rho(A).
+\]
+\end{enumerate}
+\end{bemerkung}
+
+
+
+\section{Zwei Einschließungssätze}
+
+Wir beginnen mit zwei Resultaten, mit denen sich die Lage der Eigenwerte auf recht einfache Weise grob abschätzen lässt.
+Zuerst zeigen wir, dass alle Eigenwerte in der Vereinigung der sogenannten Gerschgorin-Kreise liegen müssen.
+
+\begin{theorem}[Satz von Gerschgorin]\label{satz:gerschgorin}
+Für jedes $A\in \C^{n\times n}$ gilt
+\[
+\sigma(A)\subset \bigcup_{i=1}^n K_i, \quad K_i:=\left\{ \zeta\in \C \dd |\zeta-a_{ii}|\leq \sum_{\substack{j=1\\ j\neq i}}^n |a_{ij}| \right\}
+\]
+Die $K_i$ heißen Gerschgorin-Kreise.
+\end{theorem}
+\begin{beweis}
+Sei $\lambda\in \C$ ein Eigenwert von $A$, also $Ax=\lambda x$ mit einem $x\neq 0$. Sei $i$ ein Index eines betragsmäßig
+größten Eintrags von $x$, also
+\[
+|x_i|\geq |x_j| \quad \forall j\neq i.
+\]
+Aus $\lambda x_i=(Ax)_i=\sum_{j=1}^n a_{ij}x_j$
+folgt
+\[
+| \lambda - a_{ii}| = \left| \sum_{j=1}^n a_{ij} \frac{x_j}{x_i} - a_{ii}\right| 
+= \left| \sum_{\substack{j=1\\ j\neq i}}^n a_{ij} \frac{x_j}{x_i}\right| 
+\leq  \sum_{\substack{j=1\\ j\neq i}}^n |a_{ij}| \left|\frac{x_j}{x_i}\right|\leq \sum_{\substack{j=1\\ j\neq i}}^n |a_{ij}|
+\]
+und damit $\lambda\in K_i$.
+\end{beweis}
+
+\begin{bemerkung}\label{Bem:Transponiert}
+Eine Matrix und ihre Transponierte $A^T=(a_{ji})_{i,j=1}^n$ haben dieselbe Determinante, $\det A=\det A^T$. 
+Aus $\det (A-\lambda I)=\det(A^T-\lambda I)$ folgt, dass $A$ und $A^T$ dieselben Eigenwerte haben.
+Genauso folgt, dass die Eigenwerte von $A^*$ die komplex konjugierten Eigenwerte von $A$ sind.
+
+Aus Satz \ref{satz:gerschgorin} folgt deshalb auch dass 
+\[
+\sigma(A)=\sigma(A^T)\subset \bigcup_{i=1}^n K_i, \quad K_i:=\{ \zeta\in \C \dd |\zeta-a_{ii}|\leq \sum_{\substack{j=1\\ j\neq i}}^n |a_{ji}| \}
+\]
+\end{bemerkung}
+
+\begin{beispiel}
+Betrachte 
+\[
+A=\begin{pmatrix} 2 & 1 & -1\\ 0 & -1 & 1\\ 1 & 1 & 1\end{pmatrix}.
+\]
+Die Gerschgorin-Kreise für $A$ sind die (in der komplexen Ebene befindlichen) Kreise um $2$ mit Radius $2$, um $-1$ mit Radius $1$
+und um $1$ mit Radius $2$. Alle Eigenwerte von $A$ liegen in diesen Kreisen.
+
+Die Gerschgorin-Kreise für $A^T$ sind die Kreise um $2$ mit Radius $1$, um $-1$ mit Radius $2$
+und um $1$ mit Radius $2$. Alle Eigenwerte von $A$ liegen auch in diesen Kreisen.
+\end{beispiel}
+
+Das zweite Einschließungsresultate verwendet das Konzept des Wertebereichs einer Matrix.
+\begin{definition}
+Die Menge
+\[
+W(A)=\left\{ \zeta=\frac{x^* A x}{x^* x} \dd 0\neq x\in \C^n \right\}=\left\{ x^* A x \dd x\in \C^n,\ \norm{x}=1\right\}\subseteq \C
+\]
+heißt \emph{Wertebereich} von $A$. Ausdrücke der Form $\frac{x^* A x}{x^* x}$ heißen auch \emph{Rayleigh-Quotienten}.
+\end{definition}
+
+
+\begin{lemma}\label{lemma:W_enthaelt_sigma}
+Es gilt
+\[
+\sigma(A)\subset W(A).
+\]
+\end{lemma}
+\begin{beweis}
+Für einen Eigenwert $\lambda\in \C$ und zugehörigen Eigenvektor $x\in \C^n$ ist
+$\frac{x^* A x}{x^*x}=\frac{x^* \lambda x}{x^*x}=\lambda$. 
+\end{beweis}
+
+\begin{lemma}\label{lemma:eigW}
+\begin{enumerate}[(a)]
+\item $W(A)$ ist \emph{wegzusammenhängend},
+d.h. zu $\zeta_0, \zeta_1\in W(A)$ existiert stets eine stetige Abbildung
+\[
+\alpha:\ [0,1]\mapsto W(A),
+\]
+mit $\alpha(0)=\zeta_0$ und $\alpha_1=\zeta_1$.
+\item Ist $A\in \C^{n\times n}$ \emph{hermitesch} (d.h. $A=A^*$), dann ist $W(A)\subset \R$ die konvexe Hülle der
+Eigenwerte, d.h. das reelle Intervall $[\lambda_n,\lambda_1]$ zwischen dem größten Eigenwert $\lambda_1$ und dem kleinsten Eigenwert $\lambda_n$. 
+\item Ist $A\in \C^{n\times n}$ \emph{schiefhermitesch} (d.h. $A=-A^*$), dann ist $W(A) \subset \im \R$ die konvexe Hülle der
+Eigenwerte, d.h. das Intervall auf der imaginären Achse $i[a,b]$, wobei $a$ der kleinste und $b$ der größte Imaginärteil eines Eigenwertes sind.
+\end{enumerate}
+\end{lemma}
+\begin{beweis}
+\begin{enumerate}[(a)]
+\item Seien $\zeta_0, \zeta_1\in W(A)$. O.B.d.A.\ $\zeta_0\neq \zeta_1$. 
+
+Aus der Definition von $W(A)$ folgt dass
+\[
+\zeta_0=\frac{x_0^* A x_0}{x_0^*x_0}, \quad \zeta_1=\frac{x_1^* A x_1}{x_1^*x_1}
+\]
+mit $x_0\neq 0 \neq x_1$. 
+
+Der naheliegende Kandidat für $\alpha$ ist
+\[
+\alpha(t):=\frac{x_t^* A x_t}{x_t^*x_t}, \quad x_t:=x_0+t(x_1-x_0)
+\]
+Ist $x_t\neq 0$ für alle $t\in [0,1]$, so erfüllt $\alpha$ offensichtlich das Gewünschte.
+Wir müssen also nur zeigen, dass $x_t\neq 0$ für alle $t\in [0,1]$.
+Angenommen dies wäre nicht der Fall, also $0=x_0+t(x_1-x_0)$. Dann wäre 
+aber offenbar $t\neq 0$ und $x_1=\frac{t-1}{t} x_0$, womit $\zeta_0=\zeta_1$ und damit 
+einen Widerspruch folgt.
+%
+\item Ist $A=A^*$, so ist für alle $x\in \C^n$
+\[
+\overline{\frac{x^* A x}{x^*x}}=\frac{( x^* A x )^*}{x^*x}
+= \frac{ (A x)^* x}{x^*x}=\frac{ x^* A^* x}{x^*x}
+=\frac{ x^* A x}{x^*x},
+\]
+also $W(A)\subseteq \R$.
+
+Nach Lemma~\ref{lemma:W_enthaelt_sigma} gilt $\{\lambda_n,\lambda_1\}\subseteq W(A)$ und
+zusammen mit Lemma~\ref{lemma:W_enthaelt_sigma} folgt 
+\[
+[\lambda_n,\lambda_1]\subseteq W(A)\subseteq \R.
+\] 
+ 
+Wir müssen also nur noch zeigen, dass für alle $\zeta\in W(A)$ gilt $\lambda_n\leq \zeta\leq \lambda_1$.
+Für $\alpha>0$ hinreichend groß (z.B. $\alpha:=2\norm{A}+1$) ist $A+\alpha I$ hermitesch und 
+\[
+x^*(A+\alpha I)x\geq -\norm{A}\norm{x}^2 + \alpha \norm{x}^2>0 \quad \forall x\neq 0,
+\]
+also $A+\alpha I$ positiv definit. $A$ besitzt also eine Cholesky-Zerlegung $A=LL^*$ mit $L\in \C^{n\times n}$.
+Es ist
+\begin{align*}
+x^*A x = x^* (A+\alpha I) x- \alpha \norm{x}^2= \norm{L^*x}^2 - \alpha \norm{x}^2\leq (\norm{L^*}^2-\alpha)\norm{x}^2
+\end{align*}
+und mit Bemerkung \ref{bem:EWe} folgt
+\[
+\frac{x^*A x}{x^* x} \leq \norm{L^*}^2-\alpha=\rho(LL^*)-\alpha=\rho(A+\alpha I)-\alpha.
+\]
+Da $A+\alpha I$ positiv definit ist, sind alle Eigenwerte positiv und der größte ist offenbar $\lambda_1+\alpha$.
+Es gilt also $\zeta\leq \lambda_1$ für alle $\zeta=\frac{x^*A x}{x^* x}\in W(A)$. 
+
+Der größte Eigenwert von $-A$ ist $-\lambda_n$. Mit dem gleichen Argument erhalten wir deshalb
+\[
+\frac{x^* (-A) x}{x^* x} \leq -\lambda_n
+\]
+und damit $\zeta\geq \lambda_n$ für alle $\zeta=\frac{x^*A x}{x^* x}\in W(A)$.
+
+\item Ist $A^*=-A$, dann ist $(\im A)^*=-\im A^*=\im A$, also $\im A$ hermitesch. Da offenbar $W(\im A)=\im W(A)$ ist, folgt (c) aus (b).
+\end{enumerate}
+\end{beweis}
+
+Jede Matrix $A\in \C^{n\times n}$ lässt sich in einen hermiteschen und einen schiefhermiteschen Teil zerlegen:
+\[
+A=\frac{A+A^*}{2}+\frac{A-A^*}{2}.
+\]
+
+Nach Lemma \ref{lemma:eigW} ist
+\begin{align*}
+\lefteqn{W \left(\frac{A+A^*}{2}\right)+W\left(\frac{A-A^*}{2}\right)}\\
+&=\left\{ \zeta=\zeta_1+\zeta_2\in \C \dd \zeta_1\in W(\frac{A+A^*}{2}),\ \zeta_2\in W(\frac{A-A^*}{2}) \right\}\\
+&=\left\{ \zeta=\xi + \im \eta\in \C \dd \xi \in W(\frac{A+A^*}{2}),\ \im \eta \in W(\frac{A-A^*}{2}) \right\}.\\
+\end{align*}
+ein Rechteck in der komplexen Ebene. Der folgende Satz zeigt, dass es $W(A)$ und damit insbesondere alle Eigenwerte von $A$ enthält.
+
+\begin{theorem}[Satz von Bendixson]
+Für jedes $A\in \C^{n\times n}$ gilt
+\begin{align*}
+W(A)& \subseteq W(\frac{A+A^*}{2})+W(\frac{A-A^*}{2})
+\end{align*}
+Insbesondere ist also $\sigma(A)\subset  W(\frac{A+A^*}{2})+W(\frac{A-A^*}{2})$.
+\end{theorem}
+\begin{beweis}
+Für jedes $x\in \C^n$ mit $\norm{x}=1$ ist
+\[
+\quad x^* A x=x^* \left( \frac{A+A^*}{2}+\frac{A-A^*}{2}\right) x\in W(\frac{A+A^*}{2})+W(\frac{A-A^*}{2}). \quad \Box
+\]
+\end{beweis}
+
+$W(\frac{A+A^*}{2})+W(\frac{A-A^*}{2})$ lässt sich mit Gerschgorin-Kreisen abschätzen.
+
+
+
+
+\section{Stabilität des Eigenwertproblems}
+
+Der \emph{naheliegender Ansatz} zur Berechnung der Eigenwerte von $A$ ist, zuerst das charakteristische Polynom aus $A$ zu berechnen und dann dessen Nullstellen zu bestimmen. In der Praxis wird man aber $A$ und damit die Koeffizienten des char. Polynoms nur näherungsweise kennen. Die Berechnung der Nullstellen eines Polynoms aus seinen Koeffizienten ist jedoch im Allgemeinen schlecht konditioniert (d.h. stark fehlerverstärkend), vgl.\ die an der Tafel gemalte Skizze.
+
+Das Eigenwertproblem selbst ist (zumindest für normale Matrizen) nicht schlecht konditioniert, wie wir im folgenden Satz zeigen.
+Zur Erinnerung: $A\in \C^{n\times n}$ heißt \emph{normal}, falls $AA^*=A^*A$. Normale Matrizen sind diagonalisierbar bzgl. einer Orthogonalbasis
+aus Eigenvektoren. Es existieren also \emph{unitäre} Matrizen $X\in \C^{n\times n}$ (d.h. $X^{-1}=X^*$) mit 
+\[
+A=X \Lambda X^{-1}, \quad \Lambda=\begin{pmatrix} \lambda_1 & 0 & 0\\ 0 & \ddots & 0\\ 0 & 0 & \lambda_n\end{pmatrix}
+\]
+
+\begin{theorem}\label{thm:stabEW}
+Ist $A\in \C^{n\times n}$ normal und $E\in \C^{n\times n}$ beliebig. Ist $\tilde \lambda$ ein Eigenwert der gestörten Matrix
+$A+E$, dann existiert ein $\lambda\in \sigma(A)$ mit
+\[
+|\lambda-\tilde \lambda| \leq \norm{E}.
+\]
+\end{theorem}
+\begin{beweis}
+Sei $\tilde \lambda$ ein Eigenwert von $A+E$ und $x\neq 0$ ein dazugehöriger Eigenvektor.
+Ist $\tilde \lambda\in \sigma(A)$, dann stimmt die Behauptung. Sei also $\tilde \lambda\not\in \sigma(A)$. Dann existiert $(\tilde \lambda I-A)^{-1}$ und
+aus
+\[
+Ex=(A+E)x-Ax=(\tilde \lambda I - A)x
+\]
+folgt $x=(\tilde \lambda I - A)^{-1} Ex$ und damit
+\begin{align*}
+1 & \leq \norm{(\tilde \lambda I - A)^{-1} E} \leq \norm{(\tilde \lambda I - A)^{-1}} \norm{E}
+= \norm{(\tilde \lambda I - X \Lambda X^{-1})^{-1}} \norm{E} \\
+&\leq   \norm{X} \norm{X^{-1}} \norm{(\tilde \lambda I - \Lambda )^{-1}} \norm{E}
+\end{align*}
+Da $X$ und $X^{-1}$ unitär sind, ist $\norm{X}=\norm{X^{-1}}=1$. Außerdem ist 
+$(\tilde\lambda I -\Lambda)^{-1}$ eine
+Diagonalmatrix mit den Einträgen $\frac{1}{\tilde \lambda- \lambda_j}$ wobei $\lambda_j$ die Eigenwerte von $A$ sind.
+$\norm{\tilde \lambda I -\Lambda}$ ist der betragsgrößte Diagonaleintrag, d.h. es existiert ein $\lambda\in \sigma(A)$ mit
+\[
+\norm{(\tilde \lambda I -\Lambda)^{-1}}=\frac{1}{|\tilde \lambda-\lambda|}
+\]
+und damit
+\[
+|\tilde \lambda-\lambda|\leq \norm{E}. 
+\]
+\phantom{ende}
+\end{beweis}
+
+Der Beweis von \ref{thm:stabEW} liefert auch eine Abschätzung für allgemeine diagonalisierbare
+(aber nicht notwendigerweise diagonalisierbare) Matrizen, siehe Übungsaufgabe ??.
+
+Ein noch stärkeres Stabilitätsresultat ist der folgende Satz, den wir ohne Beweis angeben.
+\begin{theorem}[Satz von Wielandt-Hoffman]
+Seien $A,E\in \C^{n\times n}$ hermitesch. $\lambda_1\geq \ldots \geq \lambda_n$ und 
+$\tilde \lambda_1\geq \ldots \geq \tilde \lambda_n$ seien die Eigenwerte von $A$ und $A+E$.
+
+Dann gilt
+\[
+\sum_{i=1}^n (\lambda_i-\tilde \lambda_i)^2 \leq \norm{E}_F^2.
+\]
+\end{theorem}
+
+\section{Die Potenzmethode}
+
+Wir stellen nun die erste iterative Methode zur Berechnung von Eigenwerten vor, die \emph{Potenzmethode} (auch: \emph{von Mises-Verfahren}).
+ Zur Motivation betrachten wir eine
+Diagonalmatrix 
+\[
+A=\begin{pmatrix} \lambda_1 & 0 & 0\\ 0 & \ddots & 0\\ 0 & 0 & \lambda_n\end{pmatrix}
+\]
+Wiederholtes Anwenden von $A$ auf einen Vektor $x=(x_i)_{i=1}^n\in \C^n$ liefert
+\[
+A^k x=\sum_{i=1}^n \lambda_i^k x_i.
+\]
+Gibt es genau einen betragsgrößten Eigenwert $\lambda_j$ und ist $x_j\neq 0$, dann wird der dazugehörige Summand schneller
+wachsen (bzw. langsamer fallen für $|\lambda_j|<1$) als alle anderen Summanden. Er wird die Summe also immer mehr dominieren.
+Wir erwarten daher, dass
+\[
+A^k x\approx \lambda_j^k x_j.
+\]
+Das gleiche gilt für beliebige diagonalisierbare Matrizen, wie der folgende Satz zeigt:
+
+\begin{theorem}[Potenzmethode]\label{satz:Potenzmethode}
+Sei $A\in \C^{n\times n}$ diagonalisierbar. $A$ besitze einen genau einen (aber nicht notwendigerweise einfachen) betragsgrößten Eigenwert, d.h. es sei
+$\sigma(A)=\{\lambda_1,\ldots,\lambda_m\}$
+\[
+|\lambda_1|> |\lambda_2|\geq \ldots \geq |\lambda_m|.
+\] 
+
+Zu einem normierten Startvektor $x^{(0)}\in \C^n$ definieren wir die Folge 
+\[
+\tilde x^{(k)}:=Ax^{(k-1)}, \quad x^{(k)}:=\frac{\tilde x^{(k)}}{\norm{\tilde x^{(k)}}}.
+\]
+
+An $x^{(0)}$ sei ein Eigenvektor zu $\lambda_1$ beteiligt, d.h. 
+es sei 
+\[
+x^{(0)}=\xi_1 v_1 + \sum_{j=2}^m \xi_j v_j, \quad \xi_1,\ldots,\xi_m\in \C,\ \xi_1\neq 0.
+\]
+wobei $v_j$ normierte Eigenvektoren zu $\lambda_j$ seien. Dann gilt:
+
+\begin{align*}
+x^{(k)}&= \frac{\lambda_1^k}{|\lambda_1|^k} \frac{\xi_1}{|\xi_1|} v_1 + O(\left| \lambda_2 / \lambda_1\right|^k),\\
+(x^{(k-1)})^* \tilde x^{(k)} &= \lambda_1 + O(\left| \lambda_2 / \lambda_1\right|^{k}).
+\end{align*}
+
+$(x^{(k-1)})^* \tilde x^{(k)}$ konvergiert also gegen den betragsgrößten Eigenwert $\lambda_1$ und $x^{(k)}$ konvergiert bis auf skalare Vielfache gegen einen dazugehörigen Eigenvektor. Die Konvergenzgeschwindigkeit ist linear mit Konvergenzfaktor $|\lambda_2 / \lambda_1|$.
+\end{theorem}
+\begin{beweis}
+Durch triviale Induktion sieht man, dass
+\[
+x^{(k)}=\frac{A^{k}x^{(0)}}{\norm{A^{k}x^{(0)}}}.
+\]
+Es ist 
+\[
+A^{k}x^{(0)}=\lambda_1^k \xi_1 v_1 + \sum_{j=2}^m \lambda_j^k \xi_j v_j
+\]
+und 
+\[
+\left| \norm{A^{k}x^{(0)}}- |\lambda_1^k \xi_1| \right| \leq \norm{\sum_{j=2}^m \lambda_j^k \xi_j v_j}
+\leq |\lambda_2|^k \max |\xi_j|,
+\]
+also 
+\[
+\norm{A^{k}x^{(0)}}=|\lambda_1|^k |\xi_1| \left( 1 + O(\left| \lambda_2 / \lambda_1\right|^k ) \right).
+\]
+Damit erhalten wir
+\begin{align*}
+x^{(k)}&=\frac{A^{k}x^{(0)}}{\norm{A^{k}x^{(0)}}}=\frac{A^{k}x^{(0)}}{|\lambda_1|^k |\xi_1|} \frac{1}{1 + O(\left| \lambda_2 / \lambda_1\right|^k )}
+=\frac{A^{k}x^{(0)}}{|\lambda_1|^k |\xi_1|} \left( 1 + O(\left| \lambda_2 / \lambda_1\right|^k )\right)\\
+&= \left( \frac{\lambda_1^k}{|\lambda_1|^k} \frac{\xi_1}{|\xi_1|} v_1 + O(\left| \lambda_2 / \lambda_1\right|^k ) \right)
+ \left( 1 + O(\left| \lambda_2 / \lambda_1\right|^k )\right)\\
+&=\frac{\lambda_1^k}{|\lambda_1|^k} \frac{\xi_1}{|\xi_1|} v_1 + O(\left| \lambda_2 / \lambda_1\right|^k).
+\end{align*}
+und %(für $k\geq 1$)
+\begin{align*}
+(x^{(k-1)})^* \tilde x^{(k)}= (x^{(k-1)})^* A x^{(k-1)} = v_1^* A v_1 + O(\left| \lambda_2 / \lambda_1\right|^{k})
+= \lambda_1 + O(\left| \lambda_2 / \lambda_1\right|^{k}).
+\end{align*}
+womit die Behauptung gezeigt ist.
+\end{beweis}
+
+\begin{bemerkung}
+Die Konvergenz der Potenzmethode kann auch ohne die Annahme der Diagonalisierbarkeit gezeigt werden. Auf die Voraussetzung, 
+dass genau ein \emph{betragsgrößter} Eigenwert existiert, kann jedoch nicht verzichtet werden.
+\end{bemerkung}
+
+\begin{algorithm}
+\caption{Potenzmethode (von Mises-Verfahren)}
+\label{algo:Potenzmethode}
+\begin{algorithmic}
+\STATE{Gegeben Matrix $A\in \C^{n\times n}$ und Startvektor $x\in \C^n$.}
+\REPEAT
+\STATE{$\tilde x:=Ax$}
+\STATE{$\lambda:=x^* \tilde x$}
+\STATE{$x:=\tilde x / \norm{\tilde x}$}
+\UNTIL{STOP}
+\RETURN $\lambda\in \C$, $x\in C^n$ approximiert betragsgrößten Eigenwert von $A$ und dazugehörigen Eigenvektor (unter den Voraussetzungen von Satz 
+\ref{satz:Potenzmethode}).
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{bemerkung}\label{bem:PM_andereEW}
+Auch zur Bestimmung der anderer Eigenwerte kann die Potenzmethode verwendet werden, indem $A$ zuerst geignet transformiert wird.
+Sei $A\in \C^{n\times n}$ diagonalisierbar.
+\begin{enumerate}[(a)]
+\item \emph{Inverse Iteration:} Sei $A$ invertierbar. Die betragsgrößten Eigenwerte von $A^{-1}$ sind dann  $1/\lambda_j$, wobei 
+$\lambda_j$ die betragskleinsten Eigenwerte von $A$ sind. Existiert genau ein betragskleinster Eigenwert, so lässt sich dieser durch Anwendung der Potenzmethode auf $A^{-1}$ bestimmen. 
+%
+\item \emph{Gebrochene Iteration von Wielandt}: Ist $\mu\not\in \sigma(A)$, dann ist $A-\mu I$ invertierbar.
+Die betragsgrößten Eigenwerte von $(A-\mu I)^{-1}$ sind $\frac{1}{\lambda_j-\mu}$ wobei $\lambda_j$ diejenigen Eigenwerte sind die
+am nächsten an $\mu$ liegen. Gibt es davon genau einen, so lässt er sich durch Anwendung der Potenzmethode auf $(A-\mu I)^{-1}$ bestimmen.
+\end{enumerate}
+\end{bemerkung}
+
+\section{Die Rayleigh-Quotient-Iteration}\label{sect:RQ}
+Das in Bemerkung \ref{bem:PM_andereEW}(b) skizzierte Verfahren wird umso schneller konvergieren, umso besser $\mu$ den gesuchten Eigenwert 
+approximiert. Es liegt daher nahe, in jedem Schritt $\mu$ durch die aktuelle Näherung an den Eigenwert zu ersetzen. 
+
+\begin{algorithm}
+\caption{Rayleigh-Quotient-Iteration}
+\label{algo:RQ_Iteration}
+\begin{algorithmic}
+\STATE{Gegeben Matrix $A\in \C^{n\times n}$ und Startwerte $x\in \C^n$, $\mu\in \C$.}
+\REPEAT
+\STATE{Löse $(A-\mu I) \tilde x=x$}
+\STATE{$x:=\tilde x / \norm{\tilde x}$}
+\STATE{$\mu:=x^* A x$}
+\UNTIL{STOP}
+\RETURN $\mu\in \C$ approximiert Eigenwert, der am nächsten am Startwert liegt, $x$ approximiert dazugehörigen
+Eigenvektor (vgl. Satz~\ref{thm:RQ} für die rigorose Formulierung der Konvergenzaussage).
+\end{algorithmic}
+\end{algorithm}
+
+Für die Konvergenzuntersuchung dieses Verfahrens benötigen wir den Begriff des Betrags einer normalen Matrix.
+\begin{definition}
+Für eine Diagonalmatrix 
+\[
+\Lambda=\begin{pmatrix} \lambda_1 & 0 & 0\\ 0 & \ddots & 0\\ 0 & 0 & \lambda_n\end{pmatrix}
+\]
+definieren wir $|\Lambda|$ durch
+\[
+\Lambda=\begin{pmatrix} |\lambda_1| & 0 & 0\\ 0 & \ddots & 0\\ 0 & 0 & |\lambda_n| \end{pmatrix}.
+\]
+
+Sei $A \in \C^{n\times n}$ normal. Dann existiert eine Diagonalmatrix $\Lambda$ (mit den Eigenwerten auf der Diagonale)
+und eine unitäre Matrix $X\in \C^{n\times n}$ so dass $A=X \Lambda X^{-1}$.
+Damit definieren wir
+\[
+|A|=X |\Lambda| X^{-1}.
+\]
+Offenbar ist $|A|$ dadurch wohldefiniert.
+\end{definition}
+
+\begin{lemma}\label{lemma:betrag}
+Für jedes normale $A\in \C^{n\times n}$ gilt
+\begin{enumerate}[(a)]
+\item $|A|$ ist hermitesch, positiv semidefinit und es gilt $|A|^2=A^* A$.
+\item Für alle $x\in \C^n$ ist
+\[
+|x^* A x | \leq x^* |A| x.
+\]
+\end{enumerate}
+\end{lemma}
+\begin{beweis}
+(a) wird in Übungsaufgabe ?? gezeigt.
+
+Zum Beweise von (b) beachte, dass für jede Diagonalmatrix $\Lambda\in \C^{n\times n}$ und jedes
+$y\in \C^n$ offenbar gilt
+\[
+|y^* \Lambda y|=\left| \sum_{j=1}^n \lambda_j |y_j|^2\right| \leq \sum_{j=1}^n |\lambda_j| |y_j|^2 = y^* |\Lambda| y.
+\]
+Damit folgt 
+\[
+|x^* A x | = | x^* X \Lambda X^{-1} x | = | (X^*x) \Lambda (X^* x)| \leq (X^* x) |\Lambda| (X^* x) =  x^* |A| x.
+\]
+\end{beweis}
+
+
+\begin{theorem}\label{thm:RQ}
+Sei $A\in \C^{n\times n}$ normal. $\mu_0\in \C$ und $x^{(0)}\in \C^n$ seien hinreichend gute Näherungen an einen Eigenwert $\lambda\in \C$ und
+einen dazugehörigen Eigenvektor $v\in \C^n$ von $A$. $\mu_k$ und $x^{(k)}$ seien gemäß Algorithmus~\ref{algo:RQ_Iteration}
+definiert, also
+\begin{align*}
+\tilde x^{(k)}&:=(A-\mu_{k-1} I)^{-1} x^{(k-1)}, \quad x^{(k)}:=\frac{\tilde x^{(k)}}{\norm{\tilde x^{(k)}}}, \quad 
+\mu_k:=(x^{(k)})^* A x^{(k)}.
+\end{align*}
+
+Dann erreicht $\mu_k$ entweder nach endlich vielen Schritten einen Eigenwert oder es existiert eine
+kubisch konvergente Folge $\epsilon_k\to 0$ mit
+\[
+|\lambda - \mu_{k+1} | \leq \epsilon_k \quad \forall k\in \N_0.
+\]
+\end{theorem}
+\begin{beweis}
+$\mu_k$ erreiche nicht nach endlich vielen Schritten einen Eigenwert, so dass die Rayleigh-Quotient-Iteration wohldefiniert ist.
+O.B.d.A. sei außerdem $x^{(0)}$ normiert.
+
+\begin{enumerate}[(a)]
+
+\item Eigenraumzerlegung und Konvergenz
+
+Jedes $x^{(k)}$ kann eindeutig in seine Eigenraumanteile zerlegt werden
+\[
+x^{(k)}= v^{(k)} + w^{(k)}, \quad w^{(k)}=\sum\limits_{\tilde \lambda\in \sigma(A)\setminus \{\lambda\} } w^{(k)}_{\tilde \lambda},
+\]
+wobei $v^{(k)}$ ein Eigenvektor zu $\lambda$ sei und $w^{(k)}_{\tilde \lambda}$ Eigenvektoren zu den anderen Eigenwerten $\tilde \lambda$ sind.
+Da sie Eigenvektoren zu verschiedenen Eigenwerten sind, stehen all diese Vektoren paarweise orthogonal aufeinander.
+
+Ähnlich wie im Beweis von Satz~\ref{satz:Potenzmethode} kann man zeigen, dass  
+(wenn $\mu_0\in \C$ und $x^{(0)}\in \C^n$ hinreichend gute Näherungen an $\lambda$ und einen dazugehörigen Eigenvektor $v$ sind) $w^{(k)}\to 0$ konvergiert, also $x^{(k)}$ immer mehr zu einem Eigenvektor zum Eigenwert $\lambda$ wird.
+Damit folgt auch $\mu_k=(x^{(k)})^* A x^{(k)}\to \lambda$ (siehe Übungsaufgabe ??).
+
+\item Definition der $\epsilon_k$:
+
+Nach Lemma \ref{lemma:betrag} gilt 
+\begin{align*}
+|\lambda - \mu_{k} | &= | \lambda - (x^{(k)})^* A x^{(k)} | = | (x^{(k)})^* (\lambda I - A ) (x^{(k)})^*|\\
+&\leq  (x^{(k)})^* |\lambda I - A | (x^{(k)})^*=:\epsilon_k.
+\end{align*}
+Wir werden zeigen, dass ein $C>0$ existiert so dass (wenn $\mu_0\in \C$ und $x^{(0)}\in \C^n$ seien hinreichend gute Näherungen an $\lambda$ und $v$ sind)
+\begin{align}\labeq{RQ_eps}
+\epsilon_{k+1}\leq C \epsilon_{k}^3
+\end{align}
+Liegt $x^{(0)}$ hinreichend nahe an $v$, dann ist $\epsilon_0$ hinreichend klein, so dass aus \req{RQ_eps} auch $\epsilon_k\to 0$ folgt.
+
+\item Wir zeigen nun, dass
+\begin{align}\labeq{RQ_hilf}
+%\lambda-\mu_{k+1}\leq 
+\epsilon_{k+1} \leq  \frac{\epsilon_k^3}{\norm{v^{(k)}}^2} \max\limits_{ \tilde \lambda\in \sigma(A)\setminus \{\lambda\} } |\tilde\lambda-\mu_k|^{-2}
+\end{align}
+Da $\norm{v^{(k)}}=\norm{x^{(k)}-w^{(k)}} \to 1$ und $\mu_k\to \lambda$ folgt daraus \req{RQ_eps} und damit die Behauptung.
+
+Zum Beweis von \req{RQ_hilf} verwenden wir die Iterationsvorschriften und erhalten %(beachte $\mu_k\in \R$)
+\begin{align*}
+\epsilon_{k+1}&=(x^{(k+1)})^* |\lambda I -  A| x^{(k+1)} 
+= \frac{ (\tilde x^{(k+1)})^* |\lambda I -  A| \tilde x^{(k+1)}}{  \norm{\tilde x^{(k+1)}}^2 }\\
+&= \frac{ (x^{(k)})^* (A-\mu_{k} I)^{-*}  | \lambda I -  A | (A-\mu_{k} I)^{-1} x^{(k)}}
+{  \norm{ (A-\mu_{k} I)^{-1} x^{(k)} }^2}
+\end{align*}
+Wir schätzen Zähler und Nenner ab. 
+
+\textbf{Nenner:} Wir beginnen mit dem Nenner und benutzen unsere orthogonale Zerlegung $x^{(k)}=v^{(k)} + w^{(k)}$.
+Offensichtlich ist 
+\[
+(A-\mu_{k} I)^{-*} (A-\mu_{k} I)^{-1} v^{(k)}=\frac{1}{|\lambda-\mu_k|^2} v^{(k)}.
+\]
+Aus $v^{(k)}\perp w^{(k)}$ folgt deshalb
+\begin{align*}
+\lefteqn{\norm{ (A-\mu_{k} I)^{-1} x^{(k)} }^2}\\
+&=  {(x^{(k)})^* (A-\mu_{k} I)^{-*} (A-\mu_{k} I)^{-1} x^{(k)}}\\
+& = {(v^{(k)})^* | \lambda-\mu_{k} |^{-2} v^{(k)}} + {(w^{(k)})^* (A-\mu_{k} I)^{-*} (A-\mu_{k} I)^{-1} w^{(k)}}\\
+& \geq {(v^{(k)})^* |\lambda-\mu_{k}|^{-2} v^{(k)}} \geq \epsilon_k^{-2} \norm{v^{(k)}}^2.
+\end{align*}
+
+\textbf{Zähler:} Nun schätzen wir den Zähler ab. Mit der Zerlegung von $w^{(k)}$ in seine Eigenraumanteile $w^{(k)}_{\tilde \lambda}$
+erhalten wir aufgrund der paarweisen Orthogonalität der Eigenraumanteile
+\begin{align*}
+\lefteqn{(x^{(k)})^* (A-\mu_{k} I)^{-*}  | \lambda I -  A | (A-\mu_{k} I)^{-1} x^{(k)}}\\
+&=(x^{(k)})^*  \sum_{\tilde \lambda\in \sigma(A)\setminus \{\lambda\} } \frac{|\lambda-\tilde \lambda|}{|\tilde\lambda-\mu_k|^2} w^{(k)}_{\tilde \lambda}
+= \sum_{\tilde \lambda\in \sigma(A)\setminus \{\lambda\} } \frac{|\lambda-\tilde \lambda|}{ | \tilde\lambda-\mu_k |^2} \norm{w^{(k)}_{\tilde \lambda}}^2\\
+%
+&\leq \max\limits_{ \tilde \lambda\in \sigma(A)\setminus \{\lambda\} } |\tilde\lambda-\mu_k|^{-2}
+ \sum_{\tilde \lambda\in \sigma(A)\setminus \{\lambda\} } |\lambda-\tilde \lambda|  \norm{w^{(k)}_{\tilde \lambda}}^2\\
+%
+&= \max\limits_{ \tilde \lambda\in \sigma(A)\setminus \{\lambda\} } |\tilde\lambda-\mu_k|^{-2}\ 
+{(x^{(k)})^* | \lambda I -  A | x^{(k)}}
+= \epsilon_k \max\limits_{ \tilde \lambda\in \sigma(A)\setminus \{\lambda\} } |\tilde\lambda-\mu_k|^{-2}.
+\end{align*}
+Insgesamt folgt \req{RQ_hilf}.
+\end{enumerate}
+\end{beweis}
+
+
+\section{Das QR-Verfahren}
+
+Das prominenteste Verfahren, um alle Eigenwerte und -vektoren einer Matrix zu bestimmen ist das \emph{QR-Verfahren}.
+Wir können im Rahmen dieser Vorlesung nur die grundlegende Idee vorstellen.
+
+
+\subsection{Motivation: simultane Potenzmethode}
+
+Betrachten wir zur Motivation noch einmal die Potenzmethode. Um \emph{alle} Eigenwerte und
+-vektoren einer Matrix zu bestimmen, können wir das Potenzverfahren auf $n$ Startvektoren $x_1,\ldots,x_n\in \C^n$ gleichzeitig anwenden.
+In Matrixnotation beginnen wir also mit 
+\[
+\begin{pmatrix} x_1 & \ldots & x_n\end{pmatrix}\in \C^{n\times n}
+\]
+und berechnen im Wesentlichen (d.h. bis auf Normierung)
+\[
+A^k \begin{pmatrix} x_1 & \ldots & x_n\end{pmatrix}= \begin{pmatrix} A^k x_1 & \ldots & A^k x_n\end{pmatrix}.
+\]
+Im Allgemeinen wird jedoch an alle Startvektoren der Eigenvektor zum betragsgrößten Eigenwert $\lambda_1$ beteiligt sein und alle Spalten $A^k x_i$ werden gegen
+einen Eigenvektor zu $\lambda_1$ konvergieren.
+
+Um das zu verhindern, orthonormalisieren wir die Vektoren in jedem Schritt. Wir nehmen also im ersten Schritt nicht  
+\[
+\begin{pmatrix} A x_1 & \ldots & A x_n\end{pmatrix}
+\]
+sondern Vektoren
+\[
+\begin{pmatrix} x^{(1)}_1 & \ldots & x^{(1)}_n \end{pmatrix}
+\]
+mit den folgenden Eigenschaften:
+\begin{itemize}
+\item Für jedes $k=1,\ldots,n$ die ersten $k$ Vektoren jeweils den gleichen Raum aufspannen, also
+\[
+\mathrm{span} (x^{(1)}_1,\ldots,x^{(1)}_k ) = \mathrm{span} (A x_1,\ldots, A x_k)
+\]
+\item $x^{(1)}_1$,\ldots, $x^{(1)}_n$ orthonormiert sind, also
+\[
+(x^{(1)}_j)^*x^{(1)}_k=\delta_jk
+\]
+\end{itemize}
+Im nächsten Schritt bilden wir 
+\[
+\begin{pmatrix} A x^{(1)}_1 & \ldots & A x^{(1)}_n \end{pmatrix}
+\]
+und orthonormalisieren diese zu Vektoren
+\[
+\begin{pmatrix} x^{(2)}_1 & \ldots & x^{(2)}_n \end{pmatrix}
+\]
+u.s.w.
+
+Für den ersten Vektor entspricht dieses Verfahren gerade der Potenzmethode. Wir können also erwarten, dass er gegen einen Eigenvektor $v_1$
+zum betragsgrößten Eigenwert $\lambda_1$ konvergiert. Beim zweiten Vektor wird bei diesem Verfahren die Potenzmethode angewandt und zusätzlich
+durch die Orthogonalisierung der Anteil in Richtung des erste Vektors eliminiert. Wir können also erwarten, dass der zweite Vektor gegen einen Eigenvektor zum größten
+Eigenwert der Matrix $A$ eingeschränkt auf den Unterraum
+\[
+\mathrm{span}(v_1)^\perp=\{ v\dd v_1^* v=0\}
+\]
+konvergiert. Dies wird (zumindest wenn die Eigenvektoren senkrecht aufeinander stehen) gerade der zweitbetragsgrößte Eigenwert sein. Enstprechend erwarten wir Konvergenz
+aller $n$-Vektoren gegen Eigenvektoren zu allen $n$ Eigenwerten.
+Die Eigenwerte erhalten wir dann als Diagonaleinträge von 
+\[
+\begin{pmatrix} x^{(k)}_1 & \ldots & x^{(k)}_n \end{pmatrix}^* A \begin{pmatrix} x^{(k)}_1 & \ldots & x^{(k)}_n \end{pmatrix}.
+\]
+
+Für die Orhogonalisierung bietet sich das aus der Linearen Algebra bekannte Gram-Schmidtsche Orthogonalisierungsverfahren an. Wir kennen jedoch bereits
+eine Implementierung eines Orthogonalisierungsverfahren aus der Numerik I. Sei
+\[
+A=\tilde QR
+\]
+die QR Zerlegung von $A$. Da $\tilde Q$ unitär ist, sind die Spalten von $\tilde Q$ orthonormiert.  Da $R$ obere rechte Dreiecksgestalt hat. ergibt sich
+die $k$-te Spalte von $A$ durch Kombination von $k$ Spalten von $\tilde Q$, d.h. die jeweils ersten $k$ Spalten von $A$ und $\tilde Q$ spannen den selben Raum auf.
+$\tilde Q$ enthält also eine Orthonormalisierung der Spaltenvektoren von $A$.
+
+Es erscheint natürlich, als Startvektoren die Einheitsvektoren zu wählen, also
+\[
+\begin{pmatrix} x^{(0)}_1 & \ldots & x^{(0)}_n \end{pmatrix}=\begin{pmatrix} 1 & 0 & 0\\ 0 & \ddots & 0\\ 0 & 0 & 1\end{pmatrix}.
+\]
+Dann ist im ersten Schritt keine Orthonormalisierung nötig und es ergibt (durch Anwendung von $A$) 
+im den ersten Schritt immer $A$, so dass wir auch gleich mit 
+\[
+\tilde A_0:=\begin{pmatrix} x^{(0)}_1 & \ldots & x^{(0)}_n \end{pmatrix}=A.
+\]
+starten können. Insgesamt erhalten wir also den folgenden Algorithmus
+
+
+\begin{algorithm}
+\caption{Simultane Potenzmethode}
+\label{algo:simultan_Potenz}
+\begin{algorithmic}
+\STATE{Gegeben Matrix $A\in \C^{n\times n}$. Setze $\tilde A_0=A$.}
+\FOR{$k=0,1,\ldots$}
+\STATE{Berechne $QR$-Zerlegung $\tilde A_k=\tilde Q_k \tilde R_k$}
+\STATE{$\tilde A_{k+1}:=A \tilde Q_k$}
+\ENDFOR
+\RETURN $\tilde Q_k$ approximiert spaltenweise Eigenvektoren von $A$. Die Diagonaleinträge von $\tilde Q_k^* A \tilde Q_k$ approximieren die Eigenwerte.
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Das QR-Verfahren}
+
+Durch Umformulierung der simultanen Potenzmethode in Algorithmus \ref{algo:simultan_Potenz} erhalten wir das QR-Verfahren in seiner einfachsten Form:
+
+\begin{algorithm}
+\caption{$QR$-Verfahren}
+\label{algo:QR_Eigenwerte}
+\begin{algorithmic}
+\STATE{Gegeben Matrix $A\in \C^{n\times n}$. Setze $A_0=A$.}
+\FOR{$k=0,1,\ldots$}
+\STATE{Berechne $QR$-Zerlegung $A_k= Q_k R_k$}
+\STATE{$A_{k+1}:=R_k Q_k$}
+\ENDFOR
+\RETURN Die Diagonaleinträge von $A_k$ approximieren die Eigenwerte.
+\end{algorithmic}
+\end{algorithm}
+
+\begin{lemma}\label{lemma_QR_hilf}
+Sei $A\in \C^{n\times n}$. % $\tilde A_k$, $\tilde Q_k$ und $\tilde R_k$ seien durch Algorithmus \ref{algo:simultan_Potenz} definiert.
+$A_k$, $Q_k$ und $R_k$ seien durch Algo.~\ref{algo:QR_Eigenwerte} definiert. Dann gilt:
+\begin{enumerate}[(a)]
+\item Für alle $k\geq 0$ ist 
+\[
+A_{k+1}=Q_k^* A_k Q_k=(Q_0 \ldots Q_k)^* A (Q_0 \ldots Q_k).
+\]
+\item Für alle $k\geq 1 $ ist 
+\[
+A^k=(Q_0 \dots Q_{k-1})(R_{k-1} \dots R_0).
+\]
+\item Die Folgen $\tilde Q_k:=Q_0\dots Q_{k}$, $\tilde R_k:=R_k$ und $\tilde A_k:=\tilde Q_{k-1} A_k$ erfüllen
+die Iterationsvorschrift aus Algorithmus \ref{algo:simultan_Potenz}
+\[
+\tilde A_k=\tilde Q_k \tilde R_k, \quad \tilde A_{k+1}=A \tilde Q_k \quad \forall k\geq 0.
+\]
+\end{enumerate}
+\end{lemma}
+\begin{beweis}
+\begin{enumerate}[(a)]
+\item ist trivial.
+\item ist offenbar richtig für $k=1$. Gilt (b) für ein $k\geq 1$, dann ist
+\[
+A^{k+1}=A A^k = A (Q_0 \dots Q_{k-1})(R_{k-1} \dots R_0).
+\]
+Wegen (a) gilt $A (Q_0 \dots Q_{k-1})=(Q_0 \dots Q_{k-1}) A_k$ und zusammen mit $A_k=Q_k R_k$ folgt
+\[
+A^{k+1}=(Q_0 \dots Q_{k-1}) Q_k R_k (R_{k-1} \dots R_0).
+\]
+\item Aus der Definition von $\tilde A_k$ und $\tilde Q_k$ sowie aus $A_k=Q_kR_k$ folgt
+\[
+\tilde A_k=\tilde Q_{k-1} A_k= Q_0\dots Q_{k-1} Q_k R_k = \tilde Q_k \tilde R_k
+\]
+Außerdem folgt aus (a)
+\[
+\quad \tilde A_{k+1}=\tilde Q_k A_{k+1}=Q_0\dots Q_{k} (Q_0 \ldots Q_{k})^* A (Q_0 \ldots Q_{k})=A \tilde Q_k. \quad \Box
+\]
+\end{enumerate}
+\end{beweis}
+
+Im Rahmen dieser Vorlesung beweisen wir die Konvergenz des QR-Verfahrens nur für den (durch die Motivation durch das
+simultane Potenzfahren naheliegenden) Spezialfall, dass $A$ diagonalisierbar ist
+und paarweise betragsverschiedene, einfache Eigenwerte besitzt. Außerdem benötigen eine Zusatzvoraussetzung, die
+sicherstellt, dass die Eigenvektoren von $A$ in geeigneter Weise Anteile in Richtung der Einheitsvektoren
+besitzen.
+
+\begin{theorem}\label{satz:QR}
+$A\in \C^{n\times n}$ sei diagonalisierbar und besitze paarweise betragsverschiedene, einfache Eigenwerte, also
+\[
+A=X \Lambda X^{-1}, \quad \Lambda=\begin{pmatrix} \lambda_1 & 0 & 0\\ 0 & \ddots & 0\\ 0 & 0 & \lambda_n\end{pmatrix}
+\]
+mit
+$X\in \C^{n\times n}$ und dem Betrag nach sortierten 
+\[
+|\lambda_1|>\ldots>|\lambda_n| >0.
+\]
+
+Zusätzlich besitze $X^{-1}$ eine LR-Zerlegung $X^{-1}=LU$.
+\footnote{
+Jede invertierbare Matrix besitzt nach Zeilen- oder Spaltenvertauschungen eine LR-Zerlegung. 
+Der nicht-trivale Kern unserer Zusatzvoraussetzung besteht darin, dass eine LR-Zerlegung existiert für die Matrix $X^{-1}$, in der die Eigenvektoren entsprechend der Größe der Eigenwerte sortiert sind. Zeilen-/Spaltenvertauschungen würden diese Sortierung zerstören!}
+\end{theorem}
+
+Dann konvergieren die Diagonaleinträge der durch Algorithmus~\ref{algo:QR_Eigenwerte} erzeugten 
+Matrixfolge $A_k$ mit (mindestens) linearer Geschwindigkeit gegen die Eigenwerte von $A$.
+\begin{beweis}
+
+\begin{enumerate}[(a)]
+%
+\item Aufgrund der Existenz der LR-Zerlegung ist
+\[
+A^k=(X\Lambda X^{-1})^k = X \Lambda^k X^{-1}=X\Lambda^k LU = \underbrace{ X  \Lambda^k L \Lambda^{-k}}_{=:X_k} \Lambda^k  U.
+\]
+Die Einträge von $\Lambda^k L \Lambda^{-k}$ sind 
+\[
+\left( \Lambda^k L \Lambda^{-k}\right)_{ij}=\lambda_i^k l_{ij} \lambda_j^{-k}
+=\left\{ \begin{array}{l l} 0 & \quad \mbox{ für $i<j$,}\\1 & \quad \mbox{ für $i=j$,}\\
+l_{ij} \lambda_i^k / \lambda_j^k & \quad \mbox{ für $i>j$,}\end{array}\right.
+\]
+
+Aufgrund der Sortierung der Eigenwerte ist $|\lambda_i/\lambda_j|<1$ für alle $i>j$ und es folgt
+dass 
+\[
+\Lambda^k L \Lambda^{-k}=I + O(q^k)
+\]
+wobei $I$ die $n\times n$-Einheitsmatrix ist und $q:=\max\{ |\lambda_i/\lambda_j| \dd i>j\}<1$. 
+
+Damit folgt auch 
+\begin{equation}\labeq{QRKonv_hilf1}
+X_k=X\Lambda^k L \Lambda^{-k}=X+E_k \quad \mbox{ mit } E_k=O(q^k).
+\end{equation}
+
+
+\item Übungsaufgabe: Die Inverse einer rechten oberen Dreiecksmatrix und das Produkt rechter oberer Dreiecksmatrizen ist wieder eine rechte obere Dreiecksmatrix. Die Diagonaleinträge des Produkts sind das Produkt der Diag.einträge und die Diag.einträge der Inversen sind die Inversen der Diagonaleinträge. 
+
+Sind $Q_1 R_1=Q_2 R_2$ zwei QR-Zerlegungen einer Matrix, dann existiert eine unitäre Diagonalmatrix $S$ mit
+$Q_1=Q_2S^*$, $R_1=SR_2$.
+%
+\item Nach Lemma \ref{lemma_QR_hilf} ist
+\[
+A^k= (Q_0 \dots Q_{k-1})(R_{k-1} \dots R_0)=:\mathcal Q_{k-1} \mathcal R_{k-1}
+\]
+eine QR-Zerlegung von $A^k$.
+
+Sei $X_k=P_k U_k$ eine QR-Zerlegung von $X_k$. Dann ist
+\[
+A^k=X_k \Lambda^k U= P_k (U_k \Lambda^k U)
+\]
+eine weitere QR-Zerlegung von $A^k$.
+
+Es exisitert also eine unitäre Diagonalmatrix $S_k$ mit
+\[
+\mathcal Q_{k-1}=P_k S_k^* \quad \mbox{ und } \quad \mathcal R_{k-1}=S_k U_k \Lambda^k U.
+\]
+
+Nun gilt
+\begin{align*}
+Q_k&=(Q_0 \dots Q_{k-1})^{-1} (Q_0 \dots Q_{k})=\mathcal Q_{k-1}^{-1} \mathcal Q_{k}
+= (P_k S_k^*)^{-1} P_{k+1} S_{k+1}^*\\
+&= S_k P_k^{-1} P_{k+1} S_{k+1}^*.\\[+1ex]
+%
+R_k&= (R_k R_{k-1} \dots R_0) (R_{k-1} \dots R_0)^{-1}=\mathcal R_k \mathcal R_{k-1}^{-1}\\
+&= S_{k+1} U_{k+1} \Lambda^{k+1} U  \left( S_k U_k \Lambda^k U\right)^{-1}
+= S_{k+1} U_{k+1} \Lambda U_k^{-1} S_k^*.
+\intertext{und damit}
+A_k &= Q_k R_k = S_k P_k^{-1} P_{k+1} U_{k+1} \Lambda U_k^{-1} S_k^*\\
+&= S_k \, U_k U_k^{-1}\, P_k^{-1} P_{k+1} U_{k+1} \Lambda U_k^{-1} S_k^*.
+\end{align*}
+Wir verwenden noch $X_k=P_k U_k$ und $X_{k+1}=P_{k+1} U_{k+1}$ und erhalten 
+\begin{equation}\labeq{QRKonv_hilf2}
+A_k=S_k  U_k X_k^{-1} X_{k+1} \Lambda U_k^{-1} S_k^*.
+\end{equation}
+%
+\item Nach \req{QRKonv_hilf1} gilt
+\[
+X_k=X+E_k \quad \mbox{ mit } E_k=O(q^k).
+\]
+Damit folgt, dass 
+\[
+X_k^{-1}=(X+E_k)^{-1}=X^{-1} + O(q^k)
+\]
+und damit
+\[
+X_k^{-1} X_{k+1}=(X+E_k)^{-1} (X+E_{k+1})=I + F_k \quad \mbox{ mit } F_k=O(q^k).
+\]
+
+Einsetzen in \req{QRKonv_hilf2} liefert
+\[
+A_k=S_k  U_k \Lambda U_k^{-1} S_k^* + S_k  U_k F_k \Lambda U_k^{-1} S_k^*.
+\]
+Betrachte zuerst den ersten Summanden: 
+$S_k  U_k \Lambda U_k^{-1} S_k^*$ ist eine rechte obere Dreiecksmatrix, deren Diagonaleinträge 
+jeweils das Produkt der entsprechenden Diagonaleinträge der Faktoren sind. Die Diagonaleinträge von $S_k$
+und $S_k^*=S_k^{-1}$ sowie die von $U_k$ und $U_k^{-1}$ sind jeweils zueinander invers. Die Diagonaleinträge 
+der ersten Summanden sind also gerade die von $\Lambda$, also die Eigenwerte von $A$.
+
+Wir müssen also nur noch zeigen, dass der zweite Summand gegen Null konvergiert. Es ist
+\begin{align*}
+\norm{S_k  U_k F_k \Lambda U_k^{-1} S_k^*}\leq \norm{S_k} \norm{U_k} \norm{F_k} \norm{\Lambda} \norm{U_k^{-1}} \norm{S_k^*}.
+\end{align*}
+Da $U_k=P_k^* X_k$ und $P_k$ und $S_k$ unitär sind folgt
+\begin{align*}
+\norm{S_k  U_k F_k \Lambda U_k^{-1} S_k^*}\leq \norm{X_k} \norm{X_k^-1} \norm{\Lambda} \norm{F_k}.
+\end{align*}
+Da $X_k\to X$ und $X_k^{-1}\to X^{-1}$ ist $\norm{X_k}\norm{X_k^{-1}}$ beschränkt. Es folgt
+\begin{align*}
+\norm{S_k  U_k F_k \Lambda U_k^{-1} S_k^*}= O(q^k)
+\end{align*}
+und damit die Behauptung.
+\end{enumerate}
+\end{beweis}
+
+\begin{bemerkung}
+\begin{enumerate}[(a)]
+\item Nach Lemma \ref{lemma_QR_hilf} und Satz \ref{satz:QR} konvergiert
+\[
+A_{k}=(Q_0 \ldots Q_{k-1})^* A (Q_0 \ldots Q_{k-1})
+\]
+für große $k$ gegen eine rechte obere Dreiecksmatrix. Die Eigenvektoren von $A$ ergeben
+sich aus den Eigenvektoren der Dreiecksmatrix durch die unitäre Basistransformation $Q_0 \ldots Q_{k-1}$.
+\item Ähnlich wie in Abschnitt \ref{sect:RQ} lässt sich die Konvergenzgeschwindigkeit erhöhen,
+indem $A$ durch $A-\mu_k I$ mit geeigneten \emph{Shifts} $\mu_k$ ersetzt wird.
+%
+\item Algorithmus \ref{algo:QR_Eigenwerte} benötigt in jedem Schritt eine $QR$-Zerlegung. Für eine 
+effiziente Implementierung bringt man $A$ zuerst in eine spezielle Form, für die sich $QR$-Zerlegungen schnell berechnen lassen
+und die unter Algorithmus \ref{algo:QR_Eigenwerte} erhalten bleibt, siehe z.B. \cite{Hanke}.
+\end{enumerate}
+\end{bemerkung}
+
+
+
+
+
+
+
 
 \begin{appendix} 
 
