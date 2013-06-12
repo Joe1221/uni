@@ -335,7 +335,7 @@
 	\end{align*}
 \end{ex}
 
-\begin{st} \label{4.13}
+\begin{st} \label{4.14}
 	Für $f, g,h  \in \scr S(\R)$ gelten
 	\begin{enumerate}[1)]
 		\item
@@ -394,3 +394,199 @@
 	\end{proof}
 \end{st}
 
+\begin{st}[Plancherel-Gleichung] \label{4.15}
+	Für $f \in \scr S(\R)$ gilt
+	\[
+		\|Ff\|_{L^2(\R)} = \|f\|_{L^2(\R)}.
+	\]
+	Die Fouriertransformation erhält also die $L^2$-Norm.
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Zunächst sei $f \in C_0^\infty(\R)$, $\supp f \subset ]-\f 1\eps, \f 1\eps[$.
+				In $L^2(]-\f 1\eps, \f 1\eps[)$ ist $(e_j)_{j\in \Z}$ mit
+				\[
+					e_j(x) = \sqrt{ \f\eps 2} e^{ij\pi \eps x}
+				\]
+				ein VONS, also $\forall f \in L^2(\cdots) : f = \sum_{i=-\infty}^\infty \<f,e_j\> e_j$.
+
+				Mit der Parsevalschen Gleichung folgt:
+				\begin{align*}
+					\|f\|_{L^2(]-\f 1\eps, \f 1\eps[)}^2 
+					&= \sum_{j=-\infty}^\infty |\<f,e_j\>|^2 
+					&= \sum_{j=-\infty}^\infty \f \eps 2 \bigg| \int_{-\f 1\eps}^{\f 1\eps} f(x) e^{-ij\pi \eps x} \dx \bigg|^2
+					&= \sum_{j=-\infty}^\infty \f \eps 2 \bigg| \underbrace{\int_{-\infty}^{\infty} f(x) e^{-ij\pi \eps x} \dx}_{\sqrt{2\pi} \hat f (j\pi \eps)} \bigg|^2 \\
+					&= \sum_{j=-\infty}^\infty \underbrace{\pi \eps}_{\Delta \omega} \Big| \hat f(\underbrace{j\pi \eps}_{\omega_j})\Big|^2 \\
+					&\stack{\eps \to 0}\to \int_{-\infty}^\infty |\hat f(\omega)|^2 \dx[\omega].
+				\end{align*}
+				Also gilt für $f \in C_0^\infty(\R) : \|\hat f\|_{L^2(\R)} = \|f\|_{L^2(\R)}$.
+			\item
+				Sei jetzt $f \in \scr S(\R)$.
+				Multipliziere mit Abschneidefunktion: $\psi_{R,1} f \in C_0^\infty(\R)$.
+				Nach 1) gilt
+				\[
+					\underbrace{\Big\|\psi_{R,1} f\Big\|_{L^2(\R)}}_{\stack{R\to \infty}\to \|f\|_{L^2(\R)} \text{ (maj. Konv.)}} = \Big\| \widehat{\psi_{R,1} f} \Big\|_{L^2(\R)}
+				\]
+				Im Beweis von \ref{4.10} haben wir gesehen
+				\begin{align*}
+					|\hat(\omega)|^2 &= \lim_{n\to\infty}\Big| \widehat{\psi_{R,1}f}(\omega) \Big|^2 \\
+					\Big| \widehat{\psi_{R,1} f}(\omega) \Big| &\le \f {c}{1+\omega^2}
+				\end{align*}
+				Mit majorisierter Konvergenz folgt
+				\[
+					\implies \quad \int_{-\infty}^\infty \Big| \widehat{\psi_{R,1}f}(\omega)\Big|^2 \dx[\omega] \to \int_{-\infty}^\infty |\hat f(\omega)|^2 \dx[\omega]
+				\]
+				Also für $R \to \infty$: $\|f\|_{L^2(\R)} = \|\hat \|_{L^2(\R)}$.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{kor} \label{4.16}
+	Für $f,g \in \scr S(\R)$ gilt
+	\[
+		\<f,g\>_{L^2(\R)} = \< Ff, Fg\>_{L^2(\R)}
+	\]
+	\begin{proof}
+		Folgt direkt mit der Polarisationsformel:
+		\[
+			\<f,g\> = \f 14 \Big( \|f+g\|^2 - \|f-g\|^2 - i \Big(\|f+ig\|^2 - \|f-ig\|^2 \Big) \Big).
+		\]
+	\end{proof}
+\end{kor}
+
+\begin{st} \label{4.17}
+	Für $f \in \scr S(\R)$ gilt
+	\[
+		\| \hat f \|_{L^\infty(\R)} \le \f 1{\sqrt{2\pi}} \|f\|_{L^1(\R)}.
+	\]
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			|\hat f(\omega)|
+			&= \bigg| \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty f(x) e^{-i\omega x} \dx \bigg| \\
+			&\le \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty |f(x)| 1 \dx
+		\end{align*}
+		Also ist für alle $\omega \in \R$
+		\[
+			|\hat f(\omega)| \le \f 1{\sqrt{2\pi}} \|f\|_{L^1(\R)}.
+		\]
+	\end{proof}
+\end{st}
+
+
+\subsection{Dichte Mengen}
+
+
+\begin{st} \label{4.18}
+	Sei $1 \le p < \infty$.
+	Dann ist $C_0^\infty$ dicht in $L^p(\R)$.
+	\begin{proof}
+		Sei $p = \infty$, dann ist
+		\[
+			\_{C_0^\infty(\R)}^{L^\infty} \subset C(\R \to \C) \subsetneq L^\infty(\R)
+		\]
+	\end{proof}
+\end{st}
+
+\begin{df} \label{4.19}
+	Für $f \in L^p(\R)$ setze
+	\[
+		\scr J_\eps f := j_\eps \ast f
+	\]
+	d.h.
+	\[
+		\scr J_\eps f(x) = \int_{-\infty}^\infty j_\eps (x-y) f(y) \dx[y].
+	\]
+	$\scr J_\eps$ heißt \emph{Glättungsoperator} (oder \emph{Mollifier}).
+	\begin{note}
+		Die wichtigen Eigenschaften von $j_\eps$ waren:
+
+		$j_\eps \in C_0^\infty(\R)$, $j_\eps \ge 0$ auf $\R$, $\supp j_\eps = [-\eps,\eps]$, $\int_{\R} j_\eps(x) \dx = \int_{-\eps}^\eps j_\eps(x) \dx = 1$.
+	\end{note}
+\end{df}
+
+\begin{st} \label{4.20}
+	Für $1 \le p < \infty$, $u \in L^p(\R)$ gelten
+	\begin{enumerate}[1)]
+		\item
+			$J_\eps u \in C^\infty (\R \to \C)$ für $\eps > 0$.
+		\item
+			$\supp u$ beschränkt $\implies J_\eps u \in C_0^\infty (\R)$.
+		\item
+			$J_\eps u \in L^p(\R)$, $\|J_\eps u \|_{L^p(\R)} \le \|u\|_{L^p(\R)}$
+		\item
+			$\|J_\eps u - u \|_{L^p(\R)} \to 0$ für $\eps \searrow 0$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Zeige
+				\[
+					\f{\mathrm d^k}{\mathrm x^k} (J_\eps u)(x) = \int_{-\infty}^\infty \f{\mathrm d^k j_\eps}{\mathrm d x^k} (x-y) u(y) \dx[y]
+				\]
+				für $k \in \N$.
+
+				Für $k=1$ und $\eps$ fest gilt
+				\begin{align*}
+					&\Bigg| \f {J_\eps u(x+k) - J_\eps u(x)}{k} - \int_{-\infty}^\infty j_\eps' (x-y) u(y) \dx[y] \Bigg|
+					= \Bigg| \int_{-\infty}^\infty \Big( \underbrace{\f {j_\eps(x+h-y)-j_\eps(x-y)}h}_{=j_\eps'(x+\theta k -y)} - j_\eps'(x-y) \Big) u(y) \dx[y] \Bigg|
+				\intertext{wobei $0 < \theta < 1$ von $x-y$ und $h$ abhängig}
+					&\qquad\le \int_{-\infty}^\infty \Big| j_\eps'(x+\theta h -y) - j_\eps'(x-y) \Big| |u(y)| \dx[y] \\
+					&\qquad\stack{Hölder}\le \Bigg(\int_{-\infty}^\infty \Big| j_\eps'(x+\theta h -y) - j_\eps'(x-y) \Big|^q \dx[y] \Bigg)^{\f 1q} \|u\|_{L^p(\R)} \qquad \text{ mit $\f 1p + \f 1q = 1$}
+				\end{align*}
+				(Für $p = 1$ schreibt man: $\|\sup_{x-y \in\R} |j_\eps'(x+\theta h -y) - j_\eps'(x-y)| \|u\|_{L^1(\R)} < \tilde \eps \|u\|_{L^1(\R)}$ (falls $|k| < \delta$)).
+
+				Für den Teil mit der $q$-Norm gilt:
+				\begin{align*}
+					\Bigg(\int_{-\infty}^\infty \Big| j_\eps'(x+\theta h -y) - j_\eps'(x-y) \Big|^q \dx[y] \Bigg)
+					&\stack{z=x-y}= \int_{-\infty}^\infty \Big| j_\eps'(z+\theta h) - j_\eps' (z) \Big|^q \dx[z] \\
+					&= \int_{-2\eps}^{2\eps} \Big| j_\eps'(z+\theta h) - j_\eps' (z) \Big|^q \dx[z] \qquad \text{falls $|h| < \eps$}
+					\intertext{die stetige Funktion $j_\eps'$ ist auf dem kompakten Intervall $[-2\eps, 2\eps]$ gleichmäßig stetig: $|j_\eps'(z+\theta h) - j_\eps'(z)| < \tilde \eps$ für $|\theta h| < \delta$}
+					&= 4\eps \tilde \eps^q \qquad \text{für $|h| < \delta$}
+				\end{align*}
+			\item
+				Falls $\supp u \subset [a,b]$, $a<b$, dann ist $\supp(J_\eps u) \subset [a-\eps, b+\eps]$ und somit $J_\eps u \in C_0^\infty(\R)$.
+			\item
+				\begin{enumerate}[a)]
+					\item
+						Zeige $|J_\eps u(x)| \le \Big( \int_{\R} j_\eps(x-y) |u(y)|^p \dx[y] \Big)^{\f 1p}$.
+
+						Für $p=1$ ist die Aussage klar (Betrag ins Integral ziehen).
+						Sei also $1 < p < \infty$:
+						\begin{align*}
+							|J_\eps u(x)| 
+							&= \bigg| \int_{-\infty}^\infty \underbrace{j_\eps(x-y)^{\f 1q}}_{\ge 0} j_\eps(x-y)^{\f 1p} u(y) \dx[y] \bigg| \\
+							&\stack{\text{Hölder}}\le \underbrace{\bigg( \int_{-\infty}^\infty j_\eps(x-y)^{\f qq} \dx[y] \bigg)^{\f 1q}}_{=1} \bigg( \int_{-\infty}^\infty j_\eps(x-y)^{\f pp} |u(y)|^p \dx[y] \bigg)^{\f 1p}
+						\end{align*}
+					\item
+						Es gilt
+						\begin{align*}
+							\| J_\eps u \|_{L^p(\R)}^p
+							&= \int_{-\infty}^\infty |J_\eps u(x)|^p \dx \\
+							&\stack{\text{a)}}\le \int_{-\infty}^\infty \bigg( \int_{-\infty}^\infty j_\eps(x-y) |u(y)|^p \dx[y] \bigg) \dx \\
+							&\stack{\text{Fubini}} \int_{-\infty}^\infty |u(y)|^p \underbrace{\bigg( \int_{-\infty}^\infty j_\eps(x-y) \dx \bigg)}_{=1} \dx[y] \qquad \text{($j_\eps \ge 0, |u|^p \ge 0$)} \\
+							&= \|u\|_{L^p(\R)}^p < \infty.
+						\end{align*}
+						Also insbesondere $J_\eps u \in L^p(\R)$.
+				\end{enumerate}
+			\item
+				Sei zunächst $u \in C(\R \to \C)$, $\supp u$ kompakt (z.B. $\supp u \subset [a,b]$).
+				Dann gilt wegen $\int_{j_\eps(x)} \dx = 1$:
+				\begin{align*}
+					|J_\eps u(x) - u(x)|
+					&= \bigg| \int_{-\infty}^\infty j_\eps(x-y) \Big(u(y) - u(x)\Big) \dx[y] \bigg| \\
+					&\le \int_{x-\eps}^{x+\eps} \underbrace{j_\eps(x-y)}_{\int \argdot \dx[y] = 1} \underbrace{|u(y)-u(x)|}_{\delta \text{ für $\eps < \eps_0$}} \dx[y] \\
+					&< \delta
+				\end{align*}
+				($u$ stetig auf kompakter Menge, also gleichmäßig stetig).
+
+				Also
+				\begin{align*}
+					\|J_\eps u - u\|_{L^p(\R)}^p
+					&= \int_{-\infty}^\infty \underbrace{|J_\eps u(x) - u(x)|^p}_{\supp(\argdot) \subset [a-\eps, b+ \eps]} \dx \\
+					&< \delta^p (b-a +z) \qquad \text{für $\eps < \eps_0$} \\
+					&\to 0 \qquad \text{für $\eps \searrow 0$}
+				\end{align*}
+		\end{enumerate}
+	\end{proof}
+\end{st}
