@@ -62,7 +62,7 @@
 	\]
 	In diesem Fall setzt man
 	\[
-		\int_{\Omega} s d\my := \sum_{j=1}^N \alpha_j \my(M_j)
+		\int_{\Omega} s \dx[\my] := \sum_{j=1}^N \alpha_j \my(M_j)
 	\]
 	für $\alpha_j \ge 0$.
 \end{df*}
@@ -78,8 +78,8 @@
 				\item
 					Definiere für $f \ge 0$:
 					\[
-						\int_{\Omega} f d\my 
-						:= \sup \bigg\{ \int_{\Omega} s d\my : 0 \le s(x) \le f(x), x \in \Omega \land s : \Omega \to \R \text{ einfach} \bigg\}.
+						\int_{\Omega} f \dx[\my] 
+						:= \sup \bigg\{ \int_{\Omega} s \dx[\my] : 0 \le s(x) \le f(x), x \in \Omega \land s : \Omega \to \R \text{ einfach} \bigg\}.
 					\]
 				\item
 					Für $f: \Omega \to \R$ ohne Vorzeichenbedingung definiert man
@@ -91,7 +91,7 @@
 					
 					Definiere
 					\[
-						\int_{\Omega} f d\my := \int_{\Omega} f_+ d\my - \int_{\Omega} f_- d\my
+						\int_{\Omega} f \dx[\my] := \int_{\Omega} f_+ \dx[\my] - \int_{\Omega} f_- \dx[\my]
 					\]
 					solange nicht beide Integrale der rechten Seite $\infty$ sind.
 
@@ -103,7 +103,7 @@
 			$f$ heißt \emph{integrierbar}, falls $\Re f$ und $\Im f$ integrierbar sind. 
 			Dann gilt
 			\[
-				\int_{\Omega} f d\my := \int_{\Omega} (\Re f) d\my + i \int_{\Omega} (\Im f) d\my .
+				\int_{\Omega} f \dx[\my] := \int_{\Omega} (\Re f) \dx[\my] + i \int_{\Omega} (\Im f) \dx[\my] .
 			\]
 	\end{enumerate}
 
@@ -116,7 +116,7 @@
 		\item
 			Für $1 \le p < \infty$ setze
 			\[
-				N_p(f) := \bigg( \int_{\Omega} |f|^p d\my \bigg)^{\f 1p}
+				N_p(f) := \bigg( \int_{\Omega} |f|^p \dx[\my] \bigg)^{\f 1p}
 				\qquad \Big( |f|^n = (\argdot)^n \circ |f| \Big).
 			\]
 		\item
@@ -191,7 +191,7 @@
 		\item
 			Für $1 < p,q < \infty$ und $p,q$ konjugiert gilt die \emph{Höldersche Ungleichung}:
 			\[
-				\int_{\Omega} |fg| d\my \le \bigg(\int_{\Omega}|f|^p d\my \bigg)^{\f 1p} \bigg( \int_{\Omega} |g|^q d\my \bigg)^{\f 1q}
+				\int_{\Omega} |fg| \dx[\my] \le \bigg(\int_{\Omega}|f|^p \dx[\my] \bigg)^{\f 1p} \bigg( \int_{\Omega} |g|^q \dx[\my] \bigg)^{\f 1q}
 			\]
 			oder in anderer Schreibweise:
 			\[
@@ -200,7 +200,7 @@
 		\item
 			Für $1 \le p < \infty$ gilt die \emph{Minkowskische Ungleichung}:
 			\[
-				\bigg( \int_{\Omega} |f+g|^p d\my \bigg)^{\f 1p} \le  \bigg(\int_{\Omega} |f|^p d\my\bigg)^{\f 1p} + \bigg( \int_{\Omega} |g|^p d\my \bigg)^{\f 1p}
+				\bigg( \int_{\Omega} |f+g|^p \dx[\my] \bigg)^{\f 1p} \le  \bigg(\int_{\Omega} |f|^p \dx[\my]\bigg)^{\f 1p} + \bigg( \int_{\Omega} |g|^p \dx[\my] \bigg)^{\f 1p}
 			\]
 			oder in anderer Schreibweise:
 			\[
@@ -241,16 +241,16 @@
 						und damit gilt
 						\begin{align*}
 							N_1(fg) 
-							&= \int_{\Omega} |fg| d\my \\
-							&\le \int_{\Omega} \f 1p |f|^p + \f 1q |g|^q d\my \\
+							&= \int_{\Omega} |fg| \dx[\my] \\
+							&\le \int_{\Omega} \f 1p |f|^p + \f 1q |g|^q \dx[\my] \\
 							&\le \f 1p \underbrace{N_p(f)^p}_{=1} + \f 1q \underbrace{N_q(g)^q}_{=1} \\
 							&\le \f 1p + \f 1q = 1.
 						\end{align*}
 					\item
 						Sei $0 < N_p(f), N_q(g) < \infty$, dann ist
 						\begin{align*}
-							\int_{\Omega}|fg| d\my
-							&= N_p(f)N_q(g) \int_{\Omega} \underbrace{\Big| \f f{N_p(f)} \Big|}_{N_p(\dots)=1} \underbrace{\Big| \f g{N_q(g)} \Big|}_{N_q(\dots)=1} d\my \\
+							\int_{\Omega}|fg| \dx[\my]
+							&= N_p(f)N_q(g) \int_{\Omega} \underbrace{\Big| \f f{N_p(f)} \Big|}_{N_p(\dots)=1} \underbrace{\Big| \f g{N_q(g)} \Big|}_{N_q(\dots)=1} \dx[\my] \\
 							&\le N_p(f) N_q(g) \cdot 1
 						\end{align*}
 				\end{enumerate}
@@ -276,12 +276,12 @@
 				Daraus folgt
 					\begin{align*}
 						\Big( N_p(f+g) \Big)^p
-						&= \int_{\Omega} |f+g|^p d\my \\
-						&= \int_{\Omega} |f+g| |f+g|^{p-1} d\my \\
-						&\le \int_{\Omega} |f| |f+g|^{p-1} d\my + \int_{\Omega} |g| |f+g|^{p-1} d\my.
+						&= \int_{\Omega} |f+g|^p \dx[\my] \\
+						&= \int_{\Omega} |f+g| |f+g|^{p-1} \dx[\my] \\
+						&\le \int_{\Omega} |f| |f+g|^{p-1} \dx[\my] + \int_{\Omega} |g| |f+g|^{p-1} \dx[\my].
 						\intertext{Wähle $q \in ]1,\infty[$ mit $\f 1q + \f 1p = 1$ (oder äquivalent $\f pq = p-1$) und wende die Höldersche Ungleichung an:}
-							&\le \underbrace{\bigg( \int_{\Omega} |f|^p d\my \bigg)^{\f 1p}}_{N_p(f)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} d\my \bigg)^{\f 1q}}_{N_p(f+g)^{\f pq}} 
-							+ \underbrace{\bigg( \int_{\Omega} |g|^p d\my \bigg)^{\f 1p}}_{N_p(g)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} d\my \bigg)^{\f 1q} }_{N_p(f+g)^{\f pq}}.
+							&\le \underbrace{\bigg( \int_{\Omega} |f|^p \dx[\my] \bigg)^{\f 1p}}_{N_p(f)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} \dx[\my] \bigg)^{\f 1q}}_{N_p(f+g)^{\f pq}} 
+							+ \underbrace{\bigg( \int_{\Omega} |g|^p \dx[\my] \bigg)^{\f 1p}}_{N_p(g)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} \dx[\my] \bigg)^{\f 1q} }_{N_p(f+g)^{\f pq}}.
 						\end{align*}
 						Da $0 < N_p(f+g)^{\f pq} < \infty$ gilt also
 						\[
@@ -302,10 +302,10 @@
 			\begin{note}
 				Wichtiger Spezialfall:
 				\begin{align*}
-					\bigg| \int_{\Omega} f \_g d\my \bigg|
-					&\le \int_{\Omega} |f \_g| d\my \\
+					\bigg| \int_{\Omega} f \_g \dx[\my] \bigg|
+					&\le \int_{\Omega} |f \_g| \dx[\my] \\
 					&\le N_2(f) N_2(g) \\
-					&= \bigg( \int_{\Omega} |f|^2 d\my \bigg)^{\f 12} \bigg( \int_{\Omega} |g|^2 d\my \bigg)^{\f 12}
+					&= \bigg( \int_{\Omega} |f|^2 \dx[\my] \bigg)^{\f 12} \bigg( \int_{\Omega} |g|^2 \dx[\my] \bigg)^{\f 12}
 				\end{align*}
 				Das entspricht der CSB im $L^2$.
 			\end{note}
@@ -323,7 +323,7 @@
 				Sei $p=1, q = \infty$.
 				Dann folgt aus \ref{2.5} $|g| \le N_\infty(g)$ $\my$-fast-überall und damit
 				\[
-					N_1(fg) = \int_{\Omega} |fg| d\my \le \int_{\Omega}|f| N_\infty (g) d\my.
+					N_1(fg) = \int_{\Omega} |fg| \dx[\my] \le \int_{\Omega}|f| N_\infty (g) \dx[\my].
 				\]
 			\item
 				Vergleiche \ref{2.5} und Minkowski.
@@ -385,7 +385,7 @@
 	Sei $\Omega \subset \R^n$ und $f,g \in C(\Omega \to \C) \cap L^p(\Omega)$ mit $\|f-g\|_p = 0$.
 	Dann gilt
 	\begin{align*}
-		\int_{\Omega} |f-g|^p d\my = 0
+		\int_{\Omega} |f-g|^p \dx[\my] = 0
 		\quad\implies\quad
 		f = g \text{ auf $\Omega$}
 	\end{align*}
@@ -477,9 +477,9 @@
 
 					Nach dem Satz über monotone Konvergenz gilt
 					\begin{align*}
-						\|g\|_p = \int_{\Omega} g^p d\my
-						&= \int_{\Omega} \lim_{n\to \infty} g_n^p d\my \\
-						&= \lim_{n\to \infty} \int_{\Omega} g_n^p d\my \\
+						\|g\|_p = \int_{\Omega} g^p \dx[\my]
+						&= \int_{\Omega} \lim_{n\to \infty} g_n^p \dx[\my] \\
+						&= \lim_{n\to \infty} \int_{\Omega} g_n^p \dx[\my] \\
 						&= \lim_{n\to \infty} \|g_n\|_p^p
 						\le 1.
 					\end{align*}
@@ -517,9 +517,9 @@
 					\]
 					Nach dem Lemma von Fatou ist
 					\begin{align*}
-						\int_{\Omega} |{f_j}_k - f|^p d\my
-						&= \int_{\Omega} \lim_{l\to \infty} |{f_j}_k - {f_j}_l |^p d\my \\
-						&\stack{\text{Fatou}}\le \liminf_{l\to \infty} \underbrace{\int_{\Omega} |{f_j}_k - {f_j}_l |^p d\my}_{= \|{f_j}_k - {f_j}_l\|_p^p < \eps^p} \\
+						\int_{\Omega} |{f_j}_k - f|^p \dx[\my]
+						&= \int_{\Omega} \lim_{l\to \infty} |{f_j}_k - {f_j}_l |^p \dx[\my] \\
+						&\stack{\text{Fatou}}\le \liminf_{l\to \infty} \underbrace{\int_{\Omega} |{f_j}_k - {f_j}_l |^p \dx[\my]}_{= \|{f_j}_k - {f_j}_l\|_p^p < \eps^p} \\
 						&\le \eps^p
 					\end{align*}
 					($f$ ist messbar als punktweiser Grenzwert messbarer Funktionen)
@@ -579,8 +579,8 @@
 						(siehe Maßtheorie).
 						Damit ist
 						\[
-							\int_{\Omega} |s_j|^p d\my
-							\le \int_{\Omega} |f|^p d\my
+							\int_{\Omega} |s_j|^p \dx[\my]
+							\le \int_{\Omega} |f|^p \dx[\my]
 							< \infty.
 						\]
 						Also ist $s_j$ und $f-s_j \in L^p$.
@@ -591,9 +591,9 @@
 						Mit dem Satz über majorisierte Konvergenz gilt
 						\begin{align*}
 							\lim_{j\to \infty} \|f - s_j\|^p
-							&= \lim_{j\to \infty} \int_{\Omega} \underbrace{|f-s_j|^p}_{\le |f|^p} d\my,  \qquad \int_{\Omega} |f|^p d\my < \infty\\
-							&= \int_{\Omega} \lim_{j\to \infty} |f- s_j |^p d\my \\
-							&= \int_{\Omega} 0 d\my
+							&= \lim_{j\to \infty} \int_{\Omega} \underbrace{|f-s_j|^p}_{\le |f|^p} \dx[\my],  \qquad \int_{\Omega} |f|^p \dx[\my] < \infty\\
+							&= \int_{\Omega} \lim_{j\to \infty} |f- s_j |^p \dx[\my] \\
+							&= \int_{\Omega} 0 \dx[\my]
 							= 0,
 						\end{align*}
 						also $\|f-s_j\|_p \to 0$.
@@ -637,9 +637,9 @@
 		\item
 			Für $p=2$ ist $L^2(\Omega, \Sigma, \my)$ vollständig und
 			\[
-				\|f\|_2 = \bigg( \int_{\Omega} |f|^2 d\my \bigg)^{\f 12}
+				\|f\|_2 = \bigg( \int_{\Omega} |f|^2 \dx[\my] \bigg)^{\f 12}
 			\]
-			wird erzeugt vom Skalarprodukt $\<f,g\> := \int_{\Omega} f \_g d\my$ (Wegen Hölder: $\int_{\Omega} |f \_g|d\my \le \|f\|_2 \|g\|_2 < \infty$, konvergiert das Integral)
+			wird erzeugt vom Skalarprodukt $\<f,g\> := \int_{\Omega} f \_g \dx[\my]$ (Wegen Hölder: $\int_{\Omega} |f \_g|\dx[\my] \le \|f\|_2 \|g\|_2 < \infty$, konvergiert das Integral)
 
 			Also ist $L^2$ ein Hilbertraum.
 	\end{enumerate}
