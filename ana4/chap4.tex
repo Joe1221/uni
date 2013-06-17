@@ -480,10 +480,112 @@
 	Sei $1 \le p < \infty$.
 	Dann ist $C_0^\infty$ dicht in $L^p(\R)$.
 	\begin{proof}
-		Sei $p = \infty$, dann ist
-		\[
-			\_{C_0^\infty(\R)}^{L^\infty} \subset C(\R \to \C) \subsetneq L^\infty(\R)
-		\]
+		Sei $u \in L^p(\R)$ und o.B.d.A. $u(x) \ge 0$ auf $\R$ (sonst $u = (\Re(u))_+ - (\Re(u))_- + i((\Im(u))_+ - (\Im(u))_-))$).
+		Approximiere nun $u$ durch $C_0^\infty(\R)$-Funktionen.
+		\begin{enumerate}[1)]
+			\item
+				Mache Träger kompakt:
+				\[
+					v_k := \chi_{[-k,k]}\cdot u.
+				\]
+				Dann gilt
+				\begin{itemize}
+					\item
+						$|v_k(x)-u(x)|^p \to 0$ für $k\to \infty$ für jedes feste $x \in \R$,
+					\item
+						$|v_k(x)-u(x)|^p \le |u(x)|^p$, $\int_{-\infty}^\infty |u(x)|^p \dx < \infty$.
+				\end{itemize}
+				Mit majorisierter Konvergenz gilt $\int_{-\infty}^\infty |v_k(x)|^p \dx \to 0$, also
+				\[
+					\|v_k - u\|_{L^p(\R)} \to 0.
+				\]
+				Wähle $u_1 \in L^p(\R)$, $\supp u_1 \subset [-R,R]$ mit $\|u-u_1\|_{L^p(\R^n)} < \eps$.
+			\item
+				Aus der Maßtheorie wissen wir: Es gibt eine Folge $(\phi_k)_{k\in \N}$ einfacher Funktionen mit
+				\begin{itemize}
+					\item
+						$\forall u \in \R : 0 \le \phi_k(x) \le u_1(x)$, insbesondere $\supp \phi_k \subset [-R,R]$,
+					\item
+						$\phi_k(x) \nearrow u_1(x)$ punktweise auf $\R$.
+				\end{itemize}
+				Mit majorisierter Konvergenz wissen wir $\|u_1 - \phi_k\|_{L^p(\R)} \to 0$.
+
+				Wähle 
+				\[
+					u_2 := \sum_{j=1}^n \lambda_j \chi_{B_j},
+				\]
+				mit $B_j$ messbar und $\|u_1-u_2\|_{L^p(\R)} < \eps$.
+
+				Es gilt $B_j \in \text{Lebesgue-Borel-$\sigma$-Algebra}$.
+				Wähle $A \in \text{Borel-$\sigma$-Algebra}$ mit $\my(A_j \setminus B_j) = 0 = \my(B_j \setminus A_j)$.
+
+				Setze 
+				\[
+					u_3 := \sum_{j=1}^n \lambda_j \chi_{A_j},
+				\]
+				womit $\|u_2 - u_3\|_{L^p(\R)} = 0$ gilt.
+				Es gelte o.B.d.A. $\supp u_3 \subset [-R,R]$ (schneide $A_j$ mit $[-R,R]$).
+			\item
+				Approximiere jedes $A_j$ durch endlich viele abgeschlossene Intervalle.
+				Sei $A \in \text{Borel-$\sigma$-Algebra}$, $A \subset [-R,R]$.
+				Das Maß von $A$ ist definiert als
+				\[
+					\my(A) := \inf \Big\{ \sum_{j=1}^\infty \my(I_j) : A \subset \bigcup_{j=1}^\infty I_j, I_j = [a_j, b_j] \Big\}.
+				\]
+				Wähle also o.B.d.A $(I_j)$ mit $I_j \subset [-R,R]$, $A \subset \bigcup_{j=1}^\infty I_j$, $\my(A) + \tilde \eps^p \le \sum_{j=1}^\infty \my(I_j)$.
+				Wegen $\my(A) \le \sum_{j=1}^\infty \my(I_j)$ ist $0 \le \sum_{j=1}^\infty \my(I_j) - \my(A) \le \tilde \eps^p$.
+				Also
+				\begin{align*}
+					0 
+					\le \int_{-\infty}^\infty \underbrace{\Big(\chi_{\bigcup_{j=1}^\infty I_j} - \chi_{A_j}\Big)}_{=(\argdot)^p \text{ da $\in \{0,1\}$}} \dx
+					&= \my\bigg(\bigcup_{j=1}^\infty I_j \bigg) - \my(A) \\
+					&\le \sum_{j=1}^\infty u(I_j) - \my(A)
+					< \tilde \eps^p.
+				\end{align*}
+				Und somit
+				\[
+					\Big|\chi_{\bigcup_{j=1}^\infty I_j} - \chi_{A_j}\Big\|_{L^p(\R)} < \tilde \eps.
+				\]
+				Wähle $N \in \N$ mit $\sum_{i=N+1}^\infty \my(I_j) < \tilde \eps^p$, dann gilt
+				\begin{align*}
+					0 
+					\le \int_{-\infty}^\infty \underbrace{\Big(\chi_{\bigcup_{j=1}^\infty I_j} - \chi_{\bigcup_{j=1}^N I_j}\Big)}_{=(\argdot)^p}
+					&\le \int_{-\infty}^\infty \Big(\chi_{\bigcup_{j=N+1}^\infty I_j}\Big) \\
+					&\le \sum_{j=N+1}^\infty \my(I_j) 
+					< \tilde \eps^p.
+				\end{align*}
+				Also
+				\[
+					\Big\| \chi_{\bigcup_{j=1}^\infty I_j} - \chi_{\bigcup_{j=1}^N I_j} \Big\|_{L^p(\R)} < \tilde \eps.
+				\]
+				Zusammengefasst gilt damit
+				\[
+					\Big\| \chi_A - \underbrace{\chi_{\bigcup_{j=1}^N I_j}}_{\mathclap{\text{nur noch endlich viele}}} \Big\|_{L^p(\R)} < 2 \tilde \eps.
+				\]
+				Wähle also
+				\[
+					u_4 = \sum_{j=1}^m  \tilde \lambda_j \chi_{[a_j,b_j]}
+				\]
+				mit $\|u_3 - u_4\|_{L^p(\R)} < \eps$.
+			\item
+				Zu $[a_j,b_j]$ existiert $f_j \in C(\R \to \C)$ mit $\supp f_j \subset [a_j, b_j]$, $\|\chi_{[a_j,b_j]} - f\|_{L^p(\R)} < \tilde \eps$.
+
+				Wähle also
+				\[
+					u_5 = \sum_{j=1}^m \tilde \lambda_j f_j
+				\]
+				sodass $\|u_4 - u_5\|_{L^p(\R)} < \eps$, $u_5 \in C(\R \to \C)$ und $\supp u_5 \subset [-R,R]$.
+			\item
+				Aus \ref{4.20} 4) wissen wir für stetige Funktionen mit kompaktem Träger, dass $j_\delta \ast u_5 \in C_0^\infty(\R \to \C)$ und
+				\[
+					\Big\|j_\delta \ast u_5 - u_5 \Big\|_{L^p(\R)} < \eps \qquad \text{für $\delta > 0$ genügend klein.}
+				\]
+
+				Insgesamt gilt damit
+				\[
+					\Big\|u - j_\delta \ast u_5 \Big\| < 6\eps
+				\]
+		\end{enumerate}
 	\end{proof}
 \end{st}
 
@@ -589,3 +691,107 @@
 		\end{enumerate}
 	\end{proof}
 \end{st}
+
+\begin{st}[Satz von Plancherel] \label{4.21}
+	\begin{enumerate}[1)]
+		\item
+			Die Fouriertransformation $F: \scr S(R) \to \scr S(R)$ besitzt eine eindeutige Fortsetzung $\scr F:L^2(\R) \to L^2(\R)$.
+			Diese Fortsetzung ist unitär, d.h.
+			\[
+				\forall f,g \in L^2 (\R) : \<\scr F f, \scr Fg \> = \<f,g\>
+			\]
+		\item
+			Sei $\scr G: L^2(\R) \to L^2(\R)$ die eindeutige Fortsetzungen von $F^{-1}$ auf $L^2(\R)$.
+			Dann ist $\scr G = \scr F^{-1}$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				In den Übungen wird gezeigt: $\scr F$ existiert, ist eindeutig und $\|\scr Ff\|_{L^2(\R)} = \|f\|_{L^2(\R)}$ für $f \in L^2(\R)$.
+				Mit der Polarisationsformel folgt die Aussage.
+			\item
+				Dass $\scr G$ existiert und eindeutig ist, wird in den Übungen gezeigt.
+
+				Zeige $\scr G \circ \scr F = \Id = \scr F \circ \scr G$.
+				Zu $f \in L^2(\R)$ wähle nach \ref{4.20} $(f_n)$ in $C_0^\infty(\R) \subset \scr S(\R)$ mit $\|f-f_n\|_{L^2(\R)} \to 0$.
+				Dann ist
+				\[
+					\scr F f = \underbrace{\lim[L^2]_{n\to \infty} \scr F f_n}_{\|\scr F f  - \scr F f_n\|_{L^2(\R)}\to 0}
+				\]
+				 und
+				 \[
+					\scr G(\scr F f) = \lim[L^2]_{n\to\infty} F^{-1}(F(f_n)) = \lim[L^2]_{n\to\infty} f_n = f.
+				 \]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{nt} \label{4.22}
+	Für $f \in L^2(\R)$ ist $\int_{-\infty}^\infty f(x) e^{-i \omega x} \dx$ nicht immer konvergent.
+	Beispielsweise
+	\[
+		f(x) :=  \f{\sin(x^2)}{1+|x|}.
+	\]
+\end{nt}
+
+\begin{st} \label{4.23}
+	Für $f \in L^2(\R)$ gilt
+	\[
+		\scr F f = \f 1{\sqrt{2\pi}} \lim[L^2]_{R\to\infty} \int_{-R}^R f(x)e^{-i\omega x} \dx
+	\]
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Setze $f_R := \chi_{[-R,R]} \cdot f$, also $\|f_R - f\|_{L^2(\R)} \to 0$ für $R \to \infty$.
+				Da $\scr F$ stetig ist, gilt weiter $\scr F f = \lim[L^2]_{R\to\infty} \scr F f_R$.
+			\item
+				Setze 
+				\[
+					\hat f(\omega)  := \int_{-\infty}^\infty f_R(x) e^{-i\omega x} \dx
+					= \int_{-R}^R f(x) e^{-i\omega x} \dx
+				\]
+				und zeige $\hat f = \scr F f_R$.
+							
+				Setze 
+				\[
+					f_n := j_{\f 1n} \ast f_R 
+					= J_{\f 1n} (f_R) \in C_0^\infty(\R) \qquad \text{nach \ref{4.20}, 2)},
+				\]
+				Es gelten
+				\begin{enumerate}[a)]
+					\item
+						Es gilt
+						\begin{align*}
+							|\hat f_n(\omega) - \hat f(\omega)|
+							& \le \f 1{\sqrt{2\pi}} \underbrace{\int_{-R-\f 1n}^{R+\f 1n} |f_n(x) - f_R(x)|\cdot |e^{-i\omega x} \dx}_{= \<|f_n-f_R|,1\>} \\
+							&\stack{CSB}\le \f 1{\sqrt{2\pi}} \underbrace{\|f_n - f_R\|_{L^2(\R)}}_{\to 0} \underbrace{\sqrt{\int_{-\R-\f 1n}^{R+\f 1n} \dx}}_{= \sqrt{2R + \f 2n} \to 2R}
+							\to 0 \qquad (n\to \infty)
+						\end{align*}
+						gleichmäßig bezüglich $\omega$.
+					\item
+						Wegen $f_n \in C_0^\infty$ ist $\hat f_n = F f_n = \scr F f_n$ also
+						\begin{align*}
+							\|\hat f_n - \scr F f_R\|_{L^2(\R)}
+							&= \|\scr F(f_n -f_R)\|_{L^2(\R)} \\
+							&= \|f_n - f_R\|_{L^2(\R)}
+							\to 0 \qquad (n\to \infty)
+						\end{align*}
+					\item
+						Für alle $\phi \in C_0^\infty(\R)$ gilt $\<\hat f - \scr F f_R, \phi\> = 0$, also
+						\begin{align*}
+							\< \scr F f_R, \phi\> = \lim_{n\to\infty} \<\hat f_n, \phi\>
+							= \<\hat f, \phi\>
+						\end{align*}
+					\item
+						Wähle $(\phi_k)$ in $C_0^\infty(\R)$ mit $\|\phi_k - (\hat f - \scr F f_R)\|_{L^2(\R)} \to 0$.
+						Dann ist
+						\[
+							0 = \<\hat f - \scr F f_R, \phi_k\> \to \|\hat f - \scr F f_R\|_{L^2(\R)}^2 \qquad (k\to \infty)
+						\]
+						und somit $\hat f = F f_R$.
+				\end{enumerate}
+		\end{enumerate}
+
+	\end{proof}
+\end{st}
+
