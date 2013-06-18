@@ -7,6 +7,7 @@ git checkout num2-original
 if [[ $? != 0 ]]; then
 	exit $?;
 fi
+git pull --ff-only;
 
 
 # Getting tex file
