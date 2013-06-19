@@ -483,7 +483,7 @@
 	Sei $1 \le p < \infty$.
 	Dann ist $C_0^\infty$ dicht in $L^p(\R)$.
 	\begin{proof}
-		Sei $u \in L^p(\R)$ und o.B.d.A. $u(x) \ge 0$ auf $\R$ (sonst $u = (\Re(u))_+ - (\Re(u))_- + i((\Im(u))_+ - (\Im(u))_-))$).
+		Sei $u \in L^p(\R)$ und o.B.d.A. $u(x) \ge 0$ auf $\R$ (sonst $u = \Re(u)_+ - \Re(u)_- + i(\Im(u)_+ - \Im(u)_-)$).
 		Approximiere nun $u$ durch $C_0^\infty(\R)$-Funktionen.
 		\begin{enumerate}[1)]
 			\item
@@ -798,3 +798,244 @@
 	\end{proof}
 \end{st}
 
+\begin{st} \label{4.24}
+	Die Fouriertransformation $F: \scr S(\R) \to \scr S(\R)$ besitzt eine eindeutige Fortsetzung
+	\[
+		\scr F: L^1(\R) \to L^\infty(\R)
+	\]
+	und es gilt $\|\scr F\| = \f 1{\sqrt{2\pi}}$.
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				$\scr S(\R)$ ist dicht in $\scr L^1(\R)$.
+				Nach Übungsaufgabe 10.2c) existiert die eindeutige Fortsetzung $\scr F$.
+			\item
+				Es gilt mit Übungsaufgabe 10.1:
+				\[
+					\| \scr F\| = \sup_{\|F\|_{L^1(\R)}=1} \|\scr F f\|_{L^\infty(\R)} \le \f 1{\sqrt{2\pi}}.
+				\]
+				Sei $f := j_1(x)$ ($\eps = 1)$, dann ist
+				\[
+					\|f\|_{L^1(\R)} = \int_{-\infty}^\infty j_1(x) \dx = 1,
+				\]
+				und
+				\[
+					\scr F f(0) 
+					= F f(0) 
+					= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty j_1(x) e^{i\omega x} \dx \Big|_{\omega = 0}
+					= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty j_1(x) \dx
+					= \f 1{\sqrt{2\pi}}
+				\]
+				also
+				\[
+					\| \scr F\| = \f 1{\sqrt{2\pi}}
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{4.25}
+	Für $\scr F: L^1(\R) \to L^\infty(\R)$ gilt
+	\[
+		\im (\scr F) \subset \Big\{ \hat f \in C(\R \to \C) : \hat f(\omega) \to 0 \text{ für } \omega \to \pm \infty \Big\}
+	\]
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Zeige zunächst die Stetigkeit von $\hat f$.
+				Es gilt
+				\begin{align*}
+					| \hat f(\omega + h) - \hat f(\omega) |
+					&= \f 1{\sqrt{2\pi}} \Big| \int_{-\infty}^\infty f(x) ( e^{-i(\omega + h)x} - e^{-i \omega x} ) \dx \Big| \\
+					&\le \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty |f(x)| | e^{-i(\omega + h)x} - e^{-i \omega x} | \dx \\
+					&\le \underbrace{\f 1{\sqrt{2\pi}} \int_{-\infty}^{-R} |f(x)| 2 \dx 
+						+ \f 1{\sqrt{2\pi}} \int_{R}^{\infty} |f(x)| 2 \dx}_{< \eps \text{ für $R$ genügend groß}}
+						+ \underbrace{\f 1{\sqrt{2\pi}} \int_{-R}^{R} |f(x)| \underbrace{\underbrace{|e^{-i(\omega + h) x - e^{-i \omega x}}|}_{\text{gleichmäßig stetig für $(x,k) \in [-R,R] \times [-1,1]$}}}_{< \tilde \eps \text{ für $|h|<\delta$}} \dx}_{\le \f 1{\sqrt{2\pi}} \tilde \eps \|f\|_{L^1(\R)} < \eps \text{ für $|h|<\delta$}} \\
+					&< 2\eps
+				\end{align*}
+				für $R$ genügend groß und $|h| < \delta$.
+			\item
+				Zeige jetzt $|\hat f(\omega)| \to 0$ für $\omega \to \infty$:
+				\begin{align*}
+					\sqrt{2\pi} |\hat f(\omega) 
+					&\le  \underbrace{\int_{-\infty}^{-R} |f(x)| \dx + \int_{R}^{\infty} |f(x)| \dx}_{<\eps \text{für $R > R_\eps$}}
+					+ \underbrace{\underbrace{\Big| \int_{-R}^R f(x) e^{i\omega x} \dx \Big|}_{\to 0 \text{ für $\omega \to \infty$ nach \ref{3.25}}}}_{<\eps \text{ für $\omega > \Omega_\eps$}} \\
+					&< 2\eps
+				\end{align*}
+				für $\omega > \Omega_\eps$.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{4.26}
+	Sei $f \in L^1(\R)$, $x \in \R$ fest und es gelte die Bedingung von Dini:
+	\[
+		\exists \delta > 0 : \int_{-\delta}^{\delta} | \f {f(t+x)-f(x)}{t} | \dx[t] < \infty
+	\]
+	Dann konvergiert das uneigentliche Riemann-Integral
+	\[
+		\f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \scr F f(\omega) e^{i \omega x} \dx[\omega] = f(x)
+	\]
+\end{st}
+
+
+\section{Fouriertransformation im $\R^n$}
+
+
+\begin{nt*}[Erinnerung]
+	Sei $f : \R^n \to \C$.
+	\begin{align*}
+		\f{\partial f}{\partial x_j}(x) &:= \lim_{h\to 0} \f {f(x+he_j)-f(x)}{h} \\
+		\f{\partial^3 f}{\partial x_j \partial x_3^2}(x) &:= \f{\partial }{\partial x_1}\f{\partial }{\partial x_3}\f{\partial f}{\partial x_3} \\
+		\f{\partial^{\alpha_1 + \alpha_2 + \dotsb + \alpha_n} f}{\partial x_1^{\alpha_1} \partial x_2^{\alpha_2} \dotsb \partial x_n^{\alpha^n}}  &: \quad \text{Ableitung der Ordnung $\alpha_1 + \dotsb + \alpha_n$}
+	\end{align*}
+\end{nt*}
+
+\begin{df} \label{4.27}
+	$\alpha \in \N_0^n$ heißt \emph{Multindex}.
+	Man setzt
+	\begin{align*}
+		|\alpha| &:= \alpha_1 + \dotsb + \alpha_n, \\
+		\alpha \le \beta &:\iff \alpha_1 \le \beta_1 \land \dotsb \land \alpha_n \le \beta_n, \\
+		\binom{\alpha}{\beta} &:= \binom{\alpha_1}{\beta_1} \cdot \dotsb \binom{\alpha_n}{\beta_n}
+		x^\alpha &:= x_1^{\alpha_1} \cdot \dotsb \cdot x_n^{\alpha_n} \qquad \text{für $x\in \R^n$.}
+	\end{align*}
+\end{df}
+
+\begin{ex}[Anwendung] \label{4.28}
+	Für $f, g \in C^\infty (\R^n \to \C)$, $\alpha \in \N_0^n$, $\lambda \in \R, x \in \R^n$ setzt man
+	\begin{align*}
+		D^\alpha f &:= \f {\partial^{|\alpha|}f}{\partial x_1^{\alpha_1} \dotsb \partial x_n^{\alpha_n}},
+		(\lambda x)^\alpha &= \lambda^{|\alpha|} x^\alpha.
+	\end{align*}
+	Die Leibnitz-Regel lässt sich schreiben als:
+	\[
+		D^\alpha(f\cdot g) = \sum_{\substack{\beta \in \N_0^n \\ \beta \le \alpha}} \binom{\alpha}{\beta} (D^\beta f)D^{\alpha - \beta} g
+	\]
+\end{ex}
+
+\begin{df} \label{4.29}
+	\begin{enumerate}[1)]
+		\item
+			Wir nennen
+			\[
+				\scr S(\R^n) := \Big\{ f \in C^\infty(\R^n \to \C) \suchthat \forall \alpha \in \N_0^n \forall j\in \N_0 : \sup_{x\in \R^n} |x|^j |D^{\alpha} f(x)| < \infty \Big\}
+			\]
+			\emph{Schwartz-Raum} über $\R^n$.
+		\item
+			Für $f \in \scr S(\R^n)$ ist die Fouriertransformierte gegeben durch
+			\[
+				F f(\omega) := \hat f(\omega) := \f 1{(2\pi)^{\f n2}} \int_{\R^n} f(x) e^{-i \omega \cdot x} \dx
+				\qquad (\omega \in \R^n)
+			\]
+			wobei mit $\omega \cdot x := \omega_1 x_1 + \dotsb + \omega_n \cdot x_n$ das Standard-Skalarprodukt im $\R^n$ gemeint ist.
+	\end{enumerate}
+\end{df}
+
+\begin{st} \label{4.30}
+	\begin{enumerate}[1)]
+		\item
+			Die Fouriertransformation $F: \scr S(\R^n) \to \scr S(\R^n) : f \mapsto \hat f$ ist bijektiv und es gilt für $F^{-1} : f \mapsto \check f$ mit
+			\[
+				\check f (x) = \f 1{(2\pi)^{\f n2}} \int_{\R^n} f(\omega) e^{i \omega \cdot x} \dx[\omega].
+			\]
+		\item
+			Es gilt für $\omega \in \R^n, \alpha \in \N_0^n$:
+			\[
+				\widehat{D^\alpha f(\omega)} = (i\omega)^\alpha \hat f(\omega) = i^{|\alpha|} \omega^\alpha \hat f(\omega).
+			\]
+			Für $g(x) = x^\alpha \cdot f(x)$ ist
+			\[
+				\hat g(\omega) = i^{|\alpha|} D_\omega^\alpha \hat f (\omega)
+			\]
+		\item
+			Definiere die Faltung:
+			\[
+				f \ast g(x) := \int_{\R^n} f(x-y) g(y) \dx[y] = \int_{\R^n} f(y) g(x-y) \dx[y].
+			\]
+			Dann gilt
+			\begin{align*}
+				\widehat{f\cdot g} &=  \f 1{(2\pi)}^{\f n2 } \hat f \ast \hat g, \\
+				\widehat{f\ast g} &= (2\pi)^{\f n2} \hat f \cdot \hat g.
+			\end{align*}
+		\item
+			Es gilt der Satz von Plancherel:
+			\[
+				\|\hat f\|_{L^2(\R^n)} = \|f\|_{L^2(\R^n)}.
+			\]
+		\item
+			Für $1 \le p < \infty$ ist $C_0^\infty(\R^n)$ dicht in $L^p(\R^n)$.
+	\end{enumerate}
+\end{st}
+
+\begin{nt}[Fortsetzungen] \label{4.31}
+	\begin{enumerate}[1)]
+		\item
+			$F$ besitzt eine eindeutige Fortsetzung $\scr F: L^2(\R^n) \to L^2(\R^n)$.
+
+			$\scr F$ ist unitär: $\forall f, g \in L^2(\R^n) : \<f,g\> = \<\scr F f, \scr F g\>$.
+
+			$\scr F$ kann berechnet werden durch
+			\[
+				\scr F f = \lim[L^2(\R^n)]_{R\to \infty} \f 1{(2\pi)^{\f n2}} \int_{|x|\le R} f(x) e^{i \omega\cdot x} \dx
+			\]
+		\item
+			$F : \scr S(\R^n) \to \scr(\R^n)$ besitzt eine eindeutige Fortsetzung $\scr F: L^1(\R^n) \to L^\infty(\R^n)$ mit $\| \scr F \| = \f 1{(2\pi)^{\f n2}}$ und
+			\[
+				\im (\scr F) \subset \Big\{ f \in C(\R^n \to \C) : f(x) \to 0 \text{ für $|x| \to \infty$}.
+			\]
+	\end{enumerate}
+\end{nt}
+
+\begin{ex} \label{4.30}
+	Sei $f \in \scr S(\R^n)$ gegeben.
+	Wir suchen $u \in \scr S(\R^n)$ mit
+	\[
+		- \Delta u + u = f.
+	\]
+	
+	Wegen $u \in \scr S(\R^n)$ ist auch $-\Delta u + u \in \scr S(\R^n)$.
+	Wende die Fouriertransformation auf die DGL an:
+	\[
+		\omega_1^2 \hat u(\omega) + \dotsb + \omega_n^2 \hat u(\omega) + \hat u(\omega) = \hat f(\omega)
+		\hat u (\omega) = \f 1{|\omega|^2 + 1} \hat f(\omega)
+	\]
+
+	\begin{st*}
+		Sei $\hat f \in \scr S(\R^n), \phi \in C^\infty(\R^n)$ und $\forall \alpha : \sup_{x\in \R^n} |D^\alpha \phi(x)| < \infty$.
+		Dann ist
+		\[
+			\phi \cdot \hat f \in \scr S(\R^n)
+		\]
+		\begin{proof}
+			$\phi \cdot \hat f \in \C^\infty(\R^n)$ ist klar.
+			Es gilt außerdem
+			\begin{align*}
+				\sup_{x \in \R^n} |x|^j |D^\alpha (\phi \cdot \hat f)(x) |
+				&\le \sum_{\beta \le \alpha} \binom{\alpha}{\beta} \sup_{x \in \R^n} |x|^j \underbrace{|D^\beta \phi(x)|}_{\le c_\beta} | D^{\alpha-\beta} \phi(x)| \\
+				&< \infty.
+			\end{align*}
+		\end{proof}
+	\end{st*}
+
+	Wegen $\hat f \in \scr S(\R^n)$ gilt $\f 1{|\argdot|^2+1} \hat f \in \scr S(\R^n)$, also ist $\hat u = \f 1{|\argdot|^2+1} \hat f \in \scr S(\R^n)$ eindeutige Lösung.
+
+	Nach Rücktransformation ergibt sich
+	\begin{align*}
+		u(x) 
+		&= \Big( \f 1{|\argdot|^2+1} \hat f \Big)^\vee \\
+		&= \underbrace{(\f 1{|\argdot|^2+1})^\vee}_{=:g(x)} \ast \underbrace{(\hat f)^\vee}_{=f} \f 1{(2\pi)^{\f n2}} \\
+		&= \f 1{(2\pi)^{\f n2}} \int_{\R^n} \underbrace{g(x-y)}_{\mathclap{\text{entspricht Greenscher Funktion}}} f(y) \dx[y]
+	\end{align*}
+\end{ex}
+
+\begin{nt}[Ausblick: Satz von Hausdorff-Young] \label{4.31}
+	Für $1 \le p \le 2$, $\f 1p + \f 1q = 1$ besitzt $F : \scr S(\R) \to \scr S(\R)$ eine eindeutige stetige Fortsetzung
+	\[
+		\scr F_p : L^p(\R^n) \to L^q(\R^n)
+	\]
+	und es gilt
+	\[
+		\| \scr F_p \| = \f 1{(2\pi)^{n(\f 1p-\f 12)}}
+	\]
+\end{nt}
