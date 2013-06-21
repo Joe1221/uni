@@ -79,7 +79,8 @@
 \AtBeginDocument{
   \hypersetup{
     pdftitle = {\@title},
-    pdfauthor = {\@author}
+    pdfsubject = {\@title},
+    pdfauthor = {\@author},
   }
 }
 %\makeatother
