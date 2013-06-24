@@ -1177,7 +1177,7 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 		\begin{align*}
 			\bigg|\int_{-\pi}^{\pi} f(t) \cos(\omega t) \dx[t] \bigg|
 			&= \bigg| \underbrace{\int_{-\pi}^{\pi} \underbrace{(f(t) - f_\eps(t)) \cos(\omega t)}_{|\argdot| \le |f-f_\eps|} \dx[t]}_{\le \|f - f_\eps\|_{L^1} = \int_{-\pi}^\pi |f-f_\eps| \dx[t] < \eps} + \underbrace{\int_{-\pi}^{\pi} f_\eps (t) \cos(\omega t) \dx[t]}_{\to 0 \text{ für $\omega \to \infty$ nach \ref{3.23}}} \bigg| \\
-			&< 2\eps \qquad (\omega > K_\eps)
+			&< 2\eps \qquad \text{für $\omega > K_\eps$.}
 		\end{align*}
 	\end{proof}
 \end{st}
@@ -1185,29 +1185,29 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 \begin{nt*}[Dirichlet-Kern]
 	Wir nennen die Funktionenfolge
 	\[
-		D_n(x) = \sum_{j=-n}^n e^{ijx}
+		D_n(x) = \f 1{2\pi} \sum_{j=-n}^n e^{ijx}
 	\]
 	\emph{Dirichlet-Kern}.
 
 	$D_n(x)$ ist symmetrisch und $2\pi$-periodisch und hat die alternative Darstellung
 	\[
-		D_n(x) = \f {\sin((n+\f 12)x)}{\sin(\f 12 x)}
+		D_n(x) = \f 1{2\pi} \f {\sin((n+\f 12)x)}{\sin(\f 12 x)}
 	\]
 	(an den Stellen $x = 2k\pi$ für $k \in \Z$ durch $2n + 1$ stetig fortsetzbar).
 	Außerdem gilt für $c \in \R$:
 	\begin{align*}
-		\f 1{2\pi} \int_{c-\pi}^{c+\pi} D_n(t) \dx[t] = 1.
+		\int_{c-\pi}^{c+\pi} D_n(t) \dx[t] = 1.
 	\end{align*}
 	\begin{proof}
 		Für $D_n(x)$ gilt ($x \neq 0$):
 		\begin{align*}
-			D_n(x)
+			2\pi D_n(x)
 			&= \sum_{j=-n}^n e^{ijx}
 			= \sum_{j=0}^{2n} e^{i(j-n)x}
 			= e^{-inx} \sum_{j=0}^{2n} (e^{ix})^{j} \\
 			&= \underbrace{e^{-inx}}_{= \f {e^{-i(n-\f 12)x}}{e^{-i \f{x}2}}} \f {1- e^{i(2n+1)x}}{1- e^{ix}}
-			= \f {e^{-i(n+\f 12)x} - e^{i (n+\f 12)x}}{e^{-i\f{x}2}-e^{i \f x 2}} \\
-			&= \f {\sin((n+ \f 12)x)}{\sin(\f x 2)}
+			= \f {e^{-i(n+\f 12)x} - e^{i (n+\f 12)x}}{e^{-i\f{x}2}-e^{i \f x 2}}
+			= \f {\sin((n+ \f 12)x)}{\sin(\f x 2)}
 		\end{align*}
 		und damit
 		\[
@@ -1215,7 +1215,7 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 		\]
 		Außerdem ist
 		\begin{align*}
-			\f 1{2\pi} \int_{-\pi}^\pi D_n(t) \dx[t]
+			\int_{-\pi}^\pi D_n(t) \dx[t]
 			&= \f 1{2\pi} \int_{-\pi}^\pi \sum_{j=-n}^n e^{ijt} \dx[t]
 			= \f 1{2\pi} \sum_{j=-n}^n \int_{-\pi}^\pi e^{ijt} \dx[t] \\
 			&= \f 1{2\pi} \Bigg( \underbrace{\sum_{\substack{j=-n \\ j\neq 0}}^n \Big[ \f 1{ij} e^{ijt} \Big]_{t=-\pi}^{t=\pi}}_{= 0} + 2\pi \Bigg)
@@ -1229,16 +1229,16 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 	Für $f \in L^1([-\pi, \pi])$ $2\pi$-periodisch fortgesetzt auf $\R$ gilt
 
 	\begin{align*}
-		s_n(x) - f(x) = \f 1{2\pi}\int_{-\pi}^{\pi} \Big(f(x+t) - f(x)\Big) D_n(x) \dx[t]
+		s_n(x) - f(x) = \int_{-\pi}^{\pi} \Big(f(x+t) - f(x)\Big) D_n(x) \dx[t]
 	\end{align*}
 	\begin{proof}
-		Es gilt \fixme[Hier stimmt was nicht]
+		Es gilt
 		\begin{align*}
 			s_n(x) 
 			&= \f {a_0}2 + \sum_{j=1}^n \Big( a_j \cos(jx) + b_j \sin(jx) \Big) \\
 			&= \f 1{2 \pi} \int_{-\pi}^{\pi} f(t) \dx[t] + \sum_{j=1}^n \f 1{\pi} \int_{-\pi}^{\pi} f(t) \Big( \underbrace{\cos(jt) \cos(jx) + \sin(jt) \sin(jx)}_{= \f 12 ( e^{ij(x-t)} + e^{ij(t-x)})} \Big) \dx[t] \\
-			&= \f 1{2\pi} \int_{-\pi}^{\pi} \f 1{2\pi} \bigg( \sum_{j=-n}^n e^{ij(x-t)} \bigg) f(t) \dx[t] \\
-			&= \f 1{2\pi} \int_{-\pi}^{\pi} D_n(x-t) f(t) \dx[t].
+			&= \int_{-\pi}^{\pi} \bigg( \f 1{2\pi} \sum_{j=-n}^n e^{ij(x-t)} \bigg) f(t) \dx[t] \\
+			&= \int_{-\pi}^{\pi} D_n(x-t) f(t) \dx[t].
 		\end{align*}
 		Und damit
 		\begin{align*}
@@ -1251,7 +1251,7 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 	\begin{note}
 		Aus dem Beweis geht insbesondere folgende Darstellung für $s_n(x)$ hervor:
 		\begin{align*}
-			s_n(x) = \f 1{2\pi} \int_{-\pi}^{\pi} D_n(x-t) f(t) \dx[t]
+			s_n(x) = \int_{-\pi}^{\pi} D_n(x-t) f(t) \dx[t]
 		\end{align*}
 	\end{note}
 \end{lem}
@@ -1261,7 +1261,10 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 	\[
 		\exists \delta > 0 : \int_{-\delta}^{\delta} \l| \f{f(x+t)-f(x)}{t} \r| \dx[t] < \infty
 	\]
-	Dann gilt $f(x) = \lim_{n\to\infty} s_n(x)$.
+	Dann gilt 
+	\[
+		f(x) = \lim_{n\to\infty} s_n(x).
+	\]
 	\begin{proof}
 		Nach \ref{3.26} ist
 		\begin{align*}
@@ -1296,7 +1299,7 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 	\[
 		\exists \delta > 0 :
 		\int_{-\delta}^0 \l| \f{f(x+t)-f(x-0)}t \r| \dx[t] < \infty
-		\;\land\; \int_{0}^{\delta} \l| \f{f(x+t)-f(x-0)}t \r| \dx[t] < \infty
+		\;\land\; \int_{0}^{\delta} \l| \f{f(x+t)-f(x+0)}t \r| \dx[t] < \infty
 	\]
 	so konvergiert die Fourierreihe $s(x)$ und es gilt
 	\[
@@ -1316,12 +1319,17 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 			s_n(x) - \f 12 \Big( f(x-0) + f(x+0)\Big)
 			&= \int_{-\pi}^\pi f(t+x) D_n(t) \dx[t] - \f 12 \Big( f(x-0) + f(x+0)\Big) \\
 			&= \int_{-\pi}^0 \Big( f(t+x) - f(x-0) \Big) D_n(t) \dx[t] \\
-				&\qquad+ \int_{0}^\pi \Big( f(t+x) - f(x-0) \Big) D_n(t) \dx[t] \\
+				&\qquad+ \int_{0}^\pi \Big( f(t+x) - f(x+0) \Big) D_n(t) \dx[t] \\
 			&= \int_{-\pi}^\pi \underbrace{g_1(t)}_{\mathclap{\in L^1([-\pi,\pi])}} \sin((n+\f 12)t) \dx[t]
-			+ \int_{-\pi}^\pi \underbrace{g_2(t)}_{\mathclap{\in L^1([-\pi,\pi])}} \sin((n+\f 12)t) \dx[t]
-		\intertext{nach \ref{3.25} also}
+			+ \int_{-\pi}^\pi \underbrace{g_2(t)}_{\mathclap{\in L^1([-\pi,\pi])}} \sin((n+\f 12)t) \dx[t] \\
 			&\to 0 \qquad (n\to \infty)
 		\end{align*}
+		nach \ref{3.25}. Die Voraussetzung von \ref{3.25} ist erfüllt, da
+		\begin{align*}
+			g_1(t) &= \1_{[-\pi,0]} \cdot \f 1{2\pi} \f {f(t+x) - f(x-0)}t  \f {t}{\sin (\f 12 t)} \in L^1([-\pi,\pi]), \\
+			g_2(t) &= \1_{[0,\pi]} \cdot \f 1{2\pi} \f {f(t+x) - f(x+0)}t  \f {t}{\sin (\f 12 t)} \in L^1([-\pi,\pi]).
+		\end{align*}
+
 	\end{proof}
 \end{st}
 
