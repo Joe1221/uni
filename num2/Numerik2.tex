@@ -2698,7 +2698,7 @@ Nach Übungsaufgabe 9.1 existiert eine eindeutige Lösung $w\in C^4[0,1]$ des Ra
 -w''(x) + b(x)w'(x) = 1 \quad x\in (0,1), \qquad w(0)=0=w(1).
 \]
 
-Da $w$ stetig ist, besitzt $w$ sein globales Minimum in $[0,1]$. Da in jedem Minimum $w'(x)=0\geq w''(x)$
+Da $w$ stetig ist, besitzt $w$ sein globales Minimum in $[0,1]$. Da in jedem inneren Minimum $w'(x)=0\leq w''(x)$
 gilt und damit die DGL nicht erfüllt sein kann, muss das Minimum auf dem Rand liegen und es folgt
 \[
 w(x)\geq 0 \quad \forall x\in [0,1].
@@ -2981,10 +2981,10 @@ die inneren Punkte entsprechend der in der Vorlesung gemalten Skizze an
 \[
 x^{(i+(j-1)k)}:=(ih,jh)\in \Omega, \quad i,j=1,\ldots,k.
 \]
-Wir setzen noch $f_h=(f^{(i)})_{i=1,\ldots,k^2}\in \R^{k^2}$, $f^{(i)}=f(x^{(i)})$ und versuchen einen
+Wir setzen noch $F=(f^{(i)})_{i=1,\ldots,k^2}\in \R^{k^2}$, $f^{(i)}=f(x^{(i)})$ und versuchen einen
 Vektor von Approximationen 
 \[
-u_h=(u^{(i)})_{i=1,\ldots,k^2}\in \R^{k^2}, \quad u^{(i)}=u(x^{(i)})
+U_h=(u_h^{(i)})_{i=1,\ldots,k^2}\approx (u^{(i)})_{i=1,\ldots,k^2}=U \in \R^{k^2}, \quad u^{(i)}=u(x^{(i)})
 \]
 zu finden. Für jeden inneren Gitterpunkt $x^{(i)}\in \Omega$ erhalten wir durch die obigen Differenzenverfahren 2. Ordnung
 die lineare Gleichung
@@ -2992,18 +2992,18 @@ die lineare Gleichung
 f^{(i)}&=f(x^{(i)})=- \Delta u|_{x=x^{(i)}}\approx - D_{h,1}^2 u(x)|_{x=x^{(i)}} - D_{h,2}^2 u(x)|_{x=x^{(i)}}\\
 &= -\frac{1}{h^2}\left( u(x^{(i)} + he_1)-2u(x^{(i)})+u(x^{(i)}-he_1) \right.\\
 & \qquad \left. {} + u(x^{(i)} + he_2)-2u(x^{(i)})+u(x^{(i)}-he_2)\right)\\
-&\approx \frac{1}{h^2} \left( 4 u^{(i)} - u^{(i-1)} - u^{(i+1)} -  u^{(i-k))} - u^{(i+k)} \right).
+&= \frac{1}{h^2} \left( 4 u^{(i)} - u^{(i-1)} - u^{(i+1)} -  u^{(i-k))} - u^{(i+k)} \right).
 \end{align*}
 falls alle benachbarten Punkte ebenfalls innere Punkte sind. Ist ein benachbarter Punkt ein Randpunkt, so erhalten
 wir einen analogen Ausdruck, bei dem der zum Randpunkt gehörige Summand (wegen $u|_{\partial \Omega}=0$) fehlt.
 
 Insgesamt erhalten wir so ein lineares Gleichungssystem
 \[
-A_h u_h = f_h
+L_h U_h = F
 \]
-wobei die Matrix $A_h$ die folgende Blocktridiagonalgestalt besitzt
+wobei die Matrix $L_h$ die folgende Blocktridiagonalgestalt besitzt
 \[
-A_h=\frac{1}{h^2}\left( \begin{array}{r r r r r} C & -I\\ -I & C & -I\\ & -I & \ddots & \ddots\\ & & \ddots & \ddots & -I\\ & & & -I & C\end{array}\right)\in \R^{k^2\times k^2}
+L_h=\frac{1}{h^2}\left( \begin{array}{r r r r r} C & -I\\ -I & C & -I\\ & -I & \ddots & \ddots\\ & & \ddots & \ddots & -I\\ & & & -I & C\end{array}\right)\in \R^{k^2\times k^2}
 \]
 mit
 \[
@@ -3019,9 +3019,9 @@ K\otimes L =  \left( \begin{array}{c c c c} k_{1,1} L & k_{1,2}L & \dots & k_{1,
 k_{l,1} L & k_{l,2}L & \dots & k_{l,m}L\end{array} \right) \in \R^{lr\times ms}.
 \]
 
-Damit lässt sich die Matrix $A_h$ aus \ref{bsp:poisson} schreiben als
+Damit lässt sich die Matrix $L_h$ aus \ref{bsp:poisson} schreiben als
 \[
-A_h=\frac{1}{h^2} \left( I \otimes T + T \otimes I \right)
+L_h=\frac{1}{h^2} \left( I \otimes T + T \otimes I \right)
 \]
 mit
 \[
@@ -3047,41 +3047,41 @@ aufgenommen wird.
 Offensichtlich lassen sich auch allgemeinere Gleichungen (mit veränderlichen Diffusionskoeeffizienten, Absorptions- und Konvektionstermen)
 analog behandeln und führen wiederum auf lineare Gleichungssysteme der Form
 \begin{align*}
-A_h u_h =f_h.
+L_h U_h =F.
 \end{align*}
 
-Die so entstehenden Diskretisierungsmatrizen $A_h$ sind üblicherweise von der Gestalt, dass die Diagonaleinträge positiv sind, die Nebendiagonaleinträge
+Die so entstehenden Diskretisierungsmatrizen $L_h$ sind üblicherweise von der Gestalt, dass die Diagonaleinträge positiv sind, die Nebendiagonaleinträge
 negativ sind, und zeilenweise der Diagonaleintrag die Zeile dominiert. 
 Wir werden sehen, dass solche Matrizen ein diskretes Maximumsprinzip erfüllen und benötigen dafür noch das folgende Lemma:
 
 \begin{lemma}[Sternlemma]\label{lemma:stern}
-Sei $L\geq 0$ und $\alpha_l,x_l$, $l=0,\ldots,L$ erfüllen
+Sei $M\in \N_0$ und $\alpha_m,x_m$, $m=0,\ldots,M$ erfüllen
 \[
-\alpha_l<0 \quad \forall l>0,\qquad \sum_{l=0}^L \alpha_l\geq 0, \qquad
-\sum_{l=0}^L \alpha_l x_l\leq 0 \quad \mbox{ und } \quad x_0\geq 0.
+\alpha_m<0 \quad \forall m>0,\qquad \sum_{m=0}^M \alpha_m\geq 0, \qquad
+\sum_{m=0}^M \alpha_m x_m\leq 0 \quad \mbox{ und } \quad x_0\geq 0.
 \]
-Ist $x_0\geq \max_{l=1,\ldots,L} x_l$, so gilt $x_0=x_1=\ldots=x_L$.
+Ist $x_0\geq \max_{m=1,\ldots,M} x_m$, so gilt $x_0=x_1=\ldots=x_M$.
 \end{lemma}
 \begin{beweis}
-Für $L=0$ ist die Aussage trivial. Ansonsten ist
+Für $M=0$ ist die Aussage trivial. Ansonsten ist
 \[
-\sum_{l=1}^L \underbrace{\alpha_l}_{< 0} \underbrace{(x_l - x_0)}_{\leq 0}=\sum_{l=0}^L \alpha_l (x_l - x_0)=\underbrace{\sum_{l=0}^L \alpha_l x_l}_{\leq 0} - \underbrace{x_0\sum_{l=0}^L\alpha_l}_{\geq 0}\leq 0
+\sum_{m=1}^M \underbrace{\alpha_m}_{< 0} \underbrace{(x_m - x_0)}_{\leq 0}=\sum_{m=0}^M \alpha_m (x_m - x_0)=\underbrace{\sum_{m=0}^M \alpha_m x_m}_{\leq 0} - \underbrace{x_0\sum_{m=0}^M\alpha_m}_{\geq 0}\leq 0
 \]
-und es folgt $x_l=x_0$ für alle $l=1,\ldots,L$.
+und es folgt $x_m=x_0$ für alle $m=1,\ldots,M$.
 \end{beweis}
-Offenbar kann für $\sum_{l=0}^L\alpha_l=0$ auf die Voraussetzung $x_0\geq 0$ in Lemma~\ref{lemma:stern} verzichtet werden.
+Offenbar kann für $\sum_{m=0}^M\alpha_m=0$ auf die Voraussetzung $x_0\geq 0$ in Lemma~\ref{lemma:stern} verzichtet werden.
 
 \begin{theorem}\label{thm:diskretes_maxprinzip}
-Sei $A_h\in \R^{N\times N}$ eine (nicht-notwendigerweise strikt) diagonaldominante Matrix mit positiven Diagonal- und negativen 
+Sei $L_h=(a^h_{ij})_{i,j=1}^N\in \R^{N\times N}$ eine (nicht-notwendigerweise strikt) diagonaldominante Matrix mit positiven Diagonal- und negativen 
 Nebendiagonaleinträgen, also
 \[
 a^h_{ii}\geq \sum_{i\neq j} |a^h_{ij}|  \quad \forall i=1,\ldots,N, \qquad a^h_{ij}\leq 0 \quad \forall i\neq j.
 %\sum_{j=1}^N a_{ij} \geq 0 \quad \forall i=1,\ldots,N, \qquad a_{ij}\neq 0 \quad \forall i\neq j.
 \]
-Sei $f_h\in \R^{N}$ und $u_h\in \R^N$ sei eine Lösung von $A_h u_h=f_h$. Außerdem sei $f_h\leq 0$, also komponentenweise 
-nicht-positiv. 
+Sei $F\in \R^{N}$ und $U_h\in \R^N$ sei eine Lösung von $L_h U_h=F$. 
+Außerdem sei $F\leq 0$, also komponentenweise nicht-positiv. 
 
-Betrachte die $i$-te Zeile des LGS $A_h u_h =f_h$,
+Betrachte die $i$-te Zeile des LGS $L_h U_h =F$,
 \[
 \sum_{j=1}^N a^h_{ij} u^{h}_j =f^h_i\leq 0.
 \]
@@ -3101,16 +3101,19 @@ Lemma~\ref{lemma:stern}.
 \item
 Im Kontext unserer Finite-Differenzen-Diskretisierungen kann Theorem \ref{thm:diskretes_maxprinzip}
 als \emph{diskretes Maximumsprinzip} (in Analogie zu Theorem~\ref{thm:MaxPrinzipFolgerungen}(f)) interpretiert werden.
-Die diskrete Lösung $u_h$ kann nicht in einem Gitterpunkt einen nicht-negativen Wert annehmen, der strikt maximal ist unter
+Die diskrete Lösung $U_h$ kann nicht in einem Gitterpunkt einen nicht-negativen Wert annehmen, der strikt maximal ist unter
 allen im Rahmen der Differenzenquotienten betrachten Nachbarwerten. Mehr noch: nimmt die diskrete Lösung
 einen in diesem Sinne maximalen Wert an, so besitzen alle (in diesem Sinne) benachbarten Werte den gleichen maximalen Wert.
+%
 \item Mit dem diskreten Maximumsprinzip lässt sich oft die Lösbarkeit der diskretisierten Gleichung beweisen. Betrachten wir exemplarisch die Matrix
-$A_h$ aus der Diskretisierung des Poisson-Problems auf dem Einheitsquadrat. $A_h$ ist genau dann invertierbar, wenn es injektiv ist,
-also nur der Nullvektor das homogenen LGS $A_h u_h=0$ löst. Sei also $u_h$ eine solche Lösung. Dann besitzt $u_h$ einen maximalen Eintrag $u^h_j$.
-O.B.d.A. sei $u_h^j\geq 0$, ansonsten betrachten wir $-u_h$. 
-Da wir jeden anderen Gitterpunkt über einen Weg aus (bei den Differenzenquotienten vorkommenden) Nachbarwerten erreichen können 
-(das Gitter ist \emph{diskret zusammenhängend}), folgt aus dem diskreten Maximumsprinzip, dass alle Einträge von 
-$u^h_j$ übereinstimmen. Aus der ersten Zeile von $A_h$ folgt dann, dass $u_h=0$ gelten muss.
+$L_h$ aus der Diskretisierung des Poisson-Problems auf dem Einheitsquadrat. $L_h$ ist genau dann invertierbar, 
+wenn es injektiv ist,
+also nur der Nullvektor das homogenen LGS $L_h U_h=0$ löst. Sei also $U_h$ eine solche Lösung. 
+Dann besitzt $U_h$ einen maximalen Eintrag $u^h_j$.
+O.B.d.A. sei $u_h^j\geq 0$, ansonsten betrachten wir $-U_h$. 
+Da wir jeden anderen Gitterpunkt über einen Weg aus (bei den Differenzenquotienten vorkommenden)
+Nachbarwerten erreichen können (das Gitter ist \emph{diskret zusammenhängend}), folgt aus dem diskreten Maximumsprinzip, dass alle Einträge von 
+$u^h_j$ übereinstimmen. Aus der ersten Zeile von $L_h$ folgt dann, dass $U_h=0$ gelten muss.
 \end{enumerate}
 \end{bemerkung}
 
@@ -3118,9 +3121,10 @@ Die folgende Verschärfung von Lemma~\ref{lemma:wann_M}
 können wir als diskretes Analogon zur 
 Monotonieeigenschaft aus Theorem~\ref{thm:MaxPrinzipFolgerungen}(b) interpretieren:
 \begin{theorem}
-Sei $A\in \R^{N\times N}$ eine invertierbare, diagonaldominante Matrix mit positiven Diagonalelementen und nicht-positiven Nichtdiagonalelementen, 
+Sei $A\in \R^{N\times N}$ eine invertierbare, diagonaldominante Matrix mit positiven Diagonalelementen und nicht-positiven Nichtdiagonalelementen,
+wobei
 \[
-a_{ii}\geq \sum_{j=1}^N |a_{ij}|. 
+a_{ii}\geq \sum_{j=1}^N |a_{ij}| \quad \forall i\in \{1,\ldots,n\}. 
 \]
 Dann ist $A^{-1}$ komponentenweise nicht-negativ.
 
@@ -3142,58 +3146,60 @@ dass $(A+\epsilon I)$ invertierbar ist, und dass $(A+\epsilon I)^{-1}$ komponent
 
 \subsection{Konsistenz, Stabilität und Konvergenz}
 
-Sei $A_h u_h=f_h$ die entsprechend den letzten Abschnitten erstellte Diskretisierung des Poisson-Problems
+Sei $L_h U_h=F$ die entsprechend den letzten Abschnitten erstellte Diskretisierung des Poisson-Problems
 \[
--\Delta u=f, \quad u|_{\partial \Omega}=g.
+-\Delta u=f, \quad u|_{\partial \Omega}=g
 \]
-Der Einfachheit halber bezeichnen wir mit $u\in \R^N$ auch den Vektor der Auswertungen der Funktion $u(x)$
-auf den Gitterpunkten der Diskretisierung.
+und $U\in \R^N$ der Vektor der Auswertungen der Funktion $u(x)$ auf den Gitterpunkten der Diskretisierung.
 
 Wie im Eindimensionalen gilt der folgende Zusammenhang zwischen Konsistenz, Stabilität und Konvergenz:
 \[
-\norm{u-u_h}_\infty = \norm{A_h^{-1} A_h (u-u_h)}_\infty\leq \norm{A_h^{-1}}_\infty \norm{A_h u - f_h}_\infty.
+\norm{U-U_h}_\infty = \norm{L_h^{-1} L_h (U-U_h)}_\infty\leq \norm{L_h^{-1}}_\infty \norm{L_h U - F}_\infty.
 \]
 Erfüllt also (für $h\to 0$) die wahre Lösung (genauer: ihre Auswertungen) immer besser die diskretisierte Gleichung (Konsistenz),
-d.h. $\lim_{h\to 0} \norm{A_h u - f_h}_\infty=0$, und bleibt $\norm{A_h^{-1}}_\infty$ beschränkt (Stabilität), so nähert die
+d.h. $\lim_{h\to 0} \norm{L_h U - F}_\infty=0$, und bleibt $\norm{L_h^{-1}}_\infty$ beschränkt (Stabilität), so nähert die
 Lösung der diskreten Gleichung die wahre Lösung immer besser an.
 
 Die Konsistenz von finiten Differenzenverfahren erhalten wir sofort aus Abschätzungen, wie sie in Lemma~\ref{lemma:FD_konsistenz1}
-vorkommen, die ihrerseits leicht aus Anwendungen der Taylor-Formel folgen. Konsistente Differenzenverfahren
-lassen sich deshalb in der Praxis meist sehr leicht für eine gegebene partielle Differentialgleichung konstruieren. 
+vorkommen, die ihrerseits leicht aus Anwendungen der Taylor-Formel folgen. Auch im Mehrdimensionalen lassen
+sich konsistente Differenzenverfahren meist sehr leicht für eine gegebene partielle Differentialgleichung konstruieren. 
 
-Der Beweis von Stabilität ist ungleich schwerer. %und erfordert üblicherweise die Ausnutzung spezieller Lösungen der betrachten PDGL.
+Der Beweis von Stabilität ist wie im Eindimensionalen ungleich schwerer. %und erfordert üblicherweise die Ausnutzung spezieller Lösungen der betrachten PDGL.
 Wir zeigen im Rahmen dieser Vorlesung die Stabilität nur für das hier exemplarisch betrachtete 
-Problem $-\Delta u=f$.
+Problem $-\Delta u=f$ mit homogenen Dirichletrandwerten auf dem Einheitsquadrat.
 
 \begin{theorem}
 Sei $\Omega=(0,1)^2\subseteq \R^2$. Dann existiert ein $C>0$, so dass für die entsprechend den
-letzten Abschnitten erstellte Diskretisierungsmatrix $A_h$ zum Problem 
+letzten Abschnitten erstellte Diskretisierungsmatrix $L_h$ zum Problem 
 \[
--\Delta u=f, \quad u|_{\partial \Omega}=g
+-\Delta u=f, \quad u|_{\partial \Omega}=0
 \]
-gilt $\norm{A_h^{-1}}_\infty < C$ für alle $h>0$. 
+gilt $\norm{L_h^{-1}}_\infty < C$ für alle $h>0$. 
 \end{theorem}
 \begin{beweis}
 Sei $R>0$ hinreichend groß, so dass $\Omega\subseteq B_{R}$ und betrachte die Funktion $w(x)=\frac{1}{4}\left( R^2 -\norm{x}^2 \right)+1$. 
-Offenbar gilt $-\Delta w=1$. $w$ ist ein Polynom zweiten Grades und die verwendeten Differenzenquotienten sind dafür in allen nicht randnahen Gitterpunkten 
-exakt, so dass an diesen Punkten $(A_h w)_j=1$ gilt. (Dabei bezeichnen wir der 
-Einfachheit halber auch den Vektor der Auswertungen von $w(x)$ in den Gittepunkten mit $w$.) Für die randnahen Punkte bleibt der positive Wert $w(x)\geq 0$ mit einem negativen Gewicht unberücksichtigt, so dass in diesen Punkten $(A_h w)_j\geq 1$ gilt. (Dabei bezeichnen wir wieder auch den Vektor der Gitterauswertungen von $w(x)$ mit $w$.)
+Offenbar gilt $-\Delta w=1$. $w$ ist ein Polynom zweiten Grades und die verwendeten Differenzenquotienten sind dafür 
+in allen nicht randnahen Gitterpunkten exakt, so dass an diesen Punkten $(L_h W)_j=1$ gilt. (Dabei bezeichnet $W$ wieder den 
+Vektor der Auswertungen von $w(x)$ in den Gittepunkten.) Für die randnahen Punkte bleiben einer oder
+mehrere positive Randwerte $w(x)|_{\partial \Omega}\geq 0$ 
+mit einem negativen Gewicht unberücksichtigt, so dass in diesen Punkten $(L_h W)_j\geq 1$ gilt.
 Insgesamt ist also 
 \[
-A_h w\geq 1.
+L_h W\geq 1.
 \]
 Damit folgt
 \[
-\norm{A_h^{-1}}_\infty= \norm{A_h^{-1} \1}_\infty\leq \norm{A_h^{-1} A_h w}_\infty \leq \max_{x\in \overline{B_R(0)}} |w(x)|= \frac{R^2}{4}.
+\norm{L_h^{-1}}_\infty= \norm{L_h^{-1} \1}_\infty\leq \norm{L_h^{-1} L_h W}_\infty \leq \max_{x\in \overline{B_R(0)}} |w(x)|= \frac{R^2}{4}.
 \]
+und damit die Behauptung.
 \end{beweis}
 
 \begin{korollar}
-Falls eine Lösung des Poisson-Problems
+Falls eine Lösung des homogenen Dirichletproblems
 \[
--\Delta u=f, \quad u|_{\partial \Omega}=g
+-\Delta u=f, \quad u|_{\partial \Omega}=0, \quad \Omega=(0,1)^2\subseteq \R^2
 \]
-existiert, so konvergieren die durch Finite Differenzen erhaltenenen Approximationen $u_h$ gegen die Lösung. 
+existiert, so konvergieren die durch Finite Differenzen erhaltenenen Approximationen $U_h$ gegen die Lösung. 
 \end{korollar}
 
 
