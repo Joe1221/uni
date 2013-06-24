@@ -1,8 +1,11 @@
 \documentclass[11pt]{scrbook}
 \usepackage{mathe-vorlesung2}
+\usepackage{nameref}
 \renewtheorem{thm}{Theorem}[section]
 \renewcommand{\thethm}{\arabic{section}.\arabic{thm}}
 \newcommand{\tta}{\vartheta}
+\newcommand{\eing}{\mathop |}
+\newcommand{\vekt}[2]{\binom{#1}{#2}}
 
 
 \title{Geometrie}
@@ -462,6 +465,7 @@ Dazu benötigen wir ein paar Vorbereitungen, unter anderem, um die Tangentendreh
 \end{note}
 
 \begin{df}
+\label{4.3}
 Sei $X \subset \R^n$ eine Teilmenge und $x_0 \in X$. Dann heißt $X$ \textbf{sternförmig bezüglich $x_0$}, falls für jeden Punkt $x \in X$ die Strecke zwischen $x_0$ und $x$ ganz in $X$ enthalten ist, d.h. \[ \forall x \in X, \; t \in [0,1]: \quad tx + (1-t) x_0 \in X. \]
 \fixme[Zeichnungen sternförmig]
 \end{df}
@@ -504,6 +508,7 @@ die \textbf{Tangentendrehzahl} von $c$.
 \end{df}
 
 \begin{lem}
+\label{4.6}
 Seien $c_1, c_2: \R \to \R^2$ zwei ebene n.Bl.par. Kurven, periodisch mit Periode $L$, mit $c_1 = c_2 \circ \phi$, wobei $\phi$ eine Parametertransformation ist. Ist $\phi$ orientierungserhaltend, dann gilt $\eta_{c_1} = \eta_{c_2}$, ist $\phi$ orientierungsumkehrend, so ist $\eta_{c_1} = - \eta_{c_2}$.
 \begin{proof}
 Nach Lemma \ref{2.8} gilt für die Parametertransformation $\phi(t) = \pm t + t_0$, wobei das Vorzeichen die Orientierungserhaltung (+) bzw. -umkehrung (-) bestimmt. \\
@@ -591,6 +596,7 @@ Sei $c$ konvex und seien $t_1, t_2$ so, dass $\< c(t) - c(t_1), n(t_1) \> \leq 0
 \end{proof}
 \end{lem}
 
+
 % Vorlesung 2.5.13
 
 \newpage
@@ -607,12 +613,85 @@ Schneidet eine einfach geschlossene ebene konvexe Kurve eine Gerade in mehr als 
 Sei $c: \R \to \R^2$ eine Parametrisierung n.Bl. mit Periode $L$. Nach einer Parametertransformation können wir annehmen, dass $c(0)$ einer der Schnittpunkte mit der Geraden ist. Wir können auch annehmen, dass $\kappa \geq 0$ ist (indem wir eventuell mit $t \mapsto -t$ umparametrisieren). \\
 Eine Winkelfunktion $\tta$ erfüllt also $\tta' = \kappa \geq 0$, d.h. sie ist monoton wachsend. Nach dem Umlaufsatz \ref{4.8} gilt $\tta(L) - \tta(0) = 2 \pi \underbrace{n_c}_{+1} = 2 \pi$. Also ist $\tta : [0, L] \to [\tta_0, \tta_0 + 2 \pi]$ eine differenzierbare, monoton wachsende, surjektive Funktion mit $\tta_0 = \tta(0)$. \\
 Die Kurve $c$ schneidet die Gerade $G$ bei den Parameterwerten $0 = t_0 < t_1 < t_2 < L$. Sei $G$ parametrisiert durch $t \mapsto p + t \cdot v, \; \| v \| = 1$. 
+Sei $I$ eines der Intervalle $[0, t_1], [t_1, t_2], [t_2, L]$. In den Endpunkten von $I$ liegt $c$ auf $G$. Wenn $c(t)$ für alle $t \in I$ auf $G$ liegt, so enthält $c$ ein Segment von $G$ und das Lemma ist bewiesen.
+
+Also angenommen, es gibt auch Punkte $t \in I$, so dass $c(t) \not \in G$. Setze $G_s := \{ sJv + tv \; | \; t \in \R \}$ (Geradenschar) und $s_1 := \sup \{ s > 0 \; | \; G_s \text{ schneidet } c \eing_I \} $. Liegen auf der Seite von $G$, in die $Jv$ zeigt, keine Punkte von $c(I)$, so betrachte stattdessen $s_1 := \inf \{ s < 0 \; | \; G_s \text{ schneidet } c \eing_I \}$. \\
+Nach Übungsaufgabe 1, Blatt 5, schneidet $G_{s_1}$ das Kurvenstück $c \eing_I$ in einem Punkt $\tau$ aus dem Inneren von $I$ tangential, d.h. $\dot c(t) = \pm v$. Wenden wir dies auf alle drei Intervalle an, so erhalten wir drei Punkte $\tau_1, \tau_2, \tau_3$ mit $0 < \tau_1 < t_1 < \tau_2 < t_2 < \tau_3 < L$, so dass $\dot c(\tau_j) = \pm v$. 
+Es ist $\tta_1$ der eindeutig bestimmte Wert aus $[\tta_0, \tta_0 + 2\pi)$, für den $\begin{pmatrix} \cos(\tta_1) \\ \sin(\tta_1) \end{pmatrix} = +v$ und $\tta_2 = \tta_1 \pm \pi$ derjenige mit $\begin{pmatrix} \cos(\tta_2) \\ \sin(\tta_2) \end{pmatrix} = -v$. Wir können annehmen, dass $\tta_2 = \tta_1 + \pi$ (sonst vertausche $\tta_1$ und $\tta_2$).
+\begin{enumerate}[1. \text{Fall:} ]
+\item
+	 Sei $\tta_1$ (und damit auch $\tta_2$) echt größer als $\tta_0$. Die Winkelfunktion $\tta$ nimmt an den drei Stellen $\tta_1, \tta_2, \tta_3$ jeweils einen der Werte $\tta_1$ oder $\tta_2$ an. Insbesondere muss $\tta$ an mindestens zwei der drei STellen den selben Wert annehmen. Da $\tta$ monoton wächst, muss $\tta$ auf einem der Intervalle $[\tau_1, \tau_2], [\tau_2, \tau_3]$ konstant sein. Dann ist aber $\dot c = \pm v$ auf diesem Intervall, und die Kurve ist dort ein Geradensegment parallel zu $G$. Beide Intervalle enthalten aber einen Punkt, in dem $c$ die Gerade $G$ schneidet (nämlich $t_1$ bzw. $t_2$).
+
+\item 
+	$\tta(\tau_1) = \tta_1 = \tta_0, \; \tta(\tau_2) = \tta_2, \; \tta(\tau_3) = \tta_0 + 2 \pi$. Dann is wegen der Monotonie $\tta$ auf dem Intervall $[0, \tau_1]$ konstant und es folgt wie oben, dass $c \eing_[0, \tau_1]$ auf $G$ liegt ($\infty$- viele Schnittpunkte).
+\end{enumerate}
 \end{proof}
-\fixme{Beweis fertig}
 \end{lem}
 
+\begin{lem}
+\label{5.9}
+Schneidet eine einfach geschlossene, ebene konvexe Kurve eine Gerade in mehr als einem Punkt tangential, so enthält die Kurve ein ganzes Geradenstück.
+
+\begin{proof}
+Besitzt die Kurve mehr als 2 Schnittpunkte, so folgt die Behauptung aus Lemma \ref{5.8}. Habe die Kurve also genau 2 tangentiale Berührpunkte $p, q$ mit der Geraden. Da die Kurve konvex ist, liegt sie ganz auf einer Seite der Geraden. Verschieben wir nun $G$ ein hinreichend kleines Stück in Richtung der Kurve, so erhalten wir eine zu $G$ parallele Gerade $G_1$, die aus Stetigkeitsgründen die Kurve in der Nähe von $p$ bzw. $q$ jeweils mindestens zweimal schneidet. Insgesamt hat $G_1$ also mindestens 4 Schnittpunkte mit $c$ und nach \ref{5.8} enthält $c$ ein Geradensegment. 
+\end{proof}
+\end{lem}
+
+\begin{proof}[Vierscheitelsatz]
+Offensichtlich nimmt $\kappa$ auf dem kompakten Intervall $[0, L]$ Maximum und Minimum an, dies liefert bereits 2 Scheitel. 0.E.(Ohne Einschränkungen) können wir annehmen, dass das Minimum in $t = 0$ und das Maximum in $t_0 \in (0, L)$ angenommen wird. Sei $G$ die Gerade durch $c(0)$ und $c(t_0)$. Falls $G$ noch einen weiteren Schnittpunkt mit $c$ hat, enthält $c$ nach Lemma \ref{5.8} ein Geradensegment (und $c$ hat damit $\infty$- viele Scheitelpunkte). Wir nehmen also an, dass $G$ nur in diesen beiden Punkten $c$ schneidet. Außerdem nehmen wir an, dass $G$ die $x$- Achse ist (nach Ausführen einer euklidischen Bewegung).
+
+\textbf{Angenommen}, $c$ hat keinen weiteren Scheitel außer bei $0$ und $t_0$, dann verschwindet $\dot \kappa$ nirgends auf den Intervallen $(0, t_0)$ und $(t_0, L)$. Da außerdem 
+\[ \int_0^L \dot \kappa(t) dt = \kappa(L) - \kappa(0) = 0 \]
+gilt, muss $\kappa$ auf den beiden Intervallen verschiedene Vorzeichen besitzen. Sei oBdA $\dot \kappa(t) > 0$ auf $(0, t_0)$ und $\dot \kappa(t) < 0$ auf $(t_0, L)$. Wegen \ref{5.9} können wir annehmen, dass $c$ nicht ganz auf einer Seite der $x$-Achse liegt. Wir können annehmen, dass $c \eing_{(0, t_0)}$ oberhalb und $c \eing_{(t_0, L)}$ unterhalb der $x$-Achse liegt. Damit ergibt sich für die $y$-Komponente von $c = \vekt{c_1}{c_2}$: $\dot \kappa(t) \cdot c_2(t) > 0 \; \forall t \in (0, t_0) \cup (t_0, L)$. Insbesondere folgt damit 
+\[   \int_0^L \dot \kappa(t) c_2(t) dt > 0. \qquad \text{ (*) }\]
+Andererseits gilt mit partieller Integration
+\[ \int_0^L  \dot \kappa(t) c(t) dt \stackrel{part. Int.}{=} \underbrace{[\kappa(t) c(t) ]_0^L}_{=0} - \int_0^L \kappa(t) \dot c(t) dt =: I .\]
+Wegen \[ \dot n(t) = J \frac{d}{dt} \dot c(t) = J \cdot (\kappa(t) n(t)) = \kappa(t) J^2 \dot c(t) = -\kappa(t) \dot c(t) \]
+ist \[ I = \int_0^L \dot n(t) dt = n(L) - n(0) = \vekt{0}{0}. \]
+D.h. im Skalarprodukt mir $c_2$ erhalten wir
+\[ \int_0^L \dot \kappa(t) c_2(t) dt = \int_0^L \< \dot \kappa(t) c(t), c_2(t) \> dt = 0 \] und somit einen Wiederspruch zu (*).
+Es gibt also mindestens 3 Scheitel.
 
 % Vorlesung 14.5.13
+\textbf{Angenommen} es gibt genau 3 Scheitel, dann können wir die Kurve in genau 3 Bögen einteilen, auf denen $\dot \kappa$ das Vorzeichen nicht wechselt. Fassen wir also die beiden Bögen, auf denen $\dot \kappa$ das gleiche Vorzeichen hat, zu einem zusammen, so erhalten wir eine Unterteilung von $c$ in zwei Bögen, auf denen - von einem einzigen Punkt abgesehen - $\dot \kappa$ entgegengesetztes Vorzeichen hat. Wir können das selbe noch einmal anwenden, da einziger Punkt, an dem der Integrad zusätzlich Null wird, nichts am Vorzeichen des Integrals ändert. Widerspruch!  \\
+Es muss also einen vierten Scheitel geben.
+\end{proof}
+
+\begin{note*}
+Ein weiteres Mal lässt sich das Argument nicht anwenden, da bei 4 Kreisbogenstücken die mit selben Vorzeichen von $\dot \kappa$ nicht notwendig aneinander anschließen.
+\end{note*}
+
+\section{Die isoperimetrische Ungleichung}
+Schon im antiken Griechenland bekannt: Unter allen Gebieten in der Ebene, die von einer Kurve der Länge $L$ berandet werden, hat der Kreis den größten Flächeninhalt.
+
+\begin{st}\label{6.1}
+Sei $G$ ein beschränktes Gebiet, berandet von der einfach geschlossenen Kurve $c$. Sei $A$ der Flächeninhalt von $G$ und $L$ die Länge von $c$. Dann gilt: \[ 4 \pi A \leq L^2 \]
+mit Gleichheit genau dann, wenn $c$ ein Kreis ist.
+\end{st}
+
+Wir benutzen das folgende Lemma, das zeigt, wie der Flächeninhalt von $G$ durch die Kurve gegeben ist:
+\begin{lem}
+\label{6.2}
+Sei $G \subseteq \R^2$ ein beschränktes Gebiet, das von einer einfach geschlossenen Kurve $c$ berandet wird. Sei $c(t) = \vekt{x(t)}{y(t)}$ eine periodische Parametrisierung von $c$ mit Periode $L$, die das Gebiet in mathematisch positivem Sinne umläuft. Dann gilt: 
+\[ A \; \stackrel{1)}{=} \; - \int_0^L x'(t) y(t) dt \; \stackrel{2)}{=} \; \int_0^L x(t) y'(t) dt \; \stackrel{3)}{=} \; \f{1}{2} \int_0^L \left[x(t) y'(t) - x'(t) y(t) \right] dt. \]
+
+\begin{proof}
+Wir benutzen den 
+\begin{st*}[Divergenzsatz von Gauß]
+Sei $v = \vekt{v_1}{v_2}: \R^2 \to \R^2$ eine glatte Abbildung (ein Vektorfeld), $G$ ein Gebiet mit glattem Rand und sei $N: \partial G \to \R^2$ der äußere Einheits-Normalenvektor, dann gilt:
+\[ \int_G \div v = \int_{\partial G} \< v, N \>  .\]
+Dabei ist die Divergenz definiert als $\div v = \f{\partial \: v_1}{\partial x_1} + \f{\partial \: v_2}{\partial x_2}$.
+\end{st*}
+
+Wir wählen $v =\text{ id}_{\R^2}: v(x_1, x_2) = \vekt{x_1}{x_2}$. Dann gilt: \[\div v = \f{\partial \: x_1}{\partial x_1} + \f{\partial \: x_2}{\partial x_2} = 1 + 1 = 2 .\]
+Damit gilt für die linke Seite im Gauß'schen Divergenzsatz: $\displaystyle{\int_G \div v = \int_G} 2 = 2 \cdot A$. \\
+Andererseits erhalten wir (da $n$ die innere Einheitsnormale ist): 
+\begin{align*} \int_0^L \< v(c(t)), N(c(t)) \> dt \; &= \; - \int_0^L \< v(c(t)), n(t) \> dt \\   = \; - \int_0^L \left< \vekt{x(t)}{y(t)} , \vekt{-y'(t)}{x'(t)} \right> dt &= - \int_0^L x'(t) y(t) - x(t) y(t) dt. \end{align*}
+Dies zeigt, dass $A = 3)$. 1) und 2) bekommt man durch partielle Integration:
+\[ \int_0^L x' y dt = \underbrace{x y \big|_0^L}_{0\text{, da periodisch}} - \int_0^L x y' dt. \]
+\end{proof}
+\end{lem}
+
 
 % Vorlesung 16.5.13
 
