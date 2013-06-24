@@ -1,0 +1,196 @@
+% This work is licensed under the Creative Commons
+% Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of
+% this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send
+% a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\chapter{Distributionen}
+
+
+Betrachten $f : \R^3 \setminus \{0\} \to \R : x \mapsto \f 1{|x|}$.
+Für $x \neq 0$ gilt
+\begin{align*}
+	\grad f &= - \f x{|x|^3} \\
+	\Delta f = \div \grad f &= 0
+\end{align*}
+Physiker sagen: $-\Delta f = \delta_0$ (Diracsche $\delta$-Funktion):
+„$\delta_0 = 0$ für $x \neq 0$, $\delta_0(0)$ so, dass $\int \delta_0(x)g(x) \dx = g(0)$“
+
+Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $D'(\R^n)$ in dem gelten:
+\begin{enumerate}[1)]
+	\item
+		$D_j : D'(\R^n) \to D'(\R^n) : f \mapsto \partial_{x_j} f$ sind stetige Abbildungen.
+	\item
+		Zeige: $f : x \mapsto \f 1{|x|}$, $\delta_0$ sind Elemente von $D'(\R^3)$ und
+		\[
+			-\Delta f = \delta_0.
+		\]
+\end{enumerate}
+
+
+\section{Konstruktion des Raumes}
+
+
+\begin{conv} \label{5.1}
+	Für $\alpha \in \N_0^n$ schreiben wir
+	\[
+		\nabla^\alpha := \partial_{x_1}^{\alpha_1} \dotso \partial_{x_n}^{\alpha_n}.
+	\]
+\end{conv}
+
+\begin{df}[Raum der Testfunktionen] \label{5.2}
+	Seien $\phi_j, \phi \in C_0^\infty(\R^n)$.
+	Dann heißt die Folge $(\phi_j)_{j\in \N}$ \emph{$D$-konvergent} gegen $\phi$, falls
+	\begin{enumerate}[1)]
+		\item
+			$\exists K \subset \R^n \text{ kompakt } \forall j \in \N: \supp \phi_j \subset K$,
+		\item
+			$\forall \alpha \in \N_0^n: \nabla^{\alpha} \phi_j \to \nabla^\alpha \phi$ auf $\R^n$ gleichmäßig (d.h. $\|\nabla^\alpha \phi_j - \nabla^\alpha \phi\|_{L^\infty(\R^n)} \to 0$ $\forall \alpha \in \N_0^n$).
+	\end{enumerate}
+	(insbesondere $\supp \phi \subset K$)
+
+	Wir schreiben dann
+	\[
+		\phi_j \overset{D} \longrightarrow \phi.
+	\]
+	Der lineare Raum $C_0^\infty(\R^n)$ versehen mit diesem Konvergenzbegriff heißt \emph{Raum der Testfunktionen, $D(\R^n)$}  (Präziser: $D(\R^n)$  ist ein lokalkonvexer topologischer Raum, siehe z.B. \cite{Reed-Simon}).
+\end{df}
+
+\begin{st} \label{5.3}
+	$D(\R^n)$ ist vollständig.
+	\begin{proof}
+		Sei $(\phi_j)$ Cauchy-Folge in $D(\R^n)$, d.h. $\exists K \subset \R^n \text{ kompakt } \forall j \in \N: \supp \phi_j \subset K$ und
+		\[
+			\forall \alpha \in \N_0^n \forall \eps > 0 \exists J_\eps \in \N \forall j,k > J_\eps : \|\nabla^\alpha \phi_j - \nabla^\alpha \phi_k \|_{L^\infty(\R^n)} < \eps.
+		\]
+		Also ist für jedes feste $\alpha \in \N_0^n$ ist $(\nabla^\alpha \phi_j)_{j\in \N}$ eine Cauchy-Folge bezüglich $\|\argdot\|_{L^\infty(\R^n)}$.
+		Damit gilt $\nabla^\alpha \phi_j \to \psi_\alpha \in C(\R^n \to \C)$ gleichmäßig.
+
+		$\psi_0 := \lim{n\to \infty} \nabla^0 \phi_j$ ist differenzierbar, $\nabla^\alpha \psi_0 = \psi_\alpha \in C(\R^n \to \C)$, also $\psi_0 \in C^\infty (\R^n \to \C)$.
+
+		Wegen $\supp \phi_j \subset K$, $\phi_j \to \psi_0$ ist $\supp \psi_0 \subset K$, also $\psi_0 \in C_0^\infty(\R^n)$ und $\nabla^\alpha \psi_j \to \nabla^\alpha \psi_0$ bezüglich $\|\argdot\|_{L^\infty(\R^n)}$.
+	\end{proof}
+\end{st}
+
+\begin{df}[Schwartzsche Distribution] \label{5.4}
+	Eine \emph{(Schwartzsche) Distribution} ist eine lineare, stetige Abbildung $T: D(\R^n) \to \C$.
+	Durch
+	\begin{align*}
+		(T+S)(\phi) &:= T\phi + S\phi,  \qquad T,S \in D(\R^n);\\
+		(\alpha T)(\phi) &:= \alpha T\phi,  \qquad T\in D(\R^n), \alpha \in \C
+	\end{align*}
+	wird $\{ T : D(\R^n) \to \C \suchthat T \text{ linear und stetig}\}$ zu einem linearen Raum, dem Raum $D'(\R^n)$ der Schwartzschen Distributionen.
+
+	Eine Folge $(T_n)$ in $D'(\R^n)$ heißt konvergent gegen $T \in D'(\R^n)$, falls
+	\[
+		\forall \phi \in C_0^\infty(\R^n) : T_n\phi \to T \phi
+	\]
+	(Präzizer: $D'(\R^n)$ ist topologischer Dualraum mit von der Topologier auf $D(\R^n)$ induzierten Topologie; zu dieser Topologie gehört unser Konvergenzbegriff).
+\end{df}
+
+
+\begin{ex} \label{5.5}
+	\begin{enumerate}[1)]
+		\item
+			Sei $x_0 \in \R^n$ fest.
+			\[
+				\delta_{x_0}(\phi) := \phi(x_0) \qquad \text{für $\phi \in C_0^\infty(\R^n)$}
+			\]
+			heißt \emph{Diracsche $\delta$-Distribution}.
+
+			$\delta_{x_0}$ ist linear:
+			\[
+				\delta_{x_0}(\alpha \phi + \beta \psi) 
+				= (\alpha \phi + \beta \psi)(x_0)
+				= \alpha \phi(x_0) + \beta \psi(x_0)
+				= \alpha \delta_{x_0}(\phi) + \beta \delta_{x_0}(\psi)
+			\]
+			$\delta_{x_0}$ ist stetig: Es gelte $\phi_j \overset{D}\to \phi$, also insbesondere $\phi_j \to \phi$ gleichmäßig und punktweise, also
+			\[
+				\delta_{x_0}(\phi_j) = \phi_j(x_0) \quad \to \quad \phi(x_0) = \delta_{x_0}(\phi).
+			\]
+		\item
+			Sei
+			\[
+				L_{\text{loc}}^1 (\R^n) := \Big\{ u : \R^n \to \C  \suchthat \forall K \subset \R^n  \text{kompakt} : u_K \in L^1(K) \Big\}
+			\]
+			(z.B. $f(x) = \f 1{|x|}$, dann ist $f \in L_{\text{loc}}^1(\R^n)$).
+
+			Zu $u \in L_{\text{loc}}^1(\R^n)$ setze
+			\[
+				T_u(\phi) := \int_{\R^n} u(x) \phi(x) \dx \qquad \text{für $\phi \in C_0^\infty(\R^n)$}.
+			\]
+			$T_u : C_0^\infty(\R^n) \to \C$ ist linear.
+
+			$T_u$ ist stetig:
+			Sei $\phi_j \overset{D}{\to} \phi$, insbesondere $\supp \phi_j \subset K, \supp \phi \subset K$, also
+			\begin{align*}
+				|T_u \phi_j - T_u \phi| 
+				&= \Big| \int_{\R^n} u (\phi_j-\phi) \dx \Big|
+				= \Big| \int_{K} u (\phi_j-\phi) \dx \Big| \\
+				&\le \underbrace{\|\phi_j - \phi\|_{L^\infty(\R^n)}}_{\to 0} \underbrace{\int_{K} |u| \dx}_{\in \R \text{ da $u\in L_{\text{loc}}^1(\R^n)$}}
+			\end{align*}
+			Also $T_u \phi_j \to T_u \phi$.
+	\end{enumerate}
+\end{ex}
+
+
+\begin{st} \label{5.6}
+	$D'(\R^n)$ ist vollständig.
+	\begin{proof}
+		Sei $(T_n)$ Cauchy-Folge in $D'(\R^n)$, d.h.
+		\[
+			\forall \phi \in C_0^\infty(\R^n) : (T_n \phi) \text{ Cauchy-Folge in $\C$}
+		\]
+		(insbesondere $T_n \phi$ konvergent).
+
+		Definiere $T\phi := \lim_{n\to \infty} (T_n \phi)$.
+		Dann ist $T$ linear, da $T_n, \lim$ linear.
+		$T$ ist stetig, siehe dazu Satz von Banach-Steinhaus oder direkt in \cite{Walter}.
+	\end{proof}
+\end{st}
+
+\section{Einbettung klassischer Funktionenräume}
+
+
+\begin{st} \label{5.7}
+	Die Abbildung $L_{\text{loc}}^(\R^n) \ni u \mapsto T_u \in D'(\R^n)$ ist injektiv und linear.
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Linearität: einfache Übung.
+			\item
+				Injektivität:
+				
+				Es gilt $T_u = T_v \iff T_u - T_v = 0 \iff T_{u-v} = 0$, zeige $T_u = 0 \implies u = 0$ fast überall in $\R^n$.
+				\begin{enumerate}[a)]
+					\item
+						Abschneiden:
+
+						Wähle $\psi_R \in C_0^\infty(\R^n), \psi_R(x) = 1, x \in \_{K_R(0)}, 0 \le \psi_{R}(x) \le 1$.
+						Dann ist
+						\[
+							T_{\psi_R \cdot u} (\phi) 
+							= \int_{\R^n} (\psi_R u) \phi \dx 
+							= T_u (\underbrace{\psi_R \phi}_{\in C_0^\infty(\R^n)})
+							= 0
+						\]
+						Also $\psi_R u \in L^1(\R^n), T_{\psi_R u} = 0, \supp(\psi_R u) \subset \_{K_R(0)}$.
+					\item
+						Approximation:
+
+						Setze
+						\begin{align*}
+							j(x) &:= \begin{cases}
+								c e^{-\f 1{1-|x|^2}} & |x| < 1 \\
+								0 & |x| \ge 1
+							\end{cases} \qquad \text{mit }
+							c := \dfrac 1{\int_{|x|< 1} e^{-\f 1{1-|x|^2}} \dx} \\
+							j_\eps(x) &:= \f 1{\eps^n} j(\f x\eps)
+						\end{align*}
+						Also $j_\eps \in C_0^\infty(\R^n), \supp j_\eps = \_{K_\eps(0)}, j_\eps(x) \ge 0, \int_{\R^n} j_\eps \dx = 1$.
+				\end{enumerate}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
