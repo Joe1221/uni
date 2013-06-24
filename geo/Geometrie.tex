@@ -1,11 +1,11 @@
 \documentclass[11pt]{scrbook}
 \usepackage{mathe-vorlesung2}
-\usepackage{nameref}
 \renewtheorem{thm}{Theorem}[section]
 \renewcommand{\thethm}{\arabic{section}.\arabic{thm}}
 \newcommand{\tta}{\vartheta}
-\newcommand{\eing}{\mathop |}
-\newcommand{\vekt}[2]{\binom{#1}{#2}}
+\newcommand{\eing}{\mathop |}		% "eingeschränkt auf"
+\newcommand{\vekt}[2]{\binom{#1}{#2}}   	% 2-dim Vektoren
+\newcommand{\kp}{\times} 	 		% Kreuzprodukt
 
 
 \title{Geometrie}
@@ -664,7 +664,8 @@ Ein weiteres Mal lässt sich das Argument nicht anwenden, da bei 4 Kreisbogenst�
 \section{Die isoperimetrische Ungleichung}
 Schon im antiken Griechenland bekannt: Unter allen Gebieten in der Ebene, die von einer Kurve der Länge $L$ berandet werden, hat der Kreis den größten Flächeninhalt.
 
-\begin{st}\label{6.1}
+\begin{st}{Isoperimetrische Ungleichung}
+\label{6.1}
 Sei $G$ ein beschränktes Gebiet, berandet von der einfach geschlossenen Kurve $c$. Sei $A$ der Flächeninhalt von $G$ und $L$ die Länge von $c$. Dann gilt: \[ 4 \pi A \leq L^2 \]
 mit Gleichheit genau dann, wenn $c$ ein Kreis ist.
 \end{st}
@@ -692,7 +693,82 @@ Dies zeigt, dass $A = 3)$. 1) und 2) bekommt man durch partielle Integration:
 \end{proof}
 \end{lem}
 
+\begin{proof}{der isoperimetrischen Ungleichung \ref {6.1}}
+E. Schmidt, 1939. \\
+Seien $E$ und $E'$ parallele Geraden, die $c$ nicht schneiden und zwischen denen $c$ liegt. Wir bewegen sie aufeinander zu, bis sie die Kurve $c$ in den Geraden $L$ und $L'$ tangential berühren.
+
+Sei $S^1$ ein Kreis, der sowwohl $L$ als auch $L'$ tangential berührt. Sei das Koordinatensystem so gewählt, dass der Ursprung $0$ der Mittelpunkt des Kreises ist und $L$ und $L'$ parallel zur $y$-Achse liegen. \\
+Sei $c(t) = \vekt{x(t)}{y(t)}$ n.Bl. par. und positiv orientiert. Seien $c(0)$ und $c(s_1)$ Tangentenpunkte an $L$ bzw. $L'$. \\
+{\color{orange} Wir nehmen an, dass der Kreis $S^1$ durch $ \bar{c}(t) = \vekt{\bar{x}(t)}{\bar{y}(t)} = \vekt{x(t)}{\bar{y}(t)}$ gegeben ist, d.h. $x = \bar {x}$.} \\ 
+Sei $2 r$ der Abstand von $L$ und $L'$, d.h. der Radius des Kreises $\bar{c}$ (bzw. $S^1$). Sei $\bar{A}$ der Flächeninhalt von $S^1$. Aus dem Lemma \ref{6.2} erhalten wir 
+\[ A = \int_0^L x y' dt \; , \quad \bar{A} = \pi r^2 = - \int_0^L x' \bar{y} dt. \]
+Also gilt mit  $0 \leq (x x' + \bar{y} y')^2 \; \Leftrightarrow \; - 2 x x' \bar{y} y' \leq x^2 x'^2 + \bar{y}^2 y'^2$ (*):
+\begin{align*}
+A + \pi r^2 &= \int_0^L x y' dt - \int_0^L x' \bar{y} dt = \int_0^L (x y' - x' \bar{y}) dt \leq \int_0^L \sqrt{(x y' - x' \bar{y})^2} dt \\
+&\stackrel{*}{\leq} \int_0^L \sqrt{(x^2 + \bar{y}^2) \; \cdot \underbrace{(x'^2 + y'^2)}_{= 1, \text{ da $c$ n.Bl.par. }}} dt  \\
+&= \int_0^L \sqrt{x^2 + \bar{y}^2} dt = \int_0^L \underbrace{\sqrt{\bar{x}^2 + \bar{y}^2}}_{= r} dt = Lr.
+\end{align*}
+Wir benutzen jetzt die Ungleichung zwischen geometrischem und arithmetischem Mittel (dabei gilt Gleichheit genau dann, wenn die beiden Zahlen gleich sind):
+\[ \sqrt{A} \sqrt{\pi r^2} \leq \f{1}{2} (A + \pi r^2) \leq \f{L}{2} r. \]
+Daraus folgt 
+\[ 4 \pi A r^2 \leq L^2 r^2 \quad  \Longleftrightarrow \quad 4 \pi A \leq L^2  \qquad \text{(isoper. Ungl.)} .\]
+
+\fixme{noch zu zeigen: Gleichheitsfall}
+\end{proof}
 
 % Vorlesung 16.5.13
+
+\section{Raumkurven}
+
+% Vorlesung 28.5.13
+\setcounter{thm}{3}
+
+Raumkurven: $c: I \to \R^3$. \\
+\emph{Krümmung}: $\kappa(t) := \| \ddot c(t) \| \quad$ ($c$ n.Bl.par.) \\
+Beispiel: Die Helix $c(t) = \begin{pmatrix} \cos(\f{t}{\sqrt{2}}) \\ \sin(\f{t}{\sqrt{2}}) \\ \f{t}{\sqrt{2}} \end{pmatrix}$  hat konstante Krümmung $\kappa(t) = \f{1}{2}$, genau wie ein Kreis von Radius $2$, diese beiden Kurven sind \emph{nicht} durch eine euklidische Bewegung zur Deckung zu bringen, denn die Helix ist nicht in einer Ebene enthalten. 
+
+$\leadsto$ Die Krümmung $\kappa(t)$ alleine reicht nicht aus, um die Kurve (analog wie im Hauptsatz über ebene Kurven) eindeutig festzulegen. Der Grund dafür ist, dass sich z.B. die Helix beständig aus ihrer Schmiegeebene herauswindet, z.B. der Kreis aber nicht. Wir benötigen eine weitere Größe, die kennzeichnet, wie stark sich die Kurve an jedem Punkt aus ihrer Schmiegeebene heraus\textbf{windet}. \\
+Dazu ergänzen wir $v(t)$ und $n(t)$ zu einer Orthonormalbasis des $\R^3$:
+
+\begin{df}
+Sei $c: I \to \R^3$ eine n.Bl.par. Raumkurve und sei $t \in I$ mit $\kappa(t) \neq 0$. Dann ist durch
+\[ b(t) := v(t) \kp n(t) \]
+der \textbf{Binormalvektor} an $c$ in $t$ definiert.
+\end{df}
+
+Wir betrachten die Änderung des Normalenvektors:
+\begin{df}
+Sei $c: I \to \R^3$ eine n.Bl.par. Raumkurve und $t \in I$ mit $\kappa(t) \neq 0$. Dann heißt
+\[ \tau(t) := \< \dot n(t), b(t) \> \]
+die \textbf{Torsion} oder \textbf{Windung} von $c$ in $t$.
+\end{df}
+
+\begin{note*}
+$\left( v(t), n(t), b(t) \right)$ heißt (für $\kappa(t) \neq 0$) das \textbf{begleitende Dreibein} von $c$ in $t$.
+\end{note*}
+
+Dass $\tau$ tatsächlich die gewünschte Eigenschaft hat, sieht man an folgendem Lemma:
+\begin{lem}
+Sei $C: I  \to \R^3$ eine n.Bl.par. Raumkurve mit $\kappa(t) \neq 0 \; \forall t \in I$. Dann ist $c$ eine ebene Kurve, d.h. in einer affinen Ebene des $\R^3$ enthalten, genau dann, wenn $\tau(t) = 0 \; \forall t \in I$ gilt.
+\begin{proof}
+Übungsaufgabe 2 a) auf Blatt 7.
+\end{proof} 
+\end{lem}
+
+
+
+% Vorlesung 4.6.13
+
+% Vorlesung 6.6.13
+
+% Vorlesung 11.6.13
+
+% Vorlesung 13.6.13
+
+% Vorlesung 18.6.13
+
+% Vorlesung 20.6.13
+
+% Vorlesung 25.6.13
 
 \end{document}
