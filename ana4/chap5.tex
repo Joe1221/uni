@@ -154,7 +154,7 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $D'(\R^n)$
 
 
 \begin{st} \label{5.7}
-	Die Abbildung $L_{\text{loc}}^(\R^n) \ni u \mapsto T_u \in D'(\R^n)$ ist injektiv und linear.
+	Die Abbildung $L_{\text{loc}}^1(\R^n) \ni u \mapsto T_u \in D'(\R^n)$ ist linear und injektiv.
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
@@ -175,7 +175,7 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $D'(\R^n)$
 							= T_u (\underbrace{\psi_R \phi}_{\in C_0^\infty(\R^n)})
 							= 0
 						\]
-						Also $\psi_R u \in L^1(\R^n), T_{\psi_R u} = 0, \supp(\psi_R u) \subset \_{K_R(0)}$.
+						Also $\psi_R u \in L^1(\R^n), T_{\psi_R u} = 0, \supp(\psi_R u) \subset \_{K_{R+1}(0)}$.
 					\item
 						Approximation:
 
@@ -189,7 +189,204 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $D'(\R^n)$
 							j_\eps(x) &:= \f 1{\eps^n} j(\f x\eps)
 						\end{align*}
 						Also $j_\eps \in C_0^\infty(\R^n), \supp j_\eps = \_{K_\eps(0)}, j_\eps(x) \ge 0, \int_{\R^n} j_\eps \dx = 1$.
+
+						Für festes $y\in \R^n$ ist $j_\eps(y-\argdot) \in C_0^\infty(\R^n)$.
+						Da $T_{\psi_R u} = 0$ ist
+						\[
+							0 = T_{\psi_R u} (j_\eps(y-\argdot))
+							= \int_{\R^n} \psi_R(x) u(x) j_\eps(y-x) \dx
+							= J_\eps(\psi_R u)(y)
+						\]
+						mit Glättungsoperator $J_\eps$.
+						Nach \ref{4.20} ist
+						\[
+							\|\psi_R u \|_{L^1(\R^n)}
+							= \|\psi_R u - \underbrace{J_\eps(\psi_R u)}_{=0} \|_{L^1(\R^n)}
+							\to 0 \qquad \text{für $\eps \searrow 0$.}
+						\]
+						also $\|\psi_R u \|_{L^1(\R^n)}$, bzw. $\psi_R u = 0$ fast überall in $\R^n$.
+						Insbesondere ist
+						\[
+							\my \Big(\big\{ x \in \R^n : |x| \le R \land u(x) \neq 0 \big\} \Big) = 0,
+						\]
+						also
+						\begin{align*}
+							\my(\{x\in \R^n : u(x) \neq 0\})
+							&= \my \Big( \bigcup_{k=1}^\infty \{|x| \le k : u(x) \neq 0\} \Big) \\
+							&\le \sum_{k=1}^\infty \my \big( \{|x|\le k : u(x)\neq 0\}\big)
+							= 0
+						\end{align*}
+						und somit $u= 0$ fast überall in $\R^n$.
 				\end{enumerate}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{df} \label{5.8}
+	Wir identifizieren $u$ und $T_u$.
+	Dann ist $L_{\text{loc}}^1 (\R^n) \subset D'(\R^n)$ (insbesondere $C^1(\R^n \to \C) \subset D'(\R^n)$).
+
+	Eine Distribution $T \in D'(\R^n)$ heißt \emph{regulär}, falls
+	\[
+		\exists u \in L_{\text{loc}}^1 (\R^n) : T = T_u,
+	\]
+	sonst \emph{singulär}.
+
+	Falls $T = T_u$, schreibt man auch $T_u(\phi) =: (u,\phi) =: (T_u,\phi)$ (oft auch $T(\phi) =: (T,\phi)$).
+\end{df}
+
+\begin{ex} \label{5.9}
+	\begin{enumerate}[1)]
+		\item
+			$\delta_{x_0} : \phi \mapsto \phi(x_0)$ ist singulär.
+		\item
+			Im $\R^1$ bezeichne
+			\[
+				T(\phi) := \lim_{\eps \searrow 0} \Big( \int_{-\infty}^{-\eps} \f{\phi(x)}x \dx + \int_{\eps}^\infty \f {\phi(x)}x \dx \Big)
+				= \CH \int_{-\infty}^\infty \f {\phi(x)}x \dx
+			\]
+			den \emph{Cauchy'schen Hauptwert}.
+			$T$ ist singulär.
+		\item
+			Im $\R^3$ ist $T = T_{\f 1{|x|}}$ regulär.
+	\end{enumerate}
+\end{ex}
+
+\begin{st} \label{5.10}
+	$C_0^\infty(\R^n)$ ist dicht in $D'(\R^n)$.
+	\begin{proof}
+		Sei $T \in D'(\R^n)$. Konstruiere $t_k \in C_0^\infty(\R^n)$ mit $t_k \to T$, d.h $T_{t_k} \to T$.
+
+		Wähle $\psi_R \in C_0^\infty(\R^n)$, $\psi_R = 1$ für $|x| \le R$, $\psi_R = 0$ für $|x| \ge R + 1$, $  \le \psi_R(x) \le 1$.
+		Setze
+		\[
+			t_k(x) := \psi_k (x) T(j_{\f 1k}(x - \argdot))
+		\]
+		Dann ist
+		\begin{enumerate}[a)]
+			\item
+				$t_k \in C_0^\infty(\R^n)$:
+
+				Es ist $\supp(t_k) \subset \sup(\psi_k) \subset \_{K_{R+1}(0)}$.
+				Sei $x \in \R^n$ fest, $\alpha \in \N_0^n$, dann ist
+				\begin{align*}
+					\f {(\nabla^\alpha j_{\f 1k})(x+he_j - y) - (\nabla^\alpha j_{\f 1k})(x-y)}h
+					\to (\partial_{x_j} \nabla^\alpha j_{\f 1k})(x-y) \qquad \text{gleichmäßig bzgl. $y\in \R^n$ für $h\to 0$.}
+				\end{align*}
+				Außerdem ist
+				\[
+					\supp \f{j_{\f 1k}(x+he_j - \argdot) - j_{\f 1k}(x-\argdot)}h
+					\;\subset \_{K_{h+ \f 1k}(x)} \;
+					\stack[k \ge 1]{|h| \le 1}{\subset} K_2(x).
+				\]
+				Also gilt für festes $x \in \R^n$, $k \in \N$
+				\[
+					\f {j_{\f 1k} (x+he_j - \argdot) - j_{\f 1k}(x-\argdot)}h
+					\stack{D}\to \partial_{x_j} j_{\f 1k} (x-\argdot)
+				\]
+				und da $T$ stetig
+				\[
+					\underbrace{T \Big( \f {j_{\f 1k} (x+he_j - \argdot) - j_{\f 1k}(x-\argdot)}h \Big)}_{= \f 1h ( T(j_{\f 1k}x+he_j-\argdot)) - T(j_{\f 1k}(x-\argdot))}
+					\to T \Big( \partial_{x_j} j_{\f 1k} (x-\argdot) \Big).
+				\]
+				Also ist
+				\[
+					\f{\partial}{\partial x_j} T (j_{\f 1k}(x-\argdot)) = T(\partial_{x_j} j_{\f 1k}(x-\argdot))
+				\]
+				und somit $T(j_{\f 1k}(x-\argdot)) \in C^\infty(\R^n \to \C)$ und $t_k \in C_0^\infty(\R^n)$.
+			\item
+				Zeige: $\forall \phi \in C_0^\infty(\R^n) : T_{t_k}(\phi) \to T(\phi)$ (vgl. \ref{5.4}).
+
+				Es gilt
+				\begin{align*}
+					T_{t_k}(\phi) 
+					&= \int_{\R^n} t_k(x) \phi(x) \dx \\
+					&= \int_{\R^n} \psi_k(x) T(j_{\f 1k}(x-\argdot)) \phi(x) \dx \\
+					&= \int_{|x|\le k+1} \psi_k(x) T(j_{\f 1k}(x-\argdot)) \phi(x) \dx \qquad (\supp \psi_k \subset \_{K_{k+1}(0)}) \\
+					&= \lim_{n\to\infty} \sum_{l=0}^{M(m)} \psi_k(\xi_l^{(m)}) T(j_{\f 1k}(\xi_l^{(m)}-\argdot)) \phi(\xi_l^{(m)})\my(I_l^{(m)}) \\
+					&= \lim_{n\to\infty} T \underbrace{\Big( \sum_{l=0}^{M(m)} \psi_k(\xi_l^{(m)}) (j_{\f 1k}(\xi_l^{(m)}-\argdot)) \phi(\xi_l^{(m)})\my(I_l^{(m)}) \Big)}_{\overset{D}\to \int_{|x|\le k+1} \psi_k(x) j_{\f 1k}(x-\argdot) \phi(x) \dx} \\
+					&= T \underbrace{\Big( \int_{|x|\le k+1} \psi_{k}(x) j_{\f 1k} (x-\argdot) \phi(x) \dx \Big)}_{\stack[k \to \infty]{D}\longrightarrow \phi} \\
+					&\to T(\phi)
+				\end{align*}
+			\item
+				$T_{t_k} \to T$ in $D'(\R^n)$:
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+
+\section{Differentiation}
+
+
+\begin{lem} \label{5.11}
+	Für $u \in C_0^\infty(\R^n), \alpha \in \N_0^n$ gilt $T_{\nabla^\alpha u} (\phi) = (-1)^{|\alpha|} T_u(\nabla^\alpha \phi)$.
+	\begin{proof}
+		Für $\alpha = e_j$ (Standardbasis), dann ist
+		\begin{align*}
+			T_{\nabla^{e_j} u}(\phi) 
+			&= \int_{\R^n} (\partial_{x_j} u) \phi \dx \\
+			&= - \int_{\R^n} u \partial_{x_j} \phi \dx \qquad \text{(part. Int. in $j$-ter Richtung, Randterme verschwinden)} \\
+			&= - T_u (\partial_{x_j} \phi).
+		\end{align*}
+	\end{proof}
+\end{lem}
+
+\begin{st} \label{5.12}
+	Die Abbildungen
+	\[
+		\nabla^\alpha : C_0^\infty(\R^n) \to C_0^\infty(\R^n)
+	\]
+	sind stetig bezüglich des Konvergenzbegriffs in $D'(\R^n)$.
+	\begin{proof}
+		Zeige: Wenn $u_k, u \in C_0^\infty(\R^n)$ und $T_{u_k} \to T_u$ konvergiert, dann konvergiert $T_{\nabla^\alpha u_k} \to T_{\nabla^\alpha u}$.
+
+		Für $\phi \in C_0^\infty(\R^n)$ ist
+		\begin{align*}
+			T_{\nabla^\alpha u_k} (\phi) 
+			&= (-1)^{|\alpha|} T_{u_k} (\underbrace{\nabla^\alpha \phi}_{\in C_0^\infty(\R^n)}) \\
+			&\to (-1)^{|\alpha|} T_u(\nabla^\alpha \phi)
+			= T_{\nabla^\alpha u}(\phi).
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{5.13}
+	Für $\alpha \in \N_0^n$ ist die Abbildung $\nabla^\alpha: C_0^\infty(\R^n) \to C_0^\infty(\R^n)$ eindeutig fortsetzbar zu einer stetigen Abbildung $D^\alpha: D'(\R^n) \to D'(\R^n)$.
+	Die Fortsetzung ist gegeben durch
+	\[
+		(D^\alpha T)(\phi) := (-1)^{|\alpha|} T(\nabla^\alpha \phi)
+	\]
+	und heißt \emph{Distributionenableitung} oder \emph{schwache Ableitung}.
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Sei $T \in D'(\R^n)$, zeige $D^\alpha T \in D'(\R^n)$.
+
+				$D^\alpha T$ ist linear, denn
+				\begin{align*}
+					D^\alpha T(a \phi + b \psi)
+					&= (-1)^{|\alpha|} T(\nabla^{\alpha}(a \phi + b\psi)) \\
+					&= (-1)^{|\alpha|} \big( aT(\nabla^\alpha \phi) + bT(\nabla^\alpha \psi) \big) \\
+					&= a D^\alpha T(\phi) + b D^\alpha T(\psi).
+				\end{align*}
+				$D^\alpha$ ist stetig, denn für $\phi_n \stack D\to \phi$ gilt
+				\[
+					D^\alpha T(\phi_n)
+					= (-1)^{|\alpha|} T(\nabla^\alpha \phi_n)
+					\to D^\alpha T(\phi) \qquad \text{$T$ stetig}
+				\]
+			\item
+				Nach \ref{5.11} ist $D^\alpha \big|_{C_0^\infty(\R^n)} = \nabla^\alpha$, also ist $D^\alpha$ Fortsetzung von $\nabla^\alpha$.
+			\item
+				Zeige die Eindeutigkeit:
+
+				Sei $T \in D'(\R^n)$.
+				Wähle Folge $(t_k)$ in $C_0^\infty(\R^n)$ mit $T_{t_k} \to T$ in $D'(\R^n)$.
+				Da $D^\alpha$ stetige Fortsetzung sein soll, muss
+				\begin{align*}
+					&\implies \quad D^\alpha T_{t_k} \to D^\alpha T \\
+					&\iff \quad \underbrace{D^\alpha T_{t_k}(\phi)}_{\mathclap{(-1)^{|\alpha|}T_{t_k}(\nabla^\alpha \phi)) \to (-1)^{|\alpha|}T(\nabla^\alpha \phi)}} \to D^\alpha T(\phi)
+				\end{align*}
 		\end{enumerate}
 	\end{proof}
 \end{st}
