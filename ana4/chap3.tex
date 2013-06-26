@@ -508,7 +508,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 \end{st}
 
 \begin{df}[Sturm-Liouville-Operator] \label{3.9}
-	Sei $J := [a,b]$, $L := C([a,b] \to \R)$ mit $\<f,g\> := \int_a^b f(x)g(x) \dx$ Prähilbertraum über $\R$.
+	Sei $I := [a,b]$, $L := C([a,b] \to \R)$ mit $\<f,g\> := \int_a^b f(x)g(x) \dx$ Prähilbertraum über $\R$.
 	Definiere
 	\begin{align}
 		\label{eq:3.2}
@@ -552,20 +552,21 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 \end{nt}
 
 \begin{df} \label{3.11}
-	Eine Funktion $G: I \times I \to \R$ heißt \emph{Greensche Funktion} zu $A$, falls
+	Sei I wie in \ref{3.9}. Eine Funktion $G: I \times I \to \R$ heißt \emph{Greensche Funktion} zu $A$, falls
 	\begin{enumerate}[1)]
 		\item
 			$G \in C(I\times I \to \R)$;
 		\item
-			\fixme[Bild für $\Delta_1$ und $\Delta_2$]
+			\fixme[Bild für $\Delta_1$ und $\Delta_2$].
+			Sei $\Delta_1:=\{(x,y)\in I \times I | x \le y\}, \Delta_2:=\{(x,y)\in I \times I | x \ge y\}$, dann soll gelten.
 
 			$\partial_1 G, \partial_1^2 G \in C(\Delta_1 \to \R)$ stetig fortsetzbar auf $\_{\Delta_1}$, \\
 			$\partial_1 G, \partial_1^2 G \in C(\Delta_2 \to \R)$ stetig fortsetzbar auf $\_{\Delta_2}$;
 		\item
 			Für festes $\xi \in I$
 			\begin{align*}
-				\tilde A G(\argdot, \xi) &= 0 \qquad \text{in $I \setminus \{\xi\}$} \\
-				R_1 G(\argdot, \xi) = R_2 G(\argdot, \xi) &= 0;
+				\tilde A \big(G(\argdot, \xi)\big) &= 0 \qquad \text{in $I \setminus \{\xi\}$} \\
+				R_1 \big(G(\argdot, \xi)\big ) = R_2 G(\argdot, \xi) &= 0;
 			\end{align*}
 		\item
 			Für $\xi \in ]a,b[$
@@ -588,14 +589,14 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 	\end{enumerate}
 	\begin{proof}
 		\begin{seg}[(ii) $\implies$ (i)]
-			Wir teilen das Integral in $u(x)$ auf und leiten es nach der Leibnitzregel ab:
+			Wir teilen das Integral auf und leiten es nach der Leibnitzregel ab:
 			\begin{align*}
 				u(x)
-				&= \int_a^x G(\underbrace{x,y}_{\in \Delta_2})\phi(y) \dx[y] + \int_x^b G(\underbrace{x,y}_{\in \Delta_1})\phi(y) \dx[y] \displaybreak[0]\\
+				&= \int_a^x G(\underbrace{x,y}_{\in \Delta_2})\phi(y) \dx[y] + \int_x^b G(\underbrace{x,y}_{\in \Delta_1})\phi(y) \dx[y] \displaybreak[0].\\
 				\implies \quad u'(x) &=
 				G(x,x) \phi(x) - 0 + \int_a^x \partial_1 G(x,y) \phi(y) \dx[y]  \\
 				&\quad + 0 - G(x,x) \phi(x) + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y] \\
-				&=\int_a^x \partial_1 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y]  \displaybreak[0] \\
+				&=\int_a^x \partial_1 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y]  \displaybreak[0]. \\
 				\implies \quad u''(x) &=
 				\underbrace{\partial_1 G(x,x-0)}_{= \partial_1 G(x+0,x)} \phi(x) + 0 - \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] \\
 				&\quad+ 0 - \underbrace{\partial_1 G(x,x+0)}_{=\partial_1 G(x-0,x)} \phi(x) + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] \\
@@ -686,7 +687,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		\begin{seg}[(i)$\implies$(ii)]
 			Aus (i) folgt mit \ref{3.12}, dass
 			\[
-				Au = 0 \quad\implies\quad u = \int_a^b G \cdot 0 \dx[y] = 0
+				Au = 0 \quad\implies\quad u = \int_a^b G(x,y) \cdot 0 \dx[y] = 0
 			\]
 			Also kann $0$ kein Eigenwert von $A$ sein.
 		\end{seg}
@@ -708,9 +709,9 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 
 					Angenommen $u_1 = c u_2$, dann ist
 					\[
-						R_2 u_1 = c R_2 u_2 = 0
+						R_2 u_1 = c R_2 u_2 = 0.
 					\]
-					also $Au_1 = 0$ und nach (ii) $u_1 = 0$, ein Widerspruch.
+					Also $Au_1 = 0$ und nach (ii) $u_1 = 0$, ein Widerspruch.
 				\item
 					Die Wronskideterminante lässt sich mit $c_0 \in \R \setminus \{0\}$ schreiben als:
 					\[
@@ -747,8 +748,8 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 					Definiere
 					\[
 						G(x,\xi) := \begin{cases}
-							-\f 1{c_0} u_2(\xi)u_1(x) & a \le x \le \xi \le b \\
-							-\f 1{c_0} u_1(\xi)u_2(x) & a \le \xi < x \le b
+							-\f 1{c_0} u_2(\xi)u_1(x) & a \le x \le \xi \le b, \\
+							-\f 1{c_0} u_1(\xi)u_2(x) & a \le \xi < x \le b,
 						\end{cases}
 					\]
 					wobei $c_0 \in \R \setminus \{0\}$ wie oben.
@@ -824,7 +825,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		\lambda \ge -c.
 	\]
 	\begin{proof}
-		Es gilt (betrachte zur Vereinfachung nur den reellen Fall):
+		Es gilt 
 		\begin{align*}
 			\<Au,u\> 
 			&= \int_a^b (-(pu')' + qu) u \dx \\
@@ -852,17 +853,20 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		\begin{align*}
 			\<Au,u\> 
 			&= -pu'u \Big|_{x=a}^b + \int_a^b \Big(p(u')^2 + \underbrace{qu^2}_{\ge 0}\Big) \dx \\
-			&\ge - \max_{a \le x \le b} p(x) \Big( |u'(b)u(b)| + |u'(a)u(a)|\Big)  + \Big( \min_{a \le x \le b} p(x) \Big) \|u'\|^2 + (\min q) \|u\|^2
-		\intertext{\fixme[nachprüfen] Dabei ist $|u'(a)u(a)| = 0$ falls $\alpha_2 = 0$ und sonst $|u'(a)u(a)| = c|u(a)|^2 = cu^2(a)$. 
+			&\ge - \max_{a \le x \le b} p(x) \Big( |u'(b)u(b)| + |u'(a)u(a)|\Big)  + \Big( \min_{a \le x \le b} p(x) \Big) \|u'\|^2 + (\min q_{a \le x \le b}) \|u\|^2
+		\intertext{Dabei ist $|u'(a)u(a)| = 0$, falls $\alpha_2 = 0$ und sonst $|u'(a)u(a)| = c|u(a)|^2 = cu^2(a)$. 
 			Analog für $|u'(b)u(b)$ und $\beta_2$. 
-			Es genügt also den folgenden Fall zu betrachten}
-			&\ge - \Big(\max_{a \le x \le b} p(x)\Big) c \Big( |u(a)|^2 + |u(b)|^2 \Big) + \Big(\min p(x)\Big) \|u'\|^2 \\
-		\intertext{Mit der Abschätzung für $u(b)$, bzw. $u(a)$ von vorhin ergibt sich}
+			Es gilt also:}\\
+			\<Au,u\>
+			&\ge - \Big(\max_{a \le x \le b} p(x)\Big) c \Big( |u(a)|^2 + |u(b)|^2 \Big) + \Big(\min p(x)_{a \le x \le b}\Big) \|u'\|^2 \\
+		\intertext{Mit der Abschätzung für $u(b)$, bzw. $u(a)$ von vorhin ergibt sich}\\
+			\<Au,u\>
 			&\ge - \Big(\max_{a \le x \le b} p(x) \Big) c \cdot 2  \Big( \f 1{b-a} + \f 1{\eps^2} \Big) \|u\|^2 
 			 - \Big(\max_{a \le x \le b} p(x) \Big) c \cdot 2  \eps^2 \| u'\|^2 + \underbrace{\min_{a \le x \le b} p(x)\|u'\|^2}_{> 0}
 		\intertext{Wählt man $\eps$ so klein, dass $-(\max p) c 2\eps^2 + \min p = 0$}
-			&= - \Big(\max_{a \le x \le b} p\Big) \cdot 2 c \Big(\tf 1{b-a} + \tf 1{\eps^2}\Big) \|u\|^2
+			\<Au,u\>&\ge - \Big(\max_{a \le x \le b} p\Big) \cdot 2 c \Big(\tf 1{b-a} + \tf 1{\eps^2}\Big) \|u\|^2.
 		\end{align*}
+		Und damit ist die Aussage gezeigt. \fixme[überprüfe den Beweis auf formaler Richtigkeit].
 	\end{proof}
 \end{lem}
 
@@ -871,7 +875,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 	\begin{align*}
 		&\text{$\lambda$ ist Eigenwert von \eqref{eq:3.1} mit Eigenfunktion $u$} \\
 		&\qquad \iff \quad -Au + \lambda ru = 0 \\
-		&\qquad\iff \quad Au = \lambda ru
+		&\qquad\iff \quad Au = \lambda ru.
 	\end{align*}
 \end{nt*}
 
@@ -889,7 +893,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 			\]
 	\end{enumerate}
 	\begin{proof}
-		Sei $\lambda$ Eigenwert von \eqref{eq:3.1} mit Eigenfunktion $u$, dann ist
+		Sei $\lambda$ Eigenwert von \eqref{eq:3.1} mit Eigenfunktion $u$. Dann ist
 		\begin{align*}
 			\lambda \max r \int_a^b u^2 \dx 
 			&\ge \lambda \int_a^b r u^2 \dx \\
@@ -897,7 +901,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 			&= \<Au,\> \\
 			&\stack{\ref{3.15}}\ge \begin{cases}
 				-c \|u\|^2 \\
-				\min q(x) \|u\|^2 & \text{für die Randbedingungen}
+				\min q(x) \|u\|^2 & \text{für die Randbedingungen.}
 			\end{cases}
 		\end{align*}
 	\end{proof}
@@ -912,18 +916,18 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 	\]
 	($D(A') = D(A)$, $A'u = Au - dru$).
 
-	Sei weiter $G'$ die Greensche Funktion zu $A'$ (existiert nach \ref{3.14}).
+	Sei weiter $G'$ die Greensche Funktion zu $A'$ (welche nach \ref{3.14} existiert).
 	Definiere
 	\begin{align*}
 		G(x,y) &:= \sqrt {r(x)} G'(x,y) \sqrt{r(y)} \\
-		\scr K u(x) &:= \int_a^b G(x,y) u(y) \dx[y]  \qquad \text{für $u\in C(I\to \R)$}
+		\scr K u(x) &:= \int_a^b G(x,y) u(y) \dx[y],  \qquad \text{$u\in C(I\to \R)$}.
 	\end{align*}
 	Dann ist $\my = 0$ kein Eigenwert von $\scr K$ und folgende Aussagen sind äquivalent:
 	\begin{enumerate}[(i)]
 		\item
 			$\lambda = \f 1\my + d$ ist Eigenwert von \eqref{3.1} mit Eigenfunktion $u=\f 1{\sqrt r} v$.
 		\item
-			$\my = \f 1{\lambda -a}$ ist Eigenwert von $\scr K$ mit Eigenfunktion $v = \sqrt{r} u$
+			$\my = \f 1{\lambda -d}$ ist Eigenwert von $\scr K$ mit Eigenfunktion $v = \sqrt{r} u$
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[1)]
@@ -941,30 +945,30 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 				\end{align*}
 				Nach \ref{3.12} gilt 
 				\[
-					0 = A'(0) = \sqrt{r} u = \phi
+					0 = A'(0) = \sqrt{r} u. 
 				\]
-				also $u = 0$, ein Widerspruch.
+				Also $u = 0$, ein Widerspruch.
 			\item
 				Es gilt
 				\begin{alignat*}{2}
 					\text{(i)} &\iff& Au &= \lambda ru \\
 					&\iff& (A-dr)u &= (\lambda - d)ru \\
-					&\iff& A' u &= (\lambda -d)ru =: \phi \\
+					&\iff& A' u &= (\lambda -d)ru \\ 
 					&\stack{\ref{3.12}}\iff& u(x) &= \int_a^b G'(x,y) (\lambda -d) r(y) u(y) \dx[y] \\
-					&\stack{\cdot \sqrt{r(x)}}\iff& \underbrace{\sqrt{r(x)} u(x)}_{=:v(x)} &= (\lambda - d) \int_a^b \underbrace{\sqrt{r(x)} G'(x,y) \sqrt{r(y)}}_{G(x,y)} \underbrace{\sqrt{r(y)} u(y)}_{v(y)} \dx[y] \\
+					&\iff& \underbrace{\sqrt{r(x)} u(x)}_{=:v(x)} &= (\lambda - d) \int_a^b \underbrace{\sqrt{r(x)} G'(x,y) \sqrt{r(y)}}_{G(x,y)} \underbrace{\sqrt{r(y)} u(y)}_{v(y)} \dx[y] \\
 					&\iff& v &= (\lambda -d) \scr K v \\
-					&\iff \text{(ii)}&&
+					&\iff \text{(ii).}&&
 				\end{alignat*}
 		\end{enumerate}
 	\end{proof}
 \end{st}
 
-\begin{lem} \label{3.18}
+\begin{lem} \label{3.18} Es gilt:
 	\begin{enumerate}[1)]
 		\item
-			$\scr K$ ist symmetrisch und kompakt als Operator $\scr K : L \to L$ ($L = C(I \to \R)$, $\<f,g\> = \int_a^b fg \dx$)
+			$\scr K$ ist symmetrisch und kompakt als Operator $\scr K : L \to L$ ($L = C(I \to \R)$, $\<f,g\> = \int_a^b fg \dx$).
 		\item
-			$\im(\scr K) = \{\sqrt{r} u : u \in D(A)\}$
+			$\im(\scr K) = \{\sqrt{r} u : u \in D(A)\}$.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[1)]
@@ -978,17 +982,17 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 						\begin{align*}
 							v(x) 
 							&= \int_a^b \sqrt{r(x)} G'(x,y) \sqrt{r(y)} \phi(y) \dx[y] \\
-							&= \sqrt{r(x)} \int_a^b G'(x,y) \sqrt{r(y)} \phi(y) \dx[y] =: \sqrt{r(x)} u(x)
+							&= \sqrt{r(x)} \int_a^b G'(x,y) \sqrt{r(y)} \phi(y) \dx[y] =: \sqrt{r(x)} u(x).
 						\end{align*}
 						Nach \ref{3.12} wird $A'u= \sqrt{r} \phi$ erfüllt und es ist insbesondere $u \in  D(A') = D(A)$.
 						Somit ist $v = \sqrt{r} u$ mit $u \in D(A)$.
 					\item
-						Sei $v = \sqrt{r} u, u \in D(A) = D(A')$.
+						Sei $v = \sqrt{r} u, u \in D(A) = D(A')$. Dann gilt
 						\begin{align*}
 							&\text{$u$ löst $A'u = A'u =: \phi$} \\
 							&\qquad \stack{\ref{3.12}}\iff u(x) = \int_a^b G'(x,y) (A'u)(y) \dx[y] \\
 							&\qquad \iff \underbrace{\sqrt{r(x)}  u(x)}_{=v(x)} = \int_a^b \underbrace{\sqrt{r(x)} G'(x,y) \sqrt{r(y)}}_{G(x,y)} \f{1{\sqrt{r(y)}}} A'u(y) \dx[y] \\
-							&\qquad \iff v = \scr K (\tf 1{\sqrt{r}}A'u) \in \im (\scr K)
+							&\qquad \iff v = \scr K (\tf 1{\sqrt{r}}A'u) \in \im (\scr K).
 						\end{align*}
 				\end{enumerate}
 		\end{enumerate}
@@ -1000,28 +1004,28 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 	Es gelten folgende Aussagen:
 	\begin{enumerate}[1)]
 		\item
-			$\lambda_j \to + \infty$ für $j \to \infty$
+			$\lambda_j \to + \infty$ für $j \to \infty$.
 		\item
 			Jeder Eigenwert hat Vielfachheit $1$.
 		\item
-			Die Eigenschaft $u_j$ (jeweils zum Eigenwert $\lambda_j$) können so normiert werden, dass $(\sqrt {r} u_j)$ ein ONS in $L = C(I \to \R)$ bilden.
+			Die Eigenfunktion $u_j$ (jeweils zum Eigenwert $\lambda_j$) können so normiert werden, dass $(\sqrt {r} u_j)$ ein ONS in $L = C(I \to \R)$ bilden.
 			Dieses ONS ist vollständig in $L^2([a,b])$.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
 				Nach \ref{3.17} ist $\lambda$ ist Eigenwert von $\eqref{3.1}$ genau dann wenn $\lambda = \f 1\my + d$ und $\my$ Eigenwert von $\scr K$ ist, $\my \neq 0$, $\scr K$ kompakt und symmetrisch.
-				Nach dem Hauptsat \ref{3.4} hat $\scr K$ abzählbar viele Eigenwerte $(\my_j)$ mit $\my_j \to 0$.
+				Nach dem Hauptsatz \ref{3.5} hat $\scr K$ abzählbar viele Eigenwerte $(\my_j)$ mit $\my_j \to 0$ gelten.
 				Also hat \eqref{eq:3.1} abzählbar viele Eigenwerte $\lambda_j = \f 1{\my_j} + d$ mit $|\lambda_j| \to \infty$.
 				Da wegen \ref{3.16}  $\inf \lambda_j > -\infty$ muss $\lambda_j \to + \infty$.
 			\item
 				Siehe \ref{3.8}.
 			\item
-				Nach dem Hauptsatz \ref{3.4} hat $\scr K$ ein ONS $(e_j)$ mit $\scr K e_j = \my_j e_j$.
+				Nach dem Hauptsatz \ref{3.5} hat $\scr K$ ein ONS $(e_j)$ mit $\scr K e_j = \my_j e_j$.
 				Eigenfunktionen von \eqref{eq:3.1}: $u_j = \f 1{r} e_j$ zum Eigenwert $\lambda_j = \f 1{\my_j} + d$.
 				Also bildet $(\sqrt{r}u_j)_{j\in \N}$ ein ONS.
 
-				Wegen \ref{3.4} ist $(e_j) = (\sqrt{r} u_j)$ vollständig in $\_{\im (K)} = \_{\{\sqrt{r} u : u  \in D(A) \}}$ in $L$.
+				Wegen \ref{3.5} ist $(e_j) = (\sqrt{r} u_j)$ vollständig in $\_{\im (K)} = \_{\{\sqrt{r} u : u  \in D(A) \}}$ in $L$.
 				$\im (\scr K)$ ist dicht in $L^2([a,b])$ (Beweis später \fixme[Referenz]).
 				Nach \ref{1.12} ist
 				\[
