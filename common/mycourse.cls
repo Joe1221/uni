@@ -64,7 +64,7 @@
 
 \RequirePackage{microtype} 			% Für typographische Perfektion
 
-\RequirePackage[a4paper, left=20mm, right=20mm, top=20mm, bottom=30mm]{geometry}
+\RequirePackage[a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=15mm, marginparsep=2mm]{geometry}
 \RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
 %\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
@@ -250,3 +250,11 @@
 
 \RequirePackage{mymath}
 
+\RequirePackage[ddmmyyyy,ngerman]{datetime}
+\renewcommand{\dateseparator}{.}
+
+\newcommand{\coursetimestamp}[3]{
+	\marginline{
+		\color{darkgray}\scshape\scriptsize \formatdate{#1}{#2}{#3}
+	}
+}
