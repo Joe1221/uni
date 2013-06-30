@@ -10,7 +10,7 @@
 \begin{df} \label{2.1}
 	\begin{enumerate}[1)]
 		\item
-			Ein Maßraum $(\Omega, \Sigma, \my)$ besteht aus einer Menge $\Omega$, einer $\sigma$-Algebra $\Sigma \subset P(\Omega)$ (d.h. $\emptyset \in \Sigma, A^C \in \Sigma, \bigcup_{j\in \N} Aj \in \Sigma$) und einem Maß $\my$ (d.h. $\my(\emptyset) = 0, \my(A) \ge 0, \my(\dot\bigcup_{j\in \N}A_j) = \sum_{j\in \N} \my(A_j))$).
+			Ein Maßraum $(\Omega, \Sigma, \my)$ besteht aus einer Menge $\Omega$, einer $\sigma$-Algebra $\Sigma \subset P(\Omega)$ (d.h. $\emptyset \in \Sigma, A^C \in \Sigma, \bigcup_{j\in \N} A_j \in \Sigma$) und einem Maß $\my$ (d.h. $\my(\emptyset) = 0, \my(A) \ge 0, \my(\dot\bigcup_{j\in \N}A_j) = \sum_{j\in \N} \my(A_j))$).
 		\item
 			$f: \Omega \to \Omega'$ heißt messbar, falls
 			\[
@@ -21,7 +21,7 @@
 \end{df}
 
 \begin{ex}[Anwendung]
-	Sei $\Sigma = \R^n$ und $\Sigma$ die Borel $\sigma$-Algebra, d.h. die von den offenen Intervallen $\bigtimes_{j=1}^n ]a_j,b_j[$ erzeugte (kleinste) $\sigma$-Algebra.
+	Sei $\Omega = \R^n$ und $\Sigma$ die Borel $\sigma$-Algebra, d.h. die von den offenen Intervallen $\bigtimes_{j=1}^n ]a_j,b_j[$ erzeugte (kleinste) $\sigma$-Algebra.
 	Das Maß
 	\[
 		\my \bigg( \bigtimes_{j=1}^n ]a_j,b_j[ \bigg) := \prod_{j=1}^n (b_j - a_j)
@@ -47,9 +47,9 @@
 \end{ex}
 
 \begin{df*}
-	Eine Funktion $\chi_M: \Sigma \to \{0,1\}$ mit
+	Eine Funktion $\Ind_M: \Sigma \to \{0,1\}$ mit
 	\[
-		\chi_M (x) = \begin{cases}
+		\Ind_M (x) = \begin{cases}
 			1 & x\in M \\
 			0 & x \in \Omega \setminus M
 		\end{cases}
@@ -58,7 +58,7 @@
 
 	$s:\Omega \to \R$ ist genau dann eine \emph{einfache} Funktion, wenn
 	\[
-		\exists N \in \N, \alpha_1, \dotsc, \alpha_N \in \R, M_1, \dotsc, M_N \in \Sigma : s = \sum_{j=1}^N \alpha_j \chi_{M_j}.
+		\exists N \in \N, \alpha_1, \dotsc, \alpha_N \in \R, M_1, \dotsc, M_N \in \Sigma : s = \sum_{j=1}^N \alpha_j \Ind_{M_j}.
 	\]
 	In diesem Fall setzt man
 	\[
@@ -135,7 +135,7 @@
 		\item
 			Für $1 \le p \le \infty$ gilt $0 \le N_p(f) \le \infty$ und $N_p(\alpha f) = |\alpha| N_p(f)$ für $\alpha \in \C$.
 		\item
-			Es gilt $|f| \le N_\infty(f)$ $\my$-fast-überall und 
+			Es gilt $|f| \le N_\infty(f)$ $\my$-fast-überall 
 			\[
 				\my \Big\{ \omega \in \Omega : |f(\omega)| > N_\infty(f) \Big\} = 0
 			\]
@@ -215,7 +215,7 @@
 						Für $N_p(f) = 0$ ist $f =0 $ $\my$-fast-überall, also $fg = 0$ $\my$-fast-überall und damit $N_1(fg) = 0$.
 						Genauso $N_q(g) = 0 \implies N_1(fg) = 0$.
 
-						Für $N_p(f) > 0 \land N_q(g) = \infty$ und $N_q(g) \ge 0 \land N_p(f) = \infty$ ist die Aussage klar.
+						Für $N_p(f) > 0 \land N_q(g) = \infty$ und $N_q(g) > 0 \land N_p(f) = \infty$ ist die Aussage klar.
 					\item
 						Für $N_p(f) = N_q(g) = 1$, zeige zunächst $N_1(fg) \le 1$.
 
@@ -230,8 +230,8 @@
 						Damit gilt
 						\begin{align*}
 							xy = e^{\f 1p \alpha + (1-\f 1p)\beta} 
-							&= e^{\lambda \alpha + (1-\lambda) \beta}; \qquad \lambda := \f 1p, \quad 1-\lambda = \f 1q \\
-							&\le \lambda e^{\alpha}  + (1-\lambda) e^{\beta} 
+							&= e^{\lambda \alpha + (1-\lambda) \beta} \qquad (\lambda := \f 1p, \quad 1-\lambda = \f 1q) \\
+							&\le \lambda e^{\alpha}  + (1-\lambda) e^{\beta} \\
 							&= \f 1p x^p + \f 1q y^q.
 						\end{align*}
 						Also gilt für beliebige $0 \le x,y < \infty$:
@@ -279,8 +279,8 @@
 						&= \int_{\Omega} |f+g| |f+g|^{p-1} \dx[\my] \\
 						&\le \int_{\Omega} |f| |f+g|^{p-1} \dx[\my] + \int_{\Omega} |g| |f+g|^{p-1} \dx[\my].
 						\intertext{Wähle $q \in ]1,\infty[$ mit $\f 1q + \f 1p = 1$ (oder äquivalent $\f pq = p-1$) und wende die Höldersche Ungleichung an:}
-							&\le \underbrace{\bigg( \int_{\Omega} |f|^p \dx[\my] \bigg)^{\f 1p}}_{N_p(f)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} \dx[\my] \bigg)^{\f 1q}}_{N_p(f+g)^{\f pq}} 
-							+ \underbrace{\bigg( \int_{\Omega} |g|^p \dx[\my] \bigg)^{\f 1p}}_{N_p(g)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} \dx[\my] \bigg)^{\f 1q} }_{N_p(f+g)^{\f pq}}.
+							&\le \underbrace{\bigg( \int_{\Omega} |f|^p \dx[\my] \bigg)^{\f 1p}}_{N_p(f)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} \dx[\my] \bigg)^{\f 1q}}_{N_p(f+g)^{\f pq}} \\
+							&\quad + \underbrace{\bigg( \int_{\Omega} |g|^p \dx[\my] \bigg)^{\f 1p}}_{N_p(g)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} \dx[\my] \bigg)^{\f 1q} }_{N_p(f+g)^{\f pq}}.
 						\end{align*}
 						Da $0 < N_p(f+g)^{\f pq} < \infty$ gilt also
 						\[
@@ -349,10 +349,10 @@
 \end{df*}
 
 \begin{df} \label{2.9}
-	Sei 
+	Sei $1 \le p \le \infty$ und
 	\[
 		\tilde {L^p} (\Omega, \Sigma, \my)
-		:= \Big\{ f : \Omega \to \C \text{ messbar} : N_p(f) < \infty \Big\}
+		:= \Big\{ f : \Omega \to \C \text{ messbar} : N_p(f) < \infty \Big\}.
 	\]
 	Dann ist $\tilde{L^p}(\Omega, \Sigma, \my)$ ein linearer Raum (Vektorraum) und $N_p$ ist Halbnorm auf $\tilde{L^p}(\Omega, \Sigma, \my)$.
 \end{df}
@@ -381,10 +381,10 @@
 \end{df}
 
 \begin{nt} \label{2.11}
-	Sei $\Omega \subset \R^n$ und $f,g \in C(\Omega \to \C) \cap L^p(\Omega)$ mit $\|f-g\|_p = 0$.
+	Sei $\Omega \subset \R^n$ und $f,g \in C(\Omega \to \C) \cap L^p(\Omega)$.
 	Dann gilt
 	\begin{align*}
-		\int_{\Omega} |f-g|^p \dx[\my] = 0
+		\|f - g \|_p = 0
 		\quad\implies\quad
 		f = g \text{ auf $\Omega$}
 	\end{align*}
@@ -395,7 +395,8 @@
 \begin{st}[Fischer-Riesz] \label{2.12}
 	Für $1 \le p \le \infty$ ist $L^p(\Omega, \Sigma, \my)$ ein Banachraum.
 	\begin{proof}
-		Wir müssen nur noch die Vollständigkeit nachweisen.
+		Durch $\|\cdot\|_p$ wird eine Norm beschrieben.
+		Wir müssen also nur noch die Vollständigkeit nachweisen.
 		\begin{seg}[$p=\infty$]
 			Sei $(f_j)$ Cauchy-Folge.
 			Definiere
@@ -418,20 +419,20 @@
 			Definiere
 			\[
 				f(\omega) := \begin{cases}
-					\lim_{j \to \infty} f_j(\omega) & \omega \in \Omega \setminus B ;\\
+					\lim\limits_{j \to \infty} f_j(\omega) & \omega \in \Omega \setminus B ;\\
 					0 & \text{sonst.}
 				\end{cases}
 			\]
-			Dann ist
+			Damit ist
 			\[
-				f := \lim_{j\to \infty} \chi_{\Omega \setminus B} f_j
+				f := \lim_{j\to \infty} \Ind_{\Omega \setminus B} f_j
 			\]
 			als punktweiser Grenzwert von messbaren Funktionen wieder messbar.
 			Außerdem gilt
 			\begin{align*}
 				|f_j(\omega) - f(\omega) |
-				= \lim_{h\to \infty} |f_j(\omega) - f_k(\omega)| \\
-				\le \lim_{h\to \infty} \|f_j - f_k\|_{\infty}
+				= \lim_{k\to \infty} |f_j(\omega) - f_k(\omega)| \\
+				\le \lim_{k\to \infty} \|f_j - f_k\|_{\infty}
 				\le \eps
 			\end{align*}
 			für ein $j > J_\eps$ und $\omega \in \Omega \setminus B$.
@@ -466,7 +467,7 @@
 					(evtl. ist $g(\omega) = \infty$).
 					Dann gilt
 					\begin{align*}
-						\|g_n\|_p &= \bigg\|\sum_{k=1}^n |{f_j}_k(\omega) - {f_j}_{k+1}(\omega)| \bigg\| \\
+						\|g_n\|_p &= \bigg\|\sum_{k=1}^n |{f_j}_k(\omega) - {f_j}_{k+1}(\omega)| \bigg\|_p \\
 						&\le \sum_{k=1}^n \|{f_j}_k - {f_j}_{k+1} \|_p \\
 						&\le \sum_{k=1}^\infty \f 1{2^k}
 						= 1.

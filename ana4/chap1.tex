@@ -14,9 +14,9 @@
 	Eine Abbildung $\<\argdot, \argdot\>: L \times L \to \C$ heißt \emph{Skalarprodukt}, falls
 	\begin{enumerate}[(S1)]
 		\item
-			$\<\alpha x_1 + \beta x_2, y \> = \alpha \<x_1,y\> + \beta \<x_2, y\>$;
+			$\<\alpha x_1 + \beta x_2, y \> = \alpha \<x_1,y\> + \beta \<x_2, y\>$,
 		\item
-			$\<y,x\> = \_{\<x,y\>}$;
+			$\<y,x\> = \_{\<x,y\>}$,
 		\item
 			$\forall x\in L\setminus \{0\} : \<x,x\> > 0$.
 	\end{enumerate}
@@ -123,28 +123,28 @@
 			\[
 				\big\<(x_n),(y_n)\big\> := \sum_{n=1}^\infty x_n\_{y_n}.
 			\]
-			Das Skalarprodut ist wohldefiniert, da die Reihe eine Cauchy-Folge in $\C$ ist und somit konvergiert:
+			Das Skalarprodut ist wohldefiniert, da die Reihe Grenzwert einer Cauchy-Folge in $\C$ ist und somit konvergiert:
 			\begin{align*}
 				\bigg| \sum_{j=n}^m x_j\_{y_j} \bigg|
 				&=\bigg| \Big\<(x_n,\dotsc,x_m), (y_n,\dotsc,y_m)\Big\>_{\C^{m-n+1}} \bigg|
 			\intertext{
-				Mit der CSB in $\C^{m-n+1}$ und da $\sum_{n=1}^\infty |x_n|^2 < \infty$ für alle $(x_n) \in L$ (die Reihen also insbesondere Cauchy-Folgen sind) gilt
+				Mit der CSB in $\C^{m-n+1}$ und da $\sum_{n=1}^\infty |x_n|^2 < \infty$ für alle $(x_n) \in L$ gilt
 			}
 				&\le \bigg( \underbrace{\sum_{j=n}^m |x_j|^2}_{<\eps \text{ für $m\ge n\ge N_\eps$}} \bigg)^{\f 12} \bigg( \underbrace{\sum_{j=n}^m |y_j|^2}_{<\eps\text{ für $m\ge n\ge \tilde N_\eps$}} \bigg)^{\f 12}
 				<\eps \qquad \text{für $m\ge n \ge \max\{N_\eps, \tilde N_\eps\}$}.
 			\end{align*}
 			Die Gültigkeit von (S1) bis (S3) aus \ref{1.1} ist eine leichte Übung.
 
-			$(L, \<\argdot,\argdot\>)$ ist ein Hilbertraum (Beweis: Übungsaufgabe \href{http://www.iadm.uni-stuttgart.de/LstAnaMPhy/Lesky/Vorlesungen/13-Hoehere-Analysis/blatt01.pdf}{1.2a}).
+			$(L, \<\argdot,\argdot\>)$ ist ein Hilbertraum (Beweis: Übungsaufgabe \coursehref{blatt01.pdf}{1.2a}).
 			Man nennt ihn $\ell^2$, je nach Kontext mit oder ohne dem Skalarprodukt aus diesem Beispiel: $\ell^2 := L$ oder $\ell^2 := (L,\<\argdot,\argdot\>)$.
 		\item
 			Setze $L := C([a,b] \to \C)$ mit Skalarprodukt
 			\[
 				\<f,g\> := \int_a^b f(x)\_{g(x)} \dx.
 			\]
-			Die Gültigkeit von (S1) bis (S3) aus \ref{1.1} ist eine leichte Übung.
+			Für die Gültigkeit von (S1) bis (S3) aus \ref{1.1}, siehe Übungsaufgabe \coursehref{blatt01.pdf}{1.3a}.
 
-			Allerdings ist $(L,\<\argdot,\argdot\>)$ kein Hilbertraum (Gegenbeispiel Übung).
+			Allerdings ist $(L,\<\argdot,\argdot\>)$ kein Hilbertraum (Gegenbeispiel Übungsaufgabe \coursehref{blatt01.pdf}{1.3b}).
 
 			Erweitere $L$ zu 
 			\begin{align*}
@@ -162,6 +162,7 @@
 				\item
 					$L$ ist dicht in $\tilde L$.
 			\end{itemize}
+			Siehe auch \ref{2.10}.
 	\end{enumerate}
 \end{ex}
 
@@ -208,7 +209,7 @@
 \end{conv}
 
 \begin{st} \label{1.11}
-	Sei $(e_j)$ ein Orthonormalsystem.
+	Sei $(e_j)$ ein Orthonormalsystem in $(L, \<\argdot, \argdot\>)$ und $x \in L$.
 	Dann gelten:
 	\begin{enumerate}[1)]
 		\item
@@ -235,11 +236,12 @@
 					= x_k.
 				\end{align*}
 			\item
-				Sei $\sum_{j=1}^N \alpha_j e_j = 0$.
-				Aus 1) folgt
+				Sei $0 = \sum_{j=1}^N \alpha_j e_j = \sum_{j=1}^\infty \alpha_j e_j$ ($\alpha_j = 0$ für $j > N$).
+				Nach 1) gilt für $j \in \N$
 				\[
-					\alpha_j = x_j = \<x,e_j\> = \<0,e_j\> = 0.
+					\alpha_j = \<0,e_j\> = 0,
 				\]
+				also ist $\{e_j\}_{j\in \N}$ linear unabhängig.
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -279,23 +281,20 @@
 			\item Mit der Positivität von $ \|\argdot \| $ folgt
 				\begin{align*}
 					0 &\le \Big\|x - \sum_{j=1}^N \<x,e_j\> e_j \Big\|^2
-					= \< \dotso, \dotso \> \\
+					= \< \dotsc, \dotsc \> \\
 					&= \|x\|^2 - \underbrace{\Big\<x, \sum_{j=1}^N \<x,e_j\> e_j\Big\>}_{= \sum_{j=1}^N |\<x,e_j\>|^2} - \underbrace{\Big\<\sum_{j=1}^N \<x,e_j\> e_j,x\Big\>}_{= \sum_{j=1}^N |\<x,e_j\>|^2} + \underbrace{\Big\<\sum_{j=1}^N\<x,e_j\> e_j, \sum_{k=1}^N \<x,e_k\> e_k\Big\> }_{= \sum_{j,k=1} \<x,e_j\>\_{\<x,e_k\>}\<e_j,e_k\> 
-					= \sum_{j=1}^N |\<x,e_j\>|^2}, 
+					= \sum_{j=1}^N |\<x,e_j\>|^2} \\
+					&= \|x\|^2 - \sum_{j=1}^N |\<x,e_j\>|^2,
 				\end{align*}
-				also
+				also im Grenzwert $N \to \infty$
 				\[
-					0 \le \|x\|^2 - \sum_{j=1}^N |\<x,e_j\>|^2.
+					\sum_{j=1}^\infty |\<x,e_j\>|^2 \le \|x\|^2.
 				\]
-			\item Insbesondere folgt
-			       \[
-					 \Big\|x - \sum_{j=1}^N \<x,e_j\> e_j \Big\|^2=\|x\|^2 - \sum_{j=1}^N |\<x,e_j\>|^2.
-				\]
-				Also 
+			\item Insbesondere folgt aus dem Beweis von 1)
 				\[
-					x=\sum_{j=1}^N \<x,e_j\> e_j  \iff  \|x\|^2 =\sum_{j=1}^N |\<x,e_j\>|^2.
+					\Big\|x - \sum_{j=1}^N \<x,e_j\> e_j \Big\|^2=\|x\|^2 - \sum_{j=1}^N |\<x,e_j\>|^2.
 				\]
-						
+				$\|x\|^2 = \sum_{j=1}^\infty |\<x,e_j\>|^2$ impliziert damit für $N \to \infty$ sofort $x = \sum_{j=1}^\infty \<x,e_j\> e_j$, ebenso die Rückrichtung.
 			\item
 				Sei $x \in \_M$, zeige $x \in M$.
 				Wähle $(x_n)$ als Folge in $M$ mit $x_n \to x$.
@@ -307,7 +306,7 @@
 				\]
 				Dann gilt für $m > M$
 				\begin{align*}
-					\Big\|x_N- \sum_{j=1}^m \<x_N,e_j\> e_j \Big\| 
+					\Big\|x_N- \sum_{j=1}^m \<x,e_j\> e_j \Big\| 
 					&\le \|x-x_N\| + \Big\|x_N - \sum_{j=1}^m \<x_N,e_j\> e_j \Big\| + \Big\| \sum_{j=1}^m \<x_N-x,e_j\> e_j \Big\|	\\
 					&\le \eps + \eps + \bigg(\sum_{j=1}^m |\<x_N-x,e_j\>|^2 \bigg)^{\f 12} \\
 					&\le 2\eps + \bigg(\sum_{j=1}^\infty |\<x_N-x,e_j\>|^2 \bigg)^{\f 12} \\
@@ -315,24 +314,24 @@
 					< 3 \eps.
 				\end{align*}
 			\item
-				Für $m\ge n > N_\eps$ gilt
+				Es gilt
 				\begin{align*}
 					\bigg\|\underbrace{\sum_{j=n}^m \<x,e_j\>e_j}_{=:y}\bigg\|^2
 					&\stack{2)}= \sum_{j=n}^m |\<y,e_j\>|^2 \\
 					&= \sum_{j=n}^m |\<x,e_j\>|^2
-					\stack{1)}< \eps.
+					\stack{1)}< \eps
 				\end{align*}	
-				\qedhere	
+				für $m\ge n \ge N_\eps$, also ist $\sum_{j=1}^\infty \<x,e_j\> e_j$ Cauchyfolge und konvergent, da $H$ vollständig.
 		\end{enumerate}
 	\end{proof}
 \end{st}
 
 \begin{ex} \label{1.13}
-	Sei $L = C([-\pi,\pi] \to \C)$ mit Skalarprodukt
+	Sei $L = C([-\pi,\pi] \to \C)$ mit Skalarprodukt (siehe Übungsaufgabe \coursehref{blatt01.pdf}{1.3a})
 	\[
 		\<f,g\> := \int_{-\pi}^{\pi}f(x)\_{g(x)} \dx
 	\]
-	und Orthonormalsystem (Beweis Übung)
+	und Orthonormalsystem (siehe Übungsaufgabe \coursehref{blatt01.pdf}{2.1a})
 	\[
 		e_j : x \mapsto \f 1{\sqrt{\pi}} \sin(jx).
 	\]
@@ -374,7 +373,7 @@
 \end{df}
 
 \begin{nt} \label{1.15}
-	Sei $(e_j)$ ein ONS und
+	Sei $(e_j)$ ein ONS in $(L, \<\argdot,\argdot\>)$ und
 	\[
 		\LH(\{e_1,e_2,\dotsc\}) = \bigg\{ \sum_{j=1}^N \alpha_j e_j : N \in \N, \alpha_j \in \C \bigg\}
 	\]
@@ -382,7 +381,12 @@
 
 	Dann ist $(e_j)$ ein VONS.
 	\begin{proof}
-		Folgt direkt aus \ref{1.12} 3). Sei $ M $ definiert wie in \ref{1.12} 3), dann folgt zunächst $ LH(\{e_1,e_2,...\})\subset M \subset L $ und somit auch $ L=\_{LH(\{e_1,e_2,...\})}\subset \_ M=M\subset L $, also $ M=L $.
+		Betrachte $M$ aus \ref{1.12} 3), zeige $L \subset M$ ($M \subset L$ ist klar).
+
+		Wegen $\LH(\{e_j\}_{j\in \N}) \subset M$ gilt auch
+		\[
+			L = \_{\LH(\{e_j\}_{j\in \N})} \subset \_{M} = M
+		\]
 	\end{proof}
 \end{nt}
 
@@ -396,7 +400,7 @@
 	\end{align*}
 	ein Hilbertraum-Isomorphismus
 	\begin{proof}
-		Übungsaufgabe \href{http://www.iadm.uni-stuttgart.de/LstAnaMPhy/Lesky/Vorlesungen/13-Hoehere-Analysis/blatt01.pdf}{1.2b}
+		Übungsaufgabe \coursehref{blatt01.pdf}{1.2b}
 	\end{proof}
 \end{st}
 
@@ -471,16 +475,15 @@
 				\item
 					Alle $\lambda_j$ sind Eigenwerte, da für $x = e_k \in D(A)$
 					\[
-						Ax = \sum_{j=1}^\infty \lambda_j \<e_k,e_j\> e_j = \lambda_k x
+						Ax = \sum_{j=1}^\infty \lambda_j \<e_k,e_j\> e_j = \lambda_k x.
 					\]
-					gilt.
 				\item
 					Falls $\exists x \in H\setminus \{0\} \forall j \in \N : \<x,e_j\> = 0$, dann ist $Ax = 0$.
 					Also ist $\lambda = 0$ eventuell ein zusätzlicher Eigenwert.
 				\item
 					Es gibt keine weiteren Eigenwerte.
 					\begin{proof}
-						Sei $Ax = \lambda x$ mit $\lambda \neq \lambda_j$ für $j \in \N$.
+						Sei $Ax = \lambda x$ mit $\lambda \neq \lambda_j$ für alle $j \in \N$.
 						Dann gilt für alle $k \in \N$:
 						\begin{align*}
 							\lambda \<x,e_k\> 
@@ -489,7 +492,8 @@
 							&= \lambda_k \<x,e_k\> \<e_k, e_k\>
 							= \lambda_k \<x,e_k\>. 
 							\end{align*}
-						Damit gilt $ (\lambda-\lambda_k)\<x,e_k\>=0, \lambda\neq \lambda_k $ und $ \<x,e_k\>=0 $ für alle $ k\in \N $. Dies impliziert $ x=0 $ oder zumindest	 $Ax = \sum_{j=1}^\infty \lambda_j \<x,e_j\> e_j = 0$.
+						Damit gilt $ (\lambda-\lambda_k)\<x,e_k\>=0$ und wegen $\lambda\neq \lambda_k$ auch $\<x,e_k\>=0 $ für alle $ k\in \N $. 
+						Dies impliziert $Ax = \sum_{j=1}^\infty \lambda_j \<x,e_j\> e_j = 0$.
 						Damit sind alle Eigenwerte von $A$ gegeben durch
 						\[
 							\{ \lambda_j : j \in \N \} \quad \text{oder}\quad \{\lambda_j : j \in \N\} \cup \{0\}.
@@ -507,19 +511,26 @@
 					Seien $x,y \in D(A)$. Dann gilt wegen der Stetigkeit des Skalarproduktes
 					\begin{align*}
 						\<Ax,y\>
-						&= \sum_{j=1}^\infty \<\lambda_j \<x,e_j\> e_j, y\> 
+						&= \Big\< \sum_{j=1}^\infty \lambda_j \<x,e_j\> e_j, y \Big\> 
 						= \sum_{j=1}^\infty \lambda_j \<x,e_j\> \<e_j, y\> \\
-						&= \sum_{j=1}^\infty \lambda_j \_{\<y,e_j\>} \<x, e_j\> 
-						= \sum_{j=1}^\infty \<x,\lambda_j \<y,e_j\> e_j\> \\
+						&= \sum_{j=1}^\infty \_{\lambda_j \<y,e_j\>} \<x, e_j\> 
+						= \Big\< x, \sum_{j=1}^\infty \lambda_j \<y,e_j\> e_j \Big\> \\
 						&= \<x, Ay\>.
 					\end{align*}
 				\end{seg}
-				\qedhere
 			\end{proof}
 		\item
 			Falls $(\lambda_j)$ beschränkt, so ist $D(A) = H$
 			\begin{proof}
-				Dies folgt direkt aus der Besselschen Ungleichung \ref{1.12} 1).
+				Sei $x \in H$.
+				Es gilt
+				\[
+					\sum_{j=1}^\infty \underbrace{|\lambda_j|^2}_{\le C^2} |\<x,e_j\>|^2 
+					= \sum_{j=1}^\infty |\<Cx, e_j\>|^2 
+					\le \|C x\|
+					< \infty
+				\]
+				und somit $x \in D(A)$.
 			\end{proof}
 		\item
 			Falls $(e_j)$ VONS in $H$, so ist $D(A)$ dicht in $H$.
@@ -554,7 +565,7 @@
 		\forall x \in D(A) : \<Ax,x\> \ge 0
 	\]
 	\begin{note}
-		In diesem Fall sind alle Eigenwerte von $A$ positiv.
+		In diesem Fall sind alle Eigenwerte von $A$ nicht-negativ.
 		\begin{proof}
 			Sei $x$ Eigenvektor zum Eigenwert $\lambda$, dann ist
 			\[
@@ -579,10 +590,10 @@
 			Es gilt
 				\begin{align*}
 					\<Af, g\> 
-					= \int_0^{\pi} Af g \dx
-					&= - \int_0^{\pi} f'' \_g \dx.
-				\intertext{Zwei mal partiell integriert ergibt}
-					\<Af, g\>&= \underbrace{\Big[ - f'\_g + f \_g' \Big]_{x=0}^\pi}_{=0} - \int_0^\pi f \_g'' \dx \\
+					 \int_0^{\pi} Af g \dx
+					&= - \int_0^{\pi} f'' \_g \dx \\
+					&= -\big[ f'\_{g} \big]_{0}^\pi + \int_{0}^\pi f'\_{g'} \dx \\
+					&= \underbrace{\big[ - f'\_g + f \_g' \big]_{x=0}^\pi}_{=0} - \int_0^\pi f \_g'' \dx \\
 					&= \<f, Ag\>.
 				\end{align*}
 				\qedhere
@@ -613,10 +624,10 @@
 					&\iff\quad -f'' = \lambda f \\
 					&\iff\quad f(x) = c_1 \sin(\sqrt \lambda x) + c_2 \cos (\sqrt \lambda x) \qquad c_1,c_2 \in \C.
 				\end{align*}
-				Wegen $f(0)=0$ ist $c_2 = 0$ und wegen $f(\pi) = 0$ muss $\lambda = j^2$ ($\lambda \neq 0$, sonst $f = 0$).
-				Also folgt:
+				Wegen $f(0)=0$ ist $c_2 = 0$ und wegen $f(\pi) = 0$ muss $\lambda = j^2$ für $j\in \N$ gelten ($\lambda, c_1 \neq 0$, sonst $f = 0$).
+				Also folgt
 				\[
-					f(x) = c_1 \sin(j x)
+					f(x) = c_1 \sin(j x) \qquad  \text{für $c_1 \neq 0, j \in \N$.}
 				\]
 
 				Da $A$ symmetrisch und 
@@ -626,19 +637,19 @@
 				bilden die $(e_j)$ ein ONS.
 			\end{proof}
 		\item
-			Sei $e_j : x \mapsto \sqrt{\f 2\pi} \sin(jx)$ (also $(e_j)$ ein ONS in $L^2(]0,\pi[)$).
+			Sei $(e_j := x \mapsto \sqrt{\f 2\pi} \sin(jx))$ das ONS aus 3).
 			Setze
 			\begin{align*}
 				D(\tilde A) &:= \Big\{ f\in L^2([0,\pi]) : \sum_{j=1}^\infty j^4 |\<f,e_j\>|^2 < \infty \Big\}, \\
-				\tilde A f &:= \sum_{i=1}^\infty j^2 \Big\<f, \sqrt{\tf 2\pi}\sin(j\argdot) \Big\> \sqrt{\tf 2\pi}\sin(j\argdot).
+				\tilde A f &:= \sum_{j=1}^\infty j^2 \<f, e_j \> e_j.
 			\end{align*}
 			Dann gelten
-			\begin{itemize}
+			\begin{enumerate}[a)]
 				\item
 					$D(A) \subset D(\tilde A)$,
 				\item
 					$\tilde A \Big|_{D(A)} = A$, bzw. $\tilde Af = Af$ für $f \in D(A)$.
-			\end{itemize}
+			\end{enumerate}
 			Man sagt: $\tilde A$ ist die \emph{Erweiterung} des Operators $A$ und schreibt $A \subset \tilde A$.
 			\begin{proof}
 				\begin{enumerate}[a)]
@@ -658,6 +669,7 @@
 							\sum_{j=1}^\infty j^4|\<f,e_j\>|^2 
 							= \sum_{j=1}^\infty |\<Af,e_j\>|^2 
 							\stackrel{\text{Bessel}}\le \|Af\|^2 
+							= \|f''\|^2
 							< \infty.
 						\]
 					\item
@@ -689,7 +701,7 @@
 		\end{align*}
 		Die Rückrichtung erkennt man jetzt leicht.
 
-		Die Hinrichtung wurde bereits gezeigt. Denn es gilt allgemeiner, dass wenn ein Operator $A$ positiv ist, auch alle seine Eigenwerte nichtnegativ sind.
+		Die Hinrichtung wurde bereits gezeigt (wenn ein Operator $A$ positiv ist, gilt allgemein, dass alle seine Eigenwerte nichtnegativ sind).
 	\end{proof}
 \end{nt}
 
@@ -723,27 +735,27 @@
 	\begin{proof}
 		Zeige durch vollständige Fallunterscheidung:
 		\begin{seg}[$(\lambda_j)$ beschränkt]
-			Sei $ c\ge 0 $ mit $ |\lambda_j|\le c $ und $x \in L$.
+			Sei $ c\ge 0 $ mit $ |\lambda_j|\le c $ und $x \in L$ beliebig.
 			Nach Bessel ist $\sum_{j=1}^\infty c^2 |\<x,e_j\>|^2 \le c^2 \|x\|^2$ konvergent, also ist
 			\[
 				\sum_{j=1}^\infty \underbrace{|\lambda_j|^2 |\<x,e_j\>|^2}_{\le c^2|\<x,e_j\>|^2}
 			\]
-			nach dem Vergleichskriterium konvergent, also $D(A) = H$.
-
+			nach dem Vergleichskriterium konvergent, und somit $D(A) = H$.
+			Wegen
 			\begin{align*}
 				\|Ax\|^2 
 				&= \bigg\|\sum_{j=1}^\infty \lambda_j \<x,e_j\> e_j\bigg\|^2 \\
 				&\stack{\text{Parseval}} = \hspace{0.4cm} \sum_{j=1}^\infty |\lambda_j|^2 |\<x,e_j\>|^2 \\
-				&\stack{\text{s.o.}}\le c^2 \|x\|^2
+				&\stack{\text{Bessel}}\le c^2 \|x\|^2,
 			\end{align*}
-			Also $\|Ax\| \le c\|x\|$ und damit $A$ beschränkt.
+			also $\|Ax\| \le c\|x\|$, ist außerdem $A$ beschränkt.
 		\end{seg}
 		\begin{seg}[$(\lambda_j)$ nicht beschränkt]
 			Es existiert eine Teilfolge mit $|\lambda_{j_k}| \to \infty$ ($k\to \infty$) und damit
 			\[
-				\|A e_{j_k}\| = \|\lambda_{j_k} e_{j_k}\| = |\lambda_{j_k}| \to \infty
+				\|A e_{j_k}\| = \|\lambda_{j_k} e_{j_k}\| = |\lambda_{j_k}| \to \infty,
 			\]
-			und $\sup_{\|x\|=1} \|Ax\| = \infty$, also ist $A$ nicht beschränkt.
+			insbesondere $\sup_{\|x\|=1} \|Ax\| = \infty$, also ist $A$ nicht beschränkt.
 		\end{seg}
 		\qedhere
 	\end{proof}
@@ -791,14 +803,14 @@
 		\begin{seg}[$A$ beschränkt $\implies$ $A$ stetig in $x=0$]
 			Sei $x_j \to 0$, dann gilt
 			\[
-				\|Ax_j - A 0 \| = \|Ax_j\| \le \|A\| \|x_j\| \to 0,
+				\|Ax_j\| \le \|A\| \|x_j\| \to 0,
 			\]
 			also $Ax_j \to 0$ und somit ist $A$ stetig in $x=0$.
 		\end{seg}
 		\begin{seg}[$A$ stetig in $x_0=0$ $\implies$ $A$ stetig]
-			Sei $x_j \to x$, also $x_j - x \to 0$, dann gilt
+			Sei $x_j \to x$, also $x_j - x \to 0$, dann gilt, da $A$ stetig in $x=0$.
 			\[
-				Ax_j - Ax = A(x_j - x) \to 0,
+				Ax_j - Ax = A(\underbrace{x_j - x}_{\to 0}) \to 0,
 			\]
 			also $Ax_j \to Ax$ und somit ist $A$ stetig.
 		\end{seg}
@@ -812,28 +824,28 @@
 			\]
 			und
 			\[
-				\|Ay_j\| = \f 1{\|Ax_j\|} \|Ax_j\| = 1.
+				\|Ay_j\| = \f 1{\|Ax_j\|} \|Ax_j\| = 1 \not\to 0.
 			\]
-			Also konvergiert $Ay_j$ nicht gegen $A0 = 0$ und somit ist $A$ nicht stetig.
+			Somit ist $A$ nicht stetig.
 		\end{seg}
 		\qedhere
 	\end{proof}
 \end{st}
 
 \begin{ex} \label{1.28}
-	Sei $K \subset \R^n$ kompakt, $G \in C(K\times K \to \C)$, $L := C(K \to \C)$. Setze 
+	Sei $K \subset \R^n$ kompakt, $G \in C(K\times K \to \C)$, $L := C(K \to \C)$.
+	Definiere den \emph{Integraloperator} $A$ durch
 	\[
-	 Af(x) := \int_{K} G(x,y) f(y) \dx[y]
+	 Af := \int_{K} G(\argdot,y) f(y) \dx[y]
 		\qquad \text{für $f\in L$}
 	\]
-	$A$ nennt man auch \emph{Integraloperator}.
 
 	Dann ist $A : L \to L$ kompakt.
 	\begin{proof}[Beweisskizze]
 		Sei $(f_j)$ beschränkt in $L$.
 		\begin{enumerate}[1)]
 			\item
-				Zeige: $(A f_j(x))$ gleichmäßig beschränkt auf $K$.
+				Zeige: $(A f_j(x))$ ist bezüglich $x \in K$ gleichmäßig beschränkt.
 
 				$K\times K$ ist kompakt, also existiert ein $ c\ge0 $ $|G(x,y)| \le c$  für alle $x,y \in K\times K$.
 				Dann ist
@@ -843,27 +855,30 @@
 			\item
 				Zeige: Die Folge $(Af_j)$ ist gleichgradig stetig auf $K$, d.h.
 				\[
-					\forall \eps > 0 \exists \delta > 0 \underbrace{\forall x,\tilde x \in C \forall j \in \N}_{\mathclap{\text{gleichmäßig stetig bezüglich $x$ und $j$}}} :
-					 |x-\tilde x| < \delta \;\implies\; |Af_j(x)-Af_j(\tilde x)| < \eps.
+					\forall \eps > 0 \exists \delta > 0 \underbrace{\forall x,x' \in K \forall j \in \N}_{\mathclap{\text{gleichmäßig stetig bezüglich $x$ und $j$}}} :
+					 |x-x'| < \delta \;\implies\; |Af_j(x)-Af_j(x')| < \eps.
 				\]
-				Wegen $K\times K$ kompakt, ist $|G(x,y) - G(\tilde x,y)| \le \eps$ für $|x-\tilde x| < \delta$ ($G$ gleichmäßig stetig).
+				Wegen $K\times K$ kompakt, ist $G$ gleichmäßig stetig: $|G(x,y) - G(\tilde x,y)| \le \eps$ für $|x-\tilde x| < \delta$ ($G$ gleichmäßig stetig).
 				Also
 				\begin{align*}
 					|Af_j(x) - Af_j(\tilde x)|
-					&= \underbrace{\bigg| \int_K \Big(\underbrace{G(x,y) - G(\tilde x, y)}_{|\argdot|< \eps}\Big) f_j(y) \dx[y] \bigg|}_{= \int_K \eps |f_j(y)| \dx[y] = \le \<\eps, |f_j|\>} \\
+					&= \bigg| \int_K \Big(\underbrace{G(x,y) - G(\tilde x, y)}_{|\argdot| < \eps}\Big) f_j(y) \dx[y] \bigg| \\
+					&\le \int_K \eps |f_j(y)| \dx[y] 
+					= \<\eps, |f_j|\> \\
 					&\stack{CSB}\le \|\eps\| \|f_j\| = \sqrt{\int_{K}|\eps|^2 \dx} \|f_j\|=\sqrt{\mu(K)} \eps \|f_j\|\le c \eps.
 				\end{align*}
 			\item
-				Nach dem Satz von Arzelá-Ascoli enthält $(Af_j)$ eine gleichmäßig auf $K$ konvergente Teilfolge.
+				Nach dem Satz \ref{1.29} von Arzelá-Ascoli enthält $(Af_j)$ eine gleichmäßig auf $K$ konvergente Teilfolge.
 			\item
-				Da $(Af_j)$ gleichmäßig gegen $g$ konvergiert, ist $g$ stetig auf $K$ (also $g \in L$) und $\|Af_{j_k} - g\| \to 0$.
+				Da $(Af_j)$ gleichmäßig konvergiert, ist die Grenzfunktion $g$ stetig auf $K$ (also $g \in L$) und $\|Af_{j_k} - g\| \to 0$.
+				Damit ist $A$ kompakt.
 		\end{enumerate}
 	\end{proof}
 \end{ex}
 
 
 \begin{st}[Arzelá-Ascoli] \label{1.29}
-	Sei $K \subset \R^n$ kompakt und $f_j : K \to \C$, $(f_j)$ punktweise beschränkt $(\forall x \in K \exists c_x >0 \forall j\in \N : |f_j(x)|\le c_x)$ und gleichgradig stetig, also:
+	Sei $K \subset \R^n$ kompakt und $f_j : K \to \C$ eine Folge mit $(f_j)$ punktweise beschränkt $(\forall x \in K \exists c_x >0 \forall j\in \N : |f_j(x)|\le c_x)$ und gleichgradig stetig, also:
 	\[
 		\forall \eps > 0 \exists \delta > 0 \forall x,x' \in K \forall j \in \N : \|x-x'\| < \delta \implies |f_j(x)-f_j(x')| < \eps.
 	\]
@@ -871,11 +886,11 @@
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
-				Es existiert $M \subset K$ mit $M$ abzählbar und dicht in $K$.
+				\textbf{Es existiert $M \subset K$ mit $M$ abzählbar und dicht in $K$:}
 				
-				  Erinnerung: $ K_\delta(x):= \{y\in \R^n; \|y-x\|<\delta \} $.
+				  Wir setzten $ K_\delta(x):= \{y\in \R^n; \|y-x\|<\delta \} $.
 				
-				  Da $ K $ (überdeckungs-)kompakt, lassen sich wegen $ K\subset \bigcup_{x\in K} K_{\f{1}{l}}(x) $ für alle $ l\in \N $ Punkte $ x_1^{(l)},..., x^{(l)}_{N_l} $ finden, so dass 
+				  Da $ K $ (überdeckungs-)kompakt, lassen sich wegen $ K\subset \bigcup_{x\in K} K_{\f{1}{l}}(x) $ für alle $ l\in \N $ jeweils endlich viele Punkte $ x_1^{(l)},..., x^{(l)}_{N_l} $ finden, so dass 
 				  \[
 				  K\subset \bigcup_{j=1}^{N_l} K_{\frac{1}{l}}(x_j^{(l)}).
 				  \]
@@ -884,55 +899,62 @@
 					\[
 						M := \bigcup_{k=1}^\infty \Big\{x_1^{(k)}, \dotsc, x_{N_k}^{(k)}\Big\} 
 					\]
-					Offensichtlich ist $M \subset K$, $M$ dicht und abzählbar. Insbesondere finden wir eine bijektive Abbildung $ \xi_\argdot: \N \to M $.
+					$M \subset K$ ist abzählbar und dicht in $K$. 
+					Insbesondere finden wir eine bijektive Abbildung $ \xi_\argdot: \N \to M $.
 				
 			\item
-				Konstruiere konvergente Teilfolge $(g_j)$ von $(f_j)$.
+				\textbf{Konstruiere konvergente Teilfolge $(g_j)$ von $(f_j)$:}
 				
 					Wegen $(f_j(\xi_1))$ beschränkt existiert nach Bolzano"=Weierstraß eine konvergente Teilfolge $(f_j^{(1)}(\xi_1))$.
 					Diese ist wiederum beschränkt in $\xi_2$, also existiert eine konvergente Teilfolge $(f_j^{(2)}(\xi_2))$, usw.
-					Wähle jetzt $g_j := f_j^{(j)}$ als Diagonalfolge (Teilfolge von $(f_j)$).
-					Dann ist $(g_j)$ Teilfolge von $(f_j^{(k)})$ und $(g_j(\xi_k))$ konvergent für alle $\xi_k \in M$.
+					Wähle jetzt $(g_j) := (f_j^{(j)})$ als Diagonalfolge der so erhaltenen Teilfolgen von $(f_j)$.
+					Dann ist für jedes $\xi_k \in \{\xi_1, \xi_2, \dotsc\}$ $(g_j(\xi_k))$ konvergent für $j \to \infty$.
 			\item
-				$(g_j)$ konvergiert gleichmäßig auf $K$.
+				\textbf{$(g_j)$ konvergiert gleichmäßig auf $K$:}
 				
-					Zeige: $(g_j)$ ist gleichmäßige Cauchy-Folge, dass heißt
+					Zeige: $(g_j)$ ist gleichmäßige Cauchy-Folge, das heißt
 					\[
-						|g_j(x) - g_k(x)| < \eps
-						\qquad \forall j,k > J, x \in K.
+						\forall \eps > 0 \exists J \in \N \forall j,k \in K : |g_j(x) - g_k(x)| < \eps
 					\]
-					Sei $ \eps>0 $. Wähle dazu $ \delta >0 $ passend zur gleichgradigen Stetigkeit der Funktionen.
+
+					Sei dazu $ \eps>0 $ beliebig. 
+					Wähle $ \delta >0 $ passend zu $\eps$ gemäß der gleichgradigen Stetigkeit der Funktionen $g_j$ (ererbt von $f_j$, da Teilfolgen), also:
+					\[
+						\forall x,x' \in K \forall j \in \N : \|x - x'\| < \delta \implies | g_j(x) - g_j(x') | < \eps.
+					\]
 					\begin{enumerate}[a)]
 						\item
-							Wähle $\{\xi_{l_1}, \dotsc, \xi_{l_N} \}\subset M$ so dass $K \in \bigcup_{m=1}^N K_\delta (\xi_{l_m})$ (vgl 1. wähle $l$ hinreichend klein).
+							Wähle $\{\xi_{l_1}, \dotsc, \xi_{l_N} \}\subset M$ so dass $K \subset \bigcup_{m=1}^N K_\delta (\xi_{l_m})$ (funktioniert, da $K$ (überdeckungs-)kompakt, siehe Konstruktion von $M$).
 						\item
-							Wähle $J \in \N$, sodass 
+							Da $g_j$ punktweise konvergent (weil Teilfolgen von $f_j$), wähle $J \in \N$, sodass 
 							\[
-								\Big| g_j(\xi_{l_m}) - g_k(\xi_{l_m}) \Big| < \eps
+								\forall j,k > J \forall m \in \{1, \dotsc, N\} : \big| g_j(\xi_{l_m}) - g_k(\xi_{l_m}) \big| < \eps.
 							\]
-							für $j,k > J$ für alle $\xi_{l_1}, \dotsc, \xi_{l_N}$ (endlich viele).
 					\end{enumerate}
-					So finden wir für jedes $ x $ ein $ \xi_{l_i}, i\in\{1,...,N\} $, sodass $ x $ in der zugehörigen $\delta $-Umgebung enthalten ist.
+					Wir finden jetzt für jedes $ x $ ein $ \xi_{l_i}, i\in\{1,...,N\} $, sodass $ x \in K_\delta(\xi_{l_i}) $.
+					Wegen
 					\begin{enumerate}[(I)]
-					\item $\Big|g_j(x)-g_j(\xi_{l_i})\Big|< \eps$ falls $|x-\xi_{l_i}|<\delta$;
-					\item $ \Big|g_j(\xi_{l_i}) - g_k(\xi_{l_i})\Big| <\eps$ falls $j,k > J$;
-					\item $ \Big| g_k(\xi_{l_i}) - g_k(x)\Big| <\eps$ falls $|x-\xi_{l_i}| < \delta$, $\delta$ unabhängig von $k$ bzw. $j$.
+						\item $\big|g_j(x)-g_j(\xi_{l_i})\big|< \eps$ da $|x-\xi_{l_i}|<\delta$,
+						\item $ \big|g_j(\xi_{l_i}) - g_k(\xi_{l_i})\big| <\eps$ da $j,k > J$,
+						\item $ \big| g_k(\xi_{l_i}) - g_k(x)\big| <\eps$ da $|x-\xi_{l_i}| < \delta$
 					\end{enumerate}
-					\[
+					gilt
+					\begin{align*}
 						|g_j(x) - g_k(x)| 
-						\le \underbrace{\Big|g_j(x)-g_j(\xi_{l_i})\Big|}_{\text{(I)}} 
-						+ \underbrace{\Big|g_j(\xi_{l_i}) - g_k(\xi_{l_i})\Big|}_{\text{(II)}}  + \underbrace{\Big| g_k(\xi_{l_i}) - g_k(x)\Big|}_{\text{(III)}}.
-					\]
-					
-					Also ist $|g_j(x) - g_k(x)| < 3 \eps$ für $j,k > J$, $x\in K$.
-				
+						&\le \underbrace{\big|g_j(x)-g_j(\xi_{l_i})\big|}_{\text{(I)}} 
+							+ \underbrace{\big|g_j(\xi_{l_i}) - g_k(\xi_{l_i})\big|}_{\text{(II)}}  
+							+ \underbrace{\big| g_k(\xi_{l_i}) - g_k(x)\big|}_{\text{(III)}}. \\
+						&< 3\eps
+					\end{align*}
+					für alle $j,k > J$, $x\in K$.
+					Also konvergiert $(g_j)$ gleichmäßig in $K$.
 			\item
 				Die $g_j$ sind stetig und gleichmäßig konvergent, also ist
 				\begin{align*}
 					g: K &\to \C \\
 					x &\mapsto \lim_{j\to \infty} g_j(x)
 				\end{align*}
-				der Grenzwert von der Funktionenfolge $ (g_j) $.
+				der stetige Grenzwert der Funktionenfolge $ (g_j) $.
 		\end{enumerate}
 	\end{proof}
 \end{st}

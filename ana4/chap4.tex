@@ -216,7 +216,7 @@
 \begin{nt} \label{4.9}
 	$F : \scr S(\R) \to \scr S(\R)$ ist stetig bezüglich der Metrik $d$ aus \ref{4.3}.
 	\begin{proof}
-		Übungsaufgabe \href{http://www.iadm.uni-stuttgart.de/LstAnaMPhy/Lesky/Vorlesungen/13-Hoehere-Analysis/blatt09.pdf}{9.4a)}
+		Übungsaufgabe \coursehref{blatt09.pdf}{9.4a)}
 	\end{proof}
 \end{nt}
 
@@ -332,8 +332,8 @@
 		\psi_{R,\eps} (x) 
 		&:= \int_{-R-\eps}^{R+\eps} j_\eps (x-y) \dx[y],
 	\intertext{diese lässt sich schreiben als}
-		&= \int_{-\infty}^\infty j_\eps(x-y) \cdot  \chi_{[-R-\eps,R+\eps]}(y) \dx[y] \\
-		&= \Big( j_\eps \ast \chi_{[-R-\eps, R+\eps]} \Big) (x)
+		&= \int_{-\infty}^\infty j_\eps(x-y) \cdot  \Ind_{[-R-\eps,R+\eps]}(y) \dx[y] \\
+		&= \Big( j_\eps \ast \Ind_{[-R-\eps, R+\eps]} \Big) (x)
 	\end{align*}
 \end{ex}
 
@@ -489,7 +489,7 @@
 			\item
 				Mache Träger kompakt:
 				\[
-					v_k := \chi_{[-k,k]}\cdot u.
+					v_k := \Ind_{[-k,k]}\cdot u.
 				\]
 				Dann gilt
 				\begin{itemize}
@@ -515,7 +515,7 @@
 
 				Wähle 
 				\[
-					u_2 := \sum_{j=1}^n \lambda_j \chi_{B_j},
+					u_2 := \sum_{j=1}^n \lambda_j \Ind_{B_j},
 				\]
 				mit $B_j$ messbar und $\|u_1-u_2\|_{L^p(\R)} < \eps$.
 
@@ -524,7 +524,7 @@
 
 				Setze 
 				\[
-					u_3 := \sum_{j=1}^n \lambda_j \chi_{A_j},
+					u_3 := \sum_{j=1}^n \lambda_j \Ind_{A_j},
 				\]
 				womit $\|u_2 - u_3\|_{L^p(\R)} = 0$ gilt.
 				Es gelte o.B.d.A. $\supp u_3 \subset [-R,R]$ (schneide $A_j$ mit $[-R,R]$).
@@ -540,38 +540,38 @@
 				Also
 				\begin{align*}
 					0 
-					\le \int_{-\infty}^\infty \underbrace{\Big(\chi_{\bigcup_{j=1}^\infty I_j} - \chi_{A_j}\Big)}_{=(\argdot)^p \text{ da $\in \{0,1\}$}} \dx
+					\le \int_{-\infty}^\infty \underbrace{\Big(\Ind_{\bigcup_{j=1}^\infty I_j} - \Ind_{A_j}\Big)}_{=(\argdot)^p \text{ da $\in \{0,1\}$}} \dx
 					&= \my\bigg(\bigcup_{j=1}^\infty I_j \bigg) - \my(A) \\
 					&\le \sum_{j=1}^\infty u(I_j) - \my(A)
 					< \tilde \eps^p.
 				\end{align*}
 				Und somit
 				\[
-					\Big\|\chi_{\bigcup_{j=1}^\infty I_j} - \chi_{A_j}\Big\|_{L^p(\R)} < \tilde \eps.
+					\Big\|\Ind_{\bigcup_{j=1}^\infty I_j} - \Ind_{A_j}\Big\|_{L^p(\R)} < \tilde \eps.
 				\]
 				Wähle $N \in \N$ mit $\sum_{i=N+1}^\infty \my(I_j) < \tilde \eps^p$, dann gilt
 				\begin{align*}
 					0 
-					\le \int_{-\infty}^\infty \underbrace{\Big(\chi_{\bigcup_{j=1}^\infty I_j} - \chi_{\bigcup_{j=1}^N I_j}\Big)}_{=(\argdot)^p}
-					&\le \int_{-\infty}^\infty \Big(\chi_{\bigcup_{j=N+1}^\infty I_j}\Big) \\
+					\le \int_{-\infty}^\infty \underbrace{\Big(\Ind_{\bigcup_{j=1}^\infty I_j} - \Ind_{\bigcup_{j=1}^N I_j}\Big)}_{=(\argdot)^p}
+					&\le \int_{-\infty}^\infty \Big(\Ind_{\bigcup_{j=N+1}^\infty I_j}\Big) \\
 					&\le \sum_{j=N+1}^\infty \my(I_j) 
 					< \tilde \eps^p.
 				\end{align*}
 				Also
 				\[
-					\Big\| \chi_{\bigcup_{j=1}^\infty I_j} - \chi_{\bigcup_{j=1}^N I_j} \Big\|_{L^p(\R)} < \tilde \eps.
+					\Big\| \Ind_{\bigcup_{j=1}^\infty I_j} - \Ind_{\bigcup_{j=1}^N I_j} \Big\|_{L^p(\R)} < \tilde \eps.
 				\]
 				Zusammengefasst gilt damit
 				\[
-					\Big\| \chi_A - \underbrace{\chi_{\bigcup_{j=1}^N I_j}}_{\mathclap{\text{nur noch endlich viele}}} \Big\|_{L^p(\R)} < 2 \tilde \eps.
+					\Big\| \Ind_A - \underbrace{\Ind_{\bigcup_{j=1}^N I_j}}_{\mathclap{\text{nur noch endlich viele}}} \Big\|_{L^p(\R)} < 2 \tilde \eps.
 				\]
 				Wähle also
 				\[
-					u_4 = \sum_{j=1}^m  \tilde \lambda_j \chi_{[a_j,b_j]}
+					u_4 = \sum_{j=1}^m  \tilde \lambda_j \Ind_{[a_j,b_j]}
 				\]
 				mit $\|u_3 - u_4\|_{L^p(\R)} < \eps$.
 			\item
-				Zu $[a_j,b_j]$ existiert $f_j \in C(\R \to \C)$ mit $\supp f_j \subset [a_j, b_j]$, $\|\chi_{[a_j,b_j]} - f\|_{L^p(\R)} < \tilde \eps$.
+				Zu $[a_j,b_j]$ existiert $f_j \in C(\R \to \C)$ mit $\supp f_j \subset [a_j, b_j]$, $\|\Ind_{[a_j,b_j]} - f\|_{L^p(\R)} < \tilde \eps$.
 
 				Wähle also
 				\[
@@ -745,7 +745,7 @@
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
-				Setze $f_R := \chi_{[-R,R]} \cdot f$, also $\|f_R - f\|_{L^2(\R)} \to 0$ für $R \to \infty$.
+				Setze $f_R := \Ind_{[-R,R]} \cdot f$, also $\|f_R - f\|_{L^2(\R)} \to 0$ für $R \to \infty$.
 				Da $\scr F$ stetig ist, gilt weiter $\scr F f = \lim[L^2]_{R\to\infty} \scr F f_R$.
 			\item
 				Setze 
@@ -879,15 +879,15 @@
 \end{st}
 
 
-\section{Fouriertransformation im \texorpdfstring{$R^n$}{Rn}}
+\section{Fouriertransformation im \texorpdfstring{$\R^n$}{Rn}}
 
 
 \begin{nt*}[Erinnerung]
 	Sei $f : \R^n \to \C$.
 	\begin{align*}
-		\f{\partial f}{\partial x_j}(x) &:= \lim_{h\to 0} \f {f(x+he_j)-f(x)}{h} \\
-		\f{\partial^3 f}{\partial x_j \partial x_3^2}(x) &:= \f{\partial }{\partial x_1}\f{\partial }{\partial x_3}\f{\partial f}{\partial x_3} \\
-		\f{\partial^{\alpha_1 + \alpha_2 + \dotsb + \alpha_n} f}{\partial x_1^{\alpha_1} \partial x_2^{\alpha_2} \dotsb \partial x_n^{\alpha^n}}  &: \quad \text{Ableitung der Ordnung $\alpha_1 + \dotsb + \alpha_n$}
+		\f{\partial }{\partial x_j}f(x) &:= \lim_{h\to 0} \f {f(x+he_j)-f(x)}{h} \\
+		\f{\partial^3 }{\partial x_j \partial x_3^2}f(x) &:= \f{\partial }{\partial x_1}\f{\partial }{\partial x_3}\f{\partial }{\partial x_3} f \\
+		\f{\partial^{\alpha_1 + \alpha_2 + \dotsb + \alpha_n} }{\partial x_1^{\alpha_1} \partial x_2^{\alpha_2} \dotsb \partial x_n^{\alpha^n}}f(x)  &: \quad \text{Ableitung der Ordnung $\alpha_1 + \dotsb + \alpha_n$}
 	\end{align*}
 \end{nt*}
 
@@ -897,20 +897,20 @@
 	\begin{align*}
 		|\alpha| &:= \alpha_1 + \dotsb + \alpha_n, \\
 		\alpha \le \beta &:\iff \alpha_1 \le \beta_1 \land \dotsb \land \alpha_n \le \beta_n, \\
-		\binom{\alpha}{\beta} &:= \binom{\alpha_1}{\beta_1} \cdot \dotsb \binom{\alpha_n}{\beta_n}
-		x^\alpha &:= x_1^{\alpha_1} \cdot \dotsb \cdot x_n^{\alpha_n} \qquad \text{für $x\in \R^n$.}
+		\binom{\alpha}{\beta} &:= \binom{\alpha_1}{\beta_1}  \dotsb \binom{\alpha_n}{\beta_n} \\
+		x^\alpha &:= x_1^{\alpha_1}  \dotsb \cdot x_n^{\alpha_n} \qquad \text{für $x\in \R^n$.}
 	\end{align*}
 \end{df}
 
 \begin{ex}[Anwendung] \label{4.28}
 	Für $f, g \in C^\infty (\R^n \to \C)$, $\alpha \in \N_0^n$, $\lambda \in \R, x \in \R^n$ setzt man
 	\begin{align*}
-		D^\alpha f &:= \f {\partial^{|\alpha|}f}{\partial x_1^{\alpha_1} \dotsb \partial x_n^{\alpha_n}},
-		(\lambda x)^\alpha &= \lambda^{|\alpha|} x^\alpha.
+		D^\alpha f &:= \f {\partial^{|\alpha|}f}{\partial x_1^{\alpha_1} \dotsb \partial x_n^{\alpha_n}},\\
+		(\lambda x)^\alpha &:= \lambda^{|\alpha|} x^\alpha.
 	\end{align*}
 	Die Leibnitz-Regel lässt sich schreiben als:
 	\[
-		D^\alpha(f\cdot g) = \sum_{\substack{\beta \in \N_0^n \\ \beta \le \alpha}} \binom{\alpha}{\beta} (D^\beta f)D^{\alpha - \beta} g
+		D^\alpha(f g) = \sum_{\substack{\beta \in \N_0^n \\ \beta \le \alpha}} \binom{\alpha}{\beta} (D^\beta f)D^{\alpha - \beta} g
 	\]
 \end{ex}
 
