@@ -393,3 +393,256 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $D'(\R^n)$
 	\end{proof}
 \end{st}
 
+
+\coursetimestamp{1}{7}{2013}
+\begin{nt} \label{5.14}
+	\begin{enumerate}[1)]
+		\item
+			Jede Distribution ist beliebig oft differenzierbar (Definition gilt für alle $\alpha \in \N_0^n$).
+			Insbesondere sind alle $f \in L_{\text{loc}}^1(\R^n)$ beliebig oft schwach differenzierbar.
+		\item
+			Es gilt der Satz von Schwartz:
+			\[
+				\forall \alpha, \beta \in \N_0^n : D^\alpha (D^\beta T) = D^\beta (D^\alpha T) = D^{\alpha + \beta} T,
+			\]
+			denn
+			\begin{align*}
+				D^\alpha (D^\beta T)(\phi)
+				&= (-1)^{|\alpha|}(D^\beta T) (\nabla^\alpha \phi) \\
+				&\stack[\text{in $C_0^\infty$}]{\text{Schwartz}}= (-1)^{|\alpha|}(-1)^{|\beta|} T(\nabla^\beta(\nabla^\alpha \phi)) \\
+				&= (-1)^{|\alpha|+|\beta|} T(\nabla^{\alpha + \beta}) \\
+				&= (-1)^{|\alpha + \beta|} T(\nabla^{\alpha + \beta}) \\
+				&= (D^{\alpha + \beta} T)(\phi)
+			\end{align*}
+	\end{enumerate}
+\end{nt}
+
+\begin{ex} \label{5.15}
+	\begin{enumerate}[1)]
+		\item
+			Sei $f : \R \to \C$ gegeben durch
+			\[
+				x \mapsto \begin{cases}
+					x & x \ge 0 \\
+					0 & x < 0
+				\end{cases}.
+			\]			
+			Dann ist $D^1 f = h $ mit
+			\[
+				h(x) = \begin{cases}
+					1 & x > 0 \\
+					0 & x < 0 \\
+					\text{egal} & x = 0
+				\end{cases},
+			\]
+			denn
+			\begin{align*}
+				(\underbrace{D^1 T_f}_{\text{identifiziert mit $D^1 f$}})(\phi) 
+				&= - T_f (\phi') \\
+				&= - \int_0^\infty x \phi'(x) \dx \\
+				&= \underbrace{- x \phi(x) \Big|_{x=0}^\infty}_{= -0 + 0 \cdot \phi(0) = 0} + \int_{0}^\infty \phi(x) \dx \\
+				&= \int_{-\infty}^\infty  h(x) \phi(x) \dx
+				= T_h(\phi)
+			\end{align*}
+			Also $D^1 T_f = T_h$ und $D^1 f = h$.
+
+			Für die zweite Ableitung gilt
+			\begin{align*}
+				D^2 f = D^1 h = \delta_0,
+			\end{align*}
+			denn
+			\begin{align*}
+				D^1 T_h(\phi)
+				= - T_h(\phi')
+				= - \int_0^\infty 1 \phi'(x) \dx
+				= - 0 + \phi(0)
+				= \delta_0(\phi).
+			\end{align*}
+
+			Bei höheren Ableitungen gilt
+			\[
+				D^k T_f(\phi)
+				= D^{k-2} \delta_0(\phi)
+				= (-1)^{k-2} \delta_0(\phi^{(k-2)})
+				= (-1)^{k-2} \phi^{(k-2)}(0) \qquad k \ge 2
+			\]
+		\item
+			Sei $f : \R \to \C$, $f \in C^1(]-\infty, x_0[)$ und $f \in C^1(]x_0,\infty[)$ mit existierenden Grenzwerten $f(x_0\pm 0), f'(x_0 \pm 0)$.
+			Dann ist
+			\[
+				Df = f' + \big(f(x_0+0) - f(x_0-0)\big) \delta_{x_0}
+			\]
+			Wobei $f'$ die klassische Ableitung für $x \neq x_0$ ist und ihr Wert in $x = x_0$ egal ist.
+
+			Also führt ein „Knick“ in der schwachen Ableitung zu einer Sprungstelle erster Art, und eine Sprungstelle erste Art führt zur $\delta$-Distribution (selber nachrechnen).
+		\item
+			Im $D'(\R^n)$ gilt
+			\[
+				(D^\alpha \delta_{x_0}) \phi
+				= (-1)^{|\alpha|} \delta_{x_0} (\nabla^\alpha \phi)
+				= (-1)^{|\alpha|} (\nabla^\alpha \phi) (x_0).
+			\]
+		\item
+			Betrachte den $D'(\R^3)$.
+			Definiere $f : \R^3 \to \C$ durch
+			\[
+				x \mapsto \begin{cases}
+					\f 1{|x|} & x \neq 0 \\
+					0
+				\end{cases}
+			\]
+			Dann ist $f \in L_\text{loc}^1(\R^3)$:
+
+			Für $x \neq 0$ ist $\grad f = - \f {x}{|x|^3}$ und $\nabla f = \div \grad f = 0$.
+
+			Berechne $\Delta_W f = (-D^{(2,0,0)} - D^{(0,2,0)} - D^{(0,0,2)}) f$.
+			Für $\phi \in C_0^\infty(\R^3)$ gilt
+			\begin{align*}
+				(-\Delta_W T_f)(\phi)
+				&= (-D^{(2,0,0)}T_f)(\phi) - (D^{0,2,0} T_f)(\phi) - (D^{(0,0,2)}T_f)(\phi) \\
+				&= - \big((-1)^{|(2,0,0)|} T_f(\nabla^{(2,0,0)}\phi) + T_f (\nabla^{(0,2,0)\phi}) + T_f (\nabla^{(0,0,2)}\phi)\big) \\
+				&= - T_f( \nabla^{(2,0,0)}\phi + \nabla^{(0,2,0)}\phi + \nabla^{(0,0,2)}\phi) \\
+				&= - T_f(\Delta \phi).
+			\end{align*}
+
+			Es gilt die \emph{Greensche Formel} (Beweis dazu später) für Mannigfaltigkeiten $S \subset \R^n$:
+			\[
+				\int_S (f \cdot \Delta g - \Delta f \cdot g) \dx
+				= \int_{\partial S} \big((f \nabla g) \cdot n_0 - (g \nabla f) \cdot n_0\big) \dx[\sigma],
+			\]
+			wobei $n_0$ der Normaleneinheitsvektor auf $\partial S$ ist, der ins Äußere von $S$ zeigt.
+
+			Sei $R$ so groß, dass $\supp \phi \subset K_R(0)$, dann gilt
+			\begin{align*}
+				T_f (\Delta \phi)
+				&= \int_{\R^3} \f 1{|x|} \Delta \phi(x) \dx \\
+				&= \int_{|x| \le R} \f 1{|x|} \Delta \phi(x) \dx \\
+				&= \lim_{\eps \searrow 0} \int_{\eps < |x| < R} \f 1{|x|} \Delta \phi(x) \dx \\
+				&= \lim_{\eps \searrow 0} \int_{\eps < |x| < R} \f 1{|x|} \Delta \phi(x) - \underbrace{(\Delta \f 1{|x|})\phi(x)}_{= 0} \dx
+			\intertext{
+				mit $S = \{ x \in \R^3 : \eps \le |x| \le \R\}$ und $\partial S = \{x : |x| = \eps \lor |x| = R\}$ lässt sich die Greensche Formel anwenden:
+			}
+				&= \lim_{\eps \searrow 0} \int_{|x|=\eps} \Big( \big(\f 1{|x|} \grad \phi \big) \cdot (-\f x{|x|}) - \phi(x) (- \f 1{|x|^3} x)\cdot (-\f x{|x|}) \Big) \dx[\sigma]
+					+ \underbrace{\int_{|x| = R} \ldots \dx[\sigma]}_{= 0 \text{, da $\supp \phi \subset K_R(0)$}} \\
+				&= \lim_{\eps \searrow 0} \int_{|x|= \eps}  \Big( - \f x{|x|} \cdot \grad \phi(x) - \phi(x) \f 1{|x|^2} \Big) \dx[\sigma] \\
+				&\stack{\text{s.u.}}= - 4\pi \phi(0).
+			\end{align*}
+			Also $T_f(\Delta \phi) = - 4\pi \phi(0) = - 4\pi \delta_0(\phi)$, bzw. $-\Delta_w T_f = 4\pi \delta_0$, bzw. $\Delta_w f = 4\pi \delta_0$.
+
+			Zeige die letzte Gleichheit in obiger Umformung:
+			\begin{align*}
+				\bigg| \int_{|x|=\eps} \f x{|x|^2} \cdot \grad \phi(x) \dx[\sigma] \bigg|
+				&\le \int_{|x|= \eps} \big| \f x{|x|^2} \cdot \grad \phi(x) \big| \dx[\sigma] \\
+				&\le \int_{|x|= \eps} \underbrace{|\f x{|x|^2}|}_{= \f 1\eps} \cdot |\grad \phi(x)| \dx[\sigma] \\
+				&\le \int_{|x|=\eps} \f c \eps \dx[\sigma]\\
+				&\stack{\eps \le 1}\le \f c\eps \int_{|x|=\eps} 1 \dx[\sigma] \\
+				&= \f c\eps \cdot 4 \pi \eps^2
+				\to 0 \qquad \text{für $\eps \searrow 0$.}
+			\end{align*}
+			Außerdem ist
+			\begin{align*}
+				\bigg| \int_{|x| = \eps} \f 1{|x|^2} (\phi(x) - \phi(0)) \dx[\sigma] \bigg|
+				&\le \f 1{\eps^2} \max_{|x|\le \eps} |\phi(x) - \phi(0)| \cdot 4\pi \eps^2 \\
+				&\to 0 \qquad \text{für $\eps \searrow 0$, da $\phi$ stetig in $x = 0$}
+			\end{align*}
+			für $\eps \searrow 0$, da $\phi$ stetig in $x=0$ und
+			\[
+				\int_{|x|=\eps} \f 1{|x|^2} \phi(0) \dx
+				= \f 1{\eps^2} \phi(0) \cdot 4\pi \eps^2
+				= 4 \pi \phi(0).
+			\]
+
+			Beweise nun noch die Greenschen Formel:
+			seien $f, g \in C^2$, dann ist
+			\begin{align*}
+				\div \big( f \grad g - g \grad f \big)
+				&= (\grad f)(\grad g) + f \div \grad g
+					-(\grad g)(\grad f) - g \div \grad f \\
+				&= f \Delta g - g \Delta f
+			\end{align*}
+			und damit
+			\begin{align*}
+				\int_{S} (f \Delta g - g \Delta f) \dx
+				&= \int_{S} \div \big( f \grad g - g \grad f\big) \dx \\
+			\intertext{mit dem Satz von Gauß-Ostrogradski gilt dann}
+				&= \int_{\partial S} n_0 (f \grad g - g \grad f) \dx[\sigma] \\
+				&= \int_{\partial S} \big( f\underbrace{\grad g}_{=\nabla g} \cdot n_0 - g \underbrace{\grad f}_{\nabla f} \cdot n_0  \big) \dx[\sigma].
+			\end{align*}
+	\end{enumerate}
+\end{ex}
+
+\begin{st} \label{5.16}
+	\begin{enumerate}[1)]
+		\item
+			Sei $T_j \to T$ in $D'(\R^n)$, $\alpha \in \N_0^n$, dann
+			\[
+				D^\alpha T_j \to D^\alpha T
+			\]
+			in $D'(\R^n)$.
+		\item
+			Sei $\sum_{j=1}^\infty T_j = T$ in $D'(\R^n)$, $\alpha \in \N_0^n$, dann ist
+			\[
+				\sum_{j=1}^\infty D^\alpha T_j = D^\alpha T.
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				$T_j \to T$ bedeutet $\forall \phi \in C_0^\infty(\R^n) : T_j(\phi) \to T(\phi)$.
+				Mit $\phi \in C_0^\infty(\R^n)$ ist auch $\nabla^\alpha \phi \in C_0^\infty (\R^n)$ und damit
+				\begin{align*}
+					D^\alpha T_j(\phi)
+					&= (-1)^{|\alpha|} T_j(\nabla^\alpha \phi) \\
+					&\to (-1)^{|\alpha|} T(\nabla^\alpha \phi) \qquad (j\to \infty) \\
+					&= D^\alpha T(\phi)
+				\end{align*}
+				Also $D^\alpha T_j \to D^\alpha T$.
+			\item
+				Folgt aus 1).
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{ex} \label{5.17}
+	\begin{enumerate}[1)]
+		\item
+			Sei $f_j: \R \to \C$ gegeben durch
+			\begin{align*}
+				x \mapsto \begin{cases}
+					0 & x \le 0 \\
+					x^j & 0 < x \le 1 \\
+					1 & x > 1
+				\end{cases}.
+			\end{align*}
+			dann konvergiert $f$ punktweise für $x \in \R$ gegen
+			\[
+				f: x \mapsto \begin{cases}
+					0 & x < 1 \\
+					1 & x \ge 1
+				\end{cases}
+			\]
+			In $D'(\R^n)$ konvergiert $f_j \to f$, denn für $\phi \in C_0^\infty(\R^n)$ gilt
+			\begin{align*}
+				T_{f_j}(\phi) 
+				&= \int_{\R} f_j(x) \phi(x) \dx \\
+				&= \underbrace{\mathclap{\int_{0}^1 x^j \phi(x) \dx}}_{|\argdot| \le \max_{\R}|\phi| \int_0^1 x^j \dx = \max |\phi| \f 1{j+1} \to 0} + \int_{1}^\infty \phi(x) \dx \\
+				&\to \int_{1}^\infty \phi(x) \dx
+				= T_f(\phi).
+			\end{align*}
+			Für die Ableitung gilt
+			\begin{align*}
+				D^1  f_j = \begin{cases}
+					j \cdot x^{j-1} & 0 < x < 1 \\
+					0 & \text{sonst}
+				\end{cases},
+			\end{align*}
+			denn
+			\begin{align*}
+				D^1 T_{f_j}(\phi)
+				&= \int_{0}^1 j x^{j-1} \phi(x) \dx \\
+				&= \underbrace{x^j \phi(x) \Big|_0^1}_{=1 \phi(1) - 0} - \underbrace{\int_{0}^1 x^j \phi'(x) \dx}_{\to 0} \\
+				&\to \phi(1) = \delta_1(\phi).
+			\end{align*}
+			Also $D^1 f_j \to \delta_1 = D^1 f$.
+	\end{enumerate}
+\end{ex}
