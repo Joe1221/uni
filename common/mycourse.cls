@@ -64,7 +64,7 @@
 
 \RequirePackage{microtype} 			% Für typographische Perfektion
 
-\RequirePackage[a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=15mm, marginparsep=2mm]{geometry}
+\RequirePackage[a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm]{geometry}
 \RequirePackage{graphicx}
 \RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
