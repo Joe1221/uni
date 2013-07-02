@@ -3332,6 +3332,8 @@ Für einen Eigenwert $\lambda\in \C$ und zugehörigen Eigenvektor $x\in \C^n$ is
 $\frac{x^* A x}{x^*x}=\frac{x^* \lambda x}{x^*x}=\lambda$. 
 \end{beweis}
 
+\coursetimestamp{2}{7}{2013}
+
 \begin{lemma}\label{lemma:eigW}
 \begin{enumerate}[(a)]
 \item $W(A)$ ist \emph{wegzusammenhängend},
@@ -3348,7 +3350,7 @@ Eigenwerte, d.h. das Intervall auf der imaginären Achse $i[a,b]$, wobei $a$ der
 \end{lemma}
 \begin{beweis}
 \begin{enumerate}[(a)]
-\item Seien $\zeta_0, \zeta_1\in W(A)$. O.B.d.A.\ $\zeta_0\neq \zeta_1$. 
+\item Seien $\zeta_0, \zeta_1\in W(A)$ mit $\zeta_0\neq \zeta_1$ (der Fall $\zeta_0 = \zeta_1$ ist trivial). 
 
 Aus der Definition von $W(A)$ folgt dass
 \[
@@ -3379,22 +3381,27 @@ zusammen mit Lemma~\ref{lemma:W_enthaelt_sigma} folgt
 \[
 [\lambda_n,\lambda_1]\subseteq W(A)\subseteq \R.
 \] 
- 
 Wir müssen also nur noch zeigen, dass für alle $\zeta\in W(A)$ gilt $\lambda_n\leq \zeta\leq \lambda_1$.
-Für $\alpha>0$ hinreichend groß (z.B. $\alpha:=2\norm{A}+1$) ist $A+\alpha I$ hermitesch und 
+
+Für $\alpha>0$ hinreichend groß (z.B. $\alpha:=\norm{A}+1$) ist $A+\alpha I$ hermitesch und 
 \[
 x^*(A+\alpha I)x\geq -\norm{A}\norm{x}^2 + \alpha \norm{x}^2>0 \quad \forall x\neq 0,
 \]
-also $A+\alpha I$ positiv definit. $A$ besitzt also eine Cholesky-Zerlegung $A=LL^*$ mit $L\in \C^{n\times n}$.
+also $A+\alpha I$ positiv definit. 
+$A + \alpha I$ besitzt also eine Cholesky-Zerlegung $A + \alpha I=LL^*$ mit $L\in \C^{n\times n}$.
 Es ist
 \begin{align*}
-x^*A x = x^* (A+\alpha I) x- \alpha \norm{x}^2= \norm{L^*x}^2 - \alpha \norm{x}^2\leq (\norm{L^*}^2-\alpha)\norm{x}^2
+x^*A x 
+&= x^* (A+\alpha I) x- \alpha \norm{x}^2
+= x^* LL^* x- \alpha \norm{x}^2 \\
+&= \norm{L^*x}^2 - \alpha \norm{x}^2
+\leq (\norm{L^*}^2-\alpha)\norm{x}^2
 \end{align*}
 und mit Bemerkung \ref{bem:EWe} folgt
 \[
 \frac{x^*A x}{x^* x} \leq \norm{L^*}^2-\alpha=\rho(LL^*)-\alpha=\rho(A+\alpha I)-\alpha.
 \]
-Da $A+\alpha I$ positiv definit ist, sind alle Eigenwerte positiv und der größte ist offenbar $\lambda_1+\alpha$.
+Da $A+\alpha I$ positiv definit ist, sind alle Eigenwerte positiv und damit der größte Eigenwert offenbar $\lambda_1+\alpha$.
 Es gilt also $\zeta\leq \lambda_1$ für alle $\zeta=\frac{x^*A x}{x^* x}\in W(A)$. 
 
 Der größte Eigenwert von $-A$ ist $-\lambda_n$. Mit dem gleichen Argument erhalten wir deshalb
@@ -3430,7 +3437,7 @@ Insbesondere ist also $\sigma(A)\subset  W(\frac{A+A^*}{2})+W(\frac{A-A^*}{2})$.
 \begin{beweis}
 Für jedes $x\in \C^n$ mit $\norm{x}=1$ ist
 \[
-\quad x^* A x=x^* \left( \frac{A+A^*}{2}+\frac{A-A^*}{2}\right) x\in W(\frac{A+A^*}{2})+W(\frac{A-A^*}{2}). \quad \Box
+\quad x^* A x=x^* \left( \frac{A+A^*}{2}+\frac{A-A^*}{2}\right) x\in W(\frac{A+A^*}{2})+W(\frac{A-A^*}{2}).
 \]
 \end{beweis}
 
@@ -3444,7 +3451,7 @@ $W(\frac{A+A^*}{2})+W(\frac{A-A^*}{2})$ lässt sich mit Gerschgorin-Kreisen absc
 Der \emph{naheliegender Ansatz} zur Berechnung der Eigenwerte von $A$ ist, zuerst das charakteristische Polynom aus $A$ zu berechnen und dann dessen Nullstellen zu bestimmen. In der Praxis wird man aber $A$ und damit die Koeffizienten des char. Polynoms nur näherungsweise kennen. Die Berechnung der Nullstellen eines Polynoms aus seinen Koeffizienten ist jedoch im Allgemeinen schlecht konditioniert (d.h. stark fehlerverstärkend), vgl.\ die an der Tafel gemalte Skizze.
 
 Das Eigenwertproblem selbst ist (zumindest für normale Matrizen) nicht schlecht konditioniert, wie wir im folgenden Satz zeigen.
-Zur Erinnerung: $A\in \C^{n\times n}$ heißt \emph{normal}, falls $AA^*=A^*A$. Normale Matrizen sind diagonalisierbar bzgl. einer Orthogonalbasis
+Zur Erinnerung: $A\in \C^{n\times n}$ heißt \emph{normal}, falls $AA^*=A^*A$. Normale Matrizen sind diagonalisierbar bzgl. einer Orthonormalbasis
 aus Eigenvektoren. Es existieren also \emph{unitäre} Matrizen $X\in \C^{n\times n}$ (d.h. $X^{-1}=X^*$) mit 
 \[
 A=X \Lambda X^{-1}, \quad \Lambda=\begin{pmatrix} \lambda_1 & 0 & 0\\ 0 & \ddots & 0\\ 0 & 0 & \lambda_n\end{pmatrix}
