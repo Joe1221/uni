@@ -29,6 +29,7 @@
 %\usepackage[l2tabu, orthodox]{nag}
 
 \usepackage[a4paper, left=20mm, right=20mm, top=20mm, bottom=30mm]{geometry}
+\RequirePackage{graphicx}
 \usepackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
 %\usepackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
