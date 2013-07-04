@@ -245,7 +245,7 @@
 	\addtolength{\headheight}{\baselineskip}
 	\lhead{Numerische Mathematik 2 \\ \today}
 	\chead{Gruppe 1}
-	\rhead{\theauthor \\ 2706616}
+	\rhead{Stephan Hilb, Verena Treitz, Matthias Hofmann \\}
 	\renewenvironment{aufgabe}{\refstepcounter{aufgabe}\par\medskip\noindent%
 		\textbf{Aufgabe \thesection.\theaufgabe}\rmfamily}
 	{\medskip}
