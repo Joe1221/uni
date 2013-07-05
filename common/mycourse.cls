@@ -250,12 +250,11 @@
 %========================
 
 \RequirePackage{mymath}
-
-\RequirePackage[ddmmyyyy,ngerman]{datetime}
-\renewcommand{\dateseparator}{.}
+\RequirePackage[ngerman]{datetime}
+\newdateformat{coursedate}{\twodigit{\THEDAY}.\twodigit{\THEMONTH}.\THEYEAR}
 
 \newcommand{\coursetimestamp}[3]{
 	\marginline{
-		\color{darkgray}\scshape\scriptsize \formatdate{#1}{#2}{#3}
+		\color{darkgray}\scshape\scriptsize \coursedate\formatdate{#1}{#2}{#3}
 	}
 }

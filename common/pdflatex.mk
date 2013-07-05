@@ -56,7 +56,7 @@ view: $(PDFTARGETS)
 # to generate aux but not pdf from pdflatex, use -draftmode
 .SECONDARY: $(AUXFILES)
 %.aux: %.tex
-	$(PDFLATEX) -draftmode $*
+	(TEXINPUTS=.:$(INCLUDEDIR):$(TEXINPUTS) $(PDFLATEX) -draftmode $*);
 
 # introduce BibTeX dependency if we found a \bibliography
 ifneq ($(strip $(BIBFILES)),)
@@ -70,7 +70,7 @@ $(PDFTARGETS): %.pdf: %.tex $(BIBDEPS) $(INCLUDEDTEX) $(INCLUDEDPKG)
 	(TEXINPUTS=.:$(INCLUDEDIR):$(TEXINPUTS) $(PDFLATEX) $*)
 ifneq ($(strip $(BIBFILES)),)
 	@if grep -q "undefined references" $*.log; then \
-		$(BIBTEX) $* && $(PDFLATEX) $*; fi
+		(TEXINPUTS=.:$(INCLUDEDIR):$(TEXINPUTS) $(BIBTEX) $*) && (TEXINPUTS=.:$(INCLUDEDIR):$(TEXINPUTS) $(PDFLATEX) $*); fi
 endif
 	@while grep -q "Rerun to" $*.log; do \
 		(TEXINPUTS=.:$(INCLUDEDIR):$(TEXINPUTS) $(PDFLATEX) $*); done
