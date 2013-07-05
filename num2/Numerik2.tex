@@ -3505,6 +3505,7 @@ Dann gilt
 \]
 \end{theorem}
 
+\coursetimestamp{3}{7}{2013}
 \section{Die Potenzmethode}
 
 Wir stellen nun die erste iterative Methode zur Berechnung von Eigenwerten vor, die \emph{Potenzmethode} (auch: \emph{von Mises-Verfahren}).
@@ -3522,12 +3523,13 @@ Gibt es genau einen betragsgrößten Eigenwert $\lambda_j$ und ist $x_j\neq 0$, 
 dazugehörige Summand schneller wachsen (bzw. langsamer fallen für $|\lambda_j|<1$) als alle anderen Summanden. 
 Er wird die Summe also immer mehr dominieren. Wir erwarten daher, dass
 \[
-A^k x\approx \lambda_j^k x_j e_j.
+A^k x\approx \lambda_j^k x_j e_j
+\qquad \text{für große $k$.}
 \]
 Das gleiche gilt für beliebige diagonalisierbare Matrizen, wie der folgende Satz zeigt:
 
 \begin{theorem}[Potenzmethode]\label{satz:Potenzmethode}
-Sei $A\in \C^{n\times n}$ diagonalisierbar. $A$ besitze einen genau einen (aber nicht notwendigerweise einfachen) betragsgrößten Eigenwert, d.h. es sei
+Sei $A\in \C^{n\times n}$ diagonalisierbar. $A$ besitze genau einen (aber nicht notwendigerweise einfachen) betragsgrößten Eigenwert $\lambda_1$, d.h. es sei
 $\sigma(A)=\{\lambda_1,\ldots,\lambda_m\}$
 \[
 |\lambda_1|> |\lambda_2|\geq \ldots \geq |\lambda_m|.
@@ -3546,11 +3548,11 @@ x^{(0)}=\xi_1 v_1 + \sum_{j=2}^m \xi_j v_j, \quad \xi_1,\ldots,\xi_m\in \C,\ \xi
 wobei $v_j$ normierte Eigenvektoren zu $\lambda_j$ seien. Dann gilt:
 
 \begin{align*}
-x^{(k)}&= \frac{\lambda_1^k}{|\lambda_1|^k} \frac{\xi_1}{|\xi_1|} v_1 + O(\left| \lambda_2 / \lambda_1\right|^k),\\
-(x^{(k-1)})^* \tilde x^{(k)} &= \lambda_1 + O(\left| \lambda_2 / \lambda_1\right|^{k}).
+x^{(k)}&= \frac{\lambda_1^k}{|\lambda_1|^k} \frac{\xi_1}{|\xi_1|} v_1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^k),\\
+(x^{(k-1)})^* \tilde x^{(k)} &= \lambda_1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^{k}).
 \end{align*}
 
-$(x^{(k-1)})^* \tilde x^{(k)}$ konvergiert also gegen den betragsgrößten Eigenwert $\lambda_1$ und $x^{(k)}$ konvergiert bis auf skalare Vielfache gegen einen dazugehörigen Eigenvektor. Die Konvergenzgeschwindigkeit ist linear mit Konvergenzfaktor $|\lambda_2 / \lambda_1|$.
+$(x^{(k-1)})^* \tilde x^{(k)}$ konvergiert also gegen den betragsgrößten Eigenwert $\lambda_1$ und $x^{(k)}$ konvergiert bis auf skalare Vielfache gegen einen dazugehörigen Eigenvektor. Die Konvergenzgeschwindigkeit ist linear mit Konvergenzfaktor $|\f {\lambda_2} {\lambda_1}|$.
 \end{theorem}
 \begin{beweis}
 Durch triviale Induktion sieht man, dass
@@ -3564,24 +3566,26 @@ A^{k}x^{(0)}=\lambda_1^k \xi_1 v_1 + \sum_{j=2}^m \lambda_j^k \xi_j v_j
 und 
 \[
 \left| \norm{A^{k}x^{(0)}}- |\lambda_1^k \xi_1| \right| \leq \norm{\sum_{j=2}^m \lambda_j^k \xi_j v_j}
-\leq |\lambda_2|^k \max |\xi_j|,
+\leq |\lambda_2|^k \max_{j=2,\dotsc,m} |\xi_j| (m-1),
 \]
 also 
 \[
-\norm{A^{k}x^{(0)}}=|\lambda_1|^k |\xi_1| \left( 1 + O(\left| \lambda_2 / \lambda_1\right|^k ) \right).
+\norm{A^{k}x^{(0)}}=|\lambda_1|^k |\xi_1| \left( 1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^{k})\right).
 \]
 Damit erhalten wir
 \begin{align*}
-x^{(k)}&=\frac{A^{k}x^{(0)}}{\norm{A^{k}x^{(0)}}}=\frac{A^{k}x^{(0)}}{|\lambda_1|^k |\xi_1|} \frac{1}{1 + O(\left| \lambda_2 / \lambda_1\right|^k )}
-=\frac{A^{k}x^{(0)}}{|\lambda_1|^k |\xi_1|} \left( 1 + O(\left| \lambda_2 / \lambda_1\right|^k )\right)\\
-&= \left( \frac{\lambda_1^k}{|\lambda_1|^k} \frac{\xi_1}{|\xi_1|} v_1 + O(\left| \lambda_2 / \lambda_1\right|^k ) \right)
- \left( 1 + O(\left| \lambda_2 / \lambda_1\right|^k )\right)\\
-&=\frac{\lambda_1^k}{|\lambda_1|^k} \frac{\xi_1}{|\xi_1|} v_1 + O(\left| \lambda_2 / \lambda_1\right|^k).
+x^{(k)}
+&=\dfrac{A^{k}x^{(0)}}{\norm{A^{k}x^{(0)}}}
+=\dfrac{A^{k}x^{(0)}}{|\lambda_1|^k |\xi_1|} \dfrac{1}{1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^{k})}
+=\dfrac{A^{k}x^{(0)}}{|\lambda_1|^k |\xi_1|} \left( 1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^{k})\right)\\
+&= \left( \frac{\lambda_1^k}{|\lambda_1|^k} \frac{\xi_1}{|\xi_1|} v_1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^{k}) \right)
+ \left( 1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^{k})\right)\\
+&=\frac{\lambda_1^k}{|\lambda_1|^k} \frac{\xi_1}{|\xi_1|} v_1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^{k}).
 \end{align*}
 und %(für $k\geq 1$)
 \begin{align*}
-(x^{(k-1)})^* \tilde x^{(k)}= (x^{(k-1)})^* A x^{(k-1)} = v_1^* A v_1 + O(\left| \lambda_2 / \lambda_1\right|^{k})
-= \lambda_1 + O(\left| \lambda_2 / \lambda_1\right|^{k}).
+(x^{(k-1)})^* \tilde x^{(k)}= (x^{(k-1)})^* A x^{(k-1)} = v_1^* A v_1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^{k})
+= \lambda_1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^{k}).
 \end{align*}
 womit die Behauptung gezeigt ist.
 \end{beweis}
@@ -3610,7 +3614,7 @@ dass genau ein \emph{betragsgrößter} Eigenwert existiert, kann jedoch nicht ve
 Auch zur Bestimmung der anderer Eigenwerte kann die Potenzmethode verwendet werden, indem $A$ zuerst geignet transformiert wird.
 Sei $A\in \C^{n\times n}$ diagonalisierbar.
 \begin{enumerate}[(a)]
-\item \emph{Inverse Iteration:} Sei $A$ invertierbar. Die betragsgrößten Eigenwerte von $A^{-1}$ sind dann  $1/\lambda_j$, wobei 
+\item \emph{Inverse Iteration:} Sei $A$ invertierbar. Die betragsgrößten Eigenwerte von $A^{-1}$ sind dann  $\f 1{\lambda_j}$, wobei 
 $\lambda_j$ die betragskleinsten Eigenwerte von $A$ sind. Existiert genau ein betragskleinster Eigenwert, so lässt sich dieser durch Anwendung der Potenzmethode auf $A^{-1}$ bestimmen. 
 %
 \item \emph{Gebrochene Iteration von Wielandt}: Ist $\mu\not\in \sigma(A)$, dann ist $A-\mu I$ invertierbar.
@@ -3632,7 +3636,7 @@ approximiert. Es liegt daher nahe, in jedem Schritt $\mu$ durch die aktuelle Nä
 \State{$x:=\tilde x / \norm{\tilde x}$}
 \State{$\mu:=x^* A x$}
 \Until{STOP}
-\State \Return $\mu\in \C$ approximiert Eigenwert, der am nächsten am Startwert liegt, $x$ approximiert dazugehörigen
+\State \Return $\mu\in \C$ approximiert den Eigenwert, der am nächsten am Startwert liegt, $x$ approximiert den dazugehörigen
 Eigenvektor (vgl. Satz~\ref{thm:RQ} für die rigorose Formulierung der Konvergenzaussage).
 \end{algorithmic}
 \end{alg}
@@ -3645,7 +3649,7 @@ Für eine Diagonalmatrix
 \]
 definieren wir $|\Lambda|$ durch
 \[
-\Lambda=\begin{pmatrix} |\lambda_1| & 0 & 0\\ 0 & \ddots & 0\\ 0 & 0 & |\lambda_n| \end{pmatrix}.
+|\Lambda|=\begin{pmatrix} |\lambda_1| & 0 & 0\\ 0 & \ddots & 0\\ 0 & 0 & |\lambda_n| \end{pmatrix}.
 \]
 
 Sei $A \in \C^{n\times n}$ normal. Dann existiert eine Diagonalmatrix $\Lambda$ (mit den Eigenwerten auf der Diagonale)
@@ -3677,7 +3681,7 @@ $y\in \C^n$ offenbar gilt
 \]
 Damit folgt 
 \[
-|x^* A x | = | x^* X \Lambda X^{-1} x | = | (X^*x) \Lambda (X^* x)| \leq (X^* x) |\Lambda| (X^* x) =  x^* |A| x.
+|x^* A x | = | x^* X \Lambda X^{-1} x | = | (X^*x)^* \Lambda (X^* x)| \leq (X^* x)^* |\Lambda| (X^* x) =  x^* |A| x.
 \]
 \end{beweis}
 
