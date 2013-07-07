@@ -55,7 +55,7 @@ view: $(PDFTARGETS)
 
 # to generate aux but not pdf from pdflatex, use -draftmode
 .SECONDARY: $(AUXFILES)
-%.aux: %.tex
+%.aux: | %.tex
 	(TEXINPUTS=.:$(INCLUDEDIR):$(TEXINPUTS) $(PDFLATEX) -draftmode $*);
 
 # introduce BibTeX dependency if we found a \bibliography
