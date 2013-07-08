@@ -957,3 +957,235 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 		\end{seg}
 	\end{proof}
 \end{st}
+
+
+\coursetimestamp{8}{7}{2013}
+\begin{kor} \label{5.26}
+	Ist $T \in D'(\R^n)$ finit, so gilt
+	\[
+		\exists k \in \N_0, c > 0 \forall \phi \in C_0^\infty(\R^n):
+		|T(\phi)| \le c \max_{|\alpha| \le k} \|\nabla_\phi^\alpha \|_\infty.
+	\]
+	\begin{proof}
+		Wähle $\psi \in C_0^\infty(\R^n)$ mit $\forall x \in \supp T : \psi(x) = 1$.
+		Dann ist
+		\[
+			T(\phi)
+			= T(\psi \phi + (1-\psi) \phi)
+			= T(\psi \phi) + \underbrace{T(\underbrace{(1-\psi) \phi}_{\supp (\argdot) \subset \R^n \setminus \supp T})}_{=0}
+			= T(\psi \phi).
+		\]
+		Für jedes $\phi \in C_0^\infty(\R^n)$ gilt
+		\[
+			\supp(\psi \phi)
+			\subset \supp \psi
+			=: K.
+		\]
+		Wende jetzt \ref{5.25} (ii) an, also
+		\[
+			\exists k \in \N_0, c > 0 :
+			|T(\phi)| = |T(\psi\phi)| \subset c \max_{|\alpha| \le k} \| \nabla^\alpha (\psi\phi) \|_\infty.
+		\]
+		Es gilt
+		\begin{align*}
+			|\nabla^\alpha (\psi\phi)(x)|
+			= \bigg| \sum_{\beta \le \alpha} \binom{\alpha}{\beta} \underbrace{(\nabla^\beta \psi(x))}_{\le c_\beta \text{ für $x\in \R^n$}} \nabla^{\alpha - \beta} \phi(x) \bigg|
+			\le \tilde c \max_{|\gamma|\le k} \|\nabla^\gamma \phi\|_\infty.
+		\end{align*}
+		und damit
+		\[
+			\|\nabla^\alpha (\psi \phi)\|
+			\le \tilde c \max_{|\gamma| \le k} \|\nabla^\gamma \phi \|_\infty.
+		\]
+	\end{proof}
+\end{kor}
+
+\begin{df} \label{5.27}
+	$T \in D'(\R^n)$ heißt \emph{von endlicher Ordnung}, falls die Aussage aus \ref{5.26} erfüllt ist:
+	\[
+		\exists k \in \N_0, c > 0 \forall \phi \in C_0^\infty(\R^n):
+		|T(\phi)| \le c \max_{|\alpha| \le k} \|\nabla_\phi^\alpha \|_\infty.
+	\]
+	Das kleinste solche $k \in \N_0$ heißt \emph{Ordnung} von $T$.
+\end{df}
+
+\begin{ex} \label{5.28}
+	\begin{enumerate}[1)]
+		\item
+			Die Delta-0-Distribution ($\delta_0(\phi) = \phi(0)$) hat Ordnung 0.
+		\item
+			Sei $u \in L^1(\R^n)$, dann ist
+			\[
+				|T_u(\phi)|
+				\le \int_{\R^n} |u \phi| \dx
+				\le \|\phi\|_\infty \int_{\R^n} |u| \dx
+				= \|\phi\|_\infty \|u\|_{L^1(\R^n)}
+			\]
+			$T_u$ hat also Ordnung 0.
+		\item
+			Betrachte $D^\alpha \delta_0$:
+			\[
+				D^\alpha \delta_0(\phi)
+				= (-1)^{|\alpha|} \delta_0(\nabla^\alpha \phi)
+				= (-1)^{|\alpha|} (\nabla^\alpha \phi)(0).
+			\]
+			$D^\alpha \delta_0$ hat also Ordnung $|\alpha|$.
+		\item
+			Sei $u(x) = x$, dann ist $u \in L^1_{\text{loc}}(\R)$.
+
+			$T_u$ ist nicht von endlicher Ordnung (trotzdem ist $D^2 T_u = T_{u''} = 0$).
+
+			Wir geben eine Folge $(\phi_j)$ in $C_0^\infty(\R^n)$ an mit Folgengliedern, die jeder Abschätzung aus \ref{5.27} widersprechen, unabhängig davon wie groß $k$ und $c$ sind.
+			Definiere
+			\[
+				\phi_l := j_1 ( \argdot - l).
+			\]
+			Dann gilt
+			\begin{align*}
+				T_u (\phi_j)
+				&= \int_{\R} u \phi_j \dx \\
+				&= \int_{l-1}^{l+1} x j_1(x-l) \dx \\
+				&\ge (l-1) \int_{l-1}^{l+1} j_1(x-l) \dx
+				= (l-1) \int_{-1}^1 j_1(x) \dx \\
+				&= l-1
+				\to \infty.
+			\end{align*}
+			Also $|T_u(\phi_l)| \to \infty$ für $l \to \infty$.
+			Jedoch ist
+			\[
+				| \nabla^\alpha \phi_l(x) |
+				= |\nabla^\alpha j_1(x-l) |
+				\le \|\nabla^\alpha j_1 \|_\infty.
+			\]
+			also $\|\nabla^\alpha \phi_l \|_\infty \le \const$ unabhängig von $l$.
+			Damit kann $T_u$ nicht von endlicher Ordnung sein.
+	\end{enumerate}
+\end{ex}
+
+\begin{nt} \label{5.29}
+	Sei $T \in D'(\R^n), O \subset \R^n$ offen.
+	Dann existiert $\alpha \in \N_0^n$, $f \in C(\R^n \to \C)$, so dass
+	\[
+		T = D^\alpha T_f
+		\qquad \text{auf $O$.}
+	\]
+	\begin{proof}
+		Siehe \cite{walter94}.
+	\end{proof}
+\end{nt}
+
+\begin{nt}[Die Ableitung ist eine lokale Operation] \label{5.30}
+	Falls $F = S$ in $O$, dann auch $D^\alpha T = D^\alpha S$ in $O$ für alle $\alpha \in \N_0^n$.
+	\begin{proof}
+		Für $\phi \in C_0^\infty, \alpha \in \N_0^n$ gilt
+		\[
+			\nabla^\alpha \tilde \phi
+			= \widetilde{\nabla^\alpha \phi}
+		\]
+		Für alle $\phi \in C_0^\infty(O)$ gilt
+		\begin{align*}
+			D^\alpha T(\tilde \phi)
+			= (-1)^{|\alpha|} T(\nabla^{\alpha} \tilde \phi)
+			&= (-1)^{|\alpha|} T( \widetilde{\nabla^{\alpha} \phi} ) \\
+			&= (-1)^{|\alpha|} S( \widetilde{\nabla^{\alpha} \phi} )
+			= (-1)^{|\alpha|} S(\nabla^{\alpha} \tilde \phi)
+			= D^\alpha S(\tilde \phi).
+		\end{align*}
+	\end{proof}
+\end{nt}
+
+\begin{ex}[Anwendung von \ref{5.30}] \label{5.31}
+	Betrachte den $\R^1$.
+	Sei $u(x) = x, v(x) = -x, w(x) = |x|$.
+	Dann ist
+	\[
+		T_w = T_u
+		\qquad \text{in $O_1 = ]0,\infty[$.}
+	\]
+	Also auch
+	\[
+		D^1 T_w = D^1 T_u = T_{u'}
+		\qquad \text{in $O_1$.}
+	\]
+	Analog auch $D^1 T_w = T_{v'}$ in $O_2 = ]-\infty, 0[$.
+	Damit ist
+	\[
+		D^1 T_w
+		= T_{w'}
+		\quad \text{mit} \quad
+		w'(x) :=
+		\begin{cases}
+			1 & x > 0 \\
+			-1 & x < 0 \\
+			\text{egal} & x =0
+		\end{cases}
+	\]
+\end{ex}
+
+
+\subsection{Direktes Produkt von Distributionen}
+
+
+\begin{nt} \label{5.32}
+	Sei $\phi_1 \in C_0^\infty(\R^n), \phi_2 \in C_0^\infty(\R^m)$, dann ist mit
+	\[
+		\phi_1 \times \phi_2 (x,y)
+		:= \phi_1(x) \phi_2(y).
+	\]
+	$\phi_1 \times \phi_2 \in C_0^\infty(\R^{n+m})$ und $\supp(\phi_1 \times \phi_2) = (\supp \phi_1) \times (\supp \phi_2)$.
+	Wir wollen diese Operation auf $D'(\R^n), D'(\R^m), D'(\R^{n+m})$ fortsetzen.
+\end{nt}
+
+\begin{lem} \label{5.33}
+	Sei $S \in D'(\R^m), \phi \in C_0^\infty(\R^{n+1})$.
+	Setze für $x \in \R^n$
+	\[
+		\psi(x)
+		:= S(\underbrace{\phi(x, \argdot)}_{\in C_0^{\R^m}})
+		=: S_y(\phi(x,y)).
+	\]
+	Dann gelten
+	\begin{enumerate}[1)]
+		\item
+			Für $\alpha \in \N_0^n$ ist
+			\[
+				\nabla^\alpha \psi = S(\nabla^{(\alpha,0)} \phi(x, \argdot)).
+			\]
+			Insbesondere $\psi \in C^\infty(\R^n \to \C)$.
+		\item
+			$\psi \in C_0^\infty(\R^n)$
+		\item
+			Falls $\phi_j \stack{D(\R^{n+m})}\longrightarrow \phi$, $\psi_j(x) = S(\phi_j(x, \argdot))$, dann gilt
+			\[
+				\psi_j \stack{D(\R^n)}\longrightarrow \psi
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				siehe \coursehref{blatt12.pdf}{Übungsaufgabe 12.4}.
+			\item
+				Es gelte $\supp \phi \in [-R,R]^{n+m}$.
+				Für $|x_1| \ge R \lor |x_2| \ge R \lor \dotsb$ gilt $\phi(x) = 0$ und damit auch $\psi(x) = 0$.
+				Also $\supp \psi \subset [-R,R]^n$.
+			\item
+				Es gelte $\supp \phi_j \subset [-R,R]^{n+m}$.
+				Nach 2) ist dann $\supp \psi_j \subset [-R,R]^n$ für alle $j \in \N$.
+
+				Weiter gilt
+				\begin{align*}
+					| \nabla^\alpha \psi_j(x) - \nabla^\alpha \psi(x) |
+					&\stack{1)}= \Big|S\big(\nabla^{(\alpha,0)} \phi_j(x,\argdot)\big) - S\big(\nabla^{(\alpha, 0)} \phi(x, \argdot)\big) \Big| \\
+					&= \Big|S\big(\underbrace{\overbrace{\nabla^{(\alpha, 0)}(\phi_j(x,\argdot) - \phi(x,\argdot))}^{=:g_{j,x}}}_{\supp(\argdot) \subset [-R,R]^n =: K}\big)\Big|
+				\intertext{
+					mit \ref{5.25} (ii) angewendet auf $S \in D'(\R^n)$ ergibt sich
+				}
+					&= c \max_{\substack{|\beta|\le k \\ \beta \in \N_0^m}} \|\nabla^{\beta} g_{j,x} \|_\infty \\
+					&= c \max_{|\beta| \le k} \| \nabla^{(\alpha, \beta)} (\phi_j(x,\argdot) - \phi(x, \argdot)) \|_{\infty} \\
+					&\le c \max_{|\beta| \le k} \|\nabla^{(\alpha, \beta)}  (\phi_j - \phi) \|_{L^\infty(\R^{n+m})} \\
+					&\to 0,
+				\end{align*}
+				da $\phi_j \stack{D(\R^{n+m})}\longrightarrow \phi$.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
