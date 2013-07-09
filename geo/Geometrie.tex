@@ -756,8 +756,108 @@ Sei $C: I  \to \R^3$ eine n.Bl.par. Raumkurve mit $\kappa(t) \neq 0 \; \forall t
 \end{lem}
 
 
+\begin{ex*}[Fortsetzung von Bsp. \ref{7.3}]
+
+\[ b(t) = v(t) \kp n(t) = \f{1}{\sqrt{2}}  \begin{pmatrix} -\sin(\f{t}{\sqrt{2}}) \\ \cos(\f{t}{\sqrt{2}}) \\ 1 \end{pmatrix} \kp \begin{pmatrix} -\cos(\f{t}{\sqrt{2}}) \\ -\sin(\f{t}{\sqrt{2}}) \\ 0 \end{pmatrix}  = \f{1}{\sqrt{2}} \begin{pmatrix} \sin(\f{t}{\sqrt{2}}) \\ -\cos(\f{t}{\sqrt{2}}) \\ 1 \end{pmatrix}  \]
+Damit ergibt sich für die Torsion:
+\[ \tau(t) = \< \dot n(t), b(t) \>  = \left\< \f{1}{\sqrt{2}}  \begin{pmatrix} \sin(\f{t}{\sqrt{2}}) \\ -\cos(\f{t}{\sqrt{2}}) \\ 0 \end{pmatrix} , \f{1}{\sqrt{2}} \begin{pmatrix} \sin(\f{t}{\sqrt{2}}) \\ -\cos(\f{t}{\sqrt{2}}) \\ 1 \end{pmatrix} \right\>  = \f{1}{2} \]
+Die Helix im Beispiel hat also konstante Torsion $\f{1}{2}$.
+\end{ex*}
+
+Wir wollen nun beschreiben, wie sich die Vektoren im begleitenden Dreibein entlang der Kurve zueinander bewegen, das sind die sogenannten \emph{Frenet'schen Gleichungen}:
+
+\begin{st}[Frenet-Gleichungen]
+\label{7.7}
+
+Sei $c: I \to \R^3$ eine n.Bl.par. Raumkurve mit positiver Krümmung $\kappa(t) \neq 0 \; \forall t \in I$ (solche Raumkurven heißen \emph{Frenet-Kurven}). Sei ($v, n, b$) das begleitende Dreibein von $c$, dann gilt:
+\begin{align*}
+\dot v &= \kappa \cdot n \\
+\dot n &= - \kappa \cdot v + \tau \cdot b \\
+\dot b &= - \tau \cdot n
+\end{align*}
+
+bzw. in Matrixschreibweise:
+\[
+\begin{pmatrix} \dot v \\ \dot n \\ \dot b \end{pmatrix} = \begin{pmatrix} 0 & \kappa & 0 \\ -\kappa & 0 & \tau \\ 0 & -\tau & 0   \end{pmatrix} \cdot \begin{pmatrix} v \\ n \\ b \end{pmatrix} \qquad \text{ oder } \qquad  \begin{pmatrix} \dot v & \dot n & \dot b \end{pmatrix} = \begin{pmatrix} v & n & b \end{pmatrix} \cdot \begin{pmatrix} 0 & \kappa & 0 \\ -\kappa & 0 & \tau \\ 0 & -\tau & 0   \end{pmatrix} \]
+
+\begin{note*}
+Dabei sind $\begin{pmatrix} \dot v & \dot n & \dot b \end{pmatrix}$ und $\begin{pmatrix}  v &  n &  b \end{pmatrix}$ Matrizen, da $v, \dot v, n, \dot n, b, \dot b \in \R^3$ sind, und $\begin{pmatrix} \dot v \\ \dot n \\ \dot b \end{pmatrix}, \begin{pmatrix}  v \\  n \\  b \end{pmatrix} \in \R^9$.
+\end{note*}
+\begin{proof}
+\begin{enumerate}[i)]
+\item
+	Die erste Gleichung ist nichts anderes als unsere Definition von $\kappa$ und $n$.
+\item
+	Für die zweite Gleichung betrachte 
+\[ 0 = \f{d}{dt} \< n, v \> = \< \dot n, v \> + \< n, \dot v \> = \< \dot n, v \> + \kappa ,\]
+daraus folgt $\< \dot n, v \> = - \kappa$, und wegen der Definition der Torsion gilt $\< \dot n, b \> =  \tau$. Außerdem gilt $\< \dot n, n \> = 0$ wegen $0 = \f{d}{dt} \underbrace{\< n, n \>}_{1} = \< \dot n, n \> + \< n, \dot n \> = 2 \< \dot n, n \>$.
+\item
+	Für die dritte Gleichung betrachte
+\[ 0 = \f{d}{dt} \< b, v \> = \< \dot b, v \> + \underbrace{\< b, \dot v \>}_{=0} \quad \Rightarrow \quad \< \dot b, v \> = 0 \]
+und 
+\[ 0 = \f{d}{dt} \< b, n \> = \< \dot b, n \> + \< b, \dot n \> \stackrel{ii)}{=} \< \dot b, n \> + \underbrace{\< b, v \>}_{=0} \cdot (-\kappa) + \tau \cdot \underbrace{\< b, b \>}_{=1} \quad \Rightarrow \quad \< \dot b, n \> = - \tau. \]
+Außerdem gilt $\< \dot b, b \> = 0$ analog wie in $ii)$.
+\end{enumerate}
+\end{proof}
+\end{st}
+
+Wir wollen nun zeigen, dass Krümmung und Torsion eine Raumkurve im Wesentlichen eindeutig festlegen. Dazu folgendes 
+\begin{lem}
+\label{7.8}
+Sei $c: I \to \R^3$ eine n.Bl.par. Raumkurve mit positiver Krümmung $\kappa > 0$ und $F: \R^3 \to \R^3$ eine eigentliche (orientierungserhaltende) Euklidische Bewegung, d.h. $F(x) = Ax + b$ für ein $A \in SO(3), b \in \R^3$, dann gilt für die Krümmung und Torsion der Kurve $\tilde c = F  \circ c:$ \[ \tilde \kappa = \kappa, \qquad \tilde \tau = \tau. \]
+Ist $F$ eine nicht-orientierungserhaltende Euklidische Bewegung des $\R^3$, d.h. $F(x) = Ax + b$ mit $A \in O(3) \diagdown SO(3), b \in \R^3 $, dann gilt \[ \tilde \kappa = \kappa, \qquad \tilde \tau = - \tau. \]
+\begin{proof}
+zur Übung selbst.
+\end{proof}
+\end{lem}
+
+\begin{st}[Hauptsatz über Raumkurven]
+\label{7.9}
+Sei $I$ ein Intervall und $\kappa , \tau : I \to \R$ glatte Funktionen mit $\kappa > 0$. Dann existiert eine n.Bl.par. Raumkurve $c: I \to \R^3$ mit Krümmung $\kappa$ und Torsion $\tau$. Diese Raumkurve ist bis auf eine orientierungserhaltend Bewegung eindeutig festgelegt.
+\begin{proof}
+Wir betrachten das lineare Differentialgleichungssystem: 
+\[ \begin{matrix} \dot c = v~~ & & & c(t_0) = 0 \\ 
+\dot v = \kappa n~ & & & v(t_0) = e_1       \\
+\dot n = - \kappa v & + \tau b & \text{ mit Anfangsbedingungen} & n(t_0) = e_2  \\
+\dot b = - \tau n & & & b(t_0) = e_3 
+\end{matrix}    \]
+mit $e_i = i$-ter Einheitsvektor und $t_0 \in I$. 
+
+\textbf{Existenz:}
+Da $\kappa, \tau$ glatt sind, existiert eine eindeutige glatte Lösung, und da das System linear ist, ist sie auf ganz $I$ definiert. \\
+Wir müssen uns noch überlegen, dass die so definierte Kurve $c$ tatsächlich die Krümmung $\kappa$ und Torsion $\tau$ hat.
+Die Anfangswerte sind so gewählt, dass $\left( v(t_0), n(t_0), b(t_0) \right)$ eine positiv orientierte Orthonormalbasis des $\R^3$ sind. Wir wollen zeigen, dass dies für alle $t \in I$ gilt. Wir betrachten dazu 
+\begin{align*}
+\f{d}{dt} \< v,v \> &= 2 \< \dot v, v \> = 2 \kappa \< n, v \>  \\
+\f{d}{dt} \< n, n \> &= 2 \< \dot n, n \> = -2 \kappa \< v, n \> + \tau \< b,n \> \\
+\end{align*}
+und äquivalent für $ \< b,b \>, \< b,v \>, \< n,v \>, \< b, n \>$. \\
+Man erhält ein lineares Differentialgleichungssystem:
+\[ 
+ \f{d}{dt} \begin{pmatrix} \<v,v \> \\ \< n, n \> \\ \< b,b \> \\ \hline  \< b,v \> \\ \< b, n \> \\ \< n,v \>   \end{pmatrix} = \begin{pmatrix}  0 & 0 & 0 & \vline &  0 & 0 & 2 \kappa \\
+0 & 0 & 0 & \vline & 0 & 2 \tau & -2 \kappa \\
+0 & 0 & 0 & \vline & 0 & -2 \tau & 0 \\
+\hline
+0 & 0 & 0 & \vline & 0 & \kappa & - \tau  \\
+0 &  - \tau & \tau & \vline & - \kappa & 0 & 0 \\
+- \kappa & \kappa & 0 & \vline & \tau & 0 & 0  \end{pmatrix}  \cdot  \begin{pmatrix} \<v,v \> \\ \< n, n \> \\ \< b,b \> \\ \hline  \< b,v \> \\ \< b, n \> \\ \< n,v \>   \end{pmatrix}, \qquad F(t_0) = \begin{pmatrix} 1 \\ 1 \\ 1  \\ 0   \\ 0 \\ 0 \end{pmatrix}
+\]
+mit Anfangsbedingung $F(t_0)$. Man sieht aber, dass die konstante Funktion $F(t) = \begin{pmatrix} 1 & 1 & 1 & 0 & 0 & 0 \end{pmatrix}^T$ das DGL-System löst.
 
 % Vorlesung 4.6.13
+Wegen der Eindeutigkeit folgt, dass für jede Lösung auf dem Intervall $I$ des ersten Systems $\left( v(t), n(t), b(t) \right)$ für alle $t$ eine ONB des $\R^3$ bilden, aus Stetigkeitsgründen eine orientierte ONB des $\R^3$. Wir erhalten insbesondere ein en.Bl.par. Raumkurve $c$. Daraus, dass die Frenet-Gleichungen erfüllt sind, liest man leicht ab, dass $c$ die Krümmung $\kappa$ und Torsion $\tau$ hat.
+
+\textbf{Zur Eindeutigkeit:} Sei $\tilde c: I \to \R^3$ eine weitere Raumkurve mit Krümmung $\kappa$ und Torsion $\tau$. Wir setzen $p := \tilde c(t_0)$ und $A = \left( \tilde v(t_0), \tilde n(t_0), \tilde b(t_0) \right) \in \R^{3 \kp 3}$. Da $\tilde v, \tilde n, \tilde b$ für alle $t$ eine orientierte ONB bilden, ist $A \in SO(3)$ (spezielle orthogonale Gruppe) und damit auch $A^{-1} \in SO(3)$. Sei $F$ die eigentliche Euklidische Bewegung mit $F(x) = A^{-1} x - A^{-1} p$ und setze $\hat c := F \circ \tilde c$. Dann gilt $\tilde c(t_0) = 0$ und $\left(\hat  v(t_0), \hat n(t_0), \hat b(t_0) \right) = \left( e_1, e_2, e_3 \right)$. Wegen der eindeutigen Lösbarkeit des ersten DGL-Systems folgt $\hat c = c$.
+\end{proof}
+\end{st}
+
+\chapter{Flächentheorie}
+
+\section{Reguläre Flächen}
+
+Bis jetzt haben wir $1-$dimensionale Objekte im Euklidischen Raum betraachtet, nun möchten wir $2-$dimensionale Flächen im Raum studieren. In Analogie zu unserer Definition bei Kurven wäre es naheliegend, Flächenstücke durch Abbildungen $U \to \R^3$ mit einer Regularitätsbedingung zu beschreiben:
+
+
 
 % Vorlesung 6.6.13
 
