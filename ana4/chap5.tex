@@ -807,6 +807,8 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 					0 & \text{sonst}
 				\end{cases}
 			\]
+			die Fortsetzung von $\phi$ durch den Wert $0$ auf ganz $\R^n$.
+
 			Offensichtlich ist $\tilde \phi \in C_0^\infty (\R^n)$.
 		\item
 			Für $S,T \in \scr D'(\R^n)$ setzen wir
@@ -852,12 +854,14 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 				Beliebige Vereinigungen offenere Mengen sind offen.
 			\item
 				Sei $\phi \in C_0^\infty (G)$.
-				$\{ O \subset \R^n : T = 0 \text{ in $O$}\}$ ist offene Überdeckung von $\supp \phi$ und $\supp \phi$ ist kompakt.
-				Also
+				$\supp \phi$ ist kompakt und hat die offene Überdeckung $\{ O \subset \R^n : T = 0 \text{ in $O$}\}$.
+				Also existiert eine endliche, offene Teilüberdeckung von $\supp \phi$:
 				\[
-					\exists O_1, \dotsc, O_N \subset \R^n : T = 0 \text{ in $O_j$ } \land \supp \phi \subset \bigcup_{j=1}^N O_j.
+					\exists O_1, \dotsc, O_N \subset \R^n :
+					T = 0 \text{ in $O_j$ }
+						\land \supp \phi \subset \bigcup_{j=1}^N O_j.
 				\]
-				Mit der Zerlegung der Eins folgt: es gibt $\psi_j \in C_0^\infty (O_j)$, so dass $\sum_{j=1}^N \tilde \psi_j (x) = 1$ für $x \in \supp \phi$.
+				Mit der Zerlegung der Eins finden wir $\psi_j \in C_0^\infty (O_j)$, so dass $\sum_{j=1}^N \tilde \psi_j (x) = 1$ für $x \in \supp \phi$.
 				Schreibe
 				\[
 					\tilde \phi = \sum_{j=1}^N \tilde \psi_j \tilde \phi.
@@ -865,7 +869,7 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 				Dann ist
 				\[
 					T(\tilde \phi) 
-					= \sum_{j=1}^N T(\underbrace{\tilde \psi_j \tilde \phi}_{\in C_0^\infty(O_j)}) 
+					= \sum_{j=1}^N T(\underbrace{\tilde \psi_j \tilde \phi}_{\mathclap{\in C_0^\infty(O_j)}}) 
 					= 0,
 				\]
 				da $T = 0$ in $O_j$.
@@ -876,7 +880,7 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 \begin{df} \label{5.23}
 	Für $T \in \scr D'(\R^n)$ setzte
 	\[
-		\supp(T) := \R^n \subset \bigcup_{\mathclap{O \in \{O \subset \R^n \text{ offen} : T = 0 \text{ in $O$}\}}} O.
+		\supp(T) := \R^n \setminus \bigcup_{\mathclap{O \in \{O \subset \R^n \text{ offen} : T = 0 \text{ in $O$}\}}} O.
 	\]
 	$\supp (T)$ heißt \emph{Träger} oder \emph{Support} von $T$.
 
@@ -895,9 +899,9 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 		\item
 			Sei $\phi \in C_0^\infty(\R^n)$, dann ist
 			\[
-				\supp T_\phi = \supp \phi,
+				\supp T_\phi = \supp \phi
 			\]
-			neue und alte Definition stimmen also überein.
+			(neue und alte Definition des Trägers stimmen also überein).
 		\item
 			Für $u \in L_{\text{loc}}^1(\R^n)$ ist (ohne Beweis)
 			\[
@@ -921,9 +925,9 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 	\end{enumerate}
 	\begin{proof}
 		\begin{seg}[(ii)$\implies$(i)]
-			Zeige: $T : D(\R^n) \to \C$ ist stetig.
+			Zeige: $T : \scr D(\R^n) \to \C$ ist stetig.
 
-			Sei $\phi_j \stack D\to \phi$, d.h. es existiert $K \subset \R^n$ mit $\supp \phi_j, \supp \phi \subset K$ und für alle $\alpha \in \N_0^n$ konvergiert $\nabla^\alpha \phi_j \to \nabla^\alpha \phi$ gleichmäßig auf $\R^n$.
+			Sei $\phi_j \stack {\scr D}\to \phi$, d.h. es existiert $K \subset \R^n$ mit $\supp \phi_j, \supp \phi \subset K$ und für alle $\alpha \in \N_0^n$ konvergiert $\nabla^\alpha \phi_j \to \nabla^\alpha \phi$ gleichmäßig auf $\R^n$.
 			Zeige $T(\phi_j) \to T(\phi)$:
 			\begin{align*}
 				|T(\phi_j) - T(\phi)|
@@ -937,25 +941,28 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 			Zeige $\lnot (ii) \implies \lnot (i)$.
 			Es gelte also
 			\begin{align*}
-				\exists K \forall k \in \N \forall c > 0 \exists \phi \in C_0^\infty(\R^n)
-				: \supp \phi \subset K \land |T\phi| > c \sup_{|\alpha|\le k} \|\nabla^\alpha \phi \|_\infty
+				&\exists K \subset \R^n \text{ kompakt } \forall k \in \N,  c > 0 \exists \phi \in C_0^\infty(\R^n) \\
+				& \qquad : \supp \phi \subset K \land |T\phi| > c \sup_{|\alpha|\le k} \|\nabla^\alpha \phi \|_\infty
 			\end{align*}
-			Wähle $c = k$, dann ist $\phi_k \in C_0^\infty (\R^n)$ mit $\supp \phi_k \subset K$ und $|T_{\phi_k}| > k \sup_{|\alpha| \le k} \|\nabla^\alpha \phi\|_\infty$.
+			Wähle $c = k$, dann existiert $\phi \in C_0^\infty (\R^n)$ mit $\supp \phi \subset K$ und $|T \phi| > k \sup\limits_{|\alpha| \le k} \|\nabla^\alpha \phi\|_\infty$.
 			Setze
 			\[
-				\psi_k := \dfrac 1{k \max\limits_{|\alpha| \le k}\| \nabla^\alpha \phi\|_\infty} \phi_k.
+				\psi_k := \dfrac 1{k \max\limits_{|\alpha| \le k}\| \nabla^\alpha \phi\|_\infty} \phi.
 			\]
 			Für alle $\beta \in \N_0^n$ konvergiert für $k \ge |\beta|$
 			\[
-				|D^\beta \psi_k(x)| \le \f 1k \to 0
+				|\nabla^\beta \psi_k(x)|
+				= \f 1k \f{\nabla^\beta \phi}{\max\limits_{|\alpha|\le k} \|\nabla^\alpha \phi\|_\infty}
+				\le \f 1k
+				\to 0
 			\]
 			gleichmäßig.
-			Außerdem ist $\supp \psi_k = \supp \phi_k \subset K$, also $\psi_k \stack D\to 0$.
-			Es gilt $\lnot (T(\psi_k) \to 0)$, denn
+			Außerdem ist $\supp \psi_k = \supp \phi \subset K$, also $\psi_k \stack {\scr D}\to 0$.
+			Jedoch gilt $T(\psi_k) \not\to 0$, denn
 			\[
 				T(\psi_k) = \dfrac 1{k \max\|\nabla^\alpha \phi_k\|_\infty} T(\phi_k) \ge 1.
 			\]
-			Damit ist $T$ nicht stetig, also $T \in \scr D'(\R^n)$.
+			Damit ist $T$ nicht stetig, also $T \not\in \scr D'(\R^n)$.
 		\end{seg}
 	\end{proof}
 \end{st}
