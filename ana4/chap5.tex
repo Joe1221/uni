@@ -1209,7 +1209,7 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 	Das \emph{direkte Produkt} $T \times S$ ist definiert durch
 	\[
 		T \times S (\phi)
-		:= T_x (\underbrace{S_y \phi(x,y)}_{=: \psi(x)}).
+		:= T_x (\underbrace{S_y (\phi(x,y))}_{=: \psi(x)}).
 	\]
 	Nach \ref{5.33} ist $\psi \in C_0^\infty(\R^n)$, also $T(\psi)$ wohldefiniert.
 
@@ -1245,14 +1245,14 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 						Nach \ref{5.33} gilt für $\psi_j(x) := S_y(\phi_j(x,y)), \psi(x) := S_y(\phi(x,y))$
 						\[
 							\psi_j \to \psi
-							\qquad \text{in $\scr D'(\R^n)$.}
+							\qquad \text{in $\scr D'(\R^n)$}
 						\]
-						und damit
+						und damit (da $T$ stetig)
 						\[
 							T \times S (\phi_j)
 							= T(\psi_j)
 							\to  T(\psi)
-							= T \times S (\phi)
+							= T \times S (\phi).
 						\]
 				\end{enumerate}
 			\item[2),3)]
@@ -1263,21 +1263,20 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 						Sei $(x,y) \in \supp T \times \supp S$.
 						Zeige $(x,y) \in \supp (T \times S)$.
 
-						Zu jeder offenen Menge $O \subset \R^{n+m}$ mit $(x,y) \in O$ existiert $\phi \in C_0^\infty(O)$ mit $T \times S(\tilde \phi) \neq 0$.
 						Sei $(x,y) \in O \subset \R^{n+m}$, $O$ offen.
 						Dann
 						\[
 							\exists O_1 \subset \R^n, O_2 \subset \R^m \text{ offen }
 								: x \in O_1 \land y \in O_2 \land O_1 \times O_2 \subset O
 						\]
-						Jetzt gilt
+						Es gilt
 						\begin{align*}
 							x \in \supp T
-								\implies \exists \phi_1 \in C_0^\infty(O_1) : T(\tilde \phi_1) \neq 0
+								&\implies \exists \phi_1 \in C_0^\infty(O_1) : T(\tilde \phi_1) \neq 0 ,\\
 							y \in \supp S
-								\implies \exists \phi_2 \in C_0^\infty(O_2) : S(\tilde \phi_2) \neq 0
+								&\implies \exists \phi_2 \in C_0^\infty(O_2) : S(\tilde \phi_2) \neq 0.
 						\end{align*}
-						und damit als Fortsetzung durch $O$ auf $O \setminus (O_1\times O_2)$
+						und damit als Fortsetzung mittels $0$ auf $O \setminus (O_1\times O_2)$
 						\[
 							\phi_1 \times \phi_2 \in C_0^\infty(O_1\times O_2)
 								\subset C_0^\infty(O).
@@ -1295,11 +1294,11 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 
 						Es gilt
 						\[
-							\exists O_1, x \in O_1 \subset \R^n \forall \phi_1 \in C_0^\infty(O_1)
+							\exists O_1 \subset \R^n, x \in O_1 \forall \phi_1 \in C_0^\infty(O_1)
 							: T(\tilde \phi_1) = 0
 						\]
 						Setze $O := O_1 \times \R^m \ni (x,y)$.
-						Für $\Phi \in C_0^\infty(O)$ gilt $\Phi(\argdot, y) \in C_0^\infty(O_1)$ für $y \in \R^m$.
+						Für $\Phi \in C_0^\infty(O)$ ist $\Phi(\argdot, y) \in C_0^\infty(O_1)$ für festgehaltenes $y \in \R^m$.
 						Also
 						\[
 							\supp (S_y(\Phi(\argdot,y))) \subset O_1
@@ -1339,15 +1338,20 @@ jedoch lässt sich das nicht beliebig auf $L^1_{\text{loc}}(\R^n)$ erweitern:
 $1 \ast 1$ kann so nicht definiert werden, obwohl $1 \in L^1_{\text{loc}}(\R^n)$
 
 Die Idee ist jetzt:
-definiere $f \ast g$ nur für solche $(f,g)$, für die gilt
+definiere $f \ast g$ nur für spezielle Paare $(f,g)$, die folgenden äquivalenten Bedingungen genügen:
 \begin{align*}
-	&\forall z \in \R^n : \{y \in \R^n : f(z-y) g(y) \neq 0 \} \text{ ist beschränkt} \\
-	\iff &\forall z \in \R^n : \{(x,y) : f(x) \neq 0 \land g(y) \neq 0 \land x + y = z\} \text{ ist beschränkt} \\
-	\iff &\forall z \in \R^n : ((\supp f) \times (\supp g)) \cap \{(x,y) : x+y = z \} \text{ ist beschränkt}
+	&\forall z \in \R^n : \big\{y \in \R^n : f(z-y) g(y) \neq 0 \big\} \text{ ist beschränkt} \\
+	\iff &\forall z \in \R^n : \big\{(x,y) : f(x) \neq 0 \land g(y) \neq 0 \land x + y = z\big\} \text{ ist beschränkt} \\
+	\iff &\forall z \in \R^n : (\supp f \times \supp g) \cap \{(x,y) : x+y = z \} \text{ ist beschränkt.}
 \end{align*}
 
+Dies motiviert folgende Definition:
 \begin{df} \label{5.35}
-	Seien $T, S \in \scr D'(\R^n)$, $\sigma_a := \{(x,y) : |x+y| \le a \}$.
+	Seien $T, S \in \scr D'(\R^n)$.
+	Setze
+	\[
+		\sigma_a := \{(x,y) : |x+y| \le a \}.
+	\]
 	$(T,S)$ erfüllt die \emph{Streifenbedingung}, falls
 	\[
 		\forall a > 0 :
@@ -1359,7 +1363,10 @@ definiere $f \ast g$ nur für solche $(f,g)$, für die gilt
 \begin{ex} \label{5.36}
 	Sei $\supp T$ beschränkt.
 	Dann erfüllt $(T,S)$ die Streifenbedingung.
-	\fixme[Zeichnung]
+	\begin{proof}
+		Leicht an einer Zeichnung nachzuvollziehen.
+		\fixme[Zeichnung]
+	\end{proof}
 \end{ex}
 
 \begin{nt} \label{5.37}
@@ -1367,13 +1374,13 @@ definiere $f \ast g$ nur für solche $(f,g)$, für die gilt
 	\begin{align*}
 		T_{f\ast g}(\phi)
 		&= \int_{\R^n} (f\ast g)(x)\phi(x) \dx \\
-		&= \int_{\R^n} \int_{\R^m} f(x-y)g(y) \dx[y] \phi(x) \dx \\
-		&\stack[{\dx[z]=\dx}]{z:=x-y} = \int_{y\in \R^n} \int_{z\in \R^n} f(z) \phi(z+y) g(y) \dx[z] \dx[y] \\
+		&= \int_{\R^n} \int_{\R^n} f(x-y)g(y) \dx[y] \phi(x) \dx \\
+		&\stack[{\dx[z]=\dx}]{z=x-y} =\quad \int_{y\in \R^n} \int_{z\in \R^n} f(z) \phi(z+y) g(y) \dx[z] \dx[y] \\
 		&= \int_{z\in \R^n} f(z) \int_{y\in \R^n} g(y) \phi(z+y) \dx[y] \dx[z] \\
 		&= T_{f,z} \big( T_{g,y} (\phi(z+y)) \big) \\
 		&= (T_f \times T_g) (\Phi) \qquad (\Phi(z,y) := \phi(z+y)).
 	\end{align*}
-	Ein Problem beim Verwenden dieser Darstellung ist, dass $\supp \psi$ stets nicht beschränkt ist: $\psi \in C^\infty(\R^n) \setminus C_0^\infty(\R^n)$.
+	Ein Problem beim Verwenden dieser Darstellung ist, dass $\supp \Phi$ niemals beschränkt ist: $\Phi \in C^\infty(\R^n) \setminus C_0^\infty(\R^n)$.
 \end{nt}
 
 \begin{st}[Definition und Satz] \label{5.38}
@@ -1382,13 +1389,13 @@ definiere $f \ast g$ nur für solche $(f,g)$, für die gilt
 	\[
 		T \ast S(\phi)
 		:= (T \times S)(\psi_\phi \Phi)
-		\qquad (\phi \in C_0^\infty(\R^n))
+		\qquad \text{(für $\phi \in C_0^\infty(\R^n)$)}
 	\]
 	mit $\Phi(x,y) := \phi(x+y)$ und
 	\[
 		\psi_\phi \in C_0^\infty(\R^{2n})
 		\quad \text{mit} \quad
-		\psi_\phi = 1 \text{ auf $\supp T \times \supp S \cap \sigma_R$}
+		\psi_\phi = 1 \text{ auf $(\supp T \times \supp S) \cap \sigma_R$}
 	\]
 	wobei $R$ so groß, dass $\supp \phi \subset K_R(0)$.
 
@@ -1402,7 +1409,7 @@ definiere $f \ast g$ nur für solche $(f,g)$, für die gilt
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
-				Sei $\tilde \psi_\phi \in C_0^\infty(\R^{2n})$, $\tilde \phi = 1$ auf $(\supp T \times S) \cap \sigma_5$.
+				Sei $\tilde \psi_\phi \in C_0^\infty(\R^{2n})$, $\tilde \psi = 1$ auf $(\supp T \times \supp S) \cap \sigma_R$.
 				Dann ist
 				\begin{align*}
 					(T\times S)(\psi_\phi \Phi) - (T\times S)(\tilde \psi_\phi \Phi)
@@ -1414,7 +1421,7 @@ definiere $f \ast g$ nur für solche $(f,g)$, für die gilt
 					\item
 						$T \ast S$ ist linear, da $T \times S$ linear ist.
 					\item
-						Sei $\phi_n \stack{\scr D(\R^n)} \phi$, d.h. $\forall j \in \N: \supp \phi_j \subset K$ und $\forall \alpha \in \N_0^n : \nabla^\alpha \phi_j \to \nabla^\alpha \phi$ gleichmäßig in $\R^n$.
+						Sei $\phi_n \stack{\scr D(\R^n)}\longrightarrow \phi$, d.h. $\forall j \in \N: \supp \phi_j \subset K$ und $\forall \alpha \in \N_0^n : \nabla^\alpha \phi_j \to \nabla^\alpha \phi$ gleichmäßig in $\R^n$.
 						Setze $\Phi_j(x,y) := \phi_j(x+y)$.
 						Wähle $R > 0$ so, dass $\supp \phi_j \subset K_R(0)$ für alle $j \in \N$.
 						Wähle außerdem $\psi_\phi \in C_0^\infty(\R^{2n})$ so, dass $\psi_\phi = 1$ auf $(\supp T \times \supp S) \cap \sigma_R$, dann ist
@@ -1422,16 +1429,19 @@ definiere $f \ast g$ nur für solche $(f,g)$, für die gilt
 							\item
 								$\supp (\psi_\phi \Phi_j) \subset \supp \psi_\phi =: K$ kompakt
 							\item
-								$\nabla^{(\alpha,\beta)} (\psi_\phi \Phi_j) \to \nabla^{(\alpha, \beta)} (\psi_\phi \Phi)$ gleichmäßig auf $\R^{2n}$, denn
+								$\nabla^{(\alpha,\beta)} (\psi_\phi \Phi_j) \to \nabla^{(\alpha, \beta)} (\psi_\phi \Phi)$ gleichmäßig auf $\R^{2n}$:
+
+								Es gilt
 								\[
 									\nabla^{(\alpha, \beta)} \Phi_j(x,y)
 									= \nabla^{\alpha + \beta} \phi_j(x+y)
 									\to \nabla^{\alpha + \beta} \phi (x+y)
-									\nabla^{(\alpha, \beta)} \Phi(x,y)
+									= \nabla^{(\alpha, \beta)} \Phi(x,y)
 								\]
 								gleichmäßig bezüglich $x+y \in \R^n$, bzw. $(x,y) \in \R^{2n}$.
+								Mit der Leibnitzregel folgt die Aussage.
 						\end{enumerate}
-						Also $\psi_\phi \Phi_j \stack{\scr D(\R^{n+m})}\longrightarrow$ und damit da $T \times S$ stetig:
+						Also $\psi_\phi \Phi_j \stack{\scr D(\R^{n+m})}\longrightarrow \psi_\phi \Phi$ und damit da $T \times S$ stetig:
 						\[
 							T \ast S(\phi_j)
 							= T \times S (\psi_\phi \Phi_j)
@@ -1454,19 +1464,18 @@ definiere $f \ast g$ nur für solche $(f,g)$, für die gilt
 				\item
 					$\supp \delta_0$ ist beschränkt, damit erfüllt $(T,\delta_0)$ die Streifenbedingung und $T \ast \delta_0$ ist definiert.
 				\item
-					Sei $\phi \in C_0^\infty(\R^n)$, $\supp \subset K_R(0)$.
+					Sei $\phi \in C_0^\infty(\R^n)$, $\supp \phi \subset K_R(0)$.
 					Setze $\Phi(x,y) := \phi(x+y)$, dann ist $\supp \Phi \subset \sigma_R$.
 					Definiere
 					\[
-						(\underbrace{\R^n}_{\supset \supp T} \times \underbrace{\{0\}}_{= \supp \delta_0}) \cap \sigma_R
-						=: K,
+						K := (\underbrace{\R^n}_{\supset \supp T} \times \underbrace{\{0\}}_{= \supp \delta_0}) \cap \sigma_R
 					\]
-					$\psi_\phi \in C_0^\infty(\R^{2n})$, $\psi_\phi = 1$ auf $K$.
+					und wähle $\psi_\phi \in C_0^\infty(\R^{2n})$ mit $\psi_\phi = 1$ auf $K$.
 					Dann gilt
 					\begin{align*}
 						T \ast \delta_0(\phi)
 						= T \times \delta_0 (\psi_\phi \Phi)
-						= T_x (\underbrace{\delta_{0,y}(\psi_\phi(x,y) \phi(x+y))}_{=\psi (x,0) \phi(x+0) = 1 \phi(x)})
+						= T_x \Big(\underbrace{\delta_{0,y}\big(\psi_\phi(x,y) \phi(x+y)\big)}_{=\psi (x,0) \phi(x+0) = 1 \phi(x)}\Big)
 						= T(\phi).
 					\end{align*}
 					also $T \ast \delta_0 = T$.
