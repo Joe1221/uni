@@ -1015,7 +1015,7 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 	$T \in D'(\R^n)$ heißt \emph{von endlicher Ordnung}, falls die Aussage aus \ref{5.26} erfüllt ist:
 	\[
 		\exists k \in \N_0, c > 0 \forall \phi \in C_0^\infty(\R^n):
-		|T(\phi)| \le c \max_{|\alpha| \le k} \|\nabla_\phi^\alpha \|_\infty.
+		|T(\phi)| \le c \max_{|\alpha| \le k} \|\nabla^\alpha \phi \|_\infty.
 	\]
 	Das kleinste solche $k \in \N_0$ heißt \emph{Ordnung} von $T$.
 \end{df}
@@ -1488,3 +1488,311 @@ Dies motiviert folgende Definition:
 			für $f,g \in C_0^\infty(\R^n)$.
 	\end{enumerate}
 \end{ex}
+
+\coursetimestamp{15}{7}{2013}
+
+\begin{st}[Eigenschaften] \label{5.40}
+	$T,S$ erfüllen die Streifenbedingung.
+	Dann gilt
+	\begin{enumerate}[1)]
+		\item
+			$T \ast S = S \ast T$
+		\item
+			$D^\alpha (T \times S) = (D^\alpha T) \ast S = T \ast D^\alpha S$
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Wir zeigen
+				\begin{align*}
+					(T\ast S)(\phi)
+					= T_x(S_y(\psi_\phi \Phi))
+					\stack{\text{z.z.}}= S_y(T_x(\psi_\phi \Phi))
+					= (S\ast T)(\phi).
+				\end{align*}
+				Falls $\psi_\phi \Phi = \phi_1(x) \phi_2(x)$, dann ist
+				\[
+					T_x(S_y)(\phi_1(x)\phi_2(y))
+					= T_x(\phi_1(x)S_y(\phi_2(y)))
+					= T_x(\phi_1(x))S_y(\phi_2(y))
+					= S_y(T_x(\phi_1(x)\phi_2(y))),
+				\]
+				die Linearität liefert also $T_x(S_y(\phi)) = S_y(T_x(\phi))$ für alle 
+				\[
+					\phi \in \underbrace{\LH\{\phi_1\phi_2 | \phi_y \in C_0^\infty(\R^n)\}}_{\text{dicht in $C_0^\infty(\R^{2n}$, siehe \cite{walter94})}}.
+				\]
+			\item
+				Es gilt
+				\begin{align*}
+					D^\alpha (T \ast S)(\phi)
+					&= (-1)^{|\alpha|} T \ast S (\nabla^\alpha \phi) \\
+					&= (-1)^{|\alpha|} T_x \Big(S_y \big( \psi_\phi (x,y) \underbrace{(\nabla^\alpha \phi(x+y))}_{= \nabla^\alpha_y (\phi(x+y)) } \big) \Big)
+				\intertext{mit $\psi = 1$ auf $(\supp S \times \supp T) \cap \sigma_R$ (vgl. Beweis zu \ref{5.38}), folgt}
+					&= (-1)^{|\alpha|} T_x \Big( S_y \big( \nabla^\alpha_y (\psi_\phi(x,y) \phi(x+y)) \big) \Big) \\
+					&= T_x\big( (D^\alpha S)_y (\psi_\phi(x,y) \phi(x+y))\big)
+					&= (T \ast D^\alpha S)(\phi).
+				\end{align*}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{df} \label{5.41}
+	\begin{enumerate}[1)]
+		\item
+			Eine Ableitungsvorschrift
+			\[
+				P(D) = \sum_{|\alpha| \le k} c_\alpha D^\alpha
+				: \scr D'(\R^n) \to \scr D'(\R^n)
+			\]
+			(für $c_\alpha \in \C, k \in \N$) heißt \emph{linearer Differentialoperator}.
+		\item
+			Eine Distribution $T\in D'(\R^n)$ heißt \emph{Grundlösung} oder \emph{Fundamentallosöng} zu $P(D)$, falls
+			\[
+				P(D) T = \delta_0.
+			\]
+	\end{enumerate}
+\end{df}
+
+\begin{st} \label{5.42}
+	Sei $T \in \scr D'(\R^n)$ eine Grundlösung zu $P(D)$.
+	Für die Differentialgleichung
+	\[
+		P(D) U = F
+	\]
+	($F \in \scr D'(\R^n)$ gegeben, $U \in D'(\R^n)$ gesucht)
+	gilt:
+	Erfüllt $(T,F)$ die Streifenbedingung, so ist
+	\[
+		U = T \ast F
+	\]
+	eine Lösung der DGL.
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			P(D) U
+			= P(D) (T \ast F)
+			\stack{\ref{5.40}}= (P(D) T) \ast F
+			= \delta_0 \ast F
+			\stack{\ref{5.39}}= F.
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{ex} \label{5.43}
+	Betrachte die DGl
+	\[
+		P(D) = -\Delta
+	\]
+	in $\scr D'(\R)$.
+	Dann ist $T = T_u$ mit
+	\[
+		u(x) = \begin{cases}
+			\f 1{\Gamma_n |x|^{n-2}} & n\neq 2 \\
+			\f 1{\Gamma_2} \ln \f 1{|x|} & n= 2
+		\end{cases}
+	\]
+	($\Gamma_n = $ Flächeninhalt der Randfläche der Einheitskugel im $\R^n$)
+	eine Grundlösung.
+	Wende \ref{5.42} an auf
+	\[
+		-\Delta V = T_f
+		\qquad, f \in C_0^\infty(\R^n).
+	\]
+	Eine Lösung ist $V = T_u \ast T_f = T_{u\ast f}$, wobei
+	\[
+		u \ast f(x) = \f 1{\Gamma_n} \int_{\R^n} \f 1{|x-y|^{n-2}} f(y) \dx[y]
+		\qquad (n\neq 2).
+	\]
+	Falls $v$ klassisch differenzierbar ist, dann ist $-\Delta V = f$.
+\end{ex}
+
+\begin{nt}[Offene Fragen]
+	\begin{enumerate}[1)]
+		\item
+			Eindeutigkeit der Lösung
+		\item
+			Unter welchen Voraussetzungen ist $U = T \ast F$ auch klassisch differenzierbar und nicht nur schwach? Siehe Regularitätstheorie, Sobolevräume.
+	\end{enumerate}
+\end{nt}
+
+\begin{nt}[Veranschaulichung]
+	\fixme[Schaubild]
+	Sortiere ein:
+	\begin{enumerate}[a)]
+		\item
+			$j_1$
+		\item
+			$\delta_0$
+		\item
+			$f(x) = |x|$
+		\item
+			$\sum_{j=1}^\infty \delta_{x_j}$, $|x_j| \to \infty$
+		\item
+			$f(x) = 1$
+		\item
+			$f(x) = \f 1{(1+|x|)^{n+1}}$
+		\item
+			$\sum_{j=1}^\infty c_j \delta_{x_j}$, $|x_j| \to \infty$
+		\item
+			$\sum_{j=1}^\infty c_j D^{(j,0,\dotsc, 0)} \delta_{x_j}$, $|x_j| \to \infty, |c_j| \to \infty$
+	\end{enumerate}
+\end{nt}
+
+
+\section{Temperierte Distributionen}
+
+\begin{df} \label{5.46}
+	\begin{enumerate}[1)]
+		\item
+			Der \emph{Schwartzraum} ist definiert als
+			\[
+				\scr S(\R^n)
+				= \Big\{ \phi \in C^\infty(\R^n \to \C) \suchthat
+							\forall \alpha \in \N_0^n \forall j \in \N_0
+									: \|(1+|x|)^j \nabla^\alpha \phi(x) \|_{L^\infty(\R^n)} < \infty
+					\Big\}.
+			\]
+		\item
+			$\displaystyle \|\phi\|_{j,\infty} := \sum_{|\alpha| \le j} \|(1+|x|^j) \nabla^\alpha \phi(x) \|_{L^\infty(\R^n)}$
+		\item
+			Für $f,g \in \scr S (\R^n)$, setze
+			\[
+				d(f,g) := \sum_{j=1}^\infty \f 1{2^j} \f {\|f-g\|_{j,\infty}}{1+\|f-g\|_{j,\infty}}.
+			\]
+	\end{enumerate}
+\end{df}
+
+\begin{st} \label{5.47}
+	\begin{enumerate}[1)]
+		\item
+			$d$ ist eine Metrik auf $\scr S(\R^n)$.
+		\item
+			$(\scr S(\R^n), d)$ ist vollständig metrischer Raum ein sogenannter \emph{Fréchet-Raum}.
+		\item
+			$C_0^\infty(\R^n)$ ist dicht in $(\scr S(\R^n), d)$.
+	\end{enumerate}
+\end{st}
+
+\begin{nt} \label{5.48}
+	Es gilt
+	\[
+		d(f_l, f) \stack{l\to\infty}\longrightarrow 0
+		\qquad\iff\qquad
+		\forall j\in \N : \|f_l - f\|_{j,\infty} \stack{l\to\infty}\longrightarrow 0.
+	\]
+\end{nt}
+
+\begin{df} \label{5.49}
+	Der topologische Dualraum
+	\[
+		\scr S(\R^n)
+		:= \Big\{ T : \scr S(\R^n) \to \C \suchthat T \text{ linear und stetig} \Big\}
+	\]
+	heißt Raum der \emph{temperierten Distributionen}.
+
+	Eine Folge $(T_j)$ in $\scr S'(\R^n)$ heißt \emph{konvergent} gegen $T \in \scr S(\R^n)$, falls
+	\[
+		\forall \phi \in \scr S(\R^n) : T_j(\phi) \to T(\phi)
+		\qquad \text{für $j\to \infty$.}
+	\]
+\end{df}
+
+\begin{st} \label{5.50}
+	Für $T : \scr S(\R^n) \to \C$ linear sind äquivalent:
+	\begin{enumerate}[(i)]
+		\item
+			$T \in \scr S'(\R^n)$
+		\item
+			$\displaystyle \exists j \in \N_0 \exists c > 0 \forall \phi \in \scr S(\R^n) : |T(\phi)| \le c \| \phi\|_{j,\infty}$
+	\end{enumerate}
+	\begin{proof}
+		Verläuft analog zum Beweis von \ref{5.25}.
+	\end{proof}
+\end{st}
+
+\begin{nt}[Temperierte und Schwartzsche Distributionen]
+	Es gilt $C_0^\infty(\R^n) \subset \scr S(\R^n)$.
+	Für $\phi_j \stack{\scr D} \to \phi$ folgt $d(\phi_j, \phi) \to 0$ im Schwarzraum.
+
+	Für $T \in \scr S'(\R^n)$ folgt $T|_{C_0^\infty(\R^n)} \in \scr D'(\R^n)$, oder kurz $\scr S'(\R^n) \subset \scr D'(\R^n)$
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Linearität ist klar
+			\item
+				Falls $\phi_j \stack{\scr D}\to \phi$, dann ist $d(\phi_j, \phi) \to 0$ und wegen $T \in \scr S'(\R^n)$
+				\[
+					T(\phi_j) \to T(\phi).
+				\]
+				Also ist $T$ stetig bezüglich $\scr D$-Konvergenz.
+		\end{enumerate}
+	\end{proof}
+\end{nt}
+
+\begin{ex} \label{5.52}
+	\begin{enumerate}[1)]
+		\item
+			$\delta_{x_0} \in \scr S'(\R^n)$, denn
+			\[
+				|\delta_{x_0}(\phi)|
+				= |\phi(x_0)|
+				\le 1 \|\phi\|_{0,\infty}
+			\]
+		\item
+			$T \in \scr D'(\R^n)$ ist von endlicher Ordnung nach \ref{5.50} genau dann, wenn $T \in \scr S'(\R^n)$
+		\item
+			Ist $T \in \scr D'(\R^n)$ finit, dann hat $T$ endliche Ordnung und $T \in \scr S'(\R^n)$.
+	\end{enumerate}
+\end{ex}
+
+\begin{df} \label{5.53}
+	Sei $1 \le p \le \infty$.
+	Die Einbettung
+	\begin{align*}
+		\tau : L^p (\R^n) &\to \scr S'(\R^n) \\
+		u &\mapsto T_u
+	\end{align*}
+	ist linear, injektiv und stetig.
+	
+	Wir identifizieren $u$ mit $T_u$, also $L^p(\R^n) \subset \scr S'(\R^n)$.
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Mit der Hölderschen Ungleichung gilt
+				\[
+					|T_u(\phi)|
+					= \Big|\int_{\R^n} u\phi \dx \Big|
+					\le \|u\|_{L^p(\R^n)} \|\phi\|_{L^q(\R^n)}
+				\]
+				Für $p = 1, q = \infty$ folgt aus \ref{5.50} $T_u \in \scr S'(\R^n)$.
+				Betrachte $1 < p \le \infty$:
+				\begin{align*}
+					\|p\|_q^q
+					&= \int_{\R^n} |\phi(x)|^q (1+|x|)^{n+1} \f 1{(1+|x|)^{n+1}} \dx \\
+					&\le \||\phi(x)|^q(1+|x|)^{n+1}\|_{L^\infty(\R^n)} \underbrace{\int_{\R^n} \f 1{(1+|x|)^{n+1}} \dx}_{< \infty}
+				\end{align*}
+				Also gilt
+				\begin{align*}
+					\|\phi\|_{L^q(\R^n)}
+					&\le c \big\| |\phi(x)|^q (1+|x|)^{n+1}\big\|_{L^\infty(\R^n)}^{\f 1q}
+					&= c \| \phi(x) (1+|x|)^{\f {n+1}q} \|_{L^\infty(\R^n)}
+					&\le c \|\phi\|_{j,\infty} \qquad j \ge \f {n+1}{q}.
+				\end{align*}
+				und damit
+				\[
+					|T_u (\phi)| \le \tilde c \|\phi\|_{j,\infty}.
+				\]
+				Also nach \ref{5.50} $T_u \in \scr S'(\R^n)$.
+			\item
+				Injektivität: siehe \ref{5.7}
+			\item
+				Linearität von $\tau$ ist klar.
+			\item
+				Stetigkeit:
+				Aus $u_l \stack{\scr S(\R^n)} \longrightarrow 0$ folgt
+				\[
+					|Tu_l| \le c \|u_l\|_{j,\infty} \to 0.
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{df}
