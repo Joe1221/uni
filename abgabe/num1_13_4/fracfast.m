@@ -28,7 +28,7 @@ while k <= kmax
 	mask = conv - conv_old; 
 
 	% Farbwert als Argument der komplexen Zahl
-	hue = conv .* ((arg(Z) + pi) ./ (2*pi));
+	hue = conv .* ((angle(Z) + pi) ./ (2*pi));
 	light = conv .* (k / kmax) * (pi/2);
 
 	im(:,:,1) = hue;
@@ -39,9 +39,9 @@ while k <= kmax
 	%drawnow();
 
 	Z = iter(Z);
-	k++;
+	k = k + 1;
 end
 
 im = hsv2rgb(im);
 imshow(im);
-imwrite(im, "fraktal.png");
+imwrite(im, 'fraktal.png');
