@@ -1796,3 +1796,272 @@ Dies motiviert folgende Definition:
 		\end{enumerate}
 	\end{proof}
 \end{df}
+
+\coursetimestamp{17}{7}{2013}
+
+\begin{st} \label{5.54}
+	$\scr S(\R^n)$ ist dicht in $\scr S'(\R^n)$, bzw. $\tau(\scr S(\R^n))$ ist dicht in $\scr S'(\R^n)$.
+	\begin{proof}
+		Beweis ähnlich wie bei Schwartzschen Distributionen.
+	\end{proof}
+\end{st}
+
+\begin{st}[Ableitung] \label{5.55}
+	Für $\alpha \in \N_0^n, T\in \scr S'(\R^n)$ ist $D^\alpha T$ definiert durch
+	\[
+		D^\alpha T (\phi)
+		:= (-1)^{|\alpha|} T(\nabla^\alpha \phi)
+		\qquad \text{für $\phi \in \scr S(\R^n)$.}
+	\]
+
+	Es gelten
+	\begin{enumerate}[1)]
+		\item
+			$D^\alpha T \in \scr S'(\R^n)$.
+		\item
+			$D^\alpha : \scr S'(\R^n) \to \scr S'(\R^n) : T \mapsto D^\alpha T$ ist eine stetige Abbildung.
+		\item
+			$D^\alpha T_u = T_{\nabla^\alpha u}$ für $u \in \scr S(\R^n)$
+	\end{enumerate}
+	insbesondere ist die Fortsetzung von $\nabla^\alpha : \scr S(\R^n) \to \scr S(\R^n)$ zu $D^\alpha : \scr S'(\R^n) \to \scr S'(\R^n)$ eindeutig.
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				\begin{enumerate}[a)]
+					\item
+						$D^\alpha T$ ist linear:
+
+						Sei $a,b\in \C$ und $\phi, \psi \in \scr S(\R^n)$, dann gilt
+						\[
+							D^\alpha T(a \phi + b \psi)
+							= (-1)^{|\alpha|} T(\nabla^{\alpha} a \phi + b \psi)
+							= (-1)^{|\alpha|} T(a \nabla^{\alpha} \phi + b \nabla^\alpha \psi)
+							\stack{T \text{ lin}}= (-1)^{|\alpha|} (aT(\nabla^{\alpha} \phi) + bT( \nabla^\alpha \psi))
+							= aD^\alpha T(\phi) + b D^\beta T(\psi).
+						\]
+					\item
+						Zeige für Stetigkeit die Bedingung aus \ref{5.50}:
+						\[
+							\exists j \in \N, c > 0
+							: |D^\alpha T(\phi)| \le c \|\phi\|_{j,\infty}.
+						\]
+						Sei $T \in \scr S'(\R^n)$, dann gilt nach \ref{5.50} für festes $j$ und $c$
+						\[
+							|T(\phi)| \le c \|\phi\|_{j,\infty}.
+						\]
+						Also gilt
+						\[
+							|D^\alpha T(\phi)|
+							= |T(\nabla^\alpha \phi)|
+							\le c \|\nabla^\alpha \phi\|_{j,\infty}
+							\le c \|\phi\|_{j+|\alpha|,\infty}
+						\]
+						und aus $\ref{5.50}$ ist $D^\alpha T \in \scr S'(\R^n)$.
+				\end{enumerate}
+			\item
+				Verwende Folgenstetigkeit:
+				Sei $T_j \to T$ in $\scr D'(\R^n)$, zeige $D^\alpha T_j \to D^\alpha T$ in $\scr S'(\R^n)$.
+				Sei $\phi \in \scr S(\R^n)$, dann gilt
+				\[
+					D^\alpha T_j(\phi)
+					= (-1)^{|\alpha|} T_j(\nabla^\alpha \phi)
+					\to (-1)^{|\alpha|} T(\nabla^\alpha \phi)
+					= D^\alpha T(\phi),
+				\]
+				also $D^\alpha T_j \to D^\alpha T$.
+			\item
+				Für $\phi \in \scr S(\R^n)$ gilt
+				\[
+					D^\alpha T_u(\phi)
+					= (-1)^{|\alpha|} \int_{\R^n} u(x) \nabla^\alpha \phi(x) \dx
+					\stack{\text{part.}}= (-1)^{|\alpha|} \int_{\R^n} (\nabla^\alpha u)(x) \phi(x) \dx
+					= T_{\nabla^\alpha u}(\phi).
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st}[Multiplikation] \label{5.56}
+	Sei $a \in C^\infty(\R^n \to \C)$ mit
+	\[
+		\forall a \in \N_0 \exists j \in \N_0
+		: \big\| \f{\nabla^\alpha a}{(1+|\argdot|)^j} \big\|_\infty < \infty.
+	\]
+
+	Dann ist $a T$ definiert durch
+	\[
+		a T(\phi) := T(a \phi)
+		\qquad \text{für $\phi \in \scr S(\R^n)$.}
+	\]
+
+	Es gelten folgende Aussagen:
+	\begin{enumerate}[1)]
+		\item
+			$a T \in \scr S'(\R^n)$.
+		\item
+			Die Abbildung $A : \scr S'(\R^n) \to \scr S'(\R^n) : T \mapsto a T$ ist stetig (für festes $a$).
+		\item
+			Für $u \in \scr S(\R^n)$ gilt $a T_u = T_{a u}$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Sei $\phi \in \scr S(\R^n)$.
+				Dann ist $a \phi \in \scr S(\R^n)$, denn
+				\begin{align*}
+					\| a \phi \|_{j,\infty}
+					&= \sum_{|\alpha|\le j} \big\| (1+|x|)^j \nabla^\alpha (\alpha \phi) \big\|_\infty \\
+					&= \sum_{|\alpha|\le j} \big\| (1+|x|)^j \sum_{\beta \le \alpha} \binom{\alpha}{\beta} (\nabla^\beta a)(\nabla^{\alpha-\beta} \phi) \big\|_\infty \\
+					&\le \sum_{|\alpha| \le j} \sum_{\beta \le \alpha} \binom{\alpha}{\beta} \big\| (1+|x|)^j (\nabla^\beta a) \nabla^{\alpha-\beta} \phi \big\|_\infty
+				\intertext{
+					Wegen der Voraussetzung an $a$ ist $\| \f {\nabla^\beta a(x)}{(1+|x|)^{j(\beta)}} \|_\infty =: c_\beta < \infty$, also $|\nabla^\beta a(x)| \le c_\beta (1+|x|)^{j(\beta)} \le c(1+|x|)^k$ für $c = \max c_\beta, k = \max j(\beta)$.
+					Damit gilt weiter
+				}
+					&\le \sum_{|\alpha|\le j} \sum_{\beta \le \alpha} \binom{\alpha}{\beta} c \underbrace{\big\| (1+|x|)^{j+k} \nabla^{\alpha -\beta} \phi \big\|_\infty}_{\le \|\phi\|_{j+k,\infty}} \\
+					&\le \tilde c \|\phi\|_{j+k,\infty}
+					< \infty.
+				\end{align*}
+				Also gilt
+				\[
+					|a T(\phi)|
+					= |T(a \phi)|
+					\stack{\ref{5.50}} \le \hat c \|a \phi\|_{j,\infty}
+					\le \hat c \tilde c \|\phi\|_{j+k,\infty}
+				\]
+				und damit nach \ref{5.50} $a T \in \scr S'(\R^n)$.
+			\item[2),3)]
+				Einfache Übung.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st}[Faltung] \label{5.57}
+	Für $f \in \scr S(\R^n)$ sei $f^-(x) := f(-x)$.
+
+	Sei $T \in \scr S'(\R^n)$, dann ist $T \ast f$ definiert durch
+	\[
+		T \ast f(\phi)
+		:= T(f_- \ast \phi)
+		\qquad \text{für $\phi \in \scr S(\R^n)$.}
+	\]
+	Dann gelten
+	\begin{enumerate}[1)]
+		\item
+			$T \ast f \in \scr S'(\R^n)$
+		\item
+			Für festes $f$ ist $\ast_f : \scr S'(\R^n) \to \scr S'(\R^n) : T \mapsto T\ast f$ eine stetige Abbildung.
+		\item
+			Für $g \in \scr S(\R^n)$ gilt $T_g \ast f = T_{g \ast f}$
+		\item
+			Für $f,g \in \scr S(\R^n)$ gilt
+			\[
+				(T \ast f) \ast g = T \ast (f \ast g).
+			\]
+		\item
+			$D^\alpha (T\ast f) = (D^\alpha T) \ast f = T \ast \nabla^\alpha f$.
+	\end{enumerate}
+\end{st}
+
+\begin{st}[Fouriertransformation] \label{5.58}
+	Sei $F : \scr S(\R^n) \to \scr S(\R^n)$ die klassische Fouriertransformation.
+	Dann ist die Fouriertransformation
+	\[
+		\scr F : \scr S'(\R^n) \to \scr S(\R^n)
+	\]
+	definiert durch
+	\[
+		\scr F T(\phi) := T(F \phi).
+	\]
+
+	Es gelten folgende Eigenschaften:
+	\begin{enumerate}[1)]
+		\item
+			$\scr F T \in \scr S'(\R^n)$.
+		\item
+			$\scr F$ ist linear und stetig.
+		\item
+			Für $u \in \scr S(\R^n)$ gilt $\scr F T_u = T_{F u}$.
+		\item
+			$\scr F$ ist bijektiv und
+			\[
+				\scr F^{-1} T(\phi) = T(F^{-1} \phi).
+			\]
+	\end{enumerate}
+\end{st}
+
+\begin{ex} \label{5.59}
+	Wir berechnen die Fouriertransformation der Delta-Distribution.
+
+	Aus der Physik kennt man die Aussage:
+	\begin{align*}
+		\scr F \delta_{x_0}(\omega)
+		= \f 1{(2\pi)^{\f n2}} \int_{\R^n} \delta_{x_0}(x) e^{-i\omega x} \dx
+		= \f 1{(2\pi)^{\f n2}} e^{-i\omega x_0}.
+	\end{align*}
+	Wir wollen das mit unserer Definition nachweisen.
+	Sei $\phi \in \scr S(\R^n)$, dann ist
+	\begin{align*}
+		(\scr F \delta_{x_0})(\phi)
+		&= \delta_{x_0} (F \phi)
+		= F \phi(x_0) \\
+		&= \f 1{(2\pi)^{\f n2}} \int_{\R^n} e^{-i x_0 x} \phi(x) \dx \\
+		&= T_g(\phi) \qquad, g(x) = \f 1{(2\pi)^{\f n2}} e^{-ix x_0}.
+	\end{align*}
+	Also $\scr F \delta_{x_0} = g$.
+\end{ex}
+
+\begin{st} \label{5.60}
+	Es gelten folgende Aussagen
+	\begin{enumerate}[1)]
+		\item
+			$\scr F(D^\alpha T) = i^{|\alpha|} x^\alpha \scr F(T)$
+		\item
+			$\scr F(x^\alpha T) = i^{|\alpha|} D^\alpha (\scr FT)$
+		\item
+			$\scr F(T \ast f) = \scr F(f) F(T)$.
+	\end{enumerate}
+	\begin{note}
+		In 1) ist $x$ ein Vektor und $x^\alpha = x_1^{\alpha_1} x_2^{\alpha_2} \dotsb x_n^{\alpha_n}$.
+	\end{note}
+	\begin{proof}
+		Folgt durch Nachrechnen.
+	\end{proof}
+\end{st}
+
+\begin{ex} \label{5.61}
+	Es gilt in $\scr S'(\R^n)$:
+	\begin{align*}
+		&\quad - \Delta U = \delta_0 \\
+		\iff&\quad \scr F(-\Delta U) = \scr F(\delta_0) \\
+		\iff&\quad |x|^2 \scr F(U) = \f 1{(2\pi)^{\f n2}} e^{-i 0 x} \\
+		\iff&\quad \scr F(U) = \f 1{(2\pi)^{\f n2} |x|^2}.
+	\end{align*}
+	Es ergeben sich Probleme bei $x = 0$.
+	Wir hoffen, dass
+	\[
+		U = \scr F^{-1} ( \f 1{(2\pi)^{\f n2}|x|^2}).
+	\]
+	Das klappt für $n \ge 3$, da dann $(x\mapsto \f 1{|x^2|}) \in L^1_\text{loc}(\R^n)$.
+	Für $n=2$ „Regularisierung“:
+	\[
+		u(x) = \f 1{2\pi} \lim_{\eps \to 0} \scr F^{-1} (\f 1{|x|^2 + \eps}).
+	\]
+\end{ex}
+
+\begin{ex}[Grundlösung] \label{5.62}
+	Sei $P(D) = \sum_{|\alpha|\le j} c_j D^\alpha, c_\alpha \in \C$, dann ist
+	\[
+		P(D) U = \delta_0
+		\quad\iff\quad
+		P(ix) \scr F(U) = \f 1{(2\pi)^{\f n2}}
+	\]
+	Bei den Nullstellen von $P(ix)$ ergeben sich ein Problem.
+
+	Hörmander hat 1958 gezeigt: Zu jedem $P(D)$ gibt es eine Grundlösung $U \in \scr S'(\R^n)$.
+\end{ex}
+
+\begin{nt}[zu $\scr D'(\R^n)$ und $\scr S'(\R^n)$] \label{5.63}
+	$\scr S'(\R^n)$ ist super für Ganzraumprobleme, aber das Konzept ist nicht übertragbar auf Teilmengen des $\R^n$.
+
+	Das Konzept von $\scr D'(\R^n)$ ist dagegen leicht übertragbar auf $\scr D'(O)$ mit $O \subset \R^n$ offen.
+\end{nt}
