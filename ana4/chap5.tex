@@ -1220,7 +1220,7 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 		\item
 			Sei $u \in L^1_{\text{loc}}(\R^n), v \in L^1_{\text{loc}}(\R^m)$, dann ist
 			\[
-				T_x \times T_v = T_{u\times v}.
+				T_u \times T_v = T_{u\times v}.
 			\]
 		\item
 			Sei $\phi_1 \in C_0^\infty(\R^n), \phi_2 \in C_0^\infty(\R^m)$, dann ist
@@ -1256,7 +1256,7 @@ Arbeitsplan: Erweitere $C^1(\R^n \to \C)$ zu einem topologischen Raum $\scr D'(\
 						\]
 				\end{enumerate}
 			\item[2),3)]
-				Übung (Fubini).
+				Siehe \coursehref{blatt13.pdf}{Übungsaufgabe 13.1}.
 			\item[4)]
 				\begin{enumerate}[a)]
 					\item
@@ -1350,9 +1350,9 @@ Dies motiviert folgende Definition:
 	Seien $T, S \in \scr D'(\R^n)$.
 	Setze
 	\[
-		\sigma_a := \{(x,y) : |x+y| \le a \}.
+		\sigma_a := \big\{(x,y) : |x+y| \le a \big\}.
 	\]
-	$(T,S)$ erfüllt die \emph{Streifenbedingung}, falls
+	$(T,S)$ erfüllt die \emph{Streifenbedingung}, falls gilt:
 	\[
 		\forall a > 0 :
 		(\supp T \times \supp S) \cap \sigma_a
@@ -1384,8 +1384,8 @@ Dies motiviert folgende Definition:
 \end{nt}
 
 \begin{st}[Definition und Satz] \label{5.38}
-	$(T,S)$ erfülle die Streifenbedingung.
-	Dann ist die \emph{Faltung} $T \times S$ definiert durch
+	Seien $T,S \in \scr D'(\R^n)$ und $(T,S)$ erfülle die Streifenbedingung.
+	Dann ist die \emph{Faltung} $T \ast S$ definiert durch
 	\[
 		T \ast S(\phi)
 		:= (T \times S)(\psi_\phi \Phi)
@@ -1395,9 +1395,9 @@ Dies motiviert folgende Definition:
 	\[
 		\psi_\phi \in C_0^\infty(\R^{2n})
 		\quad \text{mit} \quad
-		\psi_\phi = 1 \text{ auf $(\supp T \times \supp S) \cap \sigma_R$}
+		\psi_\phi = 1 \text{ auf $(\supp T \times \supp S) \cap \sigma_R$,}
 	\]
-	wobei $R$ so groß, dass $\supp \phi \subset K_R(0)$.
+	wobei $R > 0$ so groß, dass $\supp \phi \subset K_R(0)$.
 
 	Dann gelten
 	\begin{enumerate}[1)]
@@ -1492,7 +1492,7 @@ Dies motiviert folgende Definition:
 \coursetimestamp{15}{7}{2013}
 
 \begin{st}[Eigenschaften] \label{5.40}
-	$T,S$ erfüllen die Streifenbedingung.
+	Es erfüllen $T,S \in \scr D'(\R^n)$ die Streifenbedingung.
 	Dann gilt
 	\begin{enumerate}[1)]
 		\item
@@ -1529,7 +1529,7 @@ Dies motiviert folgende Definition:
 					&= (-1)^{|\alpha|} T_x \Big(S_y \big( \psi_\phi (x,y) \underbrace{(\nabla^\alpha \phi(x+y))}_{= \nabla^\alpha_y (\phi(x+y)) } \big) \Big)
 				\intertext{mit $\psi = 1$ auf $(\supp S \times \supp T) \cap \sigma_R$ (vgl. Beweis zu \ref{5.38}), folgt}
 					&= (-1)^{|\alpha|} T_x \Big( S_y \big( \nabla^\alpha_y (\psi_\phi(x,y) \phi(x+y)) \big) \Big) \\
-					&= T_x\big( (D^\alpha S)_y (\psi_\phi(x,y) \phi(x+y))\big)
+					&= T_x\big( (D^\alpha S)_y (\psi_\phi(x,y) \phi(x+y))\big) \\
 					&= (T \ast D^\alpha S)(\phi).
 				\end{align*}
 		\end{enumerate}
@@ -1546,7 +1546,7 @@ Dies motiviert folgende Definition:
 			\]
 			(für $c_\alpha \in \C, k \in \N$) heißt \emph{linearer Differentialoperator}.
 		\item
-			Eine Distribution $T\in D'(\R^n)$ heißt \emph{Grundlösung} oder \emph{Fundamentallosöng} zu $P(D)$, falls
+			Eine Distribution $T\in D'(\R^n)$ heißt \emph{Grundlösung} oder \emph{Fundamentallösung} zu $P(D)$, falls
 			\[
 				P(D) T = \delta_0.
 			\]
@@ -1579,40 +1579,40 @@ Dies motiviert folgende Definition:
 \end{st}
 
 \begin{ex} \label{5.43}
-	Betrachte die DGl
+	Definiere in $\scr D'(\R)$ den Differentialoperator
 	\[
-		P(D) = -\Delta
+		P(D) = -\Delta.
 	\]
-	in $\scr D'(\R)$.
+	Sei $\Gamma_n$ der Flächeninhalt der Randfläche der Einheitskugel im $\R^n$.
 	Dann ist $T = T_u$ mit
 	\[
-		u(x) = \begin{cases}
-			\f 1{\Gamma_n |x|^{n-2}} & n\neq 2 \\
+		u(x) = \begin{dcases}
+			\f 1{\Gamma_n} \f 1{|x|^{n-2}} & n\neq 2 \\
 			\f 1{\Gamma_2} \ln \f 1{|x|} & n= 2
-		\end{cases}
+		\end{dcases}
 	\]
-	($\Gamma_n = $ Flächeninhalt der Randfläche der Einheitskugel im $\R^n$)
-	eine Grundlösung.
-	Wende \ref{5.42} an auf
+	ist eine Grundlösung von $P(D)$.
+	Betrachte folgende Differentialgleichung:
 	\[
-		-\Delta V = T_f
-		\qquad, f \in C_0^\infty(\R^n).
+		-\Delta V = T_f,
+		\qquad f \in C_0^\infty(\R^n).
 	\]
-	Eine Lösung ist $V = T_u \ast T_f = T_{u\ast f}$, wobei
+	Nach \ref{5.42} ist eine Lösung durch $V = T_u \ast T_f = T_{u\ast f}$ gegeben, wobei
 	\[
 		u \ast f(x) = \f 1{\Gamma_n} \int_{\R^n} \f 1{|x-y|^{n-2}} f(y) \dx[y]
 		\qquad (n\neq 2).
 	\]
-	Falls $v$ klassisch differenzierbar ist, dann ist $-\Delta V = f$.
+	Falls $V$ klassisch differenzierbar ist, dist löst $V$ auch $-\Delta V = f$.
 \end{ex}
 
 \begin{nt}[Offene Fragen]
 	\begin{enumerate}[1)]
 		\item
-			Eindeutigkeit der Lösung
+			Ist die durch \ref{5.42} gegebene Lösung eindeutig?
 		\item
-			Unter welchen Voraussetzungen ist $U = T \ast F$ auch klassisch differenzierbar und nicht nur schwach? Siehe Regularitätstheorie, Sobolevräume.
+			Unter welchen Voraussetzungen ist die Lösung aus \ref{5.42} $U = T \ast F$ nicht nur schwach differenzierbar, sondern auch klassisch differenzierbar?
 	\end{enumerate}
+	Für Antworten, siehe: Regularitätstheorie, Sobolevräume.
 \end{nt}
 
 \begin{nt}[Veranschaulichung]
@@ -1774,8 +1774,8 @@ Dies motiviert folgende Definition:
 				Also gilt
 				\begin{align*}
 					\|\phi\|_{L^q(\R^n)}
-					&\le c \big\| |\phi(x)|^q (1+|x|)^{n+1}\big\|_{L^\infty(\R^n)}^{\f 1q}
-					&= c \| \phi(x) (1+|x|)^{\f {n+1}q} \|_{L^\infty(\R^n)}
+					&\le c \big\| |\phi(x)|^q (1+|x|)^{n+1}\big\|_{L^\infty(\R^n)}^{\f 1q} \\
+					&= c \| \phi(x) (1+|x|)^{\f {n+1}q} \|_{L^\infty(\R^n)} \\
 					&\le c \|\phi\|_{j,\infty} \qquad j \ge \f {n+1}{q}.
 				\end{align*}
 				und damit
@@ -1832,13 +1832,13 @@ Dies motiviert folgende Definition:
 						$D^\alpha T$ ist linear:
 
 						Sei $a,b\in \C$ und $\phi, \psi \in \scr S(\R^n)$, dann gilt
-						\[
+						\begin{align*}
 							D^\alpha T(a \phi + b \psi)
-							= (-1)^{|\alpha|} T(\nabla^{\alpha} a \phi + b \psi)
-							= (-1)^{|\alpha|} T(a \nabla^{\alpha} \phi + b \nabla^\alpha \psi)
-							\stack{T \text{ lin}}= (-1)^{|\alpha|} (aT(\nabla^{\alpha} \phi) + bT( \nabla^\alpha \psi))
-							= aD^\alpha T(\phi) + b D^\beta T(\psi).
-						\]
+							&= (-1)^{|\alpha|} T(\nabla^{\alpha} a \phi + b \psi)
+							= (-1)^{|\alpha|} T(a \nabla^{\alpha} \phi + b \nabla^\alpha \psi) \\
+							&\stack{T \text{ lin}}= (-1)^{|\alpha|} (aT(\nabla^{\alpha} \phi) + bT( \nabla^\alpha \psi)) \\
+							&= aD^\alpha T(\phi) + b D^\beta T(\psi).
+						\end{align*}
 					\item
 						Zeige für Stetigkeit die Bedingung aus \ref{5.50}:
 						\[
@@ -1874,7 +1874,7 @@ Dies motiviert folgende Definition:
 				\[
 					D^\alpha T_u(\phi)
 					= (-1)^{|\alpha|} \int_{\R^n} u(x) \nabla^\alpha \phi(x) \dx
-					\stack{\text{part.}}= (-1)^{|\alpha|} \int_{\R^n} (\nabla^\alpha u)(x) \phi(x) \dx
+					\stack[\text{Int.}]{\text{part.}}= (-1)^{|\alpha|} \int_{\R^n} (\nabla^\alpha u)(x) \phi(x) \dx
 					= T_{\nabla^\alpha u}(\phi).
 				\]
 		\end{enumerate}
