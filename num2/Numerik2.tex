@@ -11,7 +11,7 @@
 
 %\usepackage{psfrag}
 %\usepackage{pb-diagram} 
-%\usepackage{algorithm}
+\usepackage{algorithm}
 %\usepackage{algorithmic}
 \newtheorem{theorem}{Satz}[chapter]
 \newtheorem{bemerkung}[theorem]{Bemerkung}
@@ -896,7 +896,7 @@ y'(x)=f(x,y(x)), \qquad y(x_0)=y_0\in \R
 suchen.
 
 Wir können uns die DGL $y'(x)=f(x,y(x))$ durch das dazugehörige Richtungsfeld veranschaulichen: Zu jedem Punkt
-$(x,y)\in \R^2$ zeichnen wir einen Richtungspfeil mit Steigung $f(x,y)$, z.B. den Vektor $(1,f(x,y))^T$ (\fixme[Bild: Richtungsfeld $f(x,y(x))=x$]). Eine Funktion löst die DGL genau dann, wenn an jedem
+$(x,y)\in \R^2$ zeichnen wir einen Richtungspfeil mit Steigung $f(x,y)$, z.B. den Vektor $(1,f(x,y))^T$. Eine Funktion löst die DGL genau dann, wenn an jedem
 Punkt durch den die Funktion geht, die Steigung der Funktion und die Steigung des Richtungspfeils übereinstimmen.
 Wir können die DGL zeichnerisch lösen, indem wir ausgehend vom Startwert $(x,y_0)$ die Funktion passend 
 zu den Richtungspfeilen zeichnen.
@@ -1050,9 +1050,13 @@ wobei
 f_y(x,y):=\frac{\partial f}{\partial y} (x,y)= \left( \frac{\partial f_i}{\partial y_j}(x,y) \right)_{i,j=1}^d\in \R^{d\times d}.
 \]
 Damit gilt also für alle $x\in [a,b]$ und $y,z\in \R^d$ 
-\[
-\norm{f(x,y)-f(x,z)}=\norm{(z-y)\int_0^1 f_y(x,y+t(z-y)) \dx[t]}\leq L \norm{y-z}
-\]
+\begin{align*}
+\norm{f(x,y)-f(x,z)}
+&=\|g(1)-g(0)\| \qquad g(t) := f(x,y+t(z-y)) \\
+&=\norm{\int_0^1 g'(t) \dx[t]} \qquad g'(t) = f_y(x,y+t(z-y))(z-y) \\
+&=\norm{\int_0^1 f_y(x,y+t(z-y)) (z-y) \dx[t]} \\
+&\leq L \norm{y-z}
+\end{align*}
 und nach Abschnitt \ref{subsec:wohlgestellt} ist somit für jede Wahl der Anfangswerte $x_0\in [a,b]$ und $y_0\in \R^d$ die eindeutige Existenz von Lösungen und ihre stetige Abhängigkeit von den Anfangswerten garantiert.
 
 Außerdem kann man zeigen, dass dann alle Ableitungen jeder Lösung eines AWP mit rechter 
@@ -1089,7 +1093,7 @@ werden zur Berechnung von $y_{i+1}$ verwendet.
 ($m+1$-Schritt Methode benötigt \emph{Startprozedur} zur Berechnung der ersten $m$ Werte $y_1$,\ldots, $y_m$).
 \end{description}
 
-Die Methoden in Abschnitt \ref{Sect:NumODE_Motivation} sind allesamt Einschrittmethoden. 
+Im Folgenden betrachten wir nur die Einschrittmethoden (alle in Abschnitt \ref{Sect:NumODE_Motivation} sind Einschrittmethoden).
 
 \begin{definition}\label{def:Konsistenz}
 Eine Einschrittmethode heißt \emph{konsistent}, falls für jede (unsere Generalvoraussetzung erfüllende) rechte Seite
@@ -1101,7 +1105,7 @@ wobei $y$ die Lösung des AWP
 \[
 y'(x)=f(x,y(x)), \qquad y(x_i)=y_i
 \]
-ist, und $y_{i+1}$ durch Anwendung der Methode auf $y_i$ mit Schrittweite $h$ erzeugt wurde.
+ist und $y_{i+1}$ durch Anwendung der Methode auf $y_i$ mit Schrittweite $h$ erzeugt wurde.
 
 Die Methode besitzt \emph{Konsistenzordnung} $p\in \N$, falls 
 für jede (unsere Generalvoraussetzung erfüllende) rechte Seite
@@ -1117,8 +1121,8 @@ d.h. Konstanten $C>0$, $h_0>0$ existieren, so dass für alle $0<h<h_0$:
 
 
 Eine Methode der Konsistenzordnung $p$ macht in jedem Intervall $[x_i,x_{i+1}]$ einen \emph{lokalen Fehler} 
-der Größenordnung $\mathcal{O}(h^{p+1})$. Da es $n=\frac{b-a}{h}=\mathcal{O}(h^{-1})$ solche Intervalle gibt, erwarten wir dass der \emph{globale Fehler}
-in der Größenordnung $\mathcal{O}(h^p)$ liegen wird. Der folgende Satz zeigt, dass dies tatsächlich der Fall ist.
+der Größenordnung $h^{p+1}$. Da es $n=\frac{b-a}{h}$ solche Intervalle gibt, erwarten wir dass der \emph{globale Fehler}
+in der Größenordnung $h^p$ liegen wird. Der folgende Satz zeigt, dass dies tatsächlich der Fall ist.
 
 
 \begin{theorem}\label{satz:konv_Einschritt}
@@ -1139,9 +1143,9 @@ a=x_0 < x_1 < \ldots < x_n=b, \qquad x_i=x_0+ih \quad (i=1,\ldots,n).
 \max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\to 0 \quad \mbox{ für $n\to \infty$}.
 \]
 %
-\item Besitzt die Methode Konsistenzordnung $p$, so gilt
+\item Besitzt die Methode Konsistenzordnung $p$, so gilt für alle $0<h<h_0$
 \[
-\max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\leq \frac{e^{L(b-a)}-1}{L} C h^p \quad \forall 0<h<h_0.
+\max_{i=1,\ldots,n} \norm{y_i-y(x_i)}\leq \frac{e^{L(b-a)}-1}{L} C h^p,
 \]
 wobei $C,h_0>0$ die Konstanten aus der Definition der Konsistenzordnung und $L$ die Lipschitz-Konstante
 aus der Generalvoraussetzung ist.
@@ -1219,15 +1223,20 @@ y(x_{i+1})-y_{i+1}=\mathcal{O}(h^{p+1}).
 \begin{enumerate}[(a)]
 \item \textbf{Explizites Euler-Verfahren:} Für $y(x_i)=y_i$ erhalten wir durch Taylorentwicklung
 \begin{align*}
-\norm{y(x_{i+1}) - y(x_i)-h y'(x_i)}
-\leq \frac{h^2}{2} \max_{\xi\in [x_i,x_{i+1}]} \norm{y''(\xi)}\leq \frac{h^2}{2} C_2
+\norm{y(x_{i+1}) - y_{i+1}} &= \norm{y(x_{i+1}) - y_i - h f(x_i,y_i)}   = \norm{y(x_{i+1}) - y(x_i) - h f(x_i,y(x_i))} \\ &= \norm{y(x_{i+1}) - y(x_i) - h y'(x_i)} 
+\stackrel{(*)}{\leq} \frac{h^2}{2} \max_{\xi\in [x_i,x_{i+1}]} \norm{y''(\xi)}\leq \frac{h^2}{2} C_2
 \end{align*}
-mit einer (aufgrund unserer Generalvoraussetzung nur von der rechten Seite $f$ abhängigen) Konstante $C_2$. Es ist also mit obiger Konvention
+mit einer (aufgrund unserer Generalvoraussetzung nur von der rechten Seite $f$ und nicht von $x_i, y_i$ abhängigen) Konstante $C_2$. Es ist also mit obiger Konvention
 \begin{align*}
 y(x_{i+1}) &= y(x_i)+h y'(x_i) + \mathcal{O}(h^2)\\
 &= y(x_i)+h f(x_i,y_i) + \mathcal{O}(h^2) = y_{i+1} + \mathcal{O}(h^2)
 \end{align*}
 und das explizite Euler-Verfahren besitzt somit Konsistenzordnung $1$.
+
+\textit{Beweis von $(*)$:} 
+Für $y(x) = \left( \begin{array}{c} y^1(x)\\  \vdots \\ y^d(x) \end{array} \right) $  und $\forall j \in \{ 1, \dots , d\}$ folgt:
+\[  | y^j(x_{i+1}) - y^j(x_i) - h (y^j)'(x_i) | \leq \frac{h^2}{2} \max_{\xi} | (y^j)''(\xi) | \] Damit folgt insgesamt:
+\[ \norm{y(x_{i+1}) - y(x_i) - h y'(x_i)}  = \sqrt{\sum_{j=1}^d | y^j(x_{i+1}) - y^j(x_i) - h (y^j)'(x_i) |^2} \leq \frac{h^2}{2} \cdot \max_{\xi} \underbrace{\sqrt{ \sum_j  | (y^j)''(\xi) |^2}}_{ \leq \norm{y''(\xi)}}  \]
 %
 \item \textbf{Implizites Euler-Verfahren:} Für $y(x_i)=y_i$ erhalten wir wiederum durch Taylorentwicklung
 \begin{align*}
@@ -1266,7 +1275,7 @@ Die Quadraturformel sollte zumindest konstante Funktion exakt integrieren, desha
 \[
 \sum_{j=1}^s b_j=1.
 \]
-Die $c_j$ heißen \emph{Knoten}, $b_j$ \emph{Gewichte} und $s$ heißt \emph{Stufenzahl} des Verfahrens.
+Die $c_j$ heißen \emph{Knoten}, $b_j$ \emph{Gewichte} und $s$ heißt \emph{Stufenzahl} des Verfahrens. $\eta_j \approx y(x_0 + c_j h). $
 
 Dieser Ansatz verallgemeinert die Ideen aus Abschnitt \ref{subsect:More_ex_and_im_methods},
 indem nun eine gewichtetes Mittel aus $s$ unterschiedlichen Steigungen im Richtungsfeld an 
@@ -1290,9 +1299,10 @@ Wiederum sollten die Quadraturformeln zumindest konstante Funktionen exakt integ
 
 So erhalten wir die allgemeinen \emph{Runge-Kutta Methoden}:
 
-\begin{alg}[Runge-Kutta Methoden]
+\begin{algorithm}
+	\caption{Runge-Kutta Methoden}
 	\begin{algorithmic}
-		\Assume{$a_{jl}, b_j, c_j\in \R$, $j=1,\ldots, s$, $l=1,\ldots,s$ mit
+		\Require{$a_{jl}, b_j, c_j\in \R$, $j=1,\ldots, s$, $l=1,\ldots,s$ mit
 			\[
 				\sum_{j=1}^s b_j=1 \quad \mbox{ und } \quad \sum_{l=1}^s a_{jl}=c_j.
 			\]
@@ -1308,7 +1318,7 @@ So erhalten wir die allgemeinen \emph{Runge-Kutta Methoden}:
 			\]
 		}
 	\end{algorithmic}
-\end{alg}
+\end{algorithm}
 
 Runge-Kutta Methoden können explizit oder implizit sein. Ist
 \[
@@ -1320,27 +1330,27 @@ $\eta_j\in \R^d$, $j=1,\ldots,s$ (implizite Runge-Kutta Methoden).
 
 Eine äquivalente Formulierung erhalten wir durch
 \[
-k_j:=f(x_i+c_j h,\eta_j)
+k_j:=f(x_i+c_j h_i,\eta_j)
 \]
-\begin{alg}[Runge-Kutta Methoden (Alternative Formulierung)]
-	\begin{algorithmic}
-		\Assume{$a_{jl}, b_j, c_j\in \R$, $j=1,\ldots, s$, $l=1,\ldots,s$ mit
-			\[
-				\sum_{j=1}^s b_j=1 \quad \mbox{ und } \quad \sum_{l=1}^s a_{jl}=c_j.
-			\]
-		}
-		\State{Bestimme $k_j\in \R^d$, $j=1,\ldots,s$ aus
-			\[
-				k_j=f\bigg(x_i+c_j h,\; y_i + h \sum_{l=1}^s a_{jl} k_l\bigg), \quad j=1,\ldots,s.
-			\]
-		}
-		\State{Setze
-			\[
-				y_{i+1}:=y_i +  h \sum_{j=1}^s b_j k_j.
-			\]
-		}
-	\end{algorithmic}
-\end{alg}
+\begin{algorithm}[Runge-Kutta Methoden (Alternative Formulierung)]
+       \begin{algorithmic}
+               \Require{$a_{jl}, b_j, c_j\in \R$, $j=1,\ldots, s$, $l=1,\ldots,s$ mit
+                       \[
+                               \sum_{j=1}^s b_j=1 \quad \mbox{ und } \quad \sum_{l=1}^s a_{jl}=c_j.
+                       \]
+               }
+               \State{Bestimme $k_j\in \R^d$, $j=1,\ldots,s$ aus
+                       \[
+                               k_j=f\bigg(x_i+c_j h,\; y_i + h \sum_{l=1}^s a_{jl} k_l\bigg), \quad j=1,\ldots,s.
+                       \]
+               }
+               \State{Setze
+                       \[
+                               y_{i+1}:=y_i +  h \sum_{j=1}^s b_j k_j.
+                       \]
+               }
+       \end{algorithmic}
+\end{algorithm}
 Die Koeffizienten $A=(a_{jl})\in \R^{s\times s}$, $b=(b_j)\in \R^s$ und $c=(c_j)\in \R^s$
 einer Runge-Kutta Methode lassen sich im sogenannten \emph{Butcher Tableau} zusammenfassen:
 \[
@@ -1405,7 +1415,7 @@ Es ist
 \begin{align*}
 \Phi'(\eta)&=\begin{pmatrix} \Phi_1'(\eta)\\ \vdots \\ \Phi_s'(\eta) \end{pmatrix}\in \R^{ds\times ds}\\
 \Phi_j'(\eta)&= \begin{pmatrix} \frac{\partial \Phi_j}{\partial \eta_1} & \cdots & \frac{\partial \Phi_j}{\partial \eta_s} \end{pmatrix}\in \R^{d\times ds}\\
-\frac{\partial \Phi_j}{\partial \eta_l} &=  h a_{jl} \f{\partial}{\partial \eta_l}f\Big(x + c_l h,\eta_l\Big) \in \R^{d\times d}.
+\frac{\partial \Phi_j}{\partial \eta_l} &=  h a_{jl} \frac{\partial}{\partial \eta_l}f\Big(x + c_l h,\eta_l\Big) \in \R^{d\times d}.
 \end{align*}
 Aufgrund unserer Generalvoraussetzung und der Äquivalenz aller Normen auf dem $\R^{d\times d}$ existiert ein $C>0$, so
 dass für alle $j,l=1,\ldots,d$ jeder Eintrag der Matrix $\frac{\partial \Phi_j}{\partial \eta_l}$ durch $Ch$ beschränkt ist.
@@ -1440,14 +1450,14 @@ Seien $A=(a_{ij})_{i,j=1,\ldots,s}$, $b=(b_i)_{i=1,\ldots,s}$ und $c=(c_i)_{i=1,
 \[
 \sum_{j=1}^s b_j=1 \quad \mbox{ und } \quad \sum_{k=1}^s a_{jk}=c_j  
 \]
-folgt dass das Verfahren (mindestens) Konsistenzordnung $1$ besitzt.
-\item Das Verfahren hat genau dann mindestens Konsistenzordnung $2$, wenn
-zusätzlich gilt, dass
+folgt, dass das Verfahren (mindestens) Konsistenzordnung $1$ besitzt.
+\item 
+	Das Verfahren hat genau dann (mindestens) Konsistenzordnung $2$, wenn zusätzlich gilt:
 \[
 \sum_{j=1}^s b_jc_j=\frac{1}{2}.
 \]
-\item Das Verfahren hat genau dann mindestens Konsistenzordnung $3$, wenn
-zusätzlich gilt, dass
+\item
+	Das Verfahren hat genau dann (mindestens) Konsistenzordnung $3$, wenn zusätzlich gilt:
 \[
 \sum_{j=1}^s b_j c_j^2 = \frac{1}{3}  \quad \mbox{ und } \quad  
 \sum_{j=1}^s b_j \sum_{k=1}^s a_{jk} c_k = \frac{1}{6}.
@@ -1464,7 +1474,7 @@ zu beweisen.
 Sei $y$ eine Lösung der DGL, $x_i\in [a,b]$, $y_i=y(x_i)$, $h=x_{i+1}-x_i$ und $y_{i+1}$ die durch das Runge-Kutta Verfahren 
 erzielte Näherung. Nach Übungsaufgabe 3.2 gilt
 \begin{align*}
-y(x_{i+1})=y_i+h f+\f 12 h^2 f' f + \f 16 h^3 \Big( f^T f'' f + (f')^2 f \Big) + \mathcal{O}(h^4)
+y(x_{i+1})=y_i+h f+\frac 12 h^2 f' f + \frac 16 h^3 \Big( f^T f'' f + (f')^2 f \Big) + \mathcal{O}(h^4)
 \end{align*}
 wobei wir das Argument $(y_i)$ bei $f$ und seinen Ableitungen zur Vereinfachung der Schreibweise weglassen und folgende abkürzende Notation verwenden:
 \begin{align*}
@@ -1473,7 +1483,7 @@ wobei wir das Argument $(y_i)$ bei $f$ und seinen Ableitungen zur Vereinfachung 
 		\vdots \\
 		u^T H_{f_1}(y_i) v
 	\end{pmatrix}
-	= \Bigg( \sum_{j,k=1}^d \f{\partial^2 f_l(y_i)}{\partial y^{(j)}\partial y^{(k)}} u_jv_k \Bigg)_{l=1}^d
+	= \Bigg( \sum_{j,k=1}^d \frac{\partial^2 f_l(y_i)}{\partial y^{(j)}\partial y^{(k)}} u_jv_k \Bigg)_{l=1}^d
 \end{align*}
 Genauso entwickeln wir die Näherung $y_{i+1}$. Dabei verwenden wir immer wieder
 \begin{align}\labeq{RK_opt_cond}
@@ -2656,7 +2666,7 @@ so ist $I-R$ invertierbar und es gilt $(I-R)^{-1}=\sum_{k=0}^\infty R^k$.
 \begin{beweis}
 Betrachte die Folge der Partialsummen $S_N:=\sum_{k=0}^N R^k$. Da $\sum_{k=1}^\infty \|R\|^k$ konvergent und insbesondere Cauchy-Folge ist, gilt $R^k \to 0$ und
 \[
-\norm{\sum_{k=0}^N R^k - \sum_{k=0}^M R^k}\leq \sum_{k=M+1}^N \norm{R}^k < \eps \quad \forall N>M,
+\norm{\sum_{k=0}^N R^k - \sum_{k=0}^M R^k}\leq \sum_{k=M+1}^N \norm{R}^k < \epsilon \quad \forall N>M,
 \]
 womit $(S_N)_{N\in \N}$ eine Cauchy-Folge ist und damit konvergiert. 
 Also gilt
@@ -3338,7 +3348,6 @@ Für einen Eigenwert $\lambda\in \C$ und zugehörigen Eigenvektor $x\in \C^n$ is
 $\frac{x^* A x}{x^*x}=\frac{x^* \lambda x}{x^*x}=\lambda$. 
 \end{beweis}
 
-\coursetimestamp{2}{7}{2013}
 
 \begin{lemma}\label{lemma:eigW}
 \begin{enumerate}[(a)]
@@ -3513,7 +3522,6 @@ Dann gilt
 \]
 \end{theorem}
 
-\coursetimestamp{3}{7}{2013}
 \section{Die Potenzmethode}
 
 Wir stellen nun die erste iterative Methode zur Berechnung von Eigenwerten vor, die \emph{Potenzmethode} (auch: \emph{von Mises-Verfahren}).
@@ -3560,7 +3568,7 @@ x^{(k)}&= \frac{\lambda_1^k}{|\lambda_1|^k} \frac{\xi_1}{|\xi_1|} v_1 + \mathcal
 (x^{(k-1)})^* \tilde x^{(k)} &= \lambda_1 + \mathcal O(\left| \tfrac {\lambda_2}  {\lambda_1}\right|^{k}).
 \end{align*}
 
-$(x^{(k-1)})^* \tilde x^{(k)}$ konvergiert also gegen den betragsgrößten Eigenwert $\lambda_1$ und $x^{(k)}$ konvergiert bis auf skalare Vielfache gegen einen dazugehörigen Eigenvektor. Die Konvergenzgeschwindigkeit ist linear mit Konvergenzfaktor $|\f {\lambda_2} {\lambda_1}|$.
+$(x^{(k-1)})^* \tilde x^{(k)}$ konvergiert also gegen den betragsgrößten Eigenwert $\lambda_1$ und $x^{(k)}$ konvergiert bis auf skalare Vielfache gegen einen dazugehörigen Eigenvektor. Die Konvergenzgeschwindigkeit ist linear mit Konvergenzfaktor $|\frac {\lambda_2} {\lambda_1}|$.
 \end{theorem}
 \begin{beweis}
 Durch triviale Induktion sieht man, dass
@@ -3603,7 +3611,8 @@ Die Konvergenz der Potenzmethode kann auch ohne die Annahme der Diagonalisierbar
 dass genau ein \emph{betragsgrößter} Eigenwert existiert, kann jedoch nicht verzichtet werden.
 \end{bemerkung}
 
-\begin{alg}[Potenzmethode (von Mises-Verfahren)]
+\begin{algorithm}
+	\caption{Potenzmethode (von Mises-Verfahren)}
 \label{algo:Potenzmethode}
 \begin{algorithmic}
 \State{Gegeben Matrix $A\in \C^{n\times n}$ und Startvektor $x\in \C^n$.}
@@ -3615,14 +3624,14 @@ dass genau ein \emph{betragsgrößter} Eigenwert existiert, kann jedoch nicht ve
 \State \Return $\lambda\in \C$, $x\in C^n$ approximiert betragsgrößten Eigenwert von $A$ und dazugehörigen Eigenvektor (unter den Voraussetzungen von Satz 
 \ref{satz:Potenzmethode}).
 \end{algorithmic}
-\end{alg}
+\end{algorithm}
 
 
 \begin{bemerkung}\label{bem:PM_andereEW}
 Auch zur Bestimmung der anderer Eigenwerte kann die Potenzmethode verwendet werden, indem $A$ zuerst geignet transformiert wird.
 Sei $A\in \C^{n\times n}$ diagonalisierbar.
 \begin{enumerate}[(a)]
-\item \emph{Inverse Iteration:} Sei $A$ invertierbar. Die betragsgrößten Eigenwerte von $A^{-1}$ sind dann  $\f 1{\lambda_j}$, wobei 
+\item \emph{Inverse Iteration:} Sei $A$ invertierbar. Die betragsgrößten Eigenwerte von $A^{-1}$ sind dann  $\frac 1{\lambda_j}$, wobei 
 $\lambda_j$ die betragskleinsten Eigenwerte von $A$ sind. Existiert genau ein betragskleinster Eigenwert, so lässt sich dieser durch Anwendung der Potenzmethode auf $A^{-1}$ bestimmen. 
 %
 \item \emph{Gebrochene Iteration von Wielandt}: Ist $\mu\not\in \sigma(A)$, dann ist $A-\mu I$ invertierbar.
@@ -3635,7 +3644,8 @@ am nächsten an $\mu$ liegen. Gibt es davon genau einen, so lässt er sich durch
 Das in Bemerkung \ref{bem:PM_andereEW}(b) skizzierte Verfahren wird umso schneller konvergieren, umso besser $\mu$ den gesuchten Eigenwert 
 approximiert. Es liegt daher nahe, in jedem Schritt $\mu$ durch die aktuelle Näherung an den Eigenwert zu ersetzen. 
 
-\begin{alg}[Rayleigh-Quotient-Iteration]
+\begin{algorithm}
+	\caption{Rayleigh-Quotient-Iteration}
 \label{algo:RQ_Iteration}
 \begin{algorithmic}
 \State{Gegeben Matrix $A\in \C^{n\times n}$ und Startwerte $x\in \C^n$, $\mu\in \C$.}
@@ -3647,7 +3657,7 @@ approximiert. Es liegt daher nahe, in jedem Schritt $\mu$ durch die aktuelle Nä
 \State \Return $\mu\in \C$ approximiert den Eigenwert, der am nächsten am Startwert liegt, $x$ approximiert den dazugehörigen
 Eigenvektor (vgl. Satz~\ref{thm:RQ} für die rigorose Formulierung der Konvergenzaussage).
 \end{algorithmic}
-\end{alg}
+\end{algorithm}
 
 Für die Konvergenzuntersuchung dieses Verfahrens benötigen wir den Begriff des Betrags einer normalen Matrix.
 \begin{definition}
@@ -3703,7 +3713,6 @@ Damit folgt
 \end{beweis}
 
 
-\coursetimestamp{9}{7}{2013}
 \begin{theorem}\label{thm:RQ}
 Sei $A\in \C^{n\times n}$ normal. $\mu_0\in \C$ und $x^{(0)}\in \C^n$ seien hinreichend gute Näherungen an einen Eigenwert $\lambda\in \C$ und
 einen dazugehörigen Eigenvektor $v\in \C^n$ von $A$. $\mu_k$ und $x^{(k)}$ seien gemäß Algorithmus~\ref{algo:RQ_Iteration}
@@ -3884,7 +3893,8 @@ im den ersten Schritt immer $A$, so dass wir auch gleich mit
 starten können. Insgesamt erhalten wir also den folgenden Algorithmus
 
 
-\begin{alg}[Simultane Potenzmethode]
+\begin{algorithm}
+	\caption{Simultane Potenzmethode}
 \label{algo:simultan_Potenz}
 \begin{algorithmic}
 \State{Gegeben Matrix $A\in \C^{n\times n}$. Setze $\tilde A_0=A$.}
@@ -3894,13 +3904,14 @@ starten können. Insgesamt erhalten wir also den folgenden Algorithmus
 \EndFor
 \State \Return $\tilde Q_k$ approximiert spaltenweise Eigenvektoren von $A$. Die Diagonaleinträge von $\tilde Q_k^* A \tilde Q_k$ approximieren die Eigenwerte.
 \end{algorithmic}
-\end{alg}
+\end{algorithm}
 
 \subsection{Das QR-Verfahren}
 
 Durch Umformulierung der simultanen Potenzmethode in Algorithmus \ref{algo:simultan_Potenz} erhalten wir das QR-Verfahren in seiner einfachsten Form:
 
-\begin{alg}[$QR$-Verfahren]
+\begin{algorithm}
+	\caption{$QR$-Verfahren}
 \label{algo:QR_Eigenwerte}
 \begin{algorithmic}
 \State{Gegeben Matrix $A\in \C^{n\times n}$. Setze $A_0=A$.}
@@ -3910,7 +3921,7 @@ Durch Umformulierung der simultanen Potenzmethode in Algorithmus \ref{algo:simul
 \EndFor
 \State \Return Die Diagonaleinträge von $A_k$ approximieren die Eigenwerte.
 \end{algorithmic}
-\end{alg}
+\end{algorithm}
 
 \begin{lemma}\label{lemma_QR_hilf}
 Sei $A\in \C^{n\times n}$. % $\tilde A_k$, $\tilde Q_k$ und $\tilde R_k$ seien durch Algorithmus \ref{algo:simultan_Potenz} definiert.
