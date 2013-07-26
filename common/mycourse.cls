@@ -50,6 +50,7 @@
 %==================================
 % 
 %==================================
+\RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
 \IfFileExists{CJK.sty}{
 	\usepackage[encapsulated]{CJK}
@@ -68,7 +69,6 @@
 
 \RequirePackage[a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm]{geometry}
 \RequirePackage{graphicx}
-\RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
 %\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 \RequirePackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
@@ -84,8 +84,14 @@
 \hypersetup{
     colorlinks=true,
     pdfborder={0 0 0},
-	allcolors=link,
+	%allcolors=link,
 	urlcolor=url,
+	linkcolor=link,
+	citecolor=link,
+	runcolor=link,
+	menucolor=link,
+	filecolor=link,
+	anchorcolor=link,
 }
 
 
