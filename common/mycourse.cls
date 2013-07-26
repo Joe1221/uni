@@ -3,7 +3,6 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{mycourse}
 
-% 
 \PassOptionsToClass{fontsize=12pt}{scrbook}
 
 %==================================
@@ -63,6 +62,9 @@
 \RequirePackage{etex}
 
 \RequirePackage{microtype} 			% Für typographische Perfektion
+\RequirePackage{libertine}
+\renewcommand{\familydefault}{\sfdefault}
+\fontfamily{phv}\selectfont
 
 \RequirePackage[a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm]{geometry}
 \RequirePackage{graphicx}
@@ -70,10 +72,22 @@
 
 %\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 \RequirePackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
+
+\definecolor{url}{HTML}{005580} % 0088cc
+\definecolor{link}{HTML}{005580}
+\definecolor{text}{HTML}{222222}
+\definecolor{theoremtype}{HTML}{004400}
+\definecolor{header}{HTML}{666666}
+\definecolor{headerrule}{HTML}{668866}
+\definecolor{timestamp}{HTML}{333333}
+
 \hypersetup{
-    colorlinks=false,
+    colorlinks=true,
     pdfborder={0 0 0},
+	allcolors=link,
+	urlcolor=url,
 }
+
 
 % PDF Meta-Informationen setzen
 %\makeatletter
@@ -83,6 +97,8 @@
     pdfsubject = {\@title},
     pdfauthor = {\@author},
   }
+  % Set default text color
+  \color{text}\global\let\default@color\current@color
 }
 %\makeatother
 
@@ -129,13 +145,13 @@
 %========================
 
 % TODO: \theoremheadertypefont{bla} sollte funktionieren, wie?
-\def\theorem@headertypefont{\color{green!25!black}}
+\def\theorem@headertypefont{\color{theoremtype}}
 
 \newtheoremstyle{mythm}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
-			{\theorem@headertypefont##1}\ \color{black}##2\theorem@separator}\hbox{\strut}}}]}%
+			{\theorem@headertypefont##1}\ \color{text}##2\theorem@separator}\hbox{\strut}}}]}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
-			{\theorem@headertypefont##1}\ \color{black}##2\ (##3)\theorem@separator}\hbox{\strut}}}]}
+			{\theorem@headertypefont##1}\ \color{text}##2\ (##3)\theorem@separator}\hbox{\strut}}}]}
 \newtheoremstyle{nonumbermythm}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
 			{\theorem@headertypefont##1}\ \theorem@separator}\hbox{\strut}}}]}%
@@ -226,20 +242,20 @@
 	\renewcommand{\chaptermark}[1]{\markboth{\thechapter ~ \textbar ~ #1}{}}
 	\renewcommand{\sectionmark}[1]{\markright{\thesection ~ \textbar ~ #1}}
 	\fancyhf{}
-	\newcommand{\headerfont}{\bfseries \scshape \color{gray}}
-	\fancyfoot[LE,RO]{\bfseries\color{gray} \thepage}
+	\newcommand{\headerfont}{\bfseries \scshape \color{header}}
+	\fancyfoot[LE,RO]{\bfseries\color{header} \thepage}
 	\fancyhead[RO]{\headerfont\rightmark}
 	\fancyhead[LE]{\headerfont\leftmark}
 	\renewcommand{\headrulewidth}{0.4pt}
 
-	\renewcommand{\headrule}{{\color{gray}%
+	\renewcommand{\headrule}{{\color{headerrule}%
 	\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}}
 
 
 	% Pagestyle used in titlepages
 	\fancypagestyle{plain}{
 	  \fancyhf{}                        % Clear header/footer
-	  \fancyfoot[LE,RO]{\bfseries\color{gray} \thepage}
+	  \fancyfoot[LE,RO]{\bfseries\color{header} \thepage}
 	  \renewcommand{\headrulewidth}{0pt}
 	}
 }{
@@ -255,6 +271,6 @@
 
 \newcommand{\coursetimestamp}[3]{
 	\marginline{
-		\color{darkgray}\scshape\scriptsize \coursedate\formatdate{#1}{#2}{#3}
+		\color{timestamp}\scshape\scriptsize \coursedate\formatdate{#1}{#2}{#3}
 	}
 }
