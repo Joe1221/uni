@@ -1,10 +1,20 @@
 #!/bin/bash
 
+# Config
+# ======
+
 URL="http://www.mathematik.uni-stuttgart.de/~harrach/lehre/Numerik2.tex";
 TARGET="Numerik2.tex";
+BRANCH="num2-original";
+COMMIT_MSG="num2: Änderungen des Orginalskripts"
+
+# === End config ===
+
+
+PREVIOUS_BRANCH=`git branch | sed -rne 's/\* (.+)/\1/p'`
 
 git stash -q && \
-git checkout -q num2-original && \
+git checkout -q ${BRANCH} && \
 git pull --ff-only;
 if [[ $? != 0 ]]; then
 	exit $?;
@@ -35,8 +45,8 @@ if [ $? -eq 0 ]; then
 		echo "There were changes, committing …"
 		# Änderungen commiten
 		git add "${TARGET}" && \
-		git commit -m "num2: Änderungen des Orginalskripts" && \
-		git push origin num2-original:num2-original;
+		git commit -m "${COMMIT_MSG}" && \
+		git push origin ${BRANCH}:${BRANCH};
 	else
 		echo "There were no changes, finishing …"
 	fi
@@ -44,5 +54,5 @@ if [ $? -eq 0 ]; then
 else
 	echo "ERROR: Couldn't fetch $URL.";
 fi
-git checkout -q master && \
+git checkout -q $PREVIOUS_BRANCH && \
 git stash pop -q;
