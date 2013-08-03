@@ -1,4 +1,4 @@
 TARGET = vorlesung
 
-PDFLATEX = pdflatex --shell-escape
+PDFLATEX_OPTIONS = --shell-escape
 include ../common/pdflatex.mk
