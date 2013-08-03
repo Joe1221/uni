@@ -59,7 +59,7 @@
 	\newcommand{\japtext}[1]{}
 }
 
-%\RequirePackage[l2tabu, orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
+\RequirePackage[l2tabu,orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
 \RequirePackage{etex}
 
 \RequirePackage{microtype} 			% Für typographische Perfektion
@@ -84,6 +84,8 @@
 \hypersetup{
     colorlinks=true,
     pdfborder={0 0 0},
+    bookmarksnumbered=true,
+    pdfdisplaydoctitle=true,
 	%allcolors=link,
 	urlcolor=url,
 	linkcolor=link,
