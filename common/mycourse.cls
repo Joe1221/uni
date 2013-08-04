@@ -92,6 +92,8 @@
     colorlinks=true,
     pdfborder={0 0 0},
     bookmarksnumbered=true,
+    bookmarksopen=true,
+    bookmarksopenlevel=1,
     pdfdisplaydoctitle=true,
 	%allcolors=link,
 	urlcolor=url,
