@@ -232,6 +232,7 @@
 
 % Segment-Environment für kleinere gedankliche Abschnitte
 \newenvironment{seg}[1][]{\begin{description}\item[#1]\hfill\\}{\end{description}}
+\newenvironment{segnb}[1][]{\begin{description}\item[#1]}{\end{description}}
 
 
 \RequirePackage{fancyhdr}
