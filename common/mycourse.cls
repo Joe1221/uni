@@ -220,21 +220,12 @@
 \newtheorem*{proof}{Beweis:}
 \theoremsymbol{}
 
-\newcommand{\qedhere}{ ${}$  }
+%\newcommand{\qedhere}{ ${}$  }
 
 
 % Segment-Environment für kleinere gedankliche Abschnitte
-% TODO: Abstand ist nicht optimal, wenn vor segment-Umgebung eine andere environment war und kein text.
-\theoremstyle{emptybreak}
-\theoremheaderfont{\kern-2em\bfseries\small}
-\theoremindent 2em 									% Theroem einrücken
-\theoremprework{
-	%\setlength\theorempreskipamount{5ex}\setlength\theorempostskipamount{5cm}
-	\ \\ % Erzwinge Absatz, sonst komische Überschneidungsprobleme
-	\vspace{-2em}
-	%\topsep
-}
-\newtheorem{seg}{}
+\newenvironment{seg}[1][]{\begin{description}\item[#1]\hfill\\}{\end{description}}
+
 
 \RequirePackage{fancyhdr}
 \RequirePackage{calc}
