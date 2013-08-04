@@ -35,6 +35,8 @@
 
 \ProcessOptions\relax
 
+% Old version of package libertine loads xcolor with conflicting options, so load it beforehand.
+\RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
 %==================================
 % Fonts / Encoding
@@ -53,7 +55,6 @@
 %==================================
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
-\RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
 \IfFileExists{CJK.sty}{
 	\usepackage[encapsulated]{CJK}
