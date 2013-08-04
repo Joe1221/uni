@@ -11,6 +11,7 @@ PDFTARGETS  += $(TARGET).pdf
 endif
 
 export TEXINPUTS = $(shell git rev-parse --show-toplevel)/common:
+INCLUDEDIR = $(shell git rev-parse --show-toplevel)/common
 
 LATEXMK_VERSION := $(shell latexmk --version 2> /dev/null)
 
