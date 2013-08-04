@@ -43,13 +43,16 @@
 \RequirePackage[ngerman]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
 \RequirePackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
 \RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
-\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
+%\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
+\RequirePackage{libertine}
 
 % Load base class
 \LoadClass{scrbook}
 %==================================
 % 
 %==================================
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
 \RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
 \IfFileExists{CJK.sty}{
@@ -62,10 +65,14 @@
 \RequirePackage[l2tabu,orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
 \RequirePackage{etex}
 
+%\usepackage[cmintegrals,libertine,cmbraces,slantedGreek]{newtxmath}
+%\usepackage{newtxmath}
+%\usepackage[italic,defaultmathsizes]{mathastext}
+%\renewcommand*{\familydefault}{\sfdefault}
+
+
+
 \RequirePackage{microtype} 			% Für typographische Perfektion
-\RequirePackage{libertine}
-\renewcommand{\familydefault}{\sfdefault}
-\fontfamily{phv}\selectfont
 
 \RequirePackage[a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm]{geometry}
 \RequirePackage{graphicx}
@@ -126,8 +133,6 @@
 \RequirePackage{algpseudocode}		% algorithmicx package für Pseudo-Code
 \RequirePackage{verbatim}			% Für Ascii-Art ;-)
 
-\RequirePackage{amsmath}
-\RequirePackage{amssymb}
 \RequirePackage{mathtools}
 \RequirePackage[amsmath,hyperref,thmmarks]{ntheorem}			% Alternative theorems für leichteres Anpassen
 \RequirePackage{tikz}
