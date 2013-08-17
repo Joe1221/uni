@@ -6,6 +6,8 @@ PDFVIEWER   ?= xdg-open
 PDFLATEX    ?= pdflatex $(PDFLATEX_OPTIONS)
 BIBTEX      ?= bibtex
 
+TEXCONFIG   ?= config.tex
+
 ifneq ($(strip $(TARGET)),)
 PDFTARGETS  += $(TARGET).pdf
 endif
@@ -20,6 +22,20 @@ all: $(PDFTARGETS)
 
 view: $(PDFTARGETS)
 	$(PDFVIEWER) $(PDFTARGETS)
+
+
+# Special compilation targets
+
+default: | config-clear all
+print: | config-print all
+
+
+# Config write targets
+
+config-print:
+	echo "\def\ConfigOutput{print}" > ${TEXCONFIG}
+config-clear:
+	echo "" > ${TEXCONFIG}
 
 
 ifdef LATEXMK_VERSION

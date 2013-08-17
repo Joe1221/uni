@@ -3,7 +3,12 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{mycourse}
 
-\PassOptionsToClass{fontsize=12pt}{scrbook}
+\RequirePackage{etoolbox}
+\ifundef{\ConfigFontsize}{\def\ConfigFontsize{12pt}}{}
+\ifundef{\ConfigLanguage}{\def\ConfigLanguage{ngerman}}{}
+\InputIfFileExists{config}{}{}
+
+\PassOptionsToClass{fontsize=\ConfigFontsize}{scrbook}
 
 %==================================
 % Options
@@ -42,7 +47,7 @@
 % Fonts / Encoding
 %==================================
 
-\RequirePackage[ngerman]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
+\RequirePackage[\ConfigLanguage]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
 \RequirePackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
 \RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
 %\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
@@ -70,9 +75,12 @@
 %\usepackage[cmintegrals,libertine,cmbraces,slantedGreek]{newtxmath}
 %\usepackage{newtxmath}
 %\usepackage[italic,defaultmathsizes]{mathastext}
-%\renewcommand*{\familydefault}{\sfdefault}
 
-
+% Nutze Serifen-Schrift für Druckversion
+\ifdefstring{\ConfigOutput}{print}{
+	\renewcommand*{\familydefault}{\rmdefault}
+}{
+}
 
 \RequirePackage{microtype} 			% Für typographische Perfektion
 
@@ -82,13 +90,23 @@
 %\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 \RequirePackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 
-\definecolor{url}{HTML}{005580} % 0088cc
-\definecolor{link}{HTML}{005580}
-\definecolor{text}{HTML}{222222}
-\definecolor{theoremtype}{HTML}{004400}
-\definecolor{header}{HTML}{666666}
-\definecolor{headerrule}{HTML}{668866}
-\definecolor{timestamp}{HTML}{333333}
+\ifdefstring{\ConfigOutput}{print}{
+	\definecolor{url}{HTML}{000000} % 0088cc
+	\definecolor{link}{HTML}{000000}
+	\definecolor{text}{HTML}{000000}
+	\definecolor{theoremtype}{HTML}{000000}
+	\definecolor{header}{HTML}{000000}
+	\definecolor{headerrule}{HTML}{000000}
+	\definecolor{timestamp}{HTML}{000000}
+}{
+	\definecolor{url}{HTML}{005580} % 0088cc
+	\definecolor{link}{HTML}{005580}
+	\definecolor{text}{HTML}{222222}
+	\definecolor{theoremtype}{HTML}{004400}
+	\definecolor{header}{HTML}{666666}
+	\definecolor{headerrule}{HTML}{668866}
+	\definecolor{timestamp}{HTML}{333333}
+}
 
 \hypersetup{
     colorlinks=true,
@@ -117,7 +135,7 @@
     pdfauthor = {\@author},
   }
   % Set default text color
-  \color{text}\global\let\default@color\current@color
+  %\color{text}\global\let\default@color\current@color
 }
 %\makeatother
 
@@ -224,9 +242,11 @@
 \newtheorem*{note}{Bemerkung}
 
 % Beweis
-% TODO: Beweissymbol taucht nicht auf, wenn Beweis mit einer environment abgeschlossen wurde
 \theoremsymbol{\ensuremath{\square}}
-\newtheorem*{proof}{Beweis:}
+
+
+\csname captions\ConfigLanguage \endcsname % Führt \captions<lang> aus für \proofname, etc.
+\newtheorem*{proof}{\proofname:}
 \theoremsymbol{}
 
 %\newcommand{\qedhere}{ ${}$  }
@@ -275,7 +295,7 @@
 %========================
 
 \RequirePackage{mymath}
-\RequirePackage[ngerman]{datetime}
+\RequirePackage{datetime} % After babel 
 \newdateformat{coursedate}{\twodigit{\THEDAY}.\twodigit{\THEMONTH}.\THEYEAR}
 
 \newcommand{\coursetimestamp}[3]{
