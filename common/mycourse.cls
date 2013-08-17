@@ -47,6 +47,7 @@
 \RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
 %\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
 \RequirePackage{libertine}
+\RequirePackage[scaled=0.83]{beramono}
 
 % Load base class
 \LoadClass{scrbook}
