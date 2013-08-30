@@ -136,7 +136,7 @@
 			Die Gültigkeit von (S1) bis (S3) aus \ref{1.1} ist eine leichte Übung.
 
 			$(L, \<\argdot,\argdot\>)$ ist ein Hilbertraum (Beweis: \coursehref{blatt01.pdf}{Übungsaufgabe 1.2a}).
-			Man nennt ihn $\ell^2$, je nach Kontext mit oder ohne dem Skalarprodukt aus diesem Beispiel: $\ell^2 := L$ oder $\ell^2 := (L,\<\argdot,\argdot\>)$.
+			Man nennt ihn $\ell^2$, je nach Kontext mit oder ohne dem Skalarprodukt: $\ell^2 := L$ oder $\ell^2 := (L,\<\argdot,\argdot\>)$.
 		\item
 			Setze $L := C([a,b] \to \C)$ mit Skalarprodukt
 			\[
@@ -146,13 +146,13 @@
 
 			Allerdings ist $(L,\<\argdot,\argdot\>)$ kein Hilbertraum (Gegenbeispiel \coursehref{blatt01.pdf}{Übungsaufgabe 1.3b}).
 
-			Erweitere $L$ zu 
+			Man erweitert $L$ deshalb zu
 			\begin{align*}
 				\tilde L &:= L^2(]a,b[) \\
 				\<f,g\>^{\sim} &:= \int_{]a,b[} f\_{g} \dx[\my]. %sieht zwar komisch aus ist aber richtig so.
 			\end{align*}
 			$(\tilde L, \<\argdot,\argdot\>^\sim)$ ist ein Hilbertraum.
-			
+
 			Es gelten
 			\begin{itemize}
 				\item
@@ -265,7 +265,7 @@
 				x = \sum_{j=1}^\infty \<x,e_j\> e_j.
 			\]
 			\begin{note}
-				Sie gilt also insbesondere dann, wenn $(e_j)$ ein \emph{vollständiges} ONS ist (siehe \ref{1.14} 2)).
+				Sie gilt also insbesondere genau dann, wenn $(e_j)$ ein \emph{vollständiges} ONS ist (siehe \ref{1.14} 2).
 			\end{note}
 		\item
 			Die Menge
@@ -295,7 +295,7 @@
 				\[
 					\Big\|x - \sum_{j=1}^N \<x,e_j\> e_j \Big\|^2=\|x\|^2 - \sum_{j=1}^N |\<x,e_j\>|^2.
 				\]
-				$\|x\|^2 = \sum_{j=1}^\infty |\<x,e_j\>|^2$ impliziert damit für $N \to \infty$ sofort $x = \sum_{j=1}^\infty \<x,e_j\> e_j$, ebenso die Rückrichtung.
+				$\|x\|^2 = \sum_{j=1}^\infty |\<x,e_j\>|^2$ impliziert damit für $N \to \infty$ sofort $x = \sum_{j=1}^\infty \<x,e_j\> e_j$, analog für die Rückrichtung.
 			\item
 				Sei $x \in \_M$, zeige $x \in M$.
 				Wähle $(x_n)$ als Folge in $M$ mit $x_n \to x$.
@@ -305,7 +305,7 @@
 					\Big\|x_N- \sum_{j=1}^m \<x_N,e_j\> e_j \Big\| < \eps
 					\qquad \forall m > M.
 				\]
-				Dann gilt für $m > M$
+				Dann gilt für alle $m > M$
 				\begin{align*}
 					\Big\|x_N- \sum_{j=1}^m \<x,e_j\> e_j \Big\| 
 					&\le \|x-x_N\| + \Big\|x_N - \sum_{j=1}^m \<x_N,e_j\> e_j \Big\| + \Big\| \sum_{j=1}^m \<x_N-x,e_j\> e_j \Big\|	\\
@@ -314,14 +314,19 @@
 					&\stack{1)}\le 2 + \eps\|x_N-x\|
 					< 3 \eps.
 				\end{align*}
+				Für $m \to \infty$ also
+				\[
+					\|x_N - \sum_{j=1}^\infty \<x,e_j\>e_j \| \le 3\eps.
+				\]
+				Für $\eps \to 0$ gilt $x_N \to x$ und es folgt die Behauptung.
 			\item
-				Es gilt
+				Setze $y := \sum_{j=n}^m \<x,e_j\>$, dann ist $\<x,e_j\> = \<y,e_j\>$ und es gilt:
 				\begin{align*}
-					\bigg\|\underbrace{\sum_{j=n}^m \<x,e_j\>e_j}_{=:y}\bigg\|^2
-					&\stack{2)}= \sum_{j=n}^m |\<y,e_j\>|^2 \\
-					&= \sum_{j=n}^m |\<x,e_j\>|^2
+					\|y\|^2
+					\stack{2)}= \sum_{j=n}^m |\<y,e_j\>|^2
+					= \sum_{j=n}^m |\<x,e_j\>|^2
 					\stack{1)}< \eps
-				\end{align*}	
+				\end{align*}
 				für $m\ge n \ge N_\eps$, also ist $\sum_{j=1}^\infty \<x,e_j\> e_j$ Cauchyfolge und konvergent, da $H$ vollständig.
 		\end{enumerate}
 	\end{proof}
@@ -338,24 +343,25 @@
 	\]
 	Nach \ref{1.12} 3) ist die Menge
 	\[
-		\Big\{ f \in L : f = \sum_{j=1}^\infty \<f,e_j\> \f 1{\sqrt{\pi}}\sin(j \argdot) \Big\}
+		\bigg\{ f \in L : f = \sum_{j=1}^\infty \<f,e_j\> \f 1{\sqrt{\pi}}\sin(j \argdot) \bigg\}
 	\]
-	abgeschlossen in $L$ (Konvergenz der Reihe bezüglich der induzierten Norm).
+	abgeschlossen in $L$.
 
-	Man definiert
+	Sei jetzt
 	\[
-		L^2(]-\pi,\pi[) := \bigg\{ f: ]-\pi,\pi[ \to \C : f \text{ messbar } \land \int_{]-\pi,\pi[}|f|^2 \dx[\my] < \infty \bigg\}.
+		L^2(]-\pi,\pi[) := \bigg\{ f: ]-\pi,\pi[ \to \C : f \text{ messbar } \land \int_{]-\pi,\pi[}|f|^2 \dx[\my] < \infty \bigg\}
 	\]
-	$(e_j)$ ist genauso ein Orthonormalsystem in $L^2(]-\pi,\pi[)$.
-	Nach \ref{1.12} 4) ist für alle $f \in L^2(]-\pi,\pi[)$ die Reihe
+	mit gleichem ONS $(e_j)$ und analogem Skalarprodukt wie für $L$ (Elemente aus $L$ werden als gleich angesehen, wenn sie $\my$-fast-überall übereinstimmen, siehe dazu auch \ref{2.10}).
+	$L^2$ ist ein Hilbertraum (die Vollständigkeit bezüglich der induzierten Norm wird später in \ref{2.12} gezeigt).
+	Damit ist nach \ref{1.12} 4) für alle $f \in L^2(]-\pi,\pi[)$ die Reihe
 	\[
 		\sum_{j=1}^\infty \<f,e_j\> \f 1{\sqrt{\pi}} \sin(j \argdot)
 	\]
-	konvergent in $L^2(]-\pi,\pi[)$, aber nicht unbedingt punktweise gegen $f$.
+	konvergent in $L^2(]-\pi,\pi[)$ (d.h. bezüglich der induzierten Norm), aber nicht unbedingt punktweise gegen $f$.
 \end{ex}
 
 \begin{df} \label{1.14}
-	Sei $(L, \<\argdot,\argdot\>)$ ein Prähilbertraum und $(e_j)$ ein Orthonormalsystem in $L$.
+	Sei $(e_j)$ ein ONS in $(L, \<\argdot,\argdot\>)$.
 	\begin{enumerate}[1)]
 		\item
 			Für $x\in L$ heißt
@@ -392,7 +398,7 @@
 \end{nt}
 
 \begin{st} \label{1.16}
-	Alle Hilberträume mit (abzählbar unendlichen) VONS sind isomorph. 
+	Alle Hilberträume mit abzählbar unendlichen VONS sind isomorph. 
 
 	Ist $(H,\<\argdot, \argdot\>)$ Hilbertraum mit VONS $(e_j)$ so ist
 	\begin{align*}
@@ -474,9 +480,9 @@
 		\item
 			\begin{enumerate}[a)]
 				\item
-					Alle $\lambda_j$ sind Eigenwerte, da für $x = e_k \in D(A)$
+					Alle $\lambda_j$ sind Eigenwerte, da für $x := e_j \in D(A)$
 					\[
-						Ax = \sum_{j=1}^\infty \lambda_j \<e_k,e_j\> e_j = \lambda_k x.
+						Ax = \sum_{k=1}^\infty \lambda_k \<e_j,e_k\> e_j = \lambda_j x.
 					\]
 				\item
 					Falls $\exists x \in H\setminus \{0\} \forall j \in \N : \<x,e_j\> = 0$, dann ist $Ax = 0$.
@@ -514,26 +520,25 @@
 						&= \Big\< \sum_{j=1}^\infty \lambda_j \<x,e_j\> e_j, y \Big\> 
 						= \sum_{j=1}^\infty \lambda_j \<x,e_j\> \<e_j, y\> \\
 						&= \sum_{j=1}^\infty \_{\lambda_j \<y,e_j\>} \<x, e_j\> 
-						= \Big\< x, \sum_{j=1}^\infty \lambda_j \<y,e_j\> e_j \Big\> \\
-						&= \<x, Ay\>.
+						= \Big\< x, \sum_{j=1}^\infty \lambda_j \<y,e_j\> e_j \Big\>
+						= \<x, Ay\>.
 					\end{align*}
 				\end{segnb}
 			\end{proof}
 		\item
 			Falls $(\lambda_j)$ beschränkt, so ist $D(A) = H$
 			\begin{proof}
-				Sei $x \in H$.
-				Es gilt
+				Sei $x \in H$ und $\lambda_j$ beschränkt durch $C$, dann ist
 				\[
-					\sum_{j=1}^\infty \underbrace{|\lambda_j|^2}_{\le C^2} |\<x,e_j\>|^2 
-					= \sum_{j=1}^\infty |\<Cx, e_j\>|^2 
+					\sum_{j=1}^\infty |\lambda_j\<x,e_j\>|^2 
+					\le \sum_{j=1}^\infty |\<Cx, e_j\>|^2 
 					\le \|C x\|
 					< \infty
 				\]
 				und somit $x \in D(A)$.
 			\end{proof}
 		\item
-			Falls $(e_j)$ VONS in $H$, so ist $D(A)$ dicht in $H$.
+			Falls $(e_j)$ ein VONS in $H$ ist, so ist $D(A)$ dicht in $H$.
 			\begin{proof}
 				Sei $x \in H$, $x = \sum_{j=1}^\infty \<x,e_j\> e_j$.
 				Setze $x_n := \sum_{j=1}^n \<x,e_j\> e_j$.
@@ -570,7 +575,7 @@
 			Sei $x$ Eigenvektor zum Eigenwert $\lambda$, dann ist
 			\[
 				0 \le \<Ax,x\> 
-				= \lambda \underbrace{\<x,x\>}_{>0}
+				= \lambda \underbrace{\<x,x\>}_{>0},
 			\]
 			also $\lambda \ge 0$.
 		\end{proof}
@@ -590,11 +595,11 @@
 			Es gilt
 				\begin{align*}
 					\<Af, g\> 
-					 \int_0^{\pi} Af g \dx
-					&= - \int_0^{\pi} f'' \_g \dx \\
+					&= \int_0^{\pi} Af \_g \dx
+					= - \int_0^{\pi} f'' \_g \dx \\
 					&= -\big[ f'\_{g} \big]_{0}^\pi + \int_{0}^\pi f'\_{g'} \dx \\
-					&= \underbrace{\big[ - f'\_g + f \_g' \big]_{x=0}^\pi}_{=0} - \int_0^\pi f \_g'' \dx \\
-					&= \<f, Ag\>.
+					&= \underbrace{\big[ - f'\_g + f \_g' \big]_{x=0}^\pi}_{=0} - \int_0^\pi f \_g'' \dx 
+					= \<f, Ag\>.
 				\end{align*}
 			\end{proof}
 			Insbesondere hat $A$ damit nach \ref{1.18} 1) nur reelle Eigenwerte.
@@ -628,7 +633,7 @@
 					f(x) = c_1 \sin(j x) \qquad  \text{für $c_1 \neq 0, j \in \N$.}
 				\]
 
-				Da $A$ symmetrisch und 
+				Da $A$ symmetrisch (also die Eigenfunktionen $e_j$ orthogonal) und
 				\[
 					\|e_j\|^2 = \int_0^\pi \f 2\pi \sin^2(x) \dx = \f 1\pi \int_0^\pi 1 - \cos(2x) \dx = 1,
 				\]
@@ -636,7 +641,7 @@
 			\end{proof}
 \coursetimestamp{15}{4}{2013}
 		\item
-			Sei $(e_j := x \mapsto \sqrt{\f 2\pi} \sin(jx))$ das ONS aus 3).
+			Sei $e_j := x \mapsto \sqrt{\f 2\pi} \sin(jx)$ das ONS aus 3).
 			Setze
 			\begin{align*}
 				D(\tilde A) &:= \Big\{ f\in L^2([0,\pi]) : \sum_{j=1}^\infty j^4 |\<f,e_j\>|^2 < \infty \Big\}, \\
@@ -649,7 +654,7 @@
 				\item
 					$\tilde A \Big|_{D(A)} = A$, bzw. $\tilde Af = Af$ für $f \in D(A)$.
 			\end{enumerate}
-			Man sagt: $\tilde A$ ist die \emph{Erweiterung} des Operators $A$ und schreibt $A \subset \tilde A$.
+			Man sagt: $\tilde A$ ist die \emph{Erweiterung} des Operators $A$ und schreibt: $A \subset \tilde A$.
 			\begin{proof}
 				\begin{enumerate}[a)]
 					\item
@@ -669,16 +674,17 @@
 							= \sum_{j=1}^\infty |\<Af,e_j\>|^2 
 							\stackrel{\text{Bessel}}\le \|Af\|^2 
 							= \|f''\|^2
-							< \infty.
+							< \infty
 						\]
+						und damit $f \in D(\tilde A)$.
 					\item
 						Zeige $\tilde A \Big|_{D(A)} = A$, bzw. $\tilde Af = Af$ für $f \in D(A)$.
 
-						Sei $f \in D(A)$. Dann
+						Sei $f \in D(A)$. Dann gilt
 						\begin{align*}
 							\tilde Af = \sum_{j=1}^\infty j^2 \<f,e_j\> e_j = \sum_{j=1}^\infty \<f,\underbrace{j^2e_j}_{=Ae_j}\> e_j = \sum_{j=1}^\infty \<Af, e_j\> e_j= Af,
 						\end{align*}
-						da $(e_j)$ ein VONS von $\im(A)$ ist. (wird später gezeigt)
+						da $(e_j)$ ein VONS von $\im(A)$ ist (wird später in \ref{3.5} 4) gezeigt).
 				\end{enumerate}
 			\end{proof}
 	\end{enumerate}
@@ -694,8 +700,8 @@
 		Es gilt
 		\begin{align*}
 			\<Ax, x \> 
-			&= \sum_{j=1}^\infty \underbrace{\<\lambda_j \<x,e_j\> e_j, x\>}_{= \lambda_j\<x,e_j\> \<e_j,x\>} \\
-			&= \sum_{j=1}^\infty \lambda_j |\<x,e_j\>|^2.
+			= \sum_{j=1}^\infty \underbrace{\<\lambda_j \<x,e_j\> e_j, x\>}_{= \lambda_j\<x,e_j\> \<e_j,x\>}
+			= \sum_{j=1}^\infty \lambda_j |\<x,e_j\>|^2.
 		\end{align*}
 		Die Rückrichtung erkennt man jetzt leicht.
 
@@ -742,9 +748,10 @@
 			Wegen
 			\begin{align*}
 				\|Ax\|^2 
-				&= \bigg\|\sum_{j=1}^\infty \lambda_j \<x,e_j\> e_j\bigg\|^2 \\
-				&\stack{\text{Parseval}} = \hspace{0.4cm} \sum_{j=1}^\infty |\lambda_j|^2 |\<x,e_j\>|^2 \\
-				&\stack{\text{Bessel}}\le c^2 \|x\|^2,
+				&= \bigg\|\sum_{k=1}^\infty \lambda_k \<x,e_k\> e_k\bigg\|^2
+				\stackrel{\text{Parseval}} = \sum_{j=1}^\infty \Big| \Big\< \sum_{k=1}^\infty \lambda_k \<x,e_k\> e_k, e_j \Big\> \Big|^2 \\
+				&\le c^2 \sum_{j=1}^\infty |\<x,e_j\>|^2
+				\stackrel{\text{Bessel}} \le c^2 \|x\|^2,
 			\end{align*}
 			also $\|Ax\| \le c\|x\|$, ist außerdem $A$ beschränkt.
 		\end{seg}
@@ -805,7 +812,7 @@
 			also $Ax_j \to 0$ und somit ist $A$ stetig in $x=0$.
 		\end{seg}
 		\begin{seg}[$A$ stetig in $x_0=0$ $\implies$ $A$ stetig]
-			Sei $x_j \to x$, also $x_j - x \to 0$, dann gilt, da $A$ stetig in $x=0$.
+			Sei $x_j \to x$, also $x_j - x \to 0$, dann gilt, da $A$ stetig in $x_0=0$.
 			\[
 				Ax_j - Ax = A(\underbrace{x_j - x}_{\to 0}) \to 0,
 			\]
@@ -841,9 +848,9 @@
 		Sei $(f_j)$ beschränkt in $L$.
 		\begin{enumerate}[1)]
 			\item
-				Zeige: $(A f_j(x))$ ist bezüglich $x \in K$ gleichmäßig beschränkt.
+				Zeige: Die Folge $(A f_j(x))$ ist bezüglich $x \in K$ gleichmäßig beschränkt.
 
-				$K\times K$ ist kompakt, also existiert ein $ c\ge0 $ $|G(x,y)| \le c$  für alle $x,y \in K\times K$.
+				$K\times K$ ist kompakt, also existiert ein $ c\ge0 $ mit $|G(x,y)| \le c$  für alle $x,y \in K\times K$.
 				Dann ist
 				\[
 					|Af_j(x)| \le \underbrace{\int_{K} |G(x,y) |f(y)| \dx[y]}_{\le\<c,|f_j|\>} \stackrel{CSB}\le \|c\| \|f_j\| \le \tilde c.
@@ -854,7 +861,7 @@
 					\forall \eps > 0 \exists \delta > 0 \underbrace{\forall x,x' \in K \forall j \in \N}_{\mathclap{\text{gleichmäßig stetig bezüglich $x$ und $j$}}} :
 					 |x-x'| < \delta \;\implies\; |Af_j(x)-Af_j(x')| < \eps.
 				\]
-				Wegen $K\times K$ kompakt, ist $G$ gleichmäßig stetig: $|G(x,y) - G(\tilde x,y)| \le \eps$ für $|x-\tilde x| < \delta$ ($G$ gleichmäßig stetig).
+				Wegen $K\times K$ kompakt, ist $G$ gleichmäßig stetig in $y$, d.h. $|G(x,y) - G(\tilde x,y)| \le \eps$ für $|x-\tilde x| < \delta$.
 				Also
 				\begin{align*}
 					|Af_j(x) - Af_j(\tilde x)|
@@ -864,9 +871,9 @@
 					&\stack{CSB}\le \|\eps\| \|f_j\| = \sqrt{\int_{K}|\eps|^2 \dx} \|f_j\|=\sqrt{\mu(K)} \eps \|f_j\|\le c \eps.
 				\end{align*}
 			\item
-				Nach dem Satz \ref{1.29} von Arzelá-Ascoli enthält $(Af_j)$ eine gleichmäßig auf $K$ konvergente Teilfolge.
+				Nach dem Satz \ref{1.29} von Arzelá-Ascoli enthält $(Af_j)$ eine auf $K$ gleichmäßig konvergente Teilfolge $(Af_{j_k})$.
 			\item
-				Da $(Af_j)$ gleichmäßig konvergiert, ist die Grenzfunktion $g$ stetig auf $K$ (also $g \in L$) und $\|Af_{j_k} - g\| \to 0$.
+				Da $(Af_{j_k})$ gleichmäßig konvergiert, ist die Grenzfunktion $g$ stetig auf $K$ (also $g \in L$) und $\|Af_{j_k} - g\| \to 0$.
 				Damit ist $A$ kompakt.
 		\end{enumerate}
 	\end{proof}

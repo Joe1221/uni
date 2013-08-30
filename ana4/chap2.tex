@@ -4,7 +4,7 @@
 % a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View,
 % California, 94041, USA.
 
-\chapter{\texorpdfstring{$L^p$}{Lp}-Räume}
+\chapter{\texorpdfstring{$L^p$}{L\textasciicircum p}-Räume}
 
 
 \begin{df} \label{2.1}
@@ -102,8 +102,6 @@
 \end{df*}
 
 \begin{df}[Lebesgue-Integral]
-	Sei $(\Omega, \Sigma, \my)$ ein Maßraum.
-	
 	\begin{enumerate}[1)]
 		\item
 			Sei $f: \Omega \to \R$ Borel-messbar (d.h. im Bildraum wird die Borel-$\sigma$-Algebra verwendet).
@@ -135,7 +133,7 @@
 			$f : \Omega \to \C$ heißt \emph{messbar}, falls $\Re f$ und $\Im f$ Borel-messbar sind.
 
 			$f$ heißt \emph{integrierbar}, falls $\Re f$ und $\Im f$ integrierbar sind. 
-			Dann gilt
+			Dann setzt man
 			\[
 				\int_{\Omega} f \dx[\my] := \int_{\Omega} (\Re f) \dx[\my] + i \int_{\Omega} (\Im f) \dx[\my] .
 			\]
@@ -146,7 +144,7 @@
 
 \coursetimestamp{22}{4}{2013}
 \begin{df} \label{2.4}
-	Sei $f: (\Omega, \Sigma, \my) \to \C$ messbar.
+	Sei $f: \Omega \to \C$ messbar.
 	\begin{enumerate}[1)]
 		\item
 			Für $1 \le p < \infty$ setze
@@ -191,6 +189,7 @@
 					&= \lim_{n\to \infty }\underbrace{\my \bigg( \Big\{ \omega \in \Omega : |f(\omega)| > N_\infty(f) + \f 1n \Big\} \bigg)}_{=0} \\
 					&=  0.
 				\end{align*}
+				Also ist $|f| \le N_\infty(f)$ $\my$-fast-überall und damit das Infimum von $\{c \in [0,\infty] : |f| \le c \text{ $\my$-fast-überall}\}$ ein Minimum.
 			\itemdm
 				\begin{align*}
 					|(f+g)(\omega)|
@@ -204,16 +203,9 @@
 \begin{df} \label{2.6}
 	$p,q$ mit $1 \le p,q \le \infty$ heißen \emph{konjugiert}, falls
 	\[
-		1 < p, q < \infty \quad\land\quad \f 1p + \f 1q = 1
+		\f 1p + \f 1q = 1
 	\]
-	oder
-	\[
-		p = 1 \quad\land\quad q = \infty
-	\]
-	oder
-	\[
-		p = \infty \quad\land\quad q = 1.
-	\]
+	(mit der Konvention $\f 1\infty = 0$).
 	\begin{note}
 		Ein wichtiger Spezialfall ist $p=q=2$.
 	\end{note}
@@ -221,7 +213,7 @@
 
 
 \begin{st} \label{2.7}
-	Seien $f,g : (\Omega, \Sigma, \my) \to \C$ messbar.
+	Seien $f,g : \Omega \to \C$ messbar.
 	\begin{enumerate}[1)]
 		\item
 			Für $1 < p,q < \infty$ und $p,q$ konjugiert gilt die \emph{Höldersche Ungleichung}:
@@ -277,17 +269,17 @@
 						und damit
 						\begin{align*}
 							N_1(fg) 
-							&= \int_{\Omega} |fg| \dx[\my] \\
+							= \int_{\Omega} |fg| \dx[\my]
 							&\le \int_{\Omega} \f 1p |f|^p + \f 1q |g|^q \dx[\my] \\
-							&\le \f 1p \underbrace{N_p(f)^p}_{=1} + \f 1q \underbrace{N_q(g)^q}_{=1} \\
-							&\le \f 1p + \f 1q = 1.
+							&= \f 1p \underbrace{N_p(f)^p}_{=1} + \f 1q \underbrace{N_q(g)^q}_{=1}
+							= \f 1p + \f 1q = 1.
 						\end{align*}
 					\item
 						Seien $0 < N_p(f), N_q(g) < \infty$.
 						Dann ist
 						\begin{align*}
 							\int_{\Omega}|fg| \dx[\my]
-							&= N_p(f)N_q(g) \int_{\Omega} \underbrace{\Big| \f f{N_p(f)} \Big|}_{N_p(\dots)=1} \underbrace{\Big| \f g{N_q(g)} \Big|}_{N_q(\dots)=1} \dx[\my] \\
+							&= N_p(f)N_q(g) \int_{\Omega} \underbrace{\Big| \f f{N_p(f)} \Big|}_{N_p(\argdot)=1} \underbrace{\Big| \f g{N_q(g)} \Big|}_{N_q(\argdot)=1} \dx[\my] \\
 							&\le N_p(f) N_q(g) \cdot 1
 						\end{align*}
 				\end{enumerate}
@@ -300,10 +292,10 @@
 				Punktweise gilt:
 					\begin{align*}
 						|f+g|^p
-						&\le \Big( |f| + |g| \Big)^p \\
+						\le \Big( |f| + |g| \Big)^p
 						&\le \Big( 2 \max \{|f|, |g|\} \Big)^p \\
-						&= 2^p \max \{|f|^p, |g|^p \} \\
-						&\le 2^p \Big( |f|^p + |g|^p \Big)
+						&= 2^p \max \{|f|^p, |g|^p \}
+						\le 2^p \Big( |f|^p + |g|^p \Big)
 					\end{align*}
 				und damit
 					\[
@@ -315,13 +307,14 @@
 						&= \int_{\Omega} |f+g|^p \dx[\my] \\
 						&= \int_{\Omega} |f+g| |f+g|^{p-1} \dx[\my] \\
 						&\le \int_{\Omega} |f| |f+g|^{p-1} \dx[\my] + \int_{\Omega} |g| |f+g|^{p-1} \dx[\my].
-					\intertext{Wähle $q \in ]1,\infty[$ mit $\f 1q + \f 1p = 1$ (oder äquivalent $\f pq = p-1$) und wende die Höldersche Ungleichung an:}
-							&\le \underbrace{\bigg( \int_{\Omega} |f|^p \dx[\my] \bigg)^{\f 1p}}_{N_p(f)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} \dx[\my] \bigg)^{\f 1q}}_{N_p(f+g)^{\f pq}} \\
-							&\quad + \underbrace{\bigg( \int_{\Omega} |g|^p \dx[\my] \bigg)^{\f 1p}}_{N_p(g)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} \dx[\my] \bigg)^{\f 1q} }_{N_p(f+g)^{\f pq}}.
+					\intertext{Wähle $q \in ]1,\infty[$ konjugiert zu $p$, d.h. $\f 1q + \f 1p = 1$ (also $q(p-1) = p$) und wende die Höldersche Ungleichung an:}
+						&\le \underbrace{\bigg( \int_{\Omega} |f|^p \dx[\my] \bigg)^{\f 1p}}_{N_p(f)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} \dx[\my] \bigg)^{\f 1q}}_{N_p(f+g)^{\f pq}} \\
+							&\quad + \underbrace{\bigg( \int_{\Omega} |g|^p \dx[\my] \bigg)^{\f 1p}}_{N_p(g)} \underbrace{\bigg( \int_{\Omega} |f+g|^{q(p-1)} \dx[\my] \bigg)^{\f 1q} }_{N_p(f+g)^{\f pq}} \\
+						&= N_p(f+g)^{\f pq} \Big(N_p(f) + N_p(g)\Big).
 					\end{align*}
 					Da $0 < N_p(f+g)^{\f pq} < \infty$, gilt also
 					\[
-						N_p(f+g) = \Big(N_p(f+g)\Big)^{p- \f pq} \le N_p(f) + N_p(g).
+						N_p(f+g) = \big(N_p(f+g)\big)^{p- \f pq} \le N_p(f) + N_p(g).
 					\]
 		\end{enumerate}
 	\end{proof}
@@ -338,9 +331,9 @@
 				Wichtiger Spezialfall:
 				\begin{align*}
 					\bigg| \int_{\Omega} f \_g \dx[\my] \bigg|
-					&\le \int_{\Omega} |f \_g| \dx[\my] \\
-					&\le N_2(f) N_2(g) \\
-					&= \bigg( \int_{\Omega} |f|^2 \dx[\my] \bigg)^{\f 12} \bigg( \int_{\Omega} |g|^2 \dx[\my] \bigg)^{\f 12}.
+					&\le \int_{\Omega} |f \_g| \dx[\my]
+					\le N_2(f) N_2(g)
+					= \bigg( \int_{\Omega} |f|^2 \dx[\my] \bigg)^{\f 12} \bigg( \int_{\Omega} |g|^2 \dx[\my] \bigg)^{\f 12}.
 				\end{align*}
 				Das entspricht der CSB im $L^2$.
 			\end{note}
@@ -355,10 +348,13 @@
 			\item
 				Für $1 < p,q < \infty$ siehe \ref{2.7} 1).
 
-				Sei $p=1, q = \infty$.
+				Sei also $p=1, q = \infty$.
 				Dann folgt aus \ref{2.5} $|g| \le N_\infty(g)$ $\my$-fast-überall und damit
 				\[
-					N_1(fg) = \int_{\Omega} |fg| \dx[\my] \le \int_{\Omega}|f| \dx[\my] N_\infty (g).
+					N_1(fg)
+					= \int_{\Omega} |fg| \dx[\my]
+					\le N_\infty(g) \int_{\Omega}|f| \dx[\my]
+					= N_p(f) N_q(g).
 				\]
 			\item
 				Gilt mit \ref{2.5} 3) und \ref{2.7} 2).
@@ -405,12 +401,12 @@
 	\]
 	wird eine Äquivalenzrelation auf $\tilde{L^p}(\Omega, \Sigma, \my)$ definiert.
 
-	Setze
+	Definiere mit Hilfe der Äquivalenzklassen nun
 	\begin{align*}
 		L^p(\Omega, \Sigma, \my)
-		&:= \Big\{ [f] : f \in \tilde{L^p}(\Omega, \Sigma, \my) \Big\}
-		= \tilde {L^p} (\Omega, \Sigma, \my) / N \\
-		\| [f] \|_p &:= N_p(f) \qquad \text{ für } [f] \in L^p(\dots)
+			&:= \Big\{ [f] : f \in \tilde{L^p}(\Omega, \Sigma, \my) \Big\}
+			= \tilde {L^p} (\Omega, \Sigma, \my) / N, \\
+		\| [f] \|_p &:= N_p(f) \qquad \text{ für } [f] \in L^p(\Omega, \Sigma, \my).
 	\end{align*}
 	Dann ist $\|\argdot\|_p$ eine Norm auf $L^p(\Omega, \Sigma, \my)$, was leicht zu zeigen ist.
 
@@ -476,7 +472,7 @@
 			für ein $j > J_\eps$ und $\omega \in \Omega \setminus B$.
 
 			Da $B$ Nullmenge, ist $\|f_j - f\|_\infty \le \eps$ und daher $f_j - f \in L^\infty$ für $j > J_\eps$.
-			Somit ist
+			Somit ist auch
 			\[
 				f = \underbrace{f - f_j}_{\in L^\infty} + \underbrace{f_j}_{\in L^\infty} \in L^\infty.
 			\]
@@ -492,7 +488,7 @@
 					\]
 					Damit gilt insbesondere
 					\[
-						\|f_{j_k} - f_{j_{k+1}} \|_p < \f 1{2^k} \qquad \text{für $k \in \N$}.
+						\|f_{j_k} - f_{j_{k+1}} \|_p < \f 1{2^k} \qquad \text{für alle $k \in \N$}.
 					\]
 				\item
 					Zeige jetzt die Existenz der Grenzfunktion.
@@ -513,29 +509,29 @@
 						&\le \sum_{k=1}^\infty \f 1{2^k}
 						= 1.
 					\end{align*}
-					Nach dem Satz über monotone Konvergenz gilt damit
+					Mit dem Satz über monotone Konvergenz gilt damit
 					\begin{align*}
 						\|g\|_p = \int_{\Omega} g^p \dx[\my]
 						&= \int_{\Omega} \lim_{n\to \infty} g_n^p \dx[\my] \\
-						&= \lim_{n\to \infty} \int_{\Omega} g_n^p \dx[\my] \\
-						&= \lim_{n\to \infty} \|g_n\|_p^p
+						&= \lim_{n\to \infty} \int_{\Omega} g_n^p \dx[\my]
+						= \lim_{n\to \infty} \|g_n\|_p^p
 						\le 1.
 					\end{align*}
 					Also $\|g\|_p \le 1$ und somit
 					\[
 						g(\omega) < \infty
 					\]
-					für $\my$-fast-alle $\omega\in \Omega$
-					sei $\Omega'\subset \Omega$ so, dass $g(\omega) < \infty$ für $\omega \in \Omega'$ und $\my(\Omega \setminus \Omega') = 0$.
+					für $\my$-fast-alle $\omega\in \Omega$.
+					Sei $\Omega'\subset \Omega$ so, dass $g(\omega) < \infty$ für $\omega \in \Omega'$ und $\my(\Omega \setminus \Omega') = 0$.
 
-					Also ist $g_n(\omega) \to g(\omega)$ in $\R$ für $\omega \in \Omega'$.
+					Also konvergiert $g_n(\omega) \to g(\omega)$ in $\R$ für $\omega \in \Omega'$.
 					Mit 
 					\[
 						{f_j}_k(\omega) = {f_j}_1(\omega) + \sum_{l=1}^{k-1} \Big({f_j}_{l+1}(\omega) - {f_j}_l(\omega)\Big)
 					\]
 					und der absoluten Konvergenz
 					\[
-						\sum_{l=1}^{k-1} \Big|{f_j}_{l+1}(\omega) - {f_j}_l(\omega)\Big| < \infty
+						\sum_{l=1}^{\infty} \underbrace{\Big|{f_j}_{l+1}(\omega) - {f_j}_l(\omega)\Big|}_{<\f 1{2^l}} < \infty
 					\]
 					folgt, dass $({f_j}_k(\omega))$ konvergent ist für $k \to \infty$ und $\omega \in \Omega'$.
 
@@ -568,7 +564,7 @@
 						\le \underbrace{\|f_j - {f_j}_k \|_p}_{< \eps} + \underbrace{\|{f_j}_k - f\|_p}_{< \eps}
 						< 2 \eps
 					\]
-					für hinreichend großes $j, j_k$ und $k$.
+					für hinreichend großes $j$ und $k$.
 			\end{enumerate}
 		\end{seg}
 	\end{proof}
@@ -600,7 +596,12 @@
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
-				Dies ist eine einfache Übungsaufgabe.
+				Da $s$ einfach, existieren $c, C \in \R$ mit $0 < c \le C$ sodass $c \le |u(x)| \le C$ für $x \in \supp s$.
+				Dann gilt
+				\[
+					c^p \my(\supp s) \le \int |s|^p \dx[\my] \le C^p \my(\supp s)
+				\]
+				und somit $\my(\supp s) < \infty \iff \int |s|^p \dx[\my] < \infty$.
 			\item
 				\begin{enumerate}[a)]
 					\item
@@ -626,7 +627,7 @@
 						\]
 						Mit dem Satz über majorisierte Konvergenz gilt
 						\begin{align*}
-							\lim_{j\to \infty} \|f - s_j\|^p
+							\lim_{j\to \infty} \|f - s_j\|_p^p
 							&= \lim_{j\to \infty} \int_{\Omega} \underbrace{|f-s_j|^p}_{\le |f|^p} \dx[\my],  \qquad \Big(\int_{\Omega} |f|^p \dx[\my] < \infty\Big)\\
 							&= \int_{\Omega} \lim_{j\to \infty} |f- s_j |^p \dx[\my] \\
 							&= \int_{\Omega} 0 \dx[\my]
@@ -655,28 +656,35 @@
 				L^p(\R) \setminus L^{p'}(\R) \neq \emptyset \neq L^{p'}(\R) \setminus L^p(\R).
 			\]
 		\item
-			Sei $\Omega = \N$, $\Sigma := P(\Omega)$ und $\my(M) := \#M$ für $M \subset \Omega$.
-			Für $1 \le p \le \infty$ ist dann
+			Sei $\Omega = \N$, $\Sigma := P(\Omega)$ und $\my(M) := |M|$ (für $M \subset \Omega$) das Zählmaß.
+			Für $1 \le p < \infty$ erhält man
 			\begin{align*}
-				L^p(\Omega, \Sigma, \my) &= \ell^p, \\
-				\ell^p &:= \bigg\{ (x_j) \text{ Folge in $\C$: } \sum_{j=1}^\infty |x_j|^p < \infty \bigg\} ,\\
-				\|(x_j)\|_p &= \bigg( \sum_{j=1}^\infty |x_j|^p \bigg)^{\f 1p}.
-			\end{align*}
-			Für $p = \infty$ ist
-			\begin{align*}
-				\ell^\infty &= \Big\{ \text{beschränkte Folgen} \Big\}, \\
-				\|(x_j)\|_\infty &:= \sup_{j\in \N} |x_j|.
+				L^p(\Omega, \Sigma, \my) = \ell^p &= \bigg\{ (x_j) \text{ Folge in $\C$: } \sum_{j=1}^\infty |x_j|^p < \infty \bigg\} ,\\
+				\|(x_j)\|_p &= \bigg( \sum_{j=1}^\infty |x_j|^p \bigg)^{\f 1p}
+			\intertext{und für $p = \infty$}
+				L^p(\Omega, \Sigma, \my) = \ell^\infty &= \Big\{ \text{beschränkte Folgen in $\C$} \Big\}, \\
+				\|(x_j)\|_\infty &= \sup_{j\in \N} |x_j|.
 			\end{align*}
 		\item
-			Für $p=2$ ist $L^2(\Omega, \Sigma, \my)$ nach \ref{2.12} vollständig und
-			\[
-				\|f\|_2 = \bigg( \int_{\Omega} |f|^2 \dx[\my] \bigg)^{\f 12}
-			\]
-			wird erzeugt vom Skalarprodukt $\<f,g\> := \int_{\Omega} f \_g \dx[\my]$.
-			Das Integral des Skalarprodukts konvergiert wegen 
-			\[
-				\int_{\Omega} |f \_g|\dx[\my] \le \|f\|_2 \|g\|_2 < \infty.
-			\]
-			Also ist $L^2$ ein Hilbertraum.
+			$L^2(\Omega, \Sigma, \my)$ ist ein Hilbertraum.
 	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Siehe \coursehref{blatt04.pdf}{Übungsaufgabe 4.2a}.
+			\item
+				Siehe \coursehref{blatt04.pdf}{Übungsaufgabe 4.3}.
+			\item[4)]
+				Für $p=2$ ist $L^2(\Omega, \Sigma, \my)$ nach \ref{2.12} vollständig und
+				\[
+					\|f\|_2 = \bigg( \int_{\Omega} |f|^2 \dx[\my] \bigg)^{\f 12}
+				\]
+				wird erzeugt vom Skalarprodukt $\<f,g\> := \int_{\Omega} f \_g \dx[\my]$.
+				Das Integral des Skalarprodukts konvergiert wegen 
+				\[
+					\int_{\Omega} |f \_g|\dx[\my] \le \|f\|_2 \|g\|_2 < \infty.
+				\]
+				Also ist $L^2$ ein Hilbertraum.
+		\end{enumerate}
+	\end{proof}
 \end{st}
