@@ -51,8 +51,8 @@
 \RequirePackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
 \RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
 %\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
-\RequirePackage{libertine}
-\RequirePackage[scaled=0.83]{beramono}
+\RequirePackage{libertine}                  % Libertine font
+\RequirePackage[scaled=0.83]{beramono}      % Typewriter font scaled to fit with Libertine
 
 % Load base class
 \LoadClass{scrbook}
@@ -176,11 +176,12 @@
 }
 
 %========================
-% Theorems (TODO: extra package)
+% Theorems (TODO: extra package, also needed in mywork.cls)
 %========================
 
 % TODO: \theoremheadertypefont{bla} sollte funktionieren, wie?
-\def\theorem@headertypefont{\color{theoremtype}}
+\def\theorem@headertypefont{\color{theoremtype}} % Font für Theorem-Typ (Satz, Definition, etc.)
+
 
 \newtheoremstyle{mythm}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
@@ -197,20 +198,14 @@
 
 % Deprecated: (use \theorempreskip instead)
 \theorempreskipamount 2.5em 						% Abstand vor Theroem
-\theoremindent 2ex 									% Theroem einrücken
+\theoremindent 1em 									% Theroem einrücken
 \theoremheaderfont{\kern-1em\normalfont\bfseries} 	% Überschrift wieder ausrücken
-%\theoremheadertypefont{\color{green!25!black}}% Font für Theorem-Typ (Satz, Definition, etc.)
-\theorembodyfont{\normalfont} 						% Aufrecht statt kursiv im body-Teil
+\theorembodyfont{\normalfont}
 %\theoremprework{
-%	\def \theorem@headertypefont{\the\theoremheadertypefont}
 %}
 
-% Nummerierung ist anders in scrbook (Skripte) <-> scrartcl (Abgaben)
-\@ifclassloaded{scrbook}{
-	\newtheorem{thm}{Theorem}[chapter]
-}{
-	\newtheorem{thm}{Theorem}[section]
-}
+\newtheorem{thm}{Theorem}[chapter]
+
 \renewtheorem*{thm*}{Theorem}
 \newtheorem{st}[thm]{Satz}
 \renewtheorem*{st*}{Satz}
@@ -232,28 +227,29 @@
 \newtheorem{ex}[thm]{Beispiel}
 \renewtheorem*{ex*}{Beispiel}
 
-%\theoremheadertypefont{\color{black}} % Font für Theorem-Typ (Satz, Definition, etc.)
+\theorempreskipamount 1.0em % Abstand vor Theroem
+\theoremheaderfont{\kern-1em\bfseries\small\itshape} % Kursiv und kleiner als oben
+
 \theoremstyle{break}
-
-
-\theorempreskipamount 1.5em 								% Abstand vor Theroem
-\theoremheaderfont{\kern-1em\bfseries\small\itshape}% Kursiv und kleiner als oben
-
 \newtheorem*{note}{Bemerkung}
 
-% Beweis
+% Proof-Environment
+% =================
+% Führt \captions<lang> aus für \proofname, etc.
+\csname captions\ConfigLanguage \endcsname
+% Scheinbar wird \proofname überschrieben, wenn optionales Argument an \begin{proof} gegeben wird
+\let\myproofname\proofname
 \theoremsymbol{\ensuremath{\square}}
-
-
-\csname captions\ConfigLanguage \endcsname % Führt \captions<lang> aus für \proofname, etc.
-\newtheorem*{proof}{\proofname:}
+\theoremstyle{break}
+\newtheorem*{proof}{\myproofname:}
 \theoremsymbol{}
-
-%\newcommand{\qedhere}{ ${}$  }
 
 
 % Segment-Environment für kleinere gedankliche Abschnitte
-\newenvironment{seg}[1][]{\begin{description}\item[#1]\hfill\\}{\end{description}}
+% =======================================================
+% Mit Zeilenumbruch
+\newenvironment{seg}[1][]{\begin{description}\item[#1]\hfill\\\setlength{\leftmargin}{-1em}}{\end{description}}
+% Ohne Zeilenumbruch
 \newenvironment{segnb}[1][]{\begin{description}\item[#1]}{\end{description}}
 
 
@@ -264,30 +260,26 @@
 \fancyhead{}
 \fancyfoot{}
 
-\@ifclassloaded{scrbook}{
-	\fancyheadoffset[RE,LO]{\marginparsep+\marginparwidth}
-	%\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-	%\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
-	\renewcommand{\chaptermark}[1]{\markboth{\thechapter ~ \textbar ~ #1}{}}
-	\renewcommand{\sectionmark}[1]{\markright{\thesection ~ \textbar ~ #1}}
-	\fancyhf{}
-	\newcommand{\headerfont}{\bfseries \scshape \color{header}}
-	\fancyfoot[LE,RO]{\bfseries\color{header} \thepage}
-	\fancyhead[RO]{\headerfont\rightmark}
-	\fancyhead[LE]{\headerfont\leftmark}
-	\renewcommand{\headrulewidth}{0.4pt}
+\fancyheadoffset[RE,LO]{\marginparsep+\marginparwidth}
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+%\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter ~ \textbar ~ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection ~ \textbar ~ #1}}
+\fancyhf{}
+\newcommand{\headerfont}{\bfseries \scshape \color{header}}
+\fancyfoot[LE,RO]{\bfseries\color{header} \thepage}
+\fancyhead[RO]{\headerfont\rightmark}
+\fancyhead[LE]{\headerfont\leftmark}
+\renewcommand{\headrulewidth}{0.4pt}
 
-	\renewcommand{\headrule}{{\color{headerrule}%
-	\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}}
+\renewcommand{\headrule}{{\color{headerrule}%
+\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}}
 
-
-	% Pagestyle used in titlepages
-	\fancypagestyle{plain}{
-	  \fancyhf{}                        % Clear header/footer
-	  \fancyfoot[LE,RO]{\bfseries\color{header} \thepage}
-	  \renewcommand{\headrulewidth}{0pt}
-	}
-}{
+% Pagestyle used in titlepages
+\fancypagestyle{plain}{
+  \fancyhf{}                        % Clear header/footer
+  \fancyfoot[LE,RO]{\bfseries\color{header} \thepage}
+  \renewcommand{\headrulewidth}{0pt}
 }
 
 %========================
