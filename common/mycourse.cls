@@ -145,7 +145,11 @@
 \renewcommand{\tableofcontents}{\pdfbookmark[0]{\contentsname}{toc}\oldtableofcontents}
 %\BeforeTOCHead[toc]{{\pdfbookmark[0]{\contentsname}{toc}}} % Funktioniert nicht im CIP-Pool
 
-\RequirePackage{enumerate}			% Aufzählungen wie a), (I), etc. als optionales Argument
+%\RequirePackage{enumerate}			% Aufzählungen wie a), (I), etc. als optionales Argument
+\RequirePackage[shortlabels]{enumitem}			% Aufzählungen wie a), (I), etc. als optionales Argument
+\setlist{leftmargin=*}
+\setlist[description]{style=standard,leftmargin=1em,labelsep=1em}
+
 \RequirePackage{parskip}			% Entfernt Einrückung bei Absätzen und fügt vertikalen Abstand ein
 \setlength{\parskip}{0.5em}
 
@@ -248,9 +252,9 @@
 % Segment-Environment für kleinere gedankliche Abschnitte
 % =======================================================
 % Mit Zeilenumbruch
-\newenvironment{seg}[1][]{\begin{description}\item[#1]\hfill\\\setlength{\leftmargin}{-1em}}{\end{description}}
+\newenvironment{seg}[1][]{\begin{description}[leftmargin=*,labelsep=1em]\item[#1]\hfill\\}{\end{description}}
 % Ohne Zeilenumbruch
-\newenvironment{segnb}[1][]{\begin{description}\item[#1]}{\end{description}}
+\newenvironment{segnb}[1][]{\begin{description}[leftmargin=*]\item[#1]}{\end{description}}
 
 
 \RequirePackage{fancyhdr}
