@@ -86,6 +86,7 @@
 	\definecolor{url}{HTML}{000000} % 0088cc
 	\definecolor{link}{HTML}{000000}
 	\definecolor{text}{HTML}{000000}
+	\definecolor{math}{HTML}{000000}
 	\definecolor{theoremtype}{HTML}{000000}
 	\definecolor{theoremnumber}{HTML}{000000}
 	\definecolor{theoremtitle}{HTML}{000000}
@@ -93,24 +94,29 @@
 	\definecolor{headerrule}{HTML}{000000}
 	\definecolor{timestamp}{HTML}{000000}
 	\definecolor{background}{HTML}{FFFFFF}
+	\definecolor{headings}{HTML}{000000}
 	% Nutze Serifen-Schrift für Druckversion
 	\renewcommand*{\familydefault}{\rmdefault}
 }{\ifdefstring{\ConfigOutput}{dark}{
-	\definecolor{url}{HTML}{005580} % 0088cc
-	\definecolor{link}{HTML}{005580}
+	\definecolor{url}{HTML}{91AFED} % 0088cc
+	\definecolor{link}{HTML}{91AFED}
 	\definecolor{text}{HTML}{E2E2E5}
+	\definecolor{math}{HTML}{E2E2E5}
 	\definecolor{theoremtype}{HTML}{FF9800}
 	\definecolor{theoremnumber}{HTML}{FF9800}
-	\definecolor{theoremtitle}{HTML}{FF9800}
+	\definecolor{theoremtitle}{HTML}{F6F3E8}
 	\definecolor{header}{HTML}{F6F3E8}
 	\definecolor{headerrule}{HTML}{FF9800}
-	\definecolor{timestamp}{HTML}{F6F3E8}
+	\definecolor{timestamp}{HTML}{7E8AA2}
 	\definecolor{background}{HTML}{202020}
+	\definecolor{headings}{HTML}{F6F3E8}
 	\renewcommand*{\familydefault}{\sfdefault}
+	\RequirePackage{sfmath}
 }{
 	\definecolor{url}{HTML}{005580} % 0088cc
 	\definecolor{link}{HTML}{005580}
-	\definecolor{text}{HTML}{222222}
+	\definecolor{text}{HTML}{111111}
+	\definecolor{math}{HTML}{111111}
 	\definecolor{theoremtype}{HTML}{004400}
 	\definecolor{theoremnumber}{HTML}{222222}
 	\definecolor{theoremtitle}{HTML}{222222}
@@ -118,7 +124,12 @@
 	\definecolor{headerrule}{HTML}{668866}
 	\definecolor{timestamp}{HTML}{333333}
 	\definecolor{background}{HTML}{FFFFFF}
+	\definecolor{headings}{HTML}{000000}
 }}
+
+\renewcommand*\sectfont{\sffamily\bfseries\color{headings}}
+
+
 
 \RequirePackage{microtype} 			% Für typographische Perfektion
 
@@ -130,6 +141,7 @@
     bookmarksopen=true,
     bookmarksopenlevel=1,
     pdfdisplaydoctitle=true,
+	linktoc=all,
 	%allcolors=link,
 	urlcolor=url,
 	linkcolor=link,
@@ -149,9 +161,10 @@
     pdfsubject = {\@title},
     pdfauthor = {\@author},
   }
-  % Set text color and background color
-  \color{text}
+  % Set text color and LaTeX default color (used in tables and other parts)
+  \color{text}\global\let\default@color\current@color
   \pagecolor{background}
+  %\everymath{\color{math}} % Currently broken, looking for clean, working solution
 }
 %\makeatother
 
@@ -251,7 +264,7 @@
 \theoremheaderfont{\kern-1em\bfseries\small\itshape} % Kursiv und kleiner als oben
 
 \theoremstyle{break}
-\newtheorem*{note}{Bemerkung}
+\newtheorem*{note}{\color{headings}Bemerkung}
 
 % Proof-Environment
 % =================
@@ -261,16 +274,16 @@
 \let\myproofname\proofname
 \theoremsymbol{\ensuremath{\square}}
 \theoremstyle{break}
-\newtheorem*{proof}{\myproofname:}
+\newtheorem*{proof}{\color{headings}\myproofname:}
 \theoremsymbol{}
 
 
 % Segment-Environment für kleinere gedankliche Abschnitte
 % =======================================================
 % Mit Zeilenumbruch
-\newenvironment{seg}[1][]{\begin{description}[leftmargin=*,labelsep=1em]\item[#1]\hfill\\}{\end{description}}
+\newenvironment{seg}[1][]{\begin{description}[leftmargin=*,labelsep=1em]\item[{\color{headings}#1}]\hfill\\}{\end{description}}
 % Ohne Zeilenumbruch
-\newenvironment{segnb}[1][]{\begin{description}[leftmargin=*]\item[#1]}{\end{description}}
+\newenvironment{segnb}[1][]{\begin{description}[leftmargin=*]\item[{\color{headings}#1}]}{\end{description}}
 
 
 \RequirePackage{fancyhdr}
