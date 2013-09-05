@@ -76,14 +76,6 @@
 %\usepackage{newtxmath}
 %\usepackage[italic,defaultmathsizes]{mathastext}
 
-% Nutze Serifen-Schrift für Druckversion
-\ifdefstring{\ConfigOutput}{print}{
-	\renewcommand*{\familydefault}{\rmdefault}
-}{
-}
-
-\RequirePackage{microtype} 			% Für typographische Perfektion
-
 \RequirePackage[a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm]{geometry}
 \RequirePackage{graphicx}
 
@@ -95,18 +87,41 @@
 	\definecolor{link}{HTML}{000000}
 	\definecolor{text}{HTML}{000000}
 	\definecolor{theoremtype}{HTML}{000000}
+	\definecolor{theoremnumber}{HTML}{000000}
+	\definecolor{theoremtitle}{HTML}{000000}
 	\definecolor{header}{HTML}{000000}
 	\definecolor{headerrule}{HTML}{000000}
 	\definecolor{timestamp}{HTML}{000000}
+	\definecolor{background}{HTML}{FFFFFF}
+	% Nutze Serifen-Schrift für Druckversion
+	\renewcommand*{\familydefault}{\rmdefault}
+}{\ifdefstring{\ConfigOutput}{dark}{
+	\definecolor{url}{HTML}{005580} % 0088cc
+	\definecolor{link}{HTML}{005580}
+	\definecolor{text}{HTML}{E2E2E5}
+	\definecolor{theoremtype}{HTML}{FF9800}
+	\definecolor{theoremnumber}{HTML}{FF9800}
+	\definecolor{theoremtitle}{HTML}{FF9800}
+	\definecolor{header}{HTML}{F6F3E8}
+	\definecolor{headerrule}{HTML}{FF9800}
+	\definecolor{timestamp}{HTML}{F6F3E8}
+	\definecolor{background}{HTML}{202020}
+	\renewcommand*{\familydefault}{\sfdefault}
 }{
 	\definecolor{url}{HTML}{005580} % 0088cc
 	\definecolor{link}{HTML}{005580}
 	\definecolor{text}{HTML}{222222}
 	\definecolor{theoremtype}{HTML}{004400}
+	\definecolor{theoremnumber}{HTML}{222222}
+	\definecolor{theoremtitle}{HTML}{222222}
 	\definecolor{header}{HTML}{666666}
 	\definecolor{headerrule}{HTML}{668866}
 	\definecolor{timestamp}{HTML}{333333}
-}
+	\definecolor{background}{HTML}{FFFFFF}
+}}
+
+\RequirePackage{microtype} 			% Für typographische Perfektion
+
 
 \hypersetup{
     colorlinks=true,
@@ -134,8 +149,9 @@
     pdfsubject = {\@title},
     pdfauthor = {\@author},
   }
-  % Set default text color
-  %\color{text}\global\let\default@color\current@color
+  % Set text color and background color
+  \color{text}
+  \pagecolor{background}
 }
 %\makeatother
 
@@ -189,14 +205,14 @@
 
 \newtheoremstyle{mythm}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
-			{\theorem@headertypefont##1}\ \color{text}##2\theorem@separator}\hbox{\strut}}}]}%
+			{\color{theoremtype}##1}\ \color{theoremnumber}##2\theorem@separator}\hbox{\strut}}}]}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
-			{\theorem@headertypefont##1}\ \color{text}##2\ (##3)\theorem@separator}\hbox{\strut}}}]}
+			{\color{theoremtype}##1}\ \color{theoremnumber}##2\ \color{theoremtitle}(##3)\theorem@separator}\hbox{\strut}}}]}
 \newtheoremstyle{nonumbermythm}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
-			{\theorem@headertypefont##1}\ \theorem@separator}\hbox{\strut}}}]}%
+			{\color{theoremtype}##1}\ \theorem@separator}\hbox{\strut}}}]}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
-			{\theorem@headertypefont##1}\ (##3)\theorem@separator}\hbox{\strut}}}]}
+			{\color{theoremtype}##1}\ \color{theoremtitle}(##3)\theorem@separator}\hbox{\strut}}}]}
 \theoremstyle{mythm} 								% Vordefinierter Style mit Zeilenumbruch
 
 

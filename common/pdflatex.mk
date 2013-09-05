@@ -34,6 +34,8 @@ print: | config-print all
 
 config-print:
 	echo "\def\ConfigOutput{print}" > ${TEXCONFIG}
+config-styledark:
+	echo "\def\ConfigOutput{dark}" > ${TEXCONFIG}
 config-clear:
 	echo "" > ${TEXCONFIG}
 
