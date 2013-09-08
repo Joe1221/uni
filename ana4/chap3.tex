@@ -30,17 +30,17 @@
 			\end{align*}
 	\end{enumerate}
 	\begin{proof}
-		\coursehref{blatt07.pdf}{Übungsaufgabe 7.2}
+		Siehe \coursehref{blatt07.pdf}{Übungsaufgabe 7.2}.
 	\end{proof}
 \end{st}
 
 \begin{conv*}
-	Wir betrachten hier und im Folgenden nur \emph{lineare} Operatoren.
+	Im Folgenden seien alle betrachteten Operatoren stets \emph{linear}.
 \end{conv*}
 
 \begin{st} \label{3.3}
 	Sei $A: L \to L$ symmerisch und beschränkt.
-	Dann gilt
+	Dann gilt:
 	\begin{enumerate}[1)]
 		\item
 			$\displaystyle \<Ax,x\> \in \R$,
@@ -72,11 +72,11 @@
 			\item
 				Seien $x,y \in \_{\im(A)}$ mit $Ax = Ay$, also auch $x-y \in \_{\im(A)}$ (betrachte dazu $x,y$ als Folgengrenzwerte).
 
-				Dann ist $A(x-y) = 0$, also nach 2)
+				Wegen der Linearität ist $A(x-y) = 0$, also mit 2)
 				\[
-					x-y \in \ker (A) = \im(A)^\orth = \_{\im(A)}^\orth
+					x-y \in \ker (A) = \im(A)^\orth = \_{\im(A)}^\orth,
 				\]
-				Also 
+				also
 				\[
 					x-y \in \_{\im(A)} \cap \_{\im(A)}^\orth = \{0\}.
 				\]
@@ -85,54 +85,51 @@
 				Falls $\|A\| = 0$, also $A=0$, dann ist $0 = \sup |\<Ax,x\>|$ trivial.
 
 				Sei nun $\|A\| > 0$ und $d := \sup_{\|x\|=1} |\<Ax,x\>|$.
-				Zeige $d = \|A\|$:
-				\begin{enumerate}[a)]
-					\item
-						Es gilt $d \le \|A\|$, denn
-						\begin{align*}
-							|\<Ax,x\>| 
+				Zeige $d = \|A\|$.
+				\begin{seg}[$d \le \|A\|$:]
+					Gilt wegen
+					\begin{align*}
+							|\<Ax,x\>|
 							&\stack{\text{CSB}} \le \|Ax\| \underbrace{\|x\|}_{=1} \\
 							&\stack{\ref{1.23}}\le \|A\| \|x\|
 							= \|A\|.
-						\end{align*}
-					\item
-						Zeige $d \ge \|A\|$.
+					\end{align*}
+				\end{seg}
+				\begin{seg}[$d \ge \|A\|$:]
+					Für $y \neq 0$ gilt
+					\[
+						|\<Ay,y\>| 
+						= \|y\|^2 \Big| \< A \tf{y}{\|y\|}, \tf{y}{\|y\|} \> \Big| 
+						\le d\|y\|^2.
+					\]
 
-						Für $y \neq 0$ gilt
-						\[
-							|\<Ay,y\>| 
-							= \|y\|^2 \Big| \< A \tf{y}{\|y\|}, \tf{y}{\|y\|} \> \Big| 
-							\le d\|y\|^2.
-						\]
-
-						Und für $\alpha > 0$:
-						\begin{align*}
-							&\Big\< A(\alpha x + \tf 1\alpha Ax), \alpha x + \f 1\alpha A x \Big\>
-							- \Big\< A(\alpha x - \tf 1\alpha Ax), \alpha x - \f 1\alpha A x \Big\> \\
-							&\qquad = 2\< A\alpha x, \tf 1\alpha A x\> + 2\<A (\tf 1\alpha Ax), \alpha x\> \\
-							&\qquad = 4 \|Ax\|^2.
-						\end{align*}
-						Falls $\|Ax\| = 0$, dann ist offensichtlich $\|Ax\| \le d$.
-						Sei also $\|x\| = 1$ mit $\|Ax\| \neq 0$.
-						Setze $\alpha^2 := \|Ax\|$, dann ist
-						\begin{align*}
-							4\|Ax\|^2
-							&= \bigg| \Big\< A(\alpha x + \tf 1\alpha Ax), \alpha x + \tf 1\alpha A x \Big\>
-								- \Big\< A(\alpha x - \tf 1\alpha Ax), \alpha x - \tf 1\alpha A x \Big\> \bigg| \displaybreak[0]\\
-							&\le \bigg| \Big\< A(\alpha x + \tf 1\alpha Ax), \alpha x + \tf 1\alpha A x \Big\> \bigg| 
-								+ \bigg| \Big\< A(\alpha x - \tf 1\alpha Ax), \alpha x - \tf 1\alpha A x \Big\> \bigg| \\
-							&\le  d \Big\| \alpha x + \tf 1\alpha Ax \Big\|^2 + d \Big\| \alpha x - \tf 1\alpha Ax \Big\|^2 \\
-							&= d ( \|\alpha x\|^2 + 2 \Re \<\alpha x, \tf 1\alpha Ax\> + \| \tf 1\alpha Ax\|^2
-							+  \|\alpha x\|^2 - 2 \Re \<\alpha x, \tf 1\alpha Ax\> + \| \tf 1\alpha Ax\|^2) \\
-							&= 2d (\|\alpha x\|^2 + \|\tf 1\alpha Ax\|^2) \\
-							&= 2d (\|A x\|\|x\|^2 + \f 1{\|Ax\|}\|Ax\|^2) \\
-							&= 4d \|Ax\|.
-						\end{align*}
-						Also $\|Ax\| \le d$ für $\|x\| = 1$ und damit
-						\[
-							\|A\| = \sup_{\|x\|=1} \|Ax\| \le d.
-						\]
-				\end{enumerate}
+					Und für $\alpha > 0$:
+					\begin{align*}
+						&\Big\< A(\alpha x + \tf 1\alpha Ax), \alpha x + \f 1\alpha A x \Big\>
+						- \Big\< A(\alpha x - \tf 1\alpha Ax), \alpha x - \f 1\alpha A x \Big\> \\
+						&\qquad = 2\< A\alpha x, \tf 1\alpha A x\> + 2\<A (\tf 1\alpha Ax), \alpha x\> \\
+						&\qquad = 4 \|Ax\|^2.
+					\end{align*}
+					Falls $\|Ax\| = 0$, dann ist offensichtlich $\|Ax\| \le d$.
+					Sei also $\|x\| = 1$ mit $\|Ax\| \neq 0$ und $\alpha^2 := \|Ax\|$, dann ist
+					\begin{align*}
+						4\|Ax\|^2
+						&= \bigg| \Big\< A(\alpha x + \tf 1\alpha Ax), \alpha x + \tf 1\alpha A x \Big\>
+							- \Big\< A(\alpha x - \tf 1\alpha Ax), \alpha x - \tf 1\alpha A x \Big\> \bigg| \displaybreak[0]\\
+						&\le \bigg| \Big\< A(\alpha x + \tf 1\alpha Ax), \alpha x + \tf 1\alpha A x \Big\> \bigg| 
+							+ \bigg| \Big\< A(\alpha x - \tf 1\alpha Ax), \alpha x - \tf 1\alpha A x \Big\> \bigg| \\
+						&\le  d \Big\| \alpha x + \tf 1\alpha Ax \Big\|^2 + d \Big\| \alpha x - \tf 1\alpha Ax \Big\|^2 \\
+						&= d ( \|\alpha x\|^2 + 2 \Re \<\alpha x, \tf 1\alpha Ax\> + \| \tf 1\alpha Ax\|^2
+						+  \|\alpha x\|^2 - 2 \Re \<\alpha x, \tf 1\alpha Ax\> + \| \tf 1\alpha Ax\|^2) \\
+						&= 2d (\|\alpha x\|^2 + \|\tf 1\alpha Ax\|^2) \\
+						&= 2d (\|A x\|\|x\|^2 + \f 1{\|Ax\|}\|Ax\|^2) \\
+						&= 4d \|Ax\|.
+					\end{align*}
+					Also $\|Ax\| \le d$ für $\|x\| = 1$ und damit
+					\[
+						\|A\| = \sup_{\|x\|=1} \|Ax\| \le d.
+					\]
+				\end{seg}
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -148,7 +145,7 @@
 		\forall x \in L \exists! y \in \_{\im(A)} \exists! z \in \ker(A) : x = y + z.
 	\]
 	\begin{proof}
-		 Sei $x\in L$ beliebig. Dann folgt aus dem Projektionssatz (aus der Funktionalanalysis, siehe \coursehref{blatt07.pdf}{Übungsaufgabe 7.1}) eine eindeutige Zerlegung 
+		 Sei $x\in L$ beliebig. Dann existiert nach dem Projektionssatz (aus der Funktionalanalysis, siehe \coursehref{blatt07.pdf}{Übungsaufgabe 7.1}) eine eindeutige Zerlegung
 \[
 x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\orth\stackrel{\ref{3.2}}=\im(A)^\orth\stackrel{\ref{3.3}}=\ker(A)}.
 \]
@@ -157,7 +154,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 
 
 \begin{st}[Hauptsatz über symmetrische, kompakte Operatoren] \label{3.5}
-	Sei $(L, \<\argdot,\argdot\>)$ unendlichdimensionaler Prähilbertraum und $A: L \to L$ linearer, symmetrischer, kompakter Operator.
+	Sei $(L, \<\argdot,\argdot\>)$ unendlichdimensionaler Prähilbertraum und $A: L \to L$ symmetrisch und kompakt.
 
 	Dann gilt:
 	\begin{enumerate}[1)]
@@ -173,11 +170,11 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 			Sei $(\lambda_j)$ eine Abzählung der Eigenwerte, die so gebildet wird, dass
 			\begin{itemize}
 				\item
-					$|\lambda_j|$ ist monoton fallend.
+					$|\lambda_j|$ monoton fallend ist,
 				\item
-					Jeder Eigenwert $\lambda$ kommt in der Folge so oft vor, wie es seiner Vielfachheit entspricht.
+					jeder Eigenwert $\lambda$ in der Folge so oft vor kommt, wie es seiner Vielfachheit entspricht.
 			\end{itemize}
-			Zu dieser Folge existiert ein ONS $(e_j)$ aus Eigenelementen.
+			Zu dieser Folge existiert ein ONS $(e_j)$ aus zugehörigen Eigenelementen.
 			Dieses ONS ist vollständig in $\_{\im (A)}$, d.h.
 			\[
 				\forall x \in \_{\im(A)} : x = \sum_{j=1}^\infty \<x,e_j\> e_j.
@@ -192,7 +189,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 				\[
 					\|x_n\| = 1 \qquad \land \qquad |\<Ax_n,x_n\>| \to \|A\|
 				\]
-				Da $A$ kompakt, existiert eine Teilfolge $(x_{n_k})_{k\in \N}$ mit $Ax_{n_k} \to y \in L$ für $k \to \infty$.
+				Da $A$ kompakt, existiert eine Teilfolge $(x_{n_k})_{k\in \N}$ mit $Ax_{n_k}$ konvergent in $L$ für $k \to \infty$.
 				Sei 
 				\[
 					\lambda := \lim_{k\to\infty} \<Ax_{n_k},x_{n_k}\> = \pm \|A\| \neq 0.
@@ -206,7 +203,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 				\end{align*}
 				Also 
 				\[
-					y = \lim_{k\to \infty} Ax_{n_k} = \lim_{k\to \infty} \lambda x_{n_k}.
+					y := \underbrace{\lim_{k\to \infty} Ax_{n_k}}_{\in L} = \lim_{k\to \infty} \lambda x_{n_k}.
 				\]
 				Weil $A$ stetig ist (da beschränkt, siehe \ref{1.27} und \ref{1.25}), gilt:
 				\[
@@ -227,6 +224,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 				Also ist $\lambda = \pm \|A\|$ Eigenwert zum Eigenvektor $y$. 
 			\item
 \coursetimestamp{6}{5}{2013}
+				Jeder Eigenwert $\lambda$ ist reell, da $A$ symmetrisch (siehe \ref{1.18}).
 
 				Angenommen $\lambda \neq 0$ sei Eigenwert mit unendlicher Vielfachheit, also
 				\[
@@ -244,11 +242,9 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 				Da $A$ kompakt, müsste $(Ae_j)$ eine konvergente Teilfolge besitzen.
 				$(Ae_j)$ kann jedoch keine konvergente Teilfolge enthalten, denn
 				\[
-					\|Ae_j - Ae_k\| = |\lambda| \|e_j-e_k\| = |\lambda| \sqrt 2 = \const \neq 0.
+					\|Ae_j - Ae_k\| = |\lambda| \|e_j-e_k\| = |\lambda| \sqrt 2 = \const > 0.
 				\]
 				Dies führt zu einem Widerspruch, also hat $\lambda$ endliche Vielfachheit.
-
-				Dass $\lambda$ reell ist folgt direkt aus der Symmetrie.
 			\item
 				Wegen 1) existiert $v_1 \neq 0$ mit $Av_1 = \lambda_1v_1$ und $|\lambda_1| = \|A\|$.
 
@@ -257,19 +253,21 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 				\[
 					\<A_1v,v_1\> = \<Av,v_1\> = \<v,Av_1\> = \lambda_1\<v,v_1\> = 0
 				\]
-				also $\im (A_1) \subset \{v_1\}^\orth$, $A$ operiert also im Prähilbertraum $\{v_1\}^\orth$.
+				also $\im (A_1) \subset \{v_1\}^\orth$, $A_1$ operiert also im Prähilbertraum $\{v_1\}^\orth$.
 				Außerdem gilt
 				\begin{align*}
 					\|A_1\| 
-					&= \sup_{\substack{v\in \{v_1\}^\orth \\ \|v\|=1}} \|A_1 v\| \\
-					&\le \sup_{\substack{v\in L \\ \|v\|=1}} \|A v\| 
+					&= \sup_{\substack{v\in \{v_1\}^\orth \\ \|v\|=1}} \|A_1 v\|
+					\le \sup_{\substack{v\in L \\ \|v\|=1}} \|A v\|
 					= \|A\|.
 				\end{align*}
-				$A_1$ ist kompakt: für eine beschränkte Folge $\{x_n\}$ in $\{v_1\}^\orth$ existiert eine konvergente Teilfolge bezüglich $A$:
+
+				Für eine beschränkte Folge $(x_n)$ in $\{v_1\}^\orth$ existiert eine konvergente Teilfolge bezüglich $A$:
 				\[
 					A x_{n_k} \to y \in L.
 				\]
-				Es gilt $A_1 x_{n_k} \in \{v_1\}^\orth$ und $y \in \{v_1\}^\orth$, da $\{v_1\}^\orth$ abgeschlossen.
+				Es gilt $A_1 x_{n_k} \in \{v_1\}^\orth$ und damit $y \in \{v_1\}^\orth$, da $\{v_1\}^\orth$ abgeschlossen.
+				Also ist $A_1$ kompakt.
 
 				Außerdem ist $A_1$ symmetrisch.
 
@@ -299,7 +297,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 							\text{$\lambda_j$ monoton fallend.}
 						\]
 						$(\f 1 {\lambda_j} e_j)$ ist beschränkt, aber $(A \f 1 {\lambda_j} e_j)$ kann keine konvergente Teilfolge enthalten, da $A \f 1 {\lambda_j} e_j = e_j$.
-						Ein Widerspruch, also gilt $\lambda_j \to 0$.
+						Ein Widerspruch zu $A$ kompakt, also gilt $\lambda_j \to 0$.
 				\end{enumerate}
 			\item
 				Verwende die Folge $(\lambda_j)$ mit zugehörigem ONS $(e_j)$ wie im Beweis von 3) konstruiert.
@@ -314,19 +312,24 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 						$x_n \in \{e_1,\dotsc,e_n\}^\orth$, denn
 						\[
 							\<x_n, e_k\> = \<x, e_k\> - \sum_{j=1}^n \<x,e_j\> \<e_j, e_k\> = 0
-							\qquad \forall k \in \{1, \dotsc, n\}
+							\qquad \forall k \in \{1, \dotsc, n\}.
 						\]
 					\item
 						$\|Ax_n\| \to 0$ für $n\to \infty$, denn
 						\begin{align*}
 							\|x_n\|^2  = \<x_n, x_n\>
-							&= \|x\|^2 - \sum_{j=1}^n \underbrace{\<x,e_j\>\<e_j,x\>}_{=|\<x,e_j\>|^2} - \sum_{j=1}^n \underbrace{\_{\<x,e_j\>} \<x,e_j\>}_{=|\<x,e_j\>|^2} + \sum_{j=1}^n |\<x,e_j\>|^2 \\
-							&= \|x\|^2 - \sum_{j=1}^n (\<x,e_j\>)^2 \\
+							&= \|x\|^2 - \sum_{j=1}^n \underbrace{\_{\<x,e_j\>} \<x,e_j\>}_{=|\<x,e_j\>|^2} - \sum_{j=1}^n \underbrace{\<x,e_j\>\<e_j,x\>}_{=|\<x,e_j\>|^2} + \sum_{j=1}^n |\<x,e_j\>|^2 \\
+							&= \|x\|^2 - \sum_{j=1}^n |\<x,e_j\>|^2 \\
 							&\le \|x\|^2
 						\end{align*}
 						also $\|x_n\| \le \|x\|$ und damit
 						\[
-							\|Ax_n\| = \|A_{n-1}x_n\| \le \|A_{n-1}\| \|x_n\| \le \|A_{n-1}\| \|x\| \to 0
+							\|Ax_n\|
+							= \|A_{n-1}x_n\|
+							\le \|A_{n-1}\| \|x_n\|
+							\le \|A_{n-1}\| \|x\|
+							= |\lambda_n| \|x\|
+							\to 0
 							\qquad (n \to \infty).
 						\]
 				\end{itemize}
@@ -340,7 +343,8 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 				\]
 				Damit ist
 				\[
-					Ax = \lim_{n\to\infty} Ax_n + \sum_{j=1}^n \<x,e_j\> Ae_j = \sum_{j=1}^\infty \<Ax, e_j\> e_j \in \im (A)
+					Ax = \lim_{n\to\infty} \bigg( \underbrace{Ax_n}_{\to 0} + \sum_{j=1}^n \<x,e_j\> Ae_j \bigg)
+					= \sum_{j=1}^\infty \<Ax, e_j\> e_j \in \im (A)
 				\]
 				und somit für alle $y \in \im (A)$
 				\[
@@ -357,15 +361,15 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 
 \setcounter{thm}{4} % Nummerierung wurde in der Vorlesung wiederholt
 \begin{ex}[Schwingende Saite] %\label{3.5}
-	$u(t,x)$ gebe die Auslenkung der Saite im Punkt $x$ zur Zeit $t$ an. 
+	$u(t,x)$ gebe die Auslenkung einer schwingenden Saite im Punkt $x$ zum Zeitpunkt $t$ an.
 	Die Physik liefert die DGL:
 	\[
 		\rho(x) \partial_t^2 u(t,x) - \sigma(x) \partial_x^2 u(t,x) = 0
 	\]
 	Dabei bezeichnet $\rho(x) > 0$ die Massendichte und $\sigma(x) > 0$ die Federkonstante.
-	Außerdem gilt die Randbedingung für die eingespannte Saite
+	Außerdem gelten die Randbedingung für die eingespannte Saite der Länge $l$
 	\[
-		u(t,0) = u(t,l) = 0
+		u(t,0) = u(t,l) = 0,
 		\qquad t \ge 0
 	\]
 	und die Anfangswertbedingungen
@@ -373,7 +377,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		u(0,x) &= u_0(x) \\
 		\partial_t u(0,x) &= u_1(x)
 	\end{align*}
-	für gegebene Anfangsauslenkung $u_0(x)$ und Anfangsgeschwindigkeit $u_1(x)$ im Zeitpunkt $t = 0$.
+	für gegebene Anfangsauslenkung $u_0$ und Anfangsgeschwindigkeit $u_1$ zum Zeitpunkt $t = 0$.
 
 	Wir zeigen jetzt die Existenz einer Lösung.
 
@@ -385,7 +389,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 	\[
 		v''(t) w(x) - c^2(x) v(t) w''(x) = 0.
 	\]
-	Falls $v,w \neq 0$, ist
+	Falls $v(t),w(x) \neq 0$, ist
 	\[
 		\f {v''(t)}{v(t)} = c^2(x) \f {w''(x)}{w(x)} = \const =: - \lambda
 	\]
@@ -393,34 +397,36 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 	Wir erhalten zwei DGLs:
 	\begin{align*}
 		v''(t) + \lambda v(t) &= 0 \quad \land  \quad v(0), v'(0) \text{ vorgegeben} \qquad t \ge 0 \\
-		c^2 w''(t) + \lambda w(t) &= 0 \quad \land \quad w(0) = w(l) = 0 \qquad 0 \le x \le l.
+		c^2 w''(x) + \lambda w(x) &= 0 \quad \land \quad w(0) = w(l) = 0 \qquad 0 \le x \le l.
 	\end{align*}
 	Erstere stellt ein Anfangswertproblem, zweitere ein Randwertproblem dar.
 
 	Betrachte den Spezialfall $c = 1$.
-	Das Randwertproblem besitzt nur für 
+	Das Randwertproblem besitzt nur für
 	\[
-		0 < \lambda = \lambda_j = \big( \f {j\pi}{l} \big)^2
+		0 < \lambda = \lambda_j = \big( \f {j\pi}{l} \big)^2,
+		\qquad j\in\N
 	\]
-	die Lösungen
+	die (normierten) Lösungen
 	\[
 		w_j(x) = \sqrt{\f 2l} \sin( \tf {j\pi}l x).
 	\]
-	Die $w_j$ sind normiert, denn $\int_{0}^l \omega_j \omega_k \dx = \delta_{jk}$.
+	Die $w_j$ bilden ein ONS, denn $\int_{0}^l \omega_j \omega_k \dx = \delta_{jk}$.
 
 	Die dazugehörige Lösung des Anfangswertproblems ist
 	\[
-		v_j(t) = v_j(0) \cos(\tf {j\pi}l t) + \f l{j\pi} v_j'(0) \sin(\tf{j\pi}l t)
+		% FIXME: Das sollte vlt mal jemand nachrechnen
+		v_j(t) = v_j(0) \cos(\tf {j\pi}l t) + \f l{j\pi} v_j'(0) \sin(\tf{j\pi}l t).
 	\]
 	Die Lösungen
 	\[
 		u_j(t,x) = w_j(x) v_j(x)
 	\]
-	sind Eigenschwingenen der Saite (es sind auch alle Lösungen, ohne Beweis).
+	sind Eigenschwingungen der Saite (es sind außerdem auch alle Lösungen, ohne Beweis).
 	
 	Die allgemeine Lösung lässt sich auch als Fourierreihe darstellen:
 	\[
-		u(t,x) = \sum_{j=1}^\infty w_j(x) v_j(t)
+		u(t,x) = \sum_{j=1}^\infty w_j(x) v_j(t).
 	\]
 	Es bleibt zu zeigen, dass die Reihe und ihre Ableitungen gleichmäßig konvergieren.
 \end{ex}
@@ -437,7 +443,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 	\end{align}
 	wobei $p \in C^2([a,b] \to \R)$, $p > 0$ auf $[a,b]$, $q,r \in C([a,b] \to \R)$, $r>0$, $\alpha_1^2 + \alpha_2^2 > 0$, $\beta_1^2 + \beta_2^2 > 0$.
 
-	$\lambda$ heißt \emph{Eigenwert}, $u$ \emph{Eigenfunktion} von \eqref{eq:3.1}.
+	$\lambda$ heißt \emph{Eigenwert} und $u$ \emph{Eigenfunktion} von \eqref{eq:3.1}.
 \end{df}
 
 \begin{nt} \label{3.7}
@@ -484,13 +490,12 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 
 		Seien $u_1, u_2$ Lösungen von \eqref{eq:3.1} und $\{u_1,u_2\}$ linear unabhängig.
 		$\{u_1,u_2\}$ spannt den ganzen Lösungsraum der DGL in \eqref{3.1} auf.
-
-		Es existiert $(c_1,c_2)^T \in \R$ mit
+		Also existieren $c_1,c_2 \in \R$ mit
 		\[
-			\underbrace{\begin{pmatrix}
+			\begin{pmatrix}
 				u_1(a) & u_2(a) \\
 				u_1'(a) & u_2'(a)
-			\end{pmatrix}}_{\det(\argdot) \neq 0}
+			\end{pmatrix}
 			\begin{pmatrix}
 				c_1 \\ c_2
 			\end{pmatrix}
@@ -500,31 +505,34 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		\]
 		Also gilt für $u:= c_1u_1 + c_2 u_2$:
 		\begin{align*}
-			R_1 u &= \alpha_1(c_1u_1(a) + c_2u_2(a)) + \alpha_2 p(a) (c_1u_1'(a) + c_2u_2'(a)) \\
-			&= \alpha_1^2 + \alpha_2^2
+			R_1 u
+			&= \alpha_1 u(a) + \alpha_2 u'(a) \\
+			&= \alpha_1(\underbrace{c_1u_1(a) + c_2u_2(a)}_{=\alpha_1}) + \alpha_2 p(a) (\underbrace{c_1u_1'(a) + c_2u_2'(a)}_{=\f {\alpha_2}{p(a)}})
+			= \alpha_1^2 + \alpha_2^2
 			\neq 0,
 		\end{align*}
-		was im Widerspruch zu $R_1u = c_1R_1u_1 + c_2R_1u_2 = 0$ steht.
+		was im Widerspruch zu Randbedingung $R_1u = 0$ steht.
 		Also hat $\lambda$ Vielfachheit $1$.
 	\end{proof}
 \end{st}
 
 \begin{df}[Sturm-Liouville-Operator] \label{3.9}
-	Sei $I := [a,b]$, $L := C([a,b] \to \R)$ mit $\<f,g\> := \int_a^b f(x)g(x) \dx$ Prähilbertraum über $\R$.
+	Sei $I := [a,b]$, und $L := C([a,b] \to \R)$ mit $\<f,g\> := \int_a^b f(x)g(x) \dx$ der Prähilbertraum über den reellen, stetigen Funktionen.
 	Definiere
 	\begin{align}
 		\label{eq:3.2}
 		\begin{aligned}
 			\tilde A u &:= -(pu')' + qu, \\
 			D(A) &:= \Big\{ u \in C^2([a,b] \to \R) : R_1u = R_2u = 0 \Big\}, \\
-			Au &:= \tilde A u \qquad \text{für $u\in D(A)$}.
+			A &:= \tilde A\Big|_{D(A)}.
 		\end{aligned}
 	\end{align}
+	Wir behalten diese Bezeichnungen für den Rest des Unterkapitels bei.
 \end{df}
 
 \setcounter{thm}{8}
 \begin{st} %\label{3.9}
-	Mit den Voraussetzungen aus \eqref{eq:3.2} ist $A$ symmetrisch.
+	$A$ ist symmetrisch.
 	\begin{proof}
 		Es gilt
 		\begin{align*}
@@ -533,45 +541,46 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 			&= pu'v \Big|_a^b - \int_a^b (pu'v' + quv) \dx \\
 			&= \underbrace{\Big[ pu'v - upv' \Big]_{x=a}^b}_{\text{=0 \text{ (s.u.)}}} + \underbrace{\int_a^b (u(pv')' - quv) \dx}_{= \<u,Av\>}.
 		\end{align*}
-		Außerdem:
+		Außerdem ist
 		\begin{align*}
-			pu'v - upv' 
-			&= \f 1{\alpha_1^2 + \alpha_2^2} \Big( \alpha_1^2 (pu'v - upv') + \alpha_2^2 (pu'v-upv') \Big) \displaybreak[0]\\
-			&= \f 1{\alpha_1^2 + \alpha_2^2} \bigg( \alpha_1^2 pu'\underbrace{(\alpha_1 v + \alpha_2 pv')}_{=R_1v = 0} - \alpha_1^2 pv'\underbrace{(\alpha_2pu'+ \alpha_1 u)}_{= R_1u = 0} \\
-			 & \qquad\qquad\quad + \alpha_2 v\underbrace{(\alpha_2 p u' + \alpha_1 u}_{=R_1 u = 0}  - \alpha_2 u \underbrace{(\alpha_1 v + \alpha_2 pv')}_{= R_1v= 0} \bigg)  \\
+			(pu'v - upv')(a)
+			&= \f 1{\alpha_1^2 + \alpha_2^2} \Big( \alpha_1^2 (pu'v - upv') + \alpha_2^2 (pu'v-upv') \Big)(a) \displaybreak[0]\\
+			&= \f 1{\alpha_1^2 + \alpha_2^2} \bigg( \alpha_1 pu'\underbrace{(\alpha_1 v + \alpha_2 pv')}_{=R_1v = 0} - \alpha_1 pv'\underbrace{(\alpha_2pu'+ \alpha_1 u)}_{= R_1u = 0} \\
+			 & \qquad\qquad\quad + \alpha_2 v\underbrace{(\alpha_2 p u' + \alpha_1 u)}_{=R_1 u = 0}  - \alpha_2 u \underbrace{(\alpha_1 v + \alpha_2 pv')}_{= R_1v= 0} \bigg)(a)  \\
 			 &= 0.
 		\end{align*}
+		Analog zeigt man $(pu'v-upv')(b) = 0$.
 		Also ist $\<Au,v\> = \<Av,u\>$ und damit $A$ symmetrisch.
 	\end{proof}
 \end{st}
 
 \begin{nt} \label{3.10}
-	Nur im Fall $r= 1$ sind die Eigenwerte von $A$ und von \eqref{eq:3.1} die selben.
-	Ist $\lambda$ Eigenwert von \eqref{eq:3.1} mit Eigenfunktion $u$, so gilt
+	$\lambda$ ist Eigenwert von \eqref{eq:3.1} mit Eigenfunktion $u$ genau dann, wenn
 	\[
-		A u(x) = \lambda r(x) u(x)
+		A u(x) = \lambda r(x) u(x).
 	\]
+	Nur im Fall $r= 1$ sind also die Eigenwerte von $A$ und von \eqref{eq:3.1} die selben.
 \end{nt}
 
 \begin{df} \label{3.11}
-	Sei I wie in \ref{3.9}. Eine Funktion $G: I \times I \to \R$ heißt \emph{Greensche Funktion} zu $A$, falls
+	Eine Funktion $G: I \times I \to \R$ heißt \emph{Greensche Funktion} zu $A$, falls
 	\begin{enumerate}[1)]
 		\item
-			$G \in C(I\times I \to \R)$;
+			$G \in C(I\times I \to \R)$.
 		\item
-			\fixme[Bild für $\Delta_1$ und $\Delta_2$].
-			Sei $\Delta_1:=\{(x,y)\in I \times I | x \le y\}, \Delta_2:=\{(x,y)\in I \times I | x \ge y\}$, dann soll gelten.
+			\fixme[Bild für $\Delta_1$ und $\Delta_2$]
+			Sei $\Delta_1:=\{[x,y]\in I \times I : x < y\}, \Delta_2:=\{[x,y]\in I \times I : x > y\}$, dann soll gelten:
 
 			$\partial_1 G, \partial_1^2 G \in C(\Delta_1 \to \R)$ stetig fortsetzbar auf $\_{\Delta_1}$, \\
-			$\partial_1 G, \partial_1^2 G \in C(\Delta_2 \to \R)$ stetig fortsetzbar auf $\_{\Delta_2}$;
+			$\partial_1 G, \partial_1^2 G \in C(\Delta_2 \to \R)$ stetig fortsetzbar auf $\_{\Delta_2}$.
 		\item
-			Für festes $\xi \in I$
+			Für festes $\xi \in I$ gilt
 			\begin{align*}
-				\tilde A \big(G(\argdot, \xi)\big) &= 0 \qquad \text{in $I \setminus \{\xi\}$} \\
-				R_1 \big(G(\argdot, \xi)\big ) = R_2 G(\argdot, \xi) &= 0;
+				\tilde A G(\argdot, \xi) &= 0 \qquad \text{(auf $I \setminus \{\xi\}$)}, \\
+				R_1 G(\argdot, \xi) = R_2 G(\argdot, \xi) &= 0.
 			\end{align*}
 		\item
-			Für $\xi \in ]a,b[$
+			Für $\xi \in ]a,b[$ gilt
 			\begin{align*}
 				\partial_1 G (\xi + 0, \xi) - \partial_1 G(\xi - 0, \xi) = -\f 1{p(\xi)}.
 			\end{align*}
@@ -579,62 +588,70 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 \end{df}
 
 \begin{st} \label{3.12}
-	Existiert eine Greensche Funktion $G$ zu $A$, so sind für $\phi \in C(I \to \R)$ folgende Aussagen äquivalent:
+	Existiert eine Greensche Funktion $G$ zu $A$, so sind für $u,\phi \in C(I \to \R)$ folgende Aussagen äquivalent:
 	\begin{enumerate}[(i)]
 		\item
-			$Au = \phi$, also insbesondere $u \in D(A)$,
+			$u \in D(A)$ und $Au = \phi$.
 		\item
-			$u$ ist eindeutig bestimmt durch
-			\[
-				u(x) = \int_a^b G(x,y) \phi(y) \dx[y].
-			\]
+			$\displaystyle u(x) = \int_a^b G(x,y) \phi(y) \dx[y]$.
 	\end{enumerate}
 	\begin{proof}
 		\begin{seg}[(ii) $\implies$ (i)]
-			Wir teilen das Integral auf und leiten es nach der Leibnitzregel ab:
+			Wir teilen das Integral auf und leiten es nach der Leibnizregel ab:
 			\begin{align*}
 				u(x)
-				&= \int_a^x G(\underbrace{x,y}_{\in \Delta_2})\phi(y) \dx[y] + \int_x^b G(\underbrace{x,y}_{\in \Delta_1})\phi(y) \dx[y] \displaybreak[0].\\
+					&= \int_a^x G(\underbrace{x,y}_{\in \Delta_2})\phi(y) \dx[y] + \int_x^b G(\underbrace{x,y}_{\in \Delta_1})\phi(y) \dx[y] \displaybreak[0].\\
 				\implies \quad u'(x) &=
-				G(x,x) \phi(x) - 0 + \int_a^x \partial_1 G(x,y) \phi(y) \dx[y]  \\
-				&\quad + 0 - G(x,x) \phi(x) + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y] \\
-				&=\int_a^x \partial_1 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y]  \displaybreak[0]. \\
+					G(x,x) \phi(x) - 0 + \int_a^x \partial_1 G(x,y) \phi(y) \dx[y]  \\
+					&\quad + 0 - G(x,x) \phi(x) + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y] \\
+					&=\int_a^x \partial_1 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1 G(x,y) \phi(y) \dx[y]  \displaybreak[0]. \\
 				\implies \quad u''(x) &=
-				\underbrace{\partial_1 G(x,x-0)}_{= \partial_1 G(x+0,x)} \phi(x) + 0 - \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] \\
-				&\quad+ 0 - \underbrace{\partial_1 G(x,x+0)}_{=\partial_1 G(x-0,x)} \phi(x) + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] \\
-				&= \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y]  \\
-				&\quad + \phi(x)\Big(\underbrace{\partial_1 G(x+0,x) + \partial_1 G(x-0,x)}_{= - \f 1{p(x)}}\Big) \\
-				&= \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] - \f {\phi(x)}{p(x)}.
+					\underbrace{\partial_1 G(x,x-0)}_{= \partial_1 G(x+0,x)} \phi(x) - 0 + \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] \\
+					&\quad+ 0 - \underbrace{\partial_1 G(x,x+0)}_{=\partial_1 G(x-0,x)} \phi(x) + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] \\
+					&= \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y]  \\
+					&\quad + \phi(x)\Big(\underbrace{\partial_1 G(x+0,x) - \partial_1 G(x-0,x)}_{= - \f 1{p(x)}}\Big) \\
+					&= \int_a^x \partial_1^2 G(x,y) \phi(y) \dx[y] + \int_x^b \partial_1^2 G(x,y) \phi(y) \dx[y] - \f {\phi(x)}{p(x)}.
 			\end{align*}
-			Damit ist $u \in C^2$ und es gilt
+			Damit ist $u \in C^2(I\to \R)$ und es gilt
 			\begin{align*}
 				\tilde A u(x) 
 				&= -p u''(x) - p'u'(x) + qu(x) \displaybreak[0]\\
-				&= \phi(x) - \int_a^b \underbrace{\Big( -p \partial_1^2 G(x,y) - p' \partial_1 G(x,y) + qG(x,y) \Big)}_{=\tilde A G(x,y)} \phi(y) \dx[y] \displaybreak[0]\\
-				&= \phi(x) + \int_a^b \underbrace{\tilde A G (\argdot, y)}_{=0 \text{ nach 3)}} \dx[y] \\
+				&= \phi(x) + \int_a^b \underbrace{\Big( -p \partial_1^2 G(x,y) - p' \partial_1 G(x,y) + qG(x,y) \Big)}_{=\tilde A_x G(x,y) = 0 \text{ nach 3)}} \phi(y) \dx[y] \displaybreak[0]\\
 				&= \phi(x). %\\
 			\end{align*}
 			Außerdem gilt für die Randbedingungen
-			\[
-				R_1 u = \int_a^b \underbrace{R_1G(\argdot, y)}_{=0 \text{ nach 3)}} \dx[y] = 0
-			\]
-			und ebenso $R_2 u = 0$, also $u \in D(A)$.
+			\begin{align*}
+				R_1 u
+				&= \alpha_1 \int_a^b G(a,y) \phi(y) \dx[y] + \alpha_2 \int_a^b \partial_1 G(a,y) \phi(y) \dx[y] \\
+				&= \phi(y) \int_a^b \underbrace{\alpha_1 G(a,y)\phi(y) + \alpha_2 \partial_1 G(a,y) \phi(y)}_{= R_1 G(\argdot, y) = 0 \text{ nach 3)}} \dx[y]
+				= 0
+			\end{align*}
+			und analog $R_2 u = 0$, also $u \in D(A)$.
 		\end{seg}
 		\begin{seg}[(i) $\implies$ (ii)]
 			Sei $x \in ]a,b[$ fest, dann ist
 			\begin{align*}
-				\int_a^b G(x,y) \phi(y) \dx[y]
-				&\stack{\text{(i)}}= \int_a^b G(x,y) Au(y) \dx[y] \\
-				&= \int_a^b \underbrace{G(x,y)}_{=G(y,x) \text{ nach \ref{3.13}}} \Big( -(p(y)u'(y) )' + q(y)u(y) \Big) \dx[y] \displaybreak[0]\\
-				&= -\int_a^x G(y,x) \Big(p(y)u'(y)\Big)' \dx[y] - \int_x^b G(y,x) \Big(p(y)u'(y)\Big)' \dx[y] \\
-					&\quad + \int_a^b G(y,x) q(y) u(y) \dx[y] \displaybreak[0]\\
-				&= \underbrace{\bigg[ -G(y,x)p(y)u'(y) \bigg]^{y=b}_{y=a}}_{=0 \text{ da $R_j G = 0$}} + \int_a^x \partial_y G(y,x) p(y)u'(y) \dx[y] \\ 
-					&\quad + \int_x^b \partial_y G(y,x) p(y) u'(y) \dx[y] + \int_a^b G(y,x) q(y)u(y) \dx[y] \displaybreak[0]\\
-				&= \underbrace{\bigg[ \partial_y G(y,x) p(y) u(y) \bigg]^{y=b}_{y=a}}_{=0 \text{ da $R_j u = 0$}} + \bigg[ \partial_y G(y,x) p(y) u(y) \bigg]_{y=x+0}^{y=x-0} \\
-					&\quad - \int_a^b \partial_y \Big( p(y) \partial_y G(y,x) \Big) u(y) \dx[y] + \int_a^b G(y,x) q(y) u(y) \dx[y] \displaybreak[0]\\
-				&= p(x)u(x) \underbrace{\Big( \partial_1 G(x-0,x) - \partial_1 G(x+0,x) \Big)}_{= \f 1{p(x)}} \\
-					&\quad + \int_a^b u(y) \underbrace{\Big(- \partial_y \big( p(y) \partial_y G(y,x) \big) + q(y) G(y,x)\Big)}_{=\tilde A G(y,x) = 0} \dx[y] \\
-				&= u(x).
+				&\int_a^b G(x,y) \phi(y) \dx[y]
+				\stack{\text{(i)}}= \int_a^b G(x,y) Au(y) \dx[y] \\
+				&\quad= \int_a^b \underbrace{G(x,y)}_{=G(y,x) \text{ nach \ref{3.13}}} \Big( -\big( p(y)u'(y) \big)' + q(y)u(y) \Big) \dx[y] \displaybreak[0]\\
+				&\quad= -\int_a^x G(y,x) \Big(p(y)u'(y)\Big)' \dx[y] - \int_x^b G(y,x) \Big(p(y)u'(y)\Big)' \dx[y]
+					+ \int_a^b G(y,x) q(y) u(y) \dx[y] \displaybreak[0]\\
+				&\quad= \bigg[ -G(y,x)p(y)u'(y) \bigg]^{y=b}_{y=a} + \int_a^x \partial_y G(y,x) p(y)u'(y) \dx[y] + \int_x^b \partial_y G(y,x) p(y) u'(y) \dx[y] \\
+					&\quad\quad + \int_a^b G(y,x) q(y)u(y) \dx[y] \displaybreak[0]\\
+				&\quad= \underbrace{\bigg[ \partial_y G(y,x) p(y) u(y) - G(y,x)p(y)u'(y) \bigg]^{y=b}_{y=a}}_{=0 \text{ s. unten}} + \bigg[ \partial_y G(y,x) p(y) u(y) \bigg]_{y=x+0}^{y=x-0} \\
+					&\quad\quad - \int_a^b \partial_y \Big( p(y) \partial_y G(y,x) \Big) u(y) \dx[y] + \int_a^b G(y,x) q(y) u(y) \dx[y] \displaybreak[0]\\
+				&\quad= p(x)u(x) \underbrace{\Big( \partial_1 G(x-0,x) - \partial_1 G(x+0,x) \Big)}_{= \f 1{p(x)}} \\
+					&\quad\quad + \int_a^b u(y) \underbrace{\Big(- \partial_y \big( p(y) \partial_y G(y,x) \big) + q(y) G(y,x)\Big)}_{=\tilde A G(y,x) = 0} \dx[y] \\
+				&\quad= u(x).
+			\end{align*}
+			Zeige jetzt noch $[G(y,x)p(y)u'(y) - \partial_1 G(y,x)p(y)u(y)]_{y=a}^{y=b} = 0$.
+			Betrachte den Fall $y=a$ und $\alpha_1 > 0$ (für die anderen Fälle mit $y=b$ oder $\alpha_2 > 0$ verfahre analog).
+			Da $R_1u = 0$ ist $u(a) = \f{\alpha_2}{\alpha_1} u'(a)$, also gilt
+			\begin{align*}
+				G(a,x)p(a)u'(a) - \partial_1 G(a,x)p(a)u(a)
+				&= \alpha_1 G(a,x)p(a)\f 1{\alpha_1} u'(a) + \partial_1 G(a,x) p(a) \f{\alpha_2}{\alpha_1} u'(a) \\
+				&= \f 1{\alpha_1} p(a) u'(a) \Big( \underbrace{\alpha_1 G(a,x) + \alpha_2 \partial_1 G(a,x)}_{= R_1 G(\argdot, x) = 0 \text{ nach 3)}} \Big) \\
+				&= 0.
 			\end{align*}
 		\end{seg}
 	\end{proof}
@@ -657,16 +674,16 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		\end{align*}
 		Dann ist
 		\begin{align*}
-			\int_a^b \Big(u \cdot \underbrace{Av}_{= -\psi} - \underbrace{Au}_{= - \phi} \cdot v\Big) \dx
+			\int_a^b \Big(u \cdot \underbrace{Av}_{= \psi} - \underbrace{Au}_{= \phi} \cdot v\Big) \dx
 			&= \<u,Av\> - \<Au,v\> = 0
 		\end{align*}
 		Also
 		\begin{align*}
-			-\int_a^b \underbrace{\int_a^b G(x,y) \phi(y) \dx[y]}_{= u(x)} \psi(x) \dx + \int_a^b \phi(y) \underbrace{\int_a^b H(y,x) \psi(x) \dx}_{= v(y)} \dx[y] = 0
+			\int_a^b \underbrace{\int_a^b G(x,y) \phi(y) \dx[y]}_{= u(x)} \psi(x) \dx - \int_a^b \phi(y) \underbrace{\int_a^b H(y,x) \psi(x) \dx}_{= v(y)} \dx[y] = 0
 		\end{align*}
 		und
 		\[
-			\int_a^b \int_a^b (G(x,y - H(y,x)) \phi(y) \dx[y] \psi(x) \dx = 0.
+			\int_a^b \int_a^b \big(G(x,y) - H(y,x)\big) \phi(y) \dx[y] \psi(x) \dx = 0.
 		\]
 		Da $\phi, \psi \in C(I \to \R)$ beliebig gewählt waren und $G$ und $H$ stetig sind, folgt $G(x,y) = H(y,x)$ für alle $(x,y) \in I\times I$.
 
@@ -690,7 +707,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		\begin{seg}[(i)$\implies$(ii)]
 			Aus (i) folgt mit \ref{3.12}, dass
 			\[
-				Au = 0 \quad\implies\quad u = \int_a^b G(x,y) \cdot 0 \dx[y] = 0
+				Au = 0 \quad\implies\quad u = \int_a^b G(\argdot,y) \cdot 0 \dx[y] = 0
 			\]
 			Also kann $0$ kein Eigenwert von $A$ sein.
 		\end{seg}
@@ -702,9 +719,9 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 			mit
 			\begin{align*}
 				R_1u_1 &= 0, \qquad u_1 \neq 0, \\
-				R_2u_2 &= 0, \qquad u_2 \neq 0.
+				R_2u_2 &= 0, \qquad u_2 \neq 0
 			\end{align*}
-			(z.B. $\tilde A u_1 = 0, u_1(a) = \alpha_2 p(a), u_1'(a) = - \alpha_1$).
+			(diese existieren nach der Theorie der gewöhnlichen Differentialgleichungen).
 			Dann gilt
 			\begin{itemize}
 				\item
@@ -712,10 +729,10 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 
 					Angenommen $u_1 = c u_2$, dann ist
 					\[
-						R_2 u_1 = c R_2 u_2 = 0 = R_1u_1
+						R_2 u_1 = c R_2 u_2 = 0 = R_1u_1.
 					\]
-					also erfüllt $u_1$ beide Randbedingungen und $u \in D(A)$.
-					Wegen $Au_1 = 0$ und nach Voraussetzung (ii) gilt $u_1 = 0$, ein Widerspruch.
+					$u_1$ erfüllt damit beide Randbedingungen, also $u \in D(A)$.
+					Wegen $Au_1 = 0$ und nach Voraussetzung (ii) $0$ kein Eigenwert von $A$ ist, gilt $u_1 = 0$, ein Widerspruch.
 				\item
 					Die Wronskideterminante lässt sich mit $c_0 \in \R \setminus \{0\}$ schreiben als:
 					\[
@@ -733,21 +750,22 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 					\]
 					Eingesetzt in die Wronski-Determinante ergibt sich
 					\begin{align*}
-						\f {\dx[]}{\dx} W(x) 
+						\f {\dx[]}{\dx} W
 						&= u_1'u_2' + u_1u_2'' - u_2'u_1' - u_2u_1'' \\
 						&= u_1 \f 1p (-p'u_2' + qu_2) - u_2 \f 1p (-p'u_1' + u_1) \\
-						&= -\f {p'}p \underbrace{(u_1u_2' - u_2u_1')}_{=W(x)},
+						&= -\f {p'}p \underbrace{(u_1u_2' - u_2u_1')}_{=W},
 					\end{align*}
 					also
 					\[
 						W'(x) = - \f {p'}p W(x).
 					\]
-					Als Lösungen für $W(x)$ ergibt sich
+					Als Lösung für $W(x)$ ergibt sich
 					\[
-						W(x) = \f {c_0}{p(x)} 
+						W(x) = \f {c_0}{p(x)}
 						\qquad \text{für ein $c_0\in \R$ (betrachte nur relle Lösungen)}
 					\]
-					Da $\{u_1,u_2\}$ linear unabhängig, muss $W(x) \neq 0$ auf $[a,b]$, also $c_0\neq 0$.
+					% FIXME: Hier fehlt doch eine Zusatzbedingung, damit $W(x) \neq 0$? Nur die andere Richtung gilt ohne weiteres.
+					Da $\{u_1,u_2\}$ linear unabhängig, muss $W(x) \neq 0$ auf $[a,b]$ gelten, also $c_0\neq 0$.
 				\item
 					Definiere
 					\[
@@ -765,21 +783,22 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 						\item
 							Es gilt
 							\begin{align*}
-								\partial_1 G &= \begin{cases}
+								\partial_1 G(x,\xi) &= \begin{cases}
 									-\f 1{c_0} u_2(\xi) u_1'(x) & a \le x < \xi \le b, \text{ bzw. $(x,\xi) \in \Delta_1$} \\
 									-\f 1{c_0} u_1(\xi) u_2'(x) & a \le \xi < x \le b, \text{ bzw. $(x,\xi) \in \Delta_2$} 
 								\end{cases}, \\
-								\partial_2 G &= \begin{cases}
+								\partial_1^2 G(x,\xi) &= \begin{cases}
 									-\f 1{c_0} u_2(\xi) u_1''(x) & a \le x < \xi \le b, \text{ bzw. $(x,\xi) \in \Delta_1$} \\
 									-\f 1{c_0} u_1(\xi) u_2''(x) & a \le \xi < x \le b, \text{ bzw. $(x,\xi) \in \Delta_2$} 
 								\end{cases}.
 							\end{align*}
-							Also sind $\partial_j G \in C(\Delta_j \to \R)$ ($j\in \{1,2\}$) und stetig fortsetzbar auf $\_{\Delta_j}$.
+							Also sind $\partial_1^j G \in C(\Delta_k \to \R)$ ($j,k\in \{1,2\}$) und stetig fortsetzbar auf $\_{\Delta_k}$.
 						\item
 							Sei $x < \xi$, dann ist
 							\begin{align*}
 								\tilde A G(\argdot, \xi) 
 								&= -(p\partial_1 G(\argdot, \xi))' + qG(\argdot, \xi)  \\
+								&= - \f 1{c_0} u_2(\xi) \Big( - (pu_1')' + qu \Big) \\
 								&= - \f 1{c_0} u_2(\xi) \tilde A u_1 
 								= 0.
 							\end{align*}
@@ -790,7 +809,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 								R_1 G(\argdot, \xi) &\stack{\xi \ge a}= R_1 (-\f 1{c_0} u_2(\xi) u_1) = -\f 1{c_0} u_2(\xi) R_1u_1 = 0, \\
 								R_2 G(\argdot, \xi) &\stack{\xi < b}= R_2 (-\f 1{c_0} u_1(\xi) u_2) = -\f 1{c_0} u_1(\xi) R_2u_2 = 0.
 							\end{align*}
-							Für $\xi = b$ folgt die letzte Aussage durch stetige Fortsetzung von $\partial_1 G $ auf $\_{\Delta_2}$.
+							Für $\xi \in \{a,b\}$ folgt die letzte Aussage durch stetige Fortsetzung von $\partial_1 G $ auf $\_{\Delta_2}$.
 						\item
 							Es gilt
 							\begin{align*}
@@ -833,7 +852,8 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		\begin{align*}
 			\<Au,u\> 
 			&= \int_a^b (-(pu')' + qu) u \dx \\
-			&= -pu'u \Big|_{x=a}^b + \int_a^b (\underbrace{p(u')^2}_{\ge 0} + qu^2) \dx.
+			&= -pu'u \Big|_a^b + \int_a^b (\underbrace{p\cdot(u')^2}_{\ge 0} + qu^2) \dx \\
+			&= -pu'u \Big|_a^b + \int_a^b q u^2 \dx.
 		\end{align*}
 		Falls die obigen Randbedingung gelten, dann ist $pu'u \big|_a^b = 0$ und damit 
 		\[
@@ -844,9 +864,12 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		Betrachte jetzt den allgemeinen Fall.
 		Mit $\phi(x) := \f {x-a}{b-a}$ folgt
 		\begin{align*}
-			u(b)^2 
+			u(b)^2
+			= \phi(b) u(b)^2
 			&= \int_a^b \f {\dx[]}{\dx} (\phi(x) u^2(x)) \dx \\
-			&= \int_a^b \underbrace{\f 1{b-a}}_{p'(x)} u^2(x) \dx + \int_a^b \underbrace{\phi(x)}_{0\le \phi \le 1} \underbrace{2u(x) u'(x)}_{= 2(\f 1\eps u(x))(\eps u'(x))} \dx \\
+			&= \int_a^b \underbrace{\f 1{b-a}}_{p'(x)} u^2(x) \dx + \int_a^b \phi(x) 2u(x) u'(x) \dx \\
+		\intertext{und mit $0 \le \big( \f 1\eps u(x) + \eps u'(x) \big)^2 = \f 1{\eps^2} u^2(x) - 2u(x)u'(x) + \eps^2 u'^2(x)$}
+			&\le \f 1{b-a}\|u\|^2 + \int_a^b \underbrace{\phi(x)}_{0 \le \phi \le 1} \Big( \f 1{\eps^2} u^2(x) + \eps^2 u'^2(x) \Big) \dx \\
 			&\le \Big( \f 1{b-a} + \f 1{\eps^2}\Big)\|u\|^2 + \eps^2 \|u'\|^2.
 		\end{align*}
 		Mit der Wahl $\phi = \f {b-x}{b-a}$ gilt analog
@@ -856,57 +879,49 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		also
 		\begin{align*}
 			\<Au,u\> 
-			&= -pu'u \Big|_{x=a}^b + \int_a^b \Big(p(u')^2 + \underbrace{qu^2}_{\ge 0}\Big) \dx \\
-			&\ge - \max_{a \le x \le b} p(x) \Big( |u'(b)u(b)| + |u'(a)u(a)|\Big)  + \Big( \min_{a \le x \le b} p(x) \Big) \|u'\|^2 + (\min q_{a \le x \le b}) \|u\|^2
-		\intertext{Dabei ist $|u'(a)u(a)| = 0$, falls $\alpha_2 = 0$ und sonst $|u'(a)u(a)| = c|u(a)|^2 = cu^2(a)$. 
-			Analog für $|u'(b)u(b)$ und $\beta_2$. 
-			Es gilt also:}\\
+			&= -pu'u \Big|_{x=a}^b + \int_a^b \Big(p\cdot (u')^2 + \underbrace{qu^2}_{\ge 0}\Big) \dx \\
+			&\ge - \Big( \max_{a \le x \le b} \Big) p(x) \Big( |u'(b)u(b)| + |u'(a)u(a)|\Big) \\
+				&\qquad+ (b-a)\bigg(\Big( \min_{a \le x \le b} p(x) \Big) \|u'\|^2 + \underbrace{\Big(\min_{a \le x \le b} q \Big) \|u\|^2}_{\ge 0}\bigg)
+		\intertext{Es lässt sich ein $c > 0$ finden, sodass $|u'(a)u(a)| = c|u(a)|^2 = cu^2(a)$ und $|u'(b)u(b)| = c|u(b)|^2 = cu^2(b)$.
+			Es gilt also:}
 			\<Au,u\>
-			&\ge - \Big(\max_{a \le x \le b} p(x)\Big) c \Big( |u(a)|^2 + |u(b)|^2 \Big) + \Big(\min p(x)_{a \le x \le b}\Big) \|u'\|^2 \\
-		\intertext{Mit der Abschätzung für $u(b)$, bzw. $u(a)$ von vorhin ergibt sich}\\
+			&\ge - \Big(\max_{a \le x \le b} p(x)\Big) c \Big( |u(a)|^2 + |u(b)|^2 \Big) + \Big( \min_{a \le x \le b} p(x) \Big) \|u'\|^2 (b-a)  \\
+		\intertext{Mit der Abschätzung für $u(b)$, bzw. $u(a)$ von vorhin ergibt sich}
 			\<Au,u\>
 			&\ge - \Big(\max_{a \le x \le b} p(x) \Big) c \cdot 2  \Big( \f 1{b-a} + \f 1{\eps^2} \Big) \|u\|^2 
-			 - \Big(\max_{a \le x \le b} p(x) \Big) c \cdot 2  \eps^2 \| u'\|^2 + \underbrace{\min_{a \le x \le b} p(x)\|u'\|^2}_{> 0}
-		\intertext{Wählt man $\eps$ so klein, dass $-(\max p) c 2\eps^2 + \min p = 0$}
-			\<Au,u\>&\ge - \Big(\max_{a \le x \le b} p\Big) \cdot 2 c \Big(\tf 1{b-a} + \tf 1{\eps^2}\Big) \|u\|^2.
+			 - \Big(\max_{a \le x \le b} p(x) \Big) c \cdot 2  \eps^2 \| u'\|^2 \\
+			 &\qquad + \Big( \min_{a \le x \le b} p(x) \Big) \|u'\|^2 (b-a)
+		\intertext{Wählt man $\eps$ so klein, dass $-(\max p) c \cdot 2\eps^2 + (\min p)(b-a) = 0$ gilt, so ergibt sich}
+			\<Au,u\>&\ge - \underbrace{\Big(\max_{a \le x \le b} p\Big) \cdot 2 c \Big(\tf 1{b-a} + \tf 1{\eps^2}\Big)}_{= \const} \|u\|^2.
 		\end{align*}
-		Und damit ist die Aussage gezeigt. \fixme[überprüfe den Beweis auf formaler Richtigkeit].
 	\end{proof}
 \end{lem}
 
 \coursetimestamp{15}{5}{2013}
-\begin{nt*}
-	Es gilt
-	\begin{align*}
-		&\text{$\lambda$ ist Eigenwert von \eqref{eq:3.1} mit Eigenfunktion $u$} \\
-		&\qquad \iff \quad -Au + \lambda ru = 0 \\
-		&\qquad\iff \quad Au = \lambda ru.
-	\end{align*}
-\end{nt*}
 
 \begin{st} \label{3.16}
 	\begin{enumerate}[1)]
 		\item
 			Es gilt
 			\[
-				\inf \Big\{ \lambda \in \R : \text{$\lambda$ ist Eigenwert von \eqref{eq:3.1}} \Big\} > -\infty
+				\inf \Big\{ \lambda \in \R : \text{$\lambda$ ist Eigenwert von \eqref{eq:3.1}} \Big\} > -\infty.
 			\]
 		\item
 			Falls $\alpha_1 = \beta_1 = 0$ oder $\alpha_2 = \beta_2 = 0$ gilt, dann ist
 			\[
-				\inf \Big\{ \lambda \in \R : \text{$\lambda$ ist Eigenwert von \eqref{eq:3.1}} \Big\} \ge \f {\min q(x)}{\max r(x)}
+				\inf \Big\{ \lambda \in \R : \text{$\lambda$ ist Eigenwert von \eqref{eq:3.1}} \Big\} \ge \f {\min\limits_{a\le x\le b} q(x)}{\max\limits_{a \le x \le b} r(x)}.
 			\]
 	\end{enumerate}
 	\begin{proof}
 		Sei $\lambda$ Eigenwert von \eqref{eq:3.1} mit Eigenfunktion $u$. Dann ist
 		\begin{align*}
-			\lambda \max r \int_a^b u^2 \dx 
-			&\ge \lambda \int_a^b r u^2 \dx \\
-			&= \int_a^b Au u \dx \\
-			&= \<Au,u\> \\
+			\lambda \Big(\max_{a\le x\le b} r(x) \Big) \int_a^b u^2 \dx 
+			&\ge \lambda \int_a^b r u^2 \dx
+			= \int_a^b Au u \dx
+			= \<Au,u\> \\
 			&\stack{\ref{3.15}}\ge \begin{cases}
 				-c \|u\|^2 \\
-				\min q(x) \|u\|^2 & \text{für die Randbedingungen.}
+				\min\limits_{a\le x \le b} q(x) \|u\|^2 & \text{für die Randbedingungen.}
 			\end{cases}
 		\end{align*}
 	\end{proof}
@@ -932,7 +947,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		\item
 			$\lambda = \f 1\my + d$ ist Eigenwert von \eqref{3.1} mit Eigenfunktion $u=\f 1{\sqrt r} v$.
 		\item
-			$\my = \f 1{\lambda -d}$ ist Eigenwert von $\scr K$ mit Eigenfunktion $v = \sqrt{r} u$
+			$\my = \f 1{\lambda -d}$ ist Eigenwert von $\scr K$ mit Eigenfunktion $v = \sqrt{r} u$.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[1)]
@@ -940,17 +955,18 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 				Angenommen $\my = 0$ ist Eigenwert von $A'$, also $A'u = 0$.
 				Dann ist $Au = dru$ und somit $\lambda = d$ Eigenwert von \eqref{eq:3.1}, ein Widerspruch.
 			\item
-				Angenommen $\my = 0$ ist Eigenwert von $\scr K$, dann ist
+				Angenommen $\my = 0$ ist Eigenwert von $\scr K$ mit Eigenfunktion $u$.
+				Dann ist
 				\begin{align*}
 					0 = \scr K u(x) = \int_a^b \sqrt{r(x)} G'(x,y) \sqrt{r(y)} u(y) \dx[y].
 				\end{align*}
 				Wegen $r(x) > 0$ also
 				\begin{align*}
-					0 = \int_a^b G'(x,y) \sqrt{r(y)} u(y) \dx[y].
+					0 = \int_a^b G'(x,y) \underbrace{\sqrt{r(y)} u(y)}_{=:\phi(y)} \dx[y].
 				\end{align*}
 				Nach \ref{3.12} gilt 
 				\[
-					0 = A'(0) = \sqrt{r} u. 
+					0 = A'(0) = \phi = \sqrt{r} u.
 				\]
 				Also $u = 0$, ein Widerspruch.
 			\item
@@ -966,12 +982,16 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 				\end{alignat*}
 		\end{enumerate}
 	\end{proof}
+	\begin{note}
+		Mit Hilfe dieses Satzes, lassen sich jetzt auch für $\lambda = 0$ und $r \neq 1$ Eigenwerte und Eigenfunktionen von \eqref{3.1} bestimmen.
+	\end{note}
 \end{st}
 
-\begin{lem} \label{3.18} Es gilt:
+\begin{lem} \label{3.18}
+	Sei $L = C(I \to \R)$ mit $\<f,g\> = \int_a^b fg \dx$.
 	\begin{enumerate}[1)]
 		\item
-			$\scr K$ ist symmetrisch und kompakt als Operator $\scr K : L \to L$ ($L = C(I \to \R)$, $\<f,g\> = \int_a^b fg \dx$).
+			$\scr K$ ist symmetrisch und kompakt als Operator $\scr K : L \to L$.
 		\item
 			$\im(\scr K) = \{\sqrt{r} u : u \in D(A)\}$.
 	\end{enumerate}
@@ -981,25 +1001,32 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 				Nach \ref{3.13} ist $G'(x,y) = G'(y,x)$, also $G(x,y) = G(y,x)$ und somit $\scr K$ symmetrisch.
 				Die Kompaktheit folgt aus \ref{1.28}.
 			\item
-				\begin{enumerate}[a)]
-					\item
-						Sei $v \in \im(\scr K)$, also
-						\begin{align*}
-							v(x) 
-							&= \int_a^b \sqrt{r(x)} G'(x,y) \sqrt{r(y)} \phi(y) \dx[y] \\
-							&= \sqrt{r(x)} \int_a^b G'(x,y) \sqrt{r(y)} \phi(y) \dx[y] =: \sqrt{r(x)} u(x).
-						\end{align*}
-						Nach \ref{3.12} wird $A'u= \sqrt{r} \phi$ erfüllt und es ist insbesondere $u \in  D(A') = D(A)$.
-						Somit ist $v = \sqrt{r} u$ mit $u \in D(A)$.
-					\item
-						Sei $v = \sqrt{r} u, u \in D(A) = D(A')$. Dann gilt
-						\begin{align*}
-							&\text{$u$ löst $A'u = A'u =: \phi$} \\
-							&\qquad \stack{\ref{3.12}}\iff u(x) = \int_a^b G'(x,y) (A'u)(y) \dx[y] \\
-							&\qquad \iff \underbrace{\sqrt{r(x)}  u(x)}_{=v(x)} = \int_a^b \underbrace{\sqrt{r(x)} G'(x,y) \sqrt{r(y)}}_{G(x,y)} \f{1{\sqrt{r(y)}}} A'u(y) \dx[y] \\
-							&\qquad \iff v = \scr K (\tf 1{\sqrt{r}}A'u) \in \im (\scr K).
-						\end{align*}
-				\end{enumerate}
+				\begin{segnb}[„$\subset$“]
+					Sei $v \in \im(\scr K)$, also
+					\begin{align*}
+						v(x) 
+						&= \int_a^b \sqrt{r(x)} G'(x,y) \sqrt{r(y)} \phi(y) \dx[y] \\
+						&= \sqrt{r(x)} \int_a^b G'(x,y) \sqrt{r(y)} \phi(y) \dx[y] =: \sqrt{r(x)} u(x)
+					\end{align*}
+					für ein $\phi \in C(I \to \R)$
+					Nach \ref{3.12} wird $A'u= \sqrt{r} \phi$ erfüllt und es ist insbesondere $u \in  D(A') = D(A)$.
+					Somit ist $v = \sqrt{r} u$ mit $u \in D(A)$.
+				\end{segnb}
+				\begin{segnb}[„$\supset$“]
+					Sei $u \in D(A) = D(A')$.
+					Nach \ref{3.12} gilt (mit der Wahl $\phi := A'u$)
+					\[
+						u(x) = \int_a^b G'(x,y) \cdot (A'u)(y) \dx[y],
+					\]
+					also
+					\begin{align*}
+						v(x)
+						:= \sqrt{r(x)} u(x)
+						= \int_a^b \underbrace{\sqrt{r(x)}G'(x,y)\sqrt{r(y)}}_{=G(x,y)} \cdot \f 1{\sqrt{r(y)}} (A'u)(y) \dx[y]
+						= \scr K (\f 1{\sqrt{r}} A'u)(x).
+					\end{align*}
+					Damit ist $v = \sqrt r u = \scr K(\f 1{\sqrt r} A'u) \in \im(\scr K)$.
+				\end{segnb}
 		\end{enumerate}
 	\end{proof}
 \end{lem}
@@ -1013,26 +1040,28 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 		\item
 			Jeder Eigenwert hat Vielfachheit $1$.
 		\item
-			Die Eigenfunktionen $u_j$ (jeweils zum Eigenwert $\lambda_j$) können so normiert werden, dass $(\sqrt {r} u_j)$ ein ONS in $L = C(I \to \R)$ bilden.
+			Die Eigenfunktionen $u_j$ (jeweils zum Eigenwert $\lambda_j$) können so „normiert“ werden, dass $(\sqrt {r} u_j)_{j\in\N}$ ein ONS in $L = C(I \to \R)$ bilden.
 			Dieses ONS ist vollständig in $L^2([a,b])$.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
-				Nach \ref{3.17} ist $\lambda$ Eigenwert von $\eqref{3.1}$ genau dann wenn $\lambda = \f 1\my + d$ und $\my$ Eigenwert von $\scr K$ ist, $\my \neq 0$, $\scr K$ kompakt und symmetrisch.
-				Nach dem Hauptsatz \ref{3.5} hat $\scr K$ abzählbar viele Eigenwerte $(\my_j)$ mit $\my_j \to 0$ gelten.
+				Nach \ref{3.17} ist $\lambda$ Eigenwert von $\eqref{3.1}$ genau dann wenn $\lambda = \f 1\my + d$ und $\my \neq 0$ Eigenwert von $\scr K$ ist.
+				$\scr K$ ist nach \ref{3.18} kompakt und symmetrisch, also hat $\scr K$ nach dem Hauptsatz \ref{3.5} abzählbar viele Eigenwerte $(\my_j)_{j\in\N}$ mit $\my_j \to 0$.
 				Also hat \eqref{eq:3.1} abzählbar viele Eigenwerte $\lambda_j = \f 1{\my_j} + d$ mit $|\lambda_j| \to \infty$.
-				Da wegen \ref{3.16}  $\inf \lambda_j > -\infty$ muss $\lambda_j \to + \infty$.
+
+				Da wegen \ref{3.16}  $\inf_{j\in \N} \lambda_j > -\infty$ muss $\lambda_j \to +\infty$.
 			\item
 				Siehe \ref{3.8}.
 			\item
-				Nach dem Hauptsatz \ref{3.5} hat $\scr K$ ein ONS $(e_j)$ mit $\scr K e_j = \my_j e_j$.
-				Eigenfunktionen von \eqref{eq:3.1}: $u_j = \f 1{r} e_j$ zum Eigenwert $\lambda_j = \f 1{\my_j} + d$.
-				Also bildet $(\sqrt{r}u_j)_{j\in \N}$ ein ONS.
+				Nach dem Hauptsatz \ref{3.5} existiert ein ONS $(\tilde e_j)_{j\in\N}$ aus Eigenfunktionen von $\scr K$ mit $\scr K \tilde e_j = \my_j \tilde e_j$.
 
-				Wegen \ref{3.5} ist $(e_j) = (\sqrt{r} u_j)$ vollständig in $\_{\im (K)} = \_{\{\sqrt{r} u : u  \in D(A) \}}$ in $L$.
-				$\im (\scr K)$ ist dicht in $L^2([a,b])$.
-				Nach Konstruktion ist $\ker{\scr K}=\{0\}$. Nach \ref{1.12} ist also
+				Damit sind $u_j = \f 1{\sqrt r} \tilde e_j$ Eigenfunktionen von \eqref{eq:3.1} zu den Eigenwerten $\lambda_j = \f 1{\my_j} + d$.
+				Also bildet $(\sqrt{r} u_j)_{j\in \N}$ ein ONS.
+
+				Wegen \ref{3.5} ist $(e_j) := (\sqrt{r} u_j)$ vollständig in $\_{\im (K)} = \_{\{\sqrt{r} u : u  \in D(A) \}}$.
+				% FIXME: Referenz
+				Später zeigen wir, dass $\im (\scr K)$ dicht ist in $L^2([a,b])$, also
 				\[
 					\_{\im(\scr K)}^{L_2} = L^2 ([a,b]).
 				\]
@@ -1041,9 +1070,9 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 \end{st}
 
 \begin{st}[Bessere Konvergenz] \label{3.20}
-	Sei $K \subset \R^n$ kompakt, $G \in C(K\times K \to \R)$, $G(x,y) = G(y,x)$, $L=C(K\to \R)$.
+	Sei $K \subset \R^n$ kompakt, $G \in C(K\times K \to \R)$, $G(x,y) = G(y,x)$ und $L=C(K\to \R)$.
 	\[
-		(\scr K f)(x) := \int_K G(x,y) f(y) \dx[y] \qquad \text{für $f \in L$.}
+		\scr K g := \int_K G(\argdot,y) g(y) \dx[y] \qquad \text{für $g \in L$.}
 	\]
 	Sei $(e_j)$ das ONS aus Eigenfunktionen von $\scr K$ mit Eigenwerten $(\lambda_j)$ (existiert nach \ref{1.28} und \ref{3.5}).
 	
@@ -1071,18 +1100,16 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 			\end{psmallmatrix}, \begin{psmallmatrix}
 				|\lambda_N e_N(x)| \\ \vdots \\ |\lambda_{N+M} e_{N+M}(x) |
 			\end{psmallmatrix} \r\>_{\R^{M+1}}^2 \displaybreak[0]\\
-			&\stack{CSB}{\le} \bigg( \sum_{j=N}^{M+N} |\<g,e_j\>|^2 \bigg) \bigg(\sum_{j=N}^{M+N}|\lambda_j e_j(x)|^2\bigg). \tag{$*$}
+			&\stack{CSB}{\le} \underbrace{\bigg( \sum_{j=N}^{M+N} |\<g,e_j\>|^2 \bigg)}_{\text{(I)}} \underbrace{\bigg(\sum_{j=N}^{M+N}|\lambda_j e_j(x)|^2\bigg)}_{\text{(II)}}. \tag{$*$}\label{eq:3.20:*}
 		\end{align*}
-		Da $\sum_{j=1}^\infty |\<g,e_j\>|^2 \le \|g\|^2$ (nach Bessel) konvergiert, lässt sich oben die linke Summe durch beliebiges $\eps > 0$ abschätzen für genügend großes $N$.
+		Da $\sum_{j=1}^\infty |\<g,e_j\>|^2 \le \|g\|^2$ (nach Bessel) gilt, lässt sich (I) durch beliebiges $\eps > 0$ abschätzen für genügend großes $N$.
 
-		Betrachte nun die rechte Summe.
+		Betrachte nun (II).
 		Es gilt
 		\begin{align*}
 			|\lambda_j e_j(x)|
-			= |(\scr K e_j)(x)| 
-			&= \bigg|\int_{K} G(x,y) e_j(y) \dx[y]\bigg|  \\
-			&= \bigg|\_{\int_{K} G(x,y) e_j(y) \dx[y]}\bigg| 
-			= \bigg|\int_{K} G(x,y) \_{e_j(y)} \dx[y]\bigg| 
+			= |(\scr K e_j)(x)|
+			&= \bigg|\int_{K} G(x,y) e_j(y) \dx[y]\bigg|
 			= \Big|\<G(x,\argdot), e_j \>_L \Big|,
 		\end{align*}
 		also für die Summe
@@ -1090,12 +1117,12 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 			\sum_{j=N}^{M+N} |\lambda_j e_j(x)|^2
 			&= \sum_{j=N}^{M+N} |\<G(x,\argdot), e_j\>|^2 \\
 			&\le \sum_{j=1}^\infty |\<G(x,\argdot), e_j\>|^2 \\
-			&\stack{Bessel}{\le} \|G(x,\argdot)\|^2 
+			&\stack{\text{Bessel}}{\le} \|G(x,\argdot)\|^2 
 			= \int_K |G(x,y)|^2 \dx[y]\\
 			&\le \max_{x,y \in K} |G(x,y)|^2 \underbrace{\my(K)}_{< \infty}  \qquad \text{($G$ stetig auf kompakter Menge)} \\
 			&\le c.
 		\end{align*}
-		Also lässt sich $(*)$ für genügend großes $N$ abschätzen:
+		Also lässt sich \eqref{eq:3.20:*} für genügend großes $N$ abschätzen:
 		\[
 			\bigg( \sum_{j=N}^{M+N} |\<f,e_j\> e_j(x) | \bigg)^2
 			\le \dotsc \le 
@@ -1109,7 +1136,7 @@ x=\underbrace{y}_{\in \overline{\im(A)}}+\underbrace{z}_{\in \overline{\im(A)}^\
 
 \section{Sinus-Cosinus-Reihen}
 
-Das bekannteste Orthonormalsystem in $L = L^2([-\pi, \pi])$ ist
+Das bekannteste Orthonormalsystem in $L := L^2([-\pi, \pi])$ ist
 \begin{align*}
 	(e_1, e_2, \dotsc ) = \bigg( x \mapsto \f 1{\sqrt{2\pi}},\; 
 	x \mapsto \f 1{\sqrt \pi} \cos x,\; 
@@ -1140,9 +1167,9 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 		\item
 			$s_n$ (und gegebenenfalls $s$) ist $2\pi$-periodisch.
 		\item
-			Ist $f$ auf $\R$ definiert und $2\pi$-periodisch, so können die Integralgrenzen bei $a_j, b_j$ „verschoben“ werden, also für alle $c \in \R$:
+			Ist $f$ auf $\R$ definiert und $2\pi$-periodisch, so können die Integralgrenzen bei $a_j, b_j$ „verschoben“ werden, also gilt für alle $c \in \R$
 			\begin{align*}
-				a_j &= \f 1{\pi} \int_{c-\pi}^{c+\pi} f(t) \cos(jt) \dx[t] \\
+				a_j &= \f 1{\pi} \int_{c-\pi}^{c+\pi} f(t) \cos(jt) \dx[t], \\
 				b_j &= \f 1{\pi} \int_{c-\pi}^{c+\pi} f(t) \sin(jt) \dx[t].
 			\end{align*}
 		\item
@@ -1162,9 +1189,9 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 		Es gilt für $\omega > 0$:
 		\begin{align*}
 			\bigg| \int_{-\pi}^{\pi} f(t) \cos(\omega t) \dx[t] \bigg|
-			&= \bigg| f(t) \f 1{\omega} \sin(\omega t) - \int_{-\pi}^{\pi} f'(t) \f 1{\omega} \sin(\omega t) \bigg| \\
-			&\le \underbrace{|f(t)|}_{\le c_1} \underbrace{\f 1{\omega} |\sin(\omega t)|}_{|\argdot| \le \f 1{\omega}} + \int_{-\pi}^{\pi} \underbrace{|f'(t)|}_{\le c_2} \underbrace{\f 1{\omega} |\sin(\omega t)|}_{|\argdot|\le \f 1{\omega}} \dx[t] \\
-			&\le \f {c_1 + 2\pi c_2}\omega \to 0 \qquad (\omega \to \infty).
+			&= \bigg| \Big[f(t) \f 1{\omega} \sin(\omega t)\Big]_{t=-\pi}^{t=\pi} - \int_{-\pi}^{\pi} f'(t) \f 1{\omega} \sin(\omega t) \bigg| \\
+			&\le \bigg|\Big[\underbrace{f(t)}_{|\argdot| \le c_1} \underbrace{\f 1{\omega} \sin(\omega t)}_{|\argdot| \le \f 1{\omega}}\Big]_{t=-\pi}^{t=\pi}\bigg| + \int_{-\pi}^{\pi} \underbrace{|f'(t)|}_{\le c_2} \underbrace{\f 1{\omega} |\sin(\omega t)|}_{|\argdot|\le \f 1{\omega}} \dx[t] \\
+			&\le \f {2c_1 + 2\pi c_2}\omega \to 0 \qquad (\omega \to \infty).
 		\end{align*}
 	\end{proof}
 \end{lem}
@@ -1172,8 +1199,9 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 \begin{lem} \label{3.24}
 	Für $k \in \N_0$ und $1 \le p < \infty$ ist $C^k([-\pi, \pi] \to \C)$ dicht in $L^p([-\pi, \pi])$.
 	\begin{proof}
-		Nach Satz \ref{4.18} ist $C_0^\infty$ dicht in $L^p(\R)$. Sei $f\in L^p([-\pi,\pi])$ beliebig, dann existiert eine Folge $(f_n)$ in $C_0^\infty$, 
-		die gegen $f$ konvergiert. Nun gilt aber nach Voraussetzung $f_n\in C^\infty(\R)$, also insbesondere $f_n \in C^k([-\pi,\pi])$. 
+		In Satz \ref{4.18} wird bewiesen, dass $C_0^\infty$ dicht in $L^p(\R)$ ist.
+		Sei $f\in L^p([-\pi,\pi])$ beliebig, dann existiert eine Folge $(f_n)$ in $C_0^\infty$,	die gegen $f$ konvergiert.
+		Nun gilt aber nach Voraussetzung $f_n\in C^\infty(\R)$, also insbesondere $f_n \in C^k([-\pi,\pi])$.
 		Und damit ist alles gezeigt.
 	\end{proof}
 \end{lem}
@@ -1185,11 +1213,11 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 		\int_{-\pi}^{\pi} f(t) \sin(\omega t) \dx[t] \to 0 \qquad (\omega \to \infty).
 	\]
 	\begin{proof}
-		Zu $f$ wähle $f_\eps \in C^1 ([-\pi,\pi] \to \C)$ mit $\|f_\eps - f\|_{C^1} < \eps$ (\ref{3.24} mit $k=1, p=1$).
+		Zu $f$ wähle $f_\eps \in C^1 ([-\pi,\pi] \to \C)$ mit $\|f_\eps - f\|_{L^1} < \eps$ (\ref{3.24} mit $k=1, p=1$).
 		Dann gilt
 		\begin{align*}
 			\bigg|\int_{-\pi}^{\pi} f(t) \cos(\omega t) \dx[t] \bigg|
-			&= \bigg| \underbrace{\int_{-\pi}^{\pi} \underbrace{(f(t) - f_\eps(t)) \cos(\omega t)}_{|\argdot| \le |f-f_\eps|} \dx[t]}_{\le \|f - f_\eps\|_{L^1} = \int_{-\pi}^\pi |f-f_\eps| \dx[t] < \eps} + \underbrace{\int_{-\pi}^{\pi} f_\eps (t) \cos(\omega t) \dx[t]}_{\to 0 \text{ für $\omega \to \infty$ nach \ref{3.23}}} \bigg| \\
+			&= \bigg| \underbrace{\int_{-\pi}^{\pi} \underbrace{(f(t) - f_\eps(t)) \cos(\omega t)}_{|\argdot| \le |f-f_\eps|} \dx[t]}_{|\argdot| \le \|f - f_\eps\|_{L^1} < \eps} + \underbrace{\int_{-\pi}^{\pi} f_\eps (t) \cos(\omega t) \dx[t]}_{\to 0 \text{ für $\omega \to \infty$ nach \ref{3.23}}} \bigg| \\
 			&< 2\eps \qquad \text{für $\omega > K_\eps$.}
 		\end{align*}
 	\end{proof}
@@ -1206,7 +1234,7 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 	\[
 		D_n(x) = \f 1{2\pi} \f {\sin((n+\f 12)x)}{\sin(\f 12 x)}
 	\]
-	(an den Stellen $x = 2k\pi$ für $k \in \Z$ durch $2n + 1$ stetig fortsetzbar).
+	(an den Stellen $x = 2k\pi$ für $k \in \Z$ ist $D_n$ durch $2n + 1$ stetig fortsetzbar).
 	Außerdem gilt für $c \in \R$:
 	\begin{align*}
 		\int_{c-\pi}^{c+\pi} D_n(t) \dx[t] = 1.
@@ -1252,11 +1280,11 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 			&= \int_{-\pi}^{\pi} \bigg( \f 1{2\pi} \sum_{j=-n}^n e^{ij(x-t)} \bigg) f(t) \dx[t] \\
 			&= \int_{-\pi}^{\pi} D_n(x-t) f(t) \dx[t].
 		\end{align*}
-		\fixme[überprüfen.] Und damit
+		Damit gilt
 		\begin{align*}
 			s_n(x) - f(x) 
-			&= \int_{-\pi}^{\pi} f(\tau) D_n(x-\tau) \dx[\tau] - f(x) \underbrace{\int_{-\pi}^{\pi} D_n(t) \dx[t]}_{=1} \\
-			&= \int_{-\pi-x}^{\pi-x} \underbrace{f(t + x)\underbrace{D_n(-t)}_{=D_n(t)}}_{\text{$2\pi$-periodisch in $t$}} \dx[t] - \int_{-\pi}^\pi f(x) D_n(t) \dx[t] \\
+			&= \int_{-\pi}^{\pi} f(t) \underbrace{D_n(x-t)}_{=D_n(t-x)} \dx[t] - f(x) \overbrace{\int_{-\pi}^{\pi} D_n(t) \dx[t]}^{=1} \\
+			&= \int_{-\pi-x}^{\pi-x} \underbrace{f(t + x)D_n(t)}_{\text{$2\pi$-periodisch in $t$}} \dx[t] - \int_{-\pi}^\pi f(x) D_n(t) \dx[t] \\
 			&= \int_{-\pi}^{\pi} \Big( f(t + x) - f(x) \Big) D_n(t) \dx[t].
 		\end{align*}
 	\end{proof}
@@ -1265,7 +1293,6 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 		\begin{align*}
 			s_n(x) = \int_{-\pi}^{\pi} D_n(x-t) f(t) \dx[t].
 		\end{align*}
-		\fixme[überprüfen.]
 	\end{note}
 \end{lem}
 
@@ -1273,9 +1300,9 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 \begin{st}[Kriterium von Dini] \label{3.27}
 	Sei $f \in L^1([-\pi,\pi])$ $2\pi$-periodisch fortgesetzt, $x \in [-\pi,\pi]$ fest und
 	\[
-		\exists \delta > 0 : \int_{-\delta}^{\delta} \l| \f{f(x+t)-f(x)}{t} \r| \dx[t] < \infty
+		\exists \delta > 0 : \int_{-\delta}^{\delta} \l| \f{f(x+t)-f(x)}{t} \r| \dx[t] < \infty.
 	\]
-	Dann gilt 
+	Dann konvergiert $s_n(x)$ punktweise gegen $f(x)$
 	\[
 		f(x) = \lim_{n\to\infty} s_n(x).
 	\]
@@ -1283,26 +1310,27 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 		Nach \ref{3.26} ist
 		\begin{align*}
 			s_n(x)-f(x)
-			&= \int_{-\pi}^\pi \Big( f(t+x)-f(x) \Big) \f 1{2\pi \sin(\f t2)} \sin((n+\f 12) t) \dx[t] \\
+			&= \int_{-\pi}^\pi \Big( f(t+x)-f(x) \Big) \overbrace{\f {\sin((n+\f 12) t)}{2\pi \sin(\f t2)}}^{=D_n(t)}  \dx[t] \\
 			&= \int_{-\pi}^\pi \underbrace{\underbrace{\f {f(t+x)-f(x)}{t}}_{\in L^1([-\pi,\pi])} \cdot 
-		\underbrace{\f t{2\pi \sin(\f t2)}}_{\text{stetig ergänzbar in $t=0$}}}_{\in L^1([-\pi,\pi])} \cdot \sin((n+\f 12) t) \dx[t] \\
+		\underbrace{\f t{2\pi \sin(\f t2)}}_{\text{stetig ergänzbar in $t=0$}}}_{\in L^1([-\pi,\pi])} \cdot \sin\big((n+\f 12) t\big) \dx[t] \\
 			\intertext{Hier liefert \ref{3.25} schließlich:}
-			s_n-f(x)&\to 0 \qquad (n\to \infty).
+			s_n(x)-f(x)&\to 0 \qquad (n\to \infty).
 		\end{align*}
 		Und damit ist $f(x)=\lim_{n\to \infty} s_n(x)$ gezeigt.
 	\end{proof}
 \end{st}
 
 \begin{nt} \label{3.28}
-	Die Bedingung von Dini (aus \ref{3.27}) ist erfüllt, falls $f \in L^1([-\pi,\pi])$ $2\pi$-periodisch fortgesetzt und $f$ Hölder-stetig bei $x$ ist, d.h.
+	Sei $f \in L^1([-\pi,\pi])$ $2\pi$-periodisch fortgesetzt und Hölder-stetig in $x$, d.h.
 	\[
 		\exists \alpha, c, \delta > 0 \forall t \in [-\delta, \delta] : |f(x+t) - f(x)| < c |t|^\alpha.
 	\]
+	Dann ist das Kriterium von Dini (aus \ref{3.27}) erfüllt.
 	\begin{proof}
 		Es gilt
 		\[
 			\int_{-\delta}^{\delta} \l| \f{f(x+t) - f(x)}t \r| \dx[t] 
-			\le c \int_{-\delta}^\delta |t|^{\overbrace{\alpha - 1}^{>-1}} \dx[t]
+			< c \int_{-\delta}^\delta |t|^{\overbrace{\scriptstyle\alpha - 1}^{\scriptscriptstyle >-1}} \dx[t]
 			< \infty
 		\]
 		und somit nach \ref{3.27} $f(x) = \lim_{n\to\infty} s_n(x)$.
@@ -1310,14 +1338,13 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 \end{nt}
 
 \begin{st}[Erweitertes Kriterium von Dini] \label{3.29}
-	Sei $f \in L^1([-\pi,\pi])$ $2\pi$-periodisch fortgesetzt, $x \in [-\pi,\pi]$ Unstetigkeitsstelle erster Art (d.h. $f(x-0)$ und $f(x+0)$ existieren).
-	Gilt
+	Sei $f \in L^1([-\pi,\pi])$ $2\pi$-periodisch fortgesetzt, $x \in [-\pi,\pi]$ Unstetigkeitsstelle erster Art (d.h. $f(x-0)$ und $f(x+0)$ existieren) und
 	\[
 		\exists \delta > 0 :
 		\int_{-\delta}^0 \l| \f{f(x+t)-f(x-0)}t \r| \dx[t] < \infty
-		\;\land\; \int_{0}^{\delta} \l| \f{f(x+t)-f(x+0)}t \r| \dx[t] < \infty,
+		\;\land\; \int_{0}^{\delta} \l| \f{f(x+t)-f(x+0)}t \r| \dx[t] < \infty.
 	\]
-	so konvergiert die Fourierreihe $s(x)$ und es gilt
+	Dann konvergiert die Fourierreihe $s(x)$ und es gilt
 	\[
 		s(x) = \f 12 \Big( f(x+0) + f(x-0) \Big).
 	\]
@@ -1336,14 +1363,16 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 			&= \int_{-\pi}^\pi f(t+x) D_n(t) \dx[t] - \f 12 \Big( f(x-0) + f(x+0)\Big) \\
 			&= \int_{-\pi}^0 \Big( f(t+x) - f(x-0) \Big) D_n(t) \dx[t] \\
 				&\qquad+ \int_{0}^\pi \Big( f(t+x) - f(x+0) \Big) D_n(t) \dx[t] \\
-			&= \int_{-\pi}^\pi \underbrace{g_1(t)}_{\mathclap{\in L^1([-\pi,\pi])}} \sin((n+\f 12)t) \dx[t]
-			+ \int_{-\pi}^\pi \underbrace{g_2(t)}_{\mathclap{\in L^1([-\pi,\pi])}} \sin((n+\f 12)t) \dx[t] \\
+			&= \int_{-\pi}^\pi g_1(t) \sin((n+\f 12)t) \dx[t]
+			+ \int_{-\pi}^\pi g_2(t) \sin((n+\f 12)t) \dx[t] \\
 			&\to 0 \qquad (n\to \infty)
 		\end{align*}
-		nach \ref{3.25}. Die Voraussetzung von \ref{3.25} ist erfüllt, da
+		nach \ref{3.25}, da
 		\begin{align*}
-			g_1(t) &= \1_{[-\pi,0]} \cdot \f 1{2\pi} \f {f(t+x) - f(x-0)}t  \f {t}{\sin (\f 12 t)} \in L^1([-\pi,\pi]), \\
-			g_2(t) &= \1_{[0,\pi]} \cdot \f 1{2\pi} \f {f(t+x) - f(x+0)}t  \f {t}{\sin (\f 12 t)} \in L^1([-\pi,\pi]).
+			g_1(t) &= \1_{[-\pi,0]} \cdot \f 1{2\pi} \underbrace{\f {f(t+x) - f(x-0)}t}_{\in L^1([-\pi,0])}  \f {t}{\sin (\f 12 t)}
+				\quad \implies g_1 \in L^1([-\pi,\pi]), \\
+			g_2(t) &= \1_{[0,\pi]} \cdot \f 1{2\pi} \underbrace{\f {f(t+x) - f(x+0)}t}_{\in L^1([0,\pi])}  \f {t}{\sin (\f 12 t)}
+				\quad \implies g_2 \in L^1([-\pi,\pi]).
 		\end{align*}
 
 	\end{proof}
@@ -1362,73 +1391,74 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 				Es gelten
 				\begin{enumerate}[a)]
 					\item
-						Für die Bedingungen aus \ref{3.28} gilt, dass für alle $x\in \R$ $ s_n(x) \to f(x)$ gilt.
+						Für alle $x\in \R$ gilt nach \ref{3.28} $s_n(x) \to f(x)$.
 					\item
 						$s_n$ ist gleichgradig stetig auf $\R$, dass heißt:
 						\[
 							\forall \eps > 0 \exists \delta > 0 \forall n \in \N \forall x,x' \in \R : |x-x'|< \delta \implies |s_n(x)-s_n(x')| < \eps.
 						\]
 
-						Seien dazu $x, x' \in \R$. Es gilt
+						Seien dazu $x, x' \in \R$.
 						\begin{align*}
 							|s_n(x) - s_n(x)|
 							&= \bigg| \int_{-\pi}^\pi f(x+t) D_n(t) \dx[t] - \int_{-\pi}^\pi f(x'+t) D_n(t) \dx[t] \bigg| \\
-							&= \Bigg| \int\limits_{[-\pi,-\delta] \cup [\delta, \pi]} \Big( f(x+t) - f(x'+t) \Big) D_n(t) \dx[t]  \displaybreak[0]\\
-								&\quad\; + \int_{-\delta}^\delta \Big( f(x+t) -f(x) \Big) D_n(t) \dx[t] 
-								+ \underbrace{\int_{-\delta}^\delta \Big(f(x) - f(x')\Big) D_n(t) \dx[t]}_{= f(x)-f(x')} \\
-								&\quad\; - \int\limits_{[-\pi,-\delta]}^{[\delta,\pi]} \Big(f(x) - f(x')\Big) D_n(t) \dx[t] 
-								 - \int\limits_{-\delta}^\delta \Big(f(x'+t) - f(x') \Big) D_n(t) \dx[t]
-								\Bigg| \displaybreak[0] \\
-							&\le \int\limits_{[-\pi,-\delta]\cup [\delta, \pi]}  \Big(\underbrace{|f(x+t) - f(x'+t)| + | f(x) -f(x')|}_{\le c |x-x'|^\alpha}\Big) \underbrace{D_n(t)}_{\le \f 1{2\pi \sin(\f \delta 2)}} \dx[t] \\
-								&\quad + \int_{-\delta}^\delta \Big(\underbrace{|f(x+t) - f(x)| + |f(x'+t)-f(x')|}_{\le c|t|^\alpha}\Big) D_n(t) \dx[t] \\
-								&\quad + \underbrace{|f(x) - f(x')|}_{\le c |x-x'|^\alpha} \displaybreak[0]\\
-							&\le c |x-x'|^\alpha \bigg( 1 + \int\limits_{[-\pi,-\delta] \cup [\delta, \pi]} \f 1{2\pi \sin(\f \delta 2)} \dx[t] \bigg)
-							+ c \int_{-\delta}^\delta \f {|t|^\alpha}{|\sin(\f t2)|} |\sin(n+\f 12) t | \dx[t] \\
-							&\le c |x-x'|^\alpha \bigg( 1 + \int\limits_{[-\pi,-\delta] \cup [\delta, \pi]} \f 1{2\pi \sin(\f \delta 2)} \dx[t] \bigg)
-							+ c \int_{-\delta}^\delta \f {|t|^\alpha}{|\sin(\f t2)|} \dx[t].
-						\intertext{
-						 Da $\int_{-1}^1 \f {|t|^\alpha}{|\sin \f t2|} \dx[t] < \infty$, wählen wir $\delta > 0$, so dass
-						 \[
-						 	c \int_{-\delta}^\delta \f {|t|^\alpha}{|\sin (\f t2)|} \dx[t] < \eps.
-						 \]
-						 Wähle zu festem $\delta$ ein $\xi>0$ mit $c(\delta)|x-x'|^\alpha < \eps$ für $ |x-x'|<\eps$. Dann folgt
-						 \[
-							 \underbrace{ c |x-x'|^\alpha \bigg( 1 + \int\limits_{[-\pi,-\delta] \cup [\delta, \pi]} 
-							 \f 1{2\pi \sin(\f \delta 2)} \dx[t] \bigg)}_{ = c(\delta) |x-x'|^\alpha}< 2 \eps 
-							 \qquad \text{für $|x-x'| < \xi$}.
-						 \]
-						unabhängig von $n \in \N$ und der Lage von $x$.
-					 	}
+							&= \Bigg| \int\limits_{[-\pi,-\delta] \cup [\delta, \pi]} \Big( f(x+t) - f(x'+t) \Big) D_n(t) \dx[t]  \\
+								&\quad\; + \int_{-\delta}^\delta \Big( f(x+t) -f(x) \Big) D_n(t) \dx[t]
+									- \int\limits_{-\delta}^\delta \Big(f(x'+t) - f(x') \Big) D_n(t) \dx[t] \\
+								&\quad\; - \int\limits_{[-\pi,-\delta] \cup [\delta,\pi]} \Big(f(x) - f(x')\Big) D_n(t) \dx[t] 
+									+ \underbrace{\int_{-\pi}^\pi \Big(f(x) - f(x')\Big) D_n(t) \dx[t]}_{= f(x)-f(x')}
+									\Bigg| \displaybreak[0] \\
+							&\le \int\limits_{[-\pi,-\delta]\cup [\delta, \pi]}  \Big(\underbrace{|f(x+t) - f(x'+t)| + | f(x) -f(x')|}_{\le c |x-x'|^\alpha}\Big) \underbrace{|D_n(t)|}_{\le \f 1{2\pi \sin(\f \delta 2)}} \dx[t] \\
+								&\quad + \int_{-\delta}^\delta \Big(\underbrace{|f(x+t) - f(x)| + |f(x'+t)-f(x')|}_{\le 2c|t|^\alpha}\Big) \underbrace{|D_n(t)|}_{\le \f 1{2\pi|\sin(\f t2)|}} \dx[t] \\
+								&\quad + \underbrace{|f(x) - f(x')|}_{\le 2c |x-x'|^\alpha} \displaybreak[0]\\
+							&\le \underbrace{c \bigg( 1 + \int\limits_{[-\pi,-\delta] \cup [\delta, \pi]} \f 1{\pi \sin(\f \delta 2)} \dx[t] \bigg)}_{=:c(\delta)} |x-x'|^\alpha
+								+ \f c\pi \int_{-\delta}^\delta \f {|t|^\alpha}{|\sin(\f t2)|} \dx[t].
 						\end{align*}
+						Da $\int_{-1}^1 \f {|t|^\alpha}{|\sin \f t2|} \dx[t] < \infty$, wählen wir $\delta > 0$ so, dass
+						\[
+						   \f c\pi \int_{-\delta}^\delta \f {|t|^\alpha}{|\sin (\f t2)|} \dx[t] < \eps.
+						\]
+						Wähle anschließend $\delta' > 0$ so, dass $c(\delta)|x-x'|^\alpha < \eps$ für $|x-x'|<\delta'$.
+						Dann folgt
+						\[
+						    |s_n(x)-s_n(x')|
+						    \le \dotsb
+						    \le \underbrace{c(\delta)|x-x'|^\alpha}_{<\eps} + \underbrace{\f c\pi \int_{-\delta}^\delta \f {|t|^\alpha}{|\sin(\f t2)|}}_{<\eps} \dx[t]
+						    < 2\eps
+						    \qquad \text{für $|x-x'| < \delta'$}
+						\]
+						unabhängig von $n \in \N$ und der Lage von $x$.
 					\item
 						$f$ ist stetig.
 				\end{enumerate}
 			\item
-				Sei $\eps > 0$, $x_0 \in \R$ vorgegeben, dann folgt aus obigen drei Aussagen:
+				Sei $\eps > 0$, $x_0 \in \R$ vorgegeben.
+				Dann folgt aus obigen drei Aussagen:
 				\begin{enumerate}[a)]
 					\item
-						$|s_n(x_0) - f(x_0) < \eps$ für $n > N_{\eps, x_0}$
+						$|s_n(x_0) - f(x_0)| < \eps$ für $n > N_{\eps, x_0}$
 					\item
-						$|s_n(x) - s_n(x_0)| < \eps$ für $|x-x_0| < \delta', n\in \N$.
+						$|s_n(x) - s_n(x_0)| < \eps$ für $|x-x_0| < \delta'$ und beliebiges $n\in \N$.
 					\item
-						$f(x) - f(x_0)| < \eps$ für $|x-x_0| < \delta''$.
+						$|f(x) - f(x_0)| < \eps$ für $|x-x_0| < \delta''$.
 				\end{enumerate}
 				Für $\delta := \min\{\delta', \delta''\}$, $|x-x_0| < \delta$, $n > N_{\eps, x_0}$ folgt aus den obigen drei Aussagen:
 				\[
 					|f(x) - s_n(x)| 
-					\le |f(x) - f(x_0)| + |f(x_0)-s_n(x)| + |s_n(x_0) - s_n(x)|
+					\le |f(x) - f(x_0)| + |f(x_0)-s_n(x_0)| + |s_n(x_0) - s_n(x)|
 					< 3\eps.
 				\]
+				Damit konvergiert $s_n$ gleichmäßig auf $(x_0-\delta, x_0+\delta)$ gegen $f$.
 			\item
-				Zu jedem $x_0 \in \R$ wurde eine Umgebung $I := ]x_0-\delta_{\eps, x_0}, x_0 + \delta_{\eps, x_0}[$ gefunden mit $|f(x) - s_n(x)| < \eps$ für $n > N_{\eps, x_0}$, $x \in  I$.
+				Zu jedem $x_0 \in \R$ findet sich eine Umgebung $I := ]x_0-\delta_{\eps, x_0}, x_0 + \delta_{\eps, x_0}[$ mit $|f(x) - s_n(x)| < \eps$ für $n > N_{\eps, x_0}$, $x \in  I$.
 
-				Da $[-\pi,\pi]$ kompakt, überdecken endlich viele solcher Intervalle $[-\pi, \pi]$:
+				Da $[-\pi,\pi]$ kompakt, existieren endlich viele $\{x_k\}_{k=1,\dotsc,K}$ sodass ihre zugehörigen Umgebungen $[-\pi, \pi]$ überdecken:
 				\[
 					[-\pi,\pi] \subset \bigcup_{k=1}^K \Big] x_k - \delta_{\eps, x_k}, x_k + \delta_{\eps, x_k} \Big[
 				\]
-				Für $n > N_\eps := \max\{N_{\eps, x_1}, \dotsc, N_{\eps, x_K}\}$ folgt somit
+				Für $n > N_\eps := \max\{N_{\eps, x_1}, \dotsc, N_{\eps, x_K}\}$ folgt somit für $x \in [-\pi,\pi]$
 				\[
-					|f(x) - s_n(x)| < 3\eps
+					|f(x) - s_n(x)| < 3\eps.
 				\]
 				Da $f, s_n$ $2\pi$-periodisch waren, ist also
 				\[
@@ -1438,73 +1468,91 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 	\end{proof}
 \end{st}
 
-\begin{nt} \label{3.31}
+\begin{kor} \label{3.31}
 	Sei $f \in C^1(\R \to \C)$ $2\pi$-periodisch.
-	Dann ist
-	\[
-		|f(x) - f(x')| = |f'(\xi)||x-x'| \le \max_{[-\pi,\pi]} |f'|\cdot |x-x'|.
-	\]
-	Nach \ref{3.30} also $s_n \to f$ gleichmäßig auf $\R$.
-\end{nt}
+	Dann konvergiert $(s_n)$ auf $\R$ gleichmäßig gegen $f$.
+	\begin{proof}
+		Es gilt
+		\[
+			|f(x) - f(x')| = |f'(\xi)||x-x'| \le \max_{[-\pi,\pi]} |f'|\cdot |x-x'|.
+		\]
+		Nach \ref{3.30} also $s_n \to f$ gleichmäßig auf $\R$.
+	\end{proof}
+\end{kor}
 
 \coursetimestamp{3}{6}{2013}
-\begin{st}[Komplexe Darstellung von Fourierreihen] \label{3.32}
-	\begin{align*}
-		s_n(x) 
-		&= \int_{-\pi}^{\pi} f(t) \f 1{2\pi} D_n(t) \dx[t] \\
-		&= \sum_{j=-n}^n \f 1{2\pi} \int_{-\pi}^\pi f(t) e^{ijt} \dx[t] e^{ijx}
-	\end{align*}
-	Neue Interpretation mit $e_j(x) := \f 1{\sqrt{2\pi}} e^{ijx}$ ergibt
-	\[
-		s_n(x) = \sum_{j=-n}^n \<f,e_j\> e_j(x)
-	\]
+\begin{nt}[Komplexe Darstellung von Fourierreihen] \label{3.32}
+	Setze $e_j(x) := \f 1{\sqrt{2\pi}} e^{ijx}$.
+	Dann bildet $(e_j)_{j\in\Z}$ ein ONS von $L^2([-\pi,\pi])$.
+
 	Es gilt
-	\begin{align*}
-		\<e_j, e_k\> &= \f 1{2\pi} \int_{-\pi}^\pi e^{ijt}\_{e^{ikt}} \dx[t] \\
-		&= \begin{cases}
-			1 & j=k \\
-			0 & j\neq k
-		\end{cases}
-	\end{align*}
-\end{st}
+	\[
+		s_n(x) = \sum_{j=-n}^n \<f,e_j\> e_j(x).
+	\]
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			\<e_j, e_k\>
+			= \f 1{2\pi} \int_{-\pi}^\pi e^{ijt}\_{e^{ikt}} \dx[t]
+			= \begin{cases}
+				1 & j=k \\
+				0 & j\neq k
+			\end{cases}
+		\end{align*}
+		und
+		\begin{align*}
+			s_n(x) 
+			= \int_{-\pi}^{\pi} D_n(x-t) f(t) \dx[t]
+			= \sum_{j=-n}^n \int_{-\pi}^\pi f(t) \f 1{\sqrt{2\pi}} e^{-ijt} \dx[t] \f 1{\sqrt{2\pi}} e^{ijx}
+		\end{align*}
+		Neue Interpretation mit $e_j(x) := \f 1{\sqrt{2\pi}} e^{ijx}$ ergibt
+		\[
+			s_n(x) = \sum_{j=-n}^n \<f,e_j\> e_j(x)
+		\]
+	\end{proof}
+\end{nt}
 
 \begin{st} \label{3.33}
-	$(e_j)_{j\in \Z}$ ist VONS in $L^2([-\pi,\pi])$.
-	Sei $f \in L^2([-\pi,\pi])$, $\eps > 0$. 
-	Wähle $f_\eps \in C^1([-\pi,\pi] \to \C)$ mit $\|f_\eps - f\| < \eps$ (vgl. \ref{3.24}).
-	$f_\eps$ kann sogar so gewählt werden, dass $f_\eps(\pm\pi) = 0 = f_\eps'(\pm \pi)$.
-	Setze $f_\eps$ $2\pi$-periodisch fort. 
-	Dann ist $f_\eps \in C^1([-\pi,\pi] \to \C)$.
-	Sei $s_n^{(\eps)} := \sum_{j=-n}^n \<f_\eps, e_j\> e_j$. 
+	$(e_j)_{j\in \Z}$ aus \ref{3.32} ist ein VONS in $L^2([-\pi,\pi])$.
+	\begin{proof}
+		Sei $f \in L^2([-\pi,\pi])$.
+		Wähle $f_\eps \in C^1([-\pi,\pi] \to \C)$ mit $\|f_\eps - f\|_{L^2} < \eps$ (möglich nach \ref{3.24}) und setze $f_\eps$ $2\pi$-periodisch auf $\R$ fort (also $f_\eps \in C^1(\R \to \C)$).
 
-	Dann ist
-	\begin{align*}
-		\|f - s_n\| 
-		&\le \underbrace{\|f - f_\eps\|}_{<\eps} + \|f_\eps - s_n^{(\eps)}\| + \|s_n^{(\eps)} - s_n\| \\
-		&\le \eps + \|f_\eps - s_n^{(\eps)}\| + \bigg\| \sum_{j=-n}^n \<f_\eps - f, e_j\> e_j \bigg\|^2 \displaybreak[0]\\
-		&\stack{Bessel}\le \eps + \|f_\eps - s_n^{(\eps)}\| + \underbrace{\|f_\eps - f\|}_{<\eps} \\
-		&< 2\eps + \sqrt{\int_{-\pi}^\pi \Big|f_\eps} - s_n^{(\eps)}(t)\Big|^2 \dx[t] \\
-		&\le 2\eps + \sqrt{\max_{[-\pi,\pi]} \Big|f_\eps} - s_n^{(\eps)}\Big|^2 \cdot 2\pi \\
-		&< 3\eps  \qquad \text{für $n > N_\eps$ nach \ref{3.31}} \\
-	\end{align*}
-	und damit $\|f - s_n\| \to 0$ für $n \to \infty$.
+		Setze $s_n^{(\eps)} := \sum_{j=-n}^n \<f_\eps, e_j\> e_j$.
+		Dann ist
+		\begin{align*}
+			\|f - s_n\|
+			&\le \underbrace{\|f - f_\eps\|}_{<\eps} + \|f_\eps - s_n^{(\eps)}\| + \|s_n^{(\eps)} - s_n\| \\
+			&\le \eps + \sqrt{\int_{-\pi}^\pi \Big|f_\eps - s_n^{(\eps)}(t)\Big|^2 \dx[t] } + \bigg\| \sum_{j=-n}^n \<f_\eps - f, e_j\> e_j \bigg\|^2 \displaybreak[0]\\
+			&\stack{\text{Bessel}}\le \eps + \underbrace{\sqrt{ 2\pi \max_{[-\pi,\pi]} \Big|f_\eps - s_n^{(\eps)}\Big|^2} }_{<\eps \text{, nach \ref{3.31}}} + \underbrace{\|f_\eps - f\|}_{<\eps} \\
+			&< 3\eps  \qquad \text{für $n > N_\eps$} \\
+		\end{align*}
+		und damit $\|f - s_n\| \to 0$ für $n \to \infty$.
+	\end{proof}
 \end{st}
 
 \begin{nt} \label{3.34}
 	\begin{enumerate}[1)]
 		\item
-			Genauso wie in \ref{3.33} lässt sich zeigen, dass
+			Das Orthonormalsystem
 			\[
-				(e_j)_{j\in \N} = \Bigg( \f 1{\sqrt{2\pi}}, \; \f 1{\sqrt{\pi}} \sin x,\; \f 1{\sqrt{\pi}} \cos x,\; \dotsc \Bigg)
+				(e_j)_{j\in \N} := \Bigg( \f 1{\sqrt{2\pi}}, \; \f 1{\sqrt{\pi}} \sin x,\; \f 1{\sqrt{\pi}} \cos x,\; \dotsc \Bigg)
 			\]
-			ist VONS in $L^2([-\pi,\pi])$ ($s_n$ ist dieselbe Funktion wie vorher).
+			ist ebenfalls ein VONS in $L^2([-\pi,\pi])$, da (vergleiche \ref{3.21} und \ref{3.32})
+			\[
+				s_n(x)
+				= \sum_{j=1}^n \<f,e_j\> e_j(x)
+				= \sum_{j=-n}^n \<f,\tilde e_j\> \tilde e_j(x),
+			\]
+			für $\tilde e_j(x) := \f 1{\sqrt{2\pi}} e^{ijx}$.
+			Also lässt sich der Beweis aus \ref{3.33} direkt übertragen.
 		\item
 			Zusammenfassung:
 			\begin{enumerate}[a)]
 				\item
 					Für $f \in L^2([-\pi,\pi])$ gilt
 					\[
-						f = \lim_{n\to \infty} \sum_{i=-n}^n \<f,e_j\> e_j
+						f = \lim_{n\to \infty} \sum_{j=-n}^n \<f,e_j\> e_j
 					\]
 					(Konvergenz bezüglich $\|\argdot\|$).
 				\item
@@ -1518,17 +1566,17 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 					\[
 						f(x) = \lim_{n\to\infty} \sum_{j=-n}^n \<f,e_j\> e_j(x)
 					\]
-					gleichmäßig auf $[-\pi,\pi]$.
+					gleichmäßig auf $\R$.
 			\end{enumerate}
 	\end{enumerate}
 \end{nt}
 
 \begin{nt}[Andere Intervalle] \label{3.35}
-	Sei $f \in C(\R \to \C)$ $2L$-periodisch und
+	Sei $f \in C(\R \to \C)$ $2L$-periodisch mit
 	\[
-		|f(x) - f(x')| \le c |x-x'|^\alpha \qquad c,\alpha > 0.
+		\exists \alpha, c > 0 \forall x,x': |f(x) - f(x')| \le c |x-x'|^\alpha.
 	\]
-	$g(x) := f(\f L\pi x)$ erfüllt \ref{3.31} (Lipschitz-Bedingung).
+	$g(x) := f(\f L\pi x)$ erfüllt also die Lipschitz-Bedingung aus \ref{3.30}.
 	Also
 	\begin{align*}
 		f(\f L\pi x) = g(x) 
@@ -1542,46 +1590,55 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 	Setze $\tilde e_j(y) := \f 1{\sqrt{2L}} e^{ij \f \pi L y}$.
 	Dann ist $(\tilde e_j)_{j\in \Z}$ VONS in $L^2([-L,L])$.
 	Mit $\tilde e_j$ anstelle von $e_j$, gilt alles wie vorher im Intervall $[-L,L]$ bzw. für $2L$-periodische Funktionen.
+	% FIXME: Muss klarer gemacht werden: Warum ist die Lipschitz-Bedingung nötig? Wie genau übertragen sich die Aussagen auf das neue VONS (in den Beweisen wurde bislang mit s_n(x) gearbeitet)?
 \end{nt}
 
 \begin{ex} \label{3.36}
-	Gegeben $a,b \in \R, a,b \neq 0, f \in [-L,L] \to \C$.
+	Seien $a,b \in \R, a,b \neq 0, f: [-L,L] \to \C$ gegeben.
 
-	Gesucht $y \in C^2([-L,L] \to \C)$ als Lösung von 
+	Gesucht ist $y \in C^2([-L,L] \to \C)$ als Lösung von
 	\begin{gather*}
 		ay'' + by' + y = f \qquad \text{ in $[-L,L]$} \\
 		y(-L) = y(L) \quad \land \quad y'(-L) = y'(L) \quad \text{(periodische Randbedingung)}
 	\end{gather*}
-	Zunächst formale Rechnung: Vertausche Ableitung und Reihe, Konvergenzüberlegungen erst später.
 
+
+	\paragraph{Formale Rechnung}
+
+	Wir rechnen zunächst formal und stellen die Konvergenzüberlegungen hinten an.
 	Seien
 	\begin{align*}
-		f(x) &= \sum_{j=-\infty}^\infty \<f,\tilde e_j\> \tilde e_j(x) \\
+		f(x) &= \sum_{j=-\infty}^\infty \<f,\tilde e_j\> \tilde e_j(x), &
 		y(x) &= \sum_{j=-\infty}^\infty y_j \tilde e_j(x)
 	\end{align*}
 	Ziel der formalen Rechnung ist die Bestimmung von $(y_j)$.
 	\begin{align*}
-		y'(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j'(x) = \sum_{j=-\infty} y_j ij \f {\pi}L \tilde e_j(x) \\
-		y''(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j''(x) = -\sum_{j=-\infty} y_j \Big( j \f {\pi}L \Big)^2 \tilde e_j(x) 
+		y'(x) &= \sum_{j=-\infty}^\infty y_j \tilde e_j'(x)
+			= \sum_{j=-\infty} y_j ij \f {\pi}L \tilde e_j(x) \\
+		y''(x) &= \sum_{j=-\infty}^\infty y_j \tilde e_j''(x)
+			= -\sum_{j=-\infty} y_j \Big( j \f {\pi}L \Big)^2 \tilde e_j(x)
 	\end{align*}
-	Eingesetzt in die DGL ergibt sich
+	Eingesetzt in die DGL gilt
 	\begin{align*}
 		\sum_{j=-\infty}^\infty y_j\Big( -a (\tf {j\pi}L)^2 + b ij \tf \pi L + 1 \Big) \tilde e_j(x)
 		&\stack != \sum_{j=-\infty}^\infty \<f, \tilde e_j\> \tilde e_j(x) \\
-		\iff \qquad y_j &= \dfrac 1{-a (\tf \pi L)^2 + b ij \tf \pi L + 1} \<f,\tilde e_j\>
-		\qquad \text{(Fourierkoeff. eindeutig)}
+		\iff \qquad y_j &= \dfrac 1{-a (\tf {j\pi} L)^2 + b ij \tf \pi L + 1} \<f,\tilde e_j\>,
 	\end{align*}
+	da die Fourierkoeffizienten eindeutig bestimmt sind.
 	Es ergibt sich als Kandidaten für die Lösung also
 	\[
 		y(x) = \sum_{j=-\infty}^\infty \f 1{-a (\tf {j\pi}L )^2 + b ij \f \pi L + 1} \<f, \tilde e_j\> \tilde e_j(x)
 	\]
-	Falls Reihe gleichmäßig konvergent und erste und zweite Ableitung mit Reihe vertauschbar sind, dann ist $y \in C^2([-L,L]\to \C)$ und $y$ ist Lösung.
+	Falls die Reihe gleichmäßig konvergiert und die erste und zweite Ableitung mit der Reihe vertauschbar sind, dann ist $y \in C^2([-L,L]\to \C)$ und $y$ ist eine Lösung.
+
+
+	\paragraph{Konvergenzüberlegungen}
 
 	Setze voraus: $f \in C^1(\R \to \C)$ $2\pi$-periodisch.
 	Dann gilt
 	\begin{enumerate}[1)]
 		\item
-			Nach \ref{3.31}, \ref{3.30} ist für $[-L,L]$
+			Nach \ref{3.31} ist für $[-L,L]$
 			\[
 				f(x) = \sum_{j=-\infty}^\infty \<f,\tilde e_j\> \tilde e_j(x)
 			\]
@@ -1589,36 +1646,40 @@ Konvergiert $s_n(x)$? Wenn ja, gilt dann $s(x) = f(x)$?
 		\item
 			Mit partieller Integration gilt, da $f'$ stetig:
 			\[
-				|\<f, \tilde e_j\>| \le \f c j \qquad c \in \R.
+				|\<f, \tilde e_j\>|
+				\le \f c j \qquad c \in \R.
 			\]
 		\item
 			\begin{enumerate}[a)]
 				\item
-					$y(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j(x)$ ist nach Weierstraß gleichmäßig konvergent auf $\R$, da 
+					$y(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j(x)$ ist nach Weierstraß gleichmäßig konvergent auf $\R$, da
 					\[
 						|y_j \tilde e_j(x)| \le \f {c_1}{j^2} |\<f, \tilde e_j\>| |\tilde e_j(x)| \le \f {c_2}{j^3}
 					\]
 					 und $\sum_{j=0}^\infty \f 1{j^3} < \infty$.
 				\item
-					$y'(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j'(x)$ ist gleichmäßig konvergent.
-
+					$y'(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j'(x)$ ist nach Weierstraß gleichmäßig konvergent auf $\R$, da
 					\begin{align*}
 						|y_j \tilde e_j'(x)| \le \f {c_1}{j^2} |\<f,\tilde e_j\>| \underbrace{|\tilde e_j'(x)|}_{\le \f j {\sqrt{2L}}} \le \f {c^2}{j^2}
 					\end{align*}
+					und $\sum_{j=0}^\infty \f 1{j^2} < \infty$.
 				\item
 					Die Reihe $y''(x) = \sum_{j=-\infty}^\infty y_j \tilde e_j''(x)$ konvergiert gleichmäßig:
 
 					\begin{align*}
 						y_j e_j''(x)
-						= \f 1{a} \Big(\underbrace{\<f, \tilde e_j\> \tilde e_j(x)}_{\text{glm. konv. nach 1)}} - \underbrace{b y_j \tilde e_j'(x)}_{\text{glm. konv. nach 3b)}} - \underbrace{y_j \tilde e_j(x)}_{\text{glm. konv. nach 3a)}} \Big)
+						= \f 1{a} \Big(\underbrace{\<f, \tilde e_j\> \tilde e_j(x)}_{\text{glm. konv. nach 1)}} - b\underbrace{y_j \tilde e_j'(x)}_{\text{glm. konv. nach 3b)}} - \underbrace{y_j \tilde e_j(x)}_{\text{glm. konv. nach 3a)}} \Big)
 					\end{align*}
 			\end{enumerate}
 	\end{enumerate}
 
-	Sichtwechsel: Da die Reihe für $y$ gleichmäßig konvergent ist, gilt
+	\paragraph{Perspektivenwechsel}
+
+	Da die Reihe für $y$ gleichmäßig konvergent ist, gilt
 	\begin{align*}
-		y(x) = \int_{-\pi}^\pi f(t) \underbrace{\sum_{j=-\infty}^\infty y_j e^{\f \pi L ij(x-t)}}_{=G(x-t)} \dx[t].
+		y(x) = \int_{-\pi}^\pi f(t) \underbrace{\sum_{j=-\infty}^\infty y_j e^{\f \pi L ij(x-t)}}_{=:G(x-t)} \dx[t].
 	\end{align*}
+	% FIXME: Beweis?
 	$G(x-t)$ entspricht der Greenschen Funktion.
 \end{ex}
 
