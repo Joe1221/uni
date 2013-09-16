@@ -1,19 +1,25 @@
-% Class für Vorlesungen, etc
-
+% This class provides reasonable defaults for math courses
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{mycourse}
 
 \RequirePackage{etoolbox}
 \ifundef{\ConfigFontsize}{\def\ConfigFontsize{12pt}}{}
 \ifundef{\ConfigLanguage}{\def\ConfigLanguage{ngerman}}{}
-\InputIfFileExists{config}{}{}
+
+% Load configuration file, containing additional options
+\InputIfFileExists{config}{
+	\ClassInfo{mycourse}{Loaded configuration from `config.tex`.}
+}{
+	\ClassWarning{mycourse}{No configuration file `config.tex` found.}
+}
 
 \PassOptionsToClass{fontsize=\ConfigFontsize}{scrbook}
 
 %==================================
 % Options
 %==================================
-% pass-through unknown options
+
+% pass-through unknown options to scrbook
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
 
 
@@ -36,6 +42,8 @@
 		\renewcommand\section{\clearpage\oldsection}
 	}
 }
+
+\DeclareOption{ngerman}{\def\ConfigLanguage{ngerman}\PassOptionsToPackage{ngerman}{babel}}
 
 
 \ProcessOptions\relax
@@ -62,12 +70,12 @@
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
 
-\IfFileExists{CJK.sty}{
-	\usepackage[encapsulated]{CJK}
-	\newcommand{\japtext}[1]{\begin{CJK}{UTF8}{min}##1\end{CJK}}
-}{
-	\newcommand{\japtext}[1]{}
-}
+%\IfFileExists{CJK.sty}{
+%	\usepackage[encapsulated]{CJK}
+%	\newcommand{\japtext}[1]{\begin{CJK}{UTF8}{min}##1\end{CJK}}
+%}{
+%	\newcommand{\japtext}[1]{}
+%}
 
 \RequirePackage[l2tabu,orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
 \RequirePackage{etex}
@@ -188,7 +196,7 @@
 \RequirePackage{algpseudocode}		% algorithmicx package für Pseudo-Code
 \RequirePackage{verbatim}			% Für Ascii-Art ;-)
 
-\RequirePackage{mathtools}
+%\RequirePackage{mathtools}
 \RequirePackage[amsmath,hyperref,thmmarks]{ntheorem}			% Alternative theorems für leichteres Anpassen
 \RequirePackage{tikz}
 
