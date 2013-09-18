@@ -15,32 +15,38 @@
 		\item
 			Für $f \in C^\infty(\R \to \C)$, $j,k \in \N_0$ sei
 			\[
-				\|f\|_{j,k} := \sup_{x\in \R} |x^j f^{(k)}(x)|
+				\|f\|_{j,k} := \sup_{x\in \R} |x^j f^{(k)}(x)|.
 			\]
-			(für $k \ge 1$ Halbnorm).
-			Der \emph{Schwartz-Raum} über $\R$ ist
+			Definiere den \emph{Schwartz-Raum über $\R$} als
 			\[
-				\scr S (\R) := \Big\{ f \in C^\infty(\R \to \C) \suchthat  \forall j,k \in \N_0 : \|f\|_{j,k} < \infty \Big\}
+				\scr S (\R) := \Big\{ f \in C^\infty(\R \to \C) \suchthat  \forall j,k \in \N_0 : \|f\|_{j,k} < \infty \Big\}.
 			\]
 		\item
-			Für $f : \R \to \C$ ist
+			Für $f : \R \to \C$ sei
 			\[
-				\supp(f) := \_{\{x \in \R : f(x) \neq 0}
+				\supp(f) := \_{\{x \in \R : f(x) \neq 0\}}
 			\]
 			der \emph{Träger} oder \emph{Support} von $f$.
 
-			Der Testraum über $\R$ ist
+			Der \emph{Testraum} über $\R$ ist definiert als
 			\[
-				C_0^\infty(\R) := \{f \in C^\infty(\R\to\C) : \supp(f) \text{ ist kompakt} \Big\}
+				C_0^\infty(\R) := \Big\{f \in C^\infty(\R\to\C) : \supp(f) \text{ ist kompakt} \Big\}
 			\]
 			Offensichtlich ist $C_0^\infty (\R) \subset \scr S(R)$.
 	\end{enumerate}
+	\begin{note}
+		Für $f \in C^\infty(\R \to \C)$, $j,k\in\N_0$ ist $\|\argdot\|_{j,k}$ eine Halbnorm und im Fall $k = 0$ sogar eine Norm.
+	\end{note}
 \end{df}
 
 \begin{ex} \label{4.2}
 	\begin{enumerate}[1)]
 		\item
-			$f(x) = x^j e^{-\alpha x^2}, j \in \N_0, \alpha > 0$, dann ist $f \in \scr S(\R) \setminus \C_0^\infty (\R)$.
+			Für $j \in \N_0, \alpha > 0$ setze
+			\[
+				f(x) = x^j e^{-\alpha x^2}.
+			\]
+			Dann ist $f \in \scr S(\R) \setminus C_0^\infty (\R)$.
 		\item
 			Sei
 			\[
@@ -49,12 +55,12 @@
 					0 & \text{sonst}
 				\end{cases}
 			\]
-			Dann ist $\supp(\tilde j_1) = [-1,1]$, $\tilde j_1 \in C^\infty(\R \to \R)$, also $\tilde j_1 \in C_0^\infty(\R)$.
-			Außerdem $\tilde j_1(x) \ge 0$.
+			Wegen $\supp(\tilde j_1) = [-1,1]$ und $\tilde j_1 \in C^\infty(\R \to \R)$ ist $\tilde j_1 \in C_0^\infty(\R)$.
+			Außerdem gilt $\tilde j_1(x) \ge 0$.
 
 			Setze $j_1(x) := c \tilde j_1(x)$ mit
 			\[
-				c = \dfrac 1{\int_{-1}^1 e^{- \f 1{1-x^2}} \dx}.
+				c = \dfrac 1{\int_{-1}^1 e^{- \f 1{1-t^2}} \dx[t]}.
 			\]
 			Dann hat $j_1$ die zusätzliche Eigenschaft $\int_{\R} j_1(x) \dx = 1$.
 
@@ -62,68 +68,80 @@
 			\[
 				j_\eps(x) := \f 1\eps j_1(\f x\eps).
 			\]
-			Dann ist $\supp(j_\eps) = [-\eps, \eps]$, $\int_\R j_\eps \dx = 1$, $j_\eps \in C_0^\infty$.
+			Dann hat $j_\eps$ insgesamt folgende Eigenschaften:
+			\begin{itemize}
+				\item
+					$j_\eps \in C_0^\infty$,
+				\item
+					$\supp(j_\eps) = [-\eps,\eps]$,
+				\item
+					$\int_\R j_\eps(x) \dx = 1$.
+			\end{itemize}
 		\item
-			Abschneidefunktionen
-
-			Definiere für $R > \eps > 0$
+			Definiere für $R > \eps > 0$ die sogenannte \emph{Abschneidefunktion}:
 			\[
 				\psi_{R, \eps}(x) := \int_{-R-\eps}^{R+ \eps} j_\eps(x-y) \dx[y].
 			\]
-			Für $-R \le x \le \R$ ist
+
+			Für $-R \le x \le R$ ist
 			\begin{align*}
 				\psi_{R, \eps}(x)
-				&= \int_{x-\eps}^{x+\eps} j_\eps (x-y) \dx[y] \\
-				&= \int_{-\infty}^\infty j_\eps(x-y) \dx[y] \\
-				&\stack{\xi = x-y} = -\int_{+\infty}^{-\infty}  j_\eps (\xi) \dx[\xi] = 1
+				= \int_{-\infty}^\infty j_\eps(x-y) \dx[y]
+				\stack{\xi = x-y} = -\int_{+\infty}^{-\infty}  j_\eps (\xi) \dx[\xi]
+				= 1.
 			\end{align*}
-			Für $x \ge R + 2\eps$ oder $x \le - R - 2\eps$ ist
+
+			Für $x \le - R - 2\eps$ oder $x \ge R + 2\eps$ ist
 			\[
-				\psi_{R,\eps}(x) = \int 0 \dx[y] = 0.
+				\psi_{R,\eps}(x) = \int 0 \dx[y] = 0,
 			\]
-			Es gilt
+			also $\supp (\psi_{R,\eps}) \subset [-R-2\eps, R+2\eps]$.
+
+			Mit der Leibnizregel für Parameterintegrale gilt
 			\[
 				\f {\mathrm{d}^k}{\mathrm{d}x^k} \psi_{R,\eps}(x)
 				= \int_{-R-\eps}^{R+\eps} j_\eps^{(k)} (x-y) \dx[y],
 			\]
 			also $\psi_{R,\eps} \in C_0^\infty (\R)$.
 
-			Der Betrag der Ableitung lässt sich abschätzen:
+			Der Betrag der Ableitung lässt sich unabhängig von $R$ und $x$ abschätzen:
 			\begin{align*}
 				\Big| \f {\mathrm{d}^k}{\mathrm{d}x^k} \psi_{R,\eps}(x) \Big|
-				&\le \int_{R-\eps}^{R+\eps} |j_\eps^{(k)}(x-y)| \dx[y] \\
-				&\stack{\xi = x-y}\le \int_{-\eps}^\eps |j_\eps^{(k)}(\xi)| \dx[\xi] \\
-				&\le c(\eps),
+				\le \int_{-R-\eps}^{R+\eps} |j_\eps^{(k)}(x-y)| \dx[y]
+				\stack{\xi = x-y}\le \int_{-\eps}^\eps |j_\eps^{(k)}(\xi)| \dx[\xi]
+				\le c(\eps).
 			\end{align*}
-			unabhängig von $R$ und $x$.
 	\end{enumerate}
 \end{ex}
 
 \begin{nt} \label{4.3}
-	Mit
+	Mit der Metrik
 	\[
 		d(f,g) := \sum_{j,k = 0}^\infty \f 1{2^{j+k}} \f {\|f-g\|_{j,k}}{1+ \|f-g\|_{j,k}}
 	\]
-	ist $\scr S(\R)$ ein vollständiger metrischer Raum
+	ist $(\scr S(\R), d)$ ein vollständiger metrischer Raum.
+	% Fixme: Beweis?!
 \end{nt}
 
 \begin{nt}[Eigenschaften] \label{4.4}
 	\begin{enumerate}[1)]
 		\item
-			$\scr S(\R)$ ist linearer Raum über $\C$.
+			$\scr S(\R)$ ist ein linearer Raum über $\C$.
 		\item
-			Für $f,g \in \scr S (\R)$ ist $fg \in \scr S(\R)$.
-			Insbesondere ist mit 1) $\scr S(\R)$ Algebra ohne Einselement.
+			Für $f,g \in \scr S (\R)$ ist $f \cdot g \in \scr S(\R)$.
+
+			Insbesondere ist $(\scr S(\R), \cdot)$ mit 1) eine $\C$-Algebra ohne Einselement.
 		\item
-			Für $f \in \scr S(R)$, $j,k \in \N$, $g(x) := x^j f^{(k)}(x)$ ist $g \in \scr S(\R)$.
+			Sei $f \in \scr S(R)$, $j,k \in \N_0$ und $g(x) := x^j f^{(k)}(x)$.
+			Dann ist $g \in \scr S(\R)$.
 	\end{enumerate}
-	Die selben Eigenschaften besitzt auch $C_0^\infty(\R)$.
+	$C_0^\infty(\R)$ besitzt die selben Eigenschaften.
 \end{nt}
 
 \begin{df}[Fourier-Transformation] \label{4.5}
 	Für $f \in \scr S (\R)$ ist
 	\[
-		Ff(\omega) := \hat f(\omega) := \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty f(x) \cdot e^{-i\omega x} \dx
+		(Ff)(\omega) := \hat f(\omega) := \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty f(x) \cdot e^{-i\omega x} \dx
 	\]
 	die \emph{Fourier-Transformierte} von $f$.
 \end{df}
@@ -135,13 +153,14 @@
 \end{ex}
 
 \begin{st} \label{4.7}
-	Für $f \in \scr S(\R)$, $j, k \in \N_0$ gelten:
-	\begin{gather*}
-		\widehat {f^{(j)}}(\omega) = (i \omega)^j \hat f(\omega) \\
-		\begin{aligned}
-			g(x) := x^k f(x) \quad &\implies \quad \hat g(\omega) = i^k \hat f^{(k)} (\omega) \\
-		\end{aligned}
-	\end{gather*}
+	Sei $f \in \scr S(\R)$ und $k \in \N_0$.
+	Dann gelten
+	\begin{enumerate}[1)]
+		\item
+			$\widehat {f^{(k)}}(\omega) = (i \omega)^k \hat f(\omega)$,
+		\item
+			für $g(x) := x^k f(x)$ ist $\hat g(\omega) = i^k \hat f^{(k)} (\omega)$.
+	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
@@ -149,21 +168,19 @@
 				\begin{align*}
 					\sqrt {2\pi} \hat{f'}(\omega)
 					&= \int_{-\infty}^\infty f'(x) e^{-i\omega x} \dx \\
-					&= \underbrace{\Big[f(x) e^{-i\omega x}  \Big]_{x=-\infty}^\infty}_{=0 \text{ ($f \in \scr S$)}} + i\omega \underbrace{\int_{-\infty}^\infty f(x) e^{-i\omega x} \dx}_{= \sqrt{2\pi} \hat f(\omega)} \\
-					&= \sqrt{2\pi} i \omega \hat f(\omega). \\
+					&= \underbrace{\Big[f(x) e^{-i\omega x}  \Big]_{x=-\infty}^{x=\infty}}_{=0 \text{ ($f \in \scr S$)}} + i\omega \underbrace{\int_{-\infty}^\infty f(x) e^{-i\omega x} \dx}_{= \sqrt{2\pi} \hat f(\omega)} \\
+					&= \sqrt{2\pi} i \omega \hat f(\omega).
 				\end{align*}
 			\item
-				Sei $g(x) = x f(x)$, dann gilt
+				Sei $g(x) = x f(x)$.
+				Da $f \in \scr S(\R)$ gilt $|g(x) e^{-i\omega x}| = |xf(x)| \le \f c{1+x^2}$, also konvergiert das folgende Integral nach dem Majorantenkriterium gleichmäßig und es gilt
 				\begin{align*}
 					\sqrt{2\pi} \hat g(x)
 					&= \int_{-\infty}^\infty f(x) \underbrace{ xe^{-i \omega x}}_{= i \f{\mathrm d}{\mathrm d \omega} e^{-i \omega x}} \dx \\
-					&= i \int_{-\infty}^\infty f(x) \f {\mathrm d}{\mathrm d \omega} (e^{-i \omega x}) \dx
-				\intertext{
-					Das Integral konvergiert gleichmäßig bezüglich $\omega$, da $|f(x) x e^{-i \omega x} | \le |x f(x)| \le \f c{1+x^2}$ da $f \in \scr S$.
-				}
+					&= i \int_{-\infty}^\infty f(x) \f {\mathrm d}{\mathrm d \omega} (e^{-i \omega x}) \dx \\
 					&= i \f {\mathrm d}{\mathrm d \omega} \int_{-\infty}^\infty f(x) e^{-i \omega x} \dx \\
 					&=\sqrt{2\pi} i \f {\mathrm d}{\mathrm d \omega} \hat f(\omega)
-					= i \hat f^{(1)} (\omega) \sqrt{2\pi}
+					= \sqrt{2\pi} i {\hat f}^{(1)} (\omega).
 				\end{align*}
 		\end{enumerate}
 	\end{proof}
@@ -173,51 +190,43 @@
 	$F : f \to \hat f$ ist eine lineare Abbildung von $\scr S(\R)$ in $\scr S(\R)$.
 
 	\begin{proof}
+		% FIXME: Überprüfen
 		\begin{enumerate}[1)]
 			\item
 				$F$ linear ist klar.
 			\item
-				Sei $f \in \scr S(\R)$.
 				Zeige $\hat f \in \scr S(\R)$.
 				\begin{enumerate}[a)]
 					\item
+						Sei $k \in \N_0$.
+						Da $f \in \scr S(\R)$ gilt $|f(x) \ddx[x^k] e^{-i\omega x}| = |f(x)||x|^k \le \f c{1+|x|^{k+2}} |x|^k$, also konvergiert das folgende Integral nach dem Majorantenkriterium gleichmäßig.
 						Es gilt
 						\begin{align*}
-							|\hat f(\omega)|
-							&= \f 1{\sqrt{2\pi}} \bigg| \int_{-\infty}^\infty f(x) e^{-i \omega x} \dx \bigg| \\
-							&\le \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty  |f(x)| \dx
-							< \infty
+							\sqrt{2\pi} \ddx[\omega^k] \hat f(\omega)
+							= \ddx[\omega^k] \int_{-\infty}^\infty f(x) e^{i \omega x} \dx
+							= \int_{-\infty}^\infty f(x) \ddx[\omega^k] e^{- i \omega x} \dx
 						\end{align*}
-						(wegen $|f(x)| \le \f {c}{1+x^2}$, da $f \in \scr S(\R)$)
-						und damit $\sup_{\omega \in \R}|\hat f(\omega)| < \infty$.
-					\item
-						Es gilt
-						\begin{align*}
-							\sqrt{2\pi} \f {\mathrm d^k}{\mathrm d \omega^k} \hat f(\omega)
-							&= \f {\mathrm d^k}{\mathrm d \omega^k} \hat f(\omega) \int_{-\infty}^\infty f(x) e^{i \omega x} \dx \\
-							&= \int_{-\infty}^\infty \underbrace{f(x) \underbrace{\f {\mathrm d^k}{\mathrm d \omega^k} e^{- i \omega x}}_{= (-ix)^k e^{-i\omega x}}}_{|\argdot| \le \f {c}{1+|x|^{k+2}|x|^k}} \dx
-						\end{align*}
-						Das Abgeleitete Integral konvergiert gleichmäßig bezüglich $\omega$.
-						Damit ist die Vertauschung von Ableitung und Integral gerechtfertigt.
-						Außerdem hängt das Integral stetig von $\omega$ ab.
+						Wegen der gleichmäßigen Konvergenz des Integrals hängt der Wert stetig von $\omega$ ab, also $\hat f \in C^\infty(\R \to \C)$.
 
-						Somit ist $\hat f \in C^\infty(\R \to \C)$.
+						Außerdem ist $|\hat f(\omega)| \le \int_{-\infty}^\infty |f(x) e^{i\omega x}| \dx \le c \int_{-\infty}^\infty \f 1{1+x^2} \dx < \infty$, also $\sup_{\omega\in\R} |\hat f(\omega)| < \infty$.
+					\item
+						Seien jetzt $j,k \in \N_0$ und $g(x) := x^k f(x)$, dann ist $g^{(j)} \in \scr S(\R)$ (Produktregel) und nach Teil a) gilt $\sup_{\omega \in \R}|\hat {g^{(j)}}(\omega)| < \infty$, also
+						\[
+							\|\hat f\|_{j,k}
+							= \sup_{\omega\in\R} \Big| \omega^j {\hat f}^{(k)}(\omega) \Big|
+							\stack{\ref{4.7}}= \sup_{\omega\in\R} \Big| \omega^j \hat g(\omega) \Big|
+							\stack{\ref{4.7}}= \sup_{\omega\in\R} \Big| \hat {g^{(j)}}(\omega) \Big|
+							\stack{\text{a)}}< \infty.
+						\]
 				\end{enumerate}
 		\end{enumerate}
-		Es gilt
-		\begin{align*}
-			\sup_{\omega \in \R} |\omega^j \hat f^{(k)}(\omega) |
-			&\stackrel{\ref{4.7}}= \sup_{\omega \in \R} \Big| \tf {1}{i^{j+k}} \hat g(\omega) \Big| \qquad \text{mit $g(x) = x^k f^{(j)}(x)$}
-		\intertext{also insbesondere $g \in \scr S(\R)$}
-			&\stack{\text{a)}}< \infty \qquad \text{für alle $j,k \in \N_0$}.
-		\end{align*}
 	\end{proof}
 \end{st}
 
 \begin{nt} \label{4.9}
 	$F : \scr S(\R) \to \scr S(\R)$ ist stetig bezüglich der Metrik $d$ aus \ref{4.3}.
 	\begin{proof}
-		\coursehref{blatt09.pdf}{Übungsaufgabe 9.4a)}
+		Siehe \coursehref{blatt09.pdf}{Übungsaufgabe 9.4a}.
 	\end{proof}
 \end{nt}
 
@@ -225,73 +234,78 @@
 \begin{st} \label{4.10}
 	$F: \scr S(\R) \to \scr S(\R): f \mapsto \hat f$ ist bijektiv und $F^{-1}: \scr S(\R) \to \scr S(\R) : g \mapsto \check g$ ist gegeben durch
 	\[
-		\check g(x) := \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty g(\omega) e^{i \omega x} \dx[\omega]
+		(F^{-1}g)(x) := \check g(x) := \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty g(\omega) \cdot e^{i \omega x} \dx[\omega]
 	\]
 	\begin{proof}
+		Zeige zunächst $f(y) = \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat f(\omega) e^{i\omega y} \dx[\omega]$ für $f \in C_0^\infty(\R)$, erweitere dies anschließend mit Hilfe der Abschneidefunktion auf $f \in \scr S(\R)$ (damit ist die Injektivität durch Angabe der Umkehrabbildung auf $\im F$ gezeigt) und zeige zuletzt die Surjektivität.
 		\begin{enumerate}[1)]
 			\item
-				Sei zunächst $f \in C_0^\infty(\R)$.
-				Wähle $\eps > 0$, so dass $\supp f \subset ]-\f 1\eps, \f 1\eps[$.
-				Setze $f$ $\f 2\eps$-periodisch auf $\R$ fort, dann ist $f \in C^\infty (\R \to \C)$.
-				Aus \ref{3.35} folgt: für $y \in ]-\f 1\eps, \f 1\eps[$ gilt
-				\begin{align*}
-					f(y)
-					&= \sum_{j=-\infty}^\infty \f 1{2 \f 1\eps} \int_{-\f 1\eps}^{\f 1\eps} e^{ij\pi s \eps} f(s) \dx[s] e^{ij\pi y \eps} \qquad \text{(nicht-fortgesetztes $f$)}\\
-					&= \sum_{j=-\infty}^\infty \underbrace{\f \eps 2 \sqrt{2\pi}}_{= \f {\Delta \omega_j}{\sqrt{2\pi}}} \hat f(\underbrace{j\pi \eps}_{\omega_j}) e^{\overbrace{ij\pi y \eps}^{i\omega_j y}} \\
-					&\stack{\eps \searrow 0}= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty f(\omega) e^{i\omega y} \dx[\omega]
-				\end{align*}
-				Also gilt für $\forall y \in \R$:
-				\[
-					f(y) = \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat f(\omega) e^{i \omega y} \dx[\omega]
-				\]
-			\item
-				Sei $f \in \scr S(\R)$.
-				Multipliziere mit der Abschneidefunktion $\psi_{R,1}$ aus \ref{4.2}: $\psi_{R,1}\cdot f \in C_0^\infty(\R)$.
-				Für $-R < y < R$ gilt
-				\begin{align*}
-					f(y)
-					&= (\psi_{R,1}\cdot f)(y) \\
-					&\stack{1)}= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \widehat{\psi_{R,1} \cdot f}(\omega) e^{i\omega y} \dx[\omega]
-				\end{align*}
-				\begin{align*}
-					\widehat{\psi_{R,1} \cdot f}(\omega)
-					&= \f 1{\sqrt{2\omega}} \int_{-\infty}^\infty \psi_{R_1}(x) f(x) e^{-i \omega x} \dx \\
-					&\stack{R\to \infty}\to \hat f(\omega)  \qquad \text{(für jedes feste $\omega$)}
-				\end{align*}
-				Für $|\omega| \ge 1$ ist
-				\begin{align*}
-					\Big|\widehat{\psi_{R,1} \cdot f}(\omega)  \Big|
-					&= \Bigg| \f 1{\sqrt{2\pi}} \f 1{(-i\omega)^2} \int_{-\infty}^\infty (\psi_{R,1}\cdot f)''(x) e^{-i \omega x} \dx[x] \Bigg| \\
-					&= \f 1{\sqrt{2\pi} \omega^2} \int_{-\infty}^\infty \underbrace{\Big| (\psi_{R,1} \cdot f)'' (x))\Big|}_{c (|f(x)| + |f'(x)| + |f''(x)| \le \f {\tilde c}{1+x^2}} 1 \dx \\
-					&\le \f {c'}{\omega^2}.
-				\end{align*}
-				Für $|\omega| \le 1$ ist
-				\begin{align*}
-					\Big|\widehat{\psi_{R,1} \cdot f}(\omega)  \Big|
-					&\le  \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \underbrace{|\psi_{R,1}(x)|}_{\le 1} |f(x)| |e^{-i\omega x}| \dx \\
-					&\le c'' \qquad \text{(unabhängig von $R$).}
-				\end{align*}
-				Nach dem Satz von der majorisierten Konvergenz gilt also
-				\begin{align*}
-					f(y)
-					&= \lim_{R\to \infty} \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty (\widehat{\psi_{R,1}\cdot f})(\omega) e^{ \omega y} \dx[\omega] \\
-					&= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \lim_{R\to \infty} (\widehat{\psi_{R,1}\cdot f})(\omega) e^{ \omega y} \dx[\omega] \\
-					&= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat f(\omega) e^{i \omega y} \dx[\omega]
-				\end{align*}
-				für alle $y \in \R$.
-				Damit ist $F$ insbesondere injektiv.
-			\item
-				$F$ ist surjektiv:
+				Sei $f \in C_0^\infty(\R)$ und $\eps > 0$ klein genug, sodass $\supp f \subset ]-\f 1\eps, \f 1\eps[$.
 
+				Setze $f$ $\f 2\eps$-periodisch auf $\R$ fort, um $f$ in eine Fourierreihe gemäß \ref{3.35} zu entwickeln.
+				Auf $]-\f 1\eps, \f 1\eps[$ stimmen das fortgesetzte $f$ und das nicht-fortgesetzte $f$ überein, also gilt für $y \in ]-\f 1\eps, \f 1\eps[$
+				\begin{align*}
+					f(y)
+					&= \sum_{j=-\infty}^\infty \f 1{2 \f 1\eps} \int_{-\f 1\eps}^{\f 1\eps} e^{-ij\pi \eps s} f(s) \dx[s] e^{ij\pi \eps y} \\
+					&= \sum_{j=-\infty}^\infty \f \eps 2 \sqrt{2\pi} \hat f(j\pi \eps) e^{ij\pi \eps y} \\
+					&= \f 1{\sqrt{2\pi}} \sum_{j=-\infty}^\infty \Delta \omega_j \hat f(\omega_j) e^{i \omega_j y}
+						&& \omega_j := j \pi \eps, \Delta \omega_j = \pi \eps.
+				\end{align*}
+				Mit $\eps \to 0$ gilt also für $y \in \R$
+				\[
+					f(y) = \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat f(\omega) e^{i \omega y} \dx[\omega].
+				\]
+
+			\item
+				Sei $f \in \scr S(\R)$ und $\psi_{R,1} \in C_0^\infty$ die Abschneidefunktion aus $\ref{4.2}$.
+				Dann ist $\psi_{R,1} f \in C_0^\infty(\R)$.
+
+				Insgesamt gilt formal
+				\begin{align*}
+					f(y)
+					= \lim_{R\to\infty} (\psi_{R,1} f)(y)
+					&\stack{1)}= \f 1{\sqrt{2\pi}} \lim_{R\to\infty} \int_{-\infty}^\infty \hat{\psi_{R,1}f}(\omega) e^{-i\omega y} \dx[\omega] \\
+					&\stack{2a)}= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \lim_{R\to\infty} \hat{\psi_{R,1}f}(\omega) e^{-i\omega y} \dx[\omega] \\
+					&\stack{2b)}= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat{f}(\omega) e^{-i\omega y} \dx[\omega].
+				\end{align*}
+				Es bleiben noch 2a) und 2b) zu rechtfertigen:
+				\begin{enumerate}[{2}a)]
+					\item
+						Wir suchen für $|\hat{\psi_{R,1}f}|$ eine von $R$ unabhängige, integrierbare Majorante.
+						Da $(\psi_{R,1}f)'' \in \scr S(\R)$ gilt für $|\omega| \ge 1$
+						\begin{align*}
+							\Big|\widehat{\psi_{R,1} \cdot f}(\omega)  \Big|
+							&= \Bigg| \f 1{\sqrt{2\pi}} \f 1{(-i\omega)^2} \int_{-\infty}^\infty (\psi_{R,1}\cdot f)''(x) e^{-i \omega x} \dx[x] \Bigg| \\
+							&= \f 1{\sqrt{2\pi} \omega^2} \int_{-\infty}^\infty \underbrace{\Big| (\psi_{R,1} \cdot f)'' (x))\Big|}_{\le \f {c}{1+x^2}} 1 \dx \\
+							&\le \f {c'}{\omega^2}.
+						\end{align*}
+						Für $|\omega| \le 1$ ist
+						\begin{align*}
+							\Big|\widehat{\psi_{R,1} \cdot f}(\omega)  \Big|
+							&\le  \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \underbrace{|\psi_{R,1}(x)|}_{\le 1} |f(x)| |e^{-i\omega x}| \dx
+							\le c''.
+						\end{align*}
+						Somit konvergiert $\int_{-\infty}^\infty \hat{\psi_{R,1}f}(\omega) e^{-i\omega y} \dx[\omega]$ nach dem Majorantenkriterium gleichmäßig.
+					\item
+						Da $\psi_{R,1}f \in \scr S(\R)$ ist $|(\psi_{R,1}f)(x)| \le \f c{1+x^2}$ und damit für $\omega \in \R$
+						\begin{align*}
+							\lim_{R\to \infty} \widehat{\psi_{R,1} \cdot f}(\omega)
+							&= \f 1{\sqrt{2\omega}} \lim_{R\to\infty} \int_{-\infty}^\infty \psi_{R,1}(x) f(x) e^{-i \omega x} \dx \\
+							&= \f 1{\sqrt{2\omega}} \int_{-\infty}^\infty \lim_{R\to\infty} \psi_{R,1}(x) f(x) e^{-i \omega x} \dx \\
+							&= \hat f(\omega).
+						\end{align*}
+				\end{enumerate}
+
+			\item
 				Sei $g \in \scr S(\R)$.
 				Aus 2) folgt
 				\begin{align*}
 					g(\omega)
-					&= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat g(x) e^{i\omega x} \dx \\
-					&= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat g(-x) e^{-i\omega x} \dx \\
+					&= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat g(x) e^{i\omega x} \dx
+					= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \hat g(-x) e^{-i\omega x} \dx
 				\end{align*}
-				Wegen $g \in \scr S(\R)$ ist nach \ref{4.8} auch $\hat g \in \scr S(\R)$.
-				Also $g = \widehat{\hat g(- \argdot)} \in \im(F)$.
+				Nach \ref{4.8} ist auch $\hat g \in \scr S(\R)$ und somit $g = \widehat{\hat g(- \argdot)} \in \im(F)$.
+				Also ist $F$ surjektiv.
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -299,41 +313,41 @@
 \begin{ex}[Durchbiegung eines unendlich langen Balkens] \label{4.11}
 	Sei $u(x)$ der Verlauf des Balkens und $f(x)$ die einwirkende Kraft an jedem Punkt.
 	Es gilt folgende DGL:
-	\[
-		u^{(4)} + \alpha^4 u(x) = f(x)
-	\]
+	\begin{align*}
+		& u^{(4)} + \alpha^4 u(x) = f(x), &
+		& \alpha \neq 0
+	\end{align*}
 	Wir nehmen an, dass $f, u \in \scr S(\R)$.
-	Wegen $\widehat{u^{(k)}(\omega)} = (i\omega)^k \hat u(\omega)$ vereinfacht sich die DGL nach Fouriertransformation zu
+	Wegen $\widehat{u^{(k)}}(\omega) = (i\omega)^k \hat u(\omega)$ vereinfacht sich die DGL nach der Fouriertransformation zu
 	\begin{align*}
 		\omega^4 \hat u(\omega) + \alpha^4 \hat u(\omega) &= \hat f(\omega) \\
 		\iff \qquad  \hat u(\omega) &= \f 1{\omega^4 + \alpha^4} \hat f(\omega)
 	\end{align*}
 	Wegen $f \in \scr S(\R)$ ist auch $\hat f \in \scr S(\R)$.
-	Mit $\phi(\omega) := \f 1{\omega^4 + \alpha^4}$ gelten $\phi \in C^\infty (\R \to \R)$ und $|\phi^{(k)}(\omega)| \le c_k$ (es reicht $\le |x^{N_k}|c_k$).
-	Damit ist $\phi \hat f \in \scr S(\R)$ (Beweis: Übung) und somit
+	Mit $\phi(\omega) := \f 1{\omega^4 + \alpha^4}$ gelten $\phi \in C^\infty (\R \to \R)$ und $|\phi^{(k)}(\omega)| \le c_k$.
+	Damit ist $\phi \hat f \in \scr S(\R)$ (siehe \coursehref{blatt09.pdf}{Übungsaufgabe 9.4b}) und somit
 	\[
 		u = (\phi \hat f)^{\vee} \in \scr S(\R)
 	\]
 	Also existiert die Lösung und ist eindeutig.
 
-	Manche Leute würden die Lösung auch gerne ausrechnen können.
-	Wie berechnet man $(\phi \psi)^{\vee}$ aus $\check \phi$, $\check \psi$?
+	Manche Menschen würden die Lösung auch gerne ausrechnen können.
+	Wie berechnet man $(\phi \hat f)^{\vee}$ aus $\check \phi$ und $f$?
 \end{ex}
 
 \begin{df} \label{4.12}
-	Für $f, g \in \scr S(\R)$ ist
+	Sei $f, g \in \scr S(\R)$.
+	Die \emph{Faltung} $f \ast g$ von $f$ mit $g$ ist definiert durch
 	\[
-		(f \ast g)(y) := \int_{-\infty}^\infty f(y-x) g(x) \dx
+		(f \ast g)(y) := \int_{-\infty}^\infty f(y-x) g(x) \dx.
 	\]
-	die \emph{Faltung} von $f$ mit $g$.
 \end{df}
 
 \begin{ex} \label{4.13}
-	Betrachte die Abschneidefunktion aus \ref{4.2} 3):
+	Die Abschneidefunktion aus \ref{4.2} lässt sich als Faltung schreiben:
 	\begin{align*}
 		\psi_{R,\eps} (x)
-		&:= \int_{-R-\eps}^{R+\eps} j_\eps (x-y) \dx[y],
-	\intertext{diese lässt sich schreiben als}
+		&:= \int_{-R-\eps}^{R+\eps} j_\eps (x-y) \dx[y], \\
 		&= \int_{-\infty}^\infty j_\eps(x-y) \cdot  \Ind_{[-R-\eps,R+\eps]}(y) \dx[y] \\
 		&= \Big( j_\eps \ast \Ind_{[-R-\eps, R+\eps]} \Big) (x)
 	\end{align*}
@@ -350,7 +364,7 @@
 				\widehat{f\cdot g} &= \f 1{\sqrt{2\pi}} \hat f \ast \hat g, \\
 				\widehat{f\ast g} &= \sqrt{2\pi} \hat f \cdot \hat g.
 			\end{align*}
-			Insbesondere auch $(\phi \psi)^\vee = \f 1{\sqrt{2\pi}} \check \phi \ast \check \psi$.
+			Insbesondere also $(f \ast g)^\vee = \sqrt{2\pi} \check f \cdot \check g$ und $(f \cdot g)^\vee = \f 1{\sqrt{2\pi}} \check f \ast \check g$
 		\item
 			Es gilt
 			\begin{align*}
@@ -361,10 +375,11 @@
 	\begin{note}
 		Mit dem Satz gilt für das Beispiel \ref{4.11}:
 		\[
-			u = \f 1{\sqrt{2\pi}}\check \phi \ast f
-			= \f 1{\sqrt{2\pi}}\check \phi \ast (\hat f)^\vee.
+			u = (\phi \hat f)^\vee
+			= \f 1{\sqrt{2\pi}}\check \phi \ast f
 		\]
 		Damit ist $u$ explizit berechenbar mittels $(\f 1{\omega^4 + \alpha^4})^\vee$.
+		Beachte aber, dass $\f 1{\omega^4 + \alpha^4} \notin \scr S(\R)$.
 	\end{note}
 	\begin{proof}
 		\begin{enumerate}[1)]
@@ -374,26 +389,33 @@
 					f \ast g \stack{2)}= \sqrt{2\pi} (\hat f \hat g)^\vee \in \scr S(\R)
 				\]
 			\item
-				Die Fouriertransformation erhält das Skalarprodukt (siehe später), daher gilt
+				Die Fouriertransformation erhält das $L^2$-Skalarprodukt (siehe \ref{4.16}), daher gilt
 				\begin{align*}
 					\sqrt{2\pi} \widehat{f g}(\omega)
 					&= \int_{-\infty}^\infty f(x) g(x) e^{-i\omega x} \dx \\
-					&= \< g, \_f e^{i\omega \argdot} \>_{L^2(\R)} \\
-					&= \Big\< \hat g, \widehat{\_ f e^{i\omega \argdot}} \Big\>_{L^2(\R)} \\
+					&= \< g, \_f e^{i\omega \argdot} \>_{L^2(\R)}
+					= \Big\< \hat g, \widehat{\_ f e^{i\omega \argdot}} \Big\>_{L^2(\R)} \\
 					&= \int_{-\infty}^\infty \hat g(\tilde \omega) \_{\bigg( \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \_f(x) e^{i\omega x} e^{-i \tilde \omega x} \dx \bigg)} \dx[\tilde \omega] \\
-					&= \int_{-\infty}^\infty \hat g(\tilde \omega) \underbrace{\f 1{\sqrt{2\pi}} \int_{-\infty}^{\infty} f(x) e^{-i(\omega - \tilde \omega)} \dx}_{=\hat f(\omega - \tilde \omega)} \dx[\tilde \omega] \\
+					&= \int_{-\infty}^\infty \hat g(\tilde \omega) \underbrace{\f 1{\sqrt{2\pi}} \int_{-\infty}^{\infty} f(x) e^{-i(\omega - \tilde \omega)x} \dx}_{=\hat f(\omega - \tilde \omega)} \dx[\tilde \omega] \\
 					&= \int_{-\infty}^\infty \hat g(\tilde \omega)\hat f(\omega - \tilde \omega) \dx[\omega] \\
 					&= (\hat f \ast \hat g)(\omega)
 				\end{align*}
-				Genauso folgt
+				Analog zeigt man
 				\[
-					(\hat f \hat g)^\vee = \f 1{\sqrt{2\pi}} f \ast g.
+					(\hat f \cdot \hat g)^\vee = \f 1{\sqrt{2\pi}} f \ast g.
 				\]
 			\item
 				Es gilt
-				\[
-					(f\ast g) \ast h = \f 1{\sqrt{2\pi}} (\widehat {f \ast g}  \ast \hat h)^\vee = (\hat f \hat g) \hat h
-				\]
+				\begin{align*}
+					f \ast (g \ast h)
+						&= \Big(\sqrt{2\pi} \hat f \cdot (\widehat{g \ast h})\Big)^\vee
+						= \Big(2\pi \hat f \cdot \hat g \cdot \hat h \Big)^\vee
+						= \dotso
+						= (f \ast g) \ast h, \\
+					f \ast g
+						&= \Big(\sqrt{2\pi} \hat f \hat g\Big)^\vee
+						= g \ast f.
+				\end{align*}
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -402,46 +424,54 @@
 \begin{st}[Plancherel-Gleichung] \label{4.15}
 	Für $f \in \scr S(\R)$ gilt
 	\[
-		\|Ff\|_{L^2(\R)} = \|f\|_{L^2(\R)}.
+		\|Ff\|_{L^2(\R)} = \|f\|_{L^2(\R)},
 	\]
-	Die Fouriertransformation erhält also die $L^2$-Norm.
+	die Fouriertransformation erhält also die $L^2$-Norm.
 	\begin{proof}
+		Wir verfahren ähnlich wie im Beweis zu \ref{4.10}.
 		\begin{enumerate}[1)]
 			\item
-				Zunächst sei $f \in C_0^\infty(\R)$, $\supp f \subset ]-\f 1\eps, \f 1\eps[$.
-				In $L^2(]-\f 1\eps, \f 1\eps[)$ ist $(e_j)_{j\in \Z}$ mit
+				Zunächst sei $f \in C_0^\infty(\R)$, $\eps > 0$ mit $\supp f \subset ]-\f 1\eps, \f 1\eps[ =: I_\eps$.
+				In $L^2(I_\eps)$ ist $(e_j)_{j\in \Z}$ mit
 				\[
 					e_j(x) = \sqrt{ \f\eps 2} e^{ij\pi \eps x}
 				\]
-				ein VONS, also $\forall f \in L^2(\cdots) : f = \sum_{i=-\infty}^\infty \<f,e_j\> e_j$.
+				ein VONS, also $\forall f \in L^2(I_\eps) : f = \sum_{i=-\infty}^\infty \<f,e_j\> e_j$.
 
 				Mit der Parsevalschen Gleichung folgt:
 				\begin{align*}
-					\|f\|_{L^2(]-\f 1\eps, \f 1\eps[)}^2
+					\|f\|_{I_\eps}^2
 					&= \sum_{j=-\infty}^\infty |\<f,e_j\>|^2
 					= \sum_{j=-\infty}^\infty \f \eps 2 \bigg| \int_{-\f 1\eps}^{\f 1\eps} f(x) e^{-ij\pi \eps x} \dx \bigg|^2 \\
 					&= \sum_{j=-\infty}^\infty \f \eps 2 \bigg| \underbrace{\int_{-\infty}^{\infty} f(x) e^{-ij\pi \eps x} \dx}_{\sqrt{2\pi} \hat f (j\pi \eps)} \bigg|^2
-					= \sum_{j=-\infty}^\infty \underbrace{\pi \eps}_{\Delta \omega} \Big| \hat f(\underbrace{j\pi \eps}_{\omega_j})\Big|^2 \\
-					&\stack{\eps \to 0}\to \int_{-\infty}^\infty |\hat f(\omega)|^2 \dx[\omega].
+					= \sum_{j=-\infty}^\infty \underbrace{\pi \eps}_{\Delta \omega_j} \Big| \hat f(\underbrace{j\pi \eps}_{\omega_j})\Big|^2 \\
+					&\stack{\eps \to 0}\to \int_{-\infty}^\infty |\hat f(\omega)|^2 \dx[\omega]
+					= \|\hat f\|_{L^2(\R)}
 				\end{align*}
 				Also gilt für $f \in C_0^\infty(\R) : \|\hat f\|_{L^2(\R)} = \|f\|_{L^2(\R)}$.
 			\item
 				Sei jetzt $f \in \scr S(\R)$.
-				Multipliziere mit Abschneidefunktion: $\psi_{R,1} f \in C_0^\infty(\R)$.
-				Nach 1) gilt
-				\[
-					\underbrace{\Big\|\psi_{R,1} f\Big\|_{L^2(\R)}}_{\stack{R\to \infty}\to \|f\|_{L^2(\R)} \text{ (maj. Konv.)}} = \Big\| \widehat{\psi_{R,1} f} \Big\|_{L^2(\R)}
-				\]
-				Im Beweis von \ref{4.10} haben wir gesehen
+				Multipliziere mit der Abschneidefunktion, dann ist $\psi_{R,1} f \in C_0^\infty(\R)$.
+				Aus Teil 1) und dem Beweis von \ref{4.10} entnehmen wir:
+				\begin{enumerate}[a)]
+					\item
+						$|(\psi_{R,1} f)(\omega)| \le \f {c_1}{1+\omega^2}$,
+					\item
+						$\|\psi_{R,1} f\|_{L^2(\R)} = \| \widehat{\psi_{R,1} f} \|_{L^2(\R)}$,
+					\item
+						$|\hat{\psi_{R,1} f}(\omega)| \le \f {c_2}{1+\omega^2}$,
+					\item
+						$\lim\limits_{R\to\infty} \hat{\psi_{R,1} f} = \hat f$.
+				\end{enumerate}
+				Mit majorisierter Konvergenz folgt ähnlich wie in \ref{4.10}
 				\begin{align*}
-					|\hat(\omega)|^2 &= \lim_{n\to\infty}\Big| \widehat{\psi_{R,1}f}(\omega) \Big|^2 \\
-					\Big| \widehat{\psi_{R,1} f}(\omega) \Big| &\le \f {c}{1+\omega^2}
+					\|f\|_{L^2(\R)}
+					= \Big\| \lim_{R\to\infty} \psi_{R,1} f \Big\|_{L^2(\R)}
+					&\stack{\text{a)}}= \lim_{R\to\infty} \Big\| \psi_{R,1} f \Big\|_{L^2(\R)} \\
+					&\stack{\text{b)}}= \lim_{R\to\infty} \Big\| \hat{\psi_{R,1} f} \Big\|_{L^2(\R)}
+					\stack{\text{c)}}= \Big\| \lim_{R\to\infty} \hat{\psi_{R,1} f} \Big\|_{L^2(\R)}
+					\stack{\text{d)}}= \big\| \hat f \big\|_{L^2(\R)}.
 				\end{align*}
-				Mit majorisierter Konvergenz folgt
-				\[
-					\implies \quad \int_{-\infty}^\infty \Big| \widehat{\psi_{R,1}f}(\omega)\Big|^2 \dx[\omega] \to \int_{-\infty}^\infty |\hat f(\omega)|^2 \dx[\omega]
-				\]
-				Also für $R \to \infty$: $\|f\|_{L^2(\R)} = \|\hat f\|_{L^2(\R)}$.
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -449,12 +479,12 @@
 \begin{kor} \label{4.16}
 	Für $f,g \in \scr S(\R)$ gilt
 	\[
-		\<f,g\>_{L^2(\R)} = \< Ff, Fg\>_{L^2(\R)}
+		\<f,g\>_{L^2(\R)} = \< Ff, Fg\>_{L^2(\R)}.
 	\]
 	\begin{proof}
-		Folgt direkt mit der Polarisationsformel:
+		Folgt direkt mit \ref{4.15} und der Polarisationsformel:
 		\[
-			\<f,g\> = \f 14 \Big( \|f+g\|^2 - \|f-g\|^2 - i \Big(\|f+ig\|^2 - \|f-ig\|^2 \Big) \Big).
+			\<f,g\> = \f 14 \Big( \|f+g\|^2 - \|f-g\|^2 + i \Big(\|f+ig\|^2 - \|f-ig\|^2 \Big) \Big).
 		\]
 	\end{proof}
 \end{kor}
@@ -465,16 +495,14 @@
 		\| \hat f \|_{L^\infty(\R)} \le \f 1{\sqrt{2\pi}} \|f\|_{L^1(\R)}.
 	\]
 	\begin{proof}
-		Es gilt
+		Für alle $\omega \in \R$ ist
 		\begin{align*}
 			|\hat f(\omega)|
-			&= \bigg| \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty f(x) e^{-i\omega x} \dx \bigg| \\
-			&\le \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty |f(x)| 1 \dx
+			&= \bigg| \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty f(x) e^{-i\omega x} \dx \bigg|
+			\le \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty |f(x)| 1 \dx
+			= \f 1{\sqrt{2\pi}} \|f\|_{L^1(\R)}.
 		\end{align*}
-		Also ist für alle $\omega \in \R$
-		\[
-			|\hat f(\omega)| \le \f 1{\sqrt{2\pi}} \|f\|_{L^1(\R)}.
-		\]
+		Also $\| \hat f \|_{L^\infty(\R)} \le \f 1{\sqrt{2\pi}} \|f\|_{L^1(\R)}$.
 	\end{proof}
 \end{st}
 
@@ -487,6 +515,7 @@
 	Dann ist $C_0^\infty$ dicht in $L^p(\R)$.
 \coursetimestamp{17}{6}{2013}
 	\begin{proof}
+		% FIXME: Der ganze Beweis sollte überarbeitet werden
 		Sei $u \in L^p(\R)$ und o.B.d.A. $u(x) \ge 0$ auf $\R$ (sonst $u = \Re(u)_+ - \Re(u)_- + i(\Im(u)_+ - \Im(u)_-)$).
 		Approximiere nun $u$ durch $C_0^\infty(\R)$-Funktionen.
 		\begin{enumerate}[1)]
@@ -502,22 +531,22 @@
 					\item
 						$|v_k(x)-u(x)|^p \le |u(x)|^p$, $\int_{-\infty}^\infty |u(x)|^p \dx < \infty$.
 				\end{itemize}
-				Mit majorisierter Konvergenz gilt $\int_{-\infty}^\infty |v_k(x)|^p \dx \to 0$, also
+				Mit majorisierter Konvergenz gilt $\int_{-\infty}^\infty |v_k(x) - u(x)|^p \dx \to 0$, also
 				\[
 					\|v_k - u\|_{L^p(\R)} \to 0.
 				\]
-				Wähle $u_1 \in L^p(\R)$, $\supp u_1 \subset [-R,R]$ mit $\|u-u_1\|_{L^p(\R^n)} < \eps$.
+				Wähle $u_1 \in L^p(\R)$ mit $\|u-u_1\|_{L^p(\R^n)} < \eps$ und $\supp u_1 \subset [-R,R]$ für ein hinreichend großes $R > 0$.
 			\item
 				Aus der Maßtheorie wissen wir: Es gibt eine Folge $(\phi_k)_{k\in \N}$ einfacher Funktionen mit
 				\begin{itemize}
 					\item
-						$\forall u \in \R : 0 \le \phi_k(x) \le u_1(x)$, insbesondere $\supp \phi_k \subset [-R,R]$,
+						$\forall u \in \R : 0 \le \phi_k(x) \le u_1(x)$ (insbesondere $\supp \phi_k \subset [-R,R]$),
 					\item
 						$\phi_k(x) \nearrow u_1(x)$ punktweise auf $\R$.
 				\end{itemize}
 				Mit majorisierter Konvergenz wissen wir $\|u_1 - \phi_k\|_{L^p(\R)} \to 0$.
 
-				Wähle
+				Wähle $u_2$ als einfache Funktion
 				\[
 					u_2 := \sum_{j=1}^n \lambda_j \Ind_{B_j},
 				\]
@@ -539,14 +568,14 @@
 				\[
 					\my(A) := \inf \Big\{ \sum_{j=1}^\infty \my(I_j) : A \subset \bigcup_{j=1}^\infty I_j, I_j = [a_j, b_j] \Big\}.
 				\]
-				Wähle also o.B.d.A $(I_j)$ mit $I_j \subset [-R,R]$, $A \subset \bigcup_{j=1}^\infty I_j$, $\my(A) + \tilde \eps^p \le \sum_{j=1}^\infty \my(I_j)$.
+				Wähle für $\tilde \eps > 0$ also o.B.d.A $(I_j)$ mit $I_j \subset [-R,R]$, $A \subset \bigcup_{j=1}^\infty I_j$, $\my(A) + \tilde \eps^p < \sum_{j=1}^\infty \my(I_j)$.
 				Wegen $\my(A) \le \sum_{j=1}^\infty \my(I_j)$ ist $0 \le \sum_{j=1}^\infty \my(I_j) - \my(A) \le \tilde \eps^p$.
 				Also
 				\begin{align*}
 					0
 					\le \int_{-\infty}^\infty \underbrace{\Big(\Ind_{\bigcup_{j=1}^\infty I_j} - \Ind_{A_j}\Big)}_{=(\argdot)^p \text{ da $\in \{0,1\}$}} \dx
-					&= \my\bigg(\bigcup_{j=1}^\infty I_j \bigg) - \my(A) \\
-					&\le \sum_{j=1}^\infty u(I_j) - \my(A)
+					= \my\bigg(\bigcup_{j=1}^\infty I_j \bigg) - \my(A)
+					\le \sum_{j=1}^\infty u(I_j) - \my(A)
 					< \tilde \eps^p.
 				\end{align*}
 				Und somit
@@ -557,11 +586,11 @@
 				\begin{align*}
 					0
 					\le \int_{-\infty}^\infty \underbrace{\Big(\Ind_{\bigcup_{j=1}^\infty I_j} - \Ind_{\bigcup_{j=1}^N I_j}\Big)}_{=(\argdot)^p}
-					&\le \int_{-\infty}^\infty \Big(\Ind_{\bigcup_{j=N+1}^\infty I_j}\Big) \\
-					&\le \sum_{j=N+1}^\infty \my(I_j)
-					< \tilde \eps^p.
+					\le \int_{-\infty}^\infty \Big(\Ind_{\bigcup_{j=N+1}^\infty I_j}\Big)
+					\le \sum_{j=N+1}^\infty \my(I_j)
+					< \tilde \eps^p,
 				\end{align*}
-				Also
+				also
 				\[
 					\Big\| \Ind_{\bigcup_{j=1}^\infty I_j} - \Ind_{\bigcup_{j=1}^N I_j} \Big\|_{L^p(\R)} < \tilde \eps.
 				\]
@@ -571,41 +600,41 @@
 				\]
 				Wähle also
 				\[
-					u_4 = \sum_{j=1}^m  \tilde \lambda_j \Ind_{[a_j,b_j]}
+					u_4 := \sum_{j=1}^m  \tilde \lambda_j \Ind_{[a_j,b_j]}
 				\]
 				mit $\|u_3 - u_4\|_{L^p(\R)} < \eps$.
 			\item
 				Zu $[a_j,b_j]$ existiert $f_j \in C(\R \to \C)$ mit $\supp f_j \subset [a_j, b_j]$, $\|\Ind_{[a_j,b_j]} - f\|_{L^p(\R)} < \tilde \eps$.
+				% FIXME: Bild: Approximation durch „Trapez“
 
 				Wähle also
 				\[
 					u_5 = \sum_{j=1}^m \tilde \lambda_j f_j
 				\]
-				sodass $\|u_4 - u_5\|_{L^p(\R)} < \eps$, $u_5 \in C(\R \to \C)$ und $\supp u_5 \subset [-R,R]$.
+				sodass $\|u_4 - u_5\|_{L^p(\R)} < \eps$, $u_5 \in C(\R \to \C)$ und immernoch $\supp u_5 \subset [-R,R]$.
 			\item
-				Aus \ref{4.20} 4) wissen wir für stetige Funktionen mit kompaktem Träger, dass $j_\delta \ast u_5 \in C_0^\infty(\R \to \C)$ und
+				Mit \ref{4.20} 4) gilt für stetige Funktionen mit kompaktem Träger, dass $j_\delta \ast u_5 \in C_0^\infty(\R \to \C)$ und
 				\[
 					\Big\|j_\delta \ast u_5 - u_5 \Big\|_{L^p(\R)} < \eps \qquad \text{für $\delta > 0$ genügend klein.}
 				\]
-
-				Insgesamt gilt damit
-				\[
-					\Big\|u - j_\delta \ast u_5 \Big\| < 6\eps
-				\]
 		\end{enumerate}
+		Insgesamt gilt damit
+		\[
+			\Big\|u - j_\delta \ast u_5 \Big\| < 5\eps
+		\]
 	\end{proof}
 \end{st}
 
 \begin{df} \label{4.19}
 	Für $f \in L^p(\R)$ setze
 	\[
-		\scr J_\eps f := j_\eps \ast f
+		J_\eps f := j_\eps \ast f,
 	\]
 	d.h.
 	\[
-		\scr J_\eps f(x) = \int_{-\infty}^\infty j_\eps (x-y) f(y) \dx[y].
+		J_\eps f(x) = \int_{-\infty}^\infty j_\eps (x-y) f(y) \dx[y].
 	\]
-	$\scr J_\eps$ heißt \emph{Glättungsoperator} (oder \emph{Mollifier}).
+	$J_\eps$ heißt \emph{Glättungsoperator} (oder \emph{Mollifier}).
 	\begin{note}
 		Die wichtigen Eigenschaften von $j_\eps$ waren:
 
@@ -630,7 +659,7 @@
 			\item
 				Zeige
 				\[
-					\f{\mathrm d^k}{\mathrm x^k} (J_\eps u)(x) = \int_{-\infty}^\infty \f{\mathrm d^k j_\eps}{\mathrm d x^k} (x-y) u(y) \dx[y]
+					\ddx[x^k] (J_\eps u)(x) = \int_{-\infty}^\infty \ddx[x^k] j_\eps (x-y) u(y) \dx[y]
 				\]
 				für $k \in \N$.
 
