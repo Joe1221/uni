@@ -1,7 +1,9 @@
+\RequirePackage{expl3}
 \ProvidesPackage{mymath}
 
 \usepackage{relsize}
 \usepackage{mathtools}
+\usepackage{xparse}
 
 % Math symbols, operators, functions and relations
 % ================================================
@@ -74,6 +76,33 @@
 
 \renewcommand{\d}{\partial}                             % probably no good idea
 \newcommand{\dx}[1][x]{\ensuremath{\,\mathrm{d}#1\,}}   % Differential form
+
+\ExplSyntaxOn
+\DeclareDocumentCommand{\ddx}{ >{\SplitArgument{1}{^}}O{x} g }
+{
+	\IfValueTF{#2}{
+		\ddx_int #1{#2}
+	}{
+		\ddx_int #1
+	}
+}
+\DeclareDocumentCommand{\ddx_int}{ mmG{} }
+{
+	\IfValueTF{#2}{
+		\frac{
+			\mathrm{d}^{#2} #3
+		}{
+			\mathrm{d}{#1}^{#2}
+		}
+	}{
+		\frac{
+			\mathrm{d} #3
+		}{
+			\mathrm{d}#1
+		}
+	}
+}
+\ExplSyntaxOff
 
 \renewcommand{\_}[1]{\overline{#1}}
 \newcommand{\argdot}{{\,\cdot\,}}
