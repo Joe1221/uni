@@ -663,37 +663,42 @@
 				\]
 				für $k \in \N$.
 
-				Für $k=1$ und $\eps$ fest gilt
+				Betrachte $k=1$ (größere $k$ lassen sich induktiv analog zeigen).
+				Sei $\eps > 0$, dann gilt
 				\begin{align*}
-					&\Bigg| \f {J_\eps u(x+k) - J_\eps u(x)}{k} - \int_{-\infty}^\infty j_\eps' (x-y) u(y) \dx[y] \Bigg|
-					= \Bigg| \int_{-\infty}^\infty \Big( \underbrace{\f {j_\eps(x+h-y)-j_\eps(x-y)}h}_{=j_\eps'(x+\theta k -y)} - j_\eps'(x-y) \Big) u(y) \dx[y] \Bigg|
+					&\Bigg| \dfrac {J_\eps u(x+k) - J_\eps u(x)}{h} - \int_{-\infty}^\infty j_\eps' (x-y) u(y) \dx[y] \Bigg| \\
+					&\qquad = \Bigg| \int_{-\infty}^\infty \Big( \underbrace{\f 1h \big(j_\eps(x+h-y)-j_\eps(x-y)\big) }_{=j_\eps'(x+\theta h -y)} - j_\eps'(x-y) \Big) u(y) \dx[y] \Bigg|
 				\intertext{wobei $0 < \theta < 1$ von $x-y$ und $h$ abhängig}
 					&\qquad\le \int_{-\infty}^\infty \Big| j_\eps'(x+\theta h -y) - j_\eps'(x-y) \Big| |u(y)| \dx[y] \\
-					&\qquad\stack{\text{Hölder}}\le \Bigg(\int_{-\infty}^\infty \Big| j_\eps'(x+\theta h -y) - j_\eps'(x-y) \Big|^q \dx[y] \Bigg)^{\f 1q} \|u\|_{L^p(\R)} \qquad \text{ mit $\f 1p + \f 1q = 1$}
+					&\qquad\stack{\text{Hölder}}\le \; \Bigg(\int_{-\infty}^\infty \Big| j_\eps'(x+\theta h -y) - j_\eps'(x-y) \Big|^q \dx[y] \Bigg)^{\f 1q} \|u\|_{L^p(\R)} \qquad \text{ mit $\f 1p + \f 1q = 1$, $p > 1$}
 				\end{align*}
-				(Für $p = 1$ schreibt man: $\|\sup_{x-y \in\R} |j_\eps'(x+\theta h -y) - j_\eps'(x-y)| \|u\|_{L^1(\R)} < \tilde \eps \|u\|_{L^1(\R)}$ (falls $|k| < \delta$)).
-
 				Für den Teil mit der $q$-Norm gilt:
 				\begin{align*}
 					\Bigg(\int_{-\infty}^\infty \Big| j_\eps'(x+\theta h -y) - j_\eps'(x-y) \Big|^q \dx[y] \Bigg)
-					&\stack{z=x-y}= \int_{-\infty}^\infty \Big| j_\eps'(z+\theta h) - j_\eps' (z) \Big|^q \dx[z] \\
+					\;&\stack{z=x-y}=\; \int_{-\infty}^\infty \Big| j_\eps'(z+\theta h) - j_\eps' (z) \Big|^q \dx[z] \\
 					&= \int_{-2\eps}^{2\eps} \Big| j_\eps'(z+\theta h) - j_\eps' (z) \Big|^q \dx[z] \qquad \text{falls $|h| < \eps$}
-					\intertext{die stetige Funktion $j_\eps'$ ist auf dem kompakten Intervall $[-2\eps, 2\eps]$ gleichmäßig stetig: $|j_\eps'(z+\theta h) - j_\eps'(z)| < \tilde \eps$ für $|\theta h| < \delta$}
+					\intertext{die stetige Funktion $j_\eps'$ ist auf dem kompakten Intervall $[-2\eps, 2\eps]$ gleichmäßig stetig, also $|j_\eps'(z+\theta h) - j_\eps'(z)| < \tilde \eps$ für $|\theta h| < \delta$ und somit}
 					&= 4\eps \tilde \eps^q \qquad \text{für $|h| < \delta$}
 				\end{align*}
+				Für den Fall $p = 1$ schreibt man:
+				\begin{align*}
+					&\Bigg| \dfrac {J_\eps u(x+k) - J_\eps u(x)}{h} - \int_{-\infty}^\infty j_\eps' (x-y) u(y) \dx[y] \Bigg| \\
+					&\qquad \le \dotsb \le \sup_{x-y \in\R} \Big|j_\eps'(x+\theta h -y) - j_\eps'(x-y)\Big| \|u\|_{L^1(\R)} < \tilde \eps \|u\|_{L^1(\R)},
+				\end{align*}
+				für $|h| < \delta$.
 			\item
 				Falls $\supp u \subset [a,b]$, $a<b$, dann ist $\supp(J_\eps u) \subset [a-\eps, b+\eps]$ und somit $J_\eps u \in C_0^\infty(\R)$.
 			\item
 				\begin{enumerate}[a)]
 					\item
-						Zeige $|J_\eps u(x)| \le \Big( \int_{\R} j_\eps(x-y) |u(y)|^p \dx[y] \Big)^{\f 1p}$.
+						Zeige zunächst $|J_\eps u(x)| \le \Big( \int_{\R} j_\eps(x-y) |u(y)|^p \dx[y] \Big)^{\f 1p}$.
 
 						Für $p=1$ ist die Aussage klar (Betrag ins Integral ziehen).
 						Sei also $1 < p < \infty$:
 						\begin{align*}
 							|J_\eps u(x)|
-							&= \bigg| \int_{-\infty}^\infty \underbrace{j_\eps(x-y)^{\f 1q}}_{\ge 0} j_\eps(x-y)^{\f 1p} u(y) \dx[y] \bigg| \\
-							&\stack{\text{Hölder}}\le \underbrace{\bigg( \int_{-\infty}^\infty j_\eps(x-y)^{\f qq} \dx[y] \bigg)^{\f 1q}}_{=1} \bigg( \int_{-\infty}^\infty j_\eps(x-y)^{\f pp} |u(y)|^p \dx[y] \bigg)^{\f 1p}
+							&= \bigg| \int_{-\infty}^\infty \underbrace{\big(j_\eps(x-y)\big)^{\f 1q}}_{\ge 0} \big(j_\eps(x-y)\big)^{\f 1p} u(y) \dx[y] \bigg| \\
+							&\stack{\text{Hölder}}\le \underbrace{\bigg( \int_{-\infty}^\infty \big(j_\eps(x-y)\big)^{\f qq} \dx[y] \bigg)^{\f 1q}}_{=1} \bigg( \int_{-\infty}^\infty \big(j_\eps(x-y)\big)^{\f pp} |u(y)|^p \dx[y] \bigg)^{\f 1p}
 						\end{align*}
 					\item
 						Es gilt
@@ -701,29 +706,47 @@
 							\| J_\eps u \|_{L^p(\R)}^p
 							&= \int_{-\infty}^\infty |J_\eps u(x)|^p \dx \\
 							&\stack{\text{a)}}\le \int_{-\infty}^\infty \bigg( \int_{-\infty}^\infty j_\eps(x-y) |u(y)|^p \dx[y] \bigg) \dx \\
-							&\stack{\text{Fubini}} \int_{-\infty}^\infty |u(y)|^p \underbrace{\bigg( \int_{-\infty}^\infty j_\eps(x-y) \dx \bigg)}_{=1} \dx[y] \qquad \text{($j_\eps \ge 0, |u|^p \ge 0$)} \\
+							&\stack{\text{Fubini}}=\; \int_{-\infty}^\infty |u(y)|^p \underbrace{\bigg( \int_{-\infty}^\infty j_\eps(x-y) \dx \bigg)}_{=1} \dx[y] \qquad \text{($j_\eps \ge 0, |u|^p \ge 0$)} \\
 							&= \|u\|_{L^p(\R)}^p < \infty.
 						\end{align*}
 						Also insbesondere $J_\eps u \in L^p(\R)$.
 				\end{enumerate}
 			\item
-				Sei zunächst $u \in C(\R \to \C)$, $\supp u$ kompakt (z.B. $\supp u \subset [a,b]$).
-				Dann gilt wegen $\int_{j_\eps(x)} \dx = 1$:
+				% FIXME: Nochmal überprüfen
+				Sei zunächst $u \in C_0^\infty(\R)$ und $a\le b$ so, dass $\supp u \subset [a,b]$.
+				Dann gilt wegen $\int j_\eps(x) \dx = 1$:
 				\begin{align*}
 					|J_\eps u(x) - u(x)|
 					&= \bigg| \int_{-\infty}^\infty j_\eps(x-y) \Big(u(y) - u(x)\Big) \dx[y] \bigg| \\
-					&\le \int_{x-\eps}^{x+\eps} \underbrace{j_\eps(x-y)}_{\int \argdot \dx[y] = 1} \underbrace{|u(y)-u(x)|}_{\delta \text{ für $\eps < \eps_0$}} \dx[y] \\
+					&\le \int_{x-\eps}^{x+\eps} \underbrace{j_\eps(x-y)}_{\int \argdot \dx[y] = 1} \underbrace{|u(y)-u(x)|}_{< \delta \text{ für $\eps < \eps_0$}} \dx[y] \\
 					&< \delta
 				\end{align*}
 				($u$ stetig auf kompakter Menge, also gleichmäßig stetig).
-
 				Also
 				\begin{align*}
 					\|J_\eps u - u\|_{L^p(\R)}^p
 					&= \int_{-\infty}^\infty \underbrace{|J_\eps u(x) - u(x)|^p}_{\supp(\argdot) \subset [a-\eps, b+ \eps]} \dx \\
-					&< \delta^p (b-a +z) \qquad \text{für $\eps < \eps_0$} \\
+					&< \delta^p (b-a + 2\eps_0) \qquad \text{für $\eps < \eps_0$} \\
 					&\to 0 \qquad \text{für $\eps \searrow 0$}
 				\end{align*}
+				Für allgemeine $u \in L^p(\R)$ folgt die Aussage aus \ref{4.18}:
+				Sei dazu $(u_n)_{n\in \N}$ eine Folge in $C_0^\infty(\R)$ mit $\|u_n - u\|_{L^p} \to 0$ und $\delta > 0$.
+				Wähle $N_\delta$ so groß, dass
+				\[
+					\|J_\eps u - J_\eps u_n\|_{L^p(\R)}
+					= \|J_\eps (u-u_n)\|_{L^p(\R)}
+					\stack{3)}\le \|u - u_n\|_{L^p(\R)}
+					< \delta
+				\]
+				für $n\ge N_\delta$ ($N_\delta$ unabhängig von $\eps$).
+				Wähle anschließend $\eps_0$ so dass $\|J_\eps u_{N_\delta} - u_{N_\delta}\| < \delta$ für $\eps < \eps_0$ (siehe oben).
+				Dann gilt
+				\begin{align*}
+					\|J_\eps - u\|_{L^p}
+					&\le \underbrace{\|J_\eps u - J_\eps u_{N_\delta}\|_{L^p(\R)}}_{<\delta} + \underbrace{\|J_\eps u_{N_\delta} - u_{N_\delta}\|_{L^p(\R)}}_{<\delta} + \underbrace{\|u_{N_\delta} - u\|_{L^p(\R)}}_{<\delta} \\
+					&< 3\delta
+				\end{align*}
+				für $\eps < \eps_0$.
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -731,33 +754,33 @@
 \begin{st}[Satz von Plancherel] \label{4.21}
 	\begin{enumerate}[1)]
 		\item
-			Die Fouriertransformation $F: \scr S(R) \to \scr S(R)$ besitzt eine eindeutige Fortsetzung $\scr F:L^2(\R) \to L^2(\R)$.
+			Die Fouriertransformation $F: \scr S(R) \to \scr S(R)$ besitzt eine eindeutige stetige Fortsetzung $\scr F:L^2(\R) \to L^2(\R)$.
 			Diese Fortsetzung ist unitär, d.h.
 			\[
 				\forall f,g \in L^2 (\R) : \<\scr F f, \scr Fg \> = \<f,g\>
 			\]
 		\item
-			Sei $\scr G: L^2(\R) \to L^2(\R)$ die eindeutige Fortsetzungen von $F^{-1}$ auf $L^2(\R)$.
+			Sei $\scr G: L^2(\R) \to L^2(\R)$ die eindeutige Fortsetzung von $F^{-1}$ auf $L^2(\R)$.
 			Dann ist $\scr G = \scr F^{-1}$.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
-				In den Übungen wird gezeigt: $\scr F$ existiert, ist eindeutig und $\|\scr Ff\|_{L^2(\R)} = \|f\|_{L^2(\R)}$ für $f \in L^2(\R)$.
+				In \coursehref{blatt10.pdf}{Übungsaufgabe 10.2} wird gezeigt: $\scr F$ existiert, ist eindeutig und $\|\scr Ff\|_{L^2(\R)} = \|f\|_{L^2(\R)}$ für $f \in L^2(\R)$.
 				Mit der Polarisationsformel folgt die Aussage.
 			\item
-				Dass $\scr G$ existiert und eindeutig ist, wird in den Übungen gezeigt.
+				Existenz und Eindeutigkeit folgt wieder aus \coursehref{blatt10.pdf}{Ubungsaufgabe 10.2}.
 
 				Zeige $\scr G \circ \scr F = \Id = \scr F \circ \scr G$.
-				Zu $f \in L^2(\R)$ wähle nach \ref{4.20} $(f_n)$ in $C_0^\infty(\R) \subset \scr S(\R)$ mit $\|f-f_n\|_{L^2(\R)} \to 0$.
-				Dann ist
+				Zu $f \in L^2(\R)$ wähle nach \ref{4.18} $(f_n)$ in $C_0^\infty(\R) \subset \scr S(\R)$ mit $\|f-f_n\|_{L^2(\R)} \to 0$.
+				Dann ist wegen der Linearität und der Isometrie $\|\scr F f  - \scr F f_n\|_{L^2(\R)}\to 0$,
 				\[
-					\scr F f = \underbrace{\lim[L^2]_{n\to \infty} \scr F f_n}_{\|\scr F f  - \scr F f_n\|_{L^2(\R)}\to 0}
+					\scr F f = \lim[L^2]_{n\to \infty} F f_n,
 				\]
-				 und
-				 \[
-					\scr G(\scr F f) = \lim[L^2]_{n\to\infty} F^{-1}(F(f_n)) = \lim[L^2]_{n\to\infty} f_n = f.
-				 \]
+				und analog für $\scr G$, also
+				\[
+				   \scr G(\scr F f) = \lim[L^2]_{n\to\infty} F^{-1}(F(f_n)) = \lim[L^2]_{n\to\infty} f_n = f.
+				\]
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -768,6 +791,8 @@
 	\[
 		f(x) :=  \f{\sin(x^2)}{1+|x|}.
 	\]
+	Folglich lässt sich die Fouriertransformation auf $L^2(\R)$ im Allgemeinen nicht durch die Integraldarstellung berechnen.
+	Stattdessen ist sie lediglich durch das abstrakte Fortsetzungsargument gegeben.
 \end{nt}
 
 \begin{st} \label{4.23}
@@ -781,7 +806,8 @@
 				Setze $f_R := \Ind_{[-R,R]} \cdot f$, also $\|f_R - f\|_{L^2(\R)} \to 0$ für $R \to \infty$.
 				Da $\scr F$ stetig ist, gilt weiter $\scr F f = \lim[L^2]_{R\to\infty} \scr F f_R$.
 			\item
-				Setze
+				Setze für festes $R$
+				% FIXME: Notation verbessern, später wird \hat{f_n} verwendet und die Abhängigkeit von R ist nicht ersichtlich.
 				\[
 					\hat f(\omega)  := \int_{-\infty}^\infty f_R(x) e^{-i\omega x} \dx
 					= \int_{-R}^R f(x) e^{-i\omega x} \dx
@@ -799,35 +825,22 @@
 						Es gilt
 						\begin{align*}
 							|\hat f_n(\omega) - \hat f(\omega)|
-							& \le \f 1{\sqrt{2\pi}} \underbrace{\int_{-R-\f 1n}^{R+\f 1n} |f_n(x) - f_R(x)|\cdot |e^{-i\omega x} \dx}_{= \<|f_n-f_R|,1\>} \\
+							& \le \f 1{\sqrt{2\pi}} \underbrace{\int_{-R-\f 1n}^{R+\f 1n} |f_n(x) - f_R(x)|\cdot |e^{-i\omega x} \dx|}_{= \<|f_n-f_R|,1\>} \\
 							&\stack{CSB}\le \f 1{\sqrt{2\pi}} \underbrace{\|f_n - f_R\|_{L^2(\R)}}_{\to 0} \underbrace{\sqrt{\int_{-\R-\f 1n}^{R+\f 1n} \dx}}_{= \sqrt{2R + \f 2n} \to 2R}
-							\to 0 \qquad (n\to \infty)
+							\to 0 \qquad (n\to \infty).
 						\end{align*}
-						gleichmäßig bezüglich $\omega$.
 					\item
-						Wegen $f_n \in C_0^\infty$ ist $\hat f_n = F f_n = \scr F f_n$ also
+						Wegen $f_n \in C_0^\infty(\R)$ ist $\hat f_n = F f_n = \scr F f_n$ also
 						\begin{align*}
 							\|\hat f_n - \scr F f_R\|_{L^2(\R)}
 							&= \|\scr F(f_n -f_R)\|_{L^2(\R)} \\
 							&= \|f_n - f_R\|_{L^2(\R)}
 							\to 0 \qquad (n\to \infty)
 						\end{align*}
-					\item
-						Für alle $\phi \in C_0^\infty(\R)$ gilt $\<\hat f - \scr F f_R, \phi\> = 0$, also
-						\begin{align*}
-							\< \scr F f_R, \phi\> = \lim_{n\to\infty} \<\hat f_n, \phi\>
-							= \<\hat f, \phi\>
-						\end{align*}
-					\item
-						Wähle $(\phi_k)$ in $C_0^\infty(\R)$ mit $\|\phi_k - (\hat f - \scr F f_R)\|_{L^2(\R)} \to 0$.
-						Dann ist
-						\[
-							0 = \<\hat f - \scr F f_R, \phi_k\> \to \|\hat f - \scr F f_R\|_{L^2(\R)}^2 \qquad (k\to \infty)
-						\]
-						und somit $\hat f = F f_R$.
+						Insbesondere ist $\hat f_n$ Cauchy-Folge in $L^p$ und damit existiert nach \ref{2.14} eine Teilfolge $(\hat f_{n_k})$, sodass $\hat f_{n_k}(x) \to \hat f_R(x)$ $\my$-fast-überall für $k\to \infty$.
 				\end{enumerate}
+				Nach 2a) gilt punktweise $\hat f_{n_k} \to \hat f$ und nach 2b) gilt $\hat f_{n_k} \to \scr F f_R$ $\my$-fast-überall, also muss $\hat f = \scr F f_R$.
 		\end{enumerate}
-
 	\end{proof}
 \end{st}
 
@@ -837,18 +850,21 @@
 	\[
 		\scr F: L^1(\R) \to L^\infty(\R)
 	\]
-	und es gilt $\|\scr F\| = \f 1{\sqrt{2\pi}}$.
+	und es gilt
+	\[
+		\|\scr F\| = \f 1{\sqrt{2\pi}}.
+	\]
 	\begin{proof}
 		\begin{enumerate}[1)]
 			\item
-				$\scr S(\R)$ ist dicht in $\scr L^1(\R)$.
-				Nach \coursehref{blatt10.pdf}{Übungsaufgabe 10.2c)} existiert die eindeutige Fortsetzung $\scr F$.
+				Nach \ref{4.18} ist insbesondere $\scr S(\R)$ dicht in $L^1(\R)$.
+				Existenz und Eindeutigkeit der Fortsetzung folgt dann aus \coursehref{blatt10.pdf}{Übungsaufgabe 10.2c)}.
 			\item
-				Es gilt mit \coursehref{blatt10.pdf}{Übungsaufgabe 10.1}:
+				In \coursehref{blatt10.pdf}{Übungsaufgabe 10.1} zeigt man die Beschränktheit von $\scr F$ mit Schranke $\f 1{\sqrt{2\pi}}$, also
 				\[
 					\| \scr F\| = \sup_{\|F\|_{L^1(\R)}=1} \|\scr F f\|_{L^\infty(\R)} \le \f 1{\sqrt{2\pi}}.
 				\]
-				Sei $f := j_1(x)$ ($\eps = 1)$, dann ist
+				Sei $f := j_1(x) \in C_0^\infty(\R)$, dann ist
 				\[
 					\|f\|_{L^1(\R)} = \int_{-\infty}^\infty j_1(x) \dx = 1,
 				\]
@@ -856,7 +872,7 @@
 				\[
 					\scr F f(0)
 					= F f(0)
-					= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty j_1(x) e^{i\omega x} \dx \Big|_{\omega = 0}
+					= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty j_1(x) e^{i\omega x} \dx \bigg|_{\omega = 0}
 					= \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty j_1(x) \dx
 					= \f 1{\sqrt{2\pi}}
 				\]
@@ -884,14 +900,14 @@
 					&\le \f 1{\sqrt{2\pi}} \int_{-\infty}^\infty |f(x)| | e^{-i(\omega + h)x} - e^{-i \omega x} | \dx \\
 					&\le \underbrace{\f 1{\sqrt{2\pi}} \int_{-\infty}^{-R} |f(x)| 2 \dx
 						+ \f 1{\sqrt{2\pi}} \int_{R}^{\infty} |f(x)| 2 \dx}_{< \eps \text{ für $R$ genügend groß}} \\
-						&\quad + \underbrace{\f 1{\sqrt{2\pi}} \int_{-R}^{R} |f(x)| \underbrace{\underbrace{|e^{-i(\omega + h) x - e^{-i \omega x}}|}_{\text{gleichmäßig stetig für $(x,k) \in [-R,R] \times [-1,1]$}}}_{< \tilde \eps \text{ für $|h|<\delta$}} \dx}_{\le \f 1{\sqrt{2\pi}} \tilde \eps \|f\|_{L^1(\R)} < \eps \text{ für $|h|<\delta$}} \\
+						&\quad + \underbrace{\f 1{\sqrt{2\pi}} \int_{-R}^{R} |f(x)| \underbrace{\underbrace{|e^{-i(\omega + h) x} - e^{-i \omega x}|}_{\text{gleichmäßig stetig für $(x,h) \in [-R,R] \times [-1,1]$}}}_{< \tilde \eps \text{ für $|h|<\delta$}} \dx}_{\le \f 1{\sqrt{2\pi}} \tilde \eps \|f\|_{L^1(\R)} < \eps \text{ für $|h|<\delta$}} \\
 					&< 2\eps
 				\end{align*}
 				für $R$ genügend groß und $|h| < \delta$.
 			\item
 				Zeige jetzt $|\hat f(\omega)| \to 0$ für $\omega \to \infty$:
 				\begin{align*}
-					\sqrt{2\pi} |\hat f(\omega)
+					\sqrt{2\pi} |\hat f(\omega)|
 					&\le  \underbrace{\int_{-\infty}^{-R} |f(x)| \dx + \int_{R}^{\infty} |f(x)| \dx}_{<\eps \text{ für $R > R_\eps$}}
 					+ \underbrace{\underbrace{\Big| \int_{-R}^R f(x) e^{i\omega x} \dx \Big|}_{\to 0 \text{ für $\omega \to \infty$ nach \ref{3.25}}}}_{<\eps \text{ für $\omega > \Omega_\eps$}} \\
 					&< 2\eps
@@ -904,11 +920,11 @@
 \begin{st} \label{4.26}
 	Sei $f \in L^1(\R)$, $x \in \R$ fest und es gelte die Bedingung von Dini aus \ref{3.27}:
 	\[
-		\exists \delta > 0 : \int_{-\delta}^{\delta} | \f {f(t+x)-f(x)}{t} | \dx[t] < \infty
+		\exists \delta > 0 : \int_{-\delta}^{\delta} | \f {f(t+x)-f(x)}{t} | \dx[t] < \infty.
 	\]
 	Dann konvergiert das uneigentliche Riemann-Integral
 	\[
-		\f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \scr F f(\omega) e^{i \omega x} \dx[\omega] = f(x)
+		\f 1{\sqrt{2\pi}} \int_{-\infty}^\infty \scr F f(\omega) e^{i \omega x} \dx[\omega] = f(x).
 	\]
 \end{st}
 
@@ -919,8 +935,8 @@
 \begin{nt*}[Erinnerung]
 	Sei $f : \R^n \to \C$.
 	\begin{align*}
-		\f{\partial }{\partial x_j}f(x) &:= \lim_{h\to 0} \f {f(x+he_j)-f(x)}{h} \\
-		\f{\partial^3 }{\partial x_j \partial x_3^2}f(x) &:= \f{\partial }{\partial x_1}\f{\partial }{\partial x_3}\f{\partial }{\partial x_3} f \\
+		\pddx{x_j} f(x) &:= \lim_{h\to 0} \f {f(x+he_j)-f(x)}{h} \\
+		\f{\partial^3 }{\partial x_j \partial x_3^2}f(x) &:= \pddx[x_1] \pddx[x_3] \pddx[x_3] f \\
 		\f{\partial^{\alpha_1 + \alpha_2 + \dotsb + \alpha_n} }{\partial x_1^{\alpha_1} \partial x_2^{\alpha_2} \dotsb \partial x_n^{\alpha^n}}f(x)  &: \quad \text{Ableitung der Ordnung $\alpha_1 + \dotsb + \alpha_n$}
 	\end{align*}
 \end{nt*}
@@ -944,7 +960,7 @@
 	\end{align*}
 	Die Leibnitz-Regel lässt sich schreiben als:
 	\[
-		D^\alpha(f g) = \sum_{\substack{\beta \in \N_0^n \\ \beta \le \alpha}} \binom{\alpha}{\beta} (D^\beta f)D^{\alpha - \beta} g
+		D^\alpha(f g) = \sum_{\substack{\beta \in \N_0^n \\ \beta \le \alpha}} \binom{\alpha}{\beta} (D^\beta f)D^{\alpha - \beta} g.
 	\]
 \end{ex}
 
@@ -969,33 +985,33 @@
 \begin{st} \label{4.30}
 	\begin{enumerate}[1)]
 		\item
-			Die Fouriertransformation $F: \scr S(\R^n) \to \scr S(\R^n) : f \mapsto \hat f$ ist bijektiv und es gilt für $F^{-1} : f \mapsto \check f$ mit
+			Die Fouriertransformation $F: \scr S(\R^n) \to \scr S(\R^n) : f \mapsto \hat f$ ist bijektiv und $F^{-1} : f \mapsto \check f$ ist gegeben durch
 			\[
-				\check f (x) = \f 1{(2\pi)^{\f n2}} \int_{\R^n} f(\omega) e^{i \omega \cdot x} \dx[\omega].
+				F^{-1}f(x) := \check f (x) := \f 1{(2\pi)^{\f n2}} \int_{\R^n} f(\omega) e^{i \omega \cdot x} \dx[\omega].
 			\]
 		\item
 			Es gilt für $\omega \in \R^n, \alpha \in \N_0^n$:
 			\[
-				\widehat{D^\alpha f(\omega)} = (i\omega)^\alpha \hat f(\omega) = i^{|\alpha|} \omega^\alpha \hat f(\omega).
+				\widehat{D^\alpha f}(\omega) = (i\omega)^\alpha \hat f(\omega) = i^{|\alpha|} \omega^\alpha \hat f(\omega).
 			\]
 			Für $g(x) = x^\alpha \cdot f(x)$ ist
 			\[
-				\hat g(\omega) = i^{|\alpha|} D_\omega^\alpha \hat f (\omega)
+				\hat g(\omega) = i^{|\alpha|} (D^\alpha \hat f) (\omega)
 			\]
 		\item
 			Definiere die Faltung:
 			\[
-				f \ast g(x) := \int_{\R^n} f(x-y) g(y) \dx[y] = \int_{\R^n} f(y) g(x-y) \dx[y].
+				(f \ast g)(x) := \int_{\R^n} f(x-y) g(y) \dx[y] = \int_{\R^n} f(y) g(x-y) \dx[y].
 			\]
 			Dann gilt
 			\begin{align*}
-				\widehat{f\cdot g} &=  \f 1{(2\pi)}^{\f n2 } \hat f \ast \hat g, \\
+				\widehat{f\cdot g} &=  \f 1{(2\pi)^{\f n2 }} \hat f \ast \hat g, \\
 				\widehat{f\ast g} &= (2\pi)^{\f n2} \hat f \cdot \hat g.
 			\end{align*}
 		\item
 			Es gilt der Satz von Plancherel:
 			\[
-				\|\hat f\|_{L^2(\R^n)} = \|f\|_{L^2(\R^n)}.
+				\|F f\|_{L^2(\R^n)} = \|f\|_{L^2(\R^n)}.
 			\]
 		\item
 			Für $1 \le p < \infty$ ist $C_0^\infty(\R^n)$ dicht in $L^p(\R^n)$.
@@ -1005,7 +1021,7 @@
 \begin{nt}[Fortsetzungen] \label{4.31}
 	\begin{enumerate}[1)]
 		\item
-			$F$ besitzt eine eindeutige Fortsetzung $\scr F: L^2(\R^n) \to L^2(\R^n)$.
+			$F: \scr S(\R^n) \to \scr S(\R^n)$ besitzt eine eindeutige Fortsetzung $\scr F: L^2(\R^n) \to L^2(\R^n)$.
 
 			$\scr F$ ist unitär: $\forall f, g \in L^2(\R^n) : \<f,g\> = \<\scr F f, \scr F g\>$.
 
@@ -1014,9 +1030,9 @@
 				\scr F f = \lim[L^2(\R^n)]_{R\to \infty} \f 1{(2\pi)^{\f n2}} \int_{|x|\le R} f(x) e^{i \omega\cdot x} \dx
 			\]
 		\item
-			$F : \scr S(\R^n) \to \scr(\R^n)$ besitzt eine eindeutige Fortsetzung $\scr F: L^1(\R^n) \to L^\infty(\R^n)$ mit $\| \scr F \| = \f 1{(2\pi)^{\f n2}}$ und
+			$F : \scr S(\R^n) \to \scr S(\R^n)$ besitzt eine eindeutige Fortsetzung $\scr F: L^1(\R^n) \to L^\infty(\R^n)$ mit $\| \scr F \| = \f 1{(2\pi)^{\f n2}}$ und
 			\[
-				\im (\scr F) \subset \Big\{ f \in C(\R^n \to \C) : f(x) \to 0 \text{ für $|x| \to \infty$}.
+				\im (\scr F) \subset \Big\{ f \in C(\R^n \to \C) : f(x) \to 0 \text{ für $|x| \to \infty$} \Big\}.
 			\]
 	\end{enumerate}
 \end{nt}
@@ -1036,17 +1052,17 @@
 	\]
 
 	\begin{st*}
-		Sei $\hat f \in \scr S(\R^n), \phi \in C^\infty(\R^n)$ und $\forall \alpha : \sup_{x\in \R^n} |D^\alpha \phi(x)| < \infty$.
+		Sei $\hat f \in \scr S(\R^n), \phi \in C^\infty(\R^n)$ und $\forall \alpha \in \N_0^n : \sup_{x\in \R^n} |D^\alpha \phi(x)| < \infty$.
 		Dann ist
 		\[
 			\phi \cdot \hat f \in \scr S(\R^n)
 		\]
 		\begin{proof}
-			$\phi \cdot \hat f \in \C^\infty(\R^n)$ ist klar.
+			$\phi \cdot \hat f \in C^\infty(\R^n)$ ist klar.
 			Es gilt außerdem
 			\begin{align*}
 				\sup_{x \in \R^n} |x|^j |D^\alpha (\phi \cdot \hat f)(x) |
-				&\le \sum_{\beta \le \alpha} \binom{\alpha}{\beta} \sup_{x \in \R^n} |x|^j \underbrace{|D^\beta \phi(x)|}_{\le c_\beta} | D^{\alpha-\beta} \phi(x)| \\
+				&\le \sum_{\beta \le \alpha} \binom{\alpha}{\beta} \sup_{x \in \R^n} |x|^j \underbrace{|D^\beta \phi(x)|}_{\le c_\beta} | D^{\alpha-\beta} \hat f(x)| \\
 				&< \infty.
 			\end{align*}
 		\end{proof}
@@ -1058,8 +1074,8 @@
 	\begin{align*}
 		u(x)
 		&= \Big( \f 1{|\argdot|^2+1} \hat f \Big)^\vee \\
-		&= \underbrace{(\f 1{|\argdot|^2+1})^\vee}_{=:g(x)} \ast \underbrace{(\hat f)^\vee}_{=f} \f 1{(2\pi)^{\f n2}} \\
-		&= \f 1{(2\pi)^{\f n2}} \int_{\R^n} \underbrace{g(x-y)}_{\mathclap{\text{entspricht Greenscher Funktion}}} f(y) \dx[y]
+		&=  \f 1{(2\pi)^{\f n2}} \underbrace{(\f 1{|\argdot|^2+1})^\vee}_{=:G} \ast \underbrace{(\hat f)^\vee}_{=f}\\
+		&= \f 1{(2\pi)^{\f n2}} \int_{\R^n} \underbrace{G(x-y)}_{\mathclap{\text{entspricht Greenscher Funktion}}} f(y) \dx[y].
 	\end{align*}
 \end{ex}
 
@@ -1070,6 +1086,6 @@
 	\]
 	und es gilt
 	\[
-		\| \scr F_p \| = \f 1{(2\pi)^{n(\f 1p-\f 12)}}
+		\| \scr F_p \| = \f 1{(2\pi)^{n(\f 1p-\f 12)}}.
 	\]
 \end{nt}
