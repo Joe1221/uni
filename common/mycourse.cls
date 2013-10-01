@@ -44,6 +44,7 @@
 }
 
 \DeclareOption{ngerman}{\def\ConfigLanguage{ngerman}\PassOptionsToPackage{ngerman}{babel}}
+\DeclareOption{english}{\def\ConfigLanguage{english}\PassOptionsToPackage{english}{babel}}
 
 
 \ProcessOptions\relax
