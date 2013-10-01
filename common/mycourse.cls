@@ -206,7 +206,7 @@
 % Hack um deutsche Sonderzeichen in lstinputlisting zu unterstützen
 \lstset{literate={Ö}{{\"O}}1{Ä}{{\"A}}1{Ü}{{\"U}}1{ß}{{\ss}}2{ü}{{\"u}}1{ä}{{\"a}}1{ö}{{\"o}}1}
 \lstset{
-  basicstyle=\small\ttfamily,
+  basicstyle=\ttfamily,
   numbers=left,
   columns=fullflexible,
   breaklines=true,
