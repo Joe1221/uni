@@ -12,8 +12,8 @@
 }{
 	\ClassWarning{mycourse}{No configuration file `config.tex` found.}
 }
-
-\PassOptionsToClass{fontsize=\ConfigFontsize}{scrbook}
+\PassOptionsToPackage{a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm, includehead, includefoot}{geometry}
+\PassOptionsToPackage{scaled=0.83}{beramono}
 
 %==================================
 % Options
@@ -48,6 +48,7 @@
 
 
 \ProcessOptions\relax
+\PassOptionsToClass{fontsize=\ConfigFontsize}{scrbook}
 
 % Old version of package libertine loads xcolor with conflicting options, so load it beforehand.
 \RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
@@ -61,7 +62,7 @@
 \RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
 %\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
 \RequirePackage{libertine}                  % Libertine font
-\RequirePackage[scaled=0.83]{beramono}      % Typewriter font scaled to fit with Libertine
+\RequirePackage{beramono}      % Typewriter font scaled to fit with Libertine
 
 % Load base class
 \LoadClass{scrbook}
@@ -85,7 +86,7 @@
 %\usepackage{newtxmath}
 %\usepackage[italic,defaultmathsizes]{mathastext}
 
-\RequirePackage[a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm]{geometry}
+\RequirePackage{geometry}
 \RequirePackage{graphicx}
 
 \RequirePackage{float}              % Erlaubt [H] Option für table/figure (load before hyperref)
