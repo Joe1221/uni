@@ -88,6 +88,9 @@
 \RequirePackage[a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm]{geometry}
 \RequirePackage{graphicx}
 
+\RequirePackage{float}              % Erlaubt [H] Option für table/figure (load before hyperref)
+%\RequirePackage{scrhack} 			% Wegen float-package, das eine warnung mit scrbook erzeugt
+
 %\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 \RequirePackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 
@@ -190,9 +193,6 @@
 
 \RequirePackage{parskip}			% Entfernt Einrückung bei Absätzen und fügt vertikalen Abstand ein
 \setlength{\parskip}{0.5em}
-
-\RequirePackage{float}              % Erlaubt [H] Option für table/figure
-%\RequirePackage{scrhack} 			% Wegen float-package, das eine warnung mit scrbook erzeugt
 
 \RequirePackage{algpseudocode}		% algorithmicx package für Pseudo-Code
 \RequirePackage{verbatim}			% Für Ascii-Art ;-)
