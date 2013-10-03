@@ -1,4 +1,4 @@
-% Verena Treitz (2665281), Stephan Hilb (2706616), Matthias Hofmann
+% Verena Treitz , Stephan Hilb (2706616), Matthias Hofmann
 
 % Numerik 2 Blatt 8
 % Programmieraufgabe 8.3 

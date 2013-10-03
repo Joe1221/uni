@@ -1,5 +1,5 @@
 % Numerik 2, Blatt 5
-% Verena Treitz, 2665281
+% Verena Treitz
 % Aufgabe 5.3, Aufgabenteil b)
 % Testfunktion
 
