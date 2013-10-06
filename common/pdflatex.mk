@@ -1,20 +1,22 @@
 # TARGET has to be specified
 
-PDFLATEX_OPTIONS += -synctex=1
-LATEXMK     ?= latexmk -recorder -pdf -pdflatex="pdflatex $(PDFLATEX_OPTIONS) %O %S"
-PDFVIEWER   ?= xdg-open
-PDFLATEX    ?= pdflatex $(PDFLATEX_OPTIONS)
-BIBTEX      ?= bibtex
+LATEXMK   ?= latexmk -recorder -pdf -synctex=1
+PDFVIEWER ?= xdg-open
+PDFLATEX  ?= pdflatex -synctex=1               # Deprecated
+BIBTEX    ?= bibtex                            # Deprecated
 
-TEXCONFIG   ?= config.tex
+TEXCONFIG ?= config.tex
+
 
 ifneq ($(strip $(TARGET)),)
 PDFTARGETS  += $(TARGET).pdf
 endif
 
-export TEXINPUTS = $(shell git rev-parse --show-toplevel)/common:
+# TeX include path
 INCLUDEDIR = $(shell git rev-parse --show-toplevel)/common
+export TEXINPUTS = $(INCLUDEDIR):
 
+# Check for latexmk
 LATEXMK_VERSION := $(shell latexmk --version 2> /dev/null)
 
 export BOOKLET_SOURCE = $(PDFTARGETS)
@@ -153,7 +155,7 @@ endif
 
 
 
-endif
+endif # LATEXMK_VERSION
 
 
 clean:
