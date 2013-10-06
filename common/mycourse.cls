@@ -12,7 +12,7 @@
 }{
 	\ClassWarning{mycourse}{No configuration file `config.tex` found.}
 }
-\PassOptionsToPackage{a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm, includehead, includefoot}{geometry}
+\PassOptionsToPackage{a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm}{geometry}
 \PassOptionsToPackage{scaled=0.83}{beramono}
 
 %==================================
