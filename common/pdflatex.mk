@@ -17,6 +17,9 @@ INCLUDEDIR = $(shell git rev-parse --show-toplevel)/common
 
 LATEXMK_VERSION := $(shell latexmk --version 2> /dev/null)
 
+export BOOKLET_SOURCE = $(PDFTARGETS)
+export BOOKLET_TARGET_NAME = $(TARGET)-book
+#=============================================================================
 
 all: $(PDFTARGETS)
 
@@ -29,13 +32,36 @@ view: $(PDFTARGETS)
 default: | config-clear all
 print: | config-print all
 
+book-a5-booklet: | config-print config-book all
+
+	echo "\documentclass{article} \
+\usepackage[a4paper]{geometry} \
+\usepackage[pdftex]{color,graphicx,epsfig} \
+\usepackage{pdfpages} \
+\begin{document} \
+	\includepdf[pages=-,signature=12,landscape]{${BOOKLET_SOURCE}} \
+\end{document}" > ${BOOKLET_TARGET_NAME}.tex
+
+	pdflatex ${BOOKLET_TARGET_NAME}.tex
+
+	rm -f ${BOOKLET_TARGET_NAME}.{tex,aux,log}
+
+
+book-a5-signatures-4:
+book-a5-signatures-8:
+book-a5-signatures-12:
+book-a5-signatures-16:
+
+
 
 # Config write targets
 
 config-print:
-	echo "\def\ConfigOutput{print}" > ${TEXCONFIG}
+	echo "\def\ConfigOutput{print}" >> ${TEXCONFIG}
 config-styledark:
-	echo "\def\ConfigOutput{dark}" > ${TEXCONFIG}
+	echo "\def\ConfigOutput{dark}" >> ${TEXCONFIG}
+config-book:
+	echo "\def\ConfigBook{true}" >> ${TEXCONFIG}
 config-clear:
 	echo "" > ${TEXCONFIG}
 

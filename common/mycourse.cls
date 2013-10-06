@@ -5,6 +5,7 @@
 \RequirePackage{etoolbox}
 \ifundef{\ConfigFontsize}{\def\ConfigFontsize{12pt}}{}
 \ifundef{\ConfigLanguage}{\def\ConfigLanguage{ngerman}}{}
+\ifundef{\ConfigBook}{\def\ConfigBook{false}}{}
 
 % Load configuration file, containing additional options
 \InputIfFileExists{config}{
@@ -52,6 +53,9 @@
 	\PassOptionsToPackage{scaled=0.785}{beramono}
 }
 
+\ifdefstring{\ConfigBook}{true}{
+	\PassOptionsToClass{a5book}{mycourse}
+}{}
 
 \ProcessOptions\relax
 \PassOptionsToClass{fontsize=\ConfigFontsize}{scrbook}
