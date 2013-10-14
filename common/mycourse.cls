@@ -348,3 +348,6 @@
 		\color{timestamp}\scshape\scriptsize \coursedate\formatdate{#1}{#2}{#3}
 	}
 }
+
+
+% vim: sw=4
