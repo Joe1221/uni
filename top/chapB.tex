@@ -56,4 +56,324 @@
 	ein Skalarprodukt.
 \end{ex}
 
+\begin{st}
+	Sei $V$ ein $K$-Vektorraum und $\<\argdot, \argdot\>$ ein Skalarprodukt.
+	Dann gilt die Cauchy-Schwartz-Ungleichung (CSU):
+	\[
+		|\<u,v\>|^2 \le \<u,u\> \<v,v\>.
+	\]
+	Hieraus folgt für die Norm $|u| := \sqrt{\<u,u\>}$
+	\begin{enumerate}[{N0}]
+		\item
+			$|0| = 0$
+		\item
+			$|v| > 0$ für  $v\neq 0$
+		\item
+			$|\lambda v| = |\lambda| |v|$ für $v \in V, \lambda \in K$.
+		\item
+			$|u+v| \le |u| + |v|$ (Dreiecksungleichung)
+	\end{enumerate}
+\end{st}
 
+\begin{df}
+	Eine \emph{Norm} auf $V$ ist eine Abbildung $|\argdot| : V \to \R_{\ge 0}$, die (N0-3) erfüllt.
+\end{df}
+
+\begin{ex}
+	Auf $\R^n$:
+	\begin{itemize}
+		\item
+			\emph{Taxinorm} oder $\ell^1$-Norm:
+			\[
+				|x|_1 = |x_1| + \dotsb + |x_n|.
+			\]
+		\item
+			\emph{Euklidische Norm} oder $\ell^2$-Norm:
+			\[
+				|x|_2 = \sqrt{|x_1|^2 + \dotsb + |x_n|^2}.
+			\]
+		\item
+			\emph{Supremumsnorm} oder $\ell^\infty$-Norm:
+			\[
+				|x|_\infty := \sup \{ |x_1|, \dotsc, |x_n| \}
+			\]
+		\item
+			Allgemeine $\ell^p$-Norm ($1\le p < \infty$):
+			\[
+				|x|_p := \Big( |x_1|^p + \dotsb + |x_n|^p \Big)^{\f 1p}
+			\]
+			% fixme: Skizze zu $B_p := \{x\in \R^2 : |x|_p \le 1\}$
+	\end{itemize}
+	\begin{note}
+		Auf $\R^n$ gilt
+		\[
+			|x|_\infty
+			\le |x|_2
+			\le |x|_1
+			\le n |x|_\infty
+		\]
+	\end{note}
+\end{ex}
+
+\begin{ex}
+	Sei $\K = \R, \C$ und $\Omega$ ein Menge.
+	Wir schreiben
+	\begin{align*}
+		\Abb(\Omega, \K) = \K^\Omega &:= \{f : \Omega \to \K\} \\
+		\|f\|_{\infty} := |f|_\Omega &:= \sup \{ |f(x)| : x \in \Omega \} \\
+		\|f\|_{p} &:= \bigg( \sum_{x\in\Omega} |f(x)|^p \bigg)^{\f 1p} \\
+		\ell^p(\Omega) &:= \{ f : \Omega \to \K : \|f\|_p < \infty \}
+	\end{align*}
+\end{ex}
+
+\begin{ex}
+	Sei $\Omega \subset \R^n$ messbar, $f : \Omega \to \R$ messbar,
+	\begin{align*}
+		\|f\|_p &:= \bigg( \int_{x\in \Omega} |f(x)|^p \dx \bigg)^{\f 1p} \\
+		\scr L^p(\Omega) &:= \{ f: \Omega \to \K : \|f\|_p < \infty \}
+	\end{align*}
+	Aus $\|f\|_p = 0$ folgt nur $f=0$ fast überall.
+	Setze
+	\begin{align*}
+		N &:= \{ f : \Omega \to \K : f(x) = 0 \text{ für fast alle $x\in\Omega$} \\
+		L^p &:= \ell^p / N
+	\end{align*}
+	Auf $L^p(\Omega)$ ist $\|\argdot\|_p$ tatsächlich eine Norm.
+\end{ex}
+
+\begin{ex}
+	Für Matrizen $A \in \K^{m\times n}$ setze
+	\[
+		|A| := \bigg( \sum_{i=1}^m \sum_{j=1}^n |a_{ij}|^2 \bigg)^{\f 12}.
+	\]
+	Dies ist ein Norm (Euklidische Norm auf $\K^{mn}$) und erfüllt zudem
+	\[
+		|A B | \le |A| |B|,
+		\qquad A \in \K^{m\times n}, \B \in \K^{n\times m}.
+	\]
+	Insbesondere $|Av| \le |A| |v|$ für $v\in \K^n (= \K^{n\times 1})$.
+\end{ex}
+
+\begin{ex}
+	$\K^{n\times n}$ ist eine Algebra über $\K$ mit Norm $|A|$ wie oben.
+\end{ex}
+
+\begin{df}
+	Eine \emph{normierte $\K$-Algebra} ist eine Algebra $(A_i)$ über $\K$ mit einer Norm $|\argdot|: A \to \R_{\ge 0}$, sodass $|uv| \le |u||v|$ für alle $u,v \in A$ gilt.
+\end{df}
+
+\begin{ex}
+	Sei $\K = \R, \C$.
+	Beispiele für normierte Algebren sind
+	\begin{itemize}
+		\item
+			$\K^{n\times n}$
+		\item
+			$\ell^\infty(\Omega, \K)$
+	\end{itemize}
+\end{ex}
+
+
+\section{Metrische Räume}
+
+
+\begin{ex}
+	Betrachte den Euklidischen Abstand auf $\R^n$
+	\[
+		d(x,y) = |x-y|_2 = \sqrt{ (x_1 - y_2)^2  + \dotsb + (x_n - y_n)^2 }.
+	\]
+	Es gelten folgende Eigenschaften
+	\begin{enumerate}[{(M)}0]
+		\item
+			$d(x,x) = 0$
+		\item
+			$d(x,y) > 0$ für $x\neq y$
+		\item
+			$d(x,y) = d(y,x)$
+		\item
+			$d(x,z) \le d(x,y) + d(y,z)$
+	\end{enumerate}
+\end{ex}
+
+\begin{df}
+	Sei $X$ eine Menge.
+	Eine \emph{Metrik} auf $X$ ist eine Abbildung $d : X \times X \to [0, \infty]$, die (M0-3) erfüllt.
+
+	Das Paar $(X,d)$ heißt dann \emph{metrischer Raum}.
+\end{df}
+
+\begin{ex}
+	$X = \R^n$ mit $d$ der euklidischen Metrik.
+\end{ex}
+
+\begin{ex}
+	Auf jeder Menge $X$ haben wir die \emph{diskrete Metrik}
+	\[
+		d(x,y) = \begin{cases}
+			0 & x=y \\
+			1 & x\neq y
+		\end{cases}.
+	\]
+\end{ex}
+
+\begin{ex}
+	Die \emph{französische Eisenbahnmetrik} $d: \R^n \times \R^n \to \R_{\ge 0}$
+	\[
+		d(x,y) := \begin{cases}
+			|x-y|_2 & \R x = \R y \\
+			|x|_2 + |y|_2 & \R x \neq \R y
+		\end{cases}
+	\]
+\end{ex}
+
+\begin{ex}[Teilräume]
+	Ist $(X,d)$ ein metrischer Raum und $A \subset X$, dann ist $d_A := d\big|_{A\times A} : A \times A \to [0,\infty]$ eine Metrik auf $A$.
+\end{ex}
+
+\begin{ex}[Produkträume]
+	Seien $(X,d_i)$ mit $i \in I$ metrische Räume.
+	Auf $X = \prod_{i\in I} X_i$ (dem Produktraum) erhalten wir die Supremumsmetrik
+	\[
+		d(x,y) := \sup \{ d_i(x_i,y_i) : i \in I \}.
+	\]
+\end{ex}
+
+\begin{ex}[Abbildungsräume]
+	Ist $(Y,d_y)$ ein metrischer Raum, $X$ eine Menge, dann trägt $Y^X = \Abb(X,Y)$ die Metrik
+	\[
+		d(f,g) := \sup \{ d_y(f(x),g(x)) : x \in X \}
+	\]
+	für $f,g : X \to Y$.
+\end{ex}
+
+\begin{df}
+	Eine \emph{isometrische Einbettung} $f:(X,d_X) \to (Y,d_Y)$ ist eine Abbildung $f: X\to Y$ mit $d(f(a), f(b)) = d_X(a,b)$ für alle $a,b \in X$.
+	Ist $f$ bijektiv, so heißt $f$ eine \emph{Isometrie}.
+\end{df}
+
+\begin{ex}
+	Verschiebungen, Drehungen, Spiegelungen auf $\R^n$.
+\end{ex}
+
+\begin{ex}
+	Sei $m \le n$, dann ist	$f: \R^n \to \R^n$ mit
+	\[
+		f(x_1, \dotsc, x_m) = (x_1, \dotsc, x_m, 0, \dotsc, 0)^T
+	\]
+	eine isometrischen Einbettung.
+\end{ex}
+
+\begin{ex}
+	Die Räume $\ell^2(\Z, \C)$ und $L^2([0,2\pi], \C)$ sind isometrisch dank Fourier-Analyse/Synthese.
+\end{ex}
+
+Seien $(X,d_X), (Y,d_Y)$ metrische Räume.
+Jede Funktion $f : X \to Y$ erfüllt
+\[
+	l d(a,b) \le d(f(a), f(b)) \le L d(a,b)
+\]
+für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
+
+\begin{df}
+	Wir nennen $f$ \emph{Lipschitz-stetig} wenn
+	\[
+		l d(a,b) \le d(f(a), f(b)) \le L d(a,b)
+	\]
+	für ein $L$ mit $0 \le L < \infty$ gilt.
+
+	Ist zusätzlich $0 < l \le L < \infty$, so heißt $f$ \emph{bi-Lipschitz-stetig}.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$f$ ist Isometrie genau dann, wenn $l=L=1$ genügt.
+		\item
+			$f$ ist konstant genau dann, wenn $L=0$ genügt.
+	\end{itemize}
+\end{ex}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$f(x) = x^2$, $L=2, l=0$.
+		\item
+			$g(x) = \sqrt{x}$, $L=\infty, l=\f 12$.
+	\end{itemize}
+\end{ex}
+
+\begin{df}
+	In einem metrischen Raum $(X,d)$ ist der \emph{offene Ball} um $a \in X$ mit Radius $r\in [0,\infty]$ die Menge
+	\[
+		B(a,r) := B_{(X,d)}(a, r) := \{ x \in X : d(a,x) < r \}.
+	\]
+	Der \emph{abgeschlossene Ball} ist
+	\[
+		\_{B}(a,r) := \_{B}_{(X,d)}(a, r) := \{ x \in X : d(a,x) \le r \}.
+	\]
+\end{df}
+
+\begin{df}
+	Eine Menge $U \subset X$ heißt \emph{Umgebung} von $a$ in $(X,d)$, wenn es $\eps \in \R_{\ge 0}$ gilbt, sodass $B(a,\eps) \subset U$.
+
+	Die Menge $U$ heißt \emph{offen} in $(X,d)$, wenn sie Umgebung jedes Punktes $a \in U$ ist.
+
+	Eine Menge $A \subset X$ heißt \emph{abgeschlossen} in $(X,d)$, wenn $X \setminus A$ offen ist in $(X,d)$.
+
+	Die Familie $\_{S_{X,d}}$ aller offenen Mengen heißt die \emph{Topologie} des Raumes $(X,d)$.
+\end{df}
+
+\begin{prop}
+	Jeder offene Ball ist offen.
+	Jeder abgeschlossene Ball ist abgeschlossen.
+
+	Es gelten
+	\begin{enumerate}[{O}1]
+		\item
+			$\emptyset, X$ sind offen.
+		\item
+			$U_1,\dotsc,U_n$ offen $\implies U_1 \cap \dotsb \cap U_n$ offen.
+		\item
+			$U_i$ offen ($i\in I$) $\implies \bigcup_{i\in I} U_i$ offen.
+	\end{enumerate}
+	\begin{enumerate}[{A}1]
+		\item
+			$\emptyset, X$ sind abgeschlossen.
+		\item
+			$A_1,\dotsc,A_n$ abgeschlossen $\implies A_1 \cup \dotsb \cup A_n$ offen.
+		\item
+			$A_i$ abgeschlossen ($i\in I$) $\implies \bigcap_{i\in I} A_i$ offen.
+	\end{enumerate}
+\end{prop}
+
+\begin{df}
+	Zu $M \subset X$ definieren wir das \emph{Innere} von $M$ in $(X,d)$ durch
+	\begin{align*}
+		\mathring M &:= \{ x \in X : M \text{ ist Umgebung von $x$ in $(X,d)$} \} \\
+		&= \{ x \in X : \exists \eps > 0 B(x,\eps) \subset M \} \\
+		&= \bigcup \{ U \subset M : U \text{ ist offen in $(X,d)$}.
+		% fixme: prüfen
+	\end{align*}
+
+	Der \emph{Abschluss} (oder abgeschlossene Hülle) von $M$ in $(X,d)$ ist
+	\begin{align*}
+		\_{M} &:= \{ x \in X : \text{ Jede Umgebung von $x$ in $(X,d)$ schneidet $M$} \} \\
+		&= \{ x \in X : \forall \eps > 0 : B(x,\eps) \cap M \neq \emptyset \} \\
+		&= \bigcap \{ A \supset M : \text{$A$ ist abgschlossen in $(X,d)$} \}
+		% fixme: prüfen
+	\end{align*}
+
+	Der \emph{Rand} $\boundary M$ von $M$ in $(X,d)$ ist
+	\[
+		\boundary M := \_{M} \setminus \mathring M
+	\]
+\end{df}
+
+\begin{ex}
+	Im $\R^n$ betrachten wir
+	\begin{align*}
+		\D^n := \{ x \in \R^n : x_1^2 + \dotsb + x_n^2 \le 1 \}, \\
+		\B^n := \{ x \in \R^n : x_1^2 + \dotsb + x_n^2 < 1 \}, \\
+		\S^{n-1} := \{ x \in \R^n : x_1^2 + \dotsb + x_n^2 = 1 \}.
+	\end{align*}
+\end{ex}
