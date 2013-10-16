@@ -1,0 +1,211 @@
+% This work is licensed under the Creative Commons
+% Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of
+% this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send
+% a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View,
+% California, 94041, USA.
+
+\documentclass{mycourse}
+
+\begin{document}
+
+\title{Einführung in die Optimierung}
+
+\maketitle
+
+\tableofcontents
+
+
+% fixme: erste Vorlesung
+
+\coursetimestamp{16}{10}{2013}
+
+Wir bezeichnen mit $x_i$ die in das $i$-te Produk investierte Summe und mit $\my_i$ die erwartete Rendite.
+Die erwartete Gesamtrendite ergibt sich dann als
+\[
+	\sum_{i=1}^n \my_i x_i = \my^T x.
+\]
+Sei $\Sigma \in \R^{n\times n}$ die Kovarianzmatrix der Renditen, dann ergibt sich die Gesamtvarianz als
+\[
+	V(x) = x^T \Sigma x.
+\]
+Optimierungsaufgaben wären dann
+\begin{enumerate}[I.]
+	\item
+		Minimiere zu gegebener Mindestrendite die Varianz:
+		$V(x) \to \min!$ unter der Nebenbedingung $E(x) \ge \my_0$.
+	\item
+		Zu gegebener Höchstvarianz, maximiere Rendite:
+		$E(x) \to \max!$ unter der Nebenbedingung $V(x) \le V_0$.
+\end{enumerate}
+Portfolios, die die Optimierungsprobleme I und II lösen heißen auch \emph{effizient}.
+
+\subsection{Computertomographie}
+
+Es ergibt sich grob folgender Zusammenhang
+\[
+	b_i = \sum_{j=1}^n a_{ij} x_j
+\]
+für $i = 1, \dotsc, m$ und damit ein lineares Gleichungssystem $Ax = b$, $A \in \R^{m\times n}$.
+$m$ ist dabei die Anzahl der zu messenden Strahlen und $n$ die Anzahl Pixel.
+
+Im Allgemeinen ist das Gleichungssystem nicht exakt lösbar, deshalb streben wir eine bestmögliche Lösung an:
+\[
+	\|Ax - b\| \to \min!.
+\]
+Moderne Tomographieverfahren führen auf nicht-lineare Zusammenhänge, d.h. auf das Optimierungsproblem
+\[
+	\|F(x) - b\| \to \min!.
+\]
+In vielen inversen Problemen ist die Lösung, die am besten zu den Messdaten passt, unbrauchbar (daher \emph{Regularisierung}).
+
+
+
+\chapter{Unrestringierte nichtlineare Optimierung}
+
+
+Betrachte
+\[
+	\min_{x\in \R^n} f(x)
+\]
+mit (hinreichend glattem) $f : \R^n \to \R$.
+
+
+\section{Grundlagen und Optimalitätsbedingungen}
+
+
+$U \subset \R^n$ sei im Folgenden stets eine offene Menge.
+
+
+\subsection{Grundlagen}
+
+Für $x \in \R^n, A \in \R^{n\times n}$ ist
+\[
+	\|x\| := \sqrt{x^T x}, \qquad
+	\|A\| := \max_{\|x\|=1} \|Ax\|.
+\]
+Für $F: U \to \R^n$, $F(x) = (f_1(x), \dotsc, f_m(x))^T$ ist
+\[
+	F'(x) = \begin{pmatrix}
+		\pddx[x_1]{f_1}(x) & \cdots & \pddx[x_n]{f_1}(x) \\
+		\vdots & \ddots & \vdots \\
+		\pddx[x_1]{f_m}(x) & \cdots & \pddx[x_n]{f_m}(x) \\
+	\end{pmatrix} \in \R^{m\times n}
+\]
+Für $f: U \to \R$ bezeichnet
+\[
+	\nabla f(x)
+	= f'(x)^T
+	= \begin{pmatrix}
+		\pddx[x_1]{f} \\
+		\vdots \\
+		\pddx[x_n]{f} \\
+	\end{pmatrix} \\
+	\nabla^2 f(x)
+	= \begin{pmatrix}
+		\pddx[x_1^2]{f} & \cdots & \f{\partial^2 f}{\partial x_1 \partial x_n} \\
+		\vdots & \ddots & \vdots \\
+		\f{\partial^2 f}{\partial x_n \partial x_1} & \cdots & \f{\partial^2 f}{\partial x_n^2} \\
+	\end{pmatrix} \in \R^{n\times n}.
+\]
+den Gradienten $\nabla f$ und die Hessematrix $\nabla^2 f$ die Hesse-Matrix.
+Die Bezeichnung $\nabla^2$ wird in der Literatur nicht einheitlich verwendet.
+
+Für $d \in \R^n$ bezeichnen wir die \emph{Richtungsableitung} als
+\[
+	\pddx[d]{f}(x)
+	= \lim_{t\to 0} \f {f(x+td) - f(x)}{t}
+	= f'(x) d = \nabla f(x)^T d.
+\]
+
+\begin{df} \label{2.1}
+	Zu $x_0,x_1 \in \R^n$ heißt
+	\[
+		[x_0, x_1] := \{ x_0 + t(x_1-x_0) : t \in [0,1] \}
+	\]
+	die \emph{Verbindungsstrecke} zwischen $x_0, x_1$.
+\end{df}
+
+\begin{st} \label{2.2}
+	Sei $f: U \to \R$ stetig differenzierbar, $x_0, x_1 \in U$ und $[x_0, x_1] \subset U$.
+
+	Dann ist die Funktion $g: t \mapsto f(x_t)$ (wobei $x_t := x_0 + t(x_1 - x_0) = (1-t) x_0 + tx_1$) auf einer Umgebung von $[0,1]$ stetig differenzierbar und
+	\[
+		g'(t) = \nabla f(x_t)^T (x_1 - x_0).
+	\]
+	Ist $f$ zweimal stetetig differenzierbar, so auch $g$ und es gilt
+	\[
+		g''(t) = (x_1 - x_0)^T \nabla^2 f(x_t) (x_1 - x_0).
+	\]
+	\begin{proof}
+		Übungsaufgabe
+	\end{proof}
+\end{st}
+
+\begin{st}[Linearer und quadratischer Taylor] \label{2.3}
+	Sei $f : U \to \R$ stetig differenzierbar, $x\in U, \eps > 0$, so dass $B_\eps(x) \subset U$.
+	Dann gilt
+	\begin{enumerate}[(a)]
+		\item
+			Für alle $d \in B_\eps(0)$ existiert ein $s \in [0,1]$ mit
+			\[
+				f(x+d) = f(x) + \nabla f(x + sd)^T d.
+			\]
+			Außerdem gilt für alle $d \in B_\eps(0)$
+			\[
+				f(x+d) = f(x) + \nabla f(x)^T d + p(d)
+			\]
+			und das Restglied $p: B_\eps(0) \to \R$ erfüllt $p(d) = o(d)$, d.h.
+			\[
+				\lim_{d\to 0} \f {p(d)}{\|d\|} = 0.
+			\]
+		\item
+			Ist $f: U \to \R$ zweimal stetig differenzierbar, dann existieren für alle $d \in B_\eps(0)$ ein $s \in [0,1]$mit
+			\[
+				f(x+d)
+				= f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x+sd) d.
+			\]
+			Außerdem gilt für alle $d \in B_\eps(0)$
+			\[
+				f(x+d) = f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x) d + p(d)
+			\]
+			und $p: B_\eps(0) \to \R$ gilt $p = o(\|d\|^2)$, d.h.
+			\[
+				\lim_{d\to 0} \f{|p(d)|}{\|d\|^2} = 0.
+			\]
+	\end{enumerate}
+	\begin{proof}
+		Funktioniert mit eindimensionalem Taylor und \ref{2.2}.
+	\end{proof}
+\end{st}
+
+\begin{lem} \label{2.4}
+	Sei $F: U \to \R^m$ stetig differenzierbar, $x\in U$ und $\eps > 0$, sodass $B_\eps(x) \subset U$.
+
+	Dann gilt für alle $d \in B_\eps(0)$
+	\begin{align*}
+		F(x+d)
+		&= F(x) + \int_0^1 F'(x+td) d \dx[t] \\
+		&= F(x) + \bigg( \int_0^1 F'(x+td) \dx[t] \bigg) d.
+	\end{align*}
+	Insbesondere gilt
+	\[
+		\| F(x+d) - F(x) \|
+		\le \|d\| \sup_{t\in [0,1]} \|F'(x+td)\|.
+	\]
+	Diese Abschätzung wird oft auch \emph{mehrdimensionaler Mittelwertsatz} genannt.
+\end{lem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
