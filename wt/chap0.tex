@@ -1,0 +1,177 @@
+% Kap 0
+\chapter{Einführende Motivation}
+
+\coursetimestamp{16}{10}{2013}
+
+% 0.1.
+\section{Stochastik = „Lehre vom Zufall“}
+
+
+Zufall ist eine Eigenschaft des Lebens.
+Es gibt „gewollten Zufall“ (z.B. Glücksspiele) und „ungewollten Zufall“ (z.B. Katastrophen).
+Die Stochastik (artgr., „scharfsinniges Vermuten“) besitzt viele Anwendungen, basiert jedoch auf einer strengen axiomatischen Theorie (1933, Kolmogorov).
+
+Die Frage nach der Existenz des Zufalls ist nicht eindeutig zu beantworten (und ist hier auch nicht von Interesse), jedoch ist der Zufall oft ein gutes Modell für deterministische Geschehnisse, die (z.B. auf Grund ihrer hohen Komplexität) nicht (bzw. nicht komplett) vorhersagbar sind.
+
+Teilgebiete der Stochastik sind die Wahrscheinlichkeitstheorie und die Statistik.
+Die Wahrscheinlichkeitstheorie behandelt dabei die theoretische Seite der Stochastik, während die Statistik eher (!) Anwendungen beinhalten.
+
+% fixme: kapitel-referenz
+Die Wahrscheinlichkeit $\P(A)$ eines Ereignisses $A$ ist eine reelle Zahl zwischen Null und Eins (jeweils inkl.), die die Plausibilität des Eintreffens von $A$ anzeigt („misst“, siehe Maßtheorie).
+
+
+\section{Zwei Beispiele und Grundbegriffe}
+
+% Bsp 0.2.1
+\begin{ex}[Würfeln mit zwei fairen Würfeln] \label{0.2.1}
+	Wie groß ist die Wahrscheinlichkeit, dass $A := \text{die Augensumme $\ge 10$}$ ist?
+	Wir zeigen zwei Lösungswege
+	\begin{description}
+		\item[1. Weg]
+			Beide Würfel sind unterscheidbar, wir können den Wurf also als Element von
+			\begin{align*}
+				\Omega
+				&= \{ 1,2,3,4,5,6 \} \times \{ 1,2,3,4,5,6 \} \\
+				&= \{ (a,b): a,b \in \{ 1, \dotsc, 6 \}
+			\end{align*}
+			betrachten.
+			Alle diese Paare haben die selbe Wahrscheinlichkeit, nämlich $\f 1{\# \Omega} = \f 1{36}$.
+			\begin{align*}
+				\P(A)
+				&= \f 1{36} \# \{ (4,6), (5,5), (6,4), (5,6), (6,5), (6,6) \} \\
+				&= \f {\# A}{\# \Omega}
+				= \f {6}{36}
+				= \f 16
+			\end{align*}
+		\item[2. Weg]
+			Betrachte gleich die Augensummen
+			\[
+				\Omega
+				= \{ 2, 3, \dotsc, 12 \}.
+			\]
+			Diese Elemente aus $\Omega$ haben nicht mehr die gleiche Wahrscheinlichkeit.
+			\begin{table}
+				\centering
+				\begin{tabular}{r|ccccccccccc}
+					$\omega$ & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\ \hline
+					$\P(\omega)$ & $\f 1{36}$ & $\f 2{36}$ & $\f 3{36}$ & $\f 4{36}$ & $\f 5{36}$ &$\f 6{36}$ &$\f 5{36}$ &$\f 4{36}$ &$\f 3{36}$ &$\f 2{36}$ &$\f 1{36}$
+				\end{tabular}
+			\end{table}
+			Addieren der Wahrscheinlichkeiten für $\omega \ge 10$ ($A = \{10,11,12\}$) ergibt
+			\[
+				\P(A)
+				= \f {3+2+1}{36}
+				= \f 16
+			\]
+	\end{description}
+\end{ex}
+
+\paragraph{Fazit:}
+\begin{enumerate}[1.]
+	\item
+		Man definiert eine Menge $\Omega$, den Raum der möglichen Ereignisse.
+	\item
+		Dafür gibt es i.A. mehrere Möglichkeiten.
+	\item
+		Oft ist es günstig, wenn \emph{alle} Elemente von $\Omega$ die selbe Wahrscheinlichkeit besitzen.
+		In diesem Fall nennen wir den Raum \emph{Laplace-Wahrscheinlichkeitsraum}.
+	\item
+		Das interessierende Ereignis identifiziert man mit einer Teilmeenge $A \subset \Omega$.
+	\item
+		Die Wahrscheinlichkeit von $A$ ist dann die Summe der Einzelwarscheinlichkeiten der Elemente von $A$, d.h.
+		\[
+			\P(A) = \sum_{\omega \in A} \P(\{\omega\}).
+		\]
+\end{enumerate}
+
+\begin{df} \label{0.2.2}
+	Sei $\Omega \neq \emptyset$ eine endliche, abzählbare Menge und $P(\Omega)$ ihre Potenzmenge.
+	Ein diskreter Wahrscheinlichkeitsraum ist ein Paar $(\Omega, p)$, wobei $p: \Omega \to [0,1]$ mit der Eigenschaft
+	\[
+		\sum_{\omega \in \Omega} p(\omega) = 1.
+	\]
+	Wir nennen $\Omega$ \emph{Ereignissumme}, ein Element $\omega \in \Omega$ \emph{Elementarereignis} und eine Teilmenge $A \subset \Omega$ \emph{Ereignis}.
+\end{df}
+
+\begin{df} \label{0.2.3}
+	Die Abbildung $\P : P(\Omega) \to [0,1]$ definiert durch
+	\[
+		\P(A) := \sum_{\omega \in A} p(\omega)
+	\]
+	heißt das \emph{von $p$ induzierte Wahrscheinlichkeitsmaß}.
+\end{df}
+
+\begin{nt*}
+	In einer Summe $\sum_{\omega \in A} p(\omega)$ spielt die Reihenfolge der Summation keine Rolle, da $p(\omega) \ge 0$.
+	Streng genommen ist nämlich
+	\[
+		\sum_{\omega \in A} p(\omega)
+		= \lim_{n\to \infty} \sum_{j=1}^n p(\omega_i),
+	\]
+	wobei $\omega_1, \omega_2, \dotsc$ eine Abzählung von $A$ ist.
+\end{nt*}
+
+Die Definitionen \ref{0.2.2} und \ref{0.2.3} sind Spezialfälle eines allgemeines Konzepts.
+
+\begin{nt}[Kolmogoroff'sche Axiome] \label{0.2.4}
+	Sei $(\Omega, p)$ ein diskreter Wahrscheinlichkeitsraum.
+	Dann hat das Wahrscheinlichkeitsmaß $\P$ folgende Eigenschaften
+	\begin{enumerate}[(i)]
+		\item
+			\emph{Normierung}:
+			$\P(\emptyset) = 0, \P(\Omega) = 1$
+		\item
+			\emph{$\sigma$-Additivität}:
+			Für alle paarweise disjunkten Folgen $(A_i)_{i \in \N}$, $A_i \subset \Omega$ gilt
+			\[
+				\P \bigg( \bigcup_{i=1}^\infty \bigg) = \sum_{i=1}^\infty \P(A_i).
+			\]
+	\end{enumerate}
+	\begin{proof}
+		Übung
+	\end{proof}
+\end{nt}
+
+\begin{nt} \label{0.2.5}
+	Umgekehrt gilt:
+	Ist $\Omega \neq \emptyset$ abzählbar und $\P : P(\Omega) \to [0,1]$ eine Abbildung mit Eigenschaften (i) und (ii) aus \ref{0.2.4}, so definiert $p(\omega) := \P({\omega})$, $\omega \in \Omega$ einen diskreten Wahrscheinlichkeitsraum $(\Omega, p)$.
+\end{nt}
+
+\paragraph{Sprechweisen für Ereignisse:}
+Seien $A, B, C \subset \Omega$ Ereignisse.
+\begin{description}
+	\item[$A \cap B$]
+		$A$ und $B$ treten ein.
+	\item[$A \cup B$]
+		$A$ oder $B$ treten ein.
+	\item[$A^C = \Omega \setminus A$]
+		$A$ tritt nicht ein.
+	\item[$A \cap B = \emptyset$]
+		$A$ und $B$ schließen einander aus.
+	\item[$A \subset B$]
+		$A$ zieht $B$ nach sich.
+	\item[$\emptyset$]
+		Unmögliches Ereignis.
+	\item[$\Omega$]
+		Sicheres Ereignis.
+\end{description}
+
+\begin{ex} \label{0.2.6}
+	Tropfen fallen gleichmäßig auf ein Quadrat $Q$.
+	Wir betrachten eine Teilmenge $A \subset \Omega$, also
+	\[
+		%fixme: entspricht \hat =
+		\P(A) = \text{nächster Tropfen, der in $Q$ fällt trifft $A$}.
+	\]
+	Es ist naheliegend
+	\[
+		\P(A)
+		= \f {\Area(A)}{\Area(Q)}
+	\]
+	zu setzen.
+
+	Für welche Mengen $A$ ist der Flächeninhalt definiert?
+	Wir werden sehen, dass dies nicht für alle Mengen $A \in P(\Omega)$ der Fall ist.
+	$\P$ wird daher auf einer echten Teilmenge von $P(\Omega)$ definiert.
+\end{ex}
+
