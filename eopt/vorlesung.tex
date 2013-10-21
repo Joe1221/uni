@@ -193,7 +193,213 @@ Für $d \in \R^n$ bezeichnen wir die \emph{Richtungsableitung} als
 		\le \|d\| \sup_{t\in [0,1]} \|F'(x+td)\|.
 	\]
 	Diese Abschätzung wird oft auch \emph{mehrdimensionaler Mittelwertsatz} genannt.
+\coursetimestamp{21}{10}{2013}
+
+	Außerdem ist $F(x+d) = F(x) + F'(x)d + p(d)$ und $p: B_\eps(0) \to \R^m$ erfüllt $p(d) = o(d)$, d.h.
+	$\lim_{d\to 0} \f {\|p(d)\|}{\|d\|} = 0$.
+
+	\begin{proof}
+		Da $U$ offen, existiert $\eps > 0$, so dass $[x- \eps d, x + d + \eps d] \subset U$.
+		Definiere $f: (-\eps, 1 + \eps) \to \R^n$ durch
+		\[
+			f(t) := F(x + td) = F(g(t))
+		\]
+		mit $g:(-\eps, 1 + \eps) \to \R^n : t \mapsto x + td$.
+		Es gilt
+		\[
+			f'(t)
+			= F'(g(t)) g'(t)
+			= F'(x + td) d.
+		\]
+		und damit
+		\[
+			F(x+d) - F(x)
+			= f(1) - f(0)
+			= \int_0^1 f'(t) \dx[t]
+			= \int_0^1 F'(x + td) d \dx[t].
+		\]
+
+		Die zweite Behauptung ist die Definition der totalen Differenzierbarkeit.
+	\end{proof}
 \end{lem}
+
+\begin{df} \label{2.5}
+	Eine symmetrische Matrix $A = (a_{ij}) \in \R^{n\times m}$ heißt
+	\begin{enumerate}[(a)]
+		\item
+			\emph{positiv semi-definit}, falls $x^TAx \ge 0$ für alle $x \in \R^n$,
+		\item
+			\emph{positiv definit}, falls $x^TAx > 0$ für alle $x \in \R^n \setminus \{0\}$.
+	\end{enumerate}
+	Analog definiert man \emph{negativ semi-definit} und \emph{negativ definit}.
+\end{df}
+
+\begin{st} \label{2.6}
+	Zu einer symmetrischen Matrix $A \in \R^{n\times n}$ existiert eine Orthonormalbasis aus Eigenvektoren $v_1, \dotsc, v_n \in \R^n$ mit dazugehörigen Eigenwerten $\lambda_1, \dotsc, \lambda_n \in \R$, als
+	\[
+		v_j^T v_k
+		= \delta_{jk}
+		= \begin{cases}
+			1 & j = k \\
+			0 & \text{sonst}
+		\end{cases},\qquad
+		Av_k = \lambda_k v_k
+	\]
+	Es ist also
+	\[
+		A = \sum_{k=1}^n \lambda_k v_k v_k^T
+	\]
+	und mit $\lambda_{\text{min}}(A) := \min_{k=1,\dotsc,n} \lambda_k$, $\lambda_{\text{max}}(A) := \max_{k=1,\dotsc,n} \lambda_k$ gilt
+	\[
+		\lambda_{\text{min}}(A)
+		= \min_{x\in\R^n} \f {x^T A x}{\|x\|^2}
+		\le \f {x^T A x}{\|x\|^2}
+		\le \max_{x\in\R^n} \f {x^TA x}{\|x\|^2}
+		= \lambda_{\text{max}}(A)
+	\]
+	und
+	\[
+		\|A\|
+		= \sup_{x\neq 0} \f{\|Ax\|}{\|x\|}
+		= \max \{|\lambda_k| : k=1, \dotsc, n \}
+	\]
+	Insbesondere ist $A$ positiv semi-definit genau dann, wenn alle Eigenwerte $\ge 0$ und positiv definit genau dann, wenn alle Eigenwerte $>0$ sind,
+	entsprechend negativ semi-definit, wenn alle Eigenwerte $\le 0$ und negativ semi-definit, wenn alle Eigenwerte $<0$ sind.
+\end{st}
+
+\begin{df} \label{2.7}
+	Für eine invertierbare Matrix $A \in \R^{n\times n}$ heißt
+	\[
+		\kappa(A)
+		:= \|A\| \|A^{-1}\|
+	\]
+	\emph{Kondition}.
+
+	Für eine symmetrische, positiv definite Matrix $A \in \R^{n\times n}$ gilt offenbar
+	\[
+		\kappa(A)
+		= \lambda_{\text{max}}(A) \lambda_{\text{max}}(A^{-1})
+		= \f {\lambda_{\text{max}}(A)}{\lambda_{\text{min}}(A)}.
+	\]
+\end{df}
+
+\begin{nt} \label{2.8}
+	Die Kondition ist ein Maß für die Fehlerverstärkung durch $A^{-1}$ (d.h. durch Lösen eines LGS), denn
+	\begin{align*}
+		\dfrac {A^{-1}(b+\delta) - A^{-1}b}{\|A^{-1}b\|}
+		&= \f {\|A^{-1}\delta\|}{\|A^{-1}b\|} \\
+		&\le \|A^{-1}\| \|A\| \f {\|\delta\|}{\|A\|\|A^{-1}b\|} \\
+		&\le \kappa(A) \f {\|\delta\|}{\|b\|}.
+	\end{align*}
+\end{nt}
+
+\section{Optimalitätsbedingungen}
+
+\begin{df} \label{2.9}
+	Sei $X \subset \R^n$ und $f: X \to \R$.
+	Ein Punkt $x \in X$ heißt
+	\begin{enumerate}[(a)]
+		\item
+			\emph{globales Minimum von $f$ in $X$}, falls
+			\[
+				\forall y \in X: f(x) \le f(y),
+			\]
+		\item
+			\emph{lokales Minimum von $f$}, falls
+			\[
+				\exists \eps > 0 \forall y \in X \cap B_\eps(x): f(x) \le f(y),
+			\]
+		\item
+			\emph{striktes globales Minimum von $f$ in $X$}, falls
+			\[
+				\forall y \in X \setminus \{x\}: f(x) < f(y)
+			\]
+		\item
+			\emph{striktes lokales Minimum von $f$}, falls
+			\[
+				\exists \eps > 0 \forall y \in (X \setminus \{x\}) \cap B_\eps(x): f(x) < f(y),
+			\]
+	\end{enumerate}
+	Analog definiert man die entpsrechenden Maxima.
+\end{df}
+
+\begin{st}[Notwendige Optimalitätsbedingung 1. Ordnung] \label{2.10}
+	Sei $U \subset \R^n$ offen, $f: U \to \R$ stetig differenzierbar.
+	Ist $x \in U$ ein lokales Minimum von $f$, dann gilt $\nabla f(x) = 0$.
+
+	Punkte mit $\nabla f(x) = 0$ heißen \emph{stationäre Punkte}
+	\begin{proof}
+		Für jedes $d \in \R^n$ gilt
+		\[
+			\nabla f(x)^T d
+			= \lim_{t \to 0^+} \f {f(x+td) - f(x)}{t}
+			\ge 0
+		\]
+		Für $d := - \nabla f(x)$ folgt $-\|\nabla f(x)\|^2 \ge 0$ und damit $\nabla f(x) = 0$.
+	\end{proof}
+\end{st}
+
+\begin{st}[Notwendige Optimalitätsbedingung 2. Ordnung] \label{2.11}
+	Sei $U \subset \R^n$ offen, $f: U \to \R$ zweimal stetig differenzierbar.
+	Ist $x \in U$ ein lokales Minimum von $f$, dann ist $x$ ein stationärer Puunkt von $f$ und $\nabla^2 f$ ist positiv semi-definit, also
+	\begin{enumerate}[(a)]
+		\item
+			$\nabla f(x) = 0$,
+		\item
+			$x^T \nabla^2 f(x) x \ge 0$ für alle $x \in \R^n$.
+	\end{enumerate}
+	\begin{proof}
+		Teil (a) ergibt sich aus \ref{2.10}, zeige also (b):
+		Sei $d \in \R^n$ und $\eps > 0$ so klein, dass $B_\eps(x) \subset U$ und $x$ globales Minimum in $B_\eps(x)$.
+		Verwende \ref{2.3} mit $td$ anstelle von $d$:
+		\[
+			f(x+td)
+			= f(x) + t \nabla f(x)^T d + \f {t^2}2 d^T \nabla^2 f(x) d + p(td
+		\]
+		für alle $td \in B_\eps(0)$.
+		Also gilt für alle $|t| < \f \eps{\|d\|}$
+		\[
+			\nabla^2 f(x) d
+			\ge - \f 2{t^2} p(td)
+			\to 0
+		\]
+		für $t \to 0$.
+	\end{proof}
+\end{st}
+
+\begin{st}[Hinreichende Optimalitätsbedingungen 2. Ordnung]
+	Sei $U \subset \R^n$ offen, $f: U \to \R$ zweimal stetig differenzierbar.
+	Ist $x \in U$ ein stationärer Punkt mit positiv definiter Hesse-Matrix, d.h.
+	\begin{enumerate}[(a)]
+		\item
+			$\nabla f(x) = 0$,
+		\item
+			$d^T \nabla^2 f(x) d > 0$ für alle $d \in \R^n \setminus \{0\}$.
+	\end{enumerate}
+	Dann ist $x$ ein striktes lokales Minimum von $f$.
+	\begin{proof}
+		Nach \ref{2.6} ist mit (b) $\my := \lambda_{\text{min}} (\nabla^2 f(x)) > 0$ und
+		\[
+			d^T \nabla^2 f(x) d \ge \my \|d\|^2.
+		\]
+		Wie in \ref{2.11} ist
+		\[
+			f(x+d)
+			= f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x) d + p(d)
+		\]
+		und $p(d) \le \f \my4 \|d\|^2$ für hinreichend kleine $d$.
+
+		Also
+		\[
+			f(x+d)
+			\ge f(x) + \f \my2 \|d\|^2 - \f \my4 \|d\|^2
+			= f(x) + \f \my4 \|d\|^2
+		\]
+		und damit $f(x+d) > f(x)$ für alle hinreichend kleinen $d \neq 0$.
+	\end{proof}
+\end{st}
+
+
 
 
 
