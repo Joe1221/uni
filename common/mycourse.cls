@@ -349,5 +349,7 @@
 	}
 }
 
+\RequirePackage{lastpage}
+
 
 % vim: sw=4
