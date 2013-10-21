@@ -377,3 +377,275 @@ für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
 		\S^{n-1} := \{ x \in \R^n : x_1^2 + \dotsb + x_n^2 = 1 \}.
 	\end{align*}
 \end{ex}
+
+\coursetimestamp{21}{10}{2013}
+
+\begin{nt}
+	Wir verwenden für ein Mengensystem $\scr A$ die Notation für die Vereinigung über alle enthaltenen Mengen
+	\[
+		\bigcup \scr A
+		= \bigcup_{A \in \scr A}
+		= \bigcup_{i\in I} A_i.
+	\]
+\end{nt}
+
+
+\section{Konvergenz und Stetigkeit}
+
+Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
+
+\begin{df}
+	Eine Folge $(x_n)_{n\in \N}$ in $X$ \emph{konvergiert} gegen $a \in X$, wenn $d(x_n, a) \to 0$, d.h.
+	\[
+		\forall \eps > 0 \exists m \in \N \forall n \ge m : d(x_n, a) < \eps,
+	\]
+	oder mit anderen Worten: Jede Umgebung von $a$ enthält fast alle Folgenglieder.
+\end{df}
+
+\begin{df}
+	Eine Funktion $f: X \to Y$ heißt stetig in einem Punkt $a \in X$, wenn
+	\[
+		\forall \eps > 0 \exists \delta > 0 : \forall x \in X : d_X(x,a) < \delta \implies d_Y(f(x), f(a)) < \eps.
+	\]
+
+	Die Funktion $f: X \to Y$ heißt \emph{stetig} (auf ganz $X$), wenn
+	\[
+		\forall a \in X \forall \eps > 0 \exists \delta > 0 \forall x \in X: d_X(x,a) < \delta \implies d_Y(f(x), f(a)) < \eps
+	\]
+	und \emph{gleichmäßig stetig}, wenn
+	\[
+		\forall \eps > 0 \exists \delta > 0 \forall x,a \in X: d_X(x,a) < \delta \implies d_Y(f(x), f(a)) < \eps
+	\]
+
+	Die Menge aller stetigen Abbildung $f: X \to Y$ bezeichnen wir mit $C(X,Y)$.
+
+	Ist $f$ bijektiv und sowohl $f$, als auch $f^{-1}$ stetig, so heißt $f$ \emph{Homöomorphismus}.
+\end{df}
+
+\begin{st}
+	Für $f: X \to Y$ sind äquivalent
+	\begin{enumerate}[1)]
+		\item
+			$f$ ist stetig,
+		\item
+			$f$ ist folgenstetig, d.h. aus $x_n \to a$ in $X$ folgt $f(x_n) \to f(a)$ in $Y$,
+		\item
+			Für $V \subset Y$ offen ist $f^{-1}(V) \subset X$ offen,
+		\item
+			Für $V \subset Y$ abgeschlossen ist $f^{-1}(V) \subset X$ abgeschlossen.
+	\end{enumerate}
+	\begin{proof}
+		Übungsaufgabe % fixme: reference
+	\end{proof}
+\end{st}
+
+\begin{df}
+	Eine Folge $f_n: X \to Y$ \emph{konvergiert punktweise} gegen $f: X \to Y$, wenn für alle $x \in X$ gilt $f_n(x) \to f(x)$, d.h.
+	\[
+		\forall x \in X \forall \eps > 0 \exists m \in \N \forall n \ge m : d_Y(f_n(x), f(x)) \le \eps.
+	\]
+	Hingegen konvergiert $f_n: X \to Y$ \emph{gleichmäßig} gegen $f: X \to Y$, wenn
+	\[
+		\forall \eps > 0 \exists m \in \N \forall n \ge m \underbrace{\forall x \in X : d_Y(f_n(x), f(x)) \le \eps}_{\iff d (f_n, f) \le \eps},
+	\]
+	wobei
+	\[
+		d(f,g)
+		:= \sup \{ d_Y(f(x), g(x)) : x \in X \}.
+	\]
+\end{df}
+
+\begin{ex}
+	Sei $f_n : [0,1] \to \R, f_n(x) := x^n$.
+	Dann konvergiert $(f_n)$ punktweise gegen $f:[0,1] \to \R$ mit $f(x) = 0$ für $0 \le x < 1$ und $f(x) = 1$ für $x=1$.
+
+	Die Konvergenz ist nicht gleichmäßig, denn
+	\[
+		|f_n - f|_{[0,1]} = 1
+	\]
+\end{ex}
+
+\begin{ex}
+	Die Polynome $f_n(x) = \sum_{k=0}^n \f{(-1)^k}{2k!} x^{2k}$ konvergieren in jedem $x \in \R$ gegen $f(x) = \cos(x)$.
+
+	Die Konvergenz ist jedoch nicht gleichmäßig, denn es gilt
+	\[
+		|f_n - f|_{\R} = \infty.
+	\]
+	Wir haben aber immerhin gleichmäßige Konvergenz auf jedem Kompaktum $[-r,r] \subset \R$.
+\end{ex}
+
+\begin{st}
+	Konvergiert $f_n \to f$ gleichmäßig und sind alle $f_n$ stetig, so auch $f$.
+	\begin{proof}
+		Übungsaufgabe % fixme: reference
+	\end{proof}
+\end{st}
+
+\begin{st}[Zwischenwertsatz]
+	Jede stetige Funktion $f: [a,b] \to \R$ hat die Zwischenwerteigenschaft (ZWE): zu $y \in \R$ mit $f(a) \le y \le f(b)$ existiert $x \in \R$ mit $x \in [a,b]$ mit $f(x) = y$.
+	\begin{nt}
+		Die Vollständigkeit von $\R$ ist hier wesentlich.
+		Betrachte $f: \Q \to \Q$ mit $f(x) = x^2 - 2$ hat nicht die ZWE, denn $f(1) = - 1 < 0$, $f(z) = 2 > 0$, aber es gibt kein $x \in \Q$ mit $f(x) = 0$.
+	\end{nt}
+\end{st}
+
+\begin{st}
+	Für jeden metrischen Raum $(X,d)$ sind folgende Aussagen äquivalent:
+	\begin{enumerate}[(1)]
+		\item
+			Jede stetige Funktion $f: X \to \R$ hat die ZWE,
+		\item
+			Für jede stetige Funktion $f: X \to \R$ ist $f(X) \subset \R$ ein Intervall,
+		\item
+			Jede stetige Funktion $f: X \to \{0,1\} \subset \R$ ist konstant.
+		\item
+			Für jede offene Zerlegung $X = A \dunion B$ gilt $A = \emptyset$ oder $B = \emptyset$.
+	\end{enumerate}
+	In diesem Fall nennen wir $(X,d)$ \em{zusammenhängend}.
+	\begin{proof}
+		$(1) \implies (2) \implies (3)$ sind klar.
+		\begin{seg}[$(3) \implies (4)$]
+			Ist $X = A \dunion B$ eine offene Zerlegung, so ist \oBdA $f: X \to \{0, 1\}$ mit $f(A) = \{0\}$ und $f(B) = \{1\}$ stetig.
+		\end{seg}
+		\begin{seg}[$(4) \implies (1)$]
+			Angenommen $f: X \to \R$ stetig und zu $a,b \in X$ existiert $y \in \R$ mit $f(a) < y < f(b)$ aber $y \not\in f(X)$.
+			Dann wäre $A = f^{-1}(\R_{<Y})$ und $B = f^{-1}(\R_{>0})$ eine offene Zerlegung von $X$.
+			Wegen $a \in A$ und $b \in B$ widerspricht dies $(4)$.
+		\end{seg}
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	Jedes Intervall $I \subset \R$ ist zusammenhängend (ZWS).
+	Hingegene ist $\R \setminus \{a\}$ nicht zusammenhängend ($A = \R_{<a}, B=\R_{>a}$ sind nichtleere offene Zerlegungen).
+\end{ex}
+
+\begin{st}
+	Ist $f: X \to Y$ stetig und $X$ zusammenhängend, so ist auch $f(X) \subset Y$ zusammenhängend.
+	\begin{proof}
+		Ist $f(X) = A \dunion B$ eine offene Zerlegung, dann auch $X = f^{-1}(A) \dunion f^{-1}(B)$.
+	\end{proof}
+\end{st}
+
+\begin{df}
+	Ein \emph{Weg} im Raum $X$ ist eine stetige Abbildung $\gamma: [0,1] \to X$.
+	Dabei heißt $\gamma(0)$ \emph{Anfangspunkt} und $\gamma(1)$ \emph{Endpunkt}.
+
+	Der Raum $X$ heißt \emph{wegzusammenhängend}, wenn zu jedem Paar $a,b \in X$ ein Weg von $a$ nach $b$ in $X$ existiert (d.h. $\gamma:[0,1] \to X$ stetig mit $\gamma(0) = a, \gamma(1) = b$).
+\end{df}
+
+\begin{ex}
+	$\R^n$ ist wegzusammenhängend.
+
+	$\R^n \setminus \{x_0\}$ ist wegzusammenhängend für $n \ge 2$
+
+	$\S^n$ ist wegzusammenhängend für $n \ge 1$.
+\end{ex}
+
+\begin{st}
+	Jeder wegzusammenhängende Raum ist zusammenhängend (i.A. aber nicht umgekehrt).
+	\begin{proof}
+		Angenommen $X = A \dunion B$ sei offene Zerlegung mit $a \in A$ und $b \in B$.
+		Dann existiert ein Weg $\gamma: [0,1] \to X$ mit $\gamma(0) = a$ und $\gamma(1) = b$.
+		Also ist $[0,1] = f^{-1}(A) \dunion f^{-1}(B)$ eine offene Zerlegung mit $0 \in f^{-1}(A)$ und $1 \in f^{-1}(B)$, ein Widerspruch.
+
+		Ein Gegenbeispiel
+		\[
+			X := \{ (x,\sin(\f 1x) : x \in \R>0) \cup ( \{0\} \times [0,1] )
+		\]
+		ist zusammenhängend, aber nicht wegzusammenhängend.
+	\end{proof}
+\end{st}
+
+\begin{df}
+	Zwei Metriken $d,e : X \times X \to [0, \infty]$ heißen (topologisch) \emph{äquivalent}, wenn sie die selben offenen Mengen definieren.
+	Wir nennen $d$ \emph{feiner} als $e$ (oder $e$ ist gröber als $d$), wenn jeder $\eps$-Ball von $e$ einen $\delta$-Ball von $d$ enthält, d.h.
+	\[
+		\forall a \in X \forall \eps > 0 \exists \delta > 0 : B_{(X,d)}(a, \delta) \subset B_{(X,e)}(a, \eps).
+	\]
+\end{df}
+
+\begin{prop}
+	Äquivalent sind
+	\begin{enumerate}[(1)]
+		\item
+			$d$ ist feiner als $e$
+		\item
+			Jede Umgebung bezüglich $e$ ist auch Umgebung bezüglich $d$.
+		\item
+			Jede offene Menge bezüglich $e$ ist auch offene Menge bezüglich $d$.
+		\item
+			Die Identität $\Id: (X,d) \to (X,e), x \mapsto x$ ist stetig.
+		\item
+			Gilt $x_n \to a$ bezüglich $d$, dann auch $x_n \to a$ bezüglich $e$.
+		\item
+			Ist $f: X \to Y$ stetig bezüglich $e$, dann auch bezüglich $d$.
+		\item
+			Ist $f: Y \to X$ stetig bezüglich $d$, dann auch bezüglich $e$.
+	\end{enumerate}
+	Seien $|\argdot|$ und $\|\argdot\|$ zwei Normen auf einem $K$-Vektorraum $V$.
+	$|\argdot|$ ist genau dann feiner als $\|\argdot\|$, wenn ein $L \in \R_{>0}$ existiert mit $\|x\| \le L |x|$ für alle $x \in V$.
+	$|\argdot|$ und $\|\argdot\|$ sind genau dann äquivalent, wenn $l,L \in \R_{>0}$ existiert, sodass
+	\[
+		l|x| \le \|x\| \le L|x|
+	\]
+	für alle $x \in X$ gilt.
+\end{prop}
+
+\begin{ex}
+	Sei $1 \le p < q \le \infty$.
+	\begin{enumerate}[(1)]
+		\item
+			Auf $\R^n$ sind die $\ell^p$-Norm und die $\ell^q$-Norm äquivalent.
+		\item
+			Auf $\R^(\N)$ ist die $\ell^p$-Norm echt feiner als die $\ell^q$-Norm.
+
+			Betrachte dazu
+			\[
+				f_n(k) = \begin{cases}
+					n^{-\f 1p} & 1 \le k \le n \\
+					0 & k > n
+				\end{cases}.
+			\]
+			Es gilt
+			\begin{align*}
+				|f_n|_p &= 1, \\
+				|f_n|_q &= n^{\f 1q-\f 1p} \to 0 \qquad (n\to \infty).
+			\end{align*}
+		\item
+			Auf $C([a,b], \R)$ ist die $L^q$-Norm echt feiner als die $L^p$-Norm.
+		\item
+			Auf $C_C(\R,\R)$ (stetige Funktionen mit kompaktem Träger) sind $L^q$- und $L^p$-Norm unvergleichbar.
+	\end{enumerate}
+\end{ex}
+
+\begin{ex}
+	Ist $d: X \times X \to [0,\infty]$ eine Metrik, so auch $d': X \times X \to [0,1]$ (gestauchte Metrik) mit
+	\[
+		d'(x,y) = \f {d(x,y)}{1 + d(x,y)}.
+	\]
+	Hieraus lässt sich $d$ rekonstruieren durch
+	\[
+		d(x,y) = \f {d'(x,y)}{1-d'(x,y)}.
+	\]
+	Diese beiden sind äquivalent, d.h. sie definieren die selben Topologien.
+	Ebenso die gekappte Metrik
+	\[
+		d^*(x,y) := \min \{d(x,y), 1 \}.
+	\]
+\end{ex}
+
+
+Für $A, B \subset X$ und $a,b \in X$ definieren wir
+\begin{align*}
+	d(a,B)
+		&:= \inf \{ d(a,S) : b \in B \}, \\
+	d(A,B)
+		&:= \inf \{ d(a,b) : a \in A, b \in B \}.
+\end{align*}
+
+
+
+
+
