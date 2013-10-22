@@ -1,6 +1,8 @@
 # TARGET has to be specified
 
-LATEXMK   ?= latexmk -recorder -pdf -synctex=1
+#LATEXMK   ?= latexmk -recorder -pdf -synctex=1
+LATEXMK   ?= latexmk -pdf
+
 PDFVIEWER ?= xdg-open
 PDFLATEX  ?= pdflatex -synctex=1               # Deprecated
 BIBTEX    ?= bibtex                            # Deprecated
