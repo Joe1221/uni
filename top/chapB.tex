@@ -645,7 +645,239 @@ Für $A, B \subset X$ und $a,b \in X$ definieren wir
 		&:= \inf \{ d(a,b) : a \in A, b \in B \}.
 \end{align*}
 
+\coursetimestamp{22}{10}{2013}
+
+\section{Vollständige metrische Räume}
 
 
+\begin{df}
+	Eine Folge $(x_n)_{n\in \N}$ in einem metrischen Raum $(X,d)$ heißt \emph{Cauchy-Folge}, wenn
+	\[
+		\forall \eps > 0 \exists n \in \N, \forall p,q \ge n : d(x_p,x_q) \le \eps.
+	\]
+	Wir nennen $(X,d)$ \emph{vollständig}, wenn jede Cauchy-Folge in $(X,d)$ einen Grenzwert in $X$ besitzt.
+\end{df}
 
+\begin{nt}
+	Jede konvergente Folge ist eine Cauchy-Folge, aber im Allgemeinen nicht umgekehrt.
+\end{nt}
+
+\begin{ex}
+	In $X = ]0,1]$ ist $x_n = 2^{-n}$ eine Cauchy-Folge, aber nicht konvergent.
+
+	In $\Q$ ist $x_n = \sum_{k=0}^n \f 1{k!}$ eine Cauchy-Folge, aber nicht konvergent.
+\end{ex}
+
+\begin{st}
+	$\R$ ist vollständig (bezüglich der üblichen euklidischen Metrik).
+
+	Ebenso $\C$ und $\R^n, \C^n$ für $n = 1, 2, \dotsc$.
+\end{st}
+
+\begin{st}
+	Seien $(X_i,d_i)$ vollständige metrische Räume für $i \in I$.
+	Dann ist auch $X = \prod_{i\in I} X_i$ vollständig bezüglich der Supremums-Metrik
+	\[
+		d(x,y) := \sup \{ d_i(x_i, y_i) : i \in I \}.
+	\]
+	\begin{proof}
+		% fixme: bezeichnung x_i, x_n
+		Sei $(x_n)_{n\in \N}$ eine Cauchy-Folge in $(X,d)$.
+		Dann ist für $i \in I$ auch $(x_{n,i})_{n\in \N}$ eine Cauchy-Folge in $(X_i,d_i)$.
+		Dank Vollständigkeit existiert $x_i \in X_i$ mit $x_{n,i} \to x_i$.
+		Definiere $ x= (x_i)_{i\in I} \in X$.
+
+		Zu  $\eps > 0$ existiert $m \in \N$ sodass für $n,k > m$ gilt
+		\[
+			d_i(x_{n,i}, x_{k,i}) \le \eps
+		\]
+		Für $k \to \infty$ erhalten wir
+		\[
+			d_i(x_{n,i},x_i) \le \eps
+		\]
+		für $n \ge m$ und $i \in I$.
+		Also $d(x_n, x) \le \eps$ für $n \ge m$ und somit $x_n \to x$.
+	\end{proof}
+\end{st}
+
+\begin{lem}
+	Sei $(X,d)$ vollständig und $A \subset X$.
+	$(A,d_A)$ ist vollständig genau dann, wenn $A$ in $X$ abgeschlossen ist.
+	\begin{proof}
+		Übung
+	\end{proof}
+\end{lem}
+
+\begin{st}
+	Ist $(Y,d_Y)$ vollständig, so auch $\Abb(X,Y) = Y^X$ mit der Supremumsmetrik.
+	Hierin ist $C(X,Y)$ abgeschlossen und somit ebenfalls vollständig.
+\end{st}
+
+\begin{ex}
+	$C([0,1] \to \R)$ sind vollständig bezüglich der Supremums-Metrik.
+	% fixme: wie funktioniert der beweis?
+\end{ex}
+
+Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachscher Fixpunktsatz, Satz von Picard-Linelöf, Potenzreihen (in $\R, \C$ oder Banach-Algebren).
+
+
+\section{Kompaktheit}
+
+
+\begin{df}
+	Ein metrischer Raum $(X,d)$ heißt \emph{kompakt}, wenn jede offene Überdeckung eine endliche Teilüberdeckung enthält, d.h. zu jeder Überdeckung $X = \bigcup_{i \in I} U_i$ mit $U_i \subset X$ offen existieren $i_1, \dotsc, i_n$ für die $X = \bigcup_{i=1}^n U_i$ gilt.
+\end{df}
+
+\begin{df}
+	% fixme: diskreter metrischer Raum
+\end{df}
+
+\begin{ex}
+	Für $(X,d)$ diskret ist $(X,d)$ kompakt genau dann, wenn $X$ endlich ist.
+
+	$\R^n$ ist nicht kompakt.
+	Betrachte
+	\[
+		\R^n = \bigcup_{n\in \N} B(0,n).
+	\]
+	Hier existiert keine endliche Teilüberdeckung.
+\end{ex}
+
+\begin{df}
+	Wir nennen $\delta \in \R_{>0}$ \emph{Lebesgue-Zahl} einer Überdeckung $X = \bigcup_{i\in I} U_i$,  wenn zu jedem $x \in X$ ein Index $i$ existiert, sodass $B(x,\delta) \bigcup U_i$ gilt.
+\end{df}
+
+\begin{ex}
+	Ist $(X,d)$ diskret, dann ist $\delta \in ]0,1]$ Lebesgue-Zahl zu jeder Überdeckung, denn $B(x,\delta) = \{x\}$.
+
+	Betrachte
+	\[
+		\R = \bigcup_{n \in \Z} ]n-1, n+1[
+	\]
+	Hier ist jede Zahl $\delta \in ]0,\f 12]$ Lebesgue-Zahl.
+
+	Betrachte
+	\[
+		\R = \bigcup_{n\in\N} ] \log n, \log(n+2) [,
+	\]
+	wobei $\log 0 = -\infty$.
+	Hierzu existiert keine Lebesgue-Zahl, denn
+	\[
+		|\log (n+2) - \log(n)| = \log (\f {n+2}n) \to 0
+	\]
+	für $n \to \infty$.
+\end{ex}
+
+\begin{df}
+	Ein metrischer Raum $(X,d)$ heißt \emph{totalbeschränkt}, wenn zu jedem $\eps > 0$ eine endliche Familie $a_1, \dotsc, a_n \in X$ existiert mit $X = B(a_n,\eps) \cup \dotsc \cup B(a_n,\eps)$.
+\end{df}
+
+\begin{nt}
+	Jeder totalbeschränkte Raum ist auch beschränkt, umgekehrt im Allgemeinen jedoch nicht.
+	\begin{proof}
+		Es gilt
+		\[
+			d(x,a_1) < \eps + \max \{d(a_1, a_k) : k = 2,\dotsc, n \}.
+		\]
+
+		In $\ell^\infty(\N, \R)$ ist $\_B(0,1)$ beschränkt, aber nicht totalbeschränkt.
+		Für die kanonische Basis $(e_n)_{n\in \N}$ gilt
+		\[
+			|e_n - e_m|_\infty = 1
+			\qquad n \neq m.
+		\]
+		Für $\eps = \f 12$ enthält $B(a_i,\eps)$ also höchsten ein $e_n$.
+	\end{proof}
+\end{nt}
+
+\begin{prop}
+	In $\R^n$ gilt: jede beschränkte Menge $A \subset \R^n$ ist total beschränkt.
+	\begin{proof}
+		Übung
+		% beginne mit würfel
+	\end{proof}
+\end{prop}
+
+\begin{st}[Charakterisierung kompakter metrischer Räume]
+	Für jeden metrischen Raum $(X,d)$ sind äquivalent
+	\begin{enumerate}[(1)]
+		\item
+			$(X,d)$ ist kompakt
+		\item
+			Abzählbare Kompaktheit, d.h. jede abzählbare Überdeckung enthält eine endliche Teilüberdeckung.
+		\item
+			Häufungspunkte: jede Folge $(x_n)_{n\in \N}$ in $X$ hat einen Häufungspunkt $a \in X$.
+		\item
+			Folgenkompaktheit: jede Folge $(x_n)_{n\in \N}$ in $X$ hat eine konvergente Teilfolge.
+		\item
+			Pseudokompaktheit: jede stetige Funktio $f: X \to \R$ nimmt Minimum und Maximum an, d.h. es gibt $a,b \in X$ mit $f(a) \le f(x) \le f(b)$ für alle $x \in X$.
+		\item
+			Lebesgue-Kompaktheit: $(X,d)$ ist totalbeschränkt und jede offene Überdeckung erlaubt eine Lebesgue-Zahl.
+		\item
+			Heine-Borel-Lebesgue-Kompaktheit: $(X,d)$ ist vollständig und totalbeschränkt.
+	\end{enumerate}
+	\begin{proof}
+		$(1) \implies (2)$ ist trivial.
+		\begin{seg}[$(2) \implies (3)$]
+			Zu $(x_n)_{n\in\N}$ sei $E_n = \{x_k : k \ge n\}$ und $A_n = \_{E_n}$ abgeschlossen und $U_n = X \setminus A_n$ offen.
+			Wir haben $E_0 \supset E_1 \supset \dotsb \supsetneq \emptyset$, daher ist $A_0 \supset A_1 \supset \dotsb \supsetneq \emptyset$ und $U_0 \subset U_1 \subset \dotsb \subsetneq X$.
+
+			Jedes $a \in A := \bigcap_{n\in \N} A_n$ ist ein Häufungspunkt von $(x_n)_{n\in\N}$.
+			Wäre $A = \emptyset$, dann wäre $\bigcup_{n \in \N} U_n = X$ eine offene Überdeckung ohne endliche Teilüberdeckung, ein Widerspruch.
+		\end{seg}
+		\begin{seg}[$(3) \implies (4)$]
+			Zu $(x_n)_{n\in N}$ in $X$ existiert ein Häufungspunkt $a \in X$.
+			Sei $n_0 \in \N$.
+			Zu $k \in \N_{\ge 1}$ enthält $B(a, 2^{-k})$ unendlich viele $x_n$, also existiert $n_k > n_{k-1}$ mit $x_{n_k} \in B(a,2^{-k})$.
+			Dann ist $x_{n_k} \to a$.
+		\end{seg}
+		\begin{seg}[$(4) \implies (5)$]
+			Es existiert eine Folge $(x_n)$ in $X$ mit $f(x_n) \to \sup f$.
+			Eine konvergente Teilfolge $x_{n_k} \to b$ liefert $f(x_{n_k}) \to \sup f$ und $f(x_{n_k}) \to f(b)$ dank Stetigkeit, also $f(b) = \sup f$.
+		\end{seg}
+		\begin{seg}[$(5) \implies (6)$]
+			Sei $X = \bigcup_{i \in I} U_i$ offene Überdeckung, $A_i = X \setminus U_i$.
+			Dann ist $f: X \to \R$ mit
+			\[
+				f(x) = \sup \{ d(x, A_i) : i \in I \}
+			\]
+			stetig.
+			Dank $(5)$ existiert $x_0 \in X$ mit $f(x_0) = \inf f$.
+			Für jedes $x \in X$ existiert $i \in I$ mit $x \in U_i$, also $x \not\in A_i$.
+			Da $A_i$ abgeschlossen ist, folgt $d(x,A_i) > 0$, also $f(x) > 0$.
+			Insbesondere gilt $\inf f = f(x_0) > 0$.
+			Jedes $\delta \in ]0, \inf f[$ ist eine Lebesgue-Zahl.
+
+			Angenommen für ein $\eps \in \R_{>0}$ und jede endliche Familie $a_1, \dotsc, a_n \in X$ gilt $B(a_1,\eps) \cup \dotsb \cup B(a_n,\eps) \subsetneq X$
+			Per Induktion existiert $a_1, a_2, \dotsc$ mit $d(a_m,a_n) \ge \eps$ für alle $m \neq n$.
+			Die Funktion $f_n : X \to [0,1]$ mit
+			\[
+				f_n(x) = \max \{ 0, 1 - \f 3\eps d(x,a_n) \}
+			\]
+			ist stetig und hat Träger in $\_B(a_n, \f \eps3)$ (jeweils disjunkt).
+			Also ist
+			\[
+				f(x) = \sum_{n\in \N} n f_n
+			\]
+			stetig, aber unbeschränkt.
+		\end{seg}
+		\begin{seg}[$(6) \implies (7)$]
+			Sei $(x_n)_{n \in \N}$ eine Cauchy-Folge in $(X,d)$.
+			Angenommen zu jedem $a \in X$ existiert $\eps > 0$ sodass $U_a = B(a, \eps)$ nur endlich viele $x_n$ enthält.
+			Zu
+			\[
+				X = \bigcup_{a \in X} U_a
+			\]
+			existiert eine Lebesgue-Zahl $\delta > 0$ nach (6).
+			Wegen Totalbeschränktheit (6) gilt $X = B(a_1, \delta) \cup \dotsc \cup B(a_n,\delta)$.
+			Da $B(a_k,\delta) \subset U_{a(k)}$ nur endlich viele $x_n$ enthält, erreichen wir einen Widerspruch.
+			D.h. es gibt mindestens einen Häufungspunkt $a \in x$.
+			Da $(x_n)$ Cauchy-Folge ist, folgt $x_n \to a$.
+		\end{seg}
+		\begin{seg}[$(7) \implies (4) \implies (3) \implies (2) \implies (1)$]
+			siehe Vorlesungsnotizen.
+			%fixme: reference or copy
+		\end{seg}
+	\end{proof}
+\end{st}
 
