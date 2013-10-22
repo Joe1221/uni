@@ -47,10 +47,14 @@
 \DeclareOption{ngerman}{\def\ConfigLanguage{ngerman}\PassOptionsToPackage{ngerman}{babel}}
 \DeclareOption{english}{\def\ConfigLanguage{english}\PassOptionsToPackage{english}{babel}}
 
-\DeclareOption{a5book}{
+\DeclareOption{a5}{
 	\PassOptionsToPackage{reset,a5paper,top=1.4cm,bottom=2.1cm,left=1.6cm,right=1.6cm,footskip=0.7cm,headsep=0.3cm}{geometry}
 	\def\ConfigFontsize{10pt}
 	\PassOptionsToPackage{scaled=0.785}{beramono}
+}
+
+\DeclareOption{a5book}{
+	\PassOptionsToClass{a5}{mycourse}
 }
 
 \ifdefstring{\ConfigBook}{true}{
