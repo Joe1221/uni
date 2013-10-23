@@ -399,11 +399,236 @@ Für $d \in \R^n$ bezeichnen wir die \emph{Richtungsableitung} als
 	\end{proof}
 \end{st}
 
+\begin{ex} \label{2.13}
+	\begin{enumerate}[(a)]
+		\item
+			N1 ist nicht hinreichend.
+			$f(x) = -x^2$ hat im kritischen Punkt ein Maximum,
+			$f(x) = x^3$ hat in $x=0$ weder ein Maximum, noch ein Minimum.
+			Zum Namen „Sattelpunkt“
+			\[
+				f(x_1,x_2) = x_1^2 - x_2^2
+			\]
+			bildet einen „Sattel“ in $(0,0)$.
+		\item
+			N2 ist nicht hinreichend, betrachte $f(x) = x^3$.
+		\item
+			H2 ist nicht notwendig, betrachte $f(x) = x^4$.
+	\end{enumerate}
+\end{ex}
 
 
+\subsection{Konvexität}
 
 
+\begin{df} \label{2.14}
+	Eine Menge $X \subset \R^n$ heißt \emph{konvex}, wenn alle Verbindungsstrecken zweier Punkte darin enthalten sind, also für alle $x,y \in X, \lambda \in [0,1]$
+	\[
+		x_\lambda
+		:= (1-\lambda)x + \lambda y \in X.
+	\]
+\end{df}
 
+\begin{df} \label{2.15}
+	Sei $X \subset \R^n$ konvex.
+	$f: X \to \R$ heißt
+	\begin{enumerate}[(a)]
+		\item
+			\emph{konvex}, falls für alle $x,y \in X, \lambda \in [0,1]$.
+			\[
+				f((1-\lambda)x + \lambda y)
+				\le (1-\lambda) f(x) + \lambda f(y).
+			\]
+		\item
+			\emph{strikt konvex}, falls für alle $x,y \in X, x \neq y, \lambda \in (0,1)$.
+			\[
+				f((1-\lambda)x + \lambda y)
+				< (1-\lambda) f(x) + \lambda f(y).
+			\]
+		\item
+			\emph{gleichmäßig konvex}, falls $\my > 0$ existiert, sodass für alle $x,y \in X, \lambda \in [0,1]$.
+			\[
+				f((1-\lambda)x + \lambda y) + \my \lambda(1-\lambda) \|y-x\|^2
+				< (1-\lambda) f(x) + \lambda f(y).
+			\]
+			Zur Motivation betrachte auch \ref{2.17}.
+	\end{enumerate}
+\end{df}
+
+\begin{st} \label{2.16}
+	Sei $U \subset \R^n$ offen und $f: U \to \R$ stetig differenzierbar.
+	$f$ ist auf einer konvexen Menge $X \subset U$
+	\begin{enumerate}[(a)]
+		\item
+			genau dann konvex, wenn für alle $x,y \in X$
+			\[
+				\nabla f^T(x) (y-x)
+				\le f(y) - f(x).
+			\]
+		\item
+			genau dann strikt konvex, wenn für alle $x,y \in X, x \neq y$
+			\[
+				\nabla f^T(x) (y-x)
+				< f(y) - f(x).
+			\]
+		\item
+			genau dann gleichmäßig konvex, wenn ein $\my > 0$ existiert, sodass für alle $x,y \in X$.
+			\[
+				\nabla f(x)^T (y-x) + \my \|y-x\|
+				\le f(y) - f(x)
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				\begin{seg}[„$\implies$“]
+					Ist $f$ konvex, dann ist
+					\[
+						\nabla f(x)^T (y-x)
+						= \lim_{t \to 0} \f {f(x+t(y-x)) - f(x)}t
+						= \lim_{t \to 0} \f {f((1-t)x + ty) - f(x)}t
+						\le \lim_{t \to 0} \f{(1-t)f(x) + tf(y) - f(x)}t
+						= f(y) - f(x).
+					\]
+				\end{seg}
+				\begin{seg}[„$\impliedby$“]
+					Sei $\lambda \in [0,1]$ und $x,y \in X$.
+					Dann gilt
+					\begin{align*}
+						f(x) - f(x_\lambda)
+						&\ge \nabla f(x_\lambda)^T(x-x_\lambda) \\
+						f(y) - f(x_\lambda)
+						&\ge \nabla f(x_\lambda)^T(y-x_\lambda)
+					\end{align*}
+					Damit ist
+					\begin{align*}
+						(1-\lambda) f(x) + \lambda f(y)
+						&= (1-\lambda)(f(x) - f(x_\lambda)) + \lambda (f(y) - f(x_\lambda)) + f(x_\lambda) \\
+						&\ge (1-\lambda) \nabla f(x_\lambda)^T (x-x_\lambda) + \lambda \nabla f(x_\lambda)^T (y-x_\lambda) + f(x_\lambda) \\
+						&= \nabla f(x_\lambda)^T \big( (1-\lambda) x + \lambda y - x_\lambda \big) + f(x_\lambda) \\
+						&= f(x_\lambda)
+					\end{align*}
+				\end{seg}
+			\item
+				\begin{seg}[„$\implies$“]
+					Sei $f$ strikt konvex, $x, y \in X, x\neq y$, setze
+					\[
+						x_{\f 12} := \f {f(x) + f(y)}2.
+					\]
+					Es gilt
+					\[
+						\nabla f(x)^T (y-x)
+						= 2 \nabla f(x)^T (x_{\f 12} - x)
+						\le 2 (f(x_{\f 12}) - f(x))
+						< 2 (\f {f(x) + f(y)}2 - f(x))
+						= f(y) - f(x).
+					\]
+				\end{seg}
+				\begin{seg}[„$\impliedby$“]
+					Analog zu (a) „$\impliedby$“
+				\end{seg}
+			\item
+				\begin{seg}[„$\implies$“]
+					Es gilt
+					\[
+						\nabla f(x)^T (y-x)
+						= \lim_{t\to 0} \f {f(x_t) - f(x)}t
+						\le \lim_{t\to 0} \f 1t \Big( (1-t)f(x) + tf(y) - \my t(1-t)\|y-x\|^2 - f(x) \Big)
+						= f(y) - f(x) - \my \|y-x\|^2.
+					\]
+				\end{seg}
+				\begin{seg}[„$\impliedby$“]
+					Gehe vor, wie in (a) $\impliedby$:
+					\begin{align*}
+						(1-\lambda) f(x) + \lambda f(y)
+						&= (1-\lambda) (f(x) - f(x_\lambda)) + \lambda (f(y) - f(x_\lambda)) + f(x_\lambda) \\
+						&\ge (1-\lambda) \Big(\nabla f(x_\lambda)^T (x-x_\lambda) + \my \|x-x_\lambda\|^2 \Big) \\
+							+ \lambda \Big( \nabla f(x_\lambda)^T (y-x_\lambda) + \my \|y-x_\lambda\|^2 \Big) + f(x_\lambda) \\
+						&= f(x_\lambda) + (1-\lambda)\my \underbrace{\|x - x_\lambda\|^2}_{\lambda^2 \|y-x\|^2} + \lambda \my \underbrace{\|y-x_\lambda\|^2}_{(1-\lambda)^2\|y-x\|^2} \\
+						&=  f(x_\lambda) + (1-\lambda)\lambda \my \|y-x\|^2.
+					\end{align*}
+				\end{seg}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{2.17}
+	Sei $X \subset \R^n$ offen und kovex und $f: X \to \R^n$ zweimal stetig differenzierbar.
+	$f$ ist auf $X$
+	\begin{enumerate}[(a)]
+		\item
+			genau dann konvex, wenn $\nabla^2 f(x)$ für alle $x \in X$ positiv semidefinit ist, also für alle $x \in X, d \in \R^n$
+			\[
+				d^T \nabla^2 f(x) d \ge 0
+			\]
+		\item
+			strikt konvex, wenn $\nabla^2 f(x)$ für alle $x \in X$ positiv semidefinit ist, also für alle $x \in X, d \in \R^n \setminus \{0\}$
+			\[
+				d^T \nabla^2 f(x) d > 0.
+			\]
+			Die Umkehrung gilt nicht.
+		\item
+			genau dann gleichmäßig konvex, wenn $\nabla^2 f(x)$ gleichmäßig positiv semidefinit ist, d.h. es existiert $\my > 0$, sodass für alle $x \in X, d \in \R^n \setminus \{0\}$
+			\[
+				d^T \nabla^2 f(x) d \ge \my \|d\|^2.
+			\]
+			Die Umkehrung gilt nicht.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				\begin{seg}[„$\implies$“]
+					Sei $f$ konvex und $d \in \R^n$.
+					Für hinreichend kleine $t > 0$ gilt mit Taylor und $\ref{2.16}$
+					\[
+						\f {t^2}2 d^T \nabla^2 f(x) d + p(td)
+						= f(x+td) - f(x) - t \nabla f(x)^T d
+						\ge 0,
+					\]
+					also
+					\[
+						d^T \nabla^2 f(x) d
+						\ge - \f {2 p(td)}{t^2} \to 0
+					\]
+					für $t \to 0$.
+				\end{seg}
+				\begin{seg}[$\impliedby$]
+					Seien $x,y \in X$, dann gilt nach \ref{2.3}, dass $s \in [0,1]$ existiert mit
+					\[
+						f(y)
+						= f(x) + \nabla f(x)^T d  + \f 12 (y-x)^T \nabla^2 f(x+s(y-x))(y-x)
+						\ge f(x) + \nabla f(x)^T (y-x)
+					\]
+					und somit ist $f$ nach \ref{2.16} konvex.
+				\end{seg}
+			\item
+				Analog zu $\impliedby$ in (a).
+			\item
+				\begin{seg}[„$\implies$“]
+					Analog wie „$\implies$“ in (a) erhalten wir
+					\[
+						d^T \nabla^2 f(x) d
+						\ge - \f {2 p(td)}{t^2} + \my \|d\|^2
+						\to \my \|d\|^2.
+					\]
+				\end{seg}
+				\begin{seg}[„$\impliedby$“]
+					Analog wie in (a) existiert zu $x,y \in X$ ein $s \in [0,1]$ mit
+					\begin{align*}
+						f(x)
+						&= f(x) + \nabla f(x)^T (y-x) + \f 12 (y-x)^T \nabla^2 f(x_s) (y-x) \\
+						&\ge f(x) + \nabla f(x)^T (y-x) + \f 12 \my \|y-x\|^2,
+					\end{align*}
+					also ist $f$ nach \ref{2.16} gleichmäßig konvex.
+				\end{seg}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{ex} \label{2.18}
+	In \ref{2.17} gilt die Rückrichtung in (b) im Allgemeinen nicht.
+	Betrachte dazu $f(x) = x^4$, dann ist $f''(x)\big|_{x=0} = 0$, trotz Minimum in $x=0$.
+\end{ex}
 
 
 
