@@ -268,11 +268,52 @@ Im Allgemeinen ist dies nur auf einem echten Teilsystem von $\scr P(\Omega)$ mö
 				\my(A) \le \my(B).
 			\]
 	\end{enumerate}
+\coursetimestamp{23}{10}{2013}
 	\begin{proof}
 		\begin{enumerate}[(a)]
 			\item
+				Sei $A_n \nearrow A$, d.h. $A_n \subset A_{n+1}$ und $\bigcup_{n}A_n = \sup_n A_n = A$.
+				Da $A_n \in \scr F$ für alle $n$, gilt $A = \bigcup_n A_n \in \scr F$ (also $\my(A)$ definiert).
+				Es bleibt zu zeigen, dass $\lim_{n\to \infty} \my(A_n) = \my(A)$.
+
+				Setze $A_0 = \emptyset$ und $B_n = A_n \setminus A_{n-1}$ für $n \ge 1$.
+				Dann gelten
+				\begin{enumerate}[(i)]
+					\item
+						$(B_n)_{n\in\N}$ sind paaweise disjunkt per Konstruktion
+					\item
+						$B_n \in \scr F$ für alle $n$ (denn $A_{n-1},A_n \in \scr F \implies A_n, A_{n-1} \in \scr F \implies A_n \cap A_{n-1}^C = A_n \setminus A_{n-1} \in \scr F$)
+					\item
+						$\bigcup_{n=1}^\infty B_n = A$, denn
+						\[
+							\bigcup_{n=1}^\infty B_n = \bigcup_{n=1}^\infty (A_n \setminus A_{n-1}) = \bigcup_{n=1}^\infty A_n = A.
+						\]
+				\end{enumerate}
+				Es folgt
+				\[
+					\my(A)
+					= \my(\bigcup_{n=1}^\infty B_n)
+					= \sum_{n=1}^\infty \my(B_n)
+					= \lim_{m\to\infty} \sum_{n=1}^m \my(B_n)
+					= \lim_{m\to \infty} \my(\bigcup_{n=1}^m B_n)
+					= \lim_{m\to \infty} \my(A_m)
+				\]
 			\item
+				Funktioniert ähnlich wie, oder mit (a).
 			\item
+				Zeige zunächst
+				\[
+					\forall n \in \N : \my(\bigcup_{i=1}^n A_i) \le \sum_{i=1}^n \my(A_i)
+				\]
+				per vollständiger Induktion (Übung).
+
+				Es gilt $\bigcup_{i=1}^n A_i \nearrow \bigcup_{i=1}^\infty A_i$, also
+				\[
+					\my(\bigcup_{i=1}^\infty A_i)
+					= \lim_{n\to \infty} \my(\bigcup_{i=1}^n A_i)
+					\le \lim_{n\to \infty} \sum_{i=1}^n \my(A_i)
+					= \sum_{i=1}^\infty \my (A_i).
+				\]
 			\item
 				Schreibe $B = A \cupdot (B \setminus A)$, dann ist
 				\[
@@ -280,5 +321,189 @@ Im Allgemeinen ist dies nur auf einem echten Teilsystem von $\scr P(\Omega)$ mö
 				\]
 		\end{enumerate}
 	\end{proof}
-
 \end{lem}
+
+\begin{df} \label{1.1.11}
+	Sei $(\Omega, \scr F, \P)$ ein Wahrscheinlichkeitsraum und $(A_i)_{i\in\N}$ eine Folge messbarer Mengen in $\scr F$.
+	Definiere
+	\begin{align*}
+		\limsup_{n\to\infty} A_n
+			&:= \bigcap_{n=1}^\infty \bigcup_{k=n}^\infty A_k, \\
+		\liminf_{n\to\infty} A_n
+			&:= \bigcup_{n=1}^\infty \bigcap_{k=n}^\infty A_k.
+	\end{align*}
+\end{df}
+
+\begin{nt} \label{1.1.12}
+	Wir versuchen \ref{1.1.11} zu interpretieren:
+	\begin{align*}
+		\limsup_{n\to\infty} A_n
+			&= \Big\{ \omega \in \Omega : \forall n \in \N \exists k \ge n : \omega \in A_k \Big\} \\
+			&= \Big\{ \omega \in \Omega : \omega \in A_k \text{ für unendlich viele $k \ge 1$} \Big\}, \\
+		\liminf_{n\to\infty} A_n
+			&= \Big\{ \omega \in \Omega : \exists n \in \N \forall k \ge n : \omega \in A_k \Big\} \\
+			&= \Big\{ \omega \in \Omega : \omega \in A_k \text{ für fast alle $k$}.
+	\end{align*}
+\end{nt}
+
+\begin{st}[I. Lemma von Borel-Cantelli] \label{1.1.13}
+	Sei $(\Omega, \scr F, \P)$ ein Wahrscheinlichkeitsraum und $(A_i)_{i\in\N}$ eine Folge messbarer Mengen in $\scr F$.
+	Dann gilt
+	\[
+		\sum_{n=1}^\infty \P(A_n) < \infty
+		\implies
+		\P(\limsup_{n\to \infty} A_n) = 0.
+	\]
+	\begin{nt*}[Interpretation]
+		Wenn die Ereignisse $(A_n)$ „hinreichend disjunkt“ sind, so liegen fast alle $\omega \in \Omega$ in nur endlich vielen der $(A_n)$.
+	\end{nt*}
+	\begin{proof}
+		Setze $B_n := \bigcup_{k \ge n} A_k$, dann ist $B_n \searrow B = \bigcap_{n=1}^\infty B_n$, d.h.
+		\[
+			B
+			= \bigcap_{n=1}^\infty \bigcup_{k\ge n} A_k
+			= \limsup_{n\to\infty} A_n
+		\]
+		und
+		\[
+			\P(\limsup_{n} A_n)
+			= \P(B)
+			\le \P(B_j)
+		\]
+		für alle $j \in \N$.
+		Also gilt für beliebige $n \in \N$.
+		\[
+			\P(B)
+			\le \P(B_n)
+			\le \underbrace{\sum_{k=n}^\infty \P(A_k)}_{\to 0 (n\to\infty)}.
+		\]
+		also ist $\P(B_n) \to 0$ und somit wegen $\P(B) \le \P(B_n)$ für alle $n\in \N$, gilt $\P(B) = 0$.
+	\end{proof}
+\end{st}
+
+\begin{ex}[Dirac-Maß] \label{1.1.14}
+	Sei $\Omega \neq \emptyset$.
+	Fixiere $x \in \Omega$.
+	Setze für $A \in \Omega$
+	\[
+		\delta_x(A) := \Ind_A(x) = \begin{cases}
+			1 & x \in A \\
+			0 & x \not\in A
+		\end{cases}.
+	\]
+	dann ist
+	\begin{align*}
+		\delta_0([-1,1]) &= 1 &
+		\delta_0(\R) &= 1 & \\
+		\delta_0((0,\infty)) &= 0 &
+		\delta_0(\{0\}) &= 1
+	\end{align*}
+	$\delta_0$ heißt \emph{Dirac-Maß in $x$}.
+
+	$\delta_0$ ist ein Wahrscheinlichkeitsmaß auf $(\Omega, \scr P(\Omega))$.
+	\begin{proof}
+		Siehe $\ref{1.1.8}$ für die zu prüfenden Eigenschaften.
+		Zunächst ist offensichtlich $(\Omega, \scr P(\Omega))$ ein $\sigma$-Algebra.
+		Außerdem gilt
+		\begin{enumerate}[(a)]
+			\item
+				$\delta_x (\emptyset) = 0$, da $x \not\in \emptyset$,
+			\item
+				Seien $(A_n)$ paarweise disjunkt, $A_n \subset \Omega$.
+				Für $x \not\in A_n$ für alle $n$ ist die Aussage klar, sei also $x \in A_j$ für ein $j \in \N$.
+				Da die $A_n$ paarweise disjunkt, gilt $\sum_{n=1}^\infty \delta_x (A_n) = 1 = \delta_x (\bigcup_{n=1}^\infty A_n)$.
+			\item
+				$\delta_x(\Omega) = 1$.
+		\end{enumerate}
+	\end{proof}
+\end{ex}
+
+\section{Einschub: Wahrscheinlichkeitstheorie I., Diskrete Wahrscheinlichkeitsräume}
+
+Sei $\Omega \neq \emptyset$ und $p: \Omega \to [0,1]$, wobei $\Omega$ höchstens Abzählbar und $\sum_{\omega \in \Omega} p(\omega) == 1$.
+Für $A \subset \Omega$ setzen wir
+\[
+	\P(A) := \sum_{\omega \in A} p(\omega).
+\]
+Dann ist $\P: \scr P(\Omega) \to [0,1]$ ein Wahrscheinlichkeitsmaß (Übung: nachprüfen).
+
+\begin{ex}[Laplace'scher Wahrscheinlichkeitsraum] \label{1.2.1}
+	Sei $\# \Omega < \infty$ und für alle $\omega$
+	\[
+		p(\omega) = \P(\{\omega\}) = \f 1{\# \Omega}.
+	\]
+	Dann ist für $A \subset \Omega$
+	\[
+		\P(A)
+		= \sum_{\omega \in A} p(\omega)
+		= \sum_{\omega \not\in A} \f 1{\Omega}
+		= \f 1{\# \Omega} \sum_{\omega \in A} 1
+		= \f {\# A}{\# \Omega}.
+	\]
+	Man nennt $\P$ \emph{diskrete Gleichverteilung}.
+\end{ex}
+
+\begin{ex}[Bernoulli-Verteilung ($\Bin_{1,p}$)] \label{1.2.1}
+	Sei $p \in [0,1]$ ein fester Parameter.
+	Ein einmaliges Experiment
+	\begin{align*}
+		\P(\{1\}) &= \P(\text{„Erfolg“}) = p. \\
+		\P(\{0\}) &= \P(\text{„Misserfolg“}) = 1 -p.
+	\end{align*}
+	Mit $\Omega = \{0,1\}$ und $p_k = \P({k})$, $k \in \Omega$ ist dies ein diskreter Wahrscheinlichkeitsraum.
+\end{ex}
+
+\begin{ex}[Binomial-Verteilung ($\Bin_{n,p}$)] \label{1.2.3}
+	Ein Bernoulli-Experiment $n$-mal ausgeführt, jeweils unabhängig voneinander.
+	\begin{align*}
+		\P(\text{„genau $k$ Erfolge“}) = \binom{n}{k} p^k (1-p)^{n-k}
+	\end{align*}
+	$\P$ ist tatsächlich eine Verteilung, d.h.
+	\begin{enumerate}[(i)]
+		\item
+			$p_k \in [0,1]$
+		\item
+			$\sum_{k=0}^n p_k = 1$
+	\end{enumerate}
+	\begin{proof}
+		Zeige zunächst (ii):
+		\[
+			\sum_{k=0}^n p_k
+			= \sum_{k=0}^n \binom{n}{k} p^k (1-p)^{n-k}
+			= (p + (1-p))^n
+			= 1.
+		\]
+		Es gilt $p_k \ge 0$ und damit mit (ii) $p_k \le 1$.
+	\end{proof}
+\end{ex}
+
+\begin{ex}[Hypergeometrische Verteilung ($\Hyp_{n;S,W}$)] \label{1.2.4}
+	Betrachte eine Urne mit $S$ schwarzen und $W$ weißen Kugeln.
+	Ziehe $n \le S + W$ Kügeln ohne Zurücklegen.
+
+	Wie hoch ist die Wahrscheinlichkeit, genau $s$ schwarze (und somit $n-s =w$ weiße) Kugeln zu ziehen?
+
+	Zunächst ist $s \le S, s \ge 0, w \le W, s \le n$, oder statt $w \le W$, $s \ge n - W$.
+	\[
+		\max \{0, (n-w)\} \le s \le \min\{ n, S \}.
+	\]
+	Es ist
+	\[
+		\P(\{s\})
+		= \f {\binom{S}{s} \binom{W}{n-s}}{\binom{S+W}{n}}
+	\]
+	eine Wahrscheinlichkeitsverteilung (der Nachweis ist kompliziert).
+\end{ex}
+
+\begin{ex*}[Skat]
+	Wir suchen $\P(\text{3 Buben beim Geber})$ und wenden dazu \ref{1.2.4} an.
+	\begin{align*}
+		S &= \#\text{Buben} = 4 &
+		W &= \#\text{Nicht-Buben} = 28
+	\end{align*}
+	Berechne
+	\[
+		\Hyp_{10;4,28}(3)
+		= \f {\binom 43 \binom{28}{3}}{\binom {32}{10}} = \f {66}{899} \approx 7,3\%.
+	\]
+\end{ex*}
