@@ -507,3 +507,344 @@ Dann ist $\P: \scr P(\Omega) \to [0,1]$ ein Wahrscheinlichkeitsmaß (Übung: nac
 		= \f {\binom 43 \binom{28}{3}}{\binom {32}{10}} = \f {66}{899} \approx 7,3\%.
 	\]
 \end{ex*}
+
+\coursetimestamp{24}{10}{2013}
+
+\begin{ex}[Geometrische Verteilung ($\Geo_p$)] \label{1.2.5}
+	Wir spielen ein Bernoulli-Experiment mit Erfolgschance $p\in (0,1]$ und untersuchen, wann der erste Erfolg eintritt.
+	Die Verteilung ist gegeben durch
+	\[
+		p_k
+		= \Geo_p(k)
+		= \P(\text{1 Erfolg in $k$-tem Versuch})
+		= \P(\text{$(k-1)$ Misserfolge, dann Erfolg)}
+		= (1-p)^{k-1} p
+	\]
+	\begin{proof}
+		\begin{enumerate}[(i)]
+			\item
+				$p_k \in [0,1]$ ist erfüllt
+			\item
+				Es gilt
+				\[
+					\sum_{k=1}^\infty p_k
+					= \sum_{k=1}^\infty (1-p)^{k-1} p
+					= p \sum_{k=0}^\infty (1-p)^k
+					= p \f 1{1-(1-p)}
+					= 1
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{ex}
+
+\begin{ex}[Poisson-Verteilung ($\Pois_\alpha$)] \label{1.2.6}
+	Gegeben ein Parameter $\alpha \in (0,\infty)$, betrachten wir eine Verteilung auf $\N_0$, definiert durch
+	\[
+		p_k
+		= \Pois_\alpha(k)
+		= e^{-\alpha} \f {\alpha^k}{k!}
+	\]
+	\begin{proof}
+		\begin{enumerate}[(i)]
+			\item
+				Wegen $p_k \ge 0$ und $\sum_{k=0}^\infty p_k = 1$, muss auch $p_k \le 1$.
+			\item
+				Es gilt
+				\[
+					\sum_{k=0}^\infty p_k = e^{-\alpha} \sum_{k=0}^\infty \f {\alpha^k}{k!} = 1.
+				\]
+		\end{enumerate}
+	\end{proof}
+	Man verwendet sie zur Modellierung sehr vieler, sehr seltener Ereignisse.
+\end{ex}
+
+\begin{st}[Poisson'scher Grenzwertsatz, Poisson-Approximation der Binomialverteilung] \label{1.2.7}
+	Falls $p_n \to 0$ für $n \to \infty$, sodass $\lim_{n\to\infty} p_n n = \alpha \in (0,\infty)$, so gilt für alle $k \in \N_0$
+	\[
+		\lim_{n\to \infty} \Bin_{n,p_n}(k)
+		= \Pois_\alpha(k).
+	\]
+	\begin{proof}
+		Sei $k \in \N_0$ fest.
+		Wir beweisen zunächst zwei Hilfsaussagen
+		\begin{itemize}
+			\item
+				Für $n > k$ gilt
+				\[
+					\binom{n}{k}
+					= \f {n!}{k!(n-k)!}
+					= \f {n(n-1)(n-2)\dotsb(n-k+1)}{k!},
+				\]
+				also
+				\[
+					\binom{n}{k} \f {k!}{n^k}
+					= \f nn \f {n-1}{n} \f{n-2}n \dotsb \f {n-k+1}n
+				\]
+				und damit
+				\[
+					\lim_{n\to\infty} \binom{n}{k} \f {k!}{n^k} = 1.
+				\]
+			\item
+				Sei $t \in \R$, dann ist
+				\[
+					\lim_{t\to 0} \f {\ln(1+t)}{t}
+					= \lim_{t\to 0} \f 1{1+t}
+					= 1,
+				\]
+				also
+				\[
+					1
+					= \lim_{t\to 0} \f 1t \ln(1+t)
+					= \lim_{t \to 0} \ln((1+t)^{\f 1t})
+				\]
+				und damit
+				\[
+					\lim_{t\to 0} (1+t)^{\f 1t}
+					= e
+				\]
+		\end{itemize}
+		Es sei \oBdA $n > k$.
+		Mit diesen Aussagen gilt jetzt
+		\begin{align*}
+			\lim_{n\to\infty} \Bin_{n,p_n}(k)
+			&= \lim_{n\to\infty} \binom{n}{k}p_n^k (1-p_n)^{n-k} \\
+			&= \lim_{n\to\infty} \underbrace{\binom{n}{k} \f {k!}{n^k}}_{\to 1 \text{ (s.o.)}}\f {n^k}{k!} p_n^k (1-p_n)^n  \underbrace{(1-p_n)^{-k}}_{\to 1 \text{(s.o.)}}. \\
+			&= \lim_{n\to \infty} \f {(p_n n)^k}{k!}  \Big( \underbrace{(1-p_n)^{-\f 1{p_n}}}_{\to e} \Big)^{-n p_n} \\
+			&= \lim_{n\to \infty} \f {(p_n n)^k}{k!} e^{p_n n} \\
+			&= \f {\alpha^k}{k!} e^{-\alpha} \\
+			&= \Pois_{\alpha}(k.)
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{ex}[Urnenmodelle] \label{1.2.8}
+	Urnenmodelle sind spezielle Laplace'sche Wahrscheinlichkeitsräume.
+
+	Wir betrachten das Modell mit $n$ Kugeln, nummeriert von $1, \dotsc, n$.
+	Ziehe $k$ Kugeln, notiere jeweils die Zahl auf der Kugel.
+	\begin{enumerate}[(i)]
+		\item
+			\textbf{mit Zurücklegen, mit Reihenfolge}
+			\begin{align*}
+				\Omega_1 &= \{1, \dotsc, n\}^k,
+				\# \Omega_1 &= n^k.
+			\end{align*}
+		\item
+			\textbf{ohne Zurücklegen, mit Reihenfolge, $k \le n$}
+			\begin{align*}
+				\Omega_2 &= \{(\omega_1,\dotsc, \omega_k) \in \Omega_1 : \omega_i \neq \omega_j \text{ für } i \neq j \},
+				\# \Omega_2 &= \# \Omega_3 k! = \f {n!}{(n-k)!}.
+			\end{align*}
+		\item
+			\textbf{ohne Zurücklegen, ohne Reihenfolge, $k \le n$}
+			Da die Reihenfolge keine Rolle spielt, sortieren wir
+			\begin{align*}
+				\Omega_3 &= \{(\omega_1,\dotsc, \omega_k) \in \Omega_1 : \omega_1 < \dotsb < \omega_k  \},
+				\# \Omega_3 &= \binom{n}{k}.
+			\end{align*}
+		\item
+			\textbf{mit Zurücklegen, ohne Reihenfolge}
+			Wieder sortieren:
+			\begin{align*}
+				\Omega_4 &= \{ (\omega_1, \dotsc, \omega_k) \in \Omega_1 : \omega_1 \le \omega_2 \le \dotsb \le \omega_k \{ \\
+				\# \Omega_4 &= \binom{n+k-1}{k}
+			\end{align*}
+			\begin{proof}
+				Übungsaufgabe, Hinweis:
+				Betrachte $f: \Omega_4 \to \Omega_3'$ mit
+				\[
+					\Omega_3' = \{ (\omega_1, \dotsc, \omega_k) \in \{1,2\dotsc, n+k-1\}^k : \omega_1 < \dotsb < \omega_k \}
+				\]
+				definiert durch
+				\[
+					(\omega_1, \dotsc, \omega_k) \mapsto (\omega_1', \dotsc, \omega_k'),
+				\]
+				wobei $\omega_i' := \omega_i + i- 1$.
+				Zeige, dass $f$ eine Bijektion ist.
+			\end{proof}
+	\end{enumerate}
+\end{ex}
+
+
+\section{Kontruktion von Maßen}
+
+
+\begin{df} \label{1.3.1}
+	Sei $\Omega \neq \emptyset$, $\scr C \subset \scr P(\Omega)$, $\scr \neq \emptyset$.
+	$\scr C$ heißt
+	\begin{enumerate}[(a)]
+		\item
+			\emph{durchschnitts-stabil}, falls
+			\[
+				A,B \in \scr C
+				\implies A \cap B \in \scr C.
+			\]
+		\item
+			\emph{Dynken-System}, falls
+			\begin{enumerate}[(i)]
+				\item
+					$\Omega \in \scr C$,
+				\item
+					$A \in \scr C \implies A^C \in \scr C$,
+				\item
+					Für $(A_n) \subset \scr C$ paarweise disjunkt ist $\bigcup_{n} A_n \in \scr C$.
+			\end{enumerate}
+	\end{enumerate}
+	\begin{nt}
+		\begin{itemize}
+			\item
+				Einziger Unterschied von $\sigma$-Algebra und Dynken-System ist „paarweise disjunkt“ in (iii).
+			\item
+				Jede $\sigma$-Algebra ist ein Dynken-System, aber nicht umgekehrt (z.B. $\Omega = \{1,2,3,4\}$ und $\scr C = \{A \subset \Omega : \#A \in \{0,2,4\}$).
+		\end{itemize}
+	\end{nt}
+\end{df}
+
+\begin{st} \label{1.2.2}
+	Jedes $\cap$-stabile Dynken-System ist eine $\sigma$-Algebra.
+	\begin{proof}[Beweisskizze]
+		Sei $\scr C$ ein $\cap$-stabiles Dynken-System, es ist zu zeigen, dass für $(A_n) \subset \scr C$ auch $A := \bigcup A_n \in \scr C$.
+
+		Setze $A_0 := \emptyset$ und für $n \ge 1$
+		\[
+			B_n := A_n \setminus ( A_1 \cup \dotsb \cup A_{n-1} ).
+		\]
+		Die $B_n$ sind paarweise disjunkt und es gilt
+		\[
+			\bigcup_{i=1}^m = \bigcup_{i=1}^m A_i.
+		\]
+		Zeige, dass für alle $m \in \N$ gilt (Rest Übungsaufgabe)
+		\[
+			\bigcup_{n=1}^m A_n \in \scr C.
+		\]
+		Nutze Induktion über $m$.
+		Der Anfang ist klar, betrachte den Induktionsschritt:
+		Sei $A_1 \cup \dotsb \cup A_{m-1} \in \scr C$.
+		Nun ist
+		\[
+			B_m = A_m \cup \underbrace{( A_1 \cup \dotsb \cup A_{m-1} )^C}_{\in \scr C} \in \scr C
+		\]
+		und damit
+		\[
+			(A_1 \cup \dotsb \cup A_{m-1}) \cupdot B_m \in \scr C.
+		\]
+	\end{proof}
+	\begin{nt*}
+		Analog zu Lemma \ref{1.1.3} setzt man für $\scr C \subset \scr P(\Omega)$
+		\[
+			\delta(\scr C)
+			:= \bigcap \{ \scr A \text{ Dynken-System}, \scr C \subset \scr A \}
+		\]
+		als das \emph{von $\scr C$ erzeugte Dynken-System}.
+	\end{nt*}
+\end{st}
+
+\begin{st} \label{1.3.3}
+	Sei $\scr C$ $\cap$-stabil, dann ist
+	\[
+		\delta(\scr C) = \sigma(\scr C)
+	\]
+	\begin{proof}
+		% fixme: bibref
+		Siehe Klenke, Satz 1.19
+	\end{proof}
+\end{st}
+
+Wir betrachten jetzt Mengensysteme mit noch weniger vorraussetzenden Eigenschaften.
+
+\begin{df} \label{1.3.4}
+	Für $\Omega \neq \emptyset$ heißt $\scr A \subset \scr P(\Omega)$ \emph{Algebra}, falls
+	\begin{enumerate}[(i)]
+		\item
+			$\Omega \in A$,
+		\item
+			$A \in \scr A \implies A^C \in \scr A$,
+		\item
+			$A,B \in \scr A \implies A \cup B \in \scr A$.
+	\end{enumerate}
+\end{df}
+
+\begin{nt} \label{1.3.5}
+	Jede $\sigma$-Algebra ist eine Algebra, aber nicht umgekehrt.
+	\begin{enumerate}[(a)]
+		\item
+			Man könnte statt (iii) auch fordern, dass
+			\[
+				A,B \in \scr A \implies A \cap B \in \scr A.
+			\]
+		\item
+			Man könnte statt (ii) auch fordern, dass
+			\[
+				A,B \in \scr A \implies A \setminus B \in \scr A.
+			\]
+			(Übungsaufgabe)
+	\end{enumerate}
+\end{nt}
+
+Man betrachtet auch Mengenfunktionen auf Algebren, z.B. den Inhalt.
+
+\begin{df} \label{1.3.6}
+	\begin{enumerate}[(a)]
+		\item
+			Sei $\scr A$ eine Algebra über $\Omega$.
+			Eine Abbildung $\my: \scr A \to [0,\infty]$ heißt \emph{Inhalt}, falls
+			\begin{enumerate}[(i)]
+				\item
+					$\my(\emptyset) = 0$,
+				\item
+					$\my(A \cup B) = \my(A) + \my(B)$ für $A,B \in \scr A$ mit $A \cap B = \emptyset$.
+			\end{enumerate}
+		\item
+			Ein $\sigma$-additiver Inhalt heißt \emph{Prä-Maß}.
+	\end{enumerate}
+	\begin{nt*}
+		\begin{itemize}
+			\item
+				Fall $\scr A$ eine $\sigma$-Algebra ist, so „fehlt“ dem Inhalt lediglich die $\sigma$-Additivität, um Maß zu sein.
+			\item
+				Falls $\scr A$ eine $\sigma$-Algebra ist, so ist das Prä-Maß ein Maß.
+		\end{itemize}
+	\end{nt*}
+\end{df}
+
+\begin{nt}[Eigenschaften von Inhalten] \label{1.3.7}
+	Sei $\my$ ein Inhalt auf $(\Omega, \scr A)$.
+	Dann gelten
+	\begin{enumerate}[(i)]
+		\item
+			Monotonie: $A,B \in \scr A, A \subset B \implies \my(A) \le \my(B)$,
+		\item
+			Endliche Additivität: für $A_i \in \scr A$ paarweise disjunkt gilt
+			\[
+				\my(\bigcup_{i=1}^m A_i)
+				= \sum_{i=1}^n \my(A_i),
+			\]
+		\item
+			Endliche Sub-Additivität: für $A_i \in \scr A$ gilt
+			\[
+				\my(\bigcup_{i=1}^m A_i)
+				= \sum_{i=1}^n \my(A_i).
+			\]
+	\end{enumerate}
+	\begin{proof}
+		Übungsaufgabe.
+	\end{proof}
+\end{nt}
+
+Die $\sigma$-Additivität ist äquivalent zur Stetigkeit in $\emptyset$.
+
+\begin{lem} \label{1.3.8}
+	Sei $\my$ ein endlicher Inhalt auf einer Algebra $\scr A$ (d.h. $\my(\Omega) < \infty$).
+	Dann sind äquivalent
+	\begin{enumerate}[(i)]
+		\item
+			$\my$ ist $\sigma$-additiv (d.h. $\my$ ist Prä-Maß),
+		\item
+			$\my$ ist stetig in $\emptyset$, d.h. für $A_n \in \scr A$ mit $A_n \searrow \emptyset$ gilt $\my(A_n) \to 0$.
+	\end{enumerate}
+	\begin{proof}
+		Übungsaufgabe.
+	\end{proof}
+\end{lem}
+
+
