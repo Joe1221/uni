@@ -2,7 +2,9 @@
 
 PDFLATEX_OPTIONS += -synctex=1
 #LATEXMK     ?= latexmk -recorder -pdf -pdflatex="pdflatex $(PDFLATEX_OPTIONS) %O %S"
-LATEXMK     ?= latexmk -pdf -pdflatex="pdflatex $(PDFLATEX_OPTIONS) %O %S"
+#LATEXMK     ?= latexmk -pdf -pdflatex="pdflatex $(PDFLATEX_OPTIONS) %O %S"
+LATEXMK     ?= latexmk -pdf -e '$$pdflatex=q/pdflatex $(PDFLATEX_OPTIONS) %O %S/'
+
 LATEXMK   ?= latexmk -pdf
 
 PDFVIEWER ?= xdg-open
