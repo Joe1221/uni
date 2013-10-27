@@ -325,36 +325,44 @@ für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
 \end{df}
 
 \begin{df}
-	Eine Menge $U \subset X$ heißt \emph{Umgebung} von $a$ in $(X,d)$, wenn es $\eps \in \R_{> 0}$ gibt, sodass $B(a,\eps) \subset U$.
+	Bezüglich eines metrischen Raumes $(X,d)$ führen wir folgende Begriffe ein:
+	\begin{itemize}
+		\item
+			Eine Menge $U \subset X$ heißt \emph{Umgebung} von $a$ in $(X,d)$, wenn es $\eps > 0$ gibt, sodass $B_{(X,d)}(a,\eps) \subset U$.
+		\item
+			Die Menge $U$ heißt \emph{offen} in $(X,d)$, wenn sie Umgebung jedes Punktes $a \in U$ ist.
+		\item
+			Eine Menge $A \subset X$ heißt \emph{abgeschlossen} in $(X,d)$, wenn $X \setminus A$ offen ist in $(X,d)$.
+	\end{itemize}
 
-	Die Menge $U$ heißt \emph{offen} in $(X,d)$, wenn sie Umgebung jedes Punktes $a \in U$ ist.
-
-	Eine Menge $A \subset X$ heißt \emph{abgeschlossen} in $(X,d)$, wenn $X \setminus A$ offen ist in $(X,d)$.
-
-	Die Familie $\_{S_{X,d}}$ aller offenen Mengen heißt die \emph{Topologie} des Raumes $(X,d)$.
+	Die Familie aller offenen Mengen heißt \emph{Topologie} des Raumes $(X,d)$.
 \end{df}
 
 \begin{prop}
-	Jeder offene Ball ist offen.
-	Jeder abgeschlossene Ball ist abgeschlossen.
-
-	Es gelten
-	\begin{enumerate}[({O}1)]
+	\begin{itemize}
 		\item
-			$\emptyset, X$ sind offen.
+			Jeder offene Ball ist offen.
 		\item
-			$U_1,\dotsc,U_n$ offen $\implies U_1 \cap \dotsb \cap U_n$ offen.
+			Jeder abgeschlossene Ball ist abgeschlossen.
 		\item
-			$U_i$ offen ($i\in I$) $\implies \bigcup_{i\in I} U_i$ offen.
-	\end{enumerate}
-	\begin{enumerate}[({A}1)]
+			\begin{enumerate}[({O}1)]
+				\item
+					$\emptyset, X$ sind offen.
+				\item
+					$U_1,\dotsc,U_n$ offen $\implies U_1 \cap \dotsb \cap U_n$ offen.
+				\item
+					$U_i$ offen ($i\in I$) $\implies \bigcup_{i\in I} U_i$ offen.
+			\end{enumerate}
 		\item
-			$\emptyset, X$ sind abgeschlossen.
-		\item
-			$A_1,\dotsc,A_n$ abgeschlossen $\implies A_1 \cup \dotsb \cup A_n$ offen.
-		\item
-			$A_i$ abgeschlossen ($i\in I$) $\implies \bigcap_{i\in I} A_i$ offen.
-	\end{enumerate}
+			\begin{enumerate}[({A}1)]
+				\item
+					$\emptyset, X$ sind abgeschlossen.
+				\item
+					$A_1,\dotsc,A_n$ abgeschlossen $\implies A_1 \cup \dotsb \cup A_n$ offen.
+				\item
+					$A_i$ abgeschlossen ($i\in I$) $\implies \bigcap_{i\in I} A_i$ offen.
+			\end{enumerate}
+	\end{itemize}
 \end{prop}
 
 \begin{prop}
@@ -415,7 +423,7 @@ für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
 	Wir verwenden für ein Mengensystem $\scr A$ die Notation für die Vereinigung über alle enthaltenen Mengen
 	\[
 		\bigcup \scr A
-		= \bigcup_{A \in \scr A}
+		= \bigcup_{A \in \scr A} A
 		= \bigcup_{i\in I} A_i.
 	\]
 \end{nt}
@@ -513,12 +521,12 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 	\end{proof}
 \end{st}
 
-\begin{st}[Zwischenwertsatz]
+\begin{st}[Zwischenwertsatz (ZWS)]
 	Jede stetige Funktion $f: [a,b] \to \R$ hat die Zwischenwerteigenschaft (ZWE): zu $y \in \R$ mit $f(a) \le y \le f(b)$ existiert $x \in \R$ mit $x \in [a,b]$ mit $f(x) = y$.
-	\begin{nt}
+	\begin{nt*}
 		Die Vollständigkeit von $\R$ ist hier wesentlich.
 		Betrachte $f: \Q \to \Q$ mit $f(x) = x^2 - 2$ hat nicht die ZWE, denn $f(1) = - 1 < 0$, $f(z) = 2 > 0$, aber es gibt kein $x \in \Q$ mit $f(x) = 0$.
-	\end{nt}
+	\end{nt*}
 \end{st}
 
 \begin{st}
@@ -548,8 +556,8 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 \end{st}
 
 \begin{ex}
-	Jedes Intervall $I \subset \R$ ist zusammenhängend (ZWS).
-	Hingegene ist $\R \setminus \{a\}$ nicht zusammenhängend ($A = \R_{<a}, B=\R_{>a}$ sind nichtleere offene Zerlegungen).
+	Jedes Intervall $I \subset \R$ ist zusammenhängend (nach ZWS).
+	Hingegen ist $\R \setminus \{a\}$ nicht zusammenhängend ($A = \R_{<a}, B=\R_{>a}$ sind nichtleere offene Zerlegungen).
 \end{ex}
 
 \begin{st}
@@ -750,50 +758,58 @@ Für $A, B \subset X$ und $a,b \in X$ definieren wir
 	% fixme: wie funktioniert der beweis?
 \end{ex}
 
-Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachscher Fixpunktsatz, Satz von Picard-Linelöf, Potenzreihen (in $\R, \C$ oder Banach-Algebren).
+Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachscher Fixpunktsatz, Satz von Picard-Lindelöf, Potenzreihen (in $\R, \C$ oder Banach-Algebren).
 
 
 \section{Kompaktheit}
 
 
-\begin{df}
-	Ein metrischer Raum $(X,d)$ heißt \emph{kompakt}, wenn jede offene Überdeckung eine endliche Teilüberdeckung enthält, d.h. zu jeder Überdeckung $X = \bigcup_{i \in I} U_i$ mit $U_i \subset X$ offen existieren $i_1, \dotsc, i_n$ für die $X = \bigcup_{i=1}^n U_i$ gilt.
+\begin{df} \label{df:compact_space}
+	Ein metrischer Raum $(X,d)$ heißt \emph{kompakt}, wenn jede offene Überdeckung eine endliche Teilüberdeckung enthält, d.h. zu jeder Überdeckung $X = \bigcup_{i \in I} U_i$ mit $U_i \subset X$ offen existieren $i_1, \dotsc, i_n \in I$ für die $X = \bigcup_{k=1}^n U_{i_k}$ gilt.
 \end{df}
 
 \begin{ex}
-	Für $(X,d)$ diskret ist $(X,d)$ kompakt genau dann, wenn $X$ endlich ist.
-
-	$\R^n$ ist nicht kompakt.
-	Betrachte
-	\[
-		\R^n = \bigcup_{n\in \N} B(0,n).
-	\]
-	Hier existiert keine endliche Teilüberdeckung.
+	\begin{itemize}
+		\item
+			Für $(X,d)$ diskret ist $(X,d)$ kompakt genau dann, wenn $X$ endlich ist.
+		\item
+			$\R^n$ ist nicht kompakt.
+			\begin{proof}
+				Betrachte
+				\[
+					\R^n = \bigcup_{n\in \N} B(0,n).
+				\]
+				Hier existiert keine endliche Teilüberdeckung.
+			\end{proof}
+	\end{itemize}
 \end{ex}
 
 \begin{df}
-	Wir nennen $\delta \in \R_{>0}$ \emph{Lebesgue-Zahl} einer Überdeckung $X = \bigcup_{i\in I} U_i$,  wenn zu jedem $x \in X$ ein Index $i$ existiert, sodass $B(x,\delta) \bigcup U_i$ gilt.
+	Wir nennen $\delta \in \R_{>0}$ \emph{Lebesgue-Zahl} einer Überdeckung $X = \bigcup_{i\in I} U_i$,  wenn zu jedem $x \in X$ ein Index $j\in I$ existiert, sodass $B(x,\delta) \subset U_j$ gilt.
 \end{df}
 
 \begin{ex}
-	Ist $(X,d)$ diskret, dann ist $\delta \in ]0,1]$ Lebesgue-Zahl zu jeder Überdeckung, denn $B(x,\delta) = \{x\}$.
-
-	Betrachte
-	\[
-		\R = \bigcup_{n \in \Z} ]n-1, n+1[
-	\]
-	Hier ist jede Zahl $\delta \in ]0,\f 12]$ Lebesgue-Zahl.
-
-	Betrachte
-	\[
-		\R = \bigcup_{n\in\N} ] \log n, \log(n+2) [,
-	\]
-	wobei $\log 0 = -\infty$.
-	Hierzu existiert keine Lebesgue-Zahl, denn
-	\[
-		|\log (n+2) - \log(n)| = \log (\f {n+2}n) \to 0
-	\]
-	für $n \to \infty$.
+	\begin{itemize}
+		\item
+			Ist $(X,d)$ diskret, dann ist $\delta \in ]0,1]$ Lebesgue-Zahl zu jeder Überdeckung, denn $B(x,\delta) = \{x\}$.
+		\item
+			Betrachte
+			\[
+				\R = \bigcup_{n \in \Z} ]n-1, n+1[.
+			\]
+			Hier ist jede Zahl $\delta \in ]0,\f 12]$ Lebesgue-Zahl.
+		\item
+			Betrachte
+			\[
+				\R = \bigcup_{n\in\N} ] \log n, \log(n+2) [,
+			\]
+			wobei $\log 0 := -\infty$.
+			Hierzu existiert keine Lebesgue-Zahl, denn
+			\[
+				|\log (n+2) - \log(n)| = \log (\f {n+2}n) \to 0
+			\]
+			für $n \to \infty$.
+	\end{itemize}
 \end{ex}
 
 \begin{df}
@@ -803,23 +819,23 @@ Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachsc
 \begin{nt}
 	Jeder totalbeschränkte Raum ist auch beschränkt, umgekehrt im Allgemeinen jedoch nicht.
 	\begin{proof}
-		Es gilt
+		Beschränktheit folgt wegen
 		\[
-			d(x,a_1) < \eps + \max \{d(a_1, a_k) : k = 2,\dotsc, n \}.
+			d(x,a_1) < \eps + \max \big\{d(a_1, a_k) : k = 2,\dotsc, n \big\}.
 		\]
 
 		In $\ell^\infty(\N, \R)$ ist $\_B(0,1)$ beschränkt, aber nicht totalbeschränkt.
-		Für die kanonische Basis $(e_n)_{n\in \N}$ gilt
+		Für die kanonische (abzählbar unendliche) Basis $(e_n)_{n\in \N}$ gilt nämlich
 		\[
 			|e_n - e_m|_\infty = 1
 			\qquad n \neq m.
 		\]
-		Für $\eps = \f 12$ enthält $B(a_i,\eps)$ also höchsten ein $e_n$.
+		Für $\eps = \f 12$ kann $B(a_i,\eps)$ aber höchstens ein $e_n$ enthalten.
 	\end{proof}
 \end{nt}
 
 \begin{prop}
-	In $\R^n$ gilt: jede beschränkte Menge $A \subset \R^n$ ist total beschränkt.
+	In $\R^n$ ist jede beschränkte Menge $A \subset \R^n$ total beschränkt.
 	\begin{proof}
 		Übung
 		% beginne mit würfel
@@ -827,22 +843,23 @@ Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachsc
 \end{prop}
 
 \begin{st}[Charakterisierung kompakter metrischer Räume]
-	Für jeden metrischen Raum $(X,d)$ sind äquivalent
+	Sei $(X,d)$ ein metrischer Raum.
+	Dann sind folgende Eigenschaften äquivalent:
 	\begin{enumerate}[(1)]
 		\item
-			$(X,d)$ ist kompakt
+			$(X,d)$ ist kompakt gemäß \ref{df:compact_space}.
 		\item
-			Abzählbare Kompaktheit, d.h. jede abzählbare Überdeckung enthält eine endliche Teilüberdeckung.
+			\emph{Abzählbare Kompaktheit}: Jede abzählbare Überdeckung enthält eine endliche Teilüberdeckung.
 		\item
-			Häufungspunkte: jede Folge $(x_n)_{n\in \N}$ in $X$ hat einen Häufungspunkt $a \in X$.
+			\emph{Häufungspunkte}: Jede Folge $(x_n)_{n\in \N}$ in $X$ hat einen Häufungspunkt $a \in X$.
 		\item
-			Folgenkompaktheit: jede Folge $(x_n)_{n\in \N}$ in $X$ hat eine konvergente Teilfolge.
+			\emph{Folgenkompaktheit}: Jede Folge $(x_n)_{n\in \N}$ in $X$ hat eine (in $X$) konvergente Teilfolge.
 		\item
-			Pseudokompaktheit: jede stetige Funktio $f: X \to \R$ nimmt Minimum und Maximum an, d.h. es gibt $a,b \in X$ mit $f(a) \le f(x) \le f(b)$ für alle $x \in X$.
+			\emph{Pseudokompaktheit}: Jede stetige Funktion $f: X \to \R$ nimmt Minimum und Maximum an, d.h. es gibt $a,b \in X$ mit $f(a) \le f(x) \le f(b)$ für alle $x \in X$.
 		\item
-			Lebesgue-Kompaktheit: $(X,d)$ ist totalbeschränkt und jede offene Überdeckung erlaubt eine Lebesgue-Zahl.
+			\emph{Lebesgue-Kompaktheit}: $(X,d)$ ist totalbeschränkt und jede offene Überdeckung erlaubt eine Lebesgue-Zahl.
 		\item
-			Heine-Borel-Lebesgue-Kompaktheit: $(X,d)$ ist vollständig und totalbeschränkt.
+			\emph{Heine-Borel-Lebesgue-Kompaktheit}: $(X,d)$ ist vollständig und totalbeschränkt.
 	\end{enumerate}
 	\begin{proof}
 		$(1) \implies (2)$ ist trivial.
