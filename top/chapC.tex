@@ -1,0 +1,264 @@
+%fixme: \scr U vs U und \scr T vs \tau
+
+\chapter{Topologische Räume}
+
+\coursetimestamp{28}{10}{2013}
+
+\begin{df}
+	Eine \emph{Topologie} auf einer Menge $X$ ist ein System $\scr T \subset \scr P(X)$ von Teilmengen von $X$ mit folgenden Eigenschaften
+	\begin{enumerate}[O1)]
+		\item
+			$\emptyset, X \in \scr T$,
+		\item
+			$O_1, \dotsc, O_n \in \scr T \implies O_1 \cap \dotsb \cap O_n \in \scr T$,
+		\item
+			$O_i \in \scr T$ für $i \in I \implies \bigcup_{i\in I} O_i \in \scr T$.
+	\end{enumerate}
+	Das Paar $(X, \scr T)$ nennen wir dann \emph{topologischer Raum}.
+	Eine Teilmenge $Y \subset X$ nennen wir \emph{offen}, wenn $Y \in \scr T$, und \emph{abgeschlossen}, wenn $X \setminus Y \in \scr T$.
+\end{df}
+
+\begin{ex}[Kleinste Beispiele]
+	\begin{itemize}
+		\item
+			$X = \emptyset, \scr T = \{\emptyset\}$,
+		\item
+			$X = \{a\}, \scr T = \{ \emptyset, X \}$,
+		\item
+			Für $x = \{a,b\}$ gibt es vier Topologien
+			\begin{enumerate}[1.]
+				\item
+					$\{\emptyset, X\}$
+				\item
+					$\{\emptyset, \{a\}, X\}$
+				\item
+					$\{\emptyset, \{b\}, X \}$
+				\item
+					$\{\emptyset, \{a\}, \{b\}, X\}$
+			\end{enumerate}
+	\end{itemize}
+	\begin{table}
+		\centering
+		\caption{Anzahl der Topologien auf einer Menge $X$ mit $n$ Elementen, asymptotisches Verhalten: $\log t_n \sim \f {n^2}4$}
+		\begin{tabular}{c|c}
+			$n=|x|$ & $t_n = $ Anzahl der Topologie auf $X$ \\ \hline
+			0 & 1 \\
+			1 & 1 \\
+			2 & 4 \\
+			3 & 29 \\
+			4 & 355 \\
+			5 & 6942
+		\end{tabular}
+	\end{table}
+\end{ex}
+
+\begin{ex}[diskrete Topologie]
+	$\scr T = \scr P(X)$ auf $X$.
+\end{ex}
+
+\begin{ex}[indiskrete Topologie]
+	$\scr T = \{\emptyset, X\}$ auf $X$.
+\end{ex}
+
+\begin{ex}[metrische Topologie] \label{ex:metric_topology}
+	Die metrische Topologie zu einer (Halb-)Metrik $d: X \times X \to [0,\infty]$ ist gegeben durch
+	\begin{align*}
+		\scr T_d
+		&= \{ O \subset X : \forall a \in O \exists \eps > 0 : B(a,\eps) \subset O \} \\
+		&= \{ O \subset X : \forall a \in O \exists \eps > 0 : d(a,x) < \eps \implies x \in O \}.
+	\end{align*}
+\end{ex}
+
+\begin{nt}
+	% fixme: reference
+	Die offenen Mengen einer metrischen Topologie entsprechen den offenen Mengen aus dem letzten Kapitel.
+\end{nt}
+
+\begin{df}[metrisierbare Topologie]
+	Eine Topologie $\scr T$ heißt \emph{metrisierbar}, wenn es eine Metrik $d$ gibt mit $\scr T = \scr T_d$.
+\end{df}
+
+\begin{ex}
+	Die diskrete Topologie ist metrisierbar (dank der diskreten Metrik).
+
+	Die indiskrete Topologie hingegen nicht (für $|x| \ge 2$).
+	(Jede metrische Topologie trennt je zwei Punkte $a \neq b$, die indiskrete Topologie tut das nicht)
+\end{ex}
+
+\begin{df}
+	Sind $\scr T_1 \subset \scr T_2 \subset \scr P(X)$ Topologien auf $X$, so nennen wir $\scr T_1$ \emph{gröber} als $\scr T_2$, bzw. $\scr T_2$ \emph{feiner} als $\scr T_1$.
+\end{df}
+
+\begin{ex}
+	Sei $(X,<)$ eine linear geordnete Menge, z.B. $(\R,<)$.
+	Wir nennen $O \subset X$ offen, wenn zu jedem $x \in O$ ein offenes Intervall $I \subset X$ existiert mit $x \in I \subset O$.
+	Das System $\scr T_<$ dieser offener Mengen heißt \emph{Ordnungstopologie} von $(X,<)$.
+\end{ex}
+
+\begin{ex}[Koendliche Topologie auf $X$]
+	Setze
+	\[
+		\scr T
+		:= \{ O \subset X : X \setminus O \text{ ist endlich} \} \cup \{\emptyset\}.
+	\]
+\end{ex}
+
+\begin{ex}[Koabzählbare Topologie auf $X$]
+	Setze
+	\[
+		\scr T
+		:= \{ O \subset X : X \setminus O \text{ ist abzählbar} \} \cup \{ \emptyset \}.
+	\]
+\end{ex}
+
+\begin{nt}
+	Es gilt stets
+	\[
+		\scr T_{\text{indiskret}}
+		\subset \scr T_{\text{koendlich}}
+		\subset \scr T_{\text{koabzählbar}}
+		\subset \scr T_{\text{diskret}}
+	\]
+	(nach links hin gröber, nach rechts hin gröber).
+\end{nt}
+
+\begin{df}
+	Eine Abbildung $f: (X,\scr T_X) \to (Y, \scr T_Y)$ heißt \emph{stetig}, wenn aus $V \in \scr T_Y$ stets $f^{-1}(V) \in \scr T_X$ folgt.
+
+	Hingegen heißt $f$ \emph{offen}, wenn aus $U \in \scr T_X$, stets $f(X) \in T_Y$ folgt und \emph{abgeschlossen}, wenn aus $X \setminus A \in \scr T_X$ stets $Y \setminus f(A) \in \scr T_Y$ folgt.
+	\begin{nt}
+		Diese Eigenschaften sind voneinander unabhängig:
+		\begin{itemize}
+			\item
+				$\Id_\R: \R \to \R$ hat alle Eigenschaften,
+			\item
+				$f: \R \to \R, f(x) = x^2$ ist stetig, abgeschlossen, aber nicht offen,
+			\item
+				$f: \R \to \R, f(x) = \arctan(x)$ ist stetig, offen, aber nicht abgeschlossen,
+			\item
+				$f: \R \to \R, f(x) = \f 1{1+x^2}$ ist stetig, aber weder offen, noch abgeschlossen,
+			\item
+				\dots
+		\end{itemize}
+	\end{nt}
+\end{df}
+
+\begin{df}
+	Eine Homöomorphismus $f: (X,\scr T_X) \to (Y, \scr T_Y)$ ist eine bijektive Abbildung $f: X \to Y$, sodass $f$ und $f^{-1}$ stetig sind.
+\end{df}
+
+\begin{nt}
+	Aus der Stetigkeit von $f$ folgt im Allgemeinen nicht die Stetigkeit von $f^{-1}$.
+	Betrachte dazu $f: [1,2[ \cup [3,4] \to [1,3[$ mit
+	\[
+		f(x) = \begin{cases}
+			x & x \in [1,2[ \\
+			x - 1 & x \in [3,4[
+		\end{cases}.
+	\]
+	$f$ ist bijektiv, stetig, aber kein Homöomorphismus.
+	Oder: $f : [0,1[ \to \S^1 \subset \C$ definiert durch
+	\[
+		f(t)
+		= e^{2\pi i t}
+		= (\cos (2\pi t), \sin (2\pi t))
+	\]
+	ist bijektiv, stetig, aber kein Homöomorphismus (es gibt sogar kein Homöomorphismus zwischen $[0,1[$ und $\S^1$).
+\end{nt}
+
+
+\section{Umgebungen}
+
+
+Sei im folgenden $(X, \scr T)$ ein topologischer Raum, $x \in X$.
+
+\begin{df}
+	Eine Menge $\scr O$ heißt \emph{offene Umgebung} von $x$ in $(X,\scr T)$, wenn $x \in O \in \scr T$ gilt.
+	\[
+		U_x^O = U_x^O(\scr T)
+		:= \{ O \in \scr T : x \in O \}
+	\]
+
+	Eine Menge $U$ heißt \emph{Umgebung} von $x$ in $(X, \scr T)$, wenn sie eine offene Umgebung von $x$ enthält
+	\[
+		U_x = U_x(\scr T)
+		:= \{ U \subset X : \exists O \in \scr T : x \in O \subset U \}
+	\]
+\end{df}
+
+\begin{df}
+	Eine Familie $\scr B_x \subset U_x$ heißt \emph{Umgebungsbasis} von $x$ in $(X, \scr T)$, wenn jede Umgebung $U$ von $x$ eine Umgebung $V \in \scr B_A$ enthält.
+
+	Dann ist
+	\[
+		U_x = \{ U \subset X : \exists V \in \scr B_x : V \subset U \}.
+	\]
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$U_x$ ist eine Umgebungsbasis, ebenso $U_x^O$.
+		\item
+			In jedem metrischen Raum $(X,d)$ bilden die Bälle $B(a,\eps)$ mit $\eps > 0$ eine Umgebungsbasis von $a$, ebenso $B(a, \f 1k)$ mit $k= 1, 2, \dotsc$,
+			diese ist sogar abzählbar.
+	\end{itemize}
+\end{ex}
+
+\begin{df}
+	Ein topologischer Raum $(X, \scr T)$ erfüllt das \emph{erste Abzählbarkeitsaxiom} (1AA), wenn jeder Punkt $a \in X$ eine abzählbare Umgebungsbasis besitzt.
+	\begin{nt*}
+		Hat $a$ eine abzählbare Umgebungsbasis $(V_n)_{n\in\N}$, so auch eine offene Umgebungsbasis, etwa $(\mathring V_n)_{n\in\N}$.
+
+		Durch Übergang zu $U_n := \mathring V_0 \cap \dotsb \cap \mathring V_n$ erhalten wir eine offene Basis $U_0 \supset U_1 \supset U_2 \supset \dotsb$.
+	\end{nt*}
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Jeder metrische Raum erfüllt das 1AA.
+		\item
+			Auf einer überabzählbaren Menge $X$, etwa $X = \R$, erfüllen die koendliche und die koabzählbare Topologie nicht das 1AA.
+			Diese können also nicht metrisiert werden.
+	\end{itemize}
+\end{ex}
+
+\begin{df}
+	Eine Folge $(x_n)_{n\in \N}$ in $X$ \emph{konvergiert} gegen $a \in X$ bezüglich $\scr T$, wenn jede Umgebung $U$ von $a$ in $(X, \scr T)$ fast alle Folgenglieder enthält:
+	\[
+		(x_n)_{n\in \N} \stack{\scr T}\to a
+		\iff
+		\forall U \in \scr U_a(\scr T) \exists m \in \N \forall n \ge m : x_n \in U
+	\]
+\end{df}
+
+\begin{prop}
+	Eine Folge $(x_n)$ in $X$ konvergiert gegen $a \in X$ genau dann, wenn
+	\[
+		\forall V uin \scr B_x \exists m \in \N \forall n \ge m : x_n \in V.
+	\]
+\end{prop}
+
+Grenzwerte sind im Allgemeinen nicht eindeutig, betrachte dazu folgendes Beispiel
+
+\begin{ex}
+	Ist $(X, \{\emptyset, X\})$ ein indiskreter Raum, so konvergiert jede Folge gegen jeden beliebigen Punkt $a \in X$.
+\end{ex}
+
+\begin{df}
+	Ein topologischer Raum $(X, \scr T)$ heißt \emph{hausdorffsch}, wenn zu je zwei Punkten $a \neq b$ in $X$ disjunkte Umgebungen existieren, d.h. $U \in \scr U_a, V \in \scr U_b$, so dass $U \cap V = \emptyset$.
+\end{df}
+
+\begin{ex}
+	Jeder metrische Raum ist hausdorffsch.
+\end{ex}
+
+\begin{st}
+	Ist $(X,\scr T)$ hausdorffsch, dann hat jede Folge in $X$ höchstens einen Grenzwert in $X$.
+
+	Die Umkehrung gilt, wenn $(X, \scr T)$ das erste Abzählbarkeitsaxiom erfüllt.
+	\begin{proof}
+		Aus $x_n \to a$ und $y_n \to b$ folgt $a = b$ (mit $U \in \scr U_a, V \in \scr U_b, U \cap V = \emptyset$ folgt der Widerspruch).
+	\end{proof}
+\end{st}
