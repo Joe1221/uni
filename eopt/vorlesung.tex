@@ -6,6 +6,11 @@
 
 \documentclass{mycourse}
 
+\newcommand{\udN}{\ensuremath{\;\text{u.d.N.}\,}}
+\newcommand{\pred}{\text{pred}}
+\newcommand{\ared}{\text{ared}}
+
+
 \begin{document}
 
 \title{Einführung in die Optimierung}
@@ -630,9 +635,192 @@ Für $d \in \R^n$ bezeichnen wir die \emph{Richtungsableitung} als
 	Betrachte dazu $f(x) = x^4$, dann ist $f''(x)\big|_{x=0} = 0$, trotz Minimum in $x=0$.
 \end{ex}
 
+\coursetimestamp{28}{10}{2013}
+
+\begin{st} \label{2.19}
+	Sei $X \subset \R^n$ konvex, $f: X \to \R$ konvex.
+	Dann gelten folgende Aussagen
+	\begin{enumerate}[(a)]
+		\item
+			Jedes lokale Minimum von $f$ ist auch globales Minimum von $f$ von $x$.
+		\item
+			Ist $f$ strikt konvex, dann besitzt $f$ höchstens ein lokales Minimum.
+			Nach (a) ist jedes lokale Minimum das eindeutige, strikte globale Minimum.
+		\item
+			Ist $f$ stetig differenzierbar auf $O \subset X$ offen, dann ist jeder stationäre Punkt in $X$ ein globales Minimum.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				Sei $x \in X$ kein globales Minimum von $f$.
+				Dann existiert $y \in X$ mit $f(y) < f(x)$.
+				Mit der Konvexität folgt für alle $f \in (0,1]$
+				\[
+					f(x+t(y-x))
+					\le (1-t)f(x) + t f(y)
+					< f(x).
+				\]
+				mit entsprechend kleinem $t$ finden wir damit in jeder Umgebung von $x$ ein $\xi$ mit $f(\xi) < f(x)$, also ist $x$ kein lokales Minimum.
+			\item
+				Seien $x,y \in X$ zwei lokale Minima von $f$.
+				Nach (a) sind $x,y$ globale Minima, also $f(x) = f(y)$.
+				Angenommen $x \neq y$, dann wäre wegen der strikten Konvexität
+				\[
+					f(\f {x+y}2)
+					< \f{f(x) + f(y)}2
+					= f(x)
+					= f(y),
+				\]
+				ein Widerspruch dazu, dass $x,y$ globale Minima waren.
+			\item
+				Ist $x \in X$ ein stationärer Punkt, dann ist nach \ref{2.16} für alle $y\in X$
+				\[
+					f(y) - f(x)
+					\ge \nabla f(x)^T (y-x)
+					= 0,
+				\]
+				also $f(y) \ge f(x)$ und somit $x$ globales Minimum.
+		\end{enumerate}
+	\end{proof}
+\end{st}
 
 
+\section{Das Gradientenverfahren}
 
+
+In diesem Abschnitt sei $f: \R^n \to \R$ eine stetig differenzierbare Funktion.
+
+\begin{conv*}
+	Im folgenden schreiben wir für eine Folge von Vektoren in $\R^n$,
+	\[
+		x_0, x_1, x_2, \dotsc \in \R^n.
+	\]
+	teilweise auch
+	\[
+		x^{(0)} = \begin{pmatrix}
+			x_1^{(0)} \\ \vdots \\ x_n^{(0)}
+		\end{pmatrix},
+		x^{(1)} = \begin{pmatrix}
+			x_1^{(1)} \\ \vdots \\ x_n^{(1)}
+		\end{pmatrix},
+		\dotsc \in \R^n.
+	\]
+\end{conv*}
+
+\subsection{Richtung des steilsten Abstiegs}
+
+In der Umgebung eines Punktes $x_0 \in \R^n$ ist (gemäß Taylorapproximation)
+\[
+	f(x) \approx f(x_0) + \nabla f(x_0)^T (x-x_0).
+\]
+Nach Übungsaufgabe 3.1 %fixme: reference
+ist das Minimum der linearen Approximation innerhalb einer Kugel um $x_0$
+\[
+	\min_{\|x-x_0\|=1} \big( f(x_0) + \nabla f(x_0)^T (x-x_0) \big)
+	= f(x_0) - \nabla f(x_0)^T \f {\nabla f(x_0)}{\|\nabla f(x_0)\|}.
+\]
+In der linearen Approximation ist $x-x_0 = -s \nabla f(x_0)$ mit $s > 0$, also die Richtung des steilsten Abstiegs von $f$.
+
+Ein naiver Ansatz für einen Algorithmus wäre folgender:
+Beginne mit $x_0 uin \R^n$ und iteriere
+\[
+	x_{k+1} = x_k - s_k \nabla f(x_k),
+\]
+mit noch zu bestimmenden Schrittweiten $s_k > 0$.
+Solche Verfahren werden \emph{Gradientenverfahren} genannt.
+
+\subsection{Armijo-Schrittweitenregel}
+
+In der linearen Approximation erwarten wir, dass für $s_k > 0$ und $d_k \in \R^n$ (hier z.B. $d_k = -\nabla f(x_k)$)
+\[
+	f(x_{k+1})
+	= f(x_k + s_k d_k)
+	\approx f(x_k) + s_k \nabla f(x_k)^T d_k.
+\]
+Die Armijo-Regel besagt:
+vergleiche die tatsächlie Abnahme der Zielfunktion $f(x_k) - f(x_k + s_kd_k)$ mit der aus der linearen Approximation erwarteten Abnahme $-s_k \nabla f(x_k)^T d_k$.
+Nur wenn die tatsächliche Abnahme einen voregegebenen Bruchteil (z.B. $\gamma = 1\%$) der erwarteten Abnahme erreicht, also wenn die sogenannte \emph{Armijo-Regel}
+\[
+	f(x_{k+1})
+	\le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k
+\]
+erfüllt ist, dann wird die Schrittweite akzeptiert, sonst verkürzt (z.B. auf $\beta s_k$ mit $\beta = \f 12 < 1$).
+
+\begin{alg}
+	\begin{algorithmic}
+		\Require{$\beta \in (0,1), \gamma \in (0,1), x_k, d_k$}
+		\State $s_k \gets \f 1{\beta}$
+		\Repeat
+			\State $s_k \gets \beta s_k$
+			\State $x_{k+1} \gets x_k + s_k d_k$
+		\Until $f(x_{k+1}) \le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k$
+	\end{algorithmic}
+\end{alg}
+
+\begin{df} \label{2.20}
+	Ein Vektor $0 \neq d \in \R^n$ heißt \emph{Abstiegsrichtung} von $f$ im Punkt $x$, falls
+	\[
+		\nabla f(x)^T d < 0.
+	\]
+\end{df}
+
+\begin{st} \label{2.21}
+	Ist $d$ eine Abstiegsrichtung für $f$ im Punkt $x$, so existiert für jedes $\gamma \in (0,1)$ ein $t > 0$ mit
+	\[
+		f(x+sd)
+		\le f(x) + \gamma s \nabla f(x)^T d
+	\]
+	für alle $s \in [0,t]$, d.h. die Armijo-Schrittweitenregel terminiert nach endlich vielen Schritten.
+	\begin{proof}
+		Für $s \to 0$ ist
+		\[
+			\f{f(x_k+sd)-f(x_k)}{s} - \gamma \nabla f(x)^T d
+			\to (1 - \gamma) \underbrace{\nabla f(x_k)^T d}_{<0}
+			< 0,
+		\]
+		also für hinreichend kleine $s>0$ ist
+		\[
+			\f{f(x_k+sd)-f(x_k)}{s} - \gamma \nabla f(x)^T d
+			\le 0,
+		\]
+		d.h. die Armijo-Bedingung ist erfüllt.
+	\end{proof}
+\end{st}
+
+\begin{ex} \label{2.22}
+	Aus \ref{2.21} folgt insbesondere: in Richtung einer Abstiegsrichtung nimmt eine Funktion lokal ab.
+
+	Die Umkehrung gilt hingegen nicht.
+	Betrachte dazu $f(x) = -x^2$ an der Stelle $x = 0$: in Richtung $d=\pm 1$ nimmt die Funktion ab, aber beides sind keine Abstiegsrichtungen gemäß \ref{2.20}.
+\end{ex}
+
+\begin{nt} \label{2.23}
+	Die Armijo-Regel ist ein spezieller, einfacher Fall für ein sogenanntes “Trust-Region”-Verfahren.
+	In der aktuellen Iterierten wird $f$ dabei durch seine lineare Näherung
+	\[
+		f(x)
+		\approx f(x_k) + \nabla f(x_k)^T (x-x_k)
+	\]
+	ersetzt.
+	Wir vertrauen dieser Näherung jedoch nur für $x$ mit
+	\[
+		\|x - x_k\| \le \Delta_k,
+	\]
+	der sogenannten “Trust-Region”.
+	Wir lösen also das restringierte Optimierungsproblem
+	\[
+		f(x_k) + \nabla f(x_k)^T (x-x_k) \to \min!
+		\udN
+		x \in B_{\Delta_k}(x_k)
+	\]
+	und erhalten $x_{k+1} = x_k - s_k \nabla f(x_k)$ ($s_k = \f {\Delta_k}{\|\nabla f(x_k)\|}$).
+	Vergleiche anschließend die vorhergesagte Abnahme (\pred) mit tatsächlicher Abnahme (\ared)
+	\begin{align*}
+		\pred_k &= -s_k \nabla f(x_k) &
+		\ared_k &= f(x_k) - f(x_{k+1})
+	\end{align*}
+	Falls $\f {\pred_k}{\ared_k} < \gamma$, so wird der Schritt mit verkleinerten $\Delta_k$ wiederholt.
+\end{nt}
 
 
 
