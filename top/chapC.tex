@@ -64,7 +64,7 @@
 	Die metrische Topologie zu einer (Halb-)Metrik $d: X \times X \to [0,\infty]$ ist gegeben durch
 	\begin{align*}
 		\scr T_d
-		&= \{ O \subset X : \forall a \in O \exists \eps > 0 : B(a,\eps) \subset O \} \\
+		&:= \{ O \subset X : \forall a \in O \exists \eps > 0 : B(a,\eps) \subset O \} \\
 		&= \{ O \subset X : \forall a \in O \exists \eps > 0 : d(a,x) < \eps \implies x \in O \}.
 	\end{align*}
 \end{ex}
@@ -89,7 +89,7 @@
 	Sind $\scr T_1 \subset \scr T_2 \subset \scr P(X)$ Topologien auf $X$, so nennen wir $\scr T_1$ \emph{gröber} als $\scr T_2$, bzw. $\scr T_2$ \emph{feiner} als $\scr T_1$.
 \end{df}
 
-\begin{ex}
+\begin{ex}[Ordnungstopologie]
 	Sei $(X,<)$ eine linear geordnete Menge, z.B. $(\R,<)$.
 	Wir nennen $O \subset X$ offen, wenn zu jedem $x \in O$ ein offenes Intervall $I \subset X$ existiert mit $x \in I \subset O$.
 	Das System $\scr T_<$ dieser offener Mengen heißt \emph{Ordnungstopologie} von $(X,<)$.
@@ -126,7 +126,7 @@
 	Eine Abbildung $f: (X,\scr T_X) \to (Y, \scr T_Y)$ heißt \emph{stetig}, wenn aus $V \in \scr T_Y$ stets $f^{-1}(V) \in \scr T_X$ folgt.
 
 	Hingegen heißt $f$ \emph{offen}, wenn aus $U \in \scr T_X$, stets $f(X) \in T_Y$ folgt und \emph{abgeschlossen}, wenn aus $X \setminus A \in \scr T_X$ stets $Y \setminus f(A) \in \scr T_Y$ folgt.
-	\begin{nt}
+	\begin{nt*}
 		Diese Eigenschaften sind voneinander unabhängig:
 		\begin{itemize}
 			\item
@@ -140,7 +140,7 @@
 			\item
 				\dots
 		\end{itemize}
-	\end{nt}
+	\end{nt*}
 \end{df}
 
 \begin{df}
@@ -149,7 +149,7 @@
 
 \begin{nt}
 	Aus der Stetigkeit von $f$ folgt im Allgemeinen nicht die Stetigkeit von $f^{-1}$.
-	Betrachte dazu $f: [1,2[ \cup [3,4] \to [1,3[$ mit
+	Betrachte dazu $f: [1,2[ \cup [3,4[ \to [1,3[$ mit
 	\[
 		f(x) = \begin{cases}
 			x & x \in [1,2[ \\
@@ -173,7 +173,7 @@
 Sei im folgenden $(X, \scr T)$ ein topologischer Raum, $x \in X$.
 
 \begin{df}
-	Eine Menge $\scr O$ heißt \emph{offene Umgebung} von $x$ in $(X,\scr T)$, wenn $x \in O \in \scr T$ gilt.
+	Eine Menge $O$ heißt \emph{offene Umgebung} von $x$ in $(X,\scr T)$, wenn $x \in O \in \scr T$ gilt.
 	\[
 		U_x^O = U_x^O(\scr T)
 		:= \{ O \in \scr T : x \in O \}
@@ -262,3 +262,273 @@ Grenzwerte sind im Allgemeinen nicht eindeutig, betrachte dazu folgendes Beispie
 		Aus $x_n \to a$ und $y_n \to b$ folgt $a = b$ (mit $U \in \scr U_a, V \in \scr U_b, U \cap V = \emptyset$ folgt der Widerspruch).
 	\end{proof}
 \end{st}
+
+\coursetimestamp{29}{10}{2013}
+
+\begin{st}
+	Jede Umgebungsbasis $\scr B_x$ von $x$ in $(X, \scr T)$ erfreut sich folgender Eigenschaften
+	\begin{enumerate}[(UB1)]
+		\item
+			$\scr B_x \neq \emptyset$ und für $U \in \scr B_x$ gilt $x \in U \subset X$,
+		\item
+			Zu $U,V \in \scr B_x$ existiert $W \in \scr B_x$ mit $W \subset U \cap V$.
+	\end{enumerate}
+	Erfüllt umgekehrt $(\scr B_x)_{x\in X}$ die Bedingungen (UB1-2), dann ist
+	\[
+		\scr T := \big\{ O \subset X : \text{Zu jedem $x\in O$ existiert ein $U_x \in \scr B_x$ mit $U_x \subset O$} \big\}
+	\]
+	eine Topologie auf $X$ und für jedes $x \in X$ ist $\scr B_x$ eine Umgebungsbasis von $x$ im Raum $(X, \scr T)$.
+	\begin{proof}
+		$\scr T$ ist eine Topologie:
+		\begin{enumerate}[(O1)]
+			\item
+				folgt aus (UB1).
+			\item
+				folgt aus (UB2):
+				Für $U, V \in \scr T$ ist $W := U \cap V \in \scr T$ zu zeigen.
+				Zu $x \in W = U \cap V$ existieren $U_x \in \scr B_x$ mit $U_x \subset U$ und $V_x \in \scr B_x$ mit $V_x \subset V$.
+				Dann existieren $W_x \in \scr B_x$ mit $W_x \subset U_x \cap V_x$.
+				Also
+				\[
+					x \in W_x \subset U_x \cap V_x \subset U \cap V = W,
+				\]
+				also $W \in \scr T$.
+			\item
+				gilt nach Konstruktion.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	\begin{enumerate}[1.)]
+		\item
+			Metrische Topologien sind vorgegeben durch
+			\[
+				\scr B_x := \{ B(x,\eps) : \eps > 0 \},
+			\]
+		\item
+			Ordnungstopologien durch
+			\[
+				\scr B_x := \{ ]a,b[ : a < x < b \}.
+			\]
+	\end{enumerate}
+\end{ex}
+
+\section{Funktionenräume}
+
+Betrachte Funktionenräume, speziell $f : \R \to \R$.
+Sei im Folgenden stetz $f_n: \R \to \R$ eine Folge und $f: \R \to \R$.
+
+\subsection{Punktweise Konvergenz}
+
+Wir sagen, $f_n$ konvergiert punktweise gegen $f$, wenn
+\[
+	\forall x \in \R : f_n(x) \to f(x),
+\]
+also genau dann, wenn
+\[
+	\forall x \in \R \forall \eps > 0 \exists m \in \N \forall n \ge m : |f_n(x) - f(x)| < \eps.
+\]
+Wir definieren Umgebungen als
+\[
+	U(f; x, \eps)
+	:= \{ g: \R \to \R : |g(x) - f(x)| < \eps \}.
+\]
+Diese erfüllen (UB1), aber nicht (UB2).
+Für $J \subset \R$ endlich und $\eps \in \R_{>0}$ definieren wir
+\[
+	U(f; J, \eps)
+	:= \{ g: \R \to \R : \forall x \in J : |g(x) - f(x)| < \eps \}.
+\]
+Diese erfüllen (UB1) und (UB2), denn
+\[
+	U(f; J, \eps) \cap U(f, J', \eps')
+	\supset U(f; J \cup J', \min\{\eps, \eps'\}).
+\]
+Dies definiert eine Topologie $\scr T_{\text{pw}}$ wie im Satz. %fixme: reference
+
+Es gilt $f_n \to f$ punktweise genau dann, wenn $f_n \to f$ bezüglich $\scr T_{\text{pw}}$.
+
+\begin{st}
+	Die Topologie $\scr T_{\text{pw}}$ ist nicht metrisierbar.
+	Genauer: $\scr T_{\text{pw}}$ erfüllt das Hausdorff-Axiom, aber nicht das 1AA.
+	\begin{proof}
+		Angenommen $(U_n)_{n\in\N}$ sind Umgebungen der Nullfunktion.
+		Zu jedem $n \in \N$ existiert $J_n \subset \R$ endlich und $\eps_n > 0$ mit $U(0; J_n, \eps_n) \subset U_n$.
+
+		Die Menge $J = \bigcup_{k\in\N} J_n \subset \R$ ist abzählbar.
+		Für $x_0 \in \R \setminus J$ enthält die Umgebung $U(0; x_0, 1)$ keine der Umgebungen $U_n$.
+	\end{proof}
+\end{st}
+
+\subsection{Gleichmäßige Konvergenz} % fixme: \section?
+
+Wir sagen, $f_n \to f$ konvergiere gleichmäßig, wenn
+\[
+	\forall \eps > 0 \exists m \in \N \forall n \ge m \underbrace{\forall x \in \R : |f_n(x) - f(x) | \le \eps}_{|f_n - f|_{\R} \le \eps},
+\]
+also genau dann, wenn
+\[
+	|f_n-f|_{\R} \to 0.
+\]
+Damit wird die gleichmäßige Konvergenz von der Supremumsnorm kontrolliert.
+Setze
+\[
+	U(f,\eps)
+	:= B(f,\eps)
+	= \{ g : \R \to \R : \forall x \in \R : |g(x) - f(x)| < \eps \}.
+\]
+Dies erfüllt (UB1-2) und definiert so die (metrische) Topologie $\scr T_{\text{uni}} = \scr T_d$ bezüglich dier Supremumsmetrik
+\[
+	d(f,g)
+	:= |f-g|_{\R}
+	:= \sup_{x\in\R} |f(x) - g(x)|.
+\]
+Es ergibt sich allerdings ein Problem:
+Potenzreihen wie $\exp(x) = \sum_{k=0}^\infty \f {x^k}{k!}$ oder $\sin(x) = \sum_{k=0}^\infty (-1)^k \f {x^{2k+1}}{(2k+1)!}$ oder $\cos (x) = \sum_{k=0}^\infty (-1)^k \f {x^{2k}}{(2k)!}$ konvergieren punktweise für jedes $x \in \R$, aber nicht gleichmäßig auf $\R$.
+
+\subsection{Kompakte Konvergenz}
+
+Wir sagen, $f_n \to f$ konvergiert \emph{kompakt} genau dann, wenn $f_n|_{[-r,r]} \to f|_{[-r,r]}$ gleichmäßig auf jedem kompakten Intervall $[-r,r]$ konvergiert, also genau dann, wenn
+\[
+	\forall r \in \R_{>0} \forall \eps \in \R_{>0} \exists m \in \N \forall n \ge n \underbrace{\forall x \in [-r,r] : |f_n(x) - f(x)| \le \eps}_{|f_n-f|_{[-r,r]\le \eps}}.
+\]
+\begin{ex}
+	Die kompakte Konvergenz ist der richtige Konvergenzbegriff für Potenzreihen.
+\end{ex}
+Für $K = [-r,r]$ und $\eps > 0$ setzen wir
+\[
+	U(f; K, \eps)
+	:= \{ g: \R \to \R : \forall x \in K : |f(x) - g(x)| < \eps \}.
+\]
+Dies erfüllt (UB1-2), denn
+\[
+	U(f;K,\eps) \cap U(f,K',\eps')
+	\supset U(f; K \cup K', \min\{\eps, \eps'\}),
+\]
+und erzeugt damit die Topologie $\scr T_{\text{kpkt}}$.
+
+\begin{st}
+	Es gilt $f_n \to f$ kompakt genau dann, wenn $f_n \to f$ bezüglich $\scr T_{\text{kpkt}}$.
+\end{st}
+
+\begin{nt}
+	Es gilt
+	\[
+		\scr T_{\text{pw}} \subsetneq \scr T_{\text{kpkt}} \subsetneq \scr T_{\text{uni}}.
+	\]
+\end{nt}
+
+\begin{st}
+	$\scr T_{\text{kpkt}}$ ist metrisierbar.
+	\begin{proof}
+		Idee: für $k \in \N$ betrachte $d_k(f,g) := |f-g|_{[-k,k]}$ und
+		\[
+			d(f,g) = \sum_{k=1}^\infty 2^{-k} d_k^* (f,g) \in [0,1],
+		\]
+		wobei $d_k^*$ die auf $[0,1]$ gestauchte Metrik ist.
+		$d(f,g)$ ist ein Metrik auf $\R^\R$ (Übung) und induziert $\scr T_{\text{kpkt}}$.
+	\end{proof}
+\end{st}
+
+
+% C3
+\section{Inneres, Abschluss, Rand}
+
+
+Sei $(X, \scr T)$ ein topologischer Raum und $M \subset X$.
+Ein Punkt $x \in X$ heißt
+\begin{itemize}
+	\item
+		\emph{innerer Punkt} von $M$ in $(X,\scr T)$, wenn
+		\[
+			M \in \scr U_x.
+		\]
+	\item
+		\emph{äußerer Punkt} von $M$ in $(X,\scr T)$, wenn
+		\[
+			(X \setminus M) \in \scr U_x.
+		\]
+	\item
+		\emph{Berührungspunkt} von $M$ in $(X, \scr T)$, wenn
+		\[
+			\forall U \in U_x : U \cap M \neq \emptyset.
+		\]
+	\item
+		\emph{Randpunkt} von $M$ in $(X, \scr T)$, wenn
+		\[
+			\forall U \in U_x : U \cap M \neq \emptyset \neq U \cap (X \setminus M).
+		\]
+	\item
+		\emph{Häufungspunkt} von $M$ in $(X, \scr T)$, wenn
+		\[
+			\forall U \in U_x : (U \setminus \{x\}) \cap M \neq \emptyset.
+		\]
+	\item
+		\emph{isolierer Punkt} von $M$ in $(X, \scr T)$, wenn
+		\[
+			\exists U \in U_x : U \cap M = \{x\}.
+		\]
+\end{itemize}
+
+\begin{df}
+	Wir definieren das \emph{Innere} einer Menge $M \subset X$ als
+	\[
+		\mathring M
+		:= K_{\scr T}(M)
+		:= \{ x \in X : M \in U_x \}
+		= \bigcup \{ U \in \scr T : U \subset M \},
+	\]
+	den \emph{Abschluss} als
+	\[
+		\_{M}
+		:= H_{\scr T}(M)
+		:= \{ x \in X : \forall U \in \scr U_x : U \cap M \neq \emptyset \}
+		= \{ \bigcap \{ A \supset M : X \setminus A \in \scr T \},
+	\]
+	den \emph{Rand} als
+	\[
+		\boundary M
+		:= \_ M \setminus \mathring M,
+	\]
+	bzw. $\delta_{\scr T}(M) := H_{\scr T}(M) \setminus K_{\scr T}(M)$.
+\end{df}
+
+\begin{st}
+	Sei $(X, \scr T)$ ein topologischer Raum, $A \subset X$ und $x \in X$.
+	Wenn es eine Folge $(a_n)_{n\in\N}$ aus $A$ gibt mit $x_n \to x$ in $(X, \scr T)$, dann gilt $x \in \_A$.
+
+	Die Umkehrung gilt, wenn das 1AA erfüllt, d.h. $x$ eine abzählbare Umgebungsbasis hat.
+\end{st}
+
+\begin{df}
+	Eine Menge $M \subset X$ heißt \emph{dicht} in $(X, \scr T)$ wenn $\_M = X$ und \emph{diskret}, wenn jeder Punkt $x \in M$ isoliert ist.
+\end{df}
+
+\begin{ex}
+	$\Q \subset \R$ ist dicht, $\Z \subset \R$ ist diskret.
+\end{ex}
+
+
+% C4
+\section{Erzeugung von Topologien}
+
+
+\begin{df}
+	Eine Teilmenge $\scr B \subset \scr T$ heißt \emph{Basis} der Topologie $\scr T$, wenn jede offene Menge $U \in \scr T$ Vereinigung von offenen Mengen aus $\scr B$ ist, also
+	\[
+		\scr T = \{ \bigcup \scr S : \scr S \subset \scr B \}
+	\]
+\end{df}
+
+\begin{ex}
+	\begin{enumerate}[1)]
+		\item
+			Jede Topologie $\scr T$ hat eine Basis, z.B. $\scr B = \scr T$.
+		\item
+			Die übliche Topologie auf $\R$ hat als Basis $\scr B = \{ ]a,b[ : a < b \}$.
+		\item
+			Jeder metrische Raum $(X, \scr T_d)$ hat als Basis $\scr B = \{ B(a, \eps) : a \in X, \eps > 0\}$.
+	\end{enumerate}
+\end{ex}
+
