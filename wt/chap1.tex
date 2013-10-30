@@ -848,4 +848,278 @@ Die $\sigma$-Additivität ist äquivalent zur Stetigkeit in $\emptyset$.
 	\end{proof}
 \end{lem}
 
+\coursetimestamp{30}{10}{2013}
+
+\begin{st}[Caratheodory] \label{1.3.9}
+	Sei $\my$ ein $\sigma$-endliches Prä-Maß auf einer Algebra $A$.
+	Dann existiert genau ein Maß $\tilde \my$ auf $\sigma(A)$, das $\my$ fortsetzt.
+	\begin{proof}
+		Existenz von $\tilde \my$: Klenke, Satz 1.41 (sogar allgemeiner), Bauer MIT, Satz 5.1. % fixme: reference
+		Eindeutigkeit: siehe \ref{1.3.10}
+	\end{proof}
+\end{st}
+
+\begin{st}[Eindeutigkeitssatz] \label{1.3.10}
+	Es seien
+	\begin{itemize}
+		\item
+			$\scr T$ eine $\sigma$-Algebra über $\Omega$,
+		\item
+			$\scr C$ ein $\cap$-stabiles Erzeugendensystem von $\scr F$,
+		\item
+			$\my, \ny$ zwei Maße auf $\scr F$, die auf $\scr C$ übereinstimmen
+		\item
+			$(\Omega_n)_{n\in\N} \subset \scr C$ mit $\Omega_n \nearrow \Omega$ und $\my(\Omega_n) = \ny(\Omega_n) < \infty$ für alle $n \in \N$.
+	\end{itemize}
+	Dann gilt $\my = \ny$ auf ganz $\scr F$.
+	\begin{proof}
+		Seihe Klenke, Lemma 1.42. % fixme: reference
+	\end{proof}
+\end{st}
+
+\begin{kor} \label{1.3.11}
+	Falls zwei endliche Maße $\my, \ny$ auf $(\Omega, \scr F)$ auf einem $\cap$-stabilen Erzeugendensystem übereinstimmen und $\my(\Omega) = \ny(\Omega)$ gilt, so folgt $\my = \ny$ (auf ganz $\scr F$).
+
+	Insbesondere gilt: falls zwei Wahrscheinlichkeitsmaße $\P_1$ und $\P_2$ auf $(\Omega, \scr F)$ auf einem $\cap$-stabilen Erzeugendensystem übereinstimmen, so gilt $\P_1 = \P_2$.
+\end{kor}
+
+\begin{df} \label{1.3.12}
+	Sei $(\Omega, \scr F, \my)$ ein Maßraum.
+	$N \subset \Omega$ heißt \emph{$\my$-Nullmenge}, falls
+	\[
+		\exists A \in \scr F : \my(A) = 0 \land N \subset A.
+	\]
+
+	$(\Omega, \scr F, \my)$ heißt \emph{vollständig}, falls alle Nullmengen messbar sind ($N \in \scr F$).
+\end{df}
+
+\begin{nt} \label{1.3.13}
+	\begin{enumerate}[(i)] % fixme: start with 0
+		\item
+			Eine Nullmenge muss selbst nicht messbar sein.
+		\item
+			$\emptyset$ ist immer eine Nullmenge.
+		\item
+			Falls $(N_i)_{i \in \N}$ eine Folge von Nullmengen ist, so ist auch $\bigcup_{i=1}^\infty N_i$ Nullmenge.
+		\item
+			Jeder Maßraum $(\Omega, \scr F, \my)$ kann \emph{vervollständigt} werden.
+			Definiere dazu
+			\[
+				\scr G := \{ A \subset \Omega : \exists B \in \scr F : A \symdiff B \text{ $\my$-Nullmenge} \}.
+			\]
+			Es gilt
+			\begin{itemize}
+				\item
+					$\scr G$ ist eine $\sigma$-Algebra,
+				\item
+					$\scr F \subset \scr G$,
+				\item
+					$\my$ kann auf $\scr G$ fortgesetzt werden.
+					Definiere dazu $\tilde \my: \scr G \to [0,\infty]$
+					\begin{enumerate}[(a)]
+						\item
+							$\tilde \my := \my$ auf $\scr F$,
+						\item
+							Falls $A \in \scr G \setminus \scr F$, so existiert $B \in \scr F$ mit $A \symdiff B$ $\my$-Nullmenge.
+							Setze $\tilde \my(A) := \my(B)$.
+					\end{enumerate}
+					$\tilde \my$ ist wohldefiniert (d.h. unabhängig von $\scr B$).
+			\end{itemize}
+			Der Raum $(\Omega, \scr G, \tilde \my)$ ist ein vollständiger Maßraum und heißt \emph{Vervollständigung} von $(\Omega, \scr F, \my)$.
+		\item
+			Die Vervollständigung hängt wesentlich von $\my$ ab.
+	\end{enumerate}
+\end{nt}
+
+
+% 1.4.
+\section{Verteilungsfunktionen und Maße}
+
+Sei $\P$ ein Wahrscheinlichkeitsmaß auf $(\R^1, \scr B^1)$ und definiere $F: \R \to [0,1]$ durch
+\[
+	\scr F(t)
+	:= \scr P((-\infty, t]).
+\]
+$F$ ist monoton wachsend.
+Wir wollen den Zusammenhang zwischen $\P$ und $F$ untersuchen.
+
+\begin{df} \label{1.4.1}
+	$F: \R \to [0,1]$ heißt \emph{Verteilungsfunktion}, falls
+	\begin{enumerate}[(i)]
+		\item
+			$F$ monoton wachsend: $x \le y \implies F(x) \le F(y)$,
+		\item
+			$F$ ist rechtsseitig stetig: $x_n \searrow x \implies F(x_n) \to F(x)$,
+		\item
+			$\lim_{x\to -\infty} F(x) = 0, \lim_{x\to \infty} F(x) = 1$.
+	\end{enumerate}
+\end{df}
+
+\begin{st} \label{1.4.2}
+	\begin{enumerate}[(a)]
+		\item
+			Sei $\P$ ein Wahrscheinlichkeitsmaß auf $(\R^1, \scr B^1)$.
+			Dann existiert genau eine Verteilungsfunktion $F$ mit
+			\[
+				F(b) - F(a)
+				= \P((a,b]),
+				\qquad
+				a,b\in\R, a<b.
+			\]
+		\item
+			Für alle Verteilungsfunktionen $F$ existiert genau ein Wahrscheinlichkeitsmaß $\P$ auf $(\R^1, \scr B^1)$ mit
+			\[
+				F(b) - F(a)
+				= \P((a,b]),
+				\qquad
+				a,b\in\R, a<b.
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				\begin{seg}[Existenz]
+					Sei $F(x) := \P((-\infty,x])$ für $x \in \R$ und $a < b$.
+					Es gilt
+					\[
+						F(b) - F(a)
+						= \P((-\infty,b]) - \P((-\infty,a])
+						= \P((a,b]).
+					\]
+				\end{seg}
+				\begin{seg}[Verteilungsfunktion]
+					$F$ ist tatsächlich eine Verteilungsfunktion.
+					\begin{enumerate}[(i)] %  start with 0
+						\item
+							$F : \R \to [0,1]$ erfüllt per Definition
+						\item
+							Sei $x \le y$, dann ist $(-\infty, x] \subset (-\infty, y]$, also $\P((-\infty, x]) \le \P((-\infty, y])$ (Monotonie von Maßen) und damit $F(x) \le F(y)$.
+						\item
+							Sei $x \in \R$ fest und $x_n \searrow x$.
+							Setze $A_n := (-\infty, x_n], A := (-\infty, x]$, dann ist $A_n \searrow A$ (ferner $\P(A_n) \le 1 < \infty$ für alle $n\in \N$).
+							Verwende \ref{1.1.10} (b), dann ist
+							\[
+								\lim_{n\to\infty} F(x_n)
+								= \lim_{n\to \infty} \P((-\infty,x_n])
+								= \lim_{n\to\infty} \P(A_n)
+								= \P(A)
+								= \P((-\infty, x])
+								= F(x).
+							\]
+							Linkstetigkeit ließe sich hier nicht zeigen!
+						\item
+							Sei $x_n \to -\infty$, also insbesondere $\limsup_{n\to\infty} = -\infty$ und $y_n := \sup_{k\ge n} x_k \to -\infty$ und sogar $y_n \searrow -\infty$.
+							Also $(-\infty, y_n] \searrow \emptyset$ und wegen $x_n \le y_n \implies F(x_n) \le F(y_n)$ gilt
+							\[
+								0
+								\le \lim_{n\to \infty} F(x_n)
+								\le \lim_{n\to \infty} F(y_n)
+								= \lim_{n\to \infty} \P((-\infty, y_n])
+								\stack{\text{\ref{1.1.10} (b)}}= \P(\emptyset)
+								= 0
+							\]
+							und somit $F(x_n) \to 0$.
+							$\lim_{x\to\infty} F(x) = 1$ verläuft analog.
+					\end{enumerate}
+				\end{seg}
+				\begin{seg}[Eindeutigkeit]
+					Sei $F^*$ eine weitere Verteilungsfunktion mit der gewünschten Eigenschaft, dann gilt
+					\begin{align*}
+						F(b) - F(0) = \P((0,b]) = F^*(b) - F^*(0), &\qquad b > 0; \\
+						F(0) - F(b) = \P((b,0]) = F^*(0) - F^*(b), &\qquad b < 0. \\
+					\end{align*}
+					und damit für alle $b \in \R$
+					\[
+						F(b) = F^*(b) + \underbrace{F(0) - F^*(0)}_{=:c}
+						= F^* + c.
+					\]
+					Es gilt für alle $n \in \N$ $F(n) = F^*(n) + c$, jedoch nach (iii)
+					\[
+						1
+						= \lim_{n\to\infty} F(n)
+						= \lim_{n\to\infty} F^*(n) + c
+						= 1 + c
+					\]
+					und somit $c = 0$, also $F = F^*$.
+				\end{seg}
+			\item
+				Lässt sich mit dem Fortsetzungsatz \ref{1.3.9} zeigen, siehe Klenke, Satz 1.60. % fixme: reference
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+Warum ist die Verteilungsfunktion $F$ nicht stetig?
+Es können Sprünge auftreten.
+
+\begin{ex} \label{1.4.3}
+	Betrachte das \emph{Diracmaß} in $0$ (vgl. \ref{1.1.14}):
+	\begin{align*}
+		\delta_0(A)
+		&= \Ind_{\{0\in A\}} \\
+		F(x)
+		&:= \delta_0((-\infty,x])
+		= \Ind_{\{0\in(-\infty,x]\}}
+		= \Ind_{\{0 \le x\}}
+	\end{align*}
+	$F$ besitzt einen Sprung in $x=0$, ist dort aber rechtsstetig.
+\end{ex}
+
+
+\section{Einschub WT II: Bedingte Wahrscheinlichkeiten und Unabhängigkeit von Ereignissen}
+
+
+\begin{description}
+	\item[Bedingte Wahrscheinlichkeit]
+		Oft besitzt man Vorinformationen und möchte $\P(A)$ ermitteln unter der Voraussetzung, dass ein anderes Ereignis $B$ bekannt ist.
+		Mann berechnet dann $\P(A|B)$.
+\end{description}
+
+\begin{ex} \label{1.5.1}
+	Es wird eine Umfrage unter 60 Stundenten gemacht, ob sie Sport treiben und ob sie Rauchen.
+	\begin{table}[H]
+		\centering
+		\caption{Umfrageergebnisse zum Rauchen und Sport treiben}
+		\begin{tabular}{r|cc}
+			& Raucher & Nichtraucher \\\hline
+			Sport & 10 & 20 \\
+			kein Sport & 20 & 10
+		\end{tabular}
+	\end{table}
+	\begin{enumerate}[(a)]
+		\item
+			Berechne
+			\[
+				\P(\text{zufällig gewählter Student raucht})
+				= \f {\# \text{Raucher}}{\# \text{alle}}
+				= \f {30}{60}
+				= \f 12.
+			\]
+		\item
+			Berechne
+			\[
+				\P(\text{zufällig gewählter Student raucht und bekannt, dass er Sport treibt})
+				= \f {\# \text{Raucher und Sportler}}{\# \text{alle Sportler}}
+				= \f {10}{30}
+				= \f 13.
+			\]
+	\end{enumerate}
+	Setze $A := $ „Person raucht“, $B := $ „Person treibt Sport“.
+	In (b) wurde berechnet
+	\[
+		\f {10}{30}
+		= \f {\# (A\cap B)}{\# B}
+		= \f {\f{\#(A\cap B)}{\#\Omega}}{\f {\# B}{\#\Omega}}
+		= \f {\P(A \cap B)}{\P(B)}
+		=: \P(A|B)
+	\]
+\end{ex}
+
+\begin{df} \label{1.5.2}
+	Sei $(\Omega, \scr F, \P)$ ein Wahrscheinlichkeitsraum und $A,B \in \scr F$ mit $\P(B) > 0$.
+	Dann heißt
+	\[
+		\P(A | B) := \f {\P(A\cap B)}{\P(B)}
+	\]
+	die \emph{bedingte Wahrscheinlichkeit von $A$ unter $B$}.
+\end{df}
 
