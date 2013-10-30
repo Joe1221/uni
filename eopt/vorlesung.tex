@@ -822,8 +822,117 @@ erfüllt ist, dann wird die Schrittweite akzeptiert, sonst verkürzt (z.B. auf $
 	Falls $\f {\pred_k}{\ared_k} < \gamma$, so wird der Schritt mit verkleinerten $\Delta_k$ wiederholt.
 \end{nt}
 
+\coursetimestamp{30}{10}{2013}
 
+% 2.2.3
+\subsection{Konvergenz des Gradientenverfahrens}
 
+Das Gradientenverfahren hat zwei Probleme:
+Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren könnte nicht konvergieren ($f(x) = e^{-x}$).
+
+\begin{st}[Präkonvergenz des Gradientenverfahrens] \label{2.24}
+	Das Gradientenverfahren % fixme: algorithm reference
+	terminiert entweder nach endlich vielen Schritten an einem stationären Punkt $x_k$, oder er erzeugt eine Folge $(x_k)_{k\in\N}$ mit
+	\begin{enumerate}[(a)]
+		\item
+			$f(x_{k+1}) < f(x_k)$,
+		\item
+			jeder Haufungspunkt von $(x_k)$ ist eine stationärer Punkt von $f$.
+	\end{enumerate}
+	\begin{proof}
+		Terminiert % fixme: reference algorithm
+		nach endlich vielen Schritten an einem $x_k$, so gilt $\nabla f(x_k) = 0$.
+
+		Der Algorithmus konvergiere nicht.
+		\begin{enumerate}[a)]
+			\item
+				Nach der Armijo-Regel gilt wegen $\nabla f(x_k) \neq 0$
+				\[
+					f(x_{k+1})
+					\le f(x_k) - \gamma s_k \nabla f(x_k)^T \nabla f(x_k)
+					< f(x_k).
+				\]
+			\item
+				Sei $x \in \R^n$ ein Häufungspunkt von $x_k$, d.h. es existiert eine unendlich Indexmenge $L \subset \N$, so dass
+				\[
+					\lim_{L \ni l \to \infty} x_l = x.
+				\]
+				Da $f$ stetig, gilt auch $\lim_{L \ni l \to \infty} f(x_l) = f(x)$.
+				Wegen (a) ist $(f(x_k))_{k\in\N}$ streng monoton fallend und damit $f(x_k) \ge f(x)$ für alle $k \in \N$.
+				Also konvergiert $(f(x_k))_{k\in\N}$ und $\lim_{k\to \infty} f(x_k) = f(x)$.
+
+				Nach der Armijo-Regel gilt
+				\[
+					f(x_0) - f(x)
+					= \sum_{k=0}^\infty (f(x_k) - f(x_{k+1}))
+					\ge \sum_{k=0}^\infty \gamma s_k \| \nabla f(x_k) \|^2,
+				\]
+				also ist $\lim_{k\to\infty} s_k \|\nabla f(x_k)\|^2 = 0$ und insbesondere auch für die Teilfolge mit der Indexmenge $L$:
+				\[
+					\lim_{L \ni l \to \infty} s_ll \|\nabla f(x_l)\|^2 = 0.
+				\]
+				Also $\lim_{L \ni l \to \infty} s_l = 0$ oder $\lim_{L \ni l \to\infty} \nabla f(x_l) = \nabla f(x) = 0$ ($\nabla f$ stetig).
+				Im letzteren Fall ist die Behauptung beweisen, sei also $\lim_{L \ni l \to \infty} s_l = 0$.
+
+				In fast allen (o.B.d.A in allen) Schritten $l \in L$ hat durch die Armijo-Regel eine Schrittweitenverkürzung stattgefunden, d.h. $\f {s_l}{\beta}$ erfüllte die Armijo-Bedingung noch nicht, d.h. für alle $l \in L$ gilt
+				\[
+					f(x_l - \f {s_l}\beta \nabla f(x_l))
+					> f(x_l) - \gamma \f {s_l}{\beta} \| \nabla f(x_l) \|^2.
+				\]
+				Nach \ref{2.3} gilt:
+				Für alle $l \in L$ existiert $\sigma_l \in [0, \f {s_l}{\beta}]$, sodass
+				\[
+					f(x_l) - f(x_l - \f {s_l}\beta \nabla f(x_l))
+					= \f {s_l}\beta \nabla f(x_l - \sigma_l \nabla f(x_l))^T \nabla f(x_l).
+				\]
+				Also
+				\[
+					-\gamma \f {s_l}\beta \|\nabla f(x_l)\|^2
+					< f(x_l - \f{s_l}\beta \nabla f(x_l)) - f(x_l)
+					= -\f {s_l}\beta \nabla f(\underbrace{x_l - \sigma_l \nabla f(x_l)}_{\to x})^T \nabla f(x_l)
+				\]
+				und somit für $\sigma_l \to 0$
+				\[
+					- \gamma \|\nabla f(x)\|^2 \le - \| \nabla f(x)\|^2.
+				\]
+				Aus $\gamma < 1$ folgt damit $\nabla f(x) = 0$.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{lem} \label{2.25}
+	Sei $(x_k)_{k\in\N} \subset \R^n, x \in \R^n$.
+	Besitzt jede Teilfolge von $(x_k)_{k\in\N}$ wiederum eine (Teil-)Teilfolge, die gegen $x$ konvergiert, so konvergiert die ganze Folge $(x_k)_{k\in\N}$ gegen $x$.
+	\begin{proof}
+		Angenommen $(x_k)_{k\in\N}$ konvergiert nicht gegen $x$.
+		Dann gibt es eine Umgebung von $x$, außerhalb derer unendlich viele Folgenglieder liegen.
+		Diese bilden dann aber eine Teilfolge, die keine gegen $x$ konvergente Teilfolge besitzen kann.
+	\end{proof}
+\end{lem}
+
+\begin{kor} \label{2.26}
+	\begin{enumerate}[(a)]
+		\item
+			Sei $c > 0$, so dass die \emph{Niveaumenge}
+			\[
+				f^{-1}((-\infty, C))
+				:= \{ x \in \R^n : f(x) \le c \}
+			\]
+			beschränkt ist und in ihr nur ein stationärer Punkt liegt.
+			$N_c := f^{-1}((-\infty,c])$ ist abgeschlossen, also kompakt, also wird das Minimum auf $N_c$ angenommen, $f(x) \le f(y)$ für alle $y \in \R^n$ und somit $\nabla f(x) = 0$.
+			%fixme: rewrite
+
+			Dann ist dieser stationäre Punkt das globale Minimum von $f$ auf der Niveaumenge und das Gradientenverfahren konvergiert für jeden Startwert $x_0$ mit $f(x_0) \le c$ gegen dieses Minimum.
+		\item
+			Ist $f$ konvex, dann terminiert Algorithmus 2 % fixme: reference
+			entweder nach endlich vielen Schritten an einem globalen Minimum, oder erzeugt eine Folge, deren Häufungspunkte globale Minima sind.
+		\item
+			Ist $f$ strikt konvex und besitzt ein Minimum und es existiert $C > 0$ mit $f^{-1}((-\infty,C])$ beschränkt, dann konvergiert die Folge aus Algorithmus 2 % fixme: reference
+			für jedes $x_0$ mit $f(x_0) \le C$ gegen das globale Minimum.
+
+			%fixme: Reicht auch nur die strikte konvexität?
+	\end{enumerate}
+\end{kor}
 
 
 
