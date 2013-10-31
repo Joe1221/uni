@@ -1126,3 +1126,287 @@ Es können Sprünge auftreten.
 	die \emph{bedingte Wahrscheinlichkeit von $A$ unter $B$}.
 \end{df}
 
+\coursetimestamp{31}{10}{2013}
+
+\begin{st} \label{1.5.3}
+	Sei $(\Omega, \scr F, \P)$ ein Wahrscheinlichkeitsraum und $B \in \scr F$ mit $\P(B) > 0$.
+	Dann gelten
+	\begin{enumerate}[(i)]
+		\item
+			$\P(\argdot | B) : \scr F \to [0,1]$ ist ein Wahrscheinlichkeitsmaß
+		\item
+			Sei $A \in \scr F, \P(A) > 0$, dann ist
+			\[
+				\P(A|B) = \P(B|A) \f {\P(A)}{\P(B)}.
+			\]
+		\item
+			Seien $A_1, \cdots, A_n \in \scr F$ mit $\P(\bigcup_{i=1}^{n-1} A_i) > 0$, dann gilt
+			\[
+				\P\bigg(\bigcap_{i=1}^m A_i\bigg)
+				= \P(A_1) \cdot \P(A_2|A_1) \cdot \P(A_3|A_1\cap A_2) \cdot \dotsb \cdot \P(A_n|A_1 \cap \dotsb \cap A_{n-1}).
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(i)]
+			\item
+				Übungsaufgabe % fixme: ref
+			\item
+				Es gilt
+				\[
+					\P(A|B)
+					= \f{\P(A\cap B)}{\P(B)}
+					= \f{\P(A\cap B)}{\P(A)}\f{\P(A)}{\P(B)}
+					= \P(B|A) \f{\P(A)}{\P(B)}.
+				\]
+			\item
+				Übungsaufgabe % fixme: ref
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{1.5.4}
+	Sei $(\Omega, \scr F, \P)$ ein Wahrscheinlichkeitsraum und $(B_i)_{i\in I}$ eine abzählbare Zerlegung in $\Omega$ mit $\P(B_i) > 0$ für alle $i \in I$.
+	Dann gilt
+	\begin{enumerate}[(i)]
+		\item
+			\emph{Totale Wahrscheinlichkeit}:
+			\[
+				\P(A) = \sum_{i\in I} \P(A | B_i) \P(B_i).
+			\]
+		\item
+			Falls $A \in \scr F$ mit $\P(A) > 0$, dann gilt die \emph{Formel von Bayes}:
+			\[
+				\P(B_n | A)
+				= \f{\P(A|B_n) \P(B_n)}{\sum_{i\in I} \P(A|B_i) \P(B_i)}.
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(i)]
+			\item
+				Es gilt
+				\[
+					A = A \cap \Omega = A \cap \bigg( \bigcupdot_{i \in I} B_i \bigg)
+					= \bigcupdot_{i\in I} (A \cap B_i),
+				\]
+				also
+				\[
+					\P(A)
+					= \P\bigg(\bigcupdot_{i\in I} (A \cap B_i)\bigg)
+					= \sum_{i\in I}\P(A \cap B_i)
+					= \sum_{i \in I} \P(A | B_i) \P(B_i),
+				\]
+				denn $\P(A | B_i) = \f {\P(A\cap B)}{\P(B_i)}$.
+			\item
+				Es gilt
+				\[
+					\P(B_n | A)
+					\stack{\text{\ref{1.5.3} (ii)}}=
+					\P(A | B_n) \f {\P(B_n)}{\P(A)}.
+				\]
+				Die Behauptung folgt dann mit (i).
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{ex}[Test auf seltene Krankheit] \label{1.5.5}
+	Bekannt sei
+	\begin{enumerate}[1)]
+		\item
+			Krankheit $K$ liegt bei 0.5\% der Bevölkerung vor,
+		\item
+			Test positiv bei 99\% der Kranken,
+		\item
+			Test positiv bei 2\% der Gesunden.
+	\end{enumerate}
+	Mit welcher Wahrscheinlichkeit ist eine positiv getestete Person wirklich krank?
+
+	Setze $B_1 := \text{„Person ist krank“}, B_2 := B_1^c, A := \text{„Test positiv“}$.
+	Gesucht ist $\P(B_1 | A)$, bekannt ist
+	\begin{enumerate}[1)]
+		\item
+			$\P(B_1) = 0.005$
+		\item
+			$\P(A|B_1) = 0.99$
+		\item
+			$\P(A|B_2) = 0.02$
+	\end{enumerate}
+	Benutze Bayes nach \ref{1.5.4} (ii) mit $\Omega = B_1 \dunion B_2$:
+	\[
+		\P(B_1|A)
+		= \f {\P(A|B_1) \P(B_1)}{\P(A|B_1) \P(B_1) + \P(A|B_2) \P(B_2)}
+		= \f {0.99 \cdot 0.005}{0.99 \cdot 0.005 + 0.02 \cdot (1-0.005)}
+		= \f {495}{2485}
+		\approx 19.9 \%
+	\]
+	\begin{nt}
+		\begin{enumerate}[1)]
+			\item
+				Es besteht kein großer Grund zur Beunruhigung.
+			\item
+				Mit welcher Wahrscheinlichkeit wird eine vorhandene Krankheit durch den Test nicht entdeckt?
+				Berechne
+				\[
+					\P(A^C | B_1)
+					\stack{\text{\ref{1.5.3} (i)}} = 1 - \P(A | B_1)
+					= 0.01
+					= 1 \%.
+				\]
+				Diese Irrtumswahrscheinlichkeit wird in der Medizin in der Regel minimiert.
+		\end{enumerate}
+	\end{nt}
+\end{ex}
+
+\begin{ex}[Skat] \label{1.5.6}
+	Gesucht ist $\P(\text{„jeder Spieler hat genau ein As“})$.
+	Setze $A_i := \text{„$i$-ter Spieler hat genau ein As“}$ und berechne
+	\[
+		\P(A_1 \cap A_2 \cap A_3)
+		\stack{\text{\ref{1.5.3} (iii)}} = \P(A_1) \P(A_2 | A_1) \P(A_3 | A_1 \cap A_2)
+		= \f {\binom{4}{1} \binom{28}{9}}{\binom{32}{10}} \f {\binom{3}{1} \binom{19}{9}}{\binom{22}{10}} \f {\binom{2}{1}\binom{10}{9}}{\binom{12}{10}}
+		\approx 5.56 \%.
+	\]
+\end{ex}
+
+\subsection{Unabhängigkeit von Ereignissen}
+
+$A, B$ wollen wir unabhängig nennen, wenn das Eintreten von $B$ \emph{keinen} Einfluss auf das Eintreten von $A$ haben (und umgekehrt), also $\P(A | B) = \P(A)$, oder
+\[
+	\P(A \cap B) = \P(A) \P(B).
+\]
+
+% \indep: kopfstehendes \pi
+
+\begin{df} \label{1.5.7}
+	Sei $(\Omega, \scr F, \P)$ ein Wahrscheinlichkeitraum
+	\begin{enumerate}[(i)]
+		\item
+			$A, B \in \scr F$ heißen \emph{unabhängig} - wir schreiben $A \indep B$, falls
+			\[
+				\P(A \cap B) = \P(A) \P(B).
+			\]
+		\item
+			Eine Familie $(A_i)_{i\in I} \subset \scr F$ heißt \emph{unabhängig}, $(A_i) \indep$, falls für jede endliche Teilmenge $\scr J \subset I$ die folgende Produktformel gilt
+			\[
+				\P\bigg(\bigcap_{j\in \scr J} A_j \bigg)
+				= \prod_{j\in \scr J} \P(A_j).
+			\]
+	\end{enumerate}
+\end{df}
+
+\begin{ex}[zurück zu \ref{1.5.1}] \label{1.5.8}
+	Sei $A = \text{„Raucher“}$, $\P(A) = \text{„Raucher“}$.
+	Es galt $\P(A) = \f 12, \P(B) = \f 12$ und daher
+	\[
+		\P(A \cap B) = \f 16 \neq \f 14 = \P(A) \P(B),
+	\]
+	also sind beide Ereignisse nicht unabhängig.
+\end{ex}
+
+\begin{ex} \label{1.5.9}
+	Es sei eine Urne mit $s$ schwarzen, $w$ weißen Kugeln gegeben ($s, w \ge 1$).
+	Sei $A_1 := \text{„1. Kugel weiß“}, A_2 = \text{„2. Kugel weiß“}$.
+	Es gilt
+	\[
+		A_1 \indep A_2
+		\iff
+		\text{„mit Zurücklegen“}.
+	\]
+\end{ex}
+
+\begin{nt} \label{1.5.10}
+	\begin{enumerate}[(i)]
+		\item
+			Jede Teilfamilie unabhängiger Ereignisse ist unabhängig.
+		\item
+			Es gibt den schwächeren Begriff der \emph{paarweisen Unabhängigkeit}:
+			Eine Familie $(A_i)_{i\in I} \subset \scr F$ heißt \emph{paarweise unabhängig}, falls
+			\[
+				\forall i,y \in I, i \neq j :
+				\P(A_i \cap A_j) = \P(A_i) \P(A_j).
+			\]
+			Jede unabhängige Familie ist paarweise unabhängig, aber im Allgemeinen nicht umgekehrt.
+			Betrachte als Gegenbeispiel $\Omega := \{1,2,3,4\}, p_i := p(i) := \f 14, A = \{1,2\}, B = \{2,3\}, C = \{1,3\}$.
+			Es gilt $\P(A) = \P(B) = \P(C) = \f 12$ und
+			\begin{align*}
+				\P(A \cap B) &= \f 14 = \P(A) \P(B) \\
+				\P(B \cap C) &= \f 14 = \P(B) \P(C) \\
+				\P(C \cap A) &= \f 14 = \P(C) \P(A),
+			\end{align*}
+			also sind $A,B,C$ paarweise disjunkt, aber
+			\[
+				\P(A\cap B \cap C) = 0 \neq \f 18 = \P(A)\P(B)\P(C).
+			\]
+		\item
+			Für welche $A$ ist $A \indep A$, also $\P(A \cap A) = \P(A) \P(A)$?
+			Es muss gelten
+			\[
+				\P(A) = \P(A)^2,
+			\]
+			also $\P(A) \in \{0,1\}$ und somit $A \indep A$ genau dann, wenn $\P(A) \in {0,1}$.
+		\item
+			Unabhängigkeit von Ereignissen kann trotz Kausalität vorliegen.
+
+			Würfele zwei mal hintereinander, $X = \text{„Augensumme beider Würfe“}, Y = \text{„Ergebnis des ersten Wurfels“}$.
+			Sei $A = \text{„Die Augensumme ist 7“}$, $B := \text{„Der erste Wurf ist 6“}, \Omega = \{1,2,\dotsc, 6\} \times \{1, \dotsc, 6\}$.
+			Es gilt
+			\[
+				\P(A\cap B)
+				= \P({(1,6)})
+				= \f 1{36}
+			\]
+			und
+			\[
+				\P(B) = \f 16 = \P(A).
+			\]
+			Also ist $A \indep B$.
+
+			Sei $A = \text{„Die Augensumme ist 2“}, B := \text{„Der erste Wurf ist 6“}, \Omega = \{1,2,\dotsc, 6\} \times \{1, \dotsc, 6\}$.
+			Es gilt
+			\[
+				\P(A\cap B)
+				= 0
+			\]
+			und
+			\begin{align*}
+				\P(B) &= \f 16, &
+				\P(A) &= \f 1{36}.
+			\end{align*}
+			Also ist $A \not\indep B$.
+		\item
+			Man verwechsle nicht Disjunktheit ($A \cap B = \emptyset$) und Unabhängigkeit ($\P(A\cap B) = \P(A)\P(B)$).
+			Disjunktheit ist in der Regel sogar eine starke Form der Abhängigkeit.
+
+			Zwei disjunkte Ereignisse $A,B$ sind nur dann voneinander Unabhängig, wenn eines von beiden unmöglich ist ($\P(A) = 0$ oder $\P(B) = 0$).
+		\item
+			Das Gelten der Produktformel für gewisse endlich $\scr J \subset I$ impliziert \emph{nicht} das Gelten der Produktformel för $\scr J' \subset \scr J$.
+
+			Betrachte als Gegenbeispiel einen dreimaligen Münzwurf (Kopf/Zahl, fair).
+			$\Omega = \{K, Z\}^3, \#\Omega = 8, \forall \omega \in \Omega : p(\omega) = \f 18$.
+			Sei $A = \text{„mindestens 2x Kopf“}, B = \text{„beim 1. Wurf Kopf“}, C = \text{2. und 3. Wurf gleich}$.
+			Es gilt
+			\begin{align*}
+				\P(A)
+				&= \f {\#\{(K,K,Z), (K,Z,K), (Z,K,K), (K,K,K)}{8}
+				= \f 48
+				= \f 12, \\
+				\P(B)
+				&= \f 12, \\
+				\P(C)
+				&= \f 12.
+			\end{align*}
+			Es gilt
+			\[
+				\P(A\cap B \cap C)
+				= \P(\{(K,K,K)\})
+				= \f 18
+				= \P(A) \P(B) \P(C),
+			\]
+			jedoch
+			\[
+				\P(A \cap B)
+				= \f 38
+				\neq \f 14
+				= \P(A) \P(B).
+			\]
+	\end{enumerate}
+\end{nt}
