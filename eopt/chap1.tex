@@ -1,3 +1,162 @@
+\chapter{Motivation und Einleitung}
+
+
+\section{Optimierungsaufgaben}
+
+Diese Vorlesung widment sich nur einer einzigen Aufgabe, nämlich der Minimierung einer Funktion
+\[
+	f : X \to \R.
+\]
+Solche Probleme heißen \emph{Minimierungsaufgaben}, oder (da durch Negation von $f$ offensichtlich auch Maximierungsaufgaben in diese Form gebracht werden können) \emph{Optimierungsaufgaben}.
+$f$ heißt \emph{Zielfunktion}, $X$ \emph{zulässiger Bereich}, die Elemente $x \in X$ heißen \emph{zulässige Punktee} und die Forderung $x \in X$, nennt man auch \emph{Nebenbedingung}.
+
+Das Problem
+\[
+	\text{„Finde einen (lokalen oder globalen) Minimierer $x\in X$ von $f$!“}
+\]
+schreiben wir auch kurz als
+\[
+	f(x) \to \min!
+	\udN
+	x \in X,
+\]
+oder
+\[
+	\min_{x\in X} f(x).
+\]
+Wir setzeen in dieser Vorlesung stets $X \subset \R^n, n \in \N$ voraus, wobei $X$ Abschluss einer offenen Menge ist.
+Für unsere Algorithmen werden wir Differenzierbarkeitsforderungen an $f$ stellen und werden unns meist darauf beschränken, lokale Minima zu suchen.
+In diesem Sinne betrachten wir also \emph{endlich-dimensionale, kontinierliche, glatte} und \emph{lokale} Optimierungsaufgaben.
+
+Optimierungsaufgaben werden im Englischen auch als \emph{program} bezeichnet.
+
+Entsprechend nennt man z.B. die Lösung linearer Optimierungsaufgaben \emph{linear programming}.
+
+
+\section{Einfache mathematische Beispiele}
+
+
+\subsection{Unrestringierte Optimierung}
+
+Für $X = \R^n$ spricht man auch von \emph{unrestringierter Optimierung}.
+Betrachten wir den einfachsten Fall, dass die Zielfunktion linear ist, also
+\[
+	f : \R^n \to \R,
+	f(x) := b^T x
+\]
+mit einem $b \in \R^n$.
+Für $x_k = -kb$ gilt $f(x_k) = -k\|b\|^2 \to -\infty$, die Minimierungsaufgabe
+\[
+	\min_{x\in\R^n} f(x)
+\]
+besitzt also keine (globale) Lösung.
+$f$ besitzt auch kein lokales Minimum (siehe \coursehref{Blatt1.pdf}{Übungsaufgabe 1.1})
+
+\subsection{Lineare Ausgleichsrechnung}
+
+Lässt sich ein lineares Gleichungssystem
+\[
+	Ax = b,
+\]
+mit $A \in \R^{m\times n}, b\in \R^m$ nicht exakt lösen, so begnügt man sich in der Praxis oft mit der sogenannten \emph{Kleinsten-Quadrate-Lösung}, d.h. der Lösung des Minimierungsproblems
+\[
+	\min_{x\in\R^n} f(x)
+\]
+mit $f(x) = \|Ax-b\|^2$.
+Die globalen Minima von $f$ sind genauu die Lösungen der \emph{Gauß'schen Normalengleichung}
+\[
+	A^T Ax = A^T b
+\]
+(siehe \coursehref{Blatt1.pdf}{Übungsaufgabe 1.2})
+
+
+\section{Komplexere Anwendungsbeispiele}
+
+
+Wir skizzieren noch drei mit bedeutenden Preisen verbundene Anwendungsbeispiele für Optimierungsprobleme
+
+\subsection{Minimalflächen}
+
+Zieht man einen geschlossenen Draht durch Seifenlauge, so bildet sich eine Film dessen Flächeninhalt minimal wird.
+Mathematisch können wir dies modellieren, indem wir zu einem Gebiet $\Omega \subset \R^2$ und Randdaten $r: \partial \Omega \to \R$ eine Funktion
+\[
+	u: \_{\Omega} \to \R
+\]
+suchen, die auf dem Rand mit $r$ übereinstimmen und deren Graph minimale Oberfläche besitzt.
+
+Zur näherungsweise numerischen Lösung dieses Problems diskretisieren wir die gesuchte Funktion $u$ durch einen Vektor $U \in \R^n$ und stellen einen funktionalen Zusammenhang
+\[
+	A: \R^n \to \R
+\]
+zwischen der Diskretisierung $U$ und dem Flächeninhalt $A(U)$ des zugehörigen Graphen auf
+($U$ enthält beispielsweise die Auswertungen von $u$ in den Knotenpunkten einer regulären Triangulierung von $\Omega$ und $A(X)$ ist der Flächeninhalt des Graphen der zugehörigen stetigen und stückweise linearen Funktion).
+Die diskretisierte Version des Minimalflächenproblems führt also auf ein Optimierungsproblem der Form
+\[
+	A(U) \to \min!
+	\udN
+	U \in \R^n,
+\]
+wobei $n \in \N$ die Anzahl der Freiheitsgrade in der Diskretisierung beschreib und damit (bei immer besserer Diskretisierung) beliebig groß werden kann.
+
+Wird die Seifenhaut über ein Hindernis gespannt, so ergeben sich entsprechend restringierte Optimierungsprobleme.
+
+\subsection{Portfoliotheorie nach Markowitz}
+
+Ein Fondsmanager versuch $n$ Finanzprodukte (Anleihen, Aktien, Derivate, \dots) so zu kombinieren, dass er möglichst viel Gewinn bei möglichst geringem risiko macht.
+Ein einfachers Modell ist, dass der zukünftige Wert (etwa nach Ablauf eines Jahres) der $n$ Finanzprodukte zufällig verteilt ist und dass der Manager (aufgrund seiner Markterwartung oder aus historischen Daten) die Erwartungswerte $\my_j$ der Renditen kennt.
+Investiert er $x_j$ Euro in das $j$-te Finanzprodukt, so wird der zukünftige Wert des Portfolgios zufallsverteilt sein mit Erwartungswert $E(x) := \sum_{j=1}^n \my_j x_j$.
+
+um einen möglichst großen (erwarteten) Gewinn zu machen, betrachtet der Fondsmanager also das Optimierungsproblem
+\[
+	E(x) = \my^Tx = \sum_{j=1}^n \my_j x_j \to \max!
+	\udN
+	\sum_{j=1}^n x_j = 1,
+\]
+wobei wir ohne Beschränkung der Allgemeinheit den zur Verfügung stehenden Betrag auf $1$ normiert haben.
+Dieses Optimierungsproblem wird offenbar trivialerweise dadurch gelöst, alles in das Finanzprodukt mit der höchsten erwarteten Rendite zu investieren.
+
+\coursetimestamp{16}{10}{2013}
+
+Wir bezeichnen mit $x_i$ die in das $i$-te Produkt investierte Summe und mit $\my_i$ die erwartete Rendite.
+Die erwartete Gesamtrendite ergibt sich dann als
+\[
+	\sum_{i=1}^n \my_i x_i = \my^T x.
+\]
+Sei $\Sigma \in \R^{n\times n}$ die Kovarianzmatrix der Renditen, dann ergibt sich die Gesamtvarianz als
+\[
+	V(x) = x^T \Sigma x.
+\]
+Optimierungsaufgaben wären dann
+\begin{enumerate}[I.]
+	\item
+		Minimiere zu gegebener Mindestrendite die Varianz:
+		$V(x) \to \min!$ unter der Nebenbedingung $E(x) \ge \my_0$.
+	\item
+		Zu gegebener Höchstvarianz, maximiere Rendite:
+		$E(x) \to \max!$ unter der Nebenbedingung $V(x) \le V_0$.
+\end{enumerate}
+Portfolios, die die Optimierungsprobleme I und II lösen heißen auch \emph{effizient}.
+
+\subsection{Computertomographie}
+
+Es ergibt sich grob folgender Zusammenhang
+\[
+	b_i = \sum_{j=1}^n a_{ij} x_j
+\]
+für $i = 1, \dotsc, m$ und damit ein lineares Gleichungssystem $Ax = b$, $A \in \R^{m\times n}$.
+$m$ ist dabei die Anzahl der zu messenden Strahlen und $n$ die Anzahl Pixel.
+
+Im Allgemeinen ist das Gleichungssystem nicht exakt lösbar, deshalb streben wir eine bestmögliche Lösung an:
+\[
+	\|Ax - b\| \to \min!.
+\]
+Moderne Tomographieverfahren führen auf nicht-lineare Zusammenhänge, d.h. auf das Optimierungsproblem
+\[
+	\|F(x) - b\| \to \min!.
+\]
+In vielen inversen Problemen ist die Lösung, die am besten zu den Messdaten passt, unbrauchbar (daher \emph{Regularisierung}).
+
+
 % fixme: erste Vorlesung
 
 \coursetimestamp{16}{10}{2013}
