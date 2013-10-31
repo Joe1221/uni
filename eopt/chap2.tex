@@ -1,0 +1,872 @@
+\chapter{Unrestringierte nichtlineare Optimierung}
+
+
+Betrachte
+\[
+	\min_{x\in \R^n} f(x)
+\]
+mit (hinreichend glattem) $f : \R^n \to \R$.
+
+
+\section{Grundlagen und Optimalitätsbedingungen}
+
+
+$U \subset \R^n$ sei im Folgenden stets eine offene Menge.
+
+
+\subsection{Grundlagen}
+
+Für $x \in \R^n, A \in \R^{n\times n}$ ist
+\[
+	\|x\| := \sqrt{x^T x}, \qquad
+	\|A\| := \max_{\|x\|=1} \|Ax\|.
+\]
+Für $F: U \to \R^m$, $F(x) = (f_1(x), \dotsc, f_m(x))^T$ ist
+\[
+	F'(x) = \begin{pmatrix}
+		\pddx[x_1]{f_1}(x) & \cdots & \pddx[x_n]{f_1}(x) \\
+		\vdots & \ddots & \vdots \\
+		\pddx[x_1]{f_m}(x) & \cdots & \pddx[x_n]{f_m}(x) \\
+	\end{pmatrix} \in \R^{m\times n}
+\]
+Für $f: U \to \R$ bezeichnet
+\begin{align*}
+	\nabla f(x)
+	&= f'(x)^T
+	= \begin{pmatrix}
+		\pddx[x_1]{f} \\
+		\vdots \\
+		\pddx[x_n]{f} \\
+	\end{pmatrix}, \\
+	\nabla^2 f(x)
+	&= \begin{pmatrix}
+		\pddx[x_1^2]{f} & \cdots & \f{\partial^2 f}{\partial x_1 \partial x_n} \\
+		\vdots & \ddots & \vdots \\
+		\f{\partial^2 f}{\partial x_n \partial x_1} & \cdots & \f{\partial^2 f}{\partial x_n^2} \\
+	\end{pmatrix} \in \R^{n\times n}
+\end{align*}
+den Gradienten $\nabla f$ und die Hessematrix $\nabla^2 f$ die Hesse-Matrix.
+Die Bezeichnung $\nabla^2$ wird in der Literatur nicht einheitlich verwendet.
+
+Für $d \in \R^n$ bezeichnen wir die \emph{Richtungsableitung} als
+\[
+	\pddx[d]{f}(x)
+	= \lim_{t\to 0} \f {f(x+td) - f(x)}{t}
+	= f'(x) d = \nabla f(x)^T d.
+\]
+
+\begin{df} \label{2.1}
+	Zu $x_0,x_1 \in \R^n$ heißt
+	\[
+		[x_0, x_1] := \{ x_0 + t(x_1-x_0) : t \in [0,1] \}
+	\]
+	die \emph{Verbindungsstrecke} zwischen $x_0, x_1$.
+\end{df}
+
+\begin{st} \label{2.2}
+	Sei $f: U \to \R$ stetig differenzierbar, $x_0, x_1 \in U$ und $[x_0, x_1] \subset U$.
+
+	Dann ist die Funktion $g: t \mapsto f(x_t)$ (wobei $x_t := x_0 + t(x_1 - x_0) = (1-t) x_0 + tx_1$) auf einer Umgebung von $[0,1]$ stetig differenzierbar und
+	\[
+		g'(t) = \nabla f(x_t)^T (x_1 - x_0).
+	\]
+	Ist $f$ zweimal stetetig differenzierbar, so auch $g$ und es gilt
+	\[
+		g''(t) = (x_1 - x_0)^T \nabla^2 f(x_t) (x_1 - x_0).
+	\]
+	\begin{proof}
+		Übungsaufgabe
+	\end{proof}
+\end{st}
+
+\begin{st}[Linearer und quadratischer Taylor] \label{2.3}
+	Sei $f : U \to \R$ stetig differenzierbar, $x\in U, \eps > 0$, so dass $B_\eps(x) \subset U$.
+	Dann gilt
+	\begin{enumerate}[(a)]
+		\item
+			Für alle $d \in B_\eps(0)$ existiert ein $s \in [0,1]$ mit
+			\[
+				f(x+d) = f(x) + \nabla f(x + sd)^T d.
+			\]
+			Außerdem gilt für alle $d \in B_\eps(0)$
+			\[
+				f(x+d) = f(x) + \nabla f(x)^T d + p(d)
+			\]
+			und das Restglied $p: B_\eps(0) \to \R$ erfüllt $p(d) = o(d)$, d.h.
+			\[
+				\lim_{d\to 0} \f {p(d)}{\|d\|} = 0.
+			\]
+		\item
+			Ist $f: U \to \R$ zweimal stetig differenzierbar, dann existieren für alle $d \in B_\eps(0)$ ein $s \in [0,1]$mit
+			\[
+				f(x+d)
+				= f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x+sd) d.
+			\]
+			Außerdem gilt für alle $d \in B_\eps(0)$
+			\[
+				f(x+d) = f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x) d + p(d)
+			\]
+			und $p: B_\eps(0) \to \R$ gilt $p = o(\|d\|^2)$, d.h.
+			\[
+				\lim_{d\to 0} \f{|p(d)|}{\|d\|^2} = 0.
+			\]
+	\end{enumerate}
+	\begin{proof}
+		Funktioniert mit eindimensionalem Taylor und \ref{2.2}.
+	\end{proof}
+\end{st}
+
+\begin{lem} \label{2.4}
+	Sei $F: U \to \R^m$ stetig differenzierbar, $x\in U$ und $\eps > 0$, sodass $B_\eps(x) \subset U$.
+
+	Dann gilt für alle $d \in B_\eps(0)$
+	\begin{align*}
+		F(x+d)
+		&= F(x) + \int_0^1 F'(x+td) d \dx[t] \\
+		&= F(x) + \bigg( \int_0^1 F'(x+td) \dx[t] \bigg) d.
+	\end{align*}
+	Insbesondere gilt
+	\[
+		\| F(x+d) - F(x) \|
+		\le \|d\| \sup_{t\in [0,1]} \|F'(x+td)\|.
+	\]
+	Diese Abschätzung wird oft auch \emph{mehrdimensionaler Mittelwertsatz} genannt.
+\coursetimestamp{21}{10}{2013}
+
+	Außerdem ist $F(x+d) = F(x) + F'(x)d + p(d)$ und $p: B_\eps(0) \to \R^m$ erfüllt $p(d) = o(d)$, d.h.
+	$\lim_{d\to 0} \f {\|p(d)\|}{\|d\|} = 0$.
+
+	\begin{proof}
+		Da $U$ offen, existiert $\eps > 0$, so dass $[x- \eps d, x + d + \eps d] \subset U$.
+		Definiere $f: (-\eps, 1 + \eps) \to \R^n$ durch
+		\[
+			f(t) := F(x + td) = F(g(t))
+		\]
+		mit $g:(-\eps, 1 + \eps) \to \R^n : t \mapsto x + td$.
+		Es gilt
+		\[
+			f'(t)
+			= F'(g(t)) g'(t)
+			= F'(x + td) d.
+		\]
+		und damit
+		\[
+			F(x+d) - F(x)
+			= f(1) - f(0)
+			= \int_0^1 f'(t) \dx[t]
+			= \int_0^1 F'(x + td) d \dx[t].
+		\]
+
+		Die zweite Behauptung ist die Definition der totalen Differenzierbarkeit.
+	\end{proof}
+\end{lem}
+
+\begin{df} \label{2.5}
+	Eine symmetrische Matrix $A = (a_{ij}) \in \R^{n\times m}$ heißt
+	\begin{enumerate}[(a)]
+		\item
+			\emph{positiv semi-definit}, falls $x^TAx \ge 0$ für alle $x \in \R^n$,
+		\item
+			\emph{positiv definit}, falls $x^TAx > 0$ für alle $x \in \R^n \setminus \{0\}$.
+	\end{enumerate}
+	Analog definiert man \emph{negativ semi-definit} und \emph{negativ definit}.
+\end{df}
+
+\begin{st} \label{2.6}
+	Zu einer symmetrischen Matrix $A \in \R^{n\times n}$ existiert eine Orthonormalbasis aus Eigenvektoren $v_1, \dotsc, v_n \in \R^n$ mit dazugehörigen Eigenwerten $\lambda_1, \dotsc, \lambda_n \in \R$, als
+	\[
+		v_j^T v_k
+		= \delta_{jk}
+		= \begin{cases}
+			1 & j = k \\
+			0 & \text{sonst}
+		\end{cases},\qquad
+		Av_k = \lambda_k v_k
+	\]
+	Es ist also
+	\[
+		A = \sum_{k=1}^n \lambda_k v_k v_k^T
+	\]
+	und mit $\lambda_{\text{min}}(A) := \min_{k=1,\dotsc,n} \lambda_k$, $\lambda_{\text{max}}(A) := \max_{k=1,\dotsc,n} \lambda_k$ gilt
+	\[
+		\lambda_{\text{min}}(A)
+		= \min_{x\in\R^n} \f {x^T A x}{\|x\|^2}
+		\le \f {x^T A x}{\|x\|^2}
+		\le \max_{x\in\R^n} \f {x^TA x}{\|x\|^2}
+		= \lambda_{\text{max}}(A)
+	\]
+	und
+	\[
+		\|A\|
+		= \sup_{x\neq 0} \f{\|Ax\|}{\|x\|}
+		= \max \{|\lambda_k| : k=1, \dotsc, n \}
+	\]
+	Insbesondere ist $A$ positiv semi-definit genau dann, wenn alle Eigenwerte $\ge 0$ und positiv definit genau dann, wenn alle Eigenwerte $>0$ sind,
+	entsprechend negativ semi-definit, wenn alle Eigenwerte $\le 0$ und negativ semi-definit, wenn alle Eigenwerte $<0$ sind.
+\end{st}
+
+\begin{df} \label{2.7}
+	Für eine invertierbare Matrix $A \in \R^{n\times n}$ heißt
+	\[
+		\kappa(A)
+		:= \|A\| \|A^{-1}\|
+	\]
+	\emph{Kondition}.
+
+	Für eine symmetrische, positiv definite Matrix $A \in \R^{n\times n}$ gilt offenbar
+	\[
+		\kappa(A)
+		= \lambda_{\text{max}}(A) \lambda_{\text{max}}(A^{-1})
+		= \f {\lambda_{\text{max}}(A)}{\lambda_{\text{min}}(A)}.
+	\]
+\end{df}
+
+\begin{nt} \label{2.8}
+	Die Kondition ist ein Maß für die Fehlerverstärkung durch $A^{-1}$ (d.h. durch Lösen eines LGS), denn
+	\begin{align*}
+		\dfrac {A^{-1}(b+\delta) - A^{-1}b}{\|A^{-1}b\|}
+		&= \f {\|A^{-1}\delta\|}{\|A^{-1}b\|} \\
+		&\le \|A^{-1}\| \|A\| \f {\|\delta\|}{\|A\|\|A^{-1}b\|} \\
+		&\le \kappa(A) \f {\|\delta\|}{\|b\|}.
+	\end{align*}
+\end{nt}
+
+\section{Optimalitätsbedingungen}
+
+\begin{df} \label{2.9}
+	Sei $X \subset \R^n$ und $f: X \to \R$.
+	Ein Punkt $x \in X$ heißt
+	\begin{enumerate}[(a)]
+		\item
+			\emph{globales Minimum von $f$ in $X$}, falls
+			\[
+				\forall y \in X: f(x) \le f(y),
+			\]
+		\item
+			\emph{lokales Minimum von $f$}, falls
+			\[
+				\exists \eps > 0 \forall y \in X \cap B_\eps(x): f(x) \le f(y),
+			\]
+		\item
+			\emph{striktes globales Minimum von $f$ in $X$}, falls
+			\[
+				\forall y \in X \setminus \{x\}: f(x) < f(y)
+			\]
+		\item
+			\emph{striktes lokales Minimum von $f$}, falls
+			\[
+				\exists \eps > 0 \forall y \in (X \setminus \{x\}) \cap B_\eps(x): f(x) < f(y),
+			\]
+	\end{enumerate}
+	Analog definiert man die entpsrechenden Maxima.
+\end{df}
+
+\begin{st}[Notwendige Optimalitätsbedingung 1. Ordnung] \label{2.10}
+	Sei $U \subset \R^n$ offen, $f: U \to \R$ stetig differenzierbar.
+	Ist $x \in U$ ein lokales Minimum von $f$, dann gilt $\nabla f(x) = 0$.
+
+	Punkte mit $\nabla f(x) = 0$ heißen \emph{stationäre Punkte}
+	\begin{proof}
+		Für jedes $d \in \R^n$ gilt
+		\[
+			\nabla f(x)^T d
+			= \lim_{t \to 0^+} \f {f(x+td) - f(x)}{t}
+			\ge 0
+		\]
+		Für $d := - \nabla f(x)$ folgt $-\|\nabla f(x)\|^2 \ge 0$ und damit $\nabla f(x) = 0$.
+	\end{proof}
+\end{st}
+
+\begin{st}[Notwendige Optimalitätsbedingung 2. Ordnung] \label{2.11}
+	Sei $U \subset \R^n$ offen, $f: U \to \R$ zweimal stetig differenzierbar.
+	Ist $x \in U$ ein lokales Minimum von $f$, dann ist $x$ ein stationärer Puunkt von $f$ und $\nabla^2 f$ ist positiv semi-definit, also
+	\begin{enumerate}[(a)]
+		\item
+			$\nabla f(x) = 0$,
+		\item
+			$x^T \nabla^2 f(x) x \ge 0$ für alle $x \in \R^n$.
+	\end{enumerate}
+	\begin{proof}
+		Teil (a) ergibt sich aus \ref{2.10}, zeige also (b):
+		Sei $d \in \R^n$ und $\eps > 0$ so klein, dass $B_\eps(x) \subset U$ und $x$ globales Minimum in $B_\eps(x)$.
+		Verwende \ref{2.3} mit $td$ anstelle von $d$:
+		\[
+			f(x+td)
+			= f(x) + t \nabla f(x)^T d + \f {t^2}2 d^T \nabla^2 f(x) d + p(td
+		\]
+		für alle $td \in B_\eps(0)$.
+		Also gilt für alle $|t| < \f \eps{\|d\|}$
+		\[
+			\nabla^2 f(x) d
+			\ge - \f 2{t^2} p(td)
+			\to 0
+		\]
+		für $t \to 0$.
+	\end{proof}
+\end{st}
+
+\begin{st}[Hinreichende Optimalitätsbedingungen 2. Ordnung]
+	Sei $U \subset \R^n$ offen, $f: U \to \R$ zweimal stetig differenzierbar.
+	Ist $x \in U$ ein stationärer Punkt mit positiv definiter Hesse-Matrix, d.h.
+	\begin{enumerate}[(a)]
+		\item
+			$\nabla f(x) = 0$,
+		\item
+			$d^T \nabla^2 f(x) d > 0$ für alle $d \in \R^n \setminus \{0\}$.
+	\end{enumerate}
+	Dann ist $x$ ein striktes lokales Minimum von $f$.
+	\begin{proof}
+		Nach \ref{2.6} ist mit (b) $\my := \lambda_{\text{min}} (\nabla^2 f(x)) > 0$ und
+		\[
+			d^T \nabla^2 f(x) d \ge \my \|d\|^2.
+		\]
+		Wie in \ref{2.11} ist
+		\[
+			f(x+d)
+			= f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x) d + p(d)
+		\]
+		und $p(d) \le \f \my4 \|d\|^2$ für hinreichend kleine $d$.
+
+		Also
+		\[
+			f(x+d)
+			\ge f(x) + \f \my2 \|d\|^2 - \f \my4 \|d\|^2
+			= f(x) + \f \my4 \|d\|^2
+		\]
+		und damit $f(x+d) > f(x)$ für alle hinreichend kleinen $d \neq 0$.
+	\end{proof}
+\end{st}
+
+\begin{ex} \label{2.13}
+	\begin{enumerate}[(a)]
+		\item
+			N1 ist nicht hinreichend.
+			$f(x) = -x^2$ hat im kritischen Punkt ein Maximum,
+			$f(x) = x^3$ hat in $x=0$ weder ein Maximum, noch ein Minimum.
+			Zum Namen „Sattelpunkt“
+			\[
+				f(x_1,x_2) = x_1^2 - x_2^2
+			\]
+			bildet einen „Sattel“ in $(0,0)$.
+		\item
+			N2 ist nicht hinreichend, betrachte $f(x) = x^3$.
+		\item
+			H2 ist nicht notwendig, betrachte $f(x) = x^4$.
+	\end{enumerate}
+\end{ex}
+
+
+\subsection{Konvexität}
+
+
+\begin{df} \label{2.14}
+	Eine Menge $X \subset \R^n$ heißt \emph{konvex}, wenn alle Verbindungsstrecken zweier Punkte darin enthalten sind, also für alle $x,y \in X, \lambda \in [0,1]$
+	\[
+		x_\lambda
+		:= (1-\lambda)x + \lambda y \in X.
+	\]
+\end{df}
+
+\begin{df} \label{2.15}
+	Sei $X \subset \R^n$ konvex.
+	$f: X \to \R$ heißt
+	\begin{enumerate}[(a)]
+		\item
+			\emph{konvex}, falls für alle $x,y \in X, \lambda \in [0,1]$.
+			\[
+				f((1-\lambda)x + \lambda y)
+				\le (1-\lambda) f(x) + \lambda f(y).
+			\]
+		\item
+			\emph{strikt konvex}, falls für alle $x,y \in X, x \neq y, \lambda \in (0,1)$.
+			\[
+				f((1-\lambda)x + \lambda y)
+				< (1-\lambda) f(x) + \lambda f(y).
+			\]
+		\item
+			\emph{gleichmäßig konvex}, falls $\my > 0$ existiert, sodass für alle $x,y \in X, \lambda \in [0,1]$.
+			\[
+				f((1-\lambda)x + \lambda y) + \my \lambda(1-\lambda) \|y-x\|^2
+				< (1-\lambda) f(x) + \lambda f(y).
+			\]
+			Zur Motivation betrachte auch \ref{2.17}.
+	\end{enumerate}
+\end{df}
+
+\begin{st} \label{2.16}
+	Sei $U \subset \R^n$ offen und $f: U \to \R$ stetig differenzierbar.
+	$f$ ist auf einer konvexen Menge $X \subset U$
+	\begin{enumerate}[(a)]
+		\item
+			genau dann konvex, wenn für alle $x,y \in X$
+			\[
+				\nabla f^T(x) (y-x)
+				\le f(y) - f(x).
+			\]
+		\item
+			genau dann strikt konvex, wenn für alle $x,y \in X, x \neq y$
+			\[
+				\nabla f^T(x) (y-x)
+				< f(y) - f(x).
+			\]
+		\item
+			genau dann gleichmäßig konvex, wenn ein $\my > 0$ existiert, sodass für alle $x,y \in X$.
+			\[
+				\nabla f(x)^T (y-x) + \my \|y-x\|
+				\le f(y) - f(x)
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				\begin{seg}[„$\implies$“]
+					Ist $f$ konvex, dann ist
+					\[
+						\nabla f(x)^T (y-x)
+						= \lim_{t \to 0} \f {f(x+t(y-x)) - f(x)}t
+						= \lim_{t \to 0} \f {f((1-t)x + ty) - f(x)}t
+						\le \lim_{t \to 0} \f{(1-t)f(x) + tf(y) - f(x)}t
+						= f(y) - f(x).
+					\]
+				\end{seg}
+				\begin{seg}[„$\impliedby$“]
+					Sei $\lambda \in [0,1]$ und $x,y \in X$.
+					Dann gilt
+					\begin{align*}
+						f(x) - f(x_\lambda)
+						&\ge \nabla f(x_\lambda)^T(x-x_\lambda) \\
+						f(y) - f(x_\lambda)
+						&\ge \nabla f(x_\lambda)^T(y-x_\lambda)
+					\end{align*}
+					Damit ist
+					\begin{align*}
+						(1-\lambda) f(x) + \lambda f(y)
+						&= (1-\lambda)(f(x) - f(x_\lambda)) + \lambda (f(y) - f(x_\lambda)) + f(x_\lambda) \\
+						&\ge (1-\lambda) \nabla f(x_\lambda)^T (x-x_\lambda) + \lambda \nabla f(x_\lambda)^T (y-x_\lambda) + f(x_\lambda) \\
+						&= \nabla f(x_\lambda)^T \big( (1-\lambda) x + \lambda y - x_\lambda \big) + f(x_\lambda) \\
+						&= f(x_\lambda)
+					\end{align*}
+				\end{seg}
+			\item
+				\begin{seg}[„$\implies$“]
+					Sei $f$ strikt konvex, $x, y \in X, x\neq y$, setze
+					\[
+						x_{\f 12} := \f {f(x) + f(y)}2.
+					\]
+					Es gilt
+					\[
+						\nabla f(x)^T (y-x)
+						= 2 \nabla f(x)^T (x_{\f 12} - x)
+						\le 2 (f(x_{\f 12}) - f(x))
+						< 2 (\f {f(x) + f(y)}2 - f(x))
+						= f(y) - f(x).
+					\]
+				\end{seg}
+				\begin{seg}[„$\impliedby$“]
+					Analog zu (a) „$\impliedby$“
+				\end{seg}
+			\item
+				\begin{seg}[„$\implies$“]
+					Es gilt
+					\[
+						\nabla f(x)^T (y-x)
+						= \lim_{t\to 0} \f {f(x_t) - f(x)}t
+						\le \lim_{t\to 0} \f 1t \Big( (1-t)f(x) + tf(y) - \my t(1-t)\|y-x\|^2 - f(x) \Big)
+						= f(y) - f(x) - \my \|y-x\|^2.
+					\]
+				\end{seg}
+				\begin{seg}[„$\impliedby$“]
+					Gehe vor, wie in (a) $\impliedby$:
+					\begin{align*}
+						(1-\lambda) f(x) + \lambda f(y)
+						&= (1-\lambda) (f(x) - f(x_\lambda)) + \lambda (f(y) - f(x_\lambda)) + f(x_\lambda) \\
+						&\ge (1-\lambda) \Big(\nabla f(x_\lambda)^T (x-x_\lambda) + \my \|x-x_\lambda\|^2 \Big) \\
+							+ \lambda \Big( \nabla f(x_\lambda)^T (y-x_\lambda) + \my \|y-x_\lambda\|^2 \Big) + f(x_\lambda) \\
+						&= f(x_\lambda) + (1-\lambda)\my \underbrace{\|x - x_\lambda\|^2}_{\lambda^2 \|y-x\|^2} + \lambda \my \underbrace{\|y-x_\lambda\|^2}_{(1-\lambda)^2\|y-x\|^2} \\
+						&=  f(x_\lambda) + (1-\lambda)\lambda \my \|y-x\|^2.
+					\end{align*}
+				\end{seg}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{2.17}
+	Sei $X \subset \R^n$ offen und kovex und $f: X \to \R^n$ zweimal stetig differenzierbar.
+	$f$ ist auf $X$
+	\begin{enumerate}[(a)]
+		\item
+			genau dann konvex, wenn $\nabla^2 f(x)$ für alle $x \in X$ positiv semidefinit ist, also für alle $x \in X, d \in \R^n$
+			\[
+				d^T \nabla^2 f(x) d \ge 0
+			\]
+		\item
+			strikt konvex, wenn $\nabla^2 f(x)$ für alle $x \in X$ positiv semidefinit ist, also für alle $x \in X, d \in \R^n \setminus \{0\}$
+			\[
+				d^T \nabla^2 f(x) d > 0.
+			\]
+			Die Umkehrung gilt nicht.
+		\item
+			genau dann gleichmäßig konvex, wenn $\nabla^2 f(x)$ gleichmäßig positiv semidefinit ist, d.h. es existiert $\my > 0$, sodass für alle $x \in X, d \in \R^n \setminus \{0\}$
+			\[
+				d^T \nabla^2 f(x) d \ge \my \|d\|^2.
+			\]
+			Die Umkehrung gilt nicht.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				\begin{seg}[„$\implies$“]
+					Sei $f$ konvex und $d \in \R^n$.
+					Für hinreichend kleine $t > 0$ gilt mit Taylor und $\ref{2.16}$
+					\[
+						\f {t^2}2 d^T \nabla^2 f(x) d + p(td)
+						= f(x+td) - f(x) - t \nabla f(x)^T d
+						\ge 0,
+					\]
+					also
+					\[
+						d^T \nabla^2 f(x) d
+						\ge - \f {2 p(td)}{t^2} \to 0
+					\]
+					für $t \to 0$.
+				\end{seg}
+				\begin{seg}[$\impliedby$]
+					Seien $x,y \in X$, dann gilt nach \ref{2.3}, dass $s \in [0,1]$ existiert mit
+					\[
+						f(y)
+						= f(x) + \nabla f(x)^T d  + \f 12 (y-x)^T \nabla^2 f(x+s(y-x))(y-x)
+						\ge f(x) + \nabla f(x)^T (y-x)
+					\]
+					und somit ist $f$ nach \ref{2.16} konvex.
+				\end{seg}
+			\item
+				Analog zu $\impliedby$ in (a).
+			\item
+				\begin{seg}[„$\implies$“]
+					Analog wie „$\implies$“ in (a) erhalten wir
+					\[
+						d^T \nabla^2 f(x) d
+						\ge - \f {2 p(td)}{t^2} + \my \|d\|^2
+						\to \my \|d\|^2.
+					\]
+				\end{seg}
+				\begin{seg}[„$\impliedby$“]
+					Analog wie in (a) existiert zu $x,y \in X$ ein $s \in [0,1]$ mit
+					\begin{align*}
+						f(x)
+						&= f(x) + \nabla f(x)^T (y-x) + \f 12 (y-x)^T \nabla^2 f(x_s) (y-x) \\
+						&\ge f(x) + \nabla f(x)^T (y-x) + \f 12 \my \|y-x\|^2,
+					\end{align*}
+					also ist $f$ nach \ref{2.16} gleichmäßig konvex.
+				\end{seg}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{ex} \label{2.18}
+	In \ref{2.17} gilt die Rückrichtung in (b) im Allgemeinen nicht.
+	Betrachte dazu $f(x) = x^4$, dann ist $f''(x)\big|_{x=0} = 0$, trotz Minimum in $x=0$.
+\end{ex}
+
+\coursetimestamp{28}{10}{2013}
+
+\begin{st} \label{2.19}
+	Sei $X \subset \R^n$ konvex, $f: X \to \R$ konvex.
+	Dann gelten folgende Aussagen
+	\begin{enumerate}[(a)]
+		\item
+			Jedes lokale Minimum von $f$ ist auch globales Minimum von $f$ von $x$.
+		\item
+			Ist $f$ strikt konvex, dann besitzt $f$ höchstens ein lokales Minimum.
+			Nach (a) ist jedes lokale Minimum das eindeutige, strikte globale Minimum.
+		\item
+			Ist $f$ stetig differenzierbar auf $O \subset X$ offen, dann ist jeder stationäre Punkt in $X$ ein globales Minimum.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				Sei $x \in X$ kein globales Minimum von $f$.
+				Dann existiert $y \in X$ mit $f(y) < f(x)$.
+				Mit der Konvexität folgt für alle $f \in (0,1]$
+				\[
+					f(x+t(y-x))
+					\le (1-t)f(x) + t f(y)
+					< f(x).
+				\]
+				mit entsprechend kleinem $t$ finden wir damit in jeder Umgebung von $x$ ein $\xi$ mit $f(\xi) < f(x)$, also ist $x$ kein lokales Minimum.
+			\item
+				Seien $x,y \in X$ zwei lokale Minima von $f$.
+				Nach (a) sind $x,y$ globale Minima, also $f(x) = f(y)$.
+				Angenommen $x \neq y$, dann wäre wegen der strikten Konvexität
+				\[
+					f(\f {x+y}2)
+					< \f{f(x) + f(y)}2
+					= f(x)
+					= f(y),
+				\]
+				ein Widerspruch dazu, dass $x,y$ globale Minima waren.
+			\item
+				Ist $x \in X$ ein stationärer Punkt, dann ist nach \ref{2.16} für alle $y\in X$
+				\[
+					f(y) - f(x)
+					\ge \nabla f(x)^T (y-x)
+					= 0,
+				\]
+				also $f(y) \ge f(x)$ und somit $x$ globales Minimum.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+
+\section{Das Gradientenverfahren}
+
+
+In diesem Abschnitt sei $f: \R^n \to \R$ eine stetig differenzierbare Funktion.
+
+\begin{conv*}
+	Im folgenden schreiben wir für eine Folge von Vektoren in $\R^n$,
+	\[
+		x_0, x_1, x_2, \dotsc \in \R^n.
+	\]
+	teilweise auch
+	\[
+		x^{(0)} = \begin{pmatrix}
+			x_1^{(0)} \\ \vdots \\ x_n^{(0)}
+		\end{pmatrix},
+		x^{(1)} = \begin{pmatrix}
+			x_1^{(1)} \\ \vdots \\ x_n^{(1)}
+		\end{pmatrix},
+		\dotsc \in \R^n.
+	\]
+\end{conv*}
+
+\subsection{Richtung des steilsten Abstiegs}
+
+In der Umgebung eines Punktes $x_0 \in \R^n$ ist (gemäß Taylorapproximation)
+\[
+	f(x) \approx f(x_0) + \nabla f(x_0)^T (x-x_0).
+\]
+Nach Übungsaufgabe 3.1 %fixme: reference
+ist das Minimum der linearen Approximation innerhalb einer Kugel um $x_0$
+\[
+	\min_{\|x-x_0\|=1} \big( f(x_0) + \nabla f(x_0)^T (x-x_0) \big)
+	= f(x_0) - \nabla f(x_0)^T \f {\nabla f(x_0)}{\|\nabla f(x_0)\|}.
+\]
+In der linearen Approximation ist $x-x_0 = -s \nabla f(x_0)$ mit $s > 0$, also die Richtung des steilsten Abstiegs von $f$.
+
+Ein naiver Ansatz für einen Algorithmus wäre folgender:
+Beginne mit $x_0 uin \R^n$ und iteriere
+\[
+	x_{k+1} = x_k - s_k \nabla f(x_k),
+\]
+mit noch zu bestimmenden Schrittweiten $s_k > 0$.
+Solche Verfahren werden \emph{Gradientenverfahren} genannt.
+
+\subsection{Armijo-Schrittweitenregel}
+
+In der linearen Approximation erwarten wir, dass für $s_k > 0$ und $d_k \in \R^n$ (hier z.B. $d_k = -\nabla f(x_k)$)
+\[
+	f(x_{k+1})
+	= f(x_k + s_k d_k)
+	\approx f(x_k) + s_k \nabla f(x_k)^T d_k.
+\]
+Die Armijo-Regel besagt:
+vergleiche die tatsächlie Abnahme der Zielfunktion $f(x_k) - f(x_k + s_kd_k)$ mit der aus der linearen Approximation erwarteten Abnahme $-s_k \nabla f(x_k)^T d_k$.
+Nur wenn die tatsächliche Abnahme einen voregegebenen Bruchteil (z.B. $\gamma = 1\%$) der erwarteten Abnahme erreicht, also wenn die sogenannte \emph{Armijo-Regel}
+\[
+	f(x_{k+1})
+	\le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k
+\]
+erfüllt ist, dann wird die Schrittweite akzeptiert, sonst verkürzt (z.B. auf $\beta s_k$ mit $\beta = \f 12 < 1$).
+
+\begin{alg}
+	\begin{algorithmic}
+		\Require{$\beta \in (0,1), \gamma \in (0,1), x_k, d_k$}
+		\State $s_k \gets \f 1{\beta}$
+		\Repeat
+			\State $s_k \gets \beta s_k$
+			\State $x_{k+1} \gets x_k + s_k d_k$
+		\Until $f(x_{k+1}) \le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k$
+	\end{algorithmic}
+\end{alg}
+
+\begin{df} \label{2.20}
+	Ein Vektor $0 \neq d \in \R^n$ heißt \emph{Abstiegsrichtung} von $f$ im Punkt $x$, falls
+	\[
+		\nabla f(x)^T d < 0.
+	\]
+\end{df}
+
+\begin{st} \label{2.21}
+	Ist $d$ eine Abstiegsrichtung für $f$ im Punkt $x$, so existiert für jedes $\gamma \in (0,1)$ ein $t > 0$ mit
+	\[
+		f(x+sd)
+		\le f(x) + \gamma s \nabla f(x)^T d
+	\]
+	für alle $s \in [0,t]$, d.h. die Armijo-Schrittweitenregel terminiert nach endlich vielen Schritten.
+	\begin{proof}
+		Für $s \to 0$ ist
+		\[
+			\f{f(x_k+sd)-f(x_k)}{s} - \gamma \nabla f(x)^T d
+			\to (1 - \gamma) \underbrace{\nabla f(x_k)^T d}_{<0}
+			< 0,
+		\]
+		also für hinreichend kleine $s>0$ ist
+		\[
+			\f{f(x_k+sd)-f(x_k)}{s} - \gamma \nabla f(x)^T d
+			\le 0,
+		\]
+		d.h. die Armijo-Bedingung ist erfüllt.
+	\end{proof}
+\end{st}
+
+\begin{ex} \label{2.22}
+	Aus \ref{2.21} folgt insbesondere: in Richtung einer Abstiegsrichtung nimmt eine Funktion lokal ab.
+
+	Die Umkehrung gilt hingegen nicht.
+	Betrachte dazu $f(x) = -x^2$ an der Stelle $x = 0$: in Richtung $d=\pm 1$ nimmt die Funktion ab, aber beides sind keine Abstiegsrichtungen gemäß \ref{2.20}.
+\end{ex}
+
+\begin{nt} \label{2.23}
+	Die Armijo-Regel ist ein spezieller, einfacher Fall für ein sogenanntes “Trust-Region”-Verfahren.
+	In der aktuellen Iterierten wird $f$ dabei durch seine lineare Näherung
+	\[
+		f(x)
+		\approx f(x_k) + \nabla f(x_k)^T (x-x_k)
+	\]
+	ersetzt.
+	Wir vertrauen dieser Näherung jedoch nur für $x$ mit
+	\[
+		\|x - x_k\| \le \Delta_k,
+	\]
+	der sogenannten “Trust-Region”.
+	Wir lösen also das restringierte Optimierungsproblem
+	\[
+		f(x_k) + \nabla f(x_k)^T (x-x_k) \to \min!
+		\udN
+		x \in B_{\Delta_k}(x_k)
+	\]
+	und erhalten $x_{k+1} = x_k - s_k \nabla f(x_k)$ ($s_k = \f {\Delta_k}{\|\nabla f(x_k)\|}$).
+	Vergleiche anschließend die vorhergesagte Abnahme (\pred) mit tatsächlicher Abnahme (\ared)
+	\begin{align*}
+		\pred_k &= -s_k \nabla f(x_k) &
+		\ared_k &= f(x_k) - f(x_{k+1})
+	\end{align*}
+	Falls $\f {\pred_k}{\ared_k} < \gamma$, so wird der Schritt mit verkleinerten $\Delta_k$ wiederholt.
+\end{nt}
+
+\coursetimestamp{30}{10}{2013}
+
+% 2.2.3
+\subsection{Konvergenz des Gradientenverfahrens}
+
+Das Gradientenverfahren hat zwei Probleme:
+Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren könnte nicht konvergieren ($f(x) = e^{-x}$).
+
+\begin{st}[Präkonvergenz des Gradientenverfahrens] \label{2.24}
+	Das Gradientenverfahren % fixme: algorithm reference
+	terminiert entweder nach endlich vielen Schritten an einem stationären Punkt $x_k$, oder er erzeugt eine Folge $(x_k)_{k\in\N}$ mit
+	\begin{enumerate}[(a)]
+		\item
+			$f(x_{k+1}) < f(x_k)$,
+		\item
+			jeder Haufungspunkt von $(x_k)$ ist eine stationärer Punkt von $f$.
+	\end{enumerate}
+	\begin{proof}
+		Terminiert % fixme: reference algorithm
+		nach endlich vielen Schritten an einem $x_k$, so gilt $\nabla f(x_k) = 0$.
+
+		Der Algorithmus konvergiere nicht.
+		\begin{enumerate}[a)]
+			\item
+				Nach der Armijo-Regel gilt wegen $\nabla f(x_k) \neq 0$
+				\[
+					f(x_{k+1})
+					\le f(x_k) - \gamma s_k \nabla f(x_k)^T \nabla f(x_k)
+					< f(x_k).
+				\]
+			\item
+				Sei $x \in \R^n$ ein Häufungspunkt von $x_k$, d.h. es existiert eine unendlich Indexmenge $L \subset \N$, so dass
+				\[
+					\lim_{L \ni l \to \infty} x_l = x.
+				\]
+				Da $f$ stetig, gilt auch $\lim_{L \ni l \to \infty} f(x_l) = f(x)$.
+				Wegen (a) ist $(f(x_k))_{k\in\N}$ streng monoton fallend und damit $f(x_k) \ge f(x)$ für alle $k \in \N$.
+				Also konvergiert $(f(x_k))_{k\in\N}$ und $\lim_{k\to \infty} f(x_k) = f(x)$.
+
+				Nach der Armijo-Regel gilt
+				\[
+					f(x_0) - f(x)
+					= \sum_{k=0}^\infty (f(x_k) - f(x_{k+1}))
+					\ge \sum_{k=0}^\infty \gamma s_k \| \nabla f(x_k) \|^2,
+				\]
+				also ist $\lim_{k\to\infty} s_k \|\nabla f(x_k)\|^2 = 0$ und insbesondere auch für die Teilfolge mit der Indexmenge $L$:
+				\[
+					\lim_{L \ni l \to \infty} s_ll \|\nabla f(x_l)\|^2 = 0.
+				\]
+				Also $\lim_{L \ni l \to \infty} s_l = 0$ oder $\lim_{L \ni l \to\infty} \nabla f(x_l) = \nabla f(x) = 0$ ($\nabla f$ stetig).
+				Im letzteren Fall ist die Behauptung beweisen, sei also $\lim_{L \ni l \to \infty} s_l = 0$.
+
+				In fast allen (o.B.d.A in allen) Schritten $l \in L$ hat durch die Armijo-Regel eine Schrittweitenverkürzung stattgefunden, d.h. $\f {s_l}{\beta}$ erfüllte die Armijo-Bedingung noch nicht, d.h. für alle $l \in L$ gilt
+				\[
+					f(x_l - \f {s_l}\beta \nabla f(x_l))
+					> f(x_l) - \gamma \f {s_l}{\beta} \| \nabla f(x_l) \|^2.
+				\]
+				Nach \ref{2.3} gilt:
+				Für alle $l \in L$ existiert $\sigma_l \in [0, \f {s_l}{\beta}]$, sodass
+				\[
+					f(x_l) - f(x_l - \f {s_l}\beta \nabla f(x_l))
+					= \f {s_l}\beta \nabla f(x_l - \sigma_l \nabla f(x_l))^T \nabla f(x_l).
+				\]
+				Also
+				\[
+					-\gamma \f {s_l}\beta \|\nabla f(x_l)\|^2
+					< f(x_l - \f{s_l}\beta \nabla f(x_l)) - f(x_l)
+					= -\f {s_l}\beta \nabla f(\underbrace{x_l - \sigma_l \nabla f(x_l)}_{\to x})^T \nabla f(x_l)
+				\]
+				und somit für $\sigma_l \to 0$
+				\[
+					- \gamma \|\nabla f(x)\|^2 \le - \| \nabla f(x)\|^2.
+				\]
+				Aus $\gamma < 1$ folgt damit $\nabla f(x) = 0$.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{lem} \label{2.25}
+	Sei $(x_k)_{k\in\N} \subset \R^n, x \in \R^n$.
+	Besitzt jede Teilfolge von $(x_k)_{k\in\N}$ wiederum eine (Teil-)Teilfolge, die gegen $x$ konvergiert, so konvergiert die ganze Folge $(x_k)_{k\in\N}$ gegen $x$.
+	\begin{proof}
+		Angenommen $(x_k)_{k\in\N}$ konvergiert nicht gegen $x$.
+		Dann gibt es eine Umgebung von $x$, außerhalb derer unendlich viele Folgenglieder liegen.
+		Diese bilden dann aber eine Teilfolge, die keine gegen $x$ konvergente Teilfolge besitzen kann.
+	\end{proof}
+\end{lem}
+
+\begin{kor} \label{2.26}
+	\begin{enumerate}[(a)]
+		\item
+			Sei $c > 0$, so dass die \emph{Niveaumenge}
+			\[
+				f^{-1}((-\infty, C))
+				:= \{ x \in \R^n : f(x) \le c \}
+			\]
+			beschränkt ist und in ihr nur ein stationärer Punkt liegt.
+			$N_c := f^{-1}((-\infty,c])$ ist abgeschlossen, also kompakt, also wird das Minimum auf $N_c$ angenommen, $f(x) \le f(y)$ für alle $y \in \R^n$ und somit $\nabla f(x) = 0$.
+			%fixme: rewrite
+
+			Dann ist dieser stationäre Punkt das globale Minimum von $f$ auf der Niveaumenge und das Gradientenverfahren konvergiert für jeden Startwert $x_0$ mit $f(x_0) \le c$ gegen dieses Minimum.
+		\item
+			Ist $f$ konvex, dann terminiert Algorithmus 2 % fixme: reference
+			entweder nach endlich vielen Schritten an einem globalen Minimum, oder erzeugt eine Folge, deren Häufungspunkte globale Minima sind.
+		\item
+			Ist $f$ strikt konvex und besitzt ein Minimum und es existiert $C > 0$ mit $f^{-1}((-\infty,C])$ beschränkt, dann konvergiert die Folge aus Algorithmus 2 % fixme: reference
+			für jedes $x_0$ mit $f(x_0) \le C$ gegen das globale Minimum.
+
+			%fixme: Reicht auch nur die strikte konvexität?
+	\end{enumerate}
+\end{kor}
+
+
+
+
