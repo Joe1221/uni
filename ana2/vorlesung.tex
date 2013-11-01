@@ -7,7 +7,7 @@
 \maketitle
 \tableofcontents
 
-\setcounter{section}{10}
+\setcounter{chapter}{10}
 \chapter{Elementare Differenzialgleichungen}
 
 \section{Einleitung}
@@ -1697,44 +1697,33 @@ Der Zeilenvektor $v^T$ ist die Matrix von $f$.
 
 Eine Abbildung $f:[a,b]\to\R^n$ ist im Punkt $t\in[a,b]$ differenzierbar, wenn
 \[
-f'(t)=\lim_{h\to 0}\frac 1h (f(t+h)-f(t) \in \R^n
+f'(t)=\lim_{h\to 0}\frac 1h \big((f(t+h)-f(t)\big) \in \R^n
 \]
 existiert.
 Das ist äquivalent dazu, dass ein $v\in\R^n$ existiert mit
 \[
-\frac{|f(t+h)-f(t)-vh|}{|h|}\to 0 \qquad (h\to 0)
+\frac{|f(t+h)-f(t)-vh|}{|h|}\to 0 \qquad (h\to 0),
 \]
-oder, mit o-Symbolen
+oder mit Landau-Symbolik
 \[
-f(t+h)=f(t)+vh+o(h) \qquad (h\to 0)
+f(t+h)=f(t)+vh+o(h) \qquad (h\to 0).
 \]
-mit anderen Worten: der Zuwachs $f(t+h)-f(t)$ wird für kleine $|h|$ gut approximiert durch die lineare Abbildung
+Mit anderen Worten wird der Zuwachs $f(t+h)-f(t)$ für kleine $|h|$ gut approximiert durch die lineare Abbildung
 \[
-df(t): h\mapsto f'(t)h
+	\mathrm d f(t): h\mapsto f'(t)h
 \]
 
 \begin{df}
 Sei $D\subset \R^n$ offen.
 Eine Abbildung $f:D\to \R^m$ heißt differenzierbar im Punkt $x\in D$, wenn eine lineare Abbildung $A:\R^n\to\R^m$ existiert, so dass 
 \[
-\boxed{\lim_{h\to 0}\frac {|f(x+h)-f(x)-Ah|}{|h|}=0}
+\lim_{\substack{h\in \R^n \\ h\to 0}}\frac {|f(x+h)-f(x)-Ah|}{|h|}=0.
 \]
+Wir nennen die lineare Abbildung $A$ \emph{Ableitung}, oder \emph{Differential} von $f$ an der Stelle $x$ und bezeichnen sie mit $\mathrm d f(x)$ (in der Literatur wird auch $\mathrm D f(x)$ und $f'(x)$ verwendet).
+Die zugehörige $m \times n$-Matrix heißt \emph{Jacobi-Matrix}.
 \begin{note}
-Es gilt $h\in R^n$!
+	Für $f: \R \supset D \to \R$ ist die Jacobi-Matrix an einer Stelle $x \in D$ eine $1\times 1$-Matrix, also eine reelle Zahl, bekannt als $f'(x)$.
 \end{note}
-Die lineare Abbildung $A$ ist dadurch eindeutig bestimmt und heißt Ableitung oder Differential von $f$ an der Stelle $x$.
-Sie wird mit
-\[
-df(x)
-\]
-bezeichnet.
-Die zugehörige $m\times n$-Matrix heißt \emph{Jacobi-Matrix}.
-\begin{note}
-In $\R$ ist die Jacobi-Matrix eine $1\times 1$-Matrix, also eine Zahl an einer Stelle.
-\end{note}
-
-
-Wir bezeichnen sie mit $f'(x)$.
 \end{df}
 
 \begin{note}
@@ -2172,16 +2161,18 @@ Eine Menge kann zusammenhängend und trotzdem nicht wegzusammenhängend sein:
 \section{Höhere partielle Ableitungen}
 
 
-Sei $f:\R^2\to \R$ partiell differenzierbar wobei auch
-$\d_1\d_2f$ und $\d_2\d_1f$ existieren sollen.
+Sei $f:\R^2\to \R$ partiell differenzierbar mit existierenden
+$\d_1\d_2f$ und $\d_2\d_1f$.
 Gilt dann
 \[
 \d_1\d_2f(x,y)\stackrel ?=\d_2\d_1f(x,y)
 \]
-Gegenbeispiel: Sei $f(0,0)=0$ und
+Nein, betrachte dazu folgendes
+Gegenbeispiel: Sei $f: \R^2 \to \R$ gegeben durch $f(0,0)=0$ und durch
 \[
-f(x,y)=\frac{x^3y-xy^3}{x^2+y^2} \qquad (x,y)\neq (0,0)
+f(x,y)=\frac{x^3y-xy^3}{x^2+y^2}
 \]
+für $(x,y) \neq (0,0)$.
 Dann gilt für $(x,y)\neq (0,0)$
 \begin{align*}
 \d_1f(x,y) &= \frac{x^4y+4x^2y^3-y^5}{(x^2+y^2)^2}\\
@@ -2300,7 +2291,7 @@ Insbesondere ist $g$ zwei Mal stetig differenzierbar.
 Die  $n\times n$-Matrix $(\d_i\d_kf(x)_{i,k=1,\dotsc,n}$ heißt \emph{Hessesche Matrix} von $f$ an der Stelle $y$.
 Sie wird mit $f''(x)$ oder $H_f(x)$ bezeichnet.
 
-Da wir $f\in C^2(D)$ annehmen, ist $f''(x)$ eine symmetrische Matrix (wegen der Vertauschbarkeit der partiellen Ableitungen) \ref{st:schwarz}.
+Da wir $f\in C^2(D)$ annehmen, ist $f''(x)$ eine symmetrische Matrix (wegen der Vertauschbarkeit der partiellen Ableitungen \ref{st:schwarz}).
 Also:
 \begin{align*}
 g'(t) &= \nabla f(a+tx)\cdot x\\
@@ -3418,7 +3409,7 @@ Falls $\nabla f(a,b) \neq 0$, dann lässt sich $N_C$ in der Nähe von $(a,b)$ al
 \end{ex*}
 
 \begin{ex*}[Störungstheorie für Eigenwerte]
-	Sei $D\subset \R^d$ uoffen und für jedes $x\in D$ sei $A(x)$ eine symmetrische $n\times n$ Matrix deren Koeffizienten $A_{ij}(x)$ $C^k$-Fuktionen von $x\in D$ sind.
+	Sei $D\subset \R^d$ offen und für jedes $x\in D$ sei $A(x)$ eine symmetrische $n\times n$ Matrix deren Koeffizienten $A_{ij}(x)$ $C^k$-Fuktionen von $x\in D$ sind.
 	Sei $\lambda_0$ eine \emph{einfacher} Eigenwert von $A(x_0)$.
 	Dann gibt es für $x$ in der Nähe von $x_0$ genau einen Eigenwert $\lambda(x)$ in der Nähe von $\lambda_0$ und $x\mapsto \lambda(x)$ ist eine $C^k$-Funktion.
 	\begin{proof}
@@ -3436,7 +3427,7 @@ Falls $\nabla f(a,b) \neq 0$, dann lässt sich $N_C$ in der Nähe von $(a,b)$ al
 		\end{equation}
 		wobei
 		\begin{align*}
-			\f \d{\d\lambda}p(x_0,\lambda)|_{\lambda=\lambda_0} = (\lambda_0-\lambda_1)\dotsb (\lambda_0-\lambda_{n-1} \neq 0
+			\f \d{\d\lambda}p(x_0,\lambda)|_{\lambda=\lambda_0} = (\lambda_0-\lambda_1)\dotsb (\lambda_0-\lambda_{n-1}) \neq 0
 		\end{align*}
 		Also existiert nach \ref{14.6} eine Umgebung $U$ von $x_0$ und eine Umgebung $V$ von $\lambda_0$, so dass die Lösungen von \eqref{ex:ew1} durch den Graphen einer $C^k$-Abbildung $\lambda:U\to V$ gegeben ist.
 	\end{proof}
@@ -3764,7 +3755,7 @@ Außerdem sind $\phi_{k+1}'(p), \dotsc, \phi_n'(p)$ linear unabhängig (denn $\p
 \section{Extrema unter Nebenbedingungen}
 
 
-Seien $f,\phi_1,\dotsc, \phi_m : D\subset \R^n \to \R$ und $a_1,\dotsc,a_m\in \R$ gegeben und sei
+Seien $f,\phi_1,\dotsc, \phi_m : \R^n \supset D \to \R$ und $a_1,\dotsc,a_m\in \R$ gegeben und sei
 \[
 	D \supset M = \{x\in D| \phi_1(x) = a_1, \dotsc, \phi_m(x) = a_m\}
 \]
