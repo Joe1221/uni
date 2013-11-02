@@ -655,9 +655,9 @@ ist das Minimum der linearen Approximation innerhalb einer Kugel um $x_0$
 In der linearen Approximation ist $x-x_0 = -s \nabla f(x_0)$ mit $s > 0$, also die Richtung des steilsten Abstiegs von $f$.
 
 Ein naiver Ansatz für einen Algorithmus wäre folgender:
-Beginne mit $x_0 uin \R^n$ und iteriere
+Beginne mit $x_0 \in \R^n$ und iteriere
 \[
-	x_{k+1} = x_k - s_k \nabla f(x_k),
+	x_{k+1} := x_k - s_k \nabla f(x_k),
 \]
 mit noch zu bestimmenden Schrittweiten $s_k > 0$.
 Solche Verfahren werden \emph{Gradientenverfahren} genannt.
@@ -679,9 +679,11 @@ Nur wenn die tatsächliche Abnahme einen voregegebenen Bruchteil (z.B. $\gamma =
 \]
 erfüllt ist, dann wird die Schrittweite akzeptiert, sonst verkürzt (z.B. auf $\beta s_k$ mit $\beta = \f 12 < 1$).
 
-\begin{alg}
+Für in jedem Schritt an der Stelle $x_k$ vorgegebene Abstiegsrichtungen $d_k$ lässt sich das folgende Abstiegsverfahren beschreiben.
+\begin{alg}[Armijo-Schrittweitenregel]
 	\begin{algorithmic}
-		\Require{$\beta \in (0,1), \gamma \in (0,1), x_k, d_k$}
+		\Require{Parameter $\beta \in (0,1), \gamma \in (0,1)$}
+		\Require{Aktuelle Iterierte $x_k$ und Abstiegsrichtung $d_k$}
 		\State $s_k \gets \f 1{\beta}$
 		\Repeat
 			\State $s_k \gets \beta s_k$
@@ -711,7 +713,7 @@ erfüllt ist, dann wird die Schrittweite akzeptiert, sonst verkürzt (z.B. auf $
 			\to (1 - \gamma) \underbrace{\nabla f(x_k)^T d}_{<0}
 			< 0,
 		\]
-		also für hinreichend kleine $s>0$ ist
+		also ist für hinreichend kleine $s>0$
 		\[
 			\f{f(x_k+sd)-f(x_k)}{s} - \gamma \nabla f(x)^T d
 			\le 0,
@@ -720,16 +722,22 @@ erfüllt ist, dann wird die Schrittweite akzeptiert, sonst verkürzt (z.B. auf $
 	\end{proof}
 \end{st}
 
-\begin{ex} \label{2.22}
-	Aus \ref{2.21} folgt insbesondere: in Richtung einer Abstiegsrichtung nimmt eine Funktion lokal ab.
+\begin{nt} \label{2.22}
+	Mit \ref{2.21} gilt insbesondere für hinreichend kleine $s > 0$
+	\[
+		f(x+sd)
+		\le f(x) + \underbrace{\gamma s}_{> 0} \underbrace{\nabla f(x)^T d}_{<0}
+		< f(x),
+	\]
+	d.h. die Funktion $f$ nimmt in Richtung ihrer Abstiegsrichtung lokal ab.
 
-	Die Umkehrung gilt hingegen nicht.
+	Die Umkehrung hingegen gilt nicht.
 	Betrachte dazu $f(x) = -x^2$ an der Stelle $x = 0$: in Richtung $d=\pm 1$ nimmt die Funktion ab, aber beides sind keine Abstiegsrichtungen gemäß \ref{2.20}.
-\end{ex}
+\end{nt}
 
-\begin{nt} \label{2.23}
+\begin{nt}[“Trust-Region”] \label{2.23}
 	Die Armijo-Regel ist ein spezieller, einfacher Fall für ein sogenanntes “Trust-Region”-Verfahren.
-	In der aktuellen Iterierten wird $f$ dabei durch seine lineare Näherung
+	Bei einem Trust-Region-Verfahren wird $f$ dabei durch seine lineare Näherung
 	\[
 		f(x)
 		\approx f(x_k) + \nabla f(x_k)^T (x-x_k)
@@ -739,20 +747,20 @@ erfüllt ist, dann wird die Schrittweite akzeptiert, sonst verkürzt (z.B. auf $
 	\[
 		\|x - x_k\| \le \Delta_k,
 	\]
-	der sogenannten “Trust-Region”.
+	der sogenannten “Trust-Region” (um den Fehlerterm in der Taylorapproximation gering zu halten).
 	Wir lösen also das restringierte Optimierungsproblem
 	\[
 		f(x_k) + \nabla f(x_k)^T (x-x_k) \to \min!
-		\udN
+		\quad\udN\quad
 		x \in B_{\Delta_k}(x_k)
 	\]
 	und erhalten $x_{k+1} = x_k - s_k \nabla f(x_k)$ ($s_k = \f {\Delta_k}{\|\nabla f(x_k)\|}$).
-	Vergleiche anschließend die vorhergesagte Abnahme (\pred) mit tatsächlicher Abnahme (\ared)
+	Vergleiche anschließend die vorhergesagte Abnahme (\pred, “predicted reduction”) mit tatsächlicher Abnahme (\ared, “actual reduction”)
 	\begin{align*}
-		\pred_k &= -s_k \nabla f(x_k) &
-		\ared_k &= f(x_k) - f(x_{k+1})
+		\pred_k &:= -s_k \nabla f(x_k), &
+		\ared_k &:= f(x_k) - f(x_{k+1}).
 	\end{align*}
-	Falls $\f {\pred_k}{\ared_k} < \gamma$, so wird der Schritt mit verkleinerten $\Delta_k$ wiederholt.
+	Falls $\f {\pred_k}{\ared_k} < \gamma$, so wird der Schritt mit verkleinertem $\Delta_k$ wiederholt.
 \end{nt}
 
 \coursetimestamp{30}{10}{2013}
@@ -765,18 +773,17 @@ Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren kö
 
 \begin{st}[Präkonvergenz des Gradientenverfahrens] \label{2.24}
 	Das Gradientenverfahren % fixme: algorithm reference
-	terminiert entweder nach endlich vielen Schritten an einem stationären Punkt $x_k$, oder er erzeugt eine Folge $(x_k)_{k\in\N}$ mit
+	terminiert entweder nach endlich vielen Schritten an einem stationären Punkt $x_k$, oder erzeugt eine Folge $(x_k)_{k\in\N}$ mit
 	\begin{enumerate}[(a)]
 		\item
 			$f(x_{k+1}) < f(x_k)$,
 		\item
-			jeder Haufungspunkt von $(x_k)$ ist eine stationärer Punkt von $f$.
+			jeder Haufungspunkt von $(x_k)$ ist ein stationärer Punkt von $f$.
 	\end{enumerate}
 	\begin{proof}
-		Terminiert % fixme: reference algorithm
+		Terminiert der Algorithmus
 		nach endlich vielen Schritten an einem $x_k$, so gilt $\nabla f(x_k) = 0$.
-
-		Der Algorithmus konvergiere nicht.
+		Betrachte also jetzt den Fall, dass der Algorithmus nicht konvergiert.
 		\begin{enumerate}[a)]
 			\item
 				Nach der Armijo-Regel gilt wegen $\nabla f(x_k) \neq 0$
@@ -802,29 +809,30 @@ Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren kö
 				\]
 				also ist $\lim_{k\to\infty} s_k \|\nabla f(x_k)\|^2 = 0$ und insbesondere auch für die Teilfolge mit der Indexmenge $L$:
 				\[
-					\lim_{L \ni l \to \infty} s_ll \|\nabla f(x_l)\|^2 = 0.
+					\lim_{L \ni l \to \infty} s_l \|\nabla f(x_l)\|^2 = 0.
 				\]
-				Also $\lim_{L \ni l \to \infty} s_l = 0$ oder $\lim_{L \ni l \to\infty} \nabla f(x_l) = \nabla f(x) = 0$ ($\nabla f$ stetig).
+				Also $\lim_{L \ni l \to \infty} s_l = 0$ oder $\nabla f(x) = \lim_{L \ni l \to\infty} \nabla f(x_l) = 0$ ($\nabla f$ stetig).
 				Im letzteren Fall ist die Behauptung beweisen, sei also $\lim_{L \ni l \to \infty} s_l = 0$.
 
-				In fast allen (o.B.d.A in allen) Schritten $l \in L$ hat durch die Armijo-Regel eine Schrittweitenverkürzung stattgefunden, d.h. $\f {s_l}{\beta}$ erfüllte die Armijo-Bedingung noch nicht, d.h. für alle $l \in L$ gilt
+				In fast allen (o.B.d.A in allen) Schritten $l \in L$ hat durch die Armijo-Regel eine Schrittweitenverkürzung stattgefunden, d.h. $\f {s_l}{\beta}$ erfüllte die Armijo-Bedingung noch nicht.
+				Für alle $l \in L$ gilt demnach
 				\[
-					f(x_l - \f {s_l}\beta \nabla f(x_l))
+					f\big(x_l - \f {s_l}\beta \nabla f(x_l)\big)
 					> f(x_l) - \gamma \f {s_l}{\beta} \| \nabla f(x_l) \|^2.
 				\]
 				Nach \ref{2.3} gilt:
 				Für alle $l \in L$ existiert $\sigma_l \in [0, \f {s_l}{\beta}]$, sodass
 				\[
-					f(x_l) - f(x_l - \f {s_l}\beta \nabla f(x_l))
-					= \f {s_l}\beta \nabla f(x_l - \sigma_l \nabla f(x_l))^T \nabla f(x_l).
+					f(x_l) - f\big(x_l - \f {s_l}\beta \nabla f(x_l)\big)
+					= \f {s_l}\beta \nabla f\big(x_l - \sigma_l \nabla f(x_l)\big)^T \nabla f(x_l).
 				\]
 				Also
-				\[
+				\begin{align*}
 					-\gamma \f {s_l}\beta \|\nabla f(x_l)\|^2
-					< f(x_l - \f{s_l}\beta \nabla f(x_l)) - f(x_l)
-					= -\f {s_l}\beta \nabla f(\underbrace{x_l - \sigma_l \nabla f(x_l)}_{\to x})^T \nabla f(x_l)
-				\]
-				und somit für $\sigma_l \to 0$
+					&< f\big(x_l - \f{s_l}\beta \nabla f(x_l)\big) - f(x_l) \\
+					&= -\f {s_l}\beta \nabla f\big(\underbrace{x_l - \sigma_l \nabla f(x_l)}_{\to x}\big)^T \nabla f(x_l)
+				\end{align*}
+				und somit für $L \ni l \to \infty$ (also $x_l \to x$ und $\sigma_l \to 0$)
 				\[
 					- \gamma \|\nabla f(x)\|^2 \le - \| \nabla f(x)\|^2.
 				\]
