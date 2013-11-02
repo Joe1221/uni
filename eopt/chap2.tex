@@ -692,6 +692,25 @@ Für in jedem Schritt an der Stelle $x_k$ vorgegebene Abstiegsrichtungen $d_k$ l
 	\end{algorithmic}
 \end{alg}
 
+Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für die Abstiegsrichtung) mit der Armijo-Schrittweitenregel, so erhält man den folgenden Algorithmus.
+
+\begin{alg}[Gradientenverfahren mit Armijo-Schrittweitenregel]
+	\begin{algorithmic}
+		\Require{Startwert $x_0 \in \R^n$}
+		\Require{Armijo-Parameter $\beta \in (0,1), \gamma \in (0,1)$}
+		\For{$k \gets 0, 1, 2, \dotsc$}
+			\If{$\nabla f(x_k) = 0$}
+			\State{\Return{$x_k$}}
+			\EndIf
+			\State{$s_k \gets \f 1\beta$}
+			\Repeat
+				\State{$s_k \gets \beta s_k$}
+				\State{$x_{k+1} \gets x_k - s_k \nabla f(x_k)$}
+			\Until{$f(x_{k+1}) \le f(x_k) - \gamma s_k \|\nabla f(x_k)\|^2$}
+		\EndFor
+	\end{algorithmic}
+\end{alg}
+
 \begin{df} \label{2.20}
 	Ein Vektor $0 \neq d \in \R^n$ heißt \emph{Abstiegsrichtung} von $f$ im Punkt $x$, falls
 	\[
