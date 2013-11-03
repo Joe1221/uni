@@ -1,11 +1,11 @@
 \chapter{Unrestringierte nichtlineare Optimierung}
 
 
-Betrachte
+Im Folgenden betrachten wir für (hinreichend glatte) $f: \R^n \to \R$ das Minimierungsproblem
 \[
 	\min_{x\in \R^n} f(x)
 \]
-mit (hinreichend glattem) $f : \R^n \to \R$.
+ohne Nebenbedingungen.
 
 
 \section{Grundlagen und Optimalitätsbedingungen}
@@ -16,49 +16,51 @@ $U \subset \R^n$ sei im Folgenden stets eine offene Menge.
 
 \subsection{Grundlagen}
 
-Für $x \in \R^n, A \in \R^{n\times n}$ ist
+Für $x \in \R^n, A \in \R^{n\times n}$ setzen wir
 \[
 	\|x\| := \sqrt{x^T x}, \qquad
 	\|A\| := \max_{\|x\|=1} \|Ax\|.
 \]
-Für $F: U \to \R^m$, $F(x) = (f_1(x), \dotsc, f_m(x))^T$ ist
+
+Für $F: U \to \R^m$, $F(x) = (f_1(x), \dotsc, f_m(x))^T$ sei
 \[
-	F'(x) = \begin{pmatrix}
+	F'(x) := \begin{pmatrix}
 		\pddx[x_1]{f_1}(x) & \cdots & \pddx[x_n]{f_1}(x) \\
 		\vdots & \ddots & \vdots \\
 		\pddx[x_1]{f_m}(x) & \cdots & \pddx[x_n]{f_m}(x) \\
 	\end{pmatrix} \in \R^{m\times n}
 \]
-Für $f: U \to \R$ bezeichnet
+die \emph{Jacobimatrix} der Funktion $F$.
+
+Für $f: U \to \R$ bezeichnen
 \begin{align*}
 	\nabla f(x)
-	&= f'(x)^T
+	&:= f'(x)^T
 	= \begin{pmatrix}
-		\pddx[x_1]{f} \\
+		\pddx[x_1]{f}(x) \\
 		\vdots \\
-		\pddx[x_n]{f} \\
+		\pddx[x_n]{f}(x) \\
 	\end{pmatrix}, \\
 	\nabla^2 f(x)
-	&= \begin{pmatrix}
-		\pddx[x_1^2]{f} & \cdots & \f{\partial^2 f}{\partial x_1 \partial x_n} \\
+	&:= \begin{pmatrix}
+		\pddx[x_1^2]{f}(x) & \cdots & \f{\partial^2 f}{\partial x_1 \partial x_n}(x) \\
 		\vdots & \ddots & \vdots \\
-		\f{\partial^2 f}{\partial x_n \partial x_1} & \cdots & \f{\partial^2 f}{\partial x_n^2} \\
+		\f{\partial^2 f}{\partial x_n \partial x_1}(x) & \cdots & \f{\partial^2 f}{\partial x_n^2}(x) \\
 	\end{pmatrix} \in \R^{n\times n}
 \end{align*}
-den Gradienten $\nabla f$ und die Hessematrix $\nabla^2 f$ die Hesse-Matrix.
-Die Bezeichnung $\nabla^2$ wird in der Literatur nicht einheitlich verwendet.
-
-Für $d \in \R^n$ bezeichnen wir die \emph{Richtungsableitung} als
+den Gradienten $\nabla f$ und die Hessematrix $\nabla^2 f$ die Hesse-Matrix
+(die Bezeichnung $\nabla^2$ wird in der Literatur nicht einheitlich verwendet).
+Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 \[
 	\pddx[d]{f}(x)
-	= \lim_{t\to 0} \f {f(x+td) - f(x)}{t}
+	:= \lim_{t\to 0} \f {f(x+td) - f(x)}{t}
 	= f'(x) d = \nabla f(x)^T d.
 \]
 
 \begin{df} \label{2.1}
 	Zu $x_0,x_1 \in \R^n$ heißt
 	\[
-		[x_0, x_1] := \{ x_0 + t(x_1-x_0) : t \in [0,1] \}
+		[x_0, x_1] := \big\{ x_0 + t(x_1-x_0) : t \in [0,1] \big\}
 	\]
 	die \emph{Verbindungsstrecke} zwischen $x_0, x_1$.
 \end{df}
@@ -75,7 +77,7 @@ Für $d \in \R^n$ bezeichnen wir die \emph{Richtungsableitung} als
 		g''(t) = (x_1 - x_0)^T \nabla^2 f(x_t) (x_1 - x_0).
 	\]
 	\begin{proof}
-		Übungsaufgabe
+		Siehe \coursehref{Blatt2.pdf}{Übungsaufgabe 2.1}.
 	\end{proof}
 \end{st}
 
