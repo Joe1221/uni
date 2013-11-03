@@ -206,6 +206,8 @@
 }
 %\makeatother
 
+\RequirePackage[hypcap]{caption}
+
 
 % Erzeuge pdf-bookmark für das Inhaltsverzeichnis
 \let\oldtableofcontents\tableofcontents
