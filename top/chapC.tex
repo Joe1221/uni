@@ -15,6 +15,7 @@
 			$O_i \in \scr T$ für $i \in I \implies \bigcup_{i\in I} O_i \in \scr T$.
 	\end{enumerate}
 	Das Paar $(X, \scr T)$ nennen wir dann \emph{topologischer Raum}.
+
 	Eine Teilmenge $Y \subset X$ nennen wir \emph{offen}, wenn $Y \in \scr T$, und \emph{abgeschlossen}, wenn $X \setminus Y \in \scr T$.
 \end{df}
 
@@ -25,21 +26,18 @@
 		\item
 			$X = \{a\}, \scr T = \{ \emptyset, X \}$,
 		\item
-			Für $x = \{a,b\}$ gibt es vier Topologien
-			\begin{enumerate}[1.]
-				\item
-					$\{\emptyset, X\}$
-				\item
-					$\{\emptyset, \{a\}, X\}$
-				\item
-					$\{\emptyset, \{b\}, X \}$
-				\item
-					$\{\emptyset, \{a\}, \{b\}, X\}$
-			\end{enumerate}
+			Für $X = \{a,b\}$ gibt es vier Topologien:
+			\begin{align*}
+				&\{\emptyset, X\}, &
+				&\{\emptyset, \{a\}, X\}, &
+				&\{\emptyset, \{b\}, X \}, &
+				&\{\emptyset, \{a\}, \{b\}, X\}.
+			\end{align*}
+		\item
+			Die Anzahl möglicher Topologien auf einer Menge mit $n$ Elementen wird in \ref{tab:topcount} dargestellt.
 	\end{itemize}
-	\begin{table}[H]
+	\begin{table}[h]
 		\centering
-		\caption{Anzahl der Topologien auf einer Menge $X$ mit $n$ Elementen, asymptotisches Verhalten: $\log t_n \sim \f {n^2}4$}
 		\begin{tabular}{c|c}
 			$n=|x|$ & $t_n = $ Anzahl der Topologie auf $X$ \\ \hline
 			0 & 1 \\
@@ -49,6 +47,8 @@
 			4 & 355 \\
 			5 & 6942
 		\end{tabular}
+		\caption{Anzahl der Topologien auf einer Menge $X$ mit $n$ Elementen, asymptotisches Verhalten: $\log t_n \sim \f {n^2}4$}
+		\label{tab:topcount}
 	\end{table}
 \end{ex}
 
@@ -61,18 +61,17 @@
 \end{ex}
 
 \begin{ex}[metrische Topologie] \label{ex:metric_topology}
-	Die metrische Topologie zu einer (Halb-)Metrik $d: X \times X \to [0,\infty]$ ist gegeben durch
+	Sei $d: X \times X \to [0,\infty]$ eine Metrik auf einer Menge $X$.
+	Dann ist die \emph{metrische Topologie} auf $(X,d)$ gegeben durch
 	\begin{align*}
 		\scr T_d
-		&:= \{ O \subset X : \forall a \in O \exists \eps > 0 : B(a,\eps) \subset O \} \\
-		&= \{ O \subset X : \forall a \in O \exists \eps > 0 : d(a,x) < \eps \implies x \in O \}.
+		&:= \big\{ O \subset X : \forall a \in O \exists \eps > 0 : B(a,\eps) \subset O \big\} \\
+		&\;= \big\{ O \subset X : \forall a \in O \exists \eps > 0 : d(a,x) < \eps \implies x \in O \big\}.
 	\end{align*}
+	\begin{note}
+		Die offenen Mengen hinsichtlich einer metrischen Topologie $\scr T_d$ auf $X$ entsprechen den offenen Mengen gemäß \ref{df:metric_space_terms} auf dem metrischen Raum $(X,d)$.
+	\end{note}
 \end{ex}
-
-\begin{nt}
-	% fixme: reference
-	Die offenen Mengen einer metrischen Topologie entsprechen den offenen Mengen aus dem letzten Kapitel.
-\end{nt}
 
 \begin{df}[metrisierbare Topologie]
 	Eine Topologie $\scr T$ heißt \emph{metrisierbar}, wenn es eine Metrik $d$ gibt mit $\scr T = \scr T_d$.
@@ -119,20 +118,20 @@
 		\subset \scr T_{\text{koabzählbar}}
 		\subset \scr T_{\text{diskret}}
 	\]
-	(nach links hin gröber, nach rechts hin gröber).
+	(nach links hin gröber, nach rechts hin feiner).
 \end{nt}
 
 \begin{df}
 	Eine Abbildung $f: (X,\scr T_X) \to (Y, \scr T_Y)$ heißt \emph{stetig}, wenn aus $V \in \scr T_Y$ stets $f^{-1}(V) \in \scr T_X$ folgt.
 
 	Hingegen heißt $f$ \emph{offen}, wenn aus $U \in \scr T_X$, stets $f(X) \in T_Y$ folgt und \emph{abgeschlossen}, wenn aus $X \setminus A \in \scr T_X$ stets $Y \setminus f(A) \in \scr T_Y$ folgt.
-	\begin{nt*}
-		Diese Eigenschaften sind voneinander unabhängig:
+	\begin{note}
+		Diese Eigenschaften sind voneinander unabhängig, d.h. man findet Beispiele, die jeweils unterschiedliche Eigenschaften abdecken, bzw. nicht abdecken:
 		\begin{itemize}
 			\item
 				$\Id_\R: \R \to \R$ hat alle Eigenschaften,
 			\item
-				$f: \R \to \R, f(x) = x^2$ ist stetig, abgeschlossen, aber nicht offen,
+				$f: \R \to \R, f(x) = x^2$ ist stetig, abgeschlossen, aber nichtoffen,
 			\item
 				$f: \R \to \R, f(x) = \arctan(x)$ ist stetig, offen, aber nicht abgeschlossen,
 			\item
@@ -140,7 +139,7 @@
 			\item
 				\dots
 		\end{itemize}
-	\end{nt*}
+	\end{note}
 \end{df}
 
 \begin{df}
@@ -149,21 +148,27 @@
 
 \begin{nt}
 	Aus der Stetigkeit von $f$ folgt im Allgemeinen nicht die Stetigkeit von $f^{-1}$.
-	Betrachte dazu $f: [1,2[ \cup [3,4[ \to [1,3[$ mit
-	\[
-		f(x) = \begin{cases}
-			x & x \in [1,2[ \\
-			x - 1 & x \in [3,4[
-		\end{cases}.
-	\]
-	$f$ ist bijektiv, stetig, aber kein Homöomorphismus.
-	Oder: $f : [0,1[ \to \S^1 \subset \C$ definiert durch
-	\[
-		f(t)
-		= e^{2\pi i t}
-		= (\cos (2\pi t), \sin (2\pi t))
-	\]
-	ist bijektiv, stetig, aber kein Homöomorphismus (es gibt sogar kein Homöomorphismus zwischen $[0,1[$ und $\S^1$).
+	Betrachte dazu folgende Gegenbeispiele
+	\begin{itemize}
+		\item
+			$f: [1,2[ \cup [3,4[ \to [1,3[$ definiert durch
+			\[
+				f(x) = \begin{cases}
+					x & x \in [1,2[ \\
+					x - 1 & x \in [3,4[
+				\end{cases}.
+			\]
+			Anschaulich gesprochen „flickt“ $f$ beide Intervalle zusammen, während $f^{-1}$ sie wieder „zerreißt“.
+			$f$ ist bijektiv, stetig, aber kein Homöomorphismus.
+		\item
+			$f : [0,1[ \to \S^1 \subset \C$ definiert durch
+			\[
+				f(t)
+				= e^{2\pi i t}
+				= (\cos (2\pi t), \sin (2\pi t))
+			\]
+			ist bijektiv, stetig, aber kein Homöomorphismus (es gibt sogar kein Homöomorphismus zwischen $[0,1[$ und $\S^1$).
+	\end{itemize}
 \end{nt}
 
 
@@ -174,14 +179,16 @@ Sei im folgenden $(X, \scr T)$ ein topologischer Raum, $x \in X$.
 
 \begin{df}
 	Eine Menge $O$ heißt \emph{offene Umgebung} von $x$ in $(X,\scr T)$, wenn $x \in O \in \scr T$ gilt.
+	Die Menge aller offenen Umgebungen von $x$ in $(X, \scr T)$ bezeichnen wir mit
 	\[
-		U_x^O = U_x^O(\scr T)
-		:= \{ O \in \scr T : x \in O \}
+		U_x^O := U_x^O(\scr T)
+		:= \{ O \in \scr T : x \in O \}.
 	\]
 
-	Eine Menge $U$ heißt \emph{Umgebung} von $x$ in $(X, \scr T)$, wenn sie eine offene Umgebung von $x$ enthält
+	Eine Menge $U$ heißt \emph{Umgebung} von $x$ in $(X, \scr T)$, wenn sie eine offene Umgebung von $x$ enthält.
+	Die Menge aller Umgebungen von $x$ in $(X, \scr T)$ bezeichnen wir mit
 	\[
-		U_x = U_x(\scr T)
+		U_x := U_x(\scr T)
 		:= \{ U \subset X : \exists O \in \scr T : x \in O \subset U \}
 	\]
 \end{df}
@@ -205,13 +212,13 @@ Sei im folgenden $(X, \scr T)$ ein topologischer Raum, $x \in X$.
 	\end{itemize}
 \end{ex}
 
-\begin{df}
+\begin{df}[Erstes Abzählbarkeitsaxiom]
 	Ein topologischer Raum $(X, \scr T)$ erfüllt das \emph{erste Abzählbarkeitsaxiom} (1AA), wenn jeder Punkt $a \in X$ eine abzählbare Umgebungsbasis besitzt.
-	\begin{nt*}
+	\begin{note}
 		Hat $a$ eine abzählbare Umgebungsbasis $(V_n)_{n\in\N}$, so auch eine offene Umgebungsbasis, etwa $(\mathring V_n)_{n\in\N}$.
 
 		Durch Übergang zu $U_n := \mathring V_0 \cap \dotsb \cap \mathring V_n$ erhalten wir eine offene Basis $U_0 \supset U_1 \supset U_2 \supset \dotsb$.
-	\end{nt*}
+	\end{note}
 \end{df}
 
 \begin{ex}
@@ -236,7 +243,7 @@ Sei im folgenden $(X, \scr T)$ ein topologischer Raum, $x \in X$.
 \begin{prop}
 	Eine Folge $(x_n)$ in $X$ konvergiert gegen $a \in X$ genau dann, wenn
 	\[
-		\forall V uin \scr B_x \exists m \in \N \forall n \ge m : x_n \in V.
+		\forall V \in \scr B_x \exists m \in \N \forall n \ge m : x_n \in V.
 	\]
 \end{prop}
 
@@ -277,7 +284,8 @@ Grenzwerte sind im Allgemeinen nicht eindeutig, betrachte dazu folgendes Beispie
 	\[
 		\scr T := \big\{ O \subset X : \text{Zu jedem $x\in O$ existiert ein $U_x \in \scr B_x$ mit $U_x \subset O$} \big\}
 	\]
-	eine Topologie auf $X$ und für jedes $x \in X$ ist $\scr B_x$ eine Umgebungsbasis von $x$ im Raum $(X, \scr T)$.
+	eine Topologie auf $X$ und
+	$\scr B_x$ ist für jedes $x \in X$ eine Umgebungsbasis von $x$ im Raum $(X, \scr T)$.
 	\begin{proof}
 		$\scr T$ ist eine Topologie:
 		\begin{enumerate}[(O1)]
@@ -473,20 +481,20 @@ Ein Punkt $x \in X$ heißt
 
 \begin{df}
 	Wir definieren das \emph{Innere} einer Menge $M \subset X$ als
-	\[
+	\begin{align*}
 		\mathring M
 		:= K_{\scr T}(M)
-		:= \{ x \in X : M \in U_x \}
-		= \bigcup \{ U \in \scr T : U \subset M \},
-	\]
+		&:= \{ x \in X : M \in U_x \} \\
+		&\;= \bigcup \{ U \in \scr T : U \subset M \},
+	\end{align*}
 	den \emph{Abschluss} als
-	\[
+	\begin{align*}
 		\_{M}
 		:= H_{\scr T}(M)
-		:= \{ x \in X : \forall U \in \scr U_x : U \cap M \neq \emptyset \}
-		= \bigcap \{ A \supset M : X \setminus A \in \scr T \},
-	\]
-	den \emph{Rand} als
+		&:= \{ x \in X : \forall U \in \scr U_x : U \cap M \neq \emptyset \} \\
+		&\;=  \bigcap \{ A \supset M : X \setminus A \in \scr T \}
+	\end{align*}
+	und den \emph{Rand} als
 	\[
 		\boundary M
 		:= \_ M \setminus \mathring M,
@@ -514,10 +522,10 @@ Ein Punkt $x \in X$ heißt
 \section{Erzeugung von Topologien}
 
 
-\begin{df}
+\begin{df}[Basis]
 	Eine Teilmenge $\scr B \subset \scr T$ heißt \emph{Basis} der Topologie $\scr T$, wenn jede offene Menge $U \in \scr T$ Vereinigung von offenen Mengen aus $\scr B$ ist, also
 	\[
-		\scr T = \{ \bigcup \scr S : \scr S \subset \scr B \}
+		\scr T = \Big\{ \bigcup \scr S : \scr S \subset \scr B \Big\}.
 	\]
 \end{df}
 

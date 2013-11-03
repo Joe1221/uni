@@ -197,7 +197,7 @@
 	\end{enumerate}
 \end{ex}
 
-\begin{df}
+\begin{df}[Metrik]
 	Sei $X$ eine Menge.
 	Eine \emph{Metrik} auf $X$ ist eine Abbildung $d : X \times X \to [0, \infty]$, die (M0-3) erfüllt.
 
@@ -333,7 +333,7 @@ für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
 	\]
 \end{df}
 
-\begin{df}
+\begin{df} \label{df:metric_space_terms}
 	Bezüglich eines metrischen Raumes $(X,d)$ führen wir folgende Begriffe ein:
 	\begin{itemize}
 		\item
@@ -424,12 +424,14 @@ für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
 		\B^n := \{ x \in \R^n : x_1^2 + \dotsb + x_n^2 < 1 \}, \\
 		\S^{n-1} := \{ x \in \R^n : x_1^2 + \dotsb + x_n^2 = 1 \}.
 	\end{align*}
+	In \coursehref{Blatt01.pdf}{Übungsaufgabe Blatt1, S4.1} wird gezeigt, dass es sich hierbei um $n$-, bzw. $n-1$-dimensionale Mannigfaltigkeiten handelt.
 \end{ex}
 
 \coursetimestamp{21}{10}{2013}
 
+% fixme: does not belong here
 \begin{nt}
-	Wir verwenden für ein Mengensystem $\scr A$ die Notation für die Vereinigung über alle enthaltenen Mengen
+	Wir verwenden für ein Mengensystem $\scr A$ die folgende Notation für die Vereinigung über alle enthaltenen Mengen
 	\[
 		\bigcup \scr A
 		= \bigcup_{A \in \scr A} A
@@ -526,16 +528,19 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 \begin{st}
 	Konvergiert $f_n \to f$ gleichmäßig und sind alle $f_n$ stetig, so auch $f$.
 	\begin{proof}
-		\coursehref{Blatt01.pdf}{Übungsaufgabe Blatt1, S3.3.}
+		Siehe \coursehref{Blatt01.pdf}{Übungsaufgabe Blatt1, S3.3.}
 	\end{proof}
 \end{st}
 
 \begin{st}[Zwischenwertsatz (ZWS)]
 	Jede stetige Funktion $f: [a,b] \to \R$ hat die Zwischenwerteigenschaft (ZWE): zu $y \in \R$ mit $f(a) \le y \le f(b)$ existiert $x \in \R$ mit $x \in [a,b]$ mit $f(x) = y$.
-	\begin{nt*}
+	\begin{note}
 		Die Vollständigkeit von $\R$ ist hier wesentlich.
 		Betrachte $f: \Q \to \Q$ mit $f(x) = x^2 - 2$ hat nicht die ZWE, denn $f(1) = - 1 < 0$, $f(2) = 2 > 0$, aber es gibt kein $x \in \Q$ mit $f(x) = 0$.
-	\end{nt*}
+	\end{note}
+	\begin{proof}
+		Siehe \coursehref{Blatt00.pdf}{Übungsaufgabe Blatt0, 1.2.}
+	\end{proof}
 \end{st}
 
 \begin{st}
@@ -572,7 +577,7 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 \begin{st}
 	Ist $f: X \to Y$ stetig und $X$ zusammenhängend, so ist auch $f(X) \subset Y$ zusammenhängend.
 	\begin{proof}
-		Ist $f(X) = A \dunion B$ eine offene Zerlegung, dann auch $X = f^{-1}(A) \dunion f^{-1}(B)$.
+		Ist $f(X)$ nicht zusammenhängend, also $f(X) = A \dunion B$ eine offene Zerlegung mit $A \neq \emptyset \neq B$, dann auch $X = f^{-1}(A) \dunion f^{-1}(B)$ und somit $X$ nicht zusammenhängend.
 	\end{proof}
 \end{st}
 
@@ -598,11 +603,11 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 		Dann existiert ein Weg $\gamma: [0,1] \to X$ mit $\gamma(0) = a$ und $\gamma(1) = b$.
 		Also ist $[0,1] = f^{-1}(A) \dunion f^{-1}(B)$ eine offene Zerlegung mit $0 \in f^{-1}(A)$ und $1 \in f^{-1}(B)$, ein Widerspruch.
 
-		Ein Gegenbeispiel
+		Betrachte als Gegenbeispiel
 		\[
-			X := \{ (x,\sin(\f 1x)) : x \in \R>0 \} \cup ( \{0\} \times [0,1] )
+			X := \big\{ (x,\sin(\f 1x)) : x \in \R>0 \big\} \cup \big( \{0\} \times [0,1] \big).
 		\]
-		ist zusammenhängend, aber nicht wegzusammenhängend.
+		$X$ ist zusammenhängend, aber nicht wegzusammenhängend.
 	\end{proof}
 \end{st}
 
@@ -616,7 +621,8 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 \end{df}
 
 \begin{prop}
-	Äquivalent sind
+	Seien $d, e$ Metriken auf einer Menge $X$.
+	Dann sind folgende Aussagen äquivalent:
 	\begin{enumerate}[(1)]
 		\item
 			$d$ ist feiner als $e$
@@ -633,6 +639,7 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 		\item
 			Ist $f: Y \to X$ stetig bezüglich $d$, dann auch bezüglich $e$.
 	\end{enumerate}
+
 	Seien $|\argdot|$ und $\|\argdot\|$ zwei Normen auf einem $K$-Vektorraum $V$.
 	$|\argdot|$ ist genau dann feiner als $\|\argdot\|$, wenn ein $L \in \R_{>0}$ existiert mit $\|x\| \le L |x|$ für alle $x \in V$.
 	$|\argdot|$ und $\|\argdot\|$ sind genau dann äquivalent, wenn $l,L \in \R_{>0}$ existiert, sodass
@@ -669,17 +676,18 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 	\end{enumerate}
 \end{ex}
 
-\begin{ex}
-	Ist $d: X \times X \to [0,\infty]$ eine Metrik, so auch $d': X \times X \to [0,1]$ (gestauchte Metrik) mit
+\begin{ex}[Äquivalente, gestauchte Metriken]
+	Ist $d: X \times X \to [0,\infty]$ eine Metrik, so auch die \emph{gestauchte Metrik} $d': X \times X \to [0,1]$, definiert durch
 	\[
-		d'(x,y) = \f {d(x,y)}{1 + d(x,y)}.
+		d'(x,y) := \f {d(x,y)}{1 + d(x,y)}.
 	\]
 	Hieraus lässt sich $d$ rekonstruieren durch
 	\[
 		d(x,y) = \f {d'(x,y)}{1-d'(x,y)}.
 	\]
 	Diese beiden sind äquivalent, d.h. sie definieren die selben Topologien.
-	Ebenso die gekappte Metrik
+
+	Gleiches gilt für die \emph{gekappte (oder gestutzte) Metrik}, gegeben durch
 	\[
 		d^*(x,y) := \min \{d(x,y), 1 \}.
 	\]
