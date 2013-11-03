@@ -264,8 +264,7 @@
 \theoremstyle{mythm} 								% Vordefinierter Style mit Zeilenumbruch
 
 
-% Deprecated: (use \theorempreskip instead)
-\theorempreskipamount 2.5em 						% Abstand vor Theroem
+\theorempreskip{1.5em}                              % Abstand vor Theroem
 \theoremindent 1em 									% Theroem einrücken
 \theoremheaderfont{\kern-1em\normalfont\bfseries} 	% Überschrift wieder ausrücken
 \theorembodyfont{\normalfont}
@@ -295,7 +294,7 @@
 \newtheorem{ex}[thm]{Beispiel}
 \renewtheorem*{ex*}{Beispiel}
 
-\theorempreskipamount 1.0em % Abstand vor Theroem
+\theorempreskip{0.7em}                               % Abstand vor Theorem
 \theoremheaderfont{\kern-1em\bfseries\small\itshape} % Kursiv und kleiner als oben
 
 \theoremstyle{break}
