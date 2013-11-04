@@ -536,7 +536,289 @@ Ein Punkt $x \in X$ heißt
 		\item
 			Die übliche Topologie auf $\R$ hat als Basis $\scr B = \{ ]a,b[ : a < b \}$.
 		\item
-			Jeder metrische Raum $(X, \scr T_d)$ hat als Basis $\scr B = \{ B(a, \eps) : a \in X, \eps > 0\}$.
+			Jeder metrische Raum $(X, \scr T_d)$ hat als Basis $\scr B = \{ B(a, \eps) : a \in X, \eps > 0 \}$.
 	\end{enumerate}
 \end{ex}
+
+\coursetimestamp{04}{11}{2013}
+
+\begin{prop}
+	Sei $(X, \scr T)$ ein topologischer Raum und $\scr B \subset \scr T$.
+	Dann sind folgende Aussagen äquivalent
+	\begin{enumerate}[1)]
+		\item
+			$\scr B$ ist Basis von $\scr T$, d.h.
+			\[
+				\forall U \in \scr T \exists \scr S \subset \scr B : U = \bigcup \scr S.
+			\]
+		\item
+			\[
+				\forall U \in \scr T : U = \bigcup \{ B \in \scr B : B \subset U \}.
+			\]
+		\item
+			\[
+				\forall U \in \scr T \forall x \in U \exists B \in \scr B : x \in B \subset U
+			\]
+	\end{enumerate}
+	Demnach ist $\scr B$ genau dann eine Basis von $\scr T$, wenn $\scr B_x := \{ B \in \scr B : x \in B \}$ eine Umgebungsbasis für jedes $x \in X$ ist.
+	% fixme: proof
+\end{prop}
+
+\begin{st}
+	Jede Basis $\scr B$ einer Topologie $\scr T$ auf $X$ erfreut sich folgender Eigenschaften
+	\begin{enumerate}[(B1)]
+		\item
+			$X = \bigcup B$,
+		\item
+			Für $U, V \in \scr B$ existiert $\scr S \subset \scr B$ mit
+			\[
+				U \cap V = \bigcup S.
+			\]
+	\end{enumerate}
+	Erfüllt umgekehrt $\scr B \subset \scr P(X)$ die Bedingungen (B1-2), so ist
+	\[
+		\scr T = \{ \bigcup \scr S : \scr S \subset \scr B \}
+	\]
+	eine Topologie auf $X$ mit Basis $\scr B$.
+	% fixme: proof
+\end{st}
+
+\begin{st}
+	Sei $\scr S \subset \scr P(X)$.
+	Setze
+	\begin{align*}
+		\scr B &:= \{ S_1 \cap \dotsc \cap S_n : n \in \N, S_1, \dotsc, S_n \in \scr S \} \\
+		\scr T &:= \{ \bigcup \scr B' : \scr B' \subset \scr B \}.
+	\end{align*}
+	Dann ist $\scr T$ die gröbste (kleinste) Topologie, die $\scr S$ enthält und $\scr B$ ist eine Basis von $\scr T$.
+	% fixme: proof
+\end{st}
+
+\begin{ex}
+	% fixme: reference
+	\begin{itemize}
+		\item
+			Ist $\scr S$ selbst eine Topolog, dann ist $\scr S = \scr B = \scr T$.
+		\item
+			Für $\scr S = \emptyset$ ist $\scr B = \{X\}$ (leerer Schnitt ist $X$), $\scr T = \{\emptyset, X \}$.
+		\item
+			Aus
+			\[
+				\scr S = \{ ]a,+\infty[, ]-\infty, b[ : a,b \in \R \}
+			\]
+			erhalten wir
+			\begin{align*}
+				\scr B &= \scr S \cup \{\R \}  \cup \{ ]a,b[ : a < b \in \R \}, \\
+				\scr T &= \text{Ordnungstopologie (übliche Topologie) auf $\R$}.
+			\end{align*}
+	\end{itemize}
+\end{ex}
+
+\begin{conv}
+	Wir nennen $\scr S$ ein \emph{Erzeugendensystem} (oder \emph{Subbasis}) von $\scr T$.
+\end{conv}
+
+\begin{df}[Zweites Abzählbarkeitsaxiom]
+	Ein topologischer Raum $(X, \scr T)$ erfüllt das \emph{zweite Abzählbarkeitsaxiomm} (2AA), wenn $\scr  T$ eine abzählbare Basis erlaubt.
+\end{df}
+
+\begin{ex}
+	Betrachte $X = \R$ mit der üblichen Topologie $\scr T$ und $\scr B = \{ ]a,b[ : a,b \in \R \}$.
+	Eine abzählbare Basis wäre
+	\[
+		\scr B = \{ ]a,b[ : a,b \in \Q \} \subset \scr B.
+	\]
+\end{ex}
+
+\begin{ex}
+	Betrachte $X = \R^n$ mit der euklidischen Topologie $\scr T$ und Basis
+	\[
+		\scr B = \Big\{ ]a_1,b_1[ \times \dotsb \times ]a_n,b_n[ : a_1 < b_1, \dotsc, a_n < b_n \text{ in $\R$} \Big\}.
+	\]
+	Werden $a_i, b_i$ rational gewählt, so erhält man eine abzählbare Basis für $\R^n$.
+\end{ex}
+
+\begin{st}
+	Ist $\scr B$ eine Basis der Topologie $\scr T$ auf $X$, dann ist
+	\[
+		\scr \Phi
+		: \scr T \to \scr P (\scr B)
+		: \Phi(U) := \{ B \in \scr B : B \subset U \}
+	\]
+	injektiv.
+	Ist $\scr B$ abzählbar, so folgt
+	\[
+		\card(\scr T) \le \card(\R^n) = \card(\R).
+	\]
+	Speziell für die euklidische Topologie auf $\R^n$ $(n \ge 1)$ gilt $\card(\scr T) = \card(\R)$, dank der Injektion $\R \to \scr T : r \mapsto B(0,r)$.
+	\begin{proof}
+		$\Phi$ ist injektiv, da $U = \bigcup \Phi(U)$.
+	\end{proof}
+\end{st}
+
+\begin{lem}
+	Zu jeder diskreten Teilmenge $A \subset X$ existiert eine Injektion $A \injto \scr B$, also $\card (A) \le \card(B)$.
+	\begin{proof}
+		Zu $a \in A$ existiert eine Umgebung $U_a \in \scr T$ mit $U_a \cap A = \{a\}$.
+		Somit existiert $B_a \in \scr B$ mit $a \in B_a \subset U_a$.
+		Die Zuordnung $a \mapsto B_a$ ist injektiv, denn $B_a \cap A = \{a\}$.
+	\end{proof}
+\end{lem}
+
+\begin{st}
+	Sei $\scr C_b(\R, \R)$ der Vektorraum aller stetigen und beschränkten Funktionen $f: \R \to \R$ mit der Supremumsnorm $|f| = \sup \{|f(x)| : x \in \R \}$.
+
+	Dieser erfüllt das erste Abzählbarkeitsaxiom, aber nicht das zweite Abzählbarkeitsaxiom.
+	\begin{proof}
+		Sei $A = \{0, 1\}^\Z$ % fixme: überabzählbar?.
+		Jede Folge $a \in A$ definiert $f_a : \R \to \R$ durch
+		\[
+			f_a(x)
+			:= (1-t)a_k + t a_{k+1},
+			\qquad x = k+t, k \in \Z, t \in [0,1]
+		\]
+		(lineare Splineinterpolation).
+		Die Zuordnung $A \to \scr C_b (\R, \R) : a \mapsto f_a$ ist injektiv, denn $a = f_a|_\Z$.
+		Die Menge $\{f_a : a \in A\}$ ist also überabzählbar und diskret, denn $|f_a - f_b| = 1$ für $a\neq b$.
+	\end{proof}
+\end{st}
+
+\begin{proof}
+	Erlaubt $\scr T$ eine abzählbare Basis $\scr B$, dann auch eine abzählbare dichte Teilmenge $A \subset X$.
+	\begin{proof}
+		Zu $B \in \scr B$ mit $B \neq \emptyset$ wählen wir $a_B \in B$.
+		Die Menge $A = \{a_B : B \in \scr B\}$ ist abzählbar und dicht:
+		Zu jeder offenen Menge $U \neq \emptyset$ existiert $B \in \scr B, \scr B \neq \emptyset$ mit $B \subset U$, also $a_B \in B \subset U$.
+	\end{proof}
+\end{proof}
+
+\begin{df}
+	Ein topologischer Raum $(X, \scr T)$ heißt \emph{separabel}, wenn eine abzählbare dichte Teilmenge $A \subset X$ existiert.
+\end{df}
+
+\begin{st}
+	Sei $(X,d)$ ein metrischer Raum und $A \subset X$ eine abzählbare dichte Teilmenge, dann gilt das zweite Abzählbarkeitsaxiom.
+	\begin{proof}
+		Folgende Basis erzeugt den metrischen Raum $(X,d)$:
+		\[
+			\scr B = \{ B(a, \f 1k) : a \in A, k \in \N_{\ge 1} \}.
+		\]
+		Für $U \in \scr T$ zeigen wir $U = \bigcup \{ B(a, \f 1k \in \scr B : B(a, \f 1k) \subset U \}$.
+		„$\supset$“ ist klar, zeige „$\subset$“:
+		Sei $k \in \N_{\ge 1}$ mit $B(x, \f 2k) \subset U$.
+		Da $A$ dicht ist, existiert $a \in A \cap B(x, \f 1k)$.
+		Es gilt
+		\[
+			x \in \scr B(a, \f 1k) \subset B(x, \f 2k) \subset U.
+		\]
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	$\R^n$ hat als Basis $\scr B = \{ B(a, \f 1k) : a \in \Q^n, k \in \N_{\ge 1} \}$
+\end{ex}
+
+\begin{st}
+	Sei $\Omega$ eine Menge, $1 \le p \le \infty$.
+	Dann ist $\ell^p(\Omega)$ genau dann separabel, wenn $\Omega$ abzählbar ist.
+
+	Insbesondere sind $\R^n = \ell^2(\{1, \dotsc, n\})$, sowie $\ell^2(\N)$ und $\ell^2(\Z)$ separabel und erfüllen das zweite Abzählbarkeitsaxiom.
+\end{st}
+
+
+\section{Teilräume und Quotientenräume}
+
+
+Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
+\begin{align*}
+	f^{-1}(Y \setminus V) &= X \setminus f^{-1}(V) \\
+	f^{-1}(\bigcap_{i\in I} V_i) &= \bigcap_{i\in I} f^{-1}(V_i)
+\end{align*}
+\begin{df}
+	Seien $X \stack f\to Y \stack g\to Z$ Abbildungen.
+	\begin{enumerate}[(1)]
+		\item
+			Zurückziehen (pullback):
+			Jede Topologie $\scr T_Z$ auf $Z$ induziert eine Topologie $g^*\scr T_Z$ auf $Y$ durch
+			\[
+				g^* \scr T_Z
+				:= \{ g^{-1}(Wr : W \in \scr T_Z \}.
+			\]
+			Diese heißt \emph{initiale Topologie} bezüglich $g$ und ist die gröbste Topologie, für die $g$ stetig ist.
+		\item
+			Vorschieben (push forward):
+			Jede Topologie $\scr T_X$ auf $X$ induziert eine Topologie $f_* \scr T_X$ auf $Y$ durch
+			\[
+				f_* \scr T_X = \{ V \subset Y : f^{-1}(V) \in \scr T_X \}.
+			\]
+			Diese heißt \emph{finale Topologie} bezüglich $f$ und ist die feinste Topologige auf $Y$, für die $f$ stetig ist.
+	\end{enumerate}
+\end{df}
+
+\begin{ex}
+	Sei $f: X \to Y$ konstant.
+	\begin{itemize}
+		\item
+			$f^* \scr T_Y = \{ \emptyset, X \}$ ist die indiskrete Topologie,
+		\item
+			$f^* \scr T_X = \scr P(Y)$ ist die diskrete Topologie.
+	\end{itemize}
+\end{ex}
+
+\begin{ex}
+	Betrachte
+	\begin{align*}
+		s&: \R^m \to \R^n, (x_1,\dotsc, x_m) \mapsto (x_1, \dotsc, x_m, 0, \dotsc, 0), \\
+		p&: \R^n \to \R^m, (x_1,\dotsc, x_n) \mapsto (x_1, \dotsc, x_m).
+	\end{align*}
+	Dann ist $s^* \scr T_{\R^n} = \scr T_{\R^m}$ und $p_* \scr T_{\R^n} = \scr T_{\R^m}$.
+\end{ex}
+
+\subsection{Teilraumtopologie}
+
+\begin{df}
+	Sei $(X, \scr T_X)$ ein topologischer Raum und $A \subset X$.
+	Wir setzen
+	\[
+		\scr T_A = \{ A \cap U : U \in \scr T_X \}
+		= \{ \jota_A^{-1}(U) : U \in \scr T_X \}
+		= \jota_A^* \scr T_X
+	\]
+	(pullback bezüglich $\jota_A : A \to X, a \mapsto a$).
+	Dies nennen wir \emph{Teilraumtopologie} auf $A$ und $(A, \scr T_A)$ einen Teilraum von $(X, \scr T_X)$.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Die Teilraumtopologie von $\R$ in $\C$ ist die übliche Topologie auf $\R$.
+		\item
+			Ist $(X, d)$ ein metrischer Raum, $A \subset X, d_A = d|_{A\times A}$, so gilt $(A, \scr T_A) = (A, \scr T_{d_A})$.
+	\end{itemize}
+\end{ex}
+
+\begin{nt}
+	Eine offene Menge in $A$ liegt auch in $X$, ist aber im Allgemeinen nicht offen in $X$.
+
+	$]0,1[$ ist offen in $\R$, aber nicht offen in $\C$.
+\end{nt}
+
+\begin{st}
+	\begin{enumerate}[(1)]
+		\item
+			Die Teilraumtopologie $\scr T_A$ auf $A$ ist die gröbste, für die $\jota_A : A \to X$ stetig ist.
+		\item
+			Genau dann ist $f: Y \to A$ stetig, wenn $\jota_A \circ f: Y \to X$ stetig ist.
+	\end{enumerate}
+\end{st}
+
+\begin{df}
+	Seien $(X,\scr T_X)$ und $(Y, \scr T_Y)$ topologische Räume.
+	Eine Abbildung $f: (X, \scr T_X) \to (Y, \scr T_Y)$ heißt \emph{Einbettung}, wenn $f$ ein Homöomorphismus von $X$ auf das Bild $f(X) \subset Y$ induziert.
+\end{df}
+
+\begin{ex}
+	$\R$ kann in $\C$ eingebettet werden.
+\end{ex}
+
 
