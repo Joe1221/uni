@@ -893,9 +893,180 @@ Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren kö
 			für jedes $x_0$ mit $f(x_0) \le C$ gegen das globale Minimum.
 
 			%fixme: Reicht auch nur die strikte konvexität?
+			Siehe \ref{2.27}.
 	\end{enumerate}
 \end{kor}
 
+\coursetimestamp{04}{11}{2013}
+
+\begin{st}[Röhm] \label{2.27}
+	Ist $f: \R^n \to \R$ konvex und besitzt ein eindeutiges Minimum, so sind alle Niveaumengen beschränkt.
+	Insbesondere konvergiert das Gradientenverfahren für strikt konvexe Funktionen mit Minimum für jede Wahl des Anfangswertes gegen das Minimum.
+	\begin{proof}
+		Sei $f$ konvex und $\hat x \in \R^n$ der Minimierer von $f$.
+		Zu jedem Radius $r > 0$ definiere
+		\[
+			C_r := \min \{ f(x) : x \in \boundary B_r (\hat x) \}.
+		\]
+		Wir zeigen, dass
+		\begin{enumerate}[(a)]
+			\item
+				$f^{-1}(]-\infty, C_r) \subset \_{B_r(\hat x)}$,
+			\item
+				$C_r \to \infty$ für $r \to \infty$.
+		\end{enumerate}
+		Sei $r > 0$ und $x \not\in \_{B_r(\hat x)}$.
+		Für $t := \f r{\|x - \hat x\|}$ gilt $0 < t < 1$ und
+		\[
+			\hat x + t(x-\hat x) \in \boundary B_r(\hat x).
+		\]
+		Also
+		\begin{align*}
+			C_r
+			\le f(\hat x + t(x-\hat x))
+			&\le (1-t) f(\hat x) + tf(x) \\
+			&< (1-t) f(x) + t f(x)
+			= f(x)
+		\end{align*}
+		und somit (a) gezeigt.
+		Es folgt daraus außerdem
+		\[
+			f(x)
+			\ge \f 1t C_R - \f 1t f(\hat x) + f(\hat x)
+			= \f {\|x-\hat x\|}r (C_r - f(\hat x)) + f(\hat x).
+		\]
+		Für alle $R > r$ gilt
+		\[
+			C_R = \min \{ f(x) : x \in \boundary B_R(\hat x) \}
+			\ge \f Rr (C_r - f(\hat x)) + f(\hat x)
+			\to \infty
+		\]
+		für $R \to \infty$.
+	\end{proof}
+\end{st}
+
+\subsection{Nachteile des Gradientenverfahrens}
+
+Für $f(x) = x^T A x$ mit $A = \Id$ liefert die Gradientenrichtung die „perfekte Suchrichtung“, mit der Minimierungsregel (“line search”, d.h. suche globales Minimierung in Richtung der Suchrichtung) findet das Gradientenverfahren das Minimimum in einem Schritt.
+
+Für $f(x) = x^T A x$ mit $A = \begin{psmallmatrix}1 & 0 \\ 0 & 4\end{psmallmatrix}$ kann sich dagegen sogenanntes “zig-zagging” ergeben, was zu langsamer Konvergenz führt (siehe Übungsblatt).
+%fixme: ref
 
 
+\section{Allgemeine Abstiegsverfahren}
 
+
+Es sei hier weiterhin stets $f: \R^n \to \R$ stetig differenzierbar.
+
+\begin{alg} \label{alg:3}
+	\begin{algorithmic}
+		\Require{Startwert $x_0 \in \R^n$}
+		\Require{Suchrichtungen und Schrittweiten $d_k, s_k$}
+		\For{$i \gets 1, 2, \dotsc$}
+			\If{$\nabla f(x_k) = 0$}
+				\Return{$x_k$}
+			\EndIf
+			\State{$x_{k+1} \gets x_k + s_k d_k$}
+		\EndFor
+	\end{algorithmic}
+\end{alg}
+
+\subsection{Ein allgemeines Konvergenzresultat}
+
+Wenn wir in \ref{alg:3} für alle $k \in \N$ fordern, dass
+\[
+	\nabla f(x_k)^T d_k < 0
+	\qquad\text{und}\qquad
+	f(x_k + s_k d_k) < f(x_k),
+\]
+dann können wir interessante Konvergenzresultate zeigen.
+Im Beweis von \ref{2.24} folgte aus dieser Bedingung sofort, dass (falls es eine konvergennte Teilfolge der $x_k$ gibt) $f(x_k)$ konvergiert, also insbesondere
+\[
+	f(x_k) - f(x_{k+1}) \to 0.
+\]
+
+\begin{df} \label{2.28}
+	Das allgemeine Abstiegsverfahren in \ref{alg:3} besitzt
+	\begin{enumerate}[(a)]
+		\item
+			\emph{zulässige Schrittweiten}, falls
+			\[
+				f(x_k + s_k d_k) < f(x_k)
+			\]
+			und für jede konvergente Teilfolge $(x_l)_{l\in L}$ der Iterierten gilt
+			\[
+				f(x_k) - f(x_{k+1}) \to 0
+				\quad\implies\quad
+				\lim_{L \ni l \to \infty} \f{\nabla f(x_l)^T d_l}{\|d_l\|} = 0.
+			\]
+		\item
+			\emph{zulässige Schrittweiten}, falls
+			\[
+				\nabla f(x_k)^T d_k < 0
+			\]
+			und für jede konvergente Teilfolge $(x_l)_{l\in L}$ der Iterierten gilt
+			\[
+				\lim_{L \ni l \to \infty} \f{\nabla f(x_l)^T d_l}{\|d_l\|} = 0.
+				\quad\implies\quad
+				\lim_{L \ni l \to \infty} \nabla f(x_l) = 0.
+			\]
+	\end{enumerate}
+\end{df}
+
+\begin{st}[Präkonvergenz allgemeiner Abstiegsverfahren] \label{2.29}
+	Das allgemeine Abstiegsverfahren in \ref{alg:3} besitze zulässige Schrittweiten und Suchrichtungen.
+	Dann terminiert das Verfahren nach endlich vielen Schritten an einem stationären Punkt $x_k$ oder es erzeugt eine Folge $(x_k)_{k\in\N}$ mit
+	\begin{enumerate}[(a)]
+		\item
+			$f(x_{k+1}) < f(x_k)$,
+		\item
+			Jeder Häufungspunkt von $(x_k)$ ist ein stationärer Punkt.
+	\end{enumerate}
+	\begin{proof}
+		Aussage (a) geht direkt aus der Definition zulässiger Schrittweiten hervor.
+
+		Konvergiert eine Teilfolge $(x_l)_{l\in L}$ der Iterierten gegen ein $x \in \R^n$, so folgt wie in \ref{2.24}, dass
+		\[
+			f(x) = \lim_{L \ni l \to \infty} f(x_l) = \lim_{k \to \infty} f(x_k),
+		\]
+		also $f(x_k) - f(x_{k+1}) \to 0$.
+		Daraus folgt mit den Definitionen der zulässigen Schrittweiten/Suchrichtungen die Aussage (b).
+	\end{proof}
+\end{st}
+
+\subsection{Interpretation der Zulassungsbedingungen}
+
+\paragraph{Suchrichtungen:}
+\[
+	0 <
+	-\nabla f(x_k)^T d_k
+	= \|\nabla f(x_k)\|\|d_k\| \cos \angle(-\nabla f(x_k), d_k),
+\]
+also genau dann, wenn
+\[
+	\cos \angle(-\nabla f(x_k), d_k) > 0.
+\]
+Suchrichtungen sollen zur Richtung des steilsten Abstiegs einen Winkel betragsmäßig $< \f \pi2$ besitzen.
+Eine Naheliegende Forderung wäre, dass der Winkel „gleichmäßig“ unter $\f \pi 2$ liegt, also
+\[
+	\exists \alpha > 0 \forall k\in \N : \underbrace{\cos \angle(-\nabla f(x_k), d_k)}_{= \f {-\nabla f(x_k)^T d_k}{\|\nabla f(x_k)\|\|d_k\|}} \ge \alpha.
+\]
+Solche Bedingungen werden auch \emph{Winkelbedingungen} genannt.
+
+\begin{st} \label{2.30}
+	Seien $(d_k)_{k\in\N}$  die Suchrichtungen eines allgemeine Abstiegsverfahren.
+	Gilt die Winkelbedingung
+	\[
+		\exists \alpha > 0:
+		\f {-\nabla  f(x_k)^T d_k}{\|\nabla f(x_k)\|\|d_k\|},
+	\]
+	so sind die Suchrichtungen zulässig.
+	\begin{proof}
+		Aus der Winkelbedingung folgt $\nabla f(x_k)^T d_k < 0$ und
+		\[
+			\|\nabla f(x_k)\|
+			\le \f 1d \f {-\nabla f(x_k)^T d_k}{\|d_k\|},
+		\]
+		also sind die Suchrichtungen zulässig.
+	\end{proof}
+\end{st}
