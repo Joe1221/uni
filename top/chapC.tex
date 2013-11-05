@@ -287,7 +287,7 @@ Grenzwerte sind im Allgemeinen nicht eindeutig, betrachte dazu folgendes Beispie
 
 \coursetimestamp{29}{10}{2013}
 
-\begin{st}
+\begin{st} \label{st:local_bases}
 	Jede Umgebungsbasis $\scr B_x$ von $x$ in $(X, \scr T)$ erfreut sich folgender Eigenschaften
 	\begin{enumerate}[(UB1)]
 		\item
@@ -295,11 +295,12 @@ Grenzwerte sind im Allgemeinen nicht eindeutig, betrachte dazu folgendes Beispie
 		\item
 			Zu $U,V \in \scr B_x$ existiert $W \in \scr B_x$ mit $W \subset U \cap V$.
 	\end{enumerate}
-	Erfüllt umgekehrt $(\scr B_x)_{x\in X}$ die Bedingungen (UB1-2), dann ist
+
+	Erfüllt umgekehrt ein System von Umgebungsbasen $(\scr B_x)_{x\in X}$ die Bedingungen (UB1-2), dann wird die Topologie
 	\[
-		\scr T := \big\{ O \subset X : \text{Zu jedem $x\in O$ existiert ein $U_x \in \scr B_x$ mit $U_x \subset O$} \big\}
+		\scr T := \Big\{ O \subset X : \text{Zu jedem $x\in O$ existiert ein $U_x \in \scr B_x$ mit $U_x \subset O$} \Big\}
 	\]
-	eine Topologie auf $X$ und
+	auf $X$ induziert und
 	$\scr B_x$ ist für jedes $x \in X$ eine Umgebungsbasis von $x$ im Raum $(X, \scr T)$.
 	\begin{proof}
 		$\scr T$ ist eine Topologie:
@@ -352,43 +353,54 @@ oder genauer: wenn
 \[
 	\forall x \in \R \forall \eps > 0 \exists m \in \N \forall n \ge m : |f_n(x) - f(x)| < \eps.
 \]
-Ein naiver Ansatz, Umgebungen:call foreground()
-
-Wir definieren Umgebungen als
+Es wäre naheliegend, Umgebungen folgendermaßen zu definieren:
 \[
 	U(f; x, \eps)
 	:= \{ g: \R \to \R : |g(x) - f(x)| < \eps \}.
 \]
 Diese erfüllen (UB1), aber nicht (UB2).
-Für $J \subset \R$ endlich und $\eps \in \R_{>0}$ definieren wir
+Für $J \subset \R$ endlich und $\eps \in \R_{>0}$ definieren wir deshalb
 \[
 	U(f; J, \eps)
 	:= \{ g: \R \to \R : \forall x \in J : |g(x) - f(x)| < \eps \}.
 \]
-Diese erfüllen (UB1) und (UB2), denn
+Diese erfüllen (UB1) und auch (UB2), denn
 \[
 	U(f; J, \eps) \cap U(f, J', \eps')
 	\supset U(f; J \cup J', \min\{\eps, \eps'\}).
 \]
-Dies definiert eine Topologie $\scr T_{\text{pw}}$ wie im Satz. %fixme: reference
+Dies definiert eine Topologie $\scr T_{\text{pw}}$ (“pointwise”) gemäß \ref{st:local_bases}.
 
-Es gilt $f_n \to f$ punktweise genau dann, wenn $f_n \to f$ bezüglich $\scr T_{\text{pw}}$.
+Mit dieser Topologie gilt $f_n \to f$ punktweise genau dann, wenn $f_n \to f$ bezüglich $\scr T_{\text{pw}}$.
+%fixme: proof?
 
 \begin{st}
-	Die Topologie $\scr T_{\text{pw}}$ ist nicht metrisierbar.
-	Genauer: $\scr T_{\text{pw}}$ erfüllt das Hausdorff-Axiom, aber nicht das 1AA.
+	$\scr T_{\text{pw}}$ erfüllt das Hausdorff-Axiom, aber nicht das 1AA.
+	Insbesondere ist die Topologie $\scr T_{\text{pw}}$ also nicht metrisierbar.
 	\begin{proof}
-		Angenommen $(U_n)_{n\in\N}$ sind Umgebungen der Nullfunktion.
-		Zu jedem $n \in \N$ existiert $J_n \subset \R$ endlich und $\eps_n > 0$ mit $U(0; J_n, \eps_n) \subset U_n$.
+		Seien $f,g \in X$ mit $f \neq g$, d.h. es existiert $x \in \R$ mit $d := |f(x) - g(x)| > 0$.
+		Wähle $U := U(f; \{x\}, \f d2), V := U(g, \{x\}, \f d2)$ als Umgebungen um $f$, bzw. $g$.
+		Dann ist $U \cap V = \emptyset$, denn für $h \in U \cap V$ wäre
+		\begin{align*}
+			d
+			&= |f(x) - h(x) + h(x) - g(x)| \\
+			&\le |f(x) - h(x)| + |h(x) - g(x)|
+			< \f d2 + \f d2
+			= d,
+		\end{align*}
+		ein Widerspruch.
+		Also ist $\scr T_{\text{pw}}$ hausdorffsch.
 
-		Die Menge $J = \bigcup_{k\in\N} J_n \subset \R$ ist abzählbar.
-		Für $x_0 \in \R \setminus J$ enthält die Umgebung $U(0; x_0, 1)$ keine der Umgebungen $U_n$.
+		Angenommen $(U_n)_{n\in\N}$ ist eine abzählbare Umgebungsbasis der Nullfunktion,
+		d.h. zu jedem $n \in \N$ existiert $J_n \subset \R$ endlich und $\eps_n > 0$ mit $U(0; J_n, \eps_n) \subset U_n$.
+		Die Menge $J = \bigcup_{k\in\N} J_n \subset \R$ ist abzählbar, also $\R \setminus J \neq \emptyset$.
+		Für $x_0 \in \R \setminus J$ enthält die Umgebung $U(0; \{x_0\}, 1)$ keine der Umgebungen $U_n$.
 	\end{proof}
 \end{st}
 
-\subsection{Gleichmäßige Konvergenz} % fixme: \section?
+\subsection{Gleichmäßige Konvergenz}
 
-Wir sagen, $f_n \to f$ konvergiere gleichmäßig, wenn
+Wir wissen, $f_n \to f$ konvergiert gleichmäßig, wenn
 \[
 	\forall \eps > 0 \exists m \in \N \forall n \ge m \underbrace{\forall x \in \R : |f_n(x) - f(x) | \le \eps}_{|f_n - f|_{\R} \le \eps},
 \]
@@ -396,39 +408,44 @@ also genau dann, wenn
 \[
 	|f_n-f|_{\R} \to 0.
 \]
-Damit wird die gleichmäßige Konvergenz von der Supremumsnorm kontrolliert.
-Setze
+Die gleichmäßige Konvergenz wird also gewissermaßen von der Supremumsnorm „kontrolliert“.
+Naheliegend sind demnach folgende Umgebungen:
 \[
 	U(f,\eps)
 	:= B(f,\eps)
 	= \{ g : \R \to \R : \forall x \in \R : |g(x) - f(x)| < \eps \}.
 \]
-Dies erfüllt (UB1-2) und definiert so die (metrische) Topologie $\scr T_{\text{uni}} = \scr T_d$ bezüglich dier Supremumsmetrik
+Die Umgebungsbasis $\scr B_x$, bestehend aus all diesen Umgebungen (für alle $\eps > 0$), erfüllt (UB1-2) und definiert so die Topologie $\scr T_{\text{uni}}$ (“uniform convergence”).
+$\scr T_{\text{uni}}$ ist eine metrische Topologie bezüglich der Supremumsmetrik
 \[
 	d(f,g)
 	:= |f-g|_{\R}
 	:= \sup_{x\in\R} |f(x) - g(x)|.
 \]
-Es ergibt sich allerdings ein Problem:
-Potenzreihen wie $\exp(x) = \sum_{k=0}^\infty \f {x^k}{k!}$ oder $\sin(x) = \sum_{k=0}^\infty (-1)^k \f {x^{2k+1}}{(2k+1)!}$ oder $\cos (x) = \sum_{k=0}^\infty (-1)^k \f {x^{2k}}{(2k)!}$ konvergieren punktweise für jedes $x \in \R$, aber nicht gleichmäßig auf $\R$.
+%fixme : proof?
 
 \subsection{Kompakte Konvergenz}
+
+Mit den Begriffen der punktweisen und gleichmäßigen Konvergenz ergibt sich allerdings noch ein Problem:
+Potenzreihen wie $\exp(x) = \sum_{k=0}^\infty \f {x^k}{k!}$ oder $\sin(x) = \sum_{k=0}^\infty (-1)^k \f {x^{2k+1}}{(2k+1)!}$ oder $\cos (x) = \sum_{k=0}^\infty (-1)^k \f {x^{2k}}{(2k)!}$ konvergieren punktweise für jedes $x \in \R$, aber nicht gleichmäßig auf $\R$.
+Um diesen Potenzreihen einen passenderen Konvergenzbegriff zu geben, definieren wir die kompakte Konvergenz.
 
 Wir sagen, $f_n \to f$ konvergiert \emph{kompakt} genau dann, wenn $f_n|_{[-r,r]} \to f|_{[-r,r]}$ gleichmäßig auf jedem kompakten Intervall $[-r,r]$ konvergiert, also genau dann, wenn
 \[
 	\forall r \in \R_{>0} \forall \eps \in \R_{>0} \exists m \in \N \forall n \ge n \underbrace{\forall x \in [-r,r] : |f_n(x) - f(x)| \le \eps}_{|f_n-f|_{[-r,r]\le \eps}}.
 \]
-\begin{ex}
-	Die kompakte Konvergenz ist der richtige Konvergenzbegriff für Potenzreihen.
-\end{ex}
+%fixme: ?
+%\begin{ex}
+%	Die kompakte Konvergenz ist der richtige Konvergenzbegriff für Potenzreihen.
+%\end{ex}
 Für $K = [-r,r]$ und $\eps > 0$ setzen wir
 \[
 	U(f; K, \eps)
 	:= \{ g: \R \to \R : \forall x \in K : |f(x) - g(x)| < \eps \}.
 \]
-Dies erfüllt (UB1-2), denn
+Dies erfüllt offensichtlich (UB1) und auch (UB2), denn
 \[
-	U(f;K,\eps) \cap U(f,K',\eps')
+	U(f;K,\eps) \cap U(f;K',\eps')
 	\supset U(f; K \cup K', \min\{\eps, \eps'\}),
 \]
 und erzeugt damit die Topologie $\scr T_{\text{kpkt}}$.
