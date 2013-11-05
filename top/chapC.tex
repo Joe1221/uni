@@ -839,4 +839,221 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 	$\R$ kann in $\C$ eingebettet werden.
 \end{ex}
 
+\coursetimestamp{05}{11}{2013}
+
+\subsection{Einbettungen}
+
+\begin{ex}
+	$\R^m \injto \R^n, (x_1, \dotsc, x_n) \mapsto (x_1, \dotsc, x_m, 0, \dotsc, 0)$ ist eine Einbettung.
+
+	$p: [0,1[ \to \C, p(t) = e^{2\pi i t}$ ist stetig und injektiv, aber keine Einbettung.
+\end{ex}
+
+\subsection{Überdeckungen}
+
+\begin{df}
+	Eine Überdeckung $X = \bigcup_{i\in X} X_i$ heißt \emph{punktweise endlich}, wenn für jeden Punkt $x \in X$ die Menge $I_x := \{ i \in I : x \in X_i \}$ endlich ist.
+	Die Überdeckung heißt \emph{lokal endlich}, wenn jeder Punkt $x \in X$ eine Umgebung $U$ in $X$ besitzt, für die die Menge $I_U := \{ i \in I : X_i \cap U \neq \emptyset \}$ endlich ist.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Die Überdeckung
+			\[
+				\R = \bigcup_{n \in \N} ]-n, n[
+			\]
+			ist weder punktweise, noch lokal.
+		\item
+			Die Überdeckung
+			\[
+				\R = \bigcup_{x \in \R} \{x\}
+			\]
+			ist punktweise, aber nicht lokal endlich.
+		\item
+			Die Überdeckung
+			\[
+				\R = \bigcup_{n\in \Z} ]n-1, n+ 1[
+			\]
+			ist sowohl punktweise, als auch lokal endlich.
+	\end{itemize}
+\end{ex}
+
+\begin{st} % fixme: label
+	Sei $X = \bigcup_{i\in I} X_i$ eine offene Überdeckung, oder eine lokal endliche Überdeckung.
+
+	Eine Teilmenge $V \subset X$ ist genau dann offen (abgeschlossen), wenn $V \cap X_i$ in jedem Teilraum $X_i$ offen (bzw. abgeschlossen) ist.
+	\begin{proof}
+		Sei $V_i := V \cap X_i$, es gilt dann $V = \bigcup_{i\in I} V_i$.
+		Seien alle $X_i$ offen.
+		Da $V_i$ in $X_i$ offen ist, existiert $\tilde V_i$ in $X$ offen mit $V_i = \tilde V_i \cap X$.
+		Da $X_i$ in $X$ offen ist, ist auch $V_i$ offen in $X$.
+		Damit ist auch $V = \bigcup_{i\in I} V_i$ offen in $X$.
+
+		Abgeschlossenheit genauso durch Komplementbildung.
+		Für lokal-endliche abgeschlossene Überdeckungen analog (Übung). % fixme: ref.
+	\end{proof}
+\end{st}
+
+\subsection{Verklebung stetiger Abbildungen}
+
+Betrachte $f: \R \to \R$ definiert durch
+\[
+	f(x) = \begin{cases}
+		1 & x \in \Q \\
+		0 & x \in \R \setminus \Q
+	\end{cases}.
+\]
+$f$ ist unstetig, obwohl aus zwei stetigen Funktionen verklebt.
+Dagegen ist die Funktion $f: \Q \to \Q$ mit
+\[
+	f(x) = \begin{cases}
+		0 & x^2 > 2 \\
+		1 & x^2 < 2
+	\end{cases}.
+\]
+stetig.
+$h : \R \to \R$ mit
+\[
+	h(x) = \begin{cases}
+		0 & x < 0 \\
+		1 & x \ge 0
+	\end{cases}
+\]
+ist unstetig.
+$k : \R \to \R$ mit
+\[
+	k(x) = \begin{cases}
+		\sqrt[3]{x} & x \ge 0 \\
+		-\sqrt[3]{-x} & x \le 0
+	\end{cases}
+\]
+ist stetig.
+
+\begin{st}
+	Sei $(X, \scr T)$ ein topologischer Raum, $X = \bigcup_{i \in I} X_i$ und $f_i: X \to Y$ stetig mit $f_i|_{X_i \cap X_j} = f_j|_{X_i \cap X_j}$ für alle $i,j \in I$.
+
+	Dann ist $f = \bigcup_{i \in I} f_i : X \to Y$ die einzige Abbildung mit $f|_{X_i} = f_i$ für alle $i \in I$.
+
+	Ist die Überdeckung $(X_i)_{i\in I}$ offen oder lokal-endliche abgeschlossen, so ist $f$ stetig.
+	\begin{proof}
+		Sei $V \subset Y$ offen.
+		Da $f_i : X_i \to Y$ stetig, ist $f_i^{-1}(V) \subset X_i$ offen in $X_i$.
+		Damit ist $U = f^{-1}(V)$ offen in $X$, denn $U \cap X_i = f_i^{-1}(V)$ ist offen in jedem $X_i$.
+		% fixme: ref
+	\end{proof}
+\end{st}
+
+\subsection{Quotiententopologie}
+
+\begin{df}
+	Sei $(X, \scr T)$ ein topologischer Raum und $R \subset X \times X$ eine Äquivalenzrelation auf $X$.
+	Sei $Q := X / R$ die Quotentenmenge und $q: X \to Q$ die Quotentenabbildung.
+	Die \emph{Quotiententopologie} auf $Q$ ist dann gegeben durch
+	\[
+		\scr T_Q
+		:= \{ U \subset Q : q^{-1}(U) \subset \scr T \}
+		= q_* \scr T.
+	\]
+	Wir nennen dann $(Q, \scr T_Q)$ den \emph{Quotientenraum} von $(X, \scr T)$ bezüglich $R$.
+\end{df}
+
+\begin{ex}
+	Betrachte $X = [-1,1]^2 \subset \R^2$ mit $f: [-1,1]^2 \to \R^3$ definiert durch
+	\[
+		f(s, t) = \begin{pmatrix}
+			3 \cos(\pi s) \\
+			3 \sin(\pi s) \\
+			t
+		\end{pmatrix}.
+	\]
+	$f$ bildet $X$ auf einen Zylinder im $\R^3$ ab.
+	Definiere jetzt $g: [-1,1]^2 \to \R^3$ mit
+	\[
+		g(s, t) = \begin{pmatrix}
+			(3 + t \sin(\f{\pi s}2)) \cos (\pi s) \\
+			(3 + t \sin(\f{\pi s}2)) \sin (\pi s) \\
+			t \cos(\f {\pi s}2)
+		\end{pmatrix}
+	\]
+	Dies verklebt linke und rechte Seite von $X$ gegenläufig zu einem Möbiusband im $\R^3$.
+\end{ex}
+
+\begin{st}[Eigenschaften der finalen Topologie]
+	\begin{enumerate}[(1)]
+		\item
+			Die Quotententopologie ist die feinste, für die $q$ stetig ist.
+		\item
+			$g: (Q, \scr T_Q) \to (Y, \scr T_y)$ ist genau dann stetig, wenn $f = g \circ q: X \to Y$ stetig ist.
+	\end{enumerate}
+\end{st}
+
+\begin{df}
+	Eine Abbildung $f: (X, \scr T_X) \to (Y, \scr T_y)$ heißt \emph{Identifizierung}, wenn sie einen Homöomorphismus auf dem Quotientenraum $X / R_f$ nach $Y$ induziert.
+	Dabei ist $R_f = \{ (x,x') \in X \times X : f(x) = f(x') \}$.
+	\begin{note}
+		Jede Identifizierung muss surjektiv sein.
+	\end{note}
+\end{df}
+
+\begin{ex}
+	Die Abbildung $p: \R^n \to \R^m, (x_1, \dotsc, x_n) \mapsto (x_1, \dotsc, x_m)$ ist eine Identifizierung.
+\end{ex}
+
+\begin{ex}
+	$p: [0,1[ \to \S^1, p(t) = e^{2\pi i t}$ ist stetig und surjektiv, sogar bijektiv, aber keine Identifizierung.
+\end{ex}
+
+\begin{st}[Kanonische Faktorisierung]
+	Jede stetig Abbildung $f: X \to Y$ faktorisiert gemäß $f = \jota \circ \_f \circ g$ in die (surjektive) Quotientenabbildung $q: X \surto X / R_f$, die induzierte stetige Bijektion $\_f: X / R_f \to f(X)$ und die Inklusion $\jota: f(X) \injto y$.
+\end{st}
+
+\begin{ex}[Universelle Überlagerung der Kreislinie]
+	Betrachte auf $\S^1 = \{ (x,y) \in \R^2 : x^2 + y^2 = 1 \}$ die Abbildung $p: \R \to \S^1$, definiert durch
+	\[
+		p(t) = e^{2\pi i t} = \Big( \cos(2\pi t), \sin(2\pi t) \Big).
+	\]
+	Es gilt $p(t) = p(t') \iff t - t' \in \Z$.
+
+	$p$ ist eine Identifizierung, induziert also einen Homöomorphismus $\_p : \R / \Z \to \S^1$.
+	\begin{proof}
+		Es gibt zwei Arten, dies zu beweisen.
+		\begin{seg}[Implizite Methode]
+			$\R / \Z = q(\R) = q([0,1])$ ist kompakt, $\S^1$ ist hausdorffsch, also ist jede stetige Bijektion $\_p: \R / \Z \to \S^1$ ein Homöomorphismus (Kanonische Faktorisierung und abgeschlossene Menge wird auf abgeschlossene Meneg abgebildet).
+		\end{seg}
+		\begin{seg}[Explizite Methode]
+			Für
+			\begin{align*}
+				U_1 &= \{ (x,y) \in \S^1 : x > 0 \},&
+				V_1 &= ] - \f 14, \f 14 [, \\
+				U_2 &= \{ (x,y) \in \S^1 : y > 0 \},&
+				V_2 &= ] 0, \f 12 [, \\
+				U_3 &= \{ (x,y) \in \S^1 : x < 0 \},&
+				V_3 &= ] \f 14, \f 34 [, \\
+				U_4 &= \{ (x,y) \in \S^1 : y < 0 \},&
+				V_4 &= ] \f 12, 1 [, \\
+				U_5 &= U_1,&
+				V_5 &= V_1 + 1
+			\end{align*}
+			konstruieren wir $s_k: \S^1 \supset U_k \to V_k \subset \R$ durch
+			\begin{align*}
+				s_1(x,y) &= \f 1{2\pi} \arctan(\f yx), \\
+				s_2(x,y) &= \f 1{2\pi} \arctan(\f xy), \\
+				\vdots\; &= \quad \vdots \\
+				s_5(x,y) &= s_1(x,y) + 1.
+			\end{align*}
+			$s_k : U_k \homto V_k$ ist ein Homöomorphismus mit Inversen $p|_{V_k} : V_k \homto U_k$.
+			Leider lassen sich die $s_k: U_k \to \R$ nicht verkleben, aber im Quotentenraum geht es.
+
+			%fixme: q: \R \to \R / \Z, s_k: U_k \to \R, p: \R \to \S^1, \_{s_k}: U_k \to \R / \Z, \_p: \R / \Z \to \S^1, \_s: \S^1 \to \R / \Z
+
+			Wir erhalten $\_{s_k}: U_k \to \R / \Z$ und diese verkleben wir zu $\_s: \S^1 \to \R / \Z$.
+			Nach Konstruktion gilt
+			\[
+				\_s \circ \_p = \Id_{\S^1}, \quad
+				\_p \circ \_s = \Id_{\R / \Z}.
+			\]
+		\end{seg}
+	\end{proof}
+\end{ex}
 
