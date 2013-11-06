@@ -1036,7 +1036,7 @@ Im Beweis von \ref{2.24} folgte aus dieser Bedingung sofort, dass (falls es eine
 
 \subsection{Interpretation der Zulassungsbedingungen}
 
-\paragraph{Suchrichtungen:}
+\paragraph{Zulässigkeit der Suchrichtungen:}
 \[
 	0 <
 	-\nabla f(x_k)^T d_k
@@ -1058,15 +1058,135 @@ Solche Bedingungen werden auch \emph{Winkelbedingungen} genannt.
 	Gilt die Winkelbedingung
 	\[
 		\exists \alpha > 0:
-		\f {-\nabla  f(x_k)^T d_k}{\|\nabla f(x_k)\|\|d_k\|},
+		\dfrac {-\nabla  f(x_k)^T d_k}{\|\nabla f(x_k)\|\|d_k\|} \ge \alpha,
 	\]
 	so sind die Suchrichtungen zulässig.
 	\begin{proof}
 		Aus der Winkelbedingung folgt $\nabla f(x_k)^T d_k < 0$ und
 		\[
 			\|\nabla f(x_k)\|
-			\le \f 1d \f {-\nabla f(x_k)^T d_k}{\|d_k\|},
+			\le \f 1\alpha \f {-\nabla f(x_k)^T d_k}{\|d_k\|},
 		\]
 		also sind die Suchrichtungen zulässig.
 	\end{proof}
 \end{st}
+
+\coursetimestamp{06}{11}{2013}
+
+% Betrachtet man \ref{2.30}, so sieht man, dass für $-\f{\nabla f(x_l)^T d_l}{\|d_l\|} \to 0$ für eine konvergente Teilfolge $(x_l)_{l\in L}$ auch $\nabla f(x_l) \to 0$
+% fixme: Erläuterung
+
+\begin{nt} \label{2.31}
+	Die Suchrichtungen sind schon dann zulässig, wenn sie \emph{verallgemeinerte Winkelbedingung} erfüllen, z.B.
+	\[
+		\exists \alpha > 0, p > -1
+		: \dfrac {-\nabla f(x_k)^T d_k}{\|\nabla f(x_k)\| \|d_k\|}
+		\ge \alpha \|\nabla f\|^p,
+	\]
+	oder
+	\[
+		\exists \alpha_1, \alpha_2 > 0, p > -1
+		: \dfrac {-\nabla f(x_k)^Td_k}{\|\nabla f(x_k)\|\|d_k\|} \ge \min\{ \alpha_1, \alpha_2 \|\nabla f\|^p \}.
+	\]
+	\begin{proof}
+		Übungsaufgabe
+	\end{proof}
+\end{nt}
+
+\begin{ex} \label{2.32}
+	\begin{enumerate}[(a)]
+		\item
+			Die Suchrichtungen $d_k = -\nabla f(x_k)$ erfüllen offensichtlich die Winkelbedingungen.
+		\item
+			Seien $A_k \in \R^{n\times n}$ symmetrisch positiv definite Matrizen mit
+			\[
+				0
+				< c
+				< \lambda_{\text{min}}(A_k)
+				\le \lambda_{\text{max}}(A_k)
+				\le C
+				< \infty
+			\]
+			für alle $k \in \N$.
+			Betrachte
+			\[
+				d_k := - A_k^{-1} \nabla f(x_k).
+			\]
+			Es gilt
+			\begin{align*}
+				\dfrac {-\nabla f(x_k)^T d_k}{\|\nabla f(x_k)\|\|d_k\|}
+				&= \dfrac {\nabla f(x_k)^T A_k^{-1} \nabla f(x_k)}{\|\nabla f(x_k)\|\|A^{-1} \nabla f(x_k)\|} \\
+				&\ge \dfrac {\lambda_{\text{min}} (A_k^{-1}) \|\nabla f(x_k)\|^2}{\|A_k^{-1}\| \|\nabla f(x_k)\|^2} \\
+				&= \dfrac {\lambda_{\text{min}}(A^{-1})}{\lambda_{\text{max}}(A_k^{-1})}
+				= \dfrac {\lambda_{\text{min}}(A)}{\lambda_{\text{max}}}
+				\ge \f cC
+				> 0.
+			\end{align*}
+	\end{enumerate}
+\end{ex}
+
+\paragraph{Zulässigkeit der Schrittweiten}
+Für $f \in C^2(\R^n)$ folgt aus \ref{2.3}, dass ein $\sigma \in [0,s]$ existiert mit
+\begin{align*}
+	f(x+sd)
+	&= f(x) + s\nabla f(x)^T d + \f {s^2}2 d^T \nabla^2 f(x + \sigma d)d \\
+	&\le f(x) + s\nabla f(x)^T d + \f {s^2}2 C \|d\|^2,
+\end{align*}
+wobei $C := \max_{\sigma\in[0,s]} \|\nabla^2 f(x + \sigma d) \|$.
+Die rechte Seite ist dabei minimal für
+\[
+	s^* = \dfrac{-f(x)^T d}{C\|d\|^2}.
+\]
+Dann ist
+\[
+	f(x+s^*d)
+	\le f(x) - \f{|\nabla f(x)^T d|^2}{2C\|d\|^2}.
+\]
+In Suchrichtung $d$ ist durch Schrittweite $s^*$ eine Verkleinerung von $f$ um mindestens $\f 1{2C} \f {|\nabla f(x)^T d|^2}{\|d\|^2}$ möglich.
+
+\begin{df} \label{2.33}
+	Seien $(d_k)_{k\in \N}$ und $(s_k)_{k\in\N}$ Suchrichtungen und Schrittweiten eines Abstiegsverfahren.
+	Die Schrittweiten heißen \emph{effizient}, falls
+	\[
+		\exists \theta > 0 \forall k \in \N
+		: f(x_k + s_k d_k) \le f(x_k) - \theta \dfrac {|\nabla f(x_k)^T d_k|^2}{\|d_k\|^2}.
+	\]
+\end{df}
+
+\begin{st} \label{2.34}
+	Seien $(d_k)_{k\in\N}$ und $(s_k)_{k\in\N}$ die Suchrichtungen und Schrittweiten eines allgemeinen Abstiegsverfahrens, das $f(x_k + s_k d_k) < f(x_k)$ erfüllt.
+	Sind die Schrittweiten effizient, dann sind sie auch zulässig.
+	\begin{proof}
+		$f(x_k+s_kd_k) < f(x_k)$ ist klar.
+		Es gilt
+		\[
+			\theta \dfrac {|\nabla f(x_k)^T d_k|^2}{\|d_k\|^2}
+			\le f(x_k) - f(x_{k+1}),
+		\]
+		also
+		\[
+			\dfrac{|\nabla f(x_k)^T d_k|}{\|d_k\|} \to 0
+		\]
+		falls $f(x_k) - f(x_{k+1}) \to 0$.
+	\end{proof}
+\end{st}
+
+\begin{nt*}
+	Die Armijo-Schrittweiten sind nicht effizient.
+
+	Armijo akzeptiert (für das Gradientenverfahren) Abnahmen in der Größenordnung $\|\nabla f(x_k)\|$, während die Effizienz aber eine Größenordnung von $\|\nabla f(x_k)\|^2$ fordert.
+
+	\begin{proof}
+		Armijo-Schrittweiten sind nicht effizient, da sie nicht zulässig sind (siehe Übungsaufgabe).
+		% fixme: ref: nicht zulässig
+	\end{proof}
+\end{nt*}
+
+\subsection{Zulässigkeit der Armijo-Schrittweitenregel}
+
+Für $f(x) = -x$ ist $d_k = - \nabla f(x) = 1$ und Armijo akzeptiert stets $s_k = 1$.
+Für $d_k' = - \f{\nabla f(x_k)}{2^k} = \f 1{2^k}$ akzeptiert Armijo ebenfalls stets $s_k' = 1$.
+Die Winkelbedingungen sind in beiden Fällen erfüllt, aber im zweiten Fall konvergiert eine konvergente Teilfolge nicht gegen einen stationären Punkt.
+Also sind Armijo-Schrittweiten im Allgemeinen nicht zulässig.
+
+
