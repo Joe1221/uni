@@ -39,7 +39,7 @@
 	\begin{table}[h]
 		\centering
 		\begin{tabular}{c|c}
-			$n=|x|$ & $t_n = $ Anzahl der Topologie auf $X$ \\ \hline
+			$n=|x|$ & $t_n = $ Anzahl der Topologien auf $X$ \\ \hline
 			0 & 1 \\
 			1 & 1 \\
 			2 & 4 \\
@@ -356,16 +356,16 @@ oder genauer: wenn
 	\forall x \in \R \forall \eps > 0 \exists m \in \N \forall n \ge m : |f_n(x) - f(x)| < \eps.
 \]
 Es wäre naheliegend, Umgebungen folgendermaßen zu definieren:
-\[
+\begin{align*}
 	U(f; x, \eps)
-	:= \{ g: \R \to \R : |g(x) - f(x)| < \eps \}.
-\]
+	&:= \{ g: \R \to \R : |g(x) - f(x)| < \eps \}.
+\intertext{%
 Diese erfüllen (UB1), aber nicht (UB2).
 Für $J \subset \R$ endlich und $\eps \in \R_{>0}$ definieren wir deshalb
-\[
+}
 	U(f; J, \eps)
-	:= \{ g: \R \to \R : \forall x \in J : |g(x) - f(x)| < \eps \}.
-\]
+	&:= \{ g: \R \to \R : \forall x \in J : |g(x) - f(x)| < \eps \}.
+\end{align*}
 Diese erfüllen (UB1) und auch (UB2), denn
 \[
 	U(f; J, \eps) \cap U(f, J', \eps')
@@ -470,8 +470,8 @@ und erzeugt damit die Topologie $\scr T_{\text{kpkt}}$.
 		\[
 			d(f,g) = \sum_{k=1}^\infty 2^{-k} d_k^* (f,g) \in [0,1],
 		\]
-		wobei $d_k^*$ die auf $[0,1]$ gestauchte Metrik ist.
-		$d(f,g)$ ist ein Metrik auf $\R^\R$ (Übung) und induziert $\scr T_{\text{kpkt}}$.
+		wobei $d_k^*$ die auf $[0,1]$ gekappte Metrik ist.
+		$d(f,g)$ ist dann eine Metrik auf $\R^\R$ und induziert $\scr T_{\text{kpkt}}$ (siehe dazu \coursehref{Blatt03.pdf}{Übungsaufgabe S\,4.1, Blatt 3}).
 	\end{proof}
 \end{st}
 
@@ -515,30 +515,30 @@ Ein Punkt $x \in X$ heißt
 		\]
 \end{itemize}
 
-\begin{df}
+\begin{df} \label{df:closure}
 	Wir definieren das \emph{Innere} einer Menge $M \subset X$ als
 	\begin{align*}
 		\mathring M
 		:= K_{\scr T}(M)
 		&:= \{ x \in X : M \in U_x \} \\
 		&\;= \bigcup \{ U \in \scr T : U \subset M \},
-	\end{align*}
+	\intertext{%
 	den \emph{Abschluss} als
-	\begin{align*}
+	}
 		\_{M}
 		:= H_{\scr T}(M)
 		&:= \{ x \in X : \forall U \in \scr U_x : U \cap M \neq \emptyset \} \\
 		&\;=  \bigcap \{ A \supset M : X \setminus A \in \scr T \}
-	\end{align*}
+	\intertext{%
 	und den \emph{Rand} als
-	\[
+	}
 		\boundary M
-		:= \_ M \setminus \mathring M,
-	\]
+		&:= \_ M \setminus \mathring M,
+	\end{align*}
 	bzw. $\delta_{\scr T}(M) := H_{\scr T}(M) \setminus K_{\scr T}(M)$.
 \end{df}
 
-\begin{st}
+\begin{st}[Charakterisierung des Abschlusses durch Folgen]
 	Sei $(X, \scr T)$ ein topologischer Raum, $A \subset X$ und $x \in X$.
 	Wenn es eine Folge $(a_n)_{n\in\N}$ aus $A$ gibt mit $x_n \to x$ in $(X, \scr T)$, dann gilt $x \in \_A$.
 
@@ -546,7 +546,13 @@ Ein Punkt $x \in X$ heißt
 \end{st}
 
 \begin{df}
-	Eine Menge $M \subset X$ heißt \emph{dicht} in $(X, \scr T)$ wenn $\_M = X$ und \emph{diskret}, wenn jeder Punkt $x \in M$ isoliert ist.
+	Eine Menge $M \subset X$ heißt
+	\begin{itemize}
+		\item
+			\emph{dicht} in $(X, \scr T)$, wenn $\_M = X$,
+		\item
+			\emph{diskret}, wenn jeder Punkt $x \in M$ isoliert ist.
+	\end{itemize}
 \end{df}
 
 \begin{ex}
@@ -561,7 +567,7 @@ Ein Punkt $x \in X$ heißt
 \subsection{Topologische Basis}
 
 \begin{df}[Basis]
-	Eine Teilmenge $\scr B \subset \scr T$ heißt \emph{Basis} der Topologie $\scr T$, wenn jede offene Menge $U \in \scr T$ Vereinigung von offenen Mengen aus $\scr B$ ist, also
+	Eine Teilmenge $\scr B \subset \scr T$ heißt \emph{Basis} der Topologie $\scr T$, wenn jede offene Menge $U \in \scr T$ eine Vereinigung von offenen Mengen aus $\scr B$ ist, also
 	\[
 		\scr T = \Big\{ \bigcup \scr S : \scr S \subset \scr B \Big\}.
 	\]
@@ -582,37 +588,40 @@ Ein Punkt $x \in X$ heißt
 
 \begin{prop}
 	Sei $(X, \scr T)$ ein topologischer Raum und $\scr B \subset \scr T$.
-	Dann sind folgende Aussagen äquivalent
+	Dann sind folgende Aussagen äquivalent:
 	\begin{enumerate}[1)]
 		\item
 			$\scr B$ ist Basis von $\scr T$, d.h.
 			\[
-				\forall U \in \scr T \exists \scr S \subset \scr B : U = \bigcup \scr S.
+				\forall U \in \scr T \exists \scr S \subset \scr B : U = \bigcup \scr S,
 			\]
-		\item
+		\itemdm
 			\[
-				\forall U \in \scr T : U = \bigcup \{ B \in \scr B : B \subset U \}.
+				\forall U \in \scr T : U = \bigcup \{ B \in \scr B : B \subset U \},
 			\]
-		\item
+		\itemdm
 			\[
-				\forall U \in \scr T \forall x \in U \exists B \in \scr B : x \in B \subset U
+				\forall U \in \scr T \forall x \in U \exists B \in \scr B : x \in B \subset U.
 			\]
 	\end{enumerate}
-	Demnach ist $\scr B$ genau dann eine Basis von $\scr T$, wenn $\scr B_x := \{ B \in \scr B : x \in B \}$ eine Umgebungsbasis für jedes $x \in X$ ist.
-	% fixme: proof
+	Demnach ist $\scr B$ genau dann eine Basis von $\scr T$, wenn $\scr B_x := \{ B \in \scr B : x \in B \}$ für jedes $x \in X$ eine Umgebungsbasis ist.
+	\begin{proof}
+		1) $\implies$ 2) $\implies$ 3) $\implies$ 1) lässt sich einfach nachvollziehen.
+	\end{proof}
 \end{prop}
 
 \begin{st}
 	Jede Basis $\scr B$ einer Topologie $\scr T$ auf $X$ erfreut sich folgender Eigenschaften
 	\begin{enumerate}[(B1)]
 		\item
-			$X = \bigcup B$,
+			$X = \bigcup \scr B$,
 		\item
 			Für $U, V \in \scr B$ existiert $\scr S \subset \scr B$ mit
 			\[
-				U \cap V = \bigcup S.
+				U \cap V = \bigcup \scr S.
 			\]
 	\end{enumerate}
+
 	Erfüllt umgekehrt $\scr B \subset \scr P(X)$ die Bedingungen (B1-2), so ist
 	\[
 		\scr T = \Big\{ \bigcup \scr S : \scr S \subset \scr B \Big\}
@@ -623,15 +632,17 @@ Ein Punkt $x \in X$ heißt
 
 \subsection{Erzeugendensystem}
 
-\begin{st}
+\begin{st}[Erzeugendensystem]
 	Sei $\scr S \subset \scr P(X)$.
 	Setze
 	\begin{align*}
-		\scr B &:= \big\{ S_1 \cap \dotsc \cap S_n : n \in \N, S_1, \dotsc, S_n \in \scr S \big\} \\
+		\scr B &:= \Big\{ S_1 \cap \dotsc \cap S_n : n \in \N, S_1, \dotsc, S_n \in \scr S \Big\} \\
 		\scr T &:= \Big\{ \bigcup \scr B' : \scr B' \subset \scr B \Big\}.
 	\end{align*}
 	Dann ist $\scr T$ die gröbste (kleinste) Topologie, die $\scr S$ enthält und $\scr B$ ist eine Basis von $\scr T$.
 	% fixme: proof
+
+	Wir nennen $\scr S$ ein \emph{Erzeugendensystem} (oder \emph{Subbasis}) von $\scr T$.
 \end{st}
 
 \begin{ex}
@@ -644,24 +655,20 @@ Ein Punkt $x \in X$ heißt
 		\item
 			Aus
 			\[
-				\scr S = \{ ]a,+\infty[, ]-\infty, b[ : a,b \in \R \}
+				\scr S = \big\{ ]a,+\infty[, ]-\infty, b[ : a,b \in \R \big\}
 			\]
 			erhalten wir
 			\begin{align*}
-				\scr B &= \scr S \cup \{\R \}  \cup \{ ]a,b[ : a < b \in \R \}, \\
+				\scr B &= \scr S \cup \{\R \}  \cup \big\{ ]a,b[ : a < b \in \R \big\}, \\
 				\scr T &= \text{Ordnungstopologie (übliche Topologie) auf $\R$}.
 			\end{align*}
 	\end{itemize}
 \end{ex}
 
-\begin{conv}
-	Wir nennen $\scr S$ ein \emph{Erzeugendensystem} (oder \emph{Subbasis}) von $\scr T$.
-\end{conv}
-
 \subsection{Zweites Abzählbarkeitsaxiom}
 
-\begin{df}[Zweites Abzählbarkeitsaxiom]
-	Ein topologischer Raum $(X, \scr T)$ erfüllt das \emph{zweite Abzählbarkeitsaxiomm} (2AA), wenn $\scr  T$ eine abzählbare Basis erlaubt.
+\begin{df}[Zweites Abzählbarkeitsaxiom] \label{df:second_axiom_of_countability}
+	Ein topologischer Raum $(X, \scr T)$ erfüllt das \emph{zweite Abzählbarkeitsaxiom} (2AA), wenn für $\scr T$ eine abzählbare Basis existiert.
 \end{df}
 
 \begin{ex} \label{ex:R_countable_base}
@@ -682,7 +689,7 @@ Ein Punkt $x \in X$ heißt
 	\end{itemize}
 \end{ex}
 
-\begin{st}
+\begin{st} \label{st:countable_base_topology_cardinality}
 	Ist $\scr B$ eine Basis der Topologie $\scr T$ auf $X$, dann ist
 	\[
 		\Phi
@@ -692,7 +699,8 @@ Ein Punkt $x \in X$ heißt
 	injektiv.
 	Ist $\scr B$ abzählbar, so folgt
 	\[
-		\card(\scr T) \le \card(\R^n) = \card(\R).
+		\card(\scr T)
+		\le \card(\R) = \card(\R^n).
 	\]
 	\begin{note}
 		Sei $\scr T$ die euklidische Topologie auf $\R^n$ ($n\ge 1$).
@@ -700,7 +708,7 @@ Ein Punkt $x \in X$ heißt
 		\[
 			\card(\scr T) = \card(\R).
 		\]
-	Speziell für die euklidische Topologie auf $\R^n$ $(n \ge 1)$ gilt $\card(\scr T) = \card(\R)$, dank der Injektion $\R \to \scr T : r \mapsto B(0,r)$.
+	\end{note}
 	\begin{proof}
 		$\Phi$ ist injektiv, da sich wegen $U = \bigcup \Phi(U)$ eine Umkehrabbildung $\Phi^{-1}: \Phi(\scr T) \to \scr T:  \scr S \mapsto \bigcup \scr S$ mit $\Phi^{-1} \circ \Phi = \Id$ definieren lässt.
 	\end{proof}
@@ -708,22 +716,22 @@ Ein Punkt $x \in X$ heißt
 
 \subsection{Diskrete Teilmengen}
 
-\begin{lem}
-	% fixme: formulierung
+\begin{lem} \label{st:discrete_subset_cardinality}
+	Sei $(X, \scr T)$ ein topologischer Raum mit Basis $\scr B$.
 	Zu jeder diskreten Teilmenge $A \subset X$ existiert eine Injektion $A \injto \scr B$, also $\card (A) \le \card(\scr B)$.
 	\begin{proof}
 		Zu $a \in A$ existiert eine Umgebung $U_a \in \scr T$ mit $U_a \cap A = \{a\}$.
 		Somit existiert $B_a \in \scr B$ mit $a \in B_a \subset U_a$.
-		Die Zuordnung $a \mapsto B_a$ ist injektiv, denn $B_a \cap A = \{a\}$.
+		Die Zuordnung $a \mapsto B_a$ ist injektiv, denn $B_a \cap A = \{a\}$ liefert $a$ zurück.
 	\end{proof}
 \end{lem}
 
 \begin{st}
-	Sei $\scr C_b(\R, \R)$ der Vektorraum aller stetigen und beschränkten Funktionen $f: \R \to \R$ mit der Supremumsnorm $|f| = \sup \{|f(x)| : x \in \R \}$.
+	Sei $\scr C_b(\R, \R)$ der Vektorraum aller stetigen und beschränkten Funktionen $f: \R \to \R$ mit der Supremumsnorm $|f| := \sup \{|f(x)| : x \in \R \}$.
 
-	Dieser erfüllt das erste Abzählbarkeitsaxiom, aber nicht das zweite Abzählbarkeitsaxiom.
+	$(\scr C_b(\R,\R),|\argdot|)$ erfüllt das erste Abzählbarkeitsaxiom, aber nicht das zweite.
 	\begin{proof}
-		Sei $A = \{0, 1\}^\Z$ % fixme: überabzählbar?.
+		Sei $A = \{0, 1\}^\Z$ (überabzählbar).
 		Jede Folge $a \in A$ definiert $f_a : \R \to \R$ durch
 		\[
 			f_a(x)
@@ -733,19 +741,19 @@ Ein Punkt $x \in X$ heißt
 		(lineare Splineinterpolation).
 		Die Zuordnung $A \to \scr C_b (\R, \R) : a \mapsto f_a$ ist injektiv, denn $a = f_a|_\Z$.
 		Die Menge $\{f_a : a \in A\}$ ist also überabzählbar und diskret, denn $|f_a - f_b| = 1$ für $a\neq b$.
+		Also ist nach \ref{st:discrete_subset_cardinality} jede Basis von $\scr C_b (\R, \R)$ überabzählbar.
 	\end{proof}
 \end{st}
 
 \subsection{Dichte Teilmengen}
 
-\begin{proof}
+\begin{st} \label{st:countable_base_countable_dense_subset}
 	Erlaubt $\scr T$ eine abzählbare Basis $\scr B$, dann auch eine abzählbare dichte Teilmenge $A \subset X$.
 	\begin{proof}
-		Zu $B \in \scr B$ mit $B \neq \emptyset$ wählen wir $a_B \in B$.
-		Die Menge $A = \{a_B : B \in \scr B\}$ ist abzählbar und dicht:
-		Zu jeder offenen Menge $U \neq \emptyset$ existiert $B \in \scr B, \scr B \neq \emptyset$ mit $B \subset U$, also $a_B \in B \subset U$.
+		Zu $B \in \scr B$ mit $B \neq \emptyset$ wählen wir $a_B \in B$ beliebig.
+		Die Menge $A = \{a_B : B \in \scr B\}$ ist abzählbar und dicht, denn zu jeder offenen Menge $U \neq \emptyset$ existiert $\emptyset \neq B \in \scr B$ mit $B \subset U$, also ist $a_B \in B \subset U$ (siehe auch Definition des Abschlusses \ref{df:closure}).
 	\end{proof}
-\end{proof}
+\end{st}
 
 \begin{df}
 	Ein topologischer Raum $(X, \scr T)$ heißt \emph{separabel}, wenn eine abzählbare dichte Teilmenge $A \subset X$ existiert.
@@ -776,11 +784,15 @@ Ein Punkt $x \in X$ heißt
 \end{st}
 
 \begin{ex}
-	$\R^n$ hat als Basis $\scr B = \{ B(a, \f 1k) : a \in \Q^n, k \in \N_{\ge 1} \}$
+	$\Q^n$ liegt dicht in $\R^n$, also besitzt $\R^n$ nach \ref{st:metric_space_countable_dense_subset_countable_base} die abzählbare Basis
+	\[
+		\scr B = \Big\{ B(a, \f 1k) : a \in \Q^n, k \in \N_{\ge 1} \Big\}
+	\]
+	und erfüllt das zweite Abzählbarkeitsaxiom.
 \end{ex}
 
 \begin{st}
-	Sei $\Omega$ eine Menge, $1 \le p \le \infty$.
+	Sei $\Omega$ eine Menge und $1 \le p \le \infty$.
 	Dann ist $\ell^p(\Omega)$ genau dann separabel, wenn $\Omega$ abzählbar ist.
 
 	Insbesondere sind $\R^n = \ell^2(\{1, \dotsc, n\})$, sowie $\ell^2(\N)$ und $\ell^2(\Z)$ separabel und erfüllen das zweite Abzählbarkeitsaxiom.
@@ -793,41 +805,45 @@ Ein Punkt $x \in X$ heißt
 Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 \begin{align*}
 	f^{-1}(Y \setminus V) &= X \setminus f^{-1}(V) \\
-	f^{-1}\Big(\bigcap_{i\in I} V_i\Big) &= \bigcap_{i\in I} f^{-1}(V_i)
+	f^{-1}\Big(\bigcap_{i\in I} V_i\Big) &= \bigcap_{i\in I} f^{-1}(V_i) \\
+	f^{-1}\Big(\bigcup_{i\in I} V_i\Big) &= \bigcup_{i\in I} f^{-1}(V_i)
 \end{align*}
+(siehe auch \coursehref{Blatt01.pdf}{Blatt 1, Übungsaufgabe V\,1.1}).
 \begin{df}
 	Seien $X \stack f\to Y \stack g\to Z$ Abbildungen.
 	\begin{enumerate}[(1)]
 		\item
-			Zurückziehen (pullback):
+			\emph{Zurückziehen (pullback):}
 			Jede Topologie $\scr T_Z$ auf $Z$ induziert eine Topologie $g^*\scr T_Z$ auf $Y$ durch
 			\[
 				g^* \scr T_Z
-				:= \{ g^{-1}(Wr : W \in \scr T_Z \}.
+				:= \big\{ g^{-1}(W) : W \in \scr T_Z \big\}.
 			\]
 			Diese heißt \emph{initiale Topologie} bezüglich $g$ und ist die gröbste Topologie, für die $g$ stetig ist.
 		\item
-			Vorschieben (push forward):
+			\emph{Vorschieben (push forward):}
 			Jede Topologie $\scr T_X$ auf $X$ induziert eine Topologie $f_* \scr T_X$ auf $Y$ durch
 			\[
-				f_* \scr T_X = \{ V \subset Y : f^{-1}(V) \in \scr T_X \}.
+				f_* \scr T_X = \big\{ V \subset Y : f^{-1}(V) \in \scr T_X \big\}.
 			\]
 			Diese heißt \emph{finale Topologie} bezüglich $f$ und ist die feinste Topologige auf $Y$, für die $f$ stetig ist.
 	\end{enumerate}
 \end{df}
 
 \begin{ex}
-	Sei $f: X \to Y$ konstant.
+	Sei $f: X \to Y$ konstant und $\scr T_X, \scr T_Y$ Topologien auf $X$, bzw. $Y$.
+	Dann gilt
 	\begin{itemize}
 		\item
-			$f^* \scr T_Y = \{ \emptyset, X \}$ ist die indiskrete Topologie,
+			$f^* \scr T_Y = \{ \emptyset, X \}$ ist die indiskrete Topologie auf $X$,
 		\item
-			$f^* \scr T_X = \scr P(Y)$ ist die diskrete Topologie.
+			$f_* \scr T_X = \scr P(Y)$ ist die diskrete Topologie auf $Y$.
 	\end{itemize}
 \end{ex}
 
 \begin{ex}
-	Betrachte
+	Sei $n \ge m$.
+	Betrachte die Einbettung $s$ und die Projektion $p$:
 	\begin{align*}
 		s&: \R^m \to \R^n, (x_1,\dotsc, x_m) \mapsto (x_1, \dotsc, x_m, 0, \dotsc, 0), \\
 		p&: \R^n \to \R^m, (x_1,\dotsc, x_n) \mapsto (x_1, \dotsc, x_m).
@@ -838,15 +854,15 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 \subsection{Teilraumtopologie}
 
 \begin{df}
-	Sei $(X, \scr T_X)$ ein topologischer Raum und $A \subset X$.
+	Sei $(X, \scr T_X)$ ein topologischer Raum, $A \subset X$ und $\jota_A: A \to X, a \mapsto a$ die Inklusion von $A$ in $X$.
 	Wir setzen
-	\[
-		\scr T_A = \{ A \cap U : U \in \scr T_X \}
-		= \{ \jota_A^{-1}(U) : U \in \scr T_X \}
-		= \jota_A^* \scr T_X
-	\]
-	(pullback bezüglich $\jota_A : A \to X, a \mapsto a$).
-	Dies nennen wir \emph{Teilraumtopologie} auf $A$ und $(A, \scr T_A)$ einen Teilraum von $(X, \scr T_X)$.
+	\begin{align*}
+		\scr T_A
+		&:= \{ A \cap U : U \in \scr T_X \} \\
+		&\;= \{ \jota_A^{-1}(U) : U \in \scr T_X \}
+		= \jota_A^* \scr T_X.
+	\end{align*}
+	$\scr T_A$ nennen wir \emph{Teilraumtopologie} auf $A$ in $X$ und $(A, \scr T_A)$ einen \emph{Teilraum} von $(X, \scr T_X)$.
 \end{df}
 
 \begin{ex}
@@ -854,24 +870,36 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 		\item
 			Die Teilraumtopologie von $\R$ in $\C$ ist die übliche Topologie auf $\R$.
 		\item
-			Ist $(X, d)$ ein metrischer Raum, $A \subset X, d_A = d|_{A\times A}$, so gilt $(A, \scr T_A) = (A, \scr T_{d_A})$.
+			Ist $(X, d)$ ein metrischer Raum, $A \subset X$ und $d_A = d|_{A\times A}$.
+			Dann gilt $(A, \scr T_A) = (A, \scr T_{d_A})$.
 	\end{itemize}
 \end{ex}
 
+\begin{conv}
+	Im Folgendenden bezeichne für eine Teilmenge $A \subset X$ soweit nicht anders festgelegt $\scr T_A$ die Teilraumtopologie auf $A$ in $X$ und $\jota_A$ die Inlusion von $A$ in $X$.
+
+	Wir sagen außerdem z.B. „offen in $A$“, statt „offen bezüglich $(A, \scr T_A)$“.
+\end{conv}
+
 \begin{nt}
+	Sei $A \subset X$.
 	Eine offene Menge in $A$ liegt auch in $X$, ist aber im Allgemeinen nicht offen in $X$.
 
-	$]0,1[$ ist offen in $\R$, aber nicht offen in $\C$.
+	So ist z.B. $]0,1[$ offen in $\R$, aber nicht offen in $\C$.
 \end{nt}
 
 \begin{st}
+	Sei $(X, \scr T)$ ein topologischer Raum und $A \subset X$.
 	\begin{enumerate}[(1)]
 		\item
 			Die Teilraumtopologie $\scr T_A$ auf $A$ ist die gröbste, für die $\jota_A : A \to X$ stetig ist.
 		\item
 			Genau dann ist $f: Y \to A$ stetig, wenn $\jota_A \circ f: Y \to X$ stetig ist.
 	\end{enumerate}
+	% fixme: proof
 \end{st}
+
+\subsection{Einbettungen}
 
 \begin{df}
 	Seien $(X,\scr T_X)$ und $(Y, \scr T_Y)$ topologische Räume.
@@ -884,8 +912,6 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 
 \coursetimestamp{05}{11}{2013}
 
-\subsection{Einbettungen}
-
 \begin{ex}
 	$\R^m \injto \R^n, (x_1, \dotsc, x_n) \mapsto (x_1, \dotsc, x_m, 0, \dotsc, 0)$ ist eine Einbettung.
 
@@ -895,8 +921,13 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 \subsection{Überdeckungen}
 
 \begin{df}
-	Eine Überdeckung $X = \bigcup_{i\in X} X_i$ heißt \emph{punktweise endlich}, wenn für jeden Punkt $x \in X$ die Menge $I_x := \{ i \in I : x \in X_i \}$ endlich ist.
-	Die Überdeckung heißt \emph{lokal endlich}, wenn jeder Punkt $x \in X$ eine Umgebung $U$ in $X$ besitzt, für die die Menge $I_U := \{ i \in I : X_i \cap U \neq \emptyset \}$ endlich ist.
+	Eine Überdeckung $X = \bigcup_{i\in I} X_i$ heißt
+	\begin{itemize}
+		\item
+			\emph{punktweise endlich}, wenn für jeden Punkt $x \in X$ die Menge $I_x := \{ i \in I : x \in X_i \}$ endlich ist,
+		\item
+			\emph{lokal endlich}, wenn jeder Punkt $x \in X$ eine Umgebung $U$ in $X$ besitzt, für die die Menge $I_U := \{ i \in I : X_i \cap U \neq \emptyset \}$ endlich ist.
+	\end{itemize}
 \end{df}
 
 \begin{ex}
@@ -906,7 +937,7 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 			\[
 				\R = \bigcup_{n \in \N} ]-n, n[
 			\]
-			ist weder punktweise, noch lokal.
+			ist weder punktweise, noch lokal endlich.
 		\item
 			Die Überdeckung
 			\[
@@ -923,10 +954,11 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 \end{ex}
 
 \begin{st} % fixme: label
-	Sei $X = \bigcup_{i\in I} X_i$ eine offene Überdeckung, oder eine lokal endliche Überdeckung.
+	Sei $X = \bigcup_{i\in I} X_i$ eine offene Überdeckung, oder eine lokal endliche abgeschlossene Überdeckung.
 
 	Eine Teilmenge $V \subset X$ ist genau dann offen (abgeschlossen), wenn $V \cap X_i$ in jedem Teilraum $X_i$ offen (bzw. abgeschlossen) ist.
 	\begin{proof}
+		% fixme: rework proof
 		Sei $V_i := V \cap X_i$, es gilt dann $V = \bigcup_{i\in I} V_i$.
 		Seien alle $X_i$ offen.
 		Da $V_i$ in $X_i$ offen ist, existiert $\tilde V_i$ in $X$ offen mit $V_i = \tilde V_i \cap X$.
@@ -974,11 +1006,11 @@ $k : \R \to \R$ mit
 ist stetig.
 
 \begin{st}
-	Sei $(X, \scr T)$ ein topologischer Raum, $X = \bigcup_{i \in I} X_i$ und $f_i: X \to Y$ stetig mit $f_i|_{X_i \cap X_j} = f_j|_{X_i \cap X_j}$ für alle $i,j \in I$.
+	Sei $(X, \scr T)$ ein topologischer Raum, $X = \bigcup_{i \in I} X_i$ und $f_i: X_i \to Y$ stetig mit $f_i|_{X_i \cap X_j} = f_j|_{X_i \cap X_j}$ für alle $i,j \in I$.
 
 	Dann ist $f = \bigcup_{i \in I} f_i : X \to Y$ die einzige Abbildung mit $f|_{X_i} = f_i$ für alle $i \in I$.
 
-	Ist die Überdeckung $(X_i)_{i\in I}$ offen oder lokal-endliche abgeschlossen, so ist $f$ stetig.
+	Ist die Überdeckung $(X_i)_{i\in I}$ offen oder lokal-endlich abgeschlossen, so ist $f$ stetig.
 	\begin{proof}
 		Sei $V \subset Y$ offen.
 		Da $f_i : X_i \to Y$ stetig, ist $f_i^{-1}(V) \subset X_i$ offen in $X_i$.
@@ -991,11 +1023,11 @@ ist stetig.
 
 \begin{df}
 	Sei $(X, \scr T)$ ein topologischer Raum und $R \subset X \times X$ eine Äquivalenzrelation auf $X$.
-	Sei $Q := X / R$ die Quotentenmenge und $q: X \to Q$ die Quotentenabbildung.
+	Sei $Q := X / R$ die Quotientenmenge und $q: X \to Q$ die Quotentenabbildung.
 	Die \emph{Quotiententopologie} auf $Q$ ist dann gegeben durch
 	\[
 		\scr T_Q
-		:= \{ U \subset Q : q^{-1}(U) \subset \scr T \}
+		:= \big\{ U \subset Q : q^{-1}(U) \subset \scr T \big\}
 		= q_* \scr T.
 	\]
 	Wir nennen dann $(Q, \scr T_Q)$ den \emph{Quotientenraum} von $(X, \scr T)$ bezüglich $R$.
@@ -1010,7 +1042,7 @@ ist stetig.
 			t
 		\end{pmatrix}.
 	\]
-	$f$ bildet $X$ auf einen Zylinder im $\R^3$ ab.
+	$f$ bildet $X$ auf eine Zylinderoberfläche im $\R^3$ ab.
 	Definiere jetzt $g: [-1,1]^2 \to \R^3$ mit
 	\[
 		g(s, t) = \begin{pmatrix}
@@ -1025,7 +1057,7 @@ ist stetig.
 \begin{st}[Eigenschaften der finalen Topologie]
 	\begin{enumerate}[(1)]
 		\item
-			Die Quotententopologie ist die feinste, für die $q$ stetig ist.
+			Die Quotiententopologie ist die feinste, für die $q$ stetig ist.
 		\item
 			$g: (Q, \scr T_Q) \to (Y, \scr T_y)$ ist genau dann stetig, wenn $f = g \circ q: X \to Y$ stetig ist.
 	\end{enumerate}
@@ -1068,7 +1100,7 @@ ist stetig.
 	\begin{proof}
 		Es gibt zwei Arten, dies zu beweisen.
 		\begin{seg}[Implizite Methode]
-			$\R / \Z = q(\R) = q([0,1])$ ist kompakt, $\S^1$ ist hausdorffsch, also ist jede stetige Bijektion $\_p: \R / \Z \to \S^1$ ein Homöomorphismus (Kanonische Faktorisierung und abgeschlossene Menge wird auf abgeschlossene Meneg abgebildet).
+			$\R / \Z = q(\R) = q([0,1])$ ist kompakt, $\S^1$ ist hausdorffsch, also ist jede stetige Bijektion $\_p: \R / \Z \to \S^1$ ein Homöomorphismus (Kanonische Faktorisierung und abgeschlossene Menge wird auf eine abgeschlossene Menge abgebildet).
 		\end{seg}
 		\begin{seg}[Explizite Methode]
 			Für
@@ -1087,8 +1119,9 @@ ist stetig.
 			konstruieren wir $s_k: \S^1 \supset U_k \to V_k \subset \R$ durch
 			\begin{align*}
 				s_1(x,y) &= \f 1{2\pi} \arctan(\f yx), \\
-				s_2(x,y) &= \f 1{2\pi} \arctan(\f xy), \\
-				\vdots\; &= \quad \vdots \\
+				s_2(x,y) &= \f 1{2\pi} \arctan(\f {-x}y) + \f 14, \\
+				s_3(x,y) &= \f 1{2\pi} \arctan(\f {-y}{-x}) + \f 12, \\
+				s_4(x,y) &= \f 1{2\pi} \arctan(\f x{-y}) + \f 34, \\
 				s_5(x,y) &= s_1(x,y) + 1.
 			\end{align*}
 			$s_k : U_k \homto V_k$ ist ein Homöomorphismus mit Inversen $p|_{V_k} : V_k \homto U_k$.
