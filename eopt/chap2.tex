@@ -1189,4 +1189,141 @@ Für $d_k' = - \f{\nabla f(x_k)}{2^k} = \f 1{2^k}$ akzeptiert Armijo ebenfalls s
 Die Winkelbedingungen sind in beiden Fällen erfüllt, aber im zweiten Fall konvergiert eine konvergente Teilfolge nicht gegen einen stationären Punkt.
 Also sind Armijo-Schrittweiten im Allgemeinen nicht zulässig.
 
+\begin{ex} \label{2.35}
+	Die Armijo-Regel mit Suchrrichtungen
+	\[
+		d_k := -2^{-k} \nabla f(x)
+	\]
+	konvergiert nicht für $f(x) = -x$.
+	Armijo-Schrittweiten können also nicht zulässig sein.
+\end{ex}
+
+\begin{st} \label{2.36}
+	Seien $(d_k)_{k\in\N}$ Abstiegsrichtungen.
+	Existiert für jede konvergente Folge $(x_l)_{l\in L}$ eine streng monoton wachsende Funktion $\phi: [0,\infty) \to [0,\infty)$ mit
+	\[
+		\|d_l\|
+		\ge \phi \big( \f{-\nabla f(x_l)^T d_l}{\|d_l\|}
+	\]
+	für alle $l \in L$.
+	Dann sind die Armijo-Schrittweiten zulässig.
+	\begin{proof}
+		Zeige gemäß \ref{2.28}
+		\[
+			\forall k\in\N : f(x_k + s_k d_k) < f(x_k)
+		\]
+		und für jede konvergente Teilfolge $(x_l)_{l\in L}$:
+		\[
+			\lim_{k\to\infty} f(x_k) - f(x_{k+1} = 0
+			\quad \implies\quad
+			\lim_{L \ni l \to \infty} \f{\nabla f(x_l)^T d_l}{\|d_l\|} = 0.
+		\]
+		Nach \ref{2.21} liefert die Armijo-Regel eine Schrittweite $s_k$ mit
+		\[
+			f(x_k + s_k d_k)
+			\le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k
+			< f(x_k).
+		\]
+		Sei $f(x_k) - f(x_{k+1}) \to 0$ und sei $(x_l)_{l\in L}$ eine konvergente Teilfolge der Iterierten.
+		Angenommen $\f {\nabla f(x_l)^T d_l}{\|d_l\|} \not\to 0$ für $L \ni l \to \infty$, d.h.
+		\[
+			\exists \eps > 0 \forall l \in L' \subset L : \f{\nabla f(x_l)^T d_l}{\|d_l\|} < - \eps
+		\]
+		mit $|L'| = \infty$.
+		Außerdem
+		\[
+			-\gamma \f {\nabla f(x_k)^T d_k}{\|d_k\|} s_k \|d_k\|
+			= - \gamma s_k \nabla f(x_k)^T d_k
+			\le	f(x_k) - f(x_{k+1})
+			\to 0.
+		\]
+		Also
+		\[
+			\lim_{L' \ni l \to \infty} s_l \|d_l\| = 0.
+		\]
+		Außerdem folgt für alle $l \in L'$
+		\[
+			\|d_l\|
+			\ge \phi(\f{-\nabla f(x_l)^T d_l}{\|d_l\|})
+			> \phi(\eps)
+			> \phi(0)
+			\ge 0.
+		\]
+		und somit $s_l \to 0$.
+		Der Rest funktioniert wie im Beweis von \ref{2.24} und man erhält
+		%fixme: prüfen
+		\[
+			0
+			\le (1-\gamma) \f {-\nabla f(x_l)^T d_l}{\|d_l\|}
+			< \f {(\nabla f(x_l+ \sigma_l d_l) - \nabla f(x_l)^Td_l}{\|d_l\|}
+			\le \|\nabla f(x_l + \sigma_l d_l) - \nabla f(x_l)\|.
+		\]
+		Aus $s_l \|d_l\| \to 0$ folgt $\sigma_l d_l \to 0$.
+		Da auch $(x_l)$ konvergiert, existiert ein $r > 0$ mit
+		\[
+			x_l, x_l + \sigma_l d_l \in \_{B_r(0)}.
+		\]
+		Auf $\_{B_r(0)}$ ist $\nabla f$ also gleichmäßig stetig und damit
+		\[
+			\nabla f(x_l + \sigma_le d_l) - \nabla f(x_l) \to 0
+		\]
+		und somit $\f{-\nabla f(x_l)^T d_l}{\|d_l\|} \to 0$.
+	\end{proof}
+\end{st}
+
+\begin{ex} \label{2.37}
+	Für das Gradientvenverfahren mit $d_k := -\nabla f(x_k)$ ist
+	\[
+		\|d_k\|
+		=\|\nabla f(x_k)\|
+		=\phi(\f{-\nabla f(x_k)^T d_k}{\|d_k\|})
+	\]
+	mit $\phi(x) = x$.
+	Mit \ref{2.36} und \ref{2.29} folgt also noch einmal die Aussage aus \ref{2.24}.
+\end{ex}
+
+\subsection{Die Powell-Wolfe-Schrittweitenregel}
+
+Es gibt Varianten der Armijo-Regel, die zulässig sind, z.B. Armijo mit Aufweitung, Armijo-Bedingung auch als Schranken in beide Richtungen an Abstieg, Goldstein-Regel.
+
+\paragraph{Die Idee hinter Powell-Wolfe}
+In den Beweisen von \ref{2.24} und \ref{2.36} wurde verwendet
+\[
+	\gamma \nabla f(x_l)^T d_l
+	< \nabla f(x_l + \sigma_l d_l)^T d_l
+\]
+mit einer Zwischenstelle $\sigma_l \in [0, s_l]$.
+Naheliegend ist jetzt ein Algorithmus, der einen solchen Zusammenhang explizit fordert.
+Es wird also zur aktuellen Iterierten $x$ und Suchrichtung $d$ eine Schrittweite $s$ gesucht, die
+\begin{align*}
+	f(x+sd) - f(x)
+	&\le \gamma s \nabla f(x)^T d \\
+	\nabla f(x+sd)^T d
+	&\ge \eta \nabla f(x)^T d
+\end{align*}
+mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
+
+\begin{alg} \label{alg:4}
+	\begin{algorithmic}
+		\Require{$0<\gamma < 1, \gamma < \eta < 1$}
+		\Require{aktuelle Iterierte $x$, Richtung $d\in\R^n$}
+		\State{$s^- \gets 2$}
+		\Repeat
+			\State{$s^- \gets \f {s^-}2$}
+		\Until{$s^-$ erfüllt Armijo}
+		\State{$s^+ \gets s^-$}
+		\Repeat
+			\State{$s^+ \gets 2s^+$}
+		\Until{$s^+$ verletzt Armijo}
+		\While{$s^-$ verletzt Powel-Wolfe}
+		\State{$s^{(0)} \gets \f {s^+ + s^-}2$}
+		\If{$s^{(0)}$ erfüllt Armijo}
+			\State{$s^- \gets s^{(0)}$}
+		\Else
+			\State{$s^+ \gets s^{(0)}$}
+		\EndIf
+		\EndWhile
+		\State{\Return $s \gets s^-$}
+	\end{algorithmic}
+\end{alg}
 
