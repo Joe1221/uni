@@ -1127,7 +1127,12 @@ ist stetig.
 			$s_k : U_k \homto V_k$ ist ein Homöomorphismus mit Inversen $p|_{V_k} : V_k \homto U_k$.
 			Leider lassen sich die $s_k: U_k \to \R$ nicht verkleben, aber im Quotentenraum geht es.
 
-			%fixme: q: \R \to \R / \Z, s_k: U_k \to \R, p: \R \to \S^1, \_{s_k}: U_k \to \R / \Z, \_p: \R / \Z \to \S^1, \_s: \S^1 \to \R / \Z
+			%fixme: q: \R \to \R / \Z,
+			% s_k: U_k \to \R,
+			% p: \R \to \S^1,
+			% \_{s_k}: U_k \to \R / \Z,
+			% \_p: \R / \Z \to \S^1,
+			% \_s: \S^1 \to \R / \Z
 
 			Wir erhalten $\_{s_k}: U_k \to \R / \Z$ und diese verkleben wir zu $\_s: \S^1 \to \R / \Z$.
 			Nach Konstruktion gilt
@@ -1139,3 +1144,241 @@ ist stetig.
 	\end{proof}
 \end{ex}
 
+\coursetimestamp{11}{11}{2013}
+
+% C6
+\section{Summen und Produkte topologischer Räume}
+
+\begin{df}
+	Seien $(X, \scr T_X)$ und $(Y, \scr T_Y)$ topologische Räume mit $X \cap Y = \emptyset$.
+	Auf $X \dunion Y$ definieren wir die \emph{Summentopologie}
+	\[
+		\scr T
+		:= \Big\{ U \dunion V : U \in \scr T_X, V \in \scr T_Y \Big\}.
+	\]
+	Den Raum $(X \dunion Y, \scr T) = (X, \scr T_X) \dunion (Y, \scr T_Y)$ nennen wir \emph{Summe} oder \emph{disjunkte Vereinigung} dieser topologischen Räume.
+\end{df}
+
+\begin{df}
+	Seien $(X_\lambda, \scr T_\lambda)$ für $\lambda \in \Lambda$ topologische Räume.
+	\[
+		\bigdunion_{\lambda \in \Lambda} X_\lambda
+		:= \bigcup_{\lambda \in \Lambda} X_\lambda \times \{\lambda\}.
+	\]
+	Hierzu gehören die kanonischen Inklusionen $\jota_\lambda: X_\lambda \injto X : \jota_\lambda (x) = (x, \lambda)$.
+	Die \emph{Summentopologie} auf $X = \bigdunion_{\lambda \in \Lambda} X_\lambda$ ist
+	\[
+		\scr T
+		:= \Big\{ \bigdunion_{\lambda \in \Lambda} U_\lambda : U_\lambda \in \scr T_\lambda \Big\}.
+	\]
+\end{df}
+
+\begin{st}
+	Es existiert eine bijektive Abbildung
+	\begin{align*}
+		\scr C(\bigdunion_{\lambda\in\Lambda} X_\lambda, Y) &\bijto \prod_{\lambda \in \Lambda} \scr C(X_\lambda, Y) \\
+		f & \mapsto (f \circ \jota_\lambda)_{\lambda\in\Lambda}.
+	\end{align*}
+\end{st}
+
+\begin{df}
+	Seien $(X, \scr T_X)$, $(Y, \scr T_Y)$ topologische Räume.
+	Eine Menge $W \subset X \times Y$ heißt \emph{offen in der Produkttopologie},
+	wenn es zu jedem $(x,y) \in W$ offene Umgebungen $x \in U \in \scr T_X$ und $y \in V \in \scr T_Y$ gibt, sodass $U \times V \subset W$.
+\end{df}
+
+\begin{nt}
+	Umgebungsbasis:
+	\[
+		\scr B_{(x,y)}
+		= \big\{ U \times V : x \in U \in \scr T_X, y \in V \in \scr T_Y \big\},
+	\]
+	Basis:
+	\[
+		\scr B
+		= \big \{ U \times V : U \in \scr T_X, V \in \scr T_Y \}.
+	\]
+	$U, V$ können dabei auch aus einer Basis von $\scr T_X$, bzw. $\scr T_Y$ gewählt werden.
+\end{nt}
+
+\begin{ex}
+	Die Produkttopologie auf $\R \times \R = \R^2$ ist die euklidische.
+	Die Produkttopologie auf $\R^m \times \R^n = \R^{m+n}$ ist die euklidische.
+\end{ex}
+
+\begin{df}
+	Seien $(X_\lambda, \scr T_\lambda)$ topologische Räume, $\lambda \in \Lambda$.
+	Wir definieren das Produkt
+	\[
+		X = \prod_{\lambda\in\Lambda} X_\lambda
+		:= \big\{ (x_\lambda)_{\lambda\in\Lambda} : x_\lambda \in X_\lambda \big\}.
+	\]
+	Hierzu gehören die kanonischen Projektionen $\scr p_\lambda: X \to X_\lambda: p_\lambda((x_\my)_{\my\in\Lambda}) = x_\lambda$.
+	Eine Menge $W \subset X$ heißt \emph{offen in der Produkttopologie}, wenn sie zu jedem Punkt $x=(x_\lambda)_{\lambda\in\Lambda}$ eine Menge der Form
+	\[
+		p_{\lambda_1}^{-1}(U_{\lambda_1})
+		\cap \dotsb \cap
+		p_{\lambda_n}^{-1}(U_{\lambda_n})
+	\]
+	enthält mit $\lambda_1, \dotsc, \lambda_n \in \Lambda$, $U_{\lambda_k} \in \scr T_{\lambda_k}$.
+	\begin{note}
+		Wir wollen, dass jede Projektion $p_\lambda : X \to X_\lambda$ stetig ist, d.h. zu $U_\lambda \in \scr T_\lambda$ soll $p_\lambda^{-1}(U)$.
+	\end{note}
+	\begin{note}
+		Wird $\scr T_\lambda$ erzeugt von $\scr E_\lambda$, dann wird $\scr T$ erzeugt von
+		\[
+			\scr E
+			= \bigcup_{\lambda\in\Lambda} p_\lambda^*(\scr E)
+			= \Big\{ \prod_{\lambda\in\lambda} U_\lambda : U_\lambda \in \scr E_\lambda \text{ für ein $\lambda$ und $U_\my = X_\my$ für alle $\my \neq \lambda$} \Big\}.
+		\]
+		Hat $\scr T_\lambda$ als Basis $\scr B_\lambda$, dann hat $\scr T$ als Basis
+		\[
+			\scr B =
+			\Big\{ \prod_{\lambda\in\Lambda} U_\lambda
+			: \text{$U_\lambda \in \scr B_\lambda$ für $\lambda \in \{\lambda_1, \dotsc, \lambda_n\}$ und $U_\my = X_\my$ für alle $\my \not\in \{\lambda_1, \dotsc, \lambda_n\}$ } \Big\}.
+		\]
+	\end{note}
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Für $\Lambda = \{1,2\}$ so erhalten wir $X_1 \times X_2$ wie oben.
+		\item
+			Auf $\R^n = \R \times \dotsb \times \R$ erhalten wir die euklidische Topologie.
+		\item
+			Auf $\R^\R = \prod_{x\in\R} \R$ ist die Produkttopologie die Topologie der punktweisen Konvergenz.
+	\end{itemize}
+\end{ex}
+
+\begin{st}
+	Sei $(X, \scr T) = \prod_{\lambda \in \Lambda} (X_\lambda, \scr T_\lambda)$, wobei jedes $X_\lambda$ mindestens zwei Punkte enthält.
+	Dann sind folgende Aussagen äquivalent
+	\begin{enumerate}[1)]
+		\item
+			Jeder Raum $(X_\lambda, \scr T_\lambda)$ ist metrisierbar und $\Lambda$ ist abzählbar,
+		\item
+			das Produkt $(X, \scr T)$ ist metrisierbar.
+	\end{enumerate}
+	\begin{proof}
+		\begin{segnb}[„$\implies$“]
+			$d: X \times X \to \R_{\ge 0}$ definiert eine Metrik auf $(X, \scr T)$ durch
+			\[
+				d(x,y) = \sum_{i\in I} a_i d_i^*(x_i, y_i)
+			\]
+			mit $a_i > 0, \sum_{i\in I} a_i < \infty$.
+		\end{segnb}
+		\begin{segnb}[„$\impliedby$“]
+			Siehe Gegenbeispiel, dass $\R^\R$ nicht metrisierbar
+			% fixme: ref
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	${0,1}^\N$ ist \emph{homöomorph} zur Cantor-Menge $C \subset [0,1]$.
+\end{ex}
+
+
+\section{Filter, Konvergenz und Stetigkeit}
+
+
+\subsection{Von Folgen zu Filtern}
+
+Konvergenz von $(x_n)_{n\in\N} \to a$ bedeutet, dass jede offene Umgebung $U \in \scr U_A(\scr T)$ enthält ein Endstück $E_m = \{ x_n : n \ge m \}$.
+Das System $\scr E = \{E_m : m \in \N\}$ erfreut sich folgender Eigenschaften
+\begin{enumerate}[(FB1)]
+	\item
+		$\scr E \neq \emptyset$ und $\emptyset \not\in \scr E$,
+	\item
+		$U,V \in \scr E \implies \exists W \in \scr E: W \subset U \cap V$.
+\end{enumerate}
+Aus $\scr E$ enthalten wir
+\[
+	\scr F
+	= \<\scr E\>_X
+	= \{ F \subset X : E \subset F \text{ für ein $E \in \scr E$} \}.
+\]
+Für $\scr F$ gilt
+\begin{enumerate}[(F1)]
+	\item
+		$X \in \scr F$ und $\emptyset \not\in \scr F$,
+	\item
+		$U, V \in \scr F \implies U \cap V \in \scr F$,
+	\item
+		$U \in \scr F, U \subset V \subset X \implies V \in \scr F$.
+\end{enumerate}
+
+\begin{df}
+	Ein Mengensystem $\scr F \subset \scr P(X)$ heißt \emph{Filter}, wenn (F1-3) gilt.
+
+	Ein Mengensystem $\scr E \subset \scr P(X)$ heißt \emph{Filterbasis}, wenn (FB1-2) gilt.
+\end{df}
+
+\begin{ex}
+	Für $a \in X$ in einem topologischen Raum $(X, \scr T)$ ist $\scr U_a(X, \scr T)$ ein Filter, ein sogenannter \emph{Umgebungsfilter}.
+
+	Jede Umgebungsbasis $\scr B_x$ ist eine Filterbasis.
+\end{ex}
+
+\begin{nt}
+	Konvergenz $(x_n)_{n\in\N} \to a$ bedeutet $\scr F \supset U_a$.
+\end{nt}
+
+\begin{df}
+	Sei $(X, \scr T)$ ein topologischer Raum, $\scr F$ ein Filter auf $X$, $a \in X$.
+	Der Filter $\scr F$ \emph{konvergiert} gegen $a$ in $(X, \scr T)$, geschrieben $\scr F \to a$, wenn $\scr F \supset \scr U_a$.
+\end{df}
+
+\begin{ex}
+	Betrachte
+	\[
+		\scr F = \big\{ F \subset \R : [0,\eps] \subset F \text{ für ein $\eps > 0$} \big\}.
+	\]
+	$\scr F$ konvergiert gegen $0$, denn $\scr F \supset \scr U_0$.
+	Dagegen konvergiert
+	\[
+		\scr F' = \big\{ F \subset \R : [0,1+\eps] \subset \scr F \text{ für ein $\eps > 0$} \big\}.
+	\]
+	gegen kein $a \in \R$.
+\end{ex}
+
+\begin{nt}
+	Filter auf $X$ sind die echten Ideale in der Mengenalgebra $(\scr P(X), \cap, \cup)$.
+\end{nt}
+
+\begin{df}
+	Ist $\scr F$ ein Filter auf $X$ und $f: X \to Y$ eine Abbildung, dann ist
+	\[
+		f(\scr F)
+		:= \big\{ V \subset Y : \exists U \in \scr F : f(U) \subset V \big\}
+	\]
+	ein Filter auf $Y$, genannt \emph{Bildfilter}.
+\end{df}
+
+\begin{st}
+	Sei $f: (X, \scr T_X) \to (X, \scr T_Y)$ eine Abbildung.
+	Dann sind folgende Aussagen äquivalent
+	\begin{enumerate}[1)]
+		\item
+			$f$ ist stetig in $a \in X$,
+		\item
+			aus $\scr F \to a$ folgt $f(\scr F) \to f(a)$,
+		\item
+			für $\scr U_a$ gilt $f(\scr U_a) \to f(a)$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{segnb}[(1)$\implies$(2)]
+			Sei $f$ stetig in $a$, d.h. für $V \in \scr U_{f(a)}$ gilt $f^{-1}(V) \in \scr U_a$.
+			Wegen $\scr F \supset \scr U_a$ folgt $U := f^{-1}(V) \in \scr F$.
+
+			Wegen $V \supset f(U)$ gilt $V \in f(\scr F)$, also $f(\scr F) \supset U_{f(a)}$.
+		\end{segnb}
+		\begin{segnb}[(2)$\implies$(3)]
+			trivial.
+		\end{segnb}
+		\begin{segnb}[(3)$\implies$(1)]
+			Übung.
+		\end{segnb}
+	\end{proof}
+\end{st}
