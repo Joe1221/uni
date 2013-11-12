@@ -1,0 +1,89 @@
+% D
+\chapter{Kompaktheit}
+
+
+
+\begin{df}
+	Ein topologischer Raum $(X, \scr T)$ heißt \emph{kompakt}, wenn zu $X = \bigcup_{i\in I} U_i$ mit $U_i \in \scr T$ Indizes $i_1, \dotsc, i_n \in I$ existieren mit $X = \bigcup_{k=1}^n U_{i_k}$.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$\R^n = \bigcup_{n\in\N} B(0,n)$ enthält keine endlichen Teilüberdeckung, $\R^n$ ist also nicht kompakt.
+		\item
+			Für einen diskreten Raum $(X, \scr T)$ gilt:
+			\[
+				(X, \scr T) \text{ kompakt }
+				\iff
+				\text{ $X$ endlich}.
+			\]
+	\end{itemize}
+\end{ex}
+
+\begin{df}
+	\begin{enumerate}[(1)]
+		\item
+			$A \subset X$ heißt \emph{kompakt in $(X, \scr T_X)$}, wenn für jede offene Überdeckung $A \subset \bigcup_{i\in I} U_i$ mit $U_i \in \scr T_X$ eine endliche Teilüberdeckung enthält.
+		\item
+			$A \subset X$ heißt \emph{relativ kompakt in $(X, \scr T_X)$}, wenn $\_A$ in $(X,, \scr T_X)$ kompakt ist.
+	\end{enumerate}
+\end{df}
+
+\begin{nt}
+	Nach Definition der Teilraumtopologie % fixme: ref
+	bedeutet $V \in \scr T_A$, dass $U \in \scr T_X$ existiert mit $V = U \cap A$.
+
+	Daher ist die Definition für $A$ kompakt in $(X, \scr T_X)$ äquivalent dazu, dass der Teilraum $(A, \scr T_A)$ kompakt ist.
+\end{nt}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Jede endliche Menge $A \subset X$ ist kompakt.
+		\item
+			$\Z \subset \R$ ist nicht kompakt, ebensowenig $\Q \subset \R$.
+		\item
+			$]0,1] \subset \R$ ist nicht kompakt, aber relativ kompakt in $\R$, denn $\_{]0,1]} = [0,1]$ (Abschluss in $\R$).
+	\end{itemize}
+\end{ex}
+
+\begin{st}
+	Sei $(X, <)$ ein geordnete Menge.
+	Genau dann ist jedes Intervall $[a,b]$ in $X$ kompakt bezüglich der Ordnungstopologie, wenn $(X, <)$ vollständig geordnet ist (d.h. erfüllt das Supremums-Axiom).
+\end{st}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$(\R, <)$ ist vollständig geordnet und jedes Intervall $[a,b] \subset \R$ ist kompakt.
+		\item
+			$(\Q, <)$ ist nicht vollständig geordnet und jedes Intervall $[a,b]_\Q$ mit $a<b$ ist nicht kompakt.
+
+			Sei $\xi \in [0,1] \setminus \Q$, z.B. $\xi = \f{\sqrt 2}2$.
+			Dann bilden
+			\begin{align*}
+				S_n &= [0, \xi - \f 1n[_{\Q},&
+				T_n &= ]\xi + \f 1n, 1]_{\Q}
+			\end{align*}
+			eine offene Überdeckung $[0,1]_{\Q} = \bigcup_{n\in\N} S_n \cup \bigcup_{n\in\N} T_n$ ohne endliche Teilüberdeckung.
+	\end{itemize}
+\end{ex}
+
+\begin{lem}
+	Sei $(X, \scr T)$ hausdorffsch, $A \subset X$ kompakt und $b \in X \setminus A$.
+
+	Dann existieren offene Umegebungen $U$ von $A$ in $X$ und $V$ von $b$ in $X$ mit $U\cap V = \emptyset$.
+	\begin{proof}
+		Zu $a \in A$ existieren $a \in U_a \in \scr T$ und $b \in V_a \in \scr T$ mit $U_a \cap V_a = \emptyset$.
+		Da $A$ kompakt, gilt $A \subset U_{a_1} \cup \dotsb \cup U_{a_n} =: U$ und $V := V_{a_1} \cap \dotsb \cap V_{a_1} \ni b$.
+	\end{proof}
+\end{lem}
+
+\begin{st}
+	Sind $A, B$ kompakt mit $A \cap B = \emptyset$ in einem Hausdorff-Raum $(X, \scr T)$, dann existieren $A \subset U \in \scr T$ und $B \subset V \in \scr T$ mit $U \cap V = \emptyset$.
+	\begin{proof}
+		Analog zu oben.
+	\end{proof}
+\end{st}
+

@@ -1174,11 +1174,14 @@ ist stetig.
 \end{df}
 
 \begin{st}
-	Es existiert eine bijektive Abbildung
+	Es existieren bijektive Abbildungen
 	\begin{align*}
-		\scr C(\bigdunion_{\lambda\in\Lambda} X_\lambda, Y) &\bijto \prod_{\lambda \in \Lambda} \scr C(X_\lambda, Y) \\
-		f & \mapsto (f \circ \jota_\lambda)_{\lambda\in\Lambda}.
+		\scr C(\bigdunion_{\lambda\in\Lambda} X_\lambda, Y) &\bijto \prod_{\lambda \in \Lambda} \scr C(X_\lambda, Y) &
+		f & \mapsto (f \circ \jota_\lambda)_{\lambda\in\Lambda}, \\
+		\scr C(Y, \prod_{\lambda\in\Lambda}X_\lambda) \bijto \prod_{\lambda\in\Lambda} \scr C(Y, X_\lambda) &
+		f & \mapsto (p_\lambda \circ f)_{\lambda\in\Lambda}.
 	\end{align*}
+	Beispielsweise entspricht $f : \R \to \R^n$ einem Tupel $(f_1, \dotsc, f_n)$ mit $f_k : \R \to \R$.
 \end{st}
 
 \begin{df}
@@ -1285,7 +1288,7 @@ ist stetig.
 
 \subsection{Von Folgen zu Filtern}
 
-Konvergenz von $(x_n)_{n\in\N} \to a$ bedeutet, dass jede offene Umgebung $U \in \scr U_A(\scr T)$ enthält ein Endstück $E_m = \{ x_n : n \ge m \}$.
+Konvergenz von $(x_n)_{n\in\N} \to a$ bedeutet, dass jede offene Umgebung $U \in \scr U_a(\scr T)$ enthält ein Endstück $E_m = \{ x_n : n \ge m \}$.
 Das System $\scr E = \{E_m : m \in \N\}$ erfreut sich folgender Eigenschaften
 \begin{enumerate}[(FB1)]
 	\item
@@ -1358,7 +1361,7 @@ Für $\scr F$ gilt
 
 \begin{st}
 	Sei $f: (X, \scr T_X) \to (X, \scr T_Y)$ eine Abbildung.
-	Dann sind folgende Aussagen äquivalent
+	Dann sind folgende Aussagen äquivalent:
 	\begin{enumerate}[1)]
 		\item
 			$f$ ist stetig in $a \in X$,
@@ -1377,8 +1380,88 @@ Für $\scr F$ gilt
 		\begin{segnb}[(2)$\implies$(3)]
 			trivial.
 		\end{segnb}
+\coursetimestamp{12}{11}{2013}
 		\begin{segnb}[(3)$\implies$(1)]
-			Übung.
+			Sei $V \in \scr U_{f(a)}$.
+			Wegen $f(\scr U_{a}) \to f(a)$ gilt $f(\scr U_a) \supset \scr U_{f(a)} \ni V$, also existiert ein $U \in \scr U_a$ mit $f(U) \subset V$, also ist $f^{-1}(V)$ Umgebung von $a$.
 		\end{segnb}
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Ein Filter $\scr f$ auf $X = \prod_{i\in I} X_i$ konvergiert genau dann gegen $x = (x_i)_{i\in I}$, wennn jeder Bildfilter $p_i(\scr f)$ auf $X_i$ gegen $x_i$ konvergiert.
+	\begin{proof}
+		\begin{segnb}[„$\implies$“]
+			$p_i$ ist stetig und die Aussage folgt mit vorigem Satz. % fixme: ref
+		\end{segnb}
+		\begin{segnb}[„$\impliedby$“]
+			Es gelten $p_i(\scr f) \supset \scr U_{x_i}$ für jedes $i \in I$.
+			Nach Definition der Produkttopologie ist
+			\[
+				\scr B_x = \Big\{ \bigcap_{i\in J} p_i^{-1}(U_i) : J \subset I \text{ endlich}, U_i \in \scr U_{x_i} \Big\}
+			\]
+			eine Umgebungsbasis von $x$.
+			Wegen $p_i(\scr f) \supset \scr U_{x_i} \ni U_i$ folgt $p_i^{-1}(U_i) \in \scr F$.
+			Nach (F2) auch $\bigcap_{i\in J} p_i^{-1}(U_i) \in \scr F$, also $\scr F \supset \scr B_x$, also $\scr F \supset \scr U_x$.
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+\begin{df}[Ultrafilter]
+	Ein Filter $\scr F$ auf $X$ heißt \emph{Ultrafilter} (oder \emph{maximaler Filter}), wenn er sich nicht weiter verfeinern lässt,
+	d.h. für jeden Filter $\scr F' \supset \scr F$ auf $X$ gilt $\scr F' = \scr F$.
+\end{df}
+
+\begin{ex}
+	Zu $a \in X$ ist
+	\[
+		\<a\> := \{ U \subset X : a \in U \}
+	\]
+	ein Ultrafilter.
+	\begin{proof}
+		Sei $\scr F' \supset \scr F$.
+		Angenommen $\exists F \in \scr F'$, aber $F \not\in \scr F$.
+		Dann ist $a \not\in F$.
+		Wegen $\{a\} \in \scr F \subset \scr F'$ und (F2) enthält $\scr F'$ dann $F \cap \{a\} = \emptyset$, ein Widerspruch zu (F1).
+	\end{proof}
+\end{ex}
+
+\begin{ex}
+	Für $A \subset X$ ist
+	\[
+		\< A \> := \{ U \subset X : A \subset U \}
+	\]
+	ein Filter, aber maximal nur für $A = \{a\}$, denn sonst gilt für jedes $a \in A$ $\<a\> \supsetneq \<A\>$.
+\end{ex}
+
+\begin{st}
+	Ein Filter $\scr F$ auf $X$ ist genau dann maximal, wenn er für jede Menga $A \subset X$ entweder $A$ oder $X \setminus A$ enthält.
+	\begin{proof}
+		\begin{segnb}[„$\implies$“]
+			Sei $\scr F' \supsetneq \scr F$.
+			Dann existiert $A \in \scr F'$ mit $A \not\in \scr F$.
+			Nach Voraussetzung ist $(X \setminus A) \in \scr F \subset \scr F'$.
+			Wegen (F2) enthält $\scr F'$ auch $A \cap (X \setminus A) = \emptyset$, ein Widerspruch zu (F1).
+		\end{segnb}
+		\begin{segnb}[„$\impliedby$“]
+			Sei $\scr F$ ein maximaler Filter und $A \subset X$.
+			Wenn $A \cap U = \emptyset$ für ein $U \in \scr F$, dann $U \subset (U \setminus A) \in \scr F$.
+			Andernfalls ist $A \cap U \neq \emptyset$ für alle $U \in \scr F$ und wir erhalten einen Filter
+			\[
+				\scr F' = \<\scr F, \<A\> \>
+				= \big\{ U \cap V : U \in \scr F, A \subset V \subset X \big\}.
+			\]
+			Es gilt $\scr F' \supset \scr F$ und $\scr F' \ni A$.
+			Da $\scr F$ maximal, folgt $A \in \scr F' = \scr F$.
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Jeder Filter auf $X$ ist in einem maximalen Filter enthalten.
+	\begin{proof}
+		Sei $S$ die Menge aller Filter auf $X$, die $\scr F$ enthalten.
+		Diese ist geordnet durch Inklusion.
+		Nach dem Lemma von Zorn hat jede geordnete Menge $S$, in der jede Kette eine obere Schranke besitzt, ein maximales Element.
 	\end{proof}
 \end{st}
