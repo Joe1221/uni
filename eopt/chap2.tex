@@ -1327,3 +1327,123 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 	\end{algorithmic}
 \end{alg}
 
+\begin{st} \label{2.38}
+	Seien $0<\gamma<1$ und $\gamma<\eta<1$.
+	Sei $d$ eine Abstiegsrichtung für $f$ im Punkt $x$.
+	Weiter sei $f$ in Richtung $d$ nach unten beschränkt: $\inf_{t\ge 0}f(x+td) > -\infty$.
+
+	Dann terminiert \ref{alg:4} nach endlich vielen Schritten und liefert eine Schrittweite $s$, die \ref{eq:pw1}, \ref{eq:pw2} erfüllt.
+	\begin{proof}
+		Die erste Repeat-Schleife terminiert wegen \ref{2.21} (für $s$ klein genug ist die Armijo-Bedingung erfüllt).
+
+		Für die zweite Repeat-Schleife betrachte
+		\[
+			-\infty
+			< \inf_{s\ge 0} f(x+sd)
+			\le f(x+s^+ d
+			\le f(x) + \gamma s^+ \nabla f(x)^T d
+			\xrightarrow{s^+\to\infty} -\infty.
+		\]
+		Also kann $s^+$ nicht beliebig groß werden und die Schleife terminiert nach endlich vielen Schritten mit einem $s^+$, welches \ref{eq:pw1} verletzt.
+
+		Für die While-Schleife betrachte die stetige Funktion
+		\[
+			g(s) := f(x+sd) - f(x) - \gamma s \nabla f(x)^T d,
+		\]
+		welche in $s^*$ eine Nullstelle hat.
+		Zeige:
+		\begin{enumerate}[(i)]
+			\item
+				In $s^*$ ist \ref{eq:pw1} erfüllt.
+			\item
+				Für $s \in \R$ mit $g(s) > 0$ ist \ref{eq:pw1} nicht erfüllt.
+			\item
+				Für $s \in \R$ mit $g(s) \le 0$ ist \ref{eq:pw1} erfüllt.
+		\end{enumerate}
+		Dann terminiert \ref{alg:4} nach endlich vielen Richtten und liefert eine Schrittweite $s$, die \ref{eq:pw1} und \ref{eq:pw2} erfüllt.
+
+		Die Intervallhalbierung sucht nach einem $s^*$ an dem \ref{eq:pw1} noch erfüllt ist und erzeugt dabei eie Folge von $s^-$, die monoton steigend gegen $s^*$ konverrgiert und für alle Folgenglieder gilt $g(s^-) \le 0$.
+		Genauso wird eine Folge von $s^+$ erzeugt, die monoton fallen gegen $s^*$ konvergiert und es gilt $g(s^+) > 0$.
+
+		An $s^*$ gilt
+		\[
+			0
+			\le g'(s^*)
+			= \nabla f(x+sd)^T d - \gamma \nabla f(x)^T d
+		\]
+		(vgl. \ref{eq:pw2}).
+
+		Da $g$ stetig ist, liegt zu jedem $\eps > 0$ für hinreichend viele Schleifendurchgänge $s^-$ nahe genug an $s^*$, sodass gilt
+		\[
+			g'(s^t) > - \eps.
+		\]
+		Mit $\eps := (\gamma - \eta) \nabla f(x)^T d$ folgt, dass nach endlich vielen Schleifendurchgängen gilt
+		\[
+			\nabla f(x+s^- d)^T d - \gamma \nabla f(x)^T d
+			= g'(s^-)
+			> - \eps
+			= (\nabla - \gamma) \nabla f(x)^T d,
+		\]
+		also gilt $\nabla f(x+s^- d)^T d > \eta \nabla f(x)^T d$, was \ref{eq:pw2} entspricht.
+	\end{proof}
+\end{st}
+
+\begin{st} \label{2.39}
+	Sei $f$ nach unten beschränkt, $(d_k)_{k\in\N}$ Abstiegsrichtungen.
+	Dann sind die durch die Powell-Wolfe-Regel erzeugten Schrittweiten zulässig.
+	\begin{proof}
+		Zeige $f(x_{k+1}) < f(x_k)$ und für jede konvergente Teilfolge $(x_l)_{l\in L}$
+		\[
+			\lim_{k\to\infty} f(x_k) - f(x_{k+1}) = 0.
+			\quad\implies\quad
+			\lim_{L\ni l \to\infty} \f{\nabla f(x_l)^T d_l}{\|d_l\|} = 0
+		\]
+		Da $f$ nach unten beschränkt ist, erzeugt \ref{alg:4} nach \ref{2.38} für jedes $k \in \N$ eine Schrittweite $s_k > 0$, die \ref{eq:pw1}, \ref{eq:pw2} erfüllen.
+		Damit gilt
+		\[
+			f(x_{k+1})
+			= f(x_k + s_k d_k)
+			\le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k
+			f(x_k).
+		\]
+		Sei jetzt $\lim_{k\to\infty} f(x_k) - f(x_{k+1}) = 0$ und $(x_l)_{l\in L}$ eine konvergente Teilfolge der Iterierten $(x_k)_{k\in\N}$.
+		Angenommen
+		\[
+			\lim_{L\ni l\to\infty} \f{\nabla f(x_l)^T d}{\|d_l\|} \le -\eps < 0,
+		\]
+		d.h. \oBdA für alle $l \in L$
+		\[
+			- \f {\nabla f(x_l)^T d_l}{\|d_l\|} > \eps.
+		\]
+		Es gilt
+		\[
+			0 \leftarrow
+			f(x_k) - f(x_{k+1})
+			\ge -\gamma s_k \nabla f(x_k)^T d_k
+			= s_k \gamma \|d_k\| \underbrace{\f{-\nabla f(x_k)^T d_k}{\|d_k\|}}_{> \eps},
+		\]
+		also $\lim_{L\ni l\to\infty} s_l \|d_l\| = 0$.
+
+		Es gilt
+		\[
+			\nabla f(x_l + s_l d_l)^T d_l \ge \underbrace{\eta}_{<1} \underbrace{\nabla f(x_l)^T d_l}_{<0},
+		\]
+		also
+		\[
+			0
+			\le -(1-\eta)\nabla f(x_l)^T d_l \f 1{\|d_l\|}
+			= \f 1{\|d_l\|}\big( \eta \nabla f(x)^T d_l - \nabla f(x_l)^T d_l \big)
+			\le \f 1{\|d_l\|} \big( \nabla f(x_l + s_l d_l)) - \nabla f(x_l) \big)^T d_l
+			\le \big\|\nabla f(x_l + s_l d_l) -\nabla f(x_l) \big\|
+		\]
+		Zeige $\|\nabla f(x_l + s_l d_l) -\nabla f(x_l)\| \to 0$, denn dann gilt auch $- \f{\nabla f(x_l)^T d_l}{\|d_l\|} \to 0$, was ein Widerspruch wäre.
+
+		Wegen $\lim_{L\ni l\to\infty} s_l d_l = 0$ existiert eine kompakte Menge, die fast alle $x_l, x_l + s_l d_l$ enthält.
+		$\nabla f$ ist auf dieser kompakten Menge gleichmäßig stetig, also
+		\[
+			\lim_{L\ni l\to\infty} \big\|\nabla f(x_l + s_l d_l) -\nabla f(x_l) \big\| \to 0.
+		\]
+	\end{proof}
+\end{st}
+
+
