@@ -214,7 +214,7 @@ Sei im folgenden $(X, \scr T)$ ein topologischer Raum, $x \in X$.
 \begin{df}[Erstes Abzählbarkeitsaxiom] \label{df:first_axiom_of_countability}
 	Ein topologischer Raum $(X, \scr T)$ erfüllt das \emph{erste Abzählbarkeitsaxiom} (1AA), wenn jeder Punkt $a \in X$ eine abzählbare Umgebungsbasis besitzt.
 	\begin{note}
-		Hat $a$ eine abzählbare Umgebungsbasis $(V_n)_{n\in\N}$, so hat $a$ auch eine offene Umgebungsbasis, etwa $(\mathring V_n)_{n\in\N}$.
+		Hat $a$ eine abzählbare Umgebungsbasis $(V_n)_{n\in\N}$, so hat $a$ auch eine abzählbare offene Umgebungsbasis, etwa $(\mathring V_n)_{n\in\N}$.
 		Durch Übergang zu $U_n := \mathring V_0 \cap \dotsb \cap \mathring V_n$ erhalten wir sogar eine offene Basis der Form $U_0 \supset U_1 \supset U_2 \supset \dotsb$.
 	\end{note}
 \end{df}
@@ -1023,14 +1023,14 @@ ist stetig.
 
 \begin{df}
 	Sei $(X, \scr T)$ ein topologischer Raum und $R \subset X \times X$ eine Äquivalenzrelation auf $X$.
-	Sei $Q := X / R$ die Quotientenmenge und $q: X \to Q$ die Quotentenabbildung.
-	Die \emph{Quotiententopologie} auf $Q$ ist dann gegeben durch
+	Sei $Q := X / R$ die Quotientenmenge und $q: X \to Q$ die Quotientenabbildung.
+	Auf $Q$ definieren wir die \emph{Quotiententopologie} $\scr T_Q$ als
 	\[
 		\scr T_Q
 		:= \big\{ U \subset Q : q^{-1}(U) \subset \scr T \big\}
 		= q_* \scr T.
 	\]
-	Wir nennen dann $(Q, \scr T_Q)$ den \emph{Quotientenraum} von $(X, \scr T)$ bezüglich $R$.
+	Wir nennen dann $(Q, \scr T_Q)$ \emph{Quotientenraum} von $(X, \scr T)$ bezüglich $R$.
 \end{df}
 
 \begin{ex}
@@ -1064,8 +1064,11 @@ ist stetig.
 \end{st}
 
 \begin{df}
-	Eine Abbildung $f: (X, \scr T_X) \to (Y, \scr T_y)$ heißt \emph{Identifizierung}, wenn sie einen Homöomorphismus auf dem Quotientenraum $X / R_f$ nach $Y$ induziert.
-	Dabei ist $R_f = \{ (x,x') \in X \times X : f(x) = f(x') \}$.
+	Eine Abbildung $f: (X, \scr T_X) \to (Y, \scr T_y)$ heißt \emph{Identifizierung}, wenn sie bezüglich der Äquivalenzrelation
+	\[
+		R_f = \big\{ (x,x') \in X \times X : f(x) = f(x') \big\}
+	\]
+	einen Homöomorphismus auf dem Quotientenraum $X / R_f$ nach $Y$ induziert.
 	\begin{note}
 		Jede Identifizierung muss surjektiv sein.
 	\end{note}
@@ -1213,10 +1216,11 @@ ist stetig.
 	Seien $(X_\lambda, \scr T_\lambda)$ topologische Räume, $\lambda \in \Lambda$.
 	Wir definieren das Produkt
 	\[
-		X = \prod_{\lambda\in\Lambda} X_\lambda
+		X
+		:= \prod_{\lambda\in\Lambda} X_\lambda
 		:= \big\{ (x_\lambda)_{\lambda\in\Lambda} : x_\lambda \in X_\lambda \big\}.
 	\]
-	Hierzu gehören die kanonischen Projektionen $\scr p_\lambda: X \to X_\lambda: p_\lambda((x_\my)_{\my\in\Lambda}) = x_\lambda$.
+	Hierzu gehören die kanonischen Projektionen $p_\lambda: X \to X_\lambda: p_\lambda((x_\my)_{\my\in\Lambda}) = x_\lambda$.
 	Eine Menge $W \subset X$ heißt \emph{offen in der Produkttopologie}, wenn sie zu jedem Punkt $x=(x_\lambda)_{\lambda\in\Lambda}$ eine Menge der Form
 	\[
 		p_{\lambda_1}^{-1}(U_{\lambda_1})
@@ -1225,21 +1229,22 @@ ist stetig.
 	\]
 	enthält mit $\lambda_1, \dotsc, \lambda_n \in \Lambda$, $U_{\lambda_k} \in \scr T_{\lambda_k}$.
 	\begin{note}
-		Wir wollen, dass jede Projektion $p_\lambda : X \to X_\lambda$ stetig ist, d.h. zu $U_\lambda \in \scr T_\lambda$ soll $p_\lambda^{-1}(U)$.
+		Wir wollen, dass jede Projektion $p_\lambda : X \to X_\lambda$ stetig ist, d.h. zu $U_\lambda \in \scr T_\lambda$ soll $p_\lambda^{-1}(U) \in \scr T$.
 	\end{note}
 	\begin{note}
 		Wird $\scr T_\lambda$ erzeugt von $\scr E_\lambda$, dann wird $\scr T$ erzeugt von
-		\[
+		\begin{align*}
 			\scr E
-			= \bigcup_{\lambda\in\Lambda} p_\lambda^*(\scr E)
-			= \Big\{ \prod_{\lambda\in\lambda} U_\lambda : U_\lambda \in \scr E_\lambda \text{ für ein $\lambda$ und $U_\my = X_\my$ für alle $\my \neq \lambda$} \Big\}.
-		\]
+			&:= \bigcup_{\lambda\in\Lambda} p_\lambda^*(\scr E) \\
+			&:= \bigg\{ \prod_{\lambda\in\lambda} U_\lambda : U_\lambda \in \scr E_\lambda \text{ für ein $\lambda$ und $U_\my = X_\my$ für alle $\my \neq \lambda$} \bigg\}.
+		\end{align*}
 		Hat $\scr T_\lambda$ als Basis $\scr B_\lambda$, dann hat $\scr T$ als Basis
-		\[
-			\scr B =
-			\Big\{ \prod_{\lambda\in\Lambda} U_\lambda
-			: \text{$U_\lambda \in \scr B_\lambda$ für $\lambda \in \{\lambda_1, \dotsc, \lambda_n\}$ und $U_\my = X_\my$ für alle $\my \not\in \{\lambda_1, \dotsc, \lambda_n\}$ } \Big\}.
-		\]
+		\begin{align*}
+			\scr B &=
+			\bigg\{ \prod_{\lambda\in\Lambda} U_\lambda
+			: \text{$U_\lambda \in \scr B_\lambda$ für $\lambda \in \{\lambda_1, \dotsc, \lambda_n\}$} \\
+				&\qquad\qquad\qquad \text{und $U_\my = X_\my$ für alle $\my \not\in \{\lambda_1, \dotsc, \lambda_n\}$ } \bigg\}.
+		\end{align*}
 	\end{note}
 \end{df}
 
