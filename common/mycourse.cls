@@ -128,50 +128,50 @@
 
 \str_case_x:nnF \ConfigOutput {
 	{print} {
-	\definecolor{url}{HTML}{000000} % 0088cc
-	\definecolor{link}{HTML}{000000}
-	\definecolor{text}{HTML}{000000}
-	\definecolor{math}{HTML}{000000}
-	\definecolor{theoremtype}{HTML}{000000}
-	\definecolor{theoremnumber}{HTML}{000000}
-	\definecolor{theoremtitle}{HTML}{000000}
-	\definecolor{header}{HTML}{000000}
-	\definecolor{headerrule}{HTML}{000000}
-	\definecolor{timestamp}{HTML}{000000}
-	\definecolor{background}{HTML}{FFFFFF}
-	\definecolor{headings}{HTML}{000000}
-	% Nutze Serifen-Schrift für Druckversion
-	\renewcommand*{\familydefault}{\rmdefault}
+		\definecolor{url}{HTML}{000000} % 0088cc
+		\definecolor{link}{HTML}{000000}
+		\definecolor{text}{HTML}{000000}
+		\definecolor{math}{HTML}{000000}
+		\definecolor{theoremtype}{HTML}{000000}
+		\definecolor{theoremnumber}{HTML}{000000}
+		\definecolor{theoremtitle}{HTML}{000000}
+		\definecolor{header}{HTML}{000000}
+		\definecolor{headerrule}{HTML}{000000}
+		\definecolor{timestamp}{HTML}{000000}
+		\definecolor{background}{HTML}{FFFFFF}
+		\definecolor{headings}{HTML}{000000}
+		% Nutze Serifen-Schrift für Druckversion
+		\renewcommand*{\familydefault}{\rmdefault}
 	}
 	{dark} {
-	\definecolor{url}{HTML}{91AFED} % 0088cc
-	\definecolor{link}{HTML}{91AFED}
-	\definecolor{text}{HTML}{E2E2E5}
-	\definecolor{math}{HTML}{E2E2E5}
-	\definecolor{theoremtype}{HTML}{FF9800}
-	\definecolor{theoremnumber}{HTML}{FF9800}
-	\definecolor{theoremtitle}{HTML}{F6F3E8}
-	\definecolor{header}{HTML}{F6F3E8}
-	\definecolor{headerrule}{HTML}{FF9800}
-	\definecolor{timestamp}{HTML}{7E8AA2}
-	\definecolor{background}{HTML}{202020}
-	\definecolor{headings}{HTML}{F6F3E8}
-	\renewcommand*{\familydefault}{\sfdefault}
-	\RequirePackage{sfmath}
+		\definecolor{url}{HTML}{91AFED} % 0088cc
+		\definecolor{link}{HTML}{91AFED}
+		\definecolor{text}{HTML}{E2E2E5}
+		\definecolor{math}{HTML}{E2E2E5}
+		\definecolor{theoremtype}{HTML}{FF9800}
+		\definecolor{theoremnumber}{HTML}{FF9800}
+		\definecolor{theoremtitle}{HTML}{F6F3E8}
+		\definecolor{header}{HTML}{F6F3E8}
+		\definecolor{headerrule}{HTML}{FF9800}
+		\definecolor{timestamp}{HTML}{7E8AA2}
+		\definecolor{background}{HTML}{202020}
+		\definecolor{headings}{HTML}{F6F3E8}
+		\renewcommand*{\familydefault}{\sfdefault}
+		\RequirePackage{sfmath}
 	}
 	}{
-	\definecolor{url}{HTML}{005580} % 0088cc
-	\definecolor{link}{HTML}{005580}
-	\definecolor{text}{HTML}{111111}
-	\definecolor{math}{HTML}{111111}
-	\definecolor{theoremtype}{HTML}{004400}
-	\definecolor{theoremnumber}{HTML}{222222}
-	\definecolor{theoremtitle}{HTML}{222222}
-	\definecolor{header}{HTML}{666666}
-	\definecolor{headerrule}{HTML}{668866}
-	\definecolor{timestamp}{HTML}{333333}
-	\definecolor{background}{HTML}{FFFFFF}
-	\definecolor{headings}{HTML}{000000}
+		\definecolor{url}{HTML}{005580} % 0088cc
+		\definecolor{link}{HTML}{005580}
+		\definecolor{text}{HTML}{111111}
+		\definecolor{math}{HTML}{111111}
+		\definecolor{theoremtype}{HTML}{115908}
+		\definecolor{theoremnumber}{HTML}{222222}
+		\definecolor{theoremtitle}{HTML}{222222}
+		\definecolor{header}{HTML}{666666}
+		\definecolor{headerrule}{HTML}{337733}
+		\definecolor{timestamp}{HTML}{333333}
+		\definecolor{background}{HTML}{FFFFFF}
+		\definecolor{headings}{HTML}{000000}
 }
 
 \renewcommand*\sectfont{\sffamily\bfseries\color{headings}}
