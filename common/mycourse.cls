@@ -1,87 +1,115 @@
-\RequirePackage{expl3}
+\RequirePackage {expl3, l3keys2e, xparse}
 \ProvidesExplPackage
 	{mycourse}
 	{2013/11/16}
 	{0.1}
 	{Class intended for math courses}
 
-\RequirePackage[l2tabu, orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
+%%=======================================================================
+%% Messages
+%%=======================================================================
 
-\cs_if_exist:NF \ConfigFontsize {\def\ConfigFontsize{12pt}}
-\cs_if_exist:NF \ConfigLanguage {\def\ConfigLanguage{ngerman}}
+\msg_new:nnn {mycourse} {config_loaded} {
+	Loaded~configuration~from~`config.tex`.
+}
+\msg_new:nnn {mycourse} {config_missing} {
+	No~configuration~file~`config.tex`~found.
+}
+
+
+%%=======================================================================
+%% Options
+%%=======================================================================
+
 \cs_if_exist:NF \ConfigOutput {\def\ConfigOutput{book}}
 
-% Load configuration file, containing additional options
-\InputIfFileExists{config}{
-	\ClassInfo{mycourse}{Loaded configuration from `config.tex`.}
+% Load configuration file, containing additional options, e.g. in the form
+% \PassOptionsToClass{paper-format=a4}{mycourse}
+% ------------------------------------------------------------------------
+\file_if_exist:nTF {config} {
+	\file_input:n {config}
+	\msg_info:nn {mycourse} {config_loaded}
 }{
-	\ClassWarning{mycourse}{No configuration file `config.tex` found.}
-}
-\PassOptionsToPackage{a4paper, outer=21mm, inner=21mm, top=20mm, bottom=30mm, marginparwidth=18mm, marginparsep=3mm}{geometry}
-\PassOptionsToPackage{scaled=0.83}{beramono}
-
-%==================================
-% Options
-%==================================
-
-% pass-through unknown options to scrbook
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
-
-
-% [noproofs] compile without proofs
-% ---------------------------------
-\DeclareOption{noproofs}{
-    \AtEndOfClass{
-        \RequirePackage{environ}
-        \let\proof\relax
-        \let\endproof\relax
-        \NewEnviron{proof}{}
-    }
+	\msg_warning:nn {mycourse} {config_missing}
 }
 
-% [sectionpagebreak] Neue Seite für den Beginn jeder section
-% ----------------------------------------------------------
-\DeclareOption{sectionpagebreak}{
-    \AtEndOfClass{
-		\let\oldsection\section
-		\renewcommand\section{\clearpage\oldsection}
-	}
+% Define option keys
+% ------------------------------------------------------------------------
+\keys_define:nn {mycourse} {
+
+	% [noproofs] compile without proofs
+	noproofs         .code:n =
+		\AtEndOfClass{
+			\RequirePackage{environ}
+			\let\proof\relax
+			\let\endproof\relax
+			\NewEnviron{proof}{}
+		}
+	,
+
+	% [sectionpagebreak] Neue Seite für den Beginn jeder section
+	sectionpagebreak .code:n =
+		\AtEndOfClass{
+			\let\oldsection\section
+			\renewcommand\section{\clearpage\oldsection}
+		}
+	,
+
+	% [lang] Language option (ngerman, english, …)
+	lang             .code:n =
+		\PassOptionsToPackage{#1}{babel}
+	,
+	lang             .tl_set:N = \l_mycourse_language,
+
+	% [paper-size] (a4, a5) Controls the output paper size
+	paper-size        .choice:,
+	paper-size / a4   .code:n =
+		\PassOptionsToPackage{
+			a4paper,
+			outer=21mm,
+			inner=21mm,
+			top=20mm,
+			bottom=30mm,
+			marginparwidth=18mm,
+			marginparsep=3mm
+		}{geometry}
+		\PassOptionsToPackage{scaled=0.83}{beramono}
+		\PassOptionsToClass{fontsize=12pt}{scrbook},
+	paper-size / a5   .code:n =
+		\PassOptionsToPackage{
+			reset,
+			a5paper,
+			top=1.4cm,
+			bottom=2.1cm,
+			left=1.6cm,
+			right=1.6cm,
+			footskip=0.7cm,
+			headsep=0.3cm,
+			marginparwidth=1.7cm,
+			marginparsep=0.2cm,
+		}{geometry}
+		\PassOptionsToPackage{scaled=0.785}{beramono}
+		\PassOptionsToClass{fontsize=10pt}{scrbook},
+
+
+	a5 .code:n = \keys_set:nn {mycourse} {paper-size=a5},
+	a5book .code:n = \keys_set:nn {mycourse} {paper-size=a5},
+	book .code:n = \keys_set:nn {mycourse} {paper-size=a5},
+
+}
+\ProcessKeysOptions {mycourse}
+
+%%=======================================================================
+%% Option Defaults
+%%=======================================================================
+
+\keys_set:nn {mycourse} {
+	lang       = ngerman,
+	paper-size = a5,
 }
 
-\DeclareOption{ngerman}{\def\ConfigLanguage{ngerman}\PassOptionsToPackage{ngerman}{babel}}
-\DeclareOption{english}{\def\ConfigLanguage{english}\PassOptionsToPackage{english}{babel}}
 
-\DeclareOption{a5}{
-	\PassOptionsToPackage{
-		reset,
-		a5paper,
-		top=1.4cm,
-		bottom=2.1cm,
-		left=1.6cm,
-		right=1.6cm,
-		footskip=0.7cm,
-		headsep=0.3cm,
-		marginparwidth=1.7cm,
-		marginparsep=0.2cm,
-	}{geometry}
-	\def\ConfigFontsize{10pt}
-	\PassOptionsToPackage{scaled=0.785}{beramono}
-}
-
-\DeclareOption{a5book}{
-	\PassOptionsToClass{a5}{mycourse}
-}
-
-\DeclareOption{book}{
-	\PassOptionsToClass{a5}{mycourse}
-}
-
-% Default otpions
-\ExecuteOptions{}
-
-\ProcessOptions\relax
-\PassOptionsToClass{fontsize=\ConfigFontsize}{scrbook}
-
+\RequirePackage[l2tabu, orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
 % Old version of package libertine loads xcolor with conflicting options, so load it beforehand.
 \RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
@@ -89,7 +117,7 @@
 % Fonts / Encoding
 %==================================
 
-\RequirePackage[\ConfigLanguage]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
+\RequirePackage[\l_mycourse_language]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
 \RequirePackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
 \RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
 %\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
@@ -314,7 +342,7 @@
 % Proof-Environment
 % =================
 % Führt \captions<lang> aus für \proofname, etc.
-\csname captions\ConfigLanguage \endcsname
+\csname captions\l_mycourse_language \endcsname
 % Scheinbar wird \proofname überschrieben, wenn optionales Argument an \begin{proof} gegeben wird
 \let\myproofname\proofname
 \theoremsymbol{\ensuremath{\square}}
@@ -341,14 +369,15 @@
 \fancyheadoffset[RE,LO]{\marginparsep+\marginparwidth}
 %\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 %\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
-\renewcommand{\chaptermark}[1]{\markboth{\thechapter ~ \textbar ~ #1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection ~ \textbar ~ #1}}
+\DeclareDocumentCommand {\l_mycourse_headvertbar} {} { \;{\color{headerrule}\rule[-0.4em]{0.7pt}{1.3em}}\; }
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter ~ \l_mycourse_headvertbar ~ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection ~ \l_mycourse_headvertbar ~ #1}}
 \fancyhf{}
 \newcommand{\headerfont}{\bfseries \scshape \color{header}}
 \fancyfoot[LE,RO]{\bfseries\color{header} \thepage}
 \fancyhead[RO]{\headerfont\rightmark}
 \fancyhead[LE]{\headerfont\leftmark}
-\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrulewidth}{0.7pt}
 
 \renewcommand{\headrule}{{\color{headerrule}%
 \hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}}
