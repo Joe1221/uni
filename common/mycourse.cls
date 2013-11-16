@@ -1,11 +1,15 @@
-% This class provides reasonable defaults for math courses
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{mycourse}
+\RequirePackage{expl3}
+\ProvidesExplPackage
+	{mycourse}
+	{2013/11/16}
+	{0.1}
+	{Class intended for math courses}
 
-\RequirePackage{etoolbox}
-\ifundef{\ConfigFontsize}{\def\ConfigFontsize{12pt}}{}
-\ifundef{\ConfigLanguage}{\def\ConfigLanguage{ngerman}}{}
-\ifundef{\ConfigBook}{\def\ConfigBook{false}}{}
+\RequirePackage[l2tabu, orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
+
+\cs_if_exist:NF \ConfigFontsize {\def\ConfigFontsize{12pt}}
+\cs_if_exist:NF \ConfigLanguage {\def\ConfigLanguage{ngerman}}
+\cs_if_exist:NF \ConfigOutput {\def\ConfigOutput{book}}
 
 % Load configuration file, containing additional options
 \InputIfFileExists{config}{
@@ -68,9 +72,12 @@
 	\PassOptionsToClass{a5}{mycourse}
 }
 
-\ifdefstring{\ConfigBook}{true}{
-	\PassOptionsToClass{a5book}{mycourse}
-}{}
+\DeclareOption{book}{
+	\PassOptionsToClass{a5}{mycourse}
+}
+
+% Default otpions
+\ExecuteOptions{}
 
 \ProcessOptions\relax
 \PassOptionsToClass{fontsize=\ConfigFontsize}{scrbook}
@@ -104,7 +111,6 @@
 %	\newcommand{\japtext}[1]{}
 %}
 
-\RequirePackage[l2tabu,orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
 \RequirePackage{etex}
 
 %\usepackage[cmintegrals,libertine,cmbraces,slantedGreek]{newtxmath}
@@ -120,7 +126,8 @@
 %\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 \RequirePackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 
-\ifdefstring{\ConfigOutput}{print}{
+\str_case_x:nnF \ConfigOutput {
+	{print} {
 	\definecolor{url}{HTML}{000000} % 0088cc
 	\definecolor{link}{HTML}{000000}
 	\definecolor{text}{HTML}{000000}
@@ -135,7 +142,8 @@
 	\definecolor{headings}{HTML}{000000}
 	% Nutze Serifen-Schrift für Druckversion
 	\renewcommand*{\familydefault}{\rmdefault}
-}{\ifdefstring{\ConfigOutput}{dark}{
+	}
+	{dark} {
 	\definecolor{url}{HTML}{91AFED} % 0088cc
 	\definecolor{link}{HTML}{91AFED}
 	\definecolor{text}{HTML}{E2E2E5}
@@ -150,7 +158,8 @@
 	\definecolor{headings}{HTML}{F6F3E8}
 	\renewcommand*{\familydefault}{\sfdefault}
 	\RequirePackage{sfmath}
-}{
+	}
+	}{
 	\definecolor{url}{HTML}{005580} % 0088cc
 	\definecolor{link}{HTML}{005580}
 	\definecolor{text}{HTML}{111111}
@@ -163,7 +172,7 @@
 	\definecolor{timestamp}{HTML}{333333}
 	\definecolor{background}{HTML}{FFFFFF}
 	\definecolor{headings}{HTML}{000000}
-}}
+}
 
 \renewcommand*\sectfont{\sffamily\bfseries\color{headings}}
 
@@ -310,7 +319,7 @@
 \let\myproofname\proofname
 \theoremsymbol{\ensuremath{\square}}
 \theoremstyle{break}
-\newtheorem*{proof}{\color{headings}\myproofname:}
+\newtheorem*{proof}{\color{headings}\myproofname :}
 \theoremsymbol{}
 
 

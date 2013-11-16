@@ -69,7 +69,7 @@ config-print:
 config-styledark:
 	echo "\def\ConfigOutput{dark}" >> ${TEXCONFIG}
 config-book:
-	echo "\def\ConfigBook{true}" >> ${TEXCONFIG}
+	echo "\PassOptionsToClass{book}{mycourse}" >> ${TEXCONFIG}
 config-a5:
 	echo "\PassOptionsToClass{a5}{mycourse}" >> ${TEXCONFIG}
 config-clear:
