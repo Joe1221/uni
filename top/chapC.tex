@@ -2,11 +2,14 @@
 
 \chapter{Topologische Räume}
 
+
 \coursetimestamp{28}{10}{2013}
+\section{Grundlagen}
+
 
 \begin{df}
-	Eine \emph{Topologie} auf einer Menge $X$ ist ein System $\scr T \subset \scr P(X)$ von Teilmengen von $X$ mit folgenden Eigenschaften
-	\begin{enumerate}[O1)]
+	Eine \emph{Topologie} auf einer Menge $X$ ist ein System $\scr T \subset \scr P(X)$ von Teilmengen von $X$ mit folgenden Eigenschaften:
+	\begin{enumerate}[(O1)]
 		\item
 			$\emptyset, X \in \scr T$,
 		\item
@@ -376,7 +379,7 @@ Dies definiert eine Topologie $\scr T_{\text{pw}}$ (“pointwise”) gemäß \re
 Mit dieser Topologie gilt $f_n \to f$ punktweise genau dann, wenn $f_n \to f$ bezüglich $\scr T_{\text{pw}}$.
 %fixme: proof?
 
-\begin{st}
+\begin{st} \label{st:pointwise_hausdorff_metrisable}
 	$\scr T_{\text{pw}}$ erfüllt das Hausdorff-Axiom, aber nicht das 1AA.
 	Insbesondere ist die Topologie $\scr T_{\text{pw}}$ also nicht metrisierbar.
 	\begin{proof}
@@ -819,14 +822,14 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 				g^* \scr T_Z
 				:= \big\{ g^{-1}(W) : W \in \scr T_Z \big\}.
 			\]
-			Diese heißt \emph{initiale Topologie} bezüglich $g$ und ist die gröbste Topologie, für die $g$ stetig ist.
+			Diese heißt \emph{initiale Topologie} bezüglich $g$ und ist per definitionem genau die gröbste Topologie, für die $g$ stetig ist.
 		\item
 			\emph{Vorschieben (push forward):}
 			Jede Topologie $\scr T_X$ auf $X$ induziert eine Topologie $f_* \scr T_X$ auf $Y$ durch
 			\[
 				f_* \scr T_X = \big\{ V \subset Y : f^{-1}(V) \in \scr T_X \big\}.
 			\]
-			Diese heißt \emph{finale Topologie} bezüglich $f$ und ist die feinste Topologige auf $Y$, für die $f$ stetig ist.
+			Diese heißt \emph{finale Topologie} bezüglich $f$ und ist per definitionem genau die feinste Topologige auf $Y$, für die $f$ stetig ist.
 	\end{enumerate}
 \end{df}
 
@@ -855,14 +858,14 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 
 \begin{df}
 	Sei $(X, \scr T_X)$ ein topologischer Raum, $A \subset X$ und $\jota_A: A \to X, a \mapsto a$ die Inklusion von $A$ in $X$.
-	Wir setzen
+	Die initiale Topologie bezüglich $\jota_A$ auf $X$
 	\begin{align*}
 		\scr T_A
 		&:= \{ A \cap U : U \in \scr T_X \} \\
 		&\;= \{ \jota_A^{-1}(U) : U \in \scr T_X \}
-		= \jota_A^* \scr T_X.
+		= \jota_A^* \scr T_X
 	\end{align*}
-	$\scr T_A$ nennen wir \emph{Teilraumtopologie} auf $A$ in $X$ und $(A, \scr T_A)$ einen \emph{Teilraum} von $(X, \scr T_X)$.
+	nennen wir \emph{Teilraumtopologie} auf $A$ in $X$ und $(A, \scr T_A)$ einen \emph{Teilraum} von $(X, \scr T_X)$.
 \end{df}
 
 \begin{ex}
@@ -876,27 +879,52 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 \end{ex}
 
 \begin{conv}
-	Im Folgendenden bezeichne für eine Teilmenge $A \subset X$ soweit nicht anders festgelegt $\scr T_A$ die Teilraumtopologie auf $A$ in $X$ und $\jota_A$ die Inlusion von $A$ in $X$.
+	Im Folgenden bezeichne für eine Teilmenge $A \subset X$ soweit nicht anders festgelegt mit $\scr T_A$ die Teilraumtopologie auf $A$ in $X$ und mit $\jota_A$ die Inklusion von $A$ in $X$.
 
-	Wir sagen außerdem z.B. „offen in $A$“, statt „offen bezüglich $(A, \scr T_A)$“.
+	Wir sagen außerdem z.B. für eine Menge $U \subset X$: „$U$ ist offen in $A$“, statt „$A \cap U$ ist offen bezüglich $(A, \scr T_A)$“.
 \end{conv}
 
 \begin{nt}
 	Sei $A \subset X$.
-	Eine offene Menge in $A$ liegt auch in $X$, ist aber im Allgemeinen nicht offen in $X$.
+	Eine offene Menge $O \subset A$ liegt auch in $X$, ist aber im Allgemeinen nicht offen in $X$.
 
 	So ist z.B. $]0,1[$ offen in $\R$, aber nicht offen in $\C$.
 \end{nt}
 
-\begin{st}
-	Sei $(X, \scr T)$ ein topologischer Raum und $A \subset X$.
+Der folgende Satz zeigt, dass sich die Teilraumtopologie auch anderweitig charakterisieren lässt.
+
+\begin{st}[Universelle Abbildungseigenschaft]
+	Sei $(X, \scr T_X)$ ein topologischer Raum und $A \subset X$.
+	Für eine Topologie $\scr T$ auf $A$ sind folgende Aussagen äquivalent:
 	\begin{enumerate}[(1)]
 		\item
-			Die Teilraumtopologie $\scr T_A$ auf $A$ ist die gröbste, für die $\jota_A : A \to X$ stetig ist.
+			$\scr T$ ist die Teilraumtopologie auf $A$ in $X$, d.h. $\scr T$ ist die gröbste Topologie auf $A$, für die $\jota_A : (A, \scr T) \to (X, \scr T_X)$ stetig ist.
 		\item
-			Genau dann ist $f: Y \to A$ stetig, wenn $\jota_A \circ f: Y \to X$ stetig ist.
+			Für jeden topologischen Raum $(Y, \scr T_Y)$ ist eine Funktion $f: (Y, \scr T_Y) \to (A, \scr T)$ genau dann stetig, wenn $g := \jota_A \circ f: (Y, \scr T_Y) \to (X, \scr T_X)$ stetig ist.
+			\[
+				\begin{tikzcd}[column sep=small]
+					~& Y \arrow{dl}[swap]{f} \arrow{dr}{g} & \\
+					A \arrow{rr}{\jota_A} & & X
+				\end{tikzcd}
+			\]
 	\end{enumerate}
-	% fixme: proof
+	\begin{proof}
+		\begin{segnb}[„$\implies$“]
+			Sei $\scr T = \jota_A^* \scr T_X$ die Teilraumtopologie von $A$ in $X$.
+			$f: Y \to A$ ist stetig genau dann, wenn
+			\begin{align*}
+				\scr T_Y \supset \{ f^{-1}(U) : U \in \scr T \}
+				&= f^* \scr T_A \\
+				&= f^*(\jota_A^* \scr T_X) \\
+				&= \Big\{ f^{-1}(\jota_A^{-1}(U)) : U \in \scr T_X \Big\} \\
+				&= (\jota_A \circ f)^* \scr T_X,
+			\end{align*}
+			also genau dann, wenn $(\jota_A \circ f): Y \to X$ stetig ist.
+		\end{segnb}
+		%\begin{segnb}[„$\impliedby$“]
+		%	% fixme
+		%\end{segnb}
+	\end{proof}
 \end{st}
 
 \subsection{Einbettungen}
@@ -1147,10 +1175,12 @@ ist stetig.
 	\end{proof}
 \end{ex}
 
-\coursetimestamp{11}{11}{2013}
 
-% C6
-\section{Summen und Produkte topologischer Räume}
+\coursetimestamp{11}{11}{2013}
+\section{Summen und Produkte topologischer Räume} % C6
+
+
+\subsection{Summentopologie}
 
 \begin{df}
 	Seien $(X, \scr T_X)$ und $(Y, \scr T_Y)$ topologische Räume mit $X \cap Y = \emptyset$.
@@ -1164,12 +1194,13 @@ ist stetig.
 
 \begin{df}
 	Seien $(X_\lambda, \scr T_\lambda)$ für $\lambda \in \Lambda$ topologische Räume.
+	Wir schreiben
 	\[
 		\bigdunion_{\lambda \in \Lambda} X_\lambda
-		:= \bigcup_{\lambda \in \Lambda} X_\lambda \times \{\lambda\}.
+		:= \bigcup_{\lambda \in \Lambda} \big( X_\lambda \times \{\lambda\} \big).
 	\]
-	Hierzu gehören die kanonischen Inklusionen $\jota_\lambda: X_\lambda \injto X : \jota_\lambda (x) = (x, \lambda)$.
-	Die \emph{Summentopologie} auf $X = \bigdunion_{\lambda \in \Lambda} X_\lambda$ ist
+	Hierzu gehören die kanonischen Inklusionen $\jota_\lambda: X_\lambda \injto X, \jota_\lambda (x) = (x, \lambda)$.
+	Die \emph{Summentopologie} auf $X := \bigdunion_{\lambda \in \Lambda} X_\lambda$ ist gegeben durch
 	\[
 		\scr T
 		:= \Big\{ \bigdunion_{\lambda \in \Lambda} U_\lambda : U_\lambda \in \scr T_\lambda \Big\}.
@@ -1179,41 +1210,45 @@ ist stetig.
 \begin{st}
 	Es existieren bijektive Abbildungen
 	\begin{align*}
-		\scr C(\bigdunion_{\lambda\in\Lambda} X_\lambda, Y) &\bijto \prod_{\lambda \in \Lambda} \scr C(X_\lambda, Y) &
-		f & \mapsto (f \circ \jota_\lambda)_{\lambda\in\Lambda}, \\
-		\scr C(Y, \prod_{\lambda\in\Lambda}X_\lambda) \bijto \prod_{\lambda\in\Lambda} \scr C(Y, X_\lambda) &
+		\scr C\Big(\bigdunion_{\lambda\in\Lambda} X_\lambda, Y\Big) &\bijto \prod_{\lambda \in \Lambda} \scr C(X_\lambda, Y), &
+		f & \mapsto (f \circ \jota_\lambda)_{\lambda\in\Lambda}; \\
+		\scr C\Big(Y, \prod_{\lambda\in\Lambda}X_\lambda\Big) &\bijto \prod_{\lambda\in\Lambda} \scr C(Y, X_\lambda), &
 		f & \mapsto (p_\lambda \circ f)_{\lambda\in\Lambda}.
 	\end{align*}
 	Beispielsweise entspricht $f : \R \to \R^n$ einem Tupel $(f_1, \dotsc, f_n)$ mit $f_k : \R \to \R$.
 \end{st}
 
+\subsection{Produkttopologie}
+
+Betrachtet man Produkte von topologischen Räumen, so ist folgende Definition anschaulich naheliegend.
 \begin{df}
 	Seien $(X, \scr T_X)$, $(Y, \scr T_Y)$ topologische Räume.
 	Eine Menge $W \subset X \times Y$ heißt \emph{offen in der Produkttopologie},
 	wenn es zu jedem $(x,y) \in W$ offene Umgebungen $x \in U \in \scr T_X$ und $y \in V \in \scr T_Y$ gibt, sodass $U \times V \subset W$.
+	\begin{note}
+		Demnach wäre
+		\begin{align*}
+			\scr B_{(x,y)}
+			&:= \big\{ U \times V : x \in U \in \scr T_X, y \in V \in \scr T_Y \big\},
+		\intertext{
+			eine Umgebungsbasis der Produkttopologie.
+			Außerdem definiert
+		}
+			\scr B
+			&:= \big \{ U \times V : U \in \scr T_X, V \in \scr T_Y \}
+		\end{align*}
+		eine Basis.
+		Wählt man hier stattdessen $U,V$ aus einer Basis von $\scr T_X$, bzw. $\scr T_Y$, so erhält man ebenfalls eine Basis der Produkttopologie.
+	\end{note}
 \end{df}
-
-\begin{nt}
-	Umgebungsbasis:
-	\[
-		\scr B_{(x,y)}
-		= \big\{ U \times V : x \in U \in \scr T_X, y \in V \in \scr T_Y \big\},
-	\]
-	Basis:
-	\[
-		\scr B
-		= \big \{ U \times V : U \in \scr T_X, V \in \scr T_Y \}.
-	\]
-	$U, V$ können dabei auch aus einer Basis von $\scr T_X$, bzw. $\scr T_Y$ gewählt werden.
-\end{nt}
 
 \begin{ex}
 	Die Produkttopologie auf $\R \times \R = \R^2$ ist die euklidische.
-	Die Produkttopologie auf $\R^m \times \R^n = \R^{m+n}$ ist die euklidische.
+	Die Produkttopologie auf $\R^m \times \R^n = \R^{m+n}$ ist ebenfalls die euklidische.
 \end{ex}
 
 \begin{df}
-	Seien $(X_\lambda, \scr T_\lambda)$ topologische Räume, $\lambda \in \Lambda$.
+	Seien $(X_\lambda, \scr T_\lambda)$ topologische Räume ($\lambda \in \Lambda$).
 	Wir definieren das Produkt
 	\[
 		X
@@ -1227,7 +1262,7 @@ ist stetig.
 		\cap \dotsb \cap
 		p_{\lambda_n}^{-1}(U_{\lambda_n})
 	\]
-	enthält mit $\lambda_1, \dotsc, \lambda_n \in \Lambda$, $U_{\lambda_k} \in \scr T_{\lambda_k}$.
+	enthält, wobei $\lambda_1, \dotsc, \lambda_n \in \Lambda$, $U_{\lambda_k} \in \scr T_{\lambda_k}$.
 	\begin{note}
 		Wir wollen, dass jede Projektion $p_\lambda : X \to X_\lambda$ stetig ist, d.h. zu $U_\lambda \in \scr T_\lambda$ soll $p_\lambda^{-1}(U) \in \scr T$.
 	\end{note}
@@ -1236,14 +1271,22 @@ ist stetig.
 		\begin{align*}
 			\scr E
 			&:= \bigcup_{\lambda\in\Lambda} p_\lambda^*(\scr E) \\
-			&:= \bigg\{ \prod_{\lambda\in\lambda} U_\lambda : U_\lambda \in \scr E_\lambda \text{ für ein $\lambda$ und $U_\my = X_\my$ für alle $\my \neq \lambda$} \bigg\}.
+			&= \Set{ \prod_{\my\in\Lambda} U_\my |
+				\exists \lambda\in\Lambda :
+				\Big( U_\lambda \in \scr E_\lambda
+				\land \forall \my\neq\lambda : U_\my = X_\my \Big)
+			}.
 		\end{align*}
 		Hat $\scr T_\lambda$ als Basis $\scr B_\lambda$, dann hat $\scr T$ als Basis
 		\begin{align*}
 			\scr B &=
-			\bigg\{ \prod_{\lambda\in\Lambda} U_\lambda
-			: \text{$U_\lambda \in \scr B_\lambda$ für $\lambda \in \{\lambda_1, \dotsc, \lambda_n\}$} \\
-				&\qquad\qquad\qquad \text{und $U_\my = X_\my$ für alle $\my \not\in \{\lambda_1, \dotsc, \lambda_n\}$ } \bigg\}.
+			\Set{ \prod_{\my\in\Lambda} U_\my |
+				\begin{aligned}
+				&\exists \lambda_1, \dotsc, \lambda_n \in \Lambda : \\
+				& \qquad \Big( U_{\lambda_i} \in \scr B_{\lambda_i}
+				\land \forall \my \not\in \{\lambda_1, \dotsc, \lambda_n\} : U_\my = X_\my \Big)
+				\end{aligned}
+			}
 		\end{align*}
 	\end{note}
 \end{df}
@@ -1259,12 +1302,14 @@ ist stetig.
 	\end{itemize}
 \end{ex}
 
+\subsection{Metrisierbarkeit von Produkträumen}
+
 \begin{st}
 	Sei $(X, \scr T) = \prod_{\lambda \in \Lambda} (X_\lambda, \scr T_\lambda)$, wobei jedes $X_\lambda$ mindestens zwei Punkte enthält.
-	Dann sind folgende Aussagen äquivalent
+	Dann sind folgende Aussagen äquivalent:
 	\begin{enumerate}[1)]
 		\item
-			Jeder Raum $(X_\lambda, \scr T_\lambda)$ ist metrisierbar und $\Lambda$ ist abzählbar,
+			jeder Raum $(X_\lambda, \scr T_\lambda)$ ist metrisierbar und $\Lambda$ ist abzählbar,
 		\item
 			das Produkt $(X, \scr T)$ ist metrisierbar.
 	\end{enumerate}
@@ -1274,11 +1319,12 @@ ist stetig.
 			\[
 				d(x,y) = \sum_{i\in I} a_i d_i^*(x_i, y_i)
 			\]
-			mit $a_i > 0, \sum_{i\in I} a_i < \infty$.
+			mit $a_i > 0, \sum_{i\in I} a_i < \infty$, siehe auch \coursehref{Blatt03.pdf}{Übungsaufgabe S\,4.1, Blatt 3}.
 		\end{segnb}
 		\begin{segnb}[„$\impliedby$“]
-			Siehe Gegenbeispiel, dass $\R^\R$ nicht metrisierbar
-			% fixme: ref
+			Wenn $(X, \scr T)$ metrisierbar ist, dann sind auch $(X_\lambda, \scr T_\lambda)$ metrisierbar (betrachte $X_\lambda$ dazu als Teilmenge von $X$, jeweils ergänzt durch $a_\my$, $\my \neq \lambda$ und nehme die Metrik von $X$ eingeschränkt auf diese Teilmenge).
+
+			Angenommen $I$ ist überabzählbar, dann liefert z.B. $\R^\R$ einen nicht metrisierbaren Raum (siehe \ref{st:pointwise_hausdorff_metrisable}), ein Widerspruch.
 		\end{segnb}
 	\end{proof}
 \end{st}
