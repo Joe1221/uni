@@ -1,8 +1,5 @@
 \RequirePackage {expl3, l3keys2e, xparse}
-\ProvidesExplPackage
-	{mycourse}
-	{2013/11/16}
-	{0.1}
+\ProvidesExplPackage {mycourse}	{2013/11/16} {0.1}
 	{Class intended for math courses}
 
 %%=======================================================================
@@ -38,7 +35,7 @@
 \keys_define:nn {mycourse} {
 
 	% [noproofs] compile without proofs
-	noproofs         .code:n =
+	noproofs .code:n         =
 		\AtEndOfClass{
 			\RequirePackage{environ}
 			\let\proof\relax
@@ -56,14 +53,14 @@
 	,
 
 	% [lang] Language option (ngerman, english, …)
-	lang             .code:n =
+	lang .code:n             =
 		\PassOptionsToPackage{#1}{babel}
 	,
-	lang             .tl_set:N = \l_mycourse_language,
+	lang .tl_set:N           = \l_mycourse_language,
 
 	% [paper-size] (a4, a5) Controls the output paper size
-	paper-size        .choice:,
-	paper-size / a4   .code:n =
+	paper-size .choice:,
+	paper-size / a4 .code:n  =
 		\PassOptionsToPackage{
 			a4paper,
 			outer=21mm,
@@ -75,7 +72,7 @@
 		}{geometry}
 		\PassOptionsToPackage{scaled=0.83}{beramono}
 		\PassOptionsToClass{fontsize=12pt}{scrbook},
-	paper-size / a5   .code:n =
+	paper-size / a5 .code:n  =
 		\PassOptionsToPackage{
 			reset,
 			a5paper,
@@ -91,10 +88,9 @@
 		\PassOptionsToPackage{scaled=0.785}{beramono}
 		\PassOptionsToClass{fontsize=10pt}{scrbook},
 
-
-	a5 .code:n = \keys_set:nn {mycourse} {paper-size=a5},
-	a5book .code:n = \keys_set:nn {mycourse} {paper-size=a5},
-	book .code:n = \keys_set:nn {mycourse} {paper-size=a5},
+	a5 .code:n               = \keys_set:nn {mycourse} {paper-size=a5},
+	a5book .code:n           = \keys_set:nn {mycourse} {paper-size=a5},
+	book .code:n             = \keys_set:nn {mycourse} {paper-size=a5},
 
 }
 \ProcessKeysOptions {mycourse}
