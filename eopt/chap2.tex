@@ -1447,3 +1447,213 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 \end{st}
 
 
+\section{Das Newton-Verfahren}
+
+
+In diesem Abschnittt sei $f: \R^n \to \R$ stets zweimal stetig differenzierbar.
+Wenn $\hat x$ Minimum von $f$ ist, dann auch Nullstelle von $F := \nabla f : \R^n \to \R$.
+Wir verfolgen jetzt die Idee, das Minimum zu bestimmen, indem wir mit dem Newton-Verfahren die Nullstellle von $F = \nabla f$ finden.
+
+\subsection{Das Newton-Verfahren für Gleichungsysteme}
+
+Sei $F: \R^n \to \R^n$ stetig differenzierbar.
+Betrachte das nicht-lineare Gleichungsystem
+\[
+	F(x) \stack != 0.
+\]
+Approximiere $F$ durch seine lineare Näherung in der aktuellen Iterierten $x_k$:
+\[
+	0
+	= F(x)
+	= F(x_k) + F'(x_k)(x-x_k).
+\]
+Es ergibt sich damit die Iteration
+\[
+	x_{k+1}
+	:= x_k - F'(x_k)^{-1} F(x_k).
+\]
+
+\begin{alg}[Newton-Verfahren] \label{alg:5}
+	\begin{algorithmic}
+		\Require{Startwert $x_0 \in \R^n$}
+		\While{$F(x_k) \neq 0$}
+			\State{$d_k \gets -F'(x_k)^{-1} F(x_k)$}
+			\State{$x_{k+1} := x_k + d_k$}
+		\EndWhile
+	\end{algorithmic}
+\end{alg}
+
+Das Newton-Verfahren konvergiert nicht für jeden Startwert, es Beispiele für alternierende Iterierte und für strikte Divergenz.
+% fixme: Beispiele für Nicht-Konvergenz
+
+Für $q \in \R, |q| < 1$ gilt
+\[
+	\sum_{n=0}^\infty = \f 1{1-q}.
+\]
+Dies lässt sich auch für Matrizen verallgemeinern.
+
+\begin{lem}[Neumannsche Reihe] \label{2.40}
+	Für alle $A \in \R^{n\times n}$ mit $\|A\| < 1$ ist $(I-A)$ invertierbar und es konvergiert die \emph{Neumannsche Reihe}
+	\[
+		\sum_{k=0}^\infty A^k
+		= (I-A)^{-1}
+	\]
+	Insbesondere gilt
+	\[
+		\|(I-A)^{-1}\|
+		\le \f 1{1-\|A\|}.
+	\]
+	\begin{proof}
+		Sei $S_l = \sum_{k=0}^l A^k$.
+		Dann gilt für $m \ge l$
+		\[
+			\|S_m - S_l\|
+			= \Big\| \sum_{k=l+1}^m A^k \Big\|
+			\le \sum_{k=l+1}^m \|A\|^k
+			= \|A\|^{l+1} \sum_{k=0}^{m-l-1} \|A\|^k
+			\le \f{\|A\|^{l+1}}{1-\|A\|}
+			< \eps
+		\]
+		für genügend großes $l$.
+		Also ist $(S_l)_{l\in\N}$ ein Cauchy-Folge und der Grenzwert existiert.
+		Es gilt
+		\[
+			(I-A) \sum_{k=0}^\infty A^k
+			= \sum_{k=0}^\infty A^k - \sum_{k=0}^\infty A^{k+1}
+			= I.
+		\]
+		Damit ist $(I-A)$ invertierbar und $(I-A)^{-1} = \sum_{k=0}^\infty A^k$ und
+		\[
+			\Big\| \sum_{k=0}^\infty A^k \Big\|
+			\le \sum_{k=0}^\infty \|A\|^k
+			= \f 1{1-\|A\|}.
+		\]
+	\end{proof}
+\end{lem}
+
+\begin{lem}[Lemma von Banach] \label{2.41}
+	Sei $A \in \R^{n\times n}$ invertierbar und $B \in \R^{n\times n}$ erfülle $\|A^{-1} B\| < 1$.
+	Dann ist $A + B$ invertierbar und es gilt
+	\begin{align*}
+		\|(A + B)^{-1}\|\
+		&\le \f {\|A^{-1}\|}{1-\|A^{-1}B\|} \\
+		\|(A+B)^{-1} - A^{-1}\|
+		&\le \f {\|A^{-1}\|\|A^{-1}B\|}{1-\|A^{-1}B\|}
+	\end{align*}
+	\begin{proof}
+		Wende \ref{2.40} auf $-A^{-1}B$ an, also ist $I + A^{-1}B$ invertierbar und
+		\[
+			A + B
+			= A(I + A^{-1}B)
+		\]
+		auch invertierbar (Produkt invertierbarer Matrizen.
+		Außerdem ist
+		\[
+			\|(A+B)^{-1}\|
+			\le \|A^{-1}\| \|(I+A^{-1}B)^{-1}\|
+			\stack{\ref{2.40}}\le \f {\|A^{-1}\|}{1-\|A^{-1}B\|}
+		\]
+		und
+		\begin{align*}
+			(A+B)^{-1} - A^{-1}
+			&= (I + A^{-1}B)^{-1}A^{-1} - A^{-1} \\
+			&= (I + A^{-1}B)^{-1} - I) A^{-1} \\
+			&= \bigg(\sum_{k=0}^\infty (-A^{-1}B)^k - I\bigg) A^{-1} \\
+			&= \sum_{k=1}^\infty (-A^{-1}B)^k A^{-1} \\
+			&= (-A^{-1}B) \sum_{k=0}^\infty (-A^{-1}B)^k A^{-1} \\
+			&= (-A^{-1}B) (I + A^{-1}B)^{-1} A^{-1},
+		\end{align*}
+		also in der Norm
+		\[
+			\|(A+B)^{-1} - A^{-1}\|
+			\le \f {\|A^{-1}\| \|A^{-1}\|}{1-\|A^{-1}B\|}.
+		\]
+	\end{proof}
+\end{lem}
+
+\begin{kor} \label{2.42}
+	Aus \ref{2.41} folgt, dass jedes invertierbare $A \in \R^{n\times n}$ eine Umgebung invertierbarer Matrizen
+	\[
+		\scr U_\delta
+		:= \Set{ \tilde A \in \R^{n\times n} | \|\tilde A - A\| < \delta },
+	\]
+	wobei z.B. $\delta := \f 1{\|A\|^{-1}}$.
+	Außerdem gilt für jede konvergente Folge $(A_k)_{k\in\N} \to A$ invertierbarer Matrizen mit invertierbarem Grenzwert $A$, gilt auch
+	\[
+		A_k^{-1} \to A^{-1}
+	\]
+	für $k \to \infty$.
+	Die Menge der invertierbaren Matrizen ist alos offen und die Inversion eine stetige Abbildung auf dieser Menge.
+\end{kor}
+
+\begin{lem} \label{2.43}
+	Sei $F: \R^n \to \R^n$ stetig differenzierbar und $\hat x$ sei eine Nullstelle von $F$ mit invertierbarer Jacobi-Matrix $F'(\hat x)$.
+	Dann existieren $\delta, \gamma > 0$, mit
+	\[
+		\|F(x)\|
+		\ge \gamma \|x-\hat x\|
+	\]
+	für alle $x \in B_\delta(\hat x)$.
+	Insbesondere ist $\hat x$ die einzige Nullstelle von $F$ in $B_\delta(\hat x)$.
+	\begin{proof}
+		Es gilt
+		\[
+			\|x-\hat x\| \le \|F'(\hat x)^{-1}\| \|F'(\hat x)(x-\hat)\|,
+		\]
+		also
+		\[
+			\|F'(\hat x)(x-\hat x)\|
+			\ge 2\gamma \|x - \hat x\|
+		\]
+		mit $\gamma := \f 1{2\|F'(\hat x)^{-1}\|}$.
+		Für hinreichend nah an $\hat x$ liegende $x$ gilt nach \ref{2.4}
+		\[
+			\|F(x) - \underbrace{F(\hat x)}_{=0} - F'(\hat x)(x-\hat x) \|
+			\le \gamma \|x-\hat x\|,
+		\]
+		also
+		\begin{align*}
+			2\gamma \|x-\hat x\|
+			\le \|F'(\hat x)(x-\hat x)
+			&\le \|F(x) - F'(\hat x)(x-\hat x) \| + \|F(x)\| \\
+			&\le \gamma \|x-\hat x\| + \| F(x) \|.
+		\end{align*}
+	\end{proof}
+\end{lem}
+
+\begin{df} \label{2.44}
+	Eine Folge $(x_k)_{k\in\N} \subset \R^n$ konvergiert
+	\begin{enumerate}[(a)]
+		\item
+			\emph{linear} mit Rate $0 < \gamma < 1$ gegen $x \in \R^n$, falls
+			\[
+				\|x_{k+1} - x\| \le \gamma \|x_k - x\|
+			\]
+			für fast alle $k \in \N$.
+		\item
+			\emph{superlinear} gegen $x \in \R^n$, falls $x_k \to x$ und
+			\[
+				x_{k+1} - x
+				= o(x_k - x),
+			\]
+			d.h.
+			\[
+				\lim_{k\to\infty} \f {\|x_{k+1}-x\|}{\|x_k - x\|} \to 0.
+			\]
+		\item
+			\emph{quadratisch} gegen $x\in \R^n$, falls $x_k \to x$ und
+			\[
+				x_{k+1} - x
+				= O(\|x_k - x\|^2),
+			\]
+			d.h.
+			\[
+				\exists C > 0 \forall k\in \N : \|x_{k+1} - x \| \le C \|x_k - x\|^2.
+			\]
+	\end{enumerate}
+\end{df}
+
+\begin{nt} \label{2.45}
+	Bei linearer Konvergenz wächst die Anzahl der richtigen Nachkommastellen pro Schritt um eine konstante Anzahl.
+	Bei quadratischer Konvergenz verdoppelt sich die Anzahl der richtigen Nachkommastellen pro Schritt.
+\end{nt}
