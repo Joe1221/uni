@@ -87,3 +87,278 @@
 	\end{proof}
 \end{st}
 
+\coursetimestamp{18}{11}{2013}
+
+\begin{st}
+	In jedem kompakten Raum $(X, \scr T)$ ist jede abgeschlossene Teilmenge $A \subset X$ kompakt.
+	\begin{proof}
+		Sei $A \subset \bigcup_{i\in I} U_i$ mit $U_i \in \scr T$, dann ist
+		\[
+			X
+			= (X \setminus A) \cup \bigcup_{i\in I} U_i
+			= (X \setminus A) \cup U_{i_1} \cup \dotsb \cup U_{i_n},
+		\]
+		also $A \subset U_{i_1} \cup \dotsb \cup U_{i_n}$.
+	\end{proof}
+\end{st}
+
+\begin{st}
+	In jedem Hausdorff-Raum $(X, \scr T)$ ist jede kompakte Teilmenge $A \subset X$ abgeschlossen.
+	\begin{proof}
+		Siehe Lemma
+		% fixme: ref
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Ist $X$ kompakt, $f: X \to Y$ stetig, dann ist $f(X) \subset Y$ kompakt.
+	\begin{proof}
+		Sei $f(X) \subset \bigcup_{i\in I} V_i$ mit $V_i \in \scr T_y$.
+		Da $f$ stetig ist
+		\[
+			U_i = f^{-1}(V_i) \in \scr T_X
+		\]
+		und $X = \bigcup_{i\in I} U_i = \bigcup_{k=1}^n U_{i_k}$
+		Aus $f(U_i) \subset V_i$ folgt
+		\[
+			f(X)
+			\subset f(U_{i_1}) \cup \dotsb \cup f(U_{i_n})
+			\subset V_{i_1} \cup \dotsb \cup f(V_{i_n}).
+		\]
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Ist $X$ kompakt, $f: X \to \R$ stetig, so existieren $a, b \in X$ mit
+	\[
+		f(a) \le f(x) \le f(b)
+	\]
+	für alle $x \in X$.
+	\begin{proof}
+		Leicht nachvollziehbar.
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Sei $X$ kompakt, $Y$ hausdorffsch.
+	Dann ist jede stetige Abbildung $f: X \to Y$ abgeschlossen und induziert in der kanonischen Faktorisierung ein Homöomorphismus $\_f$.
+	\[
+		\begin{tikzcd}
+			X \arrow{r}{f} \arrow[sur]{d}{q} & Y \\
+			X / R_f \arrow{r}{\_f} & f(X) \arrow[inj]{u}{\jota}
+		\end{tikzcd}
+	\]
+	\begin{proof}
+		Sei $A \subset X$ abgeschlossen und $X$ kompakt, ist $A$ kompakt und damit wegen Stetigkeit von $f$ auch $f(A)$.
+		Da $Y$ hausdorffsch, ist also auch $f(A)$ abgeschlossen.
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	Wir wissen $\R / \Z \homto \scr S^1$.
+	Die Abbildung $p: \R \to \S^1$ mit $p(t) = e^{2\pi i t}$ ist stetig, surjektiv und $p(x) = p(x') \iff x-x' \in \Z$.
+	In der kanonischen Faktorisierung erhalten wir
+	\[
+		\begin{tikzcd}
+			\R \arrow{d}{q} \arrow{r}{p} & \S^1 \\
+			\R / \Z \arrow{r}{\_p} & \S^1 \arrow{u}
+		\end{tikzcd}.
+	\]
+	Da $\R / \Z = q([0,1])$ kompakt ist und $\S^1 \subset \R^2$ hausdorffsch, ist $\_p$ ein Homöomorphismus.
+\end{ex}
+
+\begin{ex}
+	$\D^n // \S^{n-1} \homto \S^n$
+\end{ex}
+
+\begin{st}
+	Sei $(X_\lambda)_{\lambda\in\Lambda}$ eine Familie topologischer Räume mit $X_\lambda \neq \emptyset$.
+	Die Summe $X = \bigdunion_{\lambda \in \Lambda} X_\lambda$ ist genau dann kompakt, wenn alle $X_\lambda$ kompakt sind und $\Lambda$ endlich ist.
+	\begin{proof}
+		\begin{segnb}[„$\impliedby$“]
+			klar
+		\end{segnb}
+		\begin{segnb}[„$\implies$“]
+			Angenommen $X_\lambda$ offen, dann ist $X = \bigcup_{\lambda\in\Lambda} X_\lambda$ offene Überdeckung ohne echte Teilüberdeckung.
+			Also ist $X_\lambda$ abgeschlossen in $X$, also kompakt.
+			% fixme: prüfen
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Ein topologischer Raum $(X, \scr T)$ ist genau dann kompakt, wenn jeder Ultrafilter $\scr F$ auf $X$ konvergiert, also ein $x \in X$ existiert mit $\scr F \supset \scr U_x$.
+	\begin{proof}
+		\begin{segnb}[„$\implies$“]
+			Sei $X$ kompakt und $\scr F$ ein Ultrafilter.
+			Angenommen $\scr F$ konvergiert nicht, d.h. jeder Punkt $x \in X$ hat eine offene Umgebung $x \in U_x \in \scr T$ mit $U_x \not\in \scr F$.
+			Da $X$ kompakt, existiert eine Überdeckung $X = U_{x_1} \cup \dotsb \cup U_{x_n}$ mit $U_{x_1}, \dotsc, U_{x_n} \not\in \scr F$.
+			Da $\scr F$ ein Ultrafilter ist, gilt $X \setminus U_{x_1}, \dotsc, X \setminus U_{x_n} \in \scr F$.
+			Nach (F2) ist
+			\[
+				(X \setminus U_{x_1}) \cap \dotsc \cap (X \setminus U_{x_n})
+				= X \setminus (U_{x_1} \cup \dotsc \cup U_{x_n})
+				= \emptyset \in \scr F,
+			\]
+			ein Widerspruch zu (F1).
+		\end{segnb}
+		\begin{segnb}[„$\impliedby$“]
+			Angenommen $X$ ist nicht kompakt, d.h. es existiert $X = \bigcup_{i\in I} U_i$, $U_i \in \scr T$ ohne endliche Teilüberdeckung.
+			Dann ist
+			\[
+				\scr E
+				= \Set{ X \setminus \bigcup_{i\in J} U_i | J \subset I \text{ endlich} }
+			\]
+			eine Filterbasis.
+			Dieser erzeugt einen Filter und dieser liegt in einem Ultrafilter $\scr F$ auf $X$.
+			Nach Voraussetzung konvergiert $\scr F$ gegen ein $x \in X$, d.h. $\scr F \supset \scr U_x$.
+			Wegen $X = \bigcup_{i\in I} U_i$ existiert $j \in I$ mit $x \in U_j \in \scr T$, also $U_j \in \scr U_x \subset \scr F$.
+			Andererseits gilt $X \setminus U_j \in \scr E \subset \scr F$.
+			Nach (F2) ist also $U_j \cap (U \setminus U_j) = \emptyset \in \scr F$, ein Widerspruch zu (F1).
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+\begin{st}[Tychonoff, 1930]
+	Seien $(X, \scr T)_{i\in I}$ nicht-leere topologische Räume.
+	Der Produktraum $(X, \scr T) = \prod_{i\in I} (X_i, \scr T_i)$ ist kompakt genau dann, wenn jeder Raum $(X_i, \scr T_i)$ kompakt ist.
+	\begin{proof}
+		\begin{segnb}[„$\implies$“]
+			$p_i: X \to X_i$ ist stetig und surjektiv, also ist $X_i$ kompakt.
+		\end{segnb}
+		\begin{segnb}[„$\impliedby$“]
+			Sei $\scr F$ ein Ultrafilter auf $X$.
+			Dann ist $p_i(\scr F)$ ein Ultrafilter auf $X_i$ (Übungsaufgabe). % fixme: ref
+			Da $X_i$ kompakt, existiert $x_i \in X_i$ mit $p_i(\scr F) \to x_i$.
+			Dann konvergiert $\scr F$ auf $X$ gegen $x = (x_i)_{i\in I}$.
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$\{0,1\}^\N$ ist kompakt.
+		\item
+			$[a_1,b_1] \times \dotsb \times [a_n,b_n] \subset \R^n$ ist kompakt.
+		\item
+			$\prod_{k\in\N} [a_k,b_k] \subset \R^\N$ ist kompakt.
+		\item
+			$\prod_{x\in\R} [a_x,b_x] \subset \R^\R$ ist kompakt.
+	\end{itemize}
+\end{ex}
+
+\begin{ex}[Hilbert-Würfel]
+	Der Hilbert-Würfel $[0,1]^\N$ ist kompakt und metrisierbar.
+	Ebenso in $\ell^2(\N)$ ist der Hilbert-Quader
+	\[
+		H = \Set{ f: \N \to \R | \le f(k) \le \f 1{k+1} }
+		= [0,1] \times [0,\f 12] \times [0, \f 13] \times \dotsb
+	\]
+	Es gilt $H \homeomorphic [0,1]^\N$.
+\end{ex}
+
+\begin{st}[verwandte Kompaktheitsbegriffe]
+	Für topologische Räume gilt
+	\begin{itemize}
+		\item
+			Kompaktheit impliziert abzählbare Kompaktheit
+		\item
+			abzählbare Kompaktheit impliziert Kompaktheit unter Voraussetzung des zweiten Abzählbarkeitsaxioms
+		\item
+			Folgenkompaktheit impliziert abzählbare Kompaktheit
+		\item
+			abzählbare Kompaktheit impliziert Folgenkompaktheit unter Voraussetzung des ersten Abzählbarkeitsaxioms.
+		\item
+			Abzählbare Kompaktheit impliziert Pseudokompaktheit
+	\end{itemize}
+	\begin{proof}
+		Wie im metrischen Fall.
+		% fixme: ref
+	\end{proof}
+\end{st}
+
+
+\section{Lokale Kompaktheit}
+
+
+\begin{df}
+	Ein Raum $(X, \scr T)$ heißt \emph{lokal-kompakt}, wenn jede Umgebung eine Punktes eine kompakte Umgebung enthält.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$\R^n$ ist lokal-kompakt.
+		\item
+			$\Q$ ist nicht lokal-kompakt.
+	\end{itemize}
+\end{ex}
+
+\begin{st}
+	Sei $(X, \scr T)$ ein Hausdorff-Raum und zu jedem Punkt $x \in X$ existiere eine kompakte Umgebung.
+	Dann ist $(X, \scr T)$ lokal-kompakt.
+	\begin{proof}
+		Sei $x \in X$ und $K \in \scr U_x$ kompakt.
+		Zu jeder offenen Umgebung $U \in \scr U_x$ müssen wir eine kompakte Umgebung $K_U \in \scr U_x$ mit $K_U \subset U$ finden.
+
+		Setze
+		\[
+			A := U \setminus K
+		\]
+		(kompakt) und seien $V, W$ offen Umgebungen von $x$, bzw. $A$ mit $V \cap W = \emptyset$.
+		Setze
+		\[
+			K_U := K \setminus W
+		\]
+		$K_U$ ist abgeschlossen und kompakt und zudem eine Umgebung von $x$ ($x \in K \cap V \subset K \setminus W = K_U$) mit $K_U \subset U$.
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	Jeder kompakte Hausdorff-Raum ist lokal-kompakt.
+\end{kor}
+
+\begin{lem}
+	Ist $X$ lokal-kompakt, so auch jeder offene und jeder abgechlossene Teilraum.
+\end{lem}
+
+\begin{st}
+	Ist $X$ lokal-kompakt und $Y = U \cap A$ mit $U, (X \setminus A) \in \scr T$, dann ist $Y$ lokal-kompakt.
+
+	Ist $X$ hausdorffsch, so gilt auch die Umkehrung.
+
+	Ist $Y \subset X$ lokal-kompakt, so existiert eine Zerlegung $Y = U \cap A$ mit $U, (X \setminus A) \in \scr T$.
+\end{st}
+
+\begin{df}
+	Sei $(X, \scr T)$ ein topologischer Raum.
+	Eine Menge $U \subset X$ heißt $K$-offen, wenn für jedes Kompaktum $K \subset X$ die Schnittmenge $U \cap K$ offen in $(K, \scr T_K)$ ist.
+
+	Dies definiert die \emph{kompakt erzeugte Topologie}
+	\[
+		K \scr T :=
+		\Set{ U \subset X | U \text{ ist $K$-offen } }.
+	\]
+\end{df}
+
+\begin{lem}
+	Es gilt
+	\[
+		\scr T \subset K \scr T = K(K \scr T)
+	\]
+	und die kompakten Teilräume sind dieselben.
+\end{lem}
+
+\begin{st}
+	Jeder lokal-kompakte Raum $(X, \scr T)$ ist kompakt erzeugt, d.h. $K \scr T = \scr T$.
+	\begin{proof}
+		Wir zeigen $K \scr T \subset \scr T$.
+		Sei $U \in K \scr T$, d.h. $U \subset X$ mit $U \cap K$ offen in jedem Kompaktum $K \subset X$.
+		Wir zeigen $U \in \scr T$.
+		Zu $x \in U$ existiert eine kompakte Umgebung $K$ in $X$, also $U \cap K$ offen in $K$, d.h. es existiert $V \in \scr T$ mit $U \cap K = V \cap K$.
+		Dies ist eine Umgebung von $x$ in $X$, da $V$ und $K$ solche sind.
+		Also ist auch $U \supset V \cap K$ ein Umgebung von $x \in X$.
+		Damit ist $U$ offen in $X$, also $U \in \scr T$.
+	\end{proof}
+\end{st}
