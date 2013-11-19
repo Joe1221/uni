@@ -362,3 +362,215 @@
 		Damit ist $U$ offen in $X$, also $U \in \scr T$.
 	\end{proof}
 \end{st}
+
+\coursetimestamp{19}{11}{2013}
+
+\begin{st}
+	Jeder metrische Raum ist kompakt erzeugt.
+
+	Sogar jeder topologischer Raum mit erstem Abzählbarkeitsaxiom ist kompakt erzeugt.
+\end{st}
+
+\begin{st}
+	Ein Hausdorff-Raum ist genau dann kompakt erzeugt, wenn er Quotient eines lokal-kompakten Raumes ist.
+\end{st}
+
+\subsection{Topologische Vektorräume}
+
+\begin{df}
+	Ein topologischer $\R$-Vektorraum $(X, \scr T, +, \cdot)$ ist ein $\R$-Vektorraum mit einer Hausdorff-Topologie $\scr T$ auf $X$, sodass Addition $+: X\times X \to X$ und Skalarmultiplikation $\cdot: \R \times X \to X$ stetig sind.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$(\R^n, \scr T_{\R^n}, +, \cdot)$,
+		\item
+			Jeder normierte $\R$-Vektorraum $(X,|\argdot|)$,
+		\item
+			Auf $\R^{(\N)}, \scr C_c(\R,\R), \scr C([0,1],\R)$ definieren die $p$-Normen mit $1 \le p \le \infty$ überabzählbar viele Vektorraumtopologien.
+		\item
+			$\R^\R$ mit der Topologie der punktweisen, gleichmäßigen oder kompakten Konvergenz
+	\end{itemize}
+\end{ex}
+
+\begin{lem}
+	\begin{enumerate}[(1)]
+		\item
+			Jede Translation $\tau_v: X \to X: x \mapsto x + v$ ist ein Homöomorphismus.
+		\item
+			Jede Streckung $\my_a: X \to X: x \mapsto a x$ mit $a \in \R \setminus \{0\}$ ist ein Homöomorphismus.
+		\item
+			Jede Umgebung $U$ von $O$ ist absorbierend, d.h. $X = \bigcup_{n\in\N} n U$.
+		\item
+			Jede Umgebung $U$ von $O$ enthält eine ausgeglichene, offene Umgebung $V \subset U$, d.h. $[-1,1] V = V$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(1),start=3]
+			\item
+				Für $x \in X$ ist $f: \R \to X$ mit $f(a) = ax$ stetig als Komposition
+				\[
+					\begin{tikzcd}
+						f: \R \arrow[hom]{r}{\homeomorphic} &
+						\R \times \{x\} \arrow[inj]{r} &
+						\R \times X \arrow{r} &
+						X
+					\end{tikzcd}.
+				\]
+				Also ist $n^{-1}x \to 0$ für $n \to \infty$, d.h. es gibt $m \in \N$ sodass $n^{-1}x \in U$ für alle $n \ge m$.
+				Somit $x \in nU$ für $n \ge m$.
+			\item
+				$m: \R \times X \to X, m(a,x) = ax$ ist stetig (Argument wie oben).
+				Für $0 \in U \in \scr T$ ist $m^{-1}(U) \subset \R \times X$ ooffen.
+				Wegen $m(0,0) = 0$ gilt $(0,0) \in m^{-1}(U)$.
+				Es existiert $\eps \in \R_{>0}$ und $0 \in W \in \scr T$ sodass $]-\eps, \eps[ \times W \subset m^{-1}(U)$.
+				Damit ist $V = \bigcup_{0 < |a| < \eps} a W \subset U$ offen und ausgeglichen.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+\begin{st}
+	Sei $(\R^n, \scr T_{\R^n}, +, \cdot)$ der euklidische Vektorraum und $(X, \scr T, +, \cdot)$ ein beliebiger topologischer $\R$-Vektorraum.
+	Dann gelten folgende Aussagen
+	\begin{enumerate}[1)]
+		\item
+			Jede lineare Abbildung $f: \R^n \to X$ ist stetig.
+		\item
+			Ist $f$ injektiv, so ist $f$ auch abgeschlossen.
+		\item
+			Ist $f$ bijektiv, so ist sie ein Homöomorphismus.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(1)]
+			\item
+				Sei $e_1, \dotsc, e_n \in \R^n$ die Standardbasis und $v_i = f(e_i), i=1, \dotsc, n$.
+				Dank $\R$-Linearität gilt
+				\[
+					f(a) = a_1 v_1 + \dotsc + a_n v_n.
+				\]
+				$f$ ist also stetig, denn
+				\[
+					f:
+					\R^n \homto (\R \times \{v_1\}) \times \dotsb \times (\R \times \{v_n\})
+					\injto (\R \times X) \times \dotsb \times (\R \times X)
+					\stack{\cdot^n}\to X \times \dotsb \times X
+					\stack{+^n} X
+				\]
+				ist als Komposition stetig.
+			\item
+				In $\R^n$ sei $K_0 = \_B(0,1), K_r = \_B(0,2^r) \setminus B(0,2^{r-1})$.
+				Die Familie $(K_r)_{r\in\N}$ von Kreisringen ist kompakt und abgeschlossen und lokal-endlich.
+				Die Bilder $(f(K_r))_{r\in\N}$ sind dies ebenfalls:
+
+				Da $f$ injektiv ist, folgt aus $0 \not\in K_1$ auch $0 = f(0) \not\in f(K_1)$, d.h. es existiert eine Umgebung $U$ von $0$ mit $U \cap K_1 = \emptyset$.
+				$U$ enthält eine ausgeglichene Umgebung $V$ von $0$.
+				Dann ist $2^{-v}V \subset V$ disjunkt von $K_1$, also ist $V \cap 2^r K_1 = \emptyset$, d.h. $V \cap K_r = \emptyset$ für $r \ge 1$.
+				Jeder Punkt $x$ liegt in einer offenen Menge $2^k V$, diese schneidet nur endlich viele $K_r$.
+
+				Für $A \subset \R^n$ abgeschlossen ist $A \cap K_r$ kompakt, also $f(A \cap K_r)$ kompakt, also abgeschlossen.
+				Damit ist $f(A) = \bigcup_{r\in\N} f(A \cap K_r)$ abgeschlossen, da lokal-endliche Vereinigung.
+			\item
+				klar
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	Die euklidische Topologie auf $\R^n$ ist die einzige Vektorraumtopologie auf $(\R^n, +, \cdot)$.
+
+	Auf jeden endliche-dimensionalen $\R$-Vektorraum existiert genau eine Vektorraumtopologie.
+	\begin{note}
+		Auf $\Q^n$ stimmt dies nicht.
+		So ist $\Q^2 \subset \R^2$ und $\Q[\sqrt 2] \subset \R$ $\Q$-linear isomorph mit
+		\[
+			f: \Q^2 \to \Q[\sqrt 2], f(a,b) = a + b \sqrt{2},
+		\]
+		aber die Teilraumtopologien sind verschieden.
+		$f$ ist stetig, aber kein Homöomorphismus:
+		Zu $n \in \N$ existieren $a_n, b_n \in \Z$ mit $(a_n, b_n) \neq (0,0)$ und $|a_n + b_n \sqrt{2}| < \f 1n$.
+		Damit ist $a_n + b_n \sqrt{2} \to 0$, aber $(a_n, b_n) \not\to (0,0)$.
+	\end{note}
+\end{kor}
+
+\begin{lem}
+	Sei $\scr B$ eine Umgebungsbasis von $O$ in $X$.
+	Für $A \subset X$ gilt $\_A = \cap_{U \in \scr B} A + U$
+	\begin{proof}
+		Für $x \in X$ ist $\scr B_x = \{ x - U : U \in \scr B\}$ eine Umgebungsbasis.
+		Genau dann gilt $x \in \_A$, wenn $(x-U) \cap A \neq \emptyset$ für alle $U \in \scr B$.
+		Das bedeutet, für jedes $U \in \scr B$ existiert $a \in (x-U) \cap A$, also $x \in a + U$.
+	\end{proof}
+\end{lem}
+
+\begin{st}
+	Ein topologischer $\R$-Vektorraum $(X, \scr T, +, \cdot)$ ist genau dann lokal-kompakt, wenn $\dim_{\R} X < \infty$.
+	\begin{proof}
+		\begin{segnb}[„$\impliedby$“]
+			Klar mit vorigem Satz
+		\end{segnb}
+		\begin{segnb}[„$\implies$“]
+			Es existiert eine offene Umgebung $0 \in V \in \scr T$ um $0$ mit $\_V$ kompakt.
+			Für $U \in \scr U_0$ gilt $X = \bigcup_{n\in\N} 2^n U$ (absorbierend), also
+			\[
+				V \subset \_V \subset \bigcup_{k\in\N}2^k U
+			\]
+			und damit $V \subset \_V \subset 2^n U$ für $n$ groß genug, d.h. $2^{-n} V \subset U$, also ist $\{2^{-n} V : n\in \N\}$ eine Umgebungsbasis von $O$.
+			Mit $V$ ist auch $x + \f 12 V$ offen für jedes $x \in X$, also $\_V \subset X = \bigcup_{x\in X} x + \f 12 V$.
+			Da $\_V$ kompakt, ist damit
+			\[
+				\_V = (x_1 + \f 12 V) + \dotsb + (x_m + \f 12 V).
+			\]
+			Sei $Y = \R x_1 + \dotsb + \R x_m$.
+			Aus $V \subset Y + \f 12 V$ und $\f 12 Y = Y$ folgt $\f 12 V \subset Y + \f 12 V$, also $V \subset Y + \f 12 V \subset Y + Y + \f 14 V \subset Y + \f 12 V$.
+			Per Induktion gilt $V \subset Y + 2^{-n}V$, somit auch
+			\[
+				V
+				\subset \bigcap_{n\in\N} Y + 2^{-n} V
+				= \_Y
+				= Y.
+			\]
+			Es folgt $X = \bigcup_{n\in\N} nV \subset Y$, also ist
+			\[
+				\dim_{\R} X = \dim_{\R} Y \le m < \infty.
+			\]
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+
+\section{Alexandroft-Kompaktifizierung}
+
+
+\begin{df}
+	Eine \emph{Kompaktifizierung} eines topologischen Raumes $(X, \scr T)$ ist ein Paar $(Y, \kappa)$ bestehend aus einem kompakten Hausdorff-Raum $Y$ und einer Einbettung $\kappa: X \injto Y$ mit $\_{\kappa(X)} = Y$.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$]0,1] \injto [0,1]$
+		\item
+			$]-1,1[ \injto [-1,1]$
+		\item
+			$\R \injto \_\R = \R \cup \{\pm\infty\}$
+		\item
+			$\B^n \injto \D^n$.
+		\item
+			Die stereographische Projektion $\kappa: \R^n \homto \S^n \setminus \{p\} \injto \S^n$.
+	\end{itemize}
+\end{ex}
+
+\begin{st}[Alexandroft]
+	Sei $(X, \scr T)$ ein topologischer Raum und $\infty \not\in X$.
+	Auf $\hat X := X \cup \{\infty\}$ definieren wir die \emph{Alexandroff-Topologie}
+	\[
+		\hat{\scr T} :=
+		\scr T \cup \Set{ \hat X \setminus K | K \subset X \text{ kompakt und abgeschlossen} }.
+	\]
+	Dies ist eine Topologie auf $\hat X$.
+	Der Raum $(\hat X, \hat{\scr T}$ ist kompakt und hierin ist $(X, \scr T)$ ein offener Teilraum.
+	Die Topologie $\hat{\scr T}$ ist die feinste mit dieser Eigenschaft.
+
+	Genau dann ist $(\hat X, \hat{\scr T})$ hausdorffsch, wenn $(X, \scr T)$ hausdorffsch und lokal-kompakt ist.
+\end{st}
+
