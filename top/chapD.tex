@@ -3,6 +3,9 @@
 
 
 
+\section{Grundlagen}
+
+
 \begin{df}
 	Ein topologischer Raum $(X, \scr T)$ heißt \emph{kompakt}, wenn zu $X = \bigcup_{i\in I} U_i$ mit $U_i \in \scr T$ Indizes $i_1, \dotsc, i_n \in I$ existieren mit $X = \bigcup_{k=1}^n U_{i_k}$.
 \end{df}
@@ -24,9 +27,9 @@
 \begin{df}
 	\begin{enumerate}[(1)]
 		\item
-			$A \subset X$ heißt \emph{kompakt in $(X, \scr T_X)$}, wenn für jede offene Überdeckung $A \subset \bigcup_{i\in I} U_i$ mit $U_i \in \scr T_X$ eine endliche Teilüberdeckung enthält.
+			$A \subset X$ heißt \emph{kompakt in $(X, \scr T_X)$}, wenn jede offene Überdeckung $A \subset \bigcup_{i\in I} U_i$ mit $U_i \in \scr T_X$ eine endliche Teilüberdeckung enthält.
 		\item
-			$A \subset X$ heißt \emph{relativ kompakt in $(X, \scr T_X)$}, wenn $\_A$ in $(X,, \scr T_X)$ kompakt ist.
+			$A \subset X$ heißt \emph{relativ kompakt in $(X, \scr T_X)$}, wenn $\_A$ in $(X, \scr T_X)$ kompakt ist.
 	\end{enumerate}
 \end{df}
 
@@ -110,6 +113,8 @@
 	\end{proof}
 \end{st}
 
+\subsection{Kompaktheit unter Abbildungen}
+
 \begin{st}
 	Ist $X$ kompakt, $f: X \to Y$ stetig, dann ist $f(X) \subset Y$ kompakt.
 	\begin{proof}
@@ -168,8 +173,10 @@
 \end{ex}
 
 \begin{ex}
-	$\D^n // \S^{n-1} \homto \S^n$
+	$\D^n / \S^{n-1} \homeomorphic \S^n$
 \end{ex}
+
+\subsection{Summen}
 
 \begin{st}
 	Sei $(X_\lambda)_{\lambda\in\Lambda}$ eine Familie topologischer Räume mit $X_\lambda \neq \emptyset$.
@@ -185,6 +192,8 @@
 		\end{segnb}
 	\end{proof}
 \end{st}
+
+\subsection{Charakterisierung durch Filter}
 
 \begin{st}
 	Ein topologischer Raum $(X, \scr T)$ ist genau dann kompakt, wenn jeder Ultrafilter $\scr F$ auf $X$ konvergiert, also ein $x \in X$ existiert mit $\scr F \supset \scr U_x$.
@@ -218,6 +227,8 @@
 		\end{segnb}
 	\end{proof}
 \end{st}
+
+\subsection{Produkte}
 
 \begin{st}[Tychonoff, 1930]
 	Seien $(X, \scr T)_{i\in I}$ nicht-leere topologische Räume.
@@ -283,7 +294,10 @@
 
 
 \begin{df}
-	Ein Raum $(X, \scr T)$ heißt \emph{lokal-kompakt}, wenn jede Umgebung eine Punktes eine kompakte Umgebung enthält.
+	Ein Raum $(X, \scr T)$ heißt \emph{lokal-kompakt}, wenn jede Umgebung eines Punktes eine kompakte Umgebung enthält, d.h.
+	\[
+		\forall x \in X \forall U \in \scr U_x \exists K \in \scr U_x : \text{$K \subset U$ und $K$ kompakt}.
+	\]
 \end{df}
 
 \begin{ex}
@@ -304,14 +318,15 @@
 
 		Setze
 		\[
-			A := U \setminus K
+			A := K \setminus U
 		\]
-		(kompakt) und seien $V, W$ offen Umgebungen von $x$, bzw. $A$ mit $V \cap W = \emptyset$.
+		($A$ kompakt) und seien $V, W$ offene Umgebungen von $x$, bzw. $A$ mit $V \cap W = \emptyset$ (Hausdorff-Eigenschaft).
 		Setze
 		\[
 			K_U := K \setminus W
 		\]
-		$K_U$ ist abgeschlossen und kompakt und zudem eine Umgebung von $x$ ($x \in K \cap V \subset K \setminus W = K_U$) mit $K_U \subset U$.
+		$K_U$ ist abgeschlossen und kompakt und zudem eine Umgebung von $x$, denn $x \in K \cap V \subset K \setminus W = K_U$.
+		Weiterhin gilt $K_U \subset U$.
 	\end{proof}
 \end{st}
 
@@ -333,12 +348,12 @@
 
 \begin{df}
 	Sei $(X, \scr T)$ ein topologischer Raum.
-	Eine Menge $U \subset X$ heißt $K$-offen, wenn für jedes Kompaktum $K \subset X$ die Schnittmenge $U \cap K$ offen in $(K, \scr T_K)$ ist.
+	Eine Menge $U \subset X$ heißt \emph{$K$-offen}, wenn für jedes Kompaktum $K \subset X$ die Schnittmenge $U \cap K$ offen in $(K, \scr T_K)$ ist.
 
 	Dies definiert die \emph{kompakt erzeugte Topologie}
 	\[
 		K \scr T :=
-		\Set{ U \subset X | U \text{ ist $K$-offen } }.
+		\Set{ U \subset X | U \text{ ist $K$-offen} }.
 	\]
 \end{df}
 
