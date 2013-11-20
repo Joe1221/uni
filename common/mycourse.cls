@@ -150,6 +150,20 @@
 %\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 \RequirePackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 
+\definecolor{url}{HTML}{005580} % 0088cc
+\definecolor{link}{HTML}{005580}
+\definecolor{text}{HTML}{111111}
+\definecolor{math}{HTML}{111111}
+\definecolor{theoremtype}{HTML}{115908}
+\definecolor{theoremnumber}{HTML}{222222}
+\definecolor{theoremtitle}{HTML}{222222}
+\definecolor{header}{HTML}{666666}
+\definecolor{headerrule}{HTML}{337733}
+\definecolor{timestamp}{HTML}{333333}
+\definecolor{background}{HTML}{FFFFFF}
+\definecolor{headings}{HTML}{000000}
+
+\cs_if_exist:NT \str_case_x:nnF {
 \str_case_x:nnF \ConfigOutput {
 	{print} {
 		\definecolor{url}{HTML}{000000} % 0088cc
@@ -196,6 +210,7 @@
 		\definecolor{timestamp}{HTML}{333333}
 		\definecolor{background}{HTML}{FFFFFF}
 		\definecolor{headings}{HTML}{000000}
+}
 }
 
 \renewcommand*\sectfont{\sffamily\bfseries\color{headings}}
@@ -299,7 +314,11 @@
 \theoremstyle{mythm} 								% Vordefinierter Style mit Zeilenumbruch
 
 
-\theorempreskip{1.5em}                              % Abstand vor Theroem
+\cs_if_exist:NTF \theorempreskip {
+	\theorempreskip{1.5em}                               % Abstand vor Theorem
+}{
+	\theorempreskipamount 1.5em                               % Abstand vor Theorem
+}
 \theoremindent 1em 									% Theroem einrücken
 \theoremheaderfont{\kern-1em\normalfont\bfseries} 	% Überschrift wieder ausrücken
 \theorembodyfont{\normalfont}
@@ -329,7 +348,11 @@
 \newtheorem{ex}[thm]{Beispiel}
 \renewtheorem*{ex*}{Beispiel}
 
-\theorempreskip{0.7em}                               % Abstand vor Theorem
+\cs_if_exist:NTF \theorempreskip {
+	\theorempreskip{0.7em}                               % Abstand vor Theorem
+}{
+	\theorempreskipamount 0.7em                               % Abstand vor Theorem
+}
 \theoremheaderfont{\kern-1em\bfseries\small\itshape} % Kursiv und kleiner als oben
 
 \theoremstyle{break}
