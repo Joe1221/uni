@@ -1658,3 +1658,171 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 	Bei linearer Konvergenz wächst die Anzahl der richtigen Nachkommastellen pro Schritt um eine konstante Anzahl.
 	Bei quadratischer Konvergenz verdoppelt sich die Anzahl der richtigen Nachkommastellen pro Schritt.
 \end{nt}
+
+\coursetimestamp{20}{11}{2013}
+
+\begin{st}[Lokale Konvergenz des Newton-Verfahrens für Gleichungsysteme] \label{2.46}
+	Sei $F: \R^n \to \R^n$ stetig differenzierbar und $\hat x$ sei Nullstelle von $F$ mit invertierbarer $F'(\hat x) \in \R^{n\times n}$.
+	Dann existieren $\delta, C > 0$ so dass
+	\begin{enumerate}[(a)]
+		\item
+			$\hat x$ ist die einzige Nullstelle von $F$ auf $B_\delta(\hat x)$,
+		\item
+			$F'(x)$ ist invertierbar und $\|F'(x)^{-1}\| \le C$ für alle $x \in B_\delta(\hat x)$.
+		\item
+			Für jedes $x_0 \in B_\delta(\hat x)$ liegen alle von \ref{alg:5} erzeugten Iterierten in $B_\delta(\hat x)$.
+			Insbesondere ist \ref{alg:5} durchführbar.
+		\item
+			Für jedes $x_0 \in B_\delta(\hat x)$ terminiert \ref{alg:5} entweder nach endlich vielen Schritten an $\hat x$ oder er erzeugt eine Folge, die superlinear gegen $\hat x$ konvergiert.
+		\item
+			Ist $F'$ zusätlich Lipschitz-stetig mit Konstante $L$, d.h.
+			\[
+				\forall x,y \in B_\delta(\hat x) : \|F'(x) - F'(y)\| \le L \|x-y\|,
+			\]
+			dann ist die Konvergenz in (a) sogar quadratisch und es gilt
+			\[
+				\|x_{k+1} - \hat x \| \le \f {CL}2 \|x_k - \hat x\|^2
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+			\item
+				Folgen aus \ref{2.43} und \ref{2.41}.
+			\item
+			\item
+				Für jedes $x_k$ in dem $F'(x_k)$ invertierbar ist, gilt
+				\begin{align*}
+					x_{k+1} - \hat x
+					&= x_k - F'(x_k)^{-1}F(x_k) - \hat x
+					&= F'(x_k)^{-1}\big( F'(x_k) (x_k-\hat x) - F(x_k) + F(\hat x) \big)
+					&= F'(x_k)^{-1}\Big( F'(x_k) (x_k-\hat x) - \int_0^1 F'(\hat x + t(x_k-\hat x))(x_k - \hat) \dx[t] \Big)
+					&=F'(x_k)^{-1}\int_0^1 \big( F'(x_k) - F'(\hat + t(x_k - \hat x)) \big)(x_k - \hat x) \dx[t],
+				\end{align*}
+				also
+				\[
+					\|x_{k+1} - \hat x\|
+					\le \|x_k-\hat x\|\|F'(x_k)^{-1}\| \underbrace{\sup_{t\in [0,1} \| F'(x_k) - F'(\hat + t(x_k-\hat x)) \|}_{\to 0}
+				\]
+				Sei $\delta$ so klein (siehe (a) und (b)), dass
+				\[
+					\sup_{t\in[0,1]} \|F'(x_k) - F'(\hat x + t(x_k - \hat x))\|
+					\le \f 1{2C}
+				\]
+				für alle $x_k \in B_\delta(\hat x)$.
+				Dann gilt für alle $x_k \in B_\delta(\hat x)$
+				\[
+					\|x_{k+1} - \hat \| \le \f 12 \| x_k - \hat x\|
+				\]
+				Für $x_0 \in B_\delta(\hat x)$ folgt $x_k \in B_\delta(\hat x)$ für alle $k \in \N$ und $x_k \to \hat x$.
+				Es gilt sogar
+				\[
+					\f {\|x_{k+1} - \hat x}{\|x_k - \hat x\|} \le C \sup_{t\in [0,1]} \| F'(x_k) - F'(\hat x  + t(x_k + \hat x)) \| \to 0.
+				\]
+			\item
+				Für (auf $B_\delta(\hat x)$) Lipschitz-stetige $F'$ erhalten wir sogar
+				\begin{align*}
+					\|x_{k+1} - \hat x\|
+					&\le C \|x_k - \hat x\| \int_0^1 L \| \underbrace{x_k - (\hat x + t(x_k - \hat x))}_{=(1-t)x_k -(1-t)\hat x} \| \dx[t]
+					&\le C \|x_k - \hat x\|^2 L \int_0^1 1-t \dx[t]
+					= \f {CL}2 \|x_k - \hat x\|^2.
+				\end{align*}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\subsection{Das Newton-Verfahren für Optimierungsprobleme}
+
+Sei $f: \R^n \to \R$ zweimal stetig differenzierbar.
+Wir versuchen, das Newton-Verfahren auf das Nullstellenproblem
+\[
+	F(x) := \nabla f(x) = 0
+\]
+an.
+Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
+
+\begin{alg}[Newton-Verfahren für Optimierungsprobleme] \label{alg:6}
+	\begin{algorithmic}
+		\Require{Startwert $x_0$}
+		\State{$k \gets 0$}
+		\While{$\nabla f(x_k) \neq 0$}
+			\State{$d_k \gets -(\nabla^2 f(x_k))^{-1} \nabla f(x_k)$}
+			\State{$x_{k+1} \gets x_k + d_k$}
+		\EndWhile
+	\end{algorithmic}
+\end{alg}
+
+\begin{lem} \label{2.47}
+	Für alle symmetrische Matrizen $A, B \in \R^{n\times n}$ gilt
+	\[
+		\lambda_{\text{min}}(A + B) \ge \lambda_{\text{min}}(A) - \|B\|.
+	\]
+	Insbesondere besitzt jede symmetrische, positiv definite Matrix eine Umgebung in $\R^{n\times n}$, in der alle symmetrischen Matrizen positiv definit sind.
+	\begin{proof}
+		Es gilt
+		\[
+			\f {x^T A x}{\|x\|2}
+			= \f {x^T (A+B) x}{\|x\|^2} - \f {x^T B x}{\|x\|^2}
+			\le \f {x^T (A+B) x}{\|x\|^2} + \max_{x\in\R^n} \f {|x^T B x|}{\|x\|^2}
+			\le \f {x^T (A+B) x}{\|x\|^2} + \|B\|.
+		\]
+		Also
+		\[
+			\lambda_{\text{min}}(A+B)
+			\stack{\ref{2.6}}= \min_{x\in \R^n} \f {x^T(A+B)x}{\|x\|^2}
+			\ge \min_{x\in\R^n} \f {x^T A x}{\|x\|^2} - \|B\|
+			= \lambda_{\text{min}}(A) - \|B\|.
+		\]
+	\end{proof}
+\end{lem}
+
+\begin{st}[Lokale Konvergenz des Newton-Verfahrens für Optimierungsprobleme] \label{2.48}
+	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar, $\hat x$ ein lokales Minimum von $f$ mit positiv definiter Hesse-Matrix $\nabla^2 f(\hat x)$.
+	Dann existieren $\delta, \my > 0$ so dass
+	\begin{enumerate}[(a)]
+		\item
+			$\hat x$ ist der einzige stationäre Punkt auf $B_\delta(\hat x)$,
+		\item
+			$\lambda_{\text{min}}(\nabla^2 f(x)) \ge \my$ für alle $x \in B_\delta(\hat x)$, insbesondere ist $\nabla^2(f(x))$ invertierbar und $\|\nabla^2 f(x)\|^{-1} \le \f 1\my$.
+		\item
+			Für jedes $x_0 \in B_\delta(\hat x)$ liegen alle durch \ref{alg:6} erzeugten Iterierten in $B_\delta(\hat x)$.
+			Insbesondere ist \ref{alg:6} durchführbar.
+		\item
+			Für jedes $x_0 \in B_\delta(\hat x)$ terminiert \ref{alg:6} entweder an $\hat x$ oder erzeugt eine Folge $(x_k)_{k\in\N}$, die superlinear gegen $\hat x$ konvergiert.
+		\item
+			Ist $\nabla^2 f$ zusätzlich Lipschitz-stetig in $B_\delta(\hat x)$, d.h.
+			\[
+				\forall x,y \in B_\delta(\hat x) : \| \nabla^2 f(x) - \nabla^2 f(y) \|
+				\le L \|x-y\|,
+			\]
+			dann ist die Konvergenz sogar quadratisch durch
+			\[
+				\|x_{k+1} - \hat x\| \le \f {L}{2\my} \|x_k - \hat x\|^2
+			\]
+			gegeben.
+	\end{enumerate}
+	\begin{proof}
+		Für jedes $0 < \my < \lambda_{\text{min}}(\nabla^2 f(\hat x))$ folgt aus \ref{2.47}, dass ein $\delta > 0$ existiert mit $\lambda_{\text{min}}(\nabla^2 f(x)) \ge \my$ für alle $x \in B_\delta(\hat x)$.
+
+		Der Rest funktioniert wie in \ref{2.46}.
+	\end{proof}
+\end{st}
+
+\begin{ex*}
+	Betrachte $f: \R \to \R, f(x) = \sqrt{x^2 + 1}$.
+	Offenbar ist $\hat x=0$ das einzige Minimum von $f$.
+	$f$ erfüllt die Voraussetzungen von \ref{2.48}, denn
+	\begin{align*}
+		\nabla f(x) &= \f {x}{\sqrt{x^2 + 1}} \\
+		\nabla^2 f(x) &= \f {1}{(x^2 + 1)^{\f 32}}.
+	\end{align*}
+	Die Newton-Iteration ergibt sich dann als
+	\begin{align*}
+		x_{k+1}
+		&= x_k - (\nabla^2 f(x_k))^{-1} \nabla f(x_k)
+		&= x_k - (x_k^2 + 1)^{\f 32} \f {x_k}{\sqrt{x_k^2 + 1}}
+		&= - x_k^3.
+	\end{align*}
+	Konvergenz findet sich also nur lokal für $|x_0| < 1$.
+\end{ex*}
+
