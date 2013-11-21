@@ -1118,7 +1118,7 @@ Solche Bedingungen werden auch \emph{Winkelbedingungen} genannt.
 				&= \dfrac {\nabla f(x_k)^T A_k^{-1} \nabla f(x_k)}{\|\nabla f(x_k)\|\|A^{-1} \nabla f(x_k)\|} \\
 				&\ge \dfrac {\lambda_{\text{min}} (A_k^{-1}) \|\nabla f(x_k)\|^2}{\|A_k^{-1}\| \|\nabla f(x_k)\|^2} \\
 				&= \dfrac {\lambda_{\text{min}}(A^{-1})}{\lambda_{\text{max}}(A_k^{-1})}
-				= \dfrac {\lambda_{\text{min}}(A)}{\lambda_{\text{max}}}
+				= \dfrac {\lambda_{\text{min}}(A_k)}{\lambda_{\text{max}}(A_k)}
 				\ge \f cC
 				> 0.
 			\end{align*}
@@ -1203,7 +1203,7 @@ Also sind Armijo-Schrittweiten im Allgemeinen nicht zulässig.
 	Existiert für jede konvergente Folge $(x_l)_{l\in L}$ eine streng monoton wachsende Funktion $\phi: [0,\infty) \to [0,\infty)$ mit
 	\[
 		\|d_l\|
-		\ge \phi \big( \f{-\nabla f(x_l)^T d_l}{\|d_l\|}
+		\ge \phi \big( \f{-\nabla f(x_l)^T d_l}{\|d_l\|} \big)
 	\]
 	für alle $l \in L$.
 	Dann sind die Armijo-Schrittweiten zulässig.
@@ -1214,7 +1214,7 @@ Also sind Armijo-Schrittweiten im Allgemeinen nicht zulässig.
 		\]
 		und für jede konvergente Teilfolge $(x_l)_{l\in L}$:
 		\[
-			\lim_{k\to\infty} f(x_k) - f(x_{k+1} = 0
+			\lim_{k\to\infty} f(x_k) - f(x_{k+1}) = 0
 			\quad \implies\quad
 			\lim_{L \ni l \to \infty} \f{\nabla f(x_l)^T d_l}{\|d_l\|} = 0.
 		\]
@@ -1255,7 +1255,7 @@ Also sind Armijo-Schrittweiten im Allgemeinen nicht zulässig.
 		\[
 			0
 			\le (1-\gamma) \f {-\nabla f(x_l)^T d_l}{\|d_l\|}
-			< \f {(\nabla f(x_l+ \sigma_l d_l) - \nabla f(x_l)^Td_l}{\|d_l\|}
+			< \f {\nabla f(x_l+ \sigma_l d_l) - \nabla f(x_l)^Td_l}{\|d_l\|}
 			\le \|\nabla f(x_l + \sigma_l d_l) - \nabla f(x_l)\|.
 		\]
 		Aus $s_l \|d_l\| \to 0$ folgt $\sigma_l d_l \to 0$.
@@ -1476,9 +1476,10 @@ Es ergibt sich damit die Iteration
 \begin{alg}[Newton-Verfahren] \label{alg:5}
 	\begin{algorithmic}
 		\Require{Startwert $x_0 \in \R^n$}
+		\State{$k \gets 0$}
 		\While{$F(x_k) \neq 0$}
 			\State{$d_k \gets -F'(x_k)^{-1} F(x_k)$}
-			\State{$x_{k+1} := x_k + d_k$}
+			\State{$x_{k+1} \gets x_k + d_k$}
 		\EndWhile
 	\end{algorithmic}
 \end{alg}
