@@ -18,18 +18,6 @@
 %% Options
 %%=======================================================================
 
-\cs_if_exist:NF \ConfigOutput {\def\ConfigOutput{book}}
-
-% Load configuration file, containing additional options, e.g. in the form
-% \PassOptionsToClass{paper-format=a4}{mycourse}
-% ------------------------------------------------------------------------
-\file_if_exist:nTF {config} {
-	\file_input:n {config}
-	\msg_info:nn {mycourse} {config_loaded}
-}{
-	\msg_warning:nn {mycourse} {config_missing}
-}
-
 % Define option keys
 % ------------------------------------------------------------------------
 \keys_define:nn {mycourse} {
@@ -90,7 +78,13 @@
 
 	a5 .code:n               = \keys_set:nn {mycourse} {paper-size=a5},
 	a5book .code:n           = \keys_set:nn {mycourse} {paper-size=a5},
-	book .code:n             = \keys_set:nn {mycourse} {paper-size=a5},
+	book .code:n             =
+		\keys_set:nn { mycourse } { paper-size=a5 }
+		\keys_set:nn { mycourse } { style = default-print }
+	,
+
+	% [style] (dark,default,default-print)
+	style .tl_set:N          = \l_mycourse_style,
 
 }
 
@@ -99,6 +93,16 @@
 \keys_define:nn {mycourse} {
 	lang .initial:n       = ngerman,
 	paper-size .initial:n = a5,
+}
+
+% Load configuration file, containing additional options, e.g. in the form
+% \PassOptionsToClass{paper-format=a4}{mycourse}
+% ------------------------------------------------------------------------
+\file_if_exist:nTF {config} {
+	\file_input:n {config}
+	\msg_info:nn {mycourse} {config_loaded}
+}{
+	\msg_warning:nn {mycourse} {config_missing}
 }
 
 % Finally process options passed to this class
@@ -164,8 +168,8 @@
 \definecolor{headings}{HTML}{000000}
 
 \cs_if_exist:NT \str_case_x:nnF {
-\str_case_x:nnF \ConfigOutput {
-	{print} {
+\str_case_x:nn \l_mycourse_style {
+	{default-print} {
 		\definecolor{url}{HTML}{000000} % 0088cc
 		\definecolor{link}{HTML}{000000}
 		\definecolor{text}{HTML}{000000}
@@ -197,19 +201,6 @@
 		\renewcommand*{\familydefault}{\sfdefault}
 		\RequirePackage{sfmath}
 	}
-	}{
-		\definecolor{url}{HTML}{005580} % 0088cc
-		\definecolor{link}{HTML}{005580}
-		\definecolor{text}{HTML}{111111}
-		\definecolor{math}{HTML}{111111}
-		\definecolor{theoremtype}{HTML}{115908}
-		\definecolor{theoremnumber}{HTML}{222222}
-		\definecolor{theoremtitle}{HTML}{222222}
-		\definecolor{header}{HTML}{666666}
-		\definecolor{headerrule}{HTML}{337733}
-		\definecolor{timestamp}{HTML}{333333}
-		\definecolor{background}{HTML}{FFFFFF}
-		\definecolor{headings}{HTML}{000000}
 }
 }
 
