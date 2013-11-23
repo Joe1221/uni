@@ -388,8 +388,12 @@
 %\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
 %\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
 \DeclareDocumentCommand {\l_mycourse_headvertbar} {} { \;{\color{headerrule}\rule[-0.4em]{0.7pt}{1.3em}}\; }
-\renewcommand{\chaptermark}[1]{\markboth{\thechapter ~ \l_mycourse_headvertbar ~ #1}{}}
-\renewcommand{\sectionmark}[1]{\markright{#1 ~ \l_mycourse_headvertbar ~ \thesection}}
+\RenewDocumentCommand { \chaptermark } { m } {
+	\markboth { \ \thechapter ~ \l_mycourse_headvertbar ~ #1 } { }
+}
+\RenewDocumentCommand { \sectionmark } { m } {
+	\markright { #1 ~ \l_mycourse_headvertbar ~ \thesection ~ \ }
+}
 \fancyhf{}
 \newcommand{\headerfont}{\bfseries \scshape \color{header}}
 \fancyfoot[LE,RO]{\bfseries\color{header} \thepage}
