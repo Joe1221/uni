@@ -303,14 +303,22 @@
 
 \newtheoremstyle{mythm}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
-			{\color{theoremtype}##1}\ \color{theoremnumber}##2\theorem@separator}\hbox{\strut}}}]}%
+			{\color{theoremtype}##1}
+			\ {\color{theoremnumber}##2}
+		\theorem@separator}\hbox{\strut}}}]}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
-			{\color{theoremtype}##1}\ \color{theoremnumber}##2\ \color{theoremtitle}(##3)\theorem@separator}\hbox{\strut}}}]}
+			{\color{theoremtype}##1}
+			\ {\color{theoremnumber}##2}
+			\ {\color{theoremtitle}{\normalfont\scshape{(##3)}}}
+		\theorem@separator}\hbox{\strut}}}]}
 \newtheoremstyle{nonumbermythm}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
-			{\color{theoremtype}##1}\ \theorem@separator}\hbox{\strut}}}]}%
+			{\color{theoremtype}##1}
+		\theorem@separator}\hbox{\strut}}}]}%
 	{\item[\rlap{\vbox{\hbox{\hskip\labelsep \theorem@headerfont
-			{\color{theoremtype}##1}\ \color{theoremtitle}(##3)\theorem@separator}\hbox{\strut}}}]}
+			{\color{theoremtype}##1}
+			\ {\color{theoremtitle}{\normalfont\scshape{(##3)}}}
+		\theorem@separator}\hbox{\strut}}}]}
 \theoremstyle{mythm} 								% Vordefinierter Style mit Zeilenumbruch
 
 
