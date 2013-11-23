@@ -93,16 +93,16 @@
 	book .code:n             = \keys_set:nn {mycourse} {paper-size=a5},
 
 }
-\ProcessKeysOptions {mycourse}
 
-%%=======================================================================
-%% Option Defaults
-%%=======================================================================
-
-\keys_set:nn {mycourse} {
-	lang       = ngerman,
-	paper-size = a5,
+% Option Defaults
+% -----------------------------------------------------------------------
+\keys_define:nn {mycourse} {
+	lang .initial:n       = ngerman,
+	paper-size .initial:n = a5,
 }
+
+% Finally process options passed to this class
+\ProcessKeysOptions {mycourse}
 
 
 \RequirePackage[l2tabu, orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
