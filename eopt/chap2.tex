@@ -877,7 +877,7 @@ Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren kö
 		\item
 			Sei $c > 0$, so dass die \emph{Niveaumenge}
 			\[
-				f^{-1}((-\infty, C))
+				f^{-1}((-\infty, c))
 				:= \{ x \in \R^n : f(x) \le c \}
 			\]
 			beschränkt ist und in ihr nur ein stationärer Punkt liegt.
@@ -1089,7 +1089,7 @@ Solche Bedingungen werden auch \emph{Winkelbedingungen} genannt.
 		: \dfrac {-\nabla f(x_k)^Td_k}{\|\nabla f(x_k)\|\|d_k\|} \ge \min\{ \alpha_1, \alpha_2 \|\nabla f\|^p \}.
 	\]
 	\begin{proof}
-		Übungsaufgabe
+		 \coursehref{Blatt5.pdf}{Übungsaufgabe 5.2}
 	\end{proof}
 \end{nt}
 
@@ -1165,7 +1165,7 @@ also ist in Suchrichtung $d$ mit Schrittweite $s^*$ eine Verkleinerung von $f$ u
 		\]
 		also
 		\[
-			\f{|\nabla f(x_k)^T d_k|}{\|d_k\|} \to 0
+			\f{|\nabla f(x_k)^T d_k|}{\|d_k\|} \to 0,
 		\]
 		falls $f(x_k) - f(x_{k+1}) \to 0$.
 	\end{proof}
@@ -1295,12 +1295,12 @@ In den Beweisen von \ref{2.24} und \ref{2.36} wurde verwendet
 mit einer Zwischenstelle $\sigma_l \in [0, s_l]$.
 Naheliegend ist jetzt ein Algorithmus, der einen solchen Zusammenhang explizit fordert.
 Es wird also zur aktuellen Iterierten $x$ und Suchrichtung $d$ eine Schrittweite $s$ gesucht, die
-\begin{align*}
+\begin{align}
 	f(x+sd) - f(x)
-	&\le \gamma s \nabla f(x)^T d \\
+	&\le \gamma s \nabla f(x)^T d \label{eq:pw1}\\
 	\nabla f(x+sd)^T d
-	&\ge \eta \nabla f(x)^T d
-\end{align*}
+	&\ge \eta \nabla f(x)^T d \label{eq:pw2}
+\end{align}
 mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 
 \begin{alg} \label{alg:4}
@@ -1723,7 +1723,7 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 				Für (auf $B_\delta(\hat x)$) Lipschitz-stetige $F'$ erhalten wir sogar
 				\begin{align*}
 					\|x_{k+1} - \hat x\|
-					&\le C \|x_k - \hat x\| \int_0^1 L \| \underbrace{x_k - (\hat x + t(x_k - \hat x))}_{=(1-t)x_k -(1-t)\hat x} \| \dx[t]
+					&\le C \|x_k - \hat x\| \int_0^1 L \| \underbrace{x_k - (\hat x + t(x_k - \hat x))}_{=(1-t)x_k -(1-t)\hat x} \| \dx[t] \\
 					&\le C \|x_k - \hat x\|^2 L \int_0^1 1-t \dx[t]
 					= \f {CL}2 \|x_k - \hat x\|^2.
 				\end{align*}
@@ -1819,7 +1819,7 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
 	Die Newton-Iteration ergibt sich dann als
 	\begin{align*}
 		x_{k+1}
-		&= x_k - (\nabla^2 f(x_k))^{-1} \nabla f(x_k)
+		&= x_k - (\nabla^2 f(x_k))^{-1} \nabla f(x_k),
 		&= x_k - (x_k^2 + 1)^{\f 32} \f {x_k}{\sqrt{x_k^2 + 1}}
 		&= - x_k^3.
 	\end{align*}
