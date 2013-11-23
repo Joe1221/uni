@@ -124,6 +124,8 @@
 	(nach links hin gröber, nach rechts hin feiner).
 \end{nt}
 
+\subsection{Abbildungen und Stetigkeit}
+
 \begin{df}
 	Eine Abbildung $f: (X,\scr T_X) \to (Y, \scr T_Y)$ heißt \emph{stetig}, wenn aus $V \in \scr T_Y$ stets $f^{-1}(V) \in \scr T_X$ folgt.
 
@@ -384,7 +386,7 @@ Mit dieser Topologie gilt $f_n \to f$ punktweise genau dann, wenn $f_n \to f$ be
 %fixme: proof?
 
 \begin{st} \label{st:pointwise_hausdorff_metrisable}
-	$\scr T_{\text{pw}}$ erfüllt das Hausdorff-Axiom, aber nicht das 1AA.
+	$\scr T_{\text{pw}}$ erfüllt das Hausdorff-Axiom, aber nicht das erste Abzählbarkeitsaxiom.
 	Insbesondere ist die Topologie $\scr T_{\text{pw}}$ also nicht metrisierbar.
 	\begin{proof}
 		Seien $f,g \in X$ mit $f \neq g$, d.h. es existiert $x \in \R$ mit $d := |f(x) - g(x)| > 0$.
@@ -860,7 +862,7 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 
 \subsection{Teilraumtopologie}
 
-\begin{df}
+\begin{df} \label{df:subspace_topology}
 	Sei $(X, \scr T_X)$ ein topologischer Raum, $A \subset X$ und $\jota_A: A \to X, a \mapsto a$ die Inklusion von $A$ in $X$.
 	Die initiale Topologie bezüglich $\jota_A$ auf $X$
 	\begin{align*}
@@ -1334,11 +1336,11 @@ Betrachtet man Produkte von topologischen Räumen, so ist folgende Definition an
 \end{st}
 
 \begin{ex}
-	$\{0,1\}^\N$ ist \emph{homöomorph} zur Cantor-Menge $C \subset [0,1]$.
+	$\{0,1\}^\N$ ist homöomorph zur Cantor-Menge $C \subset [0,1]$.
 \end{ex}
 
 
-\section{Filter, Konvergenz und Stetigkeit}
+\section{Filter}
 
 
 \subsection{Von Folgen zu Filtern}
@@ -1445,20 +1447,24 @@ Für $\scr F$ gilt
 	\end{proof}
 \end{st}
 
+\subsection{Produkträume}
+
+Ähnlich wie im $\R^n$ Folgen genau dann konvergieren, wenn ihre Koordinatenfolgen konvergieren, lässt sich eine analoge Aussage für Filter auf Produkträumen zeigen.
+
 \begin{st}
-	Ein Filter $\scr f$ auf $X = \prod_{i\in I} X_i$ konvergiert genau dann gegen $x = (x_i)_{i\in I}$, wennn jeder Bildfilter $p_i(\scr f)$ auf $X_i$ gegen $x_i$ konvergiert.
+	Ein Filter $\scr F$ auf $X = \prod_{i\in I} X_i$ konvergiert genau dann gegen $x = (x_i)_{i\in I}$, wenn der Bildfilter jeder Projektion $p_i(\scr F)$ auf $X_i$ gegen $x_i$ konvergiert.
 	\begin{proof}
 		\begin{segnb}[„$\implies$“]
 			$p_i$ ist stetig und die Aussage folgt mit vorigem Satz. % fixme: ref
 		\end{segnb}
 		\begin{segnb}[„$\impliedby$“]
-			Es gelten $p_i(\scr f) \supset \scr U_{x_i}$ für jedes $i \in I$.
+			Es gelten $p_i(\scr F) \supset \scr U_{x_i}$ für jedes $i \in I$.
 			Nach Definition der Produkttopologie ist
 			\[
 				\scr B_x = \Big\{ \bigcap_{i\in J} p_i^{-1}(U_i) : J \subset I \text{ endlich}, U_i \in \scr U_{x_i} \Big\}
 			\]
 			eine Umgebungsbasis von $x$.
-			Wegen $p_i(\scr f) \supset \scr U_{x_i} \ni U_i$ folgt $p_i^{-1}(U_i) \in \scr F$.
+			Wegen $p_i(\scr F) \supset \scr U_{x_i} \ni U_i$ folgt $p_i^{-1}(U_i) \in \scr F$.
 			Nach (F2) auch $\bigcap_{i\in J} p_i^{-1}(U_i) \in \scr F$, also $\scr F \supset \scr B_x$, also $\scr F \supset \scr U_x$.
 		\end{segnb}
 	\end{proof}
@@ -1494,15 +1500,15 @@ Für $\scr F$ gilt
 \end{ex}
 
 \begin{st}
-	Ein Filter $\scr F$ auf $X$ ist genau dann maximal, wenn er für jede Menge $A \subset X$ entweder $A$ oder $X \setminus A$ enthält.
+	Ein Filter $\scr F$ auf $X$ ist maximal genau dann, wenn er für jede Menge $A \subset X$ entweder $A$ oder $X \setminus A$ enthält.
 	\begin{proof}
-		\begin{segnb}[„$\implies$“]
+		\begin{segnb}[„$\impliedby$“]
 			Sei $\scr F' \supsetneq \scr F$.
 			Dann existiert $A \in \scr F'$ mit $A \not\in \scr F$.
 			Nach Voraussetzung ist $(X \setminus A) \in \scr F \subset \scr F'$.
 			Wegen (F2) enthält $\scr F'$ auch $A \cap (X \setminus A) = \emptyset$, ein Widerspruch zu (F1).
 		\end{segnb}
-		\begin{segnb}[„$\impliedby$“]
+		\begin{segnb}[„$\implies$“]
 			Sei $\scr F$ ein maximaler Filter und $A \subset X$.
 			Wenn $A \cap U = \emptyset$ für ein $U \in \scr F$, dann $U \subset (U \setminus A) \in \scr F$.
 			Andernfalls ist $A \cap U \neq \emptyset$ für alle $U \in \scr F$ und wir erhalten einen Filter
