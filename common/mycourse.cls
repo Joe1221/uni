@@ -41,9 +41,7 @@
 	,
 
 	% [lang] Language option (ngerman, english, …)
-	lang .code:n             =
-		\PassOptionsToPackage{#1}{babel}
-	,
+	lang .code:n             = \PassOptionsToPackage { #1 } { babel },
 	lang .tl_set:N           = \l_mycourse_language,
 
 	% [paper-size] (a4, a5) Controls the output paper size
@@ -59,7 +57,8 @@
 			marginparsep=3mm
 		}{geometry}
 		\PassOptionsToPackage{scaled=0.83}{beramono}
-		\PassOptionsToClass{fontsize=12pt}{scrbook},
+		\PassOptionsToClass{fontsize=12pt}{scrbook}
+	,
 	paper-size / a5 .code:n  =
 		\PassOptionsToPackage{
 			reset,
@@ -74,9 +73,10 @@
 			marginparsep=0.2cm,
 		}{geometry}
 		\PassOptionsToPackage{scaled=0.785}{beramono}
-		\PassOptionsToClass{fontsize=10pt}{scrbook},
-
+		\PassOptionsToClass{fontsize=10pt}{scrbook}
+	,
 	a5 .code:n               = \keys_set:nn {mycourse} {paper-size=a5},
+	a4 .code:n               = \keys_set:nn {mycourse} {paper-size=a4},
 	a5book .code:n           = \keys_set:nn {mycourse} {paper-size=a5},
 	book .code:n             =
 		\keys_set:nn { mycourse } { paper-size=a5 }
@@ -107,6 +107,9 @@
 
 % Finally process options passed to this class
 \ProcessKeysOptions {mycourse}
+
+
+
 
 
 \RequirePackage[l2tabu, orthodox]{nag} 	% Warnt vor Nutzung von veralteten Befehlen und Packages
