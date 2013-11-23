@@ -65,13 +65,13 @@ book-a5-signatures-16:
 # Config write targets
 
 config-print:
-	echo "\def\ConfigOutput{print}" >> ${TEXCONFIG}
+	echo "\keys_set:nn { mycourse } { style = default-print }" >> ${TEXCONFIG}
 config-styledark:
-	echo "\def\ConfigOutput{dark}" >> ${TEXCONFIG}
+	echo "\keys_set:nn { mycourse } { style = dark }" >> ${TEXCONFIG}
 config-book:
-	echo "\PassOptionsToClass{book}{mycourse}" >> ${TEXCONFIG}
+	echo "\keys_set:nn { mycourse } { book }" >> ${TEXCONFIG}
 config-a5:
-	echo "\PassOptionsToClass{a5}{mycourse}" >> ${TEXCONFIG}
+	echo "\keys_set:nn { mycourse } { paper-size = a5 }" >> ${TEXCONFIG}
 config-clear:
 	echo "" > ${TEXCONFIG}
 
