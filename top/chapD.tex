@@ -33,12 +33,53 @@
 		\item
 			$A \subset X$ heißt \emph{relativ kompakt in $(X, \scr T_X)$}, wenn $\_A$ in $(X, \scr T_X)$ kompakt ist.
 	\end{enumerate}
-	\begin{note}
-		Zu jeder offenen Überdeckung von $A$ im Teilraum $(A, \scr T_A)$ lässt sich nach Definition der Teilraumtopologie in \ref{df:subspace_topology} eine offene Überdeckung von $A$ in $(X, \scr T_X)$ finden.
-		Daher ist die Definition für $A$ kompakt in $(X, \scr T_X)$ äquivalent dazu, dass der Teilraum $(A, \scr T_A)$ kompakt ist.
-	\end{note}
 \end{df}
 
+\begin{nt}
+	Sei $(A, \scr T_A)$ ein Teilraum von $(X, \scr T)$.
+	$K \subset A$ ist kompakt in $(X, \scr T)$ genau dann, wenn $K$ kompakt in $(A, \scr T_A)$ ist.
+
+	Insbesondere ist der Teilraum $(A, \scr T_A)$ genau dann kompakt (gemäß \ref{df:compact_space}), wenn $A \subset X$ in $(X, \scr T_X)$ kompakt ist (gemäß \ref{df:compact_subspace}).
+	\begin{proof}
+		\begin{segnb}[„$\implies$“]
+			Sei $\bigcup_{i\in I} U_i \supset K, U_i \in \scr T_A$ eine offene Überdeckung von $K$ in $(A, \scr T_A)$.
+			Nach Definition des Teilraums existieren $V_i \in \scr T : U_i = V_i \cap A$ für alle $i \in I$.
+			\[
+				\bigcup_{i\in I} V_i
+				\supset A \cap \bigcup_{i\in I} V_i
+				= \bigcup_{i\in I} \underbrace{(V_i \cap A)}_{= U_i}
+				\supset K
+			\]
+			ist eine offene Überdeckung von $K$ in $(X, \scr T_X)$ mit endlicher Teilüberdeckung $\bigcup_{k=1}^n V_{i_k} \supset K$.
+			Also ist
+			\[
+				\bigcup_{k=1}^n \underbrace{U_{i_k}}_{= V_{i_k} \cap A}
+				= A \cap \bigcup_{k=1}^n V_{i_k}
+				\supset A \cap K
+				= K
+			\]
+			eine endliche Teilüberdeckung von $\bigcup_{i\in I} U_i \supset K$.
+		\end{segnb}
+		\begin{segnb}[„$\impliedby$“]
+			Sei $\bigcup_{i\in I} U_i \supset K, U_i \in \scr T$ eine offene Überdeckung von $K$ in $(X, \scr T)$ und $V_i := A \cap U_i \in \scr T_A$ für $i \in I$.
+			\[
+				\bigcup_{i\in I} \underbrace{V_i}_{=A \cap U_i}
+				= A \cap \bigcup_{i\in I} U_i
+				\supset A \cap K
+				= K
+			\]
+			ist eine offene Überdeckung von $K$ in $(A, \scr T_A)$ mit endlicher Teilüberdeckung $\bigcup_{k=1}^n V_{i_k} \supset K$.
+			Also ist
+			\[
+				\bigcup_{k=1}^n U_{i_k}
+				\supset A \cap \bigcup_{k=1}^n U_{i_k}
+				= \bigcup_{k=1}^n \overbrace{V_{i_k}}^{=A \cap U_{i_k}}
+				\supset K
+			\]
+			eine endliche Teilüberdeckung von $\bigcup_{i\in I} U_i \supset K$.
+		\end{segnb}
+	\end{proof}
+\end{nt}
 
 \begin{ex}
 	\begin{itemize}
