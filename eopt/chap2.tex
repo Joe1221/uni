@@ -1427,13 +1427,13 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 			\nabla f(x_l + s_l d_l)^T d_l \ge \underbrace{\eta}_{<1} \underbrace{\nabla f(x_l)^T d_l}_{<0},
 		\]
 		also
-		\[
+		\begin{align*}
 			0
-			\le -(1-\eta)\nabla f(x_l)^T d_l \f 1{\|d_l\|}
-			= \f 1{\|d_l\|}\big( \eta \nabla f(x)^T d_l - \nabla f(x_l)^T d_l \big)
-			\le \f 1{\|d_l\|} \big( \nabla f(x_l + s_l d_l)) - \nabla f(x_l) \big)^T d_l
-			\le \big\|\nabla f(x_l + s_l d_l) -\nabla f(x_l) \big\|
-		\]
+			&\le -(1-\eta)\nabla f(x_l)^T d_l \f 1{\|d_l\|} \\
+			&= \f 1{\|d_l\|}\big( \eta \nabla f(x)^T d_l - \nabla f(x_l)^T d_l \big) \\
+			&\le \f 1{\|d_l\|} \big( \nabla f(x_l + s_l d_l)) - \nabla f(x_l) \big)^T d_l \\
+			&\le \big\|\nabla f(x_l + s_l d_l) -\nabla f(x_l) \big\|
+		\end{align*}
 		Zeige $\|\nabla f(x_l + s_l d_l) -\nabla f(x_l)\| \to 0$, denn dann gilt auch $- \f{\nabla f(x_l)^T d_l}{\|d_l\|} \to 0$, was ein Widerspruch wäre.
 
 		Wegen $\lim_{L\ni l\to\infty} s_l d_l = 0$ existiert eine kompakte Menge, die fast alle $x_l, x_l + s_l d_l$ enthält.
@@ -1505,14 +1505,14 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 	\begin{proof}
 		Sei $S_l = \sum_{k=0}^l A^k$.
 		Dann gilt für $m \ge l$
-		\[
+		\begin{align*}
 			\|S_m - S_l\|
-			= \Big\| \sum_{k=l+1}^m A^k \Big\|
-			\le \sum_{k=l+1}^m \|A\|^k
+			&= \Big\| \sum_{k=l+1}^m A^k \Big\| \\
+			&\le \sum_{k=l+1}^m \|A\|^k
 			= \|A\|^{l+1} \sum_{k=0}^{m-l-1} \|A\|^k
 			\le \f{\|A\|^{l+1}}{1-\|A\|}
 			< \eps
-		\]
+		\end{align*}
 		für genügend großes $l$.
 		Also ist $(S_l)_{l\in\N}$ ein Cauchy-Folge und der Grenzwert existiert.
 		Es gilt
@@ -1692,15 +1692,16 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 				Für jedes $x_k$ in dem $F'(x_k)$ invertierbar ist, gilt
 				\begin{align*}
 					x_{k+1} - \hat x
-					&= x_k - F'(x_k)^{-1}F(x_k) - \hat x
-					&= F'(x_k)^{-1}\big( F'(x_k) (x_k-\hat x) - F(x_k) + F(\hat x) \big)
-					&= F'(x_k)^{-1}\Big( F'(x_k) (x_k-\hat x) - \int_0^1 F'(\hat x + t(x_k-\hat x))(x_k - \hat) \dx[t] \Big)
-					&=F'(x_k)^{-1}\int_0^1 \big( F'(x_k) - F'(\hat + t(x_k - \hat x)) \big)(x_k - \hat x) \dx[t],
+					&= x_k - F'(x_k)^{-1}F(x_k) - \hat x \\
+					&= F'(x_k)^{-1}\big( F'(x_k) (x_k-\hat x) - F(x_k) + F(\hat x) \big) \\
+					&= F'(x_k)^{-1}\bigg( F'(x_k) (x_k-\hat x) \\
+					& \qquad\qquad\qquad\qquad - \int_0^1 F'(\hat x + t(x_k-\hat x))(x_k - \hat x) \dx[t] \bigg) \\
+					&=F'(x_k)^{-1}\int_0^1 \big( F'(x_k) - F'(\hat x + t(x_k - \hat x)) \big)(x_k - \hat x) \dx[t],
 				\end{align*}
 				also
 				\[
 					\|x_{k+1} - \hat x\|
-					\le \|x_k-\hat x\|\|F'(x_k)^{-1}\| \underbrace{\sup_{t\in [0,1} \| F'(x_k) - F'(\hat + t(x_k-\hat x)) \|}_{\to 0}
+					\le \|x_k-\hat x\|\|F'(x_k)^{-1}\| \underbrace{\sup_{t\in [0,1} \| F'(x_k) - F'(\hat x + t(x_k-\hat x)) \|}_{\to 0}
 				\]
 				Sei $\delta$ so klein (siehe (a) und (b)), dass
 				\[
