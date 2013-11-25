@@ -1824,3 +1824,196 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
 	Konvergenz findet sich also nur lokal für $|x_0| < 1$.
 \end{ex*}
 
+\begin{nt} \label{2.50}
+	Alternative Motivation für das Newton-Verfahren für das Optimierungsproblem wäre, $f$ durch die quadratische Näherung an $x_k$
+	\[
+		f(x) \approx
+		f(x_k) + \nabla f(x_k)^T (x-x_k) + \f 12 (x-x_k)^T \nabla^2 f(x_k) (x-x_k)
+	\]
+	zu ersetzen.
+	Das Minimum dieser quadratischen Näherung liegt in (siehe Übungen) % fixme: ref
+	\[
+		x = x_k - \nabla^2 f(x_k)^{-1} \nabla f(x_k).
+	\]
+	Dies führt wieder auf das Newton-Verfahren.
+\end{nt}
+
+\subsection{Newton-artige Verfahren}
+
+Das Newton-Verfahren hat gewisse Nachteile (z.B. gegenüber dem Gradienten-Verfahren)
+\begin{itemize}
+	\item
+		Nur lokale Konvergenz,
+	\item
+		Hessematrix wird benötigt,
+	\item
+		benötigt LGS-Lösung mit $\nabla^2 f(x_k)$.
+\end{itemize}
+Trotzdem hat das Newton-Verfahren Vorteile, die es nützlich machen
+\begin{itemize}
+	\item
+		superlineare Konvergenz (rechtfertig asymptotisch jeden $N$-fachen Aufwand gegenüber einem linear-konvergenten Verfahren)
+\end{itemize}
+Mit $d_k := - \nabla^2 f(x_k)^{-1} \nabla f(x_k)$ wird nur eine Approximation $x_{k+1}$ an das Optimum berechnet.
+Es ist also vielleicht nicht nötig, $d_k$ exakt zu berechnen.
+Dies liefert die Motivation für zwei Verfahren
+\begin{itemize}
+	\item
+		Inexakte Newton-Verfahren:
+		$d_k$ wird nur näherungsweie z.B. durch Anwendung einiger Schritte eines iterativen Verfahrens auf das lineare Gleichungsystem $\nabla^2 f(x_k) = - \nabla f(x_k)$ bestimmt.
+	\item
+		Newton-artige Verfahren:
+		Ersetze $\nabla^2 f(x_k)$ durch invertierbare Matrix $H_k \in \R^{n\times n}$ (die einfacher zu berechenen oder einfacher zu invertieren ist) und löse
+		\[
+			H_k d_k = - \nabla f(x_k).
+		\]
+\end{itemize}
+
+\begin{lem} \label{2.51}
+	Sei $F: \R^n \to \R^n$ stetig differenzierbar und $K \subset \R^n$ kompakt und konvex.
+
+	Dann ist $F$ auf $K$ Lipschitz-stetig mit $L := \max_{x\in K} \|F'(x)\|$, also
+	\[
+		\|F(y) - F(x)\|
+		\le L \|y-x\|
+	\]
+	für alle $x,y \in K$.
+	\begin{proof}
+		Nach dem Mittelwertsatz \ref{2.4} gilt
+		\[
+			\|F(y) - F(x)\| = \Big\| \int_0^1 F'(x + t(y-x)) \dx[t] (y-x) \Big\|
+			\le \max_{x\in K} \|F'(x)\| \|y-x\|.
+		\]
+	\end{proof}
+\end{lem}
+
+\begin{st}[Dennis-Moré-Bedingungen]
+	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar, $\hat x \in \R^n$ besitze invertierbare Hessematrix $\nabla^2 ff(\hat x)$.
+	Sei $(x_k)_{k\in\N} \subset \R^n$ mit
+	\[
+		\forall k \in \N : x_k \neq \hat x
+	\]
+	und $x_k \to \hat x$.
+
+	Dann sind folgende Aussagen äquivalent:
+	\begin{enumerate}[(a)]
+		\item
+			$(x_k)$ konvergiert superlinear gegen $\hat x$  und $\hat x$ ist stationärer Punkt.
+		\item
+			$\nabla f(x_{k+1}) = o(x_{k+1} - x_k)$
+		\item
+			$\nabla f(x_k) + \nabla^2 f(\hat x)(x_{k+1} - x_k) = o(x_{k+1} - x_k)$
+		\item
+			$\nabla f(x_k) + \nabla^2 f(x_{k+1})(x_{k+1} - x_k) = o(x_{k+1} - x_k) = o(x_{k+1} - x_k)$
+	\end{enumerate}
+	\begin{proof}
+		\begin{segnb}[„(a)$\implies$(b)“]
+			$(x_k)_{k\in\N}$ konvergiere superlinear, d.h. $\|x_{k+1} - \hat x\| \le \f 12 \|x_k - \hat x\|$ für hinreichend große $k \in \N$.
+			Es gilt
+			\[
+				\|x_k - \hat x\|
+				\le \|x_{k+1} - x_k\| + \|x_{k+1} - \hat x\|
+				\le \|x_{k+1} - x_k\| + \f 12 \|x_k - \hat x\|
+			\]
+			und damit
+			\[
+				\|x_k - \hat x\|
+				\le 2 \|x_{k+1} - x_k\|
+			\]
+			für hinreichend große $k$.
+			Da $(x_k)_{k\in\N}$ beschränkt ist, existiert eine abgeschlossene Kugel $K$ mit $x_k, \hat x \in K$ für alle $k \in \N$.
+			Nach \ref{2.51} existiert $L > 0$ mit
+			\[
+				\|\nabla f(x_{k+1}) \|
+				= \| \nabla f(x_{k+1} - \nabla f(\hat x)) \|
+				\le L \|x_{k+1} - \hat x\|
+				= o(x_k - \hat x)
+				= o(x_{k+1} - x_k)
+			\]
+		\end{segnb}
+		\begin{segnb}[„(b)$\implies$(a)“]
+			Sei $\nabla f(x_{k+1}) = o(x_{k+1} - x_k)$, d.h.
+			\[
+				\eps_k := \f {\|\nabla f(x_{k+1})\|}{\|x_{k+1} - x_k\|}
+				\to 0.
+			\]
+			Insbesondere $\nabla f(\hat x) = \lim_{x_k \to \hat x} \nabla f(x_k) = 0$.
+			$\nabla^2 f(\hat x)$ ist invertierbar, also existiert nach \ref{2.43} $\gamma > 0$ mit
+			\[
+				\|\nabla f(x_{k+1}) \|
+				\ge \gamma \|x_{k+1} - \hat x\|
+			\]
+			für hinreichend große $k$.
+			Es gilt
+			\[
+				\|x_{k+1} - \hat x\|
+				\le \f 1\gamma \|\nabla f(x_{k+1})\|
+				= \f {\eps_k}{\gamma} \|x_{k+1} - x_k\|
+				\le \f{\eps_k}{\gamma} \|x_{k+1} - \hat x\| + \f{\eps_k}{\gamma} \|x_k - \hat x\|
+			\]
+			Für hinreichend große $k \in \N$ ist $\f {\eps_k}{\gamma} < \f 12$ und damit
+			\[
+				\|x_{k+1} - \hat x\|
+				\le 2 \f {\eps_k}{\gamma} \|x_k - \hat x\|
+				= o(x_k - \hat x).
+			\]
+		\end{segnb}
+		\begin{segnb}[„(b)$\iff$(c)“]
+			Der Mittelwertsatz \ref{2.4} für $F(x) := \nabla f(x)$ liefert
+			\begin{align*}
+				\nabla f(x_{k+1})
+				&= \nabla f(x_k) + \int_0^1 \nabla^2 f(x_k + t(x_{k+1} - x_k)) \dx[t] (x_{k+1} - x_k) \\
+				&= \nabla f(x_k) + \int_0^1 \Big(\nabla^2 f(x_k + t(x_{k+1} - x_k)) - \nabla^2 f(\hat x) \Big) (x_{k+1} - x_k) \dx[t] + \nabla^2 f(\hat x) (x_{k+1} - x_k)
+			\end{align*}
+			$\nabla^2 f$ ist stetig, also $\nabla^2 f$ gleichmäßig stetig auf einer abgeschlossener Kugel mit $K \in x_k, \hat x$ und somit
+			\[
+				\int_0^1 \Big( \nabla^2 f(x_k + t(x_{k+1} - x_k)) - \nabla^2 f(\hat x) \Big) \dx[t] \to 0.
+			\]
+			Also gilt
+			\[
+				\nabla f(x_{k+1})
+				= \nabla f(x_k) + \nabla^2 f(\hat x) (x_{k+1} - x_k) + o(x_{k+1} - x_k)
+			\]
+		\end{segnb}
+		\begin{segnb}[„(c)$\iff$(d)“]
+			Wegen $\nabla^2 f(x_k) \to \nabla^2 f(\hat x)$ ist
+			\[
+				\nabla f(x_k) + \underbrace{\nabla^2 f(\hat x) (x_{k+1} - x_k)}_{=\nabla^2 f(x_k)(x_{k+1} - x_k) + o(x_{k+1} - x_k)}
+				= o(x_{k+1} - x_k)
+			\]
+			äquivalent zu
+			\[
+				\nabla f(x_k) + \nabla^2 f(x_k) (x_{k+1} - x_k) = o(x_{k+1} - x_k).
+			\]
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{2.53}
+	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar.
+	$(x_k)_{k\in\N}$ sei erzeugt durch $x_{k+1} := x_{k} + d_k$ und konvergiere gegen $\hat x \in \R^n$ mit positiv definiter Hessematrix $\nabla^2 f(\hat x)$.
+	Außerdem gelte $x_k \neq \hat x$ für alle $k \in \N$.
+
+	Dann gelten folgende Aussagen
+	\begin{enumerate}[(a)]
+		\item
+			Newton-Verfahren:
+			Sind die $d_k$ exakte Lösungen von
+			\[
+				\nabla^2 f(x_k) d_ke = - \nabla f(x_k),
+			\]
+			dann ist $\hat x$ ein Minimum von $f$ und $(x_k)_{k\in\N}$ konvergiert superlinear gegen $\hat x$ (sogar quadratisch, falls $\nabla^2 f$ lokal Lipschitz-stetig).
+		\item
+			Inexakte Newton-Verfahren:
+			Sind die $d_k$ approximative Lösungen von
+			\[
+				\nabla^2 f(x_k) d_ke = - \nabla f(x_k),
+			\]
+			die
+			\[
+				\|\nabla f(x_k) + \nabla^2 f(x_k) d_k\| = \eta_k \|\nabla f(x_k)\|
+			\]
+			mit einer Nullfolge $(\eta_k)_{k\in\N}$ erfüllt, so ist $\hat x$ ein Minimum und $x_k \to \hat x$ konvergiert superlinear.
+	\end{enumerate}
+\end{st}
+
