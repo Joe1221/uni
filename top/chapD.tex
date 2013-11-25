@@ -582,9 +582,213 @@
 		\scr T \cup \Set{ \hat X \setminus K | K \subset X \text{ kompakt und abgeschlossen} }.
 	\]
 	Dies ist eine Topologie auf $\hat X$.
-	Der Raum $(\hat X, \hat{\scr T}$ ist kompakt und hierin ist $(X, \scr T)$ ein offener Teilraum.
+	Der Raum $(\hat X, \hat{\scr T})$ ist kompakt und hierin ist $(X, \scr T)$ ein offener Teilraum.
 	Die Topologie $\hat{\scr T}$ ist die feinste mit dieser Eigenschaft.
 
 	Genau dann ist $(\hat X, \hat{\scr T})$ hausdorffsch, wenn $(X, \scr T)$ hausdorffsch und lokal-kompakt ist.
 \end{st}
 
+
+\coursetimestamp{25}{11}{2013}
+% D5 ( D4: kompakt-offen-Topologie )
+\section{Trennungsaxiome und Metrisierbarkeit}
+
+
+Jeder metrische Raum $X$ erfüllt
+\begin{enumerate}[1)]
+	\item[(T0)]
+		Zu $a, b \in X, a \neq b$ hat einer eine Umgebung, die den anderen nicht enthält.
+	\item[(T1)]
+		Zu $a, b \in X, a \neq b$ haben beide jeweils eine Umgebung, die den anderen nicht enthält.
+	\item[(T2)]
+		Zu $a, b \in X, a \neq b$ existieren disjunkte Umgebungen (Hausdorff-Eigenschaft).
+	\item[(T3)]
+		Zu $A \subset X$ abgeschlossen und $b \in X \setminus A$ existieren disjunkte Umgebungen.
+	\item[(T4)]
+		Zu $A, B \subset X$ abgeschlossen und disjunkt existieren disjunkte Umgebungen.
+	\item[(T5)]
+		Zu $A, B \subset X$ mit $\_A \cap B = A \cap \_B = \emptyset$ existieren disjunkte Umgebungen.
+\end{enumerate}
+\begin{proof}
+	Wähle explizit als Umgebungen
+	\begin{align*}
+		U &:= \Set{ x \in X | d(x, A) < d(x, B) } \supset A \\
+		V &:= \Set{ x \in X | d(x, B) < d(x, A) } \supset B.
+	\end{align*}
+\end{proof}
+Beliebige disjunkte Menge lassen sich nicht in metrischen Räumen trennen:
+in $\R$ lassen sich $\Q$ und $\R \setminus \Q$ beispielsweise nicht trennen.
+
+Auch die folgenden Trennungsaxiome werden von metrischen Räumen erfüllt.
+\begin{enumerate}
+	\item[(T2\sfrac 12)]
+		Zu $a, b \in X, a \neq b$ existiert $f: X \to [0,1]$ stetig mit $f(a) = 0, f(b) = 1$.
+	\item[(T3\sfrac 12)]
+		Zu $A \subset X$ abgeschlossen und $b \in X \setminus A$ existiert $f: X \to [0,1]$ stetig mit $f|_A = 0, f(b) = 1$.
+	\item[(T4\sfrac 12)]
+		Zu $A, B \subset X$ abgeschlossen und disjunkt existiert $f: X \to [0,1]$ stetig mit $f|_A = 0, f|_B = 1$.
+	\item[(T5\sfrac 12)]
+		Zu $A, B \subset X$ abgeschlossen und disjunkt existiert $f: X \to [0,1]$ stetig mit $f^{-1}(0) = A, f^{-1}(1) = B$.
+\end{enumerate}
+\begin{proof}
+	Explizit lässt sich $f: X \to [0,1]$ wählen als
+	\[
+		f(x)
+		= \f {d(x,A)}{d(x,A) + d(x,B)}.
+	\]
+\end{proof}
+
+Für topologische Räume gelten folgende Zusammenhänge zwischen den Trennungsaxiomen.
+% fixme: drawing
+
+\begin{lem}[Tychonoff]
+	2AA und T3 impliziert T4.
+\end{lem}
+
+\begin{st}[Urysohn]
+	Sei $(X, \scr T)$ ein T4-Raum.
+	Dann gilt T4\sfrac 12.
+	\begin{note}
+		T4 besagt insbesondere:
+		Zu $A \subset O$ mit $A$ abgeschlossen und $O$ offen existiert $U$ offen mit $A \subset U \subset U \subset O$.
+	\end{note}
+	\begin{proof}
+		Sei $A, B \subset X$ abgeschlossen, $A \cap B = \emptyset$.
+		Setze $\_{A_0} = A_0 := B$, $A_1 := X \setminus A$.
+		$A_1$ ist offene Umgebung von $\_{A_0}$.
+		Sei $f_0: X \to [0,1]$ definiert durch $f_0|_{A_1} = 0, f_0|_{A} = 1$.
+		Nach T4 existiert $A_{\f 12} \in \scr T$ mit
+		\[
+			B = \_{A_0} \subset A_{\f 12} \subset \_{A_{\f 12}} \subset A_1
+		\]
+		Sei $f: X \to [0,1], f|_{A_{\f 12}} = 0, f|_{A_1 \setminus A_{\f 12}} = \f 12, f|_A = 1$.
+
+		Per Induktion erhalten wir $A_{\f {k}{2^n}} \in \scr T$ mit
+		\[
+			B = \_{A_{\f 0{2^n}}} \subset A_{\f 1{2^n}} \subset \_{A_{\f 1{2^n}}}
+			\subset \dotsb \subset
+			\_{A_{\f{2^n - 1}{2^n}}}
+			\subset A_{\f {2^n}{2^n}}
+			= X \setminus A.
+		\]
+		Wir definieren $f_n : X \to [0,1]$ durch $f|_{A_{\f 1{2^n}}} = 0$,
+		\[
+			f\Big|_{A_{\f {k+1}{2^n}} \setminus A_{\f {k}{2^n}}}
+			= \f k{2^n}
+		\]
+		und $f|_A = 1$.
+		Für jedes $x \in X$ ist $f_n(x) \in [0,1]$ monoton wachsend in $n$.
+		Also $f_n(x) \to f(x) \in [0,1]$, $f_n$ konvergiert gleichmäßig gegen $f: X \to [0,1]$.
+
+		Für $n \in \N$ wird $X$ überdeckt durch
+		\begin{align*}
+			U_n^0 &= A_{\f 1{2^n}} \\
+			U_n^1 &= A_{\f 2{2^n}} \setminus A_{\f 0{2^n}} \\
+			\vdots \quad &= \qquad \vdots
+			U_n^{2^n-1} &= A_{\f {2^n}{2^n}} \setminus A_{\f {2^n-2}{2^n}} \\
+			U_n^{2^n} &= X \setminus \_{A_{\f {2^n-1}{2^n}}}.
+		\end{align*}
+		Auf $U_n^k$ schwankt $f_n$ um höchstens $2^{-n}$ und $f$ um höchstens $2\cdot 2^{-n}$.
+		Zu jedem $x \in X$ und $\eps > 0$ wählen wir $n \in \N$ so dass $2^{-n+1} < \eps$.
+		Es gilt $x \in U_n^k$ für ein $k$
+		Dann ist
+		\[
+			f(U_n^k) \subset ]f(x) - \eps v, f(x) + \eps[.
+		\]
+		Das bedeutet, $f$ ist stetig.
+		% fixme: prüfen
+	\end{proof}
+\end{st}
+
+\begin{lem}
+	Sei $A \subset X$ abgeschlossen und $\phi: A \to [-s, s]$ stetig.
+	Dann existiert $\Phi: X \to [-s, s]$ stetig mit
+	\[
+		|\phi(a) - \Phi(a)| \le \f 23 s
+	\]
+	für alle $a \in A$.
+	\begin{proof}
+		Setze $M := \phi^{-1}([-s, - \f s3]), N := \phi^{-1}([\f s3, s])$.
+		$M, N$ sind ebgeschlossen.
+		Nach Urysohn existiert $\Phi: X \to [-\f s3, \f s3]$ mit $\Phi|_M = - \f s3, \Phi|_N = \f s3$.
+	\end{proof}
+\end{lem}
+
+\begin{st}[Tietze]
+	Sei $(X, \scr T)$ ein T4-Raum.
+	Ist $A \subset X$ abgeschlossen und $f: A \to [a,b]$ stetig.
+	Dann existiert $F: X \to [a,b]$ stetig mit $F|_A = f$.
+	\begin{proof}
+		Sei \oBdA $[a,b] = [-1,1]$.
+		Zu $f: A \to [-1,1]$ existiert $\Phi_0 : X \to [-\f 13, \f 13]$ wie im Lemma.
+		Der Fehler auf $A$ ist $\phi_0 = f - \Phi_0|_A : A \to [-\f 23, \f 23]$.
+		Zu $\phi_0$ existiert $\Phi_1: X \to [-\f 13 \cdot \f 23, \f 13 \cdot \f 23]$ wie im Lemma. % fixme: ref
+
+		Per Induktion für $n \in \N$ ergibt sich der verbleibende Felher als
+		\[
+			\phi_n = f - \Big( \Phi_0 + \Phi_1 + \dotsb + \Phi_n \Big)\Big|_A
+			: A \to [-(\f 23)^{n+1}, (\f 23)^{n+1}.
+		\]
+		Dank Lemma existiert $\Phi_{n+1}: X \to [-\f 13(\f 23)^{n+1}, \f 13 (\f 23)^{n+1}]$.
+		Damit konvergiert $F_n = \sum_{k=0}^n \Phi_n$ gleichmäßig auf $X$, denn
+		\[
+			\sum_{k=0}^n \|\Phi_k\|
+			\le \sum_{k=0}^\infty \f 13 (\f 23)^k
+			= 1.
+		\]
+		Die Grenzfunktion $F: X \to \R$ ist also stetig als gleimäßiger Grenzwert stetiger Funktionen und erfüllt
+		\[
+			\|F\| \le \sum_{k=0}^\infty \|\Phi_k\| = 1,
+		\]
+		also $F(X) \subset [-1, 1]$.
+		Wegen $\phi_n \to 0$ gilt $f - F_n|_A \to 0$, also $F|_A = f$.
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	Sei $(X, \scr T)$ ein T4-Raum.
+	Ist $A \subset X$ abgeschlossen, $f: A \to \R^n$ stetig, so existiert $F: X \to \R^n$ stetig mit $F|_A = f$.
+	\begin{note}
+		Der Zielraum $\R^n$ ist wesentlich.
+		Sei $Y = \R \setminus \{0\}, X = [-1,1], A = \{-1, 1\}, f: A \to Y, f(\pm 1) := \pm 1$.
+		Hier existiert nach Zwischenwertsatz keine stetige Fortsetzung.
+	\end{note}
+\end{kor}
+
+\begin{st}[Metrisierbarkeitssatz von Urysohn, 1924]
+	Sei $(X, \scr T)$ ein topologischer Raum, der dem zweiten Abzählbarkeitsaxiom genügt.
+	Dann sind äquivalent
+	\begin{enumerate}[1)]
+		\item
+			$X$ ist metrisierbar,
+		\item
+			$X$ ist regulär, d.h. T1 und T3 ist erfüllt,
+		\item
+			$X$ ist normal, d.h. T1 und T4 ist erfüllt,
+		\item
+			$X$ ist homöomorph zu einem Teilraum von $[0,1]^\N$ (Hilbertwürfel).
+	\end{enumerate}
+	\begin{proof}
+		\begin{segnb}[„(1)$\implies$(2)“]
+			klar
+		\end{segnb}
+		\begin{segnb}[„(2)$\implies$(3)“]
+			Folgt mit Lemma von Tychonoff. % fixme: ref
+		\end{segnb}
+		\begin{segnb}[„(3)$\implies$(4)“]
+			Sei $\scr B$ eine abzählbare Basis.
+			Sei $I$ die abzählbare Menge aller Paare $i = (U,V)$ mit $U,V \in \scr B$ und $\_U \subset V$.
+
+			Dank Urysohn existiert $f_i: X \to [0,1]$ mit $f_i|_{\_U} = 0, f_i|_{X \setminus V} = 1$.
+			Wir erhalten hieraus $h: X \to [0,1]^I, h(x) = (f_i(x))_{i \in I}$.
+			Dies ist eine Einbettung.
+		\end{segnb}
+		\begin{segnb}[„(4)$\implies$(1)“]
+			$[0,1]^\N$ ist metrisierbar, etwa durch
+			\[
+				d(x,y) = \sum_{k=0}^\infty 2^{-k-1} |x_i - y_i|,
+			\]
+			siehe Übungsaufgabe. % fixme: ref
+		\end{segnb}
+	\end{proof}
+\end{st}
