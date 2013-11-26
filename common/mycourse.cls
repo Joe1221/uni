@@ -90,10 +90,12 @@
 
 % Option Defaults
 % -----------------------------------------------------------------------
-\keys_define:nn {mycourse} {
-	lang .initial:n       = ngerman,
-	paper-size .initial:n = a5,
-}
+%\keys_define:nn {mycourse} {
+%	lang .initial:n       = ngerman,
+%	paper-size .initial:n = a5,
+%}
+\keys_set:nn {mycourse}{lang=ngerman}
+\keys_set:nn {mycourse}{paper-size=a5}
 
 % Load configuration file, containing additional options, e.g. in the form
 % \PassOptionsToClass{paper-format=a4}{mycourse}
