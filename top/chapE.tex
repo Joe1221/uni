@@ -1,0 +1,260 @@
+\chapter{Zusammenhang und Homotopie}
+
+\coursetimestamp{26}{11}{2013}
+
+\section{Zusammenhang}
+
+\begin{st}
+	Für jeden topologischen Raum $(X, \scr T)$ sind folgende Aussagen äquivalent:
+	\begin{enumerate}[(1)]
+		\item
+			Jede stetige Funktion $f: X \to \R$ hat die Zwischenwerteigenschaft
+		\item
+			Für $f: X \to \R$ stetig ist $f(X) \subset \R$ ein Intervall.
+		\item
+			Jede stetige Funktion $f: X \to \{0,1\}$ (diskret) ist konstant.
+		\item
+			Jede stetige Funktion $f: X \to Y$ in einen diskreten Raum $Y$ ist konstant.
+		\item
+			Für jede offene Zerlegung $X = A \dunion B$ gilt $A = \emptyset$ oder $B = \emptyset$.
+	\end{enumerate}
+	$(X, \scr T)$ mit diesen Eigenschaften nennen wir \emph{zusammenhängend}.
+	\begin{proof}
+		Wie im metrischen Fall.
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	\begin{itemize}
+			%fixme: diskret, indiskret
+		\item
+			Jedes Intervall $I \subset \R$ ist zusammenhängend (ZWS).
+		\item
+			$\R \setminus \{a\}$ ist nicht zusammenhängen, denn $\R \setminus \{a\} = \R_{<a} \dunion \R_{>a}$.
+		\item
+			$\Q$ ist unzusammenhängend.
+	\end{itemize}
+\end{ex}
+
+\begin{st}
+	Sei $(X, <)$ linear geordnet.
+	Jedes Intervall $I \subset X$ ist zusammenhängend genau dann, wenn $X$ vollständig geordnet ist.
+	\begin{proof}
+		Wie in $\R$, bzw. $\Q$.
+	\end{proof}
+\end{st}
+
+\begin{proof}
+	\begin{itemize}
+		\item
+			$(\R, <)$ ist vollständig geordnet, also $I \subset \R$ zusammenhängend.
+		\item
+			$(\Q, <)$ ist nicht vollständig geordnet.
+			Das Intervall $[0,1]_\Q$ ist nicht zusammenhängend, denn für $\xi \in [0,1] \setminus [0,1]_\Q$ ist
+			\[
+				[0,1]_\Q =
+				\Set{ x \in \Q | 0 \le x < \xi }
+				\dunion
+				\Set{ x \in \Q | \xi < x \le 1 }
+			\]
+			eine offene Zerlegung.
+	\end{itemize}
+\end{proof}
+
+\begin{st}
+	Ist $f: X \to Y$ stetig und $X$ zusammenhängend, so auch $f(X)$.
+	\begin{proof}
+		Ist $f(X) = A \dunion B$ offene Zerlegung, so auch $X = f^{-1}(A) \dunion f^{-1}(B)$, also $A = \emptyset$ oder $B = \emptyset$.
+	\end{proof}
+\end{st}
+
+\begin{lem}
+	Sei $X$ ein topologischer Raum und $A_i \subset X$ für $i \in I$ zusammenhängend.
+	Für jedes Paar $i,j \in I$ existiere eine Kette $i = i_0 , i_1, \dotsc, i_n = j$ in $I$ mit $A_{i_{k-1}} \cap A_{i_k} \neq \emptyset$ für $k = 1, \dotsc, n$.
+
+	Dann ist $A = \bigcup_{i\in I} A_i$ zusammenhängend.
+	\begin{proof}
+		Sei $f: A \to \{0,1\}$ stetig.
+		Dann ist $f_i := f|_{A_i}: A_i \to \{0,1\}$ stetig, also $f_i$ konstant, kurz $f_i = c_i$.
+		Für $i = i_0, \dotsc, i_n = j$ wie oben gilt dann $c_i = \dotsb = c_j$.
+	\end{proof}
+\end{lem}
+
+\begin{lem}
+	Seien $X_1, \dotsc, X_n$ zusammenhängend, so auch $X = X_1 \times \dotsb \times X_n$.
+	\begin{proof}
+		Sei $a \in X$ und $f: X \to \{0,1\}$ stetig.
+		Zu $b \in X$ betrachte
+		\begin{align*}
+			A_i &= \{ b_1 \} \times \dotsb \times \{b_{i-1}\} \times X_i \times \{a_{i+1}\} \times \dotsb \times \{a_n\} \\
+			&\homeomorphic X_i.
+		\end{align*}
+		Es gilt $a \in A_1$, $b \in A_n$ und $A_{i-1} \cap A_i \ni (b_1, \dotsc, b_{i-1}, a_i, \dotsc, a_n)$.
+		Nach dem Lemma ist $A_1 \cup \dotsb \cup A_n$ zusammenhängend, also $f(b) = f(a) = \const$.
+	\end{proof}
+\end{lem}
+
+\begin{lem}
+	Sei $(X, \scr T)$ ein topologischer Raum, $A \subset X$ zusammenhängend und $A \subset B \subset \_A$.
+	Dann ist auch $B$ zusammenhängend.
+	\begin{proof}
+		Sei $f: B \to \{0,1\}$ stetig, dann ist $f|_A = c$ konstant.
+		Die Abbildungen $f, c: B \to \{0,1\}$ sind stetig und stimmen auf $A$ überein.
+		$A$ ist dicht in $B$ und $\{0,1\}$ ist hausdorffsch.
+		Also gilt $f=c$.
+	\end{proof}
+\end{lem}
+
+\begin{st}
+	Sei $(X_i)_{i\in I}$ eine Familie topologischer Räume mit $X_i \neq \emptyset$.
+	Der Produktraum $X = \prod_{i\in I} X_i$ ist genau dann zusammenhängend, wenn jedes $X_i$ zusammenhängend ist.
+	\begin{proof}
+		\begin{segnb}[„$\implies$“]
+			Klar, da $p_i: X \to X_i$ stetig und surjektiv ist.
+		\end{segnb}
+		\begin{segnb}[„$\implies$“]
+			Sei $a \in X$.
+			Für $J \subset I$ endlich sei
+			\begin{align*}
+				A_J &:= \prod_{i\in I} A_i, &
+				A_j &:= \begin{cases}
+					X_j & j \in J \\
+					\{a_j\} & j \in I \setminus J
+				\end{cases}.
+			\end{align*}
+			$A_j$ ist zusammenhängend nach obigem Lemma.
+			Damit ist auch $A = \bigcup_{J} A_J$ zusammenhängend, denn $A_J \cap A_j \ni \{a\}$.
+
+			Es gilt außerdem $\_A = X$:
+			Jede offen Menge $U \subset X$ enthält $\prod_{i \in I} U_i$, wobei $U_i \subset X_i$ offen und $U_i = X_i$ für $i \in I \setminus J$ außerhalm einer endlichen Menge.
+			Ist $U$ nicht-leer, dann gilt $U_i \neq \emptyset$ für alle $i \in I$.
+			Demnach existiert $b \in U$ mit $b_j \in U_j$ für alle $j \in J$ und $b_i = a_i$ für alle $i \in I \setminus j$.
+			Damit gilt $b \in A_J$, also $b \in U \cap A$.
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+%fixme \eqq ===
+\begin{df}
+	Sei $(X, \scr T)$ ein topologischer Raum.
+	Für $x,y \in X$ definieren wir $x \eqq y$ durch die Bedingung, dass $x,y$ in einer zusammenhängend Teilmenge von $X$ liegen.
+	Dies ist eine Äquivalenzrelation.
+	Die Äquivalenzklasse $\scr Z(x)$ von $x$ heißt \emph{(Zusammenhangs)komponente} von $x$ in $X$.
+	Die definiert die Zerlegung
+	\[
+		\scr Z(X) := \{ \scr Z(x) : x \in X \}.
+	\]
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$X$ ist zusammenhängend genau dann, wenn $\scr Z(X) = \{X\}$.
+		\item
+			$\scr Z(\R \setminus \{0\}) = \{ \R_{<0}, \R_{>0} \}$.
+		\item
+			$\scr Z(\Q) = \{ \{x\} : x \in \Q \}$.
+	\end{itemize}
+\end{ex}
+
+\begin{st}
+	\begin{enumerate}[(1)]
+		\item
+			$\scr Z(x)$ ist der größte zusammenhängende Teilraum von $X$, der $x$ enthält.
+		\item
+			Jede Komponente $\scr Z(x)$ ist abgeschlossen.
+		\item
+			Ist die Zerlegung $\scr Z(X)$ endlich, so ist jede Komponente offen und $X = \bigdunion \scr Z(X)$ ist eine Summentopologie.
+	\end{enumerate}
+\end{st}
+
+\begin{st}
+	\begin{enumerate}[(1)]
+		\item
+			Ist $f: X \to Y$ stetig, so gilt $f(\scr Z(x)) \subset \scr Z(f(x))$.
+		\item
+			Wir erhalten hieraus $\scr Z(f): \scr Z(X) \to \scr Z(Y): \scr Z(x) \mapsto \scr Z(f(x))$.
+		\item
+			Es gilt $\scr Z(\Id_X) = \Id_{\scr Z(X)}$ und $\scr Z(g\circ f) = \scr Z(g) \circ \scr Z(f)$.
+	\end{enumerate}
+	\begin{proof}
+		(1) und (2) sind klar nach den vorigen Ergebnissen, zeige noch (3).
+		Es gilt
+		\begin{align*}
+			\scr Z(g\circ f) (\scr Z(x))
+			&= \scr Z(g(f(\scr Z(x)))) \\
+			&= \scr Z(g) (\scr Z(f(\scr Z(x)))) \\
+			&= \scr Z(g)(\scr Z(f)(\scr Z(x))) \\
+			&= (\scr Z(g) \circ \scr Z(f)) (\scr Z(x)).
+		\end{align*}
+	\end{proof}
+\end{st}
+
+
+\section{Wegzusammenhang}
+
+
+Ein \emph{Weg} in einem topologischen Raum $X$ ist eine stetige Abbildung $\gamma: [0,1] \to X$.
+Dabei heißt $\gamma(0) = a$ Startpunkt und $\gamma(1) = b$ Endpunkt.
+\[
+	P(X) = \scr C ([0,1], X)
+	P(X, a, b) = \{ \gamma : [0,1] \to X \text{ stetig } : \gamma(0) = a, \gamma(1) = b \}
+\]
+\begin{enumerate}[1)]
+	\item
+		$X \injto P(X), a \mapsto \const_{[0,1]}^a$,
+	\item
+		$\_\  : P(X, a, b) \to P(X, b, a), \_\gamma(t) := \gamma(1-t)$
+	\item
+		$\ast: P(X, a, b) \times P(X, b, c) \to P(X, a, c)$ durch
+		\[
+			(\gamma_1 \ast \gamma_2)(t) := \begin{cases}
+				\gamma_1 (2t) & 0 \le t \le \f 12 \\
+				\gamma_2 (2t - 1) & \f 12 \le t \le 1
+			\end{cases}.
+		\]
+\end{enumerate}
+
+\begin{df}
+	Wir nennen $x,y \in X$ \emph{verbindbar} in $X$ (durch einen Weg in $X$), wenn ein Weg $\gamma: [0,1] \to X$ von $\gamma(0) = x$ nach $\gamma(1) = y$ existiert.
+	Dies ist eine Äquivalenzrelation.
+
+	Die Äquivalenzklasse $[x]$ von $x$ heißt \emph{Weg(-Zusammenhangs)komponente}.
+	Dies definiert die Zerlegung
+	\[
+		\pi_0 (X) := \{ [x] : x \in X \}.
+	\]
+	$X$ heißt \emph{wegzusammenhängend}, wenn $\pi_0(X) = \{X\}$.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Jedes Intervall $I \subset \R$ ist wegzusammenhängend.
+		\item
+			Jede sternförmige Menge $X \subset \R^n$ ist wegzusammenhängend.
+		\item
+			$\S^n \subset \R^{n+1}$ ist wegzusammenhängend für $n \ge 1$.
+	\end{itemize}
+\end{ex}
+
+\begin{st}
+	Wegzusammenhang impliziert Zusammenhang, aber nicht umgekehrt.
+	\begin{proof}
+		Wie im metrischen Fall.
+		Gegenbeispiel folgt. % fixme: ref
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	Sei
+	\begin{align*}
+		A &:= \Set{ (x, \sin( \f {\pi}x)) | x \in ]0,1] } \\
+		B &:= \{0\} \times [-1, 1]
+	\end{align*}
+	$C = \_A = A \cup B$ ist zusammenhängend, aber nicht wegzusammenhängend.
+\end{ex}
+
+
+
+
