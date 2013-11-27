@@ -1313,7 +1313,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 		\Repeat
 			\State{$s^+ \gets 2s^+$}
 		\Until{$s^+$ verletzt Armijo}
-		\While{$s^-$ verletzt Powel-Wolfe}
+		\While{$s^-$ verletzt Powell-Wolfe}
 		\State{$s^{(0)} \gets \f {s^+ + s^-}2$}
 		\If{$s^{(0)}$ erfüllt Armijo}
 			\State{$s^- \gets s^{(0)}$}
@@ -1807,7 +1807,7 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
 	\end{proof}
 \end{st}
 
-\begin{ex*}
+\begin{ex} \label{2.49}
 	Betrachte $f: \R \to \R, f(x) = \sqrt{x^2 + 1}$.
 	Offenbar ist $\hat x=0$ das einzige Minimum von $f$.
 	$f$ erfüllt die Voraussetzungen von \ref{2.48}, denn
@@ -1818,12 +1818,12 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
 	Die Newton-Iteration ergibt sich dann als
 	\begin{align*}
 		x_{k+1}
-		&= x_k - (\nabla^2 f(x_k))^{-1} \nabla f(x_k),
-		&= x_k - (x_k^2 + 1)^{\f 32} \f {x_k}{\sqrt{x_k^2 + 1}}
+		&= x_k - (\nabla^2 f(x_k))^{-1} \nabla f(x_k) \\
+		&= x_k - (x_k^2 + 1)^{\f 32} \f {x_k}{\sqrt{x_k^2 + 1}} \\
 		&= - x_k^3.
 	\end{align*}
 	Konvergenz findet sich also nur lokal für $|x_0| < 1$.
-\end{ex*}
+\end{ex}
 
 \begin{nt} \label{2.50}
 	Alternative Motivation für das Newton-Verfahren für das Optimierungsproblem wäre, $f$ durch die quadratische Näherung an $x_k$
@@ -1911,11 +1911,11 @@ Dies liefert die Motivation für zwei Verfahren
 		\begin{segnb}[„(a)$\implies$(b)“]
 			$(x_k)_{k\in\N}$ konvergiere superlinear, d.h. $\|x_{k+1} - \hat x\| \le \f 12 \|x_k - \hat x\|$ für hinreichend große $k \in \N$.
 			Es gilt
-			\[
+			\begin{align*}
 				\|x_k - \hat x\|
-				\le \|x_{k+1} - x_k\| + \|x_{k+1} - \hat x\|
-				\le \|x_{k+1} - x_k\| + \f 12 \|x_k - \hat x\|
-			\]
+				&\le \|x_{k+1} - x_k\| + \|x_{k+1} - \hat x\| \\
+				&\le \|x_{k+1} - x_k\| + \f 12 \|x_k - \hat x\|
+			\end{align*}
 			und damit
 			\[
 				\|x_k - \hat x\|
@@ -1924,13 +1924,13 @@ Dies liefert die Motivation für zwei Verfahren
 			für hinreichend große $k$.
 			Da $(x_k)_{k\in\N}$ beschränkt ist, existiert eine abgeschlossene Kugel $K$ mit $x_k, \hat x \in K$ für alle $k \in \N$.
 			Nach \ref{2.51} existiert $L > 0$ mit
-			\[
+			\begin{align*}
 				\|\nabla f(x_{k+1}) \|
-				= \| \nabla f(x_{k+1} - \nabla f(\hat x)) \|
-				\le L \|x_{k+1} - \hat x\|
+				&= \| \nabla f(x_{k+1} - \nabla f(\hat x)) \| \\
+				&\le L \|x_{k+1} - \hat x\|
 				= o(x_k - \hat x)
 				= o(x_{k+1} - x_k)
-			\]
+			\end{align*}
 		\end{segnb}
 		\begin{segnb}[„(b)$\implies$(a)“]
 			Sei $\nabla f(x_{k+1}) = o(x_{k+1} - x_k)$, d.h.
@@ -1946,12 +1946,12 @@ Dies liefert die Motivation für zwei Verfahren
 			\]
 			für hinreichend große $k$.
 			Es gilt
-			\[
+			\begin{align*}
 				\|x_{k+1} - \hat x\|
-				\le \f 1\gamma \|\nabla f(x_{k+1})\|
-				= \f {\eps_k}{\gamma} \|x_{k+1} - x_k\|
-				\le \f{\eps_k}{\gamma} \|x_{k+1} - \hat x\| + \f{\eps_k}{\gamma} \|x_k - \hat x\|
-			\]
+				&\le \f 1\gamma \|\nabla f(x_{k+1})\| \\
+				&= \f {\eps_k}{\gamma} \|x_{k+1} - x_k\| \\
+				&\le \f{\eps_k}{\gamma} \|x_{k+1} - \hat x\| + \f{\eps_k}{\gamma} \|x_k - \hat x\|
+			\end{align*}
 			Für hinreichend große $k \in \N$ ist $\f {\eps_k}{\gamma} < \f 12$ und damit
 			\[
 				\|x_{k+1} - \hat x\|
@@ -1962,9 +1962,11 @@ Dies liefert die Motivation für zwei Verfahren
 		\begin{segnb}[„(b)$\iff$(c)“]
 			Der Mittelwertsatz \ref{2.4} für $F(x) := \nabla f(x)$ liefert
 			\begin{align*}
-				\nabla f(x_{k+1})
-				&= \nabla f(x_k) + \int_0^1 \nabla^2 f(x_k + t(x_{k+1} - x_k)) \dx[t] (x_{k+1} - x_k) \\
-				&= \nabla f(x_k) + \int_0^1 \Big(\nabla^2 f(x_k + t(x_{k+1} - x_k)) - \nabla^2 f(\hat x) \Big) (x_{k+1} - x_k) \dx[t] + \nabla^2 f(\hat x) (x_{k+1} - x_k)
+				&\nabla f(x_{k+1}) \\
+				&\quad= \nabla f(x_k) + \int_0^1 \nabla^2 f(x_k + t(x_{k+1} - x_k)) (x_{k+1} - x_k) \dx[t] \\
+				&\quad= \nabla f(x_k) \\
+					&\qquad + \int_0^1 \Big(\nabla^2 f(x_k + t(x_{k+1} - x_k)) - \nabla^2 f(\hat x) \Big) (x_{k+1} - x_k) \dx[t] \\
+					&\qquad + \nabla^2 f(\hat x) (x_{k+1} - x_k)
 			\end{align*}
 			$\nabla^2 f$ ist stetig, also $\nabla^2 f$ gleichmäßig stetig auf einer abgeschlossener Kugel mit $K \in x_k, \hat x$ und somit
 			\[
@@ -2029,11 +2031,11 @@ Dies liefert die Motivation für zwei Verfahren
 		\begin{enumerate}[(a)]
 			\item[(c)]
 				Es gilt
-				\[
+				\begin{align*}
 					- \nabla f(x_k) - \nabla^2 f(\hat x) (x_{k+1} - x_k)
-					= \underbrace{\big(H_k - \nabla^2 f(\hat x)\big)}_{\to 0} (x_{k+1} - x_k)
-					= o(x_{k+1} - x_k).
-				\]
+					&= \underbrace{\big(H_k - \nabla^2 f(\hat x)\big)}_{\to 0} (x_{k+1} - x_k) \\
+					&= o(x_{k+1} - x_k).
+				\end{align*}
 				Nach \ref{2.52} (c) ist $\hat x$ Minimum und die Folge konvergiert superlinear.
 			\item[(b)]
 				Es gilt
@@ -2051,8 +2053,8 @@ Dies liefert die Motivation für zwei Verfahren
 				\begin{align*}
 					\|\nabla f(x_k) + \nabla^2 f(x_k) d_k \|
 					&\le \eta_k \|\nabla f(x_k)\| \\
-					&\le \f {\eta_k}{1-\eta_k} \|\nabla^2 f(x_k)\|\|x_{k+1} - x_k\|
-					= o(x_{k+1} - x_k).
+					&\le \f {\eta_k}{1-\eta_k} \|\nabla^2 f(x_k)\|\|x_{k+1} - x_k\| \\
+					&= o(x_{k+1} - x_k).
 				\end{align*}
 				Nach \ref{2.52} (d) ist $\hat x$ Minimum und die Folge konvergiert superlinear.
 		\end{enumerate}
@@ -2108,12 +2110,12 @@ Newton-artige Verfahren mit $H_k$, welche dieser Bedingung genügen, heißen \em
 			Mit diesem $H_k$ ergäbe sich ein Quasi-Newton-Verfahren, wenn auch sehr aufwändig zu berechnendem $H_k$.
 		\item
 			Es gilt
-			\[
+			\begin{align*}
 				\nabla f(x_k)
-				= \nabla f(x_{k-1}) + ( \nabla f(x_k) - \nabla f(x_{k-1}) )
-				= H_{k-1} (x_{k-1} - x_k) + H_k (x_k - x_{k-1})
-				= (H_k - H_{k-1})(x_k - x_{k-1}).
-			\]
+				&= \nabla f(x_{k-1}) + ( \nabla f(x_k) - \nabla f(x_{k-1}) ) \\
+				&= H_{k-1} (x_{k-1} - x_k) + H_k (x_k - x_{k-1}) \\
+				&= (H_k - H_{k-1})(x_k - x_{k-1}).
+			\end{align*}
 			Nach \ref{2.52} (b) konvergiert das Quasi-Newton-Verfahren bereits dann superlinear, wenn $H_k - H_{k-1} \to 0$.
 	\end{enumerate}
 \end{nt}
