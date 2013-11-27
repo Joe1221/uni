@@ -1888,7 +1888,7 @@ Dies liefert die Motivation für zwei Verfahren
 	\end{proof}
 \end{lem}
 
-\begin{st}[Dennis-Moré-Bedingungen]
+\begin{st}[Dennis-Moré-Bedingungen] \label{2.52}
 	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar, $\hat x \in \R^n$ besitze invertierbare Hessematrix $\nabla^2 ff(\hat x)$.
 	Sei $(x_k)_{k\in\N} \subset \R^n$ mit
 	\[
@@ -1905,7 +1905,7 @@ Dies liefert die Motivation für zwei Verfahren
 		\item
 			$\nabla f(x_k) + \nabla^2 f(\hat x)(x_{k+1} - x_k) = o(x_{k+1} - x_k)$
 		\item
-			$\nabla f(x_k) + \nabla^2 f(x_{k+1})(x_{k+1} - x_k) = o(x_{k+1} - x_k) = o(x_{k+1} - x_k)$
+			$\nabla f(x_k) + \nabla^2 f(x_{k+1})(x_{k+1} - x_k) = o(x_{k+1} - x_k)$
 	\end{enumerate}
 	\begin{proof}
 		\begin{segnb}[„(a)$\implies$(b)“]
@@ -2015,6 +2015,153 @@ Dies liefert die Motivation für zwei Verfahren
 				\|\nabla f(x_k) + \nabla^2 f(x_k) d_k\| = \eta_k \|\nabla f(x_k)\|
 			\]
 			mit einer Nullfolge $(\eta_k)_{k\in\N}$ erfüllt, so ist $\hat x$ ein Minimum und $x_k \to \hat x$ konvergiert superlinear.
+		\item
+			Newton-artige Verfahren:
+			Sind die $d_k$ Lösungen von
+			\[
+				H_k d_k = - \nabla f(x_k)
+			\]
+			mit $H_k \in \R^{n\times n}$ invertierbar und $H_k \to \nabla^2 f(\hat x)$, dann ist $\hat x$ Minimum und die Konvergenz ist superlinear.
 	\end{enumerate}
+\coursetimestamp{27}{11}{2013}
+	\begin{proof}
+		Teil (a) ist klar nach \ref{2.52} (d), quadratische nach \ref{2.48}.
+		\begin{enumerate}[(a)]
+			\item[(c)]
+				Es gilt
+				\[
+					- \nabla f(x_k) - \nabla^2 f(\hat x) (x_{k+1} - x_k)
+					= \underbrace{\big(H_k - \nabla^2 f(\hat x)\big)}_{\to 0} (x_{k+1} - x_k)
+					= o(x_{k+1} - x_k).
+				\]
+				Nach \ref{2.52} (c) ist $\hat x$ Minimum und die Folge konvergiert superlinear.
+			\item[(b)]
+				Es gilt
+				\begin{align*}
+					\|\nabla f(x_k)\|
+					&\le \|\nabla f(x_k) + \nabla^2 f(x_k) (x_{k+1} - x_k)\| + \| \nabla f(x_k){x_{k+1} - x_k} \| \\
+					&\le \eta_k \|\nabla f(x_k)\| + \| \nabla^2 f(x_k) d_k \|,
+				\end{align*}
+				also
+				\[
+					\|\nabla f(x_k) \|
+					\le \f 1{1 - \eta_k} \|\nabla^2 f(x_k) d_k\|
+				\]
+				und somit
+				\begin{align*}
+					\|\nabla f(x_k) + \nabla^2 f(x_k) d_k \|
+					&\le \eta_k \|\nabla f(x_k)\| \\
+					&\le \f {\eta_k}{1-\eta_k} \|\nabla^2 f(x_k)\|\|x_{k+1} - x_k\|
+					= o(x_{k+1} - x_k).
+				\end{align*}
+				Nach \ref{2.52} (d) ist $\hat x$ Minimum und die Folge konvergiert superlinear.
+		\end{enumerate}
+	\end{proof}
 \end{st}
+
+\subsection{Quasi-Newton-Verfahren}
+
+\paragraph{Motivation:}
+
+Betrachte das Newton-Verfahren für eindimensionale Nullstellenprobleme
+\[
+	F: \R \to \R, F(\hat x) = 0
+\]
+mit der Iteration
+\[
+	x_{k+1} := x_k - F'(x_k)^{-1} F(x_k).
+\]
+Approximiere $F'(x_k)$ durch
+\[
+	F'(x_k) \approx \f{F(x_k) - F(x_{k-1})}{x_k - x_{k-1}} =: H_k.
+\]
+Es ergibt sich die Iteration
+\[
+	x_{k+1} = x_k - \big(\f{F(x_k) - F(x_{k-1})}{x_k - x_{k-m}} \big)^{-1} F(x_k),
+\]
+das sogenannte \emph{Sekantenverfahren}.
+
+Für Optimierungsprobleme approximiere analog $f''(x_k) \approx \f {f'(x_k) - f'(x_{k-1})}{x_k - x_{k-1}} =: H_k$ und iteriere $x_{k+1} := x_k - H_k^{-1} f'(x_k)$.
+
+Im eindimensionalen ist $H_k$ eindeutige Lösung von
+\[
+	f'(x_k) - f'(x_{k-1})
+	= H_k (x_k - x_{k-1}).
+\]
+Das Analogon in $\R^n$ wäre
+\[
+	\nabla f(x_k) - \nabla f(x_{k-1})
+	= H_k (x_k -x_{k-1}).
+\]
+Newton-artige Verfahren mit $H_k$, welche dieser Bedingung genügen, heißen \emph{Quasi-Newton-Verfahren}.
+
+\begin{nt} \label{2.54}
+	\begin{enumerate}[(a)]
+		\item
+			$H_k := \nabla^2 f(x_k)$ erfüllt \eqref{eq:qn} im Allgemeinen nicht
+		\item
+			Es gilt
+			\[
+				\nabla f(x_k) - \nabla f(x_{k-1})
+				= \underbrace{\int_0^1 \nabla^2 f(x_{k-1} + t (x_k - x_{k-1})) \dx[t]}_{= H_k} (x_k - x_{k-1}).
+			\]
+			Mit diesem $H_k$ ergäbe sich ein Quasi-Newton-Verfahren, wenn auch sehr aufwändig zu berechnendem $H_k$.
+		\item
+			Es gilt
+			\[
+				\nabla f(x_k)
+				= \nabla f(x_{k-1}) + ( \nabla f(x_k) - \nabla f(x_{k-1}) )
+				= H_{k-1} (x_{k-1} - x_k) + H_k (x_k - x_{k-1})
+				= (H_k - H_{k-1})(x_k - x_{k-1}).
+			\]
+			Nach \ref{2.52} (b) konvergiert das Quasi-Newton-Verfahren bereits dann superlinear, wenn $H_k - H_{k-1} \to 0$.
+	\end{enumerate}
+\end{nt}
+
+Dementsprechend liegt es nahe, $H_{k+1}$ so zu wählen, dass sie sich möglichst wenig von $H_k$ unterscheidet, \eqref{eq:qn} erfüllt und möglichst leicht zu invertieren ist.
+
+Führe eine sogenannte \emph{Aufdatierung} durch: erhalte $H_{k+1}$ durch kleine Änderung von $H_k$.
+
+\paragraph{Rang 1 Modifikationen}
+
+Sei $e_k \in \R^n$ der $k$-te Einheitsvektor, dann ist
+\[
+	e_j e_k^T = (\delta_{ij}\delta_{lk})_{i,l = 1, \dotsc, n}.
+\]
+Für $A \in \R^{n\times n}$ ist $A + e_j e_k^T$ die im $(j,k)$-ten Eintrag abgeänderte Matrix.
+Genauso ergibt sich $A + uv^T$ (in einer Basis, die $v$ und $w$ enthält) durch Abänderung eines Eintrags aus $A$.
+
+\begin{lem}[Sherman-Morrison-Woodberry-Formel] \label{2.55}
+	Sei $A \in \R^n$ invertierbar und $u, v \/n \R^n \setminus \{0\}$.
+	$A + uv^T \in \R^{n\times n}$ ist genau dann invertierbar, wenn $1 + v^T A^{-1} u \neq 0$.
+	In diesem Fall gilt
+	\[
+		(A + uv^T)^{-1} = A^{-1}0- \f {A^{-1} u v^T A^{-1}}{1 + v^T A^{-1} u}.
+	\]
+	\begin{proof}
+		Ist $1 + v^T A^{-1} u \neq 0$, dann ist
+		\[
+			(A + uv^T)(A^{-1} - \f {A^{-1} uv^T A^{-1}}{1 + v^T A^{-1} u} ) = I.
+		\]
+		Ist $1 + v^T A^{-1} u = 0$, dann ist
+		\begin{align*}
+			(A + uv^T) A^{-1} uv^Tv
+			&= uv^Tv + uv^TA^{-1} uv^Tv \\
+			&= u( 1 + v^TA^{-1}u) (v^Tv)
+			= 0
+		\end{align*}
+		und $A^{-1} uv^Tv = \|v\|^2 A^{-1} u \neq 0$, also $A + uv^T$ nicht injektiv und insbesondere nicht invertierbar.
+	\end{proof}
+\end{lem}
+
+Das einfachste Quasi-Newton-Verfahren wäre damit
+\[
+	H_{k+1} := H_k + \gamma_k u_k u_k^T,
+\]
+wobei $\gamma_k \in \R, u_k \in \R^n \setminus \{0\}$ so zu bestimmen sind, dass $H_{k+1}$ \eqref{eq:qn} erfüllt.
+
+Falls $(y_k - H_k d_k)^T d_k \neq 0$ ($y_k = \nabla f(x_{k+1} - \nabla f(x_k)$), dann ergibt sich eine eindeutige Aufdatierungsformel
+\[
+	H_{k+1} := H_k + \dfrac{(y_k - H_k d_k)(y_k - H_k d_k)^T}{(y_k - H_k d_k)^T d_k}.
+\]
 
