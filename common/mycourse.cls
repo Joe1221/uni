@@ -258,10 +258,21 @@
 \renewcommand{\tableofcontents}{\pdfbookmark[0]{\contentsname}{toc}\oldtableofcontents}
 %\BeforeTOCHead[toc]{{\pdfbookmark[0]{\contentsname}{toc}}} % Funktioniert nicht im CIP-Pool
 
-%\RequirePackage{enumerate}			% Aufzählungen wie a), (I), etc. als optionales Argument
-\RequirePackage[shortlabels]{enumitem}			% Aufzählungen wie a), (I), etc. als optionales Argument
-\setlist{leftmargin=*}
-\setlist[description]{style=standard,leftmargin=1em,labelsep=1em}
+\RequirePackage [ shortlabels ] { enumitem }     % Aufzählungen wie a), (I), etc. als optionales Argument
+
+% These must be inside one \setlist definition
+\setlist {
+	leftmargin  = *,
+	labelindent = 1em
+}
+\setlist [ enumerate ] { labelindent = 0.6em }
+\SetEnumerateShortLabel { i } { \! \! \roman* }  % Correct spacing with roman enumerations
+\setlist [ description ] {
+	style       = nextline,
+	labelindent = 0.9em,
+	leftmargin  = 2.5em
+}
+
 
 \RequirePackage{parskip}			% Entfernt Einrückung bei Absätzen und fügt vertikalen Abstand ein
 \setlength{\parskip}{0.5em}
@@ -376,10 +387,38 @@
 
 % Segment-Environment für kleinere gedankliche Abschnitte
 % =======================================================
+
+\newlist { segmentlist } { description } { 2 }
+\setlist [ segmentlist ] {
+	style       = nextline,
+	labelindent = 0.0em,
+	leftmargin  = 1em,
+}
 % Mit Zeilenumbruch
-\newenvironment{seg}[1][]{\begin{description}[leftmargin=*,labelsep=1em]\item[{\color{headings}#1}]\hfill\\}{\end{description}}
+\DeclareDocumentEnvironment { seg } { o } {
+	\begin{segmentlist} [ ]
+		\item [ { \color{headings} #1 } ]
+} {
+	\end{segmentlist}
+}
 % Ohne Zeilenumbruch
-\newenvironment{segnb}[1][]{\begin{description}[leftmargin=*]\item[{\color{headings}#1}]}{\end{description}}
+\DeclareDocumentEnvironment { segnb } { o } {
+	\begin{segmentlist} [
+		style      = sameline,
+		leftmargin = 2em,
+		itemindent = *,
+	]
+		\item [ { \color{headings} #1 }: ]
+} {
+	\end{segmentlist}
+}
+
+%\newlist { proofpart } { description } { 1 }
+%\setlist [ proofpart ] {
+%	style       = sameline,
+%	labelindent = 0.0em,
+%	font        = \normalfont
+%}
 
 
 \RequirePackage{fancyhdr}
