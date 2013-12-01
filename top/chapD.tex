@@ -646,52 +646,104 @@
 \section{Trennungsaxiome und Metrisierbarkeit}
 
 
-Jeder metrische Raum $X$ erfüllt
-\begin{enumerate}[widest=(\SepAxiom0)]
-	\item[(\SepAxiom{0})]
-		Zu $a, b \in X, a \neq b$ hat einer eine Umgebung, die den anderen nicht enthält.
-	\item[(\SepAxiom{1})]
-		Zu $a, b \in X, a \neq b$ haben beide jeweils eine Umgebung, die den anderen nicht enthält.
-	\item[(\SepAxiom{2})]
-		Zu $a, b \in X, a \neq b$ existieren disjunkte Umgebungen (Hausdorff-Eigenschaft).
-	\item[(\SepAxiom{3})]
-		Zu $A \subset X$ abgeschlossen und $b \in X \setminus A$ existieren disjunkte Umgebungen.
-	\item[(\SepAxiom{4})]
-		Zu $A, B \subset X$ abgeschlossen und disjunkt existieren disjunkte Umgebungen.
-	\item[(\SepAxiom{5})]
-		Zu $A, B \subset X$ mit $\_A \cap B = A \cap \_B = \emptyset$ existieren disjunkte Umgebungen.
-\end{enumerate}
-\begin{proof}
-	Wähle explizit als Umgebungen
-	\begin{align*}
-		U &:= \Set{ x \in X | d(x, A) < d(x, B) } \supset A \\
-		V &:= \Set{ x \in X | d(x, B) < d(x, A) } \supset B.
-	\end{align*}
-\end{proof}
-Beliebige disjunkte Menge lassen sich nicht in metrischen Räumen trennen:
-in $\R$ lassen sich $\Q$ und $\R \setminus \Q$ beispielsweise nicht trennen.
+Mit „Trennen zweier Mengen $A, B$“ meinen wir in topologischen Räumen das Finden von zwei disjunkten (offenen) Umgebungen um $A$, bzw. $B$.
 
-Auch die folgenden Trennungsaxiome werden von metrischen Räumen erfüllt.
-\begin{enumerate}[widest=(\SepAxiom{0\sfrac12})]
-	\item[(\SepAxiom{2\sfrac12})]
-		Zu $a, b \in X, a \neq b$ existiert $f: X \to [0,1]$ stetig mit $f(a) = 0, f(b) = 1$.
-	\item[(\SepAxiom{3\sfrac12})]
-		Zu $A \subset X$ abgeschlossen und $b \in X \setminus A$ existiert $f: X \to [0,1]$ stetig mit $f|_A = 0, f(b) = 1$.
-	\item[(\SepAxiom{4\sfrac12})]
-		Zu $A, B \subset X$ abgeschlossen und disjunkt existiert $f: X \to [0,1]$ stetig mit $f|_A = 0, f|_B = 1$.
-	\item[(\SepAxiom{5\sfrac12})]
-		Zu $A, B \subset X$ abgeschlossen und disjunkt existiert $f: X \to [0,1]$ stetig mit $f^{-1}(0) = A, f^{-1}(1) = B$.
-\end{enumerate}
-\begin{proof}
-	Explizit lässt sich $f: X \to [0,1]$ wählen als
-	\[
-		f(x)
-		= \f {d(x,A)}{d(x,A) + d(x,B)}.
-	\]
-\end{proof}
+Je nach Topologie ist das Trennen unterschiedlicher Mengen unter verschieden starken Voraussetzungen möglich, oder auch nicht.
 
-Für topologische Räume gelten folgende Zusammenhänge zwischen den Trennungsaxiomen.
-% fixme: drawing
+\begin{df}[Trennungsaxiome] \label{df:separation_axioms}
+	Für einen topologischen Raum $(X, \scr T)$ definieren wir folgende \emph{Trennungseigenschaften}:
+	\begin{enumerate}[label=(\SepAxiom{\arabic*}),start=0,leftmargin=3.5em,series=sepaxioms]
+		\item
+			Zu $a, b \in X, a \neq b$ hat einer eine Umgebung, die den anderen nicht enthält.
+		\item
+			Zu $a, b \in X, a \neq b$ haben beide jeweils eine Umgebung, die den anderen nicht enthält.
+		\item
+			Zu $a, b \in X, a \neq b$ existieren disjunkte Umgebungen (Hausdorff"=Eigenschaft).
+		\item
+			Zu $A \subset X$ abgeschlossen und $b \in X \setminus A$ existieren disjunkte Umgebungen.
+		\item
+			Zu $A, B \subset X$ abgeschlossen und disjunkt existieren disjunkte Umgebungen.
+		\item
+			Zu $A, B \subset X$ mit $\_A \cap B = A \cap \_B = \emptyset$ existieren disjunkte Umgebungen.
+	\end{enumerate}
+	\begin{enumerate}[label=(\SepAxiom{\arabic*\sfrac12}),resume*=sepaxioms,start=2]
+		\item
+			Zu $a, b \in X, a \neq b$ existiert $f: X \to [0,1]$ stetig mit $f(a) = 0, f(b) = 1$.
+		\item
+			Zu $A \subset X$ abgeschlossen und $b \in X \setminus A$ existiert $f: X \to [0,1]$ stetig mit $f|_A = 0, f(b) = 1$.
+		\item
+			Zu $A, B \subset X$ abgeschlossen und disjunkt existiert $f: X \to [0,1]$ stetig mit $f|_A = 0, f|_B = 1$.
+		\item
+			Zu $A, B \subset X$ abgeschlossen und disjunkt existiert $f: X \to [0,1]$ stetig mit $f^{-1}(0) = A, f^{-1}(1) = B$.
+	\end{enumerate}
+\end{df}
+
+\begin{nt}
+	Jeder metrische Raum $(X, \scr T)$ erfüllt alle Trennungseigenschaften aus \ref{df:separation_axioms}.
+	Beliebige disjunkte Mengen lassen sich in $(X, \scr T)$ im Allgemeinen jedoch nicht trennen.
+	\begin{proof}
+		Wähle im Fall von \SepAxiom5 explizit als Umgebungen
+		\begin{align*}
+			U &:= \Set{ x \in X | d(x, A) < d(x, B) } \supset A \\
+			V &:= \Set{ x \in X | d(x, B) < d(x, A) } \supset B.
+		\end{align*}
+		\SepAxiom1, \SepAxiom2, \SepAxiom3 und \SepAxiom4 folgen auf ähnliche Weise.
+
+		Im Fall von \SepAxiom{5\sfrac12} lässt sich explizit $f: X \to [0,1]$ wählen als
+		\[
+			f(x)
+			:= \f {d(x,A)}{d(x,A) + d(x,B)}.
+		\]
+		\SepAxiom{2\sfrac12}, \SepAxiom{3\sfrac12} und \SepAxiom{4\sfrac12} folgen wieder auf ähnliche Weise.
+
+		Beliebige disjunkte Mengen lassen sich nicht trennen:
+		in $\R$ lassen sich $\Q$ und $\R \setminus \Q$ beispielsweise nicht trennen.
+	\end{proof}
+\end{nt}
+
+Für die Trennungseigenschaften in topologischen Räumen gelten die Zusammenhänge wie in \ref{fig:separation_axioms} dargestellt.
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture} [
+			axiom/.style={rectangle,draw=black!50},
+			node distance=14mm,
+			minimum size=7mm,
+			inner sep=1mm,
+			implies/.style={double,-implies,double equal sign distance, shorten >=2mm, shorten <=2mm},
+			label/.style={font=\scriptsize,auto,swap},
+			bend angle=20,
+		]
+		\node[axiom] (T0) {\SepAxiom0};
+		\node[axiom] (T1) [right=of T0] {\SepAxiom1};
+		\node[axiom] (T2) [right=of T1] {\SepAxiom2};
+		\node[axiom] (T3) [right=of T2] {\SepAxiom3};
+		\node[axiom] (T4) [right=of T3] {\SepAxiom4};
+		\node[axiom] (T5) [right=of T4] {\SepAxiom5};
+		\node[axiom] (T2h) [below=of T2] {\SepAxiom{2\sfrac12}};
+		\node[axiom] (T3h) [below=of T3] {\SepAxiom{3\sfrac12}};
+		\node[axiom] (T4h) [below=of T4] {\SepAxiom{4\sfrac12}};
+		\node[axiom] (T5h) [below=of T5] {\SepAxiom{5\sfrac12}};
+		\draw[implies] (T1) to node[label] {} (T0);
+		\draw[implies] (T2) to[bend right] node[label] {} (T1);
+		\draw[implies] (T1) to[bend right] node[label] {$X$ endlich} (T2);
+		\draw[implies] (T3) to[bend right] node[label] {\SepAxiom1} (T2);
+		\draw[implies] (T2) to[bend right] node[label] {Kompaktheit} (T3);
+		\draw[implies] (T4) to[bend right] node[label] {\SepAxiom1} (T3);
+		\draw[implies] (T3) to[bend right] node[label,align=center] {Kompaktheit \\ $\lor$ 2AA \\ $\lor$ Lindelöf} (T4);
+		\draw[implies] (T5) to node[label] {} (T4);
+		\draw[implies] (T3h) to node[label] {\SepAxiom1} (T2h);
+		\draw[implies] (T4h) to node[label] {\SepAxiom1} (T3h);
+		\draw[implies] (T5h) to node[label] {} (T4h);
+		\draw[implies] (T2h) to node[label] {} (T2);
+		\draw[implies] (T3h) to node[label] {} (T3);
+		\draw[implies] (T4h) to[bend left] node[label] {} (T4);
+		\draw[implies] (T4) to[bend left] node[label] {} (T4h);
+		\draw[implies] (T5h) to node[label] {} (T5);
+	\end{tikzpicture}
+	\caption{Zusammenhänge zwischen Trennungseigenschaften}
+	\label{fig:separation_axioms}
+\end{figure}
 
 \begin{lem}[Tychonoff]
 	2AA und \SepAxiom3 impliziert \SepAxiom4.
