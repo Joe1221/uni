@@ -1,6 +1,11 @@
 classdef ForwardModel < handle
+	% ForwardModel Klasse zum Lösen des Vorwärtsproblems
+	% Diese Klasse kümmert sich um das Erstellen eines Comsol Modells, die
+	% Erstellung einer 2D-Geometrie und abstrahiert das Definieren der
+	% nötigen Randkurven/Gebiete für das Vorwärtsproblem der Gebietserkennung.
+
 	properties (Constant)
-		geom_name = 'geom';
+		geom_name = 'geom'; % Comsol tag der Geometrie
 	end
 	properties
 		model; % Comsol model object

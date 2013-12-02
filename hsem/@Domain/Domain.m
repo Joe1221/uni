@@ -1,4 +1,7 @@
 classdef Domain < handle
+	% Domain Gebiet
+	% Abstraktion eines Gebiets.
+
 	properties
 		geom; % comsol geometry object
 		name; % name of curve

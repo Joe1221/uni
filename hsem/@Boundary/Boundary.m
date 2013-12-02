@@ -1,4 +1,8 @@
 classdef Boundary < handle
+	% Boundary Randkurve
+	% Abstraktion einer Randkurve, zum leichteren Umgang mit Interpolation,
+	% etc.
+
 	properties
 		geom; % comsol geometry object
 		name; % name of curve
