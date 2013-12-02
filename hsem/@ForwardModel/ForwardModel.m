@@ -68,7 +68,20 @@ classdef ForwardModel < handle
 			if ischar(data)
 				obj.phys.feature(obj.C.name).set('r', data);
 			end
-			% TODO: Funktion als Interpolation von Messdaten
+			% Interpolation von Datentripel (x, y, f(x,y)) als n×3 Matrix
+			if ismatrix(data) && size(data, 2) == 3
+				dlmwrite('fData.mat', data, 'delimiter', ' ', 'precision', '%10.6g');
+
+				f = obj.model.func.create('f', 'Interpolation');
+				f.set('source', 'file');
+				f.set('filename', 'fData.mat');
+				f.set('nargs', 2);
+				f.set('interp', 'linear');
+				%f.set('extrap', 'nearestfunction');
+
+				obj.phys.feature(obj.C.name).set('r', 'f(x,y)');
+			end
+			% TODO: Funktion als Interpolation von (f(φ)) mit φ äquidistant.
 		end
 
 		function run (obj)
