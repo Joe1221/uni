@@ -10,10 +10,10 @@ model = ForwardModel();
 model.setOuterBoundary(load('C2.mat', '-ascii'));
 model.setInnerBoundary(load('Gamma.mat', '-ascii'));
 
+figure(1);
 model.showGeometry();
 
-figure;
-
+figure(2);
 model.run();
 
 
