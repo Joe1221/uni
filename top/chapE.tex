@@ -38,7 +38,7 @@
 
 \begin{st}
 	Sei $(X, <)$ linear geordnet.
-	Jedes Intervall $I \subset X$ ist zusammenhängend genau dann, wenn $X$ vollständig geordnet ist.
+	Jedes Intervall $I \subset X$ ist zusammenhängend genau dann, wenn $X$ vollständig geordnet und dicht ist.
 	\begin{proof}
 		Wie in $\R$, bzw. $\Q$.
 	\end{proof}
@@ -263,6 +263,235 @@ Analog zum Weg in metrischen Räumen definieren wir im Wege in topologischen Rä
 	$C = \_A = A \cup B$ ist zusammenhängend, aber nicht wegzusammenhängend.
 \end{ex}
 
+\coursetimestamp{02}{12}{2013}
+
+\begin{st}
+	Ist $f: X \to Y$ stetig und $X$ wegzusammenhängend, so auch $f(X)$.
+\end{st}
+
+\begin{st}
+	Seien $(X_i, \scr T_i)$ mit $X_i \neq \emptyset$ topologische Räume.
+	Genau dann ist $\prod_{i \in I} X_i$ wegzusammenhängend, wenn jeder Raum $X_i$ dies ist.
+	\begin{st}
+		Folgt mit universeller Abbildungseigenschaft und dem letzten Satz.
+	\end{st}
+\end{st}
+
+\begin{st}
+	\begin{enumerate}[1)]
+		\item
+			Ist $f: X \to Y$ stetig, so gilt
+			\[
+				f([a]_X) \subset [f(a)]_Y.
+			\]
+		\item
+			Wer erhalten mit 1) die Abbildung $\pi_0(f): \pi_0(X) \to \pi_0(Y): [a]_X \mapsto [f(a)]_Y$.
+		\item
+			Es gilt $\pi_0(\Id_X) = \Id_{\pi_0(X)}$ und $\pi_0(g \circ f) = \pi_0(g) \circ \pi_0(f)$.
+			%\[
+			%	\begin{tikz-cd}
+			%		\pi_0(X) & \\
+			%		& \pi_0(Y) \\
+			%		\pi_0(Z) &
+			%		%fixme
+			%		X \arrow[southeast]f \arrow[south] g\circ f & \\
+			%		& Y \arrow[soutchwest] g\\
+			%		Z &
+			%	\end{}
+			%\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1),start=3]
+			\item
+				Es gilt
+				\begin{align*}
+					\pi_0(g\circ f)([a]_X)
+					&= [(g\circ f)(a)]_Z
+					= [g(f(a))]_Z
+					= \pi_0(g)([f(a)]_Y) \\
+					&= \pi_0(g)(\pi_0(f)([a]_X))
+					= (\pi_0(g)\circ \pi_0(f))([a]_X).
+				\end{align*}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+
+\section{Lokaler Zusammenhang}
+
+
+\begin{df}
+	Ein topologischer Raum $(X, \scr T)$ heißt \emph{lokal (weg-)zusammenhängend} in $a \in X$, wenn jede offene Umgebung von $a$ in $X$ eine (weg-)zusammenhängende offene Umgebung enthält.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$\R^n$ ist lokal wegzusammenhängend, denn $B(a,\eps)$ ist sternförmig und somit wegzusammenhängend.
+			Ebenso jeder topologische Vektorraum (ausgeglichene Umgebung ist sternförmig).
+		\item
+			Ist $X$ lokal wegzusammenhängend, so auch jede offene Teilmenge $U \subset X$.
+	\end{itemize}
+\end{ex}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Die „Sinuskurve des Topologen“ % fixme: ref
+			ist zusammenhängend, aber nicht lokal zusammenhängend.
+		\item
+			Der „rationale Kamm“
+			\[
+				X = ([0,1] \times \{0\}) \cup ([0,1]_\Q \times [0,1])
+			\]
+			ist wegzusammenhängend, aber nicht lokal wegzusammenhängend.
+		\item
+			$X = [0,1] \cup [2,3]$ ist lokal (weg-)zusammenhängend, aber nicht global (weg-)zusammenhängend.
+	\end{itemize}
+\end{ex}
+
+Zu jedem Raum $X$ haben wir die Zerlegungen $X = \bigdunion \scr Z(X)$ und $X = \bigdunion \pi_0(X)$.
+
+\begin{st}
+	Ist $X$ lokal zusammenhängend, so ist die Zerlegung $X = \bigdunion \scr Z(X)$ offen.
+
+	Ist $X$ lokal wegzusammenhängend, so ist die Zerlegung $X = \bigdunion \pi_0(X)$ offen.
+	In diesem Fall gilt $\pi_0(X) = \scr Z(X)$.
+	\begin{proof}
+		Leicht nachzuvollziehen.
+	\end{proof}
+\end{st}
+
+
+\section{Homotopie stetiger Abbildungen}
+
+
+\begin{df}
+	Eine \emph{Homotopie} ist eine stetige Abbildung $H: [0,1] \times X \to Y$.
+	Für jedes $t \in [0,1]$ ist dann $H_t: X \to Y$ mit $H_t(x) := H(t,x)$ stetig.
+
+	Zwei stetige Abbildungen $f,g : X \to Y$ heißen \emph{homotop} in $Y$, wenn es eine Homotopie $H: [0,1] \times X \to Y$ mit $H_0 = f$ und $H_1 = g$ gibt.
+	Wir schreiben dann $H: f \homotopic g$, oder $f\homotopic g$
+
+	Ist $f: X \to  Y$ homotop zu $\const_X^{\{\ast\}}: X \to \{\ast\} \subset Y$, so nennen wir $f$ \emph{nullhomotop}, Kurz $f \homotopic \ast$.
+	Der Raum $X$ heißt \emph{zusammenziehbar}, wenn $\Id_X \homotopic \ast$.
+\end{df}
+
+\begin{ex}
+	Sei $X \subset \R^n$ sternförmig bezüglich $a \in X$ (z.B. $X = \R^n, a = 0$).
+
+	Dann ist $X$ zusammenziehbar mittels $H: [0,1] \times X \to X, H(t,x) = (1-t)x + ta$.
+
+	Es gilt $H_0 = \Id_X, H_1 = \const_X^{a}$.
+	$H$ ist wohldefiniert und stetig für alle $(t,x) \in [0,1] \times X$.
+\end{ex}
+
+\begin{st}
+	Seien $f,g : X \to \S^n$ stetig und nirgends antipodal, d.h. $f(x) \neq -g(x)$ für alle $x \in X$.
+	Dann sind $f$ und $g$ homotop in $\S^n$ mittels
+	\[
+		H(t,x) := \f {(1-t)f(x) - tg(x)}{|(1-t)f(x) - tg(x)|}.
+	\]
+	\begin{proof}
+		klar
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	Ist $f: X \to \S^n$ stetig, aber nicht surjektiv, so gilt $f \homotopic *$.
+	\begin{proof}
+		Es gibt zwei Möglichkeiten, dies zu beweisen:
+		\begin{enumerate}[1.]
+			\item
+				Wähle $a \in \S^n \setminus (X)$ und $g = \const_X^{-a}$, dann ist $f \homotopic g$ wie im letzten Satz.
+			\item
+				Mittels stereographischer Projektion.
+				Für $a \in \S^n \setminus f(X)$ ist $\S^n \setminus \{a\} \homeomorphic \R^n \homotopic *$ wie im Beispiel.
+		\end{enumerate}
+	\end{proof}
+\end{kor}
+
+\begin{df}
+	\begin{enumerate}[(1)]
+		\item
+			Zu $f: X \to Y$ haben wir $H: f \homotopic f$ mit $H(t,x) = f(x)$.
+		\item
+			Zu $H: f \homotopic g$ definieren wir $\_H: g \homotopic f$ mit $H(t,x) := H(1-t,x)$.
+		\item
+			Zu $H: f \homotopic g$ und $K: g\homotopic h$ definieren wir $(H \ast K) : f \homotopic h$ durch
+			\[
+				(H \ast K)(t,x) = \begin{cases}
+					H(2t, \ast) & 0 \le t \le \f 12 \\
+					K(2t-1), \ast) & \f 12 \le t \le 1
+				\end{cases}.
+			\]
+	\end{enumerate}
+	Homotopie ist eine Äquivalenzrelation.
+\end{df}
+
+\begin{df}
+	Die Menge der Homotopieklassen von $\scr C(X, Y)$ bezeichnen wir mit
+	\[
+		[X,Y] := \scr C(X, Y) / \homotopic.
+	\]
+\end{df}
+
+%fixme : anmerkung zur notation
+\begin{st}
+	Aus $H: f_0 \homotopic f_1 : X \to Y$ und $K: g_0 \homotopic g_1: Y \to Z$ folgt $L: g_0 \circ f_0 \homotopic g_1 \circ f_1$ mittels
+	\[
+		L(t, x) = K(t, H(t,x)).
+	\]
+	Wir schreiben auch $L_t = K_t \circ H_t$.
+\end{st}
+
+\begin{kor}
+	Wir haben eine Kategorie \emph{Toph}:
+	\begin{itemize}
+		\item
+			Objekte sind topologische Räume $X, Y, Z, \dotsc $,
+		\item
+			Morphismen sind Homotopieklassen $[f]$ von stetigen Abbildungen $f: X \to Y$,
+		\item
+			Die Komposition ist $[g] \circ [f] = [g\circ f]$.
+	\end{itemize}
+\end{kor}
+
+\begin{st}
+	Der Funktor $\pi_0: \mathrm{Top} \to \mathrm{Set}$ ist homotopie-invariant, d.h. aus $f \homotopic g$ folgt $\pi_0(f) = \pi_0(g)$.
+	\[
+		\begin{tikzcd}
+			\mathrm{Top} \arrow{dr}{\pi_0} \arrow{dd}{q} & \\
+			& \mathrm{Set} \\
+			\mathrm{Toph} \arrow{ur}{\pi_0} & \\
+		\end{tikzcd}.
+	\]
+\end{st}
+
+\begin{df}
+	Zwei Räume $X, Y$ heißen \emph{homotopie-äquivalent}, geschrieben $X \homotopic Y$, wenn es stetige Abbildungen $f: X \to Y$ und $g: Y \to X$ gibt mit $g \circ f \homotopic \Id_X$ und $f \circ g \homotopic \Id_Y$.
+\end{df}
+
+\begin{ex}
+	\begin{enumerate}[1)]
+		\item
+			Falls $X \homeomorphic Y$, dann auch $X \homotopic Y$.
+		\item
+			Aus $X \homotopic Y$ folgt nicht $X \homeomorphic Y$, z.b. $\R \not \homeomorphic \R^2$, aber $\R \homotopic \R^2 \homotopic \ast$.
+	\end{enumerate}
+\end{ex}
+
+\begin{ex}
+	$X = \S^n$ und $Y = \R^{n+1} \setminus \{0\}$ sind homotopie-äquivalent.
+	\begin{proof}
+		Sei $f: X \injto Y$ die Inklusion und $g: Y \to X, g(y) = \f y{|y|}$.
+		Es gilt $g \circ f = \Id_X$ ($g$ ist \emph{Retrakt}) und $f \circ g \homotopic \Id_Y$ mittels
+		\[
+			H(t,y) = ty + (1-t) g(y) \in Y.
+		\]
+		$H$ ist \emph{(starker) Deformationsretrakt}.
+	\end{proof}
+\end{ex}
 
 
 
