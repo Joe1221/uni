@@ -84,10 +84,14 @@ classdef ForwardModel < handle
 			% TODO: Funktion als Interpolation von (f(φ)) mit φ äquidistant.
 		end
 
+		function getGValue (obj)
+
+		end
+
 		function run (obj)
-			
+
             meshAndCompute(obj);
-            
+
             makePlot(obj);
 
 		end
