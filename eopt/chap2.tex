@@ -2167,3 +2167,182 @@ Falls $(y_k - H_k d_k)^T d_k \neq 0$ ($y_k = \nabla f(x_{k+1} - \nabla f(x_k)$),
 	H_{k+1} := H_k + \dfrac{(y_k - H_k d_k)(y_k - H_k d_k)^T}{(y_k - H_k d_k)^T d_k}.
 \]
 
+%fixme: something missing?
+
+\coursetimestamp{02}{12}{2013}
+
+Quasi-Newton-Verfahren benötigen keine Hesse-Matrizen mehr und keine LGS-Lösung.
+
+\paragraph{Broyden-Fletcher-Goldfarb-Shanno-Formel (BFGS)}
+
+\[
+	H_{k+1} := H_k + \f {y_ky_k^T}{y_k^T d_k} - \f {H_k d_k d_k^T H_k^T}{d_k^T H_k d_k}.
+\]
+$H_k$ erfüllt \ref{eq:qn} nach Übungsaufgabe % fixme:ref
+und
+\[
+	B_{k+1} := H_{k+1}^{-1}
+	= B_k + \f {(d_k-B_ky_k)d_k^T + d_k(d_k-B_ky_k)^T}{d_k^T y_k} - \f{(d_k-B_ky_k)^T y_k}{(d_k^T y_k)^2} d_k d_k^T.
+\]
+
+\begin{alg} \label{alg:7}
+	\begin{algorithmic}
+		\Require{Startwert $x_0 \in \R^n$}
+		\Require{symmetrisch, positiv definite Startmatrix $B_0 \in \R^{n\times n}$}
+		\State{$k \gets 0$}
+		\While{$\nabla f(x_k) \neq 0$}
+			\State{$d_k \gets - B_k \nabla f(x)$}
+			\State{$x_{k+1} \gets x_k + d_k$}
+			\State{$B_{k+1} \gets B_k + \dotsc$}
+		\EndWhile
+	\end{algorithmic}
+\end{alg}
+
+\begin{st} \label{2.56}
+	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar, $\nabla^2 f$ lokal Lipschitz-stetig und $\hat x$ ein lokales Minimum von $f$ mit positiv definitem $\nabla^2 f(\hat x)$.
+
+	Dann existiert $\delta, \eps > 0$ so dass für
+	\begin{enumerate}[(a)]
+		\item
+			jeden Startwert $x_0 \in B_\delta(\hat x)$
+		\item
+			jede symmetrische, positiv definite Startmatrix $B_0$ mit $\|B_0 - \nabla^2 f(\hat x)^{-1}\| < \eps$
+	\end{enumerate}
+	\ref{alg:7} durchführbar ist und entweder nach endlich vielen $x_k := \hat x$ liefert oder eine Folge $(x_k)_{k\in \N}$, die superlinear gegen $\hat x$ konvergiert.
+	\begin{proof}
+		GeigerKanzow, Satz 11.33.
+	\end{proof}
+\end{st}
+
+\subsection{Das globalisierte Newton-Verfahren}
+
+\begin{itemize}
+	\item
+		Das Gradientenverfahren konvergiert global (gegen ein lokales Minimum), aber „langsam“ (linear).
+	\item
+		Das Newtonverfahren (und seine Derivate) konvergiert lokal, aber „schnell“ (superlinear).
+\end{itemize}
+Wünschenswert wäre ein Verfahren, das global und schnell konvergiert.
+Eine Herangehensweise wäre, das Gradientenverfahren so lange anzuwenden, bis man nah genug am Minimum ist, um dann das lokale Newton-Verfahren anzuwenden.
+
+Wie finden wir die Iterierte, ab der wir das Newton-Verfahren starten sollen?
+Prüfe, ob ein Newton-Schritt die Voraussetzungen des allgemeinen Konvergenzresultats erfüllt und wenn nicht, verwende Gradientenschritt.
+Wir interpretieren das Newton-Verfahren somit als Abstiegsverfahren mit Suchrichtung $d_k = - \nabla^2 f(x_k)^{-1} \nabla f(x_k)$ und Schrittweiten $s_k = 1$.
+
+Überprüfe, ob $d_k := -\nabla^2 f(x_k)^{-1} \nabla f(x_k)$ die verallgemeinerte Winkelbedingung
+\[
+	\f{-\nabla f(x_k)^T d_k}{\|\nabla f(x_k)\| \|d_k\|} \ge \alpha \|\nabla f(x_k)\|^p
+\]
+für $\alpha, p > 0$ erfüllen.
+Für die Schrittweite verwende dide Armijo-Regel.
+Wir erwarten
+\begin{itemize}
+	\item
+		globale (Prä-)Konvergenz, da Suchrichtungen und Schrittweiten zulässig gewählt wurden,
+	\item
+		Der Algorithmus kann einen Newton-Schritt durchführen.
+\end{itemize}
+
+\begin{alg}[Globalisiertes Newton-Verfahren] \label{alg:8}
+	\begin{algorithmic}
+		\Require{Startwert $x_0 \in \R^n$}
+		\Require{Armijo-Parameter $\beta \in (0,1), \gamma \in (0,\f 12)$, siehe \ref{2.59}}
+		\Require{Winkelbedingungs-Parameter $\alpha,p > 0$}
+		\While{$\nabla f(x_k) \neq 0$}
+			\If{$\det(\nabla^2 f(x_k)) \neq 0$}
+				\State{$d_k \gets -\nabla^2 f(x_k)^{-1} \nabla f(x_k)$}
+				\If{$-\nabla f(x_k)^T d_k < \alpha \|\nabla f(x_k)\|^{1+p} \|d_k\|$}
+					\State{$d_k \gets -\nabla f(x_k)$}
+				\EndIf
+			\Else
+				\State{$d_k \gets -\nabla f(x_k)$}
+			\EndIf
+			\State{$s_k \gets \f 1\beta$}
+			\Repeat
+				\State{$s_k \gets \beta s_k$}
+				\State{$x_{k+1} \gets x_k + s_k d_k$}
+			\Until{$f(x_{k+1}) \le f(x_k) - \gamma s_k \nabla f(x_k)^T d_k$}
+		\EndWhile
+	\end{algorithmic}
+\end{alg}
+
+\begin{st} \label{2.57}
+	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar.
+	\ref{alg:8} terminiert entweder nach endlich vielen Schritten an einem stationärem Punkt, oder er erzeugt eine Folge $(x_k)_{k\in\N}$ mit
+	\begin{enumerate}[(a)]
+		\item
+			$f(x_{k+1}) < f(x_k)$,
+		\item
+			Jeder Häufungspunkt von $x_k$ ist stationärer Punkt von $f$.
+	\end{enumerate}
+	\begin{proof}
+		Wende Satz \ref{2.29} an.
+		\paragraph{Zulässigkeit der Suchrichtungen}
+		Wird Newton-Suchrichtung verwendet, dann ist
+		\[
+			-\nabla f(x_k)^T d_k \ge \alpha \|\nabla f(x_k)^{1+p}\|d_k\|
+		\]
+		ansonsten ist
+		\[
+			d_k := -\nabla f(x_k).
+		\]
+		Also ist
+		\[
+			- \f {\nabla f(x_k)^T d_k}{\|\nabla f(x_k)\|\|d_k\|}
+			\ge \min \{ 1, \alpha \|\nabla f(x_k)\|^p \}.
+		\]
+		Nach \ref{2.31} ist $d_k$ zulässig.
+		\paragraph{Zulässigkeit der Schrittweiten}
+		Verwende \ref{2.36}:
+		Sei $(x_l)$ eine konvergente Folge, also
+		\[
+			\exists C > 0 : \|\nabla^2 f(x_l)\| \le C.
+		\]
+		Für Newton-Suchrichtungen gilt
+		\begin{align*}
+			- \f {\nabla f(x_l)^T d_l}{\|d_l\|}
+			&\le \|\nabla f(x_l)\| \\
+			&= \|\nabla^2 f(x_l) d_l\|
+			\le C \|d_l\|,
+		\end{align*}
+		und für Gradientensuchrichtungen
+		\[
+			\|\nabla f(x_l)\|
+			= \|d_l\|
+			= \f {-\nabla f(x_l)^T d_l}{\|d_l\|}.
+		\]
+		Also ist
+		\[
+			\|d_l\|
+			\ge \min \{1, \f 1c \} \f {-\nabla f(x_l)^T d_l}{\|d_l\|}.
+		\]
+		Die Armijo-Regel liefert also zulässige Schrittweiten.
+	\end{proof}
+\end{st}
+
+\begin{lem} \label{2.58}
+	Sei $\hat x \in \R^n$ und $(x_k)_{k\in\N} \subset \R^n$, dann gelten folgende Aussagen
+	\begin{enumerate}[(a)]
+		\item
+			Besitzt jede konvergente Teilfolge von $(x_k)_{k\in\N}$ eine gegen $\hat x$ konvergente Teilfolge, so konvergiert $(x_k)_{k\in\N}$ gegen $\hat x$.
+		\item
+			Ist $(x_k)_{k\in\N}$ beschränkt und $\hat x$ ihr einziger Häufungspunkt, so konvergiert $(x_k)_{k\in\N}$ gegen $\hat x$.
+		\item
+			Ist $\hat x$ ein isolierter Häufungspunkt von $(x_k)$ und gilt für jede gegen $\hat x$ konvergente Teilfolge $(x_l)_{l\in L}$
+			\[
+				x_l - x_{l+1} \to 0
+			\]
+			so konvergiert $(x_k)_{k\in\N}$ gegen $\hat x$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				siehe \ref{2.25}.
+			\item
+				triviale Folgerung aus (a).
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+
+
