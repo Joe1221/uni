@@ -263,7 +263,7 @@
 % These must be inside one \setlist definition
 \setlist {
 	leftmargin  = *,
-	labelindent = 1em
+	labelindent = 0.8em
 }
 \setlist [ enumerate ] { labelindent = 0.6em }
 \SetEnumerateShortLabel { i } { \! \! \roman* }  % Correct spacing with roman enumerations
