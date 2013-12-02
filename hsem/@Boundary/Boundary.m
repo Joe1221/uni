@@ -17,7 +17,7 @@ classdef Boundary < handle
 			if nargin == 3 && isvector(data)
 				obj.setDataPolarEq(data);
 			end
-			% Kartesische Koordinaten als n×2 Vektor
+			% Kartesische Koordinaten als nx2 Vektor
 			if nargin == 3 && ismatrix(data) && size(data, 2) == 2
 				obj.setData(data);
 			end
@@ -26,7 +26,7 @@ classdef Boundary < handle
 		function setDataPolarEq (obj, radii)
 			obj.setData(obj.convertCurve(radii));
 		end
-		% Kartesische Koordinaten als n×2 Vektor
+		% Kartesische Koordinaten als nx2 Vektor
 		function setData (obj, data)
 			obj.gref.set('table', data);
 		end

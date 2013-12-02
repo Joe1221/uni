@@ -7,10 +7,10 @@ function initGeometry (obj)
 	% Stelle Polarkoordinaten bereit als polar.r, polar.phi
 	obj.model.coordSystem().create('polar', obj.geom_name, 'Cylindrical');
 
-	% √Ñu√üeres / Omega und C (daten werden sp√§ter gesetzt)
+	% ƒuﬂeres / Omega und C (daten werden sp‰ter gesetzt)
 	obj.C = Boundary(obj.geom, 'C');
 	obj.Omega = Domain(obj.geom, 'Omega', obj.C);
-	% Inneres / D und Gamma (daten werden sp√§ter gesetzt)
+	% Inneres / D und Gamma (daten werden sp‰ter gesetzt)
 	obj.Gamma = Boundary(obj.geom, 'Gamma');
 	obj.D = Domain(obj.geom, 'D', obj.Gamma);
 

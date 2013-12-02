@@ -35,13 +35,13 @@ classdef ForwardModel < handle
 
 		% TODO: folgende Funktionen in eigene Dateien
 
-		% Äußeres / Omega und C
+		% �u�eres / Omega und C
 		function setOuterBoundary (obj, data)
 			% Polarkoordinaten als Radien-Vektor
 			if isvector(data)
 				obj.C.setDataPolarEq(data);
 			end
-			% Kartesische Koordinaten als n×2 Vektor
+			% Kartesische Koordinaten als nx2 Vektor
 			if ismatrix(data) && size(data, 2) == 2
 				obj.C.setData(data);
 			end
@@ -52,7 +52,7 @@ classdef ForwardModel < handle
 			if isvector(data)
 				obj.Gamma.setDataPolarEq(data);
 			end
-			% Kartesische Koordinaten als n×2 Vektor
+			% Kartesische Koordinaten als nx2 Vektor
 			if ismatrix(data) && size(data, 2) == 2
 				obj.Gamma.setData(data);
 			end
@@ -66,39 +66,11 @@ classdef ForwardModel < handle
 			% TODO: Funktion als Interpolation von Messdaten
 		end
 
-		function run (obj, data)
-			% TODO: Auslagern in Methoden
-			% ============ MESH ============
-			fprintf('Generating Mesh ... ');
-
-			mesh = obj.model.mesh.create('mesh', obj.geom_name);
-			mesh.feature.create('ftri1', 'FreeTri');
-			mesh.feature('size').set('hauto', '5'); % Gitterauflösung: 1-9 (fine - coarse)
-
-			mesh.run;
-			mphmesh(obj.model, 'mesh');
-
-			fprintf('finished\n');
-			% ============ STUDY ============
-			fprintf('Running Study ... ');
-
-			study = obj.model.study.create('std1');
-			study.feature.create('st1', 'Stationary');
-
-			study.run;
-
-			fprintf('finished\n');
-
-			% ============ PLOT ============
-			fprintf('Evaluating Result ... ');
-
-			pg1 = obj.model.result.create('pg1', 2);
-			pg1.feature.create('surf1', 'Surface');
-
-			pg1.run;
-			mphplot(obj.model, 'pg1');
-
-			fprintf('finished\n');
+		function run (obj)
+			
+            meshAndCompute(obj);
+            
+            makePlot(obj);
 
 		end
 	end
