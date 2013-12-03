@@ -1,0 +1,269 @@
+\chapter{Die Sprache der Kategorien}
+
+\coursetimestamp{03}{12}{2013}
+
+
+\section{Kategorien}
+
+
+\begin{df}
+	Eine \emph{Kategorie} $\Cat C = (\Ob, \Mor, \circ)$ besteht aus
+	\begin{enumerate}[a)]
+		\item
+			Eine Klasse $\Ob$ von \emph{Objekten} $A, B, C, D, \dotsc \in \Ob$
+		\item
+			zu je zwei Objekten $A, B \in \Ob$ eine Klasse $\Mor(A,B)$ von \emph{Morphismen} von $A$ nach $B$,
+		\item
+			zu $A, B, C \in \Ob$ eine \emph{Verknüpfung}
+			\[
+				\circ: \Mor(B, C) \times \Mor(A, B) \to \Mor(A, C).
+			\]
+	\end{enumerate}
+	Diese solllen folgenden Bedingungen genügen:
+	\begin{enumerate}[1)]
+		\item
+			Zu jedem $B \in \Ob$ existiert $\Id_B \in \Mor(B, B)$, sodass $\Id_B \circ f = f$ und $g \circ \Id_B = g$ für alle $A, C \in \Ob$ und $f \in \Mor(A, B)$ und $g \in \Mor(B, C)$.
+		\item
+			Es gilt Assoziativität: $h \circ (g \circ f) = (h \circ g) \circ f$ für alle $A, B, C, D \in \Ob$ und $f \in \Mor(A, B), g \in \Mor(B, C), h \in \Mor(C, D)$.
+	\end{enumerate}
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$\Cat{Top}$: (topologische Räume, stetige Abbildungen, Komposition)
+		\item
+			$\Cat{Set}$: (Mengen, Abbildungen, Komposition).
+			Auch mit nur injektiven oder nur surjektiven Abbildungen bildet $\Cat{Set}$ eine Kategorie.
+		\item
+			$\Cat{FinSet}$: (endliche Mengen, Abbildungen, Komposition)
+		\item
+			$(X, \le, \text{Transitivität})$
+		\item
+			$\Cat{Grp}$: (Gruppen, Gruppenhomomorphismen, Komposition)
+		\item
+			$\Cat{FinGrp}$: (endliche Gruppen, Gruppenhomomorphismen, Komposition)
+		\item
+			$\Cat{Ab}$: (abelsche Gruppen, Gruppenhomomorphismen, Komposition)
+		\item
+			$\Cat{\Vec_K}$: ($K$-Vektorräume, $K$-lineare Abbildungen, Komposition)
+		\item
+			$\Cat{\Mat_K}$: ($\N$, Matrizen über $K$, Multiplikation)
+			\[
+				\Mat_K(q,r) \times \Mat(p,q) \to \Mat_K(p,r)
+			\]
+	\end{itemize}
+\end{ex}
+
+\subsection{Kommutative Diagramme}
+
+Ein Diagramm
+\[
+	\begin{tikzcd}[column sep=small]
+		& B \arrow{dr}{g} & \\
+		A \arrow{ur}{f} \arrow{rr}{h} & & C
+	\end{tikzcd}
+\]
+kommutiert, falls $h = g \circ f$.
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			\[
+				\begin{tikzcd}[row sep=tiny]
+					& B \arrow{dr}{g} \arrow{dd}{\Id_B} & \\
+					A \arrow{ur}{f} \arrow{dr}[below]{f} & & C \\
+					& B \arrow{ur}[below]{g} &
+				\end{tikzcd}
+			\]
+		\item
+			\[
+				\begin{tikzcd}
+					~& B \arrow{dd}[yshift=5mm]{g} \arrow{dr}{h\circ g} & \\
+					A \arrow{ur}{f} \arrow{rr}[xshift=-5mm]{h\circ g \circ f} \arrow{dr}[swap]{g\circ f} & & D \\
+					& C \arrow{ur}[swap]{h} &
+				\end{tikzcd}
+			\]
+		\item
+			\[
+				\begin{tikzcd}
+					X \arrow{d}[swap]{\Id_X} \arrow{r}{f} & Y \arrow{dl}{g} \\
+					X &
+				\end{tikzcd}
+				\begin{tikzcd}
+					~& Y \arrow{d}{\Id_Y} \arrow{dl}[swap]{g} \\
+					X \arrow{r}{f} & Y
+				\end{tikzcd}
+				\qquad
+				\begin{tikzcd}
+					X \arrow{r}{f} \arrow{d}[left]{\Id_X} & Y \arrow{d}{\Id_Y} \arrow{dl}{g} \\
+					X \arrow{r}[below]{f} & Y
+				\end{tikzcd}
+			\]
+	\end{itemize}
+\end{ex}
+
+\begin{df}
+	\begin{itemize}
+		\item
+			Zwei Morphismen $f: X \to Y$ und $g: Y \to X$ in $\Cat{C}$ heißen \emph{zueinander invers}, wenn $g \circ f = \Id_X$ und $f \circ g = \Id_Y$ gilt.
+		\item
+			Wir nennen $f: X \to Y$ in $\Cat{C}$ invertierbar, oder einen $\Cat{C}$-Isomorphismus, geschrieben $f: X \isoto Y$, wenn es zu $f$ in $\Cat{C}$ einen inversen Morphismun $g: Y \to X$ gibt.
+		\item
+			Zwei Objekte $X, Y \in \Cat{C}$ heißen \emph{isomorph}, geschrieben $X \isomorphic Y$, wenn ein Isomorphismus $f: X \to Y$ existiert.
+	\end{itemize}
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			In $\Cat{Set}$ sind Bijektionen Isomorphismen.
+		\item
+			In $(X, \le, \text{Transitivität})$ bedeutet Isomorphie Gleichheit.
+		\item
+			In $\Cat{\Vec_K}$ $K$-lineare Isomorphismen.
+		\item
+			In $\Cat{\Mat_K}$ beudetet Isomorphie $m = n$ in $\N$.
+		\item
+			In $\Cat{Grp}$ Gruppenisomorphismen.
+		\item
+			In $\Cat{Top}$ Homöomorphismen.
+	\end{itemize}
+\end{ex}
+
+
+\section{Funktoren}
+
+
+\begin{df}
+	Seien $\Cat{C}, \Cat{D}$ Kategorien.
+	Ein \emph{kovarianter Funktor} $F: \Cat{C} \to \Cat{D}$ ordnet jedem Objekt $X$ in $\Cat{C}$ ein Objekt $F(X)$ in $\Cat{D}$ zu und jedem Morphismus $f: X \to Y$ in $\Cat{C}$ einen Morphismus $F(f) : F(X) \to F(Y)$ in $\Cat{D}$, sodass $F(\Id_X) = \Id_{F(X)}$ und $F(g\circ f) = F(g) \circ F(f)$.
+	\[
+		\begin{tikzcd}[column sep=small]
+			~ & Y \arrow{dr}{g} & \\
+			X \arrow{ur}{f} \arrow{rr}[swap]{h} & & Z
+		\end{tikzcd}
+		\implies
+		\begin{tikzcd}[column sep=tiny]
+			~ & F(Y) \arrow{dr}{F(g)} & \\
+			F(X) \arrow{ur}{F(f)} \arrow{rr}[swap]{F(h)} & & F(Z)
+		\end{tikzcd}
+	\]
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			\emph{kontravarianter Funktor}:
+			\begin{align*}
+				\Hom_K(\argdot, K): \Vec_K &\to \Vec \\
+				V &\mapsto V^* = \Hom_K(V,K) \\
+				(f: V \to W) &\mapsto (f^*: W^* \to V^*, f^*(h) = h \circ f)
+			\end{align*}
+		\item
+			\emph{kovarianter Funktor}:
+			\begin{align*}
+				\Hom_K(X, \argdot) : \Vec_K &\to \Vec_K \\
+				V & \mapsto \Hom_K(X, V) \\
+				(f: V \to W) & \mapsto (f_*: \Hom(X, V) \to \Hom(X, V), f_*(h) = f \circ h)
+			\end{align*}
+	\end{itemize}
+\end{ex}
+
+\begin{df}
+	Ein \emph{kontravarianter Funktor} $G: \Cat{C} \to \Cat{D}$ ordnet jedem Objekt $X$ in $\Cat{C}$ ein Objekt $G(X)$ in $\Cat{D}$ zu und jedem Morphismus $f: X \to Y$ in $\Cat{C}$ einen Morphismus $G(f) : G(Y) \to G(X)$ in $\Cat{D}$, sodass $G(\Id_X) = \Id_{G(X)}$ und $G(g\circ f) = G(f) \circ G(g)$
+	\[
+		\begin{tikzcd}
+			~ & Y \arrow{dr}{g} & \\
+			X \arrow{ur}{f} \arrow{rr}{h} & & Z
+		\end{tikzcd}
+		\implies
+		\begin{tikzcd}
+			~ & G(Y) \arrow[leftarrow]{dr}{G(g)} & \\
+			G(X) \arrow[leftarrow]{ur}{G(f)} \arrow[leftarrow]{rr}{G(h)} & & G(Z)
+		\end{tikzcd}
+	\]
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Zusammenhangskomponenten
+			\begin{align*}
+				\scr Z: \Cat{Top} &\to \Cat{Set} \\
+				X &\mapsto \scr Z(X) \\
+				(f:X \to Y) &\mapsto (\scr Z(f): \scr Z(X) \to \scr Z(Y))
+			\end{align*}
+		\item
+			Wegzusammenhangskomponenten
+			\begin{align*}
+				\pi_0: \Cat{Top} &\to \Cat{Set} \\
+				X & \mapsto \pi_0(X) \\
+				(f: X \to Y) &\mapsto (\pi_0(f): \pi_0(X) \to \pi_0(Y))
+			\end{align*}
+		\item
+			„Vergiss“-Funktor (die Topologie wird „vergessen“)
+			\begin{align*}
+				V: \Cat{Top} &\to \Cat{Set} \\
+				(X,\scr T) & \mapsto X \\
+				(f: (X,\scr T_X) \to (Y, \scr T_Y)) &\mapsto (f: X \to Y)
+			\end{align*}
+		\item
+			Potenzmenge (kovariant)
+			\begin{align*}
+				\scr P_*: \Cat{Set} & \to \Cat{Set} \\
+				X, & \mapsto \scr P(X) \\
+				(f: X \to Y) &\mapsto (f_*: \scr P(X) \to \scr P(y), f_*(A) := f(A))
+			\end{align*}
+		\item
+			Potenzmenge (kontravariant)
+			\begin{align*}
+				\scr P^*: \Cat{Set} & \to \Cat{Set} \\
+				X & \mapsto \scr P(X) \\
+				(f: X \to Y) &\mapsto (f^*: \scr P(Y) \to \scr P(X), f^*(B) := f^{-1}(B))
+			\end{align*}
+	\end{itemize}
+\end{ex}
+
+
+\section{Transformationen}
+
+
+\begin{df}
+	Seien $F, G: \Cat{C} \to \Cat{D}$ Funktoren.
+	Eine \emph{(natürliche) Transformation} $t: F \to G$ ordnet jedem Objekt $X$ in $\Cat{C}$ einen Morphismus $t(X): F(X) \to G(X)$ in $\Cat{D}$ zu, sodass für jeden Morphismus $f: X \to Y$ in $\Cat{C}$ die Gleichung $t(Y) \circ F(f) = G(f) \circ t(X)$ gilt.
+	\[
+		\begin{tikzcd}
+			X \arrow{d}{f} & F(X) \arrow{d}{F(f)} \arrow{r}{t(X)} & G(X) \arrow{d}{G(f)} \\
+			Y & F(Y) \arrow{r}{t(Y)} & G(Y)
+		\end{tikzcd}
+	\]
+	Gilt hierbei $t(X) : F(X) \isoto G(X)$ für alle $X$, so heißt $t$ \emph{(natürliche) Äquivalenz} von $F$ und $G$.
+\end{df}
+
+\begin{ex}
+	\[
+		\begin{tikzcd}
+			~ & \pi_0(X) \arrow{dd}[yshift=5mm]{t(X)} \arrow{rr}{\pi_0} & & \pi_0(Y) \arrow{dd}{t(Y)} \\
+			X \arrow{ur}{a\mapsto [a]_X} \arrow{dr}[swap]{a\mapsto \scr Z_X(a)} \arrow[crossing over]{rr}[xshift=5mm]{f} & & Y \arrow{ru}{b\mapsto[b]_Y} \arrow{dr}[swap]{b\mapsto \scr Z_Y(b)} & \\
+			& \scr Z(X) \arrow{rr}[below]{\scr Z(f)} && \scr Z(Y)
+		\end{tikzcd}
+%		\begin{tikzcd}[row sep=small,column sep=small]
+%			X \arrow{dr}{f} \arrow{dd}[left]{g\circ f} \arrow{rr} &  & \pi_0(X) \arrow{dr}{\pi_0(f)} & \\
+%			& Y \arrow{dl}{g} \arrow{rr} &  & \pi_0(Y) \arrow{dl}{\pi_0(g)}\\
+%			Z \arrow{rr}  & & \pi_0(Z) \arrow[leftarrow, crossing over]{uu}[yshift=5mm]{\pi_0(g\circ f)} &
+%		\end{tikzcd}.
+	\]
+	mit
+	\begin{align*}
+		t(X): \pi_0(X) &\to \scr Z(X) \\
+		[a]_X &\mapsto \scr Z_X(a)
+	\end{align*}
+	\begin{note}
+		Lokale wegzusammenhängende Räume bilden eine Unterkategorie von $\Cat{Top}$.
+		Hierauf sind die Funktoren $\pi_0$ und $\scr Z$ natürlich äquivalent.
+	\end{note}
+\end{ex}
+
+
+
