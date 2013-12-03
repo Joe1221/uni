@@ -55,7 +55,7 @@
 	\end{itemize}
 \end{ex}
 
-\subsection{Kommutative Diagramme}
+\paragraph{Kommutative Diagramme}
 
 Ein Diagramm
 \[
@@ -78,18 +78,20 @@ kommutiert, falls $h = g \circ f$.
 			\]
 		\item
 			\[
-				\begin{tikzcd}
-					~& B \arrow{dd}[yshift=5mm]{g} \arrow{dr}{h\circ g} & \\
-					A \arrow{ur}{f} \arrow{rr}[xshift=-5mm]{h\circ g \circ f} \arrow{dr}[swap]{g\circ f} & & D \\
-					& C \arrow{ur}[swap]{h} &
+				\begin{tikzcd}[column sep=large]
+					~& B \arrow{dr}{h\circ g} & \\
+					A \arrow{ur}{f} \arrow{rr}[xshift=-7mm]{(h\circ g) \circ f}\arrow{rr}[xshift=-7mm,swap]{h\circ (g \circ f)} \arrow{dr}[swap]{g\circ f} & & D \\
+					& C \arrow[leftarrow,crossing over]{uu}[yshift=5mm,swap]{g} \arrow{ur}[swap]{h} &
 				\end{tikzcd}
 			\]
 		\item
+			$g$ ist Linksinverse von $f$; $g$ ist Rechtsinverse von $f$; $f$ und $g$ sind zueinander invers:
 			\[
 				\begin{tikzcd}
 					X \arrow{d}[swap]{\Id_X} \arrow{r}{f} & Y \arrow{dl}{g} \\
 					X &
 				\end{tikzcd}
+				\!
 				\begin{tikzcd}
 					~& Y \arrow{d}{\Id_Y} \arrow{dl}[swap]{g} \\
 					X \arrow{r}{f} & Y
@@ -143,7 +145,7 @@ kommutiert, falls $h = g \circ f$.
 			~ & Y \arrow{dr}{g} & \\
 			X \arrow{ur}{f} \arrow{rr}[swap]{h} & & Z
 		\end{tikzcd}
-		\implies
+		\mapsto
 		\begin{tikzcd}[column sep=tiny]
 			~ & F(Y) \arrow{dr}{F(g)} & \\
 			F(X) \arrow{ur}{F(f)} \arrow{rr}[swap]{F(h)} & & F(Z)
@@ -173,12 +175,12 @@ kommutiert, falls $h = g \circ f$.
 \begin{df}
 	Ein \emph{kontravarianter Funktor} $G: \Cat{C} \to \Cat{D}$ ordnet jedem Objekt $X$ in $\Cat{C}$ ein Objekt $G(X)$ in $\Cat{D}$ zu und jedem Morphismus $f: X \to Y$ in $\Cat{C}$ einen Morphismus $G(f) : G(Y) \to G(X)$ in $\Cat{D}$, sodass $G(\Id_X) = \Id_{G(X)}$ und $G(g\circ f) = G(f) \circ G(g)$
 	\[
-		\begin{tikzcd}
+		\begin{tikzcd}[column sep=small]
 			~ & Y \arrow{dr}{g} & \\
 			X \arrow{ur}{f} \arrow{rr}{h} & & Z
 		\end{tikzcd}
-		\implies
-		\begin{tikzcd}
+		\mapsto
+		\begin{tikzcd}[column sep=tiny]
 			~ & G(Y) \arrow[leftarrow]{dr}{G(g)} & \\
 			G(X) \arrow[leftarrow]{ur}{G(f)} \arrow[leftarrow]{rr}{G(h)} & & G(Z)
 		\end{tikzcd}
@@ -245,7 +247,7 @@ kommutiert, falls $h = g \circ f$.
 	\[
 		\begin{tikzcd}
 			~ & \pi_0(X) \arrow{dd}[yshift=5mm]{t(X)} \arrow{rr}{\pi_0} & & \pi_0(Y) \arrow{dd}{t(Y)} \\
-			X \arrow{ur}{a\mapsto [a]_X} \arrow{dr}[swap]{a\mapsto \scr Z_X(a)} \arrow[crossing over]{rr}[xshift=5mm]{f} & & Y \arrow{ru}{b\mapsto[b]_Y} \arrow{dr}[swap]{b\mapsto \scr Z_Y(b)} & \\
+			X \arrow{ur}{a\mapsto [a]_X} \arrow{dr}[swap]{a\mapsto \scr Z_X(a)} \arrow[crossing over]{rr}[swap,xshift=5mm]{f} & & Y \arrow{ru}{b\mapsto[b]_Y} \arrow{dr}[swap]{b\mapsto \scr Z_Y(b)} & \\
 			& \scr Z(X) \arrow{rr}[below]{\scr Z(f)} && \scr Z(Y)
 		\end{tikzcd}
 %		\begin{tikzcd}[row sep=small,column sep=small]
