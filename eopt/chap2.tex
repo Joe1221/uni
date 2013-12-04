@@ -2328,9 +2328,9 @@ Wir erwarten
 		\item
 			Ist $(x_k)_{k\in\N}$ beschränkt und $\hat x$ ihr einziger Häufungspunkt, so konvergiert $(x_k)_{k\in\N}$ gegen $\hat x$.
 		\item
-			Ist $\hat x$ ein isolierter Häufungspunkt von $(x_k)$ und gilt für jede gegen $\hat x$ konvergente Teilfolge $(x_l)_{l\in L}$
+			Ist $\hat x$ ein isolierter Häufungspunkt von $(x_k)$ (d.h. es existiert eine Umgebung um $\hat x$, in der $\hat x$ einziger Häufungspunkt ist) und gilt für jede gegen $\hat x$ konvergente Teilfolge $(x_l)_{l\in L}$
 			\[
-				x_l - x_{l+1} \to 0
+				x_l - x_{l+1} \to 0,
 			\]
 			so konvergiert $(x_k)_{k\in\N}$ gegen $\hat x$.
 	\end{enumerate}
@@ -2340,9 +2340,135 @@ Wir erwarten
 				siehe \ref{2.25}.
 			\item
 				triviale Folgerung aus (a).
+			\item
+\coursetimestamp{04}{12}{2013}
+				Angenommen $(x_k) \not\to \hat x$, dann existiert $B_\eps(\hat x)$, so dass unendlich viele $x_k$ außerhalb $B_\eps (\hat x)$ liegen.
+				Wähle $\eps > 0$ so klein, dass außerdem $\hat x$ einziger Häufungspunkt in $B_\eps(\hat x)$ ist.
+				Nach Konstruktion liegen innerhalb und außerhalb $B_\eps(\hat x)$ jeweils unendlich viele $x_k$.
+				Es existiert $L \subset \N$, $|L| = \infty$, so dass $x_l \in B_\eps(\hat x)$ und $x_{l+1} \not\in B_\eps(\hat x)$ für alle $l \in L$.
+				$(x_l)_{l\in L}$ ist beschränkt mit einzigem Häufungspunkt $\hat x$, also $\lim_{L\ni l\to \infty} x_l = \hat x$, ein Widerspruch zu $x_l - x_{l+1} \to 0$.
 		\end{enumerate}
 	\end{proof}
 \end{lem}
 
+\begin{st}[Schnelle Konvergenz des globalisierten Newton-Verfahrens] \label{2.59}
+	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar.
+	Falls \ref{alg:8} nicht terminiert, die erzeugte Folge $(x_k)_{k\in\N} \subset \R^n$ einen Häufungspunkt besitzt und$\nabla^2 f(\hat x)$ positiv definit ist, so gilt
+	\begin{enumerate}[(a)]
+		\item
+			$\hat x$ ist isoliertes Minimum von $f$,
+		\item
+			$x_k \to \hat x$,
+		\item
+			Nach endlich vielen Iterationsschritten geht das Verfahren in das Newton-Verfahren über.
+	\end{enumerate}
+	Insbesondere konvergiert $(x_k)_{k\in \N}$ superlinear (für $\nabla^2 f$ lokal Lipschitz-stetig sogar quadratisch) gegen $\hat x$.
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				Nach \ref{2.57} ist $\hat x$ stationärer Punkt und wegen $\nabla^2 f(\hat x)$ positiv definit auch lokales Minimum.
+				Nach \ref{2.48} (a),(b) existierten $\delta, \my > 0$ sodass $\hat x \in \R^n$ der einzige stationäre Punkt in $B_\delta(\hat x)$ ist und $\lambda_{\text{min}} (\nabla^2 f(x)) \ge \my$ für alle $x \in B_\delta(\hat x)$.
+			\item
+				$\hat x$ ist nach \ref{2.57} einziger Häufungspunkt von $(x_k)_{k\in\N}$ in $B_\delta(\hat x)$.
+				Sei $(x_l)_{l\in L}$ eine gegen $\hat x$ konvergente Teilfolge.
+				Wegen $\nabla f(x_l)  \to 0$ gilt
+				\[
+					\|x_l - x_{l+1}\|
+					= s_l \|d_l\|
+					\le \|d_l\|
+					\le \max \Big\{ \underbrace{\|\nabla f(x_l)\|}_{\to 0}, \underbrace{\|\nabla^2 f(x_l)^{-1} \nabla f(x_l)\|}_{\le \|\nabla^2 f(x_l)^{-1} \|\nabla f(x_l)\|} \Big\}
+				\]
+				Wegen $\|\nabla^2 f(x_l)^{-1}\| = \f 1{\lambda_{\text{min}}(\nabla^2 f(x_l)} \le \f 1\my$ also
+				\[
+					\|x_l - x_{l+1}\| \to 0.
+				\]
+				Nach \ref{2.58} konvergiert also $x_k \to \hat x$ für $k\to \infty$.
+			\item
+				Zeige, dass für hinreichend große $k \in \N$
+				\begin{enumerate}[(i)]
+					\item
+						$\nabla^2 f(x_k)$ invertierbar ist,
+					\item
+						die Newtonsuchrichtung $d_k := - \nabla^2 f(x_k)^{-1} \nabla f(x_k)$ die verallgemeinerte Winkelbedingung erfüllt, d.h.
+						\[
+							-\nabla f(x_k)^T d_k
+							\ge \alpha \|\nabla f(x_k)\|^{1 + p}
+						\]
+						mit $\alpha, p > 0$,
+					\item
+						die Armijo-Regel die Schrittweite $s_k = 1$ akzeptiert, d.h.
+						\[
+							f(x_k + d_k)
+							\le f(x_k) + \gamma \nabla f(x_k)^T d_k.
+						\]
+				\end{enumerate}
+				\begin{enumerate}[(i)]
+					\item
+						Da $x_k \to \hat x$ ist $x_k \in B_\delta (\hat x)$ für fast alle $k \in \N$ und damit $\nabla^2 f(x_k)$ invertierbar für fast alle $k \in \N$.
+					\item
+						Da $f \in C^2$, existiert $C > 0$ mit
+						\[
+							\|\nabla^2 f(x) \| \le C
+						\]
+						für alle $x \in B_\delta(\hat x)$.
+						Da $\nabla f(x_k) \to 0$ ist für hinreichend große $k$
+						\[
+							\alpha \|\nabla f(x_k)\|^p
+							\le \f \my C
+						\]
+						und damit
+						\begin{align*}
+							-\nabla f(x_k)^T d_k
+							&= d_k^T \nabla^2 f(x_k) d_k \\
+							&\ge \my \|d_k\|^2 \\
+							&= \my \|\nabla^2 f(x_k)^{-1} \nabla f(x_k)\| \|d_k\| \\
+							&\ge \my \f{\|\nabla f(x_k)\|}{\|\nabla^2 f(x_k)\|} \|d_k\| \\
+							&\ge \f{\my}C \|\nabla f(x_k) \|d_k\| \\
+							&\ge \alpha \|\nabla f(x_k)\|^{1+ p} \|d_k\|.
+						\end{align*}
+					\item
+						Nach \ref{2.3} existiert $s \in [0,1]$ mit
+						\begin{align*}
+							f(x_k + d_k)
+							&= f(x_k) + \nabla f(x_k)^T d_k + \f 12 d_k^T \nabla f(x_k + s d_k) \\
+							&= f(x_k) - \f 12 d_k^T \nabla f(x_k + s d_k).
+						\end{align*}
+						Also ist
+						\begin{align*}
+							f(x_k + d_k) - f(x_k) - \gamma \nabla f(x_k)^T d_k
+							&= (1-\gamma) \nabla f(x_k)^T d_k + \f 12 d_k^T \nabla f(x_k + sd_k) d_k \\
+							&= (\gamma-1) d_k^T \nabla^2 f(x_k) d_k + \f 12 d_k^T \nabla^2 f(x_k + sd_k) d_k \\
+							&= \underbrace{(\gamma-\f 12)}_{<0} \underbrace{d_k^T \nabla^2 f(x_k) d_k}_{\ge \my \|d_k\|^2} + \f 12 d_k^T (\nabla f(x_k + sd_k) - \nabla^2 f(x_k)) d_k \\
+							&\le \Big(\underbrace{\my (\gamma - \f 12)}_{<0} + \underbrace{\f 12 \|\nabla^2 f(x_k + sd_k) - \nabla^2 f(x_k)\|}_{\to 0} \Big) \|d_k\|^2 \\
+							&\le 0
+						\end{align*}
+						für hinreichend große $k \in \N$.
+				\end{enumerate}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\paragraph{Globalisierte BFGS-Verfahren}
+
+siehe GeigerKanzov. % fixme: ref
+
+
+\section{Nichtlineare Ausgleichsprobleme}
+
+
+Betrachte für $F: \R^n \to \R^m$ hinreichend oft differenzierbar die Gleichung
+\[
+	F(x) = 0.
+\]
+Suche als Approximation an die Lösung das Minimum
+\[
+	\|F(x)\| \to \min!,
+\]
+oder äquivalent
+\[
+	\Phi(x)
+	:= \f 12 \| F(x) \|^2
+	= \f 12 \sum_{i = 1}^m F_i(x)^2.
+\]
 
 
