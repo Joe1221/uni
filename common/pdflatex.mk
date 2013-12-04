@@ -8,7 +8,7 @@ LATEXMK     ?= latexmk -pdf -e '$$pdflatex=q/pdflatex $(PDFLATEX_OPTIONS) %O %S/
 LATEXMK   ?= latexmk -pdf
 
 PDFVIEWER ?= xdg-open
-PDFLATEX  ?= pdflatex -synctex=1               # Deprecated
+PDFLATEX  ?= pdflatex $(PDFLATEX_OPTIONS)               # Deprecated
 BIBTEX    ?= bibtex                            # Deprecated
 
 TEXCONFIG ?= config.tex
