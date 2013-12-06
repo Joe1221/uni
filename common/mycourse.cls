@@ -330,9 +330,11 @@
 
 
 \cs_if_exist:NTF \theorempreskip {
-	\theorempreskip{1.5em}                               % Abstand vor Theorem
+	\theorempreskip{1.0em}                               % Abstand vor Theorem
+	\theorempostskip{1.0em}                               % Abstand vor Theorem
 }{
-	\theorempreskipamount 1.5em                               % Abstand vor Theorem
+	\theorempreskipamount 1.0em                               % Abstand vor Theorem
+	\theorempostskipamount 1.0em                               % Abstand vor Theorem
 }
 \theoremindent 1em 									% Theroem einrücken
 \theoremheaderfont{\kern-1em\normalfont\bfseries} 	% Überschrift wieder ausrücken
