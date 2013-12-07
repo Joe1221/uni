@@ -399,7 +399,7 @@
 % Mit Zeilenumbruch
 \DeclareDocumentEnvironment { seg } { o } {
 	\begin{segmentlist} [ ]
-		\item [ { \color{headings} #1 } ]
+		\item [ \mbox{ \color{headings} #1 } ]
 } {
 	\end{segmentlist}
 }
@@ -410,7 +410,7 @@
 		leftmargin = 2em,
 		itemindent = *,
 	]
-		\item [ { \color{headings} #1 }: ]
+		\item [ \mbox{ \color{headings} #1 :} ]
 } {
 	\end{segmentlist}
 }
