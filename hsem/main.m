@@ -1,4 +1,4 @@
-function main()
+function model = main()
 clear;
 
 %import com.comsol.model.*

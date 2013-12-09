@@ -82,10 +82,11 @@ classdef ForwardModel < handle
 				obj.phys.feature(obj.C.name).set('r', 'f(x,y)');
 			end
 			% TODO: Funktion als Interpolation von (f(φ)) mit φ äquidistant.
+			% Erfordert Schnitt mit Kurve, schwierig
 		end
 
-		function getGValue (obj)
-
+		function getGValue (obj, dataPoints)
+			%mphinterp()
 		end
 
 		function run (obj)
