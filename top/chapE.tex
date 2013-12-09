@@ -4,15 +4,24 @@
 
 \section{Zusammenhang}
 
+\begin{df} \label{df:intermediate_value_property}
+	Sei $f: X \to \R$ eine stetige Funktion.
+	Wir definieren die \emph{Zwischenwerteigenschaft} als
+	\[
+		\forall y \in \R, a,b \in X: f(a) \le y \le f(b) \implies \exists x \in X : f(x) = y.
+	\]
+\end{df}
+
 \begin{st}
-	Für jeden topologischen Raum $(X, \scr T)$ sind folgende Aussagen äquivalent:
+	Sei $(X, \scr T)$ ein topologischer Raum.
+	Dann sind folgende Aussagen äquivalent:
 	\begin{enumerate}[(1)]
 		\item
 			Jede stetige Funktion $f: X \to \R$ hat die Zwischenwerteigenschaft
 		\item
 			Für $f: X \to \R$ stetig ist $f(X) \subset \R$ ein Intervall.
 		\item
-			Jede stetige Funktion $f: X \to \{0,1\}$ (diskret) ist konstant.
+			Jede stetige Funktion $f: X \to \{0,1\} \subset \R$ ist konstant.
 		\item
 			Jede stetige Funktion $f: X \to Y$ in einen diskreten Raum $Y$ ist konstant.
 		\item
@@ -44,28 +53,27 @@
 	\begin{itemize}
 			%fixme: diskret, indiskret
 		\item
-			Jedes Intervall $I \subset \R$ ist zusammenhängend (ZWS).
+			Jedes Intervall $I \subset \R$ ist zusammenhängend (nach Zwischenwertsatz, \ref{st:intermediate_value_theorem}).
 		\item
-			$\R \setminus \{a\}$ ist nicht zusammenhängen, denn $\R \setminus \{a\} = \R_{<a} \dunion \R_{>a}$.
+			$\R \setminus \{a\}$ ist nicht zusammenhängend, denn $\R \setminus \{a\} = \R_{<a} \dunion \R_{>a}$ ist offene Zerlegung.
 		\item
-			$\Q$ ist unzusammenhängend.
+			$\Q$ ist nicht zusammenhängend (für $\xi \in \R \setminus \Q$ ist $\Q = \Q_{<\xi} \dunion \Q_{>\xi}$ offene Zerlegung).
 	\end{itemize}
 \end{ex}
 
 \begin{st}
 	Sei $(X, <)$ linear geordnet.
-	Jedes Intervall $I \subset X$ ist zusammenhängend genau dann, wenn $X$ vollständig geordnet und dicht ist.
+	Jedes Intervall $I \subset X$ ist zusammenhängend genau dann, wenn $X$ vollständig geordnet und zu allen $a, b \in X, a < b$ ein Zwischenwert $c \in X, a < c < b$ existiert.
 	\begin{proof}
 		Wie in $\R$, bzw. $\Q$.
 	\end{proof}
 \end{st}
 
-\begin{proof}
+\begin{ex}
 	\begin{itemize}
 		\item
-			$(\R, <)$ ist vollständig geordnet, also $I \subset \R$ zusammenhängend.
+			$(\R, <)$ ist vollständig geordnet, also jedes Intervall $I \subset \R$ zusammenhängend.
 		\item
-			$(\Q, <)$ ist nicht vollständig geordnet.
 			Das Intervall $[0,1]_\Q$ ist nicht zusammenhängend, denn für $\xi \in [0,1] \setminus [0,1]_\Q$ ist
 			\[
 				[0,1]_\Q =
@@ -74,11 +82,13 @@
 				\Set{ x \in \Q | \xi < x \le 1 }
 			\]
 			eine offene Zerlegung.
+			Also ist $(\Q, <)$ nicht vollständig geordnet.
 	\end{itemize}
-\end{proof}
+\end{ex}
 
 \begin{st}
-	Ist $f: X \to Y$ stetig und $X$ zusammenhängend, so auch $f(X)$.
+	Sei $f: X \to Y$ stetig.
+	Falls $X$ zusammenhängend ist, dann auch $f(X)$.
 	\begin{proof}
 		Ist $f(X) = A \dunion B$ offene Zerlegung, so auch $X = f^{-1}(A) \dunion f^{-1}(B)$, also $A = \emptyset$ oder $B = \emptyset$.
 	\end{proof}
@@ -246,7 +256,7 @@ Analog zum Weg in metrischen Räumen definieren wir Wege in topologischen Räume
 	Die Äquivalenzklasse $[x]$ von $x$ heißt \emph{Weg(-zusammenhangs)komponente}.
 	Dies definiert die Zerlegung
 	\[
-		\pi_0 (X) := \{ [x] : x \in X \}.
+		\pi_0 (X) := \Set{ [x] | x \in X }.
 	\]
 	$X$ heißt \emph{wegzusammenhängend}, wenn $\pi_0(X) = \{X\}$.
 \end{df}
@@ -266,17 +276,17 @@ Analog zum Weg in metrischen Räumen definieren wir Wege in topologischen Räume
 	Wegzusammenhang impliziert Zusammenhang, aber nicht umgekehrt.
 	\begin{proof}
 		Wie im metrischen Fall.
-		Gegenbeispiel folgt. % fixme: ref
+		Gegenbeispiel in \ref{ex:topologists_sine_curve}.
 	\end{proof}
 \end{st}
 
-\begin{ex}
+\begin{ex}[Sinuskurve des Topologen] \label{ex:topologists_sine_curve}
 	Sei
 	\begin{align*}
-		A &:= \Set{ (x, \sin( \f {\pi}x)) | x \in ]0,1] } \\
-		B &:= \{0\} \times [-1, 1]
+		A &:= \Set{ \big(x, \sin( \f {\pi}x)\big) | x \in (0,1] }, \\
+		B &:= \Set{ 0 } \times [-1, 1].
 	\end{align*}
-	$C = \_A = A \cup B$ ist zusammenhängend, aber nicht wegzusammenhängend.
+	Dann ist $C := A \cup B = \_A$ zusammenhängend, aber nicht wegzusammenhängend.
 \end{ex}
 
 \coursetimestamp{02}{12}{2013}
@@ -350,8 +360,7 @@ Analog zum Weg in metrischen Räumen definieren wir Wege in topologischen Räume
 \begin{ex}
 	\begin{itemize}
 		\item
-			Die „Sinuskurve des Topologen“ % fixme: ref
-			ist zusammenhängend, aber nicht lokal zusammenhängend.
+			Die „Sinuskurve des Topologen“ (siehe \ref{ex:topologists_sine_curve}) ist zusammenhängend, aber nicht lokal zusammenhängend.
 		\item
 			Der „rationale Kamm“
 			\[
@@ -403,7 +412,7 @@ Zu jedem Raum $X$ haben wir die Zerlegungen $X = \bigdunion \scr Z(X)$ und $X = 
 	Seien $f,g : X \to \S^n$ stetig und nirgends antipodal, d.h. $f(x) \neq -g(x)$ für alle $x \in X$.
 	Dann sind $f$ und $g$ homotop in $\S^n$ mittels
 	\[
-		H(t,x) := \f {(1-t)f(x) - tg(x)}{|(1-t)f(x) - tg(x)|}.
+		H(t,x) := \dfrac {(1-t)f(x) - tg(x)}{|(1-t)f(x) - tg(x)|}.
 	\]
 	\begin{proof}
 		klar
@@ -459,7 +468,7 @@ Zu jedem Raum $X$ haben wir die Zerlegungen $X = \bigdunion \scr Z(X)$ und $X = 
 \end{st}
 
 \begin{kor}
-	Wir haben eine Kategorie \emph{Toph}:
+	Wir haben eine Kategorie $\Cat{Toph}$:
 	\begin{itemize}
 		\item
 			Objekte sind topologische Räume $X, Y, Z, \dotsc $,
@@ -471,12 +480,12 @@ Zu jedem Raum $X$ haben wir die Zerlegungen $X = \bigdunion \scr Z(X)$ und $X = 
 \end{kor}
 
 \begin{st}
-	Der Funktor $\pi_0: \mathrm{Top} \to \mathrm{Set}$ ist homotopie-invariant, d.h. aus $f \homotopic g$ folgt $\pi_0(f) = \pi_0(g)$.
+	Der Funktor $\pi_0: \Cat{Top} \to \Cat{Set}$ ist homotopie-invariant, d.h. aus $f \homotopic g$ folgt $\pi_0(f) = \pi_0(g)$.
 	\[
 		\begin{tikzcd}[row sep=tiny]
-			\mathrm{Top} \arrow{dr}{\pi_0} \arrow{dd}[left]{q} & \\
-			& \mathrm{Set} \\
-			\mathrm{Toph} \arrow{ur}[below]{\pi_0} & \\
+			\Cat{Top} \arrow{dr}{\pi_0} \arrow{dd}[swap]{q} & \\
+			& \Cat{Set} \\
+			\Cat{Toph} \arrow{ur}[swap]{\pi_0} & \\
 		\end{tikzcd}.
 	\]
 \end{st}

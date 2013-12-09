@@ -190,7 +190,7 @@
 
 \subsection{Metriken und metrische Räume}
 
-\begin{df}[Metrik]
+\begin{df}[Metrik] \label{df:metric}
 	Eine \emph{Metrik} auf einer Menge $X$ ist eine Abbildung $d : X \times X \to [0, \infty]$, die folgende Eigenschaften erfüllt:
 	\begin{enumerate}[({M}1),start=0]
 		\item
@@ -207,7 +207,7 @@
 \end{df}
 
 \begin{df}[Halbmetrik] \label{df:pseudometric}
-	Eine \emph{Halbmetrik} auf $X$ ist eine Abbildung $d: X \times X \to [0, \infty]$, die (M0), (M2), (M3) erfüllt.
+	Eine \emph{Halbmetrik} auf $X$ ist eine Abbildung $d: X \times X \to [0, \infty]$, die (M0), (M2), (M3) aus \ref{df:metric} erfüllt.
 	\begin{note}
 		Im Gegensatz zur Metrik dürfen also $x \neq y$ existieren mit $d(x,y) = 0$.
 	\end{note}
@@ -265,7 +265,6 @@
 
 \subsection{Metriken unter Abbildungen}
 
-% fixme: maybe reference to embeddings in chapter C?
 \begin{df}
 	Eine \emph{isometrische Einbettung} von $(X,d_X)$ in $(Y,d_Y)$ ist eine Abbildung $f: X\to Y$ mit
 	\[
@@ -275,7 +274,8 @@
 
 	Ist $f$ bijektiv, so heißen $f$ \emph{Isometrie} und die beiden metrischen Räume $(X,d_X)$, $(Y,d_Y)$ \emph{isometrisch}.
 	\begin{note}
-		Eine isometrische Einbettung ist ein Homöomorphismus $X \homto f(X)$.
+		Die isometrische Einbettung ist auch eine Einbettung gemäß \ref{df:embedding}.
+		Insbesondere ist also jede isometrische Einbettung ein Homöomorphismus $X \homto f(X)$ gemäß \ref{df:metric_space_homeomorphism} und \ref{df:homeomorphism}.
 	\end{note}
 \end{df}
 
@@ -462,7 +462,7 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 	oder mit anderen Worten: Jede Umgebung von $a$ enthält fast alle Folgenglieder.
 \end{df}
 
-\begin{df}
+\begin{df} \label{df:metric_space_homeomorphism}
 	Eine Funktion $f: X \to Y$ heißt stetig in einem Punkt $a \in X$, wenn
 	\[
 		\forall \eps > 0 \exists \delta > 0 : \forall x \in X : d_X(x,a) < \delta \implies d_Y(f(x), f(a)) < \eps.
@@ -544,13 +544,13 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 	\end{proof}
 \end{st}
 
-\subsection{Zusammenhang}
+\section{Zusammenhang}
 
-\begin{st}[Zwischenwertsatz (ZWS)]
-	Jede stetige Funktion $f: [a,b] \to \R$ hat die Zwischenwerteigenschaft (ZWE): zu $y \in \R$ mit $f(a) \le y \le f(b)$ existiert $x \in \R$ mit $x \in [a,b]$ mit $f(x) = y$.
+\begin{st}[Zwischenwertsatz] \label{st:intermediate_value_theorem}
+	Jede stetige Funktion $f: X := [a,b] \to \R$ hat die Zwischenwerteigenschaft (siehe auch \ref{df:intermediate_value_property}): zu $y \in \R$ mit $f(a) \le y \le f(b)$ existiert $x \in \R$ mit $x \in [a,b]$ mit $f(x) = y$.
 	\begin{note}
-		Die Vollständigkeit von $\R$ ist hier wesentlich.
-		Betrachte $f: \Q \to \Q$ mit $f(x) = x^2 - 2$ hat nicht die ZWE, denn $f(1) = - 1 < 0$, $f(2) = 2 > 0$, aber es gibt kein $x \in \Q$ mit $f(x) = 0$.
+		Die Vollständigkeit von $\R$ ist hierfür wesentlich:
+		die stetige Funktion $f: \Q \to \Q$ mit $f(x) = x^2 - 2$ hat nicht die ZWE, da $f(1) = - 1 < 0$ und $f(2) = 2 > 0$, aber kein $x \in \Q$ mit $f(x) = 0$ existiert.
 	\end{note}
 	\begin{proof}
 		Siehe \coursehref{Blatt00.pdf}{Übungsaufgabe Blatt0, 1.2.}
@@ -561,7 +561,7 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 	Für jeden metrischen Raum $(X,d)$ sind folgende Aussagen äquivalent:
 	\begin{enumerate}[(1)]
 		\item
-			Jede stetige Funktion $f: X \to \R$ hat die ZWE,
+			Jede stetige Funktion $f: X \to \R$ hat die Zwischenwerteigenschaft,
 		\item
 			Für jede stetige Funktion $f: X \to \R$ ist $f(X) \subset \R$ ein Intervall,
 		\item
@@ -584,8 +584,12 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 \end{st}
 
 \begin{ex}
-	Jedes Intervall $I \subset \R$ ist zusammenhängend (nach ZWS).
-	Hingegen ist $\R \setminus \{a\}$ nicht zusammenhängend ($A = \R_{<a}, B=\R_{>a}$ sind nichtleere offene Zerlegungen).
+	\begin{itemize}
+		\item
+			Jedes Intervall $I \subset \R$ ist zusammenhängend (gerade die Aussage des Zwischenwertsatzes, \ref{st:intermediate_value_theorem}).
+		\item
+			$\R \setminus \{a\}$ ist nicht zusammenhängend ($A = \R_{<a}, B=\R_{>a}$ sind nichtleere offene Zerlegungen).
+	\end{itemize}
 \end{ex}
 
 \begin{st}
@@ -797,7 +801,7 @@ Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachsc
 \section{Kompaktheit}
 
 
-\begin{df} \label{df:compact_space}
+\begin{df} \label{df:compact_metric_space}
 	Ein metrischer Raum $(X,d)$ heißt \emph{kompakt}, wenn jede offene Überdeckung eine endliche Teilüberdeckung enthält, d.h. zu jeder Überdeckung $X = \bigcup_{i \in I} U_i$ mit $U_i \subset X$ offen existieren $i_1, \dotsc, i_n \in I$ für die $X = \bigcup_{k=1}^n U_{i_k}$ gilt.
 \end{df}
 
@@ -880,7 +884,7 @@ Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachsc
 	Dann sind folgende Eigenschaften äquivalent:
 	\begin{enumerate}[(1)]
 		\item
-			$(X,d)$ ist kompakt gemäß \ref{df:compact_space}.
+			$(X,d)$ ist kompakt gemäß \ref{df:compact_metric_space}.
 		\item
 			\emph{Abzählbare Kompaktheit}: Jede abzählbare Überdeckung enthält eine endliche Teilüberdeckung.
 		\item
