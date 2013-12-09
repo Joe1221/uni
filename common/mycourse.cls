@@ -72,7 +72,8 @@
 			marginparwidth=1.7cm,
 			marginparsep=0.2cm,
 		}{geometry}
-		\PassOptionsToPackage{scaled=0.785}{beramono}
+		%\PassOptionsToPackage{scaled=0.785}{beramono}
+		\PassOptionsToPackage{scaled=0.83}{beramono}
 		\PassOptionsToClass{fontsize=10pt}{scrbook}
 	,
 	a5 .code:n               = \keys_set:nn {mycourse} {paper-size=a5},
@@ -127,7 +128,11 @@
 \RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
 %\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
 \RequirePackage{libertine}                  % Libertine font
+%\RequirePackage[libertine]{newtxmath}
 \RequirePackage{beramono}      % Typewriter font scaled to fit with Libertine
+%\RequirePackage{bera}
+%\RequirePackage{mathspec}
+%\setmathtt{beramono}
 
 % Load base class
 \LoadClass{scrbook}
