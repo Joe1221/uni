@@ -1,0 +1,227 @@
+%\part{Geometrische Topologie}
+
+\chapter{Simpliziale Komplexe}
+\coursetimestamp{09}{12}{2013}
+
+\section{Simplizialkomplexe}
+
+\begin{df}
+	Für $n \in \N$ ist der \emph{$n$-dimensionale Standardsimplex} der Raum
+	\[
+		\Delta^n := \Set{ (t_0, \dotsc, t_n) \in \R^{n+1} | t_0, \dotsc, t_n \ge 0, t_0 + \dotsb + t_n = 1 }.
+	\]
+\end{df}
+
+\begin{conv}
+	Im Folgenden sei $V$ stets ein $\R$-Vektorraum und $v_0, \dotsc, v_n \in V$ affin unabhängig.
+\end{conv}
+
+\begin{df}
+	Seien $v_0, \dotsc, v_n \in V$ affin unabhängig, d.h. $v_1 - v_0, \dotsc, v_n - v_0$ sind $\R$-linear unabhängig.
+	Ihre Konvexe Hülle ist der \emph{affine $n$-Simplex}
+	\[
+		\Delta = [v_0, v_1, \dotsc, v_n]
+		= \Set{ t_0v_0 + t_1v_1 + \dotsb + t_nv_n | (t_0, \dotsc, t_n) \in \Delta^n }.
+	\]
+	%fixme: anmerkung zur eindeutigkeit
+	%fixme: ungeschickte notation mit \Delta (dimension? v_i?)
+	$t_0, t_1, \dotsc, t_n$ heißen auch \emph{baryzentrische Koordinaten}.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$\Delta^n = [e_0, \dotsc, e_n] \subset \R^{n+1}$
+		\item
+			$[0,e_1,\dotsc,e_n] = \Set{ (t_1, \dotsc, t_n) \in \R^n | t_1, \dotsc, t_n \ge 0, t_1 + \dotsb + t_n \le 1 }$
+	\end{itemize}
+\end{ex}
+
+\begin{nt}
+	Es gilt $h: \Delta^n \homto \Delta$ mit
+	\[
+		h(t_0, \dotsc, t_n) = t_0 v_0 + \dotsb + t_n v_n.
+	\]
+	\begin{itemize}
+		\item
+			$\vert: [v_0, \dotsc, v_n] \mapsto \{v_0, \dotsc, v_n\}$
+		\item
+			$\dim: [v_0, \dotsc, v_n] \mapsto n$
+	\end{itemize}
+\end{nt}
+
+\begin{df}
+	Für $S \subset \{v_0, \dotsc, v_n\}$ heißt $[S]$ eine \emph{Seite} von $\Delta$, kurz $[S] \le \Delta$.
+
+	Eine Seite $[S] \le \Delta$ mit $[S] \neq \Delta$ heißt \emph{echt}, kurz $[S] < \Delta$.
+
+	Der \emph{Rand} von $\Delta$ ist $\boundary \Delta := \bigcup_{[S] < \Delta} [S]$
+	Das \emph{Innere} ist $\Delta := \Delta \setminus \boundary \Delta$.
+
+	\begin{note}
+		Rand und Inneres sind nur dann gleichbedeutend mit den bisherigen topologischen Definitionen, wenn wir sie bezüglich des affinen Vektorraums des Simplex betrachten.
+		% fixme: besser formulieren
+	\end{note}
+\end{df}
+
+
+\subsection{Affine Simplizialkomplexe}
+
+
+% fixme: Zerlegung eines Quadrats in verschiedene Simplizes, auch kompliziertere Gebilde (z.b. Octaeder)
+
+\begin{df}
+	Ein \emph{(affiner) Simplizialkomplex} in $V$ ist eine Menge $\scr K$ von affinen Simplizes $\Delta \subset V$, für die gilt
+	\begin{enumerate}[1), start=0]
+		\item
+			$\emptyset \in \scr K$,
+		\item
+			$\Delta' \le \Delta \in \scr K \implies \Delta' \in \scr K$,
+		\item
+			$\Delta_1, \Delta_2 \in \scr K \implies \Delta_1 \cap \Delta_2 \le \Delta_1, \Delta_2$.
+	\end{enumerate}
+	Wir vereinbaren
+	\[
+		\dim \scr K := \sup \Set{ \dim \delta | \Delta \in \scr K }.
+	\]
+	Die \emph{Eckenmenge}
+	\[
+		\Omega(\scr K) = \bigcup \Set{ \vert \Delta | \Delta \in \scr K },
+	\]
+	die \emph{Polyeder}
+	\[
+		|\scr K| := \bigcup \scr K := \bigcup \Set{ \Delta | \Delta \in \scr K }.
+	\]
+	Jedes Simplex $\Delta \in \scr K$ versehen wir mit seiner euklidischen Topologie.
+	Das Polyeder $|\scr K|$ versehen wir mit seiner \emph{simplizialen Topologie}:
+	eine Menge $U \subset |K|$ sei offen, wenn $U \cap \Delta$ offen in $\Delta$ ist für jeden Simplex $\Delta \in \scr K$.
+\end{df}
+
+\begin{ex}[Gegenbeispiele]
+	% fixme: ergänzen
+\end{ex}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$0$-dim: $\scr K = \{ \emptyset, \{a\} : a \in \Omega \}$, $|\scr K| = \Omega$ mit diskreter Topologie.
+		\item
+			$1$-dimensional: simpliziale Graphen.
+		\item
+			simpliziale Sinuskurve des Topologen, $B$ ist offen.
+	\end{itemize}
+\end{ex}
+
+\begin{nt}
+	Ist $\scr K$ in $V$ (lokal-)endlich, so stimmen die simpliziale Topologie auf $|\scr K|$ und die Teilraumtopologie auf $|\scr K| \subset V$ überein.
+
+	Im Allgemeinen gilt das nicht, siehe obiges Beispiel.
+\end{nt}
+
+
+\subsection{Kombinatorische Simplizialkomplexe}
+
+%fixme: drawing
+\[
+	K := \Set{ \emptyset, \{a\}, \{b\}, \{c\}, \{d\}, \{a,b\}, \{b,c\}, \{a,c\}, \{c,d\}, \{a,b,d\} }.
+\]
+
+\begin{df}
+	Ein \emph{kombinatorischer Simplizialkomplex} ist ein System $K$ endlicher Mengen mit $\emptyset \in K$ und $T \subset S \in K \implies T \in K$.
+
+	Wir vereinbaren $\dim S = |S| - 1$ und $\dim K := \sup \Set{ \dim S | S \in K }$.
+	Die Eckenmenge
+	\[
+		\Omega(K) := \bigcup K := \bigcup_{S \in K} S.
+	\]
+\end{df}
+
+\begin{df}
+	Eine \emph{Darstellung} $f: K \to V$ ist eine Abbildung $f: \Omega(K) \to V$, so dass
+	\begin{enumerate}[1)]
+		\item
+			für $S \in K$ ist $f(S) \subset V$ affin unabhängig,
+		\item
+			für $S, T \in K$ gilt $[f(S)] \cap [f(T)] = [f(S \cap T)]$.
+	\end{enumerate}
+	Damit ist $\scr K := K_f := \Set{ [f(S)] | S \in K }$ ein affiner Simplizialkomplex.
+	Das Polyeder $|K|_f := |\scr K|$ heißt \emph{topologische Realisierung von $K$ mittels $f$}.
+\end{df}
+
+\begin{df}
+	Im $\R$-Vektorraum $\R^\Omega$ ist die kanonische Basis $(e_s)_{s \in \Omega}$ gegeben durch $e_s: \Omega \to \R$ mit $e_s(s) = 1$ und $e_s(s') = 0$ für $s' \neq s$.
+	Die Abbildung $f: \Omega \to \R^\Omega: s \mapsto e_s$ heißt \emph{kanonische Darstellung} von $K$.
+	%fixme: prüfe: ist das eine darstellung?
+	Der Komplex $\scr K = \Set{ [f(s)] | s \in K}$ heißt \emph{kanonischer affiner Simplizialkomplex zu $K$} und $|K| := |\scr K|$ heißt \emph{kanonische Realisierung} von $K$.
+\end{df}
+
+\begin{nt}
+	Alternativ lässt sich die kanonische Realisierung auch angeben als
+	\[
+		|K| = \Set{ x: \Omega(K) \to [0,1] | \supp(x) \in K, \sum_{s \in \Omega} x(s) = 1 }.
+	\]
+\end{nt}
+
+\begin{ex}
+	Zu $D^n := \scr P({0, 1, \dotsc, n})$ ist die kanonische Realisierung der Standardsimplex $\Delta^n = [e_1, \dotsc, e_n] \subset \R^{n+1}$ zusammen mit all seinen Seiten.
+\end{ex}
+
+\begin{nt}
+	Es exstiert $h: |K| \homto |K|_f$ mit
+	%fixme: ref zur darstellung aus letzter bemerkung
+	\[
+		h(x) = \sum_{s\in \Omega} x(s) f(s)
+	\]
+	%fixme: proof
+\end{nt}
+
+\begin{df}
+	Seien $K, L$ Simplizes.
+	Eine simpliziale Abbildung $f: K \to L$ ist eine Abbildung $f: \Omega(K) \to \Omega(L)$ mit $S \in K \implies f(S) \in L$.
+	Dies definiert eine Abbildung $|f|: |K| \to |L|$ durch affine Fortsetzung
+	\[
+		|f|:
+		\sum_{s \in \Omega(K)} x(s) e_s
+		\mapsto
+		\sum_{s \in \Omega(K)} x(s) \underbrace{f(e_s)}_{= e_{f(s)}}.
+	\]
+\end{df}
+
+\begin{nt}
+	Wir haben folgenden Zusammenhang zwischen kombinatorische Simplizialkomplexe, affine Simplizialkomplexe und Topologie:
+	% fixme: drawing
+	Wir werden daher im folgenden nur allgemein von Simplizialkomplexen sprechen.
+\end{nt}
+
+
+\section{Triangulierung topologischer Räume}
+
+
+\begin{df}
+	Sei $X$ ein topologischer Raum.
+	Eine \emph{Triangulierung} $(K, h)$ von $X$ ist ein Simplizialkomplex $K$ und ein Homöomorphismus $h: |K| \homto X$.
+\end{df}
+
+%fixme: drawing, tirangulierung von sphere und torus
+
+\begin{ex}[Platonische Körper]
+	%Platonische Körper sind konvexe Hüllen von endlich vielen Punkten.
+
+	Tetraeder, Würfel, Octaeder, etc. sind \emph{Platonische Körper}.
+
+	Dies sind \emph{Polytope}, bzw. \emph{polytopale Komplexe}.
+
+	Hier sind baryzentrische Koordinaten nicht mehr unbedingt eindeutig, wie bei den Simplizes!
+\end{ex}
+
+\subsubsection{Kegelkonstruktion}
+
+%fixme: drawing
+
+\subsubsection{Zentrische Unterteilung}
+
+%fixme: drawing
+
+
+
+
