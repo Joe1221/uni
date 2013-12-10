@@ -2472,4 +2472,196 @@ oder äquivalent
 	= \f 12 \sum_{i = 1}^m F_i(x)^2.
 \]
 
+\coursetimestamp{09}{12}{2013}
 
+\begin{lem} \label{2.60}
+	Sei $F \in C^1$ (bzw. $F \in C^2$), dann ist $\Phi \in C^1$ (bzw. $\Phi \in C^2$) mit
+	\begin{align*}
+		\nabla \Phi(x) &= F'(x)^T F(x) \\
+		\nabla^2 \Phi(x) &= F'(x)^T F'(x) + \sum_{i=1}^m F_i(x) \nabla^2 F_i(x)
+	\end{align*}
+\end{lem}
+
+\subsection{Das Gauß-Newton-Verfahren}
+
+Newton angewandt auf das nichtlineare Ausgleichsproblem ergibt
+\begin{align*}
+	x_{k+1}
+	&:= x_k - \nabla^2 \Phi(x_k)^{-1} \nabla \Phi(x_k) \\
+	&= x_k - \Big(F'(x_k)^T F'(x_k) + \sum_{i=1}^m F_i(x_k) \nabla^2 F_i(x_k) \Big)^{-1} F'(x_k)^T F(x_k).
+\end{align*}
+
+Der Newton-Algorithmus minimiert in jedem Schritt die quadratische Approximation
+\[
+	\Phi(x) \approx \Phi(x_k) + \nabla \Phi(x_k)^T (x-x_k) + \f 12 (x-x_k) \nabla^2 \Phi(x_k) (x-x_k)
+\]
+Nun hat $\Phi$ aber eine gewisse Gestalt, die wir ausnutzen könnten.
+
+Minimiere stattdessen
+\[
+	\Phi(x)
+	= \f 12 \|F(x)\|^2
+	\approx \f 12 \|F(x_k) + F'(x_k) (x-x_k) \|^2,
+\]
+d.h. suche eine bestmögliche Lösung für
+\[
+	-F(x_k) = F'(x_k)(x - x_k).
+\]
+Die Gaußschen Normalengleichungen liefern, dass das gesuchte Minimum genau
+\[
+	F'(x_k)^T F'(x_k) (x-x_k) = - F'(x_k)F(x_k)
+\]
+löst.
+Dies liefert die Iteration
+\[
+	x_{k+1}
+	:= x_k - \big(F'(x_k)^T F'(x_k)\big)^{-1} F'(x_k)^T F(x_k)
+\]
+Für $F: \R^n \to \R^n$ und $F'(x_k)$ invertierbar, dann ist dies genau das bisherige Newton-Verfahren.
+
+\begin{alg} \label{alg:9}
+	\begin{algorithmic}
+		\Require{Startwert $x_0 \in \R^n$}
+		\While{$F'(x)^T F(x) \neq 0$}
+			\State{$d_k \gets - \big(F'(x_k)^T F'(x_k)\big)^{-1} F'(x_k)^T F(x_k)$}
+			\State{$x_{k+1} \gets x_k + d_k$}
+		\EndWhile
+	\end{algorithmic}
+\end{alg}
+
+Gauß-Newton-Verfahren konvergieren (für nicht exakt lösbare nichtlineare Ausgleichprobleme) im Allgemeinen nur linear (siehe Übungsaufgabe).
+
+
+\subsection{Levenberg-Marquardt-Verfahren}
+
+Betrachte die Approximation
+\[
+	\Phi(x)
+	= \f 12 \|F(x)\|^2
+	\approx \f 12 \|F(x_k) + F'(x_k) (x-x_k) \|^2.
+\]
+Es lohnt sich nicht das Minimum dieser Approximation exakt zu berechnen, da die Approximation nur in der Nähe von $x_k$ gilt.
+
+Minimiere
+\[
+	\| F(x_k) + F'(x_k)(x-x_k) \|^2 + \my \|x-x_k\|^2 \to \min!
+\]
+mit Parameter $\my > 0$, der bestimmt, wie der jeweilige Ausdruck gewichtet wird:
+\begin{align*}
+	\my = 0 &: \text{ nur $\|F(x_k) + F'(x_k)(x-x_k)\|$ wird minimiert, Gauß-Newton} \\
+	\my \to \infty &: \text{ nur $\|x-x_k\|$ wird minimiert, $x = x_k$}.
+\end{align*}
+Folgenden Minimierungsproblem ist eine äquivalente Formulierung:
+\[
+	\left\|^2
+	\begin{pmatrix}
+		F'(x_k) \\
+		\sqrt{\my} I
+	\end{pmatrix}
+	(x-x_k)
+	+ \begin{pmatrix}
+		F(x_k) \\
+		0
+	\end{pmatrix}
+	\right\|^2 \to \min!
+\]
+Die Gaußsche Normalengleichung liefert
+\[
+	\Big( F'(x_k)^T \sqrt{\my} I \Big)
+	\begin{pmatrix}
+		F'(x_k) \\
+		\sqrt{\my} I
+	\end{pmatrix}
+	(x-x_k)
+	=
+	- \Big(F'(x_k)^T \sqrt{\my} I \Big)
+	\begin{pmatrix}
+		F(x_k) \\
+		0
+	\end{pmatrix}.
+\]
+Dies ließert die Iteration $x_{k+1} := x_k + d_k$, wobei $d_k$ folgende Gleichung löst:
+\[
+	\Big( F'(x_k)^T F'(x_k) + \my I \Big) d_k
+	= - F'(x_k)^T F(x_k).
+\]
+Dabei ist $F'(x_k)^T F'(x_k) + \my I$ stets positiv definit (siehe folgender Satz), also invertierbar.
+
+\begin{lem} \label{2.61}
+	Sei $x_k \in \R^n$.
+	\begin{enumerate}[(a)]
+		\item
+			Für jedes $\my > 0$ ist $F'(x_k)^T F'(x_k) + \my I$ positiv definit und damit invertierbar.
+		\item
+			Die Abbildung $r: (0,\infty) \to \R: \my \mapsto \|d_k\|$, wobei
+			\[
+				d_k := -\Big( F'(x_k)^T F'(x_k) + \my I \Big)^{-1} F'(x_k)^T F(x_k),
+			\]
+			ist stetig und monoton fallend.
+			Es gilt
+			\[
+				\lim_{\my\to\infty} d_k = 0
+			\]
+			und falls $F'(x_k)^T F'(x_k)$ invertierbar ist
+			\[
+				\lim_{\my\to 0} d_k = -(F'(x_k)F'(x_k))^{-1} F'(x_k)^T F(x_k).
+			\]
+		\item
+			Die Wahl
+			\[
+				d_k := -\Big( F'(x_k)^T F'(x_k) + \my I \Big)^{-1} F'(x_k)^T F(x_k),
+			\]
+			ist ein globales Minimum von
+			\[
+				\| F(x_k) + F'(x_k) d \| \to \min!
+				\udN
+				\|d\| \le r(\my).
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				klar, da $F'(x_k)^T F'(x_k)$ symmetrisch und positiv semidefinit.
+			\item
+				Sei $(v_l)_{l=1}^n \subset \R^n$ eine ONB aus Eigenvektoren von $F'(x_k)^T F'(x_k)$ mit zugehörigen $\lambda_l \ge 0$.
+				Sei
+				\[
+					F'(x_k)^T F(x_k)
+					= \sum_{l=1}^n a_l v_l
+				\]
+				mit $a_l := v_l^T F'(x_k)^T F(x_k)$.
+				Dann ist
+				\[
+					d_k = \sum_{l=1}^n \f {a_l}{\lambda_l + \my} v_l
+				\]
+				und mit Pythagoras
+				\[
+					\|d_k\|^2 = \sum_{l=1}^n ( \f {a_l}{\lambda_l + \my} )^2.
+				\]
+				Hieran ließt man die Behauptungen direkt ab.
+			\item
+				$d_k$ ist globales Minimum von
+				\[
+					\| F(x_k) + F'(x_k) d_k \|^2 + \my \|d_k\|^2 \to \min!
+				\]
+				Falls es ein kleineres globales Minimum der Behauptung gäbe, dann wäre $d_k$ nicht mehr Minimum vom obigem Ausdruck.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+Wann akzeptieren wir $\my$?
+Definiere
+\begin{align*}
+	\eps
+	&:= \dfrac {\mathrm{ared}_k}{\mathrm{pred}_k} \\
+	&:= \dfrac {\|F(x_k)\| - \|F(x_{k+1})\|}{\|F(x_k)\|^2 - \|F(x_k) + F'(x_k) (x_{k+1} - x_k)\|^2}
+\end{align*}
+Ein sehr kleines $\eps$ bedeutet, der Schritt war zu groß, also vergrößere $\my$
+
+Ein großes $\eps$, nah an $1$ bedeutet, der Schritt war okay, vlt sogar zu klein, verkleinere $\my$ evtl, oder lass es gleich.
+
+\begin{alg} \label{alg:10}
+	% fixme: alg
+\end{alg}
+
+Für Konvergenztheorie (für eine Variante dieses Verfahrens) siehe Hanke, Satz 21.3 % fixme: ref
