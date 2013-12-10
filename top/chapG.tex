@@ -210,6 +210,8 @@
 	Tetraeder, Würfel, Octaeder, etc. sind \emph{Platonische Körper}.
 
 	Dies sind \emph{Polytope}, bzw. \emph{polytopale Komplexe}.
+	% fixme: definition of polytopaler Komplex
+	% Simpliziale Komplexe \subset Polytopale Komplexe
 
 	Hier sind baryzentrische Koordinaten nicht mehr unbedingt eindeutig, wie bei den Simplizes!
 \end{ex}
@@ -222,6 +224,224 @@
 
 %fixme: drawing
 
+\coursetimestamp{10}{12}{2013}
+
+Ein Oktaeder ist gegeben durch $[\pm e_1, \pm e_2, \pm e_3]$.
+% fixme: drawing
+Dies ist kein Simplex, aber kann in acht Simplizes aufgeteilt werden, indem der Ursprung hinzugenommen wird.
+
+\begin{df}
+	Sei $\scr K$ ein polytopaler Komplex.
+	Eine \emph{Unterteilung} von $\scr K$ ist ein Komplex $\scr K'$ mit $|\scr K'| = |\scr K|$, sodass jedes Polytop $P \in \scr K$ Vereinigung von endlich vielen $P' \in \scr K'$ ist.
+	\begin{note}
+		(Lokale) Endlichkeit und Dimension bleibt erhalten.
+	\end{note}
+\end{df}
+
+\begin{df}
+	Sei $\scr L \subset \scr K$ ein Teilkomplex.
+	Eine \emph{Unterteilung von $\scr K$ relativ zu $\scr L$} ist eine Unterteilung $\scr K'$ mit $\scr L \subset \scr K'$ (d.h. $P \in \scr L$ werden nicht unterteilt).
+\end{df}
+
+\begin{st}
+	Sei $\scr K$ ein polytopaler Komplex und $\scr L \subset \scr K$ ein simplizialer Teilkomplex, etwa $\scr L = \{\emptyset\}$.
+	Dann wird $\scr K$ trianguliert durch zentrische Unterteilung $\scr K'$ aller Polytope $P \in \scr K \setminus \scr L$, wobei wir zu jedem $P$ ein Zentrum $x_p \in \Int p$ willkürlich vorgeben können.
+	\begin{proof}
+		Induktion über die Skelette $\scr K_{\le 0}' := \scr K_{\le 0}$.
+		Sei $n \ge 1$ und $\scr K'_{<n}$ eine simpliziale Unterteilung von $\scr K_{<n}$.
+		Wir setzen dann
+		\[
+			\scr K_{\le n}'
+			:= \scr K_{<n}' \cup
+			\Set{ [v_0,\dotsc, v_k, x_p] |
+				\begin{aligned}
+					P \in \scr K \setminus L, \dim P = n, \\
+					[v_0, \dotsc, v_k] \in \scr K'_{<n},
+					[v_0, \dotsc, v_k] \subset \boundary P
+				\end{aligned}}.
+		\]
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Baryzentrische Unterteilung
+		\item
+			Zentrische Unterteilung mit beliebigen Zentren und $\scr L = \scr K_{\le 1}$
+	\end{itemize}
+\end{ex}
+
+\begin{df}
+	Sind $x_1, \dotsc, x_n$ die Eckpunkte des Polytops $P$, so heißt
+	\[
+		\beta(P) := \f 1n x_1 + \dotsb + \f 1n x_n
+	\]
+	\emph{das Baryzentrum von $P$}.
+	Wählt man im Satz % fixme ref
+	$x_P := \beta(P)$ für alle $P \in \scr K \setminus L$, so nennen wir $\beta(\scr K, \scr L) := (\scr K', \scr L)$ die \emph{baryzentrische Unterteilung} von $\scr K$ relativ zu $\scr L$.
+\end{df}
+
+\subsection{Produkte von Komplexen}
+
+Produkte von Simplizes sind im Allgemeinen keine Simplizes ($\Delta^1 \times \Delta^1$ ergibt ein Quadrat, kein Dreieck).
+
+\begin{st}
+	Sind $\scr K \in V, \scr L \in W$ polytopale Komplexe, so auch
+	\[
+		\scr K \times \scr L = \Set{ P \times Q | P \in \scr K, Q \in \scr L }
+	\]
+	ein polytopaler Komplex in $V \times W$.
+	Die baryzentrische Unterteilung $\scr M = (\scr K \times \scr L)'$ ist ein simplizialer Komplex und liefert eine Triangulierung $| \scr M| = | \scr K \times \scr L|$.
+
+	Sind $\scr K, \scr L$ (lokal-)endlich, so auch $\scr K \times \scr L$ und $\scr M$.
+	Die polytopale Topologie auf $|\scr K \times \scr L|$ stimmt mit der Produkttopologie auf $|\scr K| \times |\scr L|$ überein.
+\end{st}
+
+\subsection{Euler-Charakteristik}
+
+\begin{df}[Euler-Charakteristik]
+	Sei $\scr K$ ein endlicher polytopaler Komplex.
+	Setze
+	\[
+		f_d = \Big| \Set{ P \in \scr K | \dim P = d } \Big|.
+	\]
+	Die \emph{Euler-Charakteristik} ist gegeben durch
+	\[
+		\chi(\scr K)
+		:= \sum_{\emptyset \neq P \in \scr K}
+		(-1)^{\dim P}.
+	\]
+\end{df}
+
+\begin{ex}
+	Der $n$-Simplex $\Delta^n \homeomorphic \D^n$ und sein Rand $\boundary \Delta^n \homeomorphic \S^{n-1}$ werden trianguliert durch
+	\[
+		D^n
+		= \scr P({0,1, \dotsc, n})
+	\]
+	bzw.
+	\[
+		S^{n-1}
+		= D^n \setminus \{ \{0,1,\dotsc,n\} \}.
+	\]
+	Es gilt
+	\begin{align*}
+		\chi(D^0) &= 1 &
+		\phi(S^{-1}) &= 0 \\
+		\chi(D^1) &= 2-1 = 1 &
+		\phi(S^{0}) &= 2 \\
+		\chi(D^2) &= 3 - 3 + 1 = 1 &
+		\phi(S^{1}) &= 3 - 3 = 0 \\
+		\chi(D^3) &= 4 - 6 + 4 - 1 = 1 &
+		\phi(S^{2}) &= 4 - 6 + 4 = 2 \\
+	\end{align*}
+\end{ex}
+
+\begin{prop}
+	Es gilt
+	\begin{align*}
+		\chi(D^n) &= 1 &
+		\chi(S^n) &= 1 + (-1)^n
+	\end{align*}
+	\begin{proof}
+		Übung
+	\end{proof}
+\end{prop}
+
+\begin{ex}
+	Triangulierungen für $\S^2$:
+	\begin{description}
+		\item
+			$\chi(\delta \text{Tetraeder}) = 4 - 6 + 4 = 2$
+		\item
+			$\chi(\delta \text{Oktaeder}) = 6 - 12 + 8 = 2$
+		\item
+			$\chi(\delta \text{Hexaeder}) = 8 - 12 + 6 = 2$
+		\item
+			$\chi(\delta \text{Dodekaeder}) = 20 - 30 + 12= 2$
+		\item
+			$\chi(\delta \text{Ikosaeder}) = 12 - 30 + 20= 2$
+	\end{description}
+\end{ex}
+
+\begin{st}[Satz von Euler]
+	Jede Triangulierung (oder polytopale Unterteilung) von $\scr S^2$ erfüllt $\chi(\scr K) = 2$.
+\end{st}
+
+\begin{st}[Euler-Poincaré]
+	Seien $\scr K, \scr L$ endliche polytopale Komplexe.
+	Aus $|\scr K| \homeomorphic |\scr L$ folgt $\chi(\scr K) = \chi(\scr L)$.
+	\begin{note}
+		Mit Hilfe diesen Satzes lässt sich die Euler-Charakteristik eines Polytops als diejenige einer beliebigen Triangulierung definieren.
+	\end{note}
+\end{st}
 
 
+\section{Simpliziale Approximation}
 
+
+\begin{df}
+	Sei $K$ ein (kombinatorischer) Simplizialkomplex mit kanonischer Realisierung $|K| \subset \R^{\Omega}$.
+	Definiere die \emph{simpliziale Metrik} auf der Realisierung als
+	\[
+		d(x,y) :=
+		\max \Set{ |x(s) - y(s)| : s \in \Omega }
+	\]
+\end{df}
+
+\begin{st}
+	Die simpliziale Topologie auf $|K|$ ist feiner als die metrische Topologie.
+	Bei stimmen überein, wenn $K$ lokal-endlich ist.
+	\begin{proof}
+		Leicht nachzuvollziehen
+	\end{proof}
+\end{st}
+
+\begin{df}
+	Zu $a \in \Omega(K)$ betrachten wir den \emph{offenen Stern}
+	\begin{align*}
+		\mathring \stern_K(a)
+		&:= \bigcup \Set{ \Int |S| : a \in S \in K } \\
+		&= \Set{ x \in |K| : x(a) > 0 }
+		= B(a, 1)
+	\end{align*}
+	und den \emph{abgeschlossenen Stern}
+	\begin{align*}
+		\_\stern_K(a)
+		&:= \bigcup \Set{ |S| : a \in S \in K }.
+	\end{align*}
+\end{df}
+
+\begin{st}
+	Jede Ecke $a \in \Omega(K)$ ist starker Deformationsretrakt von $\_\stern_K(a) \subset |K|$, ebenso von $B(a, \eps)$ für $0 < \eps \le 1$.
+	Jeder Punkt $a \in |K|$ ist starker Deformationsretrakt einer offenen Umgebung $a \in U \subset |K|$.
+	\begin{proof}
+		Wähle $H: [0,1] \times \_\stern_K(a) \to \_\stern_K(a)$ durch
+		\[
+			H(t, x) = ta + (1-t) x.
+		\]
+		Dies ist wohldefiniert, da $\_\stern_K(a)$ sternförmig und stetig, da stetig auf jedem Simplex.
+		Es gilt $H_0 = \Id$ und $H_1 = \const_{\_\stern_K(a)}^a$, sowei $H(t,a) = a$ für alle $t \in [0,1]$.
+
+		Allgemein für $a \in |K|$ wählen wir eine zentrische Zerlegung mit $a$ als Ecke.
+	\end{proof}
+\end{st}
+
+\begin{lem}
+	Jeder $n$-Simplex $\Delta = [v_0, \dotsc, v_n]$ realisiert seinen Durchmesser auf den Ecken:
+	\[
+		\diam \Delta := \max \Set{ d(v_i, v_j) | i,j = 0, \dotsc, n }.
+	\]
+	Nach baryzentrischer Unterteilung gilt für jeden Teilsimplex $\Delta' \subset \Delta$ die Ungleichung
+	\[
+		\diam \Delta' \le \f n{n-1} \diam \Delta.
+	\]
+\end{lem}
+
+\begin{st}
+	Sei $K$ ein Simplizialkomplex kanonisch realisiert durch $\scr K$ in $\R^\Omega$.
+	Sei $|\scr K| = \bigcup_{i\in I} U_i$ eine Überdeckung durch offene Mengen $U_i \subset |\scr K|$.
+
+	Dann existiert eine simpliziale Unterteilung $\scr K'$ des Polyeders $|\scr K| = |\scr K'|$, sodass für jede Ecke $a \in \Omega(\scr K')$ der abgeschlossene Stern $\_\stern_{\scr K'}(a)$ ganz in einer Menge $U_i$ enthalten ist.
+\end{st}
