@@ -2065,21 +2065,22 @@ Dies liefert die Motivation für zwei Verfahren
 
 \paragraph{Motivation:}
 
-Betrachte das Newton-Verfahren für eindimensionale Nullstellenprobleme
+Betrachte das Newton-Verfahren für eindimensionale Nullstellenprobleme, d.h
 \[
-	F: \R \to \R, F(\hat x) = 0
+	F: \R \to \R, F(\hat x) \stack != 0.
 \]
-mit der Iteration
+Die Iteration lautet dann
 \[
 	x_{k+1} := x_k - F'(x_k)^{-1} F(x_k).
 \]
-Approximiere $F'(x_k)$ durch
+Approximiere $F'(x_k)$ durch die Sekantensteigung der aktuellen Iterierten zur vorigen:
 \[
-	F'(x_k) \approx \f{F(x_k) - F(x_{k-1})}{x_k - x_{k-1}} =: H_k.
+	F'(x_k) \approx \dfrac {F(x_k) - F(x_{k-1})}{x_k - x_{k-1}} =: H_k.
 \]
+Konvergiert die Iteriertenfolge werden also auch unsere Approximationen an $F'(x_k)$ immer besser.
 Es ergibt sich die Iteration
 \[
-	x_{k+1} = x_k - \big(\f{F(x_k) - F(x_{k-1})}{x_k - x_{k-m}} \big)^{-1} F(x_k),
+	x_{k+1} = x_k - \bigg(\dfrac{F(x_k) - F(x_{k-1})}{x_k - x_{k-m}} \bigg)^{-1} F(x_k),
 \]
 das sogenannte \emph{Sekantenverfahren}.
 
@@ -2095,7 +2096,17 @@ Das Analogon in $\R^n$ wäre
 	\nabla f(x_k) - \nabla f(x_{k-1})
 	= H_k (x_k -x_{k-1}).
 \]
-Newton-artige Verfahren mit $H_k$, welche dieser Bedingung genügen, heißen \emph{Quasi-Newton-Verfahren}.
+Das führt auf die folgende Definition.
+
+\begin{df*}[Quasi-Newton-Verfahren]
+	Ein Newton-artiges Verfahren, welches die \emph{Quasi-Newton-Bedingung}
+	\begin{equation} \label{eq:qn}
+		\nabla f(x_k) - \nabla f(x_{k-1})
+		= H_k (x_k -x_{k-1})
+		\tag{QN}
+	\end{equation}
+	erfüllt, heißt \emph{Quasi-Newton-Verfahren}.
+\end{df*}
 
 \begin{nt} \label{2.54}
 	\begin{enumerate}[(a)]
@@ -2134,11 +2145,11 @@ Für $A \in \R^{n\times n}$ ist $A + e_j e_k^T$ die im $(j,k)$-ten Eintrag abge�
 Genauso ergibt sich $A + uv^T$ (in einer Basis, die $v$ und $w$ enthält) durch Abänderung eines Eintrags aus $A$.
 
 \begin{lem}[Sherman-Morrison-Woodberry-Formel] \label{2.55}
-	Sei $A \in \R^n$ invertierbar und $u, v \/n \R^n \setminus \{0\}$.
+	Sei $A \in \R^n$ invertierbar und $u, v \in \R^n \setminus \{0\}$.
 	$A + uv^T \in \R^{n\times n}$ ist genau dann invertierbar, wenn $1 + v^T A^{-1} u \neq 0$.
 	In diesem Fall gilt
 	\[
-		(A + uv^T)^{-1} = A^{-1}0- \f {A^{-1} u v^T A^{-1}}{1 + v^T A^{-1} u}.
+		(A + uv^T)^{-1} = A^{-1} - \dfrac {A^{-1} u v^T A^{-1}}{1 + v^T A^{-1} u}.
 	\]
 	\begin{proof}
 		Ist $1 + v^T A^{-1} u \neq 0$, dann ist
@@ -2149,10 +2160,10 @@ Genauso ergibt sich $A + uv^T$ (in einer Basis, die $v$ und $w$ enthält) durch 
 		\begin{align*}
 			(A + uv^T) A^{-1} uv^Tv
 			&= uv^Tv + uv^TA^{-1} uv^Tv \\
-			&= u( 1 + v^TA^{-1}u) (v^Tv)
+			&= u \underbrace{(1 + v^TA^{-1}u)}_{=0} (v^Tv)
 			= 0
 		\end{align*}
-		und $A^{-1} uv^Tv = \|v\|^2 A^{-1} u \neq 0$, also $A + uv^T$ nicht injektiv und insbesondere nicht invertierbar.
+		und $A^{-1} uv^Tv = \|v\|^2 A^{-1} u \neq 0$, also $\dim \ker (A + uv^T) > 0$ und somit $A$ nicht invertierbar.
 	\end{proof}
 \end{lem}
 
@@ -2162,10 +2173,12 @@ Das einfachste Quasi-Newton-Verfahren wäre damit
 \]
 wobei $\gamma_k \in \R, u_k \in \R^n \setminus \{0\}$ so zu bestimmen sind, dass $H_{k+1}$ \eqref{eq:qn} erfüllt.
 
-Falls $(y_k - H_k d_k)^T d_k \neq 0$ ($y_k = \nabla f(x_{k+1} - \nabla f(x_k)$), dann ergibt sich eine eindeutige Aufdatierungsformel
+Sei $y_k := \nabla f(x_{k+1}) - \nabla f(x_k)$.
+Wenn wir $(y_k - H_k d_k)^T d_k \neq 0$ voraussetzen, dann ergibt sich (siehe \coursehref{Blatt8.pdf}{Übungsaufgabe 8.1}) die eindeutige Aufdatierungsformel
 \[
 	H_{k+1} := H_k + \dfrac{(y_k - H_k d_k)(y_k - H_k d_k)^T}{(y_k - H_k d_k)^T d_k}.
 \]
+Diese Aufdatierungs nennen wir \emph{symmetrische Rang-1-Modifikation}, oder kurz \emph{SR1-Aufdatierung}.
 
 %fixme: something missing?
 
