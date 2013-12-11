@@ -23,3 +23,187 @@ Dies führt auf die Minimierungsaufgabe
 	\end{cases}.
 \]
 
+\coursetimestamp{11}{12}{2013}
+
+Jede Ungleichung kann in die Form
+\[
+	\sum_{j} a_{ij} x_j \le b_i
+\]
+gebracht werden.
+Jede Ungleichung kann in die Form
+\begin{align*}
+	\sum a_{ij} x_j + \xi &= b_i \\
+	\xi &\ge 0
+\end{align*}
+gebracht werden.
+Mit $x_j = x_j' - x_j'', x_j' \ge 0, x_j'' \ge 0$
+kann für jede Variable $x_j \ge 0$ gefordert werden.
+
+\begin{df} \label{3.1}
+	Sei $A \in \R^{n\times n}, b\in \R^m, c \in \R^n$.
+	Das Minimierungsproblem
+	\[
+		f(x) := c^T x \to \min!
+		\quad\udN\quad
+		Ax = b, x \ge 0
+	\]
+	heißt \emph{lineares Optimierungsproblem (engl. linear program) in Normalform}.
+	$f$ heißt \emph{Zielfunktion} und
+	\[
+		\{x \in \R^n : Ax = b \land x \ge 0 \}
+	\]
+	\emph{zulässiger Bereich}.
+\end{df}
+
+\begin{conv*}
+	Im Folgenden nutzen wir die Notation
+	\[
+		x = \begin{pmatrix}
+			x_1 \\ \vdots \\ x_n
+		\end{pmatrix} \in \R^n
+	\]
+	und setzen
+	\[
+		x \ge 0
+		:\iff
+		x_1, \dotsc, x_n \ge 0.
+	\]
+\end{conv*}
+
+\begin{nt} \label{3.2}
+	Der zulässige Bereich kann einelementig sein (dann ist dieses Element die Lösung) oder leer.
+
+	Möglicherweise existiert auch für einen nicht-leeren zulässigen Bereich keine Lösung, z.B. $n=m=1, A = 0, b=0, c=-1$ (nach unten unbeschränkt).
+
+	Ist der zulässige Bereich nicht-leer und beschränkt, dann existiert eine Lösung.
+\end{nt}
+
+\subsection{Geometrische Interpretation}
+
+\begin{df} \label{3.3}
+	\begin{enumerate}[(a)]
+		\item
+			Zu gegebenen Punkten $y^1, \dotsc, y^n \in \R^n$ heißt
+			\[
+				\sum_{i=1}^m \lambda_i y^i,
+				\qquad
+				\lambda_i \in [0,1], \sum_{i=1}^n \lambda_i = 1
+			\]
+			\emph{Konvexkombination}.
+			Die Menge aller Konvexkombinationen
+			\[
+				S(y^1, \dotsc, y^m) := \Set{
+					\sum_{i=1}^m \lambda_i y^i:
+					\lambda_i \in [0,1], \sum_{i=1}^n \lambda_i = 1
+				}
+			\]
+			heißt (der von $y^1,\dotsc, y^m$) aufgespannte Simplex.
+
+			Damit ist $S(y^1, y^2) = [y^1, y^2]$ die Verbindungsstrecke aus \ref{2.1}.
+		\item
+			Für $\emptyset \neq K \subset \R^n$ nennen wir $x \in K$ eine \emph{Ecke von $K$}, falls
+			\[
+				\forall y^1, y^2 \in \R^n, x \in [y^1, y^2] \subset K : x = y^1 \lor x = y^2.
+			\]
+	\end{enumerate}
+\end{df}
+
+Betrachte stets $A \in \R^{m\times n}, b\in \R^m, c \in \R^n$ und
+\[
+	K:= \{ x \in \R^n : Ax = b, x \ge 0 \}.
+\]
+$K$ ist offenbar konvex, d.h. $\forall y^1, y^2 \in K : [y^1, y^2] \subset K$.
+
+\begin{ex} \label{3.4}
+	Es gilt $0 \in K \iff b = 0$.
+	Für $0 \in K$ ist $x = 0$ Ecke von $K$, denn für alle $y^1, y^2 \in K$ mit
+	\[
+		0 = (1-\lambda) y^1 + \lambda y^2,
+		\qquad \lambda \in [0,1]
+	\]
+	ist $y^1 = 0$ oder $y^2 = 0$.
+\end{ex}
+
+\begin{df} \label{3.5}
+	Teilmengen $I \subset \{1, \dotsc, n\}$ nennen wir \emph{Indexmengen} und bezeichnen die Anzahl der Elemente in $I$ mit $|I|$.
+	Für $I \neq \emptyset$ bilden wir für $A \in \R^{m\times n}, v \in \R^n$.
+	\begin{align*}
+		A_I &:= (a_{ij})_{\substack{i=1,\dotsc,m \\ j \in I}}
+			\in \R^{m\times |I|}, \\
+		v_I &:= (v_j)_{j\in I} \in \R^{|I|}
+			\in \R^{|I|}.
+	\end{align*}
+	Jedem $x \in \R^n$ ordnen wir zu
+	\[
+		I_x = \Big\{ j \in \{1, \dotsc, n\} : x_j > 0 \Big\}
+		\subset \{1, \dotsc, n\}
+	\]
+	Für $x \neq 0$ schreiben wir auch
+	\[
+		A_x := A_{I_x}
+	\]
+	und $v_x$ statt $v_{I_x}$.
+	Es gilt offenbar für $0 \neq x \in K$
+	\[
+		b = Ax = A_x x_x.
+	\]
+	Es gilt auch
+	\[
+		A_x v_x = A v
+	\]
+	für alle $v \in \R^n$ mit $I_v \subset I_x$.
+\end{df}
+
+\begin{lem} \label{3.6}
+	\begin{enumerate}[(a)]
+		\item
+			Ist $0 \neq x \in K$ keine Ecke von $K$, so existieren $y^1, y^2 \in K, y^1 \neq x, y^2 \neq x, y^1 \neq y^2$, so dass
+			\[
+				x \in [y^1, y^2], \quad I_{y^1}, I_{y^2} \subset I_x.
+			\]
+		\item
+			$0 \neq x \in K$ ist genau dann eine Ecke von $K$, wenn $A_x$ injektiv ist, also $\rg(A_x) = |I_x|$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				Ist $x \in K$ keine Ecke, dann existieren $y^1, y^2 \in K, y^1 \neq y^2$ und für $\lambda \in (0,1)$
+				\[
+					x = (1-\lambda) y^1 + \lambda y^2.
+				\]
+				Für jedes $j$ gilt
+				\[
+					y_j^1 > 0 \implies x_j > 0 \qquad
+					y_j^2 > 0 \implies x_j > 0
+				\]
+				also $I_{y^1}, I_{y^2} \subset I_x$.
+			\item
+				Außerdem ist
+				\[
+					A_x (y_x^1 - y_x^2)
+					= Ay^1 - Ay^2
+					= b - b = 0.
+				\]
+				Wegen $y^1 \neq y^2 \implies y_x^1 \neq  y_x^2$.
+				Damit ist $A_x$ nicht injektiv, wenn $x$ keine Ecke ist.
+
+				Sei $A_x$ nicht injektiv, dann existiert $0 \neq y_x \in \R^{|I_x|}$ mit $A_x y_x = 0$, den wir durch Nullen zu $y \in \R^n$ fortsetzen.
+				Wähle $\eps > 0$ so klein, dass $\eps |y_j| < x_j$ für alle $j \in I_x$.
+				Setze
+				\[
+					y^1 := x - \eps y,
+					\quad
+					y^2 := x + \eps y
+				\]
+				Offenbar ist $x \in [y^1, y^2]$ und $y^1 \neq x, y^2 \neq x$.
+				Aus $Ay = A_x y_x = 0$ folgt
+				\[
+					Ay^1 = Ax = b = Ax = Ay^2.
+				\]
+				und wegen der Wahl von $\eps$ ist
+				\[
+					y^1, y^2 \ge 0.
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{lem}
