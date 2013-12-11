@@ -395,20 +395,23 @@ Zu jedem Raum $X$ haben wir die Zerlegungen $X = \bigdunion \scr Z(X)$ und $X = 
 	Zwei stetige Abbildungen $f,g : X \to Y$ heißen \emph{homotop} in $Y$, wenn es eine Homotopie $H: [0,1] \times X \to Y$ mit $H_0 = f$ und $H_1 = g$ gibt.
 	Wir schreiben dann $H: f \homotopic g$, oder $f\homotopic g$
 
-	Ist $f: X \to  Y$ homotop zu $\const_X^{\{\ast\}}: X \to \{\ast\} \subset Y$, so nennen wir $f$ \emph{nullhomotop}, Kurz $f \homotopic \ast$.
-	Der Raum $X$ heißt \emph{zusammenziehbar}, wenn $\Id_X \homotopic \ast$.
+	Ist $f: X \to  Y$ homotop zu $\const_X^{\ast}: X \to \{\ast\} \subset Y$, so nennen wir $f$ \emph{nullhomotop}, Kurz $f \homotopic \ast$.
+
+	Der Raum $X$ heißt \emph{zusammenziehbar}, wenn $\exists * \in Y: \Id_X \homotopic \ast$.
 \end{df}
 
-\begin{ex}
+\begin{ex} \label{st:starlike_contractible}
 	Sei $X \subset \R^n$ sternförmig bezüglich $a \in X$ (z.B. $X = \R^n, a = 0$).
-
-	Dann ist $X$ zusammenziehbar mittels $H: [0,1] \times X \to X, H(t,x) = (1-t)x + ta$.
-
-	Es gilt $H_0 = \Id_X, H_1 = \const_X^{a}$.
+	Dann ist $X$ zusammenziehbar mittels
+	\begin{align*}
+		H: [0,1] \times X &\to X, \\
+		H(t,x) &= (1-t)x + ta.
+	\end{align*}
 	$H$ ist wohldefiniert und stetig für alle $(t,x) \in [0,1] \times X$.
+	Es gilt $H_0 = \Id_X, H_1 = \const_X^{a}$.
 \end{ex}
 
-\begin{st}
+\begin{st} \label{st:sphere_non_antipodal_homotopic}
 	Seien $f,g : X \to \S^n$ stetig und nirgends antipodal, d.h. $f(x) \neq -g(x)$ für alle $x \in X$.
 	Dann sind $f$ und $g$ homotop in $\S^n$ mittels
 	\[
@@ -425,15 +428,16 @@ Zu jedem Raum $X$ haben wir die Zerlegungen $X = \bigdunion \scr Z(X)$ und $X = 
 		Es gibt zwei Möglichkeiten, dies zu beweisen:
 		\begin{enumerate}[1.]
 			\item
-				Wähle $a \in \S^n \setminus (X)$ und $g = \const_X^{-a}$, dann ist $f \homotopic g$ wie im letzten Satz.
+				Wähle $a \in \S^n \setminus f(X)$ und $g = \const_X^{-a}$, dann ist $f \homotopic g$ gemäß \ref{st:sphere_non_antipodal_homotopic}.
 			\item
 				Mittels stereographischer Projektion.
-				Für $a \in \S^n \setminus f(X)$ ist $\S^n \setminus \{a\} \homeomorphic \R^n \homotopic *$ wie im Beispiel.
+				Für $a \in \S^n \setminus f(X)$ ist $\S^n \setminus \{a\} \homeomorphic \R^n$ und $\R^n \homotopic *$ wie in \ref{st:starlike_contractible}.
 		\end{enumerate}
 	\end{proof}
 \end{kor}
 
 \begin{df}
+	Die Homotopie lässt folgende Eigenschaften zu
 	\begin{enumerate}[(1)]
 		\item
 			Zu $f: X \to Y$ haben wir $H: f \homotopic f$ mit $H(t,x) = f(x)$.
@@ -448,7 +452,7 @@ Zu jedem Raum $X$ haben wir die Zerlegungen $X = \bigdunion \scr Z(X)$ und $X = 
 				\end{cases}.
 			\]
 	\end{enumerate}
-	Homotopie ist eine Äquivalenzrelation.
+	Insbesondere ist damit Homotopie eine Äquivalenzrelation.
 \end{df}
 
 \begin{df}
@@ -504,14 +508,25 @@ Zu jedem Raum $X$ haben wir die Zerlegungen $X = \bigdunion \scr Z(X)$ und $X = 
 \end{ex}
 
 \begin{ex}
-	$X = \S^n$ und $Y = \R^{n+1} \setminus \{0\}$ sind homotopie-äquivalent.
+	Sei $X = \S^n$ und $Y = \R^{n+1} \setminus \{0\}$.
+	Dann sind sind homotopie-äquivalent.
 	\begin{proof}
 		Sei $f: X \injto Y$ die Inklusion und $g: Y \to X, g(y) = \f y{|y|}$.
-		Es gilt $g \circ f = \Id_X$ ($g$ ist \emph{Retrakt}) und $f \circ g \homotopic \Id_Y$ mittels
-		\[
-			H(t,y) = ty + (1-t) g(y) \in Y.
-		\]
-		$H$ ist \emph{(starker) Deformationsretrakt}.
+		Offenbar ist $g \circ f = \Id_X$, zeige noch $f \circ g \homotopic \Id_X$:
+		\begin{enumerate}[i)]
+			\item
+				$f \circ g$ ist \emph{Retraktion}, d.h. $(f \circ g)|_X = \Id_X$,
+			\item
+				$H: [0,1] \times Y \to Y$ mit
+				\[
+					H(t,y) = (1-t)y + t (f \circ g)(y)
+					\in Y
+				\]
+				ist ein \emph{Deformationsretraktion}, d.h. stetig mit $H_0 = \Id_Y, H_1(Y) \subset X$ und $H_1|_X = \Id_X$.
+			\item
+				$H$ ist eine \emph{starke Deformationsretraktion}, d.h. zusätzlich gilt $H_t|_X = \Id_X$ für alle $t \in [0,1]$.
+		\end{enumerate}
+		Also ist $f \circ g \homotopic \Id_X$.
 	\end{proof}
 \end{ex}
 
