@@ -271,7 +271,8 @@
 	labelindent = 0.8em
 }
 \setlist [ enumerate ] { labelindent = 0.6em }
-\SetEnumerateShortLabel { i } { \! \! \roman* }  % Correct spacing with roman enumerations
+% todo: Incorrect spacing with roman enumerations, beware of "(i)" cases
+%\SetEnumerateShortLabel { i } { \! \! \roman* }
 \setlist [ description ] {
 	style       = nextline,
 	labelindent = 0.9em,
