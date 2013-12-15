@@ -41,26 +41,35 @@
 	\end{proof}
 \end{prop}
 
-\begin{df}
-	Für $n \in \N$ ist der \emph{$n$-dimensionale Standardsimplex} der Raum
+\begin{df}[Standardsimplex]
+	Für $n \in \N_0$ ist der \emph{$n$-dimensionale Standardsimplex} definiert als der Raum
 	\[
 		\Delta^n := \Set{ (t_0, \dotsc, t_n) \in \R^{n+1} | t_0, \dotsc, t_n \ge 0, t_0 + \dotsb + t_n = 1 }.
 	\]
+	Wir definieren außerdem $\Delta^{-1} := \emptyset$.
 \end{df}
 
 \begin{conv}
 	Im Folgenden sei $V$ stets ein $\R$-Vektorraum und $v_0, \dotsc, v_n \in V$ affin unabhängig.
 \end{conv}
 
-\begin{df}
-	Seien $v_0, \dotsc, v_n \in V$ affin unabhängig.
-	Ihre Konvexe Hülle ist der \emph{affine $n$-Simplex}
-	\[
-		\Delta = [v_0, v_1, \dotsc, v_n]
-		= \Set{ t_0v_0 + t_1v_1 + \dotsb + t_nv_n | (t_0, \dotsc, t_n) \in \Delta^n }.
-	\]
+\begin{df}[affiner Simplex]
+	Die konvexe Hülle von $v_0, \dotsc, v_n$ ist der \emph{affine $n$-Simplex}
+	\begin{align*}
+		\Delta
+		&:= [v_0, v_1, \dotsc, v_n] \\
+		&:= \Set{ t_0v_0 + t_1v_1 + \dotsb + t_nv_n | (t_0, \dotsc, t_n) \in \Delta^n }.
+	\end{align*}
 	%fixme: ungeschickte notation mit \Delta (dimension? v_i?)
 	Im Kontext von $\Delta$ nennen wir $t_0, t_1, \dotsc, t_n$ auch \emph{baryzentrische Koordinaten}.
+
+	Der affine $(-1)$-Simplex sei $[\emptyset] := \emptyset$.
+
+	Außerdem definieren wir die Abbildungen $\vert: \Delta \to \scr P(V), \dim: \Delta \to \N_0$ durch
+	\begin{align*}
+		\vert: [v_0, \dotsc, v_n] &\mapsto \{v_0, \dotsc, v_n\}, \\
+		\dim: [v_0, \dotsc, v_n] &\mapsto n.
+	\end{align*}
 	\begin{note}
 		Nach \ref{prop:affine_independent} sind die baryzentrischen Koordinaten eindeutig.
 	\end{note}
@@ -100,16 +109,24 @@
 \end{nt}
 
 \begin{df}
-	Für $S \subset \{v_0, \dotsc, v_n\}$ heißt $[S]$ eine \emph{Seite} von $\Delta$, kurz $[S] \le \Delta$.
+	\begin{enumerate}[1)]
+		\item
+			Für $S \subset \vert(\Delta)$ heißt $[S]$ eine \emph{Seite} von $\Delta$, kurz $[S] \le \Delta$.
 
-	Eine Seite $[S] \le \Delta$ mit $[S] \neq \Delta$ heißt \emph{echt}, kurz $[S] < \Delta$.
-
-	Der \emph{Rand} von $\Delta$ ist $\boundary \Delta := \bigcup_{[S] < \Delta} [S]$. \\
-	Das \emph{Innere} ist $\Delta := \Delta \setminus \boundary \Delta$.
-
+			Eine Seite $[S] \le \Delta$ heißt \emph{echt}, kurz $[S] < \Delta$, falls $[S] \neq \Delta$.
+		\item
+			Der \emph{Rand} von $\Delta$ ist $\boundary \Delta := \bigcup_{[S] < \Delta} [S]$, das \emph{Innere} ist $\Int \Delta := \Delta \setminus \boundary \Delta$.
+	\end{enumerate}
 	\begin{note}
-		Rand und Inneres sind nur dann gleichbedeutend mit den bisherigen topologischen Definitionen, wenn wir sie bezüglich des affinen Vektorraums des Simplex betrachten.
-		% fixme: besser formulieren
+		Rand und Inneres sind nur dann gleichbedeutend mit den bisherigen topologischen Definitionen, wenn wir die Topologie des affinen Vektorraums zugrundelegen und nicht die des gesamten Vektorraums.
+
+		So ist beispielsweise für $\Delta := [0,e_1] \subset \R^2$ der Rand des Simplex
+		\[
+			\boundary \Delta
+			= \big\{(0,0), (1,0)\big\}
+			= \boundary_{\scr T_\Delta} \Delta,
+		\]
+		während $\boundary_{\scr T_V} \Delta = \Delta$.
 	\end{note}
 \end{df}
 
