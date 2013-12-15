@@ -13,6 +13,32 @@
 	\end{note}
 \end{df}
 
+\begin{prop} \label{prop:affine_independent}
+	Sei $V$ ein $\R$-Vektorraum.
+	$v_0, v_1, \dotsc, v_n \in V$ sind affin unabhängig genau dann, wenn aus $\sum_{i=0}^n t_i v_i = \sum_{i=0}^n t_i' v_i$ und $\sum_{i=0}^n t_i = \sum_{i=0}^n t_i'$ für alle $i \in I$ folgt $t_i = t_i'$.
+	\begin{proof}
+		\begin{segnb}[„$\implies$“]
+			Es gilt
+			\[
+				0
+				= \sum_{i=0}^n (t_i' - t_i) v_i - \overbrace{\sum_{i=0}^n (t_i' - t_i) v_0}^{= 0}
+				= \sum_{i=1}^n (t_i' - t_i) (v_i - v_0),
+			\]
+			wegen der affinen Unabhängigkeit ist $\{v_i - v_0\}_{i=1}^n$ linear unabhängig, also $t_i' = t_i$ für alle $i \in \{1, \dotsc, n\}$ und somit dank $\sum_{i=0}^n t_i = \sum_{i=0}^n t_i'$ auch $t_0' = t_0$.
+		\end{segnb}
+		\begin{segnb}[„$\implies$“]
+			Sei $\sum_{i=1}^n \lambda_i (v_i - v_0) = 0$.
+			Setze $t_i = 0$ für $i \in \{0, \dotsc, n\}, t_0' := -\lambda_1 - \lambda_2 - \dotsb - \lambda_n$ und $t_i := \lambda_i$ für $i \in \{1, \dotsc, n\}$.
+			Dann ist
+			\begin{align*}
+				\sum_{i=0}^n t_i = 0 &= \sum_{i=0}^n t_i' \\
+				\sum_{i=0}^n t_i v_i = 0 &= \sum_{i=1}^n \lambda_i (v_i - v_0) = \sum_{i=0}^n t_i' v_i
+			\end{align*}
+			also $t_i' = t_i = 0$ und somit auch $\lambda_i = 0$.
+		\end{segnb}
+	\end{proof}
+\end{prop}
+
 \begin{df}
 	Für $n \in \N$ ist der \emph{$n$-dimensionale Standardsimplex} der Raum
 	\[
@@ -31,9 +57,11 @@
 		\Delta = [v_0, v_1, \dotsc, v_n]
 		= \Set{ t_0v_0 + t_1v_1 + \dotsb + t_nv_n | (t_0, \dotsc, t_n) \in \Delta^n }.
 	\]
-	%fixme: anmerkung zur eindeutigkeit
 	%fixme: ungeschickte notation mit \Delta (dimension? v_i?)
-	$t_0, t_1, \dotsc, t_n$ heißen auch \emph{baryzentrische Koordinaten}.
+	Im Kontext von $\Delta$ nennen wir $t_0, t_1, \dotsc, t_n$ auch \emph{baryzentrische Koordinaten}.
+	\begin{note}
+		Nach \ref{prop:affine_independent} sind die baryzentrischen Koordinaten eindeutig.
+	\end{note}
 \end{df}
 
 \begin{ex}
