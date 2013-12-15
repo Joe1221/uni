@@ -2099,7 +2099,7 @@ Das Analogon in $\R^n$ wäre
 Das führt auf die folgende Definition.
 
 \begin{df*}[Quasi-Newton-Verfahren]
-	Ein Newton-artiges Verfahren, welches die \emph{Quasi-Newton-Bedingung}
+	Ein Newton-artiges Verfahren, bei dem $H_k$ in jeder Iteration die \emph{Quasi-Newton-Bedingung}
 	\begin{equation} \label{eq:qn}
 		\nabla f(x_k) - \nabla f(x_{k-1})
 		= H_k (x_k -x_{k-1})
@@ -2118,7 +2118,7 @@ Das führt auf die folgende Definition.
 				\nabla f(x_k) - \nabla f(x_{k-1})
 				= \underbrace{\int_0^1 \nabla^2 f(x_{k-1} + t (x_k - x_{k-1})) \dx[t]}_{= H_k} (x_k - x_{k-1}).
 			\]
-			Mit diesem $H_k$ ergäbe sich ein Quasi-Newton-Verfahren, wenn auch sehr aufwändig zu berechnendem $H_k$.
+			Mit diesem $H_k$ ergäbe sich in jedem Fall ein Quasi-Newton-Verfahren, wenn auch mit sehr aufwändig zu berechnendem $H_k$.
 		\item
 			Es gilt
 			\begin{align*}
@@ -2133,23 +2133,26 @@ Das führt auf die folgende Definition.
 
 Dementsprechend liegt es nahe, $H_{k+1}$ so zu wählen, dass sie sich möglichst wenig von $H_k$ unterscheidet, \eqref{eq:qn} erfüllt und möglichst leicht zu invertieren ist.
 
-Führe eine sogenannte \emph{Aufdatierung} durch: erhalte $H_{k+1}$ durch kleine Änderung von $H_k$.
+Dies motiviert das Prinzip der \emph{Aufdatierung}, welches uns $H_{k+1}$ durch kleine Änderung von $H_k$ liefert
 
 \paragraph{Rang 1 Modifikationen}
 
 Sei $e_k \in \R^n$ der $k$-te Einheitsvektor, dann ist
 \[
-	e_j e_k^T = (\delta_{ij}\delta_{lk})_{i,l = 1, \dotsc, n}.
+	e_j e_k^T = \big( \delta_{ij}\delta_{lk} \big)_{i,l = 1, \dotsc, n}.
 \]
 Für $A \in \R^{n\times n}$ ist $A + e_j e_k^T$ die im $(j,k)$-ten Eintrag abgeänderte Matrix.
-Genauso ergibt sich $A + uv^T$ (in einer Basis, die $v$ und $w$ enthält) durch Abänderung eines Eintrags aus $A$.
+Genauso ergibt sich $A + uv^T$ (sofern die Matrix in einer Basis gegeben ist, die $v$ und $w$ enthält) durch Abänderung eines Eintrags aus $A$.
+
+Für Newton-artige Verfahren müssen wir im $k$-ten Schritt $H_k$ invertieren, also müssen wir sicherstellen, dass durch Aufdatierung die Matrix invertierbar bleibt.
+Das folgende Lemma liefert die Aussage für Aufdatierungen der Form $A + uv^T$.
 
 \begin{lem}[Sherman-Morrison-Woodberry-Formel] \label{2.55}
 	Sei $A \in \R^n$ invertierbar und $u, v \in \R^n \setminus \{0\}$.
 	$A + uv^T \in \R^{n\times n}$ ist genau dann invertierbar, wenn $1 + v^T A^{-1} u \neq 0$.
-	In diesem Fall gilt
+	In diesem Fall ist die Inverse explizit gegeben durch
 	\[
-		(A + uv^T)^{-1} = A^{-1} - \dfrac {A^{-1} u v^T A^{-1}}{1 + v^T A^{-1} u}.
+		\big(A + uv^T\big)^{-1} = A^{-1} - \dfrac {A^{-1} u v^T A^{-1}}{1 + v^T A^{-1} u}.
 	\]
 	\begin{proof}
 		Ist $1 + v^T A^{-1} u \neq 0$, dann ist
@@ -2189,14 +2192,15 @@ Quasi-Newton-Verfahren benötigen keine Hesse-Matrizen mehr und keine LGS-Lösun
 \paragraph{Broyden-Fletcher-Goldfarb-Shanno-Formel (BFGS)}
 
 \[
-	H_{k+1} := H_k + \f {y_ky_k^T}{y_k^T d_k} - \f {H_k d_k d_k^T H_k^T}{d_k^T H_k d_k}.
+	H_{k+1} := H_k + \dfrac {y_ky_k^T}{y_k^T d_k} - \dfrac {H_k d_k d_k^T H_k^T}{d_k^T H_k d_k}.
 \]
-$H_k$ erfüllt \ref{eq:qn} nach Übungsaufgabe % fixme:ref
+$H_k$ erfüllt \eqref{eq:qn} nach Übungsaufgabe :call foreground()
+
 und
-\[
-	B_{k+1} := H_{k+1}^{-1}
-	= B_k + \f {(d_k-B_ky_k)d_k^T + d_k(d_k-B_ky_k)^T}{d_k^T y_k} - \f{(d_k-B_ky_k)^T y_k}{(d_k^T y_k)^2} d_k d_k^T.
-\]
+\begin{align*}
+	B_{k+1} &:= H_{k+1}^{-1} \\
+	&= B_k + \dfrac {(d_k-B_ky_k)d_k^T + d_k(d_k-B_ky_k)^T}{d_k^T y_k} - \dfrac {(d_k-B_ky_k)^T y_k}{(d_k^T y_k)^2} d_k d_k^T.
+\end{align*}
 
 \begin{alg} \label{alg:7}
 	\begin{algorithmic}
