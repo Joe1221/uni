@@ -542,5 +542,81 @@ Produkte von Simplizes sind im Allgemeinen keine Simplizes ($\Delta^1 \times \De
 	Sei $K$ ein Simplizialkomplex kanonisch realisiert durch $\scr K$ in $\R^\Omega$.
 	Sei $|\scr K| = \bigcup_{i\in I} U_i$ eine Überdeckung durch offene Mengen $U_i \subset |\scr K|$.
 
-	Dann existiert eine simpliziale Unterteilung $\scr K'$ des Polyeders $|\scr K| = |\scr K'|$, sodass für jede Ecke $a \in \Omega(\scr K')$ der abgeschlossene Stern $\_\stern_{\scr K'}(a)$ ganz in einer Menge $U_i$ enthalten ist.
+	Dann existiert eine simpliziale Unterteilung $\scr K'$ des Polyeders $|\scr K| = |\scr K'|$, sodass für jede Ecke $a \in \Omega(\scr K')$ der abgeschlossene Stern $\_\star_{\scr K'}(a)$ ganz in einer Menge $U_i$ enthalten ist.
+\coursetimestamp{16}{12}{2013}
+	\begin{proof}
+		Wir zeigen den Satz für endliches $K$.
+		Dann ist $|\scr K|$ kompakt und die simpliziale Topologie wird von der simplizialen Metrik induziert.
+		Es existiert zu $(U_i)_{i\in I}$ eine Lebesgue-Zahl $\lambda > 0$, d.h. für $X \subset |\scr K|$ mit $\diam X < \lambda$ existiert $i \in I$ mit $X \subset U_i$.
+		Sei $n = \dim \scr K$ und $q = \f n{n+1} < 1$.
+		Wir wählen $m \in \N$ so, dass $q^m < \f \lambda 2$.
+		In der $m$-fachen baryzentrischen Unterteilung $\scr K' = \beta^m \scr K$ hat jeder Simplex $\Delta \in \scr K$ Durchmesser $\diam(\Delta) < \f \lambda 2$, also jeder abgeschlossene Stern Durchmesser $< \lambda$.
+	\end{proof}
+\end{st}
+
+\begin{nt}
+	Seien $\scr K, \scr L$ simpliziale Komplexe und $\phi: K \to L$ die simpliziale Abbildung mit affiner Fortsetzung $|\phi|: |K| \to |L|$.
+	Es gilt
+	\begin{align*}
+		|\phi|(\mathring \star(a, K)) &\subset \mathring \star (\phi(a), L), \\
+		|\phi|(\_\star(a,K)) &\subset \_\star(\phi(a), L).
+	\end{align*}
+\end{nt}
+
+\begin{df}
+	Sei $f: |K| \to |L|$ stetig.
+	Eine \emph{simpliziale Approximation von $f$} ist eine Abbildung $\phi: \Omega(K) \to \Omega(L)$ mit
+	\[
+		f(\mathring \star(a, K)) \subset \mathring(\phi(a), L)
+	\]
+	für alle $a \in \Omega(K)$.
+\end{df}
+
+\begin{lem}
+	\begin{enumerate}[(1)]
+		\item
+			$\phi$ ist simplizial, d.h. für $S \in K \implies \phi(S) \in L$.
+		\item
+			Für jedes $x \in |K|$ liegen $f(x)$ und $|\phi|(x)$ in einem gemeinsamen Simplex von $|L|$.
+		\item
+			Die Abbildungen $f$ und $|\phi|$ sind homotop vermöge
+			\[
+				H(t, x) = (1 - t) f(x) + t |\phi|(x).
+			\]
+	\end{enumerate}
+	\begin{proof}
+		Übung
+	\end{proof}
+\end{lem}
+
+\begin{st}
+	Jede stetige Abbildung $f: |K| \to |L|$ ist homotop zu einer Abbildung $g: |K| = |K'| \to |L|$, die simplizial ist auf einer hinreichend feinen Unterteilung $K'$ von $K$.
+	\begin{proof}
+		$|L| = \bigcup_{b\in \Omega(L)} \mathring\star(b,L)$ ist eine offen Überdeckung von $|L|$ und damit
+		\[
+			|K| = \bigcup_{b\in\Omega(L)} f^{-1}(\mathring\star(b,L))
+		\]
+		ebenfalls.
+		Es existiert eine Unterteilung $K'$, sodass für jede Ecke $a \in \Omega(K')$ ein $\phi(a) \in \Omega(L)$ existiert mit $\_\star(a, K') \subset f^{-1}(\star(\phi(a),L))$.
+		Also
+		\[
+			f(\mathring \star(a,K'))
+			\subset f(\_\star(a,K'))
+			\subset \mathring\star(\phi(a),L).
+		\]
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Für $m < n$ ist jede stetige Abbildung $f: \S^m \to \S^n$ zusammenziehbar.
+	\begin{proof}
+		Wir triangulieren $|S^m| \homto \S^m$ und $|S^n| \homto \S^n$.
+		Es genügt also zu zeigen: Jede stetige Abbildung $f: |S^m| \to |S^n|$ ist zusammenziehbar.
+		Zu einer hinreichend feinen Unterteilung $K$ von $S^m$ existiert eine simpliziale Approximation $\phi: K \to S^n$ mit $f \homto |\phi|: |S^m| = |K'| \to |S^n|$.
+		Wegen $\dim K = \dim S^m = m < n = \dim S^n$ ist $|\phi|$ nicht surjektiv, somit $|\phi| \homto *$.
+		Erinnerung:
+		\[
+			|S^n| \setminus \{q\} \homeomorphic \S^n \setminus \{p\} \homeomorphic \R^n \homotopic *.
+		\]
+	\end{proof}
 \end{st}
