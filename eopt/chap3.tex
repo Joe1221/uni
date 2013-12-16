@@ -207,3 +207,110 @@ $K$ ist offenbar konvex, d.h. $\forall y^1, y^2 \in K : [y^1, y^2] \subset K$.
 		\end{enumerate}
 	\end{proof}
 \end{lem}
+
+\coursetimestamp{16}{12}{2013}
+\begin{kor} \label{3.7}
+	Ein Punkt $x \in K$ mit nichtleerer Indexmenge $I_x \subset \{1, \dotsc, n\}$ ist eine Ecke von $K$ genau dann wenn $A_{I_x} \tilde x = b$ mit $\tilde x \in \R^{|I_x|}$ genau eine Lösung mit nicht-negativen Komponenten besitzt.
+
+	In diesem Fall ergibt sich die Ecke $x \in \R^n$ durch Nullfortsetzung aus $\tilde x \in \R^{|I_x|}$.
+
+	Insbesondere existieren nur endlich viele Ecken.
+	\begin{proof}
+		\begin{segnb}[„$\implies$“]
+			Sei also $x \in K$ eine Ecke mit nichtleerer Indexmenge $I_x \subset \{1, \dotsc, n\}$.
+			Dann gilt
+			\[
+				A_{I_x} x_{I_x} = A_x x_x = Ax = b
+			\]
+			und wegen \ref{3.6} b) ist $x_x$ auch die einzige Lösung von $A_{I_x} \tilde x = b$ mit nichtnegativen Komponenten.
+		\end{segnb}
+		\begin{segnb}[„$\impliedby$“]
+			Ist nun also $A_{I_x} \tilde x = A_x \tilde x = b$ eindeutig lösbar, so ist insbesondere $A_x$ injektiv, besitzt also linear unabhängige Spalten.
+			Bezeichne $x \in \R^n$ die Nullfortsetzung von $\tilde x$, dann ist $I_x \subset \{1, \dotsc, n\}$ und wenn die Komponenten von $\tilde x$ nicht-negativ sind, so ist $x \in \R^n$ ein zulässiger Punkt und nach \ref{3.6} b) eine Ecke von $K$.
+		\end{segnb}
+	\end{proof}
+\end{kor}
+
+\begin{lem} \label{3.8}
+	\begin{enumerate}[(a)]
+		\item
+			Jeder Punkt $x \in K$ mit minimaler Indexmenge, d.h. $|I_x| \le |I_y|$ für alle $y \in K$, ist eine Ecke.
+			Insbesondere besitzt jeder nicht-leere zulässige Bereich mindestens eine Ecke.
+		\item
+			Existiert auf dem zulässigen Bereich ein Minimum der Zielfunktion $f(x) = c^T x$, so ist einer der Minimierer eine Ecke.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				Ist $0 = x \in K$, so ist $I_x = \emptyset$ und $x = 0$ ist wegen \ref{3.4} auch eine Ecke.
+
+				Sei also $x \neq 0$ mit minimaler Indexmenge, aber $x$ sei \emph{keine} Ecke.
+				Nach \ref{3.6} a) existieren dann paarweise von $x$ verschiedene $y^1, y^2 \in K$ mit $x \in [y^1, y^2]$ und $I_{y^1}, I_{y^2} \subset I_x$.
+
+				Betrachte $v := y^2 - y^1$ und für ein $\lambda \in \R$ den Punkt $z_\lambda := x + \lambda v$.
+				Dann gilt für alle $\lambda \in \R$
+				\[
+					A z_\lambda
+					= A (x + \lambda v)
+					= b + \lambda (b-b)
+					= b.
+				\]
+				Wir wollen nun zeigen, dass ein $\_\lambda$ existiert, sodass $z_{\_\lambda} \in K$ ist (d.h. $z_\lambda \ge 0$) und $|I_{z_\lambda}| < |I_x|$ gilt.
+
+				Da $y^1, y^2$ paarweise verschieden waren, gilt $\emptyset \neq I_v \subset I_x$.
+				Für jedes $j \in I_v$ setzen wir
+				\[
+					\lambda_j
+					:= - \f {x_j}{v_j}
+					= - \f {x_j}{y^2_j - y^1_j}
+					\neq 0
+				\]
+				und wählen $k \in I_v$, sodass $|\lambda_k| \le |\lambda_j|$ für alle $j \in I_v$.
+				Wähle $\_\lambda := \lambda_k$ und $z := z_{\_\lambda} = x + \lambda_k v$.
+				$z$ erfüllt
+				\begin{itemize}
+					\item
+						$z_k = x_k + \lambda_k v_k = x_k - x_k = 0$
+					\item
+						$z_j = x_j + \lambda_k v_j \ge 0$ für $j \in I_v$, denn wäre $z_j$ negativ, so müsste die Funktion $\lambda \mapsto x_j + \lambda v_j$ eine betragskleinere Nullstelle $\lambda_j$ als $\lambda_k$ besitzen.
+				\end{itemize}
+				Damit ist $z \in K$ zulässig.
+				Außerdem gilt für $\lambda_k > 0$ dass $x \in [y^1, z]$ und für $\lambda_k < 0$ dass $x \in [z, y^2]$.
+				Da also $x$ keine Ecke von $K$ ist, existieren $y, z \in K, \lambda \in (0,1)$, sodass $x = (1-\lambda) y + \lambda z$ und es gilt $|I_z| < |I_i| \le |I_x|$, ein Widerspruch zu $|I_x| \le |I_y|$ für alle $y \in K$.
+			\item
+				Sei also $x \in K$ ein Minimierer mit (unter den Minimierern) minimaler Indexmenge, d.h.
+				\[
+					x \in \argmin_{\xi \in K} c^T \xi
+					\land \forall x' \in \argmin_{\xi \in K} c^T \xi : |I_x| \le |I_{x'}|.
+				\]
+				Falls $x$ \emph{keine} Ecke ist, so existieren wie im a)-Teil wieder $y, z \in K, \lambda \in (0, 1)$ mit $x = (1 - \lambda)y + \lambda z$ und $|I_z| < |I_x|$.
+				Noch zu zeigen ist: $z$ ist Minimierer von $f$.
+
+				Da $x$ Minimerer von $f$ ist, gilt $c^Tx \le c^Ty, c^Tx \le c^Tz$.
+				Es gilt
+				\[
+					c^T x = (1-\lambda)c^T y + \lambda c^T z
+					\le c^Ty
+				\]
+				und damit auch $c^T z \le c^T y$.
+				Analog zeigt man $c^T y \le c^T z$, also $c^T y = c^T z$.
+				Schließlich folgt
+				\[
+					c^T x = (1-\lambda)c^T y + \lambda c^Tz = c^T y = c^T z.
+				\]
+				Damit ist auch $z$ Minimierer von $f$ auf $K$, ein Widerspruch zu $|I_z| < |I_x|$.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+\begin{nt} \label{3.9}
+	\begin{itemize}
+		\item
+			Das betrachtete Optimierungsproblem ist damit gelöst.
+			Es genügt, für jede (der endlich vielen, höchstens $m$-elementigen) Teilmengen von $\{1, \dotsc, n\}$ gemäß \ref{3.7} zu prüfen, ob es eine dazugehörige Ecke $x \in K$ gibt (für $b = 0$ muss noch $x = 0$ als Ecke hinzugenommen werden).
+		\item
+			Gibt es einen Minimierer, so ist dies eine der Ecken und es müssen nur noch die Werte der Zielfunktion für die endlich vielen Ecken berechnet und verglichen werden.
+		\item
+			Falls das Minimierungsproblem lösbar ist, erhalten wir so nach endlich vielen Schritten eine Lösung.
+	\end{itemize}
+\end{nt}
