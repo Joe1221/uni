@@ -1,5 +1,5 @@
 function showGeometry (obj)
-	obj.geom.run;
+	obj.buildGeometry();
 	%subplot(1, 3, 1);
 	mphgeom(obj.model, obj.geom.tag());
 end
