@@ -22,6 +22,8 @@ classdef ForwardModel < handle
 		domain;
 
 		pg1;
+		gDataSet;
+		gEval;
 	end
 
 	methods
@@ -89,8 +91,20 @@ classdef ForwardModel < handle
 			% Erfordert Schnitt mit Kurve, schwierig
 		end
 
-		function getGValue (obj, dataPoints)
-			%mphinterp()
+		function [gValues] = getGValue (obj, dataPoints)
+			% Make sure dataset an evaluation is initialized
+			if ~isa(obj.gEval, 'com.comsol.model.impl.NumericalFeatureImpl')
+				if ~isa(obj.gDataSet, 'com.comsol.model.impl.DatasetFeatureImpl')
+					obj.gDataSet = obj.model.result.dataset.create('g', 'CutPoint2D');
+				end
+				obj.gEval = obj.model.result.numerical.create('g', 'EvalPoint');
+				obj.gEval.set('data', 'g'); % select obj.gDataSet as points to evaluate at
+				obj.gEval.set('expr', 'ux*nx + uy*ny'); % = du/dn
+				obj.gDataSet.set('bndsnap', true); % stay on boundary for normal vector
+			end
+			obj.gDataSet.set('pointx', dataPoints(:, 1));
+			obj.gDataSet.set('pointy', dataPoints(:, 2));
+			gValues = obj.gEval.getReal();
 		end
 
 		function initPlot (obj)
