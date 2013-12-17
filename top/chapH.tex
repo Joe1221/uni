@@ -69,3 +69,203 @@ Wir wollen jeder stetigen Abbildung $\gamma: [0,1] \to \C^* := \C \setminus \{0\
 	\end{proof}
 \end{st}
 
+\coursetimestamp{17}{12}{2013}
+
+Alternative Betrachtung der Umlaufzahl
+\[
+	\eta(u, v) := \begin{cases}
+		0 & [u,v] \cap \R_{<0} = \emptyset \\
+		\f 12 \big( \sign \Im(u) - \sign \Im(v) \big) & \text{sonst}
+	\end{cases}.
+\]
+dann ergibt sich $\deg(v_0 \dotsc v_n) = \sum_{k=1}^n \eta(v_{k-1}, v_k)$.
+
+\begin{nt}
+	Für $\gamma: [0,1] \to \C^*$ stetig und stückweise $\scr C^1$ mit $\gamma(0) = \gamma(1)$ gilt
+	\[
+		\deg(\gamma) = \f 1{2\pi i} \int_{t=0}^1 \f {\gamma'(t)}{\gamma(t)} \dx[t].
+	\]
+	Reell betrachten wir das Vektorfeld $f: \R^2 \setminus \{0\} \to \R^2 \to \{0\}$ mit
+	\[
+		f(x,y) := \f 1{x^2 + y^2} (-y, x).
+	\]
+	Es gilt $\rot(f) = 0$, aber $f$ besitzt kein Potential.
+	Es gilt
+	\[
+		\deg(\gamma) = \f 1{2\pi} \int_{t=0}^1 f(\gamma(t)) \gamma'(t) \dx[t]
+	\]
+\end{nt}
+
+
+\section{Abbildungsgrad}
+
+
+Für $K \in \Z$ haben wir $\phi_k: \S^1 \to \S^1, \phi(z) = z^k$.
+Reell betrachtet gilt
+\[
+	\phi_k(\cos t, \sin t) = (\cos kt, \sin kt).
+\]
+Allgemeiner definieren wir $\phi_k: \R^{n+1} \to \R^{n+1}$ durch
+\[
+	\phi_k(r \cos t, r \sin t, x_3, \dotsc, x_{n+1})
+	:= (r\cos kt, r\sin kt, x_3, \dotsc, x_{n+1}).
+\]
+
+\begin{st}[Brouwer-Hopf]
+	Die Abbildung $\Z \to [\S^n, \S^n], k \mapsto [\phi_k]$ (d.h. von $\Z$ zur Homotopieklasse aller Abbildungen von $\S^n$ nach $\S^n$ ist bijektiv.
+	Es gibt also eine inverse Bijektion
+	\[
+		\deg: [\S^n, \S^n] \to \Z,
+		\deg(\phi_k) = k.
+	\]
+	\begin{proof}[Beweis-Idee]
+		Simpliziale Approximation und Umläufe zählen für $n = 1$.
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	Für jede Matrix $A \in \GL_{n+1}(\R)$ definiere $f_A: \S^n \to \S^n$ durch
+	$f_A(x) := \f {Ax}{|Ax|}$ (stetig).
+	Für
+	\[
+		E_\pm = \diag(1, \pm 1, 1, \dotsc, 1)
+	\]
+	ist $f_{E_\pm} = \phi_{\pm 1}$.
+	Also ist $\deg(f_{E_{\pm 1}})  = \pm 1 = \sign \det (E_\pm)$.
+\end{ex}
+
+\begin{prop}
+	Für $A \in \GL_{n+1} (\R)$ gilt $\deg(f_A) = \sign \det(A)$.
+	\begin{proof}
+		Es gilt $\pi_0(\GL_{n+1}(\R)) = \{ [E_+], [E_-] \}$.
+		Jeder Weg $\gamma: [0,1] \to \GL_{n+1}(\R)$ von $A$ nach $E_\pm$ definiert eine Homotopie von $f_A$ nach $f_{E_\pm}$ vermöge $H(t, x) = \f {\gamma(t) x}{|\gamma(t) x |}$.
+		Also gilt $\deg(f_A) = \deg(f_{E_\pm}) = \sign \det A$.
+	\end{proof}
+\end{prop}
+
+\begin{kor}
+	$\deg(f\circ g) = \deg(f) \deg(g)$.
+	\begin{proof}
+		Es gilt $f \homotopic \phi_k, g \homotopic \phi_l$, also $f \circ g \homotopic \phi_k \circ \phi_l = \phi_{kl}$.
+	\end{proof}
+\end{kor}
+
+\begin{kor}
+	Ist $f: \S^n \to \S^n$ ein Homöomorphismus, so gilt $\deg(f) = \pm 1$.
+\end{kor}
+
+\begin{kor}
+	Es gilt $\S^n \not\homotopic *$.
+	\begin{proof}
+		Es gilt $[S^n, *] = \{*\}$, $[\S^n, \S^n] \isomorphic \Z$.
+		Es existiert keine Bijektion zwischen $\{*\}$ und $\Z$, also ist $* \not\homotopic \S^n$.
+	\end{proof}
+\end{kor}
+
+\begin{kor}
+	Es gilt $\S^n \subset \D^{n+1}$ ist kein Retrakt.
+	\begin{proof}
+		Sei $\jota: \S^n \injto \D^{n+1}$ die Inklusion.
+		Angenommen es gäbe $r: \D^{n+1} \to \S^n$ mit $r \circ \jota = \Id_{\S^n}$.
+		\[
+			\begin{tikzcd}[column sep=small]
+				~& D^{n+1} \arrow{dr}{r} &\\
+				\S^n \arrow{rr}{\Id \homotopic *}\arrow{ur}{\jota\homotopic *} & & \S^n
+			\end{tikzcd}
+			\!\!\xRightarrow{[\S^n, -]}\!\!\!\!
+			\begin{tikzcd}[column sep=tiny]
+				~& {[\S^n, \D^n] = \{*\}} \arrow{dr}{r_*} & \\
+				{\Z \homeomorphic [\S^n, \S^n]} \arrow{ur}{\jota_*} \arrow{rr}{\Id_*} & & {[\S^n, \S^n] \homeomorphic \Z}
+			\end{tikzcd}
+			% fixme: display issue
+		\]
+		ein Widerspruch zu $\S^n \not\homotopic *$, bzw. zu $\Z \not\homeomorphic \{*\}$.
+	\end{proof}
+\end{kor}
+
+\begin{st}
+	Sei $A \subset \R^n$ kompakt und $\mathring A \neq \emptyset$.
+	Dann existiert keine Retraktion $r: A \to \boundary A$.
+	\begin{proof}
+		Angenommen $r: A \to \boundary A$ wäre eine Retraktion, also stetig und $r|_{\boundary A} = \Id_{\boundary A}$.
+		Wir können \oBdA annehmen, dass $0 \in \mathring A \subset A \subset \B^n$.
+		Betrachte $g: \D^n \to \S^{n-1}$ mit
+		\[
+			g(x) := \begin{cases}
+				\f x{|x|} & x \in \D^n \setminus \mathring A \\
+				\f {r(x)}{|r(x)|} & x \in A
+			\end{cases}.
+		\]
+		$g$ ist wohldefiniert, stetig und erfüllt $g|_{\S^{n-1}} = \Id_{\S^{n-1}}$, ein Widerspruch zu $\S^{n+1} \subset \D^n$ ist kein Retrakt.
+	\end{proof}
+\end{st}
+
+\begin{st}[Brouwerscher Fixpunktsatz]
+	Jede stetige Abbildung $f: \D^n \to \D^n$ besitzt (mindestens) einen Fixpunkt, d.h. es existiert $a \in \D^n$ mit $f(a) = a$.
+	\begin{proof}
+		Siehe Skizze
+		% fixme picture
+	\end{proof}
+\end{st}
+
+
+\section{Satz vom Igel}
+
+
+\begin{df}
+	Ein \emph{tangentiales Vektorfeld} auf $\S^n$ ist eine Abbildung $v: \S^n \to \R^{n+1}$ mit $\<x, v(x)\> = 0$.
+\end{df}
+
+\begin{st}[Der Satz vom gekämmten Igel]
+	\begin{enumerate}[(1)]
+		\item
+			Ist $n$ ungerade, so existiert ein nirgends verschwindendes Vektorfeld auf $\S^n$
+		\item
+			Für $n$ gerade, hat jedes tangentiale Vektorfeld mindestens eine Nullstelle.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(1)]
+			\item
+				Sei $n = 2m - 1$ und betrachte
+				$v: \R^{n+1} \to \R^{n+1}$ definiert durch
+				\[
+					v(x_1, x_2, \dotsc, x_{2m-1}, x_{2m})
+					:= (-x_2, x_1, \dotsc, -x_{2m}, x_{2m-1}).
+				\]
+				Dies definiert $v: \S^n \to \R^{n+1}$ mit $\<x, v(x)\> = 0$.
+			\item
+				Zu $v: \S^n \to \R^{n+1}$ betrachte
+				$H: [0,1] \times \S^n \to \S^n$ definiert durch
+				\[
+					H_t(x) := \f {x+ tv(x)}{|x+tv(x)|}.
+				\]
+				Wenn $v$ nirgends verschwindet, dann ist $H_1(x) \neq x$ für alle $x$.
+				Wir betrachten $K: [0,1] \times \S^n \to \S^n$, definiert durch
+				\[
+					K_t(x) := \f {(1-t) H_1(x) - tx}{|(1-t) H_1(x) - tx|}.
+				\]
+				$K_t$ ist wohldefiniert wegen $H_1(x) \neq x$ und stetig.
+				Es gilt $K_0 = H_1, K_1 = -\Id$.
+				Dann gilt $\Id_{\S^n} \stack{H}\homotopic H_1 \stack{K}\homotopic -\Id_{\S^n}$.
+				Es gilt aber
+				\begin{align*}
+					\deg(\Id_{\S^n}) &= 1, &
+					\deg(-\Id_{\S^n}) &= (-1)^{n+1} = - 1.
+				\end{align*}
+				Ein Widerspruch zur Homotopieinvarianz des Abbildungsgrad.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+
+\section{Der Satz von Borsuk-Ulam}
+
+
+\begin{st}
+	Sei $f: \S^n \to \S^n$ mit $f(-x) = -f(x)$.
+	Dann ist $\deg(f)$ ungerade.
+	\begin{proof}
+		Folgt
+	\end{proof}
+\end{st}
+
