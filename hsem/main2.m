@@ -38,7 +38,7 @@ model.makePlot();
 g2 = model.getGValue(S);
 G = G_0;
 
-while s > 1/100   % bislang willkürlich gewählt  
+while s > 1/100   % bislang willkürlich gewählt
     k = k+1;
     figure(k);
     GN = (1-s)*G;
@@ -47,15 +47,15 @@ while s > 1/100   % bislang willkürlich gewählt
     model.buildMesh();
     model.runStudy();
     model.makePlot();
-    
+
     gn = getGValue(S);
     a = 0; % zählt die Änderungen
     % Vergleiche für jede Stützstelle die g-Werte
-    for j = 1:n        
+    for j = 1:n
         if norm(g(j,:)-gn(j,:)) < norm(g(j,:)-g2(j,:))
             G(j,:) = GN(j,:);
             a = a+1;
-        end      
+        end
     end
     % keine Änderungen: Schrittweite verkleinern
     if a == 0
