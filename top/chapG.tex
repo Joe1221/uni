@@ -189,9 +189,12 @@ Diese sogenannten Simplizialkomplexe werden im Wesentlichen durch die Simplizes 
 \end{ex}
 
 \begin{nt}
-	Ist $\scr K$ in $V$ (lokal-)endlich, so stimmen die simpliziale Topologie auf $|\scr K|$ und die Teilraumtopologie auf $|\scr K| \subset V$ überein.
+	Ist $\scr K$ in $V$ lokal-endlich, so stimmen die simpliziale Topologie auf $|\scr K|$ und die Teilraumtopologie auf $|\scr K| \subset V$ überein.
 
-	Im Allgemeinen gilt das nicht, siehe obiges Beispiel.
+	Im Allgemeinen gilt das nicht, siehe „unendlicher Stern“, \coursehref{Blatt09.pdf}{Übungsaufgabe: Blatt 9, 2.3}.
+	\begin{proof}
+		siehe \ref{st:simplicial_topology_subset_topology_locally_finite}.
+	\end{proof}
 \end{nt}
 
 
@@ -298,28 +301,28 @@ Auf diese Art gegebene Simplizialkomplexe nennen wir kombinatorische Simplizialk
 
 \begin{df}
 	Sei $X$ ein topologischer Raum.
-	Eine \emph{Triangulierung} $(K, h)$ von $X$ ist ein Simplizialkomplex $K$ und ein Homöomorphismus $h: |K| \homto X$.
+	Eine \emph{Triangulierung} $(K, h)$ von $X$ ist ein Tupel $(K, h)$ bestehend aus einem Simplizialkomplex $K$ und einem Homöomorphismus $h: |K| \homto X$.
 \end{df}
 
 %fixme: drawing, tirangulierung von sphere und torus
 
-\begin{ex}[Platonische Körper]
-	%Platonische Körper sind konvexe Hüllen von endlich vielen Punkten.
+\begin{ex}
+	Für einen Simplex $\Delta = [v_0, \dotsc, v_n]$ haben wir affine Unabhängigkeit der Vektoren $v_0, \dotsc, v_n \in V$ verlangt.
+	Lässt man diese Bedingung weg, so erhält man ein \emph{Polytop} $P = [v_0, \dotsc, v_n]$, welches die konvexe Hülle endlich vieler Punkte $v_0, \dotsc, v_n \in V$ darstellt.
 
-	Tetraeder, Würfel, Octaeder, etc. sind \emph{Platonische Körper}.
+	Tetraeder, Hexaeder (Würfel), Oktaeder, Ikosaeder sind Beispiele für Polytope, darunter ist jedoch nur der Tetraeder auch ein Simplex (im $\R^3$ können höchstens vier Vektoren affin unabhängig sein).
 
-	Dies sind \emph{Polytope}, bzw. \emph{polytopale Komplexe}.
-	% fixme: definition of polytopaler Komplex
-	% Simpliziale Komplexe \subset Polytopale Komplexe
+	In Simplizes sind die baryzentrischen Koordinaten eindeutig, bei Polytopen ist das im Allgemeinen jedoch nicht der Fall.
+	Betrachte beispielsweise für $\pm e_1, \pm e_2 \in \R^2$ das Polytop $[\pm e_1, \pm e_2]$ (Raute), dann ist $0 = \f 12 e_1 + \f 12 (-e_1) = \f 12 e_2 + \f 12 (-e_2)$.
 
-	Hier sind baryzentrische Koordinaten nicht mehr unbedingt eindeutig, wie bei den Simplizes!
+	Analog zu \emph{simplizialen Komplexen} kann man \emph{polytopale Komplexe} einführen.
 \end{ex}
 
 \subsubsection{Kegelkonstruktion}
 
 %fixme: drawing
 
-\subsubsection{Zentrische Unterteilung}
+\subsection{Zentrische Unterteilung}
 
 %fixme: drawing
 
@@ -333,7 +336,7 @@ Dies ist kein Simplex, aber kann in acht Simplizes aufgeteilt werden, indem der 
 	Sei $\scr K$ ein polytopaler Komplex.
 	Eine \emph{Unterteilung} von $\scr K$ ist ein Komplex $\scr K'$ mit $|\scr K'| = |\scr K|$, sodass jedes Polytop $P \in \scr K$ Vereinigung von endlich vielen $P' \in \scr K'$ ist.
 	\begin{note}
-		(Lokale) Endlichkeit und Dimension bleibt erhalten.
+		(Lokal-)Endlichkeit und Dimension bleiben erhalten.
 	\end{note}
 \end{df}
 
@@ -344,7 +347,7 @@ Dies ist kein Simplex, aber kann in acht Simplizes aufgeteilt werden, indem der 
 
 \begin{st}
 	Sei $\scr K$ ein polytopaler Komplex und $\scr L \subset \scr K$ ein simplizialer Teilkomplex, etwa $\scr L = \{\emptyset\}$.
-	Dann wird $\scr K$ trianguliert durch zentrische Unterteilung $\scr K'$ aller Polytope $P \in \scr K \setminus \scr L$, wobei wir zu jedem $P$ ein Zentrum $x_p \in \Int p$ willkürlich vorgeben können.
+	Dann wird $\scr K$ trianguliert durch zentrische Unterteilung $\scr K'$ aller Polytope $P \in \scr K \setminus \scr L$, wobei wir zu jedem $P$ ein Zentrum $x_P \in \Int P$ willkürlich vorgeben können.
 	\begin{proof}
 		Induktion über die Skelette $\scr K_{\le 0}' := \scr K_{\le 0}$.
 		Sei $n \ge 1$ und $\scr K'_{<n}$ eine simpliziale Unterteilung von $\scr K_{<n}$.
@@ -352,11 +355,10 @@ Dies ist kein Simplex, aber kann in acht Simplizes aufgeteilt werden, indem der 
 		\[
 			\scr K_{\le n}'
 			:= \scr K_{<n}' \cup
-			\Set{ [v_0,\dotsc, v_k, x_p] |
+			\Set{ [v_0,\dotsc, v_k, x_P] |
 				\begin{aligned}
 					P \in \scr K \setminus L, \dim P = n, \\
-					[v_0, \dotsc, v_k] \in \scr K'_{<n},
-					[v_0, \dotsc, v_k] \subset \boundary P
+					[v_0, \dotsc, v_k] \in \scr K'_{<n} \cap \boundary P, k < n
 				\end{aligned}}.
 		\]
 	\end{proof}
@@ -400,16 +402,16 @@ Produkte von Simplizes sind im Allgemeinen keine Simplizes ($\Delta^1 \times \De
 \subsection{Euler-Charakteristik}
 
 \begin{df}[Euler-Charakteristik]
-	Sei $\scr K$ ein endlicher polytopaler Komplex.
-	Setze
+	Sei $\scr K$ ein endlicher polytopaler Komplex mit Dimension $n = \dim \scr K$.
+	Definiere die Anzahl der $d$-dimensionalen Polytope von $\scr K$ als
 	\[
-		f_d = \Big| \Set{ P \in \scr K | \dim P = d } \Big|.
+		f_d := \big| \Set{ P \in \scr K | \dim P = d } \big|.
 	\]
 	Die \emph{Euler-Charakteristik} ist gegeben durch
 	\[
 		\chi(\scr K)
-		:= \sum_{\emptyset \neq P \in \scr K}
-		(-1)^{\dim P}.
+		:= \sum_{\emptyset \neq P \in \scr K} (-1)^{\dim P}
+		= \sum_{d = 0}^n (-1)^d f_d.
 	\]
 \end{df}
 
@@ -417,7 +419,7 @@ Produkte von Simplizes sind im Allgemeinen keine Simplizes ($\Delta^1 \times \De
 	Der $n$-Simplex $\Delta^n \homeomorphic \D^n$ und sein Rand $\boundary \Delta^n \homeomorphic \S^{n-1}$ werden trianguliert durch
 	\[
 		D^n
-		= \scr P({0,1, \dotsc, n})
+		= \scr P(\{0,1, \dotsc, n\})
 	\]
 	bzw.
 	\[
@@ -427,24 +429,24 @@ Produkte von Simplizes sind im Allgemeinen keine Simplizes ($\Delta^1 \times \De
 	Es gilt
 	\begin{align*}
 		\chi(D^0) &= 1 &
-		\phi(S^{-1}) &= 0 \\
+		\chi(S^{-1}) &= 0 \\
 		\chi(D^1) &= 2-1 = 1 &
-		\phi(S^{0}) &= 2 \\
+		\chi(S^{0}) &= 2 \\
 		\chi(D^2) &= 3 - 3 + 1 = 1 &
-		\phi(S^{1}) &= 3 - 3 = 0 \\
+		\chi(S^{1}) &= 3 - 3 = 0 \\
 		\chi(D^3) &= 4 - 6 + 4 - 1 = 1 &
-		\phi(S^{2}) &= 4 - 6 + 4 = 2 \\
+		\chi(S^{2}) &= 4 - 6 + 4 = 2 \\
 	\end{align*}
 \end{ex}
 
 \begin{prop}
 	Es gilt
 	\begin{align*}
-		\chi(D^n) &= 1 &
-		\chi(S^n) &= 1 + (-1)^n
+		\chi(D^n) &= 1, &
+		\chi(S^n) &= 1 + (-1)^n.
 	\end{align*}
 	\begin{proof}
-		Übung
+		\coursehref{Blatt09.pdf}{Übungsaufgabe Blatt 9, V1.1.}
 	\end{proof}
 \end{prop}
 
@@ -452,25 +454,25 @@ Produkte von Simplizes sind im Allgemeinen keine Simplizes ($\Delta^1 \times \De
 	Triangulierungen für $\S^2$:
 	\begin{description}
 		\item
-			$\chi(\delta \text{Tetraeder}) = 4 - 6 + 4 = 2$
+			$\chi(\boundary \text{Tetraeder}) = 4 - 6 + 4 = 2$
 		\item
-			$\chi(\delta \text{Oktaeder}) = 6 - 12 + 8 = 2$
+			$\chi(\boundary \text{Oktaeder}) = 6 - 12 + 8 = 2$
 		\item
-			$\chi(\delta \text{Hexaeder}) = 8 - 12 + 6 = 2$
+			$\chi(\boundary \text{Hexaeder}) = 8 - 12 + 6 = 2$
 		\item
-			$\chi(\delta \text{Dodekaeder}) = 20 - 30 + 12= 2$
+			$\chi(\boundary \text{Dodekaeder}) = 20 - 30 + 12= 2$
 		\item
-			$\chi(\delta \text{Ikosaeder}) = 12 - 30 + 20= 2$
+			$\chi(\boundary \text{Ikosaeder}) = 12 - 30 + 20= 2$
 	\end{description}
 \end{ex}
 
 \begin{st}[Satz von Euler]
-	Jede Triangulierung (oder polytopale Unterteilung) von $\scr S^2$ erfüllt $\chi(\scr K) = 2$.
+	Jede Triangulierung (oder polytopale Unterteilung) von $\S^2$ erfüllt $\chi(\scr K) = 2$.
 \end{st}
 
 \begin{st}[Euler-Poincaré]
 	Seien $\scr K, \scr L$ endliche polytopale Komplexe.
-	Aus $|\scr K| \homeomorphic |\scr L$ folgt $\chi(\scr K) = \chi(\scr L)$.
+	Aus $|\scr K| \homeomorphic |\scr L|$ folgt $\chi(\scr K) = \chi(\scr L)$.
 	\begin{note}
 		Mit Hilfe diesen Satzes lässt sich die Euler-Charakteristik eines Polytops als diejenige einer beliebigen Triangulierung definieren.
 	\end{note}
@@ -489,9 +491,9 @@ Produkte von Simplizes sind im Allgemeinen keine Simplizes ($\Delta^1 \times \De
 	\]
 \end{df}
 
-\begin{st}
+\begin{st} \label{st:simplicial_topology_subset_topology_locally_finite}
 	Die simpliziale Topologie auf $|K|$ ist feiner als die metrische Topologie.
-	Bei stimmen überein, wenn $K$ lokal-endlich ist.
+	Sie stimmen überein, wenn $K$ lokal-endlich ist.
 	\begin{proof}
 		Leicht nachzuvollziehen
 	\end{proof}
@@ -567,7 +569,7 @@ Produkte von Simplizes sind im Allgemeinen keine Simplizes ($\Delta^1 \times \De
 	Sei $f: |K| \to |L|$ stetig.
 	Eine \emph{simpliziale Approximation von $f$} ist eine Abbildung $\phi: \Omega(K) \to \Omega(L)$ mit
 	\[
-		f(\mathring \star(a, K)) \subset \mathring(\phi(a), L)
+		f(\mathring \star(a, K)) \subset \mathring\star(\phi(a), L)
 	\]
 	für alle $a \in \Omega(K)$.
 \end{df}
