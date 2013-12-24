@@ -159,7 +159,7 @@
 \RequirePackage{graphicx}
 
 \RequirePackage{float}              % Erlaubt [H] Option für table/figure (load before hyperref)
-%\RequirePackage{scrhack} 			% Wegen float-package, das eine warnung mit scrbook erzeugt
+\RequirePackage{scrhack} 			% Wegen float-package, das eine warnung mit scrbook erzeugt
 
 %\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 \RequirePackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
