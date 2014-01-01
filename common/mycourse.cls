@@ -162,7 +162,7 @@
 \RequirePackage{scrhack} 			% Wegen float-package, das eine warnung mit scrbook erzeugt
 
 %\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
-\RequirePackage[pdftex]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
+\RequirePackage{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 
 \definecolor{url}{HTML}{005580} % 0088cc
 \definecolor{link}{HTML}{005580}
