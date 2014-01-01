@@ -95,7 +95,7 @@
 %	lang .initial:n       = ngerman,
 %	paper-size .initial:n = a5,
 %}
-\keys_set:nn {mycourse}{lang=ngerman}
+\keys_set:nn {mycourse}{lang=german}
 \keys_set:nn {mycourse}{paper-size=a5}
 
 % Load configuration file, containing additional options, e.g. in the form
