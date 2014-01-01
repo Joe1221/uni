@@ -1,5 +1,5 @@
 \RequirePackage {expl3, l3keys2e, xparse}
-\ProvidesExplPackage {mycourse}	{2013/11/16} {0.1}
+\ProvidesExplClass {mycourse} {2013/11/16} {0.1}
 	{Class intended for math courses}
 
 %%=======================================================================
