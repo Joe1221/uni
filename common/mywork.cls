@@ -17,10 +17,19 @@
 % Fonts / Encoding
 %==================================
 
-\usepackage[ngerman]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
-\usepackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
-\usepackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
-\usepackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
+\RequirePackage { fontspec }
+
+\RequirePackage { polyglossia }
+
+\ExplSyntaxOff
+    \setmainlanguage [ spelling=new, latesthyphen=true, babelshorthands=true ] {german}
+%\setmainlanguage[babelshorthands=true]{german}
+\ExplSyntaxOn
+
+%\usepackage[ngerman]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
+%\usepackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
+%\usepackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
+%\usepackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
 
 %==================================
 % 
