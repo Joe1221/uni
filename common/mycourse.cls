@@ -391,7 +391,11 @@
 \let\myproofname\proofname
 \theoremsymbol{\ensuremath{\square}}
 \theoremstyle{break}
-\newtheorem*{proof}{\color{headings}\myproofname :}
+\newtheorem* { proof } {
+	\color { headings }
+	\noexpand{\myproofname}
+	:
+}
 \theoremsymbol{}
 
 
