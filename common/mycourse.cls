@@ -123,13 +123,22 @@
 % Fonts / Encoding
 %==================================
 
-\RequirePackage[\l_mycourse_language]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
-\RequirePackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
-\RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
+\RequirePackage { fontspec }
+
+\RequirePackage { polyglossia }
+
+\ExplSyntaxOff
+    \setmainlanguage [ spelling=new, latesthyphen=true, babelshorthands=true ] {german}
+%\setmainlanguage[babelshorthands=true]{german}
+\ExplSyntaxOn
+
+%\RequirePackage[\l_mycourse_language]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
+%\RequirePackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
+%\RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
 %\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
-\RequirePackage{libertine}                  % Libertine font
+%\RequirePackage{libertine}                  % Libertine font
 %\RequirePackage[libertine]{newtxmath}
-\RequirePackage{beramono}      % Typewriter font scaled to fit with Libertine
+%\RequirePackage{beramono}      % Typewriter font scaled to fit with Libertine
 %\RequirePackage{bera}
 %\RequirePackage{mathspec}
 %\setmathtt{beramono}
