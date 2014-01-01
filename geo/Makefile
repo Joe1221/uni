@@ -1,3 +1,3 @@
 TARGET = Geometrie
 
-include ../common/pdflatex.mk
+include ../common/tex.mk

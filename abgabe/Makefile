@@ -1,7 +1,7 @@
 TEX_SOURCES = $(wildcard *.tex)
 PDFTARGETS = $(patsubst %.tex,%.pdf,$(TEX_SOURCES))
 
-include ../common/pdflatex.mk
+include ../common/tex.mk
 
 #INCLUDEDIR   := `git rev-parse --show-toplevel`/common
 #

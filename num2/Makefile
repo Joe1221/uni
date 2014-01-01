@@ -1,4 +1,4 @@
 #TARGET = vorlesung
 TARGET = Numerik2
 
-include ../common/pdflatex.mk
+include ../common/tex.mk
