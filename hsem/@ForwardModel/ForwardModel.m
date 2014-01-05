@@ -24,6 +24,8 @@ classdef ForwardModel < handle
 		pg1;
 		gDataSet;
 		gEval;
+		pointEval;
+		pointDataSet;
 	end
 
 	methods
