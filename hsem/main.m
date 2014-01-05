@@ -8,47 +8,42 @@ clear;
 model = ForwardModel();
 
 
-M = [0,2,1; -3,0,2; 0,-2,3; 2,0,4];
+M = [0,2,0; -3,0,1; 0,-2,2; 2,0,3];
 model.setDirichletOuterData(M);
 
 model.setOuterBoundary(load('C2.mat', '-ascii'));
 model.setInnerBoundary(load('Gamma.mat', '-ascii'));
 
-%model.showGeometry();
-%model.buildGeometry();
+figure(1);
 
-%figure(2);
-%model.run();
+%model.setDirichletOuterData('1');
+model.buildGeometry();
+model.buildMesh();
+model.runStudy();
+model.makePlot();
 
 figure(2);
-%model.initMesh();
+%model.setNeumannOuterData('1');
+M = [0,2,0; -3,0,1; 0,-2,-2; 2,0,3];
+model.setNeumannOuterData(M);
+model.buildMesh();
+model.runStudy();
+model.makePlot();
+
+%figure(3);
+%model.setOuterBoundary(load('C.mat', '-ascii'));
+%model.buildGeometry();
 %model.buildMesh();
-%model.initStudy();
 %model.runStudy();
-
-%model.initPlot();
-
-
-model.setOuterBoundary(load('C2.mat', '-ascii'));
-model.buildGeometry();
-model.buildMesh();
-model.runStudy();
-model.makePlot();
-
-figure(3);
-model.setOuterBoundary(load('C.mat', '-ascii'));
-model.buildGeometry();
-model.buildMesh();
-model.runStudy();
-model.makePlot();
-
-figure(4);
-model.setOuterBoundary(load('C2.mat', '-ascii'));
-model.buildGeometry();
-model.buildMesh();
-model.runStudy();
-model.makePlot();
-
+%model.makePlot();
+%
+%figure(4);
+%model.setOuterBoundary(load('C2.mat', '-ascii'));
+%model.buildGeometry();
+%model.buildMesh();
+%model.runStudy();
+%model.makePlot();
+%
 
 
 end
