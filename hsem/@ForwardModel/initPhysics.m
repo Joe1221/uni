@@ -8,9 +8,15 @@ function initPhysics (obj)
 	ph_eq = obj.phys.feature.create('leq', 'LaplaceEquation', 2);
 	ph_eq.selection.named(strcat(obj.geom_name, '_', obj.domain.name, '_dom')); % DGL nur auf der domain (Omega ohne D)
 
-	% Randbedingung für C (u = f)
+
+	% Dirichlet boundary condition for outer boundary C
 	ph_bnd_C = obj.phys.feature.create(strcat(obj.C.name, '_dirichlet'), 'DirichletBoundary', 1);
 	ph_bnd_C.selection.named(strcat(obj.geom_name, '_', obj.Omega.name, '_bnd'));
+	ph_bnd_C.active(false); % gets activated in setDirichletOuterData()
+	% Neumann boundary condition for outer boundary C
+	ph_bndcond_neumann_C = obj.phys.feature.create(strcat(obj.C.name, '_neumann'), 'FluxBoundary', 1);
+	ph_bndcond_neumann_C.selection.named(strcat(obj.geom_name, '_', obj.Omega.name, '_bnd'));
+	ph_bndcond_neumann_C.active(false); % gets activated in setNeumannOuterData()
 
 	% Randbedingung für Gamma (u = 0)
 	ph_bnd_Gamma = obj.phys.feature.create(obj.Gamma.name, 'DirichletBoundary', 1);
