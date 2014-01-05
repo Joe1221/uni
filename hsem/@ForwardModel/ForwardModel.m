@@ -100,12 +100,47 @@ classdef ForwardModel < handle
 				% ... and then specify this function as dirichlet data
 				obj.phys.feature(strcat(obj.C.name, '_dirichlet')).set('r', 'f(x,y)');
 			end
+
+			obj.phys.feature(strcat(obj.C.name, '_dirichlet')).active(true);
+			obj.phys.feature(strcat(obj.C.name, '_neumann')).active(false);
+			% TODO: Funktion als Interpolation von (f(φ)) mit φ äquidistant.
+			% Erfordert Schnitt mit Kurve, schwierig
+		end
+
+		function setNeumannOuterData (obj, data)
+			% Specifies Neumann data on the outer curve C
+			%     Hereby it is assumed you are going to compute Dirichlet data,
+			%     thus any values set through setDirichletOuterData are dismissed.
+
+			% Funktion als symbolischer Ausdruck
+			if ischar(data)
+				obj.phys.feature(strcat(obj.C.name, '_neumann')).set('g', data);
+			end
+			% Interpolation von Datentripel (x, y, f(x,y)) als n×3 Matrix
+			if ismatrix(data) && size(data, 2) == 3
+				dlmwrite('outerNeumannData.mat', data, 'delimiter', ' ', 'precision', '%10.6g');
+
+				% We actually interpolate the given data to obtain a function on
+				% the whole domain ...
+				f = obj.model.func.create('g', 'Interpolation');
+				f.set('source', 'file');
+				f.set('filename', 'outerNeumannData.mat');
+				f.set('nargs', 2);
+				f.set('interp', 'linear');
+				%f.set('interp', 'neighbor');
+
+				% ... and then specify this function as dirichlet data
+				obj.phys.feature(strcat(obj.C.name, '_neumann')).set('g', 'g(x,y)');
+			end
+
+			obj.phys.feature(strcat(obj.C.name, '_neumann')).active(true);
+			obj.phys.feature(strcat(obj.C.name, '_dirichlet')).active(false);
 			% TODO: Funktion als Interpolation von (f(φ)) mit φ äquidistant.
 			% Erfordert Schnitt mit Kurve, schwierig
 		end
 
 		function [gValues] = getNeumannData (obj, dataPoints)
-			% Retrieval of Neumann data on the nearest boundary
+			% Retrieval of Neumann solution data on the nearest boundary
 			%     Neumann data here means the normal derivative du/dν, where ν
 			%     is the boundary normal vector pointing outside.
 			%     You should provide points that lie on a boundary or else they
