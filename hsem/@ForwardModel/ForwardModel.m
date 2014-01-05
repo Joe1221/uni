@@ -78,7 +78,7 @@ classdef ForwardModel < handle
 		function setDirichletOuterData (obj, data)
 			% Specifies Dirichlet data on the outer curve C
 			%     Hereby it is assumed you are going to compute Neumann data,
-			%     thus any values set through setNeumannOuterData is dismissed.
+			%     thus any values set through setNeumannOuterData are dismissed.
 
 			% Funktion als symbolischer Ausdruck
 			if ischar(data)
