@@ -88,13 +88,13 @@ classdef ForwardModel < handle
 			end
 			% Interpolation von Datentripel (x, y, f(x,y)) als n×3 Matrix
 			if ismatrix(data) && size(data, 2) == 3
-				dlmwrite('fData.mat', data, 'delimiter', ' ', 'precision', '%10.6g');
+				dlmwrite('tmp.mat', data, 'delimiter', ' ', 'precision', '%10.6g');
 
 				% We actually interpolate the given data to obtain a function on
 				% the whole domain ...
 				f = obj.model.func.create('f', 'Interpolation');
 				f.set('source', 'file');
-				f.set('filename', 'fData.mat');
+				f.set('filename', 'tmp.mat');
 				f.set('nargs', 2);
 				f.set('interp', 'linear');
 				%f.set('interp', 'neighbor');
@@ -120,13 +120,13 @@ classdef ForwardModel < handle
 			end
 			% Interpolation von Datentripel (x, y, f(x,y)) als n×3 Matrix
 			if ismatrix(data) && size(data, 2) == 3
-				dlmwrite('outerNeumannData.mat', data, 'delimiter', ' ', 'precision', '%10.6g');
+				dlmwrite('tmp.mat', data, 'delimiter', ' ', 'precision', '%10.6g');
 
 				% We actually interpolate the given data to obtain a function on
 				% the whole domain ...
 				f = obj.model.func.create('g', 'Interpolation');
 				f.set('source', 'file');
-				f.set('filename', 'outerNeumannData.mat');
+				f.set('filename', 'tmp.mat');
 				f.set('nargs', 2);
 				f.set('interp', 'linear');
 				%f.set('interp', 'neighbor');
