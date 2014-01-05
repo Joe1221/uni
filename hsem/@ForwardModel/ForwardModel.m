@@ -126,6 +126,26 @@ classdef ForwardModel < handle
 			gValues = obj.gEval.getReal();
 		end
 
+		function [uValues] = getDirichletData (obj, dataPoints)
+			% Retrieval of Dirichlet solution data on the nearest boundary
+			%     You should provide points that lie on a boundary or else they
+			%     get snapped to the nearest one.
+
+			% Make sure dataset and evaluation is initialized
+			if ~isa(obj.pointEval, 'com.comsol.model.impl.NumericalFeatureImpl')
+				if ~isa(obj.pointDataSet, 'com.comsol.model.impl.DatasetFeatureImpl')
+					obj.pointDataSet = obj.model.result.dataset.create('cutpoint', 'CutPoint2D');
+				end
+				obj.pointEval = obj.model.result.numerical.create('evalpoint', 'EvalPoint');
+				obj.pointDataSet.set('bndsnap', true); % stay on boundary for normal vector
+			end
+			obj.pointEval.set('data', 'cutpoint'); % select obj.gDataSet as points to evaluate at
+			obj.pointEval.set('expr', 'u');
+			obj.pointDataSet.set('pointx', dataPoints(:, 1));
+			obj.pointDataSet.set('pointy', dataPoints(:, 2));
+			uValues = obj.pointEval.getReal();
+		end
+
 		function initPlot (obj)
 			obj.pg1 = obj.model.result.create('pg1', 2);
 			obj.pg1.feature.create('surf1', 'Surface');
