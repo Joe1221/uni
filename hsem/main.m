@@ -9,7 +9,7 @@ model = ForwardModel();
 
 
 M = [0,2,1; -3,0,2; 0,-2,3; 2,0,4];
-model.setFValue(M);
+model.setDirichletOuterData(M);
 
 model.setOuterBoundary(load('C2.mat', '-ascii'));
 model.setInnerBoundary(load('Gamma.mat', '-ascii'));

@@ -75,7 +75,11 @@ classdef ForwardModel < handle
 			end
 		end
 
-		function setFValue (obj, data)
+		function setDirichletOuterData (obj, data)
+			% Specifies Dirichlet data on the outer curve C
+			%     Hereby it is assumed you are going to compute Neumann data,
+			%     thus any values set through setNeumannOuterData is dismissed.
+
 			% Funktion als symbolischer Ausdruck
 			if ischar(data)
 				obj.phys.feature(obj.C.name).set('r', data);
@@ -84,6 +88,8 @@ classdef ForwardModel < handle
 			if ismatrix(data) && size(data, 2) == 3
 				dlmwrite('fData.mat', data, 'delimiter', ' ', 'precision', '%10.6g');
 
+				% We actually interpolate the given data to obtain a function on
+				% the whole domain ...
 				f = obj.model.func.create('f', 'Interpolation');
 				f.set('source', 'file');
 				f.set('filename', 'fData.mat');
@@ -91,21 +97,28 @@ classdef ForwardModel < handle
 				f.set('interp', 'linear');
 				%f.set('interp', 'neighbor');
 
+				% ... and then specify this function as dirichlet data
 				obj.phys.feature(strcat(obj.C.name, '_dirichlet')).set('r', 'f(x,y)');
 			end
 			% TODO: Funktion als Interpolation von (f(φ)) mit φ äquidistant.
 			% Erfordert Schnitt mit Kurve, schwierig
 		end
 
-		function [gValues] = getGValue (obj, dataPoints)
-			% Make sure dataset an evaluation is initialized
+		function [gValues] = getNeumannData (obj, dataPoints)
+			% Retrieval of Neumann data on the nearest boundary
+			%     Neumann data here means the normal derivative du/dν, where ν
+			%     is the boundary normal vector pointing outside.
+			%     You should provide points that lie on a boundary or else they
+			%     get snapped to the nearest one.
+
+			% Make sure dataset and evaluation is initialized
 			if ~isa(obj.gEval, 'com.comsol.model.impl.NumericalFeatureImpl')
 				if ~isa(obj.gDataSet, 'com.comsol.model.impl.DatasetFeatureImpl')
 					obj.gDataSet = obj.model.result.dataset.create('g', 'CutPoint2D');
 				end
 				obj.gEval = obj.model.result.numerical.create('g', 'EvalPoint');
 				obj.gEval.set('data', 'g'); % select obj.gDataSet as points to evaluate at
-				obj.gEval.set('expr', 'ux*nx + uy*ny'); % = du/dn
+				obj.gEval.set('expr', 'ux*nx + uy*ny'); % = du/dν
 				obj.gDataSet.set('bndsnap', true); % stay on boundary for normal vector
 			end
 			obj.gDataSet.set('pointx', dataPoints(:, 1));
