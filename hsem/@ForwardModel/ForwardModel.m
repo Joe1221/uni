@@ -82,7 +82,7 @@ classdef ForwardModel < handle
 
 			% Funktion als symbolischer Ausdruck
 			if ischar(data)
-				obj.phys.feature(obj.C.name).set('r', data);
+				obj.phys.feature(strcat(obj.C.name, '_dirichlet')).set('r', data);
 			end
 			% Interpolation von Datentripel (x, y, f(x,y)) als n×3 Matrix
 			if ismatrix(data) && size(data, 2) == 3
