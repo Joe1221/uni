@@ -22,7 +22,7 @@ function initPhysics (obj)
 	% Randbedingung für Gamma (u = 0)
 	ph_bnd_Gamma = obj.phys.feature.create(obj.Gamma.name, 'DirichletBoundary', 1);
 	ph_bnd_Gamma.selection.named(strcat(obj.geom_name, '_', obj.D.name, '_bnd'));
-	ph_bnd_Gamma.set('r', '0');
+	obj.setDirichletInnerData('0');
 
 	fprintf('finished.\n');
 

@@ -69,6 +69,12 @@ classdef ForwardModel < handle
 			end
 		end
 
+		function setDirichletInnerData (obj, data)
+			if ischar(data)
+				obj.phys.feature(obj.Gamma.name).set('r', data);
+			end
+		end
+
 		function setFValue (obj, data)
 			% Funktion als symbolischer Ausdruck
 			if ischar(data)
