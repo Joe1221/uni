@@ -60,7 +60,9 @@ function g_diff = H (gamma)
 end
 
 figure(3)
-fsolve(@H, gamma_init)
+options = optimoptions(@fsolve, 'Algorithm', 'levenberg-marquardt','ScaleProblem', 'Jacobian', 'TolX', 1e-9);
+
+fsolve(@H, gamma_init, options)
 model.makePlot();
 
 %figure(3);

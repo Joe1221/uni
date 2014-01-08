@@ -196,7 +196,7 @@ classdef ForwardModel < handle
 
 		function initMesh (obj, rf)
 			if nargin == 1
-				rf = '5';
+				rf = '4';
 			else
 				rf = int2str(rf);
 			end
