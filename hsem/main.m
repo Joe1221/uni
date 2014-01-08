@@ -46,23 +46,36 @@ g_orig = model.getNeumannData(pointdata);
 
 figure(2);
 gamma_init = load('GammaInit.mat', '-ascii');
+%b = 0.5*load('C2.mat', '-ascii');  % So funktioniert es nicht 
+%a = 2*pi/size(b,2) * ones(size(b,1),1);   % zu viele Werte??
+%gamma_init = pol2cart(a,b);
 model.setInnerBoundary(gamma_init);
 %model.setNeumannOuterData('1');
 model.buildMesh();
 model.runStudy();
 model.makePlot();
 
-
+k = 4;
 function g_diff = H (gamma)
+    t2 = tic;
 	model.setInnerBoundary(gamma)
 	model.runStudy();
 	g_diff = model.getNeumannData(pointdata) - g_orig;
+    toc(t2)
+    if toc(t2) > 2.45  % Zwischenplots ab einer gewissen Rechenlänge
+        figure(k)
+        model.makePlot();
+        k
+        k = k+1;
+    end
 end
 
-figure(3)
-options = optimoptions(@fsolve, 'Algorithm', 'levenberg-marquardt','ScaleProblem', 'Jacobian', 'TolX', 1e-9);
 
+options = optimoptions(@fsolve, 'Algorithm', 'levenberg-marquardt','ScaleProblem', 'Jacobian', 'TolX', 1e-9);
+t1 = tic;
 fsolve(@H, gamma_init, options)
+toc(t1)
+figure(3)
 model.makePlot();
 
 %figure(3);
