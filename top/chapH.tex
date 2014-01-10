@@ -260,12 +260,132 @@ Allgemeiner definieren wir $\phi_k: \R^{n+1} \to \R^{n+1}$ durch
 
 \section{Der Satz von Borsuk-Ulam}
 
+Wir beobachten: ist $k$ ungerade, so gilt $\phi_k(-x) = -\phi_k(x)$.
+Gilt nun auch die Umkehrung?
 
 \begin{st}
-	Sei $f: \S^n \to \S^n$ mit $f(-x) = -f(x)$.
+	Sei $f: \S^n \to \S^n$ stetig und ungerade (d.h. $f(-x) = -f(x)$).
 	Dann ist $\deg(f)$ ungerade.
 	\begin{proof}
 		Folgt
 	\end{proof}
 \end{st}
+
+\coursetimestamp{07}{01}{2014}
+
+\begin{kor}
+	Für $m > n$ existiert keine stetige Abbildung $f: \S^m \to \S^n$ mit $f(-x) = -f(x)$.
+	\begin{proof}
+		Angenommen $f: \S^m \to \S^n$ sei stetig und ungerade.
+		Auch die Standardeinbettung $\jota: \S^n \injto \S^m$ ist ungerade.
+		Somit ist $g = \jota \circ f: \S^m \to \S^m$ ungerade.
+		Wegen $\deg(g)$ ungerade und damit insbesondere $\deg(g) \neq 0$ gilt $g \not\homotopic *$.
+		Andererseits ist $g$ mit $\jota$ zusammenziehbar, ein Widerspruch.
+	\end{proof}
+\end{kor}
+
+\begin{kor}
+	Ist $f: \S^n \to \R^n$ stetig, so existiert $x \in \S^n$ mit $f(-x) = f(x)$.
+	\begin{proof}
+		Der Fall $n = 0$ ist trivial ($\S^0 = \{\pm 1\}, \R^0 = \{0\}$).
+		Der Fall $n = 1$ ist leicht mit dem Zwischenwertsatz (betrachte $g(x) = f(x) - f(-x)$).
+
+		Angenommen $f(x) \neq f(-x)$ für alle $x \in \S^n$.
+		Dann wäre $g(x) = \f {f(x) - f(-x)}{|f(x) - f(-x)|}$ eine stetig ungerade Abbildung $g: \S^n \to \S^{n-1}$, ein Widerspruch zum letzten Korollar.
+	\end{proof}
+\end{kor}
+
+\begin{st}
+	Seien $A_1, \dotsc, A_n \subset \R^n$ kompakt (es reicht auch messbar und beschränkt).
+	Dann existiert mindestens eine affine Hyperebene $H \subset \R^n$ sodass $\my(A_k \cap H_+) = \my(A_k \cap H_-)$ für alle $k = 1, \dotsc, n$.
+	\begin{proof}
+		Setze $\my_k(B) := \my(A_k \cap B)$ und nutze den folgenden Satz.
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Seien $\my_1, \dotsc, \my_n$ endliche Borel-Maße, wobei jede affine Hyperebene $H$ Maß 0 hat.
+	Dann existiert $H \subset \R^n$ sodass $\my_k(H_+) = \my_k(H_-)$ für alle $k$.
+	\begin{proof}
+		Jeder Vektor $v = (v_0, \dotsc, v_n) \in \S^n$ definiert Halbräume
+		\begin{align*}
+			H_+(v) &:= \{x \in \R^n : v_1x_1 + \dotsb + v_n x_n > v_0 \}, \\
+			H_-(v) &:= \{x \in \R^n : v_1x_1 + \dotsb + v_n x_n < v_0 \}.
+		\end{align*}
+		Hierbei gilt $H_+(-v) = H_-(v)$.
+		Für $v = (1, 0, \dotsc, 0)$ gilt $H_+(v) = \emptyset, H_-(v) = \R^n$.
+		Wir definieren $f_k: \S^n \to \R$ durch $f_k(v) = \my_k(H_+(v))$ und erhalten $f: \S^n \to \R^n, f = (f_1, \dotsc, f_n)$.
+		Dies Abbildung ist stetig (Übung).
+		Dann existiert $v \in \S^n$ mit $f(v) = f(-v)$ nach letztem Korollar, also $\my_k(H_+(v)) = \my_k(H_-(v))$ für alle $k = 1, \dotsc, n$.
+	\end{proof}
+\end{st}
+
+
+\section{Invarianz der Dimension, des Randes und der Orientierung}
+
+
+\begin{st}
+	Für $m \neq n$ gilt $\S^m \not\homeomorphic \S^n$, sogar $\S^m \not\homotopic \S^n$.
+	\begin{proof}
+		Sei \oBdA $m > n$.
+		Angenommen $\S^m \homotopic \S^n$, d.h.
+		\[
+			\begin{tikzcd}
+				\S^m \arrow{r}{f} \arrow{d}{\Id_{\S^n}} & \S^n \arrow{d}{\Id_{\S^n}} \arrow{dl}{g} \\
+				\S^m \arrow{r}{f} & \S^n
+			\end{tikzcd}.
+		\]
+		Dann gilt $g \homotopic *$, also auch $\Id_{\S^m} \homotopic g \circ f \homotopic *$, ein Widerspruch.
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	Für $m \neq n$ gilt $\R^n \not\homeomorphic \R^n$.
+	\begin{proof}
+		Angenommen $f$ wäre $\R^m \xrightarrow{\homeomorphic} \R^n$.
+		Aus $m = 0$ folgt $n = 0$.
+		Sei also $m, n \ge 1$.
+		Sei $x \in \R^m, y = f(x) \in \R^n$.
+		Dann erhalten wir
+		\[
+			\S^{m-1} \homotopic \R^m \setminus \{x\} \xrightarrow[\homotopic]{f|_{\R^m \setminus \{x\}}^{\R^n \setminus \{y\}}} \R^n \setminus \{y\} \homotopic \S^{n-1}
+		\]
+		also $\S^{m-1} \homotopic \S^{n-1}$ und somit $m = n$.
+
+		Alternativ lässt dies auch mit Kompaktifizierung beweisen: Widerspruch mittels $\hat f: \S^m \xrightarrow{\homeomorphic} \S^n$.
+	\end{proof}
+\end{kor}
+
+\begin{st}
+	Sei $0 \le m < n$.
+	Sei $U \subset \R^n$ offen, $x \in U$.
+	\begin{enumerate}[(1)]
+		\item
+			In jede Umgebung $U$ von $x$ in $U$ existieren stetige Abbildungen $f: \S^{n-1} \to U' \setminus \{0\}$, die nicht zusammenziehbar sind.
+			Kurz: $[\S^{n-1}, U' \setminus \{0\}] \neq \{*\}$.
+		\item
+			Hingegen existieren Umgebungen $U'$ von $x$ in $U$, sodass $[\S^{m-1}, U' \setminus \{0\}] = \{*\}$.
+	\end{enumerate}
+	Hierdurch wird $n$ allein durch topologische Eigenschaften des Raumes $U$ festgelegt.
+	\begin{proof}
+		Es existiert $r \in \R_{>0}$ mit $B(x, 2r) \subset U$.
+		Wir erhalten $f = f_{x,r} : \S^{n-1} \injto U \setminus \{x\}$ mit $f(s) = x + rs$.
+		Wäre $f$ nullhomotop in $U$, so auch die Komposition
+		\[
+			\S^{n-1} \stack{f}\injto U \setminus \{x\} \stack{\mathrm{inc}} \R^n \setminus \{x\} \stack{\homeomorphic}\to \R^n \setminus \{0\} \stack{\homotopic}\to \S^{n-1}
+		\]
+		Das steht im Widerspruch zu $\deg(\Id_{\S^{n-1}}) = 1$.
+		Hingegen ist jede stetig Abbildung $f: \S^{m-1} \to B(x, r) \setminus \{0\}$ zusammenziehbar, denn
+		\begin{align*}
+			\S^{m-1} \stack{f}\to B(x,r) \setminus \{x\} & \xleftarrow{\homeomorphic} \R^n \setminus \{0\} \homotopic \S^{n-1} \\
+			x + r \f {v}{1+|v|} & \leftarrow v
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{st}[Invarianz der Dimension]
+	Sei $U \subset \R^p$ offen und $V \subset \R^q$ offen und nicht-leer.
+	Wenn ein Homeomorphismus $f: U \stack{\homeomorphic}\to V$ existiert, so gilt $p = q$.
+\end{st}
+
 
