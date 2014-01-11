@@ -50,6 +50,11 @@ classdef ForwardModel < handle
 
 		% Äußeres / Omega und C
 		function setOuterBoundary (obj, data)
+			% Specifies the outer boundary curve C
+			%     It can be given as a vector of polar radii which get placed at
+			%     equidistant angles, or as a n×2 matrix consisting of points in
+			%     cartesian coordinates.
+
 			% Polarkoordinaten als Radien-Vektor
 			if isvector(data)
 				obj.C.setDataPolarEq(data);
@@ -61,6 +66,11 @@ classdef ForwardModel < handle
 		end
 
 		function setInnerBoundary (obj, data)
+			% Specifies the inner boundary curve Γ
+			%     It can be given as a vector of polar radii which get placed at
+			%     equidistant angles, or as a n×2 matrix consisting of points in
+			%     cartesian coordinates.
+
 			% Polarkoordinaten als Radien-Vektor
 			if isvector(data)
 				obj.Gamma.setDataPolarEq(data);
@@ -72,6 +82,8 @@ classdef ForwardModel < handle
 		end
 
 		function setDirichletInnerData (obj, data)
+			% Specifies Dirichlet data on the inner curve Γ
+			%     data should contain a string expression
 			if ischar(data)
 				obj.phys.feature(obj.Gamma.name).set('r', data);
 			end
@@ -81,6 +93,8 @@ classdef ForwardModel < handle
 			% Specifies Dirichlet data on the outer curve C
 			%     Hereby it is assumed you are going to compute Neumann data,
 			%     thus any values set through setNeumannOuterData are dismissed.
+			%     data should contain a string expression or a n×2 matrix
+			%     containing cartesian coordinates.
 
 			% Funktion als symbolischer Ausdruck
 			if ischar(data)
@@ -113,6 +127,8 @@ classdef ForwardModel < handle
 			% Specifies Neumann data on the outer curve C
 			%     Hereby it is assumed you are going to compute Dirichlet data,
 			%     thus any values set through setDirichletOuterData are dismissed.
+			%     data should contain a string expression or a n×2 matrix
+			%     containing cartesian coordinates.
 
 			% Funktion als symbolischer Ausdruck
 			if ischar(data)
@@ -145,6 +161,8 @@ classdef ForwardModel < handle
 			% Retrieval of Neumann solution data on the nearest boundary
 			%     Neumann data here means the normal derivative du/dν, where ν
 			%     is the boundary normal vector pointing outside.
+			%     dataPoints should contain a string expression or a n×2 matrix
+			%     containing cartesian coordinates.
 			%     You should provide points that lie on a boundary or else they
 			%     get snapped to the nearest one.
 
@@ -165,6 +183,8 @@ classdef ForwardModel < handle
 
 		function [uValues] = getDirichletData (obj, dataPoints)
 			% Retrieval of Dirichlet solution data on the nearest boundary
+			%     dataPoints should contain a string expression or a n×2 matrix
+			%     containing cartesian coordinates.
 			%     You should provide points that lie on a boundary or else they
 			%     get snapped to the nearest one.
 
