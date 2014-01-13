@@ -1,50 +1,60 @@
 function model = main()
 clear;
 
-global model g_orig;
+global model g_orig gamma_old;
 %import com.comsol.model.*
 %import com.comsol.model.util.*
-
-
-
-
-
 
 
 
 model = ForwardModel();
 
 
-M = [0,2,1; -3,0,1; 0,-2,1; 2,0,1];
-pointdata = M(:,1:2);
 
-[X, Y] = pol2cart(2 * linspace(-pi,pi,10), ones(1,10))
-pointdata = [X', Y'];
+% Specify prescribed data for u
+%                  v----------- x coordinate
+%                     v-------- y coordinate
+%                        v----- u value (dirichlet data)
+specified_data = [ 0, 2, 1; ...
+                  -3, 0, 1; ...
+                   0,-2, 1; ...
+                   2, 0, 1  ];
+
+% To use the points of prescribed data as measurement points
+measure_points = specified_data(:,1:2);
+
+% To specify measurepoints equidistant on the unit circle:
+%[X, Y] = pol2cart(linspace(-pi,pi,10), 2 * ones(1,10));
+%measure_points = [X', Y'];
+
+% To use the curve points as measurement points
+%measure_points = load('C.mat', '-ascii');
 
 
+% Löse das Vorwärtsproblem mit „echtem“ Gamma, um Testdaten zu erhalten
+% =====================================================================
 
-% === Löse das Vorwärtsproblem mit „echtem“ Gamma, um Testdaten zu erhalten ===
-
-model.setDirichletOuterData(M);
-
-model.setOuterBoundary(load('C2.mat', '-ascii'));
+model.setOuterBoundary(load('C.mat', '-ascii'));
 model.setInnerBoundary(load('Gamma.mat', '-ascii'));
-
-figure(1);
-
-%model.setDirichletOuterData('1');
 model.buildGeometry();
 model.buildMesh();
+
+model.setDirichletInnerData('0');
+model.setDirichletOuterData(specified_data);
 model.runStudy();
+
+figure(1);
 model.makePlot();
 
 % Testdaten für g
-g_orig = model.getNeumannData(pointdata);
+g_orig = model.getNeumannData(measure_points);
 
 
-% === Löse jetzt das eigentliche inverse Problem ===
+% Löse jetzt das eigentliche inverse Problem
+% =====================================================================
 
-figure(2);
+
+
 gamma_init = load('GammaInit.mat', '-ascii');
 %b = 0.5*load('C2.mat', '-ascii');  % So funktioniert es nicht 
 %a = 2*pi/size(b,2) * ones(size(b,1),1);   % zu viele Werte??
@@ -53,45 +63,33 @@ model.setInnerBoundary(gamma_init);
 %model.setNeumannOuterData('1');
 model.buildMesh();
 model.runStudy();
+
+figure(2);
 model.makePlot();
 
-k = 4;
+gamma_old = gamma_init;
+
 function g_diff = H (gamma)
-    t2 = tic;
 	model.setInnerBoundary(gamma)
 	model.runStudy();
-	g_diff = model.getNeumannData(pointdata) - g_orig;
-    toc(t2)
-    if toc(t2) > 2.45  % Zwischenplots ab einer gewissen Rechenlänge
-        figure(k)
-        model.makePlot();
-        k
-        k = k+1;
-    end
+	g_diff = model.getNeumannData(measure_points) - g_orig;
+
+	if norm(gamma_old - gamma) > tol
+		figure();
+		model.makePlot();
+	end
+	gamma_old = gamma;
 end
 
 
-options = optimoptions(@fsolve, 'Algorithm', 'levenberg-marquardt','ScaleProblem', 'Jacobian', 'TolX', 1e-9);
+options = optimoptions(@fsolve, 'Algorithm', 'levenberg-marquardt');
+
 t1 = tic;
 fsolve(@H, gamma_init, options)
 toc(t1)
-figure(3)
-model.makePlot();
 
-%figure(3);
-%model.setOuterBoundary(load('C.mat', '-ascii'));
-%model.buildGeometry();
-%model.buildMesh();
-%model.runStudy();
-%model.makePlot();
-%
-%figure(4);
-%model.setOuterBoundary(load('C2.mat', '-ascii'));
-%model.buildGeometry();
-%model.buildMesh();
-%model.runStudy();
-%model.makePlot();
-%
+figure()
+model.makePlot();
 
 
 end
