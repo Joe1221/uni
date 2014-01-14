@@ -388,4 +388,81 @@ Gilt nun auch die Umkehrung?
 	Wenn ein Homeomorphismus $f: U \stack{\homeomorphic}\to V$ existiert, so gilt $p = q$.
 \end{st}
 
+\coursetimestamp{13}{01}{2014}
 
+\section{Jordan-Schoenflies}
+
+\begin{st}[Jordan-Schoenflies]
+	Sei $C \subset \R^2$ eine Jordan-Kurve, d.h. $C \homeomorphic \S^1$.
+	\begin{enumerate}[1)]
+		\item
+			Jordan-Zerlegung: $\R^2 \setminus C = A \dunion B$ mit $A, B$ offen und wegzusammenhängend, $B$ beschränkt und $A$ unbeschränkt.
+		\item
+			$\boundary A = \boundary B = C$, $\_A = A \cup C$, $\_B = B\cup C$.
+		\item
+			Schoenfließ: $B \homeomorphic \B^2$, $\_B \homeomorphic \D^2$.
+		\item
+			Verschärfung: $\exists h: \R^2 \homeomorphicto \R^2: h(C) = \S^1$.
+	\end{enumerate}
+	\begin{proof}[für polygonale Kurven $\S^1 \homeomorphic C \subset \R^2$]
+		Sei $C = [v_0, v_1] \cup [v_1, v_2] \cup \dotsb \cup [v_{n-1}, v_n]$ mit $v_n = v_0$ und $[v_{i-1}, v_i[ \cap [v_{j-1} v, v_j[ = \emptyset$ für alle $i \neq j$.
+
+		1) folgt aus den Lemmas, 2) Übung.
+	\end{proof}
+\end{st}
+
+\begin{lem}
+	$\R^2 \setminus C$ hat mindestens zwei Komponenten.
+	\begin{proof}
+		Es gibt $f: \R^2 \setminus C \to \{0,1\}$ stetig und surjektiv:
+		\[
+			f(x) = \deg(C - x) \mod 2.
+		\]
+		$f$ ist lokal konstant und damit insbesondere stetig.
+		$f$ ist surjektiv, beide Werte werden angenommen.
+	\end{proof}
+\end{lem}
+
+\begin{lem}
+	$\R^2 \setminus C$ hat höchstens zwei Komponenten.
+	\begin{proof}
+		Wähle
+		\[
+			\eps < \delta(C) := \f 12 \min \Set{ d([v_{i-1}, v_i], [v_{j-1}, v_j]]) | [v_{i-1}, v_i] \cap [v_{j-1}, v_j] = \emptyset }.
+		\]
+		Sei $U := \{ x \in \R^2 : d(x, C) \le \eps^2 \}$.
+		Es gilt $U \homeomorphic C \times [-1, 1]$ (Zylinder), oder $U \homeomorphic$ Möbius-Band, wobei das Möbius-Band jedoch nicht in Frage kommt (letztes Lemma).
+
+		Wähle $a, b \in \R^2$ links und rechts von der Kurve in $U$.
+		Jeder Punkt $x \in \R^2$ lässt sich jetzt entlang von $U$ ohne $C$ zu schneiden entweder zu $a$ oder $b$ verbinden.
+	\end{proof}
+\end{lem}
+
+\begin{lem}
+	$\_B = B \cup C$ lässt sich triangulieren.
+	\begin{proof}
+		Zunächst bilden die Halbebenenschnitte entlang der Kanten eine polytopale Unterteilung und diese lässt sich durch baryzentrische Unterteilung in eine simpliziale Unterteilung überführen.
+	\end{proof}
+\end{lem}
+
+\begin{df}
+	Sei $T$ eine Triangulierung von $\_B$.
+	Ein Dreieck $\triangle = [a,b,c] \in T$ heißt \emph{einklappbar}, wenn $\triangle \cap C = [a,b]$ oder $\triangle \cap C = [a,b] \cup [b,c]$.
+\end{df}
+
+\begin{lem}
+	Zu jedem einklappbarem Dreieck $\triangle$ existiert $h: \R^2 \homeomorphicto \R^2$ mit $h(\_B) = \_{B \setminus \triangle}$.
+\end{lem}
+
+\begin{lem}
+	Hat $T$ mindestens $2$ Dreiecke, so mindestens $2$ einklappbare.
+	\begin{proof}
+		Zeige per Induktion über $n = $ die Anzahl der Dreiecke.
+		Für $n = 2$ ist die Aussage klar.
+		Sei $n \ge 3$.
+		Jede Kante von $C$ liegt in einem Dreieck $\triangle = [a,b,c] \in T$.
+		Sei $\triangle$ \oBdA nicht einklappbar.
+		Teile auf in linke und rechte Seite und wende Induktionsvoraussetzung auf die kleineren beiden Teile an, so findet man jeweils ein einklappbares Dreieck $\triangle'$, bzw. $\triangle''$, die nicht $\triangle$ sind.
+		Diese sind auch einklappbar im ursprünglichen $\_B$.
+	\end{proof}
+\end{lem}
