@@ -49,3 +49,115 @@ Setze
 	Ist $M$ kompakt und $\partial M = \emptyset$, so heißt $M$ \emph{geschlossen}.
 	Ist $M$ nicht kompakt und $\partial M = \emptyset$, so heißt $M$ \emph{offen}.
 \end{df}
+
+\begin{st}
+	Ist $M \neq \emptyset$ sowohl $m$-, als auch $n$-Mannigfaltigkeit, so gilt $m = n$.
+	\begin{proof}
+		Folgt aus Invarianz der Dimension.
+	\end{proof}
+\end{st}
+
+\begin{df}
+	Ein \emph{Atlas} von $M$ ist eine Familie von \emph{Karten}
+	\[
+		\scr A = (M \supset U_i \xrightarrow[\homeomorphic]{h_i} V_i \subset \R_{\ge 0}^n)_{i\in I}
+	\]
+	mit $M = \bigcup_{i \in I} U_i$ und $U_i, V_i$ offen.
+
+	Zu $i,j \in I$ sei $U_{ij} := U_i \cap U_j, V_{ij} = h_i(U_{ij}), h_{ij} : V_i \supset V_{ij} \homeomorphicto V_{ji} \subset V_j$ mit $h_{ij} = h_j \circ h_i^{-1}|_{V_{ij}}$.
+
+	Man nennt $h_{ij}$ den \emph{Kartenwechsel} von $i$ nach $j$.
+	Ein Atlas $\scr A$ heißt
+	\begin{itemize}
+		\item
+			\emph{orientiert}, wenn alle $h_{ij}$ orientierungserhaltend sind,
+		\item
+			\emph{$\scr C^r$-glatt}, wenn alle $h_{ij}$ $\scr C^r$-glatt sind.
+	\end{itemize}
+\end{df}
+
+
+% §I2
+\section{Projektive Räume}
+
+
+Bisher haben wir meist die Sphären als Teilräume betrachtet:
+\[
+	\S^n = \{ x \in \R^{n+1} : x_0^2 + \dotsb + x_n^2 = 1 \} \subset \R^{n+1}.
+\]
+Wir können Sphären aber auch als Quotienten betrachten:
+\[
+	(\R^{n+1} \setminus \{0\}) / \R_{>0} \homeomorphic \S^n.
+\]
+(d.h jeweils zwei Vektoren in $\R^{n+1} \setminus \{0\}$ werden miteinander identifiziert, wenn sie voneinander mit einem positiven Faktor linear abhängig sind)
+Aber warum und wie funktioniert das?
+\[
+	\begin{tikzcd}[column sep=large,row sep=large]
+		\R^{n+1} \setminus \{0\} \arrow{r}{x \mapsto (\f x{|x|}, |x|)} \arrow{d}{q} \arrow{dr}{x \mapsto \f x{|x|}} &
+		\S^n \times \R_{>0} \arrow{l}{rv \mapsfrom (v,r)} \arrow{dl} \arrow{d}{pr_1} \\
+		(\R^{n+1} \setminus \{0\}) / \R_{>0} \arrow{r}{\homeomorphic} &
+		\S^n \arrow{l}{}
+	\end{tikzcd}
+\]
+
+\subsection{Reell-projektive Räume}
+
+Setze
+\begin{align*}
+	\R\P^n &:= (\R^{n+1} \setminus \{0\}) / (\R \setminus \{0\}) \\
+	\C\P^n &:= (\C^{n+1} \setminus \{0\}) / (\C \setminus \{0\})
+\end{align*}
+
+Sei $q: X := \R^{n+1} \setminus \{0\} \to \R\P^n$ die Quotientenabbildung.
+Zu $x = (x_0, \dotsc, x_n) \in X$ schreiben wir $q(x) = [x_0 : \dotsc : x_n]$.
+Dies nennen wir \emph{homogene Koordinaten}, denn es gilt
+\[
+	[x_0 : \dotsc : x_n ] = [\lambda x_0 : \dotsc : \lambda x_n]
+\]
+für alle $\lambda \in \R \setminus \{0\}$.
+
+\begin{nt}
+	Es gilt $\R\P^n \homeomorphic \S^n / \{\pm 1\}$.
+	Insbesondere ist damit $\R\P^n$ kompakt.
+
+	$\R\P^n$ ist eine kompakte $n$-Mannigfaltigkeit ohne Rand.
+	\begin{proof}
+		\[
+			\begin{tikzcd}[column sep=large,row sep=large]
+				\R^{n+1} \setminus \{0\} \arrow{r}{x\mapsto \f x{|x|}} \arrow{d}{q} \arrow{dr}{} &
+				\S^n \times \R_{>0} \arrow{l}{\jota} \arrow{dl} \arrow{d}{p} \\
+				\R\P^n \arrow{r}{\homeomorphic} &
+				\S^n \setminus \{\pm 1\} \arrow{l}
+			\end{tikzcd}
+		\]
+	\end{proof}
+\end{nt}
+
+
+\section{Klassifikation geschlossener Flächen}
+
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$F_0^+ = \S^2$
+		\item
+			$F_1^+ = \S^1 \times \S^1$
+		\item
+			$F_2^+$
+		\item
+			$F_3^+$
+	\end{itemize}
+	Dies sind zusammenhängende, kompakte $2$-Mannigfaltigkeiten ohne Rand.
+	Sie sind zudem orientierbar.
+	Es gibt zudem eine Familie nicht-orientierbarer, geschlossener Flächen: $F_g^- := F_g^+ / \{\pm 1\}$
+	\begin{itemize}
+		\item
+			$F_0^- = \S^2 / \{\pm 1\}$ ist die reell-projektive Ebene,
+		\item
+			$F_1^- = (\S^1 \times \S^1)_{\pm 1}$ ist die kleinsche Flasche.
+	\end{itemize}
+\end{ex}
+
+
+
