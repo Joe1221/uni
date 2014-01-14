@@ -154,7 +154,7 @@ Allgemeiner definieren wir $\phi_k: \R^{n+1} \to \R^{n+1}$ durch
 	Ist $f: \S^n \to \S^n$ ein Homöomorphismus, so gilt $\deg(f) = \pm 1$.
 \end{kor}
 
-\begin{kor}
+\begin{kor} \label{sphere_non-contractible}
 	Es gilt $\S^n \not\homotopic *$.
 	\begin{proof}
 		Es gilt $[S^n, *] = \{*\}$, $[\S^n, \S^n] \isomorphic \Z$.
@@ -263,8 +263,8 @@ Allgemeiner definieren wir $\phi_k: \R^{n+1} \to \R^{n+1}$ durch
 Wir beobachten: ist $k$ ungerade, so gilt $\phi_k(-x) = -\phi_k(x)$.
 Gilt nun auch die Umkehrung?
 
-\begin{st}
-	Sei $f: \S^n \to \S^n$ stetig und ungerade (d.h. $f(-x) = -f(x)$).
+\begin{st}[Borsuk-Ulam]
+	Sei $f: \S^n \to \S^n$ stetig mit $f(-x) = -f(x)$.
 	Dann ist $\deg(f)$ ungerade.
 	\begin{proof}
 		Folgt
@@ -278,9 +278,9 @@ Gilt nun auch die Umkehrung?
 	\begin{proof}
 		Angenommen $f: \S^m \to \S^n$ sei stetig und ungerade.
 		Auch die Standardeinbettung $\jota: \S^n \injto \S^m$ ist ungerade.
-		Somit ist $g = \jota \circ f: \S^m \to \S^m$ ungerade.
+		Somit ist auch $g = \jota \circ f: \S^m \to \S^m$ ungerade.
 		Wegen $\deg(g)$ ungerade und damit insbesondere $\deg(g) \neq 0$ gilt $g \not\homotopic *$.
-		Andererseits ist $g$ mit $\jota$ zusammenziehbar, ein Widerspruch.
+		Andererseits ist $\jota$ zusammenziehbar und damit auch $g = \jota \circ f \homotopic * \circ f = *$, ein Widerspruch.
 	\end{proof}
 \end{kor}
 
@@ -325,34 +325,33 @@ Gilt nun auch die Umkehrung?
 
 
 \begin{st}
-	Für $m \neq n$ gilt $\S^m \not\homeomorphic \S^n$, sogar $\S^m \not\homotopic \S^n$.
+	Für $m \neq n$ gilt $\S^m \not\homotopic \S^n$ und insbesondere $\S^m \not\homeomorphic \S^n$.
 	\begin{proof}
 		Sei \oBdA $m > n$.
 		Angenommen $\S^m \homotopic \S^n$, d.h.
 		\[
 			\begin{tikzcd}
-				\S^m \arrow{r}{f} \arrow{d}{\Id_{\S^n}} & \S^n \arrow{d}{\Id_{\S^n}} \arrow{dl}{g} \\
+				\S^m \arrow{r}{f} \arrow{d}[swap]{\Id_{\S^m}} & \S^n \arrow{d}{\Id_{\S^n}} \arrow{dl}[swap]{g} \\
 				\S^m \arrow{r}{f} & \S^n
 			\end{tikzcd}.
 		\]
-		Dann gilt $g \homotopic *$, also auch $\Id_{\S^m} \homotopic g \circ f \homotopic *$, ein Widerspruch.
+		Dann gilt $g \homotopic *$ nach \ref{spheres_function_null-homotopic}, also auch $\Id_{\S^m} \homotopic g \circ f \homotopic *$, ein Widerspruch zu $\S^m$ nicht zusammenziehbar (siehe \ref{sphere_non-contractible}).
 	\end{proof}
 \end{st}
 
 \begin{kor}
-	Für $m \neq n$ gilt $\R^n \not\homeomorphic \R^n$.
+	Für $m \neq n$ gilt $\R^m \not\homeomorphic \R^n$.
 	\begin{proof}
-		Angenommen $f$ wäre $\R^m \xrightarrow{\homeomorphic} \R^n$.
-		Aus $m = 0$ folgt $n = 0$.
-		Sei also $m, n \ge 1$.
+		Angenommen $f$ wäre eine Homöomorphismus $\R^m \homeomorphicto \R^n$.
+		Im Fall $m = 0$ folgt sofort $n = 0$, sei also $m, n \ge 1$.
 		Sei $x \in \R^m, y = f(x) \in \R^n$.
 		Dann erhalten wir
 		\[
-			\S^{m-1} \homotopic \R^m \setminus \{x\} \xrightarrow[\homotopic]{f|_{\R^m \setminus \{x\}}^{\R^n \setminus \{y\}}} \R^n \setminus \{y\} \homotopic \S^{n-1}
+			\S^{m-1} \homotopic \R^m \setminus \{x\} \xrightarrow[\homeomorphic]{f|_{\R^m \setminus \{x\}}^{\R^n \setminus \{y\}}} \R^n \setminus \{y\} \homotopic \S^{n-1}
 		\]
 		also $\S^{m-1} \homotopic \S^{n-1}$ und somit $m = n$.
 
-		Alternativ lässt dies auch mit Kompaktifizierung beweisen: Widerspruch mittels $\hat f: \S^m \xrightarrow{\homeomorphic} \S^n$.
+		Alternativ lässt dies auch mit der Alexandroff-Kompaktifizierung beweisen: Widerspruch mittels des fortgesetzten Homömomorphismus $\hat f: \S^m \homeomorphicto \S^n$.
 	\end{proof}
 \end{kor}
 
@@ -470,7 +469,7 @@ Gilt nun auch die Umkehrung?
 \coursetimestamp{14}{01}{2014}
 
 \begin{st}[Jordan-Brouwer-Trennungssatz]
-	Für $\S^{n-1} \homeomorphic S \subset \R^n$ hat das Komplement genau zwei Komponenten:
+	Für $\S^{n-1} \homeomorphic S \subset \R^n$ hat das Komplement $\R^n \setminus S$ genau zwei Komponenten:
 	\[
 		\R^n \setminus S
 		= A \dunion B
