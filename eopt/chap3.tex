@@ -314,3 +314,72 @@ $K$ ist offenbar konvex, d.h. $\forall y^1, y^2 \in K : [y^1, y^2] \subset K$.
 			Falls das Minimierungsproblem lösbar ist, erhalten wir so nach endlich vielen Schritten eine Lösung.
 	\end{itemize}
 \end{nt}
+
+\coursetimestamp{13}{01}{2014}
+
+\subsection{Das Simplexverfahren}
+
+Im folgenden setzen wir voraus, dass alle Ecken nicht-entartet sind, d.h. dass für alle Ecken $x$ von $K$ gilt, dass $|I_x| = m$.
+
+Wir formulieren das Verfahren direkt auf der Indexmenge.
+Zu einer Ecke $x$ bezeichnen wir die Indexmenge $I_x$ mit $B \subset \{1, \dotsc, n\}$ (Basisvariablen) und $N := \{1, \dotsc, n\} \setminus B$ (Nichtbasisvariable).
+Entsprechend definieren wir $A_B, A_N, v_B$ und $v_N$ zu $A \in \R^{m\times n}, v \in \R^n$.
+
+Für einen Algorithmus, der sich von Ecke zu Ecke „hangelt“ und dabei das Zielfunktional verbessert sind folgende Dinge nötig:
+\begin{enumerate}[1.]
+	\item
+		Bestimmung einer Startecke (genauer: ein $B$, das zu einer Ecke gehört).
+	\item
+		Wie kommen wir von einer Ecke zu einer neuen Ecke mit besserem Zielfunktionalswert?
+	\item
+		Wie erkennen wir eine optimale Ecke?
+\end{enumerate}
+
+\subsubsection{Das Stoppkriterium}
+
+Gehöre $B \subset \{1, \dotsc, n\}$ zu einer Ecke.
+Nach \ref{3.6} ist $A_B \in \R^{m\times |B|}$ injektiv und dank der vereinfachten Voraussetzung $A_B$ invertierbar.
+Jedes $x \in K \subset \R^n$ ist eindeutig festgelegt durch $x_B \in \R^n$ und $x_N \in \R^{n-m}$.
+Es gilt
+\[
+	b = Ax = A_Bx_B + A_Nx_N,
+\]
+also $x_B = A_B^{-1} (b - A_N x_N)$ für alle $x \in K$.
+
+In der zu $B$ gehörigen Ecke $x \in K$ gilt $x_N = 0, x_B = A_B^{-1}b$ und
+\[
+	c^T x = c_B^T x_B + c_N^T x_N = c_B^T A_B^{-1}b
+\]
+in jedem anderen zulässigen Punkt $x \in K$ ist
+\begin{align*}
+	c^Tx
+	&= c_B^T x_B + c_N^T x_N \\
+	&= c_B^T A_B^{-1}(b - A_Nx_N) + c_N^T x_N \\
+	&= c_B^T A_B^{-1}b + (c_N^T - c_B^T A_B^{-1}A_N) x_N.
+\end{align*}
+$c_N^T - c_B^T A_B^{-1} A_N$ heißt \emph{Vektor der reduzierten Kosten}.
+Für $c_N^T c_B^T A_B^{-1} A_N \ge 0$, dann ist $c^T x \ge c_B^T A_B^{-1} b$, für alle $x \in K$ also die zu $B$ gehörige Ecke optimal.
+
+Demnach ist das Stoppkriterium für das Simplexverfahren die Bedingung $c_N^T - c_B^T A_B^{-1} A_N \ge 0$.
+
+\subsection{Der Pivotschritt}
+
+Es gelte
+\[
+	c_N^T - c_B^T A_B^{-1} A_N \not\ge 0,
+\]
+etwa $(c_N^T - c_B^T A_B^{-1} A_N)_j < 0$ für ein $j \in \{1, \dotsc, n-m\}$.
+Jedes $x_N = (x_k)_{k\in\N}$ mit $x_k = 0$ für $k \neq j$ und $x_j > 0$ führt mit
+\[
+	x_B := A_B^{-1}(b - A_N x_N)
+\]
+zu einem $x \in \R^n$ mit geringerem Zielfunktionalswert $c^T x$ und $Ax = b$ und $x$ ist zulässig genau dann, wenn $x_B \ge 0$.
+
+$x_B$ hängt stetig von $x_j \ge 0$ ab.
+Für $x_j = 0$ ist $x_B > 0$, d.h. es existiert $\eps > 0$ mit $x_B \ge 0$ für alle $x_j \in [0, \eps]$.
+
+Entweder bleibt $x_B$ positiv für alle $x_j > 0$, dann ist das Zielfunktional nach unten unbeschränkt.
+Ansonsten existiert ein kleinstes $\hat x_j > 0$, sodass $\hat x_B \ge 0$ und für alle $x_j > \hat x_j$ gilt $x_B \not\ge 0$.
+Ersetze dann den zugehörigen Index in $B$ (der jetzt 0 geworden ist) durch $j$ und definiere so $B'$.
+$B'$ ist damit eine Indexmenge einer Ecke mit geringerem Zielfunktionalswert.
+
