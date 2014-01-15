@@ -383,3 +383,121 @@ Ansonsten existiert ein kleinstes $\hat x_j > 0$, sodass $\hat x_B \ge 0$ und f�
 Ersetze dann den zugehörigen Index in $B$ (der jetzt 0 geworden ist) durch $j$ und definiere so $B'$.
 $B'$ ist damit eine Indexmenge einer Ecke mit geringerem Zielfunktionalswert.
 
+\coursetimestamp{15}{01}{2014}
+
+\paragraph{Implementierung}
+
+Sei \oBdA $N = \{1, \dotsc, n-m \}, B = \{n-m+1, \dotsc, n\}$.
+Bezeichne mit $(\hat a_{kl})$ die Einträge von $\hat A := A_B^{-1} A_N \in \R^{m \times (n-m)}$ und mit $\hat b_k$ die Einträge von $\hat b := A_B^{-1}b \in \R^m$.
+
+Für die zu $B$ gehörige Ecke $x$ gilt
+\[
+	x_N = 0
+	\quad\land\quad
+	x_B = A_B^{-1} b = \hat b.
+\]
+Vektor der reduzierten Kosten
+\[
+	c_N^T - c_B^T A_B^{-1} A_N
+\]
+mit
+\begin{align*}
+	c_N &= (c_k)_{k=1}^{n-m}, &
+	c_B &= (c_{n-m+k})_{k=1}^{m}
+\end{align*}
+Der $j$-te Eintrag von $c_n^T - c_B^T A_B^{-1} A_N$ ist
+\[
+	c_j - \sum_{k=1}^m c_{n-m+k} \hat a_{kj}
+\]
+also existiert $j \in \{1, \dotsc, n-m \}$ mit
+\begin{align*}
+	&c_j - \sum_{k=1}^m c_{n-m+k} \hat a_{kj} < 0 \\
+	&\qquad \iff c_N^T - c_B^T A_B^{-1} A_N \not\ge 0.
+\end{align*}
+Sei $j$ ein solcher Index.
+Aus $x_B = A_B^{-1} (b - A_N x_n)$ folgt
+\[
+	x_{n-m+k} = \hat b_k - \sum_{l=1}^{n-m} \hat a_{kl} x_l
+\]
+für alle $k = 1, \dotsc, m$.
+Wähle jetzt $x_l = 0$ für alle $l = 1, \dotsc, j-1, j+1, \dotsc, n-m$, also
+\[
+	x_{n-m+k} = \hat b_k - \hat a_{kj} x_j.
+\]
+Da die Ecke zu $B$ zulässig und nicht-entartet war, muss $\hat b = x_B > 0$ gelten.
+Falls $\hat a_{kj} \le 0$ für alle $k \in \{1, \dotsc, m\}$, dann ist das Zielfunktional nach unten unbeschränkt.
+Sei also $\hat a_{kj} > 0$ für mindestens ein $k \in \{1, \dotsc, m\}$.
+Dann gilt
+\[
+	0 = x_{n-m+k}
+	= \hat b_k - \hat a_{kj} x_j
+	\quad\iff\quad
+	x_j = \f {\hat b_k}{\hat a_{kj}}.
+\]
+Wähle also gemäß (a)
+\[
+	\hat k := \argmin_{\substack{k=1,\dotsc, m \\ \hat a_{kj} > 0}} \f {\hat b_k}{\hat a_{kj}}.
+\]
+und ersetze den in $N$ enthaltenen Index $j$ durch $n - m + \hat k$ und den in $B$ enthaltenen Index $n - m + \hat k$ durch $j$.
+
+\begin{nt} \label{3.10}
+	Ohne die Sortierungsannahme ist der $j$-te Eintrag von $c_N^T - c_B^T A_B^{-1} A_N$ gerade
+	\[
+		c_{N(j)} - \sum_{k=1}^m c_{B(k)} \hat a_{kj},
+	\]
+	wobei $N(j)$ das $j$-te Element von $N$ und $B(j)$ das $j$-te Element von $B$ bezeichne.
+
+	Die Elemente von $x_B = A_B^{-1} (b - A_N x_N)$ sind
+	\[
+		x_{B(k)} = \hat b_k - \sum_{l=1}^{n-m} \hat a_{kl} x_{N(l)}.
+	\]
+	Mit $x_{N(l)} = 0$ für alle $l \neq j$ folgt
+	\[
+		x_{B(k)} = \hat b_k - \hat a_{kj} x_{N(j)}.
+	\]
+	Wähle also
+	\[
+		\hat k := \argmin_{\substack{k=1,\dotsc,m \\ \hat a_{kj > 0}}} \f {\hat b_{k}}{\hat a_{kj}}
+	\]
+	und ersetze das $\hat k$-te Element von $B$ durch das $j$-te Element von $N$ und vice versa.
+\end{nt}
+
+\subsection{Bestimmung einer Startecke}
+
+Sei \oBdA $b \ge 0$ (evtl. durch Negieren der Zeilen von $A$).
+Betrachte das Ersatzproblem:
+suche $(x^T,y^T)^T \in \R^n \times \R^m$ mit
+\begin{align*}
+	\begin{pmatrix}
+		0 & \cdots & 0 & 1 & \cdots & 1
+	\end{pmatrix}
+	\begin{pmatrix}
+		x \\ y
+	\end{pmatrix}
+	\to \min! \\
+	\udN
+	\begin{pmatrix}
+		A & I_{m\times m}
+	\end{pmatrix}
+	\begin{pmatrix}
+		x \\ y
+	\end{pmatrix}
+	= b
+	\quad \land \quad
+	\begin{pmatrix}
+		x \\ y
+	\end{pmatrix}
+	\ge 0.
+\end{align*}
+Ist der zulässig Bereich des ursprünglichen Bereichs nicht leer, also $K = \{x \in \R^n : Ax = b, x \ge 0 \} \neq \emptyset$, dann sind die Minimierer des Ersatzproblems genau diese zulässigen Punkte.
+
+Wir setzen voraus, dass auch das Ersatzproblem keine entarteten Ecken besitzt.
+$(0, b^T)$ ist Ecke des Ersatzproblems, da er höchstens $m$ Nicht-Null-Einträge enthält.
+Die Minimierung des Ersatzproblems liefert
+\begin{enumerate}[(a)]
+	\item
+		eine zulässige Ecke von $k$, falls das Minimum von der Form $(x^T, 0)^T$ ist,
+	\item
+		oder $K = \emptyset$, falls das Minimum nicht die Form $(x^T, 0)^T$ hat.
+\end{enumerate}
+
