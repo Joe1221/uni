@@ -40,36 +40,107 @@
 </section>
 
 <section class="slide">
-	<h2>Ziel</h2>
+	<h2>Aufgabenstellung</h2>
 	<div class="pure-g">
-		<div class="pure-u-1-2">
+		<div class="pure-u-2-3">
 			<img src="tikz/basic.png" alt="Skizze">
 		</div>
-		<div class="pure-u-1-2 slide">
-
+		<div class="pure-u-1-3 slide">
+			<div class="v-center">
+			<ul>
+				<li>homogenes Gebiet $\Omega$</li>
+				<li>unbekannte innere Inhomogenität $D$</li>
+				<li>Rekonstruktion des Randes $\Gamma$ von $D$</li>
+				<li class="slide">
+					Messdaten nur auf äußerem Rand $C$
+					<ul>
+						<li>angelegte Spannung $f$</li>
+						<li>gemessener Strom $g$</li>
+					</ul>
+				</li>
+			</ul>
+			</div>
 		</div>
 	</div>
 </section>
 
 <section class="slide">
-	<h2>Messung</h2>
+	<h2>Mathematische Formulierung</h2>
 	<div class="pure-g">
 		<div class="pure-u-1-2">
 			<img src="tikz/basic.png" alt="Skizze">
 		</div>
 		<div class="pure-u-1-2 slide">
+			<div class="v-center">
 			\begin{align*}
 				\Delta u     &= 0 \qquad\text{auf $\Omega \setminus D$} \\
 				u|_{\Gamma}  &= 0 \\
 				u|_{C}       &= f \\
-				\implies &\quad g := {\tfrac{\partial u}{\partial \nu}}\Big|_{C}
+				{\tfrac{\partial u}{\partial \nu}}|_{C} &= g
 			\end{align*}
+			</div>
 		</div>
 	</div>
 </section>
 
 <section class="slide">
-	<h2>blabla</h2>
+	<h2>Das Randwertproblem</h2>
+	<div class="v-center" style="width: 60%">
+		\begin{align*}
+			\Delta u     &= 0 \qquad\text{auf $\Omega \setminus D$} \\
+		\end{align*}
+		<ul class="wide">
+			<li>Dirichlet-Bedingungen: $u|_{\Gamma},\, u|_C$</li>
+			<li>Neumann-Bedingungen: $\frac{\partial u}{\partial \nu}|_{\Gamma},\, \frac{\partial u}{\partial \nu}|_{C}$</li>
+			<li>Lösbar, falls auf $\Gamma$ und $C$ jeweils eine Bedingung gegeben ist</li>
+		</ul>
+	</div>
+</section>
+
+<section class="slide">
+	<h2>Algorithmen</h2>
+	<div class="v-center" style="width: 60%">
+		Löse $H(x) := F(x) - f = 0$ durch Minimierung der Fehlerquadrate
+		<ul class="wide">
+			<li>Gauß-Newton mit berechneter Jacobimatrix</li>
+			<li><code>fsolve</code> (Levenberg-Marquardt) mit finiten Differenzen</li>
+			<li><code>fsolve</code> (Levenberg-Marquardt) mit berechneter Jacobimatrix</li>
+		</ul>
+	</div>
+</section>
+
+<section class="slide">
+	<h2>Gauss-Newton</h2>
+	<div class="v-center" style="width: 70%">
+		<ul>
+			<li>
+				Minimiere
+				\[
+					\|H(x)\|^2 \approx \|H(x_k) + H'(x_k)(x-x_k)\|^2
+				\]
+			</li>
+			<li>
+				$x_{k+1} := x_k - \Big( H'(x_k)^T H'(x_k) \Big)^{-1} H'(x_k)^T H(x_k)$
+			</li>
+		</ul>
+	</div>
+</section>
+
+<section class="slide">
+	<h2>Levenberg-Marquardt</h2>
+	<div class="v-center" style="width: 70%">
+		<ul>
+			<li>
+				Minimiere statt $\|H(x)\|^2 \approx \|H(x_k) + H'(x_k)(x-x_k)\|^2$ die Summe
+				\[
+				\|H(x_k) + H'(x_k)(x-x_k)\| + \mu \|x-x_k\|^2.
+				\]
+			</li>
+			<li>
+				$x_{k+1} := x_k - \Big( H'(x_k)^T H'(x_k) + \mu I\Big)^{-1} H'(x_k)^T H(x_k)$
+			</li>
+		</ul>
+	</div>
 </section>
 
 
