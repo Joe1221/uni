@@ -55,10 +55,10 @@ g_orig = model.getNeumannData(measure_points);
 
 
 
-gamma_init = load('GammaInit.mat', '-ascii');
-%b = 0.5*load('C2.mat', '-ascii');  % So funktioniert es nicht 
-%a = 2*pi/size(b,2) * ones(size(b,1),1);   % zu viele Werte??
-%gamma_init = pol2cart(a,b);
+%gamma_init = load('GammaInit.mat', '-ascii');
+b = 0.5*load('C2.mat', '-ascii');  % So funktioniert es nicht 
+a = 2*pi/size(b,2) * ones(size(b,1),1);   
+gamma_init = pol2cart(a,b);
 model.setInnerBoundary(gamma_init);
 %model.setNeumannOuterData('1');
 model.buildMesh();
@@ -67,6 +67,7 @@ model.runStudy();
 figure(2);
 model.makePlot();
 
+tol = 10^-3;
 gamma_old = gamma_init;
 
 function g_diff = H (gamma)
@@ -77,6 +78,7 @@ function g_diff = H (gamma)
 	if norm(gamma_old - gamma) > tol
 		figure();
 		model.makePlot();
+        gamma
 	end
 	gamma_old = gamma;
 end
