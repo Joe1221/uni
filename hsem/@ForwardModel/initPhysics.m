@@ -19,9 +19,14 @@ function initPhysics (obj)
 	ph_bndcond_neumann_C.active(false); % gets activated in setNeumannOuterData()
 
 	% Randbedingung für Gamma (u = 0)
-	ph_bnd_Gamma = obj.phys.feature.create(obj.Gamma.name, 'DirichletBoundary', 1);
+	ph_bnd_Gamma = obj.phys.feature.create(strcat(obj.Gamma.name, '_dirichlet'), 'DirichletBoundary', 1);
 	ph_bnd_Gamma.selection.named(strcat(obj.geom_name, '_', obj.D.name, '_bnd'));
-	obj.setDirichletInnerData('0');
+	ph_bnd_Gamma.active(false); % gets activated in setDirichletInnerData()
+	% Neumann boundary condition for outer boundary C
+	ph_bndcond_neumann_Gamma = obj.phys.feature.create(strcat(obj.Gamma.name, '_neumann'), 'FluxBoundary', 1);
+	ph_bndcond_neumann_Gamma.selection.named(strcat(obj.geom_name, '_', obj.D.name, '_bnd'));
+	ph_bndcond_neumann_Gamma.active(false); % gets activated in setNeumannInnerData()
+
 
 	fprintf('finished.\n');
 
