@@ -501,3 +501,132 @@ Die Minimierung des Ersatzproblems liefert
 		oder $K = \emptyset$, falls das Minimum nicht die Form $(x^T, 0)^T$ hat.
 \end{enumerate}
 
+\coursetimestamp{20}{01}{2013}
+
+\section{Restringierte nichtlineare Optimierung}
+
+
+Betrachte
+\[
+	f(x) \to \min! \udN g(x) \le 0, h(x) = 0.
+\]
+mit
+\begin{itemize}
+	\item
+		$f: \R^n \to \R$
+	\item
+		Ungleichungsrestriktionen $g: \R^n \to \R^m$
+	\item
+		Gleichungsrestriktionen $h: \R^n \to \R^p$
+	\item
+		$f,g,h$ seine stes stetig differenzierbar
+\end{itemize}
+
+\begin{df} \label{3.11}
+	Definiere den \emph{zulässigen Bereich} als
+	\[
+		X = \Set{ x \in \R^n | g(x) \le 0, h(x) = 0 }.
+	\]
+	Für zulässige Punkte $x \in X$ heißt
+	\[
+		I_x := \Set{ j \in \{1, \dotsc, m\} | g_j(x) < 0 }
+	\]
+	die \emph{Indexmenge inaktiver Ungleichungsnebenbedingungen}.
+\end{df}
+
+\subsection{Optimalitätsbedingungen}
+
+Die notwendige Optimalitätsbedingung für unrestringierte Probleme war $\nabla f(\hat x) = 0$.
+
+Jedes $d \in \R^n$ mit $\nabla f(\hat x)^T d < 0$ ist eine Abstiegsrichtung und es gilt
+\[
+	f(\hat x + sd) < f(\hat x)
+\]
+für hinreichend kleine $s$ (siehe auch \ref{2.20}, \ref{2.21}).
+Die Bedingung $\nabla f(\hat x) = 0$ bedeutet also: es gibt keine Abstiegsrichtung.
+
+\paragraph{Tangentialkegel}
+
+\begin{ex} \label{3.12}
+	Das Problem
+	\[
+		f(x) := x \to \min! \udN  x\in \R, x \ge 0
+	\]
+	besitzt offenbar ein Minimum bei $\hat x = 0$, aber $f'(\hat x) = 1$, d.h. $d = -1$ ist Abstiegsrichtung, ($\hat x + sd$ gehört aber für kein $s > 0$ zum zulässigen Bereich).
+\end{ex}
+
+\begin{df} \label{3.13}
+	\begin{enumerate}[(a)]
+		\item
+			Eine Menge $K \subset \R^n$ heißt \emph{Kegel}, falls $\forall x \in K, \lambda \ge 0 : \lambda x \in K$.
+		\item
+			Für $\Phi \neq X \subset \R^n$ heißt $d \in \R^n, \|d\| = 1$ \emph{Tangentialrichtung in $x \in X$}, falls eine Folge $(x^k)_{k\in\N}$ existiert mit
+			\[
+				x^k \to x, x^k \neq x, \lim_{k\to\infty} \f{x^k - x}{\|x^k-x\|} = d
+			\]
+			Ist $X$ der zulässige Bereich eines Optimierungsproblems, so heißen diese $d$ auch \emph{zulässige Richtungen}.
+		\item
+			Der von den Tangentialrichtungen aufgespannte Kegel heißt \emph{Tangentialkegel}:
+			\[
+				T(X, x) := \{ \lambda d : \lambda \ge 0, d \text{ Tangentialrichtung} \} \subset \R^n.
+			\]
+	\end{enumerate}
+	\begin{note}
+		In der Literatur wird für einen Kegel auch manchmal die Abgeschlossenheit der Addition gefordert.
+	\end{note}
+\end{df}
+
+\begin{ex} \label{3.14}
+	\begin{enumerate}[(a)]
+		\item
+			Ist $X$ offen, dann ist für alle $x \in X$, $T(X, x) = \R^n$.
+		\item
+			Ist $x$ isolierter Punkt von $X$, so ist $T(X, x) = \emptyset$.
+		\item
+			Auch für Häufungspunkte $x$ einer Menge $X$ kann $T(X, x) = \emptyset$ gelten (Übung).
+	\end{enumerate}
+\end{ex}
+
+\begin{st} \label{3.15}
+	Sei $f: \R^n \to \R$ stetig differenzierbar und $X \subset \R^n$ eine beliebige Menge.
+	In jedem lokalen Minimum $\hat x \in X$ von $f$ in $X$ gilt
+	\[
+		\nabla f(\hat x)^T d \ge 0
+	\]
+	für alle $d \in T(X, \hat x)$.
+	\begin{proof}
+		Sei \oBdA $\|d\| = 1$.
+		Sei $(x^k)_{k\in\N} \subset X$ mit $x^k \to \hat x, x^k \neq \hat x, \lim_{k\to \infty} \f{x^k-\hat x}{\|x^k - \hat x\|} = d$.
+
+		Für hinreichend große $k$ gilt
+		\[
+			f(x^k) \ge f(\hat x)
+		\]
+		und damit
+		\begin{align*}
+			0 \le \f {f(x^k) - f(\hat x)}{\|x^k - \hat x\|}
+			&= \f{\nabla f(\hat x)^T (x^k - \hat x) + o(x^k - \hat x)}{\|x^k - \hat x\|} \\
+			&\to \nabla f(\hat x)^T d.
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\paragraph{Der linearisierte Tangentialkegel}
+
+Betrachte wieder
+\[
+	f(x) \to \min! \udN g(x) \le 0, h(x) = 0.
+\]
+
+\begin{df} \label{3.16}
+	Zu $x \in x$ definieren wir den linearisierten Tangentialkegel durch
+	\[
+		T_l(g,h,x) := \{d \in \R^n : \nabla h_i(x)^T d = 0, \nabla g_i(x)^T d \le 0 \forall i \in \{1,\dotsc,p\}, j \not\in I_x \}
+	\]
+\end{df}
+
+\begin{lem} \label{3.17}
+	Es gilt $T(X, x) \subset T_l(g,h,x)$.
+\end{lem}
+
+
