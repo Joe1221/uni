@@ -39,43 +39,37 @@ gebracht werden.
 Mit $x_j = x_j' - x_j'', x_j' \ge 0, x_j'' \ge 0$
 kann für jede Variable $x_j \ge 0$ gefordert werden.
 
-\begin{df} \label{3.1}
+\begin{df}[Lineares Optimierungsproblem, Normalform] \label{3.1}
 	Sei $A \in \R^{n\times n}, b\in \R^m, c \in \R^n$.
 	Das Minimierungsproblem
 	\[
 		f(x) := c^T x \to \min!
 		\quad\udN\quad
-		Ax = b, x \ge 0
+		Ax = b \land x \ge 0
 	\]
 	heißt \emph{lineares Optimierungsproblem (engl. linear program) in Normalform}.
-	$f$ heißt \emph{Zielfunktion} und
+	Wir nennen $f$ \emph{Zielfunktion} und die Menge
 	\[
-		\{x \in \R^n : Ax = b \land x \ge 0 \}
+		K := \{x \in \R^n : Ax = b \land x \ge 0 \}
 	\]
 	\emph{zulässiger Bereich}.
 \end{df}
 
 \begin{conv*}
-	Im Folgenden nutzen wir die Notation
-	\[
-		x = \begin{pmatrix}
-			x_1 \\ \vdots \\ x_n
-		\end{pmatrix} \in \R^n
-	\]
-	und setzen
-	\[
-		x \ge 0
-		:\iff
-		x_1, \dotsc, x_n \ge 0.
-	\]
+	Im Folgenden nutzen wir die Subskript-Notation $x = (x_1, \dotsc, x_n)^T \in \R^n$ für Komponenteneinträge eines Vektors und schreiben für $x_1, \dotsc, x_n \ge 0$ auch kurz $x \ge 0$.
 \end{conv*}
 
 \begin{nt} \label{3.2}
-	Der zulässige Bereich kann einelementig sein (dann ist dieses Element die Lösung) oder leer.
-
-	Möglicherweise existiert auch für einen nicht-leeren zulässigen Bereich keine Lösung, z.B. $n=m=1, A = 0, b=0, c=-1$ (nach unten unbeschränkt).
-
-	Ist der zulässige Bereich nicht-leer und beschränkt, dann existiert eine Lösung.
+	\begin{itemize}
+		\item
+			Der zulässige Bereich $K$ kann einelementig sein.
+			In diesem Fall ist dieses Element die eindeutige Lösung.
+		\item
+			Auch für nicht-leere zulässige Bereiche muss keine Lösung existieren.
+			Betrachte beispielsweise das nach unten unbeschränkte Problem: $n=m=1, A = 0, b=0, c=-1$.
+		\item
+			Ist der zulässige Bereich $K$ nicht-leer und beschränkt, so existiert eine Lösung.
+	\end{itemize}
 \end{nt}
 
 \subsection{Geometrische Interpretation}
@@ -85,21 +79,21 @@ kann für jede Variable $x_j \ge 0$ gefordert werden.
 		\item
 			Zu gegebenen Punkten $y^1, \dotsc, y^n \in \R^n$ heißt
 			\[
-				\sum_{i=1}^m \lambda_i y^i,
-				\qquad
-				\lambda_i \in [0,1], \sum_{i=1}^n \lambda_i = 1
+				\sum_{i=1}^m \lambda_i y^i
 			\]
-			\emph{Konvexkombination}.
+			mit $\lambda_i \in [0,1]$ und $\sum_{i=1}^n \lambda_i = 1$ \emph{Konvexkombination}.
 			Die Menge aller Konvexkombinationen
 			\[
 				S(y^1, \dotsc, y^m) := \Set{
-					\sum_{i=1}^m \lambda_i y^i:
+					\sum_{i=1}^m \lambda_i y^i |
 					\lambda_i \in [0,1], \sum_{i=1}^n \lambda_i = 1
 				}
 			\]
-			heißt (der von $y^1,\dotsc, y^m$) aufgespannte Simplex.
+			heißt \emph{der von $y^1,\dotsc, y^m$ aufgespannte Simplex}.
 
-			Damit ist $S(y^1, y^2) = [y^1, y^2]$ die Verbindungsstrecke aus \ref{2.1}.
+			\begin{note}
+				Damit ist $S(y^1, y^2) = [y^1, y^2]$ die Verbindungsstrecke aus \ref{2.1}.
+			\end{note}
 		\item
 			Für $\emptyset \neq K \subset \R^n$ nennen wir $x \in K$ eine \emph{Ecke von $K$}, falls
 			\[
@@ -130,7 +124,7 @@ $K$ ist offenbar konvex, d.h. $\forall y^1, y^2 \in K : [y^1, y^2] \subset K$.
 	\begin{align*}
 		A_I &:= (a_{ij})_{\substack{i=1,\dotsc,m \\ j \in I}}
 			\in \R^{m\times |I|}, \\
-		v_I &:= (v_j)_{j\in I} \in \R^{|I|}
+		v_I &:= (v_j)_{j\in I}
 			\in \R^{|I|}.
 	\end{align*}
 	Jedem $x \in \R^n$ ordnen wir zu
@@ -157,7 +151,7 @@ $K$ ist offenbar konvex, d.h. $\forall y^1, y^2 \in K : [y^1, y^2] \subset K$.
 \begin{lem} \label{3.6}
 	\begin{enumerate}[(a)]
 		\item
-			Ist $0 \neq x \in K$ keine Ecke von $K$, so existieren $y^1, y^2 \in K, y^1 \neq x, y^2 \neq x, y^1 \neq y^2$, so dass
+			Ist $0 \neq x \in K$ keine Ecke von $K$, so existieren $y^1, y^2 \in K$ mit $y^1 \neq x \neq y^2$ und $y^1 \neq y^2$, so dass
 			\[
 				x \in [y^1, y^2], \quad I_{y^1}, I_{y^2} \subset I_x.
 			\]
