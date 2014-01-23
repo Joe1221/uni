@@ -175,8 +175,8 @@
 
 \definecolor{url}{HTML}{005580} % 0088cc
 \definecolor{link}{HTML}{005580}
-\definecolor{text}{HTML}{111111}
-\definecolor{math}{HTML}{111111}
+\definecolor{text}{HTML}{000000}
+\definecolor{math}{HTML}{000000}
 \definecolor{theoremtype}{HTML}{115908}
 \definecolor{theoremnumber}{HTML}{222222}
 \definecolor{theoremtitle}{HTML}{222222}
