@@ -300,7 +300,7 @@
 
 \DeclareDocumentCommand { \Return } { m } { \State { \mycourse_algcommand_style: return} ~ #1 }
 
-\algrenewcommand { \algorithmiccomment } [ 1 ] { \hfill » ~ { \ttfamily \color{algcomment} #1 } }
+\algrenewcommand { \algorithmiccomment } [ 1 ] { \hfill \mbox{ » ~ { \slshape \color{algcomment} #1 } } }
 \algrenewcommand { \algorithmicwhile } { { \mycourse_algcommand_style: while } }
 \algrenewcommand { \algorithmicdo } { { \mycourse_algcommand_style: do } }
 \algrenewcommand { \algorithmicend } { { \mycourse_algcommand_style: end } }
