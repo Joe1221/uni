@@ -183,6 +183,8 @@
 \definecolor{header}{HTML}{666666}
 \definecolor{headerrule}{HTML}{337733}
 \definecolor{timestamp}{HTML}{333333}
+\definecolor{algcomment}{HTML}{444444}
+\definecolor{algcommand}{HTML}{000066}
 \definecolor{background}{HTML}{FFFFFF}
 \definecolor{headings}{HTML}{000000}
 
@@ -293,6 +295,22 @@
 \setlength{\parskip}{0.5em}
 
 \RequirePackage{algpseudocode}		% algorithmicx package für Pseudo-Code
+
+\cs_new:Nn \mycourse_algcommand_style: { \ttfamily \color{algcommand} }
+
+\DeclareDocumentCommand { \Return } { m } { \State { \mycourse_algcommand_style: return} ~ #1 }
+
+\algrenewcommand { \algorithmiccomment } [ 1 ] { \hfill » ~ { \ttfamily \color{algcomment} #1 } }
+\algrenewcommand { \algorithmicwhile } { { \mycourse_algcommand_style: while } }
+\algrenewcommand { \algorithmicdo } { { \mycourse_algcommand_style: do } }
+\algrenewcommand { \algorithmicend } { { \mycourse_algcommand_style: end } }
+\algrenewcommand { \algorithmicfor } { { \mycourse_algcommand_style: for } }
+\algrenewcommand { \algorithmicif } { { \mycourse_algcommand_style: if } }
+\algrenewcommand { \algorithmicthen } { { \mycourse_algcommand_style: then } }
+\algrenewcommand { \algorithmicelse } { { \mycourse_algcommand_style: else } }
+\algrenewcommand { \algorithmicrepeat } { { \mycourse_algcommand_style: repeat } }
+\algrenewcommand { \algorithmicuntil } { { \mycourse_algcommand_style: until } }
+
 \RequirePackage{verbatim}			% Für Ascii-Art ;-)
 
 %\RequirePackage{mathtools}

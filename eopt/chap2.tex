@@ -702,7 +702,7 @@ Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für
 		\Require{Armijo-Parameter $\beta \in (0,1), \gamma \in (0,1)$}
 		\For{$k \gets 0, 1, 2, \dotsc$}
 			\If{$\nabla f(x_k) = 0$}
-			\State{\Return{$x_k$}}
+			\Return{$x_k$}
 			\EndIf
 			\State{$s_k \gets \f 1\beta$}
 			\Repeat
@@ -961,12 +961,12 @@ Es sei hier weiterhin stets $f: \R^n \to \R$ stetig differenzierbar.
 	\begin{algorithmic}
 		\Require{Startwert $x_0 \in \R^n$}
 		\Require{Suchrichtungen und Schrittweiten $d_k, s_k$}
-		\For{$i \gets 1, 2, \dotsc$}
-			\If{$\nabla f(x_k) = 0$}
-				\Return{$x_k$}
-			\EndIf
+
+		\State{$k \gets 0$}
+		\While{$\nabla f(x_k) \neq 0$}
 			\State{$x_{k+1} \gets x_k + s_k d_k$}
-		\EndFor
+			\State{$k \gets k + 1$}
+		\EndWhile
 	\end{algorithmic}
 \end{alg}
 
@@ -1321,7 +1321,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 			\State{$s^+ \gets s^{(0)}$}
 		\EndIf
 		\EndWhile
-		\State{\Return $s \gets s^-$}
+		\Return{$s \gets s^-$}
 	\end{algorithmic}
 \end{alg}
 
