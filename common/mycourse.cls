@@ -279,9 +279,17 @@
 % These must be inside one \setlist definition
 \setlist {
 	leftmargin  = *,
-	labelindent = 0.8em
+	labelindent = 0.5em, % Fallback for cases when leftmargin=* is set manually
+	% The following fixes leftmargin, sets a fixed distance of the label from
+	% the item and allows the label to extend to the left as needed
+	% (leftmargin=* should be set manually in cases where the label is too
+	% long, in which case the above labelindent gets used)
+	leftmargin = 2.1em,
+	labelwidth = 2.0em,
+	labelsep* = 0.4em
 }
-\setlist [ enumerate ] { labelindent = 0.6em }
+\setlist [ enumerate ] { leftmargin = 2.1em }
+\setlist [ itemize ] { leftmargin = 1.6em }
 % todo: Incorrect spacing with roman enumerations, beware of "(i)" cases
 %\SetEnumerateShortLabel { i } { \! \! \roman* }
 \setlist [ description ] {
