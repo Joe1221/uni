@@ -444,20 +444,20 @@
 	leftmargin  = 1em,
 }
 % Mit Zeilenumbruch
-\DeclareDocumentEnvironment { seg } { o } {
+\DeclareDocumentEnvironment { seg } { og } {
 	\begin{segmentlist} [ ]
-		\item [ \mbox{ \color{headings} #1 } ]
+		\item [ \mbox{ \color{headings} \IfNoValueTF { #1 } { #2 } { #1 } } ]
 } {
 	\end{segmentlist}
 }
 % Ohne Zeilenumbruch
-\DeclareDocumentEnvironment { segnb } { o } {
+\DeclareDocumentEnvironment { segnb } { og } {
 	\begin{segmentlist} [
 		style      = sameline,
 		leftmargin = 2em,
 		itemindent = *,
 	]
-		\item [ \mbox{ \color{headings} #1 :} ]
+		\item [ \mbox{ \color{headings} \IfNoValueTF { #1 } { #2 } { #1 } :} ]
 } {
 	\end{segmentlist}
 }
