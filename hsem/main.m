@@ -76,55 +76,16 @@ measured_data = model.getNeumannData(measured_data(:, 1:2));
 % =====================================================================
 
 fprintf('Solving the inverse problem ...\n');
-%return;
 
 figure(2);
 
 inv_model = InverseModel(c_curve, specified_data, measured_data, gamma0_curve);
 model = inv_model;
 
-return;
+%return;
 
 inv_model.solveLevenbergMarquardtFD();
 
-
-%%gamma_init = load('GammaInit.mat', '-ascii');
-%b = 0.5*load('C2.mat', '-ascii');  % So funktioniert es nicht
-%a = 2*pi/size(b,2) * ones(size(b,1),1);
-%gamma_init = pol2cart(a,b);
-%model.setInnerBoundary(gamma_init);
-%%model.setNeumannOuterData('1');
-%model.buildMesh();
-%model.runStudy();
-%
-%figure(2);
-%model.makePlot();
-%
-%tol = 10^-3;
-%gamma_old = gamma_init;
-%
-%function g_diff = H (gamma)
-%	model.setInnerBoundary(gamma)
-%	model.runStudy();
-%	g_diff = model.getNeumannData(measurement_points) - g_orig;
-%
-%	if norm(gamma_old - gamma) > tol
-%		figure();
-%		model.makePlot();
-%        gamma
-%	end
-%	gamma_old = gamma;
-%end
-%
-%
-%options = optimoptions(@fsolve, 'Algorithm', 'levenberg-marquardt');
-%
-%t1 = tic;
-%fsolve(@H, gamma_init, options)
-%toc(t1)
-%
-%figure()
-%model.makePlot();
 
 
 end
