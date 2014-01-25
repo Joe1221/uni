@@ -12,4 +12,3 @@ Programm
 
 Das Programm wird mittels `main.m` genutzt und muss nach belieben angepasst
 werden.
-`plot2svg` sollte sich im Matlab-Pfad befinden.
