@@ -1,7 +1,7 @@
 \chapter{Unrestringierte nichtlineare Optimierung}
 
 
-Im Folgenden betrachten wir für (hinreichend glatte) $f: \R^n \to \R$ das Minimierungsproblem
+Im Folgenden betrachten wir für hinreichend glatte Funktionen $f: \R^n \to \R$ das Minimierungsproblem
 \[
 	\min_{x\in \R^n} f(x)
 \]
@@ -11,16 +11,22 @@ ohne Nebenbedingungen.
 \section{Grundlagen und Optimalitätsbedingungen}
 
 
-$U \subset \R^n$ sei im Folgenden stets eine offene Menge.
+\begin{conv*}
+	Im Folgenden sei $U \subset \R^n$ stets eine offene Menge.
+\end{conv*}
 
 
 \subsection{Grundlagen}
+
+\subsubsection{Norm}
 
 Für $x \in \R^n, A \in \R^{n\times n}$ setzen wir
 \[
 	\|x\| := \sqrt{x^T x}, \qquad
 	\|A\| := \max_{\|x\|=1} \|Ax\|.
 \]
+
+\subsubsection{Ableitungen}
 
 Für $F: U \to \R^m$, $F(x) = (f_1(x), \dotsc, f_m(x))^T$ sei
 \[
@@ -57,6 +63,8 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 	= f'(x) d = \nabla f(x)^T d.
 \]
 
+\subsubsection{Verbindungsstrecke}
+
 \begin{df} \label{2.1}
 	Zu $x_0,x_1 \in \R^n$ heißt
 	\[
@@ -81,6 +89,8 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 	\end{proof}
 \end{st}
 
+\subsubsection{Taylor}
+
 \begin{st}[Linearer und quadratischer Taylor] \label{2.3}
 	Sei $f : U \to \R$ stetig differenzierbar, $x\in U, \eps > 0$, so dass $B_\eps(x) \subset U$.
 	Dann gilt
@@ -99,7 +109,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 				\lim_{d\to 0} \f {p(d)}{\|d\|} = 0.
 			\]
 		\item
-			Ist $f: U \to \R$ zweimal stetig differenzierbar, dann existieren für alle $d \in B_\eps(0)$ ein $s \in [0,1]$mit
+			Ist $f: U \to \R$ zweimal stetig differenzierbar, dann existieren für alle $d \in B_\eps(0)$ ein $s \in [0,1]$ mit
 			\[
 				f(x+d)
 				= f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x+sd) d.
@@ -117,6 +127,8 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 		Funktioniert mit eindimensionalem Taylor und \ref{2.2}.
 	\end{proof}
 \end{st}
+
+\subsubsection{Mittelwertsatz}
 
 \begin{lem} \label{2.4}
 	Sei $F: U \to \R^m$ stetig differenzierbar, $x\in U$ und $\eps > 0$, sodass $B_\eps(x) \subset U$.
@@ -162,6 +174,8 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 		Die zweite Behauptung ist die Definition der totalen Differenzierbarkeit.
 	\end{proof}
 \end{lem}
+
+\subsubsection{Matrizen}
 
 \begin{df} \label{2.5}
 	Eine symmetrische Matrix $A = (a_{ij}) \in \R^{n\times m}$ heißt
@@ -263,11 +277,11 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 	Analog definiert man die entpsrechenden Maxima.
 \end{df}
 
-\begin{st}[Notwendige Optimalitätsbedingung 1. Ordnung] \label{2.10}
-	Sei $U \subset \R^n$ offen, $f: U \to \R$ stetig differenzierbar.
+\begin{st}[Notwendige Optimalitätsbedingung 1. Ordnung] \label{2.10} \label{st:optN1}
+	Sei $U \subset \R^n$ offen und $f: U \to \R$ stetig differenzierbar.
 	Ist $x \in U$ ein lokales Minimum von $f$, dann gilt $\nabla f(x) = 0$.
 
-	Punkte mit $\nabla f(x) = 0$ heißen \emph{stationäre Punkte}
+	Punkte $x \in U$ mit $\nabla f(x) = 0$ heißen \emph{stationäre Punkte}.
 	\begin{proof}
 		Für jedes $d \in \R^n$ gilt
 		\[
@@ -275,85 +289,85 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 			= \lim_{t \to 0^+} \f {f(x+td) - f(x)}{t}
 			\ge 0
 		\]
-		Für $d := - \nabla f(x)$ folgt $-\|\nabla f(x)\|^2 \ge 0$ und damit $\nabla f(x) = 0$.
+		Mit der Wahl $d := - \nabla f(x)$ also $-\|\nabla f(x)\|^2 \ge 0$ und damit $\nabla f(x) = 0$.
 	\end{proof}
 \end{st}
 
-\begin{st}[Notwendige Optimalitätsbedingung 2. Ordnung] \label{2.11}
-	Sei $U \subset \R^n$ offen, $f: U \to \R$ zweimal stetig differenzierbar.
-	Ist $x \in U$ ein lokales Minimum von $f$, dann ist $x$ ein stationärer Puunkt von $f$ und $\nabla^2 f$ ist positiv semi-definit, also
+\begin{st}[Notwendige Optimalitätsbedingung 2. Ordnung] \label{2.11} \label{st:optN2}
+	Sei $U \subset \R^n$ offen und $f: U \to \R$ zweimal stetig differenzierbar.
+	Ist $x \in U$ ein lokales Minimum von $f$, dann gilt
 	\begin{enumerate}[(a)]
 		\item
 			$\nabla f(x) = 0$,
 		\item
-			$x^T \nabla^2 f(x) x \ge 0$ für alle $x \in \R^n$.
+			$\nabla^2 f(x)$ ist positiv semi-definit ($\forall x \in \R^n : x^T \nabla^2 f(x) x \ge 0$).
 	\end{enumerate}
 	\begin{proof}
 		Teil (a) ergibt sich aus \ref{2.10}, zeige also (b):
 		Sei $d \in \R^n$ und $\eps > 0$ so klein, dass $B_\eps(x) \subset U$ und $x$ globales Minimum in $B_\eps(x)$.
-		Verwende \ref{2.3} mit $td$ anstelle von $d$:
+		Gemäß \ref{2.3} gilt
 		\[
 			f(x+td)
-			= f(x) + t \nabla f(x)^T d + \f {t^2}2 d^T \nabla^2 f(x) d + p(td
+			= f(x) + t \nabla f(x)^T d + \f {t^2}2 d^T \nabla^2 f(x) d + p(td)
 		\]
-		für alle $td \in B_\eps(0)$.
+		mit $p(td) = o(\|td\|^2)$ für alle $td \in B_\eps(0)$.
 		Also gilt für alle $|t| < \f \eps{\|d\|}$
-		\[
-			\nabla^2 f(x) d
-			\ge - \f 2{t^2} p(td)
+		\begin{align*}
+			d^T \nabla^2 f(x) d
+			&= \f{2}{t^2} \Big( \underbrace{f(x+td) - f(x)}_{\ge 0} - \underbrace{t\nabla f(x)^T d}_{=0} - p(td) \Big) \\
+			&\ge - \f 2{t^2} p(td)
 			\to 0
-		\]
+		\end{align*}
 		für $t \to 0$.
 	\end{proof}
 \end{st}
 
-\begin{st}[Hinreichende Optimalitätsbedingungen 2. Ordnung]
-	Sei $U \subset \R^n$ offen, $f: U \to \R$ zweimal stetig differenzierbar.
-	Ist $x \in U$ ein stationärer Punkt mit positiv definiter Hesse-Matrix, d.h.
+\begin{st}[Hinreichende Optimalitätsbedingungen 2. Ordnung] \label{2.12} \label{st:optH2}
+	Sei $U \subset \R^n$ offen und $f: U \to \R$ zweimal stetig differenzierbar.
+	Gilt
 	\begin{enumerate}[(a)]
 		\item
 			$\nabla f(x) = 0$,
 		\item
-			$d^T \nabla^2 f(x) d > 0$ für alle $d \in \R^n \setminus \{0\}$.
+			$\nabla^2 f(x)$ ist positiv definit ($\forall x \in \R^n \setminus \{0\} : x^T \nabla^2 f(x) x > 0$),
 	\end{enumerate}
-	Dann ist $x$ ein striktes lokales Minimum von $f$.
+	dann ist $x$ ein striktes lokales Minimum von $f$.
 	\begin{proof}
-		Nach \ref{2.6} ist mit (b) $\my := \lambda_{\text{min}} (\nabla^2 f(x)) > 0$ und
-		\[
-			d^T \nabla^2 f(x) d \ge \my \|d\|^2.
-		\]
-		Wie in \ref{2.11} ist
+		Da $\nabla^2 f(x)$ positiv definit, setze $\my := \lambda_{\text{min}} (\nabla^2 f(x)) > 0$.
+		Gemäß \ref{2.6} gilt $d^T \nabla^2 f(x) d \ge \my \|d\|^2$ für alle $d \in \R^n \setminus \{0\}$.
+		Die Taylorapproximation gemäß \ref{2.3} liefert
 		\[
 			f(x+d)
-			= f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x) d + p(d)
+			= f(x) + \underbrace{\nabla f(x)^T d}_{=0} + \underbrace{\f 12 d^T \nabla^2 f(x) d}_{\ge \f 12 \my \|d\|^2} + p(d)
 		\]
-		und $p(d) \le \f \my4 \|d\|^2$ für hinreichend kleine $d$.
+		mit $p(d) = o(\|d\|^2)$, also $p(d) \le \f \my 4 \|d\|^2$ für hinreichend kleine $d$.
 
-		Also
+		Damit gilt
 		\[
 			f(x+d)
 			\ge f(x) + \f \my2 \|d\|^2 - \f \my4 \|d\|^2
 			= f(x) + \f \my4 \|d\|^2
 		\]
-		und damit $f(x+d) > f(x)$ für alle hinreichend kleinen $d \neq 0$.
+		und damit $f(x+d) > f(x)$ für alle hinreichend kleine $d \neq 0$.
 	\end{proof}
 \end{st}
 
 \begin{ex} \label{2.13}
 	\begin{enumerate}[(a)]
 		\item
-			N1 ist nicht hinreichend.
-			$f(x) = -x^2$ hat im kritischen Punkt ein Maximum,
-			$f(x) = x^3$ hat in $x=0$ weder ein Maximum, noch ein Minimum.
-			Zum Namen „Sattelpunkt“
+			Die Bedingung aus \ref{st:optN1} ist offenbar nicht hinreichend:
+			$f(x) = -x^2$ hat im kritischen Punkt ein Maximum (und kein Minimum),
+			die Funktionen $g(x) = x^3$ und
 			\[
-				f(x_1,x_2) = x_1^2 - x_2^2
+				h(x_1,x_2) = x_1^2 - x_2^2
 			\]
-			bildet einen „Sattel“ in $(0,0)$.
+			haben in $0$, bzw. $(0,0)$ kritische Punkte, aber weder Maxima, noch Minima, sondern Sattelpunkte.
 		\item
-			N2 ist nicht hinreichend, betrachte $f(x) = x^3$.
+			Die Bedingung aus \ref{st:optN2} ist nicht hinreichend:
+			$f(x) = x^3$ erfüllt $f'(0) = 0$ und $f''(0) = 0$ (also insbesondere positiv semi-definit), besitzt aber in $x = 0$ kein lokales Minimum.
 		\item
-			H2 ist nicht notwendig, betrachte $f(x) = x^4$.
+			Die Bedingung aus \ref{st:optH2} ist nicht notwendig:
+			$f(x) = x^4$ besitzt in $x = 0$ ein lokales Minimum, aber $f''(0) = 0$ ist nicht positiv definit.
 	\end{enumerate}
 \end{ex}
 
@@ -362,8 +376,9 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 
 
 \begin{df} \label{2.14}
-	Eine Menge $X \subset \R^n$ heißt \emph{konvex}, wenn alle Verbindungsstrecken zweier Punkte darin enthalten sind, also für alle $x,y \in X, \lambda \in [0,1]$
+	Eine Menge $X \subset \R^n$ heißt \emph{konvex}, wenn alle Verbindungsstrecken zweier Punkte darin enthalten sind, d.h.
 	\[
+		\forall x,y \in X, \lambda \in [0,1]:
 		x_\lambda
 		:= (1-\lambda)x + \lambda y \in X.
 	\]
@@ -371,24 +386,24 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 
 \begin{df} \label{2.15}
 	Sei $X \subset \R^n$ konvex.
-	$f: X \to \R$ heißt
+	Eine Funktion $f: X \to \R$ heißt
 	\begin{enumerate}[(a)]
 		\item
-			\emph{konvex}, falls für alle $x,y \in X, \lambda \in [0,1]$.
+			\emph{konvex}, falls für alle $x,y \in X, \lambda \in [0,1]$
 			\[
-				f((1-\lambda)x + \lambda y)
+				f\big((1-\lambda)x + \lambda y\big)
 				\le (1-\lambda) f(x) + \lambda f(y).
 			\]
 		\item
-			\emph{strikt konvex}, falls für alle $x,y \in X, x \neq y, \lambda \in (0,1)$.
+			\emph{strikt konvex}, falls für alle $x,y \in X, x \neq y, \lambda \in (0,1)$
 			\[
-				f((1-\lambda)x + \lambda y)
+				f\big((1-\lambda)x + \lambda y\big)
 				< (1-\lambda) f(x) + \lambda f(y).
 			\]
 		\item
-			\emph{gleichmäßig konvex}, falls $\my > 0$ existiert, sodass für alle $x,y \in X, \lambda \in [0,1]$.
+			\emph{gleichmäßig konvex}, falls $\my > 0$ existiert, sodass für alle $x,y \in X, \lambda \in [0,1]$
 			\[
-				f((1-\lambda)x + \lambda y) + \my \lambda(1-\lambda) \|y-x\|^2
+				f\big((1-\lambda)x + \lambda y\big) + \my \lambda(1-\lambda) \|y-x\|^2
 				< (1-\lambda) f(x) + \lambda f(y).
 			\]
 			Zur Motivation betrachte auch \ref{2.17}.
@@ -421,7 +436,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 	\begin{proof}
 		\begin{enumerate}[(a)]
 			\item
-				\begin{seg}[„$\implies$“]
+				\begin{segnb}[„$\implies$“]
 					Ist $f$ konvex, dann ist
 					\begin{align*}
 						\nabla f(x)^T (y-x)
@@ -430,70 +445,71 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 						&\le \lim_{t \to 0} \f{(1-t)f(x) + tf(y) - f(x)}t
 						= f(y) - f(x).
 					\end{align*}
-				\end{seg}
-				\begin{seg}[„$\impliedby$“]
+				\end{segnb}
+				\begin{segnb}[„$\impliedby$“]
 					Sei $\lambda \in [0,1]$ und $x,y \in X$.
 					Dann gilt
 					\begin{align*}
 						f(x) - f(x_\lambda)
-						&\ge \nabla f(x_\lambda)^T(x-x_\lambda) \\
+						&\ge \nabla f(x_\lambda)^T(x-x_\lambda), \\
 						f(y) - f(x_\lambda)
 						&\ge \nabla f(x_\lambda)^T(y-x_\lambda)
 					\end{align*}
-					Damit ist
+					und somit
 					\begin{align*}
-						(1-\lambda) f(x) + \lambda f(y)
-						&= (1-\lambda)(f(x) - f(x_\lambda)) + \lambda (f(y) - f(x_\lambda)) + f(x_\lambda) \\
-						&\ge (1-\lambda) \nabla f(x_\lambda)^T (x-x_\lambda) + \lambda \nabla f(x_\lambda)^T (y-x_\lambda) + f(x_\lambda) \\
-						&= \nabla f(x_\lambda)^T \big( (1-\lambda) x + \lambda y - x_\lambda \big) + f(x_\lambda) \\
-						&= f(x_\lambda)
+						&(1-\lambda) f(x) + \lambda f(y) \\
+						&\quad= (1-\lambda)(f(x) - f(x_\lambda)) + \lambda (f(y) - f(x_\lambda)) + f(x_\lambda) \\
+						&\quad\ge (1-\lambda) \nabla f(x_\lambda)^T (x-x_\lambda) + \lambda \nabla f(x_\lambda)^T (y-x_\lambda) + f(x_\lambda) \\
+						&\quad= \nabla f(x_\lambda)^T \big( (1-\lambda) x + \lambda y - x_\lambda \big) + f(x_\lambda) \\
+						&\quad= f(x_\lambda).
 					\end{align*}
-				\end{seg}
+				\end{segnb}
 			\item
-				\begin{seg}[„$\implies$“]
+				\begin{segnb}[„$\implies$“]
 					Sei $f$ strikt konvex, $x, y \in X, x\neq y$, setze
 					\[
-						x_{\f 12} := \f {f(x) + f(y)}2.
+						x_{\f 12} := \f {x + y}2.
 					\]
-					Es gilt
+					Es gilt $y = 2 x_{\f 12} - x$, also
 					\begin{align*}
 						\nabla f(x)^T (y-x)
 						&= 2 \nabla f(x)^T (x_{\f 12} - x) \\
-						&\le 2 (f(x_{\f 12}) - f(x)) \\
-						&< 2 (\f {f(x) + f(y)}2 - f(x))
+						&\le 2 \big(f(x_{\f 12}) - f(x)\big) \\
+						&< 2 \big(\f {f(x) + f(y)}2 - f(x)\big)
 						= f(y) - f(x).
 					\end{align*}
-				\end{seg}
-				\begin{seg}[„$\impliedby$“]
+				\end{segnb}
+				\begin{segnb}[„$\impliedby$“]
 					Analog zu (a) „$\impliedby$“
-				\end{seg}
+				\end{segnb}
 			\item
-				\begin{seg}[„$\implies$“]
+				\begin{segnb}[„$\implies$“]
 					Es gilt
 					\begin{align*}
-						\nabla f(x)^T (y-x)
-						&= \lim_{t\to 0} \f {f(x_t) - f(x)}t \\
-						&\le \lim_{t\to 0} \f 1t \Big( (1-t)f(x) + tf(y) - \my t(1-t)\|y-x\|^2 - f(x) \Big) \\
-						&= f(y) - f(x) - \my \|y-x\|^2.
+						&\nabla f(x)^T (y-x) \\
+						&\quad= \lim_{t\to 0} \f {f(x_t) - f(x)}t \\
+						&\quad\le \lim_{t\to 0} \f 1t \Big( (1-t)f(x) + tf(y) - \my t(1-t)\|y-x\|^2 - f(x) \Big) \\
+						&\quad= f(y) - f(x) - \my \|y-x\|^2.
 					\end{align*}
-				\end{seg}
-				\begin{seg}[„$\impliedby$“]
+				\end{segnb}
+				\begin{segnb}[„$\impliedby$“]
 					Gehe vor, wie in (a) $\impliedby$:
 					\begin{align*}
-						(1-\lambda) f(x) + \lambda f(y)
-						&= (1-\lambda) (f(x) - f(x_\lambda)) + \lambda (f(y) - f(x_\lambda)) + f(x_\lambda) \\
-						&\ge (1-\lambda) \Big(\nabla f(x_\lambda)^T (x-x_\lambda) + \my \|x-x_\lambda\|^2 \Big) \\
-							&\quad + \lambda \Big( \nabla f(x_\lambda)^T (y-x_\lambda) + \my \|y-x_\lambda\|^2 \Big) + f(x_\lambda) \\
-						&= f(x_\lambda) + (1-\lambda)\my \underbrace{\|x - x_\lambda\|^2}_{\lambda^2 \|y-x\|^2} + \lambda \my \underbrace{\|y-x_\lambda\|^2}_{(1-\lambda)^2\|y-x\|^2} \\
-						&=  f(x_\lambda) + (1-\lambda)\lambda \my \|y-x\|^2.
+						&(1-\lambda) f(x) + \lambda f(y) \\
+						&\quad= (1-\lambda) (f(x) - f(x_\lambda)) + \lambda (f(y) - f(x_\lambda)) + f(x_\lambda) \\
+						&\quad\ge (1-\lambda) \Big(\nabla f(x_\lambda)^T (x-x_\lambda) + \my \|x-x_\lambda\|^2 \Big) \\
+						    &\quad\quad + \lambda \Big( \nabla f(x_\lambda)^T (y-x_\lambda) + \my \|y-x_\lambda\|^2 \Big) + f(x_\lambda) \\
+						&\quad= f(x_\lambda) + (1-\lambda)\my \underbrace{\|x - x_\lambda\|^2}_{\lambda^2 \|x-y\|^2} + \lambda \my \underbrace{\|y-x_\lambda\|^2}_{(1-\lambda)^2\|y-x\|^2} \\
+						&\quad=  f(x_\lambda) + (1-\lambda)\lambda \my \big( \lambda \|y-x\|^2 + (1-\lambda) \|y-x\|^2 \big) \\
+						&\quad=  f(x_\lambda) + (1-\lambda)\lambda \my \|y-x\|^2.
 					\end{align*}
-				\end{seg}
+				\end{segnb}
 		\end{enumerate}
 	\end{proof}
 \end{st}
 
 \begin{st} \label{2.17}
-	Sei $X \subset \R^n$ offen und kovex und $f: X \to \R^n$ zweimal stetig differenzierbar.
+	Sei $X \subset \R^n$ offen und konvex und $f: X \to \R^n$ zweimal stetig differenzierbar.
 	$f$ ist auf $X$
 	\begin{enumerate}[(a)]
 		\item
@@ -502,7 +518,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 				d^T \nabla^2 f(x) d \ge 0
 			\]
 		\item
-			strikt konvex, wenn $\nabla^2 f(x)$ für alle $x \in X$ positiv semidefinit ist, also für alle $x \in X, d \in \R^n \setminus \{0\}$
+			strikt konvex, wenn $\nabla^2 f(x)$ für alle $x \in X$ positiv definit ist, also für alle $x \in X, d \in \R^n \setminus \{0\}$
 			\[
 				d^T \nabla^2 f(x) d > 0.
 			\]
@@ -517,7 +533,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 	\begin{proof}
 		\begin{enumerate}[(a)]
 			\item
-				\begin{seg}[„$\implies$“]
+				\begin{segnb}[„$\implies$“]
 					Sei $f$ konvex und $d \in \R^n$.
 					Für hinreichend kleine $t > 0$ gilt mit Taylor und $\ref{2.16}$
 					\[
@@ -531,8 +547,8 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 						\ge - \f {2 p(td)}{t^2} \to 0
 					\]
 					für $t \to 0$.
-				\end{seg}
-				\begin{seg}[$\impliedby$]
+				\end{segnb}
+				\begin{segnb}[„$\impliedby$“]
 					Seien $x,y \in X$, dann gilt nach \ref{2.3}, dass $s \in [0,1]$ existiert mit
 					\begin{align*}
 						f(y)
@@ -540,19 +556,19 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 						&\ge f(x) + \nabla f(x)^T (y-x)
 					\end{align*}
 					und somit ist $f$ nach \ref{2.16} konvex.
-				\end{seg}
+				\end{segnb}
 			\item
 				Analog zu $\impliedby$ in (a).
 			\item
-				\begin{seg}[„$\implies$“]
+				\begin{segnb}[„$\implies$“]
 					Analog wie „$\implies$“ in (a) erhalten wir
 					\[
 						d^T \nabla^2 f(x) d
 						\ge - \f {2 p(td)}{t^2} + \my \|d\|^2
 						\to \my \|d\|^2.
 					\]
-				\end{seg}
-				\begin{seg}[„$\impliedby$“]
+				\end{segnb}
+				\begin{segnb}[„$\impliedby$“]
 					Analog wie in (a) existiert zu $x,y \in X$ ein $s \in [0,1]$ mit
 					\begin{align*}
 						f(x)
@@ -560,7 +576,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 						&\ge f(x) + \nabla f(x)^T (y-x) + \f 12 \my \|y-x\|^2,
 					\end{align*}
 					also ist $f$ nach \ref{2.16} gleichmäßig konvex.
-				\end{seg}
+				\end{segnb}
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -691,6 +707,7 @@ Für in jedem Schritt an der Stelle $x_k$ vorgegebene Abstiegsrichtungen $d_k$ l
 			\State $s_k \gets \beta s_k$
 			\State $x_{k+1} \gets x_k + s_k d_k$
 		\Until $f(x_{k+1}) \le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k$
+		\Return $s_k$
 	\end{algorithmic}
 \end{alg}
 
@@ -700,16 +717,16 @@ Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für
 	\begin{algorithmic}
 		\Require{Startwert $x_0 \in \R^n$}
 		\Require{Armijo-Parameter $\beta \in (0,1), \gamma \in (0,1)$}
-		\For{$k \gets 0, 1, 2, \dotsc$}
-			\If{$\nabla f(x_k) = 0$}
-			\Return{$x_k$}
-			\EndIf
+
+		\State{$k \gets 0$}
+		\While{$\nabla f(x_k) \neq 0$}
 			\State{$s_k \gets \f 1\beta$}
 			\Repeat
 				\State{$s_k \gets \beta s_k$}
 				\State{$x_{k+1} \gets x_k - s_k \nabla f(x_k)$}
 			\Until{$f(x_{k+1}) \le f(x_k) - \gamma s_k \|\nabla f(x_k)\|^2$}
-		\EndFor
+			\State{$k \gets k + 1$}
+		\EndWhile
 	\end{algorithmic}
 \end{alg}
 
@@ -1335,13 +1352,13 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 		Die erste Repeat-Schleife terminiert wegen \ref{2.21} (für $s$ klein genug ist die Armijo-Bedingung erfüllt).
 
 		Für die zweite Repeat-Schleife betrachte
-		\[
+		\begin{align*}
 			-\infty
 			< \inf_{s\ge 0} f(x+sd)
-			\le f(x+s^+ d
-			\le f(x) + \gamma s^+ \nabla f(x)^T d
+			&\le f(x+s^+ d) \\
+			&\le f(x) + \gamma s^+ \nabla f(x)^T d
 			\xrightarrow{s^+\to\infty} -\infty.
-		\]
+		\end{align*}
 		Also kann $s^+$ nicht beliebig groß werden und die Schleife terminiert nach endlich vielen Schritten mit einem $s^+$, welches \ref{eq:pw1} verletzt.
 
 		Für die While-Schleife betrachte die stetige Funktion
@@ -1482,7 +1499,7 @@ Es ergibt sich damit die Iteration
 	\end{algorithmic}
 \end{alg}
 
-Das Newton-Verfahren konvergiert nicht für jeden Startwert, es Beispiele für alternierende Iterierte und für strikte Divergenz.
+Das Newton-Verfahren konvergiert nicht für jeden Startwert, es gibt Beispiele für alternierende Iterierte und für strikte Divergenz.
 % fixme: Beispiele für Nicht-Konvergenz
 
 Für $q \in \R, |q| < 1$ gilt
@@ -1659,7 +1676,7 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 
 \coursetimestamp{20}{11}{2013}
 
-\begin{st}[Lokale Konvergenz des Newton-Verfahrens für Gleichungsysteme] \label{2.46}
+\begin{st}[Lokale Konvergenz des Newton-Verfahrens für Gleichungssysteme] \label{2.46}
 	Sei $F: \R^n \to \R^n$ stetig differenzierbar und $\hat x$ sei Nullstelle von $F$ mit invertierbarer $F'(\hat x) \in \R^{n\times n}$.
 	Dann existieren $\delta, C > 0$ so dass
 	\begin{enumerate}[(a)]
@@ -1745,7 +1762,7 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
 		\Require{Startwert $x_0$}
 		\State{$k \gets 0$}
 		\While{$\nabla f(x_k) \neq 0$}
-			\State{$d_k \gets -(\nabla^2 f(x_k))^{-1} \nabla f(x_k)$}
+			\State{$d_k \gets -\big(\nabla^2 f(x_k)\big)^{-1} \nabla f(x_k)$}
 			\State{$x_{k+1} \gets x_k + d_k$}
 		\EndWhile
 	\end{algorithmic}
@@ -2291,7 +2308,7 @@ Wir erwarten
 			Jeder Häufungspunkt von $x_k$ ist stationärer Punkt von $f$.
 	\end{enumerate}
 	\begin{proof}
-		Wende Satz \ref{2.29} an.
+		Wende \ref{2.29} an.
 		\paragraph{Zulässigkeit der Suchrichtungen}
 		Wird Newton-Suchrichtung verwendet, dann ist
 		\[
@@ -2537,9 +2554,11 @@ Für $F: \R^n \to \R^n$ und $F'(x_k)$ invertierbar, dann ist dies genau das bish
 \begin{alg} \label{alg:9}
 	\begin{algorithmic}
 		\Require{Startwert $x_0 \in \R^n$}
-		\While{$F'(x)^T F(x) \neq 0$}
+		\State{$k \gets 0$}
+		\While{$F'(x_k)^T F(x_k) \neq 0$}
 			\State{$d_k \gets - \big(F'(x_k)^T F'(x_k)\big)^{-1} F'(x_k)^T F(x_k)$}
 			\State{$x_{k+1} \gets x_k + d_k$}
+			\State{$k \gets k + 1$}
 		\EndWhile
 	\end{algorithmic}
 \end{alg}
