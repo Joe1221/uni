@@ -124,6 +124,7 @@
 %==================================
 
 \RequirePackage { fontspec }
+\RequirePackage { libertine }
 
 \RequirePackage { polyglossia }
 
