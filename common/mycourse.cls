@@ -126,6 +126,13 @@
 \RequirePackage { fontspec }
 \RequirePackage { libertine }
 
+\setmonofont [
+	Ligatures = TeX,
+	Extension = .otf,
+	UprightFont = *-Regular,
+	BoldFont = *-Bold,
+] { Inconsolatazi4 }
+
 \RequirePackage { polyglossia }
 
 \ExplSyntaxOff
@@ -185,7 +192,7 @@
 \definecolor{headerrule}{HTML}{337733}
 \definecolor{timestamp}{HTML}{333333}
 \definecolor{algcomment}{HTML}{444444}
-\definecolor{algcommand}{HTML}{000066}
+\definecolor{algcommand}{HTML}{000055}
 \definecolor{background}{HTML}{FFFFFF}
 \definecolor{headings}{HTML}{000000}
 
