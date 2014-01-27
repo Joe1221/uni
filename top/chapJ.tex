@@ -115,6 +115,233 @@ Bisher hatten wir $\pi_0: \Cat{Top} \to \Cat{Set}$, unser Ziel ist $\pi_1: \Cat{
 	\end{proof}
 \end{st}
 
+\coursetimestamp{27}{01}{2014}
+
+
+\section{Die Fundamentalgruppe eines punktierten Raumes $(X,x_0)$}
+
+
+\begin{df}
+	Wir setzen
+	\[
+		\pi_1(X, x_0)
+		:= \Pi(X, x_0, x_0)
+	\]
+	mit $[\alpha] \cdot [\beta] := [\alpha * \beta]$.
+
+	$(\pi_1(X, x_0), \cdot)$ bildet eine Gruppe.
+\end{df}
+
+\begin{ex}
+	Betrachte
+	\[
+		\deg: \big(\pi_1(\C \setminus \{0\}, 1), \cdot\big) \homeomorphicto (\Z, +).
+	\]
+	Dies ist ein Gruppenisomorphismus.
+\end{ex}
+
+\paragraph{Verschieben des Fußpunktes}
+
+\begin{prop}
+	Jeder Weg $\gamma \in P(X, x_0, x_1)$ induziert einen Gruppenisomorphismus
+	\begin{align*}
+		h_\gamma: \pi_1(X,x_0) &\isomorphicto \pi_1(X, x_1),& [\alpha] &\mapsto [\_\gamma * \alpha * \gamma], \\
+		h_{\_\gamma}: \pi_1(X,x_1) &\isomorphicto \pi_0(X, x_1),& [\beta] &\mapsto [\gamma * \beta * \_\gamma].
+	\end{align*}
+	Ist $\gamma' \in P(X, x_0, x_1)$ ein weiterer Weg, so gilt
+	\[
+		h_{\gamma'} = c^{-1} \cdot h_\gamma \cdot c
+	\]
+	mit $c = [\_\gamma * \gamma'] \in \pi_1(X, x_1)$.
+	\begin{proof}
+		Direkt nachzurechnen.
+	\end{proof}
+\end{prop}
+
+\begin{df}
+	$X$ heißt \emph{einfach zusammenhängend}, wenn $\pi_0(X) = \{X\}$ und $\pi_1(X, x_0) = \{1\}$.
+\end{df}
+
+\begin{ex}
+	$\R^n$ ist einfach-zusammenhängend, ebenso $X \subset \R^n$ sternförmig.
+\end{ex}
+
+\begin{ex}
+	$\S^n$ ist wegzusammenhängend für $n \ge 1$ und einfach zusammenhängend für $n \ge 2$.
+	\begin{proof}
+		Funktioniert mit stereographischer Projektion und simplizialer Approximation.
+	\end{proof}
+\end{ex}
+
+\paragraph{Funktorialität}
+
+\begin{lem}
+	Jede stetige Abbildung $f: (X, x_0) \to (Y, y_0)$ induziert einen Gruppenhomomorphismus $f_\# := \pi_1(f) : \pi_1(X, x_0) \to \pi_1(Y, y_0)$ mit $f_\#([\alpha]) = [f \circ \alpha]$.
+	\begin{proof}
+		Nachrechnen.
+	\end{proof}
+\end{lem}
+
+\begin{st}
+	Wir erhalten einen (kovarianten Funktor) $\pi_1: \Cat{Top_*} \to \Cat{Grp}$.
+	\[
+		\begin{tikzcd}[column sep=small]
+			~ & (Y,y_0) \arrow{dr}{g} & \\
+			(X,x_0) \arrow{ur}{f} \arrow{rr}[swap]{h=g \circ f} & & (Z, z_0)
+		\end{tikzcd}
+		\xrightarrow{\pi}
+		\begin{tikzcd}[column sep=tiny]
+			~ & \pi_1(Y, y_0) \arrow{dr}{\pi_1(g)} & \\
+			\pi_1(X,x_0) \arrow{ur}{\pi_1(f)} \arrow{rr}[swap]{\pi_1(h)} & & \pi_1(Z,z_0)
+		\end{tikzcd}
+	\]
+	\begin{proof}
+		Nachrechnen.
+	\end{proof}
+\end{st}
+
+
+\begin{kor}
+	Angenommen $f: (X, x_0) \to (Y, y_0)$ ist ein Homöomorphismus, d.h. stetig und es existiert $g: (Y, y_0) \to (X, x_0)$ stetig mit $g \circ f = \id_{(X,x_0)}$ und $f\circ g = \id_{(Y,y_0)}$.
+	Dann ist $f_\# : \pi_1(X, x_0) \to \pi_1(Y,y_0)$ ein Isomorphismus, denn
+	\[
+		g_\# \circ f_\# = (g \circ f)_\# = (\id_{(X, x_0)})_\# = \id_{\pi_1(X, x_0)}
+	\]
+	und $f_\# \circ g_\# = \id_{\pi_1(Y,y_0)}$.
+\end{kor}
+
+\begin{st}
+	Für $f, g: (X, x_0) \to (Y, y_0)$ impliziert jede Homotompie $H: f \homotopic g$ relativ zu $x_0$
+	\[
+		\pi_1(f) = \pi(g) : \pi_1(X, x_0) \to \pi_1(Y, y_0).
+	\]
+	\begin{proof}
+		Nachrechnen.
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	Sind $f: (X, x_0) \to (Y, y_0)$ und $g: (Y, y_0) \to (X, x_0)$ mit $g \circ f \homotopic \id_{(X, x_0)}$ relativ zu $x_0$ und $f \circ g \homotopic \id_{(Y, y_0)}$ relativ zu $y_0$, dann erfüllt $f_\#: \pi_1(X, x_0) \to \pi_1(Y, y_0)$ und $g_\# : \pi_1(Y, y_0) \to \pi_1(X, x_0)$
+	\begin{align*}
+		f_\# \circ g_\# &= \id_{\pi_1(Y, y_0)}, & g_\# \circ f_\# = \id_{\pi_1(X, x_0)}.
+	\end{align*}
+\end{kor}
+
+
+\section{Polygonale Fundamentalgruppe}
+
+
+\begin{df}
+	Sei $V$ ein $\R$-Vektorraum und $x_0 \in X \subset V$.
+	\[
+		\pi_1^{\mathrm{pl}} := \{ \text{Polygonzüge in $(X, x_0)$} \} / \text{polygonale Homotopie}.
+	\]
+\end{df}
+
+\begin{st}
+	Für $X \subset \R^d$ offen und $x_0 \in x$ haben wir
+	\begin{align*}
+		\phi: \pi_1^{\mathrm{pl}}(X, x_0) &\to \pi_1(X, x_0), & \phi([w]) &= [|w|],
+	\end{align*}
+	wobei mit $|w|$ die topologische Realisierung gemeint ist.
+	\begin{proof}
+		Funktioniert mit Polygonaler Approximation von Wegen und Homotopien.
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Wir erhalten so $\deg: \pi_1(\C^*, 1) \isomorphicto \Z$.
+\end{st}
+
+\begin{st}
+	Für $X = \C \setminus \{0, -1, -2, \dotsc, 1 - n\}$ ist $\pi_1(X, 1)$ frei vom Rand $n$, d.h. es existiert $\psi: (X, 1) \isomorphicto \<s_1, \dotsc, n_n |  - \>$.
+	\begin{note}
+		Für $n = 0, X = \C$ ist $\pi_1(X, 1) = \{1\}$.
+		Für $n = 1, X = \C^*$ ist $\pi_1(X, 1) \isomorphic (\Z, +) = (\<s_1| - \>, \cdot)$.
+	\end{note}
+	\begin{proof}
+		Ähnliche Idee wie bei der Umlaufzahl: zähle Übergänge auf der negativen reellen Achse zwischen den Segmenten im jeweiligen Erzeuger $s_1, \dotsc, s_n$.
+		% fixme: drawing
+
+		Für $[u,v] \subset X$, setze
+		\[
+			\eta(u,v) = \begin{cases}
+				1 & [u,v] \cap \R_{<0} = \emptyset \\
+				s_k^\eps & [u,v] \cap S_k \neq \emptyset
+			\end{cases}
+		\]
+		wobei $\eps := \f 12 [\sign \Im u - \sign \Im v]$.
+		Setze jetzt
+		\[
+			\eta(v_0 v_1 v_2 \dotsc v_{n-1} v_n) := \eta(v_0 v_1) \cdot \eta(v_1 v_2) \cdot \dotsb \cdot \eta(v_{n-1} v_n)
+		\]
+		und $\psi: \pi_1^{\mathrm{pl}}(X, 1) \to \<s_1, \dotsc, s_n | - \>$ mit $\psi([w]) = \eta(w)$.
+
+		Dies ist ein Gruppenhomomorphismus (surjektiv, injektiv: nachrechnen und Induktion).
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	Sei $X = \C \setminus \{0, 1\}$.
+
+	Es gilt $s_1s_2^{-1} \not\homotopic s_2^{-1} s_1$.
+\end{ex}
+
+
+\section{Simpliziale Fundamentalgruppe}
+
+
+\begin{df}
+	Sei $K$ ein Simplizialkomplex mit Eckenmenge $\Omega$ und $x_0 \in \Omega$.
+	Sei $|K| \subset \R^{(\Omega)}$ die topologische Realisierung und
+	\[
+		\pi_1(K, x_0) := \dfrac{ \{ \text{Kantenzüge in $(|K|, x_0)$ mit Eckenmenge $\Omega$} \} }
+		{ \text{polygonaler Homotopie} }.
+	\]
+\end{df}
+
+\begin{st}
+	Wir haben $\phi: \pi_1(K, x_0) \isomorphicto \pi_1(|K|, x_0)$ mit $\phi([w]) = [|w|]$.
+	\begin{proof}
+		Funktioniert mit simplizialer Approximation.
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	Betrachte $\S^1 \homeomorphic |K|$ mit
+	\[
+		K = \Big\{ \{a\}, \{b\}, \{c\}, \{a, b\}, \{b, c\}, \{c, a\} \Big\}.
+	\]
+	Wege auf $\S^1$ können wir also als Wörter in $\Omega$ darstellen.
+\end{ex}
+
+\begin{st}
+	Für jeden Baum $T$ gilt $\pi_1(T, x_0) = \{1\}$.
+	\begin{proof}
+		$|T| \homotopic *$.
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Sei $K$ ein zusammenhängender Graph, $T \subset K$ ein Spannbaum von $K$ und $x_0$ ein Ecke.
+
+	Dann ist $\pi_1(|K|, x_0)$ frei über $|K \setminus T|$ Erzeugern, genauer existiert ein Isomorphismus
+	\[
+		\psi: \pi_1(|K|, x_0) \to F := \< S | R \>
+	\]
+	mit Erzeugern
+	\[
+		S = \{ s_{ab} | \{a,b\} \in K \setminus T \}
+	\]
+	und Relationen
+	\[
+		R = \big\{ s_{ab} s_{ba} | \{a,b\} \in K \setminus T \} \big\}.
+	\]
+	\begin{proof}
+		Ähnlich wie für $\C \setminus \{0, -1, \dotsc, 1-n \}$.
+	\end{proof}
+\end{st}
+
 
 
 
