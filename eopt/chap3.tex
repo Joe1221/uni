@@ -771,7 +771,7 @@ Betrachte wieder
 
 
 \begin{lem}[Trennungssatz von Hahn-Banach] \label{3.23}
-	Sei $\emptyset \neq K \subset \R^n$ abgeschlossen und konvex und sei $x \in K$.
+	Sei $\emptyset \neq K \subset \R^n$ abgeschlossen und konvex und sei $x \not\in K$.
 	Dann existieren $\nu \in \R^n$ und $r \in \R$ mit
 	\begin{align*}
 		\nu^T x &> r, &
@@ -800,8 +800,121 @@ Betrachte wieder
 			t^2 \|y-\eta\|^2 - 2t(y-\eta)^T \nu \ge 0.
 		\]
 		Für $t \to 0$ folgt $(y-\eta)^T \nu \le 0$, also $y^T \nu \le r$.
+
+\coursetimestamp{27}{01}{2014}
+		Sei nun $K$ ein abgeschlossener, konvexer Kegel.
+		Nach dem bereits gezeigten Teil der Aussage existiert $\nu \in \R^n, r \in \R$ mit $\nu^T x > r$ und $\nu^T y \le r$ für alle $y \in K$.
+		Mit $0 \in K$ folgt $r \ge 0$, also auch $\nu^T x > 0$.
+		Es bleibt zu zeigen, dass $\nu^T y \le r$ für alle $y \in K$.
+
+		Da $K$ ein Kegel, ist $\lambda y \in K$ für alle $yy \in K, \lambda \ge 0$, also auch $\lambda \nu^T y \le r$ für alle $\lambda \ge 0$.
+		Für $\lambda \to \infty$ folgt $\nu^T y \le 0$ für alle $y \in K$.
 	\end{proof}
 \end{lem}
+
+\begin{st} \label{3.24}
+	Sei $A \in \R^{n \times m}$ und
+	\[
+		K := \{ Ax : x \in \R^m, x \ge 0 \} \subset \R^n
+	\]
+	heißt \emph{der von den Spaltenvektoren von $A$ endlich erzeugte Kegel}.
+	$K$ ist ein konvexer, abgeschlossener Kegel.
+	\begin{proof}
+		Übung
+	\end{proof}
+\end{st}
+
+\begin{lem}[Lemma von Farkas]
+	Seien $A \in \R^{n\times m}$ und $b \in \R^n$.
+	Es gilt stets genau eine der beiden folgenden Aussagen
+	\begin{enumerate}[(a)]
+		\item
+			Es existiert $x \in \R^m$ mit $x \ge 0$ und $Ax = b$,
+		\item
+			Es existiert $y \in \R^n$ mit $A^T y \ge 0$ und $b^T y < 0$.
+	\end{enumerate}
+	\begin{proof}
+		Angenommen es existieren $x \in \R^m, y \in \R^n$, die (a) und (b) erfüllen.
+		Dann ist
+		\[
+			0
+			> y^T b
+			= y^T Ax
+			= (A^T y)^T x
+			\ge 0,
+		\]
+		ein Widerspruch.
+
+		Es gelte (a) nicht, dann gilt
+		\[
+			b \not\in K := \{ Ax : x \ge 0 \} \subset \R^n.
+		\]
+		Wende \ref{3.23} an und erhalten ein $\nu \in \R^n$ mit $\nu^T b > 0$ und $\nu^T Ax \le 0$ für alle $x \ge 0$.
+		Es folgt aus der zweiten Aussage $A^T \nu \le 0$.
+		Damit gilt (b) mit der Wahl $y := -\nu$.
+	\end{proof}
+\end{lem}
+
+\begin{kor} \label{3.26}
+	Seien $A \in \R^{n\times m}, B \in \R^{n\times p}, c \in \R^n$.
+	Dann sind äquivalent:
+	\begin{enumerate}[(a)]
+		\item
+			Für alle $d \in \R^n$ mit $A^T d \le 0$ und $B^T d = 0$ gilt $c^T d \le 0$.
+		\item
+			$\exists u \in \R^m$ mit $u \ge 0$ und $\nu \in \R^p$ mit $c = Au + Bv$.
+	\end{enumerate}
+	\begin{proof}
+		Schreibe $v \in \R^p$ als $v = v_1 - v_2$ mit $v_1 \ge 0, v_2 \ge 0$.
+		Aussage (b) ist äquivalent zu: es existiert $x := (u^T, v_1^T, v_2^T)^T \in \R^{m+p+p}$ mit $(A B -B) x = c$.
+		\ref{3.25} liefert $\not \exists y \in \R^n$ mit $(A B -B)^T y \ge 0$ und $c^T y < 0$.
+		Äquivalent gilt für alle $d \in \R^n$ mit $A^T d \le , B^T d = 0$ die Aussage $c^T d \le 0$.
+	\end{proof}
+\end{kor}
+
+\begin{st} \label{3.27}
+	Seien $f: \R^n \to \R, g: \R^n \to \R^m$ und $h: \R^n \to \R^p$ stetig differenzierbar.
+	Ist $\hat x \in \R^n$ eine lokale Lösung von
+	\[
+		f(x) \to \min! \udN g(x) \le 0, h(x) = 0
+	\]
+	in der eine Constraint Qualification gilt, dann existieren $\lambda \in \R^m$ und $\my \in \R^p$, so dass die \emph{Karush-Kuhn-Tucker} Bedingungen erfüllt sind:
+	\begin{enumerate}[(a)]
+		\item
+			$\nabla f(\hat x) + \nabla g(\hat x) \lambda + \nabla h(\hat x) \my = 0$,
+		\item
+			$h(\hat x) = 0$,
+		\item
+			$\lambda \ge 0, g(\hat x) \le 0, \lambda^T g(x) = 0$.
+	\end{enumerate}
+	\begin{proof}
+		Nach \ref{3.22} gilt $\nabla f(\hat x)^T d \ge 0$ für alle
+		\[
+			d \in T_l(g,h,\hat x)
+			= \Set{ d \in \R^n | \forall i \in \{1, \dotsc, p\}, j \not\in I_{\hat x} :
+				\begin{aligned}
+					\nabla h_i(\hat x)^T d &= 0, \\
+					\nabla g_j(\hat x)^T d &\le 0
+				\end{aligned} }.
+		\]
+		Mit $c := - \nabla f(\hat x) \in \R^n$, $A := \big( \pddx{x_k} g_j(\hat x) \big)_{k=1,\dotsc,n, j\not\in I_{\hat x}} \in \R^{n \times (m-|I_{\hat x}|)}$, $B := \nabla h(\hat x) \in \R^{n\times p}$ gilt also
+		\[
+			c^T d \ge 0 \qquad \forall d \in \R^n \text{ mit } B^T d = 0
+		\]
+		und $A^T d \le 0$.
+		Mit \ref{3.26} ist das äquivalent zur Existenz von $\lambda \in \R^{m-|I_{\hat x}|}$, $\lambda \ge 0$ und $\my \in \R^p$ mit $c = A \lambda + B \my$.
+		Mit Nullfortsetzung von $\lambda$ zu einem Vektor in $\R^m$ folgt die Behauptung.
+	\end{proof}
+\end{st}
+
+Ohne Ungleichungen ergibt sich $\nabla f(\hat x) + \nabla h(\hat x) \my = 0$, $h(\hat x) = 0$ (siehe Lagrange-Funktionen, Analysis).
+
+Mit Ungleichungen …
+
+
+
+
+
 
 
 
