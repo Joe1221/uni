@@ -342,6 +342,142 @@ Bisher hatten wir $\pi_0: \Cat{Top} \to \Cat{Set}$, unser Ziel ist $\pi_1: \Cat{
 	\end{proof}
 \end{st}
 
+\coursetimestamp{28}{01}{2014}
+
+\subsection{Anwendung auf berandete Flächen}
+
+Für einen passenden Graphen $K$ ist $|K|$ zu $F_{g,r}^+$ homotopie-äquivalent.
+Es gilt
+\[
+	\<a_1, b_1, \dotsc, a_g, b_g, d_2, \dotsc, d_r | - \>
+	\homotopic
+	\pi_1(|K|,x_0)
+	\homotopic
+	\pi_1(F_{g,r}^+, x_0),
+\]
+wobei $a, b, d$ jeweils Kanten im Henkel sind (durch Wegnehmen entsteht ein Baum).
+
+Genauso
+\[
+	\pi_1(F_{g,r}^-)
+	\homotopic
+	\<c_0, \dotsc, c_g, d_2, \dotsc, d_r | - \>.
+\]
+
+\begin{st}
+	Sei $K$ ein zusammenhängender Simplizialkomplex, $T \subset K$ ein Spannbaum und $x_0$ eine Ecke.
+	Dann haben wir $\psi: \pi_1(K, x_0) \isomorphicto G = \<S | R \>$ mit Erzeugern $S = \{ s_{ab} | \{a,b\} \in K\}$ und Relationen
+	\[
+		R = \{ s_{ab} | \{a,b\} \in T \}
+		\cup \Big\{ s_{ab} s_{ba}, a_{ab}s_{bc}s_{ca} | \{a,b,c\} \in K \Big\}.
+	\]
+	\begin{proof}
+		Wir wohldefinieren $\psi: \pi_1(K, x_0) \to G$ durch
+		\[
+			\pi([v_0v_1 \dotsc v_{n-1} v_n]) = s_{v_0v_1} s_{v_1v_2} \dotsb s_{v_{n-1}}s_{v_n}
+		\]
+		und $\phi: G \to \pi_1(K, x_0)$ durch
+		\[
+			\phi(s_{ab}) = \underbrace{x_0 \dotsb a}_{\text{in $T$}} * ab * \underbrace{b \dotsb x_0}_{\text{in $T$}}.
+		\]
+		Wir prüfen $\phi \circ \psi = \id$ und $\psi \circ \phi = \id$.
+	\end{proof}
+\end{st}
+
+\begin{st}
+	Es existieren Gruppenisomorphismen
+	\begin{align*}
+		\pi_1(F_g^+, x_0)
+		&\isomorphicto \< a_1 b_1, \dotsc, a_g b_g | a_1b_1a_1^{-1}b_1^{-1} \dotsc a_gb_g a_g^{-1}b_g^{-1} \>, \\
+		\pi_1(F_g^-, x_0)
+		&\isomorphicto \< c_0, c_1, \dotsc, c_g | c_0c_0 c_1c_1 \dotsb c_g c_g \>.
+	\end{align*}
+	\begin{proof}
+		Betrachte $F_{g}^{\pm} = \D^2 / \<w\>$ mit $w = a_1b_1a_1^{-1}b_1^{-1} \dotsb a_gb_g a_g^{-1}b_g^{-1}$, bzw. $w = c_0 c_0 c_1 c_1 \dotsb c_g c_g$.
+		Wir triangulieren $\S^1 \subset \D^2$, sowie $\S^1 / \<w\> \subset \D^2 \<w\>$.
+		Sei $L \subset K$ dieser Komplex.
+		$\pi_1(|L|, x_0) \homotopic \<a_1, b_1, \dotsc, a_g, b_g | - \>$.
+		Wähle ein Dreieck $\triangle \in K$, setze $K' := K \setminus \{ \triangle \}$.
+		Wir haben eine Homotopie-Äquivalenz zwischen $|L|$ und $|K'|$.
+
+		Der Kantenweg $w' = x_0 \dotsb a * abc * c \dotsb x_0$ in $K'$ entspricht $w$ in $L$, genauer $r_\#([w']) = [w]$.
+		\[
+			\<a_1, b_1, \dotsc, a_g, b_g | - \>
+			\isomorphicto \pi_1(|L|, x_0)
+			\isomorphicto \pi_1(|K'|, x_0)
+			\xrightarrow{\text{inc}_\#} \pi_1(|K|, x_0),
+		\]
+		wobei $\text{inc}_\#$ Quotient mit $w$ als einzige Relation.
+	\end{proof}
+\end{st}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$F_0^- = \R\P^2$ und $\pi_1(\R\P^2, x_0) \homotopic \Z / 2$.
+		\item
+			$F_1^+ = \S^1 \times \S^1$ (Torus).
+			$\pi_1(F_1^+, x_0) = \<a,b | aba^{-1}b^{-1}\>$, d.h. $aba^{-1}b^{-1} = 1$, also $ab = ba$.
+			Somit ist $\pi_1(F_1^+, x_0) \isomorphic \Z \times \Z$.
+	\end{itemize}
+\end{ex}
+
+\subsection{Abelsch-Machung}
+
+Es gilt
+\begin{align*}
+	\pi_1(F_g^+)_{ab}
+	&= \left\< a_1, b_1, \dotsc, a_g, b_g \bigg| \begin{aligned}
+		[a_1,b_1] = \dotsb = [a_g, b_g] &= 1, \\
+		[a_i, a_j] = [a_i, b_j] = [b_i, b_j] &= 1
+	\end{aligned}
+	\right\> \\
+	&= \Big\< a_1, b_1, \dotsc, a_g, b_g \Big| [a_i, a_j] = [a_i, b_j] = [b_i, b_j] = 1 \Big\> \\
+	&\isomorphic \Z^{2g}.
+\end{align*}
+und
+\begin{align*}
+	\pi_1(F_g^-)_{ab}
+	&= \<c_0, c_1, \dotsc, c_g | c_0^2 c_1^2 \dotsc c_g^2 = 1, [c_i, c_j] = 1 \> \\
+	&\isomorphic / \< 2c_0 + 2c_1 + \dotsb + 2c_g = 0\> \\
+	&\isomorphic \Z / 2 \times \Z^g.
+\end{align*}
+
+\begin{st}
+	Die Gruppen $\pi_1(F_g^{\pm}, x_0)$ sind untereinander nicht isomorph, d.h. aus $\pi_1(F_g^\eps) \isomorphic \pi_1(F_h^\delta)$ folgt $(g,\eps) = (h,\delta)$.
+\end{st}
+
+\begin{kor}
+	Aus $F_g^\eps \homeomorphic F_h^\delta$ folgt $(g,\eps) = (h,\delta)$.
+	\begin{note}
+		Hieraus folgt insbesondere, dass $\chi(F_g^\eps)$ eine topologische Invariante ist.
+	\end{note}
+\end{kor}
+
+\begin{kor}
+	Aus $F_g^\eps \homotopic F_h^\delta$ folgt $(g,\eps) = (h,\delta)$.
+\end{kor}
+
+\subsection{Projektive Räume}
+
+Wir kennen $\R\P^n = \S^n / \{\pm 1\}$ und $\pi_1(\S^1, 1) \isomorphic \Z / 2$.
+
+\begin{align*}
+	\R\P^1 &= \S^1 / \{\pm 1\} \homeomorphic \S^1, & \pi_1(\S^1, 1) & \isomorphic \Z; \\
+	\R\P^2 &= \S^2 / \{\pm 1\}, & \pi_1(\R\P^2, x_0) &\isomorphic \Z / 2; \\
+	\R\P^3&, & \pi_1(\R\P^3, x_0) &\isomorphic \Z / 2; \\
+	\vdots\;& & \vdots\quad & \qquad \vdots
+\end{align*}
+Für orthogonale Gruppen
+\begin{align*}
+	\SO_2 \R &\homeomorphic \S^1, & \pi_1(\SO_2 \R, 1) &\isomorphic \Z; \\
+	\SO_3 \R &\homeomorphic \R\P^3, & \pi_1(\SO_3 \R, 1) &\isomorphic \Z / 2.
+\end{align*}
+
+
+
+
+
 
 
 
