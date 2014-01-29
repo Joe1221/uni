@@ -912,7 +912,162 @@ Ohne Ungleichungen ergibt sich $\nabla f(\hat x) + \nabla h(\hat x) \my = 0$, $h
 Mit Ungleichungen …
 
 
+\coursetimestamp{29}{01}{2014}
 
+\begin{df} \label{3.28}
+	$\lambda$ und $\my$ in \ref{3.27} heißen \emph{Lagrange-Multiplikatoren}.
+	Wir nennen $L: \R^n \times \R^m \times \R^p \to \R$, definiert durch
+	\[
+		L(x, \lambda, \my) := f(x) + \lambda^T g(x) + \my^T h(x)
+	\]
+	\emph{Lagrange-Funktion}.
+	\begin{note}
+		(a) aus den KKT-Bedingungen ist äquivalent zu $\nabla_x L(x, \lambda, \my) = 0$.
+	\end{note}
+\end{df}
+
+\begin{nt} \label{3.29}
+	Es gilt
+	\[
+		\sup_{\substack{0\le \lambda \in \R^m \\ \my \in \R^p}} L(x,\lambda,\my)
+		= \begin{cases}
+			f(x) & x \in X \\
+			\infty & x \not\in X
+		\end{cases}.
+	\]
+	Damit ist unsere Minimierungsaufgabe äquivalent zur Lösung des unrestringierten Problems
+	\[
+		\min_{x\in \R^n} \sup_{\substack{0\le \lambda \in \R^m \\ \my \in \R^p}} L(x,\lambda,\my).
+	\]
+	Wir erwarten, dass an der Stelle der Lösung gilt
+	\[
+		\nabla_x L(x, \lambda, \my) = 0.
+	\]
+\end{nt}
+
+\subsection{Sequential Quadratic Programming}
+
+Das Minimierungsproblem
+\[
+	f(x) \to \min! \udN h(x) = 0
+\]
+führt zum Problem:
+Finde $(\hat x, \hat \my) \in \R^n \times \R^p$ mit
+\begin{align*}
+	\nabla_x L(\hat x, \hat \my) &= 0, & h(\hat x) &= 0.
+\end{align*}
+Dies ist ein gewöhnliches nicht-lineares Nullstellenproblem, welches mit dem Newton-Verfahren gelöst werden kann: löse
+\[
+	F(x,\my) :=
+	\begin{pmatrix}
+		\nabla_x L(x, \my) \\
+		h(x)
+	\end{pmatrix}
+	\stack != 0.
+\]
+Übungsaufgabe 13.4 %fixme: ref
+liefert
+\[
+	F'(x, \my) =
+	\begin{pmatrix}
+		\nabla_{xx}^2 L(x,\my) & \nabla h(x) \\
+		\nabla h(x)^T & 0
+	\end{pmatrix}
+\]
+und damit die Newton-Iteration
+\[
+	\begin{pmatrix}
+		x^{k+1} \\
+		\my^{k+1}
+	\end{pmatrix}
+	:= \begin{pmatrix}
+		x^k \\
+		\my^k
+	\end{pmatrix}
+	- F'(x^k,\my^k)^{-1} F(x^k, \my^k).
+\]
+Dies nennt man auch \emph{Lagrange-Newton-Verfahren}.
+Nach \ref{2.46} konvergiert das Verfahren lokal quadratisch, falls $f$ und $h$ glatt und $F'(\hat x, \hat \my)$ invertierbar ist.
+
+Für näheres zur Theorie, siehe Ulbrich % fixme: ref
+
+Man kann zeigen (mit \ref{3.27}), dass das Lagrange-Newton-Verfahren äquivalent ist, dazu in der $k$-ten Iterierten $(x^k, \my^k)$
+\[
+	\nabla f(x^k)^T d + \f 12 d^T H_k d \to\min!
+	\udN h(x^k) + \nabla h(x^k)^T d = 0
+\]
+zu lösen und mit der Lösung $d$ und den dazugehörigen Lagrange-Parameter $\nu$ die nächste Iterierte zu definieren
+\begin{align*}
+	x^{k+1} &:= x^k + d, &
+	\my^{k+1} &:= \nu
+\end{align*}
+Dabei ist $H_k := \nabla_{xx}^2 L(x^k, \my^k)$.
+
+So lässt es sich verallgemeinern auf
+\[
+	f(x) \to \min! \udN g(x) \le 0, h(x) = 0.
+\]
+Löse also im aktuellen Iterationsschritt $(x^k, \lambda^k, \my^k)$
+\[
+	\nabla f(x^k)^T d + \f 12 d^T H_k d \to \min!
+	\udN
+	\begin{aligned}
+		g(x^k) + \nabla g(x^k)^T d & \le 0 \\
+		h(x^k) + \nabla h(x^k)^T d & = 0
+	\end{aligned}
+\]
+und setze $x^{k+1} := x^k + \tilde d, \lambda^{k+1} := \tilde \lambda, \my^{k+1} := \tilde \my$, wobei $\tilde d$ die Lösung des obigen Problems ist mit Lagrange-Multiplikatoren $\tilde \lambda, \tilde \my$.
+
+Für näheres zu SQP-Verfahren, siehe Ulbrich % fixme: ref
+
+\subsection{Penalty- und Barriere-Verfahren}
+
+\subsubsection{Penalty-Verfahren}
+
+Ersetze
+\[
+	f(x) \to \min! \udN x\in X
+\]
+durch
+\[
+	f(x) + r(x) \to \min! \udN x \in \R^n
+\]
+mit
+\[
+	r(x) = \begin{cases}
+		0 & x \in X \\
+		\text{groß} & x \not\in X
+	\end{cases}.
+\]
+Ersetze beispielsweise
+\[
+	f(x) \to \min! \udN g(x) \le 0, h(x) = 0
+\]
+durch
+\[
+	f_\alpha(x) \to \min \udN x \in \R^n
+\]
+mit
+\[
+	f_\alpha(x) := f(x) + \f{\alpha}{2} \sum_{i=1}^m \big(\max \{ 0, g_i(x) \}\big)^2 \f{\alpha}{2} \sum_{i=1}^p h_i^2 (x).
+\]
+Typischerweise erwarten wir für $\alpha \to \infty$ Konvergenz der Minimierer des obigen Problems gegen das Minimum der ursprünglichen Optimierungsaufgabe.
+
+\subsubsection{Barrier-Verfahren (Innere-Punkt-Methoden)}
+
+Ersetze
+\[
+	f(x) \to \min! \udN g(x) \le 0
+\]
+durch
+\[
+	f_\alpha(x) \to \min!
+\]
+mit
+\[
+	f_\alpha(x) := f(x) - \alpha \sum_{i=1}^p \ln( -g_i(x) )
+\]
+Typischerweise erwarten wir für $\alpha \to \infty$ Konvergenz der Minimierer des obigen Problems (von innerhalb des zulässigen Bereichs $X$) gegen das Minimum der ursprünglichen Optimierungsaufgabe.
 
 
 
