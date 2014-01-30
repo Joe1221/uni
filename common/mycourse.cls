@@ -209,6 +209,8 @@
 		\definecolor{header}{HTML}{000000}
 		\definecolor{headerrule}{HTML}{000000}
 		\definecolor{timestamp}{HTML}{000000}
+		\definecolor{algcomment}{HTML}{000000}
+		\definecolor{algcommand}{HTML}{000000}
 		\definecolor{background}{HTML}{FFFFFF}
 		\definecolor{headings}{HTML}{000000}
 		% Nutze Serifen-Schrift für Druckversion
