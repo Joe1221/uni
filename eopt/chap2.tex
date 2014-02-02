@@ -28,7 +28,7 @@ Für $x \in \R^n, A \in \R^{n\times n}$ setzen wir
 
 \subsubsection{Ableitungen}
 
-Für $F: U \to \R^m$, $F(x) = (f_1(x), \dotsc, f_m(x))^T$ sei
+Für $F: U \to \R^m$, $F(x) = (f_1(x), \dotsc, f_m(x))^T$ nennen wir
 \[
 	F'(x) := \begin{pmatrix}
 		\pddx[x_1]{f_1}(x) & \cdots & \pddx[x_n]{f_1}(x) \\
@@ -38,7 +38,7 @@ Für $F: U \to \R^m$, $F(x) = (f_1(x), \dotsc, f_m(x))^T$ sei
 \]
 die \emph{Jacobimatrix} der Funktion $F$.
 
-Für $f: U \to \R$ bezeichnen
+Für $f: U \to \R$ definieren wir
 \begin{align*}
 	\nabla f(x)
 	&:= f'(x)^T
@@ -54,9 +54,8 @@ Für $f: U \to \R$ bezeichnen
 		\f{\partial^2 f}{\partial x_n \partial x_1}(x) & \cdots & \f{\partial^2 f}{\partial x_n^2}(x) \\
 	\end{pmatrix} \in \R^{n\times n}
 \end{align*}
-den Gradienten $\nabla f$ und die Hessematrix $\nabla^2 f$ die Hesse-Matrix
-(die Bezeichnung $\nabla^2$ wird in der Literatur nicht einheitlich verwendet).
-Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
+den \emph{Gradienten} $\nabla f$ und die \emph{Hessematrix} $\nabla^2 f$ (die Bezeichnung $\nabla^2$ wird in der Literatur nicht einheitlich verwendet).
+Desweiteren definieren wir die \emph{Richtungsableitung in Richtung $d \in \R^n$} als
 \[
 	\pddx[d]{f}(x)
 	:= \lim_{t\to 0} \f {f(x+td) - f(x)}{t}
@@ -71,12 +70,13 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 		[x_0, x_1] := \big\{ x_0 + t(x_1-x_0) : t \in [0,1] \big\}
 	\]
 	die \emph{Verbindungsstrecke} zwischen $x_0, x_1$.
+	In diesem Kontext benutzen wir auch die Notation $x_t := (1-t) x_0 + t x_1$.
 \end{df}
 
 \begin{st} \label{2.2}
 	Sei $f: U \to \R$ stetig differenzierbar, $x_0, x_1 \in U$ und $[x_0, x_1] \subset U$.
 
-	Dann ist die Funktion $g: t \mapsto f(x_t)$ (wobei $x_t := x_0 + t(x_1 - x_0) = (1-t) x_0 + tx_1$) auf einer Umgebung von $[0,1]$ stetig differenzierbar und
+	Dann ist die Funktion $g: t \mapsto f(x_t)$ auf einer Umgebung von $[0,1]$ stetig differenzierbar mit
 	\[
 		g'(t) = \nabla f(x_t)^T (x_1 - x_0).
 	\]
@@ -104,9 +104,9 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 			\[
 				f(x+d) = f(x) + \nabla f(x)^T d + p(d)
 			\]
-			und das Restglied $p: B_\eps(0) \to \R$ erfüllt $p(d) = o(d)$, d.h.
+			und das Restglied $\rho: B_\eps(0) \to \R$ erfüllt $\rho(d) = o(\|d\|)$, d.h.
 			\[
-				\lim_{d\to 0} \f {p(d)}{\|d\|} = 0.
+				\lim_{d\to 0} \f {|\rho(d)|}{\|d\|} = 0.
 			\]
 		\item
 			Ist $f: U \to \R$ zweimal stetig differenzierbar, dann existieren für alle $d \in B_\eps(0)$ ein $s \in [0,1]$ mit
@@ -116,11 +116,11 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 			\]
 			Außerdem gilt für alle $d \in B_\eps(0)$
 			\[
-				f(x+d) = f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x) d + p(d)
+				f(x+d) = f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x) d + \rho(d)
 			\]
-			und $p: B_\eps(0) \to \R$ gilt $p = o(\|d\|^2)$, d.h.
+			und $p: B_\eps(0) \to \R$ gilt $\rho(d) = o(\|d\|^2)$, d.h.
 			\[
-				\lim_{d\to 0} \f{|p(d)|}{\|d\|^2} = 0.
+				\lim_{d\to 0} \f{|\rho(d)|}{\|d\|^2} = 0.
 			\]
 	\end{enumerate}
 	\begin{proof}
@@ -139,7 +139,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 		&= F(x) + \int_0^1 F'(x+td) d \dx[t] \\
 		&= F(x) + \bigg( \int_0^1 F'(x+td) \dx[t] \bigg) d.
 	\end{align*}
-	Insbesondere gilt
+	Insbesondere gilt mit Integralabschätzung
 	\[
 		\| F(x+d) - F(x) \|
 		\le \|d\| \sup_{t\in [0,1]} \|F'(x+td)\|.
@@ -178,7 +178,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 \subsubsection{Matrizen}
 
 \begin{df} \label{2.5}
-	Eine symmetrische Matrix $A = (a_{ij}) \in \R^{n\times m}$ heißt
+	Eine symmetrische Matrix $A = (a_{ij}) \in \R^{n\times n}$ heißt
 	\begin{enumerate}[(a)]
 		\item
 			\emph{positiv semi-definit}, falls $x^TAx \ge 0$ für alle $x \in \R^n$,
@@ -189,7 +189,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 \end{df}
 
 \begin{st} \label{2.6}
-	Zu einer symmetrischen Matrix $A \in \R^{n\times n}$ existiert eine Orthonormalbasis aus Eigenvektoren $v_1, \dotsc, v_n \in \R^n$ mit dazugehörigen Eigenwerten $\lambda_1, \dotsc, \lambda_n \in \R$, als
+	Zu einer symmetrischen Matrix $A \in \R^{n\times n}$ existiert eine Orthonormalbasis aus Eigenvektoren $v_1, \dotsc, v_n \in \R^n$ mit dazugehörigen Eigenwerten $\lambda_1, \dotsc, \lambda_n \in \R$:
 	\[
 		v_j^T v_k
 		= \delta_{jk}
@@ -197,7 +197,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 			1 & j = k \\
 			0 & \text{sonst}
 		\end{cases},\qquad
-		Av_k = \lambda_k v_k
+		Av_k = \lambda_k v_k.
 	\]
 	Es ist also
 	\[
@@ -238,7 +238,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 \end{df}
 
 \begin{nt} \label{2.8}
-	Die Kondition ist ein Maß für die Fehlerverstärkung durch $A^{-1}$ (d.h. durch Lösen eines LGS), denn
+	Die Kondition ist ein Maß für die Fehlerverstärkung durch $A^{-1}$ (z.B. durch Lösen eines LGS), denn der relative Ausgabefehler lässt sich durch die Kondition und dem relativen Eingabefehler abschätzen:
 	\begin{align*}
 		\dfrac {A^{-1}(b+\delta) - A^{-1}b}{\|A^{-1}b\|}
 		&= \f {\|A^{-1}\delta\|}{\|A^{-1}b\|} \\
@@ -274,7 +274,10 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 				\exists \eps > 0 \forall y \in (X \setminus \{x\}) \cap B_\eps(x): f(x) < f(y),
 			\]
 	\end{enumerate}
-	Analog definiert man die entpsrechenden Maxima.
+	Analog definiert man die entsprechenden Maxima.
+	\begin{note}
+		Jedes globale Minimum/Maximum ist mit dieser Definition insbesondere ein lokales Minimum/Maximum.
+	\end{note}
 \end{df}
 
 \begin{st}[Notwendige Optimalitätsbedingung 1. Ordnung] \label{2.10} \label{st:optN1}
@@ -311,14 +314,13 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 			= f(x) + t \nabla f(x)^T d + \f {t^2}2 d^T \nabla^2 f(x) d + p(td)
 		\]
 		mit $p(td) = o(\|td\|^2)$ für alle $td \in B_\eps(0)$.
-		Also gilt für alle $|t| < \f \eps{\|d\|}$
+		Also gilt für beliebige $d \in \R^n$ und alle $|t| < \f \eps{\|d\|}$
 		\begin{align*}
 			d^T \nabla^2 f(x) d
 			&= \f{2}{t^2} \Big( \underbrace{f(x+td) - f(x)}_{\ge 0} - \underbrace{t\nabla f(x)^T d}_{=0} - p(td) \Big) \\
-			&\ge - \f 2{t^2} p(td)
-			\to 0
+			&\ge - \f 2{t^2} p(td).
 		\end{align*}
-		für $t \to 0$.
+		Für $t \to 0$ also $d^T \nabla^2 f(x) d \ge 0$.
 	\end{proof}
 \end{st}
 
@@ -348,7 +350,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 			\ge f(x) + \f \my2 \|d\|^2 - \f \my4 \|d\|^2
 			= f(x) + \f \my4 \|d\|^2
 		\]
-		und damit $f(x+d) > f(x)$ für alle hinreichend kleine $d \neq 0$.
+		und damit $f(x+d) > f(x)$ für alle hinreichend kleinen $d \neq 0$.
 	\end{proof}
 \end{st}
 
@@ -361,10 +363,10 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 			\[
 				h(x_1,x_2) = x_1^2 - x_2^2
 			\]
-			haben in $0$, bzw. $(0,0)$ kritische Punkte, aber weder Maxima, noch Minima, sondern Sattelpunkte.
+			haben in $0$, bzw. $(0,0)$ kritische Punkte, aber dort weder Maxima, noch Minima, sondern Sattelpunkte.
 		\item
 			Die Bedingung aus \ref{st:optN2} ist nicht hinreichend:
-			$f(x) = x^3$ erfüllt $f'(0) = 0$ und $f''(0) = 0$ (also insbesondere positiv semi-definit), besitzt aber in $x = 0$ kein lokales Minimum.
+			$f(x) = x^3$ erfüllt $f'(0) = 0$ und $f''(0) = 0$ ist insbesondere positiv semi-definit, besitzt aber in $x = 0$ kein lokales Minimum.
 		\item
 			Die Bedingung aus \ref{st:optH2} ist nicht notwendig:
 			$f(x) = x^4$ besitzt in $x = 0$ ein lokales Minimum, aber $f''(0) = 0$ ist nicht positiv definit.
@@ -377,11 +379,16 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 
 \begin{df} \label{2.14}
 	Eine Menge $X \subset \R^n$ heißt \emph{konvex}, wenn alle Verbindungsstrecken zweier Punkte darin enthalten sind, d.h.
-	\[
+	\begin{align*}
+		\forall x,y \in X:
+		[x,y] \subset X,
+	\end{align*}
+	oder ausführlicher
+	\begin{align*}
 		\forall x,y \in X, \lambda \in [0,1]:
 		x_\lambda
-		:= (1-\lambda)x + \lambda y \in X.
-	\]
+		= (1-\lambda)x + \lambda y \in X.
+	\end{align*}
 \end{df}
 
 \begin{df} \label{2.15}
@@ -404,7 +411,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 			\emph{gleichmäßig konvex}, falls $\my > 0$ existiert, sodass für alle $x,y \in X, \lambda \in [0,1]$
 			\[
 				f\big((1-\lambda)x + \lambda y\big) + \my \lambda(1-\lambda) \|y-x\|^2
-				< (1-\lambda) f(x) + \lambda f(y).
+				\le (1-\lambda) f(x) + \lambda f(y).
 			\]
 			Zur Motivation betrachte auch \ref{2.17}.
 	\end{enumerate}
@@ -466,11 +473,12 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 				\end{segnb}
 			\item
 				\begin{segnb}[„$\implies$“]
-					Sei $f$ strikt konvex, $x, y \in X, x\neq y$, setze
+					Sei $f$ strikt konvex und $x, y \in X$ mit $x\neq y$.
+					Setze
 					\[
 						x_{\f 12} := \f {x + y}2.
 					\]
-					Es gilt $y = 2 x_{\f 12} - x$, also
+					Dann gilt $y = 2 x_{\f 12} - x$, also
 					\begin{align*}
 						\nabla f(x)^T (y-x)
 						&= 2 \nabla f(x)^T (x_{\f 12} - x) \\
@@ -497,10 +505,10 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 					\begin{align*}
 						&(1-\lambda) f(x) + \lambda f(y) \\
 						&\quad= (1-\lambda) (f(x) - f(x_\lambda)) + \lambda (f(y) - f(x_\lambda)) + f(x_\lambda) \\
-						&\quad\ge (1-\lambda) \Big(\nabla f(x_\lambda)^T (x-x_\lambda) + \my \|x-x_\lambda\|^2 \Big) \\
-						    &\quad\quad + \lambda \Big( \nabla f(x_\lambda)^T (y-x_\lambda) + \my \|y-x_\lambda\|^2 \Big) + f(x_\lambda) \\
+						&\quad\ge (1-\lambda) \Big(\nabla f(x_\lambda)^T \underbrace{(x-x_\lambda)}_{=\lambda (x+y)} + \my \|x-x_\lambda\|^2 \Big) \\
+						    &\quad\quad + \lambda \Big( \nabla f(x_\lambda)^T \underbrace{(y-x_\lambda)}_{=(1-\lambda) (x+y)} + \my \|y-x_\lambda\|^2 \Big) + f(x_\lambda) \\
 						&\quad= f(x_\lambda) + (1-\lambda)\my \underbrace{\|x - x_\lambda\|^2}_{\lambda^2 \|x-y\|^2} + \lambda \my \underbrace{\|y-x_\lambda\|^2}_{(1-\lambda)^2\|y-x\|^2} \\
-						&\quad=  f(x_\lambda) + (1-\lambda)\lambda \my \big( \lambda \|y-x\|^2 + (1-\lambda) \|y-x\|^2 \big) \\
+						&\quad=  f(x_\lambda) + (1-\lambda)\lambda \my \Big( \lambda \|y-x\|^2 + (1-\lambda) \|y-x\|^2 \Big) \\
 						&\quad=  f(x_\lambda) + (1-\lambda)\lambda \my \|y-x\|^2.
 					\end{align*}
 				\end{segnb}
@@ -522,26 +530,26 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 			\[
 				d^T \nabla^2 f(x) d > 0.
 			\]
-			Die Umkehrung gilt nicht.
+			Die Umkehrung gilt nicht, wie man in \ref{2.18} sieht
 		\item
 			genau dann gleichmäßig konvex, wenn $\nabla^2 f(x)$ gleichmäßig positiv semidefinit ist, d.h. es existiert $\my > 0$, sodass für alle $x \in X, d \in \R^n \setminus \{0\}$
 			\[
 				d^T \nabla^2 f(x) d \ge \my \|d\|^2.
 			\]
-			Die Umkehrung gilt nicht.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[(a)]
 			\item
 				\begin{segnb}[„$\implies$“]
 					Sei $f$ konvex und $d \in \R^n$.
-					Für hinreichend kleine $t > 0$ gilt mit Taylor und $\ref{2.16}$
+					Für hinreichend kleine $t > 0$ gilt mit Taylor und Konvexitätsformulierung aus $\ref{2.16}$
 					\[
 						\f {t^2}2 d^T \nabla^2 f(x) d + p(td)
-						= f(x+td) - f(x) - t \nabla f(x)^T d
+						= \underbrace{f(x+td) - f(x)}_{\ge \nabla f(x)^T td} - t \nabla f(x)^T d
 						\ge 0,
 					\]
-					also
+					wobei $p(td) = o(\|td\|)$ erfüllt.
+					Also gilt
 					\[
 						d^T \nabla^2 f(x) d
 						\ge - \f {2 p(td)}{t^2} \to 0
@@ -549,16 +557,18 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 					für $t \to 0$.
 				\end{segnb}
 				\begin{segnb}[„$\impliedby$“]
-					Seien $x,y \in X$, dann gilt nach \ref{2.3}, dass $s \in [0,1]$ existiert mit
+					Seien $x,y \in X$ und $d := y - x$.
+					Mittels \ref{2.3} existiert $s \in [0,1]$ sodass
 					\begin{align*}
-						f(y)
-						&= f(x) + \nabla f(x)^T d  + \f 12 (y-x)^T \nabla^2 f(x+s(y-x))(y-x) \\
+						f(y) = f(x + d)
+						&= f(x) + \nabla f(x)^T d + \f 12 d^T \nabla^2 f(x+sd)d \\
 						&\ge f(x) + \nabla f(x)^T (y-x)
 					\end{align*}
 					und somit ist $f$ nach \ref{2.16} konvex.
 				\end{segnb}
 			\item
 				Analog zu $\impliedby$ in (a).
+				Für das Gegenbeispiel siehe \ref{2.18}.
 			\item
 				\begin{segnb}[„$\implies$“]
 					Analog wie „$\implies$“ in (a) erhalten wir
@@ -571,7 +581,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 				\begin{segnb}[„$\impliedby$“]
 					Analog wie in (a) existiert zu $x,y \in X$ ein $s \in [0,1]$ mit
 					\begin{align*}
-						f(x)
+						f(y)
 						&= f(x) + \nabla f(x)^T (y-x) + \f 12 (y-x)^T \nabla^2 f(x_s) (y-x) \\
 						&\ge f(x) + \nabla f(x)^T (y-x) + \f 12 \my \|y-x\|^2,
 					\end{align*}
@@ -583,22 +593,22 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 
 \begin{ex} \label{2.18}
 	In \ref{2.17} gilt die Rückrichtung in (b) im Allgemeinen nicht.
-	Betrachte dazu $f(x) = x^4$, dann ist $f''(x)\big|_{x=0} = 0$, trotz Minimum in $x=0$.
+	Betrachte dazu $f(x) = x^4$, dann ist $f''(x)\big|_{x=0} = 0$ nicht positiv definit trotz strikter Konvexität.
 \end{ex}
 
 \coursetimestamp{28}{10}{2013}
 
 \begin{st} \label{2.19}
-	Sei $X \subset \R^n$ konvex, $f: X \to \R$ konvex.
+	Sei $X \subset \R^n$ konvex und $f: X \to \R$ konvex.
 	Dann gelten folgende Aussagen
 	\begin{enumerate}[(a)]
 		\item
-			Jedes lokale Minimum von $f$ ist auch globales Minimum von $f$ von $x$.
+			Jedes lokale Minimum von $f$ ist auch globales Minimum von $f$.
 		\item
 			Ist $f$ strikt konvex, dann besitzt $f$ höchstens ein lokales Minimum.
-			Nach (a) ist jedes lokale Minimum das eindeutige, strikte globale Minimum.
+			Dieses ist nach Teil (a) das eindeutige, strikte globale Minimum.
 		\item
-			Ist $f$ stetig differenzierbar auf $O \subset X$ offen, dann ist jeder stationäre Punkt in $X$ ein globales Minimum.
+			Ist $f$ stetig differenzierbar auf einer offenen Menge $O \supset X$ offen, dann ist jeder stationäre Punkt in $X$ ein globales Minimum.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[(a)]
@@ -611,7 +621,7 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 					\le (1-t)f(x) + t f(y)
 					< f(x).
 				\]
-				mit entsprechend kleinem $t$ finden wir damit in jeder Umgebung von $x$ ein $\xi$ mit $f(\xi) < f(x)$, also ist $x$ kein lokales Minimum.
+				Mit hinreichend kleinem $t$ finden wir also in jeder Umgebung von $x$ ein $\xi$ mit $f(\xi) < f(x)$, also ist $x$ kein lokales Minimum.
 			\item
 				Seien $x,y \in X$ zwei lokale Minima von $f$.
 				Nach (a) sind $x,y$ globale Minima, also $f(x) = f(y)$.
@@ -639,14 +649,10 @@ Bezeichne außerdem für $d \in \R^n$ die \emph{Richtungsableitung} mit
 \section{Das Gradientenverfahren}
 
 
-In diesem Abschnitt sei $f: \R^n \to \R$ eine stetig differenzierbare Funktion.
-
 \begin{conv*}
-	Im folgenden schreiben wir für eine Folge von Vektoren in $\R^n$,
-	\[
-		x_0, x_1, x_2, \dotsc \in \R^n.
-	\]
-	teilweise auch
+	In diesem Abschnitt sei $f: \R^n \to \R$ eine stetig differenzierbare Funktion.
+
+	Im folgenden schreiben wir für eine Folge von Vektoren in $\R^n$ teilweise auch
 	\[
 		x^{(0)} = \begin{pmatrix}
 			x_1^{(0)} \\ \vdots \\ x_n^{(0)}
@@ -660,7 +666,7 @@ In diesem Abschnitt sei $f: \R^n \to \R$ eine stetig differenzierbare Funktion.
 
 \subsection{Richtung des steilsten Abstiegs}
 
-In der Umgebung eines Punktes $x_0 \in \R^n$ ist (gemäß Taylorapproximation)
+In der Umgebung eines Punktes $x_0 \in \R^n$ gilt nach Taylor die lineare Approximation
 \[
 	f(x) \approx f(x_0) + \nabla f(x_0)^T (x-x_0).
 \]
@@ -670,6 +676,7 @@ ist das Minimum der linearen Approximation innerhalb einer Kugel um $x_0$
 	\min_{\|x-x_0\|=1} \Big( f(x_0) + \nabla f(x_0)^T (x-x_0) \Big)
 	= f(x_0) - \nabla f(x_0)^T \f {\nabla f(x_0)}{\|\nabla f(x_0)\|}.
 \]
+% fixme folgende zeile ist etwas unklar
 In der linearen Approximation ist $x-x_0 = -s \nabla f(x_0)$ mit $s > 0$, also die Richtung des steilsten Abstiegs von $f$.
 
 Ein naiver Ansatz für einen Algorithmus wäre folgender:
@@ -690,14 +697,14 @@ In der linearen Approximation erwarten wir, dass für $s_k > 0$ und $d_k \in \R^
 \]
 Die Armijo-Regel besagt:
 vergleiche die tatsächlie Abnahme der Zielfunktion $f(x_k) - f(x_k + s_kd_k)$ mit der aus der linearen Approximation erwarteten Abnahme $-s_k \nabla f(x_k)^T d_k$.
-Nur wenn die tatsächliche Abnahme einen voregegebenen Bruchteil (z.B. $\gamma = 1\%$) der erwarteten Abnahme erreicht, also wenn die sogenannte \emph{Armijo-Regel}
+Nur wenn die tatsächliche Abnahme mindestens einen voregegebenen Bruchteil (z.B. $\gamma = 1\%$) der erwarteten Abnahme erreicht, also wenn die sogenannte \emph{Armijo-Regel}
 \[
 	f(x_{k+1})
 	\le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k
 \]
 erfüllt ist, dann wird die Schrittweite akzeptiert, sonst verkürzt (z.B. auf $\beta s_k$ mit $\beta = \f 12 < 1$).
 
-Für in jedem Schritt an der Stelle $x_k$ vorgegebene Abstiegsrichtungen $d_k$ lässt sich das folgende Abstiegsverfahren beschreiben.
+Für in jedem Schritt an der Stelle $x_k$ vorgegebener Abstiegsrichtung $d_k$ lässt sich die Schrittweitenwahl folgendermaßen beschreiben.
 \begin{alg}[Armijo-Schrittweitenregel]
 	\begin{algorithmic}
 		\Require{Parameter $\beta \in (0,1), \gamma \in (0,1)$}
@@ -738,17 +745,18 @@ Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für
 \end{df}
 
 \begin{st} \label{2.21}
-	Ist $d$ eine Abstiegsrichtung für $f$ im Punkt $x$, so existiert für jedes $\gamma \in (0,1)$ ein $t > 0$ mit
+	Ist $d$ eine Abstiegsrichtung von $f$ im Punkt $x$, so existiert für jedes $\gamma \in (0,1)$ ein $t > 0$ sodass
 	\[
 		f(x+sd)
 		\le f(x) + \gamma s \nabla f(x)^T d
 	\]
-	für alle $s \in [0,t]$, d.h. die Armijo-Schrittweitenregel terminiert nach endlich vielen Schritten.
+	für alle $s \in [0,t]$.
+	Insbesondere terminiert die Armijo-Schrittweitenregel nach endlich vielen Schritten.
 	\begin{proof}
-		Für $s \to 0$ ist
+		Es gilt
 		\[
-			\f{f(x_k+sd)-f(x_k)}{s} - \gamma \nabla f(x)^T d
-			\to (1 - \gamma) \underbrace{\nabla f(x_k)^T d}_{<0}
+			\lim_{s\to 0} \big( \f{f(x_k+sd)-f(x_k)}{s} \big) - \gamma \nabla f(x)^T d
+			= (1 - \gamma) \underbrace{\nabla f(x_k)^T d}_{<0}
 			< 0,
 		\]
 		also ist für hinreichend kleine $s>0$
@@ -756,12 +764,12 @@ Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für
 			\f{f(x_k+sd)-f(x_k)}{s} - \gamma \nabla f(x)^T d
 			\le 0,
 		\]
-		d.h. die Armijo-Bedingung ist erfüllt.
+		also die Armijo-Bedingung erfüllt.
 	\end{proof}
 \end{st}
 
 \begin{nt} \label{2.22}
-	Mit \ref{2.21} gilt insbesondere für hinreichend kleine $s > 0$
+	\ref{2.21} besagt insbesondere für hinreichend kleine $s > 0$ (solche, die Armijo erfüllen)
 	\[
 		f(x+sd)
 		\le f(x) + \underbrace{\gamma s}_{> 0} \underbrace{\nabla f(x)^T d}_{<0}
@@ -769,23 +777,23 @@ Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für
 	\]
 	d.h. die Funktion $f$ nimmt in Richtung ihrer Abstiegsrichtung lokal ab.
 
+	%fixme: klarer machen: welche umkehrung?
 	Die Umkehrung hingegen gilt nicht.
 	Betrachte dazu $f(x) = -x^2$ an der Stelle $x = 0$: in Richtung $d=\pm 1$ nimmt die Funktion ab, aber beides sind keine Abstiegsrichtungen gemäß \ref{2.20}.
 \end{nt}
 
 \begin{nt}[“Trust-Region”] \label{2.23}
 	Die Armijo-Regel ist ein spezieller, einfacher Fall für ein sogenanntes “Trust-Region”-Verfahren.
-	Bei einem Trust-Region-Verfahren wird $f$ dabei durch seine lineare Näherung
+	Bei einem Trust-Region-Verfahren wird $f$ dabei durch eine Näherung, beispielsweise einer linearen ersetzt:
 	\[
 		f(x)
-		\approx f(x_k) + \nabla f(x_k)^T (x-x_k)
+		\approx f(x_k) + \nabla f(x_k)^T (x-x_k).
 	\]
-	ersetzt.
-	Wir vertrauen dieser Näherung jedoch nur für $x$ mit
+	Um den Fehlerterm in der Taylorapproximation gering zu halten, vertrauen dieser Näherung jedoch nur für $x$ mit
 	\[
 		\|x - x_k\| \le \Delta_k,
 	\]
-	der sogenannten “Trust-Region” (um den Fehlerterm in der Taylorapproximation gering zu halten).
+	der sogenannten “Trust-Region”.
 	Wir lösen also das restringierte Optimierungsproblem
 	\[
 		f(x_k) + \nabla f(x_k)^T (x-x_k) \to \min!
@@ -794,6 +802,7 @@ Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für
 	\]
 	und erhalten $x_{k+1} = x_k - s_k \nabla f(x_k)$ ($s_k = \f {\Delta_k}{\|\nabla f(x_k)\|}$).
 	Vergleiche anschließend die vorhergesagte Abnahme (\pred, “predicted reduction”) mit tatsächlicher Abnahme (\ared, “actual reduction”)
+	%fixme: pred_k sollte skalar sein? pred_k / ared_k oder ared_k / pred_k ? vergleiche auch Trust-Region bei Levenberg-Marquardt später
 	\begin{align*}
 		\pred_k &:= -s_k \nabla f(x_k), &
 		\ared_k &:= f(x_k) - f(x_{k+1}).
@@ -807,7 +816,13 @@ Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für
 \subsection{Konvergenz des Gradientenverfahrens}
 
 Das Gradientenverfahren hat zwei Probleme:
-Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren könnte nicht konvergieren ($f(x) = e^{-x}$).
+\begin{itemize}
+	\item
+		es könnte ein lokales Maximum gefunden werden (da $\nabla f(x_k) = 0$ Abbruchkriterium ist),
+	\item
+		oder das Gradientenverfahren könnte nicht konvergieren (man stelle sich $f(x) = e^{-x}$ vor).
+\end{itemize}
+Trotzdem können wir eine schwache Aussage zum Konvergenzverhalten machen.
 
 \begin{st}[Präkonvergenz des Gradientenverfahrens] \label{2.24}
 	Das Gradientenverfahren % fixme: algorithm reference
@@ -820,23 +835,18 @@ Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren kö
 	\end{enumerate}
 	\begin{proof}
 		Terminiert der Algorithmus
-		nach endlich vielen Schritten an einem $x_k$, so gilt $\nabla f(x_k) = 0$.
+		nach endlich vielen Schritten an einem $x_k$, so gilt gemäß Abbruchkriterium $\nabla f(x_k) = 0$.
 		Betrachte also jetzt den Fall, dass der Algorithmus nicht konvergiert.
 		\begin{enumerate}[a)]
 			\item
-				Nach der Armijo-Regel gilt wegen $\nabla f(x_k) \neq 0$
-				\[
-					f(x_{k+1})
-					\le f(x_k) - \gamma s_k \nabla f(x_k)^T \nabla f(x_k)
-					< f(x_k).
-				\]
+				Siehe \ref{2.24}.
 			\item
-				Sei $x \in \R^n$ ein Häufungspunkt von $(x_k)_{k\in\N}$, d.h. es existiert eine unendlich Indexmenge $L \subset \N$, so dass
+				Sei $x \in \R^n$ ein Häufungspunkt von $(x_k)_{k\in\N}$, d.h. es existiert eine unendliche Indexmenge $L \subset \N$, so dass
 				\[
 					\lim_{L \ni l \to \infty} x_l = x.
 				\]
 				Da $f$ stetig, gilt auch $\lim_{L \ni l \to \infty} f(x_l) = f(x)$.
-				Wegen (a) ist $(f(x_k))_{k\in\N}$ streng monoton fallend und damit $f(x_k) \ge f(x)$ für alle $k \in \N$.
+				Nach Teil (a) ist $(f(x_k))_{k\in\N}$ streng monoton fallend und damit $f(x_k) \ge f(x)$ für alle $k \in \N$.
 				Also konvergiert $(f(x_k))_{k\in\N}$ und $\lim_{k\to \infty} f(x_k) = f(x)$.
 
 				Nach der Armijo-Regel gilt
@@ -849,8 +859,8 @@ Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren kö
 				\[
 					\lim_{L \ni l \to \infty} s_l \|\nabla f(x_l)\|^2 = 0.
 				\]
-				Also $\lim_{L \ni l \to \infty} s_l = 0$ oder $\nabla f(x) = \lim_{L \ni l \to\infty} \nabla f(x_l) = 0$ ($\nabla f$ stetig).
-				Im letzteren Fall ist die Behauptung beweisen, sei also $\lim_{L \ni l \to \infty} s_l = 0$.
+				Es gilt also $\lim_{L \ni l \to \infty} s_l = 0$ oder wegen Stetigkeit $\nabla f(x) = \lim_{L \ni l \to\infty} \nabla f(x_l) = 0$.
+				Im letzteren Fall ist die Behauptung beweisen, betrachte also $\lim_{L \ni l \to \infty} s_l = 0$.
 
 				In fast allen (o.B.d.A in allen) Schritten $l \in L$ hat durch die Armijo-Regel eine Schrittweitenverkürzung stattgefunden, d.h. $\f {s_l}{\beta}$ erfüllte die Armijo-Bedingung noch nicht.
 				Für alle $l \in L$ gilt demnach
@@ -861,14 +871,14 @@ Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren kö
 				Nach \ref{2.3} gilt:
 				Für alle $l \in L$ existiert $\sigma_l \in [0, \f {s_l}{\beta}]$, sodass
 				\[
-					f(x_l) - f\big(x_l - \f {s_l}\beta \nabla f(x_l)\big)
-					= \f {s_l}\beta \nabla f\big(x_l - \sigma_l \nabla f(x_l)\big)^T \nabla f(x_l).
+					f\big(x_l - \f {s_l}\beta \nabla f(x_l)\big)
+					= f(x_l) - \f {s_l}\beta \nabla f\big(x_l - \sigma_l \nabla f(x_l)\big)^T \nabla f(x_l).
 				\]
 				Also
 				\begin{align*}
 					-\gamma \f {s_l}\beta \|\nabla f(x_l)\|^2
 					&< f\big(x_l - \f{s_l}\beta \nabla f(x_l)\big) - f(x_l) \\
-					&= -\f {s_l}\beta \nabla f\big(\underbrace{x_l - \sigma_l \nabla f(x_l)}_{\to x}\big)^T \nabla f(x_l)
+					&= -\f {s_l}\beta \nabla f\big(\underbrace{x_l - \sigma_l \nabla f(x_l)}_{\to x}\big)^T \nabla f(\underbrace{x_l}_{\to x})
 				\end{align*}
 				und somit für $L \ni l \to \infty$ (also $x_l \to x$ und $\sigma_l \to 0$)
 				\[
@@ -880,7 +890,7 @@ Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren kö
 \end{st}
 
 \begin{lem} \label{2.25}
-	Sei $(x_k)_{k\in\N} \subset \R^n, x \in \R^n$.
+	Sei $x \in \R^n$ und $(x_k)_{k\in\N}$ eine Folge in $\R^n$.
 	Besitzt jede Teilfolge von $(x_k)_{k\in\N}$ wiederum eine (Teil-)Teilfolge, die gegen $x$ konvergiert, so konvergiert die ganze Folge $(x_k)_{k\in\N}$ gegen $x$.
 	\begin{proof}
 		Angenommen $(x_k)_{k\in\N}$ konvergiert nicht gegen $x$.
@@ -898,27 +908,36 @@ Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren kö
 				:= \{ x \in \R^n : f(x) \le c \}
 			\]
 			beschränkt ist und in ihr nur ein stationärer Punkt liegt.
-			$N_c := f^{-1}((-\infty,c])$ ist abgeschlossen, also kompakt, also wird das Minimum auf $N_c$ angenommen, $f(x) \le f(y)$ für alle $y \in \R^n$ und somit $\nabla f(x) = 0$.
-			%fixme: rewrite
 
-			Dann ist dieser stationäre Punkt das globale Minimum von $f$ auf der Niveaumenge und das Gradientenverfahren konvergiert für jeden Startwert $x_0$ mit $f(x_0) \le c$ gegen dieses Minimum.
+			Dann ist dieser stationäre Punkt das globale Minimum von $f$ und das Gradientenverfahren konvergiert für jeden Startwert $x_0$ mit $f(x_0) \le c$ gegen dieses Minimum.
 		\item
 			Ist $f$ konvex, dann terminiert Algorithmus 2 % fixme: reference
 			entweder nach endlich vielen Schritten an einem globalen Minimum, oder erzeugt eine Folge, deren Häufungspunkte globale Minima sind.
 		\item
-			Ist $f$ strikt konvex und besitzt ein Minimum und es existiert $C > 0$ mit $f^{-1}((-\infty,C])$ beschränkt, dann konvergiert die Folge aus Algorithmus 2 % fixme: reference
-			für jedes $x_0$ mit $f(x_0) \le C$ gegen das globale Minimum.
+			Sei $f$ strikt konvex und besitze ein eindeutiges Minimum, dann konvergiert die Folge aus Algorithmus 2 % fixme: reference
+			für jedes $x_0$ mit $f(x_0) \le c$ gegen das globale Minimum.
 
-			%fixme: Reicht auch nur die strikte konvexität?
 			Siehe \ref{2.27}.
 	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				%fixme: rewrite
+				$N_c := f^{-1}((-\infty,c])$ ist abgeschlossen, also kompakt, also wird das Minimum auf $N_c$ angenommen, $f(x) \le f(y)$ für alle $y \in \R^n$ und somit $\nabla f(x) = 0$.
+			\item
+				Folgt aus \ref{2.19} (a), (c).
+			\item
+				Siehe \ref{2.29}.
+		\end{enumerate}
+	\end{proof}
 \end{kor}
 
 \coursetimestamp{04}{11}{2013}
 
 \begin{st}[Röhm] \label{2.27}
 	Ist $f: \R^n \to \R$ konvex und besitzt ein eindeutiges Minimum, so sind alle Niveaumengen beschränkt.
-	Insbesondere konvergiert das Gradientenverfahren für strikt konvexe Funktionen mit Minimum für jede Wahl des Anfangswertes gegen das Minimum.
+
+	Insbesondere konvergiert das Gradientenverfahren für solche Funktionen mit jeder Wahl des Startwertes gegen das Minimum.
 	\begin{proof}
 		Sei $f$ konvex und $\hat x \in \R^n$ der Minimierer von $f$.
 		Zu jedem Radius $r > 0$ definiere
@@ -952,10 +971,10 @@ Es könnte ein lokales Maximum gefunden werden, oder das Gradientenverfahren kö
 			\ge \f 1t C_R - \f 1t f(\hat x) + f(\hat x)
 			= \f {\|x-\hat x\|}r (C_r - f(\hat x)) + f(\hat x).
 		\]
-		Für alle $R > r$ gilt
+		Für alle $R > r$ gilt also
 		\[
 			C_R = \min \{ f(x) : x \in \boundary B_R(\hat x) \}
-			\ge \f Rr (C_r - f(\hat x)) + f(\hat x)
+			\ge \f Rr \underbrace{(C_r - f(\hat x))}_{\ge 0} + f(\hat x)
 			\to \infty
 		\]
 		für $R \to \infty$.
@@ -974,7 +993,7 @@ Für $f(x) = x^T A x$ mit $A = \begin{psmallmatrix}1 & 0 \\ 0 & 4\end{psmallmatr
 
 Es sei hier weiterhin stets $f: \R^n \to \R$ stetig differenzierbar.
 
-\begin{alg} \label{alg:3}
+\begin{alg}[Allgemeines Abstiegsverfahren] \label{alg:3}
 	\begin{algorithmic}
 		\Require{Startwert $x_0 \in \R^n$}
 		\Require{Suchrichtungen und Schrittweiten $d_k, s_k$}
@@ -1011,6 +1030,7 @@ Im Beweis von \ref{2.24} folgte aus dieser Bedingung sofort, dass (falls es eine
 			\]
 			und für jede konvergente Teilfolge $(x_l)_{l\in L}$ der Iterierten gilt
 			\[
+				%fixme: linke seite stets erfüllt? siehe beweis 2.26
 				f(x_k) - f(x_{k+1}) \to 0
 				\quad\implies\quad
 				\lim_{L \ni l \to \infty} \f{\nabla f(x_l)^T d_l}{\|d_l\|} = 0.
@@ -1030,13 +1050,13 @@ Im Beweis von \ref{2.24} folgte aus dieser Bedingung sofort, dass (falls es eine
 \end{df}
 
 \begin{st}[Präkonvergenz allgemeiner Abstiegsverfahren] \label{2.29}
-	Das allgemeine Abstiegsverfahren in \ref{alg:3} besitze zulässige Schrittweiten und Suchrichtungen.
+	Das allgemeine Abstiegsverfahren in \ref{alg:3} besitze zulässige Schrittweiten und zulässige Suchrichtungen.
 	Dann terminiert das Verfahren nach endlich vielen Schritten an einem stationären Punkt $x_k$ oder es erzeugt eine Folge $(x_k)_{k\in\N}$ mit
 	\begin{enumerate}[(a)]
 		\item
 			$f(x_{k+1}) < f(x_k)$,
 		\item
-			Jeder Häufungspunkt von $(x_k)$ ist ein stationärer Punkt.
+			jeder Häufungspunkt von $(x_k)$ ist ein stationärer Punkt von $f$.
 	\end{enumerate}
 	\begin{proof}
 		Aussage (a) geht direkt aus der Definition zulässiger Schrittweiten hervor.
@@ -1052,7 +1072,8 @@ Im Beweis von \ref{2.24} folgte aus dieser Bedingung sofort, dass (falls es eine
 
 \subsection{Interpretation der Zulassungsbedingungen}
 
-\paragraph{Zulässigkeit der Suchrichtungen:}
+\subsubsection{Zulässigkeit der Suchrichtungen:}
+
 \[
 	0 <
 	-\nabla f(x_k)^T d_k
@@ -1062,8 +1083,8 @@ also genau dann, wenn
 \[
 	\cos \angle(-\nabla f(x_k), d_k) > 0.
 \]
-Suchrichtungen sollen zur Richtung des steilsten Abstiegs einen Winkel betragsmäßig $< \f \pi2$ besitzen.
-Eine Naheliegende Forderung wäre, dass der Winkel „gleichmäßig“ unter $\f \pi 2$ liegt, also
+Suchrichtungen sollen zur Richtung des steilsten Abstiegs also einen Winkel betragsmäßig $< \f \pi2$ besitzen.
+Eine naheliegende Forderung wäre, dass der Winkel „gleichmäßig“ unter $\f \pi 2$ liegt, also
 \[
 	\exists \alpha > 0 \forall k\in \N : \underbrace{\cos \angle(-\nabla f(x_k), d_k)}_{= \f {-\nabla f(x_k)^T d_k}{\|\nabla f(x_k)\|\|d_k\|}} \ge \alpha.
 \]
@@ -1071,9 +1092,9 @@ Solche Bedingungen werden auch \emph{Winkelbedingungen} genannt.
 
 \begin{st} \label{2.30}
 	Seien $(d_k)_{k\in\N}$  die Suchrichtungen eines allgemeine Abstiegsverfahren.
-	Gilt die Winkelbedingung
+	Gilt die \emph{Winkelbedingung}
 	\[
-		\exists \alpha > 0:
+		\exists \alpha > 0 \forall k \in \N:
 		\dfrac {-\nabla  f(x_k)^T d_k}{\|\nabla f(x_k)\|\|d_k\|} \ge \alpha,
 	\]
 	so sind die Suchrichtungen zulässig.
@@ -1081,9 +1102,9 @@ Solche Bedingungen werden auch \emph{Winkelbedingungen} genannt.
 		Aus der Winkelbedingung folgt $\nabla f(x_k)^T d_k < 0$ und
 		\[
 			\|\nabla f(x_k)\|
-			\le \f 1\alpha \f {-\nabla f(x_k)^T d_k}{\|d_k\|},
+			\le \f 1\alpha \f {-\nabla f(x_k)^T d_k}{\|d_k\|}.
 		\]
-		also sind die Suchrichtungen zulässig.
+		Falls $\f{\nabla f(x_l)^T d}{\|d_l\|} \to 0$, dann auch $\nabla f(x_l) \to 0$, also sind die Suchrichtungen zulässig.
 	\end{proof}
 \end{st}
 
@@ -1093,28 +1114,28 @@ Solche Bedingungen werden auch \emph{Winkelbedingungen} genannt.
 % fixme: Erläuterung
 
 \begin{nt} \label{2.31}
-	Die Suchrichtungen sind schon dann zulässig, wenn sie \emph{verallgemeinerte Winkelbedingung} erfüllen, z.B.
+	Die Suchrichtungen sind schon dann zulässig, wenn sie \emph{verallgemeinerte Winkelbedingungen} erfüllen, z.B.
 	\[
-		\exists \alpha > 0, p > -1
+		\exists \alpha > 0, p > -1 \forall k \in \N
 		: \dfrac {-\nabla f(x_k)^T d_k}{\|\nabla f(x_k)\| \|d_k\|}
-		\ge \alpha \|\nabla f\|^p,
+		\ge \alpha \|\nabla f(x_k)\|^p,
 	\]
 	oder
 	\[
-		\exists \alpha_1, \alpha_2 > 0, p > -1
-		: \dfrac {-\nabla f(x_k)^Td_k}{\|\nabla f(x_k)\|\|d_k\|} \ge \min\{ \alpha_1, \alpha_2 \|\nabla f\|^p \}.
+		\exists \alpha_1, \alpha_2 > 0, p > -1 \forall k \in \N
+		: \dfrac {-\nabla f(x_k)^Td_k}{\|\nabla f(x_k)\|\|d_k\|} \ge \min\{ \alpha_1, \alpha_2 \|\nabla f(x_k)\|^p \}.
 	\]
 	\begin{proof}
-		 \coursehref{Blatt5.pdf}{Übungsaufgabe 5.2}
+		 Siehe \coursehref{Blatt5.pdf}{Übungsaufgabe 5.2}.
 	\end{proof}
 \end{nt}
 
 \begin{ex} \label{2.32}
 	\begin{enumerate}[(a)]
 		\item
-			Die Suchrichtungen $d_k = -\nabla f(x_k)$ erfüllen offensichtlich die Winkelbedingungen.
+			Die Suchrichtungen $d_k = -\nabla f(x_k)$ erfüllen offensichtlich die Winkelbedingungen mit $\alpha = 1$.
 		\item
-			Seien $A_k \in \R^{n\times n}$ symmetrisch positiv definite Matrizen mit
+			Seien $A_k \in \R^{n\times n}$ symmetrische, positiv definite Matrizen mit
 			\[
 				0
 				< c
@@ -1124,11 +1145,11 @@ Solche Bedingungen werden auch \emph{Winkelbedingungen} genannt.
 				< \infty
 			\]
 			für alle $k \in \N$.
-			Betrachte
+			Die Suchrichtungen
 			\[
 				d_k := - A_k^{-1} \nabla f(x_k).
 			\]
-			Es gilt
+			sind zulässig, denn sie erfüllen die Winkelbedingung:
 			\begin{align*}
 				\dfrac {-\nabla f(x_k)^T d_k}{\|\nabla f(x_k)\|\|d_k\|}
 				&= \dfrac {\nabla f(x_k)^T A_k^{-1} \nabla f(x_k)}{\|\nabla f(x_k)\|\|A^{-1} \nabla f(x_k)\|} \\
@@ -1141,7 +1162,8 @@ Solche Bedingungen werden auch \emph{Winkelbedingungen} genannt.
 	\end{enumerate}
 \end{ex}
 
-\paragraph{Zulässigkeit der Schrittweiten}
+\subsubsection{Zulässigkeit der Schrittweiten}
+
 Für $f \in C^2(\R^n)$ folgt aus \ref{2.3}, dass ein $\sigma \in [0,s]$ existiert mit
 \begin{align*}
 	f(x+sd)
@@ -1151,7 +1173,7 @@ Für $f \in C^2(\R^n)$ folgt aus \ref{2.3}, dass ein $\sigma \in [0,s]$ existier
 wobei $C := \max_{\sigma\in[0,s]} \|\nabla^2 f(x + \sigma d) \|$.
 Die rechte Seite ist dabei minimal für
 \[
-	s^* = \f{-f(x)^T d}{C\|d\|^2}.
+	s = s^* := \f{-f(x)^T d}{C\|d\|^2}.
 \]
 Dann ist
 \[
@@ -1161,7 +1183,7 @@ Dann ist
 also ist in Suchrichtung $d$ mit Schrittweite $s^*$ eine Verkleinerung von $f$ um mindestens $\f 1{2C} \f {|\nabla f(x)^T d|^2}{\|d\|^2}$ möglich.
 
 \begin{df} \label{2.33}
-	Seien $(d_k)_{k\in \N}$ und $(s_k)_{k\in\N}$ Suchrichtungen und Schrittweiten eines Abstiegsverfahren.
+	Seien $(d_k)_{k\in \N}$ und $(s_k)_{k\in\N}$ Suchrichtungen und Schrittweiten eines allgemeinen Abstiegsverfahren.
 	Die Schrittweiten heißen \emph{effizient}, falls
 	\[
 		\exists \theta > 0 \forall k \in \N
@@ -1188,28 +1210,25 @@ also ist in Suchrichtung $d$ mit Schrittweite $s^*$ eine Verkleinerung von $f$ u
 \end{st}
 
 \begin{nt*}
-	Die Armijo-Schrittweiten sind nicht effizient.
+	Die Armijo-Schrittweiten sind nicht effizient (siehe \ref{2.35}).
 
-	Armijo akzeptiert (für das Gradientenverfahren) Abnahmen in der Größenordnung $\|\nabla f(x_k)\|$, während die Effizienz aber eine Größenordnung von $\|\nabla f(x_k)\|^2$ fordert.
-
-	\begin{proof}
-		Armijo-Schrittweiten sind nicht effizient, da sie nicht zulässig sind (siehe \ref{2.35}).
-	\end{proof}
+	Die Armijo-Regel akzeptiert Abnahmen in der Größenordnung $\|\nabla f(x_k)\|$, während die Effizienz der Schrittweiten aber eine Abnahme der Größenordnung $\|\nabla f(x_k)\|^2$ fordert.
 \end{nt*}
 
 \subsection{Zulässigkeit der Armijo-Schrittweitenregel}
 
 Für $f(x) = -x$ ist $d_k = - \nabla f(x) = 1$ und Armijo akzeptiert stets $s_k = 1$.
 Für $d_k' = - \f{\nabla f(x_k)}{2^k} = \f 1{2^k}$ akzeptiert Armijo ebenfalls stets $s_k' = 1$.
-Die Winkelbedingungen sind in beiden Fällen erfüllt, aber im zweiten Fall konvergiert eine konvergente Teilfolge nicht gegen einen stationären Punkt.
+Die Winkelbedingungen sind in beiden Fällen erfüllt, aber im zweiten Fall konvergiert zwar $(x_k)$, aber nicht gegen einen stationären Punkt.
 Also sind Armijo-Schrittweiten im Allgemeinen nicht zulässig.
 
 \begin{ex} \label{2.35}
-	Die Armijo-Regel mit Suchrrichtungen
+	Ein Abstiegsverfahren mit Armijo-Regel und Suchrrichtungen
 	\[
 		d_k := -2^{-k} \nabla f(x)
 	\]
-	konvergiert nicht für $f(x) = -x$.
+	konvergiert für $f(x) = -x$ gegen einen nicht-stationären Punkt.
+
 	Armijo-Schrittweiten können also nicht zulässig sein.
 \end{ex}
 
@@ -1220,74 +1239,81 @@ Also sind Armijo-Schrittweiten im Allgemeinen nicht zulässig.
 		\|d_l\|
 		\ge \phi \big( \f{-\nabla f(x_l)^T d_l}{\|d_l\|} \big)
 	\]
-	für alle $l \in L$.
-	Dann sind die Armijo-Schrittweiten zulässig.
+	für alle $l \in L$,
+	dann sind die Armijo-Schrittweiten zulässig.
 	\begin{proof}
 		Zeige gemäß \ref{2.28}
-		\[
-			\forall k\in\N : f(x_k + s_k d_k) < f(x_k)
-		\]
-		und für jede konvergente Teilfolge $(x_l)_{l\in L}$:
-		\[
-			\lim_{k\to\infty} f(x_k) - f(x_{k+1}) = 0
-			\quad \implies\quad
-			\lim_{L \ni l \to \infty} \f{\nabla f(x_l)^T d_l}{\|d_l\|} = 0.
-		\]
-		Nach \ref{2.21} liefert die Armijo-Regel eine Schrittweite $s_k$ mit
-		\[
-			f(x_k + s_k d_k)
-			\le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k
-			< f(x_k).
-		\]
-		Sei $f(x_k) - f(x_{k+1}) \to 0$ und sei $(x_l)_{l\in L}$ eine konvergente Teilfolge der Iterierten.
-		Angenommen $\f {\nabla f(x_l)^T d_l}{\|d_l\|} \not\to 0$ für $L \ni l \to \infty$, d.h.
-		\[
-			\exists \eps > 0 \forall l \in L' \subset L : \f{\nabla f(x_l)^T d_l}{\|d_l\|} < - \eps
-		\]
-		mit $|L'| = \infty$.
-		Außerdem
-		\[
-			-\gamma \f {\nabla f(x_k)^T d_k}{\|d_k\|} s_k \|d_k\|
-			= - \gamma s_k \nabla f(x_k)^T d_k
-			\le	f(x_k) - f(x_{k+1})
-			\to 0.
-		\]
-		Also
-		\[
-			\lim_{L' \ni l \to \infty} s_l \|d_l\| = 0.
-		\]
-		Außerdem folgt für alle $l \in L'$
-		\[
-			\|d_l\|
-			\ge \phi(\f{-\nabla f(x_l)^T d_l}{\|d_l\|})
-			> \phi(\eps)
-			> \phi(0)
-			\ge 0.
-		\]
-		und somit $s_l \to 0$.
-		Der Rest funktioniert wie im Beweis von \ref{2.24} und man erhält
-		%fixme: prüfen
-		\[
-			0
-			\le (1-\gamma) \f {-\nabla f(x_l)^T d_l}{\|d_l\|}
-			< \f {\nabla f(x_l+ \sigma_l d_l) - \nabla f(x_l)^Td_l}{\|d_l\|}
-			\le \|\nabla f(x_l + \sigma_l d_l) - \nabla f(x_l)\|.
-		\]
-		Aus $s_l \|d_l\| \to 0$ folgt $\sigma_l d_l \to 0$.
-		Da auch $(x_l)$ konvergiert, existiert ein $r > 0$ mit
-		\[
-			x_l, x_l + \sigma_l d_l \in \_{B_r(0)}.
-		\]
-		Auf $\_{B_r(0)}$ ist $\nabla f$ also gleichmäßig stetig und damit
-		\[
-			\nabla f(x_l + \sigma_le d_l) - \nabla f(x_l) \to 0
-		\]
-		und somit $\f{-\nabla f(x_l)^T d_l}{\|d_l\|} \to 0$.
+		\begin{enumerate}[a)]
+			\item
+				$\forall k\in\N : f(x_k + s_k d_k) < f(x_k)$
+			\item
+				und für jede konvergente Teilfolge $(x_l)_{l\in L}$:
+				\[
+					\lim_{k\to\infty} f(x_k) - f(x_{k+1}) = 0
+					\quad \implies\quad
+					\lim_{L \ni l \to \infty} \f{\nabla f(x_l)^T d_l}{\|d_l\|} = 0.
+				\]
+		\end{enumerate}
+		\begin{enumerate}[a)]
+			\item
+				Nach \ref{2.21} liefert die Armijo-Regel stets eine Schrittweite $s_k$ mit
+				\[
+					f(x_k + s_k d_k)
+					\le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k
+					< f(x_k).
+				\]
+			\item
+				Sei $f(x_k) - f(x_{k+1}) \to 0$ und sei $(x_l)_{l\in L}$ eine konvergente Teilfolge der Iterierten.
+				Angenommen $\f {\nabla f(x_l)^T d_l}{\|d_l\|} \not\to 0$ für $L \ni l \to \infty$, d.h.
+				\[
+					\exists \eps > 0 \forall l \in L' \subset L : \f{\nabla f(x_l)^T d_l}{\|d_l\|} < - \eps
+				\]
+				mit $|L'| = \infty$.
+				Die Armijo-Regel liefert
+				\[
+					-\gamma \f {\nabla f(x_k)^T d_k}{\|d_k\|} s_k \|d_k\|
+					= - \gamma s_k \nabla f(x_k)^T d_k
+					\le	f(x_k) - f(x_{k+1})
+					\to 0.
+				\]
+				Also
+				\[
+					\lim_{L' \ni l \to \infty} s_l \|d_l\| = 0.
+				\]
+				Außerdem folgt für alle $l \in L'$
+				\[
+					\|d_l\|
+					\ge \phi(\f{-\nabla f(x_l)^T d_l}{\|d_l\|})
+					> \phi(\eps)
+					> \phi(0)
+					\ge 0.
+				\]
+				und somit $s_l \to 0$ für $L' \ni l \to \infty$.
+				Der Rest funktioniert wie im Beweis von \ref{2.24} und man erhält
+				%fixme: prüfen und ausführen
+				\[
+					0
+					\le (1-\gamma) \f {-\nabla f(x_l)^T d_l}{\|d_l\|}
+					< \f {\nabla f(x_l+ \sigma_l d_l) - \nabla f(x_l)^Td_l}{\|d_l\|}
+					\le \|\nabla f(x_l + \sigma_l d_l) - \nabla f(x_l)\|.
+				\]
+				Aus $s_l \to 0$ folgt $\sigma_l d_l \to 0$.
+				Da auch $(x_l)$ konvergiert, existiert ein $r > 0$ sodass
+				\[
+					x_l, x_l + \sigma_l d_l \in \_{B_r(0)}
+				\]
+				für fast alle $l \in L'$.
+				Auf $\_{B_r(0)}$ ist $\nabla f$ also gleichmäßig stetig und damit
+				\[
+					\nabla f(x_l + \sigma_l d_l) - \nabla f(x_l) \to 0
+				\]
+				und somit $\f{-\nabla f(x_l)^T d_l}{\|d_l\|} \to 0$, ein Widerspruch zur annahme.
+		\end{enumerate}
 	\end{proof}
 \end{st}
 
 \begin{ex} \label{2.37}
-	Für das Gradientvenverfahren mit $d_k := -\nabla f(x_k)$ ist
+	Für das Gradientenverfahren mit $d_k := -\nabla f(x_k)$ ist
 	\[
 		\|d_k\|
 		=\|\nabla f(x_k)\|
