@@ -1,0 +1,76 @@
+\chapter{Globale Optimierung}
+
+
+
+Bisher haben wir Algorithmen gefunden, die unter bestimmten Voraussetzungen global/lokal gegen lokale Minima (prä-)konvergierten.
+
+Wie bestimmen wir das Minimum von
+\[
+	f(x) = \sin( 10 \pi (x + 0.2) ) \cos (30 (x + 0.4))
+\]
+auf $[0, 1]$?
+
+Ideen:
+\begin{itemize}
+	\item
+		Gradientenverfahren mit Startwert 1
+	\item
+		Analytisch ausrechnen
+	\item
+		Plotten und Angucken
+\end{itemize}
+
+\begin{alg}[Triviale globale Optimierung] \label{alg:13}
+	\begin{algorithmic}
+		\Require{$f: \R^n \to \R$ stetig}
+		\State{Wähle abzählbare dichte Teilmenge $(q_m)_{m \in \N} \subset \R^n$}
+		\State{$x_1 \gets q_1$}
+		\For{$k \in \{1, 2, \dotsc \}$}
+			\If{$f(q_{k+1}) < f(x_k)$}
+				\State{$x_{k+1} \gets ’q_{k+1}$}
+			\Else
+				\State{$x_{k+1} \gets x_k$}
+			\EndIf
+		\EndFor
+	\end{algorithmic}
+\end{alg}
+
+\begin{lem} \label{4.1}
+	Sei $f: \R^n \to \R$ stetig.
+	Die von \ref{alg:13} erzeugte Folge $(x_k)_{k\in\N}$ besitzt die Eigenschaften
+	\begin{enumerate}[(a)]
+		\item
+			$f(x_{k+1}) \le f(x_k)$
+		\item
+			Jeder Häufungspunkt ist ein globales Minimum
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(a)]
+			\item
+				trivial
+			\item
+				Sei $(x_k)_{k\in\N}$ eine konvergente Teilfolge mit $x = \lim_{K \ni k \to \infty} x_k$.
+				Angenommen es existiert $y$ mit $f(y) < f(x)$.
+				Dann existiert wegen der Stetigkeit von $f$ $\eps > 0$ mit $f(\eta) < f(x)$ für alle $\eta \in B_\eps(y)$.
+				Es existiert also $m \in \N$ mit $q_m \in B_\eps(y)$, also $f(q_m) < f(x)$.
+				Nach Konstruktion gilt aber $f(x_l) \le f(q_m)$ für alle $l \ge m$, also ein Widerspruch.
+
+				Also $f(x) \le \inf_{l \in \N} f(q_l)$.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+
+Zur Implementierung einer abzählbaren dichten Teilmenge nutze baumartige Verfeinerung, z.B. für $[0,1]$
+
+Die triviale globale Optimierung benötigt eine große Anzahl an Funktionsauswertungen, ist also unbrauchbar im $\R^n$ mit großem $n$ (“curse of dimensionality“).
+
+Es kann keinen konvergenten globalen Optimierungsalgorithmus geben, der nicht $f$ auf einer abzählbaren dichten Teilmeng auswertet (siehe Orginalskript).
+
+Ein Ausweg bieten die sogenannten \emph{Branch-and-Bound-Strategien}.
+
+
+\subsection{Branch-and-Bound-Strategien}
+
+
+Kann für ein Teilintervall ausgeschlossen werden, dass sich darin ein globales Minimium befindet, dann muss bei baumartiger Verfeinerung ein kompletter Ast nicht weiter betrachtet werden.
