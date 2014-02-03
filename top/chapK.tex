@@ -1,0 +1,136 @@
+\chapter{Überlagerungen}
+
+
+
+\section{Überlagerungen}
+
+
+\begin{df}
+	Seien $X, \tilde X$ topologische Räume, $p: \tilde X \to X$ surjektiv.
+	Eine offene Menge $U \subset X$ wird durch $p$ \emph{trivial überlagert}, wenn $\tilde U = p^{-1} (U) = \dunion_{i\in I} \tilde U_i$ disjunkte Vereinigung von offenen Mengen $\tilde U_i \subset \tilde X_i$ ist, sodass für jedes $i \in I$ die Einschränkung $p_i = p|_{\tilde U_i}^U \to U_i$ ein Homöomorphismus ist.
+	\[
+		%fixme: Pfannkuchen-Zeichnung
+		\begin{tikzcd}
+			\tilde X \arrow{d}{p} \\
+			X
+		\end{tikzcd}
+	\]
+	Die Abbildung $p$ heißt \emph{Überlagerung}, wenn jeder Punkt $x \in X$ eine offene Umgebung $U \subset X$ besitzt, die von $p$ trivial überlagert wird.
+
+	Sie heißt \emph{$n$-blättrig}, wenn $|p^{-1}(x)| = n$ für alle $x \in X$.
+	Sie heißt \emph{trivial}, wenn ganz $X$ trivial überlagert wird.
+	\begin{note}
+		$p$ ist insbesondere stetig.
+		Die Anzahl der Blätter ist für jede Zusammenhangskomponente konstant.
+	\end{note}
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$\id_X: X \to X$ ist eine Überlagerung, ebenso jeder Homöomorphismus $p: \tilde X \homeomorphicto X$.
+		\item
+			$q: X \times F \to X$ mit $q(x, y) = x$ und diskreter Faser $F = q^{-1}(x)$ für alle $x \in X$.
+		\item
+			$p: \tilde X = [-1, 1] \to X = [0, 1], p(x) = x^2$.
+			Dies ist keine Überlagerung, denn die Blätterzahl ist nicht konstant.
+		\item
+			$p^*: \tilde X = [-1, 1] \setminus \{0\} \to X = [0, 1] \setminus \{0\}, p^*(x) = x^2$ ist eine Überlagerung.
+		\item
+			$p: \D^2 \to \D^2$ mit $p(z) = z^2$ ist keine Überlagerung, denn die Blätterzahl ist nicht konstant.
+			Hingegen ist $p: \D^2 \setminus \{0\} \to \D^2 \setminus \{0\}, p(z) = z^2$ ist eine nicht-triviale Überlagerung.
+			%fixme: riemannblatt? zeichnung
+		\item
+			$\exp: (\C, +) \to (\C^*, \cdot), \exp(z) = \sum_{k=0}^\infty \f {z^k}{k!}$.
+			Es gilt $\ker(\exp) = 2\pi i \Z$.
+
+			$p: (\R, +) \to (\S^1, 1), p(t) = e^{it} = (\cos t, \sin t)$.
+			Es gilt $\ker(p) = 2\pi \Z$.
+			\[
+				\begin{tikzcd}
+					\C \arrow{d}{\exp} & \R \times \R \arrow{l}[swap]{x+iy \mapsfrom (x,y)} \arrow{d}{(x,y)\mapsto(e^x, e^{iy})}\\
+					\C^* & \R_{>0} \times \S^1 \arrow{l}{rs \mapsfrom (r,s)}
+				\end{tikzcd}
+				\begin{tikzcd}
+					\C \arrow{d}{\exp} \arrow{dr} & \\
+					\C^* & \C / 2\pi i \Z \arrow{l}{\homeomorphic}
+				\end{tikzcd}
+				\begin{tikzcd}
+					\R \arrow{d}{p} \arrow{dr}{q} & \\
+					\S^1 & \R / 2\pi \Z \arrow{l}{\homeomorphic}
+				\end{tikzcd}
+			\]
+		\item
+			Komplexe Wurzeln
+			\[
+				\begin{tikzcd}[row sep=small]
+					\C \arrow{dd}[swap]{u \mapsto e^u} \arrow{dr}{u \mapsto w = e^{\f un}} & \\
+					& \C^* \arrow{dl}{p_n: w \mapsto w^n} \\
+					\C^* &
+				\end{tikzcd}
+			\]
+		\item
+			Geometrische Beispiele
+			\begin{itemize}
+				\item
+					$q: \S^n \surto \R\P^n = \S^n / \{\pm\}$
+				\item
+					$q: F_g^+ \surto F_g^- = F_g^+ / \{\pm\}$
+				\item
+					Graph, $Y \stack{p}\to X$, $X = Y / \{\pm\}$ (zweiblättrig)
+					$\chi(X) = -1, \chi(Y) = -2$
+					% fixme: drawing
+
+					Graph, $Z \stack{q}\to X$ (dreiblättrig, aber $Z$)
+					$\chi(Y) = -3$
+					% fixme: drawing
+
+					Ebenso für Flächen.
+			\end{itemize}
+		\item
+			Sei $p: \C \to \C$ eine Polynomabbildung, $p(z) = z^n + a_1 z^{n-1} + \dotsb + a_n$ mit $a_1, \dotsc, a_n \in \C$, $n \ge 1$.
+			Dann ist $p$ surjektiv und außerhalb der kritischen Werte eine $n$-blättrige Überlagerung.
+	\end{itemize}
+\end{ex}
+
+\begin{df}
+	Sei $G$ eine Gruppe und $X$ eine Menge.
+	Eine \emph{Linksoperation} von $G$ auf $X$ ist eine Abbildung $\phi: G \times X \to X$, geschrieben $(g, x) \mapsto g \cdot x = gx$, sodass $1 x = x, g(hx) = (gh) \cdot x$.
+
+	Die definiert $x \sim y$ durch $\exists g \in G: y = gx$.
+	Für $x \in X$ heißt $Gx := \{gx : g \in G\}$ die \emph{Bahn} von $x$ unter $G$.
+	Der \emph{Bahnenraum} ist $G \\ X := \{ Gx : x \in X \}$, kurz
+	\[
+		G \stack{\phi}\to X \stack{q}\surto G \\ X.
+	\]
+\end{df}
+
+\begin{ex}
+	\begin{enumerate}[1)]
+		\item
+			$(\R, +)$ operiert auf $\C$ durch $\phi: \R \times \C \to \C, (t, z) \mapsto e^{2\pi i t} \cdot z$.
+		\item
+			$(\R, +)$ operiert auf $\C$ durch $\psi: \R \times \C \to \C, (t, z) \mapsto t + z$.
+		\item
+			$T = 2\pi i \Z$ operiert auf $\C$ durch $T \times \C \to \C, (t, z) \mapsto t + z$.
+		\item
+			$(\Z^2, +)$ operiert auf $\C$ durch $\Z^2 \times \C \to \C, (t, z) \mapsto t + z$.
+	\end{enumerate}
+\end{ex}
+
+\begin{df}
+	Die Operation $\phi: G \times X \to X$ heißt \emph{stetig}, wenn für jedes $g \in G$ die Abbildung $\phi_g: X \to X, x \mapsto gx$ stetig ist (also mit $\phi_{g^{-1}} = \phi_{g}^{-1}$ ein Homömmorphismus).
+
+	Die Operation $\phi$ heißt \emph{frei}, wenn $gx \neq x$ für alle $g \in G \setminus \{1\}$ und alle $x \in X$.
+	Die Operation $\phi$ heißt \emph{frei diskontinuierlich}, wenn jeder Punkt $x \in X$ eine Umgebung $U \subset X$ besitzt, sodass $U \cap g U = \emptyset$ für alle $g \in G \setminus \{1\}$.
+\end{df}
+
+
+% G \stack{\phi}\to (Bogen) \tilde X
+\begin{st}
+	Sei $G \stack{\phi}\to X \stack{q}\to X := G \\ \tilde X$ eine freie diskontinuierliche Operattion.
+	Dann ist $q$ eine Überlagerung.
+	\begin{proof}
+		Klar aus Definition.
+	\end{proof}
+\end{st}
