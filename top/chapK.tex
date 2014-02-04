@@ -1,6 +1,9 @@
 \chapter{Überlagerungen}
 
 
+\coursetimestamp{03}{02}{2014}
+
+
 
 \section{Überlagerungen}
 
@@ -133,4 +136,187 @@
 	\begin{proof}
 		Klar aus Definition.
 	\end{proof}
+\end{st}
+
+\coursetimestamp{04}{02}{2014}
+
+\section{Hochhebung von Wegen}
+
+
+Das Hochebungsproblem sucht $\tilde f$ in dem folgenden Diagramm:
+\[
+	\begin{tikzcd}~
+		& (\tilde X, \tilde x_0) \arrow{d}{p} \\
+		(W, w_0) \arrow{ur}{\tilde f} \arrow{r}{f} & (X, x_0)
+	\end{tikzcd}
+\]
+
+\begin{st}
+	Sei $p: (\tilde X, \tilde x_0) \to (X, x_0)$ eine Überlagerung.
+	Zu jeder stetigen Abbildung $f: ([0,1]^n, 0) \to (X, x_0)$ existiert genau eine Hochhebung $\tilde f: ([0,1]^n, 0) \to (\tilde X, \tilde x_0)$ stetig mit $p \circ \tilde f = f$.
+	\begin{proof}
+		Folgende Skizze mit Kompaktheit und Lebesgue-Zahl.
+		%fixme: drawing
+		Für beliebiges $n$ per Induktion.
+	\end{proof}
+\end{st}
+
+Anwendung auf Wege und Homotopien
+% fixme: drawing
+
+\begin{st}
+	Jede Überlagerung $p: (\tilde X, \tilde x) \to (X, x)$ induziert Bijektionen
+	\[
+		\begin{tikzcd}
+			P(\tilde X, \tilde x) \arrow{d}{P_\#} \arrow{r}{\quot} & \Pi(\tilde X,\tilde x) \arrow{d}{P_\#} \\
+			P(X, x) \arrow{u}{P_b} \arrow{r}{\quot} & \Pi(X, x) \arrow{u}{P_b}
+		\end{tikzcd}
+	\]
+	mit $P_\#(\tilde \alpha) = p \circ \tilde \alpha, P_b(\alpha) = \tilde \alpha$ (Hochebung von Wegen), bzw. $P_\#([\tilde \alpha]) = [p\circ \tilde \alpha], P_b([\alpha]) = [\tilde \alpha]$ (Hochhebung von Homotopien).
+\end{st}
+
+\begin{kor}
+	Der Gruppenhomomorphismus $p_\#: \pi_1(\tilde X, \tilde x) \to \pi_1 (X, x)$ ist injektiv.
+\end{kor}
+
+\begin{ex}
+	\[
+		\pi_1(K, a) \isomorphic \<s, t | -\>
+		\pi_1(\tilde K, \tilde a) \isomorphic \<s_1, s_2, t_1 | -\>
+	\]
+	\begin{align*}
+		p_\#: \pi_1(\tilde K, \tilde a) &\to \pi_1(K, a) \\
+		s_1 &\mapsto s \\
+		s_2 &\mapsto t^{-1}st \\
+		t_1 &\mapsto t^2 \\
+	\end{align*}
+	Das heißt, die freie Gruppe $\<s,t,| -\>$ von Rang $2$ hat als freie Untergruppe $\<s, t^{-1}st, t^2\>$ vom Rang $3$.
+\end{ex}
+
+\begin{st}
+	Sei $p: \tilde X \to X$ eine Überlagerung.
+	Zu jedem Weg $\alpha: ([0,1], 0) \to (X, x)$ und $\tilde x \in p^{-1}(x)$ existiert genau eine Hochhebung $\tilde \alpha: ([0,1], 0) \to (\tilde X, \tilde x)$.
+	Wir setzen $\tilde x \cdot [\alpha] := \tilde \alpha (1)$.
+	Dies ist wohldefiniert und erfüllt $\tilde x \cdot [1_x] = \tilde x$, sowie $(\tilde x \cdot [\alpha]) \cdot [\beta] = \tilde x \cdot ([\alpha] \cdot [\beta])$.
+\end{st}
+
+\begin{ex}
+	Betrachte $p: \R \to \S^1, p(t) = e^{2\pi i t}$.
+	Hebe $\alpha: ([0,1], 0) \to (\S^1, x)$ hoch zu $\tilde \alpha: ([0,1], 0) \to (\R, \tilde x)$ mit $p \circ \tilde \alpha = \alpha$, d.h. $\alpha(t) = e^{2\pi i t \tilde \alpha(t)}$.
+
+	$\tilde \alpha(t) - \tilde \alpha(0)$ misst die Winkeländerung, $\tilde x \cdot [\alpha] = \tilde x + \deg(\alpha)$.
+\end{ex}
+
+\begin{kor}
+	$G := \pi_1(X, x_0)$ operiert auf $F = p^{-1}(x_0)$ durch $F \times G \to F$ mit $(\tilde x, [\alpha]) \mapsto \tilde x \cdot [\alpha]$.
+\end{kor}
+
+\begin{st}
+	Für $p: (\R, 0) \to (\S^1, 1)$ mit $p(t) = e^{2\pi i t}$ erhalten wir $\deg: \pi_1 (\S^1, 1) \homeomorphicto \Z$ durch $0 \cdot [\alpha] = \deg([\alpha])$.
+\end{st}
+
+\begin{st}
+	Für $q: \S^2 \to \R\P^2, q(x) = \{\pm x\}$ erhalten wir $h: \pi_1(\R\P^2, x_0) \homeomorphicto \{\pi 1\} \homeomorphic \Z / 2$ durch $\tilde x_0 \cdot [\alpha] = h([\alpha]) \cdot \tilde x_0$.
+\end{st}
+
+\begin{st}
+	Für jede Überlagerung $G \stack{\phi}\to \tilde X \stack q\to X$ gilt:
+	\begin{enumerate}[1)]
+		\item
+			die Operation von $G$ kommutiert mit dem Fasertransport durch $\Pi(X)$:
+			\[
+				(g\cdot \tilde x) \cdot [\alpha] = g \cdot (\tilde x \cdot [\alpha]).
+			\]
+		\item
+			für jeden Basispunkt $\tilde x_0 \in x$ und $x_0 = q(\tilde x_0)$ haben wir einen Gruppenhomomorphismus $h: \pi_1(X, x_0) \to G$ mit $\tilde x_0 \cdot [\alpha] = h([\alpha]) \tilde x_0$.
+		\item
+			Ist $\tilde X$ wegzusammenhängend, so ist $h$ surjektiv.
+			\[
+				\im(h) = \Set{ g \in G | \text{$\tilde x_0$ und $g \tilde x_0$ sind in $\tilde X$ verbindbar} }
+			\]
+		\item
+			Ist $\tilde X$ einfach wegzusammenhängend, so ist $h$ bijektiv.
+			\[
+				\ker(h) = q_\#\big(\pi_1(\tilde X, \tilde x_0) \big)
+			\]
+	\end{enumerate}
+\end{st}
+
+Ist also $\tilde X$ wegzusammenhängend, sohaben wir die \emph{kurze exakte Sequenz}, d.h.
+\[
+	1 \to \pi_1 (\tilde X, \tilde x_0)
+	\xrightarrow{q_\#} \pi_1 (X, x_0)
+	\xrightarrow{h} G
+	\to 1
+\]
+mit $q_\#$ injektiv, $h$ surjektiv, $\ker(h) = \im(q_\#)$.
+
+\begin{ex}
+	$\Z \xrightarrow{\phi} (\R, 0) \stack q\to (\S^1, 1), q(t) = e^{2\pi i t}$
+	\[
+		\begin{tikzcd}
+			\pi_1(\R, 0) \arrow[inj]{r}{q_\#} \arrow{d} & \pi_1(\S^1, 1) \arrow[sur]{r}{h} \arrow{d}{\homeomorphic} & \Z \\
+			0 & \Z & \Z
+		\end{tikzcd}
+	\]
+\end{ex}
+
+\begin{ex}
+	$\{\pm 1\} \xrightarrow{\S^n} \stack q\surto \R\P^n$
+	Für $n \ge 2$:
+	\[
+		\begin{tikzcd}
+			\pi_1(\S^n, \tilde x_0) \arrow{r}{q_\#} \arrow{d}{\homeomorphic} & \pi_1 (\R\P^n, x_0) \arrow{r}{h, \isomorphic} \arrow{d}{\homeomorphic} &  \{\pm 1\} \arrow{d}{\isomorphic} \\
+			0 \arrow[inj]{r} &  \Z / 2 & \Z /2
+		\end{tikzcd}
+	\]
+	Für $n = 1$:
+	\[
+		\begin{tikzcd}
+			\pi_1(\S^1, \tilde x_0) \arrow{r}{q_\#} \arrow{d}{\homeomorphic} & \pi_1 (\R\P^1, x_0) \arrow{r}{h, \isomorphic} \arrow{d}{\homeomorphic} &  \{\pm 1\} \arrow{d}{\isomorphic} \\
+			\Z \arrow[inj]{r}{\cdot 2} &  \Z / 2 \arrow[sur]{r} & \Z /2
+		\end{tikzcd}
+	\]
+\end{ex}
+
+\begin{ex}
+	$\Z \to \R \stack \rho\to \SO_2, \rho(t) = \begin{psmallmatrix} \cos(2\pi t) & -\sin(2\pi t) \\ \sin(2\pi t) & \cos(2\pi t)\end{psmallmatrix}$
+	\[
+		\begin{tikzcd}
+			\pi_1(\R, 0) \arrow{r}{\rho_\#} \arrow{d}{\homeomorphic} & \pi_1 (\SO_2, 1) \arrow{r}{h, \isomorphic} \arrow{d}{\homeomorphic} &  \{\pm 1\} \arrow{d}{\isomorphic} \\
+			0 \arrow[inj]{r} &  \Z  & \Z
+		\end{tikzcd}
+	\]
+\end{ex}
+
+\begin{ex}
+	$\{\pm 1\} \to \S^3 \to \SO_3$
+	\[
+		\begin{tikzcd}
+			\pi_1(\S^3, 1) \arrow{r}{\rho_\#} \arrow{d}{\homeomorphic} & \pi_1 (\SO_3, 1) \arrow{r}{h, \isomorphic} \arrow{d}{\homeomorphic} &  \{\pm 1\} \arrow{d}{\isomorphic} \\
+			0 \arrow[inj]{r} &  \Z / 2 & \Z / 2
+		\end{tikzcd}
+	\]
+\end{ex}
+
+
+\section{Galois-Korrespondenz}
+
+
+\begin{ex}
+	$\deg: \pi_1(\S^1, 1) \isomorphicto \Z$.
+	Untergruppen von $\Z$: $\{0\}$ und $n\Z$ für $n \in \N_{\ge 1}$.
+	\begin{align*}
+		p_n: (\S^1, 1) &\to (\S^1, 1), z \mapsto z^n,& \im(p_n)_\# &= n \Z \\
+		p_0: (\R, 0) &\to (\S^1, 1), t \mapsto e^{2\pi i t},& \im(p_n)_\# &= 0
+	\end{align*}
+\end{ex}
+
+\begin{st}
+	Zu $X$ zusammenhängend und lokal einfach zusammenhängend existiert eine universelle Überlagerung $G \to \tilde X \stack q\to  X$, d.h. $\pi_0(\tilde X) = \{ \tilde X \}$ und $\pi_1 (\tilde X, \tilde x_0) = \{1\}$, also $h: \pi_1(X, x_0) \isomorphicto G$.
+
+	Jede zusammenhängende Überlagerung $p: (Y, y_0) \to (X, x_0)$ definiert eine Untergruppe $\im(p_\#) < G$.
+
+	Zu jeder Untergruppe $U < G$ existiert $p: (Y, y_0) \to (X, x_0)$ mit $\im(p_\#) = U$.
+	Diese Überlagerung ist eindeutig bis auf Isomorphie.
 \end{st}
