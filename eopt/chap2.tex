@@ -1358,7 +1358,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 		\Require{$0<\gamma < 1, \gamma < \eta < 1$}
 		\Require{aktuelle Iterierte $x$, Richtung $d\in\R^n$}
 		\State{$s^- \gets 1$}
-		\While{$s^-$ erfüllt nicht \eqref{eq:pw_armijo}}
+		\While{$s^-$ verletzt \eqref{eq:pw_armijo}}
 			\State{$s^- \gets \f {s^-}2$}
 		\EndWhile
 		\State{$s^+ \gets s^-$}
@@ -1382,7 +1382,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 	Sei $d$ eine Abstiegsrichtung für $f$ im Punkt $x$.
 	Weiter sei $f$ in Richtung $d$ nach unten beschränkt: $\inf_{t\ge 0}f(x+td) > -\infty$.
 
-	Dann terminiert \ref{alg:4} nach endlich vielen Schritten und liefert eine Schrittweite $s$, die \ref{eq:pw_armijo}, \ref{eq:pw_pw} erfüllt.
+	Dann terminiert \ref{alg:4} nach endlich vielen Schritten und liefert eine Schrittweite $s$, die \eqref{eq:pw_armijo}, \eqref{eq:pw_pw} erfüllt.
 	\begin{proof}
 		Die erste Repeat-Schleife terminiert wegen \ref{2.21} (für $s$ klein genug ist die Armijo-Bedingung erfüllt).
 
@@ -1391,10 +1391,10 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 			-\infty
 			< \inf_{s\ge 0} f(x+sd)
 			&\le f(x+s^+ d) \\
-			&\le f(x) + \gamma s^+ \nabla f(x)^T d
+			&\stack{\text{\eqref{eq:pw_armijo}}}{\le} f(x) + \gamma s^+ \underbrace{\nabla f(x)^T d}_{< 0}
 			\xrightarrow{s^+\to\infty} -\infty.
 		\end{align*}
-		Also kann $s^+$ nicht beliebig groß werden und die Schleife terminiert nach endlich vielen Schritten mit einem $s^+$, welches \ref{eq:pw_armijo} verletzt.
+		Also kann $s^+$ nicht beliebig groß werden und die Schleife terminiert nach endlich vielen Schritten mit einem $s^+$, welches \eqref{eq:pw_armijo} verletzt.
 
 		Für die While-Schleife betrachte die stetige Funktion
 		\[
@@ -1404,37 +1404,36 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 		Zeige:
 		\begin{enumerate}[(i)]
 			\item
-				In $s^*$ ist \ref{eq:pw_armijo} erfüllt.
+				In $s^*$ ist \eqref{eq:pw_armijo} erfüllt.
 			\item
-				Für $s \in \R$ mit $g(s) > 0$ ist \ref{eq:pw_armijo} nicht erfüllt.
+				Für $s \in \R$ mit $g(s) > 0$ ist \eqref{eq:pw_armijo} nicht erfüllt.
 			\item
-				Für $s \in \R$ mit $g(s) \le 0$ ist \ref{eq:pw_armijo} erfüllt.
+				Für $s \in \R$ mit $g(s) \le 0$ ist \eqref{eq:pw_armijo} erfüllt.
 		\end{enumerate}
-		Dann terminiert \ref{alg:4} nach endlich vielen Richtten und liefert eine Schrittweite $s$, die \ref{eq:pw_armijo} und \ref{eq:pw_pw} erfüllt.
+		Dann terminiert \ref{alg:4} nach endlich vielen Schritten und liefert eine Schrittweite $s$, die \eqref{eq:pw_armijo} und \eqref{eq:pw_pw} erfüllt.
 
-		Die Intervallhalbierung sucht nach einem $s^*$ an dem \ref{eq:pw_armijo} noch erfüllt ist und erzeugt dabei eie Folge von $s^-$, die monoton steigend gegen $s^*$ konverrgiert und für alle Folgenglieder gilt $g(s^-) \le 0$.
-		Genauso wird eine Folge von $s^+$ erzeugt, die monoton fallen gegen $s^*$ konvergiert und es gilt $g(s^+) > 0$.
+		Die Intervallhalbierung sucht nach einem $s^*$ an dem \eqref{eq:pw_armijo} noch erfüllt ist und erzeugt dabei eie Folge von $s^-$, die monoton steigend gegen $s^*$ konverrgiert und für alle Folgenglieder gilt $g(s^-) \le 0$.
+		Genauso wird eine Folge von $s^+$ erzeugt, die monoton fallend gegen $s^*$ konvergiert und es gilt $g(s^+) > 0$.
 
-		An $s^*$ gilt
+		An $s^*$ gilt also
 		\[
 			0
 			\le g'(s^*)
-			= \nabla f(x+sd)^T d - \gamma \nabla f(x)^T d
+			= \nabla f(x+sd)^T d - \gamma \nabla f(x)^T d.
 		\]
-		(vgl. \ref{eq:pw_pw}).
 
-		Da $g$ stetig ist, liegt zu jedem $\eps > 0$ für hinreichend viele Schleifendurchgänge $s^-$ nahe genug an $s^*$, sodass gilt
+		Da $g$ stetig ist, liegt zu jedem $\eps > 0$ nach hinreichend viele Schleifendurchgänge $s^-$ nahe genug an $s^*$, sodass gilt
 		\[
-			g'(s^t) > - \eps.
+			g'(s^-) > - \eps.
 		\]
 		Mit $\eps := (\gamma - \eta) \nabla f(x)^T d$ folgt, dass nach endlich vielen Schleifendurchgängen gilt
 		\[
 			\nabla f(x+s^- d)^T d - \gamma \nabla f(x)^T d
 			= g'(s^-)
 			> - \eps
-			= (\nabla - \gamma) \nabla f(x)^T d,
+			= (\eta - \gamma) \nabla f(x)^T d,
 		\]
-		also gilt $\nabla f(x+s^- d)^T d > \eta \nabla f(x)^T d$, was \ref{eq:pw_pw} entspricht.
+		also gilt $\nabla f(x+s^- d)^T d > \eta \nabla f(x)^T d$, was \eqref{eq:pw_pw} entspricht.
 	\end{proof}
 \end{st}
 
@@ -1448,20 +1447,20 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 			\quad\implies\quad
 			\lim_{L\ni l \to\infty} \f{\nabla f(x_l)^T d_l}{\|d_l\|} = 0
 		\]
-		Da $f$ nach unten beschränkt ist, erzeugt \ref{alg:4} nach \ref{2.38} für jedes $k \in \N$ eine Schrittweite $s_k > 0$, die \ref{eq:pw_armijo}, \ref{eq:pw_pw} erfüllen.
+		Da $f$ nach unten beschränkt ist, erzeugt \ref{alg:4} nach \ref{2.38} für jedes $k \in \N$ eine Schrittweite $s_k > 0$, die \eqref{eq:pw_armijo}, \eqref{eq:pw_pw} erfüllen.
 		Damit gilt
 		\[
 			f(x_{k+1})
 			= f(x_k + s_k d_k)
-			\le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k
-			f(x_k).
+			\le f(x_k) + \gamma s_k \underbrace{\nabla f(x_k)^T d_k}_{< 0}
+			< f(x_k).
 		\]
 		Sei jetzt $\lim_{k\to\infty} f(x_k) - f(x_{k+1}) = 0$ und $(x_l)_{l\in L}$ eine konvergente Teilfolge der Iterierten $(x_k)_{k\in\N}$.
 		Angenommen
 		\[
-			\lim_{L\ni l\to\infty} \f{\nabla f(x_l)^T d}{\|d_l\|} \le -\eps < 0,
+			\lim_{L\ni l\to\infty} \f{\nabla f(x_l)^T d}{\|d_l\|} < 0,
 		\]
-		d.h. \oBdA für alle $l \in L$
+		d.h. \oBdA existiert $\eps > 0$, sodass für alle $l \in L$
 		\[
 			- \f {\nabla f(x_l)^T d_l}{\|d_l\|} > \eps.
 		\]
@@ -1486,7 +1485,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 			&\le \f 1{\|d_l\|} \big( \nabla f(x_l + s_l d_l)) - \nabla f(x_l) \big)^T d_l \\
 			&\le \big\|\nabla f(x_l + s_l d_l) -\nabla f(x_l) \big\|
 		\end{align*}
-		Zeige $\|\nabla f(x_l + s_l d_l) -\nabla f(x_l)\| \to 0$, denn dann gilt auch $- \f{\nabla f(x_l)^T d_l}{\|d_l\|} \to 0$, was ein Widerspruch wäre.
+		Es genügt also $\|\nabla f(x_l + s_l d_l) -\nabla f(x_l)\| \to 0$ zu zeigen, denn dann gilt auch $- \f{\nabla f(x_l)^T d_l}{\|d_l\|} \to 0$, was ein Widerspruch wäre.
 
 		Wegen $\lim_{L\ni l\to\infty} s_l d_l = 0$ existiert eine kompakte Menge, die fast alle $x_l, x_l + s_l d_l$ enthält.
 		$\nabla f$ ist auf dieser kompakten Menge gleichmäßig stetig, also
@@ -1501,7 +1500,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 
 
 In diesem Abschnittt sei $f: \R^n \to \R$ stets zweimal stetig differenzierbar.
-Wenn $\hat x$ Minimum von $f$ ist, dann auch Nullstelle von $F := \nabla f : \R^n \to \R$.
+Wenn $\hat x$ Minimum von $f$ ist, dann auch Nullstelle von $F := \nabla f : \R^n \to \R^n$.
 Wir verfolgen jetzt die Idee, das Minimum zu bestimmen, indem wir mit dem Newton-Verfahren die Nullstellle von $F = \nabla f$ finden.
 
 \subsection{Das Newton-Verfahren für Gleichungsysteme}
@@ -1515,7 +1514,7 @@ Approximiere $F$ durch seine lineare Näherung in der aktuellen Iterierten $x_k$
 \[
 	0
 	= F(x)
-	= F(x_k) + F'(x_k)(x-x_k).
+	\approx F(x_k) + F'(x_k)(x-x_k).
 \]
 Es ergibt sich damit die Iteration
 \[
@@ -1534,8 +1533,10 @@ Es ergibt sich damit die Iteration
 	\end{algorithmic}
 \end{alg}
 
-Das Newton-Verfahren konvergiert nicht für jeden Startwert, es gibt Beispiele für alternierende Iterierte und für strikte Divergenz.
-% fixme: Beispiele für Nicht-Konvergenz
+\begin{nt*}
+	Das Newton-Verfahren konvergiert nicht für jeden Startwert, es gibt Beispiele für alternierende Iterierte und für strikte Divergenz.
+	% fixme: Beispiele für Nicht-Konvergenz
+\end{nt*}
 
 Für $q \in \R, |q| < 1$ gilt
 \[
@@ -1559,21 +1560,21 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 		Dann gilt für $m \ge l$
 		\begin{align*}
 			\|S_m - S_l\|
-			&= \Big\| \sum_{k=l+1}^m A^k \Big\| \\
+			&= \bigg\| \sum_{k=l+1}^m A^k \bigg\| \\
 			&\le \sum_{k=l+1}^m \|A\|^k
 			= \|A\|^{l+1} \sum_{k=0}^{m-l-1} \|A\|^k
 			\le \f{\|A\|^{l+1}}{1-\|A\|}
 			< \eps
 		\end{align*}
 		für genügend großes $l$.
-		Also ist $(S_l)_{l\in\N}$ ein Cauchy-Folge und der Grenzwert existiert.
+		Also ist $(S_l)_{l\in\N}$ ein Cauchy-Folge in $\R^{n\times m}$ und der Grenzwert existiert.
 		Es gilt
 		\[
 			(I-A) \sum_{k=0}^\infty A^k
 			= \sum_{k=0}^\infty A^k - \sum_{k=0}^\infty A^{k+1}
 			= I.
 		\]
-		Damit ist $(I-A)$ invertierbar und $(I-A)^{-1} = \sum_{k=0}^\infty A^k$ und
+		Damit ist $(I-A)$ invertierbar mit $(I-A)^{-1} = \sum_{k=0}^\infty A^k$ und
 		\[
 			\Big\| \sum_{k=0}^\infty A^k \Big\|
 			\le \sum_{k=0}^\infty \|A\|^k
@@ -1597,7 +1598,7 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 			A + B
 			= A(I + A^{-1}B)
 		\]
-		auch invertierbar (Produkt invertierbarer Matrizen.
+		als Produkt invertierbarer Matrizen auch invertierbar.
 		Außerdem ist
 		\[
 			\|(A+B)^{-1}\|
@@ -1617,7 +1618,7 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 		also in der Norm
 		\[
 			\|(A+B)^{-1} - A^{-1}\|
-			\le \f {\|A^{-1}\| \|A^{-1}\|}{1-\|A^{-1}B\|}.
+			\le \f {\|A^{-1}\| \|A^{-1}B\|}{1-\|A^{-1}B\|}.
 		\]
 	\end{proof}
 \end{lem}
@@ -1626,15 +1627,15 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 	Aus \ref{2.41} folgt, dass jedes invertierbare $A \in \R^{n\times n}$ eine Umgebung invertierbarer Matrizen
 	\[
 		\scr U_\delta
-		:= \Set{ \tilde A \in \R^{n\times n} | \|\tilde A - A\| < \delta },
+		:= \Set{ \tilde A \in \R^{n\times n} | \|\tilde A - A\| < \delta }
 	\]
-	wobei z.B. $\delta := \f 1{\|A\|^{-1}}$.
-	Außerdem gilt für jede konvergente Folge $(A_k)_{k\in\N} \to A$ invertierbarer Matrizen mit invertierbarem Grenzwert $A$, gilt auch
+	besitzt, wobei z.B. $\delta := \f 1{\|A\|^{-1}}$.
+	Außerdem gilt für jede konvergente Folge $(A_k)_{k\in\N} \to A$ invertierbarer Matrizen mit invertierbarem Grenzwert $A$, auch
 	\[
 		A_k^{-1} \to A^{-1}
 	\]
 	für $k \to \infty$.
-	Die Menge der invertierbaren Matrizen ist alos offen und die Inversion eine stetige Abbildung auf dieser Menge.
+	Die Menge der invertierbaren Matrizen ist also offen und die Inversion eine stetige Abbildung auf dieser Menge.
 \end{kor}
 
 \begin{lem} \label{2.43}
@@ -1649,15 +1650,14 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 	\begin{proof}
 		Es gilt
 		\[
-			\|x-\hat x\| \le \|F'(\hat x)^{-1}\| \|F'(\hat x)(x-\hat)\|,
+			\|x-\hat x\| \le \|F'(\hat x)^{-1}\| \|F'(\hat x)(x-\hat x)\|,
 		\]
-		also
+		also gilt für $\gamma := \f 1{2\|F'(\hat x)^{-1}\|}$
 		\[
 			\|F'(\hat x)(x-\hat x)\|
-			\ge 2\gamma \|x - \hat x\|
+			\ge 2\gamma \|x - \hat x\|.
 		\]
-		mit $\gamma := \f 1{2\|F'(\hat x)^{-1}\|}$.
-		Für hinreichend nah an $\hat x$ liegende $x$ gilt nach \ref{2.4}
+		Für hinreichend nah an $\hat x$ liegende $x$ liefert die Taylorapproximation eine Approximation mit
 		\[
 			\|F(x) - \underbrace{F(\hat x)}_{=0} - F'(\hat x)(x-\hat x) \|
 			\le \gamma \|x-\hat x\|,
@@ -1665,10 +1665,11 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 		also
 		\begin{align*}
 			2\gamma \|x-\hat x\|
-			\le \|F'(\hat x)(x-\hat x)
+			\le \|F'(\hat x)(x-\hat x)\|
 			&\le \|F(x) - F'(\hat x)(x-\hat x) \| + \|F(x)\| \\
 			&\le \gamma \|x-\hat x\| + \| F(x) \|.
 		\end{align*}
+		und somit $\|F(x)\| \ge \gamma \|x - \hat x\|$.
 	\end{proof}
 \end{lem}
 
@@ -1695,7 +1696,7 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 			\emph{quadratisch} gegen $x\in \R^n$, falls $x_k \to x$ und
 			\[
 				x_{k+1} - x
-				= O(\|x_k - x\|^2),
+				= \landauO (\|x_k - x\|^2),
 			\]
 			d.h.
 			\[
@@ -1723,54 +1724,55 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 			Für jedes $x_0 \in B_\delta(\hat x)$ liegen alle von \ref{alg:5} erzeugten Iterierten in $B_\delta(\hat x)$.
 			Insbesondere ist \ref{alg:5} durchführbar.
 		\item
-			Für jedes $x_0 \in B_\delta(\hat x)$ terminiert \ref{alg:5} entweder nach endlich vielen Schritten an $\hat x$ oder er erzeugt eine Folge, die superlinear gegen $\hat x$ konvergiert.
+			Für jedes $x_0 \in B_\delta(\hat x)$ terminiert \ref{alg:5} entweder nach endlich vielen Schritten an $\hat x$ oder erzeugt eine Folge $(x_k)_{k\in\N}$, die superlinear gegen $\hat x$ konvergiert.
 		\item
-			Ist $F'$ zusätlich Lipschitz-stetig mit Konstante $L$, d.h.
+			Ist $F'$ zusätlich in $B_\delta(\hat x)$ Lipschitz-stetig mit Lipschitz-Konstante $L$, d.h.
 			\[
 				\forall x,y \in B_\delta(\hat x) : \|F'(x) - F'(y)\| \le L \|x-y\|,
 			\]
-			dann ist die Konvergenz in (a) sogar quadratisch und es gilt
+			dann ist die Konvergenz in (d) sogar quadratisch und es gilt
 			\[
 				\|x_{k+1} - \hat x \| \le \f {CL}2 \|x_k - \hat x\|^2
 			\]
+			für alle $k \in \N$
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[(a)]
 			\item
+				Dies ist gerade \ref{2.43}.
 			\item
-				Folgen aus \ref{2.43} und \ref{2.41}.
-			\item
-			\item
+				Folgt aus \ref{2.42} und Stetigkeit von $F'^{-1}$.
+			\item[(c), (d)]
 				Für jedes $x_k$ in dem $F'(x_k)$ invertierbar ist, gilt
 				\begin{align*}
 					x_{k+1} - \hat x
 					&= x_k - F'(x_k)^{-1}F(x_k) - \hat x \\
-					&= F'(x_k)^{-1}\big( F'(x_k) (x_k-\hat x) - F(x_k) + F(\hat x) \big) \\
+					&= F'(x_k)^{-1}\Big( F'(x_k) (x_k-\hat x) - F(x_k) + F(\hat x) \Big) \\
 					&= F'(x_k)^{-1}\bigg( F'(x_k) (x_k-\hat x) \\
 					& \qquad\qquad\qquad\qquad - \int_0^1 F'(\hat x + t(x_k-\hat x))(x_k - \hat x) \dx[t] \bigg) \\
-					&=F'(x_k)^{-1}\int_0^1 \big( F'(x_k) - F'(\hat x + t(x_k - \hat x)) \big)(x_k - \hat x) \dx[t],
+					&=F'(x_k)^{-1}\int_0^1 \Big( F'(x_k) - F'\big(\hat x + t(x_k - \hat x)\big) \Big)(x_k - \hat x) \dx[t],
 				\end{align*}
 				also
 				\begin{align*}
 					&\|x_{k+1} - \hat x\| \\
-					&\quad \le \|x_k-\hat x\|\|F'(x_k)^{-1}\| \underbrace{\sup_{t\in [0,1]} \| F'(x_k) - F'(\hat x + t(x_k-\hat x)) \|}_{\to 0}.
+					&\quad \le \|x_k-\hat x\|\underbrace{\|F'(x_k)^{-1}\|}_{=:C} \underbrace{\sup_{t\in [0,1]} \Big\| F'(x_k) - F'(\hat x + t(x_k-\hat x)) \Big\|}_{\to 0 (x_k \to \hat x)}.
 				\end{align*}
-				Sei $\delta$ so klein (siehe (a) und (b)), dass
+				Sei $\delta$ hinreichend klein (siehe (a) und (b)), dass für $x_k \in B_\delta(\hat x)$ gilt
 				\[
 					\sup_{t\in[0,1]} \|F'(x_k) - F'(\hat x + t(x_k - \hat x))\|
-					\le \f 1{2C}
+					\le \f 1{2C}.
 				\]
-				für alle $x_k \in B_\delta(\hat x)$.
-				Dann gilt für alle $x_k \in B_\delta(\hat x)$
+				Es folgt für alle $x_k \in B_\delta(\hat x)$
 				\[
-					\|x_{k+1} - \hat x\| \le \f 12 \| x_k - \hat x\|.
+					\|x_{k+1} - \hat x\| \le \f 12 \| x_k - \hat x\|
 				\]
-				Für $x_0 \in B_\delta(\hat x)$ folgt $x_k \in B_\delta(\hat x)$ für alle $k \in \N$ und $x_k \to \hat x$.
+				und damit insbesondere für $x_0 \in B_\delta(\hat x)$ auch $x_k \in B_\delta(\hat x)$ für alle $k \in \N$ und $x_k \to \hat x$.
+
 				Es gilt sogar
 				\[
 					\f {\|x_{k+1} - \hat x\|}{\|x_k - \hat x\|} \le C \sup_{t\in [0,1]} \| F'(x_k) - F'(\hat x  + t(x_k + \hat x)) \| \to 0.
 				\]
-			\item
+			\item[(e)]
 				Für (auf $B_\delta(\hat x)$) Lipschitz-stetige $F'$ erhalten wir sogar
 				\begin{align*}
 					\|x_{k+1} - \hat x\|
@@ -1785,12 +1787,12 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 \subsection{Das Newton-Verfahren für Optimierungsprobleme}
 
 Sei $f: \R^n \to \R$ zweimal stetig differenzierbar.
-Wir versuchen, das Newton-Verfahren auf das Nullstellenproblem
+Wir wenden das Newton-Verfahren auf das Nullstellenproblem
 \[
 	F(x) := \nabla f(x) = 0
 \]
 an.
-Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
+Offenbar ist $F'(x) = \nabla^2 f(x)$ die Hesse-Matrix von $f$ und es ergibt sich folgender Algorithmus
 
 \begin{alg}[Newton-Verfahren für Optimierungsprobleme] \label{alg:6}
 	\begin{algorithmic}
@@ -1812,7 +1814,7 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
 	\begin{proof}
 		Es gilt
 		\[
-			\f {x^T A x}{\|x\|2}
+			\f {x^T A x}{\|x\|^2}
 			= \f {x^T (A+B) x}{\|x\|^2} - \f {x^T B x}{\|x\|^2}
 			\le \f {x^T (A+B) x}{\|x\|^2} + \max_{x\in\R^n} \f {|x^T B x|}{\|x\|^2}
 			\le \f {x^T (A+B) x}{\|x\|^2} + \|B\|.
@@ -1821,20 +1823,20 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
 		\[
 			\lambda_{\text{min}}(A+B)
 			\stack{\ref{2.6}}= \min_{x\in \R^n} \f {x^T(A+B)x}{\|x\|^2}
-			\ge \min_{x\in\R^n} \f {x^T A x}{\|x\|^2} - \|B\|
+			\ge \min_{x\in\R^n} \Big( \f {x^T A x}{\|x\|^2} - \|B\| \Big)
 			= \lambda_{\text{min}}(A) - \|B\|.
 		\]
 	\end{proof}
 \end{lem}
 
 \begin{st}[Lokale Konvergenz des Newton-Verfahrens für Optimierungsprobleme] \label{2.48}
-	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar, $\hat x$ ein lokales Minimum von $f$ mit positiv definiter Hesse-Matrix $\nabla^2 f(\hat x)$.
+	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar und $\hat x$ ein lokales Minimum von $f$ mit positiv definiter Hesse-Matrix $\nabla^2 f(\hat x)$.
 	Dann existieren $\delta, \my > 0$ so dass
 	\begin{enumerate}[(a)]
 		\item
 			$\hat x$ ist der einzige stationäre Punkt auf $B_\delta(\hat x)$,
 		\item
-			$\lambda_{\text{min}}(\nabla^2 f(x)) \ge \my$ für alle $x \in B_\delta(\hat x)$, insbesondere ist $\nabla^2(f(x))$ invertierbar und $\|\nabla^2 f(x)\|^{-1} \le \f 1\my$.
+			$\lambda_{\text{min}}(\nabla^2 f(x)) \ge \my$ für alle $x \in B_\delta(\hat x)$, insbesondere ist $\nabla^2(f(x))$ invertierbar und $\|\nabla^2 f(x)^{-1}\| \le \f 1\my$.
 		\item
 			Für jedes $x_0 \in B_\delta(\hat x)$ liegen alle durch \ref{alg:6} erzeugten Iterierten in $B_\delta(\hat x)$.
 			Insbesondere ist \ref{alg:6} durchführbar.
@@ -1855,7 +1857,7 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
 	\begin{proof}
 		Für jedes $0 < \my < \lambda_{\text{min}}(\nabla^2 f(\hat x))$ folgt aus \ref{2.47}, dass ein $\delta > 0$ existiert mit $\lambda_{\text{min}}(\nabla^2 f(x)) \ge \my$ für alle $x \in B_\delta(\hat x)$.
 
-		Der Rest funktioniert wie in \ref{2.46}.
+		Der Rest funktioniert wie im Beweis von \ref{2.46}.
 	\end{proof}
 \end{st}
 
@@ -1878,7 +1880,7 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
 \end{ex}
 
 \begin{nt} \label{2.50}
-	Alternative Motivation für das Newton-Verfahren für das Optimierungsproblem wäre, $f$ durch die quadratische Näherung an $x_k$
+	Eine Alternative Motivation des Newton-Verfahrens für Optimierungsprobleme wäre, $f(x)$ durch die quadratische Näherung in $x_k$
 	\[
 		f(x) \approx
 		f(x_k) + \nabla f(x_k)^T (x-x_k) + \f 12 (x-x_k)^T \nabla^2 f(x_k) (x-x_k)
@@ -1888,7 +1890,7 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ und es ergibt sich folgender Algorithmus
 	\[
 		x = x_k - \nabla^2 f(x_k)^{-1} \nabla f(x_k).
 	\]
-	Dies führt wieder auf das Newton-Verfahren.
+	Dies führt wieder auf die Newton-Iteration.
 \end{nt}
 
 \subsection{Newton-artige Verfahren}
@@ -1905,7 +1907,7 @@ Das Newton-Verfahren hat gewisse Nachteile (z.B. gegenüber dem Gradienten-Verfa
 Trotzdem hat das Newton-Verfahren Vorteile, die es nützlich machen
 \begin{itemize}
 	\item
-		superlineare Konvergenz (rechtfertig asymptotisch jeden $N$-fachen Aufwand gegenüber einem linear-konvergenten Verfahren)
+		superlineare Konvergenz (dies rechtfertig asymptotisch jeden $N$-fachen Aufwand (für beliebig großes, festes $N$) gegenüber einem linear-konvergenten Verfahren)
 \end{itemize}
 Mit $d_k := - \nabla^2 f(x_k)^{-1} \nabla f(x_k)$ wird nur eine Approximation $x_{k+1}$ an das Optimum berechnet.
 Es ist also vielleicht nicht nötig, $d_k$ exakt zu berechnen.
@@ -1913,13 +1915,10 @@ Dies liefert die Motivation für zwei Verfahren
 \begin{itemize}
 	\item
 		Inexakte Newton-Verfahren:
-		$d_k$ wird nur näherungsweie z.B. durch Anwendung einiger Schritte eines iterativen Verfahrens auf das lineare Gleichungsystem $\nabla^2 f(x_k) = - \nabla f(x_k)$ bestimmt.
+		$d_k$ wird nur näherungsweie z.B. durch Anwendung einiger Schritte eines iterativen Verfahrens auf das lineare Gleichungsystem $\nabla^2 f(x_k) d_k = - \nabla f(x_k)$ bestimmt.
 	\item
 		Newton-artige Verfahren:
-		Ersetze $\nabla^2 f(x_k)$ durch invertierbare Matrix $H_k \in \R^{n\times n}$ (die einfacher zu berechenen oder einfacher zu invertieren ist) und löse
-		\[
-			H_k d_k = - \nabla f(x_k).
-		\]
+		Ersetze $\nabla^2 f(x_k)$ durch invertierbare Matrix $H_k \in \R^{n\times n}$ (die einfacher zu berechenen oder einfacher zu invertieren ist) und wähle $d_k$ stattdessen als Lösung von $H_k d_k = - \nabla f(x_k)$.
 \end{itemize}
 
 \begin{lem} \label{2.51}
@@ -1935,19 +1934,15 @@ Dies liefert die Motivation für zwei Verfahren
 		Nach dem Mittelwertsatz \ref{2.4} gilt
 		\begin{align*}
 			\|F(y) - F(x)\|
-			&= \Big\| \int_0^1 F'(x + t(y-x)) \dx[t] (y-x) \Big\| \\
+			&= \Big\| \int_0^1 F'\big(x + t(y-x)\big) \dx[t] (y-x) \Big\| \\
 			&\le \max_{x\in K} \|F'(x)\| \|y-x\|.
 		\end{align*}
 	\end{proof}
 \end{lem}
 
 \begin{st}[Dennis-Moré-Bedingungen] \label{2.52}
-	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar, $\hat x \in \R^n$ besitze invertierbare Hessematrix $\nabla^2 f(\hat x)$.
-	Sei $(x_k)_{k\in\N} \subset \R^n$ mit
-	\[
-		\forall k \in \N : x_k \neq \hat x
-	\]
-	und $x_k \to \hat x$.
+	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar und $\hat x \in \R^n$ besitze eine invertierbare Hessematrix $\nabla^2 f(\hat x)$.
+	Sei $(x_k)_{k\in\N}$ eine Folge in $\R^n$ mit $x_k \neq \hat x$ für alle $k \in \N$ und $x_k \to \hat x$.
 
 	Dann sind folgende Aussagen äquivalent:
 	\begin{enumerate}[(a)]
@@ -1975,11 +1970,12 @@ Dies liefert die Motivation für zwei Verfahren
 				\le 2 \|x_{k+1} - x_k\|
 			\]
 			für hinreichend große $k$.
+
 			Da $(x_k)_{k\in\N}$ beschränkt ist, existiert eine abgeschlossene Kugel $K$ mit $x_k, \hat x \in K$ für alle $k \in \N$.
 			Nach \ref{2.51} existiert $L > 0$ mit
 			\begin{align*}
 				\|\nabla f(x_{k+1}) \|
-				&= \| \nabla f(x_{k+1} - \nabla f(\hat x)) \| \\
+				&= \| \nabla f(x_{k+1}) - \nabla f(\hat x) \| \\
 				&\le L \|x_{k+1} - \hat x\|
 				= o(x_k - \hat x)
 				= o(x_{k+1} - x_k)
@@ -2018,10 +2014,10 @@ Dies liefert die Motivation für zwei Verfahren
 				&\nabla f(x_{k+1}) \\
 				&\quad= \nabla f(x_k) + \int_0^1 \nabla^2 f(x_k + t(x_{k+1} - x_k)) (x_{k+1} - x_k) \dx[t] \\
 				&\quad= \nabla f(x_k) \\
-					&\qquad + \int_0^1 \Big(\nabla^2 f(x_k + t(x_{k+1} - x_k)) - \nabla^2 f(\hat x) \Big) (x_{k+1} - x_k) \dx[t] \\
+					&\qquad + \int_0^1 \Big(\nabla^2 f\big(x_k + t(x_{k+1} - x_k)\big) - \nabla^2 f(\hat x) \Big) \dx[t] (x_{k+1} - x_k) \\
 					&\qquad + \nabla^2 f(\hat x) (x_{k+1} - x_k)
 			\end{align*}
-			$\nabla^2 f$ ist stetig, also $\nabla^2 f$ gleichmäßig stetig auf einer abgeschlossener Kugel mit $K \in x_k, \hat x$ und somit
+			$\nabla^2 f$ ist stetig, also $\nabla^2 f$ gleichmäßig stetig auf einer kompakten Menge $K$ mit $x_k, \hat x \in K$ und somit wegen $x_n \to \hat x$
 			\[
 				\int_0^1 \Big( \nabla^2 f(x_k + t(x_{k+1} - x_k)) - \nabla^2 f(\hat x) \Big) \dx[t] \to 0.
 			\]
@@ -2030,6 +2026,7 @@ Dies liefert die Motivation für zwei Verfahren
 				\nabla f(x_{k+1})
 				= \nabla f(x_k) + \nabla^2 f(\hat x) (x_{k+1} - x_k) + o(x_{k+1} - x_k)
 			\]
+			Hieran lässt sich die Äquivalenz ablesen.
 		\end{segnb}
 		\begin{segnb}[„(c)$\iff$(d)“]
 			Wegen $\nabla^2 f(x_k) \to \nabla^2 f(\hat x)$ ist
@@ -2056,20 +2053,20 @@ Dies liefert die Motivation für zwei Verfahren
 			Newton-Verfahren:
 			Sind die $d_k$ exakte Lösungen von
 			\[
-				\nabla^2 f(x_k) d_ke = - \nabla f(x_k),
+				\nabla^2 f(x_k) d_k = - \nabla f(x_k),
 			\]
 			dann ist $\hat x$ ein Minimum von $f$ und $(x_k)_{k\in\N}$ konvergiert superlinear gegen $\hat x$ (sogar quadratisch, falls $\nabla^2 f$ lokal Lipschitz-stetig).
 		\item
 			Inexakte Newton-Verfahren:
 			Sind die $d_k$ approximative Lösungen von
 			\[
-				\nabla^2 f(x_k) d_ke = - \nabla f(x_k),
+				\nabla^2 f(x_k) d_k = - \nabla f(x_k),
 			\]
 			die
 			\[
 				\|\nabla f(x_k) + \nabla^2 f(x_k) d_k\| = \eta_k \|\nabla f(x_k)\|
 			\]
-			mit einer Nullfolge $(\eta_k)_{k\in\N}$ erfüllt, so ist $\hat x$ ein Minimum und $x_k \to \hat x$ konvergiert superlinear.
+			mit einer Nullfolge $(\eta_k)_{k\in\N}$ erfüllen, so ist $\hat x$ ein Minimum und $x_k \to \hat x$ konvergiert superlinear.
 		\item
 			Newton-artige Verfahren:
 			Sind die $d_k$ Lösungen von
@@ -2091,12 +2088,13 @@ Dies liefert die Motivation für zwei Verfahren
 				\end{align*}
 				Nach \ref{2.52} (c) ist $\hat x$ Minimum und die Folge konvergiert superlinear.
 			\item[(b)]
-				Es gilt
+				$d_k = x_{k+1} - x_k$ erfülle $\|\nabla f(x_k) + \nabla^2 f(x_k) d_k\| = \eta_k \|\nabla f(x_k)\|$ mit einer Nullfolge $(\eta_k)_{k\in\N}$.
+				Dann gilt
 				\begin{align*}
 					\|\nabla f(x_k)\|
 					&\le \|\nabla f(x_k) + \nabla^2 f(x_k) (x_{k+1} - x_k)\| \\
-					&\qquad + \| \nabla f(x_k){x_{k+1} - x_k} \| \\
-					&\le \eta_k \|\nabla f(x_k)\| + \| \nabla^2 f(x_k) d_k \|,
+					&\qquad + \| \nabla^2 f(x_k){x_{k+1} - x_k} \| \\
+					&= \eta_k \|\nabla f(x_k)\| + \| \nabla^2 f(x_k) d_k \|,
 				\end{align*}
 				also
 				\[
@@ -2107,7 +2105,7 @@ Dies liefert die Motivation für zwei Verfahren
 				\begin{align*}
 					\|\nabla f(x_k) + \nabla^2 f(x_k) d_k \|
 					&\le \eta_k \|\nabla f(x_k)\| \\
-					&\le \f {\eta_k}{1-\eta_k} \|\nabla^2 f(x_k)\|\|x_{k+1} - x_k\| \\
+					&\le \f {\eta_k}{1-\eta_k} \underbrace{\|\nabla^2 f(x_k)\|}_{\le \const}\|x_{k+1} - x_k\| \\
 					&= o(x_{k+1} - x_k).
 				\end{align*}
 				Nach \ref{2.52} (d) ist $\hat x$ Minimum und die Folge konvergiert superlinear.
@@ -2134,22 +2132,27 @@ Approximiere $F'(x_k)$ durch die Sekantensteigung der aktuellen Iterierten zur v
 Konvergiert die Iteriertenfolge werden also auch unsere Approximationen an $F'(x_k)$ immer besser.
 Es ergibt sich die Iteration
 \[
-	x_{k+1} = x_k - \bigg(\dfrac{F(x_k) - F(x_{k-1})}{x_k - x_{k-m}} \bigg)^{-1} F(x_k),
+	x_{k+1} = x_k - \bigg(\dfrac{F(x_k) - F(x_{k-1})}{x_k - x_{k-1}} \bigg)^{-1} F(x_k),
 \]
 das sogenannte \emph{Sekantenverfahren}.
 
-Für Optimierungsprobleme approximiere analog $f''(x_k) \approx \f {f'(x_k) - f'(x_{k-1})}{x_k - x_{k-1}} =: H_k$ und iteriere $x_{k+1} := x_k - H_k^{-1} f'(x_k)$.
+Für Optimierungsprobleme approximiere analog
+\[
+	f''(x_k) \approx \f {f'(x_k) - f'(x_{k-1})}{x_k - x_{k-1}} =: H_k
+\]
+und iteriere $x_{k+1} := x_k - H_k^{-1} f'(x_k)$.
 
-Im eindimensionalen ist $H_k$ eindeutige Lösung von
+Im eindimensionalen ist $H_k$ eindeutige, skalare Lösung von
 \[
 	f'(x_k) - f'(x_{k-1})
 	= H_k (x_k - x_{k-1}).
 \]
-Das Analogon in $\R^n$ wäre
+Das Analogon in $\R^n$ wäre die Bedingung
 \[
 	\nabla f(x_k) - \nabla f(x_{k-1})
-	= H_k (x_k -x_{k-1}).
+	= H_k (x_k -x_{k-1})
 \]
+zu fordern.
 Das führt auf die folgende Definition.
 
 \begin{df*}[Quasi-Newton-Verfahren]
@@ -2176,20 +2179,19 @@ Das führt auf die folgende Definition.
 		\item
 			Es gilt
 			\begin{align*}
-				\nabla f(x_k)
-				&= \nabla f(x_{k-1}) + ( \nabla f(x_k) - \nabla f(x_{k-1}) ) \\
-				&= H_{k-1} (x_{k-1} - x_k) + H_k (x_k - x_{k-1}) \\
-				&= (H_k - H_{k-1})(x_k - x_{k-1}).
+				\nabla f(x_{k+1})
+				&= \underbrace{\nabla f(x_k)}_{=H_k(x_k - x_{k+1})} + \underbrace{( \nabla f(x_{k+1}) - \nabla f(x_k) )}_{=H_{k+1} (x_{k+1} - x_k)} \\
+				&= (H_{k+1} - H_k)(x_{k+1} - x_k).
 			\end{align*}
-			Nach \ref{2.52} (b) konvergiert das Quasi-Newton-Verfahren bereits dann superlinear, wenn $H_k - H_{k-1} \to 0$.
+			Nach \ref{2.52} (b) konvergiert das Quasi-Newton-Verfahren unter der Voraussetzung $x_k \to \hat x$ also bereits dann superlinear, wenn $H_k - H_{k-1} \to 0$.
 	\end{enumerate}
 \end{nt}
 
 Dementsprechend liegt es nahe, $H_{k+1}$ so zu wählen, dass sie sich möglichst wenig von $H_k$ unterscheidet, \eqref{eq:qn} erfüllt und möglichst leicht zu invertieren ist.
 
-Dies motiviert das Prinzip der \emph{Aufdatierung}, welches uns $H_{k+1}$ durch kleine Änderung von $H_k$ liefert
+Dies motiviert das Prinzip der \emph{Aufdatierung}, welches uns $H_{k+1}$ durch kleine Änderung von $H_k$ liefert.
 
-\paragraph{Rang 1 Modifikationen}
+\subsubsection{Rang 1 Modifikationen}
 
 Sei $e_k \in \R^n$ der $k$-te Einheitsvektor, dann ist
 \[
@@ -2235,7 +2237,7 @@ Wenn wir $(y_k - H_k d_k)^T d_k \neq 0$ voraussetzen, dann ergibt sich (siehe \c
 \[
 	H_{k+1} := H_k + \dfrac{(y_k - H_k d_k)(y_k - H_k d_k)^T}{(y_k - H_k d_k)^T d_k}.
 \]
-Diese Aufdatierungs nennen wir \emph{symmetrische Rang-1-Modifikation}, oder kurz \emph{SR1-Aufdatierung}.
+Diese Aufdatierung nennen wir \emph{symmetrische Rang-1-Modifikation}, oder kurz \emph{SR1-Aufdatierung}.
 
 %fixme: something missing?
 
@@ -2243,7 +2245,7 @@ Diese Aufdatierungs nennen wir \emph{symmetrische Rang-1-Modifikation}, oder kur
 
 Quasi-Newton-Verfahren benötigen keine Hesse-Matrizen mehr und keine LGS-Lösung.
 
-\paragraph{Broyden-Fletcher-Goldfarb-Shanno-Formel (BFGS)}
+\subsubsection{Broyden-Fletcher-Goldfarb-Shanno-Formel (BFGS)}
 
 \[
 	H_{k+1} := H_k + \dfrac {y_ky_k^T}{y_k^T d_k} - \dfrac {H_k d_k d_k^T H_k^T}{d_k^T H_k d_k}.
@@ -2262,7 +2264,7 @@ $H_k$ erfüllt \eqref{eq:qn} nach \coursehref{Blatt9.pdf}{Übungsaufgabe 8.1} un
 		\While{$\nabla f(x_k) \neq 0$}
 			\State{$d_k \gets - B_k \nabla f(x)$}
 			\State{$x_{k+1} \gets x_k + d_k$}
-			\State{$B_{k+1} \gets B_k + \dotsc$}
+			\State{$B_{k+1} \gets B_k + \f {(d_k-B_ky_k)d_k^T + d_k(d_k-B_ky_k)^T}{d_k^T y_k} - \f {(d_k-B_ky_k)^T y_k}{(d_k^T y_k)^2} d_k d_k^T$}
 		\EndWhile
 	\end{algorithmic}
 \end{alg}
@@ -2277,7 +2279,7 @@ $H_k$ erfüllt \eqref{eq:qn} nach \coursehref{Blatt9.pdf}{Übungsaufgabe 8.1} un
 		\item
 			jede symmetrische, positiv definite Startmatrix $B_0$ mit $\|B_0 - \nabla^2 f(\hat x)^{-1}\| < \eps$
 	\end{enumerate}
-	\ref{alg:7} durchführbar ist und entweder nach endlich vielen $x_k := \hat x$ liefert oder eine Folge $(x_k)_{k\in \N}$, die superlinear gegen $\hat x$ konvergiert.
+	\ref{alg:7} durchführbar ist und entweder nach endlich vielen Schritten $x_k = \hat x$ liefert oder eine Folge $(x_k)_{k\in \N}$, die superlinear gegen $\hat x$ konvergiert.
 	\begin{proof}
 		siehe \cite[Satz 11.33]{geigerkanzow99}.
 	\end{proof}
@@ -2289,27 +2291,29 @@ $H_k$ erfüllt \eqref{eq:qn} nach \coursehref{Blatt9.pdf}{Übungsaufgabe 8.1} un
 	\item
 		Das Gradientenverfahren konvergiert global (gegen ein lokales Minimum), aber „langsam“ (linear).
 	\item
-		Das Newtonverfahren (und seine Derivate) konvergiert lokal, aber „schnell“ (superlinear).
+		Das Newtonverfahren und seine Derivate konvergieren nur lokal, aber „schnell“ (superlinear).
 \end{itemize}
 Wünschenswert wäre ein Verfahren, das global und schnell konvergiert.
 Eine Herangehensweise wäre, das Gradientenverfahren so lange anzuwenden, bis man nah genug am Minimum ist, um dann das lokale Newton-Verfahren anzuwenden.
 
 Wie finden wir die Iterierte, ab der wir das Newton-Verfahren starten sollen?
-Prüfe, ob ein Newton-Schritt die Voraussetzungen des allgemeinen Konvergenzresultats erfüllt und wenn nicht, verwende Gradientenschritt.
-Wir interpretieren das Newton-Verfahren somit als Abstiegsverfahren mit Suchrichtung $d_k = - \nabla^2 f(x_k)^{-1} \nabla f(x_k)$ und Schrittweiten $s_k = 1$.
+Prüfe, ob ein Newton-Schritt die Voraussetzungen des allgemeinen Konvergenzresultats erfüllt.
+Wenn nicht, mache einen Gradientenschritt, sonst einen Newton-Schritt.
+
+Wir interpretieren das Newton-Verfahren als Abstiegsverfahren mit Suchrichtung $d_k = - \nabla^2 f(x_k)^{-1} \nabla f(x_k)$ und Schrittweiten $s_k = 1$.
 
 Überprüfe, ob $d_k := -\nabla^2 f(x_k)^{-1} \nabla f(x_k)$ die verallgemeinerte Winkelbedingung
 \[
 	\f{-\nabla f(x_k)^T d_k}{\|\nabla f(x_k)\| \|d_k\|} \ge \alpha \|\nabla f(x_k)\|^p
 \]
 für $\alpha, p > 0$ erfüllen.
-Für die Schrittweite verwende dide Armijo-Regel.
+Für die Schrittweite verwende die Armijo-Regel.
 Wir erwarten
 \begin{itemize}
 	\item
 		globale (Prä-)Konvergenz, da Suchrichtungen und Schrittweiten zulässig gewählt wurden,
 	\item
-		Der Algorithmus kann einen Newton-Schritt durchführen.
+		Der Algorithmus kann irgendwann einen Newton-Schritt durchführen.
 \end{itemize}
 
 \begin{alg}[Globalisiertes Newton-Verfahren] \label{alg:8}
@@ -2330,24 +2334,24 @@ Wir erwarten
 			\Repeat
 				\State{$s_k \gets \beta s_k$}
 				\State{$x_{k+1} \gets x_k + s_k d_k$}
-			\Until{$f(x_{k+1}) \le f(x_k) - \gamma s_k \nabla f(x_k)^T d_k$}
+			\Until{$f(x_{k+1}) \le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k$}
 		\EndWhile
 	\end{algorithmic}
 \end{alg}
 
-\begin{st} \label{2.57}
+\begin{st}[Präkonvergenz des globalisierten Newton-Verfahrens] \label{2.57}
 	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar.
 	\ref{alg:8} terminiert entweder nach endlich vielen Schritten an einem stationärem Punkt, oder er erzeugt eine Folge $(x_k)_{k\in\N}$ mit
 	\begin{enumerate}[(a)]
 		\item
 			$f(x_{k+1}) < f(x_k)$,
 		\item
-			Jeder Häufungspunkt von $x_k$ ist stationärer Punkt von $f$.
+			jeder Häufungspunkt von $x_k$ ist stationärer Punkt von $f$.
 	\end{enumerate}
 	\begin{proof}
-		Wende \ref{2.29} an.
+		Wir zeigen die Zulässigkeit von Suchrichtungen und Schrittweiten (die Aussage folgt dann mit \ref{2.29}).
 		\begin{seg}[Zulässigkeit der Suchrichtungen]
-		Wird Newton-Suchrichtung verwendet, dann ist
+		Wird im Algorithmus die Newton-Suchrichtung verwendet, dann ist
 		\[
 			-\nabla f(x_k)^T d_k \ge \alpha \|\nabla f(x_k)^{1+p}\|d_k\|
 		\]
@@ -2355,12 +2359,12 @@ Wir erwarten
 		\[
 			d_k := -\nabla f(x_k).
 		\]
-		Also ist
+		Also gilt die verallgemeinerte Winkelbedingung
 		\[
 			- \f {\nabla f(x_k)^T d_k}{\|\nabla f(x_k)\|\|d_k\|}
 			\ge \min \{ 1, \alpha \|\nabla f(x_k)\|^p \}.
 		\]
-		Nach \ref{2.31} ist $d_k$ zulässig.
+		Nach \ref{2.31} sind die Suchrichtungen $d_k$ somit zulässig.
 		\end{seg}
 		\begin{seg}[Zulässigkeit der Schrittweiten]
 		Verwende \ref{2.36}:
@@ -2384,7 +2388,7 @@ Wir erwarten
 		Also ist
 		\[
 			\|d_l\|
-			\ge \min \{1, \f 1c \} \f {-\nabla f(x_l)^T d_l}{\|d_l\|}.
+			\ge \min \{1, \f 1C \} \f {-\nabla f(x_l)^T d_l}{\|d_l\|}.
 		\]
 		Die Armijo-Regel liefert also zulässige Schrittweiten.
 		\end{seg}
@@ -2399,7 +2403,7 @@ Wir erwarten
 		\item
 			Ist $(x_k)_{k\in\N}$ beschränkt und $\hat x$ ihr einziger Häufungspunkt, so konvergiert $(x_k)_{k\in\N}$ gegen $\hat x$.
 		\item
-			Ist $\hat x$ ein isolierter Häufungspunkt von $(x_k)$ (d.h. es existiert eine Umgebung um $\hat x$, in der $\hat x$ einziger Häufungspunkt ist) und gilt für jede gegen $\hat x$ konvergente Teilfolge $(x_l)_{l\in L}$
+			Ist $\hat x$ ein isolierter Häufungspunkt von $(x_k)_{k\in\N}$ (d.h. es existiert eine Umgebung um $\hat x$, in der $\hat x$ einziger Häufungspunkt ist) und gilt für jede gegen $\hat x$ konvergente Teilfolge $(x_l)_{l\in L}$
 			\[
 				x_l - x_{l+1} \to 0,
 			\]
@@ -2433,23 +2437,25 @@ Wir erwarten
 		\item
 			Nach endlich vielen Iterationsschritten geht das Verfahren in das Newton-Verfahren über.
 	\end{enumerate}
-	Insbesondere konvergiert $(x_k)_{k\in \N}$ superlinear (für $\nabla^2 f$ lokal Lipschitz-stetig sogar quadratisch) gegen $\hat x$.
+	Insbesondere konvergiert $(x_k)_{k\in \N}$ superlinear (und für $\nabla^2 f$ lokal Lipschitz-stetig sogar quadratisch) gegen $\hat x$.
 	\begin{proof}
 		\begin{enumerate}[(a)]
 			\item
 				Nach \ref{2.57} ist $\hat x$ stationärer Punkt und wegen $\nabla^2 f(\hat x)$ positiv definit auch lokales Minimum.
-				Nach \ref{2.48} (a),(b) existierten $\delta, \my > 0$ sodass $\hat x \in \R^n$ der einzige stationäre Punkt in $B_\delta(\hat x)$ ist und $\lambda_{\text{min}} (\nabla^2 f(x)) \ge \my$ für alle $x \in B_\delta(\hat x)$.
+
+				Nach \ref{2.48} (a),(b) existierten $\delta, \my > 0$ sodass $\hat x \in \R^n$ der einzige stationäre Punkt in $B_\delta(\hat x)$ ist.
 			\item
 				$\hat x$ ist nach \ref{2.57} einziger Häufungspunkt von $(x_k)_{k\in\N}$ in $B_\delta(\hat x)$.
 				Sei $(x_l)_{l\in L}$ eine gegen $\hat x$ konvergente Teilfolge.
-				Wegen $\nabla f(x_l)  \to 0$ gilt
+				Wegen $\nabla f(x_l) \to 0$ (nach \ref{2.57} ist $\hat x$ stationärer Punkt) gilt
 				\begin{align*}
 					\|x_l - x_{l+1}\|
 					&= s_l \|d_l\|
 					\le \|d_l\| \\
 					&\le \max \Big\{ \underbrace{\|\nabla f(x_l)\|}_{\to 0}, \underbrace{\|\nabla^2 f(x_l)^{-1} \nabla f(x_l)\|}_{\le \|\nabla^2 f(x_l)^{-1} \| \|\nabla f(x_l)\|} \Big\}
 				\end{align*}
-				Wegen $\|\nabla^2 f(x_l)^{-1}\| = \f 1{\lambda_{\text{min}}(\nabla^2 f(x_l))} \le \f 1\my$ also
+				Sei $\my > 0$ hinreichend klein, dass $\lambda_{\text{min}} (\nabla^2 f(x)) \ge \my$ für alle $x \in B_\delta(\hat x)$ (siehe \ref{2.48}).
+				Wegen $\|\nabla^2 f(x_l)^{-1}\| = \f 1{\lambda_{\text{min}}(\nabla^2 f(x_l))} \le \f 1\my$ gilt also
 				\[
 					\|x_l - x_{l+1}\| \to 0.
 				\]
