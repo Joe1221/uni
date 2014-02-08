@@ -1325,9 +1325,18 @@ Also sind Armijo-Schrittweiten im Allgemeinen nicht zulässig.
 
 \subsection{Die Powell-Wolfe-Schrittweitenregel}
 
-Es gibt Varianten der Armijo-Regel, die zulässig sind, z.B. Armijo mit Aufweitung, Armijo-Bedingung auch als Schranken in beide Richtungen an Abstieg, Goldstein-Regel.
+Es gibt Varianten der Armijo-Regel, die zulässig sind:
+% fixme: varianten genauer ausführen
+\begin{itemize}
+	\item
+		z.B. Armijo mit Aufweitung,
+	\item
+		Armijo-Bedingung als Schranke in beide Richtungen,
+	\item
+		% fixme: reference
+		Goldstein-Regel (siehe Übungsaufgabe).
+\end{itemize}
 
-\paragraph{Die Idee hinter Powell-Wolfe}
 In den Beweisen von \ref{2.24} und \ref{2.36} wurde verwendet
 \[
 	\gamma \nabla f(x_l)^T d_l
@@ -1335,12 +1344,12 @@ In den Beweisen von \ref{2.24} und \ref{2.36} wurde verwendet
 \]
 mit einer Zwischenstelle $\sigma_l \in [0, s_l]$.
 Naheliegend ist jetzt ein Algorithmus, der einen solchen Zusammenhang explizit fordert.
-Es wird also zur aktuellen Iterierten $x$ und Suchrichtung $d$ eine Schrittweite $s$ gesucht, die
+Es wird also zur aktuellen Iterierten $x$ und Suchrichtung $d$ eine Schrittweite $s$ gesucht, welche die bekannte Armijo-Bedingung und die sogenannte \emph{Powell-Wolfe-Bedingung} erfüllt:
 \begin{align}
 	f(x+sd) - f(x)
-	&\le \gamma s \nabla f(x)^T d \label{eq:pw1}\\
+	&\le \gamma s \nabla f(x)^T d \label{eq:pw_armijo} \tag{Armijo}\\
 	\nabla f(x+sd)^T d
-	&\ge \eta \nabla f(x)^T d \label{eq:pw2}
+	&\ge \eta \nabla f(x)^T d \label{eq:pw_pw} \tag{PW}
 \end{align}
 mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 
@@ -1348,21 +1357,21 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 	\begin{algorithmic}
 		\Require{$0<\gamma < 1, \gamma < \eta < 1$}
 		\Require{aktuelle Iterierte $x$, Richtung $d\in\R^n$}
-		\State{$s^- \gets 2$}
-		\Repeat
+		\State{$s^- \gets 1$}
+		\While{$s^-$ erfüllt nicht \eqref{eq:pw_armijo}}
 			\State{$s^- \gets \f {s^-}2$}
-		\Until{$s^-$ erfüllt Armijo}
+		\EndWhile
 		\State{$s^+ \gets s^-$}
-		\Repeat
+		\While{$s^+$ erfüllt \eqref{eq:pw_armijo}}
 			\State{$s^+ \gets 2s^+$}
-		\Until{$s^+$ verletzt Armijo}
-		\While{$s^-$ verletzt Powell-Wolfe}
-		\State{$s^{(0)} \gets \f {s^+ + s^-}2$}
-		\If{$s^{(0)}$ erfüllt Armijo}
-			\State{$s^- \gets s^{(0)}$}
-		\Else
-			\State{$s^+ \gets s^{(0)}$}
-		\EndIf
+		\EndWhile
+		\While{$s^-$ verletzt \eqref{eq:pw_pw}}
+			\State{$s^{(0)} \gets \f {s^+ + s^-}2$}
+			\If{$s^{(0)}$ erfüllt \eqref{eq:pw_armijo}}
+				\State{$s^- \gets s^{(0)}$} \Comment{$s^-$ erfüllt Armijo}
+			\Else
+				\State{$s^+ \gets s^{(0)}$} \Comment{$s^+$ verletzt Armijo}
+			\EndIf
 		\EndWhile
 		\Return{$s \gets s^-$}
 	\end{algorithmic}
@@ -1373,7 +1382,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 	Sei $d$ eine Abstiegsrichtung für $f$ im Punkt $x$.
 	Weiter sei $f$ in Richtung $d$ nach unten beschränkt: $\inf_{t\ge 0}f(x+td) > -\infty$.
 
-	Dann terminiert \ref{alg:4} nach endlich vielen Schritten und liefert eine Schrittweite $s$, die \ref{eq:pw1}, \ref{eq:pw2} erfüllt.
+	Dann terminiert \ref{alg:4} nach endlich vielen Schritten und liefert eine Schrittweite $s$, die \ref{eq:pw_armijo}, \ref{eq:pw_pw} erfüllt.
 	\begin{proof}
 		Die erste Repeat-Schleife terminiert wegen \ref{2.21} (für $s$ klein genug ist die Armijo-Bedingung erfüllt).
 
@@ -1385,7 +1394,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 			&\le f(x) + \gamma s^+ \nabla f(x)^T d
 			\xrightarrow{s^+\to\infty} -\infty.
 		\end{align*}
-		Also kann $s^+$ nicht beliebig groß werden und die Schleife terminiert nach endlich vielen Schritten mit einem $s^+$, welches \ref{eq:pw1} verletzt.
+		Also kann $s^+$ nicht beliebig groß werden und die Schleife terminiert nach endlich vielen Schritten mit einem $s^+$, welches \ref{eq:pw_armijo} verletzt.
 
 		Für die While-Schleife betrachte die stetige Funktion
 		\[
@@ -1395,15 +1404,15 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 		Zeige:
 		\begin{enumerate}[(i)]
 			\item
-				In $s^*$ ist \ref{eq:pw1} erfüllt.
+				In $s^*$ ist \ref{eq:pw_armijo} erfüllt.
 			\item
-				Für $s \in \R$ mit $g(s) > 0$ ist \ref{eq:pw1} nicht erfüllt.
+				Für $s \in \R$ mit $g(s) > 0$ ist \ref{eq:pw_armijo} nicht erfüllt.
 			\item
-				Für $s \in \R$ mit $g(s) \le 0$ ist \ref{eq:pw1} erfüllt.
+				Für $s \in \R$ mit $g(s) \le 0$ ist \ref{eq:pw_armijo} erfüllt.
 		\end{enumerate}
-		Dann terminiert \ref{alg:4} nach endlich vielen Richtten und liefert eine Schrittweite $s$, die \ref{eq:pw1} und \ref{eq:pw2} erfüllt.
+		Dann terminiert \ref{alg:4} nach endlich vielen Richtten und liefert eine Schrittweite $s$, die \ref{eq:pw_armijo} und \ref{eq:pw_pw} erfüllt.
 
-		Die Intervallhalbierung sucht nach einem $s^*$ an dem \ref{eq:pw1} noch erfüllt ist und erzeugt dabei eie Folge von $s^-$, die monoton steigend gegen $s^*$ konverrgiert und für alle Folgenglieder gilt $g(s^-) \le 0$.
+		Die Intervallhalbierung sucht nach einem $s^*$ an dem \ref{eq:pw_armijo} noch erfüllt ist und erzeugt dabei eie Folge von $s^-$, die monoton steigend gegen $s^*$ konverrgiert und für alle Folgenglieder gilt $g(s^-) \le 0$.
 		Genauso wird eine Folge von $s^+$ erzeugt, die monoton fallen gegen $s^*$ konvergiert und es gilt $g(s^+) > 0$.
 
 		An $s^*$ gilt
@@ -1412,7 +1421,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 			\le g'(s^*)
 			= \nabla f(x+sd)^T d - \gamma \nabla f(x)^T d
 		\]
-		(vgl. \ref{eq:pw2}).
+		(vgl. \ref{eq:pw_pw}).
 
 		Da $g$ stetig ist, liegt zu jedem $\eps > 0$ für hinreichend viele Schleifendurchgänge $s^-$ nahe genug an $s^*$, sodass gilt
 		\[
@@ -1425,7 +1434,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 			> - \eps
 			= (\nabla - \gamma) \nabla f(x)^T d,
 		\]
-		also gilt $\nabla f(x+s^- d)^T d > \eta \nabla f(x)^T d$, was \ref{eq:pw2} entspricht.
+		also gilt $\nabla f(x+s^- d)^T d > \eta \nabla f(x)^T d$, was \ref{eq:pw_pw} entspricht.
 	\end{proof}
 \end{st}
 
@@ -1439,7 +1448,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 			\quad\implies\quad
 			\lim_{L\ni l \to\infty} \f{\nabla f(x_l)^T d_l}{\|d_l\|} = 0
 		\]
-		Da $f$ nach unten beschränkt ist, erzeugt \ref{alg:4} nach \ref{2.38} für jedes $k \in \N$ eine Schrittweite $s_k > 0$, die \ref{eq:pw1}, \ref{eq:pw2} erfüllen.
+		Da $f$ nach unten beschränkt ist, erzeugt \ref{alg:4} nach \ref{2.38} für jedes $k \in \N$ eine Schrittweite $s_k > 0$, die \ref{eq:pw_armijo}, \ref{eq:pw_pw} erfüllen.
 		Damit gilt
 		\[
 			f(x_{k+1})
