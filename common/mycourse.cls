@@ -133,6 +133,8 @@
 %	BoldFont = *-Bold,
 %] { Inconsolatazi4 }
 
+\setmonofont [ Mapping = tex-text ] { Inconsolata }
+
 \RequirePackage { polyglossia }
 
 \ExplSyntaxOff
