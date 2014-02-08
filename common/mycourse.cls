@@ -124,14 +124,14 @@
 %==================================
 
 \RequirePackage { fontspec }
-\RequirePackage { libertine }
+\RequirePackage { libertineotf }
 
-\setmonofont [
-	Ligatures = TeX,
-	Extension = .otf,
-	UprightFont = *-Regular,
-	BoldFont = *-Bold,
-] { Inconsolatazi4 }
+%\setmonofont [
+%	Ligatures = TeX,
+%	Extension = .otf,
+%	UprightFont = *-Regular,
+%	BoldFont = *-Bold,
+%] { Inconsolatazi4 }
 
 \RequirePackage { polyglossia }
 
