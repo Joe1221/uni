@@ -124,7 +124,15 @@
 %==================================
 
 \RequirePackage { fontspec }
-\RequirePackage { libertineotf }
+
+\setmainfont [
+	Ligatures = TeX,
+	Extension = .otf,
+	UprightFont = *_R,
+	BoldFont = *_RB,
+	ItalicFont = *_RI,
+	BoldItalicFont = *_RBI,
+] { LinLibertine }
 
 % Inconsolatazi4-* and package zi4 exists since texlive 2013,
 % handle older distributions conditionally
