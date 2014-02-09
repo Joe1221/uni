@@ -120,7 +120,7 @@
 \RequirePackage[svgnames,x11names]{xcolor}  % ana3 needs x11names
 
 %==================================
-% Fonts / Encoding
+% Fonts / Encoding / i18n
 %==================================
 
 \RequirePackage { fontspec }
@@ -156,16 +156,6 @@
 %\setmainlanguage[babelshorthands=true]{german}
 \ExplSyntaxOn
 
-%\RequirePackage[\l_mycourse_language]{babel} 	% Deutsche Sprachunterstützung für Silbentrennung, etc.
-%\RequirePackage[T1]{fontenc}		% Erlaubt das kopieren/suchen von/nach Umlauten im pdf-Dokument
-%\RequirePackage[utf8]{inputenc}		% Encoding der tex-Dateien, erlaubt direkte Eingabe von Sonderzeichen
-%\RequirePackage{lmodern}			% Schönere Schriftart für pdf-Dokumente
-%\RequirePackage{libertine}                  % Libertine font
-%\RequirePackage[libertine]{newtxmath}
-%\RequirePackage{beramono}      % Typewriter font scaled to fit with Libertine
-%\RequirePackage{bera}
-%\RequirePackage{mathspec}
-%\setmathtt{beramono}
 
 % Load base class
 \LoadClass{scrbook}
@@ -175,18 +165,7 @@
 \RequirePackage{amsmath}
 \RequirePackage{amssymb}
 
-%\IfFileExists{CJK.sty}{
-%	\usepackage[encapsulated]{CJK}
-%	\newcommand{\japtext}[1]{\begin{CJK}{UTF8}{min}##1\end{CJK}}
-%}{
-%	\newcommand{\japtext}[1]{}
-%}
-
 \RequirePackage{etex}
-
-%\usepackage[cmintegrals,libertine,cmbraces,slantedGreek]{newtxmath}
-%\usepackage{newtxmath}
-%\usepackage[italic,defaultmathsizes]{mathastext}
 
 \RequirePackage{geometry}
 \RequirePackage{graphicx}
@@ -278,7 +257,6 @@
 
 
 % PDF Meta-Informationen setzen
-%\makeatletter
 \AtBeginDocument{
   \hypersetup{
     pdftitle = {\@title},
@@ -290,7 +268,6 @@
   \pagecolor{background}
   %\everymath{\color{math}} % Currently broken, looking for clean, working solution
 }
-%\makeatother
 
 \RequirePackage[hypcap]{caption}
 
@@ -316,8 +293,6 @@
 }
 \setlist [ enumerate ] { leftmargin = 2.1em }
 \setlist [ itemize ] { leftmargin = 1.6em }
-% todo: Incorrect spacing with roman enumerations, beware of "(i)" cases
-%\SetEnumerateShortLabel { i } { \! \! \roman* }
 \setlist [ description ] {
 	style       = nextline,
 	labelindent = 0.9em,
