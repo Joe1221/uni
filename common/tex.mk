@@ -172,8 +172,9 @@ clean:
 		$(T).lof $(T).lot $(T).toc $(T).idx \
 		$(T).nav $(T).snm $(T)-pics.pdf \
 		$(T).fdb_latexmk $(T).synctex.gz \
-		$(T).log $(T).fls $(T).aux) \
-		$(AUXFILES) $(LOGFILES)
+		$(T).log $(T).fls $(T).aux \
+		$(T).run.xml $(T).bcf \
+		) $(AUXFILES) $(LOGFILES)
 
 distclean: clean
 	rm -f $(PDFTARGETS)
