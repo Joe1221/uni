@@ -126,6 +126,8 @@
 \RequirePackage { fontspec }
 \RequirePackage { libertineotf }
 
+% Inconsolatazi4-* and package zi4 exists since texlive 2013,
+% handle older distributions conditionally
 \IfFileExists { zi4.sty } {
 	\setmonofont [
 		Ligatures = TeX,
