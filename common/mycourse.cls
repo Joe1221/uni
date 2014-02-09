@@ -126,14 +126,18 @@
 \RequirePackage { fontspec }
 \RequirePackage { libertineotf }
 
-%\setmonofont [
-%	Ligatures = TeX,
-%	Extension = .otf,
-%	UprightFont = *-Regular,
-%	BoldFont = *-Bold,
-%] { Inconsolatazi4 }
-
-\setmonofont [ Mapping = tex-text ] { Inconsolata }
+\IfFileExists { zi4.sty } {
+	\setmonofont [
+		Ligatures = TeX,
+		Extension = .otf,
+		UprightFont = *-Regular,
+		BoldFont = *-Bold,
+	] { Inconsolatazi4 }
+} {
+	\setmonofont [
+		Ligatures = TeX
+	] { Inconsolata }
+}
 
 \RequirePackage { polyglossia }
 
