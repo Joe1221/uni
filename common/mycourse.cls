@@ -397,8 +397,8 @@
 \renewtheorem*{df*}{Definition}
 \newtheorem{conv}[thm]{Konvention}
 \renewtheorem*{conv*}{Konvention}
-\newtheorem{kor}[thm]{Korrolar}
-\renewtheorem*{kor*}{Korrolar}
+\newtheorem{kor}[thm]{Korollar}
+\renewtheorem*{kor*}{Korollar}
 \newtheorem{prop}[thm]{Proposition}
 \renewtheorem*{prop*}{Proposition}
 \newtheorem{alg}[thm]{Algorithmus}
