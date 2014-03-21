@@ -802,12 +802,11 @@ Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für
 	\]
 	und erhalten $x_{k+1} = x_k - s_k \nabla f(x_k)$ ($s_k = \f {\Delta_k}{\|\nabla f(x_k)\|}$).
 	Vergleiche anschließend die vorhergesagte Abnahme (\pred, “predicted reduction”) mit tatsächlicher Abnahme (\ared, “actual reduction”)
-	%fixme: pred_k sollte skalar sein? pred_k / ared_k oder ared_k / pred_k ? vergleiche auch Trust-Region bei Levenberg-Marquardt später
 	\begin{align*}
-		\pred_k &:= -s_k \nabla f(x_k), &
+		\pred_k &:= -s_k \nabla f(x_k) d_k, &
 		\ared_k &:= f(x_k) - f(x_{k+1}).
 	\end{align*}
-	Falls $\f {\pred_k}{\ared_k} < \gamma$, so wird der Schritt mit verkleinertem $\Delta_k$ wiederholt.
+	Falls $\f {\ared_k}{\pred_k} \le \gamma$, so wird der Schritt mit verkleinertem $\Delta_k$ wiederholt.
 \end{nt}
 
 \coursetimestamp{30}{10}{2013}
@@ -2324,13 +2323,13 @@ Wir erwarten
 		\While{$\nabla f(x_k) \neq 0$}
 			\If{$\det(\nabla^2 f(x_k)) \neq 0$}
 				\State{$d_k \gets -\nabla^2 f(x_k)^{-1} \nabla f(x_k)$}
-				\If{$-\nabla f(x_k)^T d_k < \alpha \|\nabla f(x_k)\|^{1+p} \|d_k\|$}
+				\If{$-\nabla f(x_k)^T d_k < \alpha \|\nabla f(x_k)\|^{1+p}\, \|d_k\|$}
 					\State{$d_k \gets -\nabla f(x_k)$}
 				\EndIf
 			\Else
 				\State{$d_k \gets -\nabla f(x_k)$}
 			\EndIf
-			\State{$s_k \gets \f 1\beta$}
+			\State{$s_k \gets \f 1\beta$} \Comment{ab hier: Armijo-Regel}
 			\Repeat
 				\State{$s_k \gets \beta s_k$}
 				\State{$x_{k+1} \gets x_k + s_k d_k$}
@@ -2353,7 +2352,7 @@ Wir erwarten
 		\begin{seg}[Zulässigkeit der Suchrichtungen]
 		Wird im Algorithmus die Newton-Suchrichtung verwendet, dann ist
 		\[
-			-\nabla f(x_k)^T d_k \ge \alpha \|\nabla f(x_k)^{1+p}\|d_k\|,
+			-\nabla f(x_k)^T d_k \ge \alpha \|\nabla f(x_k)\|^{1+p}\, \|d_k\|,
 		\]
 		ansonsten ist $d_k := -\nabla f(x_k)$.
 
@@ -2373,8 +2372,8 @@ Wir erwarten
 		Für Newton-Suchrichtungen gilt
 		\begin{align*}
 			- \f {\nabla f(x_l)^T d_l}{\|d_l\|}
-			&\le \|\nabla f(x_l)\| \\
-			&= \|\nabla^2 f(x_l) d_l\|
+			\le \|\nabla f(x_l)\|
+			= \|\nabla^2 f(x_l) d_l\|
 			\le C \|d_l\|,
 		\end{align*}
 		und für Gradientensuchrichtungen
@@ -2406,6 +2405,9 @@ Wir erwarten
 				x_l - x_{l+1} \to 0,
 			\]
 			so konvergiert $(x_k)_{k\in\N}$ gegen $\hat x$.
+			\begin{note}
+				Mit $l+1$ ist nicht der nächstgrößere Index nach $l$ in $L$ gemeint, im Allgemeinen gilt nicht $l+1 \in L$.
+			\end{note}
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[(a)]
@@ -2418,15 +2420,16 @@ Wir erwarten
 				Angenommen $(x_k) \not\to \hat x$, dann existiert $B_\eps(\hat x)$, so dass unendlich viele $x_k$ außerhalb $B_\eps (\hat x)$ liegen.
 				Wähle $\eps > 0$ so klein, dass außerdem $\hat x$ einziger Häufungspunkt in $B_\eps(\hat x)$ ist.
 				Nach Konstruktion liegen innerhalb und außerhalb $B_\eps(\hat x)$ jeweils unendlich viele $x_k$.
+
 				Es existiert $L \subset \N$, $|L| = \infty$, so dass $x_l \in B_\eps(\hat x)$ und $x_{l+1} \not\in B_\eps(\hat x)$ für alle $l \in L$.
-				$(x_l)_{l\in L}$ ist beschränkt mit einzigem Häufungspunkt $\hat x$, also $\lim_{L\ni l\to \infty} x_l = \hat x$, ein Widerspruch zu $x_l - x_{l+1} \to 0$.
+				$(x_l)_{l\in L}$ ist beschränkt (da $\forall l \in L: x_l \in B_\eps(\hat x)$) mit einzigem Häufungspunkt $\hat x$, also $\lim_{L\ni l\to \infty} x_l = \hat x$, ein Widerspruch zu $x_l - x_{l+1} \to 0$.
 		\end{enumerate}
 	\end{proof}
 \end{lem}
 
 \begin{st}[Schnelle Konvergenz des globalisierten Newton-Verfahrens] \label{2.59}
 	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar.
-	Falls \ref{alg:8} nicht terminiert, die erzeugte Folge $(x_k)_{k\in\N} \subset \R^n$ einen Häufungspunkt besitzt und$\nabla^2 f(\hat x)$ positiv definit ist, so gilt
+	Falls \ref{alg:8} nicht terminiert, die erzeugte Folge $(x_k)_{k\in\N} \subset \R^n$ einen Häufungspunkt besitzt und $\nabla^2 f(\hat x)$ positiv definit ist, so gilt
 	\begin{enumerate}[(a)]
 		\item
 			$\hat x$ ist isoliertes Minimum von $f$,
@@ -2439,20 +2442,19 @@ Wir erwarten
 	\begin{proof}
 		\begin{enumerate}[(a)]
 			\item
-				Nach \ref{2.57} ist $\hat x$ stationärer Punkt und wegen $\nabla^2 f(\hat x)$ positiv definit auch lokales Minimum.
+				Nach \ref{2.57} ist $\hat x$ ein stationärer Punkt und da $\nabla^2 f(\hat x)$ positiv definit auch lokales Minimum.
 
-				Nach \ref{2.48} (a),(b) existierten $\delta, \my > 0$ sodass $\hat x \in \R^n$ der einzige stationäre Punkt in $B_\delta(\hat x)$ ist.
+				Nach \ref{2.48} (a), (b) existiert $\delta, \my > 0$ sodass $\hat x \in \R^n$ der einzige stationäre Punkt in $B_\delta(\hat x)$ ist und $\lambda_{\text{min}}(\nabla^2(f(x))) \ge \my$ für alle $x \in B_\delta(\hat x)$ gilt.
 			\item
-				$\hat x$ ist nach \ref{2.57} einziger Häufungspunkt von $(x_k)_{k\in\N}$ in $B_\delta(\hat x)$.
+				$\hat x$ ist nach \ref{2.57} (b) einziger Häufungspunkt von $(x_k)_{k\in\N}$ in $B_\delta(\hat x)$.
 				Sei $(x_l)_{l\in L}$ eine gegen $\hat x$ konvergente Teilfolge.
-				Wegen $\nabla f(x_l) \to 0$ (nach \ref{2.57} ist $\hat x$ stationärer Punkt) gilt
+				Wegen $\nabla f(x_l) \to 0$ gilt
 				\begin{align*}
 					\|x_l - x_{l+1}\|
 					&= s_l \|d_l\|
 					\le \|d_l\| \\
 					&\le \max \Big\{ \underbrace{\|\nabla f(x_l)\|}_{\to 0}, \underbrace{\|\nabla^2 f(x_l)^{-1} \nabla f(x_l)\|}_{\le \|\nabla^2 f(x_l)^{-1} \| \|\nabla f(x_l)\|} \Big\}
 				\end{align*}
-				Sei $\my > 0$ hinreichend klein, dass $\lambda_{\text{min}} (\nabla^2 f(x)) \ge \my$ für alle $x \in B_\delta(\hat x)$ (siehe \ref{2.48}).
 				Wegen $\|\nabla^2 f(x_l)^{-1}\| = \f 1{\lambda_{\text{min}}(\nabla^2 f(x_l))} \le \f 1\my$ gilt also
 				\[
 					\|x_l - x_{l+1}\| \to 0.
@@ -2467,7 +2469,7 @@ Wir erwarten
 						die Newtonsuchrichtung $d_k := - \nabla^2 f(x_k)^{-1} \nabla f(x_k)$ die verallgemeinerte Winkelbedingung erfüllt, d.h.
 						\[
 							-\nabla f(x_k)^T d_k
-							\ge \alpha \|\nabla f(x_k)\|^{1 + p}
+							\ge \alpha \|\nabla f(x_k)\|^{1 + p} \|d_k\|
 						\]
 						mit $\alpha, p > 0$,
 					\item
@@ -2486,27 +2488,27 @@ Wir erwarten
 							\|\nabla^2 f(x) \| \le C
 						\]
 						für alle $x \in B_\delta(\hat x)$.
-						Da $\nabla f(x_k) \to 0$ ist für hinreichend große $k$
+						Wegen $\nabla f(x_k) \to 0$ gilt für hinreichend große $k$
 						\[
 							\alpha \|\nabla f(x_k)\|^p
-							\le \f \my C
+							\le \f \my C,
 						\]
-						und damit
+						wobei $\alpha, p > 0$ frei gewählte Parameter des Verfahrens waren.
+						Daraus folgt schließlich die gewünschte Winkelbedingung
 						\begin{align*}
 							-\nabla f(x_k)^T d_k
 							&= d_k^T \nabla^2 f(x_k) d_k \\
 							&\ge \my \|d_k\|^2 \\
 							&= \my \|\nabla^2 f(x_k)^{-1} \nabla f(x_k)\| \|d_k\| \\
 							&\ge \my \f{\|\nabla f(x_k)\|}{\|\nabla^2 f(x_k)\|} \|d_k\| \\
-							&\ge \f{\my}C \|\nabla f(x_k) \|d_k\| \\
+							&\ge \f{\my}C \|\nabla f(x_k) \| \|d_k\| \\
 							&\ge \alpha \|\nabla f(x_k)\|^{1+ p} \|d_k\|.
 						\end{align*}
 					\item
 						Nach \ref{2.3} existiert $s \in [0,1]$ mit
 						\begin{align*}
 							f(x_k + d_k)
-							&= f(x_k) + \nabla f(x_k)^T d_k + \f 12 d_k^T \nabla f(x_k + s d_k) \\
-							&= f(x_k) - \f 12 d_k^T \nabla f(x_k + s d_k).
+							&= f(x_k) + \nabla f(x_k)^T d_k + \f 12 d_k^T \nabla f(x_k + s d_k)
 						\end{align*}
 						Also ist
 						\begin{align*}
@@ -2514,33 +2516,34 @@ Wir erwarten
 							&\quad= (1-\gamma) \nabla f(x_k)^T d_k + \f 12 d_k^T \nabla f(x_k + sd_k) d_k \\
 							&\quad= (\gamma-1) d_k^T \nabla^2 f(x_k) d_k + \f 12 d_k^T \nabla^2 f(x_k + sd_k) d_k \\
 							&\quad= \underbrace{(\gamma-\f 12)}_{<0} \underbrace{d_k^T \nabla^2 f(x_k) d_k}_{\ge \my \|d_k\|^2} \\
-							&\qquad\qquad\qquad + \f 12 d_k^T (\nabla f(x_k + sd_k) - \nabla^2 f(x_k)) d_k \\
-							&\quad\le \Big(\underbrace{\my (\gamma - \f 12)}_{<0} + \underbrace{\f 12 \|\nabla^2 f(x_k + sd_k) - \nabla^2 f(x_k)\|}_{\to 0} \Big) \|d_k\|^2 \\
+							&\qquad\qquad\qquad + \f 12 d_k^T \Big(\nabla f(x_k + sd_k) - \nabla^2 f(x_k)\Big) d_k \\
+							&\quad\le \Big(\underbrace{\my (\gamma - \f 12)}_{<0} + \underbrace{\f 12 \Big\|\nabla^2 f(x_k + sd_k) - \nabla^2 f(x_k)\Big\|}_{\to 0} \Big) \|d_k\|^2 \\
 							&\quad\le 0
 						\end{align*}
-						für hinreichend große $k \in \N$.
+						für hinreichend große $k \in \N$ und die Armijo-Regel akzeptiert $s_k = 1$.
 				\end{enumerate}
 		\end{enumerate}
 	\end{proof}
 \end{st}
 
-\paragraph{Globalisierte BFGS-Verfahren}
+\subsubsection{Globalisierte BFGS-Verfahren}
 
-siehe \cite{geigerkanzow99}.
+Analog zum globalisierten Newton-Verfahren lässt sich auch das BFGS-Verfahren globalisieren, siehe dazu \cite{geigerkanzow99}.
 
 
 \section{Nichtlineare Ausgleichsprobleme}
 
 
-Betrachte für $F: \R^n \to \R^m$ hinreichend oft differenzierbar die Gleichung
+Betrachte für hinreichend oft differenzierbares $F: \R^n \to \R^m$ die Gleichung
 \[
 	F(x) = 0.
 \]
-Suche als Approximation an die Lösung das Minimum
+Wenn wir $m > n$ zulassen, so ist das System im Allgemeinen garnicht exakt lösbar.
+Stattdessen suchen wir als Approximation an die Lösung das Minimum
 \[
 	\|F(x)\| \to \min!,
 \]
-oder äquivalent
+oder äquivalent das Minimum von
 \[
 	\Phi(x)
 	:= \f 12 \| F(x) \|^2
@@ -2555,6 +2558,10 @@ oder äquivalent
 		\nabla \Phi(x) &= F'(x)^T F(x) \\
 		\nabla^2 \Phi(x) &= F'(x)^T F'(x) + \sum_{i=1}^m F_i(x) \nabla^2 F_i(x)
 	\end{align*}
+	\begin{proof}
+		siehe Übungsaufgabe.
+		% fixme: ref
+	\end{proof}
 \end{lem}
 
 \subsection{Das Gauß-Newton-Verfahren}
@@ -2578,10 +2585,7 @@ Minimiere stattdessen
 	= \f 12 \|F(x)\|^2
 	\approx \f 12 \|F(x_k) + F'(x_k) (x-x_k) \|^2,
 \]
-d.h. suche eine bestmögliche Lösung für
-\[
-	-F(x_k) = F'(x_k)(x - x_k).
-\]
+d.h. suche eine bestmögliche Lösung für $F'(x_k)(x - x_k) = -F(x_k)$.
 Die Gaußschen Normalengleichungen liefern, dass das gesuchte Minimum genau
 \[
 	F'(x_k)^T F'(x_k) (x-x_k) = - F'(x_k)F(x_k)
@@ -2592,9 +2596,9 @@ Dies liefert die Iteration
 	x_{k+1}
 	:= x_k - \big(F'(x_k)^T F'(x_k)\big)^{-1} F'(x_k)^T F(x_k)
 \]
-Für $F: \R^n \to \R^n$ und $F'(x_k)$ invertierbar, dann ist dies genau das bisherige Newton-Verfahren.
+Für $F: \R^n \to \R^n$ und $F'(x_k)$ invertierbar, ist dies genau das bisherige Newton-Verfahren.
 
-\begin{alg} \label{alg:9}
+\begin{alg}[Gauß-Newton-Verfahren] \label{alg:9}
 	\begin{algorithmic}
 		\Require{Startwert $x_0 \in \R^n$}
 		\State{$k \gets 0$}
@@ -2606,31 +2610,33 @@ Für $F: \R^n \to \R^n$ und $F'(x_k)$ invertierbar, dann ist dies genau das bish
 	\end{algorithmic}
 \end{alg}
 
-Gauß-Newton-Verfahren konvergieren (für nicht exakt lösbare nichtlineare Ausgleichprobleme) im Allgemeinen nur linear (siehe Übungsaufgabe).
-
+\begin{nt*}
+	Gauß-Newton-Verfahren konvergieren (für nicht exakt lösbare nichtlineare Ausgleichprobleme) im Allgemeinen nur linear (siehe Übungsaufgabe).
+	% fixme: ref
+\end{nt*}
 
 \subsection{Levenberg-Marquardt-Verfahren}
 
-Betrachte die Approximation
+Betrachte die Approximation aus dem Gauß-Newton-Verfahren:
 \[
 	\Phi(x)
 	= \f 12 \|F(x)\|^2
 	\approx \f 12 \|F(x_k) + F'(x_k) (x-x_k) \|^2.
 \]
-Es lohnt sich nicht das Minimum dieser Approximation exakt zu berechnen, da die Approximation nur in der Nähe von $x_k$ gilt.
+Da diese Approximation nur in der Nähe von $x_k$ gilt, wäre es naheliegend, die Minimierung unter einer Nebenbedingung durchzuführen, welche die Schrittweite nicht zu groß werden lässt.
 
-Minimiere
+Wir minimieren deshalb
 \[
 	\| F(x_k) + F'(x_k)(x-x_k) \|^2 + \my \|x-x_k\|^2 \to \min!
 \]
-mit Parameter $\my > 0$, der bestimmt, wie der jeweilige Ausdruck gewichtet wird:
+mit einem Parameter $\my > 0$, der bestimmt, wie der jeweilige Ausdruck gewichtet wird:
 \begin{align*}
 	\my = 0 &: \text{ nur $\|F(x_k) + F'(x_k)(x-x_k)\|$ wird minimiert, Gauß-Newton} \\
 	\my \to \infty &: \text{ nur $\|x-x_k\|$ wird minimiert, $x = x_k$}.
 \end{align*}
-Folgenden Minimierungsproblem ist eine äquivalente Formulierung:
+Folgendes Minimierungsproblem ist eine äquivalente Formulierung:
 \[
-	\left\|^2
+	\left\|
 	\begin{pmatrix}
 		F'(x_k) \\
 		\sqrt{\my} I
@@ -2657,12 +2663,12 @@ Die Gaußsche Normalengleichung liefert
 		0
 	\end{pmatrix}.
 \]
-Dies ließert die Iteration $x_{k+1} := x_k + d_k$, wobei $d_k$ folgende Gleichung löst:
+Dies liefert die Iteration $x_{k+1} := x_k + d_k$, wobei $d_k$ folgende Gleichung löst:
 \[
 	\Big( F'(x_k)^T F'(x_k) + \my I \Big) d_k
 	= - F'(x_k)^T F(x_k).
 \]
-Dabei ist $F'(x_k)^T F'(x_k) + \my I$ stets positiv definit (siehe folgender Satz), also invertierbar.
+Dabei ist $F'(x_k)^T F'(x_k) + \my I$ stets positiv definit (siehe \ref{2.61}), also invertierbar.
 
 \begin{lem} \label{2.61}
 	Sei $x_k \in \R^n$.
@@ -2681,7 +2687,7 @@ Dabei ist $F'(x_k)^T F'(x_k) + \my I$ stets positiv definit (siehe folgender Sat
 			\]
 			und falls $F'(x_k)^T F'(x_k)$ invertierbar ist
 			\[
-				\lim_{\my\to 0} d_k = -(F'(x_k)F'(x_k))^{-1} F'(x_k)^T F(x_k).
+				\lim_{\my\to 0} d_k = -(F'(x_k)^T F'(x_k))^{-1} F'(x_k)^T F(x_k).
 			\]
 		\item
 			Die Wahl
@@ -2694,51 +2700,88 @@ Dabei ist $F'(x_k)^T F'(x_k) + \my I$ stets positiv definit (siehe folgender Sat
 				\udN
 				\|d\| \le r(\my).
 			\]
+			\begin{note}
+				Mit diesem Ansatz können wir ein Trust-Region-Verfahren (siehe \ref{2.23}) erhalten.
+				$\my$ steuert die Größe der Trust-Region $B_{r(\my)}(x_k)$.
+			\end{note}
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[(a)]
 			\item
 				klar, da $F'(x_k)^T F'(x_k)$ symmetrisch und positiv semidefinit.
 			\item
-				Sei $(v_l)_{l=1}^n \subset \R^n$ eine ONB aus Eigenvektoren von $F'(x_k)^T F'(x_k)$ mit zugehörigen $\lambda_l \ge 0$.
-				Sei
+				Sei $(v_l)_{l=1}^n \subset \R^n$ eine ONB aus Eigenvektoren von $F'(x_k)^T F'(x_k)$ mit zugehörigen Eigenwerten $\lambda_l \ge 0$.
+
+				Wir zerlegen hiermit
 				\[
 					F'(x_k)^T F(x_k)
-					= \sum_{l=1}^n a_l v_l
+					= \sum_{l=1}^n a_l v_l,
 				\]
-				mit $a_l := v_l^T F'(x_k)^T F(x_k)$.
-				Dann ist
+				wobei $a_l = \<v_l, F'(x_k)^T F(x_k)\> = v_l^T F'(x_k)^T F(x_k)$.
+				Da $v_l$ Eigenvektor von $(F'(x_k)^T F'(x_k) + \my I)^{-1}$ zum Eigenwert $\f 1{\lambda_l + \my}$ ist, folgt
 				\[
-					d_k = \sum_{l=1}^n \f {a_l}{\lambda_l + \my} v_l
+					d_k = -\sum_{l=1}^n \f {a_l}{\lambda_l + \my} v_l
 				\]
 				und mit Pythagoras
 				\[
-					\|d_k\|^2 = \sum_{l=1}^n ( \f {a_l}{\lambda_l + \my} )^2.
+					\|d_k\|^2 = \sum_{l=1}^n \big( \f {a_l}{\lambda_l + \my} \big)^2.
 				\]
-				Hieran liest man die Behauptungen direkt ab.
+				Damit ist $r: (0, \infty) \to \R: \my \to \|d_k\|$ stetig und monoton fallend.
+				Außerdem erkennt man $\lim_{\my \to \infty} d_k = 0$ und
+				\begin{align*}
+					\lim_{\my \to 0} d_k
+					= -\sum_{l=1}^n \f {a_l}{\lambda_l} v_l
+					&= -\sum_{l=1}^n a_l (F'(x_k)^T F'(x_k))^{-1} v_l \\
+					&= -\big( F'(x_k)^T F'(x_k) \big)^{-1} F'(x_k)^T F(x_k).
+				\end{align*}
 			\item
-				$d_k$ ist globales Minimum von
+				$d_k$ ist per Konstruktion (durch die Gaußschen Normalengleichungen) globales Minimum von
 				\[
 					\| F(x_k) + F'(x_k) d_k \|^2 + \my \|d_k\|^2 \to \min!
 				\]
-				Falls es ein kleineres globales Minimum der Behauptung gäbe, dann wäre $d_k$ nicht mehr Minimum vom obigen Ausdruck.
+				Angenommen $\hat d_k \neq d_k$ sei ein globales Minimum von $\|F(x_k) + F'(x_k) d\| \to \min!$ unter der Nebenbedingung $\|d\| \le r(\my) = \|d_k\|$ und $d_k$ sei dies nicht, dann wäre
+				\[
+					\underbrace{\| F(x_k) + F'(x_k) \hat d_k \|^2}_{< \| F(x_k) + F'(x_k) d_k \|^2} + \my \underbrace{\|\hat d_k\|^2}_{\le \|d_k\|^2}
+					< \| F(x_k) + F'(x_k) d_k \|^2 + \my \|d_k\|^2
+				\]
+				ein kleineres Minimum von $\| F(x_k) + F'(x_k) d_k \|^2 + \my \|d_k\|^2 \to \min!$, ein Widerspruch.
 		\end{enumerate}
 	\end{proof}
 \end{lem}
 
-Wann akzeptieren wir $\my$?
-Definiere
+Wie passen wir $\my$ im Laufe des Algorithmus an?
+Definiere nach dem Prinzip der Trust-Region
 \begin{align*}
 	\eps
-	&:= \dfrac {\mathrm{ared}_k}{\mathrm{pred}_k} \\
-	&:= \dfrac {\|F(x_k)\| - \|F(x_{k+1})\|}{\|F(x_k)\|^2 - \|F(x_k) + F'(x_k) (x_{k+1} - x_k)\|^2}
+	&:= \dfrac {\mathrm{ared}_k}{\mathrm{pred}_k}
+	:= \dfrac {\|F(x_k)\|^2 - \|F(x_{k+1})\|^2}{\|F(x_k)\|^2 - \|F(x_k) + F'(x_k) (x_{k+1} - x_k)\|^2}.
 \end{align*}
-Ein sehr kleines $\eps$ bedeutet, der Schritt war zu groß, also vergrößere $\my$
+Ein sehr kleines $\eps$ (beispielsweise $\eps < 0.3$) bedeutet, der Schritt ist zu groß: verwerfe den Schritt und vergrößere $\my$ (und verkleinere damit die Trust-Region $B_{r(\my)}(x_k)$).
 
-Ein großes $\eps$, nah an $1$ bedeutet, der Schritt war okay, vlt sogar zu klein, verkleinere $\my$ evtl, oder lass es gleich.
+Ein großes $\eps$ (beispielsweise $\eps > 0.9$) bedeutet, der Schritt war in Ordnung, vielleicht sogar zu klein: verkleinere $\my$, oder behalte den aktuellen Wert bei.
+
+Wir erhalten folgenden Algorithmus:
 
 \begin{alg} \label{alg:10}
-	% fixme: alg
+	\begin{algorithmic}
+		\Require{Startwert $x_0 \in \R^n$}
+		\Require{Initiales $\my$ und Parameter $0 < \beta_0 < \beta_1 < 1$ zur Steuerung von $\my$}
+		\State{$k \gets 0$}
+		\While{$F'(x_k)^T F(x_k) \neq 0$}
+			\State{$d_k \gets - \big(F'(x_k)^T F'(x_k) + \my I \big)^{-1} F'(x_k)^T F(x_k)$}
+			\State{$\eps \gets \frac {\|F(x_k)\|^2 - \|F(x_{k+1})\|^2}{\|F(x_k)\|^2 - \|F(x_k) + F'(x_k) d_k\|^2}$}
+			\While{$\eps < \beta_0$} \Comment{Vergrößere $\my$, falls Schritt zu groß}
+				\State{$\my \gets 2 \my$}
+				\State{$d_k \gets - \big(F'(x_k)^T F'(x_k) + \my I \big)^{-1} F'(x_k)^T F(x_k)$}
+				\State{$\eps \gets \frac {\|F(x_k)\|^2 - \|F(x_{k+1})\|^2}{\|F(x_k)\|^2 - \|F(x_k) + F'(x_k) d_k\|^2}$}
+			\EndWhile
+			\State{$x_{k+1} \gets x_k + d_k$}
+			\If{$\eps > \beta_1$} \Comment{Wenn gewünscht, verkleinere $\my$}
+				\State{$\my \gets \f 12 \my$}
+			\EndIf
+			\State{$k \gets k + 1$}
+		\EndWhile
+	\end{algorithmic}
 \end{alg}
 
-Für Konvergenztheorie (für eine Variante dieses Verfahrens) siehe \cite[Satz 21.3]{hanke02}
+Für Konvergenztheorie (einer Variante dieses Verfahrens) siehe \cite[Satz 21.3]{hanke02}
