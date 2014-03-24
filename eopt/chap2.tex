@@ -720,7 +720,7 @@ Für in jedem Schritt an der Stelle $x_k$ vorgegebener Abstiegsrichtung $d_k$ l�
 
 Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für die Abstiegsrichtung) mit der Armijo-Schrittweitenregel, so erhält man den folgenden Algorithmus.
 
-\begin{alg}[Gradientenverfahren mit Armijo-Schrittweitenregel]
+\begin{alg}[Gradientenverfahren mit Armijo-Schrittweitenregel] \label{alg:gradient_descent_armijo}
 	\begin{algorithmic}
 		\Require{Startwert $x_0 \in \R^n$}
 		\Require{Armijo-Parameter $\beta \in (0,1), \gamma \in (0,1)$}
@@ -838,7 +838,7 @@ Trotzdem können wir eine schwache Aussage zum Konvergenzverhalten machen.
 		Betrachte also jetzt den Fall, dass der Algorithmus nicht konvergiert.
 		\begin{enumerate}[a)]
 			\item
-				Siehe \ref{2.24}.
+				Siehe \ref{2.22}.
 			\item
 				Sei $x \in \R^n$ ein Häufungspunkt von $(x_k)_{k\in\N}$, d.h. es existiert eine unendliche Indexmenge $L \subset \N$, so dass
 				\[
@@ -903,20 +903,18 @@ Trotzdem können wir eine schwache Aussage zum Konvergenzverhalten machen.
 		\item
 			Sei $c > 0$, so dass die \emph{Niveaumenge}
 			\[
-				f^{-1}((-\infty, c))
+				f^{-1}((-\infty, c])
 				:= \{ x \in \R^n : f(x) \le c \}
 			\]
 			beschränkt ist und in ihr nur ein stationärer Punkt liegt.
 
 			Dann ist dieser stationäre Punkt das globale Minimum von $f$ und das Gradientenverfahren konvergiert für jeden Startwert $x_0$ mit $f(x_0) \le c$ gegen dieses Minimum.
 		\item
-			Ist $f$ konvex, dann terminiert Algorithmus 2 % fixme: reference
+			Ist $f$ konvex, dann terminiert \ref{alg:gradient_descent_armijo}
 			entweder nach endlich vielen Schritten an einem globalen Minimum, oder erzeugt eine Folge, deren Häufungspunkte globale Minima sind.
 		\item
-			Sei $f$ strikt konvex und besitze ein eindeutiges Minimum, dann konvergiert die Folge aus Algorithmus 2 % fixme: reference
+			Sei $f$ strikt konvex und besitze ein eindeutiges Minimum, dann konvergiert die Folge aus \ref{alg:gradient_descent_armijo}
 			für jedes $x_0$ mit $f(x_0) \le c$ gegen das globale Minimum.
-
-			Siehe \ref{2.27}.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[(a)]
@@ -926,7 +924,7 @@ Trotzdem können wir eine schwache Aussage zum Konvergenzverhalten machen.
 			\item
 				Folgt aus \ref{2.19} (a), (c).
 			\item
-				Siehe \ref{2.29}.
+				Siehe \ref{2.27}.
 		\end{enumerate}
 	\end{proof}
 \end{kor}
