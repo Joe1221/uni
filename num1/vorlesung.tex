@@ -628,11 +628,11 @@ Wie gut apporximiert die Interpolierende die Funktion?
 
 \begin{st}[Gleichmäßige Konvergenz]
 	\label{1.12}
-	Sei $I=[a,b]$, $f\in C^\infty(I)$ mit $\|f^{(n)}\|_\infty \le M$ für alle $n\in \N$.
+	Sei $I=[a,b]$, $f\in C^\infty(I)$ mit $\|f^{(m)}\|_\infty \le M$ für alle $m\in \N$.
 	Sei $\Delta_n := \{x_0^n,\dotsc, x_n^n\}\subset I$ eine Menge $n$ disjunkter Stützstellen und $p_n\in \P_n$ eine zugehörige Interpolierende.
 	Dann gilt
 	\[
-		\lim_{n\to \infty} \|p_n -f\| = 0
+		\lim_{n\to \infty} \|p_n - f\|_\infty = 0
 	\]
 	\begin{proof}
 		Für $w_n(x):=\prod_{i=0}^n(x-x_i^n)$ gilt $|w_n(x)| \le (b-a)^{n+1}$.
@@ -656,8 +656,8 @@ Wie gut apporximiert die Interpolierende die Funktion?
 	Vergleiche Stoer-Bulirsch.
 	\begin{itemize}
 		\item
-			Ohne Einschränkungen an $(\Delta_n)_{n\in \N}$ oder $f\in C^\infty(I)$ kann man \emph{keine} gleichmäßige Konvergenz und nicht einmal punktweise Konvergenz erwarten.
-			Das Problem ist, dass $f^{(n+1)}(\xi)$ schneller mit $n$ wachsen kann als $\left(\f {w(x)}{(n+1)!}\right)^{-1}$.	
+			Ohne Einschränkungen an $(\Delta_n)_{n\in \N}$ oder $f\in C^\infty(I)$ kann man \emph{keine} gleichmäßige Konvergenz und nicht einmal punktweise Konvergenz erwarten,
+			denn $f^{(n+1)}(\xi)$ kann ebenso schnell mit $n$ wachsen, wie $(\f {w(x)}{(n+1)!})^{-1}$.
 		\item
 			Für jedes $f\in C(I)$ existiert Folge $(\Delta_n)_{n\in \N}$, sodass $p_n\to f$ gleichmäßig.
 		\item
@@ -746,7 +746,8 @@ Dann ist die Schranke in \ref{1.11} am kleinsten.
 				\]
 				Setze $\theta:= \cos^{-1}(x)$, dann ergibt sich
 				\begin{align*}
-					F_{n+1}(x) = \cos((n+1)\cos^{-1}(x)) &= 2\cos(n\cos^{-1}(x)) \cos(\cos^{-1}x) - \cos((n-1)\cos^{-1}(x))\\
+					F_{n+1}(x) &= \cos((n+1)\cos^{-1}(x)) \\
+					&= 2\cos(n\cos^{-1}(x)) \cos(\cos^{-1}x) - \cos((n-1)\cos^{-1}(x))\\
 					&= 2x \underbrace{\cos(n\cos^{-1}(x))}_{F_n(x)} - \underbrace{\cos((n-1)\cos^{-1}(x))}_{F_{n-1}(x)}
 				\end{align*}
 				d.h. $F_n(x):= \cos(n\cos^{-1}(x))$ erfüllt die Rekursion der Tschebyscheff Polynome aus Definition \ref{1.13}.
@@ -930,7 +931,7 @@ mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stütz
 
 \begin{st}[Existenz und Eindeutigkeit]
 	\label{1.19}
-	Es existiert ein eindeutiges Polynom $p\in \P_n$ als Lösung des Hermite-Interpolationsproblems.
+	Es existiert ein eindeutiges Polynom $p\in \P_n$ als Lösung des Hermite"=Interpolationsproblems.
 	\begin{proof}
 		Wir verfahren ähnlich wie in \ref{1.1}.
 		Zeige, dass die Interpolationsmatrix $A$ bezüglich $\{p_i\}_{i=0}^n$ regulär ist.
@@ -1062,7 +1063,8 @@ mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stütz
 	\end{table}
 	Es ergibt sich dann
 	\begin{align*}
-		p(x)& = -1\cdot 1 + 4\cdot (x-1) + 6\cdot(x-1)^2 + 5\cdot(x-1)^3 + 1\cdot(x-1)^3 (x-2) = x^4-2\\
+		p(x)& = -1\cdot 1 + 4\cdot (x-1) + 6(x-1)^2 + 5(x-1)^3 + 1(x-1)^3 (x-2)\\
+		&= x^4-2\\
 		p'(x) &= 4x^3\\
 		p''(x) &= 12x
 	\end{align*}
@@ -1098,15 +1100,16 @@ mit $t(x_k)=f_k$ gesucht.
 	\begin{proof}
 		Einsetzen und die Eulersche Formel $e^{iz}=\cos(z) +i\sin(z)$ liefern
 		\begin{align*}
-			\sum_{k=-m}^m c_ke^{ikx} &= \f {a_0}2 (\cos(0x) + i\sin(0x)) \\
-			& \qquad + \sum_{k=1}^m \f 12 (a_k-ib_k)(\cos(kx) +i\sin(kx)) + \sum_{k=1}^m \f 12 (a_k+ib_k)(\cos(-kx)+i\sin(-kx)) \\
+			\sum_{k=-m}^m c_ke^{ikx} &= \f {a_0}2 \big(\cos(0x) + i\sin(0x)\big) \\
+			& \qquad + \sum_{k=1}^m \f 12 (a_k-ib_k)\big(\cos(kx) +i\sin(kx)\big) \\
+			& \qquad + \sum_{k=1}^m \f 12 (a_k+ib_k)\big(\cos(-kx)+i\sin(-kx)\big) \\
 			&= \f {a_0}2 + \sum_{k=1}^m a_k\cos(kx) + b_k \sin(kx)
 		\end{align*}
 	\end{proof}
 	\begin{note}
 			Die reelle Fourier-Summe ergibt also die komplexe Fouriersumme mit entsprechend gewählten $c_k$.
 
-			Das funktioniert auch umgekehrt für eine gegebene Fouriersumme $\{c_k\}_{k=-m}^m\subset \C$ mit $c_k=\_{c_{-k}}$, $c_0\in \R$.
+			Das funktioniert auch umgekehrt für eine gegebene Fouriersumme $\{c_k\}_{k=-m}^m$ mit $c_k=\_{c_{-k}} \in \C$, $c_0\in \R$.
 			Die Wahl
 			\[
 				a_k := c_k +c_{-k}, \qquad b_k := i(c_k-c_{-k}) \qquad k=0,\dotsc,m
@@ -1205,8 +1208,8 @@ mit $t(x_k)=f_k$ gesucht.
 
 	Für die Koeffizienten gilt
 	\begin{align*}
-		a_k &:= \f 2{n+1} \sum_{j=0}^n f_j(\cos(jx_k))\\
-		b_k &:= \f 2{n+1} \sum_{j=0}^n f_j(\sin(jx_k))
+		a_k &:= \f 2{n+1} \sum_{j=0}^n f_j \cos(jx_k)\\
+		b_k &:= \f 2{n+1} \sum_{j=0}^n f_j \sin(jx_k)
 	\end{align*}
 	\begin{proof}
 		Nach \ref{1.24} existiert ein eindeutiges $t\in T_n$ mit $t(x_k)=f_k$,
@@ -1234,10 +1237,12 @@ mit $t(x_k)=f_k$ gesucht.
 		Für gerade $n$ entspricht das genau $t(x)$ und es bleibt noch die Darstellung der $a_k$ und $b_k$ zu zeigen.
 
 		Für ungerade $n$ betrachten wir in $t(x)$ den Ausdruck $\theta c_{m+1} e^{i(m+1)x}$.
-		In diesem Fall ist $m+1 = \f {n+1}2$ und wir setzen 
-		\[
-			a_{m+1} := c_{m+1} + c_{-(m+1)} = c_{m+1} + c_{n+1-(m+1)}0= c_{m+1} + c_{2(m+1)-(m+1)} = 2 c_{m+1}
-		\]
+		In diesem Fall ist $m+1 = \f {n+1}2$ und wir setzen
+		\begin{align*}
+			a_{m+1} := c_{m+1} + c_{-(m+1)}
+			&= c_{m+1} + c_{n+1-(m+1)} \\
+			&= c_{m+1} + c_{2(m+1)-(m+1)} = 2 c_{m+1}
+		\end{align*}
 		also gilt
 		\begin{align*}
 			\theta c_{m+1} e^{i(m+1)x} 
@@ -1444,7 +1449,8 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 			&= e^{-i2\pi \f {k(2j+1)}N} = e^{-i2\pi \f {kj}{\f N2}} \underbrace{e^{-i \f {2\pi}N k}}_{\omega^{-k}} = (D_{\f N2}W_{\f N2})_{k,j} \\
 			(A_{22})_{k,j} 
 			&= (W_NP_N^T)_{\f N2+k,\f N2+j} = (W_N)_{\f N2+k, 2j+1} \\
-			&= e^{-2\pi\f {(\f N2 +k)(2j+1)}N} = \underbrace{e^{-i2\pi j}}_{=1} \underbrace{e^{-i\pi}}_{=-1} e^{-i2\pi \f {kj}{\f N2}} \underbrace{e^{-i\f {2\pi}N k}}_{=\omega^{-k}} = (-D_{\f N2}W_{\f N2})_{k,j}
+			&= e^{-2\pi\f {(\f N2 +k)(2j+1)}N} = \underbrace{e^{-i2\pi j}}_{=1} \underbrace{e^{-i\pi}}_{=-1} e^{-i2\pi \f {kj}{\f N2}} \underbrace{e^{-i\f {2\pi}N k}}_{=\omega^{-k}} \\
+			&= (-D_{\f N2}W_{\f N2})_{k,j}
 		\end{align*}
 	\end{proof}
 \end{lem}
@@ -1476,8 +1482,8 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 			\begin{pmatrix}
 				\f 1{\f N2} W_{\f N2} f_{\text{even}}\\
 				D_{\f N2} \f 1{\f N2} W_{\f N2} f_{\text{odd}}
-			\end{pmatrix}
-			= \f 12 \begin{pmatrix}
+			\end{pmatrix}\displaybreak[0]\\
+			&= \f 12 \begin{pmatrix}
 				I & I \\ I & -I
 			\end{pmatrix}
 			\begin{pmatrix}
@@ -1493,15 +1499,17 @@ Mit anderen Worten: $P_N$ vertauscht die Zeilen des Vektors $x$ so, dass in der 
 			\item
 				Sei der Berechnungsaufwand für $\scr F_n(f)$ gegeben durch $C(N)$ und $C(1)=0$ (denn für $N=1$ ist nichts zu tun).
 				Für den Aufwand gilt dann in etwa:
-				\[
-					C(N) = \underbrace{2C\left(\f N2\right)}_{\text{Teilprobleme der Größe $\f N2$}} + \underbrace{\f N2}_{\text{Multiplikation mit $D_{\f N2}$}} + \underbrace{\f N2}_{\text{Addition}} + \underbrace{\f N2}_{\text{Substraktion}} \le 2 C\left(\f N2\right) + K\cdot N
-				\]
+				\begin{align*}
+					C(N) &= \underbrace{2C\left(\f N2\right)}_{\text{Teilprobleme der Größe $\f N2$}} + \underbrace{\f N2}_{\text{Multiplikation mit $D_{\f N2}$}} + \underbrace{\f N2}_{\text{Addition}} + \underbrace{\f N2}_{\text{Substraktion}}\\
+					&\le 2 C\left(\f N2\right) + K\cdot N
+				\end{align*}
 				für ein $K\in \R$.
 				Für $N=2^Q$ folgt
 				\begin{align*}
 					C(N) &= 2C\l(\f N2\r) + KN = 2\l(2C\l(\f N4\r) + K\f N2\r) + KN \\
 					&= 4C\l(\f N4\r) + KN + KN \\
-					= \dotso &= NC(1) + QKN = N + K(\log_2 N)N 
+					&= \dotso = NC(1) + QKN \\
+					&= N + K(\log_2 N)N
 				\end{align*}
 				also $\mathcal O(N\log N)$.
 			\item
@@ -1616,11 +1624,25 @@ In diesem Fall gibt es folgende Möglichkeiten, zusätzliche sogenannte \emph{Ra
 			s(x)\big|_{[x_{j-1},x_j]} = p_j(x) = a_j(x-x_{j-1})^3 + b_j(x-x_{j-1})^2 + c_j(x-x_{j-1}) + d_j
 		\]
 		Die Bedingungen sind
-		\begin{alignat*}{5}
-			p_j(x_{j-1}) &= f_{j-1}& \quad p_j(x_j) &= f_j & \qquad j&=1,\dotsc,n & &\qquad \text{(Zusammenhang)} &\\
-			p_j'(x_j) &= p_{j+1}'(x_j) & \quad p_j''(x_j) &= p_{j+1}''(x_j) &  \qquad j&=1,\dotsc,n-1 & &\qquad \text{(Glattheit)} &\\
-			p_1''(x_0)&=0& \quad p_n''(x_n) &= 0 & & & &\qquad \text{(Randbedingung)} &
-		\end{alignat*}
+		\begin{itemize}
+			\item
+				Zusammenhang
+				\begin{align*}
+					\forall j \in \{1, \dotsc, n\}: &&
+					p_j(x_{j-1}) &= f_{j-1}& &\land& p_j(x_j) &= f_j \\
+				\end{align*}
+			\item
+				Glattheit
+				\begin{align*}
+					\forall j \in \{1, \dotsc, n-1\}: &&
+					p_j'(x_j) &= p_{j+1}'(x_j) & &\land& p_j''(x_j) &= p_{j+1}''(x_j) \\
+				\end{align*}
+			\item
+				Randbedingungen
+				\begin{align*}
+					p_1''(x_0) &= 0 & &\land& p_n''(x_n) &= 0
+				\end{align*}
+		\end{itemize}
 		Sei $h_j := x_j - x_{j-1}$.
 		Verwende nun $M_j = s''(x_j)$ für $j=0,\dotsc,n$ als neue Variablen.
 		Es gilt
@@ -1649,7 +1671,7 @@ In diesem Fall gibt es folgende Möglichkeiten, zusätzliche sogenannte \emph{Ra
 					= \f{f_j-d_j}{h_j} - a_jh_j^2 - b_jh_j 
 					= \f {f_j-f_{j-1}}{h_j} - h_j\left(\f {M_j}6 + \f{M_{j-1}}3 \right)
 		\end{align*}
-		Damit haben wir die Bedingungen des Zusammenhangs und $p_j''(x_j) = p_{j+1}''(x_j)$ verarbeitet.
+		Damit haben wir sowohl die Bedingungen des Zusammenhangs, als auch $p_j''(x_j) = p_{j+1}''(x_j)$ verarbeitet.
 		Da $a_j,b_j,c_j,d_j$ durch $M_j$ eindeutig bestimmt sind, reicht es die Eindeutigkeit der $M_j$ unter den übrigen Bedingungen zu zeigen.
 
 		Es gilt
@@ -1664,8 +1686,8 @@ In diesem Fall gibt es folgende Möglichkeiten, zusätzliche sogenannte \emph{Ra
 			\f {h_j}6 M_{j-1} + \f {h_j + h_{j+1}}3 M_j + \f{h_{j+1}}6 M_{j+1} = \f {f_{j-1}-f_j}{h_{j+1}} - \f{f_j-f_{j-1}}{h_j}
 		\]
 		Multipliziert mit $6$ und der Randbedingung $p_1''(x_0) = M_0 = 0 = M_n = p_n''(x_n)$, ergibt sich
-		\[
-			\begin{pmatrix}
+		\begin{align*}
+			&\begin{pmatrix}
 				2(h_1+h_2) & h_2 &   & 0 \\
 				h_2 & 2(h_2+h_3) & \ddots  &  \\
 				 & \ddots & \ddots & h_{n-1}\\
@@ -1673,14 +1695,14 @@ In diesem Fall gibt es folgende Möglichkeiten, zusätzliche sogenannte \emph{Ra
 			\end{pmatrix}
 			\begin{pmatrix}
 				M_1 \\ \vdots \\ M_{n-1}
-			\end{pmatrix}
-			=
+			\end{pmatrix} \\
+			&\quad =
 			\begin{pmatrix}
 				\f 6{h_2}(f_2-f_1) - \f 6{h_1}(f_1-f_0)\\
 				\vdots \\
 				\f 6{h_n}(f_n-f_{n-1})- \f 6{h_{n-1}}(f_{n-1}-f_{n-2})
 			\end{pmatrix}
-		\]
+		\end{align*}
 		Die Matrix ist sogar streng diagonaldominant, positiv definit und symmetrisch, also regulär.
 		Damit ist das LGS eindeutig lösbar.
 
@@ -1726,16 +1748,16 @@ In diesem Fall gibt es folgende Möglichkeiten, zusätzliche sogenannte \emph{Ra
 		Sei $f\in C^2([a,b])$ eine zu interpolierende Funktion.
 		Dann gilt
 		\begin{align*}
-			\int_a^b (f-s)''(x) s''(x) \dx 
-			&= \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-p_j)''(x)p_j''(x)) \dx \\
-			&= \sum_{j=1}^n \bigg( \Big[(f-p_j)'(x)p_j''(x)\Big]_{x_{j-1}}^{x_j} - \int_{x_{j-1}}^{x_j} (f-p_j)'(x)p_j'''(x) \dx \bigg)\\
-			&= \underbrace{\Big( f'(b) - p_n'(b)\Big) p_n''(b) - \Big( f'(a)-p_1'(a)\Big) p_1''(a)}_{\displaystyle =0 \text{ wegen } \begin{cases} 
-				p_1''(a) = p_n''(b) = 0 & \text{falls (R1)} \\
-				f'(b) = p_n'(b) = \beta,\quad f'(a) = p_1'(a) = \alpha  &\text{falls (R2)} \\
-				f'(a) = f'(b),\quad p_1'(a)=p_n'(b),\quad p_1''(a)=p_n''(b) & \text{falls (R3)}
+			&\int_a^b (f-s)''(x) s''(x) \dx \\
+			&\quad= \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-p_j)''(x)p_j''(x)) \dx \\
+			&\quad= \sum_{j=1}^n \bigg( \Big[(f-p_j)'(x)p_j''(x)\Big]_{x_{j-1}}^{x_j} - \int_{x_{j-1}}^{x_j} (f-p_j)'(x)p_j'''(x) \dx \bigg)\\
+			&\quad= \underbrace{\Big( f'(b) - p_n'(b)\Big) p_n''(b) - \Big( f'(a)-p_1'(a)\Big) p_1''(a)}_{ =0 \text{, da } \begin{cases} 
+				\scriptscriptstyle p_1''(a) = p_n''(b) = 0 & \scriptscriptstyle \text{falls (R1)} \\[0.1em]
+				\scriptscriptstyle f'(b) = p_n'(b) = \beta \land f'(a) = p_1'(a) = \alpha  &\scriptscriptstyle\text{falls (R2)} \\
+				\scriptscriptstyle f'(a) = f'(b) \land p_1'(a)=p_n'(b) \land p_1''(a)=p_n''(b) & \scriptscriptstyle\text{falls (R3)}
 				\end{cases}}  \\
-			&\qquad - \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-s)'(x))s'''(x) \dx \\
-			&= \sum_{j=1}^n \underbrace{\bigg(-\Big[(f-p_j)(x)p_j'''(x)\Big]_{x_{j-1}}^{x_j}\bigg)}_{=0 \text{, da } f(x_j)=p_j(x_j)} + \underbrace{\int_{x_{j-1}}^{x_j} (f-s)(x)s^{(4)}(x)}_{=0}
+			&\quad\qquad - \sum_{j=1}^n \int_{x_{j-1}}^{x_j} (f-s)'(x))s'''(x) \dx \\
+			&\quad= \sum_{j=1}^n \underbrace{\bigg(-\Big[(f-p_j)(x)p_j'''(x)\Big]_{x_{j-1}}^{x_j}\bigg)}_{=0 \text{, da } f(x_j)=p_j(x_j)} + \underbrace{\int_{x_{j-1}}^{x_j} (f-s)(x)s^{(4)}(x)}_{=0}
 		\end{align*}
 		Insgesamt gilt dann
 		\begin{align*}
@@ -1885,21 +1907,21 @@ Die “Minimum Norm Least Squares”-Approximation liefert eine Antwort auf dies
 					\end{pmatrix}
 				\]
 				existiert nämlich keine Eigenwertzerlegung, aber durchaus eine Singulärwertzerlegung, nämlich:
-				\[
+				\begin{align*}
 					U = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
 						\phi & 1 \\
 						-1 & \phi
-					\end{pmatrix}, \qquad
+					\end{pmatrix},
 					\Sigma = \begin{pmatrix}
 						\phi & 0 \\
 						0 & \phi -1
-					\end{pmatrix}, \qquad 
+					\end{pmatrix},
 					V = \f 1{\sqrt{1+\phi^2}} \begin{pmatrix}
 						-1 & -\phi \\
 						\phi & - 1
 					\end{pmatrix}
-				\]
-				für $\qquad \phi := \f {1+\sqrt 5}2$.
+				\end{align*}
+				für $\phi := \f {1+\sqrt 5}2$.
 			\item
 				Die Matrix $\Sigma$ ist eindeutig. 
 				$U$ und $V$ sind es jedoch nicht (wechsle simultan das Vorzeichen in den Zeilen/Spalten von $U,V$).
@@ -2027,7 +2049,7 @@ Die “Minimum Norm Least Squares”-Approximation liefert eine Antwort auf dies
 			\item
 				$\displaystyle \ker A = \<v_{k+1},\dotsc, v_n\> = \ker A^*A$
 				\begin{proof}
-					$\<v_{k+1}, \dotsc, v_n\> = \ker A^*A$, da Eigenvektoren zum Eigenwert $0$.
+					Es gilt $\<v_{k+1}, \dotsc, v_n\> = \ker A^*A$, da Eigenvektoren zum Eigenwert $0$.
 					$\ker A^*A = \ker A$ wurde im Beweis von \ref{1.37} gezeigt.
 				\end{proof}
 			\item
@@ -2087,23 +2109,23 @@ Die “Minimum Norm Least Squares”-Approximation liefert eine Antwort auf dies
 		Setze $a:=(a_1,\dotsc, a_{k'+1},0,\dotsc,0)^T \in \C^n$.
 		Dann gilt
 		\begin{align*}
-			\|A-B\|^2 &= \sup_{x\neq 0} \f {\|(A-B)x\|^2}{\|x\|^2}
-			\ge \f {\|Az-\overbrace{Bz}^{=0}\|^2}{\underbrace{\|z\|^2}_{=1}}
+			\|A-B\|^2 &= \sup_{x\neq 0} \f {\|(A-B)x\|^2}{\|x\|^2} \\
+			&\ge \f {\|Az-\overbrace{Bz}^{=0}\|^2}{\underbrace{\|z\|^2}_{=1}}
 			= \|Az\|^2 
-			= \l\|U\Sigma V^*\sum_{i=1}^n a_i v_i \r\|^2 \\
-			&= \|U\Sigma V^* Va \|^2
-			= \|U\Sigma a\|^2 
-			\stackrel{\text{Rotationsinvarianz}}= \|\Sigma a\|^2  
-			= \l\|\l(\begin{smallmatrix}\sigma_1 a_1 \\ \vdots \\ \sigma_{k'+1}a_{k'+1} \\ 0 \\ \vdots \\ 0\end{smallmatrix}\r)\r\| \\
-			&= \sum_{i=1}^{k'+1} \sigma_i^2 \cdot |a_i|^2 
-			\ge  \sum_{i=1}^{k'+1}\sigma_{k'+1}^2 |a_i|^2 
+			= \Big\|U\Sigma V^*\sum_{i=1}^n a_i v_i \Big\|^2
+			= \|U\Sigma V^* Va \|^2 \\
+			&\qquad= \|U\Sigma a\|^2 
+			\stackrel{\text{Rot. Inv.}}= \|\Sigma a\|^2  
+			= \l\|\l(\begin{smallmatrix}\sigma_1 a_1 \\ \vdots \\ \sigma_{k'+1}a_{k'+1} \\ 0 \\ \vdots \\ 0\end{smallmatrix}\r)\r\|
+			= \sum_{i=1}^{k'+1} \sigma_i^2 |a_i|^2 \\
+			&\ge  \sum_{i=1}^{k'+1}\sigma_{k'+1}^2 |a_i|^2 
 			= \sigma_{k'+1}^2 \underbrace{\sum_{i=1}^{k'+1} |a_i|^2}_{=1}
 			= \sigma_{k'+1}^2 
 			\ge \sigma_{k+1}^2
 		\end{align*}
 		Andererseits wird dieser Fehler auch realisiert durch $\hat A_k$:
 		\begin{align*}
-			\|A-\hat A_k\| &= \|U\Sigma V^* - U\hat \Sigma_k V^*\| = \|U(\Sigma - \hat \Sigma_k) V^*\| \stackrel{\text{Rotationsinvarianz}}= \|\Sigma - \hat \Sigma_k\|\\
+			\|A-\hat A_k\| &= \|U\Sigma V^* - U\hat \Sigma_k V^*\| = \|U(\Sigma - \hat \Sigma_k) V^*\| \stackrel{\text{Rot. Inv.}}= \|\Sigma - \hat \Sigma_k\|\\
 			&= \Big\|\diag (0,\dotsc, 0, \sigma_{k+1},\dotsc, \sigma_r)\Big\|
 			= \sigma_{k+1}
 		\end{align*}
@@ -2570,7 +2592,8 @@ Also $I_n(f) = I(p)$.
 					N(a+b-x)
 					&= \bigg(\prod_{l=0}^{m-1}\Big((a+b-x)-x_l\Big)\bigg) \cdot \bigg(a+b-x-\f{a+b}2\bigg) \\
 					&\qquad \cdot \bigg(\prod_{l=0}^{m-1} \Big((a+b-x)-(a+b-x_l)\Big)\bigg) \\
-					&= \bigg(\prod_{l=0}^{m-1} -\Big(x-(a+b-x_l)\Big)\bigg) \cdot \bigg( \f{a+b}2 - x \bigg) \cdot \bigg(\prod_{l=0}^{m-1} -\Big(x-x_l\Big)\bigg) \\
+					&= \bigg(\prod_{l=0}^{m-1} -\Big(x-(a+b-x_l)\Big)\bigg) \cdot \bigg( \f{a+b}2 - x \bigg) \\
+					&\qquad \cdot \bigg(\prod_{l=0}^{m-1} -\Big(x-x_l\Big)\bigg) \\
 					&= (-1)^{n+1} N(x)
 					= -N(x)
 				\end{align*}
@@ -2629,8 +2652,8 @@ Also $I_n(f) = I(p)$.
 					&= \f {(b-a)^{n+2}}{(n+1)!}\|f^{(n+1)}\|_\infty
 				\end{align*}
 			\item
-				Sei $p_n\in \P_n$ ein Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$.
-				Sei $q_{n+1}\in \P_{n+1}$ ein \emph{Hermite}-Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$ und $(x_l,f'(x_l))$ mit $l\in\{0,\dotsc,n\}$ beliebig.
+				Sei $p_n\in \P_n$ ein Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$ und
+				$q_{n+1}\in \P_{n+1}$ ein \emph{Hermite}"=Interpolationspolynom zu den Daten $\{(x_i,f(x_i)\}_{i=0}^n$, wobei $(x_l,f'(x_l))$ mit $l\in\{0,\dotsc,n\}$ beliebig.
 
 				Wie im Beweis von \ref{2.6}	ist für geeignete $q_n\in \P_n, c\in \R$ 
 				\[
@@ -2645,13 +2668,13 @@ Also $I_n(f) = I(p)$.
 					= I(q_{n+1}).
 				\end{align*}
 				Damit gilt
-				\[
+				\begin{align*}
 					|R_n(f)| 
-					= |I(f) - I_n(f)| 
-					= |I(f) - I(q_{n+1})|
-					= |I(f-q_{n+1})|
+					&= |I(f) - I_n(f)| 
+					= |I(f) - I(q_{n+1})| \\
+					&= |I(f-q_{n+1})|
 					= \l| \int_a^b f(x) - q_{n+1}(x) \r|
-				\]
+				\end{align*}
 				Der Rest folgt analog zum Beweis von Teil i) zusammen mit der Hermite-Interpolationsdarstellung aus Satz \ref{1.20}.
 		\end{enumerate}
 	\end{proof}
@@ -2945,8 +2968,7 @@ Also $I_n(f) = I(p)$.
 			Die zusammengesetzte Trapezregel ergibt ($\hat n = 1, \hat \omega_0 = \hat \omega_1 = \f 12, \hat x_0 = 0, \hat x_1 = 1, h := H = \f {b-a}N$):
 			\[
 				I_h(f) = \f h2 \l(f(a) + 2 \sum_{l=1}^{N-1}f(x_l) + f(b)\r) 
-				\qquad x_l := a+ lh 
-				\qquad l=0,\dotsc,N
+				\qquad x_l := a+ lh, \quad l=0,\dotsc,N
 			\]
 		\item
 			Zusammengesetzte Simpsonregel mit
@@ -3068,7 +3090,7 @@ Also $I_n(f) = I(p)$.
 
 				$(C([a,b]),\<\cdot,\cdot\>)$ ist nicht vollständig bezüglich der $L^2$-Norm, daher ein Prä-Hilbertraum.
 			\item
-				Die orthogonalen Polynome aus \ref{2.17} werden durch das Gram-Schmidt'sche Orthogonalisierungsverfahren konstruiert, angewandt auf Monome $\{x^i\}_{i\in \N_0}$.
+				Die orthogonalen Polynome aus \ref{2.17} werden durch das Gram-Schmidt'sche Orthogonalisierungsverfahren, angewandt auf Monome $\{x^i\}_{i\in \N_0}$, konstruiert.
 
 		\end{itemize}
 	\end{note}
@@ -3110,10 +3132,10 @@ Also $I_n(f) = I(p)$.
 				ist $x^{n+1} \in V_{n+1}$.
 				Nach Induktionsvoraussetzung ist auch $\P_n \subset V_{n+1}$ und damit $\P_{n+1}\subset V_{n+1}$.
 				Also $\P_{n+1} = V_{n+1}$.
-				Somit ist $\{p_i\}_{i=0}^{n+1}$ Erzeugenden-System für $\P_{n+1}$ aus $n+2$ Elementen.
+				Somit ist $\{p_i\}_{i=0}^{n+1}$ Erzeugenden"=System für $\P_{n+1}$ aus $n+2$ Elementen.
 				Wegen $\dim \P_{n+1} = n+2$ ist $\{p_i\}_{i=0}^{n+1}$ linear unabhängig und damit eine Basis
 			\item
-				Nach i) ist $\P_{n-1} = \<p_0,\dotsc, p_{n-1}\>$, also reicht es zu zeigen, dass $\<p_n,p_i\>=0$ für $i=0,\dotsc, n-1$.
+				Nach i) ist $\P_{n-1} = \<p_0,\dotsc, p_{n-1}\>$, also reicht es zu zeigen, dass für $i = 0, \dotsc, n-1$ gilt $\<p_n,p_i\>=0$.
 				Zeige per Induktion.
 				Für $n=1$ ist $\<p_1,p_0\> = \int_{-1}^1 x = 0$.
 				Sei $j\in \{0,\dotsc,n\}$.
@@ -3186,7 +3208,8 @@ Also $I_n(f) = I(p)$.
 
 			\begin{table}[h]
 				\centering
-				\caption{Gauß-Quadraturen auf $[-1,1]$}				
+				\caption{Gauß-Quadraturen auf $[-1,1]$}
+				% fixme: layout broken
 				\begin{tabular}{c|c|c}
 					n & $(x_0, \dotsc, x_n)$ & ($\omega_0,\dotsc,\omega_n$) \\ \hline
 					0 & 0 & 2 \\
@@ -3304,14 +3327,14 @@ Also $I_n(f) = I(p)$.
 		Es reicht zu zeigen, dass die Stützstellen $\{x_i\}_{i=0}^n$ von $\_{I_n}$ Nullstellen vom orthogonalen Polynom $p_{n+1}$ sind, denn dann sind auch die Gewichte identisch zu $I_n$, da beide Interpolations-Quadraturen und exakt auf $\P_n$ sind.
 	
 		Sei $q\in \P_n$ und $\_p_{n+1} := \prod_{i=0}^n (x-x_i) \in \P_{n+1}$.
-		\[
+		\begin{align*}
 			\<\_p_{n+1},q\>
-			= \int_{-1}^1 \_p_{n+1}(x) q(x) \dx 
-			= I(\underbrace{\_p_{n+1} q}_{\in \P_{2n+1}})
+			&= \int_{-1}^1 \_p_{n+1}(x) q(x) \dx \\
+			&= I(\underbrace{\_p_{n+1} q}_{\in \P_{2n+1}})
 			\stackrel{\text{Exaktheit}}= \_I_n (\_p_{n+1}q)
 			= \sum_{j=0}^n \_{\omega_k}\underbrace{\_p_{n+1}(x_j)}_{=0}q(x_j)
 			= 0
-		\]
+		\end{align*}
 		Also ist $\_p_{n+1} \orth \P_n$.
 
 		Es gilt $\dim(\P_{n+1}) = \dim( \P_n^\orth \cap \P_{n+1}) + \dim (\P_n)$, also
@@ -3462,9 +3485,11 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 			nach Satz \ref{1.14}. Und $\omega_0 = \dotsb = \omega_n = \f {\pi}{n+1}$.
 		\item
 			$I=[0,\infty), \omega(x) = e^{-x}$, dann bilden die Laguerre-Polynome ein Orthogonalsystem:
-			\[
-				L_0(x) := 1, \qquad L_1(x) := 1-x, \qquad L_{n+1}(x) = (1+2n-x)L_n(x) - n^2 L_{n-1}(x)
-			\]
+			\begin{align*}
+				L_0(x) &:= 1, \\
+				L_1(x) &:= 1-x, \\
+				L_{n+1}(x) &= (1+2n-x)L_n(x) - n^2 L_{n-1}(x)
+			\end{align*}
 			mit $p_n = (-1)^n L_n$ („\emph{Gauß-Laguerre-Quadratur}“).
 		\item
 			$I=(-\infty,\infty), \omega(x) = e^{-x^2}$, dann bilden die \emph{Hermite-Polynome} ein Orthogonalsystem:
@@ -3569,8 +3594,8 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 		Zu zeigen ist dann $R(y) = \int_a^b v(t) u(t) \dx[t]$.
 		Wir zeigen zunächst für $R(f) = f^{(m)}(x_0)$:
 		\begin{align*}
-			R(y) = \f {\dx[^m]}{\dx[x^m]} \Big( \int_a^b K(t,x) u(t) \dx[t] \Big) \Big|_{x_0}
-			= \int_a^b \Big( \f {\dx[^m]}{\dx[x^m]} K(t,x) \Big) u(t) \dx[t] \Big|_{x_0}
+			R(y) &= \f {\dx[^m]}{\dx[x^m]} \Big( \int_a^b K(t,x) u(t) \dx[t] \Big) \Big|_{x_0} \\
+			&= \int_a^b \Big( \f {\dx[^m]}{\dx[x^m]} K(t,x) \Big) u(t) \dx[t] \Big|_{x_0}
 			= \int_a^b v(t) u(t) \dx[t]
 		\end{align*}
 		Für $R(f) = \int_a^b f^{(m)}(x) \omega(x) \dx$ verläuft der Beweis analog und für Linearkombinationen aus beiden folgt die Behauptung aus der Linearität der Punktauswertung und des Integrals.
@@ -3595,7 +3620,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\begin{proof}
 		Nutze Taylor mit Integralrestglied:
 		\begin{align*}
-			f(x) &= \sum_{j=0}^k f^{(j)}(a) \f {(x-a)^j}{j!} + \int_a^x \f {(x-t)^k}{k!} f^{(k+1)}(t) \dx[t]
+			f(x) &= \sum_{j=0}^k f^{(j)}(a) \f {(x-a)^j}{j!} + \int_a^x \f {(x-t)^k}{k!} f^{(k+1)}(t) \dx[t] \\
 			&= P_k f + \int_a^b \f {(x-t)^k_+}{k!} f^{(k+1)} (t) \dx[t]
 		\end{align*}
 	\end{proof}
@@ -3616,7 +3641,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 	\begin{proof}
 		Da $f\in C^{n+1}([a,b])$, ist $f,P_nf,f-P_nf \in C^k([a,b])$
 		\begin{align*}
-			R(f) &\stackrel{\ref{2.29}}= R(P_n f) + R \Big( \int_a^b \underbrace{K_n(t,\cdot)}_{\in C^k([a,b])} f^{(n+1)}(t) \dx[t] \Big)
+			R(f) &\stackrel{\ref{2.29}}= R(P_n f) + R \Big( \int_a^b \underbrace{K_n(t,\cdot)}_{\in C^k([a,b])} f^{(n+1)}(t) \dx[t] \Big) \\
 			&\stackrel{\ref{2.28}} =  \int_a^b R\big(K_n(t,\cdot)\big) f^{(n+1)}(t) \dx[t] \\
 			&= \int_a^b R \Big( \f 1{n!}(\cdot - t)^n_+ \Big) f^{(n+1)}(t) \dx[t]
 		\end{align*}
@@ -3876,10 +3901,13 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 			&\int_0^1 B_0(t) \phi(t) \dx[t] 
 			= B_1(t) \phi(t) \Big|_{0}^1 - \int_0^1 B_1(t) \phi'(t) \dx[t] \\
 			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \int_0^1 \f 12 B_2(t) \phi''(t) \dx[t] \\
-			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 + \underbrace{\f 1{2\cdot 3} B_3(t) \phi''(t) \Big|_0^1}_{=0 \text{ \ref{2.35} ii)}} - \int_0^1 \f 1{3!} B_3(t) \phi^{(3)}(t) \dx[t] \\
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \f 12 B_2(t) \phi'(t) \Big|_0^1 \\
+			&\qquad + \underbrace{\f 1{2\cdot 3} B_3(t) \phi''(t) \Big|_0^1}_{=0 \text{ \ref{2.35} ii)}} - \int_0^1 \f 1{3!} B_3(t) \phi^{(3)}(t) \dx[t] \\
 			&\quad= \dotsc \\
-			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \sum_{k=1}^{m-1} \l( \f {B_{2k}(1)}{(2k)!} \phi^{(2k-1)}(1) - \f {B_{2k}(0)}{(2k)!} \phi^{(2k-1)}(0) \r) + \int_0^1 \f 1{(2m)!} B_{2m}(t) \phi^{(2m)}(t)  \dx[t] \\
-			&\quad\stackrel{\ref{2.35} i)}=  \f 12 \big(\phi(1) - \phi(0)\big) - \sum_{k=1}^{m-1} \f {\beta_{2k}}{(2k)!} \big( \phi^{(2k-1)}(1) - \phi^{(2k-1)}(0) \big) + \int_0^1 \f {B_{2m}(t)}{(2m)!} \phi^{(2m)}(t)  \dx[t]
+			&\quad= \f 12 \big( \phi(1) - \phi(0) \big) - \sum_{k=1}^{m-1} \l( \f {B_{2k}(1)}{(2k)!} \phi^{(2k-1)}(1) - \f {B_{2k}(0)}{(2k)!} \phi^{(2k-1)}(0) \r) \\
+			&\qquad+ \int_0^1 \f 1{(2m)!} B_{2m}(t) \phi^{(2m)}(t)  \dx[t] \\
+			&\quad\stack{\ref{2.35} i)}=\;  \f 12 \big(\phi(1) - \phi(0)\big) - \sum_{k=1}^{m-1} \f {\beta_{2k}}{(2k)!} \big( \phi^{(2k-1)}(1) - \phi^{(2k-1)}(0) \big) \\
+			&\qquad+ \int_0^1 \f {B_{2m}(t)}{(2m)!} \phi^{(2m)}(t)  \dx[t]
 		\end{align*}
 		Wähle  $\phi_j(t) := h \cdot f(x_{j-1} + th)$, $x_j := a+jh$, $j=1,\dotsc, N$ (bzw. $j=0,\dotsc, N$).
 		Dann gilt
@@ -3905,15 +3933,20 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 		Damit folgt:
 		\begin{align*}
 			I(f)&=\int_a^b f(x)\, \dx = \sum_{j=1}^N \int_{x_{j-1}}^{x_j} f(x) \, \dx = \sum_{j=1}^N \int_0^1 \phi_j(t)\, \dx[t]\\
-			&= \sum_{j=1}^N \frac{1}{2}(\phi_j(0)+ \phi_j(1))- \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} ( \phi_j^{(2k-1)} (1)-\phi_j^{(2k-1)}(0))+\sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} \phi_j^{(2m)}(t)\, \dx[t]\\
-			&= \sum_{j=1}^N \frac{h}{2} (f(x_j)+f(x_{j-1})) - \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)}(x_j)-f^{(2k-1)} (x_{j-1})) \\
-			&\qquad \qquad + \sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} h^{2m+1} \cdot f^{(2m)}(x_{j-1}+ ht)\, \dx[t]\\
-			&= I_h(f)- \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)} (b)-f^{(2k-1)}(a)) +h^{2m}\left [h \sum_{j=1}^N \int_0^1 f^{(2m)} (x_{j-1}+ht)\, \frac{B_{2m}(t)}{(2m)!} \dx[t]\right ]
+			&= \sum_{j=1}^N \frac{1}{2}(\phi_j(0)+ \phi_j(1))- \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} ( \phi_j^{(2k-1)} (1)-\phi_j^{(2k-1)}(0)) \\
+			&\qquad+\sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} \phi_j^{(2m)}(t)\, \dx[t]\\
+			&= \sum_{j=1}^N \frac{h}{2} (f(x_j)+f(x_{j-1})) \\
+			&\qquad- \sum_{j=1}^N \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)}(x_j)-f^{(2k-1)} (x_{j-1})) \\
+			&\qquad + \sum_{j=1}^N \int_0^1 \frac{B_{2m}(t)}{(2m)!} h^{2m+1} \cdot f^{(2m)}(x_{j-1}+ ht)\, \dx[t]\\
+			&= I_h(f)- \sum_{k=1}^{m-1} \frac{\beta_{2k}}{(2k)!} h^{2k} (f^{(2k-1)} (b)-f^{(2k-1)}(a)) \\
+			&\qquad +h^{2m}\left [h \sum_{j=1}^N \int_0^1 f^{(2m)} (x_{j-1}+ht)\, \frac{B_{2m}(t)}{(2m)!} \dx[t]\right ]
 		\end{align*}
 		Dies ist die Behauptung falls der Term $[...]$ durch Konstante unabhängig von $h$ beschränkt werden kann. Dies ist der Fall:
-		\[
-			|h\sum_{j=1}^N \int_0^1 f^{(2m)}(x_{j-1}+t\cdot h) \frac{B_{2m}(t)}{(2m)!} \, \dx[t]|\le h \frac{1}{(2m)!} \sum_{j=1}^N ||f^{(2m)}||_\infty \cdot ||B_{2m}||_\infty = \underbrace{h\cdot N}_{b-a}\cdot \frac{1}{(2m)!} ||f^{(2m)}||_\infty ||B_{2m}||_\infty
-		\]
+		\begin{align*}
+			&|h\sum_{j=1}^N \int_0^1 f^{(2m)}(x_{j-1}+t\cdot h) \frac{B_{2m}(t)}{(2m)!} \, \dx[t]| \\
+			&\quad\le h \frac{1}{(2m)!} \sum_{j=1}^N ||f^{(2m)}||_\infty \cdot ||B_{2m}||_\infty \\
+			&\quad = \underbrace{h\cdot N}_{b-a}\cdot \frac{1}{(2m)!} ||f^{(2m)}||_\infty ||B_{2m}||_\infty
+		\end{align*}
 		und dies ist unabhängig von $h$.
 	\end{proof}
 \end{st}
@@ -4063,13 +4096,13 @@ Endliche Wiederholung von: \\
 		\begin{itemize}
 			\item
 				Falls die adaptive Quadratur abbricht mit $\eta^{(l)} \le \eps_{\text{tol}}$ und die Vorraussetzungen von \ref{2.37} erfüllt sind, dann ist der Integrationsfehler garantiert klein
-				\[
-					\Big| I_h(f,\Delta^{(l)}) - \int_a^b f(x) \dx \big|
-					\le \sum_{i=1}^{n_{l}} \Big| I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x) \dx \Big|
-					= E_h(f,\Delta^{(l)})
-					\le \f 1{1-q} \eta^{(l)}
+				\begin{align*}
+					&\Big| I_h(f,\Delta^{(l)}) - \int_a^b f(x) \dx \big|\\
+					&\quad\le \sum_{i=1}^{n_{l}} \Big| I_n(f,K_i^{(l)}) - \int_{K_i^{(l)}} f(x) \dx \Big|
+					= E_h(f,\Delta^{(l)}) \\
+					&\quad\le \f 1{1-q} \eta^{(l)}
 					\le \f 1{1-q} \eps_{\text{tol}}
-				\]
+				\end{align*}
 			\item
 				Man nennt die Bedingung an die $R_{\hat n, K}$ auch „Saturierungsbedingung“, welche meistens durch genügend feine Initialzerlegung erreicht werden kann.
 
@@ -4561,7 +4594,8 @@ Der Beweis nutzte die Intervallschachtelung.
 				\item
 					Die Taylorentwicklung von $f$ an $x_0 = x^{(k-1)}$ liefert
 					\begin{align*}
-						f(x^{(k)}) = \underbrace{f(x^{(k-1)}) + f'(x^{(k-1)})\big(x^{(k)}-x^{(k-1)}\big)}_{=0 \text{ (da Newtoniteration)}} + R(x^{(k)},x^{(k-1)}) = R(x^{(k)},x^{(k-1)})
+						f(x^{(k)}) &= \underbrace{f(x^{(k-1)}) + f'(x^{(k-1)})\big(x^{(k)}-x^{(k-1)}\big)}_{=0 \text{ (da Newtoniteration)}} + R(x^{(k)},x^{(k-1)}) \\
+						&= R(x^{(k)},x^{(k-1)})
 					\end{align*}
 					Der Mittelwertsatz liefert
 					\begin{align*}
@@ -4570,9 +4604,9 @@ Der Beweis nutzte die Intervallschachtelung.
 					also ergibt sich mit der Erkenntnis aus der Taylorentwicklung
 					\begin{align*}
 						|x^{(k)} -x^*|
-						\le \f 1m \Big|f(x^{(k)}) - \underbrace{f(x^*)}_{=0}\Big|
-						= \f 1m \Big|R\big(x^{(k)}, x^{(k-1)}\big) \Big|
-						\le \f M{2m} \Big(x^{(k)} -x^{(k-1)}\Big)^2
+						&\le \f 1m \Big|f(x^{(k)}) - \underbrace{f(x^*)}_{=0}\Big|
+						= \f 1m \Big|R\big(x^{(k)}, x^{(k-1)}\big) \Big| \\
+						&\le \f M{2m} \Big(x^{(k)} -x^{(k-1)}\Big)^2
 					\end{align*}
 				\item
 					Weil $q<1$ folgt mit i)
@@ -4849,36 +4883,36 @@ Indem man $x^{(0)}$ entsprechend größer als diese Schranken wählt, ist gemä�
 		\]
 		Es gilt
 		\begin{align*}
-			\det(\lambda I - M) = (-1)^{n+n-1}(-1) \det \begin{pmatrix}
+			\det(\lambda I - M) &= (-1)^{n+n-1}(-1) \det \begin{pmatrix}
 				\lambda &  & 0 & a_0 \\
 				-1 & \ddots &  &  \vdots \\
 				 & \ddots & \lambda & \vdots \\
 				0 &  & -1 & a_{n-2}
-			\end{pmatrix}
-			 + (-1)^{n+n} (\lambda + a_{n-1}) \underbrace{\det (\dotsc)}_{=\lambda^{(n-1)}}
+			\end{pmatrix} \\
+			 &\quad+ (-1)^{n+n} (\lambda + a_{n-1}) \underbrace{\det (\dotsc)}_{=\lambda^{(n-1)}}
 		\end{align*}
 		Wegen
 		\begin{align*}
-			\det T_k = \det \begin{pmatrix}
+			\det T_k &= \det \begin{pmatrix}
 				\lambda &  & 0 & a_0 \\
 				-1 & \ddots &  &\vdots \\
 				 & \ddots & \lambda &\vdots \\
 				0 &  & -1 & a_k 
-			\end{pmatrix}
+			\end{pmatrix}\\
 			&= (-1)(-1) 
-			\det \begin{pmatrix}
+			\det \begin{psmallmatrix}
 				\lambda &  & 0 & a_0 \\
 				-1 & \ddots &  &\vdots \\
 				 & \ddots & \lambda &\vdots \\
 				0 &  & -1 & a_{k-1} 
-			\end{pmatrix}
+			\end{psmallmatrix}
 			+ 1 \cdot a_k 
-			\det \begin{pmatrix}
+			\det \begin{psmallmatrix}
 				\lambda &  &  &  0 \\
 				-1 & \ddots &  &   \\
 				 & \ddots & \ddots &   \\
 				0 &  & -1 & \lambda
-			\end{pmatrix} \\
+			\end{psmallmatrix} \\
 			&= \det T_{k-1} + a_k \lambda^k
 		\end{align*}
 		Also ist
@@ -5510,7 +5544,10 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren, wären:
 	\end{note}
 	\begin{proof}
 		\begin{align*}
-			x^{(1)} = x^{(0)} - DF(x^{(0)})^{-1}F(x^{(0)}) = x^{(0)} - A^{-1} (Ax^{(0)}-b) = x^{(0)} - x^{(0)} + A^{-1}b = x^*
+			x^{(1)} &= x^{(0)} - DF(x^{(0)})^{-1}F(x^{(0)}) \\
+			&= x^{(0)} - A^{-1} (Ax^{(0)}-b) \\
+			&= x^{(0)} - x^{(0)} + A^{-1}b
+			= x^*
 		\end{align*}
 		Außerdem gilt damit
 		\[
@@ -5617,7 +5654,7 @@ Die Berechnung der $DF(x^{(k)})$ und das Lösen von $DF(x^{(k)}) \delta^{(k)} = 
 	\[
 		DF(x^{(0)}) \delta^{(k)} = -F(x^{(k)})
 	\]
-	können effizient durch einmalige LR-Zerlegung und mehrfaches Vorwärts-/Rückwärts-Einsetzen gelöst werden.
+	können effizient durch einmalige LR-Zerlegung und mehrfaches Vorwärts-, bzw. Rückwärts"=Einsetzen gelöst werden.
 
 	Andererseits ist die Konvergenzordnung reduziert, es sind also meist mehr Iterationen erforderlich.
 \end{seg}
@@ -5673,7 +5710,7 @@ Das widerspricht dem Ziel $F(x^*) = 0$ (Beispiel: \texttt{newton\textunderscore 
 	\[
 		x^{(k+1)} := x^{(k)} + \omega_k \delta^{(k)}
 	\]
-	Für $\omega_k = 1$ entspricht das dem herkömmlichen „ungedämpften“ Newton-Verfahren.
+	Für $\omega_k = 1$ entspricht das dem herkömmlichen „ungedämpften“ Newton"=Verfahren.
 
 	Für $F \in C^2$ gilt
 	\begin{align*}
@@ -5873,7 +5910,7 @@ Die eindimensionalen Probleme sind wichtig als Zwischenschritt zur mehrdimension
 	\begin{align*}
 		(x_1 - a) &= \tau (x_2 - a) \\
 		(1-\tau)(b-a) &= \tau \tau (b-a)
-		\quad \iff \quad 1 - \tau = \tau^2 \quad\iff\quad \tau = \phi = \f{\sqrt 5 - 1}2 \approx 0.618
+		\; \iff \; 1 - \tau = \tau^2 \;\iff\; \tau = \phi = \f{\sqrt 5 - 1}2 \approx 0.618
 	\end{align*}
 	Damit ist nur ein neuer Punkt und Funktionswert erforderlich, denn der alte Zwischenpunkt und Funktionswert können wiederverwendet werden.
 \end{seg}
@@ -6058,9 +6095,10 @@ mit $f \in C^1 (\R^n, \R)$ betachten.
 		Die Taylorentwicklung liefert für ein $\xi$ zwischen $x^{(k)}, x^{(k)} + \omega_k d^{(k)}$:
 		\begin{align*}
 			f(x^{(k)}+ \omega_k d^{(k)}) &= f(x^{(k)}) + \omega_k \nabla f(\xi)^T \cdot d^{(k)} \\
-			&= f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)} - \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)} + \omega_k \Big(\sigma + (1- \sigma)\Big) \nabla f(\xi)^T d^{(k)}\\
-			&= f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
-			+ \omega_k \bigg(\sigma \Big(\nabla f(\xi) - \nabla f(x^{(k)})\Big)^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \bigg)
+			&= f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)} - \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)} \\
+			&\qquad+ \omega_k \Big(\sigma + (1- \sigma)\Big) \nabla f(\xi)^T d^{(k)}\\
+			&= f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)} \\
+			&\qquad+ \omega_k \bigg(\sigma \Big(\nabla f(\xi) - \nabla f(x^{(k)})\Big)^T d^{(k)} + (1-\sigma)\nabla f(\xi)^T d^{(k)} \bigg)
 		\end{align*}
 		Für $\omega_k \to 0$ ist $\xi \to x^{(k)}$ und daher $\nabla f(\xi) - \nabla f(x^{(k)}) \to 0$ und $(1-\sigma) \nabla f(\xi)^T d^{(k)} \to -(1-\sigma)\|\nabla f(x^{(k)})\|^2 < 0$.
 		Damit ist für genügend kleine $\omega_k$
@@ -6117,9 +6155,10 @@ mit $f \in C^1 (\R^n, \R)$ betachten.
 				\]
 				Es ergibt sich dann $\nabla f(x) = c =: -d^{(k)}$.
 				Für $\omega_k = 2^{-0} = 1$ ist die Armijo-Regel erfüllt:
-				\[
-					f(x^{(k)} +\omega_k d^{(k)}) = f(x^{(k)} - c) = c^T x^{(k)} - \|c\|^2 \le c^T x^{(k)} - \sigma \|c\|^2 = f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
-				\]
+				\begin{align*}
+					f(x^{(k)} +\omega_k d^{(k)}) &= f(x^{(k)} - c) = c^T x^{(k)} - \|c\|^2 \\
+					&\le c^T x^{(k)} - \sigma \|c\|^2 = f(x^{(k)}) + \omega_k \sigma \nabla f(x^{(k)})^T \cdot d^{(k)}
+				\end{align*}
 				Damit ist
 				\[
 					x^{(k)} := x^{(0)} - k c
@@ -6170,7 +6209,8 @@ mit $f \in C^1 (\R^n, \R)$ betachten.
 		Damit folgt für $x \neq x^*$:
 		\begin{align*}
 			f(x) - f(x^*) &= \f 12 x^T Ax - \f 12 (x^*)^TAx^* - b^Tx + b^Tx^* + c - c \\
-			&= \f 12 x^T Ax - x^T Ax^* + \f 12 (x^*)^T Ax^* + x^T Ax^* - (x^*)^T Ax^* + (x^* -x)^Tb \\
+			&= \f 12 x^T Ax - x^T Ax^* + \f 12 (x^*)^T Ax^* + x^T Ax^* \\
+			&\qquad- (x^*)^T Ax^* + (x^* -x)^Tb \\
 			&= \underbrace{\f 12(x-x^*)^T A(x-x^*)}_{>0} \underbrace{- (x^*-x)^T\underbrace{Ax^*}_{=b} + (x^*-x)^Tb}_{=0} > 0
 		\end{align*}
 	\end{proof}
@@ -6319,9 +6359,12 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 			\_d^{(k)} = -\nabla \_f(\_x^{(k)}) = - \nabla f(\_x^{(k)} + a) = - \nabla f(x^{(k)}) = d^{(k)}
 		\end{align*}
 		$\omega_k = \_\omega_k$ zeigen wir am Beispiel von line search (ähnlich für Armijo):
-		\[
-			\omega_k = \argmin_{\omega\in\R} f(x^{(k)} + \omega d^{(k)}) = \argmin_{\omega\in \R} f(\_x^{(k)} + a + \omega \_d^{(k)})  = \argmin_{\omega\in \R} \_f(\_x^{(k)} + \omega \_d^{(k)}) = \_\omega_k
-		\]
+		\begin{align*}
+			\omega_k &= \argmin_{\omega\in\R} f(x^{(k)} + \omega d^{(k)}) \\
+			&= \argmin_{\omega\in \R} f(\_x^{(k)} + a + \omega \_d^{(k)}) \\
+			&= \argmin_{\omega\in \R} \_f(\_x^{(k)} + \omega \_d^{(k)})
+			= \_\omega_k
+		\end{align*}
 		also
 		\[
 			x^{(k+1)} = x^{(k)} + \omega_k d^{(k)} = \_x^{(k)} + a + \_\omega_k \_d^{(k)} =\_ x^{(k+1)} +a
@@ -6398,10 +6441,10 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 			1 - \omega_k \lambda_n 
 			\ge \_\omega_k \lambda_j 
 			\ge 1 - \_\omega_k \lambda_1 
-			= 1 - \f{2\lambda_1}{\lambda_1 + \lambda_n} 
+			&= 1 - \f{2\lambda_1}{\lambda_1 + \lambda_n} 
 			= \f {\lambda_n - \lambda_1}{\lambda_n + \lambda_1}
-			= - \bigg(\f{\lambda_1 - \lambda_n}{\lambda_n + \lambda_1} \bigg)
-			= - \bigg( 1 - \f {2\lambda_n}{\lambda_1 + \lambda_n} \bigg)
+			= - \bigg(\f{\lambda_1 - \lambda_n}{\lambda_n + \lambda_1} \bigg) \\
+			&= - \bigg( 1 - \f {2\lambda_n}{\lambda_1 + \lambda_n} \bigg)
 			= - (1- \_\omega_k \lambda_n)
 		\end{align*}
 		Also
@@ -6527,10 +6570,9 @@ Verwende „$A$-konjugierte Richtungen“ (“conjugate gradients”) um die Kon
 
 \begin{st}[Konvergenz] \label{4.17}
 	Seien $\{d^{(k)}\}_{k=0}^{n-1} \subset \R^n \setminus \{0\}$ $A$-konjugiert.
-	Das Abstiegsverfahren mit line search für das QP, d.h.
+	Das Abstiegsverfahren mit line search für das QP, d.h. für beliebiges $x^{(0)} \in \R^n$ und
 	\[
-		x^{(0)} \in \R^n \text{ beliebig},
-		\qquad x^{(k+1)} := x^{(k)} + \omega_k d^{(k)},
+		x^{(k+1)} := x^{(k)} + \omega_k d^{(k)},
 		\qquad \omega_k = \f{(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2},
 		\qquad r^{(k)} := b - Ax^{(k)}
 	\]
@@ -6626,12 +6668,12 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 			\Span\{r^{(0)}, \dotsc, r^{(k)}\} = \scr K_{k+1} (A,r^{(0)})
 		\]
 		Es ist $r^{(k)} = d^{(k)} + \beta_{k-1} d^{(k-1)}$ und 
-		\[
+		\begin{align*}
 			\Span\{d^{(0)}, \dotsc, d^{(k)}\} 
-			= \Span\{d^{(0)}, \dotsc, d^{(k-1)}, r^{(k)}\} 
-			= \Span\{r^{(0)}, \dotsc, r^{(k-1)}, r^{(k)}\}
+			&= \Span\{d^{(0)}, \dotsc, d^{(k-1)}, r^{(k)}\} \\
+			&= \Span\{r^{(0)}, \dotsc, r^{(k-1)}, r^{(k)}\}
 			= \scr K_{k+1} (A, r^{(0)})
-		\]
+		\end{align*}
 		also ist 
 		\[
 			\scr K_k(A, r^{(0)}) = \Span\{r^{(0)}, \dotsc, r^{(k-1)}\} = \Span \{d^{(0)}, \dotsc, d^{(k-1)} \}
@@ -6796,7 +6838,7 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 		mit $g(a) = (d^{(k)})^T (Ax^{(k)} - b)a + \f 12 (d^{(k)})^T A d^{(k)} a^2$.
 		Die Minimierung von $f(\_x^{(k+1)})$ ist damit entkoppelt.
 		\begin{align*}
-			\_x^{(k+1)} = \argmin_{x\in x^{(0)} + \scr K_{k+1}}
+			&\qquad\qquad\_x^{(k+1)} = \argmin_{x\in x^{(0)} + \scr K_{k+1}} \\
 			\qquad &\iff \qquad \_x^{(k)} = \argmin_{x \in x^{(0)} + \scr K_k} f(x) \qquad\land\qquad a^* := \argmin_{a\in \R} g(a) \\
 			\qquad &\iff \qquad \_x^{(k)} = x^{(k)} \qquad \land \qquad g'(a^*) = 0 \\
 			\qquad &\iff \qquad \_x^{(k)} = x^{(k)} \qquad \land \qquad a^* = \f {(d^{(k)})^T r^{(k)}}{\|d^{(k)}\|_A^2} = \omega_k \\
