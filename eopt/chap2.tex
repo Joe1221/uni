@@ -806,7 +806,7 @@ Verbindet man das Gradientenverfahren (d.h. die Wahl $d_k = -\nabla f(x_k)$ für
 		\pred_k &:= -s_k \nabla f(x_k) d_k, &
 		\ared_k &:= f(x_k) - f(x_{k+1}).
 	\end{align*}
-	Falls $\f {\ared_k}{\pred_k} \le \gamma$, so wird der Schritt mit verkleinertem $\Delta_k$ wiederholt.
+	Falls $\f {\ared_k}{\pred_k} < \gamma$, so wird der Schritt mit verkleinertem $\Delta_k$ wiederholt.
 \end{nt}
 
 \coursetimestamp{30}{10}{2013}
@@ -1354,7 +1354,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 
 \begin{alg} \label{alg:4}
 	\begin{algorithmic}
-		\Require{$0<\gamma < 1, \gamma < \eta < 1$}
+		\Require{$0 < \gamma < \eta < 1$}
 		\Require{aktuelle Iterierte $x$, Richtung $d\in\R^n$}
 		\State{$s^- \gets 1$}
 		\While{$s^-$ verletzt \eqref{eq:pw_armijo}}
@@ -1411,7 +1411,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 		\end{enumerate}
 		Dann terminiert \ref{alg:4} nach endlich vielen Schritten und liefert eine Schrittweite $s$, die \eqref{eq:pw_armijo} und \eqref{eq:pw_pw} erfüllt.
 
-		Die Intervallhalbierung sucht nach einem $s^*$ an dem \eqref{eq:pw_armijo} noch erfüllt ist und erzeugt dabei eie Folge von $s^-$, die monoton steigend gegen $s^*$ konverrgiert und für alle Folgenglieder gilt $g(s^-) \le 0$.
+		Die Intervallhalbierung sucht nach einem $s^*$ an dem \eqref{eq:pw_armijo} noch erfüllt ist und erzeugt dabei eie Folge von $s^-$, die monoton steigend gegen $s^*$ konvergiert und für alle Folgenglieder gilt $g(s^-) \le 0$.
 		Genauso wird eine Folge von $s^+$ erzeugt, die monoton fallend gegen $s^*$ konvergiert und es gilt $g(s^+) > 0$.
 
 		An $s^*$ gilt also
@@ -2770,13 +2770,13 @@ Wir erhalten folgenden Algorithmus:
 		\While{$F'(x_k)^T F(x_k) \neq 0$}
 			\State{$d_k \gets - \big(F'(x_k)^T F'(x_k) + \my I \big)^{-1} F'(x_k)^T F(x_k)$}
 			\State{$\eps \gets \frac {\|F(x_k)\|^2 - \|F(x_{k+1})\|^2}{\|F(x_k)\|^2 - \|F(x_k) + F'(x_k) d_k\|^2}$}
-			\While{$\eps < \beta_0$} \Comment{Vergrößere $\my$, falls Schritt zu groß}
+			\While{$\eps < \beta_0$} \Comment{verkleinere die Trust-Region, falls nötig}
 				\State{$\my \gets 2 \my$}
 				\State{$d_k \gets - \big(F'(x_k)^T F'(x_k) + \my I \big)^{-1} F'(x_k)^T F(x_k)$}
 				\State{$\eps \gets \frac {\|F(x_k)\|^2 - \|F(x_{k+1})\|^2}{\|F(x_k)\|^2 - \|F(x_k) + F'(x_k) d_k\|^2}$}
 			\EndWhile
 			\State{$x_{k+1} \gets x_k + d_k$}
-			\If{$\eps > \beta_1$} \Comment{Wenn gewünscht, verkleinere $\my$}
+			\If{$\eps > \beta_1$} \Comment{wenn gewünscht, vergrößere die Trust-Region}
 				\State{$\my \gets \f 12 \my$}
 			\EndIf
 			\State{$k \gets k + 1$}
