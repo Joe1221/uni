@@ -858,7 +858,7 @@ Trotzdem können wir eine schwache Aussage zum Konvergenzverhalten machen.
 				\[
 					\lim_{L \ni l \to \infty} s_l \|\nabla f(x_l)\|^2 = 0.
 				\]
-				Es gilt also $\lim_{L \ni l \to \infty} s_l = 0$ oder wegen Stetigkeit $\nabla f(x) = \lim_{L \ni l \to\infty} \nabla f(x_l) = 0$.
+				Es gilt also $\lim_{L \ni l \to \infty} s_l = 0$ oder $\nabla f(x) = \lim_{L \ni l \to\infty} \nabla f(x_l) = 0$.
 				Im letzteren Fall ist die Behauptung beweisen, betrachte also $\lim_{L \ni l \to \infty} s_l = 0$.
 
 				In fast allen (o.B.d.A in allen) Schritten $l \in L$ hat durch die Armijo-Regel eine Schrittweitenverkürzung stattgefunden, d.h. $\f {s_l}{\beta}$ erfüllte die Armijo-Bedingung noch nicht.
@@ -1288,12 +1288,12 @@ Also sind Armijo-Schrittweiten im Allgemeinen nicht zulässig.
 				und somit $s_l \to 0$ für $L' \ni l \to \infty$.
 				Der Rest funktioniert wie im Beweis von \ref{2.24} und man erhält
 				%fixme: prüfen und ausführen
-				\[
+				\begin{align*}
 					0
-					\le (1-\gamma) \f {-\nabla f(x_l)^T d_l}{\|d_l\|}
-					< \f {\nabla f(x_l+ \sigma_l d_l) - \nabla f(x_l)^Td_l}{\|d_l\|}
+					&\le (1-\gamma) \f {-\nabla f(x_l)^T d_l}{\|d_l\|} \\
+					&< \f {\nabla f(x_l+ \sigma_l d_l) - \nabla f(x_l)^Td_l}{\|d_l\|}
 					\le \|\nabla f(x_l + \sigma_l d_l) - \nabla f(x_l)\|.
-				\]
+				\end{align*}
 				Aus $s_l \to 0$ folgt $\sigma_l d_l \to 0$.
 				Da auch $(x_l)$ konvergiert, existiert ein $r > 0$ sodass
 				\[
@@ -1381,7 +1381,7 @@ mit $0 < \gamma < 1$ und $\gamma < \eta < 1$ erfüllt.
 
 	Dann terminiert \ref{alg:4} nach endlich vielen Schritten und liefert eine Schrittweite $s$, die \eqref{eq:pw_armijo}, \eqref{eq:pw_pw} erfüllt.
 	\begin{proof}
-		Die erste Repeat-Schleife terminiert wegen \ref{2.21} (für $s$ klein genug ist die Armijo-Bedingung erfüllt).
+		Die erste Repeat-Schleife terminiert wegen \ref{2.21} (für $s$ klein genug ist die Armijo"=Bedingung erfüllt).
 
 		Für die zweite Repeat-Schleife betrachte
 		\begin{align*}
@@ -1526,6 +1526,7 @@ Es ergibt sich damit die Iteration
 		\While{$F(x_k) \neq 0$}
 			\State{$d_k \gets -F'(x_k)^{-1} F(x_k)$}
 			\State{$x_{k+1} \gets x_k + d_k$}
+			\State{$k \gets k + 1$}
 		\EndWhile
 	\end{algorithmic}
 \end{alg}
@@ -1614,7 +1615,7 @@ Dies lässt sich auch für Matrizen verallgemeinern.
 		\end{align*}
 		also in der Norm
 		\[
-			\|(A+B)^{-1} - A^{-1}\|
+			\big\|(A+B)^{-1} - A^{-1}\big\|
 			\le \f {\|A^{-1}\| \|A^{-1}B\|}{1-\|A^{-1}B\|}.
 		\]
 	\end{proof}
@@ -1798,6 +1799,7 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ die Hesse-Matrix von $f$ und es ergibt sich
 		\While{$\nabla f(x_k) \neq 0$}
 			\State{$d_k \gets -\big(\nabla^2 f(x_k)\big)^{-1} \nabla f(x_k)$}
 			\State{$x_{k+1} \gets x_k + d_k$}
+			\State{$k \gets k + 1$}
 		\EndWhile
 	\end{algorithmic}
 \end{alg}
@@ -1826,7 +1828,7 @@ Offenbar ist $F'(x) = \nabla^2 f(x)$ die Hesse-Matrix von $f$ und es ergibt sich
 	\end{proof}
 \end{lem}
 
-\begin{st}[Lokale Konvergenz des Newton-Verfahrens für Optimierungsprobleme] \label{2.48}
+\begin{st}[Newton-Verfahren, Lokale Konvergenz für Optimierungsprobleme] \label{2.48}
 	Sei $f: \R^n \to \R$ zweimal stetig differenzierbar und $\hat x$ ein lokales Minimum von $f$ mit positiv definiter Hesse-Matrix $\nabla^2 f(\hat x)$.
 	Dann existieren $\delta, \my > 0$ so dass
 	\begin{enumerate}[(a)]
@@ -1904,7 +1906,7 @@ Das Newton-Verfahren hat gewisse Nachteile (z.B. gegenüber dem Gradienten-Verfa
 Trotzdem hat das Newton-Verfahren Vorteile, die es nützlich machen
 \begin{itemize}
 	\item
-		superlineare Konvergenz (dies rechtfertig asymptotisch jeden $N$-fachen Aufwand (für beliebig großes, festes $N$) gegenüber einem linear-konvergenten Verfahren)
+		superlineare Konvergenz (dies rechtfertigt asymptotisch jeden $N$-fachen Aufwand (für beliebig großes, festes $N$) gegenüber einem linear-konvergenten Verfahren)
 \end{itemize}
 Mit $d_k := - \nabla^2 f(x_k)^{-1} \nabla f(x_k)$ wird nur eine Approximation $x_{k+1}$ an das Optimum berechnet.
 Es ist also vielleicht nicht nötig, $d_k$ exakt zu berechnen.
@@ -2101,7 +2103,7 @@ Dies liefert die Motivation für zwei Verfahren
 				und somit
 				\begin{align*}
 					\|\nabla f(x_k) + \nabla^2 f(x_k) d_k \|
-					&\le \eta_k \|\nabla f(x_k)\| \\
+					&= \eta_k \|\nabla f(x_k)\| \\
 					&\le \f {\eta_k}{1-\eta_k} \underbrace{\|\nabla^2 f(x_k)\|}_{\le \const}\|x_{k+1} - x_k\| \\
 					&= o(x_{k+1} - x_k).
 				\end{align*}
@@ -2219,7 +2221,7 @@ Das folgende Lemma liefert die Aussage für Aufdatierungen der Form $A + uv^T$.
 			&= u \underbrace{(1 + v^TA^{-1}u)}_{=0} (v^Tv)
 			= 0
 		\end{align*}
-		und $A^{-1} uv^Tv = \|v\|^2 A^{-1} u \neq 0$, also $\dim \ker (A + uv^T) > 0$ und somit $A$ nicht invertierbar.
+		und $A^{-1} uv^Tv = \|v\|^2 A^{-1} u \neq 0$, also $\dim \ker (A + uv^T) > 0$ und somit $A + uv^T$ nicht invertierbar.
 	\end{proof}
 \end{lem}
 
@@ -2262,6 +2264,7 @@ $H_k$ erfüllt \eqref{eq:qn} nach \coursehref{Blatt9.pdf}{Übungsaufgabe 8.1} un
 			\State{$d_k \gets - B_k \nabla f(x)$}
 			\State{$x_{k+1} \gets x_k + d_k$}
 			\State{$B_{k+1} \gets B_k + \f {(d_k-B_ky_k)d_k^T + d_k(d_k-B_ky_k)^T}{d_k^T y_k} - \f {(d_k-B_ky_k)^T y_k}{(d_k^T y_k)^2} d_k d_k^T$}
+			\State{$k \gets k + 1$}
 		\EndWhile
 	\end{algorithmic}
 \end{alg}
@@ -2332,6 +2335,7 @@ Wir erwarten
 				\State{$s_k \gets \beta s_k$}
 				\State{$x_{k+1} \gets x_k + s_k d_k$}
 			\Until{$f(x_{k+1}) \le f(x_k) + \gamma s_k \nabla f(x_k)^T d_k$}
+			\State{$k \gets k + 1$}
 		\EndWhile
 	\end{algorithmic}
 \end{alg}
