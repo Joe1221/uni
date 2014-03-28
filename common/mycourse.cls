@@ -273,9 +273,12 @@
 
 
 % Erzeuge pdf-bookmark für das Inhaltsverzeichnis
-\let\oldtableofcontents\tableofcontents
-\renewcommand{\tableofcontents}{\pdfbookmark[0]{\contentsname}{toc}\oldtableofcontents}
-%\BeforeTOCHead[toc]{{\pdfbookmark[0]{\contentsname}{toc}}} % Funktioniert nicht im CIP-Pool
+\cs_new_eq:NN \mycourse_tableofcontents_old: \tableofcontents
+\DeclareDocumentCommand { \tableofcontents } { } {
+    \cleardoublepage % keeps bookmark anchor and toc on same page
+    \pdfbookmark [ 0 ] { \contentsname } { toc }
+    \mycourse_tableofcontents_old:
+}
 
 \RequirePackage [ shortlabels ] { enumitem }     % Aufzählungen wie a), (I), etc. als optionales Argument
 
