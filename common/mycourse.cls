@@ -173,9 +173,6 @@
 \RequirePackage{float}              % Erlaubt [H] Option für table/figure (load before hyperref)
 \RequirePackage{scrhack} 			% Wegen float-package, das eine warnung mit scrbook erzeugt
 
-%\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
-\RequirePackage{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
-
 \definecolor{url}{HTML}{005580} % 0088cc
 \definecolor{link}{HTML}{005580}
 \definecolor{text}{HTML}{000000}
@@ -190,6 +187,7 @@
 \definecolor{algcommand}{HTML}{000055}
 \definecolor{background}{HTML}{FFFFFF}
 \definecolor{headings}{HTML}{000000}
+\definecolor{termdef}{HTML}{000000}
 
 \cs_if_exist:NT \str_case_x:nnF {
 \str_case_x:nn \l_mycourse_style {
@@ -233,6 +231,49 @@
 \renewcommand*\sectfont{\sffamily\bfseries\color{headings}}
 
 
+
+\RequirePackage [ xindy ] { imakeidx }
+\makeindex [
+    name = terms,
+    title = Begriffe, % fixme: i8n
+    options = -I omega, % texindy has issues with utf8 otherwise
+]
+\makeindex [
+    name = lectures,
+    title = Vorlesungen, % fixme: i8n
+    options = -I omega, % texindy has issues with utf8 otherwise
+]
+
+% emphasize a definition term and create index entry simultaneously
+\DeclareDocumentCommand { \emphdef } { om } {
+    \index [ terms ] {
+	\IfNoValueTF { #1 } { #2 } { #1 }
+    }
+    \emph { #2 }
+}
+
+\RequirePackage { datetime }
+\newdateformat { coursedate } {
+    \twodigit { \THEDAY } .
+    \twodigit { \THEMONTH } .
+    \THEYEAR
+}
+\DeclareDocumentCommand { \coursetimestamp } { mmm } {
+    \index [ lectures ] {
+	#3 - #2 - #1
+	@
+	\coursedate { \protect \formatdate { #1 } { #2 } { #3 } }
+    }
+    \marginline{
+	\color { timestamp } \scshape \scriptsize
+	\coursedate
+	\formatdate { #1 } { #2 } { #3 }
+    }
+}
+
+
+%\RequirePackage[hidelinks]{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
+\RequirePackage{hyperref}			% Macht Referenzen im pdf-Dokument anklickbar
 
 \RequirePackage{microtype} 			% Für typographische Perfektion
 
@@ -513,14 +554,6 @@
 %========================
 
 \RequirePackage{mymath}
-\RequirePackage{datetime} % After babel 
-\newdateformat{coursedate}{\twodigit{\THEDAY}.\twodigit{\THEMONTH}.\THEYEAR}
-
-\newcommand{\coursetimestamp}[3]{
-	\marginline{
-		\color{timestamp}\scshape\scriptsize \coursedate\formatdate{#1}{#2}{#3}
-	}
-}
 
 \RequirePackage{lastpage}
 

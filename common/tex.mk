@@ -1,6 +1,6 @@
 # TARGET has to be specified
 
-PDFLATEX_OPTIONS += -synctex=1
+PDFLATEX_OPTIONS += -synctex=1 -shell-escape
 #LATEXMK     ?= latexmk -recorder -pdf -pdflatex="pdflatex $(PDFLATEX_OPTIONS) %O %S"
 #LATEXMK     ?= latexmk -pdf -pdflatex="pdflatex $(PDFLATEX_OPTIONS) %O %S"
 LATEXMK     ?= latexmk -pdf -e '$$pdflatex=q/xelatex $(PDFLATEX_OPTIONS) %O %S/'
