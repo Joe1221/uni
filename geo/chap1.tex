@@ -1,0 +1,203 @@
+\coursetimestamp{08}{04}{2014}
+
+Es gibt verschiedene Arten der Geometrie
+
+\begin{itemize}
+	\item
+		Inzidenzgeometrie: Punkte, Geraden, Ebenen.
+	\item
+		Darstellende Geometrie: Projektionen des Anschauungsraumes in die Zeichenebene.
+	\item
+		Analytische Geometrie über verschiedene Vektorräume:
+		\begin{itemize}
+			\item
+				affin
+			\item
+				euklidisch
+			\item
+				projektiv
+		\end{itemize}
+	\item
+		Konvexgeometrie: Konvexe Körper im euklidischen Raum.
+	\item
+		Polyedergeometrie: Polyeder im euklidischen Raum.
+	\item
+		Algebraische Geometrie: Nullstellenmengen algebraischer Funktionen.
+	\item
+		Differentialgeometrie: differenzierbare Kurven, differenzierbare Flächen.
+\end{itemize}
+Geometrie entsteht also durch Zusammentreffen verschiediener Strukturen (algebraischer, analytischer, topologischer, kombinatorischer, \dots Art).
+
+Im Laufe dieser Vorlesung konzentrieren wir uns auf die Analytische Geometrie und die Differentialgeometrie.
+
+
+\chapter{Geometrien und ihre Transformationsgruppen}
+
+
+Wir betrachten im Folgenden den $n$-dimensionalen Vektorraum $\K^n$ über einem Körper $\K$.
+$\K$ kann ein endlicher Körper sein, oder $\K \in \{\R, \C\}$.
+
+Auf $\K^n$ setzen wir ein euklidisches, bzw. ein hermitesches Skalarprodukt und eine Norm voraus.
+
+\paragraph{Erlanger Programm}
+
+Felix Klein, 1872: „Es ist eine Mannigfaltigkeit und in derselben eine Transformationsgruppe gegeben.
+Man soll die der Mannigfaltigkeit angehörenden Gebilde hinsichtlich solcher Eigenschaften untersuchen, die durch die Transformation der Gruppe nicht geändert werden.“
+
+Im Reellen untersuchen wir affine, euklidische, projektive und hyperbolische, im Komplexen affine, hermitesche, projektive und hyperbolische Räume.
+
+
+\section{Affine Geometrie}
+
+Bezeichne $\A^n := \{ \text{Punkte} \}$.
+Wir bezeichnen Verbindungsvektoren
+\begin{align*}
+	\A^n \times \A^n &\to \K^n \\
+	(P, Q) &\mapsto \vec{PQ} \\
+	\A^n \times \K^n &\to \A^n \\
+	(P, \vec{PQ}) &\mapsto Q
+\end{align*}
+Speziell für $\A^n := \K^n$ ist
+\[
+	\vec{PQ} := Q - P.
+\]
+Affine Unterräume sind lineare Unterräume plus einer Konstante.
+
+\begin{df}
+	Sei $A \in \K^{n\times n}$ eine invertierbare Matrix.
+	Eine \emphdef[Abbildung!affin]{affine Abbildung} $f: \A^n \to \A^n$ ist gegeben durch
+	\begin{align*}
+		f(x) &:= Ax + b, \\
+		f^{-1}(y) &:= A^{-1} y  - A^{-1} b
+	\end{align*}
+	\begin{note}
+		Die Menge der $k$-dimensionalen Unterräume bleibt invariant unter affinen Abbildungen.
+	\end{note}
+	\begin{note}
+		Spezialfälle sind
+		\begin{itemize}
+			\item
+				$A = E$: Translation
+			\item
+				$b = 0$: lineare Abbildung
+				\begin{itemize}
+					\item
+						Mit $b = 0, A = \lambda E$ ergibt sich eine zentrische Streckung am Ursprung
+				\end{itemize}
+			\item
+				$b = (1 - \lambda) p, A = \lambda E$: zentrische Streckung in $p$
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\section{Euklidische Geometrie}
+
+
+\begin{df}
+	Der \emphdef[Raum!affin euklidisch]{affin euklidische Raum} $E^n$ ist definiert als $A^n(\R) = \R^n$ mit dem euklidischen Skalarprodukt für Verbindungsvektoren.
+
+	Eine \emphdef[Transformation!euklidisch]{euklidische Transformation} ist eine affine Abbildung $x \mapsto Ax + b$ mit einer orthogonalen Matrix $A$.
+\end{df}
+
+\begin{nt}
+	Eine Matrix $A \in \R^n$ ist \emphdef[Matrix!orthogonal]{orthogonal}, falls $A^T A = E$.
+	\begin{note}
+		$A$ ist orthogonal genau dann, wenn $\<Ax, Ay\> = \<x,y\>$
+	\end{note}
+	Die Menge der euklidischen Transformationen mit der Hintereinanderausführung bildet die \emphdef[Gruppe!euklidisch]{euklidische Gruppe} $E(n)$.
+	Analog $E_*(n)$ mit $\det(A) = 1$.
+	\begin{note}
+		Eine euklidische Transformation bewahrt
+		\begin{itemize}
+			\item
+				die Menge der affinen Unterräume
+			\item
+				das Skalarprodukt von Verbidungsvektoren
+			\item
+				die Winkel zwischen Verbindungsvektioren
+			\item
+				$\cos \angle (x,y) = \f {\<x,y\>}{\|x\|\|y\|}$
+		\end{itemize}
+		Spezialfälle sind
+		\begin{itemize}
+			\item
+				Translation $x \mapsto x + b$
+			\item
+				Drehungen, Spiegelungen: $b = 0$
+				\begin{itemize}
+					\item
+						Normalform einer Drehung
+					\item
+						Normalform einer Spiegelung
+				\end{itemize}
+		\end{itemize}
+	\end{note}
+\end{nt}
+
+\begin{lem}
+	Eine endliche Untergruppe $G$ von $E(n)$ fixiert einen Punkt und kann somit als Untergruppe der orthogonalen Gruppe aufgefasst werden.
+	\begin{proof}
+		Sei $|G| = n$ und $\{P_1, \dotsc P_n\}$ eine Bahn unter $G$
+		\[
+			P_0 := \f 1n \sum_{k=1}^n P_k
+		\]
+		bezeichne den Schwerpunkt.
+		Es gilt
+		\[
+			f\Big(\f 1n \sum_{k=1}^n P_k\Big)
+			= \f 1n \sum_{k=1}^n (AP_k) + b
+			= \f 1n \sum_{k=1}^n \underbrace{(AP_k + b)}_{=P_{\sigma(k)}}
+			= \f 1n \sum_{l=1}^n P_l
+			= P_0
+		\]
+	\end{proof}
+\end{lem}
+
+\begin{kor}
+	Alle endlichen Untergruppen von $E(n)$ sind auch Untergruppen der orthogonalen Gruppe $O(n)$.
+\end{kor}
+
+\begin{st}
+	Die einzigen endlichen Untergruppen der Drehgruppe $\SO (3) = \< A \in \R^3 : A^TA = E, \det A = 1 \>$ sind folgende
+	\begin{itemize}
+		\item
+			zyklisch beliebiger Ordnung,
+		\item
+			diädrisch beliebiger Ordnung,
+		\item
+			eine der Drehgruppen von Tetraeder, Oktaeder, Ikosaeder oder eine Untergruppe davon.
+	\end{itemize}
+	\begin{proof}
+		siehe Homepage.
+
+		Idee: betrachte Bahnen eines Punktes $x$: $\{ gx : g \in G \}$.
+	\end{proof}
+\end{st}
+
+
+\section{Sphärische Geometrie}
+
+
+Bezeichne die $n$-dimensionale Sphäre mit $S^n = \{ x \in \R^{n+1} : \|x\| = 1 \}$.
+Die Sphärische Geometrie betrachtet Punkte aus $S^n$, Großkreise als „Geraden“ und Schnitte von linearen Unterräumen mit $S^n$ als Unterräume.
+
+In $S^2$ schneiden sich zwei Großkreise in genau $2$ antipodalen Punkten.
+In $S^2 / \pm$ schneiden sich zwei Großkreise in genau einem Punkt und je zwei Punkte liegen in genau einem Großkreis.
+Dies ist die reell projektiven Ebene und die Geometrie wird auch \emph{elliptische Geometrie} genannt.
+
+In einem sphärischen Dreieck $\triangle$ gilt
+\[
+	\pi
+	< \alpha + \beta + \gamma
+	= \pi + \Area(\triangle)
+	< 5 \pi.
+\]
+Es gilt der Sinussatz
+\[
+	\f {\sin a}{\sin \alpha}
+	= \f {\sin b}{\sin \beta}
+	= \f {\sin c}{\sin \gamma}.
+\]
+
+
+
