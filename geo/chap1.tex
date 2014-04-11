@@ -65,7 +65,7 @@ Affine Unterräume sind lineare Unterräume plus einer Konstante.
 
 \begin{df}
 	Sei $A \in \K^{n\times n}$ eine invertierbare Matrix.
-	Eine \emphdef[Abbildung!affin]{affine Abbildung} $f: \A^n \to \A^n$ ist gegeben durch
+	Eine \emphdef[Transformation!affin]{affine Transformation} $f: \A^n \to \A^n$ ist gegeben durch
 	\begin{align*}
 		f(x) &:= Ax + b, \\
 		f^{-1}(y) &:= A^{-1} y  - A^{-1} b
@@ -199,5 +199,199 @@ Es gilt der Sinussatz
 	= \f {\sin c}{\sin \gamma}.
 \]
 
+\coursetimestamp{10}{04}{2014}
+
+
+\section{Projektive Geometrie}
+
+
+In der euklidischen Geometrie schneiden sich parallele Geraden nicht.
+\begin{align*}
+	c_1 + ax_1 + bx_2 &= 0 \\
+	c_2 + ax_1 + bx_2 &= 0
+\end{align*}
+Man führt einen künstlichen „Fernpunkt“ ein, in dem sich diese schneiden.
+\begin{align*}
+	c_1 x_0 + a x_1 + b x_2 &= 0 \\
+	c_2 x_0 + a x_1 + b x_2 &= 0
+\end{align*}
+in \emph{homogenen Koordinaten}: $[x_0, x_1, x_2]$.
+Für $x_0 = 0$ erreicht man den Fernpunkt und für $x_0 = 1$ die ursprünglichen Geradengleichungen.
+
+
+\begin{df}
+	Der projektive $n$-dimensionale Raum $P^n(\K)$ über $\K$ ist definiert als
+	\[
+		P^n(\K) := \K^{n+1} \setminus \{ 0 \} / ~,
+	\]
+	wobei $\v x ~  \lambda x$ für alle $\lambda \in \K \setminus \{0\}$.
+
+	Eine \emphdef[Transformation!projektiv]{projektive Transformation} $f: P^n(\K) \to P^n(\K)$ ist induziert von einer invertierbaren linearen Abbildung $A: \K^{n+1} \to \K^{n+1}$ durch
+	\[
+		f([x]) = [Ax],
+	\]
+	wobei $[x] = \{ \lambda x : \lambda \in \K \setminus \{0 \} \}$.
+
+	Die \emph{projektive Gruppe} $\PGL(n+1, \K)$ besteht aus allen solchen projektiven Transformationen.
+\end{df}
+
+\begin{ex}
+	Im Spezialfall $n = 1$ mit einer Matrix $A = \begin{psmallmatrix}
+		a & b \\ c & d
+	\end{psmallmatrix}$ ist
+	\[
+		f(\begin{psmallmatrix}
+			x_0 \\ x_1
+		\end{psmallmatrix}) = \l[ A \begin{psmallmatrix} x_0 \\ x_1
+		\end{psmallmatrix} \r]
+		= \begin{pmatrix}
+			a x_0 + b x_1 \\
+			c x_0 + d x_1
+		\end{pmatrix}
+		= \begin{cases}
+			\Vector{ \f{a x_0 + b x_1}{c x_0 + d x_1} & 1} & cx_0 + dx_1 \neq 0 \\
+			\Vector{ 1 & 0 } & cx_0 + dx_1 = 0
+		\end{cases}
+	\]
+	der affine Teil mit $x_1 \neq 0$, ergibt sich
+	\[
+		f(\Vector{ x & 1}) = \Vector{ \f{ax + b}{cx + d} & 1}
+	\]
+	und wir können es als Abbildung $x \mapsto \f{ax + b}{cx + d}$ auffassen
+\end{ex}
+
+
+\begin{df}
+	Für $\K = \C, n = 1$ heißt die Abbildung
+	\[
+		f(z) = \begin{pmatrix}
+			a & b \\ c & d
+		\end{pmatrix} \cdot z
+		:= \f {a z + b}{c z + d}
+	\]
+	mit $a,b,c,d \in \C$ und $ad - bc \neq 0$ eine \emphdef{Möbius-Transformation}.
+	Im Fall $c z + d = 0$ setzen wir $f(z) = \infty$ und $f(\infty) = \f ac$.
+
+	Alternativ: projektive Transformation von $P^1(\C)$.
+	$P^1 \C = \C \cup \{\infty \} = \hat \C = S^2(I)$ (Riemannsche Zahlensphäre).
+\end{df}
+
+\begin{lem}
+	Die Komposition von Möbiustransformationen ist durch die Matrixmultiplikation gegeben.
+	\begin{proof}
+		nachrechnen oder die projektive Gruppe betrachten
+	\end{proof}
+\end{lem}
+
+\begin{st}
+	\begin{enumerate}[(i)]
+		\item
+			Jede Möbiustransformation ist winkeltreu (konform).
+		\item
+			Jede Möbiustransformation überführt verallgemeinerte Kreise in eben solche um.
+	\end{enumerate}
+\end{st}
+
+\begin{df}
+	Die \emph{stereographische Projektion} $\sigma: S^2 \setminus \{ (0, 0, 1) \} \to \R^2 \isomorphic \C$ ist definiert durch
+	\[
+		\sigma(x_1, x_2, x_3) = \f 1{1-x_3} (x_1, x_2)
+	\]
+	$x_3 = 0$ nennt man Fixpunkte.
+	Durch Fortsetzung zu $\hat \sigma$ nach $P^1(\C)$ mittels
+	\begin{align*}
+		\hat \sigma(0,0,1) &:= [1, 0] \in P^1(\C) \\
+		\hat (x_1, x_2, x_3) &:= [\sigma(x_1, x_2, x_3), 1]
+	\end{align*}
+	erhalten wir $\hat \sigma: S^2(I) \to P^1(\C)$.
+\end{df}
+
+\begin{df}
+	Eine \emphdef[Möbius-Transformation!der Sphäre]{Möbius-Transformation} der Sphäre $S^2$ ist eine Abbildung $\hat \sigma^{-1} \circ f \circ \hat \sigma$, wobei $f$ eine projektive Transformation.
+
+	Die \emphdef{Möbiusgruppe} besteht aus den Möbius-Transformationen $\PGL(2, \C)$, bzw. $\PSL(2, \C)$.
+\end{df}
+
+\begin{st}
+	\begin{enumerate}[(i)]
+		\item
+			Jede Möbius-Transformation von $S^2$ ist winkeltreu.
+		\item
+			Jede Möbius-Transformation von $S^2$ bewahrt Kreise.
+	\end{enumerate}
+\end{st}
+
+\begin{lem}
+	$\sigma$ ist winkeltreu
+	\begin{proof}
+		Zeige: $\sigma^{-1}$ ist winkeltreu.
+		\[
+			\sigma^{-1}(y_1, y_2)
+			= (\lambda y_1, \lambda y_2, 1 - \lambda)
+			= \f 1{y_1^2 + y_2^2 + 1} (2y_1, 2y_2, y_1^2 + y_2^2 - 1)
+		\]
+		mit $\lambda^2 (y_1^2 + y_2^2) + (1-\lambda)^2 = 1$, oder $1 - \lambda = \f{y_1^1 + y_2^2 - 1}{y_1^2 + y_2^2 + 1}$.
+		Berechne $\ddx[y_1]{\sigma^{-1}}, \ddx[y_2]{\sigma^{-1}}$.
+		Man sieht, dass diese die gleiche Länge haben und orthogonal zueinander stehen.
+		Damit ist $D \sigma^{-1}$ eine Drehstreckung und winkeltreu.
+	\end{proof}
+\end{lem}
+
+\begin{lem}
+	$\sigma$ bewahrt Kreise (Kreis durch $(0,0,1)$ wird eine Gerade).
+	\begin{proof}
+		Schnitt von $S^2$ mit einer Ebene $\alpha x_1 + \beta x_2 + \gamma x_3 + \delta = 0$.
+		Betrachte das Bild unter $\sigma^{-1}$, such $y_1, y_2$ mit $\sigma^{-1}(y_1, y_2) = (x_1, x_2, x_3)$.
+		\begin{align*}
+			\f 1{y_1^2 + y_2^2 + 1} \Big( 2 \alpha y_1 + 2 \beta y_2 + \gamma (y_1^2 + y_2^2 - 1) + \delta (y_1^2 + y_2^2 - 1) &= 0 \\
+			(\gamma + \delta)(y_1^2 + y_2^2) + 2 \alpha y_1 + 2 \beta y_2 + \delta - \gamma = 0
+		\end{align*}
+		Dies ist eine Quadrik, welche für $\gamma + \delta \neq 0$ eine Kreisgleichung und für $\gamma + \delta$ ein Geradengleichung ist.
+	\end{proof}
+\end{lem}
+
+\begin{lem}
+	Jede Möbius-Transformation ist aus den drei Grundtypen zusammengesetzt.
+	\begin{proof}
+		Sei $\Matrix{a & b \\ c & d}$ gegeben
+
+		Im Fall $c = 0$ ist $f(z) = \f a d z + bd$ eine Drehstreckung und eine Translation.
+
+		Im Fall $c \neq 0$ ist
+		\[
+			f(z) = \f {az + b}{cz + d}
+			= \f ac + \f {\f {bc - ad}c}{cz + d}.
+		\]
+		Es ergibt sich
+		\[
+			z \mapsto c z \mapsto c z + d \mapsto \f 1{cz + d} \mapsto \f{\f{bc - ad}{c}}{cz + d} \mapsto \f ac + \f{\f{bc-ad}c}{cz+d} = \f {az + b}{cz + d} = f(z)
+		\]
+		also Zusammensetzung
+	\end{proof}
+\end{lem}
+
+\begin{lem}
+	$f(z) = \f {az + b} {cz + d}$ bewährt verallgemeinerte Kreise
+	\begin{proof}
+		Betrachte Grundtypen von Möbius-Transformationen
+		\begin{itemize}
+			\item
+				Für $\Matrix{a & b \\ c & d} = \Matrix{a & 0 \\ 0 & a^{-1}}$ ist $f(z) = a^2 z$ mit $a \in \C$ eine Drehstreckung mit Zentrum $z=0$ und bewahrt Kreise.
+			\item
+				Für $\Matrix{a & b \\ c & d} = \Matrix{1 & b \\ 0 & 1}$ ist $f(z) = z + b$ eine Translation und bewahrt Kreise.
+			\item
+				Für $\Matrix{a & b \\ c & d} = \Matrix{0 & -1 \\ 1 & 0}$ ist $f(z) = - \f 1z$ eine Inversion am Einheitskreis und bewahrt Kreise.
+		\end{itemize}
+	\end{proof}
+\end{lem}
+
+\begin{proof}
+	Satz A (i) folgt aus der komplexen Differenzierbarkeit.
+	Das relle Differential ist eine Drehstreckung (Cauchy-Rieman-Gleichungen).
+
+	Da $\sigma$ winkeltreu ist, folgt Satz B (i).
+
+	Obige Lemmas ergeben Satz A (ii) und Satz B (ii).
+\end{proof}
 
 
