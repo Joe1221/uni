@@ -1,140 +1,217 @@
-\chapter{Einführung}
+\chapter{Integritätsbereiche, irreduzible Elemente, Primzahlen}
 
-
-\coursetimestamp{07}{04}{2014}
-
-\paragraph{Pythogoras}
-(569 v. Chr. - 475 v. Chr.) „Alles ist Zahl.“
-
-Pythagoraer konnten mit Brüchen umgehen und wussten, dass es auch irrationale Zahlen gab.
-Auflösung ca 100 v. Chr.
-
-\paragraph{Dedekind}
-(1831 - 1916), Professor in Braunschweig, letzter Doktorand von Gauß.
-Buch, 1888: „Was sind und was sollen die Zahlen?“
-
-Zum Werk von R. Dedekind:
-\begin{itemize}
-	\item
-		erste exakte Einführung der natürlichen Zahlen.
-	\item
-		erste exakte Einführung der reellen Zahlen („Dedekinschen Schnitte“).
-	\item
-		Aufbau der Idealtheorie, der algebraische Begriff des „Rings“ wurde von Dedekind eingeführt.
-		„Ideal – ideale Zahlen“.
-\end{itemize}
-
-
-\paragraph{Was sind die Zahlen?}
-
-\begin{align*}
-	\N \subset \Z \subset \Q
-	\begin{aligned}
-		&\subset \R \subset \\
-		&\subset \A \subset
-	\end{aligned}
-	\C
-\end{align*}
-wobei $\A$ die \emph{Algebraischen Zahlen} (Nullstellen von Polynomen aus $\Q[x]$) bezeichnet.
-Von $\N$ nach $\Z$ der Schritt zur \emph{Gruppe}, von $\Z$ nach $\Q$ zum Körper, von $\Q$ nach $\R$ die Vervollständigung und von $\R$ nach $\C$ der Schritt, um die Lösbarkeit von Gleichungen zu erhalten.
-
-\paragraph{Gibt es noch weitere Zahlen?}
-
-1843 beschrieb Hamilton als erster ausführlich die Quaternionen $\H$.
 
 \begin{df}
-	Der Raum der \emphdef{Quaternionen} $\H$ ist ein $4$-dimensionaler reeller Vektorraum mit einer ausgezeichneten Basis $\{1, i, j, k\}$.
-
-	Eine Addition auf $\H$ ist durch die Vektorraumstruktur gegeben.
-	Die Multiplikation ist zunächst auf den Basiselementen definiert.
-	\begin{table}[ht]
-		\centering
-		\begin{tabular}{r|cccc}
-			  & $1$ & $i$ & $j$ & $k$ \\ \hline
-			$1$ & $1$ & $i$ & $j$ & $k$ \\
-			$i$ & $i$ & $-1$ & $k$ & $-j$ \\
-			$j$ & $j$ & $-k$ & $-1$ & $i$ \\
-			$k$ & $k$ & $j$ & $-i$ & $-1$
-		\end{tabular}
-		\caption{Multiplikationstabelle der Quaternionen auf den Basiselementen}
-	\end{table}
-
-	Identifiziert man $\{ \lambda \cdot 1 : \lambda \in \R \}$ mit $\R$, so stimmt die Skalarmultiplikation auf $\H$ als $\R$-Vektorraum mit der Multiplikation von $\R \cdot 1$ mit den anderen Elementen überein.
-	Die distributive Ausdehnung der Multiplikation auf den Basiselementen zusammen mit dieser Skalarmultiplikation als innere Multiplikation liefern für $x_i, y_j \in \R$ die sinnvolle Definition
+	Ein \emphdef{Ring} $R = (R, +, \cdot)$ ist eine Menge mit zwei Verknüpfungen $+: R \times R \to R$, $\cdot: R \times R \to R$, so dass $(R, +)$ eine abelsche Gruppe ist, $(R, \cdot)$ ein Monoid ist und die Distributivgesetze
 	\begin{align*}
-		&(x_0 \cdot 1  + x_1 i + x_2 j + x_3 k) \cdot (y_0 \cdot 1 + y_1 i + y_2 j + y_3 k) \\
-		&\quad := ( x_0 y_0 - x_1 y_1 - x_2 y_2 - x_3 y_3) \cdot 1 \\
-		&\qquad + ( x_0 y_1 + x_1 y_0 + x_2 y_3 - x_3 y_2) i \\
-		&\qquad + ( x_0 y_2 + x_2 y_0 + x_1 y_3 - x_3 y_1) j \\
-		&\qquad + ( x_0 y_3 + x_3 y_0 + x_1 y_2 - x_2 y_1) k. \\
+		(r+s)t &= rt + st \\
+		r(s+t) &= rs + rt
 	\end{align*}
+	für alle $r, s, t \in R$ gelten.
+	Mit $0$ und $1$ bezeichnet man die neutralen Elemente bezüglich $+$, bzw. $\cdot$.
+
+	$R$ nennt man \emphdef[Ring!kommutativ]{kommutativ}, wenn $rs = sr$ für alle $r,s \in R$.
 	\begin{note}
-		Mit dieser Multiplikation wird $\H$ zu einem Schiefkörper, d.h. zu einem Ring, in dem jedes Elemente ungleich Null bezüglich der Multiplikation invertierbar ist (im Gegensatz zum Körper ist die Multiplikation \emph{nicht} kommutativ).
+		Nach unserer Definition hat jeder Ring ein Einselement.
 	\end{note}
 \end{df}
 
-Die Menge $\{ \lambda_1 1 + \lambda_2 i : \lambda_1, \lambda_2 \in \R$ bildet einen zu $\C$ isomorphen Teilkörper, aber auch $\{\my_1 1 + \my_2 j : \my_1, \my_2 \in \R\}$ und $\{\ny_1 1 + \ny_2 j : \ny_1, \ny_2 \in \R\}$ sind zu $\C$ isomorphe Teilkörper.
-
-$\H$ ist als $\C$-Vektorraum $2$-dimensional.
-$\C$ liegt nicht im Zentrum von $\H$, bezeichnet mit
-\[
-	Z(\H) := \{ w \in \H : \forall x \in \H : wx = xw \}.
-\]
-Es gilt $Z(\H) = \R$.
-
-Man kann zeigen: $\H$ ist bis auf Isomorphie der einzige über $\R$ endlich dimensionaler Schiefkörper, der $\R$ als Zentrum besitzt.
-Es gibt keinen Körper $K \supsetneq \C$ mit: $K$ ist endlich dimensional über $U$.
-
-F. Klein: $\C$ ist wichtiger als $\H$ für die Mathematik.
-
-
-\paragraph{Diophantische Gleichungen}
-
-\begin{df}
-	Gegeben sei $f \in \Z[x_1, x_2, \dotsc, x_n]$ oder $f \in \Q[x_1, x_2, \dotsc, x_n]$.
-	Gesucht sind \emph{ganzzahlige} Lösungen von $f = 0$.
-	Solche Problemstellungen nennt man \emphdef{Diophantische Gleichung}.
-\end{df}
-Die Lösbarkeit von Diophantischen Gleichungen ist ein extrem schwieriges Gebiet.
-
-\begin{ex}[Pythagoreische Tripel]
-	Das Tripel $(3, 4, 5)$ erfüllt $3^2 + 4^2 = 5^2$ (Satz des Pythagoras).
-	Mit einer 12-Knoten-Schnur lässt sich dies zur Erzeugung von rechten Winkeln verwenden.
-	$(5, 12, 13)$ ist ebenfalls Lösung der Gleichung $x_1^2 + x_2^2 = x_3^2$.
-
-	Es existieren unendlich viele nicht-triviale Lösungen dieser diophantischen Gleichung, die man sehr genau beschreiben kann.
+\begin{ex}
+	\begin{itemize}
+		\item
+			$\Z$,
+		\item
+			$\Z / n \Z$,
+		\item
+			$(K)^{n\times m}$ mit $K$ Körper oder Ring,
+		\item
+			Körper
+			\begin{itemize}
+				\item
+					$\Q$,
+				\item
+					$\R$,
+				\item
+					$\C$,
+				\item
+					$\Z / p \Z$ mit Primzahl $p$.
+			\end{itemize}
+		\item
+			$K[x]$, der Polynomring in einer Variablen mit Koeffizienten in $K$,
+		\item
+			$(K)^{n\times m}$ mit Körper $K$ ist isomorph zu $\End_K(V)$, wobei $V$ ein endlichdimensionaler $K$-Vektorraum,
+		\item
+			$\H, (K)^{n\times n}$ für $n \ge 2$ sind nicht kommutativ,
+		\item
+			$\Z[i] = \{ z_1 + z_2 i : z_1, z_2 \in \Z \}$.
+	\end{itemize}
 \end{ex}
 
-\begin{ex}[Großer Satz von Fermat]
-	Für $n \in \N, n \ge 3$ wird die diophantische Gleichung
+\begin{df}
+	Eine abelsche Untergruppe $(I, +)$ eines Ringes $(R, +, \cdot)$ nennt man \emphdef{Linksideal}, wenn
 	\[
-		x^n + y^n = z^n
+		\forall r \in R, m \in I : rm \in I
 	\]
-	auch „großer Fermat'scher Satz“ genannt.
-
-	A. Wiles hat erst 1995 bewiesen, dass es keine nicht-trivialen Lösungen dieser diophantischen Gleichung für $n \ge 3$ gibt.
-	Wichtig für die algebraische Zahlentheorie ist nicht der Satz selbst, sondern sind die „Lösungsmethoden“ des Beweises.
-\end{ex}
-
-\paragraph{Besondere natürliche Zahlen}
-
-\begin{df}
-	$n \in \N$ heißt \emphdef[vollkommene Zahl]{vollkommen}, wenn $n$ mit der Summe seiner echten Teiler übereinstimmt.
+	und \emphdef[Ideal!Rechtsideal]{Rechtsideal}, wenn
+	\[
+		\forall r \in R, m \in I : m r \in I
+	\]
+	und \emphdef[Ideal!zweiseitiges Ideal]{zweiseitiges Ideal}, wenn es zugleich Links- und Rechtsideal ist.
+	In kommutative Ringen spricht man meistens nur von \emphdef[Ideal]{Idealen}
 \end{df}
 
 \begin{ex}
-	Kleinste Beispiele sind
-	\begin{align*}
-		6 &= 1 + 2 + 6, \\
-		28 &= 1 + 2 + 4 + 7 + 14.
-	\end{align*}
+	\begin{itemize}
+		\item
+			In $\Z$ sind für festes $n \in \N$
+			\[
+				\Z n = \{ z \in \Z : z = x n \text{ für ein $x \in \Z$} \}
+				= \{ z n : z \in \Z \}
+				= n \Z
+			\]
+			Ideale.
+		\item
+			In jedem Ring $R$ ist für festes $s \in R$
+			\begin{align*}
+				Rs &= \{ r s : r \in R \}, &
+				sR &= \{ sr : r \in R \}
+			\end{align*}
+			ein Links- bzw. Rechtsideal.
+			Solche Ideale nennt man \emphdef[Hauptideal]{Hauptideale}.
+	\end{itemize}
 \end{ex}
 
-Es ist bis heute unbekannt, ob es unendlich viele vollkommene Zahlen gibt.
+% Def 1.1
+\begin{df}
+	Sei $R$ ein Ring und $R^* := R \setminus \{0\}$.
+	\begin{enumerate}[a)]
+		\item
+			$a \in R^*$ nennt man \emphdef{Nullteiler}, wennn es eine $b \in R^*$ gibt mit $ab = 0$ oder $ba = 0$.
+		\item
+			$\_ u \in R^*$ nennt man eine \emphdef{Einheit}, wenn es $v, w \in R^*$ gibt mit $v \_ u = 1$ und $\_ u w = 1$
+		\item
+			$R$ nennt man \emphdef{Integritätsbereich}, wenn $R$ kommutativ ist und keine Nullteiler besitzt.
+		\item
+			$R$ heißt \emphdef{Hauptidealring}, wenn jedes Ideal von $R$ ein Hauptideal ist.
+		\item
+			$R$ heißt \emphdef{Hauptidealbereich}, wenn $R$ Integritätsbereich und Hauptidealring ist.
+	\end{enumerate}
+	\begin{note}
+		Die Menge aller Einheiten bildet mit der Multiplikation eine Gruppe, die sogenannte \emphdef{Einheitengruppe} von $R$, geschrieben $U(R)$.
+	\end{note}
+\end{df}
 
+% Bsp 1.2
+\begin{ex}
+	\begin{enumerate}[a)]
+		\item
+			Körper $K$ ($\Q, \R, \C$) sind Integritätsbereiche und Hauptidealbereiche, $U(K) = K^*$ (bei Körper verlangt man $0 \neq 1$, d.h. Körper haben mindestens zwei Elemente).
+		\item
+			$\Z$ ist Integritätsbereich und Hauptidealbereich $U(\Z) = \{ \pm 1 \} \isomorphic C_2$
+		\item
+			$\Z[x]$ ist Integritätsbereich, aber kein Hauptidealbereich.
+			Wenn $K$ ein Körper ist, dann ist $K[x]$ ein Hauptidealbereich.
+		\item
+			$\Z / 4 \Z$ ist kein Integritätsbereich ($\_ 2 \cdot \_ 2 = 0$)
+		\item
+			$K^{2+2}$ hat Nullteiler, z.B. $\Matrix{0 & 1 \\ 0 & 0 } \Matrix{0 & 1 \\ 0 & 0} = 0$,
+		\item
+			Wie bereichnet man Inverse in $\Z / n \Z$?
 
+			Mit Hilfe des Euklidischen Algorthmus (Division mit Rest) kann man zu gegebenen Zahlen $a,b \in R$ Zahlen $z_1, z_2 \in R$ berechnen mit $z_1 a + z_2 b = \ggT(a,b)$ (Lemma von Bezout).
 
+			Sei $n \in \N$ vorgegeben und $a \in \N$ mit $\ggT(a, n) = 1$ vorgegeben.
+			Nach Bezout existieren $z_1, z_2 \in \Z$ mit $z_1 a + z_2 n = 1$.
+			Modulo $n$ ergibt sich
+			\[
+				\_ z_1 \cdot \_ a + \underbrace{\_ z_2 \_ n}_{=\_ 0} = \_ 1
+			\]
+			also ist $\_z_1 \_ a = \_ 1$ und $\_ z_1$ Invers zu $\_ a$.
 
+			Beispiel für $n = 31, a = 7$:
+			\begin{align*}
+				31 &= 4 \cdot 7 + 3 \\
+				7 &= 2 \cdot 3 + 1
+			\end{align*}
+			und
+			\begin{align*}
+				2 \cdot 31 &= 2 \cdot 4 \cdot 7 + 2 \cdot 3 = 2 \cdot 4 \cdot 7 + 7 - 1 \\
+				2 \cdot 31 &= 9 \cdot 7 - 1 \\
+				1 &= 9 \cdot 7 - 2 \cdot 31
+			\end{align*}
+			also ist $\_ 9$ invers zu $\_ 7$.
+	\end{enumerate}
+\end{ex}
 
+% Def 1.3
+\begin{df}
+	Sei $R$ ein kommutativer Ring und $r, s \in R$.
+	\begin{enumerate}[a)]
+		\item
+			$r$ heißt \emphdef{Teiler} von $s$, wenn $q \in R$ existiert mit $s = r q$, wir schreiben dann $r | s$.
+		\item
+			$r$ heißt \emphdef[Teiler!echt]{echter Teiler} von $s$, wenn $r|s$, $s \not | r$ und $r \not\in U(R)$, wir schreiben dann $r \| s$.
+		\item
+			$r$ heißt \emphdef{irreduzibel}, wenn $r \neq 0$, $r \not\in U(R)$ und $r$ besitzt keine echten Teiler.
+		\item
+			$r$ heißt \emphdef{prim}, wenn $r \neq 0$, $r \not\in U(R)$ und
+			\[
+				\forall a,b \in R : r | ab \implies r | a \lor r | b.
+			\]
+	\end{enumerate}
+	\begin{note}
+		$1$ ist weder irreduzibel, noch prim.
+	\end{note}
+\end{df}
 
+% Lem 1.4
+\begin{lem}
+	In einem Integritätsbereich $R$ gilt in $(R^*, \cdot)$ die Kürzungsregel.
+	\begin{proof}
+		Aus $r s = r t$ folgt $r(s-t) = 0$ und da $r \in R^*$ und $R$ Integritätsbereich folgt $s-t = 0$, also $s = t$.
+	\end{proof}
+\end{lem}
 
+% Lem 1.5
+\begin{lem}
+	Sei $R$ ein Integritätsbereich. Es gilt
+	\begin{enumerate}[a)]
+		\item
+			$r, s \in R^*$. Aus $r | s$ und $s | r$ folgt:
+			\[
+				\exists \_ u \in U(R) : s \_ u r
+			\]
+		\item
+			Ist $r$ prim, so auch irreduzibel
+		\item
+			Ist $p$ prim und $\_ u \in U(R)$, dann ist auch $\_ u p$ prim.
+		\item
+			Sind $p$ und $q$ prim und $p | q$, dann gilt $p = \_ u q$ für ein $\_ u \in U(R)$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Sei $s = rq$ und $r = s\tilde q$, dann ist $s = s \tilde q q$ und mit \ref{1.4} $1 = \tilde q q$ und damit $\tilde q, q \in U(R)$.
+			\item
+				Sei $r$ prim aber nicht irreduzibel.
+				Es gilt dann $r \in R^*$, $r = st$ und $s \| r$.
+				Da $r$ prim, folgt $r | s$ oder $r | t$.
+				$r | s$ ist wegen $s \| r$ unmöglich, also $r | t$.
+				Schreibe $t = \tilde t r$, also $r = s \tilde t r$ und mit \ref{1.4} $1 = s \tilde t$.
+				Also ist $s$ eine Einheit, ein Widerspruch zu $s \| r$.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+% Satz 1.6
+\begin{st}[Eindeutigkeit der Zerlegung in Primelemente]
+	Sei $R$ ein Integritätsbereich und $r \in R$.
+	Sei $r = p_1 \dotsc p_m$ und $r = q_1 \dotsc, p_n$ mit $p_1, \dotsc, p_m, q_1, \dotsc, q_n$ prim.
+	Dann gilt $m = n$ und nach geeigneter Nummerierung gilt $p_i = \_ u_i \cdot q_i$ mit $\_ u_1 \in U(R)$.
+	\begin{proof}
+		Funktioniert mit Induktion
+	\end{proof}
+\end{st}
+
+Gemäß unserer Definition ist eine Primzahl in $\Z$ ein irreduzibles Element von $\Z$.
+Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräuchten wir, dass aus irreduzibel prim folgt.
