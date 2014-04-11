@@ -110,6 +110,35 @@
 	}
 }
 
+\DeclareDocumentCommand { \Vector } { slm } {
+    \tl_clear_new:N \l_args_tl
+    \tl_set:Nn \l_args_tl { #3 }
+    \tl_replace_all:Nnn \l_args_tl { & } { \\ }
+    \IfBooleanTF { #1 } {
+        \Matrix * #2 { \l_args_tl }
+    } {
+        \Matrix #2 { \l_args_tl }
+    }
+}
+
+\DeclareDocumentCommand { \Matrix } { slm } {
+    \IfBooleanTF { #1 } {
+        \str_case:nnF { #2 } {
+            { [  } { \begin{bmatrix} #3 \end{bmatrix} }
+            { \{ } { \begin{Bmatrix} #3 \end{Bmatrix} }
+            { |  } { \begin{vmatrix} #3 \end{vmatrix} }
+            { \| } { \begin{Vmatrix} #3 \end{Vmatrix} }
+        } { \begin{pmatrix} #3 \end{pmatrix} }
+    } {
+        \str_case:nnF { #2 } {
+            { [  } { \left[  \big. \begin{smallmatrix} #3 \end{smallmatrix} \right]  }
+            { \{ } { \left\{ \big. \begin{smallmatrix} #3 \end{smallmatrix} \right\} }
+            { |  } { \left|  \big. \begin{smallmatrix} #3 \end{smallmatrix} \right|  }
+            { \| } { \left\| \big. \begin{smallmatrix} #3 \end{smallmatrix} \right\| }
+        } { \left( \big. \begin{smallmatrix} #3 \end{smallmatrix} \right) }
+    }
+}
+
 \renewcommand{\_}[1]{\overline{#1}}
 \newcommand{\argdot}{{\,\cdot\,}}
 
