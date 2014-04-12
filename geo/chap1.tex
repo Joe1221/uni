@@ -1,36 +1,3 @@
-\coursetimestamp{08}{04}{2014}
-
-Es gibt verschiedene Arten der Geometrie
-
-\begin{itemize}
-	\item
-		Inzidenzgeometrie: Punkte, Geraden, Ebenen.
-	\item
-		Darstellende Geometrie: Projektionen des Anschauungsraumes in die Zeichenebene.
-	\item
-		Analytische Geometrie über verschiedene Vektorräume:
-		\begin{itemize}
-			\item
-				affin
-			\item
-				euklidisch
-			\item
-				projektiv
-		\end{itemize}
-	\item
-		Konvexgeometrie: Konvexe Körper im euklidischen Raum.
-	\item
-		Polyedergeometrie: Polyeder im euklidischen Raum.
-	\item
-		Algebraische Geometrie: Nullstellenmengen algebraischer Funktionen.
-	\item
-		Differentialgeometrie: differenzierbare Kurven, differenzierbare Flächen.
-\end{itemize}
-Geometrie entsteht also durch Zusammentreffen verschiediener Strukturen (algebraischer, analytischer, topologischer, kombinatorischer, \dots Art).
-
-Im Laufe dieser Vorlesung konzentrieren wir uns auf die Analytische Geometrie und die Differentialgeometrie.
-
-
 \chapter{Geometrien und ihre Transformationsgruppen}
 
 
@@ -49,116 +16,142 @@ Im Reellen untersuchen wir affine, euklidische, projektive und hyperbolische, im
 
 \section{Affine Geometrie}
 
-Bezeichne $\A^n := \{ \text{Punkte} \}$.
-Wir bezeichnen Verbindungsvektoren
-\begin{align*}
-	\A^n \times \A^n &\to \K^n \\
-	(P, Q) &\mapsto \vec{PQ} \\
-	\A^n \times \K^n &\to \A^n \\
-	(P, \vec{PQ}) &\mapsto Q
-\end{align*}
-Speziell für $\A^n := \K^n$ ist
-\[
-	\vec{PQ} := Q - P.
-\]
-Affine Unterräume sind lineare Unterräume plus einer Konstante.
-
 \begin{df}
-	Sei $A \in \K^{n\times n}$ eine invertierbare Matrix.
-	Eine \emphdef[Transformation!affin]{affine Transformation} $f: \A^n \to \A^n$ ist gegeben durch
-	\begin{align*}
-		f(x) &:= Ax + b, \\
-		f^{-1}(y) &:= A^{-1} y  - A^{-1} b
-	\end{align*}
+	Ein \emphdef{affiner Raum} ist ein Tripel $(\A, V, \rightarrow)$, bestehend aus einer Menge $\A$, genannt \emphdef{Punktmenge}, einem Vektorraum $V$ und einer Abbildung $\rightarrow: \A \times \A \to V$, welche zwei Punkten $P, Q \in \A$ ihren \emphdef{Verbindungsvektor} $\vec{PQ} \in V$ zuordnet und folgende Eigenschaften erfüllt:
+	\begin{enumerate}[(i)]
+		\item
+			$\forall P, Q, R \in \A : \vec{PQ} + \vec{QR} = \vec{PR}$,
+		\item
+			$\forall P \in \A, v \in V \exists! Q \in \A : v = \vec{PQ}$.
+	\end{enumerate}
 	\begin{note}
-		Die Menge der $k$-dimensionalen Unterräume bleibt invariant unter affinen Abbildungen.
-	\end{note}
-	\begin{note}
-		Spezialfälle sind
 		\begin{itemize}
 			\item
-				$A = E$: Translation
+				Für das $Q$ in (ii) schreiben wir auch kurz $P + v$ und haben somit eine Abbildung $+: \A \times V \to \A$.
 			\item
-				$b = 0$: lineare Abbildung
-				\begin{itemize}
-					\item
-						Mit $b = 0, A = \lambda E$ ergibt sich eine zentrische Streckung am Ursprung
-				\end{itemize}
+				Für $V = \K^n$ mit einem Körper $\K$, bezeichnen wir den affinen Raum auch kurz mit $\A^n$.
 			\item
-				$b = (1 - \lambda) p, A = \lambda E$: zentrische Streckung in $p$
+				Definiert man einen Punkt $O \in \A$ als \emphdef[affiner Raum!Ursprung]{Ursprung}, so lässt sich jeder Punkt $P \in \A$ durch den Vektor $\vec{OP} \in \K$ identifizieren.
+				Da die konkrete Wahl des Ursprungs zwar relevant für die Zuordnung ist, aber manchmal unwesentlich für die weitere Betrachtung, nutzen wir diese Notation von Punkten als Vektoren überall, wo angebracht, und gehen in diesen Fällen implizit von einem beliebigen – aber festen – Ursprung aus.
 		\end{itemize}
 	\end{note}
 \end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Jeder Vektorraum $V$ wird durch $\vec{PQ} := Q - P$ für $P, Q \in V$ zu einem affinen Raum.
+		\item
+			Sei $U \le V$ ein Untervektorraum und $p \in V$.
+			Dann ist $p + U := \{ p + u : u \in U \}$ ein affiner Raum, genannt \emphdef[affiner Raum!affiner Unterraum]{affiner Unterraum}.
+	\end{itemize}
+\end{ex}
+
+\begin{df}
+	Sei $A \in \K^{n\times n}$ eine invertierbare Matrix und $b \in \K^n$.
+	Eine Abbildung $f: \A^n \to \A^n$ der Form
+	\begin{align*}
+		f(x) &:= Ax + b
+	\end{align*}
+	nennen wir \emphdef[Transformation!affin]{affine Transformation}.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Affine Transformationen sind invertierbar und die Inverse sind wieder affine Transformationen:
+				\[
+					f^{-1}(y) = A^{-1} y  - A^{-1} b.
+				\]
+			\item
+				Die Menge der $k$-dimensionalen Unterräume bleibt invariant unter affinen Abbildungen.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{ex}
+	\begin{description}
+		\item[Translation]
+			Mit der Wahl $A := E$ ergibt sich eine \emphdef{Translation}.
+		\item[Lineare Abbildung]
+			$b := 0$ führt auf eine lineare Abbildung zurück.
+			\begin{itemize}
+				\item
+					Mit $b = 0, A = \lambda E$ ergibt sich eine zentrische Streckung am Ursprung
+			\end{itemize}
+		\item[Zentrische Streckung]
+			Für $p \in \A$ ergibt sich mit $b = (1 - \lambda) p, A = \lambda E$ eine \emphdef{zentrische Streckung} in $p$ um den Faktor $\lambda \in \R$.
+	\end{description}
+\end{ex}
+
 
 \section{Euklidische Geometrie}
 
+\begin{df}
+	Eine Matrix $A \in \R^{n\times n}$ ist \emphdef[orthogonale Matrix]{orthogonal}, falls $A^T A = E$, oder äquivalent $\<Ax, Ay\> = \<x, y\>$ für alle $x, y \in \R^n$.
+\end{df}
 
 \begin{df}
-	Der \emphdef[Raum!affin euklidisch]{affin euklidische Raum} $E^n$ ist definiert als $A^n(\R) = \R^n$ mit dem euklidischen Skalarprodukt für Verbindungsvektoren.
+	Der \emphdef[euklidischer Raum]{affin euklidische Raum} $E^n$ ist der affine Raum $\R^n$ zusammen mit dem euklidischen Skalarprodukt für Verbindungsvektoren.
 
-	Eine \emphdef[Transformation!euklidisch]{euklidische Transformation} ist eine affine Abbildung $x \mapsto Ax + b$ mit einer orthogonalen Matrix $A$.
+	Eine \emphdef[Transformation!euklidisch]{euklidische Transformation} $f: E^n \to E^n$  ist eine affine Abbildung (d.h. der Form $x \mapsto Ax + b$) mit einer orthogonalen Matrix $A$.
+	Ist $\det(A) = 1$, so nennen wir die Transformation \emphdef[eigentliche Transformation]{eigentlich}.
+
+	Die Menge der euklidischen Transformationen mit der Hintereinanderausführung bildet die \emphdef[Gruppe!euklidisch]{euklidische Gruppe} $\E(n)$.
+	Die eigentlichen Transformationen bilden ebenfalls eine Gruppe, $\E_*(n)$.
+	Euklidische Transformationen mit $b = 0$, d.h. $x \mapsto Ax$ mit $A$ orthogonal, bilden die \emphdef{orthogonale Gruppe} $\O(n)$.
+	Solche mit $b = 0$ und $\det(A) = 1$ bilden die \emphdef{Drehgruppe} $\SO(n)$.
 \end{df}
 
 \begin{nt}
-	Eine Matrix $A \in \R^n$ ist \emphdef[Matrix!orthogonal]{orthogonal}, falls $A^T A = E$.
-	\begin{note}
-		$A$ ist orthogonal genau dann, wenn $\<Ax, Ay\> = \<x,y\>$
-	\end{note}
-	Die Menge der euklidischen Transformationen mit der Hintereinanderausführung bildet die \emphdef[Gruppe!euklidisch]{euklidische Gruppe} $E(n)$.
-	Analog $E_*(n)$ mit $\det(A) = 1$.
-	\begin{note}
-		Eine euklidische Transformation bewahrt
-		\begin{itemize}
-			\item
-				die Menge der affinen Unterräume
-			\item
-				das Skalarprodukt von Verbidungsvektoren
-			\item
-				die Winkel zwischen Verbindungsvektioren
-			\item
-				$\cos \angle (x,y) = \f {\<x,y\>}{\|x\|\|y\|}$
-		\end{itemize}
-		Spezialfälle sind
-		\begin{itemize}
-			\item
-				Translation $x \mapsto x + b$
-			\item
-				Drehungen, Spiegelungen: $b = 0$
-				\begin{itemize}
-					\item
-						Normalform einer Drehung
-					\item
-						Normalform einer Spiegelung
-				\end{itemize}
-		\end{itemize}
-	\end{note}
+	Eine euklidische Transformation bewahrt
+	\begin{itemize}
+		\item
+			die Menge der affinen Unterräume,
+		\item
+			das Skalarprodukt von Verbindungsvektoren,
+		\item
+			die Winkel zwischen Verbindungsvektoren, $\cos \angle (x,y) = \f {\<x,y\>}{\|x\|\|y\|}$.
+	\end{itemize}
+	Spezialfälle sind
+	\begin{itemize}
+		\item
+			Translationen $x \mapsto x + b$,
+		\item
+			Drehungen und Spiegelungen mit $b := 0$:
+			\begin{itemize}
+				\item
+					Normalform einer Drehung
+				\item
+					Normalform einer Spiegelung
+			\end{itemize}
+	\end{itemize}
 \end{nt}
 
 \begin{lem}
-	Eine endliche Untergruppe $G$ von $E(n)$ fixiert einen Punkt und kann somit als Untergruppe der orthogonalen Gruppe aufgefasst werden.
+	Eine endliche Untergruppe $G$ von $\E(n)$ fixiert einen Punkt.
 	\begin{proof}
-		Sei $|G| = n$ und $\{P_1, \dotsc P_n\}$ eine Bahn unter $G$
+		Sei $|G| = n$, $P_1 \in E^n$ und $\{P_1, \dotsc P_n\} := \{f(P_1) : f \in G\}$ eine Bahn unter $G$.
+		Definiere den Schwerpunkt als
 		\[
 			P_0 := \f 1n \sum_{k=1}^n P_k
 		\]
-		bezeichne den Schwerpunkt.
-		Es gilt
-		\[
-			f\Big(\f 1n \sum_{k=1}^n P_k\Big)
-			= \f 1n \sum_{k=1}^n (AP_k) + b
-			= \f 1n \sum_{k=1}^n \underbrace{(AP_k + b)}_{=P_{\sigma(k)}}
+		Es gilt für beliebiges $f \in G : x \mapsto Ax + b$:
+		\begin{align*}
+			f(P_0)
+			= f\Big(\f 1n \sum_{k=1}^n P_k\Big)
+			&= \f 1n \sum_{k=1}^n (AP_k) + b \\
+			&= \f 1n \sum_{k=1}^n \underbrace{(AP_k + b)}_{=f(P_k) = P_{\sigma(k)}}
 			= \f 1n \sum_{l=1}^n P_l
-			= P_0
-		\]
+			= P_0.
+		\end{align*}
 	\end{proof}
 \end{lem}
 
 \begin{kor}
-	Alle endlichen Untergruppen von $E(n)$ sind auch Untergruppen der orthogonalen Gruppe $O(n)$.
+	Bei geeigneter Wahl des Ursprungs sind alle endlichen Untergruppen von $\E(n)$ auch Untergruppen der orthogonalen Gruppe $\O(n)$.
 \end{kor}
 
 \begin{st}
-	Die einzigen endlichen Untergruppen der Drehgruppe $\SO (3) = \< A \in \R^3 : A^TA = E, \det A = 1 \>$ sind folgende
+	Die einzigen endlichen Untergruppen der Drehgruppe $\SO (3) = \{ A \in \R^3 : A^TA = E, \det A = 1 \}$ sind folgende:
 	\begin{itemize}
 		\item
 			zyklisch beliebiger Ordnung,
@@ -168,9 +161,7 @@ Affine Unterräume sind lineare Unterräume plus einer Konstante.
 			eine der Drehgruppen von Tetraeder, Oktaeder, Ikosaeder oder eine Untergruppe davon.
 	\end{itemize}
 	\begin{proof}
-		siehe Homepage.
-
-		Idee: betrachte Bahnen eines Punktes $x$: $\{ gx : g \in G \}$.
+		siehe Homepage, Idee: betrachte Bahnen eines Punktes $x$.
 	\end{proof}
 \end{st}
 
