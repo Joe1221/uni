@@ -1,6 +1,7 @@
 \RequirePackage {expl3, l3keys2e, xparse}
 \ProvidesExplClass {mycourse} {2013/11/16} {0.1}
 	{Class intended for math courses}
+\RequirePackage {l3backports}
 
 %%=======================================================================
 %% Messages
