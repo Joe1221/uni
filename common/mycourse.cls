@@ -341,7 +341,8 @@
 \setlist [ description ] {
 	style       = nextline,
 	labelindent = 0.9em,
-	leftmargin  = 2.5em
+	leftmargin  = 2.5em,
+	font        = \normalfont\small\bfseries,
 }
 
 
