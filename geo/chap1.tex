@@ -75,10 +75,10 @@ Im Reellen untersuchen wir affine, euklidische, projektive und hyperbolische, im
 			$b := 0$ führt auf eine lineare Abbildung zurück.
 			\begin{itemize}
 				\item
-					Mit $b = 0, A = \lambda E$ ergibt sich eine zentrische Streckung am Ursprung
+					Mit $b := 0, A := \lambda E$ ergibt sich eine zentrische Streckung am Ursprung
 			\end{itemize}
 		\item[Zentrische Streckung]
-			Für $p \in \A$ ergibt sich mit $b = (1 - \lambda) p, A = \lambda E$ eine \emphdef{zentrische Streckung} in $p$ um den Faktor $\lambda \in \R$.
+			Für $p \in \A$ ergibt sich mit $b := (1 - \lambda) p, A := \lambda E$ eine \emphdef{zentrische Streckung} in $p$ um den Faktor $\lambda \in \R$.
 	\end{description}
 \end{ex}
 
@@ -93,7 +93,7 @@ Im Reellen untersuchen wir affine, euklidische, projektive und hyperbolische, im
 	Der \emphdef[euklidischer Raum]{affin euklidische Raum} $E^n$ ist der affine Raum $\R^n$ zusammen mit dem euklidischen Skalarprodukt für Verbindungsvektoren.
 
 	Eine \emphdef[Transformation!euklidisch]{euklidische Transformation} $f: E^n \to E^n$  ist eine affine Abbildung (d.h. der Form $x \mapsto Ax + b$) mit einer orthogonalen Matrix $A$.
-	Ist $\det(A) = 1$, so nennen wir die Transformation \emphdef[eigentliche Transformation]{eigentlich}.
+	Ist zusätzlich $\det(A) = 1$, so nennen wir die Transformation \emphdef[eigentliche Transformation]{eigentlich}.
 
 	Die Menge der euklidischen Transformationen mit der Hintereinanderausführung bildet die \emphdef[Gruppe!euklidisch]{euklidische Gruppe} $\E(n)$.
 	Die eigentlichen Transformationen bilden ebenfalls eine Gruppe, $\E_*(n)$.
@@ -211,55 +211,66 @@ Für $x_0 = 0$ erreicht man den Fernpunkt und für $x_0 = 1$ die ursprünglichen
 
 
 \begin{df}
-	Der projektive $n$-dimensionale Raum $P^n(\K)$ über $\K$ ist definiert als
+	Der \emphdef[projektiver Raum]{$n$-dimensionale projektive Raum $P^n(\K)$} über $\K$ ist definiert als
 	\[
-		P^n(\K) := \K^{n+1} \setminus \{ 0 \} / ~,
+		P^n(\K) := \big( \K^{n+1} \setminus \{ 0 \} \big) / \sim,
 	\]
-	wobei $\v x ~  \lambda x$ für alle $\lambda \in \K \setminus \{0\}$.
+	wobei $x \sim \lambda x$ für alle $\lambda \in \K \setminus \{0\}$.
+	Wir schreiben Elemente aus $P^n(\K)$ als $[x]$ mit einem Klassenvertreter $x \in \K^{n+1} \setminus \{0\}$.
 
-	Eine \emphdef[Transformation!projektiv]{projektive Transformation} $f: P^n(\K) \to P^n(\K)$ ist induziert von einer invertierbaren linearen Abbildung $A: \K^{n+1} \to \K^{n+1}$ durch
+	Eine \emphdef[Transformation!projektiv]{projektive Transformation} $f: P^n(\K) \to P^n(\K)$ ist eine Abbildung welche von einer invertierbaren linearen Abbildung $A: \K^{n+1} \to \K^{n+1}$ durch
 	\[
-		f([x]) = [Ax],
+		f([x]) = [Ax]
 	\]
-	wobei $[x] = \{ \lambda x : \lambda \in \K \setminus \{0 \} \}$.
+	induziert wird.
 
-	Die \emph{projektive Gruppe} $\PGL(n+1, \K)$ besteht aus allen solchen projektiven Transformationen.
+	Die Menge der projektiven Transformationen mit der Hintereinanderausführung bilden die \emph{projektive Gruppe} $\PGL(n+1, \K)$ ($n+1$ sinnvoll mit betracht der Matrix-Größe).
 \end{df}
 
 \begin{ex}
-	Im Spezialfall $n = 1$ mit einer Matrix $A = \begin{psmallmatrix}
-		a & b \\ c & d
-	\end{psmallmatrix}$ ist
-	\[
-		f\big(\Vector[{ x_0 & x_1 } \big)
-		= \l[ A \Vector{x_0 & x_1} \r]
-		= \Vector[{ a x_0 + b x_1  &  c x_0 + d x_1 }
-		= \begin{cases}
-			\Vector[{ \f{a x_0 + b x_1}{c x_0 + d x_1} & 1} & cx_0 + dx_1 \neq 0 \\
-			\Vector[{ 1 & 0 } & cx_0 + dx_1 = 0
-		\end{cases}
-	\]
-	der affine Teil mit $x_1 \neq 0$, ergibt sich
-	\[
-		f(\Vector{ x & 1}) = \Vector{ \f{ax + b}{cx + d} & 1}
-	\]
-	und wir können es als Abbildung $x \mapsto \f{ax + b}{cx + d}$ auffassen
+	\begin{itemize}
+		\item
+			Im Spezialfall $n = 1$, mit einer Matrix $A = \Matrix{a & b \\ c & d} \in \K^{2\times 2}$ ist
+			\[
+				f\big(\Vector[{ x_0 & x_1 } \big)
+				= \l[ A \Vector{x_0 & x_1} \r]
+				= \Vector[{ a x_0 + b x_1  &  c x_0 + d x_1 }
+				= \begin{cases}
+					\Vector[{ \f{a x_0 + b x_1}{c x_0 + d x_1} & 1} & cx_0 + dx_1 \neq 0 \\
+					\Vector[{ 1 & 0 } & cx_0 + dx_1 = 0
+				\end{cases}.
+			\]
+			Der affine Teil ($x_1 \neq 0$) von $\Vector[{x_0 & x_1} = \Vector[{\f {x_0}{x_1} & 1}$, liefert
+			\[
+				f(\Vector[{ x & 1})
+				= \Vector[{\f{ax + b}{cx + d} & 1}.
+			\]
+			Damit können wir $f$ auch als Abbildung $\K \to \K, x \mapsto \f{ax + b}{cx + d}$ auffassen.
+			Dies motiviert die Definition der \emph{Möbius-Transformationen}.
+		\item
+			Wir können $P^1(\C)$ mit der \emphdef[Riemannsche Zahlensphäre]{Riemannschen Zahlensphäre} $\hat \C := \C \cup \infty$ identifizieren, mittels
+			\[
+				\Vector[{x_0 & x_1}
+				\mapsto
+				\begin{cases}
+					\f {x_0}{x_1} & x_1 \neq 0 \\
+					\infty & x_1 = 0
+				\end{cases}.
+			\]
+			Hier ist $\infty$ der Fernpunkt.
+	\end{itemize}
 \end{ex}
 
-
 \begin{df}
-	Für $\K = \C, n = 1$ heißt die Abbildung
+	Sei $A = \Matrix{a & b \\ c & d} \in \C^{2\times 2}$ mit $\det A = ad - bc \neq 0$.
+	Die Abbildung $f: \hat \C \to \hat \C$ mit
 	\[
-		f(z) = \begin{pmatrix}
-			a & b \\ c & d
-		\end{pmatrix} \cdot z
-		:= \f {a z + b}{c z + d}
+		f(z)
+		:= \Matrix*{a & b \\ c & d} \cdot z
+		:= \dfrac {a z + b}{c z + d},
 	\]
-	mit $a,b,c,d \in \C$ und $ad - bc \neq 0$ eine \emphdef{Möbius-Transformation}.
-	Im Fall $c z + d = 0$ setzen wir $f(z) = \infty$ und $f(\infty) = \f ac$.
-
-	Alternativ: projektive Transformation von $P^1(\C)$.
-	$P^1 \C = \C \cup \{\infty \} = \hat \C = S^2(I)$ (Riemannsche Zahlensphäre).
+	$f(\infty) = \f ac$ und $f(z) = \infty$ für $c z + d = 0$
+	heißt \emphdef{Möbius-Transformation}.
 \end{df}
 
 \begin{lem}
@@ -269,43 +280,30 @@ Für $x_0 = 0$ erreicht man den Fernpunkt und für $x_0 = 1$ die ursprünglichen
 	\end{proof}
 \end{lem}
 
-\begin{st}
-	\begin{enumerate}[(i)]
-		\item
-			Jede Möbiustransformation ist winkeltreu (konform).
-		\item
-			Jede Möbiustransformation überführt verallgemeinerte Kreise in eben solche um.
-	\end{enumerate}
-\end{st}
-
 \begin{df}
-	Die \emph{stereographische Projektion} $\sigma: S^2 \setminus \{ (0, 0, 1) \} \to \R^2 \isomorphic \C$ ist definiert durch
+	Die \emph{stereographische Projektion} $\sigma: \R^3 \supset S^2 \setminus \{ (0, 0, 1) \} \to \R^2 \isomorphic \C$ ist definiert durch
 	\[
-		\sigma(x_1, x_2, x_3) = \f 1{1-x_3} (x_1, x_2)
+		\sigma(x_1, x_2, x_3) := \f 1{1-x_3} \Vector*{x_1 & x_2}
 	\]
-	$x_3 = 0$ nennt man Fixpunkte.
-	Durch Fortsetzung zu $\hat \sigma$ nach $P^1(\C)$ mittels
+	Falls $x_3 = 0$, so ist $(x_1, x_2, x_3)^T$ ein Fixpunkt unter $\sigma$.
+
+	Die Fortsetzung $\hat \sigma: S^2 \to P^1(\C)$ ist gegeben durch
 	\begin{align*}
-		\hat \sigma(0,0,1) &:= [1, 0] \in P^1(\C) \\
-		\hat (x_1, x_2, x_3) &:= [\sigma(x_1, x_2, x_3), 1]
+		\hat \sigma(x_1, x_2, x_3)
+		:= \begin{cases}
+			\Vector[{1 & 0} & \Vector{x_1 & x_2 & x_3} = \Vector{0 & 0 & 1}\\
+			\Vector[{\sigma(x_1, x_2, x_3) & 1} & \text{sonst}
+		\end{cases}.
 	\end{align*}
-	erhalten wir $\hat \sigma: S^2(I) \to P^1(\C)$.
 \end{df}
 
 \begin{df}
-	Eine \emphdef[Möbius-Transformation!der Sphäre]{Möbius-Transformation} der Sphäre $S^2$ ist eine Abbildung $\hat \sigma^{-1} \circ f \circ \hat \sigma$, wobei $f$ eine projektive Transformation.
+	Eine \emphdef[Möbius-Transformation!der Sphäre]{Möbius-Transformation der Sphäre} $S^2$ ist eine Abbildung $\hat \sigma^{-1} \circ f \circ \hat \sigma$, wobei $f$ eine projektive Transformation ist.
 
 	Die \emphdef{Möbiusgruppe} besteht aus den Möbius-Transformationen $\PGL(2, \C)$, bzw. $\PSL(2, \C)$.
 \end{df}
 
-\begin{st}
-	\begin{enumerate}[(i)]
-		\item
-			Jede Möbius-Transformation von $S^2$ ist winkeltreu.
-		\item
-			Jede Möbius-Transformation von $S^2$ bewahrt Kreise.
-	\end{enumerate}
-\end{st}
+% fixme: Cauchy-Riemann-Gleichungen implizieren winkeltreue ?
 
 \begin{lem}
 	$\sigma$ ist winkeltreu
@@ -371,13 +369,32 @@ Für $x_0 = 0$ erreicht man den Fernpunkt und für $x_0 = 1$ die ursprünglichen
 	\end{proof}
 \end{lem}
 
-\begin{proof}
-	Satz A (i) folgt aus der komplexen Differenzierbarkeit.
-	Das relle Differential ist eine Drehstreckung (Cauchy-Rieman-Gleichungen).
+\begin{st}
+	\begin{enumerate}[A:]
+		\item
+			\begin{enumerate}[(i)]
+				\item
+					Jede Möbiustransformation ist winkeltreu (konform).
+				\item
+					Jede Möbiustransformation überführt verallgemeinerte Kreise in eben solche um.
+			\end{enumerate}
+		\item
+			\begin{enumerate}[(i)]
+				\item
+					Jede Möbius-Transformation von $S^2$ ist winkeltreu.
+				\item
+					Jede Möbius-Transformation von $S^2$ bewahrt Kreise.
+			\end{enumerate}
+	\end{enumerate}
+	\begin{proof}
+		Satz A (i) folgt aus der komplexen Differenzierbarkeit.
+		Das relle Differential ist eine Drehstreckung (Cauchy-Rieman-Gleichungen).
 
-	Da $\sigma$ winkeltreu ist, folgt Satz B (i).
+		Da $\sigma$ winkeltreu ist, folgt Satz B (i).
 
-	Obige Lemmas ergeben Satz A (ii) und Satz B (ii).
-\end{proof}
+		Obige Lemmas ergeben Satz A (ii) und Satz B (ii).
+	\end{proof}
+\end{st}
+
 
 
