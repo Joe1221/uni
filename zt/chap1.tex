@@ -1,7 +1,7 @@
 \chapter{Integritätsbereiche, irreduzible Elemente, Primzahlen}
 
 
-\begin{df}
+\begin{df*}
 	Ein \emphdef{Ring} $R = (R, +, \cdot)$ ist eine Menge mit zwei Verknüpfungen $+: R \times R \to R$, $\cdot: R \times R \to R$, so dass $(R, +)$ eine abelsche Gruppe ist, $(R, \cdot)$ ein Monoid ist und die Distributivgesetze
 	\begin{align*}
 		(r+s)t &= rt + st \\
@@ -14,9 +14,9 @@
 	\begin{note}
 		Nach unserer Definition hat jeder Ring ein Einselement.
 	\end{note}
-\end{df}
+\end{df*}
 
-\begin{ex}
+\begin{ex*}
 	\begin{itemize}
 		\item
 			$\Z$,
@@ -45,9 +45,9 @@
 		\item
 			$\Z[i] = \{ z_1 + z_2 i : z_1, z_2 \in \Z \}$.
 	\end{itemize}
-\end{ex}
+\end{ex*}
 
-\begin{df}
+\begin{df*}
 	Eine abelsche Untergruppe $(I, +)$ eines Ringes $(R, +, \cdot)$ nennt man \emphdef{Linksideal}, wenn
 	\[
 		\forall r \in R, m \in I : rm \in I
@@ -58,9 +58,9 @@
 	\]
 	und \emphdef[Ideal!zweiseitiges Ideal]{zweiseitiges Ideal}, wenn es zugleich Links- und Rechtsideal ist.
 	In kommutative Ringen spricht man meistens nur von \emphdef[Ideal]{Idealen}
-\end{df}
+\end{df*}
 
-\begin{ex}
+\begin{ex*}
 	\begin{itemize}
 		\item
 			In $\Z$ sind für festes $n \in \N$
@@ -79,16 +79,16 @@
 			ein Links- bzw. Rechtsideal.
 			Solche Ideale nennt man \emphdef[Hauptideal]{Hauptideale}.
 	\end{itemize}
-\end{ex}
+\end{ex*}
 
 % Def 1.1
-\begin{df}
+\begin{df} \label{1.1}
 	Sei $R$ ein Ring und $R^* := R \setminus \{0\}$.
 	\begin{enumerate}[a)]
 		\item
-			$a \in R^*$ nennt man \emphdef{Nullteiler}, wennn es eine $b \in R^*$ gibt mit $ab = 0$ oder $ba = 0$.
+			$a \in R^*$ nennt man \emphdef{Nullteiler}, wenn es ein $b \in R^*$ gibt mit $ab = 0$ oder $ba = 0$.
 		\item
-			$\_ u \in R^*$ nennt man eine \emphdef{Einheit}, wenn es $v, w \in R^*$ gibt mit $v \_ u = 1$ und $\_ u w = 1$
+			$\unit u \in R^*$ nennt man eine \emphdef{Einheit}, wenn es $v, w \in R^*$ gibt mit $v \unit u = 1$ und $\unit u w = 1$
 		\item
 			$R$ nennt man \emphdef{Integritätsbereich}, wenn $R$ kommutativ ist und keine Nullteiler besitzt.
 		\item
@@ -102,10 +102,10 @@
 \end{df}
 
 % Bsp 1.2
-\begin{ex}
+\begin{ex} \label{1.2}
 	\begin{enumerate}[a)]
 		\item
-			Körper $K$ ($\Q, \R, \C$) sind Integritätsbereiche und Hauptidealbereiche, $U(K) = K^*$ (bei Körper verlangt man $0 \neq 1$, d.h. Körper haben mindestens zwei Elemente).
+			Körper $K$ (z.B. $\Q, \R, \C$) sind Integritätsbereiche und Hauptidealbereiche, $U(K) = K^* = K \setminus \{0\}$ (bei Körper verlangt man $0 \neq 1$, d.h. Körper haben mindestens zwei Elemente).
 		\item
 			$\Z$ ist Integritätsbereich und Hauptidealbereich $U(\Z) = \{ \pm 1 \} \isomorphic C_2$
 		\item
@@ -144,19 +144,19 @@
 \end{ex}
 
 % Def 1.3
-\begin{df}
+\begin{df} \label{1.3}
 	Sei $R$ ein kommutativer Ring und $r, s \in R$.
 	\begin{enumerate}[a)]
 		\item
-			$r$ heißt \emphdef{Teiler} von $s$, wenn $q \in R$ existiert mit $s = r q$, wir schreiben dann $r | s$.
+			$r$ heißt \emphdef{Teiler} von $s$, wenn $q \in R$ existiert mit $s = r q$, wir schreiben dann $r \divs  s$.
 		\item
-			$r$ heißt \emphdef[Teiler!echt]{echter Teiler} von $s$, wenn $r|s$, $s \not | r$ und $r \not\in U(R)$, wir schreiben dann $r \| s$.
+			$r$ heißt \emphdef[Teiler!echt]{echter Teiler} von $s$, wenn $r\divs s$, $s \ndivs  r$ und $r \not\in U(R)$, wir schreiben dann $r \divs*  s$.
 		\item
 			$r$ heißt \emphdef{irreduzibel}, wenn $r \neq 0$, $r \not\in U(R)$ und $r$ besitzt keine echten Teiler.
 		\item
 			$r$ heißt \emphdef{prim}, wenn $r \neq 0$, $r \not\in U(R)$ und
 			\[
-				\forall a,b \in R : r | ab \implies r | a \lor r | b.
+				\forall a,b \in R : r \divs  ab \implies r \divs  a \lor r \divs  b.
 			\]
 	\end{enumerate}
 	\begin{note}
@@ -165,28 +165,31 @@
 \end{df}
 
 % Lem 1.4
-\begin{lem}
-	In einem Integritätsbereich $R$ gilt in $(R^*, \cdot)$ die Kürzungsregel.
+\begin{lem} \label{1.4}
+	Für einen Integritätsbereich $R$ gilt in $(R^*, \cdot)$ die Kürzungsregel.
 	\begin{proof}
 		Aus $r s = r t$ folgt $r(s-t) = 0$ und da $r \in R^*$ und $R$ Integritätsbereich folgt $s-t = 0$, also $s = t$.
 	\end{proof}
 \end{lem}
 
 % Lem 1.5
-\begin{lem}
+\begin{lem} \label{1.5}
 	Sei $R$ ein Integritätsbereich. Es gilt
 	\begin{enumerate}[a)]
 		\item
-			$r, s \in R^*$. Aus $r | s$ und $s | r$ folgt:
+			Sei $r, s \in R^*$.
+			Dann gilt:
 			\[
-				\exists \_ u \in U(R) : s \_ u r
+				r\divs s  \land  s\divs r
+				\implies
+				\exists \unit u \in U(R) : s = \unit u r
 			\]
 		\item
 			Ist $r$ prim, so auch irreduzibel
 		\item
-			Ist $p$ prim und $\_ u \in U(R)$, dann ist auch $\_ u p$ prim.
+			Ist $p$ prim und $\unit u \in U(R)$, dann ist auch $\unit u p$ prim.
 		\item
-			Sind $p$ und $q$ prim und $p | q$, dann gilt $p = \_ u q$ für ein $\_ u \in U(R)$.
+			Sind $p$ und $q$ prim und $p \divs  q$, dann gilt $p = \unit u q$ für ein $\unit u \in U(R)$.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[a)]
