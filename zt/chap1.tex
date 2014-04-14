@@ -194,24 +194,192 @@
 				Sei $s = rq$ und $r = s\tilde q$, dann ist $s = s \tilde q q$ und mit \ref{1.4} $1 = \tilde q q$ und damit $\tilde q, q \in U(R)$.
 			\item
 				Sei $r$ prim aber nicht irreduzibel.
-				Es gilt dann $r \in R^*$, $r = st$ und $s \| r$.
-				Da $r$ prim, folgt $r | s$ oder $r | t$.
-				$r | s$ ist wegen $s \| r$ unmöglich, also $r | t$.
+				Es gilt dann $r \in R^*$, $r = st$ und $s \divs*  r$.
+				Da $r$ prim, folgt $r \divs  s$ oder $r \divs  t$.
+				$r \divs  s$ ist wegen $s \divs*  r$ unmöglich, also $r \divs  t$.
 				Schreibe $t = \tilde t r$, also $r = s \tilde t r$ und mit \ref{1.4} $1 = s \tilde t$.
-				Also ist $s$ eine Einheit, ein Widerspruch zu $s \| r$.
+				Also ist $s$ eine Einheit, ein Widerspruch zu $s \divs*  r$.
 		\end{enumerate}
 	\end{proof}
 \end{lem}
 
 % Satz 1.6
-\begin{st}[Eindeutigkeit der Zerlegung in Primelemente]
+\begin{st}[Eindeutigkeit der Zerlegung in Primelemente] \label{1.6}
 	Sei $R$ ein Integritätsbereich und $r \in R$.
 	Sei $r = p_1 \dotsc p_m$ und $r = q_1 \dotsc, p_n$ mit $p_1, \dotsc, p_m, q_1, \dotsc, q_n$ prim.
-	Dann gilt $m = n$ und nach geeigneter Nummerierung gilt $p_i = \_ u_i \cdot q_i$ mit $\_ u_1 \in U(R)$.
+	Dann gilt $m = n$ und nach geeigneter Nummerierung gilt $p_i = \unit u_i \cdot q_i$ mit $\unit u_1 \in U(R)$.
 	\begin{proof}
-		Funktioniert mit Induktion
+		Da $p_1$ prim, gilt $p_1 \divs  q_{i_0}$ für einen Index $i_0$.
+		Sei \oBdA $i_0 = 1$.
+		Nach \ref{1.5} d) gilt dann $q_1 = \unit u_1 p_1$ mit $\unit u_1 \in U(R)$.
+		Also ist
+		\[
+			p_1 \dotsb p_m = \unit u_1 p_1 q_{\pi(2)} \dotsb q_{\pi(n)}.
+		\]
+		Wähle $\tilde q_i := q_{\pi(i)}$ für $i \ge 3$ und $\tilde q_2 = u_1 q_{\pi(2)}$.
+		und nach der Kürzungsregel $p_2 \dotsb p_m = \tilde q_2 \dotsb \tilde q_n$ mit $p_i, \tilde q_j$ prim.
+		Nach \ref{1.5} c) ist $\tilde q_2$ ebenfalls prim.
+
+		Wäre $m = 1$, dann ist $1 = \unit u_1 q_{\pi(2)} q_{\pi(n)}$, woraus für $n \ge 2$ $q_{\pi(1)} \in U(R)$ folgt, ein Widerspruch.
+		Also $m = 1 \iff n = 1$.
+
+		Per Induktion ist $m - 1 = n - 1$ und $p_k = \tilde u_k \tilde q_k$ und $\tilde u_k \in U(R)$ für $k \ge 2$.
 	\end{proof}
 \end{st}
 
 Gemäß unserer Definition ist eine Primzahl in $\Z$ ein irreduzibles Element von $\Z$.
 Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräuchten wir, dass aus irreduzibel prim folgt.
+
+\coursetimestamp{14}{04}{2014}
+
+% Lem 1.7
+\begin{lem} \label{1.7}
+	Sei $R$ ein Hauptidealbereich, dann ist $p \in R$ genau dann irreduzibel, wenn $p$ prim ist.
+	\begin{proof}
+		\begin{segnb}{$\impliedby$}
+			Gilt nach \ref{1.5} b).
+		\end{segnb}
+		\begin{segnb}{$\implies$}
+			Sei $q \in R$ irreduzibel und $q$ teile $ab$ für $a, b \in R$.
+			$Rq + Ra$ ist ein Ideal, also existiert da $R$ Hauptidealbereich, $d \in R$ mit $Rq + Ra = Rd$.
+			Also gilt $a,q \in Rd$ und $q = sd$ für ein $s \in R$.
+			Da $q$ irreduzibel, folgt $s \in U(R)$ oder $d \in U(R)$.
+			Wir unterscheiden beide Fälle:
+			\begin{segnb}{$s\in U(R)$}
+				Es gilt $d = s^{-1}q$, d.h. $q \divs d$.
+				Da auch $d \divs a$, gilt also $q\divs a$.
+			\end{segnb}
+			\begin{segnb}{$d\in U(R)$}
+				Dann gilt $Rd = R$, also $1 = r_1 q + r_2 a$.
+				$q$ teilt $ba$, also teilt $q$ auch $b r_2 a$.
+				Da $b = b r_1 q + b r_2 a$ gilt somit $q \divs  b$.
+			\end{segnb}
+			Also folgt insgesamt, dass $q$ prim ist.
+		\end{segnb}
+	\end{proof}
+\end{lem}
+
+%Lem 1.8
+\begin{lem} \label{1.8}
+	Sei $R$ ein kommutativer Ring.
+	Falls jede aufsteigende Kette (bezüglich der Inklusion) von Hauptidealen ein maximales Element besitzt (also abbricht).
+	Dann lässt sich jedes $s \in R, s \neq 0, s \not \in U(R)$ in ein endliches Produkt von irreduziblen Elementen zerlegen.
+	\begin{proof}
+		$s$ sei nicht irreduzibel, dann besitzt $s$ einen echten Teiler: $s = a_1 b_1$ mit $a_1 \divs*  s$.
+
+		Es gilt $s \in Ra_1$ und $Rs \subset Ra_1$.
+		Angenommen $Rs = Ra_1$, dann ist $a_1 = s c$, also $s \divs  a_1$, ein Widerspruch zu $a_1 \divs*  s$.
+		Also ist $Rs \subsetneq Ra_1$.
+
+		% fixme: Klären: Hier wird verwendet, dass R Integritätsbereich ist (Kürzungsregel bei s), ist aber nicht vorausgesetzt!
+		Ähnlich sieht man $b_1 \divs*  s$, denn wenn $b_1 \divs  s$ und $s \divs  b_1$, dann ist $s = a_1 b = a_1 x s$, also $a_1 x = 1$ und $a_1 \in U(R)$, ein Widerspruch zu $a_1$ irreduzibel.
+		Also ist auch $Rs \subsetneq Rb_1$.
+
+		Sind $a_1$, bzw. $b_1$ nicht irreduzibel, so kann man das Argument wiederholen.
+		Induktiv ergibt sich dann eine aufsteigende Kette von Hauptidealen, welche nach Voraussetzung abbricht.
+		Also muss $s$ ein endliches Produkt von irreduziblen Elementen sein.
+	\end{proof}
+\end{lem}
+
+%Lem 1.9
+\begin{lem} \label{1.9}
+	$\Z$ ist ein Hauptdealbereich.
+	\begin{proof}
+		Sei $I$ ein Ideal von $\Z$, $I \neq 0, I \neq \Z$.
+		Dann gibt es ein $d \in I$ mit $1 \le |d| \le |s|$ für alle $s \in I$.
+		($|d| \ge 2$, denn aus $|d|=1$ folgt $d = \pm 1$ und $I = \Z$)
+
+		Sei $m \in I$, dann $m = zd + r$ mit $0 \le r < d$, $z \in \Z$.
+		Wegen $m \in I, d\in I$ ist $r = zd - m \in I$.
+		Also $|r| < |d|$, ein Widerspruch zur Minimalität von $d$, falls $r \neq 0$.
+		Also folgt $r = 0$ und $m \in Rd$.
+		Für beliebiges $m$ ist $I \subset Rd \subset I$, da $d \in I$ und somit $I = Rd$.
+		Also ist $I$ ein Hauptideal.
+	\end{proof}
+\end{lem}
+
+%St 1.10
+\begin{st}[Fundamentalsatz der Arithmetik] \label{1.10}
+	In $\N$ lässt sich jede Zahl $n \ge 2$ eindeutig als ein Produkt von Primzahlen, bzw. Primzahlpotenzen aus $\N$ schreiben, also
+	\[
+		n = p_1^{\alpha_1} \dotsb p_k^{\alpha_k}
+	\]
+	mit $p_1, \dotsc, p_k$ Primzahlen und $\alpha_i \ge 1$.
+	\begin{proof}
+		Man muss sich nur überzeugen, dass aufsteigende Ketten von Hauptidealen in $\Z$ abbrechen.
+		$\Z m_1 \subset \Z m_2 \implies |m_2| \divs  |m_1|$, also ist \ref{1.8} offensichtlich erfüllt.
+		\ref{1.10} folgt dann aus \ref{1.6}, \ref{1.7} und \ref{1.9} und $U(\Z) = \pm 1$.
+	\end{proof}
+\end{st}
+
+\begin{nt*}
+	Die Aussage „Ist $p$ eine Primzahl und $p \divs  ab$, so gilt $p \divs  a$ oder $p \divs  b$“ war bereits Euklid bekannt.
+\end{nt*}
+
+\begin{st}[Zur Unendlichkeit von $\P$]
+	\begin{enumerate}[a)]
+		\item
+			Euklid.
+			Angenommen $\P$ sei endlich: $\P = \{p_1, p_2, \dotsc, p_k\}$.
+			Setze $n = \prod_{i=1}^k p_i$ und betrachte $n + 1$.
+			Nach \ref{1.10} lässt sich $n +1$ in ein Produkt von Primzahlen zerlegen.
+			Sei $p$ eine solche, dass ist $p \divs n + 1$ und $p \divs  n$ und $p \divs  n + 1 - n = 1$.
+		\item
+			Euler.
+			\[
+				\prod_{p\in \P} \Big( \sum_{r=0}^\infty p^{-r} \Big)
+				= \prod_{p\in \P} (1 - \f 1p)^{-1}
+				\stack{\ref{1.10}}= \sum_{n\in \N} \f 1n
+			\]
+			ist das Produkt endlich, dann konvergiert die linke Seite als endliches Produkt von absolut konvergenten Reihen.
+			Die rechte Seite divergiert jedoch.
+		\item
+			Polya.
+			Betrachte die Zahl $F_n := 2^{2^n} + 1$ ($n$-te Fermatzahl).
+			$\{F_n : n \in \N_0\}$ ist offensichtlich unendlich.
+
+			$F_n$ und $F_m$ sind teilerfremd für $n < m$:
+			Sei $p$ ein Teiler von $F_n$, dann $2^{2^n} \equiv -1 \mod p$ und $2^{2^m} \equiv 1 \mod p$.
+			Also ist $2^{2^m} + 1 \equiv 2 \mod p$, $p$ teilt also $2$, also $p = 2$.
+			Aber $F_n$ und $F_m$ sind ungerade, also teilt $p$ nicht $F_m$.
+
+			Mit \ref{1.10} folgt dann, dass $\P$ unendlich ist.
+	\end{enumerate}
+\end{st}
+
+\begin{df*}
+	$f: \N \to \C$ nennt man \emphdef{multiplikative zahlentheoretische Funktion}, wenn $f(1) = 1$ und $f(m n) = f(m) f(n)$ für $(m,n) = 1$.
+\end{df*}
+
+\begin{nt}[Kongruenzen und Rechnen in $\Z / n\Z$]
+	\begin{enumerate}[a)]
+		\item
+			$a \equiv b \mod n$ genau dann, wenn $n \divs  ab$.
+			$a \equiv b \mod n$ genau dann $\_a = \_b$ in $\Z / n\Z$.
+		\item
+			Ist $\ggT(c, n) = 1$ (statt $\ggT(a,b)$ schreibt man häufig kurz $(a,b)$), dann ist
+			\begin{align*}
+				a \equiv b &\mod n
+				&\iff ca \equiv cb \mod n
+			\end{align*}
+			(denn aus $a \equiv b \mod n$ folgt $a -b = n x$, also $c(a-b) = cnx$ und $ca \equiv cb \mod n$.
+			Ist $ca = cb = d$, also $c(a-b) = dn$ und wegen $(c,n) = 1$ gilt $c\divs d$ und $dn = \tilde d c n$.
+			Es gilt $c(a-b) = c \tilde d n$, also $ab = \tilde n$ und $a \equiv b \mod n$)
+
+			Nur für die Rückrichtung wird $(c,n) = 1$ gebraucht.
+
+			Rechnet man in $\Z / n \Z$, dann ist $(c,n) = 1$ genau dann, wenn $\_c \in U(\Z / n \Z)$.
+			Aus $\_a = \_b$ folgt $\_c \_a = \_c \_b$ und wegen $\_c \in U(\Z / n\Z)$ auch $\_c^{-1} \_c \_a = \_c^{-1} \_c \_b$, also $\_a = \_b$.
+
+			Ist $(c, n) \neq 1$, dann ist die Rückrichtung im Allgemeinen falsch, z.B. $n = 4, c = 2$: $2 \cdot 1 = 2 \cdot 3 \mod 4$, aber $1 \not\equiv 3 \mod 4$.
+		\item
+			Die \emphdef{Eulersche $\phi$-Funktion}, $\phi: \N \to \N$ ist definiert durch
+			\[
+				\phi(n) := \begin{cases}
+					1 & n = 1 \\
+					| \{m \in \N : 1 \le m < n \land (m,n) = 1 \} | = |U(\Z / n\Z)| & \text{sonst}
+				\end{cases}.
+			\]
+			$\phi$ ist eine multiplikative zahlentheoretische Funktion.
+	\end{enumerate}
+\end{nt}

@@ -9,8 +9,20 @@
 %\usepackage[backend=biber,language=ngerman,style=alphabetic]{biblatex}
 %\DeclareFieldFormat{postnote}{#1}
 
-\DeclareDocumentCommand{\A}{ }{\mathbb{A}}
-\DeclareDocumentCommand{\H}{ }{\mathbb{H}}
+\ExplSyntaxOn
+
+\DeclareDocumentCommand { \A } { } { \mathbb{A} }
+\DeclareDocumentCommand { \H } { } { \mathbb{H} }
+\DeclareDocumentCommand { \unit } { m } { \breve{#1} }
+\DeclareDocumentCommand { \divs } { s } {
+	\IfBooleanTF { #1 } { \,\big\|\, } { \,\big|\, }
+
+}
+\DeclareDocumentCommand { \ndivs } { s } {
+	\IfBooleanTF { #1 } { \,\not\big\|\, } { \,\not\big|\, }
+}
+
+\ExplSyntaxOff
 
 %\newcommand{\coursehref}[2]{\href{http://www.mathematik.uni-stuttgart.de/opencms/opencms/fak8/imng/lehrstuhl/oip/mitarbeiter/garmatter/lehre/#1}{#2}}
 
@@ -26,6 +38,8 @@
 \maketitle
 
 \tableofcontents
+
+\setcounter{chapter}{-1}
 
 \include{chap0}
 \include{chap1}
