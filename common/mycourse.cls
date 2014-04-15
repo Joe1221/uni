@@ -250,7 +250,7 @@
     \index [ terms ] {
 	\IfNoValueTF { #1 } { #2 } { #1 }
     }
-    \emph { #2 }
+    { \color { termdef } \textit { #2 } }
 }
 
 \RequirePackage { datetime }
