@@ -396,5 +396,191 @@ Für $x_0 = 0$ erreicht man den Fernpunkt und für $x_0 = 1$ die ursprünglichen
 	\end{proof}
 \end{st}
 
+\coursetimestamp{15}{04}{2014}
 
+\section{Die hyperbolische Ebene}
 
+\subsection{Das Halbebenenmodell}
+
+Wir definieren die Geometrie auf der hyperbolischen Ebene $H^2$ durch die Angabe von Punkten, Geraden und der Parallelitätsrelation:
+\begin{itemize}
+	\item
+		Punkte sind Elemente der oberen komplexen Halbebene $H^2 := \{ z \in \C : \Im z > 0 \}$,
+	\item
+		Geraden sind (euklidische) Halbkreise mit Mittelpunkt auf der rellen Achse und (euklidische) Halbgeraden, die (euklidisch) senkrecht auf der reellen Achse stehen,
+	\item
+		zwei Geraden sind parallel, wenn sie keine gemeinsamen Punkte besitzen.
+\end{itemize}
+
+Charakteristisch für die hyperbolische Ebene ist die folgende, graphisch leicht nachzuvollziehende Eigenschaft:
+\begin{quote}
+	Zu einem gegebenen Punkt $p$ und einer Geraden $g$, welche nicht durch $p$ geht, gibt es mindestens zwei zu $g$ parallele Geraden durch $p$.
+\end{quote}
+Entwickelt man die hyperbolische Geometrie axiomatisch, so wird diese Aussage sogar explizit gefordert.
+
+\subsection{Transformationen}
+
+Es gilt $\Iso_+(H^2) = \PSL(2, \R) \le \PGL(2, \C)$ mit Elementen
+$f: H^2 \isomorphicto H^2$ mit
+\[
+	z \mapsto \f{az + b}{cz + d},
+\]
+% fixme: matrix darstellung
+wobei $ad - bc > 0$ und $a,b,c,d \in \R$.
+Solche $f \in \Iso_+(H^2)$ sind \emphdef{orientierungserhaltende hyperbolische Bewegungen}.
+
+$\Iso(H^2) = \< \Iso_+(H^2), z \mapsto -\_ z\>$
+
+\begin{st}
+	\begin{enumerate}[1)]
+		\item
+			Jedes Element $f \in \Iso(H^2)$ bildet die obere Halbebene bijektiv auf die obere Halbebene ab und bewahrt hyperbolische Geraden.
+		\item
+			Zu je zwei Punkten $z, w \in H^2$ existiert eine Abbildung $f \in \Iso(H^2)$ mit $f(z) = w$.
+			Zudem kann jede Richtung in jede andere überführt werden.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[1)]
+			\item
+				Für $z \mapsto - \_ z$ ist die Aussage klar.
+				Es genügt zu zeigen, dass $f(H^2) \subset H^2$, denn $f \in \Iso_+(H^2) = \PSL(2, \R)$ ist bijektiv.
+
+				Sei $f \in \Iso_+(H^2), z \mapsto \f{az + b}{cz + d}$, dann gilt
+				\[
+					f(z) = \f {az + b}{cz + d} = \f{(az + b)(c\_z + d)}{|cz + d|^2}
+				\]
+				und man erhält $\Im f(z) = \f 1{|cz + d|^2} (ad - bc) \Im z > 0$.
+
+				$f$ bewahrt verallgemeinerte Kreise und es gilt
+				\[
+					f(\_z) = \_{f(z)},
+				\]
+				also ist $f(\R \cup \{\infty\}) = \R \cup \{\infty\}$.
+			\item
+				Es reicht zu zeigen, dass $f$ mit $f(i) = w$ existiert.
+				Betrachte die Typen
+				\begin{itemize}
+					\item
+						horizontale Verschiebung $z \mapsto z + b$ mit $\Matrix{1 & b \\ 0 & 1}$,
+					\item
+						zentrische Streckung $z \mapsto a^2 z$ mit $\Matrix{a & 0 \\ 0 & \f 1a}$,
+				\end{itemize}
+				wobei $a, b \in \R$.
+				Mit diesen beiden Typen kann man die gesuchte Funktion konstruieren.
+
+				Zeige, dass jede Richtung in jede andere im Punkt $i$ überführt werden kann.
+				Betrachte
+				\[
+					f_\phi : z \mapsto \f{\cos \phi z - \sin \phi}{\sin \phi z + \cos \phi}
+				\]
+				mit $\Matrix{\cos \phi & -\sin \phi \\ \sin \phi & \cos \phi}$.
+				Es gilt
+				\[
+					f_\phi(i)
+					= \f{i \cos \phi - \sin \phi}{i \sin \phi + \cos \phi}
+					= \f {i e^{i\phi}}{e^{i \phi}}
+					= i.
+				\]
+				$f_\phi$ bildet die Halbachse $i \R_{> 0}$ auf den Halbkreis mit Mittelpunkt $m = \f 12 (\cot \phi - \tan \phi)$ und Radius $r = \f 12 (\cot \phi + \tan \phi)$ ab.
+				Da $f$ Möbiustransformation und $i$ Fixpunkt unter $f$, zeigen wir zunächst, dass
+				\[
+					|f_\phi(e) - m | = r.
+				\]
+				Es gilt
+				\begin{align*}
+					|f_\phi(i) - m|^2
+					&= |i - m|^2 \\
+					&= 1 + |m|^2 \\
+					&= 1 + \f 14 \big( \cot^2 \phi - \underbrace{2 \cot\phi \tan \phi}_{=1} + \tan^2 \phi \big) \\
+					&= \f 14 \big( \cot^2 \phi + 2 + \tan^2 \phi \big)
+					= r^2
+				\end{align*}
+				Da auch $|f_\phi(0) - m| = r$ und $|f_\phi(\infty) - m| = r$ gilt, folgt die Behauptung.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\subsection{Längen- und Flächenmessung}
+
+% fixme: Bogelement: länge des tangentialvektors
+Das Bogenelement setzen wir als
+\[
+	d s_H^2 |_z
+	:= \f{dz d\_z}{(\Im z)^2}
+	= \f{dx^2 + dy^2}{y^2}
+\]
+Im euklidischen haben wir
+\[
+	ds^2 |_z
+	= dz d\_z
+	= dx^2 + dy^2.
+\]
+
+Mit Bogenelementen lässt sich gut rechnen:
+für eine gegebene Kurve $\gamma: [a,b] \to H^2$ berechnen wir die Länge
+\[
+	L_H(\gamma)
+	= \int_\gamma \dx[s_H]
+	= \int_a^b \|\gamma'(t)\|_H \dx[t]
+	= \int_a^b \f{\|\gamma'(t)\|}{\Im \gamma(t)} \dx[t].
+\]
+
+Da $ds = ds_H \cdot \alpha(p)$, sind die Winkel die gleichen, wie im euklidischen.
+
+\begin{lem}
+	Für $f \in \Iso(H^2)$ und $\gamma: [a,b] \to H^2$ gilt
+	\[
+		L_H(f \circ \gamma) = L_H(\gamma).
+	\]
+	Ferner gilt $f^* ds_H = ds_H$.
+	\begin{proof}
+		Sei $\gamma: [a,b] \to H^2$ und $f$ gegeben durch $\Matrix{a & b \\ c & d}$.
+		Es gilt
+		\[
+			\Im((f\circ \gamma)(t))
+			= \f {ad - bc}{|c \gamma(t) + d|^2} \Im(\gamma(t))
+		\]
+		und
+		\begin{align*}
+			(f\circ \gamma)'(t)
+			&= \ddx[z]{f}\big|_{\gamma(t)} \cdot \gamma'(t) \\
+			&= \f{a(cz + d) - (az + b)c}{(cz + d)^2} \Big|_{\gamma(t)} \gamma'(t),
+		\end{align*}
+		also
+		\[
+			\|(f\circ \gamma)'(t)\|
+			= \big| \f{ad - bc}{(c \gamma(t) + d)^2} \big| \|\gamma'(t)\|
+		\]
+		und
+		\[
+			\|(f\circ \gamma)'(t)\|_H
+			= \f {\|(f\circ \gamma)^{-1}(t)\|}{\Im((f\circ \gamma)(t))}
+			= \f {\gamma'(t){\Im(\gamma(t))}}
+			= \| \gamma'(t)\|_H.
+		\]
+		Damit ist die Aussage gezeigt, da $L_H(\gamma) = \int_a^b \|\gamma'(t)\|_H \dx[t]$.
+	\end{proof}
+\end{lem}
+
+Sei $\gamma: [a,b] \to H^2, t \mapsto it$.
+Wir setzen
+\[
+	d_H(ai, bi) := L_H(\gamma)
+	= \int_a^b \f 1t \dx[t]
+	= \ln b - \ln a.
+\]
+Das hyperbolische Flächenelement ist
+\[
+	dS_H = \f {dx dy}{(\Im y)^2},
+\]
+im euklidischen: $dS = dxdy$.
+Man berechnet damit Flächen für $M \subset H^2$ durch
+\[
+	\Area_H(M)
+	= \int_M \dx[S_H].
+\]
+Es gilt
+\[
+	d_H(z, w)
+	= \arccos\Big( 1 + \f{|z-w|^2}{2(\Im z)(\Im w)}\Big)
+\]
