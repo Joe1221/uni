@@ -264,7 +264,7 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 
 %Lem 1.8
 \begin{lem} \label{1.8}
-	Sei $R$ ein kommutativer Ring.
+	Sei $R$ ein Integritätsbereich.
 	Falls jede aufsteigende Kette (bezüglich der Inklusion) von Hauptidealen ein maximales Element besitzt (also abbricht).
 	Dann lässt sich jedes $s \in R, s \neq 0, s \not \in U(R)$ in ein endliches Produkt von irreduziblen Elementen zerlegen.
 	\begin{proof}
@@ -386,3 +386,158 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 			$\phi$ ist eine multiplikative zahlentheoretische Funktion.
 	\end{enumerate}
 \end{nt}
+
+\coursetimestamp{17}{04}{2014}
+
+% St 1.13
+\begin{st}[Chinesischer Restsatz] \label{1.13}
+	Seien $m_1, \dotsc, m_n$ paarweise teilerfremde natürliche Zahlen und $a_1, \dotsc, a_n \in \Z$.
+	Dann existiert $x \in \Z$, so dass
+	\begin{align*}
+		x &\equiv a_1 \mod m_1,&
+		&\dotsc,&
+		x &\equiv a_n \mod m_n
+	\end{align*}
+	($x$ löst simultan diese $n$ Kongruenzen).
+
+	$x$ ist modulo $\tilde m = \prod_{i=1}^n m_i$ eindeutig bestimmt, d.h. ist $y \in \Z$ eine andere Lösung der Kongruenzen, dann ist $y \equiv x \mod \tilde m$.
+	\begin{proof}
+		Zeige zunächst die Eindeutigkeit.
+		Sei also $y \equiv a_1 \mod m_1, \dotsc y \equiv a_n \mod m_n$, dann ist $y -x \equiv \mod m_1, y-x \equiv 0 \mod m_n$.
+		Also gilt $m_i \divs y-x$ für alle $i$.
+		Da $m_1, \dotsc, m_n$ paarweise teilerfremd, folgt dann mit \ref{1.10}, dass
+		\[
+			\tilde m = \prod_{i=1}^n m_i \divs y - x,
+		\]
+		also $y = x \mod \tilde m$.
+
+		Nun zur Existenz:
+		Definiere $\phi: \Z / \tilde m \Z \to (\Z / m_1 \Z) \times \dotsb \times (\Z / m_n \Z)$ durch
+		\[
+			x \mod \tilde m
+			\mapsto
+			\big( x \mod m_1, \dotsc, x \mod m_n \big).
+		\]
+		$\phi$ ist injektiv, denn sei $\phi(x \mod \tilde m) = \phi(y \mod \tilde m)$, dann ist
+		\[
+			\big( x \mod m_1, \dotsc, x \mod m_n \big)
+			= \big( y \mod m_1, \dotsc, y \mod m_n \big)
+		\]
+		und damit $x - y \equiv 0 \mod m_i$ für alle $i$ und damit mit \ref{1.10} $x - y \equiv 0 \mod \tilde m$ auch $x \mod \tilde m = y \mod \tilde m$.
+		$\phi$ ist wohldefiniert, denn sei $x \equiv \tilde x \mod \tilde m$, dann ist $x - \tilde x \equiv 0 \mod \tilde m$ und $\tilde m \divs x - \tilde x$, also $m_i \divs x - \tilde x$ für jedes $i$ und somit $x \equiv \tilde x \mod m_i$ für jedes $i$.
+
+		Es gilt
+		\[
+			\big| \Z / \tilde m \Z \big|
+			= \tilde m
+			= m_1 m_2 \dotsb m_n,
+		\]
+		andererseits ist
+		\[
+			\Big| \Z/ m_1 \Z \times \dotsb \times \Z / m_n \Z \Big|
+			= | \Z / m_1 \Z | \cdot \dotsb \cdot | \Z / m_n \Z|
+			= m_1 m_2 \dotsb m_n.
+		\]
+		Beide Mengen sind endlich und gleichmächtig, also ist $\phi$ surjektiv.
+
+		Zu $b := (a_1 \mod m_1, a_2 \mod m_2, \dotsc, a_n \mod m_n)$ existiert also $x \mod \tilde m$ mit $\phi(x \mod \tilde m) = b$.
+		Dieses $x$ löst simultan die gegebenen $n$ Kongruenzen.
+	\end{proof}
+\end{st}
+
+% St 1.14
+\begin{st} \label{1.14}
+	\begin{enumerate}[a)]
+		\item
+			Es existiert ein Ringhomomorphismus
+			\[
+				\Z / m_1m_2 \dotsb m_n \Z
+				\isomorphic
+				\Z /m_1 \Z \times \Z / m_n \Z.
+			\]
+		\item
+			Es existiert ein Gruppenhomomorphismus
+			\[
+				U(\Z / m_1 m_2 \dotsb m_n \Z)
+				\isomorphic
+				U(\Z / m_1 \Z) \times U(\Z / m_n \Z).
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Verwende die im Beweis von \ref{1.13} konstruierte Bijektion $\phi$.
+				Zeige noch, dass $\phi$ additiv, multiplikativ ist und $\phi(1) = 1$ gilt.
+
+				Beispielsweise gilt
+				\begin{align*}
+					y(x \mod \tilde m + y \mod \tilde m)
+					&= \phi\big( (x+y) \mod \tilde m \big) \\
+					&= \big(x + y \mod m_1, \dotsc, x + y \mod m_n \big) \\
+					&= \big( x \mod m_1, \dotsc, x \mod m_n\big) + \big(y \mod m_1, \dotsc, y \mod m_n \big) \\
+					&= \phi(x \mod \tilde m) + \phi(y \mod \tilde m)
+				\end{align*}
+			\item
+				Isomorphe Ringe haben isomorphe Einheitengruppen und es gilt
+				\[
+					U(\Z / m_1 \Z \times \dotsb \times \Z / m_n \Z)
+					\isomorphic U(\Z / m_1 \Z) \times \dotsb \times U(\Z / m_n \Z).
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+% Folg 1.15
+\begin{kor} \label{1.15}
+	Die Eulersche $\phi$-Funktion ist eine multiplikative zahlentheoretische Funktion.
+	Es gilt
+	\[
+		\phi( p_1^{a_1} \dotsb p_k^{a_k} )
+		=\phi( p_1^{a_1}) \dotsb \phi(p_k^{a_k})
+		= \prod_{i=1}^k (p_1 - 1) p_i^{a_i - 1}.
+	\]
+	\begin{proof}
+		$\phi(1) = 1$ gilt per definitionem.
+		Ist $n = p^m$ mit Primzahl $p$, dann ist $\phi(p^m) = p^m - p^{m-1}$.
+		$p^{m-1}$ sind die Anzahl der natürlichen Zahlen $\le p^m$, welche teilbar durch $p$ sind.
+		$p^m - p^{m-1}$ ist die Anzahl der natürlichen Zahlen $< p^m$, welche teilerfremd zu $p^m$ sind.
+		Es gilt
+		\[
+			\phi(n)
+			= | U(\Z / n\Z) |
+			\stack{\ref{1.14}}= |U(\Z /m _1 \Z) | \cdot \dotsb \cdot | U(\Z /m_l \Z) |
+		\]
+		für $n = m_1 \dotsb m_l$ und $m_i$ sind paarweise teilerfremd.
+	\end{proof}
+\end{kor}
+
+% St 1.16
+\begin{st}[Teilbarkeitskriterien] \label{1.16}
+	Sei $m \in \N$ mit Dezimaldarstellung
+	\[
+		m = a_n \cdot 10^n + a_1 \cdot 10 + a_0
+	\]
+	mit $0 \le a_i \le 9$ und $a_n \neq 0$.
+	Dann gilt
+	\begin{enumerate}[a)]
+		\item
+			$3 \divs m \iff 3 \divs a_0 + a_1 + a_n$,
+		\item
+			$9 \divs m \iff 9 \divs a_0 + a_1 + a_n$,
+		\item
+			$11 \divs m \iff 11 \divs a_0 - a_1 \pm \dotsc + (-1)^n a_n$ ($n$ teilt alternierende Quersumme).
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Es gilt $10^d \equiv 1 \mod 3$ für alle $d \in \N$ und damit
+				\[
+					m \equiv a_n + a_{n-1} + \dotsc a_0 \mod 3
+				\]
+			\item
+				analog.
+			\item
+				ähnlich.
+		\end{enumerate}
+	\end{proof}
+\end{st}

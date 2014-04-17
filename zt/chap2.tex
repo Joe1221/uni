@@ -1,0 +1,115 @@
+\chapter{Arithmetik modulo $n$}
+
+
+\section{Struktur der Einheitengruppe $U(\Z/ n\Z)$}
+
+
+% St 2.1
+\begin{st} \label{2.1}
+	Die multiplikative Gruppe $K^*$ eines endlichen Körpers $K$ ist zyklisch.
+	Allgemein gilt: Jede endliche Untergruppe von $K^*$, wobei $K$ ein beliebiger Körper, ist zyklisch.
+	\begin{note}
+		\ref{2.1} klärt insbesondere die Struktur von $\Z / p\Z$ mit Primzahl $p$: $U(\Z / p\Z)$ ist zyklisch von Ordnung $p - 1$.
+
+		Zum Beweis von \ref{2.1} werden gruppentheoretische Grundlagen benötig, welche wir im Folgenden teilweise wiederholen werden.
+	\end{note}
+\end{st}
+
+\begin{df*}
+	Die Ordnung einer Zahl $g \in G$ ist die kleinste Zahl $m \in \N$ mit $g^m = e$.
+\end{df**}
+
+% St 2.2
+\begin{st} \label{2.2}
+	Sei $G$ eine endlichhe Gruppe und $U \le G$ eine Untergruppe.
+	\begin{enumerate}[a)]
+		\item
+			Lagrange: $|U|$ teilt $|G|$.
+		\item
+			Für $g \in G$ gilt $o(g) \divs |G|$.
+	\end{enumerate}
+\end{st}
+
+\begin{df*}
+	Wir setzen
+	\[
+		\pi(G) := \{ x \in \P : x \divs |G| \}.
+	\]
+\end{df*}
+
+% St 2.3
+\begin{st} \label{2.3}
+	Sei $G$ eine endliche abelsche Gruppe und $p \in \pi(G)$, also $|G| = p^a n$ mit $(p, n) = 1$.
+	Setze
+	\[
+		P = \{ g \in G : o(g) = p^m \text{ für ein $m \in \N_0$} \}.
+	\]
+	$P$ bildet eine Untergruppe der Ordnung $p^a$.
+
+	Man nennt $P$ \emphdef{$p$-Sylowgruppe} von $G$.
+	Zerlege $|G|$ in Primfaktoren
+	\[
+		|G| = p_1^{a_1} \dotsb p_k^{a_k}
+	\]
+	und $P_i$ sei die $p_i$-Sylowgruppe von $G$, dann ist $G \isomorphic P_1 \times \dotsb P_k$ ($G$ ist direktes Produkt ihrer Sylowgruppen).
+	\begin{note}
+		\ref{2.3} kann man leicht aus dem Hauptsatz für endlich erzeugte abelsche Gruppen herleiten.
+		Trotzdem liefern wir einen direkten Beweis.
+	\end{note}
+	\begin{proof}
+		Seien $x, y \in P$, also $o(x) = p^{m_1}, o(y) = p^{m_2}$.
+		Damit ist $o(xy) = p^{\max\{m_1, m_2\}}$ (hier wird $G$ abelsch benötigt) und $P$ ist multiplikativ abgeschlossen.
+		Da $P$ endlich, ist $P \le G$.
+		Da $G$ abelsch, ist $P \normalsubgroup G$.
+		Annahme $G / P$ hätte ein Element $xP$ der Ordnung $p$.
+		Dann ist $x^p \in P$ ($x \not\in P$, da $o(x^p) = p \neq 1$).
+		$x$ hat $p$-Potenzordnung, ein Widerspruch zu $x \not\in P$.
+		In $G / P$ gibt es also keine Elemente der Ordnung $p$.
+
+		Für $G = P$ ist \ref{2.3} sicherlich richtig.
+		Also verwende Induktion nach $|\pi(G)|$ und Gruppenordnung.
+		Wäre $p \in \pi(G / P)$, dann hätte $G / P$ nach Induktion eine nicht-triviale $p$-Sylowgruppe, $G / P$ hätte Elemente der Ordnung $p$.
+		Nach obigem folgt $p \not\in \pi(G / P)$, aber $|G| = |P| \cdot |G / P|$, also $|P| = p^a$.
+
+		Zum letzten Teil:
+		Sei \oBdA $k > 1$.
+		Nach den ersten Teil existiert zu jedem $p_i$ eine $p_i$-Sylowgruppe $P_i$.
+		Setze $\tilde P_1 = \< P_i : i \ge 2 \> = P_2 \cdot P_3 \dotsb P_k$.
+		Mit \ref{2.5} sieht man, dass $(|\tilde P_1|, |P_1|) = 1, \tilde P_1 \normalsubgroup G_1, P_1 \normalsubgroup G$.
+		Damit ist nach \ref{2.4} $G \isomorphic P_1 \times \tilde P_1$ und somit $G \isomorphic P_1 \times P_2 \times \dotsb P_k$.
+	\end{proof}
+\end{st}
+
+% Lem 2.4
+\begin{lem} \label{2.4}
+	Sind $M, N \normalsubgroup G$ und $M \cap N = 1$.
+	Dann ist $M \cdot N \isomorphic M \times N$.
+	\begin{proof}
+		Definiere $\phi: M \times N \to M\cdot N$ durch $(m, n) \mapsto mn$.
+		$\phi$ ist injektiv, denn aus $m_1 n_1 = m_2 n_2$ folgt $M \ni m_2^{-1} m_1 = n_2 n_1^{-1} \in N$, also $m_2^{-1}m_1 = 1 = n_2 n_1^{-1}$ und somit $m_1 = m_2 \land n_1 = n_2$.
+		Zeige $\phi$ ist Gruppenhomomorphismus, indem wir zeigen, dass der \emphdef{Kommutator} $m n m^{-1} n^{-1} = 1$, also genau dann, wenn $m n = n m$.
+
+		Es gilt $mn m^{-1}n^{-1} \in M, N$, also $mnm^{-1}n^{-1} = 1$.
+		\[
+			\phi((m_1, n_1) \cdot (m_2, n_2))
+			= \phi(m_1m_2, n_1n_2)
+			= m_1 m_2 n_1 n_2
+			= m_1 n_1 m_2 n_2
+			= \phi(m_1, n_1) \phi(m_2, n_2).
+		\]
+		$\phi$ surjektiv ist eine leichte Übung.
+	\end{proof}
+\end{lem}
+
+% Lem 2.5
+\begin{lem} \label{2.5}
+	Sind $M, N \normalsubgroup G$, dann ist $M\cdot N \normalsubgroup G$ und es gilt
+	\[
+		M / M\cap N
+		\isomorphic
+		MN / N.
+	\]
+	Insbesondere gilt $|MN| = |M|\cdot|N| \cdot \f 1{|N|}$.
+\end{lem}
+
+
