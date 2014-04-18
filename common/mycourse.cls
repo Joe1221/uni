@@ -519,39 +519,47 @@
 %	font        = \normalfont
 %}
 
-
-\RequirePackage{fancyhdr}
 \RequirePackage{calc}
-\pagestyle{fancy}
 
-\fancyhead{}
-\fancyfoot{}
+%%=======================================================================
+%% Headers / Footers
+%%=======================================================================
 
-\fancyheadoffset[RE,LO]{\marginparsep+\marginparwidth}
-%\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-%\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
-\DeclareDocumentCommand {\l_mycourse_headvertbar} {} { \;{\color{headerrule}\rule[-0.4em]{0.7pt}{1.3em}}\; }
+\RequirePackage [
+    olines, % align lines at the textarea outside
+] { scrpage2 }
+
+\pagestyle { scrheadings }
+\clearscrheadfoot
+
+% specify content
+\ohead { \headmark }
+\ofoot [ \pagemark ] { \pagemark }
+
+% specify fonts
+\RenewDocumentCommand { \headfont } { } {
+    \bfseries \scshape \color { header }
+}
+\RenewDocumentCommand { \pnumfont } { } {
+    \bfseries \color { header }
+}
+
+% line below header
+\setheadsepline [ page ] { 1pt } [ \color { headerrule } ]
+
+% vertical bar used between section number and section text
+\cs_new:Nn \l_mycourse_headvertbar: {
+    \; {
+        \color { headerrule } \rule [ -0.4em ] { 1pt } { 1.3em }
+    } \;
+}
+
+% redefine appearance to include headvertbar from above
 \RenewDocumentCommand { \chaptermark } { m } {
-	\markboth { \ \thechapter ~ \l_mycourse_headvertbar ~ #1 } { }
+    \markboth { \ \thechapter ~ \l_mycourse_headvertbar: ~ #1 } { }
 }
 \RenewDocumentCommand { \sectionmark } { m } {
-	\markright { #1 ~ \l_mycourse_headvertbar ~ \thesection ~ \ }
-}
-\fancyhf{}
-\newcommand{\headerfont}{\bfseries \scshape \color{header}}
-\fancyfoot[LE,RO]{\bfseries\color{header} \thepage}
-\fancyhead[RO]{\headerfont\rightmark}
-\fancyhead[LE]{\headerfont\leftmark}
-\renewcommand{\headrulewidth}{0.7pt}
-
-\renewcommand{\headrule}{{\color{headerrule}%
-\hrule width\headwidth height\headrulewidth \vskip-\headrulewidth}}
-
-% Pagestyle used in titlepages
-\fancypagestyle{plain}{
-  \fancyhf{}                        % Clear header/footer
-  \fancyfoot[LE,RO]{\bfseries\color{header} \thepage}
-  \renewcommand{\headrulewidth}{0pt}
+    \markright { #1 ~ \l_mycourse_headvertbar: ~ \thesection ~ \ }
 }
 
 %========================
