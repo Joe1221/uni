@@ -88,6 +88,8 @@
 	% [style] (dark,default,default-print)
 	style .tl_set:N          = \l_mycourse_style,
 
+	semester .tl_set:N       = \l_mycourse_semester,
+
 }
 
 % Option Defaults
@@ -98,6 +100,7 @@
 %}
 \keys_set:nn {mycourse}{lang=german}
 \keys_set:nn {mycourse}{paper-size=a5}
+\keys_set:nn { mycourse } { semester = ~ }
 
 % Load configuration file, containing additional options, e.g. in the form
 % \PassOptionsToClass{paper-format=a4}{mycourse}
@@ -558,6 +561,72 @@
 \RequirePackage{mymath}
 
 \RequirePackage{lastpage}
+
+
+%%=======================================================================
+%% Titlepage
+%%=======================================================================
+
+\RequirePackage { xcoffins }
+\RequirePackage { titling }
+
+\newlength { \l_mycourse_titlepreskip }
+\newlength { \l_mycourse_titlebarwidth }
+
+\setlength { \l_mycourse_titlepreskip } { \textheight * \real{0.382} - 5pc}
+\setlength { \l_mycourse_titlebarwidth } { \paperheight * \real{0.0147} }
+
+\DeclareDocumentCommand { \maketitle } { } {
+
+    \begin{titlepage}
+        \NewCoffin \tpresult
+
+        \NewCoffin \tptitle
+        \NewCoffin \tpsubtitle
+        \NewCoffin \tptimeplace
+
+        \NewCoffin \tpruletop
+
+
+        \SetHorizontalCoffin \tptitle {
+            \parbox [ b ] { \textwidth } {
+                \raggedright
+                \fontsize { 35pt } { 35pt } \selectfont
+                \vskip \l_mycourse_titlepreskip
+                \thetitle
+            }
+        }
+        \SetHorizontalCoffin \tpsubtitle {
+            \parbox [ t ] { 0.5\textwidth } {
+                \raggedright
+                \fontsize { 16pt } { 18pt } \selectfont \scshape
+                Vorlesungsmitschrieb
+            }
+        }
+        \SetHorizontalCoffin \tptimeplace {
+            \parbox [ t ] { 0.5\textwidth } {
+                \raggedleft
+                \fontsize { 10pt } { 12pt } \selectfont \scshape
+                Universität~Stuttgart\\
+		\l_mycourse_semester
+            }
+        }
+
+        \SetHorizontalCoffin \tpruletop {
+            \color { headerrule }
+            \rule { \paperwidth } { \l_mycourse_titlebarwidth }
+        }
+
+        \JoinCoffins* \tpresult                              \tpruletop
+        \JoinCoffins  \tpresult [\tpruletop-t,\tpruletop-l]  \tptitle     [B,l] (0pt       , 3.5mm)
+        \JoinCoffins  \tpresult [\tpruletop-b,\tpruletop-l]  \tpsubtitle  [T,l] (0pt       ,-6mm)
+        \JoinCoffins* \tpresult [\tpruletop-b,\tpruletop-l]  \tptimeplace [T,r] (\textwidth,-6mm)
+
+        \TypesetCoffin \tpresult
+
+    \end{titlepage}
+
+}
 
 
 % vim: sw=4
