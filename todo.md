@@ -11,3 +11,8 @@
 - ~~ Do something beyond the default one … ~~
 - Include timestamps for last change date and compilation date
 - Include recent git history (filtered for current course)
+
+## Exercise Class
+
+- rewrite `myexercise` class
+- use xtemplate?
