@@ -398,9 +398,13 @@ Für $x_0 = 0$ erreicht man den Fernpunkt und für $x_0 = 1$ die ursprünglichen
 
 \coursetimestamp{15}{04}{2014}
 
-\section{Die hyperbolische Ebene}
+% 1.5
+\section{Hyperbolische Geometrie}
 
-\subsection{Das Halbebenenmodell}
+
+\subsection{Die hyperbolische Ebene}
+
+\subsubsection{Das Halbebenenmodell}
 
 Wir definieren die Geometrie auf der hyperbolischen Ebene $H^2$ durch die Angabe von Punkten, Geraden und der Parallelitätsrelation:
 \begin{itemize}
@@ -418,7 +422,7 @@ Charakteristisch für die hyperbolische Ebene ist die folgende, graphisch leicht
 \end{quote}
 Entwickelt man die hyperbolische Geometrie axiomatisch, so wird diese Aussage sogar explizit gefordert.
 
-\subsection{Transformationen}
+\subsubsection{Transformationen}
 
 Es gilt $\Iso_+(H^2) = \PSL(2, \R) \le \PGL(2, \C)$ mit Elementen
 $f: H^2 \isomorphicto H^2$ mit
@@ -500,7 +504,7 @@ $\Iso(H^2) = \< \Iso_+(H^2), z \mapsto -\_ z\>$
 	\end{proof}
 \end{st}
 
-\subsection{Längen- und Flächenmessung}
+\subsubsection{Längen- und Flächenmessung}
 
 % fixme: Bogelement: länge des tangentialvektors
 Das Bogenelement setzen wir als
@@ -584,3 +588,205 @@ Es gilt
 	d_H(z, w)
 	= \arccos\Big( 1 + \f{|z-w|^2}{2(\Im z)(\Im w)}\Big)
 \]
+
+\coursetimestamp{22}{04}{2014}
+
+In der ebenen Geometrie hat es die sphärische Geometrie in $S^2$ (oder elliptische durch Identifizierung der Antipodenpunkte), die euklidische Ebene $E^2$ und die hyperbolische Ebene $H^2 = \{ z \in \C : \Im(z) > 0 \}$.
+Jeweils bestehend aus
+\begin{itemize}
+	\item
+		Punktmenge,
+	\item
+		Menge von „Gerade“,
+	\item
+		Längen- und Winkelverhältnisse
+\end{itemize}
+Mit diesen Bestandteilen können wir kongruente Dreiecke und Gruppen von Bewegungen und Spiegelungen beschreiben.
+
+Analog beschreiben wir $S^n, E^n$ und
+\[
+	H^n := \{ (x_1, \dotsc, x_n) \in \R^n : x_n > 0 \}.
+\]
+$S^n \subset \R^{n+1}$ erbt die (euklidischen) Längen und Winkeln vom Oberraum.
+Wir definieren das hyperbolische Längenelement als
+\[
+	\f 1{x_n^2} \big( \d x_1^2 + \dotsb + \d x_n^2 \big)
+\]
+oder alternativ: die Länge eines Vektors $\xi = (\xi_1, \dotsc, \xi_n)$ im Punkt $\v x = (x_1, \dotsc, x_n)$ ist
+\[
+	\|\xi\|_H
+	:= \f 1{x_n} \|\xi\|
+	:=\f 1{x_n} \sqrt{\xi_1^2 + \dotsb + \xi_n^2}.
+\]
+
+Es gibt allerdings auch eine alternative Beschreibung.
+Setze die \emphdef{sphärische Norm}:
+\[
+	\|\xi\|_S := \f {2\|\xi\|}{1 + |\v x|^2}
+\]
+
+Wir betrachten die drei Räume $(\R^n, \|\argdot\|_S), (\R^n, \|\argdot\|), (D^n = \<x \in \R^n : |x| < 1 \}, \|\argdot\|_H)$
+mit
+\[
+	\|\xi\|_H := \f {2\|\xi\|}{1 - |\v x|^2}.
+\]
+Es gilt
+\begin{align*}
+	\int_0^\infty \f 2{1+t^2} \dx[t] &= \pi, &
+	\int_0^\infty 1 \dx[t] &= \infty, &
+	\int_0^1 \f 2{1-t^2} \dx[t] &= \infty.
+\end{align*}
+Für $n=2$ definieren wir $f: \C \supset D^2 \to H^2 \subset \C$ durch
+\[
+	f(z) := i \f {1-z}{1+z}.
+\]
+$f$ ist bijektiv, holomorph (und damit winkeltreu).
+% fixme: ref übungsaufgabe
+
+\paragraph{Begründung für $\|\argdot\|_S$}
+
+Wir kennen die stereographische Projektion:
+\[
+	\sigma(x_1, x_2, x_3) = \f 1{1-x_3} (x_1, x_2)
+\]
+Bezeichne den Südpol eines Kreises in der $x_1x_3$-Ebene: $x_1 := \sin s, x_2 := 0, x_3 = -\cos s$.
+Es gilt
+\[
+	\sigma(s) = \f 1{1 + \cos s} (\sin s, 0)
+\]
+und beschreibt eine Halbgerade.
+Setze $t(s) := \f {\sin s}{1 + \cos}$, dann ist die Umkehrabbildung gegegben durch
+\[
+	\sigma^{-1}(t, 0)
+	= \f 1{t^2 + 1} (2t, t^2 - 1).
+\]
+Berechne
+\[
+	\ddx[t] \sigma^{-1}(t, 0)
+	= \f 1{(t^2 + 1)^2} \Big( (t^2 + 1) \cdot 2 - 2t \cdot 2t, (t^2 + 1)\cdot 2t - 2t (t^2 - 1) \Big) \\
+	= \f 2{(t^2 + 1)^2} \big( 1 - t^2, 2t \big).
+\]
+Dann ist
+\[
+	\| \ddx[t] \sigma^{-1} (t, 0) \|
+	= \f 4{(t^2 + 1)^4} \big( (1+t^2)^2 + 4t^2 \big)
+	= \f 4{(1+t^2)^2}
+\]
+Dies rechtfertigt mit $t = |\v x|$ die Wahl $\|\xi\| = \f {2\|\xi\|}{1 + |\v x|^2}$.
+
+
+% 1.6
+\section{Lorentzgeometrie, Lorentzgruppe}
+
+Betrachte $\R_1^{n+1} := \R^{n+1}$ mit dem \emphdef{Lorentz-Skalarprodukt}
+\[
+	\< \v x, \v y \>_1 :=
+	-x_0 y_0 + \sum_{i=1}^n x_i y_i.
+\]
+$x$ heißt
+\begin{itemize}
+	\item
+		\emphdef{raumartig}, falls $\<\v x, \v x\>_1 > 0$ (zweischalige Hyperboloide),
+	\item
+		\emphdef{zeitartig}, falls $\<\v x, \v x\>_1 < 0$ (einschalige Hyperboloide),
+	\item
+		\emphdef{isotop}, oder \emphdef{lichtartig}, oder \emphdef{Nullvektor}, falls $\<\v x, \v x\>_1 = 0$, aber $\v x \neq 0$ (Kegel, siehe unten).
+\end{itemize}
+Wir bezeichnen
+\[
+	\{ \v x : \<\v x, \v x\>_1 = 0 \}
+\]
+als \emphdef{Nullkegel}, oder \emphdef{Lichtkegel}.
+
+Wir betrachten die Geometrie mit denselben Geraden, Ebenen, … wie im euklidischen Raum.
+
+\begin{df}
+	Die \emphdef{Lorentzgruppe} $O(1, n)$ ist die Menge aller $(n+1, n+1)$-Matrizen, die $\<\argdot, \argdot\>_1$ bewahren, also
+	\[
+		\< A\v x, A\v y\>_1 = \< \v x, \v y \>_1
+	\]
+	für alle $\v x, \v y \in \R^{n+1}$.
+	Wir unterscheiden weiterhin
+	\begin{itemize}
+		\item
+			die \emphdef[Lorentzgruppe!eigentliche]{eigentliche Lorentzgruppe} mit $\det A > 0$, $\SO(1, n)$,
+		\item
+			die \emphdef[Lorentzgruppe!eigentlich orthochrone]{eigentlich orthochrone Lorentzgruppe}, bewahrt die zeitliche Komponente, $\SO^+(1, n)$.
+	\end{itemize}
+\end{df}
+
+\begin{df}[Hyperboloidmodell des hyperbolischen Raumes]
+	Die Quadrik $\{\v x \in \R^{n+1} : \<\v x, \v x\>_1 = -1 \}$ hat zwei Zusammenhangskomponenten (zweischaliges Hyperboloid).
+	Die Zusammenhangskomponenten von $(1, 0, \dotsc, 0)$ mit dem von $\<\argdot, \argdot\>_1$ induzierten Längenelement heißt der \emphdef{hyperbolische Raum} $H^n$.
+\end{df}
+
+$H^n$ als Quadrik können wir (an $(-1, 0, \dotsc, 0)$) stereographisch auf $D^n$ projezieren, $\sigma: H^n \to D^n$.
+
+Wir parametrisieren eine Hyperbel auf $H^n$ durch
+\begin{align*}
+	c(s) &:= \big( \cosh s, \sinh s, 0, \dotsc, 0 \big) \\
+	\dot c (s) &= \big( \sinh s, \cosh s, 0, \dotsc, 0 \big) \\
+	\<\dot c, \dot c\>_1 &= - \sinh^2 s + \cosh^2 s = 1
+\end{align*}
+
+\paragraph{Begründung für $\|\argdot\|_H$}.
+
+Die stereographische Projektion wählen wir als
+\[
+	\sigma(x_0, x_1, \dotsc, x_n) = \f 1{1+ x_0} (x_1, \dotsc, x_n).
+\]
+Man prüft leicht
+\[
+	\|\sigma(\v x)\|^2
+	= \f 1{(1+x_0)^2}0\big( x_1 ^2 + \dotsb + x_n^2 \big)
+	= \f 1{(1+x_0)^2} (x_0^2 - 1) = \f {x_0 - 1}{x_0 + 1} < 1,
+\]
+also ist $\im \sigma \subset D^n$.
+
+Es gilt
+\[
+	\sigma(c(s)) = \f 1{1 + \cosh s} \big( \sinh s, 0, \dots, 0 \big).
+\]
+Für $0 \le t < 1$ erhalten wir die inverse Abbildung
+\[
+	\sigma^{-1}(t, 0, \dotsc, 0)
+	= \big( \f 2{1 - t^2} - 1, \f {2t}{1-t^2} \big)
+	= \f 1{1-t^2} \big( 1 + t^2, 2t \big).
+\]
+In der Tat gilt $\< \dotsc, \dotsc \> = -1$.
+
+Berechne
+\begin{align*}
+	\ddx[t] \sigma^{-1}()
+	&= \f 1{(1-t^2)^2} \Big( (1-t^2) \cdot 2t - (-2t)\cdot (1 + t^2), (1-t^2) \cdot 2 - (-2t)\cdot 2t) \Big) \\
+	&= \f 2{(1-t^2)^2} \Big( 2t, 1 + t^2 \Big).
+\end{align*}
+Für die Länge ergibt sich
+\begin{align*}
+	\< \ddx[t]{\sigma^{-1}}, \ddx[t]{\sigma^{-1}} \>_1
+	&= \f 4{(1-t^2)^4} \big( - 4t^2 + (1+t^2)^2 \big) \\
+	&= \f 4{(1-t^2)^2},
+\end{align*}
+also $\|\ddx[t]{\sigma^{-1}}\|_1 = \f 2{1-t^2}$.
+Mit $t = |x|$ rechtfertigt dies wieder die Wahl am Anfang des Abschnitts.
+
+\begin{nt}
+	Die eigentlich orthochrone Lorentzgruppe operiert auf $H^n$ durch „hyperbolische Bewegungen“.
+	Spezialfälle sind
+	\begin{itemize}
+		\item
+			\emph{räumliche Drehung} mit
+			\[
+				A = \Matrix{1 & 0 &  \\ 0 & 1 &\\ & & A} \in \SO(n-1),
+			\]
+		\item
+			\emph{„boost“}, oder \emph{Lorentz-Drehung} mit
+			\[
+				A = \Matrix{\cosh t & \sinh t &  \\ \sinh t & \cosh t &\\ & & I} \in \SO(n-1).
+			\]
+	\end{itemize}
+\end{nt}
+
+
+
+
