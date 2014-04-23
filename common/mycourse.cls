@@ -464,27 +464,27 @@
 
 \newlist { segmentlist } { description } { 2 }
 \setlist [ segmentlist ] {
-        style       = nextline,
-        labelindent = 0.0em,
-        leftmargin  = 1em,
+    style       = nextline,
+    labelindent = 0.0em,
+    leftmargin  = 1em,
 }
 % Mit Zeilenumbruch
 \DeclareDocumentEnvironment { seg } { og } {
-        \begin{segmentlist} [ ]
-                \item [ \mbox{ \color{headings} \IfNoValueTF { #1 } { #2 } { #1 } } ]
+    \begin{segmentlist} [ ]
+        \item [ \mbox{ \color{headings} \IfNoValueTF { #1 } { #2 } { #1 } } ]
 } {
-        \end{segmentlist}
+    \end{segmentlist}
 }
 % Ohne Zeilenumbruch
 \DeclareDocumentEnvironment { segnb } { og } {
-        \begin{segmentlist} [
-                style      = sameline,
-                leftmargin = 2em,
-                itemindent = *,
-        ]
-                \item [ \mbox{ \color{headings} \IfNoValueTF { #1 } { #2 } { #1 } :} ]
+    \begin{segmentlist} [
+        style      = sameline,
+        leftmargin = 2em,
+        itemindent = *,
+    ]
+        \item [ \mbox{ \color{headings} \IfNoValueTF { #1 } { #2 } { #1 } :} ]
 } {
-        \end{segmentlist}
+    \end{segmentlist}
 }
 
 %\newlist { proofpart } { description } { 1 }
