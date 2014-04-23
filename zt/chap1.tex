@@ -286,7 +286,7 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 
 %Lem 1.9
 \begin{lem} \label{1.9}
-	$\Z$ ist ein Hauptdealbereich.
+	$\Z$ ist ein Hauptidealbereich.
 	\begin{proof}
 		Sei $I$ ein Ideal von $\Z$, $I \neq 0, I \neq \Z$.
 		Dann gibt es ein $d \in I$ mit $1 \le |d| \le |s|$ für alle $s \in I$.
@@ -310,8 +310,8 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 	mit $p_1, \dotsc, p_k$ Primzahlen und $\alpha_i \ge 1$.
 	\begin{proof}
 		Man muss sich nur überzeugen, dass aufsteigende Ketten von Hauptidealen in $\Z$ abbrechen.
-		$\Z m_1 \subset \Z m_2 \implies |m_2| \divs  |m_1|$, also ist \ref{1.8} offensichtlich erfüllt.
-		\ref{1.10} folgt dann aus \ref{1.6}, \ref{1.7} und \ref{1.9} und $U(\Z) = \pm 1$.
+		$\Z m_1 \subset \Z m_2 \implies |m_2| \divs  |m_1|$, also ist \ref{1.8} offensichtlich erfüllt. 
+		\ref{1.10} folgt dann aus \ref{1.6}, \ref{1.7} und \ref{1.9} und $U(\Z) = \{ \pm 1 \}$.
 	\end{proof}
 \end{st}
 
@@ -357,13 +357,14 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 \begin{nt}[Kongruenzen und Rechnen in $\Z / n\Z$]
 	\begin{enumerate}[a)]
 		\item
-			$a \equiv b \mod n$ genau dann, wenn $n \divs  ab$.
-			$a \equiv b \mod n$ genau dann $\_a = \_b$ in $\Z / n\Z$.
+			$a \equiv b \mod n$ genau dann, wenn $n \divs a + b$.
+			$a \equiv b \mod n$ genau dann, wenn $\_a = \_b$ in $\Z / n\Z$.
 		\item
 			Ist $\ggT(c, n) = 1$ (statt $\ggT(a,b)$ schreibt man häufig kurz $(a,b)$), dann ist
 			\begin{align*}
-				a \equiv b &\mod n
-				&\iff ca \equiv cb \mod n
+				a &\equiv b \mod n &
+				&\iff&
+				ca &\equiv cb \mod n
 			\end{align*}
 			(denn aus $a \equiv b \mod n$ folgt $a -b = n x$, also $c(a-b) = cnx$ und $ca \equiv cb \mod n$.
 			Ist $ca = cb = d$, also $c(a-b) = dn$ und wegen $(c,n) = 1$ gilt $c\divs d$ und $dn = \tilde d c n$.
@@ -471,11 +472,12 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 
 				Beispielsweise gilt
 				\begin{align*}
-					y(x \mod \tilde m + y \mod \tilde m)
-					&= \phi\big( (x+y) \mod \tilde m \big) \\
-					&= \big(x + y \mod m_1, \dotsc, x + y \mod m_n \big) \\
-					&= \big( x \mod m_1, \dotsc, x \mod m_n\big) + \big(y \mod m_1, \dotsc, y \mod m_n \big) \\
-					&= \phi(x \mod \tilde m) + \phi(y \mod \tilde m)
+					y(x \bmod \tilde m + y \bmod \tilde m)
+					&= \phi\big( (x+y) \bmod \tilde m \big) \\
+					&= \big(x + y \bmod m_1, \dotsc, x + y \bmod m_n \big) \\
+					&= \big( x \bmod m_1, \dotsc, x \bmod m_n\big) \\
+					&\quad + \big(y \bmod m_1, \dotsc, y \bmod m_n \big) \\
+					&= \phi(x \bmod \tilde m) + \phi(y \bmod \tilde m)
 				\end{align*}
 			\item
 				Isomorphe Ringe haben isomorphe Einheitengruppen und es gilt
@@ -521,9 +523,9 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 	Dann gilt
 	\begin{enumerate}[a)]
 		\item
-			$3 \divs m \iff 3 \divs a_0 + a_1 + a_n$,
+			$3 \divs m \iff 3 \divs a_0 + a_1 + \dotsb + a_n$,
 		\item
-			$9 \divs m \iff 9 \divs a_0 + a_1 + a_n$,
+			$9 \divs m \iff 9 \divs a_0 + a_1 + \dotsb + a_n$,
 		\item
 			$11 \divs m \iff 11 \divs a_0 - a_1 \pm \dotsc + (-1)^n a_n$ ($n$ teilt alternierende Quersumme).
 	\end{enumerate}
@@ -532,7 +534,7 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 			\item
 				Es gilt $10^d \equiv 1 \mod 3$ für alle $d \in \N$ und damit
 				\[
-					m \equiv a_n + a_{n-1} + \dotsc a_0 \mod 3
+					m \equiv a_n + a_{n-1} + \dotsb + a_0 \mod 3
 				\]
 			\item
 				analog.
