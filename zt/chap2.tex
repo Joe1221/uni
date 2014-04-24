@@ -17,11 +17,11 @@
 
 \begin{df*}
 	Die Ordnung einer Zahl $g \in G$ ist die kleinste Zahl $m \in \N$ mit $g^m = e$.
-\end{df**}
+\end{df*}
 
 % St 2.2
 \begin{st} \label{2.2}
-	Sei $G$ eine endlichhe Gruppe und $U \le G$ eine Untergruppe.
+	Sei $G$ eine endliche Gruppe und $U \le G$ eine Untergruppe.
 	\begin{enumerate}[a)]
 		\item
 			Lagrange: $|U|$ teilt $|G|$.
@@ -90,14 +90,15 @@
 		Zeige $\phi$ ist Gruppenhomomorphismus, indem wir zeigen, dass der \emphdef{Kommutator} $m n m^{-1} n^{-1} = 1$, also genau dann, wenn $m n = n m$.
 
 		Es gilt $mn m^{-1}n^{-1} \in M, N$, also $mnm^{-1}n^{-1} = 1$.
-		\[
+		\begin{align*}
 			\phi((m_1, n_1) \cdot (m_2, n_2))
-			= \phi(m_1m_2, n_1n_2)
-			= m_1 m_2 n_1 n_2
-			= m_1 n_1 m_2 n_2
-			= \phi(m_1, n_1) \phi(m_2, n_2).
-		\]
+			&= \phi(m_1m_2, n_1n_2) \\
+			&= m_1 m_2 n_1 n_2 \\
+			&= m_1 n_1 m_2 n_2
+			&= \phi(m_1, n_1) \phi(m_2, n_2).
+		\end{align*}
 		$\phi$ surjektiv ist eine leichte Übung.
+		Damit ist $\phi$ Gruppenisomorphismus.
 	\end{proof}
 \end{lem}
 
@@ -109,7 +110,205 @@
 		\isomorphic
 		MN / N.
 	\]
-	Insbesondere gilt $|MN| = |M|\cdot|N| \cdot \f 1{|N|}$.
+	Insbesondere gilt $|MN| = |M|\cdot|N| \cdot \f 1{|M \cap N|}$.
+\coursetimestamp{24}{04}{2014}
+	\begin{proof}
+		Zeige $M\cdot N \normalsubgroup G$.
+		Zunächst ist $M \cdot N \le G$, denn
+		\begin{align*}
+			(mn)^{-1} &= n^{-1} m^{-1}
+			= \underbrace{n^{-1}m^{-1}n}_{\in M} n^{-1}
+		\end{align*}
+		und für $m_1n_1, m_2n_2 \in \in M\cdot N$ ist
+		\[
+			m_1 n_1 m_2 n_2
+			= \underbrace{m_1 m_1^{-1}}_{\in M} \underbrace{m_1 n_1 m_2}_{\in N} n_2
+			\in M \cdot N.
+		\]
+		$M \cdot N$ ist Normalteiler:
+		für $g \in G$ ist
+		\[
+			g^{-1} mn g
+			= g^{-1} m g g^{-1} n g
+			\in M \cdot N.
+		\]
+		Definiere jetzt $\phi: M / (M \cap N) \to (M \cdot N) / N$ durch
+		\[
+			m(M\cap N) \mapsto mN.
+		\]
+		$\phi$ ist wohldefiniert, denn wenn $m_1 (M \cap N) = m_2 (M \cap N)$, dann existiert $n \in M \cap N$ mit $m_1 n = m_2$, also $m_1 N = m_2 N$.
+		$\phi$ ist injektiv, denn wenn $m_1 N = m_2 N$, existiert $\tilde n \in N: m_1 \tilde n = m_2$, also $\tilde n = m_1^{-1} m_2 \in M \cap N$ und somit $m_1 M\cap N = m_1 \tilde n M\cap N = m_2 M \cap N$.
+		$\phi$ ist surjektiv, denn $m_1 n_1 N = m_1 N = \phi(m_1 M\cap N)$.
+		$\phi$ ist Homomorphismus, denn
+		\begin{align*}
+			\phi(m_1 M\cap N \cdot m_2 M \cap N)
+			&= \phi((m_1m_2)M\cap N) \\
+			&= (m_1 m_2) N \\
+			&= m_1N \cdot m_2 N \\
+			&= \phi(m_1 M\cap N)
+			= \phi(m_2 M\cap N).
+		\end{align*}
+		Falls $|M|, |N| < \infty$, dann ist $|M / (M\cap N) | = \f {|M|}{|M\cap N|} \stack{\phi}= \f {|MN|}{|N|}$.
+	\end{proof}
 \end{lem}
+
+\begin{proof}[Letzter Schritt im Beweis von \ref{2.3}]
+	Zu jedem $p_i \in \pi(G)$ existiert $P_i$.
+	Setze $\tilde p_1 = \< P_2, \dotsc, P_k \> = P_2 \cdots \dotsb \cdots P_k$ (mittels Induktion aus \ref{2.5}) und $|\tilde p_1| = p_2^{\alpha_2} \cdot \dotsb \cdot p_k^{\alpha_k}$, also $\tilde P_1 \cap P_1 = 1$ und $P_1 \cdot \tilde P_1 = G$.
+	Mit \ref{2.4} ist $G \isomorphic P_1 \times \tilde P_1$ und per Induktion somit
+	\[
+		\tilde P_1 = P_2 \times \dotsb \times P_k.
+	\]
+\end{proof}
+
+\begin{nt*}
+	Sind $M, N$ Normalteiler von $G$, dann ist $M \cdot N$ der kleinste Normalteiler von $G$, der $M$ und $N$ enthält.
+	Es gilt $M \cdot N = \<M, N\>$.
+	Sind $M, N$ keine Normalteiler, so gilt das nicht.
+\end{nt*}
+
+\begin{df}
+	Eine Gruppe $G$ heißt \emphdef{$p$-Gruppe}, wenn $|G| = p^a$ ist für eine Primzahl $p$.
+\end{df}
+
+% Lem 2.6
+\begin{lem} \label{2.6}
+	Sei $\phi$ die Eulersche $\phi$-Funktion.
+	Eine abelsche $p$-Gruppe $G$ ist genau dann zyklisch, wenn es zu jedem Teiler $t$ von $|G|$ höchstens $\phi(t)$ Elemente der Ordnung $t$ gibt (und es gibt dann auch genau $\phi(t)$ solche Elemente).
+	\begin{proof}
+		Zeige zunächst die Rückrichtung.
+		Sei $w_1$ die Anzahl der Elemente der Ordnung $p^i$ von $G$, $|G| = p^m$.
+		Sicherlich ist $|G| = \sum_{i=0}^m w_i$ (beachte $o(g) \divs |G|$, vgl. \ref{2.2}).
+		Es gilt (Voraussetzung „höchstens“ benutzt)
+		\[
+			p^m = |G|
+			= \sum_{i=0}^m \phi(p^i) \alpha_i
+		\]
+		mit $\alpha_i \in \{0, 1\}$, denn existiert ein Element der Ordnung $p^i$, dann gibt es $\phi(p^i)$ solche Elemente.
+		Beachte: ist $o(g) = p^i$, dann ist $|\<g\>| = p^i$ und $\<g\> \isomorphic (\Z / p^i \Z, +)$.
+		\begin{align*}
+			\sum_{i=0}^m \phi(p^i) \alpha_i
+			\le \sum_{i=0}^m \phi(p^i)
+			&\stack{\ref{1.15}}= 1 + p-1 + \dotsb + (p-1) p^{m-1} \\
+			&= 1 + (p-1) (1 + \dotsb + p^{m-1})
+			= p^m
+			= |G|
+		\end{align*}
+		Also gilt Gleichheit und somit insbesondere $\alpha_m = 1$ und es gibt Elemente der Ordnung $p^m$.
+		Somit ist $G$ zyklisch.
+
+		Die Hinrichtung ist eine leichte Übung.
+	\end{proof}
+\end{lem}
+
+\begin{proof}[Beweis von \ref{2.1}]
+	Sei $U \le K^*$ mit $|U| < \infty$.
+	Nach \ref{2.3} ist $U \isomorphic P_1 \times \dotsb \times P_k$ und $P_i$ ist $p_i$-Sylowgruppe von $U$.
+	Wir zeigen, dass $P_i$ zyklisch ist.
+
+	Sei $d_i$ Teiler von $|P_i|$ und $g \in P_i$ mit $o(g) = d_i$.
+	Also erfüllt $g$ die Gleichung $x^{d_i} - 1 = 0$.
+	Diese Gleichung hat in $K$ höchstens $d_i$ verschiedene Lösungen.
+	Ist $g$ eine Lösung, dann auch alle Potenzen von $g$.
+	Die von $g$ erzeugte zyklische Gruppe $\<g\> \isomorphic \Z / d_i \Z$ stellt alle Lösungen der Gleichung.
+
+	Es existieren also höchstens $\phi(d_i)$ Elemente der Ordnung $d_i$ in $P_i$.
+	Mit \ref{2.6} ist also $P_i$ zyklisch, $P_i \isomorphic \Z / |P_i| \Z$ und
+	\[
+		U \isomorphic
+		\Z / |P_1| \Z \times \dotsb \times \Z / |P_k| \Z
+		\stack{\ref{1.14}}\isomorphic
+		\Z / (|P_1| \cdot |P_k|) \Z,
+	\]
+	also ist $U$ zyklisch.
+\end{proof}
+\begin{note}
+	In einem Schiefkörper sind im Allgemeinen nicht alle endlichen Untergruppen zyklisch, z.B. in $\H^*$ gibt es die Quaternionengruppe der Ordnung $8$.
+\end{note}
+
+Unser Ziel war es, die Struktur von $U(\Z / m \Z)$ zu untersuchen.
+\ref{2.1} klärt dies für den Fall $\Z / p\Z$ mit Primzahl $p$:
+\[
+	(\Z / p \Z)^* \isomorphic C_{p-1},
+\]
+wobei $C_{p-1}$ die zyklische Gruppe der Ordnung $p-1$ ist (multiplikatives Analogon zu $\Z / p \Z$.
+
+\begin{nt*}
+	Für $K = \Z / p\Z$ würde man gerne Erzeuger (auch \emphdef{Primitivwurzel} genannt) von $(\Z / p\Z)^*$ angeben können.
+	Insbesondere würde man gerne die kleinsten Erzeuger $k(p)$ kennen.
+\end{nt*}
+
+\begin{ex*}
+	\begin{align*}
+		k(3) &= 2, &
+		k(5) &= 2, &
+		k(7) &= 3, &
+		k(11) &= 2, &
+		k(5881) &= 31.
+	\end{align*}
+	Im Allgemeinen sind die Erzeuger unregelmäßig verteilt.
+\end{ex*}
+
+\begin{conj}[E. Artin]
+	Sei $a \in \N$ und $a$ sei kein Quadrat, dann existiert eine ungerade Primzahl $p$ für die $a \pmod p$ eine Primitivwurzel ist.
+	\begin{note}
+		Warum darf $a$ kein Quadrat sein?
+		siehe Übung.
+	\end{note}
+\end{conj}
+
+Der nächste Schritt zur Struktur von $U(\Z / m \Z)$ ist die Betrachtung von Primzahlpotenzen $m = p^s$.
+
+\begin{ex*}
+	Es gilt
+	\begin{align*}
+		U(\Z / 4 \Z) &= \{ \_ 1, \_ 3 \} \isomorphic C_2 \\
+		U(\Z / 8 \Z) &= \{ \_ 1, \_ 3, \_ 5, \_ 7 \} \isomorphic C_2 \times C_2
+	\end{align*}
+	$C_2 \times C_2$ ist nicht zyklisch.
+\end{ex*}
+
+Es wird sich zeigen, dann $U(\Z / p^s \Z)$ zyklisch ist, wenn $p$ ungerade Primzahl ist.
+Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten.
+
+% Lem 2.7
+\begin{lem} \label{2.7}
+	Sei $p \in \P, s \in \N$ und $a, b \in \Z$.
+	\begin{enumerate}[a)]
+		\item
+			$a \equiv b \pmod p^s \implies a^p \equiv b^p \pmod p^{s+1}$,
+		\item
+			$s \ge 2, p\neq 2$.
+			Dann gilt
+			\[
+				(1 + ap)^{p^{s-2}}
+				\equiv 1 + ap^{s-1} \mod p^s.
+			\]
+		\item
+			$p \ndivs a, p \neq 2 \implies $ $(1+p) \pmod p^s$ hat Ordnung $p^{s-1}$ in $U(\Z / p^s \Z)$.
+		\item
+			$s > 2 \implies 5^{2^{s-3}} \equiv 1 + 2^{s-1} \pmod 2^s$, $5 \pmod 2^s$ hat die Ordnung $2^{s-2}$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Wenn $a \equiv b \pmod p^s$, dann ist $a - b = k p^s$ und
+				\[
+					a^p
+					= (b + kp^s)^p
+					= \sum_{j=0}^p \binom{p}{j} b^{p-j} (kp^s)^j
+				\]
+				Da $\binom{p}{r}$ durch $p$ teilbar ist, wenn $p$ Primzahl ist, gilt
+				\[
+					\sum_{j=1}^p \binom{p}{j} b^{p-j} (kp^s)^j \equiv 0 \mod p^{s+1}
+				\]
+				und damit $a^p \equiv b^p \pmod p^{s+1}$.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+
+
+
 
 

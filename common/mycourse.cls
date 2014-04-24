@@ -427,6 +427,8 @@
 \renewtheorem*{prop*}{Proposition}
 \newtheorem{alg}[thm]{Algorithmus}
 \renewtheorem*{alg*}{Algorithmus}
+\newtheorem{conj}[thm]{Vermutung}
+\renewtheorem*{conj*}{Vermutung}
 
 \newtheorem{nt}[thm]{Bemerkung}
 \renewtheorem*{nt*}{Bemerkung}
