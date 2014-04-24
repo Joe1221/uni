@@ -1,0 +1,208 @@
+\chapter{Lokale Kurventheorie in $E^n$}
+
+
+Eine Kurve ist eine Abbildung $c: I \to \R^n$ für ein Intervall $I$.
+
+Für $c$ stetig gibt es z.B. Peano-Kurven, für $c$ differenzierbar beispielsweise die Neilsche Parabel $c(t) = (t^2, t^3) \in \R^2$ ($c$ ist differenzierbar, das Bild hat jedoch einen „Knick“).
+
+\begin{df}
+	$c$ heißt \emphdef[Kurve!reguläre parametrisiert]{reguläre parametrisierte Kurve}, wenn $c$ als Abbildung stetig differenzierbar ist mit $\ddx[t]{c} \neq 0$ für alle $t \in I$.
+
+	Die \emphdef{Tangente} in $t_0$ ist $c(t_0) + t \dot c(t_0)$, dies ist gerade der lineare Anteil der Taylorentwicklung von $c$ in $t_0$.
+
+	Eine \emphdef[Kurve!reguläre Kurve]{reguläre Kurve} ist eine Äquivalenzklasse von regulären parametrisierten Kurven mit stetig differenzierbarer Parametertransformation $t \mapsto \tau$ mit $\ddx[t]{\tau} > 0$.
+
+	Die \emphdef{Länge} von $c$ ist definiert als
+	\[
+		L(c) := \int_a^b \|\dot c(t)\| \dx[t]
+	\]
+	und unabhängig von der Parametrisierung
+	\[
+		\int_{\alpha}^{\beta} \| \ddx[\tau]{c} \| \dx[\tau]
+		= \int_a^b \|\ddx[t]{c} \| \underbrace{\ddx[\tau]{t} \dx[\tau]}_{= \dx[t]}.
+	\]
+\end{df}
+
+\begin{lem}
+	Jede reguläre Kurve kann nach ihrere Bogenlänge parametrisiert werden $c: [0,L] \to \R^n$ mit $\|\ddx[s]{c}\| = 1$.
+	\begin{proof}
+		Wir setzen $s(t) := \int_0^t \|\dot c(t)\| \dx[t]$, dann ist $\ddx[t]{s} > 0$.
+		Es gilt
+		\[
+			\big\| \ddx[s] c(t(s)) \big\|
+			= \| \ddx[t]{c} \| \ddx[s]{t}
+			= \|\dot c(t)\| \cdot \f 1{\|\dot c(t)\|}
+			= 1.
+		\]
+		Dies ist eindeutig bis auf einen “shift” $s \mapsto s + s_0$,
+		oder Durchlaufen in der anderen Richtung $s \mapsto s_0 - s$, z.B. $\tilde c: [0,L] \to \R^n : \tilde c(s) = c(L - s)$.
+	\end{proof}
+\end{lem}
+
+\begin{conv}
+	Für reguläre Kurven $c$ vereinbaren wir:
+	$t$ sei ein beliebiger Parameter, $s$ sei eine Bogenlängenparameter, $\dot c = \ddx[t]{c}$ Tangente und $c' = \ddx[s]{c}$ Einheits-Tangente.
+	Es gilt
+	\[
+		\dot c = c' \cdot \ddx[t]{s} = c' \|\dot c\|.
+	\]
+\end{conv}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Ein Kreis ist beschrieben durch die Bogenlängenparametrisierung
+			\begin{align*}
+				c(s) &= (\cos s, \sin s)
+				c'(s) &= (-\sin s, \cos s)
+			\end{align*}
+			mit $\|c'\| = 1$, oder durch $c(t) = (\cos (2t), \sin(2t)), \dot c(t) = 2(-\sin 2t, \cos 2t)$.
+		\item
+			Eine Schraubenlinie ist gegeben durch $c(t) = (\cos t, \sin t, ht)$.
+			\[
+				\Vector{x & y & z}
+				\mapsto
+				\Matrix{\cos t & -\sin t & 0 \\ \sin t &\cos t & 0 \\ 0 & 0 & 1}
+				\Vector{x & y & z}
+				+ \Vector{0 & 0 & ht}
+			\]
+			mit Ganghöhe $h$.
+			Dies bildet die $1$-Parametergruppe von Schraubungen, eine Untergruppe der euklidischen Gruppe $E(3)$.
+		\item
+			Eine \emphdef{Kettenlinie} ist gegeben durch $c(t) = (t, \cosh t)$ oder $c(t) = (t, a \cos \f ta) = \f 1a (\f ta, \cosh \f ta)$ mit einem Parameter $a$.
+	\end{itemize}
+\end{ex}
+
+Wie beschreiben wir die Geometrie von regulären Kurven im $\R^n$?
+\begin{itemize}
+	\item
+		Taylorentwicklung
+	\item
+		ein begleitendes (ON-)Bein (Beschreibung von Krümmungen?)
+\end{itemize}
+
+Eine Kurve $c: I \to \R^n$ sei $n$-mal stetig differenzierbar.
+
+\begin{df}
+	$c$ und $\tilde c$ \emphdef{berühren sich von der Ordnung $k$}, wenn $c^{(j)}(s_0) = \tilde c^{(j)}(s_0)$ für alle $0 \le j \le k$.
+\end{df}
+
+%\section{Raumkurven}
+
+Betrachte eine ebene Kurve ($n=2$) $c: I \to \R^2$, $\|c'\| = 1$ zweimal stetig differenzierbar.
+Wir setzen $e_1 := c'$.
+Wähle $e_2$ so, dass $e_1, e_2$ ein positiv orientiertes ON-Bein ist.
+\[
+	0
+	= \<c', c'\>'
+	= 2 \<c'', c'\>
+\]
+also ist $c'' \orth c'$ und $c'', e_2$ linear abhängig.
+Es gilt also
+\begin{align*}
+	c'' = e_1' &= \kappa e_2 \\
+	e_2' &= -\kappa e_1,
+\end{align*}
+und wir schreiben
+\[
+	\Vector{e_1 & e_2}'
+	= \Matrix{0 & \kappa \\ -\kappa & 0}
+	\Vector{e_1 & e_2},
+\]
+die sogenannten \emphdef{Frenet-Gleichungen} im $\R^2$.
+
+Ein Standard-Trick, wenn $e_i \orth e_j$ und $\|e_i\| = 1 = \|e_j\|$ ist
+\[
+	0 = \<e_i, e_j\>'
+	= \<e_i', e_j\> + \<e_i, e_j'\>
+\]
+
+\paragraph{Rekonstruktion von $c(s)$ mittels $\kappa(s)$}
+
+Ist umgekehrt $\kappa(s)$ stetig gegeben, $c(s)$ gesucht.
+Wähle einen Anfangspunkt $c(0) = (0,0)$ und einen Anfangstangente $c'(0) = (1,0) = e_1(0)$.
+
+Man setzt $e_1(s) = (\cos \phi(s), \sin \phi(s))$ und sucht $\phi$ mit $\phi(0) = 0$.
+Analog ist um 90 Grad gedreht $e_2(s) = (-\sin \phi(s), \cos \phi(s))$ und
+\[
+	\kappa e_2
+	= e_1' (s)
+	= \phi'\cdot e_2 (s).
+\]
+Daraus folgt $\phi(s) = \int_0^s \kappa(t) \dx[t]$ und
+\begin{align*}
+	c'(s) &= e_1(s) = \Big( \cos \int_0^s \kappa(t) \dx[t], \sin \int_0^s \kappa(t) \dx[t] \Big), \\
+	c(s) &= \bigg( \int_0^s \cos \Big( \int_0^s \kappa(t) \dx[t]\Big) \dx[\sigma], \int_0^s \sin \Big( \int_0^s \kappa(t) \dx[t] \Big) \dx[\sigma] \bigg).
+\end{align*}
+
+Im Spezialfall $\kappa = 0$ ergibt sich $\phi(s) = 0$ und $c(s) = (s, 0)$ und für $\kappa \neq 0$ konstant ist
+\begin{align*}
+	c(s) &= \Big( \int_0^s \cos (\kappa \sigma) \dx[\sigma] , \int_0^s \sin(\kappa \sigma) \dx[\sigma] \Big) \\
+	&= \f 1\kappa \big( \sin (\kappa s), 1 - \cos (\kappa s) \big),
+\end{align*}
+also ergibt sich ein Kreis.
+
+Für konstantes $\f{\kappa(s)}{s}$ ergibt sich eine sogenannte \emphdef{Spinnkurve}.
+
+
+\section{Raumkurven}
+
+Sei $c$ dreimal stetig differenzierbar, $\|c'\| = 1$ und zusätzlich $c'' \neq 0$.
+Wir setzen
+\begin{align*}
+	e_1 &:= c' \\
+	e_2 &:= \f {c''}{\|c''\|} \\
+	e_3 &:= e_1 \times e_2,
+\end{align*}
+$e_1$ ist die Einheitstangente, $e_2$ Hauptnormale, $e_3$ Binormale.
+Zusammen bilden sie das \emphdef{Frenet-3-Bein}.
+In der Literatur bezeichnet man oft $e_1 = t, e_2 = n, e_3 = b$.
+
+Ableitungsgleichungen $e_1', e_2', e_3'$ berechnen sich als
+\begin{align*}
+	e_1' &= (c')' = c'' = \|c''\| e_2 = \kappa e_2, \\
+	e_2' &= \underbrace{\<e_2', e_1\>}_{=-\<e_2, e_1'\>} e_1 + \underbrace{\<e_2', e_2\>}_{=0} e_2 + \underbrace{\<e_2', e_3\>}_{=: \tau} e_3, \\
+	e_3' &= \underbrace{\<e_3', e_1\>}_{=-\<e_3, e_1'\> = 0} e_1 + \underbrace{\<e_3', e_2\>}_{-\<e_3, e_2'\> = -\tau} e_2 + \underbrace{\< e_3', e_3 \>}_{=0} e_3 \\
+	&= - \tau e_2
+\end{align*}
+mit \emphdef{Torsion} $\tau$.
+Es ergeben sich die \emphdef{Frenet-Gleichungen} im $\R^3$.
+\[
+	\Vector{e_1 & e_2 & e_3}'
+	= \Matrix{ 0 & \kappa & 0 \\ -\kappa & 0 & \tau \\ 0 & - \tau & 0}
+	\Vector{e_1 & e_2 & e_3}.
+\]
+
+Können wir bei vorgegebenem $\kappa(s), \tau(s)$ die Kurve rekonstruieren?
+Die Lösung existiert und ist eindeutig, aber ist im Allgemeinen nicht explizit darstellbar (aber durch Grenzprozesse, z.B. Picard-Lindelöf).
+
+Taylor-Entwicklung in das Frenet-3-Bein ergibt
+\[
+	c(s) = c(0) + \alpha(s)e_1(0) + \beta(s) e_2(0) + \gamma(s) e_3(0) + o(s^3)
+\]
+mit gewissen Koeffizientenfunktionen $\alpha, \beta, \gamma$, die wie folgt bestimmt werden:
+
+Zunächst gilt nach den Frenet-Gleichungen
+\begin{align*}
+	c' &= e_1 \\
+	c'' &= e_1'' = \kappa e_2 \\
+	c''' &= (\kappa e_2)' = \kappa' e_2 + \kappa e_2' = \kappa' e_2 + \kappa(-\kappa e_1 + \tau e_3)
+\end{align*}
+Dies impliziert dann
+\begin{align*}
+	c(s) &= c(0) + se_1 + \f {s^2}2 \kappa e_2 + \f {s^3}6 \big( \kappa' e_2 - \kappa^2 e_1 + \kappa \tau e_3 \big) + o(e^3) \\
+	&= c(0) + \big( s - \f {s^3 \kappa^2}6 \big) e_1 + \big( \f {s^2 \kappa}2 + \f {s^3\kappa'}6 \big) e_2 + \f{s^3 \kappa \tau}6 e_3 + o(s^3)
+\end{align*}
+mit einem linearen, quadratischen und kubischen Term (in $s$).
+Diese lassen sich in die $e_1e_2$-Schmiegebene, die $e_2e_3$-Normalebene und die $e_1e_3$ rektifizierende Ebene projezieren.
+Es ergeben sich jeweils eine Parabel, eine Neilsche Parabel (falls $\tau \neq 0$) bzw. eine kubische Parabel (falls $\tau(0) \neq 0$).
+
+
+Für die Schraubenlinie ist $\kappa, \tau$ konstant, sogar die Umkehrung gilt.
+
+
+
+
+
+
+
