@@ -1,5 +1,5 @@
-\RequirePackage {expl3, l3keys2e}
 \RequirePackage [ log-declarations = false ] { xparse }
+\RequirePackage {expl3, l3keys2e}
 \ProvidesExplClass {mycourse} {2013/11/16} {0.1}
     {Class intended for math courses}
 \RequirePackage {l3backports}
