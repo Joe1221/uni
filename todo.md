@@ -2,6 +2,7 @@
 
 ## Common
 
+- Correct weilrd spacing of `\bmod p`
 - Cleverref to reference theorems with their type
 - Revise `\coursetimestamp{}{}{}` syntax and usage
 - What about `\fixme` notation, showing on the margin, or even with an index?
