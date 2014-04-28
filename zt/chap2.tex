@@ -11,12 +11,12 @@
 	\begin{note}
 		\ref{2.1} klärt insbesondere die Struktur von $\Z / p\Z$ mit Primzahl $p$: $U(\Z / p\Z)$ ist zyklisch von Ordnung $p - 1$.
 
-		Zum Beweis von \ref{2.1} werden gruppentheoretische Grundlagen benötig, welche wir im Folgenden teilweise wiederholen werden.
+		Zum Beweis von \ref{2.1} werden gruppentheoretische Grundlagen benötigt, welche wir im Folgenden teilweise wiederholen werden.
 	\end{note}
 \end{st}
 
 \begin{df*}
-	Die Ordnung einer Zahl $g \in G$ ist die kleinste Zahl $m \in \N$ mit $g^m = e$.
+	Die Ordnung von $g \in G$, $o(g)$ ist die kleinste Zahl $m \in \N$ mit $g^m = e$.
 \end{df*}
 
 % St 2.2
@@ -95,7 +95,7 @@
 			&= \phi(m_1m_2, n_1n_2) \\
 			&= m_1 m_2 n_1 n_2 \\
 			&= m_1 n_1 m_2 n_2
-			&= \phi(m_1, n_1) \phi(m_2, n_2).
+			= \phi(m_1, n_1) \phi(m_2, n_2).
 		\end{align*}
 		$\phi$ surjektiv ist eine leichte Übung.
 		Damit ist $\phi$ Gruppenisomorphismus.
@@ -239,6 +239,7 @@ wobei $C_{p-1}$ die zyklische Gruppe der Ordnung $p-1$ ist (multiplikatives Anal
 \end{nt*}
 
 \begin{ex*}
+	Es gilt
 	\begin{align*}
 		k(3) &= 2, &
 		k(5) &= 2, &
@@ -250,7 +251,7 @@ wobei $C_{p-1}$ die zyklische Gruppe der Ordnung $p-1$ ist (multiplikatives Anal
 \end{ex*}
 
 \begin{conj}[E. Artin]
-	Sei $a \in \N$ und $a$ sei kein Quadrat, dann existiert eine ungerade Primzahl $p$ für die $a \pmod p$ eine Primitivwurzel ist.
+	Sei $a \in \N$ und $a$ sei kein Quadrat, dann existiert eine ungerade Primzahl $p$ für die $a \bmod p$ eine Primitivwurzel ist.
 	\begin{note}
 		Warum darf $a$ kein Quadrat sein?
 		siehe Übung.
@@ -276,7 +277,7 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten.
 	Sei $p \in \P, s \in \N$ und $a, b \in \Z$.
 	\begin{enumerate}[a)]
 		\item
-			$a \equiv b \pmod p^s \implies a^p \equiv b^p \pmod p^{s+1}$,
+			$a \equiv b \bmod p^s \implies a^p \equiv b^p \bmod p^{s+1}$,
 		\item
 			$s \ge 2, p\neq 2$.
 			Dann gilt
@@ -285,14 +286,14 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten.
 				\equiv 1 + ap^{s-1} \mod p^s.
 			\]
 		\item
-			$p \ndivs a, p \neq 2 \implies $ $(1+p) \pmod p^s$ hat Ordnung $p^{s-1}$ in $U(\Z / p^s \Z)$.
+			$p \ndivs a, p \neq 2 \implies $ $(1+p) \bmod p^s$ hat Ordnung $p^{s-1}$ in $U(\Z / p^s \Z)$.
 		\item
-			$s > 2 \implies 5^{2^{s-3}} \equiv 1 + 2^{s-1} \pmod 2^s$, $5 \pmod 2^s$ hat die Ordnung $2^{s-2}$.
+			$s > 2 \implies 5^{2^{s-3}} \equiv 1 + 2^{s-1} \bmod 2^s$, $5 \bmod 2^s$ hat die Ordnung $2^{s-2}$.
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[a)]
 			\item
-				Wenn $a \equiv b \pmod p^s$, dann ist $a - b = k p^s$ und
+				Wenn $a \equiv b \bmod p^s$, dann ist $a - b = k p^s$ und
 				\[
 					a^p
 					= (b + kp^s)^p
@@ -302,10 +303,204 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten.
 				\[
 					\sum_{j=1}^p \binom{p}{j} b^{p-j} (kp^s)^j \equiv 0 \mod p^{s+1}
 				\]
-				und damit $a^p \equiv b^p \pmod p^{s+1}$.
+				und damit $a^p \equiv b^p \bmod p^{s+1}$.
+			\item
+\coursetimestamp{28}{04}{2014}
+				Zeige per Induktion.
+				Für $s = 2$ gilt $(1 + ap)^{p^{s-2}} = 1 + ap = 1 + ap^{2-1}$.
+				Zeige jetzt die Aussage für $s + 1$ unter Voraussetzung, sie gelte für kleinere $s$.
+				\[
+					(1 + ap)^{p^{s-1}}
+					= \Big((1 + ap)^{p^{s-2}}\Big)^p
+					\stack{\text{a)}}\equiv \big(1 + ap^{s-1} \big)^p \mod p^{s+1}
+				\]
+				Ist $p > 2$, dann ist
+				\[
+					(1 + ap^{s-1})^p
+					= 1 + \underbrace{\binom{p}{1} ap^{s-1}}_{= ap^s} +  \underbrace{\sum_{j=2}^p \binom{p}{j} (ap^{s-1})^p}_{\text{teilbar durch $p^{s+1}$}}.
+				\]
+				Damit ist die Aussage für $s + 1$ gezeigt:
+				\[
+					(1 + ap)^{p^{s-1}}
+					\equiv 1 + ap^s \mod p^{s+1}.
+				\]
+			\item
+				Aus b) und a) folgt
+				\[
+					\Big( (1+ap)^{p^{s-2}} \Big)^p
+					\equiv (1m + ap^{s-1})^p
+					\stack{\text{Binom.}}\equiv 1 \mod p^s.
+				\]
+				Damit hat $(1 + ap) \bmod p^s$ hat eine Ordnung, die $p^{s-1}$ teilt.
+				Nach Voraussetzung gilt, dass $p \ndivs a$, also mit b) $(1 + ap)^{p^{s-2}} \equiv 1 + ap^{s-1} \not\equiv 1 \bmod p^s$, denn $p^s \ndivs ap^{s-1}$.
+				Also ist die Ordnung von $(1 + ap) \bmod p^s$ gerade $p^{s-1}$.
+			\item
+				Analog per Induktion, beachte $s \ge 3$.
+				\Exercise
 		\end{enumerate}
 	\end{proof}
 \end{lem}
+
+% St 2.8
+\begin{st} \label{2.8}
+	Sei $p \in \P, p > 2$.
+	Dann ist $U(\Z / p^s \Z)$ zyklisch für alle $s \in \N$.
+	\begin{proof}
+		Für $s = 1$ ist dies gerade eine Folgerung aus \ref{2.3}.
+		Also existiert $g \in \Z$ mit $g^{p-1} \equiv 1 \bmod p$ und $g^i \not\equiv 1 \bmod p$ für $1 \le i \le p -1$.
+
+		Falls $g^{p-1} \equiv 1 \bmod p^2$, dann gilt auch $(g + p)^{p-1} \equiv 1 \bmod p$ und $(g + p)^i \not\equiv 1 \bmod p$ für $1 \le i < p-1$ und
+		\[
+			(g + p)^{p - 1} \equiv \underbrace{g^{p-1}}_{\equiv 1 \bmod p^2} + (p-1)g^{p-2} p \mod p^2
+		\]
+		Also gilt $(g + p)^{p-1} \equiv 1 + ap \bmod p^2, a \not\equiv 0 \bmod p$.
+
+		Falls $g^{p-1} \not\equiv 1 \bmod p^2$, dann ist $g^{p-1} = 1 + ap \bmod p^2$ mit $a \neq 0 \bmod p$.
+		Ohne Beschränkung der Allgemeinheit kann also $g$ so gewählt werden, dass $g^{p-1} \equiv 1 \mod p, g^i \not\equiv 1 \bmod p$ für $1 \le i \le p-1$ und  $g^{p-1} \equiv 1 + ap \bmod p^2$ mit $a \not\equiv 0 \bmod p$.
+		Nach \ref{2.7} b) gilt jetzt
+		\[
+			(1 + ap)^{p^{s-2}} \equiv 1 + ap^{s-1} \bmod p^s
+		\]
+		für $s \ge 2, p \neq 2$ und nach \ref{2.7} c) hat $(1 + ap) \bmod p^s$ die Ordnung $p^{s-1}$ in $U(\Z / p^s \Z)$.
+		Damit ist
+		\[
+			(g^{p-1})^{p^{s-2}}
+			= g^{(p-1)p^{s-2}}
+			\equiv 1 + ap^{s-1}
+			\not\equiv 1 \bmod p^s.
+		\]
+		und $(g^{p-1})^{p^{s-1}} = g^{(p-1)p^{s-1}} \equiv 1 \bmod p^s$.
+		Beachte $(p-1)p^{s-1} = \phi(p^s)$.
+
+		Ist $d$ ein maximaler Teiler von $(p-1)p^{s-1}$, dann folgt $d  = (p-1)p^{s-2}$, oder $d = m p^{s-1}$ mit maximalem Teilere $m$ von $p-1$.
+		Angenommen $g^{\tilde d} \equiv 1 \bmod p^s$ und $1 \le \tilde d < (p-1)p^{s-1}$.
+		Dann gilt $\tilde d \divs d$ und $g^d \equiv 1 \bmod p^s$.
+		Falls $d = (p-1)p^{s-2}$, dann ergibt sich ein Widerspruch zu $g^{(p-1)p^{s-2}} \not\equiv 1 \bmod p^s$.
+
+		Also hat $d$ die Form $d = mp^{s-1}$ und es gilt $g^{mp^{s-1}} \equiv 1 \bmod p^s$.
+		Dann ist $g^{mp^{s-1}} \equiv 1 \bmod p$ und nach \ref{2.9} ist $g^m \equiv 1 \bmod p$, ein Widerspruch.
+
+		Damit hat $g$ die ordnung $(p-1)p^{s-1}$ in $U(\Z / p^s \Z)$ und wegen $|U(\Z / p^s \Z)| = (p-1)p^{s-1}$, folgt, dann $U(\Z / p^s \Z)$ zyklisch ist.
+	\end{proof}
+\end{st}
+
+% Lem 2.9
+\begin{lem}[„Kleiner Fermat'scher Satz“] \label{2.9}
+	Sei $p \in \P$, dann ist $a^p \equiv a \bmod p$ für beliebiges $a \in \Z$.
+	\begin{proof}
+		Für $a \equiv 0 \bmod p$ ist dies klar.
+		Falls $a \not\equiv 0 \bmod p$, dann ist wegen $| U(\Z / p\Z) = p - 1|$ auch $a^{p-1} \equiv 1 \bmod p$ und somit $a^p \equiv a \bmod p$.
+	\end{proof}
+\end{lem}
+
+% St 2.10
+\begin{st} \label{2.10}
+	Für $s \ge 3$ gilt $U(\Z / 2^s \Z) \isomorphic \< - 1 \bmod 2^s \> \times \< 5 \bmod 2^s \> \isomorphic C_2 \times C_{2^{s-2}}$.
+
+	Für $s = 1$ gilt $U(\Z / 2 \Z) = 1$.
+	Für $s = 2$ gilt $U(\Z / 4 \Z) = \< 3 \bmod 4 \> \isomorphic C_2$.
+	\begin{note}
+		$U(\Z / 8 \Z) \isomorphic C_2 \times C_2$, d.h. das Quadrat einer ungeraden Zahl ist stets $\equiv 1 \bmod 8$.
+		Im Unterschied zu $p \neq 2$, ist $U(\Z / 2^s \Z)$ nicht zyklisch für $s \ge 3$.
+	\end{note}
+	\begin{proof}
+		Nach \ref{2.7} d) ist die Ordnung von $5 \bmod 2^s$ gerade $2^{s-2}$.
+		Sicherlich ist $o(-1 \bmod 2^s) = 2$, wenn $s \ge 2$.
+		Es genügt zu zeigen, dass $-1 \bmod 2^s \not\in \< 5 \bmod 2^s \>$.
+		Betrachte $\kappa: \Z / 2^s \Z \to \Z / 4 \Z$ mit $x \bmod 2^s \mapsto x \bmod 4$.
+		Offensichtlich ist $\kappa$ surjektiver Ringhomomorphismus.
+		Es gilt
+		\begin{align*}
+			\kappa(5 \bmod 2^s) &= 5 \bmod 4 = 1 \bmod 4 \\
+			\kappa(-1 \bmod 2^s) &= -1 \bmod 4 = 3 \bmod 4 \\
+			\kappa((5 \bmod 2)^j) &= (5 \bmod 4)^j = 1^j \bmod 4 = 1 \bmod 4
+		\end{align*}
+		und damit $-1 \bmod 2^s \not\in \< 5 \bmod 2^s\>$.
+		Es gilt $\<-1 \bmod 2^s\> \cap \< 5 \bmod 2^s\> = 1$ und damit $U(\Z / 2^s \Z) \isomorphic \<-1 \bmod 2^s \> \times \< 5 \bmod 2^s \>$.
+	\end{proof}
+\end{st}
+
+% Folg 2.11
+\begin{kor} \label{2.11}
+	Sei $m \in \N$ und $m = p_1^{\alpha_1} \dotsb p_k^{\alpha_k}$ die Primzahlzerlegung von $m$.
+	Dann gilt
+	\[
+		U(\Z / m\Z) \isomorphic U(\Z / p_1^{\alpha_1}\Z) \times \dotsb \times U(\Z / p_k^{\alpha_k} \Z)
+	\]
+	nach \ref{1.14} b).
+	Die Faktoren der rechten Seite sind nach \ref{1.8} und \ref{1.10} bekannt.
+\end{kor}
+
+\begin{ex*}
+	Für $m = 8 \cdot 5 \cdot 3^2 = 360$ ergibt sich
+	\begin{align*}
+		U(\Z / 120 \Z)
+		&\isomorphic U(\Z / 8 \Z) \times U(\Z / 5 \Z) \times U(\Z / 3^2 \Z) \\
+		&\isomorphic C_2 \times C_2 \times C_4 \times C_6
+	\end{align*}
+\end{ex*}
+
+% Folg 2.12
+\begin{kor} \label{2.12}
+	$U(\Z / m\Z)$ ist zyklisch genau dann, wenn $m = 1, 2, 4, 2 \cdot p^k$, oder $p^k$ für ein $p \in \P \setminus \{2\}$.
+	\begin{proof}
+		Übung.
+		\Exercise
+	\end{proof}
+\end{kor}
+
+Wann ist eine Kongruenz der Form
+\[
+	x^2 \equiv a \mod p
+\]
+mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
+
+% Def 2.13
+\begin{df} \label{2.13}
+	\begin{enumerate}[a)]
+		\item
+		Sei $b \in \Z, m \in \N$ mit $m > 1$ und $(b, m) = 1$, dann nennt man $b$ \emphdef{quadratischer Rest} $\bmod m$, wenn $x^2 \equiv b \bmod m$ eine Lösung in $U(\Z / m\Z)$ besitzt.
+		\item
+			Sei $p \in \P, p > 2$.
+			Dann definiert man das \emphdef{Legendresymbol} für $b \in \Z$ durch
+			\[
+				\legsym bp := \begin{cases}
+					1 & \text{$b$ quadratischer Rest $\bmod p$} \\
+					-1 & \text{$b$ kein quadratischer Rest $\bmod p$} \\
+					0 & \text{$b \equiv 0 \bmod p$}
+				\end{cases}.
+			\]
+			Beachte $\legsym bp \in \Z$.
+	\end{enumerate}
+\end{df}
+
+\begin{lem}
+	Sei $p > 2$
+	\begin{enumerate}[a)]
+		\item
+			$b \in \Z, (b, p) = 1$ ist genau dann quadratischer Rest $\bmod p$, wenn
+			\[
+				b^{\f {p-1}2} \equiv 1 \mod p
+			\]
+			ist und kein quadratischer Rest, wenn
+			\[
+				b^{\f {p-1}2} \equiv -1 \mod p
+			\]
+			ist.
+			Also gilt
+			\[
+				\legsym bp = b^{\f {b-1}2} \mod p.
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				$U(\Z / p\Z)$ ist zyklisch von der Ordnung $p - 1$, die Quadrate bilden dann eine Untergruppe von Index 2.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+
 
 
 
