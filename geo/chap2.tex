@@ -212,6 +212,160 @@ Es ergeben sich jeweils eine Parabel, eine Neilsche Parabel (falls $\tau \neq 0$
 Für die Schraubenlinie ist $\kappa, \tau$ konstant, sogar die Umkehrung gilt.
 
 
+\coursetimestamp{29}{04}{2014}
+
+
+\begin{df}[Frenet-Kurven im $\R^n$]
+	Eine \emphdef{Frenet-Kurve} im $\R^n$ ist definiert durch eine $n$-fach stetig differenzierbare Kurve $c:I \to \R^n$ nach Bogenlänge parametrisiert und $\{c^{(j)}\}_{j=1}^{n-1}$ seien überall linear unabhängig.
+
+	Dann existiert längs der Kurve $c$ das \emph{begleitende Frenet-$n$-Bein} $e_1^{j}, \dotsc, e_{j}$ mit
+	\begin{enumerate}[1)]
+		\item
+			$e_1, \dotsc, e_n$ sind orthonormiert und positiv orientiert ($\det \Matrix{e_1, \dotsc, e_n} = 1$),
+		\item
+			Für jedes $k$ gilt $\<e_1, \dotsc, e_k\> = \<c', \dotsc, c^{(k)}\>$, genannt \emphdef[Schmiegraum]{$k$-ter Schmiegraum},
+		\item
+			$\<c^{(k)}, e_k\> > 0$ für $k = 1, \dotsc, n-1$.
+	\end{enumerate}
+	\begin{note}
+		$e_1, \dotsc, e_n$ ist eindeutig durch Gram-Schmidt bestimmt.
+		%fixme: genauer
+		$\<c^{(n)}, e_n\>$ kann auch $< 0$ sein.
+	\end{note}
+\end{df}
+
+
+\begin{st}[Frenet-Gleichungen]
+	Sei $c$ eine Frenet-Kurve im $\R^n$ mit Frenet-$n$-Bein $e_1, \dotsc, e_n$.
+	Dann gibt es Funktionen $\kappa_1(j), \dotsc, \kappa_{n-1}(j)$ mit $\kappa_1, \dotsc, \kappa_{n-2} > 0$, so dass jedes $\kappa_i$ $(n-1-i)$-mal stetig differenzierbar ist und die \emphdef{Frenet-Gleichungen}
+	\[
+		\Vector*{e_1 & \vdots & e_n}'
+		= \Matrix*{
+			0 & \kappa_1 & & & \\
+			-\kappa_1 & 0 & \kappa_2 & & \\
+					  & -\kappa_2 & \ddots & \ddots & \\
+				   & & \ddots & 0 & \kappa_{n-1} \\
+				   & & & -\kappa_{n-1} & 0
+		}
+		\Vector*{e_1 & \vdots & e_n}
+	\]
+	$\kappa_i$ heißt \emphdef[Krümmung]{$i$-te Krümmung} von $c$.
+	Die Matrix heißt \emphdef{Frenet-Matrix}.
+	Die letzte Krümmung $\kappa_{n-1}$ heißt auch Torsion.
+	\begin{proof}
+		Betrachte die Komponenten
+		\[
+			e_i' = \sum_{j=1}^n \<e_i', e_j\> e_j.
+		\]
+		Nach Konstruktion gilt $\<e_i', e_{i+2} = \<e_i', e_{i+3}\> = \dotsc = 0$ und $\<e_i', e_i\> = 0$.
+		Setze $\kappa_i := \< e_i', e_{i+1}\>$ für $i=1, \dotsc, n-1$, dann ist $\kappa_i > 0$ wegen $\<(c^{(k)})', e_{k+1}\> = \<c^{(k+1)}, e_{k+1}\> > 0$ für $i=1,\dotsc, n-2$, $\kappa_{n-1}$ ist noch beliebig.
+
+		Mit dem Standard-Trick ist mit $\<e_i, e_j\> \in \{ 0, 1\}$
+		\[
+			0 = \<e_i, e_j\>'
+			= \<e_i', e_j\> + \<e_i, e_j'\>,
+		\]
+		also ist die Frenet-Matrix schiefsymmetrisch.
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	Das Frenet-$n$-Bein und die Frenet-Krümmungen sind invariant unter eigentlichen euklidischen Bewegungen (bei uneigentlichen geht $e_n$ in $-e_n$ über).
+	\begin{proof}
+		Sei $B(\v x) := A\v x + \v b$ mit $A \in \SO(n), \v b \in \R^n$ eine eigentliche euklidische Bewegung.
+		Es wird abgebildet
+		\begin{align*}
+			c &\mapsto B \circ c \\
+			c' &\mapsto (B \circ c)' = A c' \\
+			\vdots &\qquad \vdots \\
+			c^{(j)} &\mapsto Ac^{(j)}
+		\end{align*}
+		Es gilt
+		\begin{align*}
+			(A e_i)'
+			&= A(e_i') \\
+			&= A (-\kappa_{i-1} e_{i-1} + \kappa_i e_{i+1}) \\
+			&= - \kappa_{i-1} A e_{i-1} + \kappa_i Ae_{i+1}.
+		\end{align*}
+	\end{proof}
+\end{kor}
+
+\begin{st}[Hauptsatz der lokalen Kurventheorie]
+	Es seien $\kappa_i \in C^{n-1-i}((a,b), \R)$ für $i = 1, \dotsc, n-1$ gegeben mit $\kappa_1, \dotsc, \kappa_{n-2} > 0$
+	Für ein festes $s_0 \in (a,b)$ sei ein Punkt $q_0 \in \R^n$ und ein positiv orientiertes ON-Bein $e_1(0), \dotsc, e_n(0)$ vorgegeben.
+
+	Dann gibt es genau eine Frenet-Kurve $c: (a,b) \to \R^n$ mit
+	\begin{enumerate}[1)]
+		\item
+			$c(s_0) = q_0$,
+		\item
+			$e_1(0), \dotsc, e_n(0)$ ist das Frenet-$n$-Bein von $c$ in $q_0$
+		\item
+			$\kappa_1(s), \dotsc, \kappa_{n-1}(s)$ sind die Frenet-Krümmungen von $c$.
+	\end{enumerate}
+	\begin{proof}
+		Schreibe $F(s) := \Vector{e_1(s) & \vdots & e_n(s)}$ als Matrix.
+		$F$ ist orthogonal und $\det(F) = 1$.
+		Die Frenet-Gleichungen
+		\[
+			F'(s) = K(s) F(s)
+		\]
+		ergeben ein lineares Differenzialgleichungssystem erster Ordnung.
+		\begin{enumerate}[1.]
+			\item
+				Gemäß der Theorie linearer Differenzialgleichungen gibt es genau eine auf ganz $(a,b)$ definierte Lösung $F(s)$ des Systems mit der Anfangsbedingung $F(s_0) = \Vector{e_1(0) & \vdots & e_n(0)}$.
+			\item
+				Es ist nicht selbstverständlich, dass $F(s)$ der Lösung orthogonal bleibt für beliebige $s \in (a,b)$.
+				Es ergibt sich
+				\[
+					(FF^T)'
+					= F' F^T + F (F^T)'
+					= K (F F^T) + (F F^T) K^T,
+				\]
+				eine Differenzialgleichung für $FF^T$.
+				Wir wissen $FF^T(s_0) = E$ und $\det F(s_0) = 1$.
+				$E$ ist eine Lösung dieser Differenzialgleichung, denn $0 = E' = KE + EK^T$ wegen $K$ schiefsymmetrisch.
+				Wegen der Eindeutigkeit muss also $FF^T(s) = E$ für alle $s \in (a,b)$ sein.
+				Mit der Stetigkeit der Determinante gilt außerdem auch $\det F(s) = 1$ für alle $s \in (a,b)$.
+			\item
+				Konstruiere $c(s)$ aus $F(s) = \Vector{e_1(s) & \vdots & e_n(s)}$.
+				Es gilt $c' = e_1$ und wir setzen somit zwangsläufig
+				\[
+					c(s) = c(s_0) + \int_{s_0}^s e_1(t) \dx[t].
+				\]
+				$c$ ist damit eindeutig bestimmt.
+				Wegen $c'' = e_1' = \kappa_1 e_2 \neq 0$ ist e
+				\begin{align*}
+					e_1' = \kappa_1 e_2 \neq 0 &\implies e_2 = \f{c''}{\|c''\|} \\
+					e_2' = -\kappa_1 e_1 + \kappa_2 e_3 &\implies e_3 \\
+					\vdots &\qquad \vdots
+				\end{align*}
+				Wegen $c^{(i)} = \sum_{k=1}^{i-1} \lambda_k e_k + \kappa_1 \dotsb \kappa_{i-1} e_i$ und $\kappa_1 \dotsb \kappa_{i-1} \neq 0$ für $i \le n-1$ sind die $c^{(i)}$ linear unabhängig und $c$ eine Frenet-Kurve.
+				$K$ ist das Frenet-$n$-Bein und $\kappa_i$ die Frenet-Krümmungen.
+		\end{enumerate}
+		Im Fall $n=2$ ist $K= \Matrix{0 & \kappa(s) \\ -\kappa(s) & 0}$ und $\v K(s) = \int_{s_0}^s K(t) \dx[t]$.
+		Nutze den Ansatz
+		\[
+			F(s_0 + s) = \exp (K(s)) \cdot F(s_0).
+		\]
+		Es gilt
+		\[
+			F'(s)
+			= \v K'(s) \exp(\v K(s)) \cdot F(s_0)
+			= K(s) F(s),
+		\]
+		wegen $(K^n)' = n K' K^{n-1}$, da alle Matrizen kommutieren.
+		Im Allgemeinen ist jedoch
+		\[
+			(\v K^n)'
+			= (\v K \dotsc \v K)'
+			= \v K' \v K^{n-1} + \v K \v K' \v K^{n-2} + \dotsb + \v K^{n-1} \v K'
+		\]
+		und geht schief.
+		Im Fall $n=3$ funktioniert es nur, falls $K(s) K(t) = K(t) K(s)$ für alle $s, t \in (a,b)$, oder falls $\f {\kappa_2}{\kappa_1} = \f {\tau}{\kappa}$ konstant ist.
+		Insbesondere wenn $K$ konstant ist, dann ist $\v K(s) = sK$ und $K' = K$.
+	\end{proof}
+\end{st}
 
 
 
