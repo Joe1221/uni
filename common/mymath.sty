@@ -125,14 +125,34 @@
             { \| } { \begin{Vmatrix} #3 \end{Vmatrix} }
         } { \begin{pmatrix} #3 \end{pmatrix} }
     } {
+	\tl_clear_new:N \l_content_tl
+	% Use \tl_set:Nf instead of \tl_set:Nn to expand a possible tokenlist variable in #3
+	\tl_set:Nf \l_content_tl { #3 }
+	\tl_replace_all:Nnn \l_content_tl { \vdots } { \svdots }
+	\tl_replace_all:Nnn \l_content_tl { \ddots } { \sddots }
+	\tl_replace_all:Nnn \l_content_tl { \cdots } { \scdots }
         \str_case:nnF { #2 } {
-            { [  } { \left[  \big. \begin{smallmatrix} #3 \end{smallmatrix} \right]  }
-            { \{ } { \left\{ \big. \begin{smallmatrix} #3 \end{smallmatrix} \right\} }
-            { |  } { \left|  \big. \begin{smallmatrix} #3 \end{smallmatrix} \right|  }
-            { \| } { \left\| \big. \begin{smallmatrix} #3 \end{smallmatrix} \right\| }
-        } { \left( \big. \begin{smallmatrix} #3 \end{smallmatrix} \right) }
+            { [  } { \left[  \big. \begin{smallmatrix} \l_content_tl \end{smallmatrix} \right]  }
+            { \{ } { \left\{ \big. \begin{smallmatrix} \l_content_tl \end{smallmatrix} \right\} }
+            { |  } { \left|  \big. \begin{smallmatrix} \l_content_tl \end{smallmatrix} \right|  }
+            { \| } { \left\| \big. \begin{smallmatrix} \l_content_tl \end{smallmatrix} \right\| }
+        } { \left( \big. \begin{smallmatrix} \l_content_tl \end{smallmatrix} \right) }
     }
 }
+
+
+\DeclareDocumentCommand { \sddots } { } {
+    \scalebox { 0.5 } { \ensuremath { \ddots } }
+}
+\DeclareDocumentCommand { \svdots } { } {
+    \scalebox { 0.5 } { \ensuremath { \vdots } }
+}
+\DeclareDocumentCommand { \scdots } { } {
+    \raisebox { 0.20ex } { \scalebox { 0.5 } { \ensuremath { \cdots } } }
+}
+
+
+
 
 \renewcommand{\_}[1]{\overline{#1}}
 \newcommand{\argdot}{{\,\cdot\,}}
