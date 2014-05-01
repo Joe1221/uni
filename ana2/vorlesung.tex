@@ -3229,11 +3229,11 @@ Genauer suchen wir eine differenzierbare Funktion $g:B_\epsilon(a) \to \R$ mit $
 Es folgt
 \begin{align*}
 0 &= \f \d{\d x} f(x,g(x)) \\
-&= (\d_1f)(x,g(x)) +(\d_2f)(x,g(x) g'(x)
+&= \d_1f(x,g(x)) +\d_2f(x,g(x)) g'(x)
 \end{align*}
 Wenn $\d_2f(a,b)\neq 0$, dann auch $\d_2f(x,g(x)) \neq 0$ für $x$ nahe bei $0$ und es folgt
 \[
-g'(x) = -\f {\d_1f(x,g(x)}{\d_2f(x,g(x)}
+g'(x) = -\f {\d_1f(x,g(x))}{\d_2f(x,g(x))}
 \]
 
 \begin{ex*}
@@ -3395,7 +3395,7 @@ Sei $(a,b)$ ein Punkt von
 \]
 Falls $\nabla f(a,b) \neq 0$, dann lässt sich $N_C$ in der Nähe von $(a,b)$ als Graph einer $C^k$-Funktion $x\mapsto g(x)$ ($\d_2f(a,b)\neq 0$) oder einer $C^k$-Funktion $y\mapsto h(y)$ ($\d_1f(a,b)\neq0$) darstellen.
 \begin{proof}
-	Wende \ref{14.6} an auf $f-c)$
+	Wende \ref{14.6} an auf $f-c$
 \end{proof}
 
 \begin{ex*}[Pendel!]
@@ -3702,21 +3702,22 @@ Außerdem sind $\phi_{k+1}'(p), \dotsc, \phi_n'(p)$ linear unabhängig (denn $\p
 	\begin{proof}
 		\begin{enumerate}[(i)]
 			\item
-				Sei $v\in T_pM$, d.h. $v=\dot\gamma(0)$, wobei $\gamma:(-\epsilon,\epsilon) \to M$ $C^1$-Kurve mit $\gamma(0)=p$.
-				Dann ist $f(\gamma(t))=a$ für alle $f\in (-\epsilon,\epsilon)$.
-				Also
+				Sei $v\in T_pM$, d.h. es existiert $\gamma:(-\eps, \eps), M$ eine $C^1$-Kurve mit $\gamma(0)=p$ und $\dot\gamma(0) = v$.
+				Wegen $\Im \gamma \subset M$ gilt $f(\gamma(t))=a$ für alle $t\in (-\epsilon,\epsilon)$,
+				also da $\gamma$ stetig differenzierbar
 				\begin{align*}
-					0 &= \f d{dt} f(\gamma(t))\Big|_{t=0} \\
-					  &= df(\gamma(0))\dot\gamma(0) \\
-					  &= df(p)
-				\end{align*}a
-				D.h. $v\in \ker df(p)$ und somit $T_pM \subset \ker(df(p))$.
-				
-				Wegen $\dim T_pM = n-m$ und $\dim(\ker df(p)) = n - \dim(\im df(p)) = n- m$ (da $p$ ein regulärer Punkt von $f$).
-				Wegen $T_pM \subset \ker df(p)$ und $\dim T_pM = \dim(\ker df(p))$ folgt
+					0 &= \ddx[t] f(\gamma(t))\Big|_{t=0}
+					  = \dx[f] (\gamma(0)) \cdot \dot\gamma(0)
+					  = \dx[f](p) \cdot v.
+				\end{align*}
+				Damit ist $v\in \ker df(p)$ und somit $T_pM \subset \ker(df(p))$.
+
+				Es gilt $\dim T_pM = n-m$ und da $p$ regulärer Punkt von $f$ ist
 				\[
-					T_pM = \ker df(p)
-				\].
+				  \dim(\ker df(p)) = n - \dim(\im df(p)) = n- m,
+				\]
+				also $\dim T_pM = \dim(\ker df(p))$.
+				Wegen $T_pM \subset \ker df(p)$ folgt aus Dimensionsgründen somit $T_pM = \ker df(p)$.
 			\item
 				Es ist
 				\[
