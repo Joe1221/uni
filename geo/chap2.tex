@@ -1,8 +1,12 @@
 \chapter{Lokale Kurventheorie in $E^n$}
 
+\section{Einführung}
+
+\subsection{Grundlagen}
+
 \begin{df}
-	Sei $I \subset \R$ ein Intervall.
-	Eine (parametrisierte) \emphdef{Kurve} ist eine Abbildung $c: I \to \R^n$.
+	Sei $I := (a, b) \subset \R$ ein Intervall.
+	Eine \emphdef[Kurve]{parametrisierte Kurve} ist eine Abbildung $c: I \to \R^n$.
 \end{df}
 
 \begin{ex}
@@ -12,51 +16,93 @@
 		\item
 			\emphdef{Peano-Kurven} sind stetige, raumfüllende Kurven,
 		\item
-			die \emphdef{Neilsche Parabel} $c(t) := (t^2, t^3) \in \R^2$ ist eine stetig differenzierbare Kurve, ihr Bild besitzt jedock einen „Knick“.
+			die \emphdef{Neilsche Parabel} $c(t) := (t^2, t^3) \in \R^2$ ist eine stetig differenzierbare Kurve, ihr Bild besitzt jedoch einen „Knick“ (wenn $c'(t) = 0$, kann sie ihre Richtung sofort ändern).
 	\end{itemize}
 \end{ex}
 
 \begin{df}
-	$c$ heißt \emphdef[Kurve!regulär]{reguläre parametrisierte Kurve}, wenn $c$ stetig differenzierbar ist und $\ddx[t]{c(t)} \neq 0$ für alle $t \in I$.
-
-	Die \emphdef{Tangente} von $c$ in $t_0$ ist $c(t_0) + t \dot c(t_0)$, dies ist gerade der lineare Anteil der Taylorentwicklung von $c$ in $t_0$.
+	$c: I \to \R^n$ heißt \emphdef[Kurve!regulär]{reguläre parametrisierte Kurve}, wenn $c$ stetig differenzierbar ist und $\ddx[t] c(t) \neq 0$ für alle $t \in I$.
 
 	Eine \emphdef[Kurve!reguläre Kurve]{reguläre Kurve} ist eine Äquivalenzklasse von regulären parametrisierten Kurven mit stetig differenzierbarer Parametertransformation $t \mapsto \tau$ mit $\ddx[t]{\tau} > 0$.
-
-	Die \emphdef{Länge} von $c$ ist definiert als
-	\[
-		L(c) := \int_a^b \|\dot c(t)\| \dx[t]
-	\]
-	und unabhängig von der Parametrisierung
-	\[
-		\int_{\alpha}^{\beta} \| \ddx[\tau]{c} \| \dx[\tau]
-		= \int_a^b \|\ddx[t]{c} \| \underbrace{\ddx[\tau]{t} \dx[\tau]}_{= \dx[t]}.
-	\]
 \end{df}
 
-\begin{lem}
-	Jede reguläre Kurve kann nach ihrere Bogenlänge parametrisiert werden $c: [0,L] \to \R^n$ mit $\|\ddx[s]{c}\| = 1$.
+\begin{conv}
+	Im Folgenden bezeichne $c$ stets eine reguläre Kurve, mit gleichnamiger (in der Regel beliebiger) Parametrisierung $c: I \to \R^n$.
+	Wir schreiben $\dot c(t)$ für $\ddx[t] c(t)$.
+\end{conv}
+
+\begin{df}
+	\begin{itemize}
+		\item
+			Die \emphdef{Tangente} von $c$ in $t_0 \in I$ ist die Menge
+			\[
+				\{ c(t_0) + t \dot c(t_0) : t \in \R \}
+			\]
+			(dies ist gerade der lineare Teil der Taylorentwicklung von $c$ in $t_0$).
+		\item
+			Die \emphdef{Länge} von $c$ ist definiert als
+			\[
+				L(c) := \int_a^b \|\dot c(t)\| \dx[t].
+			\]
+			Sie ist unabhängig von der Parametrisierung, denn
+			\begin{align*}
+				\int_{a=\phi(\alpha)}^{b=\phi(\beta)} \|\dot c(t)\| \dx[t]
+				&= \int_{\alpha}^\beta \|\dot c(\phi(\tau)) \| \overbrace{\underbrace{\phi'(\tau)}_{>0} \dx[\tau]}^{= \dx[t]} \\
+				&= \int_\alpha^\beta \|\underbrace{\dot c(\phi(\tau)) \phi'(\tau) }_{=\ddx[\tau] (c\circ \phi)(\tau)}\| \dx[\tau]
+				= \int_\alpha^\beta \| (c \circ \phi)^\centerdot (\tau) \| \dx[\tau].
+			\end{align*}
+	\end{itemize}
+\end{df}
+
+\begin{lem} \label{lem:curve_natural_parametrization}
+	Jede reguläre Kurve $c$ kann nach ihrer Bogenlänge parametrisiert werden, d.h. für eine beliebige Parametrisierung $c: I \to \R^n$ existiert $c\circ \phi: [0,L] \to \R^n$ mit $\|\ddx[s] (c \circ \phi)(s)\| = 1$.
+	Für die Parametertransformation $\phi$ gilt dann
+	\[
+		\phi'(s) = \f 1{\|\dot c (\phi(s))}.
+	\]
 	\begin{proof}
-		Wir setzen $s(t) := \int_0^t \|\dot c(t)\| \dx[t]$, dann ist $\ddx[t]{s} > 0$.
-		Es gilt
+		Wir betrachten die Funktion $\psi: t \mapsto s = \int_0^t \|\dot c(\tau)\| \dx[\tau]$, dann ist $\psi' > 0$ und die Umkehrfunktion existiert.
+		Setze $\phi := \psi^{-1}$, dann ist
 		\[
-			\big\| \ddx[s] c(t(s)) \big\|
-			= \| \ddx[t]{c} \| \ddx[s]{t}
-			= \|\dot c(t)\| \cdot \f 1{\|\dot c(t)\|}
+			\phi'(s)
+			= (\psi^{-1})'(s)
+			= \f 1{\psi'(\psi^{-1}(s))}
+			= \f 1{\|\dot c(\phi(s))\|}
+			> 0.
+		\]
+		Es gilt folgt damit
+		\[
+			\| \ddx[s] (c \circ \phi)(s) \|
+			= \| \dot c (\phi(s)) \phi'(s) \|
+			= \| \dot c (\phi(s)) \| \f 1{\|\dot c(\phi(s))\|}
 			= 1.
 		\]
-		Dies ist eindeutig bis auf einen “shift” $s \mapsto s + s_0$,
+		Also ist $c \circ \phi$ eine Bogenlängenparametrisierung.
+		Diese ist eindeutig bis auf einen “shift” $s \mapsto s + s_0$,
 		oder Durchlaufen in der anderen Richtung $s \mapsto s_0 - s$, z.B. $\tilde c: [0,L] \to \R^n : \tilde c(s) = c(L - s)$.
 	\end{proof}
 \end{lem}
 
 \begin{conv}
-	Für reguläre Kurven $c$ vereinbaren wir:
-	$t$ sei ein beliebiger Parameter, $s$ sei ein Bogenlängenparameter, $\dot c = \ddx[t]{c}$ Tangente und $c' = \ddx[s]{c}$ Einheits-Tangente.
+	Sei $c$ eine reguläre Kurve, $c: I \to \R$ eine beliebige Parametrisierung und $c \circ \phi$ die Bogenlängenparametrisierung.
+
+	Für die beliebige Parametrisierung nutzen wir die Notation $c(t)$ und für die Bogenlängenparametrisierung $c(s)$ (eigentlich $(c \circ \phi)(s)$, kann zu Verwirrung führen).
+	Wir vereinbaren ebenso die Schreibweisen
+	\begin{itemize}
+		\item
+			$\dot c(t) := \ddx[t] c(t)$,
+		\item
+			$c'(s) := \ddx[s] (c \circ \phi)(s) = (c \circ \phi)^\centerdot (s)$.
+	\end{itemize}
 	Es gilt
 	\[
-		\dot c = c' \cdot \ddx[t]{s} = c' \|\dot c\|.
+		c'(s) \cdot \|\dot c(t)\|
+		= (c \circ \phi)^\centerdot (s) \cdot \| \dot c(\phi(s)) \|
+		\stack{\ref{lem:curve_natural_parametrization}}= \f {(c \circ \phi)^\centerdot (s)}{\phi'(s)}
+		= \dot c (\phi(s))
+		= \dot c(t).
 	\]
+	Sollte es nicht zu Missverständnissen (wegen der unterschiedlichen Parameter) kommen, schreibt man auch kurz $\dot c = c' \cdot \|\dot c\|$.
 \end{conv}
 
 \begin{ex}
@@ -95,7 +141,7 @@
 	\end{enumerate}
 	Falls zusätzlich $\det(v_1, v_2, \dotsc, v_n) = 1$, so ist es \emphdef[Orthonormalsystem|positiv orientiert]{positiv}, ansonsten \emphdef[Orthonormalsystem|negativ orientiert]{negativ orientiert}.
 	\begin{note}
-		Im Minkowski-Raum mit Minkowski-Skalarprodukt und Norm $\|v\|_1 := \sqrt{|\<v,v\>_1}$ definiert man ein Orthonormalsystem analog.
+		Im Minkowski-Raum mit Minkowski-Skalarprodukt und Norm $\|v\|_1 := \sqrt{|\<v,v\>|_1}$ definiert man ein Orthonormalsystem analog.
 	\end{note}
 \end{df}
 
@@ -113,37 +159,69 @@ Eine Kurve $c: I \to \R^n$ sei $n$-mal stetig differenzierbar.
 	$c$ und $\tilde c$ \emphdef{berühren sich von der Ordnung $k$}, wenn $c^{(j)}(s_0) = \tilde c^{(j)}(s_0)$ für alle $0 \le j \le k$.
 \end{df}
 
-%\section{Raumkurven}
+\subsection{Kurven im \texorpdfstring{$\R^2$}{ℝ²} und \texorpdfstring{$\R^3$}{ℝ³}}
 
-Betrachte eine ebene Kurve ($n=2$) $c: I \to \R^2$, $\|c'\| = 1$ zweimal stetig differenzierbar.
-Wir setzen $e_1 := c'$.
-Wähle $e_2$ so, dass $e_1, e_2$ ein positiv orientiertes ON-Bein ist.
+\subsubsection{Frenetgleichungen für ebene Kurven}
+
+Betrachte eine zweimal stetig differenzierbare reguläre Kurve $c: I \to \R^2$.
+Setze
+\begin{align*}
+	e_1 &:= c', &
+	e_2 &:= e_1^\orth,
+\end{align*}
+wobei hier $\argdot^\orth$ eine Drehung um 90 Grad gegen den Uhrzeigersinn ist.
+Damit bildet $e_1, e_2$ ein positiv orientiertes ON-Bein.
+
+Es gilt
 \[
 	0
 	= \<c', c'\>'
 	= 2 \<c'', c'\>
 \]
-also ist $c'' \orth c'$ und $c'', e_2$ linear abhängig.
+also ist $e_1' = c'' \orth c'$ und $e_1', e_2$ linear abhängig, d.h. $e_1' = \kappa e_2$ für eine skalare Funktion $\kappa$.
+Mit $0 = \<e_1, e_2\>' = \<e_1', e_2\> + \<e_1, e_2'\>$ und $0 = \<e_2, e_2\>' = 2\<e_2',e_2\>$ folgt
+\[
+	e_2' = \<e_2', e_1\> e_1 + \<e_2', e_2\> e_2
+	= -\<e_2, e_1'\> e_1
+	= -\kappa e_1.
+\]
 Es gilt also
 \begin{align*}
-	c'' = e_1' &= \kappa e_2 \\
+	e_1' &= \kappa e_2, \\
 	e_2' &= -\kappa e_1,
 \end{align*}
-und wir schreiben
+und wir schreiben auch
 \[
-	\Vector{e_1 & e_2}'
-	= \Matrix{0 & \kappa \\ -\kappa & 0}
-	\Vector{e_1 & e_2},
+	\Vector*{e_1 & e_2}'
+	= \Matrix*{0 & \kappa \\ -\kappa & 0}
+	\Vector*{e_1 & e_2},
 \]
 die sogenannten \emphdef{Frenet-Gleichungen} im $\R^2$.
 
-Ein Standard-Trick, wenn $e_i \orth e_j$ und $\|e_i\| = 1 = \|e_j\|$ ist
-\[
-	0 = \<e_i, e_j\>'
-	= \<e_i', e_j\> + \<e_i, e_j'\>
-\]
+\begin{nt}
+	Wenn $e_i \orth e_j$ und $\|e_i\| = 1 = \|e_j\|$ ist
+	Es gilt
+	\[
+		\<e_i, e_j\>' = \<e_i', e_j\> + \<e_i, e_j'\>.
+	\]
+	Ist $\<e_i, e_j\>$ konstant, so ist die linke Seite gleich Null.
+	Es ergibt sich also
+	\begin{itemize}
+		\item
+			für $\<e_i, e_j\> = 0$
+			\[
+				\<e_i', e_j\> = - \<e_i, e_j'\>,
+			\]
+		\item
+			für $i = j$ und $\|e_i\| = \|e_j\| = 1$
+			\[
+				\<e_i', e_i\> = 0.
+			\]
+	\end{itemize}
+	Diese Vorgehensweise nennen wir auch \emphdef{Standard-Trick}.
+\end{nt}
 
-\paragraph{Rekonstruktion von $c(s)$ mittels $\kappa(s)$}
+\subsubsection{Rekonstruktion mittels $\kappa$ für ebene Kurven}
 
 Ist umgekehrt $\kappa(s)$ stetig gegeben, $c(s)$ gesucht.
 Wähle einen Anfangspunkt $c(0) = (0,0)$ und einen Anfangstangente $c'(0) = (1,0) = e_1(0)$.
@@ -171,7 +249,7 @@ also ergibt sich ein Kreis.
 Für konstantes $\f{\kappa(s)}{s}$ ergibt sich eine sogenannte \emphdef{Spinnkurve}.
 
 
-\section{Raumkurven}
+\subsubsection{Frenetgleichungen für Raumkurven}
 
 Sei $c$ dreimal stetig differenzierbar, $\|c'\| = 1$ und zusätzlich $c'' \neq 0$.
 Wir setzen
@@ -198,6 +276,8 @@ Es ergeben sich die \emphdef{Frenet-Gleichungen} im $\R^3$.
 	= \Matrix{ 0 & \kappa & 0 \\ -\kappa & 0 & \tau \\ 0 & - \tau & 0}
 	\Vector{e_1 & e_2 & e_3}.
 \]
+
+\subsubsection{Rekonstruktion mittels $\kappa, \tau$ bei Raumkurven}
 
 Können wir bei vorgegebenem $\kappa(s), \tau(s)$ die Kurve rekonstruieren?
 Die Lösung existiert und ist eindeutig, aber ist im Allgemeinen nicht explizit darstellbar (aber durch Grenzprozesse, z.B. Picard-Lindelöf).
@@ -236,7 +316,7 @@ Für die Schraubenlinie ist $\kappa, \tau$ konstant, sogar die Umkehrung gilt.
 	Dann existiert längs der Kurve $c$ das \emph{begleitende Frenet-$n$-Bein} $e_1^{j}, \dotsc, e_{j}$ mit
 	\begin{enumerate}[1)]
 		\item
-			$e_1, \dotsc, e_n$ sind orthonormiert und positiv orientiert ($\det \Matrix{e_1, \dotsc, e_n} = 1$),
+			$e_1, \dotsc, e_n$ bilden ein positiv orientiertes ON-Bein,
 		\item
 			Für jedes $k$ gilt $\<e_1, \dotsc, e_k\> = \<c', \dotsc, c^{(k)}\>$, genannt \emphdef[Schmiegraum]{$k$-ter Schmiegraum},
 		\item
@@ -272,7 +352,7 @@ Für die Schraubenlinie ist $\kappa, \tau$ konstant, sogar die Umkehrung gilt.
 		\[
 			e_i' = \sum_{j=1}^n \<e_i', e_j\> e_j.
 		\]
-		Nach Konstruktion gilt $\<e_i', e_{i+2} = \<e_i', e_{i+3}\> = \dotsc = 0$ und $\<e_i', e_i\> = 0$.
+		Nach Konstruktion gilt $\<e_i', e_{i+2}\> = \<e_i', e_{i+3}\> = \dotsc = 0$ und $\<e_i', e_i\> = 0$.
 		Setze $\kappa_i := \< e_i', e_{i+1}\>$ für $i=1, \dotsc, n-1$, dann ist $\kappa_i > 0$ wegen $\<(c^{(k)})', e_{k+1}\> = \<c^{(k+1)}, e_{k+1}\> > 0$ für $i=1,\dotsc, n-2$, $\kappa_{n-1}$ ist noch beliebig.
 
 		Mit dem Standard-Trick ist mit $\<e_i, e_j\> \in \{ 0, 1\}$
