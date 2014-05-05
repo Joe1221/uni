@@ -481,31 +481,222 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 	\end{enumerate}
 \end{df}
 
-\begin{lem}
-	Sei $p > 2$
+\coursetimestamp{05}{05}{2014}
+
+% Lem 2.14
+\begin{lem} \label{2.14}
+	Sei $p \in \P, p > 2$.
+	Es gelten die folgenden Aussagen:
 	\begin{enumerate}[a)]
 		\item
-			$b \in \Z, (b, p) = 1$ ist genau dann quadratischer Rest $\bmod p$, wenn
+			Sei $b \in \Z$ mit $(b, p) = 1$.
+			Dann ist $b$ genau dann quadratischer Rest $\bmod p$, wenn $b^{\f {p-1}2} \equiv 1 \bmod p$
+			ist und kein quadratischer Rest, wenn $b^{\f {p-1}2} \equiv -1 \bmod p$	ist.
+			Es gilt also
 			\[
-				b^{\f {p-1}2} \equiv 1 \mod p
+				\legsym bp = b^{\f {p-1}2} \mod p.
 			\]
-			ist und kein quadratischer Rest, wenn
+		\item
+			Sei $a, b \in \Z$ mit $(a,p) = 1 = (b, p)$.
+			Dann gilt
 			\[
-				b^{\f {p-1}2} \equiv -1 \mod p
+				\legsym ap \legsym bp = \legsym {ab}p.
 			\]
-			ist.
-			Also gilt
-			\[
-				\legsym bp = b^{\f {b-1}2} \mod p.
-			\]
+			Mit $a = b = 1$ folgt $\legsym 1p \legsym 1p = \legsym 1p$, also $\legsym 1p = 1$.
+
+			Das Legendresymbol liefert damit einen Gruppenhomomorphismus zwischen der multiplikativen Gruppe $(\Z / p\Z)$ und $(\{-1,1\}, \cdot)$:
+			\begin{align*}
+				\kappa: (\Z / p\Z)^* &\to (\{1,-1\}, \cdot), \\
+				a &\mapsto \legsym ap.
+			\end{align*}
 	\end{enumerate}
 	\begin{proof}
 		\begin{enumerate}[a)]
 			\item
 				$U(\Z / p\Z)$ ist zyklisch von der Ordnung $p - 1$, die Quadrate bilden dann eine Untergruppe von Index 2.
+				Es gilt $a^{p-1} \equiv 1 \bmod p$ für alle $a \in U(\Z / p\Z)$.
+				Wegen $|Q| = \f 12 (p-1)$ ist $a^{\f {p-1}2} \equiv 1 \bmod p$ (Ordnung eines Elementes teilt Gruppenordnung) für alle $a \in Q$.
+				$U := U(\Z / p \Z)$ ist zyklisch, also ist $-1 \bmod p$ ist die einzige Involution in $U$.
+				Wenn $a^{\f{p-1}2} \not\equiv 1 \bmod p$, dann ist $a^{\f{p-2}2} \equiv -1 \bmod p$ ,denn $(a^{\f{p-1}2})^2 = a^{p-1} \equiv 1 \bmod p$.
+				$Q$ ist die einzige Untergruppe von $U$ der Ordnung $\f{p-1}2$ (siehe Bemerkung).
+				Ist $b$ ein Nichtquadrat, dann ist $b^{\f{p-1}2} \equiv -1 \bmod p$.
+			\item
+				Nach \ref{2.1} ist $U(\Z / p\Z) = (\Z / p\Z)^*$ zyklisch.
+				Die Quadrate von $U(\Z / p \Z)$ bilden eine Untergruppe $Q$ von Index 2. \Exercise
+				Daher ist mit $a \bmod p$ quadratisch und $b \bmod p$ quadratisch auch $ab \bmod p$ quadratisch.
+				Ist $a \bmod p$ kein Quadrat und $b \bmod p$ quadratisch, dann ist $ab \mod p$ kein Quadrat.
+				Wenn $a \bmod p$ und $b \bmod p$ keine Quadrate sind, so ist $ab \mod p$ ein Quadrat wegen Index 2.
+				Also ist $\kappa$ ein Homomorphismus.
 		\end{enumerate}
 	\end{proof}
 \end{lem}
+
+\begin{nt*}
+	In \ref{2.6} wurde gezeigt, dass zyklische $p$-Gruppen zu jedem Teiler der Gruppenordnung genau eine Untergruppe haben.
+	Mit \ref{1.14} folgt: in einer endlichen zyklischen Gruppe $G$ gibt es zu jedem Teiler $t$ der Gruppenordnung $|G|$ genau eine Untergruppe der Ordnung $t$.
+\end{nt*}
+
+% St 2.15
+\begin{st}[Quadratisches Reziprozitätsgesetz, Gauß 1796] \label{2.15}
+	Seien $p$, $q$ verschiedene ungerade Primzahlen, dann gilt
+	\begin{enumerate}[a)]
+		\item
+			$\legsym qp \legsym pq = (-1)^{\f {p-1}2 \f{q-1}2}$,
+		\item
+			$\legsym {-1}p = (-1)^{\f {p-1}2}$,
+		\item
+			$\legsym 2p = (-m)^{\f{p^2 -1}8}$.
+	\end{enumerate}
+	Diese Aussagen werden in der Literatur oft als erster und zweiter Ergänzungssatz bezeichnet.
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Sei $\zeta$ eine primitive $q$-te Einheitswurzel.
+				Betrachte
+				\[
+					\tau = \sum_{1 \le a \le q-1} \underbrace{\legsym aq \zeta^a}_{\in \Z[\zeta]},
+				\]
+				mit $\Z[\zeta] = \{ a_0 + a_1 \zeta^1 + \dotsb + a_{q-1} \zeta^{q-1} : a_j \in \Z\}$.
+
+				Wir nehmen nun an, dass
+				\begin{equation} \label{eq:2.15_1}
+					\tau^2 = \legsym {-1}q q
+				\end{equation}
+				gilt.
+				Mit \ref{2.14} a) haben wir
+				\[
+					\legsym qp \equiv q^{\f {p-1}2} \mod p
+				\]
+				und mit \ref{2.15} b)
+				\[
+					\legsym {-1}q = (-1)^{\f {q-1}2}.
+				\]
+				Es gilt dann
+				\begin{align*}
+					\tau^p
+					= \tau (\tau^2)^{\f{p-1}2}
+					= \tau \big( \legsym {-1}q q \big)^{\f {p-1}2}
+					&= \tau \big( (-1)^{\f {q-1}2} q \big)^{\f {p-1}2} \\
+					&\stack{\ref{2.14}}\equiv \tau (-1)^{\f{q-1}2 \cdot \f {p-1}2} \legsym qp \mod p.
+				\end{align*}
+				Andererseits gilt
+				\begin{align*}
+					\tau^p
+					&= \Big( \sum_{1 \le a \le q-1} \legsym aq \zeta^a \Big)^p \\
+					&\equiv \sum_{1 \le a \le q-1} \legsym aq \zeta^{ap} \\
+					&\equiv \legsym pq \sum_{1 \le a \le q-1} \legsym aq \legsym pq \zeta^{ap} \\
+					&\stack{\ref{2.14} b)}\equiv \legsym pq \sum_{1 \le a \le q-1} \legsym {ap}q \zeta^{ap} \\
+					&\stack{\text{s.u.}}\equiv \legsym pq \tau \mod p,
+				\end{align*}
+				%Es gilt $\legsym xq = \legsym {x+kp}q$, mit $p \neq q$
+				denn die Multiplikation mit $p$ permutiert die Restklassen bezüglich $q$ und genauso für $\{\zeta, \dotsc, \zeta^{q-1}\} = \{\zeta^p, \dotsc, \zeta^{p(q-1)}\}$.
+				Damit ist
+				\[
+					\tau (-1)^{\f{q-1}2 \f {p-1}2} \legsym qp
+					\equiv \tau \legsym pq \mod p
+				\]
+				%multiplizieren mit 2 und
+				zusammen mit \eqref{eq:2.15_1} folgt
+				\[
+					\legsym {-1}q q (-1)^{\f{q-1}2 \f {p-1}2} \legsym qp
+					\equiv \legsym {-1}q q \legsym pq \mod p
+				\]
+				$\legsym {-1}q q$ ist invertierbar $\bmod p$, also
+				\[
+					(-1)^{\f {q-1}2 \f {p-1}2} \legsym qp
+					\equiv \legsym pq \mod p
+				\]
+				und die Aussage ist gezeigt.
+
+				Es bleibt noch \eqref{eq:2.15_1} zu zeigen.
+				Wir zeigen äquivalent $\legsym {-1}q \tau^2 = q$.
+				Es gilt mit $\sum_{b} \legsym bq \zeta^b = \sum_{b} \legsym {-b}q \zeta^{-b}$
+				\[
+					\tau^2 = \Big( \sum_{a} \legsym aq \zeta^a \Big) \Big( \sum_{b} \legsym {-b}q \zeta^{-b} \Big)
+					\stackrel{\ref{1.14} b)}= \sum_{ab} \legsym {a(-b)}q \zeta^{a-b}
+				\]
+				und damit
+				\begin{align*}
+					\legsym {-1}q \tau^2
+					&= \sum_{a,b} \legsym {-1}q \legsym {a(-b)}q \zeta^{a-b}
+					= \sum_{a,b} \legsym {ab}q \zeta^{a-b}
+				\intertext{%
+					wähle $\tilde b$ mit $\tilde b b \equiv 1 \bmod q$, dann ist $\legsym {ab}q = \legsym aq \legsym bq = \legsym aq \legsym {\tilde b}q = \legsym {a\tilde b}q$ und mit $c := a\tilde b$ ist $a \equiv cb \bmod q$, also $\zeta^a = \zeta^{cb}$ es gilt weiter
+				}
+					&= \sum_{a,b} \legsym {a\tilde b}q \zeta^{a-b}
+					\stackrel{c=a\tilde b}= \sum_{c,b} \legsym cq \zeta^{bc-b} \\
+					&= \sum_{c\neq 1} \Big( \legsym cq \sum_{b} \zeta^{bc-b} \Big) + \underbrace{\sum_{b} \legsym 1q}_{=q-1}
+				\intertext{%
+					$\xi := \zeta^{c-1}$ ist ebenfalls eine $q$-te Einheitswurzel und daher $\sum_{b} \zeta^{(1-c)b} = \sum_{k=1}^{q-1} \xi^k = -1$.
+					Zusammen mit $\sum_{c} \legsym cq = 0$ folgt schließlich
+				}
+					&= - \sum_{c\neq 1} \legsym cq + q-1 \\
+					&= - (-1) + q - 1 \\
+					&= q
+				\end{align*}
+			\item
+				Nach \ref{2.14} a) gilt
+				\[
+					\legsym {-1}p \equiv (-1)^{\f{p-1}2} \mod p.
+				\]
+				Da $p$ ungerade folgt $\legsym {-1}p = (-1)^{\f {p-1}2}$.
+			\item
+				In $\Z[i] = \{ a + bi : a,b \in \Z \} \le \C$ gilt
+				\[
+					(1 + i)^p
+					= (1 + i)(\underbrace{(1 + i)^2}_{=2i})^{\f {p-1}2}
+					= (1 + i) i^{\f{p-1}2} 2^{\f{p-1}2}
+				\]
+				Ferner gilt $(1 + i)^p \equiv 1 + i^p \bmod p$ ($\binom{p}{j} \equiv 0 \bmod p$ für $1 \le j \le p-1$) und $\legsym 2p \equiv 2^{\f {p-1}2} \bmod p$ nach \ref{2.14} a).
+
+				Sei $\f {p-1}2$ gerade, dann ist $p-1$ durch $4$ teilbar und $i^p = i$, also
+				\[
+					\legsym 2p (1+i) i^{\f {p-1}2}
+					\equiv 1 + i^p
+					\equiv 1 + i \mod p.
+				\]
+				Es gilt
+				\[
+					\legsym 2p (1 + i)(1 - i) (-1)^{\f {p-1}4}
+					\equiv (1 +i)(1 -i) \mod p
+				\]
+				und mit $((-1)^{\f p4})^2 = 1$ damit $\legsym 2p \equiv (-1)^{\f{p-1}4} \bmod p$.
+
+				Sei $\f {p-1}2$ ungerade.
+				Dann gilt
+				\[
+					\legsym 2p (1 +i)i^{\f {p-1}2}
+					\equiv 1 + i^p
+					\equiv 1 -i \mod p
+				\]
+				und mit $1 + i$ multipliziert
+				\[
+					\legsym 2p 2 \underbrace{i i^{{p-1}2}}_{=i^{\f{p+1}2}}
+					\equiv 2 \bmod p,
+				\]
+				also
+				\[
+					\legsym 2p \underbrace{i^{p+1}}_{= 1} \equiv \underbrace{i^{\f{p+1}2}}_{=(-1)^{\f {p+1}4}} \mod p.
+				\]
+				Da $p$ ungerade folgt
+				$\legsym 2p = (-1)^{\f {p-1}4} \mod p$ (im Fall $\f {p-1}2$ gerade), bzw. $\legsym 2p = (-1)^{\f{p+1}4}$ (im anderen Fall).
+				Ist $\f {p-1}2$ gerade, so ist $\f {p+1}2$ ungerade und somit
+				\[
+					(-1)^{\f{p-1}4}
+					= \big((-1)^{\f{p-i}4} \big)^{\f{p+1}2}
+					= (-1)^{\f{p^2-1}8}.
+				\]
+				Wenn $\f {p-1}2$ ungerade, dann ist
+				\[
+					(-1)^{\f {p+1}4}
+					= \big( (-1)^{\f {p+1}4} \big)^{\f{p-1}2}
+					= (-1)^{\f {p^2 - 1}8}.
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+
 
 
 
