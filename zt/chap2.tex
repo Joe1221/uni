@@ -177,27 +177,29 @@
 	Eine abelsche $p$-Gruppe $G$ ist genau dann zyklisch, wenn es zu jedem Teiler $t$ von $|G|$ höchstens $\phi(t)$ Elemente der Ordnung $t$ gibt (und es gibt dann auch genau $\phi(t)$ solche Elemente).
 	\begin{proof}
 		Zeige zunächst die Rückrichtung.
-		Sei $w_1$ die Anzahl der Elemente der Ordnung $p^i$ von $G$, $|G| = p^m$.
-		Sicherlich ist $|G| = \sum_{i=0}^m w_i$ (beachte $o(g) \divs |G|$, vgl. \ref{2.2}).
-		Es gilt (Voraussetzung „höchstens“ benutzt)
+		Die Ordnung eines Elements $g$ teilt $|G|$ nach \ref{2.2}, also haben alle Elemente von $G$ eine Ordnung der Form $p^i, 0 \le i \le m$.
+		Sei $w_1$ die Anzahl der Elemente der Ordnung $p^i$ von $G$, dann ist
+		sicherlich $|G| = \sum_{i=0}^m w_i$.
+		Existiert ein Element der Ordnung $p^i$, so ist die Anzahl solcher Elemente einerseits nach Voraussetzung beschränkt durch $w_i \le \phi(p^i)$ (sogar gleich, warum?). % fixme: warum?
+		%Beachte: ist $o(g) = p^i$, dann ist $|\<g\>| = p^i$ und $\<g\> \isomorphic (\Z / p^i \Z, +)$.
+		Wir können also schreiben
 		\[
 			p^m = |G|
 			= \sum_{i=0}^m \phi(p^i) \alpha_i
 		\]
-		mit $\alpha_i \in \{0, 1\}$, denn existiert ein Element der Ordnung $p^i$, dann gibt es $\phi(p^i)$ solche Elemente.
-		Beachte: ist $o(g) = p^i$, dann ist $|\<g\>| = p^i$ und $\<g\> \isomorphic (\Z / p^i \Z, +)$.
+		mit $\alpha_i \in \{0, 1\}$.
 		\begin{align*}
 			\sum_{i=0}^m \phi(p^i) \alpha_i
 			\le \sum_{i=0}^m \phi(p^i)
-			&\stack{\ref{1.15}}= 1 + p-1 + \dotsb + (p-1) p^{m-1} \\
-			&= 1 + (p-1) (1 + \dotsb + p^{m-1})
+			&\stack{\ref{1.15}}= 1 + \sum_{i=1}^m (p-1)p^{i-1} \\
+			&= 1 + (p-1) \sum_{i=1}^m p^{i-1}
 			= p^m
 			= |G|
 		\end{align*}
-		Also gilt Gleichheit und somit insbesondere $\alpha_m = 1$ und es gibt Elemente der Ordnung $p^m$.
-		Somit ist $G$ zyklisch.
+		Also gilt Gleichheit und somit insbesondere $\alpha_m = 1$.
+		Es gibt also Elemente der Ordnung $p^m$ (welche dann ganz $G$ ergzeugen) und somit ist $G$ zyklisch.
 
-		Die Hinrichtung ist eine leichte Übung.
+		Die Hinrichtung ist eine leichte Übung. \Exercise
 	\end{proof}
 \end{lem}
 
@@ -459,18 +461,23 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 \begin{df} \label{2.13}
 	\begin{enumerate}[a)]
 		\item
-		Sei $b \in \Z, m \in \N$ mit $m > 1$ und $(b, m) = 1$, dann nennt man $b$ \emphdef{quadratischer Rest} $\bmod m$, wenn $x^2 \equiv b \bmod m$ eine Lösung in $U(\Z / m\Z)$ besitzt.
+		Sei $b \in \Z, m \in \N$ mit $m > 1$ und $(b, m) = 1$, dann nennt man $b$ \emphdef{quadratischer Rest} $\bmod m$, wenn
+		\[
+			x^2 \equiv b \bmod m
+		\]
+		eine Lösung in $U(\Z / m\Z)$ besitzt.
 		\item
-			Sei $p \in \P, p > 2$.
-			Dann definiert man das \emphdef{Legendresymbol} für $b \in \Z$ durch
+			Sei $p \in \P, p > 2$ und $b \in \Z$.
+			Das \emphdef{Legendresymbol} von $b$ und $p$ ist definiert als
 			\[
-				\legsym bp := \begin{cases}
+				\legsym bp := \l.\begin{cases}
 					1 & \text{$b$ quadratischer Rest $\bmod p$} \\
 					-1 & \text{$b$ kein quadratischer Rest $\bmod p$} \\
 					0 & \text{$b \equiv 0 \bmod p$}
-				\end{cases}.
+				\end{cases}\r\}
+				\in \Z.
 			\]
-			Beachte $\legsym bp \in \Z$.
+			Wenn $(b, p) = 1$, dann tritt der Fall $\legsym bp = 0$ nicht ein.
 	\end{enumerate}
 \end{df}
 
