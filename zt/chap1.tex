@@ -377,14 +377,14 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 
 			Ist $(c, n) \neq 1$, dann ist die Rückrichtung im Allgemeinen falsch, z.B. $n = 4, c = 2$: $2 \cdot 1 = 2 \cdot 3 \bmod 4$, aber $1 \not\equiv 3 \bmod 4$.
 		\item
-			Die \emphdef{Eulersche $\phi$-Funktion}, $\phi: \N \to \N$ ist definiert durch
+			Die \emphdef{Eulersche $\phi$-Funktion}, $\phi: \N \to \N$ ist definiert durch $\phi(1) := 1$ und
 			\[
-				\phi(n) := \begin{cases}
-					1 & n = 1 \\
-					| \{m \in \N : 1 \le m < n \land (m,n) = 1 \} | = |U(\Z / n\Z)| & \text{sonst}
-				\end{cases}.
+				\phi(n)
+				:= \Big| \big\{m \in \N : 1 \le m < n \land (m,n) = 1 \big\} \Big|
+				= |U(\Z / n\Z)|
 			\]
-			$\phi$ ist eine multiplikative zahlentheoretische Funktion.
+			für $n > 1$.
+			$\phi$ ist eine multiplikative zahlentheoretische Funktion (siehe \ref{1.15}).
 	\end{enumerate}
 \end{nt}
 
@@ -494,7 +494,7 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 % Folg 1.15
 \begin{kor} \label{1.15}
 	Die Eulersche $\phi$-Funktion ist eine multiplikative zahlentheoretische Funktion.
-	Es gilt
+	Es gilt außerdem für Primzahlen $p_i$ und $a_i \in \N$.
 	\[
 		\phi( p_1^{a_1} \dotsb p_k^{a_k} )
 		=\phi( p_1^{a_1}) \dotsb \phi(p_k^{a_k})
@@ -502,32 +502,34 @@ Um zu einer eindeutigen Primfaktorzerlegung mittels \ref{1.6} zu gelangen, bräu
 	\]
 	\begin{proof}
 		$\phi(1) = 1$ gilt per definitionem.
-		Ist $n = p^m$ mit Primzahl $p$, dann ist $\phi(p^m) = p^m - p^{m-1}$.
-		$p^{m-1}$ sind die Anzahl der natürlichen Zahlen $\le p^m$, welche teilbar durch $p$ sind.
-		$p^m - p^{m-1}$ ist die Anzahl der natürlichen Zahlen $< p^m$, welche teilerfremd zu $p^m$ sind.
-		Es gilt
-		\[
+		Für $n = m_1 \dotsb m_l$ mit $m_i$ paarweise teilerfremd gilt
+		\begin{align*}
 			\phi(n)
 			= | U(\Z / n\Z) |
-			\stack{\ref{1.14}}= |U(\Z /m _1 \Z) | \cdot \dotsb \cdot | U(\Z /m_l \Z) |
-		\]
-		für $n = m_1 \dotsb m_l$ und $m_i$ sind paarweise teilerfremd.
+			&\stack{\ref{1.14}}= |U(\Z /m _1 \Z) | \cdot \dotsb \cdot | U(\Z /m_l \Z) | \\
+			&= \phi(m_1)\phi(m_2) \dotsb \phi(m_l),
+		\end{align*}
+		also ist $\phi$ eine multiplikative zahlentheoretische Funktion.
+
+		Es reicht also $\phi(p^m) = p^m - p^{m-1}$ zu zeigen:
+		$p^{m-1}$ sind die Anzahl der natürlichen Zahlen $\le p^m$, welche teilbar durch $p$ sind,
+		also ist $p^m - p^{m-1}$ ist die Anzahl der natürlichen Zahlen $< p^m$, welche teilerfremd zu $p^m$ sind.
 	\end{proof}
 \end{kor}
 
 % St 1.16
 \begin{st}[Teilbarkeitskriterien] \label{1.16}
-	Sei $m \in \N$ mit Dezimaldarstellung
+	Sei $m \in \N$ gegeben mit Dezimaldarstellung
 	\[
-		m = a_n \cdot 10^n + a_1 \cdot 10 + a_0
+		m = \sum_{i=0}^n a_i \cdot 10^i,
 	\]
-	mit $0 \le a_i \le 9$ und $a_n \neq 0$.
+	wobei $0 \le a_i \le 9$ und $a_n \neq 0$.
 	Dann gilt
 	\begin{enumerate}[a)]
 		\item
-			$3 \divs m \iff 3 \divs a_0 + a_1 + \dotsb + a_n$,
+			$3 \divs m \iff 3 \divs \sum_{i=0}^n a_i$,
 		\item
-			$9 \divs m \iff 9 \divs a_0 + a_1 + \dotsb + a_n$,
+			$9 \divs m \iff 9 \divs \sum_{i=0}^n a_i$,
 		\item
 			$11 \divs m \iff 11 \divs \sum_{i=0}^n (-1)^i a_i$ ($11$ teilt alternierende Quersumme).
 	\end{enumerate}
