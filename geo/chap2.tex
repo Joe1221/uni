@@ -462,6 +462,127 @@ Für die Schraubenlinie ist $\kappa, \tau$ konstant, sogar die Umkehrung gilt.
 	\end{proof}
 \end{st}
 
+\coursetimestamp{06}{05}{2014}
+
+Ist $K$ konstant, so ist
+\[
+	\v K(s) = \int_{s_0}^s K(s) \dx[s] = (s-s_0) K
+\]
+Ansatz:
+\[
+	F(s_0 + s) = \exp(sK) F_0
+\]
+funktioniert, da $(sK)(tK) = (tK)(sK)$.
+Probe:
+\[
+	F'(s+s_0)
+	= \exp(sK)' F_0
+	=K \underbrace{\exp(sK) F_0}_{F(s+s_0)}
+\]
+mit $F(s_0) = F_0$, weil $\exp(0) = E$.
+Mit einer Basistransformation $AKA^{-1}$ ist $AK^nA^{-1} = (AKA^{-1})^n$ und
+\[
+	A \exp(sK) A^{-1}
+	= A \sum_{n=0}^\infty \f 1{n!} (sK)^n A^{-1}
+	= \exp(A(sK)A^{-1})
+\]
+Es genügt also eine Normalform von $K$.
+Eine Normalform einer schiefsymmetrischen Matrix mit orthogonalem $A$ hat die Form $\diag\{N_i\}$ mit $N_i = \Matrix{0 & \alpha_i \\ -\alpha_i & 0}$.
+Es gilt
+\begin{align*}
+	\Matrix{0 & \alpha \\ -\alpha & 0}^2
+			  &= \Matrix{-\alpha^2 & 0 \\ 0 & -\alpha^2} \\
+	\Matrix{0 & \alpha \\ -\alpha & 0}^2
+						  &= \Matrix{0 & -\alpha^3 & -\alpha^3 & 0} \\
+	\Matrix{0 & \alpha \\ -\alpha & 0}^2
+			  &= \Matrix{\alpha^4 & 0 \\ 0 & \alpha^4} \\
+	= \alpha^4 \Matrix{1 & 0 \\ 0 & 1}
+\end{align*}
+und damit wegen $\cos s\alpha = 1 - \f{(s\alpha)^2}2 + \f{(s\alpha)^4}{4!} + \dotsb$, $\sin s\alpha = \dotsc$.
+\[
+	\exp \Matrix{0 & s\alpha \\ -s\alpha & 0}
+	= \Matrix{\cos s\alpha & \sin s\alpha \\ -\sin s\alpha & \cos s \alpha}.
+\]
+Für die Normalform ergibt sich
+\[
+	\exp(AKA^{-1}) = \diag\{D_1, \dotsc, D_{\f n2}, 1\}
+\]
+mit Drehmatrizen $D_i$.
+Für $n = 2m$ Drehungen und für $n = 2m + 1$ Schraubungen.
+\[
+	c(s)
+	= \Big( a_1 \cos(\alpha_1 s), a_1 \sin(\alpha_1 s), \dotsc, a_m \cos (\alpha_m s), a_m \sin(\alpha_m s), bs \Big)
+\]
+Damit sind die einzigen Frenet-Kurven mit konstanten $\kappa_i$ daher die Schraubenlinien.
+
+Für $n = 4$ ist $c(s) = (\cos (\alpha_1 s), \sin(\alpha_1 s), \cos (\alpha_2 s), \sin (\alpha_2 s)$
+und $c \subset S^1 \times S^1 \subset S^3(\sqrt{2}) \subset \R^4$, Clifford-Torus.
+
+$S^3 \setminus \{ (0,0,0, \sqrt 2) \}$ lässt sich stereographisch auf $\R^3$ projezieren.
+Mit $\alpha_1 = 2, \alpha_2 = 5$ ergibt sich ein sogenannter Torus-Knoten.
+
+\begin{st}[Böschungslinien]
+	Für eine Frenet-Kurve im $\R^3$ sind folgende Bedingungen äquivalent
+	\begin{enumerate}[1)]
+		\item
+			$\exists v \in \R^3 \setminus \{0\} : \<e_1, v\> = \const$,
+		\item
+			$\exists v \in \R^3 \setminus \{0\} : \<e_2, v\> = 0$,
+		\item
+			$\exists v \in \R^3 \setminus \{0\} : \<e_3, v\> = \const$,
+		\item
+			$\f \tau\kappa = \const$.
+	\end{enumerate}
+	Eine Kurve, die eine dieser Bedingungen erfüllt, wird \emphdef{Böschungslinie} genannt.
+	\begin{proof}
+		Sei $c: I \to \R^3$ mit $\|c'\| = 1$.
+		Falls $\tau = 0$ in $I$, setze $v := e_3$, dann ist die Behauptung offenbar erfüllt.
+
+		Sei also $\tau \neq 0$, dann existiert ein Punkt mit $\tau \neq 0$.
+		\[
+			\<e_1, v\>' = \<e_1', v\> + \<e_1, v'\>
+			= \<\kappa e_2, v\> + \<e_1, v'\>
+		\]
+		damit ist $1) \iff 2)$ gezeigt.
+		Weiter ist
+		\[
+			\<e_3, v\>' = \<e_3', v\> + \<e_2, v'\>
+			= \<-\tau e_2, v\> + \<e_3, v'\>
+		\]
+		$3) \implies 2$ wenn $\tau \neq 0$ und $2) \implies 3)$.
+		Die Behauptung gilt also auf jedem Teilintervall $J$ mit $\tau(t) \neq 0$ für $t \in J$.
+
+		$1), 2), 3) \implies 4$:
+		\[
+			v = \alpha e_1 + \beta e_3
+		\]
+		mit $\alpha, \beta \in \R, \beta \neq 0$ (sonst Gerade).
+		Ist $v$ konstant, dann ist
+		\[
+			0 = v' = \alpha e_1' + \beta e_1'
+			= \alpha \kappa e_2 - \beta \tau e_2
+			= (\alpha \kappa - \beta \tau) e_2
+		\]
+		und damit $\alpha \kappa = \beta \tau$, bzw. $\f{\tau}{\kappa} = \f{\alpha}{\beta} = \const$.
+		Das maximale Teilintervall von $I$ mit $\tau \neq 0$ ist offen und abgeschlossen:
+		\[
+			s \to s_0 \mapsto \f {\tau}{\kappa} \big|_s \to \f{\tau}{\kappa}\big|_{s_0}
+		\]
+		$\kappa(s_0) \neq 0$.
+		Aus $\tau(s) \neq 0$ folgt $\tau (s_0) \neq 0$.
+
+		$4) \implies v := \f{\tau}{\kappa} e_1 + e_3$.
+		Dann ist
+		\[
+			v' = \f{\tau}{\kappa} e_1' + e_3'
+			= \f \tau\kappa \kappa e_2 - \tau e_2
+			= 0
+		\]
+		und $v$ ist konstant, also $\<v, e_1\> = \f \tau\kappa, \<v,e_2\> = 0, \<v, e_3\> = 1$.
+	\end{proof}
+\end{st}
+
+
 
 
 

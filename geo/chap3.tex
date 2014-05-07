@@ -1,0 +1,88 @@
+\chapter{Globale Kurventheorie}
+
+
+
+Wir beschäftigen uns in diesem Kapitel im wesentlichen mit Eigenschaften geschlossener Kurven.
+Wie unterscheiden sich ein Kreis und eine 8-Kurve?
+
+\begin{df}
+	Eine Kurve $c: [a,b] \to \R^n$ heißt \emphdef[Kurve|geschlossen]{geschlossen}, wenn es ein $\tilde c: \R \to \R^n$ gibt mit $\tilde c \big|_{[a,b]} = c$ und $\tilde c(t+b-a) = \tilde (t)$ für alle $t \in \R$.
+	Insbesondere ist dann $c(b) = c(a), c'(b) = c'(a)$.
+
+	$c$ heißt \emphdef[Kurve|einfach geschlossen]{einfach geschlossen}, wenn zusätzlich $c|_{[a,b)}$ injektiv ist.
+\end{df}
+
+\begin{df}
+	Sei $c: [a,b] \to \R^n$ eine Kurve mit Bogenlänge $L$.
+	Die \emphdef{Totalkrümmung} ist
+	\[
+		\int_0^L \kappa(s) \dx[s]
+		= \int_a^b \kappa(t) \|\dot c(t)\| \dx[t]
+	\]
+\end{df}
+
+\begin{ex}
+	Für den Einheitskreis linksherum ist die Totalkrümmung $2\pi$, rechtsherum $-2\pi$.
+\end{ex}
+
+Lokal kann man im $\R^2$ schreiben
+\[
+	e_1(t) = (\cos \phi(t), \sin \phi(t))
+\]
+und
+\[
+	\kappa e_2(t)
+	= e_1'(t)
+	= \dot \phi (-\sin \phi(t), \cos \phi(t)) \ddx[s]{t}
+\]
+also
+\[
+	\kappa = \dot \phi \ddx[s]{t} = \ddx[s]{\phi} = \phi'
+\]
+
+\begin{kor}
+	Solange $\phi$ als differenzierbare Funktion erklärt ist, folgt
+	\[
+		\int_a^b \kappa(t) \|\dot c(t)\| \dx[t]
+		= \int_a^b \phi'(t) \dx[t]
+		= \phi(b) - \phi(a)
+	\]
+\end{kor}
+
+Ist $c$ eine geschlossene Kurve und $\phi(t)$ differenzierbar, dann ist wegen $c(b) = c(a)$ auch
+\[
+	\phi(b) - \phi(a) = 2\pi k
+\]
+mit $k \in \Z$.
+
+\begin{lem}
+	Sei $\gamma: [a,b] \to \R^2 \setminus \{0\}$ stetig.
+	Dann gibt es eine stetige Funktion $\phi: [a,b] \to \R$ mit
+	\[
+		\gamma(t) = \| \gamma(t) \| (\cos \phi(t), \sin \phi(t))
+	\]
+	Falls $\gamma$ geschlossen ist, so ist
+	\[
+		W_\gamma := \f 1{2\pi} (\phi(b) - \phi(a)) \in \Z
+	\]
+	die \emphdef{Windungszahl} von $\gamma$.
+	\begin{proof}
+		Lokal ist $\phi$ eindeutig bis auf $2\pi k$ mit $k \in \Z$.
+		In jeder Halbebene $\{ x : \<x, x_0\> > 0 \}$ ist $\phi$ eindeutig, wenn ein einzelner Wert fest liegt.
+
+		Wähle eine Unterteilung $a = t_0 < t_1 < \dotsb < t_n = b$, so dass $\gamma|_{[t_i, t_{i+1}]}$ stets in einer Halbebene enthalten ist (gleichmäßige Stetigkeit).
+		Für festgelegtes $\phi(a)$ bestimmt $\phi(t_{i})$ sukzessive eindeutig $\phi(t_{i+1})$, also existiert solch ein $\phi(t)$.
+
+		Seien $\phi, \tilde \phi$ zwei solche Funktionen, dann ist $\tilde \phi(t) - \phi(t) \in 2\pi\Z$, insbesondere mit $\tilde \phi(a) - \phi(a) = 2\pi k, \tilde \phi(b) - \phi(b) = 2 \pi k'$ ist
+		\[
+			\phi(b) - \phi(a) = \tilde \phi(b) - \tilde \phi(a).
+		\]
+	\end{proof}
+\end{lem}
+
+\begin{df}
+	Sei $c$ eine reguläre, geschlossene Kurve.
+	Dann heißt die Windungszahl der Tangente, $W_{\dot c}$, \emphdef{Umlaufzahl} $U_c$ von $c$.
+\end{df}
+
+Wir vermuten: $U_c = \pm 1$, falls $c$ einfach geschlossen ist.
