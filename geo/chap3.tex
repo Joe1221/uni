@@ -82,7 +82,176 @@ mit $k \in \Z$.
 
 \begin{df}
 	Sei $c$ eine reguläre, geschlossene Kurve.
-	Dann heißt die Windungszahl der Tangente, $W_{\dot c}$, \emphdef{Umlaufzahl} $U_c$ von $c$.
+	Dann heißt die Windungszahl der Tangente, $W_{\dot c}$, \emphdef{Umlaufzahl}, oder \emphdef{Rotationsindex} $U_c$ von $c$.
 \end{df}
 
 Wir vermuten: $U_c = \pm 1$, falls $c$ einfach geschlossen ist.
+
+
+\coursetimestamp{08}{05}{2014}
+
+Sei $\gamma$ eine geschlossene stetige Kurve in $\R^2 \setminus \{0\}$.
+Dann existiert eine stetige Funktion $\phi$ mit
+\[
+	\gamma(t) = \| \underbrace{\gamma(t)}_{r(t)} \| ( \cos \phi(t), \sin \phi(t) )
+\]
+mit $r:[a,b] \to \R^2 \setminus \{0\}$.
+
+
+\begin{prop}
+	Es gilt
+	\[
+		U_c = \f 1{2\pi} \oint_{\gamma} \kappa(s) \dx[s],
+	\]
+	„Totalkrümmung“ der Kurve.
+	\begin{proof}
+		Für $c: [a,b] \to \R^2$ ist
+		\begin{align*}
+			\oint \kappa(s)\dx[s]
+			&= \int_a^b \kappa(t) \|\dot c(t)\| \dx[t] \\
+			&= \int_a^b \dot \phi(t) \ddx[s]{t} \|\dot c(t)\| \dx[t]
+			= \int_a^b \dot \phi(t) \dx[t]
+			= \phi(b) - \phi(a)
+		\end{align*}
+	\end{proof}
+\end{prop}
+
+\paragraph{Topologische Interpretation}
+
+Eine Homotopie zwischen $c_0$ und $c_1$ ist eine stetige Abbildung $H(s, t)$ mit $H_t(s) := H(s, t)$ und $H_0 = c_0, H_1 = c_1$.
+Homotopie ist eine Äquivalenzrelation.
+Die Windungszahl klassifiziert die Homotopieklassen geschlossener Kurven in $\R^2 \setminus \{0\}$.
+
+Die Umlaufzahl klassifiziert die regulären Homotopieklassen geschlossener Kurven regulärer Kurven in $\R^2$ (Whitney-Graustein, 1937).
+Dabei ist eine Homotopieklasse \emphdef{regulär}, wenn alle $H_t$ regulär sind.
+Tritt auch in einer Dissertation von Werner Boy (Göttingen 1901) auf.
+
+Wir wollen zeigen, dass die Umlaufzahl einer \emph{einfach} geschlossenen Kurve gleich $\pm 1$ ist.
+
+\begin{lem}
+	Sei $A \subset \R^2$ sternförmig bezüglich $x_0$, d.h. $\vec{xx_0} \subset A$ für jedes $x \in A$.
+	Sei $f: A \to \R^2 \setminus \{0\}$ stetig.
+	Dann gibt es eine stetige Funktion $\phi: A \to \R$ mit
+	\[
+		f(x) = \underbrace{\|f(x)\|}_{=:r} \big( \cos \phi(x), \sin \phi(x) \big),
+	\]
+	d.h. es existieren globale Polarkoordinaten $r = \|f(x)\|, \phi$.
+	\begin{proof}
+		Wähle $\phi(x_0)$ fest.
+		Für jedes $\_{xx_0}$ ist dann $\phi$ eindeutig stetig erklärbar (obiges Lemma).
+		Also ist $\phi$ global erklärbar.
+		Ist $\phi$ stetig?
+		Zeige Folgenstetigkeit.
+
+		Sei $x_n \to x$ eine konvergente Folge in $A$, zeige $\phi(x_n) \to \phi(x)$.
+		„Ausschöpfung von $A$ durch Kompakta“, \oBdA sei $\{x_n, x\}$ in einem Kompaktum enthalten.
+		Mit gleichmäßiger Stetigkeit existiert $\delta > 0$, so dass $f(x), f(y)$ stets in einer Halbebene liegen, wenn $|x-y| < \delta$.
+		Also $|x_n - x| < \delta$ für hinreichend große $n$ und $|tx_n - tx| < \delta$ für $0 \le t \le 1$.
+		$f(tx_n)$ und $f(tx)$ liegen in gemeinamer Halbebene für alle $t \le 1$.
+		Also ist $|\phi(tx_1) - \phi(tx)| < \pi$.
+		Damit folgt $\phi(x_n) \to \phi(x)$ für $n \to \infty$.
+	\end{proof}
+\end{lem}
+
+\begin{thm}[Hopfscher Umlaufssatz, 1935]
+	Sei $c: [a,b] \to \R^2$ eine einfach geschlossene reguläre Kurve.
+	Dann gilt
+	\[
+		\f 1{2\pi} \oint \kappa(s) \dx[s]
+		= \f 1{2\pi} \int_a^b \kappa(t) \|\dot c\|
+		= U_c
+		= \pm 1.
+	\]
+	\begin{proof}
+		$c$ liege \oBdA auf einer Seite der Tangente durch $c(a) = c(b)$:
+		$c(t) = (x(t), y(t))$ mit $y(t) \ge 0$.
+		Betrachte die Sekante durch $c(a) = c(b)$ und $c(t)$.
+		$\dot c(a) = (\dot x(a), 0)$
+
+		Setze $A := \{ (s,t) \in \R^2 : a \le s \le t \le b \}$.
+		Definiere $f: A \to \R^2 \setminus \{0\}$ durch
+		\[
+			f(s,t)
+			= \begin{cases}
+				\f {c(t) - c(s)}{\|c(t) - c(s)\|} & s \neq t \land (s,t) \neq (a,b) \\
+				\f {\dot c(t)}{\|\dot c(t)\|} & s = t \\
+				- \f {\dot c(a)}{\|\dot c(a)\|} & (s,t) = (a,b)
+			\end{cases}.
+		\]
+		Da $c$ einfach geschlosssen, ist $c(t) \neq c(s)$ außer $c(b) = c(a)$, also ist $c$ wohldefiniert und stetig
+		\begin{align*}
+			\lim_{t\to s} \f{c(t) - c(s)}{\|c(t) - c(s)\|}
+			&= \f{\dot c(t)}{\|\dot c(t)\|}, \\
+			\lim_{\substack{t\to s \\ s\to a}} \f{c(t) - c(s)}{\|c(t) - c(s)\|}
+			&= \f{\dot c(a)}{\|\dot c(a)\|}
+			= \f{\dot c(b)}{\|\dot c(b)\|}.
+		\end{align*}
+		Nach dem vorhergehenden Lemma existiert eine stetige Polarwinkelfunktion $\phi: A \to \R$ mit $f(s, t) = (\cos \phi(s,t), \sin \phi(s,t) )$.
+		Da $c$ differenzierbar, ist auch $\phi$ differenzierbar.
+		Jetzt ist $\phi(t) := \phi(t, t)$ differenzierbar.
+		Es gilt
+		\[
+			U_c
+			= \f 1{2\pi} \int_a^b \kappa(t) \|\dot c(t) \| \dx[t]
+			= \f 1{2\pi} \int_a^b \dot \phi(t) \dx[t]
+			= \f 1{2\pi} \big( \phi(b,b) - \phi(a,a) \big).
+		\]
+		Außerdem
+		\[
+			\phi(b,b) - \phi(a,a)
+			= \phi(b,b) - \phi(a,b) + \phi(a,b) - \phi(a,a),
+		\]
+		wobei $\phi(a,b) - \phi(a,a) = \pm \pi$, je nach $\dot x(a) \gtrless 0$.
+		Ebenso für $\phi(b,b) - \phi(a,b)$.
+		Damit ist $\phi(b,b) - \phi(a,a) = \pm 2\pi$.
+	\end{proof}
+	\begin{note}
+		Der Beweis bricht offensichtlich zusammen, falls $f(t) = f(s)$, $(s,t) \neq (a,b)$.
+	\end{note}
+\end{thm}
+
+\begin{kor}
+	Sei $c$ einfach geschlossene reguläre Kurve, dann ist
+	\[
+		\oint |\kappa(s)| \dx[s]
+		\ge \Big| \oint \kappa(s) \dx[s] \Big|
+		= 2\pi,
+	\]
+	mit Gleichheit genau dann, wenn $\kappa(s)$ das Vorzeichen nicht wechselt.
+\end{kor}
+
+\begin{df}
+	$c$ sei einfach geschlossen und die Bildmenge die Randkurve von $C \subset \R^2$.
+	Dann heißt $c$ \emphdef{konvex}, wenn $C$ konvex ist, d.h. für $x,y \in C$ ist $\vec{x,y} \subset C$.
+\end{df}
+
+\begin{st}
+	$c$ sei einfach geschlossen.
+	Es sind äquivalent:
+	\begin{enumerate}[1)]
+		\item
+			$c$ ist konvex (bzw. $C$ ist konvex)
+		\item
+			Jede Gerade trifft die Kurve (wenn überhaupt) in einer Strecke, einem Punkt, oder in genau 2 Punkten.
+		\item
+			Für jede Tangente an $c$ liegt $C$ stets ganz auf einer Seite davon.
+		\item
+			Die Krümmung $\kappa$ wechselt nicht das Vorzeichen ($\kappa \ge 0$, oder $\kappa \le 0$ überall).
+	\end{enumerate}
+	\begin{proof}
+		Todo.
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	Für jede geschlossene reguläre Kurve im $\R^2$ gilt
+	\[
+		\oint |\kappa(s)| \dx[s]
+		\ge 2\pi,
+	\]
+	mit Gleicheit genau dann, wenn die Kurve einfach und konvex ist.
+	\begin{proof}
+		Idee: Betrachte die konvexe Hülle
+	\end{proof}
+\end{kor}
+
