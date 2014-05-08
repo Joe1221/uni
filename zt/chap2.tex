@@ -511,7 +511,7 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 			\]
 			Mit $a = b = 1$ folgt $\legsym 1p \legsym 1p = \legsym 1p$, also $\legsym 1p = 1$.
 
-			Das Legendresymbol liefert damit einen Gruppenhomomorphismus zwischen der multiplikativen Gruppe $(\Z / p\Z)$ und $(\{-1,1\}, \cdot)$:
+			Das Legendresymbol liefert damit einen Gruppenhomomorphismus zwischen der multiplikativen Gruppe $(\Z / p\Z)*$ und $(\{-1,1\}, \cdot)$:
 			\begin{align*}
 				\kappa: (\Z / p\Z)^* &\to (\{1,-1\}, \cdot), \\
 				a &\mapsto \legsym ap.
@@ -523,7 +523,7 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 				$U(\Z / p\Z)$ ist zyklisch von der Ordnung $p - 1$, die Quadrate bilden dann eine Untergruppe von Index 2.
 				Es gilt $a^{p-1} \equiv 1 \bmod p$ für alle $a \in U(\Z / p\Z)$.
 				Wegen $|Q| = \f 12 (p-1)$ ist $a^{\f {p-1}2} \equiv 1 \bmod p$ (Ordnung eines Elementes teilt Gruppenordnung) für alle $a \in Q$.
-				$U := U(\Z / p \Z)$ ist zyklisch, also ist $-1 \bmod p$ ist die einzige Involution in $U$.
+				$U := U(\Z / p \Z)$ ist zyklisch, also ist $-1 \bmod p$ die einzige Involution in $U$.
 				Wenn $a^{\f{p-1}2} \not\equiv 1 \bmod p$, dann ist $a^{\f{p-2}2} \equiv -1 \bmod p$ ,denn $(a^{\f{p-1}2})^2 = a^{p-1} \equiv 1 \bmod p$.
 				$Q$ ist die einzige Untergruppe von $U$ der Ordnung $\f{p-1}2$ (siehe Bemerkung).
 				Ist $b$ ein Nichtquadrat, dann ist $b^{\f{p-1}2} \equiv -1 \bmod p$.
@@ -703,8 +703,134 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 	\end{proof}
 \end{st}
 
+\coursetimestamp{08}{05}{2014}
 
+% Bem + Bsp 2.16
+\begin{nt} \label{2.16}
+	\begin{enumerate}[a)]
+		\item
+			Es gilt
+			\[
+				\legsym pq = \legsym qp
+			\]
+			wenn $p \equiv 1 \bmod 4$ oder $q \equiv 1 \bmod 4$.
+			Außerdem
+			\[
+				\legsym pq = - \legsym qp
+			\]
+			wenn $p \equiv 3 \bmod 4$ und $q \equiv 3 \bmod 4$.
+		\item
+			Ist $5$ ein Quadrat in $\Z / 23\Z$?
+			Wir interessieren uns also für
+			\[
+				\legsym 5{23}
+				= \legsym {23}5
+				= \legsym 35
+				= -1,
+			\]
+			die Antwort ist also „nein“.
+		\item
+			Wegen $67 \equiv 3 \bmod 4, 139 \equiv 3 \bmod 4$ ist
+			\[
+				\legsym{67}{139}
+				= - \legsym{139}{67}
+				= - \legsym{72}{67}
+				\stack{\ref{2.14}}= - \legsym{36}{67} \legsym{2}{67}
+				\stack{\ref{2.14}}= - \underbrace{\legsym{6}{67} \legsym{6}{67}}_{=1} \legsym{2}{67}
+				= - \legsym{2}{67}
+				= - (-1)^{(67^2-1)/8}
+				= - (-1)^{33\cdot 17}
+				= 1
+			\]
+	\end{enumerate}
+\end{nt}
 
+Zum Abschluss dieses Kapitels noch zwei Anwendungen.
+
+\begin{st}[Dirichlet] \label{2.17}
+	In jeder arithmetischen Progression (Restklasse) $n \bmod m$ mit $(n,m) = 1$ liegen unendlich viele Primzahlen.
+	\begin{note}
+		Der Satz gehört in die analytische Zahlentheorie, der Beweis verwendet analytische Methoden.
+
+		Als analytische Progression bezeichnet man $\{n + km : k \in \N\}$.
+
+		Genauer kann man zeigen, dass asymptotisch
+		\[
+			\# \text{Primzahlen $\le x$ in $n \bmod m$}
+			\sim
+			\f {x}{\phi(m) \log x}.
+		\]
+		Primzahlsatz: Bezeichne $\pi(x)$ die Anzahl der Primzahlen $\le x$, dann ist
+		\[
+			\pi(x) \sim \f{x}{\log x}.
+		\]
+	\end{note}
+\end{st}
+
+Im Augenblick müssen wir uns mit einem Spezialfall dieses Satzes begnügen:
+
+In $1 \mod 4$ liegen unendlich viele Primzahlen (für $3 \bmod 4$ siehe Übungen).
+
+\begin{proof}
+	Angenommen, es gäbe nur endlich viele Primzahlen $p_1, \dotsc, p_k$, die $\equiv 1 \bmod 4$ sind.
+	Setze
+	\[
+		n = (2 p_1 p_2 \dotsb p_k)^2 + 1
+	\]
+	Dann ist $n \equiv 1 \bmod 4$.
+	Ist $q$ ein Primteiler von $n$, so ist $2(p_1\dotsb p_k)^2 + 1 \equiv 0 \bmod q$, also $-1$ ist Quadrat modulo $q$, d.h. $\legsym{-1}{q} = 1$.
+
+	Nach dem ersten Ergänzungssatz ist $\legsym{-1}{q} = (-1)^{\f{q-1}2}$, also ist $q \equiv 1 \bmod 4$.
+	Nach Konstruktion von $n$ sind alle Primteiler von $n$ kongruent zu $3 \bmod 4$.
+\end{proof}
+
+% St 2.18
+\begin{st} \label{2.18}
+	Die diophantische Gleichung $x^2 + by = a$ mit $(a,b) = 1$ ist genau dann lösbar, wenn gilt
+	\begin{enumerate}[i)]
+		\item
+			Für jede ungerade Primzahl $p$, die $b$ teilt, ist $\legsym ap = 1$,
+		\item
+			falls $2$ Teiler von $b$, dann gilt
+			\begin{align*}
+				4 \divs b \land 8 \ndivs b & \implies a \equiv 1 \bmod 4, \\
+				8 \divs b & \implies a \equiv 1 \bmod 8.
+			\end{align*}
+	\end{enumerate}
+	\begin{proof}
+		Ist $a$ ein Quadrat in $\Z / b\Z$, dann ist $a \equiv c^2 \bmod b$, also $a-c^2 = kb$ für ein $k \in \Z$.
+		Damit ist $a = kb + c^2$.
+		Setze $y = k$ und $x = c$.
+		Sofort sieht man die Umkehrung.
+		Sei nun $b = p_1^{\alpha_1} \dotsb p_r^{\alpha_r}$ die Primzahlzerlegung.
+		\begin{enumerate}[1)]
+			\item
+				$a$ ist Quadrat in $U(\Z / b \Z)$ genau dann, wenn $a$ Quadrat in $U(\Z /p_i^{\alpha_i}$ ist.
+				Dies folgt aus \ref{1.14}.
+			\item
+				Ist $p$ ungerade, dann ist $a$ ein Quadrat in $U(\Z / p_i^{\alpha_i} \Z)$ genau dann, wenn $a$ Quadrat in $U(\Z/p_i \Z)$ ist.
+
+				Beweis ist Übung \Exercise: Verwende $\kappa: \Z / p^{\alpha} \Z \to \Z / p \Z$ mit $x \bmod p^\alpha \mapsto x \bmod p$.
+				Betrachte $\tilde \kappa = \kappa\big|_{U(\Z / p^{\alpha} \Z)}$.
+				$\ker \tilde \kappa$ hat $p$ Potenzordnung, also ungerade Ordnung.
+				In endlichen abelschen Gruppen ungerader Ordnung ist jedes Element ein Quadrat.
+				Also ist $u \in U(\Z / p^{\alpha} \Z)$ Quadrat, wenn $\tilde \kappa(a)$ Quadrat ist.
+			\item
+				Sei $2^s$ $2$-Potenzteiler von $b$ (maximale Potenz, de $b$ teilt).
+				Für $s = 1$ ist in $U(\Z / 2\Z)$ also ein Quadrat.
+				Für $s = 2$ ist nur $1 \bmod 4$ ein Quadrat.
+				Für $s = 3$ ist nur $1 \bmod 8$ ein Quadrat.
+				Für $s > 2$ ist $U(\Z / 2^s \Z) \isomorphic C_2 \times C_{2^{s-1}}$ nach \ref{2.10}.
+				Betrachte
+				\[
+					\tilde \kappa: U(\Z / 2^s \Z) \to U(\Z / 8\Z)
+				\]
+				Ist $x = y^2$ in $\Z / 2^s\Z$, dann ist $\tilde \kappa(x) = \tilde \kappa(y^2) = \tilde \kappa(y) \tilde \kappa(y)$, also ist $\tilde \kappa(x)$ ein Quadrat in $U(\Z / 8\Z)$ und somit $\tilde \kappa(x) \equiv 1 \bmod 8$, also $x \in \ker \tilde \kappa$.
+				Ist $x \in \ker \tilde x$, dann ist $x = \_5^i$ mit $2$ teilt $i$ und somit $x$ ein Quadrat.
+				Also bildet $\ker \tilde \kappa$ alle Quadrate, also alle Elemente von $U(\Z / 2^s \Z)$, die $\equiv 1 \bmod 8$ sind.
+		\end{enumerate}
+	\end{proof}
+\end{st}
 
 
 

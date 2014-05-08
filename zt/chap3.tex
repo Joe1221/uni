@@ -1,0 +1,115 @@
+\chapter{Kryptographie, Primzahltests}
+
+
+
+% 3.1
+\section{Das RSA-Verfahren}
+
+Es wurde 1977/1978 am MIT von Rivest, Shamir und Adelman entwickelt (soll aber bereits vorher, zumindest in ähnlicher Form MI6 bekannt gewesen sein).
+
+Das RSA-Verfahren ist ein asymmetrisches kryptographisches Verfahren.
+Solche finden Anwendung bei Verschlüsselung von Nachrichten, bei digitalen Signaturen, Bezahlung mit Kreditkarten, Pay-TV.
+
+Mathematisch gesehen war es der Retter der Königin der Mathematik (der elementaren Zahlentheorie).
+
+Bezeichne den Kunden mit $K$, die Bank mit $B$.
+$K$ teilt $B$ mit, dass es eine Nachricht $m$ übermitteln will.
+$B$ wählet zwei (große) Primzahlen $p$ und $q$, $p \neq q$ und berechnet $n := pq$ und $\phi(n) = (p-1)(q-1)$.
+$B$ wählt $e$ mit $(e, \phi(n)) = 1$.
+Dann berechnet $B$ ein $d \in \N$ mit $ed \equiv 1 \bmod \phi(n)$.
+Soein $d$ existiert, da $(e, \phi(n)) = 1$.
+Wie berechnet man $d$?
+Mit dem Lemma von Beszout ist $z_1 e + z_2 \phi(n) = 1$ und der euklidische Algorithmus liefert $z_1 = d$.
+$B$ sendet das Paar $(n, e)$ (“public key”) öffentlich an $K$, $d$ bleibt geheim.
+$K$ sendet $m$ (als Restklasse modulo $n$ betrachtet) mittels Chiffrierung
+\[
+	m \mapsto m^e \mod n
+\]
+an $B$.
+$(n, e)$ und $m^e$ sind also öffentlich bekannt, während $m$ geheim bleibt.
+$B$ dechiffriert mittels $d$
+\[
+	m \equiv m^{ed} \mod n
+\]
+Warum funktioniert dies?
+
+
+Zunächst eine Art Verrallgemeinerung des kleinen Satz von Fermat.
+
+\setcounter{thm}{1}
+% Lem 3.2
+\begin{lem} \label{3.2}
+	In $\Z / n \Z$ gilt für $n = pq$ mit $p,q \in \P$, dass
+	\[
+		x^{k\phi(n) + 1} \equiv x \mod n
+	\]
+	für jedes $x$.
+	\begin{proof}
+		Mit \ref{1.14} ist $Z / n\Z = \Z /p\Z \times \Z q\Z$ und $x = (x_1, x_2)$, also $x^{\phi(n)} = (x_1^{\phi(n)}, x_2^{\phi(n)})$ und
+		\[
+			x_1^{\phi(n)}
+			= x_1^{(p-1)(q-1)}
+			= (x_1^{p-1})^{q-1}
+			\equiv 1^{q-1}
+			= 1,
+		\]
+		wenn $x_1 \neq 0$, oder $x_1^{\phi(n)} \equiv 0$, wenn $x_1 = 0$.
+		Analog gilt
+		\[
+			x_2^{\phi(n)} \equiv \begin{cases}
+				1 & x_2 \neq 0 \\
+				0 & x_2 = 0
+			\end{cases},
+		\]
+		also ist
+		\[
+			x^{k\phi(n)} = \begin{cases}
+				(1, 0) & x_2=0, x_1 \neq 0 \\
+				(0,1) & x_1=0, x_2 \neq 0 \\
+				(1,1) & x_1\neq 0, x_2 \neq 0
+			\end{cases}
+		\]
+		und
+		\[
+			x^{k\phi(n) + 1} = \begin{cases}
+				(x_1, 0) & x_2=0, x_1 \neq 0 \\
+				(0,x_2) & x_1=0, x_2 \neq 0 \\
+				(x_1,x_2) & x_1\neq 0, x_2 \neq 0
+			\end{cases},
+		\]
+		also in allen Fällen $x^{k\phi(n) + 1} = x$.
+	\end{proof}
+\end{lem}
+
+Damit ein Außenstehender an die geheime Nachricht $m$ kommt, benötigt er $d$.
+
+% Lem 3.3
+\begin{lem} \label{3.3}
+	Die Kenntnis von $n$ und $\phi(n)$ ist äquivalent zur Kenntnis von $p$ und $q$.
+	\begin{proof}
+		„$\impliedby$“ ist klar, denn für bekanntes $p, q$ ist $n = pq$ und $\phi(n) = (p-1)(q-1)$.
+
+		Seien $n$ und $\phi(n)$ bekannt.
+		\[
+			\phi(n)
+			= (p-1)(q-1)
+			= pq - p - q + 1
+			= n - p - q + 1,
+		\]
+		also
+		\[
+			n = pq = nq - \phi(n)q - q^2 + q,
+		\]
+		bzw.
+		\[
+			q^2 + (\phi(n) - n - 1)q + n = 0.
+		\]
+		Aus dieser quadratischen Gleichung ergeben sich $p, q$ als Lösungen.
+	\end{proof}
+\end{lem}
+
+Um $d$ zu berechnen benötigt man $\phi(n)$ und für $\phi(n)$ benötigt man $p$ und $q$.
+Man benötigt also Verfahren, um große Zahlen in Primfaktoren zu zerlegen.
+Dies ist schwer, oft praktisch unmöglich.
+
+
