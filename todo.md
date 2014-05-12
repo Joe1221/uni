@@ -9,7 +9,7 @@
 
 ## Titlepage
 
-- Include timestamps for last change date and compilation date
+- Include timestamps for last change date
 - Include recent git history (filtered for current course)
 
 ## Exercise Class

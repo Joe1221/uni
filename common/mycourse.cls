@@ -553,6 +553,16 @@
 %% Titlepage
 %%=======================================================================
 
+\newdateformat { mycoursedate } {
+    \twodigit { \THEDAY } .
+    \twodigit { \THEMONTH } .
+    \THEYEAR
+}
+\newtimeformat { mycoursetime } {
+    \twodigit { \THEHOUR } :
+    \twodigit { \THEMINUTE }
+}
+
 \RequirePackage { xcoffins }
 \RequirePackage { titling }
 
@@ -570,6 +580,7 @@
         \NewCoffin \tptitle
         \NewCoffin \tpsubtitle
         \NewCoffin \tptimeplace
+        \NewCoffin \tpinfo
 
         \NewCoffin \tpruletop
 
@@ -597,6 +608,17 @@
                 \l_mycourse_semester
             }
         }
+        \SetHorizontalCoffin \tpinfo {
+            \mycoursedate
+            \settimeformat { mycoursetime }
+            \parbox [ t ] { 0.5\textwidth } {
+                \raggedleft
+                \fontsize { 8pt } { 10pt } \selectfont
+                Kompiliert: ~ \today \; \currenttime \\
+                %Letzte~inhaltliche~Änderung: ~
+                %todo: parse `git log --format="format:%ai" -1 ./`
+            }
+        }
 
         \SetHorizontalCoffin \tpruletop {
             \color { headerrule }
@@ -607,6 +629,7 @@
         \JoinCoffins  \tpresult [\tpruletop-t,\tpruletop-l]  \tptitle     [B,l] (0pt       , 3.5mm)
         \JoinCoffins  \tpresult [\tpruletop-b,\tpruletop-l]  \tpsubtitle  [T,l] (0pt       ,-6mm)
         \JoinCoffins* \tpresult [\tpruletop-b,\tpruletop-l]  \tptimeplace [T,r] (\textwidth,-6mm)
+        \JoinCoffins  \tpresult [\tpruletop-b,\tpruletop-l]  \tpinfo      [T,r] (\textwidth,-15mm)
 
         \TypesetCoffin \tpresult
 
