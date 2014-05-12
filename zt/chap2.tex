@@ -479,8 +479,8 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 			Das \emphdef{Legendresymbol} von $b$ und $p$ ist definiert als
 			\[
 				\legsym bp := \l.\begin{cases}
-					1 & \text{$b$ quadratischer Rest $\bmod p$} \\
-					-1 & \text{$b$ kein quadratischer Rest $\bmod p$} \\
+					1 & \text{$b$ quadratischer Rest modulo $p$} \\
+					-1 & \text{$b$ kein quadratischer Rest modulo $p$} \\
 					0 & \text{$b \equiv 0 \bmod p$}
 				\end{cases}\r\}
 				\in \Z.
@@ -748,12 +748,19 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 
 Zum Abschluss dieses Kapitels noch zwei Anwendungen.
 
+\begin{df*}
+	Sei $n, m \in \N$
+	Man bezeichnet die Menge aller Repräsentanten der Restklasse $n \bmod m$, d.h.
+	\[
+		\{ n + km : k \in \N \},
+	\]
+	als \emphdef[analytische Progression]{analytische Progression $n \bmod m$}.
+\end{df*}
+
 \begin{st}[Dirichlet] \label{2.17}
-	In jeder arithmetischen Progression (Restklasse) $n \bmod m$ mit $(n,m) = 1$ liegen unendlich viele Primzahlen.
+	In jeder arithmetischen Progression $n \bmod m$ mit $(n,m) = 1$ befinden sich unendlich viele Primzahlen.
 	\begin{note}
 		Der Satz gehört in die analytische Zahlentheorie, der Beweis verwendet analytische Methoden.
-
-		Als analytische Progression bezeichnet man $\{n + km : k \in \N\}$.
 
 		Genauer kann man zeigen, dass asymptotisch
 		\[
@@ -761,29 +768,31 @@ Zum Abschluss dieses Kapitels noch zwei Anwendungen.
 			\sim
 			\f {x}{\phi(m) \log x}.
 		\]
-		Primzahlsatz: Bezeichne $\pi(x)$ die Anzahl der Primzahlen $\le x$, dann ist
+		Bezeichne $\pi(x)$ die Anzahl der Primzahlen $\le x$, dann besagt der sogenannte Primzahlsatz, dass asymptotisch
 		\[
 			\pi(x) \sim \f{x}{\log x}.
 		\]
+		Im Augenblick müssen wir uns mit Spezialfällen dieses Satzes begnügen.
 	\end{note}
+	\begin{proof}[Für den Spezialfall $1 \bmod 4$]
+		Angenommen, es gäbe nur endlich viele Primzahlen $p_1, \dotsc, p_k$, die $\equiv 1 \bmod 4$ sind.
+		Setze
+		\[
+			n = (2 p_1 p_2 \dotsb p_k)^2 + 1
+		\]
+		Dann ist $n \equiv 1 \bmod 4$.
+		Ist $q$ ein Primteiler von $n$, so ist $2(p_1\dotsb p_k)^2 + 1 \equiv 0 \bmod q$, also $-1$ ist Quadrat modulo $q$, d.h. $\legsym{-1}{q} = 1$.
+
+		Nach dem ersten Ergänzungssatz ist $\legsym{-1}{q} = (-1)^{\f{q-1}2}$, also ist $q \equiv 1 \bmod 4$.
+		Nach Konstruktion von $n$ sind alle Primteiler von $n$ kongruent zu $3 \bmod 4$.
+	\end{proof}
+	\begin{proof}[Für den Spezialfall $3 \bmod 4$]
+		siehe Übung.
+	\end{proof}
 \end{st}
 
-Im Augenblick müssen wir uns mit einem Spezialfall dieses Satzes begnügen:
 
-In $1 \mod 4$ liegen unendlich viele Primzahlen (für $3 \bmod 4$ siehe Übungen).
 
-\begin{proof}
-	Angenommen, es gäbe nur endlich viele Primzahlen $p_1, \dotsc, p_k$, die $\equiv 1 \bmod 4$ sind.
-	Setze
-	\[
-		n = (2 p_1 p_2 \dotsb p_k)^2 + 1
-	\]
-	Dann ist $n \equiv 1 \bmod 4$.
-	Ist $q$ ein Primteiler von $n$, so ist $2(p_1\dotsb p_k)^2 + 1 \equiv 0 \bmod q$, also $-1$ ist Quadrat modulo $q$, d.h. $\legsym{-1}{q} = 1$.
-
-	Nach dem ersten Ergänzungssatz ist $\legsym{-1}{q} = (-1)^{\f{q-1}2}$, also ist $q \equiv 1 \bmod 4$.
-	Nach Konstruktion von $n$ sind alle Primteiler von $n$ kongruent zu $3 \bmod 4$.
-\end{proof}
 
 % St 2.18
 \begin{st} \label{2.18}
