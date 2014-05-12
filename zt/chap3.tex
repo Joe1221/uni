@@ -119,4 +119,212 @@ Um $d$ zu berechnen benötigt man $\phi(n)$ und für $\phi(n)$ benötigt man $p$
 Man benötigt also Verfahren, um große Zahlen in Primfaktoren zu zerlegen.
 Dies ist schwer, oft praktisch unmöglich.
 
+\coursetimestamp{12}{05}{2014}
 
+
+% Ex 3.4
+\begin{ex} \label{3.4}
+	\begin{enumerate}[a)]
+		\item
+			Sei $n = 11 \cdot 31 = 341$, dann ist $\phi(n) = 300$.
+			Die Mitternachtsformel liefert für
+			\[
+				q^2 + q(300 - 342) + 341 = 0
+			\]
+			die Lösung $q_{1,2} = \f{42 \pm \sqrt{42^2 - 4\cdot 341}}2 = 21 \pm 10$.
+		\item
+			Sei $(n, e) = (667, 15)$.
+			Gesendet wird $424$, wie lautet die Nachricht von K an B?.
+	\end{enumerate}
+\end{ex}
+
+Das RSA-Verfahren liefert einen Grund gegegben Zahlen $n \in \N$ zu faktorisieren, oder zumindest zu prüfen, ob $n$ eine Primzahl ist.
+Dies motiviert Primzahltests.
+
+% Prop 3.5
+\begin{prop}[Fermat'scher Primzahltest] \label{3.5}
+	Sei $n \in \N$.
+	Falls $a \in \N$ existiert mit $(a,n) = 1$ und $a^{n-1} \not\equiv 1 \bmod n$, dann ist $n$ keine Primzahl.
+	\begin{proof}
+		Umkehrung des kleinen Satzes von Fermat \ref{2.9} und Übung P4.4 auf Übungsblatt 4.
+	\end{proof}
+\end{prop}
+
+% Def 3.6
+\begin{df} \label{3.6}
+	\begin{enumerate}[a)]
+		\item
+			$n \in \N$ nennt man \emphdef[Pseudoprimzahl]{Pseudoprimzahl zur Basis $a$}, wenn $n$ keine Primzahl ist, aber $a^{n-1} \equiv 1 \bmod n$ gilt.
+		\item
+			$n \in \N$ nennt man \emphdef{Carlmichaelzahl}, wenn $n$ keine Primzahl ist, aber für alle $a \in \N$ mit $(a,n) = 1$ gilt, dass $a^{n-1} \equiv 1 \bmod n$.
+	\end{enumerate}
+	\begin{note}
+		Carlmichaelzahlen  kommen von der Umkehrung des kleinen Fermats: ist $p$ Primzahl, dann ist $a^{p-1} \equiv 1 \bmod p$ für alle $(a,p) = 1$.
+		Man hat sich also die Frage gestellt, für welche Zahlen die Umkehrung nicht gilt, diese nennt man Carlmichaelzahlen.
+	\end{note}
+\end{df}
+
+% Ex 3.7
+\begin{ex} \label{3.7}
+	\begin{enumerate}[a)]
+		\item
+			Sei $n=9, a= 2$.
+			Dann ist $a^3 = 8 \equiv -1 \bmod 9$, also ist $a^6 \equiv 1 \bmod 9$ und $a^8 \not\equiv 1 \bmod 9$
+			Also ist $9$ keine Primzahl.
+		\item
+			$341$ ist eine Pseudoprimzahl zur Basis $2$, denn $2^10 = 1024 = 3\cdot 341 + 1$, also ist $2^10 \equiv 1 \bmod 341$ und $2^{340} \equiv 1 \bmod 341$.
+		\item
+			$561 = 51 \cdot 11 = 3 \cdot 17 \cdot 11$ ist eine Carmichaelzahl (sogar die kleinste).
+
+			Dies manuell nachzuprüfen ist mühsam.
+			Glücklicherweise liefert der folgende Satz eine einfacherer Charakterisierung.
+	\end{enumerate}
+\end{ex}
+
+% St 3.8
+\begin{st}[Korselt, 1899] \label{3.8}
+	$n$ ist genau dann eine Carmichaelzahl, wenn $n$ quadratfrei ist (d.h. kein Quadrat als Teiler hat) und für alle ihre Primteile $p$ gilt, dass $p-1$ ein Teiler von $n-1$ ist und $n = p_1 p_2 \cdot p_k$ mit $k \ge 3$ und $p_i$ ungerade Primzahl.
+	\begin{proof}
+		\begin{enumerate}[1.]
+			\item
+				Wenn $n = \prod_{i=1}^k p_i$ mit $p_i$ Primzahl, $p_i \neq p_j$ für $i \neq j$, dann ist mit \ref{1.14}
+				\[
+					U(\Z / n\Z) = U(\Z / p_1\Z) \times \dotsb \times U(\Z / p_k \Z).
+				\]
+				Aus $u \in U(\Z / n\Z)$ folgt $u^m = 1$ für $m = \kgV \{p_i-1 : 1 \le i \le k\}$.
+				Nach Voraussetzung wird $n - 1$ von $m$ geteilt, also $u^{n-1} = 1$.
+				$u$ repräsentiert jedes $a$ mit $(a,n) = 1$.
+			\item
+				Zeige: ist $n$ nicht quadratfrei, dann ist $n$ keine Carmichaelzahl.
+
+				Sei $n = p^m a$ mit $(p,a) = 1$, Primzahl $p$ und $m \ge 2$.
+				Aus $b^{n-1} \equiv 1 \bmod n$ folgt $b^{n-1} \equiv 1 \bmod p^m$, also $\phi(p^m)$ teilt $n-1$, denn $U(\Z / p^m \Z)$ ist zyklisch von Ordnung $\phi(p^m)$.
+				Es folgt $p^{m-1} (p-1)$ teilt $n-1$.
+				Da aber $n$ von $p$ geteilt wird und wegen $m \ge 2$ $p$ auch $n-1$ teilt, folgt dann $p$ teilt $n - (n-1) = 1$, ein Widerspruch.
+			\item
+				Ist $n$ eine Carmichaelzahl, dann $\phi(n) \divs n-1$, also $p-1$ teilt $n-1$, wenn $p$ ein Teiler von $n$ ist.
+				Angenommen $n = pq$ und $p-1$ teile $n-1 = pq - 1$ und $q -1$ teile ebenfalls $pq - 1$.
+				$p-1$ teilt $pq-1$ und $(p-1)q = pq - q$, also $p-1$ teilt $pq-1 - pq + q = q -1$ und somit $p-1$ teilt $q-1$.
+				Analog sieht man $q-1$ teilt $p-1$ und damit $p = q$, ein Widerspruch.
+			\item
+				$n$ ist ungerade, wenn $n$ Carmichaelzahl ist.
+				Angenommen $2$ teile $n$, dann ist $-1 = (-1)^{n-1} \equiv 1 \bmod n$, da $n$ Carmichael, also $n \divs 2$ und somit $n = 2$, ein Widerspruch.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{ex*}
+	Sei $561 = 3 \cdot 17 \cdot 11$ die Zahl aus \ref{3.7} c).
+	Offenbar ist $561$ quadratfrei und $2 \divs 560, 10 \divs 560, 16 \divs 560$, also ist $561$ eine Carmichaelzahl.
+\end{ex*}
+
+% Lem 2.9
+\begin{lem} \label{2.9}
+	Ist $n$ eine ungerade Pseudoprimzahl zur Basis $2$, dann ist auch $2^n - 1$ eine Pseudoprimzahl zur Basis $2$.
+	\begin{proof}
+		Es gilt $2^{n-1} \equiv 1 \bmod n$, also $2^{n-1} - 1 = kn$, also $2^{2^n-2} = 2^{2kn}$ und
+		\[
+			2^{2^n -2} - 1 = (2^n)^{2k} - 1.
+		\]
+		Also $2^n - 1 \divs 2^{2^n -2} - 1 = 2^{2^n - 1 - 1}$.
+		Es bleibt zu zeigen, dass $2^{n-1}$ keine Primzahl ist.
+		Sei $n$ keine Primzahl, dann folgt aus $d \divs n$, dass $2^d - 1 \divs 2^n - 1$ mit $d < n$.
+		Dann ist $2^d - 1 < 2^n - 1$ und ein nicht trivialer Teiler.
+	\end{proof}
+	\begin{note}
+		Im Beweis wurde mehrfach verwendet, dass
+		\[
+			2^{am} - 1
+			= (2^q - 1)\Big(1 + 2^a + 2^{2a} + \dotsb + 2^{(m-1)a} \Big).
+		\]
+	\end{note}
+\end{lem}
+
+\begin{nt*}
+	\begin{enumerate}[a)]
+		\item
+			Nach $3.9$ existieren unendlich viele Pseudoprimzahlen zur Basis 2.
+			Lange zeit war es offen, ob es unendlich viele Carmichaelzahlen gibt.
+			Seit 1992 (Granville) weiß man, dass es unendlich viele gibt.
+		\item
+			Den Fermat'schen Primzahltest kann man verbessern.
+			Es gilt: $n$ ist eine Primzahl, wenn für alle $1 < m < n$ gilt $m^{n-1} \equiv 1 \bmod n$.
+			Rückrichtung mit $| U(\Z/n\Z) | = n-1$, wenn $n$ eine Primzahl ist, Hinrichtung mit kleinem Fermat.
+
+			Auch für Carmichaelzahlen $n$ gilt:
+			Ist $p$ ein echter Teiler von $n$, dann ist $\_p = p \bmod n \not\in U(\Z / n\Z)$.
+	\end{enumerate}
+\end{nt*}
+
+% St 3.10
+\begin{st}[Lucas] \label{3.10}
+	Sei $n > 1$, $n \in \N$.
+	Wenn für jeden Primteiler $p$ von $n - 1$ eine ganze Zahl $a = a(p)$ existiert mit $a^{n-1} \equiv 1 \bmod n$ und $a^{\f {n-1}p} \not \equiv 1 \bmod n$, dann ist $n$ eine Primzahl.
+
+	\begin{proof}
+		Um zu zeigen, dass $n$ eine Primzahl ist, genügt es $\phi(n) = n - 1$ zu zeigen.
+		Sei $p$ eine Primzahl und $p^r$ der maximale $p$-Potenzteiler von $n-1$.
+		Sei $a = a(p)$ und $e$ die Ordnung von $a \bmod n$.
+		Dann ist $e$ ein Teiler von $n-1$ und $e$ teilt nicht $\f {n-1}p$, also ist $p^r \divs e$.
+		Sicherlich $e \divs \phi(n)$, dann $p^r \divs \phi(n)$.
+		Dies gilt für jeden Primteiler von $n-1$, also folgt $n - 1 \divs \phi(n)$ und damit $\phi(n) = n-1$.
+	\end{proof}
+\end{st}
+
+% Nt + Ex 3.11
+\begin{nt} \label{3.11}
+	Um \ref{3.10} anwenden zu können, sollte man die Primzahlen von $n-1$ kennen.
+	In Spezialfallen ist dies der Fall, z.B. für $n = 2^{16} + 1 = 65537$.
+
+	Nach \ref{3.10} genügt zum Primzahlnachweis eine Zahl $a$ zu finden mit $a^{2^{16}} \equiv 1 \bmod 2^{16} + 1$ und $a^{2^{15}} \not\equiv 1 \bmod 2^{16} + 1$.
+	Man kann dann ausrechnen, dass dies für $a = 3$ der Fall ist.
+\end{nt}
+
+Nachstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersennezahlen.
+
+% Lem 3.12
+\begin{lem} \label{3.12}
+	\begin{enumerate}[a)]
+		\item
+			Ist $2^k - 1$ eine Primzahl (Mersenneprimzahl), dann ist $k$ eine Primzahl.
+		\item
+			Ist $2^k + 1$ eine Primzahl, dann ist $k = 2^n$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Ist $k = uv$, dann ist $2^k - 1 = (2^n)^v - 1$.
+
+				$x-1 \divs x^v - 1$, da $1$ Nullstelle, also $2^n -1 \divs 2^k - 1$.
+			\item
+				$k = 2^r \_ u$ mit $\_ u$ ungerade, dann ist $2^k + 1 = (2^{2r})^u + 1$.
+				$x + 1 \divs x^{\_ u} + 1$, da $-1$ Nullstelle von $x^{\_ u} + 1$, also $2^{2r} + 1 \divs 2^k + 1$.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+% Df 3.13
+\begin{df} \label{3.13}
+	\begin{enumerate}[a)]
+		\item
+			Die Zahlen $M_p = 2^p - 1$ heißen \emphdef[Mersenne-Zahl]{Mersenne-Zahlen} (nach Marin Mersenne, 1588-1648).
+		\item
+			Die Zahlen $F_n = 2^{2^n} + 1$ heißen \emphdef[Fermat-Zahl]{Fermat-Zahlen} (nach P. de Fermat, 1601-1665).
+	\end{enumerate}
+\end{df}
+
+% St 3.14
+\begin{st} \label{3.14}
+	$F_k$ für $k \ge 1$ ist genau dann eine Primzahl, wenn
+	\[
+		3^{\f{F_k - 1}2} \equiv -1 \mod F_k
+	\]
+	\begin{note}
+		Dies zeigt, dass $3$ eine Primitivwurzel ist für Fermat'sche Primzahlen.
+		\ref{3.14} verifiziert \ref{3.11}.
+		\ref{3.10} steckt mit $a = 3$ im Beweis von \ref{3.14}.
+
+		Angenommen $3$ wäre nur endlich oft Primitivwurzel von $\Z / p\Z$ mit Primzahl $p$, dann existieren nur endlich viele Fermatzahlen, die Primzahlen sind.
+		Man kennt $F_0 = 3, F_1 = 5, F_2 = 17, F_3 = 257, F_4 = 65537$, aber \emph{andererseits} legt die Artin'sche Vermutung nache, dass so ein Beweis nicht zu führen ist.
+	\end{note}
+\end{st}
