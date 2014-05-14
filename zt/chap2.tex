@@ -289,7 +289,7 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten.
 				\equiv 1 + ap^{s-1} \mod p^s.
 			\]
 		\item
-			$p \ndivs a, p \neq 2 \implies $ $(1+p) \bmod p^s$ hat Ordnung $p^{s-1}$ in $U(\Z / p^s \Z)$.
+			$p \ndivs a, p \neq 2 \implies $ $(1+ap) \bmod p^s$ hat Ordnung $p^{s-1}$ in $U(\Z / p^s \Z)$.
 		\item
 			$s > 2 \implies 5^{2^{s-3}} \equiv 1 + 2^{s-1} \bmod 2^s$, $5 \bmod 2^s$ hat die Ordnung $2^{s-2}$.
 	\end{enumerate}
@@ -300,13 +300,13 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten.
 				\[
 					a^p
 					= (b + kp^s)^p
-					= \sum_{j=0}^p \binom{p}{j} b^{p-j} (kp^s)^j
+					= b^p + \sum_{j=1}^{p-1} \binom{p}{j} b^{p-j} (kp^s)^j + (kp)^{sp}
 				\]
-				Da $\binom{p}{r}$ durch $p$ teilbar ist, wenn $p$ Primzahl ist, gilt
+				Da $\binom{p}{r}$ durch $p$ teilbar ist für $1 < r < p$, gilt
 				\[
 					\sum_{j=1}^p \binom{p}{j} b^{p-j} (kp^s)^j \equiv 0 \mod p^{s+1}
 				\]
-				und damit $a^p \equiv b^p \bmod p^{s+1}$.
+				und zusammen mit $(kp)^{sp} \equiv 0 \bmod p^{s+1}$ somit $a^p \equiv b^p \bmod p^{s+1}$.
 			\item
 \coursetimestamp{28}{04}{2014}
 				Zeige per Induktion.
@@ -320,7 +320,7 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten.
 				Ist $p > 2$, dann ist
 				\[
 					(1 + ap^{s-1})^p
-					= 1 + \underbrace{\binom{p}{1} ap^{s-1}}_{= ap^s} + \underbrace{\sum_{j=2}^p \binom{p}{j} (ap^{s-1})^p}_{\text{teilbar durch $p^{s+1}$}}.
+					= 1 + \underbrace{\binom{p}{1} ap^{s-1}}_{= ap^s} + \underbrace{\sum_{j=2}^p \binom{p}{j} (ap^{s-1})^j}_{\text{teilbar durch $p^{s+1}$}}.
 				\]
 				Damit ist die Aussage für $s + 1$ gezeigt:
 				\[
@@ -331,9 +331,10 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten.
 				Aus b) und a) folgt
 				\[
 					\Big( (1+ap)^{p^{s-2}} \Big)^p
-					\equiv (1m + ap^{s-1})^p
-					\stack{\text{Binom.}}\equiv 1 \mod p^s.
+					\equiv (1 + ap^{s-1})^p
+					\stack{\text{Bin.}}\equiv 1 \mod p^s.
 				\]
+				% fixme: hier stimmt doch was nicht: mod p^{s+1} mit a) ??
 				Damit hat $(1 + ap) \bmod p^s$ hat eine Ordnung, die $p^{s-1}$ teilt.
 				Nach Voraussetzung gilt, dass $p \ndivs a$, also mit b) $(1 + ap)^{p^{s-2}} \equiv 1 + ap^{s-1} \not\equiv 1 \bmod p^s$, denn $p^s \ndivs ap^{s-1}$.
 				Also ist die Ordnung von $(1 + ap) \bmod p^s$ gerade $p^{s-1}$.
@@ -346,8 +347,8 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten.
 
 % St 2.8
 \begin{st} \label{2.8}
-	Sei $p \in \P, p > 2$.
-	Dann ist $U(\Z / p^s \Z)$ zyklisch für alle $s \in \N$.
+	Sei $p \in \P$ ungerade.
+	Dann ist $U(\Z / p^s \Z)$ zyklisch mit Gruppenordnung $(p-1)p^{s-1}$ für alle $s \in \N$.
 	\begin{proof}
 		Für $s = 1$ ist dies gerade eine Folgerung aus \ref{2.3}.
 		Also existiert $g \in \Z$ mit $g^{p-1} \equiv 1 \bmod p$ und $g^i \not\equiv 1 \bmod p$ für $1 \le i \le p -1$.
@@ -469,7 +470,7 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 \begin{df} \label{2.13}
 	\begin{enumerate}[a)]
 		\item
-		Sei $b \in \Z, m \in \N$ mit $m > 1$ und $(b, m) = 1$, dann nennt man $b$ \emphdef{quadratischer Rest} $\bmod m$, wenn
+		Sei $b \in \Z, m \in \N$ mit $m > 1$ und $(b, m) = 1$, dann nennt man $b$ \emphdef{quadratischer Rest} modulo $m$, wenn
 		\[
 			x^2 \equiv b \bmod m
 		\]
@@ -498,7 +499,7 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 	\begin{enumerate}[a)]
 		\item
 			Sei $b \in \Z$ mit $(b, p) = 1$.
-			Dann ist $b$ genau dann quadratischer Rest $\bmod p$, wenn $b^{\f {p-1}2} \equiv 1 \bmod p$
+			Dann ist $b$ genau dann quadratischer Rest modulo $p$, wenn $b^{\f {p-1}2} \equiv 1 \bmod p$
 			ist und kein quadratischer Rest, wenn $b^{\f {p-1}2} \equiv -1 \bmod p$	ist.
 			Es gilt also
 			\[
@@ -542,6 +543,7 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 \begin{nt*}
 	In \ref{2.6} wurde gezeigt, dass zyklische $p$-Gruppen zu jedem Teiler der Gruppenordnung genau eine Untergruppe haben.
 	Mit \ref{1.14} folgt: in einer endlichen zyklischen Gruppe $G$ gibt es zu jedem Teiler $t$ der Gruppenordnung $|G|$ genau eine Untergruppe der Ordnung $t$.
+	Dies ist eine Übungsaufgabe. \Exercise
 \end{nt*}
 
 % St 2.15
@@ -815,7 +817,7 @@ Zum Abschluss dieses Kapitels noch zwei Anwendungen.
 		Sei nun $b = p_1^{\alpha_1} \dotsb p_r^{\alpha_r}$ die Primzahlzerlegung.
 		\begin{enumerate}[1)]
 			\item
-				$a$ ist Quadrat in $U(\Z / b \Z)$ genau dann, wenn $a$ Quadrat in $U(\Z /p_i^{\alpha_i}$ ist.
+				$a$ ist Quadrat in $U(\Z / b \Z)$ genau dann, wenn $a$ Quadrat in $U(\Z /p_i^{\alpha_i})$ ist.
 				Dies folgt aus \ref{1.14}.
 			\item
 				Ist $p$ ungerade, dann ist $a$ ein Quadrat in $U(\Z / p_i^{\alpha_i} \Z)$ genau dann, wenn $a$ Quadrat in $U(\Z/p_i \Z)$ ist.
@@ -826,7 +828,7 @@ Zum Abschluss dieses Kapitels noch zwei Anwendungen.
 				In endlichen abelschen Gruppen ungerader Ordnung ist jedes Element ein Quadrat.
 				Also ist $u \in U(\Z / p^{\alpha} \Z)$ Quadrat, wenn $\tilde \kappa(a)$ Quadrat ist.
 			\item
-				Sei $2^s$ $2$-Potenzteiler von $b$ (maximale Potenz, de $b$ teilt).
+				Sei $2^s$ $2$-Potenzteiler von $b$ (maximale 2er-Potenz, die $b$ teilt).
 				Für $s = 1$ ist in $U(\Z / 2\Z)$ also ein Quadrat.
 				Für $s = 2$ ist nur $1 \bmod 4$ ein Quadrat.
 				Für $s = 3$ ist nur $1 \bmod 8$ ein Quadrat.
