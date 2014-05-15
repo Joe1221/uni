@@ -328,4 +328,166 @@ Nachstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersennez
 		Angenommen $3$ wäre nur endlich oft Primitivwurzel von $\Z / p\Z$ mit Primzahl $p$, dann existieren nur endlich viele Fermatzahlen, die Primzahlen sind.
 		Man kennt $F_0 = 3, F_1 = 5, F_2 = 17, F_3 = 257, F_4 = 65537$, aber \emph{andererseits} legt die Artin'sche Vermutung nache, dass so ein Beweis nicht zu führen ist.
 	\end{note}
+\coursetimestamp{15}{05}{2014}
+	\begin{proof}
+		\begin{segnb}{$\impliedby$}
+			Es gilt $F_k - 1 = 2^{2^k}$.
+			Nach \ref{3.10} genügt es für $a = 3$ zu zeigen $3^{\f{F_k - 1}2} \not\equiv 1 \bmod F_k$ und $3^{F_k-1} \equiv 1 \bmod F_k$.
+			Ersteres gilt nach Voraussetzung.
+			Zweiteres folgt aus der Voraussetzung durch quadrieren.
+		\end{segnb}
+		\begin{segnb}{$\implies$}
+			Umgekehrt sei $F_k$ eine Primzahl, dann gilt wegen $k \ge 1$
+			\[
+				2^{2^k} + 1
+				\equiv (-1)^{2^k} + 1
+				\equiv 1 + 1
+				\equiv -1
+				\mod 3.
+			\]
+			Also ist $\legsym{F_k}{3} = \legsym{-1}{3} = (-1)^{\f{3-1}2} = -1$.
+			Nach dem quadratischen Reziprozitätsgesetz gilt aber auch mit $F_k \equiv 1 \bmod 4$ (für $k \ge 1$)
+			\[
+				\legsym{F_k}{3}
+				= \legsym{3}{F_k}
+			\]
+			nach \ref{??} gilt $3^{\f{F_k}2} \equiv \legsym{3}{F_k} \bmod F_k$, also folgt
+			\[
+				3^{\f{F_k-1}2} \equiv -1 \mod F_k.
+			\]
+		\end{segnb}
+	\end{proof}
 \end{st}
+
+% St 3.15
+\begin{st} \label{3.15}
+	Sei $n \ge 2$ und $p$ ein Primteiler von $F_n$, dann gilt $p \equiv 1 \bmod 2^{n+2}$.
+	\begin{proof}
+		Wegen $p \divs F_n$ ist $2^{2^n} + 1 \equiv 0 \bmod p$, also $2^{2^n} \equiv - 1 \bmod p$.
+		Damit ist $2^{2^n \cdot 2} = 2^{2^{n+1}} \equiv 1 \bmod p$.
+		Die Ordnung von $\_ 2$ in $U(\Z / p\Z)$ ist $2^{n+1}$, also $2^{n+1} \divs p - 1$ ($U(\Z / p\Z)$ ist zyklisch von Ordnung $p-1$) und $p \equiv 1 \bmod 2^{n+1}$.
+		Wegen $n \ge 2$ folgt aus $p \equiv 1 \bmod 2^{n+1}$ insbesondere $p \equiv 1 \bmod 8$.
+		Mit dem zweiten Ergänzungssatz ist $\legsym{2}{p} = 1$ (denn wenn $p \equiv 1 \bmod 8$, also $p = 8k + 1$ und $p^2 = 64k^2 + 16k + 1$ und $p^2 - 1 = 64k^2 + 16k$ und $\f{p^2 - 1}{8}$ ist gerade).
+
+		Es existiert $x$ mit $x^2 \equiv 2 \bmod p$, also $x^{2^{n+1}} \equiv 2^{2^n} \equiv -1 \bmod p$ und $x^{2^{n+2}} \equiv 1 \bmod p$.
+		Also ist die Ordnung $\_ x$ in $U(\Z / p\Z) = 2^{n+2}$ und $2^{n+2} \divs p-1$, also $p \equiv 1 \bmod 2^{n+2}$.
+	\end{proof}
+\end{st}
+
+% Bem 3.16
+\begin{nt} \label{3.16}
+	In einem Brief um 1640 vermutete Fermat, dass alle Zahlen $F_n$ Primzahlen sind.
+	$F_5$ ist keine Primzahl (gezeigt von Euler 1732), denn $641 \divs F_5$.
+
+	Nach \ref{3.15} gilt für einen Primteiler von $F_5$, dass $p \equiv 1 \bmod 2^7 = 128$.
+	Daraus folgt $p \in \{129, 257, 385, 513, 641, \dotsc\}$.
+	Es gilt $3 \divs 139, 5 \divs 385, 3 \divs 513$.
+	Man errechnet, dass $257$ kein Teiler von $F_5$ ist, aber $641$ schon.
+	Es gilt
+	\[
+		F_5 = 641 \cdot (2^7 \cdot 52347 + 1).
+	\]
+	Es ist unbekannt, ob es nach $F_1, \dotsc, F_4$ weitere Primzahlen gibt.
+\end{nt}
+
+% St 3.17
+\begin{st}[Lucas-Lehmer Test] \label{3.17}
+	Sei $p > 2$ Primzahl und die Folgt $(s_n)_{n\in\N}$ sei rekursiv definiert durch
+	\begin{align*}
+		s_1 &:= 4, &
+		s_{n} &:= s_{n-1}^2 - 2.
+	\end{align*}
+	Dann ist $M_p$ genau dann eine Primzahl, wenn $M_p$ ein Teiler von $s_{p-1}$ ist.
+	\begin{proof}
+		Setze $w := 2 + \sqrt 3, \tilde w := 2 - \sqrt 3$, dann ist $w\tilde w = 1$.
+		Damit sind $w, \tilde w \in \Z[\sqrt{3}] = \{ z_1 + z_2 \sqrt{3} : z_1, z_2 \in \Z \}$ Einheiten in dem Teilring $\Z[\sqrt{3}]$ von $\R$.
+		Induktion nach $m$ zeigt \Exercise
+		\[
+			s_m = w^{2^{m-1}} + \tilde w^{2^{m-1}}.
+		\]
+		$M_p$ teilt $s_{p-1}$ genau dann, wenn $w^{2^{p-2}} + \tilde w^{2^{p-2}} \equiv 0 \bmod M_p$ und genau dann, wenn $w^{2^{p-1}} + 1 \equiv 0 \bmod M_p$.
+		Annahme $M_p$ hätte einen nicht-trivialen Primteiler $q$, dann auch einen mit $q^2 \le M_p$ und sicherlich $2 < q$.
+		Betrachte den Faktorring $R := \Z[\sqrt{3}] / q\Z[\sqrt{3}]$.
+		Also ist
+		\[
+			R = \{ a + b\sqrt{3} : a,b \in \Z / q\Z \},
+		\]
+		d.h. $|R| = q^2$.
+		Dann ist $|U(R)| \le q^2 - 1$.
+		Es gilt $\_{1} \neq \_{-1} \bmod \_m$ sind Einheiten von $R$ und $\_w^{2^{p-1}} = \_{-1}$, also $\_w^{2^p} = \_ 1$ und die Ordnung von $\_w$ in $U(R)$ ist $2^p$.
+		Damit ist $2^p \divs |U(R)|$, also insbesondere
+		\[
+			2^p \le |U(R)| \le q^2 - 1 \le M_p - 1 \le 2^{p}-2,
+		\]
+		ein Widerspruch.
+		Also hat $M_p$ keinen nicht-trivialen Primteiler und ist damit Primzahl.
+
+		% fixme: segments
+		Sei umgekehrt $M_p$ eine Primzahl.
+		Setze $a = \f{1 + \sqrt{3}}{\sqrt{2}}$ und $\tilde a = \f{1 - \sqrt{3}}{\sqrt{2}}$
+		Man sieht $a^2 = \f{1 + 2\sqrt{3} + 3}2 = 2 + \sqrt{3} = w$ und analog $\tilde a^2 = \tilde w$.
+		Zu zeigen ist $M_p$ teilt $s_{p-1}$, oder äquivalent $a^{2^p} + 1 \equiv 0 \bmod M_p$ (siehe andere Richtung des Beweises).
+		Schreibe $\tilde q = M_p$, dann ist $\sqrt{2} a = 1 + \sqrt{3}$ und
+		\[
+			(\sqrt{2} q)^{\tilde q} = a^{\tilde q} 2^{\f{\tilde q - 1}2} \sqrt{2}
+			\in \Z[\sqrt{3}].
+		\]
+		Modulo $\tilde q$ (genauso modulo $\tilde q \Z[\sqrt{3}]$) gilt
+		\[
+			(\sqrt 2 a)^{\tilde q}
+			= (1 + \sqrt 3)^{\tilde q}
+			\equiv 1 + \sqrt{3}^{\tilde q}
+			\equiv 1 + 3^{\f{\tilde q -1}2} \sqrt{3}
+			\mod \tilde q
+		\]
+		Sicherlich ist $\tilde \equiv -1 \bmod 8$ und mit dem quadratischen Reziprozitätsgesetz
+		\[
+			2^{\f{\tilde q - 1}2} \equiv \legsym{2}{q}
+			\equiv 1 \bmod \tilde q.
+		\]
+		Außerdem ist $\tilde q \equiv -1 \bmod 4, 3 \equiv -1 \bmod 4$ und $\tilde q \equiv 1 \bmod 3$.
+		Damit ist $\legsym{3}{\tilde q} = - \legsym{\tilde q}{3} = -1$.
+		Ferner gilt $\legsym{3}{\tilde q} \equiv 3^{\f{\tilde q-1}2} \bmod \tilde q$.
+
+		Damit ist $a^{\tilde q} \sqrt{2} \equiv 1 - \sqrt{3} \bmod \tilde q$ und somit
+		\[
+			2 a^{\tilde q + 1}
+			\equiv \underbrace{\sqrt{2} a}_{=1+\sqrt{3}} (1 - \sqrt{}∫3)
+			\equiv -2 \bmod \tilde q.
+		\]
+		$2$ ist invertierbar modulo $\tilde q$, also ist $a^{\tilde q + 1} \equiv -1 \bmod \tilde q$, d.h. $a^{2p} \equiv -1 \bmod M_p$.
+	\end{proof}
+\end{st}
+
+\begin{ex*}
+	Ist $M_7 = 2^7 - 1 = 127$ eine Primzahl?.
+	Berechne die Folge $(s_p)_{p\in \N}$ modulo $127$.
+	\begin{align*}
+		s_1 &\equiv 4, &
+		s_2 &\equiv 14, &
+		s_3 &\equiv 67, &
+		s_4 &\equiv 42, &
+		s_5 &\equiv 111, &
+		s_6 &\equiv 0
+		\mod 127
+	\end{align*}
+	also ist $M_7$ eine Primzahl.
+\end{ex*}
+
+% Prop 3.19
+\begin{prop}[1. Teil des Miller-Rabin Tests]
+	Sei $n \in \P, a \in \Z$ mit $(a, n) = 1$.
+	Setze $n - 1 = 2^s d$ mit maximalem 2-Potenzteiler $2^s$ von $n-1$.
+	Dann gilt entweder
+	\[
+		a^d \equiv 1 \mod n
+	\]
+	oder
+	\[
+		\exists \tilde r \in \{0, \dotsc, s-1\} :
+		2^{\tilde r} d \equiv -1 \bmod n.
+	\]
+\end{prop}
+
+
+
