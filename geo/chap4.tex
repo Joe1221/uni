@@ -178,3 +178,210 @@ einer \emph{symmetrischen Billinearform} mit maximalem Rang.
 	$f_\phi, f_\theta$ sind orthogonal für $\theta = 0$.
 	$f_\phi$ wird verkürzt für $\theta \to \pm \f \pi2$.
 \end{ex}
+
+\coursetimestamp{15}{05}{2014}
+
+\begin{lem}
+	Bei einer Parametertransformation $\tilde f = f \circ \Phi$ ergibt sich für $(g_{ij}), (\tilde g_{ij})$
+	\[
+		(g_{ij}) = (D\Phi)^T(g_{ij}(D\Phi)
+	\]
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			\tilde g_{ij} &= (D \tilde f)^T (D \tilde f)
+			= (Df \circ D \Phi)^T (Df \circ D\Phi)
+			= (D\Phi)^T \underbrace{\big((Df)^T Df\big)}_{=(g_{ij})} \circ D\Phi
+		\end{align*}
+	\end{proof}
+\end{lem}
+
+Es gilt $\det(\tilde g_{ij}) = \det(g_{ij}) (\det(D\Phi))^2$.
+
+$g := \det(g_{}∫ij)$ heißt \emphdef{Gramsche Determinante}
+\[
+	\tilde g = g (\det(D\Phi))^2
+\]
+Die \emphdef{Gramsche Matrix} ist
+\[
+	\Matrix{\<x,x\> & \<x,y\> \\ \<y,x\> & \<y,y\>}
+\]
+mit $\det() = \|x\|^2 \|y\|^2 \sin^2 \angle$, also ist
+\[
+	\sqrt{\det}
+	= \|x\|\|y\| |\sin \alpha|
+\]
+der Flächeninhalt des Paralallograms.
+
+Für eine lineare Abbildung $F$ ist die Gramsche Determinante
+\[
+	\<Fx, Fx\> <Fy, Fy> - \<Fx, Fy\>^2
+\]
+das Quadrat der Flächenverzerrung von $F$.
+Damit ist $\sqrt{g} = \sqrt{\det(g_{j})}$ die Flächenverzerrung der Abbildung $f$.
+
+\begin{df}[Oberflächenintegral]
+	Sei $f: U \to \R^3$ injektiv, $\alpha$ sei stetig und auf ganz $f(U)$ definiert.
+	Dann ist für jedes Kompaktum $Q \subset U$
+	\[
+		\iint_{f(Q)} \alpha \dx[A]
+		:= \iint_{Q} (\alpha \circ f)(u_1, u_2) \sqrt{g} \dx[(u_1, u_2)]
+	\]
+	das \emphdef{Oberflächenintegral} von $\alpha$ erklärt.
+	$\alpha = 1$ liefert den Flächeninhalt.
+	$\dx[A] = \sqrt{g} \dx[(u_1, u_2)]$ heißt \emphdef{Flächenelement}.
+	\begin{note}
+		Diese Definition ist unabhängig von der Parametrisierung, denn für $\tilde f = f \circ \Phi, Q = \Phi(\tilde Q), (u_1,u_2) = \Phi(\tilde u_1, \tilde u_2)$ ist
+		\begin{align*}
+			\iint_{\tilde f(Q)} \alpha \dx[\tilde A]
+			&= \iint_{\tilde Q} (\alpha \circ \tilde f)(\tilde u_1, \tilde u_2) \underbrace{\sqrt{g}}_{=|\det D\Phi| \sqrt{g}} \dx[(\tilde u_1, \tilde u_2)] \\
+			&= \iint_{Q} (\alpha \circ f) (u_1, u_2) \sqrt{g} \dx[(u_1, u_2)] \\
+			&= \iint_{f(Q)} \alpha \dx[A]
+		\end{align*}
+		per Substitution.
+	\end{note}
+\end{df}
+
+\section{Vektorfelder}
+
+
+Grundsätzlich ist jede Zuordnung
+\[
+	p \mapsto (p, x) \in T_p\R^3
+\]
+ein \emphdef{Vektorfeld}.
+
+\begin{df}[Vektorfeld längs $f: V \to \R^3$]
+	ein Vektorfeld längs $f$ ist eine Zuordnung
+	\[
+		U \ni u \mapsto (f(u), x(u)) \in T_{f(u)} \R^3
+	\]
+	Analog definiert man stetige und differenzierbare Vektorfelder für stetiges, bzw. differenzierbares $x$.
+
+	Man nennt das Vektorfeld \emphdef{Vektorfeld!tangential}, wenn $x(x) \in T_u(f)$ für alle $u \in U$ und \emphdef{Vektorfeld!normal}, wenn $x(u) \in \orth_u f$ für alle $u \in U$.
+\end{df}
+
+\begin{ex}
+	$\ddx[u_1]{f}, \ddx[u_2]{f}$ sind tangentiale Vektorfelder längs $f$.
+	$\ddx[u_1]{f} \times \ddx[u_2]{f}$ ist ein normales Vektorfeld längs $f$.
+\end{ex}
+
+\begin{df}
+	Wir nennen
+	\[
+		\nu := \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}}
+		\in \orth_u \subset T_{f(u)}\R^3.
+	\]
+	Die Einheitsnormale ist nicht eindeutig, $-\nu$ ist auch eine Einheitsnormale.
+\end{df}
+
+Wann ist eine 2-dimensionale Untermannigfaltigkeit des $R^3$ orientierbar?
+Genau dann, wenn es ein stetiges Einheitsnormalenvektorfeld gibt (Forster, Analysis 3). % fixme: ref
+
+\[
+	\ddx[u_1]{f}, \ddx[u_2]{f}, \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}}
+\]
+ist positiv orientiert, Umdrehen von $\ddx[u_1]{f}, \ddx[u_2]{f}$ ergibt die andere Orientierung.
+$(u_1, u_2) \mapsto \Phi(u_1, u_2)$ mit positivem $\det D\Phi$ ?
+
+Innerhalb von $U \subset \R^2$ gibt es eine feste orientierung durch Wahl einer Reihenfolge $u_1, u_2$.
+Für die Bilmenge $f(U)$ braucht das nicht zu gelten (falls $f$ nicht injektiv ist).
+
+\begin{ex}[Möbiusband]
+	Setze
+	\[
+		f(u,v) := \Vector*{\sin u + v \sin \f{u}2 \sin u & \cos u + v \sin \f{u}2 \cos u & v \cos \f {u}2}.
+	\]
+	Für $v = 0$ ist $f(u, 0) = \Vector{\sin u & \cos u & 0}$ ein Kreis.
+	Für $u = \const$ ergibt sich ein Geradenstück durch $f(u, 0)$.
+	$f$ ist regulär für „kleine“ $|v|$ und injektiv für $0 \le u < 2\pi$.
+	Für $v \neq 0, |v|$ klein ist
+	\[
+		v \cos \f u2 = v \cos {\tilde u}2
+		\implies u = \tilde u
+	\]
+	aber $f(2\pi, v) = f(0, -v) = (0,1, -v)$, nicht injektiv.
+	$\ddx[u]{f}, \ddx[v]{f}$ liefert Orientierung bei $v = 0$, aber liefert eine andere Orientierung bei $v = 2\pi$, weil $\ddx[v]{f}\big|_{u=2\pi} = - \ddx[v]{f}\big|_{u=0}$.
+	Die Einheitsnormalen in $f(2\pi, v)$ und $f(0, -v)$ unterscheiden sich.
+
+	Das Möbiusband ist also als Untermannigfaltigkeit des $\R^3$ \emph{nicht orientierbar}.
+\end{ex}
+
+Lokal ist Orientierbarkeit kein Problem (wähle $U$ hinreichend klein).
+Die weiteren Betrachtungen sind zunächst lokal.
+Wir benötigen 2. Ableitungen, sei also $f$ zweimal stetig differenzierbar.
+
+\begin{df}[Gauß-Abbildung]
+	Für $f: U \to \R^3$ ist die \emphdef{Gaußsche Normalenabbildung} oder \emphdef{Gauß-Abbildung} $\nu: U \to S^2$ erklärt als
+	\[
+		\nu(u_1, u_2)0:= \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}}\|} \in S^2 \subset \R^3
+	\]
+	Identifiziere $T_{f(u)} \R^3$ mit $T_{\nu(u)}\R^3$ durch Translation.
+\end{df}
+
+Ideal wäre
+\begin{align*}
+	\ddx[u_1]{\nu} &= \alpha \ddx[u_1]{f} \\
+	\ddx[u_2]{\nu} &= \beta \ddx[u_2]{f}.
+\end{align*}
+Dann wären $\alpha, \beta$ natürliche Krümmungen.
+Dies ist allerdings im Allgemeinen nicht der Fall.
+Es läuft auf ein Vergleich mit $D\nu$ mit $Df$ hinaus.
+\begin{align*}
+	Df\big|_U : T_u U  &\bijto T_u f \subset T_{f(U)} \R^3, \\
+	D\nu\big|_U : T_u U &\to T_{v(u)} \R^3.
+\end{align*}
+Nun ist wegen $1 = \<\nu, \nu\>$ gerade $0 = \<\ddx[u_i]{\nu}, \nu\>$ mit $i = 1,2$.
+Damit ist $\ddx[u_1]{\nu}, \ddx[u_2]{\nu}$ tangential an der Fläche, also durch Identifikation durch Translation
+\[
+	D\nu\big|_U : T_u U \to T_u f.
+\]
+$Df$ hat maximalen Rang, also existiert $(Df)^{-1}: T_\nu f \to T_\nu U$.
+$Df, (Df)^{-1}, D\nu$ sind parameterunabhängig.
+
+\begin{df}[Weingartenabbildung]
+	Die Komposition
+	\[
+		L := -D\nu \circ (Df)^{-1}
+	\]
+	im Punkt $L_u := -D\nu\big|_u \circ (Df\big|_u)^{-1} : T_u f \to T_u f$ heißt \emphdef{Weingartenabbildung}, oder \emphdef{Formoperator}.
+	Insbesondere ist $L(\ddx[u_i]{f}) = - \ddx[u_i]{\nu}$.
+\end{df}
+
+$L$ ist ein Endomorphismenfeld der Tangentialebene.
+
+\begin{lem}
+	$L$ ist unabhängig von der Parametrisierung (bis auf die Wahl von $\nu$, d.h. ein Vorzeichen) und ist selbstadjungiert bezüglich der ersten Fundamentalform.
+	\begin{proof}
+		Sei $f = f \circ \Phi, \tilde \nu = \pm \nu \circ \Phi$.
+		Dann ist
+		\begin{align*}
+			\tilde L
+			&= -(D \tilde \nu) (D \tilde f)^{-1}
+			= \mp D\nu D\Phi (Df D\Phi)^{-1} \\
+			&= \mp D\nu D\Phi (D\Phi)^{-1} (Df)^{-1}
+			= \mp D\nu (Df)^{-1}
+			= \pm L
+		\end{align*}
+	\end{proof}
+	Es gilt
+	\[
+		I(L \ddx[u_i]{f}, \ddx[u_j]{f})
+		= \< - \ddx[u_i]{\nu}, \ddx[u_j]{f} \>
+		= - \ddx[u_i]\underbrace{\<\nu, \ddx[u_j]{f}\>}_{=0} + \<\nu, \underbrace{\f{\partial^2 f}{\partial u_i \partial u_j}}_{\text{symm. in $i,j$}} \>
+	\]
+	Dann ist
+	\[
+		I(L \ddx[u_i]{f}, \ddx[u_j]{f})
+		= I(\ddx[u_i]{f}, L \ddx[u_j]{f}),
+	\]
+	also \emph{selbstadjungiert.}
+\end{lem}
+
+
+
+
+
+
+
+
