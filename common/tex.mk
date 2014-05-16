@@ -175,6 +175,7 @@ clean:
 		$(T).log $(T).fls $(T).aux \
 		$(T).run.xml $(T).bcf \
 		) $(AUXFILES) $(LOGFILES)
+	rm -f *.idx *.ilg *.ind
 
 distclean: clean
 	rm -f $(PDFTARGETS)
