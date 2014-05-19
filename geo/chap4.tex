@@ -3,19 +3,14 @@
 
 
 \begin{df}
-	Ein \emphdef[Flächenstück!parametrisiertes]{parametrisiertes (reguläres Flächenstück)} ist eine differenzierbare Abbildung $f: U \to \R^3 \isomorphic E^3$, wobei $(\ddx[u_j]{f_i})$ maximalem Rang hat.
-	$f$ ist eine \emphdef{Immersion}.
+	Sei $U \subset \R^2$ offen.
 
-	Elemente $u = (u_1, u_2)$ von $U$ nennen wir \emphdef{Parameter}, Elemente von $f(U)$ \emph{Punkte}, $f(u_1, u_2) = (x_1(u_1, u_2), x_2(u_1, u_2), x_3(u_1, u_2))$.
+	Ein \emphdef[Flächenstück!parametrisiertes]{parametrisiertes reguläres Flächenstück} ist eine differenzierbare Abbildung $f: U \to \R^3$, wobei $(\ddx[u_j]{f_i})_{i,j} \in \R^{3 \times 2}$ maximalem Rang hat
+	($f$ ist eine \emphdef{Immersion}, d.h. ihre Ableitung ist injektiv).
 
-	Ein unparametrisiertes (reguläres) \emphdef[Flächenstück!unparametrisiert]{Flächenstück} ist eine Äquivalenzklasse von parametrisierten Flächenstücken, wobei $f \sim f \Phi$, mit
-	\[
-		\begin{tikzcd}[column sep=tiny]
-			\tilde U \arrow{rr}{\Phi} \arrow{dr}[swap]{f \cdot \Phi}  & &  U \arrow{dl}{f} \\
-														 & \R^3 &
-		\end{tikzcd}
-	\]
-	wobei $\Phi$ bijektiv und in beiden Richtungen differenzierbar.
+	Elemente $u = (u_1, u_2)$ von $U$ nennen wir \emphdef{Parameter}, Elemente von $f(U)$ \emph{Punkte}.
+
+	Ein unparametrisiertes reguläres \emphdef[Flächenstück!unparametrisiert]{Flächenstück} ist eine Äquivalenzklasse bezüglich $\sim$ von parametrisierten Flächenstücken, wobei $f \sim g$, falls $\Phi$ existiert mit $g = f \circ \Phi$, $\Phi$ bijektiv und $\Phi, \Phi^{-1}$ differenzierbar.
 \end{df}
 
 \begin{ex}
@@ -26,9 +21,9 @@
 	für differenzierbares $z : U \to \R^3$ definiert stets ein reguläres Flächenstück, denn
 	\[
 		f_u = \Vector{1 & 0 & z_u},
-		f_v = \Vector{0 & 1 & z_i}
+		f_v = \Vector{0 & 1 & z_v}
 	\]
-	sind linear unabhängig.
+	sind stets linear unabhängig.
 \end{ex}
 
 \begin{ex}
@@ -41,12 +36,12 @@
 			für $u^2 + v^2 < 1$.
 			Alternativ
 			\[
-				f(\phi, \theta) = \Vector{ \cos \phi \cos \theta & \sin \phi \cos \theta & \sin \theta }
+				f(\phi, \theta) = \Vector*{ \cos \phi \cos \theta & \sin \phi \cos \theta & \sin \theta }
 			\]
 			mit $0 < \phi < 2\pi$ und $-\f \pi 2 < \theta < \f \pi 2$.
 			$f$ ist eine Immersion, denn
 			\[
-				f_\phi = \Vector{-\sin \phi \cos \theta & \cos \phi \cos \theta & 0}
+				f_\phi = \Vector{-\sin \phi \cos \theta & \cos \phi \cos \theta & 0},
 				f_\theta = \Vector{-\cos \phi \sin \theta & - \sin \phi \sin \theta & \cos \theta}
 			\]
 			sind wegen $\cos \theta \neq 0$ linear unabhängig.
@@ -56,36 +51,45 @@
 			\[
 				f_\phi \times f_\theta
 				= \Vector{\cos \phi \cos^2 \theta & \sin \phi \cos^2 \theta & \sin \theta \cos \theta}
-				\neq 0.
+				\neq 0
 			\]
+			wegen $\cos \theta \neq 0$.
 			Anschaulich gesprochen sind $f_\phi, f_\theta$ sind tangential zur Sphäre und $f_\phi \times f_\theta$ ist normal zur Sphäre.
 		\item
 			Sei
 			\[
-				f(t,x) := \Vector{t^2 & x^3 & x}
+				f(t,x) := \Vector{t^2 & t^3 & x}
 			\]
 			dann ist $f_t = \Vector{2t & 3t^2 & 0} = 0$ für $t = 0$, also nicht regulär.
 	\end{itemize}
 \end{ex}
 
 \begin{conv}
+	Der \emphdef[Tangentialraum]{Tangentialraum von $\R^n$ in $x \in \R^n$} ist definiert als $T_p\R^n := \{ u \} \times \R^n \isomorphic \R^n$.
+
+	Sei $f: U \to \R^3$ ein reguläres Flächenstück, $u \in U$ und $p := f(u) \in \R^3$.
 	Für einen Punkt $p \in \R^3$ sei $(p, x)$ der Tangentialvektor in $p$ in Richtung $x$.
-	Der \emphdef{abstrakte Tangentialraum} ist definiert als
-	\[
-		T_p\R^3 := \{p\} \times \R^3 \isomorphic \R^3
-	\]
-	Für $u = (u_1, u_2) \in U$ analog $T_u U = T_u \R^2 = \{ u \} \times \R^2 \isomorphic \R^2$ der Tangentialraum an $U \subset \R^2$.
+
+	Der \emphdef[Tangentialraum!an $U$]{Tangentialraum von $U$ in $u$} ist $T_pU := T_u \R^2$
+
+	Die \emphdef[Tangentialebene]{Tangentialebene von $f$ in $p$} ist
 	\[
 		T_u f
-		:= Df\big|_u (T_u U)
+		:= \Df\big|_u (T_u U)
 		\subset T_{f(u)} \R^3
 	\]
-	der \emphdef{Normalenraum} an der Fläche
+	und der \emphdef[Normalenraum]{Normalenraum von $f$ in $p$}
 	\[
-		T_u f \oplus \orth_u f = T_{f(u)} \R^3
+		\Orthspace_u f := \{ f(u) \} \times \{ v \in \R^3 : \forall w \in T_u f : \<v, w\> = 0 \} \subset T_{f(u)} \R^3.
 	\]
-	$T_u f$ wird aufgespannt von $\ddx[u_1]{f}, \ddx[u_2]{f}$ und
-	$\orth_u f$ wird aufgespannt von $\ddx[u_1]{f} \times \ddx[u_2]{f}$.
+	\begin{note}
+		Es gilt
+		\[
+			T_u f \oplus \Orthspace_u f = T_{f(u)} \R^3.
+		\]
+		$T_u f$ wird aufgespannt von $\ddx[u_1]{f}, \ddx[u_2]{f}$ und
+		$\Orthspace_u f$ wird aufgespannt von $\ddx[u_1]{f} \times \ddx[u_2]{f}$.
+	\end{note}
 \end{conv}
 
 \begin{ex}
@@ -96,7 +100,7 @@
 	mit $0 < \phi, u < 2\pi$ und $0 < b < a$.
 	Diese Fläche ist regulär. \Exercise
 
-	Ähnlich wie die Sphäre durch die Gleichung $x^2 + y^2 + z^2 = r^2$ gegeben ist, besitzt auch der Rotationstorus eine:
+	Ähnlich wie die Sphäre durch die Gleichung $x^2 + y^2 + z^2 = r^2$ gegeben ist, ist auch der Rotationstorus durch eine Gleichung gegeben, nämlich
 	\[
 		(a^2 - b^2 + x^2 + y^2 + z^2)^2 = 4 a^2 (x^2 + y^2).
 	\]
@@ -105,28 +109,28 @@
 
 \paragraph{metrische Verhältnisse innerhalb eines Flächenstücks}
 
-Die Läche eine Tangentialvektors $x \in T_v f$ oder $x \in T_p \R^3$ ist
+Die Länge eine Tangentialvektors $x \in T_v f$ oder $x \in T_p \R^3$ ist
 \[
 	\|x\| = \sqrt{\<x, x\>}
 \]
 Die Länge einer Kurve $[a,b] \xrightarrow{c} U \xrightarrow{f} \R^3$ ist
 \[
 	\int_a^b \| (f \circ c)^\cdot (t)\| \dx[t]
-	= \int_a^b \sqrt{\< Df \dot c, Df \dot c\>} \dx[t]
+	= \int_a^b \sqrt{\< \Df \dot c, \Df \dot c\>} \dx[t]
 \]
-mit $\dot c \in T_{c(t)} U$, $(Df) = (\ddx[u_j]{f_i})_{i,j}$
+mit $\dot c \in T_{c(t)} U$, $(\Df) = (\ddx[u_j]{f_i})_{i,j}$
 \[
-	Df \dot c = \Matrix*{ \ddx[u_1]{x_1} & \ddx[u_2]{x_1} \\ \ddx[u_1]{x_2} & \ddx[u_2]{x_2} \\ \ddx[u_1]{x_3} & \ddx[u_2]{x_3} } \Vector{\dot u_1 & \dot u_2}.
+	\Df \dot c = \Matrix*{ \ddx[u_1]{x_1} & \ddx[u_2]{x_1} \\ \ddx[u_1]{x_2} & \ddx[u_2]{x_2} \\ \ddx[u_1]{x_3} & \ddx[u_2]{x_3} } \Vector{\dot u_1 & \dot u_2}.
 \]
 Es gilt
 \[
-	\<Df \dot c, Df \dot c\>
-	= (Df \dot c)^T (Df \dot c)
-	= \dot c^T  Df^T Df \dot c
+	\<\Df \dot c, \Df \dot c\>
+	= (\Df \dot c)^T (\Df \dot c)
+	= \dot c^T  \Df^T \Df \dot c
 \]
 mit
 \[
-	Df^T Df = \Matrix*{\< \ddx[u_1]{f}, \ddx[u_1]{f}\> & \<\ddx[u_1]{f}, \ddx[u_2]{f}\> \\ \<\ddx[u_2]{f}, \ddx[u_1]{f}\> & \<\ddx[u_2]{f}, \ddx[u_2]{f}\> },
+	\Df^T \Df = \Matrix*{\< \ddx[u_1]{f}, \ddx[u_1]{f}\> & \<\ddx[u_1]{f}, \ddx[u_2]{f}\> \\ \<\ddx[u_2]{f}, \ddx[u_1]{f}\> & \<\ddx[u_2]{f}, \ddx[u_2]{f}\> },
 \]
 einer \emph{symmetrischen Billinearform} mit maximalem Rang.
 
@@ -139,13 +143,13 @@ einer \emph{symmetrischen Billinearform} mit maximalem Rang.
 
 	In parametrisierter Form haben wir eine symmetrische Billinearform auf $T_u U$:
 	\[
-		T_u U \times T_u U \ni (V, W) \mapsto \big\< Df|_u (V), Df|_u (W) \big\> = I(V, W)
+		T_u U \times T_u U \ni (V, W) \mapsto \big\< \Df|_u (V), \Df|_u (W) \big\> = I(V, W)
 	\]
 	mit $V, W \in T_u U$.
 
 	In Koordinaten gegeben durch
 	\[
-		Df^T Df = \Matrix*{\< \ddx[u_1]{f}, \ddx[u_1]{f}\> & \<\ddx[u_1]{f}, \ddx[u_2]{f}\> \\ \<\ddx[u_2]{f}, \ddx[u_1]{f}\> & \<\ddx[u_2]{f}, \ddx[u_2]{f}\> }
+		\Df^T \Df = \Matrix*{\< \ddx[u_1]{f}, \ddx[u_1]{f}\> & \<\ddx[u_1]{f}, \ddx[u_2]{f}\> \\ \<\ddx[u_2]{f}, \ddx[u_1]{f}\> & \<\ddx[u_2]{f}, \ddx[u_2]{f}\> }
 		= \Matrix{E & F \\ F & G}
 		= \Matrix{g_{11} & g_{12} \\ g_{21} & g_{22}}.
 	\]
@@ -184,23 +188,23 @@ einer \emph{symmetrischen Billinearform} mit maximalem Rang.
 \begin{lem}
 	Bei einer Parametertransformation $\tilde f = f \circ \Phi$ ergibt sich für $(g_{ij}), (\tilde g_{ij})$
 	\[
-		(g_{ij}) = (D\Phi)^T(g_{ij}(D\Phi)
+		(g_{ij}) = (\Df[\Phi])^T(g_{ij}(\Df[\Phi])
 	\]
 	\begin{proof}
 		Es gilt
 		\begin{align*}
-			\tilde g_{ij} &= (D \tilde f)^T (D \tilde f)
-			= (Df \circ D \Phi)^T (Df \circ D\Phi)
-			= (D\Phi)^T \underbrace{\big((Df)^T Df\big)}_{=(g_{ij})} \circ D\Phi
+			\tilde g_{ij} &= (\Df[\tilde f])^T (\Df[ \tilde f])
+			= (\Df \circ \Df[\Phi])^T (\Df \circ \Df[\Phi])
+			= (\Df[\Phi])^T \underbrace{\big((\Df)^T \Df\big)}_{=(g_{ij})} \circ \Df[\Phi]
 		\end{align*}
 	\end{proof}
 \end{lem}
 
-Es gilt $\det(\tilde g_{ij}) = \det(g_{ij}) (\det(D\Phi))^2$.
+Es gilt $\det(\tilde g_{ij}) = \det(g_{ij}) (\det(\Df[\Phi]))^2$.
 
-$g := \det(g_{}∫ij)$ heißt \emphdef{Gramsche Determinante}
+$g := \det(g_{ij})$ heißt \emphdef{Gramsche Determinante}
 \[
-	\tilde g = g (\det(D\Phi))^2
+	\tilde g = g (\det(\Df[\Phi]))^2
 \]
 Die \emphdef{Gramsche Matrix} ist
 \[
@@ -215,7 +219,7 @@ der Flächeninhalt des Paralallograms.
 
 Für eine lineare Abbildung $F$ ist die Gramsche Determinante
 \[
-	\<Fx, Fx\> <Fy, Fy> - \<Fx, Fy\>^2
+	\<Fx, Fx\> \<Fy, Fy\> - \<Fx, Fy\>^2
 \]
 das Quadrat der Flächenverzerrung von $F$.
 Damit ist $\sqrt{g} = \sqrt{\det(g_{j})}$ die Flächenverzerrung der Abbildung $f$.
@@ -234,7 +238,7 @@ Damit ist $\sqrt{g} = \sqrt{\det(g_{j})}$ die Flächenverzerrung der Abbildung $
 		Diese Definition ist unabhängig von der Parametrisierung, denn für $\tilde f = f \circ \Phi, Q = \Phi(\tilde Q), (u_1,u_2) = \Phi(\tilde u_1, \tilde u_2)$ ist
 		\begin{align*}
 			\iint_{\tilde f(Q)} \alpha \dx[\tilde A]
-			&= \iint_{\tilde Q} (\alpha \circ \tilde f)(\tilde u_1, \tilde u_2) \underbrace{\sqrt{g}}_{=|\det D\Phi| \sqrt{g}} \dx[(\tilde u_1, \tilde u_2)] \\
+			&= \iint_{\tilde Q} (\alpha \circ \tilde f)(\tilde u_1, \tilde u_2) \underbrace{\sqrt{g}}_{=|\det \Df[\Phi]| \sqrt{g}} \dx[(\tilde u_1, \tilde u_2)] \\
 			&= \iint_{Q} (\alpha \circ f) (u_1, u_2) \sqrt{g} \dx[(u_1, u_2)] \\
 			&= \iint_{f(Q)} \alpha \dx[A]
 		\end{align*}
@@ -258,7 +262,7 @@ ein \emphdef{Vektorfeld}.
 	\]
 	Analog definiert man stetige und differenzierbare Vektorfelder für stetiges, bzw. differenzierbares $x$.
 
-	Man nennt das Vektorfeld \emphdef{Vektorfeld!tangential}, wenn $x(x) \in T_u(f)$ für alle $u \in U$ und \emphdef{Vektorfeld!normal}, wenn $x(u) \in \orth_u f$ für alle $u \in U$.
+	Man nennt das Vektorfeld \emphdef[Vektorfeld!tangential]{tangential}, wenn $x(x) \in T_u(f)$ für alle $u \in U$ und \emphdef[Vektorfeld!normal]{normal}, wenn $x(u) \in \orth_u f$ für alle $u \in U$.
 \end{df}
 
 \begin{ex}
@@ -279,12 +283,12 @@ Wann ist eine 2-dimensionale Untermannigfaltigkeit des $R^3$ orientierbar?
 Genau dann, wenn es ein stetiges Einheitsnormalenvektorfeld gibt (Forster, Analysis 3). % fixme: ref
 
 \[
-	\ddx[u_1]{f}, \ddx[u_2]{f}, \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}}
+	\ddx[u_1]{f}, \ddx[u_2]{f}, \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}\|}
 \]
 ist positiv orientiert, Umdrehen von $\ddx[u_1]{f}, \ddx[u_2]{f}$ ergibt die andere Orientierung.
-$(u_1, u_2) \mapsto \Phi(u_1, u_2)$ mit positivem $\det D\Phi$ ?
+$(u_1, u_2) \mapsto \Phi(u_1, u_2)$ mit positivem $\det \Df[\Phi]$ ?
 
-Innerhalb von $U \subset \R^2$ gibt es eine feste orientierung durch Wahl einer Reihenfolge $u_1, u_2$.
+Innerhalb von $U \subset \R^2$ gibt es eine feste Orientierung durch Wahl einer Reihenfolge $u_1, u_2$.
 Für die Bilmenge $f(U)$ braucht das nicht zu gelten (falls $f$ nicht injektiv ist).
 
 \begin{ex}[Möbiusband]
@@ -314,7 +318,7 @@ Wir benötigen 2. Ableitungen, sei also $f$ zweimal stetig differenzierbar.
 \begin{df}[Gauß-Abbildung]
 	Für $f: U \to \R^3$ ist die \emphdef{Gaußsche Normalenabbildung} oder \emphdef{Gauß-Abbildung} $\nu: U \to S^2$ erklärt als
 	\[
-		\nu(u_1, u_2)0:= \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}}\|} \in S^2 \subset \R^3
+		\nu(u_1, u_2) := \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}\|} \in S^2 \subset \R^3
 	\]
 	Identifiziere $T_{f(u)} \R^3$ mit $T_{\nu(u)}\R^3$ durch Translation.
 \end{df}
@@ -326,25 +330,25 @@ Ideal wäre
 \end{align*}
 Dann wären $\alpha, \beta$ natürliche Krümmungen.
 Dies ist allerdings im Allgemeinen nicht der Fall.
-Es läuft auf ein Vergleich mit $D\nu$ mit $Df$ hinaus.
+Es läuft auf ein Vergleich von $\Df[\nu]$ mit $\Df$ hinaus.
 \begin{align*}
-	Df\big|_U : T_u U  &\bijto T_u f \subset T_{f(U)} \R^3, \\
-	D\nu\big|_U : T_u U &\to T_{v(u)} \R^3.
+	\Df\big|_U : T_u U  &\bijto T_u f \subset T_{f(u)} \R^3, \\
+	\Df[\nu]\big|_U : T_u U &\to T_{\nu(u)} \R^3.
 \end{align*}
 Nun ist wegen $1 = \<\nu, \nu\>$ gerade $0 = \<\ddx[u_i]{\nu}, \nu\>$ mit $i = 1,2$.
-Damit ist $\ddx[u_1]{\nu}, \ddx[u_2]{\nu}$ tangential an der Fläche, also durch Identifikation durch Translation
+Damit ist $\ddx[u_1]{\nu}, \ddx[u_2]{\nu}$ tangential an der Fläche, also nach Identifikation durch Translation erhalten wir
 \[
-	D\nu\big|_U : T_u U \to T_u f.
+	\Df[\nu]\big|_U : T_u U \to T_u f.
 \]
-$Df$ hat maximalen Rang, also existiert $(Df)^{-1}: T_\nu f \to T_\nu U$.
-$Df, (Df)^{-1}, D\nu$ sind parameterunabhängig.
+$\Df$ hat maximalen Rang, also existiert $(\Df)^{-1}: T_\nu f \to T_\nu U$.
+Die Ableitungen $\Df, (\Df)^{-1}, \Df[\nu]$ sind parameterunabhängig.
 
 \begin{df}[Weingartenabbildung]
-	Die Komposition
+	Die Komposition $L := -\Df[\nu] \circ (\Df)^{-1}$ im Punkt $u$:
 	\[
-		L := -D\nu \circ (Df)^{-1}
+		L_u := -\Df[\nu]\big|_u \circ (\Df\big|_u)^{-1} : T_u f \to T_u f
 	\]
-	im Punkt $L_u := -D\nu\big|_u \circ (Df\big|_u)^{-1} : T_u f \to T_u f$ heißt \emphdef{Weingartenabbildung}, oder \emphdef{Formoperator}.
+	heißt \emphdef{Weingartenabbildung}, oder \emphdef{Formoperator}.
 	Insbesondere ist $L(\ddx[u_i]{f}) = - \ddx[u_i]{\nu}$.
 \end{df}
 
@@ -357,10 +361,10 @@ $L$ ist ein Endomorphismenfeld der Tangentialebene.
 		Dann ist
 		\begin{align*}
 			\tilde L
-			&= -(D \tilde \nu) (D \tilde f)^{-1}
-			= \mp D\nu D\Phi (Df D\Phi)^{-1} \\
-			&= \mp D\nu D\Phi (D\Phi)^{-1} (Df)^{-1}
-			= \mp D\nu (Df)^{-1}
+			&= -(\Df[\tilde \nu]) (\Df[\tilde f])^{-1}
+			= \mp \Df[\nu] \Df[\Phi] (\Df \Df[\Phi])^{-1} \\
+			&= \mp \Df[\nu] \Df[\Phi] (\Df[\Phi])^{-1} (\Df)^{-1}
+			= \mp \Df[\nu] (\Df)^{-1}
 			= \pm L
 		\end{align*}
 	\end{proof}
