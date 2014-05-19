@@ -477,9 +477,9 @@ Nachstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersennez
 \end{ex*}
 
 % Prop 3.19
-\begin{prop}[1. Teil des Miller-Rabin Tests]
+\begin{prop}[1. Teil des Miller-Rabin Tests] \label{3.19}
 	Sei $n \in \P, a \in \Z$ mit $(a, n) = 1$.
-	Setze $n - 1 = 2^s d$ mit maximalem 2-Potenzteiler $2^s$ von $n-1$.
+	Setze $n - 1 = 2^s d$ mit maximalem 2-Potenzteiler $2^s$ von $n-1$, also $(2, d) = 1$.
 	Dann gilt entweder
 	\[
 		a^d \equiv 1 \mod n
@@ -487,9 +487,102 @@ Nachstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersennez
 	oder
 	\[
 		\exists \tilde r \in \{0, \dotsc, s-1\} :
-		2^{\tilde r} d \equiv -1 \bmod n.
+		a^{2^{\tilde r} d} \equiv -1 \bmod n.
 	\]
+	\begin{proof}
+		Übung
+	\end{proof}
 \end{prop}
+
+\coursetimestamp{19}{05}{2014}
+
+% Bsp 3.20
+\begin{ex} \label{3.20}
+	\begin{enumerate}[a)]
+		\item
+			Sei $n = 1729$ und $n - 1 = 1729 = 2^6 \cdot 27$.
+			Für $a = 2$ ist $2^{27} \not\equiv 1 \bmod 1729$.
+			Auch $2^{2^{\tilde r}} d \not\equiv -1 \bmod 1729$ für $0 \le \tilde r \le s-1$.
+			Also ist $n$ kein Primzahl.
+			Man nennt $2$ einen \emphdef{Zeugen} gegen die Primalität von $n$.
+
+			$1729 = 7 \cdot 13 \cdot 19$ ist eine Carmichaelzahl.
+		\item
+			Sei $n = 401$, dann ist $n - 1 = 400 = 2^4 \cdot 5^2$, also $s = 4, d = 25$.
+			Man errechnet
+			\[
+				2^{2^2 \cdot 25} = 2^{100} \equiv -1 \bmod 401
+			\]
+			Man stellt fest, dass $n = 401$ ist eine Primzahl.
+	\end{enumerate}
+\end{ex}
+
+% Prop 3.21
+\begin{prop}[2. Teil des Miller-Rabin Tests] \label{3.21}
+	Sei $n \in \N$ ungerade und $n \ge 3$, sowie $n \not\in \P$.
+	Dann gilt
+	\[
+		\l| \bigg\{ a : \; \parbox{0.5\textwidth}{ $a$ ist kein Zeuge gegen die Primalität von $a \in \{1, \dotsc, n-1\}$ und $(a,n) = 1$} \bigg\} \r| \le \dfrac{n-1}4.
+	\]
+	\begin{proof}
+		\begin{enumerate}[(i)]
+			\item
+				$a^d \equiv 1 \bmod n$
+			\item
+				$a^{2^r d} \equiv -1 \bmod n$ für $0 \le r \le s-1$
+		\end{enumerate}
+		Ist $a$ ein Nichtzeuge, dann erfüllt a) die Bedingung (i) oder (ii).
+
+		Wenn $a$ (i) erfüllt, dann erfüllt $-a$ die Bedingung (ii).
+		Sei $k := \max\{r\}$, so dass (ii) gilt.
+		Setze $m = 2^k d$.
+		Sei $n = \prod_{p\divs n} p^{e(p)}$ sei die Primfaktorzerlegung von $n$ (beachte $n \not\in \P)$.
+		Betrachte
+		\begin{align*}
+			J &:= \{ a \bmod n : (a,n) = 1, a^{n-1} \equiv 1 \bmod n \}, \\
+			K &:= \{ a \bmod n : (a,n) = 1, \forall p : a^{m} \equiv \pm 1 \bmod p^{e(p)} \}, \\
+			L &:= \{ a \bmod n : (a,n) = 1, \forall p : a^{m} \equiv \pm 1 \bmod n \}, \\
+			M &:= \{ a \bmod n : (a,n) = 1, \forall p : a^{m} \equiv 1 \bmod n \},
+		\end{align*}
+		Dann sind $J, K, L, M$ Untergruppen von $U(\Z / n \Z)$ mit $M \le L \le K \le J \le U(\Z / n\Z)$.
+		Beachte
+		\[
+			L = \{ a \bmod n : \text{$a$ ist Nichtzeuge}
+		\]
+		Zeige: der Index $|U(\Z / n\Z) : L | \ge 4$.
+
+		Alle Quadrate von $K$ liegen in $M$, also ist $|K : M| = 2^\alpha$ und $|K : L| = 2^j$.
+		Für $j \ge 2$ sind wir fertig.
+		Sei also $j = 1$.
+		Dann gilt nach \ref{1.14} $U(\Z/n\Z) = U(\Z/p_1^{e(p_1)}\Z) \times \dotsb \times U(\Z/p_t^{e(p_t)}\Z)$.
+		Es existiert $a$ mit $a^m \equiv -1 \bmod n$.
+		Zerlege $a = (a_1, \dotsc, a_t)$.
+		Dann ist
+		\[
+			a^m = (a_1^m, \dotsc, a_t^m) = (-1, \dotsc, -1).
+		\]
+		Ist $t \ge 3$, dann betrachte $\tilde a = (a_1, a_2, 1, \dotsc, 1), a' = (a_1, 1, a_3, 1, \dotsc, 1), \hat a = (1, a_2, a_3, 1, \dotsc, 1)$.
+		Sicherlich sind $\tilde a^m, a'^m, \hat a^m \in K$ und $\not\in L$, also ist $|K : L| \ge 4$, ein Widerspruch zu $j = 1$.
+		Sei also $t \le 2$, dann ist $n$ keine Carmichaelzahl.
+		Beachte: $J = U(\Z / n\Z)$ gilt genau dann, wenn $n$ eine Carmichaelzahl ist.
+		Also ist $| U(\Z / n\Z) : J| \ge 2$.
+		Damit ist $| U(\Z / n\Z) : L| \ge 4$.
+
+		Sei letztlich $j = 0$.
+		Dann sieht man, da $k = n$, dass $t = 1$ gelten muss, also $n = p^e$ mit $e \ge 2$.
+		Damit ist $|U(\Z / n\Z)| = p^{e-1}(p-1)$.
+		Da $p$ nicht $n-1$ teilt, ist $|U(\Z / n\Z) : J| \ge p^{e-1}$.
+		$p^{e-1} \ge 4$, es sei denn $p^e = 9$.
+		Ist $n \neq 9$, so sind wir fertig.
+		Für $n = 9$ verifiziert man die Behauptung direkt: für $n \cdot 1 = 8 = 1 \cdot 2^3$, also $d = 1, s=3$ sind $a=\_{\pm 1}$ die einzigen Nichtzeugen, $2 \le \f 84$.
+	\end{proof}
+\end{prop}
+
+Man wendet Miller-Rabin hauptsächlich probabilistisch an.
+Die „Trefferquote“, dass $n$ keine Primzahl ist, ist gegeben nach Proposition \ref{3.21}.
+
+Mit der Riemannschen Vermutung oder Verschärfungen davon, kann man die betrachteten Tests in diesem Kapitel verbessern.
+
 
 
 
