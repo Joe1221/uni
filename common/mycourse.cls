@@ -220,6 +220,7 @@
     name = lectures,
     title = Vorlesungen, % fixme: i8n
     options = -I omega, % texindy has issues with utf8 otherwise
+    %options = -I~omega~-M~indexstyle, % texindy has issues with utf8 otherwise
     columns = 1,
 ]
 

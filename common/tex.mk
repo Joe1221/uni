@@ -21,6 +21,7 @@ endif
 # TeX include path
 INCLUDEDIR = $(shell git rev-parse --show-toplevel)/common
 export TEXINPUTS = $(INCLUDEDIR):
+#export XINDY_SEARCHPATH = $(INCLUDEDIR):
 
 # Check for latexmk
 LATEXMK_VERSION := $(shell latexmk --version 2> /dev/null)
