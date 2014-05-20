@@ -220,6 +220,7 @@
     name = lectures,
     title = Vorlesungen, % fixme: i8n
     options = -I omega, % texindy has issues with utf8 otherwise
+    columns = 1,
 ]
 
 % emphasize a definition term and create index entry simultaneously
