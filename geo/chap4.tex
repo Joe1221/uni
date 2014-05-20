@@ -379,8 +379,214 @@ $L$ ist ein Endomorphismenfeld der Tangentialebene.
 		I(L \ddx[u_i]{f}, \ddx[u_j]{f})
 		= I(\ddx[u_i]{f}, L \ddx[u_j]{f}),
 	\]
-	also \emph{selbstadjungiert.}
+	also \emph{selbstadjungiert}.
+	\begin{note}
+		Damit ist $L$ insbesondere reell diagonalisierbar mit reellen Eigenwerten.
+	\end{note}
 \end{lem}
+
+\coursetimestamp{20}{05}{2014}
+
+
+Sei
+\begin{align*}
+	LX &= -\Df[\nu](\Df)^{-1}X) = \lambda X \\
+	LY &= -\Df[\nu](\Df)^{-1}X) = \my Y
+\end{align*}
+
+Setze $X = \Df(\xi), Y = \Df(\eta)$
+\begin{align*}
+	-\Df[\nu](\xi) &= \lambda \Df(\xi) \\
+	-\Df[\nu](\eta) &= \my \Df(\eta)
+\end{align*}
+
+Welche Krümmungen einer Kurve können wir erwarten?
+$c$ sei Kurve in der Läche, d.h. $c = f \circ \gamma$ für eine Kurve $\gamma$ in $U$.
+Die Krümmung $\kappa$ von $c$ ist $\kappa = \|c''\|$.
+Als Raumkurve
+\begin{align*}
+	c'' &= (c'')^{\text{Tangentialanteil}} + (c'')^{\text{Normalanteil}}
+	&= (c'')^{\text{Tang}} +\<c'', \ny\> \ny
+\end{align*}
+und
+\[
+	\<c'', \ny\> = \<\ddx[s^2]{c}, \ny\> = -\<\ddx[s]{c}, \ddx[s]{\ny} \> = \<\ddx[s]{c}, L \ddx[s]{c}\>
+	= I(c', Lc')
+\]
+hängt nur von der Fläche und $c' = \ddx[s]{c}$ ab.
+\[
+	L(\ddx[s]{s}) = -\Df[\nu](\Df)^{-1}(\ddx[s]{c}) = - \ddx[s]{\nu}.
+\]
+
+\begin{df}
+	$\kappa_\nu := \<c'', \nu\>$ heißt \emphdef{Normalkrümmung} von $c$, $\kappa_g := (c'')^{\text{Tang}}$ heißt die \emphdef{geodätische Krümmung}.
+	\begin{note}
+		Nach Pythagoras ist $\kappa^2 = \|c''\|^2 = \kappa_g^2 + \kappa_\nu^2$.
+
+		Für $\kappa_g = 0$ ergeben sich genau die \emphdef[geodätische Kurve]{geodätische Kurven} (auch \emphdef{Geodätische}).
+	\end{note}
+\end{df}
+
+\begin{df}
+	Die \emphdef[Fundamentalform!zweite]{2. Fundamentalform} wird durch
+	\[
+		II(X, Y) := I (LX, Y) = I(X, LY)
+	\]
+	definiert.
+	Analog die \emphdef[Fundamentalform!dritte]{3. Fundamentalform} als
+	\[
+		III(X, Y) := I(L^2X, Y) = I(LX, LY) = I(X, L^2Y).
+	\]
+\end{df}
+
+\begin{kor}
+	\begin{enumerate}[1)]
+		\item
+			Die Normalkrümmung $\kappa_\nu$ in Richtung $c' = X$ ist durch $II(X, X)$ gegeben:
+			\[
+				\kappa_\nu = \<c', Lc'\> = II(c', c').
+			\]
+		\item
+			Die 3. Fundamentalform ist gleichzeitig die 1. Fundamentalform $I_\nu$ der Gaußschen-Normalenabbildung $\nu: U \to S^2$ (als Flächenstück betrachtet, sofern sie nicht degeneriert).
+			Für $X = \Df(\xi)$ ist
+			\[
+				III(X, X) = \<LX, LX\> = \<D\nu(\xi), D\nu(\xi)\> = I_\nu(\xi, \xi).
+			\]
+		\item
+			Es gilt der Satz von Cayley-Hamilton:
+			\[
+				III - \tr(L) II + \det(L) I = 0,
+			\]
+			$L$ erfüllt sein charakteristisches Polynom.
+			\begin{proof}
+				Sei $LX = \lambda X, LY = \mu Y$.
+				\[
+					L^2 - \tr(L) + \det(\Id) = 0
+				\]
+				einsetzen ergibt
+				\begin{align*}
+					\lambda^2 X - (\lambda + \mu) \lambda X + \mu \lambda X &= 0 \\
+					\mu^2 Y - (\lambda + \mu) \mu Y + \mu \lambda Y &= 0
+				\end{align*}
+			\end{proof}
+	\end{enumerate}
+\end{kor}
+
+In Koordinaten ergeben sich die Fundamentalformen als
+\begin{align*}
+	(g_{ij}) &= I(\ddx[u_i]{f}, \ddx[u_j]{f}) \\
+	(h_{ij}) &= II(\ddx[u_i]{f}, \ddx[u_j]{f}) = I(\ddx[u_ji]{f}, -\ddx[u_j]{\nu}) = I(\ddx[u_i]{f}, L \ddx[u_j]{f}) = \< \f{\partial^2 f}{\partial u_i \partial u_j}, \nu \> \\
+	(e_{ij}) &= III(\ddx[u_i]{f}, \ddx[u_j]{f}) = \< \ddx[u_i]{\nu}, \ddx[u_j]{\nu} \>
+\end{align*}
+Wir wollen schreiben $L(\ddx[u]{f}) = \sum_{j} h_i^j \ddx[u_j]{f}$ mit gewissen Koeffizienten $h_i^j$.
+Es gilt
+\[
+	\underbrace{\<L \ddx[u_j]{f}, \ddx[u_k]{f} \>}_{=h_{ik}}
+	= \sum_{j} h_i^j \underbrace{\< \ddx[u_j]{f}, \ddx[u_k]{f}\>}_{g_{jk}}
+	= \sum_{j} h_i^j g_{jk}
+\]
+$h_{ij} = \sum_{i} h_i^j g_{jk}$, $h_i^j = \sum_{k} h_{ik} g^{kj}$.
+Dann ist $h_{ij}$. Hier fehlt was
+\[
+	\sum_{k} g_{ik} g^{kj} = \delta_i^l.
+\]
+
+\begin{ex}
+	Betrachte die Sphäre $S^2(I)$, $f: U\to S^2$.
+	Wegen $\nu = \pm f$ ist $L = \mp \Id$.
+	Dann ist $II = \pm I, III = I$.
+\end{ex}
+
+\begin{df}[Hauptkrümmungen]
+	$X$ seie der Einheits-Tangentialvektor in einem festen Punkt, $\|x\| = 1$.
+	Dann sind äquivalent:
+	\begin{enumerate}[1)]
+		\item
+			$X$ ist Eigenvektor von $L$ (in diesem Punkt),
+		\item
+			$II(X, X)$ hat ein Extremum unter allen $X$ mit Nebenbedingung $I(X,X) = 1$.
+	\end{enumerate}
+	$X$ heißt dann \emphdef{Hauptkrümmungsrichtung} und der Eigenwert $\lambda$ heißt \emphdef{Hauptkrümmung} (extremale Normalkrümmung).
+	\begin{proof}
+		Nutze die Lagrange-Multiplikatren für Extremwertproblemen unter Nebenbedingungen, wobei $I(X, X) = 1$ die Nebenbedingung und $II(X,X)$ die zu maximierende Zielfunktioni ist.
+
+		$x_1, x_2$ seien kartesische Koordinaten in $U$.
+		Die Nebenbedingung ist
+		\[
+			g(x_1, x_2) = \sum_{i,j} g_{ij} x_i x_j = 1
+		\]
+		mit konstanter Matrix $g_{ij}$.
+		Die Zielfunktion ist
+		\[
+			h(x_1, x_2) = \sum_{i,j} h_{ij} x_i x_j \to \max
+		\]
+		Es gilt
+		\begin{align*}
+			\ddx[x_k]{h} \big|_{(x_1,x_2)} = \ddx[x_k]{f} (\dotsc)
+			&= \sum_{i,j} h_{ij} \ddx[x_k]{x_i} x_j  + \sum_{i,j} h_{ij} x_i \ddx[x_k]{x_j} \\
+			&= \sum_{j} h_{kj} x_j + \sum_{i} h_{ij} x_i
+			= 2\sum_{i} h_{ik} x_i,
+		\end{align*}
+		Analog ist $\ddx[x_k]{s} = 2 \sum_{i} g_{ik} x_i$.
+		Also $\< \grad h|_X, Y \> = 2 II(X, Y) = 2 I(LX, Y)$ und $\<\grad g|_X, Y\> = 2I(X, Y)$
+		und somit
+		\[
+			\grad h = \lambda \grad g
+			\iff
+			LX = \lambda X.
+		\]
+	\end{proof}
+	\begin{note}
+		Bei einer Fläche gibt es zwei Hauptkrümmungen $\kappa_1, \kappa_2$ (Gleichheit ist möglich), deren Hauptkrümmungsrichtungen senkrecht aufeinander stehen:
+		für $\kappa_1 \neq \kappa_2$ ist
+		\[
+			Lx_1 = \kappa_1 X_1, LX_2 = \kappa_2 X_2
+		\]
+		und
+		\[
+			\kappa_1 \<X_1, X_2\>
+			= \<LX_1, X_2>
+			= \<X_1, LX_2\>
+			= \kappa_2 \< X_1, X_2,
+		\]
+		also $\<X_1, X_2 \> = 0$.
+	\end{note}
+\end{df}
+
+\begin{df}
+	Die Determinante $K = \det(L) = \kappa_1 \kappa_2$ heißt \emphdef{Gauß-Krümmung} von $f$.
+
+	Der Mittelwert $H = \f 12 \tr(L) = \f 12 (\kappa_1 + \kappa_2)$ heißt \emphdef{mittlere Krümmung} von $f$.
+
+	Ein Punkt $p$ einer Fläche heißt
+	\begin{itemize}
+		\item
+			\emphdef{elliptisch}, wenn $K(p) > 0$,
+		\item
+			\emphdef{hyperbolisch}, wenn $K(p) < 0$,
+		\item
+			\emphdef{parabolisch}, wenn $K(p) = 0$ und $H(p) \neq 0$ oder äquivalent $\rg(L) = 1$.
+		\item
+			\emphdef{Nabelpunkt}, (engl. “umbilic”), wenn $\kappa_1(p) = \kappa_2(p)$,
+		\item
+			\emphdef{eigentlicher Nabelpunkt}, wenn $\kappa_1(p) = \kappa_2(p) \neq 0$,
+		\item
+			\emphdef{Flachpunkt} (engl. “level point”), wenn $\kappa_1(p) = \kappa_2(p) = 0$.
+	\end{itemize}
+\end{df}
+
+\begin{kor}
+	Es gilt stets $H^2 - K = \f 12 (\kappa_1 - \kappa_2)^2 \ge 0$ mit Gleichheit genau für Nabelpunkte.
+	In Koordianaten lassen sich $K$ und $H$ nach \ref{??} stets wie folgt ausdrücken:
+	\begin{align*}
+		K &= \f{\det(h_{ij})}{\det(g_{ij})}
+		= \f{h_{11}h_{22} - h_{12}^2}{g_{11}g_{22} - g_{12}^2} \\
+		H &= \f 12 \sum_{i} h_{i}^i = \f 12 \sum_{ij} h_{ij} g^{ji}
+		= \f 1{2\det(g_{ij})} \big( h_{11} g_{22} - 2h_{12}g_{12} + h_{22}g_{11} \big)
+	\end{align*}
+\end{kor}
+
+
 
 
 
