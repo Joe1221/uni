@@ -170,55 +170,87 @@ Dies motiviert Primzahltests.
 \begin{ex} \label{3.7}
 	\begin{enumerate}[a)]
 		\item
-			Sei $n=9, a= 2$.
-			Dann ist $a^3 = 8 \equiv -1 \bmod 9$, also ist $a^6 \equiv 1 \bmod 9$ und $a^8 \not\equiv 1 \bmod 9$
-			Also ist $9$ keine Primzahl.
+			Sei $n = 9, a = 2$.
+			Dann ist
+			\[
+				a^8
+				= a^3 a^3 a^2
+				= 8 \cdot 8 \cdot 4
+				\equiv (-1) \cdot (-1) \cdot 4
+				= 4
+				\neq 1
+				\mod 9.
+			\]
+			Gemäß dem Fermatschen Primzahltest, ist $9$ also keine Primzahl.
 		\item
-			$341$ ist eine Pseudoprimzahl zur Basis $2$, denn $2^10 = 1024 = 3\cdot 341 + 1$, also ist $2^10 \equiv 1 \bmod 341$ und $2^{340} \equiv 1 \bmod 341$.
+			$341 = 11 \cdot 31$ ist eine Pseudoprimzahl zur Basis $2$, denn wegen
+			\[
+				2^{10} = 1024 = 3\cdot 341 + 1
+				\equiv 1 \mod 341
+			\]
+			gilt $2^{340} = (2^{10})^{34} \equiv 1 \bmod 341$.
 		\item
 			$561 = 51 \cdot 11 = 3 \cdot 17 \cdot 11$ ist eine Carmichaelzahl (sogar die kleinste).
 
 			Dies manuell nachzuprüfen ist mühsam.
-			Glücklicherweise liefert der folgende Satz eine einfacherer Charakterisierung.
+			Glücklicherweise liefert der folgende Satz eine einfachere Charakterisierung.
 	\end{enumerate}
 \end{ex}
 
+\begin{df*}
+	Wir nennen $n \in \N$ \emphdef{quadratfrei}, wenn $n$ kein Quadrat als Teiler hat.
+\end{df*}
+
 % St 3.8
 \begin{st}[Korselt, 1899] \label{3.8}
-	$n$ ist genau dann eine Carmichaelzahl, wenn $n$ quadratfrei ist (d.h. kein Quadrat als Teiler hat) und für alle ihre Primteile $p$ gilt, dass $p-1$ ein Teiler von $n-1$ ist und $n = p_1 p_2 \cdot p_k$ mit $k \ge 3$ und $p_i$ ungerade Primzahl.
-	\begin{proof}
-		\begin{enumerate}[1.]
-			\item
-				Wenn $n = \prod_{i=1}^k p_i$ mit $p_i$ Primzahl, $p_i \neq p_j$ für $i \neq j$, dann ist mit \ref{1.14}
-				\[
-					U(\Z / n\Z) = U(\Z / p_1\Z) \times \dotsb \times U(\Z / p_k \Z).
-				\]
-				Aus $u \in U(\Z / n\Z)$ folgt $u^m = 1$ für $m = \kgV \{p_i-1 : 1 \le i \le k\}$.
-				Nach Voraussetzung wird $n - 1$ von $m$ geteilt, also $u^{n-1} = 1$.
-				$u$ repräsentiert jedes $a$ mit $(a,n) = 1$.
-			\item
-				Zeige: ist $n$ nicht quadratfrei, dann ist $n$ keine Carmichaelzahl.
+	Sei $n \in \N$ mit Primfaktorzerlegung $n = p_1 p_2 \dotsb p_k$.
 
-				Sei $n = p^m a$ mit $(p,a) = 1$, Primzahl $p$ und $m \ge 2$.
-				Aus $b^{n-1} \equiv 1 \bmod n$ folgt $b^{n-1} \equiv 1 \bmod p^m$, also $\phi(p^m)$ teilt $n-1$, denn $U(\Z / p^m \Z)$ ist zyklisch von Ordnung $\phi(p^m)$.
-				Es folgt $p^{m-1} (p-1)$ teilt $n-1$.
-				Da aber $n$ von $p$ geteilt wird und wegen $m \ge 2$ $p$ auch $n-1$ teilt, folgt dann $p$ teilt $n - (n-1) = 1$, ein Widerspruch.
-			\item
-				Ist $n$ eine Carmichaelzahl, also $p-1$ teilt $n-1$, wenn $p$ ein Teiler von $n$ ist.
-				Zerlege $U(\Z / n\Z) = U(\Z / p_1 \Z) \times \dotsb \times U(\Z / p_k \Z)$.
-				Also $1 = a^{n-1} = (a_1^{n-1}, \dotsc, a_k^{n-1})$.
-				Insbesondere kann man die $a_i$ so wählen, dass sie $U(\Z/p_i \Z)$ erzeugen.
-				$p_i - 1$ teilt $n-1$ für alle $1 \le i \le k$.
-			\item
-				$n$ ist ungerade, wenn $n$ Carmichaelzahl ist.
-				Angenommen $2$ teile $n$, dann ist $-1 = (-1)^{n-1} \equiv 1 \bmod n$, da $n$ Carmichael, also $n \divs 2$ und somit $n = 2$, ein Widerspruch.
-		\end{enumerate}
+	$n$ ist genau dann eine Carmichaelzahl, wenn $n$ quadratfrei ist, $k \ge 3$, $p_i$ ungerade und $p_i-1 \divs n-1$ für alle $1 \le i \le k$.
+	\begin{proof}
+		\begin{segnb}{$\impliedby$}
+			Statt $a \in \N$ mit $(a, n) = 1$ zu prüfen, genügt es Elemente $u \in U(\Z / n\Z)$ zu betrachten.
+			Mit \ref{1.14} ist
+			\[
+				U(\Z / n\Z) = U(\Z / p_1\Z) \times \dotsb \times U(\Z / p_k \Z).
+			\]
+			Setze $m := \kgV \{ p_i - 1 : 1 \le i \le k \}$, dann gilt $u^m = 1$ und nach Voraussetzung $m \divs n - 1$, also auch $u^{n-1} = 1$ (beachte $u \in \Z / n\Z$).
+			Also ist $n$ Carmichaelzahl.
+		\end{segnb}
+		\begin{segnb}{$\implies$}
+			Sei nun $n \in \N$ eine Carmichaelzahl.
+			\begin{enumerate}[1.]
+				\item
+					\emph{$n$ ist  quadratfrei}.
+					Zeige dazu: ist $n$ nicht quadratfrei, dann ist $n$ keine Carmichaelzahl.
+
+					Sei $n = p^m a$ mit $(p,a) = 1$, Primzahl $p$ und $m \ge 2$.
+					Aus $b^{n-1} \equiv 1 \bmod n$ folgt $b^{n-1} \equiv 1 \bmod p^m$.
+					$U(\Z / p^m \Z)$ ist zyklisch von Ordnung $\phi(p^m) = p^{m-1} (p-1)$, also $p^{m-1} (p-1)$ teilt $n-1$.
+
+					Es gilt $p \divs n$ und wegen $m \ge 2$ auch $p \divs n-1$, also $p \divs n - (n-1) = 1$, ein Widerspruch.
+				\item
+					\emph{$p_i - 1$ teilt $n - 1$}.
+					Zerlege dazu $U(\Z / n\Z) = U(\Z / p_1 \Z) \times \dotsb \times U(\Z / p_k \Z)$.
+					Für beliebiges $u = (u_1, \dotsc, u_k) \in U(\Z / n\Z)$ gilt nach Voraussetzung $u^{n-1} = 1$, also $u_i^{n-1} = 1$ für alle $1 \le i \le k$.
+					Wählt man für diese $u_i$ gerade die Erzeuger von $U(\Z / p_i\Z)$, so erhält man $u_i^{p_i-1} = 1 = u_i^{n-1}$ und weil $U(\Z / p_i \Z)$ Ordnung $p_i - 1$ hat auch $p_i - 1 \divs n - 1$.
+				\item
+					\emph{$p_i$ ungerade}.
+					Es genügt zu zeigen, dass $n$ ungerade ist.
+					Angenommen $2 \divs n$.
+					Offenbar ist $(n - 1, n) = 1$, also nach Voraussetzung
+					\[
+						n - 1 \equiv -1 = (-1)^{n-1} \equiv 1 \mod n,
+					\]
+					also $n \divs 2$ und mit der Annahme $n = 2$, ein Widerspruch zu $n$ nicht prim.
+			\end{enumerate}
+			% fixme: Wo wird k ≥ 3 gezeigt?
+		\end{segnb}
 	\end{proof}
 \end{st}
 
 \begin{ex*}
 	Sei $561 = 3 \cdot 17 \cdot 11$ die Zahl aus \ref{3.7} c).
-	Offenbar ist $561$ quadratfrei und $2 \divs 560, 10 \divs 560, 16 \divs 560$, also ist $561$ eine Carmichaelzahl.
+	Offenbar ist $561$ quadratfrei und $2, 10, 16 \divs 560$, also ist $561$ eine Carmichaelzahl.
 \end{ex*}
 
 % Lem 2.9
@@ -277,7 +309,7 @@ Dies motiviert Primzahltests.
 % Nt + Ex 3.11
 \begin{nt} \label{3.11}
 	Um \ref{3.10} anwenden zu können, sollte man die Primzahlen von $n-1$ kennen.
-	In Spezialfallen ist dies der Fall, z.B. für $n = 2^{16} + 1 = 65537$.
+	In Spezialfällen ist dies der Fall, z.B. für $n = 2^{16} + 1 = 65537$.
 
 	Nach \ref{3.10} genügt zum Primzahlnachweis eine Zahl $a$ zu finden mit $a^{2^{16}} \equiv 1 \bmod 2^{16} + 1$ und $a^{2^{15}} \not\equiv 1 \bmod 2^{16} + 1$.
 	Man kann dann ausrechnen, dass dies für $a = 3$ der Fall ist.
@@ -317,7 +349,7 @@ Nachstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersennez
 \end{df}
 
 % St 3.14
-\begin{st} \label{3.14}
+\begin{st}[Pépin Test] \label{3.14}
 	$F_k$ für $k \ge 1$ ist genau dann eine Primzahl, wenn
 	\[
 		3^{\f{F_k - 1}2} \equiv -1 \mod F_k
@@ -378,8 +410,8 @@ Nachstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersennez
 
 % Bem 3.16
 \begin{nt} \label{3.16}
-	In einem Brief um 1640 vermutete Fermat, dass alle Zahlen $F_n$ Primzahlen sind.
-	$F_5$ ist keine Primzahl (gezeigt von Euler 1732), denn $641 \divs F_5$.
+	In einem Brief um 1640 vermutete Fermat, dass alle Fermatzahlen $F_n$ Primzahlen sind.
+	Er hatte Unrecht: $F_5$ ist keine Primzahl (gezeigt von Euler 1732), denn $641 \divs* F_5$.
 
 	Nach \ref{3.15} gilt für einen Primteiler von $F_5$, dass $p \equiv 1 \bmod 2^7 = 128$.
 	Daraus folgt $p \in \{129, 257, 385, 513, 641, \dotsc\}$.
@@ -394,7 +426,7 @@ Nachstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersennez
 
 % St 3.17
 \begin{st}[Lucas-Lehmer Test] \label{3.17}
-	Sei $p > 2$ Primzahl und die Folgt $(s_n)_{n\in\N}$ sei rekursiv definiert durch
+	Sei $p > 2$ Primzahl und die Folge $(s_n)_{n\in\N}$ sei rekursiv definiert durch
 	\begin{align*}
 		s_1 &:= 4, &
 		s_{n} &:= s_{n-1}^2 - 2.
