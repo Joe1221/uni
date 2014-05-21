@@ -7,10 +7,14 @@
 - What about `\fixme` notation, showing on the margin, or even with an index?
 - Reference \ref{4.7}[b] for subitems
 
-## Titlepage
+### Titlepage
 
 - Include timestamps for last change date
 - Include recent git history (filtered for current course)
+
+### Index
+
+- Figure out dotfill style with xindy
 
 ## Exercise Class
 
