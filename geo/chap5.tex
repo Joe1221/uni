@@ -1,0 +1,126 @@
+\chapter{Spezielle Klassen von Flächen}
+
+
+
+Man kategorisiert verschiedene Spezialfälle von Flächen:
+\begin{itemize}
+	\item
+		Drehflächen als Drehung einer ebenen Kurve um eine Achse,
+	\item
+		geradelinige Flächen (man schiebe eine Gerade längs einer Kurve),
+	\item
+		Schiebflächen (man schiebe eine Kurve längs einer Kurve),
+	\item
+		Minimalflächen (Flächen mit minimaler Oberfläche, „Seifenhäute“).
+\end{itemize}
+
+\begin{df}[Drehfläche]
+	Sei $t \mapsto (r(t), h(t))$ eine reguläre Kurve in der $(x,z)$-Ebene.
+	Drehung um die $z$-Achse ergibt
+	\[
+		f(t, \phi) = \big( r(t) \cos \phi, r(t) \sin \phi, h(t) \big).
+	\]
+	Eine solche Fläche heißt \emphdef{Drehfläche} oder \emphdef{Rotationsfläche}.
+\end{df}
+
+Es gilt
+\begin{align*}
+	f_t &= (\dot r \cos \phi, \dot r \sin \phi, \dot h), &
+	f_\phi &= (-r \sin \phi, r \cos \phi, 0),
+\end{align*}
+also
+\[
+	I = \Matrix*{\dot r^2 + \dot h^2 & 0 \\ 0 & r^2}.
+\]
+Dies degeneriert für $r = 0$.
+\[
+	\nu = \f 1{\sqrt{\dot r^2 + \dot h^2}} (- \dot h\cos \phi, -\dot h \sin \phi, \dot r)
+\]
+Es gilt
+\begin{align*}
+	f_{tt} &= \Vector{\ddot r \cos \phi & \ddot r \sin \phi & \ddot h}, &
+	f_{t\phi} &= \Vector{-\dot r \sin \phi & \dot r \cos \phi & 0}, &
+	f_{\phi\phi} &= \Vector{-r \cos \phi & -r \sin \phi & 0}
+\end{align*}
+Damit ist
+\[
+	II = \f 1{\sqrt{\dot r^2 + \dot h^2}} \Matrix*{-\ddot r \dot h + \dot r \ddot h & 0 \\ 0 & r\dot h}.
+\]
+Also sind die $t$-Linien und $\phi$-Linien überall Eigenrichtungen der Weingartenabbildung.
+Also ist
+\begin{align*}
+	\kappa_1 &= \f 1{(\dot r^2 + \dot h^2)^{\f 32}} (-\ddot r\dot h + \dot r \ddot h), &
+	\kappa_2 &= \f 1{\sqrt{\dot r^2 + \dot h^2}} \f {\dot h}r.
+\end{align*}
+Sei $t = s$ der Bogenlängenparameter, also $\dot r^2 + \dot h^2 = 1$, $r' = \dot r$, $h' = \dot h$, $\dot r\ddot r + \dot h \ddot h = 0$.
+Es ergibt sich dann
+\begin{align*}
+	I &= \Matrix{1 & 0 \\ 0 & r^2}, &
+	II &= \Matrix{-r'' h' + r' h'' & 0 \\ 0 & rh'}
+\end{align*}
+und für die Krümmungen
+\begin{align*}
+	\kappa_1 &= -r'' h' + r' h'' = \f{h'h''}{r'} h' + r' h'' = \f {h''}{r'}(h'^2 + r'^2) = \f{h''}{r'} = - \f{r''}{h'}, \\
+	\kappa_2 &= \f {h'}r.
+\end{align*}
+Also ist
+\begin{align*}
+	K &= \kappa_1 \kappa_2 = \f {h'}{r} \cdot (- \f {r''}{h'}) = - \f {r''}{r}, \\
+	H &= \f 12(\kappa_1 + \kappa_2) = \f 12 (\f{h''}{r'} + \f{h'}{r}).
+\end{align*}
+$K = c = \const$ gilt genau dann, wenn $-\f{r''}{r} = c$, also genau dann, wenn $r'' + cr = 0$, die DGL des harmonischen Oszillators.
+Die Standard-Lösung für $c = 1$ ist $r(s) = \sin s$, also $h = \pm \cos s$.
+Es ergibt sich ein Kreis, bzw. eine Sphäre.
+
+Im Punkt $r = 0, r' = -1, h' = 0, h'' = -1$.
+Es gilt die Regel von Bernoulli-l'Hospital:
+\begin{align*}
+	\kappa_2 = \lim \f{h'}{r} = \f{h''}{r'} = 1, \\
+	\kappa_1 = \lim \f{r''}{h'} = \f{r'''}{h''} = -r''' = 1
+\end{align*}
+
+\paragraph{Drehflächen mit $K = \const$}
+
+Dies ist genau dann der Fall, wenn $r'' + Kr = 0$, $h' = \pm \sqrt{1 - r^2}$.
+Wir unterscheiden drei Fälle:
+\begin{itemize}
+	\item
+		Sei $K = 0$.
+		Dann ist $r'' = 0$, also $r(s) = as + b$ und $r' = a$, also $h' = \pm \sqrt{1 - a^2}$ und somit $h$ linear.
+
+		Man erhält die drei Fälle eines Zylinders, einer Ebene und eines Kegels
+	\item
+		Sei $K > 0$.
+		Dann ist $r(s) = a \sin(\sqrt k s), r = b\cos (\sqrt k s)$ und es ergibt sich $h' = \sqrt{1 - a^2 K \cos^2(\sqrt k s)}$.
+		Dies geht nur für $0 \le a^2 K \le 1$.
+
+		Für $a^2 K = 1$ ergibt sich die Sphäre mit Radius $\f 1{\sqrt k}$.
+		Für $a^2 K < 1$ ergibt sich der \emphdef{Spindeltyp} und für $a^2 K > 1$ der \emphdef{Wulsttyp}.
+
+		Im Fall $a^2 K < 1$ ist $h' \neq 0$, aber $r = 0$ möglich.
+
+		Im Fall $a^2 K > 1$ hat $h'$ Nullstelle mit $r \neq 0$.
+		Aus $\kappa_2 = 0$ folgt $\kappa_1 = \infty$ (Krümmung der Kurve).
+	\item
+		Sei $K < 0$.
+		Dann ist $r(s) = a\cosh (\sqrt{-K} s) + b \sinh (\sqrt{-k} s)$.
+
+		Setze $K = -1$, $a > 0$, $r = a \cosh s > 0$ (\emphdef{Kehltyp}).
+		Es ist $r' = a \sin h s, h' = \sqrt{1 - a^2 \sinh^2 s}$.
+		$h' = 0$, wenn $r' = \pm 1$.
+
+		Setze $K = - 1, b > 0$ (\emphdef{Kegeltyp}).
+		$r = \sinh s, r' = b \cos h s > 0, h' = \sqrt{1 - b^2 \cosh^2 s}$ ($b < 0$).
+		$r$ hat eine Nullstele und $h'$ hat eine Nullstelle.
+
+		Setze $K = -1$, $a = b$ (\emphdef{Pseudosphäre} doer \emphdef{Beltarmis Fläche}).
+		Dann ist $r(s) = a e^s > 0$, $r' > 0$, $h' = \sqrt{1 - 4a^2 e^{2s}}$.
+		$h' = 0$ für $4a^2 e^{2s} = 1$, also für $s_0 = \ln \f 1{a}$.
+		\begin{align*}
+			\kappa_1 &= \f {-r''}{h'} = - \f {ae^s}{\sqrt{1-a^2e^{2s}}} \to \infty \\
+			\kappa_0 &= \f {h'}r \to 0
+		\end{align*}
+		für $s \to s_0$.
+		Auch $\kappa_1 \nearrow 0, \kappa_2 \to \infty$ für $s \to -\infty$.
+\end{itemize}
+

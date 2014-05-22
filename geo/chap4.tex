@@ -567,7 +567,7 @@ Dann ist $h_{ij}$. Hier fehlt was
 		\item
 			\emphdef{parabolisch}, wenn $K(p) = 0$ und $H(p) \neq 0$ oder äquivalent $\rg(L) = 1$.
 		\item
-			\emphdef{Nabelpunkt}, (engl. “umbilic”), wenn $\kappa_1(p) = \kappa_2(p)$,
+			\emphdef{Nabelpunkt}, (engl. “umbilic”), wenn $\kappa_1(p) = \kappa_2(p)$ oder äquivalent $L = \kappa_1 \Id = \kappa_2 \Id$,
 		\item
 			\emphdef{eigentlicher Nabelpunkt}, wenn $\kappa_1(p) = \kappa_2(p) \neq 0$,
 		\item
@@ -586,6 +586,65 @@ Dann ist $h_{ij}$. Hier fehlt was
 	\end{align*}
 \end{kor}
 
+\coursetimestamp{22}{05}{2014}
+
+Anwendung der Mongeschen Koordinaten
+
+\begin{st}
+	Ein zusammenhängendes Flächenstück $f: U \to \R^3$ der Klasse $C^2$ besteht genau dann \emph{nur} aus Nabelpunkten, wenn das Bild $f(U)$ in einer Ebene oder einer Sphäre enthalten ist.
+	\begin{proof}
+		\begin{seg}{$\impliedby$}
+			Für eine Ebene ist $\nu$ konstant und $\Df[\nu] = 0$ und $L = 0$, also $\kappa_1 = \kappa_2 = 0$.
+			Für eine Sphäre vom Radius $r$ gilt $L = \pm \f 1r \Id$, also $\kappa_1 = \kappa_2 = \f 1r$.
+		\end{seg}
+		\begin{seg}{$\implies$}
+			Es sei $L = \kappa \Id$ mit einer Funktion $\kappa(u, v)$.
+			\[
+				\iff \Df[\nu](u,v) = - \kappa(u,v) \Df (u,v)
+			\]
+			Verwende Mongesche Koordinaten: $f(u, v) = (u,v,h(u,v))$.
+			\begin{align*}
+				\nu_u(u,v) &= -\kappa(u,v) f_u(u, v)
+				= -\kappa(u,v)
+				(1, 0, h_u) \\
+				\nu_i (u,v) &= -\kappa(u,v) f_v(u, v)
+				= -\kappa(u,v)
+				(0, 1, h_i)
+			\end{align*}
+			mit
+			\[
+				\nu = \f {f_u \times f_v}{\|\dotsc\|} = \f 1{\sqrt{1 + h_u^2 + h_v^2}} (-h_u, -h_v, 1)
+			\]
+			Man erhält
+			\begin{align*}
+				\partial_u \f {h_u}{\sqrt{\dotsc}}
+				&= \kappa(u,v), &
+				\partial_v \f {h_u}{\sqrt{\dotsc}}
+				&= 0, \\
+				\partial_u \f {h_v}{\sqrt{\dotsc}}
+				&= 0, &
+				\partial_v \f {h_v}{\sqrt{\dotsc}}
+				&= \kappa(u,v).
+			\end{align*}
+			Also ist $\f{h_{u,v}}{\sqrt{\dotsc}}$ eine Funktion nur von $u$, bzw. $v$ abhängig:
+			\begin{align*}
+				\f{h_u}{\sqrt{\dotsc}} &= a(u), &
+				\f{h_v}{\sqrt{\dotsc}} &= b(u).
+			\end{align*}
+			Dann ist $a'(u) = \kappa(u,v)$, $b'(v) = \kappa(u,v)$, also muss $\kappa$ konstant sein.
+
+			Falls $\kappa = 0$, dann ist $\Df[\nu] = 0$, $\nu$ konstant, also $f$ eine Ebene.
+
+			Falls $\kappa \neq 0$, dann ist $\Df[(\f 1\kappa \nu + f)] = 0$ wegen $\f 1\kappa (\Df[\nu] (\Df)^{-1}) + \Id = 0$
+			Also $\f 1\kappa \nu + f$ konstant (Mittelpunkt der Sphäre von Radius $\f 1{|\kappa|})$.
+		\end{seg}
+	\end{proof}
+	\begin{note}
+		Wir haben gezeigt: $\kappa_1 = \kappa_2 \implies \kappa_1 = \kappa_2 = \const$.
+
+		Ist $f \in C^3$, so kann man für die Hinrichtung des Beweises auch $\kappa$ ableiten.
+	\end{note}
+\end{st}
 
 
 
