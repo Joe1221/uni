@@ -97,9 +97,198 @@ Alle diese Fragen führen in die algebraische Zahlentheorie.
 				\forall a, b \in R, b \neq 0 \exists q,r \in R : (a = qb + r) \land (r = 0 \lor \phi(r) < \phi(b)).
 			\]
 			$\phi$ nennt man \emphdef{Gradfunktion}.
+			\begin{note}
+				Ein Ring $R$ kann bezüglich verschiedener Gradabbildungen euklidisch sein.
+			\end{note}
 		\item
-			Ein Integritätsbereich $R$ heißt \emphdef{faktoriell}, wenn sich jede Nichteinheit verschieden von Null als endliches Produkt von irreduziblen Elementen schreiben lässt.
+			Ein Integritätsbereich $R$ heißt \emphdef{faktoriell}, wenn sich jede Nichteinheit verschieden von Null als endliches Produkt von Primelementen schreiben lässt.
 		\item
-			$R$ heißt \emphdef{noethersch}, wenn jedes Ideal endlich erzeugt ist.
+			$R$ heißt \emphdef{noethersch} (nach Emmy Noether, 1882-1935), wenn jedes Ideal endlich erzeugt ist.
 	\end{enumerate}
 \end{df}
+
+\coursetimestamp{22}{05}{2014}
+
+% St 4.6
+\begin{st} \label{4.6}
+	Sei $R$ ein kommutativer Ring.
+	Dann sind die folgenden Aussagen äquivalent
+	\begin{enumerate}[(i)]
+		\item
+			Alle Ideale sind endlich erzeugt,
+		\item
+			Jede aufsteigende Kette von Idealen bricht ab,
+		\item
+			Jede nicht-leere Menge von Idealen von $R$ besitzt maximale Elemente.
+	\end{enumerate}
+	\begin{proof}
+		\begin{seg}{(i)$\implies$(ii)}
+			Sei eine  Kette $\{I_j\}$ gegeben.
+			Setze $I = \bigcup_{j} I_j$.
+			Dann verifiziert man leicht, dass $I$ ein Ideal ist.
+			Nach Voraussetzung ist $I$ endlich erzeugt, d.h. $I = \< x_1, \dotsc, x_m\>$.
+			Jedes $x_i$ liegt in einem $I_{j(i)}$.
+			Setze $k := \max \{j(i)\}$, dann ist $I_k \supset \{x_1, \dotsc, x_m\}$ und somit $I = I_k$.
+		\end{seg}
+		\begin{seg}{(ii)$\implies$(iii)}
+			Sei $I_1 \in \scr M$.
+			Wenn $I_1$ nicht maximal ist, dann existiert $I_2$ mit $I_1 \subset I_2$, usw.
+			Somit entsteht eine aufsteigende Kette von Idealen, welche nach Voraussetzung abbricht.
+			Also existieren maximale Elemente.
+		\end{seg}
+		\begin{seg}{(iii)$\implies$(i)}
+			Sei $I$ eine beliebiges Ideal und $x_1 \in I$.
+			Wenn $\<x_1\> \neq I$, dann existiert $x_2$ mit $x_2 \not\in I_1$, aber $x_2 \in I$.
+			Es entsteht eine Kette $\<x_1\> \subset \<x_1, x_2\> \subset \dotsc$, welche nach Voraussetzung maximale Elemente besitzt, also existiert, also existiert eins mit $\<x_1, x_2, \dotsc, x_m\> = I$.
+		\end{seg}
+	\end{proof}
+\end{st}
+
+% Df 4.4
+\begin{df} \label{4.7}
+	Ist $\beta = r + s\sqrt a \in \Q[\sqrt a]$, dann nennt man $\beta' := r - s\sqrt a$ das \emphdef[algebraisch konjugiert]{zu $\beta$ algebraisch konjugierte Element}.
+
+	Die Abbildung $N: \Q[\sqrt a] \to \Q$, definiert durch
+	\[
+		N(\beta) := \beta \beta' = r^2 - s^2 d
+	\]
+	nennt man die \emphdef{Normabbildung}, $N(\beta)$ die \emphdef[Norm]{Norm von $\beta$}.
+	\begin{note}
+		Ist $d < 0$, dann ist $N(\beta) = |\beta|^2$.
+	\end{note}
+\end{df}
+
+% Lem 4.8
+\begin{lem} \label{4.8}
+	\begin{enumerate}[a)]
+		\item
+			Die Abbildung $\sigma: \Q(\sqrt a) \to \Q(\sqrt a), \beta \to \beta'$ ist ein Korperautomorphismus von $\Q(\sqrt a)$ und $\sigma\big|_{\Z[\alpha_d]} : \Z[\alpha_d] \to \Z[\alpha_d]$ ist ein Ringautomorphismus, der genau die Elemente von $\Z$ festhält.
+		\item
+			$\sigma$ bildet irreduzible Elemente in irreduzible Elemente und Einheiten in Einheiten ab.
+		\item
+			$N$ ist multiplikativ, d.h. $\forall \beta, \gamma \in \Q(\sqrt a): N(\beta \gamma) = N(\beta) N(\gamma)$.
+			Ist $u \in U(\Z[\alpha_d])$, dann ist $N(u) = \pm 1$.
+	\end{enumerate}
+	\begin{proof}
+		Siehe Übung.
+	\end{proof}
+\end{lem}
+
+$\Z$ ist offensichtlich ein euklidischer Ring mit $|\argdot|$ als Gradfunktion.
+
+% St 4.9
+\begin{st} \label{4.9}
+	Die Ringe $\Z[\alpha_d]$ sind für $d = -11, -7, -3, -2, -1, 2, 3, 5, 13$ euklidisch.
+	\begin{proof}
+		\begin{segnb}{$\Z[i] = \Z[\sqrt{-1}]$}
+			Als Gradabbildung wählen wir die Normabbildung $a + bi \mapsto a^2 + b^2 = |a + bi|^2$.
+
+			Seien nun $\alpha, \beta \in \Z[i]$, $\beta \neq 0$.
+			Dann sind $\gamma, \delta \in \Z[i]$ gesucht mit $\alpha = \gamma \beta + \delta$ und $\delta = 0$ oder $|\delta|^2 < |\beta|^2$.
+
+			Es genügt ein $\gamma$ zu finden mit $| \f \alpha\beta - \gamma | < 1$, denn
+			\[
+				\f \alpha\beta = \gamma + \f \delta\beta
+				\iff \f \alpha\beta - \gamma = \f \delta \beta,
+			\]
+			also $| \f \alpha \beta - \gamma | < 1 \iff |\f \delta \beta| = \f {|\delta|}{|\beta|} < 1$.
+
+			Setze also $\delta = \alpha - \gamma \beta$.
+
+			Identifiziere $\C$ mit $\R^2$.
+			Die ganzen Gaußschen Zahlen $\Z[i]$ bilden im $\R^2$ ein Gitter.
+
+			Die Quadrate $\{[a, a+1] \times [bi, (b+1)i]: a,b \in \Z\}$ überdecken den ganzen $\R^2$.
+			Also ist $\f \alpha\beta \in [a_0, a_0 + 1] \times [b_0 i, (b_0+1)i]$ für festgelegte $a_0, b_0 \in \Z$.
+
+			Der Abstand von $\f \alpha\beta$ von einem geeigneten Eckpunkt der Gittermasche ist $\le \f{\sqrt 2}2 < 1$.
+			Dieser Eckpunkt ist das gesuchte $\gamma$.
+		\end{segnb}
+		\begin{segnb}{$d < 0$}
+			Ist $d < 0$, dann kann man für $\Z[\alpha_d]$ völlig analog argumentieren, nur die Maschengröße ändert sich:
+			Für $d = -2$ ist die Masche $1 \times \sqrt 2$ mit Diagonale $\sqrt 3$, dann ist $\f {\sqrt 3}2 < 1$.
+
+			Für $d = -3, -7, -11$ (sind $\equiv 1 \bmod 4$) hat man $\alpha_d = \f {\sqrt{d}}2$.
+
+			Für $d = -11$ beispielsweise mit Diagonale $(1 + \f {|d|}4) = \f {15}4$.
+			Länge der Diagonalen $\sqrt{15}{4} < 2$, als $\f 12 \sqrt{15}{4} < 1$.
+		\end{segnb}
+		\begin{segnb}{$d > 0$}
+			Alle Elemente von $R$ sind reell, Veranschauliche $\Z[\alpha_d]$ in $\R^2$ folgendermaßen:
+			\begin{align*}
+				\sigma: \Z[\alpha_d] &\to \R^2 \\
+				\beta &\mapsto (\beta, \beta')
+			\end{align*}
+			Das Bild von $\sigma$ ist ein Gitter in $\R^2$, erzeugt von $(1,1)$ und $(\sqrt d, -\sqrt d)$ für $d \equiv 2,3 \bmod 4$, bzw. $(1,1)$ und $(\alpha_d, -\alpha_d)$ für $d \equiv 1 \bmod 4$.
+			Verwende als Gradfunktion für $R = \Z[\alpha_d]$, dann $(N(\beta)| = |\beta \beta'|$.
+			Zu zeigen ist wie im anderen Fall, dass für alle $\tilde \beta \in \Q[\sqrt d]$ existiert ein $q \in \Z[\alpha_d]$ mit $|N(\tilde \beta - q)| < 1$.
+
+			Rest Übung.
+			Hinweis:
+			\[
+				\forall x,y \in \R:  |x+y| < 2 \land |x-y| < 2 \implies |xy| < 1
+			\]
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+% St 4.10
+\begin{st} \label{4.10}
+	\begin{enumerate}[a)]
+		\item
+			Euklidische Ringe sind Hauptidealbereiche
+		\item
+			Hauptidealbereiche sind faktoriell
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Sei $R$ euklidisch und $I \neq \emptyset$ ein Ideal von $R$.
+				Sei $\phi$ die Gradfunktion von $R$.
+				Wähle $m \in I \setminus \{0\}$ mit $\phi(m)$ minimal.
+				Sei $a \in I$ beliebig, dann ist $a = qm + r$.
+				Falls $r = 0$, dann ist $a \in \<m\>$.
+				Falls $r \neq 0$, dann ist $\phi(r) < \phi(m)$, aber $r = a - qm \in I$, ein Widerspruch zur Minimalität von $\phi(m)$ in $I$.
+				Also ist $I \subset \<m\> \subset I$ und $I$ ist Hauptideal.
+			\item
+				Nach \ref{4.6} sind Hauptidealbereiche noethersch und jede Menge von Hauptidealen hat maximale Elemente.
+				Nach \ref{1.8} lässt sich jede Nicht-Einheit $r \neq 0$ als ein endliches Produkt von irreduziblen Elementen schreiben.
+				In Hauptidealbereichen sind nach \ref{1.7} irreduzible Elemente und Primelemente die selben.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+% Bsp + Bem 4.11
+\begin{nt} \label{4.11}
+	\begin{enumerate}[a)]
+		\item
+			$\Z$ und $K[x]$ mit Körper $K$ sind euklidische Ringe mit $\phi = |\argdot|$, bzw. $\phi = \deg$.
+		\item
+			$\Z[x]$ ist kein Hauptidealbereich, z.B. $I = \<2, x\>$ ist kein Hauptideal.
+		\item
+			In faktoriellen Ringen gilt die eindeutige Zerlegung von Nicht-Einheiten ungleich Null in Primelemente
+			Verwende dazu \ref{1.6}.
+			Irreduzible Elemente in faktoriellen Ringen lassen sich auch eindeutig in Primelemente zerlegen.
+			Also sind irreduzible Element äquivalent zu Primelementen.
+		\item
+			Euklidisch impliziert Hauptidealbreich implieziert faktoriell.
+			In der Algebra zeigt man (Satz von Gauß):
+			Ist $R$ faktoriell, dann ist $R[x_1, \dotsc, x_n]$ faktoriell.
+
+			Insbesondere folgt aus $\Z$ faktoriell auch $\Z[x]$ faktoriell, allerding ist nach b) $\Z[x]$ kein Hauptidealbereich.
+			Gibt es auch Hauptidealbereiche, die nicht euklidisch sind? Ja, siehe e).
+		\item
+			\ref{4.9} kann man verschärfen (bekannt seit 1966, Baker, Stark, Heegner):
+			$\Z[\alpha_d]$ mit $d < 0$ ist genau dann eukldisch, wenn $d = -11, -7, -3, -2, -1$.
+			Man weiß, dass $\Z[\f{1 + \sqrt{19}}2]$ ein Hauptidealbereich ist, aber nach obigem nicht euklidisch.
+
+			Für $d > 0$ weiß man nicht alle $d$ für die $\Z[\alpha_d]$ euklidisch ist.
+			Für $d < 0$ und $d = -19, -43, -67, -163$ ist $\Z[\alpha_d]$ ein Hauptidealbereich.
+			Insgesamnt mit den $d$ aus \ref{4.9} gibt es genau 9 negative $d$, für die $\Z[\alpha_d]$ ein Hauptidealbereich ist, in allen anderen Fällen ist $\Z[\alpha_d], d < 0$ kein Hauptidealbereich.
+
+			Für $d > 0$ kennt man die $d$ für die $\Z[\alpha_d]$ ein euklidischer Ring mit Normbetrag als Gradfunktion ($d \le 73$, aber nicht alle).
+			Für $d = 69$ ist $\Z[\alpha_{69}]$ euklidisch mit anderer Gradfunktion (bekannt seit 1994).
+
+			Man vermutet, dass es unendlich viele Hauptidealbereiche für $d > 0$ gibt.
+	\end{enumerate}
+\end{nt}
