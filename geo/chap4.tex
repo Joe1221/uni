@@ -1,24 +1,32 @@
 \chapter{Lokale Flächentheorie}
 
 
+\section{Grundlagen}
+
 
 \begin{df}
-	Sei $U \subset \R^2$ offen.
+	Sei $n < m$, $U \subset \R^n$ offen und $f: U \to \R^m$ differenzierbar.
+	Wir nennen $f$ \emphdef{Immersion}, falls die Jacobimatrix $\Df = (\ddx[u_j]{f_i}) \in \R^{m \times n}$ injektiv ist, d.h. maximalen Rang besitzt.
+\end{df}
 
-	Ein \emphdef[Flächenstück!parametrisiertes]{parametrisiertes reguläres Flächenstück} ist eine differenzierbare Abbildung $f: U \to \R^3$, wobei $(\ddx[u_j]{f_i})_{i,j} \in \R^{3 \times 2}$ maximalem Rang hat
-	($f$ ist eine \emphdef{Immersion}, d.h. ihre Ableitung ist injektiv).
+\begin{conv}
+	Sei im Folgenden, soweit nicht anders festgelegt stets $U \subset \R^2$ eine offene Menge.
+\end{conv}
 
-	Elemente $u = (u_1, u_2)$ von $U$ nennen wir \emphdef{Parameter}, Elemente von $f(U)$ \emph{Punkte}.
+\begin{df}
+	Ein \emphdef[Flächenstück!parametrisiertes]{parametrisiertes reguläres Flächenstück} ist eine Immersion $f: U \to \R^3$.
 
-	Ein unparametrisiertes reguläres \emphdef[Flächenstück!unparametrisiert]{Flächenstück} ist eine Äquivalenzklasse bezüglich $\sim$ von parametrisierten Flächenstücken, wobei $f \sim g$, falls $\Phi$ existiert mit $g = f \circ \Phi$, $\Phi$ bijektiv und $\Phi, \Phi^{-1}$ differenzierbar.
+	Elemente $u = (u_1, u_2) \in U$ nennen wir \emphdef{Parameter}, Elemente $f(u) \in f(U)$ \emph{Punkte}.
+
+	Ein (unparametrisiertes) reguläres \emphdef[Flächenstück!unparametrisiert]{Flächenstück} ist eine Äquivalenzklasse bezüglich $\sim$ von parametrisierten Flächenstücken, wobei $f \sim g$ gilt, wenn $\Phi$ existiert mit $g = f \circ \Phi$, $\Phi$ bijektiv und $\Phi, \Phi^{-1}$ differenzierbar.
 \end{df}
 
 \begin{ex}
-	Eine Funktion der Form
+	Sei $z: U \to \R$ differenzierbar, dann definiert eine Funktion der Form
 	\[
-		f(u,v) = \Vector{ u & v & z(u,v)}
+		f(u,v) = \Vector*{ u & v & z(u,v)}
 	\]
-	für differenzierbares $z : U \to \R^3$ definiert stets ein reguläres Flächenstück, denn
+	stets ein reguläres Flächenstück, denn
 	\[
 		f_u = \Vector{1 & 0 & z_u},
 		f_v = \Vector{0 & 1 & z_v}
@@ -29,48 +37,51 @@
 \begin{ex}
 	\begin{itemize}
 		\item
-			Die $2$-Sphäre ohne Äquator ist gegeben durch
+			Die $2$-Sphäre ohne Äquator ist gegeben durch die Funktionen
 			\[
-				f(u,v) = \Vector*{ u & v & \pm \sqrt{1 - u^2 - v^2} }.
+				f_\pm(u,v) = \Vector*{ u & v & \pm \sqrt{1 - u^2 - v^2} },
 			\]
-			für $u^2 + v^2 < 1$.
-			Alternativ
+			wobei $u^2 + v^2 < 1$.
+			Nach vorigem Beispiel ist dies ein parametrisiertes reguläres Flächenstück.
+		\item
+			Die 2-Sphäre ohne Nord- und Südpol lässt sich durch
 			\[
 				f(\phi, \theta) = \Vector*{ \cos \phi \cos \theta & \sin \phi \cos \theta & \sin \theta }
 			\]
-			mit $0 < \phi < 2\pi$ und $-\f \pi 2 < \theta < \f \pi 2$.
+			mit $0 \le \phi < 2\pi$ und $-\f \pi 2 < \theta < \f \pi 2$ beschreiben.
+			% fixme: Hier wird (1, 0, 0) doch garnicht erreicht?
+
 			$f$ ist eine Immersion, denn
 			\[
 				f_\phi = \Vector{-\sin \phi \cos \theta & \cos \phi \cos \theta & 0},
 				f_\theta = \Vector{-\cos \phi \sin \theta & - \sin \phi \sin \theta & \cos \theta}
 			\]
-			sind wegen $\cos \theta \neq 0$ linear unabhängig.
-			Die Koordinaten brechen allerdings im Nord- und Südpol zusammen.
+			sind wegen $\cos \theta \neq 0$ stets linear unabhängig.
+			Allerdings brechen die Koordinaten Nord- und Südpol zusammen.
 
-			Es gilt
+			$f_\phi, f_\theta$ sind anschaulich tangential zur Sphäre, während
 			\[
 				f_\phi \times f_\theta
 				= \Vector{\cos \phi \cos^2 \theta & \sin \phi \cos^2 \theta & \sin \theta \cos \theta}
 				\neq 0
 			\]
-			wegen $\cos \theta \neq 0$.
-			Anschaulich gesprochen sind $f_\phi, f_\theta$ sind tangential zur Sphäre und $f_\phi \times f_\theta$ ist normal zur Sphäre.
+			normal auf der Sphäre steht.
 		\item
-			Sei
+			Für
 			\[
 				f(t,x) := \Vector{t^2 & t^3 & x}
 			\]
-			dann ist $f_t = \Vector{2t & 3t^2 & 0} = 0$ für $t = 0$, also nicht regulär.
+			ist $f_t = \Vector{2t & 3t^2 & 0} = 0$ für $t = 0$, also ist $f$ nicht regulär.
 	\end{itemize}
 \end{ex}
 
-\begin{conv}
-	Der \emphdef[Tangentialraum]{Tangentialraum von $\R^n$ in $x \in \R^n$} ist definiert als $T_p\R^n := \{ u \} \times \R^n \isomorphic \R^n$.
+\begin{df}
+	Der \emphdef[Tangentialraum]{Tangentialraum von $\R^n$ in $p \in \R^n$} ist definiert als $T_p\R^n := \{ p \} \times \R^n \isomorphic \R^n$.
 
 	Sei $f: U \to \R^3$ ein reguläres Flächenstück, $u \in U$ und $p := f(u) \in \R^3$.
 	Für einen Punkt $p \in \R^3$ sei $(p, x)$ der Tangentialvektor in $p$ in Richtung $x$.
 
-	Der \emphdef[Tangentialraum!an $U$]{Tangentialraum von $U$ in $u$} ist $T_pU := T_u \R^2$
+	Der \emphdef[Tangentialraum!an $U$]{Tangentialraum von $U$ in $u$} ist $T_u U := T_u \R^2$
 
 	Die \emphdef[Tangentialebene]{Tangentialebene von $f$ in $p$} ist
 	\[
@@ -85,12 +96,13 @@
 	\begin{note}
 		Es gilt
 		\[
-			T_u f \oplus \Orthspace_u f = T_{f(u)} \R^3.
+			T_u f \oplus \Orthspace_u f = T_{f(u)} \R^3,
 		\]
+		wobei $\oplus$ die direkte Summe der Vektorräume bezeichnet.
 		$T_u f$ wird aufgespannt von $\ddx[u_1]{f}, \ddx[u_2]{f}$ und
 		$\Orthspace_u f$ wird aufgespannt von $\ddx[u_1]{f} \times \ddx[u_2]{f}$.
 	\end{note}
-\end{conv}
+\end{df}
 
 \begin{ex}
 	Definiere den \emphdef{Rotationstorus} durch
@@ -100,16 +112,16 @@
 	mit $0 < \phi, u < 2\pi$ und $0 < b < a$.
 	Diese Fläche ist regulär. \Exercise
 
-	Ähnlich wie die Sphäre durch die Gleichung $x^2 + y^2 + z^2 = r^2$ gegeben ist, ist auch der Rotationstorus durch eine Gleichung gegeben, nämlich
+	Der Rotationstorus erfüllt die Gleichung
 	\[
 		(a^2 - b^2 + x^2 + y^2 + z^2)^2 = 4 a^2 (x^2 + y^2).
 	\]
 	Man verifiziert dies mit der Substitution $z^2 = b^2 \sin^2 u$ und $x^2 + y^2 = (a + b \cos u)^2$. \Exercise
 \end{ex}
 
-\paragraph{metrische Verhältnisse innerhalb eines Flächenstücks}
+\section{Metrische Verhältnisse innerhalb eines Flächenstücks}
 
-Die Länge eine Tangentialvektors $x \in T_v f$ oder $x \in T_p \R^3$ ist
+Die Länge eine Tangentialvektors $x \in T_u f$ oder $x \in T_p \R^3$ ist
 \[
 	\|x\| = \sqrt{\<x, x\>}
 \]
@@ -118,7 +130,7 @@ Die Länge einer Kurve $[a,b] \xrightarrow{c} U \xrightarrow{f} \R^3$ ist
 	\int_a^b \| (f \circ c)^\cdot (t)\| \dx[t]
 	= \int_a^b \sqrt{\< \Df \dot c, \Df \dot c\>} \dx[t]
 \]
-mit $\dot c \in T_{c(t)} U$, $(\Df) = (\ddx[u_j]{f_i})_{i,j}$
+mit $\dot c \in T_{c(t)} U$, $\Df = (\ddx[u_j]{f_i})_{i,j}$
 \[
 	\Df \dot c = \Matrix*{ \ddx[u_1]{x_1} & \ddx[u_2]{x_1} \\ \ddx[u_1]{x_2} & \ddx[u_2]{x_2} \\ \ddx[u_1]{x_3} & \ddx[u_2]{x_3} } \Vector{\dot u_1 & \dot u_2}.
 \]
@@ -130,36 +142,36 @@ Es gilt
 \]
 mit
 \[
-	\Df^T \Df = \Matrix*{\< \ddx[u_1]{f}, \ddx[u_1]{f}\> & \<\ddx[u_1]{f}, \ddx[u_2]{f}\> \\ \<\ddx[u_2]{f}, \ddx[u_1]{f}\> & \<\ddx[u_2]{f}, \ddx[u_2]{f}\> },
+	\Df^T \Df = \Matrix*{\< \ddx[u_1]{f}, \ddx[u_1]{f}\> & \<\ddx[u_1]{f}, \ddx[u_2]{f}\> \\ \<\ddx[u_2]{f}, \ddx[u_1]{f}\> & \<\ddx[u_2]{f}, \ddx[u_2]{f}\> }.
 \]
-einer \emph{symmetrischen Billinearform} mit maximalem Rang.
+Dieser Ausdruck ist allein von $f$ abhängig und stellt eine \emph{symmetrische Billinearform} mit maximalem Rang dar.
 
 \begin{df}
-	Die \emphdef[Fundamentalform!erste]{erste Fundamentalform} $I$ von $f: V \to \R^3$ ist die Einschränkung des euklidischen Skalarprodukts auf alle $T_u f$:
+	Die \emphdef[Fundamentalform!erste]{erste Fundamentalform} $Ⅰ: T_u f \times T_u f \to \R$ von $f: U \to \R^3$ ist die Einschränkung des euklidischen Skalarprodukts auf $T_u f$:
 	\[
-		I(X, Y) := \< X, Y \>
+		Ⅰ(X, Y) := \< X, Y \>,
 	\]
-	mit $X, Y \in T_u f$.
+	wobei $X, Y \in T_u f$.
 
-	In parametrisierter Form haben wir eine symmetrische Billinearform auf $T_u U$:
+	Liegt $f$ in parametrisierter Form vor, so verwenden wir auch den Ausdruck $Ⅰ(V, W)$ für $V, W \in T_u U$, welcher auf natürliche Weise durch die symmetrische Billinearform auf $T_u U$ gegeben ist:
 	\[
-		T_u U \times T_u U \ni (V, W) \mapsto \big\< \Df|_u (V), \Df|_u (W) \big\> = I(V, W)
+		Ⅰ(V, W) = \big\< \Df|_u (V), \Df|_u (W) \big\> = V (\Df^T \Df) W.
 	\]
-	mit $V, W \in T_u U$.
+	Die erste Fundamentalform ist also durch die Matrix
+	\[
+		(g_{ij})
+		= \Matrix*{g_{11} & g_{12} \\ g_{21} & g_{22}}
+		:= \Matrix*{E & F \\ F & G}
+		:= \Matrix*{\< \ddx[u_1]{f}, \ddx[u_1]{f}\> & \<\ddx[u_1]{f}, \ddx[u_2]{f}\> \\ \<\ddx[u_2]{f}, \ddx[u_1]{f}\> & \<\ddx[u_2]{f}, \ddx[u_2]{f}\> }
+		= \Df^T \Df
+	\]
+	bestimmt.
 
-	In Koordinaten gegeben durch
+	Das Flächenelement ergibt sich als
 	\[
-		\Df^T \Df = \Matrix*{\< \ddx[u_1]{f}, \ddx[u_1]{f}\> & \<\ddx[u_1]{f}, \ddx[u_2]{f}\> \\ \<\ddx[u_2]{f}, \ddx[u_1]{f}\> & \<\ddx[u_2]{f}, \ddx[u_2]{f}\> }
-		= \Matrix{E & F \\ F & G}
-		= \Matrix{g_{11} & g_{12} \\ g_{21} & g_{22}}.
+		\dx[s]^2 = E \dx[y]^2 + 2 E \dx[u_1] \dx[u_2] + G \dx[u_2]^2
 	\]
-	Dies ist die Matrix der Ersten Fundamentalform.
-
-	Schreibweise auch
-	\[
-		\dx[s]^2 = E \dx[y]^2 + 2 E \dx[u_1] \dx[u_2] + G \dx[u_2]^2.
-	\]
-	Dann ist
+	und es gilt
 	\[
 		\| (f \circ c)^\cdot \| = \sqrt{E \dot u_1^2 + 2 F \dot u_1 \dot u_2 + G \dot u_2^2}.
 	\]
@@ -273,7 +285,7 @@ ein \emphdef{Vektorfeld}.
 \begin{df}
 	Wir nennen
 	\[
-		\nu := \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}}
+		\nu := \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}\|}
 		\in \orth_u \subset T_{f(u)}\R^3.
 	\]
 	Die Einheitsnormale ist nicht eindeutig, $-\nu$ ist auch eine Einheitsnormale.
@@ -370,14 +382,14 @@ $L$ ist ein Endomorphismenfeld der Tangentialebene.
 	\end{proof}
 	Es gilt
 	\[
-		I(L \ddx[u_i]{f}, \ddx[u_j]{f})
+		Ⅰ(L \ddx[u_i]{f}, \ddx[u_j]{f})
 		= \< - \ddx[u_i]{\nu}, \ddx[u_j]{f} \>
 		= - \ddx[u_i]\underbrace{\<\nu, \ddx[u_j]{f}\>}_{=0} + \<\nu, \underbrace{\f{\partial^2 f}{\partial u_i \partial u_j}}_{\text{symm. in $i,j$}} \>
 	\]
 	Dann ist
 	\[
-		I(L \ddx[u_i]{f}, \ddx[u_j]{f})
-		= I(\ddx[u_i]{f}, L \ddx[u_j]{f}),
+		Ⅰ(L \ddx[u_i]{f}, \ddx[u_j]{f})
+		= Ⅰ(\ddx[u_i]{f}, L \ddx[u_j]{f}),
 	\]
 	also \emph{selbstadjungiert}.
 	\begin{note}
@@ -411,7 +423,7 @@ Als Raumkurve
 und
 \[
 	\<c'', \ny\> = \<\ddx[s^2]{c}, \ny\> = -\<\ddx[s]{c}, \ddx[s]{\ny} \> = \<\ddx[s]{c}, L \ddx[s]{c}\>
-	= I(c', Lc')
+	= Ⅰ(c', Lc')
 \]
 hängt nur von der Fläche und $c' = \ddx[s]{c}$ ab.
 \[
@@ -430,32 +442,32 @@ hängt nur von der Fläche und $c' = \ddx[s]{c}$ ab.
 \begin{df}
 	Die \emphdef[Fundamentalform!zweite]{2. Fundamentalform} wird durch
 	\[
-		II(X, Y) := I (LX, Y) = I(X, LY)
+		Ⅱ(X, Y) := Ⅰ (LX, Y) = Ⅰ(X, LY)
 	\]
 	definiert.
 	Analog die \emphdef[Fundamentalform!dritte]{3. Fundamentalform} als
 	\[
-		III(X, Y) := I(L^2X, Y) = I(LX, LY) = I(X, L^2Y).
+		Ⅲ(X, Y) := Ⅰ(L^2X, Y) = Ⅰ(LX, LY) = Ⅰ(X, L^2Y).
 	\]
 \end{df}
 
 \begin{kor}
 	\begin{enumerate}[1)]
 		\item
-			Die Normalkrümmung $\kappa_\nu$ in Richtung $c' = X$ ist durch $II(X, X)$ gegeben:
+			Die Normalkrümmung $\kappa_\nu$ in Richtung $c' = X$ ist durch $Ⅱ(X, X)$ gegeben:
 			\[
-				\kappa_\nu = \<c', Lc'\> = II(c', c').
+				\kappa_\nu = \<c', Lc'\> = Ⅱ(c', c').
 			\]
 		\item
-			Die 3. Fundamentalform ist gleichzeitig die 1. Fundamentalform $I_\nu$ der Gaußschen-Normalenabbildung $\nu: U \to S^2$ (als Flächenstück betrachtet, sofern sie nicht degeneriert).
+			Die 3. Fundamentalform ist gleichzeitig die 1. Fundamentalform $Ⅰ_\nu$ der Gaußschen-Normalenabbildung $\nu: U \to S^2$ (als Flächenstück betrachtet, sofern sie nicht degeneriert).
 			Für $X = \Df(\xi)$ ist
 			\[
-				III(X, X) = \<LX, LX\> = \<D\nu(\xi), D\nu(\xi)\> = I_\nu(\xi, \xi).
+				Ⅲ(X, X) = \<LX, LX\> = \<D\nu(\xi), D\nu(\xi)\> = Ⅰ_\nu(\xi, \xi).
 			\]
 		\item
 			Es gilt der Satz von Cayley-Hamilton:
 			\[
-				III - \tr(L) II + \det(L) I = 0,
+				Ⅲ - \tr(L) Ⅱ + \det(L) Ⅰ = 0,
 			\]
 			$L$ erfüllt sein charakteristisches Polynom.
 			\begin{proof}
@@ -474,9 +486,9 @@ hängt nur von der Fläche und $c' = \ddx[s]{c}$ ab.
 
 In Koordinaten ergeben sich die Fundamentalformen als
 \begin{align*}
-	(g_{ij}) &= I(\ddx[u_i]{f}, \ddx[u_j]{f}) \\
-	(h_{ij}) &= II(\ddx[u_i]{f}, \ddx[u_j]{f}) = I(\ddx[u_ji]{f}, -\ddx[u_j]{\nu}) = I(\ddx[u_i]{f}, L \ddx[u_j]{f}) = \< \f{\partial^2 f}{\partial u_i \partial u_j}, \nu \> \\
-	(e_{ij}) &= III(\ddx[u_i]{f}, \ddx[u_j]{f}) = \< \ddx[u_i]{\nu}, \ddx[u_j]{\nu} \>
+	(g_{ij}) &= Ⅰ(\ddx[u_i]{f}, \ddx[u_j]{f}) \\
+	(h_{ij}) &= Ⅱ(\ddx[u_i]{f}, \ddx[u_j]{f}) = Ⅰ(\ddx[u_ji]{f}, -\ddx[u_j]{\nu}) = Ⅰ(\ddx[u_i]{f}, L \ddx[u_j]{f}) = \< \f{\partial^2 f}{\partial u_i \partial u_j}, \nu \> \\
+	(e_{ij}) &= Ⅲ(\ddx[u_i]{f}, \ddx[u_j]{f}) = \< \ddx[u_i]{\nu}, \ddx[u_j]{\nu} \>
 \end{align*}
 Wir wollen schreiben $L(\ddx[u]{f}) = \sum_{j} h_i^j \ddx[u_j]{f}$ mit gewissen Koeffizienten $h_i^j$.
 Es gilt
@@ -494,7 +506,7 @@ Dann ist $h_{ij}$. Hier fehlt was
 \begin{ex}
 	Betrachte die Sphäre $S^2(I)$, $f: U\to S^2$.
 	Wegen $\nu = \pm f$ ist $L = \mp \Id$.
-	Dann ist $II = \pm I, III = I$.
+	Dann ist $Ⅱ = \pm Ⅰ, Ⅲ = Ⅰ$.
 \end{ex}
 
 \begin{df}[Hauptkrümmungen]
@@ -504,11 +516,11 @@ Dann ist $h_{ij}$. Hier fehlt was
 		\item
 			$X$ ist Eigenvektor von $L$ (in diesem Punkt),
 		\item
-			$II(X, X)$ hat ein Extremum unter allen $X$ mit Nebenbedingung $I(X,X) = 1$.
+			$Ⅱ(X, X)$ hat ein Extremum unter allen $X$ mit Nebenbedingung $Ⅰ(X,X) = 1$.
 	\end{enumerate}
 	$X$ heißt dann \emphdef{Hauptkrümmungsrichtung} und der Eigenwert $\lambda$ heißt \emphdef{Hauptkrümmung} (extremale Normalkrümmung).
 	\begin{proof}
-		Nutze die Lagrange-Multiplikatren für Extremwertproblemen unter Nebenbedingungen, wobei $I(X, X) = 1$ die Nebenbedingung und $II(X,X)$ die zu maximierende Zielfunktioni ist.
+		Nutze die Lagrange-Multiplikatren für Extremwertproblemen unter Nebenbedingungen, wobei $Ⅰ(X, X) = 1$ die Nebenbedingung und $Ⅱ(X,X)$ die zu maximierende Zielfunktioni ist.
 
 		$x_1, x_2$ seien kartesische Koordinaten in $U$.
 		Die Nebenbedingung ist
@@ -528,7 +540,7 @@ Dann ist $h_{ij}$. Hier fehlt was
 			= 2\sum_{i} h_{ik} x_i,
 		\end{align*}
 		Analog ist $\ddx[x_k]{s} = 2 \sum_{i} g_{ik} x_i$.
-		Also $\< \grad h|_X, Y \> = 2 II(X, Y) = 2 I(LX, Y)$ und $\<\grad g|_X, Y\> = 2I(X, Y)$
+		Also $\< \grad h|_X, Y \> = 2 Ⅱ(X, Y) = 2 Ⅰ(LX, Y)$ und $\<\grad g|_X, Y\> = 2Ⅰ(X, Y)$
 		und somit
 		\[
 			\grad h = \lambda \grad g
@@ -545,9 +557,9 @@ Dann ist $h_{ij}$. Hier fehlt was
 		und
 		\[
 			\kappa_1 \<X_1, X_2\>
-			= \<LX_1, X_2>
+			= \<LX_1, X_2\>
 			= \<X_1, LX_2\>
-			= \kappa_2 \< X_1, X_2,
+			= \kappa_2 \< X_1, X_2 \>,
 		\]
 		also $\<X_1, X_2 \> = 0$.
 	\end{note}
