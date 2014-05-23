@@ -1,0 +1,166 @@
+\chapter{Ringe und Moduln}
+
+
+\setcounter{section}{2}
+\section{Der Satz von Gauß}
+
+Wir haben im letzten Abschnitt \ref{15.2} gesehen, dass Hauptidealringe faktoriell sind.
+Der Satz von Gauß sagt unter anderem, dass es (viele) UFD's gibt, die keine HIR's sind.
+Die Konstruktion hat darüber hineaus einige wichtige (und hübsche) Anwendungen für die späteren Kapitel zur Körpertheorie.
+
+Im Folgenden sei $R$ ein kommutativer Integritätsbereich mit Einselement.
+Mit $\Prim(R)$ bezeichnen wir ein System von Repräsentanten der Assoziierungsklassen von Primelementen in $R$.
+So ist jedes Primelement von $R$ assoziiert zu genau einem Primelement in $\Prim(R)$, d.h. unterscheidet sich von diesem nur durch eine Einheit in $R$.
+
+\begin{df} \label{15.3-1}
+	Sei $R$ UFD, $K = Q(R)$ der Quotientenkörper von $R$.
+	Sei $p \in \Prim(R), 0 \neq a \in R$.
+	Da $R$ faktoriell ist, finden wir ein eindeutiges $b \in R$ mit $\ggT(b,p) = 1$ und ein eindeutiges $\nu_p(a) \in \N \cup \{0\}$ so, dass $a = p^{\nu_p(a)} b$ ist.
+	Für $0 \neq \alpha = \f rs \in K$ ($r, s \in R, s \neq 0$) setzen wir $\nu_p(\alpha) := \nu_p(r) - \nu_p(s) \in \Z$.
+	Beachte, dass $\nu_p(\alpha)$ nur von $\alpha$, nicht von der Darstellung von $\alpha$ als Bruch $\alpha = \f st$ abhängt.
+	Wir definieren $\nu_p(0) = \infty$.
+	Die Abbildung $\nu_p: K \to \Z \cup \{\infty\}$ heißt \emphdef[p-adsche Bewertung]{(exponentielle) $p$-adsche Bewertung von $K$} und $\nu_p(\alpha)$ der \emphdef{Wert} von $\alpha$ an der \emphdef{Stelle} $p\in \Prim(R)$ (genauer \emphdef{Primstelle} $p$).
+
+	Klar ist wegen der eindeutigen Primfaktorzerlegung für Elemente von $R$:
+	Sind $\alpha, \beta \in K = Q(R)$, dann ist
+	\[
+		\nu_p(\alpha \beta) = \nu_p(\alpha) + \nu_p(\beta)
+	\]
+	für alle $p \in \Prim(R)$.
+	Darüber hinaus ist $\nu_p(\alpha) = 0$ für fast alle $p \in \Prim(R)$.
+\end{df}
+
+\begin{df} \label{15.3-2}
+	Sei wie oben $K = Q(R)$ und sei
+	\[
+		f = f(x) = \alpha_0 + \alpha_1 x + \dotsb + \alpha_n x^n \in K[x]
+	\]
+	ein Element aus dem Polynomring.
+	Wir setzen $\nu_p(f) = \infty$ für $f = 0$ und
+	\[
+		\nu_p(f)0= \min_{\substack{0\le i \le n \\ \alpha_i \neq 0}} \nu_p(\alpha_i),
+	\]
+	wobei $p \in \Prim(R)$.
+	$\nu_p(f)$ heißt \emphdef[p-Wert]{(exponentieller) $p$-Wert von $f$}.
+\end{df}
+
+\begin{nt} \label{15.3-3}
+	Sei $\alpha_i = \f {r_i}{s_i}$ mit $r_i, s_i \in R$.
+	Für $\alpha_i \neq 0$ können wir $\ggT(r_i, s_i) = 1$ annehmen.
+	Ist $p$ Teiler von $r_i$ für alle $i$ mit $\alpha_i \neq 0$, so teilt $p$ kein $s_i$ mit $\alpha_i \neq 0$ und $\nu_p(f) = \nu_p(\ggT(r_i : \alpha_i \neq 0)) > 0$.
+	Sonst gibt es ein $i$ mit $\alpha_i \neq 0$ und $\ggT(p, r_i) = 1$.
+	Dann ist insbesondere $p$ Teiler von $s_i$ nur, wenn es kein Teiler von $r_i$ ist ($\alpha_i \neq 0$) und daher ist $\nu_p(f) = -\nu_p(\kgV(s_i : \alpha_i \neq 0)) < 0$, d.h. $-1$ mal der Exponent der höchsten Potenz von $p$, die in der Primfaktorzerlegung von den $s_i$ mit $\alpha_i \neq 0$ vorkommt.
+
+	Insbesondere ist $\nu_p(f) \ge 0$ für alle $f \in R[x] \subset K[x]$.
+\end{nt}
+
+\begin{lem} \label{15.3-4}
+	Sei $\lambda \in K = Q(R), f \in K[x]$ und $p \in \Prim(R)$.
+	Dann ist $\nu_p(\lambda f) = \nu_p(\lambda) + \nu_p(f)$.
+\end{lem}
+
+\begin{kor} \label{15.3-5}
+	Sei $f \in K[x]$, $K = Q(R)$, $R$ UFD und sei $p \in \Prim(R)$.
+	Dann gibt es ein $f_1 \in R[x]$ mit $\nu_p(f_1) = 0$ und ein $\alpha \in K$ mit $\nu_p(\alpha) = \nu_p(f)$ so, dass $f = \alpha f_1$ ist.
+\end{kor}
+
+\begin{lem}[Gauß Lemma] \label{15.3-6}
+	Sei $R$ ein UFD, $K = Q(R)$, $f,g \in K[x]$, $p\in \Prim(R)$.
+	Dann gilt:
+	\[
+		\nu_p(fg) = \nu_p(f) + \nu_p(g).
+	\]
+\end{lem}
+
+\begin{df} \label{15.3-7}
+	Ein Polynom $f(x) \in K[x]$ für einen Körper $K$ heißt \emphdef{normiert}, falls der höchste Koeffizient ungleich Null in $f$ gleich $1$ ist.
+	Ist $R$ ein UFD, $f \in R[x]$, so heißt $f$ \emphdef{primitiv}, falls $\ggT($Koeffizienten von $f)$ gleich $1$ ist.
+
+	Klar ist: $f \in R[x]$ normiert ($R[x] \subset K[x]$) impliziert $f$ ist primitiv.
+	Außerdem: $f \in R[x]$ primitiv genau dann, wenn $\nu_p(f) = 0$ für alle $p \in \Prim(R)$.
+\end{df}
+
+\begin{st}[Satz von Gauß] \label{15.3-8}
+	Sei $R$ ein UFD, $K = Q(R)$.
+	Dann ist $R[x]$ UFD und die Primelemente von $R[x]$ sind genau die Primelemente von $R$ (als konstante Polynome) und die primitiven Polynome in $R[x]$ vom Grad größer gleich 1, die als Polynome von $K[x] \supset R[x]$ irreduzibel sind.
+\end{st}
+
+\begin{kor} \label{15.3-9}
+	Sei $R$ ein UFD.
+	Dann ist $R[x_1, \dotsc, x_n]$ ($x_i$ für $1 \le i \le n$ Unbestimmte) ein UFD.
+	Insbesondere ist der Polynomring $K[x_1, \dotsc, x_n]$ ein UFD für alle $n \in \N$ und jeden Körper $K$.
+\end{kor}
+
+\setcounter{thm}{10}
+\begin{nt} \label{15.3-11}
+	\begin{enumerate}[1)]
+		\item
+			Sei $K$ ein Körper, $2 \le n \in \N$.
+			Dann ist $K[x_1, \dotsc, x_n]$ zwar UFD, aber kein HIR.
+		\item
+			Für $R = \Z, K = Q(R) = \Q$ folgt aus dem Satz von Gauß, dass man rationale Polynome mit ganzen Koeffizienten in $\Z[x]$ zerlegen kann, um eine Zerlegung in $\Q[x]$ zu erhalten.
+			Insbesondere: testet man $f \in \Z[x]$ durch Einsetzen auf Nullstellen, so genügt es, ganze Zahlen in $f$ einzusetzen.
+		\item
+			Die Zerlegung von Polynomen in irreduzible Faktoren ist schwer.
+			Schon die Frage, ob ein gegebenes Polynom irreduzibel ist, ist oft schwierig zu beantworten.
+			\emph{Allerdings: $x + \alpha \in K[x], \alpha \in K$ für einen Körper $K$ ist immer irreduzibel!}
+		\item
+			Der Satz von Gauß sagt insbesondere, dass man die Zerlegung von Polynomen in $K[x]$ in Irreduzibel immer auf die Zerlegung in irreduzible in $R[x]$ zurückführen kann, wenn $K = Q(R)$ und $R$ UFD.
+			Ist $f \in K[x]$, so lässt sich nämlich $f$ als $\alpha f_1$ mit $f_1 \in R[x], \alpha \in K$ schreiben, etwa indem man mit dem Hauptnenner der Koeffizienten von $f$ durchmultipliziert und beim resultierenden Polynom in $R[x]$ noch den $\ggT$ der Koeffizienten (aus $R$) ausklammert.
+			Die irreduzibelen Polynome in $K[x]$ vom Grad größer gleich 1 sind also (bis auf skalare Vielfache ungleich Null) genau die irreduzibelen Polynome von $R[x]$.
+	\end{enumerate}
+\end{nt}
+
+Sei $R$ ein UFD und $f \in R[x] \subset K[x]$ mit $K = Q(R)$.
+Wie können wir herausfinden, ob $f$ irreduzibel ist oder nicht?
+
+\begin{st}[Reduktionskriterium] \label{15.3-12}
+	Seien $R$ und $S$ Integritätsbereiche und sei $\sigma: R \to S$ ein Ringhomomorphismus mit $\sigma(1_R) = 1_S$.
+	Dann wird durch $\sigma: R[x] \to S[x] : \sum_{i=0}^n \alpha_i x^i \mapsto \sum_{i=0}^n \sigma(\alpha_i) x^i \in S[x]$ eine Fortsetzung von $\sigma$ auf $R[x]$ definiert, die ebenfalls ein Ringhomomorphismus ist.
+	Sei $0 \neq f \in R[x]$ so, dass $\deg(\sigma(f)) = \deg(f)$ gilt.
+	Sei $K = Q(R), L = Q(S)$.
+	Ist $\sigma(f) = L[x]$ irreduzibel, dann gibt es keine Faktorisierung $f = gh$ mit $g, h \in R[x], 1 \le \deg g, \deg h$.
+	Ist $R$ zusätzlich UFD, so ist $f$ irreduzibel in $K[x]$ (und in $R[x]$).
+\end{st}
+
+\begin{ex} \label{15.3-13}
+	Sei $R$ UFD und $m$ maximales ideal von $R$.
+	Dann ist $R / m = L (= Q(L))$ ein Körper.
+	Sei $\sigma: R \mapsto L: \alpha \mapsto \alpha + m = \_\alpha \in L$ die natürliche projektion.
+	Sei $f = \sum_{i=0}^n \alpha_i x^i \in R[x] \subset K[x]$, $K = Q(R)$ mit $\alpha_i \in R$.
+	Angenommen $\alpha_n \not\in m$, dann ist $\_{\alpha_n} = 0$ und daher $\deg(\sigma(f)) = n = \deg(f)$.
+	Ist daher $\sigma(f) \in L[x]$ irreduzibel, dann auch $f$ in $R[x]$ und $K[x]$.
+	\begin{ex*}
+		Sei $f(x) = x^3 - 99x^2 - 28x - 1 \in \Z[x]$.
+		Modulo 3 wird daraus $\_f(x) = x^3 - x - 1 \in \Z / 3\Z[x]$.
+		Man rechnet leicht nach: $\_f(\_0), \_f(\_1), \_f(\_{-1}) \neq 0$ (wegen $\Z / 3\Z = \{\_0, \_1, \_{-1}\}$), d.h. $\_f$ hat keine Nullstelle in $\Z / 3\Z$ und ist daher irreduzibel.
+		Also ist $f$ irreduzibel in $\Q[x]$.
+	\end{ex*}
+\end{ex}
+
+\begin{st}[Eisenstein Kriterium] \label{15.3-14}
+	Sei $R$ UFD, $K = Q(R)$ und sei $f(x) = \alpha_0 + \alpha_1 x + \dotsb + \alpha_n x^n \in R[x]$, $\alpha_n \neq 0$.
+	Sei $p \in \Prim(R)$ so, dass gilt
+	\begin{enumerate}[i)]
+		\item
+			$p$ teilt nicht $\alpha_n$ (z.B. $\alpha_n = 1$),
+		\item
+			$p$ teilt $\alpha_i$ für $0 \le i \le n - 1$,
+		\item
+			$p^2$ teilt nicht $\alpha_0$.
+	\end{enumerate}
+	Dann ist $f$ irreduzibel in $K[x]$.
+\end{st}
+
+\begin{ex} \label{15.3-15}
+	\begin{itemize}
+		\item
+			$3x^5 - 15 \in \Z[x]$ ist irreduzibel mit $p = 5$,
+		\item
+			$2x^{10} - 21 \in \Z[x]$ ist irreduzibel mit $p = 3$ oder $p = 7$,
+		\item
+			$x^n - a \in \Z[x]$ ist irreduzibel, wenn $a \neq 0, \pm 1, p\divs a$ und $p^2 \ndivs a$ für eine Primzahl $p$.
+	\end{itemize}
+	Eisenstein ist also großartig, um irreduzible Polynome zu \emph{konstruieren}.
+\end{ex}
+

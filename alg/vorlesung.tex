@@ -6,23 +6,51 @@
 
 \documentclass{mycourse}
 
-\DeclareDocumentCommand{\idealof}{}{\trianglelefteq}
+\ExplSyntaxOn
+
+
+% Declarations
+\DeclareMathOperator { \Prim } { Prim }
+
+
+% Number theorems using chapter.section-theorem style
+\renewtheorem { thm } { Theorem } [ section ]
+\renewcommand { \thethm } {
+	\arabic { chapter } . \arabic { section } - \arabic{ thm }
+}
+
+% Print label directly if not defined
+\AtBeginDocument {
+	\cs_new_eq:NN \old_ref \ref
+	\DeclareDocumentCommand \ref { m } {
+		\cs_if_exist:cTF { r@#1 } {
+			\old_ref { #1 }
+		} {
+			#1
+		}
+	}
+}
+
+
+\ExplSyntaxOff
+
 
 \title{Algebra}
 
 \begin{document}
 
-\tolerance=270
-\emergencystretch=1.5em
-
 \maketitle
 
 \tableofcontents
 
-\include{chap1}
+\setcounter{chapter}{14}
+\include{chap15}
+\setcounter{chapter}{17}
+\include{chap18}
+\include{chap19}
 
-\printindex[lectures]
-\printindex[terms]
+%\printindex[lectures]
+%\printindex[terms]
 
 
 \end{document}
