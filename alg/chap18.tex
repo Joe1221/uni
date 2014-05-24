@@ -1,0 +1,388 @@
+\chapter{Körpererweiterungen}
+
+
+\section{Polynomiale Gleichungen}
+
+Wir betrachten polynomiale Gleichungen über einem Körper $K$, d.h. Gleichungen der Form $f(x) = 0$ mit $f \in K[x]$.
+So ist etwa $2 \in \Z$ eine Lösung der Gleichung $x^2 - 4 = 0$.
+
+Wir wissen: ist $\alpha \in K$ eine Lösung der polynomialen Gleichung $f(x) = 0$ mit $f \in K[x]$, so lässt sich $f$ schreiben als $f(x)0= g(x)(x - \alpha)$ für ein $g \in K[x]$, wobei $\deg g = \deg f - 1$.
+
+Es gibt aber durchaus polynomiale Gleichungen $f(x) = 0$, $f \in K[x]$, die keine Lösungen in $K$ besitzen für geeignete Körper $K$.
+Beispielsweise besitzt $x^2 + 1 = 0$ in $\R$ keine Lösung, aber in $\C \supset \R$ schon, denn $\pm i$ sind Lösungen der Gleichung.
+In der Tat wurde $\C$ gerade so gebastelt, dass diese Gleichung nun doch eine Lösung hat.
+Wir sehen: Körpererweiterungen haben eine Menge mit dem Lösen polynomialer Gleichungen zu tun.
+Wir werden sogar sehen, dass in der Tat jede polynomiale Gleichung Lösungen besitzt, sofern man sich auf Körpererweiterungen einlässt.
+Darum geht es in der „Galoistheorie“ (nach Évariste Galois, 1811-1832), die wir nun untersuchen werden.
+
+\begin{df} \label{18.1-1}
+	Seien $K, E$ Körper mit $K \subset E$.
+	Dann heißt $E$ \emphdef{Körpererweiterung} von $K$ und $K$ \emphdef{Unterkörper} von $E$.
+	Klar ist, dass dann $E$ eine $K$-Algebra ist, also insbesondere ein $K$-Vektorraum.
+	Die $K$-Dimension von $E$ wird \emphdef{Körpergrad} von $E$ über $K$ genannt und mit $[E : K]$ bezeichnet.
+\end{df}
+
+\begin{st} \label{18.1-2}
+	Sei $K \subset E \subset L$ ein Turm von Körpererweiterungen.
+	Dann ist $[L : K] = [L : E] [E : K]$.
+	In der Tat gilt: ist $\scr L = \{l_j : j \in J\}$ eine $E$-Basis von $L$ und $\scr E = \{ e_i : i \in I \}$ eine $K$-Basis von $E$, so ist $\scr L \scr E = \{ l_j e_i : j \in J, i \in I \}$ eine $K$-Basis von $L$.
+\end{st}
+
+\begin{st} \label{18.1-3}
+	Sei $K$ ein Körper.
+	Dann gelten folgende Aussagen.
+	\begin{enumerate}[i)]
+		\item
+			Der Durchschnitt von Unterkörpern von $K$ ist wieder ein Unterkörper von $K$.
+		\item
+			Sei $\emptyset \neq S \subset K$ eine Teilmenge von $K$.
+			Dann ist
+			\[
+				\<S\>_{\text{Körper}} = \bigcap_{\substack{S \subset L \subset K \\ \text{$L$ Unterkörper}}} L
+			\]
+			ein Unterkörper von $K$.
+			Er ist der kleinste Unterkörper von $K$, der $S$ enthält und wird der \emphdef[erzeugter Unterkörper]{von $S$ erzeugte Unterkörper von $K$} genannt.
+		\item
+			Sind $L_i, i \in I$ Unterkörper von $K$, so ist
+			\[
+				\Big\< \bigcup_{i \in I} L_i \Big\>
+				= \prod_{i \in I} L_i
+				= \Big\{ \prod_{i \in I} l_i : \text{$l_i \in L_i$ fast alle 1} \Big\}.
+			\]
+	\end{enumerate}
+\end{st}
+
+\begin{st} \label{18.1-4}
+	Sei $K$ ein Körper, $f \in K[x]$ irreduzibel.
+	Sei $E = K[x] / f K[x]$.
+	Für $g \in K[x]$ sei $\_g = g + f K[x]$ die Nebenklasse von $g$ in $E$.
+	Dann ist $E$ ein Erweiterungskörper von $K$ mit $K$-Basis $\{\_1, \_x, \_x^2, \dotsc, \_x^{k-1}\}$, wobei $k = \deg f$ und $\_x$ Lösung der polynomiellen Gleichung $f(x) = 0$ in $E$ ist.
+\end{st}
+
+\begin{kor} \label{18.1-5}
+	Alle polynomialen Gleichungen über Körpern besitzen Lösungen (in entsprechenden Erweiterungskörpern).
+\end{kor}
+
+\begin{ex} \label{18.1-6}
+	Hier folgt eine rein \emph{algebraische} Konstruktion von $\sqrt 2 \in \R$, ganz ohne analysis und Approximation.
+	$x^2 - 2 \in \Q[x]$ ist irreduzibel, also ist $\sqrt 2 \not\in \Q$.
+	Im Erweiterungskörper $E = \Q[x] / I$ mit $I = (x^2 - 2) \Q[x]$ ist $\sqrt 2 = x + I$ eine Quadratwurzel von $2$.
+
+	Vorsicht ist jedoch geboten:
+	Nicht alle reellen Zahlen lassen sich so als Restklassen von $x$ in einem Faktorring von $\Q[x]$ konstruieren: $\pi$ ist ein Beispiel.
+	In der Tat ist die Menge der so „algebraisch konstruierbaren“ reellen Zahlen immernoch abzählbar, die der reellen Zahlen jedoch überabzählbar.
+\end{ex}
+
+\begin{note}
+	Sei $E = \Q[x] / I = \{ r + s \sqrt 2 : r,s \in \Q \}$.
+	Was ist $\f 1{\sqrt 2}$? (Übung)
+\end{note}
+
+
+\section{Primkörper und Charakteristik}
+
+
+Sei $K$ ein Körper.
+In \ref{18.1-3} haben wir gesehen, dass der Durchschnitt aller Unterkörper von $K$ ein Unterkörper $\Pi$ von $K$ ist, der eindeutig bestimmte kleinste Unterkörper.
+Er wird \emphdef{Primkörper} von $K$ genannt.
+Wir werden diesen nun näher bestimmen.
+
+Hierzu betrachten wir folgende Abbildung:
+\begin{align*}
+	\mu: \Z &\to K
+	z &\mapsto z \cdot 1_K = \begin{cases}
+		0 & z = 0 \\
+		\underbrace{1_K + \dotsb + 1_K}_{\text{$z$ mal}} & z > 0 \\
+		\underbrace{-1_K - \dotsb - 1_K}_{\text{$-z$ mal}} & z < 0
+	\end{cases}.
+\end{align*}
+$\mu: \Z \to K$ ist Ringhomomorphismus $\mu(1_\Z) = 1_K \neq 0$ (leichte Übung).
+Wir haben zwei Fälle:
+\begin{seg}{1. Fall, $\mu$ ist injektiv}
+	Da $\Z$ nullteilerfrei ist mit Quotientenkörper $\Q$, erweitert sich $\mu$ durch
+	\[
+		\mu: \Q \to K:
+		\f ab \mapsto \f{\mu(a)}{\mu(b)} \in K
+	\]
+	für $a,b \in \Z, b \neq 0$ zu einem injektiven Körperhomomorphismus von $\Q$ in $K$.
+	Dessen Bild ist ein Unterkörper von $K$, isomorph zu $\Q$.
+	Sei $E \subset K$ irgendein Unterkörper von $K$.
+	Dann ist $1_K \in E$ und daher auch $z \cdot 1_K \in E$ für $z \in \Z$, also auch $\f {a \cdot 1_K}{b \cdot 1_K} \in E$ für alle $a, b \in \Z, b \neq 0$ und somit $\Q \isomorphic \im \mu \subset E$.
+	Also ist $\im \mu \isomorphic \Q$ der kleinste Unterköper von $K$ und damit der Primkörper $\Pi$ von $K$.
+	Wir definieren in diesem Fall die \emphdef{Charakteristik} $\Char K$ von $K$ durch $\Char K = 0$.
+\end{seg}
+\begin{seg}{2. Fall, $\mu$ ist nicht injektiv}
+	Sei $\ker \mu = p\Z$ mit $0 \neq p \in \Z$.
+	Wegen $0 \neq 1_K = \mu(1_\Z)$ ist $p\Z \neq \Z$.
+	Nun ist $\Z / p\Z \isomorphic \im \mu$ und $\im \mu \subset K$ ist ein nicht trivialer Unterring des nullteilerfreien Rings $K$ und daher ein Integritätsbereich.
+	Nach \ref{15.2-16} ist $p\Z$ Primideal, d.h. $0 \neq p$ ist Primideal und $\Z / p \Z$ ist Körper isomorph zu $\im \mu$.
+	Wie im ersten Fall schließen wir, dass dieser der Primkörper von $K$ ist und wir setzen $\Char K = p$.
+\end{seg}
+
+
+\section{Algebraische und Transzendente Körpererweiterungen}
+
+
+Im Folgenden sei $K$ stets ein Körper.
+
+\begin{df} \label{18.3-1}
+	Sei $E$ Erweiterungskörper von $K$.
+	\begin{enumerate}[i)]
+		\item
+			Die Körpererweiterung $K \subset E$ heißt \emphdef[Körpererweiterung!endlich]{endlich}, falls $[E : K]$ endlich ist, sonst \emphdef[Körpererweiterung!unendlich]{unendlich}
+		\item
+			Ist $S \subset E$ so, dass $E = \<K \cup S\>_{\text{Körper}}$ gilt, so heißt $S$ \emphdef{Erzeugendensystem} von $E$ über $K$ und wir schreiben $E = K(S)$.
+			Besteht $S$ aus genau einem Element $S = \{ \alpha \}$, $\alpha \in E$, so schreiben wir auch kürzer $E = K(\alpha) = K(\{\alpha\})$ und $E$ heißt \emphdef[Körpererweiterung!einfache]{einfache Körpererweiterung}.
+			Das Element $\alpha \in E$ wird dann \emphdef{primitives Element} von $E$ über $K$ genannt.
+		\item
+			Ist $E = K(S), S = \{\alpha_1, \dotsc, \alpha_k$, so schreiben wir $K(\alpha_1, \dotsc, \alpha_k) = E$ anstatt $E = K(\{\alpha_1, \dotsc, \alpha_k\})$.
+	\end{enumerate}
+\end{df}
+
+\begin{note}
+	Ist $S \subset K$, so ist $K(S) = K$.
+	Ist $S \subset K = K(S)$ und $\hat S = \{ \alpha \in S : \{\alpha \not\in K\}$, so ist $E = K(\hat S) = K(S)$.
+	Immer gilt $E = K(S)$ mit $S = E$ (oder $S = E \setminus K$).
+	Daher besitzt jede Körpererweiterung ein Erzeugendensystem.
+\end{note}
+
+\begin{ex*}
+	\begin{enumerate}[1.)]
+		\item
+			Es ist $\C = \R(i), i^2 = -1$.
+			Eine $\R$-Basis von $\C$ ist $\{1, i\}$ und daher ist $\C = \{ \alpha + \beta i : \alpha, \beta \in \R\}$.
+			$\C \isomorphic \R[x] / (x^2+1) \R[x]$ und $i$ entspricht gerade der Nebenklasse $x + (x^2+1)\R[x]$.
+		\item
+			$E = \Q(\sqrt 2) = \{ a + b \sqrt 2 : a,b \in \Q \} \isomorphic \Q[x] / (x^2 - 2) \Q[2]$.
+	\end{enumerate}
+\end{ex*}
+
+Der Trick von \ref{sec:2} geht nochmals, nun mit $K[x]$ (dies ist ein Hauptidealring) anstatt $\Z$ und der universellen Eigenschaft von $K[x]$:
+
+Sei $K \subset E$ Körpererweiterung, $\alpha \in E$.
+Dann folgt aus \ref{15.1-17}, dass Einsetzen von $\alpha$ in Polynome einen wohldefinierten $K$-Algebra Homomorphismus
+\[
+	\eps_\alpha : K[x] \to E : \sum_{i=0}^n \beta_i x^i \mapsto \sum_{i=0}^n \beta_i \alpha^i
+\]
+definiert.
+Wir haben das folgende Lemma:
+
+\setcounter{thm}{0}
+\begin{lem} \label{18.3-1}
+	Sei $K \subset E$ Körpererweiterung, $\alpha \in E$.
+	Dann definiert
+	\[
+		\eps_\alpha: K[x] \to E: \sum_{i=0}^n \beta_i x^i \mapsto \sum_{i=0}^n \beta_i \alpha^i,
+	\]
+	mit $\beta_i \in K$, $0 \le i \le n$ einen $K$-Algebra Homomorphismus.
+	Ist $\eps_\alpha$ injektiv, so lässt sich $\eps_\alpha$ zu einer Einbettung $\hat \eps_\alpha: Q(K[x]) = K(x) \to E$ ausdehnen und $\im \hat \eps_\alpha$ ist der Unterkörper $K(\alpha)$ von $E$.
+	Ist $\eps_\alpha$ nicht injektiv, so ist $\ker \eps_\alpha = pK[x]$ ein Primideal ungleich $(0)$ von $K[x]$ und induziert einen $K$-linearen Körperisomorphismus von $K[x] / pK[x]$ auf $K(\alpha) \subset E$.
+	In diesem Fall ist das Polynom $p \in K[x]$ irreduzibel und bis auf Skalara das eindeutig bestimmte Polynom kleinsten Grades mit Nullstelle $\alpha$ ($p(\alpha) = 0$).
+\end{lem}
+
+\begin{df} \label{18.3-2}
+	Sei $K \subset E$ Körpererweiterung, $\alpha \in E$.
+	\begin{enumerate}[i)]
+		\item
+			Ist $\eps_\alpha : K[x] \to E$ in \ref{18.3-1} injektiv, so heißt $\alpha$ \emphdef{transzendent} über $K$ und $K(\alpha) = \im \hat \eps_\alpha$ ($\isomorphic K(x) = Q(K[x])$) heißt \emphdef[Körpererweiterung!transzendente]{transzendente einfache Körpererweiterung}.
+			Wegen $\dim_K K[x] = \infty$ sind $\dim_K K(x)$ und daher auch $\dim_K K(\alpha)$ und $\dim_K E$ unenlich.
+			Die Elemente von $K(\alpha)$ ergeben sich dann als
+			\[
+				K(\alpha) = \big\{ \f{f(\alpha)}{g(\alpha)} : f,g \in K[x], g \neq 0 \big\}
+			\]
+			(Jedes Element von $K(\alpha)$ lässt sich so eindeutig mit teilerfremden $f$ und $g$ in $K[x]$ schreiben).
+		\item
+			Ist $\eps_\alpha: K[x] \to E$ nicht injektiv, so ist $\ker \eps_\alpha \neq (0)$ und $K(\alpha) = \im \eps_\alpha \isomorphic K[x] / pK[x]$ ist endlich dimensional mit $K$-Basis $\{1, \alpha, \alpha^2, \dotsc, \alpha^{k-1}\}$, $k = \deg p$.
+			Dann heißt $\alpha$ \emphdef{algebraisch} über $K$ und $K(\alpha)$ \emphdef{algebraische Erweiterung} von $K$.
+			Ohne Einschränkung können wir $p$ als das eindeutig bestimmte normierte Polynom mit $p(\alpha) = 0$ nehmen.
+			Dieses heißt \emphdef{Minimalpolynom} von $\alpha$ (über $K$) und wird mit $\mu_{K,\alpha} \in K[x]$ bezeichnet.
+			Dann ist $0 \neq \mu_{K, \alpha}$ irreduzibel in $K[x]$.
+			Jedes $\beta \in K(\alpha)$ (also auch z.B. $\alpha^{-1} \in K(\alpha)$ für $\alpha \neq 0$) besitzt dann eine eindeutige Darstellung $\beta = \lambda_0 + \lambda_1 \alpha + \dotsb + \lambda_{k-1} \alpha^{k-1}$ mit $\lambda_i \in K$ für $i = 0, \dotsc, k-1$.
+			So ist
+			\[
+				K(\alpha)0= \big\{ f(\alpha) : f \in K[x], \deg f \le k - 1 \big\}.
+			\]
+	\end{enumerate}
+\end{df}
+
+\begin{kor} \label{18.3-3}
+	Eine einfache Körpererweiterung $K \subset E = K(\alpha)$, $\alpha \in E$ ist algebraisch genau dann, wenn $[E : K] < \infty$ ist.
+	Insbesondere sind dann alle $\beta \in E$ algebraisch über $K$, falls $\alpha \in E = K(\alpha)$ es ist.
+	Darüber hinaus ist $[E : K] = \deg(\mu_{K, \alpha})$.
+\end{kor}
+
+\begin{ex} \label{18.3-4}
+	Sei $E = K(\alpha)$ einfache algebraische Körpererweiterung.
+	Wir haben gesehen, dass sich dann jedes Element als Polynom $f(\alpha) = \lambda_0 + \lambda_1 \alpha + \dotsb + \lambda_{k-1} \alpha^{k-1}$ mit $k = [E : K], \lambda_i \in K$ schreiben lässt und diese Darstellung eindeutig ist.
+	Für $0 \neq \beta = f(\alpha) \in E$, $f \in K[x], \deg f \le k-1$ beschreibe man einen Algorithmus, um die polynomiale Darstellung von $\beta^{-1}$ zu konstruieren.
+\end{ex}
+
+\begin{kor} \label{18.3-5}
+	Sei $K \subset E$ endliche Körpererweiterung (d.h. $[E : K] < \infty$).
+	Dann sind alle Elemente von $E$ algebraisch über $K$.
+\end{kor}
+
+Sind alle Elemente einer Körpererweiterung $K \subset E$ algebraisch über $K$, so heißt $E$ \emphdef{algebraisch über} $K$ und man spricht von einer algebraischen Körpererweiterung.
+\ref{18.3-5} sagt dann gerade, dass endliche Körpererweiterungen immer algebraisch sind.
+Die Umkehrung gilt nicht: es gibt durchaus unendliche algebraische Körpererweiterungen.
+
+\begin{lem} \label{18.3-6}
+	Seien $K \subset L \subset E$ Körper.
+	Ist $\alpha \in E$ algebraisch über $K$, so ist $\alpha$ auch algebraisch über $L$ und $\mu_{L, \alpha}$ ist Teiler von $\mu_{K, \alpha}$.
+\end{lem}
+
+\begin{lem} \label{18.3-7}
+	Sei $E = K(S)$ Körpererweiterung mit erzeugender Menge $S \subset E$.
+	Dann ist
+	\[
+		E = \bigg\{ \beta = \f{f(\alpha_1, \dotsc, \alpha_k)}{g(\alpha_1, \dotsc, \alpha_k)} : \begin{aligned} k \in \N, f,g \in K[x_1, \dotsc, x_k], \\\alpha_1, \dotsc, \alpha_k \in S, g(\alpha_1, \dotsc, \alpha_k) \neq 0 \end{aligned} \bigg\}
+	\]
+\end{lem}
+
+\begin{st} \label{18.3-8}
+	Sei $E = K(S)$ Körpererweiterung, $S \subset E$.
+	Sei $\alpha$ algebraisch über $K$ für alle $\alpha \in S$.
+	Dann ist $E$ algeraisch über $K$.
+\end{st}
+
+\begin{kor} \label{18.3-9}
+	Seien $K \subset E$ Körper und seien $0 \neq \alpha, \beta \in E$ algebraisch über $K$.
+	Dann sind $\alpha \pm \beta, \alpha \beta, \alpha^{-1}, \beta^{-1}$ algebraisch über $K$.
+\end{kor}
+
+\begin{kor} \label{18.3-10}
+	Sei $E = K(\alpha_1, \dotsc, \alpha_k)$ endlich erzeugte Körpererweiterung von $K$.
+	Dann sind äquivalent:
+	\begin{enumerate}[i)]
+		\item
+			$\alpha_1, \dotsc, \alpha_k$ sind algebraisch über $K$,
+		\item
+			$[E : K] < \infty$,
+		\item
+			$E$ ist algebraisch über $K$,
+		\item
+			$E = \{ f(\alpha_1, \dotsc, \alpha_k) : f \in K[x_1, \dotsc, x_k] \}$.
+	\end{enumerate}
+\end{kor}
+
+\begin{kor} \label{18.3-11}
+	Sei $K \subset E$ Körpererweiterung und sei \(L = \{ \alpha \in E : \text{$\alpha$ algebraisch über $K$}\}\).
+	Dann ist $L$ ein Körper, $K \subset L \subset E$ der \emphdef[algebraischer Abschluss]{algebraische Abschluss} von $K$ in $E$.
+\end{kor}
+
+\begin{st} \label{18.3-12}
+	Seien $K \subset L \subset E$ Körper und sei $E$ algebraisch über $L$, $L$ algebraisch über $K$.
+	Dann ist $E$ algebraisch über $K$.
+\end{st}
+
+
+\section{Fortsetzungssatz und algebraischer Abschluss}
+
+
+Sei im Folgenden $K$ ein Körper.
+
+\begin{df} \label{18.4-1}
+	Seien $E, L$ Körpererweiterungen von $K$.
+	Ein $K$-linearer Körperhomomorphismus $0 \neq \sigma: E \to L$ (diese sind stets injektiv) heißt \emphdef[K-Homomorphismus]{$K$-Homomorphismus}.
+	Er lässt sich durch $\sum_{i=0}^n \alpha_i x^i \mapsto \sum_{i=0}^n \sigma(\alpha_i)x^i \in L[x]$ zu einem $K$-linearen, injektiven $K$-Algebra Homomorphismus von $E[x]$ in $L[x]$ fortsetzen.
+	$E$ und $L$ heißen $K$-isomorph oder \emphdef{isomorph über} $K$, falls es einen $K$-linearen Körperisomorphismus $\sigma: E \to L$ gibt.
+	Dann ist $\sigma: E[x] \to L[x]$ ebenfalls $K$-Algebra Isomorphismus.
+	Weiter ist $\sigma(\lambda) = \lambda$ für alle $\lambda \in K$, d.h. $\sigma|_K = \id_K$.
+\end{df}
+
+\begin{df} \label{18.4-2}
+	Seien $K \subset E$, $L$ Körper und $0 \neq \sigma: K \to L$ ein Körperhomomorphismus (also $K \isomorphic \im \sigma = \sigma(K) \subset L$).
+	Wir sagen, der Körperhomomorphismus $\tau: E \to L$ \emphdef{erweitert} $\sigma$, bzw. \emphdef[fortsetzen]{setzt $\sigma: K \to L$ auf $E$ fort}, falls $\tau|_K = \sigma$ ist, d.h. das folgende Diagram kommutiert:
+	\[
+		\begin{tikzcd}
+			K \arrow[inj]{r}{\iota} \arrow{rd}{\sigma} & E \arrow{d}{\tau} \\
+			& L
+		\end{tikzcd}
+	\]
+	($\tau \circ \iota = \sigma$).
+	Ist dazuhin $K \subset L$ und $\sigma: K \to L$ die natürliche Einbettung, so ist $\tau|_K = \id_K$, d.h. $\tau$ ist $K$-linear (und wir sind in der Situation von \ref{18.4-1}).
+\end{df}
+
+\begin{lem} \label{18.4-3}
+	Seien $E, L$ Körper, $0 \neq \sigma: E \to L$ Körperhomomorphismus und sei $\eps \in E$ Nullstelle von $f \in E[x]$.
+	Dann ist $\sigma(\eps) \in L$ Nullstelle von $\sigma(f) \in L[x]$.
+\end{lem}
+
+Sei nun $K \subset E$, $\alpha \in E$ algebraisch über $K$, so ist $K \subset K(\alpha) \subset E$.
+Sei $0 \neq \sigma: K \to L$ Körperhomomorphismus, $L$ Körper.
+Im nächsten Satz formulieren wir eine notwendige und hinreichende Bedingung, wann $\sigma$ zu einem Homomorphismus von $K(\alpha)$ nach $L$ fortgesetzt werden kann und untersuchen, wie viele verschiedene Fortsetzungen von $\sigma$ auf $K(\alpha)$ existieren.
+
+\begin{st} \label{18.4-4}
+	Seien $K \subset E$ und $L$ Körper, $\alpha \in E$ algebraisch über $K$ mit Minimalpolynom $\mu_{\alpha, K} = p \in K[x]$.
+	Sei $0 \neq \sigma: K \to L$ Körperhomomorphismus und sei $\beta \in L$ Nullstelle von $\sigma(p) \in L[x]$.
+	Dann gibt es genau eine Fortsetzung $\sigma_\beta: K(\alpha) \to L$ von $\sigma$ auf $K(\alpha)$ mit $\sigma_\beta(\alpha) = \beta$.
+	Dies induziert eine Bijektion $\beta \leftrightarrow \sigma_\beta$ zwischen den verschiedenen Nullstellen von $\sigma(p) \in L[x]$ und den Fortsetzungen $\sigma_\beta$ von $\sigma$ auf $K(\alpha)$.
+	Insbesondere besitzt daher $\sigma$ höchstens $\deg p$ viele Fortsetzungen auf $K(\alpha)$ (mit Gleichheit genau dann, wenn $\sigma(p)$ über $L[x]$ in $\deg p$ viele verschiedene lineare Polynome zerfällt).
+\end{st}
+
+\begin{df} \label{18.4-5}
+	Ein Körper $E$ heißt \emphdef{algebraisch abgeschlossen}, falls jedes $f \in E[x]$ mit $\deg f \ge 1$ eine Nullstelle in $E$ besitzt.
+	Ist $K \subset E$ algebraische Körpererweiterung mit algebraisch abgeschlossenen $E$, so heißt $E$ \emphdef{algebraischer Abschluss} von $K$.
+\end{df}
+
+\begin{note}
+	Sei $f = x - \alpha \in E[x], \alpha \in E$.
+	Dann ist $f$ irreduzibel in $E[x]$ und $E[x] / fE[x] \isomorphic E$.
+	Nur irreduzible Polyonome aus $E[x]$ vom Grad größer gleich 2 „produzieren“ echte Körpererweiterungen von $E$.
+	Auch die Gradgleichung $[E[x] / fE[x] : E] = \deg f$ liefert dies, siehe \ref{18.3-2} ii).
+\end{note}
+
+\begin{kor} \label{18.4-6}
+	Sei $E$ ein Körper.
+	Dann ist $E$ algebraisch abgeschlossen genau dann, wenn jedes nicht konstante Polynom in $E[x]$ in Linearfaktoren zerfällt oder äquivalent, wenn $\{x - \alpha : \alpha \in E\} \subset E[x]$ exakt die Menge der irreduziblen, normierten Polynome ist.
+	$E$ besitzt dann keine algebraische echte Körpererweiterungen und insbesondere sind daher alle Körpererweiterungen von $E$ unendlich dimensional über $E$.
+	$E(x) = Q(E(x))$ ist dann echte, notwendig transzendente Körpererweiterung von $E$.
+	Diese ist nicht algebraisch abgeschlossen, z.B. ist $t^2 - x \in (E(x))[t]$ irreduzible mit Nullstelle $\sqrt x \not\in E$.
+\end{kor}
+
+\begin{st}[Fortsetzungsatz] \label{18.4-7}
+	Sei $K \subset E$ algebraische Körpererweiterung und sei $L$ algebraisch abgeschlossen.
+	Dann besitzt jeder Körperhomomorphismus $0 \neq \sigma: K \to L$ eine Fortsetzung $\sigma': E \to L$:
+	\[
+		\begin{tikzcd}
+			E \arrow{dr}{\exists \sigma'} & \\
+			K \arrow{u}{\iota} \arrow{r}{\sigma} & L
+		\end{tikzcd}
+	\]
+	mit $\sigma'|_K = \sigma$.
+\end{st}
+
+\begin{nt} \label{18.4-8}
+	\begin{enumerate}[1.)]
+		\item
+			Der Beweis von \ref{18.4-7} benötigt das Lemma von Zorn, ist also nicht konstruktiv.
+		\item
+			Die Fortsetzung $\sigma'$ von $\sigma: K \to L$ in \ref{18.4-7} ist im Allgemeinen nicht eindeutig.
+	\end{enumerate}
+\end{nt}
+
+\begin{st} \label{18.4-9}
+	Sei $K$ ein Körper.
+	Dann besitzt $K$ einen algebraischen Abschluss und dieser ist bis auf $K$-Isomorphie eindeutig bestimmt.
+\end{st}
+
+\begin{conv*}
+	Im folgenden wird der algebraische Abschluss eines Körpers $K$ mit $\_K$ beszeichnet.
+	Ist $K \subset E$ algebraische Körpererweiterung, so ist $\_E$ algebraisch über $E$ und daher nach \ref{18.3-12} auch über $K$, d.h. ist ein algebraischer Abschluss von $K$ und für dürfen daher $\_K = \_E$ setzen.
+
+	Alle über $K$ algebraischen Elemente könnene ohne Einschränkung in $\_K$ gewählt werden.
+\end{conv*}
+
+\begin{nt} \label{18.4-10}
+	\begin{enumerate}[1.)]
+		\item
+			$\C$ ist algebraisch abgeschlossen (Hauptsatz der Algebra) und $\C = \R(i), i^2 = -1$ ist also der algebraische Abschluss von $\R$.
+		\item
+			Man kann zeigen:
+			Der algebraische Abschluss endlicher Körper ist abzählbar unendlich (kann konkret konstruiert werden).
+		\item
+			Ist $|K| = \infty$, so ist $|\_K| = |K|$.
+			Insbesondere ist der algebraische Abschluss $\_Q$ von $\Q$ abzählbar und daher $\_\Q \subsetneq \C$.
+			In der Tat besitzt $\C$ überabzählbar viele Elemente, die transzendent über $\Q$ sind: $\C \isomorphic \_{\Q(X)}$, wobei $\Q(X)$ der Körper der rationalen Funktionen in überabzählbar vielen Variablen $x \in X$ ist.
+	\end{enumerate}
+\end{nt}
