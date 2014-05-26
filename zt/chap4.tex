@@ -210,6 +210,7 @@ $\Z$ ist offensichtlich ein euklidischer Ring mit $|\argdot|$ als Gradfunktion.
 
 			Für $d = -3, -7, -11$ (sind $\equiv 1 \bmod 4$) hat man $\alpha_d = \f {\sqrt{d}}2$.
 
+
 			Für $d = -11$ beispielsweise mit Diagonale $(1 + \f {|d|}4) = \f {15}4$.
 			Länge der Diagonalen $\sqrt{15}{4} < 2$, als $\f 12 \sqrt{15}{4} < 1$.
 		\end{segnb}
@@ -236,7 +237,7 @@ $\Z$ ist offensichtlich ein euklidischer Ring mit $|\argdot|$ als Gradfunktion.
 \begin{st} \label{4.10}
 	\begin{enumerate}[a)]
 		\item
-			Euklidische Ringe sind Hauptidealbereiche
+			Euklidische Ringe sind Hauptidealringe
 		\item
 			Hauptidealbereiche sind faktoriell
 	\end{enumerate}
@@ -286,9 +287,164 @@ $\Z$ ist offensichtlich ein euklidischer Ring mit $|\argdot|$ als Gradfunktion.
 			Für $d < 0$ und $d = -19, -43, -67, -163$ ist $\Z[\alpha_d]$ ein Hauptidealbereich.
 			Insgesamnt mit den $d$ aus \ref{4.9} gibt es genau 9 negative $d$, für die $\Z[\alpha_d]$ ein Hauptidealbereich ist, in allen anderen Fällen ist $\Z[\alpha_d], d < 0$ kein Hauptidealbereich.
 
-			Für $d > 0$ kennt man die $d$ für die $\Z[\alpha_d]$ ein euklidischer Ring mit Normbetrag als Gradfunktion ($d \le 73$, aber nicht alle).
-			Für $d = 69$ ist $\Z[\alpha_{69}]$ euklidisch mit anderer Gradfunktion (bekannt seit 1994).
+			Für $d > 0$ kennt man alle $d$ für die $\Z[\alpha_d]$ ein euklidischer Ring mit Normbetrag als Gradfunktion ($d \in \{2, 3, 5, 6, 7, 11, 13, 17, 19, 21, 29, 33, 37, 41, 57, 73\}$).
+			Für $d = 69$ ist $\Z[\alpha_{69}]$ euklidisch mit anderer Gradfunktion (bekannt seit 1994, Clark).
 
-			Man vermutet, dass es unendlich viele Hauptidealbereiche für $d > 0$ gibt.
+			Man vermutet, dass es unendlich viele Hauptidealbereiche $\Z[\alpha_d]$ für $d > 0$ gibt.
+\coursetimestamp{26}{05}{2014}
+		\item
+			$\Z[\sqrt{-5}]$ ist nicht faktoriell, denn $(1 + \sqrt{-5})(1 - \sqrt{-5}) = 6 = 2 \cdot 3$.
+			Aber $(1 + \sqrt{-5}), (1 - \sqrt{-5}), 2, 3$ sind irreduzibel:
+			Wenn $x = ab$, dann ist $N(x) = N(a)N(b)$, bzw. hier: $|x| = |a||b|$.
+			Kleinste Beträge, die auftauchen können sind $0, 1, 2, \sqrt{5}, \sqrt{6}, 3$.
+			Einheiten haben Norm $\pm 1$, denn $1 = N(1) = N(u u^{-1}) = N(u) N(u^{-1})$.
+			Damit lassen sich $2, 3, 1 + \sqrt{-5}, 1 - \sqrt{-5}$ nicht in ein Produkt von Nichteinheiten zerlegen, also sind sie irreduzibel.
+			Also ist $\Z[\sqrt{-5}]$ nicht faktoriell.
+			Siehe auch Übungen.
 	\end{enumerate}
 \end{nt}
+
+Was passiert mit einer Primzahl $p \in \Z$ innerhalb von $\Z[\alpha_d]$?
+
+% St 4.12
+\begin{st} \label{4.12}
+	Sei $p \in \Z$ eine Primzahl, $R = \Z[\alpha_d]$ und $R$ sei faktoriell.
+	Dann gibt es in $R$ eine der drei folgenden Möglichkeiten:
+	\begin{enumerate}[(i)]
+		\item
+			$p$ ist auch in $R$ ein Primelement.
+			In diesem Fall nennt man $p$ \emphdef{träge}.
+		\item
+			$p = \pm \pi \pi' = \pm N(\pi)$ für zwei algebraisch konjugierte Primelemente $\pi, \pi' \in R$, die sich \emph{nicht} nur um eine Einheit unterscheiden.
+			Man nennt $p$ \emphdef{zerlegt}.
+		\item
+			$p = \eps \pi^2$ mit $\eps \in U(R)$ und $\pi$ Primelement in $R$.
+			Man nennt dann $p$ \emphdef{verzweigt}.
+	\end{enumerate}
+	Ferner gilt, dass jedes Primelement von $R$ Teiler einer eindeutig bestimmten Primzahl $q$ von $\Z$ ist.
+	\begin{proof}
+		Da $R$ faktoriell, lässt sich $p$ eindeutig in ein Produkt von Primzahlen zerlegen, d.h. $p = \eps \pi_1 \pi_2 \dotsb \pi_k$ für Primelemente $\pi_i$ und Einheit $\eps$.
+		Dann ist
+		\[
+			p^2 = N(p) = \underbrace{N(\eps)}_{=\pm 1} N(\pi_1) \dotsb N(\pi_k),
+		\]
+		da die Norm multiplikativ ist.
+		Da $\Z$ faktoriell ist, folgt, dass $k \le 2$ ist.
+
+		Ist $k = 1$, so ist $p$ Primelement in $\Z[\sqrt{\alpha_d}]$.
+		Für $k = 2$, unterscheide zwei Fälle: $\pi_1 \not\sim \pi_2$ und $\pi_1 \sim \pi_2$ ($\sim$ steht für Assoziiertheit, d.h. unterscheiden sich nur um eine Einheit).
+		Für letzteren Fall gilt $\pi \pi' = N(\pi) \in \Z$ für beliebig vorgegebenes Primelement $\pi$, also $\pi$ teilt Primzahl.
+		Angenommen $\pi$ teile $q_1$ und $q_2$, dann ist $q_1 = \pi x$ und $q_2 = \pi y$ ($q_1 \neq q_2$), also
+		\[
+			1 = z_1 q_1 + z_2 q_2
+			= z_1 \pi x + z_2 \pi y
+			= \pi(z_1 x + z_2 y)
+		\]
+		und $\pi$ ist eine Einheit, ein Widerspruch.
+	\end{proof}
+\end{st}
+
+% St 4.13
+\begin{st} \label{4.13}
+	In $\Z[i]$ gilt für $p \in \P$.
+	\begin{enumerate}[a)]
+		\item
+			$2 = (1 + i)^2 (-i) = N(1 + i)$, also ist $2$ verzweigt ($-i$ ist Einheit).
+		\item
+			$p$ ist träge, wenn $p \equiv 3 \bmod 4$.
+		\item
+			$p$ ist zerlegt, wenn $p \equiv 1 \bmod 4$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Zeige: $(1 + i)$ ist irreduzibel.
+				Da $|1+i|^2 = 2$ und $|a + bi|^2 = a^2 + b^2$, sieht man sofort wegen der Multiplikativität der Norm, dass $1 + i$ nicht als Produkt von mehreren Nicht-Einheiten schreiben lässt.
+			\item
+				$p$ ist ungerade.
+				$N(p) = p^2$.
+				$p = cd$ in $\Z[i]$, dann ist $N(c) = p$ und $N(d) = p$.
+				Außerdem wegen $c = c_1 + c_2 i$ auch $N(c) = c_1^2 + c_2^2 = p$.
+				Modulo 4 sind Quadrate $\equiv 0$ oder $\equiv 1$.
+				Wenn $p \equiv 3 \bmod 4$, dann ist $p$ keine Summe von zwei Quadraten.
+				Also folgt b) mit \ref{4.12}.
+			\item
+				Ist $p \equiv 1 \bmod 4$, dann gilt nach dem ersten Ergänzungssatz, dass
+				\[
+					\legsym{-1}{p} = 1,
+				\]
+				d.h. es existiert $u_0 \in \Z$ mit $u_0^2 \equiv -1 \bmod p$.
+				Ist $p \ndivs u_0$, dann hat $u_0 x \equiv y \bmod p$ für jedes $y$ eine Lösung $x_0$.
+				Seien $x_0, y_0 \in \N$ mit $u_0 x_0 \equiv y_0 \bmod p$, dann ist
+				\[
+					-x_0^2 \equiv (u_0 x_0)^2 \equiv (y_0)^2 \bmod p,
+				\]
+				also $0 \equiv x_0^2 + y_0^2 \bmod p$.
+				Kann man $x_0, y_0$ so wählen, dass $0 < x_0^2 + y_0^2 < 2p$ und es folgt sofort $x_0^2 + y_0^2 = p$.
+				Betrachte modulo $p$ alle Werte $u_0 x - y$ für $0 \le x \le \ceil{\sqrt{p}}$ und $0 \le y \le \ceil{\sqrt p}$.
+				Die Anzahl der Werte ist damit $\le (\sqrt{p} + 1)^2 > p$.
+				Damit existieren $x_1, x_2, y_1, y_2$ mit $u_0 x_1 - y_1 \equiv u_0 x_2 - y_2 \bmod p$.
+				Dann ist $u_0 (x_1 - x_2) \equiv y_1 - y_2 \bmod p$ und $0 < |x_1 - x_2| < \sqrt p$ und $0 < |y_1 - y_2| < \sqrt p$.
+				Setze $\tilde x_0 = x_1 - x_2$, $\tilde y_0 = y_1 - y_2$.
+				Dann ist $\tilde x_0^2 + \tilde y_0^2 < 2p$.
+				Also ist die Behauptung bewiesen und $p$ lässt sich als Summe von zwei Quadraten schreiben.
+
+				Wenn $p = x_0^2 + y_0^2$, dann ist $p = (x_0 + y_0 i)(x_0 - y_0 i)$ zerlegt.
+				Die Eindeutigkeit der Zerlegung folgt dann aus der Eindeutigkeit der Zerlegung in irreduzibel, da $\Z[i]$ faktoriell.
+				Insbesondere kann man eine Primzahl $p \equiv 1 \bmod 4$ nur eindeutig (bis auf Multiplikation mit Einheiten) als eine Summe von zwei Quadraten schreiben.
+				Dass $x_0 \pm y_0 i$ irreduzibel sind, ergibt sich aus \ref{4.12}
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+Der nächste Abschnitt rechtfertigt $\Z[\sqrt{\alpha_d}]$ als einen Ring ganzer Zahlen zu bezeichnen.
+
+% Df 4.14
+\begin{df} \label{4.14}
+	Eine Nullstelle eines Polynoms $f \in \Z[x]$ nennt man \emphdef{algebraische Zahl}.
+	Ist $f$ ein normiertes Polynom aus $\Z[x]$, d.h. mit Leitkoeffizient 1, also
+	\[
+		f(x) = x^n + a_{n-1} x^{n-1} + \dotsb + a_1 x + a_0
+	\]
+	mit $a_i \in \Z$, $n \ge 1$ und $f(\alpha) = 0$.
+	Dann nennt man $\alpha$ eine \emphdef{ganze algebraische Zahl}.
+
+	Allgemeiner: Sei $S$ ein Teilring des Ringes $R$, dann nennt man ein Element $r \in R$ \emphdef{ganz über} $S$, wenn $r$ einer normierten Gleichung der Form
+	\[
+		x^n + s_{n-1} x^{n-1} + \dotsc + s_1 x_0 + s_0 = 0
+	\]
+	mit $s_i \in S$, $n \ge 1$ genügt.
+\end{df}
+
+% Ex 4.15
+\begin{ex} \label{4.15}
+	\begin{enumerate}[a)]
+		\item
+			Ganze algebraische Zahlen, die Nullstelle eines normierten Polynoms vom Grad $2$ sind:
+			\[
+				f(x) = x^2 + b x + c
+			\]
+			mit $b, c \in \Z$.
+			Lösungen sind $\f 12 (-b \pm \sqrt{b^2 - 4c})$.
+
+			Ist $b$ gerade, dass sind die Nullstellen der Form $\alpha + \beta \sqrt d$ mit $\alpha, \beta, d \in \Z$.
+			Umgekehrt ist $\alpha + \beta \sqrt d$ Nullstelle von $x^2 - 2 \alpha x + \alpha^2 + \beta^2 d$.
+
+			Ist $b$ ungerade, dann haben Nullstellen die Form $-\f b2 \pm \f 12 \sqrt{b^2 - 4c}$, wobei $b^2 - 4c \equiv 1 \bmod 4$, also ergibt sich die Form $- \f b2 \pm \f 12 \gamma \sqrt d$ mit ungeradem $\gamma \in \Z$.
+			Ist umgekehrt $x = \f{\alpha}2 + \f{\beta}2 \sqrt{d}$ mit $\alpha, \beta \in \Z$ und ungerade und $d \equiv 1 \bmod 4$.
+			Setze $b = -\alpha, b^2 = 1 + 4m, c = \f {1-d\beta^2}4 + m$, dann ist $x$ eine Nullstelle von $x^2 + bx + c = 0$.
+
+			Ganze algebraische Zahlen eines normierten Polynoms von Grad 2 sind für festes $d$ von der Form
+			\[
+				\alpha + \beta \sqrt d
+			\]
+			wenn $d \equiv 2, 3 \bmod 4$ oder
+			\[
+				\alpha + \beta \f{1 + \sqrt d}2
+			\]
+			wenn $d \equiv 1 \bmod 4$ ist.
+			Man rechnet nach, dass dies eine Teilmenge von $\Q(\sqrt d)$ ist.
+			Man nennt $\Z[\alpha_d]$ den Ring der ganzen algebraischen Zahlen in $\Q(\sqrt \alpha)$.
+	\end{enumerate}
+\end{ex}
+
