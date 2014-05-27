@@ -391,10 +391,132 @@ Im nächsten Satz formulieren wir eine notwendige und hinreichende Bedingung, wa
 \section{Konstruktion mit Zirkel und Lineal}
 
 
-stub
+Um die Konstruktionen mit Zirkel und Lineal greifbar zu machen, wollen wir Geometrie in Algebra „übersetzen“.
+
+\begin{df} \label{18.5-1}
+	Sei $\scr P \subset \R^2$ eine Punktmenge.
+	Konstruktionen mit Zirkel und Lineal erlauben folgende Operationen:
+	\begin{enumerate}[1)]
+		\item
+			Für $A, B \in \scr P, A \neq B$ ziehe eine Gerade durch $A$ und $B$ (Lineal benötigt).
+			Wir bezeichnen diese Gerade mit $AB$.
+		\item
+			Für $A, B \in \scr P, A \neq B$ schlage einen Kreis $K(A, B)$ um $A$ mit Radius $d(A, B)$, d.h. dem Abstand von $A$ zu $B$.
+	\end{enumerate}
+	Wir definieren die Menge aller \emphdef[konstruierbar!im ersten Schritt]{aus $\scr P$ im ersten Schritt konstruierbaren Elemente} als
+	\[
+		S(\scr P) :=
+		\scr P \cup \l\{ \begin{aligned} AB \cap CD,\; AB \cap K(C, D), \\ K(A, B) \cap K(C, D) \end{aligned} \;\Bigg|\; \begin{aligned} A,B,C,D \in \scr P, \\ A \neq B, C \neq D \end{aligned} \r\}.
+	\]
+	Sei $\scr P_0 := \scr P$ und induktiv $\scr P_i := \scr P_{i-1}$ für alle $i \in \N$.
+	Die Menge aller \emphdef[konstruierbar]{aus $\scr P$ konstruierbaren Elemente} ist definiert als
+	\[
+		\_{\scr P} := \bigcup_{i=0}^\infty \scr P_i.
+	\]
+\end{df}
+
+Besteht $\scr P_0$ nur aus einem Punkt, lässt sich nichts konstruieren, d.h. $\_{\scr P} = \scr P$.
+Sei im Folgenden deshalb stets $|\scr P_0| \ge 2$.
 
 
-\section{Galoistheorie}
+\begin{ex}[Geometrische Konstruktionen] \label{18.5-2}
+	\begin{enumerate}[i)]
+		\item
+			Für $A, B \in \scr P$ ist $\Z B \subset \_{\scr P}$ konstruierbar.
+		\item
+			Die Winkelhalbierende ist konstruierbar.
+		\item
+			Die Parallele durch einen Punkt ist konstruierbar.
+		\item
+			Für drei gegeben Punkte ist das Parallelogramm konstruierbar.
+		\item
+			Unsere Definition der Konstruktionsoperationen erlaubt nicht das Übertragen von Streckenlängen von einer Geraden auf eine andere (mit einem Zirkel könnte man die Länge einstellen und auf die andere Stelle übertragen).
+			Man spricht von einem \emphdef[kollabierender Zirkel]{kollabierendem Zirkel}, der „zuschnappt“, sobald wir ihn vom Papier abheben.
 
+			Trotzdem ist das Übertragen von Streckenlängen auch mit einem kollabierendem Zirkel möglich.
+			Für gegebenes $A, B, C, E \in \scr P$ lässt sich die Streckenlänge $d(A, B)$ auf die Gerade $CE$ an $C$ übertragen, d.h. ein Punkt $F$ in $CE$ ist konstruierbar, sodass $d(A, B) = d(C, F)$.
+			Nutze dafür iv) und iii).
+		\item
+			Teilen einer Strecke in $n$ gleiche Teile.
+		\item
+			Verdopplung/Halbierung von Winkeln, Übertrag von Winkeln, Dreieckskonstruktionen, Addition von Winkeln, Beweis der Strahlensätze, \dots
+	\end{enumerate}
+\end{ex}
 
+Nun wirds algebraisch/analytisch.
+Wir identifizieren die Punktmenge der euklidischen Ebene $E$ mit dem $\R^2$ und den $\R^2$ mit $\C$, der komplexen Zahlenebene.
+Wir wählen $A, B \in \scr P_0$ mit $A \neq B$ und koordinatisieren $E$, indem wir $A$ als Ursprung, $AB$ als $x$-Achse und $d(A,B)$ als Längeneinheit wählen: $A = 0 \in \C, B = 1 \in \C, d(A, B) = 1$.
+Dann ist nach \ref{18.5-2} i) auch $-B = -1 \in \C$ in $\_{\scr P_0}$ enthalten.
+Als Imaginärachse wählen wir die Mittelsenkrechte von $-B$ und $B$ und tragen dort (mit $K(A,B)$ den Punkt $i \in \C$ mit $d(A, i) = d(A, B) = 1$ als Längeneinheit ab).
+Dies definiert eine Bijektion zwischen den Punkten der euklidischen Ebene $E$ und dem Körper der komplexen Zahlen.
 
+\begin{df} \label{18.5-3}
+	Sei $\scr P_0$ ein Punktmenge der euklidischen Ebene $E$ mit $|\scr P_0| \ge 2$, $A, B \in \scr P_0$ mit $A \neq B$.
+	Sei $S \in E$, dann bezeichnen wir mit $z_S \in \C$ das Bild von $S$ in $\C$ unter der oben definierten Bijektion $E \to \C$.
+	Sei $M = \{z_C : C \in \scr P_0\}$.
+	Dann heißt $z \in \C$ \emphdef[geometrisch konstruierbar]{geometrisch aus $M$ konstruierbar}, wenn $z = z_D$ für ein $D \in \_{\scr P_0}$.
+	Die Menge der aus $M$ geometrisch konstruierbaren komplexen Zahlen wird mit $G(M)$ bezeichnet.
+	So ist $G(M) = \{ z_D : D \in \_{\scr P_0} \} \subset \C$.
+\end{df}
+
+\begin{note}
+	Für $z = r + si \in \C$ ($r, s \in \R$) ist $\_z = r - si \in \C$ die konjugiert komplexe Zahl.
+	In der komplexen Zahlenebene erhält man $\_z$ geometrisch durch Spiegelung von $z$ an der rellen Achse ($x$-Achse).
+\end{note}
+
+\begin{st} \label{18.5-4}
+	Sei $0, 1 \in M \subset \C$.
+	Dann ist $G(M)$ ein Unterkörper von $\C$, also Abgeschlossen bezüglich Addition und Multiplikation und Bildung additiver und multiplikativer Inversen.
+	Außerdem gilt: $z \in G(M)$, so gilt auch $\_z$, $\sqrt z \in G(M)$.
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				$z \in G(M) \implies -z \in G(M)$
+			\item
+				Addition (mit Parallelogramm)
+			\item
+				Multiplikation/Division von reellen Zahlen mit Strahlensätzen.
+				Mit Polarkoordinaton und Addition von Winkeln folgt Multiplikation/Division im Komplexen.
+			\item
+				Komplexe Konjugation
+			\item
+				Quadratwurzel:
+				genügt wegen Polarkoordinaten für reelle Zahlen: $\sqrt{r}$ mit Thaleskreis über $-r, 1$.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+Ist $0, 1 \in M \subset \C$ und sei $S \subset \C$ aus $M$ geometrisch konstruierbar, dann ist $G(M) = G(M \cup S)$.
+Insbesondere ist die imaginäre Einheit $i \in \C$ immer aus $1, 0 \in M$ konstruierbar.
+Wir können daher immer $i \in M$ annehmen.
+
+Für $z \in \C$ sei $P_z \in \R^2$ der Punkt mit den Koordinaten $\alpha, \beta$ für $z = \alpha + \beta i$, $\alpha, \beta \in \R$.
+
+\begin{conv} \label{18.5-5}
+	Für $x,y \in \C$, $x \neq y$ sei $x \vee y$ die Verbindungsgreade $P_x P_y \subset \R^2$ und $K(X, Y) \subset \R^2$ der Kreis um $x$ mit Radius $|x-y| = \sqrt{(x-y)\_{(x-y)}} \in \R_{\ge 0}$.
+\end{conv}
+
+\begin{st} \label{18.5-6}
+	Sei $L = \_L \subset \C$ ein Körper und $z_1, w_1, z_2, w_2 \in L$, $(z_1, w_1) \neq (z_2, w_2)$ und sei $g_j = z_j \vee w_j$ oder $g_j = K(z_j, w_j)$ ($j \in \{1, 2\}$).
+	Sei $z = g_1 \cap g_2 \in \C, L_1 = L(z) \subset \C$.
+	Dann ist $L_1 = \_{L_1}$ und $[L_1 : L] \le 2$.
+\end{st}
+
+\begin{kor} \label{18.5-7}
+	Sei $0, 1 \in M \subset \C, L_0 = \Q(M \cup \_{M}) \subset \C$.
+	Sei $z \in G(M)$.
+	Dann gibt es eine Folge von Körpern
+	\[
+		L_0 \subset L_1 \subset \dotsb \subset L_k \subset \C
+	\]
+	mit $z \in L_k$ und $[L_i : L_{i-1}] \le 2$ für $i \in \{1, \dotsc, k\}$, $L_k = L_{k-1}(z)$
+	Insbesondere ist $z$ und daher $G(M)$ algebraisch über $L_0$ und $[L_0(z) : L_0]$ eine Potenz von $2$.
+\end{kor}
+
+Als Konsequenz lässt sich nun zeigen, dass einige (antike) Konstruktionsaufgaben der elmentaren Geometrie nicht lösbar sind.
+
+\begin{ex}[Quadratur des Kreises] \label{18.5-8}
+	Konstruiere mit Zirkel und Lineal ein Quadrat mit selben Flächeninhalt wir der Einheitskreis (d.h. mit Fläche $\pi^2$, Seitenlängen $\pi$).
+
+	Die Lösung würde auf die geometrische Konstruktion von $\pi \in \C$ führen, d.h. $\pi$ müsste algebraisch über $\Q(i)$ für $\scr P_0 = \{0, 1\}$ sein nach \ref{18.5-7}, $\pi$ ist aber transzendent (siehe Analysis).
+\end{ex}

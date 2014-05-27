@@ -1,0 +1,304 @@
+\chapter{Galoistheorie}
+
+
+Im Folgenden sei $K$ ein Körper, $\_K$ ein fest gewählter algebraischer Abschluss von $K$ und alle algebraischen Erweiterungskörper $E$ von $K$ seien als Unterkörper von $\_K$ gewählt, d.h. $K \subset E \subset \_K$, also $\_E = \_K$.
+
+
+\section{Separabilität}
+
+
+\begin{df} \label{19.1-1}
+	Ein Polynom $f \in K[x]$ vom Grad größer gleich 1 heißt \emphdef[separabel]{separabel über $K$}, falls $f$ keine mehrfachen Nullstellen in $\_K$ besitzt, d.h. $f = \lambda (x - \alpha_1) \dotsc (x - \alpha_n) \in \_K[x]$ mit $\alpha_1, \dotsc, \alpha_n \in \_K$ paarweise verschieden, $\lambda \in \_K$, $n = \deg f$.
+	\begin{note}
+		Für $K \subset E \subset \_K$ und $f \in K[x]$ separabel über $K$, ist auch $f$ separabel über $E$.
+	\end{note}
+\end{df}
+
+\begin{df} \label{19.1-2}
+	Sei $f = \lambda_0 + \lambda_1 x + \lambda_2 x^2 + \dotsc + \lambda_n x^n \in K[x]$, $\lambda_n \neq 0$.
+	Dann heißt das Polynom
+	\[
+		\ddx f = f' = \lambda_1 + 2 \lambda_2 + \dotsb + i \lambda_i x^{i-1} + \dotsb + n \lambda_n x^{n-1}
+		\in K[x]
+	\]
+	\emphdef{formale Ableitung} von $f$.
+\end{df}
+
+\begin{lem}[Produktregel] \label{19.1-3}
+	Die Abbildung $\ddx: K[x] \to K[x] : f \mapsto \ddx f$ ist $K$-linear und es gilt
+	\[
+		\ddx (fg) = (\ddx f) g + f (\ddx g)
+	\]
+	für alle $f, g \in K[x]$.
+	Abbildungen von $K$-Algebren, die $K$-linear sind und die obige Produktregel erfüllen, heißen \emphdef{Derivationen}.
+\end{lem}
+
+\begin{lem} \label{19.1-4}
+	Sei $f \in K[x], \deg f \ge 1$ und sei $\alpha \in \_K$ eine Nullstelle von $f$.
+	Dann ist $\alpha$ mehrfache Nullstelle von $f$ (in $\_K$, $f \in K[x] \subset \_K[x]$) genau dann, wenn $\alpha$ auch Nullstelle (in $\_K$) von $f' = \ddx f$ ist, d.h. wenn $f'(\alpha) = 0$.
+\end{lem}
+
+\begin{kor} \label{19.1-5}
+	$\alpha \in \_K$ ist genau dann mehrfache Nullstelle von $f \in K[x] \subset \_K[x]$, $\deg f \ge 1$, wenn $\alpha$ Nullstelle von $\ggT(f, f') \in K[x]$ ist.
+\end{kor}
+
+\begin{kor} \label{19.1-6}
+	Sei $f \in K[x], \deg f \ge 1$.
+	Dann ist $f$ separabel genau dann, wenn $\ggT(f, f') = 1$ ist.
+\end{kor}
+
+\begin{kor} \label{19.1-7}
+	Sei $f \in K[x]$ irreduzibel.
+	Dann ist $f$ separabel genau dann, wenn $\ddx f = f' \neq 0$ ist.
+\end{kor}
+
+Wann kann es passieren, dass $\ddx f$ das Nullpolynom ist?
+
+Sei $f = \sum_{i=0}^n \lambda_i x^i, \lambda_n \neq 0, n \ge 1$.
+Dann ist $f' = \ddx f = \sum_{i=0}^n i \lambda_i x^{i-1} = 0 \in K[x]$ genau dann, wenn $i \lambda_i = 0$ ist für alle $i \in \{1, \dotsc, n\}$.
+\begin{seg}{1. Fall: $\Char K = 0$}
+	In dem Fall ist $\lambda_i = 0$ für alle $i \in \{1, \dotsc, n\}$, d.h. $f$ ist ein konstantes Polynom.
+\end{seg}
+\begin{seg}{2. Fall: $\Char K = p > 0$}
+	Dann ist $\lambda_i = 0$ für alle $1 \le i \le n$, die nicht von $p$ geteilt werden.
+	Teilt $p$ den Index $i$, so ist für beliebige $\lambda_i$ stets $i \lambda_i = 0$, da $i \equiv 0 \bmod p$ ist.
+	Also ist $f$ von der Form
+	\[
+		f = \lambda_0 + \lambda_p x^p + \lambda_{2p} x^{2p} + \dotsb + \lambda_{kp} x^{kp} \in K[x],
+	\]
+	d.h. $f(x) = g(x^p)$ mit $g(x) = \lambda_0 + \mu_1 x + \dotsb + \mu_k x^k$ mit $\mu_i = \lambda_{ip}$, $i \in \{1, \dotsc, k\}$.
+	Insbesondere ist dann $n = \deg f = kp = p \deg g$.
+\end{seg}
+
+Im Lichte von \ref{19.1-7} haben wir gezeigt:
+
+\begin{st} \label{19.1-8}
+	Sei $f \in K[x]$ irreduzibel, also insbesondere $\deg f \ge 1$.
+	Dann gilt
+	\begin{enumerate}[i)]
+		\item
+			Ist $\Char K = 0$, dann ist $f$ separabel.
+		\item
+			Ist $\Char K = p > 0$, dann ist $f$ inseparabel genau dann, falls es ein Polynom $g \in K[x]$ gibt mit $f(x) = g(x^p)$.
+			Insbesondere ist dann $\deg f = p \deg g$.
+	\end{enumerate}
+	Ist $f(x) = g(x^p)$ in ii) irreduzibel, $f(x) = g(x^p)$, so ist $g \in K[x]$ ebenfalls irreduzibel.
+\end{st}
+
+\begin{df} \label{19.1-9}
+	Sei $\alpha \in \_K$.
+	Dann heißt $\alpha$ \emphdef[separabel!Element]{separabel über $K$}, falls das Minimalpolynom $\mu_{\alpha, K} \in K[x]$ separabel ist.
+	Ein algebraischer Erweiterungskörper $E$ von $K$, (d.h. $K \subset E \subset \_K$) heißt \emphdef{separabel über $K$}, falls $\alpha$ separabel für $K$ ist für alle $\alpha \in E$.
+	Ein Körper $K$ heißt \emphdef{vollkommen} (engl. “perfect”), falls jede algebraische Erweiterung von $K$ separabel über $K$ ist
+\end{df}
+
+\setcounter{thm}{5}
+\begin{kor} \label{19.1-6}
+	\begin{enumerate}[i)]
+		\item
+			Körper der Charakteristik $0$ sind vollkommen.
+		\item
+			Algebraische Erweiterungen vollkommener Körper sind vollkommen.
+		\item
+			Endliche Körper sind vollkommen.
+	\end{enumerate}
+\end{kor}
+
+\begin{ex} \label{19.1-7}
+	Konstruiere eine einfache nicht separable Körpererweiterung (\ref{19.1-6} wird vorausgesetzt): $K \subset K(\alpha) \subset \_K$.
+\end{ex}
+
+\begin{lem} \label{19.1-8}
+	Seien $K \subset E \subset L \subset \_K$ Körper und sei $L$ separabel über K.
+	Dann ist $L$ auch separabel über $E$.
+\end{lem}
+
+\begin{nt} \label{19.1-9}
+	$\alpha \in \_K$ ist separabel genau dann, wenn $\alpha \in \_K$ Nullstelle eines separablen Polynoms $f \in K[x]$ ist, denn dann teilt $\mu_{\alpha, K}$ das Polynom $f$ und ist daher separabel.
+\end{nt}
+
+\begin{df} \label{19.1-10}
+	Seien $K \subset E, L \subset \_K$ Körper.
+	Die Menge der $K$-Homomorphismen von $E$ nach $L$ wird mit $\Hom_{K-\text{Alg}}(E, L)$ bezeichnet.
+	Der \emphdef[Separabilitätsgrad]{Separabilitätsgrad $[E : K]_S$ von $E$ über $K$} ist definiert als $|\Hom_{K-\text{Alg}}(E, \_K)|$, ist also die Anzahl der verschiedenen $K$-linearen Körperhomomorphismen von $E$ nach $\_K$.
+\end{df}
+
+\begin{lem} \label{19.1-11}
+	Sei $E = K(\alpha), \alpha \in \_K$.
+	Dann ist $[E : K]_S$ die Anzahl der verschiedenen Nullstellen von $\mu_{\alpha, K} \in K[x]$ in $\_K$.
+\end{lem}
+
+\begin{kor} \label{19.1-12}
+	Sei $\alpha \in \_K$.
+	Dann ist $\alpha$ separabel über $K$ genau dann, wenn $[K(\alpha) : K]_S = [K(\alpha) : K]$ ist.
+\end{kor}
+
+\begin{st} \label{19.1-13}
+	Seien $K \subset E \subset L \subset \_K$ Körper.
+	Dann ist $[L : K]_S = [L : E]_S [E : K]_S$.
+\end{st}
+
+\begin{lem} \label{19.1-14}
+	Sei $K \subset E \subset \_K, [E : K] < \infty$.
+	ist $E$ separabel über $K$, so ist $[E : K]_S = [E : K]$.
+\end{lem}
+
+Um die Umkehrung von \ref{19.1-14} zu beweisen, brauchen wir noch mehr Informationen über inseparabel Körpererweiterungen.
+
+Die folgende Definition ist grundlegend für Körper der Charakteristik $p > 0$.
+
+\begin{df} \label{19.1-15}
+	Sei $\Char K = p > 0$.
+	Die Abbildung $\scr F = \scr F_p: K \to K: \alpha \mapsto \alpha^p$ heißt \emphdef{Frobeniushomomorphismus} von $K$.
+	Ist $k \in \N, q = p^k$, so wird die $k$-fache Iteration $\scr F_p \circ \scr F_p \circ \dotsb \circ \scr F_p = (\scr F_p)^k$ mit $\scr F_q$ bezeichnet.
+\end{df}
+
+\begin{st}[Freshman's Dream] \label{19.1-16}
+	Sei $\Char K = p > 0$.
+	Dann ist $\scr F_p: K \to K$ ein Körperhomomorphismus und $\scr F_p\big|_{\GF(p)} = \id_{\GF(p)}$, wobei $\GF(p)$ der Primkörper von $K$ ist.
+\end{st}
+
+\begin{kor} \label{19.1-17}
+	Sei $K$ endlicher Körper mit Primkörper $\GF(p) = \F_p$.
+	Dann ist $\scr F: K \to K: \alpha \mapsto \alpha^p$ ein $\F_p$-Automorphismus von $K$.
+\end{kor}
+
+\begin{lem} \label{19.1-18}
+	Sei $\Char K = p > 0$ und sei $f \in K[x]$ irreduzibel.
+	Sei $r \in \N_0$ maximal, sodass es ein $g \in K[x]$ mit $f(x) = g(x^{p^r})$ gibt.
+	Dann hat jede Nullstelle von $f$ in $\_K$ Vielfachheit $p^r$ und $g \in K[x]$ ist irreduzibel und separabel.
+	Die Nullstellen von $f$ sind genau die $p^r$-ten Wurzeln der Nullstellen von $g$, und diese Wurzeln sind eindeutig in $\_K$.
+\end{lem}
+
+\begin{st} \label{19.1-19}
+	Sei $E$ eine endliche Körpererweiterung von $K$, d.h. $[E : K] < \infty$.
+	Dan ist $E \subset \_K$ und es gilt:
+	$E$ ist separabel über $K$ genau dann, wenn $[E : K]_S = [E : K]$ ist.
+\end{st}
+
+\begin{st} \label{19.1-20}
+	Seien $K \subset E \subset L$ Körper.
+	Dann ist $L$ genau dann separabel über $K$, wenn $L$ über $E$ und $E$ über $K$ separabel sind.
+\end{st}
+
+
+\section{\texorpdfstring{$K^*$}{K*}, endliche Körper, Satz von primitiven Element}
+
+$K^* = K \setminus \{0\}$ bildet bezüglich der Multiplikation eine abelsche Gruppe.
+Es gilt:
+
+\begin{st} \label{19.2-1}
+	Sei $G$ eine endliche Untergruppe von $K^*$.
+	Dann ist $G$ zyklisch.
+\end{st}
+
+\begin{st} \label{19.2-2}
+	Sei $|K| < \infty$.
+	Dann ist $\Char K = p > 0$ für eine Primzahl $p$, $|K| = q = p^k$ für ein $k \in \N$ und $K^*$ zyklisch von der Ordnung $q - 1$.
+\end{st}
+
+Jetzt können wir eine vollständige Klassifizierung aller endlichen Körper liefern.
+
+\begin{st} \label{19.2-3}
+	Sei $p \in \N$ Primzahl, $q = p^n$ ($n \in \N$) eine Potenz von $p$.
+	Sei $\Z / p\Z = \GF(p) = \F_p$ der (eindeutig bestimmte) Körper mit $p$ vielen Elementen.
+	Dann gibt es einen bis auf $\F_p$-Isomorphismen eindeutigen Erweiterungskörper $\F_q$ von $\F_p$ mit $q$ vielen Elementen und es existiert ein $\zeta \in \F_q$ so, dass $\F_q = \F_p(\zeta)$ gilt (d.h. $\F_q$ ist einfache, wegen $[\F_q : \F_p] = n$ algebraische Erweiterung mit primitiven Element $\zeta \in \F_q$).
+\end{st}
+
+\begin{kor} \label{19.2-4}
+	Seien $K$ und $E$ endlicher Körper.
+	Dann ist $K$ isomorph zu einem Unterkörper von $E$ genau dann, wenn $\Char K = \Char E = p > 0$ ist und $|K| = p^k, |E| = p^n$ mit $k, n \in \N, k \divs n$ gilt.
+\end{kor}
+
+\begin{kor} \label{19.2-5}
+	Endliche Körper sind perfekt.
+\end{kor}
+
+\begin{st}[Satz vom primitiven Element]
+	Sei $K \subset E$ endliche, separable Körpererweiterung.
+	Dann existiert ein primitives Element $\alpha \in E$ mit $E = K(\alpha)$.
+	$E$ ist also einfache Körpererweiterung von $K$.
+\end{st}
+
+
+\section{Zerfällungskörper}
+
+
+\begin{df} \label{19.3-1}
+	Sei $\scr F = \{ f_i : i \in I \} \subset K[x]$ eine Menge von nicht konstanten Polynomen in $K[x]$ für eine Indexmenge $I$.
+	Ein Erweiterungkörper $E$ von $K$ heißt \emphdef[Zerfällungskörper]{Zerfällungskörper von $\scr F$ über $K$}, wenn gilt
+	\begin{enumerate}[i)]
+		\item
+			Jedes $f_i, i \in I$ zerfällt in $E[x]$ vollständig in Linearfaktoren.
+		\item
+			Die Erweiterung $K \subset E$ wird von den Nullstellen der $f_i, i \in I$ erzeugt.
+	\end{enumerate}
+\end{df}
+
+Ein Zerfällungskörper $E$ von $\scr F$ ist also algebraisch über $K$ nach \ref{18.3-8}.
+Ist $\scr F = \{f\}$, $f \in K[x], \deg f \ge 1$, so ist der Zerfällungskörper von $\scr F$ über $K$ die Körpererweiterung $E = K(\alpha_1, \dotsc, \alpha_n)$, wobei $\alpha_1, \dotsc, \alpha_n$ die Nullstellen von $f$ in $\_K$ seien.
+Wir sagen: „$E$ ist der Zerfällungskörper von $f$“.
+Allgemein mit $\scr F = \{ f_i : i \in I\}$ ist der Zerfällungskörper von $\scr F$ über $K$ offensichtlich $E = K(\alpha_j : j \in J)$, wobei $\alpha_j \in \_K$ alle Nullstellen der Polynome $f_i, i \in I$ durchläuft.
+Ist $\scr F = \{ f_1, f_2, \dotsc, f_n \}$, so ist der Zerfällungskörper $E$ von $\scr F$ über $K$ gerade der Zerfällungskörper des Polynoms $g = f_1 f_2 \dotsb f_n \in K[x]$ über $K$.
+
+\begin{st} \label{19.3-2}
+	Sei $E$ algebraische Körpererweiterung von $K$.
+	Dann sind die folgenden Aussagen äquivalent:
+	\begin{enumerate}[i)]
+		\item
+			Ist $\tau: E \to \_E = \_K$ ein $K$-Homomorphismus, so ist $\im \tau = E$ (hier ist tatsächlich Gleichheit gemeint, $\im \tau \isomorphic E$ gilt immer).
+		\item
+			Jedes irreduzible Polynom aus $K[x]$, das in $E$ eine Nullstelle besitzt, zerfällt in $E[x]$ in Linearfaktoren.
+		\item
+			$E$ ist Zerfällungskörper einer Menge nicht konstanter Polynome in $K[x]$.
+	\end{enumerate}
+\end{st}
+
+\begin{df} \label{19.3-3}
+	Eine algebraische Körpererweiterung $E$ von $K$ heißt \emphdef[normal]{normal über $K$}, falls $E$ die äquivalenten Bedingungen von \ref{19.3-2} erfüllt.
+\end{df}
+
+\begin{note}
+	Ist $[E : K] = 2$, so ist $E$ stets normal über $K$.
+\end{note}
+
+\begin{kor} \label{19.3-4}
+	Seien $K \subset E \subset L \subset \_K$ Körper und sei $L$ normal über $K$.
+	Dann ist $L$ normal über $E$.
+	\begin{proof}
+		nach \ref{19.3-2} iii).
+	\end{proof}
+\end{kor}
+
+\begin{note}
+	$K \subset E \subset L$ mit $L$ normal über $E$ und $E$ normal über $K$ impliziert nicht, dass $L$ normal über $K$ ist.
+	Mit anderen Worten: „normal über“ ist nicht transitiv.
+\end{note}
+
+\begin{df} \label{19.3-5}
+	Seien $K \subset E \subset \_K$ Körper.
+	Eine \emphdef{normale Hülle} $L$ von $E$ über $K$ ist eine algebraische, normale Erweiterung von $K$, die $E$ enthält und so, dass kein Zwischenkörper $E \subset L \subsetneq L$ normal über $K$.
+\end{df}
+
+\begin{note}
+	Ist $E$ normal über $K$, so ist $E$ normale Hülle von $E$ über $K$.
+\end{note}
+
+\begin{st} \label{19.3-6}
+	Sei $K \subset E \subset \_K$.
+	Dann existiert eine normale Hülle $L$ von $E$ (in $\_K$) und diese ist eindeutig bestimmt.
+	Ist $[E : K]$ endlich, so auch $[L : K]$.
+\end{st}
+
+\begin{ex} \label{19.3-7}
+	Sei $K = \Q$.
+	$f(x) = x^3 - 2 \in \Q[x]$ ist irreduzibel (Eisenstein mit $p = 2$).
+	Dann sind $\alpha := \sqrt[3]{2}, \beta := \sqrt[3]{2} e^{i\f{2\pi}3}$ und $\gamma := \sqrt[3]{2} e^{i\f{4\pi}3}$ die drei Nullstellen von $f$ in $\_{\Q}[x]$ und
+	\[
+		\Q[x] / (x^3-2)\Q[x] \isomorphic \Q(\sqrt[3]{2}) = E \subset \R.
+	\]
+	Insbesondere ist $E$ nicht normal über $\Q$, da $\sqrt[3]{2} e^{i\f{2\pi}3} \not\in \R$ ist.
+	Nach \ref{18.4-4} sind die Körper $\Q(\alpha), \Q(\beta), \Q(\gamma)$ $K$-isomorph (in $\_\Q$ enthalten), aber nicht gleich in $\_{\Q}$.
+	Der Zerfällungskörper von $f$ über $\Q$ ist 6-dimensional.
+\end{ex}
+
