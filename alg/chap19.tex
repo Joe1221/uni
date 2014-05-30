@@ -331,6 +331,25 @@ Um solche Fälle zu vermeiden, werden wir fordern, dass die Körpererweiterung $
 \begin{st} \label{19.4-4}
 	Sei $E$ endliche, normale Erweiterung von $K$.
 	Dann ist $|G(E/K)| = [E:K]_S \le [E:K]$.
+\coursetimestamp{30}{05}{2014}
+	\begin{proof}
+		Sei $K \subset E \subset \_K = \_E$.
+		Sei $\sigma: E \to \_K$ $K$-Homomorphismus, dann ist $\im \sigma = E$ nach \ref{19.3-2} i) da $E$ normal über $K$ ist.
+		So erhalten wir durch Einschränkeen des Bildbereichs eine Bijektion von $\Hom_K(E, \_K)$ auf $\Aut_K(K) = G(E/K)$.
+		Daher ist
+		\[
+			|G(E / K)| = | \Hom_K(E, \_K)| = [E : K]_S
+		\]
+		nach \ref{19.1-10}.
+		Da $[E : K] < \infty$ ist, finden wir $\alpha_1, \dotsc, \alpha_n \in E$ so, dass $E = K(\alpha_1, \dotsc, \alpha_n)$ ist.
+		Sei $L_i = K(\alpha_1, \dotsc, \alpha_i)$, $i \in \{1, \dotsc, n\}$, so ist $L_i = L_{i-1}(\alpha_i)$ und daher $[L_i : L_{i-1}]_S \le [L_i : L_{i-1}]$ mit \ref{19.1-11}.
+		Mit \ref{19.1-13} und \ref{18.1-2} folgt
+		\[
+			[E:K]_S = [E : L_{n-1}]_S \dotsb [L_1 : K]_S
+			\le [E : L_{n-1}] \dotsb [L_1 : K]
+			= [E : K].
+		\]
+	\end{proof}
 \end{st}
 
 Direkt aus \ref{19.1-14} und \ref{19.4-4} folgt nun
@@ -347,48 +366,73 @@ Direkt aus \ref{19.1-14} und \ref{19.4-4} folgt nun
 	Weiter besteht $\F_2$ aus den Nullstellen von $x^{q_2} - x \in \F_p[x] \subset \F_1[x]$ und ist daher Zerfällungskörper von $x^{q_1} - x$ über $\F_1$, also normal über $\F_1$ (\ref{19.2-3} und \ref{19.3-2}).
 
 	Also ist $\F_2$ galoisch über $\F_1$ und daher gilt mit \ref{19.4-5} $|G(\F_2 / \F_1)| = [\F_2 : \F_1] = d$ (wegen $|\F_1|^d = q_1^d = (p^m)^d = p^n = q_2 = |\F_2|$).
+
+	Erinnerung:
+	Der Frobeniushomomorphismus $\scr F: \_{\F_p} \to \_{\F_p}: \alpha \to \alpha^P$ induziert durch Einschränken $\F_p$-Automorphismen von $\F_1$ und $\F_2$ nach \ref{19.1-17}.
+
+	Setze $\scr F_{q_1} = (\scr F)^m: \F_2 \to \F_2: \alpha \mapsto \alpha^{q_1}$.
+	Wegen $\alpha^{q_1} = \alpha$ für alle $\alpha \in \F_1$ (da $\alpha \in \F_1$ Nullstelle von $x^{q_1} - x \/n \F_p[x]$ ist, siehe Beweis von \ref{19.2-3}) ist $\scr F_{q_1}$ ein $\F_1$ Automorphismus von $\scr F_2$, d.h. $\scr F_{q_1}\big|_{\F} = \id_{\F_1}$.
+
+	Sei $\zeta \in \F_2$ Erzeuger von $\F_2^*$, so ist $|\zeta| = q_2 - 1$.
+	Insbesondere ist $\scr F_{q_1}(\zeta) = \zeta^{q_1} \neq \zeta$ und $\scr F_{q_1}^d(\zeta) = \zeta^{q_1^{d}} = \zeta^{q_2} = \zeta$ und daher ist $(\scr F_{q_1})^d = \id_{\F_2}$, d.h. $\scr F_{q_1}$ ist ein nicht triviales Element in $G(\F_2 / \F_1)$ der Ordnung $d$, da $d$ minimal mit $\zeta^{q_1^{d}} = \zeta$ ist.
+	Wir haben gezeigt: $G(\F_2 / \F_1) = \< \scr F_{q_1} \>$ ist zyklisch der Ordnung $d$.
 \end{ex}
-
-Erinnerung:
-Der Frobeniushomomorphismus $\scr F: \_{\F_p} \to \_{\F_p}: \alpha \to \alpha^P$ induziret durch Einschränken $\F_p$-Automorphismen von $\F_1$ und $\F_2$ nach \ref{19.1-17}
-
-Setze $\scr F_{q_1} = (\scr F)^m: \F_2 \to \F_2: \alpha \mapsto \alpha^{q_1}$.
-Wegen $\alpha^{q_1} = \alpha$ für alle $\alpha \in \F_1$ (da $\alpha \in \F_1$ Nullstelle von $x^{q_1} - x \/n \F_p[x]$ ist, siehe Beweis von \ref{19.2-3}) ist $\scr F_{q_1}$ ein$\F_1$ Automorphismus von $\scr F_2$, d.h. $\scr F_{q_1}\big|_{\F} = \id_{\F_1}$.
-
-Sei $J \in \F_2$ Erzeuger von $\F_2^*$, so ist $|J| = q_2 - 1$.
-Insbesondere ist $\scr F_{q_1}(J) = J^{q_1} \neq J$ und $\scr F_{q_1}^d(J) = J^{q_1^{d}} = J^{q_2} = J$ und daher ist $(\scr F_{q_1})^d = \id_{\F_2}$, d.h. $\scr F_{q_1}$ ist ein nicht triviales Element in $G(\F_2 / \F_1)$ der Ordnung $d$, da $d$ minimal mit $J^{q_1^{d}} = J$ ist.
-Wir haben gezeigt: $G(\F_2 / \F_1) = \< \scr F_{q_1} \>$ ist zyklisch der Ordnung $d$.
 
 \begin{conv} \label{19.4-7}
 	Sei $E$ endliche, galoische Erweiterung von $K$.
 	Dann ist $G(E / K)$ endlich der Ordnung $[E: K]$.
-	$E$ heißt abelsche, zyklische, auflösbare, \dots Erweiterung, falls $G(E / K)$ abelsch, bzw. zyklisch, bzw. auflösbar, \dots ist.
+	$E$ heißt abelsche, zyklische, auflösbare, \dots, Erweiterung, falls $G(E / K)$ abelsch, bzw. zyklisch, bzw. auflösbar, \dots ist.
 \end{conv}
 
 \begin{df} \label{19.4-8}
 	Sei $E$ ein Körper und $G$ eine Gruppe von Körperautomorphismen von $E$, d.h. $G \le \Aut(E) = \Aut_{\Pi(E)}(E) = G(E / \Pi(E))$.
-	Dann ist $E^G = \{\alpha \in E \;|\; \forall g \in G : \sigma(\alpha) = \alpha\}$ die Menge der Fixpunkte von $E$ unter $G$.
+	Dann ist
+	\[
+		E^G := \{\alpha \in E \;|\; \forall \sigma \in G : \sigma(\alpha) = \alpha\}
+	\]
+	die Menge der Fixpunkte von $E$ unter $G$.
 	Ist $K \subset E$ und $G \le G(E / K)$, so ist offensichtlich $K \subset E^G$.
 \end{df}
 
 \begin{lem} \label{19.4-9}
-	Sei $E$ ein Köprer und $G \le \Aut(E)$.
-	Dann ist $E^8$ ein Unterkörper von $E$, der \emphdef[Fixkörper]{Fixkörper von $E$ unter $G$}.
+	Sei $E$ ein Körper und $G \le \Aut(E)$.
+	Dann ist $E^G$ ein Unterkörper von $E$, der \emphdef[Fixkörper]{Fixkörper von $E$ unter $G$}.
 	\begin{note}
 		Ist $K \subset E$, $G \le G(E / K)$, so gilt $K \subset E^G \subset E$.
 	\end{note}
+	\begin{proof}
+		Wegen $0, 1_E \in E^G$ ist $E^G \neq (0)$.
+		Seien $\alpha, \beta \in E^G$, so ist $\sigma(\alpha \pmd \beta) = \sigma(\alpha) \pmd \sigma(\beta) = \alpha \pmd \beta$ für alle $\sigma \in G$.
+		Für $\alpha \neq 0$ ist dann $(\sigma(\alpha))^{-1} = \sigma(\alpha^{-1})$.
+		Also sind $\alpha \pmd \beta, \alpha^{-1} \in E^G$, d.h. $E^G$ ist ein Körper $\subset E$.
+	\end{proof}
 \end{lem}
 
 \begin{lem} \label{19.4-10}
 	Seien $K \subset E$ Körper, $H \le G \le G(E / K)$.
 	Dann ist $E^G \subset E^H$.
-	So ist $G \mapsto E^G$ enie inklusionsumkehrende Abbildung von der Menge der Untergruppen $G$ von $G(E / K)$ in die Menge der Zwischenkörper $K \subset L \subset E$.
+	So ist $G \mapsto E^G$ eine inklusionsumkehrende Abbildung von der Menge der Untergruppen $G$ von $G(E / K)$ in die Menge der Zwischenkörper $K \subset L \subset E$.
+	\begin{proof}
+		Sei $\alpha \in E^G$, so ist $\sigma(\alpha) = \alpha$ für alle $\sigma \in G$ und daher ist erst recht $\sigma(\alpha) = \alpha$ für alle $\sigma \in H \subset G$.
+		Also ist $\alpha \in E^H$ und daher ist $E^G \subset E^H$.
+		Klar ist auch $K \subset E^G \subset E^H \subset E$.
+	\end{proof}
 \end{lem}
 
 \begin{lem} \label{19.4-11}
-	Sei $E$ galoissch über $K$ und sei $K \subset L \subset E$ ein Zwischenkörper.
+	Sei $E$ galoissch über $K$ und sei $L$ mit $K \subset L \subset E$ ein Zwischenkörper.
 	Dann ist $E$ galoissch über $L$ und $G(E / L) \le G(E / K)$.
-	Sind $K \subset L_1 \subset L_2 \subset E$ Zwischenkörper, so ist $G(E / L_2) \le G(E / L_1) \le G(E / K)$ und daher ist $G(E / ?): K \subset L \subset E \mapsto G(E / L)$ eine inklusionsumkehrende Abbildunge von der Menge der Zwischenkörper $L$ in die Menge der Untergruppen von $G(E / K)$.
+
+	Sind $K \subset L_1 \subset L_2 \subset E$ Zwischenkörper, so ist $G(E / L_2) \le G(E / L_1) \le G(E / K)$.
+	Insbesondere ist $G(E / ?): L \mapsto G(E / L)$ eine inklusionsumkehrende Abbildung von der Menge der Zwischenkörper $L$, $K \subset L \subset E$ in die Menge der Untergruppen von $G(E / K)$.
+	\begin{proof}
+		Wegen \ref{19.1-8} ist $E$ separabel über $L$ und wegen \ref{19.3-4} ist $E$ normal über $L$.
+		Also ist $E$ galoissch über $L$.
+		Jeder $L$-Automorphismus von $E$ ist natürlich auch $K$-Automorphismus und daher in $G(E / K)$ enthalten.
+		Also ist $G(E / L) \le G(E / K)$.
+
+		Jeder $L_2$-Automorphismus von $E$ ist erst recht $L_1$-Automorphismus und daher $G(E / L_2) \subset G(E / L_1)$.
+	\end{proof}
 \end{lem}
 
 \begin{conv} \label{19.4-12}
@@ -410,17 +454,39 @@ Ist $E$ galoissch und endlich über $K$, so sind $E^?$ und $G(E / \argdot)$ inve
 
 \begin{st} \label{19.4-13}
 	Sei $E$ galoissch über $K$, $K \subset E \subset \_K = \_E$.
-	Dann ist $E^? \circ G(E / \argdot) : \scr Z \to \scr Z : L \mapsto E^{G(E / L)}$ die Identität auf $\scr Z$, d.h. es gilt für alle Zwischenkörper $K \subset L \subset E: E^{G(E / L)} = L$.
+	Dann ist $E^? \circ G(E / \argdot) : \scr Z \to \scr Z : L \mapsto E^{G(E / L)}$ die Identität auf $\scr Z$, d.h. es gilt für alle Zwischenkörper $L$ mit $K \subset L \subset E$ die Aussage
+	\[
+		E^{G(E / L)} = L.
+	\]
 	Insbesondere ist $E^{G(E/K)} = K$.
 	Mit anderen Worten: „Der Fixkörper unter der Galoisgruppe $G(E / L)$ von $E$ ist $L$.“
+	\begin{proof}
+		Sei $L \in \scr Z$, so ist $K \subset L \subset E \subset \_K = \_E = \_L$.
+		Da $E$ galoissch über $K$ ist, ist es auch galoissch über $L$ nach \ref{19.1-20}.
+		Sei $H := G(E / L) \le G(E / K)$.
+		Zu zeigen ist $E^H = L$.
+		Sei $\tau \in H, \alpha \in L$, dann ist wegen $\tau|_L = \id|_L$ gerade $\tau(\alpha) = \alpha$, d.h. $L \subset L^H$.
+		Sei $\alpha \in E^H$, dann ist also $K \subset L \subset L(\alpha) \subset E^H \subset E \subset \_K$.
+		Sei $\tau$ irgendeine $L$-Einbettung von $L$ in $\_K = \_L$.
+		Nach dem Fortsetzungssatz \ref{18.4-7} existiert $\hat \tau: E \to \_K$ mit $\hat \tau|_{L(\alpha)} = \tau$.
+		Da $E$ normal über $K$ ist und $\Hom_L(E, \_K) \subset \Hom_K (E, \_K)$ ist $\im \hat \tau = E$.
+		Also ist $\hat \tau \in \Aut_L(E) = G(E / L) = H$.
+		Aber $\tau(\alpha) = \alpha$ und wir haben gezeigt, dass es nur eine $L$-Einbettung von $L(\alpha)$ in $\_K = \_L$ gibt.
+		Also ist $[L(\alpha) : L]_S = 1$.
+		Wegen $L(\alpha) \subset E$ ist $\alpha$ separabel über $L$ und daher ist $[L(\alpha) : L] = [L(\alpha) : L]_S = 1$ nach \ref{19.1-12}.
+		Also ist $\alpha \in L$ und daher ist $E^H = L$.
+	\end{proof}
 \end{st}
 
 \begin{kor} \label{19.4-14}
 	Sei $E$ galoissch über $K$, $K \subset E \subset \_K$.
 	Dann ist die Abbildung $G(E / \argdot): \scr Z \to U : L \mapsto G(E / L) \le G(E / K)$ injektiv und $E^? : \scr U \to \scr : H \mapsto E^H$ für $H \le G(E / K)$ ist surjektiv.
+	\begin{proof}
+		Sind allgemein $\psi \circ \phi = \id$ Abbildungen, dann ist $\psi$ surjektiv und $\phi$ injektiv.
+	\end{proof}
 \end{kor}
 
-Wir untersuchen jetzt, wann ein Zwischenkörper $L \in \scr Z$ ($K \subset L \subset E$) selbst galoisch über $K$ ist unter der Generalvoraussetzung, dass $E$ galoissch über $K$ ist.
+Wir untersuchen jetzt, wann ein Zwischenkörper $L \in \scr Z$ mit $K \subset L \subset E$ selbst galoisch über $K$ ist unter der Generalvoraussetzung, dass $E$ galoissch über $K$ ist.
 
 Sei also $L \in \scr Z$ und $K \subset E \subset \_K = \_E$ galoissche Erweiterung.
 Sei $\sigma \in G(E / K)$.
@@ -430,11 +496,15 @@ Dann gilt
 \begin{st} \label{19.4-15}
 	Sei $L \in \scr Z$, $\sigma \in G(E / K)$, $H = G(E / L)$.
 	Dann ist $G(E / \sigma(L)) = \sigma H \sigma^{-1}$, die zu $H$ (mit $\sigma$) \emphdef{konjugierte Untergruppe} von $G(E / K)$.
+	\begin{proof}
+		$\sigma H = \sigma H \sigma^{-1} = \{ \sigma \tau \sigma^{-1} : \tau \in H \} \le G$.
+		Ist $\tau \in G(E / K)$, so ist $\tau \in G(E / L) \iff \tau(\alpha) = \alpha$ für alle $\alpha \in L$ und $\rho \in G(E / \sigma(L)) \iff \rho(\sigma(\alpha)) = \sigma(\alpha) \iff \sigma^{-1}\rho\sigma(\alpha) = \alpha \iff \sigma^{-1}\rho\sigma \in H \iff \rho \in \sigma H \sigma^{-1}$ für alle $\alpha \in L$.
+	\end{proof}
 \end{st}
 
 \begin{nt} \label{19.4-16}
-	Sind $K \subset E \subset \_K = \_E$ Körper und ist $E$ normal über $K$, $\iota: E \to \_K$ natürliche Einbettung, so definiert $\tau \to \iota \circ \tau : E \to \_K$ eine Bijektion zwischen $\Aut_K(E) = G(E / K)$ und $\Hom_K(E, \_K)$.
-	Dies ist so, wei nach \ref{19.3-2} i) das Bild $\im \rho = E \subset \_K$ ists für alle $\rho \in \Hom_K (E, \_K)$ und daher die Abbildung $\tau \mapsto \iota \circ \tau$ surjektiv ist.
+	Sind $K \subset E \subset \_K = \_E$ Körper und ist $E$ normal über $K$ und $\iota: E \to \_K$ die natürliche Einbettung, so definiert $\tau \to \iota \circ \tau : E \to \_K$ eine Bijektion zwischen $\Aut_K(E) = G(E / K)$ und $\Hom_K(E, \_K)$.
+	Dies ist so, weil nach \ref{19.3-2} i) das Bild $\im \rho = E \subset \_K$ ist für alle $\rho \in \Hom_K (E, \_K)$ und daher die Abbildung $\tau \mapsto \iota \circ \tau$ surjektiv ist.
 	Wir können also $\tau \in G(E / K)$ mit $\iota \circ \tau$ identifizieren, d.h. $\tau \in G(E / K)$ als $K$-Homomorphismus von $E$ in $\_K = \_E$ betrachten.
 
 	Die Umkehrabbildung um aus einem $\rho \in \Hom_K(E, \_K)$ ein $\rho \in G(E / K)$ zu machen fuktioniert durch Beschränken des Bildbereichs.
@@ -450,6 +520,60 @@ Dann gilt
 	\[
 		G(L / K) \isomorphic G(E / K) / G(E / L) = G / H.
 	\]
+	\begin{proof}
+		\begin{segnb}[$\implies$]
+			Sei $L$ galoissch über $K$.
+			Dann ist für $\tau \in \Hom_K(E, \_K) = G$, $\tau|_L \in \Hom_K(L, \_K)$ und daher ist $\im \tau|_L = L$ nach \ref{19.3-2} i), da nach Voraussetzung $L$ normal über $K$ ist.
+			Also ist $\tau|_L \in G(L / K) = \Hom_K(L, \_K)$.
+			Klar ist für $\tau, \sigma \in G$ ist $\tau|_L \circ \sigma|_L = (\tau \circ \sigma)|_L$.
+			Also ist $\tau \mapsto \tau|_L$ ein Gruppenhomomorphismus von $G$ in $G(L / K)$.
+			Darüber hinaus ist $\tau|_L = \id|_L$ genau dann, wenn $\tau \in G(E / L)$.
+			Also ist $G(E / L) = \ker(\tau \mapsto \tau|_L)$.
+			Also ist $H = G(E / L) \Idealof G = G(E / K)$.
+			(Alternativ gilt nach \ref{19.4-15}: $H = G(E / L) = G(E / \tau(L)) = \tau H = \tau H \tau^{-1}$ für alle $\tau \in G$).
+
+			Sei $\sigma \in G(L / K) = \Hom_K(L, \_K)$.
+			Nach \ref{18.4-7} ergibt sich
+			\[
+				\begin{tikzcd}
+					E \arrow{rrd}{\exists \hat \sigma} \\
+					L \arrow[inj]{u} \arrow{r}{\sigma} & L \arrow[inj]{r} & \_K
+				\end{tikzcd},
+			\]
+			es existiert also $\hat \sigma$ mit $\hat \sigma|_L = \sigma$.
+			Es ist $\sigma(E) = E$, da $E$ normal über $K$ ist.
+			Also ist $\hat \sigma \in G$ und $\hat \sigma|_L = \sigma = G(L / K)$.
+			Also ist $\tau \mapsto \tau|_L$ ein Gruppenepimorphismus von $G(E / K)$ auf $G(L / K)$ mit $\ker H = G(E / L)$.
+			Also ist $G(L / K) \isomorphic G / H$ nach dem ersten Isomorphiesatz.
+		\end{segnb}
+		\begin{segnb}{$\impliedby$}
+			Sei $G(E / L) = H \Idealof G = G(E / K)$.
+			$L$ ist separabel über $K$ nach \ref{19.1-20}.
+			Es bleibt zu zeigen, dass $L$ normal über $K$ ist.
+			Nach \ref{19.3-2} genügt es zu zeigen, dass $\im \sigma = L$ für alle $\sigma \in \Hom_K(L, \_K)$.
+			Sei $\sigma \in \Hom_K(L, \_K)$.
+			Mit \ref{18.4-7},
+			\[
+				\begin{tikzcd}
+					E \arrow{rd}{\exists \hat \sigma} \\
+					L \arrow[inj]{u}{\iota} \arrow{r}{\sigma} & K
+				\end{tikzcd}
+			\]
+			existiert $\hat\sigma \in \Hom_K(E, \_K)$ mit $\hat \sigma|_L = \sigma$.
+			Also ist $\hat\sigma(E) = E$ ($E$ galoissch über $K$), d.h. $\hat \sigma \in G = G(E / K)$.
+			Nun ist $\sigma H \sigma^{-1} = H$, da $H \Idealof G$ ist.
+			Mit \ref{19.4-13} und \ref{19.3-15} haben wir
+			\[
+				L
+				\stack{\ref{19.4-13}}= E^{G(E / L)}
+				= E^H
+				= E^{\sigma H}
+				\stack{\ref{19.4-15}}= E^{G(E / \sigma(L))}
+				= \sigma(L).
+			\]
+			Also ist für alle $\sigma \in G$ gerade $\sigma(L) = L$, d.h. $L$ ist galoissch über $K$.
+		\end{segnb}
+	\end{proof}
 \end{st}
 
 \begin{st}[Artin] \label{19.4-18}
