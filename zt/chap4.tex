@@ -444,7 +444,209 @@ Der nächste Abschnitt rechtfertigt $\Z[\sqrt{\alpha_d}]$ als einen Ring ganzer 
 			\]
 			wenn $d \equiv 1 \bmod 4$ ist.
 			Man rechnet nach, dass dies eine Teilmenge von $\Q(\sqrt d)$ ist.
-			Man nennt $\Z[\alpha_d]$ den Ring der ganzen algebraischen Zahlen in $\Q(\sqrt \alpha)$.
+			Die ganzen algebraischen Zahlen bilden den Ring $\Z[\alpha_d]$ der ganzen algebraischen Zahlen in $\Q(\sqrt d)$.
+\coursetimestamp{02}{06}{2014}
+		\item
+			Wichtige weitere Beispiele ganzer algebraischer Zahlen sind Einheitswurzeln, d.h. Nullstellen von $x^n - 1$.
 	\end{enumerate}
 \end{ex}
 
+% 4.16
+\begin{nt} \label{4.16}
+	Wir wollen nun Einheiten von $\Z[\alpha_d]$ betrachten.
+	\begin{seg}{$d \equiv 2, 3 \bmod 4$}
+		$u = x + y \sqrt d$ mit $x, y \in \Z$ ist genau dann eine Einheit, wenn $|N(u)| = 1 = |x^2 - dy^2|$.
+
+		Gesucht sind ganzzzahlige Lösungen der Gleichungen
+		\begin{enumerate}[(i)]
+			\item
+				$x^2 - dy^2 = 1$, bzw.
+			\item
+				$x^2 - dy^2 = -1$,
+		\end{enumerate}
+		also speziellen Diophantischen Gleichungen.
+
+		$x^2 - dy^2 = -1$ ist nicht immer ganzzahlig lösbar, z.B. für alle $d < 0$, aber auch wenn $d > 0$ ist:
+		Betrachte für $d = 3$ die Gleichung $x^2 - 3y^2 = - 1$.
+		Angenommen $(x_0, y_0)$ wäre eine Lösung, dann folgt unmittelbar, dass $3$ kein Teiler von $x_0$ ist.
+		Setze also $x_0 = 3k \pm 1$, dann ist $x_0^2$ von der For $x_0^2 = 3n + 1$.
+		Dann ist $x_0^2 + 1 = 3n + 1 + 1 = 3y_0^2$, ein Widerspruch.
+
+		Allgemein gilt: ist $d = 4m + 3 > 0$ mit $m > 0$, so hat (ii) keine Lösungen.
+	\end{seg}
+	\begin{seg}{$d \equiv 1 \bmod 4$}
+		Sei $u = x + y \f {1 + \sqrt d}2$ mit $x,y \in \Z$ eine Einheit.
+		Dann ist $N(u) = u u' = x^2 + xy + \f 14 y^2 + \f d4 y^2$.
+		Es folgt $|N(u)| = |x^2 + xy - \f {d-1}4 y^2| = 1$ und äquivalent
+		\[
+			4 = | 4 x^2 + 4xy + y^2 - dy^2 |
+			= | (2x + y)^2 - dy^2 |.
+		\]
+		Gesucht sind Lösungen von Gleichungen der Form
+		\begin{enumerate}[(i), start=3]
+			\item
+				$u^2 - dv^2 = 4$, bzw.
+			\item
+				$u^2 - dv^2 = -4$.
+		\end{enumerate}
+		Lösungen gibt es offensichtlich nur, wenn $u - v$ gerade ist.
+		Sind $u$ und $v$ gerade, dann setze $\tilde u = \f u2, \tilde v = \f v2$ und die Gleichungen (iii) und (iv) gehen in (i) und (ii) über.
+		Sind $u$ und $v$ beide ungerade, so kann es Lösungen nur geben, wenn $d = 8n + 5$, denn $u$ ungerade, also $u^2 \equiv 1 \bmod 8$, analog $v^2 \equiv 1 \bmod 8$, also $d = 8n + x$ mit $x \in \{1, 5\}$.
+		Einsetzen liefert $dv^2 \equiv x \bmod 8$.
+		Modulo $8$ erhält man aus der Gleichung $1 - x \equiv 4 \bmod 8$, bzw. $1 - x \equiv -4 \bmod 8$, also muss $d = 8n + 5$.
+	\end{seg}
+\end{nt}
+
+% St 4.17
+\begin{st} \label{4.17}
+	Ist $d < 0$, dann ist $\Z[\alpha_d]$ endlich und es gilt
+	\begin{itemize}
+		\item
+			für $d = -1$: $U(\Z[i]) \isomorphic C_4 = \<i\> = \{ \pm 1, \pm i \}$,
+		\item
+			für $d = -3$: $U(\Z[\alpha_3]) \isomorphic C_6$ und isomorph zur zyklischen Gruppe der $6$-ten Einheitswurzeln.
+		\item
+			für $d < -3$: $U(\Z[\alpha_d]) \isomorphic \pm 1 \isomorphic C_2$.
+	\end{itemize}
+	\begin{proof}
+		Für $d = -3$ siehe Übungen..
+		Die anderen Fälle folgen unmittelbar daraus, dass im Fall $d \not\equiv 1 \bmod 4$ $x^2 + (-d) y^2 = 1$ nur dann, wenn $y = 0$ oder $d = -1$ und dann $x = \pm 1, y = \pm 1$.
+		Den Fall $d \equiv 1 \bmod 4$ folgt ähnlich mit obigen Gleichungen.
+	\end{proof}
+\end{st}
+
+% Df 4.18
+\begin{df} \label{4.18}
+	Die diophantische Gleichung $x^2 - dy^2 = 1$ nennt man \emphdef{Pellsche Gleichung}.
+\end{df}
+
+% Bem + Bsp 4.19
+\begin{nt}
+	\begin{enumerate}[a)]
+		\item
+			John Pell, 1610 - 1685, aber früher wurden Gleichungen dieser Art bereits von Brahmagupta, 1598 - 1665 behandelt, z.B. $x^2 - 92 y^2 = 1$.
+			Er hat eine Lösung $x = 1151, y = 120$, die „kleinste Lösung“ gefunden.
+
+			Brauchbare Lösungsmethoden gehen auf Lagrange und Legendre zurück.
+		\item
+			$x^2 - 3y^2 = 1$ hat die Lösung $(2,1)$.
+			Die zugehörige Einheit von $\Z[\sqrt 3]$ ist $u = 2 + \sqrt 3$ mit $u^{-1} = 2 - \sqrt 3$.
+			Auch $(-2, -1), (-2, 1), (2, -1)$ sind Lösungen der Gleichungen.
+		\item
+			Es interessieren im Wesentlichen die Lösungen mit $x > 0$ und $y > 0$.
+			Die Lösungen $(\pm 1, 0)$ nennt man trivale Lösungen der Pell'schen Gleichung.
+		\item
+			Ist $(x_1, y_1)$ eine Lösung von $x^2 - dy^2 = 1$, dann ist $x_1 + y_1 \sqrt d$ eine Einheit.
+			Auch eine Einheit ist
+			\[
+				(x_1 + y_1 \sqrt d)^2
+				= x_1^2 + 2x_1 y_2 \sqrt d + y_1^2 d
+				= x_1^2 + dy_1^2 + 2x_1 y_1 \sqrt d
+			\]
+			und liefert daher auch Lösungen von der Pellschen Gleichung.
+			Für $d > 0, x_1 > 0, y_1 > 0$ ist $x_1^2 + dy_1^2 > x_1 \land 2x_1y_1 > y_1$.
+
+			Einheiten, die von nicht trivialen Lösungen der Pellschen Gleichung stammen, haben also unendliche Ordnung.
+		\item
+			Etwas allgemeiner gilt für eine nicht-triviale Einheit $u_1$
+			\[
+				u_1 u_2 = (x_1 + y_1 \sqrt d)(x_2 + y_2 \sqrt d)
+				= x_1 x_2 + dy_1 y_2 + (x_1 y_2, + y_1 x_2) \sqrt d
+			\]
+			und $x_1 x_2 + dy_1y_2 > \max\{x_1, x_2\}$ und $x_1y_2 + y_1 x_2 > \max \{y_1, y_2\}$.
+	\end{enumerate}
+\end{nt}
+
+% St 4.20
+\begin{st} \label{4.20}
+	Die Pellsche Gleichung $x^2 - dy^2 = 1$ hat unendlich viele Lösungen für $d > 0$.
+	Es gibt eine Lösung $(\xi, \eta)$, sodass $\xi, \eta > 0$ und
+	\[
+		\{(x_n, y_n) : x_n + y_n \sqrt d = \pm (\xi + \eta \sqrt d)^n, n \in \Z \}
+	\]
+	die Menge alle Lösungen der Pellschen Gleichung ist.
+\end{st}
+
+% Df 4.21
+\begin{df} \label{4.21}
+	Die Lösung $(\xi, \eta)$ aus \ref{4.20} nennt man \emphdef{Grundlösung} der Pellschen Gleichung.
+\end{df}
+
+% Bem + Bsp 4.22
+\begin{nt} \label{4.22}
+	\begin{enumerate}[a)]
+		\item
+			Es gilt $(\xi + \eta \sqrt d)^{-1} = \xi - \eta \sqrt d$ und $\pm 1 = \pm (\xi + \eta \sqrt d)^0$.
+		\item
+			Die Einheiten von $\Z[\sqrt d]$ der Form $a + b \sqrt d$ mit $a, b$ Lösungen der Pellschen Gleichung bilden eine zu $C_2 \times C_\infty = \<-1\> \times \<\xi + \eta \sqrt d\>$ isomorphe Gruppe.
+		\item
+			$(2,1)$ ist die Grundlösung von $x^2 - 3y^2 = 1$.
+			\begin{proof}
+				Nach \ref{4.20} existiert eine Grundlösung $(a,b)$, also $2 + \sqrt 3 = (a + b\sqrt 3)^n$.
+				Nach \ref{4.19} d) schreiben wir $(a + b \sqrt 3)^m = a_m + b_m \sqrt 3$ für $m \in \N$.
+				Dann ist für $m_1 < m_2$
+				\[
+					a_{m_1} < a_{m_2} \land b_{m_1} < b_{m_2}.
+				\]
+				Es genügt also „kleinere“, mögliche Einheiten als $2 + \sqrt 3$ zu suchen.
+				Es verbleibt nur $1 + \sqrt 3$, dies ist aber keine Lösung der Pellschen Gleichung.
+			\end{proof}
+			Um nachzuweisen, dass $(1151, 120)$ Grundlösung von $x^2 - 92y^2 = 1$ ist, muss man also zeigen, dass $a + b\sqrt{92}$ keine Lösung der Pellschen Gleichung für $0 < a < 1151 \land 0 < b < 120$ besitzt.
+		\item
+			Es gilt $U(\Z[\alpha_3]) = \<-1\> \times \<2 + \sqrt 3\> \isomorphic C_2 \times C_\infty$.
+
+			Die Gleichung (ii) aus \ref{4.16} liefert keine Einheiten, da $d = 3$.
+			Alle Einheiten entstammen aus Lösungen der Pellschen Gleichung.
+			Nach c) ist $2 + \sqrt 3$ eine Grundeinheit (Einheit einer Grundlösung).
+		\item
+			\ref{4.20} beweist man mit Hilfe von Kettenbruchentwicklungen, siehe \ref{chap:6}.
+			Wann kann sowas nützlich sein?
+			Betrachte $x^2 - 3y^2 = 1$.
+			\[
+				\f{x^2}{y^2} = 3 + \f 1{y^2}
+			\]
+			und damit $\f xy \approx \sqrt 3$ für große $y$.
+			Die Kettenbruchentwickling von $\sqrt 3$ spielt dann eine wichtige Rolle.
+	\end{enumerate}
+\end{nt}
+
+% St 4.23
+\begin{st} \label{4.23}
+	Ist $d = t^2 + 1$ mit $k \in \N$, dann hat die Pellsche Gleichung
+	\[
+		x^2 - dy^2 = 1
+	\]
+	die Grundlösung $(2t^ + 1, 2t)$.
+	\begin{proof}
+		Nach Einsetzen muss gelten $x^2 = 1 + (t^2 + 1)y^2$.
+		Suche eine möglichst kleines $y$, so dass die rechte Seite $1 + (t^2 + 1)y^2$ ein Quadrat ist.
+		Wäre $y$ ungerade, dann ist wegen $y^2 \equiv 1 \bmod 4$
+		\[
+			1 + (t^2 + 1)y^2
+			\equiv 1 + t^2 + 1 \mod 4,
+		\]
+		also $x^2 \equiv 2 \bmod 4$ oder $x^2 \equiv 3 \bmod 4$, aber $x^2 \equiv 1 \bmod 4$ oder $x^2 \equiv 0 \bmod 4$, ein Widerspruch.
+		Also ist $y$ gerade mit $y = 2m$.
+		Ist $m = t$, dann ergibt sich eine Lösung:
+		\[
+			1 + (t^2 + 1)\cdot 4t^2
+			= 4t^2 + 4t^4 + 1
+			= (\underbrace{2t^2 + 1}_{=:x})^2.
+		\]
+		Für $1 \le m \le t$ ist
+		\[
+			1 + (t^2 + 1)\cdot 4m^2
+			= 4m^2 t^2 + 4m^2 + 1
+			= (2mt + \f mt)^2 + 1 - (\f mt)^2,
+		\]
+		also $t^2(1 + (t^2 + 1)m^2\cdot 4) = (2mt^2 + m)^2 + t^2 - m^2 =: R$.
+		Aber
+		\[
+			(2mt^2 + m)^2
+			\le \underbrace{(2mt^2 + m)^2 + t^2 - m}_{=R}
+			< \underbrace{(2mt^2 + m + 1^2)^2}_{= (2mt + m)^2 + 2(2mt^2 + m) + 1}.
+		\]
+		Es folgt $t = m$, wenn $R$ ein Quadrat sein soll.
+		Es gibt also keine kleinere Lösung und $(2t^2 + 1, 2t)$ ist die Grundlösung.
+	\end{proof}
+\end{st}
