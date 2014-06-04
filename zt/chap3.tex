@@ -521,6 +521,10 @@ Nächstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersenne
 		\exists \tilde r \in \{0, \dotsc, s-1\} :
 		a^{2^{\tilde r} d} \equiv -1 \bmod n.
 	\]
+	\begin{note}
+		Ist $n \in \N$ beliebig und verifiziert man für eine Basis $a$, dass keine der beiden Fälle eintreten, so ist $n$ keine Primzahl.
+		In diesem Fall nennt man $a$ einen \emphdef[Zeuge gegen Primalität]{Zeugen gegen die Primalität von $n$}.
+	\end{note}
 	\begin{proof}
 		Übung
 	\end{proof}
@@ -532,20 +536,20 @@ Nächstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersenne
 \begin{ex} \label{3.20}
 	\begin{enumerate}[a)]
 		\item
-			Sei $n = 1729$ und $n - 1 = 1729 = 2^6 \cdot 27$.
-			Für $a = 2$ ist $2^{27} \not\equiv 1 \bmod 1729$.
-			Auch $2^{2^{\tilde r}} d \not\equiv -1 \bmod 1729$ für $0 \le \tilde r \le s-1$.
-			Also ist $n$ kein Primzahl.
-			Man nennt $2$ einen \emphdef{Zeugen} gegen die Primalität von $n$.
+			Sei $n = 1729$ und $n - 1 = 1728 = 2^6 \cdot 27$.
+			Für $a = 2$ gilt $2^{27} \not\equiv 1 \bmod 1729$, aber auch $2^{2^{\tilde r} d} \not\equiv -1 \bmod 1729$ für $0 \le \tilde r \le s-1$.
+			Somit ist $n$ kein Primzahl.
+			$2$ ist ein Zeuge gegen die Primalität von $n$.
 
 			$1729 = 7 \cdot 13 \cdot 19$ ist eine Carmichaelzahl.
 		\item
 			Sei $n = 401$, dann ist $n - 1 = 400 = 2^4 \cdot 5^2$, also $s = 4, d = 25$.
-			Man errechnet
+			Man errechnet, dass für $\tilde r = 2$
 			\[
-				2^{2^2 \cdot 25} = 2^{100} \equiv -1 \bmod 401
+				2^{2^{\tilde r} d} = 2^{2^2 \cdot 25} = 2^{100} \equiv -1 \bmod 401.
 			\]
-			Man stellt fest, dass $n = 401$ ist eine Primzahl.
+			Der Miller-Rabin Test liefert hier keine Aussage.
+			Man stellt letztlich anderweitig fest, dass $n = 401$ eine Primzahl ist.
 	\end{enumerate}
 \end{ex}
 
@@ -554,7 +558,7 @@ Nächstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersenne
 	Sei $n \in \N$ ungerade und $n \ge 3$, sowie $n \not\in \P$.
 	Dann gilt
 	\[
-		\l| \bigg\{ a : \; \parbox{0.5\textwidth}{ $a$ ist kein Zeuge gegen die Primalität von $a \in \{1, \dotsc, n-1\}$ und $(a,n) = 1$} \bigg\} \r| \le \dfrac{n-1}4.
+		\l| \bigg\{ a \in \{1, \dotsc, n-1\} : \; \parbox{0.4\textwidth}{ $a$ ist kein Zeuge gegen die Primalität von $n$ und $(a,n) = 1$} \bigg\} \r| \le \dfrac{n-1}4.
 	\]
 	\begin{proof}
 		\begin{enumerate}[(i)]
