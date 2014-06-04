@@ -576,27 +576,84 @@ Dann gilt
 	\end{proof}
 \end{st}
 
+\coursetimestamp{02}{06}{2014}
+
 \begin{st}[Artin] \label{19.4-18}
 	Sei $E$ algebraische Erweiterung von $K$ und sei $H \le \Aut_K(E) = G(E / K)$.
 	Sei $L = E^H$ der Fixkörper unter $H$.
 	Dann ist $E$ galoissch über $L$ und $H \le G(E / L)$.
 	Ist darüber hinaus $H$ eine endliche Gruppe, so ist $H = G(E / L)$ und $[E : L] = |H| < \infty$.
+	\begin{proof}
+		$E$ ist algebraisch über $K$, also auch algebraisch über $L$.
+		Wir müssen zeigen: $E$ ist separabel und normal über $K$.
+
+		Sei $\alpha \in E$, $p = \mu_{\alpha, L} \in L[x]$.
+		Für alle $\sigma \in H$ haben wir dann: $\sigma(p) = p$, da die Koeffizienten von $p$ Elemente des Fixkörpers $L = E^H$ sind, siehe \ref{18.4-3}.
+		Seien $\sigma_1, \dotsc, \sigma_r \in H$ so gewählt, dass die $\sigma_i(\alpha)$ für $i \in \{1, \dotsc, r\}$ paarweise verschieden sind und für jedes $\tau \in H$ ein $i \in \{1, \dotsc, r\}$ existiert mit $\tau(\alpha) = \sigma_i(\alpha)$.
+		Da $1_H(\alpha) = \alpha$ ist $\alpha \in \{\sigma_1(\alpha), \dotsc, \sigma_r(\alpha)\}$.
+		Sei $\tau \in H$, dann ist $\{\tau\sigma_1(\alpha), \dotsc, \tau\sigma_r(\alpha)\} = \{ \sigma_1(\alpha), \dotsc, \sigma_r(\alpha) \}$, d.h. $\tau$ permutiert die Menge $\{\sigma_1(\alpha), \dotsc, \sigma_r(\alpha) \}$.
+		Beachte: $\sigma_i(\alpha) \in E$ für $i \in \{1, \dotsc, r\}$, da $\sigma_i \in H \le G(E / K)$.
+		Sei
+		\[
+			h := \prod_{i=1}^r (x - \underbrace{\sigma_i(\alpha)}_{\in E}) \in E[x].
+		\]
+		Dann ist für $\tau \in H$: $\tau(h) = \prod_{i=1}^r (x - \tau \sigma_i(\alpha))	= \prod_{i=1}^r (x - \sigma_i(\alpha)) = h$.
+		Also ist $h \in L[x]$ und damit ist $p$ Teiler von $h$, da $h(\alpha) = 0$ ist ($\exists i: \alpha = \sigma_i(\alpha))$.
+		Andererseits ist nach Konstruktion $h$ ein Teiler von $p$.
+		Also ist $h = p = \mu_{\alpha, L}$, d.h. $\alpha$ ist separabel über $L$, da $h$ nur Nullstellen mit Vielfachheit $1$ besitzt.
+		Also ist $E$ separabel über $L$.
+
+		Darüber hinaus zerfällt $h = \mu_{\alpha, L} \in L[x]$ in $E$ in Linearfaktoren und daher ist $E$ der Zerfällungskörper aller Polynome $\mu_{\alpha, L} \in L[x]$ über $L$ und daher normal über $L$.
+
+		Also ist $E$ galoissch über $L$.
+		Per definitionem $L = E^H$ gilt $H \le G(E / L)$.
+
+		Sei nun $|H| = n < \infty$ und $\alpha \in E$.
+		Dann hat $H\alpha = \{ \tau(\alpha) : \tau \in H \}$ höchstens $n$ viele Elemente.
+		Daher ist $\deg \mu_{\alpha, L} = r = \deg h \le n$ nach dem oben Gezeigten. 
+		Also ist $[L(\alpha) : L] = \deg \mu_{\alpha, K} \le n$ für alle $\alpha \in E$.
+		Sei $L \subset M \subset E$ ein beliebiger Zwischenkörper mit $[M: L] < \infty$.
+		Da $E$ separabel über $L$ ist, ist $M$ separabel über $K$ nach \ref{19.1-20} und daher existiert nach \ref{19.2-6} ein primitives Element für $M$, d.h. $M = L(\alpha)$ für ein $\alpha \in M$.
+		Also ist $[M : L] \le n$.
+		Sei $M = L(\alpha)$ ein über $L$ endlich-dimensionaler Zwischenkörper ($L \subset M \subset E$) maximaler Dimension.
+		Dann gilt also für alle $\beta \in E$: $[M(\beta) : L] \le [M : L]$ und daher ist $M(\beta) \subset M$, d.h. $\beta \in M$.
+		Also ist $E = M = L(\alpha)$ und $[L(\alpha) : L] \le n$.
+		Mit \ref{19.4-4} ist aber $n = |H| = \le |G(E/L)| = [E:L]_S = [E : L]$ und daher ist $[E : L] = n$ und $G(E / L) = H$.
+	\end{proof}
 \end{st}
 
 \begin{kor} \label{19.4-19}
 	Sei $E$ algebraisch über $K$.
 	Dann ist $E$ galoissch über $K$ genau dann, wenn $E^{G(E / K)} = K$ ist.
+	\begin{proof}
+		\begin{segnb}{$\implies$}
+			Sei $E$ galoissch über $K$, so ist $E^{G(E/K)} = K$ nach \ref{19.4-13}.
+		\end{segnb}
+		\begin{segnb}{$\impliedby$}
+			Nach \ref{19.4-18}.
+		\end{segnb}
+	\end{proof}
 \end{kor}
 
 \begin{kor} \label{19.4-20}
-	Sei $K \subset E \subset \_K$ galoissch und endlich über $K$.
-	Dann ist $G(E / \argdot) \circ E^2 = \id_{\scr U}$, wobei $\scr U = \{ H \le G(E / K) \}$ definiert war.
+	Sei $K \subset E \subset \_K$ mit $E$ galoissch und endlich über $K$.
+	Dann ist $G(E / \argdot) \circ E^? = \id_{\scr U}$, wobei $\scr U = \{ H \le G(E / K) \}$ definiert war.
+	\begin{proof}
+		Zu zeigen: ist $H \le G = G(E / K)$, so ist $G(E / \argdot) \circ E^? (H) = G(E / \argdot) (E^H)0= G(E / E^H) = H$.
+		Nach \ref{19.4-5} ist $G(E / K) = [E : K] < \infty$.
+		Also ist $|H| < \infty$ und $E$ ist galoissch über $E$ mit Galoisgruppe $H$ nach \ref{19.4-18}.
+	\end{proof}
 \end{kor}
 
 \begin{kor}[Hauptsatz der Galoistheorie für endliche Körpererweiterungen] \label{19.4-21}
 	Sei $K \subset E \subset \_K$ galoissch und sei $[E : K] < \infty$.
 	Sei $G = G(E / K), \scr U = \{H \le G\}, \scr Z = \{ K \subset L \subset E \}$.
-	Dann ist $[E : K] = |G|$ und die Abbildungen $E^?: \scr U \to \scr Z: H \mapsto E^H$, $G(E / \argdot) : \scr Z \to \scr U : L \mapsto G(E / L)$ sind inklusionsumkehrende Bijektionen und invers zueinander.
+	Dann ist $[E : K] = |G|$ und die Abbildungen
+	\begin{align*}
+		E^?: \scr U &\to \scr Z: H \mapsto E^H, \\
+		G(E / \argdot) : \scr Z &\to \scr U : L \mapsto G(E / L)
+	\end{align*}
+	sind inklusionsumkehrende Bijektionen und invers zueinander.
 
 	Weiter ist $L \in \scr Z$ galoissch über $K$ genau dann, wenn $G(E / L) \Idealof G$ ist und dann ist $G / G(E / L) \isomorphic G(L / K)$.
 \end{kor}
@@ -615,24 +672,72 @@ Dann gilt
 			Man behilft sich, indem man definiert, dass $E$ über $K$ galoissch heißen soll, wenn $E^{G(K / E)} = K$ ist (siehe \ref{19.4-19}: Für algebraische Körpererweiterungen ist dies das selbe wie „$E$ ist normal und separabel über K“).
 			Allerdings ergeben sich hier Probleme, z.B. gibt es Körpererweiterungen $K \subset L \subset E$ mit $E$ galoissch über $K$, aber nicht galoissch über $L$.
 			Im Blick auf \ref{19.4-11} ist dann $E$ natürlich nicht mehr algebraisch über $K$.
-			(Gegenbeispiel $K = \Q, E = \Q(x) = Q(\Q[x])), L = \Q(x^3)$, Details in Genot Stroth „Algebra“, S. 107/108) %fixme: ref
+			(Gegenbeispiel $K = \Q, E = \Q(x) = Q(\Q[x])), L = \Q(x^3)$, Details in Gernot Stroth „Algebra“, S. 107/108) %fixme: ref
 	\end{enumerate}
 \end{nt}
 
 Im Folgenden beschränken wir uns auf endliche galoissche Erweiterungen so, dass \ref{19.4-21} gilt.
 
 
-%\section{Erste Anwendungen und ein lehrreiches Beispiel}
-%
-%
-%Ist $K \subset E \subset \_K$ endliche Galoiserweiterung, so können wir im Blick auf \ref{sec:19.3} immer annehmen, dass $E$ aus $K$ durch Adjunktion aller Nullstellen eines Polynoms $f \in K[x]$ entsteht: $E = K(\alpha_1, \dotsc, \alpha_n)$ mit $f = (x-\alpha_1) \dotsb (x-\alpha_n) \in \_K[x]$.
-%Da $E$ dazuhin separabel über $K$ ist, können wir $f$ separabel wählen, d.h. die Nullstellen in $\_K$ von $f$ sind paarweise verschieden: $\alpha_i \neq \alpha_j \iff i = j$ für $1 \le i,j \le n$.
-%
-%\begin{st} \label{19.5-1}
-%	Sei $f \in K[x]$ separabel und seien $\alpha_1, \dotsc, \alpha_n \in \_K$ die Nullstellen von $f$ in $\_K$, $n = \deg f$.
-%	Sei $E = K(\alpha_1, \dotsc, \alpha_n)$ der Zerfällungskörper von $f$ über $K$ und sei $\sigma \in G(E / K) = G$.
-%	Dann induziert $\sigma$ eine Parmutation $\pi_\sigma \in \scr O_n$ (symmetrische Gruppe) durch $\sigma(\alpha_i) = \alpha_{\pi_\sigma(i)}$ so, dass $\pi_?: G \to \sigma_n$ ein injektiver Gruppenhomomorphismus von $G$ in $\sigma_n$ ist
-%\end{st}
-%
+\section{Erste Anwendungen und ein lehrreiches Beispiel}
+
+
+Ist $K \subset E \subset \_K$ endliche Galoiserweiterung, so können wir im Blick auf \ref{sec:19.3} immer annehmen, dass $E$ aus $K$ durch Adjunktion aller Nullstellen eines Polynoms $f \in K[x]$ entsteht: $E = K(\alpha_1, \dotsc, \alpha_n)$ mit $f = (x-\alpha_1) \dotsb (x-\alpha_n) \in \_K[x]$.
+Da $E$ dazuhin separabel über $K$ ist, können wir $f$ separabel wählen, d.h. die Nullstellen in $\_K$ von $f$ sind paarweise verschieden: $\alpha_i \neq \alpha_j \iff i = j$ für $1 \le i,j \le n$.
+
+\begin{st} \label{19.5-1}
+	Sei $f \in K[x]$ separabel und seien $\alpha_1, \dotsc, \alpha_n \in \_K$ die Nullstellen von $f$ in $\_K$, $n = \deg f$.
+	Sei $E = K(\alpha_1, \dotsc, \alpha_n)$ der Zerfällungskörper von $f$ über $K$ und sei $\sigma \in G(E / K) = G$.
+	Dann induziert $\sigma$ eine Parmutation $\pi_\sigma \in O_n$ (symmetrische Gruppe) durch $\sigma(\alpha_i) = \alpha_{\pi_\sigma(i)}$ so, dass $\pi_?: G \to O_n$ ein injektiver Gruppenhomomorphismus von $G$ in $O_n$ ist.
+	Insbesondere ist $G$ isomorph zu einer Untergruppe von $O_n$.
+	\begin{note}
+		Keine der Wurzeln $\alpha_1, \dotsc, \alpha_n$ muss eine primitives Element für die Erweiterung $K \subset E$ sein.
+		Ist $\alpha = \alpha_1$ ein solches, d.h. $E = K(\alpha)$ und ist $f = \mu_{\alpha, K}$, so ist $[E : K] = n, G = \{ \sigma_1 = 1, \dotsc, \sigma_n \}$ mit $\sigma_i(\alpha) = \alpha_i$ nach \ref{18.4-4}.
+	\end{note}
+	\begin{proof}
+		Wegen $\sigma(f) = f$ ist $\sigma(\alpha_i) = \alpha_j $ für ein $j \in \{1, \dotsc, n\}$ nach \ref{18.4-3} und daher ist $\sigma|_{\{\alpha_1, \dotsc, \alpha_n\}}$ eine Permutation von $\{\alpha_1, \dotsc, \alpha_n\}$.
+		Wir definieren $\pi_\sigma(i) = j$ falls $\sigma(\alpha_i) = \alpha_j$.
+		Dann ist $\pi_\sigma \in O_n$.
+		Sind $\sigma, \tau \in G$, dann ist $\sigma(\alpha_i) = \alpha_j, \tau(\alpha_j) = \alpha_k$ mit $i,j,k \in \{1, \dotsc, n\}$ und daher $\pi_\alpha(i) = j, \pi_\tau(j) = k$, $\tau \sigma(\alpha_i) = \tau(\alpha_j) = \alpha_k$, d.h. $(\tau\sigma)(i) = k = \tau(\sigma(i))$ und $\pi_?: G \to O_n$ ist ein Gruppenhomomorphismus.
+		Dieser ist injektiv, da $\pi_\sigma(i) = \pi_\tau(i) \iff \sigma(\alpha_i) = \tau(\alpha_i)$ für alle $i \in \{1, \dotsc, n\}$, also genau dann, wenn $\pi_\sigma = \pi_\tau$ ist.
+	\end{proof}
+\end{st}
+
+\ref{19.4-6} liefert jetzt unmittelbar
+
+\begin{st} \label{19.5-2}
+	Sei $p$ Primzahl, $n \in \N$ und $\F_2 = \GF(q)$ der endliche Körper mit $q$ vielen Elementen.
+	Dann ist $\F_q$ galoissch über $\F_p = \Z / p\Z$ mit zyklischer Galoisgruppe $G(\F_q / \F_p) = \<\scr F\>$ der Ordnung $n$.
+	Die Abbildung $d \mapsto \F_q^{\scr F_d}$ von der Menge der Teiler $d$ von $n$ in die Menge der Unterkörper von $\F_q$ mit $\scr F_d = \scr F^d$ ist bijektiv und ordnungsumkehrend, d.h. $d_1 \divs d_2 \divs n \implies \F_q^{\scr F_{d_2}} \subset \F_q^{\scr F_{d_1}}$.
+\end{st}
+
+\begin{st} \label{19.5-3}
+	Jede endliche separabel Körpererweiterung $K \subset E$ besitzt nur endlich viele Zwischenkörper.
+	\begin{proof}
+		Da $[E : K] < \infty$ und $E$ separabel über $K$ ist, ist $E = K(\alpha)$ für ein separables $\alpha \in E$ nach dem Satz vom primitiven Element).
+		Sei $f = \mu_{\alpha, K}$, dann gilt da $E$ separabel über $K$, dass $f$ separabel über $K$ ist.
+		Also ist $E$ Zerfällungskörper von $f|_K$ und $E$ ist separabel und normal über $K$, also galoissch über $K$.
+		Weiter ist $E \subset E'$.
+		Nach dem Hauptsatz der Galoistheorie gibt es nur endlich viele Zwischenkörper $K \subset L \subset E'$, also auch nur endlich viele $L$ mit $K \subset L \subset E \subset E'$.
+	\end{proof}
+\end{st}
+
+\begin{st} \label{19.5-4}
+	Sei $K \subset E \subset \_K$ abelsche (zyklische) Galoiserweiterung $K \subset L \subset E$.
+	Dann ist $L$ abelsch (zyklisch) über $K$ mit Galoisgruppe $G(L/K) \isomorphic G(E/K) / G(E/L)$.
+\end{st}
+
+\begin{note}
+	$E$ abelsch/zyklisch über $K$ heißt $E$ galoissch über $K$ mit abelscher/zyklischer Galoisgruppe $G(E/K)$.
+\end{note}
+
+\begin{ex} \label{19.5-5}
+	% fixme
+\end{ex}
+
+
+\section{Inseparable Körpererweiterungen}
+
+
 
 
