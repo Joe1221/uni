@@ -267,3 +267,135 @@ Also $G \isomorphic C_2 \times C_2$ oder $G \isomorphic C_2$.
 $G$ liefert damit Untergruppen der Oktaedergruppe.
 
 
+\coursetimestamp{03}{06}{2014}
+
+
+\section{Regelflächen}
+
+
+Regelflächen (eigentlich Flächenklassen, engl. “ruled surface”) entstehen durch Verschieben von Geraden im Raum
+
+\begin{df}
+	Eine Fläche heißt \emphdef{Regelfläche}, oder \emphdef{geradlinige Fläche}, wenn sie (lokal) eine $C^2$-Parametrisierung der Art
+	\[
+		f(u,v) = c(u) + v X(u)
+	\]
+	zulässt, wobei $c$ eine $C^2$-Kurve (nicht notwendig regulär) und $X$ ein nirgends verschwindendes Vektorfeld längs $c$ mit \oBdA $\|x\| = 1$.
+	$c(u)$ heißt \emphdef{Leitkurve}.
+	Die Geraden $v \mapsto c(u)$ für festes $u$ heißen \emphdef{Erzeugende}, oder \emphdef{Regelgeraden}.
+	\begin{note}
+		$c$ kann als ebene Kurve gewählt werden.
+		Es gilt
+		\begin{align*}
+			f_u &= c' + vX', &
+			f_v &= X
+		\end{align*}
+	\end{note}
+\end{df}
+
+\begin{ex}
+	Einfache Beispiele für Regelflächen sind Kegel, Zylinder, Ebene.
+	Weiter gibt es
+	\begin{itemize}
+		\item
+			Das \emphdef{Helikoid}, oder \emphdef{Wendelfläche}, oder \emphdef{Schraubfläche} (“\emphdef{staircase surface}”):
+			\begin{align*}
+				c(u) &= \Vector{0 & 0 & b u}, \\
+				X(u) &= \Vector{\cos(\alpha u) & \sin(\alpha u) & 0}
+			\end{align*}
+	\end{itemize}
+\end{ex}
+
+Gibt es ausgezeichnete Parameter für eine Regelfläche?
+Wir wollen eine ausgezeichnete Kurve finden.
+
+\begin{lem}[Standardparameter]
+	Sei $f: U \to \R^3, f(u,v) = c(u) + v X(u)$ eine reguläre Regelfläche mit $\|X\| = 1$ und überall $X' = \ddx[u]{U} \neq 0$ („$f$ sei nirgends zylindrisch“).
+	Dann kann man so umparametrisieren, dass $f_*(u,v) = c_*(u) + vX_*(u)$ mit $\|X_*\| = \|X_*'\| = 1$ und $\<c_*', x_*'\> = 0$.
+	\begin{proof}
+		Da $X$ als Kurve regulär ist, kann man den Bogenlängenparameter einführen, welchen wir ebenfalls mit $u$ bezeichnen.
+		Sei also $X_*(u)$ mit $\|X_*\| = 1 = \|X_*'\|$.
+		Umparametrisierte Kurve $c(u)$.
+
+		Es verbleibt $\<c_*', x_*'\> = 0$ zu erreichen.
+		Wir setzen an
+		\[
+			c_*(u) = c(u) + v(u) X(u)
+		\]
+		für ein $v$.
+		Es gilt
+		\[
+			0 \le \<c_*', X_*'\>
+			= \<c' + v(x)X_*' + v'(u) X_*, X_*'\>
+			= \<c', X_*'\> + v(u).
+		\]
+		Damit ist $v(u)$ eindeutig durch $v(u) = -\<c', X_*'\>$ bestimmt.
+		$c_*(u)$ heißt \emphdef{Striktionslinie}, oder \emphdef{Kehllinie}.
+	\end{proof}
+	\begin{note}
+		$c_*$ beschreibt sozusagen „die Orte der kleinsten Abstände benachbarter Regelgeraden“.
+	\end{note}
+\end{lem}
+
+\begin{df}
+	Eine Regelfläche $f$ heißt \emphdef{windschief}, wenn alle Regelgeraden windschief sind.
+\end{df}
+
+\begin{st}
+	In den  Standardparametern ist eine Reglfläche $f(u, v) = c(u) + vX(u)$ bis auf eukldisicshe Bewegungen eindeutig bestimmt durch die folgenden drei Größen
+	\begin{align*}
+		F &= \<c', X\> \\
+		\lambda &:= \<c' \times X, X'\> = \det(c', X, X') \\
+		J &:= \<X'', X \times X'\> = \det(X, X', X'') \\
+	\end{align*}
+	jeweils als Funktion von $u$.
+	Umgekehrt bestimmt der Wahl dieser drei Größen eindeutig eine Regelfläche.
+	Die Größe $F = g_{12}$ bestimmt dabei den Winkel $\phi$ zwischen der Striktionslinie und $X$ durch $F = \|c'\| \cos \phi$, die Größe $J$ (auch \emphdef{kanonische Krümmung} genannt) bestimt die Krümmung der sphärischen Kurve $X$ und damit $X$ selbst und $\lambda$ nennt man \emphdef{Drall} der Fläche.
+\end{st}
+
+Die erste Fundamentalform ist gegeben durch
+\[
+	I = \Matrix{\<c', c'\> + v^2  & \<c', X\> \\ \<c', X\> & 1}
+	= \Matrix{F^2 + \lambda^2 + v^2 & F \\ F & 1 }.
+\]
+
+\subsection{Tangentenfläche}
+
+Die Tangentenfläche ist
+\[
+	f(u, v) := c(u) + v \underbrace{c'(u)}_{X(u)}
+\]
+mit $f_u = c' + v c'', f_v = c'$ linear abhängig für $v = 0$.
+
+Es gilt
+\[
+	\lambda = \det(c', X, X')
+	= \Det(c', c', c'')
+	= 0
+\]
+Also $\Det I = 0$, falls $v = 0$ (Gratlinie nicht regulär).
+
+\begin{df}
+	Eine Regelfläche heißt \emphdef{abwickelbar}, wenn sie lokal in die Ebene abgebildet werden kann, wobei die erste Fundamentalform und die Regelgeraden erhalten bleiben müssen.
+
+	Die Vorstellung dabei ist, dass man eine der Geraden in die Ebene legt und dann den Streifen rechts und links davon in die Ebene „abwickelt“ und zwar unter Bewahrung von Längen und Winkeln.
+	Eine nicht abwickelbare Regelfläche heißt \emphdef{windschief}.
+\end{df}
+
+\begin{st}
+	Für eine Regelfläche sind folgende Bedingungen äquivalent.
+	\begin{enumerate}[1)]
+		\item
+			Die Fläche ist abwickelbar,
+		\item
+			$K = 0$,
+		\item
+			Entland jeder der Geraden sind alle Flächennormalen zueinander parallel, d.h. die Gauß-Abbildung ist konstant längs jeder der Geraden.
+	\end{enumerate}
+	Eine Regelfläche, die diese Bedingungen erfüllt, heißt auch \emphdef{Torse}.
+	Falls 3) nur für eine bestimmte Gerade zutrifft, nenn man diese \emphdef{Torsallinie}.
+
+	Eine offene und dichte Teilmenge einer jeden Torse besteht aus Stücken von Ebenen, Kegeln, Zylindern, sowie Tangentenflächen.
+
+	Ein jedes flachpunktfreies Flächenstück mit $K = 0$ ist eine Regelfläche.
+\end{st}
