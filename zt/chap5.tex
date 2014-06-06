@@ -1,0 +1,230 @@
+\chapter{Ganzheit und endlich erzeugte Moduln}
+
+\coursetimestamp{05}{06}{2014}
+
+Sei $R$ ein kommutativer Ring.
+„Ein $R$-Modul ist ein Vektorraum, dessen Skalarbereich ein Ring ist“.
+Genauer nennt man eine abelsche Gruppe $(M, +)$ $R$-Modul, wenn die Skalarmultiplikation
+\begin{align*}
+	R \times M &\to M \\
+	(r,m) &\mapsto rm
+\end{align*}
+folgende Eigenschaften erfüllt
+\begin{enumerate}[M1)]
+	\item
+		$1\cdot m = m$ für alle $m \in M$,
+	\item
+		$r_1 (r_2 m) = (r_1 r_2) m$ für alle $r_1, r_2 \in R, m\in M$,
+	\item
+		$r(m_ + m_2) = rm_1 + rm_2$ für alle $r \in R, m_1, m_2 \in M$,
+	\item
+		$(r_1 + r_2)m = r_1 m + r_2 m$ für alle $r_1, r_2 \in R, m \in M$.
+\end{enumerate}
+für alle $m, m_1, m_2 \in M$
+\begin{note}
+	\begin{itemize}
+		\item
+			Ist $R$ nicht kommutativ, dann nennt man $(M, +)$ mit obigen Eigenschaften einen $R$-Linksmodul.
+			Ersetzt man M1) durch $r_1(r_2m) = (r_2r_1) m$, dann spricht man von einem $R$-Rechtsmodul.
+		\item
+			Ein $R$-Modul $F$ heißt \emphdef{frei}, wenn er eine Basis $B$ hat, d.h. $B \subset F$ und jedes $m \in F$ lässt sich eindeutig als $R$-Linksmodul aus Elementen von $B$ schreiben: $m = \sum_{i=1}^k r_i b_i$ mit $b_i \in B$.
+		\item
+			Ein $R$-Modul $M$ heißt \emphdef{endlich erzeugt}, wenn es eine endliche Teilmenge $S$ von $M$ gibt, so dass sich jedes $m \in M$ als $R$-Linearkombination aus $S$ schreiben lässt.
+		\item
+			Eine Untergruppe $(T, +)$ des $R$-Moduls $M$ nennt man \emphdef{Teilmodul}, wenn für alle $r \in R, m \in T$ gilt $rm \in T$.
+			Man schreibt dann $T \le M$.
+		\item
+			Ist $T \le M$, dann kann man die abelsche Faktorgruppe $M / T$ bilden.
+			$M / T$ wird auf natürlicher Weise zu einem $R$-Modul durch $r(mT) := (rm)T$.
+			$M / T$ heißt \emphdef{Faktormodul}, oder auch \emphdef{Quotientenmodul}.
+		\item
+			Seien $M, N$ $R$-Moduln und $\phi: M \to N$ ein Gruppenhomomorphismus.
+			Dann nennt man $\phi$ $R$-linear, oder auch \emphdef{$R$-Modulhomomorphismus}, wenn
+			\[
+				\phi(rm) = r\phi(m).
+			\]
+	\end{itemize}
+\end{note}
+
+\begin{ex*}
+	\begin{itemize}
+		\item
+			Jeder Vektorraum über einem Körper $K$ ist ein $K$-Modul.
+		\item
+			Jede abelsche Gruppe $A$ wird in natürlicher Weise zu einem $\Z$-Modul.
+			Sei hierzu $z \in \Z, a \in A$ und setze
+			\[
+				za := \eps(\underbrace{a + \dotsc + a}_{|z|\text{-mal}})
+			\]
+			mit $\eps := \sign(z)$.
+			Die Begriffe der abelschen Gruppe und des $\Z$-Moduls stimmen überein.
+		\item
+			Sei $R$ ein Ring.
+			Dann wird $R$ zu einem $R$-Modul, indem man die Ringmultiplikation als Skalarmultiplikation nimmt.
+			Dieser $R$-Modul ist frei mit Basis $\{1\}$.
+
+			Etwas allgemeiner ist $R^n = \bigtimes_{i=1}^n R$ mit
+			\[
+				r(a_1, \dotsc, a_n) = (ra_1, \dotsc, ra_n)
+			\]
+			ist ein freier $R$-Modul mit Basis $\{ (1, 0, \dotsc, 0), (0, 1, 0, \dotsc, 0), \dotsc, (0, \dotsc, 0, 1) \}$.
+		\item
+			Ist $R$ ein Ring und $r \in R$, dann bezeichnet $\Z[r]$ die Menge aller ganzzahligen Linearkombinationen, also
+			\[
+				\Big\{ \sum_{i=0}^m z_i r^i : m\in \N_0, z_i \in \Z \Big\},
+			\]
+			wobei $z_i r^i$ die $\Z$-Operation von $\Z$ auf $(R, +)$ ist.
+		\item
+			Ist $R$ ein Ring, $S \le R$ ein Teilring und $r \in R$.
+			Dann bezeichnet $S[r]$ die Menge aller $S$-Linearkombinationen der Form $\sum_{i=0}^m s_i r^i$ mit $m \in \N_0, s_i \in S$.
+			Ist $\Z$ ein Teilring von $R$, dann ist $\Z[r] = S[r]$.
+
+			Ist $R$ kommutativ, dann ist $S[r]$ der kleinste Teilring, der $S$ und $r$ enthält.
+	\end{itemize}
+\end{ex*}
+
+% Lem 5.1
+\begin{lem} \label{5.1}
+	Sei $R$ ein Ring, $S \le R$ ein Teilring und $r \in R$.
+	\begin{enumerate}[a)]
+		\item
+			$r$ ist genau dann ganz, wenn $\Z[r]$ als $\Z$-Modul endlich erzeugt ist.
+		\item
+			$r$ ist genau dann ganz über $S$, wenn $S[r]$ als $S$-Modul endlich erzeugt ist.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Ist $r$ ganz, dann erfüllt $r$ eine normierte Gleichung der Form
+				\[
+					r^n + a_1 r^{n-1} + \dotsc + a_{n-1} r + a_n = 0
+				\]
+				mit $a_i \in \Z$.
+				Es folgt, dass $\Z[r] = \<1, r, \dotsc, r^{n-1}\>_\Z$, also endlich erzeugt.
+
+				Sei umgekehrt
+				\[
+					\Z[r] = \< f_1, \dotsc, f_m \>_\Z.
+				\]
+				mit Polynomen $f_i$ in $r = \sum_{j=0}^m a_{ij} r^j$.
+				Jedes $f_i$ hat endlichen Grad.
+				Wähle $n > \max \{ \deg f_i \}$.
+				Dann ist
+				\[
+					r^n = b_1 f_1 + \dotsb + b_m f_m
+				\]
+				mit $b_i \in \Z$, da $\Z[r]$ von den $f_i$ erzeugt ist.
+				Es folgt
+				\[
+					r^n - b_1 f_1 - \dotsb - b_m f_m = 0,
+				\]
+				also erfüllt $r$ ein normiertes Polynom mit Koeffizienten in $\Z$ und $r$ ist ganz.
+			\item
+				Verläuft analog.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+\begin{st} \label{5.2}
+	Sei $R$ ein Ring.
+	\begin{enumerate}[a)]
+		\item
+			Seien $r, t \in R$ ganz und $rt = tr$, dann sind $r - t$ und $rt$ ganz.
+		\item
+			Ist $R$ kommutativ, dann bilden die ganzen Elemente von $R$ einen Teilring, den Ring der ganzen Zahlen von $R$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				$r, t$ sind ganz, also $\Z[r] = \<1, r, \dotsc, r^{m-1}\>_\Z$ und $\Z[t] = \<1, t, \dotsc, t^{m-1}\>_\Z$.
+				Dann ist
+				\begin{align*}
+					\Z[r, t] &= \Big\{ \sum_{i,j} a_{ij} a^i r^i t^j : a_{ij} \in \Z \Big\} \\
+					&= \text{kleinster Teilring von $R$, der $\Z[r]$ und $\Z[T]$ enthält} \\
+					&= \<1, r, \dotsc, r^{m-1}, t, \dotsc, t^{n-1}, rt, \dotsc, r^{m-1}t, \dotsc, r^{m-1}t^{n-1}\>_\Z.
+				\end{align*}
+				ein endlich erzeugter $Z$-Modul.
+				$\Z[rt]$ und $\Z[r-t]$ sind Teilmoduln von $\Z[r,t]$.
+				Mit \ref{5.3} sind $\Z[rt]$ und $\Z[r-t]$ endlich erzeugte $\Z$-Moduln und nach \ref{5.1} a) sind $rt$ und $r-t$ ganz.
+			\item
+				Folgt unmittelbar aus a), da wegen $R$ kommutativ dann beliebige Produkte, bzw. Differenzen von ganzen Elementen wieder ganz sind.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+% St 5.3
+\begin{st} \label{5.3}
+	Sei $M$ endlich erzeugter $\Z$-Modul, $T \le M$ ein Teilmodul von $M$.
+	Dann ist $T$ endlich erzeugt.
+	\begin{note}
+		Man kann \ref{5.3} aus dem Hauptsatz über endlich erzeugte abelsche Gruppen herleiten ($A \isomorphic \Z^m \times \Z / a_1 \Z \times \dotsb \times \Z / a_k \Z$ mit $a_1 \divs a_2 \divs a_3 \dotsc$).
+		Später wird in \ref{chap:5} für \ref{5.3} ein separater Beweis erfolgen.
+
+		Zunächst wird ein zu \ref{5.2} b) verwandtes Resultat bewiesen.
+	\end{note}
+\end{st}
+
+\begin{st} \label{5.4}
+	Sei $R$ kommutativ und $S \le R$ Teilring.
+	Endlich viele Elemente $r_1, \dotsc, r_n \in R$ sind genau dann ganz über $S$, wenn der $S$-Modul
+	\[
+		S[r_1, \dotsc, r_n] = \text{kleinster Teilring von $R$, der $S[r_i]$ für $1 \le i \le n$ enthält}
+	\]
+	endlich erzeugt ist.
+	\begin{proof}
+		Seien $r_1, \dotsc, r_n$ ganz über $S$.
+		Nach \ref{5.1} b) ist $S[r_1]$ ein endlich erzeugter $S$-Modul.
+		$r_2$ ist ganz über $S$, also wegen $S \subset S[r_1]$ ist $r_2$ ganz über $S[r_1]$.
+		Mit \ref{5.1} b) ist $S[r_2]$ ein endlich erzeugter $S[r_1]$-Modul.
+		Damit ist $S[r_1][r_2] = S[r_1, r_2]$ ein endlich erzeugter $S$-Modul (siehe Bemerkung).
+		Man erkennt, dass sich diese Richtung leicht per Induktion zeigen lässt.
+
+		Umgekehrt sei $S[r_1, \dotsc, r_n]$ ein endlich erzeugter $S$-Modul mit Erzeugendensystem $\{m_1, \dotsc, m_k\}$
+		Sei $r \in S[r_1, \dotsc, r_n]$, dann ist für $1 \le i \le k$
+		\[
+			rm_i = \sum_{j= 1}^k \alpha_{ij} m_j
+		\]
+		mit $\alpha_{ij} \in S$.
+		In Matrixschreibweise ist
+		\[
+			r E \Vector{m_1 & \dots & m_k}
+			= A \Vector{m_1 & \dots & m_k}
+		\]
+		mit $A = (a_{ij})$, bzw. mit $m = (m_1, \dotsc, m_k), (rE - A)m = 0$.
+		In der linearen Algebrau zeigt man, dass für $A \in R^{k\times k}$ mit kommutativem Ring $R$ gilt: $A^* A = \det A E$ mit adjungierter Matrix $A^*$.
+		Für $\phi = (x_1, \dotsc, x_k)$ gilt dann $A \phi = 0 \implies \det A \cdot \phi = 0$.
+		Angewandt auf $(rE - A)m = 0$ folgt, dass $\det (aE - A) m_i = 0$.
+		Da $1 = \sum_{i=1}^k c_i m_i$ mit $c_i \in S$, folgt $\det(rE - A) 1 = 0$, also $\det(rE - A) = 0$.
+		Die Determinante stellt eine normierte Gleichung für $r$ dar mit Koeffizienten aus $S$, also ist $r$ ganz.
+	\end{proof}
+	\begin{note}
+		Ist $A$ ein Teilring von $B$ und $M$ ein endlich erzeugter $B$-Modul und $B$ als $A$-Modul endlich erzeugt.
+		Dann ist $M$ ein endlich erzeugter $A$-Modul (durch Einschränkung).
+		\begin{proof}
+			Für $m \in M$, $M = \<b_1, \dotsc, b_k\>_B, B = \<\beta_1, \dotsc, \beta_l\>_A$ ist
+			\[
+				m = \sum_{i=1}^k b_i m_i
+				= \sum_{i=1}^k \Big( \sum_{j=1}^l a_{ji} \beta_j \Big) m_i
+				= \sum_{i,j} a_{ji} \underbrace{\beta_j m_i}_{\in M},
+			\]
+			also $M = \< \{ \beta_j m_i : 1 \le j \le l, 1 \le i \le k \} \>$.
+		\end{proof}
+	\end{note}
+\end{st}
+
+% Folg 5.5
+\begin{kor} \label{5.5}
+	Sei $R$ ein kommutativer Ring, $S \le R$ ein Teilring.
+	Dann bilden die ganzen Zahlen von $R$ über $S$ einen Teilring.
+	\begin{proof}
+		Folgt aus $S[r_1, \dotsc, r_n] = S[r_1, \dotsc, r_n, r]$ mit $r \in S[r_1, \dotsc, r_n]$ und \ref{5.4}.
+	\end{proof}
+	\begin{note}
+		Insbesondere bilden die algebraischen Zahlen $\A$, also die ganzen Zahlen $\C$ über $\Q$, einen Teilring von $\C$.
+		Genauso bilden die ganzen algebraischen Zahlen, also die ganzen Zahlen von $\C$ über $\Z$ einen Teilring von $\C$.
+
+		Der Unterschied zu \ref{5.2} ist nur, dass $\Z$ hier ein Teilring ist.
+
+		$\A$ ist abzählbar.
+	\end{note}
+\end{kor}
