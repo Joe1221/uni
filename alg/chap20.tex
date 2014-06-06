@@ -1,0 +1,184 @@
+\chapter{?}
+
+\section{Kreisteilungskörper}
+
+\begin{lem} \label{20.1-4}
+	Sei $G = \<\zeta\>$, wie in \ref{20.1-3} und sei $d \in \Z$.
+	Dann ist $|\zeta^d| = \f n{\ggT(d,n)}$.
+	\begin{proof}
+		Sei $g = \ggT(n, d)$, $n = ag$, $d = bg$ mit $\ggT(a,b) = 1$.
+		So ist $d \f ng = da = bg a = bn$.
+		Insbesondere ist $(\zeta^d)^a = \zeta^{nb} = 1^b = 1$ und daher ist $c = |\zeta^d|$ ein Teiler von $a = \f n{\ggT(d,n)}$.
+		$|\zeta^d| = c$ impliziert $(\zeta^d)^c = 1 = \zeta^{dc}$, also ist $n$ Teiler von $dc$,
+		d.h. $ag$ ist Teiler von $bgc$ und daher ist $a$ Teiler von $bc$.
+		Wegen $\ggT(a,b)$ impliziert dies: $a$ ist Teiler von $c$.
+		Also ist $a = c$.
+	\end{proof}
+\end{lem}
+
+\begin{df} \label{20.1-5}
+	Die \emphdef{Eulersche $\phi$-Funktion} $\phi: \N \to \N$ ist definiert durch
+	\[
+		\phi(n) = | \{d \in \N : d \le n-1, \ggT(n,d) = 1 \} |.
+	\]
+	So ist $\phi(n)$ die Anzahl der zu $n$ teilerfremden natürlichen Zahlen $\le n -1$.
+\end{df}
+
+\begin{kor} \label{20.1-6}
+	Sei $G = \<\zeta\>$ zyklisch der Ordnung $n$.
+	Dann besitzt $G$ genau $\phi(n)$ viele verschiedene Erzeuger.
+	% fixme
+	\begin{proof}
+		Nach \ref{20.1-4} ist für $1 \le d \le n-1$: $|\zeta^d| = \f n{\ggT(n,d)} = n$ genau dann, wenn $\ggT(n,d) = 1$ ist.
+	\end{proof}
+\end{kor}
+
+\begin{st} \label{20.1-7}
+	Sei $K = \Q$, $\zeta \in \C$ primitive $n$-te Einheitswurzel, $n \in \N$ (etwa $\zeta = e^{\f{2\pi i}n})$.
+	Dann ist $\Q(\zeta)$ galoissch über $\Q$ und es ist $[\Q(\zeta) : \Q] = \phi(n)$.
+	Die Galoi
+	% fixme
+	\begin{proof}
+		$\zetae = e^{\f{2\pi i}n}$ ist primitive $n$-te Einheitswurzel.
+		Nach \ref{20.1-2} ist $\Q(\zeta) = E$ der Zerfällungskörper von $x^n - 1 \in \Q[x]$ und ist daher galoissch über $\Q$.
+		Sei $f = \mu_{\zeta,\Q} \in \Q[x]$.
+		Dann teilt $f$ das Polynom $x^n - 1$, da $\zeta$ Nullstelle von $x^n - 1$ ist.
+		Nach \ref{15.3-6} ist $f \in \Z[x]$ und wir finden $h \in \Z[x]$ (normiert) so, dass $x^n - 1 = fh$ ist.
+		Sei $1 \le d \le n - 1$, $\ggT(d,n) = 1$.
+		Dann ist $\omega = \zeta^d \in E$ ebenfalls primitive $n$-te Einheitswurzel.
+		Wir zeigen: $\omega$ ist ebenfalls Nullstelle von $f$.
+		Sei $1 \le p \le n - 1$ Primzahl mit $p \ndivs n$, d.h. $\ggT(p,n) = 1$ (\oBdA $n \ge \zeta$).
+		Wir zeigen die Behauptung für $p = d$:
+		Angenommen $f(\omega) = f(\zeta^p) \neq 0$, dann muss $h(\omega) = 0$ sein, da $x^n - 1 = fh$ und $\omega^n - 1 = 0$ ist.
+		Betrachte den Epimorphismus $\_{} : \Z \to \Z / p \Z = \F_p : z \mapsto \_z = z + p \Z$ und die Forsetzung $\_{}: \Z[x] \to \F_p[x]: g = \sum_{i=0}^n \beta_i x^i \mapsto \sum_{i=0}^n \_{\beta_i} x^i = \_g \in \F_p[x]$.
+		Nun ist $0 = h(\omega) = h(\zeta^p)$, d.h. $\zeta$ ist Nullstelle von $h(x^p) \in \Z[x]$.
+		Sei $h(x^p) = f(x)g(x)$ in $\Z[x]$, so ist $\_h(x^p) = \_f(x)\_g(x)$ in $\F_p[x]$.
+		Nach \ref{19.1-16} (Frobeniushomomorphismus ausgedehnt auf Polynomringe) ist $\_h(x^p) = (\_h(x))^p$.
+		Nun ist $\_{x^n - 1} = x^n - \_1 \in \F_p[x]$ separabel über $\F_p$.
+		Wegen $\ddx x^n - \_1 = \_n x^{n-1} \neq 0$ wegen $\ggT(n, p) = 1$.
+		Also besitzt $x^n - \_1 \in \F_p[x]$ nur algebraische Nullstellen in $\_{\F_p}$ und daher hat der Teiler $\_f$ von $x^n - \_1 \in \F_p[x]$ ebenfalls nur einfache Nullstellen wegen $x^n - \_1 = \_f  \_h$.
+		Andererseits impliziert $\_f \_g = \_h(x^p) = (\_h(x))^p$ in $\F_p[x]$.
+		Insbesondere haben $\_f$ und $\_h$ gemeinsame Nullstellen in $\_F_p$ und daher hat $x^n - \_1 = \_f \_h$ mehrfache Nullstellen, ein Widerspruch.
+		Also ist $f(\zeta^p) = f(\omega) = 0$ und damit $\mu_{\omega, \Q} = f = \mu_{\zeta, \Q}$.
+		Sei $1 \le d \le n-1$, $\ggT(d,n) = 1$ und $d = p_1 \dotsc p_k$ die Faktorisierung von $d$ in Primelemente.
+		$\zeta^{p_1p_k} = \omega^{p_2}$ wie oben folgt $\omega^{p_2} = \zeta^{p_1 p_2}$ ist Nullstelle von $\mu_{\omega, \Q} = \mu_{\zeta, \Q}$ usw.
+		Iterativ ist $\zeta^d$ Nullstelle von $f = \mu_{\zeta, \Q}$.
+		Also mit \ref{20.1-6} sofort:
+		alle primitiven $n$-ten Einheitswurzeln in $E = \Q(\zeta)$ sind Nullstellen von $f = \mu_{\zeta, \Q}$.
+		Also ist $\deg f \ge \phi(n)$.
+		Sei $\sigma \in G(E / \Q)$.
+		Dann ist $(\sigma(\zeta))^n = \sigma(\zeta^n) = \sigma(1) = 1$, d.h. $\sigma(\zeta)$ ist wieder $n$-te Einheitswurzel und primitiv.
+		Definiere
+		\[
+			g(x) = \prod_{\sigma \in G} (x - \sigma(\zeta)) \in \_\Q[x].
+		\]
+		Dann ist offensichtlich $\tau(g(x)) = \prod_{\sigma \in G} (x - \tau\sigma(\zeta)) = \prod_{\sigma \in G} (x - \sigma(\zeta)) = g(x)$.
+		Es folgt $g(x) \in E^G[x] = \Q[x]$.
+		Wegen $(x - 1_G(\zeta))$ Faktor von $G$ ist $g(\zeta) = 0$ und $f$ ist Teiler von $g$.
+		Also ist $\phi(n) \le \deg f \le \deg g \le \phi(n)$ und daraus folgt $\deg f = \deg g = \phi(n) \stack{HS}= |G| = [E: \Q]$.
+		Ist $\_0 \neq \_k = k + n \Z \in \Z / n \Z$ (für $1 \le k \le n-1$), so ist $\_k \in U(\Z / n\Z)$ genau dann, wenn gilt: $\exists l \in Z : \_l\_k = \_1$ und daher $\{z\_k : z \in \Z\} = \Z / n \Z$.
+		Dies bedeutet aber, dass $\_k$ die additive Gruppe zyklische Gruppe $(\Z / n \Z, +)$ erzeugt, was äquivalent ist zu $\ggT(k,n) = 1$. 
+		Für $\sigma \in G, \sigma(\zeta) = \zeta^k$ für ein $k$ mit $1 \le k \le n-1$ und $\ggT(k, n) = 1$.
+		Sind $1 \le i,j \le n-1$, $\ggT(n,i) = 1 = \ggT(n,j)$, $\sigma_i(\zeta) = \zeta^i, \sigma_j(\zeta) = \zeta^j$, dann ist
+		\[
+			\sigma_i \circ \sigma_j (\zeta) = \sigma_i(\zeta^j) = (\sigma_i(\zeta))^j = (\zeta^i)^j = \zeta^{ij},
+		\]
+		also $\sigma_i \circ \sigma_j = \sigma_{ij}$.
+		Also $G \isomorphic U(\Z / n\Z)$.
+	\end{proof}
+\end{st}
+
+\begin{kor} \label{20.1-8}
+	Wegen $\char K = 0$ haben wir $\Q \subset K$ und daher ist $\mu_{\zeta,K}$ Teiler von $\mu_{\zeta, \Q}$.
+	Insbesondere sind alle Nullstellen von $\mu_{\zeta, K}$ primitive $n$-te Einheitswurzeln und daher eine Potenz $\zeta^k$ von $\zeta$ mit $\ggT(k,n) = 1$, $1 \le k \le n-1$.
+	Also ist jede Nullstelle von $\mu_{\zeta, K}$ Potenz von $\zeta$ und daher in $K(\zeta)$ enthalten.
+	Also ist $K(\zeta)$ galoissch über $K$.
+	Für $\sigma \in G = G(K(\zeta) / K)$ finden wir $1 \le k \le n-1$, $\ggT(n,k) = 1$ mit $\sigma(\zeta) = \zeta^k$ und wie in \ref{20.1-7} definiert $\sigma \mapsto k + n \Z = \_k$ einen injektiven Gruppenhomomorphismus von $G$ in $U(\Z / n\Z)$.
+	\begin{note}
+		Sind $\zeta, \omega$ primitive $n$-te Einheitswurzeln, so kann durchaus $\mu_{\zeta, K} \neq \mu_{\omega, K}$ passieren.
+		Dann ist trotzdem $K(\zeta) = K(\omega)$, aber es gibt keinen $K$-Automorphismus $\sigma$ von $G = G(K(\zeta) / K)$ mit $\sigma(\zeta) = \omega$.
+	\end{note}
+\end{kor}
+
+\section{Radikalerweiterungen}
+
+\begin{st} \label{20.2-3}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				Sei $\zeta \in K$ eine primitive $n$-te Einheitswurzel.
+				Sei $\beta \in \_K$ irgendeine Wurzel (Nullstelle) von $x^n - \alpha$, so ist $\beta^n = \alpha$ und daher $(\zeta^i \beta)^n = (\zeta^n)^i \beta^n = \beta^n = \alpha$, d.h. $\zeta^i \beta$ ist ebenfalls Nullstelle von $x^n - \alpha$ ($0 \le i \le n-1$).
+				Also ist $x^n - \alpha = \prod_{0\le i \le n-1} (x - \zeta^i \beta) \in \_K[x]$.
+				Da $\zeta^i \in K$ für alle $0\le i \le n-1$, sind die $\zeta^i \beta \in K(\beta)$.
+				Also ist $K(\beta)$ Zerfällungskörper von $x^n - \alpha$ und daher normal über $K$ (separabel wegen $\char K = $) und daher galoissch über $K$.
+				Also sind alle Wurzeln von $\mu_{K, \beta}$ in $K(\beta)$ von der Form $\zeta^i \beta$ für ein $0 \le i \le n -1$.
+				Nach \ref{18.4-4} induziert die Wurzel $\zeta^i \beta$ für $0 \le i \le n-1$ für $\zeta^i \beta$ Nullstelle von $\mu_{K, \beta}$ genau einen $K$-Homomorphismus $\sigma_i: K(\beta) \to \_K$ mit $\sigma_i(\beta) = \zeta^i \beta$ und $\im \sigma_i = K(\beta)$, da $K(\beta)$ normal über $K$ ist.
+				Also ist $\sigma_i \in G(K(\beta) / K)$.
+				Die Abbildung $\sigma_a \mapto i + n \Z = \_i \in (\Z / n\Z, +)$ ist eine injektive Abbildung von $G = G(K(\beta), K)$ in $(\Z / n\Z, + )$.
+				Sind $\sigma_i, \sigma_j \in G$, d.h. $\zeta^i \beta, \zeta^j$ sind Nullstellen von $\mu_{\beta,K}$ und $\sigma_i(\beta) = \zeta^i \beta$, $\sigma_j(\beta) = \zeta^j \beta$, so ist $\sigma_j \circ \sigma_i(\beta) = \sigma_j(\zeta^i \beta) = \zeta^i \sigma_j(\beta) = \zeta^i(\zeta^j \beta) = \zeta^{\_{i+j}}(\beta) = \sigma_{\_{i+j}}(\beta)$.
+				Also ist $\sigma_i \mapsto \_i \in (\Z / n \Z, +)$ ein Gruppenhomomorphismus und daher ist $G(K(\beta) / K)$ zyklisch der Ordnung $d$, wobei $d \divs n$.
+			\item
+				später
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{kor} \label{20.2-4}
+	\begin{proof}
+		Es gilt $\beta, \zeta \in \_K$, $x^n - a = \prod_{i=0}^{n-1} (x - \zeta^i \beta)$ in $\_K[x]$ wie in \ref{20.1-3}.
+		Also ist $K(\zeta, \beta) = E = K(\{\zeta^i \beta : i = 0, \dotsc, n-1 \})$.
+		Also ist $\zeta = \f {\zeta \beta}{\beta} \in E$ und daher ist $K(\zeta) = E$.
+		Andererseits ist $\zeta^i \beta \in K(\beta, \zeta)$ für $i = 0, \dotsc, n-1$ und $E = K(\zeta, \beta)$.
+		Also ist $K \subset K(\zeta) \subset K(\zeta, \alpha) = E$, wobei $\zeta$ Nullstelle von $x^n - 1$ und $\beta$ Nullstelle von $x^n  - \alpha$.
+		Nach \ref{20.1-2} ist $K(\zeta)$ galoissch über $K$ und $E$ ist algebraisch über $K$ und normal über $K$.
+		Mit dem Hauptsatz \ref{19.4-21} ist $G(E / K(\zeta)) \Idealof G(E / K)$ und $G(E / K) / G(E / K(\zeta)) \isomorphic G(K(\zeta) / K)$.
+		Rest folgt.
+	\end{proof}
+\end{kor}
+
+\begin{lem} \label{20.2-5}
+	\begin{proof}
+		$[E : K] < \infty$, da $E$ Radikalerweiterung ist.
+		Nutze Induktion über $[E : K]$.
+		Für $[E : K] = 1$ ist nichts zu zeigen.
+		Sei $[E : K] \ge 2$.
+		Nach Voraussetzung gibt es ein $K \subset L \subset E = L(\beta)$ mit $\alpha \not\in L$ und $L$ ist Radikalerweiterung von $K$.
+		Also gibt es eine galoissche Radikalerweiterung $L'$ von $K$ mit $L \subset L', [L' : L] < \infty$.
+		Also ist $L'$ Zerfällungskörper über ein Polynom aus $K[x]$.
+		Sei $G' = G(L' / K) \ni \sigma$, ($\alpha \in L' \implies \sigma(\alpha) \in L')$.
+		\[
+			g(x) = \prod_{\sigma \in G'} (x^n - \underbrace{\sigma(\alpha)}_{=\sigma(\beta^n)})
+			\in L'[x].
+		\]
+		Wegen $\sigma g = g$ für alle $g \in G$ ist $g \in K[x]$.
+		$x^n - \alpha$ ist Faktor von $g(x)$, also $\beta \in E'$.
+		Setze $E'$ als Zerfällungskörper.
+		Also ist $E$ auch Zerfällungskörper von $fg \in K[x]$.
+		Also ist $E'$ galoissch über $K$ und $E = L(\beta) \subset E'$.
+		Da jede Nullstelle von $g \in K[x] \subset L'[x]$ eine Nullstelle eines Polynoms $x^n - \sigma(\alpha)$ ist für $\sigma \in G'$ und damit $n$-te Wurzel von $\sigma(\alpha) \in L'$ ist, ist $E'$ Radikalerweiterung von $L'$.
+		$L' \subset L(\beta_1) \subset (L(\beta_1))(\beta_2) \subset L(\beta_1, \dotsc, \beta_m) = E$ mit Nullstellen $\beta_i$ für $1\le i \le m$.
+		Da $L'$ Radikalerweiterung von $K$ ist und $E'$ Radikalerweiterung von $L'$ ist $E'$ Radikalerweiterung von $K$
+		(durch  Hintereinanderfügen der Zwischenkörperketten von $L'$ über $K$ und $E'$ über $L'$).
+	\end{proof}
+\end{lem}
+
+\begin{st} \label{20.2-6}
+	\begin{proof}
+		Nach \ref{20.2-5} können wir annehmen, dass $E$ galoissch über $K$ ist.
+		Es existiert also eine Kette von Zwischenkörpern $K = L_1 \subset L_2 \subset \dotsb \subset L_m = E$ mit $\alpha_{i+1} \in L_{i+1}$ und $\alpha_{i+1}^{k_{i+1}} = \beta_i \in L_i$, $L_{i+1} = L_i(\alpha_{i+1})$ für $i=1, \dotsc, m$.
+		Sei $k = k_2 \dotsb k_m$ und sei $\zeta \in \_K$ eine primitive $k$-te Einheitswurzel.
+		Dann ist $L_1' = K(\zeta)$ galoissch über $K$ mit abelscher Galoisgruppe $G(L_1' / K) \le U(\Z / n\Z)$.
+		Sei $L_i' = L_i(\zeta)$ für $i = 2, \dotsc, m-1$ und $L_m' = E' = E(\zeta)$.
+		Da $E$ endlich gaoissch über $K$, ist $E$ Zerfällungkörper eines Polynoms $f \in K[x]$ und daher ist $E' = E(\zeta)$ Zerfällungskörper von $f \cdot (x^n - 1) \in K[x]$.
+		Also ist $E'$ galoissch über $K$.
+		\[
+			K \subset K(\zeta) = L_1' = K(\zeta) \subset L_2' = L_2(\zeta) \subset \dotsb \subset L_m' = L_m(\zeta) = E(\zeta) = E'.
+		\]
+		Nun ist $L_{i+1}' = L_{i+1}(\zeta) = L_i (\zeta, \alpha_{i+1}) = L_i'(\alpha_{i+1})$ mit $\alpha_{i+1}^{k_{i+1}} = \beta_i \in L_i \subset L_i'$.
+		Mit der $k$-ten primtiven Einheitswurzel $\zeta$ enthält $K(\zeta)$ alle $k_i$-ten Einheitswurzeln.
+		Nach \ref{20.2-4} ist $L_{i+1}'$ galoissch über $L_i'$ mit zyklischer Galoisgruppe.
+		Da $E' = E(\zeta)$ endlicher Gaoiserweiterung von $E$ ist, ist $E'$ endliche Galoiserweiterung von $K$ und auch Radikalerweiterung von $K$.
+	\end{proof}
+\end{st}
+
+\section{Auflösbare Gruppen}
