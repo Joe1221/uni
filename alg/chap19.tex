@@ -730,12 +730,96 @@ Da $E$ dazuhin separabel über $K$ ist, können wir $f$ separabel wählen, d.h. 
 \begin{note}
 	$E$ abelsch/zyklisch über $K$ heißt $E$ galoissch über $K$ mit abelscher/zyklischer Galoisgruppe $G(E/K)$.
 \end{note}
-%
-%\begin{ex} \label{19.5-5}
-%	% fixme
-%\end{ex}
-%
-%
+
+\begin{ex} \label{19.5-5}
+	Sei $E$ der Zerfällungskörper des Polynoms $f(x) = x^4 - 2 \in \Q[x]$.
+	$f$ ist irreduzibel in $\Q[x]$ (Eisenstein zu $p = 2$ in $\Z[x] \subset \Q[x]$) und zerfällt in $\_\Q[x]$:
+	\[
+		x^4 - 2
+		= (x-\alpha)(x + \alpha)(x - i\alpha)(x + i \alpha)
+		\in \_\Q(x),
+	\]
+	wobei wir $\alpha = \sqrt[4]{2} \in \R_{\ge 0}$ setzen, $i \in \C$, $i^2 = -1$.
+	Folglich hat die einfache Körpererweiterung $\Q \subset \Q(\alpha) \subset \R$ Grad $4$ über $\Q$ wegen $\deg f = 4$.
+	Offenbar ist $\Q(\alpha) = \Q(-\alpha), \Q(i\alpha) = \Q(-i\alpha)$, aber $\Q(\alpha) \neq \Q(i\alpha) \not\subset \R$.
+	Der Zerfällungskörper $E$ enthält $\alpha$ und $i \alpha$, also auch $i$, d.h. $\Q(\alpha, i) \subset E$.
+	Weiter ist $i$ Nullstelle von $x^2 + 1 \in \Q[x] \subset \Q(\alpha)[x]$ und dieses irreduzibel über $\Q(\alpha)$ vom Grad $2$ und daher ist $E = \Q(\alpha, i)$.
+	Es ergibt sich also
+	\[
+		[E : \Q] = [\Q(\alpha, i) : \Q(\alpha)] \cdot [\Q(\alpha) : \Q] = 2 \cdot 4 = 8.
+	\]
+	Damit ist jedoch auch
+	\[
+		[E : \Q(i)] = \dfrac{[E : \Q]}{[\Q(i) : \Q]} = \f 82 = 4
+	\]
+	und daher ist $x^4 - 2 = \mu_{\alpha, \Q}(x)$ auch in $\Q(i)[x] \supset \Q[x]$ das Minimalpolynom: $\mu_{\alpha, \Q}(x) = x^4 - 2$.
+
+	Wir wenden den Fortsetzungssatz \ref{18.4-4} an:
+	Für jedes $\beta \in \{\alpha, -\alpha, i \alpha, -i \alpha\}$ gibt es genau einen $\Q(i)$-Homomorphismus $\sigma_\beta: E = (\Q(i))(\alpha) \to \_{\Q}$ mit $\sigma_\beta(\alpha) = \beta$.
+	Wähle $\beta := i \alpha, \sigma := \sigma_\beta$.
+	Wegen $\sigma|_{\Q(i)} = \id_{\Q(i)}$, also insbesondere $q(i) = i$ entsteht die Kette
+	\[
+		\alpha
+		\xmapsto{\sigma} i\alpha
+		\xmapsto{\sigma} i(\sigma(\alpha)) = i^2 \alpha = -\alpha
+		\xmapsto{\sigma} -i\alpha
+		\xmapsto{\sigma} \alpha
+	\]
+	und daher $\sigma = \sigma_{i\alpha}, \sigma^2 = \sigma_{-\alpha}, \sigma^3 = \sigma_{-\alpha}, \sigma^4 = \sigma_\alpha = \id$.
+	Man kann \ref{18.4-4} aber auch anders anwenden:
+	Die Einbettung $\Q(\alpha)$ in $\_\Q = \_E$ kann zu einem $\Q(\alpha)$-Homomorphismus $\tau: E = (\Q(\alpha))(i)$ in $\_\Q$ fortgesetzt werden.
+	Da $x^2 + 1 \in \Q[x] \subset \Q(\alpha)[x]$ das Minimalpolynom von $i \in \_Q$ über $\Q(\alpha)$ ist, gibt es genau zwei solche Fortsetzungen, nämlich die natürliche Einbettung, induziert von $i \mapsto i$ und $\tau$, induziert von $\tau(i) = -i$.
+
+	Da $E$ normal über $\Q$ ist, gilt $\sigma(E) = E$ und $\tau(E) = E$, d.h. $\sigma, \tau \in G(E / \Q)$.
+	Die Galoisgruppe ist gerade die Symmetriegruppe des Quadrats ($\alpha, i\alpha, -\alpha, -i\alpha$), die \emphdef{Diedergruppe} $\mathrm D_4$ und besteht aus $|G(E / \Q)| = [E : K] = 8$ Elementen: den Drehungen $\{1, \sigma, \sigma^2, \sigma^3\}$ und den Spiegelungen $\{\tau, \sigma\tau, \sigma^2\tau, \sigma^3\tau\}$.
+
+	Untersuchen wir nun die Untergruppen von $G(E / \Q)$.
+	Wegen $\beta^2 = 1$ für $\beta \in \{\sigma^2, \tau, \sigma\tau, \sigma^2\tau, \sigma^3\tau\}$ haben wir 5 Untergruppen der Ordnung 2:
+	die Spiegelungen
+	\begin{align*}
+		L &= \{1, \tau\}, &
+		H &= \{1, \sigma\tau\}, &
+		F &= \{1, \sigma^2\tau\}, &
+		J &= \{1, \sigma^3\tau\}
+	\end{align*}
+	und die Rotation um 180°
+	\[
+		D = \{1, \sigma^2\}.
+	\]
+	Es gilt $\sigma^2 \tau = \tau \sigma^2$, d.h. $\sigma^2$ ist zentral in $G$ und daher gibt es 3 Untergruppen der Ordnung 4, nämlich
+	\begin{align*}
+		A &= \{1, \sigma, \sigma^2, \sigma^3\}, \\
+		B &= \{1, \sigma^2, \tau, \sigma^2, \tau\} = L \times D, \\
+		C &= \{1, \sigma^2, \sigma\tau, \sigma^3 \tau\} = H \times D.
+	\end{align*}
+	Untergruppen von $G(E / \Q)$ und Fixkörper von $E$ lassen sich wie in Abbildung \ref{fig:19.5-5} darstellen.
+
+	\begin{figure}[h]
+		\centering
+		\begin{subfigure}[b]{0.49\textwidth}
+			\resizebox{\linewidth}{!}{\input{figures/19.5-5_groups.tikz}}
+			\caption{Gruppen}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.49\textwidth}
+			\resizebox{\linewidth}{!}{\input{figures/19.5-5_fields.tikz}}
+			\caption{Fixkörper}
+		\end{subfigure}
+		\caption{Hierarchien der Untergruppen von $G(E / \Q)$, bzw. der Fixkörper von $E$}
+		 \label{fig:19.5-5}
+	\end{figure}
+
+	Offenbar sind $I$ und $G$ Normalteiler von $G$.
+	Die Untergruppen $B, A, C$ haben Index 2 in $G$ und sind daher Normalteiler von $G$.
+	Das Zentrum von $G$, $Z(G) = D$ hat Index 4, ist aber ebenfalls normal in $G$, $G / D \isomorphic C_2 \times C_2$.
+	Also sind die Fixkörper $E^A, E^B, E^C$ normal über $\Q$ mit Galoisgruppe $G / E^A, G / E^B, G / E^C \isomorphic C_2$ und $E^D$ ist normal über $\Q$ mit Galoisgruppe $G / D \isomorphic C_2 \times C_2$.
+
+	Es gilt: $\sigma^{-1} L \sigma = F$ und $\sigma^{-1} J \sigma = H$, also sind $L, F, J, H$ keine Normalteiler und daher sind $E^L, E^F, E^J, E^H \subset E$ nicht normal über $\Q$.
+	Trotzdem ist $E^L$ normal über $E^B$ und $E^B$ normal über $\Q$ wegen $2 = [E^L : E^B] = [E^B : \Q]$.
+	Dies bestätigt, dass „normal über“ nicht transitiv ist, siehe auch \ref{19.3-4}.
+\end{ex}
+
+
 %\section{Inseparable Körpererweiterungen}
 %
 %Wir wollen uns zu guter letzt in diesem Kapitel nochmals inseparable Körpererweiterungen vorknüpfen und ihre Struktur genauer bestimmen.
