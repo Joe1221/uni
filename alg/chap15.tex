@@ -15,41 +15,57 @@ So ist jedes Primelement von $R$ assoziiert zu genau einem Primelement in $\Prim
 \begin{df} \label{15.3-1}
 	Sei $R$ UFD, $K = Q(R)$ der Quotientenkörper von $R$.
 	Sei $p \in \Prim(R), 0 \neq a \in R$.
-	Da $R$ faktoriell ist, finden wir ein eindeutiges $b \in R$ mit $\ggT(b,p) = 1$ und ein eindeutiges $\nu_p(a) \in \N \cup \{0\}$ so, dass $a = p^{\nu_p(a)} b$ ist.
-	Für $0 \neq \alpha = \f rs \in K$ ($r, s \in R, s \neq 0$) setzen wir $\nu_p(\alpha) := \nu_p(r) - \nu_p(s) \in \Z$.
+	Da $R$ faktoriell ist, finden wir eindeutiges $b \in R, \nu_p(a) \in \N_0$ mit $\ggT(b,p) = 1$ und $a = p^{\nu_p(a)} b$, d.h. $\nu_p(a)$ ist die maximale $p$-Potenz in der Primfaktorzerlegung von $a$.
+
+	Für $0 \neq \alpha = \f rs \in K$ ($r, s \in R, s \neq 0$) setzen wir
+	\[
+		\nu_p(\alpha) := \nu_p(r) - \nu_p(s) \in \Z.
+	\]
 	Beachte, dass $\nu_p(\alpha)$ nur von $\alpha$, nicht von der Darstellung von $\alpha$ als Bruch $\alpha = \f st$ abhängt.
 	Wir definieren $\nu_p(0) = \infty$.
-	Die Abbildung $\nu_p: K \to \Z \cup \{\infty\}$ heißt \emphdef[p-adsche Bewertung]{(exponentielle) $p$-adsche Bewertung von $K$} und $\nu_p(\alpha)$ der \emphdef{Wert} von $\alpha$ an der \emphdef{Stelle} $p\in \Prim(R)$ (genauer \emphdef{Primstelle} $p$).
 
-	Klar ist wegen der eindeutigen Primfaktorzerlegung für Elemente von $R$:
-	Sind $\alpha, \beta \in K = Q(R)$, dann ist
-	\[
-		\nu_p(\alpha \beta) = \nu_p(\alpha) + \nu_p(\beta)
-	\]
-	für alle $p \in \Prim(R)$.
-	Darüber hinaus ist $\nu_p(\alpha) = 0$ für fast alle $p \in \Prim(R)$.
+	Die Abbildung $\nu_p: K \to \Z \cup \{\infty\}$ heißt \emphdef[p-adische Bewertung]{(exponentielle) $p$-adische Bewertung von $K$} und $\nu_p(\alpha)$ der \emphdef{Wert} von $\alpha$ an der \emphdef{Stelle} $p\in \Prim(R)$ (genauer \emphdef{Primstelle} $p$).
+
+	\begin{note}
+		\begin{itemize}
+			\item
+				Sind $\alpha, \beta \in K = Q(R)$, dann ist wegen der eindeutigen Primfaktorzerlegung
+				\[
+					\nu_p(\alpha \beta) = \nu_p(\alpha) + \nu_p(\beta)
+				\]
+				für alle $p \in \Prim(R)$.
+			\item
+				Ist $\alpha \in K$, so gilt $\nu_p(\alpha) = 0$ für fast alle $p \in \Prim(R)$.
+			\item
+				Ist $a \in R$ mit $\nu_p(a) = 0$ für alle $p \in \Prim(R)$, so ist $a \in U(R)$.
+		\end{itemize}
+	\end{note}
 \end{df}
 
 \begin{df} \label{15.3-2}
-	Sei wie oben $K = Q(R)$ und sei
+	Sei wie oben $K = Q(R)$ und sei $f(x) = \alpha_0 + \alpha_1 x + \dotsb + \alpha_n x^n \in K[x]$	ein Element aus dem Polynomring.
+	Wir setzen $\nu_p(f) := \infty$ für $f = 0$ und
 	\[
-		f = f(x) = \alpha_0 + \alpha_1 x + \dotsb + \alpha_n x^n \in K[x]
-	\]
-	ein Element aus dem Polynomring.
-	Wir setzen $\nu_p(f) = \infty$ für $f = 0$ und
-	\[
-		\nu_p(f) = \min_{\substack{0\le i \le n \\ \alpha_i \neq 0}} \nu_p(\alpha_i),
+		\nu_p(f) := \min_{\substack{0\le i \le n \\ \alpha_i \neq 0}} \nu_p(\alpha_i),
 	\]
 	wobei $p \in \Prim(R)$.
 	$\nu_p(f)$ heißt \emphdef[p-Wert]{(exponentieller) $p$-Wert von $f$}.
 \end{df}
 
 \begin{nt} \label{15.3-3}
+	Betrachte $f \in K[x]$ wie in \ref{15.3-2}.
 	Sei $\alpha_i = \f {r_i}{s_i}$ mit $r_i, s_i \in R$.
 	Für $\alpha_i \neq 0$ können wir $\ggT(r_i, s_i) = 1$ annehmen.
-	Ist $p$ Teiler von $r_i$ für alle $i$ mit $\alpha_i \neq 0$, so teilt $p$ kein $s_i$ mit $\alpha_i \neq 0$ und $\nu_p(f) = \nu_p(\ggT(r_i : \alpha_i \neq 0)) > 0$.
+	Ist $p$ Teiler von $r_i$ für alle $i$ mit $\alpha_i \neq 0$, so teilt $p$ kein $s_i$ mit $\alpha_i \neq 0$ und
+	\[
+		\nu_p(f) = \nu_p(\ggT \Set{r_i & \alpha_i \neq 0}) > 0.
+	\]
 	Sonst gibt es ein $i$ mit $\alpha_i \neq 0$ und $\ggT(p, r_i) = 1$.
-	Dann ist insbesondere $p$ Teiler von $s_i$ nur, wenn es kein Teiler von $r_i$ ist ($\alpha_i \neq 0$) und daher ist $\nu_p(f) = -\nu_p(\kgV(s_i : \alpha_i \neq 0)) < 0$, d.h. $-1$ mal der Exponent der höchsten Potenz von $p$, die in der Primfaktorzerlegung von den $s_i$ mit $\alpha_i \neq 0$ vorkommt.
+	Dann ist insbesondere $p$ Teiler von $s_i$ nur, wenn es kein Teiler von $r_i$ ist ($\alpha_i \neq 0$) und daher ist
+	\[
+		\nu_p(f) = -\nu_p(\kgV \Set{s_i & \alpha_i \neq 0}) < 0,
+	\]
+	d.h. $-1$ mal der Exponent der höchsten Potenz von $p$, die in der Primfaktorzerlegung von den $s_i$ mit $\alpha_i \neq 0$ vorkommt.
 
 	Insbesondere ist $\nu_p(f) \ge 0$ für alle $f \in R[x] \subset K[x]$.
 \end{nt}
@@ -57,11 +73,35 @@ So ist jedes Primelement von $R$ assoziiert zu genau einem Primelement in $\Prim
 \begin{lem} \label{15.3-4}
 	Sei $\lambda \in K = Q(R), f \in K[x]$ und $p \in \Prim(R)$.
 	Dann ist $\nu_p(\lambda f) = \nu_p(\lambda) + \nu_p(f)$.
+	\begin{proof}
+		Sei $\lambda = \f rs$ für $r, s \in R, s \neq 0$ und $f = \sum_{i=0}^n \alpha_i x^i$ mit $\alpha_i = \f{r_i}{s_i}$ für $r_i, s_i \in R, s_i \neq 0$.
+		Dann ist $\lambda f = \sum_{i=0}^n \f{rr_i}{ss_i} x^i$ und daher
+		\begin{align*}
+			\nu_p(\lambda f)
+			&= \min_{\substack{0\le i \le n \\ \alpha_i \neq 0}} \big( \nu_p(r) + \nu_p(r_i) - \nu_p(s) - \nu_p(s_i) \big) \\
+			&= \nu_p(r) - \nu_p(s) + \min_{\substack{0\le i \le n \\ \alpha_i \neq 0}} \big( \nu_p(r_i) - \nu_p(s_i) \big) \\
+			&= \nu_p(\lambda) + \nu_p(f).
+		\end{align*}
+	\end{proof}
 \end{lem}
 
 \begin{kor} \label{15.3-5}
-	Sei $f \in K[x]$, $K = Q(R)$, $R$ UFD und sei $p \in \Prim(R)$.
-	Dann gibt es ein $f_1 \in R[x]$ mit $\nu_p(f_1) = 0$ und ein $\alpha \in K$ mit $\nu_p(\alpha) = \nu_p(f)$ so, dass $f = \alpha f_1$ ist.
+	Sei $R$ ein UFD, $K = Q(R)$, $p \in \Prim(R)$ und $f \in K[x]$.
+
+	Dann existieren $f_1 \in R[x], \alpha \in K$ mit $f = \alpha f_1$ und $\nu_p(f_1) = 0$.
+	Insbesondere ist dann $\nu_p(\alpha) = \nu_p(f)$.
+	\begin{proof}
+		Sei $f = \sum_{i=0}^n \alpha_i x^i$ mit $\alpha_i = \f{r_i}{s_i} \in K$.
+		Erweitern mit $s = s_0 \dotsc s_n$ ergibt
+		\[
+			f = \f 1s \sum_{i=0}^n \underbrace{\f{sr_i}{s_i}}_{=:t_i} x^i = \f 1s g
+		\]
+		mit $g = \sum_{i=0}^n t_i x^i$.
+		Setze $k := \nu_p(g) = \nu_p(\ggT\{t_0,\dotsc, t_n\})$.
+		Dann ist $f_1 := \f 1{p^k} g \in R[x]$ mit $\nu_p(f_1) = \nu_p(\f 1{p^k}) \nu_p(g) = -k + k = 0$.
+		Die Behauptung folgt mit $\alpha := \f {p^k}s$, denn dann ist $f = \f 1s g = \f {p^k}s f_1 = \alpha f_1$.
+		Außerdem folgt $\nu_p(\alpha) = \nu_p(f)$ aus \ref{15.3-4}.
+	\end{proof}
 \end{kor}
 
 \begin{lem}[Gauß Lemma] \label{15.3-6}
@@ -70,25 +110,105 @@ So ist jedes Primelement von $R$ assoziiert zu genau einem Primelement in $\Prim
 	\[
 		\nu_p(fg) = \nu_p(f) + \nu_p(g).
 	\]
+	\begin{proof}
+		Gemäß \ref{15.3-5} seien $\alpha, \beta \in K, f_1, g_1 \in R[x]$ so gewählt, dass $f = \alpha f_1, g = \beta g_1$ mit $\nu_p(f) = \nu_p(\alpha), \nu_p(g) = \nu_p(\beta), \nu_p(f_1) = \nu_p(g_1) = 0$.
+		Dann ist
+		\begin{align*}
+			\nu_p(fg)
+			= \nu_p(\alpha \beta f_1 g_1)
+			&= \nu_p(\alpha \beta) + \nu_p(f_1 g_1) \\
+			&= \nu_p(\alpha) + \nu_p(\beta) + \nu_p(f_1g_1) \\
+			&= \nu_p(f) + \nu_p(g) + \nu_p(f_1g_1)
+		\end{align*}
+		und es genügt $\nu_p(f_1g_1) = 0$ zu zeigen.
+
+		Seien $f_1 = \sum_{i=0}^n \alpha_i x^i$, $g_1 = \sum_{j=0}^m \alpha_j x^j$ mit $\alpha_i, \beta_j \in R$, $\alpha_n, \beta_n \neq 0$.
+		Seien $r, s \in \N$ maximal mit $\alpha_r, \beta_s \neq 0$ so, dass $\ggT(\alpha_r, p) = 1 = \ggT(\beta_s, p)$, d.h. $p$ ist kein Teiler von $\alpha_r$ und kein Teiler von $\beta_s$ ($r, s$ existieren wegen $\nu_p(f_1) = \nu_p(g_1) = 0$).
+		Damit ist $p$ Teiler von $\alpha_{r+1}, \dotsc, \alpha_n, \beta_{s+1}, \dotsc, \beta_m$.
+		Der Koeffizient von $x^{r+s}$ in $f_1g_1 \in R[x]$ ist dann von der Form
+		\[
+			\eps_{r + s}
+			= \alpha_r\beta_s + \sum_{\substack{i < r, j > s \\ i + j = r + s}} \alpha_i \beta_j + \sum_{\substack{i > r, j < s \\ i + j = r + s}} \alpha_i \beta_j.
+		\]
+		Wegen $p \divs \beta_j$ für $j > s$ und $p \divs \alpha_i$ für $i > r$, teilt $p$ beide Summen, aber $p \ndivs \alpha_r \beta_s$, da weder $p \divs \alpha_r$, noch $p \divs \beta_s$ ($p$ prim).
+		Wir schließen, dass $p$ kein Teiler von $\eps_{r+s}$ sein kann und daher $\nu_p(f_1g_1) = 0$.
+	\end{proof}
 \end{lem}
 
 \begin{df} \label{15.3-7}
-	Ein Polynom $f(x) \in K[x]$ für einen Körper $K$ heißt \emphdef{normiert}, falls der höchste Koeffizient ungleich Null in $f$ gleich $1$ ist.
-	Ist $R$ ein UFD, $f \in R[x]$, so heißt $f$ \emphdef{primitiv}, falls $\ggT($Koeffizienten von $f)$ gleich $1$ ist.
+	Sei $K$ ein Körper.
+	Ein Polynom $f = \sum_{i=0}^n \alpha_i x^i \in K[x]$ heißt \emphdef{normiert}, falls $\alpha_n = 1$ gilt.
 
-	Klar ist: $f \in R[x]$ normiert ($R[x] \subset K[x]$) impliziert $f$ ist primitiv.
-	Außerdem: $f \in R[x]$ primitiv genau dann, wenn $\nu_p(f) = 0$ für alle $p \in \Prim(R)$.
+	Sei $R$ ein UFD.
+	Ein Polynom $f = \sum_{i=0}^n \alpha_i x^i \in R[x]$ heißt \emphdef{primitiv}, falls $\ggT(\Set{\alpha_i & i \in I}) = 1$ gilt.
+	\begin{note}
+		\begin{itemize}
+			\item
+				$f \in K[x]$ normiert impliziert $f \in R[x] \subset K[x]$ ist primitiv.
+			\item
+				$f \in R[x]$ ist primitiv genau dann, wenn $\nu_p(f) = 0$ für alle $p \in \Prim(R)$.
+		\end{itemize}
+	\end{note}
 \end{df}
 
 \begin{st}[Satz von Gauß] \label{15.3-8}
 	Sei $R$ ein UFD, $K = Q(R)$.
 	Dann ist $R[x]$ UFD und die Primelemente von $R[x]$ sind genau die Primelemente von $R$ (als konstante Polynome) und die primitiven Polynome in $R[x]$ vom Grad größer gleich 1, die als Polynome von $K[x] \supset R[x]$ irreduzibel sind.
+	\begin{proof}
+		Sei $f = \sum_{i=0}^n r_i x^i \in R[x], f \neq 0, r_i \in R$.
+		Sei $r = \ggT(\Set{r_i : 0 \le i \le n})$, dann ist $f = r f_1$ mit $f_1 \in \R[x]$ primitiv.
+		In $K[x]$ finden wir eine eindeutige Zerlegung $f_1 = \tilde p_1 \dotsb \tilde p_k$ mit $\tilde p_1, \dotsc, \tilde p_k \in K[x]$ irreduzibel, da $K[x]$ Hauptidealring und daher UFD ist (siehe \ref{15.2-25}).
+		Sei $s_i \in R$ der Hauptnenner und $t_i$ der $\ggT$ der Koeffizienten von $\tilde p_i$, so lässt sich $\tilde p_i$ schreiben als $\tilde p_i = \f{t_i}{s_i} p_i$ mit $p_i \in R[x]$ primitiv, also $f = r \f ts p_1 \dotsb p_k$ mit primitiven $p_i \in R[x]$, $t = t_1 \dotsb t_k, s = s_1 \dotsb s_k \in R$.
+
+		Sei $\alpha \in \Prim(R)$.
+		Dann ist $\nu_\alpha(p_i) = 0$ für $i \in \Set{1, \dotsc, k}$ und $\nu_\alpha(f_1) = 0$.
+		Nach dem Lemma von Gauß \ref{15.3-6} haben wir
+		\begin{align*}
+			0 = \nu_\alpha(f_1)
+			= \nu_\alpha(\f ts p_1 \dotsb p_k)
+			&= \nu_\alpha(t) - \nu_\alpha(s) + \sum_{i=1}^k \nu_\alpha(p_i) \\
+			&= \nu_\alpha(t) - \nu_\alpha(s),
+		\end{align*}
+		d.h. $\nu_\alpha(t) = \nu_\alpha(s)$, also $\nu_\alpha(\f ts) = 0$ und somit ist, da $\alpha \in \Prim(R)$ beliebig gewählt war $\f ts \in U(R)$ eine Einheit.
+		Sei \oBdA $\f ts = 1$ und daher $f_1 = p_1 \dotsb p_k$.
+
+		Wir zeigen jetzt, dass $p_1, \dotsc, p_k$ auch irreduzibel in $R[x]$ sind.
+		Sei $i \in \Set{1, \dotsc, k}$ und $p_i = gh$ mit $g, h \in R[x]$ eine Zerlegung von $p_i$.
+		Dann ist dies auch eine Zerlegung in $K[x] \supset R[x]$ und daher \oBdA $g = \beta \in R$ eine Konstant.
+		Wegen $0 = \nu_\alpha(p_i) = \nu_\alpha(gh) = \nu_\alpha(g) + \nu_\alpha(h)$ für alle $\alpha \in \Prim(R)$ nach \ref{15.3-6} schließen wir $\nu_\alpha(g) = 0 = \nu_\alpha(h)$, da $\nu_\alpha(g), \nu_\alpha(h) \ge 0$ wegen $g, h \in R[x]$.
+		Damit haben wir $g \in U(R)$ gezeigt und $p_i$ ist irreduzibel in $R[x]$ für alle $i \in \Set{1,\dotsc, k}$.
+
+		Wir zerlegen noch $r$ in Primfaktoren in $R$ und haben damit eine Zerlegung von $f = rp_1\dotsb p_k$ in irreduzible Elemente in $R[x]$ gefunden.
+		Ist $f = s q_1 \dotsb q_l$ eine andere solche Zerlegung mit $s \in R$, so ist wegen der Eindeutigkeit der Primfaktorzerlegung in $K[x]$ $k = l$ und $q_i = \eps_i p_i$ für $0 \neq \eps_i \in  K, i \in \Set{1,\dotsc, k}$.
+		So haben wir mit $\eps := \eps_1 \dotsb \eps_k$
+		\[
+			r p_1 \dotsb p_k
+			= f
+			= s q_1 \dotsb q_k
+			= \eps s p_1 \dotsb p_k
+		\]
+		und daher $r = \eps s$.
+		Wegen
+		\[
+			\nu_\alpha(f)
+			= \nu_\alpha(r)
+			= \nu_\alpha(\eps s)
+			= \nu_\alpha(\eps) + \nu_\alpha(s)
+			= \nu_\alpha(\eps) + \nu_\alpha(f)
+		\]
+		haben wir $\nu_\alpha(\eps) = 0$ für alle $\alpha \in \Prim(R)$ und daher $\eps \in U(R)$.
+		Also ist die Zerlegung eindeutig.
+		Der Rest folgt nun sofort.
+	\end{proof}
 \end{st}
 
 \begin{kor} \label{15.3-9}
 	Sei $R$ ein UFD.
 	Dann ist $R[x_1, \dotsc, x_n]$ ($x_i$ für $1 \le i \le n$ Unbestimmte) ein UFD.
 	Insbesondere ist der Polynomring $K[x_1, \dotsc, x_n]$ ein UFD für alle $n \in \N$ und jeden Körper $K$.
+	\begin{proof}
+		Funktioniert mit Satz von Gauß \ref{15.3-8} und Induktion über $n$, da $R[x_1, \dotsc, x_n] \isomorphic (R[x_1, \dotsc, x_{n-1}])[x_n]$.
+	\end{proof}
 \end{kor}
 
 \setcounter{thm}{10}
@@ -105,7 +225,7 @@ So ist jedes Primelement von $R$ assoziiert zu genau einem Primelement in $\Prim
 			Schon die Frage, ob ein gegebenes Polynom irreduzibel ist, ist oft schwierig zu beantworten.
 			\emph{Allerdings: $x + \alpha \in K[x], \alpha \in K$ für einen Körper $K$ ist immer irreduzibel!}
 		\item
-			Der Satz von Gauß sagt insbesondere, dass man die Zerlegung von Polynomen in $K[x]$ in Irreduzibel immer auf die Zerlegung in irreduzible in $R[x]$ zurückführen kann, wenn $K = Q(R)$ und $R$ UFD.
+			Der Satz von Gauß sagt insbesondere, dass man die Zerlegung von Polynomen in $K[x]$ in irreduzible Faktoren immer auf die Zerlegung in irreduzible in $R[x]$ zurückführen kann, wenn $K = Q(R)$ und $R$ UFD.
 			Ist $f \in K[x]$, so lässt sich nämlich $f$ als $\alpha f_1$ mit $f_1 \in R[x], \alpha \in K$ schreiben, etwa indem man mit dem Hauptnenner der Koeffizienten von $f$ durchmultipliziert und beim resultierenden Polynom in $R[x]$ noch den $\ggT$ der Koeffizienten (aus $R$) ausklammert.
 			Die irreduzibelen Polynome in $K[x]$ vom Grad größer gleich 1 sind also (bis auf skalare Vielfache ungleich Null) genau die irreduzibelen Polynome von $R[x]$.
 	\end{enumerate}
@@ -121,12 +241,31 @@ Wie können wir herausfinden, ob $f$ irreduzibel ist oder nicht?
 	Sei $K = Q(R), L = Q(S)$.
 	Ist $\sigma(f) \in L[x]$ irreduzibel, dann gibt es keine Faktorisierung $f = gh$ mit $g, h \in R[x], 1 \le \deg g, \deg h$.
 	Ist $R$ zusätzlich UFD, so ist $f$ irreduzibel in $K[x]$ (und in $R[x]$).
+	\begin{proof}
+		Ist $f = gh$ in $R[x]$, so ist $\deg f = \deg g + \deg h$, da $R$ nullteilerfrei ist.
+		Dann ist $\sigma(f) = \sigma(gh) = \sigma(g)\sigma(h)$ in $S[x]$ mit $\deg(\sigma(g)) \le \deg(g), \deg(\sigma(h)) \le \deg(h)$.
+		Dann ist
+		\begin{align*}
+			\deg(g) + \deg(h)
+			&= \deg(f)
+			= \deg(\sigma(f))
+			= \deg(\sigma(gh)) \\
+			&= \deg(\sigma(g)\sigma(h))
+			= \deg(\sigma(g)) + \deg(\sigma(h)) \\
+			&\le \deg(g) + \deg(h),
+		\end{align*}
+		also gilt Gleichheit: $\deg(g) = \deg(\sigma(g)), \deg(h) = \deg(\sigma(h))$.
+
+		Nun ist $\sigma(f)$ irreduzibel in $L[x]$ und $\sigma(f) = \sigma(g)\sigma(h)$ ist Zerlegung von $\sigma(f)$ in $L[x]$, also ist $\deg(\sigma(g)) = \deg(g) = 0$ oder $\deg(\sigma(h)) = \deg(h) = 0$.
+
+		Ist $R$ UFD, so liefert der Satz von Gauß \ref{15.3-8}, dass $f$ irreduzibel in $K[x]$ ist.
+	\end{proof}
 \end{st}
 
 \begin{ex} \label{15.3-13}
 	Sei $R$ UFD und $m$ maximales ideal von $R$.
 	Dann ist $R / m = L (= Q(L))$ ein Körper.
-	Sei $\sigma: R \mapsto L: \alpha \mapsto \alpha + m = \_\alpha \in L$ die natürliche projektion.
+	Sei $\sigma: R \mapsto L: \alpha \mapsto \alpha + m = \_\alpha \in L$ die natürliche Projektion.
 	Sei $f = \sum_{i=0}^n \alpha_i x^i \in R[x] \subset K[x]$, $K = Q(R)$ mit $\alpha_i \in R$.
 	Angenommen $\alpha_n \not\in m$, dann ist $\_{\alpha_n} = 0$ und daher $\deg(\sigma(f)) = n = \deg(f)$.
 	Ist daher $\sigma(f) \in L[x]$ irreduzibel, dann auch $f$ in $R[x]$ und $K[x]$.
@@ -150,6 +289,29 @@ Wie können wir herausfinden, ob $f$ irreduzibel ist oder nicht?
 			$p^2$ teilt nicht $\alpha_0$.
 	\end{enumerate}
 	Dann ist $f$ irreduzibel in $K[x]$.
+	\begin{proof}
+		Sei \oBdA $f$ primitiv, d.h. $\ggT(\Set{\alpha_i: 0 \le i \le n}) = 1$.
+		Sei $f = gh$ eine Faktorisierung von $f$ in $K[x]$ mit $\deg g, \deg h \ge 1$.
+		\OBdA ist $g, h \in R[x]$ nach dem Satz von Gauß \ref{15.3-8}.
+		Sei
+		\begin{align*}
+			g(x) &= \sum_{i=0}^m \beta_i x^i, &
+			h(x) &= \sum_{j=0}^{n-1} \gamma_j x^j,
+		\end{align*}
+		mit $\beta_m \neq 0 \neq \gamma_{n-m}$, $m, n-m \ge 1$.
+		Da $\alpha_0 = \beta_0 \gamma_0$ durch $p$, aber nicht durch $p^2$ teilbar ist, ist \oBdA $p$ kein Teiler von $\beta_0$, aber $\gamma_0$ ist Vielfaches von $p$.
+
+		Da $\alpha_n = \beta_n \gamma_{n-m}$ nicht durch $p$ teilbar ist, ist weder $\beta_m$, noch $\gamma_{n-m}$ durch $p$ teilbar.
+
+		Sei $r \in \N$ minimal so, dass $p$ kein Teiler von $\gamma_r$ ist (existiert, da $p \ndivs \gamma_{n-m}$).
+		Dann teilt $p$ alle $\gamma_{r-1}, \dotsc, \gamma_0$.
+		Dann ist $r > 0$ und
+		\[
+			\alpha_r = \beta_0\gamma_r + \sum_{i = 1}^r \beta_i \gamma_{r-i}
+		\]
+		ist nicht durch $p$ teilbar, da die Summe durch $p$ teilbar ist, aber nicht $\beta_0\gamma_r$.
+		Wegen $r \le n - m \le n - 1$ ist dies ein Widerspruch zur Voraussetzung ii), also ist $f$ irreduzibel.
+	\end{proof}
 \end{st}
 
 \begin{ex} \label{15.3-15}
