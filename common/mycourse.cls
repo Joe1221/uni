@@ -172,8 +172,12 @@
 %%=======================================================================
 
 % Entfernt Einrückung bei Absätzen und fügt stattdessen vertikalen Abstand ein
-\PassOptionsToClass { parskip = half } { scrbook }
-
+\ExplSyntaxOff
+\PassOptionsToClass { parskip = half+ } { scrbook }
+\AtBeginDocument{
+    \setparsizes{0pt}{0.8ex}{0pt plus 1fil}
+}
+\ExplSyntaxOn
 
 %%=======================================================================
 %% Basic Requirements
