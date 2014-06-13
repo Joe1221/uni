@@ -57,7 +57,6 @@
 \newcommand{\Res}{\operatorname{Res}}
 \newcommand{\Var}{\operatorname{Var}}
 \renewcommand{\div}{\operatorname{div}}
-\newcommand{\Span}{\operatorname{span}}
 \newcommand{\adj}{\operatorname{adj}}
 \newcommand{\ad}{\operatorname{ad}}
 \newcommand{\End}{\operatorname{End}}
@@ -142,6 +141,17 @@
     \tl_replace_once:Nnn \l_content_tl { & } { \mathrel{}\middle|\mathrel{} }
 
     \left\{ \l_content_tl \right\}
+}
+
+\DeclareDocumentCommand { \Span } { om } {
+    \tl_clear_new:N \l_content_tl
+    \tl_set:Nn \l_content_tl { #2 }
+
+    \IfNoValueTF { #1 } {
+	\left\langle \l_content_tl \right\rangle
+    } {
+	#1\langle \l_content_tl #1\rangle
+    }
 }
 
 \DeclareDocumentCommand { \Vector } { slm } {
