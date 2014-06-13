@@ -2,6 +2,11 @@
 	%noproofs
 ]{mycourse}
 
+
+\DeclareDocumentCommand { \Span } { } { \operatorname{span} }
+
+
+
 \title{Numerische Mathematik 1}
 \author{}
 
@@ -208,7 +213,7 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 
 \begin{ex*}
 	Sei $n=2$ und folgende Datenmenge gegeben.
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering
 		\begin{tabular}{l|rrr}
 			$x_i$ & 1 & 2 & 3  \\ \hline
@@ -311,7 +316,7 @@ Sei $\{x_i\}_{i=0}^n$, $\{f_i\}_{i=0}^n$ gegeben mit $x_i\neq x_j$ für $i\neq j
 
 Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 
-\begin{table}[h]
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{cccc}
 	$x_0$ & $f[x_0]=f_0$ & $f[x_0,x_1]$ & $f[x_0,x_1,x_2]$ \\
@@ -324,7 +329,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 
 \begin{ex*}
 	Sei $n=2$ und folgende Daten gegeben
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering
 		\begin{tabular}{l|rrr}
 			$x_i$ & 1 & 2 & 3  \\ \hline
@@ -333,7 +338,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 		\caption{Datenmenge}
 	\end{table}
 	Nutze das Neville-Schema, um die Koeffizienten in der Newton-Basis zu ermitteln:
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering
 		\begin{tabular}{c|ccc}
 			$x_i$ & $f_i=a_{i,0}$ & $a_{i,1}$ & $a_{i,2}$ \\ \hline
@@ -341,6 +346,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 			2 & 3 & 3 & \\
 			3 & 6 & &
 		\end{tabular}
+		\caption{Neville-Schema}
 	\end{table}
 	Es ergibt sich das Interpolationspolynom
 	\[
@@ -373,7 +379,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 	\item
 		Man kann das Interpolationspolynom auswerten, ohne es vorliegen zu haben.
 		Verwende dazu das Neville-Schema für die Rekursion aus Satz \ref{1.5} nur für Stelle $x$.
-		\begin{table}[h]
+		\begin{table}[ht]
 			\centering
 			\begin{tabular}{cccc}
 				$x_0$ & $f_0=p_{0,0}(x)$ & $p_{0,1}(x)$ & $p_{0,2}(x)$ \\
@@ -381,6 +387,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 				\vdots & \vdots & \vdots\\
 				$x_n$ & $f_n=p_{n,0}(x)$ &\\
 			\end{tabular}
+			\caption{Neville-Schema}
 		\end{table}
 \end{enumerate}
 
@@ -397,7 +404,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 			\]
 		\item
 			Selbiges mit dem Neville-Schema:
-			\begin{table}[h]
+			\begin{table}[ht]
 				\centering
 				\begin{tabular}{c|ccc}
 					$x_i$ & $f_i$ &  & $f(4)$ \\ \hline
@@ -405,6 +412,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 					2 & 3 & 9\\
 					3 & 6
 				\end{tabular}
+				\caption{Auswertung mit Hilfe des Neville-Schemas}
 			\end{table}
 	\end{enumerate}
 \end{ex*}
@@ -412,7 +420,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 \subsection{Zusammenfassung}
 \label{sec:polintsum}
 
-\begin{table}[h]
+\begin{table}[ht]
 	\centering
 	\begin{tabular}{p{0.23\textwidth}|p{0.22\textwidth}|p{0.24\textwidth}|p{0.23\textwidth}}
 		\centering Allgemein & \centering Monombasis & \centering Lagrange-Basis & \centering Newton-Basis \tabularnewline \hline
@@ -459,6 +467,7 @@ Die Rekursion aus \ref{1.6} kann man als Schema darstellen:
 		LGS lösen: & \centering $\mathcal O(n^3)$ & \centering $\mathcal O(1)$ & \centering $\mathcal O(n^2)$ \tabularnewline
 		Punktauswertung: & \centering $\mathcal O(n)$ via Horner & \centering $\mathcal O(n^2)$ & \centering $\mathcal O(n)$ via Horner \tabularnewline
 	\end{tabular}
+	\caption{Zusammenfassung: Interpolation zu verschiedenen Basen}
 \end{table}
 
 \subsection{Anwendung: Richardson-Extrapolation}
@@ -499,13 +508,14 @@ Vereinfachung der Rekursion aus \ref{1.5} für $x=0$:
 		\implies b_{0,0} = 2, \qquad b_{1,0} = \f 94, \qquad b_{2,0} = \f {625}{256} \approx 2,44
 	\]
 	Neville-Schema für Rekursion aus 1.8, verwende $\f {h_i}{h_{i+j}} = 2^j$.
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering
 		\begin{tabular}{c|ccc}
 			$h_0=1$ & $b_{0,0}=2$  & $b_{0,1}=\f 52$ & $b_{0,2}=\f {257}{96}$\\
 			$h_1=\f12$ & $b_{1,0}=\f 94$  & $b_{1,1}=\f {337}{128}$ & \\
 			$h_2=\f14$ & $b_{2,0}=\f {625}{256}$  \\
 		\end{tabular}
+		\caption{Neville-Schema für die Rekursion der Richardson-Extrapolation}
 	\end{table}
 \end{ex*}
 
@@ -899,7 +909,7 @@ Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=
 
 \begin{ex*}[Polynominterpolation, vgl. Deuflhard/Hohmann]~
 
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering
 		\begin{tabular}{r|r|r}
 			$n$ & $\Lambda_n$ für äquidistante $\Delta_n$ & $\Lambda_n$ für Tschebyscheff-Knoten \\ \hline
@@ -908,7 +918,8 @@ Wie sensitiv ist die Interpolation bei Störungen in den Zielwerten $\{f_i\}_{i=
 			15 & 512,052451 & 2,727778 \\
 			20 & 10986,533993 & 2,900825
 		\end{tabular}
-	\end{table}		
+		\caption{Lebesguekonstanten für äquidistante Stützstellen und für Tschebyscheff-Knoten}
+	\end{table}
 	Also führen die Tschebyscheff-Knoten auch quantitativ zu stabilerer Interpolation.
 \end{ex*}
 
@@ -1032,7 +1043,7 @@ mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stütz
 \begin{ex*}
 	Gegeben die folgenden Stützstellen und Werte: \\
 
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering	
 		\begin{tabular}{l|c|c}
 			 & $x_0=1$ & $x_1 =2$ \\ \hline
@@ -1040,6 +1051,7 @@ mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stütz
 			$f_i^{(1)}$ & 4 & 32 \\
 			$f_i^{(2)}$ & 12 & 
 		\end{tabular}		
+		\caption{Daten für Hermite-Interpolation}
 	\end{table}
 
 	Dann ist $m=1$, $m_0=3$, $m_1=2$, und damit $n=3+2-1=4$.
@@ -1050,7 +1062,7 @@ mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stütz
 	\]
 	Bestimme die Koeffizienten mit Hilfe des Neville-Schemas: \\
 
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering	
 		\begin{tabular}{l|c|c|c|c|c|c}
 			$z_k$  & $a_{k,0}$ & $a_{k,1}$ & $a_{k,2}$ \\ \hline
@@ -1058,8 +1070,9 @@ mit $i=0,\dotsc,m$ (Stützstellen) und $j=0,\dotsc,m_i-1$ (Ableitungen an Stütz
 			$z_1=1$ & $f_0^{(0)} = -1$ & $4$ 						&	$\f {15-4}{2-1} = 11$ & $\f {17-11}{2-1}=6$ \\
 			$z_2=1$ & $f_0^{(0)} = -1$ & $\f {14-(-1)}{2-1} = 15$ & $\f {32-15}{2-1} = 17$ \\
 			$z_3=2$ & $f_1^{(0)} = 14$ & $\f 1 {1!} f_1^{(1)} = 32$ &  \\
-			$z_4=2$ & $f_1^{(0)} = 14$ & 
-		\end{tabular}		
+			$z_4=2$ & $f_1^{(0)} = 14$ &
+		\end{tabular}
+		\caption{Neville-Schema für die Rekursion der Newton-Form}
 	\end{table}
 	Es ergibt sich dann
 	\begin{align*}
@@ -1274,12 +1287,13 @@ mit $t(x_k)=f_k$ gesucht.
 
 \begin{ex*}
 	Sei $n=2$ mit den folgenden Stützstellen und Werten. \\
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering
 		\begin{tabular}{c|c|c|c}
 			$x_j$ & $x_0=0$ & $x_1=\f 23 \pi$ & $x_2=\f 43 \pi$\\\hline
 			$f_j$ & $0$ & $\f 32$ & $\f 32$
 		\end{tabular}
+		\caption{Daten für trigonometrische Interpolation}
 	\end{table}
 	Es ist $\cos(\pm x_1) = \cos(\pm x_2) = -\f 12$, $\sin(x_1) = -\sin(x_2) =: \xi $
 	\begin{align*}
@@ -1931,9 +1945,9 @@ Die “Minimum Norm Least Squares”-Approximation liefert eine Antwort auf dies
 				Mann kann dann $A$ mit
 				\[
 					\tilde \Sigma = \diag(\sigma_1,\dotsc,\sigma_k) \in \R^{k\times k}
-					, \qquad 
+					, \qquad
 					\tilde U \in \C^{m\times k}
-					, \qquad 
+					, \qquad
 					\tilde V \in \C^{n\times k}
 				\]
 				schreiben als
@@ -2763,7 +2777,7 @@ Also $I_n(f) = I(p)$.
 			\[
 				h:= \f {b-a}n, \qquad x_k := a + kh, \quad (k=0,\dotsc,n)
 			\]
-			\begin{table}[h]
+			\begin{table}[ht]
 				\centering
 				\caption{Koeffiziententabelle geschlossener Newton-Cotes Formeln auf $[0,1]$}
 				\begin{tabular}{l|cl}
@@ -2782,7 +2796,7 @@ Also $I_n(f) = I(p)$.
 				h:= \f {b-a}{n+2}, \qquad x_k = a+ (k+1)h, \quad (k=0,\dotsc,n)
 			\]
 			(d.h. die Randpunkte sind keine Stützstellen)
-			\begin{table}[h]
+			\begin{table}[ht]
 				\centering
 				\caption{Koeffiziententabelle offener Newton-Cotes Formeln auf $[0,1]$}
 				\begin{tabular}{l|cl}
@@ -2921,7 +2935,7 @@ Also $I_n(f) = I(p)$.
 			(Konvergenz genau dann, wenn die Polynominterpolation gleichmäßig konvergiert)
 		\item
 			Als Gegenbeispiel für Konvergenz betrachte $f(x) = \sqrt{|x|}$ auf $[a,b]=[-1,1]$:
-			\begin{table}[h]
+			\begin{table}[ht]
 				\centering
 				\caption{Integrationsfehler \fixme[Werte stimmen nicht]}
 				\begin{tabular}{l|r}
@@ -2981,7 +2995,7 @@ Also $I_n(f) = I(p)$.
 			\]
 		\item
 			Verbesserung der Quadratur durch Erhöhen der Intervall-Anzahl, z.B. $f(x)= \sqrt{|x|}$, $[a,b]=[-1,1]$ mit der zusammengesetzten Simpson-Regel.
-			\begin{table}[h]
+			\begin{table}[ht]
 				\centering
 				\caption{Es ergibt sich eine konvergente Teilfolge für gerade $N$}
 				\begin{tabular}{c|c}
@@ -3206,7 +3220,7 @@ Also $I_n(f) = I(p)$.
 			Sei $n=1$, $p_2(x) = x^2-\f 13$ mit den Nullstellen $x_0=-\sqrt{\f 13}, x_1 = \sqrt{\f 13}$.
 			Für die Gewichte gilt $\omega_0=\omega_1 = 1$, da Interpolations-Quadratur.
 
-			\begin{table}[h]
+			\begin{table}[ht]
 				\centering
 				\caption{Gauß-Quadraturen auf $[-1,1]$}
 				% fixme: layout broken
@@ -3352,7 +3366,7 @@ Also $I_n(f) = I(p)$.
 
 \begin{ex*}
 Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[-1,1]$: 
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering
 		\caption{Fehlervergleich auf $[-1,1]$}
 		\begin{tabular}{c|r|c}
@@ -3383,7 +3397,7 @@ Vergleich von Newton-Cotes und Gauß-Quadratur mit $f(x)=\cos(x\f \pi 2)$ auf $[
 		\begin{itemize}
 			\item
 				$K$ wird sehr schnell klein:
-				\begin{table}[h]
+				\begin{table}[ht]
 					\centering
 					\caption{}
 					\begin{tabular}{c|c}
@@ -3979,9 +3993,7 @@ Wir wollen einen abstrakten Rahmen für Fehlerfunktionale vorstellen, welcher in
 \end{seg}
 \begin{seg}[Allgemeines Prinzip:] 
 Endliche Wiederholung von: \\
-	\begin{figure}[h]
-		\fbox{Lösung $\rightarrow$ Schätzung $\rightarrow$ Markierung $\rightarrow$ Verfeinerung $\rightarrow$ Lösung $\rightarrow$ Schätzung $\rightarrow \cdots$}  \\
-\end{figure}
+\fbox{Lösung $\rightarrow$ Schätzung $\rightarrow$ Markierung $\rightarrow$ Verfeinerung $\rightarrow$ Lösung $\rightarrow$ Schätzung $\rightarrow \cdots$}  \\
 \end{seg}
 \begin{alg*}
 	\begin{algorithmic}[Adaptive Quadratur]
@@ -4246,7 +4258,7 @@ Die Gewichte wählen wir dabei konstant.
 	\[
 		\Var(\Ind_D(X)) = \int_{[0,1]}(f(x) - \tfrac \pi 4)^2 \dx = (1-\tfrac \pi 4) \f \pi 4
 	\]
-	\begin{figure}[h]
+	\begin{figure}[ht]
 		\centering
 		\caption{Beispiel für $k_\text{max}=200, n=1,\dotsc, 500$}
 		\fixme[Bilder zur Verteilung siehe Programme im Ilias]
@@ -4367,7 +4379,7 @@ Der Beweis nutzte die Intervallschachtelung.
 			Trotzdem ist es sehr langsam: man braucht etwa 3 Iterationen, um eine Dezimalstelle an Genauigkeit zu gewinnen.
 		\item
 			Sei $f(x) = x^2 - 2$, $a=0, b=2$
-			\begin{table}[h]
+			\begin{table}[ht]
 				\centering
 				\begin{tabular}{c|l|l|l}
 					$k$ & $a_k$ & $b_k$ & $x^{(k)}$ \\ \hline
@@ -4377,6 +4389,7 @@ Der Beweis nutzte die Intervallschachtelung.
 					3 & 1.25 & 1.5 & 1.375 \\
 					4 & 1.375 & 1.5 & 1.4375 
 				\end{tabular}
+				\caption{Vier Iterationen des Bisektionsverfahrens}
 			\end{table}
 		\item
 			Der Fehlerabfall muss nicht monoton sein!
@@ -4445,7 +4458,7 @@ Der Beweis nutzte die Intervallschachtelung.
 	\]
 	$x^{(k)}$ approximiert dann $\sqrt a$
 
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering
 		\caption{$a=2, x^{(0)}=2$}
 		\begin{tabular}{c|c|c}
@@ -5233,7 +5246,7 @@ Weitere Ideen, um Verfahren höherer Ordnung zu konstruieren, wären:
 		f(x) = x^5
 	\]
 	Dann ist wegen $f'(0) = f''(0) = \dotsb = f^{(4)}(0) = 0$ die $0$ $5$-fache Nullstelle.
-	\begin{table}[h]
+	\begin{table}[ht]
 		\centering
 		\caption{Lineare monotone (\ref{3.7}) Konvergenz links, verbesserte Konvergenz rechts}
 		\begin{tabular}{c|l|l}
@@ -6480,7 +6493,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 	\end{proof}
 \end{st}
 
-\begin{ex*}[\texttt{demos\textunderscore optimization(5)}]
+\begin{ex*}[\normalfont\texttt{demos\textunderscore optimization(5)}]
 	Sei $f(x) = \f 12 x^T A x - b^Tx$ mit $A = I, b = (1,1)^T, x^* = (1,1)^T$.
 	\begin{itemize}
 		\item
@@ -6505,7 +6518,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 	(mit $\phi(r)$ Minimum bei $r=0$) in einem Schritt.
 \end{ex*}
 
-\begin{ex*}[\texttt{demos\textunderscore optimization(6)}]
+\begin{ex*}[\normalfont\texttt{demos\textunderscore optimization(6)}]
 	Sei
 	\[
 		A = U \begin{pmatrix}
@@ -6521,7 +6534,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 			„zigzagging“ der $d^{(k)}$
 		\item
 			$\kappa(A) = 10$ mit Fehlerschranke $(1- \f {2}{\kappa(A)+1}) = \f 9{11}$.
-			\begin{table}[h]
+			\begin{table}[ht]
 				\centering
 				\begin{tabular}{c|c|c}
 					$k$ & $\|x^{(k)} - x^*\|_A$ & $(\f 9{11})^k \|x^{(0)} - x^*\|_A$ \\ \hline
@@ -6530,6 +6543,7 @@ ist explizit verfügbar, also kann das Gradientenverfahren folgendermaßen formu
 					10 & 3.23047 $\cdot 10^{-1}$ & 3.323052 $\cdot 10^{-1}$ \\
 					15 & 1.18444 $\cdot 10^{-1} $& 1.18446 $\cdot 10^{-1}$
 				\end{tabular}
+				\caption{Vergleich des Fehlers und der Fehlerschranke beim Gradientenverfahren}
 			\end{table}
 	\end{itemize}
 \end{ex*}
@@ -6865,7 +6879,7 @@ Die $d^{(k)}$ kann man z.B. als $A$-orthogonale Basis eines Krylov-Raums wählen
 	\end{note}
 \end{st}
 
-\begin{ex*}[\texttt{demos\textunderscore optimization(7)}]
+\begin{ex*}[\normalfont\texttt{demos\textunderscore optimization(7)}]
 	Sei $f(x) = \f 12 x^T A x$ und $A = U I U^T$ mit Rotationsmatrix $U$.
 
 	Nach zwei Schritten ist der Fehler 0.
@@ -6922,7 +6936,7 @@ Es muss in jeder Iteration ein LGS mit Matrix $M$ gelöst werden.
 	\end{note}
 \end{df}
 
-\begin{ex*}[\texttt{demos\textunderscore optimization(8)}]
+\begin{ex*}[\normalfont\texttt{demos\textunderscore optimization(8)}]
 	Sei $n = 50$ mit
 	\[
 		A = \begin{pmatrix}
@@ -7024,7 +7038,7 @@ mit
 	\end{align*}
 \end{df}
 
-\begin{ex*}[\texttt{demos\textunderscore optimization(9)}]
+\begin{ex*}[\normalfont\texttt{demos\textunderscore optimization(9)}]
 	Sei
 	\[
 		\Phi(x, a) = a_1 e^{-|x - a_2|^2 \cdot 50} + a_3 e^{-|x-a_2|^2 \cdot 50}
