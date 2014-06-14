@@ -7,6 +7,7 @@
 - Revise `\coursetimestamp{}{}{}` syntax and usage
 - What about `\fixme` notation, showing on the margin, or even with an index?
 - Reference `\ref{4.7}[b]` for subitems
+- `\R` symbol is above baseline, why?
 
 ### Titlepage
 
