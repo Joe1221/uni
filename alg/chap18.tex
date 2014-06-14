@@ -136,7 +136,7 @@ Im Folgenden sei $K$ stets ein Körper.
 			Besteht $S$ aus genau einem Element $S = \{ \alpha \}$, $\alpha \in E$, so schreiben wir auch kürzer $E = K(\alpha) = K(\{\alpha\})$ und $E$ heißt \emphdef[Körpererweiterung!einfache]{einfache Körpererweiterung}.
 			Das Element $\alpha \in E$ wird dann \emphdef{primitives Element} von $E$ über $K$ genannt.
 		\item
-			Ist $E = K(S), S = \{\alpha_1, \dotsc, \alpha_k$, so schreiben wir $K(\alpha_1, \dotsc, \alpha_k) = E$ anstatt $E = K(\{\alpha_1, \dotsc, \alpha_k\})$.
+			Ist $E = K(S), S = \{\alpha_1, \dotsc, \alpha_k\}$, so schreiben wir $K(\alpha_1, \dotsc, \alpha_k) = E$ anstatt $E = K(\{\alpha_1, \dotsc, \alpha_k\})$.
 	\end{enumerate}
 \end{df}
 
@@ -189,7 +189,7 @@ Wir haben das folgende Lemma:
 			Wegen $\dim_K K[x] = \infty$ sind $\dim_K K(x)$ und daher auch $\dim_K K(\alpha)$ und $\dim_K E$ unendlich.
 			Die Elemente von $K(\alpha)$ ergeben sich dann als
 			\[
-				K(\alpha) = \big\{ \f{f(\alpha)}{g(\alpha)} : f,g \in K[x], g \neq 0 \big\}
+				K(\alpha) = \Set{ \f{f(\alpha)}{g(\alpha)} & f,g \in K[x], g \neq 0 }
 			\]
 			(Jedes Element von $K(\alpha)$ lässt sich so eindeutig mit teilerfremden $f$ und $g$ in $K[x]$ schreiben).
 		\item
@@ -201,9 +201,14 @@ Wir haben das folgende Lemma:
 			Jedes $\beta \in K(\alpha)$ (also auch z.B. $\alpha^{-1} \in K(\alpha)$ für $\alpha \neq 0$) besitzt dann eine eindeutige Darstellung $\beta = \lambda_0 + \lambda_1 \alpha + \dotsb + \lambda_{k-1} \alpha^{k-1}$ mit $\lambda_i \in K$ für $i = 0, \dotsc, k-1$.
 			So ist
 			\[
-				K(\alpha) = \big\{ f(\alpha) : f \in K[x], \deg f \le k - 1 \big\}.
+				K(\alpha) = \Set[\big]{ f(\alpha) & f \in K[x], \deg f \le k - 1 }.
 			\]
 	\end{enumerate}
+	\begin{proof}
+		Alles ist klar bis auf die $K$-Basis in ii).
+		In \ref{18.1-4} hatten wir gesehen, dass $\Set{ \_1, \_x, \dotsc, \_x^{k-1} }$ mit $\_x = x + p K[x]$ eine $K$-Basis von $K[x] / p K[x]$ ist für $\deg p = k$ und $p$ irreduzibel.
+		Wegen $\eps_\alpha(x) = \alpha$ und $p K[x] = \ker \eps_\alpha$ folgt, dass $\Set{ 1, \alpha, \dotsc, \alpha_{k-1} }$ eine $K$-Basis von $K[x] / pK[x] \isomorphic \im \eps_\alpha = K(\alpha)$ ist.
+	\end{proof}
 \end{df}
 
 \begin{kor} \label{18.3-3}
@@ -221,6 +226,10 @@ Wir haben das folgende Lemma:
 \begin{kor} \label{18.3-5}
 	Sei $K \subset E$ endliche Körpererweiterung (d.h. $[E : K] < \infty$).
 	Dann sind alle Elemente von $E$ algebraisch über $K$.
+	\begin{proof}
+		Sei $\alpha \in E$, also $K \subset K(\alpha) \subset E$.
+		Dann ist mit \ref{18.3-3} $[K(\alpha) : K] \le [E : K] < \infty$ und $\alpha$ algebraisch über $K$.
+	\end{proof}
 \end{kor}
 
 Sind alle Elemente einer Körpererweiterung $K \subset E$ algebraisch über $K$, so heißt $E$ \emphdef{algebraisch über} $K$ und man spricht von einer algebraischen Körpererweiterung.
@@ -230,25 +239,52 @@ Die Umkehrung gilt nicht: es gibt durchaus unendliche algebraische Körpererweit
 \begin{lem} \label{18.3-6}
 	Seien $K \subset L \subset E$ Körper.
 	Ist $\alpha \in E$ algebraisch über $K$, so ist $\alpha$ auch algebraisch über $L$ und $\mu_{L, \alpha}$ ist Teiler von $\mu_{K, \alpha}$.
+	\begin{proof}
+		Sei $\eps_\alpha: L[x] \to L(\alpha) \subset E$ der Auswertungshomomorphismus.
+		Nun ist $0 \neq \mu_{K, \alpha} \in K[x] \subset L[x]$ ein Polynom mit $\mu_{K, \alpha}(\alpha) = 0$ und daher ist $\eps_\alpha(\mu_{K, \alpha}) = 0$, d.h. $\mu_{K, \alpha} \in \ker \eps_\alpha$ und $\eps_\alpha$ nicht injektiv, d.h. $\alpha$ algebraisch über $L$ und $\mu_{L,\alpha}$ ist definiert.
+
+		Da per definitionem $\ker \eps_\alpha$ von $\mu_{L, \alpha}$ erzeugt wird, d.h. $\mu_{K,\alpha} \in \ker \eps_\alpha = \mu_{L,\alpha} L[x]$ ist $\mu_{L,\alpha}$ Teiler von $\mu_{K, \alpha}$ in $L[x]$.
+	\end{proof}
 \end{lem}
 
 \begin{lem} \label{18.3-7}
-	Sei $E = K(S)$ Körpererweiterung mit erzeugender Menge $S \subset E$.
+	Sei $E := K(S)$ die Körpererweiterung von $K$ mit erzeugender Menge $S \subset E$.
 	Dann ist
 	\[
-		E = \bigg\{ \beta = \f{f(\alpha_1, \dotsc, \alpha_k)}{g(\alpha_1, \dotsc, \alpha_k)} : \begin{aligned} k \in \N, f,g \in K[x_1, \dotsc, x_k], \\\alpha_1, \dotsc, \alpha_k \in S, g(\alpha_1, \dotsc, \alpha_k) \neq 0 \end{aligned} \bigg\}
+		E = \Set{ \beta = \dfrac{f(\alpha_1, \dotsc, \alpha_k)}{g(\alpha_1, \dotsc, \alpha_k)} & \begin{aligned} k \in \N, f,g \in K[x_1, \dotsc, x_k], \\\alpha_1, \dotsc, \alpha_k \in S, g(\alpha_1, \dotsc, \alpha_k) \neq 0 \end{aligned} }.
 	\]
+	\begin{proof}
+		„$\supset$“ ist klar, da $f,g \in K[x_1, \dotsc, x_k]$ und $\alpha_1, \dotsc, \alpha_k \in S \subset E$.
+		Nun erkennt man leicht, dass die Menge der $\beta$ den Körper $K$ enthält (für beliebiges $k \in K$ mit der Wahl $g = 1, f = k$ ist $\beta = k$) und abgeschlossen ist bezüglich Summen-, Produkt- und Inversenbildung, also ein Unterkörper von $E$ ist.
+		Außerdem ist $S$ in diesem Unterkörper enthalten, denn für $g = 1, f = x$ ist $\beta = f(s) = s \in S$ für alle $s \in S$.
+		Per definitionem ist $E$ die kleinste Körpererweiterung von $K$, die $S$ enthält, also gilt Gleichheit.
+	\end{proof}
 \end{lem}
 
 \begin{st} \label{18.3-8}
 	Sei $E = K(S)$ Körpererweiterung, $S \subset E$.
-	Sei $\alpha$ algebraisch über $K$ für alle $\alpha \in S$.
-	Dann ist $E$ algeraisch über $K$.
+	Ist jedes $\alpha \in S$ algebraisch über $K$, so ist $E$ algebraisch über $K$.
+	\begin{proof}
+		Sei $\alpha \in E = K(S)$.
+		Nach \ref{18.3-7} finden wir eine Darstellung $\alpha = \f {f(s_1, \dotsc, s_k)}{g(s_1, \dotsc, s_k)}$ mit $k \in \N$, $f, g \in K[x_1, \dotsc, x_k]$, $s_1, \dotsc, s_k \in S$ und $g(s_1, \dotsc, s_k) \neq 0$.
+		Damit liegt $\alpha \in K(s_1, \dotsc, s_k)$.
+		$s_i$ ist algebraisch über $K$ und daher nach \ref{18.3-6} auch über $K(s_1, \dotsc, s_{i-1})$, d.h. nach \ref{18.3-3} $n_i := [K(s_1,\dotsc, s_i): K(s_1,\dotsc,s_{i-1})] < \infty$ und wegen $K(\alpha) \subset K(s_1,\dotsc,s_k)$ und \ref{18.1-2} ist
+		\[
+			[K(\alpha) : K]
+			\le [K(s_1,\dotsc,s_k) : K]
+			= n_1 n_2 \dotsb n_k
+			< \infty.
+		\]
+		Nach \ref{18.3-3} ist also $\alpha$ algebraisch über $K$.
+	\end{proof}
 \end{st}
 
 \begin{kor} \label{18.3-9}
 	Seien $K \subset E$ Körper und seien $0 \neq \alpha, \beta \in E$ algebraisch über $K$.
 	Dann sind $\alpha \pm \beta, \alpha \beta, \alpha^{-1}, \beta^{-1}$ algebraisch über $K$.
+	\begin{proof}
+		Folgt sofort aus \ref{18.3-8} wegen $\alpha \pm \beta, \alpha\beta, \alpha^{-1}, \beta^{-1} \in K(\alpha, \beta)$.
+	\end{proof}
 \end{kor}
 
 \begin{kor} \label{18.3-10}
@@ -262,18 +298,96 @@ Die Umkehrung gilt nicht: es gibt durchaus unendliche algebraische Körpererweit
 		\item
 			$E$ ist algebraisch über $K$,
 		\item
-			$E = \{ f(\alpha_1, \dotsc, \alpha_k) : f \in K[x_1, \dotsc, x_k] \}$.
+			$E = \Set{ f(\alpha_1, \dotsc, \alpha_k) & f \in K[x_1, \dotsc, x_k] }$.
 	\end{enumerate}
+	\begin{proof}
+		\begin{seg}{\ProofImplication)[1][2]}
+			Im Körperturm
+			\[
+				K \subset K(\alpha_1)
+				\subset K(\alpha_1, \alpha_2)
+				\subset \dotsb
+				\subset K(\alpha_1, \dotsc, \alpha_{n-1})
+				\subset K(\alpha_1, \dotsc, \alpha_k)
+				= E
+			\]
+			ist $\alpha_i$ algebraisch über $K(\alpha_1, \dotsc, \alpha_{i-1})$ nach \ref{18.3-6}, also $n_i := [K(\alpha_1, \dotsc, \alpha_i) : K(\alpha_1, \dotsc, \alpha_{i-1})] < \infty$ nach \ref{18.3-3} und daher $[E : K] = n_1 n_2 \dotsb n_k < \infty$ nach \ref{18.1-2}.
+		\end{seg}
+		\begin{seg}{\ProofImplication)[2][3]}
+			Für $\alpha \in E$ ist $K \subset K(\alpha) \subset E$ und daher $[K(\alpha) : K] \le [E : K] < \infty$, also ist nach \ref{18.3-3} $\alpha$ algebraisch über $K$.
+		\end{seg}
+		\begin{seg}{\ProofImplication)[3][4]}
+			Zeige mittels Induktion über $k$.
+			Für $k = 1$ ist dies gerade \ref{18.3-2} ii).
+
+			Nun ist $\alpha_k$ algebraisch über $K(\alpha_1, \dotsc, \alpha_k)$ nach \ref{18.3-6} und daher
+			\[
+				E = \Set{ g(\alpha_k) & g \in (K(\alpha_1, \dotsc, \alpha_{k-1}))[x_k] }.
+			\]
+			Sei $g \in K(\alpha_1, \dotsc, \alpha_{k-1})[x_k]$.
+			Per Induktion finden wir für jeden Koeffizienten $\beta_j \in K(\alpha_1, \dotsc, \alpha_{k-1})$ von $g$ ein Polynom $f_j \in K[x_i, \dotsc, x_{k-1}]$ so, dass $\beta_j = f_j(\alpha_1, \dotsc, \alpha_{k-1})$ ist.
+			Also ist
+			\[
+				g(\alpha_k)
+				= \sum_{j=0}^n \beta_j \alpha_k^j
+				= \sum_{j=0}^n f_j(\alpha_1, \dotsc, \alpha_{k-1}) \alpha_k^j
+				= f(\alpha_1, \dotsc, \alpha_k),
+			\]
+			mit $f(x_1, \dotsc, x_k) = \sum_{j=0}^n f_j(x_1, \dotsc, x_{k-1}) x_k^j \in K[x_1, \dotsc, x_k]$.
+		\end{seg}
+		\begin{seg}{\ProofImplication)[4][1]}
+			Zeige mittels Induktion über $k$.
+			Für $k = 1$ ist $E = K(\alpha_1) = \Set{ f(\alpha_1) & f \in K[x_1] }$ und nach \ref{18.3-2} ii) ist $\alpha_1$ algebraisch über $K$.
+
+			Sei $k > 1$ und $\alpha_1, \dotsc, \alpha_{k-1}$ bereits algebraisch über $K$.
+			Sei $f(\alpha_1, \dotsc, \alpha_k) := \alpha_k^{-1}$ mit $f \in K[x_1, \dotsc, x_k] = K[x_1, \dotsc, x_{k-1}][x_k]$.
+			Schreibe $f = \sum_{j=0}^n g_j x_k^j$ mit $g_j \in K[x_1, \dotsc, x_{k-1}]$ und setze $\beta_j := g_j(\alpha_1, \dotsc, \alpha_{k-1})$.
+			Dann ist $\alpha_k^{-1} = \sum_{j=0}^n \beta_j \alpha_k^j$ und daher $1 = \alpha_k \alpha_k^{-1} = \sum_{j=0}^n \beta_j \alpha_k^{j+1}$.
+			Wählt man
+			\[
+				h(x_k) := x_k \sum_{j=0}^n \beta_j x_k^j - 1 = \sum_{j=0}^n \beta_j x_k^{j+1} - 1
+				\in K(\alpha_1, \dotsc, \alpha_{k-1})[x_k],
+			\]
+			so ist also $h(\alpha_k) = 0$, d.h. $\alpha_k$ ist algebraisch über $K(\alpha_1, \dotsc, \alpha_{k-1})$.
+			Also ist $[K(\alpha_1, \dotsc, \alpha_k) : K(\alpha_1, \dotsc, \alpha_{k-1}) ] < \infty$ nach \ref{18.3-3} und nach Induktionsannahme und ii): $[K(\alpha_1, \dotsc, \alpha_{k-1} : K] < \infty$, es gilt somit
+			\begin{align*}
+				[K(\alpha_k) : K]
+				&\le [K(\alpha_1, \dotsc, \alpha_k) : K] \\
+				&= \underbrace{[K(\alpha_1, \dotsc, \alpha_k) : K(\alpha_1, \dotsc, \alpha_{k-1})]}_{<\infty} \cdot \underbrace{[ K(\alpha_1, \dotsc, \alpha_{k-1}) : K]}_{<\infty} \\
+				&< \infty.
+			\end{align*}
+			Also ist $\alpha_k$ algebraisch über $K$ nach \ref{18.3-3}.
+		\end{seg}
+	\end{proof}
 \end{kor}
 
 \begin{kor} \label{18.3-11}
 	Sei $K \subset E$ Körpererweiterung und sei \(L = \{ \alpha \in E : \text{$\alpha$ algebraisch über $K$}\}\).
-	Dann ist $L$ ein Körper, $K \subset L \subset E$ der \emphdef[algebraischer Abschluss]{algebraische Abschluss} von $K$ in $E$.
+	Dann ist $L$ ein Körper mit $K \subset L \subset E$ und wird \emphdef[algebraischer Abschluss]{algebraische Abschluss} von $K$ in $E$ genannt.
+	\begin{proof}
+		Nach \ref{18.3-8} ist die Erweiterung $K(L)$ algebraisch über $K$, also in $L$ enthalten und somit $L \subset K(L) \subset L$.
+		Damit ist $L = K(L)$ ein Körper.
+	\end{proof}
 \end{kor}
 
 \begin{st} \label{18.3-12}
-	Seien $K \subset L \subset E$ Körper und sei $E$ algebraisch über $L$, $L$ algebraisch über $K$.
-	Dann ist $E$ algebraisch über $K$.
+	Seien $K \subset L \subset E$ Körpererweiterungen mit $E$ algebraisch über $L$ und $L$ algebraisch über $K$.
+	Dann ist $E$ algebraisch über $K$, d.h. für Körper ist die Relation „algebraisch über“ transitiv.
+	\begin{proof}
+		Sei $\alpha \in E$ mit $\mu_{\alpha, L} = \lambda_0 + \lambda_1 x + \dotsb + \lambda_{n-1} x^{n-1} + x^n \in L[x]$.
+		Dann sind $\lambda_0, \dotsc, \lambda_{n-1} \in L$ und daher algebraisch über $K$, also ist $F := K(\lambda_0, \dotsc, \lambda_{n-1})$ algebraisch über $K$ mit $[F : K] < \infty$ nach \ref{18.3-10}.
+
+		Nun ist $\lambda_0, \dotsc, \lambda_{n-1} \in F$ und $\mu_{L, \alpha}$ irreduzibel in $F[x]$, da irreduzibel in $L[x] \supset F[x]$, also mit $\mu_{L, \alpha}(\alpha) = 0$ ist gerade $\mu_{F, \alpha} = \mu_{L, \alpha}$ das Minimalpolynom von $\alpha$ über $F$.
+		Somit ist
+		\[
+			[K(\alpha) : K]
+			\le [F(\alpha) : K]
+			= \underbrace{[F(\alpha) : F]}_{=\deg(\mu_{L, \alpha}) < \infty} \cdot \underbrace{[F : K]}_{< \infty}
+			< \infty
+		\]
+		und daher $\alpha$ algebraisch über $K$ nach \ref{18.3-3} oder \ref{18.3-10}.
+		Somit ist $E$ algebraisch über $K$.
+	\end{proof}
 \end{st}
 
 

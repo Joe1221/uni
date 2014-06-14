@@ -12,6 +12,23 @@
 
 \ExplSyntaxOn
 
+\DeclareDocumentCommand { \ProofImplication } { t( t) o o } {
+    \normalfont \selectfont
+    \IfNoValueTF { #3 } {
+	„ $ \implies $ “
+    } {
+	„ \,
+	\IfBooleanTF { #1 } { ( } { }
+	\int_to_roman:n { #3 }
+	\IfBooleanTF { #2 } { ) } { }
+	$ \implies $
+	\IfBooleanTF { #1 } { ( } { }
+	\int_to_roman:n { #4 }
+	\IfBooleanTF { #2 } { ) } { }
+	\, “
+    }
+}
+
 
 
 % Declarations
