@@ -135,16 +135,25 @@
 	}
 }
 
+\cs_new:Nn \mymath_set_vertbar:nn {
+    \tl_clear_new:N \l_conten_tl
+    \tl_set:Nf \l_conten_tl { #1 }
+    \tl_replace_once:Nnn \l_conten_tl { & } { \mathrel{}#2\mathrel{} }
+    \l_conten_tl
+}
+
 \DeclareDocumentCommand { \Set } { om } {
     \tl_clear_new:N \l_content_tl
     \tl_set:Nn \l_content_tl { #2 }
 
-    \IfNoValueTF { #1 } {
-	\tl_replace_once:Nnn \l_content_tl { & } { \mathrel{}\middle|\mathrel{} }
-	\left\{ \l_content_tl \right\}
+    \mathchoice	{
+	\left\{ \big. \mkern2mu \mymath_set_vertbar:nn{\l_content_tl}{\middle|} \mkern2mu \right\}
     } {
-	\tl_replace_once:Nnn \l_content_tl { & } { \mathrel{}\middle|\mathrel{} }
-	\left\{ #1. \l_content_tl \right\}
+	\{ \mkern1mu \mymath_set_vertbar:nn{\l_content_tl}{|} \mkern1mu \}
+    } {
+	\{ \mymath_set_vertbar:nn{\l_content_tl}{|} \}
+    } {
+	\{ \mymath_set_vertbar:nn{\l_content_tl}{|} \}
     }
 }
 
