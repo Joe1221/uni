@@ -119,6 +119,52 @@
 
 
 
+%%=======================================================================
+%% Info Parsing
+%%=======================================================================
+
+\cs_new:Nn \mycourse_set_lastchanged:n {
+    \clist_set:Nn \l_lastchanged_cl { #1 }
+    \tl_clear_new:N \l_part_tl
+
+    \prop_clear_new:N \mycourse_lastchanged_pl
+    \clist_pop:NN \l_lastchanged_cl \l_part_tl
+    \prop_put:NnV \mycourse_lastchanged_pl { year } { \l_part_tl }
+    \clist_pop:NN \l_lastchanged_cl \l_part_tl
+    \prop_put:NnV \mycourse_lastchanged_pl { month } { \l_part_tl }
+    \clist_pop:NN \l_lastchanged_cl \l_part_tl
+    \prop_put:NnV \mycourse_lastchanged_pl { day } { \l_part_tl }
+    \clist_pop:NN \l_lastchanged_cl \l_part_tl
+    \prop_put:NnV \mycourse_lastchanged_pl { hour } { \l_part_tl }
+    \clist_pop:NN \l_lastchanged_cl \l_part_tl
+    \prop_put:NnV \mycourse_lastchanged_pl { minute } { \l_part_tl }
+    \clist_pop:NN \l_lastchanged_cl \l_part_tl
+    \prop_put:NnV \mycourse_lastchanged_pl { second } { \l_part_tl }
+}
+\cs_new:Nn \mycourse_set_authors:n {
+    \tl_clear_new:N \mycourse_authors_tl
+    \tl_set:Nn \mycourse_authors_tl { #1 }
+}
+
+% Load info file, containing generated information, e.g.
+% last commit date, git authors, etc.
+% ------------------------------------------------------------------------
+\file_if_exist:nT { info } {
+    \file_input:n { info }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 % Old version of package libertine loads xcolor with conflicting options, so load it beforehand.
@@ -618,11 +664,44 @@
             \mycoursedate
             \settimeformat { mycoursetime }
             \parbox [ t ] { 0.5\textwidth } {
+                \raggedright
+                \fontsize { 10pt } { 12pt } \selectfont \scshape
+                Autoren:~
+                %\fontsize { 6pt } { 10pt } \selectfont \normalfont
+                %(in~Reihenfolge~ihrer~Beitragsmenge) \\
+
+                \fontsize { 8pt } { 10pt } \selectfont \normalfont
+                \begin{addmargin} [ 1.2em ] { 0cm }
+                    \tl_if_exist:NT \mycourse_authors_tl {
+                        \mycourse_authors_tl
+                    }
+                \end{addmargin}
+            }
+            \parbox [ t ] { 0.5\textwidth } {
                 \raggedleft
                 \fontsize { 8pt } { 10pt } \selectfont
                 Kompiliert: ~ \today \; \currenttime \\
-                %Letzte~inhaltliche~Änderung: ~
-                %todo: parse `git log --format="format:%ai" -1 ./`
+
+                \prop_if_exist:NT \mycourse_lastchanged_pl {
+                    \tl_clear_new:N \l_year
+                    \tl_clear_new:N \l_month
+                    \tl_clear_new:N \l_day
+                    \tl_clear_new:N \l_hour
+                    \tl_clear_new:N \l_minute
+                    \prop_get:NnN \mycourse_lastchanged_pl { year } \l_year
+                    \prop_get:NnN \mycourse_lastchanged_pl { month } \l_month
+                    \prop_get:NnN \mycourse_lastchanged_pl { day } \l_day
+                    \prop_get:NnN \mycourse_lastchanged_pl { hour } \l_hour
+                    \prop_get:NnN \mycourse_lastchanged_pl { minute } \l_minute
+
+                    Letzte~inhaltliche~Änderung: ~
+                    \formatdate { \l_day } { \l_month } { \l_year } \;
+                    \formattime { \l_hour } { \l_minute } { 0 }
+                    \\
+                }
+
+                \vskip 1em
+                \url{https://github.com/stev47/uni} \\
             }
         }
 
@@ -632,8 +711,8 @@
         }
 
         \JoinCoffins* \tpresult                              \tpruletop
-        \JoinCoffins  \tpresult [\tpruletop-t,\tpruletop-l]  \tptitle     [B,l] (0pt       , 3.5mm)
-        \JoinCoffins  \tpresult [\tpruletop-b,\tpruletop-l]  \tpsubtitle  [T,l] (0pt       ,-6mm)
+        \JoinCoffins  \tpresult [\tpruletop-t,\tpruletop-l]  \tptitle     [B,l] (0mm       , 3.5mm)
+        \JoinCoffins  \tpresult [\tpruletop-b,\tpruletop-l]  \tpsubtitle  [T,l] (0.2mm     ,-6mm)
         \JoinCoffins* \tpresult [\tpruletop-b,\tpruletop-l]  \tptimeplace [T,r] (\textwidth,-6mm)
         \JoinCoffins  \tpresult [\tpruletop-b,\tpruletop-l]  \tpinfo      [T,r] (\textwidth,-15mm)
 
