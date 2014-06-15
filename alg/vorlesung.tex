@@ -12,20 +12,22 @@
 
 \ExplSyntaxOn
 
-\DeclareDocumentCommand { \ProofImplication } { t( t) o o } {
+\DeclareDocumentCommand { \ProofImplication } { s t( t) o o } {
     \normalfont \selectfont
-    \IfNoValueTF { #3 } {
-	„ $ \implies $ “
+    \IfNoValueTF { #4 } {
+        „ \, $
+        \IfBooleanTF { #1 } { \impliedby } { \implies }
+        $ \, “
     } {
-	„ \,
-	\IfBooleanTF { #1 } { ( } { }
-	\int_to_roman:n { #3 }
-	\IfBooleanTF { #2 } { ) } { }
-	$ \implies $
-	\IfBooleanTF { #1 } { ( } { }
-	\int_to_roman:n { #4 }
-	\IfBooleanTF { #2 } { ) } { }
-	\, “
+        „ \,
+        \IfBooleanTF { #2 } { ( } { }
+        \int_to_roman:n { #4 }
+        \IfBooleanTF { #3 } { ) } { }
+        $ \IfBooleanTF { #1 } { \impliedby } { \implies } $
+        \IfBooleanTF { #2 } { ( } { }
+        \int_to_roman:n { #5 }
+        \IfBooleanTF { #3 } { ) } { }
+        \, “
     }
 }
 
