@@ -43,10 +43,26 @@
 \providecommand{\bigtimes}{\mathop{\mathlarger{\times}}}
 
 \DeclareDocumentCommand { \divs } { s } {
+    \mathchoice {
 	\IfBooleanTF { #1 } { \mathop{\big\|} } { \mathop{\big|} }
+    } {
+	\IfBooleanTF { #1 } { \mathop{\big\|} } { \mathop{\big|} }
+    } {
+	\IfBooleanTF { #1 } { \mkern-1mu \mathop{\|} \mkern-1mu } { \mkern-1mu \mathop{|} \mkern-1mu }
+    } {
+	\IfBooleanTF { #1 } { \mkern-1mu \mathop{\|} \mkern-1mu } { \mkern-1mu \mathop{|} \mkern-1mu }
+    }
 }
 \DeclareDocumentCommand { \ndivs } { s } {
+    \mathchoice {
 	\IfBooleanTF { #1 } { \mathop{\not\big\|} } { \mathop{\not\big|} }
+    } {
+	\IfBooleanTF { #1 } { \mathop{\not\big\|} } { \mathop{\not\big|} }
+    } {
+	\IfBooleanTF { #1 } { \mkern-1mu \mathop{\not\|} \mkern-1mu } { \mkern-1mu \mathop{\not|} \mkern-1mu }
+    } {
+	\IfBooleanTF { #1 } { \mkern-1mu \mathop{\not\|} \mkern-1mu } { \mkern-1mu \mathop{\not|} \mkern-1mu }
+    }
 }
 
 % Uncommon/Deprecated commands (to be removed/reviewed)
@@ -149,11 +165,11 @@
     \mathchoice	{
 	\left\{ \big. \mkern2mu \mymath_set_vertbar:nn{\l_content_tl}{\middle|} \mkern2mu \right\}
     } {
-	\{ \mkern1mu \mymath_set_vertbar:nn{\l_content_tl}{|} \mkern1mu \}
+	\{ \mkern1mu \mymath_set_vertbar:nn{\l_content_tl}{\mkern-2mu | \mkern-2mu} \mkern1mu \}
     } {
-	\{ \mymath_set_vertbar:nn{\l_content_tl}{|} \}
+	\{ \mymath_set_vertbar:nn{\l_content_tl}{\mkern-1mu | \mkern-1mu} \}
     } {
-	\{ \mymath_set_vertbar:nn{\l_content_tl}{|} \}
+	\{ \mymath_set_vertbar:nn{\l_content_tl}{\mkern-1mu | \mkern-1mu} \}
     }
 }
 
