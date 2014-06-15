@@ -1,4 +1,5 @@
 # TARGET has to be specified
+SHELL := /bin/bash
 
 PDFLATEX_OPTIONS += -synctex=1 -shell-escape
 #LATEXMK     ?= latexmk -recorder -pdf -pdflatex="pdflatex $(PDFLATEX_OPTIONS) %O %S"
@@ -91,12 +92,12 @@ $(info latexmk installed.)
 	$(LATEXMK) $<
 
 info_lastchange = $(shell git log --format="format:%ai" -1 ./ | grep -Po '\+?\d+' | tr "\\n" "," | sed 's/,$$//')
-info_authors = $(shell git ls-files | xargs -n1 git blame --line-porcelain | sed -n 's/^author //p' | sort -f | uniq -ic | sort -nr | grep -oP '(?<=\d\s).*' | tr "\\n " ",~" | sed 's/,$$//' | sed 's/,/,\\\\\\\\/g')
+info_authors = "$(shell git ls-files | xargs -n1 git blame --line-porcelain | sed -n 's/^author //p' | sort -f | uniq -ic | sort -nr | grep -oP '(?<=\d\s).*' | tr "\\n " ",~" | sed 's/,$$//' | sed 's/,/,\\\\/g')"
 
 info.tex: FORCE_MAKE
 	echo "" > ${TEXINFO}
-	echo "\mycourse_set_lastchanged:n { ${info_lastchange} }" >> ${TEXINFO}
-	echo "\mycourse_set_authors:n { ${info_authors} }" >> ${TEXINFO}
+	echo '\mycourse_set_lastchanged:n { ${info_lastchange} }' >> ${TEXINFO}
+	echo '\mycourse_set_authors:n { ${info_authors} }' >> ${TEXINFO}
 
 
 
