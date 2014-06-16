@@ -216,7 +216,7 @@ für alle $m, m_1, m_2 \in M$
 % Folg 5.5
 \begin{kor} \label{5.5}
 	Sei $R$ ein kommutativer Ring, $S \le R$ ein Teilring.
-	Dann bilden die ganzen Zahlen von $R$ über $S$ einen Teilring.
+	Dann bilden die ganzen Zahlen von $R$ über $S$ einen Teilring $\Gamma_R(S)$.
 	\begin{proof}
 		Folgt aus $S[r_1, \dotsc, r_n] = S[r_1, \dotsc, r_n, r]$ mit $r \in S[r_1, \dotsc, r_n]$ und \ref{5.4}.
 	\end{proof}
@@ -229,3 +229,209 @@ für alle $m, m_1, m_2 \in M$
 		$\A$ ist abzählbar.
 	\end{note}
 \end{kor}
+
+\coursetimestamp{16}{06}{2014}
+
+% Def 5.6
+\begin{df} \label{5.6}
+	Sei $R$ ein kommutativer Ring, $S \le R$ ein Teilring.
+	\begin{enumerate}[a)]
+		\item
+			$\Gamma_R(S)$ heißt \emphdef{ganzer Abschluss} von $S$ in $R$.
+		\item
+			$S$ heißt \emphdef{ganz abgeschlossen} in $R$, wenn $\Gamma_R(S) = S$ ist.
+		\item
+			$R$ heißt \emphdef{ganz über $S$}, wenn alle Elemente von $R$ ganz über $S$ sind.
+	\end{enumerate}
+\end{df}
+
+% Bem 5.7
+\begin{nt}
+	Sei $R_1$ ein kommutativer Ring, $R_1$ ganz über $R_2$ und $R_3$ ganz über $R_3$.
+	Dann ist auch $R_1$ ganz über $R_3$.
+	\begin{proof}
+		Sei $c \in R_1$.
+		Da $R_1$ über $R_2$ ganz ist, erfüllt $c$ eine Gleichung der Form
+		\[
+			c^n + b_1 c^{n-1} + \dotsb + b_n = 0,
+		\]
+		wobei $b_i \in R_2$.
+		Setze $\tilde R := R_3[b_1, \dotsc, b_n] \subset R_2$.
+		$c$ ist offensichtlich ganz über $\tilde R$.
+		Nach \ref{5.1} b) ist $\tilde R[c]$ ein endlich erzeugter $\tilde R$-Modul.
+		Da $\tilde R$ endlich erzeugt über $R_3$ ist, ist $\tilde R[c]$ ebenfalls ein endlich erzeugter $R_3$-Modul.
+		Mit \ref{5.1} b) ist also $c$ ganz über $R_3$.
+	\end{proof}
+\end{nt}
+
+\begin{lem} \label{5.8}
+	Ist $R$ faktoriell und $K = \Quot(R)$.
+	Dann ist $R$ in $K$ ganz abgeschlossen.
+	\begin{proof}
+		Sei $\f ab \in K$ ganz über $R$ mit $a,b \in R$.
+		Dann erfüllt $\f ab$ eine Gleichung der Form
+		\[
+			(\f ab)^n + \alpha_1 (\f ab)^{n-1} + \dotsb + \alpha_n = 0,
+		\]
+		wobei $\alpha_i \in R$.
+		Multipliziert man mit $b^n$, erhält man
+		\[
+			a^n + \alpha_1 b a^{n-1} + \dotsb + \alpha_n b^n = 0,
+		\]
+		d.h. $a^n = bx$ mit einem $x \in R$.
+		Jedes Primelement, das $b \in R$ teilt, teilt also auch $a$.
+		Mit Kürzung folgt dann, dass $b$ eine Einheit von $R$, d.h. $\f ab \in R$.
+	\end{proof}
+\end{lem}
+
+% Bem 5.9
+\begin{nt} \label{5.9}
+	\begin{enumerate}[a)]
+		\item
+			Sei $L$ endlichdimensionaler Erweiterungskörper des Körpers $K$, d.h. $\dim_K L < \infty$.
+			Sei $A$ ganz abgeschlossen in $K$ und sei $B$ der ganze Abschluss von $A$ in $L$, d.h. $B = \Gamma_L(A)$.
+
+			Dann gilt $\Gamma_L(B) = B$.
+		\item
+			Jedes Element $\beta \in L$ hat die Gestalt $\beta = \f ba$ mit $b \in B, a \in A$.			
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				$\Gamma_L(B)$ ist ganz über $B$ und $B$ ist ganz über $A$, somit ist nach \ref{5.7} $\Gamma_L(B)$ ganz über $A$.
+				Also ist $\Gamma_L(B) \subset \Gamma_L(A) = B \subset \Gamma_L(B)$ und somit $\Gamma_L(B) = B$.
+			\item
+				Es ist $\dim_K L < \infty$ und $\beta \in L$, also existieren $c_i \in K$ mit
+				\[
+					\beta^n + c_1 \beta^{n-1} + \dotsb + c_n = 0.
+				\]
+				Durchmultiplizieren mit dem Hauptnenner ergibt eine Form
+				\[
+					a_n \beta^n + a_{n-1} \beta^{n-1} + \dotsb + a_0 = 0
+				\]
+				mit $a_i \in A$.
+				Multipliziert man mit $a_n^{n-1}$, ergibt sich
+				\begin{align*}
+					a_n^n \beta^n + \dotsb a_i a_n^{n-1} \beta^i + \dotsb + a_n^{n-1} a_0 &= 0 \\
+					\iff \quad
+					(a_n \beta)^n + \dotsb \tilde a_i (a_n \beta)^i + \dotsb + \tilde a_n a_0 &= 0.
+				\end{align*}
+				$a_n \beta$ ist also ganz über $A$, $a_n \beta \in B$ und somit $\beta = \f b{a_n}$ mit $b \in B$.
+		\end{enumerate}
+	\end{proof}
+\end{nt}
+
+Die Situation ist anwendbar auf die klassische Zahlkörpersituation: $A = \Z, K = \Q$, $L$ ein algebraischer Zahlkörper und $B$ der ganze Abschluss von $\Z$ in $L$ (in der Literatur oft auch als $O_B$ bezeichnet).
+
+% St 5.10
+\begin{st} \label{5.10}
+	Sei $R$ ein noetherscher Ring und $M$ ein endlich erzeugter $R$-Modul.
+	Dann ist jeder Teilmodul von $M$ endlich erzeugt.
+	\begin{proof}
+		Sei $M = \<m_1, m_2, \dotsc, m_k\>_R$, wir zeigen die Aussage induktiv.
+		\begin{seg}{$k = 1$}
+			Sei $T$ ein Teilmodul von $M$.
+			Setze $I_T = \Set{ r \in R & rm_1 \in T }$.
+			Dann sieht man leicht, dass $I_T$ ein Ideal von $R$ ist.
+			Für Teilmoduln $T_1 \subset T_2$ von $M$ folgt $I_{T_1} \subset I_{T_2}$.
+			Ist $T_0 \subset T_1 \subset \dotsc$ eine austeigende Kette von Teilmoduln, dann ist $I_{T_0} \subset I_{T_1} \subset \dotsc$ eine aufsteigende Kette von Idealen, die abbricht, da $R$ noethersch.
+
+			Ist $I_{T_1} = I_{T_2}$, dann gilt auch $T_1 = T_2$, denn jedes Element von $M$ ist von der Form $r m_1$ mit $m_1 \in R$, da $M = \< m_1 \>_R$ zyklisch ist.
+			Also bricht die Kette $T_0 \subset T_1 \subset T_2 \subset \dotsc$ ab und nach \ref{5.11} ist jeder Teilmodul von $M$ endlich erzeugt.
+		\end{seg}
+		\begin{seg}{$k > 1$}
+			Sei $U$ ein Teilmodul von $M$.
+			Setze
+			\[
+				I_k(U) := \Set{ r \in R & \exists u \in U : u = \Big( \sum_{i=1}^{k-1} \alpha_i m_i \Big) + rm_k }.
+			\]
+			Dann verifiziert man leicht, dass $I_k(U)$ ein Ideal von $R$ ist.
+			Sind $U_i, U_{i+1} \le M$ Teilmoduln mit $U_i \subset U_{i+1}$, dann auch $I_k(U_i) \le I_k(U_{i+1})$.
+			Zu einer gegebenen Kette $U_0 \le U_1 \dotsb \le U_{i} \le U_{i+1} \le \dotsb$ von Teilmodul von $U$ gibt es ein Index $i_0$ mit $I_k(U_{i_0}) = I_k(U_m)$ für alle $m \ge i_0$, da $R$ noethersch.
+
+			Wir behaupten
+			\[
+				U_m = \< U_{i_0}, U_m \cap \<m_1, \dotsc, m_{k-1}\>_R \>_R,
+			\]
+			wobei $U_m \cap \<m_1, \dotsc, m_{k-1}\>$ Teilmodul von $\<m_1, \dotsc, m_{k-1}\>_R$ ist und nach Induktion endlich erzeugt ist.
+
+			Zeige nun die Behauptung.
+			„$\supset$“ ist trivial.
+			Sei $u = \sum_{i=1}^{k-1} \alpha_i m_i + r m_k \in U_m$, $\alpha_i, r \in R$.
+			Dann existierte $\tilde u \in U_{i_0}$ mitm
+			\[
+				\tilde n = \sum_{i=1}^{k-1} \beta_i m_i + r m_k
+			\]
+			wegen $I_k(U_{i_0}) = I_k(U_m), \beta_i \in R$.
+			Also ist wegen $m \ge i_0$
+			\[
+				u - \tilde u = \sum_{i=1}^{k-1} (\alpha_i - \beta_i) m_i  \in U_m \cap \< m_1, \dotsc, m_{k-1} \>.
+			\]
+			und somit gilt auch „$\subset$“.
+
+			Setze nun $\tilde U_m = U_m \cap \<m_1, \dotsc, m_{k-1}$.
+			Dann gilt sicherlich $\tilde U_{i_0} \le \tilde U_{i_0 + 1} \le \dotsb \le \tilde U_m \le \tilde U_{m+1} \le \dotsc $.
+			Dies ist eine aufsteigende Kette von Teilmoduln von $\<m_1, \dotsc, m_{k-1}\>$.
+			Nach Induktion sind alle Teilmoduln von $\<m_1, \dotsc, m_{k-1}\>$ endlich erzeugt.
+			Mit \ref{5.11} existiert ein Index $j_0$ mit $\tilde U_{j_0} = \tilde U_m$ für alle $m \ge j_0$.
+			Mit der Behauptung folgt $U_m = \<U_{i_0}, \tilde U_{j_0}\> = \<U_{i_0}, U_{j_0}\> = U_{j_0}$ für alle $m \ge j_0$.
+			Die Ausgangskette bricht also ab und mit \ref{5.11} ist der Teilmodul $U$ endlich erzeugt.
+		\end{seg}
+	\end{proof}
+	\begin{note}
+		Aus \ref{5.10} folgt unmittelbar \ref{5.3}, denn $\Z$ ist ein noetherscher Ring.
+		Damit ist der Beweis von \ref{5.2} a) und b) abgeschlossen.
+
+		Insbesondere bilden die ganzen Elemente eines kommutativen Ringes $R$ einen Teilring von $R$ unabhängig davon, ob $\Z$ ein Teilring von $R$ ist.
+
+		Die Folgerung \ref{5.5} kann man für $\Z$ nur anwenden, wenn $\Z$ ein Teilring ist.
+	\end{note}
+\end{st}
+
+% Lem 5.11
+\begin{lem} \label{5.11}
+	Sei $M$ ein $R$-Modul und $R$ ein Ring.
+	Dann ist jeder Teilmodul von $M$ endlich erzeugt genau dann, wenn jede aufsteigende Kette von Teilmoduln bricht ab.
+	\begin{proof}
+		Verläuft analog zum Beweis von \ref{4.6}.
+		Andererseits ist \ref{4.6} ein Spezialfall von \ref{5.11}, denn betrachtet man $R$ über sich selbst als Modul (durch Linksmultiplikation), dann sind die (Links-)Ideale genau die Teilmoduln.
+	\end{proof}
+\end{lem}
+
+% Def 5.12
+\begin{st} \label{5.12}
+	Sei $A$ ganz abgeschlossen in $K = \Quot(A)$ und $L$ eine Körpererweiterung von $K$ mit $\dim_K L < \infty$.
+	Sei $B$ der ganze Abschluss von $A$ in $L$ (nach \ref{5.9} ist $B$ also ganz abgeschlossen in $L$).
+
+	Eine Teilmenge $S = \Set{ w_1, \dotsc, w_n } \subset B$ heißt \emphdef{Ganzheitsbasis} von $B$ über $A$, wenn $B$ ein freier $A$-Modul mit Basis $S$ ist.
+\end{st}
+
+Gibt es Ganzheitsbasen?
+
+\begin{nt} \label{5.13}
+	\begin{enumerate}[a)]
+		\item
+			Sei $S$ eine Ganzheitsbasis von $B$ über $A$.
+			Dann ist $S$ auch eine $K$-Basis von $L$, d.h. $n = \dim_K L$.
+			\begin{proof}
+				\ref{5.9} ist beim Beweis nützlich. \Exercise
+			\end{proof}
+		\item
+			Es gibt nicht immer Ganzheitsbasen.
+			In der Situation der Zahlkörpern $A = \Z, K = \Q$ gilt:
+			Der Ring der ganzen Zahlen in einem algebraischen Zahlkörper besitzt Ganzheitsbasen.
+		\item
+			Sei $B$ über $A$ ein endlich erzeugter $A$-Modul (schwächer als Existenz von Ganzheitsbasen, aber die Existenz von Ganzheitsbasen impliziert, dass $B$ endlich erzeugter $A$-Modul ist, also gilt dies in der Zahlkörpersituation).
+			Dann ist jedes Ideal von $B$ als $A$-Modul endlich erzeugt, wenn $A$ noethersch ist (nach \ref{5.10}).
+			Dies gilt insbesondere für $A = \Z$.
+			Ein Ring $R$ ganzer algebraischer Zahlen in einem algebraischen Zahlkörper ist also stets noethersch.
+			Die Eigenschaft noethersch „vererbt“ sich auf $B$.
+
+			Beachte: $B$ ist nicht immer ein Hauptidealbereich.
+		\item
+			Für $R = \Z$ gelten stärkere Aussagen als in \ref{5.10}, beispielsweise:
+
+			Ist $U \le F$ mit einem freien $\Z$-Modul $F$ von endlichem Rang $n$, dann ist auch $U$ frei von Rang $\le n$.
+	\end{enumerate}
+
+\end{nt}
