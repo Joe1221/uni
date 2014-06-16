@@ -422,5 +422,229 @@ Im Folgenden sei $K$ ein Körper mit $\Char K = 0$.
 	Endliche Gruppen mit einer solchen Kette von Untergruppen heißen \emphdef{auflösbar}.
 \end{nt}
 
+\coursetimestamp{16}{06}{2014}
 
 \section{Auflösbare Gruppen}
+
+\begin{df} \label{20.3-1}
+	Sei $G$ eine Gruppe.
+	Eine Kette
+	\[
+		G = G_0 \ge G_1 \ge \dotsb \ge G_m = (1)
+	\]
+	mit $G_{i+1} \Idealof G_i$ heißt \emphdef{Subnormalbasis} von $G$.
+	Besitzt $G$ eine Subnormalreihe mit abelschen Faktoren $G_i / G_{i+1}$, so heißt $G$ auflösbar.
+\end{df}
+
+Ein Satz von Feit-Thompson (1961) besagt:
+Sei $G$ eine endliche Gruppe und sei $|G| \in \N$ ungerade, dann ist $G$ auflösbar.
+
+\begin{df} \label{20.3-2}
+	Sei $G$ eine Gruppe und seien $h,g \in G$.
+	Dann heißt $[g, h] = ghg^{-1}h^{-1} \in G$ Kommutatior von $g$ und $h$ (da $[g,h]hg = ghg^{-1}h^{-1}hg = gh$ ist).
+\end{df}
+
+\begin{lem} \label{20.3-3}
+	Sei $G$ eine Grupe, $g, h, f \in G$.
+	Dann gilt
+	\begin{enumerate}[i)]
+		\item
+			$[g, h]^{-1} = [h, g]$,
+		\item
+			$[g, h]^f = f^{-1} [g,h] f = [g^f, h^f] = [f^{-1}g f, f^{-1} h f]$,
+		\item
+			Sei $\sigma \in \Aut(G)$ Automorphismus von $G$.
+			Dann ist $\sigma([g,h]) = [\sigma(g), \sigma(h)]$.
+	\end{enumerate}
+	\begin{proof}
+		Direkte Rechnung.
+	\end{proof}
+\end{lem}
+
+\begin{kor}
+	Sei $G$ eine Gruppe.
+	Dann heißt die von allen Kommutatoren $[g,h]$, $g, h \in G$ erzeugte Untergruppe von $G$ \emphdef{Kommutatoruntergruppe} von $G$ und wird mit $[G, G] = G'$ bezeichnet.
+	Sie ist nicht nur ein Normalteiler von $G$, sondern sogar eine \emphdef{charakteristische Untergruppe}, wobei $H \le G$ charakteristische Untergruppe genannt wird, falls $\sigma(H) = H$ für alle $\sigma \in \Aut(G)$.
+	Darüber hinaus gilt
+	\begin{enumerate}[i)]
+		\item
+			$G / [G, G]$ ist abelsch,
+		\item
+			Ist $H \le G$ mit $[G, G] \subset H$, so ist $H \Idealof G$ und $G / H$ ist abelsch,
+		\item
+			$H \Idealof G, G / H$ abelsche impliziert $[G, G] \subset H$.
+			So ist $[G, G]$ der kleinste Normalteiler von $G$ mit abelscher Faktorgruppe.
+	\end{enumerate}
+	\begin{proof}
+		Sei $\scr K = \Set{ [g,h] \in G & g,h \in G }$.
+		Dann ist $[G, G] = \bigcap_{\scr K \subset H \le G} H \le G$.
+		Wegen $\scr K' = \scr K$ besteht aus allen endlichen Produkten von Elementen von $\scr K$.
+		Wegen $\scr K^f = \Set{ [g,h]^f & g, h \in G } = \scr K$ ($f \in G$) ist $[G, G]$ invariant unter Konjugation, d.h. $[G, G] \NormalDivisor G$.
+		Wegen $\sigma(\scr K) = \scr K$ ist $[G, G]$ sogar invariant unter allen Automorphismen $\sigma$ von $G$ und daher charakteristisch in $G$.
+
+		Klar ist $[g,h] = 1 \iff ghg^{-1}h^{-1} = 1 \iff gh = hg$.
+		Also ist $G$ abelsch genau dann, wenn $[G, G] = (1)$.
+
+		\begin{enumerate}[i)]
+			\item
+				Sei $H = [G, G] \NormalDivisor G$, $g, h \in G$.
+				Dann ist in $G / H$: $[gH, hH] = gH hH (gH)^{-1}(hH)^{-1} = ghg^{-1}h^{-1} H = H = 1_{G / H}$.
+				Also ist $G / H$ abelsch.
+			\item
+				Ist $[G, G] \le H \le G$, so ist $H / [G,G] = \Set{ h [G,G] \in G / [G, G] & h \in H } \le G / [G, G]$ und ist daher abelsch.
+				Für $g, f \in G$ ist $gH fH = fH gH$ und daher $(fH)^{-1} (gH) fH = gH$, d.h. $H \NormalDivisor G$.
+
+				(Die Isomorphiesätze liefern eine Korrespondenz zwischen den Untergruppen $H \le G$ mit $[G, G] \subset H$ und den Untergruppen von $G / [G,G]$)
+			\item
+				Sei $H \NormalDivisor G$, $g, f \in g$, $G / H$ abelsch.
+				Dann ist $gfg^{-1}f^{-1} H = gH fH (gH)^{-1} (fH)^{-1} = [gH, fH] = 1_H = H$.
+				Also ist $gf g^{-1}f^{-1} \in H$, $\scr K \subset H$, $[G, G] \subset H$.
+		\end{enumerate}
+	\end{proof}
+\end{kor}
+
+\begin{df} \label{20.3-5}
+	Sei $G$ eine Gruppe.
+	Die $i$-te iterierte Kommutatoruntergruppe $D_i(G)$, $i \in \N$ wird induktiv definiert als
+	\begin{enumerate}[i)]
+		\item
+			$D_0(G) = G, D_1(G) = [G, G]$,
+		\item
+			Für $i \ge 1$: $D_i(G) := [D_{i-1}(G), D_{i-1}(G)] \NormalDivisor(G)$
+	\end{enumerate}
+	So ist $D_i(G) \le G, G = D_0(G) \ge D_1(G) \ge \dotsc \ge D_i(G)$ uund $D_i(G) \NormalDivisor D_{i-1}(G)$ mit $D_{i-1}(G) / D_i(G)$ abelsch.
+\end{df}
+
+\begin{st} \label{20.3-6}
+	$G$ ist genau dann auflösbar, falls $D_n(G) = (1)$ ist für ein $n \in \N$.
+	\begin{proof}
+		\begin{segnb}{\ProofImplication*}
+			Dann ist $G = D_0(G) \ge D_1(G) \ge \dotsc \ge D_{n-1}(G) \ge D_n(G) = (1)$ Subnormalreiche von $G$ mit abelschen Faktoren $D_i(G) / D_{i+1}(G)$ für $i = 0, \dotsc, n-1$ wegen $D_{i+1}(G) = [D_i(G), D_i(G)]$ (siehe \ref{20.3-4}).
+
+		\end{segnb}
+		\begin{segnb}{\ProofImplication}
+			Sei $G = G_0 \ge G_1 \dotsc \ge G_{n-1} \ge G_n = (1)$ Subnormalreihe von $G$ mit abelschen Faktoren.
+			Wir zeigen $D_i(G) \subset G_i$ (dann ist $D_n(G) \subset G_n = (1)$, also $D_n(G) = (1)$).
+			Für $i = 0$ ist $D_0(G) = G \subset G = G_0$.
+			Sei $i > 0$.
+			Angenommen wir haben $D_i(G) \subset G_i$ schon gezeigt.
+			Da nach Voraussetzung $G_i / G_{i+1}$ abelsch ist, ist nach \ref{20.3-4} iii) $[G_i, G_i] \subset G_{i+1}$.
+			Wegen $D_i(G) \subset G_i$ ist daher $D_{i+1}(G) = [D_i(G), D_i(G)] \subset [G_i, G_i]\subset G_{i+1}$.
+		\end{segnb}
+	\end{proof}
+\end{st}
+
+\begin{st} \label{20.3-7}
+	Untergruppen und epimorphe Bilder von auflösbaren Gruppen sind auflösbar.
+	Ist $G$ Gruppe, $H \NormalDivisor G$, so ist $G$ auflösbar genau dann, wenn $H$ und $G / H$ auflösbar sind.
+	% Kurze exakte Folge (1) -> H -> G -> G / H -> (1)
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				Sei $H \le G$ und $G$ auflösbar.
+				Dann ist $D_n(G) = (1)$ für ein $n \in \N$ nach \ref{20.3-6}.
+				Klar ist $[H, H] \subset [G, G]$ und allgemeiner $D_i(H) \le D_i(G)$.
+				Also ist $D_n(H) = (1)$, wenn $D_n(G) = 1$, d.h. $H$ ist auflösbar nach \ref{20.3-6}.
+			\item
+				Sei $N$ epimorphes Bild von $G$, d.h. sei $\pi: G \to N$ Gruppepimorphismus mit $\ker H \NormalDivisor G$ und sei $G$ auflösbar.
+				Sei \oBdA $N = G / H$.
+				Wegen $\pi([g,h]) = \pi(ghg^{-1}h^{-1}) = \pi(g)\pi(h)\pi(g)^{-1}\pi(h)^{-1} = [\pi(g), \pi(h)] \in [N, N]$ ist $\pi([G,G]) = [\pi(G), \pi(G)] = [N, N]$.
+				Allgemein ist $\pi(D_i(G)) = D_i(\pi(G)) = D_i(N)$.
+				Wegen $D_n(G) = (1)$ für ein $n \in \N$, folgt $D_n(N) = D_n(\pi(G)) = \pi(D_n(G)) = (\pi(1)) = (1_N)$ und daher $N$ auflösbar nach \ref{20.3-6}.
+			\item
+				Sei $H \NormalDivisor G$.
+				Ist $G$ auflösbar, so auch $H$ nach i) und $G / H$ nach ii).
+				Seien $H$ und $G / H$ auflösbar.
+				Dann gibt es ein $n \in \N$ so, dass $D_n(G / H) = (1_{G/H})$ ist.
+				Sei $\pi: G \to G /H = N$ die natürliche Projektion.
+				Wie oben ist $\pi(D_i(G)) = D_i(G / H)$ und daher ist $D_n(G) \subset H$ ($\pi(D_n(G))) = D_n(\pi(G)) = D_n(G / H) = (1_{G/H})$.
+				So ist $D_{n+1}(G) \subset [H, H]$ nd allgemein $D_{n+k}(G) \subset D_k(H)$.
+				Wegen $D_m(H) = (1)$ existiert $m \in \N$ ist daher $D_{n+m}(G) \subset D_m(H) = (1)$ und damit ist $G$ auflösbar nach \ref{20.3-6}.
+		\end{enumerate}
+
+	\end{proof}
+\end{st}
+
+\begin{df} \label{20.3-8}
+	Eine Gruppe $G$ ist \emphdef{einfach}, falls (1) und $G$ die einzigen Normalteiler von $G$ sind.
+	Eine endliche abelsche Gruppe ist einfach genau dann, wenn ihre Mächtigkeit eine Primzahl $p$ ist.
+	\begin{note}
+		Einfache, nicht abelsche Gruppen sind \emph{nicht} auflösbar.
+	\end{note}
+\end{df}
+
+Alle endlichen, einfachen Gruppen wurden klassifiziert (1982 / 2003).
+
+Sei $K$ ein Körper mit $\Char K = 0$.
+Eine Körpererweiterung $K \subset E$ heißt \emphdef{Radikalerweiterung}, wenn es eine Kette
+\[
+	K = L_0 \subset L_1 \subset \dotsb \subset L_m = E
+\]
+von Zwischenkörpern $L_i$ gibt, mit $L_{i+1} = L_i(\alpha_i)$, $\alpha_i^{k_i} \in L_i$ für ein $k_i \in \N$.
+In \ref{20.2-6} sahen wir, dass sich die $L_i$ und $E$ durch Einheitswurzeln so erweitern lassen, dass $E$ galoissch über $K$ und $L_{i+1}$ galoissch über $L_i$ ist für $i = 0, \dotsc, m-1$.
+Als Korollar haben wir in \ref{20.2-7} gesehen, dass dies zur Folge hat, dass $G(E / K)$ (endliche) aufösbare Gruppe ist.
+Eine Gleichung $f(x) = 0$ mit $f \in K[x]$ heißt \emphdef{durch Radikale auflösbar}, falls es eine Radikalerweiterung $E$ von $K$ gibt, so dass $f$ in $E[x]$ in Linearfaktoren zerfällt.
+
+\begin{st} \label{20.3-9}
+	Sei $K$ ein Körper mit $\Char K = 0$ und sei $K \subset E \subset \_K$ eine Radikalerweiterung von $K$.
+	Dann ist $G(E/K) = \Aut_K(E)$ eine auflösbare Gruppe.
+	\begin{proof}
+		Nach \ref{20.2-5} und \ref{20.2-6} finden wir einen Erweiterungskörper $E'$ von $E$ mit $[E' : E] < \infty$ und $E'$ ist normal über $K$ (und daher galoissch über $K$) und ist Radikalerweiterung mit Zwischenkörperkette $K = L_0 \le L_1 \le \dotsb \le L_m = E'$ so, dass $L_i$ galoissch über $K$ ist und daher ist nach \ref{20.2-7} $G(E' / K)$ auflösbar.
+		Sei $\sigma \in \Aut_K(E)$, so ist $\sigma: E \to E \injto \_K$ ein $K$-Homomorphismus von $E$ in $\_K$.
+		Nach dem Fortsetzungssatz \ref{18.4-7} existiert nun $\hat \sigma \in \Hom_K(E', \_K)$ mit $\hat \sigma|_E = \sigma$.
+		Da $E'$ normal über $K$ ist $\im \hat \sigma = E' \subset \_K$, d.h. $\hat \sigma \in \Aut_K(E')$.
+		Die Abbildung $\sigma \mapsto \hat \sigma$ von $\Aut_K(E)$ in $\Aut_K(E')$ ist injektiver Gruppenhomomorphismus.
+		Also ist $\Aut_K(E)$ isomorph zu einer Untergruppe von $\Aut_K(E') = G(E / K)$ und ist daher auflösbar nach \ref{20.3-7}.
+	\end{proof}
+\end{st}
+
+\begin{nt} \label{20.3-10}
+	Ist $K \subset E \subset \_K$ mit $[E : K] < \infty$ und ist $G(E / K)$ auflösbar, so ist $E$ Radikalerweiterung von $K$.
+	\begin{proof}
+		Siehe Literatur.
+	\end{proof}
+\end{nt}
+
+\begin{kor} \label{20.3-11}
+	Sei $f \in K[x]$.
+	Dann ist $f(x) = 0$ genau dann durch Radikale auflösbar, wenn der Zerfällungskörper $E$ von $f$ über $K$ auflösbare Galoisgruppe über $K$ hat, d.h. $G(E / K)$ ist auflösbar.
+	\begin{proof}
+		Sei \oBdA $f$ separabel über $K$.
+		\begin{seg}{\ProofImplication}
+			Sei $E'$ Radikalerweiterung so, dass $f$ in $E'[x]$ in Linearfaktoren zerfällt und sei $E$ der Zerfällungskörper von $f$ über $K$.
+			Dann ist $E \subset E', E = K(\alpha_1, \dotsc, \alpha_n)$ mit $f = (x-\alpha_1) \dotsb (x-\alpha_n) \in \_K[x]$ und $\alpha_1, \dotsc, \alpha_n \in E'$ sein müssen.
+			Nach \ref{20.2-5} können wir annehmen, dass $E'$ normal über $K$ ist und nach \ref{20.3-9} ist $G(E' / K)$ auflösbar.
+			Da $E$ galoissch über $K$, ist $G(E' / E) \NormalDivisor G(E' / K)$ und daher ist $G(E / K) \isomorphic G(E' / K) / G(E' / E)$.
+			Also ist $G(E / K)$ epimorphes Bild der auflösbaren Gruppe $G(E' / K)$ und daher auflösbar nach \ref{20.3-7}.
+		\end{seg}
+		\begin{seg}{\ProofImplication*}
+			Siehe \ref{20.3-10}, wird hier ausgelassen.
+		\end{seg}
+	\end{proof}
+\end{kor}
+
+Zurück zur allgemeinen Glichung vom Grad $n$:
+sei $K$ ein Körper mit $\Char K = 0$, $a_0, a_1, \dotsc, a_{n-1}$ sind Unbestimmte und $F = K(a_0, \dotsc, a_{n-1})$ ist der Körper der rationalen Funktionen über $K$ in den Unbestimmeten $a_0, \dotsc, a_{n-1}$.
+Dann ist $f(x) = a_0 + a_1 x + \dotsb + a_{n-1} x^{n-1} + x^n$ und $f(x) = 0$ ist die allgemeine Gleichung vom Grad $n$ über $K$.
+Sei $E$ der Zerfällungskörper von $f$ über $K$.
+\ref{20.3-11} sagt nun: $f$ ist durch Radikale auflösbar impliziert, dass $G(E / F)$ auflösbare Gruppe ist.
+Also zeigen wir $G(E / F) \isomorphic O_n$ (symmetrische Gruppe) und dann $O_n$ ist nicht auflösbar für $n \ge 5$.
+
+Dann kann $f = 0$ für $n \ge 5$ nicht durch Radikale auflösbar sein.
+Warum ist $G(E / F) \isomorphic O_n$?
+
+Ein emotionales Argument: Die Unbestimmten $a_0, \dotsc, a_{n-1}$ über $K$ sind alle „gleich gut“, permutiert man diese, so kommt doch wieder die allgemeine Gleichung vom Grad $n$ raus.
+
+Im nächsten Abschnitt wollen wir das rigoros beweisen.
+
+
+\section{Die Galoisgruppe der allgemeinen Gleichung}
+
+Wir brauchen zunächst noch folgenden Verallgemeinerung des Satzes \ref{19.4-15} von Artin.
+
+\begin{st} \label{20.4-1}
+	Sei $K \subset E$ beliebige (nicht notwendigerweise algebraische) Körpererweiterung und sei $H$ \emph{endliche} Untergruppe von $\Aut_K(E) = G(E / K), L = E^H$.
+	Dann ist $E$ algebraisch, endlich und galoissch über $L$ mit Galoisgruppe $G(E / L) = H$.
+	Insbesondere ist $[E : L] = |H| < \infty$.
+\end{st}
+
