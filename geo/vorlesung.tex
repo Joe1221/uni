@@ -23,6 +23,27 @@
 \DeclareDocumentCommand{\dx}{ o }{\IfNoValueTF{#1}{\mathord{\mathrm{d}\mkern-1mu x}}{\mathord{\mathrm{d}\mkern-1mu #1}}}
 \DeclareDocumentCommand{\Det}{ }{\det}
 
+\ExplSyntaxOn
+\DeclareDocumentCommand { \ProofImplication } { s t( t) o o } {
+    \normalfont \selectfont
+    \IfNoValueTF { #4 } {
+        „ \, $
+        \IfBooleanTF { #1 } { \impliedby } { \implies }
+        $ \, “
+    } {
+        „ \,
+        \IfBooleanTF { #2 } { ( } { }
+        \int_to_roman:n { #4 }
+        \IfBooleanTF { #3 } { ) } { }
+        $ \IfBooleanTF { #1 } { \impliedby } { \implies } $
+        \IfBooleanTF { #2 } { ( } { }
+        \int_to_roman:n { #5 }
+        \IfBooleanTF { #3 } { ) } { }
+        \, “
+    }
+}
+\ExplSyntaxOff
+
 \title{Geometrie}
 
 \begin{document}

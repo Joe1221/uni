@@ -280,7 +280,7 @@ Regelflächen (eigentlich Flächenklassen, engl. “ruled surface”) entstehen 
 	\[
 		f(u,v) = c(u) + v X(u)
 	\]
-	zulässt, wobei $c$ eine $C^2$-Kurve (nicht notwendig regulär) und $X$ ein nirgends verschwindendes Vektorfeld längs $c$ mit \oBdA $\|x\| = 1$.
+	zulässt, wobei $c$ eine $C^2$-Kurve (nicht notwendig regulär) und $X$ ein nirgends verschwindendes Vektorfeld längs $c$ mit \oBdA $\|X\| = 1$.
 	$c(u)$ heißt \emphdef{Leitkurve}.
 	Die Geraden $v \mapsto c(u)$ für festes $u$ heißen \emphdef{Erzeugende}, oder \emphdef{Regelgeraden}.
 	\begin{note}
@@ -310,7 +310,7 @@ Gibt es ausgezeichnete Parameter für eine Regelfläche?
 Wir wollen eine ausgezeichnete Kurve finden.
 
 \begin{lem}[Standardparameter]
-	Sei $f: U \to \R^3, f(u,v) = c(u) + v X(u)$ eine reguläre Regelfläche mit $\|X\| = 1$ und überall $X' = \ddx[u]{U} \neq 0$ („$f$ sei nirgends zylindrisch“).
+	Sei $f: U \to \R^3, f(u,v) = c(u) + v X(u)$ eine reguläre Regelfläche mit $\|X\| = 1$ und überall $X' = \ddx[u]{X} \neq 0$ („$f$ sei nirgends zylindrisch“).
 	Dann kann man so umparametrisieren, dass $f_*(u,v) = c_*(u) + vX_*(u)$ mit $\|X_*\| = \|X_*'\| = 1$ und $\<c_*', x_*'\> = 0$.
 	\begin{proof}
 		Da $X$ als Kurve regulär ist, kann man den Bogenlängenparameter einführen, welchen wir ebenfalls mit $u$ bezeichnen.
@@ -561,4 +561,143 @@ Soll diese Bedingung für beliebiges $\phi$ gelten, so muss also $H = 0$ gelten.
 	\end{enumerate}
 \end{kor}
 
+
+Sei $f: U \to \R^3$ sei konform parametrisiert, d.h. $(g_{ij}) = \lambda \Matrix{1 & 0 \\ 0 & 1}$, oder äquivalent $g_{11} = g_{22} \land g_{12} = 0$.
+Lokal lässt sich jedes Flächenstück derart parametrisieren (ohne Beweis).
+
+Dann gilt
+\[
+	\Laplace f = \pddx[u_1^2]{f} + \pddx[u_2^2]{f} = 2 H \lambda \nu,
+\]
+wobei $H$ die mittlere Krümmung ist.
+$H \equiv 0$ bedeutet: jede der drei Koordinatenfunktionen $f_1, f_2, f_3$ ist harmonisch.
+Aus der Funktionentheorie weiß man:
+der Realteil komplex analytischer Funktionen ist harmonisch (mit CR-Gleichung).
+Daher ist es naheliegend, Minimalflächen als Realteil komplexer Funktionen zu betrachten.
+
+\begin{st}
+	Sei $f: U \to \R^3$ konforme Minimalfläche, $f = (f_1, f_2, f_3)$.
+	Setze
+	\[
+		\phi_k(u + iv) := \pddx[u]{f_k}(u,v) - i \pddx[v]{f_k}(u,v)
+	\]
+	für $k \in \{1, 2, 3\}$.
+	\begin{enumerate}[(i)]
+		\item
+			$f$ ist konform genau dann, wenn $\phi_1^2 + \phi_2^2 + \phi_3^2 = 0$
+		\item
+			Falls $f$ eine konforme Parametrisierung ist, so ist $f$ eine Minimalfläche genau dann, wenn $\phi_1, \phi_2, \phi_3$ komplex analyttisch (holomorph) sind.
+		\item
+			Falls umgekehrt $\phi_1, \phi_2, \phi_3$ komplex analytisch sind mit $\phi_1^2 + \phi_2^2 + \phi_3^2 = 0$, dann ist das durch die obigen Gleichungen definierte $f$ regulär (also eine Immersion) genau dann, wenn $\phi_1\_\phi_1 + \phi_2\_\phi_2 + \phi_3\_\phi_3 \neq 0$
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[(i)]
+			\item
+				Es gilt
+				\[
+					\phi_1^2 + \phi_2^2 + \phi_3^2
+					= \< \pddx[u]{f}, \pddx[u]{f} \> + i^2 \<\pddx[v]{f}, \pddx[v]{f}\> - 2i \< \pddx[u]{f}, \pddx[v]{f}
+				\]
+				gleich Null, genau dann, wenn $g_{11} - g_{22} = 0$ und $g_{12} = 0$.
+			\item
+				Es gilt
+				\begin{align*}
+					(\Re \phi_k)_u &= (f_k)_{uu}, & (\Im \phi_k)_v &= - (f_k)_{vv} \\
+					(\Re \phi_k)_v &= (f_k)_{uv}, & (\Im \phi_k)_u &= - (f_k)_{uv}
+				\end{align*}
+				Also $(\Re \phi_k)_u = (\Im \phi_k)_v$ genau dann, wenn $f_k$ harmonisch, $(\Re \phi_k)_v = -(\Im \phi_k)_u$.
+			\item
+				\[
+					\phi_1 \_\phi_1 + \phi_2 \_\phi_2 + \phi_3 \_\phi_3
+					= |\phi_1|^2 + |\phi_2|^2 + |\phi_3|^2
+					= \sum_{i=1}^3 \Big( \<\pddx[u]{f_i}, \pddx[u]{f_i} \> + \<\pddx[v]{f_i}, \pddx[v]{f_i} \> \Big)
+					= \< \pddx[u]{f}, \pddx[u]{f} \> + \< \pddx[v]{f}, \pddx[v]{f} \>
+					\ge 0
+				\]
+				Gleich 0 gilt genau dann, wenn $\lambda = 0$, also genau dann, wenn $(\delta_{ij}) = 0$, Singularität.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	In einem einfach zusammenhängenden Gebiet $U \subset \C$ seien drei holomorphe Funktionen $\phi_k: U \to \C$ gegeben mit $\phi_1^2 + \phi_2^2 + \phi_3^2 = 0$ und $\phi_1\_\phi_1 + \phi_2 \_\phi_2 + \phi_3 \_\phi_3 \neq 0$.
+	Dann ist für festes $z_0 \in U$ die durch
+	\[
+		f_k(z) = \Re \int_{z_0}^z \phi_k(\zeta) \di[\zeta]
+	\]
+	definierte Abbildung $f: U \to \R^3$ ein reguläres Minimalflächenstück.
+\end{kor}
+
+\begin{kor}
+	$f: U \to \R^3$ sei ein Minimalflächenstück ohne Flachpunkte, $f \in C^3$.
+	Dann gibt es eine Parametrisierung derart, dass die drei Komponentenfunktionen reell-analytisch $C^\omega$ sind, also lokal in ihre Talyorreihe entwickelbar sind.
+\end{kor}
+
+\begin{lem}
+	Drei beliebig gegebene holomorphe Funktionen $\phi_1, \phi_2, \phi_3: U \to \C$ mit $\phi_1^2 + \phi_2^2 + \phi_3^2 = 0$ (wobei keines der $\phi_i$ identisch verschwindet) kann man eine holomorphe Funktion $F: U \to \C$ ungleich $0$ und eine meromorphe, nicht konstante Funktion $G: U \to \C \cup \{\infty\}$ zuordnen derart, dass $F G^2$ holomorph ist und
+	\begin{align*}
+		\phi_1 &= \f F2 (1 - G^2), &
+		\phi_2 &= \f {iF}{2} (1 + G^2), &
+		\phi_3 &= FG.
+	\end{align*}
+	Umgekehrt induziert jedes gegebene $F, G$ mit obigen Eigenschaften ein entsprechendes $\phi$ mit $\phi_1^2 + \phi_2^2 + \phi_3^2 = 0$
+	\begin{proof}
+		\begin{seg}{\ProofImplication*}
+			Man rechnet
+			\[
+				\phi_1^2 + \phi_2^2 + \phi_3
+				= \f {F^2}{4} (1 - G^2)^2 - \f {F^2}{4} (1 + G^2)^2 + F^2 G^2
+				= 0
+			\]
+		\end{seg}
+		\begin{seg}{\ProofImplication}
+			Setze $F := \phi_1 - i \phi_2$ und $G := \f{\phi_3}{\phi_1 - i \phi_2}$.
+			$F$ ist offenbar analytisch und $G$ meromorph.
+			Man rechnet
+			\[
+				FG^2 = (\phi_1 - i\phi_2) \f{\phi_3^2}{(\phi_1 - i \phi_2)^2}
+				= \f{-(\phi_1^2 + \phi_2^2)}{\phi_1 - i \phi_2}
+				= -\f{(\phi_1 + i \phi)(\phi_1 - i \phi_2)}{\phi_1 - i \phi_2}
+				= -(\phi_1 + \phi_2),
+			\]
+			also ist $FG^2$ holomorph.
+			$|\phi_1|^2 + |\phi_2|^2 + |\phi_3|^2 = 0$ genau dann, wenn $F = 0$ und $FG = 0$ überall (nicht reguläre Punkte).
+		\end{seg}
+	\end{proof}
+\end{lem}
+
+\begin{st}
+	Jede konform parametrisierte Minimalfläche $f$, die keine Ebene ist, lässt sich lokal darstellen durch
+	\begin{align*}
+		f_1(z) &= \Re \int_{z_0}^z \f 12 F(\zeta) (1 - G^2(\zeta)) \di[\zeta], \\
+		f_2(z) &= \Re \int_{z_0}^z \f i2 F(\zeta) (1 B G^2(\zeta)) \di[\zeta], \\
+		f_3(z) &= \Re \int_{z_0}^z F(\zeta)G(\zeta) \di[\zeta],
+	\end{align*}
+	wobei $F, G$ wie oben gewählt sind.
+	Der Parameterbereich muss dabei so gewählt werden, dass die auftretenden Integrale wegunabhängig sind.
+
+	Umgekehrt definiert jedes vorgegebene Paar $(F(z), G(z))$ mit holomorphem $FG^2$ ein konform parametrisiertes Minimalflächenstück $f$.
+	Dieses $f$ ist regulär, wenn $F$ höchstens an den Polen von $G$ verschwindet und dort $FG^2 \neq 0$ gilt.
+\end{st}
+
+\begin{ex}
+	\begin{enumerate}[2.]
+		\item
+			Das Katenoid
+		\item
+			Das Helikoid (Wendelfläche).
+	\end{enumerate}
+	Gilt $\phi_1^2 + \phi_2^2 + \phi_3^2 = 0$, so auch $(e^{i\theta} \phi_1)^1 + (e^{i\theta} \phi_2)^2 + (e^{i\theta} \phi_3)^2 = 0$ und
+	\[
+		g_{12}
+		= g_{22}
+		= \f 12 (|\phi_1|^2 + |\phi_2|^2 + |\phi_3|^2).
+		= \f 12 (|e^{i\theta}\phi_1|^2 + |e^{i\theta} \phi_2|^2 + |e^{i\theta} \phi_3|^2).
+	\]
+	Mit anderen Worten $(g_{ij})$ ändert sich nicht durch Multiplikation mit $e^{i\theta}$, beide isometrisch.
+
+	Katenoid und Helikoied sind lokal isometrisch zueinander, beides sind Minimalflächen, $H = 0$, beide haben dieselbe gGauß-Krümmung.
+	Insbesondere haben damit beide Flächen auch die selben Hauptkrümmungen.
+	Dennoch sind beide nicht (lokal) kongruent.
+\end{ex}
 
