@@ -646,5 +646,198 @@ Wir brauchen zunächst noch folgenden Verallgemeinerung des Satzes \ref{19.4-15}
 	Sei $K \subset E$ beliebige (nicht notwendigerweise algebraische) Körpererweiterung und sei $H$ \emph{endliche} Untergruppe von $\Aut_K(E) = G(E / K), L = E^H$.
 	Dann ist $E$ algebraisch, endlich und galoissch über $L$ mit Galoisgruppe $G(E / L) = H$.
 	Insbesondere ist $[E : L] = |H| < \infty$.
+\coursetimestamp{20}{06}{2014}
+	\begin{proof}
+		Sei $\alpha \in E$ und sei $\sigma_1 = 1, \sigma_2, \dotsc, \sigma_k \in H$ so, dass $\sigma_i(\alpha) \neq \sigma_j(\alpha)$ für $1 \le i, j \le k, i \neq j$ und so, dass für alle $i \in H$ ein $1 \le i \le k$ existiert mit $\tau(\alpha) = \sigma_i(\alpha)$.
+		So ist $\Set{ \sigma_i(\alpha) & i = 1, \dotsc, k } = \Set{ \tau(\alpha) & \tau \in H}$ und $\Set{ \sigma(\alpha_i) & i = 1, \dotsc, k } = \Set{ \tau \sigma_i(\alpha) & i = 1, \dotsc, k }$ für alle $\tau \in H$.
+		Sei $f = \prod_{i=1}^k (x - \sigma_i(\alpha)) \in E[x]$ ($\sigma_i(\alpha) \in E$ für $i = 1, \dotsc, k$).
+		Für $\tau \in H$ gilt
+		\[
+			\tau f = \prod_{i=1}^k (x - \tau \sigma_i(\alpha))
+			= \prod_{i=1}^k (x - \sigma_i(\alpha))
+		\]
+		Also ist $f \in L[x], L = E^H$ und $f$ ist separabel über $L$.
+		Wegen $\sigma_1(\alpha) = \alpha$ ist $f(\alpha) = 0$ und daher ist $\alpha \in E$ algebraisch über $L$ und separabel über $L$.
+		Da $E$ sämtliche Nullstellen von $f$ enthält, enthält $E$ den Zerfällungskörper von $f$ über $L$;
+		dies gilt für alle $\alpha \in E$.
+		Daher ist $E$ normal über $L$ und daher galoissch über $L$.
+
+		Klar ist $H \le G(E / L)$ nach Konstruktion und daher folgt die Behauptung $H = G(E / L)$ aus \ref{20.4-1}, wenn man dort $K$ durch $L$ ersetzt.
+	\end{proof}
 \end{st}
 
+Sei $K$ ein Körper und seien $t_1, \dotsc, t_n$ Unbestimmte, $R = K[t_1, \dotsc, t_n]$ der Polynomring, $E = Q(R) = K(t_1, \dotsc, t_n)$ der Körper der rationalen Funktionen in den Unbestimmten $t_1, \dotsc, t_n$ über $K$.
+Permutationen $\sigma \in O_n$ induzieren $K$-Automorphismen von $R$, bzw. $E$ wie folgt.
+
+\begin{df} \label{20.4-2}
+	Sei $\sigma \in O_n$.
+	Dann wird durch $\sigma(t_i) = t_{\sigma(i)}$ ein $K$-Algebraautomorphismus von $R$ und von $E$ induziert (universelle Eigenschaft von Polynomringen \ref{15.1-17} und Fortsetzung auf Quotientenkörper \ref{15.2-4}).
+	Offensichtlich ist $O_n$ auf diese Weine (endliche) Untergruppe von $\Aut_K(E) = G(E / K)$.
+\end{df}
+
+\begin{st} \label{20.4-3}
+	Sei $K$ Körper, $E = K(t_1, \dotsc, t_n)$ und $O_n \le \Aut_K(E)$, wie in \ref{20.4-2}.
+	Sei $L = E^{O_n}$ der Fixkörper von $E$ unter $O_n$.
+	Dann ist $E$ algebraisch und galoissch über $L$ mit Galoisgruppe $O_n = G(E / L)$.
+	\begin{proof}
+		Klar mit \ref{20.4-1}.
+	\end{proof}
+\end{st}
+
+Wir wollen jetzt den Fixkörper $L$ unter $O_n$ näher beschreiben:
+Eine rationale Funktion (Polynom) $f(t_1, \dotsc, t_n) \in E$ (bzw. $R$) heißt \emphdef{symmetrisch}, falls $\sigma f = f$ ist für alle $\sigma \in O_n$ (d.h. falls $f \in L$ ist).
+So ist
+\[
+	f(t_1, \dotsc, t_n) \in L
+	\iff
+	\forall \sigma \in O_n : f(t_1, \dotsc, t_n) = f(t_{\sigma(1)}, \dotsc, t_{\sigma(n)}).
+\]
+Hier sind einige spezielle symmetrische Polynome:
+
+\begin{ex} \label{20.4-4}
+	Die elementar symmetrischen Polynome
+	\begin{align*}
+		s_1 &= t_1 + \dotsb + t_n \\
+		s_2 &= \sum_{1 \le i < j \le n} t_i t_j  \\
+		s_3 &= \sum_{1 \le i < j < k \le n} t_i t_j t_k \\
+		s_{n-1} &= \sum_{1 \le i_1 < i_2 < \dotsb < i_{n-1} \le n} t_{i_1} t_{i_2} \dotsb t_{i_{n-1}} \\
+		s_n &= t_1 t_2 \dotsb t_n
+	\end{align*}
+	Offensichtlich erzeugen $s_1, \dotsc, s_n$ über $K$ eine $K$-Unteralgebra $K[s_1, \dotsc, s_n]$ von $K[t_1, \dotsc, t_n]$ und es gilt $K[s_1, \dotsc, s_n] \subset L = E^{O_n}$.
+\end{ex}
+
+Klar ist: $K[s_1, \dotsc, s_n] \subset K[t_1, \dotsc, t_n]$.
+Nach \ref{15.1-17} induziert $t_i \mapsto s_i$ einen $K$-Algebrahomomorphismus $\eps$ von $K[t_1, \dotsc, t_n]$ auf $K[s_1, \dotsc, s_n]$, der darin besteht, dass man in Polynomen $f(t_1, \dotsc, t_n) \in K[t_1, \dotsc, t_n]$ die Variablen $t_1, \dotsc, t_n$ durch die (symmetrischen) Polynome $s_1, \dotsc, s_n$ ersetzt.
+
+\begin{st} \label{20.4-5}
+	$\eps$ ist ein $K$-Algebra-Isomorphismus.
+
+	Insbesondere ist $K[s_1, \dotsc, s_n]$ $K$-isomorph zu $K[t_1, \dotsc, t_n]$ und daher ist $K(s_1, \dotsc, s_n)$ $K$-isomorph zu $E = K(t_1, \dotsc, t_n)$.
+	\begin{proof}
+		Sei $f(t_1, \dotsc, t_n) \in \ker \eps$, dann ist $0 = f(s_1, \dotsc, s_n)$ wieder ein Polynom $g(t_1, \dotsc, t_n) \in K[t_1, \dotsc, t_n]$, $g = 0$, ein Widerspruch (durch Ausmultiplizieren).
+		Also ist $\eps$ injektiv und surjektive sowieso, also ein $K$-Algebra-Isomorphismus.
+	\end{proof}
+\end{st}
+
+Mit \ref{15.2-4} lässt sich nun die Einbettung $K[s_1, \dotsc, s_n] \subset K[t_1, \dotsc, t_n]$ zu einer $K$-Einbettung $K(s_1, \dotsc, s_n) \subset K(t_1, \dotsc, t_n)$ fortsetzen, d.h. wir haben gezeigt:
+
+\begin{kor} \label{20.4-6}
+	Sei $E = K(t_1, \dotsc, t_n)$ der Körper der rationalen Funktionen über $K$ in den Unbestimmten $t_1, \dotsc, t_n$.
+	Dann sind die elementarsymmetrischen Funktionen $s_1, \dotsc, s_n$ in den $t_i$ algebraisch unabhängig und erzeugen einen Unterkörper $K(s_1, \dotsc, s_n)$ von $E$, der in $L = E^{O_n}$ enthalten ist: $K \subset K(s_1, \dotsc, s_n) \subset L \subset E$.
+\end{kor}
+
+Wir bestrachten das Polynom $f(x) = E[x]$, wobei $E = K(t_1, \dotsc, t_n)$, definiert durch
+\[
+	f(x) = (x-t_1)(x-t_2) \dotsb (x-t_n) \in E[x].
+\]
+
+\begin{lem} \label{20.4-7}
+	Sei $E = K(t_1, \dotsc, t_n)$ wie oben und $f(x) = \prod_{i=1}^n (x - t_i) \in E[x]$.
+	Dann ist
+	\[
+		f(x) = x^n - s_1 x^{n-1} + s_2 x^{n-2} - \dotsb + (-1)^{n-1} s_{n-1} x + (-1)^n s_n
+	\]
+	und ist daher in $K(s_1,\dotsc, s_n)[x]$ enthalten.
+	So ist $E$ der Zerfällungskörper von $f(x) \in K(s_1, \dotsc, s_n)[x]$ über $K(s_1, \dotsc, s_n) \subset E$.
+	\begin{proof}
+		Um den Koeffizienten von $x^{n-i}$ von $f(x)$ zu berechnen, muss man alle Produkte
+		\[
+			(-t_{\nu_1})(-t_{\nu_2}) \dotsb (-t_{\nu_i})
+			= (-1)^i t_{\nu_1} \dotsb t_{\nu_i}
+		\]
+		aufsummieren mit $1 \le \nu_1 < \nu_2 < \dotsb < \nu_i \le n$ und damit erhält man $(-1)^i s_i$.
+		Offensichtlich gilt $K(t_1, \dotsc, t_n) \subset (K(s_1,\dotsc, s_n))(t_1, \dotsc, t_n) \subset E = K(t_1, \dotsc, t_n)$.
+		Also ist $(K(s_1,\dotsc, s_n))(t_1, \dotsc, t_n) = E$ und $E$ entsteht aus $K(s_1,\dotsc, s_n)$ durch Ajunktion der Nullstellen $t_1, \dotsc, t_n$ von $f \in K(s_1,\dotsc, s_n)[x]$.
+		Also ist $E$ galoissch über $K(s_1, \dotsc, s_n)$.
+	\end{proof}
+\end{lem}
+
+\begin{kor} \label{20.4-8}
+	Sei $E = K(t_1, \dotsc, t_n)$ und seien $s_1, \dotsc, s_n$ die elementarsymmetrischen Funktionen in den $t_1, \dotsc, t_n$ und sei $L$ der Körper der symmetrischen rationalen Funktionen in den $t_1, \dotsc, t_n$.
+	So ist $L = E^{O_n}$.
+	Dann ist $L = K(s_1, \dotsc, s_n)$ und damit ist jede symmetrische rationale Funktion in den $t_1, \dotsc, t_n$ eindeutig gegeben als rationale funktion in den elementarsymmetrischen Funktionen $s_1, \dotsc, s_n$.
+	Insbesondere ist $E$ algebraisch und galoissch über $K(s_1, \dotsc, s_n)$ mit Galoisgrupppe $O_n$.
+	\begin{proof}
+		Nach \ref{19.5-1} ist $G(E / L_1) \le O_n$ (als Permutationen der Nullstellen von $f$), $L_1 = K(s_1, \dotsc, s_n)$.
+		Wir wissen bereits $G(E / L) = O_n$.
+		Wir haben daher wegen $K \subset L_1 \subset L \subset E$ mit dem Hauptsatz der Galoistheorie
+		\[
+			O_n = G(E / L)
+			\le G(E / L_1)
+			\le O_n
+		\]
+		Also ist $G(E / L) = G(E / L_1) = O_n$ und nach dem Hauptsatz $L = L_1$.
+	\end{proof}
+\end{kor}
+
+Zurück zur allgemeinen Gleichung vom Grad $n$ über $K$.
+Seien $a_0, \dotsc, a_{n-1}$ Unbestimmte, $F = K(a_0, \dotsc, a_{n-1})$, $f = a_0 + a_1 x + \dotsb + a_{n-1} x^{n-1} + x^n \in F[x]$, $E$ der Zerfällungskörper von $f$ über $K$.
+Seien $\alpha_1, \dotsc, \alpha_n \in E$ die Nullstellen von $f$ in $E$, so ist $f(x) = (x-\alpha_1)(x-\alpha_2) \dotsb (x- \alpha_n) \in E[x]$ und $E = F(\alpha_1, \dotsc, \alpha_n)$.
+
+\begin{lem} \label{20.4-9}
+	$F(\alpha_1, \dotsc, \alpha_n) = K(\alpha_1, \dotsc, \alpha_n)$ und $K(\alpha_1, \dotsc, \alpha_n)$ ist $K$-isomorph zum Körper $K(t_1, \dotsc, t_n)$ der rationalen Funktionen in den Unbestimmten $t_1, \dotsc, t_n$, induziert durch den auswertungshomomorphismus $\eps: t_i \mapsto \alpha_i$.
+	\begin{note}
+		Daher ist insbesondere $\alpha_i \neq \alpha_j$ für $1 \le i, j \le n, i \neq j$, d.h. $f$ ist separabel.
+	\end{note}
+	\begin{proof}
+		Offenbar ist $K(\alpha_1, \dotsc, \alpha_n) \subset F(\alpha_1, \dotsc, \alpha_n)$, da $K \subset F$.
+		Nun ist $E = F(\alpha_1, \dotsc, \alpha_n) = (K(a_0, \dotsc, a_{n-1}))(\alpha_1, \dotsc, \alpha_n)$.
+		Durch Ausmultiplizieren von $f = (x-\alpha_1) \dotsb (x-\alpha_n)$ ergibt sich $a_i = (-1)^{n-i} s_{n-i}(\alpha_1, \dotsc, \alpha_n)$.
+		Daher ist $a_i \in K(\alpha_1, \dotsc, \alpha_n)$.
+		Also $F(\alpha_1, \dotsc, \alpha_n) \subset K(a_0, \dotsc, a_{n-1})(\alpha_1, \dotsc, \alpha_n) \subset K(\alpha_1, \dotsc, \alpha_n)$ und $E = F(\alpha_1, \dotsc, \alpha_n) = K(\alpha_1, \dotsc, \alpha_n)$.
+		Die Abbildung $\eps: K[t_1, \dotsc, t_n] \to K(\alpha_1, \dotsc, \alpha_n): h(t_1, \dotsc, t_n) \mapsto h(\alpha_1, \dotsc, \alpha_n)$ ist $K$-Algebra-Homomorphismus (siehe \ref{15.1-17}).
+
+		Angenommen $\eps$ ist nicht injektiv.
+		Sei $h(t_1, \dotsc, t_n) \ker \eps$, d.h. $h(\alpha_1, \dotsc, \alpha_n) = 0$.
+		Setze
+		\[
+			H(t_1, \dotsc, t_n)
+			:= \prod_{\sigma \in O_n} h\Big(t_{\sigma(1)}, \dotsc, t_{\sigma(n)} \Big)
+			= \prod_{\sigma \in O_n} \sigma h .
+		\]
+		Dann ist $\tau H = H$ für alle $i \in O_n$.
+		Also lässt sich $H$ nach \ref{20.4-8} als rationale Funktion in den $s_1, \dotsc, s_n$ (welche Polynome in $t_1, \dotsc, t_n$ sind) schreiben, d.h. es existiert $N \in K[t_1, \dotsc, t_n]$ mit $H(t_1, \dotsc, t_n) = N(s_1, \dotsc, s_n)$.
+		Beachte, dass $H(t_1, \dotsc, t_n) = h(t_1, \dotsc, t_n) \prod_{1 \neq \sigma \in O_n} h(t_{\sigma(1)}, \dotsc, t_{\sigma(n)})$.
+		Also ist
+		\[
+			H(\alpha_1, \dotsc \alpha_n)
+			= h(\alpha_1, \dotsc, \alpha_n) \prod_{1 \neq \sigma \in O_n} \sigma h(\alpha_1, \dotsc, \alpha_n)
+			= 0.
+		\]
+		Andererseits wegen $s_i(\alpha_1, \dotsc, \alpha_n) = \pm a_i$ ist $\eps(N(s_1, \dotsc, s_n)) = N(\pm a_{n-1}, \dotsc, \pm a_0) = \tilde N(a_0, \dotsc, a_{n-1}) = 0$.
+		Der Zähler $g$ (ein Polynom in $a_0, \dotsc, a_{n-1}$ mit Koeffizienten in $K$) muss ebenfalls $0$ sein, d.h. $a_0, \dotsc, a_{n-1}$ können nicht algebraisch unabhängig über $K$ sein.
+		Also ist $\eps: K[t_1, \dotsc, t_n] \to K(\alpha_1, \dotsc, \alpha_n)$ injektiv und kann mit \ref{15.2-4} zu einem injektiven $K$-Homomorphismus $\eps: K(t_1, \dotsc, t_n) \to K(\alpha_1, \dotsc, \alpha_n)$ ausgedehnt werden ($K$-Isomorphismus nach \ref{18.3-7}).
+	\end{proof}
+\end{lem}
+
+\begin{kor} \label{20.4-10}
+	Sei $K$ ein Körper, $F = K(a_0, \dotsc, a_{n-1})$ Körper der rationalen Funktionen in den Variablen $a_0, \dotsc, a_{n-1}, f = a_0 + a_1 x + \dotsb + a_{n-1} x^{n-1} + x^n \in F[x]$ und sei $E$ der Zerfällungskörper von $f$ über $F$.
+	Dann ist $E$ galoissch über $F$ mit Galoisgruppe $G(E / F) \isomorphic O_n$.
+	\begin{proof}
+		 Sei $f = (x-\alpha_1) \dotsb (x-\alpha_n) \in E[x]$.
+		 Dann ist nach \ref{20.4-9} $E = F(\alpha_1, \dotsc, \alpha_n) = K(\alpha_1, \dotsc, \alpha_n) = K(t_1, \dotsc, t_n)$ durch den $K$-Isomorphismus $\eps: K(t_1, \dotsc, t_n) \to K(\alpha_1, \dotsc, \alpha_n), t_i \mapsto \alpha_i$.
+		 Dabei gehen die elmentarsymmetrischen Funktionen $s_i(t_1, \dotsc, t_n$ bis aufs Vorzeichen in $\eps(s_i) = s_i(\alpha_1, \dotsc, \alpha_n) = \pm a_{n-i} \in F$ über und daher auch der Fixkörper $K(s_1, \dotsc, s_n)^L = K(t_1, \dotsc, t_n)^{O_n}$ in den Körper $f = K(a_0, \dotsc, a_{n-1})$.
+		 Also haben wir $K$-Isomorphismen $\eps: K(t_1, \dotsc, t_n) \to K(\alpha_1, \dotsc, \alpha_n) = E$ mit $\eps(L) = \eps(K(t_1, \dotsc, t_n)^{O_n}) = F$.
+		 Also ist $\Aut_F(E) = G(E / F) \isomorphic \Aut_L (K(t_1, \dotsc, t_n)) = O_n$ (siehe \ref{20.4-8}).
+	\end{proof}
+\end{kor}
+
+\begin{nt} \label{20.4-11}
+	Wegen $|O_n| = n!$ folgt unmittelbar
+	\begin{enumerate}[1.]
+		\item
+			Da $\deg f = n$ ist, ist $f$ irreduzibel und separabel über $F$.
+		\item
+			Seien $\alpha_1, \dotsc, \alpha_n$ die Nullstellen von $f$ in $E$, $L_i = F(\alpha_1, \dotsc, \alpha_i) \subset E$ für $i = 1, \dotsc, n$.
+			Dann ist $L_0 = F \subset L_1 \subset \dotsb \subset L_n = E_1$, $L_i = L_{i-1}(\alpha_i)$ mit $\mu_{\alpha_i, L_{i-1}} = (x-\alpha_i)\dotsb (x-\alpha_n) \in L_{i-1}[x]$ für $i = 1, \dotsc, n-1$.
+	\end{enumerate}
+	\begin{proof}
+		Zeige den zweiten Teil, der erste folgt.
+		Sei $\mu_i = \mu_{\alpha_i, L_{i-1}}$ von Grad $k_i$.
+		Dann ist $[E : F] = [L_1 : L_0 ][L_2 : L_1] \dotsb [E : L_{n-1}] = k_1 \dotsb k_n$.
+		Wir haben $[L_1 : L_0] \le n$, da $\mu_{\alpha_1, F} \divs f$ ist.
+		$[L_2 : L_1] \le n-1$, da $\mu_{\alpha_2, L_1} \divs (x-\alpha_2) \dotsb (x-\alpha_n)$ usw.
+		Also $[L_i : L_{i-1}] \le n - i + 1$.
+		Wegen $[E : F] = n!$ folgt die Behauptung.
+	\end{proof}
+\end{nt}
