@@ -40,7 +40,7 @@ view: $(PDFTARGETS)
 
 # Special compilation targets
 
-default: | config-clear all
+default: | clean config-clear all
 print: | config-print all
 
 book-a5-booklet: | config-print config-book all
