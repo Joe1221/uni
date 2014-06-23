@@ -1,0 +1,296 @@
+\label{chap:6}
+\chapter{Kettenbrüche}
+
+\coursetimestamp{23}{06}{2014}
+
+% 6.1 (Endliche Kettenbrüche)
+\begin{ex}[Endliche Kettenbrüche]
+	Für $a, b \in \Z$ ergibt sich der Euklidische Algorithmus durch
+	\begin{align*}
+		a &= v_0 b + r_1 \\
+		b &= v_1 r_1 + r_2 \\
+		r_1 &= v_2 r_2 + r_3 \\
+		\vdots \; &= \quad \vdots \\
+		r_{n-2} &= r_{n-1} v_{n-1} + r_n \\
+		r_{n-1} &= v_n r_n
+	\end{align*}
+	Umschreiben und ineinander Einsetzen ergibt
+	\begin{align*}
+		\begin{aligned}
+			\f ab &= v_0 + \f {r_1}b \\
+			\f b{r_1} &= v_1 + \f {r_2}{r_1} \\
+			\f {r_1}{r_2} &= v_2 + \f{r_3}{r_2} \\
+			\vdots &\;= \quad \vdots \\
+			\f {r_{n-2}}{r_{n-1}} &= v_{n-1} + \f{r_n}{r_{n-1}} \\
+			\f {r_{n-1}}{r_n} &= v_n
+		\end{aligned}
+		\quad\leadsto\quad
+		\begin{aligned}
+			\f ab
+			&= v_0 + \dfrac 1{v_1 + \f{r_2}{r_1}} \\
+			&= v_0 + \dfrac 1{v_1 + \f 1{v_2 + \f {r_3}{r_2}}} \\
+			&= \dotso
+		\end{aligned}
+	\end{align*}
+	Schließlich erhält man
+	\[
+		\dfrac ab
+		= v_0 + \dfrac 1{v_1 + \dfrac 1{v_2 + \dfrac 1{\ddots + \dfrac 1{v_{n-2} + \dfrac 1{v_{n-1} + \dfrac 1{v_n}}}}} }.
+	\]
+	Diesen Kettenbruch nennt man die \emphdef{Kettenbruchentwicklung} von $\f ab \in \Q$.
+	Wir nutzen die Schreibweise
+	\[
+		\f ab = [v_0, v_1, v_2, \dotsc, v_n]
+	\]
+
+	Allgemeiner bezeichnet man mit
+	\[
+		[x_0, x_1, \dotsc, x_n],
+	\]
+	wobei $x_i \in \R$, $x_0 \ge 0$ und $x_i > 0$ für $i \ge 1$, einen Bruch der Form
+	\[
+		x_0 + \dfrac 1{x_1 + \dfrac 1{x_2 + \dfrac 1{\ddots + \dfrac 1{x_{n-1} + \dfrac 1{x_n}}}}}
+	\]
+	als \emphdef{endlicher Kettenbruch}.
+\end{ex}
+
+% Ex 6.2
+\begin{ex} \label{6.2}
+	\begin{enumerate}[a)]
+		\item
+			Betrachte den euklidischen Algorithmus zu $a = 15, b = 4$:
+			\begin{align*}
+				15 &= 3 \cdot 4 + 3 \\
+				4 &= 1 \cdot 3 + 1 \\
+				3 &= 3 \cdot 1,
+			\end{align*}
+			also
+			\[
+				\f {15}{4} = [3, 1, 3] = 3 + \f {1}{1 + \f{1}{3}}.
+			\]
+		\item
+			Ähnlich wie oben ergibt sich
+			\[
+				\f {64}9 = [2, 4, 1, 5].
+			\]
+	\end{enumerate}
+\end{ex}
+
+% 6.3 (Unendliche Kettenbrüche)
+\begin{nt}[Unendliche Kettenbrüche] \label{6.3}
+	Man kann analog für irrationale Zahlen Kettenbruchentwicklungen folgender Art definieren.
+	Wir schreiben $\ceil{a}$ für die größte ganze Zahl, die $\le \alpha \in \R$ ist, z.B. $\ceil{\sqrt 2} = 1$.
+
+	Sei $\alpha \in \R^+ \setminus \Q$.
+	Dann schreibe
+	\[
+		\alpha = a_0 + \f 1{\f 1{\alpha - a_0}}
+	\]
+	mit $a_0 = \ceil{\alpha}$.
+	Aus $\alpha - a_0 < 1$ folgt $\alpha_1 = \f 1{\alpha - a_0} > 1$, setze $a_1 := \ceil{\alpha_1}$.
+	Dann ist
+	\[
+		\alpha = a_0 + \dfrac 1{a_1 + \frac 1{\frac 1{\alpha_1 - a_1}}}.
+	\]
+	Iteriert man diesen Prozess, entsteht ein unendlicher Kettenbruch, dessen Einträge $a_i \in \N$ für $i \ge 1$ und $a_0 \in \N_0$.
+	Würde diese Iteration abbrechen, dann wäre $\alpha \in \Q$.
+	Wir schreiben
+	\[
+		[a_0, a_1, a_2, \dotsc].
+	\]
+	Allgemein kann man
+	\[
+		[x_0, x_1, x_2, \dotsc]
+	\]
+	mit $x_i \in \R^+$ für $i \ge 1$ und $x_0 \in \R_0^+$ definieren.
+\end{nt}
+
+% Bsp 6.4
+\begin{ex} \label{6.4}
+	\begin{enumerate}[a)]
+		\item
+			Sei $\alpha := \pi$, dann ergibt sich
+			\[
+				\pi = [3, 7, 15, 1, \dotsc].
+			\]
+			Man erhält als Näherungsbrüche
+			\[
+				[3] = 3, [3, 7] = \f {22}7, [3, 7, 15] = \f {333}{106}, [3, 7, 15, 1] = \f {355}{113},
+			\]
+			mit
+			\[
+				3 < \f {333}{106} < \pi  < \f {355}{113} < \f {22}{7}.
+			\]
+		\item
+			Sei $\alpha := \sqrt 2$, dann ergibt sich
+			\begin{align*}
+				\sqrt 2
+				&= 1 + (\sqrt 2 - 1)
+				= 1 + \f 1{\f 1{\sqrt 2 - 1}}
+				= 1 + \f 1{\sqrt 2 + 1} \\
+				&= 1 + \f 1{2 + \sqrt 2 - 1}
+				= 1 + \f 1{2 + \f 1{\f 1{\sqrt 2 - 1}}}
+				= 1 + \f 1{2 + \f 1{2 + \f 1{2 + \sqrt 2 - 1}}} \\
+				&= \dotsc
+				= [1, 2, 2, 2, \dotsc]
+			\end{align*}
+			Wir schreiben auch
+			\[
+				\sqrt 2 = [1, \_2],
+			\]
+			$\sqrt 2$ besitzt also eine periodische Kettenbruchentwicklung.
+		\item
+			$\alpha := \f 12 (\sqrt 5 - 1)$ hat die periodische Kettenbruchentwicklung $[0, \_1]$.
+			$\beta := \f 12 (\sqrt 5 + 1)$ hat die periodische Kettenbruchentwicklung $[1, \_1]$.
+
+			Dies sind die Nullstellen von $x^2 - x - 1 = 0$.
+			Die Kettenbruchentwicklung erkennt man leicht an $\beta = 1 + \f 1{\beta}$.
+	\end{enumerate}
+\end{ex}
+
+% Lem 6.5
+\begin{lem} \label{6.5}
+	Für Kettenbrüche gilt
+	\begin{enumerate}[a)]
+		\item
+			Es gilt
+			\[
+				[x_0, \dotsc, x_{n-1}, x_n + \f 1{x_{n+1}}]
+				= [x_0, \dotsc, x_n, x_{n+1}].
+			\]
+		\item
+			Zu einem gegebenen Kettenbruch $[x_0, \dotsc, x_n]$ setze
+			\begin{align*}
+				P_0 &:= x_0, & P_1 &:= x_1 x_0 + 1, & &\dotsc& P_k &:= x_k P_{k-1} + P_{k-2} \\
+				Q_0 &:= 1, & Q_1 &:= x_1, & &\dotsc& Q_k &:= x_k Q_{k-1} + Q_{k-2}
+			\end{align*}
+			für $2 \le k \le n$.
+			Dann gilt
+			\[
+				[x_0, \dotsc, x_k] = \f {P_k}{Q_k}
+			\]
+			für $0 \le k \le n$.
+		\item
+			Es gilt
+			\[
+				\f {P_k}{Q_k} - \f {P_{k-1}}{Q_{k-1}}
+				= \f {(-1)^{k+1}}{Q_k Q_{k+1}}
+			\]
+			und
+			\[
+				\f {P_k}{Q_k} - \f {P_{k-2}}{Q_{k-2}}
+				= \f {(-1)^{k+1}x_k}{Q_{k-2} Q_k}
+			\]
+			für $2 \le k \le n$.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Folgt aus der Definition.
+			\item
+				Zeigt man per Induktion mittels a).
+			\item
+				In Matrixschreibweise schreibt sich b) folgendermaßen
+				\[
+					\Vector{P_k & Q_k} = \Matrix{P_{k-1} & P_{k-2} \\ Q_{k-1} & Q_{k-2}} \Vector{x_k & 1},
+				\]
+				bzw.
+				\begin{align*}
+					\Matrix{P_k & P_{k-1} \\ Q_k & Q_{k-1}}
+					&= \Matrix{P_{k-1} & P_{k-2} \\ Q_{k-1} & Q_{k-2}} \Matrix{x_k & 1 \\ 1 & 0} \\
+					&= \Matrix{P_{k-2} & P_{k-3} \\ Q_{k-2} & Q_{k-3}} \Matrix{x_{k-1} & 1 \\ 1 & 0} \Matrix{x_k & 1 \\ 1 & 0} \\
+					&= \prod_{i=0}^k \Matrix{x_i & 1 \\ 1 & 0}.
+				\end{align*}
+				In der Determinante also
+				\[
+					\Matrix|{P_k & P_{k-1} \\ Q_k & Q_{k-1}} = (-1)^{k+1}.
+				\]
+				Für $k \ge 2$ ist
+				\[
+					\Matrix{P_k & P_{k-2} \\ Q_k & Q_{k-2}}
+					= \Matrix{P_{k-1} & P_{k-2} \\ Q_{k-1} & Q_{k-2}} \Matrix{x_k & 0 \\ 1 & 1}
+				\]
+				und die Behauptung folgt ähnlich wie oben.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+% Folg 6.6
+\begin{kor} \label{6.6}
+	Für $0 \le k \le n$ sei $\beta_k = \f {P_k}{Q_k}$ (man nennt dies den $k$-ten Näherungsbruch des Kettenbruchs $\alpha = [a_0, a_1, \dotsc, a_n]$).
+	Setze voraus, dass $a_0 \in \N_0$ und $a_i \in \N$ für $i \ge 1$.
+	Dann gilt für $n$ gerade
+	\begin{align*}
+		\beta_0 < \beta_2 < \dotsb < \beta_n = \alpha < \beta_{n-1} < \dotsb < \beta_3 < \beta_1
+	\end{align*}
+	und für $n$ ungerade
+	\begin{align*}
+		\beta_0 < \beta_2 < \dotsb < \beta_{n-1} = \alpha < \beta_n < \dotsb < \beta_3 < \beta_1.
+	\end{align*}
+	\begin{proof}
+		Aus den Voraussetzungen an die $a_i$ folgt, dass alle $P_k$ für $k \ge 1$ und alle $Q_k$ für $k \ge 0$ positive ganze Zahlen sind, $P_0 = a_0 \in \N_0$.
+		Aus \ref{6.5} c) folgt, dass
+		\[
+			\beta_k - \beta_{k-2}
+			= \f {(-1)^k a_k}{Q_{k-2}Q_k}
+		\]
+		kleiner $0$ für $k$ ungerade und größer $0$ für $k$ gerade.
+		Analog $\beta_k - \beta_{k-1}$ ist kleiner $0$ für $k$ gerade und größer $0$ für $k$ ungerade.
+
+		Für $n$ gerade gilt mit der ersten Aussage $\beta_0 < \beta_2 < \dotsb  < \beta_n = \alpha$ und $\beta_{n-1} < \beta_{n-3} < \dotsb < \beta_1$.
+		Mit der zweiten AUssage schließlich $\alpha = \beta_n < \beta_{n-1}$.
+		Analog umgekehrt für $n$ ungerade.
+	\end{proof}
+\end{kor}
+
+% St 6.7
+\begin{st} \label{6.7}
+	Sei $\alpha = [a_0, a_1, \dotsc, a_n]$ ein endlicher Kettenbruch mit $a_0 \in \N_0, a_i \in \N$ für $i \ge 1$.
+	Ferner sei $\beta_k = \f {P_k}{Q_k}$ der $k$-te Näherungsbruch.
+	Dann gilt für $0 \le k \le n-1$, dass
+	\[
+		| \alpha - \beta_k | \le \f 1{Q_k Q_{k+1}} < \f 1{Q_k^2} \le \f 1{k^2},
+	\]
+	wobei für die mittlere Ungleichung $k \ge 1$ vorausgesetzt wird.
+
+	Ferner gilt
+	\begin{enumerate}[a)]
+		\item
+			$Q_k > Q_{k-1}$ für $2 \le k \le n$.
+		\item
+			$Q_1 \ge 1, Q_2 \ge 2, Q_3 \ge 3$ und $Q_k > k$ für $4 \le k \le n$.
+	\end{enumerate}
+	\begin{proof}
+		Aus \ref{6.6} folgt, dass $|\alpha - \beta_k| \le |\beta_{k+1} - \beta_k|$.
+		Nach \ref{6.5} b) gilt $|\beta_{k+1} - \beta_k| = \f 1{Q_k Q_{k+1}} < \f 1{Q_k^2} \le \f 1{k^2}$ mit a) und b).
+
+		Es verbleibt, a) und b) zu zeigen.
+		\begin{enumerate}[a)]
+			\item
+				Für $2 \le k \le n$ gilt nach Definition von $Q_k$, dass
+				\[
+					Q_k = a_k Q_{k-1} + Q_{k-2}
+					\ge Q_{k-1} + 1.
+				\]
+			\item
+				$Q_1 = a_1 \in \N$, also $Q_1 \ge 1$ und direkt mit a) auch $Q_2 \ge 2, Q_3 \ge 3$.
+				Für $k \ge 4$ ist
+				\[
+					Q_k = a_k Q_{k-1} + Q_{k-2}
+					\ge Q_{k-1} + 2
+					\ge k - 1 + 2
+					> 2.
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+Betrachte eine Folge $(a_i)_{i \in \N}$, mit $a_0 \in \N_0$.
+$(\beta_k)_{k\in\N} = [a_0, a_1, \dotsc, a_n]$ ist eine Folge mit rationalen Koeffizienten.
+Die Folge $(\beta_k){k \in \N}g$ ist dann wegen \ref{6.7} eine Cauchyfolge, konvergiert also gegen $a \in \R$ und es gilt für $n - k$ ungerade
+\begin{equation}
+	\label{eq:6.8} % fixme
+	|\alpha - \beta_k| \le | \beta_n - \beta_k| < \f 1{Q_k^2} \le \f 1{k^2}
+	\tag{6.8}
+\end{equation}
+\eqref{eq:6.8} wird zum Beweis von \ref{4.20} benötigt.
