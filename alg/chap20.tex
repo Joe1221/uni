@@ -863,3 +863,172 @@ Seien $\alpha_1, \dotsc, \alpha_n \in E$ die Nullstellen von $f$ in $E$, so ist 
 		Wegen $[E : F] = n!$ folgt die Behauptung.
 	\end{proof}
 \end{nt}
+
+\coursetimestamp{23}{06}{2014}
+
+\section{Die Einfachheit der alternierenden Gruppen \texorpdfstring{$A_n, n \ge 5$}{Aₙ, n≥5}}
+
+$U(\Z) = \{1, -1\}$ ist eine (multiplikative) zylkische Gruppe mit Erzeuger $-1$ (wegen $(-1)^2 = 1$) und die Abbildung $\sign: \S_n \to U(\Z)$, die jeder Permutation $\sigma \in \S_n$ ihr Signum $\sign$ ist ein Gruppenepimorphismus mit Kern $A_n = \Set{ \sigma \in \S_n & \sign(\sigma) = 1}$ (alternierende Gruppe).
+$A_n$ hat Index $2$ in $\S_n$ und ist daher Normalteiler von $S_n$.
+
+Sei $K$ Körper, $f(x) \in K[x]$.
+In \ref{20.3-11} sahen wir, dass $f(x)$ nur dann durch Radikale auflösbar ist, wenn die Galoisgruppe ders Zerfällungskörpers von $f$ über $K$ auflösbare Gruppe ist.
+\ref{20.4-10} besagt, dass die Galoisgruppe der \emph{allgemeinen} Gleichung $f(x) = 0$ (d.h. die Galoisgruppe des Zerfällungskörpers von $f$ über $K(a_0, \dotsc, a_{n-1})$) die symmetrische Gruppe $\S_n$ ist, wobei $n = \deg f$.
+Also ist $f(x) = 0$ nur dann durch Radikale auflösbar, wenn $\S_n$ auflösbar ist.
+$A_n$ ist nicht abelsch für $n \ge 4$ und (wie wir gleich zeigen werden) für $n \ge 5$ einfach, und daher für $n \ge 5$ nicht auflösbar.
+
+\begin{st} \label{20.5-1}
+	Sei $n \ge 5$, dann ist die allgemeine Gleichung nicht durch Radikale auflösbar.
+\end{st}
+
+Zum Beweis des Satzes fehlt also nur noch der Nachweis, dass $A_n$ für $n \ge 5$ nicht auflösbar ist.
+Wir führen diesen, indem wir zeigen, dass $A_n$ für $n \ge 5$ eine einfache Gruppe ist, d.h. außer $(1)$ und $A_n$ keine weiteren Normalteiler besitzt.
+Diese Aussage ist natürlich auch per se interessant, $\Set{ A_n & n \ge 5}$ ist eine Serie nicht-abelscher, einfacher Gruppen.
+
+
+\begin{nt} \label{20.5-2}
+	Betrachte die Ausnahmefälle $1 \le n \le 4$:
+	\begin{enumerate}[{n=}1]
+		\item
+			$A_n = (1) = \S_n$,
+		\item
+			$A_n = (1) \le \S_n = \{1, (1,2) \}$.
+		\item
+			$\S_n = \S_3$ hat Ordnung $3! = 6$ und $A_3$ hat daher Ordnung $3$ und kann daher keine echten, nichttrivialen Untergruppen besitzen.
+			Daher $A_3 \isomorphic C_3$, $\S_3 / A_3 \isomorphic c_2$, also ist $\S_3$ auflösbar.
+		\item
+			$|\S_4| = 4! = 24$, also $|A_4| = 12$.
+			Es gilt $V_4 \NormalDivisor A_4 \NormalDivisor \S_4$ mit
+			\[
+				V_4 = \Set{ 1, (12)(34), (13)(24), (14)(23) } \isomorphic C_2 \times C_2,
+			\]
+			der \emphdef{kleinschen Vierergruppe}.
+			Außerdem $A_4 / V_4 \isomorphic C_3, \S_4 / A_4 \isomorphic C_2$.
+	\end{enumerate}
+\end{nt}
+
+\begin{df} \label{20.5-3}
+	Sei $G$ eine Gruppe, $g, h \in G$.
+	Dann heißen $g$ und $h$ \emphdef{konjugiert} in $G$, falls ein $x \in G$ existiert mit $g^x = x^{-1}gx = h$.
+	Wir schreiben dann $g \sim_G h$.
+	$\sim_G$ ist eine Äquivalenzrelation auf $G$ (leichte Übung)
+	Die Äquivalenzklassen heißen \emphdef{Konjugationsklassen} von $G$.
+	Die Konjugationsklasse, die $g \in G$ enthält, wird mit $g^G$ bezeichnet.
+
+	\begin{note}
+		Offenbar ist $g^G = \Set{x^{-1}gx & x \in G} \subset G$.
+		Es gilt: $G$ abelsch genau dann, wenn $\forall g\in G : g^G = \Set g$.
+	\end{note}
+\end{df}
+
+\begin{lem} \label{20.5-4}
+	Sei $n \ge 3$.
+	Dann wird $A_n$ durch die $3$-Zykeln erzeugt.
+	\begin{proof}
+		Sei $(a,b,c)$ ein $3$-Zykel, d.h. $a, b, c \in \{1, \dotsc, n\}$ sind paarweise verschieden.
+		Dann ist $(a,b,c) = (bc, ac)$ Produkt zweier Transpositionen und daher gerade, d.h. enthalten in $A_n$ (siehe \ref{13.4-19}).
+		Jedes Element von $A_n$ kann wieder als Produkt einer geraden Anzahl von Transpositionen geschrieben werden.
+		Daher genügt es, zu zeigen, dass jedes Produkt zweier Transpositionen als Produkt von $3$-Zykeln geschrieben werden kann.
+
+		Seien $a, b, c \in \{1, 2, \dotsc, n\}$.
+		Wir unterscheiden folgende Fälle
+		\begin{enumerate}[i)]
+			\item
+				Seien jeweils $2$ der $a, b, c, d$ gleich.
+				\OBdA gilt $1 = (a,b)(a,b) = (1,2,3)^3$.
+			\item
+				Sei $a \neq c$.
+				Dann ist $(a,b)(b,c) = (a, b, c)$.
+			\item
+				Seien $a, b, c, d$ paarweise verschieden.
+				Dann ist
+				\[
+					(a,b)(c,d) = (a,b)(b,c)(b,c)(c,d) = (a,b,c)(b,c,d).
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+\begin{lem} \label{20.5-5}
+	Sei $n \ge 5$.
+	Dann sind die $3$-Zykeln in $A_n$ nicht nur in $\S_n$, sodern schon in $A_n$ konjugiert.
+	\begin{proof}
+		Seien $\phi = (a_1, a_2, a_3), \psi = (b_1, b_2, b_.)$ zwei $3$-Zykeln in $A_n$.
+		Sei $\sigma \in \S_n$ mit $\sigma(a_1) = b_1, \sigma(a_2) = b_2, \sigma(a_3) = b_3$.
+		Dann ist nach \ref{13.4-26}
+		\[
+			\sigma \phi \sigma^{-1} = \sigma (a_1, a_2, a_3) \sigma^{-1} = (\sigma(a_1), \sigma(a_2), \sigma(a_3)) = (b_1, b_2, b_3) = \psi.
+		\]
+		Wegen $n \ge 5$ gibt es $c, d \in \Set{1, \dotsc, n} \setminus \Set{1, \dotsc, 3}$ mit $c \neq d$.
+		Dann sind $\phi$ und $(c,d)$ disjunkte Zykeln und daher ist $\phi (c,d) = (c,d) \phi$ nach \ref{13.4-8}.
+		Daher gilt mit $\tau := \sigma (c,d)$
+		\[
+			\tau \phi \tau^{-1}
+			= \sigma (c,d) \phi (c,d)^{-1} \sigma^{-1}
+			= \sigma \phi (c,d)(c,d)^{-1} \sigma^{-1}
+			= \sigma \phi \sigma^{-1}
+			= \psi.
+		\]
+		Nun ist $\sign \tau = - \sign \sigma$ und daher ist entweder $\sigma$, oder $\tau$ in $A_n$ enthalten.
+	\end{proof}
+\end{lem}
+
+\begin{st} \label{20.5-6}
+	Sei $n \ge 5$.
+	Dann ist $A_n$ einfache Gruppe.
+	\begin{proof}
+		Sei $(1) \neq N \NormalDivisor A_n$.
+		Wir zeigen $N = A_n$.
+		Da $N$ normal in $A_n$ ist $\sigma \phi \sigma^{-1} \in N$ für alle $\phi \in N, \sigma \in A_n$.
+		Also gilt: enthält $N$ einen $3$-Zykel, dann alle $3$-Zykeln wegen \ref{20.5-5} ($n \ge 5$) und daher ist $N = A_n$ nach \ref{20.5-4}.
+
+		Es genügt also, zu zeigen, dass $N$ einen $3$-Zykel enthält.
+		Beachte: $N$ kann keine Transpositionen enthalten, da $N \subset A_n$.
+
+		Sei $1 \neq \phi \in N$.
+		Ist $\phi$ $3$-Zykel, so sind wir fertig.
+		Sei also $\phi$ kein $3$-Zykel.
+		Dann kommt in der Zykelzerlegung von $\phi$ ein Zykel der Länge $\ge 4$, oder neben einem $3$-Zykel noch mindestens ein Zykel der Länge $\ge 2$, oder eine gerade Anzahl $\ge 2$ von Transpositionen vor.
+		Wir haben also die folgenden Fälle:
+		\begin{enumerate}[i)]
+			\item
+				$\phi = (a,b,c,d, \dotsc) \dotsc$,
+			\item
+				$\phi = (a,b,c)(d,e, \dotsc) \dotsc$,
+			\item
+				$\phi = (a,b)(c,d) \dotsc$,
+		\end{enumerate}
+		wobei $a, b, c, d \in \Set{1, \dotsc, n}$ paarweise verschieden.
+		Beachte: Ist $\psi \in A_n$, so ist $\phi \psi \phi^{-1}\psi^{-1} \in N$.
+		\begin{enumerate}[i)]
+			\item
+				Sei $\psi = (a,b,n) \in A_n$.
+				Dann ist $\phi \psi \phi^{-1} = (b, c, d)$ und daher ist $\tau = \phi \psi \phi^{-1} \psi^{-1} = (b,c,d)(a,c,b) = (a,d,b) \in N$.
+			\item
+				Sei $\psi = (a,b,d) \in A_n$.
+				Dann ist $\phi \psi \phi^{-1} = (b, c, e)$ und daher ist $\phi \psi \phi^{-1}\psi^{-1} = (b,c,e)(a,d,b) = (a, d, c, e, b) \in N$.
+				Wegen i) folgt also, dass $N$ ein $3$-Zykel enthält.
+			\item
+				Es existiert $1 \le e \le n$ mit $e \not\in \Set{a, b, c, d}$.
+				Setze $\psi = (a,c,e) \in A_n$.
+				Dann ist $\phi \psi \phi^{-1} = (b, d, \phi(e))$.
+				Unterscheide die Fälle:
+				\begin{enumerate}[a)]
+					\item
+						Sei $\phi(e) = e$.
+						Dann ist $\phi \psi \phi^{-1} = (b,d,e)$, also $\phi \psi \phi^{-1} \psi^{-1} = (b,d,e)(a,e,c) = (a,b,d,e,c)$.
+						Mit i) enthält also $N$ einen $3$-Zykel.
+					\item
+						Sei $\phi(e) \neq e$.
+						Dann ist
+						\[
+							N \ni \phi \psi \phi^{-1} \psi^{-1}
+							= (b, d, \phi(e))(a, e, c).
+						\]
+						Mit ii) enthält also $N$ einen $3$-Zykel.
+				\end{enumerate}
+				Also enthält $N$ einen $3$-Zykel und daher alle $3$-Zykel und $A_n = N$.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
