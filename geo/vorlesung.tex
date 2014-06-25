@@ -42,6 +42,36 @@
         \, “
     }
 }
+
+\cs_new_eq:NN \ddx_old \ddx
+\cs_new_eq:NN \pddx_old \pddx
+
+\DeclareDocumentCommand{\ddx_int}{ mmG{} }
+{
+		\frac{
+			{#1} #3
+		}{
+			{#1} #2
+		}
+}
+\DeclareDocumentCommand{\ddx}{s O{x} g }
+{
+	\IfValueTF{#3}{
+        \ddx_int {\mathrm{d}}{#2}{#3}
+	}{
+        \ddx_int {\mathrm{d}}{#2}
+	}
+}
+\DeclareDocumentCommand{\pddx}{s O{x} g }
+{
+	\IfValueTF{#3}{
+        \ddx_int {\partial}{#2}{#3}
+	}{
+        \ddx_int {\partial}{#2}
+	}
+}
+
+
 \ExplSyntaxOff
 
 \title{Geometrie}
@@ -63,6 +93,7 @@
 \include{chap3}
 \include{chap4}
 \include{chap5}
+\include{chap6}
 
 \printindex[lectures]
 \printindex[terms]

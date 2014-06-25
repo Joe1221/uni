@@ -32,3 +32,145 @@ Im $\R^n$ gilt für ein Vektorfeld $Y$.
 	= \sum_{i} (D_X y_i) E_i
 \]
 
+\coursetimestamp{24}{06}{2014}
+
+Wir verwenden die folgenden Konventionen
+\[
+	(u^1, \dotsc, u^n) \in U,
+	(x^1, \dotsc, x^{n+1}) \in \R^{n+1}
+\]
+Der Grund ist die Summenkonvention
+\[
+	h_{ij} = \sum_{k} h_i^k g_{kj}
+\]
+
+In $\R^{n+1}$ gibt es die Richtungsableitung
+\[
+	D_xY|_p = DY|_p(X)
+	= \lim_{t\to 0} \f 1t (Y(p+tx) - Y(p))
+	= \lim_{t\to 0} \f 1t (Y(c(t)) - Y(p))
+\]
+für $c(0) = p, \dot c(0) = X$.
+Die Begründung für die letzte Gleichung ist
+\[
+	\ddx[t](Y \circ c)(t) \big|_{t=0}
+	= \Df[Y]\big|_{c(0)} (\ddx[t]{c}|_{t=0})
+	= \Df[Y]\big|_{p}(U)
+	= D_X Y|_p
+\]
+
+\begin{df}
+	Sei $f: U \to \R^{n+1}$, $Y$ sei differenzierbares Vektorfeld längs $f: U \ni u \mapsto Y(u)$, $X \in T_u f$ ein fester Tangentialvektor, $p = f(x)$.
+	Dann ist die Richtungsableitung $D_x Y|_p$ definiert durch
+	\[
+		D_x Y|_p := \lim_{t\to  0} \f 1t \Big( Y(\underbrace{u + t(\Df)^{-1}(X)}_{\gamma(t)}) - Y(u) \Big),
+	\]
+	wobei $X = \Df(\xi)$ und $c(t) = f(u + t\xi)$ Kurve in der Hyperfläche ist.
+
+	Es gilt $c(0) = p, \dot c(0) = \Df(\xi) = X$ und speziell
+	\[
+		D_{\f {\partial f}{\partial u^i}} Y
+		= \lim_{t\to 0} \f 1t \Big(Y(u^1, \dotsc, u^i + t, \dotsc, u^n) - Y(u^1, \dotsc, u^n))
+		= \f {\partial Y}{\partial u^i}.
+	\]
+	und
+	\[
+		D_{\f{\partial f}{\partial u^i}} \f{\partial f}{\partial u} = \f{\partial^2 f}{\partial u^i \partial u^j}.
+	\]
+\end{df}
+
+\begin{df}[kovariante Ableitung]
+	Seien $X \in T_u f, Y$ ($Y$ tangential an $f$) wie oben.
+	Dann heißt
+	\[
+		\nabla_X Y|_p := (D_x Y|_p)^{\text{Tangentialanteil}}
+		= D_X Y|_p - \<D_X|_p Y, \nu_p \> \nu_p
+	\]
+	die \emphdef{kovariante Ableitung} von $Y$ in Richtung $X$.
+	Dann ist $\nabla_X Y |_p \in T_u f$.
+	\[
+		(X_p, Y) \mapsto \nabla_X Y|_p \in T_u f
+	\]
+	$Y$ ist definiert längs einer Kurve $c$ mit $c(0) = p, \dot c(0) = X_p$.
+\end{df}
+
+Beachte $\<D_X Y, \nu\> = - \< Y, D_x \nu\> = Ⅱ(X,Y)$, da $\< Y, \nu\> = 0$.
+Also
+\begin{align*}
+	\nabla_X Y|_p &= D_X Y|_p - Ⅱ(X,Y) \nu_p \\
+	D_x Y|_p &= \underbrace{\nabla_X Y|_p}_{\in T_u f} + \underbrace{Ⅱ(X,Y) \nu_p}_{\in \Orthspace_u f}.
+\end{align*}
+Es gelten folgende Rechenregeln für $D$ und $\nabla$.
+\begin{itemize}
+	\item
+		Linearität
+	\item
+		Additivität
+	\item
+		Produktregel
+	\item
+		Verträglichkeit mit dem Skalarprodukt
+\end{itemize}
+
+\begin{st}
+	Die kovariante Ableitung hängt nur von der ersten Fundamentalform ab (ist also eine Größe der inneren Geometrie).
+	\begin{proof}
+		Es gilt $X = \sum_i X^i \pddx*[u^i]{f}$, $Y = \sum_j \pddx*[u^j]{f}$ und damit
+		\begin{align*}
+			\nabla_X Y &= \nabla_{\sum_i X^i \pddx*[u^i]{f}} (\sum_j Y^j \pddx*[u^j]{f}) \\
+			&= \sum_i X^i \nabla_{\pddx[u^i]{f}} (\sum_j Y^j \pddx*[u^j]{f}) \\
+			&= \sum_{i,j} X^i \Big( \pddx*[u^i]{Y^j} \pddx*[u^j]{f} + Y^j \nabla_{\pddx*[u^i]{f}} \pddx*[u^j]{f} \Big)
+		\end{align*}
+		$\nabla_{\pddx*[u^i]{f}} \pddx*[u^j]{f}$ ist der Tangentialanteil von $D_{\pddx*[u^i]{f}} \pddx*[u^j]{f} = \f{\partial^2 f}{\partial u^i \partial u^j}$ und eindeutig bestimmt durch alle
+		\[
+			\Gamma_{ij,k} := \< \f{\partial^2 f}{\partial u^i \partial u^j}, \pddx*[u^k]{f} \>.
+		\]
+		$\Gamma_{ij,k}$ ist symmetrisch in $i,j$, falls $f \in C^2$.
+		Es gilt
+		\[
+			\pddx*[u^k] \< \pddx*[u^i]{f}, \pddx*[u^j]{f} \>
+		= \< \f{\partial^2 f}{\partial u^k \partial u^i}, \pddx*[u^j]{f} \>
+			+ \< \pddx*[u^i]{f}, \f{\partial^2 f}{\partial u^k \partial u^j} \>
+			= \Gamma_{ki,j} + \Gamma_{kj,i},
+		\]
+		also
+		\begin{align*}
+			(g_{ij})_k &= \Gamma_{ik,j} + \Gamma_{jk,i} \\
+			(g_{jk})_i &= \Gamma_{ji,k} + \Gamma_{ki,j} \\
+			(g_{ki})_j &= \Gamma_{kj,i} + \Gamma_{ij,k}
+		\end{align*}
+		und damit
+		\[
+			2 \Gamma_{ij,k} = - (g_{ij})_k + (g_{jk})_i + (g_{ki})_j,
+		\]
+		hängt also nur von der ersten Fundamentalform ab.
+	\end{proof}
+\end{st}
+
+\begin{df}
+	Der Ausdruck
+	\[
+		\Gamma_{ij,k} = \f 12 \Big( - (g_{ij})_k + (g_{jk})_i + (g_{ki})_j \Big)
+	\]
+	heißt \emphdef{Christophersymbol erster Art}.
+	Die $\Gamma_{ij}^k$ mit
+	\[
+		\nabla_{\pddx*[u^i]{f}} \pddx*[u^j]{f}
+		= \sum_l \Gamma_{ij}^l \pddx*[u^l]{f}
+	\]
+	heißen \emphdef{Christophersymbole zweiter Art}.
+
+	Dabei gilt $\Gamma_{ij,k} = \Gamma_{ji,k}, \Gamma_{ij}^k = \Gamma_{ji}^k$, $\Gamma_{ij,k} = \sum_l \Gamma_{ij}^l g_{lk}$ und $\Gamma_{ij}^k = \sum_l \Gamma_{ij,l} g^{lk}$.
+
+	Die kovariante Ableitung $\nabla_X Y$ mit $X = \sum_i X^i \pddx*[u^i]{f}, Y = \sum_j Y^j \pddx*[u^j]{f}$ ist
+	\[
+		\nabla_X Y|_p = \sum_{ij} X^i \Big( \pddx*[u^i]{Y^k} + \sum_j Y^j \Gamma_{ij}^k \Big) \pddx*[u^k]{f}
+	\]
+	Im euklidischen Raum sind alle $\Gamma_{ij,k} = 0$.
+
+	Wir schreiben
+	\[
+		(\nabla_i Y)^k
+		= \pddx*[u^i]{Y^k} + \Gamma_{ij}^k Y^j
+	\]
+\end{df}
