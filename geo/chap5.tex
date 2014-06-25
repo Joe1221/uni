@@ -405,7 +405,6 @@ Also $\Det I = 0$, falls $v = 0$ (Gratlinie nicht regulär).
 
 \section{Minimalflächen}
 
-
 Wir suchen ein Flächenstück mit kleinstmöglicher Oberfläche, das in eine gegebene Kurve eingespannt werden kann.
 Physikalisch sind dies gerade Seifenhäute.
 
@@ -424,23 +423,24 @@ Mathematisch geht man wie folgt vor:
 Wir definieren das \emphdef{Oberflächenfunktional} auf einem Flächenstück $f: \_U \to \R^3$ mit kompaktem $\_U$:
 \[
 	A(f) := \int_{f(\_U)} \di[A]
-	= \int_{\_U} \sqrt{\det (g_{ij})} \di[(u_1,u_2)].
+	:= \int_{\_U} \sqrt{\det (g_{ij})} \di[(u_1,u_2)].
 \]
-Ist $A(f)$ minimal, dann verschwindet die Ableitung in jeder Richtung, bzw. der Gradient von $A$ ist null.
-Betrachte die Richtungsableitung von $A$ in Richtung einer \emphdef{normalen Variation} $\phi \nu$.
-Verwende als Bedingung
+Ist $A(f)$ minimal, dann verschwindet die „Ableitung“ von $A: C^2(\_U, \R^3) \to \R$ in $f$ jede „Richtung“, bzw. der „Gradient“ von $A$ in $f$ ist null.
+Betrachte die Richtungsableitung von $A$ in Richtung einer \emphdef{normalen Variation} $\phi \nu$, wobei $\phi: \_U \to \R$ skalar und $\nu: \_U \to \R^3$ der Normaleneinheitsvektor ist.
+Verwende für festes $\phi$ als Bedingung
 \[
-	\f{\partial A(f_\eps)}{\partial \eps} \Big|_{\eps = 0, f} = 0
+	\pddx[\eps]{A(f_\eps)} \Big|_{\eps = 0, f} = 0,
 \]
-für $f_\eps(u_1, u_2) := f(u_1, u_2) + \eps \phi(u_1, u_2) \nu(u_1, u_2)$ mit Einheitsnormale $\nu$ und beliebigem, aber festem $\phi$.
+wobei $f_\eps := f + \eps \phi \nu$.
 
-Schreibe im Folgenden $\dx[A] = \sqrt{g_{ij}(u_1, u_2)} \dx[u_1] \dx[u_2]$.
-Berechne für $f_\eps$ die erste Fundamentalform $g_{ij}^{\eps}$:
+Schreibe im Folgenden $\dx[A] = \sqrt{\det (g_{ij})} \dx[u_1] \dx[u_2]$.
+Berechne für $f_\eps$ die erste Fundamentalform $g_{ij}^{\eps}$.
+Zunächst ist
 \[
 	\ddx[u_i]{f_\eps}
-	= \ddx[u_i]{f} + \eps \ddx[u_i]{\phi} \nu + \ddx[u_i]{\nu}
+	= \ddx[u_i]{f} + \eps \big( \ddx[u_i]{\phi} \nu + \phi \ddx[u_i]{\nu} \big)
 \]
-Es gilt
+Es gilt somit
 \[
 	g_{ij}^{\eps}
 	= \< \ddx[u_i]{f_\eps} , \ddx[u_j]{f_\eps} \>
@@ -460,33 +460,31 @@ Wir setzen an
 Soll diese Bedingung für beliebiges $\phi$ gelten, so muss also $H = 0$ gelten.
 
 \begin{df}[Minimalfläche]
-	Sei $f: \_U \to \R^3$ ein Flächenstück, $U \subset \R^2$ sei offen, $\_U$ kompakt mit Rand $\partial U$.
-	Eine notwendige Bedingung dafür, dass die Oberfläche von $f$ kleiner oder gleich aller normalen Variationen
-	\[
-		f_\eps: \_U \to \R^3
-	\]
-	mit $f_\eps|_{\partial U} = f|_{\partial U}$, ist das Verschwinden der mittleren Krümmung $H$ in ganz $U$.
-	Man nennt daher ein Flächenstück mit $H = 0$ eine \emphdef{Minimalfläche}.
+	Sei $U \subset \R^2$ offen, $\_U$ kompakt mit Rand $\partial U$ und $f: \_U \to \R^3$ ein Flächenstück.
+
+	Verschwindet die mittlere Krümmung, d.h. $H = 0$ auf ganz $U$, so nennt man $f$ eine \emphdef{Minimalfläche}.
 	\begin{note}
-		$H = 0$ sagt nur, dass die Oberfläche stationär ist, nicht unbedingt das Minimum.
+		Wie wir oben gesehen haben, ist $H = 0$ eine notwendige Bedingung dafür, dass die Oberfläche von $f$ kleiner oder gleich aller normalen Variationen $f_\eps: \_U \to \R^3$ mit $f_\eps|_{\boundary U} = f|_{\boundary U}$ ist und rechtfertigt damit in gewisser Weise den Begriff „Minimalfläche“.
+		Allerdings besagt $H = 0$ lediglich, dass die Oberfläche stationär ist unter allen normalen Variationen, nicht unbedingt ein Minimum.
 	\end{note}
 \end{df}
 
 \begin{df}
-	$f: U \to \R^3$ heißt \emphdef{konform}, oder \emphdef{winkeltreu}, wenn
-	\[
-		(g_{ij}(u_1, u_2))0= \lambda(u_1, u_2) \Matrix{1 & 0 \\ 0 & 1}
-	\]
-	für eine skalare Funktion $\lambda > 0$ gilt.
+	Seien $f: U \to \R^3, \tilde f: V \to \R^3$ Flächenstücke und $\lambda: U \to \R^3$ eine skalare Funktion.
 
-	$f, \tilde f$ heißen \emphdef{konform zueinander}, wenn $(\tilde g_{ij}) = \lambda (g_{ij})$, bzw.
+	$f$ heißt \emphdef{konform}, oder \emphdef{winkeltreu}, wenn die Matrix der ersten Fundamentalform ein skalares Vielfaches der Einheitsmatrix ist, d.h.
+	\[
+		(g_{ij}) = \lambda \Matrix*{1 & 0 \\ 0 & 1}.
+	\]
+
+	$f, \tilde f$ heißen \emphdef{konform zueinander}, wenn $(\tilde g_{ij}) = \lambda (g_{ij})$, bzw. genauer
 	\[
 		\< \ddx[u_i]{(\tilde f \circ \Phi)}, \ddx[u_j]{(\tilde f \circ \Phi)} \>
 		= \lambda \< \ddx[u_i]{f}, \ddx[u_j]{f} \>
 	\]
-	für eine Parametertransformation $\Phi$.
+	für eine Parametertransformation $\Phi: U \to V$.
 
-	$f, \tilde f$ heißen \emphdef{isometrisch zueinander}, wenn $\lambda = 1$ gewählt werden kann.
+	$f, \tilde f$ heißen \emphdef{isometrisch zueinander}, wenn sie konform zueinander sind mit $\lambda = 1$.
 \end{df}
 
 \begin{nt}
@@ -607,13 +605,13 @@ Daher ist es naheliegend, Minimalflächen als Realteil komplexer Funktionen zu b
 				\end{align*}
 				Also $(\Re \phi_k)_u = (\Im \phi_k)_v$ genau dann, wenn $f_k$ harmonisch, $(\Re \phi_k)_v = -(\Im \phi_k)_u$.
 			\item
-				\[
+				\begin{align*}
 					\phi_1 \_\phi_1 + \phi_2 \_\phi_2 + \phi_3 \_\phi_3
-					= |\phi_1|^2 + |\phi_2|^2 + |\phi_3|^2
-					= \sum_{i=1}^3 \Big( \<\pddx[u]{f_i}, \pddx[u]{f_i} \> + \<\pddx[v]{f_i}, \pddx[v]{f_i} \> \Big)
-					= \< \pddx[u]{f}, \pddx[u]{f} \> + \< \pddx[v]{f}, \pddx[v]{f} \>
-					\ge 0
-				\]
+					&= |\phi_1|^2 + |\phi_2|^2 + |\phi_3|^2 \\
+					&= \sum_{i=1}^3 \Big( \<\pddx[u]{f_i}, \pddx[u]{f_i} \> + \<\pddx[v]{f_i}, \pddx[v]{f_i} \> \Big) \\
+					&= \< \pddx[u]{f}, \pddx[u]{f} \> + \< \pddx[v]{f}, \pddx[v]{f} \> \\
+					&\ge 0
+				\end{align*}
 				Gleich 0 gilt genau dann, wenn $\lambda = 0$, also genau dann, wenn $(\delta_{ij}) = 0$, Singularität.
 		\end{enumerate}
 	\end{proof}
