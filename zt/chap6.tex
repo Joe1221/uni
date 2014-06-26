@@ -294,3 +294,133 @@ Die Folge $(\beta_k)_{k \in \N}$ ist dann wegen \ref{6.7} eine Cauchyfolge, konv
 	\tag{6.8}
 \end{equation}
 \eqref{eq:6.8} wird zum Beweis von \ref{4.20} benötigt.
+
+\coursetimestamp{26}{06}{2014}
+
+\begin{proof}[von \ref{4.20}]
+	Betrachte die Kettenbruchentwicklung von $\sqrt d$, gemäß \ref{6.3}.
+	Ist $\f {P_k}{Q_k} = \beta_k$ der $k$-te Näherungsbruch, dann gilt nach \eqref{eq:6.8}
+	\[
+		\l| \sqrt d - \f{P_k}{Q_k}\r| < \f 1{Q_k^2}
+		\quad\iff\quad
+		\l| P_k - Q_k \sqrt d\r| < \f 1{Q_k^2},
+	\]
+	also
+	\[
+		\f 1{Q_k}
+		> | P_k - Q_k \sqrt d|
+		> \f 1{Q_{\tilde k}}
+		> | P_{\tilde k} - Q_{\tilde k} \sqrt d|
+		> \dotso
+	\]
+	Also gibt es Folgen natürlicher Zahluen $(k_i)_{i\in\N}, (x_i)_{i\in\N}, (y_i)_{i\in\N}$ mit
+	\[
+		\f 1{k_1}
+		> |x_1 - y_1 \sqrt d|
+		> \f 1{k_2}
+		> |x_2 - y_2 \sqrt d|
+		> \f 1{k_3}
+		> \dotso
+	\]
+	mit $y_n \le k_n$.
+	Also ist
+	\begin{align*}
+		|x_n^2 - dy_n^2|
+		&= |x_n - y_n \sqrt d| |x_n + y_n \sqrt d|  \\
+		&< \f 1{k_n} (\f 1{k_n} + 2 y_n \sqrt d)  \\
+		&\le \f 1{k_n} (\f 1{k_n} + 2k_n \sqrt d)  \\
+		&< 1 + 2 \sqrt d
+	\end{align*}
+	Also ist $(x_n^2 - dy_n^2)_{n\in \N}$ eine Folge ganzer Zahlen, die betragsmäßig beschränkt ist.
+	Es existiert $r \in \N$ mit $r = |x^2 - dy^2|$ für unendlich viele $(x,y)  \in \N \times \N$.
+
+	Definiere $x_1^2 - dy_1^2 \sim x_2^2 - dy_2^2$, wenn $x_1^2 - dy_1^2 = x_2^2 - dy_2^2 = r$ oder $x_1^2 - dy_1^2 = x_2^2 - dy_2^2 = -r$ und $x_1 \equiv x_2 \bmod r, y_1 \equiv y_2 \bmod r$.
+	$\sim$ ist eine Äquivalenzrelation mit endlich vielen Äquivalenzklassen.
+	Es existiert also eine Äquivalenzklasse mit unendlich vielen Termen.
+	Es existieren zwei Terme der Form $x_1^2 - dy_1^2 = x_2^2 - dy_2^2 = r$ (oder $= -r$) und $r \divs x_1 - x_2, r\divs y_1 - y_2$, \oBdA $0 < x_1 < x_2$, also auch $0 < y_1 < y_2$, da $x_1^2 - dy_1^2 = x_2^2 - dy_2^2 < x_2^2 - dy_1^2$ und somit $y_2 > y_1$.
+
+	Betrachte nun $(x_1 + y_1 \sqrt d)(x_2 - y_2 \sqrt d) = x_1x_2 - x_1y_2 \sqrt d + y_1 x_2 \sqrt - y_1 y_2 d$.
+	Es gilt $x_1 x_2 - y_1 y_2 d \equiv 0 \bmod r$, da $x_1 x_2 \equiv x^2 \bmod r$ und $y_1 y_2 \equiv y_1^2 \bmod r$, also $x_1 x_2 - y_1 y_2 d \equiv x_1^2 - dy_1^2 = \pm r \equiv 0 \bmod r$.
+	Es gilt außerdem $x_1 y_2 \equiv x_2 y_1 \bmod r$, da $x_1 \equiv x_2 \bmod r$ und $y_2 \equiv y_1 \bmod r$.
+
+	Somit sind
+	\begin{align*}
+		u &= \f {x_1 x_2 - y_1 y_2 d}r, &
+		v &= \f {x_1 y_2 - x_2 y_1}r
+	\end{align*}
+	aus $\Z$.
+	Wir behaupten, $(u, v)$ ist eine Lösung der Pell'schen Gleichung, d.h. es gilt $u^2 - dv^2 = 1$.
+	Wegen $(x_1 + y_1 \sqrt d)(x_2 - y_2 \sqrt d) = r(u - v \sqrt d)$ und $(x_1 - y_1 \sqrt d)(x_2 + y_2 \sqrt d) = r(u + v \sqrt d)$.
+	\begin{align*}
+		u^2 - dv^2
+		&= (u + v \sqrt d)(u - v \sqrt d) \\
+		&= \f 1r (x_1 + y_2 \sqrt d)(x_2 - y_2 \sqrt d) \\
+			\f 1r (x_1 - y_1 \sqrt d)(x_2 + y_2 \sqrt d)
+		&= \f 1{r^2}(x_1^2 - dy_1^2)(y_2^2 - dy_2^2) \\
+		&= 1
+	\end{align*}
+	Diese Lösung $(u,v)$ ist nicht trivial, denn aus $u = 1, v = 0$ folgt $x_1 y_2 - x_2 y_1 = rv = 0$, also $x_1 y_2 = x_2 y_2$ und aus $x_1 < x_2$ folgt $y_1 < y_2$.
+	Außerdem $x_1 y_2 - y_1 y_2 d = r$, also $x_1 y_2 x_2 - d y_1 y_2^2 = y_2 r$.
+	Damit ist
+	\[
+		y_2 r = x_2^2 y_1 - dy_1 y_2^2 = \underbrace{(x_2^2 - dy_2^2)}_{=\pm r}y_1
+	\]
+	also ist $y_1 = \pm y_2$ und Gleichheit, wegen $y_1, y_2 > 0$.
+	Damit ist aber auch $x_1 = x_2$, ein Widerspruch dazu, dass die Ausdrücke $x_1^2 - dy_1^2, x_2^2 - dy_2^2$ verschieden waren.
+
+	Sei nun $(\xi, \eta)$, $\xi, \eta > 0$ so, dass $\xi + \eta \sqrt d > 1$ minimal ist als reelle Zahl.
+	Wir zeigen, dass alle Lösungen eine Potenz davon sind.
+	$(\xi, \eta)$ ist eindeutig bestimmt, da aus $\xi + \eta \sqrt d = x_0 + y_0 \sqrt d$ folgt, dass $\xi = x_0, \eta = y_0$, da $(1, \sqrt d)$ linear unabhängig über $\Q$ ist.
+
+	Sei $x_0 + y_0 \sqrt d$, $x_0, y_0 > 0$ eine Einheit, die keine Potenz von $\xi + \eta \sqrt d$ ist.
+	Dann existiert $n \in \N$ mit $(\xi + \eta \sqrt d)^n < x_0 + y_0 \sqrt d < (\xi + \eta \sqrt d)^{n+1}$
+
+	Es gilt
+	\[
+		1 = (\xi + \eta \sqrt d)^n \underbrace{(\xi - \eta \sqrt d)^n}_{> 0}
+		< \underbrace{(x_0 + y_0\sqrt d)(\xi - \eta \sqrt d)^n}_{:= \tilde u = \tilde x_0 + \tilde y_0 \sqrt d}
+		< \xi + \eta \sqrt d.
+	\]
+	Mit \ref{6.9} folgt $\tilde x_0, \tilde y_0 > 0$ und daher ein Widerspruch zur Minimalität von $(\xi, \eta)$.
+\end{proof}
+
+% Lemma 6.9
+\setcounter{thm}{8}
+\begin{lem} \label{6.9}
+	Sei $a + b \sqrt d$ eine Einheit (d.h. $(a,b)$ eine nicht-triviale Lösung der Pell'schen Gleichung).
+	Dann ist $a + b \sqrt d > 1$ genau dann, wenn $a, b$ positiv sind.
+	\begin{proof}
+		\begin{segnb}{\ProofImplication}
+			Sei $a - b \sqrt d$ die zu $a + b \sqrt d$ inverse Einheit, also $(a + b \sqrt d)(a - b \sqrt d) = 1$.
+			Wenn $a + b \sqrt d > 1$, dann ist $a - b \sqrt d < 1$, also $a + b \sqrt > a - b \sqrt d$ und $b \sqrt d > - b \sqrt d$, $b > 0$.
+			Wäre $a$ negativ, dann ist $a - b \sqrt d < 0$, ein Widerspruch zu $a - b \sqrt d$ positiv und somit $a$ positiv.
+		\end{segnb}
+		\begin{segnb}{\ProofImplication*}
+			Sei umgekehrt $a, b$ positiv, dann ist $a + b \sqrt d > a - b \sqrt d$, also $a + b \sqrt d > 1$.
+		\end{segnb}
+	\end{proof}
+\end{lem}
+
+% Satz 6.10
+\begin{st}[Euler, Lagrange] \label{6.10}
+	Die Kettenbruchentwicklung einer irrationalen Zahl $\alpha$ ist genau dann periodisch, wenn $\alpha$ algebraisch vom Grad 2 ist, d.h. $\alpha$ ist Lösung einer quadratischen Gleichung der Form $ax^2 + bx + c = 0$ mit $a, b, c \in \Z$.
+	\begin{proof}
+		Sei $\alpha = [\_{a_0, a_1, \dotsc, a_n}]$, also „rein“ periodisch.
+		Dann ist
+		\[
+			\alpha = [a_0, a_1, \dotsc, a_n, \alpha],
+		\]
+		also nach \ref{6.5} $\alpha = \f{\alpha P_n + P_{n-1}}{\alpha Q_n + Q_{n-1}}$, bzw.
+		\[
+			\alpha^2 Q_n + \alpha (Q_{n-1} - P_n) - P_{n-1} = 0,
+		\]
+		also ist $\alpha$ algebraisch vom Grad $2$.
+
+		Ist $\gamma$ gemischt periodischer Kettenbruch, dann ist $\gamma = [a_0, \dotsc, a_n, \_{b_1, b_2, \dotsc, b_m}]$.
+		Setze $\beta = [\_{b_1, \dotsc, b_m}]$, dann ist $\beta$ algebraisch vom Grad 2.
+		Es ergibt sich $\gamma = \f{\beta P_n + P_{n-1}}{\beta Q_n + Q_{n-1}}$.
+		Da $\beta$ algebraisch vom Grad $2$, ist auch $\gamma$ algebraisch vom Grad 2.
+
+		Für die andere Richtung, siehe z.B. Scheid/Frommer 1.9 % fixme: ref
+	\end{proof}
+\end{st}
