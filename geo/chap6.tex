@@ -152,13 +152,13 @@ Es gelten folgende Rechenregeln für $D$ und $\nabla$.
 	\[
 		\Gamma_{ij,k} = \f 12 \Big( - (g_{ij})_k + (g_{jk})_i + (g_{ki})_j \Big)
 	\]
-	heißt \emphdef{Christophersymbol erster Art}.
+	heißt \emphdef{Christophelsymbol erster Art}.
 	Die $\Gamma_{ij}^k$ mit
 	\[
 		\nabla_{\pddx*[u^i]{f}} \pddx*[u^j]{f}
 		= \sum_l \Gamma_{ij}^l \pddx*[u^l]{f}
 	\]
-	heißen \emphdef{Christophersymbole zweiter Art}.
+	heißen \emphdef{Christophelsymbole zweiter Art}.
 
 	Dabei gilt $\Gamma_{ij,k} = \Gamma_{ji,k}, \Gamma_{ij}^k = \Gamma_{ji}^k$, $\Gamma_{ij,k} = \sum_l \Gamma_{ij}^l g_{lk}$ und $\Gamma_{ij}^k = \sum_l \Gamma_{ij,l} g^{lk}$.
 
@@ -174,3 +174,159 @@ Es gelten folgende Rechenregeln für $D$ und $\nabla$.
 		= \pddx*[u^i]{Y^k} + \Gamma_{ij}^k Y^j
 	\]
 \end{df}
+
+\coursetimestamp{26}{06}{2014}
+
+
+Die 2-dimensionalen Flachländer leiten nun wie folgt ab
+\begin{itemize}
+	\item
+		skalare Funktion: Differentialquotient
+	\item
+		Vektorfelder $Y \hat = (Y^1, Y^2)$ in Komponenten einer Basis, $(1, 0), (0, 1)$ entsprechen den Basisfeldern.
+		\begin{align*}
+			\nabla_i (Y^1, Y^2)
+			&= ((Y^1)_i, (Y^2)_i)
+				+ \Big( \sum_{j} \Gamma_{ij}^1 Y^j, \sum_{j} \Gamma_{ij}^2 Y^j \Big) \\
+			&= ((Y^1)_i, (Y^2)_i)
+				+ (\Gamma_{i1}^1 Y^1 + \Gamma_{i2}^1 Y^2, \Gamma_{i1}^2 Y^1 + \Gamma_{i2}^2 Y^2).
+		\end{align*}
+		Wann ist $(Y^1, Y^2)$ „konstant“ (auch „parallel“ genannt)? 
+		Wenn $\nabla_i(Y^1, Y^2) = 0$ gilt, für jedes $i$.
+
+		Im euklidischen bedeutet ein konstantes Vektorfeld auch konstante Koeffizienten der Vektoren, hier jedoch nicht.
+\end{itemize}
+
+\begin{df}[parallel]
+	\begin{enumerate}[(i)]
+		\item
+			Ein tangentiales Vektorfeld $Y$ längs eines (Hyper-)Flächenstücks $f$ heißt \emphdef{parallel}, wenn $\nabla_X Y|_p = 0$ für jeden Punkt $p$ und jeden Tangentialvektor $X \in T_pf$.
+		\item
+			$Y$ heißt \emphdef{parallel längs einer Kurve} $c = f \circ \gamma$, wenn $\nabla_{\dot c} Y = 0$ gilt für jeden Punkt der Kurve.
+	\end{enumerate}
+	\begin{note}
+		Die Definition in (i) ist überbestimmt, d.h. im Allgemeinen gibt es keine parallelen Vektorfelder.
+
+		(ii) ist ein System gewöhnlicher Differentialgleichungen.
+	\end{note}
+\end{df}
+
+\begin{st}
+	Seien $f: U \to \R^{n+1}, \gamma: \R \supset I \to U$ stetig differenzierbar, $t_0 \in I$ fest und $Y_0 \in T_{v_0} f$ fest, $c = f \circ \gamma$.
+
+	Dann gibt es genau ein längs $c$ paralleles Vektorfeld $Y$ mit $Y(t_0) = Y_0$ (Anfangsbedingung).
+	\begin{proof}
+		$\gamma(t) = (u^1(t), \dotsc, u^n(t)) \in U$, $c = f \circ \gamma$.
+		Es gilt
+		\[
+			\dot c = \ddx[t]{c}
+			= X(c(t))
+			= \sum_i \dot u^i(t) \pddx*[u^i]{f}
+		\]
+		und folglich
+		\begin{align*}
+			\nabla_i Y
+			&= \sum_{i,k} \dot u^i \Big( \pddx[u^i]{Y^k} + \sum_j Y^i + \Gamma_{ij}^k(c(t)) \Big) \pddx[u^k]{f} \\
+			&= \sum_{k} \Big( \ddx[t]{Y^k} + \sum_{i,j} \dot u^i Y^j \Gamma_{ij}^k \Big) \underbrace{\pddx[u^k]{f}}_{\text{bekannt}}
+		\end{align*}
+		Also ist $\gamma$ parallel genau dann, wenn $\nabla_c Y = 0$, also genau dann, wenn
+		\[
+			\dot Y^k + \sum_{i,j} \dot u^i Y^j \Gamma_{ij}^k = 0
+		\]
+		für alle $k$.
+		Dies ist ein System gewöhnlicher linearer Differentialgleichungen erster Ordnung für $Y^1(t), \dotsc, Y^n(t)$.
+		Die Theorie der gewöhnlichen Differentialgleichungen liefert eine eindeutige Lösung längst eines Intervalls $I$.
+	\end{proof}
+\end{st}
+
+\begin{kor}
+	Sei $Y$ parallel längs $c$, dann ist $\<Y, Y\>$ konstant.
+
+	Ist $X, Y$ parallele längs $c$, dann ist $\<X, Y\>$ konstant.
+	\begin{proof}
+		$\nabla_i \<Y, Y\> = 2 \<\nabla_i Y, Y\> = 0$.
+	\end{proof}
+	\begin{note}
+		Parallelverschiebungen sind Isometrien.
+	\end{note}
+\end{kor}
+
+\begin{df}[Geodätische, geodätische Linien]
+	Eine reguläre Kurve $c = f \circ \gamma$ heißt \emphdef{Geodätische}, wenn stets $\nabla_{\dot c} \dot c$ und $\dot c$ linear abhängig sind, oder äquivalent $\nabla_{c'} c' = 0$ mit Bogenlängenparameter.
+	\begin{note}
+		Also $(c'')^{\text{Tang}} = (D_{c'} c')^{\text{Tang}} = 0$.
+	\end{note}
+	\begin{proof}
+		Es gilt
+		\[
+			\nabla_{\f{\dot c}{\|\dot c\|}} \f{\dot c}{\|\dot c\|}
+			= \f 1{\|\dot c\|} \nabla_{\dot c} (\f 1{\|\dot c\|} \dot c)
+			= \f 1{\|\dot c\|} \big( (\f 1{\|\dot c\|})^{\cdot} \dot c + \f 1{\|\dot c\|} \nabla_{\dot c}\dot c \big)
+		\]
+		also wenn $\nabla_{c'} c' = 0$, dann sind $\dot c, \nabla_{\dot c} \dot c$ linear abhängig.
+
+		\[
+			\< \dot c, \dot c\> = \f 1{\|\dot c\|} \Big( (\f 1{\|\dot c\||}) \< \dot c, \dot c \> + \f 1{\|\dot c\|} \< \nabla_{\dot c} \dot c, \dot c \> \Big)
+			= 0,
+		\]
+		da
+		\[
+			(\<\dot c, \dot c\>^{-\f 12})^{\cdot}
+			= - \f 1, \< \dot c, \dot c \>^{-\f 32} \cdot 2 \< \nabla_{\dot c} \dot c, \dot c\>
+		\]
+	\end{proof}
+\end{df}
+
+\begin{st}
+	$f: U \to \R^{n+1}$ gegeben, $p_0 = f(u_0)$ sei fest.
+	$Y_0$ sei fester Tangentialvektor in $p_0$ mit $\|Y_0\| = 1$.
+
+	Dann gilt es ein $\eps > 0$ und genau eine nach Bogenlänge parametrisierte Geodätische $c = f \circ \gamma$, $\gamma: (-\eps,\eps) \to U$ mit $\gamma(0) = u_0 , c(0) = p_0, \dot c(0) = Y_0$ (Anfangsbedingung).
+	\begin{proof}
+		Setze $Y^i(t) = \dot u^i(t)$ in der obigen Gleichung.
+		\[
+			\nabla_{\dot c} \dot c = 0
+			\quad\iff\quad
+			\forall k : \ddot u^k + \sum_{i,j} \dot u^i \dot u^j \Gamma_{ij}^k = 0
+		\]
+		Dies ist ein System nicht-linearer gewöhnlicher Differentialgleichungen zweiter Ordnung (beachte: $\Gamma_{ij}^k$ hängt von $c(t)$, also von $u^i$ ab).
+		Lokal existieren eindeutige Lösungen zu gegebenen Anfangsbedingungen.
+		Mit $\|Y_0\| = 1 \implies \|\dot c\| = 1$ liegt eine Bogenlängenparametrisierung vor.
+	\end{proof}
+\end{st}
+
+Bei nicht-regulären Kurven $c(t)$ hängt $Y$ immer von $t$ ab, nicht von $c(t)$.
+Dann definiert man analog
+\[
+	\nabla_{\dot c} Y := (\ddx[t]{Y})^{\text{Tangentialanteil}}
+\]
+und schreibt auch $\f {\nabla Y(t)}{\dx[t]}$.
+
+Sei $c = f \circ \gamma$ regulär und nach Bogenlänge parametrisiert, $\|\dot c\| = 1$.
+Betrachte eine Variante der Frenet-Gleichungen mit dem Darboux-3-Bein:
+\begin{align*}
+	E_1 &:= c' \\
+	E_2 &\orth E_1, \|E_2\| = 1, \text{ pos. orientiert}, \\ % E_2 \in T_f.
+	E_3 &:= \nu
+\end{align*}
+Es gilt $E_1' = c'' = \kappa_g E_2 + \kappa_\nu E_3$.
+Es ergibt sich
+\[
+	\Matrix*{E_1 & E_2 & E_3}'
+	= \Matrix*{0 & \kappa_g & \kappa_\nu \\ -\kappa_g & 0 & \tau_g \\ -\kappa_\nu & - \tau_g & 0}
+	\Vector*{E_1 & E_2 & E_3}
+\]
+mit einer geodätischen Krümmung $\kappa_g$, einer Normalkrümmung $\kappa_\nu$ und einer geodätischen Torsion $\tau_g$.
+
+Es gilt $c'' = D_{c'} c' = \nabla_{c'} c' + \kappa_\nu E_3 = \kappa_g E_2 + \kappa_\nu E_3$, also ist $c$ Geodätische genau dann, wenn
+\[
+	\nabla_{c'}c' = 0,
+\]
+oder äquivalent
+\[
+	\kappa_{g} = 0,
+\]
+oder äquivalent $c'', \nu$ linear abhängig, oder äquivalent, wenn die $(c', c'')$-Schmiegebene die Flächennormale enthält.
+
+
+
