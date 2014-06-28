@@ -419,8 +419,20 @@ Sei im Folgenden $K$ ein Körper.
 \end{df}
 
 \begin{lem} \label{18.4-3}
-	Seien $E, L$ Körper, $0 \neq \sigma: E \to L$ Körperhomomorphismus und sei $\eps \in E$ Nullstelle von $f \in E[x]$.
+	Seien $E, L$ Körper, $0 \neq \sigma: E \to L$ ein Körperhomomorphismus und $f \in E[x]$ mit Nullstelle $\eps \in E$.
+
 	Dann ist $\sigma(\eps) \in L$ Nullstelle von $\sigma(f) \in L[x]$.
+	\begin{proof}
+		Sei $f = \sum_{i=0}^n \alpha_i x^i \in E[x]$, so ist $\sigma(f) = \sum_{i=0}^n \sigma(\alpha_i) x^i \in L[x]$ und somit
+		\begin{align*}
+			\sigma(f)(\sigma(\eps))
+			= \sum_{i=0}^n \sigma(\alpha_i) \sigma(\eps)^i
+			= \sigma\Big( \sum_{i=0}^n \eps^i \Big)
+			= \sigma(f(\eps))
+			= \sigma(0)
+			= 0.
+		\end{align*}
+	\end{proof}
 \end{lem}
 
 Sei nun $K \subset E$, $\alpha \in E$ algebraisch über $K$, so ist $K \subset K(\alpha) \subset E$.
@@ -428,11 +440,45 @@ Sei $0 \neq \sigma: K \to L$ Körperhomomorphismus, $L$ Körper.
 Im nächsten Satz formulieren wir eine notwendige und hinreichende Bedingung, wann $\sigma$ zu einem Homomorphismus von $K(\alpha)$ nach $L$ fortgesetzt werden kann und untersuchen, wie viele verschiedene Fortsetzungen von $\sigma$ auf $K(\alpha)$ existieren.
 
 \begin{st} \label{18.4-4}
-	Seien $K \subset E$ und $L$ Körper, $\alpha \in E$ algebraisch über $K$ mit Minimalpolynom $\mu_{\alpha, K} = p \in K[x]$.
-	Sei $0 \neq \sigma: K \to L$ Körperhomomorphismus und sei $\beta \in L$ Nullstelle von $\sigma(p) \in L[x]$.
+	Seien $K \subset E$ und $L$ Körper, $\alpha \in E$ algebraisch über $K$ mit Minimalpolynom $\mu_{\alpha, K} =: p \in K[x]$.
+	Sei $0 \neq \sigma: K \to L$ ein Körperhomomorphismus und sei $\beta \in L$ eine Nullstelle von $\sigma(p) \in L[x]$.
+
 	Dann gibt es genau eine Fortsetzung $\sigma_\beta: K(\alpha) \to L$ von $\sigma$ auf $K(\alpha)$ mit $\sigma_\beta(\alpha) = \beta$.
-	Dies induziert eine Bijektion $\beta \leftrightarrow \sigma_\beta$ zwischen den verschiedenen Nullstellen von $\sigma(p) \in L[x]$ und den Fortsetzungen $\sigma_\beta$ von $\sigma$ auf $K(\alpha)$.
-	Insbesondere besitzt daher $\sigma$ höchstens $\deg p$ viele Fortsetzungen auf $K(\alpha)$ (mit Gleichheit genau dann, wenn $\sigma(p)$ über $L[x]$ in $\deg p$ viele verschiedene lineare Polynome zerfällt).
+	\begin{note}
+		Zusammen mit \ref{18.4-3} induziert dies eine Bijektion $\beta \leftrightarrow \sigma_\beta$ zwischen den verschiedenen Nullstellen von $\sigma(p)$ in $L$ und den Fortsetzungen von $\sigma$ auf $K(\alpha)$.
+
+		Insbesondere besitzt daher $\sigma$ höchstens $\deg p$ viele Fortsetzungen auf $K(\alpha)$ mit Gleichheit genau dann, wenn $\sigma(p)$ über $L[x]$ in $\deg p$ viele \emph{verschiedene} lineare Polynome zerfällt.
+	\end{note}
+	\begin{proof}
+		Sei $\beta \in L$ Nullstelle von $\sigma(p) \in L[x]$, d.h. $\sigma(p)(\beta) = 0$.
+		\begin{seg}{Existenz von $\sigma_\beta$}
+			Betrachte $\eps_\beta: L[x] \to L : f \mapsto f(\beta) \in L$ und setze $\tau := \eps_\beta \circ \sigma: K[x] \to L$.
+			$\tau$ ist ein Ringhomomorphismus und es gilt $\tau(p) = \eps_\beta \circ \sigma(p) = (\sigma(p))(\beta) = 0$, d.h. $p \in \ker \tau$ und daher $p K[x] \subset \ker \tau$.
+
+			Nach dem ersten Isometriesatz existiert genau ein $\tilde \sigma: K[x] / p K[x] \to L$ mit $\tilde \sigma \circ \pi = \tau$, wobei $\pi: K[x] \to K[x] / pK[x]$ die natürliche Projektion sei.
+			So ist $\tilde \sigma(g + pK[x]) = \tau(g) = \eps_\beta \sigma(g) \in L$.
+			Insbesondere gilt für $x \in K[x]$ dann $\tilde \sigma(x + pK[x]) = \eps_\beta(\sigma(x)) = \eps(x) = \beta$.
+
+			Nach \ref{18.3-3} ii) ist $K(\alpha) \isomorphic K[x] / pK[x]$ vermöge des $K$-Körper"=Isomorphismus $\iota: K[x] / pK[x] \to K(\alpha): g + pK[x] \mapsto \eps_\alpha(g)$.
+
+			Wir definieren den Körperhomomorphismus $\sigma_\beta: K(\alpha) \to L$ durch $\sigma_\beta := \tilde \sigma \circ \iota^{-1}: K(\alpha) \to L$.
+			Dann ist $\sigma_\beta(\alpha) = \tilde \sigma(x + pK[x]) = \beta$, wie gewünscht.
+		\end{seg}
+		\begin{seg}{Eindeutigkeit}
+			Sei $\rho: K(\alpha) \to L$ Körperhomomorphismus mit $\rho(\alpha) = \beta \in L$ und $\rho|_K = \sigma$.
+			Nach \ref{18.3-3} ii) ist $K(\alpha) = \Set{ g(\alpha) & g \in K[x] }$ mit $g(\alpha) = \eps_\alpha(g)$.
+			Sei $g = \sum_{i=0}^n k_i x^i \in K[x]$, dann gilt
+			\[
+				\sigma_\beta(g)
+				= \sum_{i=0}^n \sigma_\beta(k_i) \beta^i
+				= \sum_{i=0}^n \sigma(k_i)\beta^i
+				= \sum_{i=0}^n \rho(k_i) \beta^i
+				= \rho(g),
+			\]
+			da $\forall k \in K: \sigma_\beta(K) = \sigma(k) = \rho(k)$ und $\sigma_\beta(\alpha) = \rho(\alpha) = \beta$.
+			Also ist $\rho = \sigma_\beta$ und die Fortsetzung ist eindeutig.
+		\end{seg}
+	\end{proof}
 \end{st}
 
 \begin{df} \label{18.4-5}
@@ -457,7 +503,7 @@ Im nächsten Satz formulieren wir eine notwendige und hinreichende Bedingung, wa
 
 \begin{st}[Fortsetzungsatz] \label{18.4-7}
 	Sei $K \subset E$ algebraische Körpererweiterung und sei $L$ algebraisch abgeschlossen.
-	Dann besitzt jeder Körperhomomorphismus $0 \neq \sigma: K \to L$ eine Fortsetzung $\sigma': E \to L$:
+	Dann besitzt jeder Körperhomomorphismus $\sigma: K \to L$ eine Fortsetzung $\sigma': E \to L$:
 	\[
 		\begin{tikzcd}
 			E \arrow{dr}{\exists \sigma'} & \\
@@ -465,6 +511,67 @@ Im nächsten Satz formulieren wir eine notwendige und hinreichende Bedingung, wa
 		\end{tikzcd}
 	\]
 	mit $\sigma'|_K = \sigma$.
+	\begin{proof}
+		Sei
+		\[
+			\scr M
+			:= \Set{ (F, \tau) & K \subset F \subset E \land \tau: F \to L \text{ Fortsetzung von $\sigma$} }.
+		\]
+		Dann ist $(K, \sigma) \in \scr M$, d.h. $\scr M \neq \emptyset$.
+		Auf $\scr M$ definieren wir eine (partielle) Ordnung $\le$ durch
+		\[
+			(F_1, \tau_1) \le (F_2, \tau_2)
+			\quad\iff\quad
+			K \subset F_1 \subset F_2 \subset E
+			\land \tau_2|_{F_1} = \tau_1.
+		\]
+		Sei $\scr K$ eine Kette in $\scr M$, d.h. eine linear geordnete Teilmenge und sei $F_0 := \bigcup_{(F,\tau) \in \scr K} F$.
+		Wegen der linearen Ordnung existiert stets für $\alpha, \beta \in F_0$ ein $(F_i, \tau_i) \in \scr K$ mit $\alpha, \beta \in F_i$ ($F_i$ Körper) und folglich ist $F_0$ auch ein Körper.
+
+		Für $\alpha \in F_0$ definieren wir $\tau_0(\alpha)$ wie folgt:
+		sei $(F_i, \tau_i) \in \scr K$ mit $\alpha \in F_i$, dann setzen wir $\tau_0(\alpha) = \tau_i(\alpha)$.
+		Man beobachtet nun
+		\begin{enumerate}[1)]
+			\item
+				$\tau_0 : F_0 \to L$ ist wohldefiniert.
+				Denn sei $\alpha \in F_0$ und $(F_1, \tau_1), (F_2, \tau_2) \in \scr K$ mit $\alpha \in F_1, F_2$ und \oBdA $(F_1, \tau_1) \le (F_2, \tau_2)$.
+				Dann ist insbesondere $F_1 \subset F_2$ und $\tau_2|_{F_1} = \tau_1$ und somit $\tau_2(\alpha) = \tau_1(\alpha)$, also $\tau_0(\alpha) := \tau_1(\alpha) = \tau_2(\alpha)$ wohldefiniert.
+			\item
+				$\tau_0$ ist Körperhomomorphismus.
+				Denn seien $\alpha, \beta, \gamma \in F_0$, $\gamma \neq 0$, dann finden wir wie oben $(F_i, \tau_i) \in \scr K$ so, dass $\alpha, \beta, \gamma \in F_i$ gilt.
+				Dann ist $\alpha \pm \cdot \beta \in F_i$ und $\gamma^{-1} \in F_1$ und daher
+				\begin{align*}
+					\tau_0(\alpha \pmd \beta)
+					&= \tau_1(\alpha \pmd \beta)
+					= \tau_1(\alpha) \pmd \tau_1(\beta)
+					= \tau_0(\alpha) \pmd \tau_0(\beta), \\
+					\tau_0(\gamma^{-1})
+					&= \tau_1(\gamma^{-1})
+					= \tau_1(\gamma)^{-1}
+					= \tau_0(\gamma)^{-1}.
+				\end{align*}
+			\item
+				$\tau_0$ ist Fortsetzung von $\sigma: K \to L$ zu $\tau_0: F_0 \to L$, denn sei $\alpha \in K$, so ist $\alpha \in F_1$ für alle $(F_1, \tau_1) \in \scr K$ und daher $\tau_0(\alpha) = \tau_1(\alpha) = \sigma(\alpha)$, da $\tau_1$ Fortsetzung von $\sigma$ auf $F_1$ ist.
+		\end{enumerate}
+		Also ist $(F_0, \tau_0) \in \scr M$ obere Schranke von $\scr K$ und daher besitzt $\scr M$ nach dem Lemma von Zorn maximale Elemente.
+
+		Sei $(F, \tau) \in \scr M$ ein solches maximales Element von $\scr K$, wir zeigen, dass $F = E$ ist.
+		Dann ist $\tau = \sigma': E \to L$ die gewünschte Fortsetzung von $\sigma$ auf $E$.
+
+		Wenn nicht, so gibt es $\alpha \in E$ mit $\alpha \not\in F$.
+		Da $\alpha$ algebraisch über $K$ ist, ist es algebraisch über $F$ nach \ref{18.3-6}.
+		Sei $F_1 = F(\alpha)$.
+		Wegen $K \subset F$ ist $K \subset F_1$ und wegen $\alpha \in E$ ist $F_1 \subset E$, wir haben also $K \subset F \subsetneq F_1 \subset E$ wegen $\alpha \not\in F$.
+		Sei $p = \mu_{\alpha, F} \in F[x]$.
+		Dann ist $\tau(p) \in L[x]$.
+		Da $L$ algebraisch abgeschlossen ist, besitzt $\tau(p)$ eine Nullstelle $\beta$ in $L$.
+		Nach \ref{18.4-4} besitzt $\tau$ daher eine Fortsetzung $\tau_1: F_1 \to L$ (mit $\tau_1(\alpha) = \beta$).
+		Nun ist $\tau_1|_K = (\tau_1|_F)|_K = \tau|_K = \sigma$ und ist daher Fortsetzung von $\sigma$ auf $F_1$ und daher ist $(F_1, \tau_1) \in \scr M$.
+		Nach Konstruktion ist $(F, \tau) \lneq (F_1, \tau_1)$, da $\tau_1|_F = \tau$ ist und $K \subset F \subsetneq F_1 \subset E$ gilt.
+		Also ist $(F, \tau)$ nicht maximal in $\scr M$, ein Widerspruch.
+		Somit muss $F = E$ und der Satz ist gezeigt.
+
+	\end{proof}
 \end{st}
 
 \begin{nt} \label{18.4-8}
@@ -472,13 +579,88 @@ Im nächsten Satz formulieren wir eine notwendige und hinreichende Bedingung, wa
 		\item
 			Der Beweis von \ref{18.4-7} benötigt das Lemma von Zorn, ist also nicht konstruktiv.
 		\item
-			Die Fortsetzung $\sigma'$ von $\sigma: K \to L$ in \ref{18.4-7} ist im Allgemeinen nicht eindeutig.
+			Die Fortsetzung $\sigma'$ von $\sigma: K \to L$ in \ref{18.4-7} ist im Allgemeinen nicht eindeutig (ebenso, wie im Beweis ds maximale Element von $\scr M$ nicht eindeutig ist).
+
+			Die maximalen Elemente von $\scr M$ sind genau von der Form $(E, \sigma_i)$, wobei $\sigma_i$ die \emph{verschiedenen} Fortsetzungen von $\sigma$ auf $E$ seien.
 	\end{enumerate}
 \end{nt}
 
 \begin{st} \label{18.4-9}
 	Sei $K$ ein Körper.
-	Dann besitzt $K$ einen algebraischen Abschluss und dieser ist bis auf $K$-Isomorphie eindeutig bestimmt.
+	Dann besitzt $K$ einen bis auf $K$-Isomorphie eindeutig bestimmten algebraischen Abschluss $\_K$.
+	\begin{proof}[Skizze]
+		\begin{seg}{Existenz von $\_K$}
+			Für jedes nicht konstante Polynom $f \in K[x]$ wählen wir eine Variable $z_f$ und setzen $\scr Z := \Set{ z_f & f \in K[x], \deg f \ge 1 }$.
+			Sei $R = K[\scr Z]$ der Polynomring in den (unendlich vielen) Unbestimmten $z_f \in \scr Z$.
+			Er hat eine $K$-Basis bestehend aus endlichen Monomen $z_1^{\nu_1} \dotsc z_k^{\nu_k}$ mit $\nu_i \in \N_0, z_1, \dotsc, z_k \in \scr Z$.
+
+			Für $f = \sum_{i=0}^n \alpha_i x^i \in K[x]$ ist $f(z_f) = \sum_{i=0}^n \alpha_i z_f^i \in R$.
+			Sei $I := \Span{\Set{f(z_f) & f \in K[x], \deg f \ge 1}} \IdealOf R$ ein Ideal.
+			Wir zeigen $I \neq R$.
+			Sonst finden wir $f_1, \dotsc, f_n \in K[x]$ vom Grad $\ge 1$ und $g_1, \dotsc, g_n \in R$ so, dass
+			\begin{equation} \label{eq:18.4-9_1}
+				1 = \sum_{i=m}^n g_i f_i (z_i),
+				\qquad z_i = z_{f_i} \in \scr Z.
+			\end{equation}
+			Beachte: die $g_i$ und $f_i$ involvieren nur endlich viele Variablen.
+			Nach \ref{18.1-4} finden wir eine algebraische Erweiterung $K_1$ von $K$ so, dass $f_1$ eine Nullstelle $\alpha_1$ in $K_1$ besitzt (nämlich $K_1 = K[x] / pK[x]$, wobei $p$ ein irreduzibler Faktor von $f$ ist).
+			Weiter gibt es eine algebraische Erweiterung $K_2$ von $K_1$ (beachte $f_2 \in K[x] \subset K_1[x]$) so, dass $f_2$ in $K_2$ eine Nullstelle besitzt.
+			Wiederholung des Verfahrens liefert eine algebraische Erweiterung $E$ von $K$ mit $E = K(\alpha_1, \dotsc, \alpha_n)$ so, dass $\alpha_i$ Nullstelle von $f_i \in K[x] \subset E[x]$ in $E$ ist für $i = 1, \dotsc, n$, d.h. $f_i(\alpha_i) = 0$.
+
+			Wir nutzen den Einsetzungshomomorphismus $\eps := \eps_{\alpha_1,\dotsc, \alpha_n} : R \to E[\scr Z \setminus \Set{z_i & i \in \Set{1, \dotsc, n}}]$ und setzen $\alpha_1, \dotsc, \alpha_n$ in die Gleichung \eqref{eq:18.4-9_1} ein (universelle Eigenschaft von Polynomringen) und erhalten
+			\[
+				1 = \sum_{i=1}^n \eps(g_i) f_i(\alpha_i)
+				= \sum_{i=1}^n \eps(g_i) \cdot 0
+				= 0,
+			\]
+			ein Widerspruch, also ist $I \neq R$.
+
+			Mit dem Lemma von Zorn existiert ein maximales, nicht-triviales Ideal $\scr M \IdealOf R$ mit $I \subset \scr M$.
+			Sei $L_1 = R / \scr M$, dann ist $K \subset L_1$, d.h. $L_1$ ist Erweiterungskörper von $K$.
+			Für $r \in R$ sei $\_r = r + \scr M \in L$ die Restklasse von $r$ in $L_1 = R / \scr M$.
+			Wegen $f(z_f) \in I \subset \scr M$ ist $\_{f(z_f)} = f(\_{z_f}) = 0$, $f \in K[x] \subset L_1[x], \deg f \ge 1$.
+			Da $R$ als $K$-Algebra von den $z_f \in \scr Z$ erzeugt wird, wird $L_1 = R / \scr M$ als $K$-Algebra von den Restklassen $\_{z_f} = z_f + \scr M$ erzeugt, d.h.
+			\[
+				L_1 = K\Big(\Set{\_{z_f} & f \in K[x], \deg f \ge 1}\Big).
+			\]
+			Wegen $f(\_{z_f}) = 0$ ist $\_{z_f} \in L_1$ algebraisch über $K$ und daher ist $L_1$ algebraisch über $K$ nach \ref{18.3-8}.
+			Darüber hinaus hat jedes Polynom $f \in K[x], \deg f \ge 1$ eine Nullstelle in $L_1$, nämlich $\_{z_f}$.
+
+			Ist $L_1$ nicht algebraisch abgeschlossen, wiederholen wir diese Prozedur und erzeugen ein Erweiterungskörper $K \subset L_1 \subset L_2$ mit $L_2$ algebraisch über $L_1$ und daher auch algebraisch über $K$ nach \ref{18.3-12} so, dass jedes Polynom $h \in L_1[x] \subset L_2[x], \deg h \ge 1$ Nullstelle in $L_2$ besitzt.
+			Wiederholung ergibt einen Turm von algebraischen Körpererweiterungen $K = L_0 \subset L_1 \subset L_2 \subset \dotsc$ mit $L_{i+1}$ algebraisch über $L_i$ und daher algebraisch über $K$ (Induktion mit \ref{18.3-12}) und jedes Polynom in $L_i[x]$ besitzt eine Nullstelle in $L_{i+1}$.
+
+			Setze nun $L := \bigcup_{i=0}^\infty L_i$, dann sieht man leicht (jeweils durch Eingrenzung auf ein geeignetes $L_k$)
+			\begin{enumerate}[1.)]
+				\item
+					$L$ ist Körper,
+				\item
+					$L$ ist algebraisch über $K$,
+				\item
+					$L$ ist algebraisch abgeschlossen.
+			\end{enumerate}
+			Man kann sogar zeigen (mit etwas mehr Aufwand), dass schon $L_1$ algebraisch abgechlossen ist.
+		\end{seg}
+		\begin{seg}{Eindeutigkeit bis auf $K$-Isomorphie}
+			Seien $E_1, E_2$ algebarische Abschlüsse von $K$, zeige $E_1$ und $E_2$ sind $K$-isomorph.
+			Wir wenden den Fortsetzungssatz \ref{18.4-7} an mit $\sigma_1: K \to E_1$ und $\sigma_2: K \to E_2$ als natürliche Einbettungen:
+			\[
+				\begin{tikzcd}
+					E_2 \arrow[dashed]{rd}{\exists \tilde \sigma_1}   & \\
+					K \arrow[inj]{u}{\sigma_2} \arrow[inj]{r}[swap]{\sigma_1} & E_1
+				\end{tikzcd}
+				\qquad
+				\begin{tikzcd}
+					E_1 \arrow[dashed]{rd}{\exists \tilde \sigma_2}   & \\
+					K \arrow[inj]{u}{\sigma_1} \arrow[inj]{r}[swap]{\sigma_2} & E_2
+				\end{tikzcd}
+			\]
+			mit $\tilde \sigma_1|_K = \sigma_1$ und $\tilde \sigma_2|_K = \sigma_2$.
+			$\tilde \sigma_1(E_2) \subset E_1$ ist algebraisch abgeschlossen und algebraisch über $K$.
+			Da $E_1$ algebraisch über $K$ ist also $E_1$ auch algebraisch über $\tilde \sigma_1(E_2$).
+			Weil $\tilde \sigma_1(E_2)$ algebraisch abgeschlossen ist, ist $\tilde \sigma_1(E_2) = E_1$ und daher ein Körperisomorphismus (nach \ref{18.3-6} und \ref{18.4-6}).
+			Da $\tilde \sigma_1|_K = \sigma_1$ die natürliche Einbettung von $K$ in $E_1$, ist dieser $K$-linear, d.h. ein $K$-Isomorphismus.
+		\end{seg}
+	\end{proof}
 \end{st}
 
 \begin{conv*}
