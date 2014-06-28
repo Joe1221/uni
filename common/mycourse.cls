@@ -524,7 +524,9 @@
 }
 % Mit Zeilenumbruch
 \DeclareDocumentEnvironment { seg } { og } {
-    \begin{segmentlist} [ ]
+    \begin{segmentlist} [
+        font      = \normalfont\small\bfseries,
+    ]
         \item [ \mbox{ \color{headings} \IfNoValueTF { #1 } { #2 } { #1 } } ]
 } {
     \end{segmentlist}
