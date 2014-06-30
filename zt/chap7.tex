@@ -42,7 +42,7 @@
 \begin{nt} \label{7.4}
 	\begin{enumerate}[a)]
 		\item
-			\ref{7.3} wurde 1896 von Hadamard und de la Valée-Dusin gleichzeitig und unabhängig voneinendare bewiesen, aufbauend auf Vorarbeiten von Riemann.
+			\ref{7.3} wurde 1896 von Hadamard und de la Valée-Dusin gleichzeitig und unabhängig voneinander bewiesen, aufbauend auf Vorarbeiten von Riemann.
 			Insbesondere mit Hilfe von Eigenschaften der \emphdef{Riemann'schen Zetafunktion}:
 			\[
 				\zeta(s) := \sum_{n\in \N} \f 1{n^s},
@@ -51,6 +51,199 @@
 			Mit analytischer Fortsetzung kann man $\zeta$ auf $\C \setminus \Set 1$ zu einer meromorphen Funktion ausdehnen.
 		\item
 			1949 wurde der Primzahlsatz von Erdös und Selberg elementar (ohne funktionentheoretischen, lediglich mit analytischen Methoden) bewiesen.
+\coursetimestamp{30}{06}{2014}
+		\item
+			Gauß hatte den Primzahlsatz in folgender Form vermutet:
+			\[
+				\pi(x) \sim \mathop{li}(x),
+			\]
+			wobei $\mathop{li} := \int_{2}^x \f 1{\log t} \di[t]$.
+			Da nach L'Hospital $\f x{\log x} \sim \mathop{li}(x)$ ist diese Formulierung äquivalent zu \ref{7.3}.
+			Die Formulierung von Gauß liefert eine bessere Abschätzung.
+		\item
+			\emph{Heuristische} Herleitung des Primzahlsatzes:
+			
+			Sei $\pi_2(x)$ die Anzahl der ungeraden Zahlen $\le x$.
+			Dann liegt nahe $\pi_2'(x) = \f 12 = (1 - \f 12)$.
+			Sei $\pi_{2,3}(x)$ die Anzahl der nicht durch $2$ und $3$ teilbaren Zahlen.
+			Dann hat man $\pi_3'(x) = (1 - \f 12)(1 - \f 13)$.
+
+			Angenommen $\pi(x)$ sei differenzierbar, dann liegt nahe, dass
+			\[
+				\pi'(x) = \prod_{\substack{p\in \P \\ p < x}} (1 - \f 1p).
+			\]
+			Logarithmieren ergibt
+			\begin{align*}
+				\log \pi'(x) &\approx \sum_{\substack{p \in \P \\ p < x}} \log(1 - \f 1p) \\
+				&\approx \sum_{\substack{t \in \Z \\ 2 \le t < x}} \log(1 - \f 1t) \pi'(x) \\
+				&\approx \int_2^x \log(1 - \f 1t) \pi'(t) \di[t] 
+			\end{align*}
+			Die Potenzreihe von $\log(1 - \f 1t) = - \f 1t - \f {2t^2} - \f 1{3t^3} - \dotsc$, also $\log \pi'(x) \approx -\int_2^x \f 1t \pi'(t) \di[t]$.
+			Ableiten ergibt
+			\[
+				\f{\pi''(x)}{\pi'(x)} \approx - \f{\pi'(x)}{x},
+			\]
+			also $- \f{\pi''(x)}{\pi'(x)} = \f 1{x}$.
+			Integrieren ergibt $\f 1{\pi'(x)} \approx \log x + c$, also $\pi'(x) \approx \f 1{\log x + c}$.
+			Für große $x$ ergibt dies $\pi'(x) \approx \f 1{\log x}$ und Integrieren $\pi(x) \approx \mathrm{li} x$.
 	\end{enumerate}
 \end{nt}
 
+% St 7.5
+\begin{st}[Tschebyscheff, 1850] \label{7.5}
+	Sei $n \in \N, n \ge 4$.
+	Dann gilt
+	\[
+		\f 14 \f n{\log n}
+		\le \pi(n) \le
+		6 \f n{\log n}
+	\]
+	\begin{proof}
+		Idee: Man weiß gut Bescheid, wie die Primzahlzerlegung von $\binom{2n}{n}$ ist.
+		\begin{enumerate}[1)]
+			\item
+				Es gilt $2^n < \binom{2n}{n} < 4^n$ für $n \ge 2$.
+
+				Die rechte Seite folgt aus $4^n = (1+1)^{2n} = \sum_{k=0}^{2n} \binom{2n}{k} > \f{2n}n$.
+				Die linke Seite ist richtig für $n = 2$, da $2^4 = 4 < 6 = \binom{4}{2}$.
+				Per Induktion
+				\begin{align*}
+					\binom{2n}{n}
+					&= \f {(2n)(2n-1)\dotsb (2-n+1)\cdot n}{n(n-1)\dotsb 2\cdot 1 \cdot n} \\
+					&= \binom{2(n-1)}{n-1} \f {(2n)(2n-1)}{n^2}
+					> 2^{n-1} \f {2(2n-1)}{n}
+					= 2^n \f {2n - 1}{n}
+					> 2^n.
+				\end{align*}
+			\item
+				Sei $\nu_p(n!)$ die größte $p$-Potenz, die $n!$ teilt.
+				Es gilt
+				\[
+					\nu_p(n!) = \sum_{m \ge 1} \ceil{\f{n}{p^m}} 
+					= \sum_{m=1}^{\ceil{\f{\log n}{\log p}}} \ceil{\f {n}{p^m}}.
+				\]
+
+				Wie man 2) leicht einsieht, bzw. beweist, sieht man am besten an einem Beispiel:
+				\begin{align*}
+					\nu_2(10!)
+					&= \underbrace{\ceil{\f {10}{8}}}_{\text{durch $8$ teilb. Zahlen}} + \underbrace{\ceil{\f {10}{4}}}_{\text{durch $4$ teilb. Zahlen}} + \underbrace{\ceil{\f {10}{2}}}_{\text{durch $2$ teilb. Zahlen}} \\
+					&= 1 + 2 + 5
+					= 8.
+				\end{align*}
+			\item
+				Es gilt $n \log 2 < \log(2n!) - 2 \log(n!) < 2n \log n$ (Logarithmieren von 1)).
+			\item
+				Es gilt
+				\[
+					\log(2n)! - 2 \log(n!) = \sum_{p \le 2n} \sum_{m = 1}^{\ceil{\f{\log 2n}{\log p}}} \big( \ceil{\f {2n}{p^m}} -  2 \ceil{\f{n}{p^m}} \big) \log p.
+				\]
+				Denn $n! = \prod_{\substack{p \le n \\ p \in \P}} p^{\nu_p(n!)}$ und $(2n)! = \prod_{p \le 2n} p^{\nu_p((2n)!)}$.
+				Nach Logarithmieren ergibt sich
+				\[
+					\log n! = \sum_{p \le n} \nu_p(n!) \log p
+					\stack{2)}= \sum_{p \le n} \sum_{m \ge 1} \ceil{n}{p^m} \log p.
+				\]
+				Beachtet man $\ceil{\f{n}{p^m}} = 0$ für $p^m > n$, oder für $m > \ceil{\f {\log n}{\log p}}$, dann folgt 4) durch Einsetzen.
+
+				Verwende $\ceil{2x} - 2 \ceil{x}$ aus \ref{7.6} und ersetze in der rechten Seite von 4) die innere Summe durch ihre Anzahl von Summanden.
+				Dann ist mit 3)
+				\[
+					n \log 2 < \sum_{p \le 2n} \ceil{\f {\log 2n}{\log p}} \log p.
+				\]
+				Wegen $\ceil{\log 2n}{\log p} \log p \le \log 2n$ folgt
+				\[
+					\sum_{p \le 2n} \ceil{\f{2n}{\log p}} \log p
+					\le \sum_{p \le 2n} \log 2n
+					= \pi(2n) \log 2n.
+				\]
+				Insgesamt ergibt sich
+				\[
+					\pi(2n) > \f {n \log 2}{\log 2n}
+					> \f{n \cdot 2}{(\log 2n) \cdot 4}
+					= \f 14 \f {2n}{\log(2n)}
+				\]
+				und
+				\[
+					\pi(2n + 1) \ge \pi(2n)
+					> \f{n\log 2}{\log 2n}
+					= \f {n \log 2 (2n + 1)}{(2n + 1) \log 2n}
+					> \f 14 \f{2n + 1}{\log(2n + 1)},
+				\]
+				da
+				\[
+					\f {n\log 2}{2n + 1}
+					= \f{\log 2}{2 + \f 1n}
+					> \dfrac {\f {6}{10}}{\f{9}{4}}
+					= \f{24}{90}
+					> \f 14.
+				\]
+		\end{enumerate}
+		Für die rechte Ungleichung von \ref{7.5} betrachte die Funktion $\theta(x) := \sum_{\substack{p\in \P \\ p \le x}} \log p$, $\theta(1) := 0$.
+		Dann ist $\theta(2n) - \theta(n) = \sum_{n < p < 2n} \log p$.
+		Für $n < p < 2n$ ist $\ceil{\f {2n}p} - 2 \ceil{\f np} = 1$.
+		Aus 4) folgt
+		\[
+			\log((2n)!) - 2 \log(n!)
+			> \sum_{n<p<2n} \log p
+		\]
+		und aus 3) $2n \log 2 > \theta(2n) - \theta(n)$.
+		Insbesondere mit $n = 2^r$ auch $\theta(2^{r+1}) - \theta(2^r) < 2^{r+1} \log 2$.
+		Es gilt dann
+		\[
+			\theta(2^{r+1})
+			= \sum_{i = 0}^r \theta(2^{i+1}) - \theta(2^i)
+			< \log 2 (2 + \dotsb 2^{r+1})
+			< 2^{r+2} \log 2.
+		\]
+		Sei $2^k \le n \le 2^{k+1}$ und $y < n$.
+		Dann ist
+		\[
+			(\pi(n) - \pi(y))\log y
+			\le \sum_{y \le p \le n} \log p
+			\le \theta(n)
+			\le \theta(2^{k+1})
+			\stack{\text{s.o.}}\le 2^{k+2} \log 2
+			\le 4 n \log 2.
+		\]
+		Mit $y = n^{\f 23}$, $\log y = \f 23 \log n$, $\pi(y) \le y = n^{\f 23}$ folgt dann $(\pi(n) - \pi(y)) \f 23 \log n	\le 4 n \log 2$.
+		Also ist $\pi(n) - \pi(y) \le \f{6n \log 2}{\log n}$, oder
+		\[
+			\pi(n) \le n^{\f 23} + \f {6n \log 2}{\log n}
+			= \f n{\log n}\big( \f {\log n}{n^{\f 13} + 6 \log 2} \big).
+		\]
+		Betrachte nun die Funktion $\f {\log x}{x^{\f 13}}$.
+		Mit Kurvendiskussion hat diese ein Maximum bei $x = e^3$.
+		Folglich hat man
+		\[
+			\pi(n) \le n {\log n} \big( \f {\log n}{n^{\f 13} + 6 \log 2} \big)
+			< \f n{\log n} (\f 3e + 6 \log 2)
+			< 6 \f {n}{\log n}.
+		\]
+	\end{proof}
+\end{st}
+
+% Bem 7.6
+\begin{nt} \label{7.6}
+	Für $\nu_p \binom{2n}{n}$ ergibt sich wie oben
+	\[
+		\nu_p \binom {2n}{n} \log p = \sum_{m=1}^{\ceil{\f{\log 2n}{\log p}}} \big( \ceil{\f{2n}{p^m}} - 2 \ceil{\f{n}{p^m}} \big) \log p.
+	\]
+	Verwende nun
+	\[
+		\ceil{2x} - {x} = \begin{cases}
+			0 & x - \ceil{x} < \f 12 \\
+			1 & x - \ceil{x} \ge \f 12
+		\end{cases},
+	\]
+	dann ist
+	\[
+		\nu_p \binom{2n}{n} \log p
+		\le \ceil{\f {\log 2n}{\log p}}	 \log p
+		\le \log(2n)
+	\]
+	und somit
+	\begin{equation} \label{eq:7.6}
+		p^{\nu_p \binom{2n}{n}} \le 2n.
+		\tag{7.6}
+	\end{equation}
+\end{nt}
