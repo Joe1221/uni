@@ -6,7 +6,7 @@
 \begin{st}[Existenz und Eindeutigkeit der reellen Zahlen]
 	Es existiert ein vollständiger, geordneter Körper $(\R,+,\cdot,<)$.
 
-	Je zwei solcher Körper sind isomorph mittels eines eindeutig bestimmten Körperhomomorphismus.
+	Je zwei solcher Körper sind isomorph mittels eines eindeutig bestimmten Körperisomomorphismus.
 \end{st}
 
 
@@ -30,15 +30,16 @@
 	\end{enumerate}
 	Wir nennen einen linearen Raum $V$ mit Skalarprodukt auch \emph{Prähilbertraum}.
 	\begin{note}
-		Die Eigenschaft (S0) ist redundant, da sie aus (S1) und (S3) folgt.
+		(S0) bis (S3) enthalten ein redundante Eigenschaft, so ist z.B.
+		die Eigenschaft (S0) redundant, da sie aus (S1) und (S3) folgt.
 	\end{note}
 \end{df}
 
 \begin{df}
 	Sei $\K \in \{\R, \C\}$.
-	Auf $V := \K^n$ definiert $\<\argdot, \argdot\> : V \times V \to \K$ mit
+	Auf dem Vektorraum $V := \K^n$ definiert $\<\argdot, \argdot\> : V \times V \to \K$
 	\[
-		\<(x_1,\dotsc, x_n), (y_1,\dotsc, y_n)\> := \_{x_1}y_1 + \dotsb + \_{x_n}y_n.
+		\Big\<(x_1,\dotsc, x_n), (y_1,\dotsc, y_n)\Big\> := \_{x_1}y_1 + \dotsb + \_{x_n}y_n.
 	\]
 	das \emph{Standardskalarprodukt} auf $\K$.
 \end{df}
@@ -46,13 +47,13 @@
 \begin{ex}
 	Sei $\Omega$ eine Menge, $\K^{\Omega} := \{f : \Omega \to \K\}$,
 	\[
-		\K^{(\Omega)} = \{ f: \Omega \to \K : f \text{ hat endlichen Träger} \}.
+		\K^{(\Omega)} = \Set{ f: \Omega \to \K : f \text{ hat endlichen Träger} }.
 	\]
 	Dann ist
 	\[
 		\<f,g\> := \sum_{x\in \Omega} \_{f(x)}g(x)
 	\]
-	ein Skalarprodukt
+	ein Skalarprodukt auf $\K^{(\Omega)}$.
 \end{ex}
 
 \begin{ex}
@@ -73,7 +74,7 @@
 	\[
 		|\<u,v\>|^2 \le \<u,u\> \<v,v\>.
 	\]
-	Hieraus folgt für die Norm $|u| := \sqrt{\<u,u\>}$
+	Hieraus folgt für die \emphdef{Norm} $|u| := \sqrt{\<u,u\>}$
 	\begin{enumerate}[(N1),leftmargin=*,start=0]
 		\item
 			$|0| = 0$
@@ -84,6 +85,9 @@
 		\item
 			$|u+v| \le |u| + |v|$ (Dreiecksungleichung)
 	\end{enumerate}
+	\begin{proof}
+		Übung
+	\end{proof}
 \end{st}
 
 \begin{df}
@@ -92,7 +96,7 @@
 \end{df}
 
 \begin{ex}
-	Auf $\R^n$:
+	Auf $\R^n$ gibt es folgende besonders bekannte Normen:
 	\begin{itemize}
 		\item
 			\emph{Taxinorm} oder $\ell^1$-Norm:
@@ -117,7 +121,7 @@
 			% fixme: Skizze zu $B_p := \{x\in \R^2 : |x|_p \le 1\}$
 	\end{itemize}
 	\begin{note}
-		Auf $\R^n$ gilt
+		Im $\R^n$ gilt
 		\[
 			|x|_\infty
 			\le |x|_2
@@ -128,7 +132,7 @@
 \end{ex}
 
 \begin{ex}
-	Sei $\K = \R, \C$ und $\Omega$ ein Menge.
+	Sei $\K \in \Set{\R, \C}$ und $\Omega$ eine beliebigen Menge.
 	Wir schreiben
 	\begin{align*}
 		\K^\Omega := \Abb(\Omega, \K) &:= \{f : \Omega \to \K\}; \\
@@ -142,12 +146,13 @@
 \end{ex}
 
 \begin{ex}
+	Sei $\K \in \Set{\R, \C}$.
 	Sei $\Omega \subset \K^n$ messbar, $f : \Omega \to \K$ messbar,
 	\begin{align*}
 		\|f\|_p &:= \bigg( \int_{x\in \Omega} |f(x)|^p \dx \bigg)^{\f 1p} \\
 		\scr L^p(\Omega) &:= \Big\{ f: \Omega \to \K : \|f\|_p < \infty \Big\}
 	\end{align*}
-	Aus $\|f\|_p = 0$ folgt nur $f=0$ fast überall, also ist $\|f\|_p$ auf $\scr L^p(\Omega)$ noch keine Norm.
+	Aus $\|f\|_p = 0$ folgt nur $f=0$ fast überall, also ist $\|\argdot\|_p$ auf $\scr L^p(\Omega)$ noch keine Norm.
 	Setze
 	\begin{align*}
 		N &:= \Big\{ f : \Omega \to \K : f(x) = 0 \text{ für fast alle $x\in\Omega$} \Big\}\\
@@ -161,12 +166,13 @@
 	\[
 		|A| := \bigg( \sum_{i=1}^m \sum_{j=1}^n |a_{ij}|^2 \bigg)^{\f 12}.
 	\]
-	Dies ist ein Norm (Euklidische Norm auf $\K^{mn}$) und erfüllt zudem
+	Dies ist die euklidische Norm auf $\K^{mn}$.
+	Sie erfüllt
 	\[
 		|A B | \le |A| |B|,
-		\qquad A \in \K^{m\times n}, \B \in \K^{n\times m}.
+		\qquad A \in \K^{m\times n}, B \in \K^{n\times m}.
 	\]
-	Insbesondere $|Av| \le |A| |v|$ für $v\in \K^n (= \K^{n\times 1})$.
+	Insbesondere also auch $|Av| \le |A| |v|$ für $v\in \K^n (= \K^{n\times 1})$.
 \end{ex}
 
 \begin{ex}
@@ -218,15 +224,15 @@
 \end{df}
 
 \begin{ex}
-	Der Euklidische Abstand auf $X := \R^n$,
+	Der euklidische Abstand  im $R^n$,
 	\[
 		d(x,y) := |x-y|_2 := \sqrt{ (x_1 - y_1)^2  + \dotsb + (x_n - y_n)^2 }
 	\]
-	ist eine Metrik und definiert den Euklidischen metrischen Raum $(X,d)$.
+	ist eine Metrik und definiert den euklidischen metrischen Raum $(X,d)$.
 \end{ex}
 
 \begin{ex} \label{ex:discrete_metric}
-	Auf jeder Menge $X$ lässt sich die \emph{diskrete Metrik},
+	Auf einer beliebigen Menge $X$ lässt sich die \emph{diskrete Metrik} durch
 	\[
 		d(x,y) = \begin{cases}
 			0 & x=y \\
@@ -234,7 +240,7 @@
 		\end{cases},
 	\]
 	definieren.
-	Wir nennen dann $(X, d)$ einen \emph{diskreten metrischen Raum}.
+	Wir nennen $(X, d)$ dann einen \emph{diskreten metrischen Raum}.
 \end{ex}
 
 \begin{ex}
@@ -260,11 +266,12 @@
 \end{ex}
 
 \begin{ex}[Abbildungsräume]
-	Ist $(Y,d_y)$ ein metrischer Raum, $X$ eine Menge, dann trägt $Y^X = \Abb(X,Y)$ die Metrik
+	Sei $X$ eine Menge und $(Y,d_y)$ ein metrischer Raum.
+	Der Raum $Y^X = \Abb(X,Y)$ trägt die Metrik
 	\[
-		d(f,g) := \sup \{ d_y(f(x),g(x)) : x \in X \}
+		d(f,g) := \sup \{ d_y(f(x),g(x)) : x \in X \},
 	\]
-	für $f,g : X \to Y$.
+	wobei $f,g : X \to Y$.
 \end{ex}
 
 \subsection{Metriken unter Abbildungen}
@@ -272,14 +279,19 @@
 \begin{df}
 	Eine \emph{isometrische Einbettung} von $(X,d_X)$ in $(Y,d_Y)$ ist eine Abbildung $f: X\to Y$ mit
 	\[
-		d_Y(f(a), f(b)) = d_X(a,b)
+		d_X(a,b) = d_Y(f(a), f(b))
 	\]
 	für alle $a,b \in X$.
 
 	Ist $f$ bijektiv, so heißen $f$ \emph{Isometrie} und die beiden metrischen Räume $(X,d_X)$, $(Y,d_Y)$ \emph{isometrisch}.
 	\begin{note}
-		Die isometrische Einbettung ist auch eine Einbettung gemäß \ref{df:embedding}.
-		Insbesondere ist also jede isometrische Einbettung ein Homöomorphismus $X \homto f(X)$ gemäß \ref{df:metric_space_homeomorphism} und \ref{df:homeomorphism}.
+		\begin{itemize}
+			\item
+				Die Forderung $d_X(a,b) = d_Y(f(a), f(b))$ liefert Stetigkeit und Injektivität umsonst.
+			\item
+				Die isometrische Einbettung ist auch eine Einbettung gemäß \ref{df:embedding}.
+				Insbesondere induziert jede isometrische Einbettung einen Homöomorphismus $X \homto f(X)$ gemäß \ref{df:metric_space_homeomorphism} und \ref{df:homeomorphism}.
+		\end{itemize}
 	\end{note}
 \end{df}
 
@@ -299,19 +311,23 @@
 	Die Räume $\ell^2(\Z, \C)$ und $L^2([0,2\pi], \C)$ sind isometrisch dank Fourier"=Analyse/Synthese.
 \end{ex}
 
+Bei der isometrischen Einbettung wurde $d_X(a,b) = d_Y(f(a), f(b))$ gefordert.
+Betrachte nun eine schwächere Aussage.
 Seien $(X,d_X), (Y,d_Y)$ metrische Räume.
 Jede Funktion $f : X \to Y$ erfüllt
 \[
 	l d(a,b) \le d(f(a), f(b)) \le L d(a,b)
 \]
 für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
+Fordert man nun nicht-triviale Konstanten, so erhält man die folgende Definition.
 
 \begin{df}
+	Seien $(X, d_X), (Y, d_Y)$ metrische Räume und $f: X \to Y$ eine Funktion.
 	Wir nennen $f$ \emph{Lipschitz-stetig} wenn
 	\[
-		l \cdot d(a,b) \le d(f(a), f(b)) \le L \cdot d(a,b)
+		l \cdot d_X(a,b) \le d_Y(f(a), f(b)) \le L \cdot d_X(a,b)
 	\]
-	für ein $L$ mit $0 \le L < \infty$ gilt.
+	für ein $L$ mit $0 \le L < \infty$ und für alle $a,b \in X$ gilt.
 
 	Ist zusätzlich $0 < l \le L < \infty$, so heißt $f$ \emph{bi-Lipschitz-stetig}.
 \end{df}
@@ -328,9 +344,9 @@ für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
 \begin{ex}
 	\begin{itemize}
 		\item
-			$f(x) = x^2$, $L=2, l=0$.
+			$f: [0,1] \to [0,1], f(x) = x^2$ ist lipschitz-stetig vermöge $L=2, l=0$.
 		\item
-			$g(x) = \sqrt{x}$, $L=\infty, l=\f 12$.
+			$g: [0,1] \to [0,1], g(x) = \sqrt{x}$ ist nicht lipschitz-stetig, es genügt $L=\infty, l=\f 12$.
 	\end{itemize}
 \end{ex}
 
@@ -351,11 +367,11 @@ für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
 	Bezüglich eines metrischen Raumes $(X,d)$ führen wir folgende Begriffe ein:
 	\begin{itemize}
 		\item
-			Eine Menge $U \subset X$ heißt \emph{Umgebung} von $a$ in $(X,d)$, wenn es $\eps > 0$ gibt, sodass $B_{(X,d)}(a,\eps) \subset U$.
+			Eine Menge $U \subset X$ heißt \emph{Umgebung} von $a$ in $(X,d)$, wenn $\eps > 0$ existiert, sodass $B_{(X,d)}(a,\eps) \subset U$.
 		\item
 			Die Menge $U$ heißt \emph{offen} in $(X,d)$, wenn sie Umgebung jedes Punktes $a \in U$ ist.
 		\item
-			Eine Menge $A \subset X$ heißt \emph{abgeschlossen} in $(X,d)$, wenn $X \setminus A$ offen ist in $(X,d)$.
+			Eine Menge $A \subset X$ heißt \emph{abgeschlossen} in $(X,d)$, wenn $X \setminus A$ offen in $(X,d)$ ist.
 	\end{itemize}
 
 	Die Familie aller offenen Mengen heißt \emph{Topologie} des Raumes $(X,d)$.
@@ -386,14 +402,17 @@ für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
 					$A_i$ abgeschlossen ($i\in I$) $\implies \bigcap_{i\in I} A_i$ offen.
 			\end{enumerate}
 	\end{itemize}
+	\begin{proof}
+		Übung.
+	\end{proof}
 \end{prop}
 
-\begin{prop}
+\begin{prop} \label{thm:metric_space_closed_subset_convergent_sequences}
 	In einem metrischen Raum $(X,d)$ ist eine Menge $A \subset M$ genau dann abgeschlossen,
 	wenn für jede konvergente Folge $(x_n)_{n\in\N}$ in $X$ mit $x_n \in A$ der Grenzwert in $A$ liegt: $x_n \to a \in A$.
 	\begin{proof}
 		\begin{segnb}[„$\implies$“]
-			Sei $(x_n)_{n\in\N}$ mit $x_n \in A$ konvergent in $X$ und $X \setminus A$ offen.
+			Sei $(x_n)_{n\in\N}$ mit $x_n \in A$ konvergent gegen $a \in X$ und $X \setminus A$ offen.
 			Angenommen $a \in X \setminus A$, dann existiert $\eps > 0$ mit $B(a,\eps) \cap A = \emptyset$.
 			Also $x_n \not\to a$, ein Widerspruch, also $a \in A$.
 		\end{segnb}
@@ -411,17 +430,17 @@ für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
 \begin{df}
 	Zu $M \subset X$ definieren wir das \emph{Innere} von $M$ in $(X,d)$ durch
 	\begin{align*}
-		\mathring M &:= \{ x \in X : M \text{ ist Umgebung von $x$ in $(X,d)$} \} \\
-		&= \{ x \in X : \exists \eps > 0 B(x,\eps) \subset M \} \\
-		&= \bigcup \{ U \subset M : U \text{ ist offen in $(X,d)$}.
+		\mathring M &:= \Set{ x \in X & M \text{ ist Umgebung von $x$ in $(X,d)$} } \\
+		&= \Set{ x \in X & \exists \eps > 0 B(x,\eps) \subset M } \\
+		&= \bigcup \Set{ U \subset M : U \text{ ist offen in $(X,d)$} }.
 		% fixme: prüfen
 	\end{align*}
 
 	Der \emph{Abschluss} (oder abgeschlossene Hülle) von $M$ in $(X,d)$ ist
 	\begin{align*}
-		\_{M} &:= \{ x \in X : \text{ Jede Umgebung von $x$ in $(X,d)$ schneidet $M$} \} \\
-		&= \{ x \in X : \forall \eps > 0 : B(x,\eps) \cap M \neq \emptyset \} \\
-		&= \bigcap \{ A \supset M : \text{$A$ ist abgschlossen in $(X,d)$} \}
+		\_{M} &:= \Set{ x \in X & \text{ Jede Umgebung von $x$ in $(X,d)$ schneidet $M$} } \\
+		&= \Set{ x \in X & \forall \eps > 0 : B(x,\eps) \cap M \neq \emptyset } \\
+		&= \bigcap \Set{ A \supset M & \text{$A$ ist abgeschlossen in $(X,d)$} }
 		% fixme: prüfen
 	\end{align*}
 
@@ -431,15 +450,15 @@ für alle $a,b \in X$ mit den Konstanten $l=0, L = \infty$.
 	\]
 \end{df}
 
-\begin{ex}
+\begin{conv}
 	Im $\R^n$ betrachten wir
 	\begin{align*}
 		\D^n := \{ x \in \R^n : x_1^2 + \dotsb + x_n^2 \le 1 \}, \\
 		\B^n := \{ x \in \R^n : x_1^2 + \dotsb + x_n^2 < 1 \}, \\
 		\S^{n-1} := \{ x \in \R^n : x_1^2 + \dotsb + x_n^2 = 1 \}.
 	\end{align*}
-	In \coursehref{Blatt01.pdf}{Übungsaufgabe Blatt1, S4.1} wird gezeigt, dass es sich hierbei um $n$-, bzw. $n-1$-dimensionale Mannigfaltigkeiten handelt.
-\end{ex}
+	In \coursehref{Blatt01.pdf}{Übungsaufgabe Blatt1, S4.1} wird gezeigt, dass es sich hierbei um $n$-, bzw. $n-1$-dimensionale Mannigfaltigkeiten handelt, siehe auch Kapitel \ref{sec:manifolds}.
+\end{conv}
 
 \coursetimestamp{21}{10}{2013}
 
@@ -481,18 +500,18 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 		\forall \eps > 0 \exists \delta > 0 \forall x,a \in X: d_X(x,a) < \delta \implies d_Y(f(x), f(a)) < \eps
 	\]
 
-	Die Menge aller stetigen Abbildung $f: X \to Y$ bezeichnen wir mit $C(X,Y)$.
+	Die Menge aller stetigen Abbildung $f: X \to Y$ bezeichnen wir mit $\scr C(X,Y)$.
 
 	Ist $f$ bijektiv und sowohl $f$, als auch $f^{-1}$ stetig, so heißt $f$ \emph{Homöomorphismus}.
 \end{df}
 
 \begin{st}
-	Für $f: X \to Y$ sind äquivalent
+	Seien $(X, d_X), (Y, d_Y)$ metrische Räume und $f: X \to Y$, dann sind äquivalent:
 	\begin{enumerate}[1)]
 		\item
-			$f$ ist stetig,
+			$f$ ist stetig gemäß \ref{df:metric_space_homeomorphism},
 		\item
-			$f$ ist folgenstetig, d.h. aus $x_n \to a$ in $X$ folgt $f(x_n) \to f(a)$ in $Y$,
+			$f$ ist \emphdef{folgenstetig}, d.h. aus $x_n \to a$ in $X$ folgt $f(x_n) \to f(a)$ in $Y$,
 		\item
 			Für $V \subset Y$ offen ist $f^{-1}(V) \subset X$ offen,
 		\item
@@ -551,10 +570,10 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 \subsection{Zusammenhang}
 
 \begin{st}[Zwischenwertsatz] \label{st:intermediate_value_theorem}
-	Jede stetige Funktion $f: X := [a,b] \to \R$ hat die Zwischenwerteigenschaft (siehe auch \ref{df:intermediate_value_property}): zu $y \in \R$ mit $f(a) \le y \le f(b)$ existiert $x \in \R$ mit $x \in [a,b]$ mit $f(x) = y$.
+	Jede stetige Funktion $f: X := [a,b] \to \R$ hat die \emphdef{Zwischenwerteigenschaft} (siehe auch \ref{df:intermediate_value_property}): zu $y \in \R$ mit $f(a) \le y \le f(b)$ existiert $x \in \R$ mit $x \in [a,b]$ mit $f(x) = y$.
 	\begin{note}
 		Die Vollständigkeit von $\R$ ist hierfür wesentlich:
-		die stetige Funktion $f: \Q \to \Q$ mit $f(x) = x^2 - 2$ hat nicht die ZWE, da $f(1) = - 1 < 0$ und $f(2) = 2 > 0$, aber kein $x \in \Q$ mit $f(x) = 0$ existiert.
+		die stetige Funktion $f: \Q \to \Q$ mit $f(x) = x^2 - 2$ hat nicht die ZWE, da $f(1) = - 1 < 0$ und $f(2) = 2 > 0$, aber es existiert kein $x \in \Q$ mit $f(x) = 0$.
 	\end{note}
 	\begin{proof}
 		Siehe \coursehref{Blatt00.pdf}{Übungsaufgabe Blatt0, 1.2.}
@@ -577,11 +596,12 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 	\begin{proof}
 		$(1) \implies (2) \implies (3)$ sind klar.
 		\begin{seg}[$(3) \implies (4)$]
-			Ist $X = A \dunion B$ eine offene Zerlegung, so ist \oBdA $f: X \to \{0, 1\}$ mit $f(A) = \{0\}$ und $f(B) = \{1\}$ stetig.
+			Sei $X = A \dunion B$ eine offene Zerlegung und $f: X \to \{0, 1\} \subset \R$ mit $f(A) = \{0\}$ und $f(B) = \{1\}$.
+			$f$ ist stetig, also konstant und somit $A = \emptyset$ oder $B = \emptyset$.
 		\end{seg}
 		\begin{seg}[$(4) \implies (1)$]
 			Angenommen $f: X \to \R$ stetig und zu $a,b \in X$ existiert $y \in \R$ mit $f(a) < y < f(b)$ aber $y \not\in f(X)$.
-			Dann wäre $A = f^{-1}(\R_{<Y})$ und $B = f^{-1}(\R_{>0})$ eine offene Zerlegung von $X$.
+			Dann wäre $A = f^{-1}(\R_{<y})$ und $B = f^{-1}(\R_{>y})$ eine offene Zerlegung von $X$.
 			Wegen $a \in A$ und $b \in B$ widerspricht dies $(4)$.
 		\end{seg}
 	\end{proof}
@@ -619,7 +639,8 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 \end{ex}
 
 \begin{st}
-	Jeder wegzusammenhängende Raum ist zusammenhängend (i.A. aber nicht umgekehrt).
+	Jeder wegzusammenhängende Raum ist zusammenhängend.
+	Die Umkehrung gilt im Allgemeinen nicht.
 	\begin{proof}
 		Angenommen $X = A \dunion B$ sei offene Zerlegung mit $a \in A$ und $b \in B$.
 		Dann existiert ein Weg $\gamma: [0,1] \to X$ mit $\gamma(0) = a$ und $\gamma(1) = b$.
@@ -627,7 +648,7 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 
 		Betrachte als Gegenbeispiel
 		\[
-			X := \big\{ (x,\sin(\f 1x)) : x \in \R>0 \big\} \cup \big( \{0\} \times [0,1] \big).
+			X := \Set{ (x,\sin(\f 1x)) & x \in \R>0 } \cup \big( \{0\} \times [0,1] \big).
 		\]
 		$X$ ist zusammenhängend, aber nicht wegzusammenhängend.
 	\end{proof}
@@ -666,7 +687,7 @@ Sei im Folgenden $(X,d)$ stets ein metrischer Raum.
 
 	Seien $|\argdot|$ und $\|\argdot\|$ zwei Normen auf einem $K$-Vektorraum $V$.
 	$|\argdot|$ ist genau dann feiner als $\|\argdot\|$, wenn ein $L \in \R_{>0}$ existiert mit $\|x\| \le L |x|$ für alle $x \in V$.
-	$|\argdot|$ und $\|\argdot\|$ sind genau dann äquivalent, wenn $l,L \in \R_{>0}$ existiert, sodass
+	Insbesondere sind $|\argdot|$ und $\|\argdot\|$ genau dann äquivalent, wenn $l,L \in \R_{>0}$ existiert, sodass
 	\[
 		l|x| \le \|x\| \le L|x|
 	\]
@@ -752,10 +773,10 @@ Für $A, B \subset X$ und $a,b \in X$ definieren wir
 \begin{st}
 	$\R$ ist vollständig (bezüglich der üblichen euklidischen Metrik).
 
-	Ebenso $\C$ und $\R^n, \C^n$ für $n = 1, 2, \dotsc$.
+	Ebenso $\C$ und $\R^n, \C^n$ für $n \ge 1$.
 \end{st}
 
-\begin{st}
+\begin{st} \label{thm:metric_space_product_complete_supremum_metric}
 	Seien $(X_i,d_i)$ vollständige metrische Räume für $i \in I$.
 	Dann ist auch $X = \prod_{i\in I} X_i$ vollständig bezüglich der Supremums-Metrik
 	\[
@@ -764,7 +785,7 @@ Für $A, B \subset X$ und $a,b \in X$ definieren wir
 	\begin{proof}
 		% fixme: bezeichnung x_i, x_n
 		Sei $(x_n)_{n\in \N}$ eine Cauchy-Folge in $(X,d)$.
-		Dann ist für $i \in I$ auch $(x_{n,i})_{n\in \N}$ eine Cauchy-Folge in $(X_i,d_i)$.
+		Dann ist für $i \in I$ auch jede Komponenten-Folge $(x_{n,i})_{n\in \N}$ eine Cauchy-Folge in $(X_i,d_i)$.
 		Dank Vollständigkeit existiert $x_i \in X_i$ mit $x_{n,i} \to x_i$.
 		Definiere $ x= (x_i)_{i\in I} \in X$.
 
@@ -783,15 +804,25 @@ Für $A, B \subset X$ und $a,b \in X$ definieren wir
 
 \begin{lem}
 	Sei $(X,d)$ vollständig und $A \subset X$.
-	$(A,d_A)$ ist vollständig genau dann, wenn $A$ in $X$ abgeschlossen ist.
+	Dann ist $(A,d_A)$ vollständig genau dann, wenn $A$ in $X$ abgeschlossen ist.
 	\begin{proof}
-		Übung
+		Nutze \ref{thm:metric_space_closed_subset_convergent_sequences}:
+		\begin{segnb}{\ProofImplication}
+			Sei $(x_n)_{n\in \N}$ eine konvergente Folge in $X$ mit $x_n \in A$, dann ist $(x_n)_{n\in \N}$ auch Cauchy-Folge in $A$, also $x_n \to a \in A$.
+		\end{segnb}
+		\begin{segnb}{\ProofImplication*}
+			Sei $(x_n)_{n\in\N}$ eine Cauchy-Folge in $A$, dann ist $(x_n)_{n\in\N}$ auch eine Cauchy-Folge in $X$, also konvergent.
+			Wegen der Abgeschlossenheit also $x_n \to a \in A$.
+		\end{segnb}
 	\end{proof}
 \end{lem}
 
 \begin{st}
 	Ist $(Y,d_Y)$ vollständig, so auch $\Abb(X,Y) = Y^X$ mit der Supremumsmetrik.
 	Hierin ist $C(X,Y)$ abgeschlossen und somit ebenfalls vollständig.
+	\begin{proof}
+		Anwenden von \ref{thm:metric_space_product_complete_supremum_metric}.
+	\end{proof}
 \end{st}
 
 \begin{ex}
@@ -806,13 +837,13 @@ Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachsc
 
 
 \begin{df} \label{df:compact_metric_space}
-	Ein metrischer Raum $(X,d)$ heißt \emph{kompakt}, wenn jede offene Überdeckung eine endliche Teilüberdeckung enthält, d.h. zu jeder Überdeckung $X = \bigcup_{i \in I} U_i$ mit $U_i \subset X$ offen existieren $i_1, \dotsc, i_n \in I$ für die $X = \bigcup_{k=1}^n U_{i_k}$ gilt.
+	Ein metrischer Raum $(X,d)$ heißt \emph{kompakt}, wenn jede offene Überdeckung eine endliche Teilüberdeckung enthält, d.h. zu jeder Überdeckung $X = \bigcup_{i \in I} U_i$ mit $U_i \subset X$ offen existieren $i_1, \dotsc, i_n \in I$ mit $X = \bigcup_{k=1}^n U_{i_k}$.
 \end{df}
 
 \begin{ex}
 	\begin{itemize}
 		\item
-			Für $(X,d)$ diskret ist $(X,d)$ kompakt genau dann, wenn $X$ endlich ist.
+			Für $(X,d)$ mit diskreter Metrik ist $(X,d)$ genau dann kompakt, wenn $X$ endlich ist.
 		\item
 			$\R^n$ ist nicht kompakt.
 			\begin{proof}
@@ -845,28 +876,29 @@ Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachsc
 				\R = \bigcup_{n\in\N} ] \log n, \log(n+2) [,
 			\]
 			wobei $\log 0 := -\infty$.
-			Hierzu existiert keine Lebesgue-Zahl, denn
+			Hierzu existiert keine Lebesgue-Zahl, denn für $n \ge 1$ gilt
 			\[
-				|\log (n+2) - \log(n)| = \log (\f {n+2}n) \to 0
+				|\log (n+2) - \log(n)| = \log (\f {n+2}n) \xrightarrow{n\to\infty} 0.
 			\]
-			für $n \to \infty$.
 	\end{itemize}
 \end{ex}
 
 \begin{df}
-	Ein metrischer Raum $(X,d)$ heißt \emph{totalbeschränkt}, wenn zu jedem $\eps > 0$ eine endliche Familie $a_1, \dotsc, a_n \in X$ existiert mit $X = B(a_n,\eps) \cup \dotsc \cup B(a_n,\eps)$.
+	Ein metrischer Raum $(X,d)$ heißt \emph{totalbeschränkt}, wenn zu jedem $\eps > 0$ eine endliche viele Punkte $a_1, \dotsc, a_n \in X$ existieren mit $X = B(a_n,\eps) \cup \dotsc \cup B(a_n,\eps)$.
 \end{df}
 
 \begin{nt}
 	Jeder totalbeschränkte Raum ist auch beschränkt, umgekehrt im Allgemeinen jedoch nicht.
 	\begin{proof}
-		Beschränktheit folgt wegen
+		Für alle $x \in X$ ist
 		\[
-			d(x,a_1) < \eps + \max \big\{d(a_1, a_k) : k = 2,\dotsc, n \big\}.
+			d(x,a_1) < \eps + \max \big\{d(a_1, a_k) : k = 2,\dotsc, n \big\} =: \R,
 		\]
+		also $X \subset R(a_1 R)$ und somit $X$ beschränkt.
 
-		In $\ell^\infty(\N, \R)$ ist $\_B(0,1)$ beschränkt, aber nicht totalbeschränkt.
-		Für die kanonische (abzählbar unendliche) Basis $(e_n)_{n\in \N}$ gilt nämlich
+		Als Gegenbeispiel betrachte $\ell^\infty(\N, \R)$.
+		In diesem Raum ist $\_B(0,1)$ beschränkt, aber nicht totalbeschränkt:
+		für die kanonische (abzählbar unendliche) Basis $(e_n)_{n\in \N}$ gilt nämlich
 		\[
 			|e_n - e_m|_\infty = 1
 			\qquad n \neq m.
@@ -878,7 +910,7 @@ Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachsc
 \begin{prop}
 	In $\R^n$ ist jede beschränkte Menge $A \subset \R^n$ total beschränkt.
 	\begin{proof}
-		Übung
+		Übung.
 		% beginne mit würfel
 	\end{proof}
 \end{prop}
@@ -894,7 +926,7 @@ Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachsc
 		\item
 			\emph{Häufungspunkte}: Jede Folge $(x_n)_{n\in \N}$ in $X$ hat einen Häufungspunkt $a \in X$.
 		\item
-			\emph{Folgenkompaktheit}: Jede Folge $(x_n)_{n\in \N}$ in $X$ hat eine (in $X$) konvergente Teilfolge.
+			\emph{Folgenkompaktheit}: Jede Folge $(x_n)_{n\in \N}$ in $X$ hat eine in $X$ konvergente Teilfolge.
 		\item
 			\emph{Pseudokompaktheit}: Jede stetige Funktion $f: X \to \R$ nimmt Minimum und Maximum an, d.h. es gibt $a,b \in X$ mit $f(a) \le f(x) \le f(b)$ für alle $x \in X$.
 		\item
@@ -905,70 +937,97 @@ Das Prinzip der Vollständigkeit hat in der Analysis viele Anwendungen: Banachsc
 	\begin{proof}
 		$(1) \implies (2)$ ist trivial.
 		\begin{seg}[$(2) \implies (3)$]
-			Zu $(x_n)_{n\in\N}$ sei $E_n = \{x_k : k \ge n\}$ und $A_n = \_{E_n}$ abgeschlossen und $U_n = X \setminus A_n$ offen.
-			Wir haben $E_0 \supset E_1 \supset \dotsb \supsetneq \emptyset$, daher ist $A_0 \supset A_1 \supset \dotsb \supsetneq \emptyset$ und $U_0 \subset U_1 \subset \dotsb \subsetneq X$.
+			Sei $(x_n)_{n\in\N}$ eine Folge und $E_n = \{x_k : k \ge n\}$.
+			Dann ist $A_n = \_{E_n}$ abgeschlossen und $U_n = X \setminus A_n$ offen.
+			Wegen $E_0 \supset E_1 \supset \dotsb \supsetneq \emptyset$ gilt $A_0 \supset A_1 \supset \dotsb \supsetneq \emptyset$ und $U_0 \subset U_1 \subset \dotsb \subsetneq X$.
 
-			Jedes $a \in A := \bigcap_{n\in \N} A_n$ ist ein Häufungspunkt von $(x_n)_{n\in\N}$.
-			Wäre $A = \emptyset$, dann wäre
+			Offenbar ist jeder Punkt $a \in A := \bigcap_{n\in \N} A_n$ ein Häufungspunkt von $(x_n)_{n\in\N}$.
+			Angenommen $A = \emptyset$, dann wäre
 			\[
 				X
-				= \bigg( \bigcap_{n\in \N} A_n \bigg)^C
+				= X \setminus \bigcap_{n\in \N} A_n
 				= \bigcup_{n \in \N} U_n
 			\]
-			eine abzählbare offene Überdeckung ohne endliche Teilüberdeckung, ein Widerspruch.
+			eine abzählbare offene Überdeckung ohne endliche Teilüberdeckung, ein Widerspruch zur Voraussetzung.
+			Also besitzt $(x_n)_{n\in\N}$ einen Häufungspunkt.
 		\end{seg}
 		\begin{seg}[$(3) \implies (4)$]
-			Zu $(x_n)_{n\in N}$ in $X$ existiert ein Häufungspunkt $a \in X$.
-			Sei $n_0 \in \N$.
-			Zu $k \in \N_{\ge 1}$ enthält $B(a, 2^{-k})$ unendlich viele $x_n$, also existieren $n_k > n_{k-1}$ mit $x_{n_k} \in B(a,2^{-k})$.
+			Sei $(x_n)_{n\in N}$ eine Folge in $X$ mit Häufungspunkt $a \in X$.
+			Wähle $n_0 \in \N$ beliebig.
+			Für jedes $k \in \N_{\ge 1}$ enthält $B(a, 2^{-k})$ unendlich viele Folgenglieder $x_n$, also existieren $n_k > n_{k-1}$ mit $x_{n_k} \in B(a,2^{-k})$.
 			Dann ist $x_{n_k} \to a$.
 		\end{seg}
 		\begin{seg}[$(4) \implies (5)$]
 			Es existiert eine Folge $(x_n)$ in $X$ mit $f(x_n) \to \sup f$.
-			Eine konvergente Teilfolge $x_{n_k} \to b$ liefert $f(x_{n_k}) \to \sup f$ und $f(x_{n_k}) \to f(b)$ dank Stetigkeit, also $f(b) = \sup f$.
+			Nach Voraussetzung besitzt $(x_n)_{n\in\N}$ eine konvergente Teilfolge $(x_{n_k})_{k\in\N}$ Grenzwert $b$.
+			Es gilt weiterhin $f(x_{n_k}) \to \sup f$ und dank Stetigkeit $f(x_{n_k}) \to f(b)$, also $f(b) = \sup f$.
 		\end{seg}
 		\begin{seg}[$(5) \implies (6)$]
-			Sei $X = \bigcup_{i \in I} U_i$ offene Überdeckung, $A_i = X \setminus U_i$.
-			Dann ist $f: X \to \R$ mit
-			\[
-				f(x) = \sup \{ d(x, A_i) : i \in I \}
-			\]
-			stetig.
-			Dank $(5)$ existiert $x_0 \in X$ mit $f(x_0) = \inf f$.
-			Für jedes $x \in X$ existiert $i \in I$ mit $x \in U_i$, also $x \not\in A_i$.
-			Da $A_i$ abgeschlossen ist, folgt $d(x,A_i) > 0$, also $f(x) > 0$.
-			Insbesondere gilt $\inf f = f(x_0) > 0$.
-			Jedes $\delta \in ]0, \inf f[$ ist eine Lebesgue-Zahl.
+			Zeige, dass jede offene Überdeckung eine Lebesgue-Zahl erlaubt und dass $(X, d)$ totalbeschränkt ist.
+			\begin{seg}{Lebesgue-Zahl}
+				Sei $X$ Pseudokompakt und $X = \bigcup_{i \in I} U_i$ offene Überdeckung, $A_i = X \setminus U_i$.
+				Dann ist $f: X \to \R \cup \Set \infty$ mit
+				\[
+					f(x) = \sup \{ d(x, A_i) : i \in I \}
+				\]
+				stetig (sogar lipschitz-stetig, Übung).
+				Dank $(5)$ existiert $x_0 \in X$ mit $f(x_0) = \inf f$.
+				Für jedes $x \in X$ existiert $i \in I$ mit $x \in U_i$, also $x \not\in A_i$.
+				Da $A_i$ abgeschlossen ist, folgt $d(x,A_i) > 0$ (siehe Übung), also $f(x) > 0$.
+				Insbesondere gilt $\inf f = f(x_0) > 0$.
+				Jedes $\delta \in ]0, \inf f[$ ist eine Lebesgue-Zahl.
+			\end{seg}
 
-			Angenommen für ein $\eps \in \R_{>0}$ und jede endliche Familie $a_1, \dotsc, a_n \in X$ gilt $B(a_1,\eps) \cup \dotsb \cup B(a_n,\eps) \subsetneq X$
-			Per Induktion existiert $a_1, a_2, \dotsc$ mit $d(a_m,a_n) \ge \eps$ für alle $m \neq n$.
-			Die Funktion $f_n : X \to [0,1]$ mit
-			\[
-				f_n(x) = \max \{ 0, 1 - \f 3\eps d(x,a_n) \}
-			\]
-			ist stetig und hat Träger in $\_B(a_n, \f \eps3)$ (jeweils disjunkt).
-			Also ist
-			\[
-				f(x) = \sum_{n\in \N} n f_n
-			\]
-			stetig, aber unbeschränkt.
+			\begin{seg}{Totalbeschränktheit}
+				Angenommen es existiert $\eps > 0$ sodass für jede endliche Familie $a_1, \dotsc, a_n \in X$ gilt $B(a_1,\eps) \cup \dotsb \cup B(a_n,\eps) \subsetneq X$.
+				Per Induktion existierten damit für $k \in \N$ $a_k \in X \setminus \bigcup_{i=1}^{k-1} B(a_i, \eps)$ mit $d(a_k, a_j) \ge \eps$ für alle $k \neq j$.
+				Die Funktionen $f_n : X \to [0,1]$ mit
+				\[
+					f_n(x) = \max \Set{ 0, 1 - \f 3\eps d(x,a_n) }
+				\]
+				sind stetig mit paarweise disjunktem Träger $\supp f_n \subset \_B(a_n, \f \eps3)$.
+				Also ist
+				\[
+					f(x) = \sum_{n\in \N} n f_n(x)
+				\]
+				stetig, aber nach oben unbeschränkt, besitzt also insbesondere kein Maximum.
+			\end{seg}
 		\end{seg}
 		\begin{seg}[$(6) \implies (7)$]
 			Sei $(x_n)_{n \in \N}$ eine Cauchy-Folge in $(X,d)$.
 			Angenommen zu jedem $a \in X$ existiert $\eps > 0$ sodass $U_a = B(a, \eps)$ nur endlich viele $x_n$ enthält.
-			Zu
+			Zur Überdeckung
 			\[
 				X = \bigcup_{a \in X} U_a
 			\]
-			existiert eine Lebesgue-Zahl $\delta > 0$ nach (6).
-			Wegen Totalbeschränktheit (6) gilt $X = B(a_1, \delta) \cup \dotsc \cup B(a_n,\delta)$.
-			Da $B(a_k,\delta) \subset U_{a(k)}$ nur endlich viele $x_n$ enthält, erreichen wir einen Widerspruch.
-			D.h. es gibt mindestens einen Häufungspunkt $a \in x$.
-			Da $(x_n)$ Cauchy-Folge ist, folgt $x_n \to a$.
+			existiert nach Voraussetzung eine Lebesgue-Zahl $0 < \delta \le \eps$ nach (6).
+			Wegen Totalbeschränktheit existiren $a_1, \dotsc, a_n$ mit $X = B(a_1, \delta) \cup \dotsc \cup B(a_n,\delta)$.
+			Da jedes $B(a_k,\delta) \subset U_{a_k}$ nur endlich viele $x_n$ enthält, besitzt $(x_n)_{n\in\N}$ nur endlich viele Folgengleieder, ein Widerspruch.
+			Es gibt folglich mindestens einen Häufungspunkt $a \in x$.
+
+			Da $(x_n)$ Cauchy-Folge ist, kann $a$ nur einziger Häufungspunkt sein, also $x_n \to a$.
 		\end{seg}
-		\begin{seg}[$(7) \implies (4) \implies (3) \implies (2) \implies (1)$]
-			siehe Vorlesungsnotizen.
-			%fixme: reference or copy
+		\begin{seg}{$(7) \implies (4)$}
+			Sei $(x_k^{(0)})_{k\in\N}$ ein Folge in $X$.
+			Wir definieren induktiv die Folgen $(x_k^{(n)})_{k\in\N}$ für alle $n \in \N_{\ge 1}$.
+			Nach Voraussetzung existieren $a_1, \dotsc, a_m \in X$ mit $X = \bigcup_{k=1}^m B(a_n, 2^{-n})$.
+			Mindestens eines der $B(a_n, 2^{-n})$ enthält unendlich viele Folgenglieder.
+			Sei $(x_k^{(n)})_{n \in \N}$ die Teilfolge bestehend aus diesen Folgengliedern.
+			Es gilt $d(x_p^{(n)}, x_q^{(n)}) < 2^{1-n}$ für alle $p, q \in \N$.
+			Definiere $(\xi_k)_{k\in\N}$ durch $\xi_k := x_k^{(k)}$ als Diagonalfolge.
+			$(\xi_k)_{k\in\N}$ ist eine Cauchy-Folge, da $d(\xi_p, \xi_q) < 2^{1-n}$ für alle $p, q \ge n \in \N_{\ge 1}$ ist.
+			Nach Voraussetzung konvergiert $(\xi_k)_{k\in\N}$ schließlich als Teilfolge von $(x_k^{(0)})_{k \in \N}$ in $X$.
+		\end{seg}
+		\begin{seg}[$(6) \implies (1)$]
+			Sei $X = \bigcup_{i \in I} U_i$ eine Überdeckung von $X$.
+			Nach Voraussetzung existiert eine Lebesgue-Zahl $\delta > 0$, sodass $\forall x \in X \exists j(x) \in I : B(x,\delta) \subset U_{j(x)}$.
+			Da $X$ nach Voraussetzung totalbeschränkt ist, existieren $a_1, \dotsc, a_n \in X$ mit $X = \bigcup_{k=1}^n B(a_k, \delta)$.
+			Damit ist
+			\[
+				X = \bigcup_{k=1}^n B(a_k, \delta)
+				\subset \bigcup_{k=1}^n U_{j(a_k)}
+			\]
+			endliche Teilüberdeckung von $X = \bigcup_{i\in I} U_i$.
 		\end{seg}
 	\end{proof}
 \end{st}
