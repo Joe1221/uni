@@ -251,6 +251,8 @@ Die 2-dimensionalen Flachländer leiten nun wie folgt ab
 	\end{note}
 \end{kor}
 
+\section{Geodätische}
+
 \begin{df}[Geodätische, geodätische Linien]
 	Eine reguläre Kurve $c = f \circ \gamma$ heißt \emphdef{Geodätische}, wenn stets $\nabla_{\dot c} \dot c$ und $\dot c$ linear abhängig sind, oder äquivalent $\nabla_{c'} c' = 0$ mit Bogenlängenparameter.
 	\begin{note}
@@ -328,5 +330,157 @@ oder äquivalent
 \]
 oder äquivalent $c'', \nu$ linear abhängig, oder äquivalent, wenn die $(c', c'')$-Schmiegebene die Flächennormale enthält.
 
+\coursetimestamp{01}{07}{2014}
+
+% fixme : C(s,t) = c'(s,t)
+\begin{st}[Kürzeste Linien sind Geodätische]
+	$p, q$ seien zwei feste Punkte auf $f: U \to \R^{n+1}$, $c = f \circ \gamma$ sei eine $C^\infty$-Kurve, die $p$ und $q$ verbindet, $c(0) = p$, $c(L) = q$ für die Länge $L$ von $c$.
+	Falls jede andere $C^\infty$-Kurve von $p$ nach $q$ mindestens die selbe Länge hat wie $c$, dann ist $c$ eine Geodätischem
+	\begin{proof}
+		Betrachte eine Variation $C(s,t) \in C^\infty$ mit Kurvenparameter $s$, $c_t(s) = C(s,t)$ und Scherparametere $t$, $c(s) = C(s, 0)$.
+		Es gilt $C(0,t) = c(0) = p, C(L,t) = c(L) = q$ für alle $t \in (-\eps, \eps)$.
+		Man hat
+		\[
+			L(c_t) = \int_0^L \< \ddx[s]{c_t}, \ddx[s]{c_t} \>^{\f 12} \di[s].
+		\]
+		Ableiten von $L(c_t)$ bei $t = 0$ ergibt (nach Voraussetzung hat $L(c_t)$ Minimum bei $t = 0$):
+		\begin{align*}
+			0
+			&= \ddx[t]|_{t=0} L(c_t) \\
+			&= \ddx[t]|_{t=0} \int_0^t \< \ddx[s]{C}, \ddx[s]{C} \>^{\f 12} \di[s] \\
+			&= \int_0^L \ddx[t]|_{t=0} \< \ddx[s]{C}, \ddx[s]{C} \>^{\f 12} \di[s] \\
+			&= \int_0^1 \f 12 \dfrac{2 \< \f{\partial^2 C}{\partial l \partial s}, \ddx[s]{C}}{\<\ddx[s]{C}, \ddx[s]{C}\>|_{t=0}} \\
+			&= \int_0^1 \< \f{\partial^2 C}{\partial l \partial s}, \ddx[s]{C} \> \di[s] \\
+			&= \int_0^L \< \nabla_{\dot c} \ddx[t]{C}, \ddx[s]{C} \di[s] \\
+			&= \int_0^L \Big( \ddx[s] \< \ddx[t]{C}, \ddx[s]{C} - \< \ddx[t]{C}, \nabla_{\dot c}\dot c \> \Big) \di[s] \\
+			&= \< \underbrace{\ddx[t]{C}}_{= 0}, \ddx[s]{C} \big|_{s=0}^{s=L} - \int_0^L \< \ddx[t]{C}|_{t=0}, \nabla_{\dot c}\dot c \> \di[s]
+		\end{align*}
+		Es ist also notwendigerweise
+		\[
+			\int_0^L \< \ddx[t]{C}|_{t=0}, \nabla_{\dot c}\dot c \di[s] = 0
+		\]
+		für alle $C(s,t)$.
+		Da $\ddx[t]{C}|_{t=0}$ beliebig gewählt werden kann, muss $\nabla_{\dot c} \dot c = 0$ längs $c$ sein, also ist $c$ eine Geodätische.
+	\end{proof}
+	\begin{note}
+		Geodätische sind lokal auch kürzeste Kurven, die zwei Punkte miteinander verbinden.
+		Global jedoch im Allgemeinen nicht.
+	\end{note}
+\end{st}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			In $S^2$ sind Geodätische gerade die Großkreise („sphärische Geraden“).
+			Dies ergibt sich sofort daraus, dass $\ddot c \orth T_u f$.
+		\item
+			In $E^2$ sind die Geodätischen gerade die Geraden.
+		\item
+			In $H^2$ sind Geodätische gerade die „hyperbolischen Geraden“.
+	\end{itemize}
+\end{ex}
+
+Welche Dinge können nun mit der inneren Geometrie beschrieben werden?
+Wir haben Punkte, „Geraden“, Längen, Winkel, Abstände, Kongruenz von (geodätischen) Dreiecken, Abstandskreise.
+
+\begin{df}
+	Eine Fläche heißt \emphdef{geodätisch vollständig}, wenn jede Geodätische über ganz $\R$ nach Bogenlänge parametrisiert werden kann.
+	\begin{note}
+		Anschaulich heißt dies, dass Geodätische unendlich lang in beide Richtungen sind.
+	\end{note}
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$S^2, E^2, H^2$ sind geodätisch vollständig.
+		\item
+			Die Pseudosphäre ist nicht geodätisch vollständig.
+	\end{itemize}
+\end{ex}
+
+\subsection{Geodätische Polarkoordinaten um einen festen Punkt \texorpdfstring{$p$}{p}}
+
+Sei ein Einheits-Tangentialenvektor $X$ in $p$ gegeben, sowie eine Geodätische $c_X$ mit $c_X(0) = p, \dot c_X(0) = X$.
+\[
+	c_X(r) \leftrightarrow (r,X) \in (0, \infty) \times S^{n-1}(1)
+\]
+für kleine $r > 0$.
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			In $E^2$ haben wir
+			\[
+				(r, \phi) \mapsto (r \cos \phi, r \sin \phi) \in \R^2
+			\]
+			mit $Ⅰ=\Matrix{1 & 0 \\ 0 & r^2}$.
+		\item
+			In $S^2$ haben wir
+			\[
+				(r, \phi) \mapsto (\sin r \cos \phi, \sin r \sin \phi, \cos r) \in S^2
+			\]
+			mit $Ⅰ=\Matrix{1 & 0 \\ 0 & \sin^2 r}$.
+		\item
+			In $H^2$ haben wir
+			\[
+				(r, \phi) \mapsto (\sinh r \cos \phi, \sinh \cos \phi, \cosh r)
+			\]
+			und es ergibt sich
+			\begin{align*}
+				f_r &= (\cosh r \cos \phi, \cosh r \sin \phi, \sinh r) \\
+				f_\phi &= (-\sinh r \sin \phi, \sinh \cos \phi, 0)
+			\end{align*}
+			also $\<f_r, f_r\>_1 = \cos^2 r - \sinh^2 r = 1$, $\<f_\phi, f_\phi\> = \sinh^2 r$, d.h. $Ⅰ=\Matrix{1 & 0 \\ 0 & \sinh^2 r}$.
+	\end{itemize}
+\end{ex}
+
+Schon Gauß hatte erkannt:
+\begin{quote}
+	Die Gauß-Krümmung ist eine Größe der inneren Geometrie.
+\end{quote}
+
+Wir nutzen dazu Ableitungsgleichungen und Integrabilitätsbedingungen.
+
+Eine notwendige Bedingung dafür, dass ein Vektorfeld $X = (X^1, x^2) \in \R^2$ ein Gradientenfeld ist, ist
+\[
+	\ddx[x^2]{X^1} = \ddx[x^1]{X^2},
+\]
+dies ergibt sich aus dem Satz von Schwartz (Vertauschen der zweiten Ableitungen).
+Im $\R^n$ ist analog
+\[
+	\forall i,j : \ddx[x^j]{X^i} = \ddx[x^i]{X^j}
+\]
+eine notwendige Bedingung, auch \emphdef{Integrabilitätsbedingung} genannt.
+
+Diese Bedingungen sind \emph{nicht} hinreichend, betrachte dazu
+\[
+	(X^1, X^2) = \Vector{\f{-y}{x^2 + y^2} & \f{x}{x^2 + y^2}}
+\]
+
+Lokal sind Integrabilitätsbedingungen auch hinreichend.m
+Betrachte dazu in $\R^2$ eine sternförmige Menge bezüglich $p \in \R^2$.
+Sei ein Vektorfeld $X$ gegeben und wähle $f(p)$, setze
+\[
+	f(q) d= \int_p^q X
+	= \int_0^1 \< X, \dot c(t) \> \di[t]
+\]
+mit $c(t) = (1-t)p + tq$, $\dot c = q - p$.
+Es folgt dann $\ddx[x^i]{f} = X^i$.
+
+Ableitungsgleichungen:
+\begin{align*}
+	\f{\partial^2 f}{\partial u^i \partial u^j} &= \sum_{l} \Gamma_{ij}^l \ddx[u^l]{f} + h_{ij} \nu, \\
+	\ddx[u^i]{\nu} &= - \sum_{j} h_i^j \ddx[u^j]{f}.
+\end{align*}
+Jetzt sei $f$ gesucht!
+Integrabilitäsbedingunge für $f$:
+\begin{align*}
+	\ddx[u^k] (\f{\partial^2 f}{\partial u^i \partial u^j})
+	\stack ?=
+	\ddx[u^j] (\f{\partial^2 f}{\partial u^i \partial u^k}) \\
+	\f{\partial^2 \nu}{\partial u^i \partial u^j} &= \f{\partial^2 \nu}{\partial u^j \partial u^i}
+\end{align*}
+für alle $i, j, k$.
 
 
