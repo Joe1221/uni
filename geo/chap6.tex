@@ -485,4 +485,199 @@ Integrabilitäsbedingungen für $f$:
 \end{align*}
 für alle $i, j, k$.
 
+% fixme: Gauß-Gleichung, Codazzi-Mainardi Gleichung
+
+
+\begin{st}
+	Die Integrabilitätsbedingungen der Ableitungsgleichungen sind die beiden folgenden Gleichungen
+	\begin{enumerate}[(i)]
+		\item
+			Die Gauß-Gleichung
+			\[
+				\ddx[u^k] \Gamma_{ij}^s - \ddx[u^j] \Gamma_{ik}^s + \sum_{r} (\Gamma_{ij}^r \Gamma_{ik}^s - \Gamma_{ik}^r \Gamma_{rj}^s)
+				= \sum_{m} (h_{ij} h_{km} - h_{ik} h_{jm}) g^{ms}
+			\]
+			für alle $i,j,k,s$.
+		\item
+			Die Codazzi-Mainardi-Gleichung.
+	\end{enumerate}
+\end{st}
+
+Interessant ist besonders die Gauß-Gleichung, die die linke Seite nur von $(g_{ij})$ und die rechte Seite nur von $(h_{ij})$ abhängt.
+
+\begin{kor}[Theorema Egregium, Gauß]
+	Die Gauß-Krümmung $K = \f{\det Ⅱ}{\det Ⅰ}$ eines Flächenstücks $f: U \to \R^3$ der Klasse $C^3$ hängt nur von der ersten Fundamentalform ab.
+
+	Die Gauß-Krümmung ist also eine „Größe der inneren Geometrie“.
+	\begin{proof}
+		Betrachte die rechte Seite der Gauß-Gleichung mit $n = 2$, $i = j = 1$, $k = 2$ und multiplizieren $g_{s2}$ und summieren über $s$:
+		\[
+			\sum_{s=1}^2 \sum_{m=1}^2 (h_{11} h_{2m} - h_{12} h_{1m}) \underbrace{g^{ms} g_{s2}}_{= \delta^m_{2}}
+			= h_{11} h_{22} - h_{12} h_{12}
+			= \det Ⅱ.
+		\]
+		$\det Ⅱ$ hängt also nur von der ersten Fundamentalform ab.
+	\end{proof}
+\end{kor}
+
+\begin{df}
+	Die linke Seite der Gauß-Gleichung heißt auch \emphdef{Krümmungstensor}:
+	\[
+		R_{ikj}^s
+		= \pddx[u^k] \Gamma_{ij}^s - \pddx[u^j] \Gamma_{ik}^s + \sum_r ( \Gamma_{ij}^r \Gamma_{jk}^s - \Gamma_{ik}^r \Gamma_{rj}^s).
+	\]
+	Es gilt $R_{ikj}^s g_{sm} = R_{mikj}$.
+\end{df}
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			$g_{ij}, h_{ij}$ sind $(0,2)$-Tensoren.
+		\item
+			$h_i^j$ ist ein $(1,1)$-Tensor.
+		\item
+			$R_{ikj}^s$ ist ein $(1,3)$-Tensor.
+	\end{itemize}
+	Die charakteristische Eigenschaft eines Tensors ist, dass $\sum_s R_{ikj}^s \pddx[u^s]^{f}$ ein Ausdruck ist, der im festen Punkte $p$ nur von $\pddx[u^i]{f}|_p, \pddx[u^k]{f}|_p, \pddx[u^j]{f}|_p$ abhängt („tensorielles Verhalten“).
+
+	Analog $g_{ij}|_p = Ⅰ(\pddx[u^i]{f}|_p, \pddx[u^j]{f}|_p)$.
+
+	Ohne Beweis gilt
+	\[
+		\sum_s R_{ikj}^s \pddx[u^s]{f}
+		= R(\pddx[u^k]{f}, \pddx[u^j]{f}) \pddx[u^i]{f}
+	\]
+	mit $R(X,Y)Z := \nabla_X \nabla_Y Z - \nabla_Y \nabla_X Z - \nabla_{[X,Y]}Z$ für Vektorfelder $X, Y, Z$.
+	Dabei ist $[X,Y]$ die sogenannte \emphdef{Lie-Klammer} nach Sorhus Lie:
+	\[
+		[X, Y] := D_X Y - D_Y X.
+	\]
+	Es gilt stets $\nabla_{\pddx[u^i]{f}} \pddx[u^j]{f} = \nabla_{\pddx[u^j]{f}} \pddx[u^i]{f} = \f{\partial^2 f}{\partial u^i \partial u^j}$, aber im Allgemeinen \emph{nicht} $\nabla_X Y = \nabla_Y X$ für Vektorfelder $X, Y$.
+	Betrachte dazu das folgende Beispiel im $\R^2 = \Span{x^1, x^2}$:
+	Sei $X := x^1 e_1, Y = e_1$.
+	\begin{align*}
+		D_X Y &= x^1 D_{e_2} e_1 = 0 \\
+		D_Y X &= D_{e_1} (x^1 e_2) = \underbrace{D_{e_1} x^1}_{\pddx[x^1]{x^1} = 1} e_2 + \underbrace{x^1 D_{e_1} e_2}_{=0} \neq 0.
+	\end{align*}
+
+	Eine Übung ist für relle Funktionen $f, g, h$
+	\[
+		R(fX, gX)hY|_p
+		= fgh|_p R(X,Y)Z
+	\]
+	unabhängig von $f, g, h$.
+\end{ex}
+
+
+\begin{df}
+	Für zwei Vektorfelder $X, Y$ in $\R^n$ heißt
+	\[
+		[X, Y] := D_X Y - D_Y X
+	\]
+	die \emphdef{Lie-Klammer} von $X \neq 0$ und $Y$.
+	Falls $X, Y$ tangential an einer Hyperfläche sind, dann alternativ
+	\[
+		[X, Y] = \nabla_X Y - \nabla_Y X,
+	\]
+	weil der Normalanteil gleich $(Ⅱ(X,Y) - Ⅱ(Y,X)) \nu = 0$ ist.
+\end{df}
+
+Es gibt eine explizite Formel für $K$ in Abhängigkeit von $g_{ij}$ (für 2-dimensionale Flächen).
+Theoretisch wunderbar, praktisch sehr schwierig.
+
+\begin{st}[Gauß-Krümmung in speziellen Parametern]
+	In orthogonalen Parametern eines 2-dimensionalen Flächenstücks $f(u,v)$ mit $Ⅰ = \Matrix{E & 0 \\ 0 & G}$ berechnet sich die Gauß-Krümmung als
+	\[
+		K = - \f 1{2\sqrt{EG}} \Big( \big(\f{E_v}{\sqrt{EG}} \big)_v + \big(\f{G_u}{\sqrt{EG}} \big)_u \Big).
+	\]
+	Wenn $E = G = \lambda$ (isotherme Parameter, konforme Parametrisierung), dann ist
+	\[
+		K = - \f 1{2\lambda} \Big( \big(\f{\lambda_v}{\lambda} \big)_v + \big(\f{\lambda_u}{\lambda} \big)_u \Big).
+		= - \f 1{2\lambda} \Laplace (\log \lambda)
+	\]
+	\begin{proof}
+		Wir haben die Christoffelsymbole
+		\begin{align*}
+			\Gamma_{11,1} &= \f 12 E_u, &
+			\Gamma_{11}^1 &= \Gamma_{11,1} g^{11} + \Gamma_{11,2} g^{21} = \f 12 \f{E_u}{E} \\
+			\Gamma_{11,2} &= -\f 12 E_v, &
+			\Gamma_{11}^2 &= - \f 12 \f{E_v}{G} \\
+			\Gamma_{12,1} &= \f 12 E_v, &
+			\Gamma_{12}^1 &= \f 12 \f{E_v}E \\
+			\Gamma_{12,2} &= \f 12 G_u, &
+			\Gamma_{12}^2 &= \f 12 \f{G_u}{G} \\
+			\Gamma_{22,1} &= -\f 12 G_u, &
+			\Gamma_{22}^1 &= - \f 12 \f{G_u}{E} \\
+			\Gamma_{22,2} &= \f 12 G_i, &
+			\Gamma_{22}^2 &= \f 12 \f{G_v}{G}
+		\end{align*}
+		Setze nun in die Gauß-Gleichung ein $i=j=1, k = 2$, Summiere über $s$:
+		\begin{align*}
+			\det(h_{ij})
+			&= \sum_s \bigg( (\Gamma_{11}^s)_v - (\Gamma_{12}^s)_u + \sum_{r} \Big( \gamma_11^{r} \Gamma_{r2}^s - \Gamma_{12}^r \Gamma_{r1}^s \Big) \bigg) g_{s2} \\
+			&= \Big((\Gamma_{11}^2)_v - (\Gamma_{12}^2)_u + \Gamma_{11}^1 \Gamma_{12}^2 + \Gamma_{11}^2 \Gamma_{22}^2 - \Gamma_{12}^1 \Gamma_{11}^2 - \Gamma_{12}^2 \Gamma_{21}^2 \Big) G \\
+			&= \Big( -\f 12 \big( \f {E_v}G \big)_v - \f 12 \big(\f{G_u}{G}\big)_u + \f 12 \f{E_k}{E} \f12 \f{G_u}{G} - \f 12 \f{E_v}{G} \f 12 \f{G_v}{G} + \f 12 \f{E_v}{E} \f 12 \f {E_v}{G} - \f 12 \f{G_u}{G} \f 12 \f{G_k}{G} \Big) G
+		\end{align*}
+		Es gilt
+		\begin{align*}
+			K
+			&= \f{\det h_{ij}}{EG} \\
+			&= \f{G}{2EG} \Big( - \f{G E_{vv} - E_v G_v}{G^2} - \f{G_{uu}G - G_u^2}{G^2} + \f 12 \f{E_u G_u}{EG} - \f 12 \f{E_v G_v}{G^2} + \f 12 \f{E_v^2}{EG} - \f 12 \f{G_u^2}{G^2} \Big) \\
+			&= \f 1{2EG} \Big( - E_{vv} - G_{uu} + \f {E_v G_v}{G} + \f{G_u^2}{G} + \f 12 \f{E_k G_k}{E} - \f 12 \f{E_v G_v}{G} + \f 12 \f {E_v^2}{E} - \f 12 \f {G_u^2}{G} \Big) \\
+			&= \f 1{2EG} \Big( - E_{vv} - G_{uu} + \f 12 \f {E_v G_v}{G} + \f 12 \f{G_u^2}{G} + \f 12 \f{E_k G_k}{E} + \f 12 \f {E_v^2}{E} \Big). \\
+		\end{align*}
+		Andererseits gilt
+		\begin{align*}
+			- \f 1{2\sqrt{EG}} \Big( \big( \f{E_v}{\sqrt{EG}} \big)_v + \big( \f{G_u}{\sqrt{EG}} \big)_u \Big)
+			= - \f 1{2 \sqrt{EG}} \bigg( \f{\sqrt EG E_{vv} - E_v (\sqrt{EG})_v}{EG} + \f{\sqrt{EG} G_{uu} - G_u (\sqrt{EG})_u}{EG} \bigg)
+			= - \f 1{2 EG} \Big( E_{vv} + G_{uu} - E_v \f 1{\sqrt{EG}} \f{E_v G + E G_v}{2 \sqrt{EG}} - G_u \f 1{\sqrt{EG}} \f {E_u G + E G_u}{2 \sqrt{EG}}
+			= - \f 1{2 EG} \Big( E_{vv} + G_{uu} - E_v^2 \f 1{\sqrt{2E}} - E_v G_v \f 1{2G} - G_u E_u \f 1{2E} - G_u^2 \f 1{2G}
+		\end{align*}
+		Dies stimmt mit oberem überein.
+
+		Den Fall $E = G = \lambda$ überprüft man durch Einsetzen.
+
+		Es gilt
+		\[
+			(\Laplace \log \lambda)
+			= (\log \lambda)_{uu} + (\log \lambda)_{vv}
+			= (\f{\lambda_u}{\lambda})_u + (\f{\lambda_v}{\lambda})_v.
+		\]
+	\end{proof}
+\end{st}
+
+\section{Konstruktion orthogonaler Koordinaten}
+
+\begin{df}[geodätische Parallelekoordinaten]
+	Die Koordinaten eines Flächenstücks $f: U \to \R^3$ heißen \emphdef{geodätischen Parallelkooridaten}, fals die $u$-Linien stets nach der Bogenlänge parametrisierte Geodätische sind, die jede der $v$-Linien orthogonnal schneiden.
+	Nach Konstruktion schneiden in diesem Fall zwei $v$-Linien aus den $u$-Linien stets gleich lange Abschnitte heraus.
+	\begin{nt}
+		Geodätische Parallelkoordinaten liegen genau dann vor, wenn in den Parametern $u,v$ die erste Fundamentalform die Gestalt
+		\[
+			Ⅰ= \Matrix{1 & 0 \\ 0 & G}
+		\]
+		hat mit einer positiven Funktion $G = G(u,v)$.
+	\end{nt}
+\end{df}
+
+\begin{kor}
+	In geodätischen Parallelkoordinaten $\Matrix{1 & 0 \\ 0 & G}$ gilt die folgende einfache Gleichung für die Gauß-Krümmung:
+	\[
+		K(u,v) = - \f{(\sqrt{G})_{uu}}{\sqrt G}.
+	\]
+	Alternativ dazu haben wir für $Ⅰ= \Matrix{1 & 0 \\ 0 & G^2}$ den Ausdruck $K = \f -{G_{uu}}/{G}$.
+	\begin{proof}
+		Es gilt
+		\[
+			K = - \f 1{2\sqrt{G}} \big( \f{G_u}{\sqrt G} \big)_u
+			= - \f{(\sqrt G)_{uu}}{\sqrt{G}}.
+		\]
+	\end{proof}
+	\begin{nt}
+		Bei Drehflächen war $(g_{ij}) = \Matrix{1 & 0 \\ 0 & r^2}$ und die Gaußkrümmung $K = - \f{r''}{r}$.
+	\end{nt}
+\end{kor}
+
+
+
 
