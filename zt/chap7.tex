@@ -98,6 +98,9 @@
 		\le \pi(n) \le
 		6 \f n{\log n}
 	\]
+	\begin{note}
+		Dieser Satz gilt auch für $n \in \Set{2, 3}$.
+	\end{note}
 	\begin{proof}
 		Idee: Man weiß gut Bescheid, wie die Primzahlzerlegung von $\binom{2n}{n}$ ist.
 		\begin{enumerate}[1)]
@@ -246,4 +249,280 @@
 		p^{\nu_p \binom{2n}{n}} \le 2n.
 		\tag{7.6}
 	\end{equation}
+\end{nt}
+
+
+\coursetimestamp{03}{07}{2014}
+
+
+% Bem 7.7
+\begin{nt} \label{7.7}
+	Tschebyscheff bewies \ref{7.5} mit besseren Schranken, z.B.
+	\[
+		\f x{\log x} \cdot 0.92929
+		\le \pi(x) \le
+		\f x{\log x} \cdot 1.1056
+	\]
+	oder nach Scheid/Frommer % fixme ref
+	\[
+		a \f x{\log x}
+		\le \pi(x) \le
+		A \f x{\log x}
+	\]
+	mit $2 = a + A$, jeweils für ein hinreichend großes $x$.
+\end{nt}
+
+Unser nächstes Ziel ist das Bertrand'sche Resultat.
+Bertrand stellte mit Hilfe von Primzahltabellen bis $\approx 5 \cdot 10^6$ fest, dass stets zwischen $n$ und $2n$ eine Primzahl liegt.
+
+% Lem 7.8
+\begin{lem} \label{7.8}
+	Es gilt
+	\begin{enumerate}[a)]
+		\item
+			Für $n \in \N$ ungerade, $n \ge 3$ und
+			\begin{align*}
+				k := \begin{cases}
+					\f {n-1}2 & \f{n+1}2 \text{ ungerade} \\
+					\f {n+1}2 & \f{n-1}2 \text{ gerade}
+				\end{cases}
+			\end{align*}
+			gilt
+			\[
+				\prod_{\substack{k < p \le n \\ p \in \P}} p \le \binom{n}{k}.
+			\]
+			Und für $n \in \N$ gerade, $n \ge 4$ und
+			\begin{align*}
+				k := \begin{cases}
+					\f {n-2}2 & \f{n-2}2 \text{ ungerade} \\
+					\f{n}2 & \f{n-2}2 \text{ gerade}
+				\end{cases}
+			\end{align*}
+			gilt
+			\[
+				\prod_{\substack{k < p \le n \\ p \in \P}} p \le \binom{n-1}{k}.
+			\]
+		\item
+			Es gilt für $x \in \R$, $x \ge 2$:
+			\[
+				\prod_{\substack{p \le x \\ p \in \P}} p < 4^x.
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Sei $n$ ungerade und $k$ wie angegeben.
+				Eine Primzahl $p$ mit $k < p \le n$ teilt $n!$, aber nicht $k!$ und $(n-k)!$.
+				\[
+					n-k = \begin{cases}
+						\f{n+1}{2} & \f{n-1}2 = k \text{ ungerade} \\
+						\f{n-1}{2} & \f{n-1}2 = k \text{ gerade}
+					\end{cases}.
+				\]
+				Ist $k$ ungerade, dann $n-k$ gerade und $n - k \le k + 1$, also $p \ndivs n - k$.
+				Nun ist
+				\[
+					\binom{n}{k} = \f {n!}{k!(n-k)!},
+				\]
+				also teilt jede Primzahl aus $\prod_{k < p \le n} p$ auch $\binom{n}{k}$.
+				Insbesondere ist dann $\prod_{k < p \le n} p \le \binom{n}{k}$.
+
+				Der zweite Teil von a) folgt aus dem ersten Teil.
+				Ist $n$ gerade und $n \ge 4$, dann ist $n$ keine Primzahl, also
+				\[
+					\prod_{k < p \le n} p
+					= \prod_{k < p \le n-1} p
+				\]
+				und $n-1$ ist dann ungerade.
+			\item
+				$\prod_{\substack{p \le x\\ p\in \P}} p \in \N$.
+				Es genügt b) für $x = n \in \N$ und $n$ ungerade, $n \ge 3$ zu beweisen (für $2 \le x < 3$ sieht man die Behauptung direkt).
+				Sei also $n$ ungerade und $k$ sei wie in a) gewählt.
+				Es gilt
+				\[
+					2^n = (1+1)^n
+					= \sum_{i=0}^n \binom{n}{i}
+					> 2 \binom{n}{k},
+				\]
+				da $\binom{n}{k} = \binom{n}{\f{n-1}2} = \binom{n}{\f{n+1}2} = \binom{n}{n-k}$.
+				Damit ist $\binom{n}{k} < 2^{n-1}$.
+
+				Verwende nun Induktion.
+				Der Induktionsanfang $n = 3$ ist erfüllt: $2 \cdot 3 < 4^3$.
+				\[
+					\prod_{p \le n} p
+					= \Big(\prod_{p \le k} p\Big) \prod_{k < p \le n} p
+					< 4^k \binom{n}{k}
+					< 4^k 2^{n-1}
+					= 2^{2k} 2^{n-1}
+					\le 2^{2n}
+					= 4^n.
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+
+% St 7.9
+\begin{st}[Bertrand'sches Postulat, bewiesen von Tschebyscheff] \label{7.9}
+	Für jedes $n \in \N$ mit $n > 1$ gibt es eine Primzahl $p$ mit $n < p < 2n$.
+	\begin{proof}
+		Angenommen es existiere keine Primzahl $p$ mit $n < p < 2n$.
+		Dann ist
+		\[
+			\binom {2n}{n}
+			= \prod_{p \le n} p^{e_p},
+		\]
+		wobei $e_p = \nu_p(\binom{2n}{n})$.
+
+		Ist $\f 23 n < p \le n$, dann ist $e_p = 0$, denn dann ist $n = 1p + a_0$ für ein $a_0 < \f p2$.
+		Damit ist $2n = 2p + 2a_0$, also $n! = px$ mit $(x,p) = 1$ und
+		\[
+			(2n)(2n-1)\dotsb (n+1) = p \tilde x
+		\]
+		mit $(\tilde x, p) = 1$.
+
+		Ist $\sqrt{2n} < p \le \f 23 n$, dann ist $e_p = 1$, denn dann ist $n = a_1 p + a_0$ für $1 \le a_1 < \f p2$ und $0 \le a_0 < p$ und $2n = 2a_1 p + 2a_0$ (beachte $p \f p2 > n$, wegen $p > \sqrt{2n}$).
+		$2 a_0$ kann $\ge p$ sein, aber auf jeden Fall $< 2p$.
+		Es gilt $n! = p^{a_1} x$ mit $(p,x) = 1$ und $\f {2n!}{n!} = p^{a_1 + \eps} \tilde x$ mit $(p, \tilde x) = 1$ und $\eps \in \Set{0, 1}$, also $e_p \le 1$.
+		Im Beweis von Tschebyscheff \ref{7.6} war $p^{e_p} \le 2n$, also
+		\[
+			\binom{2n}{n}
+			< \Big(\prod_{p \le \sqrt{2n}} p \Big) \prod_{\sqrt{2n} < p \le \f 23 n} p
+		\]
+		Die Anzahl der Faktoren im ersten Produkt ist $\pi(\sqrt{2n}) \le \floor{\f 12 \sqrt n}$.
+		Ist $n \ge 128$, also $\sqrt{2n} \ge 16$, dann entfallen auch noch $9$ und $15$.
+		Für $n \ge 128$ ist $\pi(\sqrt{2n}) \le \floor{\f 12 \sqrt{2n}} - 2 < \f 12 \sqrt{2n} - 1$.
+		Nach Lemma \ref{7.8} b) gilt $\prod_{p \le \f 23 n} p < 4^{\f 23 n}$.
+		Damit ist
+		\[
+			\binom{2n}{n} < 2 n^{\f 12 \sqrt 2n - 1} 4^{\f 23 n}
+		\]
+		Andererseits gilt
+		\[
+			(1 + 1)^{2n}
+			< 2n \binom{2n}{n},
+		\]
+		d.h. $\f{2^n}{2n} < \binom{2n}{n}$ und insgesamt
+		\begin{align*}
+			\f{2^n}{2n} &< 2n^{\f 12 \sqrt{2n} - 1} 4^{\f{23}n} \\
+			\iff 2^{2n} &< 2n^{\f 12 \sqrt{2n}} 2^{\f 43 n} \\
+			\iff 2^{\f 23 n} &< 2n^{\f 12 \sqrt{2n}}
+		\end{align*}
+		Logarithmieren liefert
+		\begin{align*}
+			\f 23 n \log 2 &< \f 12 \sqrt{2n} \log(2n) \\
+			\iff \f 4{\sqrt 2} \sqrt n \f 13 \log 2 &< \log(2n) \\
+			\iff \sqrt{8n} \log 2 &< 3 \log(2n)
+			\iff \sqrt{8n} \log 2 - 3 \log(2n) < 0.
+		\end{align*}
+		Betrachte nun $f(x) = \log 2 \sqrt{8} \sqrt{x} - 3 \log 2x$.
+		Kurvendiskussion von $f(x)$ zeigt, dass $f(x) > 0$ für $x \ge 128$.
+		Wir haben damit ein Widerspruch für $n \ge 128$.
+
+		Zum Abschluss geben wir Primzahlen an:
+		\[
+			3, 5, 7, 13, 23, 43, 83, 163.
+		\]
+		Diese decken den Bereich $n \le 162$ ab.
+	\end{proof}
+\end{st}
+
+% Bem 7.10
+\begin{nt} \label{7.10}
+	Weitere, bzw. andere Abschätzungen für $\pi(x)$ sind
+	\begin{enumerate}[a)]
+		\item
+			Es gilt
+			\[
+				\pi(x) - \pi(\sqrt x) \approx (x-\sqrt x)\prod_{p \le \sqrt x} (1 - \f 1p).
+			\]
+			Für $x = 100$ ergibt sich
+			\[
+				\pi(100) - \pi(10)
+				\approx 90 \prod_{p \le 10} (1 - \f 1p)
+				= 90 \big( \f 12 \f 23 \f 45 \f 67 \big)
+				= \f{90 \cdot 8}{35}
+				\approx 20,571.
+			\]
+			Es gilt exakt $\pi(100) - \pi(10) = 25 - 4 = 21$.
+		\item
+			Legendre-Vermutung (bis heute unbewiesen):
+			Zwischen $n^2$ und $(n+1)^2$ gibt es stets eine Primzahl.
+			Vergleich zu Betrand:
+			\[
+				(n+1)^2 - n^2
+				= n^2 + 2n + 1 - n^2
+				= 2n + 1
+				< n^2 = 2n^2 - n^2.
+			\]
+			Legendre ist also deutlich schärfer als Betrands Postulat.
+		\item
+			Bonsesche Ungleichung (1907):
+			Seien $p_1, \dotsc, p_n$ die ersten $n$ Primzahlen, dann gilt
+			\[
+				p_n^2 < \prod_{k=1}^{n-1} p_k.
+			\]
+			Dies kann man leicht mit \ref{7.9} beweisen (siehe Übung).
+		\item
+			Die Summe
+			\[
+				\sum_{p\in\P} \f 1p
+			\]
+			divergiert.
+			Anschaulich: „Es gibt mehr Primzahlen, als Quadratzahlen“ (da $\sum_{n \in \N} n^2 = \f{\pi^2}6$).
+	\end{enumerate}
+\end{nt}
+
+% 7.11
+\begin{nt}[Riemannsche Zetafunktion] \label{7.11}
+	\begin{enumerate}[a)]
+		\item
+			\[
+				\zeta(s) := \sum_{n=1}^\infty \f 1{n^s}
+			\]
+			ist konvergent für $s \in \Set{z\in \C & \Re(z) > 1}$.
+			Für $s = 1$ erhält man die divergente harmonische Reihe.
+
+			Reihen dieser Form nennt man \emphdef{Dirichlet-Reihe}.
+		\item
+			Die $\zeta$-Funktion lässt sich als \emphdef{Euler-Produkt} darstellen:
+			\[
+				\zeta(s)
+				= \prod_{p\in\P} \sum_{n=0}^\infty \f 1{p^{ns}}
+				= \prod_{p\in\P} \f 1{1 - \f 1{p^s}}.
+			\]
+			Dies beweist man durch Ausmultiplizieren und dem Hauptsatz der elementaren Zahlentheorie.
+		\item
+			$\zeta(s)$ lässt sich holomorph fortsetzen auf $\C \setminus \Set 1$.
+			$\zeta$ hat in $s = 1$ einen Pol erster Ordnung.
+		\item
+			Nullstellen und Werte von $\zeta(s)$:
+			Die auf $\C \setminus \Set 1$ definierte Zetafunktion hat Nullstellen für $s = -2, -4, -6, \dotsc$,
+			diese sind die sogenannten \emphdef[Riemannsche Zetafunktion!triviale Nullstellen]{triviale Nullstellen}.
+			Man weiß, dass alle andere Nullstellen im Streifen $0 < \Re s < 1$ liegen.
+			Es gibt weiter Nullstellen.
+			Man kennt ca. $10^{13}$ solche Nullstellen, welche alle auf der Geraden $\Re s = \f 12$.
+
+			Die \emphdef{Riemannsche Vermutung} besagt nun:
+			\begin{quote}
+				Alle nicht-trivialen Nullstellen von $\zeta$ liegen auf der Geraden $\Re s = \f 12$.
+			\end{quote}
+
+			Die Riemannsche Vermutung liefert für den Primzahlsatz folgende Version 2:
+			\[
+				|\pi(x) - \li(x)|
+				\le c \sqrt x \log x
+			\]
+			mit $c > 0$, oder mit Landausymbolen
+			\[
+				\pi(x) = \li(x) + \LandauO(\sqrt x \log x).
+			\]
+			Diese Aussage wurde nur mit der Riemannschen Vermutung bewiesen.
+
+			Es gilt $\zeta(2) = \f{\pi^2}6$ (\emphdef{Basler Problem}).
+			Man kennt gut $\zeta(2n)$ für $n \in \N$.
+
+			Der Primzahlsatz Version 1 ist gleichwertig damit, dass $\zeta$ für $\Re s = 1$ keine Nullstellen hat.
+	\end{enumerate}
 \end{nt}
