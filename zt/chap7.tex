@@ -526,3 +526,137 @@ Bertrand stellte mit Hilfe von Primzahltabellen bis $\approx 5 \cdot 10^6$ fest,
 			Der Primzahlsatz Version 1 ist gleichwertig damit, dass $\zeta$ für $\Re s = 1$ keine Nullstellen hat.
 	\end{enumerate}
 \end{nt}
+
+\coursetimestamp{07}{07}{2014}
+
+% Primzahlzwillinge 7.12
+\begin{nt}[Primzahlzwillinge] \label{7.12}
+	\begin{enumerate}[a)]
+		\item
+			Ein Primzahlpaar der Form $(p, p+2)$ nennt man einen \emphdef{Primzahlzwilling}.
+		\item
+			Es ist unbekannt, ob es $\infty$-viele Primzahlzwillinge gibt.
+		\item
+			Sei $\pi_2(x)$ die Anzahl der Primzahlzwillinge $\le x$.
+			Man erwartet
+			\begin{equation}
+				\label{eq:prime_twins}
+				\pi_2(x) \sim 2A \f{x}{\log^2 x} =: z(x) \tag{$\ast$}
+			\end{equation}
+			mit $A = \prod_{\substack{p \in \P \\ p \ge 3}} (1 - \f 1{(p-1)^2}) \approx 0.66016$, der \emphdef{Primzahlzwillingskonstante}.
+			Wäre die Vermutung richtig, dann gibt es unendlich viele Primzahlzwillinge.
+			Es gilt
+			\begin{align*}
+				\pi_2(10^9) &= 3 424 506, & z(10^9) &\approx 3 074 000, &  \f{\pi_2(10^9)}{z(10^9)} &= 1.114 \\
+				\pi_2(10^{11}) &= 224 376 048, & z(10^{11}) &\approx 205 760 000, & \f{\pi_2(10^{11})}{z(10^{11})} &= 1.08\\
+			\end{align*}
+	\end{enumerate}
+\end{nt}
+
+% Probabilistische Herleitung 7.13
+\begin{nt}[Probabilistische Herleitung von \eqref{eq:prime_twins}] \label{7.13}
+	Aus dem Primzahlsatz $\pi(n) \sim \f n{\log n}$ kann man ableiten, dass unter den ersten $n$ Zahlen eine beliebig gewählte Zahl mit Wahrscheinlichkeit $\f 1{\log n}$ eine Primzahl ist.
+
+	Die Wahrscheinlichkeit, dass zwei Zahlen nahe bei $n$ beide Primzahlen sind, ist dann $\f 1{\log^2 n}$.
+
+	Die Wahrscheinlichkeit, dass eine Zahl durch eine Primzahl $p$ geteilt wird, ist $\f 1p$.
+	Die Wahrscheinlichkeit, dass sie nicht durch $p$ geteilt wird ist dann $1 - \f 1p$.
+	Die Wahrscheinlichkeit, dass zwei Zahlen $m$ und $n$ beide nicht von $p$ geteilt werden ist $(1 - \f 1p)^2$.
+	Ist das Paar $(n, m) = (n, n + 2)$, dann gilt
+	\begin{itemize}
+		\item
+			$p = 2$ teilt weder $n$ noch $n+ 2$ mit der Wahrscheinlichkeit $\f 12$.
+		\item
+			$p \ge 3$ teilt weder $n$ noch $n+ 2$ mit der Wahrscheinlichkeit $1 - \f 2p$, denn für $p \ge 3$ teilt $p$ niemals sowohl $n$ als auch $n + 2$, die Wahrscheinlichkeit, dass $n$ oder $n+2$ durch $p$ geteilt werden, ist dann $\f 1p + \f 1p = \f 2p$, also $1 - \f 2p$.
+	\end{itemize}
+	Die spezielle Form von Primzahlzwillingen im Verhältnis zu beliebigen Paaren von Primzahlen ist dann
+	\begin{align*}
+		\dfrac{\f 12 \prod_{p \ge 3} (1 - \f 2p)}{\prod_{p\ge 2} (1-\f 1p)^2}
+		= \dfrac{\f 12 \prod_{p\ge 3} (1 - \f 2p)}{(\f 12)^2 \prod_{p\ge 3} (1-\f 1p)^2}
+		= 2 \prod_{p \ge 3} (1 - \f 1{(p-1)^2}) = 2A
+	\end{align*}
+	Denn
+	\[
+		\f {1 - \f 2p}{(1 - \f 1p)^2}
+		= \f{(1-\f 1p)^2 - \f 1{p^2}}{(1-\f 1p)^2}
+		= 1 - \f{\f 1{p^2}}{\f (1-\f{1p})^2}
+		= 1 - \f 1{(p-1)^2}.
+	\]
+	Die Wahrscheinlichkeit, dass $n, n+2$ ein Primzahlzwilling ist, wäre somit $2 A \f 1{\log^2 n}$.
+	Summieren ergibt asymptotisch
+	\[
+		\pi_2(x)
+		\sim
+		\int_2^x 2A \f 1{\log^2 t} \di[t]
+		\sim 2A \f {x}{\log^2 x},
+	\]
+	ein Indiz dafür, dass die Vermutung \eqref{eq:prime_twins} berechtigt ist.
+\end{nt}
+
+% St 7.14
+\begin{st}[V. Brun, 1913] \label{7.14}
+	Die Reihe
+	\[
+		\sum_{\substack{p \le x \\ p,p+2 \in \P}} \f 1p + \f 1{p+2}
+	\]
+	konvergiert mit Grenzwert $\approx 1.902$.
+	\begin{note}
+		Für Primzahlvierlinge $(p, p+2, p+6, p+8)$ existiert von Brun eine analoge Aussage mit Grenzwert $\approx 0.8$.
+	\end{note}
+	\begin{proof}[Skizze]
+		Man kann seriös zeigen, dass
+		\begin{equation} \label{eq:prime_twins_2}
+			\pi_2(x) < C \f x{\log^2 x} \tag{$\ast\ast$}
+		\end{equation}
+		für eine positive Konstante $C$, $x \ge 2$.
+
+		Ist $(p_n, p_{n+2})$ der $n$-te Zwilling, dann gilt nach \eqref{eq:prime_twins_2}
+		\[
+			n < C \f{p_n}{\log^2 p_n}.
+		\]
+		Also
+		\[
+			\f 1{p_n} < \f C{n \log^2 p_n} < \f {C}{n \log^2 n}.
+		\]
+		Es folgt
+		\[
+			\sum_{p,p+2 \in \P} \f 1p
+			< C \sum_{n=2}^\infty \f 1{n \log^2 n},
+		\]
+		wobei die rechte Seite eine konvergente Majorante ist (betrachte nach Integralkriterium $\int_2^\infty \f 1{x \log^2 x} \di[x]$).
+		Also konvergiert auch $\sum_{p,p+2 \in \P} \f 1p + \f 1{p+2}$.
+	\end{proof}
+\end{st}
+
+% Probabilistisch-heuristisches zu anderen Vermutungen, 7.15
+\begin{nt}[Probabilistisch-heuristisches zu anderen Vermutungen] \label{7.15}
+	\begin{enumerate}[a)]
+		\item
+			Für Mersenne-Zahlen $M_p = 2^p - 1$ haben wir für die Wahrcsheinlichkeit, dass $M_p$ eine Primzahl ist
+			\[
+				\f 1{\log M_p}
+				= \f 1{\log (2^p - 1)}
+				\approx \f 1{p \log 2}
+			\]
+			Aufsummieren (Anzahl der Mersenne-Primzahlen $\le 2^n$) ergibt
+			\[
+				\f 1{\log 2} \sum_{p \le n} \f 1p \to \infty
+			\]
+			für $n \to \infty$, da $\sum_{p \in \P} \f 1p$ divergiert (siehe Übungen).
+			Also sollte es unendlich viele Mersenne-Primzahlen geben.
+		\item
+			Für Fermat-Zahlen $F_k = 2^{2^k} + 1$ ist wie oben
+			\[
+				\f 1{\log F_k}
+				= \f 1{\log(2^{2^k} + 1)}
+				\approx \f 1{2^k \log 2}.
+			\]
+			Aufsummieren ergibt
+			\[
+				\f 1{\log 2} \sum_{k=0}^\infty \f 1{2^k} = \f 2{\log 2} \approx 3.
+			\]
+			Mit anderen Worten, sollte es nur etwa $3$ Fermat'sche Primzahlen geben (wir wissen, es gibt mindesten $5$).
+			Es sollte insbesondere nur endlich viele Fermat'sche Primzahlen geben.
+	\end{enumerate}
+\end{nt}
+

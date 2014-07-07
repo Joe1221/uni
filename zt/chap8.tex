@@ -1,0 +1,94 @@
+\chapter{Einführung in die algebraische Zahlentheorie}
+
+
+\begin{df} \label{8.1}
+	Sei $L / K$ eine endliche Körpererweiterung, $x \in L$.
+
+	Wir bezeichnen mit $T_x: L \to L$ den $K$-linearen Endomorphismus $a \mapsto x a$, die Linksmultiplikation mit $x$.
+	\begin{enumerate}[a)]
+		\item
+			Die Spur von $T_x$ nennt man die \emphdef{Spur} $\Tr_{L/K}(x)$.
+		\item
+			Die Determiante von $T_x$ nennt man die \emphdef{Norm} $N_{L/K}(x)$.
+	\end{enumerate}
+\end{df}
+
+% Bsp + Bem
+\begin{nt} \label{8.2}
+	\begin{enumerate}[a)]
+		\item
+			Spur und Determinante von Vektorraumendomorphismen sind unabhängig von der Wahl der Basis.
+		\item
+			Ist
+			\[
+				\chi_{T_x}(t)
+				= t^n - a_1 t^{n-1} + \dotsb + (-1)^n a_n
+			\]
+			mit $a_1 \in K$ das charakteristische Polynom von $T_x$, dann ist $\Tr_{L/K}(x) = a_1$ und $N_{L/K}(x) = a_n$.
+
+			Ist $M_x = (m_{ij})$ die zu $T_x$ gehörige Matrix in einer Matrixdarstellung nach Wahl einer Basis, dann ist $\Tr_{L/K}(x) = \sum_{i=1}^n m_{ij}$, $n = \dim_K L$ und $N_{L/K}(x) = \det M_x$.
+		\item
+			Sei $L = \Q(\sqrt d)$ mit $d \in \Z$ quadratfrei.
+			Wähle $\Set{1, \sqrt d}$ als $\Q$-Basis.
+			Setze $x = a + b \sqrt d$ mit $a, b \in \Q$.
+			Dann ist $M_x = \Matrix{a & bd \\ b & a}$ wegen $x \sqrt d = a \sqrt d + b d$.
+			Also ist
+			\begin{align*}
+				\Tr_{L/\Q}(x) &= 2a, &
+				N_{L/\Q}(x) &= a^2 - db^2.
+			\end{align*}
+	\end{enumerate}
+\end{nt}
+
+% Lem 8.3
+\begin{lem} \label{8.3}
+	\begin{enumerate}[a)]
+		\item
+			Die Abbildung $L \to K, x \mapsto \Tr_{L/K}(x)$ ist ein Gruppenhomomorphismus $(L, +) \to (K, +)$ und es gilt
+			\[
+				\Tr_{L/K}(kx) = k \Tr_{L/K}(x)
+			\]
+			für $k \in K$.
+		\item
+			Die Abbildung $L^* \to K^*, x \mapsto N_{L/K}(x)$ ist ein Gruppenhomomorphismus $(L^*, \cdot) \to (K^*, \cdot)$ zwischen den Einheitengruppen von $L$ und $K$.
+	\end{enumerate}
+	\begin{proof}
+		Einfach nachzurechnen (Spur ist additiv, Determinante multiplikativ, \dots).
+	\end{proof}
+\end{lem}
+
+% Wiederholung ... 8.4
+\begin{nt}[Wiederholung von Begriffen und Sätzen aus der Algebra] \label{8.4}
+	\begin{enumerate}[a)]
+		\item
+			Eine Körpererweiterung $L / K$ heißt \emphdef{separabel}, wenn jedes Element $x \in L$ ein Minimalpolynom $\mu_x \in K[x]$ besitzt, welches in einem algebraisch abgeschlossenen Körper $\_K$ keine mehrfachen Nullstellen hat.
+		\item
+			Körpererweiterungen über Körper der Charakteristik 0 sind separabel.
+			Insbesondere ist $L / \Q$ mit algebraischem Zahlkörper $L$ stets separabel.
+			Für algebraische Zahlkörper kann man $\_K = \C$ wählen.
+		\item
+			Sei $L / K$ separabel und $\dim_K L = n$.
+			Dann gibt es genau $n$ verschiedene $K$-Homomorphismen $\sigma_i: L \to \_K$.
+			Dabei ist ein $K$-Homomorphismus ein Körperhomomorphismus, der $K$ elementweise festlässt, d.h. $\sigma_i(k) = k$ für alle $k \in K$.
+	\end{enumerate}
+\end{nt}
+
+% St 8.5
+\begin{st} \label{8.5}
+	Sei $L / K$ separabel, $n = \dim_K L$ und $\Hom_K(L, \_K) = \Set{\sigma_1, \dotsc, \sigma_n}$ die Menge der $K$-Homomorphismen nach $\_K$.
+	Dann gilt für ein $x \in L$, dass
+	\begin{enumerate}[(i)]
+		\item
+			$\chi_{T_x}(t) = \prod_{i=1}^n (t - \sigma_i(x))$,
+		\item
+			$\Tr_{L/K}(x) = \sum_{i=1}^n \sigma_i(x)$,
+		\item
+			$N_{L/K}(x) = \prod_{i=1}^n \sigma_i(x)$.
+	\end{enumerate}
+	\begin{proof}
+		(ii) und (iii) folgen unmittelbar aus (i).
+	\end{proof}
+	\begin{note}
+		Ist $L / K$ sogar galoissch, dann bilden $\Set{\sigma_1, \dotsc, \sigma_n}$ die Galoisgruppe und $\sigma_i$ sind insbesondere Körperautomorphismen von $L$.
+	\end{note}
+\end{st}
