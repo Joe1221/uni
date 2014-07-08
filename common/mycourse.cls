@@ -525,7 +525,7 @@
 % Mit Zeilenumbruch
 \DeclareDocumentEnvironment { seg } { og } {
     \begin{segmentlist} [
-        font      = \normalfont\small\bfseries,
+        font       = \normalfont\small\bfseries,
     ]
         \item [ \mbox{ \color{headings} \IfNoValueTF { #1 } { #2 } { #1 } } ]
 } {
@@ -537,6 +537,7 @@
         style      = sameline,
         leftmargin = 2em,
         itemindent = *,
+        font       = \normalfont\small\bfseries,
     ]
         \item [ \mbox{ \color{headings} \IfNoValueTF { #1 } { #2 } { #1 } :} ]
 } {
