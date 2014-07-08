@@ -651,13 +651,13 @@ Theoretisch wunderbar, praktisch sehr schwierig.
 \begin{df}[geodätische Parallelekoordinaten]
 	Die Koordinaten eines Flächenstücks $f: U \to \R^3$ heißen \emphdef{geodätischen Parallelkooridaten}, fals die $u$-Linien stets nach der Bogenlänge parametrisierte Geodätische sind, die jede der $v$-Linien orthogonnal schneiden.
 	Nach Konstruktion schneiden in diesem Fall zwei $v$-Linien aus den $u$-Linien stets gleich lange Abschnitte heraus.
-	\begin{nt}
+	\begin{note}
 		Geodätische Parallelkoordinaten liegen genau dann vor, wenn in den Parametern $u,v$ die erste Fundamentalform die Gestalt
 		\[
 			Ⅰ= \Matrix{1 & 0 \\ 0 & G}
 		\]
 		hat mit einer positiven Funktion $G = G(u,v)$.
-	\end{nt}
+	\end{note}
 \end{df}
 
 \begin{kor}
@@ -665,7 +665,7 @@ Theoretisch wunderbar, praktisch sehr schwierig.
 	\[
 		K(u,v) = - \f{(\sqrt{G})_{uu}}{\sqrt G}.
 	\]
-	Alternativ dazu haben wir für $Ⅰ= \Matrix{1 & 0 \\ 0 & G^2}$ den Ausdruck $K = \f -{G_{uu}}/{G}$.
+	Alternativ dazu haben wir für $Ⅰ= \Matrix{1 & 0 \\ 0 & G^2}$ den Ausdruck $K = \f -{G_{uu}}{G}$.
 	\begin{proof}
 		Es gilt
 		\[
@@ -677,6 +677,157 @@ Theoretisch wunderbar, praktisch sehr schwierig.
 		Bei Drehflächen war $(g_{ij}) = \Matrix{1 & 0 \\ 0 & r^2}$ und die Gaußkrümmung $K = - \f{r''}{r}$.
 	\end{nt}
 \end{kor}
+
+
+\coursetimestamp{08}{07}{2014}
+
+
+\begin{nt}
+	Hat die Länge eines Abschnittes auf $u=0$ (von $v_1$ nach $v_2$) ein Minimum im Vergleich zu den Parallelkurven, so ist $(\sqrt{G})_{uu} \ge 0$, also ist $K \le 0$.
+	Analog für ein Maximum und $K \ge 0$.
+\end{nt}
+
+
+\begin{nt}[Geodätische Polarkoordinaten]
+	Lokal kann man auf einer Fläche geodätische Polarkoordinaten anlegen.
+\end{nt}
+
+Es gibt allerdings noch „bessere“ Koordinaten, sogenannten Fermi-Koordinaten, welche in der Geodäsie eine wichtige Verwendung haben.
+\begin{itemize}
+	\item
+		Eine Kurve $u=0$ ist eine Geodätische, nach Bogenlänge parametrisiert.
+	\item
+		Alle $u$-Linien sind Geodätische, nach Bogenlänge parametrisiert und senkrecht auf den $v$-Linien.
+\end{itemize}
+Dann gilt
+\[
+	\Matrix{E & F \\ F & G}
+	= \Matrix{1 & 0 \\ 0 & G}
+\]
+mit $G(0,v) = 1$ für alle $v$ und $\pddx[u]{G}|_{u=0} = 0$ und $\Gamma_{ij}^k|_{(0,v)} = 0$ für alle $v$.
+Infinitesimal sieht dies also euklidisch aus.
+Wir haben also
+\[
+	\Matrix{E & F \\ F & G}
+	= \Matrix{1 & 0 \\ 0 & 1 + \LandauO(v^2)}
+\]
+für festes $u$.
+
+\begin{ex}
+	\begin{itemize}
+		\item
+			Betrachte $S^2$ und $u = 0$, den Äquator.
+			Es ergibt sich
+			\[
+				\Matrix{E & F \\ F & G}
+				= \Matrix{1 & 0 \\ 0 & \cos^2 u}.
+			\]
+			Es gilt $K = - \f{(\cos u)''}{\cos u}$.
+		\item
+			Allgemeiner auf Drehflächen ist für $(r(t), h(t))$ nach Bogenlänge $K = - \f {r''}{r}$.
+			Es gilt
+			\[
+				\Matrix{E & F \\ F & G}
+				= \Matrix{1 & 0 \\ 0 & r^2(t)}
+			\]
+			wobei $r'(t_0) = 0$ und $r(t) = r(t_0) + \f{(t-t_0)^2}2 r''(t_0) + \dotsc$.
+			Die $\phi$-Linie ist eine Geodätische, wenn $r' = 0$.
+		\item
+			Die Wulstfläche ($a^2K > 1$), oder Spindelfläche ($a^2K < 1$).
+			\[
+				f(t,\phi) = \Vector*{a \cos t \cos \f{\phi}a & a \cos t \sin \f{\phi}a & \int_0^t \sqrt{1 - a^2 \sin^2 x} \di[x]}.
+			\]
+			Wir haben
+			\begin{align*}
+				f_t &= \Vector{-a \sin t \cos \f{\phi}a & - a \sin t \sin \f{\phi}a & \sqrt{1 - a^2 \sin^2 t}}, &
+				f_\phi &= \Vector{-\cos t \sin \f{\phi}a & \cos t \cos \f{\phi}a & 0},
+			\end{align*}
+			also ist
+			\begin{align*}
+				E &= \<f_t, f_t\> = a^2 \sin^2 t + 1 - a^2 \sin^2 t = 1, \\
+				G &= \<f_\phi, f_\phi\> = \cos^2 t.
+			\end{align*}
+			In $t = 0$ auf dem Äquator hat man dann $K = 1$.
+	\end{itemize}
+\end{ex}
+
+\begin{nt}
+	$f, \tilde f$ isometrisch impliziert, dass auch $K = \tilde K$.
+	Die Umkehrung gilt im Allgemeinen nicht.
+\end{nt}
+
+\begin{st}[Flächen mit gleicher konstanter Gaußkrümmung sind isometrisch]
+	$f: U \to \R^3, \tilde f: \tilde U \to \R^3$ seien Flächenstücke mit der gleichen konstanten Gauß-Krümmung.
+	Dann sind lokal $f$ und $\tilde f$ isometrisch zueinander.
+	\begin{proof}
+		$K$ ein die konstante Gauß-Krümmung.
+		Wir fixieren zwei feste Punkte in $U, \tilde U$ und führen in geeigneten Ümgebungen jeweils geodätische Parallelkoordinaten zu eier Geodätischen $u = 0$ ein (d.h. Fermi-Koordinaten).
+		Die Parameter bezeichnen wir für beide Flächen imt dem gleichen Symbol $(u, v)$.
+		Die ersten Fundamentalformen $Ⅰ, \tilde Ⅰ$ haben dann die Gestalt $\Matrix{1 & 0 \\ 0 & G(u,v)}, \Matrix{1 & 0 \\ 0 & \tilde G(u,v)}$
+		mit $G(0,v) = 1 = \tilde G(0,v)$ für jedes $v$.
+		Durch die notwendig bestehenden Differentialgleicheungen
+		\begin{align*}
+			\pddx[u^2] \sqrt G &= - K \sqrt G,
+			\pddx[u^2] \sqrt{\tilde G} &= - K \sqrt{\tilde G}
+		\end{align*}
+		werden dann $G$ und $\tilde G$ eindeutig bestimmt wegen der ebenfalls notwendig geltenden Anfangsbedingungen
+		\[
+			\pddx[u] \sqrt{G(u,v)}|_{u=0}
+			= 0 =
+			\pddx[u] \sqrt{\tilde G(u,v)}|_{u=0}.
+		\]
+		Beachte, dass dies für jedes feste (aber beliebige) $v$ eine gewöhnliche Differentialgleichung zweiter Ordnung mit Parameter $u$ ist.
+		Insgesamt folgt damit in diesen Paremetern $G = \tilde G$, also $Ⅰ = \tilde Ⅰ$ und damit die (lokale) Isometrie von $f$ und $\tilde f$.
+	\end{proof}
+	\begin{note}
+		Ist die Gauß-Krümmung nicht konstant, dann gibt es nicht-isometrische Flächenpaare mit derselben Gauß-Krümmung in gewissen Parametern!
+		Das kann sich bezüglich Fermi-Koordinaten oder anderen Parametrn durchaus ändern.
+		Damit kann man dieselbe Differentialgleichung wie oben nicht mehr verwenden.
+	\end{note}
+\end{st}
+
+\begin{nt}[Extrinsische Interpretation der Gauß-Krümmung]
+	Die Gaußkrümmung ist gegeben als $K = \det L = \det(-\Df[\nu] (\Df)^{-1})$.
+	Dabei ist $\nu$ die Gauß-Abbildung.
+	$K$ ist die infinitesimale Flächenverzerrung (mit Vorzeichen) der Gauß-Abbildung, bzw. der Weingartenabbildung.
+	\[
+		\int_{f(B)} |K| \di[A]
+		= \Vol_{S^2}(\nu(B))
+	\]
+	für  jeden kompakten Bereich $B \subset U \xrightarrow{f} \R^2$.
+	\begin{proof}
+		Es gilt
+		\[
+			\int_{f(B)} |K| \di[A]
+			= \int_{f(B)} |\det L| \di[A]
+			= \int_{B} |\det L| \sqrt{\det (g_{ij})} \di[u^1]\di[u^2]
+		\]
+		und
+		\[
+			\Vol_{S^2}(\nu(B))
+			= \int_{B}\sqrt{\det (e_{ij})} \di[u^1] \di[u^2]
+			= \int_{B}\sqrt{(\det L)^2 \det(g_{ij})} \di[u^1]\di[u^2].
+		\]
+		Es gilt nämlich für eine Eigenbasis $X, Y$ von $L$
+		\begin{align*}
+			\det(e_{ij}) &= \det \Matrix{\<LX, LX\> & \<LX, LY\> \\ \<LY, LX\> & \<LY, LY\>} \\
+			&= \det \Matrix{\lambda^2 \<X,X\> & \lambda\mu \<X, Y\> \\ \lambda\mu \<Y, X\> & \mu^2 \<Y, Y\>} \\
+			&= \lambda^2 \mu^2 \det \Matrix{\<X,X\> & \<X, Y\> \\ \<Y, X\> & \<Y, Y\>} \\
+			&= (\det L)^2 \det (g_{ij}).
+		\end{align*}
+	\end{proof}
+	\begin{note}
+		Damit ist $\nu$ orientierungserhaltend für $K > 0$ und orientierungsumkehrend für $K < 0$ ??
+	\end{note}
+\end{nt}
+
+Wir haben
+\begin{align*}
+	K &= 1 : \Matrix{1 & 0 \\ 0 & \cos^2 u}, \\
+	K &= -1 : \Matrix{1 & 0 \\ 0 & \cosh^2 u}, \\
+	K &= 0 : \Matrix{1 & 0 \\ 0 & 1}.
+\end{align*}
+
 
 
 
