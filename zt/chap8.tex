@@ -9,7 +9,7 @@
 		\item
 			Die Spur von $T_x$ nennt man die \emphdef{Spur} $\Tr_{L/K}(x)$.
 		\item
-			Die Determiante von $T_x$ nennt man die \emphdef{Norm} $N_{L/K}(x)$.
+			Die Determinante von $T_x$ nennt man die \emphdef{Norm} $N_{L/K}(x)$.
 	\end{enumerate}
 \end{df}
 
@@ -92,3 +92,216 @@
 		Ist $L / K$ sogar galoissch, dann bilden $\Set{\sigma_1, \dotsc, \sigma_n}$ die Galoisgruppe und $\sigma_i$ sind insbesondere Körperautomorphismen von $L$.
 	\end{note}
 \end{st}
+
+\coursetimestamp{10}{07}{2014}
+
+% Folgerung 8.6
+\begin{kor} \label{8.6}
+	Sei $L / K$ eine Körpererweiterung, $A$ der Ring der ganzen Zahlen in $K$ und $B$ der ganzzahlige Abschluss von $A$ in $L$.
+	In diesem Fall gilt
+	\[
+		\Tr_{L/K}(B) \subset A.
+	\]
+	Insbesondere gilt dies für Zahlkörper $K = \Q$, $A = \Z$.
+	\begin{proof}
+		Sei $b \in B$. Dann ist $b^n + k_1 b^{n-1} + \dotsb + k_n = 0$ mit $k_i \in A$.
+		Sicherlich ist $\Tr_{L/K}(b) \in K$.
+		$\sigma_j(b)$ ist auch ganz über $K$ für jeden Index $j$, denn weil $\sigma_j$ ein $K$-Homomorphismus ist, gilt
+		\begin{align*}
+			\sigma_j(0)
+			= 0
+			&= \sigma_j(b^n + k_1b^{n-1} + \dotsb + k_n) \\
+			&= \sigma_j(b)^n + k_1 \sigma_j(b)^{n-1} + \dotsb + k_n.
+		\end{align*}
+		Nach \ref{8.5} gilt
+		\[
+			\Tr_{L/K}(b)
+			= \underbrace{\sum_{i=1}^n \underbrace{\sigma_i(b)}_{\text{ganz}}}_{\text{ganz}}
+			\in A.
+		\]
+	\end{proof}
+\end{kor}
+
+% Def 8.7
+\begin{df} \label{8.7}
+	Sei $L/K$ separabel, $S = \Set{\alpha_1, \dotsc, \alpha_n}$ eine $K$-Basis von $L$ und $\Hom_{K}(L, \_K) = \Set{ \sigma_1, \dotsc, \sigma_n}$.
+	Dann heißt
+	\[
+		d(s) = \det((\sigma_i(\alpha_j))^2)
+	\]
+	\emphdef{Diskriminante} von $S$.
+\end{df}
+
+% Lem 8.8
+\begin{lem} \label{8.8}
+	Sei $L/K$ separabel und $S = \Set{\alpha_1, \dotsc, \alpha_n}$ eine $K$-Basis von $L$.
+	\begin{enumerate}[a)]
+		\item
+			Dann gilt $d(S) = \det T$ mit $T = (t_{ij})$ und $t_{ij} = \Tr_{L/K}(\alpha_i\alpha_j)$.
+		\item
+			Ist $S = \Set{1, \theta, \dotsc, \theta^{n-1}}$, dann ist
+			\[
+				d(S) = \prod_{i<j} (\sigma_i(\theta) - \sigma_j(\theta))^2.
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Schreibe mit \ref{8.5} (ii)
+				\begin{align*}
+					\Tr_{L/K}(\alpha_i \alpha_j)
+					= \sum_{k=1}^n \sigma_k (\alpha_i \alpha_j)
+					= \sum_{k=1}^n \sigma_k(\alpha_i) \sigma_k(\alpha_j).
+				\end{align*}
+				Setze $B = (b_{ij})$ mit $b_{ij} = \sigma_i(\alpha_j)$.
+				Dann ist $BB^t = T$ mit $T = (\Tr_{L/K}(\alpha_i \alpha_j))$.
+				Es folgt
+				\[
+					d(S) = \det(B)^2
+					= \det(B)\det(B^t)
+					= \det T.
+				\]
+			\item
+				Nach Definition und mit Multiplikativität ist
+				\[
+					d(S) = \det \Matrix{
+						1 & \sigma_1(\theta) & \cdots & \sigma_1(\theta)^{n-1} \\
+						\vdots & \vdots & \ddots & \vdots \\
+						1 & \sigma_n(\theta) & \cdots & \sigma_n(\theta)^{n-1}
+					}^2.
+				\]
+				Dies ist eine Vandermonde-Matrix, für die sich die Determinante genau wie in der Behauptung ergibt.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+% Lem 8.9
+\begin{lem} \label{8.9}
+	Sei $L / K$ eine Körpererweiterung, $\dim_K L = n$, $A$ ganz abgeschlossen in $K$ und $B$ der ganze Abschluss von $A$ in $L$.
+	Sei $S = \Set{\beta_1, \dotsc, \beta_n}$ eine in $B$ gelegene $K$-Basis von $L$.
+	Sei $d = d(S)$ die Diskriminante von $S$.
+	Dann gilt
+	\[
+		d B \subset \< \beta_1, \dotsc, \beta_n\>_A.
+	\]
+	\begin{proof}
+		Sei $\beta \in B$, dann ist $\beta = b_1 \beta_1 + \dotsb + b_n \beta_n$ mit $b_j \in K$.
+		Es genügt zu zeigen, dass $db_j \in A$ für $1 \le j \le n$, d.h. $d \beta \in \< \beta_1, \dotsc, \beta_n\>_A$.
+		Für $1 \le i \le n$ gilt
+		\[
+			\Tr_{L/K}(\beta_i\beta)
+			\stack{\ref{8.3}a)}= \sum_{j} \Tr_{L/K} (\beta_i b_j \beta_j)
+			= \sum_{j} b_j \Tr_{L/K}(\beta_i \beta_j).
+		\]
+		Betrachte das lineare Gleichungssystem der Form
+		\[
+			\Tr_{L/K}(\beta_i\beta) = \sum_{j=1}^n \Tr_{L/K}(\beta_i\beta_j) x_j
+		\]
+		für $1 \le j \le n$.
+		Die $b_j$ sind nach vorigem Lösungen dieses Gleichungssystems.
+		Nach der Cramerschen Regel sind die $b_j$ Quotienten eines in $A$ gelegenen Zählers, da die Koeffizienten $\Tr_{L/K}(\beta_i\beta_j) \in A$ nach \ref{8.6} und $\det(\Tr_{L/K}(\beta_i\beta_j)) = d$ nach \ref{8.8}a).
+		Damit ist $d\beta \in \<\beta_1, \dotsc, \beta_n\>$, denn $d \beta_j \in A$.
+	\end{proof}
+\end{lem}
+
+% St 8.10
+\begin{st}[Existenz von Ganzheitsbasen] \label{8.10}
+	Sei $L / K$ endlich und separabel, $A$ Hauptidealbereich und ganz abgeschlossen in $K$, $B$ der ganze Abschluss von $A$ in $L$.
+	Dann ist jeder endlich erzeugte $B$-Teilmodul $M$ von $L$ ($L$ kann als Einschränkung als $B$-Modul betrachtet werden) ein freier $A$-Modul ($M$ wird durch weitere Einschränkung auch als $A$-Modul betrachtet) vom Rang $n = \dim_K L$.
+
+	Insbesondere gilt dies für $M = B$, d.h. $B$ ist ein freier $A$-Modul vom Rang $n$ und besitzt somit eine Ganzheitsbasis (siehe \ref{5.12}, \ref{5.13}).
+	\begin{proof}
+		Sei $\Set{\alpha_1, \dotsc, \alpha_n}$ eine $K$-Basis von $L$.
+		Dann ist wegen $\alpha_i = \f{x_i}{y_i}$, $x_i \in B, y_i \in A$ (nach \ref{5.9}) liefert Durchmultiplizieren mit $y := \prod_{i=1}^n y_i$, dass $S := \Set{y\alpha_1, \dotsc, y\alpha_n}$ eine $K$-Basis von $L$, welche in $B$ liegt.
+
+		Mit \ref{8.9} ist $d(S)B \subset \<y\alpha_1, \dotsc, y\alpha_n\>_A$.
+		Sei nun $M$ ein endlich erzeugter $B$-Teilmodul von $L$ und $M = \< \gamma_1, \dotsc, \gamma_r \>_B$.
+		Analog wie vorher liefert Durchmultiplizieren mit $\prod_{i=1}^r w_i$, wenn $\gamma_i = \f {\delta_i}{w_i}$, $\delta_i \in B, w_i \in A$, dass $wM = \<w\gamma_1, \dotsc, w\gamma_r\> \subset B$.
+
+		Es ist dann $d(S) w M \subset d(S) B \subset \<y \alpha_1, \dotsc, y \alpha_n\>_A$.
+		$\<y\alpha_1, \dotsc, y \alpha_n\>_A$ ist offensichtlich ein freier $A$-Modul mit Basis $\Set{y\alpha_1, \dotsc, y\alpha_n}$.
+		Da $A$ eine Hauptidealbereich nach Voraussetzung, sind Teilmoduln von freien $A$-Moduln vom Rang $m$ ebenfalls frei vom Rang $\le m$.
+		Damit ist auch $d(S) w M$ ein freier $A$-Modul.
+		Sicherlich ist $d(S) w M \isomorphic M$ als $A$-Modul und $\Rang M = \Rang d(S) w M \le \Rang \<y\alpha_1, \dotsc, y\alpha_n \> = n$.
+
+		Für $m \in M$ ist $Bm \subset M$ und $Bm \isomorphic B$, also $\Rang B \le \Rang M$.
+		Insegamt ist also
+		\[
+			\Rang M \le n \le \Rang B \le \Rang M,
+		\]
+		d.h. $n = \Rang M = \Rang B$.
+	\end{proof}
+\end{st}
+
+% Bemerkungen 8.11
+\begin{nt} \label{8.11}
+	\begin{enumerate}[a)]
+		\item
+			\ref{8.10} kann man auf Zahlkörpersituationen anwenden $K = \Q, A = \Z$, denn $\Z$ ist eine Hauptidealbereich
+			Die im Beweis von \ref{8.10} verwendete Eigenschaft von freien Moduln über Hauptidealbereichen überträgt sich im Fall $A = \Z$, dazu, dass Untergruppen freier abelscher Gruppen vom Range $n$ frei sind vom Rang $\le n$.
+		\item
+			Die Diskriminante einer Ganzheitsbasis $B$ eines Zahlkörpers $L$ nennt man auch \emphdef{Diskriminante} von $L$.
+			Diese ist unabhängig von der Wahl der Ganzheitsbasis, denn seien $\Set{\alpha_1, \dotsc, \alpha_n}$ und $\Set{\alpha_1', \dotsc, \alpha_1'}$ Ganzheitsbasen von $B$, dann ist die Transformationsmatrix $T = (t_{ij})$ mit $\alpha_i' = \sum_{j=1}^n t_{ij} \alpha_j$ und ihre Inverse ganzzahlig, d.h. $\det T = \pm 1$.
+			Damit ist
+			\[
+				d(\Set{\alpha_1', \dotsc \alpha_n'})
+				= \det((\sigma_i(\alpha_j'))^2)
+				= (\det T)^2 \det(\sigma_i(\alpha_i))^2
+				= d(\Set{\alpha_1, \dotsc, \alpha_n}).
+			\]
+		\item
+			Im Allgemeinen ist es nicht leicht, Ganzheitsbasen zu bestimmen.
+			Im Fall von Kreisteilungskörpern $\Q(\zeta)$, mit einer primitiven $n$-ten Einheitswurzel $\zeta$, kann man zeigen, dass $\Set{1, \zeta, \dotsc, \zeta^{\phi(n) - 1}}$ eine Ganzheitsbasis ist, d.h.
+			$\Z[\zeta]$ sind die ganzen Zahlen von $\Q(\zeta)$.
+	\end{enumerate}
+\end{nt}
+
+% Bemerkungen 8.12
+\begin{nt} \label{8.12}
+	Wir haben gesehen, dass in den ganzen Zahlen quadritischer Zahlkörper die Eindeutigkeit in die Zerlegung von Primelementen in der Regel nicht gegeben ist.
+
+	E. Kummer hat postuliert:
+	Sei $L$ ein algebraischer Zahlkörper, $B$ die ganzen Zahlen von $L$, dann sollte es einen Bereich $\hat B$ geben, so dass in $\hat B$ eine eindeutige Primfaktorzerlegung via „idealer Primzahlen“ möglich ist.
+
+	Präziser sollte folgendes gelten:
+	Sei $\scr a$ eine eine ideale Zahl, dann soll sie mit $a, b, \lambda \in B$ folgende Teilbarkeitsregeln erfüllen
+	\begin{enumerate}[{Postulat P}1]
+		\item
+			\begin{enumerate}[(i)]
+				\item
+					$\scr a$ „teile“ $a$ und $\scr a$ „teile“ $b$, dann auch $\scr a$ teile $a \pm b$,
+				\item
+					$\scr a$ „teile“ $a$, dann auch $a$ „teile“ $\lambda a$.
+			\end{enumerate}
+		\item
+			$\scr a = \Set{ a \in B & \scr a \text{ „teile“ } a}$.
+	\end{enumerate}
+	R. Dedekind hat „ideale Zahlen“ eingeführt als Ideale mit „teile“ als Inklusion und idealen Primzahlen als Primidealen.
+\end{nt}
+
+% Wiederholung
+\begin{df*}
+	Sei $R$ ein kommutativer Ring.
+	Ein Ideal $I \IdealOf R$ heißt \emphdef{Primideal}, wenn für Ideale $A$ und $B$ gilt
+	\[
+		I \supset A B \implies I \supset A \lor I \supset B
+	\]
+	(analog zu $p \divs ab \implies p\divs a \lor p \divs b$).
+\end{df*}
+
+% Lemma 8.13
+\begin{lem} \label{8.13}
+	Sei $R$ ein kommutativer Ring, $I \IdealOf R$ ein Ideal.
+	\begin{enumerate}[a)]
+		\item
+			$I$ ist Primideal genau dann, wenn $R / I$ Integritätsbereich ist,
+		\item
+			$I$ ist maximales Ideal genau dann, wenn $R / I$ ein Körper ist.
+	\end{enumerate}
+	Insbesondere ist jedes maximale Ideal ein Primideal.
+	\begin{note}
+		In $\Z$ sind die Primideale von der Form $p\Z$ für eine Primzahl $p \in Z$, oder das Nullideal.
+
+		In $\R$ nicht-triviale Primideale sind maximal, es existiert ein Primideal, welches nicht maximal ist, in jedem Integritätsbereich ist das Nullideal ein Primideal.
+	\end{note}
+\end{lem}
