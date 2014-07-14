@@ -157,7 +157,7 @@
 				Dann ist $BB^t = T$ mit $T = (\Tr_{L/K}(\alpha_i \alpha_j))$.
 				Es folgt
 				\[
-					d(S) = \det(B)^2
+					d(S) = \det(B^2)
 					= \det(B)\det(B^t)
 					= \det T.
 				\]
@@ -300,8 +300,204 @@
 	\end{enumerate}
 	Insbesondere ist jedes maximale Ideal ein Primideal.
 	\begin{note}
-		In $\Z$ sind die Primideale von der Form $p\Z$ für eine Primzahl $p \in Z$, oder das Nullideal.
-
-		In $\R$ nicht-triviale Primideale sind maximal, es existiert ein Primideal, welches nicht maximal ist, in jedem Integritätsbereich ist das Nullideal ein Primideal.
 	\end{note}
+\end{lem}
+
+\begin{nt} \label{8.14}
+	\begin{itemize}
+		\item
+			In $\Z$ sind die Primideale von der Form $p\Z$ für eine Primzahl $p \in Z$, oder das Nullideal.
+% fixme:
+%		\item
+%			In $\R$ nicht-triviale Primideale sind maximal, es existiert ein Primideal, welches nicht maximal ist, in jedem Integritätsbereich ist das Nullideal ein Primideal.
+	\end{itemize}
+\end{nt}
+
+\coursetimestamp{14}{07}{2014}
+
+% St 8.15
+\begin{st} \label{8.15}
+	Der Ring $B$ der ganzen Zahlen eines algebraischen Zahlkörpers $L$ ist
+	\begin{enumerate}[a)]
+		\item
+			noethersch,
+		\item
+			ganz abgeschlossen in $L$,
+		\item
+			nicht-triviale Primideale sind maximal.
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[a)]
+			\item
+				Nach \ref{8.10} ist $B$ ein freier $\Z$-Modul vom Rang $n = \dim_\Q L$.
+				Jedes Ideal von $B$ ist ein freier $\Z$-Modul endlichen Ranges, insbesondere als $\Z$-Modul endlich erzeugt.
+				$B \supset \Z$, also sind alle Ideale von $B$ endlich erzeugt als $B$-Moduln und $B$ ist noethersch.
+			\item
+				folgt aus \ref{5.9}, $B$ ist der ganze Abschluss von $\Z$ in $L$.
+			\item
+				Sei $P$ ein Primideal von $B$.
+				\begin{seg}{$P \cap \Z$ ist ein Primideal von $Z$}
+					Zeige $P \cap \Z = p\Z$ oder $P = 0 = P \cap \Z$.
+
+					Seien dazu $b,c \in \Z$ mit $(b + P \cap \Z)(c + P \cap \Z) = 0$, dann ist $bc \in P \cap \Z$.
+					Es folgt $(b + P)(c + P) = 0$ in $B / P$.
+					Da $P$ Primideal, ist $B / P$ Integritätsbereich nach \ref{8.13} a), also $b + P = 0$ oder $c + P = 0$, d.h. $b \in \P \lor c \in P$.
+					Wegen $b,c \in \Z$ also $b \in P \cap \Z \lor c \in Z \cap \Z$, d.h. $b + P\cap\Z = 0$ oder $c + P\cap \Z = 0$.
+					Somit ist $\Z / P \cap \Z$ ein Integritäsbereich und nach \ref{8.13} ein Primideal.
+					Beachte $P \neq 0 \implies P \cap \Z \neq 0$ (betrachte einen Koeffizient des Minimalpolynoms von $b \in P$).
+					Für $P = 0$ ist die Behauptung klar.
+				\end{seg}
+				$K = \Set{z + P & z \in \Z} \subset B / P$ ist ein zu $\Z / p \Z$ isomorpher Teilring, d.h. $B / P \supset K \isomorphic \Z / p \Z$ für $P \neq 0$.
+				$B$ entsteht aus $\Z$ durch Adjungieren endlich vieler Elemente $y_i$, die jeweils eine normierte Gleichung der Form
+				\[
+					y_i^m + a_i y_i^{m-1} + \dotsb + a_m = 0
+				\]
+				mit $a_i \in \Z$ erfüllen.
+				Modulo $P$ ist dies eine Gleichung mit $a_i + P \in K$, $y_i + P$ ist daher algebraisch über $K$ und $B / P$ entsteht aus $K$ durch Adjunktion endlich vieler algebraischer Elemente.
+				\[
+					\_{y_i}^m + \_{a_1}\_{y_i}^{m-1} + \dotsb + \_{a_m} = 0,
+				\]
+				also
+				\[
+					1 = - \f 1{\_{a_m}}(\underbrace{\_{y_i}^m + \_{a_1}\_{y_i}^{m-1} + \dotsb + \_{a_{m-1}}\_{y_i}}_{\_{y_i} x}),
+				\]
+				d.h. $\_{y_i}$ ist invertierbar in $B / P$, d.h. $B/P$ ein Körper und nach \ref{8.13} ein maximales Ideal.
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{nt*}
+	Es gilt, dass endliche Integritätsbereiche Körper sind.
+	Der Satz geht auf Wedderburn zurück. % fixme: ref
+\end{nt*}
+
+% Def 8.16
+\begin{df} \label{8.16}
+	Ein Integritätsbereich $R$ \emphdef{Dedekindring}, wenn $R$ noethersch und ganz abgeschlossen in $\Quot(R)$ ist und jedes nicht-triviale Primideal maximal ist.
+\end{df}
+
+% Hauptsatz 8.17
+\begin{st}[Hauptsatz, Eindeutigkeit der Primidealzerlegung] \label{8.17}
+	Sei $R$ ein Dedekindring.
+	Dann lässt sich jedes von $0$ und $R$ verschiedene Ideal $I$ bis auf die Reihenfolge eindeutig als Produkt von Primidealen schreiben, d.h.
+	\[
+		I = P_1^{\nu_1} \dotsb P_r^{\nu_r}
+	\]
+	(gleiche Primideale in Potenzen zusammengefasst).
+	\begin{note}
+		Dieser Satz ist das Gegenstück zum Hauptsatz der elementaren Zahlentheorie.
+	\end{note}
+	\begin{proof}
+		\begin{seg}{Existenz der Zerlegung in Primideale}
+			Da $R$ noethersch ist, gibt es Ideale, die maximal sind mit der Eigenschaft, keine Primidealzerlegung zu besitzen (und $\neq 0, R$ zu sein), falls es überhaupt solche gibt.
+
+			Sei $M$ ein solches maximales Ideal und $\hat M$ sei ein maximales Ideal von $R$, welches $M$ enthält (gibt es, da $R$ noethersch ist)
+			Beachte $\hat M$ ist ein Primideal, also $M \neq \hat M$.
+			Es ist $R \subset \hat M^{-1} = \Set{ k \in  & k \hat M \subset R }$ und daher
+			\[
+				M \subset M M^{-1} \subset \hat M \hat M^{-1} \subset R.
+			\]
+			Nach \ref{8.19} gilt $M \subsetneq M \hat M^{-1}$ und $\hat M \subsetneq \hat M \hat M^{-1}$.
+			Es folgt $\hat M \hat M^{-1} = R$, da $\hat M$ maximales Ideal ist (siehe auch \ref{8.20}).
+
+			Wir behaupten $M \hat M^{-1} \neq \hat M \hat M^{-1} = R$, denn
+			$(M \hat M^{-1}) \hat M$ besteht aus endlichen Summen der Form $\sum m_1 m_2 m_3$ mit $m_1 \in M, m_2 \in \hat M^{-1}, m_3 \in \hat M$.
+			Da in diesen Ausdrücken die Klammerung irrelevant ist, folgt $(M \hat M^{-1}) \hat M = M (\hat M^{-1} \hat M)$.
+			Angenommen $M \hat M^{-1} = \hat M \hat M^{-1}$, dann ist mit $\hat M \hat M^{-1} = R$
+			\[
+				(M \hat M^{-1}) \hat M
+				= (\hat M \hat M^{-1}) \hat M
+				= M (\hat M^{-1} \hat M)
+				= M R
+				= M
+				= R \hat M
+				= \hat M
+			\]
+			Es folgt $M = \hat M$, ein Widerspruch.
+
+			$M \hat M^{-1}$ ist Ideal nach \ref{8.20} und nach der Behauptung $\neq R$ und $M \subsetneq M \hat M^{-1}$ nach \ref{8.19}.
+			$M$ ist maximal ohne Primidealzerlegung, d.h. $M \hat M^{-1} = P_1 \dotsb P_r$ mit $P_i$ Primideal.
+			Multiplikation von rechts mit $\hat M$ ergibt $M = P_1 \dotsb P_r \hat M$.
+			$\hat M$ ist prim, da maximales Ideal, also hat $M$ doch eine Primidealzerlegung und existiert daher nicht.
+		\end{seg}
+	\end{proof}
+\end{st}
+
+% Lem 8.18
+\begin{lem} \label{8.18}
+	Sei $R$ ein Dedekindring, $I \neq 0$ ein Ideal von $R$.
+	Dann existieren Primideale $P_i \neq 0$ mit
+	\[
+		I \supset P_1 P_2 \dotsb P_r.
+	\]
+	\begin{proof}
+		Sei $\scr M$ die Menge der Ideale ungleich 0, die nicht diese Eigenschaft besitzen.
+		Angenommen $\scr M \neq 0$.
+		Ordne $\scr M$ durch Inklusion.
+		Da $R$ noethersch ist, brechen aufsteigende Ketten von Idealen ab, bzw. $\scr M$ besitzt ein maximales Element (siehe \ref{4.6}).
+		Sei $M$ ein maximales Element, welche kein Primideal ist (sonst sind wir fertig).
+		Da $R/M$ kein Integritätsbereich nach \ref{8.13}, existieren $r_1, r_2 \in R$ mit $r_1, r_2 \in I$, aber $r_1, r_2 \not\in I$.
+		Setze $M_1 := M + Rr_1, M_2 := M + Rr_2$, dann ist $M \subsetneq M_1, M_2$, aber $M_1 M_2 \subset M$.
+		Da $M$ maximal ist, gilt $M_1 \subset P_1 \dotsb P_r$, $M_2 \supset Q_1 \dotsb Q_s$ mit $P_i, Q_j$ Primidealen.
+		Es folgt
+		\[
+			M \supset M_1 M_2 \supset P_1 \dotsb P_r Q_1 \dotsb Q_s.
+		\]
+	\end{proof}
+\end{lem}
+
+% Lem 8.19
+\begin{lem} \label{8.19}
+	Sei $R$ ein Dedekindring, $P$ ein Primideal von $R$ und $K = \Quot(R)$.
+	Setze $P^{-1} = \Set{k \in K & k P \subset R}$, dann ist für jedes Ideal $I \neq 0$
+	\[
+		I P^{-1} =
+		\Set{ \sum_{i=1}^n a_i x_i & n \in \N, a_i \in I, x_i \in P^{-1} }
+		\neq I.
+	\]
+	\begin{proof}
+		Sei \oBdA $P \neq 0$, $a \in P, a \neq 0$.
+		Nach \ref{8.18} gibt es Primideale $P_1, \dotsc, P_r$ mit
+		\[
+			P_1 \dotsb P_r \subset R_a \subset P
+		\]
+		und alle $P_i \neq 0$.
+		Wähle $r$ minimal.
+		Da $P$ Primideal, existiert $P_i$ mit $P_i \subset P$.
+		Sei \oBdA $i = 1$, also $P_1 \subset P$.
+		Da $R$ Dedekindring ist und $P_1 \neq 0$, ist $P_1$ maximal und somit $P_1 = P$.
+
+		Wegen $P_2 \dotsb P_r \not\subset Ra$ (wegen Minimalität von $r$) folgt, dass es $b \in P_2 \dotsb P_r$ mit $b \in Ra$, also $a^{-1}b \not\in R$.
+		$P_1 = P$, also $b P \subset Ra$, also ist $a^{-1}b P \subset R$ und daher $a^{-1} b \in P^{-1}$.
+		Es folgt $P^{-1} \neq R$.
+
+		Angenommen $r = 1$, adnn ist $P_1 \subset P_a \subset P$ und $P_1 = P$, also $Ra = P$ und $PP^{-1} = R$, also $P^{-1} \neq R$.
+
+		Angenommen es existiert ein Ideal $I \neq 0$ mit $I P^{-1} = I$.
+		$I$ ist endlich erzeugter $R$-Modul, da $R$ noethersch.
+		Sei also $I = \<\alpha_1, \dotsc, \alpha_n\>$.
+		Dann gilt für jedes $x \in P^{-1}$, dass
+		\[
+			x \alpha_i = \sum_{j} a_{ij} \alpha_j
+		\]
+		mit $a_{ij} \in R$.
+		Definiere die Matrix $B = (b_{ij})$ mit $b_{ij} := x \delta_{ij} - a_{ij}$.
+		Es errechnet sich
+		\[
+			B \Vector{\alpha_1 & \alpha_2 & \dots & \alpha_n} = 0,
+		\]
+		aber $\Vector{\alpha_1 & \dots & \alpha_n} \neq 0$, d.h. $\det B = 0$.
+		Setze $\tilde b_{ij} = t \delta_{ij} - a_{ij} \in R[t]$ und betrachte $\det \tilde B_{ij}$ für $\tilde B = (\tilde b_{ij})$.
+		$x$ ist eine Nullstelle von $\det \tilde B$ und daher ganz über $R$.
+		Da $R$ ganz abgeschlossen in $K$, ist $x \in R$.
+		Es folgt $P^{-1} \subset R$, ein Widerspruch zu oben.
+	\end{proof}
+\end{lem}
+
+\begin{lem} \label{8.20}
+	Voraussetzungen wie im Beweis von \ref{8.17}.
+	Sei $I$ ein Ideal, dann ist $I \hat M^{-1}$ ebenfalls ein Ideal für $I \subset \hat M$.
+	\begin{proof}
+		Übung.
+	\end{proof}
 \end{lem}
