@@ -938,35 +938,6 @@ Wir haben
 	Falls $U$ zusammenhängend ist und falls für $f, \tilde f: U \to \R^{n+1}$ überall $(g_{ij}) = (\tilde g_{ij})$ gilt und falls überall $\rg(L) \ge 3$ ist, dann stimmen $f(U)$ und $\tilde f(U)$ bis auf eukldische Bewegungen überein (inklusive Spiegelungen).
 \end{kor}
 
-\section{Der Hauptsatz der lokalen Flächentheorie}
-
-\begin{align*}
-	\f{\partial^2 f}{\partial u^i \partial u^j}
-		&= \sum_{k} \Gamma_{ij}^k \pddx[u^k]{f} + h_{ij} \nu \\
-	\pddx[u^i]{\nu}
-		&= - \sum_k h_i^k \pddx[u^k]{f}
-		= - \sum_{k,m} h_{im} g^{mk} \pddx[u^k]{f}
-\end{align*}
-
-$(g_{ij})$ und $(h_{ij})$ bestimmen lokal genau ein (Hyper-)Flächenstück (bis auf eukldisichen Bewegungen).
-Wie ermitteln wir dann das Flächenstück?
-Idee: Ableitungsgleichungen integrieren.
-Wir erhalten Integrabilitätsbedingungen für Gauß- und Codazzi-Gleichung.
-
-Seien $(g_{ij}), (h_{ij})$ gegeben, dann ist $(g^{kl}), \Gamma_{ij}^k, h_i^j$ bestimmte (Koeffizienten der rechten Seite der Ableitungsgleichungen).
-
-Wir ermitteln $f$ in zwei Schritten:
-\begin{enumerate}[1.]
-	\item
-		Suche ein begleitendes Bein $X_1, \dotsc, X_n, \nu$ mit
-		\begin{align*}
-			\pddx[u^i]{X_j} &= \sum_k \Gamma_{ij}^k X_k + h_{ij} \nu \\
-			\pddx[u^i]{\nu} &= -\sum_k h_i^k x_k.
-		\end{align*}
-	\item
-		$\pddx[u^i]{f} = X_i$ mit $\nu \orth X_1, \dotsc, X_n$, $\|\nu \| = 1$.
-\end{enumerate}
-
 \begin{lem}[Bewegungsinvarianz und Eindeutigkeit]
 	Sei $f: U \to \R^{n+1}$ ein gegebenes Flächenstück, $B: \R^{n+1} \to \R^{n+1}$ sei eine euklidische Bewegung, d.h. $B(x) = A(x) + b$ mit einer orthogonalen Abbildung $A \in \SO(n+1)$.
 	Setze $\tilde f := B \circ f$.
@@ -1005,6 +976,137 @@ Wir ermitteln $f$ in zwei Schritten:
 		Ferner ist $f - A(f)$ ebenfalls konstant, also $\tilde f - B\circ f = 0$ für eine gewisse euklidische Bewegung $B$.
 	\end{proof}
 \end{lem}
+
+\section{Der Hauptsatz der lokalen Flächentheorie}
+
+\begin{align*}
+	\f{\partial^2 f}{\partial u^i \partial u^j}
+		&= \sum_{k} \Gamma_{ij}^k \pddx[u^k]{f} + h_{ij} \nu \\
+	\pddx[u^i]{\nu}
+		&= - \sum_k h_i^k \pddx[u^k]{f}
+		= - \sum_{k,j} h_{ij} g^{jk} \pddx[u^k]{f}
+\end{align*}
+
+$(g_{ij})$ und $(h_{ij})$ bestimmen lokal genau ein (Hyper-)Flächenstück (bis auf eukldisichen Bewegungen).
+Wie ermitteln wir dann das Flächenstück?
+Idee: Ableitungsgleichungen integrieren.
+Wir erhalten Integrabilitätsbedingungen für Gauß- und Codazzi-Gleichung.
+
+Seien $(g_{ij}), (h_{ij})$ gegeben, dann ist $(g^{kl}), \Gamma_{ij}^k, h_i^j$ bestimmt (Koeffizienten der rechten Seite der Ableitungsgleichungen).
+
+Wir ermitteln $f$ in folgenden Schritten:
+\begin{enumerate}[1.]
+	\item
+		Suche ein begleitendes Bein $X_1, \dotsc, X_n, \nu$, welche dem DGL-System
+		\begin{align*}
+			\pddx[u^i]{X_j} &= \sum_k \Gamma_{ij}^k X_k + h_{ij} \nu \\
+			\pddx[u^i]{\nu} &= -\sum_k h_i^k x_k
+		\end{align*}
+		genügt (unter Integrabilitätsbedingung, $\f{\partial^2 X_j}{\partial u^i\partial u^m} = \f{\partial^2 X_i}{\partial u^m \partial u^j}$ ?).
+	\item
+		Zeige $\|\nu\| = 1$ und $\<\nu, X_i\> = 0$, $\<X_i, X_j\> = g_{ij}$ mit einem DGL-System erster Ordnung.
+	\item
+		Löse die DGL $\pddx[u^i]{f} = X_i$ nach $f$ mit der Integrabilitätsbedingung.
+	\item
+		Zeige schließlich, dass $(g_{ij}), (h_{ij})$ die Fundamentalformen vom gefundenen $f$ ist.
+\end{enumerate}
+
+\coursetimestamp{15}{07}{2014}
+
+Betrachte die Integrabilitäsbedingung
+\[
+	\pddx[u^i] \pddx[u^m]{X_j} = \pddx[u^i] \ddx[u^m]{X_j} = \f{\partial^2 X_j}{\partial u^i \partial u^m}
+	= \f{\partial^2 X_i}{\partial u^m \partial u^j} = \pddx[u^m] \pddx[u^i]{X_j} = \pddx[u^m] \pddx[u_j]{X_i}
+\]
+Dies entspricht
+\[
+	\f{\partial^3 f}{\partial u^i \partial u^j \partial u^m} = \f{\partial^3 f}{\partial u^m \partial u^j \partial u^i}.
+\]
+Dies ist äquivalent zur Integrabilitätsbedingung der Gauß, Codazzi-Mainardi Gleichungen
+\[
+	\f{\partial^2 \nu}{\partial u^i \partial u^j} = \f{\partial^2 \nu}{\partial u^j \partial u^i}.
+\]
+
+\begin{st}[Hauptsatz der lokalen Flächentheorie]
+	Auf einer offenen Menge $U \subset \R^n$ seien symmetrische $C^2$, bzw. $C^1$ Matrizenfunktionen $g_{ij} = g_{ij}(u^1, \dotsc, u^n), h_{ij} = h_{ij}(u^1, \dotsc, u^n)$ gegeben, so dass $(g_{ij})$ überall positiv definit ist und so dass $g_{ij}, h_{ij}$ die Gleichungen von Gauß und Codazzi-Mainardi erfüllen mit den durch $(g_{ij})$ induzierten Christoffelsymbolen.
+	Dann gibt es zu vorgegebenen Anfangsbedingungen
+	\[
+		u^{(0)} \in U, p_0 \in \R^{n+1}, X_1^{(0)}, \dotsc, X_n^{(0)} \in \R^{n+1} \isomorphic T_{p_0} \R
+	\]
+	mit $\<X_i^{(0)}, X_j^{(0)}\> = g_{ij}(u^{(0)})$ und zu gegebener Einheitsnormalen $\nu^{(0)}$ in $p_0$ (d.h. ein Einheitsvektor, der senkrecht auf allen $X_i^{(0)}$ steht) eine offene zusammenhängende Teilmenge $V \subset U$ mit $u^{(0)} \in V$ und genau ein (Hyper-)Flächenstück $f: V \to \R^{n+1}$ der Klasse $C^3$ mit Gauß-Abbildung $\nu$ und mit den Eigenschaften
+	\begin{enumerate}[1.]
+		\item
+			$f(u^{(0)}) = p_0$,
+		\item
+			$\pddx[u^i]{f}(u^{(0)}) = X_i^{(0)}$ für $i \in \Set{1,\dotsc, n}$,
+		\item
+			$\nu(u^{(0)}) = \nu^{(0)}$,
+		\item
+			$g_{ij}, h_{ij}$ sind die erste und zweite Fundamentalform von $f$ (bezüglich $\nu$).
+	\end{enumerate}
+	\begin{proof}
+		Wir verfahren wie oben bereits skizziert.
+		\begin{enumerate}[1.]
+			\item
+				Lösung existiert.
+			\item
+				Betrachte $\pddx[u^i]\<\nu, \nu\>$, $\pddx[u^i]\<\nu, X_j\>$ und $\pddx[u^k] \<X_i, X_j\>$ zusammen mit den Ableitungsgleichungen.
+				$\|v\| =1, \<\nu, X_i\> = 0, \<X_i, X_j\> = g_{ij}$ sind Lösungen davon und Eindeutigkeit folgt.
+			\item
+				Die Integrabilitätsbedingung $\pddx[u^j]{X_i} = \pddx[u^j]{X_j}$ ist erfüllt, wegen der Symmetrie $h_{ij} = h_{ji}, \Gamma_{ij}^k = \Gamma_{ji}^k$.
+				Lokal existiert dann eien eindeutige Lösung $f$ mit der Anfangsbedingung $f(u^{(0)}) = p_0$.
+			\item
+				$g_{ij} = \<X_i, X_j\> = \< \pddx[u^i]{f}, \pddx[u^j]{f} \>$ ist nach Konstruktion erfüllt.
+				Es gilt wegen $0 = \<\nu, X_i\> = \<\nu, \pddx[u^i]{f}\>$
+				\[
+					\< \f{\partial^2 f}{\partial u^i \partial u^j}, \nu\>
+					= \< \sum_{k} \Gamma_{ij}^k \pddx[u^k]{f} + h_{ij} \nu, \nu \>
+					= h_{ij}.
+				\]
+		\end{enumerate}
+	\end{proof}
+	\begin{note}
+		\begin{align*}
+			D_x Y &= \nabla_X Y + Ⅱ(X,Y) \nu \\
+			D_X \nu &= -L(x)
+		\end{align*}
+	\end{note}
+\end{st}
+
+
+\section{Der Satz von Gauß-Bonnet}
+
+
+Der Hopfsche Umlaufsatz besagt für eine geschlossene Randkurve $\boundary L$ eines einfach zusammenhängenden Gebiets $A \subset E^2$, dass
+\[
+	\int_{\boundary A} \kappa(s) \di[s] = + 2\pi,
+\]
+Im Fall einer Ebene ist
+\[
+	\int_A K \di[A] = 0,
+\]
+wobei $K$ die Gaußkrümmung ist.
+
+Gauß-Bonnet besagt
+\[
+	\int_A K \di[A] + \int_{\boundary A} \kappa_g(s) \di[s] = 2 \pi
+\]
+
+Eine Variante von Hopf besagt ein ähnliches Resultat für stückweise differenzierbare Kurven, bei denen Knickpunkten äußere Winkel gezählt werden.
+
+\begin{ex}
+	Aus dem Satz folgen die Formeln für die Innenwinkel von Dreiecken auf Ebene, Einheitssphäre und Pseudosphäre.
+	Bei Einheitssphäre und Pseudosphäre kommt es zu Exzess, bzw. Defekt, welcher dem Flächeninhalt des Dreiecks entspricht.
+	Bei der Pseudesphäre sind Flächeninhalte von Dreiecken damit insbesondere beschränkt durch $\pi$.
+\end{ex}
+
+\begin{thm}[Theorema Elegantissimum, Gauß]
+	Es gilt
+	\[
+		\beta_1 + \beta_2 + \beta_3 - \pi = \int_{\triangle} K \di[A]
+	\]
+	in jedem geodätischen Dreieck $\triangle$.
+\end{thm}
 
 
 
