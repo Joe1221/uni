@@ -323,9 +323,42 @@
     anchorcolor        = link,
 }
 
+\newdateformat { mycoursepdfdate } {
+    \THEYEAR
+    \twodigit { \THEMONTH }
+    \twodigit { \THEDAY }
+}
+\newtimeformat { mycoursepdftime } {
+    \twodigit { \THEHOUR }
+    \twodigit { \THEMINUTE }
+    \twodigit { \THESECOND }
+}
+\prop_if_exist:NT \mycourse_lastchanged_pl {
+    \tl_clear_new:N \l_year
+    \tl_clear_new:N \l_month
+    \tl_clear_new:N \l_day
+    \tl_clear_new:N \l_hour
+    \tl_clear_new:N \l_minute
+    \prop_get:NnN \mycourse_lastchanged_pl { year } \l_year
+    \prop_get:NnN \mycourse_lastchanged_pl { month } \l_month
+    \prop_get:NnN \mycourse_lastchanged_pl { day } \l_day
+    \prop_get:NnN \mycourse_lastchanged_pl { hour } \l_hour
+    \prop_get:NnN \mycourse_lastchanged_pl { minute } \l_minute
+
+    \mycoursepdfdate
+    \settimeformat { mycoursepdftime }
+    \hypersetup {
+        pdfinfo = {
+            ModDate = {
+                D: \l_year \l_month \l_day \l_hour \l_minute 00
+            },
+        },
+    }
+}
+
 % PDF Meta-Informationen setzen
-\AtBeginDocument{
-    \hypersetup{
+\AtBeginDocument {
+    \hypersetup {
         pdftitle   = { \@title  },
         pdfsubject = { \@title  },
         pdfauthor  = { \@author },
