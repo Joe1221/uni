@@ -84,7 +84,7 @@
 	Die diskrete Topologie ist metrisierbar (dank der diskreten Metrik).
 
 	Die indiskrete Topologie hingegen nicht (für $|x| \ge 2$).
-	(Jede metrische Topologie trennt je zwei Punkte $a \neq b$, die indiskrete Topologie tut das nicht).
+	(Jede metrische Topologie trennt je zwei Punkte $a \neq b$, die indiskrete Topologie tut das nicht, siehe auch \ref{thm:metric_space_hausdorff}).
 \end{ex}
 
 \begin{df}
@@ -92,12 +92,12 @@
 \end{df}
 
 \begin{ex}[Ordnungstopologie]
-	Sei $(X,<)$ eine linear geordnete Menge, z.B. $(\R,<)$.
+	Sei $(X,<)$ eine linear geordnete Menge (z.B. $(\R,<)$).
 	Wir nennen $O \subset X$ offen, wenn zu jedem $x \in O$ ein offenes Intervall $I \subset X$ existiert mit $x \in I \subset O$.
 	Das System $\scr T_<$ dieser offener Mengen heißt \emph{Ordnungstopologie} von $(X,<)$.
 \end{ex}
 
-\begin{ex}[Koendliche Topologie auf $X$]
+\begin{ex}[Koendliche Topologie]
 	Setze
 	\[
 		\scr T
@@ -105,7 +105,7 @@
 	\]
 \end{ex}
 
-\begin{ex}[Koabzählbare Topologie auf $X$]
+\begin{ex}[Koabzählbare Topologie]
 	Setze
 	\[
 		\scr T
@@ -121,29 +121,61 @@
 		\subset \scr T_{\text{koabzählbar}}
 		\subset \scr T_{\text{diskret}}
 	\]
-	(nach links hin gröber, nach rechts hin feiner).
+	(der Feinheit nach geordnet: nach links hin gröber, nach rechts hin feiner).
 \end{nt}
 
 \subsection{Abbildungen und Stetigkeit}
 
-\begin{df}
-	Eine Abbildung $f: (X,\scr T_X) \to (Y, \scr T_Y)$ heißt \emph{stetig}, wenn aus $V \in \scr T_Y$ stets $f^{-1}(V) \in \scr T_X$ folgt.
+\begin{nt}
+	Seien $X, Y$ beliebige Mengen mit Teilmengen $U, U_i \subset X, V, V_i \subset Y$.
+	Es gelten die folgenden Zusammenhänge (leichte Übung):
+	\begin{align*}
+		f\Big(\bigcup_{i\in I} U_i\Big) &= \bigcup_{i \in I} f(U_i), &
+		f^{-1}\Big(\bigcup_{i\in I} V_i\Big) &= \bigcap_{i \in I} f(V_i) \\
+		f\Big(\bigcap_{i\in I} U_i\Big) &\subset \bigcap_{i \in I} f(U_i), &
+		f^{-1}\Big(\bigcap_{i\in I} V_i\Big) &= \bigcap_{i \in I} f(V_i) \\
+		f(X \setminus U) &\neq Y \setminus f(U), &
+		f^{-1}(Y \setminus V) &= X \setminus f(V_i).
+	\end{align*}
+	Man sieht, dass sich die Umkehrfunktionen besser bezüglich den Mengenoperationen verhalten.
+	Dies wird im Folgenden für weiterführende Definitionen interessant.
+\end{nt}
 
-	Hingegen heißt $f$ \emph{offen}, wenn aus $U \in \scr T_X$, stets $f(X) \in T_Y$ folgt und \emph{abgeschlossen}, wenn aus $X \setminus A \in \scr T_X$ stets $Y \setminus f(A) \in \scr T_Y$ folgt.
+\begin{df}
+	Eine Abbildung $f: (X,\scr T_X) \to (Y, \scr T_Y)$ heißt
+	\begin{itemize}
+		\item
+			\emphdef{stetig}, wenn
+			\[
+				\forall V \in \scr T_Y : f^{-1}(V) \in \scr T_X.
+			\]
+		\item
+			\emphdef{offen}, wenn
+			\[
+				\forall U \in \scr T_X : f(U) \in \scr T_Y.
+			\]
+		\item
+			\emphdef{abgeschlossen}, wenn
+			\[
+				\forall X \setminus A \in \scr T_X : Y \setminus f(A) \in \scr T_Y.
+			\]
+	\end{itemize}
 	\begin{note}
-		Diese Eigenschaften sind voneinander unabhängig, d.h. man findet Beispiele, die jeweils unterschiedliche Eigenschaften abdecken, bzw. nicht abdecken:
-		\begin{itemize}
-			\item
-				$\Id_\R: \R \to \R$ hat alle Eigenschaften,
-			\item
-				$f: \R \to \R, f(x) = x^2$ ist stetig, abgeschlossen, aber nichtoffen,
-			\item
-				$f: \R \to \R, f(x) = \arctan(x)$ ist stetig, offen, aber nicht abgeschlossen,
-			\item
-				$f: \R \to \R, f(x) = \f 1{1+x^2}$ ist stetig, aber weder offen, noch abgeschlossen,
-			\item
-				\dots
-		\end{itemize}
+		Diese Eigenschaften sind voneinander unabhängig, d.h. man findet Beispiele, die jeweils unterschiedliche Eigenschaften abdecken.
+		In Tabelle \ref{tab:continuous_functions_open_closed} sieht man Beispiele für stetige Funktionen, welche Offen- und Abgeschlossenheit jeweils unterschiedlich erfüllen.
+		\begin{table}[ht]
+			\centering
+			\begin{tabular}{l|ccc}
+				$f: \R \to \R$ & stetig & offen & abgeschlossen \\ \hline
+				$x \mapsto x$ & ✔ & ✔ & ✔ \\
+				$x \mapsto x^2$ & ✔ & ✘ & ✔ \\
+				$x \mapsto \arctan(x)$ & ✔ & ✔ & ✘ \\
+				$x \mapsto \f 1{1 + x^2}$ & ✔ & ✘ & ✘
+			\end{tabular}
+			\caption{Beispiele stetiger Funktionen für Offen- und Abgeschlossenheit}
+			\label{tab:continuous_functions_open_closed}
+		\end{table}
+		Entsprechende Beispiele für nicht-stetige Funktionen erhält man durch Modifikation dieser an einem Punkt
 	\end{note}
 \end{df}
 
@@ -164,7 +196,7 @@
 				\end{cases}.
 			\]
 			Anschaulich gesprochen „flickt“ $f$ beide Intervalle zusammen, während $f^{-1}$ sie wieder „zerreißt“.
-			$f$ ist bijektiv, stetig, aber kein Homöomorphismus.
+			$f$ ist bijektiv und stetig, aber kein Homöomorphismus.
 		\item
 			$f : [0,1[ \to \S^1 \subset \C$ definiert durch
 			\[
@@ -172,7 +204,7 @@
 				= e^{2\pi i t}
 				= (\cos (2\pi t), \sin (2\pi t))
 			\]
-			ist bijektiv, stetig, aber kein Homöomorphismus (es gibt sogar keinen Homöomorphismus zwischen $[0,1[$ und $\S^1$).
+			ist bijektiv, stetig, aber kein Homöomorphismus (es gibt sogar keinen Homöomorphismus zwischen $[0,1[$ und $\S^1$, siehe dazu auch \ref{sphere_non-contractible}).
 	\end{itemize}
 \end{nt}
 
@@ -201,10 +233,12 @@ Sei im folgenden $(X, \scr T)$ ein topologischer Raum, $x \in X$.
 \begin{df}
 	Eine Familie $\scr B_x \subset \scr U_x$ heißt \emph{Umgebungsbasis} von $x$ in $(X, \scr T)$, wenn jede Umgebung $U$ von $x$ eine Umgebung $V \in \scr B_x$ enthält.
 
-	$\scr U_x$ lässt sich dann darstellen durch
-	\[
-		\scr U_x = \big\{ U \subset X : \exists V \in \scr B_x : V \subset U \big\}.
-	\]
+	\begin{note}
+		$\scr U_x$ lässt sich dann darstellen durch
+		\[
+			\scr U_x = \big\{ U \subset X : \exists V \in \scr B_x : V \subset U \big\}.
+		\]
+	\end{note}
 \end{df}
 
 \begin{ex}
@@ -212,7 +246,7 @@ Sei im folgenden $(X, \scr T)$ ein topologischer Raum, $x \in X$.
 		\item
 			$\scr U_x$ ist eine Umgebungsbasis, ebenso $\scr U_x^O$.
 		\item
-			In jedem metrischen Raum $(X,d)$ bilden die Bälle $B(a,\eps)$ mit $\eps > 0$ eine Umgebungsbasis von $a$, ebenso $B(a, \f 1k)$ mit $k \in \N_{\ge 1}$ (diese ist sogar abzählbar).
+			In jedem metrischen Raum $(X,d)$ bilden die Bälle $B(a,\eps)$ um $a \in X$ mit $\eps > 0$ eine Umgebungsbasis von $a$, ebenso $B(a, \f 1k)$ mit $k \in \N_{\ge 1}$ (diese ist sogar abzählbar).
 	\end{itemize}
 \end{ex}
 
@@ -231,7 +265,7 @@ Sei im folgenden $(X, \scr T)$ ein topologischer Raum, $x \in X$.
 \begin{ex}
 	\begin{enumerate}[1.]
 		\item
-			Jeder metrische Raum erfüllt das erste Abzählbarkeitsaxiom.
+			Jeder metrische Raum erfüllt das erste Abzählbarkeitsaxiom mit Umgebungsbasis $\scr B_i := \Set{ B(x, \f 1k) & k \in \N_{\ge 1} }$.
 		\item
 			Auf einer überabzählbaren Menge $X$, etwa $X = \R$, erfüllen die koendliche und die koabzählbare Topologie das erste Abzählbarkeitsaxiom nicht.
 			Wegen des vorigen Beispiels sind diese also nicht metrisierbar.
@@ -254,7 +288,7 @@ Sei im folgenden $(X, \scr T)$ ein topologischer Raum, $x \in X$.
 \begin{prop}
 	Eine Folge $(x_n)$ in $X$ konvergiert gegen $a \in X$ genau dann, wenn
 	\[
-		\forall V \in \scr B_x \exists m \in \N \forall n \ge m : x_n \in V.
+		\forall V \in \scr B_a \exists m \in \N \forall n \ge m : x_n \in V.
 	\]
 	% fixme: proof
 \end{prop}
@@ -269,7 +303,7 @@ Grenzwerte sind im Allgemeinen nicht eindeutig, betrachte dazu folgendes Beispie
 	Ein topologischer Raum $(X, \scr T)$ heißt \emph{hausdorffsch}, wenn zu je zwei Punkten $a \neq b$ in $X$ disjunkte Umgebungen existieren, d.h. $U \in \scr U_a, V \in \scr U_b$, so dass $U \cap V = \emptyset$.
 \end{df}
 
-\begin{ex}
+\begin{ex} \label{thm:metric_space_hausdorff}
 	Jeder metrische Raum ist hausdorffsch.
 \end{ex}
 
@@ -278,13 +312,13 @@ Grenzwerte sind im Allgemeinen nicht eindeutig, betrachte dazu folgendes Beispie
 
 	Die Umkehrung gilt, wenn $(X, \scr T)$ das erste Abzählbarkeitsaxiom erfüllt.
 	\begin{proof}
-		Zeige: aus $x_n \to a$ und $x_n \to b$ folgt $a = b$.
-		Es sei $a \neq b$, dann existieren (da $(X, \scr T)$ hausdorffsch) $U \in \scr U_a, V \in \scr U_b$ mit $U \cap V = \emptyset$, ein Widerspruch zu $x_n \to a, x_n \to b$.
+		Sei $(x_n)$ eine Folge in $X$ mit $x_n \to a$ und $x_n \to b$.
+		Angenommen $a \neq b$, dann existieren mit der Hausdorff-Eigenschaft $U \in \scr U_a, V \in \scr U_b$ mit $U \cap V = \emptyset$, ein Widerspruch zu $x_n \to a, x_n \to b$.
 
 		Zeige nun die Umkehrung unter der Voraussetzung des ersten Abzählbarkeitsaxioms.
 		Sei dazu $a, b \in X$ mit $a \neq b$ und seien $\scr B_a$ bestehend aus $U_0 \supset U_1 \supset \dotsb$ und $\scr B_b$ bestehend aus $V_0 \supset V_1 \supset \dotsb$ zwei absteigende, abzählbare Umgebungsbasen (siehe Bemerkung in \ref{df:first_axiom_of_countability}) von $a$, bzw. $b$.
 		Wenn $i,j \in \N$ existieren mit $U_i \cap V_j = \emptyset$, so sind wir fertig.
-		Angenommen jedoch, für alle $i,j \in \N$ ist $U_i \cap V_i \neq \emptyset$.
+		Angenommen jedoch, für alle $i,j \in \N$ ist $U_i \cap V_j \neq \emptyset$.
 		Definiere dann die Folge $(z_i)_{i\in\N}$ durch
 		\[
 			z_i \in U_i \cap V_i \neq \emptyset.
@@ -302,32 +336,31 @@ Grenzwerte sind im Allgemeinen nicht eindeutig, betrachte dazu folgendes Beispie
 	Jede Umgebungsbasis $\scr B_x$ von $x$ in $(X, \scr T)$ erfreut sich folgender Eigenschaften
 	\begin{enumerate}[(UB1),leftmargin=*]
 		\item
-			$\scr B_x \neq \emptyset$ und für $U \in \scr B_x$ gilt $x \in U \subset X$,
+			$\scr B_x \neq \emptyset \land \forall U \in \scr B_x : x \in U \subset X$,
 		\item
-			Zu $U,V \in \scr B_x$ existiert $W \in \scr B_x$ mit $W \subset U \cap V$.
+			$\forall U, V \in \scr B_x \exists W \in \scr B_x : W \subset U \cap V$.
 	\end{enumerate}
 
-	Erfüllt umgekehrt ein System von Umgebungsbasen $(\scr B_x)_{x\in X}$ die Bedingungen (UB1-2), dann wird die Topologie
+	Erfüllt ein System von Umgebungsbasen $(\scr B_x)_{x\in X}$ die Bedingungen (UB1-2), dann wird die Topologie
 	\[
-		\scr T := \Big\{ O \subset X : \text{Zu jedem $x\in O$ existiert ein $U_x \in \scr B_x$ mit $U_x \subset O$} \Big\}
+		\scr T_{\scr B_X} := \Big\{ O \subset X : \text{Zu jedem $x\in O$ existiert ein $U_x \in \scr B_x$ mit $U_x \subset O$} \Big\}
 	\]
 	auf $X$ induziert und
-	$\scr B_x$ ist für jedes $x \in X$ eine Umgebungsbasis von $x$ im Raum $(X, \scr T)$.
+	$\scr B_x$ ist für jedes $x \in X$ eine Umgebungsbasis von $x$ im Raum $(X, \scr T_{\scr B_X})$.
 	\begin{proof}
-		$\scr T$ ist eine Topologie:
+		$\scr T_{\scr B_X}$ ist eine Topologie:
 		\begin{enumerate}[(O1),leftmargin=*]
 			\item
 				folgt aus (UB1).
 			\item
 				folgt aus (UB2):
-				Für $U, V \in \scr T$ ist $W := U \cap V \in \scr T$ zu zeigen.
+				Für $U, V \in \scr T_{\scr B_X}$ ist $W := U \cap V \in \scr T_{\scr B_X}$ zu zeigen.
 				Zu $x \in W = U \cap V$ existieren $U_x \in \scr B_x$ mit $U_x \subset U$ und $V_x \in \scr B_x$ mit $V_x \subset V$.
-				Dann existieren $W_x \in \scr B_x$ mit $W_x \subset U_x \cap V_x$.
-				Also
+				Mit (UB2) existieren $W_x \in \scr B_x$ mit $W_x \subset U_x \cap V_x$:
 				\[
-					x \in W_x \subset U_x \cap V_x \subset U \cap V = W,
+					x \in W_x \subset U_x \cap V_x \subset U \cap V = W.
 				\]
-				also $W \in \scr T$.
+				Somit gilt $W \in \scr T_{\scr B_X}$.
 			\item
 				gilt nach Konstruktion.
 		\end{enumerate}
@@ -360,7 +393,7 @@ Bekanntermaßen konvergiert $f_n$ punktweise gegen $f$ genau dann, wenn
 \[
 	\forall x \in \R : f_n(x) \to f(x),
 \]
-oder genauer: wenn
+oder ausführlicher: wenn
 \[
 	\forall x \in \R \forall \eps > 0 \exists m \in \N \forall n \ge m : |f_n(x) - f(x)| < \eps.
 \]
@@ -377,12 +410,11 @@ Für $J \subset \R$ endlich und $\eps \in \R_{>0}$ definieren wir deshalb
 \end{align*}
 Diese erfüllen (UB1) und auch (UB2), denn
 \[
-	U(f; J, \eps) \cap U(f, J', \eps')
-	\supset U(f; J \cup J', \min\{\eps, \eps'\}).
+	U(f; J \cup J', \min\{\eps, \eps'\}) \subset U(f; J, \eps) \cap U(f, J', \eps')
 \]
-Dies definiert eine Topologie $\scr T_{\text{pw}}$ (“pointwise”) gemäß \ref{st:local_bases}.
+Die Umgebungsbasis $\scr B_f := \Set{ U(f, J, \eps & J \subset X \text{ endlich}, \eps > 0}$. definiert eine Topologie $\scr T_{\text{pw}}$ (“pointwise”) gemäß \ref{st:local_bases}.
 
-Mit dieser Topologie gilt $f_n \to f$ punktweise genau dann, wenn $f_n \to f$ bezüglich $\scr T_{\text{pw}}$.
+Mit dieser Topologie gilt punktweise Konvergenz $f_n \to f$ genau dann, wenn $f_n \xrightarrow{\scr T_{\text{pw}}} f$.
 %fixme: proof?
 
 \begin{st} \label{st:pointwise_hausdorff_metrisable}
@@ -394,7 +426,7 @@ Mit dieser Topologie gilt $f_n \to f$ punktweise genau dann, wenn $f_n \to f$ be
 		Dann ist $U \cap V = \emptyset$, denn für $h \in U \cap V$ wäre
 		\begin{align*}
 			d
-			&= |f(x) - h(x) + h(x) - g(x)| \\
+			&= |f(x) - g(x)| \\
 			&\le |f(x) - h(x)| + |h(x) - g(x)|
 			< \f d2 + \f d2
 			= d,
@@ -403,9 +435,16 @@ Mit dieser Topologie gilt $f_n \to f$ punktweise genau dann, wenn $f_n \to f$ be
 		Also ist $\scr T_{\text{pw}}$ hausdorffsch.
 
 		Angenommen $(U_n)_{n\in\N}$ ist eine abzählbare Umgebungsbasis der Nullfunktion,
-		d.h. zu jedem $n \in \N$ existiert $J_n \subset \R$ endlich und $\eps_n > 0$ mit $U(0; J_n, \eps_n) \subset U_n$.
-		Die Menge $J = \bigcup_{k\in\N} J_n \subset \R$ ist abzählbar, also $\R \setminus J \neq \emptyset$.
-		Für $x_0 \in \R \setminus J$ enthält die Umgebung $U(0; \{x_0\}, 1)$ keine der Umgebungen $U_n$.
+		dann existiert für jede Umgebung $U_n$ eine endliche Menge $J_n \subset \R$ und $\eps_n > 0$ mit $U(0; J_n, \eps_n) \subset U_n$.
+		Die Menge $J = \bigcup_{k\in\N} J_k \subset \R$ ist abzählbar, also $\R \setminus J \neq \emptyset$.
+		Für $x_0 \in \R \setminus J$ enthält die Umgebung $U(0; \{x_0\}, 1)$ keine der Umgebungen $U_n$, denn für jedes $n \in \N$ ist mit der Wahl
+		\[
+			f(x) := \begin{cases}
+				0 & x \in J \\
+				2 & x \in \R \setminus J
+			\end{cases}
+		\]
+		$f \in U_n$, aber $f \not\in U(0; \Set{x_0}, 1)$.
 	\end{proof}
 \end{st}
 
@@ -456,13 +495,13 @@ Für $K = [-r,r]$ und $\eps > 0$ setzen wir
 \]
 Dies erfüllt offensichtlich (UB1) und auch (UB2), denn
 \[
+	U(f; K \cup K', \min\{\eps, \eps'\}) \subset
 	U(f;K,\eps) \cap U(f;K',\eps')
-	\supset U(f; K \cup K', \min\{\eps, \eps'\}),
 \]
 und erzeugt damit die Topologie $\scr T_{\text{kpkt}}$.
 
 \begin{st}
-	Es gilt $f_n \to f$ kompakt genau dann, wenn $f_n \to f$ bezüglich $\scr T_{\text{kpkt}}$.
+	$f_n$ konvergiert gegen $f$ auf jedem Kompaktum genau dann, wenn $f_n \to f$ bezüglich $\scr T_{\text{kpkt}}$ konvergiert.
 \end{st}
 
 \begin{nt}
@@ -549,18 +588,19 @@ Ein Punkt $x \in X$ heißt
 
 \begin{st}[Charakterisierung des Abschlusses durch Folgen]
 	Sei $(X, \scr T)$ ein topologischer Raum, $A \subset X$ und $x \in X$.
-	Wenn es eine Folge $(a_n)_{n\in\N}$ aus $A$ gibt mit $x_n \to x$ in $(X, \scr T)$, dann gilt $x \in \_A$.
+	Wenn es eine Folge $(a_n)_{n\in\N}$ aus $A$ gibt mit $a_n \to x$ in $(X, \scr T)$, dann gilt $x \in \_A$.
 
 	Die Umkehrung gilt, wenn das 1AA erfüllt, d.h. $x$ eine abzählbare Umgebungsbasis hat.
+	%fixme: proof
 \end{st}
 
 \begin{df}
-	Eine Menge $M \subset X$ heißt
+	Eine Teilmenge $M \subset X$ heißt
 	\begin{itemize}
 		\item
 			\emph{dicht} in $(X, \scr T)$, wenn $\_M = X$,
 		\item
-			\emph{diskret}, wenn jeder Punkt $x \in M$ isoliert ist.
+			\emph{diskret} in $(X, \scr T)$, wenn jeder Punkt $x \in M$ isoliert ist.
 	\end{itemize}
 \end{df}
 
@@ -882,6 +922,8 @@ Seien $f: X \to Y$ und $V_i \subset X, i \in I$, dann gilt
 		\item
 			Ist $(X, d)$ ein metrischer Raum, $A \subset X$ und $d_A = d|_{A\times A}$.
 			Dann gilt $(A, \scr T_A) = (A, \scr T_{d_A})$.
+		\item
+			Die Teilraumtopologie $\scr T_A$ einer diskreten Menge $A \subset X$ bildet die \emphdef{diskrete Topologie} auf $A$.
 	\end{itemize}
 \end{ex}
 
