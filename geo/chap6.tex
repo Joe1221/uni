@@ -1108,6 +1108,143 @@ Eine Variante von Hopf besagt ein ähnliches Resultat für stückweise differenz
 	in jedem geodätischen Dreieck $\triangle$.
 \end{thm}
 
+\coursetimestamp{17}{07}{2014}
 
+\begin{thm}[Gauß-Bonnet-Formel, erste lokale Version]
+	Sei $U \subset \R^2$ eine offene Teilmenge, $B \subset U$ diffeomorph zur abgeschloossenen Kreisscheibe.
+	Ferner sei $f: U \to \R^3$ ein Flächenstück und injektiv.
+	Der Rand von $B$ sei durch $\gamma: I \to U$ so parametrisiert, dass das Innere von $B$ zur Linken von $\gamma$ liegt und wir setzen $c = f \circ \gamma$.
 
+	Dann gilt
+	\[
+		\int_{f(B)} K \di[A] + \int_c \kappa_g \di[s] = 2\pi,
+	\]
+	wobei $K$ die Gauß-Krümmung von $f$ und $\kappa_g$ die geodätische Krümmung von $c$ ist.
+	\begin{proof}
+		Seien $X_1, X_2$ ortohonormierte Vektorfelder in $B$.
+		Der Hopfsche Umlaufsatz $\oint \kappa(s) \di[s] = 2\pi$ im einfach geschlossenen Fall bleibt gültig in der jetzigen Situation:
+		\begin{align*}
+			e_1 &= \cos \phi X_1 + \sin \phi X_2 \\
+			e_2 &= -\sin \phi X_1 + \cos \phi X_2 \\
+			X_1 &= \cos \phi e_1 - \sin \phi e_2 \\
+			X_2 &= \sin \phi e_1 + \cos \phi e_2.
+		\end{align*}
+		für $\phi: [a,b] \to \R$.
+		Es gilt also
+		\[
+			\int_a^b \ddx[s]{\phi} \di[s] = \phi(b) - \phi(a) = 2\pi.
+		\]
+		Die Randkurve sei nach Bogenlänge parametrisiert, $\nabla_{e_1} e_1 = \kappa_g e_2$ mit geodätischer Krümmung $\kappa_g = \<\nabla_{e_1} e_1, e_2\>$.
 
+		Es gilt $\<e_1, X_1\> = \cos \phi$, d.h. $\ddx[s] \<e_1, X_1\> = -\sin \phi \ddx[s]{\phi}$.
+		Nach dem Hopfschen Umlaufsatz ist dann
+		\begin{align*}
+			2\pi
+			&= \int_a^b \ddx[s]{\phi} \di[s] \\
+			&= - \int_a^b \f 1{\sin \phi} \underbrace{\ddx[s]}_{\nabla e_1} \<e_1, X_1\> \di[s] \\
+			&= - \int_a^b \f 1{\sin \phi} (\<\nabla_{e_1} e_1, X_1\> + \< e_1, \nabla_{e_1} X_1\>) \di[s] \\
+			&= - \int_a^b \f 1{\sin \phi} (\underbrace{\<\nabla_{e_1} e_1, \cos \phi e_1\>}_{=0} - \underbrace{\< \nabla_{e_1} e_1, \sin \phi e_2\>}_{=\sin \phi \kappa_g}) \di[s] \\
+			& \qquad  - \int_a^b \f 1{\sin \phi} (\underbrace{\<\cos \phi X_1, \nabla_{e_1} X_1\>}_{=0} + \< \sin \phi X_2, \nabla_{e_1} X_1) \di[s] \\
+			&= \int_a^b \kappa_g(s) \di[s] - \int_a^b \underbrace{\<X_2, \nabla_{e_1} X_1\>}_{= -\<X_1, \nabla_{e_1} X_2} \di[s] \\
+			&= \int_a^b \kappa_g(s) \di[s] + \int_a^b \omega_2^1(e_1) \di[s].
+		\end{align*}
+		Wir führen die Dualbasis $\omega^i(X_j) := \delta_j^i$ ein mit 1-Formen $\omega^1, \omega^2$.
+		Definieren
+		\[
+			\<X_1, \nabla_{e_1} X_2\>
+			= \omega^1(\nabla_{e_1} X_2)
+			=: \omega_2^1(e_1),
+		\]
+		sogenannte Zusammenhangsformen durch
+		$\omega_j^i(Y) := \omega^i(\nabla_Y X_j)$.
+		Diese beschreiben vollständig die Christoffelsymbole und sind schiefsymmetrisch $\omega_j^i = - \omega_i^j$.
+		Es folgt
+		\begin{align*}
+			\int_a^b \kappa_g(s) \di[s] + \int_a^b \omega_2^1(e_1) \di[s]
+			&= \oint_{\Boundary B} \kappa_g(s) \di[s] + \oint_{\Boundary B} \omega_2^1 \\
+			&\stack{\text{Stokes}}= \oint \kappa_g(s) \di[s] + \underbrace{\int_{B} \di[\omega_2^i]}_{\int_B \Omega_2^1}.
+		\end{align*}
+		Nun ist
+		\begin{align*}
+			\dx[\omega_2^1](X, Y)
+			&= X(\omega_2^1 Y) - Y(\omega_2^1 X) - \omega_2^1([X,Y]) \\
+			&= \nabla_X(\<\nabla_Y X_2, X_1\>) - \nabla_Y(\<\nabla_X X_2, X_1\>) - \< \nabla_{[X,Y]} X_2, X_1\> \\
+			&= \< \nabla_X \nabla_Y X_2, X_1\> - \< \nabla_Y \nabla_X X_2, X_1\> \\
+			&\qquad - \< \nabla_{[X,Y]} X_2, X_1\> + \< \nabla_Y X_2, \nabla_X X_1\> - \< \nabla_X X_2, \nabla_Y X_1\> \\
+			&= \<R(X,Y) X_2, X_1\> + \< \nabla_Y X_2, \nabla_X X_1\> - \< \nabla_X X_2, \nabla_Y X_1\>
+		\end{align*}
+		Eingesetzt ergibt
+		\[
+			\dx[\omega_2^1](X_1, X_2) = \underbrace{\<R(X_1, X_2) X_2, X_1\>}_{=K} + \< \nabla_Y X_2, \nabla_X X_1\> - \< \nabla_X X_2, \nabla_Y X_1\>
+		\]
+		Es gilt
+		\[
+			\nabla_X X_1 = \<\nabla_X X_1, X_1\> X_1 + \< \nabla_X X_1, X_2\> X_2,
+		\]
+		also
+		\begin{align*}
+			&\< \nabla_Y X_2, X_1\>\underbrace{\<\nabla_X X_1, X_1\>}_{=0} + \<\nabla_Y X_2, X_2\> \underbrace{\<\nabla_X X_1, X_2\>}_{=0} \\
+			&\quad - \< \nabla_X X_2, X_1\> \underbrace{\< \nabla_Y X_1, X_1\>}_{=0} - \< \nabla_X X_2, X_2\> \< \nabla_Y X_1, X_2\>
+			= 0
+		\end{align*}
+		und somit
+		\[
+			\int_B \Omega_2^1
+			= \int_B K \underbrace{\di[A]}_{=\omega^1 \wedge \omega^2}.
+		\]
+		Wir schreiben
+		\[
+			\Omega_2^1(X, Y) := \<R(X,Y) X_2, X_1\>,
+		\]
+		die sogenannte \emphdef{Krümmungsform}.
+		Es gilt
+		\[
+			\Omega_2^1(X_1, X_2) = \<R(X_1, X_2) X_2, X_1\> = K
+		\]
+		und damit $\Omega_2^1 = K \di[A]$.
+	\end{proof}
+\end{thm}
+
+\begin{thm}[Gauß-Bonnet-Formel, zweite lokale Version]
+	Sei $B$ wie oben, aber nicht deffeomorph zur abgeschlossenen Kreisscheibe, sondern nur homöomorph dazu und zwar mit stückweise glattem und zusammenhängendem Rand.
+
+	Im Bild $f(B)$ seien mit $\alpha_1, \dotsc, \alpha_n$ die orientierten äußeren Winkel an den endlich vielen Stellen (den sogenannten Ecken) bezeichnet, wo der Rand nicht glatt ist, dabei sei stets $-\pi < \alpha_i < \pi$.
+	Dann gilt
+	\[
+		\int_{f(B)} K \di[A] + \int_{\Boundary f(B)} \kappa_g \di[s] + \sum_{i} \alpha_i = 2\pi.
+	\]
+\end{thm}
+
+\begin{thm}[Gauß-Bonnet-Formel, globale Version]
+	Sei $M \subset \R^3$ eine kompakte $2$-dimensionale (orientierbare) Untermannigfaltigkeit (ohne Rand).
+	Dann gilt
+	\[
+		\int_M K \di[A] = 2\pi \chi(M) \le 4\pi,
+	\]
+	wobei $\chi(M) \in \Z$ die Euler-Charakteristik von $M$ ist, die invariant unter Homöomorphismen und insbesondere unabhängig von der Art der Einbettung als Untermannigfaltigkeit ist.
+	\begin{proof}[Skizze]
+		Zerlegung von $M$ in endlich viele $M_i$, für die die zweite lokale Version gilt
+		\[
+			\int_{M_i} K \di[A] + \int_{\Boundary M_i} \kappa_g(s) \di[s] + \sum_j \alpha_{ij} = 2\pi.
+		\]
+		Summiere nun über $i$:
+		\begin{align*}
+			2\pi \texp{Anzahl Flächen}
+			&= 2\pi\sum_i \int_{M_i} K \di[A] + \underbrace{\sum_{i} \int_{\Boundary M_i} \kappa_s(s) \di[s]}_{=0} + \sum_{i,j} \underbrace{\alpha_{ij}}_{=\pi - \beta_{ij}} \\
+			&= \int_{M} K \di[A] - 2\pi \texp{Anzahl Ecken} + 2\pi \texp{Anzahl Kanten}.
+		\end{align*}
+		Es folgt
+		\begin{align*}
+			\int_M K \di[A]
+			&= 2\pi (\texp{Anzahl Ecken} - \texp{Anzahl Kanten} + \texp{Anzahl Flächen}) \\
+			&= 2\pi \chi(M).
+		\end{align*}
+	\end{proof}
+\end{thm}
+
+\begin{nt}[Additivität von $\chi$]
+	Es gilt
+	\[
+		\chi(A \cup B) + \chi(A \cap B) = \chi(A) + \chi(B).
+	\]
+\end{nt}
