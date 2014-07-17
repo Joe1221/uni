@@ -418,6 +418,22 @@
 			Multiplikation von rechts mit $\hat M$ ergibt $M = P_1 \dotsb P_r \hat M$.
 			$\hat M$ ist prim, da maximales Ideal, also hat $M$ doch eine Primidealzerlegung und existiert daher nicht.
 		\end{seg}
+		\begin{seg}{Eindeutigkeit der Zerlegung}
+			Sei $I = P_1 \dotsb P_r = Q_1 \dotsb Q_s$ mit Primidealen $P_i, Q_j$.
+			$P_1$ ist prim, $P_1 \supset P_1 \dotsb P_r$, also $P_1 \supset Q_{i_0}$.
+			Nicht-triviale Primideale in einem Dedekindring sind maximal, also $P_1 = Q_{i_0}$, \oBdA $i_0 = 1$.
+			Es folgt $P_1 \dotsb P_r = Q_1 \dotsb Q_s = P_1 Q_2 \dotsb Q_s$.
+			Multiplizieren mit $P_1^{-1}$ folgt $P_2 \dotsb P_r = Q_2 \dotsb Q_s$.
+			Per Induktion folgt die Behauptung.
+			Zum Induktionsanfang $r = 1$, angenommen $P_1 = Q_1 \dotsb Q_s$ mit $s \ge 2$, bzw. $P_1 = P_1 Q_2 \dotsb Q_s$.
+			Multiplizieren ergibt
+			\[
+				R = P_1^{-1} P_1
+				= R Q_2 \dotsb Q_j
+				= Q_2 \dotsb Q_s \subsetneq R,
+			\]
+			ein Widerspruch.
+		\end{seg}
 	\end{proof}
 \end{st}
 
@@ -499,3 +515,207 @@
 		Übung.
 	\end{proof}
 \end{lem}
+
+
+\coursetimestamp{17}{07}{2014}
+
+% Def 8.21
+\begin{df} \label{8.21}
+	Sei $B$ der Ring der ganzen Zahlen im algebraischen Zahlkörper $L$.
+	Bezeichne $\scr P$ die Menge aller Primideale, die $\neq 0$ sind.
+	Sei $G$ die freie abelsche Gruppe auf $\scr P$, multiplikativ geschrieben, d.h. für $g \in G$:
+	\[
+		g = \prod_{i\in I} P_i^{\nu_i}
+	\]
+	mit einer Indexmenge $I$, die alle Elemente von $\scr P$ indiziert, $P_i \in \scr P, \nu_i \in \Z$, fast alle $\nu_i = 0$.
+	Die Multiplikation auf $G$ ist dann definiert als
+	\[
+		\prod P_i^{\nu_i} \cdot \prod P_i^{\mu_i}
+		:= \prod P_i^{\nu_i + \mu_i}.
+	\]
+	$G$ heißt \emphdef{Idealgruppe} $I(L)$.
+\end{df}
+
+% Bems 8.22
+\begin{nt} \label{8.22}
+	\begin{itemize}
+		\item
+			\ref{8.17} rechtfertigt die Bezeichnung „Idealgruppe“, denn es herscht eine eins-zu-eins Korrespondenz zwischen
+			\[
+				P_{a_1}^{\nu_{a_1}} \dotsb P_{a_m}^{\nu_{a_m}} \quad \leftrightarrow \quad \text{nicht-triviale Ideale von $B$}.
+			\]
+			Das neutrale Element $\prod P_i^0$ kann man mit $B$ identifizieren.
+			Die Multiplikation in $G$ entspricht der Multiplikation von Idealen und ist assoziativ.
+		\item
+			Im Beweis von \ref{8.17}, erster Teil war
+			\[
+				I P^{-1} = \Set{ \sum_{\text{endl.}} a_i x_i & a_i \in I, x_i \in P^{-1} }
+			\]
+			mit Eigenschaften:
+			\begin{itemize}
+				\item
+					$B X = X$,
+				\item
+					$X(YZ) = (XY)Z$,
+				\item
+					$PP^{-1} = B$,
+				\item
+					$X, Y, Z \in \Set{ P_i, P_j^{-1} }$.
+			\end{itemize}
+	\end{itemize}
+\end{nt}
+
+Wie kann man die anderen Elemente von $I(L)$ interpretieren?
+
+% Def 8.23
+\begin{df} \label{8.23}
+	Ein endlich erzeugter $B$-Teilmodul $M$ von $L$ mit $M \neq 0$ heißt \emphdef{gebrochenes Ideal}.
+\end{df}
+
+% Bems 8.24
+\begin{nt} \label{8.24}
+	\begin{enumerate}[a)]
+		\item
+			Nach \ref{8.10} ist jedes gebrochene Ideal als $\Z$-Modul frei vom Rang $n = \dim_{\Q} L$.
+		\item
+			Man kann leicht zeigen:
+			Ist $M \subset L$ ein gebrochenes Ideal, dann existiert $c \in B$ mit $cM \subset B$, dies ist dann ein Ideal.
+		\item
+			Erweitert man die Multiplikation von Idealen zu einer Multiplikation von gebrochenen Idealen (wie bei $IP^{-1}$), dann kann man $G = I(L)$ mit der Menge der gebrochenen Idealen identifizieren.
+		\item
+			Die gebrochenen Hauptideale der Form $B x$ mit $x \in L$ bilden eine Untergruppe $P(L) \subset I(L)$.
+	\end{enumerate}
+\end{nt}
+
+% Df 8.25
+\begin{df} \label{8.25}
+	Die Faktorgruppe $I(L) / P(L)$ heißt \emphdef{Idealklassengruppe} von $L$ (oder oft \emphdef{Klassengruppe}).
+	Wir schreiben $\Cl(L)$.
+
+	Man nennt $|\Cl(L)|$ die \emphdef{Klassenzahl} $h(L)$.
+\end{df}
+
+% Bem 8.26
+\begin{nt} \label{8.26}
+	\begin{itemize}
+		\item
+			$\Cl(L) = 1$ gilt genau dann, wenn $B$ ein Hauptidealbereich ist.
+			„Die Größe der Klassengruppe misst die Entfernung zur Hauptidealbereichs-Eigenschaft“.
+		\item
+			$\Cl(\Q) = 1, \Cl(Q[i]) = 1$.
+	\end{itemize}
+\end{nt}
+
+% Hauptsatz 8.27
+\begin{st}[Hauptsatz] \label{8.27}
+	$\Cl(L)$ ist eine \emphdef{endliche} abelsche Gruppe, d.h. insbesondere gilt für die Klassenzahl $h(L) \in \N$.
+\end{st}
+
+% Hauptsatz 8.28, Dirichletscher Einheitensatz
+\begin{st}[Dirichlet'scher Einheitensatz] \label{8.28}
+	Sei $L$ ein algebraischer Zahlkörper und $B$ der Ring der ganzen Zahlen in $L$.
+	Die Einheitengruppe $U(B)$ ist eine endlich erzeugte abelsche Gruppe.
+	Es gilt
+	\[
+		U(B) \isomorphic \mu(L) \times \Z^{r+s-1}.
+	\]
+	Dabei ist $\mu(L)$ die Gruppe der Einheitswurzeln, die in $L$ liegen, daher also eine endliche Gruppe.
+	$r$ ist die Anzahl von $\Q$-Homomorphismen von $L$ nach $\R$ und $s$ die Anzahl der Paare konjugiert komplexer $\Q$-Homomorphismen von $L$ nach $\C$ (die nicht in $\R$ landen).
+	% fixme: „Anzahl Einbettungen“
+\end{st}
+
+% Bems 8.29
+\begin{nt} \label{8.29}
+	\begin{enumerate}[a)]
+		\item
+			$\mu(L)$ ist zyklisich, siehe auch \ref{2.1}.
+			Wegen $\dim_{\Q} L < \infty$ liegen nur endlich viele Einheitswurzeln in $L$.
+		\item
+			$\Q$-Homomorphismus = Körperhomomorphismus.
+			Ist $\tilde L$ ein Körper der Charakteristik $0$, dann besitzt $\tilde L$ genau einen Teilkörper isomorph zu $\Q$, Teilkörper auch mit $\Q$ bezeichnet.
+			Ist $\phi: L \to \C$ ein Körperhomomorphismus, dann ist $\phi(\Q) = \Q$, d..h $\phi|_\Q$ ist ein Körperautomorphismus.
+			Da $\Aut \Q = 1$, ist $\phi|_\Q = \Id$ und somit automatisch ein $\Q$-Homomorphismus.
+		\item
+			Ist $\phi: L \to \C$ mit $\phi(L) \not\subset \R$ ein Körperhomomorphismus, dann ist auch $c \circ \phi: L \to \C, l \mapsto \_{\phi(l)}$ ein Körperhomomorphismus.
+			Hierbei ist $c$ also die komplexe Konjugation.
+	\end{enumerate}
+\end{nt}
+
+\begin{nt}[Vergleich zu früheren Kapiteln]
+	\begin{itemize}
+		\item
+			In Kapitel \ref{chap:4} war $L = \Q(\sqrt d)$ und $B_d = \Z[\alpha_d]$ der Ring der ganzen Zahlen in $L$ mit
+			\[
+				\alpha_d = \begin{cases}
+					\sqrt d & d \equiv 2, 3 \bmod 4 \\
+					\f 12 (1 + \sqrt d) & d \equiv 1 \bmod 4
+				\end{cases}.
+			\]
+			Die Körperhomomorphismen $\sigma_i: L \to \C$ waren $\sigma_m = \Id, \sigma_2: L \to L, \beta \mapsto \beta'$.
+			Ist $d > 0$, dann ist $\sigma_1(L), \sigma_2(L) \subset \R$, für $d < 0$ ist $\sigma_1(L), \sigma_2(L) \not\subset \R$.
+
+			Der Dirichletscher Einheitensatz besagt
+			\[
+				U(B_d) \isomorphic \mu(L) \times \Z^{r+s-1},
+			\]
+			d.h. für $d > 0$ ist $r = 2, s = 0$ und
+			\[
+				U(B_d) \isomorphic \mu(L) \times \Z^1.
+			\]
+			Für $d < 0$ ist $r = 0, s = 1$, d.h.
+			\[
+				U(B_d) \isomorphic \mu(L).
+			\]
+			Vergleiche für $d < 0$ auch \ref{4.17}:
+			\begin{align*}
+				U(B_{-1}) &\isomorphic C_4 = (\Set{1, i, -i, -1}, \cdot) \\
+				U(B_{-3}) &\isomorphic C_6  \quad \text{„Eisensteinzahlen“, siehe Übung} \\
+				U(B_d) &\isomorphic C_2 \qquad d < -3.
+			\end{align*}
+			Für den Fall $d > 0$ ist $\mu(L) = \pm 1 \isomorphic C_2$.
+
+		\item
+			Nach \ref{4.20} liefert die Pell'sche Gleichung eine zu $\mu(L) \times \Z$ isomorphe Untergruppe von $B_d$ (Beweis in Kapitel \ref{chap:6} mit Kettenbrüchen).
+
+			Zusätzliche Einheiten müssen Lösungen von $x^2 - dy^2 = -1$ sein.
+			Solche gibt es nicht immer, z.B. nicht für $d = 3$ (siehe \ref{4.16}, bzw. \ref{4.22} d)).
+
+			Gibt es jedoch Lösungen zu $x^2 - dy^2 = -1$, dann auch eine, die eine Einheit $u$ liefert, deren Quadrat $u^2$ ein Erzeuger der Pell'schen Gleichung ist.
+		\item
+			\ref{4.9} zeigt, dass die Klassengruppe $U(\Q(\sqrt d)) = 1$, wenn
+			\[
+				d \in \Set{-11, -7, -3, -2, -1, 2, 3, 5, 13}.
+			\]
+			Im Allgemeinen weiß man nichts über Klassengruppen.
+	\end{itemize}
+\end{nt}
+
+\begin{ex} \label{8.31}
+	Angenommen es gäbe natürliche Zahlen $x, y, z$ und eine Primzahl $p \ge 3$ mit
+	\[
+		x^p + y^p = z^p.
+	\]
+	Schreibe für eine $p$-te primitive Einheitswurzel $\zeta$
+	\[
+		y^p = z^p - x^p = (z-x)(z-\zeta x) \dotsb (z - \zeta^{p-1}x).
+	\]
+	Man könnte hieraus einen Widerspruch zur eindeutigen Zerlegung in Primelemente konstruieren, wenn für $\Q(\zeta)$ die Klassengruppe trivial wäre.
+	Leider ist dies selten der Fall.
+
+	$\Z(\zeta)$ ist der Ring der ganzen Zahlen in $\Q(\zeta)$ (Aussage ist nicht-trivial).
+\end{ex}
+
+\begin{nt}
+	Kummer: Falls $p$ kein Teiler von $h_p := h(\Q(\zeta))$ für eine primitive $p$-te Einheitswurzel $\zeta$, dann erhält man „ähnlich“ wie beim naiven Ansatz von oben einen echten Widerspruch.
+
+	Man nennt eine Primzahl $p > 2$ \emphdef{regulär}, wenn $p \ndivs h_p$, sonst \emphdef{irregulär}.
+	Kummer hat den Fermat'schen Satz für reguläre Primzahlen bewiesen.
+	Unter den ersten 25 Primzahlen sind nur 37, 59 und 67 irregulär.
+	Man vermutet, dass ca. 60\% aller Primzahlen regulär sind.
+	Man weiß, dass es unendlich viele irreguläre Primzahlen gibt, jedoch nicht, ob es unendlich viele reguläre gibt.
+	Sei 1993-1994 kennt man einen Beweis (Wiles-Taylor) für „Fermat's last theorem“, aber über die Regularität von Primzahlen weiß man bis heute nicht viel.
+\end{nt}
+
+
+
+
