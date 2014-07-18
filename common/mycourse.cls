@@ -383,7 +383,7 @@
 %% Items / Enumerations
 %%=======================================================================
 
-\RequirePackage [ shortlabels ] { enumitem }     % Aufzählungen wie a), (I), etc. als optionales Argument
+\RequirePackage [ shortlabels, inline ] { enumitem }     % Aufzählungen wie a), (I), etc. als optionales Argument
 
 % These must be inside one \setlist definition
 \setlist {
