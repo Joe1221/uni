@@ -92,7 +92,8 @@ $(info latexmk installed.)
 	$(LATEXMK) $<
 
 info_lastchange = $(shell git log --format="format:%ai" -1 ./ | grep -Po '\+?\d+' | tr "\\n" "," | sed 's/,$$//')
-info_authors = $(shell git ls-files | xargs -n1 git blame --line-porcelain | sed -n 's/^author //p' | sort -f | uniq -ic | sort -nr | grep -oP '(?<=\d\s).*' | tr "\\n " ",~" | sed 's/,$$//' | sed 's/,/,\\\\/g')
+#info_authors = $(shell git ls-files | xargs -n1 git blame --line-porcelain | sed -n 's/^author //p' | sort -f | uniq -ic | sort -nr | grep -oP '(?<=\d\s).*' | tr "\\n " ",~" | sed 's/,$$//' | sed 's/,/,\\\\/g')
+info_authors = $(shell git log --format='%aN' . | sort | uniq -c | sort -nr | grep -oP '(?<=\d\s).*' | tr "\\n " ",~" | sed 's/,$$//;s/,/,\\\\/g')
 
 info.tex: FORCE_MAKE
 	echo "" > ${TEXINFO}
