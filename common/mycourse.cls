@@ -1,8 +1,8 @@
 \RequirePackage [ log-declarations = false ] { xparse }
-\RequirePackage {expl3, l3keys2e}
+\RequirePackage { expl3, l3keys2e }
 \ProvidesExplClass {mycourse} {2013/11/16} {0.1}
     {Class intended for math courses}
-\RequirePackage {l3backports}
+\RequirePackage { l3backports }
 
 %%=======================================================================
 %% Messages
@@ -25,6 +25,7 @@
 \keys_define:nn {mycourse} {
 
     % [noproofs] compile without proofs
+    % ---------------------------------
     noproofs .code:n         =
         \AtEndOfClass{
             \RequirePackage{environ}
@@ -34,19 +35,12 @@
         }
     ,
 
-    % [sectionpagebreak] Neue Seite für den Beginn jeder section
-    sectionpagebreak .code:n =
-        \AtEndOfClass{
-            \let\oldsection\section
-            \renewcommand\section{\clearpage\oldsection}
-        }
-    ,
-
     % [lang] Language option (ngerman, english, …)
-    lang .code:n             = \PassOptionsToPackage { #1 } { babel },
+    % --------------------------------------------
     lang .tl_set:N           = \l_mycourse_language,
 
     % [paper-size] (a4, a5) Controls the output paper size
+    % ----------------------------------------------------
     paper-size .choice:,
     paper-size / a4 .code:n  =
         \PassOptionsToPackage {
@@ -56,7 +50,7 @@
             top            = 20mm,
             bottom         = 30mm,
             marginparwidth = 18mm,
-            marginparsep   =  3mm
+            marginparsep   =  3mm,
         } { geometry }
         \PassOptionsToPackage { scaled = 0.83 } { beramono }
         \PassOptionsToClass { fontsize = 12pt } { scrbook }
@@ -65,33 +59,34 @@
         \PassOptionsToPackage{
             reset,
             a5paper,
-            top            = 1.4cm,
-            bottom         = 2.1cm,
-            left           = 1.6cm,
-            right          = 1.6cm,
-            footskip       = 0.7cm,
-            headsep        = 0.3cm,
-            marginparwidth = 1.7cm,
-            marginparsep   = 0.2cm,
+            top            = 14mm,
+            bottom         = 21mm,
+            left           = 16mm,
+            right          = 16mm,
+            footskip       = 07mm,
+            headsep        = 03mm,
+            marginparwidth = 17mm,
+            marginparsep   =  2mm,
         } { geometry }
-        %\PassOptionsToPackage{scaled=0.785}{beramono}
         \PassOptionsToPackage { scaled = 0.83 } { beramono }
         \PassOptionsToClass { fontsize = 10pt } { scrbook }
     ,
+    % Shorthands
     a5 .code:n               = \keys_set:nn { mycourse } { paper-size = a5 },
     a4 .code:n               = \keys_set:nn { mycourse } { paper-size = a4 },
-    a5book .code:n           = \keys_set:nn { mycourse } { paper-size = a5 },
     book .code:n             =
-            \keys_set:nn { mycourse } {
-                paper-size = a5,
-                style      = default-print,
-            }
+        \keys_set:nn { mycourse } {
+            paper-size = a5,
+            style      = default-print,
+        }
     ,
 
     % [style] (dark,default,default-print)
+    % ------------------------------------
     style .tl_set:N          = \l_mycourse_style,
 
     % [semester] Course semester, shown on titlepage
+    % ----------------------------------------------
     semester .tl_set:N       = \l_mycourse_semester,
 
 }
@@ -101,6 +96,7 @@
 \keys_set:nn { mycourse } {
     lang       = german,
     paper-size = a5,
+    style      = ,
     semester   = ,
 }
 
@@ -111,7 +107,7 @@
     \file_input:n { config }
     \msg_info:nn { mycourse } { config_loaded }
 }{
-    \msg_warning:nn { mycourse } { config_missing }
+    \msg_info:nn { mycourse } { config_missing }
 }
 
 % Finally process options passed to this class
@@ -152,19 +148,6 @@
 \file_if_exist:nT { info } {
     \file_input:n { info }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 % Old version of package libertine loads xcolor with conflicting options, so load it beforehand.
@@ -369,14 +352,21 @@
     %\everymath{\color{math}} % Currently broken, looking for clean, working solution
 }
 
-
-
-% Erzeuge pdf-bookmark für das Inhaltsverzeichnis
-\cs_new_eq:NN \mycourse_tableofcontents_old: \tableofcontents
-\DeclareDocumentCommand { \tableofcontents } { } {
-    \cleardoublepage % keeps bookmark anchor and toc on same page
-    \pdfbookmark [ 0 ] { \contentsname } { toc }
-    \mycourse_tableofcontents_old:
+\AtBeginDocument {
+    % Erzeuge pdf-bookmark für die Titelseite
+    %\cs_new_eq:NN \maketitle_old \maketitle
+    %\DeclareDocumentCommand { \maketitle } { } {
+    %    %\cleardoublepage % keeps bookmark anchor and toc on same page
+    %    \pdfbookmark [ 0 ] { Titelseite } { toc }
+    %    \maketitle_old
+    %}
+    % Erzeuge pdf-bookmark für das Inhaltsverzeichnis
+    \cs_new_eq:NN \tableofcontents_old \tableofcontents
+    \DeclareDocumentCommand { \tableofcontents } { } {
+        \cleardoublepage % keeps bookmark anchor and toc on same page
+        \pdfbookmark [ 0 ] { \contentsname } { toc }
+        \tableofcontents_old
+    }
 }
 
 %%=======================================================================
