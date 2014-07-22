@@ -64,6 +64,8 @@
 \begin{ex*}
 	\begin{itemize}
 		\item
+			$0$ und $R$ sind stets Ideale, sogenannte \emphdef{triviale Ideale}.
+		\item
 			In $\Z$ ist für festes $n \in \N$
 			\[
 				\Z n = \Set{ z \in \Z & z = x n \text{ für ein $x \in \Z$} }
@@ -78,71 +80,92 @@
 				sR &= \Set{ sr & r \in R }
 			\end{align*}
 			ein Links- bzw. Rechtsideal.
-			Solche Ideale nennt man \emphdef[Hauptideal]{Hauptideale}.
+			In kommutativen Ringen sind beide äquivalent und man nennt sie \emphdef[Hauptideal]{Hauptideale}.
 	\end{itemize}
 \end{ex*}
+
+\begin{alg*}[Lemma von Bézout, Euklidischer Algorithmus]
+	\begin{algorithmic}
+		\Require{$a, b \in \N$, $a \ge b$}
+		\Ensure{$z_1 a + z_2 b = d = \ggT(a,b) \in \N; z_1, z_2 \in \Z$}
+		\State{$(r_0, r_1) \gets (a, b)$}
+		\State{$k \gets 1$}
+		\While{$r_k > 0$}
+			\State{$r_{k-1} = p_k r_k + r_{k+1}$} \Comment{Division mit Rest}
+			\State{$k \gets k+1$}
+		\EndWhile
+		\State{$d \gets r_{k-1}$} \Comment{$= \ggT(a,b)$}
+		\State{$k \gets k - 2$}
+		\While{$k > 0$}
+			\State{$d = s_k r_k + t_{k-1} r_{k-1}$} \Comment{Mittels Einsetzen von oben}
+			\State{$k \gets k-1$}
+		\EndWhile
+		\State{$(z_1, z_2) \gets (s_1, t_0)$}
+	\end{algorithmic}
+\end{alg*}
 
 \section{Grundlagen}
 
 % Def 1.1
 \begin{df} \label{1.1}
-	Sei $R$ ein Ring und $R^* := R \setminus \{0\}$.
+	Sei $R$ ein Ring.
+	Wir schreiben $R^* := R \setminus \{0\}$.
 	\begin{enumerate}[a)]
 		\item
 			$a \in R^*$ nennt man \emphdef{Nullteiler}, wenn es ein $b \in R^*$ gibt mit $ab = 0$ oder $ba = 0$.
 		\item
-			$\unit u \in R^*$ nennt man eine \emphdef{Einheit}, wenn es $v, w \in R^*$ gibt mit $v \unit u = 1$ und $\unit u w = 1$
+			$\unit u \in R^*$ nennt man eine \emphdef{Einheit} oder \emphdef{invertierbar}, wenn es $v, w \in R^*$ gibt mit $v \unit u = 1$ und $\unit u w = 1$
 		\item
 			$R$ nennt man \emphdef{Integritätsbereich}, wenn $R$ kommutativ ist und keine Nullteiler besitzt.
 		\item
-			$R$ heißt \emphdef{Hauptidealring}, wenn jedes Ideal von $R$ ein Hauptideal ist.
+			$R$ heißt \emphdef{Hauptidealring}, wenn $R$ ein kommutativer Ring ist und jedes Ideal von $R$ ein Hauptideal ist.
 		\item
 			$R$ heißt \emphdef{Hauptidealbereich}, wenn $R$ Integritätsbereich und Hauptidealring ist.
 	\end{enumerate}
-	\begin{note}
-		Die Menge aller Einheiten bildet mit der Multiplikation eine Gruppe, die sogenannte \emphdef{Einheitengruppe} von $R$, geschrieben $U(R)$.
-	\end{note}
+	Die Menge aller Einheiten von $R$ bildet mit der Multiplikation auf $R$ eine Gruppe, die sogenannte \emphdef{Einheitengruppe} von $R$, geschrieben $U(R)$.
 \end{df}
 
 % Bsp 1.2
 \begin{ex} \label{1.2}
 	\begin{enumerate}[a)]
 		\item
-			Körper $K$ (z.B. $\Q, \R, \C$) sind Integritätsbereiche und Hauptidealbereiche, $U(K) = K^* = K \setminus \{0\}$ (bei Körper verlangt man $0 \neq 1$, d.h. Körper haben mindestens zwei Elemente).
+			Jeder Körper $K$ (z.B. $\Q, \R, \C$) ist ein Hauptidealbereich.
+			Es gilt $U(K) = K^* = K \setminus \{0\}$ (bei Körper verlangt man $0 \neq 1$, d.h. Körper haben mindestens zwei Elemente).
 		\item
-			$\Z$ ist Integritätsbereich und Hauptidealbereich $U(\Z) = \{ \pm 1 \} \isomorphic C_2$
+			$\Z$ ist ein Hauptidealbereich mit $U(\Z) = \{ \pm 1 \} \isomorphic C_2$.
 		\item
-			$\Z[x]$ ist Integritätsbereich, aber kein Hauptidealbereich.
-			Wenn $K$ ein Körper ist, dann ist $K[x]$ ein Hauptidealbereich.
+			$\Z[x]$ ist ein Integritätsbereich, jedoch kein Hauptidealbereich.
+			Ist $K$ ein Körper, dann ist $K[x]$ ein Hauptidealbereich.
 		\item
 			$\Z / 4 \Z$ ist kein Integritätsbereich ($\_ 2 \cdot \_ 2 = 0$)
 		\item
 			$K^{2\times 2}$ hat Nullteiler, z.B. $\Matrix{0 & 1 \\ 0 & 0 } \Matrix{0 & 1 \\ 0 & 0} = 0$,
 		\item
-			Wie bereichnet man Inverse in $\Z / n \Z$?
+			Wie berechnet man Inverse in $\Z / n \Z$?
 
-			Mit Hilfe des Euklidischen Algorthmus (Division mit Rest) kann man zu gegebenen Zahlen $a,b \in R$ Zahlen $z_1, z_2 \in R$ berechnen mit $z_1 a + z_2 b = \ggT(a,b)$ (Lemma von Bezout).
+			Mit Hilfe des Euklidischen Algorithmus kann man zu gegebenen Zahlen $a,b \in R$ Zahlen $z_1, z_2 \in R$ berechnen mit $z_1 a + z_2 b = \ggT(a,b)$ (Lemma von Bezout).
 
-			Sei $n \in \N$ vorgegeben und $a \in \N$ mit $\ggT(a, n) = 1$ vorgegeben.
+			Seien $n \in \N$ und $a \in \N$ mit $\ggT(a, n) = 1$ vorgegeben.
 			Nach Bezout existieren $z_1, z_2 \in \Z$ mit $z_1 a + z_2 n = 1$.
 			Modulo $n$ ergibt sich
 			\[
 				\_ z_1 \cdot \_ a + \underbrace{\_ z_2 \_ n}_{=\_ 0} = \_ 1
 			\]
-			also ist $\_z_1 \_ a = \_ 1$ und $\_ z_1$ Invers zu $\_ a$.
+			also ist $\_z_1 \_ a = \_ 1$ und $\_ z_1$ Inverse zu $\_ a$.
 
 			Beispiel für $n = 31, a = 7$:
+			Wir rechnen
 			\begin{align*}
 				31 &= 4 \cdot 7 + 3 \\
 				7 &= 2 \cdot 3 + 1
 			\end{align*}
 			und
 			\begin{align*}
-				2 \cdot 31 &= 2 \cdot 4 \cdot 7 + 2 \cdot 3 = 2 \cdot 4 \cdot 7 + 7 - 1 \\
-				2 \cdot 31 &= 9 \cdot 7 - 1 \\
-				1 &= 9 \cdot 7 - 2 \cdot 31
+				1 &= 7 - 2 \cdot 3 \\
+				&= 7 - 2 (31 - 4 \cdot 7) \\
+				&= -2 \cdot 31 + 9 \cdot 7.
 			\end{align*}
-			also ist $\_ 9$ invers zu $\_ 7$.
+			Also $9 \cdot 7 = 1 + 2 \cdot 31 \equiv 1 \bmod 31$, d.h. $\_ 9$ invers zu $\_ 7$ in $\Z / 31 \Z$.
 	\end{enumerate}
 \end{ex}
 
@@ -155,23 +178,23 @@
 		\item
 			$r$ heißt \emphdef[Teiler!echt]{echter Teiler} von $s$, wenn $r\divs s$, $s \ndivs  r$ und $r \not\in U(R)$, wir schreiben dann $r \divs*  s$.
 		\item
-			$r$ heißt \emphdef{irreduzibel}, wenn $r \neq 0$, $r \not\in U(R)$ und $r$ besitzt keine echten Teiler.
+			$r$ heißt \emphdef{irreduzibel} oder \emphdef{irreduzibles Element}, wenn $r \neq 0$, $r \not\in U(R)$ und $r$ besitzt keine echten Teiler.
 		\item
-			$r$ heißt \emphdef{prim}, wenn $r \neq 0$, $r \not\in U(R)$ und
+			$r$ heißt \emphdef{prim} oder \emphdef{Primelement}, wenn $r \neq 0$, $r \not\in U(R)$ und
 			\[
 				\forall a,b \in R : r \divs  ab \implies r \divs  a \lor r \divs  b.
 			\]
 	\end{enumerate}
 	\begin{note}
-		$1$ ist weder irreduzibel, noch prim.
+		$1 \in U(R)$ ist weder irreduzibel, noch prim.
 	\end{note}
 \end{df}
 
 % Lem 1.4
 \begin{lem} \label{1.4}
-	Für einen Integritätsbereich $R$ gilt in $(R^*, \cdot)$ die Kürzungsregel.
+	Für einen Integritätsbereich $R$ gilt in $(R^*, \cdot)$ die Kürzungsregel, d.h. für $s, t \in R, r \in R^*$ gilt $r s = r t \implies s = t$.
 	\begin{proof}
-		Aus $r s = r t$ folgt $r(s-t) = 0$ und da $r \in R^*$ und $R$ Integritätsbereich folgt $s-t = 0$, also $s = t$.
+		Aus $r s = r t$ folgt $r(s-t) = 0$ und da $R$ Integritätsbereich und $r \in R^*$ folgt $s-t = 0$, also $s = t$.
 	\end{proof}
 \end{lem}
 
@@ -180,15 +203,15 @@
 	Sei $R$ ein Integritätsbereich. Es gilt
 	\begin{enumerate}[a)]
 		\item
-			Sei $r, s \in R^*$.
+			Seien $r, s \in R^*$.
 			Dann gilt:
 			\[
 				r\divs s  \land  s\divs r
 				\implies
-				\exists \unit u \in U(R) : s = \unit u r
+				\exists \unit u \in U(R) : s = \unit u r.
 			\]
 		\item
-			Ist $r$ prim, so auch irreduzibel
+			Ist $r$ prim, so auch irreduzibel.
 		\item
 			Ist $p$ prim und $\unit u \in U(R)$, dann ist auch $\unit u p$ prim.
 		\item
@@ -197,14 +220,15 @@
 	\begin{proof}
 		\begin{enumerate}[a)]
 			\item
-				Sei $s = rq$ und $r = s\tilde q$, dann ist $s = s \tilde q q$ und mit \ref{1.4} $1 = \tilde q q$ und damit $\tilde q, q \in U(R)$.
+				Sei $s = rq$ und $r = s\tilde q$, dann ist $s = s \tilde q q$.
+				Mit \ref{1.4} folgt $1 = \tilde q q$ und damit $\tilde q, q \in U(R)$.
 			\item
-				Sei $r$ prim aber nicht irreduzibel.
+				Angenommen $r$ sei prim aber nicht irreduzibel.
 				Es gilt dann $r \in R^*$, $r = st$ und $s \divs*  r$.
 				Da $r$ prim, folgt $r \divs  s$ oder $r \divs  t$.
 				$r \divs  s$ ist wegen $s \divs*  r$ unmöglich, also $r \divs  t$.
-				Schreibe $t = \tilde t r$, also $r = s \tilde t r$ und mit \ref{1.4} $1 = s \tilde t$.
-				Also ist $s$ eine Einheit, ein Widerspruch zu $s \divs*  r$.
+				Schreibe damit $t = \tilde t r$, also $r = s \tilde t r$ und mit \ref{1.4} folgt $1 = s \tilde t$.
+				Also ist $s$ eine Einheit, ein Widerspruch zu $s \divs* r$.
 		\end{enumerate}
 	\end{proof}
 \end{lem}
@@ -214,29 +238,36 @@
 % Satz 1.6
 \begin{st}[Eindeutigkeit der Zerlegung in Primelemente] \label{1.6}
 	Sei $R$ ein Integritätsbereich und $r \in R$.
-	Sei $r = p_1 \dotsc p_m$ und $r = q_1 \dotsc, p_n$ mit $p_1, \dotsc, p_m, q_1, \dotsc, q_n$ prim.
+	Sei $r = p_1 \dotsb p_m$ und $r = q_1 \dotsb, p_n$ mit $p_1, \dotsc, p_m, q_1, \dotsc, q_n$ prim.
 	Dann gilt $m = n$ und nach geeigneter Nummerierung gilt $p_i = \unit u_i \cdot q_i$ mit $\unit u_1 \in U(R)$.
 	\begin{proof}
-		Da $p_1$ prim, gilt $p_1 \divs  q_{i_0}$ für einen Index $i_0$.
+		Da $p_1$ prim und $p_1 \divs r = q_1 \dotsb q_n$, gilt $p_1 \divs  q_{i_0}$ für einen Index $i_0$.
 		Sei \oBdA $i_0 = 1$.
-		Nach \ref{1.5} d) gilt dann $q_1 = \unit u_1 p_1$ mit $\unit u_1 \in U(R)$.
+		Nach \ref{1.5} d) gilt dann $q_1 = p_1 \unit u_1$ mit $\unit u_1 \in U(R)$.
 		Also ist
 		\[
-			p_1 \dotsb p_m = \unit u_1 p_1 q_{\pi(2)} \dotsb q_{\pi(n)}.
+			p_1 \dotsb p_m = p_1 \unit u_1 q_{2} q_3 \dotsb q_{n}.
 		\]
-		Wähle $\tilde q_i := q_{\pi(i)}$ für $i \ge 3$ und $\tilde q_2 = u_1 q_{\pi(2)}$.
-		und nach der Kürzungsregel $p_2 \dotsb p_m = \tilde q_2 \dotsb \tilde q_n$ mit $p_i, \tilde q_j$ prim.
-		Nach \ref{1.5} c) ist $\tilde q_2$ ebenfalls prim.
+		Nach der Kürzungsregel folgt dann
+		\[
+			p_2 \dotsb p_m = \unit u_1 q_2 \dotsb q_n.
+		\]
+		Da $p_2$ prim und $p_2 \ndivs u_1$ (sonst $p_2 \in U(R)$) gilt wie oben \oBdA $p_2 \divs q_2$, $q_2 = p_2 \unit u_2$.
+		Das Argument lässt sich induktiv mit $q_i = p_i \unit u_i$ fortsetzen.
 
-		Wäre $m = 1$, dann ist $1 = \unit u_1 q_{\pi(2)} q_{\pi(n)}$, woraus für $n \ge 2$ $q_{\pi(1)} \in U(R)$ folgt, ein Widerspruch.
-		Also $m = 1 \iff n = 1$.
+		Wähle $\tilde q_i := q_{i}$ für $i \ge 3$ und $\tilde q_2 = u_1 q_{2}$.
+		Nach der Kürzungsregel folgt dann
+		\[
+			p_2 \dotsb p_m = \tilde q_2 \dotsb \tilde q_n
+		\]
+		mit $p_i, \tilde q_j$ prim (nach \ref{1.5} c) ist $\tilde q_2$ ebenfalls prim).
 
-		Per Induktion ist $m - 1 = n - 1$ und $p_k = \tilde u_k \tilde q_k$ und $\tilde u_k \in U(R)$ für $k \ge 2$.
+		Wäre \oBdA $m < n$, dann gelangt man induktiv zu $m = 0$, also $1 = \unit u_1 \dotsb \unit u_m q_{m+1} \dotsb q_{n}$, d.h. $q_{i} \in U(R)$, ein Widerspruch, also $m = n$.
 	\end{proof}
 \end{st}
 
-Eine Primzahl in $\Z$ entspricht gerade den (positiven) irreduziblen Elementen von $\Z$.
-\ref{1.6} liefert die Eindeutigkeit von Zerlegungen für Primelemente.
+Primzahlen in $\Z$ haben nur $1$ und sich selbst als Teiler und entsprechen gerade den (positiven) irreduziblen Elementen von $\Z$.
+\ref{1.6} liefert die Eindeutigkeit von Zerlegungen allerdings nur für Primelemente.
 Wann sind irreduzible Elemente prim?
 
 \coursetimestamp{14}{04}{2014}
@@ -249,43 +280,42 @@ Wann sind irreduzible Elemente prim?
 			Gilt nach \ref{1.5} b).
 		\end{segnb}
 		\begin{segnb}{$\implies$}
-			Sei $q \in R$ irreduzibel und $q$ teile $ab$ für $a, b \in R$.
-			$Rq + Ra$ ist ein Ideal, also existiert da $R$ Hauptidealbereich, $d \in R$ mit $Rq + Ra = Rd$.
-			Also gilt $a,q \in Rd$ und $q = sd$ für ein $s \in R$.
-			Da $q$ irreduzibel, folgt $s \in U(R)$ oder $d \in U(R)$.
+			Sei $p \in R$ irreduzibel und $p \divs ab$ für $a, b \in R$, zeige $p \divs a$ oder $p \divs b$.
+			$Rp + Ra$ ist ein Ideal, also existiert da $R$ Hauptidealbereich, $d \in R$ mit $Rp + Ra = Rd$.
+			Also gilt $a,p \in Rd$ und $p = sd$ für ein $s \in R$.
+			Da $p$ irreduzibel, folgt $s \in U(R)$ oder $d \in U(R)$.
 			Wir unterscheiden beide Fälle:
 			\begin{segnb}{$s\in U(R)$}
-				Es gilt $d = s^{-1}q$, d.h. $q \divs d$.
-				Da auch $d \divs a$, gilt also $q\divs a$.
+				Es gilt $d = s^{-1}p$, d.h. $p \divs d$.
+				Da auch $d \divs a$, gilt also $p\divs a$.
 			\end{segnb}
 			\begin{segnb}{$d\in U(R)$}
-				Dann gilt $Rd = R$, also $1 = r_1 q + r_2 a$.
-				$q$ teilt $ba$, also teilt $q$ auch $b r_2 a$.
-				Da $b = b r_1 q + b r_2 a$ gilt somit $q \divs  b$.
+				Dann gilt $R = Rd = Rq + Ra$, also $1 = r_1 p + r_2 a$ für $r_1, r_2 \in R$.
+				$p \divs ba$, also teilt $p$ auch $b r_2 a$.
+				Es gilt dann $p \divs b r_1 p + b r_2 a = b$.
 			\end{segnb}
-			Also folgt insgesamt, dass $q$ prim ist.
+			Also folgt insgesamt, dass $p$ prim ist.
 		\end{segnb}
 	\end{proof}
 \end{lem}
 
 %Lem 1.8
-\begin{lem} \label{1.8}
-	Sei $R$ ein Integritätsbereich.
-	Falls jede aufsteigende Kette (bezüglich der Inklusion) von Hauptidealen ein maximales Element besitzt (also abbricht).
-	Dann lässt sich jedes $s \in R, s \neq 0, s \not \in U(R)$ in ein endliches Produkt von irreduziblen Elementen zerlegen.
+\begin{lem}[Existenz der Zerlegung in irreduzible Elemente] \label{1.8}
+	Sei $R$ ein Integritätsbereich und jede aufsteigende Kette von Hauptidealen ($Ra_1 \subset Ra_2 \subset \dotsc$) besitze ein maximales Element.
+
+	Dann lässt sich jedes $s \in R* \setminus U(R)$ in ein endliches Produkt von irreduziblen Elementen zerlegen.
 	\begin{proof}
-		$s$ sei nicht irreduzibel, dann besitzt $s$ einen echten Teiler: $s = a_1 b_1$ mit $a_1 \divs*  s$.
+		Sei $\oBdA$ $s$ nicht irreduzibel, dann besitzt $s$ einen echten Teiler, d.h. $s = a_1 b_1$ mit $a_1 \divs*  s$.
 
 		Es gilt $s \in Ra_1$ und $Rs \subset Ra_1$.
-		Angenommen $Rs = Ra_1$, dann ist $a_1 = s c$, also $s \divs  a_1$, ein Widerspruch zu $a_1 \divs*  s$.
+		Angenommen $Rs = Ra_1$, dann $s \divs  a_1$, ein Widerspruch zu $a_1 \divs*  s$.
 		Also ist $Rs \subsetneq Ra_1$.
 
-		% fixme: Klären: Hier wird verwendet, dass R Integritätsbereich ist (Kürzungsregel bei s), ist aber nicht vorausgesetzt!
-		Ähnlich sieht man $b_1 \divs*  s$, denn wenn $b_1 \divs  s$ und $s \divs  b_1$, dann ist $s = a_1 b = a_1 x s$, also $a_1 x = 1$ und $a_1 \in U(R)$, ein Widerspruch zu $a_1$ irreduzibel.
+		Ähnlich sieht man $b_1 \divs*  s$, denn wenn $b_1 \divs  s$ und $s \divs  b_1$, dann ist $s = a_1 b = a_1 x s$, also $a_1 x = 1$ und $a_1 \in U(R)$, ein Widerspruch zu $a_1 \divs* s$.
 		Also ist auch $Rs \subsetneq Rb_1$.
 
 		Sind $a_1$, bzw. $b_1$ nicht irreduzibel, so kann man das Argument wiederholen.
-		Induktiv ergibt sich dann eine aufsteigende Kette von Hauptidealen, welche nach Voraussetzung abbricht.
+		Induktiv ergeben sich dann ein aufsteigende Ketten von Hauptidealen, welche nach Voraussetzung abbrechen.
 		Also muss $s$ ein endliches Produkt von irreduziblen Elementen sein.
 	\end{proof}
 \end{lem}
@@ -294,16 +324,16 @@ Wann sind irreduzible Elemente prim?
 \begin{lem} \label{1.9}
 	$\Z$ ist ein Hauptidealbereich.
 	\begin{proof}
-		Sei $I$ ein Ideal von $\Z$, $I \neq 0, I \neq \Z$.
-		Dann gibt es ein $d \in I$ mit $1 \le |d| \le |s|$ für alle $s \in I$.
-		($|d| \ge 2$, denn aus $|d|=1$ folgt $d = \pm 1$ und $I = \Z$)
+		Sei $I$ ein nicht-triviales Ideal von $\Z$ ($0$ und $\Z$ sind trivialerweise Hauptideale).
+		Dann gibt es ein $d \in I$ mit $2 \le |d| \le |s|$ für alle $s \in I \setminus \Set 0$.
+		($|d| \ge 2$, denn aus $|d|=1$ folgt $d = \pm 1$ und $I = \Z$, ein triviales Ideal)
 
-		Sei $m \in I$, dann $m = zd + r$ mit $0 \le r < d$, $z \in \Z$.
+		Sei $m \in I$ beliebig, dann existieren $m = zd + r$ mit $0 \le r < |d|$, $z \in \Z$.
 		Wegen $m \in I, d\in I$ ist $r = zd - m \in I$.
 		Also $|r| < |d|$, ein Widerspruch zur Minimalität von $d$, falls $r \neq 0$.
-		Also folgt $r = 0$ und $m \in Rd$.
-		Für beliebiges $m$ ist $I \subset Rd \subset I$, da $d \in I$ und somit $I = Rd$.
-		Also ist $I$ ein Hauptideal.
+		Also folgt $r = 0$ und $m = zd \in Rd$.
+		Da $m$ beliebig gewählt war, folgt $I \subset Rd \subset I$ und somit $I = Rd$.
+		Also ist $I$ ein Hauptideal und $\Z$ Hauptidealbereich.
 	\end{proof}
 \end{lem}
 
@@ -313,11 +343,12 @@ Wann sind irreduzible Elemente prim?
 	\[
 		n = p_1^{\alpha_1} \dotsb p_k^{\alpha_k}
 	\]
-	mit $p_1, \dotsc, p_k$ Primzahlen und $\alpha_i \ge 1$.
+	mit paarweise verschiedenen Primzahlen $p_1, \dotsc, p_k$ und $\alpha_i \ge 1$.
 	\begin{proof}
-		Man muss sich nur überzeugen, dass aufsteigende Ketten von Hauptidealen in $\Z$ abbrechen.
-		$\Z m_1 \subset \Z m_2 \implies |m_2| \divs  |m_1|$, also ist \ref{1.8} offensichtlich erfüllt. 
-		\ref{1.10} folgt dann aus \ref{1.6}, \ref{1.7} und \ref{1.9} und $U(\Z) = \{ \pm 1 \}$.
+		Mit \ref{1.9}, \ref{1.7} sind die Primzahlen in $\N$ sowohl prim, als auch irreduzibel in $\Z$.
+		Um \ref{1.8}, \ref{1.6} anzuwenden muss man sich nur überzeugen, dass aufsteigende Ketten von Hauptidealen in $\Z$ abbrechen.
+		Wegen $\Z m_1 \subset \Z m_2 \implies |m_2| \divs  |m_1|$ (Division mit Rest) ist dies der Fall.
+		\ref{1.10} folgt schließlich aus der Überlegung $U(\Z) = \{ \pm 1 \}$.
 	\end{proof}
 \end{st}
 
@@ -327,66 +358,98 @@ Wann sind irreduzible Elemente prim?
 
 \begin{st}[Zur Unendlichkeit von $\P$]
 	$\P$ ist unendlich.
-	\begin{proof}
-		\begin{enumerate}[a)]
-			\item
-				Beweis nach Euklid:
-				Angenommen $\P$ sei endlich: $\P = \{p_1, p_2, \dotsc, p_k\}$.
-				Setze $n = \prod_{i=1}^k p_i$ und betrachte $n + 1$.
-				Nach \ref{1.10} lässt sich $n +1$ in ein Produkt von Primzahlen zerlegen.
-				Sei $p$ eine solche, dass ist $p \divs n + 1$ und $p \divs  n$ und $p \divs  n + 1 - n = 1$.
-			\item
-				Beweis nach Euler:
-				\[
-					\prod_{p\in \P} \Big( \sum_{r=0}^\infty p^{-r} \Big)
-					= \prod_{p\in \P} (1 - \f 1p)^{-1}
-					\stack{\ref{1.10}}= \sum_{n\in \N} \f 1n
-				\]
-				ist das Produkt endlich, dann konvergiert die linke Seite als endliches Produkt von absolut konvergenten Reihen.
-				Die rechte Seite divergiert jedoch.
-			\item
-				Beweis nach Polya:
-				Betrachte die $n$-te Fermatzahl $F_n := 2^{2^n} + 1$.
-				Die Menge aller Fermatzahlen $\{F_n : n \in \N_0\}$ ist offensichtlich unendlich.
+	\begin{proof}[nach Euklid]
+		Angenommen $\P$ sei endlich: $\P = \{p_1, p_2, \dotsc, p_k\}$.
+		Setze $n = \prod_{i=1}^k p_i$ und betrachte $n + 1$.
+		Nach \ref{1.10} lässt sich $n +1$ in ein Produkt von Primzahlen zerlegen.
+		Sei $p$ eine solche, dann gilt $p \divs n + 1$ und $p \divs  n$, also $p \divs  n + 1 - n = 1$, ein Widerspruch zu $p \not\in U(\Z)$.
+	\end{proof}
+	\begin{proof}[nach Euler]
+		Angenommen $\P$ sei endlich, dann ist
+		\[
+			\infty
+			> \prod_{p\in \P} \dfrac 1{1 - \f 1p}
+			= \prod_{p\in \P} \Big( \sum_{r=0}^\infty p^{-r} \Big)
+			\stack{\ref{1.10}}= \sum_{n\in \N} \f 1n
+			= \infty,
+		\]
+		ein Widerspruch.
+	\end{proof}
+	\begin{proof}[nach Polya]
+		Betrachte die $n$-te Fermatzahl $F_n := 2^{2^n} + 1$.
+		Die Menge aller Fermatzahlen $\{F_n : n \in \N_0\}$ ist offensichtlich unendlich.
 
-				$F_n$ und $F_m$ sind teilerfremd für $n < m$:
-				Sei $p$ ein Teiler von $F_n$, dann $2^{2^n} \equiv -1 \bmod p$ und $2^{2^m} \equiv 1 \bmod p$.
-				Also ist $2^{2^m} + 1 \equiv 2 \bmod p$, $p$ teilt also $2$, also $p = 2$.
-				Aber $F_n$ und $F_m$ sind ungerade, also teilt $p$ nicht $F_m$.
+		Wir zeigen $F_n$ und $F_m$ sind teilerfremd für $n < m$.
+		Sei $p$ ein Teiler von $F_n$, dann ist $2^{2^n} \equiv -1 \bmod p$ und durch Potenzieren $2^{2^m} \equiv 1 \bmod p$.
+		Angenommen $0 \equiv 2^{2^m} + 1 \equiv 2 \bmod p$, dann ist $p = 2$.
+		$F_n$ ist jedoch ungerade, ein Widerspruch, also sind $F_n$ und $F_m$ teilerfremd.
 
-				Mit \ref{1.10} folgt dann, dass $\P$ unendlich ist.
-		\end{enumerate}
+		Mit \ref{1.10} folgt dann, dass $\P$ unendlich ist.
 	\end{proof}
 \end{st}
 
 \section{Kongruenzen und Teilbarkeit}
 
+\begin{conv*}
+	Wir verwenden die Notation $(a,b) := \ggT(a,b)$.
+\end{conv*}
+
 \begin{df*}
-	$f: \N \to \C$ nennt man \emphdef{multiplikative zahlentheoretische Funktion}, wenn $f(1) = 1$ und $f(m n) = f(m) f(n)$ für $(m,n) = 1$.
+	$f: \N \to \C$ nennt man \emphdef{multiplikative zahlentheoretische Funktion}, wenn
+	\begin{enumerate}[i)]
+		\item
+			$f(1) = 1$,
+		\item
+			$f(m n) = f(m) f(n)$ für $(m,n) = 1$.
+	\end{enumerate}
 \end{df*}
 
-\begin{nt}[Kongruenzen und Rechnen in $\Z / n\Z$]
+\begin{nt}[Kongruenzen und Rechnen in $\Z / n\Z$] \label{1.12}
 	\begin{enumerate}[a)]
 		\item
-			$a \equiv b \bmod n$ genau dann, wenn $n \divs a + b$.
-			$a \equiv b \bmod n$ genau dann, wenn $\_a = \_b$ in $\Z / n\Z$.
+			Wir schreiben $a \equiv b \bmod n$ für $n \divs a - b$.
+
+			Es gilt $a \equiv b \bmod n$ genau dann, wenn $\_a = \_b$ in $\Z / n\Z$.
 		\item
-			Ist $\ggT(c, n) = 1$ (statt $\ggT(a,b)$ schreibt man häufig kurz $(a,b)$), dann ist
+			Es gilt
 			\begin{align*}
 				a &\equiv b \mod n &
-				&\iff&
-				ca &\equiv cb \mod n
+				&\begin{aligned}\implies \\ \underset{\mathclap{(c, n) = 1}}{\impliedby}\end{aligned}&
+				ca &\equiv cb \mod n.
 			\end{align*}
-			(denn aus $a \equiv b \bmod n$ folgt $a -b = n x$, also $c(a-b) = cnx$ und $ca \equiv cb \bmod n$.
-			Ist $ca = cb = d$, also $c(a-b) = dn$ und wegen $(c,n) = 1$ gilt $c\divs d$ und $dn = \tilde d c n$.
-			Es gilt $c(a-b) = c \tilde d n$, also $ab = \tilde n$ und $a \equiv b \bmod n$)
-
-			Nur für die Rückrichtung wird $(c,n) = 1$ gebraucht.
-
+			\begin{proof}
+				denn aus $a \equiv b \bmod n$ folgt $a -b = n x$, also $c(a-b) = cnx$ und $ca \equiv cb \bmod n$.
+				Ist $ca = cb = d$, also $c(a-b) = dn$ und wegen $(c,n) = 1$ gilt $c\divs d$, d.h. $dn = \tilde d c n$ für $\tilde d \in \Z$.
+				Es gilt also $c(a-b) = c \tilde d n$, geekürzt $a - b = \tilde d n$, also$n \divs a-b$ und $a \equiv b \bmod n$.
+			\end{proof}
+		\item
 			Rechnet man in $\Z / n \Z$, dann ist $(c,n) = 1$ genau dann, wenn $\_c \in U(\Z / n \Z)$.
-			Aus $\_a = \_b$ folgt $\_c \_a = \_c \_b$ und wegen $\_c \in U(\Z / n\Z)$ auch $\_c^{-1} \_c \_a = \_c^{-1} \_c \_b$, also $\_a = \_b$.
-
+			\begin{proof}
+				\begin{align*}
+					(c,n) = 1
+					&\iff \exists z_1, z_2 \in \Z : 1 = z_1 c + z_2 n \\
+					&\iff \exists z_1 \in \Z : 1 \equiv z_1 c \bmod n \\
+					&\iff c \in U(\Z / n \Z).
+				\end{align*}
+			\end{proof}
 			Ist $(c, n) \neq 1$, dann ist die Rückrichtung im Allgemeinen falsch, z.B. $n = 4, c = 2$: $2 \cdot 1 = 2 \cdot 3 \bmod 4$, aber $1 \not\equiv 3 \bmod 4$.
+		\item
+			Es gilt
+			\begin{align*}
+				a &\equiv b \bmod n, m &
+				&\begin{aligned}\overset{\mathclap{(n,m) = 1}}{\implies} \\ \impliedby\end{aligned}&
+				a & \equiv b \bmod nm.
+			\end{align*}
+			Mittels \ref{1.10} lässt sich dies auf endlich viele Kongruenzen (paarweise teilerfremd) verallgemeinern.
+			\begin{proof}
+				\begin{segnb}{\ProofImplication}
+					Es gilt $n,m \divs a - b$.
+					Wegen $\kgV(n,m) = \f{nm}{\ggT(n,m)} = nm$ daher auch $nm \divs a - b$, also $a \equiv b \bmod nm$.
+				\end{segnb}
+				\begin{segnb}{\ProofImplication*}
+					Wegen $nm \divs a - b$ ist $n,m \divs nm \divs a - b$, also $a \equiv b \bmod n,m$.
+				\end{segnb}
+			\end{proof}
 		\item
 			Die \emphdef{Eulersche $\phi$-Funktion}, $\phi: \N \to \N$ ist definiert durch $\phi(1) := 1$ und
 			\[
@@ -403,57 +466,48 @@ Wann sind irreduzible Elemente prim?
 
 % St 1.13
 \begin{st}[Chinesischer Restsatz] \label{1.13}
-	Seien $m_1, \dotsc, m_n$ paarweise teilerfremde natürliche Zahlen und $a_1, \dotsc, a_n \in \Z$.
+	Seien $m_1, \dotsc, m_n \in \N$ paarweise teilerfremd und $a_1, \dotsc, a_n \in \Z$.
 	Dann existiert $x \in \Z$, so dass
 	\begin{align*}
 		x &\equiv a_1 \mod m_1,&
 		&\dotsc,&
-		x &\equiv a_n \mod m_n
+		x &\equiv a_n \mod m_n,
 	\end{align*}
-	($x$ löst simultan diese $n$ Kongruenzen).
+	mit anderen Worten: $x$ löst simultan diese $n$ Kongruenzen.
 
-	$x$ ist modulo $\tilde m = \prod_{i=1}^n m_i$ eindeutig bestimmt, d.h. ist $y \in \Z$ eine andere Lösung der Kongruenzen, dann ist $y \equiv x \bmod \tilde m$.
+	$x$ ist modulo $\prod_{i=1}^n m_i$ eindeutig bestimmt, d.h. ist $y \in \Z$ eine andere Lösung der Kongruenzen, dann ist $y \equiv x \bmod \prod_{i=1}^n m_i$.
 	\begin{proof}
-		Zeige zunächst die Eindeutigkeit.
-		Sei also $y \equiv a_1 \bmod m_1, \dotsc y \equiv a_n \bmod m_n$, dann ist $y -x \equiv \bmod m_1, y-x \equiv 0 \bmod m_n$.
-		Also gilt $m_i \divs y-x$ für alle $i$.
-		Da $m_1, \dotsc, m_n$ paarweise teilerfremd, folgt dann mit \ref{1.10}, dass
-		\[
-			\tilde m = \prod_{i=1}^n m_i \divs y - x,
-		\]
-		also $y = x \bmod \tilde m$.
+		\begin{segnb}{Eindeutigkeit}
+			Sei $y \equiv a_1 \bmod m_1, \dotsc, y \equiv a_n \bmod m_n$, dann ist $x \equiv y \bmod m_1, \dotsc, m_n$.
+			Mit \ref{1.12} d) folgt $y \equiv x \bmod \prod_{i=1}^n m_i =: m_i$.
+		\end{segnb}
+		\begin{seg}{Existenz}
+			Definiere $\phi: \Z / \tilde m \Z \to (\Z / m_1 \Z) \times \dotsb \times (\Z / m_n \Z)$ durch
+			\[
+				x \bmod \tilde m
+				\mapsto
+				\Vector{x \bmod m_1 & \dots & x \bmod m_n}.
+			\]
+			$\phi$ ist wohldefiniert, denn sei $x \equiv \tilde x \bmod \tilde m$, dann ist $x - \tilde x \equiv 0 \bmod \tilde m$ und $\tilde m \divs x - \tilde x$, also $m_i \divs x - \tilde x$ für jedes $i$ und somit $x \equiv \tilde x \bmod m_i$ für jedes $i$.
+			$\phi$ ist injektiv (wieder nach \ref{1.12} d)).
 
-		Nun zur Existenz:
-		Definiere $\phi: \Z / \tilde m \Z \to (\Z / m_1 \Z) \times \dotsb \times (\Z / m_n \Z)$ durch
-		\[
-			x \mod \tilde m
-			\mapsto
-			\big( x \pmod m_1, \dotsc, x \pmod m_n \big).
-		\]
-		$\phi$ ist injektiv, denn sei $\phi(x \bmod \tilde m) = \phi(y \bmod \tilde m)$, dann ist
-		\[
-			\big( x \pmod m_1, \dotsc, x \pmod m_n \big)
-			= \big( y \pmod m_1, \dotsc, y \pmod m_n \big)
-		\]
-		und damit $x - y \equiv 0 \bmod m_i$ für alle $i$ und damit mit \ref{1.10} $x - y \equiv 0 \bmod \tilde m$ auch $x \bmod \tilde m = y \bmod \tilde m$.
-		$\phi$ ist wohldefiniert, denn sei $x \equiv \tilde x \bmod \tilde m$, dann ist $x - \tilde x \equiv 0 \bmod \tilde m$ und $\tilde m \divs x - \tilde x$, also $m_i \divs x - \tilde x$ für jedes $i$ und somit $x \equiv \tilde x \bmod m_i$ für jedes $i$.
+			Es gilt
+			\[
+				\big| \Z / \tilde m \Z \big|
+				= \tilde m
+				= m_1 m_2 \dotsb m_n,
+			\]
+			andererseits ist
+			\[
+				\Big| \Z/ m_1 \Z \times \dotsb \times \Z / m_n \Z \Big|
+				= | \Z / m_1 \Z | \cdot \dotsb \cdot | \Z / m_n \Z|
+				= m_1 m_2 \dotsb m_n.
+			\]
+			Beide Mengen sind endlich und gleichmächtig, also ist $\phi$ surjektiv.
 
-		Es gilt
-		\[
-			\big| \Z / \tilde m \Z \big|
-			= \tilde m
-			= m_1 m_2 \dotsb m_n,
-		\]
-		andererseits ist
-		\[
-			\Big| \Z/ m_1 \Z \times \dotsb \times \Z / m_n \Z \Big|
-			= | \Z / m_1 \Z | \cdot \dotsb \cdot | \Z / m_n \Z|
-			= m_1 m_2 \dotsb m_n.
-		\]
-		Beide Mengen sind endlich und gleichmächtig, also ist $\phi$ surjektiv.
-
-		Zu $b := (a_1 \bmod m_1, a_2 \bmod m_2, \dotsc, a_n \bmod m_n)$ existiert also $x \bmod \tilde m$ mit $\phi(x \bmod \tilde m) = b$.
-		Dieses $x$ löst simultan die gegebenen $n$ Kongruenzen.
+			Zu $b := (a_1 \bmod m_1, a_2 \bmod m_2, \dotsc, a_n \bmod m_n)$ existiert also $x \bmod \tilde m$ mit $\phi(x \bmod \tilde m) = b$.
+			Dieses $x$ löst simultan die gegebenen $n$ Kongruenzen.
+		\end{seg}
 	\end{proof}
 \end{st}
 
@@ -467,14 +521,14 @@ Wann sind irreduzible Elemente prim?
 			\[
 				\Z / m_1m_2 \dotsb m_n \Z
 				\isomorphic
-				\Z /m_1 \Z \times \Z / m_n \Z.
+				\Z /m_1 \Z \times \dotsb \times \Z / m_n \Z.
 			\]
 		\item
 			Es existiert ein Gruppenhomomorphismus
 			\[
 				U(\Z / m_1 m_2 \dotsb m_n \Z)
 				\isomorphic
-				U(\Z / m_1 \Z) \times U(\Z / m_n \Z).
+				U(\Z / m_1 \Z) \times \dotsb \times U(\Z / m_n \Z).
 			\]
 	\end{enumerate}
 	\begin{proof}
@@ -483,21 +537,23 @@ Wann sind irreduzible Elemente prim?
 				Verwende die im Beweis von \ref{1.13} konstruierte Bijektion $\phi$.
 				Zeige noch, dass $\phi$ additiv, multiplikativ ist und $\phi(1) = 1$ gilt.
 
-				Beispielsweise gilt
+				Für die Additivität:
 				\begin{align*}
 					y(x \bmod \tilde m + y \bmod \tilde m)
 					&= \phi\big( (x+y) \bmod \tilde m \big) \\
 					&= \big(x + y \bmod m_1, \dotsc, x + y \bmod m_n \big) \\
 					&= \big( x \bmod m_1, \dotsc, x \bmod m_n\big) \\
 					&\quad + \big(y \bmod m_1, \dotsc, y \bmod m_n \big) \\
-					&= \phi(x \bmod \tilde m) + \phi(y \bmod \tilde m)
+					&= \phi(x \bmod \tilde m) + \phi(y \bmod \tilde m).
 				\end{align*}
+				Die Multiplikativität verläuft analog und $\phi(1) = (1, \dotsc, 1) = 1 \in (\Z / m_1 \Z) \times \dotsb \times (\Z / m_n \Z)$.
 			\item
 				Isomorphe Ringe haben isomorphe Einheitengruppen und es gilt
 				\[
 					U(\Z / m_1 \Z \times \dotsb \times \Z / m_n \Z)
-					\isomorphic U(\Z / m_1 \Z) \times \dotsb \times U(\Z / m_n \Z).
+					\isomorphic U(\Z / m_1 \Z) \times \dotsb \times U(\Z / m_n \Z),
 				\]
+				da die Multiplikation komponentenweise auf den Faktoren operiert.
 		\end{enumerate}
 	\end{proof}
 \end{st}
@@ -524,7 +580,7 @@ Wann sind irreduzible Elemente prim?
 
 		Es reicht also $\phi(p^m) = p^m - p^{m-1}$ zu zeigen:
 		$p^{m-1}$ sind die Anzahl der natürlichen Zahlen $\le p^m$, welche teilbar durch $p$ sind,
-		also ist $p^m - p^{m-1}$ ist die Anzahl der natürlichen Zahlen $< p^m$, welche teilerfremd zu $p^m$ sind.
+		also ist $p^m - p^{m-1}$ ist die Anzahl der natürlichen Zahlen $\le p^m$, welche teilerfremd zu $p^m$ sind.
 	\end{proof}
 \end{kor}
 
@@ -552,9 +608,9 @@ Wann sind irreduzible Elemente prim?
 					m \equiv a_n + a_{n-1} + \dotsb + a_0 \mod 3
 				\]
 			\item
-				analog.
+				Analog ist $10^d \equiv 1 \bmod 9$.
 			\item
-				ähnlich.
+				Ähnlich ist $10^d \equiv (-1)^d \bmod 11$.
 		\end{enumerate}
 	\end{proof}
 \end{st}
