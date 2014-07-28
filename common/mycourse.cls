@@ -448,7 +448,7 @@
 % TODO: \theoremheadertypefont{bla} sollte funktionieren, wie?
 \def\theorem@headertypefont{\color{theoremtype}} % Font für Theorem-Typ (Satz, Definition, etc.)
 
-% Hack to prevent bold math in theorem title
+% Hack to prevent bold math in theorem title (TODO: not needed?)
 \def\theorem@checkbold{}
 
 \newtheoremstyle{mythm}%
