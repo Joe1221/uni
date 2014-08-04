@@ -2,239 +2,265 @@
 
 
 
-\section{Struktur der Einheitengruppe \texorpdfstring{$U(\Z / n\Z)$}{U(ℤ/nℤ)}}
+\section{Die Struktur der Einheitengruppe \texorpdfstring{$U(\Z / n\Z)$}{U(ℤ/nℤ)}}
+
+
+\subsection{\texorpdfstring{$U(\Z / p\Z)$}{U(ℤ/pℤ)}}
 
 
 % St 2.1
 \begin{st} \label{2.1}
-	Die multiplikative Gruppe $K^*$ eines endlichen Körpers $K$ ist zyklisch.
-	Allgemein gilt: Jede endliche Untergruppe von $K^*$, wobei $K$ ein beliebiger Körper, ist zyklisch.
+	Sei $K$ ein Körper, $U \le U(K) = K^*$ eine endliche Untergruppe der Einheitengruppe von $K$.
+	Dann ist $U$ zyklisch.
 	\begin{note}
-		\ref{2.1} klärt insbesondere die Struktur von $\Z / p\Z$ mit Primzahl $p$: $U(\Z / p\Z)$ ist zyklisch von Ordnung $p - 1$.
-
-		Zum Beweis von \ref{2.1} werden gruppentheoretische Grundlagen benötigt, welche wir im Folgenden teilweise wiederholen werden.
+		\begin{itemize}
+			\item
+				\ref{2.1} klärt insbesondere die Struktur von $\Z / p\Z$ mit Primzahl $p$, so ist $U(\Z / p\Z)$ zyklisch der Ordnung $p - 1$.
+			\item
+				In einem Schiefkörper sind im Allgemeinen nicht alle endlichen Untergruppen zyklisch, z.B. ist in $\H^*$ die Quaternionengruppe der Ordnung $8$ nicht zyklisch.
+		\end{itemize}
+		Zum Beweis von \ref{2.1} werden gruppentheoretische Grundlagen benötigt, welche im Folgenden teilweise wiederholt werden.
 	\end{note}
+	\begin{proof}
+		Sei $U \le K^*$ mit $|U| < \infty$.
+		Nach \ref{2.3} ist $U \isomorphic P_1 \times \dotsb \times P_k$ und $P_i$ ist $p_i$-Sylowgruppe von $U$.
+		Wir zeigen, dass $P_i$ zyklisch ist.
+
+		Sei $d_i$ Teiler von $|P_i|$ und $g \in P_i$ mit $o(g) = d_i$.
+		Also erfüllt $g$ die Gleichung $x^{d_i} - 1 = 0$.
+		Diese Gleichung hat in $K$ höchstens $d_i$ verschiedene Lösungen.
+		Ist $g$ eine Lösung, dann auch alle Potenzen von $g$.
+		Die von $g$ erzeugte zyklische Gruppe $\<g\> \isomorphic \Z / d_i \Z$ stellt alle Lösungen der Gleichung.
+
+		Es existieren also höchstens $\phi(d_i)$ Elemente der Ordnung $d_i$ in $P_i$.
+		Mit \ref{2.6} ist also $P_i$ zyklisch, $P_i \isomorphic \Z / |P_i| \Z$ und
+		\[
+			U \isomorphic
+			\Z / |P_1| \Z \times \dotsb \times \Z / |P_k| \Z
+			\stack{\ref{1.14}}\isomorphic
+			\Z / (|P_1| \dotsb |P_k|) \Z,
+		\]
+		also ist $U$ zyklisch.
+	\end{proof}
 \end{st}
 
 \begin{df*}
-	Die Ordnung von $g \in G$, $o(g)$ ist die kleinste Zahl $m \in \N$ mit $g^m = e$.
+	Sei $G$ eine endliche Gruppe
+	Die Ordnung eines Elements $g \in G$, geschrieben $o(g)$ ist die kleinste Zahl $m \in \N$ mit $g^m = 1$.
 \end{df*}
 
 % St 2.2
-\begin{st} \label{2.2}
+\begin{st}[Lagrange] \label{2.2}
 	Sei $G$ eine endliche Gruppe und $U \le G$ eine Untergruppe.
-	\begin{enumerate}[a)]
-		\item
-			Lagrange: $|U|$ teilt $|G|$.
-		\item
-			Für $g \in G$ gilt $o(g) \divs |G|$.
-	\end{enumerate}
+	Dann gilt $|U| \divs |G|$.
+
+	Insbesondere gilt für jedes $g \in G$ auch $o(g) \divs |G|$.
+	\begin{proof}
+		Siehe Übung.
+	\end{proof}
 \end{st}
 
 \begin{df*}
-	Wir setzen
+	Sei $G$ eine Gruppe.
+	Wir definieren die Menge aller Primteiler der Gruppenordnung als
 	\[
-		\pi(G) := \{ x \in \P : x \divs |G| \}.
+		\pi(G) := \Set{ p \in \P & p \divs |G| }.
 	\]
+	$G$ heißt \emphdef{$p$-Gruppe}, wenn $\pi(G) = \Set p$ ist für eine Primzahl $p$.
+
+	Für $M, N \le G$ definieren wir das Produkt $MN := \Set{mn & m \in M, n \in N}$.
+	\begin{note}
+		$MN$ bildet eine Untergruppe von $G$, wenn $M$ oder $N$ Normalteiler von $G$ sind (leichte Übung).
+		Insbesondere ist $MN$ eine Untergruppe von $G$, wenn $M, N$ \emphdef[kommutierende Gruppen]{kommutieren}, d.h. $\forall m \in M, n \in N : mn = nm$.
+	\end{note}
 \end{df*}
+
 
 % St 2.3
 \begin{st} \label{2.3}
-	Sei $G$ eine endliche abelsche Gruppe und $p \in \pi(G)$, also $|G| = p^a n$ mit $(p, n) = 1$.
-	Setze
+	Sei $G$ endlich und abelsch, $p \in \pi(G)$ und $|G| = p^a n$ mit $(p, n) = 1$.
+	Die Menge aller Elemente von $G$ mit $p$-Potenz-Ordnung, d.h.
 	\[
-		P = \{ g \in G : o(g) = p^m \text{ für ein $m \in \N_0$} \}.
+		P = \Set{ g \in G & \exists m \in \N_0 : o(g) = p^m }
 	\]
-	$P$ bildet eine Untergruppe der Ordnung $p^a$.
+	bildet eine normale Untergruppe von $G$ der Ordnung $p^a$, die sogenannte \emphdef{$p$-Sylowgruppe} oder \emphdef{Sylow-$p$-Gruppe} von $G$.
 
-	Man nennt $P$ \emphdef{$p$-Sylowgruppe} von $G$.
-	Zerlege $|G|$ in Primfaktoren
+	Sei $|G| = p_1^{a_1} \dotsb p_k^{a_k}$ die Primfaktorzerlegung der Gruppenordnung mit entsprechenden $p_i$-Sylowgruppen $P_i$ von $G$, dann ist
 	\[
-		|G| = p_1^{a_1} \dotsb p_k^{a_k}
+		G \isomorphic P_1 \times \dotsb \times P_k,
 	\]
-	und $P_i$ sei die $p_i$-Sylowgruppe von $G$, dann ist $G \isomorphic P_1 \times \dotsb P_k$ ($G$ ist direktes Produkt ihrer Sylowgruppen).
+	d.h. $G$ ist direktes Produkt ihrer Sylowgruppen.
 	\begin{note}
 		\ref{2.3} kann man leicht aus dem Hauptsatz für endlich erzeugte abelsche Gruppen herleiten.
 		Trotzdem liefern wir einen direkten Beweis.
 	\end{note}
 	\begin{proof}
-		Seien $x, y \in P$, also $o(x) = p^{m_1}, o(y) = p^{m_2}$.
-		Damit ist $o(xy) = p^{\max\{m_1, m_2\}}$ (hier wird $G$ abelsch benötigt) und $P$ ist multiplikativ abgeschlossen.
-		Da $P$ endlich, ist $P \le G$.
-		Da $G$ abelsch, ist $P \normalsubgroup G$.
-		Annahme $G / P$ hätte ein Element $xP$ der Ordnung $p$.
-		Dann ist $x^p \in P$ ($x \not\in P$, da $o(x^p) = p \neq 1$).
-		$x$ hat $p$-Potenzordnung, ein Widerspruch zu $x \not\in P$.
-		In $G / P$ gibt es also keine Elemente der Ordnung $p$.
+		\begin{seg}{$P \NormalSubgroup G, |P| = p^a$}
+			Seien $x, y \in P$, also $o(x) = p^{m_1}, o(y) = p^{m_2}$.
+			Dann gilt $o(xy) \divs p^{\max\Set{m_1, m_2}}$ (hierzu wird $G$ abelsch benötigt).
+			Also ist $P \subset G$ multiplikativ abgeschlossen und eine endliche Untergruppe von $G$.
 
-		Für $G = P$ ist \ref{2.3} sicherlich richtig.
-		Also verwende Induktion nach $|\pi(G)|$ und Gruppenordnung.
-		Wäre $p \in \pi(G / P)$, dann hätte $G / P$ nach Induktion eine nicht-triviale $p$-Sylowgruppe, $G / P$ hätte Elemente der Ordnung $p$.
-		Nach obigem folgt $p \not\in \pi(G / P)$, aber $|G| = |P| \cdot |G / P|$, also $|P| = p^a$.
+			Da $G$ abelsch, ist $P \normalsubgroup G$ ein Normalteiler.
+			Zeige, dass $G / P$ keine Elemente der Ordnung $p$ besitzt:
+			Angenommen $xP \in G / P$ mit $o(xP) = p$.
+			Wegen $p > 1$ ist $x \not\in P$, aber $x^p \in P$, d.h. $x^p$ und auch $x$ haben $p$-Potenzordnung, ein Widerspruch zu $x \not\in P$.
+			In $G / P$ gibt es also keine Elemente der Ordnung $p$.
 
-		Zum letzten Teil:
-		Sei \oBdA $k > 1$.
-		Nach den ersten Teil existiert zu jedem $p_i$ eine $p_i$-Sylowgruppe $P_i$.
-		Setze $\tilde P_1 = \< P_i : i \ge 2 \> = P_2 \cdot P_3 \dotsb P_k$.
-		Mit \ref{2.5} sieht man, dass $(|\tilde P_1|, |P_1|) = 1, \tilde P_1 \normalsubgroup G_1, P_1 \normalsubgroup G$.
-		Damit ist nach \ref{2.4} $G \isomorphic P_1 \times \tilde P_1$ und somit $G \isomorphic P_1 \times P_2 \times \dotsb P_k$.
+			Wir nutzen nun Induktion nach $|G|$ über die Primfaktorpotenzen von $|G|$.
+			Für $|G| = p^a$ hat nach \ref{2.2} jedes Element von $G$ $p$-Potenz-Ordnung, also $G = P$ und die Aussage ist klar.
+			Sei nun $|G| = p^a n$ und die Aussage sei für Gruppenordnung $n$ bereits bewiesen.
+			Es gilt $p \not\in \pi(G/P)$, denn wäre $p \in \pi(G/P)$, dann hätte $G/P$ nach Induktionsvoraussetzung eine $p$-Sylowgruppe der Ordnung $p^s$ für ein $s \ge 1$, also besäße $G / P$ Elemente der Ordnung $p$, was den vorigen Überlegungen widerspricht.
+
+			Wegen $p^a n = |G| = |P| \cdot |G / P|$ ist dann also $|P| = p^a$.
+		\end{seg}
+		\begin{seg}{$G \isomorphic P_1 \times \dotsb \times P_k$}
+			Der Fall $k = 1$ ist oben bereits geklärt worden, sei also $k > 1$
+			Nach dem ersten Teil existiert zu jedem $p_i \in \pi(G)$ eine $p_i$-Sylowgruppe $P_i$.
+
+			Setze $\tilde P_1 = \< P_i : i \ge 2 \> = P_2 P_3 \dotsb P_k$.
+			Induktiv ist nach \ref{2.5} $\tilde P_1 \NormalSubgroup G$ ein Normalteiler.
+			Wegen $(|\tilde P_1|, |P_1|) = 1$, also $\tilde P_1 \cap P_1 = 1$ gilt nach \ref{2.4} $G \isomorphic P_1 \times \tilde P_1$ und somit induktiv $G \isomorphic P_1 \times P_2 \times \dotsb P_k$.
+		\end{seg}
 	\end{proof}
 \end{st}
+
+\begin{df*}
+	Sei $G$ eine Gruppe und $g, h \in G$
+	Wir bezeichnen das Element $[g,h] := ghg^{-1}h^{-1}$ als \emphdef{Kommutator} von $g$ und $h$.
+\end{df*}
 
 % Lem 2.4
 \begin{lem} \label{2.4}
 	Sind $M, N \normalsubgroup G$ und $M \cap N = 1$.
-	Dann ist $M \cdot N \isomorphic M \times N$.
+	Dann ist $M N \isomorphic M \times N$.
 	\begin{proof}
-		Definiere $\phi: M \times N \to M\cdot N$ durch $(m, n) \mapsto mn$.
-		$\phi$ ist injektiv, denn aus $m_1 n_1 = m_2 n_2$ folgt $M \ni m_2^{-1} m_1 = n_2 n_1^{-1} \in N$, also $m_2^{-1}m_1 = 1 = n_2 n_1^{-1}$ und somit $m_1 = m_2 \land n_1 = n_2$.
-		Zeige $\phi$ ist Gruppenhomomorphismus, indem wir zeigen, dass der \emphdef{Kommutator} $m n m^{-1} n^{-1} = 1$, also genau dann, wenn $m n = n m$.
+		Definiere $\phi: M \times N \to M N$ durch $(m, n) \mapsto mn$.
 
-		Es gilt $mn m^{-1}n^{-1} \in M, N$, also $mnm^{-1}n^{-1} = 1$.
+		$\phi$ ist ein Gruppenhomomorphismus, denn für den Kommutator von $m \in M$ und $n \in N$ gilt
+		\[
+			M \ni mnm^{-1}n^{-1} \in N,
+		\]
+		also $mnm^{-1}n^{-1} = 1$, d.h. $mn = nm$ und daher für $m_1, m_2 \in M, n_1, n_2 \in N$
 		\begin{align*}
 			\phi((m_1, n_1) \cdot (m_2, n_2))
-			&= \phi(m_1m_2, n_1n_2) \\
+			&= \phi((m_1m_2, n_1n_2)) \\
 			&= m_1 m_2 n_1 n_2 \\
 			&= m_1 n_1 m_2 n_2
 			= \phi(m_1, n_1) \phi(m_2, n_2).
 		\end{align*}
-		$\phi$ surjektiv ist eine leichte Übung.
-		Damit ist $\phi$ Gruppenisomorphismus.
+
+		$\phi$ ist injektiv, denn aus $m_1 n_1 = m_2 n_2$ folgt $M \ni m_2^{-1} m_1 = n_2 n_1^{-1} \in N$, also $m_2^{-1}m_1 = 1 = n_2 n_1^{-1}$ und somit $m_1 = m_2, n_1 = n_2$.
+		$\phi$ surjektiv ist klar, also ist $\phi$ ein Gruppenisomorphismus.
 	\end{proof}
 \end{lem}
 
 % Lem 2.5
 \begin{lem} \label{2.5}
-	Sind $M, N \normalsubgroup G$, dann ist $M\cdot N \normalsubgroup G$ und es gilt
+	Sind $M, N \normalsubgroup G$, dann ist $M N \normalsubgroup G$ und es gilt
 	\[
 		M / (M\cap N)
 		\isomorphic
 		MN / N.
 	\]
-	Insbesondere gilt $|MN| = |M|\cdot|N| \cdot \f 1{|M \cap N|}$.
+	Sind $M, N$ endlich, so gilt insbesondere $|MN| = |M|\cdot|N| \cdot \f 1{|M \cap N|}$.
 \coursetimestamp{24}{04}{2014}
 	\begin{proof}
-		Zeige $M\cdot N \normalsubgroup G$.
-		Zunächst ist $M \cdot N \le G$, denn
+		Zeige $M N \normalsubgroup G$.
+		Zunächst ist $M N \le G$, denn für $m \in M, n \in N$ ist
 		\begin{align*}
 			(mn)^{-1} &= n^{-1} m^{-1}
 			= \underbrace{n^{-1}m^{-1}n}_{\in M} n^{-1}
+			\in MN
 		\end{align*}
-		und für $m_1n_1, m_2n_2 \in \in M\cdot N$ ist
+		und für $m_1n_1, m_2n_2 \in M N$ ist
 		\[
 			m_1 n_1 m_2 n_2
-			= \underbrace{m_1 m_1^{-1}}_{\in M} \underbrace{m_1 n_1 m_2}_{\in N} n_2
-			\in M \cdot N.
+			= m_1 \underbrace{n_1 m_2 n_2}_{\in M} \cdot \underbrace{1}_{\in N}
+			\in M N.
 		\]
-		$M \cdot N$ ist Normalteiler:
-		für $g \in G$ ist
+		Außerdem ist schließlich $g \in G, mn \in MN$
 		\[
 			g^{-1} mn g
-			= g^{-1} m g g^{-1} n g
+			= \underbrace{g^{-1} m g}_{\in M} \underbrace{g^{-1} n g}_{\in N}
 			\in M \cdot N.
 		\]
-		Definiere jetzt $\phi: M / (M \cap N) \to (M \cdot N) / N$ durch
+		Definiere jetzt $\phi: M / (M \cap N) \to (M N) / N$ durch
 		\[
 			m(M\cap N) \mapsto mN.
 		\]
 		$\phi$ ist wohldefiniert, denn wenn $m_1 (M \cap N) = m_2 (M \cap N)$, dann existiert $n \in M \cap N$ mit $m_1 n = m_2$, also $m_1 N = m_2 N$.
-		$\phi$ ist injektiv, denn wenn $m_1 N = m_2 N$, existiert $\tilde n \in N: m_1 \tilde n = m_2$, also $\tilde n = m_1^{-1} m_2 \in M \cap N$ und somit $m_1 M\cap N = m_1 \tilde n M\cap N = m_2 M \cap N$.
-		$\phi$ ist surjektiv, denn $m_1 n_1 N = m_1 N = \phi(m_1 M\cap N)$.
-		$\phi$ ist Homomorphismus, denn
+
+		$\phi$ ist ein Gruppenhomomorphismus, denn
 		\begin{align*}
-			\phi(m_1 M\cap N \cdot m_2 M \cap N)
-			&= \phi((m_1m_2)M\cap N) \\
-			&= (m_1 m_2) N \\
+			\phi(m_1 (M\cap N) \cdot m_2 (M \cap N))
+			&= \phi(m_1m_2(M\cap N)) \\
+			&= m_1 m_2 N \\
 			&= m_1N \cdot m_2 N \\
-			&= \phi(m_1 M\cap N)
-			= \phi(m_2 M\cap N).
+			&= \phi(m_1 (M\cap N)) \cdot \phi(m_2 (M\cap N)).
 		\end{align*}
-		Falls $|M|, |N| < \infty$, dann ist $|M / (M\cap N) | = \f {|M|}{|M\cap N|} \stack{\phi}= \f {|MN|}{|N|}$.
+
+		$\phi$ ist injektiv, denn wenn $m_1 N = m_2 N$, existiert $\tilde n \in N$ mit $m_1 \tilde n = m_2$, also $\tilde n = m_1^{-1} m_2 \in M \cap N$ und somit $m_1 M\cap N = m_1 \tilde n M\cap N = m_2 M \cap N$.
+
+		$\phi$ ist surjektiv, denn $m_1 n_1 N = m_1 N = \phi(m_1 M\cap N)$.
+
+		Falls $|M|, |N| < \infty$, dann ist
+		\[
+			\f {|M|}{|M \cap N|}
+			= |M / (M\cap N)|
+			\stack{\phi}= |MN / N|
+			=  \f {|MN|}{|N|}.
+		\]
 	\end{proof}
 \end{lem}
 
-\begin{proof}[Letzter Schritt im Beweis von \ref{2.3}]
-	Zu jedem $p_i \in \pi(G)$ existiert $P_i$.
-	Setze $\tilde p_1 = \< P_2, \dotsc, P_k \> = P_2 \cdots \dotsb \cdots P_k$ (mittels Induktion aus \ref{2.5}) und $|\tilde p_1| = p_2^{\alpha_2} \cdot \dotsb \cdot p_k^{\alpha_k}$, also $\tilde P_1 \cap P_1 = 1$ und $P_1 \cdot \tilde P_1 = G$.
-	Mit \ref{2.4} ist $G \isomorphic P_1 \times \tilde P_1$ und per Induktion somit
-	\[
-		\tilde P_1 = P_2 \times \dotsb \times P_k.
-	\]
-\end{proof}
-
 \begin{nt*}
-	Sind $M, N$ Normalteiler von $G$, dann ist $M \cdot N$ der kleinste Normalteiler von $G$, der $M$ und $N$ enthält.
-	Es gilt $M \cdot N = \<M, N\>$.
-	Sind $M, N$ keine Normalteiler, so gilt das nicht.
+	Sind $M$ oder $N$ Normalteiler von $G$, dann ist $M N = \<M, N\>$ (leichte Übung), insbesondere ist dann $M N$ der kleinste Normalteiler von $G$, der $M$ und $N$ enthält.
+	Sind $M, N$ keine Normalteiler, so gilt dies im Allgemeinen nicht.
 \end{nt*}
-
-\begin{df*}
-	Eine Gruppe $G$ heißt \emphdef{$p$-Gruppe}, wenn $|G| = p^m$ ist für eine Primzahl $p$.
-\end{df*}
 
 % Lem 2.6
 \begin{lem} \label{2.6}
 	Sei $\phi$ die Eulersche $\phi$-Funktion.
-	Eine abelsche $p$-Gruppe $G$ ist genau dann zyklisch, wenn es zu jedem Teiler $t$ von $|G|$ höchstens $\phi(t)$ Elemente der Ordnung $t$ gibt (und es gibt dann auch genau $\phi(t)$ solche Elemente).
+	Eine abelsche $p$-Gruppe $G$, d.h. $|G| = p^m$ für ein $m \in \N$, ist genau dann zyklisch, wenn es in $G$ zu jedem Teiler $p^i$ von $|G|$ höchstens $\phi(p^i)$ Elemente der Ordnung $p^i$ gibt.
+	In diesem Fall gibt dann auch genau $\phi(p^i)$ solche Elemente in $G$.
 	\begin{proof}
-		Zeige zunächst die Rückrichtung.
-		Die Ordnung eines Elements $g$ teilt $|G|$ nach \ref{2.2}, also haben alle Elemente von $G$ eine Ordnung der Form $p^i, 0 \le i \le m$.
-		Sei $w_1$ die Anzahl der Elemente der Ordnung $p^i$ von $G$, dann ist
-		sicherlich $|G| = \sum_{i=0}^m w_i$.
-		Existiert ein Element der Ordnung $p^i$, so ist die Anzahl solcher Elemente einerseits nach Voraussetzung beschränkt durch $w_i \le \phi(p^i)$ (sogar gleich, warum?). % fixme: warum?
-		%Beachte: ist $o(g) = p^i$, dann ist $|\<g\>| = p^i$ und $\<g\> \isomorphic (\Z / p^i \Z, +)$.
-		Wir können also schreiben
-		\[
-			p^m = |G|
-			= \sum_{i=0}^m \phi(p^i) \alpha_i
-		\]
-		mit $\alpha_i \in \{0, 1\}$.
-		\begin{align*}
-			\sum_{i=0}^m \phi(p^i) \alpha_i
-			\le \sum_{i=0}^m \phi(p^i)
-			&\stack{\ref{1.15}}= 1 + \sum_{i=1}^m (p-1)p^{i-1} \\
-			&= 1 + (p-1) \sum_{i=1}^m p^{i-1}
-			= p^m
-			= |G|
-		\end{align*}
-		Also gilt Gleichheit und somit insbesondere $\alpha_m = 1$.
-		Es gibt also Elemente der Ordnung $p^m$ (welche dann ganz $G$ ergzeugen) und somit ist $G$ zyklisch.
+		\begin{seg}{\ProofImplication*}
+			Die Ordnung eines Elements teilt die Gruppenordning $p^m$ nach \ref{2.2}, also haben alle Elemente von $G$ eine Ordnung der Form $p^i, 0 \le i \le m$.
+			Sei $w_i$ die Anzahl der Elemente der Ordnung $p^i$ von $G$, dann gilt
+			\begin{align*}
+				p^m
+				= |G|
+				= \sum_{i=0}^m w_i
+				\le \sum_{i=0}^m \phi(p^i)
+				&\stack{\ref{1.15}}= 1 + \sum_{i=1}^m (p-1)p^{i-1} \\
+				&= 1 + (p-1)\sum_{i=1} p^{i-1}
+				= p^m
+			\end{align*}
+			Also gilt Gleichheit: $w_i = \phi(p^i)$ und insbesondere $w_m = \phi(p^m) = (p-1)p^{m-1} > 0$ nach \ref{1.15}.
+			Es gibt also ein Element der Ordnung $p^m$, welches dann ganz $G$ erzeugt, also ist $G$ zyklisch.
+		\end{seg}
+		\begin{seg}{\ProofImplication}
+			Sei $G = \<a\>$ zyklisch.
+			Jedes Element aus $G$ ist von der Form $a^{p^{m-i} s}$ mit $(p, s) = 1$.
 
-		Die Hinrichtung ist eine leichte Übung. \Exercise
+			Nun ist $(a^{p^{m-i} s})^{p^i} = (a^{p^m})^s = 1$.
+			Falls $(a^{p^{m-i} s})^{p^j} = 1$ für $j \le i$, dann ist $1 = a^{p^{m-(i-j)} s}$, also $p^m \divs p^{m-(i-j)} s$.
+			Wegen $(p, s) = 1$ folgt $p^m \divs p^{m-(i-j)}$, also $i = j$.
+			Somit hat $a^{p^{m-i} s}$ die Ordnung $p^i$.
+
+			Es gibt nun gerade $\phi(p^i)$ Elemente der Form $a^{p^{m-i} s}$ (betrachte $(a^{p^{m-i}})^s$, hier sind es gerade alle $1 \le s \le p^i$ mit $(s, p) = 1$).
+		\end{seg}
 	\end{proof}
 \end{lem}
 
-\begin{proof}[Beweis von \ref{2.1}]
-	Sei $U \le K^*$ mit $|U| < \infty$.
-	Nach \ref{2.3} ist $U \isomorphic P_1 \times \dotsb \times P_k$ und $P_i$ ist $p_i$-Sylowgruppe von $U$.
-	Wir zeigen, dass $P_i$ zyklisch ist.
 
-	Sei $d_i$ Teiler von $|P_i|$ und $g \in P_i$ mit $o(g) = d_i$.
-	Also erfüllt $g$ die Gleichung $x^{d_i} - 1 = 0$.
-	Diese Gleichung hat in $K$ höchstens $d_i$ verschiedene Lösungen.
-	Ist $g$ eine Lösung, dann auch alle Potenzen von $g$.
-	Die von $g$ erzeugte zyklische Gruppe $\<g\> \isomorphic \Z / d_i \Z$ stellt alle Lösungen der Gleichung.
-
-	Es existieren also höchstens $\phi(d_i)$ Elemente der Ordnung $d_i$ in $P_i$.
-	Mit \ref{2.6} ist also $P_i$ zyklisch, $P_i \isomorphic \Z / |P_i| \Z$ und
-	\[
-		U \isomorphic
-		\Z / |P_1| \Z \times \dotsb \times \Z / |P_k| \Z
-		\stack{\ref{1.14}}\isomorphic
-		\Z / (|P_1| \dotsb |P_k|) \Z,
-	\]
-	also ist $U$ zyklisch.
-\end{proof}
-\begin{note}
-	In einem Schiefkörper sind im Allgemeinen nicht alle endlichen Untergruppen zyklisch, z.B. in $\H^*$ gibt es die Quaternionengruppe der Ordnung $8$.
-\end{note}
-
-Unser Ziel war es, die Struktur von $U(\Z / m \Z)$ zu untersuchen.
-\ref{2.1} klärt dies für den Fall $\Z / p\Z$ mit Primzahl $p$:
+Unser Ziel war es, die Struktur von $U(\Z / n \Z)$ zu untersuchen.
+\ref{2.1} klärt dies für den Fall $n = p$ mit Primzahl $p$:
 \[
-	(\Z / p \Z)^* \isomorphic C_{p-1},
+	U(\Z / p \Z) = (\Z / p \Z)^* \isomorphic C_{p-1}.
 \]
-wobei $C_{p-1}$ die zyklische Gruppe der Ordnung $p-1$ ist (multiplikatives Analogon zu $\Z / p \Z$.
+
+\subsubsection{Primitivwurzeln}
 
 \begin{nt*}
 	Für $K = \Z / p\Z$ würde man gerne Erzeuger (auch \emphdef{Primitivwurzel} genannt) von $(\Z / p\Z)^*$ angeben können.
@@ -260,6 +286,8 @@ wobei $C_{p-1}$ die zyklische Gruppe der Ordnung $p-1$ ist (multiplikatives Anal
 		siehe Übung.
 	\end{note}
 \end{conj*}
+
+\subsection{\texorpdfstring{$U(\Z / p^s \Z), p > 2$}{U(ℤ/p\textasciicircum sℤ), p>2}}
 
 Der nächste Schritt zur Struktur von $U(\Z / m \Z)$ ist die Betrachtung von Primzahlpotenzen $m = p^s$.
 
@@ -396,6 +424,8 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten.
 		Falls $a \not\equiv 0 \bmod p$, dann ist wegen $|U(\Z / p\Z)| = p - 1$ auch $a^{p-1} \equiv 1 \bmod p$ und somit $a^p \equiv a \bmod p$.
 	\end{proof}
 \end{lem}
+
+\subsection{\texorpdfstring{$U(\Z/2^s \Z)$}{U(ℤ/2\textasciicircum sℤ)}}
 
 % St 2.10
 \begin{st} \label{2.10}
