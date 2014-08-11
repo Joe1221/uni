@@ -532,13 +532,19 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten:
 	\end{proof}
 \end{kor}
 
+
 \section{Quadratische Reste}
 
-Wann ist eine Kongruenz der Form
+
+\subsection{Das Legendre-Symbol}
+
+Sei $p \in \P, p > 2, a \in \Z, a \not\equiv 0 \bmod p$.
+Wann besitzt eine Kongruenz der Form
 \[
 	x^2 \equiv a \mod p
 \]
-mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
+eine Lösung $x \in \Z / p \Z$?
+Die Fälle $p = 2$, oder $a \equiv 0 \bmod p$ werden als trivial angesehen und daher in der Regel nicht betrachtet.
 
 % Def 2.13
 \begin{df} \label{2.13}
@@ -559,8 +565,15 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 					0 & \text{$b \equiv 0 \bmod p$}
 				\end{cases}.
 			\]
-			Wenn $(b, p) = 1$, dann tritt der Fall $\legsym bp = 0$ nicht ein.
 	\end{enumerate}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Wenn $(b, p) = 1$, dann tritt der Fall $\legsym bp = 0$ nicht ein.
+			\item
+				$\legsym bp$ hängt nur von der Restklasse $b \bmod p$ ab, daher wird oft ohne Einschränkung $b < p$ angenommen.
+		\end{itemize}
+	\end{note}
 \end{df}
 
 \coursetimestamp{05}{05}{2014}
@@ -575,17 +588,20 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 			Dann ist $b$ genau dann quadratischer Rest modulo $p$, wenn $b^{\f {p-1}2} \equiv 1 \bmod p$
 			ist und kein quadratischer Rest, wenn $b^{\f {p-1}2} \equiv -1 \bmod p$	ist, d.h.
 			\[
-				\legsym bp = b^{\f {p-1}2} \mod p.
+				\legsym bp \equiv b^{\f {p-1}2} \mod p,
 			\]
+			dies ist auch als \emphdef{Euler-Kriterium} bekannt.
 		\item
-			Sei $a, b \in \Z$ mit $(a,p) = 1 = (b, p)$.
+			Sei $a, b \in \Z$ mit $1 = (a,p) = (b, p)$.
 			Dann gilt
 			\[
 				\legsym ap \legsym bp = \legsym {ab}p.
 			\]
-			Mit $a = b = 1$ folgt $\legsym 1p \legsym 1p = \legsym 1p$, also $\legsym 1p = 1$.
-
-			Das Legendresymbol liefert damit einen Gruppenhomomorphismus zwischen der multiplikativen Gruppe $(\Z / p\Z)*$ und $(\{-1,1\}, \cdot)$:
+			Mit $a = b = 1$ folgt insbesondere $\legsym 1p \legsym 1p = \legsym 1p$, also
+			\[
+				\legsym 1p = 1.
+			\]
+			Das Legendresymbol liefert damit einen Gruppenhomomorphismus zwischen der multiplikativen Gruppe $(\Z / p\Z)^*$ und $(\{-1,1\}, \cdot) \isomorphic C_2$:
 			\begin{align*}
 				\kappa: (\Z / p\Z)^* &\to (\{1,-1\}, \cdot), \\
 				a &\mapsto \legsym ap.
@@ -594,28 +610,33 @@ mit $2 \neq p \in \P$ lösbar in $\Z / p\Z$ ($a \not\equiv 0 \bmod p$)?
 	\begin{proof}
 		\begin{enumerate}[a)]
 			\item
-				$U(\Z / p\Z)$ ist zyklisch von der Ordnung $p - 1$, die Quadrate bilden dann eine Untergruppe von Index 2.
-				Es gilt $a^{p-1} \equiv 1 \bmod p$ für alle $a \in U(\Z / p\Z)$.
-				Wegen $|Q| = \f 12 (p-1)$ ist $a^{\f {p-1}2} \equiv 1 \bmod p$ (Ordnung eines Elementes teilt Gruppenordnung) für alle $a \in Q$.
-				$U := U(\Z / p \Z)$ ist zyklisch, also ist $-1 \bmod p$ die einzige Involution in $U$.
-				Wenn $a^{\f{p-1}2} \not\equiv 1 \bmod p$, dann ist $a^{\f{p-2}2} \equiv -1 \bmod p$ ,denn $(a^{\f{p-1}2})^2 = a^{p-1} \equiv 1 \bmod p$.
-				$Q$ ist die einzige Untergruppe von $U$ der Ordnung $\f{p-1}2$ (siehe Bemerkung).
-				Ist $b$ ein Nichtquadrat, dann ist $b^{\f{p-1}2} \equiv -1 \bmod p$.
+				$U := U(\Z / p\Z)$ ist zyklisch von der Ordnung $p - 1$, die Quadrate bilden dann eine Untergruppe von Index 2 (siehe Übungsaufgabe V4.2).
+				Es gilt $a^{p-1} \equiv 1 \bmod p$ für alle $a \in U$.
+				Wegen $|Q| = \f {|U|}2 = \f 12 (p-1)$ ist $a^{\f {p-1}2} \equiv 1 \bmod p$ für alle $a \in Q$.
+				Wenn $a^{\f{p-1}2} \not\equiv 1 \bmod p$, dann ist $a^{\f{p-2}2} \equiv -1 \bmod p$, denn $(a^{\f{p-1}2})^2 = a^{p-1} \equiv 1 \bmod p$ und $x^2 = 1$ besitzt im Körper $\Z / p \Z$ gerade die Lösungen $\pm 1$.
+				Da $Q$ die einzige Untergruppe von $U$ der Ordnung $\f{p-1}2$ ist (siehe nachfolgende Bemerkung), kann es kein Nichtquadrat $a$ mit $a^{\f{p-1}2} \equiv 1 \bmod p$ geben (dieses würde eine andere Untergruppe der Ordnung $\f {p-1}2$ aufspannen).
+				Ist $b$ kein Quadrat, dann gilt somit zwangsläufig $b^{\f{p-1}2} \equiv -1 \bmod p$.
 			\item
-				Nach \ref{2.1} ist $U(\Z / p\Z) = (\Z / p\Z)^*$ zyklisch.
-				Die Quadrate von $U(\Z / p \Z)$ bilden eine Untergruppe $Q$ von Index 2. \Exercise
-				Daher ist mit $a \bmod p$ quadratisch und $b \bmod p$ quadratisch auch $ab \bmod p$ quadratisch.
-				Ist $a \bmod p$ kein Quadrat und $b \bmod p$ quadratisch, dann ist $ab \mod p$ kein Quadrat.
-				Wenn $a \bmod p$ und $b \bmod p$ keine Quadrate sind, so ist $ab \mod p$ ein Quadrat wegen Index 2.
-				Also ist $\kappa$ ein Homomorphismus.
+				Die Quadrate von $U := U(\Z / p \Z)$ bilden eine normale Untergruppe $Q$ vom Index 2.
+				Betrachte $\pi: U \to U / Q$, die Projektion (ein wohldefinierter Homomorphismus).
+				$U / Q$ hat zwei Elemente und $\ker \pi = Q$.
+				Wir können also $U / Q$ mit $(\Set{\pm 1}, \cdot)$ identifizieren und es ergibt sich der gewünschte Homomorphismus $\kappa: U \to (\Set{\pm 1}, \cdot)$.
 		\end{enumerate}
 	\end{proof}
 \end{lem}
 
 \begin{nt*}
-	In \ref{2.6} wurde gezeigt, dass zyklische $p$-Gruppen zu jedem Teiler der Gruppenordnung genau eine Untergruppe haben.
-	Mit \ref{1.14} folgt: in einer endlichen zyklischen Gruppe $G$ gibt es zu jedem Teiler $t$ der Gruppenordnung $|G|$ genau eine Untergruppe der Ordnung $t$.
-	Dies ist eine Übungsaufgabe. \Exercise
+	Sei $G$ eine endliche zyklische Gruppe mit $|G| = n$.
+	Zu jedem Teiler $d \divs n$ gibt es genau eine Untergruppe der Ordnung $d$.
+	\begin{proof}
+		Die Existenz wurde bereits in der Bemerkung von \ref{2.2} behandelt.
+		Mittels \ref{1.14} genügt es jetzt, die Eindeutigkeit für die $p$-Gruppen von $G$ zu zeigen.
+		Sei also $H \le P$ eine Untergruppe einer $p$-Gruppe $P$ von $G$ mit $|P| = p^m$ und $|H| = p^i$.
+		Als Untergruppen von $G$ sind $P$ und $H$ zyklisch.
+		\ref{2.6} besagt, dass $H$ genau $\phi(p_i)$ Erzeuger besitzt.
+		Gleichzeitig sagt \ref{2.6} aber auch, dass $P$ genau $\phi(p^i)$ Elemente der Ordnung $p^i$ besitzt.
+		Damit erzeugt jedes Element aus $P$ mit Ordnung $p^i$ bereits $H$ und es kann keine andere Untergruppe von $P$ mit Ordnung $p^i$ geben.
+	\end{proof}
 \end{nt*}
 
 % St 2.15
