@@ -22,24 +22,16 @@
 		Zum Beweis von \ref{2.1} werden gruppentheoretische Grundlagen benötigt, welche im Folgenden teilweise wiederholt werden.
 	\end{note}
 	\begin{proof}
-		Sei $U \le K^*$ mit $|U| < \infty$.
-		Nach \ref{2.3} ist $U \isomorphic P_1 \times \dotsb \times P_k$ und $P_i$ ist $p_i$-Sylowgruppe von $U$.
-		Wir zeigen, dass $P_i$ zyklisch ist.
+		Sei $U \le K^*$ eine endliche Untergruppe und $|U| = p_1^{a_1} \dotsb p_k^{a_k}$ die Primfaktorzerlegung der Gruppenordnung.
+		Nach \ref{2.3} ist $U \isomorphic P_1 \times \dotsb \times P_k$, wobei $P_i$ die $p_i$-Sylowgruppe von $U$ ist.
+		Es genügt zu zeigen, dass die $P_i$ zyklisch sind, da dann $P_i \isomorphic \Z / |P_i| \Z$ mit $|P_i| = p_i^{a_i}$ jeweils teilerfremd und damit nach \ref{1.14} das direkte Produkt zyklisch ist.
 
-		Sei $d_i$ Teiler von $|P_i|$ und $g \in P_i$ mit $o(g) = d_i$, also wird die Gleichung $x^{d_i} - 1 = 0$ erfüllt.
+		Sei $d_i$ Teiler von $|P_i|$ und $g \in P_i$ mit $o(g) = d_i$ ($g$ existiert nach der Bemerkung in \ref{2.2}), also erfüllt $g$ die Gleichung $x^{d_i} = 1$.
 		Diese Gleichung hat im Körper $K$ höchstens $d_i$ verschiedene Lösungen.
-		Ist $g$ eine Lösung, dann auch alle Potenzen von $g$.
-		Die von $g$ erzeugte zyklische Gruppe $\<g\> \isomorphic \Z / d_i \Z$ stellt alle Lösungen der Gleichung.
-
-		Es existieren also höchstens $\phi(d_i)$ Elemente der Ordnung $d_i$ in $P_i$.
-		Mit \ref{2.6} ist also $P_i$ zyklisch, $P_i \isomorphic \Z / |P_i| \Z$ und
-		\[
-			U \isomorphic
-			\Z / |P_1| \Z \times \dotsb \times \Z / |P_k| \Z
-			\stack{\ref{1.14}}\isomorphic
-			\Z / (|P_1| \dotsb |P_k|) \Z,
-		\]
-		also ist $U$ zyklisch.
+		$g$ ist eine Lösung, also auch alle Potenzen von $g$.
+		Die von $g$ erzeugte zyklische $p_i$-Gruppe $\<g\> \isomorphic C_{d_i}$ stellt damit alle Lösungen der Gleichung.
+		$C_{d_i}$ hat nach \ref{2.6} höchstens $\phi(d_i)$ Elemente der Ordnung $d_i$.
+		Also hat auch $P_i$ höchstens $\phi(d_i)$ Elemente der Ordnung $d_i$ und ist nach \ref{2.6} zyklisch.
 	\end{proof}
 \end{st}
 
@@ -54,6 +46,10 @@
 	Dann gilt $|U| \divs |G|$.
 
 	Insbesondere gilt für jedes $g \in G$ auch $o(g) \divs |G|$.
+	\begin{note}
+		Ist umgekehrt $d$ ein Teiler der Gruppenordnung $n = |G|$, so existiert ein Element $g \in G$ mit Ordnung $d$.
+		Für zyklische Gruppen $G = \<a\>$ ist dies gerade $a^{\f nd}$ und für allgemeine endliche Gruppen folgt dies aus \ref{1.14}.
+	\end{note}
 	\begin{proof}
 		Siehe Übung.
 	\end{proof}
@@ -225,7 +221,7 @@
 	In diesem Fall gibt es sogar genau $\phi(p^i)$ solche Elemente in $G$.
 	\begin{proof}
 		\begin{seg}{\ProofImplication*}
-			Die Ordnung eines Elements teilt die Gruppenordning $p^m$ nach \ref{2.2}, also haben alle Elemente von $G$ eine Ordnung der Form $p^i, 0 \le i \le m$.
+			Die Ordnung eines Elements teilt die Gruppenordnung $p^m$ nach \ref{2.2}, also haben alle Elemente von $G$ eine Ordnung der Form $p^i, 0 \le i \le m$.
 			Sei $w_i$ die Anzahl der Elemente der Ordnung $p^i$ von $G$, dann gilt
 			\begin{align*}
 				p^m
@@ -262,7 +258,7 @@ Unser Ziel war es, die Struktur von $U(\Z / n \Z)$ zu untersuchen.
 
 \subsubsection{Primitivwurzeln}
 
-Mit Bézout haben wir bereits mehrfach gesehen: ist $U(\Z / n \Z)$ zyklisch (z.B. wie bereits gesehen für $n$ prim, für genauere Charakterisierung siehe \ref{2.11}), so sind alle Elemente aus $\Z / n \Z$ genau dann Erzeuger von $U(\Z / n \Z)$, wenn sie teilerfremd zu $n$ sind.
+Mit Bézout haben wir bereits mehrfach gesehen: ist $U(\Z / n \Z)$ zyklisch (z.B. wie bereits gesehen für $n$ prim, für genauere Charakterisierung siehe \ref{2.12}), so sind alle Elemente aus $\Z / n \Z$ genau dann Erzeuger von $U(\Z / n \Z)$, wenn sie teilerfremd zu $n$ sind.
 
 \begin{df*}
 	Sei $n \in \N$ mit $U(\Z / n \Z)$ zyklisch.
@@ -283,7 +279,8 @@ Mit Bézout haben wir bereits mehrfach gesehen: ist $U(\Z / n \Z)$ zyklisch (z.B
 \end{ex*}
 
 \begin{conj*}[E. Artin]
-	Sei $a \in \N$ und $a$ sei kein Quadrat, dann existiert eine ungerade Primzahl $p$ für die $a \bmod p$ eine Primitivwurzel ist.
+	Sei $a \in \N$ und $a$ kein Quadrat.
+	Dann existiert eine ungerade Primzahl $p$ für die $a \bmod p$ eine Primitivwurzel modulo $p$ ist.
 	\begin{note}
 		Warum darf $a$ kein Quadrat sein?
 		siehe Übung.
@@ -504,7 +501,7 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten:
 	\[
 		U(\Z / n\Z) \isomorphic U(\Z / p_1^{\alpha_1}\Z) \times \dotsb \times U(\Z / p_k^{\alpha_k} \Z),
 	\]
-	wobei die Faktoren der rechten Seie durch \ref{2.8} und \ref{2.10} folgendermaßen gegeben sind:
+	wobei die Faktoren der rechten Seite durch \ref{2.8} und \ref{2.10} folgendermaßen gegeben sind:
 	\[
 		U(\Z / p_i^{\alpha_i} \Z)
 		\isomorphic \begin{cases}
@@ -523,7 +520,7 @@ Zunächst ein Lemma zum Rechnen bezüglich Primzahlpotenzresten:
 		&\isomorphic C_2 \times C_2 \times C_4 \times C_6 \\
 		&\isomorphic \underbrace{C_2 \times C_2 \times C_2 \times  C_4}_{=P_2} \times \underbrace{C_3}_{=P_3},
 	\end{align*}
-	wobei $P_2, P_3$ die $2$-, bzw. $3$-Sylowgruppe ist.
+	wobei dann $P_2, P_3$ die $2$-, bzw. $3$-Sylowgruppe von $U(\Z / 360 \Z)$ ist.
 \end{ex*}
 
 % Folg 2.12
