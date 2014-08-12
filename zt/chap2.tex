@@ -650,35 +650,28 @@ Die Fälle $p = 2$, oder $a \equiv 0 \bmod p$ werden als trivial angesehen und d
 		\item
 			$\legsym 2p = (-1)^{\f{p^2 -1}8}$.
 	\end{enumerate}
-	Diese Aussagen werden in der Literatur oft als erster und zweiter Ergänzungssatz bezeichnet.
+	Die Aussagen b) und c) werden in der Literatur auch als \emphdef[Ergänzungssatz]{erster und zweiter Ergänzungssatz} bezeichnet.
 	\begin{proof}
 		\begin{enumerate}[a)]
 			\item
-				Sei $\zeta$ eine primitive $q$-te Einheitswurzel.
+				Sei $\zeta \in \C$ eine primitive $q$-te Einheitswurzel, z.B. $e^{\f{2\pi i}q}$.
 				Betrachte
 				\[
 					\tau = \sum_{1 \le a \le q-1} \underbrace{\legsym aq \zeta^a}_{\in \Z[\zeta]},
 				\]
 				mit $\Z[\zeta] = \{ a_0 + a_1 \zeta^1 + \dotsb + a_{q-1} \zeta^{q-1} : a_j \in \Z\}$.
 
-				Wir nehmen nun an, dass
+				Wir nehmen zunächst an, dass
 				\begin{equation} \label{eq:2.15_1}
 					\tau^2 = \legsym {-1}q q
 				\end{equation}
-				gilt.
-				Mit \ref{2.14} a) haben wir
-				\[
-					\legsym qp \equiv q^{\f {p-1}2} \mod p
-				\]
-				und mit \ref{2.15} b)
-				\[
-					\legsym {-1}q = (-1)^{\f {q-1}2}.
-				\]
+				gilt (dies zeigen wir später).
+				Mit \ref{2.14} a) haben wir $\legsym qp \equiv q^{\f {p-1}2} \mod p$ und mit \ref{2.15} b) $\legsym {-1}q = (-1)^{\f {q-1}2}$.
 				Es gilt dann
 				\begin{align*}
 					\tau^p
 					= \tau (\tau^2)^{\f{p-1}2}
-					= \tau \big( \legsym {-1}q q \big)^{\f {p-1}2}
+					&= \tau \big( \legsym {-1}q q \big)^{\f {p-1}2} \\
 					&= \tau \big( (-1)^{\f {q-1}2} q \big)^{\f {p-1}2} \\
 					&\stack{\ref{2.14}}\equiv \tau (-1)^{\f{q-1}2 \cdot \f {p-1}2} \legsym qp \mod p.
 				\end{align*}
@@ -686,51 +679,56 @@ Die Fälle $p = 2$, oder $a \equiv 0 \bmod p$ werden als trivial angesehen und d
 				\begin{align*}
 					\tau^p
 					&= \Big( \sum_{1 \le a \le q-1} \legsym aq \zeta^a \Big)^p \\
-					&\equiv \sum_{1 \le a \le q-1} \legsym aq \zeta^{ap} \\
-					&\equiv \legsym pq \sum_{1 \le a \le q-1} \legsym aq \legsym pq \zeta^{ap} \\
-					&\stack{\ref{2.14} b)}\equiv \legsym pq \sum_{1 \le a \le q-1} \legsym {ap}q \zeta^{ap} \\
-					&\stack{\text{s.u.}}\equiv \legsym pq \tau \mod p,
+					&\equiv \sum_{1 \le a \le q-1} \legsym aq \zeta^{ap} \mod p\\
+					&\equiv \legsym pq \sum_{1 \le a \le q-1} \legsym aq \legsym pq \zeta^{ap} \mod p\\
+					&\stack{\ref{2.14} b)}\equiv \legsym pq \sum_{1 \le a \le q-1} \legsym {ap}q \zeta^{ap}  \mod p\\
+					\intertext{%
+						Da eine Multiplikation mit $p$ wegen $(p,q) = 1$ die Restklassen modulo $q$ lediglich permutiert, sind die Mengen $\Set{\legsym 1q \zeta, \dotsc, \legsym {q-1}q \zeta^{q-1}}$ und $\Set{\legsym pq \zeta^p, \dotsc, \legsym {p(q-1)}q \zeta^{p(q-1)}}$ gleich, also gilt weiter
+					}
+					&= \legsym pq \sum_{1 \le a \le q-1} \legsym aq \zeta^a \\
+					&= \legsym pq \tau.
 				\end{align*}
-				%Es gilt $\legsym xq = \legsym {x+kp}q$, mit $p \neq q$
-				denn die Multiplikation mit $p$ permutiert die Restklassen bezüglich $q$ und genauso für $\{\zeta, \dotsc, \zeta^{q-1}\} = \{\zeta^p, \dotsc, \zeta^{p(q-1)}\}$.
-				Damit ist
+				Damit ist schließlich
 				\[
-					\tau (-1)^{\f{q-1}2 \f {p-1}2} \legsym qp
-					\equiv \tau \legsym pq \mod p
+					\tau (-1)^{\f{q-1}2 \f {p-1}2}
+					\equiv \tau \legsym pq \bmod p.
 				\]
-				%multiplizieren mit 2 und
-				zusammen mit \eqref{eq:2.15_1} folgt
+				Zusammen mit \eqref{eq:2.15_1} folgt nach Multiplikation mit $\tau$
 				\[
 					\legsym {-1}q q (-1)^{\f{q-1}2 \f {p-1}2} \legsym qp
-					\equiv \legsym {-1}q q \legsym pq \mod p
+					\equiv \legsym {-1}q q \legsym pq \mod p.
 				\]
-				$\legsym {-1}q q$ ist invertierbar $\bmod p$, also
+				$\legsym {-1}q$ und $q$ sind invertierbar modulo $p$, also auch $\legsym {-1}q q$ und somit nach Multiplikation mit dieser Inversen und mit $\legsym qp$
 				\[
-					(-1)^{\f {q-1}2 \f {p-1}2} \legsym qp
-					\equiv \legsym pq \mod p
+					(-1)^{\f {q-1}2 \f {p-1}2}
+					\equiv \legsym pq \legsym qp \mod p.
 				\]
-				und die Aussage ist gezeigt.
+				Wegen $p > 2$ gilt hier sogar Gleichheit und die Aussage ist gezeigt.
 
-				Es bleibt noch \eqref{eq:2.15_1} zu zeigen.
+				Es verbleibt noch unsere vorige Behauptung \eqref{eq:2.15_1} zu zeigen.
 				Wir zeigen äquivalent $\legsym {-1}q \tau^2 = q$.
 				Es gilt mit $\sum_{b} \legsym bq \zeta^b = \sum_{b} \legsym {-b}q \zeta^{-b}$
 				\[
 					\tau^2 = \Big( \sum_{a} \legsym aq \zeta^a \Big) \Big( \sum_{b} \legsym {-b}q \zeta^{-b} \Big)
-					\stackrel{\ref{1.14} b)}= \sum_{ab} \legsym {a(-b)}q \zeta^{a-b}
+					\stackrel{\ref{2.14} b)}= \sum_{a,b} \legsym {a(-b)}q \zeta^{a-b}
 				\]
 				und damit
 				\begin{align*}
 					\legsym {-1}q \tau^2
-					&= \sum_{a,b} \legsym {-1}q \legsym {a(-b)}q \zeta^{a-b}
-					= \sum_{a,b} \legsym {ab}q \zeta^{a-b}
+					&= \sum_{a,b} \legsym {-1}q \legsym {a(-b)}q \zeta^{a-b} \\
+					&\stackrel{\mathclap{\ref{2.14} b)}}= \;\; \sum_{a,b} \legsym {ab}q \zeta^{a-b}
 				\intertext{%
-					wähle $\tilde b$ mit $\tilde b b \equiv 1 \bmod q$, dann ist $\legsym {ab}q = \legsym aq \legsym bq = \legsym aq \legsym {\tilde b}q = \legsym {a\tilde b}q$ und mit $c := a\tilde b$ ist $a \equiv cb \bmod q$, also $\zeta^a = \zeta^{cb}$ es gilt weiter
+					Wähle $\tilde b$ mit $\tilde b b \equiv 1 \bmod q$, dann ist $\legsym {ab}q = \legsym {ab}q \legsym{\tilde b}q \legsym {\tilde b}q = \legsym {ab\tilde b}q \legsym {\tilde b}q = \legsym {a\tilde b}q$.
+					Wegen $(\tilde b, q) = 1$ können wir statt über $a$ über $a\tilde b$ summieren (Multiplikation mit $\tilde b$ permutiert die Restklassen modulo $q$) und es ergibt sich
 				}
-					&= \sum_{a,b} \legsym {a\tilde b}q \zeta^{a-b}
-					\stackrel{c=a\tilde b}= \sum_{c,b} \legsym cq \zeta^{bc-b} \\
-					&= \sum_{c\neq 1} \Big( \legsym cq \sum_{b} \zeta^{bc-b} \Big) + \underbrace{\sum_{b} \legsym 1q}_{=q-1}
+					&= \sum_{a\tilde b,b} \legsym {a\tilde b}q \zeta^{a-b}
 				\intertext{%
-					$\xi := \zeta^{c-1}$ ist ebenfalls eine $q$-te Einheitswurzel und daher $\sum_{b} \zeta^{(1-c)b} = \sum_{k=1}^{q-1} \xi^k = -1$.
+					mit $c := a\tilde b$ ist $a \equiv cb \bmod q$, also
+				}
+					&\stack{c:=a\tilde b}= \;\; \sum_{c,b} \legsym cq \zeta^{bc-b} \\
+					&= \sum_{c\neq 1} \Big( \legsym cq \sum_{b} \zeta^{(c-1)b} \Big) + \underbrace{\legsym 1q \sum_{b} \legsym 1q}_{=q-1}
+				\intertext{%
+					$\xi := \zeta^{c-1}$ ist ebenfalls eine $q$-te Einheitswurzel und daher $\sum_{b} \zeta^{(1-c)b} = \sum_{b=1}^{q-1} \xi^b = -1$.
 					Zusammen mit $\sum_{c} \legsym cq = 0$ folgt schließlich
 				}
 					&= - \sum_{c\neq 1} \legsym cq + q-1 \\
