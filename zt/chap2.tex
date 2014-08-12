@@ -639,6 +639,8 @@ Die Fälle $p = 2$, oder $a \equiv 0 \bmod p$ werden als trivial angesehen und d
 	\end{proof}
 \end{nt*}
 
+\subsection{Das Quadratische Reziprozitätsgesetz}
+
 % St 2.15
 \begin{st}[Quadratisches Reziprozitätsgesetz, Gauß 1796] \label{2.15}
 	Seien $p$, $q$ verschiedene ungerade Primzahlen, dann gilt
@@ -659,7 +661,7 @@ Die Fälle $p = 2$, oder $a \equiv 0 \bmod p$ werden als trivial angesehen und d
 				\[
 					\tau = \sum_{1 \le a \le q-1} \underbrace{\legsym aq \zeta^a}_{\in \Z[\zeta]},
 				\]
-				mit $\Z[\zeta] = \{ a_0 + a_1 \zeta^1 + \dotsb + a_{q-1} \zeta^{q-1} : a_j \in \Z\}$.
+				mit $\Z[\zeta] = \{ a_0 + a_1 \zeta^1 + \dotsb + a_{q-1} \zeta^{q-1} : a_j \in \Z\} \le \C$.
 
 				Wir nehmen zunächst an, dass
 				\begin{equation} \label{eq:2.15_1}
@@ -728,8 +730,8 @@ Die Fälle $p = 2$, oder $a \equiv 0 \bmod p$ werden als trivial angesehen und d
 					&\stack{c:=a\tilde b}= \;\; \sum_{c,b} \legsym cq \zeta^{bc-b} \\
 					&= \sum_{c\neq 1} \Big( \legsym cq \sum_{b} \zeta^{(c-1)b} \Big) + \underbrace{\legsym 1q \sum_{b} \legsym 1q}_{=q-1}
 				\intertext{%
-					$\xi := \zeta^{c-1}$ ist ebenfalls eine $q$-te Einheitswurzel und daher $\sum_{b} \zeta^{(1-c)b} = \sum_{b=1}^{q-1} \xi^b = -1$.
-					Zusammen mit $\sum_{c} \legsym cq = 0$ folgt schließlich
+					$\xi := \zeta^{c-1}$ ist ebenfalls eine $q$-te Einheitswurzel und daher $\sum_{b} \zeta^{(c-1)b} = \sum_{b=1}^{q-1} \xi^b = -1$.
+					Zusammen mit $\sum_{c} \legsym cq = 0$ (Quadrate bilden eine Untergruppe vom Index 2) folgt schließlich
 				}
 					&= - \sum_{c\neq 1} \legsym cq + q-1 \\
 					&= - (-1) + q - 1 \\
@@ -740,58 +742,56 @@ Die Fälle $p = 2$, oder $a \equiv 0 \bmod p$ werden als trivial angesehen und d
 				\[
 					\legsym {-1}p \equiv (-1)^{\f{p-1}2} \mod p.
 				\]
-				Da $p$ ungerade folgt $\legsym {-1}p = (-1)^{\f {p-1}2}$.
+				Da $p > 2$ folgt Gleichheit: $\legsym {-1}p = (-1)^{\f {p-1}2}$.
 			\item
-				In $\Z[i] = \{ a + bi : a,b \in \Z \} \le \C$ gilt
-				\[
-					(1 + i)^p
-					= (1 + i)(\underbrace{(1 + i)^2}_{=2i})^{\f {p-1}2}
-					= (1 + i) i^{\f{p-1}2} 2^{\f{p-1}2}
-				\]
-				Ferner gilt $(1 + i)^p \equiv 1 + i^p \bmod p$ ($\binom{p}{j} \equiv 0 \bmod p$ für $1 \le j \le p-1$) und $\legsym 2p \equiv 2^{\f {p-1}2} \bmod p$ nach \ref{2.14} a).
-
-				Sei $\f {p-1}2$ gerade, dann ist $p-1$ durch $4$ teilbar und $i^p = i$, also
-				\[
-					\legsym 2p (1+i) i^{\f {p-1}2}
-					\equiv 1 + i^p
-					\equiv 1 + i \mod p.
-				\]
-				Es gilt
-				\[
-					\legsym 2p (1 + i)(1 - i) (-1)^{\f {p-1}4}
-					\equiv (1 +i)(1 -i) \mod p
-				\]
-				und mit $((-1)^{\f p4})^2 = 1$ damit $\legsym 2p \equiv (-1)^{\f{p-1}4} \bmod p$.
-
-				Sei $\f {p-1}2$ ungerade.
-				Dann gilt
-				\[
-					\legsym 2p (1 +i)i^{\f {p-1}2}
-					\equiv 1 + i^p
-					\equiv 1 -i \mod p
-				\]
-				und mit $1 + i$ multipliziert
-				\[
-					\legsym 2p 2 \underbrace{i i^{{p-1}2}}_{=i^{\f{p+1}2}}
-					\equiv 2 \bmod p,
-				\]
-				also
-				\[
-					\legsym 2p \underbrace{i^{p+1}}_{= 1} \equiv \underbrace{i^{\f{p+1}2}}_{=(-1)^{\f {p+1}4}} \mod p.
-				\]
-				Da $p$ ungerade folgt
-				$\legsym 2p = (-1)^{\f {p-1}4} \mod p$ (im Fall $\f {p-1}2$ gerade), bzw. $\legsym 2p = (-1)^{\f{p+1}4}$ (im anderen Fall).
-				Ist $\f {p-1}2$ gerade, so ist $\f {p+1}2$ ungerade und somit
+				Nach Frobenius gilt für $p$ prim die Äquivalenz $(a + b)^p \equiv a^p + b^p$, im Unterring $\Z[i] = \{ a + bi : a,b \in \Z \} \le \C$ also
+				\begin{align*}
+					1 + i^p
+					&\equiv (1 + i)^p \mod p \\
+					&= (1 + i)(\underbrace{(1 + i)^2}_{=2i})^{\f {p-1}2} \\
+					&= (1 + i) i^{\f{p-1}2} 2^{\f{p-1}2} \\
+					&\stack{2.14 a)}\equiv \;\; \legsym 2p (1+i)i^{\f{p-1}2} \mod p.
+				\end{align*}
+				Wir unterscheiden zwei Fälle:
+				\begin{segnb}{$\f{p-1}2$ gerade}
+					Es gilt dann $4 \divs p - 1$, also $i^p = i$ und somit
+					\[
+						\legsym 2p (1+i) (-1)^{\f{p-1}4}
+						= \legsym 2p (1+i) i^{\f{p-1}2}
+						\equiv 1 + i^p
+						= 1 + i \mod p.
+					\]
+					Multiplikation mit $1 - i$, sowie der Inversen von $2 = (1 + i)(1 - i)$ und mit $(-1)^{\f{p-1}4}$ ergibt
+					\[
+						\legsym 2p
+						\equiv (-1)^{\f{p-1}4} \mod p.
+					\]
+				\end{segnb}
+				\begin{segnb}{$\f{p-1}2$ ungerade}
+					%Es gilt dann $4 \divs p + 1$, also $i^p = -i$ und somit
+					Dann ist
+					\[
+						\legsym 2p (1+i) i^{\f{p-1}2}
+						\equiv 1 + i^p
+						\equiv 1 - i \mod p.
+					\]
+					Multiplikation mit $1 + i$ und dem Inversen von $2$ ergibt $\legsym 2p i^{\f{p+1}2} \equiv 1 \bmod p$.
+					Da $4 \divs p + 1$, d.h. $i^{p+1} = 1$, ergibt sich nach Multiplikation mit $i^{\f{p+1}2} = (-1)^{\f{p+1}4}$ gerade
+					\[
+						\legsym 2p \equiv (-1)^{\f{p+1}4} \mod p.
+					\]
+				\end{segnb}
+				Im Fall $\f{p-1}2$ gerade ist $\f{p+1}2$ ungerade und daher
 				\[
 					(-1)^{\f{p-1}4}
-					= \big((-1)^{\f{p-i}4} \big)^{\f{p+1}2}
+					= \big((-1)^{\f{p-1}4}\big)^{\f{p+1}2}
 					= (-1)^{\f{p^2-1}8}.
 				\]
-				Wenn $\f {p-1}2$ ungerade, dann ist
+				Im Fall $\f{p-1}2$ ungerade ist
 				\[
-					(-1)^{\f {p+1}4}
-					= \big( (-1)^{\f {p+1}4} \big)^{\f{p-1}2}
-					= (-1)^{\f {p^2 - 1}8}.
+					(-1)^{\f{p+1}4}
+					= \big((-1)^{\f{p+1}4}\big)^{\f{p-1}2}
+					= (-1)^{\f{p^2-1}8}.
 				\]
 		\end{enumerate}
 	\end{proof}
@@ -800,29 +800,31 @@ Die Fälle $p = 2$, oder $a \equiv 0 \bmod p$ werden als trivial angesehen und d
 \coursetimestamp{08}{05}{2014}
 
 % Bem + Bsp 2.16
-\begin{nt} \label{2.16}
+\begin{ex} \label{2.16}
+	Aus \ref{2.15} a) folgt unmittelbar
 	\begin{enumerate}[a)]
 		\item
 			Es gilt
 			\[
 				\legsym pq = \legsym qp
 			\]
-			wenn $p \equiv 1 \bmod 4$ oder $q \equiv 1 \bmod 4$.
-			Außerdem
+			wenn $p \equiv 1 \bmod 4$ oder $q \equiv 1 \bmod 4$,
+			bzw.
 			\[
 				\legsym pq = - \legsym qp
 			\]
 			wenn $p \equiv 3 \bmod 4$ und $q \equiv 3 \bmod 4$.
 		\item
 			Ist $5$ ein Quadrat in $\Z / 23\Z$?
-			Wir interessieren uns also für
+			Wir rechnen
 			\[
 				\legsym 5{23}
 				= \legsym {23}5
 				= \legsym 35
 				= -1,
 			\]
-			die Antwort ist also „nein“.
+			wobei $\legsym 35 = 3^{\f{5-1}2} \bmod 5 = 9 \bmod 5 = -1$ mittels \ref{2.14} b) ermittelt werden kann.
+			Die Antwort ist also „nein“.
 		\item
 			Wegen $67 \equiv 3 \bmod 4, 139 \equiv 3 \bmod 4$ ist
 			\begin{align*}
@@ -834,18 +836,25 @@ Die Fälle $p = 2$, oder $a \equiv 0 \bmod p$ werden als trivial angesehen und d
 				&= - \legsym{2}{67}
 				= - (-1)^{\f{67^2-1}{8}}
 				= - (-1)^{33\cdot 17}
-				= 1
+				= 1,
 			\end{align*}
+			also ist $67$ ein Quadrat modulo $139$.
 	\end{enumerate}
-\end{nt}
+\end{ex}
 
-Zum Abschluss dieses Kapitels noch zwei Anwendungen.
+
+\section{Anwendungen}
+
+
+Zum Abschluss dieses Kapitels betrachten wir noch zwei Anwendungen.
+
+\subsection{Primzahlen in arithmetischen Progressionen}
 
 \begin{df*}
-	Sei $n, m \in \N$
+	Sei $n, m \in \N$.
 	Man bezeichnet die Menge aller Repräsentanten der Restklasse $n \bmod m$, d.h.
 	\[
-		\{ n + km : k \in \N \},
+		\{ n + km : k \in \N \}
 	\]
 	als \emphdef[analytische Progression]{analytische Progression $n \bmod m$}.
 \end{df*}
@@ -853,85 +862,94 @@ Zum Abschluss dieses Kapitels noch zwei Anwendungen.
 \begin{st}[Dirichlet] \label{2.17}
 	In jeder arithmetischen Progression $n \bmod m$ mit $(n,m) = 1$ befinden sich unendlich viele Primzahlen.
 	\begin{note}
-		Der Satz gehört in die analytische Zahlentheorie, der Beweis verwendet analytische Methoden.
+		Der Satz gehört in die analytische Zahlentheorie und der Beweis verwendet analytische Methoden.
 
 		Genauer kann man zeigen, dass asymptotisch
 		\[
-			\# \text{Primzahlen $\le x$ in $n \bmod m$}
+			\big| \Set{p = n + km \in \P & p \le x} \big|
 			\sim
 			\f {x}{\phi(m) \log x}.
 		\]
-		Bezeichne $\pi(x)$ die Anzahl der Primzahlen $\le x$, dann besagt der sogenannte Primzahlsatz, dass asymptotisch
+		Bezeichne $\pi(x)$ die Anzahl der Primzahlen kleiner oder gleich $x$, dann besagt der sogenannte Primzahlsatz, dass asymptotisch
 		\[
-			\pi(x) \sim \f{x}{\log x}.
+			\pi(x) \sim \f{x}{\log x}
 		\]
+		gilt.
 		Im Augenblick müssen wir uns mit Spezialfällen dieses Satzes begnügen.
 	\end{note}
 	\begin{proof}[Für den Spezialfall $1 \bmod 4$]
-		Angenommen, es gäbe nur endlich viele Primzahlen $p_1, \dotsc, p_k$, die $\equiv 1 \bmod 4$ sind.
+		Angenommen, es gäbe nur endlich viele Primzahlen $p_1, \dotsc, p_k \equiv 1 \bmod 4$.
 		Setze
 		\[
 			n = (2 p_1 p_2 \dotsb p_k)^2 + 1
 		\]
 		Dann ist $n \equiv 1 \bmod 4$.
-		Ist $q$ ein Primteiler von $n$, so ist $2(p_1\dotsb p_k)^2 + 1 \equiv 0 \bmod q$, also $-1$ ist Quadrat modulo $q$, d.h. $\legsym{-1}{q} = 1$.
+		Ist $q$ ein Primteiler von $n$, so ist $(2p_1\dotsb p_k)^2 + 1 \equiv 0 \bmod q$, also $-1$ ist Quadrat modulo $q$, d.h. $\legsym{-1}{q} = 1$.
 
-		Nach dem ersten Ergänzungssatz ist $\legsym{-1}{q} = (-1)^{\f{q-1}2}$, also ist $q \equiv 1 \bmod 4$.
-		Nach Konstruktion von $n$ sind alle Primteiler von $n$ kongruent zu $3 \bmod 4$.
+		Nach dem ersten Ergänzungssatz ist $1 = \legsym{-1}{q} = (-1)^{\f{q-1}2}$, also ist $q \equiv 1 \bmod 4$.
+		Nach Konstruktion von $n$ sind jedoch alle Primteiler von $n$ kongruent zu $3 \bmod 4$, ein Widerspruch.
 	\end{proof}
 	\begin{proof}[Für den Spezialfall $3 \bmod 4$]
 		siehe Übung.
 	\end{proof}
 \end{st}
 
-
-
+\subsection{Diophantische Gleichungen}
 
 % St 2.18
 \begin{st} \label{2.18}
 	Die diophantische Gleichung $x^2 + by = a$ mit $(a,b) = 1$ ist genau dann lösbar, wenn gilt
-	\begin{enumerate}[i)]
+	\begin{enumerate}[(i)]
 		\item
-			Für jede ungerade Primzahl $p$, die $b$ teilt, ist $\legsym ap = 1$,
+			Für jeden ungeraden Primteiler $p$ von $b$, ist $\legsym ap = 1$,
 		\item
-			falls $2$ Teiler von $b$, dann gilt
+			Falls $2 \divs b$, dann gilt
 			\begin{align*}
-				4 \divs b \land 8 \ndivs b & \implies a \equiv 1 \bmod 4, \\
+				4 \divs b & \implies a \equiv 1 \bmod 4, \\
 				8 \divs b & \implies a \equiv 1 \bmod 8.
 			\end{align*}
 	\end{enumerate}
 	\begin{proof}
-		Ist $a$ ein Quadrat in $\Z / b\Z$, dann ist $a \equiv c^2 \bmod b$, also $a-c^2 = kb$ für ein $k \in \Z$.
-		Damit ist $a = kb + c^2$.
-		Setze $y = k$ und $x = c$.
-		Sofort sieht man die Umkehrung.
-		Sei nun $b = p_1^{\alpha_1} \dotsb p_r^{\alpha_r}$ die Primzahlzerlegung.
-		\begin{enumerate}[1)]
-			\item
-				$a$ ist Quadrat in $U(\Z / b \Z)$ genau dann, wenn $a$ Quadrat in $U(\Z /p_i^{\alpha_i})$ ist.
-				Dies folgt aus \ref{1.14}.
-			\item
-				Ist $p$ ungerade, dann ist $a$ ein Quadrat in $U(\Z / p_i^{\alpha_i} \Z)$ genau dann, wenn $a$ Quadrat in $U(\Z/p_i \Z)$ ist.
+		Wegen $(a,b) = 1$ ist stets $a \in U(\Z / b\Z)$.
+		$x^2 + by = a$ ist genau dann lösbar, wenn $a$ ein Quadrat modulo $b$ ist.
+		Sei $b = p_1^{a_1} p_2^{a_2} \dotsb p_r^{a_r}$ (ohne Einschränkung $p_1 = 2$) die Primfaktorzerlegung von $b$.
+		Mittels \ref{1.14} ist $a$ genau dann ein Quadrat in $U(\Z / b\Z)$, wenn $a$ ein Quadrat in $U(\Z / p_i^{a_i}\Z)$ ist für jedes $1 \le i \le r$.
+		Weiter ist für $p_i$ ungerade $a$ genau dann ein Quadrat in $U(\Z / p_i^{a_i} \Z)$, wenn $a$ ein Quadrat in $U(\Z / p_i \Z)$ ist (siehe entsprechende Übungsaufgabe), dies ist genau die Forderung in (i).
+		%Beweis ist Übung \Exercise: Verwende $\kappa: \Z / p^{\alpha} \Z \to \Z / p \Z$ mit $x \bmod p^\alpha \mapsto x \bmod p$.
+		%Betrachte $\tilde \kappa = \kappa\big|_{U(\Z / p^{\alpha} \Z)}$.
+		%$\ker \tilde \kappa$ hat $p$ Potenzordnung, also ungerade Ordnung.
+		%In endlichen abelschen Gruppen ungerader Ordnung ist jedes Element ein Quadrat.
+		%Also ist $u \in U(\Z / p^{\alpha} \Z)$ Quadrat, wenn $\tilde \kappa(a)$ Quadrat ist.
 
-				Beweis ist Übung \Exercise: Verwende $\kappa: \Z / p^{\alpha} \Z \to \Z / p \Z$ mit $x \bmod p^\alpha \mapsto x \bmod p$.
-				Betrachte $\tilde \kappa = \kappa\big|_{U(\Z / p^{\alpha} \Z)}$.
-				$\ker \tilde \kappa$ hat $p$ Potenzordnung, also ungerade Ordnung.
-				In endlichen abelschen Gruppen ungerader Ordnung ist jedes Element ein Quadrat.
-				Also ist $u \in U(\Z / p^{\alpha} \Z)$ Quadrat, wenn $\tilde \kappa(a)$ Quadrat ist.
-			\item
-				Sei $2^s$ $2$-Potenzteiler von $b$ (maximale 2er-Potenz, die $b$ teilt).
-				Für $s = 1$ ist in $U(\Z / 2\Z)$ also ein Quadrat.
-				Für $s = 2$ ist nur $1 \bmod 4$ ein Quadrat.
-				Für $s = 3$ ist nur $1 \bmod 8$ ein Quadrat.
-				Für $s > 2$ ist $U(\Z / 2^s \Z) \isomorphic C_2 \times C_{2^{s-1}}$ nach \ref{2.10}.
-				Betrachte
+		Mit dieser Vorüberlegung verbleibt also lediglich zu zeigen, dass $a$ genau dann ein Quadrat in $U(\Z / 2^{a_1} \Z)$ ist, wenn (ii) erfüllt ist.
+		\begin{seg}{\ProofImplication}
+			Die Quadrate modulo $4$ sind $\Set{0, 1}$ und die modulo $8$ sind $\Set{0, 1, 4}$.
+			Gilt $4 \divs b$, d.h. $a_1 \ge 2$, dann ist $a$ auch ein Quadrat modulo $4$.
+			Ist analog $8 \divs b$, d.h. $a_1 \ge 3$, dann ist $a$ auch ein Quadrat modulo $8$.
+		\end{seg}
+		\begin{seg}{\ProofImplication*}
+			Wir unterscheiden die folgenden Fälle.
+			\begin{segnb}{$a_1 \in \Set{0, 1}$}
+				$U(\Z / 2^{a_1} \Z) = 1$ ist trivial und $a$ ist hierin ein Quadrat.
+			\end{segnb}
+			\begin{segnb}{$a_1 \in \Set{2, 3}$}
+				Nach Voraussetzung ist wie gewünscht $a \equiv 1 \bmod 2^{a_1}$ ein Quadrat in $U(\Z / 2^{a_1} \Z)$.
+			\end{segnb}
+			\begin{segnb}{$a_1 \ge 3$}
+				Betrachte $\kappa: U(\Z / 2^{a_1} \Z) \to U(\Z / 8\Z), x \bmod 2^{a_1} \mapsto x \bmod 8$.
+				Gemäß \ref{2.10} ist
 				\[
-					\tilde \kappa: U(\Z / 2^s \Z) \to U(\Z / 8\Z)
+					U(\Z / 2^{a_1} \Z) \isomorphic \<-1 \bmod 2^{a_1}\> \<5 \bmod 2^{a_1}\>,
 				\]
-				Ist $x = y^2$ in $\Z / 2^s\Z$, dann ist $\tilde \kappa(x) = \tilde \kappa(y^2) = \tilde \kappa(y) \tilde \kappa(y)$, also ist $\tilde \kappa(x)$ ein Quadrat in $U(\Z / 8\Z)$ und somit $\tilde \kappa(x) \equiv 1 \bmod 8$, also $x \in \ker \tilde \kappa$.
-				Ist $x \in \ker \tilde x$, dann ist $x = \_5^i$ mit $2$ teilt $i$ und somit $x$ ein Quadrat.
-				Also bildet $\ker \tilde \kappa$ alle Quadrate, also alle Elemente von $U(\Z / 2^s \Z)$, die $\equiv 1 \bmod 8$ sind.
-		\end{enumerate}
+				d.h. die Elemente von $U(\Z / 2^{a_1} \Z)$ sind von der Form $x = \pm 5^i \bmod 2^{a_1} \in U(\Z / 2^{a_1} \Z)$ und somit $\kappa(x) = \pm 5^i \bmod 8$.
+				Betrachtet man diese Form und die endlich vielen Werte, die $\kappa(x)$ annimmt, so stellt man fest
+				\[
+					\kappa(x) = 1 \quad\iff\quad x = 5^i \bmod 2^{a_1} \text{ mit } 2 \divs i.
+				\]
+				Mit anderen Worten $x \in U(\Z / 2^{a_1} \Z)$ ist genau dann ein Quadrat, wenn $\kappa(x) = 1$ ist.
+				Nun ist $\kappa(a) = a \bmod 8 = 1$ nach Voraussetzung, also $a$ ein Quadrat in $U(\Z / 2^{a_1} \Z)$.
+			\end{segnb}
+		\end{seg}
 	\end{proof}
 \end{st}
 
