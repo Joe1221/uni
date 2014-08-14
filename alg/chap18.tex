@@ -63,13 +63,13 @@ Darum geht es in der „Galoistheorie“ (nach Évariste Galois, 1811-1832), die
 \end{st}
 
 \begin{kor} \label{18.1-5}
-	Alle polynomialen Gleichungen über Körpern besitzen Lösungen (in entsprechenden Erweiterungskörpern).
+	Jede polynomiale Gleichung über einem Körper besitzt Lösungen in entsprechenden Erweiterungskörpern.
 \end{kor}
 
 \begin{ex} \label{18.1-6}
 	Hier folgt eine rein \emph{algebraische} Konstruktion von $\sqrt 2 \in \R$, ganz ohne analysis und Approximation.
 	$x^2 - 2 \in \Q[x]$ ist irreduzibel, also ist $\sqrt 2 \not\in \Q$.
-	Im Erweiterungskörper $E = \Q[x] / I$ mit $I = (x^2 - 2) \Q[x]$ ist $\sqrt 2 = x + I$ eine Quadratwurzel von $2$.
+	Im Erweiterungskörper $E = \Q[x] / I$ mit $I = (x^2 - 2) \Q[x]$ ist $\sqrt 2 := x + I$ eine Quadratwurzel von $2$.
 
 	Vorsicht ist jedoch geboten:
 	Nicht alle reellen Zahlen lassen sich so als Restklassen von $x$ in einem Faktorring von $\Q[x]$ konstruieren: $\pi$ ist ein Beispiel.
@@ -77,8 +77,10 @@ Darum geht es in der „Galoistheorie“ (nach Évariste Galois, 1811-1832), die
 \end{ex}
 
 \begin{ex*}
-	Sei $E = \Q[x] / (x^2 - 2)\Q[x]$ wie in \ref{18.1-6}, d.h. nachdem man $x$ mit $\sqrt 2$ identifiziert $E = \Set{ r + s \sqrt 2 & r,s \in \Q }$.
-
+	Sei $E = \Q[x] / (x^2 - 2)\Q[x]$ wie in \ref{18.1-6}, d.h. nachdem man $x$ mit $\sqrt 2$ identifiziert:
+	\[
+		E = \Set{ r + s \sqrt 2 & r,s \in \Q }.
+	\]
 	Wie sieht das Element $\f 1{\sqrt 2}$ in $E$ aus?
 \end{ex*}
 
@@ -130,25 +132,32 @@ Wir haben zwei Fälle:
 Im Folgenden sei $K$ stets ein Körper.
 
 \begin{df} \label{dup:18.3-1}
-	Sei $E$ Erweiterungskörper von $K$.
+	Sei $K \subset E$ eine Körpererweiterung.
 	\begin{enumerate}[i)]
 		\item
 			Die Körpererweiterung $K \subset E$ heißt \emphdef[Körpererweiterung!endlich]{endlich}, falls $[E : K]$ endlich ist, sonst \emphdef[Körpererweiterung!unendlich]{unendlich}
 		\item
-			Ist $S \subset E$ so, dass $E = \<K \cup S\>_{\text{Körper}}$ gilt, so heißt $S$ \emphdef{Erzeugendensystem} von $E$ über $K$ und wir schreiben $E = K(S)$.
-			Besteht $S$ aus genau einem Element $S = \{ \alpha \}$, $\alpha \in E$, so schreiben wir auch kürzer $E = K(\alpha) = K(\{\alpha\})$ und $E$ heißt \emphdef[Körpererweiterung!einfache]{einfache Körpererweiterung}.
-			Das Element $\alpha \in E$ wird dann \emphdef{primitives Element} von $E$ über $K$ genannt.
+			Sei $S \subset E$ eine Teilmenge mit $E = \<K \cup S\>_{\text{Körper}}$.
+			Dann heißt $S$ \emphdef{Erzeugendensystem} von $E$ über $K$ und wir schreiben $E = K(S)$.
 		\item
-			Ist $E = K(S), S = \{\alpha_1, \dotsc, \alpha_k\}$, so schreiben wir $K(\alpha_1, \dotsc, \alpha_k) = E$ anstatt $E = K(\{\alpha_1, \dotsc, \alpha_k\})$.
+			Ist $E = K(S), S = \{\alpha_1, \dotsc, \alpha_k\}$, so schreiben wir $E = K(\alpha_1, \dotsc, \alpha_k)$ statt $E = K(\{\alpha_1, \dotsc, \alpha_k\})$.
+		\item
+			Besteht $S = \Set{\alpha}$ aus genau einem Element, so heißt $E = K(S) = K(\alpha)$ \emphdef[Körpererweiterung!einfache]{einfache Körpererweiterung}.
+			Das Element $\alpha \in E$ wird dann \emphdef{primitives Element} von $E$ über $K$ genannt.
 	\end{enumerate}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Ist $S \subset K$, so ist $K(S) = K$.
+			\item
+				Ist $S \subset E = K(S)$ und $\hat S = \{ \alpha \in S : \alpha \not\in K\}$, so ist $E = K(\hat S) = K(S)$.
+			\item
+				Immer gilt $E = K(S)$ mit $S = E$ (oder $S = E \setminus K$).
+				Daher besitzt jede Körpererweiterung ein Erzeugendensystem.
+		\end{itemize}
+	\end{note}
 \end{df}
 
-\begin{note}
-	Ist $S \subset K$, so ist $K(S) = K$.
-	Ist $S \subset E = K(S)$ und $\hat S = \{ \alpha \in S : \alpha \not\in K\}$, so ist $E = K(\hat S) = K(S)$.
-	Immer gilt $E = K(S)$ mit $S = E$ (oder $S = E \setminus K$).
-	Daher besitzt jede Körpererweiterung ein Erzeugendensystem.
-\end{note}
 
 \begin{ex*}
 	\begin{enumerate}[1.)]
@@ -179,7 +188,9 @@ Wir haben das folgende Lemma:
 		\eps_\alpha: K[x] \to E: \sum_{i=0}^n \beta_i x^i \mapsto \sum_{i=0}^n \beta_i \alpha^i,
 	\]
 	mit $\beta_i \in K$, $0 \le i \le n$ einen $K$-Algebra Homomorphismus.
-	Ist $\eps_\alpha$ injektiv, so lässt sich $\eps_\alpha$ zu einer Einbettung $\hat \eps_\alpha: Q(K[x]) = K(x) \to E$ ausdehnen und $\im \hat \eps_\alpha$ ist der Unterkörper $K(\alpha)$ von $E$.
+
+	Ist $\eps_\alpha$ injektiv, so lässt sich $\eps_\alpha$ zu einer Einbettung $\hat \eps_\alpha: K(x) := Q(K[x]) \to E$ ausdehnen und $\im \hat \eps_\alpha$ ist der Unterkörper $K(\alpha)$ von $E$.
+
 	Ist $\eps_\alpha$ nicht injektiv, so ist $\ker \eps_\alpha = pK[x]$ ein Primideal ungleich $(0)$ von $K[x]$ und induziert einen $K$-linearen Körperisomorphismus von $K[x] / pK[x]$ auf $K(\alpha) \subset E$.
 	In diesem Fall ist das Polynom $p \in K[x]$ irreduzibel und bis auf Skalare das eindeutig bestimmte Polynom kleinsten Grades mit Nullstelle $\alpha$ ($p(\alpha) = 0$).
 \end{lem}
