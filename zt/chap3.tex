@@ -5,49 +5,68 @@
 % 3.1
 \section{Das RSA-Verfahren}
 
-Das Verfahren wurde 1977/1978 am MIT von Rivest, Shamir und Adelman entwickelt (soll aber bereits vorher, zumindest in ähnlicher Form MI6 bekannt gewesen sein).
+Das Verfahren wurde 1977/1978 am MIT von Rivest, Shamir und Adelman entwickelt (soll aber bereits vorher, zumindest in ähnlicher Form dem britischen Geheimdienst MI6 bekannt gewesen sein).
 
 Das RSA-Verfahren ist ein sogenanntes asymmetrisches kryptographisches Verfahren.
 Solche finden Anwendung bei Verschlüsselung von Nachrichten, bei digitalen Signaturen, Bezahlung mit Kreditkarten, Pay-TV.
 
-Mathematisch gesehen war es der Retter der Königin der Mathematik (der elementaren Zahlentheorie).
-Diese hatte bis dahin nämlich kaum praktischen Anwendungsgebiete gehabt.
+Mathematisch gesehen war es die Rettung für die Königin der Mathematik (die elementaren Zahlentheorie).
+Diese hatte bis dahin nämlich kaum praktische Anwendungsgebiete gehabt.
 
 
-\paragraph{Ein Szenario}
-Ein Kunde möchte seiner Bank über einen unsicheren/öffentlichen Weg eine geheime Botschaft übermitteln.
-Bezeichne den Kunden mit $K$, die Bank mit $B$.
-$K$ teilt $B$ mit, dass er eine Nachricht $m$ übermitteln will.
-$B$ wählet zwei (große) Primzahlen $p$ und $q$, $p \neq q$ und berechnet $n := pq$ und $\phi(n) = (p-1)(q-1)$.
-$B$ wählt $e$ mit $(e, \phi(n)) = 1$.
-Dann berechnet $B$ ein $d \in \N$ mit $ed \equiv 1 \bmod \phi(n)$.
-Soein $d$ existiert, da $(e, \phi(n)) = 1$.
-Wie berechnet man $d$?
-Mit dem Lemma von Beszout ist $z_1 e + z_2 \phi(n) = 1$ und der euklidische Algorithmus liefert $z_1 = d$.
-$B$ sendet das Paar $(n, e)$ (“public key”) öffentlich an $K$, $d$ bleibt geheim.
-$K$ sendet $m$ (als Restklasse modulo $n$ betrachtet) mittels Chiffrierung
-\[
-	m \mapsto m^e \mod n
-\]
-an $B$.
-$(n, e)$ und $m^e$ sind also öffentlich bekannt, während $m$ geheim bleibt.
-$B$ dechiffriert mittels $d$
-\[
-	m \equiv m^{ed} \mod n
-\]
-Warum funktioniert dies?
+\subsection*{Ein Szenario}
 
-
-Zunächst eine Art Verallgemeinerung des kleinen Satzes von Fermat.
+Ein Kunde $K$ möchte seiner Bank $B$ über einen unsicheren/öffentlichen Weg eine geheime Botschaft übermitteln.
+\begin{enumerate}[1.]
+	\item
+		\begin{enumerate}[a)]
+			\item
+				$B$ wählt zwei (große) Primzahlen $p, q \in \P$ mit $p \neq q$.
+			\item
+				$B$ ermittelt $n := pq$ und $\phi(n) = (p-1)(q-1)$ (siehe \ref{1.15}).
+			\item
+				Anschließend wählt $B$ ein $e > 1$ (“public key exponent”) mit $(e, \phi(n)) = 1$.
+			\item
+				Dann berechnet $B$ ein $d \in \N$ (“private key exponent”) mit $ed \equiv 1 \bmod \phi(n)$ (soein $d$ lässt sich wegen $(e, \phi(n)) = 1$ beispielsweise mit dem euklidischen Algorithmus finden: $z_1 e + z_2 \phi(n) = 1$ und man wählt $d := z_1$).
+		\end{enumerate}
+	\item
+		$B$ sendet das Paar $(n, e)$ (“public key”) öffentlich an $K$, während er $d$ und $\phi(n)$ geheim hält.
+	\item
+		$K$ chiffriert seine Nachricht $m$ (als Restklasse modulo $n$ betrachtet) mittels
+		\[
+			m \mapsto m^e \mod n
+		\]
+		und sendet $m^e$ an $B$ (es sind nun also $(n, e)$ und $m^e$ öffentlich bekannt).
+	\item
+		$B$ dechiffriert $m^e$ mittels $d$
+		\[
+			m^e \mapsto m^{ed} \equiv m \mod n
+		\]
+		und erhält die ursprüngliche Nachricht zurück.
+\end{enumerate}
+Warum funktioniert die Entschlüsselung in 4.?
+Diese Frage wird von folgendem Lemma beantwortet, welches eine Art Verallgemeinerung des kleinen Fermats ist.
 
 \setcounter{thm}{1}
 % Lem 3.2
 \begin{lem} \label{3.2}
-	In $\Z / n \Z$ gilt für $n = pq$ mit $p,q \in \P$, dass
+	Seien $p, q \in \P, n := pq$.
+	Dann gilt für alle $x, k \in \Z$
 	\[
-		x^{k\phi(n) + 1} \equiv x \mod n
+		x^{k\phi(n) + 1} \equiv x \mod n.
 	\]
-	für jedes $x$.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Im RSA-Verfahren wird $d$ so gewählt, dass $ed \equiv 1 \bmod \phi(n)$, also liefert das Lemma $m^{ed} \equiv m \bmod n$, den Beweis für die korrekte Entschlüsselung der Nachricht.
+			\item
+				Die Aussage lässt sich für beliebige $n \in \N$ verallgemeinern und ist dann besser bekannt als \emphdef{Satz von Euler} in folgender Formulierung: Es gilt
+				\[
+					a^{\phi(n)} \equiv 1 \mod n
+				\]
+				für $(a, n) = 1$.
+		\end{itemize}
+	\end{note}
 	\begin{proof}
 		Mit \ref{1.14} ist $Z / n\Z = \Z /p\Z \times \Z q\Z$ und $x = (x_1, x_2)$, also $x^{\phi(n)} = (x_1^{\phi(n)}, x_2^{\phi(n)})$ und
 		\[
@@ -85,24 +104,29 @@ Zunächst eine Art Verallgemeinerung des kleinen Satzes von Fermat.
 	\end{proof}
 \end{lem}
 
-Damit ein Außenstehender an die geheime Nachricht $m$ kommt, benötigt er $d$.
-
 % Lem 3.3
 \begin{lem} \label{3.3}
-	Die Kenntnis von $n$ und $\phi(n)$ ist äquivalent zur Kenntnis von $p$ und $q$.
+	Seien $p, q \in \P, n := pq$.
+
+	Ist $n$ bekannt, so ist die Komplexität der Berechnung von $\phi(n)$ gleich der Komplexität der Faktorisierung von $n = pq$.
+	\begin{note}
+		Gäbe es einen einfachen Weg, um $\phi(n)$ für die Entschlüsselung aus $n$ zu berechnen, so könnte man also auch ohne weiteren Aufwand $n$ faktorisieren.
+		Da das Faktorisieren von Zahlen allerdings ein anerkannt „schwieriges Problem“ darstellt, liefert das Lemma eine gewisse theoretische Sicherheit für das RSA-Verfahren.
+	\end{note}
 	\begin{proof}
 		\begin{segnb}{$\impliedby$}
-			Klar, denn für bekanntes $p, q$ ist $n = pq$ und $\phi(n) = (p-1)(q-1)$.
+			Sind $p, q$ bekannt, so ergibt sich offenbar $\phi(n) = (p-1)(q-1)$.
 		\end{segnb}
 		\begin{segnb}{$\implies$}
-			Seien $n$ und $\phi(n)$ bekannt.
+			Sei nun $\phi(n)$ bekannt.
+			Da $n$ das Produkt zweier Primzahlen $p, q \in \P$ ist, gilt
 			\[
 				\phi(n)
 				= (p-1)(q-1)
 				= pq - p - q + 1
 				= n - p - q + 1,
 			\]
-			also
+			also $p = n - \phi(n) - q + 1$ und eingesetzt in $n = pq$:
 			\[
 				n = pq = nq - \phi(n)q - q^2 + q,
 			\]
@@ -110,14 +134,11 @@ Damit ein Außenstehender an die geheime Nachricht $m$ kommt, benötigt er $d$.
 			\[
 				q^2 + (\phi(n) - n - 1)q + n = 0.
 			\]
-			Aus dieser quadratischen Gleichung ergeben sich $p, q$ als Lösungen.
+			Auf analoge Weise erfüllt $p$ ebenfalls die selbe quadratische Gleichung.
+			Somit ergeben sich $p,q$ explizit durch Lösen einer quadratischen Gleichung.
 		\end{segnb}
 	\end{proof}
 \end{lem}
-
-Um $d$ zu berechnen benötigt man $\phi(n)$ und für $\phi(n)$ benötigt man $p$ und $q$.
-Man benötigt also Verfahren, um große Zahlen in Primfaktoren zu zerlegen.
-Dies ist schwer, oft praktisch unmöglich.
 
 \coursetimestamp{12}{05}{2014}
 
@@ -129,16 +150,19 @@ Dies ist schwer, oft praktisch unmöglich.
 			Sei $n = 11 \cdot 31 = 341$, dann ist $\phi(n) = 300$.
 			Die Mitternachtsformel liefert für
 			\[
-				q^2 + q(300 - 342) + 341 = 0
+				q^2 + q(300 - 341 - 1) + 341 = 0
 			\]
 			die Lösung $q_{1,2} = \f{42 \pm \sqrt{42^2 - 4\cdot 341}}2 = 21 \pm 10$.
 		\item
 			Sei $(n, e) = (667, 15)$.
-			Gesendet wird $424$, wie lautet die Nachricht von K an B?.
+			Gesendet wird $m^e = 424$, wie lautet die Nachricht von K an B?
+
+			Man faktorisiere dazu $n = 667 = 23 \cdot 29$ und berechne $\phi(n) = 22 \cdot 28 = 616$.
+			Anschließend findet man mit Hilfe des euklidischen Algorithmus $d = 21$ mit $ed = 15 \cdot 21 \equiv 1 \bmod 616$ und erhält schließlich $m = m^{ed} = 424^{21} \equiv 99 \bmod 667$.
 	\end{enumerate}
 \end{ex}
 
-Das RSA-Verfahren liefert einen Grund gegegben Zahlen $n \in \N$ zu faktorisieren, oder zumindest zu prüfen, ob $n$ eine Primzahl ist.
+Das RSA-Verfahren liefert einen Grund gegebene Zahlen $n \in \N$ zu faktorisieren oder zumindest zu prüfen, ob $n$ eine Primzahl ist.
 Dies motiviert Primzahltests.
 
 \section{Primzahltests}
