@@ -593,7 +593,7 @@ Im nächsten Satz formulieren wir eine notwendige und hinreichende Bedingung, wa
 		\item
 			Der Beweis von \ref{18.4-7} benötigt das Lemma von Zorn, ist also nicht konstruktiv.
 		\item
-			Die Fortsetzung $\sigma'$ von $\sigma: K \to L$ in \ref{18.4-7} ist im Allgemeinen nicht eindeutig (ebenso, wie im Beweis ds maximale Element von $\scr M$ nicht eindeutig ist).
+			Die Fortsetzung $\sigma'$ von $\sigma: K \to L$ in \ref{18.4-7} ist im Allgemeinen nicht eindeutig (ebenso, wie im Beweis das maximale Element von $\scr M$ nicht eindeutig ist).
 
 			Die maximalen Elemente von $\scr M$ sind genau von der Form $(E, \sigma_i)$, wobei $\sigma_i$ die \emph{verschiedenen} Fortsetzungen von $\sigma$ auf $E$ seien.
 	\end{enumerate}
@@ -758,11 +758,11 @@ Nun wirds algebraisch/analytisch.
 Wir identifizieren die Punktmenge der euklidischen Ebene $E$ mit dem $\R^2$ und den $\R^2$ mit $\C$, der komplexen Zahlenebene.
 Wir wählen $A, B \in \scr P_0$ mit $A \neq B$ und koordinatisieren $E$, indem wir $A$ als Ursprung, $AB$ als $x$-Achse und $d(A,B)$ als Längeneinheit wählen: $A = 0 \in \C, B = 1 \in \C, d(A, B) = 1$.
 Dann ist nach \ref{18.5-2} i) auch $-B = -1 \in \C$ in $\_{\scr P_0}$ enthalten.
-Als Imaginärachse wählen wir die Mittelsenkrechte von $-B$ und $B$ und tragen dort (mit $K(A,B)$ den Punkt $i \in \C$ mit $d(A, i) = d(A, B) = 1$ als Längeneinheit ab).
+Als Imaginärachse wählen wir die Mittelsenkrechte von $-B$ und $B$ und tragen dort (mit $K(A,B)$) den Punkt $i \in \C$ mit $d(A, i) = d(A, B) = 1$ als Längeneinheit ab.
 Dies definiert eine Bijektion zwischen den Punkten der euklidischen Ebene $E$ und dem Körper der komplexen Zahlen.
 
 \begin{df} \label{18.5-3}
-	Sei $\scr P_0$ ein Punktmenge der euklidischen Ebene $E$ mit $|\scr P_0| \ge 2$, $A, B \in \scr P_0$ mit $A \neq B$.
+	Sei $\scr P_0$ eine Punktmenge der euklidischen Ebene $E$ mit $|\scr P_0| \ge 2$, $A, B \in \scr P_0$ mit $A \neq B$.
 	Sei $S \in E$, dann bezeichnen wir mit $z_S \in \C$ das Bild von $S$ in $\C$ unter der oben definierten Bijektion $E \to \C$.
 	Sei $M = \{z_C : C \in \scr P_0\}$.
 	Dann heißt $z \in \C$ \emphdef[geometrisch konstruierbar]{geometrisch aus $M$ konstruierbar}, wenn $z = z_D$ für ein $D \in \_{\scr P_0}$.
@@ -773,11 +773,14 @@ Dies definiert eine Bijektion zwischen den Punkten der euklidischen Ebene $E$ un
 \begin{note}
 	Für $z = r + si \in \C$ ($r, s \in \R$) ist $\_z = r - si \in \C$ die konjugiert komplexe Zahl.
 	In der komplexen Zahlenebene erhält man $\_z$ geometrisch durch Spiegelung von $z$ an der rellen Achse ($x$-Achse).
+
+	Auch für Teilmengen $M \subset \C$ definieren wir $\_M := \Set{\_z & z \in M}$ (nicht zu verwechseln mit der Menge der konstruierbaren Punkte $\_{\scr P_0}$ für eine Teilmenge $\scr P_0 \subset E$).
 \end{note}
 
 \begin{st} \label{18.5-4}
 	Sei $0, 1 \in M \subset \C$.
-	Dann ist $G(M)$ ein Unterkörper von $\C$, also Abgeschlossen bezüglich Addition und Multiplikation und Bildung additiver und multiplikativer Inversen.
+	Dann ist $G(M)$ ein Unterkörper von $\C$, also abgeschlossen bezüglich Addition, Multiplikation und Bildung additiver und multiplikativer Inversen.
+
 	Außerdem gilt: $z \in G(M)$, so gilt auch $\_z$, $\sqrt z \in G(M)$.
 	\begin{proof}
 		\begin{enumerate}[i)]
@@ -804,13 +807,72 @@ Wir können daher immer $i \in M$ annehmen.
 Für $z \in \C$ sei $P_z \in \R^2$ der Punkt mit den Koordinaten $\alpha, \beta$ für $z = \alpha + \beta i$, $\alpha, \beta \in \R$.
 
 \begin{conv} \label{18.5-5}
-	Für $x,y \in \C$, $x \neq y$ sei $x \vee y$ die Verbindungsgerade $P_x P_y \subset \R^2$ und $K(X, Y) \subset \R^2$ der Kreis um $x$ mit Radius $|x-y| = \sqrt{(x-y)\_{(x-y)}} \in \R_{\ge 0}$.
+	Für $x,y \in \C$, $x \neq y$ sei $x \vee y$ die Verbindungsgerade $P_x P_y \subset \R^2$ und $K(x, y) \subset \R^2$ der Kreis um $x$ mit Radius $|x-y| = \sqrt{(x-y)\_{(x-y)}} \in \R_{\ge 0}$.
 \end{conv}
 
 \begin{st} \label{18.5-6}
-	Sei $L = \_L \subset \C$ ein Körper und $z_1, w_1, z_2, w_2 \in L$, $(z_1, w_1) \neq (z_2, w_2)$ und sei $g_j = z_j \vee w_j$ oder $g_j = K(z_j, w_j)$ ($j \in \{1, 2\}$).
-	Sei $z = g_1 \cap g_2 \in \C, L_1 = L(z) \subset \C$.
-	Dann ist $L_1 = \_{L_1}$ und $[L_1 : L] \le 2$.
+	Sei $L = \_L \subset \C$ ein Körper und $z_1, w_1, z_2, w_2 \in L$, $(z_1, w_1) \neq (z_2, w_2)$ und sei für $j \in \Set{1, 2}$ jeweils $g_j := z_j \vee w_j$ oder $g_j := K(z_j, w_j)$.
+
+	Für jedes $z \in g_1 \cap g_2 \subset \C, L_1 := L(z) \subset \C$ ist $L_1 = \_{L_1}$ und $[L_1 : L] \le 2$.
+	\begin{proof}
+		\begin{seg}{$g_1, g_2$ sind beides Geraden}
+			Wegen $g_1 \cap g_2 \neq \emptyset$ sind $g_1, g_2$ nicht parallel.
+			Die $g_j$ für $j \in \Set{1,2}$ sind von der Form
+			\[
+				g_j = \Set{ z_j + \lambda_j(z_j - w_j) & \lambda_j \in \R }.
+			\]
+			Setze $y_j := z_j - w_j$.
+
+			Ein Schnittpunkt $z \in g_1 \cap g_2$ erfüllt folgendes Gleichungssystem über $L$
+			\begin{align*}
+				\lambda y_1 - \mu y_2 &= z_2 - z_1, \\
+				\lambda \_{y_1} - \mu \_{y_2} &= \_{z_2} - \_{z_1}.
+			\end{align*}
+			Für die Determinante ist
+			\[
+				\det(\dotso)
+				= -y_1 \_{y_2} + \_{y_1}y_2 = y_2 \_{y_1} - \_{y_2 \_{y_1}}
+				= 0
+				\iff y_2 \_{y_1} := \rho \in \R
+			\]
+			Multiplikation mit $y_1$ zeigt, dass in diesem Fall auch $y_2 = \frac{\rho}{\_{y_1}y_1} y_1$, d.h. $y_1, y_2$ unterscheiden sich nur um einen reellen Faktor und $g_1, g_2$ sind parallel, ein Widerspruch.
+
+			Also ist $\det(\dotso) \neq 0$ und eine Lösung $(\lambda, \mu) \in L^2$ existiert.
+			Damit ist auch $z = z_1 + \lambda y_1 = z_2 + \mu y_2 \in L$.
+			Also ist $L = L_1$ und $[L_1 : L] = 1$.
+		\end{seg}
+		\begin{seg}{$g_1 = z_1 \vee w_j, g_2 = K(z_2, w_2)$}
+			Setze $r := |z_2 - w_2|$, dann ist $r^2 = \_{(z_2 - w_2)}(z_2 - w_2) \in L \cap \R_{\ge 0}$.
+			$g_2$ ist von der Form
+			\[
+				g_2 = \Set{ z \in \C & (z-z_2)\_{(z-z_2)} = r^2 }.
+			\]
+			Einsetzen der Geradenform $z_1 + \lambda y_1$ von $g_1$ in $g_2$ ergibt wegen $\lambda \in \R$:
+			\[
+				(z_1 + \lambda y_1 - z_2)(\_{z_1} + \lambda \_{y_1} - \_{z_2}) - r^2 = 0
+			\]
+			Dies ist eine quadratische Gleichung für $\lambda$ mit Koeffizienten in $L$, also $L(\lambda) : L] \le 2$.
+			Nun ist $z = z_1 + \lambda y_1 \in L(\lambda)$ und $\lambda = \frac{z-z_1}{y_1} \in L(z)$ ($y_1 = z_1 - w_1 \neq 0$), also $L(z) = L(\lambda)$.
+
+			Für $[L(z) : L] = 1$ ist $L(z) = \_{L(z)}$ klar, sei also $[L(z) : L] = 2$.
+			Dann ist $\Set{1, z}$ eine $L$-Basis und für $a + b z \in L(z)$ ist wegen $\_{a} \_{b} \in L = \_{L}$ auch $\_{a} + \_{b}z = \_{a + b z} \in L(z)$.
+		\end{seg}
+		\begin{seg}{$g_1 = K(z_1, w_1), g_2 = K(z_2, w_2)$}
+			Setze $r_j := |z_j - w_j|$, dann ist $r^2 = \_{(z_j - w_j)}(z_j - w_j) \in L \cap \R_{\ge 0}$ und $g_j$ von der Form
+			\[
+				g_j = \Set{ z \in \C & (z-z_j)\_{(z-z_j)} = r_j^2 }.
+			\]
+			Ein Schnittpunkt erfüllt die Gleichung
+			\begin{align*}
+				(z-z_1)(\_{z}-\_{z_1})-(z-z_2)(\_{z}-\_{z_2}) - r_1^2 + r_2^2 &= 0 \\
+				\iff \qquad
+				(\_{z_2} - \_{z_1}) z + (z_2 - z_1) \_{z} + z_1\_{z_1} - z_2\_{z_2} - r_1^2 + r_2^2 &= 0
+			\end{align*}
+			Auflösen nach $\_z$ und Einsetzen in $g_1$ ergibt eine quadratische Gleichung für $z \in g_1 \cap g_2$ mit Koeffizienten in $L$, d.h. $[L_1 : L] \le 2$.
+
+			Nach obiger Gleichung lässt sich $\_{z}$ als Linearkombination von $1$ und $z$ mit Koeffizienten in $L$ schreiben, also $\_{z} \in L$ und daher $\_{L_1} = L_1$.
+		\end{seg}
+	\end{proof}
 \end{st}
 
 \begin{kor} \label{18.5-7}
@@ -820,8 +882,12 @@ Für $z \in \C$ sei $P_z \in \R^2$ der Punkt mit den Koordinaten $\alpha, \beta$
 	\[
 		L_0 \subset L_1 \subset \dotsb \subset L_k \subset \C
 	\]
-	mit $z \in L_k$ und $[L_i : L_{i-1}] \le 2$ für $i \in \{1, \dotsc, k\}$, $L_k = L_{k-1}(z)$
-	Insbesondere ist $z$ und daher $G(M)$ algebraisch über $L_0$ und $[L_0(z) : L_0]$ eine Potenz von $2$.
+	mit $z \in L_k$ und $[L_i : L_{i-1}] \le 2$ für $i \in \{1, \dotsc, k\}$, $L_k = L_{k-1}(z)$.
+	Insbesondere ist $z$ und daher $G(M)$ algebraisch über $L_0$ und $[L_0(z) : L_0]$ eine $2$er Potenz.
+	\begin{proof}
+		Wegen $z \in G(M)$ findet sich eine Folge $z_1, \dotsc, z_k = z$ so, dass $L_i = L_{i-1}(z_i)$ für $i \in \Set{1, \dotsc, k}$ und sich $z_i$ aus $L_{i-1}$ also Schnittpunkt zweier Geraden, einer Geraden und eines Kreises oder zweier Kreise mit Koeffizienten in $L_{i-1}$ ergibt.
+		Nach \ref{18.5-6} ist dann $[L_i: L_{i-1}] \le 2$, wie erwünscht.
+	\end{proof}
 \end{kor}
 
 Als Konsequenz lässt sich nun zeigen, dass einige (antike) Konstruktionsaufgaben der elmentaren Geometrie nicht lösbar sind.

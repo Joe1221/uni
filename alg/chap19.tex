@@ -31,25 +31,86 @@ Im Folgenden sei $K$ ein Körper, $\_K$ ein fest gewählter algebraischer Abschl
 	\]
 	für alle $f, g \in K[x]$.
 	Abbildungen von $K$-Algebren, die $K$-linear sind und die obige Produktregel erfüllen, heißen \emphdef{Derivationen}.
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			\ddx \Big(\sum_{i=0}^n \lambda_i x^i + \sum_{i=0}^{n} \mu_i x^i \Big)
+			&= \ddx \Big(\sum_{i=0}^{n} (\lambda_i + \mu_i) x^i \Big) \\
+			&= \sum_{i=1}^{n} i(\lambda_i + \mu_i)^{i-1} \\
+			&= \sum_{i=1}^{n} i \lambda_i x^{i-1} + \sum_{i=1}^{n} i \mu_i x^{i-1}.
+		\end{align*}
+		$\ddx (\mu f) = \mu \ddx f$ für $\mu \in K, f \in K[x]$ ist trivial.
+		Es genügt also, die Produktregel für Potenzen $x^i$ von $x$ zu zeigen:
+		\begin{align*}
+			\ddx(x^i x^j)
+			= \ddx(x^{i+j})
+			&= (i+j)x^{i+j-1} \\
+			&= (i x^{i-1}) x^j + x^i (j x^{j-1})
+			= (\ddx x^i) x^j + x^i (\ddx x^j).
+		\end{align*}
+	\end{proof}
 \end{lem}
 
 \begin{lem} \label{19.1-4}
 	Sei $f \in K[x], \deg f \ge 1$ und sei $\alpha \in \_K$ eine Nullstelle von $f$.
 	Dann ist $\alpha$ mehrfache Nullstelle von $f$ (in $\_K$, $f \in K[x] \subset \_K[x]$) genau dann, wenn $\alpha$ auch Nullstelle (in $\_K$) von $f' = \ddx f$ ist, d.h. wenn $f'(\alpha) = 0$.
+	\begin{proof}
+		Wir finden $g \in \_K[x]$ so, dass (in $\_K[x]$) $f(x) = g(x) (x - \alpha)$ gilt.
+		Dann ist mit \ref{19.1-3}
+		\[
+			\ddx f = f' = g'(x)(x-\alpha) + g(x)
+		\]
+		und daher für $x = \alpha$ auch $f'(\alpha) = g(\alpha)$.
+		$\alpha$ ist also Nullstelle von $f'$ genau dann, wenn $\alpha$ Nullstelle von $g \in \_K[x]$ ist.
+
+		Nun hat $g$ die Nullstelle $\alpha$ genau dann, wenn $g(x) = h(x)(x-\alpha)$, d.h. $f(x) = g(x)(x-\alpha) = h(x) (x-\alpha)^2$, also genau dann, wenn $\alpha$ mehrfache Nullstelle von $f$ ist (Eindeutigkeit der Primfaktorzerlegung in $\_K[x]$).
+	\end{proof}
 \end{lem}
 
 \begin{kor} \label{19.1-5}
 	$\alpha \in \_K$ ist genau dann mehrfache Nullstelle von $f \in K[x] \subset \_K[x]$, $\deg f \ge 1$, wenn $\alpha$ Nullstelle von $\ggT(f, f') \in K[x]$ ist.
+	\begin{proof}
+		\begin{segnb}{\ProofImplication}
+			Sei $\_{\alpha} \in \_{K}$ mehrfache Nullstelle von $f$, dann ist $\mu_{\alpha,K} \in K[x]$ Teiler von $f$, d.h. $f = \mu_{\alpha, K} g$ für ein $g \in K[x]$.
+			Wegen $f'(\alpha) = 0$ nach \ref{19.1-4} ist $f' \in \mu_{\alpha, K} K[x]$ und daher ist auch $\mu_{\alpha, K}$ Teiler von $f'$ und daher von $\ggT(f, f')$, d.h. $\alpha$ ist Nullstelle von $\ggT(f, f')$.
+		\end{segnb}
+		\begin{segnb}{\ProofImplication*}
+			Sei $\alpha$ Nullstelle von $\ggT(f, f') = q \in K[x]$, so ist existieren $h_1, h_2 \in K[x]$ mit $f = h_1 q, f' = h_2 q$ und daher ist
+			\[
+				0 = f(\alpha) = h_1(\alpha) q(\alpha)
+				= 0 = h_2(\alpha) q(\alpha)
+				= f'(\alpha),
+			\]
+			d.h. $\alpha$ ist Nullstelle von $f'$ und daher nach \ref{19.1-4} mehrfachre Nullstelle von $f$.
+		\end{segnb}
+	\end{proof}
 \end{kor}
 
 \begin{kor} \label{dup:19.1-6}
 	Sei $f \in K[x], \deg f \ge 1$.
 	Dann ist $f$ separabel genau dann, wenn $\ggT(f, f') = 1$ ist.
+	\begin{proof}
+		Ist $f$ separabel, so haben alle Nullstellen von $f$ Vielfachheit $1$ und sind daher keine Nullstellen von $f'$.
+		Ist also $p \in K[x]$ ein irreduzibler Faktor von $f$, so kann keine Nullstelle von $p$ auch Nullstelle von $f'$ (in $\_K$) sein, d.h. $p$ kann kein Faktor von $f'$ sein.
+		Also haben $f$ und $f'$ keinen Primfaktor gemeinsam und $\ggT(f, f') = 1$.
+
+		Ist umgekehrt $\ggT(f,f') = 1$, so haben insbesondere $f$ und $f'$ keine gemeinsamen Nullstelen in $\_K$ und $f$ ist separabel.
+	\end{proof}
 \end{kor}
 
 \begin{kor} \label{19.1-7}
 	Sei $f \in K[x]$ irreduzibel.
 	Dann ist $f$ separabel genau dann, wenn $\ddx f = f' \neq 0$ ist.
+	\begin{proof}
+		Die einzigen Teiler von $f$ in $K[x]$ sind $1$ und $f$ selbst (bis auf Einheiten in $U(K[x]) = K \setminus \Set 0$.
+
+		Da $f$ Teiler des Nullpolynoms ist, gilt $\ggT(f, 0) = f$.
+		Andererseits ist jedes $\alpha \in \_K$ eine Nullstelle des Nullpolynoms.
+
+		Sei $f' \neq 0$, dann ist $\ggT(f, f') = 1$, da $\deg f' < \deg f$ und $f$ irreduzibel ist.
+		Also ist $f$ separabel nach \ref{19.1-6}.
+		Ist $f' = 0$ so ist jede Nullstelle von $f$ auch Nullstelle von $f'$ und daher ist $f$ inseparabel.
+	\end{proof}
 \end{kor}
 
 Wann kann es passieren, dass $\ddx f$ das Nullpolynom ist?
@@ -113,6 +174,11 @@ Im Lichte von \ref{19.1-7} haben wir gezeigt:
 \begin{lem} \label{19.1-8}
 	Seien $K \subset E \subset L \subset \_K$ Körper und sei $L$ separabel über K.
 	Dann ist $L$ auch separabel über $E$.
+	\begin{proof}
+		Sei $\alpha \in L$, so ist also $\alpha$ separabel über $K$, d.h. $\mu_{\alpha, K} \in K[x]$ hat nur einfache Nullstellen in $\_K$.
+		Nun ist aber $\mu_{\alpha, E}$ Teiler von $\mu_{\alpha, K}$ wegen der Eindeutigkeit der Primfaktorzerlegung und daher hat $\mu_{\alpha, E}$ keine mehrfache Nullstelle und ist separabel.
+		Also ist $\alpha$ auch separabel über $E$.
+	\end{proof}
 \end{lem}
 
 \begin{nt} \label{19.1-9}
@@ -128,21 +194,63 @@ Im Lichte von \ref{19.1-7} haben wir gezeigt:
 \begin{lem} \label{19.1-11}
 	Sei $E = K(\alpha), \alpha \in \_K$.
 	Dann ist $[E : K]_S$ die Anzahl der verschiedenen Nullstellen von $\mu_{\alpha, K} \in K[x]$ in $\_K$.
+	\begin{proof}
+		Per definitionem ist $[E : K]_S$ die Anzahl der verschiedenen $K$-linearen Körperhomorphismen von $E$ in $\_K$.
+		In $\_K[x]$ zerfällt $\mu_{\alpha, K}$ in Linearfaktoren.
+		Nach dem kleinen Fortsetzungssatz \ref{18.4-4} besitzt die natürliche Einbettung $\id_K: K \to \_K$ genau so viele Fortsetzungen auf $E = K(\alpha)$, wie $\mu_{K, \alpha}$ verschiedene Nullstellen hat.
+	\end{proof}
 \end{lem}
 
 \begin{kor} \label{19.1-12}
 	Sei $\alpha \in \_K$.
 	Dann ist $\alpha$ separabel über $K$ genau dann, wenn $[K(\alpha) : K]_S = [K(\alpha) : K]$ ist.
+	\begin{proof}
+		Da $\mu_{\alpha, K}$ irreduzibel über $K$ ist, sind die Anzahl der verschiedenen Nullstellen gerade $\deg \mu_{\alpha, K} = [K(\alpha), K]$.
+		Die Behauptung folgt direkt mit \ref{19.1-11}.
+	\end{proof}
 \end{kor}
 
 \begin{st} \label{19.1-13}
 	Seien $K \subset E \subset L \subset \_K$ Körper.
 	Dann ist $[L : K]_S = [L : E]_S [E : K]_S$.
+	\begin{proof}
+		Alle $\sigma_i \in \Hom_{K}(E, \_K), i \in I$ lassen sich mit \ref{18.4-7} zu $\hat \sigma_i: \_K \to \_K$ fortsetzen (diese sind weiterhin paarweise verschieden).
+		Also ist für jedes $i \in I, j \in J$ auch
+		\[
+			\hat \sigma_i \circ \tau_j: L \to \_K \in \Hom_K(L, \_K),
+		\]
+		Seien $i, k \in I, j, l \in J$ und $\hat \sigma_i \circ \tau_j = \hat \sigma_k \circ \tau_l$.
+		Da $\tau_j|_E = \tau_l|_E = \id_E$, gilt
+		\[
+			(\hat \sigma_i \circ \tau_j)|_E = \hat \sigma_i|_E = \sigma_i
+			(\hat \sigma_k \circ \tau_l)|_E = \hat \sigma_k|_E = \sigma_k
+		\]
+		und daher $i = k$, d.h. $\hat \sigma_i \circ \tau_j = \hat \sigma_i \circ \tau_l$ und daher $\tau_j = \tau_l$, d.h. $j = l$, da $\hat \sigma_i$ bijektiv ist.
+		Also sind die $\hat \sigma_i \circ \tau_j, i \in I, j \in J$ paarweise verschieden und $[L:K]_S \ge [L:E]_S [E:K]_S$.
+
+		Sei $\rho: L \to \_K$ ein $K$-Homomorphismus.
+		Dann ist $\rho|_E$ ein $K$-Homomorphismus von $E$ nach $\_K$ und daher gibt es ein $i \in I$ mit $\rho|_E = \sigma_i \in \Hom_K(E, \_K)$.
+		Daraus folgt $(\hat \sigma_i)^{-1} \circ \rho|_E = \id_E$ und daher ist $(\hat \sigma_i)^{-1} \circ \rho \in \Hom_E (L, \_K)$ und es gibt ein $j \in J$ mit $(\hat \sigma_i)^{-1} \circ \rho = \tau_j \in \Hom_E (L, \_K)$, d.h. $\rho = \hat \sigma_i \circ \tau_j$.
+		Also sind die $\hat \sigma_i \circ \tau_j, i \in I, j \in J$ paarweise verschieden und
+		\[
+			\Set{ \hat \sigma_i \circ \tau_j & i \in I, j \in J}
+			= \Hom_K(L, \_K).
+		\]
+		Wegen $|I| = [E : K]_S, |J| = [L: E]_S$ folgt also $[L:K]_S = |I| |J| = [L:E]_S [E:K]_S$.
+	\end{proof}
 \end{st}
 
 \begin{lem} \label{19.1-14}
 	Sei $K \subset E \subset \_K, [E : K] < \infty$.
 	Ist $E$ separabel über $K$, so ist $[E : K]_S = [E : K]$.
+	Nach \ref{18.3-10} ist $E = K(\alpha_1, \dotsc, \alpha_n)$ für $\alpha_1, \dotsc, \alpha_n \in e$.
+	Dann ist $\alpha_i$ algebraisch über $K$ und algebraisch und separabel über $K(\alpha_1, \dotsc, \alpha_{i-1})$ nach \ref{18.3-6}, bzw. \ref{19.1-8}.
+	Mit \ref{19.1-13} haben wir daher
+	\[
+		[K(\alpha_1, \dotsc, \alpha_i) : K(\alpha_1, \dotsc, \alpha_{i-1})]_S
+		= [K(\alpha_1, \dotsc, \alpha_i) : K(\alpha_1, \dotsc, \alpha_{i-1}].
+	\]
+	Aus der Dimensionsformel \ref{18.1-2} und \ref{19.1-13} folgt nun $[E:K]_S = [E:K]$.
 \end{lem}
 
 Um die Umkehrung von \ref{19.1-14} zu beweisen, brauchen wir noch mehr Informationen über inseparabel Körpererweiterungen.
@@ -158,11 +266,26 @@ Die folgende Definition ist grundlegend für Körper der Charakteristik $p > 0$.
 \begin{st}[Freshman's Dream] \label{19.1-16}
 	Sei $\Char K = p > 0$.
 	Dann ist $\scr F_p: K \to K$ ein Körperhomomorphismus und $\scr F_p\big|_{\GF(p)} = \id_{\GF(p)}$, wobei $\GF(p)$ der Primkörper von $K$ ist.
+	\begin{proof}
+		Es gilt
+		\begin{align*}
+			\scr F(\alpha\beta) &= (\alpha\beta)^p = \alpha^p\beta^p = \scr F(\alpha) \scr F(\beta), \displaybreak[0] \\
+			\scr F(\alpha + \beta) &= (\alpha + \beta)^p = \sum_{i=0}^{p} \binom{p}{i} \alpha^i\beta^{p-i}
+			= \alpha^p + \beta^p + \underbrace{\sum_{i=1}^{p-1} \binom{p}{i} \alpha^i\beta^{p-i}}_{=0 \text{ da $p \divs \dotsc$}} \\
+			&= \scr F(\alpha) + \scr F(\beta),
+		\end{align*}
+		also ist $\scr F$ ein Körperhomomorphismus.
+		Es ist $\GF(p) = \Pi(K) = \Set{ i 1_K & i = 0, 1, \dotsc, p-1 }$.
+		Wegen $\scr F(1_K) = 1_K$ ist $\scr F(i 1_K) = F(1_K + \dotsb + 1_K) = i 1_K$ und daher $\scr F|_{\GF(p)} = \id_{\GF(p)}$.
+	\end{proof}
 \end{st}
 
 \begin{kor} \label{19.1-17}
 	Sei $K$ endlicher Körper mit Primkörper $\GF(p) = \F_p$.
 	Dann ist $\scr F: K \to K: \alpha \mapsto \alpha^p$ ein $\F_p$-Automorphismus von $K$.
+	\begin{proof}
+		$\scr F$ ist injektive Abbildung in sich und daher bijektiv, da $|K| < \infty$.
+	\end{proof}
 \end{kor}
 
 \begin{lem} \label{19.1-18}
