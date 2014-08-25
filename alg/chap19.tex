@@ -8,7 +8,7 @@ Im Folgenden sei $K$ ein Körper, $\_K$ ein fest gewählter algebraischer Abschl
 
 
 \begin{df} \label{19.1-1}
-	Ein Polynom $f \in K[x]$ vom Grad größer gleich 1 heißt \emphdef[separabel]{separabel über $K$}, falls $f$ keine mehrfachen Nullstellen in $\_K$ besitzt, d.h. $f = \lambda (x - \alpha_1) \dotsc (x - \alpha_n) \in \_K[x]$ mit $\alpha_1, \dotsc, \alpha_n \in \_K$ paarweise verschieden, $\lambda \in \_K$, $n = \deg f$.
+	Ein Polynom $f \in K[x]$ heißt \emphdef[separabel]{separabel über $K$}, falls $f$ keine mehrfachen Nullstellen in $\_K$ besitzt, d.h. $f = \lambda (x - \alpha_1) \dotsc (x - \alpha_n) \in \_K[x]$ mit $\alpha_1, \dotsc, \alpha_n \in \_K$ paarweise verschieden, $\lambda \in \_K$, $n = \deg f$.
 	\begin{note}
 		Für $K \subset E \subset \_K$ und $f \in K[x]$ separabel über $K$, ist auch $f$ separabel über $E$.
 	\end{note}
@@ -52,7 +52,7 @@ Im Folgenden sei $K$ ein Körper, $\_K$ ein fest gewählter algebraischer Abschl
 \end{lem}
 
 \begin{lem} \label{19.1-4}
-	Sei $f \in K[x], \deg f \ge 1$ und sei $\alpha \in \_K$ eine Nullstelle von $f$.
+	Sei $f \in K[x]$ und sei $\alpha \in \_K$ eine Nullstelle von $f$.
 	Dann ist $\alpha$ mehrfache Nullstelle von $f$ (in $\_K$, $f \in K[x] \subset \_K[x]$) genau dann, wenn $\alpha$ auch Nullstelle (in $\_K$) von $f' = \ddx f$ ist, d.h. wenn $f'(\alpha) = 0$.
 	\begin{proof}
 		Wir finden $g \in \_K[x]$ so, dass (in $\_K[x]$) $f(x) = g(x) (x - \alpha)$ gilt.
@@ -68,7 +68,7 @@ Im Folgenden sei $K$ ein Körper, $\_K$ ein fest gewählter algebraischer Abschl
 \end{lem}
 
 \begin{kor} \label{19.1-5}
-	$\alpha \in \_K$ ist genau dann mehrfache Nullstelle von $f \in K[x] \subset \_K[x]$, $\deg f \ge 1$, wenn $\alpha$ Nullstelle von $\ggT(f, f') \in K[x]$ ist.
+	$\alpha \in \_K$ ist genau dann mehrfache Nullstelle von $f \in K[x] \subset \_K[x]$, wenn $\alpha$ Nullstelle von $\ggT(f, f') \in K[x]$ ist.
 	\begin{proof}
 		\begin{segnb}{\ProofImplication}
 			Sei $\_{\alpha} \in \_{K}$ mehrfache Nullstelle von $f$, dann ist $\mu_{\alpha,K} \in K[x]$ Teiler von $f$, d.h. $f = \mu_{\alpha, K} g$ für ein $g \in K[x]$.
@@ -90,11 +90,14 @@ Im Folgenden sei $K$ ein Körper, $\_K$ ein fest gewählter algebraischer Abschl
 	Sei $f \in K[x], \deg f \ge 1$.
 	Dann ist $f$ separabel genau dann, wenn $\ggT(f, f') = 1$ ist.
 	\begin{proof}
-		Ist $f$ separabel, so haben alle Nullstellen von $f$ Vielfachheit $1$ und sind daher keine Nullstellen von $f'$.
-		Ist also $p \in K[x]$ ein irreduzibler Faktor von $f$, so kann keine Nullstelle von $p$ auch Nullstelle von $f'$ (in $\_K$) sein, d.h. $p$ kann kein Faktor von $f'$ sein.
-		Also haben $f$ und $f'$ keinen Primfaktor gemeinsam und $\ggT(f, f') = 1$.
-
-		Ist umgekehrt $\ggT(f,f') = 1$, so haben insbesondere $f$ und $f'$ keine gemeinsamen Nullstelen in $\_K$ und $f$ ist separabel.
+		\begin{segnb}{\ProofImplication}
+			Ist $f$ separabel, so haben alle Nullstellen von $f$ Vielfachheit $1$ und sind daher keine Nullstellen von $f'$.
+			Ist also $p \in K[x]$ ein irreduzibler Faktor von $f$, so kann keine Nullstelle von $p$ auch Nullstelle von $f'$ (in $\_K$) sein, d.h. $p$ kann kein Faktor von $f'$ sein.
+			Also haben $f$ und $f'$ keinen Primfaktor gemeinsam und $\ggT(f, f') = 1$.
+		\end{segnb}
+		\begin{segnb}{\ProofImplication*}
+			Ist umgekehrt $\ggT(f,f') = 1$, so haben insbesondere $f$ und $f'$ keine gemeinsamen Nullstellen in $\_K$ und $f$ ist separabel.
+		\end{segnb}
 	\end{proof}
 \end{kor}
 
@@ -102,14 +105,15 @@ Im Folgenden sei $K$ ein Körper, $\_K$ ein fest gewählter algebraischer Abschl
 	Sei $f \in K[x]$ irreduzibel.
 	Dann ist $f$ separabel genau dann, wenn $\ddx f = f' \neq 0$ ist.
 	\begin{proof}
-		Die einzigen Teiler von $f$ in $K[x]$ sind $1$ und $f$ selbst (bis auf Einheiten in $U(K[x]) = K \setminus \Set 0$.
-
-		Da $f$ Teiler des Nullpolynoms ist, gilt $\ggT(f, 0) = f$.
-		Andererseits ist jedes $\alpha \in \_K$ eine Nullstelle des Nullpolynoms.
-
-		Sei $f' \neq 0$, dann ist $\ggT(f, f') = 1$, da $\deg f' < \deg f$ und $f$ irreduzibel ist.
-		Also ist $f$ separabel nach \ref{19.1-6}.
-		Ist $f' = 0$ so ist jede Nullstelle von $f$ auch Nullstelle von $f'$ und daher ist $f$ inseparabel.
+		\begin{segnb}{\ProofImplication}
+			Wegen $f$ irreduzibel ist $\deg f \ge 1$ und $f$ besitzt mindestens eine Nullstelle in $\_K$.
+			Sei $f' = 0$, dann ist jede Nullstelle von $f$ offenbar auch Nullstelle von $f'$, also hat $f$ ausschließlich mehrfache Nullstellen gemäß \ref{19.1-4} und $f$ ist insbesondere nicht separabel.
+		\end{segnb}
+		\begin{segnb}{\ProofImplication*}
+			Die einzigen Teiler von $f$ in $K[x]$ sind $1$ und $f$ selbst (bis auf Einheiten in $U(K[x]) = K \setminus \Set 0$).
+			Wegen $f' \neq 0$ ist also $\ggT(f, f') = 1$, da $\deg f' < \deg f$.
+			Also ist $f$ separabel nach \ref{19.1-6}.
+		\end{segnb}
 	\end{proof}
 \end{kor}
 
@@ -143,7 +147,7 @@ Im Lichte von \ref{19.1-7} haben wir gezeigt:
 			Ist $\Char K = p > 0$, dann ist $f$ inseparabel genau dann, falls es ein Polynom $g \in K[x]$ gibt mit $f(x) = g(x^p)$.
 			Insbesondere ist dann $\deg f = p \deg g$.
 	\end{enumerate}
-	Ist $f(x) = g(x^p)$ in ii) irreduzibel, $f(x) = g(x^p)$, so ist $g \in K[x]$ ebenfalls irreduzibel.
+	Ist $f(x) = g(x^p)$ in ii) irreduzibel, so ist $g \in K[x]$ ebenfalls irreduzibel.
 \end{st}
 
 \begin{df} \label{dup:19.1-9}
@@ -187,8 +191,8 @@ Im Lichte von \ref{19.1-7} haben wir gezeigt:
 
 \begin{df} \label{19.1-10}
 	Seien $K \subset E, L \subset \_K$ Körper.
-	Die Menge der $K$-Homomorphismen von $E$ nach $L$ wird mit $\Hom_{K-\text{Alg}}(E, L)$ bezeichnet.
-	Der \emphdef[Separabilitätsgrad]{Separabilitätsgrad $[E : K]_S$ von $E$ über $K$} ist definiert als $|\Hom_{K-\text{Alg}}(E, \_K)|$, ist also die Anzahl der verschiedenen $K$-linearen Körperhomomorphismen von $E$ nach $\_K$.
+	Die Menge der $K$-Homomorphismen von $E$ nach $L$ wird mit $\Hom_{K}(E, L)$ bezeichnet.
+	Der \emphdef[Separabilitätsgrad]{Separabilitätsgrad $[E : K]_S$ von $E$ über $K$} ist definiert als $|\Hom_{K}(E, \_K)|$, also die Anzahl der verschiedenen $K$-linearen Körperhomomorphismen von $E$ nach $\_K$.
 \end{df}
 
 \begin{lem} \label{19.1-11}
@@ -243,17 +247,19 @@ Im Lichte von \ref{19.1-7} haben wir gezeigt:
 \begin{lem} \label{19.1-14}
 	Sei $K \subset E \subset \_K, [E : K] < \infty$.
 	Ist $E$ separabel über $K$, so ist $[E : K]_S = [E : K]$.
-	Nach \ref{18.3-10} ist $E = K(\alpha_1, \dotsc, \alpha_n)$ für $\alpha_1, \dotsc, \alpha_n \in e$.
-	Dann ist $\alpha_i$ algebraisch über $K$ und algebraisch und separabel über $K(\alpha_1, \dotsc, \alpha_{i-1})$ nach \ref{18.3-6}, bzw. \ref{19.1-8}.
-	Mit \ref{19.1-13} haben wir daher
-	\[
-		[K(\alpha_1, \dotsc, \alpha_i) : K(\alpha_1, \dotsc, \alpha_{i-1})]_S
-		= [K(\alpha_1, \dotsc, \alpha_i) : K(\alpha_1, \dotsc, \alpha_{i-1}].
-	\]
-	Aus der Dimensionsformel \ref{18.1-2} und \ref{19.1-13} folgt nun $[E:K]_S = [E:K]$.
+	\begin{proof}
+		Nach \ref{18.3-10} ist $E = K(\alpha_1, \dotsc, \alpha_n)$ für $\alpha_1, \dotsc, \alpha_n \in e$.
+		Dann ist $\alpha_i$ algebraisch über $K$ und algebraisch und separabel über $K(\alpha_1, \dotsc, \alpha_{i-1})$ nach \ref{18.3-6}, bzw. \ref{19.1-8}.
+		Mit \ref{19.1-13} haben wir daher
+		\[
+			[K(\alpha_1, \dotsc, \alpha_i) : K(\alpha_1, \dotsc, \alpha_{i-1})]_S
+			= [K(\alpha_1, \dotsc, \alpha_i) : K(\alpha_1, \dotsc, \alpha_{i-1}].
+		\]
+		Aus der Dimensionsformel \ref{18.1-2} und \ref{19.1-13} folgt nun $[E:K]_S = [E:K]$.
+	\end{proof}
 \end{lem}
 
-Um die Umkehrung von \ref{19.1-14} zu beweisen, brauchen wir noch mehr Informationen über inseparabel Körpererweiterungen.
+Um die Umkehrung von \ref{19.1-14} zu beweisen, brauchen wir noch mehr Informationen über inseparable Körpererweiterungen.
 
 Die folgende Definition ist grundlegend für Körper der Charakteristik $p > 0$.
 
@@ -265,7 +271,7 @@ Die folgende Definition ist grundlegend für Körper der Charakteristik $p > 0$.
 
 \begin{st}[Freshman's Dream] \label{19.1-16}
 	Sei $\Char K = p > 0$.
-	Dann ist $\scr F_p: K \to K$ ein Körperhomomorphismus und $\scr F_p\big|_{\GF(p)} = \id_{\GF(p)}$, wobei $\GF(p)$ der Primkörper von $K$ ist.
+	Dann ist $\scr F_p: K \to K$ ein injektiver Körperhomomorphismus und $\scr F_p\big|_{\GF(p)} = \id_{\GF(p)}$, wobei $\GF(p)$ der Primkörper von $K$ ist.
 	\begin{proof}
 		Es gilt
 		\begin{align*}
@@ -275,6 +281,8 @@ Die folgende Definition ist grundlegend für Körper der Charakteristik $p > 0$.
 			&= \scr F(\alpha) + \scr F(\beta),
 		\end{align*}
 		also ist $\scr F$ ein Körperhomomorphismus.
+		$K$ besitzt keine Nullteiler, also ist $\scr F_p(\alpha) = \alpha^p = 0$ genau dann, wenn $\alpha = 0$, d.h. $\ker \scr F_p = 0$ und $\scr F_p$ ist injektiv.
+
 		Es ist $\GF(p) = \Pi(K) = \Set{ i 1_K & i = 0, 1, \dotsc, p-1 }$.
 		Wegen $\scr F(1_K) = 1_K$ ist $\scr F(i 1_K) = F(1_K + \dotsb + 1_K) = i 1_K$ und daher $\scr F|_{\GF(p)} = \id_{\GF(p)}$.
 	\end{proof}
@@ -284,7 +292,7 @@ Die folgende Definition ist grundlegend für Körper der Charakteristik $p > 0$.
 	Sei $K$ endlicher Körper mit Primkörper $\GF(p) = \F_p$.
 	Dann ist $\scr F: K \to K: \alpha \mapsto \alpha^p$ ein $\F_p$-Automorphismus von $K$.
 	\begin{proof}
-		$\scr F$ ist injektive Abbildung in sich und daher bijektiv, da $|K| < \infty$.
+		$\scr F$ ist injektive Abbildung in sich und wegen $|K| < \infty$ daher bijektiv.
 	\end{proof}
 \end{kor}
 
@@ -293,12 +301,61 @@ Die folgende Definition ist grundlegend für Körper der Charakteristik $p > 0$.
 	Sei $r \in \N_0$ maximal, sodass es ein $g \in K[x]$ mit $f(x) = g(x^{p^r})$ gibt.
 	Dann hat jede Nullstelle von $f$ in $\_K$ Vielfachheit $p^r$ und $g \in K[x]$ ist irreduzibel und separabel.
 	Die Nullstellen von $f$ sind genau die $p^r$-ten Wurzeln der Nullstellen von $g$, und diese Wurzeln sind eindeutig in $\_K$.
+	\begin{proof}
+		Mit $f$ irreduzibel ist offenbar auch $g$ irreduzibel.
+
+		Sei $g = \sum_{i=0}^{k} \lambda_i x^i$ mit $\lambda_k \neq 0$.
+		Da $r$ maximal gewählt war, existiert $1 \le i \le k$ mit $\ggT(p,i)=1$ und $\lambda_i \neq 0$ und $g$ ist mittels \ref{dup:19.1-8} separabel.
+
+		Da $g$ separabel ist $g$ von der Form $g(x) = \frac{1}{\lambda} (x-\alpha_1)\dotsb (x-\alpha_k)$ mit $\alpha_1, \dotsc, \alpha_k \in \_K$ paarweise verschieden.
+		Sei $\tau_i \in \_K$ so, dass $\tau_i^{p^r} = \alpha_i$, d.h $\tau_i = \sqrt[p]{\alpha_i}$ ist Nullstelle von $x^{p^r} - \alpha_i \in \_K[x]$.
+		Dann gilt
+		\begin{align*}
+			f &= g(x^{p^r}) \\
+			&= \frac{1}{\lambda_k} (x^{p^r} - \alpha_1) \dotsb (x^{p^r} - \alpha_k) \\
+			&= \frac{1}{\lambda_k} (x^{p^r} - \tau_1^{p^r}) \dotsb (x^{p^r} - \tau_k^{p^r}) \\
+			&= \frac{1}{\lambda_k}(x-\tau_1)^{p^k} \dotsb (x-\tau_k)^{p^r},
+		\end{align*}
+		d.h. alle Nullstellen von $f$ haben Vielfachheit $p^r$.
+
+		Eine $p^r$-te Wurzel aus $\alpha_i$ ist Nullstelle von $x^{p^r} - \alpha_i = (x-\tau_i)^{p^r}$, also ist diese eindeutig.
+	\end{proof}
 \end{lem}
 
 \begin{st} \label{19.1-19}
 	Sei $E$ eine endliche Körpererweiterung von $K$, d.h. $[E : K] < \infty$.
 	Dann ist $E \subset \_K$ und es gilt:
 	$E$ ist separabel über $K$ genau dann, wenn $[E : K]_S = [E : K]$ ist.
+	\begin{proof}
+		\begin{segnb}{\ProofImplication}
+			Dies ist gerade \ref{19.1-14}.
+		\end{segnb}
+		\begin{segnb}{\ProofImplication}
+			Zunächst gilt für jede endliche Körpererweiterung $K \subset L$, dass $[L:K]_S \le [L:K]$.
+			Dies sieht man wegen den Dimensionsformeln \ref{18.1-2} und \ref{19.1-13} und da für die einfachen Körpererweiterungen gilt
+			\begin{align*}
+				[L_i : L_{i-1}]_S
+				&= \texp{Anzahl verschiedener Nullstellen von $\mu_{\alpha_i, L_{i-1}}$} \\
+				&\le \deg \mu_{\alpha_i, L_{i-1}}
+				= [L_i : L_{i-1}].
+			\end{align*}
+			Mit dieser Vorüberlegung genügt es also zu zeigen, dass aus $E$ nicht separabel über $K$ folgt, dass $[E:K]_S \lneq [E:K]$.
+
+			Sei also $\alpha \in E$ nicht separabel über $K$, also hat $f = \mu_{\alpha, K}$ mehrfache Nullstellen in $\_K$ und wegen \ref{dup:19.1-8} i) ist $\Char K = p > 0$ für eine Primzahl $p$.
+			Nach \ref{19.1-18} existiert ein $r \in \N$ und $g$ irreduzibel, separabel mit $f(x) = g(x^{p^r})$.
+			Sei $k = \deg g$, dann ist mit \ref{19.1-18} $\deg f = p^r k$ und wir haben
+			\[
+				[K(\alpha):K] = p^r k > k = [K(\alpha):K]_S.
+			\]
+			Also ist mit unserer Vorüberlegung von oben
+			\begin{align*}
+				[E:K] &= [E:K(\alpha)][K(\alpha):K] \\
+				&\ge [E:K(\alpha)]_S p^r [K(\alpha):K]_S \\
+				&\gneq [E:K(\alpha)]_S [K(\alpha):K]_S
+				= [E:K].
+			\end{align*}
+		\end{segnb}
+	\end{proof}
 \end{st}
 
 \begin{st} \label{19.1-20}
