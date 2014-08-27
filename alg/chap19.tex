@@ -369,13 +369,37 @@ $K^* = K \setminus \{0\}$ bildet bezüglich der Multiplikation eine abelsche Gru
 Es gilt:
 
 \begin{st} \label{19.2-1}
-	Sei $G$ eine endliche Untergruppe von $K^*$.
+	Sei $G$ eine endliche Untergruppe der multiplikativen Gruppe $K^*$.
 	Dann ist $G$ zyklisch.
+	\begin{proof}
+		Sei $|G| = m \in \N$ mit Primfaktorzerlegung $m = p_1^{\nu_1} \dotsb p_k^{\nu_k}$.
+		Nach \ref{16.2-5} existiert die Primärkomponentenzerlegung $G = G_1 \times \dotsc \times G_k$ mit $|G_i| = p_i^{\nu_i}$.
+		Nach \ref{16.3-19} ist $G$ zyklisch genau dann, wenn alle $G_i$ zyklisch sind.
+		Angenommen $G_1$ ist nicht zyklisch (ohne Einschränkung), $p = p_1, \nu = \nu_1$, dann hat $G_1$ die Form $G_1 = P_1 \times P_2$ mit $|P_1| = p^a, |P_2| = p^b, a + b = \nu = \nu_1$.
+		$G_1$ besitzt eine Untergruppe isomorph zu $C_p \times C_p$.
+		Dann ist $|h| = p$ für alle $1 \neq h \in C_p \times C_p$ und daher $h^p = 1$ für alle $1 \neq h \in C_p \times C_p$.
+		Also sind alle $1 \neq h \in C_p \times C_p$ Nullstellen von $x^p - 1 \in K[x]$ und $1$ offenbar auch.
+		Aber $x^p - 1$ hat nur $p$ Nullstellen und $|C_p \times C_p| = p^2$, ein Widerspruch.
+		Also ist $G_1$ zyklisch und daher auch $G$.
+	\end{proof}
+	\begin{proof}[alternativ]
+		Sei $h \in G$ ein Element maximaler Ordnung $m$ und $H_m = \Set{g \in G & g^m = 1}$.
+		Dann ist $h \in H_m, |\<h\>| = m$ und daher $m$ als Ordnung einer Untergruppe Teiler von $|G| = n$.
+		Alle Elemente von $H_m$ sind Nullstellen des Polynoms $x^m - 1$, also $|H_m| \le m$.
+		Wegen $|\<h\> \subset H_m$ ist $|H_m| = m$, also besteht $H_m = \<h\>$ genau aus den Lösungen der Gleichung $x^m - 1 = 0$.
+		Sei $g \in G \setminus H_m$, so ist $|g|$ kein Teiler von $m$ (sonst würde $g$ die Gleichung $x^m - 1$ erfüllen und wäre in $H_m$ enthalten) und daher ist $|gh| = \kgV(m, |g|)$, ein Widerspruch zur Maximalität von $m$.
+		Also ist $H_m = \<h\> = G$ zyklisch.
+	\end{proof}
 \end{st}
 
 \begin{st} \label{19.2-2}
-	Sei $|K| < \infty$.
+	Sei $K$ ein endlicher Körper.
 	Dann ist $\Char K = p > 0$ für eine Primzahl $p$, $|K| = q = p^k$ für ein $k \in \N$ und $K^*$ zyklisch von der Ordnung $q - 1$.
+	\begin{proof}
+		Wegen $|K| < \infty$, also insbesondere $\Q \not\subset K$ muss $\Char K \neq 0$ sein.
+		Also ist $\Pi(K) = \F_p = \Z / p\Z$ für $p = \Char K$ und zwangsläufig $[K:\F_p] = k < \infty$ für ein $k \in \N$.
+		Somit ist $|K| = p^k = q, |K^*| = |K \setminus \Set 0| = q-1$ und $K^*$ zyklisch dank \ref{19.2-1}.
+	\end{proof}
 \end{st}
 
 Jetzt können wir eine vollständige Klassifizierung aller endlichen Körper liefern.
@@ -384,6 +408,13 @@ Jetzt können wir eine vollständige Klassifizierung aller endlichen Körper lie
 	Sei $p \in \N$ Primzahl, $q = p^n$ ($n \in \N$) eine Potenz von $p$.
 	Sei $\Z / p\Z = \GF(p) = \F_p$ der (eindeutig bestimmte) Körper mit $p$ vielen Elementen.
 	Dann gibt es einen bis auf $\F_p$-Isomorphismen eindeutigen Erweiterungskörper $\F_q$ von $\F_p$ mit $q$ vielen Elementen und es existiert ein $\zeta \in \F_q$ so, dass $\F_q = \F_p(\zeta)$ gilt (d.h. $\F_q$ ist einfache, wegen $[\F_q : \F_p] = n$ algebraische Erweiterung mit primitivem Element $\zeta \in \F_q$).
+	%\begin{proof}
+	%	Sei $\_\F_p = E$ der algebraische Abschluss von $\F_p$.
+	%	Nun gilt für $\alpha \in \_\F_q$ die Gleichung $\alpha^{q-1} = 1$ genau dann, wenn $\alpha^q - \alpha = 0$ ist, d.h. wenn $\alpha$ Nullstelle von $x^q - x \in \F_p[x]$ ist.
+	%	Weiter ist $\ddx (x^q - x) = qx^{q-1} - 1 = -1 \neq 0$ und daher ist $x^q - x$ separabel über $\F_p$.
+	%	Also zerfällt $x^q - x$ in Linearfaktoren $\prod_{i=0}^{q-1} (x-\alpha_i)$ mit $\alpha_0 = 0, \alpha_1, \dotsc, \alpha_{q-1} \in \_{\F_p}$.
+	%	So gilt $\alpha_i^q = \alpha_i$ für $i \in \Set{0, \dotsc, q-1}$.
+	%\end{proof}
 \end{st}
 
 \begin{kor} \label{19.2-4}
