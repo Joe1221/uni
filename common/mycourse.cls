@@ -150,6 +150,25 @@
 }
 
 
+%%=======================================================================
+%% Appearance and Configs
+%%=======================================================================
+
+% Entfernt Einrückung bei Absätzen und fügt stattdessen vertikalen Abstand ein
+\ExplSyntaxOff
+\PassOptionsToClass { parskip = half+ } { scrbook }
+\AtBeginDocument{
+    \setparsizes{0pt}{0.8ex}{0pt plus 1fil}
+}
+\ExplSyntaxOn
+
+%%=======================================================================
+%% Basic Requirements
+%%=======================================================================
+
+% Load base class
+\LoadClass { scrbook }
+
 % Old version of package libertine loads xcolor with conflicting options, so load it beforehand.
 \RequirePackage [ svgnames, x11names ] { xcolor }  % ana3 needs x11names
 
@@ -195,25 +214,6 @@
 ] {\mycourselanguage}
 \ExplSyntaxOn
 
-
-%%=======================================================================
-%% Appearance and Configs
-%%=======================================================================
-
-% Entfernt Einrückung bei Absätzen und fügt stattdessen vertikalen Abstand ein
-\ExplSyntaxOff
-\PassOptionsToClass { parskip = half+ } { scrbook }
-\AtBeginDocument{
-    \setparsizes{0pt}{0.8ex}{0pt plus 1fil}
-}
-\ExplSyntaxOn
-
-%%=======================================================================
-%% Basic Requirements
-%%=======================================================================
-
-% Load base class
-\LoadClass { scrbook }
 
 \RequirePackage { etex }
 \RequirePackage { datetime }
@@ -605,7 +605,8 @@
 % vertical bar used between section number and section text
 \cs_new:Nn \l_mycourse_headvertbar: {
     \; {
-        \color { headerrule } \rule [ -0.4em ] { 1pt } { 1.3em }
+        %\color { headerrule } \rule [ -0.4em ] { 1pt } { 1.3em }
+        |
     } \;
 }
 
