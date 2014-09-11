@@ -31,7 +31,7 @@ Im Reellen untersuchen wir affine, euklidische, projektive und hyperbolische, im
 			\item
 				Für $V = \K^n$ mit einem Körper $\K$, bezeichnen wir den affinen Raum auch kurz mit $\A^n$.
 			\item
-				Definiert man einen Punkt $O \in \A$ als \emphdef[affiner Raum!Ursprung]{Ursprung}, so lässt sich jeder Punkt $P \in \A$ durch den Vektor $\vec{OP} \in \K$ identifizieren.
+				Definiert man einen Punkt $O \in \A$ als \emphdef[affiner Raum!Ursprung]{Ursprung}, so lässt sich jeder Punkt $P \in \A$ durch den Vektor $\vec{OP} \in V$ identifizieren.
 				Da die konkrete Wahl des Ursprungs zwar relevant für die Zuordnung ist, aber manchmal unwesentlich für die weitere Betrachtung, nutzen wir diese Notation von Punkten als Vektoren überall, wo angebracht, und gehen in diesen Fällen implizit von einem beliebigen – aber festen – Ursprung aus.
 		\end{itemize}
 	\end{note}
@@ -41,6 +41,8 @@ Im Reellen untersuchen wir affine, euklidische, projektive und hyperbolische, im
 	\begin{itemize}
 		\item
 			Jeder Vektorraum $V$ wird durch $\vec{PQ} := Q - P$ für $P, Q \in V$ zu einem affinen Raum.
+
+			Wenn wir von einem affinen Raum $V^n$ für einen Vektorraum $V$ reden, dann meinen wir gerade diesen affinen Raum mit Ursprung $0$.
 		\item
 			Sei $U \le V$ ein Untervektorraum und $p \in V$.
 			Dann ist $p + U := \{ p + u : u \in U \}$ ein affiner Raum, genannt \emphdef[affiner Raum!affiner Unterraum]{affiner Unterraum}.
@@ -68,17 +70,21 @@ Im Reellen untersuchen wir affine, euklidische, projektive und hyperbolische, im
 \end{df}
 
 \begin{ex}
+	Folgende Abbildungen sind Spezialfälle von affinen Transformationen $x \mapsto Ax + b$.
 	\begin{description}
 		\item[Translation]
-			Mit der Wahl $A := E$ ergibt sich eine \emphdef{Translation}.
+			Mit der Wahl $A := E$ ergibt sich eine \emphdef{Translation} $x \mapsto x + b$.
 		\item[Lineare Abbildung]
-			$b := 0$ führt auf eine lineare Abbildung zurück.
+			$b := 0$ führt auf eine lineare Abbildung $x \mapsto Ax$ zurück.
 			\begin{itemize}
 				\item
-					Mit $b := 0, A := \lambda E$ ergibt sich eine zentrische Streckung am Ursprung
+					Mit $b := 0, A := \lambda E$ ergibt sich eine zentrische Streckung am Ursprung, $x \mapsto \lambda x$.
 			\end{itemize}
 		\item[Zentrische Streckung]
-			Für $p \in \A$ ergibt sich mit $b := (1 - \lambda) p, A := \lambda E$ eine \emphdef{zentrische Streckung} in $p$ um den Faktor $\lambda \in \R$.
+			Für $p \in \A$ ergibt sich mit $b := (1 - \lambda) p, A := \lambda E$ eine \emphdef{zentrische Streckung} in $p$ um den Faktor $\lambda \in \R$
+			\[
+				x \mapsto \lambda x + (1 - \lambda) p = \lambda (x - p) + p.
+			\]
 	\end{description}
 \end{ex}
 
@@ -92,11 +98,12 @@ Im Reellen untersuchen wir affine, euklidische, projektive und hyperbolische, im
 \begin{df}
 	Der \emphdef[euklidischer Raum]{affin euklidische Raum} $E^n$ ist der affine Raum $\R^n$ zusammen mit dem euklidischen Skalarprodukt für Verbindungsvektoren.
 
-	Eine \emphdef[Transformation!euklidisch]{euklidische Transformation} $f: E^n \to E^n$  ist eine affine Abbildung (d.h. der Form $x \mapsto Ax + b$) mit einer orthogonalen Matrix $A$.
+	Eine \emphdef[Transformation!euklidisch]{euklidische Transformation} $f: E^n \to E^n$  ist eine affine Abbildung $x \mapsto Ax + b$ mit einer orthogonalen Matrix $A$.
 	Ist zusätzlich $\det(A) = 1$, so nennen wir die Transformation \emphdef[eigentliche Transformation]{eigentlich}.
 
 	Die Menge der euklidischen Transformationen mit der Hintereinanderausführung bildet die \emphdef[Gruppe!euklidisch]{euklidische Gruppe} $\E(n)$.
-	Die eigentlichen Transformationen bilden ebenfalls eine Gruppe, $\E_*(n)$.
+	Die eigentlichen Transformationen bilden ebenfalls eine Gruppe, geschrieben $\E_*(n), \E^+(n)$, oder $\SE(n)$.
+
 	Euklidische Transformationen mit $b = 0$, d.h. $x \mapsto Ax$ mit $A$ orthogonal, bilden die \emphdef{orthogonale Gruppe} $\O(n)$.
 	Solche mit $b = 0$ und $\det(A) = 1$ bilden die \emphdef{Drehgruppe} $\SO(n)$.
 \end{df}
@@ -109,7 +116,7 @@ Im Reellen untersuchen wir affine, euklidische, projektive und hyperbolische, im
 		\item
 			das Skalarprodukt von Verbindungsvektoren,
 		\item
-			die Winkel zwischen Verbindungsvektoren, $\cos \angle (x,y) = \f {\<x,y\>}{\|x\|\|y\|}$.
+			die Winkel zwischen Verbindungsvektoren (da eine Größe in Abhängigkeit des Skalarprodukts: $\cos \angle (x,y) = \f {\<x,y\>}{\|x\|\|y\|}$).
 	\end{itemize}
 	Spezialfälle sind
 	\begin{itemize}
@@ -120,8 +127,24 @@ Im Reellen untersuchen wir affine, euklidische, projektive und hyperbolische, im
 			\begin{itemize}
 				\item
 					Normalform einer Drehung
+					\[
+						A = \diag(R_1, \dotsc, R_k, 1, \dotsc, 1),
+						\quad
+						R_k = \Matrix{
+							\cos \phi & -\sin \phi \\
+							\sin \phi & \cos \phi
+						}.
+					\]
 				\item
 					Normalform einer Spiegelung
+					\[
+						A = \diag(R_1, \dotsc, R_k, 1, \dotsc, 1, -1),
+						\quad
+						R_k = \Matrix{
+							\cos \phi & -\sin \phi \\
+							\sin \phi & \cos \phi
+						}.
+					\]
 			\end{itemize}
 	\end{itemize}
 \end{nt}
