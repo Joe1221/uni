@@ -7,9 +7,13 @@ OBJ_FILES = $(patsubst %.cpp,%.o,$(CPP_FILES))
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $<
 
+all: fermat_factor mersenne_test
+
 fermat_factor: fermat_factor.o
+	$(CXX) $(CXXFLAGS) -o $@ $^
+mersenne_test: mersenne_test.o
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 clean:
-	rm -f $(OBJ_FILES) fermat_factor
+	rm -f $(OBJ_FILES) fermat_factor mersenne_test
 
