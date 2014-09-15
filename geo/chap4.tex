@@ -7,6 +7,10 @@
 \begin{df}
 	Sei $n < m$, $U \subset \R^n$ offen und $f: U \to \R^m$ differenzierbar.
 	Wir nennen $f$ \emphdef{Immersion}, falls die Jacobimatrix $\Df = (\ddx[u_j]{f_i}) \in \R^{m \times n}$ injektiv ist, d.h. maximalen Rang besitzt.
+	\begin{note}
+		In diesem Fall ist $\Df^T \Df$ invertierbar, also $(\Df^T \Df)^{-1} (\Df^T \Df) = I$.
+		$\Df$ besitzt also eine linksinverse Matrix $(\Df^T \Df)^{-1} \Df^T$, welche wir mit $(\Df)^{-1}$ bezeichnen.
+	\end{note}
 \end{df}
 
 \begin{conv}
@@ -18,7 +22,7 @@
 
 	Elemente $u = (u_1, u_2) \in U$ nennen wir \emphdef{Parameter}, Elemente $f(u) \in f(U)$ \emph{Punkte}.
 
-	Ein (unparametrisiertes) reguläres \emphdef[Flächenstück!unparametrisiert]{Flächenstück} ist eine Äquivalenzklasse bezüglich $\sim$ von parametrisierten Flächenstücken, wobei $f \sim g$ gilt, wenn $\Phi$ existiert mit $g = f \circ \Phi$, $\Phi$ bijektiv und $\Phi, \Phi^{-1}$ differenzierbar.
+	Ein \emphdef[Flächenstück!unparametrisiert]{reguläres Flächenstück} ist eine Äquivalenzklasse bezüglich $\sim$ von parametrisierten Flächenstücken, wobei $f \sim g$ gilt, wenn $\Phi$ existiert mit $g = f \circ \Phi$, $\Phi$ bijektiv und $\Phi, \Phi^{-1}$ differenzierbar.
 \end{df}
 
 \begin{ex}
@@ -37,7 +41,7 @@
 \begin{ex}
 	\begin{itemize}
 		\item
-			Die $2$-Sphäre ohne Äquator ist gegeben durch die Funktionen
+			Die $2$-Sphäre ohne Äquator ist gegeben durch die beiden Funktionen
 			\[
 				f_\pm(u,v) = \Vector*{ u & v & \pm \sqrt{1 - u^2 - v^2} },
 			\]
@@ -91,7 +95,7 @@
 	\]
 	und der \emphdef[Normalenraum]{Normalenraum von $f$ in $p$}
 	\[
-		\Orthspace_u f := \{ f(u) \} \times \{ v \in \R^3 : \forall w \in T_u f : \<v, w\> = 0 \} \subset T_{f(u)} \R^3.
+		\Orthspace_u f := \Set{ f(u) } \times \Set{ v \in \R^3 & \forall w \in T_u f : \<v, w\> = 0 } \subset T_{f(u)} \R^3.
 	\]
 	\begin{note}
 		Es gilt
@@ -121,18 +125,18 @@
 
 \section{Metrische Verhältnisse innerhalb eines Flächenstücks}
 
-Die Länge eine Tangentialvektors $x \in T_u f$ oder $x \in T_p \R^3$ ist
+Die Länge eine Tangentialvektors $x \in T_u f$ oder allgemeiner $x \in T_p \R^3$ ist
 \[
-	\|x\| = \sqrt{\<x, x\>}
+	\|x\| = \sqrt{\<x, x\>}.
 \]
 Die Länge einer Kurve $[a,b] \xrightarrow{c} U \xrightarrow{f} \R^3$ ist
 \[
 	\int_a^b \| (f \circ c)^\cdot (t)\| \dx[t]
-	= \int_a^b \sqrt{\< \Df \dot c, \Df \dot c\>} \dx[t]
+	= \int_a^b \sqrt{\< \Df \dot c(t), \Df \dot c(t)\>} \dx[t]
 \]
-mit $\dot c \in T_{c(t)} U$, $\Df = (\ddx[u_j]{f_i})_{i,j}$
+mit $\dot c \in T_{c(t)} U$, $\Df = (\ddx[u_j]{f_i})_{ij}$, also
 \[
-	\Df \dot c = \Matrix*{ \ddx[u_1]{x_1} & \ddx[u_2]{x_1} \\ \ddx[u_1]{x_2} & \ddx[u_2]{x_2} \\ \ddx[u_1]{x_3} & \ddx[u_2]{x_3} } \Vector{\dot u_1 & \dot u_2}.
+	\Df \dot c = \Matrix*{ \ddx[u_1]{x_1} & \ddx[u_2]{x_1} \\ \ddx[u_1]{x_2} & \ddx[u_2]{x_2} \\ \ddx[u_1]{x_3} & \ddx[u_2]{x_3} } \Vector{\dot c_1 & \dot c_2}.
 \]
 Es gilt
 \[
@@ -147,17 +151,18 @@ mit
 Dieser Ausdruck ist allein von $f$ abhängig und stellt eine \emph{symmetrische Billinearform} mit maximalem Rang dar.
 
 \begin{df}
-	Die \emphdef[Fundamentalform!erste]{erste Fundamentalform} $Ⅰ: T_u f \times T_u f \to \R$ von $f: U \to \R^3$ ist die Einschränkung des euklidischen Skalarprodukts auf $T_u f$:
+	Die \emphdef[Fundamentalform!erste]{erste Fundamentalform} $Ⅰ: T_u f \times T_u f \to \R$ von $f: U \to \R^3$ im Punkt $p = f(u)$ ist die Einschränkung des euklidischen Skalarprodukts auf $T_u f$:
 	\[
 		Ⅰ(X, Y) := \< X, Y \>,
 	\]
-	wobei $X, Y \in T_u f$.
+	wobei $X, Y \in T_u f \subset \R^3$.
 
-	Liegt $f$ in parametrisierter Form vor, so verwenden wir auch den Ausdruck $Ⅰ(V, W)$ für $V, W \in T_u U$, welcher auf natürliche Weise durch die symmetrische Billinearform auf $T_u U$ gegeben ist:
+	Liegt $f$ in parametrisierter Form vor, so schreiben wir den Ausdruck $Ⅰ(V, W)$ auch für $V, W \in T_u U \subset \R^2$.
+	Mittels $X = \Df|_u V, Y = \Df|_u W$ sieht man, dass diese auf natürliche Weise durch die symmetrische Billinearform auf $T_u U$ gegeben ist:
 	\[
-		Ⅰ(V, W) = \big\< \Df|_u (V), \Df|_u (W) \big\> = V (\Df^T \Df) W.
+		Ⅰ(V, W) = \big\< \Df|_u (V), \Df|_u (W) \big\> = V (\Df^T \Df)|_u W.
 	\]
-	Die erste Fundamentalform ist also durch die Matrix
+	Die erste Fundamentalform eines \emph{parametrisierten} Flächenstücks ist also durch die Matrix
 	\[
 		(g_{ij})
 		= \Matrix*{g_{11} & g_{12} \\ g_{21} & g_{22}}
@@ -169,12 +174,22 @@ Dieser Ausdruck ist allein von $f$ abhängig und stellt eine \emph{symmetrische 
 
 	Das Flächenelement ergibt sich als
 	\[
-		\dx[s]^2 = E \dx[y]^2 + 2 E \dx[u_1] \dx[u_2] + G \dx[u_2]^2
+		\dx[s]^2 = E \dx[y]^2 + 2 F \dx[u_1] \dx[u_2] + G \dx[u_2]^2
 	\]
 	und es gilt
 	\[
 		\| (f \circ c)^\cdot \| = \sqrt{E \dot u_1^2 + 2 F \dot u_1 \dot u_2 + G \dot u_2^2}.
 	\]
+	\begin{note}
+		Die erste Fundamentalform eines parametrisierten Flächestücks ist also die Gramsche Matrix der Vektoren $\ddx[u_1]{f}, \ddx[u_2]{f}$.
+		$g := \det(g_{ij})$ ist dann die Gramsche Determinante.
+		Man erhält
+		\[
+			g = \|\ddx[u_1]{f}\| \|\ddx[u_2]{f}\| |\sin \angle(\ddx[u_1]{f}, \ddx[u_2]{f})|,
+		\]
+		also den Flächeninhalt des durch $\ddx[u_1]{f}, \ddx[u_2]{f}$ aufgespannten Parallelogramms.
+		$\sqrt g = \sqrt{\det(g_{ij})}$ ist also die Flächenverzerrung durch $f$.
+	\end{note}
 \end{df}
 
 \begin{ex}
@@ -189,7 +204,7 @@ Dieser Ausdruck ist allein von $f$ abhängig und stellt eine \emph{symmetrische 
 		F &= \< f_\phi, f_\theta \> = 0 \\
 		G &= \< f_\theta, f_\theta \> = 1
 	\end{align*}
-	und damit $\Matrix{E & F \\ F & G} = \Matrix{\cos^2 \theta & 0 \\ 0 & 1}$.
+	und die erste Fundamentalform ergibt sich als $(g_{ij}) = \Matrix{E & F \\ F & G} = \Matrix{\cos^2 \theta & 0 \\ 0 & 1}$.
 
 	$f_\phi, f_\theta$ sind orthogonal für $\theta = 0$.
 	$f_\phi$ wird verkürzt für $\theta \to \pm \f \pi2$.
@@ -197,62 +212,44 @@ Dieser Ausdruck ist allein von $f$ abhängig und stellt eine \emph{symmetrische 
 
 \coursetimestamp{15}{05}{2014}
 
-\begin{lem}
+\begin{lem}[Erste Fundamentalform unter Parametertransformation]
 	Bei einer Parametertransformation $\tilde f = f \circ \Phi$ ergibt sich für $(g_{ij}), (\tilde g_{ij})$
 	\[
-		(g_{ij}) = (\Df[\Phi])^T(g_{ij}(\Df[\Phi])
+		(\tilde g_{ij}) = (\Df[\Phi])^T(g_{ij})(\Df[\Phi]).
+	\]
+	Insbesondere ergibt sich für die Gramsche Determinante
+	\[
+		\tilde g = \det(\tilde g_{ij})
+		= \det(g_{ij}) \det(\Df[\Phi])^2
+		= g \det(\Df[\Phi])^2.
 	\]
 	\begin{proof}
 		Es gilt
 		\begin{align*}
 			\tilde g_{ij} &= (\Df[\tilde f])^T (\Df[ \tilde f])
-			= (\Df \circ \Df[\Phi])^T (\Df \circ \Df[\Phi])
-			= (\Df[\Phi])^T \underbrace{\big((\Df)^T \Df\big)}_{=(g_{ij})} \circ \Df[\Phi]
+			= (\Df \Df[\Phi])^T (\Df \Df[\Phi])
+			= (\Df[\Phi])^T \underbrace{(\Df)^T \Df}_{=(g_{ij})} \Df[\Phi]
 		\end{align*}
 	\end{proof}
 \end{lem}
 
-Es gilt $\det(\tilde g_{ij}) = \det(g_{ij}) (\det(\Df[\Phi]))^2$.
-
-$g := \det(g_{ij})$ heißt \emphdef{Gramsche Determinante}
-\[
-	\tilde g = g (\det(\Df[\Phi]))^2
-\]
-Die \emphdef{Gramsche Matrix} ist
-\[
-	\Matrix{\<x,x\> & \<x,y\> \\ \<y,x\> & \<y,y\>}
-\]
-mit $\det() = \|x\|^2 \|y\|^2 \sin^2 \angle$, also ist
-\[
-	\sqrt{\det}
-	= \|x\|\|y\| |\sin \alpha|
-\]
-der Flächeninhalt des Paralallograms.
-
-Für eine lineare Abbildung $F$ ist die Gramsche Determinante
-\[
-	\<Fx, Fx\> \<Fy, Fy\> - \<Fx, Fy\>^2
-\]
-das Quadrat der Flächenverzerrung von $F$.
-Damit ist $\sqrt{g} = \sqrt{\det(g_{j})}$ die Flächenverzerrung der Abbildung $f$.
-
 \begin{df}[Oberflächenintegral]
-	Sei $f: U \to \R^3$ injektiv, $\alpha$ sei stetig und auf ganz $f(U)$ definiert.
-	Dann ist für jedes Kompaktum $Q \subset U$
+	Sei $f: U \to \R^3$ injektiv, $\alpha: f(U) \to \R$ stetig.
+	Dann definieren wir für jedes Kompaktum $Q \subset U$
 	\[
 		\iint_{f(Q)} \alpha \dx[A]
-		:= \iint_{Q} (\alpha \circ f)(u_1, u_2) \sqrt{g} \dx[(u_1, u_2)]
+		:= \iint_{Q} (\alpha \circ f)(u_1, u_2) \sqrt{g} \dx[(u_1, u_2)],
 	\]
-	das \emphdef{Oberflächenintegral} von $\alpha$ erklärt.
+	das \emphdef{Oberflächenintegral} von $\alpha$.
 	$\alpha = 1$ liefert den Flächeninhalt.
 	$\dx[A] = \sqrt{g} \dx[(u_1, u_2)]$ heißt \emphdef{Flächenelement}.
 	\begin{note}
 		Diese Definition ist unabhängig von der Parametrisierung, denn für $\tilde f = f \circ \Phi, Q = \Phi(\tilde Q), (u_1,u_2) = \Phi(\tilde u_1, \tilde u_2)$ ist
 		\begin{align*}
 			\iint_{\tilde f(Q)} \alpha \dx[\tilde A]
-			&= \iint_{\tilde Q} (\alpha \circ \tilde f)(\tilde u_1, \tilde u_2) \underbrace{\sqrt{g}}_{=|\det \Df[\Phi]| \sqrt{g}} \dx[(\tilde u_1, \tilde u_2)] \\
+			&= \iint_{\tilde Q} (\alpha \circ \tilde f)(\tilde u_1, \tilde u_2) \underbrace{\sqrt{\tilde g}}_{=|\det \Df[\Phi]| \sqrt{g}} \dx[(\tilde u_1, \tilde u_2)] \\
 			&= \iint_{Q} (\alpha \circ f) (u_1, u_2) \sqrt{g} \dx[(u_1, u_2)] \\
-			&= \iint_{f(Q)} \alpha \dx[A]
+			&= \iint_{f(Q)} \alpha \dx[A].
 		\end{align*}
 		per Substitution.
 	\end{note}
@@ -268,7 +265,7 @@ Grundsätzlich ist jede Zuordnung
 ein \emphdef{Vektorfeld}.
 
 \begin{df}[Vektorfeld längs $f: V \to \R^3$]
-	ein Vektorfeld längs $f$ ist eine Zuordnung
+	Ein \emphdef[Vektorfeld längs $f$]{Vektorfeld $V$ längs $f$} ist eine Zuordnung
 	\[
 		U \ni u \mapsto (f(u), x(u)) \in T_{f(u)} \R^3
 	\]
