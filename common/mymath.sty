@@ -1,6 +1,8 @@
-\RequirePackage{expl3}
+\RequirePackage [ log-declarations = false ] { xparse }
+\RequirePackage { expl3, l3keys2e }
 \ProvidesExplPackage{mymath}{2013/11/16}{0.1}{Package intended to provide math utilities}
 
+\RequirePackage { amsmath, amssymb }
 \usepackage{relsize}
 \usepackage{mathtools}
 
@@ -99,6 +101,7 @@
 \DeclareDocumentCommand { \NormalSubgroup } { } { \mathbin{\trianglelefteq} }
 
 \ExplSyntaxOff
+\RequirePackage { tikz }
 \usetikzlibrary { arrows, positioning }
 \RequirePackage { tikz-cd }
 \tikzset {
@@ -300,9 +303,11 @@
 \DeclareDocumentCommand { \oBdA } { } { o.B.d.A.\xspace }
 \DeclareDocumentCommand { \OBdA } { } { O.B.d.A.\xspace }
 
-\ifthenelse{\isundefined{\psmallmatrix}}{
-	\newenvironment{psmallmatrix}{\left(\begin{smallmatrix}}{\end{smallmatrix}\right)}
-}{}
+\DeclareDocumentEnvironment { psmallmatrix } { } {
+    \left( \begin { smallmatrix }
+} {
+    \end{smallmatrix} \right)
+}
 
 % Purely cosmetic fixes for existing commands
 % ===========================================
