@@ -167,7 +167,7 @@ Dieser Ausdruck ist allein von $f$ abhängig und stellt eine \emph{symmetrische 
 		(g_{ij})
 		= \Matrix*{g_{11} & g_{12} \\ g_{21} & g_{22}}
 		:= \Matrix*{E & F \\ F & G}
-		:= \Matrix*{\< \ddx[u_1]{f}, \ddx[u_1]{f}\> & \<\ddx[u_1]{f}, \ddx[u_2]{f}\> \\ \<\ddx[u_2]{f}, \ddx[u_1]{f}\> & \<\ddx[u_2]{f}, \ddx[u_2]{f}\> }
+		:= \Matrix*{\< \pddx[u_1]{f}, \pddx[u_1]{f}\> & \<\pddx[u_1]{f}, \pddx[u_2]{f}\> \\ \<\pddx[u_2]{f}, \pddx[u_1]{f}\> & \<\pddx[u_2]{f}, \pddx[u_2]{f}\> }
 		= \Df^T \Df
 	\]
 	bestimmt.
@@ -193,10 +193,11 @@ Dieser Ausdruck ist allein von $f$ abhängig und stellt eine \emph{symmetrische 
 \end{df}
 
 \begin{ex}
-	Betrachte wieder die Sphäre:
+	Betrachte wieder die Sphäre in der Polarkoordinatenparametrisierung.
+	Wir erhalten für die partiellen Ableitungen
 	\[
-		f_\phi = \Vector{-\sin \phi \cos \theta & \cos \phi \cos \theta & 0},
-		f_\theta = \Vector{-\cos \phi \sin \theta & - \sin \phi \sin \theta & \cos \theta}
+		f_\phi = \Vector{-\sin \phi \cos \theta & \cos \phi \cos \theta & 0}, \quad
+		f_\theta = \Vector{-\cos \phi \sin \theta & - \sin \phi \sin \theta & \cos \theta}.
 	\]
 	Es gilt
 	\begin{align*}
@@ -207,7 +208,7 @@ Dieser Ausdruck ist allein von $f$ abhängig und stellt eine \emph{symmetrische 
 	und die erste Fundamentalform ergibt sich als $(g_{ij}) = \Matrix{E & F \\ F & G} = \Matrix{\cos^2 \theta & 0 \\ 0 & 1}$.
 
 	$f_\phi, f_\theta$ sind orthogonal für $\theta = 0$.
-	$f_\phi$ wird verkürzt für $\theta \to \pm \f \pi2$.
+	$f_\phi$ wird kürzer für $\theta \to \pm \f \pi2$.
 \end{ex}
 
 \coursetimestamp{15}{05}{2014}
@@ -271,32 +272,35 @@ ein \emphdef{Vektorfeld}.
 	\]
 	Analog definiert man stetige und differenzierbare Vektorfelder für stetiges, bzw. differenzierbares $x$.
 
-	Man nennt das Vektorfeld \emphdef[Vektorfeld!tangential]{tangential}, wenn $x(u) \in T_u(f)$ für alle $u \in U$ und \emphdef[Vektorfeld!normal]{normal}, wenn $x(u) \in \orth_u f$ für alle $u \in U$.
+	Man nennt das Vektorfeld \emphdef[Vektorfeld!tangential]{tangential}, wenn $x(u) \in T_u(f)$ für alle $u \in U$ und \emphdef[Vektorfeld!normal]{normal}, wenn $x(u) \in \Orthspace_u f$ für alle $u \in U$.
 \end{df}
 
 \begin{ex}
-	$\ddx[u_1]{f}, \ddx[u_2]{f}$ sind tangentiale Vektorfelder längs $f$.
-	$\ddx[u_1]{f} \times \ddx[u_2]{f}$ ist ein normales Vektorfeld längs $f$.
+	$\pddx[u_1]{f}, \pddx[u_2]{f}$ sind tangentiale Vektorfelder längs $f$.
+	$\pddx[u_1]{f} \times \pddx[u_2]{f}$ ist ein normales Vektorfeld längs $f$.
 \end{ex}
 
 \begin{df}
 	Wir nennen
 	\[
-		\nu := \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}\|}
-		\in \orth_u f \subset T_{f(u)}\R^3.
+		\nu := \dfrac{\pddx[u_1]{f} \times \pddx[u_2]{f}}{\|\pddx[u_1]{f} \times \pddx[u_2]{f}\|}
+		\in \Orthspace_u f \subset T_{f(u)}\R^3.
 	\]
-	Einheitsnormale.
-	Die Einheitsnormale ist nicht eindeutig, $-\nu$ ist auch eine Einheitsnormale.
+	\emphdef{Einheitsnormale} von $f$.
+
+	\begin{note}
+		$-\nu$ wird ebenfalls Einheitsnormale genannt und daher ist der Begriff nur bis auf das Vorzeichen eindeutig.
+	\end{note}
 \end{df}
 
-Wann ist eine 2-dimensionale Untermannigfaltigkeit des $R^3$ orientierbar?
+Wann ist eine 2-dimensionale Untermannigfaltigkeit des $\R^3$ orientierbar?
 Genau dann, wenn es ein stetiges Einheitsnormalenvektorfeld gibt (Forster, Analysis 3). % fixme: ref
-
+Das Orthogonalsystem
 \[
-	\ddx[u_1]{f}, \ddx[u_2]{f}, \dfrac{\ddx[u_1]{f} \times \ddx[u_2]{f}}{\|\ddx[u_1]{f} \times \ddx[u_2]{f}\|}
+	\pddx[u_1]{f}, \pddx[u_2]{f}, \dfrac{\pddx[u_1]{f} \times \pddx[u_2]{f}}{\|\pddx[u_1]{f} \times \pddx[u_2]{f}\|}
 \]
-ist positiv orientiert, Umdrehen von $\ddx[u_1]{f}, \ddx[u_2]{f}$ ergibt die andere Orientierung.
-$(u_1, u_2) \mapsto \Phi(u_1, u_2)$ mit positivem $\det \Df[\Phi]$ ?
+ist positiv orientiert, Umdrehen von $\pddx[u_1]{f}, \pddx[u_2]{f}$ ergibt die andere Orientierung.
+Eine Parametertransformation $\Phi$ erhält die Orientierung, solange $\det \Df[\Phi] > 0$.
 
 Innerhalb von $U \subset \R^2$ gibt es eine feste Orientierung durch Wahl einer Reihenfolge $u_1, u_2$.
 Für die Bildmenge $f(U)$ braucht das nicht zu gelten (falls $f$ nicht injektiv ist).
@@ -308,10 +312,10 @@ Für die Bildmenge $f(U)$ braucht das nicht zu gelten (falls $f$ nicht injektiv 
 	\]
 	Für $v = 0$ ist $f(u, 0) = \Vector{\sin u & \cos u & 0}$ ein Kreis.
 	Für $u = \const$ ergibt sich ein Geradenstück durch $f(u, 0)$.
-	$f$ ist regulär für „kleine“ $|v|$ und injektiv für $0 \le u < 2\pi$.
-	Für $v \neq 0, |v|$ klein ist
+	$f$ ist regulär für hinreichend kleines $|v|$ und injektiv für $0 \le u < 2\pi$.
+	Für $v \neq 0$, aber $|v|$ hinreichend klein ist
 	\[
-		v \cos \f u2 = v \cos {\tilde u}2
+		v \cos \f u2 = v \cos \f{\tilde u}2
 		\implies u = \tilde u
 	\]
 	aber $f(2\pi, v) = f(0, -v) = (0,1, -v)$, nicht injektiv.
@@ -355,9 +359,10 @@ Die Ableitungen $\Df, (\Df)^{-1}, \Df[\nu]$ sind parameterunabhängig.
 
 \begin{df}[Weingartenabbildung]
 	Die Komposition $L := -\Df[\nu] \circ (\Df)^{-1}$ im Punkt $u$:
-	\[
-		L_u := -\Df[\nu]\big|_u \circ (\Df\big|_u)^{-1} : T_u f \to T_u f
-	\]
+	\begin{align*}
+		L_u : T_u f &\to T_u f \\
+		X &\mapsto -\Df[\nu]\big|_u (\Df\big|_u)^{-1} X
+	\end{align*}
 	heißt \emphdef{Weingartenabbildung}, oder \emphdef{Formoperator}.
 	Insbesondere ist $L(\ddx[u_i]{f}) = - \ddx[u_i]{\nu}$.
 \end{df}
@@ -365,9 +370,11 @@ Die Ableitungen $\Df, (\Df)^{-1}, \Df[\nu]$ sind parameterunabhängig.
 $L$ ist ein Endomorphismenfeld der Tangentialebene.
 
 \begin{lem}
-	$L$ ist unabhängig von der Parametrisierung (bis auf die Wahl von $\nu$, d.h. ein Vorzeichen) und ist selbstadjungiert bezüglich der ersten Fundamentalform.
+	$L$ ist unabhängig von der Parametrisierung (bis auf die Wahl von $\nu$, d.h. ein Vorzeichen) und ist selbstadjungiert bezüglich der ersten Fundamentalform, d.h. $Ⅰ(LX, Y) = Ⅰ(X,LY)$ für alle $X, Y \in T_u f$.
+
+	Insbesondere ist $L$ somit reell diagonalisierbar mit reellen Eigenwerten.
 	\begin{proof}
-		Sei $f = f \circ \Phi, \tilde \nu = \pm \nu \circ \Phi$.
+		Sei $\tilde f = f \circ \Phi, \tilde \nu = \pm \nu \circ \Phi$.
 		Dann ist
 		\begin{align*}
 			\tilde L
@@ -375,30 +382,26 @@ $L$ ist ein Endomorphismenfeld der Tangentialebene.
 			= \mp \Df[\nu] \Df[\Phi] (\Df \Df[\Phi])^{-1} \\
 			&= \mp \Df[\nu] \Df[\Phi] (\Df[\Phi])^{-1} (\Df)^{-1}
 			= \mp \Df[\nu] (\Df)^{-1}
-			= \pm L
+			= \pm L.
 		\end{align*}
+		Es gilt
+		\[
+			Ⅰ(L \ddx[u_i]{f}, \ddx[u_j]{f})
+			= \< - \ddx[u_i]{\nu}, \ddx[u_j]{f} \>
+			= - \ddx[u_i]\underbrace{\<\nu, \ddx[u_j]{f}\>}_{=0} + \<\nu, \underbrace{\f{\partial^2 f}{\partial u_i \partial u_j}}_{\text{symm. in $i,j$}} \>.
+		\]
+		Dann ist
+		\[
+			Ⅰ(L \ddx[u_i]{f}, \ddx[u_j]{f})
+			= Ⅰ(\ddx[u_i]{f}, L \ddx[u_j]{f}).
+		\]
+		Mittels Symmetrie und Bilinearität der ersten Fundamentalform also $Ⅰ(LX, Y) = Ⅰ(X,LY)$ für alle $X, Y \in T_u f$, d.h. $L$ ist selbstadjungiert.
 	\end{proof}
-	Es gilt
-	\[
-		Ⅰ(L \ddx[u_i]{f}, \ddx[u_j]{f})
-		= \< - \ddx[u_i]{\nu}, \ddx[u_j]{f} \>
-		= - \ddx[u_i]\underbrace{\<\nu, \ddx[u_j]{f}\>}_{=0} + \<\nu, \underbrace{\f{\partial^2 f}{\partial u_i \partial u_j}}_{\text{symm. in $i,j$}} \>
-	\]
-	Dann ist
-	\[
-		Ⅰ(L \ddx[u_i]{f}, \ddx[u_j]{f})
-		= Ⅰ(\ddx[u_i]{f}, L \ddx[u_j]{f}),
-	\]
-	also \emph{selbstadjungiert}.
-	\begin{note}
-		Damit ist $L$ insbesondere reell diagonalisierbar mit reellen Eigenwerten.
-	\end{note}
 \end{lem}
 
 \coursetimestamp{20}{05}{2014}
 
-
-Sei
+Seien $X, Y$ Eigenvektoren von $L$.
 \begin{align*}
 	LX &= -\Df[\nu](\Df)^{-1}X) = \lambda X \\
 	LY &= -\Df[\nu](\Df)^{-1}X) = \my Y
