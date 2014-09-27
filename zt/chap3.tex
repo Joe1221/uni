@@ -10,7 +10,7 @@ Das Verfahren wurde 1977/1978 am MIT von Rivest, Shamir und Adelman entwickelt (
 Das RSA-Verfahren ist ein sogenanntes asymmetrisches kryptographisches Verfahren.
 Solche finden Anwendung bei Verschlüsselung von Nachrichten, bei digitalen Signaturen, Bezahlung mit Kreditkarten, Pay-TV.
 
-Mathematisch gesehen war es die Rettung für die Königin der Mathematik (die elementaren Zahlentheorie).
+Mathematisch gesehen war es die Rettung für die Königin der Mathematik (die elementare Zahlentheorie).
 Diese hatte bis dahin nämlich kaum praktische Anwendungsgebiete gehabt.
 
 
@@ -27,7 +27,7 @@ Ein Kunde $K$ möchte seiner Bank $B$ über einen unsicheren/öffentlichen Weg e
 			\item
 				Anschließend wählt $B$ ein $e > 1$ (“public key exponent”) mit $(e, \phi(n)) = 1$.
 			\item
-				Dann berechnet $B$ ein $d \in \N$ (“private key exponent”) mit $ed \equiv 1 \bmod \phi(n)$ (soein $d$ lässt sich wegen $(e, \phi(n)) = 1$ beispielsweise mit dem euklidischen Algorithmus finden: $z_1 e + z_2 \phi(n) = 1$ und man wählt $d := z_1$).
+				Dann berechnet $B$ ein $d \in \N$ (“private key exponent”) mit $ed \equiv 1 \bmod \phi(n)$ (solch ein $d$ lässt sich wegen $(e, \phi(n)) = 1$ beispielsweise mit dem euklidischen Algorithmus finden: $z_1 e + z_2 \phi(n) = 1$ und man wählt $d := z_1$; $d$ kann stets positiv gewählt werden durch Addieren von $\phi(n)$).
 		\end{enumerate}
 	\item
 		$B$ sendet das Paar $(n, e)$ (“public key”) öffentlich an $K$, während er $d$ und $\phi(n)$ geheim hält.
@@ -51,7 +51,7 @@ Diese Frage wird von folgendem Lemma beantwortet, welches eine Art Verallgemeine
 % Lem 3.2
 \begin{lem} \label{3.2}
 	Seien $p, q \in \P, n := pq$.
-	Dann gilt für alle $x, k \in \Z$
+	Dann gilt für alle $x \in \Z, k \in \N_0$
 	\[
 		x^{k\phi(n) + 1} \equiv x \mod n.
 	\]
@@ -233,7 +233,7 @@ Dies motiviert Primzahltests.
 	\begin{proof}
 		\begin{segnb}{$\impliedby$}
 			Statt $a \in \N$ mit $(a, n) = 1$ zu prüfen, genügt es Elemente $u \in U(\Z / n\Z)$ zu betrachten.
-			Mit \ref{1.14} ist
+			Mit \ref{1.14} ist da $n$ quadratfrei
 			\[
 				U(\Z / n\Z) = U(\Z / p_1\Z) \times \dotsb \times U(\Z / p_k \Z).
 			\]
@@ -254,7 +254,7 @@ Dies motiviert Primzahltests.
 					Es gilt $p \divs n$ und wegen $m \ge 2$ auch $p \divs n-1$, also $p \divs n - (n-1) = 1$, ein Widerspruch.
 				\item
 					\emph{$p_i - 1$ teilt $n - 1$}.
-					Zerlege dazu $U(\Z / n\Z) = U(\Z / p_1 \Z) \times \dotsb \times U(\Z / p_k \Z)$.
+					Zerlege dazu $U(\Z / n\Z) = U(\Z / p_1 \Z) \times \dotsb \times U(\Z / p_k \Z)$ (beachte: $n$ quadratfrei).
 					Für beliebiges $u = (u_1, \dotsc, u_k) \in U(\Z / n\Z)$ gilt nach Voraussetzung $u^{n-1} = 1$, also $u_i^{n-1} = 1$ für alle $1 \le i \le k$.
 					Wählt man für diese $u_i$ gerade die Erzeuger von $U(\Z / p_i\Z)$, so erhält man $u_i^{p_i-1} = 1 = u_i^{n-1}$ und weil $U(\Z / p_i \Z)$ Ordnung $p_i - 1$ hat auch $p_i - 1 \divs n - 1$.
 				\item
@@ -266,6 +266,8 @@ Dies motiviert Primzahltests.
 						n - 1 \equiv -1 = (-1)^{n-1} \equiv 1 \mod n,
 					\]
 					also $n \divs 2$ und mit der Annahme $n = 2$, ein Widerspruch zu $n$ nicht prim.
+				\item
+					\emph{$k \ge 3$}.
 			\end{enumerate}
 			% fixme: Wo wird k ≥ 3 gezeigt?
 		\end{segnb}
