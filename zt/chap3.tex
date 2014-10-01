@@ -68,7 +68,7 @@ Diese Frage wird von folgendem Lemma beantwortet, welches eine Art Verallgemeine
 		\end{itemize}
 	\end{note}
 	\begin{proof}
-		Mit \ref{1.14} ist $Z / n\Z = \Z /p\Z \times \Z q\Z$ und $x = (x_1, x_2)$, also $x^{\phi(n)} = (x_1^{\phi(n)}, x_2^{\phi(n)})$ und
+		Mit \ref{1.14} ist $Z / n\Z = \Z /p\Z \times \Z /q\Z$ und $x = (x_1, x_2)$, also $x^{\phi(n)} = (x_1^{\phi(n)}, x_2^{\phi(n)})$ und
 		\[
 			x_1^{\phi(n)}
 			= x_1^{(p-1)(q-1)}
@@ -182,11 +182,11 @@ Dies motiviert Primzahltests.
 		\item
 			$n \in \N$ nennt man \emphdef[Pseudoprimzahl]{Pseudoprimzahl zur Basis $a$}, wenn $n$ keine Primzahl ist, aber $a^{n-1} \equiv 1 \bmod n$ gilt.
 		\item
-			$n \in \N$ nennt man \emphdef{Carlmichaelzahl}, wenn $n$ keine Primzahl ist, aber für alle $a \in \N$ mit $(a,n) = 1$ gilt, dass $a^{n-1} \equiv 1 \bmod n$.
+			$n \in \N$ nennt man \emphdef{Carmichaelzahl}, wenn $n$ keine Primzahl ist, aber für alle $a \in \N$ mit $(a,n) = 1$ gilt, dass $a^{n-1} \equiv 1 \bmod n$.
 	\end{enumerate}
 	\begin{note}
-		Carlmichaelzahlen  kommen von der Umkehrung des kleinen Fermats: ist $p$ Primzahl, dann ist $a^{p-1} \equiv 1 \bmod p$ für alle $(a,p) = 1$.
-		Man hat sich also die Frage gestellt, für welche Zahlen die Umkehrung nicht gilt, diese nennt man Carlmichaelzahlen.
+		Calmichaelzahlen  kommen von der Umkehrung des kleinen Fermats: ist $p$ Primzahl, dann ist $a^{p-1} \equiv 1 \bmod p$ für alle $(a,p) = 1$.
+		Man hat sich also die Frage gestellt, für welche Zahlen die Umkehrung nicht gilt, diese nennt man Calmichaelzahlen.
 	\end{note}
 \end{df}
 
@@ -254,7 +254,7 @@ Dies motiviert Primzahltests.
 					Es gilt $p \divs n$ und wegen $m \ge 2$ auch $p \divs n-1$, also $p \divs n - (n-1) = 1$, ein Widerspruch.
 				\item
 					\emph{$p_i - 1$ teilt $n - 1$}.
-					Zerlege dazu $U(\Z / n\Z) = U(\Z / p_1 \Z) \times \dotsb \times U(\Z / p_k \Z)$ (beachte: $n$ quadratfrei).
+					Zerlege dazu $U(\Z / n\Z) \isomorphic U(\Z / p_1 \Z) \times \dotsb \times U(\Z / p_k \Z)$ (beachte: $n$ quadratfrei).
 					Für beliebiges $u = (u_1, \dotsc, u_k) \in U(\Z / n\Z)$ gilt nach Voraussetzung $u^{n-1} = 1$, also $u_i^{n-1} = 1$ für alle $1 \le i \le k$.
 					Wählt man für diese $u_i$ gerade die Erzeuger von $U(\Z / p_i\Z)$, so erhält man $u_i^{p_i-1} = 1 = u_i^{n-1}$ und weil $U(\Z / p_i \Z)$ Ordnung $p_i - 1$ hat auch $p_i - 1 \divs n - 1$.
 				\item
@@ -287,10 +287,10 @@ Dies motiviert Primzahltests.
 		\[
 			2^{2^n -2} - 1 = (2^n)^{2k} - 1.
 		\]
-		Also $2^n - 1 \divs 2^{2^n -2} - 1 = 2^{2^n - 1 - 1}$.
+		Also $2^n - 1 \divs 2^{2^n -2} - 1 = 2^{(2^n - 1) - 1} - 1$, d.h. $2^{(2^n - 1) - 1} \equiv 1 \bmod 2^n - 1$.
 		Es bleibt zu zeigen, dass $2^{n-1}$ keine Primzahl ist.
-		Sei $n$ keine Primzahl, dann folgt aus $d \divs n$, dass $2^d - 1 \divs 2^n - 1$ mit $d < n$.
-		Dann ist $2^d - 1 < 2^n - 1$ und ein nicht trivialer Teiler.
+		Da $n$ keine Primzahl ist, existiert $d \divs n$ mit $1 < d < n$.
+		Es gilt $2^d - 1 \divs 2^n - 1$ und wegen $1 < 2^d - 1 < 2^n - 1$ ist $2^d - 1$ ein nicht trivialer Teiler von $2^n - 1$.
 	\end{proof}
 	\begin{note}
 		Im Beweis wurde mehrfach verwendet, dass
@@ -309,22 +309,29 @@ Dies motiviert Primzahltests.
 			Seit 1992 (Granville) weiß man, dass es unendlich viele gibt.
 		\item
 			Den Fermat'schen Primzahltest kann man verbessern.
-			Es gilt: $n$ ist eine Primzahl, wenn für alle $1 < m < n$ gilt $m^{n-1} \equiv 1 \bmod n$.
-			Rückrichtung mit $| U(\Z/n\Z) | = n-1$, wenn $n$ eine Primzahl ist, Hinrichtung mit kleinem Fermat.
-
-			Auch für Carmichaelzahlen $n$ gilt:
-			Ist $p$ ein echter Teiler von $n$, dann ist $\_p = p \bmod n \not\in U(\Z / n\Z)$.
+			Es gilt: $n$ ist genau dann eine Primzahl, wenn für alle $1 < m < n$ gilt $m^{n-1} \equiv 1 \bmod n$.
+			\begin{proof}
+				\begin{segnb}{\ProofImplication}
+					Kleiner Fermat
+				\end{segnb}
+				\begin{segnb}{\ProofImplication*}
+					Wegen $m^{n-1} \equiv 1$ ist $m \in U(\Z / n\Z)$.
+					Da dies für alle $1 < m < n$ erfüllt ist, gilt $|U(\Z / n\Z)| = n - 1$, d.h. $n$ ist prim.
+				\end{segnb}
+			\end{proof}
+			Insbesondere für Carmichaelzahlen $n$ gilt:
+			Ist $p$ ein echter Teiler von $n$, dann ist $\_p \not\in U(\Z / n\Z)$.
 	\end{enumerate}
 \end{nt*}
 
 % St 3.10
 \begin{st}[Lucas] \label{3.10}
-	Sei $n > 1$, $n \in \N$.
+	Sei $n \in \N$, $n \ge 2$.
 	Wenn für jeden Primteiler $p$ von $n - 1$ eine ganze Zahl $a = a(p)$ existiert mit $a^{n-1} \equiv 1 \bmod n$ und $a^{\f {n-1}p} \not \equiv 1 \bmod n$, dann ist $n$ eine Primzahl.
 
 	\begin{proof}
 		Um zu zeigen, dass $n$ eine Primzahl ist, genügt es $\phi(n) = n - 1$ zu zeigen.
-		Sei $p$ eine Primzahl und $p^r$ der maximale $p$-Potenzteiler von $n-1$.
+		Sei $p^r$ der maximale $p$-Potenzteiler von $n-1$ für eine Primzahl $p$.
 		Sei $a = a(p)$ und $e$ die Ordnung von $a \bmod n$.
 		Dann ist $e$ ein Teiler von $n-1$ und $e$ teilt nicht $\f {n-1}p$, also ist $p^r \divs e$.
 		Sicherlich $e \divs \phi(n)$, dann $p^r \divs \phi(n)$.
@@ -334,7 +341,7 @@ Dies motiviert Primzahltests.
 
 % Nt + Ex 3.11
 \begin{nt} \label{3.11}
-	Um \ref{3.10} anwenden zu können, sollte man die Primzahlen von $n-1$ kennen.
+	Um \ref{3.10} anwenden zu können, sollte man die Primteiler von $n-1$ kennen.
 	In Spezialfällen ist dies der Fall, z.B. für $n = 2^{16} + 1 = 65537$.
 
 	Nach \ref{3.10} genügt zum Primzahlnachweis eine Zahl $a$ zu finden mit $a^{2^{16}} \equiv 1 \bmod 2^{16} + 1$ und $a^{2^{15}} \not\equiv 1 \bmod 2^{16} + 1$.
@@ -354,12 +361,12 @@ Nächstes Thema sind Primzahltests im Zusammenhang mit Fermatzahlen und Mersenne
 	\begin{proof}
 		\begin{enumerate}[a)]
 			\item
-				Ist $k = uv$, dann ist $2^k - 1 = (2^n)^v - 1$.
+				Ist $k = uv$, dann ist $2^k - 1 = (2^u)^v - 1$.
 
-				$x-1 \divs x^v - 1$, da $1$ Nullstelle, also $2^n -1 \divs 2^k - 1$.
+				$x-1 \divs x^v - 1$, da $1$ Nullstelle, also $2^u -1 \divs 2^k - 1$.
 			\item
-				$k = 2^r \_ u$ mit $\_ u$ ungerade, dann ist $2^k + 1 = (2^{2r})^u + 1$.
-				$x + 1 \divs x^{\_ u} + 1$, da $-1$ Nullstelle von $x^{\_ u} + 1$, also $2^{2r} + 1 \divs 2^k + 1$.
+				$k = 2^r \_ u$ mit $\_ u$ ungerade, dann ist $2^k + 1 = (2^{2^r})^u + 1$.
+				$x + 1 \divs x^{\_ u} + 1$, da $-1$ Nullstelle von $x^{\_ u} + 1$, also $2^{2^r} + 1 \divs 2^k + 1$.
 		\end{enumerate}
 	\end{proof}
 \end{lem}

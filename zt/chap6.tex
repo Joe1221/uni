@@ -1,5 +1,5 @@
-\label{chap:6}
 \chapter{Kettenbrüche}
+\label{chap:6}
 
 \coursetimestamp{23}{06}{2014}
 
@@ -71,7 +71,7 @@
 		\item
 			Ähnlich wie oben ergibt sich
 			\[
-				\f {64}9 = [2, 4, 1, 5].
+				\f {64}{29} = [2, 4, 1, 5].
 			\]
 	\end{enumerate}
 \end{ex}
@@ -79,7 +79,7 @@
 % 6.3 (Unendliche Kettenbrüche)
 \begin{nt}[Unendliche Kettenbrüche] \label{6.3}
 	Man kann analog für irrationale Zahlen Kettenbruchentwicklungen folgender Art definieren.
-	Wir schreiben $\floor{a}$ für die größte ganze Zahl, die $\le \alpha \in \R$ ist, z.B. $\floor{\sqrt 2} = 1$.
+	Wir schreiben $\floor{\alpha}$ für die größte ganze Zahl, die $\le \alpha \in \R$ ist, z.B. $\floor{\sqrt 2} = 1$.
 
 	Sei $\alpha \in \R^+ \setminus \Q$.
 	Dann schreibe
@@ -179,7 +179,7 @@
 			und
 			\[
 				\f {P_k}{Q_k} - \f {P_{k-2}}{Q_{k-2}}
-				= \f {(-1)^{k+1}x_k}{Q_{k-2} Q_k}
+				= \f {(-1)^k x_k}{Q_{k-2} Q_k}
 			\]
 			für $2 \le k \le n$.
 	\end{enumerate}
@@ -212,9 +212,12 @@
 				Für $k \ge 2$ ist
 				\[
 					\Matrix{P_k & P_{k-2} \\ Q_k & Q_{k-2}}
-					= \Matrix{P_{k-1} & P_{k-2} \\ Q_{k-1} & Q_{k-2}} \Matrix{x_k & 0 \\ 1 & 1}
+					= \Matrix{P_{k-1} & P_{k-2} \\ Q_{k-1} & Q_{k-2}} \Matrix{x_k & 0 \\ 1 & 1},
 				\]
-				und die Behauptung folgt ähnlich.
+				also mit obigem
+				\[
+					P_k Q_{k-2} - Q_k P_{k-2} = \Matrix|{P_{k-1} & P_{k-2} \\ Q_{k-1} & Q_{k-2}} \cdot x_k = (-1)^k x_k.
+				\]
 		\end{enumerate}
 	\end{proof}
 \end{lem}
@@ -266,7 +269,7 @@
 	\end{enumerate}
 	\begin{proof}
 		Aus \ref{6.6} folgt, dass $|\alpha - \beta_k| \le |\beta_{k+1} - \beta_k|$.
-		Nach \ref{6.5} b) gilt $|\beta_{k+1} - \beta_k| = \f 1{Q_k Q_{k+1}} < \f 1{Q_k^2} \le \f 1{k^2}$ mit a) und b).
+		Nach \ref{6.5} c) gilt $|\beta_{k+1} - \beta_k| = \f 1{Q_k Q_{k+1}} < \f 1{Q_k^2} \le \f 1{k^2}$ mit a) und b).
 
 		Es verbleibt, a) und b) zu zeigen.
 		\begin{enumerate}[a)]
@@ -391,16 +394,20 @@ Die Folge $(\beta_k)_{k \in \N}$ ist dann wegen \ref{6.7} eine Cauchyfolge, konv
 % Lemma 6.9
 \setcounter{thm}{8}
 \begin{lem} \label{6.9}
-	Sei $a + b \sqrt d$ eine Einheit (d.h. $(a,b)$ eine nicht-triviale Lösung der Pell'schen Gleichung).
-	Dann ist $a + b \sqrt d > 1$ genau dann, wenn $a, b$ positiv sind.
+	Sei $(a,b)$ eine nicht-triviale Lösung der Pell'schen Gleichung.
+	Dann ist $a + b \sqrt d > 1$ genau dann, wenn $a, b > 0$.
 	\begin{proof}
 		\begin{segnb}{\ProofImplication}
 			Sei $a - b \sqrt d$ die zu $a + b \sqrt d$ inverse Einheit, also $(a + b \sqrt d)(a - b \sqrt d) = 1$.
-			Wenn $a + b \sqrt d > 1$, dann ist $a - b \sqrt d < 1$, also $a + b \sqrt > a - b \sqrt d$ und $b \sqrt d > - b \sqrt d$, $b > 0$.
+			Wenn $a + b \sqrt d > 1$, dann ist $a - b \sqrt d < 1$, also $a + b \sqrt d > a - b \sqrt d$ und $b \sqrt d > - b \sqrt d$, $b > 0$.
 			Wäre $a$ negativ, dann ist $a - b \sqrt d < 0$, ein Widerspruch zu $a - b \sqrt d$ positiv und somit $a$ positiv.
 		\end{segnb}
 		\begin{segnb}{\ProofImplication*}
-			Sei umgekehrt $a, b$ positiv, dann ist $a + b \sqrt d > a - b \sqrt d$, also $a + b \sqrt d > 1$.
+			Seien $a, b > 0$.
+			Wegen $(a + b\sqrt d)(a - b \sqrt d) = 1$ ist
+			\[
+				a + b \sqrt d > 1 > a - b \sqrt d > 0.
+			\]
 		\end{segnb}
 	\end{proof}
 \end{lem}
