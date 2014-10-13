@@ -204,15 +204,22 @@
 
 \RequirePackage { polyglossia }
 
-% Polyglossia babelshorthands has some problems with explsyntax
-\cs_new_eq:NN \mycourselanguage \l_mycourse_language
-\ExplSyntaxOff
-\setmainlanguage [
-    spelling        = new,
-    latesthyphen    = true,
-    babelshorthands = true,
-] {\mycourselanguage}
-\ExplSyntaxOn
+\str_case:onF { \l_mycourse_language } {
+    { german } {
+        % Polyglossia babelshorthands has some problems with explsyntax
+        \cs_new_eq:NN \mycourselanguage \l_mycourse_language
+        \ExplSyntaxOff
+        \setmainlanguage [
+            spelling        = new,
+            latesthyphen    = true,
+            babelshorthands = true,
+        ] { \mycourselanguage }
+        \ExplSyntaxOn
+    }
+} {
+    \setmainlanguage [
+    ] { \l_mycourse_language }
+}
 
 
 \RequirePackage { etex }
