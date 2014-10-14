@@ -1,0 +1,112 @@
+\chapter{Grundlagen}
+
+\section{Definition / Notationen}
+
+\begin{df}[Multiindex und partielle Ableitung] \label{1.1}
+	Sei $u: \R^d \to \R$ genügend oft differenzierbar.
+	Wir nennen $\beta = (\beta_1, \dotsc, \beta_d)^T \in \N_0^d$ mit $|\beta| := \sum_{i=1}^d \beta_i = k$ einen \emphdef{Multiindex der Ordnung $k$}.
+	Wir definieren
+	\[
+		\partial^\beta u := (\pddx[x_1])^{\beta_1} (\pddx[x_d])^{\beta_d} u,
+	\]
+	die \emphdef{partielle Ableitungen} von $u$ zum Index $\beta$.
+	Sei $\mathbb{B}_k := \Set{\beta \in \N_0^d & |\beta| = k}$ die Menge der Multiindizes der Ordnung $k$ und
+	\[
+		\D^k u := (\partial^\beta u)_{\beta \in \mathbb{B}_k}
+	\]
+	der Vektor aller partieller Ableitungen der Ordnung $k$ (mit beliebiger Reihenfolge).
+\end{df}
+
+\begin{df}[Ableitungsoperatoren]
+	Für $u: \R^d \to \R$ hinreichend oft differenzierbar definieren wir den \emphdef[Gradient]{Gradienten}
+	\[
+		\grad u(x) := \nabla u(x) := \Vector{ \partial_{x_1} u(x) & \dots & \partial_{x_d} u(x) }
+	\]
+	für $x = (x_1, \dotsc, x_d)$ und $\partial_{x_i} := \pddx[x_i], i = 1, \dotsc, d$.
+	Für ein hinreichend oft differenzierbares Vektorfeld $v: \R^d \to \R^d$ definiere die \emphdef{Divergenz}
+	\[
+		\div v(x) = \nabla \cdot v(x) = \sum_{i=1}^d \partial_{x_i} v_i (x)
+	\]
+	und für $d = 3$ zusätzlich die \emphdef{Rotation}
+	\[
+		\rot v(x) = \nabla \times v(x) = \Vector{ \partial_{x_2} v_3 - \partial_{x_3} v_2 & \partial_{x_3} v_1 - \partial_{x_1} v_3 & \partial_{x_1} v_2 - \partial_{x_2} v_1 }.
+	\]
+	Mit Abkürzung $\partial_{x_i}^2 := (\partial_{x_i})^2$ definiere den \emphdef{Laplace-Operator}
+	\[
+		\Laplace u(x) := \nabla \cdot (\nabla u) = \div( \grad  u(x) ) = \sum_{i=1}^d \partial_{x_i}^2 u(x).
+	\]
+	Skalare Operatoren werden für vektorielle Funktionen komponentenweise definiert:
+	\[
+		\Laplace v(x) := \Vector{\Laplace v_1(x) & \dots & \Laplace v_d(x)},
+	\]
+	und für $b \in \R^d$
+	\[
+		(b \cdot \nabla) v := (\sum_{i=1}^d b_i \partial_{x_i}) v 
+		= \Vector { \sum_{i=1}^d b_i \partial_{x_i} v_1 & \dots & \sum_{i=1}^d b_i \partial_{x_i} v_d }.
+	\]
+\end{df}
+
+\begin{df}[Räume stetig differenzierbarer Funktionen] \label{1.3}
+	Sei $\Omega \subset \R^d$ offen, beschränkt.
+	Wir bezeichnen mit $C^m(\_\Omega, \R^n)$ den Raum der $m$-mal stetig differenzierbaren Funktionen (sodass die $m$-ten Ableitungen stetig auf $\_\Omega$ fortsetzbar sind).
+	Für $n = 1$ schreiben wir $C^m(\_\Omega) = C^m(\_\Omega, \R^1)$ und definiere für $u \in C^0(\_\Omega)$ die \emphdef{Supremumsnorm}
+	\[
+		\|u\|_\infty = \sup_{x\in \_\Omega} = |u(x)|
+	\]
+	und damit die Norm auf $C^m(\_\Omega)$:
+	\[
+		\|u\|_{C^m(\_\Omega} := \sum_{|\beta| \le m} \|\partial^\beta u\|_\infty
+	\]
+	für $u \in C^m(\_\Omega)$.
+	\begin{note}
+		\begin{itemize}
+			\item
+				$C^m(\_\Omega)$ ist ein Banachraum, d.h. ein vollständiger, normierter Raum (Alt, Lemma 1.8)
+			\item
+				Man kann auch $C^m(\Omega)$ für offenes oder potentiell unbeschränktes $\Omega$ und auch $m = \infty$ definieren.
+				Statt einer Norm wird dann eine Metrik (Frechét-Metrik) eingeführt, bzgl. $C^m(\Omega)$ immernoch vollständig ist (Alt, Abschnitt 1.6).
+		\end{itemize}		
+	\end{note}
+\end{df}
+
+\begin{df}[$L^p$-Räume] \label{1.4}
+	Für $p \in [1, \infty)$ definieren wir
+	\[
+		\tilde L^p(\Omega) := \Set{ u: \Omega \to \R \text{ Lebesgue-messbar} & \Big(\int_\Omega |u|^p \Big)^{\f 1p} < \infty}
+	\]
+	mit Seminorm
+	\[
+		\|u\|_p := \|u\|_{L^p(\Omega)}  := \Big(\int_\Omega |u|^p \Big)^{\f 1p}.
+	\]
+	Für $p = \infty$ definieren wir
+	\[
+		\tilde L^\infty(\Omega) := \Set{ u: \Omega \to \R \text{ Lebesgue-messbar} & \esssup_{x\in \Omega} |u(x)| < \infty }
+	\]
+	mit $\|u\|_\infty := \|u\|_{L^\infty(\Omega)} := \esssup_{x\in \Omega} |u(x)|$.
+	Sei $\sim$ die Äquivalenzrelation auf $\tilde L^p(\Omega)$ via
+	\[
+		u \sim v :\iff \exists N \subset \Omega \text{ Nullmenge} : \forall x \in \Omega \setminus \N : u(x) = v(x).
+	\]
+	Dann definieren wir $L^p(\Omega)$ als die Menge der Äquivalenzklassen
+	\[
+		L^p(\Omega) := \tilde L^p / \sim.
+	\]
+	$\|u\|_p$ ist auf jeder einzelnen Äquivalenzklasse konstant und ist daher auch auf $L^p(\Omega)$ erweiterbar.
+	Wir nennen $(L^p(\Omega), \|\argdot\|_p)$ \emphdef{normierter $L^p$-Raum}.
+	\begin{note}
+		\begin{itemize}
+			\item
+				$L^p(\Omega)$ ist vollständig bezüglich $\|\argdot\|_p$, also ein Banachraum (Alt, Lemma 1.1, Satz 1.14),
+			\item
+				Elemente von $L^p(\Omega)$ sind also Äquivalenzklassen von Funktionen, die sich nur auf einer Nullmenge unterscheiden.
+				Konsequente Unterscheidung zwischen Funktionen und Äquivalenzklassen wäre mühsam.
+				Praktische Konvention: $u \in L^p(\Omega)$ soll heißen $u \in U \in L^p(\Omega)$ für geeignete Äquivalenzklasse $U$ mit $u: \Omega \to \R$ als Repräsentant von $U$.
+			\item
+				Wir nennen $L^p(\Omega)$ trotzdem \emph{Funktionenraum}.
+				Beim Arbeiten mit $L^p$-Räumen muss jedoch immer bedacht/hinterfragt werden, ob Operationen sinnvoll definiert sind, d.h. unabhängig vom Repräsentanten.
+				Beispielsweise ist die Punktauswertung $u(x)$ nicht wohldefiniert.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+
