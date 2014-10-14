@@ -253,7 +253,7 @@
 
 \makeindex [
     name = terms,
-    title = Begriffe, % fixme: i8n
+    title = Index, % fixme: i8n
     options = -I omega, % texindy has issues with utf8 otherwise
 ]
 \makeindex [
