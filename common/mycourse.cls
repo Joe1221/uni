@@ -204,7 +204,7 @@
 
 \RequirePackage { polyglossia }
 
-\str_case:onF { \l_mycourse_language } {
+\str_case_x:nnF { \l_mycourse_language } {
     { german } {
         % Polyglossia babelshorthands has some problems with explsyntax
         \cs_new_eq:NN \mycourselanguage \l_mycourse_language
