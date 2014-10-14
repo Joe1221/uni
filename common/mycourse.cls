@@ -291,6 +291,9 @@
     }
 }
 
+\DeclareDocumentCommand { \Timestamp } { m } {
+    % fixme: implement format 2014-12-31
+}
 
 %\RequirePackage[hidelinks]{hyperref}                   % Macht Referenzen im pdf-Dokument anklickbar
 \RequirePackage{hyperref}                       % Macht Referenzen im pdf-Dokument anklickbar
