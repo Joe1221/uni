@@ -204,6 +204,29 @@
 
 \RequirePackage { polyglossia }
 
+\gappto \captionsgerman {
+    \tl_set:Nn \authorsname { Autoren }
+    \tl_set:Nn \compiledname { kompiliert }
+    \tl_set:Nn \indexname { Index }
+    \tl_set:Nn \lastchangename { letzte~Änderung }
+    \tl_set:Nn \lecturesname { Vorlesungen }
+    \tl_set:Nn \proofname { Beweis }
+    \tl_set:Nn \transcriptname { Vorlesungsmitschrieb }
+}
+\gappto \captionsenglish {
+    \tl_set:Nn \authorsname { Authors }
+    \tl_set:Nn \compiledname { compiled }
+    \tl_set:Nn \indexname { Index }
+    \tl_set:Nn \lastchangename { last~change }
+    \tl_set:Nn \lecturesname { Lectures }
+    \tl_set:Nn \proofname { Proof }
+    \tl_set:Nn \transcriptname { Lecture~transcript }
+}
+
+% execute \captios<lang> to define captions for current language
+\use:c { captions \l_mycourse_language }
+
+
 \str_case_x:nnF { \l_mycourse_language } {
     { german } {
         % Polyglossia babelshorthands has some problems with explsyntax
@@ -217,8 +240,7 @@
         \ExplSyntaxOn
     }
 } {
-    \setmainlanguage [
-    ] { \l_mycourse_language }
+    \setmainlanguage { \l_mycourse_language }
 }
 
 
@@ -253,12 +275,12 @@
 
 \makeindex [
     name = terms,
-    title = Index, % fixme: i8n
+    title = \indexname,
     options = -I omega, % texindy has issues with utf8 otherwise
 ]
 \makeindex [
     name = lectures,
-    title = Vorlesungen, % fixme: i8n
+    title = \lecturesname,
     options = -I omega, % texindy has issues with utf8 otherwise
     %options = -I~omega~-M~indexstyle, % texindy has issues with utf8 otherwise
     columns = 1,
@@ -540,8 +562,6 @@
 
 % Proof-Environment
 % =================
-% Führt \captions<lang> aus für \proofname, etc.
-\csname captions\l_mycourse_language \endcsname
 % Scheinbar wird \proofname überschrieben, wenn optionales Argument an \begin{proof} gegeben wird
 \let\myproofname\proofname
 \theoremsymbol{\ensuremath{\square}}
@@ -694,7 +714,7 @@
             \parbox [ t ] { 0.5\textwidth } {
                 \raggedright
                 \fontsize { 16pt } { 18pt } \selectfont \scshape
-                Vorlesungsmitschrieb
+                \transcriptname
             }
         }
         \SetHorizontalCoffin \tptimeplace {
@@ -711,7 +731,7 @@
             \parbox [ t ] { 0.5\textwidth } {
                 \raggedright
                 \fontsize { 10pt } { 12pt } \selectfont \scshape
-                Autoren:~
+                \authorsname :~
                 %\fontsize { 6pt } { 10pt } \selectfont \normalfont
                 %(in~Reihenfolge~ihrer~Beitragsmenge) \\
 
@@ -725,7 +745,7 @@
             \parbox [ t ] { 0.5\textwidth } {
                 \raggedleft
                 \fontsize { 8pt } { 10pt } \selectfont
-                Kompiliert: ~ \today \; \currenttime \\
+                \compiledname : ~ \today \; \currenttime \\
 
                 \prop_if_exist:NT \mycourse_lastchanged_pl {
                     \tl_clear_new:N \l_year
@@ -739,7 +759,7 @@
                     \prop_get:NnN \mycourse_lastchanged_pl { hour } \l_hour
                     \prop_get:NnN \mycourse_lastchanged_pl { minute } \l_minute
 
-                    Letzte~inhaltliche~Änderung: ~
+                    \lastchangename : ~
                     \formatdate { \l_day } { \l_month } { \l_year } \;
                     \formattime { \l_hour } { \l_minute } { 0 }
                     \\
