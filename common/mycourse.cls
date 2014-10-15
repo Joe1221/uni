@@ -300,6 +300,25 @@
     \THEYEAR
 }
 
+% === Timestamp function ===
+
+\cs_new:Nn \mycourse_timestamp:nnn {
+    \index [ lectures ] {
+        #1 - #2 - #3
+        @
+        \coursedate { \protect \formatdate { #3 } { #2 } { #1 } }
+    }
+    \marginline{
+        \color { timestamp } \scshape \scriptsize
+        \coursedate
+        \formatdate { #3 } { #2 } { #1 }
+    }
+}
+\DeclareDocumentCommand { \Timestamp } { > { \SplitArgument { 2 } { - } } m } {
+    \mycourse_timestamp:nnn #1
+}
+
+% obsolete
 \DeclareDocumentCommand { \coursetimestamp } { mmm } {
     \index [ lectures ] {
         #3 - #2 - #1
@@ -313,9 +332,6 @@
     }
 }
 
-\DeclareDocumentCommand { \Timestamp } { m } {
-    % fixme: implement format 2014-12-31
-}
 
 %\RequirePackage[hidelinks]{hyperref}                   % Macht Referenzen im pdf-Dokument anklickbar
 \RequirePackage{hyperref}                       % Macht Referenzen im pdf-Dokument anklickbar
