@@ -3,7 +3,7 @@
 ## Common
 
 - Figure out a good way for referencing (or just marking) exercises with `\Exercise` (index too?)
-- Revise `\coursetimestamp{}{}{}` syntax and usage
+- <del>Revise `\coursetimestamp{}{}{}` syntax and usage</del>
 - What about `\fixme` notation, showing on the margin, or even with an index?
 - Reference `\ref{4.7}[b]` for subitems
 
@@ -15,7 +15,7 @@
 
 ### Titlepage
 
-- Include timestamps for last change date
+- <del>Include timestamps for last change date</del>c
 - Include recent git history (filtered for current course)
 
 ### Index
