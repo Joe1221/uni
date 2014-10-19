@@ -15,7 +15,7 @@
 
 ### Titlepage
 
-- <del>Include timestamps for last change date</del>c
+- <del>Include timestamps for last change date</del>
 - Include recent git history (filtered for current course)
 
 ### Index
