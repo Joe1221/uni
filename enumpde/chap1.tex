@@ -14,29 +14,29 @@
 
 	Sei $\mathbb{B}_k := \Set{\beta \in \N_0^d & |\beta| = k}$ die Menge aller Multiindizes der Ordnung $k$ und
 	\[
-		\D^k u := (\partial^\beta u)_{\beta \in \mathbb{B}_k}
+		\Df^k u := (\partial^\beta u)_{\beta \in \mathbb{B}_k}
 	\]
-	der Vektor aller partieller Ableitungen der Ordnung $k$ (mit beliebiger Reihenfolge).
+	der Vektor aller partieller Ableitungen der Ordnung $k$ (in beliebiger Reihenfolge).
 \end{df}
 
 \begin{df}[Ableitungsoperatoren] \label{1.2}
 	Für $u: \R^d \to \R$ hinreichend oft differenzierbar definieren wir den \emphdef[Gradient]{Gradienten}
 	\[
-		\grad u(x) := \nabla u(x) := \Vector{ \partial_{x_1} u(x) & \dots & \partial_{x_d} u(x) },
+		\grad u(x) := \Nabla u(x) := \Vector{ \partial_{x_1} u(x) & \dots & \partial_{x_d} u(x) },
 	\]
 	wobei $x = (x_1, \dotsc, x_d)$ und $\partial_{x_i} := \pddx[x_i]$ für $i = 1, \dotsc, d$.
 
 	Für ein hinreichend oft differenzierbares Vektorfeld $v: \R^d \to \R^d$ definieren wir die \emphdef{Divergenz} durch
 	\[
-		\div v(x) := \nabla \cdot v(x) = \sum_{i=1}^d \partial_{x_i} v_i (x)
+		\div v(x) := \Nabla \cdot v(x) = \sum_{i=1}^d \partial_{x_i} v_i (x)
 	\]
 	und im Fall $d = 3$ zusätzlich die \emphdef{Rotation} durch
 	\[
-		\rot v(x) := \nabla \times v(x) = \Vector{ \partial_{x_2} v_3 - \partial_{x_3} v_2 & \partial_{x_3} v_1 - \partial_{x_1} v_3 & \partial_{x_1} v_2 - \partial_{x_2} v_1 }.
+		\rot v(x) := \Nabla \times v(x) = \Vector{ \partial_{x_2} v_3 - \partial_{x_3} v_2 & \partial_{x_3} v_1 - \partial_{x_1} v_3 & \partial_{x_1} v_2 - \partial_{x_2} v_1 }.
 	\]
 	Wir nutzen die Abkürzung $\partial_{x_i}^2 := (\partial_{x_i})^2$ und definieren den \emphdef{Laplace-Operator} durch
 	\[
-		\Laplace u(x) := \nabla \cdot (\nabla u) = \div( \grad  u(x) ) = \sum_{i=1}^d \partial_{x_i}^2 u(x).
+		\Laplace u(x) := \Nabla \cdot (\Nabla u) = \div( \grad  u(x) ) = \sum_{i=1}^d \partial_{x_i}^2 u(x).
 	\]
 	Skalare Operatoren werden für vektorielle Funktionen komponentenweise definiert, z.B.
 	\[
@@ -44,7 +44,7 @@
 	\]
 	und für $b \in \R^d$
 	\[
-		(b \cdot \nabla) v := \Big(\sum_{i=1}^d b_i \partial_{x_i}\Big) v
+		(b \cdot \Nabla) v := \Big(\sum_{i=1}^d b_i \partial_{x_i}\Big) v
 		= \Vector { \sum_{i=1}^d b_i \partial_{x_i} v_1 & \dots & \sum_{i=1}^d b_i \partial_{x_i} v_d }.
 	\]
 \end{df}
@@ -120,11 +120,11 @@
 				\]
 				mit der induzierten Norm
 				\[
-					\|\phi\|_{V'} := \sup_{u\in V\setminus \Set 0} \frac{\phi((u)}{\|u\|_V}
+					\|\phi\|_{V'} := \sup_{u\in V\setminus \Set 0} \frac{|\phi(u)|}{\|u\|_V}
 				\]
 				wieder ein Banachraum.
 			\item
-				Für $1 < p,q < \infty$ mit $\f 1p + pq = 1$ ist $L^p(\Omega)$ ist isomorph zu $(L^q(\Omega))'$.
+				Für $1 < p,q < \infty$ mit $\f 1p + \f 1q = 1$ ist $L^p(\Omega)$ ist isomorph zu $(L^q(\Omega))'$.
 			\item
 				$L^2(\Omega)$ ist alsowegen $\f 12 + \f 12 = 1$ isomorph zu $L^2(\Omega)'$.
 		\end{itemize}
@@ -135,25 +135,27 @@
 	Wir definieren
 	\[
 		L^1_{\text{loc}}(\Omega) :=
-		\Set{ u : \Omega \to \R \text{ lebesgue-messbar} & \forall  K \subset \Omega \text{ kompakt } : \int_k |u(x)| \di < \infty }
+		\Set{ u : \Omega \to \R \\ \text{ lebesgue-messbar} & \forall  K \subset \Omega \text{ kompakt } : \int_K |u(x)| \di[x] < \infty }
 	\]
 \end{df}
 
 \begin{ex*}
 	\begin{itemize}
 		\item
-			$L^1(\Omega) \subset L^1_{\text{loc}}(\Omega)$.
-			Aus $u(x) = 1, x \in \Omega := \R$ folgt $u \not\in L^1$, aber $u \in L^1_{\text{loc}}(\Omega)$.
+			Es gilt offenbar $L^1(\Omega) \subset L^1_{\text{loc}}(\Omega)$,
+			die Umkehrung jedoch nicht.
+			Setze dazu $u(x) = 1$ für alle $x \in \Omega := \R$,
+			es folgt $u \not\in L^1(\Omega)$, aber $u \in L^1_{\text{loc}}(\Omega)$.
 	\end{itemize}
 \end{ex*}
 
 \begin{df}[Funktionen mit kompaktem Träger] \label{1.6}
-	Wir definieren für $\Omega \subset \R^d$ offen (möglicherweise nubeschränkt), $m \in \N_0 \cup \Set \infty$.
+	Wir definieren für $\Omega \subset \R^d$ offen (möglicherweise unbeschränkt) und $m \in \N_0 \cup \Set \infty$.
 	\[
 		C_0^m(\Omega)
 		:= \Set{ u \in C^m(\Omega) & \supp(u) \subset \Omega \text{ ist beschränkt} },
 	\]
-	wobei $\supp(u) := \_{\Set{x \in \Omega & u(x) \neq 0}}$ (also abgeschlossen) den \emphdef{Träger} (engl. “support”) von $u$ bezeichnet.
+	wobei $\supp(u) := \_{\Set{x \in \Omega & u(x) \neq 0}}$ den \emphdef{Träger} (engl. “support”) von $u$ bezeichnet.
 \end{df}
 
 \begin{st}[Fundamentalsatz der Variatonsrechnung] \label{1.7}
@@ -162,7 +164,7 @@
 		\item
 			$\forall v \in C_0^\infty(\Omega) : \int_\Omega uv = 0$
 		\item
-			$u = 0$ fast überall in $\Omega$.			
+			$u = 0$ fast überall in $\Omega$.
 	\end{enumerate}
 	\begin{proof}
 		2.11 in Alt.
@@ -170,12 +172,12 @@
 \end{st}
 
 \begin{df}[Skalare PDE] \label{1.8}
-	Sei $F: \R^{|\mathbb{B}_k} \times \R^{|B_{k-1}} \times \dotsb \times \R^d \times \R \times \Omega \to \R$ gegeben.
+	Sei $F: \R^{|\mathbb{B}_k|} \times \R^{|\mathbb{B}_{k-1}|} \times \dotsb \times \R^d \times \R \times \Omega \to \R$ gegeben.
 	Dann ist
-	\[ \label{eq:1.1}
-		F(\D^k u(x), D^{k-1} u(x), \dotsc, D^1 u(x), u(x), x) = 0,
+	\begin{equation} \label{eq:1.1}
+		F\Big(\Df^k u(x), \Df^{k-1} u(x), \dotsc, \Df^1 u(x), u(x), x\Big) = 0,
 		\qquad x \in \Omega
-	\]
+	\end{equation}
 	eine \emphdef[partielle Differentialgleichung!skalare]{skalare partielle Differentialgleichung der Ordnung $k$} für eine unbekannte Lösung $u: \Omega \to \R$.
 \end{df}
 
@@ -183,22 +185,26 @@
 	Die PDE \eqref{1.1} ist
 	\begin{enumerate}[i)]
 		\item
-			\emphdef{linear}, falls sie die Form $\sum_{|\beta| \le k} a_\beta(x) \partial^\beta u(x) = f(x)$ für Multiindex $\beta \in \N_0^d$ und gegebenen Funktionen $a_\beta, f$ besitzt.
+			\emphdef{linear}, falls sie die Form
+			\[
+				\sum_{|\beta| \le k} a_\beta(x) \partial^\beta u(x) = f(x)
+			\]
+			für einen Multiindex $\beta \in \N_0^d$ und gegebenen Funktionen $a_\beta, f$ besitzt.
 			Die PDE heißt \emphdef{homogen}, falls $f(x) = 0$, sonst \emphdef{inhomogen}.
 		\item
 			\emphdef{semilinear}, falls sie die Form
 			\[
-				\sum_{|\beta| = k} a_\beta(x) \partial^\beta u(x) + a (D^{k-1} u(x), \dotsc, D^1 u(x), u, x) = 0
+				\sum_{|\beta| = k} a_\beta(x) \partial^\beta u(x) + a \Big(\Df^{k-1} u, \dotsc, \Df^1 u, u, x\Big) = 0
 			\]
 			besitzt.
 		\item
 			\emphdef{quasilinear}, falls sie die Form
 			\[
-				\sum_{|\beta| = k} a_\beta(D^{k-1}u, \dotsc, D^1 u, u, x) \partial^\beta uu(x) + a(D^{k-1} u(x), \dotsc, u, x) = 0
+				\sum_{|\beta| = k} a_\beta\Big(\Df^{k-1}u, \dotsc, u, x\Big) \partial^\beta u(x) + a\Big(\Df^{k-1} u, \dotsc, u, x\Big) = 0
 			\]
 			besitzt.
 		\item
-			\emphdef{voll nichtlinear} falls sie die nichtlinear von $D^k$ abhängt.
+			\emphdef{voll nichtlinear} falls sie nichtlinear von $\Df^k$ abhängt.
 	\end{enumerate}
 	\begin{note}[Systeme]
 		Ein System von PDEs ist eine Sammliung mehrerer skalarer PDEs für mehrere unbekannte Funktionen $u = (u_1, \dotsc, u_n)^T$.
@@ -210,10 +216,10 @@
 		Insbesondere $\partial_t := \pddx[t], \partial_t^2 := \pddx[t^2]$.
 		Dann bezeichnet für $u \in C^1(\Omega_t)$
 		\begin{align*}
-			\nabla_x u(x) &:= \Vector{ \partial_{x_1} u(x) & \dots & \partial_{x_d} u(x) }, \\
+			\Nabla_x u(x) &:= \Vector{ \partial_{x_1} u(x) & \dots & \partial_{x_d} u(x) }, \\
 			\Laplace_x u(x) &:= \sum_{i=1}^d \partial_{x_i}^2 u(x)
 		\end{align*}
-		Falls keine Verwechslungsgefahr besteht, lässt man $x$ bei $\nabla_x, \Laplace_x$ auch weg.
+		Falls keine Verwechslungsgefahr besteht, lässt man $x$ bei $\Nabla_x, \Laplace_x$ auch weg.
 	\end{note}
 \end{df}
 
@@ -227,7 +233,7 @@
 		\item
 			\emphdef{Helmholtz-Gleichung}: $-\Laplace u - \lambda u = 0$ für $\lambda > 0$,
 		\item
-			\emphdef{Advektions-Gleichung}: $\partial_t u + b \cdot \nabla u = 0$ für $b \in \R^d$
+			\emphdef{Advektions-Gleichung}: $\partial_t u + b \cdot \Nabla u = 0$ für $b \in \R^d$
 		\item
 			\emphdef{Wärmeleitungs-Gleichung} oder \emphdef{Diffusionsgleichung}: $\partial_t u - \Laplace u = 0$.
 		\item
@@ -241,7 +247,7 @@
 		\item
 			\emphdef{Allgemeine Diffusions-Advektions-Reaktions-Gleichung}:
 			\[
-				- \div \cdot (A \nabla u)0+ b \cdot \nabla u + c u = f,
+				- \div \cdot (A \Nabla u) + b \cdot \Nabla u + c u = f,
 			\]
 			wobei $A \in \R^{d\times d}, b \in \R^d, c \in \R$.
 			% fixme: bezeichnung : Diffusion, Advektion, Reaktions, Quellterm
@@ -253,19 +259,19 @@
 		\item
 			\emphdef{Nichtlineare Poission-Gleichung}: $-\Laplace u = f(u)$,
 		\item
-			\emphdef{$p$-Laplace-Gleichung}: $\div (|\nabla u|^{p-2} \nabla u) = 0$,
+			\emphdef{$p$-Laplace-Gleichung}: $\div (|\Nabla u|^{p-2} \Nabla u) = 0$,
 		\item
-			\emphdef{Minimalflächen-Gleichung}: $\div ( \f{\nabla u}{\sqrt{1 + |\nabla u|^2}} ) = 0$,
+			\emphdef{Minimalflächen-Gleichung}: $\div ( \f{\Nabla u}{\sqrt{1 + |\Nabla u|^2}} ) = 0$,
 		\item
-			\emphdef{Hamilton-Jacobi-Gleichung}: $\partial_t u + H(\nabla u, u) = 0$,
+			\emphdef{Hamilton-Jacobi-Gleichung}: $\partial_t u + H(\Nabla u, u) = 0$,
 		\item
 			\emphdef{Burgers-Gleichung}: $\partial_t u + \partial_x(\f 12 u^2) = 0$,
 		\item
-			\emphdef{skalare Erhaltungsgleichung}: $\partial_t u + \nabla \cdot(f(u, \nabla u)) = 0$,
+			\emphdef{skalare Erhaltungsgleichung}: $\partial_t u + \Nabla \cdot(f(u, \Nabla u)) = 0$,
 		\item
 			\emphdef{Korteweg de Vries Gleichung (KdV)}: $\partial_t u + u \partial_x u + \partial_x^3 u = 0$,
 		\item
-			\emphdef{allgemeine Transport-Reaktions-Gleichung}: $\partial_t u + \div(f(u, \nabla u)) = g(u)$.
+			\emphdef{allgemeine Transport-Reaktions-Gleichung}: $\partial_t u + \div(f(u, \Nabla u)) = g(u)$.
 	\end{itemize}
 \end{ex}
 
@@ -281,7 +287,7 @@
 		\item
 			\emphdef{Oseen-Gleichungen}:
 			\begin{align*}
-				(b \cdot \nabla) u - \mu \Laplace u + \nabla p &= 0, \\
+				(b \cdot \Nabla) u - \mu \Laplace u + \Nabla p &= 0, \\
 				\div u &= 0.
 			\end{align*}
 			Für $b = 0$ sind dies die \emphdef{Stokes-Gleichungen}.
@@ -289,7 +295,7 @@
 			\emphdef[Poission-Gleichung!gemischte Formulierung]{gemischte Formulierung der Poission-Gleichung}:
 			\begin{align*}
 				\div v &= f, \\
-				v + \nabla u &= 0
+				v + \Nabla u &= 0
 			\end{align*}
 	\end{itemize}
 \end{ex}
@@ -305,7 +311,7 @@
 		\item
 			\emphdef{Navier-Stokes-Gleichungen}
 			\begin{align*}
-				\partial_t u + (u\cdot \nabla) u - \mu \Laplace u + \nabla p &= 0
+				\partial_t u + (u\cdot \Nabla) u - \mu \Laplace u + \Nabla p &= 0, \\
 				\div u &= 0
 			\end{align*}
 			Für $\mu = 0$ ergeben sich die \emphdef{Euler-Gleichungen} für ein nichtviskoses, inkompressibles Fluid.
@@ -319,19 +325,20 @@
 \begin{df}[linearer Differentialoperator zweiter Ordnung] \label{1.14}
 	Sei $\Omega \subset \R^d$ offen, $A = (a_{ij})_{i,j = 1}^d \in C^0 (\Omega, \R^{d\times d}), b = (b_i)_{i=1}^d \in C^0(\Omega)^d, c \in C^0(\Omega)$.
 	Dann nennen wir $\scr L: C^2(\Omega) \to C^0(\Omega)$ mit
-	\[ \label{eq:1.2}
-		(\scr L u)(x) := - \sum_{i,j=1}^d a_{ij}(x) \partial_{x_i} \partial_{x_j} u(x) + \sum_{i=1}^d b_i \partial_{x_i} u(x) + c(x) u(x)
-	\]
+	\begin{equation} \label{eq:1.2}
+		(\scr L u)(x) := - \sum_{i,j=1}^d a_{ij}(x) \partial_{x_i} \partial_{x_j} u(x) + \sum_{i=1}^d b_i(x) \partial_{x_i} u(x) + c(x) u(x)
+	\end{equation}
 	\emphdef[Differentialoperator!allgemein, linear, zweiter Ordnung]{allgemeiner linearer Differentialoperator zweiter Ordnung}.
 	\begin{note}
 		\begin{itemize}
 			\item
-				$\scr L$ erfasst die Differential-Operatoren in Laplace-, Poisson-, Helmholtz, Wärmeleitungs-, Diffusions  und allgeimener Diffusions-Advektions-Reaktionsgleichung aus \ref{1.10}.
+				$\scr L$ erfasst die Differential-Operatoren in der Laplace-, Poisson-, Helmholtz-, Wärmeleitungs-, Diffusions- und in der allgemeinen Diffusions-Advektions-Reaktionsgleichung aus \ref{1.10}.
 			\item
-				Zu $f \in C^0(\Omega)$ ergibt sich eine entsprechende PDE
-				\[ \label{eq:1.3}
-					\scr L u(x) = f(x), x \in \Omega.
-				\]
+				Zu $f \in C^0(\Omega)$ lässt sich eine entsprechende PDE formulieren:
+				\begin{equation} \label{eq:1.3}
+					\scr L u(x) = f(x),
+				\end{equation}
+				für $x \in \Omega$.
 			\item
 				Wir nennen $-\sum_{i,j=1}^d a_{ij}(x) \partial_{x_i} \partial_{x_j} u$ \emphdef{Hauptteil} von $\scr L$.
 			\item
@@ -339,19 +346,27 @@
 				Falls $A$ nicht symmetrisch ist, so ergibt $A_s := \f 12 (A + A^T)$ identisches $\scr L$. \Exercise
 				$A$ hat somit ohne Einschränkung nur reelle Eigenwerte.
 			\item
-				Auch geläufig ist die sogennante \emphdef{Divergenzform}, welche man bei differenzierbaren $a_{ij}, b_i$ leicht in obige Form bringen kann.
-				Sei
-				\begin{align*}
-					(\_{\scr L} u)(x) &:= - \nabla \cdot (A(x) \cdot \nabla u) + \nabla \cdot (b \cdot u) + c u \\
-					&= - \sum_{i,j=1}^d \partial_{x_i} (a_{ij} \partial_{x_j} u) + \sum_{i=1}^d \partial_{x_i} (b_i u) + cu \\
-					&= -\sum_{i,j=1}^d a_{ij} \partial_{x_i} \partial_{x_j} u - \sum_{j=1}^d \sum_{i=1}^d (\partial_{x_i} a_{ij}) \partial_{x_j} + \sum_{i=1}^d b_i \partial_{x_i} u + \sum_{i=1}^d (\partial_{x_i} b_i) \cdot u + cu \\
-					&= %fixme
-				\end{align*}
-				mit der Wahl
+				Auch geläufig ist die sogennante \emphdef{Divergenzform}
 				\[
-					\tilde b_i := b_i - \sum_{j=1}^d (\partial_{x_j} a_{ji})
-					%fixme: \tilde c_i
+					(\_{\scr L} u)(x) := -\Nabla \cdot (A(x) \cdot \Nabla u(x)) + \Nabla \cdot (b(x) \cdot u(x)) + cu(x),
 				\]
+				welche man bei differenzierbaren $a_{ij}, b_i$ leicht in obige Form bringen kann.
+				\begin{proof}
+					Man erhält
+					\begin{align*}
+						(\_{\scr L} u)(x) &= - \Nabla \cdot (A \cdot \Nabla u) + \Nabla \cdot (b \cdot u) + c u \\
+						&= - \sum_{i,j=1}^d \partial_{x_i} (a_{ij} \partial_{x_j} u) + \sum_{i=1}^d \partial_{x_i} (b_i u) + cu \\
+						&= -\sum_{i,j=1}^d a_{ij} \partial_{x_i} \partial_{x_j} u - \sum_{j=1}^d \sum_{i=1}^d (\partial_{x_i} a_{ij}) \partial_{x_j} u \\
+						&\qquad + \sum_{i=1}^d b_i \partial_{x_i} u + \sum_{i=1}^d (\partial_{x_i} b_i) u + cu \\
+						&= - \sum_{i,j=1}^d a_{ij} \partial_{x_i} \partial_{x_j} u + \sum_{i=1}^d \tilde b_i \partial_{x_i} u + \tilde c u
+					\end{align*}
+					mit der Wahl
+					\[
+						\tilde b_i := b_i - \sum_{j=1}^d (\partial_{x_j} a_{ji}),
+						\quad
+						\tilde c := c + \sum_{i=1}^d \partial_{x_i} b_i.
+					\]
+				\end{proof}
 		\end{itemize}
 	\end{note}
 \end{df}
@@ -371,11 +386,11 @@
 	\begin{note}
 		\begin{itemize}
 			\item
-				Die Begriffe sind motiviert aus Kegelschnitten/Quadriken:
+				Die Begriffe sind motiviert aus Kegelschnitten oder Quadriken, denn
 				\[
 					z^T A(x) z = 1
 				\]
-				beschreibt unter den genannten Voraussetzungen ein Ellipsoid/Paraboloid/Hyperboloid.
+				beschreibt unter den genannten Voraussetzungen ein Ellipsoid, Paraboloid, bzw. Hyperboloid.
 		\end{itemize}
 	\end{note}
 \end{df}
