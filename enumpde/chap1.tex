@@ -395,4 +395,290 @@
 	\end{note}
 \end{df}
 
+\Timestamp{2014-10-21}
+
+\begin{ex} \label{1.16}
+	\begin{itemize}
+		\item
+			Die Laplace/Poisson-Gleichung ist elliptisch:
+			\[
+				\scr L u := - \Laplace u
+				\quad \implies \quad A(x) = \Matrix{1 & 0 \\ 0 & 1}, b = c = 0.
+			\]
+			$A(x)$ besitzt offenbar rein positive Eigenwerte.
+		\item
+			Die instationäre Wärmeleitungsgleichung oder Diffusionsgleichung ist parabolisch:
+			\[
+				\scr L u := \partial_t u - \Laplace_x u
+				\quad \implies \quad
+				A(x) = \Matrix{1 &  &  &  \\ & \ddots & & \\ & & 1 & \\ & & & 0}, b = \Vector{0 & \dots & 0 & 1}, c = 0
+			\]
+			alle Eigenwaerte von $A$ bis auf eine sind positiv, ein Eigenwert Null, $\rg(A, b) = d$.
+		\item
+			Die Wellengleichung ist hyperbolisch:
+			\[
+				\scr L u := \partial_t^2 u - \Laplace_x u
+				\qquad \implies \qquad
+				A(x) = \Matrix{1 &  &  &  \\ & \ddots & & \\ & & 1 & \\ & & & -1}, b = 0, c = 0
+			\]
+		\item
+			Tricomi-Gleichung $\Omega \subset \R^2$:
+			\[
+				x_2 \partial_{x_1}^2 u - \partial_{x_2}^2 u = 0
+				\qquad \implies \qquad
+				A = \Matrix{ x_2 & 0 \\ 0 & 1 }
+			\]
+			ist vom gemischten Typ: elliptisch für $x_2 > 0$, hyperbolisch für $x_2 < 0$.
+	\end{itemize}
+\end{ex}
+
+Die Unterscheidung im Sinne der Charakterisierung aus \ref{1.15} ist sinnvoll wegen wesentlich unterschiedlicher Lösungseigenschaften.
+
+\begin{itemize}
+	\item
+		Elliptische PDE:
+		\begin{itemize}
+			\item
+				Es werden meist Randbedingungen vorgeschrieben
+			\item
+				Lösungen sind oft sehr glatt
+			\item
+				Lösungen erfüllen häufig ein sogenanntes „Maximumsprinzip“
+		\end{itemize}
+	\item
+		Parabolische PDE
+		\begin{itemize}
+			\item
+				Die ausgezeichnete Achse (zum Null-Eigenwert) ist meist die Zeit
+			\item
+				Die PDE kann dann oft als
+				\[
+					\partial_t u + \tilde{\scr L} u = \tilde f
+				\]
+				umgeschrieben werden, wobei $\tilde{\scr L}$ ein elliptischer Operator
+			\item
+				Es werden häufig Anfangswertbedingungen für $u$ vorgegeben und gegebenenfalls Randwerte
+			\item
+				Gleichung hat einen „regularisierenden Effekt“:
+				Lösungen sind oft glatter als die Daten.
+			\item
+				unendliche Ausbreitungsgeschwindigkeit
+		\end{itemize}
+	\item
+		Hyperbolische PDE:
+		\begin{itemize}
+			\item
+				Die ausgezeichnete Achse ist meist die Zeit.
+				Die PDE kann dann oft als
+				\[
+					\partial_t^2 u + \tilde{\scr L} u = \tilde f
+				\]
+				mit elliptischem $\tilde{\scr L}$ geschrieben werden.
+			\item
+				endliche Ausbreitungsgeschwindigkeit
+			\item
+				Anfangs- und gegebenenfalls Randbedingungen
+			\item
+				beschreiben oft Schwingungsvorgänge
+			\item
+				kein regularisierender Effekt
+		\end{itemize}
+\end{itemize}
+
+\begin{df}[Gleichmäßig elliptisch] \label{1.17}
+	$\scr L$ ist \emphdef{gleichmäßig elliptisch}, falls $\alpha > 0$ existert, sodass
+	\[
+		z^T A(x) z \ge \alpha \|z\|^2
+	\]
+	für alle $z \in \R^d, x \in \Omega$, d.h. alle Eigenwerte von $A(x)$ sind $\ge \alpha$.
+	$\alpha$ nennen wir \emphdef{Elliptizitätskonstante}.
+\end{df}
+
+
+% 1.3
+\section{Lösungskonzepte}
+
+\begin{df}[Klassische Lösung] \label{1.18}
+	Sei eine skalare PDE \eqref{eq:1.1} gegeben.
+	Falls eine Funktion $u \in C^k(\Omega)$ die Gleichung \eqref{eq:1.1} erfüllt für alle $x \in \Omega$, so nennen wir $u$ \emphdef{klassische Lösung} der PDE.
+	\begin{note}[Wohlgestelltheit]
+		\begin{itemize}
+			\item
+				Ein Lösungsbegriff ist sinnvoll definiert, wenn man Bedingungen formulieren kann, sodass die PDE mit den Zusatzbedingungen wohlgestellt ist (im Sinne von Hadamard), d.h.
+				\begin{enumerate}[i)]
+					\item
+						Es existiert eine Lösung,
+					\item
+						Lösung ist eindeutig,
+					\item
+						Lösung hängt stetig von den Daten ab („kleine“ Änderungen der Daten ergeben nur „kleine“ Änderungen in der Lösung).
+				\end{enumerate}
+			\item
+				Eine PDE erfordert typischerweise Zusatzbedingungen, sonst ist keine Eindeutigkeit und damit auch keine Wohlgestelltheit zu erwarten.
+
+				Sei $u \in C^2(\Omega)$ eine klassische Lösung von $-\Laplace u = f$.
+				Sei $\_u \in \P_1(\Omega)$, dann ist $\Laplace \_u = 0$ und $u \in C^\infty$, also ist auch $u + \_u$ eine klassische Lösung von $-\Laplace u = f$:
+				\[
+					- \Laplace(u + \_u) = - \Laplace u - \Laplace \_u = f.
+				\]
+		\end{itemize}
+	\end{note}
+	\begin{note}[Anfangs- und Randbedingungen]
+		\begin{itemize}
+			\item
+				Für eine PDE auf einem beschränktem Gebiet $\Omega \subset \R^d$ mit $\Gamma := \partial \Omega$ fortert man meist Randbedingungen.
+				Typische Randbedingungen sind
+				\begin{enumerate}[i)]
+					\item
+						\emphdef{Dirichlét-Randbedingungen}: $u(x) = g(x)$ auf $\Gamma$ für stationäre (zeit-unabhängige) Probleme mit vorgegebene Funktion $g$.
+						Anschaulich z.B. bei Wärmeleitung: Kühlung/Heizung auf eine feste Umgebungstemperatur.
+					\item
+						\emphdef{Neumann-Randbedingungen}: z.B. $- \Nabla u(x) \cdot n = h(x)$ auf $\Gamma$ (für die Poisson-Gleichung)
+						Allgemeiner:
+						\[
+							f(x,t,u(x)) \cdot n(x) = h(x,t)
+						\]
+						für $(x, t) \in \Gamma \times (0,T)$ für die Transport-Reaktionsgleichung.
+						Dabei bezeichnet $n(x)$ die \emphdef{Einheitnormale}.
+						Man gibt den \emph{Fluss} der Lösung über die Kante mittels $h$ vor.
+						Beispielsweise beschreibt $h(x,t) = 0$ eine „\emphdef{isolierende Randbedingung}“.
+					\item
+						\emphdef{Robin'sche Randbedingung}:
+						\[
+							f(x, t, u(x,t)) \cdot n(x) = h_0 + u \cdot h_1.
+						\]
+				\end{enumerate}
+				Weitere Formen:
+				\begin{itemize}
+					\item
+						Auf verschiedenen Randteilen verschiedene Typen.
+					\item
+						„periodische Randbedingungen“
+				\end{itemize}
+			\item
+				Für zeitabhängige PDE auf $\Omega_T := \Omega \times (0,T)$ fordert man meist Anfangsbedingungen.
+				Gegeben $u_0: \Omega \to \R$, Forderung $u(x, 0) = u_0(x)$ für $x \in \Omega$ (wie in der Numerik 2: Anfangsbedingungen für gewöhnliche Differentialgleichungen).
+			\item
+				Eine PDE mit solchen Bedingungen heißt dann \emphdef{Anfangswertproblem} (AWP), \emphdef{Randwertproblem} (RWP) oder \emphdef{Anfangs-Randwert-Problem} (ARWP).
+				Ein AWP wird auch oft \emphdef{Cauchy-Problem}.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+Es folgen einige Aussagen zu klassischen Lösungen und deren Eigenschaften
+
+\begin{df}[AWP für Diffusionsgleichung] \label{1.19}
+	Für $\Omega = \R^d, \Omega_T := \Omega \times (0, T), T \in \R_+ \cup \Set \infty, u_0 \in C^0(\Omega) \cap L^\infty(\Omega)$ suchen wir eine klassische Lösung $u$ von
+	\begin{align*}
+		\partial_t u - \Laplace_x u &= 0  &&\text{in $\Omega_T$}\\
+		u(\argdot, u) &= u_0  &&\text{in $\Omega$}
+	\end{align*}
+\end{df}
+
+\begin{st}[Existenz für AWP der Diffusionsgleichung] \label{2.20}
+	Wir definieren die \emphdef{Fundamentallösung} (oder \emphdef{Wärmeleitungskern}) $\Phi: \Omega_T \to \R$
+	\[
+		\Phi(x,t) := \frac{1}{(4\pi t)^{\frac{d}{2}}} e^{- \frac{\|x\|^2}{4t}},
+		\qquad (x,t) \in \Omega_T.
+	\]
+	Dann ist
+	\[
+		u(x,t) := (\Phi(\argdot, t) \ast u_0) (x) := \int_{\R^d} \Phi(x-y, t) u_0(y) \di[y],
+		\qquad (x,t) \in \Omega_T
+	\]
+	eine klassische Lösung des AWP.
+	\begin{proof}
+		Evans oder Skript PDEMAS 13/14.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				$u(x,t)$ ist sogar $C^\infty(\Omega_T)$, obwohl die Anfangsdaten gröber sind.
+				Dies nennt man \emphdef{regularisierenden Effekt} der PDE (siehe Evans §2.3 Thm 1).
+			\item
+				\emphdef{Unendliche Ausbreitungsgeschwindigkeit}: Jeder Wert $u_0(x)$ geht in die Lösung $u(x + \Delta x, \Delta t)$ für beliebig kleines $\Delta t$, beliebig großes $\Delta x$.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{df}[AWP für Wellengleichung, $d = 1$] \label{1.21}
+	Für $\Omega = \R, T > 0, \Omega_T := \Omega \times (0, T), u_0 \in C^2(\Omega), v_0 \in C^1(\Omega)$ suchen wir eine klassische Lösung $u \in C^2(\Omega_T) \cap C^1(\_{\Omega_T}$ als Lösung von
+	\begin{align*}
+		\partial_t^2 u - c^2 \Laplace_x u &= 0 &&\text{in $\Omega_T$}, \\
+		u(\argdot, 0) &= u_0  && \text{in $\Omega$}, \\
+		\partial_t u(\argdot, 0) &= v_0.
+	\end{align*}
+\end{df}
+
+\begin{st}[Existenz für AWP der Wellengl., D'Alembert'sche Formel, $d = 1$] \label{1.22}
+	Die Klassische Lösung des AWP ist
+	\[
+		u(x,t) := \f 12 \big( u_0(x  + ct) + u_0(x-ct)\big) + \f 1{2c} \int_{x-ct}^{x+ct} v_0(s) \di[s].
+	\]
+	\begin{proof}
+		Anfangsbedingungen sind erfüllt:
+		\begin{align*}
+			u(x,0) &= \f 12 \big(u_0(x) + u_0(x)\big) + \f 1{2c} \int_x^x v_0(s) \di[s] = u_0(x), \\
+			\partial_t u(x,t) &= \f 12 (c_i u_0'(x+ct) -cu_0'(x-ct)) + \f 1{2c}( c v_0(x+ct) + cv_0(x-ct)), \\
+			\partial_t u(x,t) &= \f 1{2c} (c v_0(x) + c v_0(x)) = v_0(x).
+		\end{align*}
+		Die PDE ist erfüllt:
+		\begin{align*}
+			\partial_t^2 u(x,t) &= \f 12 \big(c^2 u_0''(x+ct) + c^2 u_0''(x-ct)\big) + \f 1{2c} \big( c^2 v_0'(x+ct) - c^2 v_0'(x-ct) \big), \\
+			\partial_x u(x,t) &= \f 12 \big(u_0'(x + ct) + u_0'(x-ct)\big) + \f 1{2c} \big( v_0(x+ct) - v_0(x-ct) \big), \\
+			\partial_x^2 u(x,t) &= \f 12 \big(u_0''(x+ct) + u_0''(x-ct)\big) + \f 1{2c} \big( v_0'(x+ct) - v_0'(x-ct) \big),
+		\end{align*}
+		also
+		\[
+			\partial_t^2 u - c^2 \partial_x^2 u
+			= 0.
+		\]
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				$u(x,t)$ ist nur $C^2$, nicht glatter als die Daten, kein regularisierender Effekt,
+			\item
+				endliche Ausbreitungsgeschwindigkeit $c$:
+				$u_0(x), v_0(x)$ beeinflussen nur $u(x,t)$ für $(x,t) \in C(x_0)$, d.h. innerhalb eines \emphdef{Einflusskegels}:
+				\[
+					C(x_0) := \Set{ (x,t) & x_0 - ct \le x \le x_0 + ct }.
+				\]
+				Umgekehrte Sicht: \emphdef{Abhängigkeitskegel} $K(x,t)$:
+				\[
+					K(x,t) := \Set{ (\_x, \_t) & \_t \le t, x - c(t - \_t) \le \_x \le x + c(t - \_t) }
+				\]
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{df}[RWP für Poisson-Gleichung] \label{1.23}
+	Sei $\Omega \subset \R^d$ offen und beschränkt, $f \in C^0(\Omega), g \in C^0(\Gamma), \Gamma := \Boundary \Omega$.
+	Gesucht ist $u \in C^2(\Omega) \cap C^0(\_\Omega)$ als Lösung von
+	\begin{align*}
+		- \Laplace u &= f  && \text{in $\Omega$}, \\
+		u &= g  && \text{auf $\Gamma$}.
+	\end{align*}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Falls $f = 0$, ist $\Laplace u = 0$, wir nennen $u$ dann \emphdef{harmonisch}.
+			\item
+				Für die Poisson-Gleichung mit $\Omega = \R^d$ kann man auch durch Faltung von $f$ mit einer Fundamentallösung ein $u \in C^\infty(\R^d)$ als Lösung konstruieren (siehe Evans oder PDEMAS 13/14).
+				Wir verzichten an dieser Stelle auf Details.
+			\item
+				Eine interessante Eigenschaft ist das \emph{Maximumsprinzip} für Lösungen des RWP.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Maximumsprinzip für Poission-RWP] \label{1.24}
+	Sei $u$ klassische Lösung des RWP aus \ref{1.23} mit $f(x) \le 0, x \in \Omega$.
+	Dann nimmt $u$ sein Maximum auf dem Rand an, d.h.
+	\[
+		\max_{x\in \_\Omega} u(x) = \max_{x \in \Gamma} u(x) = \max_{x\in \Gamma} g(x).
+	\]
+\end{st}
+
+
 
