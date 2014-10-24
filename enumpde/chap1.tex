@@ -1,4 +1,4 @@
-\chapter{Grundlagen}
+\chapter{Grundlagen} \label{chap:1}
 
 \section{Definitionen und Notationen}
 
@@ -678,7 +678,242 @@ Es folgen einige Aussagen zu klassischen Lösungen und deren Eigenschaften
 	\[
 		\max_{x\in \_\Omega} u(x) = \max_{x \in \Gamma} u(x) = \max_{x\in \Gamma} g(x).
 	\]
+\Timestamp{2014-10-24}
+	\begin{proof}
+		Angenommen $c := m_{\_\Omega} - m_{\Gamma} := \max_{x\in \_\Omega} u(x) - \max_{x\in\Gamma} u(x) > 0$.
+		Setze $\rho := \max_{x\in\Omega} \|x\|^2$, wähle $\eps > 0$ sodass $\eps \rho < c$.
+		Definiere $v(x) := u(x) + \eps \|x\|^2, x \in \_\Omega$.
+		Dann gilt
+		\[
+			\max_{x\in\Gamma} v(x) \le m_\Gamma + \eps \rho
+		\]
+		und
+		\[
+			\max_{x\in\_\Omega} \ge m_{\_\Omega} = c + m_\Gamma > m_\Gamma + \eps \rho.
+		\]
+		Also existiert $x_0 \in \Omega$ mit $v(x_0) = \max_{x\in \_\Omega} v(x)$, also lokales Maximum.
+		Es folgt
+		\[
+			\pddx[x_j^2] v(x_0)
+			= \ddx[t^2] v(x_0 + te_j) \big|_{t=0}
+			\le 0
+		\]
+		und damit
+		\[
+			\Laplace v(x_0) \le 0
+			\quad\implies\quad
+			-\Laplace v(x_0) \ge 0
+		\]
+		Wegen $\Laplace(\|x\|^") = \sum_{i=1}^d 2 = 2d$ folgt
+		\[
+			0
+			\ge f(x_0)
+			= - \Laplace u(x_0)
+			= \underbrace{- \Laplace v(x_0)}_{\ge 0} + \eps \underbrace{\Laplace (\|x\|^2)}_{=2d}
+			\ge 2\eps d
+			> 0,
+		\]
+		ein Widerspruch.
+		Somit ist $c < 0$ und $m_\Gamma \ge m_{\_\Omega}$.
+	\end{proof}
+	\begin{note}
+		Analog gilt ein Minimumprinzip für harmonische Funktionen, falls $f \ge 0$.
+	\end{note}
 \end{st}
+
+\begin{kor}[Eindeutigkeit für Poisson-RWP] \label{1.25}
+	Die Klassische Lösung des RWP auf \ref{1.23} ist eindeutig.
+	\begin{proof}
+		Seien $u, \_u$ zwei Lösungen.
+		Dann erfüllt $w := u - \_u$ das homogene RWP
+		\begin{align*}
+			-\Laplace w &= 0 & & \text{in $\Omega$}, \\
+			w &= 0 && \text{auf $\Gamma$}.
+		\end{align*}
+		Das Maximumsprinzip \ref{1.24} ergibt $\max_{x\in\_\Omega} w(x) = \max_{x\in\Gamma} w(x) = 0$, also $w(x) \le 0$ in $\_\Omega$.
+		Analog mit dem Minimumsprinzip $w \ge 0$ und folglich $w = 0$ in $\_\Omega$.
+	\end{proof}
+\end{kor}
+
+\begin{nt*}[Motivation für andere Lösungsbegriffe]
+	Klassishce Lösungen sind nicht immer der passende Begriff.
+	\begin{enumerate}[i)]
+		\item
+			Unstetiger Quellsterm in der Poisson-Gleichung $-u'' = f(x)$, $x \in \Omega := (0,1)$.
+			Falls $f$ unstetig ist, so kann eine Lösung $u$ nicht in $C^2(\_\Omega)$ liegen.
+		\item
+			Unstetige Koeffizienten im Diffusionsproblem (z.B. geschichtete Materialien) $-\partial_x(a(x) \partial_x u) = 0, x \in \Omega := (0,1)$.
+			Falls $a(x)$ unstetig, kann z.B. ein stetiges $u$ mit unstetiger Ableitung eine Lösung sein?
+			Betrachte
+			\begin{align*}
+				a (x) &= \begin{cases}
+					1 & x \le \f 12 \\
+					2 & x > \f 12
+				\end{cases},&
+				u(x) &= \begin{cases}
+					x & x \le \f 12 \\
+					\f 14 + \f 12 x & x > \f 12
+				\end{cases}.
+			\end{align*}
+			$u$ ist keine klassische Lösung, aber eine sogenannte „schwache Lösung“, in einem geeigneten Sobolev-Raum (siehe \ref{chap:3}).
+		\item
+			Wellengleichung mit allgemeinen Anfangsdaten.
+			Die Lösungsformel aus \ref{1.22} macht auch für nicht differenzierbare, oder unstetige Funktionen Sinn.
+			Bei $v_0 = 0$ und $u_0 \in L^1(\Omega) \cap L^\infty(\Omega)$
+			\[
+				u(x,t) := \f 12 \big( u_0(x-ct) + u_0(x+ct)\big)
+			\]
+			ist nicht differenzierbar/unstetig, also keine klassische Lösung, aber eine „Distributionslösung“.
+		\item
+			Bei nichtlinearen Erhaltungsgleichungen existieren klassische Lösungen gegebenenfalls nur für endliche Zeiten, es können trotz glatter Daten Unstetigkeiten entstehen.
+	\end{enumerate}
+\end{nt*}
+
+\begin{ex}[Unstetigkeit bei nichtlinearem Transport] \label{1.26}
+	Sei $\Omega = \R, \Omega_T = \Omega \times (0,T)$, $T = \infty$.
+	Zu $f \in C^2(\R), u_0 \in C^1(\R)$ betrachte die Transportgleichung
+	\begin{align*}
+		\partial_t u + \partial_x f(u) &= 0 && \text{in $\Omega_T$}, \\
+		u(\argdot, 0) &= u_0 && \text{in $\Omega$,}
+	\end{align*}
+	z.B. $f(u) = \f 12 u^2$, dann auch \emphdef{Burgers-Gleichung} genannt.
+
+	Sei $u$ eine klassische Lösung, wir definieren \emphdef{Charakteristiken}, oder \emphdef{charakteristische Kurven}
+	\[
+		\Gamma := \Set{ (\gamma(t), t) & t \in (0,T) },
+	\]
+	mit $\gamma(0) = x_0, \gamma'(t) = f'(u(\gamma(t), t)$.
+	Die Lösung $u$ ist konstant entlang $\Gamma$.
+	In $(\gamma(t),t)$ gilt
+	\[
+		(\Nabla u) \cdot v = \Vector{\partial_x u & \partial_t u} \cdot \Vector{\gamma'(t) & 1}
+		= \partial_t u + \gamma'(t)  \partial_x u
+		= \partial_t u + f'(x) \partial_x u
+		= \partial_t u + \partial_x f(u)
+		= 0
+	\]
+	mit Tangente $v = \Vector{\gamma'(t) & 1}$.
+	Also ist $\Gamma$ eine Gerade, denn
+	\[
+		\gamma'(t) = f'(\underbrace{u(\gamma(t), t)}_{=\const}) = \const.
+	\]
+	Die Lösung $u$ ist vollständig durch Werte von $u_0$ festgelegt, falls die Charakteristiken $\Omega_T$ überdecken.
+	Die Lösung ist im Allgemeinen nur bis endliche Zeiten wohldefiniert, denn Charakteristiken können sich schneiden.
+	Der Begriff der „schwachen Lösung“, bzw. „Entropielösung“ ist ein geeigneter Lösungsbegriff, der auch solche Unstetigkeiten zulässt (siehe \ref{chap:5}).
+\end{ex}
+
+\begin{df}[Distributionslösung] \label{1.27}
+	Sei $\Omega \subset \R^d$ offen, $\scr L: C^k(\Omega) \to C^0(\Omega)$ ein linearer Differentialoperator,
+	\[
+		\scr L u := \sum_{|\beta| \le k} a_\beta \partial^\beta u
+	\]
+	mit Koeffizienten $a_\beta \in \R$.
+	Sei $f \in L^1_{\text{loc}}(\Omega)$.
+	Dann heißt $u\in L^1_{\text{loc}}$ eine \emphdef{Distributionslösung} von $\scr L u = f$ in $\Omega$ genau dann, wenn
+	\begin{equation} \label{eq:1.4}
+		\sum_{|\beta|\le k} (-1)^{|\beta|} a_\beta \int_\Omega u \partial^\beta \phi \di[x]
+		 = \int_\Omega f \phi \di[x]
+	\end{equation}
+	für alle $\phi \in C_0^\infty(\Omega)$.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Eine Distributionslösung macht keine Aussage über Randwerte, im Allgemeinen ist keine Eindeutigkeit zu erwarten.
+			\item
+				Distributionslösungen schließen klassische Lösungen mit ein, sind also eine echte Verallgemeinerung dieser.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Klassische Lösungen und Distributionslösungen] \label{1.28}
+	Sei $u$ eine Distributionslösung von $\eqref{eq:1.4}$ und $f \in C^0(\Omega), u \in C^k(\Omega)$, dann ist $u$ eine klassische Lösung.
+	\begin{proof}
+		Nutze partielle Integration ($k$-fach), Randterme verschwinden wegen $\partial^\beta \phi |_{\Boundary \Omega} = 0$.
+		\[
+			\underbrace{\sum_{|\beta|\le k} \underbrace{(-1)^{|\beta|} (-1)^{|\beta|}}_{=1} a_\beta \int_\Omega (\partial^\beta u) \phi \di[x]}_{= \int_\Omega (\scr L u) \phi \di[x]}
+			= \int_\Omega f \phi \di[x].
+		\]
+		Der Fundamentalsatz \ref{1.7} liefert $\scr L u = f$ fast überall.
+		Wegen Stetigkeit von $\scr L u, f$ folgt $\scr L u = f$ überall und $u$ ist eine klassische Lösung.
+	\end{proof}
+\end{st}
+
+\begin{st}[Distributionslösung der Wellengleichung] \label{1.29}
+	Sei $u_0 \in L^1(\R) \cap L^\infty(\R)$, dann ist für $\Omega_T := \R \times (0,T)$
+	\[
+		u(x,t) := \f 12 \big( u_0(x-ct) + u_0(x+ct) \big)
+	\]
+	Distributionslösung der Wellengleichung.
+	\begin{proof}
+		Übungsaufgabe.
+	\end{proof}
+\end{st}
+
+\begin{nt*}[Numerische Lösungen]
+	\begin{itemize}
+		\item
+			Im Allgemeinen existieren für PDPEs (wie bei gewöhnlichen ODEs in Numerik 2 auch) keine Lösungsformeln für g eine „exakte Lösung“ $u \in X$, $X$ Banachraum, $\dim(X) = \infty$.
+
+			Daher sind numerische Methoden zur Approximation von $u$ erforderlich.
+		\item
+			Meistens sind hierzu \emphdef{diskrete Funktionenräume} $X_h \subset X$ gegeben, welche von einem Diskretisierungsparameter $h$ abhängen äbhängen (z.B. Gitterweite) $n := \dim X_h < \infty$.
+		\item
+			Approximation $u_h \in X_h$ wird durch einen Koeffizientenvektor repräsentiert.
+			Sei $X_h = \Span{\phi_1, \dotsc, \phi_n}$ mit $\Set{\phi_i}_{i=1}^n$ Basis, dann lautet der Ansatz $u_h = \sum_{i=1}^n u_i \phi_i$ mit „\emphdef{Freiheitsgrade}“ (engl. “degrees of freedom”, DOF).
+			$\underbar{u}_h = (u_i)_{i=1}^n \in \R$
+		\item
+			Diskretisierung der PDE und der Randbedingungen liefert im Allgemeinen ein algebraisches System zur Berechnung von $u_h$, z.B. ein LGS
+			\[
+				A_h \underbar{u}_h = b_h,
+			\]
+			$A_h \in \R^{n\times n}, b_h \in \R^n$
+	\end{itemize}
+\end{nt*}
+
+\begin{nt*}[Ziele der Numerik und der Numerischen Analysis]
+	Nachweis von Eigenschaften der Numerischen Approximation
+	\begin{itemize}
+		\item
+			Existenz und Eindeutigkeit von $u_h \in X_h$
+		\item
+			Konvergenz gegen exakte Lösung $\lim_{h\to 0} \|u-u_h\| = 0$
+		\item
+			Konvergenzordnung: Für maximales $p > 0$ existiert $C > 0$, sodass
+			\[
+				\|u - u_h\| \le C h^p.
+			\]
+		\item
+			Fehlerschranken:
+			\begin{itemize}
+				\item
+					A priori Fehlerschranken $\|u-u_h\| \le C(u,h)$, $C$ unabhängig von $u_h$, also „vor der Berechnung“.
+				\item
+					A posteriori Fehlerschranken: $\|u-u_h\| \le C(u_h, h)$, $C$ unabhängig von $u$, aber abhängig von $u_h$, also „nach der Berechnung“.
+				\item
+					Mindestanforderungen für Fehlerschranken: $\lim_{h\to 0} C(\argdot ,h) = 0$
+					Ideale Eigenschaft: „Effizienz“, d.h. $\|u-u_h\|$ und $C(\argdot, h)$ konvergieren mit derselben Ordnung gegen 0, d.h. $\f{C(\argdot, h)}{\|u-u_h\|} \le \_C$ mit $\_C$ unabhängig von $h$.
+				\item
+					Fehlerschranken erlauben Steuerung von $h$, sodass gewünschte Genauigkeit garantiert ist.
+			\end{itemize}
+	\end{itemize}
+	Weitere Eigenschaften
+	\begin{itemize}
+		\item
+			Beschränktheit: $\|u_h\| \le C$,
+		\item
+			Positivität: $u_h \ge 0$,
+		\item
+			Erhaltungseigenschaft: $J(u) = J(u_h)$ für geeignetes $J: X \to \R$,
+		\item
+			stetige Abhängigkeit von Daten,
+		\item
+			Satibilität,
+		\item
+			diskretes Maximumprinzip,
+		\item
+			\dots
+	\end{itemize}
+\end{nt*}
 
 
 
