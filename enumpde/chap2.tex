@@ -1,0 +1,237 @@
+\chapter{Finite Differenzen Verfahren für elliptische Probleme} \label{chap:2}
+
+
+
+\section{Finite Differenzen für Poisson-Gleichung}
+
+
+\begin{df}[Finite Differenz] \label{2.1}
+	Sei $h \in \R$, $e_j \in \R^d$ Einheitsvektor für $j = 1, \dotsc, d$ und $u: \Set{x, x \pm e_j h & j = 1, \dotsc, d} \to \R$, dann definieren wir \emphdef[Vorwärtsdifferenz]{Vorwärts-} oder \emphdef{rechtsseitige Differenz} durch
+	\[
+		(\partial_{x_j}^{+h}u)(x) := \frac{u(x+he_j) -u(x)}{h}
+	\]
+	analog \emphdef[Rückwärtsdifferenz]{Rückwärts-} oder \emphdef{linksseitige Differenz} durch
+	\[
+		(\partial_{x_j}^{-h}u)(x) := \frac{u(x) - u(x-he_j)}{h}
+	\]
+	und \emphdef[symmetrische Differenz]{symmetrische} oder \emphdef{zentrale Differenz} durch
+	\[
+		(\partial_{x_j}^{ch} u)(x)
+		= \f 12 (\partial_{x_j}^{+h} u(x) + \partial_{x_j}^{-h} u(x))
+		= \frac{u(x+he_j) - u(x-he_j)}{2h}
+	\]
+\end{df}
+
+
+\begin{st}[Approximationsgüte] \label{2.2}
+	Sei $u: \Omega \to \R, x \in \Omega \subset \R^d, r \in \N^+$ mit $B_r(x) \subset \Omega$.	
+	Für $h < r$ gilt dann
+	\begin{enumerate}[i)]
+		\item
+			$|\partial_{x_j} u(x) - \partial_{x_j}^{\pm h} u(x)| \le \f h2 \|\partial_{x_j}^2 u\|_\infty$ für $u \in C^2(\_\Omega)$
+		\item
+			$|\partial_{x_j} u(x) - \partial_{x_j}^{c h} u(x)| \le \f {h^2}6 \|\partial_{x_j}^3 u\|_\infty$ für $u \in C^3(\_\Omega)$
+		\item
+			$|\partial_{x_j}^2 u(x) - \partial_{x_j}^{-h} \partial_{x_j}^{+h} u(x)| \le \f {h^2}{12} \|\partial_{x_j}^4 u\|_\infty$ für $u \in C^4(\_\Omega)$
+	\end{enumerate}
+	\begin{proof}
+		Es genügt dies für $d = 1$ zu zeigen, denn  sei $u \in C^k(\_\Omega), v(t) = u(x + th e_j)$.
+		Dann ist $\|\ddx[t^k] v(t)\|_\infty \le \|\partial_{x_j}^k u\|_{C^0(\_\Omega)}$.
+		\begin{enumerate}[i)]
+			\item
+				Taylor liefert für ein $\xi \in (x, x + h)$
+				\[
+					u(x+h) = u(x) + hu'(x) + \f {h^2}2 u''(\xi)
+				\]
+				Es folgt
+				\[
+					\partial_x u(x) - \partial_x^{+h} u(x)
+					= u'(x) - \f{u(x+h) - u(x)}{h}
+					= - \f h2 u''(\xi).
+				\]
+				Analog für die linksseitige Differenz.
+			\item
+				Subtraktion von
+				\begin{align*}
+					u(x+h) &= u(x) + hu'(x) + \f {h^2}2 u''(x) + \f {h^3}6 u'''(\xi) \\
+					u(x-h) &= u(x) - hu'(x) + \f {h^2}2 u''(x) - \f {h^3}6 u'''(\_\xi) \\
+				\end{align*}
+				mit $\xi \in (x,x+h), \_\xi \in (x-h,x)$ liefert
+				\[
+					u(x+h) - u(x-h) = 2h u'(x) + \f{h^3}6 \big(u'''(\xi) + u'''(\_\xi)\big),
+				\]
+				also
+				\[
+					u'(x) - \f{u(x+h) - u(x-h)}{2h}
+					= - \f{h^2}{12} \big( u'''(\xi) + u'''(\_\xi) \big)
+					\le \f{h^2}6 \|u'''\|_\infty.
+				\]
+			\item
+				Addition von
+				\begin{align*}
+					u(x+h) &= u(x) + hu'(x) + \f{h^2}2 u''(x) + \f {h^3}6 u'''(x) + \f{h^4}{24} u''''(\xi) \\
+					-2u(x) &= -2u(x) \\
+					u(x+h) &= u(x) - hu'(x) + \f{h^2}2 u''(x) - \f {h^3}6 u'''(x) + \f{h^4}{24} u''''(\_\xi) \\
+				\end{align*}
+				mit $\xi \in (x,x+h), \_\xi \in (x-h, x)$ liefert
+				\begin{align*}
+					\partial_x^{-h} \partial_x^{+h} u(x)
+					&= \dfrac{\frac{u(x+h)-u(x)}{h}-\frac{u(x)-u(x-h)}{h}}{h} \\
+					&= \frac{u(x+h) - 2u(x) +  u(x+h)}{h^2} \\
+					&= \f 1{h^2} \big( \f {h^2}2 + \f {h^2}2 \big) u''(x) + \f 1{h^2} \f {h^4}{24} \big( u''''(\xi) + u''''(\_\xi) \big)
+				\end{align*}
+		\end{enumerate}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die Approximation in iii) ist also eine zweite zentrale Differenz
+				\[
+					\partial_{x_j}^{-h} \partial_{x_j}^{+h} u(x)
+					= \partial_{x_j}^{+h} \partial_{x_j}^{-h} u(x)
+					= \partial_{x_j}^{c, \f h2} \partial_{x_j}^{c, \f h2} u(x)
+					= \f{u(x+h) - 2u(x) + u(x-h)}{h^2}.
+				\]
+			\item
+				Aus dem Beweis folgt, dass $\partial_x^{-h} \partial_{x}^{+h} u(x) = u''(x)$ falls $u^{(4)} = 0$, z.B. für $u \in \P_3$.
+			\item
+				Man kann zentrale Differenzen für höhere Ableitungen verallgemeinern:
+				\[
+					\partial_{x_j}^{h,m} u(x)
+					:= (\partial_{x_{j}}^{c, \f h2})^m u(x)
+				\]
+				falls $u: \Set{u+(k-\f m2) h e_j & k = 0, \dotsc, m } \to \R$.
+				Dann ist
+				\[
+					\partial_{x_j}^{h,m} u(x)
+					= \f 1{h^m} \sum_{k=0}^m \binom{m}{k} (-1)^{k+m} u\big( u + (k-\f m2) h e_j \big).
+				\]
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{kor}[FD-Approximation für Laplace] \label{2.3} 
+	Sei $u : \Set{x, x \pm h e_j} \to \R$.
+	Dann definieren
+	\begin{equation} \label{eq:2.1}
+		\Laplace_h u(x) :=
+		\Big(\sum_{i=1}^d \partial_{x_j}^{-h} \partial_{x_j}^{+h} u \Big) (x)
+	\end{equation}
+	und es gilt unter Voraussetzungen von \ref{2.2}
+	\[
+		|\Laplace u(x) - \Laplace u(x)| \le C h^2
+	\]
+	für $u \in C^4(\_\Omega)$.
+	\begin{proof}
+		Dreiecksungleichung und \ref{2.2} iii) liefert
+		\begin{align*}
+			|\Laplace u(x) - \Laplace_h u(x)|
+			&= \Big| \sum_{i=1}^d \partial_{x_j}^2 u(x) - \partial_{x_j}^{-h} \partial_{x_j}^{+h} u(x) \Big| \\
+			&\le \sum_{i=1}^d | \partial_{x_j}^2 u(x) - \partial_{x_j}^{-h} \partial_{x_j}^{+h} u(x) \Big| \\
+			&\le \sum_{j=1}^d \f {h^2}{12} \|\partial_{x_j}^{(4)} u\|_\infty \\
+			&\le d \f {h^2}{12} \|u\|_{C^4(\_\Omega)}.
+		\end{align*}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Für $p(x) := \prod_{i=1}^d p_i(x_i)$ mit $p_i \in \P_3$ ist $\Laplace_h$ exakt, d.h. $\Laplace_h p(x) = \Laplace p(x)$.
+		\end{itemize}
+	\end{note}
+\end{kor}
+
+
+\begin{df}[Würfelgebiet] \label{2.4}
+	Sei $\Omega \subset \R^d$ offen, beschränkt.
+	$\Omega$ heißt \emphdef{Würfelgebiet} zu $h \in \R^+$, falls $Z \subset \Z^d$ sodass $\Omega = W \setminus \Boundary W =: \mathring W$ mit $W := \bigcup_{z \in Z} W(z)$ und $W(z) := [z_1h , (z_1+1)h] \times \dotsc \times [z_d h, (z_d+1)h] \subset \R^d$.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Ist $\Omega$ ein Würfelgebiet zu $h$, dann ist auch $\Omega$ eine Würfelgebiet zu $\f hn$ für alle $n \in \N$.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+Wir wollen uns im Folgenden nur mit Würfelgebieten beschäftigen
+
+\begin{df}[FD-Gitter] \label{2.5}
+	Sei $\Omega \subset \R^d$ ein Würfelgebiet zu $h \in \R^+$, $\Gamma := \Boundary \Omega$, also $\_\Omega = \Omega \cup \Gamma$.
+	Wir definieren das \emphdef{Gitter} $\_\Omega_h$ durch \emphdef{innere Punkte} $\Omega_h$ und \emphdef{Randpunkt} $\Gamma_h$, wobei
+	\begin{align*}
+		\Omega_h &:= \Set{ x \in \Omega & \exists z \in \Z^d : x = hz } \\
+		\Gamma_h &:= \Set{ x \in \Gamma & \exists z \in \Z^d : x = hz } \\
+		\_\Omega_h &:= \Omega_h \cup \Gamma_h.
+	\end{align*}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Jeder innere Punkt hat genau $2d$ Nachbarn im Abstand von $h$ in $\_\Omega_h$
+			\item
+				Erweiterung für allgemeine Gebiete später.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{df}[Gitterfunktionen] \label{2.6}
+	Zu einem Gitter $\_\Omega_h$ definieren wir den Raum der \emphdef{Gitterfunktionen} $X_h := \Set{ v : \_\Omega_h \to \R }$
+	und den Teilraum der Funktionen mit Nullrandwerten $X_h^0 := \Set{ v \in X_h & \forall x \in \Gamma_h : v(x) = 0 } \subset X_h$
+	und den Raum der Funktionen auf inneren Punkten $Y_h := \Set{v: \Omega_h \to \R}$ mit Maximumsnorm $\|v\|_{\_\Omega_h} := \max_{x\in \_\Omega_h} |v(x)|$ und $\|v\|_{\Omega_h} := \max_{x\in\Omega_h} |v(x)|$.
+\end{df}
+
+\begin{nt*}[Nebenbemerkungen]
+	\begin{itemize}
+		\item
+			Also sind $(X_h, \|\argdot\|_{\_\Omega_h}), (X_h^0, \|\argdot\|_{\Omega_h}), (X_h^ , \|\argdot\|_{\_\Omega_h}), (Y_h, \|\argdot\|_{\Omega_h})$ Banachräume, weil endlichdimensional und damit vollständig.
+		\item
+			Man kann auch $X_h$ mit einer Hilbertraumstruktur versehen, indem man das \emphdef[diskretes $l_2$-Skalarprodukt]{diskrete $L_2$-Skalarprodukt} definiert:
+			\[
+				\<u,v\>_{l_2} := h^d \sum_{x\in\_\Omega_h} u(x) v(x),
+			\]
+			welches die Norm $\|u\|_{l_,} := \sqrt{h^d \sum_{x\in\_\Omega} u(x)^2}$ induziert.
+			Dann ist $X_h$ auch vollständig bezüglich $\|\argdot\|_{l_2}$, weiter gilt: $\lim_{h\to 0} \|u\|_{l_2} = \|u\|_{L^2(\Omega)}$ für $u \in C^0(\Omega)$.
+		\item
+			Man kann $X_h$ auch mit einer Seminorm versehen, welche auch die Ableitungen miteinbezieht
+			\[
+				|u|_{h_1}
+				:= \Big( h^d \sum_{x\in\Omega} \sum_{j=1}^d  \big(\partial_{x_j}^{+h} u(x)\big)^2 \Big)^{\f 12},
+			\]
+			die \emphdef{diskrete $h_1$ Seminorm}.
+			Dies ist eine Norm auf $X_h^0$, aber nicht auf $X_h$.
+			Damit erhält man durch Kombination mit der diskreten $l_2$-Norm eine Norm auf $X_h$ („diskrete $h_1$ Norm“):
+			\[
+				\|u\|_{h_1}
+				:= \sqrt{\|u\|_{l_2}^2 + |u|_{h_1}^2},
+			\]
+			bezüglich welcher $X_h$ ein Hilbertraum ist.
+	\end{itemize}
+\end{nt*}
+
+Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \in \Omega_h$ wohldefiniert, d.h. wir können $\Laplace_h : X_h \to Y_h$ als linearen Operator sehen.
+
+\begin{df}[FD-Approximation für Poisson-RWP] \label{2.7}
+	Sei ein Gitter $\_\Omega_h$ gegeben.
+	Dann nennen wir $u_h \in X_h$ \emphdef{Finite Differenzen Lösung} des Poisson-RWPs aus \ref{1.23}, falls
+	\begin{align} \label{eq:2.2}
+		\Laplace_h u_h(x) &= f(x) && \text{$x \in \Omega_h$} \\
+		u_h(x) &= g(x) && \text{$x\in \Gamma_h$}.
+	\end{align}
+\end{df}
+
+\begin{nt*}[Berechnung via LGS]
+	\begin{itemize}
+		\item
+			Lege eine Aufzählung $\Set{x_1, \dotsc, x_n} = \Omega_h$ fest.
+			Dann ist \eqref{eq:2.2} äquivalent zu einem LGS für Unbekannte $\underbar{u}_h = (u_i)_{i=1}^n$ mit $u_i = u_h(x_i)$ für $i=1,\dotsc, n$, denn $u_h(x)$ für $x \in \Gamma$ ist schon festgelet durch $g$.
+		\item
+			Sei FD-Operator in $x_i \in \Omega_h$ gegeben durch
+			\[
+				\Laplace_h u(x_i) = \sum_{j=1}^n \alpha_{ij} u(x_j) + \sum_{x\in \Gamma_h} \beta_{ix} u(x).
+			\]
+			Dann ist das LGS gegeben durch $A_h \underbar{u}_h = b_h$ mit $(A_h)_{ij} = \alpha_{ij}$ und $(b_h)_i = f(x_i) - \sum_{x\in \Gamma_h} \beta_{ix} g(x)$.
+		\item
+			$A_h$ ist dünn besetzt (sparse), da sie nur sehr wenige nichtnull-Einträge pro Zeile enthält. 
+	\end{itemize}
+\end{nt*}
+
+
+
