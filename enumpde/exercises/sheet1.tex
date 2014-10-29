@@ -1,0 +1,148 @@
+\documentclass{myexercise}
+
+\begin{document}
+
+\begin{exercise}[Aufgabe 1]
+	Sei $v \in C_0^\infty \subset \scr F$ beliebig.
+	Da $\scr F \subset C^1(\Omega)$ ein linearer Unterraum ist, gilt $u + \eps v \in \scr F$ für alle $\eps \in \R$.
+	Als Komposition differenzierbarer Funktionen ist $L\big(\nabla(u+\eps v)(x), (u+\eps v)(x), x\big)$ differenzierbar in $\eps$, es gilt
+	\[
+		\ddx[\eps] L\big(\nabla(u+\eps v)(x), u+\eps v(x), x\big)
+		= \partial_p L\big(\nabla u(x), u(x), x\big) \cdot \nabla v(x) + \partial_z L\big(\nabla u(x), u(x), x\big) \cdot v(x).
+	\]
+	Obiger Ausdruck ist offenbar stetig und da $\supp \nabla v \subset \supp v$ kompakt, insbesondere majorisiert integrierbar über $\Omega$.
+	Damit ist auch das Funktional $I(u+\eps v)$ differenzierbar in $\eps$.
+	Da $I$ nach Annahme ein Minimum in $u$ hat, folgt zwangsläufig $\ddx[\eps] I(u+\eps v)\big|_{\eps = 0} = 0$, also (obiges Argument rechtfertigt folgende Vertauschung von Integral und Ableitung)
+	\begin{align*}
+		0
+		&= \ddx[\eps] \int_\Omega L\Big(\nabla(u+\eps v)(x), u+\eps v(x), x\Big) \di[x] \Big|_{\eps=0} \\
+		&= \int_\Omega \ddx[\epsilon] L\Big(\nabla(u+\epsilon v)(x), (u+\epsilon v)(x), x\Big) \Big|_{\epsilon=0} \di[x] \\
+		&= \int_\Omega \partial_p L\big(\nabla u(x), u(x), x\big) \cdot \nabla v(x) + \partial_z L\big(\nabla u(x), u(x), x\big) \cdot v(x) \di[x] \\
+		&= \int_\Omega \sum_{k=1}^d \big(\partial_p L(\nabla u, u, x)\big) \big(\partial_{x_i} v\big) + \partial_z L(\nabla u, u, x) \cdot v \di[x] \\
+		&= \int_\Omega \sum_{k=1}^d -\partial_{x_i} \big(\partial_{p_i} L(\nabla u, u, x)\big) + \partial_{x_i}\big( v \partial_{p_i} L(\nabla u, u, x)\big) + v  \partial_z L(\nabla u, u, x) \di[x] \\
+		&= \int_\Omega \bigg( - \sum_{i=1}^d \partial_{x_i} \big( \partial_{p_i} L(\nabla u, u, x) \big) + \partial_z L(\nabla u, u, x) \bigg) v(x) \di[x] + \sum_{i=1}^d \underbrace{\int_\Omega \partial_{x_i} \big(v \partial_{p_i} L(\nabla u, u, x) \big)}_{=0 \text{ s.u.}} \di[x]
+	\end{align*}
+	Nach dem Hauptsatz der Variationsrechnung, erfüllt $u$ also die DGL
+	\[
+		- \sum_{i=1}^d \partial_{x_i} \big( \partial_{p_i} L(\nabla u, u, x) \big) + \partial_z L(\nabla u, u, x) = 0.
+	\]
+	Es verbleibt $\int_\Omega \partial_{x_i}(v \partial_{p_i} L(\nabla u, u, x)) \di[x] = 0$ zu zeigen.
+	Nun ist $\supp \partial_{x_i} v \subset \supp v \subset \Omega$ kompakt, also können wir den Integrationsbereich auf $\R$ erweitern.
+	Nach Tonelli, können wir die Integrationsreihenfolge (der $x_i$) vertauschen.
+	Da $\supp v$ kompakt, gilt
+	\[
+		\int_\R \partial_{x_i}(v \partial_{p_i} L(\nabla u, u, x)) \di[x_i]
+		= \Big[v \partial_{p_i} L(\nabla u, u, x) \Big]_{-\infty}^{\infty}
+		= 0,
+	\]
+	womit die Behauptung erfüllt ist
+\end{exercise}
+
+\newpage
+\begin{exercise}[Aufgabe 2]
+	\begin{enumerate}[(a)]
+		\item
+			$\Phi \in C^\infty(\Omega_T)$ nach c), man berechne also
+			\begin{align*}
+				\partial_t \Phi(x,t) &= \frac{-(4\pi)^{\f d2} \f d2 t^{\f d2 - 1}}{(4\pi t)^d} e^{-\f{\|x\|^2}{4t}} + \f 1{(4\pi t)}^{\f d2} e^{-\f{\|x\|^2}{4t}} \f{4 \|x\|^2}{(4t)^2} \\
+					&= \f 1{4t^2} \Phi(x,t) ( \|x\|^2 - 2dt), \\
+				\partial_{x_i} \Phi(x,t) &= - \f 1{2t} \Phi(x,t) x_i, \\
+				\partial_{x_i}^2 \Phi(x,t) &= \f 1{4t^2} \Phi(x,t) (x_i - 2t).
+			\end{align*}
+			Nun sieht man sofort, dass
+			\[
+				\partial_t \Phi = \sum_{i=1}^d \partial_{x_i}^2 \Phi(x,t) = \Laplace_x \Phi(x,t).
+			\]
+		\item
+			$\Phi$ ist als Komposition von $C^\infty(\Omega_T)$-Funktionen ebenfalls in $C^\infty(\Omega_T)$.
+		\item
+			Zunächst ist mit $u_i = \f{x_i}{2\sqrt t}$
+			\[
+				\int_\R e^{\f {x_i^2}{4t}} \di[x_i]
+				= 2\sqrt t \int_\R e^{-u_i^2} \di[u_i]
+				= 2 \sqrt {\pi t}.
+			\]
+			Damit folgt
+			\begin{align*}
+				\int_{\R^d} \Phi(x,t) \di[x]
+				&= \int_{\R} \dotsi \int_\R \f 1{(4\pi t)^{\f d2}} e^{-\f{\|x\|^2}{4t}} \di[x_1] \di[x_2] \dotsc \di[x_d] \\
+				&= \prod_{i=1}^d \f 1{2\sqrt{\pi t}} \int_\R e^{- \f {x_i^2}{4t}} \di[x_i] \\
+				&= 1.
+			\end{align*}
+		\item
+			Wir zeigen $\sup(\partial^\beta \Phi) < \infty$.
+			Es gilt
+			\begin{align*}
+				\Phi(x,t) &= \f 1{(4\pi t)^{\f d2}} e^{-\frac{\|x\|^2}{4t}}, \\
+				\partial_t \Phi(x,t) &= \f 1{4t^2} \Phi(x,t) \big( \|x\|^2 - 2dt \big), \\
+				\partial_{x_i} \Phi(x,t) &= - \f 1{2t} \Phi(x,t) x_i.
+			\end{align*}
+			Anhand der Produktregel, kann man sich die Struktur der höheren Ableitungen vorstellen (Summanden welche $\Phi(x,t)$ enthalten zusammen mit Vorfaktoren $\|x\|^i, \f 1{t^j}$).
+
+			Betrachte zunächst $x \in B_1(0), t > 1$: hier ist die Aussage klar, da alle Ableitungen einfach nach oben durch eine Konstante mal $\Phi(x,t)$ abgeschätzt werden können und
+			\[
+				|\Phi(x,t)| \le \f e{(4\pi t)^{\f d2}} \to 0
+			\]
+			für $t \to \infty$.
+
+			Sei jetzt also $\|x\| \ge 1, t \le 1$, d.h. auch $|x_i| \le \|x\| \le \|x\|^2$ für alle $i$.
+			Wir können nun die Summanden in $\partial^\beta \Phi$ nach oben hin abschätzen (anschaulich: beim Ableiten kommt schlimmstenfalls ein Term der Ordnung $\f{\|x\|^2}{t^2}$ hinzu, beachte $\|x\| \ge 1, t \le 1$):
+			\begin{align*}
+				|\partial^\beta \Phi(x,t)|
+				&\le \big(\f{\|x\|}{t}\big)^{2|\beta|} C \Phi(x,t) \\
+				&= \f 1{(4\pi t)^{\f d2}}\big(\f{\|x\|}{t}\big)^{2|\beta|} Ce^{-\f 14 \f{\|x\|^2}{t}} \\
+				&\le \f 1{(4\pi \delta)^{\f d2}} \big(\f{\|x\|}{\delta}\big)^{2|\beta|} C e^{-\f{\|x\|^2}4}
+				\xrightarrow{\|x\|\to\infty} 0,
+			\end{align*}
+			für eine Konstante $C$ (nur von $\beta$ abhängig).
+	\end{enumerate}
+\end{exercise}
+
+\newpage
+\begin{exercise}[Aufgabe 3]
+	\begin{enumerate}[a)]
+		\item
+			Sei $L(\nabla w, w, x) = \sqrt{1 + \|\nabla w(x)\|^2}$, dann ist
+			\begin{align*}
+				\partial_{p_i} L(\nabla w, w, x) &= \f {\partial_{x_i} w}{\sqrt{1 + \|\nabla w\|^2}} \\
+				\partial_{z} L(\nabla w, w, x) &= 0
+			\end{align*}
+			Nach Aufgabe 1 erfüllt ein Minimum $u$ von $I$ also
+			\begin{align*}
+				0 &= -\sum_{i=1}^d \partial_{x_i} \big( \partial_{p_i} L(\nabla u, u, x) \big) \\
+				&= \div\Big( \f{\nabla u(x)}{\sqrt{1 + \|\nabla w\|^2}} \Big)
+			\end{align*}
+		\item
+			Zunächst ist die Randbedingung erfüllt:
+			Sei dazu $x \in \Boundary B_c(0)$, dann ist $\|x\| = c$, also
+			\[
+				u(x) = c \arcosh(\f{\|x\|}c)
+				= c \arcosh(1)
+				= 0.
+			\]
+			Berechne nun
+			\begin{align*}
+				\partial_{x_i} u(x)
+					&= \f{c x_i}{\|x\| \sqrt{\|x\|^2 - c^2}}, \\
+				\|\nabla u(x)\|^2
+					&= \sum_{i=1}^d \big(\partial_{x_i} u(x)\big)^2
+					= \f{c^2}{\|x\|^2 - c^2}, \\
+				\f {1}{\sqrt{1 + \|\nabla u(x)\|^2}}
+					&= \f{\sqrt{\|x\|^2 - c^2}}{\|x\|}, \\
+				\partial_{x_i} \Big( \f{\nabla u(x)}{\sqrt{m + \|\nabla u(x)\|^2}} \Big)
+					&= \partial_{x_i} \f{c x_i}{\|x\|^2}
+					= \f c{\|x\|^2} \big( 1 - \f {2x_i^2}{\|x\|^2} \big).
+			\end{align*}
+			Damit ist
+			\[
+				\div\Big( \f{\nabla u(x)}{\sqrt{1 + \|\nabla w\|^2}} \Big)
+				= \sum_{i=1}^d \partial_{x_i} \Big( \f{\nabla u(x)}{\sqrt{m + \|\nabla u(x)\|^2}} \Big)
+				= \f{c}{\|x\|^2} (d - 2)
+				= 0
+			\]
+			für $d = 2$.
+	\end{enumerate}
+\end{exercise}
+
+
+\end{document}
