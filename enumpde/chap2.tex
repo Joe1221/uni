@@ -213,7 +213,7 @@ Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \i
 	Dann nennen wir $u_h \in X_h$ \emphdef{Finite Differenzen Lösung} des Poisson-RWPs aus \ref{1.23}, falls
 	\begin{align} \label{eq:2.2}
 		\Laplace_h u_h(x) &= f(x) && \text{$x \in \Omega_h$} \\
-		u_h(x) &= g(x) && \text{$x\in \Gamma_h$}.
+		u_h(x) &= g(x) && \text{$x\in \Gamma_h$}. \notag
 	\end{align}
 \end{df}
 
@@ -233,5 +233,277 @@ Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \i
 	\end{itemize}
 \end{nt*}
 
+\Timestamp{2014-10-31}
+
+\begin{ex} \label{2.8}
+	Sei $d=1, \Omega = (0,1), n \in \N, h := \f 1{n+1}, x_i := i h, i \in \Set{0, \dotsc, n+1}$.
+	Dann ist $\Omega_h := \Set{x_1, \dotsc, x_n}, \Gamma_h := \Set{x_0, x_{n+1}}$.
+	Betrachte die Poisson-Gleichung
+	\begin{align*}
+		-u''(x) &= f(x) && \text{in $\Omega$} \\
+		u(0) &= \alpha \\
+		u(1) &= \beta
+	\end{align*}
+	Sei $u_i \approx u(x_i)$ für $i=1, \dotsc, n$, $u_0 = \alpha, u_{n+1} = \beta$.
+	Diskretisierung ergibt
+	\[
+		- \f{u_{i+1} - 2u_i + 2u_{i-1}}{h^2} = f(x_i)
+	\]
+	für $i = 1, \dotsc, n$.
+	Das LGS ergibt sich als
+	\[
+		\overbrace{\f 1{h^2} \underbrace{\Matrix{2 & -1 & & \\ -1 & \ddots & \ddots & \\ & \ddots & \ddots & -1 \\ & & -1 & 2}}_{\tilde A_n}}^{A_h}
+		\Vector{u_1 & \dots & u_n}
+		= \Vector{f(x_1) + \f{\alpha}{h^2} & f(x_2) & \dots & f(x_{n-1} & f(x_n) + \f{\beta}{h^2})}.
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				$A_h$ ist tridiagonal, symmetrisch, $A_h = \f 1{h^2} \tilde A_n$
+			\item
+				$A_h$ ist regulär, denn per Induktion folgt $\det \tilde A_{n} = n + 1$:
+				\begin{proof}
+					Für $n = 1$ ist $\det(\tilde A_n) = \det(2) = n+1$.
+					Die Aussage gelte für $n-1$, es gilt
+					\begin{align*}
+						\det \tilde A_n
+						&= \det \Matrix{\tilde A_{n-1} & & \\ & & -1 \\ & -1 & 2} \\
+						&= 2 \det \tilde A_{n-1} - (-1) \det \Matrix{\tilde A_{n-2} & & \\ & & & \\ & -1 & -1} \\
+						&= 2 n + (-1) \det A_{n-2}
+						= 2n - (n-1)
+						= n+1
+					\end{align*}
+				\end{proof}
+			\item
+				$A_h$ ist positiv definit, denn Gerschgorin liefert $\lambda_i(\tilde A_n) \in [0,4]$ und wegen Regularität $\lambda_i(\tilde A_n) \neq 0$.
+				Es folgt also $\lambda_i > 0$ für $i = 1, \dotsc, n$.
+			\item
+				Also existiert eine eindeutige FD-Lösung für das Poisson-RWP in einer Dimension.
+			\item
+				Wegen $A_h$ symmetrisch, positiv definit kann das CG oder das PCG Verfahren zum iterativen Lösen des LGS verwendet werden.
+			\item
+				Man kann hier auch direkt stetige Abhängigkeit von den Daten beweisen:
+				Seien $u, u_h$ Lösungen zu $f, \alpha, \beta$, bzw. $\_f, \_\alpha, \_\beta$.
+				Dann existiert $C > 0$ unabhängig von $f, \_f, \alpha, \_\alpha, \beta, \_\beta$ sodass
+				\[
+					\|u_h - \_u_h\| \le C \Big( \|f-\_f\| + |\alpha - \_\alpha| + |\beta - \_\beta| \Big).
+				\]
+		\end{itemize}
+	\end{note}
+\end{ex}
+
+\begin{ex} \label{2.9}
+	Sei $d = 2, \Omega = (0,1)^2$ und betrachte das Poisson-RWP mit $g(x) = 0$, $m \in \N, h:= \f 1{m+1}, n := m^2$.
+	Statt Einzelindex ist ein Doppelindex übersichtlicher, setze dazu
+	\begin{align*}
+		x_{ij} = (ih, jh) \quad \text{für $0 \le i,j \le m+1$}, &
+		u_{ij} \approx u(x_{ij}).
+	\end{align*}
+	Die Diskretisierung des RWP liefert für jeden inneren Punkt eine Gleichung
+	\[
+		\f 1{h^2} \Big( 4 u_{ij} - u_{i-1,j} - u_{i+1,j} - u_{i,j-1} - u_{i,j+1}\Big)
+		= f(ih, jh).
+	\]
+	Am Rand gilt
+	\[
+		u_{0,j} = u_{m+1,j} = u_{j,0} = u_{j,m+1}
+	\]
+	für $0 < i,j < m$.
+	Für jede beliebige Wahl einer Aufzählung der $\Set{u_{ij}}$ erhält man ein System $A_h u_h = b_h$ mit $A_h$ symmetrisch, $\f 4{h^2}$ auf der Diagonalen und $-\f 1{h^2}$ an bis zu $4$ Einträgen pro Zeile/Spalte.
+
+	Falls eine lexikographische Aufzahlung gewählt wird:
+	\[
+		\_u_h = \Big(u_{11}, u_{12}, \dotsc, u_{1m}, u_{21}, \dotsc, u_{2m}, \dotsc, u_{mm} \Big)
+	\]
+	so erhält $A_h$ eine Bandstruktur, jedoch nicht mehr tridiagonal wie in \ref{2.8}, sondern „Block-tridiagonal“:
+	\begin{align*}
+		A_h &= \f 1{h^2} \Matrix{B & C & & \\C & \ddots & \ddots & \\ & \ddots & \ddots & C \\ & & C & B}, &
+		B &= \Matrix{4 & -1 & & \\ -1 & \ddots & \ddots & \\ & \ddots & \ddots & -1 \\ & & -1 & 4}, &
+		C &= \Matrix{-1 & & \\ & \ddots & \\ & & -1},
+	\end{align*}
+	\begin{note}[Beliebige Gebiete]
+		\begin{itemize}
+			\item
+				Falls $\Omega$ beschränkt ist, aber kein Würfelgebiet, muss das Gitter modifiziert werden, indem Schnittpunkte von $\Gamma$ mit den $h \Z^d$ Würfelkanten hinzugenommen werden:
+				\[
+					\Gamma_h := \Set{ x \in \Gamma & \exists z\in \Z^d, j =1,\dotsc, d : x \in z + \R e_j }
+				\]
+				Dann wird wie gehabt $\_\Omega_h := \Omega_h \cup \Gamma_h$ mit $\Omega_h$ aus \ref{2.5} definiert.
+			\item
+				% Rand in Süd/West richtung
+				Koeffizienten der FD-Diskretisierung werden angepasst.
+				Die Taylor-Entwicklung liefert
+				\begin{align*}
+					u''(x) &= \f{2}{h_W(h_O + h_W} u(x-h_W) - \f 2{h_Oh_W} u(x) + \f 2{h_O(h_O+h_W)} u(x+h_0) \\
+					&\quad + \LandauO(h) \\
+					\Laplace(u) &= \f{2}{h_W(h_O+h_W)} u(x-e_1h_W) - \f 2{h_Oh_N} u(x) + \f 2{h_O(h_O+h_W)} u(x+h_0 e_1) \\
+					&\quad + \f 2{h_S(h_N+h_S)} u(x-e_2 h_S) - \f 2{h_S h_N} u(x) + \f 2{h_N(h_S+h_N)} u(x+ e_2 h_N) \\
+					&\quad + \LandauO(h)
+				\end{align*}
+				„Shortley-Weller Approximation“.
+		\end{itemize}
+	\end{note}
+	\begin{note}[Andere Randbedingungen]
+		Neben Dirichlet- können auch andere Randebedingungen realisiert werden, z.B. Neumann-Randbedingungen:
+		\begin{align*}
+			(\Nabla u) \cdot h &= g_N
+			&& \text{auf $\Gamma_N \subset \Gamma$}.
+		\end{align*}
+		Wir nennen $\Gamma_N$ \emphdef{Neumann-Randteil}.
+		Wir nehmen an, dass $x$ auf einer Kante liegt und nicht auf einer Ecke von $\Gamma$ (sonst ist keine Normale $n$ definiert).
+		Sei $n = \pm e_j$ (da Würfelgebiet) äußerer Normalenvektor für ein $j = 1, \dotsc, d$.
+		Wir Approximieren $\Nabla u$ durch
+		\[
+			(\Nabla_h u)_i :=
+			\begin{cases}
+				\partial_{x_i}^{c,h} u & i \neq j \\
+				\partial_{x_j}^{-h} u & i = j
+			\end{cases}.
+		\]
+		Nun sind $u_h(x), x \in \Gamma_h \cap \Gamma_N$ Unbekannte.
+		Es fällt eine weitere Gleichung für das LGS an:
+		\[
+			(\Nabla_h u_h(x)) \cdot n = g_N(x)
+		\]
+		für $x \in \Gamma_h \cap \Gamma_N$.
+	\end{note}
+\end{ex}
 
 
+\section{Allgemeine Elliptische PDEs zweiter Ordnung}
+
+\begin{df}[Allgemeine Elliptische RWP] \label{2.10}
+	Zu $\Omega \subset \R^d$ beschränkt, $f \in C^0(\Omega), g \in C^0(\Boundary \Omega)$ sei
+	\begin{equation} \label{eq:2.3}
+		(\scr L u)(x)
+		= - \sum_{i,j=1}^d a_{ij}(x) \partial_{x_j} \partial_{x_i} u(x)
+		+ \sum_{i=1}^d b_i(x) \partial_{x_i} u(x) + c(x) u(x)
+	\end{equation}
+	gleichmäßig elliptisch und $a_{ij}, b_i, c \in C^0(\_\Omega)$.
+	Gesucht ist $u \in C^2(\Omega) \cap C^0(\_\Omega)$.
+	\begin{align*}
+		\scr L u(x) &= f(x) && \text{$x \in \Omega$}, \\
+		u(x) &= g(x) && \text{$x\in\Gamma$}.
+	\end{align*}
+\end{df}
+
+\begin{df}[FD-Approximation] \label{2.11}
+	Für $\scr L$ aus \eqref{eq:2.3}, $x \in \Omega$ mit $\_B_h(x)  \subset \_\Omega$ definiere
+	\begin{align*}
+		\scr L_h u(x)
+		&:= - \sum_{i=1}^d a_{ii} (x) \partial_{x_i}^{-h} \partial_{x_i}^{+h} u(x) \\
+		&= - \sum_{\substack{i,j=1 \\ i\neq j}} a_{ij} (x) \partial_{x_i}^{c,h} \partial_{x_j}^{c,h} u(x)
+		+ \sum_{i=1}^d b_i(x) \partial_{x_i}^{c,h} u(x)
+		+ c(x) u(x).
+	\end{align*}
+	\begin{note}
+		Wir werden sehen, dass
+		\begin{itemize}
+			\item
+				\ref{2.11} nur unter weiteren Annahmen an $a_{ij}, b_i, c, h$ eine „stabile Diskretisierung“ ergibt,
+			\item
+				Eiene etwas sorgfältigere Diskretisierung des Hauptteils eine erweiterte Klasse von Problemen stabil diskretisiert.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[FD-Approximationsfehler für $\scr L_h$] \label{2.12}
+	Sei $u \in C^4(\_\Omega), x \in \Omega$ sodass $x + \sum_{i=1}^d \sigma_i e_i h \in \_\Omega$ für $\sigma_i = \Set{0,+1, -1}$, $i = 1, \dotsc, d$.
+	Dann existiert ein $C$ (unabhängig von $x,h$) sodass
+	\[
+		\big|\scr L u(x) - \scr L_h u(x)\big| \le C h^2.
+	\]
+	\begin{proof}
+		Taylor analog zu \ref{2.2} und \ref{2.3}.
+	\end{proof}
+\end{st}
+
+\begin{note}[FD-Stern]
+	\begin{itemize}
+		\item
+			Die Diskretisierung $\scr L_h$ kann man anschaulischer notieren: z.B. für $d = 2$.
+			Falls $\scr L_h u(x_1, u_2) = \f 1{h^2} \sum_{i,j=-m}^m \alpha_{ij} u(x_1 + ih, x_2 + jh)$ dann ist
+			\begin{equation} \label{eq:2.4}
+				\Matrix[{
+					\alpha_{-m,m} & \hdots & \alpha_{0,m} & \hdots & \alpha_{m,m} \\
+					\vdots && \vdots && \vdots \\
+					\alpha_{-m, 0} & \hdots & \alpha_{0,1} & \hdots & \alpha_{m,0} \\
+					\vdots && \vdots && \vdots \\
+					\alpha_{-m,-m} & \hdots & \alpha_{0,-m} & \hdots & \alpha_{m,-m}
+				}_*
+			\end{equation}
+			Für $\scr L_h = -\Laplace_h$ aus \ref{2.3} ergibt sich für $m = 1$ der \emphdef{5-Punkt-FD-Stern}
+			\[
+				\Matrix[{ 0 & -1 & 0 \\ -1 & 4 & -1 \\ 0 & -1 & 0 }_*
+			\]
+			Für $\scr L_h$ aus \ref{2.11} (ohne Einschräkung $a_{12} = a_{21}$):
+			\[
+				\f 12 \Matrix[{ a_{12}(x) & - 2 a_{22}(x) & - a_{12}(x) \\ -2 a_{11}(x) & 4(a_{11}(x) + a_{22}(x)) & -2a_{11}(x) \\ -a_{12}(x) & -2 a_{22}(x) & a_{12}(x)}_*
+				+ \f h2 \Matrix[{ 0 & b_2(x) & 0 \\ -b_1(x) & 0 & b_1(x) \\ 0 & -b_2(x) & 0 }_*
+				+ h^2 \Matrix[{0 & 0 & 0 \\ 0 & c(x) & 0 \\ 0 & 0 & 0}_*.
+			\]
+		\item
+			Für $m = 1$ (also $3\times 3$ Sterne) ist höchstens Approximationsordnung 2 erreichbar, wie in \ref{2.12} und \ref{2.3} für spezielle $\scr L_h$ gesehen
+		\item
+			Für $m > 1$ sind bessere Approximationsordnungen erreichbar
+	\end{itemize}
+\end{note}
+
+\begin{df}[FD-Approximation für elliptisches RWP] \label{2.13}
+	Sei $\Omega$ Würfelgebiet zu $h \in \R^+$, $\_\Omega_h$ zugehöriges Gitter.
+	Dann ist $u_h \in X_h$ FD-Lösung falls
+	\begin{align*}
+		\scr L_h u_h(x) &= f(x) && \text{$x \in \Omega_h$}, \\
+		u_h(x) &= g(x) && \text{$x\in \Gamma_h$}.
+	\end{align*}
+\end{df}
+
+\begin{df}[Diskreter Zusammenhang] \label{2.14}
+	Ein Gitter $\_\Omega_h$ heißt \emphdef{diskret zusammenhängend} falls es für alle $x,y \in \Omega_h$ (innere Punkte) eine Punktfolge $z_i \in \Omega_h$, $i = 0, \dotsc, k$ gibt mit $z_0 = x, z_k = y$ und $|z_i - z_{i-1}| = h$ für $i = 1, \dotsc, k$.
+	\begin{note}
+		Wenn zu grob gesampled wird, kann es vorkommen, dass $\Omega$ zwar zusammenhängend ist, $\Omega_h$ jedoch nicht.
+		Falls $\Omega$ zusammenhängend, ist jedoch für hinreichend kleines $h$ auch $\_\Omega_h$ diskret zusammenhängend.
+	\end{note}
+\end{df}
+
+\begin{lem}[Sternlemma] \label{2.15}
+	Sei $k \ge 1$, $\Set{\alpha_i}_{i=0}^k \subset \R$ und $\Set{p_i}_{i=0}^n \subset \R$ gegeben und es gelte
+	\begin{enumerate}[i)]
+		\item
+			$\alpha_0 > 0$ und $\alpha_i < 0$ für $i = 1, \dotsc, k$2
+		\item
+			$\sum_{i=0}^k \alpha_i = 0$,
+		\item
+			$\sum_{i=0}^k \alpha_i p_i \le 0$.
+	\end{enumerate}
+	Dann folgt aus $p_0 \ge \max_{i=1,\dotsc, k} p$ die Gleichheit $p_0 = p_1 = \dotsb = p_k$.
+	\begin{proof}
+		Es gilt
+		\[
+			\sum_{i=1}^k \alpha_i(p_i-p_0)
+			= \sum_{i=0}^k \alpha_i (p_i-p_0)
+			= \underbrace{\sum_{i=0}^k \alpha_i p_i}_{\le 0} - \underbrace{p_0 \sum_{i=0}^k \alpha_i}_{=0}
+			\le 0.
+		\]
+		Wegen $p_0 \ge p_i, \alpha_i < 0$ für $i = 1, \dotsc, k$ sind die Summanden links nicht-negativ, also null und es folgt $p_i = p_0$.
+	\end{proof}
+\end{lem}
+
+\begin{st}[Diskretes Maximumsprinzip] \label{2.16}
+	Sei $u_h \in X_h$ eine FD-Lösung zu dem RWP \ref{2.13} mit $f(x) \le 0$ für $x \in \Omega_h$.
+	Der Differenzenstern \eqref{eq:2.4} zu $m = 1$ (also ein $3\times 3$ Stern) erfülle in allen Punkten
+	\begin{enumerate}[i)]
+		\item
+			$\sum_{i,j=-1}^1 \alpha_{i,j} = 0$,
+		\item
+			$\alpha_{0,0} > 0$,
+		\item
+			$\forall (i,j) \neq (0,0) : \alpha_{i,j} \le 0$,
+		\item
+			$\alpha_{1,0}, \alpha_{0,1}, \alpha_{0,-1}, \alpha_{-1,0} < 0$, „Koeffizienten in Hauprichtungen negativ“.
+	\end{enumerate}
+	Dann gilt
+	\[
+		\max_{x\in\_\Omega_h} u_h(x) = \max_{x\in \Gamma_h} u_h(x).
+	\]
+\end{st}
