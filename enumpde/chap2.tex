@@ -254,7 +254,7 @@ Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \i
 	\[
 		\overbrace{\f 1{h^2} \underbrace{\Matrix{2 & -1 & & \\ -1 & \ddots & \ddots & \\ & \ddots & \ddots & -1 \\ & & -1 & 2}}_{\tilde A_n}}^{A_h}
 		\Vector{u_1 & \dots & u_n}
-		= \Vector{f(x_1) + \f{\alpha}{h^2} & f(x_2) & \dots & f(x_{n-1} & f(x_n) + \f{\beta}{h^2})}.
+		= \Vector{f(x_1) + \f{\alpha}{h^2} & f(x_2) & \dots & f(x_{n-1}) & f(x_n) + \f{\beta}{h^2}}.
 	\]
 	\begin{note}
 		\begin{itemize}
@@ -296,8 +296,8 @@ Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \i
 	Sei $d = 2, \Omega = (0,1)^2$ und betrachte das Poisson-RWP mit $g(x) = 0$, $m \in \N, h:= \f 1{m+1}, n := m^2$.
 	Statt Einzelindex ist ein Doppelindex übersichtlicher, setze dazu
 	\begin{align*}
-		x_{ij} = (ih, jh) \quad \text{für $0 \le i,j \le m+1$}, &
-		u_{ij} \approx u(x_{ij}).
+		x_{ij} &= (ih, jh),&
+		u_{ij} &\approx u(x_{ij}) \quad \text{für $0 \le i,j \le m+1$}.
 	\end{align*}
 	Die Diskretisierung des RWP liefert für jeden inneren Punkt eine Gleichung
 	\[
@@ -334,9 +334,9 @@ Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \i
 				Koeffizienten der FD-Diskretisierung werden angepasst.
 				Die Taylor-Entwicklung liefert
 				\begin{align*}
-					u''(x) &= \f{2}{h_W(h_O + h_W} u(x-h_W) - \f 2{h_Oh_W} u(x) + \f 2{h_O(h_O+h_W)} u(x+h_0) \\
+					u''(x) &= \f{2}{h_W(h_O + h_W)} u(x-h_W) - \f 2{h_Oh_W} u(x) + \f 2{h_O(h_O+h_W)} u(x+h_O) \\
 					&\quad + \LandauO(h) \\
-					\Laplace(u) &= \f{2}{h_W(h_O+h_W)} u(x-e_1h_W) - \f 2{h_Oh_N} u(x) + \f 2{h_O(h_O+h_W)} u(x+h_0 e_1) \\
+					\Laplace(u) &= \f{2}{h_W(h_O+h_W)} u(x-e_1h_W) - \f 2{h_Oh_N} u(x) + \f 2{h_O(h_O+h_W)} u(x+h_O e_1) \\
 					&\quad + \f 2{h_S(h_N+h_S)} u(x-e_2 h_S) - \f 2{h_S h_N} u(x) + \f 2{h_N(h_S+h_N)} u(x+ e_2 h_N) \\
 					&\quad + \LandauO(h)
 				\end{align*}
@@ -344,9 +344,9 @@ Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \i
 		\end{itemize}
 	\end{note}
 	\begin{note}[Andere Randbedingungen]
-		Neben Dirichlet- können auch andere Randebedingungen realisiert werden, z.B. Neumann-Randbedingungen:
+		Neben Dirichlet- können auch andere Randbedingungen realisiert werden, z.B. Neumann-Randbedingungen:
 		\begin{align*}
-			(\Nabla u) \cdot h &= g_N
+			(\Nabla u) \cdot n &= g_N
 			&& \text{auf $\Gamma_N \subset \Gamma$}.
 		\end{align*}
 		Wir nennen $\Gamma_N$ \emphdef{Neumann-Randteil}.
@@ -422,7 +422,7 @@ Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \i
 	\begin{itemize}
 		\item
 			Die Diskretisierung $\scr L_h$ kann man anschaulischer notieren: z.B. für $d = 2$.
-			Falls $\scr L_h u(x_1, u_2) = \f 1{h^2} \sum_{i,j=-m}^m \alpha_{ij} u(x_1 + ih, x_2 + jh)$ dann ist
+			Falls $\scr L_h u(x_1, x_2) = \f 1{h^2} \sum_{i,j=-m}^m \alpha_{ij} u(x_1 + ih, x_2 + jh)$ dann ist
 			\begin{equation} \label{eq:2.4}
 				\Matrix[{
 					\alpha_{-m,m} & \hdots & \alpha_{0,m} & \hdots & \alpha_{m,m} \\
