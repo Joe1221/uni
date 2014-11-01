@@ -1,116 +1,100 @@
-classdef FDSquaresSimple < handle
+classdef FDSquaresSimple < FiniteDifferenceSolver
 	properties
-		imap % vector of n nodes as structs
-		xmap
-		ymap
 		f % right hand side of pde
 		g % dirichlet boundary condition
 
-		h % grid spacing
+		m
 
-		A
-		b
-		u % solution
-		fd
+		%mask
+		innerMask
+		boundaryMask
+
+		posX
+		posY
+
+		%idx2posMap
+		%pos2idxMap
+
+		innerIdx
+		boundaryIdx
 	end
 	methods
 		function obj = FDSquaresSimple(f, g)
-			% FDSquaresSimple initializes
 			obj.f = f;
 			obj.g = g;
-			obj.fd = [ ...
-				struct('shift', [0,0], 'value', -4); ...
-				struct('shift', [1,0], 'value', 1); ...
-				struct('shift', [0,1], 'value', 1); ...
-				struct('shift', [-1,0], 'value', 1); ...
-				struct('shift', [0,-1], 'value', 1); ...
-			];
 		end
 
-		function init (obj, h)
-			% initGrid builds the grid and generates A, b
-			%   divides the area in pieces of h×h
+		function initialize (obj, h)
+			clear obj.A  obj.b  obj.u  obj.innerIdx  obj.boundaryIdx  obj.idx2posMap  obj.pos2idxMap  obj.posX  obj.posY  obj.innerMask  obj.boundaryMask;
+			obj.buildGrid(h);
+			obj.assemble();
+		end
 
-			% normalize input value
-			n = round(1 / h);
-			obj.h = 1 / n;
+		function buildGrid (obj, h)
 
-			clear obj.A obj.b obj.u obj.imap;
+			nh = round(1 / h); % discrete block size
+			obj.h = 1 / nh; % normalized spacing
+			obj.m = 3 * nh + 1; % total discrete width/height
 
-			[X, Y] = ndgrid(0:obj.h:3, 0:obj.h:3);
+			% dirty domain construction
+			[obj.mask, obj.innerMask] = deal(false(obj.m, obj.m));
+			obj.mask      ( 1    : 2*nh+1  , 1    : 2*nh+1)  = true;
+			obj.mask      ( nh+1 : obj.m   , nh+1 : obj.m)   = true;
+			obj.innerMask ( 2    : 2*nh    , 2    : 2*nh)    = true;
+			obj.innerMask ( nh+2 : obj.m-1 , nh+2 : obj.m-1) = true;
+			obj.boundaryMask = obj.mask & ~obj.innerMask;
+			obj.n = nnz(obj.mask);
 
+			% positioning
+			[obj.posX, obj.posY] = ndgrid(0:obj.h:3, 0:obj.h:3);
 
-			len1 = (2*n+1)*n;
-			len2 = (3*n+1)*(n+1);
-			len3 = (2*n+1)*n;
+			% numeration according to indices in find(…)
+			obj.idx2posMap = find(obj.mask);
+			obj.pos2idxMap = zeros(obj.m, obj.m);
+			obj.pos2idxMap(obj.idx2posMap) = 1:numel(obj.idx2posMap);
 
-			obj.xmap = [ ...
-				reshape(X(1:2*n+1, 1:n), [len1, 1]); ...
-				reshape(X(1:3*n+1, n+1:2*n+1), [len2, 1]); ...
-				reshape(X(n+1:3*n+1, 2*n+2:3*n+1), [len3, 1]); ...
-			];
-			obj.ymap = [ ...
-				reshape(Y(1:2*n+1, 1:n), [len1, 1]); ...
-				reshape(Y(1:3*n+1, n+1:2*n+1), [len2, 1]); ...
-				reshape(Y(n+1:3*n+1, 2*n+2:3*n+1), [len3, 1]); ...
-			];
+			% indices
+			obj.boundaryIdx = obj.pos2idxMap(obj.boundaryMask);
+			obj.innerIdx = obj.pos2idxMap(obj.innerMask);
+		end
 
-			ng = (2*n+1)*n + (3*n+1)*(n+1) + (2*n+1)*n;
-
-			obj.imap(1:2*n+1, 1:n) = reshape(1 : len1, [2*n+1, n]);
-			obj.imap(1:3*n+1, n+1:2*n+1) = reshape(len1 + 1 : len1 + len2, [3*n+1, n+1]);
-			obj.imap(n+1:3*n+1, 2*n+2:3*n+1) = reshape(len1 + len2 + 1 : len1 + len2 + len3, [2*n+1, n]);
-
-			boundary = [ ...
-				reshape(obj.imap(1:2*n+1     , 1)     , [] , 1); ... % horz bot
-				reshape(obj.imap(2*n+1:3*n+1 , n+1)   , [] , 1); ... % horz 1/3
-				reshape(obj.imap(1:n+1       , 2*n+1) , [] , 1); ... % horz 2/3
-				reshape(obj.imap(n+1:3*n+1   , 3*n+1) , [] , 1); ... % horz top
-
-				reshape(obj.imap(1     , 2:2*n)     , [] , 1); ... % vert left
-				reshape(obj.imap(n+1   , 2*n+2:3*n) , [] , 1); ... % vert 1/3
-				reshape(obj.imap(2*n+1 , 2:n)       , [] , 1); ... % vert 2/3
-				reshape(obj.imap(3*n+1 , n+2:3*n)   , [] , 1); ... % vert right
-			];
-
+		function assemble (obj)
 			% FD matrix A construction
-			obj.A = sparse(ng, ng);
+			obj.A = sparse(obj.n, obj.n);
+			obj.b = zeros(obj.n, 1);
 
-			mask = obj.imap & ~ismember(obj.imap, boundary);
-			% apply FD parts
-			for i = 1:numel(obj.fd)
-				imap_shift = circshift(obj.imap, obj.fd(i).shift);
-				obj.A = obj.A + sparse(obj.imap(mask), imap_shift(mask), obj.fd(i).value, ng, ng);
-			end
-			obj.A = -obj.A ./ obj.h^2;
+			% Interior conditions
+			fdStar = FDStar([0, -1, 0; -1, 4, -1; 0, -1, 0] ./ obj.h^2);
+			obj.A = obj.applyFD(obj.innerMask, fdStar);
+			% b = f on interior
+			obj.b(obj.innerIdx) = obj.f( ...
+				obj.posX(obj.idx2posMap(obj.innerIdx)), ...
+				obj.posY(obj.idx2posMap(obj.innerIdx)) ...
+			);
 
-			obj.A = obj.A + sparse(boundary, boundary, 1, ng, ng);
-
-			% FD vector b construction
-			obj.b = obj.f(obj.xmap,obj.ymap); % b = f
-			obj.b(boundary) = obj.g(obj.xmap(boundary),obj.ymap(boundary)); % b = g on boundary
-
-		end
-
-		function solve (obj)
-			% solving is the current bottleneck
-			obj.u = obj.A \ obj.b;
+			% boundary conditions
+			obj.A = obj.A + sparse(obj.boundaryIdx, obj.boundaryIdx, 1, obj.n, obj.n);
+			% b = g on boundary
+			obj.b(obj.boundaryIdx) = obj.g( ...
+				obj.posX(obj.idx2posMap(obj.boundaryIdx)), ...
+				obj.posY(obj.idx2posMap(obj.boundaryIdx)) ...
+			);
 		end
 
 		function h = plot (obj)
-			% construct meshgrid matrices
-			n = round(1 / obj.h);
 
-			[X,Y] = meshgrid(0:obj.h:3);
-			mask = logical(obj.imap);
-			up = zeros(3*n+1);
-			up(mask) = obj.u(obj.imap(mask));
+			% construct meshgrid matrix
+			F = zeros(obj.m);
+			F(obj.mask) = obj.u(obj.pos2idxMap(obj.mask));
 
-			clf;
-			h = surf(X,Y,up'); % surf swaps x,y ?
+			%clf;
+			h = surf(obj.posX, obj.posY, F'); % surf swaps x,y ?
 			xlabel('x_1');
 			ylabel('x_2');
+		end
 
+		function err = computeError (obj, solution)
+			err = max(solution(obj.posX(obj.mask), obj.posY(obj.mask)) - obj.u);
 		end
 
 	end
