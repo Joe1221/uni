@@ -1,0 +1,157 @@
+\documentclass{myexercise}
+
+\begin{document}
+
+\begin{exercise}[Aufgabe 1]
+	Setze
+	\begin{align*}
+		u(x,t)
+		&:= \f 12\big( u_{0}(x-ct) + u_{0}(x+ct) \big) \\
+		u_\eps(x,t)
+		&:= \f 12\big( u_{0,\eps}(x-ct) + u_{0,\eps}(x+ct) \big)
+	\end{align*}
+	Zu zeigen ist $\int_\Omega u \partial_t^2 \phi - c^2 u \partial_x^2 \phi \di[(x,t)] = 0$.
+
+	Nach [Alt, Satz 2.14] gilt $\lim_{\eps \to 0} \|u_{0,\epsilon} - u_0\|_{L^1(\R)} = 0$, also für alle $t \in (0,\infty)$ und alle $\phi \in C_0^\infty(\Omega_T)$ insbesondere
+	\[
+		0 = \lim_{\epsilon\to 0}\underbrace{\int_\R \big(u_\epsilon(x,t) - u(x,t)\big) \phi(x,t) \di[x]}_{\supp(\dotsc) \text{ kompakt}}
+	\]
+	und somit
+	\[
+		\lim_{\epsilon \to 0} \int_\Omega (u_\epsilon - u)\phi \di[(x,t)]
+		= \int_0^\infty \lim_{\epsilon\to 0} \int_\R \big( u_\epsilon(x,t) - u(x,t)\big) \phi(x,t) \di[x] \di[t]
+		= 0.
+	\]
+	Weiter erfüllt $u_\epsilon(x,t)$ nach [Satz 1.22] die Gleichung $\partial_t^2 v(x,t) - c^2 \partial_x^2 v(x,t) = 0$ in $\Omega_T$.
+	Bei partieller Integration verschwinden die Randterme da $\partial^\beta \phi \in C_0^\infty$ und es gilt
+	\[
+		\int_\Omega u_\epsilon \partial_t^2 \phi - c^2 u_\epsilon \partial_x^2 \phi  \di[(x,t)] = 0
+	\]
+	Es gilt jetzt
+	\begin{align*}
+		\int_\Omega u \partial_t^2 \phi - c^2 u \partial_x^2 \phi \di[(x,t)]
+		= \int_\Omega (u - u_\epsilon) \partial_t^2 \phi \di[(x,t)] - c^2 \int_\Omega (u-u_\epsilon) \partial_x^2 \phi \di[(x,t)]
+		\to 0
+	\end{align*}
+	für $\eps \to 0$.
+
+\end{exercise}
+
+\newpage
+\begin{exercise}[Aufgabe 2]
+	\begin{enumerate}[a)]
+		\item
+			$u_1 - u_2$ löst
+			\begin{align*}
+				-\Laplace u &= f_1 - f_2 & &\text{in $\Omega$}\\
+				u &= g_1 - g_2 & &\text{auf $\Boundary \Omega$}
+			\end{align*}
+			Wegen $f_1 \le f_2$ liefert das Maximumsprinzip
+			\[
+				\max_{x\in\_\Omega} u_1 - u_2
+				= \max_{x\in\Boundary\Omega} u_1 - u_2
+				= \max_{x\in\Boundary\Omega} \underbrace{g_1 - g_2}_{\le 0}
+				\le 0
+			\]
+			und folglich $u_1 \le u_2$ auf ganz $\_\Omega$.
+		\item
+			Wegen $f_1 \le f_2$ liefert das Maximumsprinzip angewendet auf $u_1 - u_2$
+			\[
+				\max_{x\in\_\Omega} u_1 - u_2
+				= \max_{x\in\Boundary\Omega} g_1 - g_2
+				\le \|g_1 - g_2\|_{C^0(\Boundary\Omega)}.
+			\]
+			Analog für $u_2 - u_1$ gilt $\max_{x\in\_\Omega} u_2 - u_1 \le \|g_1 - g_2\|_{C^0(\Boundary\Omega)}$ und somit da $\_\Omega$ kompakt
+			\[
+				\|u_1 - u_2\|_{C^0(\_\Omega)}
+				= \max_{x\in\_\Omega} |u_1 - u_2|
+				\le \|g_1 - g_2\|_{C^0(\Boundary\Omega)}.
+			\]
+		\item
+			Sei $r > 0$ so, dass $B_r(0) \supset \_\Omega$.
+			Definiere
+			\[
+				v(x) := (r^2 - \f 12 x_1^2)\|f_1 - f_2\|_\infty.
+			\]
+			Wir beobachten $0 \le r^2 - \f 12 x_1^2 \le r^2$.
+			Es gilt offenbar
+			\begin{align*}
+				-\Laplace v &= -\partial_{x_1}^2 v = \|f_1 - f_2\|_\infty \ge \begin{cases}
+					f_1 - f_2 \\
+					f_2 - f_1
+				\end{cases} && \text{in $\Omega$} \\
+				v &\ge 0 &&\text{auf $\Boundary \Omega$}
+			\end{align*}
+			Wendet man Teil a) auf $v$ und $u_1 - u_2$, bzw. $u_2 - u_1$ an, folgt sofort $v \ge |u_1 - u_2|$.
+			Wir haben schließlich
+			\[
+				\|u_1 - u_2\|_\infty
+				\le \|v\|_\infty
+				\le r^2 \|f_1 - f_2\|_\infty.
+			\]
+		\item
+			Falls eine Lösung $\tilde u$ für
+			\begin{align*}
+				-\Laplace \tilde u &= f_1 && \text{in $\Omega$}, \\
+				\tilde u &= g_2 && \text{auf $\Boundary \Omega$}
+			\end{align*}
+			existiert, so ergibt sich mit b) und c)
+			\begin{align*}
+				\|u_1 - u_2\|_\infty &\le \underbrace{\|u_1 - \tilde u\|_\infty}_{\le c_1 \|g_1 - g_2\|_\infty} + \underbrace{\|\tilde u - u_2\|_\infty}_{\le c_2 \|f_1 - f_2\|_\infty} \\
+				&\le C\Big(\|g_1 - g_2\|_\infty + \|f_1 - f_2\|_\infty \Big).
+			\end{align*}
+			Alternativ lässt sich auch die Methode aus c) anwenden mit der Wahl
+			\[
+				v(x) := \|g_1 - g_2\|_\infty + (r^2 - \f 12 x_1^2) \|f_1 - f_2\|_\infty.
+			\]
+	\end{enumerate}
+\end{exercise}
+
+\newpage
+\begin{exercise}[Aufgabe 3]
+	\begin{enumerate}[a)]
+		\item
+			Gemäß Beispiel 1.26 aus der Vorlesung ist jede klassische Lösung entlang der charakteristischen Linien konstant.
+			Diese sind bestimmt durch $\gamma(0) = x_0, \gamma'(t) = f'(u(\gamma(t),t))$.
+			Damit ergibt sich
+			\begin{align*}
+				\gamma'(t) &= u(\gamma(t),t) = \const = u(\gamma(0),0) = u_0(x_0), \\
+				\gamma(t) &= \int_0^t u_0(x_0) \di[s] + x_0 = t u_0(x_0) + x_0 \\
+				&= \begin{cases}
+					x_0 & x_0 \le 0\\
+					t x_0^2(x_0 - 2)^2 + x_0 & 0 < x_0 < 1 \\
+					t + x_0 & 1 \le x_0
+				\end{cases}
+			\end{align*}
+			Ziel ist es, obigen Ausdruck nach $x_0$ aufzulösen und in $u_0$ einzusetzen, um eine explizite Parametrisierung zu erhalten.
+
+			Die quartische Gleichung im Fall $0 < x_0 < 1$ besitzt eine explizite Lösungsformel, wir zeigen also lediglich, dass innerhalb von $(0,1)$ genau eine Lösung $x_0$ existiert.
+
+			$g(x_0) = tx_0^2(x_0-2)^2 + x_0$ ist für jedes feste $t \in (0,\infty)$ innerhalb von $x_0 \in (0,1)$ streng monoton steigend, da
+			\begin{align*}
+				g'(x_0) &= 2tx_0(x_0-2)^2 + 2tx_0^2(x_0-2) + 1 \\
+				&= 2t x_0 \underbrace{(x_0-2)}_{<0}\underbrace{(2x_0-2)}_{<0} + 1 \\
+				&> 0.
+			\end{align*}
+			Damit $g$ injektiv auf $(0,1)$ und wegen $\im g = (0,1+t) \subset \R$ existiert für jedes feste $t \in (0,\infty)$ und $x \in (0,1+t)$ eine eindeutige Lösung $x_0 \in (0,1)$ für obige quartische Gleichung.
+			Sei $x_0(x,t)$ diese Lösung, so ergibt sich durch elementares Umformen die explizite Lösung
+			\[
+				u(x,t) = \begin{cases}
+					0 & x \le 0 \\
+					\frac{x - x_0(x,t)}{t} & 0 < x < 1 + t \\
+					1 & 1 + t < x
+				\end{cases}
+			\]
+		\item
+			Geht man vor wie in der a), so erhält man für eine klassische Lösung die notwendige Bedingung
+			\[
+				u(x,t) = \begin{cases}
+					1 & x \le t \\
+					0 & x \ge 1
+				\end{cases}
+			\]
+			Diese ist für $t \ge 1$ nicht erfüllbar, es ergibt sich eine obere Schranke für die Endzeit: $T = 1$.
+	\end{enumerate}
+\end{exercise}
+
+\end{document}
