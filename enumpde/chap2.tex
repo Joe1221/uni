@@ -506,4 +506,223 @@ Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \i
 	\[
 		\max_{x\in\_\Omega_h} u_h(x) = \max_{x\in \Gamma_h} u_h(x).
 	\]
+\Timestamp{2014-11-04}
+	\begin{proof}
+		Sei $x \in \_\Omega_h$ mit $u_h(x) = \max_{\_x\in \_\Omega_h} u_h (\_x)$.
+		Falls $x \in \Gamma_h$, so sind wir fertig.
+		Falls $x \in \Omega_h$: setze $p_0 := u_h(x)$, $(p_i)_{i=1}^k$ als „Nachbarwerte“ von $u_h(x)$, $\alpha_0 := \alpha_{0,0}$, $(\alpha_i)_{i=1}^k$ als Nicht-Null-Koeffizienten des FD-Sterns.
+		Es gilt also $\f 1{h^d} \sum_{k=0}^k \alpha_i p_i = \scr L_h u(x) = f(x) \le 0$.
+		Das Sternlemma \ref{2.15} hier angewandt ergibt $p_0 = p_1 = \dotsc = p_k$, also $u_h$ konstant in $x$ und seinen Nachbarn, welche im Differenzenstern auftreeten.
+		Wiederholung dieses Argumentes in alle $2d$ Hauptrichtungen führt zum Rand (Beschränktheit von $\Omega$)
+	\end{proof}
 \end{st}
+
+Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Beweis von \ref{2.16} zu allen Punkten in $\Omega_h$, also folgt
+
+\begin{kor}[Lösung $u_h$ konstant] \label{2.17}
+	Falls $\_\Omega_h$ diskret zusammenhängend und die FD-Lösung für $f \le 0$ nimmt ihr Maximum im Inneren an, so ist $u_h$ konstant.
+\end{kor}
+
+\begin{note}
+	\begin{itemize}
+		\item
+			Obiges diskretes Maximum-Prinzip gilt für $\scr L_h = - \Laplace_h$, weil Voraussetzungen erfüllt sind.
+		\item
+			Für $\scr L_h$ aus \eqref{eq:2.5} mit $a_{1,2} = 0$, $c = 0$, $b \neq 0$ sind die Voraussetzungen von \ref{2.16} erfüllt, falls $h$ hinreichend klein gewählt wird.
+			Aus gleichmäßiger Elliptizität folgt für $z = e_i$
+			\[
+				0 < \tilde \alpha \underbrace{\|z\|^2}_{= 1} \le z^T A(x) z = a_{ii}(x),
+			\]
+			also $\alpha_{0,0} = 2(a_{11} + a_{22}) > 0$.
+			Falls $|b_i| \le B$ und $h < \f 2B \tilde \alpha$, dann gilt für $\alpha_{1,0}$
+			\[
+				\alpha_{1,0}
+				= -a_{11} + \f {h2} b_1
+				< -\tilde \alpha + \f 2B \tilde \alpha \f 12 B
+				= 0.
+			\]
+			Analog für $\alpha_{-1,0} = \alpha_{0,-1} = \alpha_{0,1} = 0$.
+		\item
+			Falls $c(x) > 0$ in \eqref{eq:2.5}, so ist $\sum_{i,j = -1}^1 \alpha_{ij} > 0$.
+			Für diesen Fall existieren Abschwächungen des Sternlemmas und des Maximumsprinzips formulieren und beweisen.
+		\item
+			Falls $a_{1,2} \neq 0$, so ist eine Modifikation der Diskretisierung notwendig.
+	\end{itemize}
+\end{note}
+
+\begin{kor}[Diskretes Vergleichsprinzip] \label{2.18}
+	Seien $u_h, v_h \in X_h$ und es gelte $\scr L_h u_h \le \scr L_h v_h$ in $\Omega_h$ und $u_h \le v_h$ auf $\Gamma_h$ und es gelte das diskrete Maximumsprinzip.
+	Dann gilt $u_h \le v_h$ in $\_\Omega_h$.
+	\begin{proof}
+		Für $w_h := u_h - v_h$ gilt $\scr L_h w_h = \scr L_h u_h - \scr L_h v_h \le 0$ in $\Omega_h$ und $w_h \le 0$ auf $\Gamma_h$.
+		Mit dem diskreten Maximumsprinzip wird das Maximum auf dem Rand $\Gamma_h$ angenommen und daher $\max_{x\in \_\Omega_h} w_h(x) \le \max_{x\in\Gamma_h}w_h(x) \le 0$, also $u_h \le v_h$ auf $\_\Omega_h$.
+	\end{proof}
+\end{kor}
+
+\begin{kor}[Existenz und Eindeutigkeit] \label{2.19}
+	Sei ein diskretes RWP gemäß \ref{2.13} gegeben und es gelte das Maximumsprinzip.
+	Dann existiert eine eindeutige FD-Lösung $u_h \in X_h$.
+	\begin{proof}
+		\begin{seg}{Eindeutigkeit}
+			Seien $u_h, \_u_h \in X_h$ zwei Lösungen, setze $v := u_h - \_u_h$.
+			Es gilt
+			\begin{align*}
+				\scr L_h v &= \scr L_h u_h - \scr L_h \_u_h = f - f = 0 && \text{in $\Omega_h$} \\
+				v = u_h - \_u_h = g - g = 0 && \text{auf $\Gamma_h$}.
+			\end{align*}
+			Das Maximumsprinzip liefert $v(x) \le \sup_{x\in\Gamma_h} v(x) = 0$ für alle $x \in \_\Omega_h$.
+			Analoge Argumentation für $-v$ liefert $-v(x) \le 0$ in $\_\Omega_h$, folglich $v(x) = 0$ in ganz $\_\Omega_h$
+		\end{seg}
+		\begin{seg}{Existenz}
+			Die FD-Diskretisierung führt auf ein $n \times n$ System $A_h \underbar{u}_h = b_h$ mit $\ker A_h = \Set 0$ wegen der Eindeutigkeit.
+			Folglich hat $A_h$ vollen Rang und ist regulär, also $\underbar{u}_h := A_k^{-1} b_k$ ist eindeutiger DOF-Vektor von $u_h \in X_h$.
+		\end{seg}
+	\end{proof}
+\end{kor}
+
+\begin{kor}[Stetige Abhängigkeit von Randdaten] \label{2.20}
+	Seien $u_h, \_u_h \in X_h$ FD-Lösungen zum RWP \ref{2.13} mit identischem $f$ aber unterschiedlichen Randdaten $g, \_g$ und es gelte das diskrete Maximumsprinzip.
+	Dann gilt
+	\[
+		\|u_h - \_u_h\|_{\Omega_h} = \|g-\_g\|_{\Gamma_h} := \sup_{x\in\Gamma_h} |g(x) - \_g(x)|.
+	\]
+	\begin{proof}
+		Setze $v :=: u_h - \_u_h$, dann ist $\scr L_h v = 0$ in $\Omega_h$ mit diskretem Maximumsprinzip, also
+		\[
+			v(x) \le \max_{\_x \in \Gamma_h} v(x)
+			\le \max_{x \in \Gamma_h} |v(x)|
+			= \|g - \_g\|_{\Gamma_h},
+		\]
+		analog für $-v(x)$, es folgt die Behauptung.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Anschauliche Bedeutung: Leichte Änderung in Daten ergibt nur leichte Änderung in Lösung.
+			\item
+				Ähnlich: Stetige Abhängige bezüglich der rechten Seite $f$.
+		\end{itemize}
+	\end{note}
+\end{kor}
+
+\begin{df}[Stabilität, Konsistenz, Konvergenz] \label{2.21}
+	Sei $u \in X := C^2(\Omega) \cap C^0(\_\Omega)$ Lösung des ellptischen RWP \ref{2.10} und $u_h \in X_h$ FD-Approximation aus \ref{2.13}.
+	Die FD-Diskretisierung ist
+	\begin{enumerate}[i)]
+		\item
+			\emphdef{konsistenz mit Ordnung $p$}, wenn für ein $C_c = C_c(x)$ unabhängig von $h$ gilt
+			\[
+				\|\scr L_h u - \scr L u\|_{\Omega_h} \le C_c h^p.
+			\]
+		\item
+			\emphdef{stabil} (genauer: $(X_h^0, Y_h)$-stabil), wenn $C_s$ unabhängig von $h$ existiert, sodass
+			\[
+				\|v_h\|_{\_\Omega_h} \le C_s \|\scr L_h v_h\|_{\Omega_h}
+			\]
+			für alle $v_h \in X_h^0$.
+		\item
+			\emphdef{konvergent mit Ordnung $p$}, wenn für ein $C = C(u)$ unabhängig von $h$ gilt:
+			\[
+				\|u - u_h\|_{\_\Omega_h} \le C h^p.
+			\]
+	\end{enumerate}
+	\begin{note}[Konsistenz der FD-Approximation]
+		\begin{itemize}
+			\item
+				Punktweise Fehlerschranke aus \ref{2.3}, oder \ref{2.12} besagten $|\scr L_h u(x) - \scr L u(x)| \le C h^2$ mit $C$ unabhängig von $x$.
+				Also liegt eine \emphdef{uniforme Schranke in $x$} vor, falls $u \in C^4(\_\Omega)$. 
+				Mit $C_c := C$ gilt Konsistenz der FD-Approximation mit Ordnung 2 für $\Omega$ Würfelgebiet und Ordnung $1$ für Nicht-Würfelgebiete, z.B. durch die Shortley-Weller-Approximation.
+		\end{itemize}
+	\end{note}
+	\begin{note}[Stabilität]
+		\begin{itemize}
+			\item
+				Stabilität bedeutet anschaulisch, dass die Lösung der PDE durch die rechte Seite beschränkt bleibt, unabhängig von $h$.
+				Sei $w_h: \Omega_h \to \R$, also $w_h \in Y_h$ und $v_h \in X_h^0$ Lösung von $\scr L_h v_h = w_h$ in $\Omega_h$, $v_h = 0$ auf $\Gamma_h$.
+				Dann ist also
+				\[
+					\|v_h\|_{\_\Omega_h} \le C_s \|\scr L_h v_h\| = C_s \|w_h\|_{\Omega_h}.
+				\]
+		\end{itemize}		
+	\end{note}
+\end{df}
+
+\begin{st}[Hinreichende Bedingung für Stabilität] \label{2.22}
+	Sei $A_h \in \R^{n\times n}$ die FD-System-Matrix.
+	Falls $C_s$ unabhängig von $h$ existiert, sodass $\|A_h^{-1}\|_\infty \le C_s$.
+	Dann ist das FD-Verfahren stabil.
+	\begin{proof}
+		Seien $\underbar{v}_h, \underbar{w}_h \in \R^n$ Vektor der inneren Knotenwerten für $v_h \in X_h^0$, $w_h \in Y_h$, also $A_h \underbar{v}_h = \underbar{w}_h$.
+		Dann gilt ($v_h$ hat Nullrandwerte)
+		\[
+			\|v_h\|_{\_\Omega_h}
+			= \|\underbar{v}_h\|_\infty
+			= \|A_h^{-1} \underbar{w}_h\|_\infty
+			\le \|A_h^{-1}\|_\infty \|\underbar{w}_h\|_\infty
+			\le C_s \|w_h\|_{\Omega_h}
+			= C_s \|\scr L_h v_h\|
+		\]
+	\end{proof}
+\end{st}
+
+\begin{st}[Stabiltität für Poisson-RWP, FD-Diskretisierung] \label{2.23}
+	Sei $\Omega \subset \R^d$ beschränktes Gebiet mit $\Omega \subset B_R(0)$ für ein $R > 0$.
+	Dann gilt für alle $v_h \in X_h^0$, dass
+	\[
+		\|v_h\|_{\_\Omega_h} \le \f {R^2}{2d} \|\Laplace_h v_h\|_{\Omega_h}
+	\]
+	also das FD-Verfahren stabil mit $C_s := \f {R^2}{2d}$.
+	\begin{proof}
+		Sei $v_h \in X_h^0$ und $w_h$ aus \ref{2.24}.
+		Dann ist für $x \in \Omega_h$
+		\[
+			- \frac{\Laplace_h v_h(x)}{\|\Laplace_h v_h\|_{\Omega_h}}
+			\le \frac{\Laplace_h v_h(x)}{\|\Laplace_h v_h\|_{\Omega_h}}
+			\le 1
+			= - \Laplace_h w_h(x)
+		\]
+		Für $x \in \Gamma_h$ gilt $- \frac{v_h(x)}{\|\Laplace_h v_h\|} = 0 = w_h(x)$.
+		Also mit diskretem Vergleichsprinzip \ref{2.18} für alle $x \in \Omega_h$
+		\[
+			\frac{v_h(x)}{\|\Laplace_h v_h\|_{\Omega_h}}
+			\le w_h(x)
+			\stack{\ref{2.14}}{\le} \f 1{2d} (R^2 - \|x\|^2)
+			\le \f {R^2}{2d}.
+		\]
+		Eine analoge Argumentation für $-v_h$ liefert
+		\[
+			- \frac{v_h(x)}{\|\Laplace_h v_h\|_{\Omega_h}}
+			\le \frac{R^2}{2d},
+		\]
+		also $\|v_h\|_{\_\Omega_h} \le \f {R^2}{2d} \|\Laplace_h v_h\|_{\Omega_h}$.
+	\end{proof}
+\end{st}
+
+\begin{lem} \label{2.24}
+	Sei $w_h \in X_h$ Lösung von $-\Laplace_h w_h = 1$ in $\Omega_h$, $w_h = 0$ auf $\Gamma_h$.
+	Dann gilt
+	\begin{equation} \label{eq:2.6}
+		0 \le w_h(x) \le \f 1{2d} (R^2 - \|x\|_2^2)
+	\end{equation}
+	für $x \in \_\Omega_h$.
+	\begin{proof}
+		Sei $w(x) := \f 1{2d} (R^2 - \|x\|_2^2)$.
+		Dann ist $w$ Polynom zweiten Grades, also $\Laplace_h$ exakt für $w$ gemäß Bemerkung nach \ref{2.3}.
+		Für $x \in \Omega_h$ gilt somit
+		\begin{align*}
+			-\Laplace_h w(x)
+			= - \Laplace w(x)
+			&= - \sum_{i=1}^d \partial_{x_i}^2 \Big(R^2 - \sum_{j=1}^d x_j^2 \Big) \f 1{2d} \\
+			&= - \sum_{i=1}^d (-2) \f 1{2d}
+			= 1
+			= - \Laplace_h w_h(x).
+		\end{align*}
+		Weiter ist $w \ge 0 = w_h$ auf $\Gamma_h$ nach Wahl von $R$.
+		Aus dem diskreten Vergleichsprinzip \ref{2.18} folgt $w \ge w_h$ auf $\_\Omega_h$, also die zweite Gleichung in der Behauptung.
+		Die erste Ungleichung folgt aus dem diskreten Maximumsprinzip für $-w_h$:
+		\[
+			- \Laplace_h (-w_h) =  -1 \le 0
+		\]
+		für $x \in \Omega_h$, also $\max_{x\in\_\Omega_h} (-w_h(x)) \le \max_{x\in \Gamma_h} (-w_h(x)) = 0$ und damit $w_h \ge 0$ auf $\Omega_h$.
+	\end{proof}
+\end{lem}
