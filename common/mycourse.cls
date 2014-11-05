@@ -256,6 +256,7 @@
 \RequirePackage { scrhack }                        % Wegen float-package, das eine warnung mit scrbook erzeugt
 
 \RequirePackage { float }              % Erlaubt [H] Option für table/figure (load before hyperref)
+\RequirePackage { subcaption } % subfigure environment
 \RequirePackage [ hypcap ] { caption }
 \RequirePackage { microtype }                      % Für typographische Perfektion
 
