@@ -89,8 +89,8 @@ classdef FDSquaresSimple < FiniteDifferenceSolver
 
 			%clf;
 			h = surf(obj.posX, obj.posY, F'); % surf swaps x,y ?
-			xlabel('x_1');
-			ylabel('x_2');
+			xlabel('$x_1$', 'Interpreter', 'latex');
+			ylabel('$x_2$', 'Interpreter', 'latex');
 		end
 
 		function err = computeError (obj, solution)

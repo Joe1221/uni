@@ -6,9 +6,12 @@ fd = FDSquaresSimple(f, g);
 
 H = [2^-2, 2^-4, 2^-8];
 for i = 1:3
-	subplot(1,3,i);
+	figure(i)
+	set(gcf,'PaperUnits','inches','PaperPosition',[0 0 8 6])
+	%subplot(1,3,i);
 	fd.initialize(H(i));
 	fd.solve();
 	h = fd.plot();
 	if (i == 3); set(h, 'EdgeColor', 'none'); end
 end
+
