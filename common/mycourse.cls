@@ -457,6 +457,8 @@
 %% Algorithms
 %%=======================================================================
 
+\DeclareDocumentCommand { \Code } { m } { \texttt{#1} }
+
 \RequirePackage{algpseudocode}          % algorithmicx package für Pseudo-Code
 \RequirePackage{verbatim}                       % Für Ascii-Art ;-)
 
