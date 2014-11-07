@@ -726,3 +726,226 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 		für $x \in \Omega_h$, also $\max_{x\in\_\Omega_h} (-w_h(x)) \le \max_{x\in \Gamma_h} (-w_h(x)) = 0$ und damit $w_h \ge 0$ auf $\Omega_h$.
 	\end{proof}
 \end{lem}
+
+\Timestamp{2014-11-07}
+
+\begin{st}[Konvergenz] \label{2.25}
+	Sei ein FD-Verfahren für ein elliptisches RWP gemäß \ref{2.10} gegeben.
+	Falls das Verfahren staabil und konsistenz mit Ordnung $p$ ist, so auch konvergent mit Ordnung $p$.
+	\begin{proof}
+		Seien $u \in X$ die exakte und $u_h \in X_h$ die FD-Lösung.
+		Dann hat $u - u_h$ Nullrandwerte auf $\Gamma_h$, also folgt mit Stabilität:
+		\[
+			\|u-u_h\|_{\_\Omega_h}
+			\le C_S \| \scr L_h (u-u_h) \|_{\Omega_h}
+			= C_s \|\scr L_h u - \scr L_h u_h\|_{\Omega_h}
+		\]
+		Wegen $(\scr L_h u_h)(x) = f(x) = (\scr L u)(x)$ für alle $x \in \Omega_h$ folgt mit Konsistenz:
+		\[
+			\|u - u_h\|_{\_\Omega_h}
+			\le C_s \|\scr L_h u - \scr L u\|_{\Omega_h}
+			\le \underbrace{C_s C_c}_{=:C} h^p.
+		\]
+	\end{proof}
+\end{st}
+
+\ref{2.25} ist auf die FD-Diskretisierung des Poisson-RWPs anwendbar, denn wir haben Konsistenz (siehe Bemerkung nach \ref{2.21}) und Stabilität in \ref{2.23} nachgewiesen.
+
+\begin{kor}[Konvergenz für FD-Diskretisierung, Poisson-RWP] \label{2.26}
+	Sei $\Omega \subset \R^d$ beschränktes Gebiet und die Lösung $u$ des Poisson-RWP erfülle $u \in C^4(\_\Omega)$.
+	Dann konvergiert das FD-Verfahren, d.h.
+	\[
+		\|u - u_h\|_{\_\Omega_h}
+		\le C h^p
+	\]
+	mit $p = 2$ für Würfelgebiete und $p = 1$ für allgemeine Gebiete.
+\end{kor}
+
+Ein Weg, Stabilität zu zeigen, führt über das diskrete Maximumsprinzip.
+Ein alternativer Weg bietet \ref{2.22}:
+es genügt $\|A_h^{-1}\|_\infty \le C_s$ für geeignetes $C_s$ unabhängig von $h$ zu zeigen.
+Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
+
+\begin{df} \label{2.27}
+	\begin{enumerate}[i)]
+		\item
+			Eine Matrix $A = (a_{ij})_{i,j=1}^n \in \R^{n\times n}$ heißt \emphdef{$L_0$-Matrix}, falls $a_{ij} \le 0$ für alle $i \neq j$.
+		\item
+			Eine Matrix $A = (a_{ij})_{i,j=1}^n \in \R^{n\times n}$ heißt \emphdef{$L$-Matrix}, falls $A$ ein $L_0$-Matrix ist und $a_{ii} > 0$ für $i= 1, \dotsc, n$.
+		\item
+			Eine $L_0$-Matrix $A$, für die $A^{-1}$ existiert und $A^{-1} \ge 0$ (komponentenweise größergleich Null) heißt \emphdef{M-Matrix}.
+	\end{enumerate}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Wenn $A^{-1}$ existiert und $A^{-1} \ge 0$, so nennt man $A$ auch \emphdef{inversmonoton}.
+			\item
+				Eine M-Matrix ist also eine inversmonotone $L_0$-Matrix.
+			\item
+				Ziel: für gegebenen $L_0$- oder $L$-Matrix, finde Zusatzbedingungen, welche $M$-Matrix-Eigenschaft implizieren und $\|A^{-1}\|_\infty$ abzuschätzen erlauben.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[$M$-Kriterium] \label{2.28}
+	Sei $A \in \R^{n\times m}$ ein $L_0$-Matrix.
+	\begin{enumerate}[i)]
+		\item
+			$A$ ist inversmonoton (also $M$-Matrix) genau dann, wenn $e \in \R^n$ existiert mit $e > 0$ und $Ae > 0$.
+		\item
+			Falls $A$ eine $M$-Matrix und $e$ wie in i), so gilt
+			\[
+				\|A^{-1}\|_{\infty} \le \frac{\|e\|_\infty}{\min_{k}(Ae)_k}.
+			\]
+	\end{enumerate}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				\begin{segnb}{\ProofImplication}
+					Setze $e := A^{-1} \Vector{1 & \dots & 1}$, dann ist $e > 0$ und $Ae = \Vector{1 & \dots & 1} > 0$.
+				\end{segnb}
+				\begin{segnb}{\ProofImplication*}
+					Sei $e > 0$ und $Ae > 0$, d.h. $\sum_{j} a_{ij} e_j > 0$ für alle $i = 1, \dotsc, n$.
+					Weil $a_{ij} e_j \le 0$ für $i \neq j$, da $A$ $L_0$-Matrix, muss $a_{ii} e_i > 0$, also $a_{ii} > 0$ und $A$ ist eine $L$-Matrix.
+					Setze $D := \diag(a_{11}, \dotsc, a_{nn})$, diese ist offenbar invertierbar.
+					Setze $P d= D^{-1}(D-A) = I - D^{-1} A$, also $A = D(I-P)$ und $P \ge 0$ (wegen $D - A \ge 0$ und $D^{-1} \ge 0$).
+					Weiter ist $(I-P)e = D^{-1}A e > 0$, also folgt
+					\begin{equation} \label{eq:2.7}
+						e = Ie > Pe
+					\end{equation}
+					Führe eine spezielle Norm ein: $\|x\|_e := \max_i \frac{|x_i|}{e_i}$ mit induzierter Matrixnorm $\|P\|_e := \sup_{\|x\|_e = 1} \|Px\|_e$.
+					Es gilt $\|e\|_e = \max \frac{|e_i|}{e_i} = 1$, also $\|P\|_e \ge \|Pe\|_e$, andererseits ist für $y \in \R^n$ mit $\|y\|_e = 1$, d.h. $\max_i \frac{|y_i|}{e_i} = 1$ auch $y \le e$ und es folgt wegen $P \ge 0$, dass $Py \le Pe$, also $\|Py\|_e \le \|Pe\|_e$.
+					Somit ist
+					\[
+						\|P\|_e = \sup_{\|x\|_e = 1} \|Px\|_e = \|Pe\|_e = \max_i \frac{(Pe)_i}{e_i}.
+					\]
+					Wegen \eqref{eq:2.7} ist $Pe < e$ und somit $\|P\|_e < 1$.
+					Damit existiert $(I - P)^{-1}$ und es gilt die Darstellung als Neumannsche Reihe:
+					\[
+						(I - P)^{-1} = \sum_{j=0}^\infty P^j.
+					\]
+					Wegen $A = D(I-P)$ existiert auch $A^{-1} = (I-P)^{-1}D^{-1}$ und wegen $P \ge 0$ auch $P^j \ge 0$, also mittel Neumannscher Reihe $(I-P)^{-1} \ge 0$, und somit $A^{-1} \ge 0$ inversmonoton.
+				\end{segnb}
+			\item
+				Sei $Aw = f$, d.h. $w = A^{-1} f$ und
+				\[
+					w_i = (A^{-1}f)_i = \sum_{j} (A^{-1})_{ij} f_j \le \|f\|_\infty \sum_{j=1}^n (A^{-1})_{ij}.
+				\]
+				Also gilt
+				\begin{equation} \label{eq:2.8}
+					w \le \|f\|_\infty A^{-1} \Vector{1 & \dots & 1}
+				\end{equation}
+				und analog $-w \le \|f\|_\infty A^{-1} \Vector{1 & \dots & 1}$.
+				Es gilt $Ae \ge (\min_k (Ae_k)) \Vector{1 & \dots & 1}$, mit $Ae > 0$ folgt
+				\[
+					\frac{Ae}{\min_k (Ae)_k} \ge \Vector{1 & \dots & 1}.
+				\]
+				Also ist mit \eqref{eq:2.8} $\pm w \le \|f\|_\infty A^{-1} \frac{Ae}{\|\min_k (Ae)_k} = \|f\|_\infty \frac{c}{\min_k (Ae)_k}$, es folgt $\|w\|_\infty \le \|f\|_\infty \frac{\|e\|_\infty}{\min_k(Ae)_k}$, also
+				\[
+					\|A^{-1}\|_\infty
+					= \sup_{f\neq 0} \frac{\|A^{-1} f\|_\infty}{\|f\|_\infty}
+					= \sup_{f \neq 0} \frac{\|w\|_\infty}{\|f\|_\infty}
+					\le \frac{\|e\|_\infty}{\min_k (Ae)_k}.
+				\]
+		\end{enumerate}
+	\end{proof}
+\end{st}
+
+\begin{ex*}
+	Betrachte die FD für das Poisson-RWP, $d = 1$ wie in \ref{2.8}, $h := \f 1{n+1}$, $A_h = \Matrix{2 & -1 &  & \\ -1 & \ddots & & \\ &\ddots & \ddots & -1 \\ & & -1 & 2} \in \R^{n\times n}$.
+	$A_h$ ist eine $L_0$-Matrix.
+	Finde $e \in \R^n, e > 0$ und z.B. $A_h e = \Vector{1 & \dots & 1} > 0$.
+	Die Lösung ist $e = (e_k)_{k=1}^n$ mit $e_k = \f 12 k h  (1-kh) = \f 12 kh - \f 12 k^2h^2$.
+	Es gilt
+	\[
+		(A_h e_h)_1 = \frac{1}{h^2} (2e_1 - e_2)
+	\]
+	mit $e_1 = \f 12 h - \f 12 h^2, e_2 = h - 2h^2$ folgt
+	\[
+		(A_h e_h)_1 = \f 1{h^2}(h - h^2 - h + 2h^2) = 1
+	\]
+	und analog $(Ae)_n = 1$ wegen Symmetrie in $A_h$ und $e$.
+	Für $1 < k < n$ haben wir
+	\begin{align*}
+		h^2 (Ae)_k
+		&= (-e_{k-1} + 2e_k - e_{k+1}) \\
+		&= -\f 12 (k-1)h + \f 12(k-1)^2 h^2 + kh -k^2 h^2 - \f 12 (k+1)h + \f 12 (k+1)^2 h^2 \\
+		&= -\f 12 kh + \f 12 h + \f 12(k^2 - 2k + 1)h^2 + kh - k^2h^2 \\
+		&\qquad - \f 12 kh - \f 12 h + \f 12 (k^2 + 2k+1)h^2 \\
+		&= h^2( \f 12 k^2 - k^2 + \f 12 k^2 - k + \f 12 + k + \f 12) \\
+		&= h^2
+	\end{align*}
+	und damit ist $A_h$ eine $M$-Matrix.
+
+	Es gilt $\|e\|_\infty = \max_k \f 1, kh(1-kh) \le \f 12 \f 12 ( 1 - \f 12) = \f 18$.
+	Wegen $Ae = \Vector{1 & \dots & 1}$ ist $\min_k (Ae)_k = 1$ und aus \ref{2.28} ii) folgt
+	\[
+		\|A_k^{-1}\| \le \frac{\|e\|_\infty}{\min_k (Ae)_k} = \f 18.
+	\]
+	Vergleich zu $C_S = \frac{R^2}{2d}$ aus \ref{2.23} mit $R = 1, d=1$ liefert $C_s = \f 12$.
+	Die Konstante $\f 18$ ist also besser als die in \ref{2.23}.
+\end{ex*}
+
+\begin{df}[Diagonaldominanz, Irreduzibilität]
+	\begin{enumerate}[i)]
+		\item
+			$A \in \R^{n\times n}$ ist \emphdef[diagonaldominant!stark]{stark (zeilen-)diagonaldominant}, falls $|a_{ii}| > \sum_{i \neq j}^n |a_{ij}|$ für alle $i = 1, \dotsc, n$.
+		\item
+			$A \in \R^{n\times n}$ ist \emphdef[diagonaldominant!schwach]{schwach (zeilen-)diagonoldominant}, falls $|a_{ii}| \ge \sum_{i \neq j}^n |a_{ij}|$ für alle $i = 1, \dotsc, n$ mit mindestens einem $k \in \Set{1,\dotsc, n}$ mit $|a_{kk}| > \sum_{j \neq k} |a_{kj}|$.
+		\item
+			$A$ ist \emphdef{irreduzibel}, falls keine Permutationsmatrix $P$ existiert, sodass
+			\[
+				P A P^T = \Matrix{ A_{11} & 0 \\ A_{21} & A_{22} }
+			\]
+			mit $A_{11} \in \R^{p\times p}$ mit $p \in {1, \dotsc, n-1}$.
+	\end{enumerate}
+\end{df}
+
+\begin{st} \label{2.30}
+	Sei $A_h$ eine $L$-Matrix.
+	Falls $A_h$ stark diagonaldominant, oder schwach diagonaldominant und irreduzibel, so ist $A_h$ ein $M$-Matrix.
+	\begin{proof}
+		Siehe Großmann/Roos, Satz 2.8.
+	\end{proof}
+\end{st}
+
+\begin{note}
+	Falls $A_h$ strikt diagonaldominant, so ist $e = \Vector{1 & \dots & 1}$ ein geeigneter Vektor für \ref{2.28}, denn $e > 0$ und $A_h e > 0$.
+	Also $\|A_h^{-1}\|_\infty \le \f 1{\min_k(Ae)_k}$ (aber potentiell von $h$ abhängig).
+\end{note}
+
+\begin{note}[gemischte Ableitung]
+	\begin{itemize}
+		\item
+			In \ref{2.11} wurde $-\sum_{i\neq j}^A a_{ij}(x) \partial_{x_i}^{c,h} \partial_{x_j}^{c,h} u(x)$ gewählt, was zu $\f 12 \Matrix[{a_{12} & 0 & -a_{12} \\ 0 & 0 & 0 \\ -a_{12} & 0 & a_{12}}_*$ führte.
+			Weder das Maximumsprinzip, noch $M$-Matrix-Eigenschaft können mit unseren Techniken gezeigt werden, wegen unterschiedlichen Vorzeichen im Fall $a_{12} \neq 0$.
+		\item
+			Man kann FD-Sterne 2. Ordnung mit nichtpositiven Eck-Koeffizienten für $-2a_{12} \partial_{x_1} \partial_{x_2} u$ konstruieren:
+			\begin{enumerate}[i)]
+				\item
+					Falls $- a_{12} > 0$:
+					\[
+						\Matrix[{ a_{12} & -a_{12}e & 0 \\ a_{12} & 2 a_{12} & - a_{12} \\ 0 & - a_{12} & a_{12} }_*
+					\]
+				\item
+					Falls $- a_{12} < 0$:
+					\[
+						\Matrix[{ 0 & a_{12} & -a_{12} \\ a_{12} & - 2a_{12} & a_{12} \\ - a_{12} & a_{12} & 0}_*
+					\]
+			\end{enumerate}
+			Mit der Konvention $a_{12}^+ := \max\{0, a_{12}\}, a_{12}^- := \min\{a_{12}, 0\}$ folgt
+			\begin{equation} \label{eq:2.9}
+				\Matrix{
+					a_{12}^- & -(a_{22}-|a_{12}|) & -a_{12}^+ \\
+					-(a_{11}-|a_{12}|) & 2(a_{11} + a_{22}-|a_{12}|) & - (a_{11} -|a_{12}|) \\
+					-a_{12}^+ & -(a_{22} - |a_{12}|) & a_{12}^-
+				}_*
+				+ \f 12 \Matrix{
+					0 & b_2 & \\
+					-b_1 & 2hc & b_1 \\
+					0 & -b_2 & 0
+				}_*
+			\end{equation}
+	\end{itemize}
+\end{note}
+
