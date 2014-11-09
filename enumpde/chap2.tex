@@ -17,7 +17,7 @@
 	und \emphdef[symmetrische Differenz]{symmetrische} oder \emphdef{zentrale Differenz} durch
 	\[
 		(\partial_{x_j}^{ch} u)(x)
-		= \f 12 (\partial_{x_j}^{+h} u(x) + \partial_{x_j}^{-h} u(x))
+		:= \f 12 (\partial_{x_j}^{+h} u(x) + \partial_{x_j}^{-h} u(x))
 		= \frac{u(x+he_j) - u(x-he_j)}{2h}
 	\]
 \end{df}
@@ -30,7 +30,7 @@
 		\item
 			$|\partial_{x_j} u(x) - \partial_{x_j}^{\pm h} u(x)| \le \f h2 \|\partial_{x_j}^2 u\|_\infty$ für $u \in C^2(\_\Omega)$
 		\item
-			$|\partial_{x_j} u(x) - \partial_{x_j}^{c h} u(x)| \le \f {h^2}6 \|\partial_{x_j}^3 u\|_\infty$ für $u \in C^3(\_\Omega)$
+			$|\partial_{x_j} u(x) - \partial_{x_j}^{c, h} u(x)| \le \f {h^2}6 \|\partial_{x_j}^3 u\|_\infty$ für $u \in C^3(\_\Omega)$
 		\item
 			$|\partial_{x_j}^2 u(x) - \partial_{x_j}^{-h} \partial_{x_j}^{+h} u(x)| \le \f {h^2}{12} \|\partial_{x_j}^4 u\|_\infty$ für $u \in C^4(\_\Omega)$
 	\end{enumerate}
@@ -104,7 +104,7 @@
 				Dann ist
 				\[
 					\partial_{x_j}^{h,m} u(x)
-					= \f 1{h^m} \sum_{k=0}^m \binom{m}{k} (-1)^{k+m} u\big( u + (k-\f m2) h e_j \big).
+					= \f 1{h^m} \sum_{k=0}^m \binom{m}{k} (-1)^{k+m} u\big( x + (k-\f m2) h e_j \big).
 				\]
 		\end{itemize}
 	\end{note}
@@ -119,7 +119,7 @@
 	\end{equation}
 	und es gilt unter Voraussetzungen von \ref{2.2}
 	\[
-		|\Laplace u(x) - \Laplace u(x)| \le C h^2
+		|\Laplace_h u(x) - \Laplace u(x)| \le C h^2
 	\]
 	für $u \in C^4(\_\Omega)$.
 	\begin{proof}
@@ -389,13 +389,14 @@ Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \i
 
 \begin{df}[FD-Approximation] \label{2.11}
 	Für $\scr L$ aus \eqref{eq:2.3}, $x \in \Omega$ mit $\_B_h(x)  \subset \_\Omega$ definiere
-	\begin{align*}
-		\scr L_h u(x)
-		&:= - \sum_{i=1}^d a_{ii} (x) \partial_{x_i}^{-h} \partial_{x_i}^{+h} u(x) \\
-		&= - \sum_{\substack{i,j=1 \\ i\neq j}} a_{ij} (x) \partial_{x_i}^{c,h} \partial_{x_j}^{c,h} u(x)
-		+ \sum_{i=1}^d b_i(x) \partial_{x_i}^{c,h} u(x)
-		+ c(x) u(x).
-	\end{align*}
+	\begin{equation} \setcounter{equation}{5} \label{eq:2.5}
+		\begin{aligned}
+			\scr L_h u(x)
+			&:= - \sum_{i=1}^d a_{ii} (x) \partial_{x_i}^{-h} \partial_{x_i}^{+h} u(x)
+			- \sum_{\substack{i,j=1 \\ i\neq j}}^d a_{ij} (x) \partial_{x_i}^{c,h} \partial_{x_j}^{c,h} u(x) \\
+			&\qquad + \sum_{i=1}^d b_i(x) \partial_{x_i}^{c,h} u(x)	+ c(x) u(x).
+		\end{aligned}
+	\end{equation}
 	\begin{note}
 		Wir werden sehen, dass
 		\begin{itemize}
@@ -421,13 +422,13 @@ Für $v \in X$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x \i
 \begin{note}[FD-Stern]
 	\begin{itemize}
 		\item
-			Die Diskretisierung $\scr L_h$ kann man anschaulischer notieren: z.B. für $d = 2$.
+			Die Diskretisierung $\scr L_h$ kann man anschaulicher notieren: z.B. für $d = 2$.
 			Falls $\scr L_h u(x_1, x_2) = \f 1{h^2} \sum_{i,j=-m}^m \alpha_{ij} u(x_1 + ih, x_2 + jh)$ dann ist
-			\begin{equation} \label{eq:2.4}
+			\begin{equation} \setcounter{equation}{4} \label{eq:2.4}
 				\Matrix[{
 					\alpha_{-m,m} & \hdots & \alpha_{0,m} & \hdots & \alpha_{m,m} \\
 					\vdots && \vdots && \vdots \\
-					\alpha_{-m, 0} & \hdots & \alpha_{0,1} & \hdots & \alpha_{m,0} \\
+					\alpha_{-m, 0} & \hdots & \alpha_{0,0} & \hdots & \alpha_{m,0} \\
 					\vdots && \vdots && \vdots \\
 					\alpha_{-m,-m} & \hdots & \alpha_{0,-m} & \hdots & \alpha_{m,-m}
 				}_*
@@ -544,7 +545,7 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 			Analog für $\alpha_{-1,0} = \alpha_{0,-1} = \alpha_{0,1} = 0$.
 		\item
 			Falls $c(x) > 0$ in \eqref{eq:2.5}, so ist $\sum_{i,j = -1}^1 \alpha_{ij} > 0$.
-			Für diesen Fall existieren Abschwächungen des Sternlemmas und des Maximumsprinzips formulieren und beweisen.
+			Für diesen Fall lassen sich Abschwächungen des Sternlemmas und des Maximumsprinzips formulieren und beweisen.
 		\item
 			Falls $a_{1,2} \neq 0$, so ist eine Modifikation der Diskretisierung notwendig.
 	\end{itemize}
@@ -568,7 +569,7 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 			Es gilt
 			\begin{align*}
 				\scr L_h v &= \scr L_h u_h - \scr L_h \_u_h = f - f = 0 && \text{in $\Omega_h$} \\
-				v = u_h - \_u_h = g - g = 0 && \text{auf $\Gamma_h$}.
+				v &= u_h - \_u_h = g - g = 0 && \text{auf $\Gamma_h$}.
 			\end{align*}
 			Das Maximumsprinzip liefert $v(x) \le \sup_{x\in\Gamma_h} v(x) = 0$ für alle $x \in \_\Omega_h$.
 			Analoge Argumentation für $-v$ liefert $-v(x) \le 0$ in $\_\Omega_h$, folglich $v(x) = 0$ in ganz $\_\Omega_h$
@@ -701,7 +702,7 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 \begin{lem} \label{2.24}
 	Sei $w_h \in X_h$ Lösung von $-\Laplace_h w_h = 1$ in $\Omega_h$, $w_h = 0$ auf $\Gamma_h$.
 	Dann gilt
-	\begin{equation} \label{eq:2.6}
+	\begin{equation} \setcounter{equation}{6} \label{eq:2.6}
 		0 \le w_h(x) \le \f 1{2d} (R^2 - \|x\|_2^2)
 	\end{equation}
 	für $x \in \_\Omega_h$.
