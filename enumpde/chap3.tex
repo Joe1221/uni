@@ -1,0 +1,93 @@
+\chapter{FEM für koerzive und inf-sup-stabile Probleme} \label{chap:3}
+
+
+\section{Sobolev-Räume}
+
+
+\begin{df}[Schwache Ableitung] \label{3.1}
+	Sei $\beta \in \N_0^d$ ein Multiindex, $u \in L_{\text{loc}}^1, \Omega \subset \R^d$.
+	Wir nennen $v^\beta \in L_{\text{loc}}^1(\Omega)$ \emphdef{schwache Ableitung} von $u$ falls gilt
+	\[
+		\int_\Omega u \partial^\beta \phi \di[x]
+		= (-1)^{|\beta|} \int_\Omega v^\beta \phi \di[x]
+	\]
+	für alle $\phi \in C_0^\infty(\Omega)$.
+\end{df}
+
+\begin{ex*}
+	Sei $\Omega = (-1, 1), u(x) := |x|$.
+	Dann ist $\sign(x)$ die schwache Ableitung von $u$.
+	Denn sei $\phi \in C_0^\infty(\Omega)$, dann ist
+	\begin{align*}
+		\int_{-1}^1 u(x) \phi'(x) \di[x]
+		&= \int_{-1}^0 u(x) \phi'(x) \di[x]
+		+ \int_0^1 u(x) \phi'(x) \di[x] \\
+		&= \int_{-1}^0 -x \phi'(x) \di[x]
+		+ \int_0^1 x \phi'(x) \di[x] \\
+		&= - \int_{-1}^0 (-1) \phi(x) \di[x] + \underbrace{[-x \phi(x)]_{-1}^0}_{=0}
+		- \int_0^1 \phi(x) \di[x] + \underbrace{[x \phi(x)]_0^1}_{=0} \\
+		&= - \int_{-1}^1 \sign(x) \phi(x) \di[x]
+	\end{align*}
+\end{ex*}
+
+\begin{st}[Eindeutigkeit] \label{3.2}
+	Sei $u \in L^1_{\text{loc}}(\Omega)$, dann existiert höchstens eine schwache Ableitung zu $\beta \in \N_0^d$.
+	\begin{proof}
+		Seien $v^\beta, \_v^\beta$ zwei schwache Ableitungen.
+		Dann ist
+		\[
+			(-1)^{|\beta|} \int_\Omega \_v^\beta \phi \di[x]
+			= \int_\Omega u \partial^\beta \phi \di[x]
+			= (-1)^{|\beta|} \int_\Omega v^\beta \phi \di[x],
+		\]
+		also für alle $\phi \in C_0^\infty(\Omega)$
+		\[
+			\int_\Omega (v^\beta - \_v^\beta) \phi \di[x] = 0.
+		\]
+		Nach dem Fundamentalsatz der Variationsrechnung \ref{1.7} also $v^\beta = \_v^\beta$ fast überall, also $v^\beta = \_v^\beta$ im $L^1_{\text{loc}}$-Sinn.
+	\end{proof}
+\end{st}
+
+\begin{st}[klassische Ableitung ist schwache Ableitung] \label{3.3}
+	Sei $u \in C^m(\Omega)$, $v^\beta$ für $|\beta| \le m$ die schwache Ableitung und $\partial^\beta u \in C^{m-|\beta|}(\Omega)$ die klassische Ableitung.
+	Dann gilt $v^\beta = \partial^\beta u$ punktweise, also im $C^0$-Sinn.
+	\begin{proof}
+		Mit partieller Integration gilt
+		\[
+			\int_\Omega u \partial^\beta \phi \di[x]
+			= (-1)^{|\beta|} \int_\Omega (\partial^\beta u) \phi \di[x]
+		\]
+		für alle $\phi \in C_0^\infty(\Omega)$ und die klassische Ableitung ist eine schwache Ableitung.
+		Wegen der Eindeutigkeit \ref{3.2} ist $\partial^\beta u$ die schwache Ableitung.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die schwache Ableitung umfassen die klassischen Ableitungen, daher schreiben wir im Folgenden einfach $\partial^\beta u$ statt $v^\beta$.
+			\item
+				\ref{3.3} gilt auch auf Teilgebieten, d.h. falls $u$ stückweise klassisch differenzierbar und global schwach differenzierbar, so ist die schwache Ableitung gerade die stückweise klassische Ableitung.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{ex*}
+	$u(x) := \sign(x)$ ist nicht schwach differenzierbar.
+	\begin{proof}
+		Falls $u$ schwach differenzierbar wäre, so müsste
+		\[
+			\partial_x u = \begin{cases}
+				0 & x < 0 \\
+				0 & x > 0
+			\end{cases}
+		\]
+		gemäß der stückweisen klassichen Ableitung.
+		Es folgt $(-1)\int_\Omega (\partial_x u) \phi \di[x] = 0$, aber für $\phi(0) \neq 0, \supp \phi \subset (-1,1)$ nicht leer gilt
+		\begin{align*}
+			\int_\Omega u \partial_x \phi \di[x]
+			&= \int_{-1}^0 (-1) \partial_x \phi \di[x] + \int_0^1 1 \partial_x \phi \di[x] \\
+			&= \underbrace{\phi(1)}_{=0} \underbrace{- \phi(0) - \phi(0)}_{= 2 \phi(0)} + \underbrace{\phi(-1) }_{=0}
+			\neq 0
+		\end{align*}
+	\end{proof}
+\end{ex*}
+

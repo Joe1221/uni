@@ -950,3 +950,92 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 	\end{itemize}
 \end{note}
 
+\Timestamp{2014-11-11}
+
+\begin{kor} \label{2.31}
+	Falls $a_{ii} > |a_{12}| + \f h2 |b_i|$ und $c > 0$ für $i= 1,2$, so ist die FD-Systemmatrix $A_h$ zum FD-Stern \eqref{eq:2.9} ein $M$-Matrix.
+	\begin{proof}
+		Die Nichtdiagonalelemente von $A_h$ sind nicht-positiv.
+		Die Diagonale von $A_h$ ist echt positiv, also ist $A_h$ eine $L$-Matrix.
+		$A_h$ ist streng diagonaldominant (Summe aller FD-Stern-Einträge ist größer 0, FD-Stern wird in jeweils eine Zeile von $A_h$ geschrieben).
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Man kann zeigen, dass $\|A_h^{-1}\|_\infty$ unabhängig von $h$ beschränkt ist.
+			\item
+				Die Bedingung $a_{ii} > |a_{12}| + \f h2 |b_i|$ liefert eine Bedingung für $h$, d.h. eine hinreichend kleine Gitterweite ist erforderlich für Stabilität im Fall $b \neq 0$.
+			\item
+				Falls $b_i$ sehr „groß“ (sogenannter \emphdef{konvektionsdominanter Fall}, kann dies zu impraktikablen Gitterweiten führen).
+			\item
+				Falls $A(x) = 0, c = 0$ (also reine Advektion), $b \neq 0$ kann man leicht analytisch sehen, dass der FD-Vektor mit zentralen Differenzen nicht stabil ist: „\emphdef{hyperbolische Gleichung erster Ordnung}“.
+
+				Betrachte $\Omega = (0,1)^2, b = \Vector{1 & 1}, g(x_1, x_2) = (x_1 - x_2)^2$ mit $\partial_{x_1} u + \partial_{x_2} u = 0$ in $\Omega$ und $u = g$ auf $\Gamma$.
+				Dies hat die exakte Lösung $u(x_1, x_2) = (x_1 - x_2)^2 = x_1^2 - 2x_1x_2 + x_2^2$.
+
+				Mit $h = \f 12$ folgt $|\Omega_h| = 1$ wegen $\Omega_h = \Set{(\f 12, \f 12)}$, $|\Gamma_h| = 8$.
+				Es ergibt sich ein $1\times 1$-System für $u_h(\f 12, \f 12)$.
+				Mit zentralen Differenzen (wie in \eqref{eq:2.5}, \eqref{eq:2.9}) für $\partial_{x_1} u, \partial_{x_2} u$ liefert folgende Gleichung für das LGS:
+				\[
+					\dfrac{u(\f 12 + \f 12, \f 12) - u_h(\f 12 - \f 12, \f 12)}{2 \cdot \f 12}
+					+ \dfrac{u(\f 12, \f 12 + \f 12) - u_h(\f 12, \f 12 - \f 12)}{2 \cdot \f 12}
+					= 0.
+				\]
+				Alle Punktauswertungen liegen in $\Gamma_h$, also setzen wir die Werte für $g$ ein:
+				\[
+					g(1, \f 12) - g(0, \f 12) + g(\f 12, 1) - g(\f 12, 0) = 0,
+				\]
+				was zu $0 = 0$ führt, die Systemmatrix $A_h = (0)$ ist singulär, insbesondere ist nicht $\|A_h^{-1}\| \le C_s$ mit $C_s$ unabhängig von $h$, das FD-Verfahren also nicht stabil.
+			\item
+				Für konvektionsdominante Probleme oder hyperbolische Probleme erster Ordnung sind sorgfältige Diskretisierungen erforderlich (siehe \ref{chap:5}, FV-Verfahren).
+		\end{itemize}
+	\end{note}
+\end{kor}
+
+\begin{ex*}
+	Betrachte das Poisson-RWP auf $\Omega = (0,1)^2$.
+	\begin{enumerate}[i)]
+		\item
+			Gebe exakte Lösung vor: $u(x_1, x_2) := x_1(1-x_1)x_2(1-x_2)$.
+			Für die Daten wählen wir dann entsprechend: $g(x) := 0 = u(x)$ auf $\Gamma$ und $f(x) := 2x_2(1-x_2) + 2x_1(1-x_1) = -\Laplace u$
+			\begin{table}
+				\centering
+				\begin{tabular}{l|c|l}
+					$h$ & $n$ & $\|u - u_h\|_{\_\Omega_h}$ \\ \hline
+					0.5 & 1 & 0 \\
+					0.25 & 9 & $6 \cdot 10^{-18}$ \\
+					\vdots & \vdots & \vdots \\
+					0.03125 & 961 & $4.8 \cdot 10^{16}$
+				\end{tabular}
+				\caption{\texttt{elliptic\textunderscore fd\textunderscore demos(4)}}
+			\end{table}
+			Wir sehen, dass $u_h$ für jedes $h$ exakt ist (bis auf numerische Rundungseffekte).
+			Dies deckt sich mit der Beobachtung, dass $-\Laplace_h u = - \Laplace u$ für Polynome.
+		\item
+			Setze als exakte Lösung: $u(x_1, x_2) := \sin(2\pi x_1) \sin(2\pi x_2) \in C^\infty$ für Daten $f(x) := 8\pi^2 \sin(2\pi x_1) \sin(2\pi x_2), g(x) := 0$.
+			\begin{table}
+				\centering
+				\begin{tabular}{l|cl}
+					h & h & $\|u - u_h\|_{\_\Omega_h}$ \\ \hline
+					0.25 & 9 & $0.2337$ \\
+					0.125 & 49 & $0.053024$ \\
+					\vdots & \vdots & \vdots \\
+					0.00097656 & 1046529 & $3.1375 \cdot 10^{-6}$
+				\end{tabular}
+				\caption{\texttt{elliptic\textunderscore fd\textunderscore demos(5)}}
+			\end{table}
+			Das LGS mit $A \in 10^{10^6 \times 10^6}$ ist sehr schnell lösbar dank sparse-Matrizen.
+			Konvergenzordnung $2$ ist erkennbar in Übereinstimmung mit der Theorie.
+	\end{enumerate}
+\end{ex*}
+
+\begin{note}[Relevanz der FD-Verfahren]
+	\begin{itemize}
+		\item
+			Bis Mitte des 20. Jahrhunderts wurden FD-Diskretisierungen als Allzweckwerkzeug gesehen, weil sie eine Vielzahl von Problemen sehr leicht mit ausreichender Genauigkeit diskretisieren.
+			Allmählich kamen FEM-Methoden (Finite-Elemente-Methoden), welche eine wesentlich aufwändigere Assemblierung von $A_h$ und $b_h$ erfordern, aber bei gleicher Gitterfeinheit bessere Ergebnisse liefern.
+		\item
+			Die Konvergenzanalysis von FD-Verfahren macht häufig starke (unrealistische) Glattheits-Annahmen an die Lösung.
+			Das wird bei FEM- und FV-Verfahren etwas abgeschwächt.
+	\end{itemize}
+\end{note}
