@@ -655,14 +655,14 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 	\begin{proof}
 		Seien $\underbar{v}_h, \underbar{w}_h \in \R^n$ Vektor der inneren Knotenwerten für $v_h \in X_h^0$, $w_h \in Y_h$, also $A_h \underbar{v}_h = \underbar{w}_h$.
 		Dann gilt ($v_h$ hat Nullrandwerte)
-		\[
+		\begin{align*}
 			\|v_h\|_{\_\Omega_h}
 			= \|\underbar{v}_h\|_\infty
-			= \|A_h^{-1} \underbar{w}_h\|_\infty
-			\le \|A_h^{-1}\|_\infty \|\underbar{w}_h\|_\infty
-			\le C_s \|w_h\|_{\Omega_h}
+			&= \|A_h^{-1} \underbar{w}_h\|_\infty \\
+			&\le \|A_h^{-1}\|_\infty \|\underbar{w}_h\|_\infty \\
+			&\le C_s \|w_h\|_{\Omega_h}
 			= C_s \|\scr L_h v_h\|
-		\]
+		\end{align*}
 	\end{proof}
 \end{st}
 
@@ -805,7 +805,7 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 				\begin{segnb}{\ProofImplication}
 					Setze $e := A^{-1} \Vector{1 & \dots & 1}$, dann ist $e > 0$ und $Ae = \Vector{1 & \dots & 1} > 0$.
 				\end{segnb}
-				\begin{segnb}{\ProofImplication*}
+				\begin{seg}{\ProofImplication*}
 					Sei $e > 0$ und $Ae > 0$, d.h. $\sum_{j} a_{ij} e_j > 0$ für alle $i = 1, \dotsc, n$.
 					Weil $a_{ij} e_j \le 0$ für $i \neq j$, da $A$ $L_0$-Matrix, muss $a_{ii} e_i > 0$, also $a_{ii} > 0$ und $A$ ist eine $L$-Matrix.
 					Setze $D := \diag(a_{11}, \dotsc, a_{nn})$, diese ist offenbar invertierbar.
@@ -825,8 +825,8 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 					\[
 						(I - P)^{-1} = \sum_{j=0}^\infty P^j.
 					\]
-					Wegen $A = D(I-P)$ existiert auch $A^{-1} = (I-P)^{-1}D^{-1}$ und wegen $P \ge 0$ auch $P^j \ge 0$, also mittel Neumannscher Reihe $(I-P)^{-1} \ge 0$, und somit $A^{-1} \ge 0$ inversmonoton.
-				\end{segnb}
+					Wegen $A = D(I-P)$ existiert auch $A^{-1} = (I-P)^{-1}D^{-1}$ und wegen $P \ge 0$ auch $P^j \ge 0$, also mittels Neumannscher Reihe $(I-P)^{-1} \ge 0$, und somit $A^{-1} \ge 0$ inversmonoton.
+				\end{seg}
 			\item
 				Sei $Aw = f$, d.h. $w = A^{-1} f$ und
 				\[
@@ -998,7 +998,7 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 		\item
 			Gebe exakte Lösung vor: $u(x_1, x_2) := x_1(1-x_1)x_2(1-x_2)$.
 			Für die Daten wählen wir dann entsprechend: $g(x) := 0 = u(x)$ auf $\Gamma$ und $f(x) := 2x_2(1-x_2) + 2x_1(1-x_1) = -\Laplace u$
-			\begin{table}
+			\begin{table}[ht]
 				\centering
 				\begin{tabular}{l|c|l}
 					$h$ & $n$ & $\|u - u_h\|_{\_\Omega_h}$ \\ \hline
@@ -1013,7 +1013,7 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 			Dies deckt sich mit der Beobachtung, dass $-\Laplace_h u = - \Laplace u$ für Polynome.
 		\item
 			Setze als exakte Lösung: $u(x_1, x_2) := \sin(2\pi x_1) \sin(2\pi x_2) \in C^\infty$ für Daten $f(x) := 8\pi^2 \sin(2\pi x_1) \sin(2\pi x_2), g(x) := 0$.
-			\begin{table}
+			\begin{table}[ht]
 				\centering
 				\begin{tabular}{l|cl}
 					h & h & $\|u - u_h\|_{\_\Omega_h}$ \\ \hline
@@ -1024,7 +1024,8 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 				\end{tabular}
 				\caption{\texttt{elliptic\textunderscore fd\textunderscore demos(5)}}
 			\end{table}
-			Das LGS mit $A \in 10^{10^6 \times 10^6}$ ist sehr schnell lösbar dank sparse-Matrizen.
+
+			Das LGS mit $A \in \R^{10^6 \times 10^6}$ ist sehr schnell lösbar dank sparse-Matrizen.
 			Konvergenzordnung $2$ ist erkennbar in Übereinstimmung mit der Theorie.
 	\end{enumerate}
 \end{ex*}
