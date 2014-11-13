@@ -84,7 +84,7 @@ classdef FDSquaresSimple < FiniteDifferenceSolver
 		function h = plot (obj)
 
 			% construct meshgrid matrix
-			F = zeros(obj.m);
+			F = nan(obj.m);
 			F(obj.mask) = obj.u(obj.pos2idxMap(obj.mask));
 
 			%clf;
