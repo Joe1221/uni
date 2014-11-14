@@ -91,3 +91,248 @@
 	\end{proof}
 \end{ex*}
 
+\Timestamp{2014-11-14}
+
+\begin{df}[Sobolev-Räume] \label{3.4}
+	Sei $m \in \N_0, p \in \N \cup \Set \infty, u \in L_{\text{loc}}^1(\Omega), \Omega\subset \R^d$ offen.
+	Falls alle schwachen Ableitungen $\partial^\beta u, |\beta| \le m$ existieren, definieren wir die Sobolev-Norm durch
+	\begin{align*}
+		\|u\|_{H^{m,p}(\Omega)}
+		&:= \Big( \sum_{|\beta| \le m} \|\partial^\beta u\|_{L^p(\Omega)}^p \Big)^{\f 1p} \qquad 1 \le p \le \infty, \\
+		\|u\|_{H^{m,\infty}(\Omega)}
+		&:= \max_{|\beta|\le m} \|\partial^\beta u\|_{L^\infty(\Omega)}.
+	\end{align*}
+	Hiermit definieren wir die Sobolev-Räume $H^{m,p}(\Omega)$ als:
+	\[
+		H^{m,p}(\Omega)
+		:= \Set{ u \in L_{\text{loc}}^1(\Omega) & \|u\|_{H^{m,p}} < \infty}.
+	\]
+	Für $p = 2$ schreiben wir auch $H^m(\Omega) := H^{m,2}(\Omega)$.
+	Schließlich definieren wir die Sobolev-Seminorm durch
+	\begin{align*}
+		|u|_{H^{m,p}(\Omega)}
+		&:= \Big( \sum_{|\beta| = m} \|\partial^\beta u\|_{L^p(\Omega)}^p \Big)^{\f 1p} \qquad 1 \le p \le \infty, \\
+		|u|_{H^{m,\infty}(\Omega)}
+		&:= \max_{|\beta| = m} \|\partial^\beta u\|_{L^\infty(\Omega)}.
+	\end{align*}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Anstelle von $H^{m,p}(\Omega)$ wird in der Literatur auch oft $W^{m,p}(\Omega)$ verwendet.
+			\item
+				Aus \ref{3.3} folgt $C_0^m(\Omega) \subset H^{m,p}(\Omega)$.
+				Falls $\Omega$ beschränkt, gilt auch $C^m(\_\Omega) \subset H^{m,p}(\_\Omega)$.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Vollständigkeit von $H^{m,p}(\Omega)$] \label{3.5}
+	Sei $\Omega \subset \R^d$ offen, $1 \le p \le \infty, m \in \N_0$.
+	Dann ist $H^{m,p}(\Omega)$ vollständig, also ein Banachraum.
+	Insbesondere ist $H^m(\Omega)$ ein Hilbertraum mit dem entsprechenden Skalarprodukt $\<u,v\>_{H^m} := \sum_{|\beta| \le m} \<\partial^\beta u, \partial^\beta u\>_{L^2(\Omega)}$.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Dies ist eine sehr praktische Eigenschaft im Gegensatz zu klassischen Funktionenräumen, z.B. ist $C^m(\_\Omega)$ nicht vollständig bezüglich $\|\argdot\|_{H^m,p}(\Omega)$.
+				% fixme: gegenbeispiel
+			\item
+				Für $m = 0$ gilt $H^{m,p}(\Omega) = L^p(\Omega)$.
+			\item
+				Alternativ kann man Sobolev-Räume auch durch Vervollständigung von $C^m$ bezüglich $\|\argdot\|_{H^{m,p}}$ definieren.
+				\[
+					H^{m,p}(\Omega) = \_{C^m(\Omega)}^{\|\argdot\|_{H^{m,p}}}.
+				\]
+				Siehe dazu [Alt, 1.15].
+		\end{itemize}
+	\end{note}
+	\begin{proof}[für $p=2$, allgemeiner in [Alt, 1.15]]
+		Sei $(v_n)_{n\in\N}$ Cauchyfolge in $H^m(\Omega)$.
+		Dann ist insbesondere $(\partial^\beta v_n)_{n\in\N}$ Cauchyfolge in $L^2(\Omega)$.
+		Wegen Vollständigkeit von $L^2(\Omega)$ existiert $v^\beta \in L^2(\Omega)$ mit $\|\partial^\beta v_n - v^\beta\|_{L^\beta(\Omega)} \to 0$ für $n \to \infty$.
+		Für eine Testfunktion $\phi \in C_0^\infty(\Omega)$ und alle $\beta \in \N_0^d$ gilt mit Cauchy-Schwartz
+		\begin{align*}
+			\<\partial^\beta v_n - v^\beta, \phi\>_{L^2(\Omega)}
+			\le \|\partial^\beta v_n - v^\beta\|_{L^2}\|\phi\|_{L^2}.
+		\end{align*}
+		Es folgt
+		\[
+			\<v^\beta, \phi\>_{L^2(\Omega)}
+			= \lim_{n\to\infty} \<\partial^\beta v_n, \phi\>_{L^2(\Omega)}
+			= \lim_{n\to\infty} (-1)^{|\beta|} \<v_n, \partial^\beta \phi\>_{L^2(\Omega)}
+			= (-1)^{|\beta|} \<v^0, \partial^\beta \phi\>_{L^2}
+		\]
+		mit $v_0 := \lim_{n\to\infty} v_n$ via $\beta = 0$.
+		Damit ist $v^\beta$ schwache Ableitung von $v_0$.
+		Also $\|v_n - v^0\|_{H^m(\Omega)} \to 0$ und $v^0 \in H^m(\Omega)$.
+	\end{proof}
+\end{st}
+
+\begin{st}[Approximierbarkeit durch $C^\infty$-Funktionen] \label{3.6}
+	Für $1 \le p < \infty$ gilt $H^{m,p}(\Omega) \cap C^\infty(\Omega)$ ist dicht in $H^{m,p}(\Omega)$, d.h. für $f \in H^{m,p}$ existiert $f_j \in H^{m,p}(\Omega) \cap C^\infty(\Omega), j \in \N$ mit $\|f - f_j\|_{H^{m,p}(\Omega)} \to 0$.
+	\begin{proof}
+		Siehe [Alt, Satz 1.16].
+	\end{proof}
+	\begin{note}
+		Aufgrund von \ref{3.6} sieht man leicht, dass Regeln zum Umgang mit Ableitungen von klassischen Ableitungen auf schwache Ableitungen übertragen werden können,
+		darunter Linearität, partielle Integration, Gäußscher Integralsatz, Produkt- und Kettenregel, etc.
+	\end{note}
+	\begin{note}[Randwerte]
+		Da $L^p(\Omega)$-Funktionen auf Nullmengen undefiniert sind, bzw. beliebig abgeändert werden können, ist unklar, was man unter Randwerten in $H^{m,p}(\Omega)$ verstehen soll.
+		Tatsächlich hilft zusätzliche Regularität ($m \ge 1$), sogenannte „\emphdef{schwache Randwerte}“ zu definieren, welche mit dem „\emphdef{Spuroperator}“ extrahiert werden können.
+	\end{note}
+\end{st}
+
+\begin{df}[Sobolev-Funktionen mit schwachen Nullrandwerten] \label{3.7}
+	Für $1 \le p < \infty$ und $m \in \N$ definieren wir Sobolev-Räume mit (schwachen) Nullrandwerten:
+	\[
+		H^{m,p}_0(\Omega)
+		:= \_{C_0^m(\Omega)}^{\|\argdot\|_{H^{m,p}(\Omega)}}.
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				$\Omega$ darf auch unbeschränkt sein.
+			\item
+				In der Literatur findet man auch $W_0^{m,p}(\Omega), \mathring H^{m,p}(\Omega)$ als Notationen.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Vollständigkeit von $H^{m,p}_0(\Omega)$] \label{3.8}
+	Für $1 \le p < \infty, m \in \N$ ist $H^{m,p}_0(\Omega)$ abgeschlossener Unterraum von $H^{m,p}(\Omega)$, insbesondere ein Banachraum und $\|\argdot\|_{H^{m,p}}$ überträgt sich auf $H_0^{m,p}(\Omega)$.
+	\begin{proof}
+		Abgeschlossenheit ist klar nach Konstruktion.
+		$H^{m,p}_0(\Omega) \subset H^{m,p}(\Omega)$ wegen $C_0^m(\Omega) \subset H^{m,p}(\Omega)$ und Abgeschlossenheit von $H^{m,p}(\Omega)$.
+	\end{proof}
+\end{st}
+
+% fixme
+%\begin{note}
+%	Es gilt
+%	\begin{align*}
+%		L^p(\Omega) = H^{0,p}(\Omega) \supset H^{1,p}(\Omega) \supset
+%		H_0^{0,p}(\Omega) &\supset H_0^{1,p}(\Omega) &\supset \dots
+%		C_0^0(\Omega) &\supset C_0^1(\Omega)
+%	\end{align*}
+%\end{note}
+
+\begin{df}[Lipschitz-Gebiet]
+	Sei $\Omega \subset \R^d$ offen und beschränkt.
+	$\Omega$ heißt \emphdef{Lipschitz-Gebiet}, wenn endlich viele offene Mengen $U_i \subset \R^d, i = 1, \dotsc, n$ existieren, sodass $\partial \Omega \subset \bigcup_{i=1}^n U_i$ und $\Boundary \Omega \cap U_i$ lässt sich als Graph einer Lipschitz-stetigen Funktionen schreiben und $\Omega$ liegt auf einer Seite des Graphen.
+	\begin{note}
+		Für Lipschitz-Gebiete gelten insbesondere (siehe [Alt, 5.9]):
+		\begin{itemize}
+			\item
+				Satz von Gauß:
+				Sei $v \in (\_\Omega, \R^d) \cap C^1(\Omega, \R)$ mit $\div v \in L^1(\Omega)$, dann gilt
+				\[
+					\int_\Omega \div v(x) \di[x]
+					= \int_{\Boundary \Omega} v(x) \cdot n(x) \di[\sigma(x)].
+				\]
+			\item
+				partielle Integration:
+				Für $u \in C^1(\_\Omega), v \in C^1(\_\Omega, \R^d)$ gilt
+				\[
+					\int_\Omega \Nabla u(x) \cdot v(x) \di[x]
+					= - \int_\Omega u(x) \div v(x) \di[x] + \int_{\Boundary \Omega}) u(x) v(x) \cdot n(x) \di[\sigma(x)].
+				\]
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Spursatz] \label{3.10}
+	Sei $\Omega \subset \R^d$ Lipschitz-Gebiet, $1 \le p < \infty$.
+	Dann existiert ein linearer, stetiger \emphdef{Spuroperator} $\gamma: H^{1,p(\Omega)} \to L^p(\Boundary \Omega)$ sodass
+	\[
+		\gamma(u) = u|_{\Boundary \Omega}
+	\]
+	für alle $u \in H^{1,p}(\Omega) \cap C^0(\_\Omega)$.
+
+	Insbesondere gilt für $u \in H_0^{1,p}(\Omega)$ dann $\gamma(u) = 0$.
+	Wegen Stetigkeit existiert also $C_\gamma > 0$, sodass
+	\[
+		\|\gamma(u)\|_{L^p(\Boundary \Omega)} \le C_\gamma \|u\|_{H^{1,p}(\Omega)}
+	\]
+	für alle $u \in H^{1,p}(\Omega)$.
+	\begin{proof}
+		Für $d = 2, p = 2$ siehe PDEMAS 13/14, allgemeiner in [Alt, 5.7].
+	\end{proof}
+\end{st}
+
+\begin{df}[Sobolev Dualräume] \label{3.11}
+	Für $1 \le p, q \le \infty, \f 1p + \f 1q = 1$ bezeichnen wir $H^{-m,q}(\Omega) := (H_0^{m,p}(\Omega))'$.
+	Wir schreiben $H^{-m}(\Omega) := H^{-m, 2}(\Omega)$.
+	\begin{note}
+		Damit werden wir Differentialgleichungen betrachten können, deren rechte Seite (Quellterm) Funktionale statt Funktionen sind.
+	\end{note}
+\end{df}
+
+\begin{note}[Stetigkeit für $d = 1$]
+	\begin{itemize}
+		\item
+			Für $\Omega \subset \R$ ist $u \in H^1{\Omega}$ stetig (d.h. es existiert ein stetiger Repräsentant in der Äquivalenzklasse von $u$).
+		\item
+			Für $d > 1$ ist dies falsch: $H^1(\Omega)$ für $\Omega \subset \R^d$ enthält Funktionen mit Punktsingularitäten, z.b.
+			\begin{align*}
+				d = 2: \qquad u(x) &:= \log \log(\f 2{|x|}) \in H^1(B_1(0)),
+				d \ge 3: \qquad u(x) &:= |x|^{-\beta} \in H^1(B_1(0)), \beta < \f{d-2}2.
+			\end{align*}
+	\end{itemize}
+\end{note}
+
+\begin{st}[Poincaré-Friedrich Ungleichung]
+	Sei $\Omega \subset \R^d$ offen und beschränkt, $s := \diam(\Omega)$.
+	Dann gilt
+	\[
+		\|v\|_{L^2(\Omega)} \le s |v|_{H^1(\Omega)}
+	\]
+	für alle $v \in H_0^1(\Omega)$.
+	\begin{proof}
+		Weil $C_0^\infty(\Omega)$ dicht in $H_0^1(\Omega)$ genügt es, die Ungleichung für $v \in C_0^\infty(\Omega)$ zu zeigen.
+		ObdA sei $\Omega \subset [0,s]^d =: R$.
+		Dann ist $v \in C_0^\infty(\Omega)$ durch $0$ fortsetzbar, also $v \in C_0^\infty(R)$.
+		\[
+			v(x_1, \dotsc, x_d) = \underbrace{v(0, x_2, \dotsc, x_d)}_{=0} +  \int_0^{x_1} \partial_{x_1} v(t, x_2, \dotsc, x_d) \di[t].
+		\]
+		Mit $x = (x_1, \dotsc, x_d)$ ist
+		\[
+			|v(x)|^2
+			\le \Big(\int_0^{x_1} 1^2 \di[t] \Big) \Big( \int_0^{x_1} |\partial_{x_1} v(t,x_2,\dotsc, x_d)|^2 \di[t] \Big)
+			\le s \int_0^s |\partial_{x_1} v(t, x_2, \dotsc, x_d)|^2 \di[t].
+		\]
+		Die rechte Seite ist unabhängig von $x_1$, integriere daher bezüglich $x_1$:
+		\[
+			\int_0^s |v(x)|^2 \di[x_1]
+			\le s^2 \int_0^s |\partial_{x_1} v(x)|^2 \di[x_1].
+		\]
+		Integration über andere Koordinaten liefert
+		\[
+			\int_R |v(x)|^2 \di[x]
+			\le \int_R (\partial_{x_1} v(x))^2 \di[x]
+			\le s^2 |v|_{H^1(\Omega)}.
+		\]
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die Ungleichung gilt bereits, wenn Nullrandwerte nur auf einem Teil des Randes vorliegen.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{st}[Norm-Äquivalenz auf $H_0^{m}(\Omega)$] \label{3.13}
+	Sei $\Omega \subset \R^d$ offen, beschränkt mit $\diam(\Omega) \le s$.
+	Dann sind in $H_0^m(\Omega)$ die Norm $\|\argdot\|_{H^m(\Omega)}$ und die Seminorm $|\argdot|_{H^m(\Omega)}$ äquivalent.
+	Insbesondere ist die Seminorm $|\argdot|_{H^m(\Omega)}$ eine Norm auf $H_0^m(\Omega)$.
+	Genauer gilt
+	\[
+		|v|_{H^m(\Omega)}
+		\le \|v\|_{H^m(\Omega)}
+		\le (1 + s)^m |v|_{H^m(\Omega)}
+	\]
+	für $v \in H_0^m(\Omega)$.
+	\begin{proof}
+		Siehe Übung.
+	\end{proof}
+\end{st}
+
