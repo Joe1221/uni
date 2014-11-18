@@ -336,3 +336,276 @@
 	\end{proof}
 \end{st}
 
+
+\Timestamp{2014-11-18}
+
+\section{Schwache Lösungen für PDEs}
+
+Sei das Poisson-Problem mit Nullrandwerten gegeben: $-\Laplace u = f$ in $\Omega$, $u = 0$ auf $\Gamma$.
+Sei $u \in C^2(\Omega) \cap C^0(\_\Omega)$ klassische Lösung.
+Multiplikation mit Testfunktion $v \in C_0^1(\Omega)$ und Integration ergibt
+\begin{align*}
+	\int_\Omega f(x) v(x) \di[x] &= - \int_\Omega \Laplace u(x) v(x) \di[x] \\
+	&= \int_\Omega \Nabla u(x) \cdot \Nabla v(x) \di[x] - \int_{\Boundary \Omega} (\nabla u(x) \cdot n) \underbrace{v(x)}_{=0} \di[x].
+\end{align*}
+Also löst die klassische Lösung die „schwache Form“ der PDE
+\begin{equation} \label{eq:3.1}
+	\int_\Omega \Nabla u(x) \cdot \Nabla v(x) \di[x]
+	= \int_\Omega f(x) v(x) \di[x],
+	\qquad \forall v \in C_0^1(\Omega).
+\end{equation}
+\begin{itemize}
+	\item
+		Die Terme in \eqref{eq:3.1} ergeben Sinn für $u\in C_0^1(\Omega)$ oder $u \in H_0^1(\Omega)$.
+		Es liegt nahe, nach „schwachen Lösungen“ zu suchen, d.h. nach Lösungen von \eqref{eq:3.1}.
+	\item
+		Die klassiche Lösung ist insbesondere eine schwache Lösung.
+	\item
+		Für allgemeine $f$ (z.B. unstetig) kann es sein, dass keine klassische Lösung existiert, dafür aber eine schwache Lösung $u \in H_0^1(\Omega)$.
+	\item
+		\eqref{eq:3.1} kann durch die Bilinearform $a(u,v) := \int_\Omega \Nabla u \cdot \Nabla v \di[x]$ und die Linearform $l(v) := \int_\Omega fv \di[x]$ umgeschrieben werden:
+		\begin{equation} \label{eq:3.2}
+			a(u,v) = l(v) \qquad \forall v \in H_0^1(\Omega).
+		\end{equation}
+	\item
+		Im Folgenden wird Lösungstheorie unter anderem für \eqref{eq:3.2} untersucht als Grundlage für FEM in \ref{sec:3.3}.
+	\item
+		In diesem Abschnitt seien $V, W$ stets Hilberträume mit Skalarprodukte $\<\argdot, \argdot\>_V, \<\argdot, \argdot\>_W$ und Normen $\|\argdot\|_V, \|\argdot\|_W$.
+		Das Subkript wird auch weggelassen, wenn keine Verwechslungsgefahr besteht.
+\end{itemize}
+
+\begin{df}[Lineare Operatoren] \label{3.14}
+	$A: V \to W$ ist \emphdef{linearer stetiger Operator}, falls $\|A\|_{L(V,W)} := \sup_{v \in V\setminus \Set 0} \f{\|Av\|_W}{\|u\|_V} < \infty$.
+	Weiter ist
+	\[
+		L(V,W) := \Set{A: V \to W & \text{$A$ ist linear und stetig}}
+	\]
+	der \emphdef{Raum der stetigen Operatoren} mit Norm $\|\argdot\|_{L(V,W)}$.
+	\begin{note}
+		Also ist $V' = L(V, \R)$, d.h. der Dualraum ist der Raum der stetigen linearen Abbildungen nach $\R$.
+	\end{note}
+\end{df}
+
+\begin{df}[Adjungierter Operator] \label{3.15}
+	Zu $A \in L(V,W)$ definieren wir den (Hilbertraum)-adjungierten Operator $A^*: W \to V$ durch
+	\[
+		\<Av,w\>_W = \<v,A^*w\>_V
+	\]
+	für alle $v \in V, w \in W$.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Es gilt $A^* \in L(W,V), \|A^*\|_{L(W,V)} = \|A\|_{L(V,W)}$.
+			\item
+				Falls $A$ invertierbar und $A^{-1}$ stetig, dann ist auch $\|(A^{-1})^*\|_{L(V,W)} = \|A^{-1}\|_{L(W,V)}$ (siehe auch [Alt 10.1]).
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{df}[stetige Bilinearform] \label{3.16}
+	Eine Bilinearform $A \in V \times W \to \R$ heißt \emphdef{stetig} mit \emphdef{Stetigkeitskonstante} $\gamma \in \R$, wenn
+	\[
+		\gamma = \sup_{v \in V\setminus \Set 0} \sup_{w \in W \setminus \Set 0} \f{a(v,w)}{\|v\|\|w\|} < \infty.
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Also ist das Skalarprodukt $\<\argdot, \argdot\>_V: V \times V \to \R$ ist stetig mit $\gamma = 1$ wegen Cauchy-Schwartz $\<v, w\>_V \le \|v\|\|w\|$.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Projektionssatz] \label{3.17}
+	Sei $W \subset V$ abgeschlossener Unterraum.
+	Dann existiert genau ein Projektionsoperator $P: V \to w$ mit
+	\[
+		\<v - Pv, w\> = 0
+	\]
+	für alle $v \in V, w \in W$.
+
+	$P$ ist ein stetiger, linearer Operator, $P \in L(V,W)$, genannt \emphdef{orthogonale Projektion}.
+	\begin{proof}
+		siehe PDEMAS 13/14, oder Alt
+	\end{proof}
+	\begin{note}
+		Die Orthogonale Projektion erfüllt die Optimalitätseigenschaft: $\|v - Pv\|^2 = \min_{w\in W} \|v - w\|^2$.
+	\end{note}
+\end{st}
+
+\begin{st}[Rieszscher Darstellungssatz] \label{3.18}
+	Sei $V$ ein Hilbertraum, dann ist $J: V \to V'$ definiert durch $J(v)(w) := \<v, w\>_V$ für $v, w \in V$.
+	Dann ist $J$ eine stetige, lineare, bijektive Isometrie.
+
+	Insbesondere existiert zu $l \in V'$ ein eindeutiger Riesz-Repräsentant $v_l := J^{-1}(l) \in V$ mit $l(\argdot) = \<v_l, \argdot\>$.
+	\begin{proof}
+		Siehe PDEMAS 13/1n oder Alt.
+	\end{proof}
+\end{st}
+
+\begin{st}[Repräsentierender Operator] \label{3.19}
+	Sei $a: V \times W \to \R$ eine stetiger Bilinearform mit Stetigkeitskonstante $\gamma$.
+	Dann existiert $A \in L(V,W)$ mit $\|A\|_{L(V,W)} = \gamma$ und
+	\begin{equation} \label{eq:3.3}
+		\<Av, w\>_W = a(v,w)
+	\end{equation}
+	für alle $(v,w) \in V \times W$.
+	\begin{note}
+		Die Umkehrung gilt ebenfalls.
+	\end{note}
+	\begin{proof}
+		Es gilt $a(v, \argdot) \in W'$ für alle $v \in V$, also existiert mit Riesz \ref{3.18} ein $w_v \in W$ mit
+		\[
+			\<w_v, \argdot\>_W = a(v,\argdot).
+		\]
+		Definiere $A: V \to W$ durch $Av := w_v$ für alle $v \in V$.
+		Dann ist \eqref{eq:3.3} klar.
+		Linearität von $A$ folgt aus Linearität von $a(v,\argdot)$ bezüglich dem ersten Argument.
+		Betracht die Stetigkeit, es gilt
+		\[
+			\|Av\|_W^2
+			= \<Av, Av\>_W
+			= \<w_v, Av\>
+			= a(v, Av)
+			\le \gamma \|v\| \|Av\|,
+		\]
+		also $\f{\|Av\|}{\|v\|} \le \gamma$ und insbesondere $\|A\| = \sup_{v \neq 0} \f{\|Av\|}{\|v\|} \le \gamma < \infty$.
+		Angenommen $\|A\| < \gamma$.
+		Dann existiert $v \neq 0, w \neq 0$ mit $\f{a(v,w)}{\|v\|\|w\|} \in (\|A\|, \gamma)$.
+		Es folgt
+		\[
+			\|A\|\|v\|\|w\|
+			\ge \<Av, w\>
+			= a(v,w)
+			> \|A\|\|v\|w\|,
+		\]
+		ein Widerspruch, also $\|A\| = \gamma$.
+	\end{proof}
+\end{st}
+
+\begin{df}[Koezivität] \label{3.20}
+	Eine Bilinearform $a: V \times V  \to \R$ heißt \emphdef{koerziv} mit \emphdef{Koerzivitätskonstante} $\alpha$, wenn
+	\[
+		\alpha := \int_{v \in V \setminus \Set 0} \f{a(v,w)}{\|v\|^2} > 0.
+	\]
+	\begin{note}
+		\begin{itemize}
+			\item
+				Also ist das Skalarprodukt koerziv mit $\alpha = 1$:
+				\[
+					\int_{v \neq 0} \f{\<v,v\>}{\|v\|^2}
+					= \inf_{v \neq 0} 1
+					= 1 > 0.
+				\]
+			\item
+				Eine Blinearform ist koerziv genau dann, wenn der symmetrische Anteil $a_S(V,W)$ koerziv ist:
+				\[
+					a_S(V,W) := \f 12 (a(v,w) + a(w,v)),
+				\]
+				denn $a(u,u) = a_S(u,u)$.
+			\item
+				$\gamma$ und $\alpha$ lasssen sich durch geeignete Eigenwertprobleme/Singulärwertsprobleme berechnen (siehe Übung).
+			\item
+				Es gilt stets $\alpha \le \gamma$.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{df}[Bilinearform/Linearform für PDEs zweiter Ordnung] \label{3.21}
+	Sei $\Omega \subset \R^d$ beschränkt und das Null-RWP ein PDE zweiter Ordnung gegeben:
+	\[
+		-\Nabla (A \Nabla u) + \Nabla (b \cdot u) + c u = f
+	\]
+	in $\Omega$ und $u = 0$ auf $\Gamma$, wobei $A = (a_{ij})_{ij=1}^d \in (L^\infty(\Omega))^{d\times d}, b = (b_i)_{i=1}^d \in (L^\infty(\Omega))^d, c \in L^\infty(\Omega), f \in L^2(\Omega)$.
+
+	Dann definieren wir die Bilinearform und Linearform
+	\begin{align} \label{eq:3.4}
+		a(u,v) &:= \int_\Omega (A \Nabla u) \cdot \Nabla u - (b \cdot \Nabla v) u + c u v \di[x], \\
+		l(v) &:= \int_\Omega f v \di[x]
+	\end{align}
+	für $u, v \in H^1(\Omega)$.
+\end{df}
+
+\begin{st}[Stetigkeit und Koerzivität, $b=0$, $c = 0$] \label{3.22}
+	Falls $A$ gleichmäßig elliptisch, d.h. für ein $\tilde \alpha > 0$ gilt $z^T A(x) z \ge \tilde \alpha \|z\|^2$ für alle $x \in \Omega, z \in \R^d$, und $A$ ist gleichmäßig beschränkt, d.h. für $C > 0$ (und beliebiger Matrixnorm) gilt $\|A(x)\| \le C$ für alle $x \in \Omega$.
+	Dann ist für $b = 0, c = 0$ die Bilinearform aus \ref{3.21} stetig auf $H^1(\Omega)$ und koerziv auf $H_0^1(\Omega)$.
+	\begin{proof}
+		\begin{align*}
+			a(u,v) = \int_\Omega (A \Nabla u) \cdot \Nabla v \di[x]
+			&\le \int_\Omega \underbrace{\|A(x) \Nabla u(x)\|}_{\le \|A\| \|\Nabla u\| \le C \|\Nabla u\|} \|\Nabla v(x)\| \di[x] \\
+			&\le C \int_\Omega \|\Nabla u\| \|\Nabla v\| \di[x] \\
+			&\le C \Big( \int_\Omega \|\Nabla u\|^2 \Big)^{\f 12} \Big(\int_\Omega \|\Nabla v\|^2 \Big)^{\f 12} \\
+			&\le C \sqrt{\int_\Omega \|\Nabla u\|^2 + \|u\|^2} \sqrt{\int_\Omega \|\nabla v\|^2 + \|v\|^2} \\
+			&= C \|u\|_{H^1} \|v\|_{H^1},
+		\end{align*}
+		also ist $a(\argdot, \argdot)$ stetig auf $H^1(\Omega) \times H^1(\Omega)$.
+		Da $A$ ohne Einschränkung symmetrisch und gleichmäßig elliptisch:
+		\begin{align*}
+			a(u,u) &= \int_\Omega (A \Nabla u)^T \Nabla u \di[x]
+			= \int_\Omega (\Nabla u)^T A \nabla u \di[x] \\
+			&\ge \int_\Omega \tilde \alpha \|\Nabla u\|^2
+			= \tilde \alpha |u|_{H^1(\Omega)}^2
+			\intertext{
+				für $u \in H_0^1(\Omega)$ folgt mit Normäquivalenz \ref{3.13}
+			}
+			&\ge \f {\tilde \alpha}{(1+s)^2} \|u\|_{H^1}^2
+		\end{align*}
+		mit $\diam(\Omega) \le s$.
+		Es folgt
+		\[
+			\alpha := \int_{u \neq 0} \frac{a(u,u)}{\|u\|_{H^1}^2}
+			\ge \f{\tilde \alpha}{(1+s)^2} \frac{\|u\|_{H^1}^2}{\|u\|_{H_1}^2}
+			>0,
+		\]
+		also ist $a(\argdot, \argdot)$ koerziv auf $H_0^1(\Omega)$.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				$a(\argdot, \argdot)$ ist nicht koerziv auf $H^1(\Omega)$:
+				Wähle $u \in H^(\Omega)$ konstant $u = k \neq 0$, dann ist
+				\[
+					\f{a(u,u)}{\|u\|_{H^1(\Omega)}^2}
+					= \f{0}{\|u\|_{H^1(\Omega)^2}}
+					= 0.
+				\]
+			\item
+				$a(\argdot, \argdot)$ ist stetig auf $H_0^1(\Omega)$, Stetigkeit vererbt sich auf Teilräume:
+				\begin{align*}
+					\sup_{u \in H_0^1(\Omega)} \sup_{v \in H_0^1(\Omega)} \f{a(u,v)}{\|u\|\|v\|}
+					\le \sup_{u \in H^1(\Omega)} \sup_{v \in H^1(\Omega)} \f{a(u,v)}{\|u\|\|v\|}
+					= \gamma < \infty
+				\end{align*}
+			\item
+				$a(\argdot, \argdot)$ ist koerziv auf Teilräumen von $H_0^1(\Omega)$ Koerzivität vererbt sich auf Teilräumen:
+				Sei $W \subset H_0^1$, dann gilt
+				\[
+					\int_{u \in W} \f{a(u,w)}{\|u\|^2}
+					\ge \int_{u \in H_0^1(\Omega)} \f{a(u,u)}{\|u\|^2}
+					= \alpha
+					> 0.
+				\]
+			\item
+				Falls $A$ symmetrisch (ist ohne Einschränkung stets der Fall), so ist $a(\argdot, \argdot)$ symmetrische Bilinearform.
+			\item
+				Ähnliche Aussage wie \ref{3.22} gilt falls $b \neq 0$ und $c > 0$ hinreichend groß.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{note}[Stetigkeit von $l$]
+	\begin{itemize}
+		\item
+			$l(\argdot)$ aus \eqref{eq:3.4} ist offensichtlich linear, $l: H^1 \to \R$.
+		\item
+			Ist $f \in L^2(\Omega)$, dass ist
+			\[
+				l(v) = \int_\Omega fv \di[x]
+				= \<f, v \>_{L^2}
+				\le \|f\|_{L^2} \|v\|_{L^2}
+				\le \|f\|_{H^1}\|v\|_{H^1},
+			\]
+			also ist $l(\argdot)$ stetig auf $H^1$ und $H_0^1(\Omega)$.
+		\item
+			Falls $v \in H_0^1(\Omega)$, sind sogar manche $f \not\in L^2(\Omega)$, solange $l \in H^{-1}(\Omega)$.
+	\end{itemize}
+\end{note}
