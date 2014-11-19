@@ -1,0 +1,128 @@
+\documentclass{myexercise}
+
+\begin{document}
+
+\begin{exercise}[Aufgabe 1]
+	\begin{enumerate}[a)]
+		\item
+			Der Induktionsanfang für $m = 0$ ist erfüllt, da
+			\[
+				\partial_{x_j}^{c,0} u(x)
+				= u(x)
+				= \f 1{h^0} \binom{0}{0} (-1)^0 u(x + 0).
+			\]
+			Die Aussage gelte für $m$, zeige für $m+1$:
+			\begin{align*}
+				\partial_{x_j}^{c, m+1} u(x)
+				&= \partial_{x_j}^{c, \f h2} \partial_{x_j}^{c,m} u(x) \\
+				&= \f 1{h^m} \sum_{k=0}^m \binom{m}{k} (-1)^{m+k} \f 1h \Big( u(x + \underbrace{(k-\f m2 + \f 12)}_{=(k+1) - \f {m+1}2} he_j) - u(x + \underbrace{(k - \f m2 - \f 12)}_{= k - \f {m+1}2} he_j)\Big) \\
+				&= \f 1{h^{m+1}} \sum_{k=0}^{m+1} \Big(\underbrace{\binom{m}{k-1} + \binom{m}{k} }_{= \binom{m+1}{k}}\Big) (-1)^{m+1+k} u(x + (k-\f{m+1}2)he_j)
+			\end{align*}
+		\item
+			Wir entwickeln
+			\[
+				u(x + (k- \f m2)he_j)
+				= \sum_{l=0}^{m+1} \dfrac{\partial_{x_j}^{(l)}u(x)}{l!} (k-\f m2)^l h^l + \underbrace{\dfrac{\partial_{x_j}^{(m+2)} u(\xi)}{(m+2)!} (k- \f m2)^{m+2} h^{m+2}}_{=:\rho(\xi)},
+			\]
+			wobei $\xi \in (x-\f m2 he_j, x + \f m2 he_j)$.
+			Eingesetzt in a) ergibt
+			\begin{align*}
+				\partial_{x_j}^{h,m} u(x)
+				&= \f 1{h^m} \sum_{l=0}^m \Big( \underbrace{\sum_{k=0}^m \binom{m}{k} (-1)^{m+k} (k-\f m2)^l}_{= \delta_{lm} m!} \Big) \f {h^l}{l!} \partial_{x_j}^{(l)} u(x) + \f 1{h^m} \sum_{k=0}^m \binom{m}{k} (-1)^{m+k} \rho(\xi) \\
+				&= \partial_{x_j}^{m} u(x) + h^2 \partial_{x_j}^{(m+2)} u(\xi) \underbrace{\f 1{(m+2)!} \sum_{k=0}^m \binom{m}{k} (-1)^{m+k} (k-\f m2)^{m+2}}_{=: C}
+			\end{align*}
+			und somit
+			\[
+				\Big| \partial_{x_j}^{h,m} u(x) - \partial_{x_j}^{m} u(x) \Big|
+				\le C h^2 \big\| \partial_{x_j}^{m+2} u(x) \big\|_{C^0([x-\f m2 he_j, x + \f m2 he_j])}.
+			\]
+			Es verbleibt die Hilfsaussage zu zeigen:
+			Mit der Konvention $0^0$ ist der Induktionsanfang klar
+			\[
+				\binom{0}{0} (-1)^0 (0-0)^l = \begin{cases}
+					1 & l = m = 0, \\
+					0 & l \neq m = 0
+				\end{cases}.
+			\]
+			Die Aussage gelte für $m$, zeige für $m+1$:
+			\begin{align*}
+				\sum_{k=0}^{m+1} \underbrace{\binom{m+1}{k}}_{= \binom{m}{k+1} + \binom{m}{k}} (-1)^{m+1+k} (k-\f{m+1}{2})^l
+				&= \sum_{k=0}^{m} \binom{m}{k} (-1)^{m+k} \Big( (k - \f m2 + \f 12)^l - (k - \f m2 - \f 12)^l \Big) \\
+				&= \sum_{k=0}^{m} \binom{m}{k} (-1)^{m+k} \sum_{j=0}^l \binom{l}{j} (k - \frac{m}{2})^j (\f 12)^{l-j} ( 1 - (-1)^{l-j}) \\
+				&= \sum_{j=0}^{l} \binom{l}{j} \underbrace{(\f 12)^{l-j} (1-(-1)^{l-j})}_{= \begin{cases}
+					\scriptstyle 0 &\scriptstyle  l \in \Set{j, j + 2} \\[-0.4em]
+					\scriptstyle 1 &\scriptstyle  l = j + 1
+				\end{cases}} \underbrace{\sum_{k=0}^{m} \binom{m}{k} (-1)^{m+k} (k-\f m2)^j}_{\begin{cases}
+					\scriptstyle m! &\scriptstyle  j = m \\[-0.4em]
+					\scriptstyle 0 &\scriptstyle  0 \le j \le m + 1 \land j \neq m \\[-0.4em]
+					\scriptstyle x &\scriptstyle  j = m + 2
+				\end{cases}}
+			\end{align*}
+			Es verbleiben also nur Summanden mit $j = m$.
+			Für $l < m$ und für $l \in \Set{m, m + 2}$ ergibt sich $0$ und für $l = m + 1$ erhalten wir $\binom{m+1}{m} m! = (m+1)!$.
+	\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Aufgabe 2]
+	Mit den vorgegebenen Bedingungen an den Differenzenstern erhalten wir
+	\begin{alignat*}{3}
+		\tilde \Laplace_h u(x,y)
+		&= \f 1{h^2} &&\sum_{i,j=-1}^1 \alpha_{ij} u(x+ih, y+jh) \\
+		&= \f 1{h^2} \bigg(& &c_1 \Big( u(x-h,y-h) + u(x-h,y+h) + u(x+h,y-h) + u(x+h,y+h) \Big) \\
+		&&+ &c_2 \Big( u(x,y-h) + u(x,y+h) + u(x-h,y) + u(x+h,y) \Big) \\
+		&&+ &c_3 u(x,y) \bigg).
+	\end{alignat*}
+	Wir entwickeln
+	\begin{align*}
+		u(x+ih,y+jh)
+		&= u + hi\partial_x u + hj\partial_y u \\
+		&\qquad + \f {h^2}2 \Big( i^2 \partial_x^2 u + 2ij \partial_{xy} u + j^2 \partial_{yy} u \Big) \\
+		&\qquad + \f {h^3}6 \Big( i^3 \partial_x^3 u + 3i^2j \partial_x^2 \partial_y u + 3ij^2 \partial_x \partial_y^2 u + j^3 \partial_y^3 u \Big) \\
+		&\qquad + \f {h^4}{24} \Big( i^4 \partial_x^4 u + 4i^3j \partial_x^3 \partial_y u + 6i^2j^2 \partial_x^2 \partial_y^2 u + 4ij^3 \partial_x \partial_y^3 u + j^4 \partial_y^4 u \Big)
+		+ \LandauO(h^5).
+	\end{align*}
+	Setzt man diese Entwicklung oben ein, so elimieren sich viele Terme paarweise, wie man schnell erkennt.
+	Wir wünschen uns $\tilde \Laplace_h u(x,y) = \Laplace u(x,y) + c h^2 |\partial_x^4 u + \partial_x^2 \partial_y^2 u + \partial_y^4 u|$.
+	Die verbleibenden Terme bilden somit ein Gleichungssystem:
+	\begin{align*}
+		0 &= \f 1{h^2} \big( 4c_1 + 4c_2 + c_3 \big), && \text{für $u$}\\
+		1 &= \f 12 \big( 4c_1 + 2c_2 ),              && \text{für $\partial_x^2 u$ und $\partial_y^2 u$}\\
+		\f {h^2}{24} 6\cdot 4 c_1 &= \f{h^2}{24} \big( 4c_1 + 2c_2 \big), && \text{für Verhältnis von $\partial_x^4 u, \partial_y^4 u$ und $\partial_x^2 \partial_y^2 u$}
+	\end{align*}
+	Vereinfachen ergibt
+	\begin{align*}
+		4 c_1 + 4c_2 + c_3 &= 0, \\
+		2 c_1 + c_2 &= 1,        \\
+		10 c_1 - c_2 &= 0,
+	\end{align*}
+	also $c_1 = \f 1{12}, c_2 = \f 56, c_3 = - \f {11}{3}$.
+
+	Per Konstruktion wird damit die geforderte Bedingung erfüllt.
+\end{exercise}
+
+\begin{exercise}[Aufgabe 3]
+	Analog zur Blatt 2, Aufgabe 2 gilt für zwei FD-Lösungen $u_{h,i}, i \in \Set{1,2}$ von $A_h u_{h,i} = f_i$ falls $f_1 \le f_2$ auf $\Omega_h$ und $g_1 \le g_2$ auf $\Gamma_h$, dass $u_{h,1} \le u_{h,2}$, solange die Voraussetzungen des diskreten Maximumsprinzips erfüllt sind.
+
+	Analog zu Blatt 2, Aufgabe 2 c) definieren wir
+	\[
+		v(x) := |\alpha_1 - \alpha_2| + |\beta_1 + \beta_2| + (1- x^2) \|f_1 - f_2\|_{\Omega_h}.
+	\]
+	Da $v$ ein Polynom von Grad 2, ist $\Laplace_h v_h$ für die diskretisierte Lösung $v = (v_k)_{k=0}^{n+1}$ mit $v_k := v(kh)$ exakt.
+	Damit gilt
+	\begin{align*}
+		- \Laplace_h v &= - \Laplace v = 2 \|f_1-f_2\|_{\Omega_h} \ge \begin{cases}
+			f_1 - f_2 \\
+			f_2 - f_1
+		\end{cases} \\
+		v &\ge 0
+	\end{align*}
+	Mit der obigen Hilfsaussage aus dem Maximumsprinzip (anwendbar, da die zentralen Differenzen von $-\Laplace v$ die Voraussetzungen erfüllen) folgt $\|v\|_{\_\Omega_h} \ge \|u_1 - u_2\|_{\_\Omega_h}$, also
+	\[
+		\|u_1 - u_2\|_{\_\Omega_h}
+		\le \|v\|_{\Omega_h}
+		\le |\alpha_1 - \alpha_2| + |\beta_1 + \beta_2| + \|f_1 - f_2\|_{\Omega_h}.
+	\]
+
+\end{exercise}
+
+\end{document}
