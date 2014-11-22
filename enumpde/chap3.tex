@@ -519,8 +519,9 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 
 	Dann definieren wir die Bilinearform und Linearform
 	\begin{align} \label{eq:3.4}
-		a(u,v) &:= \int_\Omega (A \Nabla u) \cdot \Nabla u - (b \cdot \Nabla v) u + c u v \di[x], \\
-		l(v) &:= \int_\Omega f v \di[x]
+		% a(u,v) &:= \int_\Omega (Au)^T v + (b\nabla v) u + cuv
+		a(u,v) &:= \int_\Omega (A \Nabla u) \cdot \Nabla v - (b \cdot \Nabla v) u + c u v \di[x], \\
+		l(v) &:= \int_\Omega f v \di[x] \notag
 	\end{align}
 	für $u, v \in H^1(\Omega)$.
 \end{df}
@@ -609,3 +610,295 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 			Falls $v \in H_0^1(\Omega)$, sind sogar manche $f \not\in L^2(\Omega)$, solange $l \in H^{-1}(\Omega)$.
 	\end{itemize}
 \end{note}
+
+\Timestamp{2014-11-21}
+
+\begin{df}[Energie-Skalarprodukt] \label{3.23}
+	Sei $a$ eine stetige Bilinearform und koerziv.
+	Dann bildet der symmetrische Anteil ein Skalarprodukt, das sogenannte \emphdef{Energieskalarprodukt}
+	\[
+		\<u,v\>_a :=  \f 12\big(a(u,v) + a(v,u)\big).
+	\]
+	\begin{proof}
+		Bilinearität und Symmetrie sind offensichtlich.
+		Positivität folgt aus Koerzivität:
+		Für $u \neq 0$ gilt
+		\[
+			\<u,u\>_a
+			= \f 12 (a(u,u) + a(u,u))
+			= a(u,u)
+			\ge \underbrace{\alpha}_{>0} \|u\|^2
+			> 0.
+		\]
+	\end{proof}
+	\begin{note}
+		Es ergibt sich hiermit die für Fehleranalyse nützliche \emphdef{Energienorm} $\|u\|_a := \sqrt{\<u,u\>_a}$.
+	\end{note}
+\end{df}
+
+\begin{df}[Schwache Lösung] \label{3.24}
+	Seien $a(\argdot, \argdot), l(\argdot)$ wie in \ref{3.4}.
+	Wir nennen $u \in H_0^1(\Omega)$ \emphdef{schwache Lösung} des RWP, falls
+	\begin{equation} \label{eq:3.5}
+		a(u,v) = l(v)
+	\end{equation}
+	für alle $v \in H_0^1$.
+\end{df}
+
+\begin{st} \label{3.25}
+	Sei $u \in C^2(\Omega) \cap C^0(\_\Omega)$ klassische Lösung des RWP und $f \in C^0$.
+	Dann ist $u$ auch schwache Lösung.
+	\begin{proof}
+		Wie zu Beginn des Abschnitts:
+		Multiplizieren mit Testfunktion, Integration, partielle Integration.
+	\end{proof}
+\end{st}
+
+\begin{st}[Wohlgestelltes schwaches Poisson-RWP] \label{3.26}
+	Betrachte \ref{eq:3.5} für $A(x) = I, c(x) = 0, b(x) = 0$, also
+	\begin{align*}
+		a(u,v) &= \int_\Omega \nabla u \cdot \nabla v \di[x], &
+		l(v) &= \int_\Omega f v \di[x].
+	\end{align*}
+	Dann existiert für $f \in L^2(\Omega)$ eine eindeutige schwache Lösung $u \in H_0^1(\Omega)$, beschränkt durch die rechte Seite:
+	\[
+		\|u\|_{H^1(\Omega)} \le \f 1{\alpha} \|f\|_{L^2}.
+	\]
+	\begin{note}
+		Dies ist eine Stabilitätsaussage, daher nennt man $\alpha$ auch \emphdef{Stabilitätskonstante}.
+	\end{note}
+	\begin{proof}
+		$A(x)$ ist gleichmäßig elliptisch mit Elliptizitätskonstante $\tilde \alpha = 1$ und gleichmäßig beschränkt.
+		Nach \ref{3.22} ist $a(u,v)$ koerziv und stetig auf $H_0^1(\Omega)$ mit $\alpha = \f 1{(1+s)^2}$.
+		$a(u,v)$ ist symmetrisch, also ein Energieskalarprodukt und
+		\[
+			a(u,u)
+			= \<u,u\>_a
+			= \int_\Omega \nabla u \cdot \nabla u
+			= |u|_{H^1(\Omega)}^2.
+		\]
+		Mit der Normäquivalenz \ref{3.13} gilt
+		\begin{equation} \label{eq:3.6}
+			\|v\|_{H^1(\Omega)}
+			\le (1+s) |v|_{H^1(\Omega)}
+		\end{equation}
+		für alle $v \in H_0^1$.
+		Also ist $(H_0^1(\Omega), \|\argdot\|_{H^1})$ ein Hilbertraum genau dann, wenn $(H_0^1(\Omega), |\argdot|_{H^1})$ Hilbertraum ist.
+		Nach Riesz existiert eine (bijektive) Isometrie $J: H_0^1 \to (H_0^1)' = H^{-1}$ bezüglich $|\argdot|_{H^1}$.
+		Mit $f \in L^2(\Omega)$ ist $l \in H^{-1}$ also mit \ref{3.18} $u := J^{-1} l$ ein Element mit
+		\[
+			a(u,v)
+			= \<u,v\>_a
+			= \int_\Omega \nabla u \cdot \nabla v \di[x]
+			= \<J^{-1}l, v\>_a
+			= l(v)
+		\]
+		und wegen Isometrie
+		\begin{equation} \label{eq:3.7}
+			|u|_{H^1} = \|l\|_{H^{-1}}
+			= \sup_{v} \f{l(v)}{|v|_{H^1}}.
+		\end{equation}
+		Für die $H^1$-Norm folgt dann
+		\begin{align*}
+			\|u\|_{H^1}
+			&\stack{\ref{3.6}}\le (1+s)|u|_{H^1} \\
+			&\stack{\ref{3.7}}= (1+s) \sup_v \f{l(v)}{|v|_{H^1}} \\
+			&\stack{\ref{3.6}}\le \sup_{v} \f{l(v)}{\|v\|_{H^1} \f 1{(1+s)}}
+			= (1+s)^2 \sup_v \f{l(v)}{\|v\|_{H^1}}
+			= \f 1{\alpha} \|l\|_{H^{-1}}.
+		\end{align*}
+	\end{proof}
+\end{st}
+
+\begin{note}
+	\begin{itemize}
+		\item
+			Die „schwache Form“ für $-\Laplace u$ ist also $a: H_0^1 \to H^{-1}, u \mapsto a(u,\argdot), u \in H_0^1$.
+		\item
+			Die Riesz-Abbildung $J^{-1}$ (bezüglich des Energieskalarproduktes) ist also der Lösungsoperator für das Poisson-RWP.
+		\item
+			Analoge Argumentation liefert Wohlgestelltheit für das RWP \ref{3.24} mit $A(x)$ symmetrisch, gleichmäßig elliptisch und gleichmäßig beschränkt, $b = 0$, $c \ge 0$.
+			Dann ist $a(\argdot, \argdot)$ wieder ein Skalarprodukt, also das Energieskalarprodukt.
+	\end{itemize}
+\end{note}
+
+\begin{kor}[Stetige Abhängigkeit von Daten] \label{3.27}
+	Für eine PDE in schwacher Form mit $a(\argdot, \argdot)$ bilinear, $l \in V'$, $a(u,v) = l(v)$ für $v \in V$ existiere für alle $l \in V'$ eine eindeutige Lösung $u \in V$ mit Schranke $\|u\| \le \f 1{\alpha} \|l\|_{V'}$.
+
+	Dann ist $u$ stetig von der rechten Seite abhängig, d.h. für $\_u$ zu Daten $\_l \in V'$ gilt
+	\[
+		\|u-\_u\| \le \f 1{\alpha} \|l - l'\|.
+	\]
+	\begin{proof}
+		$w := u - \_u$ löst $a(u,v) = l(v) - \_l(v)$.
+		Die Behauptung folgt aus der Annahme.
+	\end{proof}
+\end{kor}
+
+\begin{st}[Schwache Form als Minimierungsproblem] \label{3.28}
+	Sei $a: V \times V \to \R$ bilinear, stetig, koreziv und symmetrisch.
+	Dann ist die schwache Form \eqref{eq:3.5} äquivalent zu einem Minimierungsproblem, d.h.
+	\begin{math}
+		& & &\text{$u$ löst $a(u,v) = l(v)$ für alle $v \in V$} \\
+		&\iff&
+		&\text{$u = \argmin_{v\in V} \f 12 a(v,v) - l(v)$}.
+	\end{math}
+	\begin{proof}
+		Siehe Übung.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Für nichtsymmetrisches $a(\argdot, \argdot)$ existiert keine solche Aussage.
+			\item
+				In obigem wird nocheinmal klar, dass Vollständigkeit von $V$ essentiell für die Existenz eines Minimums ist:
+				Über $C_0^1$ wird das Funktional im Allgemeinen kein Minimum annehmen, obwohl Minimalfolgen existieren.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{note}
+	Allgemeine koerzive Probleme (z.B. nicht-symmetrische) erlauben eine Wohlgestellheitsaussage mit „Satz von Lax-Milgram“.
+	Wir überspringen diesen hier, weil er aus dem allgemeinerem Nečas-Theorem folgt.
+\end{note}
+
+\begin{note}[Verallgemeinerte Randbedingungen]
+	\begin{enumerate}[i)]
+		\item
+			Inhomogenes Dirichlet-RWP:
+			\begin{math}[numbered] \label{eq:3.8}
+				-\Laplace u &= f && \text{in $\Omega$}, \\
+				u &= g && \text{auf $\Gamma$}.
+			\end{math}
+			Sei $g$ derart, dass $\_g \in C^2(\Omega) \cap C^0(\_\Omega)$ existiert mit $\_g = g$ auf $\Gamma$.
+			Dann gilt
+			\begin{math}
+				&\text{$u$ löst \eqref{eq:3.8}} &
+				&\iff &
+				&\text{$\_u := u - \_g$ löst \eqref{eq:3.9}}
+			\end{math}
+			\begin{math}[numbered] \label{eq:3.9}
+				-\Laplace \_u &= - \Laplace (u - \_g) = f - \Laplace \_g && \text{in $\Omega$}, \\
+				\_u &= 0 && \text{auf $\Gamma$}.
+			\end{math}
+			Löse also das homogene Problem für $\_u$ und es folgt, dass $u := \_u + \_g$ das ursprüngliche RWP löst.
+			Insbesondere folgt Existenz und Eindeuktigkeit schwacher Lösungen für inhomogene Dirichlet-RWP.
+		\item
+			Gemischte Dirichlet- und Neumann-Bedingungen:
+			Sei $\Gamma = \Gamma_N \cup \Gamma_D$, betrachte
+			\begin{math}
+				-\Laplace u &= f && \text{in $\Omega$}, \\
+				u &= 0 && \text{auf $\Gamma_D$}, \\
+				\nabla u \cdot n &= g_N && \text{auf $\Gamma_N$}.
+			\end{math}
+			Der Lösungs-/Testraum ist
+			\[
+				V := H_{\Gamma_D}^1
+				:= \Set{v \in H^1 & v|_{\Gamma_D} = 0},
+			\]
+			also $H_0^1(\Omega) \subset H_{\Gamma_D}^1(\Omega) \subset H^1(\Omega)$.
+			Multipliziere mit Testfunktion, integriere und nutze partielle Integration:
+			\begin{align*}
+				\int_\Omega fv
+				&= \int_\Omega \nabla u \cdot \nabla v - \int_{\Boundary \Omega} (\nabla u \cdot n) v \\
+				&= \int_\Omega \nabla u \cdot \nabla v - \int_{\Gamma_D} (\nabla u \cdot n) \underbrace{v}_{=0} - \int_{\Gamma_N} \underbrace{(\nabla u \cdot n) v}_{= g_N}.
+			\end{align*}
+			Damit ist die schwache Form durch
+			\[
+				\int_\Omega \nabla u \cdot \nabla v
+				= \int_\Omega fv + \int_{\Gamma_N} g_Nv
+			\]
+			gegeben.
+			Dirichlet-Randbedingungen werden also in die Konstruktion von $V$ eingebaut („wesentliche“, oder „essentielle“ Randbedingungen).
+			Neumann-Randebedingungen werden über Zusatzterme in die schwache Form eingebaut („natürliche Randbedingungen“).
+	\end{enumerate}
+\end{note}
+
+Unter welchen Bedingungen ist $u \in H^m(\Omega), m > 1$, oder gar $u \in C^\infty(\Omega)$?
+Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
+
+\begin{df}[$H^s(\Omega)$-Regularität] \label{3.29}
+	Sei $H_0^1(\Omega) \subset V \subset H^1(\Omega)$.
+	Eine PDE in schwacher Form
+	\[
+		a(u,v) = \<f, v\>_{L^2(\Omega)},
+		\qquad \forall v \in V
+	\]
+	mit $a(\argdot, \argdot)$ bilinear, stetig und koerziv auf $V$ heißt \emphdef{$H^s$-regulär}, wenn es eine Konstante $C_R \ge 0$ sodass zu jedem $f \in H^{s-2}(\Omega)$ eine Lösung $u \in H^s(\Omega)$ existiert mit
+	\[
+		\|u\|_{H^s}
+		\le C_R \|f\|_{H^{s-2}(\Omega)}.
+	\]
+\end{df}
+
+\begin{ex*}
+	\begin{itemize}
+		\item
+			Sei $d = 2$, $\Omega = \Set{ x \in \R^2 & 1 \le \|x\| \le 2 }$.
+			$u(x) = \ln(\|x\|)$ ist klassische Lösung des inhomogonen RWP
+			\begin{equation*}
+				\begin{aligned}
+					-\Laplace u &= 0 & \ &\text{in $\Omega$}, \\
+					u &= 0 & \ &\text{auf $\Boundary B_1(0)$}, \\
+					u &= \ln 2 & \ &\text{auf $\Boundary B_2(0)$}
+				\end{aligned}
+			\end{equation*}
+			Es gilt $u \in C^\infty(\_\Omega)$.
+			Mit \ref{3.25}, \ref{3.26} (genauer: die analogen Aussagen für inhomogene RWP) folgt, dass $u$ eindeutige schwache Lösung ist, insbesondere $u \in H^m(\Omega), m \in \N$ wegen Beschränktheit von $\Omega$ also alle $\partial^\beta u \in L^2(\Omega)$.
+			Das Problem ist damit $H^s(\Omega)$-regulär für alle $s \in \N$.
+		\item
+			Sei $\alpha \in (0,2), \Omega := \Set{ x = \Vector{r \cos \phi & r \sin \phi} & r \in (0,1), \phi \in (0,\alpha\pi) }$.
+			\begin{math}
+				u(x) &= \|x\|^{\f 1\alpha} \sin(\f {\phi(x)}{\alpha}), &
+				\phi(x) &= \arctan \f{x_2}{x_1}
+			\end{math}
+			ist klassische Lösung von
+			\begin{math}
+				-\Laplace u &= 0 && \text{in $\Omega$}, \\
+				u &= \sin(\frac{\phi(x)}{\alpha}) && \text{auf $\Gamma_2$}, \\
+				u &= 0 && \text{auf $\Gamma_1 \cup \Gamma_3$}.
+			\end{math}
+			Für $\alpha \le 1$ ist $u \in H^2(\Omega)$, für $\alpha > 1$ ist $u \not\in H^2(\Omega)$.
+
+			Regulärität häng also von der Geometrie ab.
+	\end{itemize}
+\end{ex*}
+
+\begin{st}[Satz von Friedrich] \label{3.30}
+	Sei $\Omega \subset \R^d$ offen, beschränkt mit glattem Rand (mindestens $C^2$) oder ein konvexes Lipschitzgebiet, $f \in L^2(\Omega)$.
+	Dann ist das Poisson-Problem $H^2(\Omega)$-regulär.
+	\begin{proof}
+		Für glatte Gebiete z.B. in [Alt, 10.17, 10.18].
+	\end{proof}
+	\begin{proof}
+		Verallgemeinerung:
+		Falls $f \in H^{s-2}(\Omega)$, $\Omega$ hat einen $C^s$-Rand, dann ist $u \in H^s(\Omega)$.
+	\end{proof}
+\end{st}
+
+\begin{df}[Inf-sup-Stabilität] \label{3.31}
+	Eine stetige Bilinearform $a: V \times W \to \R$ heißt \emphdef{inf-sup stabil} mit inf-sup-Konstante $\beta$, falls
+	\[
+		\beta := \inf_{v \in V \setminus \Set 0} \sup_{w \in W \setminus \Set 0} \f{a(v,w)}{\|v\|\|w\|} > 0.
+	\]
+\end{df}
+
+\begin{st}[Charakterisierung von inf-sup-Stabilität] \label{3.32}
+	Sei $a: V \times W \to \R$ stetige, inf-sup stabile Bilinearform mit inf-sup Konstante $\beta$ und $A: V \to W$ repräsentierender Operator nach \ref{3.19}.
+	Dann gilt
+	\begin{enumerate}[i)]
+		\item
+			$A$ ist \emphdef{suprimierender Operator}:
+			\[
+				\sup_{v \in W\setminus \Set 0} \f{a(v,w)}{\|w\|}
+				= \f{a(v,Av)}{\|Av\|}
+			\]
+			für alle $v \in V \setminus \Set 0$.
+		\item
+			$\beta = \int_{v \neq 0} \f {a(v,Av)}{\|v\| \|Av\|} = \inf_{v \neq 0} \f{\|Av\|}{\|v\|}$.
+		\item
+			$A$ ist injektiv, d.h. $\forall v \neq 0 : Av \neq 0$.
+		\item
+			$\forall v \in V \setminus \Set 0 \exists w \in W \setminus \Set 0 : \beta \|v\|\|w\| \le a(v,w)$.
+	\end{enumerate}
+\end{st}
