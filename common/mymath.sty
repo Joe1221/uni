@@ -130,6 +130,21 @@
 % Shortcuts, convenience mappings and various other things
 % ========================================================
 
+\keys_define:nn { envmath } {
+    numbered .bool_set:N = \l_envmath_numbered,
+}
+
+\DeclareDocumentEnvironment { math } { o } {
+    \IfNoValueF { #1 } {
+	\keys_set:nn { envmath } { #1 }
+    }
+    \bool_if:NTF \l_envmath_numbered { \begin{equation} } { \begin{equation*} }
+    \begin{aligned}
+} {
+    \end{aligned}
+    \bool_if:NTF \l_envmath_numbered { \end{equation} } { \end{equation*} }
+}
+
 \newcommand{\texp}[1]{\text{\footnotesize [#1]}}
 \newcommand{\const}{\text{const}}
 
