@@ -1,0 +1,186 @@
+\documentclass{myexercise}
+
+\begin{document}
+
+\begin{exercise}[Aufgabe 1]
+	\begin{enumerate}[a)]
+		\item
+			\begin{enumerate}[i)]
+				\item
+					Es gilt $u + v \in L^1_{\text{loc}}(\Omega)$:
+					\begin{math}
+						\int_\Omega |u + v| \di[x]
+						\le \int_\Omega |u| \di[x] + \int_\Omega |v| \di[x]
+						< \infty.
+					\end{math}
+				\item
+					Es gilt $\partial^\beta(u+v) = \partial^\beta u + \partial^\beta v$ für alle $|\beta| \le m$:
+					\begin{math}
+						(-1)^\beta \int_\Omega (\partial^\beta u + \partial^\beta v) \phi \di[x]
+						&= (-1)^\beta \int_\Omega (\partial^\beta u) \phi \di[x]
+							+ (-1)^\beta \int_\Omega (\partial^\beta v) \phi \di[x] \\
+						&= \int_\Omega u \partial^\beta \phi \di[x]
+						    + \int_\Omega v \partial^\beta \phi \di[x] \\
+						&= \int_\Omega (u + v) \partial^\beta \phi \di[x].
+					\end{math}
+				\item
+					Es gilt $u + v \in H^{m,p}(\Omega)$:
+					Wegen $|f + g|^p \le 2^{p-1}(|f|^p + |g|^p)$ (über Konvexität von $x^p$) gilt mit ii)
+					\begin{math}
+						\|u + v\|_{H^{m,p}(\Omega)}^p
+						&= \sum_{|\beta| \le m} \|\partial^\beta u + \partial^\beta v\|_{L^p(\Omega)}^p \\
+						&\le \sum_{|\beta| \le m} \Big(\|\partial^\beta u\|_{L^p(\Omega)} + \|\partial^\beta v\|_{L^p(\Omega)} \Big)^p \\
+						&\le \sum_{|\beta| \le m} \Big(\|u\|_{H^{m,p}(\Omega)} + \|v\|_{H^{m,p}(\Omega)} \Big)^p
+						< \infty.
+					\end{math}
+			\end{enumerate}
+		\item
+			\begin{enumerate}[I)]
+				\item
+					Betrachte zunächst $v \in C^\infty(\Omega) \cap H^{1,p}(\Omega)$:
+					\begin{enumerate}[i)]
+						\item
+							$uv \in L^1_{\text{loc}}$: siehe II) i).
+						\item
+							$\partial^\beta(uv) = (\partial^\beta u)v + u(\partial^\beta v)$ für $|\beta| = 1$:
+							Da $u$ schwach differenzierbar folgt mit der Produktregel
+							\[
+								- \int_\Omega \big( (\partial^\beta u) v + u(\partial^\beta v) \big) \phi \di[x]
+								= \int_\Omega u \partial^\beta (v\phi) \di[x] - \int_\Omega u(\partial^\beta v) \phi \di[x]
+								= \int_\Omega uv \partial^\beta \phi \di[x].
+							\]
+						\item
+							$uv \in H^{1,r}(\Omega)$: siehe II) iii).
+					\end{enumerate}
+				\item
+					Betrachte nun den allgemeinen Fall:
+					\begin{enumerate}[i)]
+						\item
+							$uv \in L^1_{\text{loc}}$:
+							\[
+								\|uv\|_{L^1(K)}
+								\le \|u\|_{L^p(K)} \|v\|_{L^q(K)}
+								\le \|u\|_{H^{1,p}(\Omega)} \|v\|_{H^{1,q}(\Omega)}.
+							\]
+						\item
+							Sei $v_j \in H^{1,q}(\Omega) \cap C^\infty(\Omega)$ mit $\|v -v_j\|_{H^{1,q}(\Omega)} \to 0$.
+							\begin{math}
+								-\int_\Omega \big(\partial^\beta u) v + u(\partial^\beta v) \big) \phi \di[x]
+								= - \underbrace{\int_\Omega \Big( (\partial^\beta u) (v-v_j) + u(\partial^\beta v - \partial^\beta v_j ) \Big) \phi \di[x]}_{=: A}
+									+ \int_\Omega uv \partial^\beta \phi \di[x].
+							\end{math}
+							Für $A$ gilt
+							\begin{math}
+								|A|
+								&\le \|(\partial^\beta u)(v-v_j)\|_{L^1(K)} + \|u\partial^\beta (v-v_j\|_{L^1(K)} \\
+								&\le \|\partial^\beta u\|_{L^p(K)}\|v-v_j\|_{L^q(K)} + \|u\|_{L^p(K)} \|\partial^\beta(v-v_j)\|_{L^q} \\
+								&\le 2 \|u\|_{H^{1,p}(\Omega)} \underbrace{\|v-v_j\|_{H^{1,q}(\Omega)}}_{\to 0}
+								\to 0
+							\end{math}
+						\item
+							$uv \in H^{1,r}(\Omega)$:
+							\begin{math}
+								\|uv\|_{H^{1,r}(\Omega)}^r
+								&= \sum_{|\beta|= 1} \|(\partial^\beta u) v + u(\partial^\beta v)\|_{L^r(\Omega)}^r + \|uv\|_{L^r(\Omega)}^r \\
+								&\le \Big(\|u\|_{L^p(\Omega)} + \|v\|_{L^q(\Omega)}\Big)^r + \sum_{|\beta| = 1} \Big( \|\partial^\beta u \|_{L^p(\Omega)} \|v\|_{L^q(\Omega)} + \|u\|_{L^p(\Omega)} \|\partial^\beta v\|_{L^q(\Omega)} \Big)^r \\
+								&\le \Big(\|u\|_{H^{1,p}(\Omega)} + \|v\|_{H^{1,q}(\Omega)}\Big)^r + \sum_{|\beta| =1} \Big(2 \|u\|_{H^{1,p}(\Omega)} \|v\|_{H^{1,q}(\Omega)}\Big)^r
+								< \infty.
+							\end{math}
+					\end{enumerate}
+			\end{enumerate}
+		\item
+			\begin{enumerate}[I)]
+				\item
+					Betrachte zunächst $u \in C^\infty(\Omega) \cap H^{1,1}(\Omega)$
+					\begin{enumerate}[i)]
+						\item
+							$f\circ u \in L^1_{\text{loc}}(\Omega)$:
+							siehe II) i).
+						\item
+							$\partial^\beta (f\circ u) = (f'\circ u) \partial^\beta u$ für $|\beta| = 1$ ist erfüllt mit der gewöhnlichen Kettenregel.
+						\item
+							$f\circ u \in H^{1,1}(\Omega)$:
+							siehe II) iii).
+					\end{enumerate}
+				\item
+					Betrachte nun den allgemeinen Fall:
+					\begin{enumerate}[i)]
+						\item
+							$f \circ u \in L^1_{\text{loc}}(\Omega)$:
+							Wegen $f \in C^1(\R)$ ist $u(K)$ kompakt, also
+							\begin{math}
+								\|f \circ u\|_{L^1(K)}
+								&= \int_K | f \circ u | \di[x] \\
+								&\le |\Omega| \max_{x\in K} |f(u(x))|
+								= |\Omega| \max_{y \in u(K)} |f(y)|
+								\le |\Omega| \|f'\|_{C^0(u(\Omega))}
+								<\infty.
+							\end{math}
+						\item
+							$\partial^\beta(f\circ u) = (f'\circ u) \partial^\beta u$:
+							\[
+								-\int_\Omega \big((f'\circ u) \partial^\beta u\big) \phi \di[x]
+								= - \underbrace{\int_\Omega \Big( (f'\circ u) \partial^\beta u - (f'\circ u_j) \partial^\beta u_j \Big) \phi \di[x]}_{=:A}
+								    + \int_\Omega uv \partial^\beta \phi \di[x].
+							\]
+							Für $A$ gilt:
+							\begin{math}
+								|A|
+								&\le \int_\Omega \Big| (f'\circ u) \partial^\beta u - (f'\circ u) \partial^\beta u_j + (f'\circ u) \partial^\beta u_j - (f'\circ u_j) \partial^\beta u_j \Big| \phi \di[x] \\
+								&\le \underbrace{\|f'\circ u\|_{L^\infty(\Omega)}}_{\le\|f'\|_{C^0(u(\Omega))} < \infty} \underbrace{\int_\Omega |\partial^\beta (u - u_j)| \di[x]}_{\le \|u-u_j\|_{H^{1,1}(\Omega)} \to 0} + \int_\Omega \underbrace{|f'\circ u - f' \circ u_j| |\partial^\beta u_j|}_{\le 2\|f'\|_{C^0(u(\Omega))}|\partial^\beta u_j|} \di[x] \\
+							\end{math}
+							Im letzten Integral lässt sich mit der angegebenen Majorante der Satz der majorisierten Konvergenz anwenden, es ergibt damit $|A| \to 0$.
+						\item
+							\begin{math}
+								\|f\circ u\|_{H^{1,1}(\Omega)}
+								&= \sum_{|\beta|=1} \|(f'\circ u)\partial^\beta u\|_{L^1(\Omega)} + \|f \circ u\|_{L^1(\Omega)} \\
+								&\le \sum_{|\beta|=1} \|f'\circ u\|_{L^\infty(\Omega)} \|\partial^\beta u\|_{L^1(\Omega)} + \|f\circ u\|_{L^1(\Omega)} \\
+								&\le \|f'\circ u\|_{C^0(u(\Omega))} \sum_{|\beta|=1} \|u\|_{H^{1,1}(\Omega)} + \|f \circ u\|_{L^1(\Omega)}
+								< \infty.
+							\end{math}
+					\end{enumerate}
+			\end{enumerate}
+	\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Aufgabe 2]
+	$u \in L^1_{\text{loc}}(\Omega)$ ist klar, da $u \in C^\infty(\Omega \setminus \Set 0)$.
+	Setze $A := \int_\Omega |x|^{-2a - 2} \di[x]$.
+	Es gilt $\|u\|_{H^1(\Omega)}^2 = \sum_{|\beta|\le 1} \|\partial^\beta u\|_{L^2(\Omega)}^2$ und für $\beta = e_j$
+	\begin{align*}
+		\|u\|_{L^2(\Omega)}^2
+		&= \int_\Omega |x|^{-2a} \di[x]
+		\le \int_\Omega |x|^{-2a-2} \di[x]
+		= A \\
+		\|\partial^\beta u\|_{L^2(\Omega)}^2
+		&= \int_\Omega \big| -\alpha |x|^{-\alpha - 2} x_j \big| \di[x]
+		\le \alpha^2 \int_\Omega |x|^{-2\alpha - 2} \di[x]
+		= \alpha^2 A
+	\end{align*}
+	Also genügt es zu zeigen, dass $|A| < \infty$.
+	In Polarkoordinaten ergibt sich
+	\begin{math}
+		A
+		= \int_\Omega |x|^{-2a -2} \di[x]
+		= \int_{-\pi}^\pi \dotsi \int_{-\pi}^\pi \int_0^1 \underbrace{r^{-2a-2} r^{d-1}}_{r^{d-2a-3}} \underbrace{\prod_{k=2}^{d-1} \cos^{k-1} \phi_k}_{|\argdot| \le 1} \di[r] \di[(\phi_1, \dotsc, \phi_{d-1})].
+	\end{math}
+	Wegen $\alpha < \f{d-2}2$ ist $d - 2\alpha - 3 > -1$, also $\int_0^1 r^{d-2\alpha -3} \di[r] < \infty$ und somit auch $A < \infty$.
+\end{exercise}
+
+\newpage
+
+\begin{exercise}[Aufgabe 3]
+	Die Ungleichung $|v|_{H^m(\Omega)} \le \|v\|_{H^m(\Omega)}$ ist trivial, zeige also $\|v\|_{H^m(\Omega)} \le (1+S)^m |v|_{H^m(\Omega)}$.
+
+	Der Induktionsanfang $m=0$ ist klar, da $|v|_{H^0(\Omega)} = \|v\|_{H^0(\Omega)}$.
+	Die Aussage gelte für $m$, zeige für $m + 1$:
+	\begin{math}
+		\|v\|_{H^{m+1}(\Omega)}^2
+		&= \|v\|_{H^m(\Omega)}^2 + |v|_{H^m(\Omega)}^2 \\
+		&\le (1 + S)^{2m} \sum_{|\beta|=m} \underbrace{\|\partial^\beta v \|_{L^2(\Omega)}^2}_{\le s^2|\partial^\beta v|_{H^1(\Omega)}} + |v|_{H^{m}(\Omega)^2} \\
+		&\le (1+s)^{2m}s^2 \underbrace{\sum_{|\beta|=m} \sum_{|\alpha|=1} \|\partial^\alpha \partial^\beta v\|_{L^2(\Omega)}^2}_{= |v|_{H^{m+1}(\Omega)}^2} + |v|_{H^{m+1}(\Omega)}^2 \\
+		&= \underbrace{\big( (1+s)^{2m}s^2 + 1 \big)}_{\le (1+s)^{2m+2}} |v|_{H^{m+1}(\Omega)}^2.
+	\end{math}
+\end{exercise}
+
+\end{document}
