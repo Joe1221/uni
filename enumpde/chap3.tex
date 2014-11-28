@@ -1041,12 +1041,13 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			Selbiges gilt für das Supremum
 			\begin{math}
 				\|A^{-1}\|
-				= \sup_{w \in W \setminus \Set 0}  \f{\|A^{-1}\|\|w\|}{\|}
+				= \sup_{w \in W \setminus \Set 0}  \f{\|A^{-1}\|\|w\|}{\|w\|}
 				\le \f 1{\beta}.
 			\end{math}
 		\end{seg}
 		\begin{seg}{\ProofImplication[2][1]}
 			Es gilt
+			\setcounter{equation}{10}
 			\begin{math}[numbered] \label{eq:3.11}
 				\inf_{v\neq 0} \sup_{w\neq 0} \frac{a(v,w)}{\|v\|\|w\|}
 				\stack{\ref{3.32} ii)}= \inf_{v\neq 0} \frac{\|Av\|}{\|v\|}
@@ -1158,7 +1159,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 	Sei $a: V \times W \to \R$ stetige Bilinearform, $l \in W'$.
 	Dann hat die Gleichung
 	\begin{math}[numbered] \label{eq:3.13}
-		a(u,w) = l(w)		
+		a(u,w) = l(w)
 	\end{math}
 	für alle $w \in W$ eine eindeutige Lösung $u \in V$ und ist stetig abhängig von den Daten via
 	\begin{math}[numbered] \label{eq:3.14}
@@ -1225,6 +1226,205 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			Mit \eqref{eq:3.15} folgt ii).
 		\end{seg}
 	\end{proof}
+\Timestamp{2014-11-28}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Der Satz besagt, dass inf-sup-Stabilität der „allgemeinste“ Stabilitätsbegriff für Wohlgestelltheit eines Problems der Form \eqref{eq:3.13} ist.
+			\item
+				Für koerzive, aber möglicherwiese unsymmetrische Bilinearform im Fall $V = W$ folgt Existenz, Eindeutigkeit und Stabilität als Korollar.
+		\end{itemize}
+	\end{note}
 \end{st}
 
+\begin{kor}[Lax-Milgram] \label{3.38}
+	Sei $a: V \times V \to \R$ stetige, koerzive Bilinearform mit Koerzivitätskonstante $\alpha > 0$.
+	Dann hat der Operator $A \in L(V,V)$ mit $\<Au, v\> = a(u,v)$ aus \ref{3.19} eine stetige Inverse mit
+	\begin{math}
+		\|A^{-1}\| \le \frac{1}{\alpha}
+	\end{math}
+	\begin{proof}
+		Mit \ref{3.33} ist $a(\argdot, \argdot)$ also inf-sup-stabil mit $\beta \ge \alpha > 0$.
+		Aus dem Beweis von \ref{3.37} folgt
+		\begin{math}
+			\alpha
+			\le \inf_{v} \sup_{w} \frac{a(v,w)}{\|v\|\|w\|}
+			= \|A^{-1}\|^{-1}
+		\end{math}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Mit \ref{3.37} folgt insbesondere Wohlgestelltheit
+				\begin{math}[numbered] \label{eq:3.16}
+					\inf_{v\neq 0} \sup_{w \neq 0} \frac{a(v,w)}{\|v\|\|w\|}
+					= \beta
+					= \inf_{w\neq 0} \sup_{v\neq 0} \frac{a(v,w)}{\|v\|\|w\|},
+				\end{math}
+				also selbes $\beta$ für beide inf-sup-Bedingungen.
+			\item
+				Die Umgekehrte Richtung in \eqref{eq:3.16} gilt auch:
+				\begin{math}
+					\inf_{w\neq 0} \sup_{v\neq 0} \frac{a(v,w)}{\|v\|\|w\|}
+					&& \implies &&
+					\forall w \neq 0 \exists v: a(v,w) \neq 0.
+				\end{math}
+				Dies zusammen mit der analogen anderen Seite ist gerade Bedingung ii) aus \ref{3.37}, also äquivalent zur Wohlgestelltheit.
+			\item
+				\ref{3.37} ii) impliziert, dass auch das sogenannte \emphdef[duales Problem]{duale Problem} zu $f \in V'$:
+				\begin{math}[numbered] \label{eq:3.17}
+					a(v,w) = f(v) && \forall v \in V
+				\end{math}
+				eine eindeutige Lösung $w \in W$ besitzt mit $\|w\| \le \frac{1}{\beta} \|f\|_{V'}$.
+		\end{itemize}
+	\end{note}
+\end{kor}
 
+\begin{kor}[Wohlgestelltheit für allgemeine elliptische RWP] \label{3.39}
+	Sei ein homogenes Dirichlet-RWP für allgemeine PDE zweiter Ordnung in schwacher Form gegeben wie in \ref{3.21}, d.h.
+	\begin{math}
+		a(u,v) &= \int_\Omega (A \Nabla u) \cdot \Nabla v - (b \cdot \Nabla v) u + c uv \di[x] \\
+		l(v) &= \int_\Omega fv \di[x]
+	\end{math}
+	für $u,v \in H_0^1(\Omega)$.
+
+	Sei $A$ gleichmäßig elliptisch, $A, b, c$ gleichmäßig beschränkt, $c \ge 0$ hinreichend groß, sodass $a(\argdot, \argdot)$ koerziv auf $H_0^1(\Omega)$ mit Koerzivitätskonstante $\alpha > 0$ ist.
+
+	Dann existiert für alle $f \in L^2(\Omega)$ eine eindeutige schwache Lösung $u \in H_0^1(\Omega)$ mit $a(u,v) = l(v)$ für alle $v \in H_0^1(\Omega)$ und diese ist beschränkt durch
+	\begin{math}
+		\|u\|_{H^1(\Omega)}
+		\le \frac{1}{\alpha}\|f\|_{H^{-1}(\Omega)}
+	\end{math}
+	\begin{proof}
+		Analog zu \ref{3.22} sieht man Stetigkeit und Koerzivität von $a$.
+		Nach Lax-Milgram \ref{3.38} ist $A$ invertierbar mit $\|A^{-1}\| \le \frac{1}{\alpha}$, also ist $u := A^{-1} v_L$ eindeutige Lösung mit
+		\begin{math}
+			\|u\|
+			\le \|A^{-1}\|\|v_L\|
+			\le \frac{1}{\alpha} \|l\|_{H^{-1}(\Omega)}.
+		\end{math}
+	\end{proof}
+\end{kor}
+
+\begin{df}[Sattelpunktproblem] \label{3.40}
+	Seien $V, Q$ Hilberträume, $a: V \times V \to \R$, $b: Q \times V \to \R$ stetige Bilinearformen, $f \in V', g \in Q'$.
+	Gesucht ist die Lösung $(u,p) \in V \times Q$, welche erfüllt:
+	\begin{math}[numbered] \label{eq:3.18}
+		a(u,v) + b(p,v) &= f(v) &&\forall v \in V,\\
+		b(q,u) &= g(q) && \forall q \in Q.
+	\end{math}
+	\begin{note}
+		\begin{itemize}
+			\item
+				\eqref{eq:3.18} kann auch in bisheriger Form geschrieben werden:
+				\begin{math}
+					\_a(\_u,\_v) = \_l(\_v) && \forall \_v \in \_V
+				\end{math}
+				mit $\_u = (u,p) \in \_V := V \times Q$, $\_v = (v,q)$ und
+				\begin{math}
+					\_a(\_u,\_v)
+					&:= a(u,v) + b(p,v) + b(q,u), \\
+					\_l(\_v)
+					&:= f(v) + g(q).
+				\end{math}
+				Die inf-sup-Stabilität von $\_a$ ist schwer zu zeigen.
+				Daher untersuchen wir das Sattelpunktproblem in der Formulierung \eqref{eq:3.18}.
+				Dann folgt inf-sup-Stabilität von $\_a$ aus der Wohlgestelltheit von \eqref{eq:3.18} (Nečas-Theorem).
+			\item
+				Falls $a$ koerziv und symmetrisch, ist $u \in V$ eindeutiger Minimierer des bedingten Optimierungsproblem
+				\begin{math}
+					\min_{v\in V} \frac{1}{2} a(v,v) - f(v)
+					&\udN&
+					b(\argdot, u) = g(\argdot) \text{ in $Q$}.
+				\end{math}
+				Hier ist $p$ der Lagrange-Multiplikator der Nebenbedingung und $(u,p)$ eindeutiger Sattelpunkt der Lagrange-Funktion
+				\begin{math}
+					L(v,q)
+					= \frac{1}{2} a(v,v) - f(v) + b(q,v) - g(q),
+				\end{math}
+				mit $v \in V, q\in Q$.
+			\item
+				Man kann das Stokes-Problem
+				\begin{math}
+					-\mu \Laplace u + \Nabla p &= r && \text{in $\Omega$} \\
+					\div u &= 0 && \text{in $\Omega$} \\
+					u &= 0 && \text{auf $\Gamma$}
+				\end{math}
+				in schwacher Form als Sattelpunktproblem schreiben.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Stokes-Sattelpunktproblem] \label{3.41}
+	Sei $\Omega \subset \R^d$ offen und beschränktes Lipschitz-Gebiet, $r \in (L^2(\Omega))^d$, $\mu > 0$.
+	Wähle $V := (H_0^1(\Omega))^d, Q := \Set{q \in L^2(\Omega) & \int_\Omega q \di[x] = 0}$ und definiere $a: V \times V \to \R, b \in Q \times V \to \R$ und $f \in V', g \in Q'$ durch
+	\begin{math}
+		a(v,w) &:= \mu \int_\Omega \Nabla u : \Nabla w \di[x], &
+		f(v) &:= \int_\Omega rv \di[x], \\
+		b(q,v) &:= -\int_\Omega q \div(v) \di[x], &
+		g(q) &:= 0,
+	\end{math}
+	wobei $\Nabla v : \Nabla w := \sum_{i=1}^d \Nabla v_i \cdot \Nabla w_i$ für $v = (v_i)_{i=1}^d, w= (w_i)_{i=1}^d$.
+
+	Dann ist $a(\argdot, \argdot$ stetig, symmetrisch und koreziv, $f, g$ stetig und $b(\argdot, \argdot)$ stetig und inf-sup-stabil.
+	\begin{proof}
+		Stetigkeit und Koerzivität von $a$ wie im elliptischen Fall in \ref{3.22} wegen $\mu > 0$.
+		Stetigkeit von $g$ trivial, von $f$ folgt wie im elliptischen Fall (siehe Bemerkung vor \ref{3.23}).
+		Stetigkeit von $b$ folgt mit Cauchy-Schwartz und Normäquivalenz auf $\R^d$:
+		\begin{math}
+			|b(q,v)|
+			&\le \|q\|_{L^2} \|\div v\|_{L^2} \\
+			\|\div v\|_{L^2}
+			&\le \sum_{i=1}^d \|\partial_{x_i} v_i\|_{L^2}
+			\le \underbrace{\sum_{i=1}^d \|v_i\|_{H^1}}_{=\|(\|v_i\|_{H^1})_{i=1}^d\|_1}
+			\le C \Big(\sum_{i=1}^d \|v_i\|_{H^1}^2\Big)^{\frac{1}{2}}
+			= C \|v\|_{(H^1(\Omega))^d}.
+		\end{math}
+		Die inf-sup-Stabilität von $b(\argdot, \argdot)$ wurde in \ref{3.36} gezeigt.
+	\end{proof}
+\end{st}
+
+\begin{st}[Orthogonales Komplement] \label{3.42}
+	Sei $V_0 \subset V$ abgeschlossener Teilraum eines Hilbertraums.
+	Dann existiert das \emphdef{orthogonale Komplement}
+	\[
+		V_\orth
+		:= \Set{ v \in V & \forall v_0 \in V_0 : \<v,v_0\> = 0 }
+	\]
+	mit $V = V_0 \oplus V_\orth$ und $V_\orth$ ist abgeschlossener, linearer Teilraum, also Hilbertraum.
+	\begin{proof}
+		$V_\orth$ linearer Teilraum ist klar.
+		Für die direkte Summe sei $v \in V_0 \cap V_\orth$, dann ist $\<v,v\> = 0$, d.h. $v = 0$, also $V_0 \cap V_\orth = \Set 0$.
+		%fixme:
+		Für die Abgeschlossenheit sei $(v_i)_{i\in\N}$ Cauchy-Folge in $V_\orth$.
+		Da $V$ vollständig, existiert $\_v := \lim_{i\to\infty} v_i \in V$.
+		Sei $v_0 \in V_0$, dann ist
+		\begin{math}
+			\<\_v, v_0\>
+			= \<\lim_{i\to\infty} v_i, v_0\>
+			= \lim_{i\to\infty} \<v_i, v_0\>
+			= 0
+		\end{math}
+		und somit $\_v \in V_\orth$.
+	\end{proof}
+\end{st}
+
+\begin{st}[Brezzi-Theorem, Existenz und Eindeutigkeit des SPP] \label{3.43}
+	Das SPP \eqref{eq:3.18} besitzt für alle $f \in V', g \in Q'$ eine eindeutige Lösung $(u,p) \in V \times Q$ und diese ist beschränkt durch die Daten, d.h. es existiert $\beta > 0$ mit
+	\begin{math}[numbered] \label{eq:3.19}
+		(\|u\|_V^2 + \|p\|_Q^2)^{\frac{1}{2}}
+		\le \frac{1}{\beta} (\|f\|_{V'}^2 + \|g\|_{Q'}^2)^{\frac{1}{2}}
+	\end{math}
+	genau dann, wenn Konstanten $\beta_a, \beta_b > 0$ existieren, sodass
+	\begin{math}[numbered] \label{eq:3.20}
+		\inf_{v\in V_0} \sup_{w \in V_0} \frac{a(v,w)}{\|v\|\|w\|}
+		= \inf_{w\in V_0} \sup_{v\in V_0} \frac{a(v,w)}{\|v\|\|w\|}
+		= \beta_a > 0
+	\end{math}
+	und
+	\begin{math}[numbered] \label{eq:3.21}
+		\inf_{q\in Q} \sup_{v \in V} \frac{b(q,v)}{\|q\|\|v\|}
+		= \beta_b > 0,
+	\end{math}
+	wobei $V_0 := \Set{v \in V & \forall q \in Q : b(q,v) = 0}$.
+\end{st}
