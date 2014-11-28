@@ -901,4 +901,330 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 		\item
 			$\forall v \in V \setminus \Set 0 \exists w \in W \setminus \Set 0 : \beta \|v\|\|w\| \le a(v,w)$.
 	\end{enumerate}
+\Timestamp{2014-11-25}
+	\begin{note}
+		Analog zu ii) gilt für die Stetigkeitskonstante $\gamma = \sup_{v \in V \setminus \Set 0} \f{\|Av\|}{\|v\|}$.
+	\end{note}
+	\begin{proof}
+		\begin{enumerate}[i)]
+			\item
+				$\ge$ ist klar wegen Supremum, zeige $\le$.
+				Sei $w \in W, v \in V, w \neq 0 \neq v$.
+				Dann ist
+				\begin{math}
+					\f {a(v,w)}{\|w\|}
+					= \f{\<Av, w\>}{\|w\|}
+					\le \f{\|Av\|\|w\|}{\|w\|}
+					= \f{\|Av\|\|Av\|}{\|Av\|}
+					= \f{\<Av, Av\>}{\|Av\|}
+					= \f{a(v,Av)}{\|Av\|}.
+				\end{math}
+				Gleiches gilt für $\sup_{w\in W\setminus \Set 0} \f{a(v,w)}{\|w\|} = \f {a(v,Av)}{\|Av\|}$.
+			\item
+				\begin{math}
+					\beta
+					= \inf_{v\neq 0} \sup_{u\neq 0} \f{a(v,w)}{\|v\|\|w\|}
+					\stack{i)}= \int_{v\neq 0} \f{a(v,Av)}{\|v\|\|Av\|}
+					= \inf \f{\<Av,Av\>}{\|v\|\|Av\|}.
+				\end{math}
+			\item
+				Angenommen $A$ ist nicht injektiv, d.h. $\exists v \in V \setminus \Set 0$ mit $Av = 0$.
+				Dann ist
+				\begin{math}
+					0
+					= \<Av, w\>
+					= a(v,w)
+					\ge \beta \|v\|\|w\|
+					> 0
+				\end{math}
+				für alle $w \in W \setminus \Set 0$.
+				Ein Widerspruch, also ist $A$ injektiv.
+			\item
+				nach ii) gilt $\beta = \inf_{v\in V \setminus \Set 0} \f{a(v,Av)}{\|v\|\|Av\|}$, also für alle $v \in V \setminus \Set 0$:
+				\begin{math}
+					\beta \|v\|\|Av\| \le a(v,Av),
+				\end{math}
+				also $w = Av \neq 0$.
+		\end{enumerate}
+	\end{proof}
 \end{st}
+
+\begin{st}[Beziehung von $\alpha$ und $\beta$] \label{3.33}
+	Sei $a: V \times V \to \R$ stetig, bilinear.
+	Falls $a$ koerziv mit Konstante $\alpha$, dann ist $\alpha$ inf-sup-stabil mit Konstante $\beta$ sodass $\beta \ge \alpha$.
+	\begin{proof}
+		\begin{math}
+			\beta
+			= \inf_{v\neq 0} \sup_{w\neq 0} \f{a(v,w)}{\|v\|\|w\|}
+			\ge \inf \f{a(v,v)}{\|v\|^2}
+			= \alpha
+			> 0.
+		\end{math}
+	\end{proof}
+\end{st}
+
+\begin{note}
+	\begin{itemize}
+		\item
+			Man kann zeigen:
+			Falls $a(\argdot, \argdot)$ koerziv, symmetrisch, dann ist $a$ inf-sup-stabil mit $\beta = \alpha$.
+			\begin{proof}
+				Siehe IANS Report 4/2011, B. Haasdonk.
+			\end{proof}
+		\item
+			$\beta$ ist immer die „bessere“ Konstante, da $\beta \ge \alpha$.
+			Es ergeben sich schärfere Beschränktheitsaussagen für schwache Lösungen von PDEs.
+		\item
+			inf-sup-Stabilität übertragt sich nicht auf Teilräume.
+			Dies macht Schwierigkeiten für FEM-Diskretisierungen (siehe Übung).
+	\end{itemize}
+\end{note}
+
+\begin{st} \label{3.34}
+	Sei $a(v,w)$ stetige Bilinearform mit zugehörigem Operator $A: V \to W$ gemäß \ref{3.19}.
+	Dann sind äquivalent
+	\begin{enumerate}[i)]
+		\item
+			$a(v,w)$ erfüllt $\inf_{v\neq 0} \sup_{w\neq 0} \frac{a(v,w)}{\|v\|\|w\|} \ge \beta$ und $\forall w \in W \setminus \Set 0$ existiert ein $v \in V$ sodass $a(v,w) \neq 0$.
+		\item
+			$A$ ist invertierbar mit stetiger Inversen
+			\begin{math}
+				\|A^{-1}\|_{L(W,V)} \le \frac{1}{\beta}.
+			\end{math}
+	\end{enumerate}
+	\begin{proof}
+		\begin{seg}{\ProofImplication[1][2]}
+			Zeige, dass $A$ bijektiv ist.
+			$A$ ist bereits injektiv nach \ref{3.32} ii).
+			Zeige, dass $\im A$ vollständig ist und nutze den Projektionssatz für die Surjektivität.
+
+			Sei $w_n = Av_n$ eine Cauchy-Folge in $\im A$.
+			$W$ ist vollständig, also existiert $w \in W$ mit $\lim_{n\to \infty} w_n = w$.
+			Es verbleibt $w \in \im A$ zu zeigen.
+			Mit der inf-sup-Eigenschaft \ref{3.32} ii) folgt
+			\begin{math}
+				\beta &= \inf_{v\neq 0} \frac{\|Av\|}{\|v\|}
+				&&\implies&
+				\forall v \in V: \beta \|v\| \le \|Av\|,
+			\end{math}
+			also
+			\begin{math}
+				\beta \|v_n - v_m\| \le A(v_n - v_m)\|
+				= \|w_n - w_m\|
+				\to 0
+			\end{math}
+			für $n,m \to \infty$.
+			Somit ist $v_n$ Cauchy-Folge in $V$ und es existiert $v \in V$ mit $v = \lim_{n\to \infty} v_n$.
+			Stetigkeit von $A$ ergibt
+			\begin{math}
+				Av
+				= \lim_{n\to\infty} Av_n
+				= \lim_{n\to\infty} w_n
+				= w
+			\end{math}
+			und somit $w \in \im A$ und $\im A$ abgeschlossen.
+
+			Nun zur Surjektivität.
+			Angenommen $\_w \in W$ mit $\_w \not \in \im A$.
+			Sei $p: W \to \im A$ orthogonale Projektion gemäß \ref{3.17}, d.h. $\_{\_w} = \_w - P\_w \neq 0$ und $\<\_{\_w}, Av\> = 0$ für alle $w \in \im A$.
+			Also für alle $v \in V$
+			\begin{math}
+				0
+				= \<\_{\_w}, Av\>
+				= \<Av, \_{\_w}\>
+				= a(v,\_{\_w}),
+			\end{math}
+			ein Widerspruch zur zweiten Annahme in i).
+			Somit ist $A$ surjektiv.			
+
+			Da $A$ bijektiv, existiert die Inverse $A^{-1}$ und für $v \in V$ folgt mit $\beta \|v\| \le \|Av\|$ auch $\beta \|A^{-1}w\| \le \|w\|$.
+			Selbiges gilt für das Supremum
+			\begin{math}
+				\|A^{-1}\|
+				= \sup_{w \in W \setminus \Set 0}  \f{\|A^{-1}\|\|w\|}{\|}
+				\le \f 1{\beta}.
+			\end{math}
+		\end{seg}
+		\begin{seg}{\ProofImplication[2][1]}
+			Es gilt
+			\begin{math}[numbered] \label{eq:3.11}
+				\inf_{v\neq 0} \sup_{w\neq 0} \frac{a(v,w)}{\|v\|\|w\|}
+				\stack{\ref{3.32} ii)}= \inf_{v\neq 0} \frac{\|Av\|}{\|v\|}
+				= \inf_{w\neq  0} \frac{\|w\|}{\|A^{-1}w\|}
+				= \frac{1}{\sup_{w\neq 0} \frac{\|A^{-1}w\|}{\|w\|}}
+				= \frac{1}{\|A^{-1}\|}
+				\ge \frac{1}{\frac{1}{\beta}}
+				= \beta
+			\end{math}
+			Sei $w \in W \setminus \Set 0$, $\exists v \in V \setminus \Set 0$ mit $w = Av$, dann ist
+			\begin{math}
+				a(v,w)
+				= \<Av,w\>
+				= \<Av,Av\>
+				= \|Av\|^2
+				> 0.
+			\end{math}
+		\end{seg}
+	\end{proof}
+\end{st}
+
+\begin{note}[Nicht Koerzivität für Advektion]
+	\begin{itemize}
+		\item
+			Falls in \eqref{eq:3.4} $A = 0, c = 0$ (oder $A \neq 0, c \neq 0$ und $b$ hinreichend groß), dann ist $a(v,w)$ im Allgemeinen nicht koerziv auf $H_0^1(\Omega)$.
+		\item
+			Sei $\Omega = [0,1], b = 1, A = c = 0$.
+			\begin{math}
+				a(v,w)
+				= \int_0^1 v \partial_x w \di[x].
+			\end{math}
+			Betrachte
+			\begin{math}
+				u(x) &= \sin(2\pi x) \in L^2(\Omega) \in L^2(\Omega), \\
+				\partial_x u(x) &= 2\pi \cos(2\pi x) \in L^2(\Omega), \\
+				u(0) = u(1) &= 0.
+			\end{math}
+			Dann ist $u \in H_0^1(\Omega)$, insbesondere $\|u\|_{H^1(\Omega)} \neq 0$, aber
+			\begin{math}
+				\inf_{v\neq 0} \frac{a(v,v)}{\|v\|^2}
+				\le \frac{a(u,u)}{\|v\|^2}
+				= \frac{\int_0^1 u \partial_x u \di[x]}{\|u\|^2}
+				= 0.
+			\end{math}
+			Somit ist $a$ nicht positiv und insbesondere nicht koerziv.
+		\item
+			Knobelaufgabe:
+			Ist $a(\argdot, \argdot)$ inf-sup-stabil auf $H_0^1(\Omega)$?
+		\item
+			Durch geeignete Wahl von Räumen kann obiges $a$ als inf-sup-stabil nachgewiesen wreden mit folgendem Hilssatz \ref{3.35}.
+	\end{itemize}
+\end{note}
+
+\begin{st}[Lösbarkeit der Divergenzgleichung] \label{3.35}
+	Sei $\Omega$ ein Lipschitzgebiet, $q \in L_0^2(\Omega) = \Set{ p \in L^2(\Omega) & \int_\Omega p = 0 }$.
+	Dann existiert $\tilde v \in H_0^1(\Omega)^d$ so dass $\div \tilde v = q$ und es gilt
+	\begin{math}[numbered] \label{eq:3.12}
+		|\tilde v|_{H^1(\Omega)^d}
+		\le C(\Omega) \|q\|_{L^2(\Omega)}.
+	\end{math}
+	\begin{proof}
+		Für $d = 1$ siehe Übung.
+		Allgemeiner siehe Babuska und Aziz 1972, “Survey Lectures on the mathematical foundations of the FEM” in “The Mathematical Foundations of the FEM with applications to PDEs”.
+	\end{proof}
+\end{st}
+
+\begin{kor}[Inf-sup-Stabilität des Divergenzoperators] \label{3.36}
+	Sei $\Omega$ ein Lipschitzgebiet und beschränkt.
+	Für ein $q \in Q := L_0^2(\Omega)$ und $v \in V = H_0^1(\Omega)^d$.
+	Setze $b(q,v) := \int_\Omega q \div v \di[x]$.
+
+	Dann ist $b$ inf-sup-stabil auf $Q \times V$.
+	\begin{proof}
+		Sei $q \in Q$ und $\tilde v \in V$ aus \ref{3.35}, d.h. $q = \div \tilde v$.
+		\begin{math}
+			b(q,\tilde v)
+			= \int_\Omega q \div \tilde v \di[x]
+			= \int_\Omega q^2
+			= \|q\|^2_{L^2(\Omega)}.
+		\end{math}
+		Wegen \eqref{eq:3.12} und der Normäquivalenz aus \ref{3.13} folgt
+		\begin{math}
+			\|\tilde v\|_{H^1(\Omega)^d}
+			\le (1+s) |\tilde v|_{H^1(\Omega)^d}
+			\le (1+s) C(\Omega) \|q\|_{L^2(\Omega)}^2.
+		\end{math}
+		Betrachte
+		\begin{math}
+			\inf_{q} \sup_{v} \frac{b(q,v)}{\|q\|\|v\|}
+			\ge \inf_{q} \frac{b(q,\tilde v)}{\|q\|\|\tilde v\|}
+			= \inf_{q} \frac{\|q\|_{L^2(\Omega)}^2}{C'(\Omega) \|q\|\|q\|}
+			= \frac{1}{C'(\Omega)}
+			> 0
+		\end{math}
+		wobei $C'(\Omega) = (1 + \diam(\Omega)) C(\Omega)$.
+	\end{proof}
+\end{kor}
+
+\begin{note}
+	\begin{itemize}
+		\item
+			Die Notation $b, Q, V$ (statt $a, v, w$) ist üblich für das Stokes-Problem
+		\item
+			Der folgende Satz garantiert Wohlgestelltheit für lineare PDEs mit inf-sup-stabiler Bilinearform.
+	\end{itemize}
+\end{note}
+
+\begin{st}[Nečas Theorem] \label{3.37}
+	Sei $a: V \times W \to \R$ stetige Bilinearform, $l \in W'$.
+	Dann hat die Gleichung
+	\begin{math}[numbered] \label{eq:3.13}
+		a(u,w) = l(w)		
+	\end{math}
+	für alle $w \in W$ eine eindeutige Lösung $u \in V$ und ist stetig abhängig von den Daten via
+	\begin{math}[numbered] \label{eq:3.14}
+		\|u\|_V
+		\le \frac{1}{\beta}\|L\|_{W'}
+	\end{math}
+	für ein $\beta > 0$ unabhängig von $L$ genau dann, wenn eine der folgenden äquivalenten Bedingungen erfüllt ist.
+	\begin{enumerate}[i)]
+		\item
+			$a$ erfüllt $\inf_{v} \sup_{w} \frac{a(v,w)}{\|v\|\|w\|} \ge \beta > 0$ und $\forall w \in W \setminus \Set 0 \exists v \in V: a(v,w) \neq 0$.
+		\item
+			$a$ erfüllt $\inf_{w} \sup_{v} \frac{a(v,w)}{\|v\|\|w\|} \ge \beta > 0$ und $\forall v \in V \setminus \Set 0 \exists w \in W: a(v,w) \neq 0$.
+	\end{enumerate}
+	\begin{proof}
+		Es gilt $\<Au,w\> = a(u,w) = l(w) = \<w_l, w\>$ genau dann, wenn $Au = w_l$, wobei $w_l$ der Riesz-Repräsentant von $L$ ist.
+		Wir führen den Beweis mit Hilfe von \ref{3.34}.
+		\begin{seg}{i) $\implies$ \eqref{eq:3.13}, \eqref{eq:3.14}}
+			Mittels \ref{3.34} ist $A$ invertierbar und $\|A^{-1}\| \le \f 1\beta$.
+			$u := A^{-1} w_l$ ist die eindeutige Lösung von \eqref{eq:3.13}.
+			Weiter ist
+			\begin{math}
+				\|u\|_V
+				\le \|A^{-1}w\|
+				\le \|A^{-1}\|_{L(W,V)} \underbrace{\|w_l\|_{W'}}_{\|L\|_{W'}}
+				\le \frac{1}{\beta}\|L\|_{W'}.
+			\end{math}
+		\end{seg}
+		\begin{seg}{\eqref{eq:3.13}, \eqref{eq:3.14} $\implies$ i)}
+			\eqref{eq:3.13} hat eine eindeutige Lösung für alle $l \in w'$, also existiert $u \in V$ mit $Au = w_l$ für alle $l \in W'$ und $A$ invertierbar.
+			Es gilt
+			\begin{math}
+				\|A^{-1} w_l\|
+				\stack{\eqref{3.14}}\le \frac{1}{\beta}\|w_l\|,
+			\end{math}
+			also $\|A^{-1}\| \le \frac{1}{\beta}$.
+			Aus \ref{3.34} folgt die Bedingung i).
+		\end{seg}
+		\begin{seg}{ii) $\implies$ \eqref{eq:3.13}, \eqref{eq:3.14}}
+			Hier betrachten wir $A^*: W \to V$.
+			\eqref{eq:3.11} aus dem Beweis von \ref{3.34} besagte für $a$ inf-sup-stabil:
+			\begin{math}
+				\inf_{v\neq 0} \sup_{w\neq 0} \frac{a(v,w)}{\|v\|\|w\|}
+				= \|A^{-1}\|^{-1}.
+			\end{math}
+			Falls ii) gilt, so folgt analog mit der Existenz von $A^*$
+			\begin{math}
+				\beta \le \inf_{w\neq 0} \sup_{v\neq 0} \frac{a(v,w)}{\|v\|\|w\|}
+				= \inf_{w\neq 0} \sup_{v\neq 0}  \frac{\<Av, w\>}{\|v\|\|w\|}
+				= \inf_{w\neq 0} \sup_{v\neq 0}  \frac{\<v, A^*w\>}{\|v\|\|w\|}.
+			\end{math}
+			Damit ist $A^*$ invertierbar mit $\|(A^*)^{-1}\| \le \frac{1}{\beta}$.
+			Es folgt
+			\begin{math}[numbered] \label{eq:3.15}
+				= \inf_{w\neq 0} \sup_{v\neq 0}  \frac{\<A^*,w\>}{\|v\|\|w\|}.
+				= \|(A^*)^{-1}\|^{-1}.
+			\end{math}
+			$A^*$ invertierbar, stetig und $A$ stetig, also auch $A$ invertierbar, $\|A\| = \|A^*\|, \|A^{-1}\| = \|(A^*)^{-1}\|$.
+			Es existiert ein eindeutiges $u = A^{-1} w_l$ als Lösung von \eqref{eq:3.13}.
+			\eqref{3.14} folgt durch Einsetzen.
+		\end{seg}
+		\begin{seg}{\eqref{eq:3.13}, \eqref{eq:3.14} $\implies$ ii)}
+			Analog zum Fall i) kann man zeigen, dass $A$ invertierbar ist $\|A^{-1}\| \le \frac{1}{\beta}$.
+			Es folgt, dass $A^*$ invertierbar ist mit $\|(A^*)^{-1}\| \le \frac{1}{\beta}$.
+			Mit \eqref{eq:3.15} folgt ii).
+		\end{seg}
+	\end{proof}
+\end{st}
+
+
