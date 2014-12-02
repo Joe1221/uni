@@ -924,7 +924,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 				\begin{math}
 					\beta
 					= \inf_{v\neq 0} \sup_{u\neq 0} \f{a(v,w)}{\|v\|\|w\|}
-					\stack{i)}= \int_{v\neq 0} \f{a(v,Av)}{\|v\|\|Av\|}
+					\stack{i)}= \inf_{v\neq 0} \f{a(v,Av)}{\|v\|\|Av\|}
 					= \inf \f{\<Av,Av\>}{\|v\|\|Av\|}.
 				\end{math}
 			\item
@@ -1427,4 +1427,250 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 		= \beta_b > 0,
 	\end{math}
 	wobei $V_0 := \Set{v \in V & \forall q \in Q : b(q,v) = 0}$.
+\Timestamp{2014-12-02}
+	\begin{proof}[anglehnt an K. Siebert, NUMPDE 12/13]
+		\begin{seg}[\ProofImplication*]
+			$b(\argdot, \argdot)$ ist stetig, also $V_0$ abgeschlossener Unterraum, also existiert mit \ref{3.42} ein orthogonales Komplement $V_\orth$ mit $v = V_0 \oplus V_\orth$.
+			Für $v \in V$ sei $v = v_0 + v_\orth$ mit $v_0 \in V_0, v_\orth \in V_\orth$.
+
+			Wegen $b(q,v) = b(q,v_0) + b(q,v_\orth) = b(q,v_\orth)$ folgt aus \eqref{eq:3.21}, dass
+			\begin{math}
+				\beta_b
+				= \inf_{q\in Q} \sup_{v\in V} \frac{b(q,v)}{\|q\|\|v\|}
+				= \inf_{q\in Q} \sup_{v\in V_\orth} \frac{b(q,v)}{\|q\|\|v\|}.
+			\end{math}
+			Nach Definition von $v_0$ gilt $\forall v \in V_\orth \exists q \in Q: b(q,v) \neq 0$.
+			Also sind für $b(\argdot, \argdot)$ die Bedingungen des Nečas-Theorems \ref{3.37} ii) erfüllt, daher existiert für alle $g \in Q'$ eine eindeutige Lösung $u_\orth \in V_\orth$ von
+			\begin{math}
+				b(q,v_\orth) &= g(q) & \forall q \in Q.
+			\end{math}
+			Weiter existiert mit \eqref{eq:3.20} eine eindeutige Lösung $u_0 \in V_0$ von
+			\begin{math}
+				a(u_0,v) &= f(v) - a(u_\orth, v) & \forall v \in V_0,
+			\end{math}
+			denn $f(\argdot) - a(u_\orth, \argdot) \in V_0'$.
+			Wir definieren $u := u_\orth + u_0$ und $f_\orth \in V'$ via
+			\begin{math}[numbered] \label{eq:3.22}
+				f_\orth(v) &:= f(v) - a(u,v) &\forall v \in V.
+			\end{math}
+			Dann ist auch $f_\orth \in (V_\orth)'$, also hat mit \eqref{3.37} i) und der Bemerkung nach \eqref{3.39} das duale Problem eine eindeutige Lösung $p \in Q$ mit
+			\begin{math}
+				b(p,v) &= f_\orth(v) & \forall v \in V_\orth.
+			\end{math}
+
+			Zeige nun: $(u,p)$ löst Sattelpunktproblem.
+			Für $v \in V_0$ gilt
+			\begin{math}
+				a(u,v) + b(p,v)
+				= \underbrace{a(u_0,v)}_{=f(v) - a(u_\orth, v)} + a(u_\orth, v ) + \underbrace{b(p,v)}_{=0}
+				= f(v).
+			\end{math}
+			Für $v \in V_\orth$ gilt mit \eqref{eq:3.22}
+			\begin{math}
+				a(u,v) + b(p,v)
+				= f(v) - f_\orth(v) + \underbrace{b(p,v)}_{=f_\orth(v)}
+				= f(v).
+			\end{math}
+			Damit ist die erste Sattelpunktsgleichung erfüllt.
+			Für $q \in Q$ gilt
+			\begin{math}
+				b(q,u)
+				= \underbrace{b(q, u_0)}_{=0} + b(q, u_\orth)
+				= g(q),
+			\end{math}
+			d.h. die zweite Sattelpunktsgleichung ist auch erfüllt.
+			Somit ist Existenz und Eindeutigkeit gezeigt.
+
+			Stabilität folgt aus Stabilität der Teilprobleme:
+			es gilt $\|u_\orth\| \le \frac{1}{\beta}\|g\|_{Q'}, \|u_0\| \le \frac{1}{\beta_a} \|f-a(u_\orth, \argdot)\|_{v'}$.
+			Wegen $\|\argdot\|_{V'} \le \|\argdot\|_{V}$ und mit Stetigkeitskonstante $\gamma$ von $a(\argdot, \argdot)$ folgt
+			\begin{math}
+				\|u_0\| \le \frac{1}{\beta_a}(\|f\|_{V'} + \gamma \|u_\orth\|)
+				\le \frac{1}{\beta_a}(\|f\|_{V'} + \frac{\gamma}{\beta_b}\|g\|_{Q'}).
+			\end{math}
+			Für die Summe also
+			\begin{math}
+				\|u\|
+				\le \|u_L\| + \|u_0\|
+				\le \frac{1}{\beta_a} + \frac{1}{\beta_b}(\frac{\gamma}{\beta_a} + 1) \|g\|
+				\le C_u(\|f\| + \|g\|),
+			\end{math}
+			wobei $C_u := \max \Set{\frac{1}{\beta_a}, \frac{1}{\beta_b}(\frac{\gamma}{\beta_a} + 1)}$.
+			Mit der Youngschen Ungleichung $2 \_b \_c \le b^2 + c^2$ für $\_b, \_c \ge 0$ folgt für $\_a \le \_b + \_c$
+			\begin{math}
+				\_a^2
+				\le (\_b + \_c)^2
+				= \_b^2 + 2\_b\_c + \_c^2
+				\le 2(\_b^2 + \_c^2).
+			\end{math}
+			Mit $\_a := \|u\|, \_b := C_u\|f\|, \_c := C_u\|g\|$ folgt
+			\begin{math}
+				\|u\|^2 \le 2 C_u^2 (\|f\|^2 + \|g\|^2).
+			\end{math}
+			Für $p$ folgt analog:
+			\begin{math}
+				\|p\|
+				&\le \frac{1}{\beta_b} \|f_\orth\|
+				= \frac{1}{\beta_b}\|f - a(u,\argdot)\|_{(V_\orth)'}
+				\le \frac{1}{\beta_b}\|f-a(u,\argdot)\|_{V'}
+				\le \frac{1}{\beta_b}(\|f\| + \gamma \|u\|)
+				&\le \frac{1}{\beta_b}(1 + \gamma C_u) \|f\| + \frac{1}{\beta_b} \gamma C_u \|g\| \\
+				&\le C_p (\|f\| + \|g\|).
+			\end{math}
+			Mit $C_p := \max \Set{ \frac{1}{\beta_b}(1+\gamma C_u), \frac{\gamma}{\beta_b} C_u }$ und mit der Young-Ungleichung wie oben
+			\begin{math}
+				\|p\|^2 \le 2 C_p^2 (\|f\|^2 + \|g\|^2).
+			\end{math}
+			Summation ergibt also
+			\begin{math}
+				(\|u\|^2 + \|p\|^2)^{\frac{1}{2}}
+				\le \underbrace{\sqrt{2(C_u^2 + C_p^2}}_{=\beta^{-1}} (\|f\|^2 + \|g\|^2)^{\frac 12}.
+			\end{math}
+		\end{seg}
+		\begin{seg}[\ProofImplication]
+			Angenommen für eine der Konstanten gilt $\beta_a = 0$ oder $\beta_b = 0$.
+			Es ergibt sich Mehrdeutigkeit der Lösung eines Teilproblems aus der Rückrichtung des Beweises und somit auch eine mehrdeutige Lösung des Sattelpunktproblems.
+		\end{seg}
+	\end{proof}
 \end{st}
+
+\begin{kor}[Wohlgestelltheit Stokes] \label{3.44}
+	Das Stokes-Sattelpunktproblem, d.h. \eqref{eq:3.40} mit $a(\argdot, \argdot), b(\argdot), f(\argdot), g(\argdot)$ gemäß \eqref{eq:3.41} besitzt eine eindeutige Lösung, welche beschränkt ist durch die Daten $f, g$.
+	\begin{proof}
+		Klar mit \ref{3.41} und \ref{3.43}.
+	\end{proof}
+\end{kor}
+
+
+\section{Petrov-Galerkin-Verfahren}
+
+
+Für eine gegebene schwache Form einer PDE suchen wir $u \in V$ mit
+\begin{math}
+	a(u,w) &= l(w) & \forall w \in W.
+\end{math}
+
+Wir schränken dazu das Problem auf endlichdimensionale Teilräume ein, um eine berechenbare Approximation zu erhalten.
+
+\begin{df}[Diskretes Problem, Lösung] \label{3.45}
+	Sei $a: V \times W \to \R$ stetige Bilinearform, $l \in W'$.
+	Seien $V_h \subset V, W_h \subset W$ endlichdimensionale Teilräume mit $\dim V_h = \dim W_h = n$.
+	Dann ist $u_h \in v_h$ gesucht als \emphdef{diskrete Lösung} von
+	\begin{math}
+		a(u_h, w) &= l(w) & \forall w \in W_h.
+	\end{math}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Wir nennen $V_h$ den \emphdef{Ansatzraum} und $W_h$ \emphdef{Testraum}.
+			\item
+				Fall $V \neq W$ oder $V_h \neq W_h$, dann heißt diese Einschränkung \emphdef{Petrov-Galerkin-Projektion}.
+			\item
+				Falls $V = W$ und $V_h = W_h$ heißt es \emphdef{Ritz-Galerkin-Projektion} oder \emphdef{Galerkin-Projektion}.
+			\item
+				Der Begriff der „Projektion“ impliziert, dass man sich einen Projektionsoperator $P_h: V \to V_h$ definieren kann mit $P_h u = u_h$ und $P_h^2 = P_h$.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-Stabilität.
+
+\begin{st}[Diskrete inf-sup-Bedingungen] \label{3.46}
+	Für Bilinearform $a: V_h \times W_h \to \R$ sind äquivalent
+	\begin{enumerate}[i)]
+		\item
+			$\inf_{v\in V_h} \sup_{w\in W_h} \frac{a(v,w)}{\|v\|\|w\|} = \beta_h > 0$,
+		\item
+			$\inf_{w\in W_h} \sup_{v\in V_h} \frac{a(v,w)}{\|v\|\|w\|} = \beta_h > 0$,
+		\item
+			$\forall w \in W_h \setminus \Set 0 \exists v \in V_h : a(v,w) \neq 0$ (d.h. $A$ ist surjektiv),
+		\item
+			$\forall v \in V_h \setminus \Set 0 \exists w \in W_h : a(v,w) \neq 0$ (d.h. $A$ ist injektiv),
+	\end{enumerate}
+	\begin{note}
+		Wir nennen $\beta_h$ auch \emphdef{diskrete inf-sup-Konstante}.
+	\end{note}
+	\begin{proof}
+		\begin{seg}[\ProofImplication[2,3]]
+			$A$ ist injektiv nach \ref{3.32} ii).
+			Wegen $\dim V_h = \dim W_h$ folgt $A$ surjektiv, also $\forall w \in W, w \neq 0 \exists v \in V: a(v,w) \neq 0$ (wähle z.b. $v := A^T w$, dann ist in Matrixdarstellung $a(v,w) = w^TA A^T w = \|A^T w\|^2 \neq 0$ wegen Injektivität).
+		\end{seg}
+		\begin{seg}[\ProofImplication[3,1]]
+			$A$ ist surjektiv, also auch injektiv und es existiert eine stetige Inverse.
+			Setze $\beta := \|A^{-1}\| > 0$.
+			Mit \ref{3.34} ist
+			\begin{math}
+				\inf_{v\in V_h} \sup_{w\in W_h} \frac{a(v,w)}{\|v\|\|w\|}
+				\ge \beta
+			\end{math}
+			und es folgt i).
+		\end{seg}
+		\begin{seg}[\ProofImplication[2,4], \Proof\Implication[4,2]]
+			analog zu i) $\iff$ iii).
+		\end{seg}
+		\begin{seg}[\ProofImplication[1, 2]]
+			Mit i) und iii) folgt nach \ref{3.34}, dass $A$ invertierbar ist mit $\|A^{-1}\| \le \frac{1}{\beta}$.
+			Damit ist $A^*$ invertierbar mit $\|(A^*)^{-1}\| \le \frac{1}{\beta}$.
+			Nach \ref{3.3n} erfüllt $a(\argdot, \argdot)$
+			\begin{math}
+				\inf_{w\neq 0} \sup_{v\neq 0} \frac{a(v,w)}{\|v\|\|w\|}
+				\ge \beta,
+			\end{math}
+			also folgt ii).
+		\end{seg}
+	\end{proof}
+\end{st}
+
+\begin{st}[Wohlgestelltheit] \label{3.47}
+	$a(\argdot, \argdot)$ erfüllt eine der Bedingungen aus \ref{3.46}.
+	Dann hat das diskrete Problem \ref{3.45} eine eindeutige Lösung $u_h \in V_h$ mit
+	\begin{math}
+		\|u_h\| \le \frac{1}{\beta_h} \|l\|_{W'}.
+	\end{math}
+	\begin{proof}
+		klar mit Nečas \ref{3.37}.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Für koerzive Probleme ist Wohlgestelltheit trivial:
+				Koerzivität vererbt sich auf Teilräume, $\beta_h = \alpha$ ist gültige inf-sup-Konstante.
+			\item
+				Für (nicht-koerzive) inf-sup-stabile Probleme muss diskrete Stabilität bei der Wahl der Teilräume $V_h, W_h$ berücksichtigt werden, siehe auch Beispiel \ref{3.53}.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{lem}[Galerkin-Orthogonalität] \label{3.48}
+	Seien $u \in V, u_h \in V_h$ Lösung der PDE, bzw. der Petrov-Galerkin-Projektion.
+	Dann gilt
+	\begin{math}
+		\forall w \in W_h : a(u - u_h, w) = 0,
+	\end{math}
+	sogenannte \emphdef{Galerkin-Orthogonalität}.
+	\begin{proof}
+		Es gilt für alle $w \in W_h$
+		\begin{math}
+			a(u-u_h, W)
+			= \underbrace{a(u, w)}_{l(w)} - \underbrace{a(u_h, w)}_{l(w), w \in W_h}
+			= l(w) - l(w)
+			= 0.
+		\end{math}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Falls $a(\argdot, \argdot)$ symmetrisch und koerziv, $W = V, W_h = V_h$, dann bedeutet diese Aussage gerade Orthogonalität des Projektionsfehlers beid der orthogonalen Projektion bezüglich des Energie-Skalarprodukts.
+
+				Definieren $P_a: V \to V_h$ durch $\<v - P_a v, w\>_a = 0$ für alle $w \in V_h, v \in V$.
+				Dann ist $P_a u = u_h$, denn $\<u - u_h, w\>_a = a(u - u_h, v) = 0$ mittels Galerkin-Orthogonalität \ref{3.48}.
+				Die Galerkin-Projektion ist also genau die orthogonale Projektion bezüglich $\<\argdot, \argdot\>_a$.
+			\item
+				Falls $a(\argdot, \argdot)$ nicht symmetrisch oder nicht koerziv, oder $V \neq W$ existiert keine solche Interpretation als orthogonale Projektion.
+				Wir sprechen aber trotzdem von Galerkin-Orthogonalität.
+		\end{itemize}
+	\end{note}
+\end{lem}
+
+
+
