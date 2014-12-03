@@ -15,19 +15,21 @@
 \end{df}
 
 \begin{ex*}
-	Sei $\Omega = (-1, 1), u(x) := |x|$.
+	Sei $\Omega = (-1, 1), u: \Omega \to \R, u(x) := |x|$.
 	Dann ist $\sign(x)$ die schwache Ableitung von $u$.
-	Denn sei $\phi \in C_0^\infty(\Omega)$, dann ist
-	\begin{align*}
-		\int_{-1}^1 u(x) \phi'(x) \di[x]
-		&= \int_{-1}^0 u(x) \phi'(x) \di[x]
-		+ \int_0^1 u(x) \phi'(x) \di[x] \\
-		&= \int_{-1}^0 -x \phi'(x) \di[x]
-		+ \int_0^1 x \phi'(x) \di[x] \\
-		&= - \int_{-1}^0 (-1) \phi(x) \di[x] + \underbrace{[-x \phi(x)]_{-1}^0}_{=0}
-		- \int_0^1 \phi(x) \di[x] + \underbrace{[x \phi(x)]_0^1}_{=0} \\
-		&= - \int_{-1}^1 \sign(x) \phi(x) \di[x]
-	\end{align*}
+	\begin{proof}
+		Denn sei $\phi \in C_0^\infty(\Omega)$, dann ist
+		\begin{align*}
+			\int_{-1}^1 u(x) \phi'(x) \di[x]
+			&= \int_{-1}^0 u(x) \phi'(x) \di[x]
+			+ \int_0^1 u(x) \phi'(x) \di[x] \\
+			&= \int_{-1}^0 -x \phi'(x) \di[x]
+			+ \int_0^1 x \phi'(x) \di[x] \\
+			&= - \int_{-1}^0 (-1) \phi(x) \di[x] + \underbrace{[-x \phi(x)]_{-1}^0}_{=0}
+			- \int_0^1 \phi(x) \di[x] + \underbrace{[x \phi(x)]_0^1}_{=0} \\
+			&= - \int_{-1}^1 \sign(x) \phi(x) \di[x].
+		\end{align*}
+	\end{proof}
 \end{ex*}
 
 \begin{st}[Eindeutigkeit] \label{3.2}
@@ -49,8 +51,8 @@
 \end{st}
 
 \begin{st}[klassische Ableitung ist schwache Ableitung] \label{3.3}
-	Sei $u \in C^m(\Omega)$, $v^\beta$ für $|\beta| \le m$ die schwache Ableitung und $\partial^\beta u \in C^{m-|\beta|}(\Omega)$ die klassische Ableitung.
-	Dann gilt $v^\beta = \partial^\beta u$.
+	Sei $u \in C^m(\Omega)$, $v^\beta \in L^1_{\text{loc}}$ für $|\beta| \le m$ die schwache Ableitung von $u$ und $\partial^\beta u \in C^{m-|\beta|}(\Omega)$ die klassische Ableitung von $u$.
+	Dann gilt $v^\beta = \partial^\beta u$ in $L^1_{\text{loc}}$.
 	\begin{proof}
 		Mit partieller Integration gilt
 		\[
@@ -58,14 +60,14 @@
 			= (-1)^{|\beta|} \int_\Omega (\partial^\beta u) \phi \di[x]
 		\]
 		für alle $\phi \in C_0^\infty(\Omega)$ und die klassische Ableitung ist eine schwache Ableitung.
-		Wegen der Eindeutigkeit \ref{3.2} ist $\partial^\beta u$ die schwache Ableitung.
+		Wegen der Eindeutigkeit \ref{3.2} ist $\partial^\beta u$ in $L^1_{\text{loc}}$ die schwache Ableitung.
 	\end{proof}
 	\begin{note}
 		\begin{itemize}
 			\item
-				Die schwache Ableitung umfassen die klassischen Ableitungen, daher schreiben wir im Folgenden einfach $\partial^\beta u$ statt $v^\beta$.
+				Der Begriff der schwachen Ableitung umfasst den der klassischen Ableitung, daher schreiben wir im Folgenden einfach $\partial^\beta u$ statt $v^\beta$ für die schwache Ableitung.
 			\item
-				\ref{3.3} gilt auch auf Teilgebieten, d.h. falls $u$ stückweise klassisch differenzierbar und global schwach differenzierbar, so ist die schwache Ableitung gerade die stückweise klassische Ableitung.
+				\ref{3.3} gilt auch auf Teilgebieten, z.B. falls $u$ stückweise klassisch differenzierbar und global schwach differenzierbar, so ist die schwache Ableitung gerade die stückweise klassische Ableitung.
 		\end{itemize}
 	\end{note}
 \end{st}
@@ -81,12 +83,13 @@
 			\end{cases}
 		\]
 		gemäß der stückweisen klassichen Ableitung.
-		Es folgt $(-1)\int_\Omega (\partial_x u) \phi \di[x] = 0$, aber für $\phi(0) \neq 0, \supp \phi \subset (-1,1)$ nicht leer gilt
+		Es folgt $(-1)\int_\Omega (\partial_x u) \phi \di[x] = 0$.
+		Jedoch ist für $\phi \in C_0^\infty(\Omega), \phi(0) \neq 0$:
 		\begin{align*}
 			\int_\Omega u \partial_x \phi \di[x]
 			&= \int_{-1}^0 (-1) \partial_x \phi \di[x] + \int_0^1 1 \partial_x \phi \di[x] \\
-			&= \underbrace{\phi(1)}_{=0} \underbrace{- \phi(0) - \phi(0)}_{= 2 \phi(0)} + \underbrace{\phi(-1) }_{=0}
-			\neq 0
+			&= \underbrace{\phi(-1)}_{=0} \underbrace{- \phi(0) - \phi(0)}_{= -2 \phi(0)} + \underbrace{\phi(1) }_{=0}
+			\neq 0.
 		\end{align*}
 	\end{proof}
 \end{ex*}
@@ -95,20 +98,22 @@
 
 \begin{df}[Sobolev-Räume] \label{3.4}
 	Sei $m \in \N_0, p \in \N \cup \Set \infty, u \in L_{\text{loc}}^1(\Omega), \Omega\subset \R^d$ offen.
-	Falls alle schwachen Ableitungen $\partial^\beta u, |\beta| \le m$ existieren, definieren wir die Sobolev-Norm durch
+	Falls alle schwachen Ableitungen $\partial^\beta u, |\beta| \le m$ existieren, definieren wir die \emphdef{Sobolev-Norm} durch
 	\begin{align*}
 		\|u\|_{H^{m,p}(\Omega)}
 		&:= \Big( \sum_{|\beta| \le m} \|\partial^\beta u\|_{L^p(\Omega)}^p \Big)^{\f 1p} \qquad 1 \le p < \infty, \\
 		\|u\|_{H^{m,\infty}(\Omega)}
 		&:= \max_{|\beta|\le m} \|\partial^\beta u\|_{L^\infty(\Omega)}.
 	\end{align*}
-	Hiermit definieren wir die Sobolev-Räume $H^{m,p}(\Omega)$ als:
+	Hiermit definieren wir den \emphdef{Sobolev-Raum} $H^{m,p}(\Omega)$ als
 	\[
 		H^{m,p}(\Omega)
-		:= \Set{ u \in L_{\text{loc}}^1(\Omega) & \|u\|_{H^{m,p}} < \infty}.
+		:= \Set{ u \in L_{\text{loc}}^1(\Omega) & \|u\|_{H^{m,p}} < \infty}
 	\]
+	mit der entsprechenden Sobolev-Norm.
+
 	Für $p = 2$ schreiben wir auch $H^m(\Omega) := H^{m,2}(\Omega)$.
-	Schließlich definieren wir die Sobolev-Seminorm durch
+	Schließlich definieren wir die \emphdef{Sobolev-Seminorm} durch
 	\begin{align*}
 		|u|_{H^{m,p}(\Omega)}
 		&:= \Big( \sum_{|\beta| = m} \|\partial^\beta u\|_{L^p(\Omega)}^p \Big)^{\f 1p} \qquad 1 \le p < \infty, \\
@@ -129,7 +134,11 @@
 \begin{st}[Vollständigkeit von $H^{m,p}(\Omega)$] \label{3.5}
 	Sei $\Omega \subset \R^d$ offen, $1 \le p \le \infty, m \in \N_0$.
 	Dann ist $H^{m,p}(\Omega)$ vollständig, also ein Banachraum.
-	Insbesondere ist $H^m(\Omega)$ ein Hilbertraum mit dem entsprechenden Skalarprodukt $\<u,v\>_{H^m} := \sum_{|\beta| \le m} \<\partial^\beta u, \partial^\beta u\>_{L^2(\Omega)}$.
+
+	Weiter ist $H^m(\Omega)$ ein Hilbertraum mit dem entsprechenden Skalarprodukt
+	\begin{math}
+		\<u,v\>_{H^m} := \sum_{|\beta| \le m} \<\partial^\beta u, \partial^\beta u\>_{L^2(\Omega)}.
+	\end{math}
 	\begin{note}
 		\begin{itemize}
 			\item
@@ -161,26 +170,27 @@
 			&= \lim_{n\to\infty} (-1)^{|\beta|} \<v_n, \partial^\beta \phi\>_{L^2(\Omega)}
 			= (-1)^{|\beta|} \<v^0, \partial^\beta \phi\>_{L^2}
 		\end{align*}
-		mit $v_0 := \lim_{n\to\infty} v_n$ via $\beta = 0$.
-		Damit ist $v^\beta$ schwache Ableitung von $v_0$.
+		mit $v^0 := \lim_{n\to\infty} v_n$ via $\beta = 0$.
+		Damit ist $v^\beta$ schwache Ableitung von $v^0$.
 		Also $\|v_n - v^0\|_{H^m(\Omega)} \to 0$ und $v^0 \in H^m(\Omega)$.
 	\end{proof}
 \end{st}
 
 \begin{st}[Approximierbarkeit durch $C^\infty$-Funktionen] \label{3.6}
-	Für $1 \le p < \infty$ gilt $H^{m,p}(\Omega) \cap C^\infty(\Omega)$ ist dicht in $H^{m,p}(\Omega)$, d.h. für $f \in H^{m,p}(\Omega)$ existiert $f_j \in H^{m,p}(\Omega) \cap C^\infty(\Omega), j \in \N$ mit $\|f - f_j\|_{H^{m,p}(\Omega)} \to 0$.
+	Für $1 \le p < \infty$ ist $H^{m,p}(\Omega) \cap C^\infty(\Omega)$ dicht in $H^{m,p}(\Omega)$, d.h. für $f \in H^{m,p}(\Omega)$ existiert $f_j \in H^{m,p}(\Omega) \cap C^\infty(\Omega), j \in \N$ mit $\|f - f_j\|_{H^{m,p}(\Omega)} \to 0$.
 	\begin{proof}
 		Siehe [Alt, Satz 1.16].
 	\end{proof}
 	\begin{note}
 		Aufgrund von \ref{3.6} sieht man leicht, dass Regeln zum Umgang mit Ableitungen von klassischen Ableitungen auf schwache Ableitungen übertragen werden können,
-		darunter Linearität, partielle Integration, Gäußscher Integralsatz, Produkt- und Kettenregel, etc.
-	\end{note}
-	\begin{note}[Randwerte]
-		Da $L^p(\Omega)$-Funktionen auf Nullmengen undefiniert sind, bzw. beliebig abgeändert werden können, ist unklar, was man unter Randwerten in $H^{m,p}(\Omega)$ verstehen soll.
-		Tatsächlich hilft zusätzliche Regularität ($m \ge 1$), sogenannte „\emphdef{schwache Randwerte}“ zu definieren, welche mit dem „\emphdef{Spuroperator}“ extrahiert werden können.
+		darunter Linearität, partielle Integration, Gaußscher Integralsatz, Produkt- und Kettenregel, etc.
 	\end{note}
 \end{st}
+
+\begin{note}[Randwerte]
+	Da $L^p(\Omega)$-Funktionen auf Nullmengen undefiniert sind, bzw. beliebig abgeändert werden können, ist unklar, was man unter Randwerten in $H^{m,p}(\Omega)$ verstehen soll.
+	Tatsächlich hilft zusätzliche Regularität ($m \ge 1$), sogenannte „\emphdef{schwache Randwerte}“ zu definieren, welche mit dem „\emphdef{Spuroperator}“ extrahiert werden können.
+\end{note}
 
 \begin{df}[Sobolev-Funktionen mit schwachen Nullrandwerten] \label{3.7}
 	Für $1 \le p < \infty$ und $m \in \N$ definieren wir Sobolev-Räume mit (schwachen) Nullrandwerten:
@@ -193,16 +203,16 @@
 			\item
 				$\Omega$ darf auch unbeschränkt sein.
 			\item
-				In der Literatur findet man auch $W_0^{m,p}(\Omega), \mathring H^{m,p}(\Omega)$ als Notationen.
+				In der Literatur findet man auch $W_0^{m,p}(\Omega)$ oder $\mathring H^{m,p}(\Omega)$ als Notationen.
 		\end{itemize}
 	\end{note}
 \end{df}
 
 \begin{st}[Vollständigkeit von $H^{m,p}_0(\Omega)$] \label{3.8}
-	Für $1 \le p < \infty, m \in \N$ ist $H^{m,p}_0(\Omega)$ abgeschlossener Unterraum von $H^{m,p}(\Omega)$, insbesondere ein Banachraum und $\|\argdot\|_{H^{m,p}}$ überträgt sich auf $H_0^{m,p}(\Omega)$.
+	Für $1 \le p < \infty, m \in \N$ ist $H^{m,p}_0(\Omega)$ abgeschlossener Unterraum von $H^{m,p}(\Omega)$, insbesondere ein Banachraum und die Sobolev-Norm $\|\argdot\|_{H^{m,p}}$ überträgt sich auf $H_0^{m,p}(\Omega)$.
 	\begin{proof}
 		Abgeschlossenheit ist klar nach Konstruktion.
-		$H^{m,p}_0(\Omega) \subset H^{m,p}(\Omega)$ wegen $C_0^m(\Omega) \subset H^{m,p}(\Omega)$ und Abgeschlossenheit von $H^{m,p}(\Omega)$.
+		$H^{m,p}_0(\Omega) \subset H^{m,p}(\Omega)$ folgt aus $C_0^m(\Omega) \subset H^{m,p}(\Omega)$ und Abgeschlossenheit von $H^{m,p}(\Omega)$.
 	\end{proof}
 \end{st}
 
@@ -218,7 +228,15 @@
 
 \begin{df}[Lipschitz-Gebiet]
 	Sei $\Omega \subset \R^d$ offen und beschränkt.
-	$\Omega$ heißt \emphdef{Lipschitz-Gebiet}, wenn endlich viele offene Mengen $U_i \subset \R^d, i = 1, \dotsc, n$ existieren, sodass $\partial \Omega \subset \bigcup_{i=1}^n U_i$ und $\Boundary \Omega \cap U_i$ lässt sich als Graph einer Lipschitz-stetigen Funktionen schreiben und $\Omega$ liegt auf einer Seite des Graphen.
+	$\Omega$ heißt \emphdef{Lipschitz-Gebiet}, wenn endlich viele offene Mengen $U_i \subset \R^d, i = 1, \dotsc, n$ existieren, sodass
+	\begin{enumerate}[i)]
+		\item
+			$\partial \Omega \subset \bigcup_{i=1}^n U_i$,
+		\item
+			$\Boundary \Omega \cap U_i$ lassen sich als Graphen Lipschitz-stetiger Funktionen schreiben,
+		\item
+			$\Omega$ liegt auf einer Seite des Graphen.
+	\end{enumerate}
 	\begin{note}
 		Für Lipschitz-Gebiete gelten insbesondere (siehe [Alt, 5.9]):
 		\begin{itemize}
