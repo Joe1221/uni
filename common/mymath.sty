@@ -189,10 +189,13 @@
 	}
 }
 
+% working with "&" directly causes category code trouble
+\tl_set:Nx \c_mymath_set_delim_tl { }
+
 \cs_new:Nn \mymath_set_vertbar:nn {
     \tl_clear_new:N \l_conten_tl
     \tl_set:Nf \l_conten_tl { #1 }
-    \tl_replace_once:Nnn \l_conten_tl { & } { \mathrel{}#2\mathrel{} }
+    \tl_replace_once:Nnn \l_conten_tl { \c_mymath_set_delim_tl } { \mathrel{}#2\mathrel{} }
     \l_conten_tl
 }
 
@@ -200,7 +203,9 @@
     \tl_clear_new:N \l_content_tl
     \tl_set:Nn \l_content_tl { #2 }
 
-    \tl_if_in:NnTF \l_content_tl { & } {
+    \tl_replace_all:Nnn \l_content_tl { & } { \c_mymath_set_delim_tl }
+
+    \tl_if_in:NnTF \l_content_tl { \c_mymath_set_delim_tl } {
 	\mathchoice {
 	    \left\{ \big. \mkern1mu \mymath_set_vertbar:nn{\l_content_tl}{\middle|} \mkern2mu \right\}
 	} {
@@ -211,15 +216,15 @@
 	    \{ \mymath_set_vertbar:nn{\l_content_tl}{\mkern-1mu | \mkern-1mu} \}
 	}
     } {
-	\mathchoice {
-	    \left\{ \big.\mkern-1mu \l_content_tl \right\}
-	} {
-	    \{ \l_content_tl \}
-	} {
-	    \{ \l_content_tl \}
-	} {
-	    \{ \l_content_tl \}
-	}
+        \mathchoice {
+            \left\{ \big.\mkern-1mu \l_content_tl \right\}
+        } {
+            \{ \l_content_tl \}
+        } {
+            \{ \l_content_tl \}
+        } {
+            \{ \l_content_tl \}
+        }
     }
 }
 
