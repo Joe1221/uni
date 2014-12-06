@@ -793,8 +793,9 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 			\begin{math}
 				&\text{$u$ löst \eqref{eq:3.8}} &
 				&\iff &
-				&\text{$\_u := u - \_g$ löst \eqref{eq:3.9}}
+				&\text{$\_u := u - \_g$ löst \eqref{eq:3.9}},
 			\end{math}
+			wobei
 			\begin{math}[numbered] \label{eq:3.9}
 				-\Laplace \_u &= - \Laplace (u - \_g) = f - \Laplace \_g && \text{in $\Omega$}, \\
 				\_u &= 0 && \text{auf $\Gamma$}.
@@ -1393,8 +1394,8 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			|b(q,v)|
 			&\le \|q\|_{L^2} \|\div v\|_{L^2} \\
 			\|\div v\|_{L^2}
-			&\le \sum_{i=1}^d \|\partial_{x_i} v_i\|_{L^2}
-			\le \underbrace{\sum_{i=1}^d \|v_i\|_{H^1}}_{=\|(\|v_i\|_{H^1})_{i=1}^d\|_1}
+			&\le \sum_{i=1}^d \|\partial_{x_i} v_i\|_{L^2} \\
+			&\le \underbrace{\sum_{i=1}^d \|v_i\|_{H^1}}_{=\|(\|v_i\|_{H^1})_{i=1}^d\|_1}
 			\le C \Big(\sum_{i=1}^d \|v_i\|_{H^1}^2\Big)^{\frac{1}{2}}
 			= C \|v\|_{(H^1(\Omega))^d}.
 		\end{math}
@@ -1468,7 +1469,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			\end{math}
 			denn $f(\argdot) - a(u_\orth, \argdot) \in V_0'$.
 			Wir definieren $u := u_\orth + u_0$ und $f_\orth \in V'$ via
-			\begin{math}[numbered] \label{eq:3.22}
+			\begin{math}[numbered] \label{eq:3.22:1}
 				f_\orth(v) &:= f(v) - a(u,v) &\forall v \in V.
 			\end{math}
 			Dann ist auch $f_\orth \in (V_\orth)'$, also hat mit \eqref{3.37} i) und der Bemerkung nach \eqref{3.39} das duale Problem eine eindeutige Lösung $p \in Q$ mit
@@ -1483,7 +1484,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 				= \underbrace{a(u_0,v)}_{=f(v) - a(u_\orth, v)} + a(u_\orth, v ) + \underbrace{b(p,v)}_{=0}
 				= f(v).
 			\end{math}
-			Für $v \in V_\orth$ gilt mit \eqref{eq:3.22}
+			Für $v \in V_\orth$ gilt mit \eqref{eq:3.22:1}
 			\begin{math}
 				a(u,v) + b(p,v)
 				= f(v) - f_\orth(v) + \underbrace{b(p,v)}_{=f_\orth(v)}
@@ -1530,8 +1531,8 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 				\|p\|
 				&\le \frac{1}{\beta_b} \|f_\orth\|
 				= \frac{1}{\beta_b}\|f - a(u,\argdot)\|_{(V_\orth)'}
-				\le \frac{1}{\beta_b}\|f-a(u,\argdot)\|_{V'}
-				\le \frac{1}{\beta_b}(\|f\| + \gamma \|u\|)
+				&\le \frac{1}{\beta_b}\|f-a(u,\argdot)\|_{V'}
+				&\le \frac{1}{\beta_b}(\|f\| + \gamma \|u\|)
 				&\le \frac{1}{\beta_b}(1 + \gamma C_u) \|f\| + \frac{1}{\beta_b} \gamma C_u \|g\| \\
 				&\le C_p (\|f\| + \|g\|).
 			\end{math}
@@ -1542,7 +1543,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			Summation ergibt also
 			\begin{math}
 				(\|u\|^2 + \|p\|^2)^{\frac{1}{2}}
-				\le \underbrace{\sqrt{2(C_u^2 + C_p^2}}_{=\beta^{-1}} (\|f\|^2 + \|g\|^2)^{\frac 12}.
+				\le \underbrace{\sqrt{2(C_u^2 + C_p^2)}}_{=\beta^{-1}} (\|f\|^2 + \|g\|^2)^{\frac 12}.
 			\end{math}
 		\end{seg}
 		\begin{seg}[\ProofImplication]
@@ -1690,5 +1691,271 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 	\end{note}
 \end{lem}
 
+\Timestamp{2014-12-05}
+
+\begin{kor}[Reproduktion von Lösungen] \label{3.49}
+	Sei $a(\argdot, \argdot)$ inf-sup-stabil auf $V \times W$ und $V_h \times W_h$, $u \in V$ Lösung der (schwachen) PDE und $u_h \in V_h$ die Petrov-Galerkin-Projektion.
+	Falls $u \in V_h$, dann ist $u_h = u$.
+	\begin{proof}
+		Für $u \in V_h$, dann ist auch $u - u_h \in Vh$.
+		Angenommen $u - u_h \neq 0$, dann existiert $w \in W_h, w \neq 0$ mit
+		\begin{math}
+			a(u-u_h, w) \neq 0.
+		\end{math}
+		Dies ist ein Widerspruch zur Galerkin-Orthogonalität, also $u = u_h$.
+	\end{proof}
+	\begin{note}
+		Also ist z.B. $V_h = \Span{u}$ optimaler 1D-Lösungsraum.
+		Dieser ist natürlich derart „teuer“ zu berechnen, wie $u$ und daher inpraktikabel.
+	\end{note}
+\end{kor}
+
+\begin{st}[Diskretes Problem als LGS] \label{3.50}
+	Sei $V_h \subset V$ mit Basis $\Set{\phi_j}_{j=1}^n$ und $W_h \subset W$ mit Basis $\Set{\psi_i}_{i=1}^n$.
+	Definiere die Systemmatrix $A_h = (a_{ij})_{i,j=1}^n$ und die „rechte Seite“ $b_h = (b_i)_{i=1}^n$ via
+	\begin{math}
+		a_{ij} &:= a(\phi_j, \psi_i), &
+		b_i &:= l(\psi_i)
+	\end{math}
+	für $i,j = 1, \dotsc, n$.
+	Dann ist $u_h = \sum_{j=1}^n u_j \phi_j$ mit DOF-Vektor $\underbar{u}_h = (u_i)_{i=1}^n$ Lösung des LGS
+	\begin{math}[numbered] \setcounter{equation}{21} \label{eq:3.22}
+		A_h \underbar{u}_h = b_h.
+	\end{math}
+	\begin{proof}
+		Zeige: $\sum_{j=1}^{n} u_j \phi_j$ löst die schwache Form der PDE.
+		Für eine Testfunktion $w = \psi_i$ gilt
+		\begin{math}
+			a(\sum_{j=1}^{n} u_j \phi_j, \psi_i)
+			= \sum_{j=1}^{n} a(\phi_j, \psi_i)
+			= (A_h \underbar{u}_h)_i
+			\stack{\eqref{3.22}}= (b_h)_i
+			= b_i
+			= l(\psi_i).
+		\end{math}
+		Für $w \in W_h$ existiert $\underbar{w} \in \R^n$, $w = (w_i)_{i=1}^n$ mit $w = \sum_{i=1}^n w_i \psi_i$ und
+		\begin{math}
+			a(\sum_{j=1}^{n} u_j \phi_j, w
+			= \sum_{i=1}^{n} w_i \underbrace{a(\sum_{j=1}^{n} u_j \phi_j, \psi_i)}_{=l(\psi_i)}
+			= \sum_{i=1}^{n} w_i l(\psi_i)
+			= l(\sum_{i=1}^{n} w_i \psi_i)
+			= l(w).
+		\end{math}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Falls $a(\argdot, \argdot)$ symmetrisch und $V_h = W_h$ mit identischer Basis, dann ist auch $A_h$ symmetrisch.
+			\item
+				Falls $a$ koerziv, dann ist $A_h$ positiv definit
+				\begin{proof}
+					\begin{math}
+						\underbar{v}^T A_h \underbar{v}
+						= \sum_{i,j}^{} v_i v_j (A_{ij})
+						= \sum_{i,j}^{} a(\sum_{j}^{} v_j \phi_j, \sum_{i}^{} v_i \phi_i )
+						= a(v,v)
+						> \alpha\|v\|^2
+					\end{math}
+					und somit $\underbar{v}^T A_h \underbar{v} > 0 \iff v \neq 0$.
+				\end{proof}
+			\item
+				Falls $a$ koerziv und symmetrisch, wird $A_h$ auch „Steifigkeitsmatrix“ genannt wegen physikalischer Anschauch im Kontext der linearen Elastizität.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{ex} \label{3.51}
+	$V_h$ aus Eigenfunktionen des Differentialoperators im Fall $V = W$.
+	Die optimale Basis bei unbekannter/variabler rechte Seite $l$:
+
+	Definiere die „schwache Form“ des Eigenwertproblems als:
+	Finde Eigenfunktion $v \in V$ und Eigenwert $\Lambda$ mit
+	\begin{math}
+		a(v,w)
+		&= \lambda \<v, w\>_{L^2}
+		& \forall w \in V.
+	\end{math}
+	Unter gewissen Voraussetzungen, z.B. $a(\argdot, \argdot)$ symmetrisch, $\Omega$ zusammenhängend, siehe [Evans, §6.5] kann man zeigen:
+	\begin{itemize}
+		\item
+			Es existieren nur reelle positive Eigenwerte: $\lambda \in (0, \infty)$.
+		\item
+			Es existiert eine unbeschränkte Folge an Eigenwerten, d.h. $(\lambda_j)_{j\in\N}$ mit
+			\begin{math}
+				0 < \lambda_1 \le \lambda_2 \le \dotsb
+			\end{math}
+			und $\lim_{j\to \infty}\lambda_j = \infty$.
+		\item
+			Es existiert eine $L_2$-orthonormale Menge $\Set{v_j}_{j\in\N}$ aus Eigenfunktionen $v_j$ zu Eigenwerten $\lambda_j$.
+			Ansatz: Wähle $n \in \N$, setze $h := \f 1n$, $V_h := \Span{\phi_1, \dotsc, \phi_n} \subset V$ mit $\phi_i := v_i$.
+			Für die Steifigkeitsmatrix der Galerkin-Projektion folgt:
+			\begin{math}
+				a(\phi_j, \phi_i)
+				= a(v_j, v_i)
+				= \lambda_j \underbrace{\<v_j, v_i\>_{L_2}}_{\delta_{ij}}
+				= \lambda_j \delta_{ij},
+			\end{math}
+			also ergibt sich das LGS
+			\begin{math}
+				\Matrix{\lambda_1 & & 0 \\ & \ddots & \\ 0 & & \lambda_n}
+				\Vector{u_1 & \dots & u_n}
+				= \Vector{l(v_1) & \dots & l(v_n)}
+			\end{math}
+			mit Lösung $u_j := \frac{l(v_j)}{\lambda_j}$.
+
+			Dies ergibt eine optimale Struktur des LGS, da $A_h$ diagonal ist.
+			Im Allgemeinen ist das Verfahren jedoch inpraktikabel, da die Eigenfunktionen/Eigenwerte $v_i, \lambda_i$ selen bekannt sind.
+	\end{itemize}
+\end{ex}
+
+\begin{ex} \label{3.52}
+	$V_h$ als polynomieller Ansatzraum ($V = W, V_h = W_h$)
+	Sei $d = 1, \Omega = (0,1), a(u,v) := \int_\Omega u' v'$ auf $H_0^1(\Omega)$.
+	Ein Polynom mit Nullrandwerten hat die Gestalt $p(x) = x(1-x)q(x)$ für $q \in \P_m$.
+	Wähle $n \in \N$, $h := \frac{1}{n}$, $V_h := \Span{\phi_1, \dotsc, \phi_n} \subset V$ mit $\phi_j(x) := x(1-x) x^{j-1} = x^j (1-x)$ für $j = 1, \dotsc, n$.
+	Es ergibt sich
+	\begin{math}
+		a(\phi_j, \phi_i)
+		= \int_\Omega \phi_j' \phi_i' \di[x],
+	\end{math}
+	im Allgemeinen ergibt sich $a(\phi_j, \phi_i) \neq 0$.
+	Die Steifigkeitsmatrix $A_h$ ist somit dicht besetzt und bei großen Matrizen ergeben sich Speicherprobleme.
+	Folglich ist das Verfahren für großes $n$ impraktikabel.
+
+	Bei mäßigem $n$ (z.B. $n \approx 25$) ist dies das \emphdef{Spektralverfahren}.
+\end{ex}
+
+\begin{ex}[Notwendigkeit von Petrov-Galerkin bei nicht-koerziven Problemen] \label{3.53}
+	Falls $a(\argdot, \argdot)$ nicht koerziv ist, kann die (Ritz-)Galerkin-Projektion aus einem wohlgestellten Problem in $V$ ein singuläres System in $V_h$ liefern.
+
+	Sei $V := \R^2, a(u,v) = u^T \Matrix{1 & 0 \\ 0 & -1} v$ für $u, v \in \R^2$ und $l(v) := \Vector{1 & 1}^T v$.
+	$a(\argdot, \argdot)$ ist nicht koerziv, da $a(\Vector{0 & 1}, \Vector{0 & 1}) = -1 < \alpha \|\Vector{0 & 1}\|^2$ für alle $\alpha > 0$.
+	Das System in $V$ ist wohlgestellt:
+	\begin{math}
+		a(u,v) = l(v)
+		\iff u^T \Matrix{1 & 0 \\ 0 & -1} = \Vector{1 & 1}^T
+		\iff u = \Vector{1 & -1}.
+	\end{math}
+	Übung: inf-sup-Konstante ist $1$.
+
+	Mit $V_h = \Span{\Vector{1 & 1}}$, $W_h = V_h$ entsteht ein singuläres System.
+	Ansatz: $u_h = u_1 \phi_1$, wobei $\phi_1 = \Vector{1 & 1}$, $u_1 \in \R$ ergibt ein LGS:
+	\begin{math}
+		A_h &= (a_{11}) = a(\phi_1, \phi_1) = \Vector{1 & 1}^T \Matrix{1 & 0 \\ 0 & -1} \Vector{1 & 1} = 0, \\
+		b_h &= l(\phi_1) = \Vector{1 & 1}^T \Vector{1 & 1} = 2,
+	\end{math}
+	aber $0 \cdot u_h = 2$ ist nicht lösbar.
+
+	Ein Ausweg bietet Petrov-Galerkin:
+	Wähle $\phi_1 \in \R^2 \setminus \Span{\Vector{1 & 1}}$ beliebig, $\psi_1 := \Matrix{1 & 0 \\ 0 & -1} \phi_1$, $V_h := \Span{\phi_1}, W_h := \Span{\psi_1}$.
+	Es ergibt sich
+	\begin{math}
+		A_h &= (a(\phi_1, \psi_1))
+		= \phi_1^T \Matrix{1 & 0 \\ 0 & -1} \underbrace{\Matrix{1 & 0 \\ 0 & -1} \phi_1}_{=\psi_1}
+		= \|\phi_1\|^2 > 0, \\
+		b_h &= l(\psi_1),
+	\end{math}
+	Also ist $A_h \underbar{u}_h = b_h$ eindeutig lösbar.
+\end{ex}
+
+Wir wenden uns jetzt Fehleranalysen für Petrov-Galerkin zu:
+Zentral ist die Beziehung zur Bestapproximation.
+
+Gegeben $V_h$, wie gut kommt $u_h \in V_h$ an das Minimum von $\inf_{v\in V_h} \|u - v\|$ heran?.
+Zunächst ein Hilfssatz
+
+\begin{lem} \label{3.54}
+	Sei $P \in L(V, V)$ idempotent, d.h. $P^2 = P$, nichttrivial, d.h. $0 \neq P \neq \Id$.
+	Dann ist
+	\begin{math}
+		\|P\|_{L(V,V)}
+		= \|\Id - P\|_{V,V}.
+	\end{math}
+	\begin{proof}
+		Siehe Übung.
+	\end{proof}
+\end{lem}
+
+\begin{st}[Beziehung zur Bestapproximation] \label{3.55}
+	Sei $a(\argdot, \argdot)$ inf-sup-stabil auf $V_h \times W_h$ mit inf-sup-Konstante $\beta_h > 0$ und stetig auf $V \times W$ mit Stetigkeitskonstante $\gamma > 0$.
+	Dann gilt für den Fehler der Petrov-Galerkin-Projektion
+	\begin{math}
+		\|u - u_h\| \le \frac{\gamma}{\beta_h} \inf_{v\in V_h} \|u - v\|.
+	\end{math}
+	\begin{proof}
+		Definieren $P_h: V \to V_h$:
+		Zu $v \in V$ sei $P_h v \in V_h$ Lösung von
+		\begin{math}[numbered] \label{eq:3.23}
+			a(P_h v, w) &= a(v,w) & \forall w \in W_h.
+		\end{math}
+		Wegen $a(v, \argdot) \in W'$ existiert eine eindeutige Lösung $P_h v$, also ist $P_h$ wohldefiniert.
+		$P_h$ ist weiter linear (trivial) und eine Projektion $P_h^2 = P_h$, denn für $v \in V_h$ erfüllt $P_h v = v$ die Gleichung \eqref{eq:3.23}.
+		Damit gilt
+		\begin{math}
+			(\Id - P_h)v
+			= v - P_h v
+			= 0
+		\end{math}
+		für alle $v \in V_h$.
+		Weiter gilt $u_h = P_h u$, denn $a(P_h u, w) \stack{\eqref{eq:3.23}}= a(u,w) = l(w)$ für alle $w \in W_h$, was gerade dem diskreten Problem \ref{3.45} entspricht.
+		Für die Norm schließen wir
+		\begin{math}
+			\|P_h v\|
+			\le \frac{\|a(v,\argdot)\|_{W'}}{\beta_h}
+			\le \frac{\gamma \|v\|}{\beta_h},
+		\end{math}
+		also
+		\begin{math}
+			\|P_h\|
+			= \inf_{v\neq 0} \frac{\|P_h v\|}{\|v\|}
+			\le \frac{\gamma}{\beta_h}.
+		\end{math}
+		Für $v \in V_h$ gilt die Behauptung mittels \ref{3.54} falls $P_h$ nichttrivial ist:
+		\begin{math}
+			\|u - u_h\|
+			= \|(\Id - P_h)u\|
+			= \|(\Id - P_h u) - (\Id - P_h)v\|
+			= \|\Id - P_h(u-v)\|
+			\le \|\Id - P_h\| \|u-v\|
+			\stack{\ref{3.54}}= \|P_h\|\|u-v\|
+			\le \frac{\gamma}{\beta} \|u-v\|
+		\end{math}
+		für alle $v \in V_h$, insbesondere also
+		\begin{math}
+			\|u - u_h\| \le \frac{\gamma}{\beta_h} \inf_{v\in V_h} \|u - v\|.
+		\end{math}
+		Falls $P_h = \Id$ ist $V = V_h$, $\|u - u_h\| = 0$, also ist die Behauptung klar.
+		Falls $P_h = 0$, dann ist $V_h = \Set{0}$ (sonst finde $v \in V_h \setminus \Set 0$, also $0 = P_h v = v \neq 0$, ein Widerspruch) und insbesondere $\dim V_h = 0$, also $a(\argdot, \argdot)$ nicht inf-sup-stabil auf $V_h \times W_h$.
+	\end{proof}
+\end{st}
+
+\begin{kor}[Lemma von Céa] \label{3.56}
+	Falls $a(\argdot, \argdot)$ stetig und koerziv mit Koerzivitätskonstante $\alpha$, so gilt $\|u - u_h\| \le \frac{\gamma}{\alpha} \inf_{v\in V_h} \|u - v\|$.
+	\begin{proof}
+		Klar mit \ref{3.55} und $\alpha-\beta$-Beziehung in \ref{3.33}.
+	\end{proof}
+\end{kor}
+
+\begin{note}
+	\begin{itemize}
+		\item
+			$\|u - u_h\|$ ist bei Galerkin-Projektion für $a(\argdot, \argdot)$ koerziv, also höchsten um $h$-unabhängigen Faktor $\frac{\gamma}{\alpha}$ schlechter als die Bestapproximation.
+			Dies nennt man \emphdef{Quasi-Optimalität} der Galerkin-Projektion.
+		\item
+			Ein offensichtlich gutes Konstruktionsprinzip für $V_h$ wäre:
+			Wähle $V_h$ so, dass $\inf_{v \in V_h} \|u - v\|$ klein, dann ist der Galerkin-Approximationsfehler garantiert klein.
+		\item
+			Formal impliziert \ref{3.56} Konvergenz der Galerkin-Projektion, falls die Bestapproximation konvergiert:
+			\begin{math}[numbered] \label{eq:3.24}
+				\inf_{v\in V_h} \|u - v\| &\le C h^p
+				&&\implies&
+				\|u - u_h\| &\le C' h^p
+			\end{math}
+			mit $C' := C \frac{\gamma}{\alpha}$.
+		\item
+			Konvergenz und Fehleranalysis ist also reduziert auf die PDE-unabhängige Frage:
+			Wie gut kann $V_h$ Funktionen $u \in V$ gut approximieren?
+	\end{itemize}
+\end{note}
 
 
