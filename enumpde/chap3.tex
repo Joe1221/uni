@@ -428,14 +428,14 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 	\begin{note}
 		\begin{itemize}
 			\item
-				Also ist das Skalarprodukt $\<\argdot, \argdot\>_V: V \times V \to \R$ ist stetig mit $\gamma = 1$ wegen Cauchy-Schwartz $\<v, w\>_V \le \|v\|\|w\|$.
+				Also ist das Skalarprodukt $\<\argdot, \argdot\>_V: V \times V \to \R$ stetig mit $\gamma = 1$ wegen Cauchy-Schwartz $\<v, w\>_V \le \|v\|\|w\|$.
 		\end{itemize}
 	\end{note}
 \end{df}
 
 \begin{st}[Projektionssatz] \label{3.17}
 	Sei $W \subset V$ abgeschlossener Unterraum.
-	Dann existiert genau ein Projektionsoperator $P: V \to w$ mit
+	Dann existiert genau ein Projektionsoperator $P: V \to W$ mit
 	\[
 		\<v - Pv, w\> = 0
 	\]
@@ -451,17 +451,20 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \end{st}
 
 \begin{st}[Rieszscher Darstellungssatz] \label{3.18}
-	Sei $V$ ein Hilbertraum, dann ist $J: V \to V'$ definiert durch $J(v)(w) := \<v, w\>_V$ für $v, w \in V$.
+	Sei $V$ ein Hilbertraum und $J: V \to V'$ definiert durch
+	\begin{math}
+		(J(v))(w) &:= \<v, w\>_V & \forall v, w \in V.
+	\end{math}
 	Dann ist $J$ eine stetige, lineare, bijektive Isometrie.
 
-	Insbesondere existiert zu $l \in V'$ ein eindeutiger Riesz-Repräsentant $v_l := J^{-1}(l) \in V$ mit $l(\argdot) = \<v_l, \argdot\>$.
+	Insbesondere existiert zu $l \in V'$ ein eindeutiger Riesz-Repräsentant $v_l := J^{-1}(l) \in V$ mit $l(\argdot) = \<v_l, \argdot\>_V$.
 	\begin{proof}
 		Siehe PDEMAS 13/14 oder Alt.
 	\end{proof}
 \end{st}
 
 \begin{st}[Repräsentierender Operator] \label{3.19}
-	Sei $a: V \times W \to \R$ eine stetiger Bilinearform mit Stetigkeitskonstante $\gamma$.
+	Sei $a: V \times W \to \R$ eine stetige Bilinearform mit Stetigkeitskonstante $\gamma$.
 	Dann existiert $A \in L(V,W)$ mit $\|A\|_{L(V,W)} = \gamma$ und
 	\begin{equation} \label{eq:3.3}
 		\<Av, w\>_W = a(v,w)
@@ -503,25 +506,25 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \begin{df}[Koerzivität] \label{3.20}
 	Eine Bilinearform $a: V \times V  \to \R$ heißt \emphdef{koerziv} mit \emphdef{Koerzivitätskonstante} $\alpha$, wenn
 	\[
-		\alpha := \int_{v \in V \setminus \Set 0} \f{a(v,w)}{\|v\|^2} > 0.
+		\alpha := \inf_{v \in V \setminus \Set 0} \f{a(v,v)}{\|v\|^2} > 0.
 	\]
 	\begin{note}
 		\begin{itemize}
 			\item
 				Also ist das Skalarprodukt koerziv mit $\alpha = 1$:
 				\[
-					\int_{v \neq 0} \f{\<v,v\>}{\|v\|^2}
+					\inf_{v \neq 0} \f{\<v,v\>}{\|v\|^2}
 					= \inf_{v \neq 0} 1
 					= 1 > 0.
 				\]
 			\item
-				Eine Blinearform ist koerziv genau dann, wenn der symmetrische Anteil $a_S(V,W)$ koerziv ist:
+				Eine Bilinearform ist koerziv genau dann, wenn der symmetrische Anteil $a_S(V,W)$ koerziv ist:
 				\[
 					a_S(V,W) := \f 12 (a(v,w) + a(w,v)),
 				\]
 				denn $a(u,u) = a_S(u,u)$.
 			\item
-				$\gamma$ und $\alpha$ lasssen sich durch geeignete Eigenwertprobleme/Singulärwertsprobleme berechnen (siehe Übung).
+				$\gamma$ und $\alpha$ lassen sich durch geeignete Eigenwertprobleme/Singulärwertprobleme berechnen (siehe Übung).
 			\item
 				Es gilt stets $\alpha \le \gamma$.
 		\end{itemize}
@@ -529,33 +532,36 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \end{df}
 
 \begin{df}[Bilinearform/Linearform für PDEs zweiter Ordnung] \label{3.21}
-	Sei $\Omega \subset \R^d$ beschränkt und das Null-RWP ein PDE zweiter Ordnung gegeben:
-	\[
-		-\Nabla (A \Nabla u) + \Nabla (b \cdot u) + c u = f
-	\]
-	in $\Omega$ und $u = 0$ auf $\Gamma$, wobei $A = (a_{ij})_{ij=1}^d \in (L^\infty(\Omega))^{d\times d}, b = (b_i)_{i=1}^d \in (L^\infty(\Omega))^d, c \in L^\infty(\Omega), f \in L^2(\Omega)$.
+	Sei $\Omega \subset \R^d$ beschränkt und das Null-RWP für eine PDE zweiter Ordnung gegeben, d.h.
+	\begin{math}
+		-\Nabla (A \Nabla u) + \Nabla (b \cdot u) + c u &= f && \text{in $\Omega$}, \\
+		u &= 0 && \text{auf $\Gamma$},
+	\end{math}
+	wobei $A = (a_{ij})_{ij=1}^d \in (L^\infty(\Omega))^{d\times d}, b = (b_i)_{i=1}^d \in (L^\infty(\Omega))^d, c \in L^\infty(\Omega), f \in L^2(\Omega)$.
 
 	Dann definieren wir die Bilinearform und Linearform
-	\begin{align} \label{eq:3.4}
+	\begin{math}[numbered] \label{eq:3.4}
 		% a(u,v) &:= \int_\Omega (Au)^T v + (b\nabla v) u + cuv
 		a(u,v) &:= \int_\Omega (A \Nabla u) \cdot \Nabla v - (b \cdot \Nabla v) u + c u v \di[x], \\
-		l(v) &:= \int_\Omega f v \di[x] \notag
-	\end{align}
+		l(v) &:= \int_\Omega f v \di[x]
+	\end{math}
 	für $u, v \in H^1(\Omega)$.
 \end{df}
 
 \begin{st}[Stetigkeit und Koerzivität, $b=0$, $c = 0$] \label{3.22}
-	Falls $A$ gleichmäßig elliptisch, d.h. für ein $\tilde \alpha > 0$ gilt $z^T A(x) z \ge \tilde \alpha \|z\|^2$ für alle $x \in \Omega, z \in \R^d$, und $A$ ist gleichmäßig beschränkt, d.h. für $C > 0$ (und beliebiger Matrixnorm) gilt $\|A(x)\| \le C$ für alle $x \in \Omega$.
-	Dann ist für $b = 0, c = 0$ die Bilinearform aus \ref{3.21} stetig auf $H^1(\Omega)$ und koerziv auf $H_0^1(\Omega)$.
+	Sei $b = 0, c = 0$, $A$ gleichmäßig elliptisch, d.h. für ein $\tilde \alpha > 0$ gilt $z^T A(x) z \ge \tilde \alpha \|z\|^2$ für alle $x \in \Omega, z \in \R^d$ und $A$ gleichmäßig beschränkt, d.h. für $C > 0$ (und beliebiger Matrixnorm) gilt $\|A(x)\| \le C$ für alle $x \in \Omega$.
+
+	Dann ist die Bilinearform aus \ref{3.21} stetig auf $H^1(\Omega)$ und koerziv auf $H_0^1(\Omega)$.
 	\begin{proof}
-		\begin{align*}
-			a(u,v) = \int_\Omega (A \Nabla u) \cdot \Nabla v \di[x]
+		\begin{math}
+			a(u,v)
+			&= \int_\Omega (A \Nabla u) \cdot \Nabla v \di[x] \\
 			&\le \int_\Omega \underbrace{\|A(x) \Nabla u(x)\|}_{\le \|A\| \|\Nabla u\| \le C \|\Nabla u\|} \|\Nabla v(x)\| \di[x] \\
 			&\le C \int_\Omega \|\Nabla u\| \|\Nabla v\| \di[x] \\
 			&\le C \Big( \int_\Omega \|\Nabla u\|^2 \Big)^{\f 12} \Big(\int_\Omega \|\Nabla v\|^2 \Big)^{\f 12} \\
 			&\le C \sqrt{\int_\Omega \|\Nabla u\|^2 + \|u\|^2} \sqrt{\int_\Omega \|\nabla v\|^2 + \|v\|^2} \\
 			&= C \|u\|_{H^1} \|v\|_{H^1},
-		\end{align*}
+		\end{math}
 		also ist $a(\argdot, \argdot)$ stetig auf $H^1(\Omega) \times H^1(\Omega)$.
 		Da $A$ ohne Einschränkung symmetrisch und gleichmäßig elliptisch:
 		\begin{align*}
@@ -571,7 +577,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 		mit $\diam(\Omega) \le s$.
 		Es folgt
 		\[
-			\alpha := \int_{u \neq 0} \frac{a(u,u)}{\|u\|_{H^1}^2}
+			\alpha := \inf_{u \neq 0} \frac{a(u,u)}{\|u\|_{H^1}^2}
 			\ge \f{\tilde \alpha}{(1+s)^2} \frac{\|u\|_{H^1}^2}{\|u\|_{H_1}^2}
 			>0,
 		\]
@@ -595,11 +601,12 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 					= \gamma < \infty
 				\end{align*}
 			\item
-				$a(\argdot, \argdot)$ ist koerziv auf Teilräumen von $H_0^1(\Omega)$ Koerzivität vererbt sich auf Teilräumen:
+				$a(\argdot, \argdot)$ ist koerziv auf Teilräumen von $H_0^1(\Omega)$.
+				Koerzivität vererbt sich auf Teilräume:
 				Sei $W \subset H_0^1$, dann gilt
 				\[
-					\int_{u \in W} \f{a(u,w)}{\|u\|^2}
-					\ge \int_{u \in H_0^1(\Omega)} \f{a(u,u)}{\|u\|^2}
+					\inf_{u \in W} \f{a(u,u)}{\|u\|^2}
+					\ge \inf_{u \in H_0^1(\Omega)} \f{a(u,u)}{\|u\|^2}
 					= \alpha
 					> 0.
 				\]
@@ -655,7 +662,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \end{df}
 
 \begin{df}[Schwache Lösung] \label{3.24}
-	Seien $a(\argdot, \argdot), l(\argdot)$ wie in \ref{3.4}.
+	Seien $a(\argdot, \argdot), l(\argdot)$ wie in \eqref{eq:3.4}.
 	Wir nennen $u \in H_0^1(\Omega)$ \emphdef{schwache Lösung} des RWP, falls
 	\begin{equation} \label{eq:3.5}
 		a(u,v) = l(v)
@@ -673,7 +680,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \end{st}
 
 \begin{st}[Wohlgestelltes schwaches Poisson-RWP] \label{3.26}
-	Betrachte \ref{eq:3.5} für $A(x) = I, c(x) = 0, b(x) = 0$, also
+	Betrachte \eqref{eq:3.5} für $A(x) = I, c(x) = 0, b(x) = 0$, also
 	\begin{align*}
 		a(u,v) &= \int_\Omega \nabla u \cdot \nabla v \di[x], &
 		l(v) &= \int_\Omega f v \di[x].
@@ -687,12 +694,12 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 	\end{note}
 	\begin{proof}
 		$A(x)$ ist gleichmäßig elliptisch mit Elliptizitätskonstante $\tilde \alpha = 1$ und gleichmäßig beschränkt.
-		Nach \ref{3.22} ist $a(u,v)$ koerziv und stetig auf $H_0^1(\Omega)$ mit $\alpha = \f 1{(1+s)^2}$.
-		$a(u,v)$ ist symmetrisch, also ein Energieskalarprodukt und
+		Nach \ref{3.22} ist $a(u,v)$ koerziv und stetig auf $H_0^1(\Omega)$ mit Koerzivitätskonstante $\alpha = \f 1{(1+s)^2}$.
+		Da $a(\argdot, \argdot)$ auch symmetrisch, ist $a(\argdot, \argdot)$ ein Energieskalarprodukt und
 		\[
 			a(u,u)
 			= \<u,u\>_a
-			= \int_\Omega \nabla u \cdot \nabla u
+			= \int_\Omega \nabla u \cdot \nabla u \di[x]
 			= |u|_{H^1(\Omega)}^2.
 		\]
 		Mit der Normäquivalenz \ref{3.13} gilt
@@ -754,12 +761,12 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \end{kor}
 
 \begin{st}[Schwache Form als Minimierungsproblem] \label{3.28}
-	Sei $a: V \times V \to \R$ bilinear, stetig, koreziv und symmetrisch.
+	Sei $a: V \times V \to \R$ bilinear, stetig, koerziv und symmetrisch.
 	Dann ist die schwache Form \eqref{eq:3.5} äquivalent zu einem Minimierungsproblem, d.h.
 	\begin{math}
 		& & &\text{$u$ löst $a(u,v) = l(v)$ für alle $v \in V$} \\
 		&\iff&
-		&\text{$u = \argmin_{v\in V} \f 12 a(v,v) - l(v)$}.
+		&\text{$u = \argmin_{v\in V} \big( \f 12 a(v,v) - l(v)$} \big).
 	\end{math}
 	\begin{proof}
 		Siehe Übung.
@@ -769,7 +776,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 			\item
 				Für nichtsymmetrisches $a(\argdot, \argdot)$ existiert keine solche Aussage.
 			\item
-				In obigem wird nocheinmal klar, dass Vollständigkeit von $V$ essentiell für die Existenz eines Minimums ist:
+				Mit diesem Satz wird nocheinmal klar, dass Vollständigkeit von $V$ essentiell für die Existenz einer Lösung ist:
 				Über $C_0^1$ wird das Funktional im Allgemeinen kein Minimum annehmen, obwohl Minimalfolgen existieren.
 		\end{itemize}
 	\end{note}
@@ -777,7 +784,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 
 \begin{note}
 	Allgemeine koerzive Probleme (z.B. nicht-symmetrische) erlauben eine Wohlgestellheitsaussage mit „Satz von Lax-Milgram“.
-	Wir überspringen diesen hier, weil er aus dem allgemeinerem Nečas-Theorem folgt.
+	Wir überspringen diesen hier, weil er aus dem allgemeineren Nečas-Theorem folgt.
 \end{note}
 
 \begin{note}[Verallgemeinerte Randbedingungen]
@@ -1054,7 +1061,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 				= a(v,\_{\_w}),
 			\end{math}
 			ein Widerspruch zur zweiten Annahme in i).
-			Somit ist $A$ surjektiv.			
+			Somit ist $A$ surjektiv.
 
 			Da $A$ bijektiv, existiert die Inverse $A^{-1}$ und für $v \in V$ folgt mit $\beta \|v\| \le \|Av\|$ auch $\beta \|A^{-1}w\| \le \|w\|$.
 			Selbiges gilt für das Supremum
@@ -1069,9 +1076,9 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			\setcounter{equation}{10}
 			\begin{math}[numbered] \label{eq:3.11}
 				\inf_{v\neq 0} \sup_{w\neq 0} \frac{a(v,w)}{\|v\|\|w\|}
-				\stack{\ref{3.32} ii)}= \inf_{v\neq 0} \frac{\|Av\|}{\|v\|}
-				= \inf_{w\neq  0} \frac{\|w\|}{\|A^{-1}w\|}
-				= \frac{1}{\sup_{w\neq 0} \frac{\|A^{-1}w\|}{\|w\|}}
+				\stackrel{\ref{3.32} ii)}= \inf_{v\neq 0} \frac{\|Av\|}{\|v\|}
+				&= \inf_{w\neq  0} \frac{\|w\|}{\|A^{-1}w\|} \\
+				&= \frac{1}{\sup_{w\neq 0} \frac{\|A^{-1}w\|}{\|w\|}}
 				= \frac{1}{\|A^{-1}\|}
 				\ge \frac{1}{\frac{1}{\beta}}
 				= \beta
