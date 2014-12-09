@@ -921,7 +921,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			\]
 			für alle $v \in V \setminus \Set 0$.
 		\item
-			$\beta = \int_{v \neq 0} \f {a(v,Av)}{\|v\| \|Av\|} = \inf_{v \neq 0} \f{\|Av\|}{\|v\|}$.
+			$\beta = \inf_{v \neq 0} \f {a(v,Av)}{\|v\| \|Av\|} = \inf_{v \neq 0} \f{\|Av\|}{\|v\|}$.
 		\item
 			$A$ ist injektiv, d.h. $\forall v \neq 0 : Av \neq 0$.
 		\item
@@ -977,7 +977,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 
 \begin{st}[Beziehung von $\alpha$ und $\beta$] \label{3.33}
 	Sei $a: V \times V \to \R$ stetig, bilinear.
-	Falls $a$ koerziv mit Konstante $\alpha$, dann ist $\alpha$ inf-sup-stabil mit Konstante $\beta$ sodass $\beta \ge \alpha$.
+	Falls $a$ koerziv mit Konstante $\alpha$, dann ist $a$ inf-sup-stabil mit Konstante $\beta$ sodass $\beta \ge \alpha$.
 	\begin{proof}
 		\begin{math}
 			\beta
@@ -1024,7 +1024,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			$A$ ist bereits injektiv nach \ref{3.32} ii).
 			Zeige, dass $\im A$ vollständig ist und nutze den Projektionssatz für die Surjektivität.
 
-			Sei $w_n = Av_n$ eine Cauchy-Folge in $\im A$.
+			Sei $w_n = Av_n$ eine Cauchy-Folge in $\im(A)$.
 			$W$ ist vollständig, also existiert $w \in W$ mit $\lim_{n\to \infty} w_n = w$.
 			Es verbleibt $w \in \im A$ zu zeigen.
 			Mit der inf-sup-Eigenschaft \ref{3.32} ii) folgt
@@ -1123,7 +1123,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			Knobelaufgabe:
 			Ist $a(\argdot, \argdot)$ inf-sup-stabil auf $H_0^1(\Omega)$?
 		\item
-			Durch geeignete Wahl von Räumen kann obiges $a$ als inf-sup-stabil nachgewiesen wreden mit folgendem Hilssatz \ref{3.35}.
+			Durch geeignete Wahl von Räumen kann obiges $a$ als inf-sup-stabil nachgewiesen werden mit folgendem Hilssatz \ref{3.35}.
 	\end{itemize}
 \end{note}
 
@@ -1537,9 +1537,9 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			\begin{math}
 				\|p\|
 				&\le \frac{1}{\beta_b} \|f_\orth\|
-				= \frac{1}{\beta_b}\|f - a(u,\argdot)\|_{(V_\orth)'}
-				&\le \frac{1}{\beta_b}\|f-a(u,\argdot)\|_{V'}
-				&\le \frac{1}{\beta_b}(\|f\| + \gamma \|u\|)
+				= \frac{1}{\beta_b}\|f - a(u,\argdot)\|_{(V_\orth)'} \\
+				&\le \frac{1}{\beta_b}\|f-a(u,\argdot)\|_{V'} \\
+				&\le \frac{1}{\beta_b}(\|f\| + \gamma \|u\|) \\
 				&\le \frac{1}{\beta_b}(1 + \gamma C_u) \|f\| + \frac{1}{\beta_b} \gamma C_u \|g\| \\
 				&\le C_p (\|f\| + \|g\|).
 			\end{math}
@@ -1969,4 +1969,480 @@ Zunächst ein Hilfssatz
 	\end{itemize}
 \end{note}
 
+\Timestamp{2014-12-09}
 
+
+\begin{note}
+	\begin{itemize}
+		\item
+			Komplikation bei inf-sup-stabilen Problemen:
+			Es kann passieren und muss verhindert werden, dass $\beta_h \to 0$ für $h \to 0$, da dann die Konvergenzordnung der Bestapproximation oder gar die Konvergenz der Petrov-Galerkin-Approximation (welche später behadnelt wird) verloren geht, was auf ein \emphdef{instabiles Verfahren} führt.
+
+			Ziel ist daher eine \emphdef{stabile Diskretisierung}, d.h. $V_h, W_h$ müssen so gewählt werden, dass $\_\beta > 0$ existiert mit $\beta_h \ge \_\beta > 0$ für alle $h$.
+			In diesem Fall gilt $\inf_{v \in V_h} \sup_{w \in W_h} \frac{a(v,w)}{\|v\|\|w\|} \ge \_\beta$ und eine analoge Aussage zur Konvergenzordnung \eqref{eq:3.24} gilt.
+	\end{itemize}
+\end{note}
+
+\begin{note}[Verbesserung von Céa für symmetrische Probleme]
+	Falls $a(\argdot, \argdot)$ koerziv, stetig und symmetrisch, so gilt die Bestapproximationsaussage mit verbesserter Konstante $\sqrt{\frac{\gamma}{\alpha}}$:
+	Mit Stetigkeit und Koerzivität folgt Normäquivalenz zur Energienorm $\|\argdot\|_a$
+	\begin{math}
+		\|v\|_a
+		= a(v,v)
+		\le \gamma \|v\|^2, &&
+		\alpha \|v\|^2 \le a(v,v) = \|v\|_a^2
+	\end{math}
+	und folglich
+	\begin{math}
+		\sqrt a \|v\| \le \|v\|_a \le \sqrt{\gamma} \|v\|.
+	\end{math}
+	Für alle $v \in V_h$ gilt mit Galerkin-Orthogonalität und Cauchy-Schwartz gilt
+	\begin{math}
+		\|u-u_h\|_a^2
+		&= a(u-u_h, u-u_h)
+		= a(u - u_h, u - v)
+		= \<u - u_h, u - v\>_a \\
+		&\le \|u-u_h\|_a \|u -v\|_a,
+	\end{math}
+	also $\|u-u_h\|| \le \|u - v\|_a$.
+	Mit Normäquivalenz also
+	\begin{math}
+		\|u-u_h\|
+		\le \sqrt{\frac{\gamma}{\alpha}} \|u-v\|
+	\end{math}
+	und insbesondere für das Infimum über alle $v$:
+	\begin{math}
+		\|u - u_h\| \le \sqrt{\frac{\gamma}{\alpha}} \inf_{v\in V_h} \|u-v\|.
+	\end{math}
+\end{note}
+
+
+\section{Finite Elemente} \label{sec:3.4}
+
+
+Wähle das Galerkin-Verfahren mit stückweise polynomiellen, global stetigen Ansatzfunktionen, welche lokalen Träger haben.
+
+Beispiel: $d = 1, \Omega = (0,1)$ mit äquidistantem Giltter für $n \in \N, h := \frac{1}{n+1}, x_i := i h$ für $i = 0, \dotsc, n + 1$.
+Als Ansatzfunktionen wählen wir für $j = 1, \dotsc, n$ „Hütchenfunktionen“
+\begin{math}
+	\phi_j(x) := \begin{cases}
+		\frac{1}{h} (x - x_{j-1}) & x \in [x_{j-1}, x_j] \\
+		-\frac{1}{h} (x - x_{j+1} & x \in [x_j, x_{j+1}] \\
+		0 & \text{sonst}
+	\end{cases}.
+\end{math}
+Wir erhalten insbesondere $\phi_j(x_i) = \delta_{ij}$, die $\phi_j$ bilden also eine sogenannte \emphdef{nodale Basis}.
+Es gilt $\supp(\phi_j) = [x_{j-1}, x_{j+1}]$, der Träger skaliert mit $h$ gegen $0$.
+
+Als Ansatzraum wählen wir $V_h := \Span{\phi_1, \dotsc, \phi_n} \subset H_0^1(\Omega)$, dies ist gerade der Raum der linearen Splines.
+
+Für das Poisson-Problem
+\begin{math}
+	-u''(x) &= f(x) && x \in (0,1) \\
+	u(0) = u(1) &= 0.
+\end{math}
+erhalten wir in der schwachen Form
+\begin{math}
+	a(u,v) &= \int_0^1 u' v' \di[x],
+	l(v) &= \int_0^1 f v \di[x].
+\end{math}
+Die Ableitungen der Ansatzfunktionen:
+\begin{math}
+	\phi_j'(x)
+	= \begin{cases}
+		\frac{1}{h} & x \in (x_{j-1}, x_j) \\
+		-\frac{1}{h} & x \in (x_j, x_{j+1}) \\
+		0 & \text{sonst}
+	\end{cases}.
+\end{math}
+Damit folgt für die Matrix $A_h = (a_{ij})_{i,j=1}^n$:
+\begin{math}
+	i &= j: & a_{jj} &= a(\phi_j,\phi_j) = \int_\Omega (\phi_j')^2 = \int_{x_{j-1}}^{x_{j+1}} (\frac{1}{h})^2 = 2h \frac{1}{h^2} = \frac{2}{h}, \\
+	i &= j+1: & a_{j+1,j} &= \int_0^1 \phi_j' \phi_{j+1} = \int_{x_j}^{x_{j+1}} - \frac{1}{h} \frac{1}{h} = - h \frac{1}{h^2} = -\frac{1}{h},
+\end{math}
+analog für $i = j - 1$ und für $|i-j| > 1$ folgt $a_{ij} = 0$.
+Wir erhalten
+\begin{math}
+	A_h &= \frac{1}{h} \Matrix{2 & -1 & & \\ -1 & \ddots & \ddots & \\ 0 & \ddots & \ddots & -1 \\ & & -1 & 2}, &
+	b_h &= \Vector{\int_\Omega f\phi_1 & \dots & \int_\Omega f \phi_n}.
+\end{math}
+$A_h$ ist eine Tridiagonalmatrix und damit sehr dünn besetzt, es ergibt sich kein Speicherproblem für große $n$.
+Hier ist zufällig $A_h$ eine skalierte Version der FD-Matrix.
+Die gute Approximations-Fähigkeit von Splines garantiert mit Céa eine gute Approximation der FEM-Approximation.
+
+\begin{df}[Simplex] \label{3.57}
+	Seien $a_0, \dotsc, a_s \in \R^d$ affin linear unabhängig, d.h. $a_1 - a_0, \dotsc, a_s - a_0$ linear unabhängig, insbesondere $s \le d$.
+	\begin{enumerate}[i)]
+		\item
+			Dann nennen wir die konvexe Hülle
+			\begin{math}
+				T =
+				\ConvexHull{a_0, \dotsc, a_s}
+				:= \Set{x \in \R^d & x = \sum_{j=0}^s \lambda_j a_j, \lambda_j \ge 0, \sum_{j=0}^s \lambda_j = 1}
+			\end{math}
+			ein (nichtdegeneriertes) $s$-dimensionales \emphdef{Simplex} im $\R^d$.
+			Die Punkte $\Set{a_j}$ heißen \emphdef{Ecken} des Simplex.
+		\item
+			Für $r \in \Set{0, \dotsc, s}$ sei $\Set{a_0', \dotsc, a_r'} \subset \Set{a_0, \dotsc, a_s}$.
+			Dann ist $S := \ConvexHull(a_0', \dotsc, a_r')$ ein $r$-dimensionales Seitensimplex von $T$ mit Eckenmenge $\scr E(S) := \Set{a_0', \dotsc, a_r'}$.
+		\item
+			Falls $d = s$, $a_0 := e_0 := 0$ und $a_j := e_j$ Einheitsvektoren für $j = 1, \dotsc, d$, dann heißt $\hat T = T$ \emphdef{Einheitssimplex} oder \emphdef{Referenzelement} im $\R^d$.
+	\end{enumerate}
+\end{df}
+
+\begin{ex*}
+	\begin{itemize}
+		\item
+			Für $s = 2$, $d \ge 2$ ist $T$ ein Dreieck.
+		\item
+			Für $s = 3$, $d \ge 3$ ist $T$ ein Tetraeder.
+		\item
+			Für $s = 1$, $d \ge 1$ ist $T$ eine Strecke.
+		\item
+			Für $r = 1$ ist $S$ eine Kante von $T$.
+		\item
+			Für $r = 0$ ist $S$ eine Ecke von $T$.
+	\end{itemize}
+\end{ex*}
+
+\begin{lem}[Baryzentrische Koordinaten] \label{3.58}
+	Sei $T$ ein $s$-dimensionaler Simplex im $\R^d$, $x \in T$.
+	Dann sind Zahlen $\Set{\lambda_j}_{j=0}^s$ mit
+	\begin{itemize}
+		\item
+			$x = \sum_{j=0}^{s} \lambda_j a_j$,
+		\item
+			$\sum_{j=0}^s \lambda_j = 1$,
+		\item
+			$\lambda_j \ge 0$
+	\end{itemize}
+	eindeutig bestimmt und werden \emphdef{Baryzentrische Koordinaten} oder \emphdef{lokale Koordinaten} genannt.
+	\begin{proof}
+		Gesuchtes $\lambda = (\lambda_j)_{j=0}^s$ erfüllt ein LGS
+		\begin{math}
+			\underbrace{\Matrix{ | & & | \\ a_0 & \hdots & a_s \\ 1 & \hdots & 1}}_{M \in \R^{(d+1)\times (d+1)}}
+			\Vector{\lambda_0 & \dotsc & \lambda_s}
+			=
+			\Vector{ | & x & | & 1}
+		\end{math}
+		Existenz einer Lösung $\lambda$ mit $\lambda_j \ge 0$ folgt aus der Definition des Simplex und $x \in T$.
+		Eindeutigkeit:
+		Sei $\_\lambda$ eine weiter Lösung mit $M \_\lambda = \Vector{x & 1}$, dann erfüllt $w := \lambda - \_\lambda$ das LGS $M w = \Vector{0 & 0}$.
+		Zeigen: $M$ hat vollen Spaltenrang, dann ist $w = 0$, also $\lambda = \_\lambda$.
+		Wir subtrahieren die erste Spalte von den übrigen:
+		\begin{math}
+			\_M
+			= \Matrix{a_0 & a_1 - a_0 & \hdots & a_s - a_0 \\ 1 & 0 & \hdots & 0}.
+		\end{math}
+		Die letzten $s$ Spalten sind linear unabhängig nach Definition des Simplex und die erste Spalte enthält eine Eins in der letzten Zeile.
+		Folglich ist $\rg(M) = \rg(\_M) = s + 1$.
+	\end{proof}
+\end{lem}
+
+\begin{ex*}
+	In einem Dreieck $\Set{a_0, a_1, a_2}$ haben wir für den Schwerpunkt
+	\begin{math}
+		\lambda = \Vector{\frac{1}{3} & \frac{1}{3} & \frac{1}{3}}
+	\end{math} 
+	Dies ist gerade der Inkreismittelpunkt, der Schnitt aller Seitenhalbierenden
+	\begin{math}
+		\Vector{0 & 0 & 1} + w \Big( \Vector{\frac{1}{2} & \frac{1}{2} & 0} - \Vector{0 & 0 & 1} \Big)
+		= \Vector{\frac{1}{3} & \frac{1}{3} & \frac{1}{3}}
+	\end{math}
+	via $w = \frac{2}{3}$.
+\end{ex*}
+
+\begin{note}
+	\ref{3.58} ist sehr praktisch, um zu testen, ob ein Punkt in einem Simplxe liegt, oder auf einem Seitensimplex:
+	Berechne dazu $\lambda(x)$ und prüfe $\lambda_i \ge 0$.
+	Die Zahl $|\Set{\lambda_i & \lambda_i \neq 0}| - 1$ ist die Dimension des Seitensimplex auf welches $x$ liegt.
+\end{note}
+
+\begin{df}[Geometrische Maße] \label{3.59}
+	Für ein Simplxe $T$ ist der \emphdef{Durchmesser}
+	\begin{math}
+		h_T := \diam(T) := \sup_{x,y \in T} \|x - y\|.
+	\end{math}
+	Der \emphdef{Inkugeldurchmesser}
+	\begin{math}
+		\rho_T := 2 \sup \Set{R > 0 & \exists x_0 \in T : B_R(x_0) \subset T}
+	\end{math}
+	und
+	\begin{math}
+		\sigma_T := \frac{h_T}{\rho_T}.
+	\end{math}
+	\begin{note}
+		$\sigma_T$ ist ein Maß für Degeneriertheit von $T$.
+		So weisen beispielsweise sehr spitze Dreiecke großes $\sigma_T$ auf.
+	\end{note}
+\end{df}
+
+Bei der Fehleranalyse und Implementierung von FEM werden Operationen häufig auf das Referenzelement durchegführt und das Ergebnis auf das gewünschte Simplex transformiert.üüm
+
+\begin{st}[Referenzabbildung] \label{3.60}
+	Sei $T$ ein $d$-dimensionales Simplex im $\R^d$ mit Ecken $\Set{a_j}_{j=0}^d$ und $\hat T$ das Referenzelement.
+	\begin{enumerate}[i)]
+		\item
+			Dann existiert genau eine affine Abbildung $F_T: \hat T \to T$ mit $F_T(\hat x) = B\hat x + t$ und regulärer Matrix $B$, $t \in \R^d$ und $F_T(e_j) = a_j$ für $j = 0, \dotsc, d$ (mit $e_0 = 0$).
+		\item
+			\begin{math}
+				\|B\|_2
+				:= \sup_{\hat x \neq 0} \frac{\|B \hat x\|}{\|x\|}
+				\le \frac{h_T}{\rho_{\hat T}}
+			\end{math}
+		\item
+			$\|B^{-1}\|_2 \le \frac{h_{\hat T}}{\rho_T}$.
+		\item
+			$|\det B| = \frac{|T|}{|\hat T|}$ und es existiert $c, C > 0$ unabhängig von $T$ mit
+			\begin{math}
+				c \rho_T^d
+				\le |\det B|
+				\le C h_T^d
+			\end{math}
+	\end{enumerate}
+	\begin{proof}
+		Siehe Übung.
+	\end{proof}
+\end{st}
+
+\begin{df}[Triangulierung] \label{3.61}
+	Sei $\Omega \subset \R^d$ offen und beschränkt mit polygonalem Rand.
+	Sei $I$ eine endliche Indexmenge.
+	Wir nennen $\scr T_h := \Set{T_i & i \in I}$ eine \emphdef{zulässige Triangulierung} von $\Omega$, wenn
+	\begin{itemize}
+		\item
+			$T_i$ ist $d$-dimensionaler Simplex für alle $i \in I$,
+		\item
+			$\_\Omega = \bigcup_{i\in I} T_i$ („Überdeckung“),
+		\item
+			$\mathring T_i \cap \mathring T_j = \emptyset$ für alle $i \neq j$ („Überlappung“),
+		\item
+			für alle $i \neq j$ ist entweder $S := T_i \cap T_j = \emptyset$ oder $S$ $k$-dimensionaler Seitensimplex von $T_j$ und $T_i$ („Konformität“).
+	\end{itemize}
+	Dann definieren wir die \emphdef{globale Gitterweite} oder \emphdef{Feinheit} $h := \max_{i \in I} \Set{h_{T_i}}$, den \emphdef[minimaler Inkugelradius]{minimalen Inkugelradius} $\rho := \min_{i\in I} \Set{\phi_{T_i}}$, die \emphdef[Eckenmenge]{Ecken-} oder \emphdef[Knotenmenge]{Knotenmenge} $\scr E(\scr T_h) := \bigcup_{i \in I} \scr E(T_i)$ und das \emphdef{Maß für Degeneriertheit} $\sigma := \max_{i\in I} \sigma_{T_i}$.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Eine zulässige Triangulierung hat keine „hängenden Knoten“ (siehe auch Bisektions-Übungsaufgabe).
+				Dies würde der Konformität widersprechen.
+			\item
+				Man kann FEM auch für nicht-konforme, also nicht-zulässige Triangulierungen definieren.
+				Falls $\Omega$ nicht polygonal, kann man mittels sogenannter „isoparametrischer Elemente“ den Rand approximieren.
+				Man erlaubt nichtaffine Referenzabbildungen (Elemente der Triangulierungen nicht nicht-affine Bilder von Referenzsimplizes).
+			\item
+				Man kann FEM auch auf Vierecksgitter, allgemeinen polygonalen Triangulierungen, oder gemischten Typen aufbauen.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{df}[Lokal polynomielle Räume] \label{3.62}
+	Für $S \subset \R^d$ $s$-dimensionaler Simplex definieren den Raum der polynomiellen Funktionen bis Grad $k \in \N$ auf $S$ durch
+	\begin{math}
+		\P_k(S) := \Set{ p \in S \to \R & p(x) = \sum_{\beta \in \N_0^d, |\beta| \le k} a_\beta x^\beta, a_\beta \in \R },
+	\end{math}
+	wobei $x^\beta := x_1^{\beta_1} x_2^{\beta_2} \dotsb x_d^{\beta_d}$.
+	Hiermit definieren wir global stetig, stückweise polynomielle Räume für $\scr T_h$
+	\begin{math}
+		P_k(\scr T_k)
+		:= \Set{p \in C^0(\_\Omega) & p|_{T_i} \in \P_k(T_i), i \in I}
+	\end{math}
+	und Teilräume mit nullrandwerten:
+	\begin{math}
+		P_{k,0}(\scr T_h)
+		:= P_k(\scr T_h) \cap H_0^1(\Omega).
+	\end{math}
+\end{df}
+
+\begin{lem}[Polynom in Baryzentrischen Koordinaten] \label{3.63}
+	Sei $T$ ein $d$-dimensionaler Simplex.
+	\begin{enumerate}[i)]
+		\item
+			Zu $p \in \P_k(T)$ exiestiert $\_p \in \P_k(\R^{d+1})$ der Gestalt
+			\begin{math}
+				\_p(\lambda) = \sum_{1 \le |\beta| \le k} d_\beta \lambda^\beta,
+			\end{math}
+			sodass $p(x) = \_p(\lambda(x))$ für alle $x \in T$ mit baryzentrischen Koordinaten $\lambda(x)$ aus \ref{3.58}.
+		\item
+			Zu $\_p \in \P_k(\R^{d+1})$ ist $\_p(\lambda(x))|_T \in \P_k(T)$.
+	\end{enumerate}
+	\begin{proof}
+		Siehe [PDEMAS 13/14].
+	\end{proof}
+\end{lem}
+
+\begin{st}[Lineares Finites Element, Courant Element] \label{3.64}
+	Sei $T$ $d$-dimensionaler Simplex im $\R^d$ mit Ecken $a_0, \dotsc, a_d \in \R^d$ und $p_0, \dotsc, p_d \in \R$.
+	Dann existert genau ein $p \in \P_1(T)$ mit $p(a_j) = p_j$ für $j = 0, \dotsc, d$.
+	\begin{proof}
+		Siehe Übung.
+	\end{proof}
+	\begin{note}
+		Für $d = 1$ ist dies klar wegen eindeutiger Polynominterpolation (siehe Numerik 1, NLA).
+		Für $d = 2$ ist dies anschaulich klar: Ebene durch drei Punkte in allgemeiner Lage.
+		Für Numerik wählt man eine konkrete lokale $\Phi = \Set{\phi_0, \dotsc, \phi_d}$ von $\P_1(T)$, z.B. nodale Funktion zu den Ecken und schreibt $p \in \P_1(T)$ als Linearkombination dieser Basis.
+		Die $\phi_j$ nennt man auch \emphdef{Formfunktion} (engl. “\emphdef{Shape Functions}”).
+	\end{note}
+\end{st}
+
+\begin{st}[Existenz und Eindeutigkeit von $\P_1(\scr T_h)$ Interpolation] \label{3.65}
+	Sei $\scr T_h$ zulässige Triangulierung mit Knoten $\scr E(\scr T_h) = \Set{v_i}_{i=1}^{n_{\scr E}}$, $n_{\scr E} := |\scr E(\scr T_h)|$.
+	Sei $p_i \in \R, i = 1, \dotsc, n_{\scr E}$.
+	Dann existiert genau ein $p \in \P_1(\scr T_h)$ mit $p(v_i) = p_i$ für $i = 1, \dotsc, n_{\scr E}$.
+	\begin{proof}
+		Lokal eindeutige Existenz ist klar nach \ref{3.64}, d.h. für alle $T \in \scr T_h$ existieren eindeutige Interpolationspolynome $p_T \in \P_1(T)$.
+		Setze $p(x) : \Omega \to \R$ mit $p|_{T_i} := p_{T_i}$ für alle $T \in \scr T_h$.
+		Es verbleibt globale Stetigkeit von $p$ zu zeigen:
+
+		Seien $T, T'$ zwei Simplizes mit $S := T \cap T'$ $r$-dimensionales Seitensimplex, $r \ge 1$ ($r = 0$ trivial wegen der Interpolationsbedingung an den Ecken).
+		Es existiert $\scr E(S) \subset \Set{v_i}_{i=1}^{n_{\scr E}}$, $|\scr E(S)| = r + 1$.
+		Betrachte das Referenzsimplex $\hat S \subset \R^r$.
+		Mit \ref{3.64} ist das Interpolationspolynom $\hat p \in \P_1(\hat S)$ durch $r + 1$ Werte eindeutig.
+		Wegen Bijektion zwischen $\P_1(\hat S)$ und $\P_1(S)$ ist also das Interpolationspolynom $p|_S \in \P_1(S)$ eindeutig.
+		Folglich ist $P_T|_S = p_{T'}|_S$, also ist $p$ stetig über Seitensimplizes hinweg.
+	\end{proof}
+\end{st}
+
+\begin{df}[Lagrange-Basis, $k = 1$] \label{3.66}
+	Sei $\scr T_h$ zulässige Triangulierung mit Knotenmenge $\scr E(\scr T_h) = \Set{v_i}_{i=1}^{n_{\scr E}}$.
+	Dann existieren Funktionen $\phi_i \in \P_1(\scr T_h)$ mit $\phi_i(x_j) = \delta_{ij}$ für $i, j = 1, \dotsc, n_{\scr E}$.
+	$\Set{\phi_i}_{i=1}^{n_{\scr E}}$ sind linear unabhängig und spannen $\P_1(\scr T_n)$ auf, also $\dim(\P_1(\scr T_h)) = n_{\scr E}$.
+
+	$\phi_1, \dotsc, \phi_n$ nennen wir \emphdef{nodale Basis} oder \emphdef{Lagrange-Basis} von $\P_1(\scr T_h)$.
+\end{df}
+
+\begin{note}
+	\begin{itemize}
+		\item
+			Man kann zeigen, dass $\P_1(\scr T_h) \subset H^1(\Omega)$ (siehe dazu [PDEMAS 13/14, Satz 4.17]) und
+			\begin{math}
+				\P_{k,0} (\scr T_h) = \Set{p \in \P_1(\scr T_h) & p(v_i) = 0, v_i \in \scr E(\scr T_h) \cap \Boundary \Omega }
+				\subset H_0^1(\Omega).
+			\end{math}
+		\item
+			Also ist $V_h = W_h = \P_{1,0}(\scr T_h)$ für Ritz-Galerkin für RWP mit Nullrandwerten für elliptische PDEs nach \ref{3.39} ein sinnvolle Wahl.
+			Dies sind sogenannte \emphdef{Lineare Finite Elemente}.
+			Wie bei FD sind Freiheitsgrade Funktionswerte an inneren Knoten.
+	\end{itemize}
+\end{note}
+
+\begin{ex*}[Illustration]
+	Für $n = 2$: $\phi_j(v_i) = \delta_{ij}$.
+	$\phi_j$ ist eine Verallgemeinerung der Hütchenfunktion, stückweise linear und global stetig.
+	\begin{math}
+		\supp \phi_j = \bigcup_{i: v_j \in T_i} T_i.
+	\end{math}
+	\begin{itemize}
+		\item
+			Ein geringerer Polynomgrad ist sinnlos bei Forderung der Stetigkeit.
+			\begin{math}
+				\P_0(\scr T_h)
+				= \Set{p: \Omega \to \R & p(x) = c, x \in \Omega, c \in \R},
+			\end{math}
+			also global konstant (für $\Omega$ zusammenhängend).
+	\end{itemize}
+\end{ex*}
+
+\begin{df}[Lagrange-Gitter] \label{3.67}
+	Sei $T$ $d$-dimensionaler Simplex mit Ecken $\scr E(T) = \Set{a_0, \dotsc, a_d}$.
+	Wir definieren das \emphdef[Lagrange-Gitter]{Lagrange-Gitter der Ordnung $k$ von $T$} durch
+	\begin{math}
+		G_k(T)
+		:= \Set{x = \sum_{j=0}^d \lambda_j a_j & \lambda_j \in \Set{\frac{i}{k} & i = 0, \dotsc, k}, \sum_{j=0}^d \lambda_j = 1}.
+	\end{math}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Für $k = 1$ ist $G_k(T) = \scr E(T)$, $|G_k(T)| = d + 1$.
+			\item
+				Für $k \ge 1$ ist $G_k(T) \supset \scr E(T)$, $|G_k(T)| = \binom{d+k}{k}$.
+			\item
+				Für alle $(d-1)$-dimensionalen Seitensimplizes $S \subset T$ gilt $|G_k(T) \cap S| = |G_k(S)| = \binom{d-1+k}{k}$.
+			\item
+				Offensichtlich gibt es eine Bijektion zwischen
+				\begin{math}
+					&\Set{\lambda \in \R^{d+1} & \lambda_j \in \Set{\frac{i}{k} & i = 0, \dotsc, k}, \sum_{i = 0}^d \lambda_i = 1} \\
+					&\text{und} \quad
+					\Set{\beta \in \N_0^d & |\beta| = k}
+				\end{math}
+				via $\lambda = \frac{\beta}{k}$.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+% fixme: Zeichnungen mit $G_k(T)$
+%\begin{ex*}
+%	k = 1, k = 2, k = 3
+%	d = 1, d = 2, d = 3
+%\end{ex*}
+
+\begin{lem}[Baryzentrisches Lagrange-Polynom] \label{3.68}
+	Für $k \in \N, \beta = (\beta_l)_{l=0}^d, |\beta| = k, \lambda = (\lambda_l)_{l=0}^d \in \R^{d+1}$ definieren wir
+	\begin{math}
+		p_\beta(\lambda)
+		:= \prod_{l=0}^d \prod_{j=0}^{\beta_l - 1} \frac{\lambda_l - \frac{j}{k}}{\frac{\beta_l}{k} - \frac{j}{k}}
+	\end{math}
+	Es gilt
+	\begin{enumerate}[i)]
+		\item
+			$\deg p_\beta(\lambda) = k$, also $p_\beta(\lambda) \in \P_k(\R^{d+1})$,
+		\item
+			Für $\_\beta \in \N_0^{d+1}$ mit $|\_\beta| \le k$ gilt $p_\beta(\frac{\_\beta}{k}) = \delta_{\beta,\_\beta} := \prod_{l = 0}^d \delta_{\beta_l, \_\beta_l}$.
+	\end{enumerate}
+	\begin{proof}
+		Setze
+		\begin{math}
+			p_{\beta,l}(\lambda_l) := \prod_{j=0}^{\beta_l - 1} \frac{\lambda_l - \frac{j}{k}}{\frac{\beta_l}{k}-\frac{j}{k}}.
+		\end{math}
+		\begin{enumerate}[i)]
+			\item
+				Es gilt $p_{\beta,l} \in \P_{\beta_l}(\R), \deg(p_{\beta_l}) = \beta_l$.
+				Dann ist $\deg(p_\beta) = \sum_{l=0}^d \beta_l = k, p_\beta(\lambda) \in \P_k(\R^{d+1})$.
+			\item
+				Sei $\_\beta = \beta$.
+				Dann ist $p_{\beta,l}(\frac{\_\beta_l}{k}) = 1$, also $p_\beta(\frac{\_beta}{k}) = \prod_{l=0}^d 1 = 1$.
+				Sei $\_\beta \neq \beta$, $|\_\beta| \le k$, dann existiert $l$ mit $\_\beta_l < \beta_l$.
+				Es folgt $p_{\beta, l}(\frac{\_\beta_l}{k}) = 0$, da $\lambda_i - \frac{j}{k} = 0$ für $j = \_\beta_l$, also $p_\beta(\frac{\_\beta}{k}) = 0$.
+		\end{enumerate}
+	\end{proof}
+\end{lem}
+
+\begin{st}[Allgemeines simpliziales Lagrange Element] \label{3.69}
+	Sei $T$ ein $d$-dimensionaler Simplex mit Lagrange-Gitter $G_k(T) = \Set{v_1, \dotsc, v_{n_k}}$ für $k \in \N, n_k := |G_k(T)|$.
+	Für $p_1, \dotsc, p_{n_k}$ existiert genau ein $p \in P_k(T)$ mit $p(v_i) = p_i$ für $i = 1, \dotsc, n_k$.
+	\begin{note}
+		$d = 1$ ist klar wegen 1d-Lagrange-Interpolation (Numerik 1).
+	\end{note}
+	\begin{proof}
+		Siehe Übung.
+	\end{proof}
+\end{st}
+
+\begin{st}[Existenz und Eindeutigkeit der $\P_k(\scr T_h)$ Interpolation] \label{3.70}
+	Sei $\scr T_h$ zulässige Triangulierung von $\Omega \subset \R^d, k \in \N$.
+	Die Vereinigung aller Lagrange-Gitter $G_k(\scr T_h) := \bigcup_{T \in \scr T_h} G_k(T) = \Set{v_i}_{i=1}^{m_k}$.
+	Seien Werte $p_i \in \R$, $i = 1, \dotsc, m_k$ gegeben.
+	Dann existiert genau ein $p \in \P_k(\scr T_h)$ mit $p(v_i) = p_i$ für $i = 1, \dotsc, m_k$.
+	\begin{proof}
+		Verläuft analog zum Fall $k = 1$ in \ref{3.65}.
+	\end{proof}
+\end{st}
+
+\begin{df}[Lagrange-Basis, $k \ge 1$] \label{3.71}
+	Sei $\scr T_h$ zulässige Triangulierung mit Lagrange-Punkten $G_k(\scr T_h) = \Set{v_i}_{i=1}^{m_k}$.
+	Dann existieren Funktionen $\phi_i \in \P_k(\scr T_h)$, $i = 1, \dotsc, m_k$ mit $\phi_i(v_j) = \delta_{ij}, i = 1, \dotsc, m_k$.
+
+	$\Phi := \Set{\phi_1, \dotsc, \phi_{m_k}}$ ist die \emphdef{Lagrange-Basis} oder \emphdef{nodale Basis} von $\P_k(\scr T_h)$.
+
+	$\Phi_0 := \Set{\phi_i & v_i \not\in \Boundary \Omega}$ ist nodale Basis von $\P_{k,0}(\scr T_h)$ zur Knotenmenge $G_{k,0}(\scr T_h) := G_k(\scr T_h) \setminus \Boundary \Omega$.
+
+	Wir setzen $m_k := \dim \P_k(\scr T_h), m_{k,0} := \dim \P_{k,0}(\scr T_h)$.
+\end{df}
+
+\begin{ex*}[Illustration]
+	Sei $d = 1, \Omega  = (0,1)$.
+	Für $k = 1$ erhalten wir die bekannten Hütchenfunktionen.
+
+	Für $k = 2$ gibt es zwei Arten von Basis-Funktionen (für innere Knoten und für Eckknoten).
+	Zu inneren Knoten hat $\phi_j$ die Gestalt einer nach unten geöffneten Parabel mit den Nachbarknoten als Nullstellen.
+	Für Eckknoten sind dies nach oben geöffnete Parabeln (veranschauliche).
+\end{ex*}
