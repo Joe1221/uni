@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 
+set(CMAKE_CXX_FLAGS "-std=c++11")
 set(CMAKE_CXX_COMPILER "clang++")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
-set(CMAKE_CXX_FLAGS "--std=c++11")
 
 project(AlgebraicMappingDegree)
 add_executable(mytest test.cpp)
