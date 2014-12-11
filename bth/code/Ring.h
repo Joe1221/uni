@@ -10,6 +10,8 @@ class Ring {
     //Ring & operator= (Ring const &) = delete;
     //virtual ~Ring();
 
+    static R Zero ();
+    static R One ();
 
     virtual bool operator== (const R &rhs) const = 0;
     virtual bool operator!= (const R &rhs) const { return !(*this == rhs); };

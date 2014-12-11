@@ -6,7 +6,12 @@
 
 class Integer : public Ring<Integer> {
   public:
+
+    static Integer Zero() { return Integer(0); }
+    static Integer One() { return Integer(1); }
+    Integer () : val(0) {};
     Integer (int val) : val(val) {};
+
     Integer&  operator= (const Integer& rhs) { this->val = rhs.val; return *this; }
 
     /* general ring properties */
@@ -36,11 +41,6 @@ class Integer : public Ring<Integer> {
   protected:
     mpz_class val;
 };
-
-
-Integer operator+ (Integer lhs, const Integer& rhs) { lhs += rhs; return lhs; }
-Integer operator- (Integer lhs, const Integer& rhs) { lhs -= rhs; return lhs; }
-Integer operator* (Integer lhs, const Integer& rhs) { lhs *= rhs; return lhs; }
 
 
 #endif
