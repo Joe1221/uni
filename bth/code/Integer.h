@@ -7,17 +7,16 @@
 class Integer : public Ring<Integer> {
   public:
     Integer (int val) : val(val) {};
-
-
     Integer&  operator= (const Integer& rhs) { this->val = rhs.val; return *this; }
 
     /* general ring properties */
+
     bool operator== (const Integer& rhs) const { return this->val == rhs.val; }
     bool operator!= (const Integer& rhs) const { return !(*this == rhs); };
 
-    Integer&  operator+= (const Integer& rhs) { this->val += rhs.val; return *this; }
-    Integer&  operator-= (const Integer& rhs) { this->val -= rhs.val; return *this; }
-    Integer&  operator*= (const Integer& rhs) { this->val *= rhs.val; return *this; }
+    Integer& operator+= (const Integer& rhs) { this->val += rhs.val; return *this; }
+    Integer& operator-= (const Integer& rhs) { this->val -= rhs.val; return *this; }
+    Integer& operator*= (const Integer& rhs) { this->val *= rhs.val; return *this; }
 
     //const Integer&  operator+ () const { return *this; };
     Integer operator- () const { auto obj = Integer(0); obj -= *this; return obj; };
