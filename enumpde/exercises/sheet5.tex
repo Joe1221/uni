@@ -1,0 +1,36 @@
+\documentclass{myexercise}
+
+\begin{document}
+
+\begin{exercise}[Aufgabe 1]
+	\begin{seg}[\ProofImplication)[1][2]]
+		Zeige $I(u) < I(v)$ für alle $v \in V, v \neq u$.
+		Sei also $v \in V, v \neq u$, dann ist wegen Koerzivität von $a$
+		\begin{math}
+			0
+			< \alpha \|u-v\|^2
+			\le a(u-v, u-v)
+			&= a(u,u) - \underbrace{2a(u,v)}_{=2 l(v)} + a(v,v) \\
+			&= \underbrace{2a(u,u)}_{=2 l(u)} - a(u,u) + 2 I(v)
+			= 2 I(v) - 2 I(u),
+		\end{math}
+		also $I(u) < I(v)$.
+	\end{seg}
+	\begin{seg}[\ProofImplication)[2][1]]
+		Für beliebiges $v \in V, \epsilon > 0$ ist $u + \epsilon v \in V$, da $V$ als Vektorraum konvex.
+		$I(u + \epsilon v)$ ist für alle $v \in V$ differenzierbar als Funktion in $\epsilon$ an der Stelle $\epsilon = 0$, denn:
+		\begin{math}
+			\ddx[\epsilon] I(u + \epsilon v) \big|_{\epsilon = 0}
+			&= \lim_{\epsilon \to 0} \frac{1}{\epsilon} \Big( \frac{1}{2} a(u+\epsilon v, u + \epsilon v) - l(u + \epsilon v) - \frac{1}{2} a(u,u) + l(u) \Big) \\
+			&= \lim_{\epsilon \to 0} \frac{1}{\epsilon} a(u,v) - l(v) + \underbrace{\frac{1}{2} h a(v,v)}_{\to 0} \\
+			&= a(u,v) - l(v).
+		\end{math}
+		Ist nun $u$ Minimierer von $I(v)$, so hat $I(u + \epsilon v)$ sein Minimum in $\epsilon = 0$ für alle $v \in V$ und damit $\ddx[\epsilon] I(u+ \epsilon v) \big|_{\epsilon = 0} = 0$.
+		Folglich gilt
+		\begin{math}
+			a(u,v) = l(v).
+		\end{math}
+	\end{seg}
+\end{exercise}
+
+\end{document}
