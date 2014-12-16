@@ -916,7 +916,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 		\item
 			$A$ ist \emphdef{suprimierender Operator}:
 			\[
-				\sup_{v \in W\setminus \Set 0} \f{a(v,w)}{\|w\|}
+				\sup_{w \in W\setminus \Set 0} \f{a(v,w)}{\|w\|}
 				= \f{a(v,Av)}{\|Av\|}
 			\]
 			für alle $v \in V \setminus \Set 0$.
@@ -949,9 +949,9 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			\item
 				\begin{math}
 					\beta
-					= \inf_{v\neq 0} \sup_{u\neq 0} \f{a(v,w)}{\|v\|\|w\|}
+					= \inf_{v\neq 0} \sup_{w\neq 0} \f{a(v,w)}{\|v\|\|w\|}
 					\stack{i)}= \inf_{v\neq 0} \f{a(v,Av)}{\|v\|\|Av\|}
-					= \inf \f{\<Av,Av\>}{\|v\|\|Av\|}.
+					= \inf_{v\neq 0} \f{\<Av,Av\>}{\|v\|\|Av\|}.
 				\end{math}
 			\item
 				Angenommen $A$ ist nicht injektiv, d.h. $\exists v \in V \setminus \Set 0$ mit $Av = 0$.
@@ -2187,7 +2187,7 @@ Bei der Fehleranalyse und Implementierung von FEM werden Operationen häufig auf
 		\item
 			\begin{math}
 				\|B\|_2
-				:= \sup_{\hat x \neq 0} \frac{\|B \hat x\|}{\|x\|}
+				:= \sup_{\hat x \neq 0} \frac{\|B \hat x\|}{\|\hat x\|}
 				\le \frac{h_T}{\rho_{\hat T}}
 			\end{math}
 		\item
@@ -2446,3 +2446,197 @@ Bei der Fehleranalyse und Implementierung von FEM werden Operationen häufig auf
 	Zu inneren Knoten hat $\phi_j$ die Gestalt einer nach unten geöffneten Parabel mit den Nachbarknoten als Nullstellen.
 	Für Eckknoten sind dies nach oben geöffnete Parabeln (veranschauliche).
 \end{ex*}
+
+\Timestamp{2014-12-16}
+
+\begin{df}[Lagrange FEM-Approximation] \label{3.72}
+	Sei ein homogenes Dirichlet-RWP für eine PDE zweiter Ordnung wie in \ref{3.39} gegegben.
+	Sei $\scr T_h$ zulässige Triangulierung mit inneren Lagrange-Knoten $G_{k,0}(\scr T_h)$ und nodalen Basisfunktionen $\Set{\phi_i}_{i=1}^{m_{k,0}}$.
+	Setze $V_h := \Span{} \Set{ \phi_i }_{i=1}^{m_{k,0}} = \P_{k,0}(\scr T_h)$.
+
+	Dann ist $u_h \in V_h$ die Lagrange-FEM Lösung der PDE, falls
+	\begin{math}
+		a(u_h,v) &= l(v), && v \in V_h
+	\end{math}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Wohlgestelltheit folgt mit Lax-Milgram wegen (Ritz-)Galerkin-Projektion eines koerziven Problems.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{note}[Stokes-Diskretisierung]
+	\begin{itemize}
+		\item
+			Für das Stokes-Sattelpunkt-Problem wird das sogenannte \emphdef{Mini-Element} definiert:
+			Sei $T \subset \R^d$ ein Simplex, $Q(T) := \P_1(T), V(T) := (\P_1(T) \oplus \Span{\hat B_T})^d$ mit \emphdef{Bubble-Funktion}
+			\begin{math}
+				\hat B_T(x) &:= \prod_{i=0}^d \lambda_i(x),
+			\end{math}
+			also $B_T \in H_0^1(T) \cap \P_{d+1}(T)$ mit $\lambda_i: T \to \R$ baryzentrische Koordinaten.
+		\item
+			Damit kann man inf-sup-Stabilität für die Diskretisierung nachweisen:
+			Sei $\scr T_h$ konform,
+			\begin{math}
+				V_h &:= \Set{v \in C^0(\Omega), \R^d) & v|_{\Gamma} = 0 \land \forall T \in \scr T_h : v|_{T} \in V(T)}, \\
+				Q_h &:= \P_1(\scr T_h) \cap L^2_0(\Omega).
+			\end{math}
+			Dann existiert $\_\beta > 0$ unabhängig von $h$, aber abhängig von $d$ und $\sigma$:
+			\begin{math}
+				\inf_{q\in Q_h} \sup_{v\in V_h} \frac{b(q,v)}{\|q\|_{L^2}\|v\|_{(H_0^1)^d}} \ge \_\beta
+			\end{math}
+			für $b(q,v) := \int_\Omega q \div v$.
+		\item
+			Analoge Aussage gilt für die \emphdef{Taylor-Hood-Diskretisierung} der Ordnung $k$:
+			\begin{math}
+				V_h &:= (\P_{k,0}(\scr T_h))^d,
+				Q_h &:= \P_{k-1}(\scr T_h) \cap L^2_0(\Omega)
+			\end{math}
+			Knobelaufgabe: Stokes ist nicht stabil mit $V_h = (\P_{1,0})^d, Q_h = \P_1 \cap L^2_0$.
+		\item
+			Mini-Element und Taylor-Hood stellen also stabile Diskretisierungen für Stokes dar.
+	\end{itemize}
+\end{note}
+
+\begin{kor}[Wohlgestelltheit, Stokes] \label{3.73}
+	Seien $V_h, Q_h$ wie beim Mini-Element, oder Taylor-Hood in obiger Bemerkung.
+	Dann ist die Ritz-Galerkin-Projektion der Stokes-Gleichung aus \ref{3.41},
+	\begin{math}
+		a(u_h,v) + b(p,v) &= f(v), && \forall v \in V_h,
+		b(q, u_h) &= g(q) && \forall q \in Q_h
+	\end{math}
+	wohlgestellt, d.h. es existiert eine eindeutige Lösung $u_h \in V_h, p_h \in Q_h$ mit
+	\begin{math}
+		\Big( \|u_h\|_{(H_0^1)^d}^2 + \|p_h\|_{L^2(\Omega)}^2 \Big)^{\frac{1}{2}}
+		\le \frac{1}{\beta} \big( \|f\|^2 + \|g\|^2 \big)
+	\end{math}
+	für ein $\beta > 0$ (unabhängig von $h$).
+	\begin{proof}
+		Wegen inf-sup-Stabilität von $b(\argdot, \argdot)$ folgt die Behauptung mit dem Brezzi-Theorem \ref{3.43}.
+	\end{proof}
+\end{kor}
+
+
+\subsection*{Quadraturen/Assemblierung}
+
+Für das Aufstellen des LGS, d.h. Berechnung von $A_h, b_h$, auch „Assemblierung“ genannt, werden Integrale
+\begin{math}
+	&\int_\Omega (A(x)) \Nabla \phi_i \cdot \Nabla \phi_j, &
+	&\int_\Omega f \phi_i, &
+	&\int_{\Boundary \Omega} g_N \phi_i
+\end{math}
+durch Quadraturen berechnet, bzw. approximiert.
+Es genügt, Quadraturen auf dem Referenzelement $\hat T$ zu definieren, welche dann auf beliebige Simplizes transformiert und zu einer zusammengesetzten Quadratur für Gebietsintegrale kombiniert werden.
+
+\begin{df}[Quadratur auf Referenzelement] \label{3.79}
+	Sei $\hat T \subset \R^d$ das Referenzsimplex, $\hat x_1, \dotsc, \hat x_l \in \hat T$ \emphdef{Quadraturpunkte}, $\omega_1, \dotsc, \omega_l \in \R$ \emphdef{Gewichte}.
+	Dann heißt
+	\begin{math}
+		\tilde I(g) := \sum_{i=1}^l \omega_i g(\hat x_i)
+	\end{math}
+	\emphdef{Quadratur} für $g \in C^0(\hat T)$.
+
+	Sei $I(g) := \int_{\hat T} g(\hat x) \di[\hat x]$, dann heißt $\tilde I$ \emphdef{exakt} auf $\P_k(\hat T)$ oder \emphdef[Ordnung]{von Ordnung mindestens $k$}, wenn
+	\begin{math}
+		I(g) &= \tilde I(g), && \forall g \in \P_k(\hat T).
+	\end{math}
+\end{df}
+
+\begin{ex*}
+	\begin{itemize}
+		\item
+			Mittelpunktsintegration:
+			Sei $d \in \N$, $x_S := \frac{1}{d+1} \Vector{1 & \dots & 1}$ der \emphdef{Schwerpunkt} von $\hat T$.
+			Dann ist
+			\begin{math}
+				\tilde I(g) := |\hat T| g(x_S)
+			\end{math}
+			exakt auf $\P_1(\hat T)$.
+		\item
+			Sei $d = 2$, Kantenmittelpunkte $m_{ij} := \frac{1}{2}(e_i + e_j)$, $i,j = 0, \dotsc, 2$.
+			Setze
+			\begin{math}
+				\tilde I(g) := \frac{1}{3} |\hat T| \sum_{i,j=0, i < j}^2 g(m_{ij}).
+			\end{math}
+			Diese Quadratur ist exakt auf $\P_2(\hat T)$.
+		\item
+			Sei $d = 2$,
+			\begin{math}
+				\tilde I(g) := \frac{1}{60} |\hat T| \Big( 3 \sum_{i=0}^2 g(e_i) + 8 \sum_{i,j=0, i < j}^2 g(m_{ij}) + 27 g(x_S) \Big)
+			\end{math}
+			ist exakt auf $\P_3(\hat T)$.
+	\end{itemize}
+\end{ex*}
+
+\begin{note}[Quadraturen für Gebietsintegrale]
+	\begin{itemize}
+		\item
+			Für $d$-dimensionales Simplex $T \subset \R^d$ mit Referenzabbildung $F_T: \hat T \to T, F_t(\hat x) = B_t \hat x + t_T$ (siehe \ref{3.60}) gilt
+			\begin{math}
+				\int_T g(x)
+				= |\det B_T| \int_{\hat T} g(F_T(\hat x)) \di[\hat x]
+				\approx |\det B_T| \tilde I(g \circ F_T)
+				=: \tilde I_T(g)
+			\end{math}
+			$\tilde I_T$ ist exakt auf $\P_k(T)$ genau dann, wenn $\tilde I$ exakt auf $\P_k(\hat T)$ ist.
+		\item
+			Bei der Integration über Differentialausdrücke ist Achtung geboten:
+			Transformation der Ableitungen ist notwendig:
+			Es gilt $\phi \in C^1(T)$ genau dann, wenn $\hat \phi := \phi \circ F_T \in C^1(\hat T)$ und (mit $B := B_T$):
+			\begin{math}
+				\Nabla_{\hat x} \hat \phi(\hat x)
+				= (D_{\hat x} \hat \phi(\hat x))^T
+				= (D_x \phi D_{\hat x} F_T)^T
+				= B^T \Nabla_x \phi,
+			\end{math}
+			also $\Nabla_x \phi = (B^T)^{-1} \Nabla_{\hat x} \hat \phi(\hat x)$, „Jacobian Inverse Transposed“.
+
+			Damit gilt für die Steifigkeits-Matrix-Einträge:
+			Für $i, j \in \Set{1, \dotsc, {m_{k,0}}}$:
+			\begin{math}
+				\int_T (\Nabla_x \phi_i)^T A \Nabla_x \phi_j
+				= \int_{\hat T} (\nabla_{\hat x} \hat \phi_{\hat i}(\hat x))^T B^{-1} A (B^T)^{-1} \Nabla_{\hat x} \hat \phi_{\hat j} (\hat x) |\det B| \di[\hat x]
+			\end{math}
+			für geeignete $\hat i, \hat j \in \Set{1, \dotsc, n_k}$ und nodale Basis $\Set{\hat \phi_{\hat i}}_{\hat i = 1}^{n_k}$ von $\P_k(\hat T)$.
+		\item
+			Gebietsintegrale werden dann einfach approximiert durch zusammengesetzte Quadraturen
+			\begin{math}
+				\int_\Omega g(x) \di[x]
+				= \sum_{T \in \scr T_h} \int_T g(x) \di[x]
+				\approx \sum_{T \in \scr T_h} \tilde I_T(g)
+				= \sum_{T \in \scr T_h} |\det B| \sum_{i=1}^l w_i g(F_t(\hat x_i)).
+			\end{math}
+		\item
+			Die Ordnung der Quadratur sollte der (noch zu diskutierenden) FEM-Konvergenzordnung angepasst sein:
+			sollte hoch genug sein, damit der Quadraturfehler nicht die Konvergenz der FEM (bei $h \to 0$) beeinträchtigt, andererseits nicht zu hoch, um nicht nicht zu viel Rechenzeit in die Quadratur zu verwenden.
+	\end{itemize}
+\end{note}
+
+\begin{note}[Effiziente Assemblierung über lokale Beiträge]
+	\begin{itemize}
+		\item
+			Direkte Berechnung der Steifigkeitsmatrix ist sehr teuer.
+			Betrachte dazu das Poisson-Problem
+			\begin{math}
+				a_{ij} = \int_\Omega (\Nabla \phi_i)^T \Nabla \phi_j
+				= \sum_{T \in \scr T_h} \int_T (\Nabla \phi_i)^T \phi_{j}
+			\end{math}
+			für $i,j = 1, \dotsc, m_{k,0}$.
+			Für $k = 1$ ist $|\scr T_h| = \LandauO(m_{k,0})$, also für die Gesamtkomplexität zur Aufstellung von $A_h$: $\LandauO(m_{k,0}^3)$.
+			Dies ist impraktikabel für große $m_{k,0}$.
+		\item
+			Nutze stattdessen die „Lokalität“ der Basisfunktionen und eine globale Indexabbildung.
+		\item
+			Die globale Indexabbildung beschreibt den Zusammenhang zwischen lokalen und globalen Indizes und stellt eine entsprechende Abbildung sicher:
+			Sei $n_k := \dim \P_k(\hat T)$ mit lokaler Basis $\Set{\hat \phi_{\hat i}}_{\hat i = 1}^{n_k}$ von $\P_k(\hat T)$.
+			Sei $\hat g: \scr T_h \times \Set{1, \dotsc, n_k} \to \Set{1, \dotsc, m_k}$ derart, dass für globale Basis $\Set{\phi_i}_{i=1}^{m_k}$ von $\P_k(\scr T_h)$ gilt
+			\begin{math}
+				\hat \phi_{\hat i}(\hat x) = \phi_i(F_T(\hat x))
+			\end{math}
+			für $i = \hat g(T, \hat i)$, $i \in \Set{1, \dotsc, n_k}$, $T \in \scr T_h$.
+			Hierbei ist $\hat i$ der \emphdef[lokaler Index]{lokale Index}, $i$ der \emphdef[globaler Index]{globale Index}.
+			Hiermit istt die Kenntnis der $\Set{\phi_i}_{i=1}^{m_k}$ niemals explizit notwendig.
+			Es genügt, eine Basis $\Set{\hat \phi_{\hat i}}$ auf dem Referenzelement festzulegen.
+	\end{itemize}
+\end{note}
