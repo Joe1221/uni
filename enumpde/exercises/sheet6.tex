@@ -1,0 +1,110 @@
+\documentclass{myexercise}
+
+\begin{document}
+
+\begin{exercise}[Aufgabe 1]
+	\begin{enumerate}[i)]
+		\item
+			Setze $\tilde v(x) := \int_0^x q(t) \di[t]$.
+			Da $\Omega$ beschränkt, ist $L^1(\Omega) \supset L^2(\Omega)$ und es gilt
+			\begin{math}
+				\|\tilde v\|_{L^1_{\text{loc}}}
+				\le \|\tilde v\|_{L^1}
+				= \int_0^1 \Big| \int_0^x q(t) \di[t] \Big| \di[x]
+				\le \int_0^1 \underbrace{\|q\|_{L^1}}_{\le \|q\|_{L^2} < \infty} \di[x],
+			\end{math}
+			d.h. $\tilde v \in L^1_{\text{loc}}$.
+			Es gilt $\tilde v(0) = \tilde v(1) = 0$, d.h. $\tilde v$ besitzt Null-Randwerte.
+			Weiter ist für alle $\phi \in C_0^\infty(\Omega)$
+			\begin{math}
+				\int_0^1 \tilde v(x) \partial_x \phi(x) \di[x]
+				= \int_0^1 \int_0^x q(t) \partial_x \phi(x) \di[t] \di[x]
+				= \int_0^1 \int_{t}^1 q(t) \partial_x \phi(x) \di[x] \di[t]
+				= -\int_0^1 q(t) \phi(t) \di[t],
+			\end{math}
+			d.h. $\tilde v$ ist schwach differenzierbar auf $\Omega$ mit $\partial_x \tilde v = q$.
+			Nun ist
+			\begin{math}
+				|\tilde v|_{H^1}
+				= \|\partial_x \tilde v\|_{L^1}
+				= \|q\|_{L^1}
+				\le \|1\|_{L^2(\Omega)} \|q\|_{L^2}
+				= C(\Omega) \|q\|_{L^2}
+			\end{math}
+			mit $C(\Omega) = \sqrt{|\Omega|} = 1$.
+			Da $q \in L^2(\Omega)$ ist mittels Normäquivalenz auch $\|\tilde v\|_{H_0^1} < \infty$ und damit $\tilde v \in H_0^1(\Omega)$.
+		\item
+			Die Bilinearform $b(v,w) := \int_\Omega v \partial_x w \di[x]$ ist inf-sup-stabil nach 3.36 (Stabilität des Divergenzoperators).
+			Definiere auf $\Omega = (0,1)$ die Funktionen
+			\begin{math}
+				v_0(x) &:= \begin{cases}
+					1 & x \le \frac{1}{2} \\
+					-1 & x > \frac{1}{2}
+				\end{cases}, \\
+				w_0(x) &:= \sin(4\pi x).
+			\end{math}
+			Es gilt offenbar $v_0(x) \in L_0^2(\Omega)$, da $\int_0^1 v_0 \di[x] = 0$.
+			Weiter ist $w_0(x) \in C_0^\infty(\Omega) \subset H_0^1(\Omega)$.
+			Setze $V_0 := \<v_0\>, W_0 := \<w_0\>$, dann ist mit $v = \lambda v_0, w = \mu w_0$
+			\begin{math}
+				b(v,w) = \lambda \mu \int_\Omega v_0 \partial_x w_0 \di[x]
+				= 4 \pi \lambda \mu \Big( \underbrace{\int_0^{\frac{1}{2}} \sin(4\pi x) \di[x]}_{=0} - \underbrace{\int_{\frac{1}{2}}^1 \sin(4\pi x) \di[x]}_{=0} \Big)
+				= 0,
+			\end{math}
+			Also insbesondere
+			\begin{math}
+				\inf_{v\in V_0} \sup_{w\in W_0} \frac{b(v,w)}{\|v\|\|w\|} = 0.
+			\end{math}
+	\end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Aufgabe 3]
+	\begin{enumerate}[i)]
+		\item
+			Wir setzen an $F_T(\hat x) = B \hat x + t$ mit $B \in \R^{d\times d}, t \in \R^d$.
+			Aus $a_0 = F_T(e_0) = F_T(0) = t$ folgt sofort $t = a_0$.
+			Aus den Bedingungen $F_T(e_j) = a_j$, $j = 1, \dotsc, d$ ergibt sich $Be_j = a_j - a_0$.
+			Da $(e_j)_{j=1}^d$ die Standardbasis bilden, ist $B$ bereits eindeutig bestimmt:
+			\begin{math}
+				B = \Matrix{| & & | \\ a_1 - a_0 & \hdots & a_d - a_0 \\ | & & |}.
+			\end{math}
+			$B$ ist außerdem regulär, $a_0, \dotsc, a_d$ affin linear unabhängig nach Definition eines Simplex.
+		\item
+			Zunächst ist $\|B\| = \sup_{\hat x \neq 0} \frac{\|B \hat x\|}{\|\hat x\|} = \frac{1}{\rho_{\hat T}} \sup_{\|x\| = \rho_{\hat T}} \|B\hat x\|$.
+			Es genügt also zu zeigen $\|B\hat x\| \le h_T$ für alle $\hat x \in \R^d$ mit $\|\hat x\| = \rho_{\hat T}$.
+			Sei $\hat x$ derart und wähle $\hat x_1, \hat x_2 \in \hat T$ mit $\hat x = \hat x_1 - \hat x_2$ (möglich, da $\|\hat x\| = \rho_{\hat T}$).
+			Dann ist
+			\begin{math}
+				\|B \hat x\|
+				= \|B \hat x_1 - B \hat x_0\|
+				\le h_T.
+			\end{math}
+		\item
+			Analog zu ii) mit $\|x\| = \rho_T$, $x = x_1 - x_2$, wobei $x_1, x_2 \in T$.
+		\item
+			Es gilt mit der Transformationsformel
+			\begin{math}
+				|T|
+				= \int_T 1 \di[x]
+				= \int_{\hat T} |\det B| \di[x]
+				= |\hat T| |\det B|,
+			\end{math}
+			also $|\det B| = \frac{|T|}{|\hat T|}$.
+			Betrachtet man $d$-Sphären, welche im Simplex enthalten sind, bzw. ihn umschließen, erhält man:
+			\begin{math}
+				\frac{\pi^{\frac{d}{2}}}{\Gamma(\frac{d}{2}+1)} (\frac{\rho_T}{2})^d
+				= V_d(\frac{\rho_T}{2})
+				\le |T|
+				\le V_d(h_T)
+				= \frac{\pi^{\frac{d}{2}}}{\Gamma(\frac{d}{2}+1)} (h_T)^d,
+			\end{math}
+			also zusammen mit selbigem für $\hat T$:
+			\begin{math}
+				\frac{\rho_T^d}{\rho_{\hat T}^d}
+				\le \underbrace{\frac{|T|}{|\hat T|}}_{= |\det B|}
+				\le \frac{h_T^d}{h_{\hat T}^d}.
+			\end{math}
+	\end{enumerate}
+\end{exercise}
+
+\end{document}
