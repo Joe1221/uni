@@ -4,10 +4,10 @@
 #include <gmpxx.h>
 
 template<class R>
-class Polynomial : public Ring<Polynomial<R>> {
+class Polynomial : public RingEl<Polynomial<R>> {
   public:
     Polynomial (std::vector<R> coeffs) : n(coeffs.size() - 1), coeffs(coeffs), coeffZero(R::Zero()) {
-        static_assert(std::is_base_of<Ring<R>, R>::value, "Polynomial coefficient class must inherit from Ring");
+        static_assert(std::is_base_of<RingEl<R>, R>::value, "Polynomial coefficient class must inherit from RingEl");
     };
     Polynomial& operator= (const Polynomial& rhs) { this->n = rhs.n; this->coeffs = rhs.coeffs; return *this; }
 

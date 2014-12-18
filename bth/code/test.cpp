@@ -5,7 +5,7 @@
 
 
 template<class R>
-void algorithm(Ring<R> & arg_)
+void algorithm(RingEl<R> & arg_)
 {
 	R &arg = static_cast<R&>(arg_);
 
