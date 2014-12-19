@@ -1923,7 +1923,7 @@ Zunächst ein Hilfssatz
 			\|u - u_h\|
 			&= \|(\Id - P_h)u\|
 			= \|(\Id - P_h u) - (\Id - P_h)v\| \\
-			&= \|\Id - P_h(u-v)\| \\
+			&= \|(\Id - P_h)(u-v)\| \\
 			&\le \|\Id - P_h\| \|u-v\|
 			\stack{\ref{3.54}}= \|P_h\|\|u-v\| \\
 			&\le \frac{\gamma}{\beta} \|u-v\|
@@ -2642,9 +2642,9 @@ Es genügt, Quadraturen auf dem Referenzelement $\hat T$ zu definieren, welche d
 		\item
 			Umformulieren der Matrixeinträge:
 			\begin{math}
-				a_{ij} := \int_{\supp(\phi_i) \cap \supp(\phi_j)} (\Nabla \phi_i)^T \Nabla \phi_j
-				= \sum_{\substack{T\in \scr T_h \\ T \subset\supp(\phi_i) \cap \supp(\phi_j)}} \int_T (\Nabla \phi_i)^T \Nabla \phi_j \di[x]
-				= \sum_{\substack{T\in \scr T_h \\ T \subset\supp(\phi_i) \cap \supp(\phi_j)}} \underbrace{\int_{\hat T} |\det B| (\Nabla \hat \phi_{\hat i})^T B^{-1} (B^T)^{-1} \Nabla \hat \phi_{\hat j} \di[\hat x]}_{=: \hat a_{\hat i, \hat j, T}}
+				a_{ij} &:= \int\limits_{\supp(\phi_i) \cap \supp(\phi_j)} (\Nabla \phi_i)^T \Nabla \phi_j \di[x] \\
+				&= \sum_{\substack{T\in \scr T_h \\ T \subset\supp(\phi_i) \cap \supp(\phi_j)}} \int_T (\Nabla \phi_i)^T \Nabla \phi_j \di[x] \\
+				&= \sum_{\substack{T\in \scr T_h \\ T \subset\supp(\phi_i) \cap \supp(\phi_j)}} \underbrace{\int_{\hat T} |\det B| (\Nabla \hat \phi_{\hat i})^T B^{-1} (B^T)^{-1} \Nabla \hat \phi_{\hat j} \di[\hat x]}_{=: \hat a_{\hat i, \hat j, T}}
 			\end{math}
 			mit $\hat i, \hat j \in \Set{1, \dotsc, n_k}$ derart, dass $\hat g(T,\hat i) = i, \hat g(T, \hat j) = j$.
 		\item
@@ -2744,7 +2744,10 @@ Es genügt, Quadraturen auf dem Referenzelement $\hat T$ zu definieren, welche d
 			Zu
 			\begin{math}
 				(N_1(p), \dotsc, N_{10}(p))
-				:= \Big( p(a_0), p(a_1), p(a_2), p(x_S), \partial_{x_1} p(a_0), \dotsc, \partial_{x_1} p(a_2), \partial_{x_2} p(a_0), \dotsc, \partial_{x_2} p(a_2) \Big)
+				:= \Big(
+				& p(a_0), p(a_1), p(a_2), p(x_S), \\
+				&\partial_{x_1} p(a_0), \dotsc, \partial_{x_1} p(a_2), \\
+				& \partial_{x_2} p(a_0), \dotsc, \partial_{x_2} p(a_2) \Big)
 			\end{math}
 			existiert eine eindeutige Basis $\Phi = \Set{\phi_1, \dotsc, \phi_k}$ von $\P_3(T)$ mit $N_i(\phi_j) = \delta_{ij}$.
 			Zusammengesetzte Funktionen aus kubische Hermite-Elemente auf zulässigen Gittern sind global $H^1$, aber nicht $H^2$.
