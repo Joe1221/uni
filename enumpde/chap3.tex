@@ -1712,7 +1712,7 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 		Dies ist ein Widerspruch zur Galerkin-Orthogonalität, also $u = u_h$.
 	\end{proof}
 	\begin{note}
-		Also ist z.B. $V_h = \Span{u}$ optimaler 1D-Lösungsraum.
+		Also ist z.B. $V_h = \Span(u)$ optimaler 1D-Lösungsraum.
 		Dieser ist natürlich derart „teuer“ zu berechnen, wie $u$ und daher inpraktikabel.
 	\end{note}
 \end{kor}
@@ -1794,7 +1794,7 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 			und $\lim_{j\to \infty}\lambda_j = \infty$.
 		\item
 			Es existiert eine $L_2$-orthonormale Menge $\Set{v_j}_{j\in\N}$ aus Eigenfunktionen $v_j$ zu Eigenwerten $\lambda_j$.
-			Ansatz: Wähle $n \in \N$, setze $h := \f 1n$, $V_h := \Span{\phi_1, \dotsc, \phi_n} \subset V$ mit $\phi_i := v_i$.
+			Ansatz: Wähle $n \in \N$, setze $h := \f 1n$, $V_h := \Span(\phi_1, \dotsc, \phi_n) \subset V$ mit $\phi_i := v_i$.
 			Für die Steifigkeitsmatrix der Galerkin-Projektion folgt:
 			\begin{math}
 				a(\phi_j, \phi_i)
@@ -1819,7 +1819,7 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 	$V_h$ als polynomieller Ansatzraum ($V = W, V_h = W_h$)
 	Sei $d = 1, \Omega = (0,1), a(u,v) := \int_\Omega u' v'$ auf $H_0^1(\Omega)$.
 	Ein Polynom mit Nullrandwerten hat die Gestalt $p(x) = x(1-x)q(x)$ für $q \in \P_m$.
-	Wähle $n \in \N$, $h := \frac{1}{n}$, $V_h := \Span{\phi_1, \dotsc, \phi_n} \subset V$ mit $\phi_j(x) := x(1-x) x^{j-1} = x^j (1-x)$ für $j = 1, \dotsc, n$.
+	Wähle $n \in \N$, $h := \frac{1}{n}$, $V_h := \Span(\phi_1, \dotsc, \phi_n) \subset V$ mit $\phi_j(x) := x(1-x) x^{j-1} = x^j (1-x)$ für $j = 1, \dotsc, n$.
 	Es ergibt sich
 	\begin{math}
 		a(\phi_j, \phi_i)
@@ -1846,7 +1846,7 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 	\end{math}
 	Übung: inf-sup-Konstante ist $1$.
 
-	Mit $V_h = \Span{\Vector{1 & 1}}$, $W_h = V_h$ entsteht nun ein singuläres System:
+	Mit $V_h = \Span(\Vector{1 & 1})$, $W_h = V_h$ entsteht nun ein singuläres System:
 	mit dem Ansatz $u_h = u_1 \phi_1$, wobei $\phi_1 = \Vector{1 & 1}$, $u_1 \in \R$ ergibt sich als LGS:
 	\begin{math}
 		A_h &= (a_{11}) = a(\phi_1, \phi_1) = \Vector{1 & 1}^T \Matrix{1 & 0 \\ 0 & -1} \Vector{1 & 1} = 0, \\
@@ -1855,7 +1855,7 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 	aber $0 \cdot u_h = 2$ ist nicht lösbar.
 
 	Ein Ausweg bietet Petrov-Galerkin:
-	Wähle $\phi_1 \in \R^2 \setminus \Span{\Vector{1 & 1}}$ beliebig, $\psi_1 := \Matrix{1 & 0 \\ 0 & -1} \phi_1$, $V_h := \Span{\phi_1}, W_h := \Span{\psi_1}$.
+	Wähle $\phi_1 \in \R^2 \setminus \Span(\Vector{1 & 1})$ beliebig, $\psi_1 := \Matrix{1 & 0 \\ 0 & -1} \phi_1$, $V_h := \Span(\phi_1), W_h := \Span(\psi_1)$.
 	Es ergibt sich
 	\begin{math}
 		A_h &= (a(\phi_1, \psi_1))
@@ -2034,7 +2034,7 @@ Als Ansatzfunktionen wählen wir für $j = 1, \dotsc, n$ „Hütchenfunktionen�
 Wir erhalten insbesondere $\phi_j(x_i) = \delta_{ij}$, die $\phi_j$ bilden also eine sogenannte \emphdef{nodale Basis}.
 Es gilt $\supp(\phi_j) = [x_{j-1}, x_{j+1}]$, der Träger skaliert mit $h$ gegen $0$.
 
-Als Ansatzraum wählen wir $V_h := \Span{\phi_1, \dotsc, \phi_n} \subset H_0^1(\Omega)$, dies ist gerade der Raum der linearen Splines.
+Als Ansatzraum wählen wir $V_h := \Span(\phi_1, \dotsc, \phi_n) \subset H_0^1(\Omega)$, dies ist gerade der Raum der linearen Splines.
 
 Für das Poisson-Problem
 \begin{math}
@@ -2452,7 +2452,7 @@ Bei der Fehleranalyse und Implementierung von FEM werden Operationen häufig auf
 \begin{df}[Lagrange FEM-Approximation] \label{3.72}
 	Sei ein homogenes Dirichlet-RWP für eine PDE zweiter Ordnung wie in \ref{3.39} gegegben.
 	Sei $\scr T_h$ zulässige Triangulierung mit inneren Lagrange-Knoten $G_{k,0}(\scr T_h)$ und nodalen Basisfunktionen $\Set{\phi_i}_{i=1}^{m_{k,0}}$.
-	Setze $V_h := \Span{} \Set{ \phi_i }_{i=1}^{m_{k,0}} = \P_{k,0}(\scr T_h)$.
+	Setze $V_h := \Span \Set{ \phi_i }_{i=1}^{m_{k,0}} = \P_{k,0}(\scr T_h)$.
 
 	Dann ist $u_h \in V_h$ die Lagrange-FEM Lösung der PDE, falls
 	\begin{math}
@@ -2470,7 +2470,7 @@ Bei der Fehleranalyse und Implementierung von FEM werden Operationen häufig auf
 	\begin{itemize}
 		\item
 			Für das Stokes-Sattelpunkt-Problem wird das sogenannte \emphdef{Mini-Element} definiert:
-			Sei $T \subset \R^d$ ein Simplex, $Q(T) := \P_1(T), V(T) := (\P_1(T) \oplus \Span{\hat B_T})^d$ mit \emphdef{Bubble-Funktion}
+			Sei $T \subset \R^d$ ein Simplex, $Q(T) := \P_1(T), V(T) := (\P_1(T) \oplus \Span(\hat B_T))^d$ mit \emphdef{Bubble-Funktion}
 			\begin{math}
 				\hat B_T(x) &:= \prod_{i=0}^d \lambda_i(x),
 			\end{math}
@@ -2636,7 +2636,154 @@ Es genügt, Quadraturen auf dem Referenzelement $\hat T$ zu definieren, welche d
 			\end{math}
 			für $i = \hat g(T, \hat i)$, $i \in \Set{1, \dotsc, n_k}$, $T \in \scr T_h$.
 			Hierbei ist $\hat i$ der \emphdef[lokaler Index]{lokale Index}, $i$ der \emphdef[globaler Index]{globale Index}.
-			Hiermit istt die Kenntnis der $\Set{\phi_i}_{i=1}^{m_k}$ niemals explizit notwendig.
+			Hiermit ist die Kenntnis der $\Set{\phi_i}_{i=1}^{m_k}$ niemals explizit notwendig.
 			Es genügt, eine Basis $\Set{\hat \phi_{\hat i}}$ auf dem Referenzelement festzulegen.
+\Timestamp{2014-12-19}
+		\item
+			Umformulieren der Matrixeinträge:
+			\begin{math}
+				a_{ij} := \int_{\supp(\phi_i) \cap \supp(\phi_j)} (\Nabla \phi_i)^T \Nabla \phi_j
+				= \sum_{\substack{T\in \scr T_h \\ T \subset\supp(\phi_i) \cap \supp(\phi_j)}} \int_T (\Nabla \phi_i)^T \Nabla \phi_j \di[x]
+				= \sum_{\substack{T\in \scr T_h \\ T \subset\supp(\phi_i) \cap \supp(\phi_j)}} \underbrace{\int_{\hat T} |\det B| (\Nabla \hat \phi_{\hat i})^T B^{-1} (B^T)^{-1} \Nabla \hat \phi_{\hat j} \di[\hat x]}_{=: \hat a_{\hat i, \hat j, T}}
+			\end{math}
+			mit $\hat i, \hat j \in \Set{1, \dotsc, n_k}$ derart, dass $\hat g(T,\hat i) = i, \hat g(T, \hat j) = j$.
+		\item
+			Statt Schleife über $i,j$, führe Schleife über $T \in \scr T_h$ aus, um dann mit einer Schleife über $\hat i, \hat j$ eine lokale Steifigkeitsmatrix $A_{h, T} \in \R^{n_k, n_k}$ zu berechnenn:
+			\begin{math}
+				A_{h,T} = (\hat a_{\hat i, \hat j, T})_{\hat i, \hat j = 1}^{n_k}
+			\end{math}
+		\item
+			Assembliere die globale Steifigkeitsmatrix $A_h$ durch Addition der lokalen Beiträge in entsprechenden Einträge Einträge von $A_h$:
+			\begin{algorithmic}
+				\State $A_h \gets 0$
+				\For{$T \in \scr T_h$}
+					\State berechne $A_{h,T}$
+					\For{$\hat i, \hat j = 1, \dotsc, n_k$}
+						\State $(A_h)_{\hat g(T,\hat i), \hat g(T, \hat j)} \gets (A_h)_{\hat g(T,\hat i), \hat g(T, \hat j)} + (A_{h,T})_{\hat i, \hat j}$
+					\EndFor
+				\EndFor
+			\end{algorithmic}
+			Die Gesamtkomplexität ist also $\LandauO(|\scr T_h| n_k^2) = \LandauO(m_{k,0} n_k^2)$, eine wesentliche Verbesserung gegenüber $\LandauO(m_{k,0}^3)$.
+		\item
+			Ähnlich ist die Assemblierung der rechten Seite $b_h$ simultan mit $A_h$ möglich, d.h. ohne zusätzliche Schleife.
+			Eine „einzelner Gitterdurchlauf“ genügt also zur Assemblierung des Systems $A_h, b_h$.
 	\end{itemize}
 \end{note}
+
+\begin{note}[Struktur der Steifigkeitsmatrix]
+	\begin{itemize}
+		\item
+			$A_h$ ist dünn-besetzt:
+			sobald $\supp \phi_i \cap \supp \phi_j = \emptyset$, ist $(A_h)_{ij} = 0$.
+
+			Konkreter für $k = 1$ (lineare FEM):
+			Sei $r$ die maximale Kantenzahl aus einem Knoten.
+			Dann gibt es höchstens $r+1$ nichtnull-Einträge in jeder Zeile von $A_h$.
+
+			Ähnlich gilt für $k > 1$ die obere Schranke $r |G_k(T)|$ (ein Gitterpunkt mit jeweils höchstens $G_k(T)$ Basisfunktionen in höchstens $r$ Nachbarzellen).
+
+			Dies ist wichtig für die Implementierung mittels Sparse-Matrizen:
+			Es muss bei der Verfeinerung des Gitters insbesondere darauf geachtet werden, dass $r$ nicht unbegrenzt wächst.
+		\item
+			„\emphdef{Innere Kondensation} / \emphdef{statische Kondensation}“:
+			Bei $k \ge d + 1$ gibt es Lagrange-Knoten im Inneren eines Simplex.
+			Die entsprechenden Zeilen der Matrix haben nur Einträge für Knoten desselbe Simplex, nicht seiner Nachbarn.
+			Das kann ausgenutzt werden, indem nach inneren Freiheitsgraden aufgelöst wird.
+			Durch Zeilenumformungen entsteht ein System, das nur Unbekannte auf Seitensimplizes umfasst.
+			Nach Lösen dieses Systems können die DOFs zu inneren Lagrange-Knoten aus kleinen Systemen der Größe $|G_k(T)|$ bestimmt werden.
+	\end{itemize}
+\end{note}
+
+\begin{note}[Verallgemeinerungen]
+	\begin{itemize}
+		\item
+			Allgemeine Definition:
+			\begin{enumerate}[(i)]
+				\item
+					Sei $T \subset \R^d$ beschränkte, abgeschlossene Menge mit nicht-leerem Inneren und Lipschitz-Rand, die sogenannte Elementgeometrie.
+				\item
+					$\Phi = \Set{\phi_1, \dotsc, \phi_k}$ linear unabhängige Funktionen auf $T$, sogenannte \emphdef{Formfunktionen} (engl. „\emphdef{shape functions}“).
+					$\scr P := \Span (\Phi)$ zugehöriger diskreter Funktionenraum mit $\dim (\scr P) = k$.
+				\item
+					$\scr N = \Set{N_1, \dotsc, N_k}$ eine Basis von $\scr P'$ die \emphdef{Menge der lokalen Freiheitsgrade}.
+			\end{enumerate}
+			Dann heit das Tripel $(T, \Phi, \scr N)$ \emphdef{Finites Element}.
+		\item
+			Die lokalen Freiheitsgrade $\scr N$ heißen \emphdef{nodale Variable} und $\Phi$ \emphdef{nodale Basis} falls $N_i(\phi_j) = \delta_{ij}$ für $i,j = 1, \dotsc, k$.
+		\item
+			Die Definition erfasst die Lagrange-FEM, ist also eine echte Verallgemeinerung:
+
+			$T$ entspricht dem Simplex, $k := n_{\_k} = |G_{\_k}(T)|$ für Lagrange-Gitter $G_{\_k}(T) = \Set{v_i}_{i=1}^{n_{\_k}}$.
+			Sei $\Phi$ eine nodale Basis von $\P_k(T)$, d.h. $\phi_j(v_i) = \delta_{ij}$.
+			Setze $N_i(p) := p(v_i)$ für $p \in \P_{\_k}(T)$, $i = 1, \dotsc, k$.
+			Dann ist $N_i(\phi_j) = \phi_j(v_i) = \delta_{ij}$, also $\Set{N_i}$ nodale Variablen.
+		\item
+			Statt Simplizes sind auch andere Geometrische Elemente möglich: Würfel, Rechtecke, etc.
+			Hier verwendet man statt linearen Formfunktionen bi- oder trilineare Funktionen, z.B. $T = [0,1]^d \in \R^d$.
+			Man setzt
+			\begin{math}
+				Q_1(T) := \bigotimes_{i=1}^d \P_1([0,1]).
+			\end{math}
+			Für $d = 2$ hat $p \in Q_1(T)$ also die Gestalt
+			\begin{math}
+				p(x_1,x_2) = a + bx_1 + cx_2 + d,
+			\end{math}
+			es tauchen \emph{nicht} quadratische Terme der Form $x_1^2, x_2^2$ auf.
+			Für das Einheitsquadrat mit Knoten $a_0, \dotsc, a_3$ ergibt sich
+			\begin{math}
+				\Phi &= \Set{\phi_1, \dotsc, \phi_4}
+				= \Set{ (1-x_1)(1-x_2), x_1(1-x_2), x_1, x_2, (1-x_1)x_2 } \\
+				\scr N &= (N_1(p), \dotsc, n_4(p))
+				= ( p(a_0), p(a_1), p(a_2), p(a_3) ).
+			\end{math}
+			Analog für $d = 3$, oder bi-/triquadratischen Elementen $Q_2$.
+		\item
+			Statt Punktauswertungen sind auch Ableitungsauswertungen möglich:
+			\emphdef{kubisches Hermite Element} auf Dreieck $T \subset \R^2$ mit Ecken $a_0, a_1, a_2$ und Schwerpunkt $x_S$.
+			Dann ist durch die Vorgabe von $p(a_i), \Nabla p(a_i), p(x_S)$ eindeutig ein Polynom $p \in \P_3(T)$ definiert, somit $k = 10$.
+			Zu
+			\begin{math}
+				(N_1(p), \dotsc, N_{10}(p))
+				:= \Big( p(a_0), p(a_1), p(a_2), p(x_S), \partial_{x_1} p(a_0), \dotsc, \partial_{x_1} p(a_2), \partial_{x_2} p(a_0), \dotsc, \partial_{x_2} p(a_2) \Big)
+			\end{math}
+			existiert eine eindeutige Basis $\Phi = \Set{\phi_1, \dotsc, \phi_k}$ von $\P_3(T)$ mit $N_i(\phi_j) = \delta_{ij}$.
+			Zusammengesetzte Funktionen aus kubische Hermite-Elemente auf zulässigen Gittern sind global $H^1$, aber nicht $H^2$.
+		\item
+			Ein Element, welches durch Zusammensetzen eine $H^2(\Omega)$-Funktion ergibt, ist das \emphdef{Argyris-Element} (J. Argyris, verstorben 2004) auf Dreiecken.
+			Sei $T \subset \R^2$ ein Dreieck, Knoten $a_0, a_1, a_2$, Kantenmittelpunkte $m_0, m_1, m_2$.
+			Dann ist durch Angable von $p(a_i), \Nabla p(a_i), \Nabla^2 p(a_i), \Nabla p(m_i) n_i, i = 0, \dotsc, 2$ eindeutig ein Polynom $p \in \P_5(T)$ definiert, wobei $n_i$ äußerer Normalenvektor ist.
+	\end{itemize}
+\end{note}
+
+
+\section{Approximationssätze und FEM-Fehlerabschätzungen} \label{sec:3.5}
+
+
+\subsection*{Interpolationsabschätzungen}
+
+Sei $I_h: V \to V_h$ ein linearer (Interpolations-)Operator mit Approximationsgüte $\|u - I_h u\| \le C h^r$ mit möglichst großem $r$, dann folgt mit Céa (bzw. Nečas)
+\begin{math}
+	\|u - u_h\| \le \frac{\gamma}{\alpha} \inf_{v\in V_h} \|u - v\|
+	\le \frac{\gamma}{\alpha} \|u - I_h u\|
+	\le \frac{\gamma}{\alpha} C h^r.
+\end{math}
+Dies liefert eine Fehlerschranke, Konvergenz und Konvergenzordnung für die Galerkin-Projektion.
+
+\begin{itemize}
+	\item
+		Sei $I_h$ speziell Lagrange-Interpolation, $\Omega \subset \R^d$.
+		Damit $I_h: H^m(\Omega) \to \P_k(\scr T_h)$ sinnvoll definiert ist, muss $H^m(\Omega)$ Punktauswertungen erlauben, d.h. $v \in H^m(\Omega)$ muss einen stetigen Repräsentanten $\tilde v \in C^0(\Omega)$ besitzen $\|v - \tilde v\|_{H^m(\Omega)} = 0$, dann kann die Punktauswertung von $\tilde v$ als Punktauswertung von $v$ definiert werden.
+		Dies ergibt eine Bedingung an $d, m$.
+
+		Erinnerung: für $d = 1, m = 1$ hat $v \in H^1(\Omega)$ stets einen stetigen Repräsentanten.
+
+		Allgemeiner: Falls $m - \frac{d}{p} > 0$, so hat $v \in H_p^1(\Omega)$ einen stetigen Repräsentanten.
+		Man nennt $m - \frac{d}{p}$ \emphdef{Sobolev-Index}.
+		Die Aussage folgt aus dem zweiten Sobolevschen Einbettungssatz, siehe z.B. [Alt].
+
+		Sei im Folgenden $d,m$ so, dass $I_h$ Lagrange-Interpolation wohldefiniert ist.
+\end{itemize}
+
+
+
+
