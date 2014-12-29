@@ -1,11 +1,15 @@
 #ifndef POLYNOMIAL_H
 #define POLYNOMIAL_H
 
+#include <initializer_list>
 #include <gmpxx.h>
 
 template<class R>
 class Polynomial : public RingEl<Polynomial<R>> {
   public:
+    Polynomial (std::initializer_list<R> coeffs) : n(coeffs.size() - 1), coeffs(coeffs), coeffZero(R::Zero()) {
+        static_assert(std::is_base_of<RingEl<R>, R>::value, "Polynomial coefficient class must inherit from RingEl");
+    }
     Polynomial (std::vector<R> coeffs) : n(coeffs.size() - 1), coeffs(coeffs), coeffZero(R::Zero()) {
         static_assert(std::is_base_of<RingEl<R>, R>::value, "Polynomial coefficient class must inherit from RingEl");
     };
