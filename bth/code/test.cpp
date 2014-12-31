@@ -2,6 +2,7 @@
 
 #include "Integer.h"
 #include "Polynomial.h"
+#include "gcd.h"
 
 
 template<class R>
@@ -22,13 +23,12 @@ int main (int argc, char *argv[])
 {
 	auto i = Integer(2);
 
-	std::vector<Integer> c1 = { 5, 3 };
-	auto p1 = Polynomial<Integer>(c1);
+	auto p1 = Polynomial<Integer>{5, 3};
+	auto p2 = Polynomial<Integer>{5, 3, 7, 2};
 
-	std::vector<Integer> c2 = { 5, 3, 7, 2 };
-	auto p2 = Polynomial<Integer>(c2);
-
-	auto q = p2 * p2;
+	std::cout << i * p1 << std::endl;
+	std::cout << p2 << std::endl;
+	auto q = p1 * p2;
 	std::cout << q << std::endl;
 
 
