@@ -26,10 +26,11 @@ enable_testing(true)
 # test suite
 set(TESTS_SOURCES tests/main.cpp tests/integers.cpp tests/polynomial.cpp)
 add_executable(tests ${TESTS_SOURCES})
-add_dependencies(tests catch)
 target_link_libraries(tests gmp gmpxx)
+add_dependencies(tests catch)
 
 # main executable
-add_executable(mytest test.cpp)
+set(MAIN_SOURCES test.cpp)
+add_executable(mytest ${MAIN_SOURCES})
 target_link_libraries(mytest gmp gmpxx)
 
