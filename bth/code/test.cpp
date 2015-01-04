@@ -2,7 +2,7 @@
 
 #include "Integer.h"
 #include "Polynomial.h"
-#include "gcd.h"
+#include "ramd.h"
 
 
 template<class R>
@@ -30,15 +30,20 @@ int main (int argc, char *argv[])
     auto t1 = Polynomial<Polynomial<Integer>>{
         Polynomial<Integer>::Monomial(2),
         Polynomial<Integer>::Zero(),
-        Polynomial<Integer>::One()
+        Polynomial<Integer>::One(),
+        p2,
     };
     auto t2 = Polynomial<Polynomial<Integer>>{
         2 * Polynomial<Integer>::Monomial(1),
-        - 2 * Polynomial<Integer>::One()
+        - 2 * Polynomial<Integer>::One(),
+        p1,
+        p2
     };
 
+    p1 = Polynomial<Integer>{-5, 2, 8, -3, -3, 0, 1, 0, 1};
+    p2 = Polynomial<Integer>{21, -9, -4, 0, 5, 0, 3};
 
-    auto pseq = pseudo_euclidean_division(t1, t2);
+    auto pseq = prem_seq(p1, p2);
 
     for (auto p : pseq) {
         std::cout << p << std::endl;

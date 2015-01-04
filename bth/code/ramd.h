@@ -6,7 +6,7 @@
 #include "Polynomial.h"
 
 template<class R>
-std::vector<Polynomial<R>> pseudo_euclidean_division (Polynomial<R> p, Polynomial<R> q);
+std::vector<Polynomial<R>> prem_seq (Polynomial<R> p, Polynomial<R> q);
 
 #include "gcd.cpp"
 

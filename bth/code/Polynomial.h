@@ -130,14 +130,14 @@ public:
 
     friend std::ostream& operator<< (std::ostream& os, const Polynomial<R>& p) {
         os << "⟦";
-        for (int i = p.degree(); i >= 0; --i) {
-            if (i < p.degree())
-                os << ", ";
+        for (int i = 0; i <= p.degree(); ++i) {
             //if (p[i] == R::Zero())
             //    continue;
 
             //os << "(" << p[i] << ") * X^" << i;
             os << p[i];
+            if (i < p.degree())
+                os << ", ";
         }
         os << "⟧";
         return os;
