@@ -29,7 +29,7 @@ class Integer : public RingEl<Integer>, public Order<Integer> {
     Integer& operator*= (const Integer& rhs) { this->val *= rhs.val; return *this; }
 
     //const Integer&  operator+ () const { return *this; };
-    Integer operator- () const { auto obj = Integer(0); obj -= *this; return obj; };
+    Integer operator- () const { auto obj = Integer::Zero(); obj -= *this; return obj; };
 
 
     /* special integer properties */
