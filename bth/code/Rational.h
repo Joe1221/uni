@@ -14,6 +14,7 @@ class Rational : public RingEl<Rational>, public Order<Rational> {
     static Rational One() { return Rational(1,1); }
     //Rational () : val(0) {};
     Rational (float val) : val(val) {};
+    Rational (int n, int d) : val(n, d) {};
 
     Rational& operator= (const Rational& rhs) { this->val = rhs.val; return *this; }
 

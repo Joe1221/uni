@@ -1,6 +1,7 @@
 #ifndef RAMD_H
 #define RAMD_H
 
+#include <cassert>
 #include <vector>
 #include <algorithm>
 #include "Polynomial.h"

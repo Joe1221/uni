@@ -1,18 +1,24 @@
 #include "ramd.h"
-#include <cassert>
-
-
 
 inline int binom (int n, int k) {
-    int res = 1;
     // symmetry
     if (k > n - k)
         k = n - k;
-    for (int i = 0; i < k; ++i) {
-        res *= n - i;
-        res /= i + 1;
+    if (k < 0)
+        return 0;
+
+    auto b1 = std::vector<int>(k + 1);
+    auto b2 = std::vector<int>(k + 1);
+    b1[0] = b2[0] = 1;
+
+    for (int i = 1; i <= n; ++i) {
+        for (int j = 1; j <= std::min(i, k); ++j) {
+            b2[j] = b1[j-1] + b1[j];
+        }
+        b1 = b2;
     }
-    return res;
+
+    return b1[k];
 }
 
 
