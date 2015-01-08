@@ -5,6 +5,8 @@
 #include <vector>
 #include <algorithm>
 #include "Polynomial.h"
+#include "Interval.h"
+#include "Index.h"
 #include "Order.h"
 #include "RingEl.h"
 #include "Rational.h"
