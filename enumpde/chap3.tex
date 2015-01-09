@@ -2529,7 +2529,7 @@ Für das Aufstellen des LGS, d.h. Berechnung von $A_h, b_h$, auch „Assemblieru
 durch Quadraturen berechnet, bzw. approximiert.
 Es genügt, Quadraturen auf dem Referenzelement $\hat T$ zu definieren, welche dann auf beliebige Simplizes transformiert und zu einer zusammengesetzten Quadratur für Gebietsintegrale kombiniert werden.
 
-\begin{df}[Quadratur auf Referenzelement] \label{3.79}
+\begin{df}[Quadratur auf Referenzelement] \label{3.74}
 	Sei $\hat T \subset \R^d$ das Referenzsimplex, $\hat x_1, \dotsc, \hat x_l \in \hat T$ \emphdef{Quadraturpunkte}, $\omega_1, \dotsc, \omega_l \in \R$ \emphdef{Gewichte}.
 	Dann heißt
 	\begin{math}
@@ -2630,12 +2630,14 @@ Es genügt, Quadraturen auf dem Referenzelement $\hat T$ zu definieren, welche d
 		\item
 			Die globale Indexabbildung beschreibt den Zusammenhang zwischen lokalen und globalen Indizes und stellt eine entsprechende Abbildung sicher:
 			Sei $n_k := \dim \P_k(\hat T)$ mit lokaler Basis $\Set{\hat \phi_{\hat i}}_{\hat i = 1}^{n_k}$ von $\P_k(\hat T)$.
-			Sei $\hat g: \scr T_h \times \Set{1, \dotsc, n_k} \to \Set{1, \dotsc, m_k}$ derart, dass für globale Basis $\Set{\phi_i}_{i=1}^{m_k}$ von $\P_k(\scr T_h)$ gilt
+			Sei $\hat g: \scr T_h \times \Set{1, \dotsc, n_k} \to \Set{1, \dotsc, m_k}$ derart, dass für die globale Basis $\Set{\phi_i}_{i=1}^{m_k}$ von $\P_k(\scr T_h)$ gilt
 			\begin{math}
-				\hat \phi_{\hat i}(\hat x) = \phi_i(F_T(\hat x))
+				\hat \phi_{\hat i}(\hat x) &= \phi_i(F_T(\hat x)), &
+				i = \hat g(T, \hat i)
 			\end{math}
-			für $i = \hat g(T, \hat i)$, $i \in \Set{1, \dotsc, n_k}$, $T \in \scr T_h$.
-			Hierbei ist $\hat i$ der \emphdef[lokaler Index]{lokale Index}, $i$ der \emphdef[globaler Index]{globale Index}.
+			für $T \in \scr T_h, \hat i \in \Set{1, \dotsc, n_k}$.
+			Hierbei ist $\hat i$ der \emphdef[lokaler Index]{lokale Index}, $i$ der \emphdef[globaler Index]{globale Index} der Basisfunktionen.
+
 			Hiermit ist die Kenntnis der $\Set{\phi_i}_{i=1}^{m_k}$ niemals explizit notwendig.
 			Es genügt, eine Basis $\Set{\hat \phi_{\hat i}}$ auf dem Referenzelement festzulegen.
 \Timestamp{2014-12-19}
@@ -2653,7 +2655,7 @@ Es genügt, Quadraturen auf dem Referenzelement $\hat T$ zu definieren, welche d
 				A_{h,T} = (\hat a_{\hat i, \hat j, T})_{\hat i, \hat j = 1}^{n_k}
 			\end{math}
 		\item
-			Assembliere die globale Steifigkeitsmatrix $A_h$ durch Addition der lokalen Beiträge in entsprechenden Einträge Einträge von $A_h$:
+			Assembliere die globale Steifigkeitsmatrix $A_h$ durch Addition der lokalen Beiträge auf entsprechende Einträge von $A_h$ (mit Hilfe der Index-Abbildung $\hat g$):
 			\begin{algorithmic}
 				\State $A_h \gets 0$
 				\For{$T \in \scr T_h$}
@@ -2788,5 +2790,222 @@ Dies liefert eine Fehlerschranke, Konvergenz und Konvergenzordnung für die Gale
 \end{itemize}
 
 
+\Timestamp{2015-01-09}
 
+\begin{df}[gebrochene Normen] \label{3.75}
+	Sei $\scr T_h$ Triangulierung von $\Omega$.
+	Wir definieren gitterabhängige Normen und Räume:
+	\begin{math}
+		H^m(\scr T_h) := \Set{v: \Omega \to \R & \forall T \in \scr T_h : v|_T \in H^m(T) }
+	\end{math}
+	mit Seminorm
+	\begin{math}
+		|v|_{H^m(\scr T_h)} := \Big( \sum_{T\in \scr T_h} |v|_{H^m(T)}^2 \Big)
+	\end{math}
+	und Norm
+	\begin{math}
+		\|v\|_{H^m(\scr T_h)} := \Big( \sum_{T\in \scr T_h} \|v\|_{H^m(T)}^2 \Big)
+	\end{math}
+\end{df}
+
+\begin{st}[lokale Interpolation] \label{3.76}
+	Sei $T \subset \R^d$ $d$-dimensionales Simplex, $\sigma_T \le \sigma_{\text{max}}$, Lagrange-Interpolation $I: H^k(T) \to \P_{k-1}(T)$ wohldefiniert zu dem Lagrange-Gitter $G_{k-1}(T)$.
+	Dann existiert $C = C(k,d,\sigma_{\text{max}}$ sodass
+	\begin{math}
+		\|v - Iv\|_{H^k(T)} \le C |v|_{H^k(T)}
+	\end{math}
+	für alle $v \in H^k(T)$.
+	\begin{proof}
+		Verfeinerungen von PDEMAS 13/14, 4.28.
+	\end{proof}
+\end{st}
+
+\begin{st}[Transformationsformeln] \label{3.77}
+	Sei $T \subset \R^d$ $d$-dimensionales Simplex mit Referenzabbildung $F_T(\hat x) = B\hat x + t$.
+	Für $v \in H^m(T)$ ist $\hat v = v \circ F_T \in H^m(\hat T)$ und es existiert $C = C(d,m)$ mit
+	\begin{math}
+		|\hat v|_{H^m(\hat T)} \le C \|B\| |\det B|^{-\frac{1}{2}} |v|_{H^m(T)}
+	\end{math}
+	\begin{proof}
+		Siehe Übung.
+	\end{proof}
+\end{st}
+
+\begin{st}[Interpolations-Abschätzung] \label{3.78}
+	Sei $\scr T_h$ zulässige Triangulierung von $\Omega \subset \R^d$.
+	Sei $\sigma_{\text{max}} > 0, h_{\text{max}} > 0$ sodass $\forall T\in \scr T_h, \sigma_{T} \le \sigma_{\text{max}}$, $h \le h_{\text{max}}$.
+	Dann existiert $C = C(\Omega, \sigma_{\text{max}}, h_{\text{max}}, k, m, d)$ mit
+	\begin{math}
+		\|u - I_hu\|_{H^m(\scr T_h)} \le C h^{k-m} |u|_{H^k(\Omega)}
+	\end{math}
+	für alle $u \in H^k(\Omega), 0 \le m \le k$ mit Lagrange-Interpolation $I_h: H^k(\Omega) \to \P_{k-1}(\scr T_h)$ zu Lagrange-Gitter $G_{k-1}(\scr T_h)$.
+	\begin{proof}
+		Wir zeigen zunächst für $T \in \scr T_h$ und alle $u \in H^k(T)$
+		\begin{math}[numbered] \label{eq:3.25}
+			\|u - I_h u\|_{H^m(T)} \le C h^{k-m} |u|_{H^k(T)}.
+		\end{math}
+		Sei $\hat T$ das Referenzsimplex.
+		Mit Transformationsformel \ref{3.77} und lokaler Interpolationsfehlerabschätzung \ref{3.76} folgt
+		\begin{math}
+			|u - I_h u|_{H^m(T)}
+			&\stack{\ref{3.77}}{\le} C(d,m) \|B^{-1}\|^m \underbrace{|\det B^{-1}|^{-\frac{1}{2}}}_{=|\det B|^{\frac{1}{2}}} \underbrace{|\hat u - I \hat u|_{H^m(\hat T)}}_{\le \|\hat u - I\hat u\|_{H^k(T)}} \\
+			&\stack{\ref{3.76}}{\le} C(d,m,k,\sigma_{\text{max}}) \|B^{-1}\|^m |\det B|^{\frac{1}{2}} |\hat u|_{H^k(\hat T)} \\
+			&\stack{\ref{3.77}}{\le} C(d,m,k,\sigma_{\text{max}})  \|B^{-1}\|^m \|B\|^k |u|_{H^k(T)} \\
+			&\le C(d,m,k,\sigma_{\text{max}}) \underbrace{\|B^{-1}\|^m \|B\|^m}_{\stack{3.60}{\le} (\frac{h_T h_{\hat T}}{\rho_{\hat T} \rho_T})^m = (\sigma_T \sigma_{\hat T})^m = C(\sigma_{\text{max}}, d)} \\
+			& \qquad \underbrace{\|B\|^{k-m}}_{\stack{3.60}{\le} (\frac{h_T}{\rho_{\hat T}})^{k-m} \le C(d, m) h^{k-m}} |u|_{H^k(T)} \\
+			&\le C(d,m,k,\sigma_{\text{max}}) |u|_{H^k(T)} h^{k-m}.
+		\end{math}
+		Es folgt für die Norm
+		\begin{math}
+			\|u - I_h u\|_{H^m(T)}^2
+			= \sum_{l=0}^m |u - I_h u|_{H^l(T)}^2
+			\le \sum_{l=0}^m (C h^{k-l} |u|_{H^k(T)})^2
+		\end{math}
+		Mit $h^{k-l} = h^{k-m} h^{m-l} \le h^{k-m} h_{\text{max}}^{m-l} \le C(h_{\text{max}}, m, l) h^{k-m})$ folgt
+		\begin{math}
+			\|u - I_h u\|^2
+			\le C(d, m, k, \sigma_{\text{max}}, \sigma_{\text{max}}) (h^{k-m})^2 |u|_{H^k(T)}^2.
+		\end{math}
+		also ist \eqref{eq:3.25} lokal gezeigt.
+		Durch Summation über alle $T \in \scr T_h$ folgt die Behauptung.
+	\end{proof}
+	\begin{note}
+		Für $d = 2, I_h: H^2(\Omega) \to \P_1(\scr T_h)$ gilt also
+		\begin{math}
+			\|u - I_h u\|_{H^1(\scr T_h} &\le C h |u|_{H^2(\Omega)} & &(m = 1, k=2) \\
+			\|u - I_h u\|_{L^2(\Omega)} & \le C h^2 |u|_{H^2(\Omega)} & &(m = 0, k=2).
+		\end{math}
+		Ähnliche Aussagen sind auch für Dreiecksgitter und bilineare Elemente möglich.
+	\end{note}
+\end{st}
+
+\begin{df}[Charakterisierung von Gittersequenzen] \label{3.79}
+	Eine Folge $\Set{\scr T_i}_{i \in \N}$ mit $\lim_{i \to \infty} h_i = 0$ für $h_i := h(\scr T_i)$ heißt
+	\begin{itemize}
+		\item
+			\emphdef{nicht-entartet}, falls $\sigma_{\text{max}} > 0$ existiert mit $\sigma_T := \frac{h_T}{\rho_T} < \sigma_{\text{max}}$ für alle $T \in \scr T_i, i \in \N$.
+		\item
+			\emphdef{quasi-uniform}, falls $\sigma_{\text{max}} > 0$ existiert mit $\frac{h_i}{\rho_T} \le \sigma_{\text{max}}$ für alle $T \in \scr T_i, i \in \N$.
+	\end{itemize}
+	\begin{note}
+		\begin{itemize}
+			\item
+				quasi-unform impliziert nicht-entartet.
+			\item
+				Eine Sequenz kann durchaus nicht-entartet, aber trotzdem nicht quasi-uniform sein (z.B. bei geeigneter lokaler Verfeinerung).
+			\item
+				Quasi-Uniformität bedeutet, es existiert eine Konstante $C > 0$ mit
+				\begin{math}
+					h_T \le h_i \le C h_T.
+				\end{math}
+			\item
+				In nicht-entarteten Gittern sind innere Winkel nach unten beschränkt durch $\phi_{\text{min}} > 0$.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{kor}[Konvergenz der Interpolation] \label{3.80}
+	Sei $\Set{\scr T_i}_{i \in \N}$ nicht-entartet, $h_{\text{max}} := \max_{i} h_i$, $\lim_{i \to \infty} h_i = 0$ und $I_h: H^k(\Omega) \to \P_{k-1}(\scr T_i)$ Lagrange-Interpolation.
+	Dann gilt
+	\begin{math}
+		\lim_{i\to \infty} \|u - I_h u\|_{H^m(\scr T_i} = 0
+	\end{math}
+	für alle $u \in H^m(\Omega), 0 \le m \le k-1$.
+	\begin{proof}
+		Klar mit \ref{3.78}: das dortige $C$ ist unabhängig von $i$, $h_i^{k-m} \le h_i h_{\text{max}}^{k-m-1}$ also
+		\begin{math}
+			\lim_{i\to \infty} h_i^{k-m}
+			= h_{\text{max}}^{k-m-1} \lim_{i\to \infty} h_i
+			= 0.
+		\end{math}
+	\end{proof}
+	\begin{note}
+		Die Interpolations-Abschätzung \ref{3.78} liefert
+		\begin{math}
+			\|u - I_h u\|_{H^m(\scr T_h} &\le C h^{k-m} \|u\|_{H^k(\Omega)}, & & 0 \le m \le k,
+		\end{math}
+		also wird der Interpolations-Fehler in einer „schwächeren“ Norm gemessen und durch eine „stärkere“ Norm von $u$ abgeschätzt; man gewinnt $h$-Potenzen.
+
+		Sogenannte \emphdef{inverse Abschätzungen} leisten das Umgekehrte, indem man $h$-Potenzen „opfert“, gelten aber nur für FEM-Funktionen (nicht für den ganzen Sobolev-Raum).
+	\end{note}
+\end{kor}
+
+\begin{st}[Inverse Abschätzung] \label{3.81}
+	Sei $\scr T_h$ quasi-uniforme Triangulierung, $\sigma_{\text{max}} > 0, \sigma_T \le \sigma_{\text{max}}$ für alle $T \in \scr T_h$ und $k \in \N$.
+	Dann existiert $C = C(\sigma_{\text{max}, k, m})$ mit
+	\begin{math}
+		\|v_h\|_{H^k(\scr T_h)} \le C h^{m-k} \|v_h\|_{H^m(\scr T_h)}
+	\end{math}
+	für alle $v_h \in \P_k(\scr T_h)$.
+	\begin{proof}
+		Für $d = 1$ siehe Übung.
+	\end{proof}
+	\begin{note}
+		Für $d = 2$ und linearen Elementen gilt also via $k = 1, m = 0$
+		\begin{math}
+			\|v_k\|_{H^1(\Omega)}
+			\le C h^{-1} \|v_h\|_{L^2(\Omega)}
+		\end{math}
+		für alle $v_h \in \P_1(\scr T_h)$.
+		Diese Abschätzung gilt auch für stetige stückwese bilinearen Elementen auf viereckigen Gittern.
+	\end{note}
+\end{st}
+
+\section{FEM a-priori Abschätzungen}
+
+\begin{st}[FEM a-priori Fehlerschranke in $H^1$] \label{3.82}
+	Sei $a(\argdot, \argdot)$ koerziv, stetig, $l(\argdot)$ stetig auf $H_0^1(\Omega)$, $\Omega \subset \R^d$ beschränkt, polygonal berandet und $u \in H_0^1(\Omega)$ eindeutige schwache Lösung.
+	Sei $\scr T_h$ zulässige Triangulirung mit $\sigma_{\text{max}} > 0, \sigma_T \le \sigma_{\text{max}}$ für alle $T \in \scr T_h, u_h \in V_h := \P_{k,0}(\scr T_h)$ Lagrange FEM-Lösung.
+
+	Falls $s \in \N$ existiert mit
+	\begin{enumerate}[i)]
+		\item
+			$1 \le s \le k$ und
+		\item
+			$u \in H^{s+1}(\Omega) \cap H_0^1(\Omega)$,
+	\end{enumerate}
+	so gilt die Fehlerschranke
+	\begin{math}
+		\|u - u_h\|_{H^1(\Omega)}
+		\le C h^s \|u\|_{H^{s+1}(\Omega)},
+	\end{math}
+	wobei $C = C(\sigma_{\text{max}}, k, d, \Omega)$.
+	\begin{proof}
+		Lemma von Céa liefert
+		\begin{math}
+			\|u - u_h\| \le \frac{\gamma}{\alpha} \|u - I_hu\|
+		\end{math}
+		für Lagrange-Interpolation $I_h: H^{s+1}(\Omega) \to \P_1(\scr T_h)$.
+		Die Interpolations-Abschätzung \ref{3.78} liefert mit $m = 1, k = s + 1$
+		\begin{math}
+			\|u - u_h\|_{H^1(\scr T_h)}
+			= \|u - u_h\|_{H^m(\scr T_h}
+			\le C h^{k-m} |u|_{H^k(\Omega)}
+			\le C h^s \|u\|_{H^{s+1}(\Omega)}
+		\end{math}
+	\end{proof}
+\end{st}
+
+\begin{kor}[Konvergenz von FEM] \label{3.83}
+	Sei $\Set{\scr T_i}_{i\in \N}$ nicht-entartet mit $\lim_{i \to \infty} h_i = 0, \sigma_T \le \sigma_{\text{max}}$ für alle $T \in \scr T_i, i \in \N$ und die Voraussetzungen von \ref{3.82} für alle $\scr T_i$ erfüllt, dann gilt
+	\begin{math}
+		\lim_{i \to \infty} u_{h_i} = u.
+	\end{math}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Um $u \in H^{s+1}$ zu garantieren, wären zusätzliche Regularität von $\Boundary \Omega$ und $f \in H^{s+1}(\Omega)$ für $l(v) = \int_\Omega f v$ notwendig (Satz von Friedrichs zu $H^2$-Regularität \ref{3.30} und dortige Bemerkung).
+			\item
+				Für lineare FEM ($k = 1$) benötigen wir also $H^2(\Omega)$-Regularität, dann gilt \emphdef{lineare Konvergenz} in $h$ bezüglich der $H^1$-Norm:
+				\begin{math}
+					\|u_h\|_{H^1(\Omega)} \le C h \|u\|_{H^2(\Omega)}
+					\stack{\ref{3.30}}{\le} C h \|f\|_{L^2(\Omega)}
+				\end{math}
+			\item
+				Für polygonal berandete Gebiete kann also eigentlich keine $H^3$-Regularität garantiert werden, denn $\Boundary \Omega$ ist nicht $C^3$.
+				Also kann man für quadratische oder kubische FEM in diesem Fall keine bessere Fehlerordnung garantieren.
+				In der Praxis funktionieren quadratische und kubische Elemente aber trotzdem sehr gut und sind linearen Elementen zu bevorzugen.
+		\end{itemize}
+	\end{note}
+\end{kor}
 
