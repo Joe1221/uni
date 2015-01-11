@@ -37,9 +37,9 @@ R pow (R b, int e) {
     return b;
 }
 
-template<class Integer>
+/*template<class Integer>
 T sign (Polynomial<R> p, T a) {
-}
+}*/
 
 template<class R, class T>
 T stable_eval (Polynomial<R> p, T a) {
