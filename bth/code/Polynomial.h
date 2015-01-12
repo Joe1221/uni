@@ -6,6 +6,93 @@
 
 #include "RingEl.h"
 
+// should be private to Polynomial
+template<class R, unsigned int dim = 1>
+class Monomial : public SetEl<Monomial<R, dim>> {
+    protected:
+        R coefficient;
+        std::array<unsigned int, dim> exponents;
+    public:
+        Monomial (std::initalizer_list<unsigned int> exponents, R coefficient == R::One())
+                : exponents(exponents), coefficient(coefficient) {
+            // assert(exponents.size() == d) ?
+        }
+
+        //Monomial& operator= (const Monomial& rhs) { /* */ return *this; }
+
+        /*const R& operator[] (int i) const {
+            if (i < 0 || i > degree()) return coeffZero;
+            return coeffs[i];
+        }*/
+
+        const unsigned int exponent (unsigned int i) {
+            return this->exponents[i];
+        }
+
+        const R& coefficient () const {
+            return this->coefficient;
+        }
+
+        // SetEl, equality, != for free
+        friend bool operator== (const Monomial& lhs, const Monomial& rhs) {
+            return lhs.coefficient == rhs.coefficient && lhs.exponents == rhs.exponents;
+        }
+
+        /*
+        Monomial& operator*= (const Monomial& rhs) {
+        }
+
+        Monomial& operator*= (const R& rhs) {
+            int newDegree = 0;
+            for (int i = 0; i <= this->degree(); ++i) {
+                this->coeffs[i] *= rhs;
+                if (coeffs[i] != R::Zero())
+                    newDegree = i;
+            }
+            this->n = newDegree;
+            return *this;
+        }
+        friend Polynomial& operator* (Polynomial lhs, const R& rhs) { return lhs *= rhs; }
+        friend Polynomial& operator* (const R& lhs, Polynomial rhs) { return rhs *= lhs; }
+
+        Polynomial operator- () const {
+            auto negCoeffs = std::vector<R>(this->degree() + 1, R::Zero());
+            for (int i = 0; i <= this->degree(); ++i) {
+                negCoeffs[i] = -coeffs[i];
+            }
+            return Polynomial(negCoeffs);
+        };
+        */
+
+        // important for monomials ordering
+        friend bool operator<= (const Monomial& lhs, const Monomial& rhs) {
+            return lhs.exponent <= rhs.exponent;
+        }
+
+        friend std::ostream& operator<< (std::ostream& os, const Monomial<R, dim>& p) {
+            os << p.coefficient() << "*";
+            os << "(";
+            for (int i = 0; i <= dim; ++i) {
+                os << p.exponent[i];
+                if (i < p.degree())
+                    os << ", ";
+            }
+            os << ")";
+            return os;
+        }
+}
+
+template<class R, unsigned int dim = 1>
+class Polynomial : public RingEl<Polynomial<R, d>> {
+    protected:
+        std::list<Monomial<R, dim>> monomials;
+
+    public:
+}
+
+
+#if 0
+
 template<class R>
 class Polynomial : public RingEl<Polynomial<R>> {
 protected:
@@ -144,6 +231,7 @@ public:
     }
 };
 
+#endif
 
 
 #endif

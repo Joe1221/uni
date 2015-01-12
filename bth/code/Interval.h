@@ -29,5 +29,10 @@ class Interval {
         R b;
 };
 
+
+//template<class
+
+
+
 #endif
 
