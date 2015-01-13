@@ -15,9 +15,9 @@ class RingEl : SetEl<R> {
     static R Zero ();
     static R One ();
 
-    virtual R & operator+= (const R& rhs) = 0;
-    virtual R & operator-= (const R& rhs) = 0;
-    virtual R & operator*= (const R& rhs) = 0;
+    virtual R& operator+= (const R& rhs) = 0;
+    virtual R& operator-= (const R& rhs) = 0;
+    virtual R& operator*= (const R& rhs) = 0;
 
     /*operator R & () { return static_cast<R &>(*this); };*/
     friend const R operator+ (R lhs, const R& rhs) { lhs += rhs; return lhs; }
