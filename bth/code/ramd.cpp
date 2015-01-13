@@ -41,27 +41,24 @@ R pow (R b, int e) {
 T sign (Polynomial<R> p, T a) {
 }*/
 
-template<class R, class T>
-T stable_eval (Polynomial<R> p, T a) {
-    static_assert(std::is_base_of<RingEl<T>, T>::value,
-            "Evaluation point must inherit from RingEl");
-
+template<class R, unsigned int dim>
+Polynomial<R, dim - 1> stable_eval (Polynomial<R, dim> p, R a) {
     int n = p.degree();
     for (int k = 0; k <= n; ++k) {
-        T c = T::Zero();
+        Polynomial<R, dim - 1> c = Polynomial<R, dim - 1>::Zero();
         for (int l = k; l <= n; ++l)
-            c += binom(l, k) * p[l] * pow(a, l - k);
+            c += binom(l, k) * p.coefficient(l) * pow(a, l - k);
 
-        if (c == T::Zero())
+        if (c == Polynomial<R, dim - 1>::Zero())
             continue;
 
         if ((k & 1) == 0) {
             return c;
         } else {
-            return T::Zero();
+            return Polynomial<R, dim - 1>::Zero();
         }
     }
-    return T::Zero();
+    return Polynomial<R, dim - 1>::Zero();
 }
 
 
@@ -124,10 +121,10 @@ Rational calc_idx (const Index<T, R>& index) {
 
 
 
-template<class R>
-std::vector<Polynomial<R>> prem_seq (Polynomial<R> p, Polynomial<R> q) {
+template<class R, unsigned int dim = 1>
+std::vector<Polynomial<R, dim>> prem_seq (Polynomial<R, dim> p, Polynomial<R, dim> q) {
 
-    std::vector<Polynomial<R>> prem_seq = {p, q};
+    std::vector<Polynomial<R, dim>> prem_seq = {p, q};
     int d = p.degree() - q.degree() + 1;
 
     while (q.degree() > 0) {
@@ -139,7 +136,7 @@ std::vector<Polynomial<R>> prem_seq (Polynomial<R> p, Polynomial<R> q) {
             d >= 0;
             ++k, d = p.degree() - q.degree()
         ) {
-            R plead = p.lead();
+            Polynomial<R, dim - 1> plead = p.lead();
 
             p *= q.lead();
             p -= plead * q * Polynomial<R>::Monomial(d);

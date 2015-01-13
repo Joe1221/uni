@@ -8,10 +8,11 @@
 #include <gmpxx.h>
 
 #include "RingEl.h"
+#include "Order.h"
 
 // should be private to Polynomial
 template<class R, unsigned int dim = 1>
-class Monomial : public SetEl<Monomial<R, dim>> {
+class Monomial : public SetEl<Monomial<R, dim>>, public Order<Monomial<R, dim>> {
     protected:
         R _coefficient;
         std::array<unsigned int, dim> _exponents;
@@ -64,7 +65,7 @@ class Monomial : public SetEl<Monomial<R, dim>> {
 
         // important for monomials ordering
         friend bool operator<= (const Monomial& lhs, const Monomial& rhs) {
-            return lhs._exponent <= rhs._exponent;
+            return lhs._exponents <= rhs._exponents;
         }
 
         friend std::ostream& operator<< (std::ostream& os, const Monomial<R, dim>& p) {
@@ -72,7 +73,7 @@ class Monomial : public SetEl<Monomial<R, dim>> {
             os << "(";
             for (int i = 0; i <= dim; ++i) {
                 os << p.exponent(i);
-                if (i < p.degree())
+                if (i < dim)
                     os << ", ";
             }
             os << ")";
@@ -114,7 +115,162 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             for (auto it = coefficients.begin(); it != coefficients.end(); ++it) {
                 std::array<unsigned int, dim> exponents;
                 exponents[0] = exponent;
-                this->_monomials.push_back(Monomial<unsigned int, dim>(*it, exponents));
+                this->_monomials.push_back(Monomial<R, dim>(*it, exponents));
+            }
+        }
+        Polynomial (std::list<Monomial<R, dim>> monomials) : _monomials(monomials) {
+            sort();
+            normalize();
+        }
+
+        const std::list<Monomial<R, dim>>& monomials () const {
+            return _monomials;
+        }
+
+        template<unsigned int j = 0>
+        const int degree () const {
+            int d = 0;
+            for (auto& m : _monomials) {
+                int e = m.exponent(j);
+                if (e > d)
+                    d = e;
+            }
+            return d;
+        }
+
+
+        template<unsigned int j = 0>
+        const Polynomial<R, dim - 1> coefficient (int k) {
+            int d = degree<j>();
+            if (k < 0 || k > d) return Polynomial<R, dim - 1>::Zero();
+
+            std::list<Monomial<R, dim - 1>> coeff_monomials;
+            for (auto& monomial : _monomials) {
+                if (monomial.exponent(j) != k)
+                    continue;
+                auto m_exponents = monomial.exponents();
+                std::array<unsigned int, dim - 1> cm_exponents;
+                std::copy(std::begin(m_exponents), std::next(std::begin(m_exponents), j), std::begin(cm_exponents));
+                std::copy(std::next(std::begin(m_exponents), j + 1), std::end(m_exponents), std::next(std::begin(cm_exponents), j));
+
+                coeff_monomials.push_back(Monomial<R, dim - 1>(monomial.coefficient(), cm_exponents));
+
+            }
+            Polynomial<R, dim - 1> coeff(coeff_monomials);
+            return coeff;
+        }
+
+
+        template<unsigned int j = 0>
+        const Polynomial<R, dim - 1> lead () {
+            int k = 0;
+            for (auto& monomial : _monomials) {
+                auto l = monomial.exponent(j);
+                if (l > k)
+                    k = l;
+            }
+            return coefficient(k);
+        }
+
+        Polynomial& operator+= (const Polynomial& rhs) {
+            auto rhs_monomials = rhs.monomials();
+            _monomials.merge(rhs_monomials);
+            normalize();
+            return *this;
+        }
+
+        Polynomial& operator-= (const Polynomial& rhs) {
+            return (*this) += -rhs;
+        }
+
+        Polynomial& operator*= (const Polynomial& rhs) {
+            std::list<Monomial<R, dim>> monomials_new;
+            for (auto& m : _monomials) {
+                for (auto& n : rhs.monomials()) {
+                    monomials_new.push_back(m * n);
+                }
+            }
+            sort();
+            normalize();
+            return *this;
+        }
+
+        Polynomial& operator*= (const R& rhs) {
+            for (auto& monomial : _monomials) {
+                monomial *= rhs;
+            }
+            return *this;
+        }
+        friend const Polynomial operator* (Polynomial lhs, const R& rhs) { return lhs *= rhs; }
+        friend const Polynomial operator* (const R& lhs, Polynomial rhs) { return rhs *= lhs; }
+
+        Polynomial operator- () const {
+            auto monomials = _monomials;
+            for (auto& m : monomials) {
+                m = -m;
+            }
+            return Polynomial(monomials);
+        }
+
+
+        friend std::ostream& operator<< (std::ostream& os, const Polynomial<R, dim>& p) {
+            auto& ms = p._monomials;
+            for (auto it = ms.begin(); it != ms.end(); ++it) {
+                if (it != ms.begin())
+                    os << " + ";
+                os << *it;
+            }
+            os << ")";
+            return os;
+        }
+};
+
+template<class R>
+const Polynomial<R, 0> Polynomial<R, 0>::coefficient<1> (int k) {
+    return Polynomial<R, 0>::Zero();
+}
+/*
+template<R>
+Integer::Integer(Polynomial<R, 0> p) {
+    p.coefficient()
+}*/
+
+/*
+template<class R>
+class Polynomial<R, 1> : public RingEl<Polynomial<R, 1>> {
+    protected:
+        std::list<Monomial<R, dim>> _monomials;
+
+        void sort () {
+            _monomials.sort();
+        }
+        void normalize () {
+            auto it_old = _monomials.begin();
+            for (auto it = std::next(it_old); it != _monomials.end(); ++it_old, ++it) {
+                if (it_old->exponents() == it->exponents()) {
+                    Monomial<R, dim> m(it_old->coefficient() + it->coefficient(), it->exponents());
+                    _monomials.erase(it_old);
+                    auto it_old = _monomials.insert(it, m);
+                    it = _monomials.erase(it);
+                }
+            }
+            for (auto it = _monomials.begin(); it != _monomials.end(); ++it) {
+                if (it->coefficient() == R::Zero()) {
+                    it = std::prev(_monomials.erase(it));
+                }
+            }
+        }
+
+    public:
+
+        Polynomial (std::initializer_list<R> coefficients) {
+            static_assert(std::is_base_of<RingEl<R>, R>::value, "Polynomial coefficient class must inherit from RingEl");
+
+            unsigned int exponent = 0;
+            for (auto it = coefficients.begin(); it != coefficients.end(); ++it) {
+                std::array<unsigned int, dim> exponents;
+                exponents[0] = exponent;
+                this->_monomials.push_back(Monomial<R, dim>(*it, exponents));
             }
         }
         Polynomial (std::list<Monomial<R, dim>> monomials) : _monomials(monomials) {
@@ -136,13 +292,36 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             }
         }
 
-        const R operator[] (int i) const {
-            int d = degree();
-            if (i < 0 || i > d) return R::Zero();
+        template<unsigned int j = 0>
+        const Polynomial<R, dim - 1> coefficient (int k) {
+            int d = degree<j>();
+            if (k < 0 || k > d) return Polynomial<R, dim - 1>::Zero();
 
-            for (
+            std::list<Monomial<R, dim - 1>> coeff_monomials;
+            for (auto& monomial : _monomials) {
+                if (monomial.exponent(j) != k)
+                    continue;
+                auto m_exponents = monomial.exponents();
+                std::array<unsigned int, dim - 1> cm_exponents;
+                std::copy(std::begin(m_exponents), std::next(std::begin(m_exponents), j), std::begin(cm_exponents));
+                std::copy(std::next(std::begin(m_exponents), j + 1), std::end(m_exponents), std::next(std::begin(cm_exponents), j));
 
-            return coeffs[i];
+                coeff_monomials.push_back(Monomial<R, dim - 1>(monomial.coefficient(), cm_exponents));
+
+            }
+            Polynomial<R, dim - 1> coeff(coeff_monomials);
+            return coeff;
+        }
+
+        template<unsigned int j = 0>
+        const Polynomial<R, dim - 1> lead () {
+            int k = 0;
+            for (auto& monomial : _monomials) {
+                auto l = monomial.exponent(j);
+                if (l > k)
+                    k = l;
+            }
+            return coefficient(k);
         }
 
         Polynomial& operator+= (const Polynomial& rhs) {
@@ -188,6 +367,23 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             return os;
         }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
 
 /*
 template<class R>
