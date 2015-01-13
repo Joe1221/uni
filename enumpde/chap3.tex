@@ -2941,13 +2941,62 @@ Dies liefert eine Fehlerschranke, Konvergenz und Konvergenzordnung für die Gale
 		Für $d = 1$ siehe Übung.
 	\end{proof}
 	\begin{note}
-		Für $d = 2$ und linearen Elementen gilt also via $k = 1, m = 0$
-		\begin{math}
-			\|v_k\|_{H^1(\Omega)}
-			\le C h^{-1} \|v_h\|_{L^2(\Omega)}
-		\end{math}
-		für alle $v_h \in \P_1(\scr T_h)$.
-		Diese Abschätzung gilt auch für stetige stückwese bilinearen Elementen auf viereckigen Gittern.
+		\begin{itemize}
+			\item
+				Für $d = 2$ und linearen Elementen gilt also via $k = 1, m = 0$
+				\begin{math}
+					\|v_k\|_{H^1(\Omega)}
+					\le C h^{-1} \|v_h\|_{L^2(\Omega)}
+				\end{math}
+				für alle $v_h \in \P_1(\scr T_h)$.
+				Diese Abschätzung gilt auch für stetige stückwese bilinearen Elementen auf viereckigen Gittern.
+			\item
+				Genaure Betrauchtung des Beweises (siehe PDEMAS 13/14) ergibt, dass $C$ nicht nur mit $\sigma_{\text{max}}$ wächst, sondern auch mit dem Verhältnis von größtem zu kleinstem Simplexduchmesser.
+				Sei $M > 0$ mit $\frac{h}{h_T} \le M$ für alle $T \in \scr T_h$.
+				Dann skaliert $C$ mit $M^{k-m}$.
+			\item
+				Daher kann für $\Set{\scr T_i}_{i\in \N}$ quasi-uniform obiges $C$ konstant für alle $i$ gefunden werden.
+			\item
+				Einfaches Beispiel für $\Set{\scr T_i}_{i\in\N}$ mit $M_i := M(\scr T_i) \to \infty$, d.h $C \to \infty$ erforderlich:
+				Sei $\Omega := \hat T \subset \R^2$.
+				Die Verfeinerung sei durch Viertelung (des Dreiecks am Ursprung) definiert.
+				Es gilt
+				\begin{math}
+					h = \max_{T \in \scr T_i} h_T = \frac{\sqrt 2}{2}
+				\end{math}
+				unabhängig von $i$.
+				Für den Achsenabschnitt des kleinsten Dreiecks gilt $h_i = 2^{-i}$ in $\scr T_i$.
+				Es folgt
+				\begin{math}
+					\frac{h}{h_T} \le 2^{i-1} =: M_i \to \infty.
+				\end{math}
+				Sei $v_i \in \P_i(\scr T_i)$ nodale Basisfunktion zu $\Vector{0 & 0}$.
+				\begin{math}
+					v_i(x,y) = 1 - \frac{x}{h_i} - \frac{y}{h_i}.
+				\end{math}
+				Betrachte $k = 1, m = 0$.
+				\begin{math}
+					\|v_i\|_{L^2}^2 = \int_0^{h_i} \int_{0}^{h_i - y} v_i(x,y)^2 \di[x] \di[y] = \frac{h_i^2}{12},
+				\end{math}
+				d.h. $\|v_i\|_{L^2} = \frac{h_i}{\sqrt{12}}$.
+				\begin{math}
+					\partial_x v_i = \partial_y v_i &= -\frac{1}{h_i},
+					|v_i|_{H^1}^2 &= \frac{2}{h_i^2} |\supp v_i| = 1 \\
+					\|v_i\|_{H^1} &= \sqrt{1 + \frac{h_i^2}{1,}}.
+				\end{math}
+				Gesucht ist $C$ sodass
+				\begin{math}
+					\|v_h\|_{H^1} \le C h \|v_h\|_{L^2}.
+				\end{math}
+				Zwangsläufig skaliert $C$ mit $\LandauO(\frac{1}{h_i})$, insbesondere $C \to \infty$.
+			\item
+				Falls $\frac{h}{h_{\text{min}}} \le M$, $h_{\text{min}} = \min_{T \in \scr T_i} h_T$.
+				Dann ist
+				\begin{math}
+					h_{\text{min}} \le h \le M h_{\text{min}}.
+				\end{math}
+				Daher kann man in der inversen Abschätzung auch $h_{\text{min}}$ statt $h$ schreiben.
+		\end{itemize}
 	\end{note}
 \end{st}
 
@@ -2979,7 +3028,7 @@ Dies liefert eine Fehlerschranke, Konvergenz und Konvergenzordnung für die Gale
 		Die Interpolations-Abschätzung \ref{3.78} liefert mit $m = 1, k = s + 1$
 		\begin{math}
 			\|u - u_h\|_{H^1(\scr T_h)}
-			= \|u - u_h\|_{H^m(\scr T_h}
+			= \|u - u_h\|_{H^m(\scr T_h)}
 			\le C h^{k-m} |u|_{H^k(\Omega)}
 			\le C h^s \|u\|_{H^{s+1}(\Omega)}
 		\end{math}
@@ -3009,3 +3058,152 @@ Dies liefert eine Fehlerschranke, Konvergenz und Konvergenzordnung für die Gale
 	\end{note}
 \end{kor}
 
+\Timestamp{2015-01-13}
+
+Wegen $\|\argdot\|_{L^2} \le \|\argdot\|_{H^1}$ folgt \ref{3.82} sofort eine triviale $L^2$-Abschätzung derselben Ordnung.
+Diese ist nicht optimal: man kann eine $h$-Potenz gewinnen mittels eines Dualitätsargumentes („Aubin-Nitsche-Trick“).
+
+\begin{st}[Aubin-Nitsche] \label{3.84}
+	Sei $H$ ein Hilbertraum mit Norm $\|\argdot\|_{H}$ und Skalarprodukt $\<\argdot, \argdot\>_H$.
+	Sei $V \subset H$ Unterraum, der mit Skalarprodukt $\<\argdot, \argdot\>_V$ und Norm $\|\argdot\|_{V}$ Hilbertraum ist.
+	Sei eine Einbettung $V \injto H$ stetig, d.h. $\|v\|_H \le C \|v\|_V$ für alle $v \in V$.
+	Sei $u \in V$ Lösung der schwachen Form $a(u,v) = \<f,v\>_{H}$ für alle $v \in V$ mit $a(\argdot, \argdot)$ stetig mit Konstante $\gamma$ und koerziv auf $V$.
+
+	Dann gilt für die Galerkin-Projektion $u_h \in V_h \subset V$
+	\begin{math}
+		\|u - u_h\|_{H} \le \gamma \|u - u_h\|_V \sup_{g \in H \setminus \Set 0} \Set{\frac{1}{\|g\|} \inf_{v_h \in V_h} \|\phi_g - v_h\|_{V}},
+	\end{math}
+	wobei zu jedem $g \in H$ die duale Lösung $\phi_g \in V$ erfüllt
+	\begin{math}
+		a(w,\phi_g) &= \<g, w\>_H, && \forall w \in V
+	\end{math}
+	\begin{proof}
+		Mit Cauchy-Schwartz gilt für alle $g \in H \setminus \Set 0, w \in V$
+		\begin{math}
+			\<g, w\>_H &\le \|g\|_H \|w\|_H
+			&&\implies&
+			\|w\|_H &\ge \frac{\<g,w\>_H}{\|g\|_H},
+		\end{math}
+		also $\|w\|_{H} \ge \sup_{g\in H \setminus \Set 0} \frac{\<g,w\>_H}{\|g\|_H}$ und für $g = w$ gilt Gleichheit, also
+		\begin{math}
+			\|w\|_H = \frac{\<w,w\>_H}{\|w\|_H}
+			= \sup_{g \in H\setminus \Set 0} \frac{\<g,w\>_H}{\|g\|_H}
+		\end{math}
+
+		Setze in dualem Problem $w := u - u_h$, dann gilt mit Galerkin-Orthogonalität für alle $v_h \in V_h$
+		\begin{math}
+			\<g, u - u_h\>_H
+			= a(u - u_h, \phi_g)
+			= a(u - u_h, \phi_g - v_h)
+			\le \gamma \|u - u_h\|_V \|\phi_g - v_h\|_V.
+		\end{math}
+		Dualitätsargument liefert
+		\begin{math}
+			\|u - u_h\|_{H}
+			= \sup_{g \in H \setminus \Set 0} \frac{\<g, u - u_h\>}{\|g\|_H}
+			\le \gamma \|u-u_h\|_V \sup_{g \in H\setminus \Set 0} \frac{\|\phi_g - v_h\|_V}{\|g\|_H}.
+		\end{math}
+	\end{proof}
+\end{st}
+
+\begin{st}[FEM a-priori $L^2$-Abschätzung] \label{3.85}
+	Unter den Vorausssetzungen von \ref{3.82} (a-priori $H^1$-Abschätzung) gilt
+	\begin{math}
+		\|u - u_h\|_{L^2(\Omega)}
+		\le C h \|u - u_h\|_{H^1(\Omega)},
+	\end{math}
+	also insbesondere im Fall von $H^{s+1}(\Omega)$-Regularität
+	\begin{math}
+		\|u - u_h\|_{L^2(\Omega)} \le C h^{s+1} \|u\|_{H^{s+1}(\Omega)}
+		\le C h^{s+1} \|f\|_{H^{s-1}(\Omega)}
+	\end{math}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Für lineare FEM ($k = 1, s = 1$) folgt also im Fall von $H^2(\Omega)$-Regularität
+				\begin{math}
+					\|u - u_h\|_{L^2(\Omega)}
+					\le C h^2 \|u\|_{H^2(\Omega)}.
+				\end{math}
+		\end{itemize}
+	\end{note}
+	\begin{proof}
+		Wegen $H_0^1(\Omega) \subset L^2(\Omega)$, $\|v\|_{L^2} \le \|v\|_{H^1}$ ist die Einbettung $H_0^1(\Omega) \injto L^2(\Omega)$ stetig.
+		Wende also Aubin-Nitsche \ref{3.84} an mit $H := L^2(\Omega), V := H_0^1(\Omega)$.
+		Zu $g \in L^2(\Omega)$ sei $\phi_g$ schwache Lösung des dualen Problems.
+		Für $I_h: H^2(\Omega) \to \P_1(\scr T_h)$ Interpolations-Operator gilt via \ref{3.78} (Interpolations-Abschätzung, $k = 2, m = 1$)
+		\begin{math}
+			= \|\phi_g - I_h \phi_g\|_{H^1(\Omega)}
+			\le C h^{2 - 1} |\phi_g |_{H^2(\Omega)}
+			\le C h \|\phi_g\|_{H^2(\Omega)}
+			\stack{\ref{3.29}}{\le} C h \|g\|_{L^2(\Omega)}.
+		\end{math}
+		Mit Aubin-Nitsche folgt
+		\begin{math}
+			\|u - u_h\|_{L^2}
+			\le C \|u - u_h\|_{H^1} \sup_{g \in L^2 \setminus \Set 0} \underbrace{\inf_{v_h \in V_h} \frac{\|\phi_g - v_h\|_{H^1}}{\|g\|_{L^2}}}_{\le C h \frac{\|g\|_{L^2}}{\|g\|_{L^2}}}
+			\le C h \|u - u_h\|_{H^1}.
+		\end{math}
+		Damit ist die erste Behauptung bewiesen.
+		Im Fall von $H^{s+1}(\Omega)$-Regularität folgen die übrigen Ungleichungen direkt mit der a-priori-Fehlerschranke \ref{3.82}.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die $H^1$ und $L^2$-Fehleraussagen können keine lokal-große Fehler ausschließen.
+				Dies ist mit einer $L^\infty$-Schranke möglich.
+				Man kann z.B. für $d = 2$ und $\Set{\scr T_i}_{i \in \N}$ quasi-uniform zeigen, dass unter den Voraussetzungen \ref{3.82} gilt
+				\begin{math}
+					\sup_{x \in \Omega} |u(x) - u_h(x)|
+					\le C h \|f\|_{L^2(\Omega)}.
+				\end{math}
+				\begin{proof}
+					Siehe Übung.
+				\end{proof}
+				Diese Abschätzung ist nicht scharf, man kann z.B. für $d = 2$ zeigen, dass
+				\begin{math}
+					\|u - u_h\|_\infty C h^2 |\log h|^{\frac{3}{2}} \|D^2 u\|_\infty
+				\end{math}
+				und für $d = 3$ verschwindet der $\log$-Term sogar.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{ex*}[Numerisches Beispiel]
+	\Code{RBmatlab} benötigt, siehe \url{morepas.org}, release 1.13.10.
+	Auch in \ref{chap:4} und Folgevorlesung relevant.
+
+	\begin{seg}{\Code{demos\textunderscore fem(1)}, FEM-Lösung und Visualisierung}
+		Betrachte das Poisson-RWP, $\Omega := (0,1)^2$, $-\Laplace u = f$, $u = 0$ auf $\Boundary \Omega$,
+		\begin{math}
+			f(x) = 32(x_1 + x_2 - x_1^2 - x_2^2).
+		\end{math}
+		Die exakte Lösung ist $u(x) = 16 x_1(1-x_1) x_2(1-x_2)$.
+		FEM-Diskretisierung auf $\P_{2,0}(\scr T_h)$, $\scr T_h$ reguläres Dreiecksgitter.
+		Es wird in der Implementierung $\P_2(\scr T_h)$ statt $\P_{2,0}(\scr T_h)$ für Darstellung von $u_h$ verwendet.
+		Die zu Randknoten gehörenden Zeilen/Spalten der Systemmatrix werden auf Einheitsvektoren gesetzt, die Randknoten-Einträge der rechten Seite auf $0$ gesetzt.
+
+		Das im Programm gelöste LGS (bis auf Permutation der Zeilen/Spalten) lautet
+		\begin{math}
+			\Matrix{ A_h & 0 \\ 0 & I }
+			\Vector{\underbar{u}_h & \underbar{u}_{h,\Boundary \Omega}}
+			= \Vector{ b_h & 0 }.
+		\end{math}
+		Hierdurch hat $u_h$ die richtigen Randwerte für die Visualisierung.
+	\end{seg}
+	\begin{seg}{\Code{demos\textunderscore fem(2)}, Konvergenzstudie}
+		Sei $n_x = 2^i$ die Anzahl der Intervalle in $x_1, x_2$-Richtung mit $i= 1,2, \dotsc$.
+		Es wird lineare und quadratische FEM durchgeführt.
+		\begin{itemize}
+			\item
+				$\dim V_h = m_1$, also einschließlich Randknoten
+			\item
+				Konvergenzordnung wie erwartet:
+				Halbierung von $h$ liefert bei $V_h = \P_1(\scr T_h)$ Halbierung des $H^1$-Fehlers und etwa Viertelung des $L^2$-Fehlers.
+				Bei $V_h = \P_2(\scr T_h)$ sehen wir eine Viertelung des $H^1$-Fehlers und Achtelung des $L^2$-Fehlers.
+			\item
+				Bei identischer Anzahl Freiheitsgrade liefert eine höhere Ordnung der FEM bessere Ergebnisse.
+				Die Assemblierung des Systems ist aufwändiger, da Matrix dichter besetzt.
+		\end{itemize}
+	\end{seg}
+\end{ex*}
