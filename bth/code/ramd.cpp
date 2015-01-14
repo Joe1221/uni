@@ -121,7 +121,7 @@ Rational calc_idx (const Index<T, R>& index) {
 
 
 
-template<class R, unsigned int dim = 1>
+template<class R, unsigned int dim>
 std::vector<Polynomial<R, dim>> prem_seq (Polynomial<R, dim> p, Polynomial<R, dim> q) {
 
     std::vector<Polynomial<R, dim>> prem_seq = {p, q};
@@ -139,7 +139,7 @@ std::vector<Polynomial<R, dim>> prem_seq (Polynomial<R, dim> p, Polynomial<R, di
             Polynomial<R, dim - 1> plead = p.lead();
 
             p *= q.lead();
-            p -= plead * q * Polynomial<R>::Monomial(d);
+            p -= plead * q * Polynomial<R>::Monom(d);
         }
         if (k++ & 1)
             p *= q.lead();

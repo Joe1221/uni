@@ -123,6 +123,15 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             normalize();
         }
 
+        template<unsigned int j = 0>
+        static Polynomial Monom(unsigned int k) {
+            std::array<unsigned int, dim> exponents;
+            exponents[j] = k;
+            Monomial<R, dim> monomial(R::One(), exponents);
+            std::list<Monomial<R, dim>> monomials = { monomial };
+            return Polynomial<R, dim>(monomials);
+        }
+
         const std::list<Monomial<R, dim>>& monomials () const {
             return _monomials;
         }
@@ -211,7 +220,17 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             }
             return Polynomial(monomials);
         }
-
+/*
+    private:
+        template<unsigned int dim2>
+        typename std::enable_if<dim2 == 0, R>::type coeffcast () const {
+            return _monomials.front().coefficient();
+        }
+    public:*/
+        template<unsigned int dim2 = dim>
+        operator typename std::enable_if<dim2 == 0, R>::type() const {
+            return _monomials.front().coefficient();
+        }
 
         friend std::ostream& operator<< (std::ostream& os, const Polynomial<R, dim>& p) {
             auto& ms = p._monomials;
@@ -225,10 +244,12 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         }
 };
 
+/*
 template<class R>
 const Polynomial<R, 0> Polynomial<R, 0>::coefficient<1> (int k) {
     return Polynomial<R, 0>::Zero();
 }
+*/
 /*
 template<R>
 Integer::Integer(Polynomial<R, 0> p) {

@@ -13,9 +13,9 @@
 
 int binom (int n, int k);
 
-template<class R>
+template<class R, unsigned int dim = 1>
 // fixme: const!
-std::vector<Polynomial<R>> prem_seq (Polynomial<R> p, Polynomial<R> q);
+std::vector<Polynomial<R, dim>> prem_seq (Polynomial<R, dim> p, Polynomial<R, dim> q);
 
 #include "ramd.cpp"
 
