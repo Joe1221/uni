@@ -27,7 +27,7 @@ class Monomial : public SetEl<Monomial<R, dim>>, public Order<Monomial<R, dim>> 
         //Monomial& operator= (const Monomial& rhs) { /* */ return *this; }
 
         const unsigned int exponent (unsigned int i) const {
-            return this->_exponents[i];
+            return this->_exponents.at(i);
         }
 
         const std::array<unsigned int, dim>& exponents () const {
@@ -36,6 +36,10 @@ class Monomial : public SetEl<Monomial<R, dim>>, public Order<Monomial<R, dim>> 
 
         const R& coefficient () const {
             return this->_coefficient;
+        }
+
+        const R& coefficient (const R& c) {
+            return this->_coefficient = c;
         }
 
         // SetEl, equality, != for free
@@ -71,9 +75,9 @@ class Monomial : public SetEl<Monomial<R, dim>>, public Order<Monomial<R, dim>> 
         friend std::ostream& operator<< (std::ostream& os, const Monomial<R, dim>& p) {
             os << p.coefficient() << "*";
             os << "(";
-            for (int i = 0; i <= dim; ++i) {
+            for (int i = 0; i < dim; ++i) {
                 os << p.exponent(i);
-                if (i < dim)
+                if (i < dim - 1)
                     os << ", ";
             }
             os << ")";
@@ -90,13 +94,13 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             _monomials.sort();
         }
         void normalize () {
-            auto it_old = _monomials.begin();
-            for (auto it = std::next(it_old); it != _monomials.end(); ++it_old, ++it) {
-                if (it_old->exponents() == it->exponents()) {
-                    Monomial<R, dim> m(it_old->coefficient() + it->coefficient(), it->exponents());
-                    _monomials.erase(it_old);
-                    auto it_old = _monomials.insert(it, m);
-                    it = _monomials.erase(it);
+            auto it_first = _monomials.begin();
+            for (auto it_second = std::next(it_first); it_second != _monomials.end(); ++it_first, ++it_second) {
+                if (it_first->exponents() == it_second->exponents()) {
+                    it_first->coefficient(it_first->coefficient() + it_second->coefficient());
+                    it_second = _monomials.erase(it_second);
+                    if (it_second == _monomials.end())
+                        break;
                 }
             }
             for (auto it = _monomials.begin(); it != _monomials.end(); ++it) {
@@ -108,15 +112,22 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
 
     public:
 
+        static Polynomial<R, dim> Zero () {
+            std::list<Monomial<R, dim>> monomials;
+            return Polynomial<R, dim>(monomials);
+        }
+
         Polynomial (std::initializer_list<R> coefficients) {
             static_assert(std::is_base_of<RingEl<R>, R>::value, "Polynomial coefficient class must inherit from RingEl");
 
             unsigned int exponent = 0;
-            for (auto it = coefficients.begin(); it != coefficients.end(); ++it) {
+            for (auto it = coefficients.begin(); it != coefficients.end(); ++it, ++exponent) {
                 std::array<unsigned int, dim> exponents;
                 exponents[0] = exponent;
                 this->_monomials.push_back(Monomial<R, dim>(*it, exponents));
             }
+            sort();
+            normalize();
         }
         Polynomial (std::list<Monomial<R, dim>> monomials) : _monomials(monomials) {
             sort();
@@ -181,6 +192,10 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             return coefficient(k);
         }
 
+        friend bool operator== (const Polynomial& lhs, const Polynomial& rhs) {
+            return lhs._monomials == rhs._monomials;
+        }
+
         Polynomial& operator+= (const Polynomial& rhs) {
             auto rhs_monomials = rhs.monomials();
             _monomials.merge(rhs_monomials);
@@ -199,6 +214,7 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
                     monomials_new.push_back(m * n);
                 }
             }
+            _monomials = std::move(monomials_new);
             sort();
             normalize();
             return *this;
@@ -233,13 +249,14 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         }
 
         friend std::ostream& operator<< (std::ostream& os, const Polynomial<R, dim>& p) {
+            os << "⟦";
             auto& ms = p._monomials;
             for (auto it = ms.begin(); it != ms.end(); ++it) {
                 if (it != ms.begin())
                     os << " + ";
                 os << *it;
             }
-            os << ")";
+            os << "⟧";
             return os;
         }
 };

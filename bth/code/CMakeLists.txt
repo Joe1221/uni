@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 #set(CMAKE_CXX_FLAGS "-std=c++11")
-add_compile_options(-std=c++11)
+add_compile_options("-std=c++11" "-g")
 set(CMAKE_CXX_COMPILER "clang++")
 set(EXT_PROJECTS_DIR "external")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
