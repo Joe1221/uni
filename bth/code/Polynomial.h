@@ -95,12 +95,13 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         }
         void normalize () {
             auto it_first = _monomials.begin();
-            for (auto it_second = std::next(it_first); it_second != _monomials.end(); ++it_first, ++it_second) {
-                if (it_first->exponents() == it_second->exponents()) {
+            for (auto it_second = std::next(it_first); it_second != _monomials.end();) {
+                if (it_first->exponents() != it_second->exponents()) {
+                    ++it_first;
+                    ++it_second;
+                } else {
                     it_first->coefficient(it_first->coefficient() + it_second->coefficient());
                     it_second = _monomials.erase(it_second);
-                    if (it_second == _monomials.end())
-                        break;
                 }
             }
             for (auto it = _monomials.begin(); it != _monomials.end(); ++it) {
