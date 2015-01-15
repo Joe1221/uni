@@ -184,13 +184,7 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
 
         template<unsigned int j = 0>
         const Polynomial<R, dim - 1> lead () {
-            int k = 0;
-            for (auto& monomial : _monomials) {
-                auto l = monomial.exponent(j);
-                if (l > k)
-                    k = l;
-            }
-            return coefficient(k);
+            return coefficient(degree<j>());
         }
 
         friend bool operator== (const Polynomial& lhs, const Polynomial& rhs) {
