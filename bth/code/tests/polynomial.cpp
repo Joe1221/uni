@@ -19,3 +19,21 @@ TEST_CASE( "Polynomial Multiplication", "[polynomial]" ) {
 
     REQUIRE( product == r );
 }
+
+TEST_CASE( "Polynomial coefficients", "[polynomial]" ) {
+    // p(x,y) = x*y + x^2
+    Polynomial<Integer, 2> p({
+        Monomial<Integer, 2>(1, {1, 1}),
+        Monomial<Integer, 2>(1, {2, 0})
+    });
+
+    Polynomial<Integer, 1> x2 = {1}; // 1
+    Polynomial<Integer, 1> x1 = {0, 1}; // x
+    Polynomial<Integer, 1> y1 = {0, 1}; // x
+    Polynomial<Integer, 1> y0 = {0, 0, 1}; // x^2
+
+    REQUIRE( p.coefficient(2, 0) == x2 );
+    REQUIRE( p.coefficient(1, 0) == x1 );
+    REQUIRE( p.coefficient(1, 1) == y1 );
+    REQUIRE( p.coefficient(0, 1) == y0 );
+}

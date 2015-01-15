@@ -24,7 +24,7 @@ enable_testing(true)
 #========
 
 # test suite
-set(TESTS_SOURCES tests/main.cpp tests/integers.cpp tests/polynomial.cpp tests/binom.cpp tests/ramd.cpp tests/rational.cpp)
+set(TESTS_SOURCES tests/main.cpp tests/integers.cpp tests/polynomial.cpp tests/math.cpp tests/ramd.cpp tests/rational.cpp)
 add_executable(tests ${TESTS_SOURCES})
 target_link_libraries(tests gmp gmpxx)
 add_dependencies(tests catch)

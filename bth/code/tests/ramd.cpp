@@ -9,11 +9,11 @@ TEST_CASE( "stable evaluation", "[ramd]" ) {
     auto p = Polynomial<Integer>{1, -1, -1, 1};
 
     // zero, crossing axis
-    Integer eval1 = stable_eval(p, Integer(-1));
+    Integer eval1 = p.stable_eval(Integer(-1));
     REQUIRE( Integer(0) == eval1 );
 
     // (double) zero, non-crossing
-    Integer eval2 = stable_eval(p, Integer(1));
+    Integer eval2 = p.stable_eval(Integer(1));
     REQUIRE( Integer(2) == eval2 );
 }
 

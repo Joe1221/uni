@@ -1,6 +1,7 @@
 #include "ramd.h"
+#include "math.h"
 
-inline int binom (int n, int k) {
+/*inline int binom (int n, int k) {
     // symmetry
     if (k > n - k)
         k = n - k;
@@ -21,27 +22,14 @@ inline int binom (int n, int k) {
     return b1[k];
 }
 
+*/
 
-
-template<class R>
-R pow (R b, int e) {
-    R res = R::One();
-    while (e > 1) {
-        if ((e & 1) == 1) {
-            res *= b;
-            --e;
-        }
-        b *= b;
-        e <<= 1;
-    }
-    return b;
-}
 
 /*template<class Integer>
 T sign (Polynomial<R> p, T a) {
 }*/
 
-template<class R, unsigned int dim>
+/*template<class R, unsigned int dim = 1>
 Polynomial<R, dim - 1> stable_eval (Polynomial<R, dim> p, R a) {
     int n = p.degree();
     for (int k = 0; k <= n; ++k) {
@@ -59,62 +47,11 @@ Polynomial<R, dim - 1> stable_eval (Polynomial<R, dim> p, R a) {
         }
     }
     return Polynomial<R, dim - 1>::Zero();
-}
+}*/
 
 
 
 
-template<class T, class R>
-Rational calc_idx (const Index<T, R>& index) {
-
-    auto res = Rational(0, 1);
-
-    Polynomial<T> p = index.getPolynomial(0);
-
-    if (p == Polynomial<T>::One()) {
-        return 1;
-
-        auto interval = index.getInterval();
-        unsigned int n = index.degree();
-
-        auto lP = std::vector<T>();
-        auto rP = std::vector<T>();
-        for (int i = 1; i <= n; ++i) {
-            Polynomial<T> p = index.getPolynomial(i);
-            lP.push_back(stable_eval<T, R>(p, interval.left()));
-            Polynomial<T> q = index.getPolynomial(i);
-            rP.push_back(stable_eval<T, R>(q, interval.right()));
-        }
-        /*// FIXME: alle!
-        auto I = std::vector<Interval<R>>();
-        for (int i = 1; i < n; ++i) {
-            I.push_back(index.getInterval(i));
-        }*/
-
-        
-    }
-
-
-    for (int i = 1; i <= index.degree(); ++i) {
-        if (index.getPolynomial(i).degree() == 0)
-            continue;
-
-        Polynomial<T> q = index.getPolynomial(i);
-
-        auto pseq = prem_seq(p, q);
-
-        for (int j = 1; j < pseq.size() - 1; ++j) {
-            Index<T, R> inversion_index = index;
-            inversion_index.setPolynomial(0, Polynomial<T>::One());
-            inversion_index.setPolynomial(i, pseq[j] * pseq[j+1]);
-
-            std::cout << "Inversion term:" << inversion_index;
-
-            res += calc_idx(inversion_index);
-        }
-    }
-    return res;
-}
 
 
 

@@ -9,6 +9,7 @@
 
 #include "RingEl.h"
 #include "Order.h"
+#include "math.h"
 
 // should be private to Polynomial
 template<class R, unsigned int dim = 1>
@@ -24,7 +25,18 @@ class Monomial : public SetEl<Monomial<R, dim>>, public Order<Monomial<R, dim>> 
         Monomial (R coefficient, std::array<unsigned int, dim> exponents)
                 : _exponents(exponents), _coefficient(coefficient) { }
 
+        /*Monomial (R coefficient, std::initializer_list<unsigned int> exponents)
+                : _exponents(exponents), _coefficient(coefficient) { }*/
+
         //Monomial& operator= (const Monomial& rhs) { /* */ return *this; }
+
+        const int totalDegree () const {
+            int d = 0;
+            for (unsigned int i = 0; i < dim; ++i) {
+                d += exponent(i);
+            }
+            return d;
+        }
 
         const unsigned int exponent (unsigned int i) const {
             return this->_exponents.at(i);
@@ -118,6 +130,14 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             return Polynomial<R, dim>(monomials);
         }
 
+        static Polynomial<R, dim> One () {
+            std::list<Monomial<R, dim>> monomials;
+            std::array<unsigned int, dim> exponents;
+            exponents.fill(0);
+            monomials.push_back(Monomial<R, dim>(R::One(), exponents));
+            return Polynomial<R, dim>(monomials);
+        }
+
         Polynomial (std::initializer_list<R> coefficients) {
             static_assert(std::is_base_of<RingEl<R>, R>::value, "Polynomial coefficient class must inherit from RingEl");
 
@@ -134,9 +154,11 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             sort();
             normalize();
         }
+        Polynomial () {
+            *this = Polynomial<R, dim>::Zero();
+        }
 
-        template<unsigned int j = 0>
-        static Polynomial Monom(unsigned int k) {
+        static Polynomial Monom(unsigned int k, unsigned int j = 0) {
             std::array<unsigned int, dim> exponents;
             exponents[j] = k;
             Monomial<R, dim> monomial(R::One(), exponents);
@@ -148,8 +170,9 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             return _monomials;
         }
 
-        template<unsigned int j = 0>
-        const int degree () const {
+        // TODO: Should be calculated e.g. in normalize() (one loop is enough to
+        // compute all degrees) and cached
+        const int degree (unsigned int j = 0) const {
             int d = 0;
             for (auto& m : _monomials) {
                 int e = m.exponent(j);
@@ -159,10 +182,19 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             return d;
         }
 
+        const int totalDegree () const {
+            int d = 0;
+            for (auto& m : _monomials) {
+                int e = m.totalDegree();
+                if (e > d)
+                    d = e;
+            }
+            return d;
+        }
 
-        template<unsigned int j = 0>
-        const Polynomial<R, dim - 1> coefficient (int k) {
-            int d = degree<j>();
+
+        const Polynomial<R, dim - 1> coefficient (int k, int j = 0) {
+            int d = degree();
             if (k < 0 || k > d) return Polynomial<R, dim - 1>::Zero();
 
             std::list<Monomial<R, dim - 1>> coeff_monomials;
@@ -182,9 +214,29 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         }
 
 
-        template<unsigned int j = 0>
-        const Polynomial<R, dim - 1> lead () {
-            return coefficient(degree<j>());
+        const Polynomial<R, dim - 1> lead (unsigned int j = 0) {
+            return coefficient(degree(j), j);
+        }
+
+        // TODO: allow other evaluation domains
+        Polynomial<R, dim - 1> stable_eval (R a) {
+            int n = degree();
+            for (int k = 0; k <= n; ++k) {
+                Polynomial<R, dim - 1> c = Polynomial<R, dim - 1>::Zero();
+                for (int l = k; l <= n; ++l) {
+                    c += binom(l, k) * coefficient(l) * pow(a, l - k);
+                }
+
+                if (c == Polynomial<R, dim - 1>::Zero())
+                    continue;
+
+                if ((k & 1) == 0) {
+                    return c;
+                } else {
+                    return Polynomial<R, dim - 1>::Zero();
+                }
+            }
+            return Polynomial<R, dim - 1>::Zero();
         }
 
         friend bool operator== (const Polynomial& lhs, const Polynomial& rhs) {

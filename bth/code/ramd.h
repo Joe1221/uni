@@ -11,7 +11,7 @@
 #include "RingEl.h"
 #include "Rational.h"
 
-int binom (int n, int k);
+//int binom (int n, int k);
 
 template<class R, unsigned int dim = 1>
 // fixme: const!
