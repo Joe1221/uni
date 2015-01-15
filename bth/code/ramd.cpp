@@ -125,23 +125,15 @@ template<class R, unsigned int dim>
 std::vector<Polynomial<R, dim>> prem_seq (Polynomial<R, dim> p, Polynomial<R, dim> q) {
 
     std::vector<Polynomial<R, dim>> prem_seq = {p, q};
-    int d = p.degree() - q.degree() + 1;
 
     while (q.degree() > 0) {
-        int d = p.degree() - q.degree();
+        int d, k = 0;
 
-        int k;
-        for (
-            k = 0, d = p.degree() - q.degree();
-            d >= 0;
-            ++k, d = p.degree() - q.degree()
-        ) {
-            Polynomial<R, dim - 1> plead = p.lead();
-
-            p *= q.lead();
-            p -= plead * q * Polynomial<R>::Monom(d);
+        while ((d = p.degree() - q.degree()) >= 0) {
+            p = q.lead() * p - p.lead() * q * Polynomial<R>::Monom(d);
+            ++k;
         }
-        if (k++ & 1)
+        if (k % 2 != 0)
             p *= q.lead();
 
         prem_seq.push_back(p);
