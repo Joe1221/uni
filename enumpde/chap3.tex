@@ -3207,3 +3207,179 @@ Diese ist nicht optimal: man kann eine $h$-Potenz gewinnen mittels eines Dualit�
 		\end{itemize}
 	\end{seg}
 \end{ex*}
+
+\Timestamp{2015-01-16}
+
+\section{a-posteriori Fehlerschätzer und Gitteradaptivität}
+
+Der Lagrange-Interpolations-Operator erfordert Punktauswertungen, also mindestens $H^2(\Omega)$ für $d = 2$.
+Ein sogenannter Clément-Approximationsoperator bietet Approximationsmöglichkeit für $H^1(\Omega)$-Funktionen basierend auf lokale $L^2$-Projektionen.
+
+\begin{df}[Clément-Approximation] \label{3.86}
+	Sei $\scr T_h$ zulässige Triangulierung von $\Omega$.
+	Zu jedem $v_i \in \scr E(\scr T_h) \setminus \Boundary \Omega = \Set{v_j}_{j=1}^{m_{1,0}}$ definiere die Vereinigung der angrenzenden Elemente
+	\begin{math}
+		\omega_i := \bigcup_{v_i \in T \in \scr T_h} T.
+	\end{math}
+	Für jedes $T \in \scr T_h$ definiere analog das \emphdef{Patch} der Nachbarn:
+	\begin{math}
+		\omega_T := \bigcup_{i \in \scr E(T)} \omega_i = \bigcup_{\substack{T' \in \scr T_h \\ T \cap T' \neq \emptyset}} T'.
+	\end{math}
+	Sei $V_h = \P_{1,0}(\scr T_h)$ mit nodaler Basis $\Set{\phi_i}_{i=1}^{m_{1,0}}$ und definiere Clément-Operator $C_h: H^1(\Omega) \to \P_{1,0}(\scr T_h)$ durch
+	\begin{math}
+		C_h v &:= \sum_{i=1}^{m_{1,0}} (P_i v(v_i)) \phi_i, && v \in H^1(\Omega)
+	\end{math}
+	mit $P_i: L^2(\omega_i) \to \P_0(\omega_i)$ orthogonale $L^2$-Projektion auf Konstanten.
+	\begin{note}
+		Falls $\Set{\scr T_i}_{i\in\N}$ nicht entartet, dann ist
+		\begin{math}
+			|\omega_T| \le C |T| \le C h_T^d
+		\end{math}
+	\end{note}
+\end{df}
+
+\begin{st}[Clément Approximation-Fehler] \label{3.87}
+	Sei $\scr T_h$ zulässige Triangulierung mit $\sigma_{\text{max}} > 0, \sigma_{\text{max}} \ge \sigma_T$ für alle $T \in \scr T_h$.
+	Dann exisiert $C = C(d, m, \sigma_{\text{max}})$ sodass für alle $T \in \scr T_h$ und alle Seitensimplizes $S \subset \Boundary T$
+	\begin{enumerate}[i)]
+		\item
+			$\|v - C_h v\|_{H^m(T)} \le C h_T^{1-m} \|v\|_{H^1(\omega_T)}$ für $m \in \Set{0, 1}$.
+		\item
+			$\|v - C_h v\|_{L^2(S)} \le C h_T^{\frac 12} \|v\|_{H^1(\omega_T)}$.
+	\end{enumerate}
+	\begin{proof}
+		Für Teil i) siehe Übung.
+		Teil ii) folgt mit Spursatz (?).
+	\end{proof}
+\end{st}
+
+Die FEM-Approximaiton $u_h \in V_h$ erzeugt in die starke Form der PDE eingesetzt ein „Residuum“.
+Hieraus definieren wir a-posteriori Fehlerschätzer, welcher (bis auf Konstanten) obere und untere Schranken an den Fehler darstellen.
+Im Folgenden betrachten wir das homogene Dirichlét-RWP für die Poisson-Gleichung.
+
+\begin{df}[Residuale Fehlerschätzer] \label{3.88}
+	Sei $\scr T_h$ zulässige Triangulierung, $u_h \in \P_{k,0}(\scr T_h) =: V_h \subset H_0^1$ FEM-Lösung des homogenen Dirichlet RWP für die Poisson-Gleichung.
+	Definiere für $T \in \scr T_h$ das \emphdef{elementbezogenene Residuum} als
+	\begin{math}
+		R_T := R_T(u_h) =: \Laplace u_h + f
+	\end{math}
+	das \emphdef{kantenbezogene Residuum} der Ableitungssprünge
+	\begin{math}
+		R_S := R_S(u_h) := [ \pddx[n]{u_h} ]_S := \pddx[n]{u_h}\big|_{T_1} - \ddx[n]{u_h}\big|_{T_2}
+	\end{math}
+	für $S \subset T_1 \cap T_2$, $T_1 \cap T_2 \neq \emptyset$, $S \in S_0$ mit
+	\begin{math}
+		S_0 := \Set{S & \text{$S$ Seitensimplex, $S \subset \Boundary T, T \in \scr T_h, S \not\subset \Boundary \Omega$}}
+	\end{math}
+	Menge der inneren Kanten.
+	Definieren \emphdef[Fehlerschätzer!lokaler]{lokalen Fehlerschätzer}
+	\begin{math}
+		\eta_{T,R} := \Big( h_T^2 \|R_T\|_{L^2(T)}^2 + \frac{1}{2} \sum_{S \subset \Boundary T \cap S_0} h_S \|R_S\|_{L^2(S)}^2 \Big)^{\frac{1}{2}}.
+	\end{math}
+	und den \emphdef[Fehlerschätzer!globaler]{globalen Fehlerschätzer}
+	\begin{math}
+		\eta_R := \Big( \sum_{T \in \scr T_h} \eta_{T, R}^2 \Big)^{\frac 12}
+		= \Big( \sum_{T \in \scr T_h} h_T^2 \|R_T\|_{L^2(T)}^2 + \sum_{s \in S_0} h_s \|R_S\|_{L^2(S)}^2 \Big)^{\frac{1}{2}}
+	\end{math}
+\end{df}
+
+\begin{st}[Obere a-posteriori Fehlerschranke] \label{3.89}
+	Seien die Voraussetzungen wie in \ref{3.88}.
+	Es existiert $C = C(\Omega, \sigma_{\text{max}})$ mit
+	\begin{math}
+		\|u-u_h\|_{H^2(\Omega)} \le C \eta_R.
+	\end{math}
+	\begin{proof}
+		Für $w \in H_0^1(\omega)$ gilt
+		\begin{math}
+			l(w) &:= \<\Nabla(u - u_h), \Nabla w\>_{L^2(\Omega)} \\
+			&= \underbrace{\<\Nabla u, \Nabla w\>_{L^2(\Omega)}}_{=\<f,w\>_{L^2(\Omega)}} - \< \Nabla u_h, \Nabla w\>_{L^2(\Omega)} \\
+			&= \sum_{T\in \scr T_h} \<f, w\>_{L^2(T)} - \sum_{T \in \scr T_h} \underbrace{\<\Nabla u_h, \Nabla w\>_{L^2(T)}}_{= \<-\Nabla u_h, w\>_{L^2(T)} + \sum_{S \subset \Boundary T} \< \pddx[n]{u_h}, w \>_{L^2(S)}} \\
+			&= \sum_{T \in \scr T_h} \< \Laplace u_h + f, w\>_{L^2(T)} + \sum_{S \in S_0} \underbrace{\< [\pddx[n]{u_h}], w\>_{L^2(S)}}_{=\<R_S, w\>_{L^2(S)}} \\
+			&= \sum_{T \in \scr T_h} \<R_T, w\>_{L^2(T)} + \frac{1}{2} \sum_{T \in \scr T_h} \sum_{S \subset \Boundary T} \<Rs, w\>_{L^2(S)}.
+		\end{math}
+		Setze $w_h := C_h w$ Clément-Approxamiton.
+		Mit Galerkin-Orthogonalität ist $l(w_h) = 0$, also
+		\begin{math}
+			l(w)
+			&= l(w - w_h) \\
+			&= \sum_{T\in \scr T_h} \Big( \underbrace{\<R_T, w - w_h\>_{L^2(T)}}_{\le \|R_T\|_{L^2(T)}\|w-w_h\|_{L^2(T)}} + \frac{1}{2} \sum_{S \subset \Boundary T} \underbrace{\< R_S, w - w_h\>_{L^2(S)}}_{\le \|R_S\|_{L^2(S)}\|w-w_h\|_{L^2(S)}} \Big). \\
+			&\le \sum_{T \in \scr T_h} \Big( \|R_T\|_{L^2(T)} \|w - w_h\|_{L^2(T)} + \frac{1}{2} \|R_S\|_{L^2(S)} \|w - w_h\|_{L^2(S)} \\
+			&\stackrel{\text{Clément}}\le \sum_{T \in \scr T_h} \Big( C h_T \|R_T\|_{L^2(T)} + \frac{1}{2} \sum_{S \subset \Boundary T} C h_S^{\frac{1}{2}} \|R_S\|_{L^2(S)} \Big) \|w\|_{H^1(\omega_T)} \\
+			&\le \bigg( \sum_{T \in \scr T_h} \underbrace{\Big( C h_T \|R_T\|_{L^2(T)} + \frac{1}{2} \sum_{S \subset \Boundary T} C h_S^{\frac{1}{2}} \|R_S\|_{L^2(S)} \Big)^2}_{\text{nutze $(a+b)^2 \le 2a^2 + 2b^2$}} \underbrace{\sum_{T \in \scr T_h} \|w\|_{H^1(\omega_T)}^2}_{\le C \|w\|_{H^1(\Omega)}^2} \bigg)^{\frac{1}{2}} \\
+			&\le \bigg( \sum_{T \in \scr T_h} \Big(\underbrace{ 2 C h_T^2 \|R_T\|_{L^2(T)}^2 + C \sum_{S \subset \Boundary T} h_S \|R_S\|_{L^2(S)}^2}_{= \eta_R} \Big)^2 C \|w\|_{H^1(\Omega)}^2 \bigg)^{\frac{1}{2}} \\
+			&\le C \eta_R \|w\|_{H^1(\Omega)}.
+		\end{math}
+		Poincaré-Friedrich und Dualitätsargument liefern die Behauptung:
+		\begin{math}
+			\|u - u_h\|_{H^1(\Omega)}
+			&\le C  | u - u_h|_{H^1(\Omega)} \\
+			&= C \sup_{w \in H_0^1} \frac{\<\Nabla(u_h - u), \Nabla w\>_{L^2}}{|w|_{H^1}} \\
+			&= C \sup_{\substack{w \in H_0^1 \\ |w|_{H^1} = 1}} \underbrace{\< \Nabla (u_h - u), \Nabla w\>_{L^2(\Omega)}}_{= l(w) \le |l(w)| \le C \eta_R \|w\|_{H^1} \le C \eta_R |w|_{H^1}} \\
+			&\le C \eta_R.
+		\end{math}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				\ref{3.89} ist ein a-posteriori Fehlerschätzer, d.h. \emph{nach} der Berechnung der numerischen Lösung $u_h$ kann die Abschätzung (bis auf Konstanten) berechnet werden.
+			\item
+				Falls $u_h \in \P_1(\scr T_h)$ ist $\Laplace u_h = 0$, also ist $R_T$ ohne Kenntnis von $u_h$ a-priori vorberechenbarbar.
+			\item
+				Bei nichttrivialem $f$ ist $\|R_T\|_{L^2(T)}$ nicht exakt numerisch berechenbar.
+				Daher wählt man in der Praxis numerische Approxmation $f_h \approx f$ und approximiert flächenbasierte Residuen:
+				\begin{math}
+					\tilde R_T &:= \Laplace u_h + f_h, \\
+					\tilde \eta_{T,R} &:= \Big(h_T^2 \|\tilde R_T\|^2 + \frac{1}{2} \sum_{S \subset \Boundary T} h_S \|R_S\|_{L^2(S)}^2 \Big)^{\frac{1}{2}}, \\
+					\tilde \eta_R &:= \Big( \sum_{T \in \scr T_h} h_T^2 \|\tilde R_T\|^2 + \sum_{S \in S_0}h_S \|R_S\|_{L^2(S)^2} \Big)^{\frac{1}{2}}
+				\end{math}
+				Die Dreiecksungleichung liefert
+				\begin{math}
+					\|\Laplace u_h + f\|_{L^2(T)}
+					\le \|\Laplace u_h + f_h\|_{L^2(T)} + \|f_h - f\|_{L^2(T)}
+				\end{math}
+				und
+				\begin{math}
+					\|u - u_h\| \le C \tilde \eta_R + \Big( \sum_{T \in \scr T_h} h_T^2 \|f - f_h\|_{h^2(T)} \Big)^{\frac{1}{2}}.
+				\end{math}
+				Den letzten Term nennt man \emphdef{Datenoszillation}.
+			\item
+				$\eta_R$ ist (bis auf eine Konstante) obere Schranke des Fehlers, daher nennt man es \emphdef{zuverlässiger Schätzer} (engl. \emphdef{reliable estimator}).
+				Man kann zeigen, dass $\eta_R$ (oder $\tilde \eta_R$) auch untere Schranke für den echten Fehler ist (bis auf Datenoszillation), daher nennt man es auch \emphdef[effizienter Schätzer]{effizienten Schätzer} (engl. \emphdef{efficient estimator}).
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{st}[Untere Schranke] \label{3.90}
+	Für $S \subset \Boundary T, T \in \scr T_h$ definiere den \emphdef[Patch!der Kantennachbarn]{Patch der Kantennachbarn}:
+	\begin{math}
+		\omega_S &:= \bigcup_{T \in \scr T_h, S \subset \Boundary T} T, &
+		\tilde \omega_T &:= \bigcup_{S \subset \Boundary T} \omega_S.
+	\end{math}
+	Dann existiert eine Konstante $C(\Omega, \sigma_{\text{max}})$ mit lokaler Abschätzung
+	\begin{math}
+		\tilde \eta_{T,R} := C \Big( \|u - u_h\|_{H^1(\tilde \omega_T)}^2 + \sum_{T' \in \omega_T} h_T^2 \|f - f_h\|_{L^2(T')}^2 \Big)^{\frac{1}{2}}.
+	\end{math}
+	Die Summation liefert eine globale Abschätzung
+	\begin{math}
+		\tilde \eta_R \le C \Big( \|u - u_h\|_{H^1(\Omega)}^2 + \sum_{T \in \scr T_h} h_T^2 \|f - f_h\|_{L^2(T)}^2 \Big)^{\frac{1}{2}}.
+	\end{math}
+	\begin{proof}
+		Siehe Braess, Satz 8.1 % fixme ref
+	\end{proof}
+\end{st}
+
+\begin{note}[Adaptive FEM]
+	\begin{itemize}
+		\item
+			$\tilde \eta_{T, R}$ stellen berechenbare Größen dar, welche lokal äquivalent zum echten Fehler sind (abgesehen von Datenoszillation).
+			Daher kann man diese Größen als Indikatoren für Gitterverfeinerung verwenden, indem Simplizes mit großem Fehler verfeinert werden.
+			Mit dem verfeinerten Gitter wird eine neue FEM-Lösung berechnent.
+			Dieses Vorgehen iteriert man solange, bis die gewünschte Genauigkeit erreicht wurde.
+		\item
+			Falls die Datenoszillation klein genug ist (d.h. Gitter ist fein genug, sodass $f$ aufgelöst wird) kann die Konvergenz von solchen Algorithmen gezeigt werden (siehe z.B. Movin, Nochetto, Siebert, 2000).
+	\end{itemize}
+\end{note}
+
+% todo: Pseudocode
+
