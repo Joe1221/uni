@@ -4,8 +4,11 @@
 #include <gmpxx.h>
 #include "RingEl.h"
 #include "Order.h"
+#include "Rational.h"
 
 class Integer : public RingEl<Integer>, public Order<Integer> {
+  protected:
+    mpz_class val;
   public:
 
     /* standard interface */
@@ -14,6 +17,10 @@ class Integer : public RingEl<Integer>, public Order<Integer> {
     static Integer One() { return Integer(1); }
     Integer () : val(0) {};
     Integer (int val) : val(val) {};
+
+    operator Rational () const {
+        return Rational(mpz_class(val));
+    }
 
     Integer&  operator= (const Integer& rhs) { this->val = rhs.val; return *this; }
 
@@ -38,9 +45,6 @@ class Integer : public RingEl<Integer>, public Order<Integer> {
     Integer operator++ (int) { auto tmp = *this; ++(*this); return tmp; }
 
     friend bool operator<= (const Integer& lhs, const Integer& other) { return lhs.val <= other.val; }
-
-  protected:
-    mpz_class val;
 };
 
 

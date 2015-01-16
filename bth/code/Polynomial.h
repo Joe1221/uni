@@ -68,6 +68,16 @@ class Monomial : public SetEl<Monomial<R, dim>>, public Order<Monomial<R, dim>> 
         }
         friend const Monomial operator* (Monomial lhs, const Monomial& rhs) { lhs *= rhs; return lhs; }
 
+        Monomial<R, dim>& operator*= (const Monomial<R, dim - 1>& rhs) {
+            this->_coefficient *= rhs.coefficient();
+            for (unsigned int i = 1; i < dim; ++i) {
+                this->_exponents[i] += rhs.exponent(i - 1);
+            }
+            return *this;
+        }
+        friend const Monomial<R, dim> operator* (Monomial<R, dim> lhs, const Monomial<R, dim - 1>& rhs) { return lhs *= rhs; }
+        friend const Monomial<R, dim> operator* (const Monomial<R, dim - 1>& lhs, Monomial<R, dim> rhs) { return rhs *= lhs; }
+
         Monomial& operator*= (const R& rhs) {
             this->_coefficient *= rhs;
             return *this;
@@ -192,6 +202,9 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             return d;
         }
 
+        const R constCoefficient () {
+            return _monomials.front().coefficient();
+        }
 
         const Polynomial<R, dim - 1> coefficient (int k, int j = 0) {
             int d = degree();
@@ -219,12 +232,12 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         }
 
         // TODO: allow other evaluation domains
-        Polynomial<R, dim - 1> stable_eval (R a) {
-            int n = degree();
+        Polynomial<R, dim - 1> stable_eval (R a, int j = 0) {
+            int n = degree(j);
             for (int k = 0; k <= n; ++k) {
                 Polynomial<R, dim - 1> c = Polynomial<R, dim - 1>::Zero();
                 for (int l = k; l <= n; ++l) {
-                    c += binom(l, k) * coefficient(l) * pow(a, l - k);
+                    c += binom(l, k) * coefficient(l, j) * pow(a, l - k);
                 }
 
                 if (c == Polynomial<R, dim - 1>::Zero())
@@ -266,6 +279,22 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             normalize();
             return *this;
         }
+
+        // Important for multiplication with polynomial coefficients
+        Polynomial<R, dim>& operator*= (const Polynomial<R, dim - 1>& rhs) {
+            std::list<Monomial<R, dim>> monomials_new;
+            for (auto& m : _monomials) {
+                for (auto& n : rhs.monomials()) {
+                    monomials_new.push_back(m * n);
+                }
+            }
+            _monomials = std::move(monomials_new);
+            sort();
+            normalize();
+            return *this;
+        }
+        friend const Polynomial<R, dim> operator* (Polynomial<R, dim> lhs, const Polynomial<R, dim - 1>& rhs) { return lhs *= rhs; }
+        friend const Polynomial<R, dim> operator* (const Polynomial<R, dim - 1>& lhs, Polynomial<R, dim> rhs) { return rhs *= lhs; }
 
         Polynomial& operator*= (const R& rhs) {
             for (auto& monomial : _monomials) {

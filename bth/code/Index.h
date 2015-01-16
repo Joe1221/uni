@@ -60,7 +60,7 @@ class Index {
 
             return intervals;
         }
-        void setPolynomial(unsigned int k, Polynomial<R> p) {
+        void setPolynomial(unsigned int k, Polynomial<R, dim> p) {
             _pVec.at(k) = p;
         }
 /*
@@ -77,7 +77,7 @@ class Index {
 
             auto p = getPolynomial(0);
 
-            // Reduction
+            // Reduction (TODO: beware of p = 0)
             if (p.totalDegree() == 0) {
                 std::cout << "Reduction of " << *this << std::endl;
 
@@ -88,17 +88,21 @@ class Index {
                     auto interval = getInterval(j - 1);
                     auto other_intervals = getOtherIntervals(j - 1);
 
-                    for (int i = 0; i < dim; ++i) {
-                        auto p = getPolynomial(i + 1);
-                        lP[i] = p.stable_eval(interval.left());
-                        rP[i] = p.stable_eval(interval.right());
+                    for (int i = 1; i <= dim; ++i) {
+                        auto p = getPolynomial(i);
+                        lP[i - 1] = p.stable_eval(interval.left(), j - 1);
+                        rP[i - 1] = p.stable_eval(interval.right(), j - 1);
                     }
                     Index<R, R, dim - 1> idxl(lP, other_intervals);
                     Index<R, R, dim - 1> idxr(rP, other_intervals);
 
+                    std::cout << "d=" << dim << ", ∂_" << j << "^- = " << idxl << " ... recursion start" <<  std::endl;
                     Rational left = idxl.calc_idx();
+                    std::cout << "d=" << dim << ", ∂_" << j << "^- = " << left << std::endl;
+
+                    std::cout << "d=" << dim << ", ∂_" << j << "^+ = " << idxr << " ... recursion start" << std::endl;
                     Rational right = idxr.calc_idx();
-                    std::cout << "... left: " << idxl << ", right: " << idxr << std::endl;
+                    std::cout << "d=" << dim << ", ∂_" << j << "^+ = " << right << std::endl;
 
                     if (j % 2 == 0) {
                         res += right - left;
@@ -106,11 +110,13 @@ class Index {
                         res -= right - left;
                     }
                 }
-                return res;
+                // TODO: signum!
+                return Rational(1, 2) * p.constCoefficient() * res;
             }
 
             // Elimination
             std::cout << "Elimination of " << *this << std::endl;
+            // TODO: fix dimensional
             for (int i = 1; i <= dim; ++i) {
                 if (getPolynomial(i).degree() == 0)
                     continue;

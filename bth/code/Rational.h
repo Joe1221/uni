@@ -6,6 +6,8 @@
 #include "Order.h"
 
 class Rational : public RingEl<Rational>, public Order<Rational> {
+  protected:
+    mpq_class val;
   public:
 
     /* standard interface */
@@ -15,6 +17,7 @@ class Rational : public RingEl<Rational>, public Order<Rational> {
     //Rational () : val(0) {};
     Rational (float val) : val(val) {};
     Rational (int n, int d) : val(n, d) {};
+    Rational (mpq_class val) : val(val) {};
 
     Rational& operator= (const Rational& rhs) { this->val = rhs.val; return *this; }
 
@@ -40,8 +43,6 @@ class Rational : public RingEl<Rational>, public Order<Rational> {
 
     friend bool operator<= (const Rational& lhs, const Rational& other) { return lhs.val <= other.val; }
 
-  protected:
-    mpq_class val;
 };
 
 
