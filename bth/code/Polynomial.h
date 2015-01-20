@@ -207,7 +207,7 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         }
 
         const Polynomial<R, dim - 1> coefficient (int k, int j = 0) {
-            int d = degree();
+            int d = degree(j);
             if (k < 0 || k > d) return Polynomial<R, dim - 1>::Zero();
 
             std::list<Monomial<R, dim - 1>> coeff_monomials;

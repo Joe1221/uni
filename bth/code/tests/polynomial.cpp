@@ -36,4 +36,13 @@ TEST_CASE( "Polynomial coefficients", "[polynomial]" ) {
     REQUIRE( p.coefficient(1, 0) == x1 );
     REQUIRE( p.coefficient(1, 1) == y1 );
     REQUIRE( p.coefficient(0, 1) == y0 );
+
+    SECTION( "single second variable coeff" ) {
+        auto q = Polynomial<Integer, 2>({
+            Monomial<Integer, 2>(1, {0, 1})
+        });
+        auto coeff = Polynomial<Integer, 1> { 1 };
+
+        REQUIRE( q.coefficient(1, 1) == coeff );
+    }
 }
