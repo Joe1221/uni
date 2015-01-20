@@ -1,1 +1,222 @@
-\chapter{Parabolische Probleme} \label{chap:4}
+\chapter{Approximation für parabolische Probleme} \label{chap:4}
+
+\Timestamp{2014-01-20}
+
+\paragraph{Motivation:}
+
+Betrachte die instationäre Wärmeleitungsgleichung:
+\begin{math}[numbered] \label{eq:4.1}
+	\partial_t u - \Laplace u &= f &&\text{in $\Omega \times (0,T)$} \\
+	u &= g && \text{auf $\partial \Omega \times (0,T)$} \\
+	u(\argdot, 0) &= u_0.
+\end{math}
+Das Vorgehen zur FEM-basierten Approximation ist wie folgt:
+\begin{itemize}
+	\item
+		Definiere geeignete „schwache Lösung“ für \eqref{4.1}.
+	\item
+		Führe die FEM Ortsdiskretisierung durch.
+	\item
+		Führe die FD Zeitdiskretisierung durch.
+	\item
+		Untersuche das Verfahren auf Stabilität, Konvergenz und Fehleraussagen.
+\end{itemize}
+
+Erweiterung auf allgemeinere parabolische Probleme ist analog möglich, wird hier jedoch nicht behandelt.
+
+Zunächst einige Definitionen und Aussagen ohne Beweis (in diesen Fällen siehe Evans, §5.9.2 und Appendix E)
+
+\begin{df}[Bochner-Räume] \label{4.1}
+	Sei $X$ ein Banachraum mit Norm $\|\argdot\|_X$ und $T > 0$.
+	Wir definieren für alle messbaren Funktionen $u: [0,T] \to X$
+	\begin{math}
+		\|u\|_{L^p([0,T], X)} &:= \Big( \int_0^T \|u(t)\|_X^p \di[t] \Big)^{\frac{1}{p}}, && 1 \le p < \infty, \\
+		\|u\|_{L^\infty([0,T], X)} &:= \esssup_{t\in[0,T]} \|u(t)\|_{X}.
+	\end{math}
+	Für $1 \le p \le \infty$ definieren wir die \emphdef{Bochner-Räume} als
+	\begin{math}
+		L^p([0,1], X) := \Set{ u:[0,T] \to X \text{ messbar} & \|u\|_{L^p([0,1], X)} < \infty }.
+	\end{math}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Für eine sinnvolle Definition von $\|u\|_{L^p([0,T], X)}$, dem sogenannten \emphdef{Bochner-Integral}, ist genauer die \emphdef{Bochner-Messbarkeit} erforderlich.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{ex*}
+	\begin{itemize}
+		\item
+			Für $\Omega \subset \R^d$ offen und beschränkt gilt
+			\begin{math}
+				L^2([0,T), L^2(\Omega)) &= L^2([0,T] \times \Omega), \\
+				L^2([0,T], H^1(\Omega)) &= \Set{ u \in L^2([0,T] \times \Omega) & \Nabla_x u \in L^2([0,T] \times \Omega) }.
+			\end{math}
+		\item
+			$L^2([0,T], X)$ ist Hilbertraum, falls $X$ Hilbertraum via kanonischem Skalarprodukt:
+			\begin{math}
+				\<u, v\>_{L^2([0,T], X)} := \int_0^T \< u(t), v(t) \>_{X}.
+			\end{math}
+	\end{itemize}
+\end{ex*}
+
+% FIXME: \begin{df}[Raum $C([0,T], X)$] \label{4.2}
+\begin{df} \label{4.2}
+	Sei $X$ ein Banachraum mit Norm $\|\argdot\|_{X}$.
+	Wir definieren für stetiges $u: [0,T] \to X$
+	\begin{math}
+		\|u\|_{C([0,T], X)} := \max_{0 \le t \le T} \|u(t)\|_{X}
+	\end{math}
+	und damit
+	\begin{math}
+		C([0,T], X) := \Set{u : [0,T] \to X \text{ stetig} & \|u\|_{C([0,T], X)} < \infty }.
+	\end{math}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Analog definiert man den Raum der stetig differenzierbaren Funktionen $C^1([0,T], X)$.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{df}[Schwache Zeitableitung] \label{4.3}
+	Sei $u \in L^1([0,T], X)$.
+	Wir nennen $v \in L^1([0,T], X)$ \emphdef{schwache Zeitableitung} von $u$, falls
+	\begin{math}
+		\int_0^T u(t) \phi'(t) \di[t]
+		&= - \int_0^T v(t) \phi(t) \di[t],
+		&& \forall \phi \in C_0^\infty([0,T]).
+	\end{math}
+	Wir schreiben dann $u'$ statt $v$.
+\end{df}
+
+\begin{st}[Einbettung] \label{4.4}
+	Sei $u \in L^2([0,T], H_0^1(\Omega))$ mit schwacher Ableitung $u \in L^2([0,T], H^{-1}(\Omega))$.
+	Dann gilt
+	\begin{enumerate}[i)]
+		\item
+			$u \in C([0,T], H_0^1(\Omega))$, d.h. es existiert ein stetiger Repräsentant.
+		\item
+			die Abbildung $t \mapsto \|u(t)\|_{L^2(\Omega)}^2$ ist absolut stetig und es gilt
+			\begin{math}
+				\ddx[t] \|u(t)\|_{L^2(\Omega)}^2
+				= 2 \< u'(t), u(t) \>_{L^2(\Omega)}
+			\end{math}
+			für fast alle $t \in [0,T]$.
+		\item
+			Es gilt die Abschätzung
+			\begin{math}
+				\|u\|_{C([0,T], L^2(\Omega))}
+				\le C \Big( \|u\|_{C([0,T], H_0^1(\Omega)} + \|u'\|_{L^2}([0,T], H^{-1}(\Omega)) \Big).
+			\end{math}
+			Dabei hängt die Konstante $C$ nur von $T$ ab.
+	\end{enumerate}
+	\begin{proof}
+		Siehe Evans, Thm. 3 in §5.9.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Ist eine Verallgemeinerung der Einsicht aus §3, dass $v \in H^1(\R)$, d.h. eine Funktion mit schwacher Ableitung global stetig ist.
+			\item
+				Es wird statt $u \in L^2([0,T], H_0^1(\Omega))$ hier allgemeiner $u' \in L^2([0,T], H^{-1}(\Omega))$ erlaubt.
+				Erinnerung aus \ref{chap:3} zu Bemerkung nach Satz \ref{3.22} (Stetigkeit von $l$):
+				es gilt $\int_\Omega fv < \infty$, falls $f, v \in L^2(\Omega)$, aber für $v \in H_0^1(\Omega)$ sind auch Funktionen $f \not\in L^2$ erlaubt, also
+				\begin{math}
+					„H^{-1}(\Omega)“ \supsetneq L^2(\Omega) \supsetneq H_0^1(\Omega).
+				\end{math}
+				Die rechte Inklusion ist klar, die linke ist eine etwas laxe Notation für eine geeignete Einbettung
+				\begin{math}
+					f &\in L^2
+					&& \leadsto &
+					\tilde f(v) &:= \int_\Omega fv
+				\end{math}
+				und dann $f \in H^{-1}(\Omega)$.
+
+				Ähnlich ist es hier: $u'(t) \in H^{-1}(\Omega)$ ist in dem Sinne zu verstehen, dass $u'(t)$ kein Funktional, sondern eine Funktion auf $\Omega$ ist und
+				\begin{math}
+					l(v) := \int_\Omega u'(t,x) v(x) \di[x]
+				\end{math}
+				erfüllt $l \in H^{-1}(\Omega)$.
+				Dann ist insbesondere $\int_\Omega u'(t,x) v(x) \di[x] < \infty$ für $v \in H_0^1(\Omega)$ sinnvoll definiert und kann in Definition der schwachen Lösung verwendet werden.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+\begin{df}[schwache Lösung für Wärmeleitung] \label{4.5}
+	Sei $\Omega \subset \R^d$ Lipschitz-Gebiet, $T > 0$.
+	Die Funktion $u: \Omega \times [0,T] \to \R$ heißt \emphdef{schwache Lösung} des ARWP der Wärmeleitungsgleichung mit Dirichlet-Nullrandwerten zu $v_0 \in L^2(\Omega)$ und $f \in L^2([0,T], H^{-1}(\Omega))$ falls
+	\begin{enumerate}[i)]
+		\item
+			\emph{Regularität}: $u \in L^2([0,T], H_0^1(\Omega))$ und $u' \in L^2([0,T], H^{-1}(\Omega))$,
+		\item
+			\emph{PDE}:
+			Für alle $\phi \in H_0^1(\Omega)$ und fast alle $t \in (0,T)$ gilt
+			\begin{math}[numbered] \label{eq:4.2}
+				\<u'(t), \phi\>_{L^2(\Omega)} + \< \Nabla u(t), \Nabla \phi \>_{L^2(\Omega)}
+				= \<f(t), \phi\>_{L^2(\Omega)},
+			\end{math}
+		\item
+			\emph{Anfangswerte}: $u(\argdot, 0) = u_0$.
+	\end{enumerate}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die Definiton der Anfangswerte ergibt Sinn, da mit i) und \ref{4.4} i) $u$ stetig ist.
+			\item
+				Inhomogene Dirichlet-Randwerte können wie in \ref{chap:3} behandelt werden (Lösen eines homogenen Problems, Addition der Randwerte).
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\begin{st}[Existenz und Eindeutigkeit] \label{4.6}
+	Für ein ARWP in schwacher Form gemäß \ref{4.5} existiert eine eindeutige schwache Lösung
+	\begin{proof}
+		Siehe z.B. G. Dziuk: Theorie und Numerik partieller Differentialgleichungen,  De Gruyter Verlag, Berlin, 2000.
+	\end{proof}
+\end{st}
+
+Es folgt die Diskretisierung im Ort, was auf ein Anfangswertproblem eines Systems gewöhnlicher Differentialgleichungen für die DOFs führt.
+Wähle einen endlichdimensionalen FEM-Approximationsraum $V_h \subset H_0^1(\Omega)$ und führe Galerkin-Projektion der schwachen Form \eqref{eq:4.2} auf $V_h$ durch.
+
+\begin{df}[FEM Semidiskretisierung] \label{4.7}
+	Sei $\scr T_h$ zulässige Triangulierung, $V_h := \P_{k,0}(\scr T_h)$.
+	Wir nennen $u_h \in C^1([0,T], V_h)$ Lösung der semidiskreten Wärmeleitung, falls
+	\begin{math}[numbered] \label{eq:4.3}
+		\<u_h'(t), \phi\>_{L^2(\Omega)} + \<\Nabla u_h(t), \Nabla \phi\>_{L^2(\Omega)} &= \<f(t), \phi\>_{L^2(\Omega)}, && \forall \phi \in V_h, t \in (0,T), \\
+		u_h(0) &= u_h^0,
+	\end{math}
+	mit geeignetem $u_h^0 \in V_h$.
+\end{df}
+
+\begin{kor}[AWP für Koeffizientenvektor] \label{4.8}
+	Sei $\Set{\phi_i}_{i=1}^n$ eine nodale Basis von $V_h$ zu Knoten $\Set{x_i}_{i=1}^n \subset \_\Omega$,
+	\begin{math}[numbered] \label{eq:4.4}
+		u_h(t) = \sum_{i=1}^n u_{h,i}(t) \phi_i
+	\end{math}
+	mit DOF-Vetor $\underbar{u}_h = (u_{h,i})_{i=1}^n$.
+	Dann ist $u_h$ Lösung des semidiskreten Problems \eqref{eq:4.3} genau dann, wenn $\underbar{u}_h: [0,T] \to \R^n$ Lösung des AWP
+	\begin{math}[numbered] \label{eq:4.5}
+		M_h \underbar{u}_h'(t) + A_h \underbar{u}_h(t) &= f_h(t), \\
+		\underbar{u}_h(0) = u_h^0
+	\end{math}
+	mit Massematrix $M_h = (\<\phi_i, \phi_j\>_{L^2(\Omega)})_{i,j = 1}^n$, Steifigkeitsmatrix $A_h = (\<\Nabla \phi_i, \Nabla \phi_j\>_{L^2(\Omega)})_{i,j=1}^n$ und rechte Seite $f_h(t) = (\int_\Omega f(t) \phi_i)_{i=1}^n$.
+	\begin{proof}
+		Klar durch Einsetzen von Ansatz \eqref{4.4} in die PDE in semidiskreter Form.
+	\end{proof}
+	\begin{note}[Wahl der $u_0$-Approximation]
+		\begin{itemize}
+			\item
+				Man kann z.B. $u_h^0$ als orthogonale $L^2$-Projektion $u_h^0 := P_{V_h} u_0$ wählen.
+				Dies lässt sich als LGS schreiben:
+				\begin{math}
+					u_h^0 &= P_{V_h} u_0
+					&&\iff & \int_\Omega ( u_h^0 - u_0) \phi_i &= 0, \forall i \\
+					& &&\iff & \int_\Omega \underbrace{u_h^0}_{=\sum_{j} u_{h,j}^0 \phi_j} \phi_i &= \underbrace{\int_\Omega u_0 \phi_i}_{u_{0,i}}, \forall i \\
+					& &&\iff & M_h \underbar{u}_h^0 &= \underbar{u}_0
+				\end{math}
+				mit $\underbar{u}_0 := (\int_\Omega u_0 \phi_i )_{i=1}^n$.
+		\end{itemize}
+	\end{note}
+\end{kor}

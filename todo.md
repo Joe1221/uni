@@ -6,6 +6,7 @@
 - <del>Revise `\coursetimestamp{}{}{}` syntax and usage</del>
 - What about `\fixme` notation, showing on the margin, or even with an index?
 - Reference `\ref{4.7}[b]` for subitems
+- Reimplement Theorems using `\DeclareDocumentEnvironment` or even using Coffins (fixes `]` inside theorem title).
 
 ### Minor Cosmetics
 
