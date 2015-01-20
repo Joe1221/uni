@@ -16,11 +16,18 @@ TEST_CASE( "stable evaluation", "[ramd]" ) {
     Integer eval2 = p.stable_eval(Integer(1));
     REQUIRE( Integer(2) == eval2 );
 
+}
+
+TEST_CASE( "stable evaluation 2", "[ramd]" ) {
+
+    // q = y
     auto q = Polynomial<Integer, 2>({
         Monomial<Integer, 2>(1, {0, 1})
     });
-    Polynomial<Integer, 1> q1 = {0, 1};
-    Polynomial<Integer, 1> q2 = {1};
+
+    auto q1 = Polynomial<Integer> {0, 1}; // = x
+    auto q2 = Polynomial<Integer> {1}; // = 1
+
     REQUIRE( q.stable_eval(Integer(1), 0) == q1 );
     REQUIRE( q.stable_eval(Integer(1), 1) == q2 );
 }
