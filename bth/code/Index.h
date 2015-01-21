@@ -1,9 +1,13 @@
 #ifndef INDEX_H
 #define INDEX_H
 
+#include <iostream>
+#include <sstream>
+
 #include "Rational.h"
 #include "Polynomial.h"
 #include "Interval.h"
+#include "format.h"
 
 template<class R, class V, unsigned int dim = 1>
 class Index {
@@ -69,17 +73,46 @@ class Index {
         getUpperBoundaryTerm (unsigned int k) const {
         }
 */
+
+        template<class ... S>
+        void log (unsigned int depth, S... tail) {
+            //std::cout << std::string("> ", depth) << "| " << log(tail...) << std::endl;
+            std::string indent;
+            indent.reserve(2 * depth);
+            for (int i = 0; i < depth; ++i)
+                indent += "  ";
+
+            std::cout << indent << "|> " << logp(tail...) << std::endl;
+        }
+        template<class T, class ... S>
+        std::string logp (const T& item, S... tail) {
+            std::stringstream str;
+            str << item;
+            str << logp(tail...);
+            return str.str();
+        }
+        template<class T>
+        std::string logp (const T& item) {
+            std::stringstream str;
+            str << item;
+            return str.str();
+        }
+
         template<unsigned int dim2 = dim,
             typename std::enable_if<dim2 != 0, int>::type = 0>
-        Rational calc_idx () {
+        Rational calc_idx (unsigned int recursion_depth = 0) {
 
             auto res = Rational(0, 1);
 
             auto p = getPolynomial(0);
 
+            fmt::print("Computing Index {}\n", *this);
+            //log(recursion_depth, "Computing Index ", *this);
+            //std::cout << std::string(recursion_depth, "> ") << "Computing Index " << *this << std::endl;
+
             // Reduction (TODO: beware of p = 0)
             if (p.totalDegree() == 0) {
-                std::cout << "Reduction of " << *this << std::endl;
+                log(recursion_depth, "Applying Reduction ...");
 
                 auto lP = std::array<Polynomial<R, dim - 1>, dim>();
                 auto rP = std::array<Polynomial<R, dim - 1>, dim>();
@@ -96,13 +129,13 @@ class Index {
                     Index<R, R, dim - 1> idxl(lP, other_intervals);
                     Index<R, R, dim - 1> idxr(rP, other_intervals);
 
-                    std::cout << "d=" << dim << ", ∂_" << j << "^- = " << idxl << " ... recursion start" <<  std::endl;
-                    Rational left = idxl.calc_idx();
-                    std::cout << "d=" << dim << ", ∂_" << j << "^- = " << left << std::endl;
+                    log(recursion_depth, "d=", dim, ", ∂_", j, "^- = ", idxl, " ... recursion start");
+                    Rational left = idxl.calc_idx(recursion_depth + 1);
+                    log(recursion_depth, "d=", dim, ", ∂_", j, "^- = ", left);
 
-                    std::cout << "d=" << dim << ", ∂_" << j << "^+ = " << idxr << " ... recursion start" << std::endl;
-                    Rational right = idxr.calc_idx();
-                    std::cout << "d=" << dim << ", ∂_" << j << "^+ = " << right << std::endl;
+                    log(recursion_depth, "d=", dim, ", ∂_", j, "^+ = ", idxr, " ... recursion start");
+                    Rational right = idxr.calc_idx(recursion_depth + 1);
+                    log(recursion_depth, "d=", dim, ", ∂_", j, "^+ = ", right);
 
                     if (j % 2 == 0) {
                         res += right - left;
@@ -115,7 +148,7 @@ class Index {
             }
 
             // Elimination
-            std::cout << "Elimination of " << *this << std::endl;
+            log(recursion_depth, "Applying Elimination ...");
             // TODO: fix dimensional
             for (int i = 1; i <= dim; ++i) {
                 if (getPolynomial(i).degree() == 0)
@@ -138,7 +171,7 @@ class Index {
 
                     std::cout << "... inversion term " << j << ", value: " << inversion_index << std::endl;
 
-                    res += inversion_index.calc_idx();
+                    res += inversion_index.calc_idx(recursion_depth + 1);
                 }
             }
             return res;
@@ -146,7 +179,7 @@ class Index {
 
         template<unsigned int dim2 = dim,
             typename std::enable_if<dim2 == 0, int>::type = 0>
-        Rational calc_idx () {
+        Rational calc_idx (unsigned int recursion_depth = 0) {
             R val = getPolynomial(0);
             if (val > 0) {
                 return 1;
