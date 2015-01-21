@@ -11,11 +11,11 @@ TEST_CASE( "Polynomial Initialization", "[polynomial]" ) {
 
 
 TEST_CASE( "Polynomial Multiplication", "[polynomial]" ) {
-    auto p = Polynomial<Integer> {5, 3, 1};
-    auto q = Polynomial<Integer> {4, 2, 7};
+    auto p = Polynomial<Integer> {5, 3, 1}; // x^2 + 3*x + 5
+    auto q = Polynomial<Integer> {4, 2, 7}; // 7*x^2 + 2*x + 4
     auto product = p * q;
 
-    auto r = Polynomial<Integer> {20, 22, 45, 23, 7};
+    auto r = Polynomial<Integer> {20, 22, 45, 23, 7}; // 7*x^4 + 23*x^3 + 45*x^2 + 22*x + 20
 
     REQUIRE( product == r );
 }
