@@ -12,7 +12,8 @@
 #include "math.h"
 
 // should be private to Polynomial
-template<class R, unsigned int dim = 1>
+template<class R, unsigned int dim = 1,
+    typename = typename std::enable_if<std::is_base_of<RingEl<R>, R>::value>::type >
 class Monomial : public SetEl<Monomial<R, dim>>, public Order<Monomial<R, dim>> {
     protected:
         R _coefficient;
@@ -107,7 +108,8 @@ class Monomial : public SetEl<Monomial<R, dim>>, public Order<Monomial<R, dim>> 
         }
 };
 
-template<class R, unsigned int dim = 1>
+template<class R, unsigned int dim = 1,
+    typename = typename std::enable_if<std::is_base_of<RingEl<R>, R>::value>::type >
 class Polynomial : public RingEl<Polynomial<R, dim>> {
     protected:
         std::list<Monomial<R, dim>> _monomials;
@@ -148,8 +150,10 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             return Polynomial<R, dim>(monomials);
         }
 
+        template <unsigned int dim2 = dim,
+                 typename = typename std::enable_if<dim2 == 1>::type,
+                 typename = typename std::enable_if<std::is_base_of<RingEl<R>, R>::value>::type >
         Polynomial (std::initializer_list<R> coefficients) {
-            static_assert(std::is_base_of<RingEl<R>, R>::value, "Polynomial coefficient class must inherit from RingEl");
 
             unsigned int exponent = 0;
             for (auto it = coefficients.begin(); it != coefficients.end(); ++it, ++exponent) {
@@ -316,15 +320,10 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             }
             return Polynomial(monomials);
         }
-/*
-    private:
-        template<unsigned int dim2>
-        typename std::enable_if<dim2 == 0, R>::type coeffcast () const {
-            return _monomials.front().coefficient();
-        }
-    public:*/
-        template<unsigned int dim2 = dim>
-        operator typename std::enable_if<dim2 == 0, R>::type() const {
+
+        template <unsigned int dim2 = dim,
+            typename = typename std::enable_if<dim2 == 0>::type>
+        operator R () const {
             return _monomials.front().coefficient();
         }
 

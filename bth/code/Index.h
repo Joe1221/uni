@@ -1,7 +1,6 @@
 #ifndef INDEX_H
 #define INDEX_H
 
-#include <cassert>
 #include "Rational.h"
 #include "Polynomial.h"
 #include "Interval.h"
@@ -16,8 +15,8 @@ class Index {
         Index (std::array<Polynomial<R, dim>, dim + 1> pVec, std::array<Interval<V>, dim> iVec)
                 : _pVec(pVec), _iVec(iVec) { };
 
-        template<unsigned int dim2 = dim, typename std::enable_if<dim2 != 0, int>::type = 0>
-        friend std::ostream& operator<< (std::ostream& os, const Index& index) {
+        template<unsigned int dim2 = dim, typename = typename std::enable_if<dim2 != 0>::type>
+        friend std::ostream& operator<< (std::ostream& os, const Index<R, V, dim> & index) {
             os << "[" << std::endl;
             os << "   ";
             os << index._pVec[0] << " :" << std::endl;
@@ -39,8 +38,8 @@ class Index {
             return os;
         }
 
-        template<unsigned int dim2 = dim, typename std::enable_if<dim2 == 0, int>::type = 0>
-        friend std::ostream& operator<< (std::ostream& os, const Index& index) {
+        template<unsigned int dim2 = dim, typename = typename std::enable_if<dim2 == 0>::type>
+        friend std::ostream& operator<< (std::ostream& os, const Index<R, V, 0>& index) {
             R val = index.getPolynomial(0);
             os << "[" << val << "]";
             return os;
@@ -70,8 +69,9 @@ class Index {
         getUpperBoundaryTerm (unsigned int k) const {
         }
 */
-        template<unsigned int dim2 = dim>
-        typename std::enable_if<dim2 != 0, Rational>::type calc_idx () {
+        template<unsigned int dim2 = dim,
+            typename std::enable_if<dim2 != 0, int>::type = 0>
+        Rational calc_idx () {
 
             auto res = Rational(0, 1);
 
@@ -144,8 +144,9 @@ class Index {
             return res;
         }
 
-        template<unsigned int dim2 = dim>
-        typename std::enable_if<dim2 == 0, Rational>::type calc_idx () {
+        template<unsigned int dim2 = dim,
+            typename std::enable_if<dim2 == 0, int>::type = 0>
+        Rational calc_idx () {
             R val = getPolynomial(0);
             if (val > 0) {
                 return 1;
