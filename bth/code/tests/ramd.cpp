@@ -21,9 +21,9 @@ TEST_CASE( "stable evaluation", "[ramd]" ) {
 TEST_CASE( "stable evaluation 2", "[ramd]" ) {
 
     // q = y
-    auto q = Polynomial<Integer, 2>({
+    auto q = Polynomial<Integer, 2> {
         Monomial<Integer, 2>(1, {0, 1})
-    });
+    };
 
     auto q1 = Polynomial<Integer> {0, 1}; // = x
     auto q2 = Polynomial<Integer> {1}; // = 1

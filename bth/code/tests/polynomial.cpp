@@ -22,10 +22,10 @@ TEST_CASE( "Polynomial Multiplication", "[polynomial]" ) {
 
 TEST_CASE( "Polynomial coefficients", "[polynomial]" ) {
     // p(x,y) = x*y + x^2
-    Polynomial<Integer, 2> p({
+    Polynomial<Integer, 2> p {
         Monomial<Integer, 2>(1, {1, 1}),
         Monomial<Integer, 2>(1, {2, 0})
-    });
+    };
 
     Polynomial<Integer, 1> x2 = {1}; // 1
     Polynomial<Integer, 1> x1 = {0, 1}; // x
@@ -38,9 +38,9 @@ TEST_CASE( "Polynomial coefficients", "[polynomial]" ) {
     REQUIRE( p.coefficient(0, 1) == y0 );
 
     SECTION( "single second variable coeff" ) {
-        auto q = Polynomial<Integer, 2>({
+        auto q = Polynomial<Integer, 2> {
             Monomial<Integer, 2>(1, {0, 1})
-        });
+        };
         auto coeff = Polynomial<Integer, 1> { 1 };
 
         REQUIRE( q.coefficient(1, 1) == coeff );

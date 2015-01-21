@@ -164,6 +164,10 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             sort();
             normalize();
         }
+        Polynomial (std::initializer_list<Monomial<R, dim>> monomials) : _monomials(monomials) {
+            sort();
+            normalize();
+        }
         Polynomial () {
             *this = Polynomial<R, dim>::Zero();
         }
