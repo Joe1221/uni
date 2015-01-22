@@ -54,6 +54,28 @@ Polynomial<R, dim - 1> stable_eval (Polynomial<R, dim> p, R a) {
 
 
 
+template<class R, unsigned int dim>
+std::vector<Polynomial<R, dim>> sturm_prem_seq (Polynomial<R, dim> p, Polynomial<R, dim> q) {
+
+    std::vector<Polynomial<R, dim>> prem_seq = {p, q};
+
+    while (q.degree() > 0) {
+        int d, k = 0;
+
+        while ((d = p.degree() - q.degree()) >= 0) {
+            p = q.lead() * p - p.lead() * q * Polynomial<R>::Monom(d);
+            ++k;
+        }
+        if (k % 2 != 0)
+            p *= q.lead();
+        p = -p;
+
+        prem_seq.push_back(p);
+        std::swap(p, q);
+    }
+
+    return prem_seq;
+}
 
 
 

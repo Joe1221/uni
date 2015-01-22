@@ -32,6 +32,5 @@ target_link_libraries(tests gmp gmpxx)
 # main executable
 set(MAIN_SOURCES cppformat/format.cc test.cpp)
 add_executable(mytest ${MAIN_SOURCES})
-add_dependencies(tests)
 target_link_libraries(mytest gmp gmpxx)
 

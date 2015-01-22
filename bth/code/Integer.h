@@ -26,6 +26,15 @@ class Integer : public RingEl<Integer>, public Order<Integer> {
 
     friend std::ostream& operator<< (std::ostream& os, const Integer& i) { return os << i.val; }
 
+    Integer signum () const {
+        if (*this > Integer::Zero()) {
+            return Integer::One();
+        } else if (*this < Integer::Zero()) {
+            return -Integer::One();
+        } else {
+            return Integer::Zero();
+        }
+    }
 
     /* general ring properties */
 

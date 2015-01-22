@@ -28,7 +28,7 @@ class Interval {
             return a <= c && c <= b;
         }
         friend std::ostream& operator<< (std::ostream& os, const Interval& interval) {
-            return os << "[" << interval.left() << ", " << interval.right() << "]";
+            return os << "[" << interval.left() << "," << interval.right() << "]";
         }
     protected:
         R a;

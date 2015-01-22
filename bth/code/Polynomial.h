@@ -101,7 +101,7 @@ class Monomial : public SetEl<Monomial<R, dim>>, public Order<Monomial<R, dim>> 
             for (int i = 0; i < dim; ++i) {
                 os << p.exponent(i);
                 if (i < dim - 1)
-                    os << ", ";
+                    os << ",";
             }
             os << ")";
             return os;
@@ -338,14 +338,14 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         }
 
         friend std::ostream& operator<< (std::ostream& os, const Polynomial<R, dim>& p) {
-            os << "⟦";
+            //os << "⟦";
             auto& ms = p._monomials;
             for (auto it = ms.begin(); it != ms.end(); ++it) {
                 if (it != ms.begin())
                     os << " + ";
                 os << *it;
             }
-            os << "⟧";
+            //os << "⟧";
             return os;
         }
 };

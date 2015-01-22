@@ -7,7 +7,7 @@
 #include "Rational.h"
 #include "Polynomial.h"
 #include "Interval.h"
-#include "format.h"
+#include "cppformat/format.h"
 
 template<class R, class V, unsigned int dim = 1>
 class Index {
@@ -19,7 +19,7 @@ class Index {
         Index (std::array<Polynomial<R, dim>, dim + 1> pVec, std::array<Interval<V>, dim> iVec)
                 : _pVec(pVec), _iVec(iVec) { };
 
-        template<unsigned int dim2 = dim, typename = typename std::enable_if<dim2 != 0>::type>
+        /*template<unsigned int dim2 = dim, typename = typename std::enable_if<dim2 != 0>::type>
         friend std::ostream& operator<< (std::ostream& os, const Index<R, V, dim> & index) {
             os << "[" << std::endl;
             os << "   ";
@@ -39,6 +39,24 @@ class Index {
             }
             os << std::endl;
             os << "]";
+            return os;
+        }*/
+        template<unsigned int dim2 = dim, typename = typename std::enable_if<dim2 != 0>::type>
+        friend std::ostream& operator<< (std::ostream& os, const Index<R, V, dim> & index) {
+            os << "[ ";
+            os << index._pVec[0] << " : ";
+            for (int i = 1; i <= dim; ++i) {
+                os << index._pVec[i];
+                if (i < dim)
+                    os << ", ";
+            }
+            os << " | ";
+            for (int i = 0; i < dim; ++i) {
+                os << index._iVec[i];
+                if (i < dim - 1)
+                    os << "×";
+            }
+            os << " ]";
             return os;
         }
 
@@ -82,7 +100,7 @@ class Index {
             for (int i = 0; i < depth; ++i)
                 indent += "  ";
 
-            std::cout << indent << "|> " << logp(tail...) << std::endl;
+            std::cout << indent << "┃ " << logp(tail...) << std::endl;
         }
         template<class T, class ... S>
         std::string logp (const T& item, S... tail) {
@@ -106,13 +124,17 @@ class Index {
 
             auto p = getPolynomial(0);
 
-            fmt::print("Computing Index {}\n", *this);
-            //log(recursion_depth, "Computing Index ", *this);
+            //fmt::print("Computing Index {}\n", *this);
+            log(recursion_depth, "calculating ", *this , " …");
             //std::cout << std::string(recursion_depth, "> ") << "Computing Index " << *this << std::endl;
 
-            // Reduction (TODO: beware of p = 0)
+            if (p == Polynomial<R, dim>::Zero()) {
+                return Rational(0, 1);
+            }
+
+            // Reduction
             if (p.totalDegree() == 0) {
-                log(recursion_depth, "Applying Reduction ...");
+                log(recursion_depth, "reduction …");
 
                 auto lP = std::array<Polynomial<R, dim - 1>, dim>();
                 auto rP = std::array<Polynomial<R, dim - 1>, dim>();
@@ -129,13 +151,15 @@ class Index {
                     Index<R, R, dim - 1> idxl(lP, other_intervals);
                     Index<R, R, dim - 1> idxr(rP, other_intervals);
 
-                    log(recursion_depth, "d=", dim, ", ∂_", j, "^- = ", idxl, " ... recursion start");
+                    if (dim > 1)
+                        log(recursion_depth, "∂_", j, "^- = …");
                     Rational left = idxl.calc_idx(recursion_depth + 1);
-                    log(recursion_depth, "d=", dim, ", ∂_", j, "^- = ", left);
+                    log(recursion_depth, "∂_", j, "^- = ", left);
 
-                    log(recursion_depth, "d=", dim, ", ∂_", j, "^+ = ", idxr, " ... recursion start");
+                    if (dim > 1)
+                        log(recursion_depth, "∂_", j, "^+ = …");
                     Rational right = idxr.calc_idx(recursion_depth + 1);
-                    log(recursion_depth, "d=", dim, ", ∂_", j, "^+ = ", right);
+                    log(recursion_depth, "∂_", j, "^+ = ", right);
 
                     if (j % 2 == 0) {
                         res += right - left;
@@ -143,22 +167,45 @@ class Index {
                         res -= right - left;
                     }
                 }
-                // TODO: signum!
-                return Rational(1, 2) * p.constCoefficient() * res;
+                return Rational(1, 2) * p.constCoefficient().signum() * res;
             }
 
             // Elimination
-            log(recursion_depth, "Applying Elimination ...");
+            log(recursion_depth, "elimination …");
+
+            auto& q = getPolynomial(1);
+
+            auto pseq = sturm_prem_seq(p, q);
+            log(recursion_depth, "prem_seq result:");
+            for (auto p : pseq) {
+                log(recursion_depth, "  ", p);
+            }
+
+            for (int j = 1; j < pseq.size() - 1; ++j) {
+                auto inversion_index = *this;
+                inversion_index.setPolynomial(0, Polynomial<R, dim>::One());
+                inversion_index.setPolynomial(1, pseq[j] * pseq[j + 1]);
+
+                log(recursion_depth, "inversion term (", j, ")");
+                auto invterm = inversion_index.calc_idx(recursion_depth + 1);
+                log(recursion_depth, "inversion term (", j, "): ", invterm);
+                res += invterm;
+
+            }
+
+
+
+/*
             // TODO: fix dimensional
             for (int i = 1; i <= dim; ++i) {
                 if (getPolynomial(i).degree() == 0)
                     continue;
-                std::cout << "... in position " << i << std::endl;
+                log(recursion_depth, "… in position");
 
                 Polynomial<R, dim> q = getPolynomial(i);
 
-                auto pseq = prem_seq(p, q);
-                std::cout << "... prem_seq result " << std::endl;
+                auto pseq = sturm_prem_seq(p, q);
+                log(recursion_depth, "… prem_seq result");
                 for (auto p : pseq) {
                     std::cout << p << std::endl;
                 }
@@ -169,11 +216,11 @@ class Index {
                     inversion_index.setPolynomial(0, Polynomial<R, dim>::One());
                     inversion_index.setPolynomial(i, pseq[j] * pseq[j+1]);
 
-                    std::cout << "... inversion term " << j << ", value: " << inversion_index << std::endl;
+                    log(recursion_depth, "… inversion term ", j, ", value: ", inversion_index);
 
                     res += inversion_index.calc_idx(recursion_depth + 1);
                 }
-            }
+            }*/
             return res;
         }
 
