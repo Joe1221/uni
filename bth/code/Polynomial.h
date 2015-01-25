@@ -11,7 +11,6 @@
 #include "Order.h"
 #include "math.h"
 
-// should be private to Polynomial
 template<class R, unsigned int dim = 1,
     typename = typename std::enable_if<std::is_base_of<RingEl<R>, R>::value>::type >
 class Monomial : public SetEl<Monomial<R, dim>>, public Order<Monomial<R, dim>> {
@@ -210,7 +209,7 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
             return d;
         }
 
-        const R constCoefficient () {
+        const R constCoefficient () const {
             return _monomials.front().coefficient();
         }
 
@@ -334,11 +333,21 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         template <unsigned int dim2 = dim,
             typename = typename std::enable_if<dim2 == 0>::type>
         operator R () const {
-            return _monomials.front().coefficient();
+            if (_monomials.size() == 0) {
+                return R::Zero();
+            } else {
+                return _monomials.front().coefficient();
+            }
         }
 
         friend std::ostream& operator<< (std::ostream& os, const Polynomial<R, dim>& p) {
             //os << "⟦";
+
+            if (p == Polynomial<R, dim>::Zero()) {
+                os << "0";
+                return os;
+            }
+
             auto& ms = p._monomials;
             for (auto it = ms.begin(); it != ms.end(); ++it) {
                 if (it != ms.begin())

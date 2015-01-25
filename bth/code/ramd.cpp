@@ -55,7 +55,7 @@ Polynomial<R, dim - 1> stable_eval (Polynomial<R, dim> p, R a) {
 
 
 template<class R, unsigned int dim>
-std::vector<Polynomial<R, dim>> sturm_prem_seq (Polynomial<R, dim> p, Polynomial<R, dim> q) {
+std::vector<Polynomial<R, dim>> neg_prem_seq (Polynomial<R, dim> p, Polynomial<R, dim> q) {
 
     std::vector<Polynomial<R, dim>> prem_seq = {p, q};
 

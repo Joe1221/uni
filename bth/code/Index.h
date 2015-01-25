@@ -122,7 +122,8 @@ class Index {
 
             auto res = Rational(0, 1);
 
-            auto p = getPolynomial(0);
+            const auto& p = getPolynomial(0);
+            const auto& q = getPolynomial(1);
 
             //fmt::print("Computing Index {}\n", *this);
             log(recursion_depth, "calculating ", *this , " …");
@@ -144,9 +145,9 @@ class Index {
                     auto other_intervals = getOtherIntervals(j - 1);
 
                     for (int i = 1; i <= dim; ++i) {
-                        auto p = getPolynomial(i);
-                        lP[i - 1] = p.stable_eval(interval.left(), j - 1);
-                        rP[i - 1] = p.stable_eval(interval.right(), j - 1);
+                        auto s = getPolynomial(i);
+                        lP[i - 1] = s.stable_eval(interval.left(), j - 1);
+                        rP[i - 1] = s.stable_eval(interval.right(), j - 1);
                     }
                     Index<R, R, dim - 1> idxl(lP, other_intervals);
                     Index<R, R, dim - 1> idxr(rP, other_intervals);
@@ -162,9 +163,9 @@ class Index {
                     log(recursion_depth, "∂_", j, "^+ = ", right);
 
                     if (j % 2 == 0) {
-                        res += right - left;
-                    } else {
                         res -= right - left;
+                    } else {
+                        res += right - left;
                     }
                 }
                 return Rational(1, 2) * p.constCoefficient().signum() * res;
@@ -173,15 +174,14 @@ class Index {
             // Elimination
             log(recursion_depth, "elimination …");
 
-            auto& q = getPolynomial(1);
 
-            auto pseq = sturm_prem_seq(p, q);
-            log(recursion_depth, "prem_seq result:");
+            auto pseq = neg_prem_seq(q, p);
+            log(recursion_depth, "neg_prem_seq result:");
             for (auto p : pseq) {
                 log(recursion_depth, "  ", p);
             }
 
-            for (int j = 1; j < pseq.size() - 1; ++j) {
+            for (int j = 0; j < pseq.size() - 1; ++j) {
                 auto inversion_index = *this;
                 inversion_index.setPolynomial(0, Polynomial<R, dim>::One());
                 inversion_index.setPolynomial(1, pseq[j] * pseq[j + 1]);
