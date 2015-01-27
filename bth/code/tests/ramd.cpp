@@ -34,7 +34,7 @@ TEST_CASE( "stable evaluation 2", "[ramd]" ) {
 
 TEST_CASE( "index, simple cycles", "[index]" ) {
 
-    for (unsigned int n = 1; n <= 5; ++n) {
+    for (unsigned int n = 1; n <= 3; ++n) {
 
         auto m1 = std::list<Monomial<Integer, 2>>();
         auto m2 = std::list<Monomial<Integer, 2>>();
