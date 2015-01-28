@@ -153,7 +153,7 @@ Zunächst einige Definitionen und Aussagen ohne Beweis (in diesen Fällen siehe 
 		\item
 			\emph{PDE}:
 			Für alle $\phi \in H_0^1(\Omega)$ und fast alle $t \in (0,T)$ gilt
-			\begin{math}[numbered] \label{eq:4.2}
+			\begin{math}[numbered] \label{eq:4.1.5}
 				\<u'(t), \phi\>_{L^2(\Omega)} + \< \Nabla u(t), \Nabla \phi \>_{L^2(\Omega)}
 				= \<f(t), \phi\>_{L^2(\Omega)},
 			\end{math}
@@ -178,12 +178,12 @@ Zunächst einige Definitionen und Aussagen ohne Beweis (in diesen Fällen siehe 
 \end{st}
 
 Es folgt die Diskretisierung im Ort, was auf ein Anfangswertproblem eines Systems gewöhnlicher Differentialgleichungen für die DOFs führt.
-Wähle einen endlichdimensionalen FEM-Approximationsraum $V_h \subset H_0^1(\Omega)$ und führe Galerkin-Projektion der schwachen Form \eqref{eq:4.2} auf $V_h$ durch.
+Wähle einen endlichdimensionalen FEM-Approximationsraum $V_h \subset H_0^1(\Omega)$ und führe Galerkin-Projektion der schwachen Form \eqref{eq:4.1.5} auf $V_h$ durch.
 
 \begin{df}[FEM Semidiskretisierung] \label{4.7}
 	Sei $\scr T_h$ zulässige Triangulierung, $V_h := \P_{k,0}(\scr T_h)$.
 	Wir nennen $u_h \in C^1([0,T], V_h)$ Lösung der semidiskreten Wärmeleitung, falls
-	\begin{math}[numbered] \label{eq:4.3}
+	\begin{math}[numbered] \label{eq:4.2}
 		\<u_h'(t), \phi\>_{L^2(\Omega)} + \<\Nabla u_h(t), \Nabla \phi\>_{L^2(\Omega)} &= \<f(t), \phi\>_{L^2(\Omega)}, && \forall \phi \in V_h, t \in (0,T), \\
 		u_h(0) &= u_h^0,
 	\end{math}
@@ -192,12 +192,12 @@ Wähle einen endlichdimensionalen FEM-Approximationsraum $V_h \subset H_0^1(\Ome
 
 \begin{kor}[AWP für Koeffizientenvektor] \label{4.8}
 	Sei $\Set{\phi_i}_{i=1}^n$ eine nodale Basis von $V_h$ zu Knoten $\Set{x_i}_{i=1}^n \subset \_\Omega$,
-	\begin{math}[numbered] \label{eq:4.4}
+	\begin{math}[numbered] \label{eq:4.3}
 		u_h(t) = \sum_{i=1}^n u_{h,i}(t) \phi_i
 	\end{math}
 	mit DOF-Vetor $\underbar{u}_h = (u_{h,i})_{i=1}^n$.
-	Dann ist $u_h$ Lösung des semidiskreten Problems \eqref{eq:4.3} genau dann, wenn $\underbar{u}_h: [0,T] \to \R^n$ Lösung des AWP
-	\begin{math}[numbered] \label{eq:4.5}
+	Dann ist $u_h$ Lösung des semidiskreten Problems \eqref{eq:4.2} genau dann, wenn $\underbar{u}_h: [0,T] \to \R^n$ Lösung des AWP
+	\begin{math}[numbered] \label{eq:4.4}
 		M_h \underbar{u}_h'(t) + A_h \underbar{u}_h(t) &= f_h(t), \\
 		\underbar{u}_h(0) = u_h^0
 	\end{math}
@@ -217,6 +217,202 @@ Wähle einen endlichdimensionalen FEM-Approximationsraum $V_h \subset H_0^1(\Ome
 					& &&\iff & M_h \underbar{u}_h^0 &= \underbar{u}_0
 				\end{math}
 				mit $\underbar{u}_0 := (\int_\Omega u_0 \phi_i )_{i=1}^n$.
+\Timestamp{2015-01-27}
+			\item
+				Alternativ kann auch eine Polynominterpolation erfolgen, falls $u_0$ Punktauswertung erlaubt.
+				Wegen nodaler Basis erreicht man dies durch $\underbar{u}_h^0 := \Vector{u_0(x_1) & \dots & u_0(x_n)} \in \R^n$.
+			\item
+				Problem \eqref{eq:4.2}, bzw. \eqref{eq:4.4} ist kontinuierlich in $t$, aber diskret bezüglich $x$, daher„semidiskret“.
+			\item
+				Anschaulich: wegen nodaler Basis ist
+				\begin{math}
+					(\underbar{u}_h(t))_i = u_h(x_i, t) \approx u(x_i, t).
+				\end{math}
+				Man sucht also Lösung entlang von Linien im $\_\Omega \times (0,T)$-Zylinder, daher heißt \eqref{eq:4.2} bzw. \eqref{eq:4.4} auch „Linienmethode“ (engl. “method of lines”).
 		\end{itemize}
 	\end{note}
 \end{kor}
+
+\subsection*{Diskretisierung in der Zeit}
+
+Das ODE-System \eqref{eq:4.4} kann mit Diskretisierungsverfahren aus der Numerik 2 behandelt werden.
+Sei $0 = t^0 < t^1 < \dotsb < t^k = T$, $\Delta t^k := t^{k+1} - t^k$ (Superskript $k$ bezeichnet im Folgenden einen Zeitindex, keine Potenz).
+
+\begin{itemize}
+	\item
+		Finde $\underbar{u}_h^k = (u_{h,i}^k)_{i=1}^n \in \R^n$ für $k = 0, \dotsc, K$, sodass $\underbar{u}_h^k \approx \underbar{u}_h(t^k)$, wobei $\underbar{u}_h(t)$ DOF-Vektor als Lösung von $\eqref{eq:4.4}$.
+		Dann ist bei nodaler Basis das Ziel
+		\begin{math}
+			u_{h,i}^k &\approx u(x_i, t^k) && \forall i,k
+		\end{math}
+		mit $u$ Lösung von \eqref{eq:4.1}, falls es Punktauswertungen erlaubt.
+	\item
+		Betrachte das implizite Euler-Verfahren:
+		\begin{math}
+			\underbar{u}_h'(t^{k+1}) &\approx \frac{\underbar{u}_h^{k+1} - \underbar{u}_h^k}{\Delta t^k}, &
+			f_h^k &:= f_h(t^k),
+		\end{math}
+		also
+		\begin{math}
+			(M_h + \Delta t^k A_h)\underbar{u}_h^{k+1}
+			= M_h \underbar{u}_h^k + \Delta t^k f_h^{k+1}.
+		\end{math}
+		Folglich ist zu jedem Zeitpunkt das Lösen eines LGS erforderlich.
+	\item
+		Explizites Euler-Verfahren:
+		\begin{math}
+			\underbar{u}_h'(t^k) := \frac{\underbar{u}_h^{k+1} - \underbar{u}_h^k}{\Delta t^k}
+		\end{math}
+		also
+		\begin{math}
+			M_h \underbar{u}_h^{k+1} = (M_h - \Delta t^k A_h) \underbar{u}_h^k + \Delta t^k f_h^k.
+		\end{math}
+		Zu $f_h^k$:
+		falls $f_h$ keine Punktauswertung erlaubt oder $f_h$ zeitabhängig ist, ist Verbesserung durch Zeit-Mittelung erreichbar: $f_h^k := \frac{1}{\Delta t^k} \int_{t^k}^{t^{k+1}} f_h(t) \di[t]$.
+	\item
+		Die Konvergenz und Fehleranalysis aus Numerik 2 reicht nicht aus, weil
+		\begin{enumerate}[1.]
+			\item
+				ODE-Dimension $n$ war als fest angenommen worden (in unserem Fall abhängig von Gitterweite $h$) und nur der Effekt von $\Delta t^k \to 0$ untersucht wird, also Approximation des semidiskreten Problems \eqref{eq:4.4}.
+				Bei uns ist simultanes $\Delta t \to 0, h \to 0$ erforderlich, um Konvergenz gegen Lösung von \eqref{eq:4.1} zu erhalten.
+			\item
+				Wenn wir Standard-Fehleraussagen aus Numerik 2 verwenden würden zur Lösung des entsprechenden gewöhnlichen LGS
+				\begin{math}
+					\underbar{u}_h'(t) = \underbrace{M_h^{-1} A_h}_{B_h} \underbar{u}_h(t) + M_h^{-1} f_h(t),
+				\end{math}
+				taucht eine Lipschitz-Konstante der rechten Seite auf, also $\|B_h\|$, welche von negativen $h$-Potenzen abhängen kann.
+				Folglich erhalten wir keine Konvergenzaussagen für $h \to 0$.
+		\end{enumerate}
+		Daher ist eine detailliertere Fehleranalysis erforderlich.
+\end{itemize}
+
+Sich ergebende Fragen wären
+\begin{itemize}
+	\item
+		Welche Zeit-Integration ist zu empfehlen?
+	\item
+		Wie werden $\Delta t$ und $h$ sinnvoll gewählt?
+\end{itemize}
+
+\begin{df}[$\Theta$-Verfahren für Wärmeleitung] \label{4.9}
+	Sei $\Theta \in [0,1], K \in \N, 0 = t^0 < \dotsb < t^K = T, \Delta t^k := t^{k+1} - t^k, V_h \subset H_0^1(\Omega)$ FEM-Raum mit Basis $\Set{\phi_i}_{i=1}^n$.
+	Wir nennen $\Set{u_h^k}_{k=0}^K \subset V_h$ Lösung des $\Theta$-Verfahrens, falls $u_h^k = \sum_{i=1}^n u_{h,i}^k \phi_i$ für DOF-Vektor $\underbar{u}_h^k = (u_{h,i}^k)_{i=1}^n$ und für $k=0, \dotsc, K$ gilt
+	\begin{math}
+		\big(M_h + \Delta t^k \Theta A_h\big) \underbar{u}_h^{k+1} = \big(M_h - \Delta t^k (1-\Theta) A_h ) \underbar{u}_h^k + \Delta t^k (1 - \Theta) f_h^k + \Delta t^k \Theta f_h^{k+1},
+	\end{math}
+	wobei $\underbar{u}_h^0$ geeignet gewählt.
+	\begin{note}
+		\begin{itemize}
+			\item
+				Wohldefiniertheit folgt, da jedes LGS eindeutig lösbar, denn $M_h + \Delta t A_h$ ist positiv definit und symmetrisch.
+			\item
+				Man erhält spezielle Verfahren durch Wahl von $\Theta$:
+				\begin{itemize}
+					\item
+						$\Theta = 0$: explizites Euler-Verfahren,
+					\item
+						$\Theta = 1$: implizites Euler-Verfahren,
+					\item
+						$\Theta = \frac{1}{2}$: Trapez-Methode / Crank-Nicolson-Verfahren.
+				\end{itemize}
+			\item
+				Man kann zeigen: $\Theta$-Verfahren ist konsisten mit Ordnung $1$ bezüglich $t$, für $\Theta = \frac{1}{2}$ sogar konsistent mit Ordnung 2.
+				Idealerweise sehen wir diese Ordnungen in der zu behandelten Fehleranalysis.
+		\end{itemize}
+	\end{note}
+\end{df}
+
+\subsection*{Stabilität}
+
+Wir können nun Stabilität des $\Theta$-Verfahrens in verschiedenen Normen zeigen, z.B. zunächst einer diskreten „Raum-Zeit-Norm“:
+\begin{math}
+	\||\underbar{u}_h\||^2 := \|u_h^k\|_{L^2(\Omega)}^2 + \sum_{k=0}^{K-1} \Delta t^k |u_h^{k+\Theta}|_{H^1}^2,
+\end{math}
+wobei $\underbar{u}_h = \Set{u_h^k}_{k=0}^K$ und $u_h^{k+\Theta} := \Theta u_h^{k+1} + (1- \Theta) u_h^k$.
+
+\begin{st}[Stabilität des $\Theta$-Verfahrens in der Raum-Zeit-Norm] \label{4.10}
+	Für $\frac{1}{2} \le \Theta \le 1$ und $\Theta$-Verfahren aus \ref{4.9} gilt
+	\begin{math}[numbered] \label{eq:4.5}
+		&\|u_h^k\|_{L^2}^2 + \sum_{k=0}^{K-1} \Delta t^k |u_h^{k+\Theta}|_{H^1}^2 + (2\Theta - 1) \|u_h^{k+1} - u_h^k\|_{L^2}^2 \\
+		&\quad\le \|u_h^0\|_{L^2}^2 + C \sum_{k=0}^{K-1} \Delta t^k \|f^{k+\Theta}\|_{L^2}^2,
+	\end{math}
+	wobei $u_h^{k+\Theta} := \Theta u_h^{k+1} - (1-\Theta) u_{h}^{k}$, $f^{k+\Theta} := (1-\Theta) f^k + \Theta f^{k+1}$ und $C := s^2$ mit $s := \diam(\Omega)$.
+
+	Also gilt Stabilität bezüglich der Raum-Zeit-Norm
+	\begin{math}[numbered] \label{eq:4.6}
+		\|| \underbar{u}_h \||^2 \le \|u_h^0\|_{L^2}^2 + C T \max_{k=0,\dotsc, k} \|f^k\|_{L^2}^2,
+	\end{math}
+	falls $f \in L^\infty ([0,T], L^2)$.
+	\begin{proof}
+		In schwacher Form lautet das $\Theta$-Verfahren:
+		\begin{math}
+			\<u_h^{k+1}0- u_h^k, \phi\>_{L^2} + \Delta t^k \<\Nabla u_h^{k+\Theta}, \Nabla \phi\>_{L^2} &= \Delta t^k \< f^{k+\Theta}, \phi\>, && \forall \phi \in V_h
+		\end{math}
+		Einsetzen von $u_h^{k+\Theta}$ als Testfunktion ergibt
+		\begin{math}[numbered] \label{eq:4.7}
+			\<u_h^{k+1} - u_h^k, u_h^{k+\Theta}\>_{L^2} + \Delta t^k \underbrace{\<\Nabla u_h^{k+\Theta}, \Nabla u_h^{k+\Theta}\>_{L^2}}_{=|u_h^{k+\Theta}|_{H^1}^2} = \Delta t^k \<f^{k+\Theta}, u_h^{k+2}\>_{L^2}.
+		\end{math}
+		Für den ersten Term gilt
+		\begin{math}[numbered] \label{eq:4.8}
+			\<u_h^{k+1} - u_h^k, u_h^{k+\Theta}\>_{L^2}
+			&= \<u_h^{k+1} - u_h^k, \Theta u_h^{k+1} + (1-\Theta) u_h^k\> \\
+			&= \<u_h^{k+1} - u_h^k, \frac{1}{2} u_h^{k+1} + \frac{1}{2} u_h^k + (\Theta - \frac{1}{2})(u_h^{k+1} - u_h^k) \>_{L^2} \\
+			&= \frac{1}{2} \|u_h^{k+1}\|_{L^2}^2 - \frac{1}{2} \|u_h^k\|_{L^2}^2 + (\Theta - \frac{1}{2})\|u_h^{k+1} - u_h^k\|_{L^2}^2.
+		\end{math}
+		Dies in \eqref{eq:4.7} ergibt mit Cauchy-Schwarz und Poincaré-Friedrich \ref{3.12} und Young-Ungleichung $ab \le \frac{a^2}{2\eps} + \frac{b^2}{2} \eps$, mit $\eps = 1$.
+		\begin{math}
+			&\|u_h^{k+1}\|_{L^2}^2 - \|u_h^k\|_{L^2}^2 + (2\Theta - 1) \|u_h^{k+1} - u_h^k\|_{L^2}^2 + 2 \Delta t^k |u_h^{k+\Theta}|_{H^1}^2 \\
+			&\quad= 2\Delta t^k \< f^{k+\Theta}, u_h^{k + \Theta} \> \\
+			&\quad\le 2 \Delta t^k \|f^{k+\Theta}\|_{L^2} \|u_h^{k+\Theta}\|_{L^2} \\
+			&\quad\le 2 \Delta t^k \|f^{k+\Theta}\|_{L^2} S|u_h^{k+\Theta}|_{H^1} \\
+			&\quad\le \Delta t^k s^2 \|f^{k+\Theta}\|_{L^2}^2 + \Delta t^k |u_h^{k+\Theta}|_{H^1}^2.
+		\end{math}
+		Also ist
+		\begin{math}
+			&\|u_h^{k+1}\|_{L^2}^2 - \|u_h^k\|_{L^2}^2 + (2\Theta - 1) \|u_h^{k+1} - u_h^k\|_{L^2}^2 + \Delta t^k |u_h^{k+\Theta}|_{H^1}^2 \\
+			&\quad\le \Delta t^k s^2 \|f^{k+\Theta}\|_{L^2}^2.
+		\end{math}
+		Summation über $k$ (Teleskopsumme) liefert die Behauptung \eqref{eq:4.5} mit $c := s^2$.
+		Weil
+		\begin{math}
+			\|f^{k+\Theta}\| &= \|\Theta f^{k+1} - (1-\Theta) f^k\| \\
+			&\le \Theta \|f^{k+1}\| + (1-\Theta) \|f^k\| \\
+			&\le \Theta \max_{k'} \|f^{k'}\| + (1-\Theta) \max_{k'} \|f^{k'}\| \\
+			&= \max_{k'} \|f^{k'}\|
+		\end{math}
+		folgt \eqref{eq:4.6}.
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Für $\Theta \in [\frac{1}{2}, 1]$ bleibt die diskrete Raum-Zeit-Norm also für $\Delta t^k \to 0, h \to 0$ beschränkt, Fehler werden nicht exponentiell verstärkt.
+			\item
+				Für $\Theta < \frac{1}{2}$ ist das Verfahren nur stabil, falls $\Delta t$ hinreichend klein ist, ähnlich wie im nächsten Satz formuliert.
+		\end{itemize}
+	\end{note}
+\end{st}
+
+% fixme
+%\begin{st}[Stabilität in $L^\infty([0,T], L^2)$]
+\begin{st}
+	Für $\Theta \in [0, 1]$.
+	Sei $\Set{u_h^k}_{k=0}^K$ Lösung des $\Theta$-Verfahrens aus \ref{4.9} und $f \in L^\infty([0,T], L^2)$.
+	Falls $\Theta < \frac{1}{2}$, so gelte zusätzlich die Bedingung $(1 - \Theta) \le \frac{h_{\text{min}}^2}{c^2}$, wobei $h_{\text{min}} = \min_{T \in \scr T_h} h_T$ und $c$ die optimale Konstante der inversen Abschätzung
+	\begin{math}
+		\|\Nabla v_h\|_{L^2(\Omega)} &\le \frac{c}{h_{\text{min}}} \|v_h\|_{L^2(\Omega)}, && \forall v_h \in V_h.
+	\end{math}
+
+	Dann ist das $\Theta$-Verfahren stabil bezüglich $L^\infty([0,T], L^2(\Omega))$, d.h. $\forall k=0, \dotsc, K$ gilt
+	\begin{math}
+		\|u_h^k\|_{L^2} \le \|u_h^0\|_{L^2(\Omega)}  + C \|f\|_{L^\infty([0,T], L^2(\Omega)}
+	\end{math}
+	mit
+	\begin{math}
+		C := \begin{cases}
+			\sqrt{\frac{s^2 T}{2}} & \Theta \in [\frac{1}{2}, 1] \\
+			\sqrt{\frac{s^2 T}{1 + \Theta}} & \Theta \in [0, \frac{1}{2})
+		\end{cases},
+	\end{math}
+	wobei $s = \diam(\Omega)$.
+\end{st}
+
