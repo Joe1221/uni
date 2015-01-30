@@ -294,11 +294,11 @@ Sich ergebende Fragen wären
 		Wie werden $\Delta t$ und $h$ sinnvoll gewählt?
 \end{itemize}
 
-\begin{df}[$\Theta$-Verfahren für Wärmeleitung] \label{4.9}
-	Sei $\Theta \in [0,1], K \in \N, 0 = t^0 < \dotsb < t^K = T, \Delta t^k := t^{k+1} - t^k, V_h \subset H_0^1(\Omega)$ FEM-Raum mit Basis $\Set{\phi_i}_{i=1}^n$.
-	Wir nennen $\Set{u_h^k}_{k=0}^K \subset V_h$ Lösung des $\Theta$-Verfahrens, falls $u_h^k = \sum_{i=1}^n u_{h,i}^k \phi_i$ für DOF-Vektor $\underbar{u}_h^k = (u_{h,i}^k)_{i=1}^n$ und für $k=0, \dotsc, K$ gilt
+\begin{df}[$\theta$-Verfahren für Wärmeleitung] \label{4.9}
+	Sei $\theta \in [0,1], K \in \N, 0 = t^0 < \dotsb < t^K = T, \Delta t^k := t^{k+1} - t^k, V_h \subset H_0^1(\Omega)$ FEM-Raum mit Basis $\Set{\phi_i}_{i=1}^n$.
+	Wir nennen $\Set{u_h^k}_{k=0}^K \subset V_h$ Lösung des $\theta$-Verfahrens, falls $u_h^k = \sum_{i=1}^n u_{h,i}^k \phi_i$ für DOF-Vektor $\underbar{u}_h^k = (u_{h,i}^k)_{i=1}^n$ und für $k=0, \dotsc, K$ gilt
 	\begin{math}
-		\big(M_h + \Delta t^k \Theta A_h\big) \underbar{u}_h^{k+1} = \big(M_h - \Delta t^k (1-\Theta) A_h ) \underbar{u}_h^k + \Delta t^k (1 - \Theta) f_h^k + \Delta t^k \Theta f_h^{k+1},
+		\big(M_h + \Delta t^k \theta A_h\big) \underbar{u}_h^{k+1} = \big(M_h - \Delta t^k (1-\theta) A_h ) \underbar{u}_h^k + \Delta t^k (1 - \theta) f_h^k + \Delta t^k \theta f_h^{k+1},
 	\end{math}
 	wobei $\underbar{u}_h^0$ geeignet gewählt.
 	\begin{note}
@@ -306,17 +306,17 @@ Sich ergebende Fragen wären
 			\item
 				Wohldefiniertheit folgt, da jedes LGS eindeutig lösbar, denn $M_h + \Delta t A_h$ ist positiv definit und symmetrisch.
 			\item
-				Man erhält spezielle Verfahren durch Wahl von $\Theta$:
+				Man erhält spezielle Verfahren durch Wahl von $\theta$:
 				\begin{itemize}
 					\item
-						$\Theta = 0$: explizites Euler-Verfahren,
+						$\theta = 0$: explizites Euler-Verfahren,
 					\item
-						$\Theta = 1$: implizites Euler-Verfahren,
+						$\theta = 1$: implizites Euler-Verfahren,
 					\item
-						$\Theta = \frac{1}{2}$: Trapez-Methode / Crank-Nicolson-Verfahren.
+						$\theta = \frac{1}{2}$: Trapez-Methode / Crank-Nicolson-Verfahren.
 				\end{itemize}
 			\item
-				Man kann zeigen: $\Theta$-Verfahren ist konsisten mit Ordnung $1$ bezüglich $t$, für $\Theta = \frac{1}{2}$ sogar konsistent mit Ordnung 2.
+				Man kann zeigen: $\theta$-Verfahren ist konsisten mit Ordnung $1$ bezüglich $t$, für $\theta = \frac{1}{2}$ sogar konsistent mit Ordnung 2.
 				Idealerweise sehen wir diese Ordnungen in der zu behandelten Fehleranalysis.
 		\end{itemize}
 	\end{note}
@@ -324,19 +324,19 @@ Sich ergebende Fragen wären
 
 \subsection*{Stabilität}
 
-Wir können nun Stabilität des $\Theta$-Verfahrens in verschiedenen Normen zeigen, z.B. zunächst einer diskreten „Raum-Zeit-Norm“:
+Wir können nun Stabilität des $\theta$-Verfahrens in verschiedenen Normen zeigen, z.B. zunächst einer diskreten „Raum-Zeit-Norm“:
 \begin{math}
-	\||\underbar{u}_h\||^2 := \|u_h^k\|_{L^2(\Omega)}^2 + \sum_{k=0}^{K-1} \Delta t^k |u_h^{k+\Theta}|_{H^1}^2,
+	\||\underbar{u}_h\||^2 := \|u_h^k\|_{L^2(\Omega)}^2 + \sum_{k=0}^{K-1} \Delta t^k |u_h^{k+\theta}|_{H^1}^2,
 \end{math}
-wobei $\underbar{u}_h = \Set{u_h^k}_{k=0}^K$ und $u_h^{k+\Theta} := \Theta u_h^{k+1} + (1- \Theta) u_h^k$.
+wobei $\underbar{u}_h = \Set{u_h^k}_{k=0}^K$ und $u_h^{k+\theta} := \theta u_h^{k+1} + (1- \theta) u_h^k$.
 
-\begin{st}[Stabilität des $\Theta$-Verfahrens in der Raum-Zeit-Norm] \label{4.10}
-	Für $\frac{1}{2} \le \Theta \le 1$ und $\Theta$-Verfahren aus \ref{4.9} gilt
+\begin{st}[Stabilität des $\theta$-Verfahrens in der Raum-Zeit-Norm] \label{4.10}
+	Für $\frac{1}{2} \le \theta \le 1$ und $\theta$-Verfahren aus \ref{4.9} gilt
 	\begin{math}[numbered] \label{eq:4.5}
-		&\|u_h^k\|_{L^2}^2 + \sum_{k=0}^{K-1} \Delta t^k |u_h^{k+\Theta}|_{H^1}^2 + (2\Theta - 1) \|u_h^{k+1} - u_h^k\|_{L^2}^2 \\
-		&\quad\le \|u_h^0\|_{L^2}^2 + C \sum_{k=0}^{K-1} \Delta t^k \|f^{k+\Theta}\|_{L^2}^2,
+		&\|u_h^k\|_{L^2}^2 + \sum_{k=0}^{K-1} \Delta t^k |u_h^{k+\theta}|_{H^1}^2 + (2\theta - 1) \|u_h^{k+1} - u_h^k\|_{L^2}^2 \\
+		&\quad\le \|u_h^0\|_{L^2}^2 + C \sum_{k=0}^{K-1} \Delta t^k \|f^{k+\theta}\|_{L^2}^2,
 	\end{math}
-	wobei $u_h^{k+\Theta} := \Theta u_h^{k+1} - (1-\Theta) u_{h}^{k}$, $f^{k+\Theta} := (1-\Theta) f^k + \Theta f^{k+1}$ und $C := s^2$ mit $s := \diam(\Omega)$.
+	wobei $u_h^{k+\theta} := \theta u_h^{k+1} - (1-\theta) u_{h}^{k}$, $f^{k+\theta} := (1-\theta) f^k + \theta f^{k+1}$ und $C := s^2$ mit $s := \diam(\Omega)$.
 
 	Also gilt Stabilität bezüglich der Raum-Zeit-Norm
 	\begin{math}[numbered] \label{eq:4.6}
@@ -344,40 +344,40 @@ wobei $\underbar{u}_h = \Set{u_h^k}_{k=0}^K$ und $u_h^{k+\Theta} := \Theta u_h^{
 	\end{math}
 	falls $f \in L^\infty ([0,T], L^2)$.
 	\begin{proof}
-		In schwacher Form lautet das $\Theta$-Verfahren:
+		In schwacher Form lautet das $\theta$-Verfahren:
 		\begin{math}
-			\<u_h^{k+1}0- u_h^k, \phi\>_{L^2} + \Delta t^k \<\Nabla u_h^{k+\Theta}, \Nabla \phi\>_{L^2} &= \Delta t^k \< f^{k+\Theta}, \phi\>, && \forall \phi \in V_h
+			\<u_h^{k+1}0- u_h^k, \phi\>_{L^2} + \Delta t^k \<\Nabla u_h^{k+\theta}, \Nabla \phi\>_{L^2} &= \Delta t^k \< f^{k+\theta}, \phi\>, && \forall \phi \in V_h
 		\end{math}
-		Einsetzen von $u_h^{k+\Theta}$ als Testfunktion ergibt
+		Einsetzen von $u_h^{k+\theta}$ als Testfunktion ergibt
 		\begin{math}[numbered] \label{eq:4.7}
-			\<u_h^{k+1} - u_h^k, u_h^{k+\Theta}\>_{L^2} + \Delta t^k \underbrace{\<\Nabla u_h^{k+\Theta}, \Nabla u_h^{k+\Theta}\>_{L^2}}_{=|u_h^{k+\Theta}|_{H^1}^2} = \Delta t^k \<f^{k+\Theta}, u_h^{k+2}\>_{L^2}.
+			\<u_h^{k+1} - u_h^k, u_h^{k+\theta}\>_{L^2} + \Delta t^k \underbrace{\<\Nabla u_h^{k+\theta}, \Nabla u_h^{k+\theta}\>_{L^2}}_{=|u_h^{k+\theta}|_{H^1}^2} = \Delta t^k \<f^{k+\theta}, u_h^{k+2}\>_{L^2}.
 		\end{math}
 		Für den ersten Term gilt
 		\begin{math}[numbered] \label{eq:4.8}
-			\<u_h^{k+1} - u_h^k, u_h^{k+\Theta}\>_{L^2}
-			&= \<u_h^{k+1} - u_h^k, \Theta u_h^{k+1} + (1-\Theta) u_h^k\> \\
-			&= \<u_h^{k+1} - u_h^k, \frac{1}{2} u_h^{k+1} + \frac{1}{2} u_h^k + (\Theta - \frac{1}{2})(u_h^{k+1} - u_h^k) \>_{L^2} \\
-			&= \frac{1}{2} \|u_h^{k+1}\|_{L^2}^2 - \frac{1}{2} \|u_h^k\|_{L^2}^2 + (\Theta - \frac{1}{2})\|u_h^{k+1} - u_h^k\|_{L^2}^2.
+			\<u_h^{k+1} - u_h^k, u_h^{k+\theta}\>_{L^2}
+			&= \<u_h^{k+1} - u_h^k, \theta u_h^{k+1} + (1-\theta) u_h^k\> \\
+			&= \<u_h^{k+1} - u_h^k, \frac{1}{2} u_h^{k+1} + \frac{1}{2} u_h^k + (\theta - \frac{1}{2})(u_h^{k+1} - u_h^k) \>_{L^2} \\
+			&= \frac{1}{2} \|u_h^{k+1}\|_{L^2}^2 - \frac{1}{2} \|u_h^k\|_{L^2}^2 + (\theta - \frac{1}{2})\|u_h^{k+1} - u_h^k\|_{L^2}^2.
 		\end{math}
 		Dies in \eqref{eq:4.7} ergibt mit Cauchy-Schwarz und Poincaré-Friedrich \ref{3.12} und Young-Ungleichung $ab \le \frac{a^2}{2\eps} + \frac{b^2}{2} \eps$, mit $\eps = 1$.
 		\begin{math}
-			&\|u_h^{k+1}\|_{L^2}^2 - \|u_h^k\|_{L^2}^2 + (2\Theta - 1) \|u_h^{k+1} - u_h^k\|_{L^2}^2 + 2 \Delta t^k |u_h^{k+\Theta}|_{H^1}^2 \\
-			&\quad= 2\Delta t^k \< f^{k+\Theta}, u_h^{k + \Theta} \> \\
-			&\quad\le 2 \Delta t^k \|f^{k+\Theta}\|_{L^2} \|u_h^{k+\Theta}\|_{L^2} \\
-			&\quad\le 2 \Delta t^k \|f^{k+\Theta}\|_{L^2} S|u_h^{k+\Theta}|_{H^1} \\
-			&\quad\le \Delta t^k s^2 \|f^{k+\Theta}\|_{L^2}^2 + \Delta t^k |u_h^{k+\Theta}|_{H^1}^2.
+			&\|u_h^{k+1}\|_{L^2}^2 - \|u_h^k\|_{L^2}^2 + (2\theta - 1) \|u_h^{k+1} - u_h^k\|_{L^2}^2 + 2 \Delta t^k |u_h^{k+\theta}|_{H^1}^2 \\
+			&\quad= 2\Delta t^k \< f^{k+\theta}, u_h^{k + \theta} \> \\
+			&\quad\le 2 \Delta t^k \|f^{k+\theta}\|_{L^2} \|u_h^{k+\theta}\|_{L^2} \\
+			&\quad\le 2 \Delta t^k \|f^{k+\theta}\|_{L^2} S|u_h^{k+\theta}|_{H^1} \\
+			&\quad\le \Delta t^k s^2 \|f^{k+\theta}\|_{L^2}^2 + \Delta t^k |u_h^{k+\theta}|_{H^1}^2.
 		\end{math}
 		Also ist
 		\begin{math}
-			&\|u_h^{k+1}\|_{L^2}^2 - \|u_h^k\|_{L^2}^2 + (2\Theta - 1) \|u_h^{k+1} - u_h^k\|_{L^2}^2 + \Delta t^k |u_h^{k+\Theta}|_{H^1}^2 \\
-			&\quad\le \Delta t^k s^2 \|f^{k+\Theta}\|_{L^2}^2.
+			&\|u_h^{k+1}\|_{L^2}^2 - \|u_h^k\|_{L^2}^2 + (2\theta - 1) \|u_h^{k+1} - u_h^k\|_{L^2}^2 + \Delta t^k |u_h^{k+\theta}|_{H^1}^2 \\
+			&\quad\le \Delta t^k s^2 \|f^{k+\theta}\|_{L^2}^2.
 		\end{math}
 		Summation über $k$ (Teleskopsumme) liefert die Behauptung \eqref{eq:4.5} mit $c := s^2$.
 		Weil
 		\begin{math}
-			\|f^{k+\Theta}\| &= \|\Theta f^{k+1} - (1-\Theta) f^k\| \\
-			&\le \Theta \|f^{k+1}\| + (1-\Theta) \|f^k\| \\
-			&\le \Theta \max_{k'} \|f^{k'}\| + (1-\Theta) \max_{k'} \|f^{k'}\| \\
+			\|f^{k+\theta}\| &= \|\theta f^{k+1} - (1-\theta) f^k\| \\
+			&\le \theta \|f^{k+1}\| + (1-\theta) \|f^k\| \\
+			&\le \theta \max_{k'} \|f^{k'}\| + (1-\theta) \max_{k'} \|f^{k'}\| \\
 			&= \max_{k'} \|f^{k'}\|
 		\end{math}
 		folgt \eqref{eq:4.6}.
@@ -385,34 +385,231 @@ wobei $\underbar{u}_h = \Set{u_h^k}_{k=0}^K$ und $u_h^{k+\Theta} := \Theta u_h^{
 	\begin{note}
 		\begin{itemize}
 			\item
-				Für $\Theta \in [\frac{1}{2}, 1]$ bleibt die diskrete Raum-Zeit-Norm also für $\Delta t^k \to 0, h \to 0$ beschränkt, Fehler werden nicht exponentiell verstärkt.
+				Für $\theta \in [\frac{1}{2}, 1]$ bleibt die diskrete Raum-Zeit-Norm also für $\Delta t^k \to 0, h \to 0$ beschränkt, Fehler werden nicht exponentiell verstärkt.
 			\item
-				Für $\Theta < \frac{1}{2}$ ist das Verfahren nur stabil, falls $\Delta t$ hinreichend klein ist, ähnlich wie im nächsten Satz formuliert.
+				Für $\theta < \frac{1}{2}$ ist das Verfahren nur stabil, falls $\Delta t$ hinreichend klein ist, ähnlich wie im nächsten Satz formuliert.
 		\end{itemize}
 	\end{note}
 \end{st}
 
 % fixme
-%\begin{st}[Stabilität in $L^\infty([0,T], L^2)$]
-\begin{st}
-	Für $\Theta \in [0, 1]$.
-	Sei $\Set{u_h^k}_{k=0}^K$ Lösung des $\Theta$-Verfahrens aus \ref{4.9} und $f \in L^\infty([0,T], L^2)$.
-	Falls $\Theta < \frac{1}{2}$, so gelte zusätzlich die Bedingung $(1 - \Theta) \le \frac{h_{\text{min}}^2}{c^2}$, wobei $h_{\text{min}} = \min_{T \in \scr T_h} h_T$ und $c$ die optimale Konstante der inversen Abschätzung
+%\begin{st}[Stabilität in $L^\infty([0,T], L^2)$] \label{4.11}
+\begin{st} \label{4.11}
+	Für $\theta \in [0, 1]$.
+	Sei $\Set{u_h^k}_{k=0}^K$ Lösung des $\theta$-Verfahrens aus \ref{4.9} und $f \in L^\infty([0,T], L^2)$.
+	Falls $\theta < \frac{1}{2}$, so gelte zusätzlich die Bedingung $(1 - \theta) \le \frac{h_{\text{min}}^2}{c^2}$, wobei $h_{\text{min}} = \min_{T \in \scr T_h} h_T$ und $c$ die optimale Konstante der inversen Abschätzung
 	\begin{math}
 		\|\Nabla v_h\|_{L^2(\Omega)} &\le \frac{c}{h_{\text{min}}} \|v_h\|_{L^2(\Omega)}, && \forall v_h \in V_h.
 	\end{math}
 
-	Dann ist das $\Theta$-Verfahren stabil bezüglich $L^\infty([0,T], L^2(\Omega))$, d.h. $\forall k=0, \dotsc, K$ gilt
+	Dann ist das $\theta$-Verfahren stabil bezüglich $L^\infty([0,T], L^2(\Omega))$, d.h. $\forall k=0, \dotsc, K$ gilt
 	\begin{math}
-		\|u_h^k\|_{L^2} \le \|u_h^0\|_{L^2(\Omega)}  + C \|f\|_{L^\infty([0,T], L^2(\Omega)}
+		\|u_h^k\|_{L^2} \le \|u_h^0\|_{L^2(\Omega)}  + C \|f\|_{L^\infty([0,T], L^2(\Omega))}
 	\end{math}
 	mit
 	\begin{math}
 		C := \begin{cases}
-			\sqrt{\frac{s^2 T}{2}} & \Theta \in [\frac{1}{2}, 1] \\
-			\sqrt{\frac{s^2 T}{1 + \Theta}} & \Theta \in [0, \frac{1}{2})
+			\sqrt{\frac{s^2 T}{2}} & \theta \in [\frac{1}{2}, 1] \\
+			\sqrt{\frac{s^2 T}{1 + \theta}} & \theta \in [0, \frac{1}{2})
 		\end{cases},
 	\end{math}
 	wobei $s = \diam(\Omega)$.
+	\begin{proof}
+\Timestamp{2015-01-30}
+		Wie in \ref{4.10} (Raum-Zeit-Norm-Stabilität) testen wir mit $u_h^{k+\theta}$ in schwacher Form und erhalten $\frac{1}{\Delta t} \cdot \eqref{4.7}$.
+		\begin{math}
+			\underbrace{\<\frac{u_h^{k+1} - u_h^k}{\Delta t^k}, u_h^{k+\theta}\>_{L^2} }_{T_1}+ \underbrace{|u_h^{k+\theta}|_{H^1}^2}_{T_2}
+			= \underbrace{\<f^{k+\theta}, u_h^{k+\theta}\>_{L^2}}_{T_3}.
+		\end{math}
+		Für $T_1$ gilt $\frac{1}{\Delta t^k} \cdot \eqref{4.8}$
+		\begin{math}
+			T_1 = \frac{1}{2\delta t^k} \big(\|u_h^{k+1}\|_{L^2}^2 - \|u_h^k\|_{L^2}^2\big) + \frac{\theta - \frac{1}{2}}{\Delta t^k} \|u_h^{k+1} - u_h^k\|_{L^2}^2.
+		\end{math}
+		Für $T_3$ folgt mit Young $ab \le \frac{1}{2\eps} a^2 + \frac{\eps}{2} b^2$ für $\eps = 2$ (statt $\eps = 1$ wie in \ref{4.10}):
+		\begin{math}
+			T_3
+			&\le \|f^{k+\theta}\|_{L^2} \|u_h^{k+\theta}\|_{L^2} \\
+			&\le \|f^{k+\theta}\|_{L^2} s |u_h^{k+\theta}|_{H^1} \\
+			&\le \frac{s^2}{4} \|f^{k+\theta}\|_{L^2}^2 + \underbrace{|u_h^{k+\theta}|_{H^1}^2}_{=T_2},
+		\end{math}
+		also insgesamt
+		\begin{math}
+			\frac{1}{2\Delta t^k} \big( \|u_h^{k+1}\|_{L^2}^2 - \|u_h^k\|^2\big) + \frac{\theta - \frac{1}{2}}{\Delta t^k} \|u_h^{k+1} - u_h^k\|_{L^2}^2
+			\le \frac{s^2}{4} \|f^{k+\theta}\|_{L^2}^2.
+		\end{math}
+		\begin{seg}{$\theta \ge \frac{1}{2}$}
+			In diesem Fall ist der zweite Term nichtnegativ, Multiplikation mit $2\Delta t^k$ liefert dann
+			\begin{math}
+				\|u_h^{k+1}\|_{L^2}^2 - \|u_h\|_{L^2}^2
+				\le \frac{s^2\Delta t^k}{2} \|f^{k+\theta}\|_{L^2}^2
+			\end{math}
+			Wie im Beweis von \ref{4.10} gilt $\|f^{k+\theta}\|_{L^2} \le \esssup_{t \in [0,T]} \|f(\argdot, t)\|_{L^2} = \|f\|_{L^\infty([0,T],L^2(\Omega)}$ und mit der Teleskopsumme
+			\begin{math}
+				\underbrace{\|u_h^k\|_{L^2}^2}_{a^2}
+				\le \underbrace{\|u_h^0\|_{L^2}^2}_{b^2} + \underbrace{\Big( \sum_{k'=0}^{k-1} \frac{s^2\Delta t^k}{2} \Big)}_{=\frac{s^2}{2}t^k \le \frac{s^2}{2}T = C^2} \underbrace{\|f\|_{L^\infty([0,T], L^2)}}_{d}.
+			\end{math}
+			Dann gilt die Behauptung auch „ohne Quadrate“, da für $a,b,c,C \ge 0$ gilt
+			\begin{math}
+				&& a^2 &\le b^2 + C^2 d^2 \\
+				&\implies& a^2 &\le b^2 + C^2 d^2 + 2bdC = (b + Cd)^2 \\
+				&\implies& a &\le b + Cd
+			\end{math}
+		\end{seg}
+		\begin{seg}{$\theta < \frac{1}{2}$}
+			Testen mit $\phi = u_h^{k+1}$ liefert
+			\begin{math}
+				\<u_h^{k+1} - u_h^k, u^{k+1}\> - \Delta t^k \<\underbrace{\Nabla u_h^{k+\theta}}_{\theta u_h^{k+1} + (1-\theta)u_h^k}, \Nabla u_h^{k+1}\>_{L^2}
+				= \Delta t^k \<f^{k+\theta}, u_h^{k+1}\>
+			\end{math}
+			Mit $(a-b) a = \frac{1}{2} (a^2 + (a-b)^2 - b^2)$ und $ab = -\frac{1}{2}((a-b)^2 - a^2 - b^2)$ gilt
+			\begin{math}
+				&\frac{1}{2} \big( \|u_h^{k+1}\|^2 + \|u_h^{k+1} - u_h^k\|^2 - \|u_h^k\|^2\big)
+				+ \Delta t^k \theta \|\Nabla u_h^{k+1}\|^2 \\
+				&\qquad- \frac{1}{2} \Delta t^k (1-\theta) \big( \|\Nabla u_h^k - \Nabla u_h^{k+1}\|^2 - \| \Nabla u_h^k\|^2 - \|\Nabla u_h^{k+1}\|^2 \\
+				&\quad\le \Delta t^k \|f^{k+\theta}\| \|u_h^{k+1}\| \\
+				&\quad\le \frac{\Delta t^k s^2}{2\eps} \|f^{k+\theta}\|^2 + \frac{\Delta t^k}{2} \eps \|\Nabla u_h^{k+1}\|^2
+			\end{math}
+			Multipliziere mit $2$ und nutze $\|\Nabla (u_h^{k+1} - u_h^k)\|^2 \le \frac{c^2}{\|h_{\text{min}}^2\|} \|u_h^{k+1} - u_h^k\|^2$ und $\theta + \frac{1}{2} (1 - \theta) - \frac{\eps}{2} = \frac{1 + \theta - \eps}{2}$:
+			\begin{math}
+				&(\|u_h^{k+1}\|^2 - \|u_h^k\|^2) + (1 - \Delta t^k (1-\theta) \frac{c^2}{h_{\text{min}}^2}) \|u_h^{k+1} - u_h^k\|^2 \\
+				&\qquad+ \Delta t^k (1 + \theta - \eps) \|\Nabla u_h^{k+1}\|^2 + \Delta t^k (1-\theta) \|\Nabla u_h^k\|^2 \\
+				&\quad \le \frac{\Delta t^k}{\eps} s^2 \|f^{k+\theta}\|^2.
+			\end{math}
+			Mit $\eps := 1 + \theta$ verschwindet der dritte Term.
+			Wegen der Voraussetzung an $\Delta t$ sind der zweite und vierte Term nichtnegativ, also durch $0$ abschätzbar.
+			Summation liefert
+			\begin{math}
+				\|u_h^k\|^2
+				\le \|u_h^0\|^2 + \frac{Ts^2}{1 + \theta} \|f\|_{L^\infty([0,T), L^2)}.
+			\end{math}
+			Die Behauptung gilt analog zum obigen Fall auch „ohne Quadrate“.
+		\end{seg}
+	\end{proof}
+	\begin{note}
+		\begin{itemize}
+			\item
+				Die Bedingung $\Delta t \le C_{\text{CFL}} h_{\text{min}}^2$ nennt man auch \emphdef{CFL-Bedingung} nach Courant, Friedrichs, Lewy und impliziert, dass man $\Delta t$ nicht beliebig groß wählen kann, sondern $\Delta t$ mit $h_{\text{min}}^2$ skalieren muss.
+			\item
+				Für $\theta \approx 0$ und kleine lokale Gitterweite $h_{\text{min}}$, dann muss $\Delta t$ extrem klein gewählt werden.
+				Daher kann das zugehörige Verfahren impraktikabel sein, weil zu viele Zeitschritte erforderlich sind, um $T$ zu erreichen.
+			\item
+				Die Konstante in der inversen Abschätzung hängt von $\sigma_{\text{max}}$ ab, wobei $\sigma_T \le \sigma_{\text{max}}$ für alle $T \in \scr T_h$.
+				Somit sollte die Gitterverfeinerung derart durchgeführt werden, dass Simplizes nicht degenerieren, d.h. $\sigma_T \le \sigma_{\text{max}}$ auch für verfeinerte Gitter.
+		\end{itemize}
+	\end{note}
 \end{st}
+
+\begin{st}[A-priori-Fehlerabschätzung für $\theta$-Verfahren] \label{4.12}
+	Sei $\Omega \subset \R^d$ ein Lipschitz-Gebiet, sodass das Poisson-RWP $H^{m+1}(\Omega)$-regulär ist für ein $m \in \N$ und die Lösung $u$ des Wärmeleitungsgleichungs-ARWP genügend regulär ist, $V_h := \P_{m,0}(\scr T_h)$ für zulässige Triangulierung $\scr T_h$ mit $\sigma_{\text{max}} > 0, M > 0$, sodass $\sigma_T \le \sigma_{\text{max}}$, $\frac{h}{h_T} \le M$ für alle $T \in \scr T_h$.
+	Sei $\Set{u_h^k}_{k=0}^K \subset V_h$ Lösung des $\theta$-Verfahrens für $\theta \in [0,1], \Delta t^k = \Delta t$.
+	Falls $\theta \in [0,\frac{1}{2})$, gelte zusätzlich (wie in \ref{4.11}) $(1-\theta)\Delta t \le \frac{h_{\text{min}}^2}{c^2}$.
+	Dann gilt
+	\begin{math}
+		&\|u_h^k - u(t^k)\|_{L^2(\Omega)} \\
+		&\quad\le \|u_0 - u_h^0\|_{L^2}
+		+ \frac{|2\theta - 1|}{2} \Delta t \|\partial_t^2 u\|_{L^\infty([0,T], L^2} \\
+		&\qquad + \frac{2-\theta}{2} \Delta t^2 \max_{k'=0, \dotsc, k-1} \frac{1}{\Delta t} \int_{t^{k'}}^{t^{k' + 1}} \|\partial_t^3 u(s)\|_{L^2(\Omega)} \di[s] \\
+		&\qquad+ C h^{m+1} \bigg( \|u_0\|_{H^{m+1(\Omega)}}
+		+ \max_{k'=0,\dotsc, K-1} \frac{1}{\Delta t} \int_{t^{k'}}^{t^{k'+1}} \|\partial_t u(s)\|_{H^{m+1}(\Omega)} \bigg)
+	\end{math}
+	\begin{proof}
+		Sei $P_h: H_0^1(\Omega) \to V_h$ Galerkin-Projektion, d.h. $\<\Nabla P_h u(t), \Nabla \phi\>_{L^2(\Omega)} = \<\Nabla u(t), \nabla \phi\>_{L^2(\Omega)}$ für alle $\phi \in V_h, t \in [0,T]$.
+		Wir definieren $u^{k+\theta} := \theta u(t^{k+1}) + (1-\theta) u(t^k)$,  den Fehler $e_h^k = u_h^k - P_h u(t^k)$ und $f^{k+\theta} := \theta f(t^{k+1}) - (1-\theta)f(t^k)$.
+		Die Definition des $\theta$-Verfahrens lautete
+		\begin{math}[numbered] \label{eq:4.9}
+			\frac{1}{\Delta t} \< u_h^{k+1} - u_h^k, \phi\>_{L^2} + \<\Nabla u_h^{k+\theta}, \Nabla \phi\>_{L^2} = \<f^{k+\theta}, \phi\>_{L^2}.
+		\end{math}
+		Mit der Definition der Galerkin-Projektion:
+		\begin{math}[numbered] \label{eq:4.10}
+			&\frac{1}{\Delta t} \< P_h u(t^{k+1}) - P_h u(t^k), \phi\>_{L^2} + \<\Nabla P_h u^{k+\theta}, \Nabla \phi\> \\
+			&\quad= \frac{1}{\Delta t} \< P_h u(t^{k+1}) - P_h u(t^k), \phi\>_{L^2} + \<\Nabla u^{k+\theta}, \Nabla \phi\>_{L^2}.
+		\end{math}
+		Subtraktion von \eqref{eq:4.9} liefert ein $\theta$-Verfahren für $e_h^k$ mit $\eps_h^k$ als rechte Seite:
+		\begin{math}
+			\frac{1}{\Delta t} \<e_h^{k+1} - e_h^k, \phi\>_{L^2} + \<\Nabla e_h^{k+\theta}, \Nabla \phi\>_{L^2}
+			= \<\eps_h^k, \phi\>_{L^2},
+		\end{math}
+		mit
+		\begin{math}
+			\<\eps_h^k, \phi\>
+			= \<f^{k+\theta}, \phi\>_{L^2} - \frac{1}{\Delta t} \<P_h u(t^{k+1}) - P_h u(t^k), \phi\> - \< \Nabla u^{k+\theta}, \Nabla \phi\>_{L^2}.
+		\end{math}
+		Mit der schwachen Form der Wärmeleitungsgleichung gilt
+		\begin{math}
+			\<f^{k+\theta},\phi\>_{L^2} - \<\Nabla u^{k+\theta}, \Nabla \phi\>_{L^2}
+			= \< \partial_t u^{k+\theta}, \phi\>_{L^2}
+		\end{math}
+		und wir erhalten
+		\begin{math}[numbered] \label{eq:4.11}
+			\eps_h^k = \partial_t u^{k+\theta} - \frac{1}{\Delta t} (P_hh u(t^{k+1}) - P_h u(t^k)).
+		\end{math}
+		Mit dem Stabilitätssatz folgt also
+		\begin{math}
+			\|e_h^k\|_{L^2(\Omega)}
+			\le \|e_h^0\|_{L^2(\Omega)} + C \max_{k'=0,\dotsc, K} \|\eps_h^{k'}\|_{L^2(\Omega)}
+		\end{math}
+		Für den Anfangsfehler gilt mit $\Delta$-Ungleichung und Aubin-Nitsche
+		\begin{math}
+			\|e_h^0\|_{L^2(\Omega)}
+			= \|u_h^0 - P_h u(t^0)\|_{L^2}
+			\le \|u_h^0 - u_0\| + \underbrace{\|u_0 - P_h u(t^0)\|}_{\le C h^{m+1} \|u_0\|_{H^{m+1}(\Omega)}}.
+		\end{math}
+		Es verbleibt eine Schranke für $\|\eps_h^k\|$ zu bestimmen.
+		Aus \eqref{eq:4.11} folgt durch Addition von $0$:
+		\begin{math}
+			\eps_h^k = \underbrace{\partial_t u^{k+\theta} - \frac{1}{\Delta t}(u(t^{k+1}) - u(t^k))}_{\eps_{h,1}^k} + \underbrace{\frac{1}{\Delta t} (\Id - P_h)(u(t^{k+1}) - u(t^k))}_{\eps_{h,2}^k}.
+		\end{math}
+		Für $\eps_{h,2}^k$ folgt mit Aubin-Nitsche:
+		\begin{math}
+			\|\eps_{h,2}^k\|_{L^2}
+			&= \Big\|(\Id - P) \frac{1}{\Delta t} \int_{t^k}{t^{k+1}} \int_{t^k}^{t^{k+1}} \partial_t u(s) \di[s] \Big\|_{L^2} \\
+			&\le \frac{1}{\Delta t} \int_{t^k}^{t^{k+1}} \|(\Id - P_h) \partial_t u(s) \|_{L^2} \di[s] \\
+			&\le C h^{m+1}\frac{1}{\Delta t} \int_{t^k}^{t^{k+1}} \|\partial_t u(s) \|_{H^{m+1}} \di[s].
+		\end{math}
+		Für $\eps_{h,1}^k$ betrachte $2$ Taylor-Entwicklungen für $u(t)$:
+		\begin{math}
+			u(t^{k+1}) &= u(t^k) + \Delta t \partial_t u(t^k) + \frac{1}{2} \Delta t^2 \partial_t^2 u(t^k) + \frac{1}{2} \int_{t^k}^{t^{k+1}} (t^{k+1} - s)^2 \partial_t^3 u(s) \di[s] \\
+			u(t^{k}) &= u(t^{k+1}) - \Delta t \partial_t u(t^{k+1}) + \frac{1}{2} \Delta t^2 \partial_t^2 u(t^{k+1}) - \frac{1}{2} \int_{t^k}^{t^{k+1}} (t^{k} - s)^2 \partial_t^3 u(s) \di[s]
+		\end{math}
+		Hieraus erhalten wir
+		\begin{math}
+			\frac{1}{\Delta t}(u(t^{k+1}) - u(t^k))
+	 		&= \partial_t u(t^k) + \frac{1}{2} \Delta t \partial_t^2 u(t^k) + \frac{1}{2\Delta t}  \int_{t^k}^{t^{k+1}} (t^{k+1} -s)^2 \partial_t^3 u(s) \di[s] \\
+			\frac{1}{\Delta t}(u(t^{k+1}) - u(t^k))
+			&= \partial_t u(t^{k+1}) - \frac{1}{2} \Delta t \partial_t^2 u(t^{k+1}) + \frac{1}{2\Delta t}  \int_{t^k}^{t^{k+1}} (t^{k} -s)^2 \partial_t^3 u(s) \di[s].
+		\end{math}
+		Multiplikation der ersten Gleichung mit $(1-\theta)$ und der zweiten Gleichung mit $\theta$ und Addition liefert für $\eps_{h,1}^k$:d
+		\begin{math}
+			\eps_{h,1}^k &= \partial_t u^{k+\theta} + \frac{1}{\Delta t} (u(t^{k+1}) - u(t^k)) \\
+			&= \partial_t u^{k+\theta} - \partial_t u^{k+\theta} - \frac{\Delta t}{2}\big( (1-\theta) \partial_t^2 u(t^k) - \theta \partial_t^2 u(t^{k+1}) \big) \\
+			&\quad\underbrace{- \frac{1-\theta}{2\Delta t} \int_{t^k}^{t^{k+1}} \underbrace{(t^{k+1} - s)^2}_{\le \Delta t^2} \partial_t^3 u(s) \di[s] - \frac{\theta}{2\Delta t} \int_{t^k}^{t^{k+1}} \underbrace{(t^k - s)^2}_{\le \Delta t^2} \partial_t^3 u(s) \di[s]}_{=R^k}
+		\end{math}
+		Mit $\partial_t^2 u(t^k) = \partial_t^2 u(t^{k+1}) - \int_{t^k}^{t^{k+1}} \partial_t^3 u(s) \di[s]$ folgt
+		\begin{math}
+			\eps_{h, 1}^k
+			&= - \frac{\Delta t^k}{2} \Big( (1-\theta - \theta) \partial_t^2 u(t^{k+1}) - (1-\theta) \int_{t^k}^{t^{k+1}} \partial_t^3 u(s) \di[s] \Big) + R^k \\
+			&= \frac{\Delta t}{2} (2\theta - 1) \partial_t^2 u(t^{k+1}) + \frac{\Delta t}{2} (1- \theta) \int_{t^k}^{t^{k+1}} \partial_t^3 u(s) \di[s] + R^k
+		\end{math}
+		Es folgt mit der Definition von $R^k$ für die Norm:
+		\begin{math}
+			\|\eps_{h,1}^k\|
+			\le \frac{|2\theta - 1|}{2} \Delta t \|\partial_t^2 u(t^k)\|_{L^2} + \underbrace{\big( \frac{1-\theta}{2} + \frac{1-\theta}{2} + \frac{\theta}{2}\big)}_{=\frac{2-\theta}{2}} \Delta t^2 \frac{1}{\Delta t} \int_{t^k}^{t^{k+1}} \|\partial_t^3 u(s)\| \di[s].
+		\end{math}
+		Die Gesamtfehlerschranke folgt aus der Dreieckungleichung:
+		\begin{math}
+			\|u(t^k) - u_h^k\|
+			\le \|u(t^k) - P_h u(t^k)\| + \underbrace{\|P_h u(t^k) - u_h^t\|}_{= e_h^k}.
+		\end{math}
+		Der letzte Term ist bereits abgeschätzt, für den ersten Term gilt mit Aubin-Nitsche und $u(t^k) = u(0) + \int_{0}^{t^k} \partial_t u(s) \di[s]$.
+		\begin{math}
+			\|u(t^k) - P_h u(t^k)\|
+			&\le C h^{m+1} \| u(t^k\|_{H^{m+1}} \\
+			&\le C h^{m+1} \bigg( \| u(0)\|_{H^{m+1}} + \int_0^{t^k} \|\partial_t u(s)|_{H^{m+1}} \bigg).
+		\end{math}
+	\end{proof}
+\end{st}
+
+
+
+
 
