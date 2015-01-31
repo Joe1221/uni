@@ -1,0 +1,62 @@
+\documentclass{myexercise}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+
+\begin{document}
+
+\begin{exercise}[Programmieraufgabe]
+  \begin{enumerate}[a)]
+    \item
+      Siehe \Code{semicircleg.m} und \Code{sectorg.m}.
+    \item
+      Siehe \Code{mypdeplot.m}.
+    \item
+      Siehe \Code{bisect.m} für eine Implementierung des “longest-edge bisection” Algorithmus nach Rivara.
+      Hier werden Dreiecke stets an der längsten Seite halbiert.
+      Um Konsistenz zu wahren, müssen in der Regel mehr Bisektionen durchgeführt werden, als angefordert.
+
+      \Code{bisect2.m} ist eine etwas naïvere Implementierung, arbeitet allerdings vollständig vektoriell.
+      Auch hier werden Dreiecke stets an der längsten Seite halbiert.
+      Es werden nur solche Dreiecke halbiert, welche ihre längste Kante am Rand haben, oder paarweise eine gemeinsame längste Seite besitzen.
+    \item
+      Siehe \Code{visualize.m} und Abbildung \ref{fig:vis}.
+
+      \newlength\fheight
+      \newlength\fwidth
+      \begin{figure}[ht]
+        \setlength\fheight{0.14\textwidth}
+        \setlength\fwidth{0.28\textwidth}
+        \begin{subfigure}[t]{0.32\textwidth}
+	   \input{semicircleg_init.tex}
+	   \caption{\Code{semicircleg}, Initialtriangulierung}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.32\textwidth}
+	   \input{semicircleg_global.tex}
+	   \caption{\Code{semicircleg}, zweifache globale Verfeinerung}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.32\textwidth}
+	   \input{semicircleg_local.tex}
+	   \caption{\Code{semicircleg}, 7-fache lokale Verfeinerung um $(-0.4,0.2)$}
+        \end{subfigure}
+
+        \setlength\fheight{0.28\textwidth}
+        \begin{subfigure}[t]{0.32\textwidth}
+	   \input{sectorg_init.tex}
+	   \caption{\Code{sectorg}, Initialtriangulierung}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.32\textwidth}
+	   \input{sectorg_global.tex}
+	   \caption{\Code{sectorg}, zweifache globale Verfeinerung}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.32\textwidth}
+	   \input{sectorg_local.tex}
+	   \caption{\Code{sectorg}, 7-fache lokale Verfeinerung um $(-0.4,0.2)$}
+        \end{subfigure}
+        \caption{Visualisierungen des Bisektionsalgorithmus}
+        \label{fig:vis}
+      \end{figure}
+  \end{enumerate}
+\end{exercise}
+
+\end{document}
