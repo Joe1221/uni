@@ -176,11 +176,13 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         }
 
         static Polynomial Monom(unsigned int k, unsigned int j = 0) {
-            std::array<unsigned int, dim> exponents;
+            auto exponents = std::array<unsigned int, dim>();
+            exponents.fill(0);
             exponents[j] = k;
-            Monomial<R, dim> monomial(R::One(), exponents);
-            std::list<Monomial<R, dim>> monomials = { monomial };
-            return Polynomial<R, dim>(monomials);
+
+            return Polynomial<R, dim> {
+                Monomial<R, dim>(R::One(), exponents)
+            };
         }
 
         const std::list<Monomial<R, dim>>& monomials () const {
@@ -242,6 +244,7 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         Polynomial<R, dim - 1> stable_eval (const R& a, int j = 0) {
             int n = degree(j);
             for (int k = 0; k <= n; ++k) {
+                //std::cout << "stable_eval iteration, k = " << k << std::endl;
                 Polynomial<R, dim - 1> c = Polynomial<R, dim - 1>::Zero();
                 for (int l = k; l <= n; ++l) {
                     c += binom(l, k) * coefficient(l, j) * pow(a, l - k);

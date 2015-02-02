@@ -62,9 +62,6 @@ std::vector<Polynomial<R, dim>> neg_prem_seq (Polynomial<R, dim> p, Polynomial<R
     while (q.degree() > 0) {
         int d, k = 0;
 
-        std::cout << q * Polynomial<R, dim>::Monom(1) << std::endl;
-        std::cout << q << std::endl;
-        std::cout << Polynomial<R, dim>::Monom(1) << std::endl;
         while ((d = p.degree() - q.degree()) >= 0) {
             p = q.lead() * p - p.lead() * q * Polynomial<R, dim>::Monom(d);
             ++k;

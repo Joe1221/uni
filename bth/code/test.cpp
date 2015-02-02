@@ -34,7 +34,7 @@ int main (int argc, char *argv[]) {
         Monomial<Integer, 2>(-1, {0, 3}),
     };*/
 
-    const unsigned int d = 3;
+    const unsigned int d = 4;
     auto m1 = std::list<Monomial<Integer, d>>();
     auto m2 = std::list<Monomial<Integer, d>>();
 
@@ -60,17 +60,19 @@ int main (int argc, char *argv[]) {
     }
     auto p1 = Polynomial<Integer, d>(m1);
     auto p2 = Polynomial<Integer, d>(m2);
-    auto p3 = Polynomial<Integer, d> { Monomial<Integer, d>(1, {0, 0, 1}) };
+    auto p3 = Polynomial<Integer, d> { Monomial<Integer, d>(1, {0, 0, 1, 0}) };
+    auto p4 = Polynomial<Integer, d> { Monomial<Integer, d>(1, {0, 0, 0, 1}) };
 
     //auto pseq = prem_seq(p1, p2);
 
-    std::array<Polynomial<Integer, d>, 4> Pvec = {
-        Polynomial<Integer, d>::One(), p1, p2, p3
+    std::array<Polynomial<Integer, d>, d + 1> Pvec = {
+        Polynomial<Integer, d>::One(), p1, p2, p3, p4
     };
     std::array<Interval<Integer>, d> Ivec = {
-        Interval<Integer>(-1, 1),
-        Interval<Integer>(-1, 1),
-        Interval<Integer>(-1, 1),
+        Interval<Integer>(-1, 0),
+        Interval<Integer>(-1, 0),
+        Interval<Integer>(-1, 0),
+        Interval<Integer>(-1, 0),
     };
 
     auto index = Index<Integer, Integer, d>(Pvec, Ivec);

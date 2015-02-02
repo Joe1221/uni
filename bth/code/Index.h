@@ -129,7 +129,7 @@ class Index {
             log(recursion_depth, "calculating ", *this , " …");
             //std::cout << std::string(recursion_depth, "> ") << "Computing Index " << *this << std::endl;
 
-            if (p == Polynomial<R, dim>::Zero()) {
+            if (p == Polynomial<R, dim>::Zero() || q == Polynomial<R, dim>::Zero()) {
                 return Rational(0, 1);
             }
 
