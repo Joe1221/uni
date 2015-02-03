@@ -15,6 +15,8 @@ class Index {
         std::array<Polynomial<R, dim>, dim + 1> _pVec;
         std::array<Interval<V>, dim> _iVec;
 
+        bool logging = false;
+
     public:
         Index (std::array<Polynomial<R, dim>, dim + 1> pVec, std::array<Interval<V>, dim> iVec)
                 : _pVec(pVec), _iVec(iVec) { };
@@ -92,8 +94,15 @@ class Index {
         }
 */
 
+        void setLogging (bool logging) {
+            this->logging = logging;
+        }
+
         template<class ... S>
         void log (unsigned int depth, S... tail) {
+            if (!logging)
+                return;
+
             //std::cout << std::string("> ", depth) << "| " << log(tail...) << std::endl;
             std::string indent;
             indent.reserve(2 * depth);
@@ -151,6 +160,8 @@ class Index {
                     }
                     Index<R, R, dim - 1> idxl(lP, other_intervals);
                     Index<R, R, dim - 1> idxr(rP, other_intervals);
+                    idxl.setLogging(logging);
+                    idxr.setLogging(logging);
 
                     if (dim > 1)
                         log(recursion_depth, "∂_", j, "^- = …");

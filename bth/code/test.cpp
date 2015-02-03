@@ -76,6 +76,7 @@ int main (int argc, char *argv[]) {
     };
 
     auto index = Index<Integer, Integer, d>(Pvec, Ivec);
+    index.setLogging(true);
 
     Rational idx = index.calc_idx();
     std::cout << "Calculated index: " << idx << std::endl;
