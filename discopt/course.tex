@@ -1,103 +1,103 @@
 \Timestamp{2015-01-08}
 
 \begin{df}[Vertex Cover]
-	For a given graph $G(V, E)$ a \emphdef{vertex cover} ist a subset $C \subset V$, such that
-	\begin{math}
-		\forall e = \Set{u, v} \in E : C \cap e \neq \emptyset
-	\end{math}
+    For a given graph $G(V, E)$ a \emphdef{vertex cover} ist a subset $C \subset V$, such that
+    \begin{math}
+        \forall e = \Set{u, v} \in E : C \cap e \neq \emptyset
+    \end{math}
 \end{df}
 
 \begin{df}[Vertex Cover Problem]
-	Given a graph $G(V, E)$, the vertex cover problem is to determine a vertex cover $C \subset V$, such that $|C|$ is minimal.
-	\begin{note}
-		\begin{itemize}
-			\item
-				The vertex cover problem is NP-hard.
-			\item
-				The vertex cover problem is a special case of the set cover problem.
-				To see this, let the universe be the set of all edges $U := E$ and the subsets
-				\begin{math}
-					S_v := \Set{e \in E : v \in e} & v \in V,
-				\end{math}
-				i.e. sets of all edges adjacent to vertices $v \in V$.
-		\end{itemize}
-	\end{note}
+    Given a graph $G(V, E)$, the vertex cover problem is to determine a vertex cover $C \subset V$, such that $|C|$ is minimal.
+    \begin{note}
+        \begin{itemize}
+            \item
+                The vertex cover problem is NP-hard.
+            \item
+                The vertex cover problem is a special case of the set cover problem.
+                To see this, let the universe be the set of all edges $U := E$ and the subsets
+                \begin{math}
+                    S_v := \Set{e \in E : v \in e} & v \in V,
+                \end{math}
+                i.e. sets of all edges adjacent to vertices $v \in V$.
+        \end{itemize}
+    \end{note}
 \end{df}
 
 \begin{alg}[Set Cover, Idea] \label{alg:set_cover_lp_rounded}
-	\begin{algorithmic}
-		\State{solve $LP$-relaxation to optimality}
-		\State{choose all sets $S$ with $x_S > 0$}
-	\end{algorithmic}
-	This obviously yields a feasible solution.
+    \begin{algorithmic}
+        \State{solve $LP$-relaxation to optimality}
+        \State{choose all sets $S$ with $x_S > 0$}
+    \end{algorithmic}
+    This obviously yields a feasible solution.
 \end{alg}
 
 \begin{df}[ILP for vertex cover problem]
-	Solve
-	\begin{math}
-		\min \sum_{v \in V} x_V
-		\st
-		\forall e = \Set{v, w} \in E : x_v + x_w \ge 1 \land x_v \in \Set{0, 1}.
-	\end{math}
-	Analogously the LP-relaxation is defined with $x_v \ge 0$.
+    Solve
+    \begin{math}
+        \min \sum_{v \in V} x_V
+        \st
+        \forall e = \Set{v, w} \in E : x_v + x_w \ge 1 \land x_v \in \Set{0, 1}.
+    \end{math}
+    Analogously the LP-relaxation is defined with $x_v \ge 0$.
 \end{df}
 
 \begin{lem}[Half integrality of vertex cover problem solution]
-	The LP-relaxation of the vertex cover problem yields a solution with
-	\begin{math}
-		x_S \in \Set{0, \frac{1}{2}, 1}
-	\end{math}
-	for all sets $S$.
-	\begin{proof}
-		Show that every corner of the polyhedron of the vertex cover LP has coordinates $0, \frac{1}{2}, 1$.
-		Assume $x \in \Q^n, n = |V|$ is a feasible non-half-integral solution to the LP.
-		Define
-		\begin{math}
-			V_+ &:= \Set{v \in V & \frac{1}{2} < x_v < 1} &
-			V_- &:= \Set{v \in V & 0 < x_v < \frac{1}{2}}
-		\end{math}
-		For $\eps > 0$ let
-		\begin{math}
-			y_v &:= \begin{cases}
-				x_v + \eps & v \in V_+ \\
-				x_v - \eps & v \in V_- \\
-				x_v & \text{otherwise}
-			\end{cases}, &
-			z_v &:= \begin{cases}
-				x_v - \eps & v \in V_+ \\
-				x_v + \eps & v \in V_- \\
-				x_v & \text{otherwise}
-			\end{cases}.
-		\end{math}
-		Clearly $x_v, y_v, z_v$ are distinct and $x_v = \frac{1}{2} (y_v + z_v)$.
+    The LP-relaxation of the vertex cover problem yields a solution with
+    \begin{math}
+        x_S \in \Set{0, \frac{1}{2}, 1}
+    \end{math}
+    for all sets $S$.
+    \begin{proof}
+        Show that every corner of the polyhedron of the vertex cover LP has coordinates $0, \frac{1}{2}, 1$.
+        Assume $x \in \Q^n, n = |V|$ is a feasible non-half-integral solution to the LP.
+        Define
+        \begin{math}
+            V_+ &:= \Set{v \in V & \frac{1}{2} < x_v < 1} &
+            V_- &:= \Set{v \in V & 0 < x_v < \frac{1}{2}}
+        \end{math}
+        For $\eps > 0$ let
+        \begin{math}
+            y_v &:= \begin{cases}
+                x_v + \eps & v \in V_+ \\
+                x_v - \eps & v \in V_- \\
+                x_v & \text{otherwise}
+            \end{cases}, &
+            z_v &:= \begin{cases}
+                x_v - \eps & v \in V_+ \\
+                x_v + \eps & v \in V_- \\
+                x_v & \text{otherwise}
+            \end{cases}.
+        \end{math}
+        Clearly $x_v, y_v, z_v$ are distinct and $x_v = \frac{1}{2} (y_v + z_v)$.
 
-		If $y_v, z_v$ are feasible, we have a contradiction to $x_v$ being a corner.
+        If $y_v, z_v$ are feasible, we have a contradiction to $x_v$ being a corner.
 
-		So consider an edge constraint $x_v + x_w \ge 1$ in the case, that $x_v + x_w = 1$ (else $\eps > 0$ could have been chosen small enough for $y_v, z_v$ to be feasible).
-		The following possibilities arise
-		\begin{enumerate}[i)]
-			\item
-				$x_v = 1 \land x_w = 0$,
-			\item
-				$x_v = 0 \land x_w = 1$,
-			\item
-				$x_v = x_w = \frac{1}{2}$,
-			\item
-				$v \in V_+, w \in V_-$,
-			\item
-				$v \in V_-, w \in V_+$.
-		\end{enumerate}
-		in the cases i) to iii) we have $y_v = z_v = x_v, y_w = z_w = x_w$.
-		in the cases iv) and v) $y_v + y_w = x_v + x_w = z_v + z_w$.
-		As such $x$ is feasible.
-	\end{proof}
+        So consider an edge constraint $x_v + x_w \ge 1$ in the case, that $x_v + x_w = 1$ (else $\eps > 0$ could have been chosen small enough for $y_v, z_v$ to be feasible).
+        The following possibilities arise
+        \begin{enumerate}[i)]
+            \item
+                $x_v = 1 \land x_w = 0$,
+            \item
+                $x_v = 0 \land x_w = 1$,
+            \item
+                $x_v = x_w = \frac{1}{2}$,
+            \item
+                $v \in V_+, w \in V_-$,
+            \item
+                $v \in V_-, w \in V_+$.
+        \end{enumerate}
+        in the cases i) to iii) we have $y_v = z_v = x_v, y_w = z_w = x_w$.
+        in the cases iv) and v) $y_v + y_w = x_v + x_w = z_v + z_w$.
+        As such $x$ is feasible.
+    \end{proof}
 \end{lem}
 
 \begin{kor}
-	Algorithm \ref{alg:set_cover_lp_rounded} applied to the set cover problem induced by the vertex cover problem yields a solution at most double the optimal solution.
-	\begin{note}
-		More generally for any covering LP a bounded fractionality of $x_i \ge \frac{1}{f}$ immidiately yields a $f$-approximation.
-	\end{note}
+    Algorithm \ref{alg:set_cover_lp_rounded} applied to the set cover problem induced by the vertex cover problem yields a solution at most double the optimal solution.
+    \begin{note}
+        More generally for any covering LP a bounded fractionality of $x_i \ge \frac{1}{f}$ immidiately yields a $f$-approximation.
+    \end{note}
 \end{kor}
 
 
