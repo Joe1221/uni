@@ -1,1 +1,81 @@
 \chapter{Finite Volumen Verfahren für Erhaltungsgleichungen} \label{chap:5}
+
+Wir betrachten das folgende Cauchy-Problem (AWP) für allgemeine skalare Erhaltungsgleichungen in Divergenzform.
+
+\begin{itemize}
+    \item
+        \begin{math}[numbered] \label{eq:5.1}
+            \partial_t u + \Nabla_x f(u) &= 0  && \text{in $\Omega \times (0,T)$}
+        \end{math}
+        mit $\Omega = \R^d$, $T = \infty$, Flussfunktion $f: \R \to \R$ und Anfangsdaten $u(\argdot, 0) = u_0$ in $\Omega$.
+    \item
+        Bereits in §1 haben wir für die Burgers-Gleichung gesehen:
+        die klassische Lösung existiert im Allgemeinen trotz glatter Anfangsdaten nicht für unendliche Zeiten, da klassische Lösungen entlang Charakteristiken konstant sind, Charakteristiken Geraden sind und sich schneiden können.
+    \item
+        Verallgemeinerungen von \ref{eq:5.1} zu Systemen, Randbedingungen, Quellterme, etc. sind möglich, werden jedoch nicht behandelt, siehe dazu Kröner 97.
+        % fixme: ref, Numerical methods of consvervation laws
+    \item
+        Motivation:
+        Erhaltungseigenschaft:
+        Sei $u$ klassische Lösung, dann gilt für $\hat \Omega \subset \Omega$ beschränktes Lipschitzgebiet
+        \begin{math}
+            \ddx[t] \int_{\hat \Omega} u(x,t) \di[x]
+             = \int_{\hat \Omega} \partial_t u(x,t) \di[x]
+             = \int_{\hat \Omega} - \Nabla_x f(u)
+             = - \int_{\Boundary \hat \Omega} f(x) \cdot n.
+        \end{math}
+        Die Änderung der Größe $u$ besteht aus dem, was aus dem Gebiet herausfließt.
+        Falls $\int_{\Boundary \hat \Omega} f(u) \cdot n = 0$ (z.B. falls $f(0) = 0$ und $u(\argdot, t) \in C_0^0(\Omega), \supp(u(\argdot, t)) \subset \hat \Omega$, so ändert sich $\int_{\hat \Omega} u(\argdot, t)$ nicht, bleibt also erhalten.
+\end{itemize}
+
+\section{Lösungstheorie in 1D}
+
+Wir wählen den Begriff der Distributionslösung als „schwache Lösung“.
+
+\begin{df}[schwache Lösung des AWP] \label{5.1}
+    Sei $u_0 \in L^\infty(\R)$, $f \in C^1(\R)$.
+    Dann heißt $u \in L^\infty(\R \times \R^+)$ \emphdef{schwache Lösung} von \eqref{eq:5.1} genau dann, wenn
+    \begin{math}
+        \int_{\Omega_h} \int_0^T u \partial_t \phi + f(u) \partial_x \phi + \int_{\Omega} u_0 \phi(\argdot, 0)
+        &= 0, && \forall \phi \in C_0^\infty(\Omega \times [0, T)).
+    \end{math}
+    \begin{note}
+        \begin{itemize}
+            \item
+                Der Raum für $\phi$ soll nicht-null-Anfangswerte erlauben, z.B. Definition via
+                \begin{math}
+                    C_0^\infty(\Omega \times [0,T)) := \Set{\phi|_{\Omega \times [0,T)} & \phi \in C_0^\infty(\Omega \times (-\eps, T) }
+                \end{math}
+            \item
+                Wir werden sehen, dass im Allgeimeinen Mehrdeutigkeit bei schwachen Lösungen vorliegt.
+                Für Eindeutigkeit im Lösungsbegriff ist mehr erforderlich.
+            \item
+                Wie in §1 gilt für Distributionslösungen:
+                \begin{itemize}
+                    \item
+                        klassische Lösung des AWP ist auch schwache Lösung,
+                    \item
+                        Falls $u$ schwache Lösung und $u \in C^1(\Omega \times (0,T))$, so ist $u$ auch klassische Lösung.
+                \end{itemize}
+                Man kann charakterisieren, wann eine stückweise klassische Lösung eine schwache Lösung darstellt.
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{st}[Rankin-Hugoniot] \label{5.2}
+    Sei $\Omega \times (0,T)$ für $\Omega = \R$ zerlegt durch eine offene Kurve $S = \Set{(\sigma(t), t) & t \in \R^+}$ in linken und rechten Teil $M_l$, bzw. $M_r$.
+    Sei $u: \Omega \times [0,T) \to \R$ und $u_l := u|_{M_l}$ und $u_r := u|_{M_r} \in C^1(\_{M_r})$ mit $u_l, u_r$ klassische Lösungen auf $\_M_l$, bzw. $\_M_r$.
+
+    Dann gilt ist $u$ eine schwache Lösung genau dann, wenn
+    \begin{math}[numbered] \label{eq:5.3}
+        (u_l - u_r) \sigma' &= f(u_l) - f(u_r), && \text{auf $S$}.
+    \end{math}
+    \begin{note}
+        \begin{itemize}
+            \item
+                \eqref{eq:5.3} heißt „Sprungbedingung“ oder „Rankinee Hugoniot“ Bedingung.
+            \item
+                $s(t) := \sigma'(t)$ nennen wir Geschwindigkeit der Unstetigkeit.
+        \end{itemize}
+    \end{note}
+\end{st}
