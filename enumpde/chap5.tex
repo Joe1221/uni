@@ -36,7 +36,7 @@ Wir wählen den Begriff der Distributionslösung als „schwache Lösung“.
 \begin{df}[schwache Lösung des AWP] \label{5.1}
     Sei $u_0 \in L^\infty(\R)$, $f \in C^1(\R)$.
     Dann heißt $u \in L^\infty(\R \times \R^+)$ \emphdef{schwache Lösung} von \eqref{eq:5.1} genau dann, wenn
-    \begin{math}
+    \begin{math}[numbered] \label{eq:5.2}
         \int_{\Omega_h} \int_0^T u \partial_t \phi + f(u) \partial_x \phi + \int_{\Omega} u_0 \phi(\argdot, 0)
         &= 0, && \forall \phi \in C_0^\infty(\Omega \times [0, T)).
     \end{math}
@@ -79,4 +79,261 @@ Wir wählen den Begriff der Distributionslösung als „schwache Lösung“.
                 $s(t) := \sigma'(t)$ nennen wir Geschwindigkeit der Unstetigkeit.
         \end{itemize}
     \end{note}
+\Timestamp{2015-02-06}
+    \begin{proof}
+        Sei $u$ schwache Lösung von \eqref{eq:5.2}, d.h. für alle $\phi \in C_0^\infty(\Omega)$
+        \begin{math}
+            0 &= \int_\Omega \int_0^T u \partial_t \phi + f(u) \partial_x \phi + \int_\Omega u_0 \phi(\argdot,0) \\
+            \iff 0 &= \underbrace{\int_{M_l} u_l \partial_t \phi + f(u_l) \partial_x \phi}_{=\Vector{f(u_l)&u_l} \cdot \Vector{\partial_x \phi & \partial_t \phi}} \\
+            &\quad+ \int_{M_r} u_r \partial_t \phi + f(u_r) \partial_x \phi + \int_\Omega u_0 \phi(\argdot, 0) \\
+            \iff 0 &= - \int_{M_l} \Vector{\partial_x & \partial_t} \cdot \Vector{f(u_l) & u_l} \phi
+            + \int_0^T \phi \Vector{f(u_l) & u_l} n(t) \\
+            &\quad+ \int_{-\infty}^{\sigma(0)} \phi(\argdot, 0) \underbrace{\Vector{f(u_l) & u_l} n_0}_{=-u_l}
+            - \int_{M_r} \Vector{\partial_x & \partial_t} \cdot \Vector{f(u_r) & u_r} \phi \\
+            &\quad+ \int_0^T \phi \Vector{f(u_r) & u_r} (-n(t))
+            + \int_{\sigma(0)}^{\infty} \phi(\argdot, 0) \underbrace{\Vector{f(u_r) & u_r} n_0}_{=-u_r} \\
+            &\quad+ \int_\Omega u_0 \phi(\argdot, 0) \\
+            \stackrel{\text{$u_r,u_l$ klass. Lös.}}\iff 0 &= \int_0^T \phi \Vector{f(u_l) - f(u_r) & u_l - u_r} \underbrace{n(t)}_{= \Vector{1 & -\sigma'(t)}} \\
+            \iff 0 &= f(u_l) - f(u_r) - (u_l - u_r) \sigma'.
+        \end{math}
+    \end{proof}
 \end{st}
+
+\begin{ex*}[Fehlende Eindeutigkeit]
+    Betrachte die Burgers-Gleichung
+    \begin{math}
+        \partial_t u + \partial_x (\frac{1}{2} u^2) &= 0 && \text{auf $\R \times (0, \infty)$} \\
+        u(\argdot, 0) &= u_0 := \begin{cases}
+            0 & x \le 0 \\
+            1 & x > 0
+        \end{cases}.
+    \end{math}
+    Setze
+    \begin{math}
+        u_1(x,t) &:= \begin{cases}
+            0 & x < \frac{t}{2} \\
+            1 & x \ge \frac{t}{2}.
+        \end{cases}, &
+        u_2(x,t) &:= \begin{cases}
+            0 & x \le 0 \\
+            \frac{x}{t} & 0 \le x < t \\
+            1 & x \ge t
+        \end{cases}.
+    \end{math}
+    Für $u_1$ folgt mit $\sigma(t) = \frac{t}{2}$, dass $u_1$ konstant auf $M_l, M_r$, also $\partial_t u + \partial_x f(u) = 0$.
+    $u_1(x,0) = 0 = u_0$, analog für $u_r$, also sind $u_l, u_r$ klassische Lösungen.
+
+    Die Rankin-Hugoniot-Sprungbedingung gilt:
+    \begin{math}
+        f(u_l) - f(u_r) &= \frac{1}{2} 0^2 - \frac{1}{2} 1^2 = -\frac{1}{2} \\
+        (u_l - u_r) \sigma' &= (0-1) \frac{1}{2} = -\frac{1}{2},
+    \end{math}
+    also ist $u_1$ schwache Lösung mit \ref{5.2}.
+    $u_2$ ist ebenso klassische Lösung auf drei Teilgebiete, z.B. im mittleren Teil:
+    \begin{math}
+        \partial_t(\frac{x}{t}) + \partial_x(\frac{1}{2} (\frac{x}{t})^2)
+        = - \frac{x}{t^2} + \frac{1}{2t^2} 2x = 0.
+    \end{math}
+    Die Rankin-Hugoniot-Bedingung gilt, $\sigma(t) = 0$, denn $u_2$ ist stetig, analog für $\sigma(t) = t$, also ist $u_2$ auch schwache Lösung.
+\end{ex*}
+
+\begin{note}
+    \begin{itemize}
+        \item
+            Man benötigt also noch weitere Bedingungen, um eine eindeutige Lösung zu erhalten.
+            Idee: Bezeichne das zu lösende Problem mit $(P_0)$.
+            Definiere ein modifiziertes Problem $(P_\epsilon)$ mit eindeutiger Lösung $u_\epsilon$ für $\epsilon > 0$ und setze $u := \lim_{\epsilon\to 0} u_\epsilon$.
+        \item
+            Motivation anhand eines LGS:
+            $(P_0)$, gegeben durch
+            \begin{math}
+                x + y &= 0 \\
+                x + y &= 0
+            \end{math}
+            hat unendlich viele Lösungen.
+            Definiere $(P_\epsilon)$ durch
+            \begin{math}
+                x_\epsilon + y_\epsilon &= \epsilon \\
+                x_\epsilon + (1-\epsilon) y_\epsilon &= \epsilon a.
+            \end{math}
+            Dieses Problem hat eine eindeutige Lösung:
+            \begin{math}
+                y_\epsilon &= 1 - a \\
+                x_\epsilon &= \epsilon - 1 + a.
+            \end{math}
+            Durch Grenzwertbildung $(y_\epsilon, x_\epsilon) \to (1 - a, a - 1)$ erhalten wir eine ausgezeichnete Lösung von $(P_0)$.
+        \item
+            Nun ist ein physikalisch relevantes $(P_\epsilon)$ gefragt.
+    \end{itemize}
+\end{note}
+
+\begin{st}[Viskositätslimes] \label{5.3}
+    Sei $\Omega = \R^d, T = \infty$, $u_0 \in L^\infty(\Omega) \cap L^1(\Omega) \cap C^0(\Omega), f \in C^2(\R, \R^d)$, sodass $\|D^2 f\| \le M$.
+    Dann existiert für jedes $\epsilon > 0$ eine eindeutige klasssische Lösung $u_\epsilon$ von
+    \begin{math}
+        \partial_t u_\epsilon + \div_x \cdot f(u) &= \epsilon \Laplace u_\epsilon && \text{in $\Omega \times (0,T)$}, \\
+        u_\epsilon(\argdot, 0) &= u_0
+    \end{math}
+    und $u_\epsilon$ konvergiert fast überall gegen eine Funnktion $u: \Omega \times (0, T)$, welche schwache Lösung von
+    \begin{math}
+        \partial_t u + \div_x \cdot f(u) &= 0 && \text{in $\Omega \times (0,T)$}, \\
+        u(\argdot, 0) &= u_0
+    \end{math}
+    ist.
+    Wir nennen $u$ \emphdef{Viskositätslimes}.
+    \begin{proof}
+        Siehe Kroner, 97, Thm 2.1.7 und dortige Referenz.
+    \end{proof}
+    \begin{note}
+        \begin{itemize}
+            \item
+                Wegen Eindeutigkeit des Grenzwertes ist der Viskositätslimes eindeutig.
+                Gesucht ist eine „nachprüfbare“ Eigenschaft, welche $u$ charakterisiert.
+        \end{itemize}
+    \end{note}
+\end{st}
+
+\begin{df}[Entropiepaar] \label{5.4}
+    Sei $\Omega = \R$, $U, F \in C^2(\R)$, sodass $F' = U' f'$ und $U$ konvex.
+    Dann nennen wir $(U, F)$ ein \emphdef{Entropiepaar} mit \emphdef{Entropie} $U$ und \emphdef{Entropiefluss} $F$ für die Gleichung $\partial_t u + \partial_x f(u) = 0$
+\end{df}
+
+\begin{ex*}
+    \begin{itemize}
+        \item
+            Sei $f$ konvex.
+            Dann ist $U(s) := f(s), F(s) := \int_0^s (f'(r))^2 \di[r]$ ein Entropiepaar, denn $U$ ist konvex und
+            \begin{math}
+                U' f' = f'(s) f'(s) = F'(s).
+            \end{math}
+        \item
+            Allgemeiner: Sei $U$ eine konvexe Funktion, $F(s) := \int_0^s u'(r) f'(r) \di[r]$.
+            Dann ist $(U, F)$ ein Entropiepaar.
+    \end{itemize}
+\end{ex*}
+
+\paragraph{Motivation: Entropiebedingung}
+
+Sei $u_\epsilon \in C^2(\R \times \R^+)$ Lösung von $\partial_t u_\epsilon + \partial_x f(u_\epsilon) = \epsilon \partial_x^2 u_\epsilon$.
+Dann folgt mit der Definition von $u_\epsilon$ und $(U, F)$
+\begin{math}
+    &\partial_t U(u_\epsilon) + \partial_x F(u_\epsilon) - \epsilon \partial_x^2 U(u_\epsilon) \\
+    &\quad= U'(u_\epsilon) \partial_t u_\epsilon + \underbrace{F'(u_\epsilon) \partial_x u_\epsilon}_{=U'(a_\epsilon) f'(u_\epsilon \partial_x u_\epsilon} - \underbrace{\epsilon \partial_x( U'(u_\epsilon) \partial_x u_\epsilon)}_{=U''(u_\epsilon) (\partial_x u_\epsilon)^2 + U'(u_\epsilon) \partial_x^2 u_\epsilon} \\
+    &\quad= U'(u_\epsilon)\underbrace{( \partial_t u_\epsilon + \partial_x f(u_\epsilon) - \epsilon \partial_x^2 u_\epsilon)}_{=0} - \underbrace{\epsilon}_{>0} \underbrace{U''(u_\epsilon)}_{\ge0}\underbrace{(\partial_x u_\epsilon)^2}_{\ge 0} \\
+    &\quad\le 0
+\end{math}
+Für alle $\phi \in C_0^\infty(\R \times (0,T)), \phi \ge 0$ folgt
+\begin{math}
+    \int_\R \int_{\R^+} (-U(u_\epsilon) \partial_t \phi - F(u_\epsilon) \partial_x \phi - \epsilon u(u_\epsilon) \partial_x^2 \phi
+    \le 0
+\end{math}
+Falls (ist beweisbar) $u_\epsilon \to u, U(u_\epsilon) \to U(u), F(u_\epsilon) \to F(u)$ in $L^1$ und $|U(u_\epsilon)| \le \const$ erhalten wir für $\epsilon \to 0$
+\begin{math}
+    \int_\R \int_{\R^+} U(u) \partial_t \phi + F(u) \partial_x \phi \ge 0
+\end{math}
+für alle $\phi \in C_0^\infty(\Omega \times (0,T)), \phi \ge 0$.
+Dies nennen wir „$\partial_t U(u) + \partial_x F(u) \le 0$“ im distributionellen Sinne, oder \emphdef{Entropieungleichung}.
+
+\begin{df}[Entropielösung] \label{5.5}
+    Eine schwache Lösung $u$ von \ref{5.2} heißt \emphdef{Entropielösung}, falls für alle Entropiepaare $(U, F)$ gilt:
+    \begin{math}[numbered] \label{eq:5.4}
+        \int_\R \int_{\R^+} U(u) \partial_t \phi + F(u) \partial_x \phi + \int_\R u(u_0) \phi(\argdot, 0) \ge 0
+    \end{math}
+    für alle $\phi \in C_0^\infty(\R \times [0,T)), \phi \ge 0$.
+    \begin{note}
+        \begin{itemize}
+            \item
+                Man kann zeigen, dass die Entropielösung eindeutig ist.
+            \item
+                Für schwache Lösungen, welche entlang einer Kurve $S$ unstetig sint, stellt die Lax-Entropiebedingung ein konkret nachprüfbares Kriterium dar.
+                Es ist für $f$ konvex sogar äquivalent zu \ref{eq:5.4}.
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{st}[Lax-Entropiebedingung] \label{5.6}
+    Sei $f'' \ge 0$ (also $f$ konvex), $u$ schwache Lösung mit Unstetigkeit entlang einer Kurve $S = \Set{(\sigma(t), t) & t \in (0,T) }$ und klassische Lösung auf den Teilgebieten.
+    Sei $(U, F)$ ein Entropiepaar und $u$ erfülle \eqref{eq:5.4}.
+    Dann gilt entlang $S$
+    \begin{math}
+        f'(u_l) &> s > f'(u_r), && s := \sigma'(t).
+    \end{math}
+    Wir nennen $S$ einen \emphdef{Schock} und $s := \frac{f(u_l) - f(u_r)}{u_l - u_r}$ die \emphdef{Schockgeschwindigkeit}.
+    \begin{note}
+        Siehe Thm 2.1.12 in Kroner. % fixme: ref
+    \end{note}
+    \begin{note}[Anschauung]
+        \begin{itemize}
+            \item
+                Charakteristiken müssen in eine Unstetigkeit hineinlaufen, nicht hinaus.
+                % fixme: Bild
+            \item
+                Für konvexe Flussfunktion $f$.
+                % fixme: Bild
+                $u_l < u_r$ erfüllt nicht die Lax-Entropie-Bedingung, für $u_r < u_l$ schon.
+                Eine Lösunug kann über einen Schock also nur abnehmen.
+
+                Betrachte das Beispiel zur fehlenden Eindeutigkeit, $f(u) = \frac{1}{2} u^2$.
+                $u_1$ ist schwache Lösung, aber keine Entropielösung.
+
+                Bei geänderte Anfangsbedingung $u_0 = \Ind_{\R_{\le 0}}$ ist die Lösung $u_3(x,t) = \Ind_{x < \frac{t}{2}}$.
+                Die Rankin-Hugoniot-Sprungbedingung ist erfüllt: $f(u_l) - f(u_r) = \frac{1}{2}, (u_l - u_r) \sigma' = \frac{1}{2}$ also ist $u_3$ schwache Lösung.
+                Wegen
+                \begin{math}
+                    f'(u_l) = 1 > \frac{1}{2} = s > 0 = f'(u_r)
+                \end{math}
+                ist die Lax-Entropiebedungung erfüllt und $u_3$ ist Entropielösung.
+        \end{itemize}
+    \end{note}
+\end{st}
+
+
+\section{Finite-Volumenverfahren in 1D}
+
+\begin{itemize}
+    \item
+        Sei $\Omega = \R, \Delta x \in \R^+, x_i := i \Delta x, 2i \in \Z, h := \Delta X$.
+        Sei $\scr T_h := \Set{(x_{i-\frac{1}{2}}, x_{i + \frac{1}{2}}) & i \in \Z}$ uniforme Zerlegung von $\Omega$.
+    \item
+        Ziel ist eine Approximation der Entropielösung $u(x,t)$ von $\eqref{eq:5.1}$ in einem Orts-Ansatzraum stückweise konstantere Funktionen.
+        \begin{math}
+            V_h := \Set{v: \Omega \to \R & v = \sum_{i\in\Z} v_i \Ind_{(x_{i-\frac{1}{2}}, x_{i+\frac{1}{2}})}, v_i \in \R}
+        \end{math}
+        mit Indikatorfunktion $\Ind_A$ von $A \subset \R$ zu diskreten Zeiten $0 = t^0 < t^1 < \dotsb < t^K = T$ mit $t^k = \Delta t k$.
+    \item
+        Gesucht ist $u_h = \Set{u_h^k}_{k=0}^K \in V_h^{k+1}$ mit $u_i^k := u_h^k(x_i) \approx(x_i, t^k)$.
+    \item
+        Die Idee des Verfahrens beruht auf das Erhaltungsprinzip.
+        Betrachet das Rechteck (oder Referenzvolumen, Finite Volumen)
+        \begin{math}
+            V := (x_{i-\frac{1}{2}}, x_{i+\frac{1}{2}}) \times (t^k, t^{k+1}).
+        \end{math}
+        Integration der PDE über $V$:
+        \begin{math}
+            0 &= \int_V \partial_t u + \partial_x f(u)
+            = \int_V \Vector{\partial_x & \partial_t} \Vector{f(u) & u}
+            = \int_{\partial V} \Vector{f(u) & u} \cdot n \\
+            &= \int_{t^k}{t^{k+1}} f(u(x_{i+\frac{1}{2}}, t)) \di[t] -
+\int_{t^k}{t^{k+1}} f(u(x_{i-\frac{1}{2}}, t)) \di[t] \\
+&\quad + \underbrace{\int_{x_{i-\frac{1}{2}}}{x_{i+\frac{1}{2}}} f(u(x, t^{k+1})) \di[t]}_{\approx \Delta x u_i^{k+1}} -
+\underbrace{\int_{x_{i-\frac{1}{2}}}{x_{i+\frac{1}{2}}} f(u(x, t^{k})) \di[t]}_{\approx \Delta x u_i^k}
+        \end{math}
+        Der Fluss $f(u(x_{i+\frac{1}{2}},t))$ wird approximiert durch eine \emphdef{numerische Flussfunktion} $g: \R \times \R \to \R$, welche nur von den $u$-Werten links und rechts von $x_{i+\frac{1}{2}}$ abhängen:
+        \begin{math}
+            f(u(x_{i+\frac{1}{2}},t)) \approx g(\underbrace{u(x_i,t)}_{\approx u_i^k}, \underbrace{u(x_{i+1}, t)}_{\approx u_{i+1}^k}).
+        \end{math}
+        Damit approximieren wir z.B. mittels Vorwärts-Rechtecksintegration:
+        \begin{math}
+            \int_{t^k}{t^{k+1}} f(u(x_{i+\frac{1}{2}}, t)) \approx \Delta t g(u_i^k, u_{i+1}^k) =: g_{i+\frac{1}{2}}^k,
+        \end{math}
+        analog für das zweite Integral.
+        \begin{math}
+            0 = \Delta t (g_{i+\frac{1}{2}}^k - g_{i-\frac{1}{2}}^k) + \Delta x(u_i^{k+1} - u_i^k).
+        \end{math}
+\end{itemize}
+
+
+
+
+
+
