@@ -332,8 +332,291 @@ Dies nennen wir „$\partial_t U(u) + \partial_x F(u) \le 0$“ im distributione
         \end{math}
 \end{itemize}
 
+\Timestamp{2015-02-10}
+
+\begin{df}[FV-Verfahren, 1D] \label{5.7}
+    Sei $u_0 \in L^1(\R), g \in C^0(\R^2, \R)$ und $\scr T_h$ Zerlegung von $\Omega = \R, t^k := \Delta t k$, $k= 0, \dotsc, K$.
+    Dann ist $u_h^k = \sum_{i\in\Z} u_i^k \Ind_{(x_{i-\f 12}, x_{i+\f 12})}$ mit
+    \begin{math}
+        u_i^0 &:= \frac{1}{\Delta x} \int_{x_{i-\frac{1}{2}}}^{x_{i+\frac{1}{2}}} u_0(x) \di[x],
+        u_i^{k+1} &:= u_i^k - \frac{\Delta t}{\Delta x} (g_{i+\frac{1}{2}} - g_{i-\frac{1}{2}}^k)
+    \end{math}
+    für $g_{i+\frac{1}{2}}^k := g(u_i^k, u_{i+1}^k)$ die \emphdef{FV-Approximation} von \eqref{5.1}.
+    \begin{note}
+        \begin{itemize}
+            \item
+                Obige Definition ist ein explizites FV-Verfahren.
+            \item
+                Falls bei Fluss-Approximation „Rückwärts-Rechtecks-Regel“ gewählt wird:
+                \begin{math}
+                    \int_{t^k}^{t^{k+1}} f(u(x_{i+\frac{1}{2},t})) \di[t]
+                    \approx \Delta t g(u_i^{k+1}, u_{i+1}^{k+1}),
+                \end{math}
+                so erhalten wir ein implizites FV-Verfahren.
+            \item
+                Erweiterung auf nicht-uniforme Gitter, nichtkonstante Zeitschrittweiten oder unstruckturierte Gitter in 2D oder 3D ist einfach (ganz analog, im Gegensatz zu FD).
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{df}[Spezielle Numerische Flüsse Ⅰ] \label{5.8}
+    Wir definieren
+    \begin{itemize}
+        \item
+            $g(u,v) = f(u)$, \emphdef{Rückwärts-Differenz}, \emphdef{Upwind-Fluss},
+        \item
+            $g(u,v) = f(v)$, \emphdef{Vorwärts-Differenz}, \emphdef{Downwind-Fluss},
+        \item
+            $g(u,v) = \frac{1}{2}(f(u) + f(v))$, \emphdef{zentrale Differenz}.
+    \end{itemize}
+    \begin{note}
+        \begin{itemize}
+            \item
+                Das FV-Verfahren für die Rückwärts-Differenz lautet
+                \begin{math}
+                    u_i^{k+1} = u_i^k - \frac{\Delta t}{\Delta x} (f(u_i^k) - f(u_{i-1}^k)),
+                \end{math}
+                entspricht also tatsächlich einer FD-Approximation
+                \begin{math}
+                    \partial_x f(u)(x_i) \approx \frac{f(u_i^k) - f(u_{i-1}^k}{\Delta x}.
+                \end{math}
+            \item
+                Solche einfachen Flüsse sind nur bedingt sinnvoll:
+                In \ref{chap:2} haben wir bereits gesehen: zentrale Differenzen mit Advektion ist nicht stabil.
+            \item
+                Am Beispiel der Burgers-Gleichung kann man sehen, dass zentrale Differenzen, auch falls stabil, nicht unbedingt die Entropie-Lösung approximieren, sondern eine andere schwache Lösung.
+
+                Sei $f(u) = \frac{1}{2} u^2, g(u,v) := \frac{1}{2}(f(u) + f(v))$,
+                \begin{math}
+                    u_0(x) = \begin{cases}
+                        -1 & x < - \frac{\Delta x}{2} \\
+                        1 & x \ge - \frac{\Delta x}{2}
+                    \end{cases}.
+                \end{math}
+                Es folgt damit
+                \begin{math}
+                    u_i^0 = \begin{cases}
+                        -1 & i < 0 \\
+                        1 & i \ge 0
+                    \end{cases}.
+                \end{math}
+                Es gilt
+                \begin{math}
+                    g(1,1) &= \frac{1}{2}(f(1) + f(1)) = \frac{1}{2}(\frac{1}{2} + \frac{1}{2}) = \frac{1}{2}, \\
+                    g(-1,-1) &= \frac{1}{2}, \\
+                    g(-1,1) &= \frac{1}{2},
+                \end{math}
+                also
+                \begin{math}
+                    u_i^{k+1} = u_i^k - \frac{\Delta t}{\Delta x} (\underbrace{g(u_i^k, u_{i+1}^k)}_{=\frac{1}{2}} - \underbrace{g(u_{i-1}^k, u_i^k)}_{=\frac{1}{2}}) = u_i^k.
+                \end{math}
+                Damit ist $u_i^k = u_i^0$ für $k = 0, \dotsc, K$ ist FV-Approxiamiton.
+                Wir wissen, dass
+                \begin{math}
+                    u(x,t) = \begin{cases}
+                        -1 & x < -\frac{\Delta x}{2} \\
+                        1 & x \ge -\frac{\Delta x}{2}
+                    \end{cases}.
+                \end{math}
+                schwache Lösung ist (Runkin-Hugoniot ist erfüllt), aber keine Entropielösung, denn die Lax-Entropiebedingunge ist veletzt.
+            \item
+                Bei anderen Problemen kann die Entropielösung exakt approximiert werden:
+                betrachte dazu den Upwind-Fluss mit Advektion:
+                sei $f(u) = au$, $a > 0$ mit PDE $\partial_t u + a \partial_x u = 0$.
+                Wir wissen aus \ref{chap:1}:
+                zu $u_0 \in C^1(\R)$ ist
+                \begin{math}
+                    u(x,t) = u_0(x-at)
+                \end{math}
+                eindeutige klassische Lösung, also auch Entropielösung.
+                Hier ist der Upwind-Fluss das Richtige.
+                Sei $g(u,v) = f(u) = au, \Delta t = \frac{1}{a} \Delta x$, dann ergibt sich
+                \begin{math}
+                    u_i^{k+1} &= u_i^k - \frac{\Delta t}{\Delta x} (f(u_i^k) - f(u_{i-1}^k)) \\
+                    &= u_i^k - \frac{1}{a} (a u_i^k - a u_{i-1}^k) \\
+                    &= u_i^k - u_i^k + u_{i-1}^k \\
+                    &= u_{i-1}^k.
+                \end{math}
+                Falls $u_0(x_i) = u_i^0$ (z.B. falls $u_0$ stückweise konstant) folgt per Induktion
+                \begin{math}
+                    u_i^k
+                    = u_0(u_i - at^k)
+                    = u(x_i, t^k),
+                \end{math}
+                also eine exakte Approximation.
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{df}[Spezielle Numerische Flüsse, Ⅱ] \label{5.9}
+    Wir definieren den \emphdef{Lax-Friedrichs-Fluss}
+    \begin{math}
+        g(u,v)
+        = \frac{1}{2}(f(u) + f(v)) + \frac{1}{2\lambda}(u-v), && \lambda = \frac{\Delta t}{\Delta x},
+    \end{math}
+    den \emphdef{Engquist-Osher-Fluss}
+    \begin{math}
+        g(u,v) &:= f^+(x) + f^-(v), \\
+        f^+(u) &:= f(0) + \int_0^y \max \{f'(s), 0\} \di[s], \\
+        f^-(u) &:= \int_0^y \min \{f'(s), 0\} \di[s].
+    \end{math}
+    \begin{note}
+        \begin{itemize}
+            \item
+                Für den Lax-Friedrich-Fluss lautet das FV-Verfahren
+                \begin{math}
+                    u_i^{k+1} = u_i^k - \frac{\Delta t}{2\Delta x} (f(u_{i+1}^k) - f(u_{i-1}^k)) + \frac{1}{2}(u_{i+1}^k - 2u_i^k + u_{i-1}).
+                \end{math}
+                Der Ausdruck besteht aus einer zentralen Differenz als Approximation von $\partial_x f(u)$ und einen zusätzlichen Term, den wirr als (skalierte) Approximation von $\partial_x^2 u$ kennen (vgl. \ref{chap:2}).
+                Diesen letzten Term nennen wir \emphdef{numerische Viskosität} oder \emphdef{numerische Dämpfung}, er spielet dieselbe Rolle, wie $\epsilon \partial_x^2 u$ im Viskositätslimes und garantiert, dass $u_h$ gegen die Entropielösung konvergiert, Bewies folgt.
+            \item
+                Zum Engquist-Osher-Fluss: es wird je nach Richtung des Transportes ein Upwind- oder ein Downwind-Fluss gewählt:
+                Betrachte die Burgers-Gleichung, $f(u) = \frac{1}{2} u^2, f'(u) = u$.
+                Falls $u,v > 0$:
+                \begin{math}
+                    f^+(u) &= 0 + \int_0^u s \di[s] = \frac{1}{2} u^2 = f(u), &
+                    f^-(u) &= \int_0^v 0 \di[s] = 0,
+                \end{math}
+                also $g(u,v) = f^+(u) + f^-(u) = f(u)$, ein Upwind-Fluss.
+                Falls $u,v < 0$ ergibt sich
+                \begin{math}
+                    f^+(u) &= 0, &
+                    f^-(u) &= \int_0^v s \di[s] = \frac{1}{2} v^2 = f(v),
+                \end{math}
+                also $g(u,v) = f(v)$, ein Downwind-Fluss.
+            \item
+                Wir nennen $g(\argdot, \argdot)$ einen \emphdef[konsistenter Fluss]{konsistenten Fluss}, falls $g(u,u) = f(u)$ für alle $u$.
+                Alle Flüsse aus \ref{5.8}, \ref{5.9} sind konsistent.
+        \end{itemize}
+    \end{note}
+\end{df}
 
 
+\begin{st}[Erhaltungseigenschaft] \label{5.10}
+    Das FV-Verfahren ist erhaltend, d.h. für $u_0 \in L^1(\R)$ gilt
+    \begin{math}
+        \int_\R u_h^k(x) \di[x] = \int_\R u_0(x) \di[x]
+    \end{math}
+    für $k = 0, \dotsc, K$.
+    \begin{proof}
+        Für $k = 0, \dotsc, K$
+        \begin{math}
+            \int_\R u_h^k(u) \di[x]
+            &= \int_\R \sum_{i\in\Z} u_i^k \Ind_{(x_{i-\frac{1}{2}}, x_{i+\frac{1}{2}})}(x) \di[x] \\
+            &= \sum_{i\in\Z} u_i^k \underbrace{\int_\R \Ind_{(x_{i-\frac{1}{2}}, x_{i+\frac{1}{2}})}(x) \di[x]}_{=\Delta x} \\
+            &= \Delta x \sum_{i\in \Z} u_i^k
+        \end{math}
+        Für $k = 0$ gilt nach Definition
+        \begin{math}
+            \int_\R u_h^0 = \Delta x \sum_{i\in\Z} u_i^0
+            = \sum_{i\in\Z} \int_{x_{i-\frac{1}{2}}}^{x_{i+\frac{1}{2}}} u_0(x)
+            = \int_\R u_0(x) \di[x].
+        \end{math}
+        Für $k = 0, \dotsc, K -1$ gilt
+        \begin{math}
+            \int_\R u_h^{k+1}(x) \di[x]
+            &= \Delta x \sum_{i\in\Z} u_i^{k+1} \\
+            &= \Delta x \sum_{i\in\Z} u_i^k \underbrace{- \Delta t \sum_{i\in\Z} g(u_i^k, u_{i+1}^k) + \Delta t \sim_{i\in\Z} g(u_{i-1}^k, u_i^k)}_{=0} \\
+            &= \int_\R u_h^k(x) \di[x].
+        \end{math}
+        Somit folgt die Behauptung per Induktion.
+    \end{proof}
+\end{st}
 
+\begin{st}[Konsistenz] \label{5.11}
+    Sei $g$ konsistenter numerischer Fluss, $g \in C^2$ mit $\|\partial^3 g\| \le C$, $u \in C^2$ klassische Lösung von \eqref{5.1} mit $\|\partial^3 u\| \le C$ für $0 \le |\beta| \le 2$.
+    Sei $Q_i^k: C^2(\R \times \R^+) \to \R$ definiert durch
+    \begin{math}
+        Q_i^k v := v(x_i, t^k) - \frac{\Delta t}{\Delta x} \Big(g\big(v(x_i,t^k), v(x_{i+1}, t^k)\big) - g\big(v(x_{i-1}, t^k), v(x_i, t^k)\big)\Big).
+    \end{math}
+    Sei $\Delta t \le \alpha \Delta x$ für ein $\alpha > 0$.
+    Dann gilt für den lokalen Abschneidefehler $L_i^k := \frac{1}{\Delta t} (u_{x_i}, t^{k+1}) - Q_i^k u)$
+    \begin{math}
+        |L_i^k| \le C (\Delta x + \Delta t),
+    \end{math}
+    das Verfahren ist also konsisten von Ordnung 1.
+    \begin{proof}
+        Analog zu \ref{chap:2}, oder siehe Kröner, Lemma 2.2.4.
+        %fixme: ref
+    \end{proof}
+    \begin{note}
+        \begin{itemize}
+            \item
+                Man kannn zeigen: falls $u$ glatte Lösung von
+                \begin{math}
+                    \partial_t u + \partial_x f(u) = \Delta x \partial_x (b(u) \partial_x u)
+                \end{math}
+                mit $b(u) = \frac{1}{2} (\partial_1 g(u,u) - \partial_2 g(u,u) - \frac{\Delta t}{\Delta x} f'(u)^2)$, dann ist das FV-Verfahren konsisten mit Ordnung 2,
+                \begin{math}
+                    |L_i^k| \le C(\Delta x^2 + \Delta t^2),
+                \end{math}
+                d.h. falls $b(u) \ge 0$, dann kann die rechte Seite als Diffusion aufgefasst werden.
+                Mit $\Delta x \to 0$ verschwindet die rechte Seite, somit imitiert das FV-Verfahren den Viskositätslimes und es kann Konvergenz gegen Entropielösung erwartet werden.
+        \end{itemize}
+    \end{note}
+\end{st}
 
+Wir wollen jetzt Konvergenz gegen eine schwache Lösung, bzw. gegen eine Entropielösung untersuchen.
+Dazu seien $(h_m)_{m\in\N}, (k_m)_{m\in\N}$ Nullfolgen mit $\frac{h_m}{k_m} = \const$.
+Für $m \in \N$ setze $\Delta x := h_m$, $\Delta t := k_m$ und setze die FV-Approximation stückweise konstant fort auf $\R \times \R^+$ via
+\begin{math}
+    u_m(x,t) := \sum_{i,k} u_i^k \Ind_{[x_{i-\frac{1}{2}}, x_{i+\frac{1}{2}})}(x) \Ind_{[t^k, t^{k+1})}(t)
+\end{math}
 
+\begin{df}[Diskrete Entropiebedingung] \label{5.12}
+    Sei $(U, F)$ ein Entropiepaar und $G \in C^0(\R^2)$ konsistenter numerischer Entropiefluss, d.h. $G(u,u) = F(u)$.
+    Die FV-Approximation erfüllt die \emphdef{diskrete Entropiebedingung} genau dann, wenn
+    \begin{math}[numbered] \label{eq:5.6}
+        U(u_i^{k+1}) - U(u_i^k)
+        \le -\frac{\Delta t}{\Delta x} (G_{i+\frac{1}{2}}^k - G_{i-\frac{1}{2}}^k),
+    \end{math}
+    für $G_{i+\frac{1}{2}}^k := G(u_i^k, u_{i+1}^k)$.
+
+    Das Verfahren heißt \emphdef{konsistent} mit der Entropiebedingung falls \eqref{eq:5.6} für alle $(U,F)$ und $\Delta t, \Delta x \to 0$ gilt.
+\end{df}
+
+\begin{df}[Totalvariation] \label{5.13}
+    Für $f: [a,b] \to \R$ ist die \emphdef{Totalvariation} definiert durch
+    \begin{math}
+        \TV_{[a,b]}(f) := \sup_{\substack{a=z_0 < \dotsc < z_n = b \\ n \in \N}} \sum_{i=0}^{n-1} |f(z_{i+1} - f(z_i)|.
+    \end{math}
+    \begin{note}
+        \begin{itemize}
+            \item
+                Für $f$ monoton wachsend gilt da $|f(z_{i+1} - f(z_i)| = f(z_{i+1} - f(z_i)$
+                \begin{math}
+                    \TV_{[a,b]}(f) = f(b) - f(a).
+                \end{math}
+            \item
+                für diskrete Fuktion $u_h^k$ (stückweise konstant) ist
+                \begin{math}
+                    \TV_{[a,b]}(u_h^k) = \sum_{i\in I} |u_{i+1}^k - u_i^k|
+                \end{math}
+                mit
+                \begin{math}
+                    I := \Set{i \in \Z & x_i \in (a+\frac{\Delta x}{2}, b - \frac{3}{2} \Delta x)}.
+                \end{math}
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{st}[Hinreichende Bedingung zur Konvergenz] \label{5.14}
+    Sei $u_0 \in L^1(\R) \cap L^\infty(\R)$, $(u_m)_{m\in \N}$ eine Folge von stückweise konstanten FV-Approximationen zu $\Delta x = h_m, \Delta t = k_m$.
+    Sei $T > 0$ und $[a,b]$ so dass $\supp u_0 \subset [a,b]$ und $\supp u_h^k \subset [a,b]$ für alle $k = 0, \dotsc, K$, wobei $K := \floor{\frac{T}{\Delta t}}$.
+
+    Falls
+    \begin{enumerate}[i)]
+        \item
+            $g \in C^0(\R^2)$ konsisten und Lipschitz-stetig,
+        \item
+            $\sup_{x\in [a,b]} |u_m(x,t^k)| \le M_0$ für alle $m, k$,
+        \item
+            $\TV_{[a,b]} |u_m(\argdot, t)| \le M_1$ für alle $m, k$,
+    \end{enumerate}
+    dann existiert eine Teilfolge $(u_m')_{m\in\N}$ und ein $u \in L^1(\R \times [0,T])$ mit $u_m \to u$ in $L^1_{\text{locc}}(\R \times [0,T])$ und $u$ ist schwache Lösung.
+
+    Ist das Verfahren weiter konsistent mit Entropiebedingung, so ist $u$ eindeutige Entropielösung.
+    \begin{proof}
+        Sie Kröner 2.3.9.
+    \end{proof}
+\end{st}
