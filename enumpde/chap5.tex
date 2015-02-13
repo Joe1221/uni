@@ -516,7 +516,7 @@ Dies nennen wir „$\partial_t U(u) + \partial_x F(u) \le 0$“ im distributione
         \begin{math}
             \int_\R u_h^{k+1}(x) \di[x]
             &= \Delta x \sum_{i\in\Z} u_i^{k+1} \\
-            &= \Delta x \sum_{i\in\Z} u_i^k \underbrace{- \Delta t \sum_{i\in\Z} g(u_i^k, u_{i+1}^k) + \Delta t \sim_{i\in\Z} g(u_{i-1}^k, u_i^k)}_{=0} \\
+            &= \Delta x \sum_{i\in\Z} u_i^k \underbrace{- \Delta t \sum_{i\in\Z} g(u_i^k, u_{i+1}^k) + \Delta t \sum_{i\in\Z} g(u_{i-1}^k, u_i^k)}_{=0} \\
             &= \int_\R u_h^k(x) \di[x].
         \end{math}
         Somit folgt die Behauptung per Induktion.
@@ -617,6 +617,263 @@ Für $m \in \N$ setze $\Delta x := h_m$, $\Delta t := k_m$ und setze die FV-Appr
 
     Ist das Verfahren weiter konsistent mit Entropiebedingung, so ist $u$ eindeutige Entropielösung.
     \begin{proof}
-        Sie Kröner 2.3.9.
+        Siehe Kröner 2.3.9.
     \end{proof}
 \end{st}
+
+\Timestamp{2015-02-13}
+
+\begin{df}[Monotone Verfahren] \label{5.15}
+    Das Verfahren
+    \begin{math}
+        u_i^{k+1}
+        := H(\dotsc, u_{i-1}^k, u_i^k, u_{i+1}^k, \dotsc)
+    \end{math}
+    heißt \emphdef{monoton}, falls $H$ monoton steigend in allen Argumenten ist.
+\end{df}
+
+\begin{st}[Monotonie für Lax Friedrich und Engquist Osher] \label{5.16}
+    Ein FV-Verfahren mit $g \in C^1(\R^2)$ ist monoton genau dann, wenn
+    \begin{enumerate}[i)]
+        \item
+            $g(u,v)$ monoton wachsend bezüglich $u$ und monoton fallend bezüglich $v$, d.h. für alle $u,v$
+            \begin{math}
+                \partial_1 g(u,v) &\ge 0,
+                \partial_2 g(u,v) &\le 0.
+            \end{math}
+        \item
+            Für alle $u,v,w$ gilt $1 - \frac{\Delta t}{\Delta x} (\partial_1 g(u,v) - \partial_2 g(v,w)) \ge 0$.
+    \end{enumerate}
+    Insbesondere liefern der Lax-Friedrich- und Engquist-Osher-Fluss ein monotones Verfahren, falls
+    \begin{math}
+        \Delta t \le C_{\text{CFL}} \Delta x,
+    \end{math}
+    wobei $C_{\text{CFL}} := \frac{1}{2 L}$ mit Lipschitzkonstante $L$ von $g$.
+    \begin{proof}
+        %Es gilt für die Iteration
+        %\begin{math}
+        %    u_i^{k+1}
+        %    &= u_i^k - \frac{\Delta t}{\Delta x}(g(u_i^k, u_{i+1}^k) - g(u_{i-1}^k, u_i^k)) \\
+        %    &= u_i^k - \frac{\Delta t}{\Delta x}(g(u_i^k, u_i^k) + (u_{i+1}^k - u_i^k) \partial_2 g(u_i^k, \xi) - g(u_i^k, u_i^k - (u_{i-1}^k - u_i^k) \partial_1 g(\_\xi, u_i^k))) \\
+        %    &= \Big(1 + \frac{\Delta t}{\Delta x} \partial_2 g(u_i^k, \xi) - \frac{\Delta t}{\Delta x} \partial_1 g(\_\xi, u_i^k)\Big) u_i^k - \frac{\Delta t}{\Delta x} \partial_2 g(u_i^k, \xi) u_{i+1}^k + \frac{\Delta t}{\Delta x} \partial_1 g(\_\xi, u_i^k) u_{i-1}^k \\
+        %    &=:H(u_{i-1}^k, u_i^k, u_{i+1}^k)
+        %\end{math}
+        %Folglich ist $H$ monoton wachsend, wenn die geforderten Bedingungen erfüllt sind.
+        %Andere Richtung via Gegenannahme: gilt i) oder ii) nicht, finde $u_i^k, u_{i+1}^k, u_{i-1}^k$, sodass $H$ nicht monoton in $(u_{i-1}^k, u_i^k, u_{i-1}^k)$ ist.
+
+        Alternativ (vermutlich klarer): zeige $\pddx[u_i^k] H \ge 0$ mit $H$ aus dem FV-Verfahren.
+
+        Zu Lax-Friedrich:
+        \begin{math}
+            g(u,v) &:= \frac{1}{2}(f(u) + f(v)) + \frac{1}{2 \lambda} (u - v), &
+            \lambda &= \frac{\Delta t}{\Delta x}.
+        \end{math}
+        Sei $\Delta t \le C_{\text{CFL}} \Delta x$, d.h. $\lambda \le C_{\text{CFL}}$ mit $C_{\text{CFL}} = \frac{1}{2L}$.
+        Wegen $f'(w) = \ddx[w]f(w) = \ddx[w] g(w,w) = \partial_1 g(w,w) + \partial_2 g(w,w)$ gilt
+        \begin{math}
+            |f'(w)| \le |\partial_1 g(w,w)| + |\partial_2 g(w,w)|
+            \le 2 L.
+        \end{math}
+        Damit gilt
+        \begin{math}
+            \partial_1 g(u,v) &= \frac{1}{2} f'(u) + \frac{1}{2\lambda} \\
+            &\ge - \frac{1}{2}|f'(u)| + \frac{1}{2\lambda} \\
+            &\ge - \frac{1}{2}\max_{w}|f'(w)| + \frac{1}{2\lambda} \\
+            &\ge - L + \frac{1}{2\lambda} \\
+            &\ge - L + \frac{1}{2C_{\text{CFL}}} \\
+            &\ge 0.
+        \end{math}
+        Analog zeigt man $\partial_2 g(u,v) \le 0$.
+        Weiter ist
+        \begin{math}
+            1 - \frac{\Delta t}{\Delta x} (\partial_1 g(u,v) - \partial_2 g(v,w))
+            &= 1 - \lambda \partial_1 g(u,v) + \lambda \partial_2 g(v,w) \\
+            &\ge 1 - \lambda \big( |\partial_1 g(u,v)| + |\partial_2 g(u,v)| \big) \\
+            &\ge 1 - 2 \lambda L \\
+            &\ge 0.
+        \end{math}
+        Die Bedingungen i) und ii) sind also für Lax-Friedrich erfüllt.
+
+        Die Bedingungen lassen sich auch für Engquist-Osher zeigen.
+    \end{proof}
+    \begin{note}
+        Falls $g$ nicht differenzierbar, so lässt sich Monotonie auch über FD-Quotienten charakterisieren, d.h. das Verfahren ist monoton genau dann, wenn
+        \begin{enumerate}[i)]
+            \item
+                für alle $u,v$
+                \begin{math}
+                    \frac{g(u,v) - g(\_u, v)}{u - \_u} &\ge 0, &
+                    \frac{g(u,v) - g(u, \_v)}{v - \_v} &\le 0
+                \end{math}
+            \item
+                für alle $u,v,w$
+                \begin{math}
+                    1 - \frac{\Delta t}{\Delta x} \Big( \frac{g(u,v) - g(\_u, v)}{u - \_u} - \frac{g(v,w) - g(v,\_w)}{w - \_w} \Big) \ge 0
+                \end{math}
+        \end{enumerate}
+    \end{note}
+\end{st}
+
+\begin{st}[$L^\infty$-Stabilität] \label{5.17}
+    Für monotone FV-Verfahren und $u_0 \in L^\infty(\R)$ gilt mit $\Delta t \le C_{\text{CFL}} \Delta x$, $C_{\text{CFL}} = \frac{1}{2L}$.
+    \begin{math}
+        \|u_h^k\|_{L^\infty}
+        \le \|u_0\|_{\infty}.
+    \end{math}
+    \begin{proof}
+        Nutze Induktion:
+        Für $k = 0$ gilt
+        \begin{math}
+            |u_i^0| = \Big| \frac{1}{\Delta x} \int_{x_{i-\frac{1}{2}}}^{x_{i+\frac{1}{2}}} u_0 \Big|
+            \le \frac{1}{\Delta x} \Delta x \|u_0\|_{L^\infty(x_{i-\frac{1}{2}}, x_{i+\frac{1}{2}})}
+            \le \|u_0\|_{L^\infty(\R)}.
+        \end{math}
+        Induktionsschritt:
+        Zeige ein lokales Maximumsprinzip, d.h.
+        \begin{math}[numbered] \label{eq:5.7}
+            \min\Set{u_{i-1}^k, u_i^k, u_{i+1}^k}
+            \le u_i^k
+            \le \max\Set{u_{i-1}^k, u_i^k, u_{i+1}^k}.
+        \end{math}
+        Dann folgt
+        \begin{math}
+            \|u_h^{k+1}\|
+            = \max_{i} |u_i^{k+1}|
+            \le \max_i |u_i^k|
+            = \|u_h^k\|_{L^\infty}
+            \le \|u_0\|_{L^\infty}.
+        \end{math}
+        Für \eqref{eq:5.7} genügt es zu zeigen, dass $u_i^{k+1}$ Konvexkombination von $u_{i-1}^k, u_i^k, u_{i+1}^k$ ist, d.h.
+        \begin{math}
+            u_i^{k+1} = \lambda_{i-1} u_{i-1}^k + \lambda_i u_i^k + \lambda_{i+1} u_{i+1}^k
+        \end{math}
+        mit $\lambda_{i-1}, \lambda_i, \lambda_{i+1} \in [0,1], \lambda_{i-1} + \lambda_i + \lambda_{i+1} = 1$.
+        Dann folgt \eqref{eq:5.7}, denn sei $m := \max \Set{\lambda_{i-1}, \lambda_i, \lambda_{i+1}}$, dann ist
+        \begin{math}
+            u_i^{k+1}
+            \le \lambda_{i-1} m + \lambda_i m + \lambda_{i+1} m
+            = m
+        \end{math}
+        und analog für die untere Schranke in \eqref{eq:5.7}.
+
+        $u_i^{k+1}$ ist Konvexkombination, da
+        \begin{math}
+            u_i^{k+1}
+            &= u_i^k - \frac{\Delta t}{\Delta x} (g(u_i^k, u_{i+1}k) - g(u_i^k, u_i^k) + g(u_i^k, u_i^k) - g(u_{i-1}^k, u_i^k)) \\
+            &= u_i^k - \underbrace{\frac{\Delta t}{\Delta x} \frac{g(u_i^k, u_{i+1}^k) - g(u_i^k, u_i^k)}{u_{i+1}^k - u_i^k}}_{c_{i+\frac{1}{2}}^k} (u_{i+1}^k - u_i^k) - \underbrace{\frac{\Delta t}{\Delta x} \frac{g(u_i^k, u_i^k) - g(u_{i-1}^k, u_i^k)}{u_i^k - u_{i-1}^k}}_{=d_{i-\frac{1}{2}}^k} (u_i^k - u_{i-1}^k) \\
+            &= u_i^k + c_{i+\frac{1}{2}}^k (u_{i+1}^k - u_i^k) - d_{i-\frac{1}{2}} (u_i^k - u_{i-1}^k)
+            &= (1 - c_{i+\frac{1}{2}}^k - d_{i-\frac{1}{2}}^k) u_i^k + c_{i+\frac{1}{2}}^k u_{i+1}^k + d_{i-\frac{1}{2}}^k u_{i-1}^k.
+        \end{math}
+        Es genügt nun zu zeigen, dass $c_{i+\frac{1}{2}}^k, d_{i-\frac{1}{2}}^k \in [0, \frac{1}{2}]$, dann ist dies eine Konvexkombination.
+        Wegen $g$ monoton fallend im zweiten Argument folgt
+        \begin{math}
+            \frac{g(u_i^k, u_{i+1}^k) - g(u_i^k, u_i^k)}{u_{i+1}^k - u_i^k} \le 0,
+        \end{math}
+        also $c_{i+\frac{1}{2}}^k \ge 0$.
+        Wegen der CFL-Bedingung ist
+        \begin{math}
+            c_{i+\frac{1}{2}}^k
+            \le |c_{i+\frac{1}{2}}^k|
+            \le \frac{\Delta t}{\Delta x} L
+            \le \frac{\frac{1}{2L} \Delta x}{\Delta x} L
+            = \frac{1}{2},
+        \end{math}
+        analog für $d_{i-\frac{1}{2}}^k$.
+    \end{proof}
+\end{st}
+
+\begin{st}[TVD-Eigenschaft] \label{5.18}
+    Ein monotones Verfahren mit CFL-Bedingung $\Delta t \le C_{\text{CFL}} \Delta x, C_{\text{CFL}} = \frac{1}{2L}$ ist \emphdef{total variation diminishing (TVD)}, d.h.
+    \begin{math}
+        \TV_{[a,b]}(u_h^{k+1}) \le \TV_{[a,b]}(u_h^k),
+    \end{math}
+    falls $\supp u_h^k \subset [a,b]$.
+    \begin{proof}
+        Wie im vorigen Beweis gilt für geeignete $c_{i+\frac{1}{2}}^k, d_{i-\frac{1}{2}}^k \in [0, \frac{1}{2}]$
+        \begin{math}
+            u_i^{k+1} = u_i^k + c_{i+\frac{1}{2}} (u_{i+1}^k - u_i^k) - d_{i-\frac{1}{2}}^k (u_i^k - u_{i-1}^k).
+        \end{math}
+        Damit folgt
+        \begin{math}
+            \TV_{[a,b]}(u_h^{k+1})
+            &\le \sum_{i \in \Z} |u_i^{k+1} - u_{i-1}^{k+1}| \\
+            &= \sum_{i\in\Z} \Big| u_i^k - u_{i-1}^k + c_{i+\frac{1}{2}}^k (u_{i+1}^k - u_i^k) - c_{i -\frac{1}{2}}^k (u_i^k - u_{i-1}^k) \\
+            &\qquad - d_{i-\frac{1}{2}} (u_i^k - u_{i-1}^k) + d_{i -\frac{3}{2}} (u_{i-1}^k - u_{i-2}^k) \Big| \\
+            &= \sum_{i\in\Z} \Big| \underbrace{(1 - c_{i-\frac{1}{2}}^k - d_{i-\frac{1}{2}}^k)}_{\ge 0} (u_i^k - u_{i-1}^k) \\
+            &\qquad + \underbrace{c_{i+\frac{1}{2}}}_{\ge 0} (u_{i+1}^k - u_i^k) + \underbrace{d_{i-\frac{3}{2}}}_{\ge 0} (u_{i-1}^k - u_{i-2}^k) \Big| \\
+            &\le \sum_{i\in\Z} (1 - c_{i+\frac{1}{2}}^k - d_{i-\frac{1}{2}}^k ) |u_i^k - u_{i-1}^k| \\
+            &\qquad + \sum_{i-\frac{1}{2}} c_{i+\frac{1}{2}}^k |u_{i+1}^k - u_i^k| + \sum_{i\in\Z} d_{i-\frac{3}{2}} |u_{i-1}^k - u_{i-2}^k| \\
+            &= \sum_{i\in\Z} |u_i^k - u_{i-1}^k| - \sum_{i\in\Z} c_{i-\frac{1}{2}}^k |u_i^k - u_{i-1}^k| - \sum_{i\in\Z} d_{i-\frac{1}{2}} |u_i^k - u_{i-1}^k| \\
+            &\qquad+ \sum_{i\in\Z} c_{i+\frac{1}{2}} |u_{i+1}^k - u_i^k| + \sum_{i\in\Z} d_{i-\frac{3}{2}} |u_{i-1}^k - u_{i-2}^k| \\
+            &= \sum_{i\in\Z} |u_i^k  - u_{i-1}^k| \\
+            &= \TV_{[a,b]}(u_h^k).
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{st}[Konsistenz mit E.B.] \label{5.19}
+    Ein monotones FV-Verfahren ist konsistent mit der Entropiebedingung.
+    \begin{proof}
+        Siehe Skript, zeige
+        \begin{math}
+            U(u_i^{k+1}) - U(u_i^k)
+            \le - \frac{\Delta t}{\Delta x} (G_{i+\frac{1}{2}}^k - G_{i-\frac{1}{2}}^k).
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{kor}[Konvergenz] \label{5.20}
+    Für monotone FV-Verfahren gilt Konvergenz in $L^1_{\text{loc}}$ gegen die eindeutige Entropielösung, falls $u_0 \in L^1(\R) \cap L^\infty(\R)$ mit $\supp u_0 \subset [a,b]$ und $\TV_{[a,b]}(u_0) < \infty$ und $\Delta t := k_m \le C_{\text{CFL}} h_m$ für $C_{\text{CFL}} = \frac{1}{2L}$ mit Lipschitz-konstante $L$ von $g$.
+    \begin{proof}
+        Die hinreichende Bedingungen zur Konvergenz in \ref{5.14} sind erfüllt.
+    \end{proof}
+\end{kor}
+
+\begin{note}
+    \begin{itemize}
+        \item
+            Man kann a-priori-Fehleraussagen der Form
+            \begin{math}
+                \|u(\argdot, t) - u_h(\argdot, t)\|_{L^1} \le C h^{\frac{1}{2}}
+            \end{math}
+            zeigen.
+        \item
+            Man kann zeigen, dass die Konsistenzordnung von monotonen Verfahren höchstens 1 ist.
+        \item
+            Man kann Verfahren höherer Ordnung konstruieren, indem man lokal um einen Schock ein monotones Verfahren erster Ordnung verwendet und in glatten Bereichen FD-Flüsse höherer Ordnung definiert.
+    \end{itemize}
+\end{note}
+
+\begin{ex*}[Numerisches Beispiel, \Code{demo\textunderscore burgers(3)}]
+    Sei $f(u) = \frac{1}{2} u^2$.
+    Betrachte ein FV-Verfahren mit Engquist-Osher-Fluss.
+
+    % Hütchen von -1 bis 1 der Höhe 3
+
+    Geschwindigkeit der Spitze ist $\gamma' = f'(u) = u = 3$.
+    \begin{itemize}
+        \item
+            Massenerhaltung
+        \item
+            $u(x,t) \in [0,3]$ wegen diskretem Maximumsprinzip
+        \item
+            R.H. Bedingung ist erfüllt:
+            \begin{math}
+                (u_l - u_r) \sigma' = (u_l - 0) p'(t),
+            \end{math}
+            $f(u_l) - f(u_r) = \frac{1}{2} u_l^2$, es folgt $p'(t) = \frac{1}{2} u_l$, etwa halbierte Geschwindigkeit.
+        \item
+            Lax-Entropie-Bedingung gilt wegen $u_l > 0$.
+    \end{itemize}
+\end{ex*}
+
+\begin{note}[Sommer-Vorlesung]
+    \begin{itemize}
+        \item
+            Weiterführende Aspekte,
+        \item
+            Reduzierte-Basis-Methoden,
+        \item
+            kein Aufbau auf diese Vorlesung.
+    \end{itemize}
+\end{note}
