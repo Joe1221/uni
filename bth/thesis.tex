@@ -1,5 +1,10 @@
 \documentclass{mythesis}
 
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.11}
+
+\DeclareDocumentCommand{\Ind}{}{\operatorname{Ind}}
+
 \title{Der reell-algebraische Abbildungsgrad}
 \author{Stephan Hilb}
 
@@ -8,12 +13,118 @@
 \maketitle
 
 \begin{abstract}
-    Die Windungszahl einer polynomiellen Kurve $\gamma: [0, 1] \to \C^*$ lässt sich mit dem halben Cauchy-Index der rationalen Funktion $\frac{\Re \gamma}{\Im \gamma}$ auf $[0,1]$ definieren, wodurch Überquerungen der rellen Achse orientiert mit $\pm \frac{1}{2}$ gewertet werden.
+    Die Windungszahl einer polynomiellen Kurve $\gamma: [0, 1] \to \C^*$ lässt sich als halben Cauchy-Index der rationalen Funktion $\frac{\Re \gamma}{\Im \gamma}$ auf $[0,1]$ definieren, was anschaulich gesprochen die Überquerungen der Kurve an der rellen Achse mit $\pm \frac{1}{2}$ zählt.
+    Ein reell-algebraischer Algorithmus, basierend auf polynomieller Restbildung oder sogenannten Sturm-Ketten, erlaubt die explizite Berechnung dieses Cauchy-Index und damit auch der Windungszahl von $\gamma$.
 
-    In Folgenden werden wir einen algebraischen Algorithmus für die Berechnung des Cauchy-Index (und damit der Windungszahl) herleiten.
-
-    Wir werden diesen Algorithmus in höheren Dimensionen verallgemeinert formulieren und verifizieren, dass wir damit die natürliche Verallgemeinerung der Windungszahl, den Abbildungsgrad, berechnen können.
+    \fixme Wir werden diesen Algorithmus in höheren Dimensionen verallgemeinert formulieren und verifizieren, dass wir damit unter bestimmten Voraussetzungen die natürliche Verallgemeinerung der Windungszahl, den Abbildungsgrad, berechnen können.
 \end{abstract}
+
+
+\section{Der univariate Fall, Windungszahl und Cauchy-Index}
+
+\subsection{Geometrische Motivation}
+
+Betrachten wir eine geschlossene Kurve $\gamma: [a,b] \to \C^*$, wie sie in \ref{fig:closed_curve} zu sehen ist.
+Um die Windungszahl von $\gamma$ zu bestimmen ist es anschaulich hinreichend, die (orientierten) Übergänge der Kurve an der positiven reellen Achse zu zählen.
+Alternativ können wir die Übergänge über die gesamte reelle Achse zählen, wie in \ref{fig:closed_curve_counting} dargestellt und diese anschließend halbieren.
+\begin{math}
+    \deg(\gamma) = \frac{1}{2} \Ind_a^b(\Re \gamma : \Im \gamma)
+\end{math}
+Dies hat den Vorteil, dass wir die Zählung der Übergänge auf eine andere Art und Weise interpretieren können:
+so zählen wir nun die Polstellen einer Funktion $r := \frac{\Re \gamma}{\Im \gamma}$ mit Wertungen wie in \ref{fig:poles_counting} dargestellt.
+
+Damit wir unsere geometrisch motivierte Zählung formalisieren können, setzen wir $p := \Re \gamma, q := \Im \gamma$ als polynomiell voraus.
+Auf diese Weise besitzt $q$ nur endlich viele Nullstellen und $r$ entsprechend nur endlich viele Polstellen.
+
+Diese Zählung nennen Cauchy-Index und schreiben dafür $\Ind_a^b(p:q)$.
+Wir geben nun eine exakte Definition in Anlehnung an \cite{eiserm_topology}.
+
+\begin{definition}[Cauchy-Index] \label{thm:df:cauchy_index}
+    Seien $p, q \in \R[X]$ reelle Polynome und $a, b, s \in \R$ mit $a \le b$.
+    Für jede Nullstelle $s \in \R$ von $q$, d.h. $q(s) = 0$, sei $\epsilon > 0$ hinreichend klein, dass $p(t)q(t)$ jeweils auf $[s - \epsilon, s)$ und $(s, s + \epsilon]$ konstante Vorzeichen besitzt.
+
+    Wir definieren nun
+    \begin{math}
+	\Ind_s^{\pm}(p:q) &:= \begin{cases}
+	    \frac{1}{2} \sgn\big((pq)(s \pm \epsilon)\big) & q(s) = 0, \\
+	    0 & \text{sonst},
+	\end{cases}\\
+	\Ind_s(p:q) &:= \Ind_s^+(p:q) - \Ind_s^-(p:q), \\
+	\Ind_a^b(p:q) &:= \Ind_a^+(p:q) + \sum_{s \in (a,b)} \Ind_s(p:q) - \Ind_b^-(p:q).
+    \end{math}
+    $\Ind_a^b(p:q)$ nennen wir \emphdef[Cauchy-Index]{Cauchy-Index von $p$ und $q$ auf $[a,b]$}.
+\end{definition}
+
+\begin{note}
+    \begin{itemize}
+	\item
+	    Die Summe $\sum_{s\in (a,b)} \Ind_s(p:q)$ ist wohldefiniert, da $\Ind_s(p:q)$ nur an den endlich vielen Nullstellen von $q$ in $(a,b)$ einen Beitrag leistet.
+        \item
+	    Wir stellen fest, dass die Definition für $\Ind_s(p:q)$ einen Pol genau so zählt, wie wir es uns in \ref{fig:poles_counting} vorgestellt haben, beispielswiese ergibt sich
+	    \begin{math}
+		\Ind_{-1}^1(1:X)
+		&= \Ind_0(1:X)
+		= \Ind_0^+(1:X) - \Ind_0^-(1:X)
+		= \frac{1}{2} \big( 1 - (-1) \big)
+		= 1, \\
+		\Ind_{-1}^1(1:X^2)
+		&= \Ind_0(1:X^2)
+		= \Ind_0^+(1:X^2) - \Ind_0^-(1:X^2)
+		= \frac{1}{2} ( 1 - 1)
+		= 0.
+	    \end{math}
+	    Darüber hinaus beobachten wir
+	    \begin{math}
+		\Ind_{0}^{1}(1:X) &= \Ind_0^+(1:X) = \frac{1}{2}, \\
+		\Ind_{-1}^{0}(1:X) &= \Ind_0^-(1:X) = \frac{1}{2}.
+	    \end{math}
+	    Dies liefert $\Ind_{-1}^0(1:X) + \Ind_{0}^1(1:X) = 1 = \Ind_{-1}^1(1:X)$ und legt nahe, dass sich der Cauchy-Index additiv unterteilen lässt.
+    \end{itemize}
+\end{note}
+
+Außerdem 
+
+\begin{tikzpicture}
+    \begin{axis}[
+	axis x line=middle,
+	axis y line=middle,
+	xmin=-2.5,xmax=2.5,
+	ymin=-2,ymax=2
+    ]
+	\addplot+[no markers,smooth] coordinates
+	    { (1,1) (0,2) (-1,1) (-2,-1) (2,-1.5) (1,1) };
+    \end{axis}
+\end{tikzpicture}
+
+
+\begin{tikzpicture}
+    \begin{axis}
+	\addplot[samples=100,domain=-1:1]({2*x^2 - 1}, {x^3 - x});
+    \end{axis}
+\end{tikzpicture}
+
+
+
+
+
+
+
+
+%\begin{tikzpicture}
+%    \begin{axis}
+%	\addplot3[surf,faceted color=black,color=red,colormap/greenyellow]({x},{y},{x^2});
+%    \end{axis}
+%\end{tikzpicture}
+
+
+
+
+
+
+
+
+
+
 
 
 \end{document}

@@ -109,6 +109,14 @@
     }
 }
 
+% emphasize a definition term and create index entry simultaneously
+\DeclareDocumentCommand { \emphdef } { om } {
+    %\index [ terms ] {
+    %    \IfNoValueTF { #1 } { #2 } { #1 }
+    %}
+    \emph { #2 }
+}
+
 %%=======================================================================
 %% Items / Enumerations
 %%=======================================================================
@@ -156,7 +164,11 @@
 %%=======================================================================
 
 %\RequirePackage{mathtools}
-%\RequirePackage[amsmath,hyperref,thmmarks]{ntheorem}
+\RequirePackage[amsmath,hyperref,thmmarks]{ntheorem}
+
+\newtheorem{definition}{Definition}
+\newtheorem{note}{Bemerkung}
+
 %\RequirePackage{tikz}
 
 
