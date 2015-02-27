@@ -32,7 +32,7 @@ TEST_CASE( "stable evaluation 2", "[ramd]" ) {
     REQUIRE( q.stable_eval(Integer(1), 1) == q2 );
 }
 
-TEST_CASE( "index, simple cycles", "[index]" ) {
+TEST_CASE( "index, simple cycles, 1 to 3", "[index]" ) {
 
     for (unsigned int n = 1; n <= 3; ++n) {
 
