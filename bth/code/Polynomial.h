@@ -241,6 +241,16 @@ class Polynomial : public RingEl<Polynomial<R, dim>> {
         }
 
         // TODO: allow other evaluation domains
+        Polynomial<R, dim - 1> eval (const R& a, int j = 0) {
+            int n = degree(j);
+            Polynomial<R, dim - 1> c = Polynomial<R, dim - 1>::Zero();
+            for (int l = 0; l <= n; ++l) {
+                c += coefficient(l, j) * pow(a, l);
+            }
+            return c;
+        }
+
+        // TODO: allow other evaluation domains
         Polynomial<R, dim - 1> stable_eval (const R& a, int j = 0) {
             int n = degree(j);
             for (int k = 0; k <= n; ++k) {
