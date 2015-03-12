@@ -7,12 +7,12 @@
 %% Appearance and Configs
 %%=======================================================================
 
-%\ExplSyntaxOff
-%\PassOptionsToClass { parskip = half+ } { scrartcl }
-%\AtBeginDocument{
-%    \setparsizes{0pt}{0.8ex}{0pt plus 1fil}
-%}
-%\ExplSyntaxOn
+\ExplSyntaxOff
+\PassOptionsToClass { parskip = half+ } { scrartcl }
+\AtBeginDocument{
+    \setparsizes{0pt}{0.7ex}{0pt plus 1fil}
+}
+\ExplSyntaxOn
 
 %%=======================================================================
 %% Basic Requirements
@@ -20,6 +20,8 @@
 
 % Load base class
 \LoadClass { scrartcl }
+
+\RequirePackage { xcolor }
 
 \PassOptionsToPackage {
     a4paper,
@@ -66,6 +68,13 @@
 \RequirePackage { subcaption } % subfigure environment
 \RequirePackage [ hypcap ] { caption }
 
+\ExplSyntaxOff
+\setmainlanguage [
+    spelling        = new,
+    latesthyphen    = true,
+    babelshorthands = true,
+] {german}
+\ExplSyntaxOn
 %%=======================================================================
 %% Index / Glossary
 %%=======================================================================
@@ -74,6 +83,7 @@
 \RequirePackage{hyperref}                       % Macht Referenzen im pdf-Dokument anklickbar
 
 \hypersetup{
+    hidelinks
 %    colorlinks         = true,
 %    pdfborder          = {0~0~0},
 %    bookmarksnumbered  = true,
@@ -123,26 +133,26 @@
 
 \RequirePackage [ shortlabels ] { enumitem }
 
-%% These must be inside one \setlist definition
-%\setlist {
-%    leftmargin  = *,
-%    labelindent = 0.5em, % Fallback for cases when leftmargin = * is set manually
-%    % The following fixes leftmargin, sets a fixed distance of the label from
-%    % the item and allows the label to extend to the left as needed
-%    % (leftmargin=* should be set manually in cases where the label is too
-%    % long, in which case the above labelindent gets used)
-%    leftmargin  = 2.1em,
-%    labelwidth  = 2.0em,
-%    labelsep*   = 0.4em
-%}
-%\setlist [ enumerate ] { leftmargin = 2.1em }
-%\setlist [ itemize ] { leftmargin = 1.6em }
-%\setlist [ description ] {
-%    style       = nextline,
-%    labelindent = 0.9em,
-%    leftmargin  = 2.5em,
-%    font        = \normalfont\small\bfseries,
-%}
+% These must be inside one \setlist definition
+\setlist {
+    leftmargin  = *,
+    labelindent = 0.5em, % Fallback for cases when leftmargin = * is set manually
+    % The following fixes leftmargin, sets a fixed distance of the label from
+    % the item and allows the label to extend to the left as needed
+    % (leftmargin=* should be set manually in cases where the label is too
+    % long, in which case the above labelindent gets used)
+    leftmargin  = 2.1em,
+    labelwidth  = 2.0em,
+    labelsep*   = 0.4em
+}
+\setlist [ enumerate ] { leftmargin = 2.1em }
+\setlist [ itemize ] { leftmargin = 1.6em }
+\setlist [ description ] {
+    style       = nextline,
+    labelindent = 0.9em,
+    leftmargin  = 2.5em,
+    font        = \normalfont\small\bfseries,
+}
 
 %%=======================================================================
 %% Figures
@@ -156,7 +166,32 @@
 %% Algorithms
 %%=======================================================================
 
+\definecolor{algcomment}{HTML}{444444}
+\definecolor{algcommand}{HTML}{000055}
+
 \DeclareDocumentCommand { \Code } { m } { \texttt{#1} }
+
+\RequirePackage{algpseudocode}
+\cs_new:Nn \mycourse_algcommand_style: { \ttfamily \color{algcommand} }
+
+\algrenewcommand { \algorithmiccomment } [ 1 ] {
+    \hfill \mbox {
+        » ~ { \slshape \color { algcomment } #1 }
+    }
+}
+\algrenewcommand { \algorithmicwhile  } { { \mycourse_algcommand_style: while  } }
+\algrenewcommand { \algorithmicdo     } { { \mycourse_algcommand_style: do     } }
+\algrenewcommand { \algorithmicend    } { { \mycourse_algcommand_style: end    } }
+\algrenewcommand { \algorithmicfor    } { { \mycourse_algcommand_style: for    } }
+\algrenewcommand { \algorithmicif     } { { \mycourse_algcommand_style: if     } }
+\algrenewcommand { \algorithmicthen   } { { \mycourse_algcommand_style: then   } }
+\algrenewcommand { \algorithmicelse   } { { \mycourse_algcommand_style: else   } }
+\algrenewcommand { \algorithmicrepeat } { { \mycourse_algcommand_style: repeat } }
+\algrenewcommand { \algorithmicuntil  } { { \mycourse_algcommand_style: until  } }
+\DeclareDocumentCommand { \Return } { m } { \State { \mycourse_algcommand_style: return} ~ #1 }
+
+\DeclareDocumentCommand { \Input }  { m } { { \small\itshape\bfseries Input: } ~ #1 }
+\DeclareDocumentCommand { \Output } { m } { { \small\itshape\bfseries Output: } ~ #1 }
 
 
 %%=======================================================================
@@ -166,8 +201,21 @@
 %\RequirePackage{mathtools}
 \RequirePackage[amsmath,hyperref,thmmarks]{ntheorem}
 
+\theoremstyle{break}
+\theoremindent=1em
+\theorembodyfont{\normalfont}
+\theoremheaderfont{\kern-1em\normalfont\bfseries}
+
 \newtheorem{definition}{Definition}
-\newtheorem{note}{Bemerkung}
+\newtheorem{proposition}{Satz}
+\newtheorem{algorithm}{Algorithmus}
+\newtheorem{example}{Beispiel}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+
+\theoremheaderfont{\kern-1em\normalfont\small\itshape\bfseries}
+\newtheorem*{proof}{Beweis:}
+\newtheorem*{note}{Bemerkung}
 
 %\RequirePackage{tikz}
 
