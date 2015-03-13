@@ -206,12 +206,16 @@
 \theorembodyfont{\normalfont}
 \theoremheaderfont{\kern-1em\normalfont\bfseries}
 
-\newtheorem{definition}{Definition}
-\newtheorem{proposition}{Satz}
-\newtheorem{algorithm}{Algorithmus}
-\newtheorem{example}{Beispiel}
-\newtheorem{lemma}{Lemma}
-\newtheorem{theorem}{Theorem}
+\newcounter{thm}
+\numberwithin{thm}{section}
+\numberwithin{equation}{section}
+
+\newtheorem{definition}[thm]{Definition}
+\newtheorem{proposition}[thm]{Satz}
+\newtheorem{algorithm}[thm]{Algorithmus}
+\newtheorem{example}[thm]{Beispiel}
+\newtheorem{lemma}[thm]{Lemma}
+\newtheorem{theorem}[thm]{Theorem}
 
 \theoremheaderfont{\kern-1em\normalfont\small\itshape\bfseries}
 \newtheorem*{proof}{Beweis:}
