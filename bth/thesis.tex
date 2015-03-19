@@ -6,15 +6,13 @@
 
 \DeclareDocumentCommand{\Ind}{}{\operatorname{Ind}}
 
-\ExplSyntaxOn
-\DeclareDocumentCommand { \Index } { lmg } {
-    \IfNoValueTF { #1 } {
-        { [ #2 : #3 ] }
-    } {
-        \mathopen{[} #2 \mathbin{:} #3 \mathclose{] #1}
-    }
+\usepackage{stmaryrd}
+
+%\ExplSyntaxOn
+\DeclareDocumentCommand { \Index } { m m m } {
+    \mathopen{\llbracket} #2 \mathbin{:} \nobreak #3 \mathclose{\rrbracket_{\mathsmaller{#1}}}
 }
-\ExplSyntaxOff
+%\ExplSyntaxOff
 
 
 \title{Der reell-algebraische Abbildungsgrad}
@@ -180,7 +178,7 @@ Wir werden den Cauchy-Index nun formalisieren.
 \begin{note}
     \begin{itemize}
         \item
-            Die Definition ist offenbar unabhängig von der Wahl von $\epsilon$.
+            Die Definition ist unabhängig von der Wahl von $\epsilon$.
         \item
             Die Summe $\sum_{s\in (a,b)} \Ind_s(p:q)$ ist wohldefiniert, da $\Ind_s(p:q)$ nur an endlich vielen Stellen einen Beitrag leistet.
         \item
@@ -206,12 +204,10 @@ Wir werden den Cauchy-Index nun formalisieren.
 
 \begin{example}
     Sei $p \in \R[x]$, $a,b \in \R$ mit $a < b$ und $p$ besitze nur einfache Nullstellen.
-    Wir können den Cauchy-Index nutzen, um die Nullstellen von $p$ in $(a,b)$ zu zählen:
-    Der Cauchy-Index $\Ind_a^b(p':p)$ zählt die Anzahl der Nullstellen von $p$ in $[a,b]$, Nullstellen auf dem Rand $\Set{a,b}$ werden mit dem Gewicht $\frac{1}{2}$ gezählt.
-
+    Der Cauchy-Index $\Ind_a^b(p':p)$ zählt die Anzahl der Nullstellen von $p$ auf $[a,b]$, dabei werden Nullstellen auf dem Rand $\Set{a,b}$ mit dem Gewicht $\frac{1}{2}$ gezählt.
     \begin{proof}
         Es ist leicht einzusehen, dass an jeder (einfachen) Nullstelle $x \in \R$ von $p$ gilt $\sgn(p'(x)) = \pm\sgn(p(x\pm\nobreak\eps))$ mit $\eps$ hinreichend klein, dass $p$ auf $[x-\eps,x)$, bzw. $(x,x+\eps]$ konstantes Vorzeichen hat.
-        Damit folgt direkt
+        Damit ergibt sich direkt
         \begin{math}
             \Ind_a^\pm(p':p) = \begin{cases}
                 \pm \frac{1}{2} & p(x) = 0 \\
@@ -290,7 +286,7 @@ Beispielsweise zählt $\Ind_a^b(p:\nobreak q)$ für $a > b$ die Achsenübergäng
                 Für $c < 0$ kehren sich entsprechend die Vorzeichen in der Definition um, also $\Ind_a^b(cp:\nobreak q) = - \Ind_a^b(p:q) = \Ind_a^b(p:q)$.
             \item
                 Sei wieder ohne Einschränkung $a < b$.
-                Betrachte zunächst $\tau(x) := b+a-x$: an den Nullstellen $s$ von $q\circ \tau$ gilt offenbar $\Ind_s^\pm(p\circ\tau : q\circ\tau) = \Ind_{\tau(s)}^\mp(p:q)$ und damit
+                Betrachte zunächst $\tau(x) := b+a-x$: an den Nullstellen $s$ von $q\circ \tau$ gilt $\Ind_s^\pm(p\circ\tau : q\circ\tau) = \Ind_{\tau(s)}^\mp(p:q)$ und damit
                 \begin{math}
                     \Ind_a^b(p\circ\tau : q\circ\tau) = -\Ind_b^a(p : q).
                 \end{math}
@@ -329,7 +325,7 @@ Beispielsweise zählt $\Ind_a^b(p:\nobreak q)$ für $a > b$ die Achsenübergäng
                 \end{math}
                 da $pq$ auf $(a, a+\epsilon]$ konstantes Vorzeichen hat und somit auch $p$ auf $[a, a + \epsilon]$.
             \item
-                Die rechte Seite erfüllt offenbar ebenfalls Antisymmetrie und Subdivision.
+                Die rechte Seite erfüllt ebenfalls Antisymmetrie und Subdivision.
                 Es genügt also wieder, die Gleichheit für $\Ind_a^+(1:q)$ zu zeigen, wobei $a$ Nullstelle von $q$ ist.
                 So gilt
                 \begin{math}
@@ -350,13 +346,13 @@ Wie bereits versprochen konstruieren wir uns nun mit Hilfe obiger Eigenschaften 
 
 \begin{algorithm} \label{thm:cauchy-index_simple}
     \Input{$p,q \in \R[x]$ ohne gemeinsame Nullstellen, $a,b \in \R$} \\
-    \Output{$\Index_a^b{p}{q} = \Ind_a^b(p:q)$}
+    \Output{$\Index{[a,b]}{p}{q}$}
     \begin{algorithmic}[1]
         \If{$p = \const$}
             \Return{$\frac{1}{2} \sgn(p) \big(\sgn(q(b)) - \sgn(q(a))\big)$}
         \Else
             \State{bestimme $s,r \in \R[x]$ so, dass $p = sq - r$ mit $\deg r < \deg q$} \Comment{z.B. durch Polynomdivision}
-            \Return{$\Index_a^b{q}{r} - \Index_a^b{1}{qr}$}
+            \Return{$\Index{[a,b]}{q}{r} - \Index{[a,b]}{1}{qr}$}
         \EndIf
     \end{algorithmic}
 \end{algorithm}
@@ -364,7 +360,7 @@ Wie bereits versprochen konstruieren wir uns nun mit Hilfe obiger Eigenschaften 
 \begin{proposition}
     Algorithmus \ref{thm:cauchy-index_simple} terminiert und berechnet ein korrektes Ergebnis.
     \begin{proof}
-        Betrachte den rekursiven Aufruf von $\Index_a^b{q}{r}$ in Zeile 5.
+        Betrachte den rekursiven Aufruf von $\Index{[a,b]}{q}{r}$ in Zeile 5.
         Falls $\deg p \le \deg q$, so ist nun $\deg q > \deg r$ für den nächsten Schritt der Rekursion.
         Falls $\deg p > \deg q$, so erfolgt der nächste Aufruf mit geringerem Grad für $p$.
         Nach endlich vielen Schritten terminiert also die Rekursion.
@@ -383,36 +379,36 @@ Wie bereits versprochen konstruieren wir uns nun mit Hilfe obiger Eigenschaften 
     \end{proof}
 \end{proposition}
 
-Wir betrachten erneut Algorithmus \ref{thm:cauchy-index_simple} und beobachten, dass durch die Rekursion Aufrufe der Form $\Index_a^b{p_0}{p_1},\allowbreak \Index_a^b{p_1}{p_2}, \dotsc, \Index_a^b{p_{n-1}}{p_n}$ entstehen.
+Wir betrachten erneut Algorithmus \ref{thm:cauchy-index_simple} und beobachten, dass durch die Rekursion Aufrufe der Form $\Index{[a,b]}{p_0}{p_1},\allowbreak \Index{[a,b]}{p_1}{p_2}, \dotsc, \Index{[a,b]}{p_{n-1}}{p_n}$ entstehen.
 Hierbei ist $(p_0, \dotsc, p_n)$ eine Kette von Polynomen, welche durch die Polynom-Rest-Bildung $p_{k-1} = s_kp_k - p_{k+1}$ entsteht.
 Wir nennen eine solche Kette auch \emphdef{euklidische Kette}.
 
 Für eine solche Kette gilt stets
 \begin{math}
-    \Index_a^b{p_{k-1}}{p_k}
-    = -\Index_a^b{p_{k+1}}{p_k}
-    = \Index_a^b{p_k}{p_{k+1}} - \Index_a^b{1}{p_kp_{k+1}}.
+    \Index{[a,b]}{p_{k-1}}{p_k}
+    = -\Index{[a,b]}{p_{k+1}}{p_k}
+    = \Index{[a,b]}{p_k}{p_{k+1}} - \Index{[a,b]}{1}{p_kp_{k+1}}.
 \end{math}
 Nutzen wir dies und erstellen eine Kette mit der Wahl $p_0 := q, p_1 := p$, so erhalten wir
 \begin{math}
-    \Index_a^b{p}{q}
-    = \Index_a^b{p_1}{p_0}
-    &= \Index_a^b{1}{p_0p_1} - \Index_a^b{p_0}{p_1} \\
-    &= \Index_a^b{1}{p_0p_1} + \Index_a^b{1}{p_1p_2} - \Index_a^b{p_1}{p_2} \\
+    \Index{[a,b]}{p}{q}
+    = \Index{[a,b]}{p_1}{p_0}
+    &= \Index{[a,b]}{1}{p_0p_1} - \Index{[a,b]}{p_0}{p_1} \\
+    &= \Index{[a,b]}{1}{p_0p_1} + \Index{[a,b]}{1}{p_1p_2} - \Index{[a,b]}{p_1}{p_2} \\
     &= \dotsc \\
-    &= \sum_{k=1}^n \Index_a^b{1}{p_{k-1}p_k} - \Index_a^b{p_{n-1}}{p_n}.
+    &= \sum_{k=1}^n \Index{[a,b]}{1}{p_{k-1}p_k} - \Index{[a,b]}{p_{n-1}}{p_n}.
 \end{math}
 Der letzte Term entfällt, falls $p_n$ konstant ist und wir können die Berechnung des Cauchy-Index auch wie folgt formulieren.
 
 \begin{algorithm} \label{thm:cauchy-index_premseq}
     \Input{$p,q \in \R[x]$ ohne gemeinsame Nullstellen, $a,b \in \R$} \\
-    \Output{$\Index_a^b{p}{q} = \Ind_a^b(p:q)$}
+    \Output{$\Index{[a,b]}{p}{q} = \Ind_a^b(p:q)$}
     \begin{algorithmic}[1]
         \If{$p = 1$}
             \Return{$\frac{1}{2} \big(\sgn(q(b)) - \sgn(q(a))\big)$}
         \Else
             \State{bestimme eine euklidische Kette $(p_0, p_1, \dotsc, p_n)$ mit $p_0 := q, p_1 := p$}
-            \Return{$\sum_{k=1}^n \Index_a^b{1}{p_{k-1}p_k}$}
+            \Return{$\sum_{k=1}^n \Index{[a,b]}{1}{p_{k-1}p_k}$}
         \EndIf
     \end{algorithmic}
 \end{algorithm}
@@ -456,17 +452,17 @@ Diese Formulierung wird unser Vorbild sein, wenn wir im nächsten Kapitel den bi
 \begin{lemma} \label{thm:sturm_boundary-terms}
     Für eine Sturm-Kette $(s_0, \dotsc, s_n)$ gilt
     \begin{math}[numbered] \label{eq:sturm_boundary-terms}
-        \Index_a^b{s_1}{s_0}
-        = \sum_{k=1}^n \Index_a^b{1}{s_{k-1}s_k}.
+        \Index{[a,b]}{s_1}{s_0}
+        = \sum_{k=1}^n \Index{[a,b]}{1}{s_{k-1}s_k}.
     \end{math}
     \begin{proof}
         $s_{k-1}$ und $s_{k+1}$ besitzen an den Nullstellen von $s_k$ jeweils verschiedene Vorzeichen.
-        Wir erhalten also durch Einfügen von Summanden der Form $\Index_a^b{s_{k-1}}{s_k} + \Index_a^b{s_{k+1}}{s_k} = 0$
+        Wir erhalten also durch Einfügen von Summanden der Form $\Index{[a,b]}{s_{k-1}}{s_k} + \Index{[a,b]}{s_{k+1}}{s_k} = 0$
         \begin{math}
-            \Index_a^b{s_1}{s_0}
-            &= \Index_a^b{s_1}{s_0} + \Index_a^b{s_{n-1}}{s_n} \\
-            &= \sum_{k=1}^n \Big( \Index_a^b{s_k}{s_{k-1}} + \Index_a^b{s_{k-1}}{s_k} \Big)
-            = \sum_{k=1}^n \Index_a^b{1}{s_{k-1}s_k}.
+            \Index{[a,b]}{s_1}{s_0}
+            &= \Index{[a,b]}{s_1}{s_0} + \Index{[a,b]}{s_{n-1}}{s_n} \\
+            &= \sum_{k=1}^n \Big( \Index{[a,b]}{s_k}{s_{k-1}} + \Index{[a,b]}{s_{k-1}}{s_k} \Big)
+            = \sum_{k=1}^n \Index{[a,b]}{1}{s_{k-1}s_k}.
         \end{math}
     \end{proof}
 \end{lemma}
@@ -491,7 +487,7 @@ Wir werden die rechte Seite in \eqref{eq:sturm_boundary-terms} in Form von Vorze
     Weiter sei $(s_0, \dotsc, s_n)$ eine Sturm-Kette mit $s_0 = q, s_1 = p$.
     Dann gilt
     \begin{math}
-        \Index_a^b{p}{q}
+        \Index{[a,b]}{p}{q}
         = V_a^b(s_0, \dotsc, s_n).
     \end{math}
     \begin{proof}
@@ -507,36 +503,134 @@ Wir werden die rechte Seite in \eqref{eq:sturm_boundary-terms} in Form von Vorze
             V_a^b(s_{k-1},s_k)
             &= \frac{1}{2} \Big( 1 - \sgn\big((s_{k-1}s_k)(b)\big) \Big)
               - \frac{1}{2} \Big( 1 - \sgn\big((s_{k-1}s_k)(a)\big) \Big) \\
-            &= \Index_a^b{1}{s_{k-1}s_k}.
+            &= \Index{[a,b]}{1}{s_{k-1}s_k}.
         \end{math}
         Die Aussage folgt jetzt aus direkt aus \ref{thm:sturm_boundary-terms}:
         \begin{math}
             V_a^b(s_0,\dotsc, s_n)
             = \sum_{k=1}^n V_a^b(s_{k-1}, s_k)
-            = \sum_{k=1}^n \Index_a^b{1}{s_{k-1}s_k}
-            = \Index_a^b{s_1}{s_0}.
+            = \sum_{k=1}^n \Index{[a,b]}{1}{s_{k-1}s_k}
+            = \Index{[a,b]}{s_1}{s_0}.
         \end{math}
     \end{proof}
 \end{theorem}
 
-
-
-
-
-
-
-
-
-
-
-
-
+%fixme: multiple zeros?
+%\begin{corollary}[Sturm]
+%    Sei $p \in \R[x]$ ein reelles Polynom, $a,b \in \R, a < b$ mit $p(a) \neq 0 \neq p(b)$.
+%    Weiter sei $(s_0, \dotsc, s_n)$ eine Sturmkette mit $s_0 = p, s_1 = p'$.
+%
+%    Dann ist die Anzahl Nullstellen von $p$ auf $[a,b]$ gegeben durch
+%    \begin{math}
+%        \Set{x \in \R & p(x) = 0}
+%    \end{math}
+%\end{corollary}
 
 
 \subsection{Geometrische Charakterisierung der Windungszahl}
 
+Für eine Kurve $\gamma: [a,b] \to \C^*$ war unsere Definition der Windungszahl
+\begin{math}
+    \deg(\gamma) := \frac{1}{2} \Index{[a,b]}{\Re \gamma}{\Im \gamma}
+\end{math}
+geometrisch motiviert.
+Die Windungszahl lässt sich allerdings auch durch eine Reihe von Eigenschaften charakterisieren.
+Diese Eigenschaften sind unser nächstes Ziel.
 
+Wir betrachten nun Kurven, die als Einschränkung einer stückweisen polynomiellen Abbildung $F: \C \to \C$ auf den Rand des eines Rechtecks $\Boundary\Gamma$ entstehen.
 
+\begin{definition} \label{thm:df:winding_number}
+    Sei $\gamma: [a,b] \to \C$ stückweise polynomiell.
+    Die Windungszahl von $\gamma$ ist definiert als
+    \begin{math}
+        \deg(\gamma) := \frac{1}{2} \Index{[a,b]}{\Re \gamma}{\Im \gamma}.
+    \end{math}
+    Sei $\Gamma := [x_0, x_1] \times [y_0, y_1] \subset \C$ ein Rechteck und $F: \C \to \C$ stückweise polynomiell.
+    Wir schreiben
+    \begin{math}[numbered] \label{eq:winding-number_boundary}
+        \deg(F | \Boundary\Gamma) := \deg( F|_{[x_0,x_1]\times y_0} ) + \deg( F|_{x_1\times[y_0,y_1]} ) - \deg( F|_{[x_0,x_1]\times y_1} ) - \deg( F|_{x_0 \times [y_0, y_1]} ).
+    \end{math}
+    Dabei bezeichnet beispielsweise $F|_{[x_0,x_1]\times y_0}: [x_0, x_1] \to \C^*$ die durch Spezialisierung der zweiten Variable erhaltene stückweise polynomielle Kurve auf $[x_0, x_1]$.
+\end{definition}
+
+% fixme: illustration
+
+\begin{proposition}[Subdivision]
+    Seien $x_0 < x_1 < \dotsb < x_n$ und $y_0 < y_1 < \dotsb < y_m$ für $n,m \in \N$ und $\Gamma_{i,j} := [x_{i-1},x_i] \times [y_{j-1}, y_j]$.
+    Dann gilt
+    \begin{math}
+        \deg(F|\Boundary\Gamma) = \sum_{i=1}^n \sum_{j=1}^m \deg(F|\Boundary\Gamma_{i,j}).
+    \end{math}
+    \begin{proof}
+        Betrachte die rechte Seite der Gleichung: die Terme aus \eqref{eq:winding-number_boundary} heben sich gegenseitig an allen inneren Rändern auf.
+        Die restlichen Terme ergeben dank der Subdivisions-Eigenschaft des Cauchy-Index aus \ref{thm:cauchy-index_properties} gerade wieder die nötigen Terme für die linke Seite der Gleichung.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}[Normierung]
+    Sei $F(z) := z - z_0$ für $z_0 \in \C$.
+    Dann gilt
+    \begin{math}
+        \deg(F|\Boundary\Gamma)
+        = \begin{cases}
+            1 & \text{falls $z_0 \in \Gamma \setminus \Boundary\Gamma$,} \\
+            0 & \text{falls $z_0 \in \R^2 \setminus \Gamma$.}
+        \end{cases}
+    \end{math}
+    \begin{proof}
+        Falls $z_0 \in \R^2 \setminus \Gamma$, dann ist $\Re F(z) \neq 0$ und $\Im F(z) \neq 0$ auf ganz $\Gamma$.
+        Alle Terme aus \eqref{eq:winding-number_boundary} verschwinden somit.
+
+        Sei nun $z_0 \in \Gamma \setminus \Boundary\Gamma$.
+        Dank der Transformationseigenschaft des Cauchy-Index können wir $z_0 = 0$ und $\Gamma = [-1, 1]\times [-1, 1]$ voraussetzen.
+        %fixme: genaue wahl der transformation
+        Wir haben dann
+        \begin{math}
+            \deg(F|\Boundary\Gamma)
+            &= \frac{1}{2}\big( \Index{[-1,1]}{x}{-1} + \Index{[-1,1]}{1}{x} - \Index{[-1,1]}{x}{1} - \Index{[-1,1]}{-1}{x} \big) \\
+            &= \frac{1}{2}\big( 0 + 1 - 0 - (-1)\big) \\
+            &= 1.
+        \end{math}
+    \end{proof}
+\end{proposition}
+
+\begin{lemma} \label{thm:lem:winding-number_rotation}
+    Es gilt
+    \begin{math}
+        \deg(F|\Boundary\Gamma) = \deg(i F|\boundary \Gamma).
+    \end{math}
+    \begin{proof}
+        \todo{!!!}
+    \end{proof}
+\end{lemma}
+
+\begin{lemma} \label{thm:lem:winding-number_local}
+    Sei $F(x,y) \neq 0$.
+    Dann existiert $\delta > 0$, sodass für $\Gamma_\delta := [x-\delta, x+\delta] \times [y-\delta, y+\delta]$ gilt
+    \begin{math}
+        \deg(F|\Boundary\Gamma_\delta) = 0.
+    \end{math}
+    \begin{proof}
+        Dank \ref{thm:lem:winding-number_rotation} können wir annehmen, dass $\Im F(x,y) \neq 0$.
+        Da $F$ stetig, existiert $\delta > 0$ sodass $\Im F(x,y) \neq 0$ auf ganz $\Gamma_\delta$.
+        Folglich verschwinden alle Terme in $\deg(F|\Boundary\Gamma)$.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}[Homotopie-Invarianz]
+    Seien $\gamma_0, \gamma_1: [0,1] \to \C^*$ zwei homotope Kurven, d.h. es existiert eine Homotopie $F: [0,1] \times [0,1] \to \C^*$ mit $F(0,t) = \gamma_0(t)$, $F(1,t) = \gamma_1(t)$ und $F(s,0) = F(s,1)$ für alle $s,t \in [0,1]$.
+
+    Dann gilt $\deg(\gamma_0) = \deg(\gamma_1)$.
+    \begin{proof}
+        Da $F(x,y) \neq 0$ auf ganz $\Gamma := [0,1] \times [0,1]$ ist $\Gamma$ überdeckt von Rechtecken $\Gamma_{\delta(x,y)}$ gemäß \ref{thm:lem:winding-number_local}.
+        Es gilt also
+        \begin{math}
+            0 = \deg(F|\Boundary\Gamma)
+            &= \deg(F|_{[0,1]\times 0}) + \deg(\gamma_0) - \deg(F_{[0,1] \times 1}) - \deg(\gamma_1) \\
+            &= \deg(\gamma_0) - \deg(\gamma_1).
+        \end{math}
+    \end{proof}
+\end{proposition}
 
 
 

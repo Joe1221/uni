@@ -216,6 +216,7 @@
 \newtheorem{example}[thm]{Beispiel}
 \newtheorem{lemma}[thm]{Lemma}
 \newtheorem{theorem}[thm]{Theorem}
+\newtheorem{corollary}[thm]{Korollar}
 
 \theoremheaderfont{\kern-1em\normalfont\small\itshape\bfseries}
 \newtheorem*{proof}{Beweis:}
