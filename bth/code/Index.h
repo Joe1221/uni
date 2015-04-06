@@ -153,11 +153,18 @@ class Index {
                     auto interval = getInterval(j - 1);
                     auto other_intervals = getOtherIntervals(j - 1);
 
-                    for (int i = 1; i <= dim; ++i) {
-                        auto s = getPolynomial(i);
-                        lP[i - 1] = s.stable_eval(interval.left(), j - 1);
-                        rP[i - 1] = s.stable_eval(interval.right(), j - 1);
+                    if (dim > 1) {
+                        for (int i = 1; i <= dim; ++i) {
+                            auto s = getPolynomial(i);
+                            lP[i - 1] = s.eval(interval.left(), j - 1);
+                            rP[i - 1] = s.eval(interval.right(), j - 1);
+                        }
+                    } else {
+                        auto s = getPolynomial(1);
+                        lP[0] = s.eval(interval.left(), j - 1);
+                        rP[0] = s.eval(interval.right(), j - 1);
                     }
+
                     Index<R, R, dim - 1> idxl(lP, other_intervals);
                     Index<R, R, dim - 1> idxr(rP, other_intervals);
                     idxl.setLogging(logging);

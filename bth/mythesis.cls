@@ -131,7 +131,7 @@
 %% Items / Enumerations
 %%=======================================================================
 
-\RequirePackage [ shortlabels ] { enumitem }
+\RequirePackage [ shortlabels, inline ] { enumitem }
 
 % These must be inside one \setlist definition
 \setlist {
