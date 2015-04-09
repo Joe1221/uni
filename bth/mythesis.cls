@@ -158,6 +158,9 @@
 %% Figures
 %%=======================================================================
 
+\definecolor{main1}{rgb}{0.05,0.4,0}
+\definecolor{hl1}{rgb}{0.9,0.1,0}
+
 \DeclareDocumentCommand { \IncludeFigure } { o } {
 	% TODO: load <#1>.tex from subfolder
 }
@@ -217,6 +220,7 @@
 \newtheorem{lemma}[thm]{Lemma}
 \newtheorem{theorem}[thm]{Theorem}
 \newtheorem{corollary}[thm]{Korollar}
+\newtheorem{remark}[thm]{Bemerkung}
 
 \theoremheaderfont{\kern-1em\normalfont\small\itshape\bfseries}
 \newtheorem*{proof}{Beweis:}
