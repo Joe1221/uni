@@ -8,7 +8,7 @@
 %%=======================================================================
 
 \ExplSyntaxOff
-\PassOptionsToClass { parskip = half+ } { scrartcl }
+\PassOptionsToClass { parskip = half+} { scrbook }
 \AtBeginDocument{
     \setparsizes{0pt}{0.7ex}{0pt plus 1fil}
 }
@@ -19,7 +19,7 @@
 %%=======================================================================
 
 % Load base class
-\LoadClass { scrartcl }
+\LoadClass [fontsize=12]{ scrbook }
 
 \RequirePackage { xcolor }
 
@@ -158,8 +158,15 @@
 %% Figures
 %%=======================================================================
 
-\definecolor{main1}{rgb}{0.05,0.4,0}
-\definecolor{hl1}{rgb}{0.9,0.1,0}
+\RequirePackage { tikz }
+\tikzset {
+    > = stealth,
+}
+
+%\definecolor{main1}{rgb}{0.05,0.4,0}
+%\definecolor{hl1}{rgb}{0.9,0.1,0}
+\definecolor{main1}{rgb}{0.0,0.0,0.7}
+\definecolor{hl1}{rgb}{0.8,0.1,0.0}
 
 \DeclareDocumentCommand { \IncludeFigure } { o } {
 	% TODO: load <#1>.tex from subfolder
@@ -210,8 +217,8 @@
 \theoremheaderfont{\kern-1em\normalfont\bfseries}
 
 \newcounter{thm}
-\numberwithin{thm}{section}
-\numberwithin{equation}{section}
+\numberwithin{thm}{chapter}
+\numberwithin{equation}{chapter}
 
 \newtheorem{definition}[thm]{Definition}
 \newtheorem{proposition}[thm]{Satz}
@@ -235,10 +242,10 @@
 
 \RequirePackage [
 %    olines, % align lines at the textarea outside
-] { scrpage2 }
+] { scrlayer-scrpage }
 
 \pagestyle { scrheadings }
-\clearscrheadfoot
+%\clearscrheadfoot
 
 % specify content
 %\ohead { \headmark }
