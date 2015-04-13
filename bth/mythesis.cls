@@ -167,6 +167,9 @@
 %\definecolor{hl1}{rgb}{0.9,0.1,0}
 \definecolor{main1}{rgb}{0.0,0.0,0.7}
 \definecolor{hl1}{rgb}{0.8,0.1,0.0}
+\definecolor{red}{RGB}{180,0,0}
+\definecolor{green}{RGB}{0,150,0}
+\definecolor{blue}{RGB}{0,0,180}
 
 \DeclareDocumentCommand { \IncludeFigure } { o } {
 	% TODO: load <#1>.tex from subfolder

@@ -876,12 +876,31 @@ Die Aussagen können mit Hilfe entsprechender Approximationsaussagen auch für s
     Weiter sei $\gamma: [0, 1] \to \C$ eine Parametrisierung des Rechteckrandes $\Boundary\Gamma$ gegen den Uhrzeigersinn.
     Wir schreiben
     \begin{math}[numbered] \label{eq:winding-number_boundary}
-        \deg(F | \Boundary\Gamma) &:= \deg( F \circ \gamma ) \\
-        &= \deg( F|_{[x_0,x_1]\times y_0} ) + \deg( F|_{x_1\times[y_0,y_1]} ) - \deg( F|_{[x_0,x_1]\times y_1} ) - \deg( F|_{x_0 \times [y_0, y_1]} ).
+        \deg(F | \Boundary\Gamma) := \deg( F \circ \gamma )
+        &= \deg( F|_{[x_0,x_1]\times y_0} ) + \deg( F|_{x_1\times[y_0,y_1]} ) \\
+        &\quad- \deg( F|_{[x_0,x_1]\times y_1} ) - \deg( F|_{x_0 \times [y_0, y_1]} ).
     \end{math}
     Dabei bezeichnet beispielsweise $F|_{[x_0,x_1]\times y_0}: [x_0, x_1] \to \C^*$ die durch Spezialisierung der zweiten Variable erhaltene stückweise polynomielle Kurve auf $[x_0, x_1]$.
-    Für eine Motivation der Vorzeichen betrachte Abbildung \ref{fig:rectboundary}.
+    Für eine Motivation der Vorzeichen betrachte die Abbildung \ref{fig:rectboundary}.
 \end{definition}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=2.5]
+        \path[shift={(0.05,0.05)},scale=0.9,semithick]
+            (0,0) edge[->] (1,0)
+            (1,0) edge[->] (1,1)
+            (1,1) edge[->] node[below=4mm] {$\gamma$} (0,1)
+            (0,1) edge[->] (0,0);
+        \path
+            (0,0) edge[->,green] node[anchor=90] {$[x_0,x_1]\times y_0$} (1,0)
+            (1,0) edge[->,green] node[anchor=180] {$x_1\times[y_0,y_1]$} (1,1)
+            (0,0) edge[->,red] node[anchor=0] {$x_0 \times [y_0,y_1]$} (0,1)
+            (0,1) edge[->,red] node[anchor=-90] {$[x_0,x_1] \times y_1$} (1,1);
+    \end{tikzpicture}
+    \caption{Orientierung der Rechtecks-Randkurve $\gamma$ und der Strecken aus \eqref{eq:winding-number_boundary}}
+    \label{fig:rectboundary}
+\end{figure}
 
 Im Folgenden seien $\Gamma, \gamma, F$ stets gemäß \ref{thm:def:wn1} definiert.
 
