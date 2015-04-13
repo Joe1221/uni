@@ -1189,7 +1189,120 @@ Unser nächster Schritt ist eine Verallgemeinerung der Windungszahl eine Dimensi
 
 Sei $\S^n$ für $n \in \N$ die $n$-dimensionale Sphäre.
 Der Abbildungsgrad ordnet jeder stetigen Abbildung $\phi: \S^n \to \S^n$ eine Zahl $\deg(\phi) \in \Z$ zu, welche anschaulich die (orientierte) Anzahl Wicklungen der Sphäre um sich selbst zählt.
-Für eine Illustration siehe Abbildung ??.
+Für eine Illustration siehe Abbildung \ref{fig:spherewinding}.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[baseline=(current bounding box.center)]
+        \begin{axis}[
+            scale=2,
+            view={115}{30},
+            unit vector ratio={1 1 1},
+            %xmin=-1.2,xmax=1.2,
+            %ymin=-1.2,ymax=1.2,
+            %zmin=-1,zmax=1.5,
+            %axis lines=center,
+            %axis x line=none,
+            %axis y line=center,
+            %axis z line=center,
+            hide axis,
+        ]
+        %\draw[-] (axis cs:-2,0,0) -- (axis cs:1,0,0);
+        \addplot3[
+            raw gnuplot,
+            parametric,
+            surf,
+            z buffer=sort,
+            %shader=flat,
+            %mesh/interior colormap={blueblack}{color=(black) color=(blue)},
+            %mesh/interior colormap name=greenyellow2,
+            %colormap name=greenyellow,
+        ] gnuplot {
+            set parametric;
+            set hidden3d;
+            set isosamples 40,10;
+            set urange [-2*pi:2*pi];
+            set vrange [0:pi/2];
+            splot -((u+pi)/(9*pi) + 1)*sin(v)*cos(u/2),-((u+pi)/(9*pi)+1)*sin(v)*sin(u/2),-cos(v)
+        };
+        %\draw[-stealth] (axis cs:1,0,0) -- (axis cs:2,0,0);
+        \addplot3[
+            raw gnuplot,
+            parametric,
+            surf,
+            %z buffer=sort,
+            z buffer=reverse y seq,
+            %shader=flat,
+            %mesh/interior colormap={blueblack}{color=(black) color=(blue)},
+            %mesh/interior colormap name=greenyellow2,
+            %colormap name=greenyellow,
+        ] gnuplot {
+            set parametric;
+            set hidden3d;
+            set isosamples 40,10;
+            set urange [-2*pi:2*pi];
+            set vrange [0:pi/2];
+            splot -((u+pi)/(9*pi) + 1)*sin(v)*cos(u/2),-((u+pi)/(9*pi)+1)*sin(v)*sin(u/2),cos(v) + 0.3
+        };
+        \end{axis}
+    \end{tikzpicture}
+    \quad
+    \begin{tikzpicture}[baseline=(current bounding box.center)]
+        \begin{axis}[
+            scale=2,
+            view={115}{30},
+            unit vector ratio={1 1 1},
+            %xmin=-1.2,xmax=1.2,
+            %ymin=-1.2,ymax=1.2,
+            %zmin=-1,zmax=1.5,
+            %axis lines=center,
+            %axis x line=none,
+            %axis y line=center,
+            %axis z line=center,
+            hide axis,
+        ]
+        %\draw[-] (axis cs:-2,0,0) -- (axis cs:1,0,0);
+        \addplot3[
+            raw gnuplot,
+            parametric,
+            surf,
+            z buffer=sort,
+            %shader=flat,
+            %mesh/interior colormap={blueblack}{color=(black) color=(blue)},
+            %mesh/interior colormap name=greenyellow2,
+            %colormap name=greenyellow,
+        ] gnuplot {
+            set parametric;
+            set hidden3d;
+            set isosamples 80,10;
+            set urange [-2*pi:2*pi];
+            set vrange [0:pi/2];
+            splot ((u+pi)/(9*pi) + 1)*sin(v)*cos(u),((u+pi)/(9*pi)+1)*sin(v)*sin(u),-cos(v)
+        };
+        %\draw[-stealth] (axis cs:1,0,0) -- (axis cs:2,0,0);
+        \addplot3[
+            raw gnuplot,
+            parametric,
+            surf,
+            %z buffer=sort,
+            z buffer=reverse y seq,
+            %shader=flat,
+            %mesh/interior colormap={blueblack}{color=(black) color=(blue)},
+            %mesh/interior colormap name=greenyellow2,
+            %colormap name=greenyellow,
+        ] gnuplot {
+            set parametric;
+            set hidden3d;
+            set isosamples 80,10;
+            set urange [-2*pi:2*pi];
+            set vrange [0:pi/2];
+            splot ((u+pi)/(9*pi) + 1)*sin(v)*cos(u),((u+pi)/(9*pi)+1)*sin(v)*sin(u),cos(v) + 0.3
+        };
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Einfache und zweifache Wicklung der Sphäre $\S^2$, zur Vergleichbarkeit jeweils aufgeschnitten und aufgefächert}
+    \label{fig:spherewinding}
+\end{figure}
 
 Im univariaten Fall für $n = 1$ haben wir die Windungszahl für eine stückweise polynomielle, geschlossene Kurve $\gamma: [0,1] \to \C^*$ definiert.
 Wir können $\gamma$ auch als Abbildung $\phi: \S^1 \to \S^1$ betrachten, z.B. über $\phi(2^{\pi i t}) := \frac{\gamma(t)}{|\gamma(t)|}$.
@@ -1220,28 +1333,28 @@ Wir wollen die Zählung der Schnittpunkte analog zum ersten Kapitel motivieren.
 Dazu betrachten wir Abbildung \ref{fig:idx_counting}.
 Im univariaten Fall hat das Vorzeichen von $p$ und die Art des Vorzeichenwechsels von $q$ die Zählung bestimmt, während hier das Vorzeichen von $p$ und die Orientierung der Fläche (bestimmt durch $q, r$) an der jeweiligen Stelle maßgebend sind.
 
-Der Normalenvektor bestimmt die Orientierung der Fläche.
-Dieser ist gegeben durch
-\begin{math}
-    n(x, y) = \partial_1 f(x, y) \times \partial_2 f(x, y).
-\end{math}
-Im Skalarprodukt $n \cdot e_0$ erkennen wir die Richtung des Normalenvektors.
-Falls die Fläche nur reguläre Durchstöße mit der $p$-Achse besitzt, d.h. $n \cdot e_0 \neq 0$, so können wir unsere Zählung auf folgende Art realisieren:
-\begin{math}
-    \Index{\Gamma}{p}{q,r}
-    &= \sum_{(x_0,y_0) \in V_\Gamma} \sgn\big(p(x_0,y_0)\big) \sgn\big(n(x_0,y_0) \cdot e_0\big), \\
-    &= \sum_{(x_0,y_0) \in V_\Gamma} \sgn\big(p(x_0,y_0)\big) \sgn\Big(\det \Matrix{\partial_1 q(x_0,y_0) & \partial_2 q(x_0,y_0) \\ \partial_1 r(x_0,y_0) & \partial_2 r(x_0,y_0)}\Big),
-\end{math}
-während wir den Abbildungsgrad von $f$ auf $\Gamma$ intuitiv durch
-\begin{math}
-    \deg(f) = \frac{1}{2} \Index{\Gamma}{p}{q,r}
-\end{math}
-erhalten.
+%Der Normalenvektor bestimmt die Orientierung der Fläche.
+%Dieser ist gegeben durch
+%\begin{math}
+%    n(x, y) = \partial_1 f(x, y) \times \partial_2 f(x, y).
+%\end{math}
+%Im Skalarprodukt $n \cdot e_0$ erkennen wir die Richtung des Normalenvektors.
+%Falls die Fläche nur reguläre Durchstöße mit der $p$-Achse besitzt, d.h. $n \cdot e_0 \neq 0$, so können wir unsere Zählung auf folgende Art realisieren:
+%\begin{math}
+%    \Index{\Gamma}{p}{q,r}
+%    &= \sum_{(x_0,y_0) \in V_\Gamma} \sgn\big(p(x_0,y_0)\big) \sgn\big(n(x_0,y_0) \cdot e_0\big), \\
+%    &= \sum_{(x_0,y_0) \in V_\Gamma} \sgn\big(p(x_0,y_0)\big) \sgn\Big(\det \Matrix{\partial_1 q(x_0,y_0) & \partial_2 q(x_0,y_0) \\ \partial_1 r(x_0,y_0) & \partial_2 r(x_0,y_0)}\Big),
+%\end{math}
+%während wir den Abbildungsgrad von $f$ auf $\Gamma$ intuitiv durch
+%\begin{math}
+%    \deg(f) = \frac{1}{2} \Index{\Gamma}{p}{q,r}
+%\end{math}
+%erhalten.
+%
+%Diese Betrachtung ähnelt im weiteren Sinne derjenigen, die Milnor in \cite[§5]{milnor1997topology} liefert, um den Abbildungsgrad zu definieren.
+%Dort werden die regulären Punkte einer differenzierbaren Abbildung zwischen zwei $n$-Mannigfaltigkeiten vorzeichenbehaftet gezählt, entsprechend demnach, ob die Ableitung als Abbildung zwischen den Tangentialräumen die Orientierung beibehält oder umkehrt.
 
-Diese Betrachtung ähnelt im weiteren Sinne derjenigen, die Milnor in \cite[§5]{milnor1997topology} liefert, um den Abbildungsgrad zu definieren.
-Dort werden die regulären Punkte einer differenzierbaren Abbildung zwischen zwei $n$-Mannigfaltigkeiten vorzeichenbehaftet gezählt, entsprechend demnach, ob die Ableitung als Abbildung zwischen den Tangentialräumen die Orientierung beibehält oder umkehrt.
-
-Um die Orientierung der Fläche um einen Durchstoßpunkt zu erhalten, können wir jedoch auch unsere erarbeitete Windungszahl aus dem ersten Kapitel nutzen.
+Um die Orientierung der Fläche um einen Durchstoßpunkt zu erhalten, können wir die Windungszahl aus dem ersten Kapitel nutzen.
 Dazu betrachten wir, wie $(q, r): \R^2 \to \R^2$ ein kleines Rechteck $\Gamma_\epsilon(x,y)$ um die Durchstoßstelle $(x,y) \in \R^2$ abbildet.
 Die Windungszahl des Randes des Bild-Rechtecks $\deg(q,r|\Boundary\Gamma_\epsilon(x,y))$ liefert die Orientierung der Fläche an dieser Stelle (sofern das Rechteck nicht mehrfach gewindet wurde, mehr dazu später).
 Zusammen mit dem Vorzeichen von $p$ ergibt sich für die Zählung dieses Durchstoßpunktes:
