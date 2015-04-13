@@ -1,0 +1,185 @@
+\Timestamp{2015-04-13}
+
+\section{Binomialkoeffizienten}
+
+\begin{itemize}
+    \item
+        Für $x \in \C, k \in \Z$ ist
+        \begin{math}
+            \binom{x}{k} = 
+            \begin{cases}
+                \frac{x(x-1)\dotsb(x-k+1)}{k!} & x \in \C, k \in \N, \\
+                0  & k < 0.
+            \end{cases}
+        \end{math}
+        Für $x \in \Z, k \in \Z$ gilt $\binom{x}{k} \in \Z$, sogar $x \in \N, k \in \Z \implies \binom{x}{k} \in \N$.
+    \item
+        Additionstheorem:
+        \begin{math}
+            \binom{x}{k} = \binom{x-1}{k} + \binom{x-1}{k-1}
+        \end{math}
+        \begin{proof}
+            Die Fälle $k < 0$ und $k = 0$ sind klar.
+            Für $k > 0$ gilt
+            \begin{math}
+                \binom{x}{k} &= \frac{x}{k} \binom{x-1}{k-1} \\
+                &= \frac{x-k}{k} \binom{x-1}{k-1} + \frac{k}{k} \binom{x-1}{k-1} \\
+                &= \binom{x-1}{k} + \binom{x-1}{k-1}.
+            \end{math}
+        \end{proof}
+    \item
+        Binomialsatz:
+        Für $n \in \N$ gilt
+        \begin{math}
+            (x + y)^n = \sum_{k\in\Z} \binom{n}{k} x^k y^{n-k}.
+        \end{math}
+        \begin{proof}
+            Der Fall $n = 0$ ist klar.
+            Für $n > 0$ ist per Induktion
+            \begin{math}
+                (x + y)^n
+                &= (x + y)(x + y)^{n-1}
+                = (x + y) \sum_{k} \binom{n-1}{k} x^k y^{n-1-k} \\
+                &= \sum_{k} \binom{n-1}{k} x^{k+1} y^{n-1-k} + \sum_{k} \binom{n-1}{k} x^k y^{n-k} \\
+                &= \sum_{k} \binom{n-1}{k-1} x^k y^{n-k} +\sum_{k} \binom{n-1}{k} x^k y^{n-k} \\
+                &= \sum_{k} \big( \binom{n-1}{k-1} + \binom{n-1}{k} \big) x^k y^{n-k} \\
+                &= \sum_{k} \binom{n}{k} x^k y^{n-k}
+            \end{math}
+        \end{proof}
+    \item
+        Es gilt
+        \begin{math}
+            2^n = (1+1)^n
+            = \sum_{k} \binom{n}{k}.
+        \end{math}
+        Für alle $k \in \Z$ gilt also $\binom{x}{k} \le 2^n$.
+    \item
+        Es gilt
+        \begin{math}
+            k \binom{n}{k}
+            = (n-k+1) \binom{n}{k-1}
+        \end{math}
+    \item
+        \begin{math}
+            1 = \binom{n}{0} < \binom{n}{1} < \dotsb < \binom{n}{\floor{\frac{n}{2}}}
+            = \binom{n}{\ceil{\frac{n}{2}}} > \dotsb > \binom{n}{n-1} > \binom{n}{n} = 1.
+        \end{math}
+    \item
+        Für $n \ge 2$ gilt
+        \begin{math}
+            \binom{n}{\floor{\frac{n}{2}}} \ge \frac{2^n}{n}.
+        \end{math}
+    \item
+        \begin{math}
+            \frac{4^n}{2n} \le \binom{2n}{n} < \binom{2n + 1}{n} = \binom{2n}{n-1} + \binom{2n}{n} < \sum_k \binom{2n}{k} = 4^n
+        \end{math}
+\end{itemize}
+
+
+\section{Das kleinste gemeinsame Vielfache}
+
+Wir schreiben
+\begin{math}
+    \kgV(n) &:= \kgV(\Set{1, \dotsc, n}),\\
+    \kgV(n) &:= \prod_{\substack{p \le n \\ \text{$p$ prim}}} p^{\floor{\log_p n}}.
+\end{math}i
+
+\begin{itemize}
+    \item
+        Wegen
+        \begin{math}
+            (\frac{n}{2})^{\frac{n}{2}} \le n! \le n^n
+        \end{math}
+        ist
+        \begin{math}
+            n! \in 2^{\LandauTheta(n \log n)}.
+        \end{math}
+\end{itemize}
+
+\begin{lem}[Nair, 1982]
+    Für alle natürlichen Zahlen $1 \le m \le n$ gilt
+    \begin{math}
+        m \binom{n}{m} \divs \kgV(n).
+    \end{math}
+    \begin{proof}
+        Betrachte
+        \begin{math}
+            I := \int_0^1 x^{m-1} (1-x)^{n-m} \di[x] > 0.
+        \end{math}
+        Nun ist $(1-x)^{n-m} = \sum_k (-1)^k \binom{n-m}{k} x^k$ und
+        \begin{math}
+            x^{m-1} (1-x)^{n-1} = \sum_k (-1)^k \binom{n-m}{k} x^{m-1+k}.
+        \end{math}
+        Also ist
+        \begin{math}
+            I = \sum_{k} (-1)^k \binom{n-m}{k} \int_0^1 x^{m-1+k} \di[x]
+            = \sum_k (-1)^k \frac{n-m}{k} \frac{1}{m+k}.
+        \end{math}
+        Es folgt $\kgV(n) I  \in \N$.
+        Außerdem ist $I = \frac{1}{m \binom{n}{m}}$, denn per Induktion nach $n-m$ ist für $m = n$
+        \begin{math}
+            I = \int_0^1 x^{m-1}(1-x)^{n-n} \di[x] = \int_0^1 x^{m-1} \di[x] = \frac{1}{m} = \frac{1}{m \binom{n}{m}}
+        \end{math}
+        und für $1 \le m < n$ mit partieller Integration (Randterme verschwinden)
+        \begin{math}
+            I &= \int_0^1 x^{m-1} (1-x)^{n-m} \di[x] \\
+            &= \int_0^1 \frac{1}{m} x^m (n-m)(1-x)^{n-(m+1)} \\
+            &= \frac{n-m}{m} \int_0^1 x^m (1-x)^{n-(m+1)} \\
+            &= \frac{n-m}{m} \frac{1}{(m+1) \binom{n}{m+1}} \\
+            &= \frac{1}{m \binom{n}{m}}.
+        \end{math}
+        Also $m \binom{n}{m} \divs \kgV(n)$.
+    \end{proof}
+\end{lem}
+
+Es gilt mit obigem Lemma
+\begin{math}
+    \kgV(n) \ge \ceil{\frac{n}{2}} \binom{n}{\ceil{\frac{n}{2}}}
+    \ge \frac{n}{2} \binom{n}{\frac{n}{2}}
+    \ge 2^{n-1}
+\end{math}
+für $n \ge 1$.
+
+\begin{st}
+    Für $n \ge 7$ gilt
+    \begin{math}
+        2^n < \kgV(n)
+    \end{math}
+    \begin{proof}
+        Es gilt
+        \begin{math}
+            (2n+1) \binom{2n}{n} = (n+1) \binom{2n+1}{n+1} \divs \kgV(2n+1)
+        \end{math}
+        und
+        \begin{math}
+            n\binom{2n}{n} \divs \kgV(2n) \divs \kgV(2n+1).
+        \end{math}
+        Nun sind $n, 2n + 1$ teilerfremd und somit $2 (2n+1) \binom{2n}{n} \divs \kgV(2n+1)$.
+        Außerdem
+        \begin{math}
+            n 4^n
+            < n (2n+1) \binom{2n}{n}
+            \le \kgV(2n+1).
+        \end{math}
+        Für $n \ge 4$ ist also
+        \begin{math}
+            2^{2n+2} \le n 4^n < \kgV(2n+1) \le \kgV(2n+2).
+        \end{math}
+        Die Behauptung gilt also für $n \ge 9$.
+        Für $n = 7$ ist
+        \begin{math}
+            2^7 = 128 < 420 = \kgV(7)
+        \end{math}
+        und für $n = 8$ ist
+        \begin{math}
+            2^8 = 256 < 840 = \kgV(8).
+        \end{math}
+    \end{proof}
+    \begin{note}
+        Für $n = 6$ gilt die Aussage nicht mehr:
+        \begin{math}
+            2^6 = 64 \not< 60 = \kgV(6).
+        \end{math}
+    \end{note}
+\end{st}
+
