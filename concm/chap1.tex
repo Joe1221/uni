@@ -183,3 +183,210 @@ für $n \ge 1$.
     \end{note}
 \end{st}
 
+\Timestamp{2015-04-14}
+
+\begin{lem}
+    Für $\frac{n}{2} < m \le n$ gilt $\kgV(n) \divs \kgV(m) \binom{n}{m}$.
+    \begin{proof}
+        Es gilt
+        \begin{math}
+            k \binom{n}{k} \binom{n-k}{m-k} = k \binom{m}{k} \binom{n}{m} \divs \kgV(m) \binom{n}{m},
+        \end{math}
+        denn
+        \begin{math}
+            \frac{n \dotsb (n-k+1)}{k!} \frac{(n-k) \dotsb (n-m+1)}{(m-k)!}
+            \frac{n \dotsb (m-k+1)}{k!} \frac{n \dotsb (n-m+1)}{m!}.
+        \end{math}
+        Es gilt also $k \binom{n}{k} \divs \kgV(m) \binom{n}{m}$ für $k \le \frac{n}{2}$.
+        Wegen $k n \binom{n}{k} = (n-k+1)\binom{n}{n-k+1}$ gilt dies auch für alle $k \le n$.
+        Folglich insbesondere $\kgV(n) \divs \kgV(m) \binom{n}{m}$.
+    \end{proof}
+\end{lem}
+
+\begin{st}
+    Für alle $n \ge 1$ gilt $\kgV(n) \le 4^{n-1}$.
+    \begin{proof}
+        Der Fall $n = 1$ ist klar, den Rest zeigen wir induktiv.
+        Für $n = 2m > 1$ ist mit vorigem Lemma
+        \begin{math}
+            \kgV(2m) \le \kgV(m) \binom{2m}{m}
+            \le 4^{m-1} 4^m
+            = 4^{2m-1}.
+        \end{math}
+        Für $n = 2m + 1 > 1$ ist
+        \begin{math}
+            \kgV(2m + 1) \le \kgV(m+1) \binom{2m+1}{m+1}
+            \le 4^m \binom{2m + 1}{m}
+            \le 4^m  \cdot 4^m
+            = 4^{2m}.
+        \end{math}
+    \end{proof}
+\end{st}
+
+\section{Aussagen zur Primzahldichte}
+
+
+Wir betrachten die Funktion
+\begin{math}
+    \pi(x) = \big| \Set{p \le x & \text{$p$ prim}} \big|
+\end{math}
+für $x \in \R$.
+Im folgenden sei $p$ stets eine Primzahl.
+
+Zusammen mit dem letzten Abschnitt gilt für $n \ge 7$
+\begin{math}
+    2^n < \kgV(n) = \prod_{p\le n} p^{\floor{\log_p n}} \le \prod_{p \le n} n = n^{\pi(n)},
+\end{math}
+Für $n \ge 4$ kann man hieraus folgen
+\begin{math}
+    \frac{n}{\log n} \le \pi(n).
+\end{math}
+Eine mögliche Interpretation dieser Aussage wäre: In den Zahlen mit $\le k$ Bits ist etwa jede $k$-te Zahl prim.
+
+Kommen wir nun zu einer oberen Abschätzung für $\pi(n)$.
+Für $1 < t \le n$ gilt
+\begin{math}
+    t^{\pi(n) - \pi(t)} \le \prod_{t<p\le n} p
+    \le kgV(n)
+    \le 4^n
+\end{math}
+Daraus folgt
+\begin{math}
+    \pi(n) \le \frac{2n}{\log t} + t,
+\end{math}
+da $\pi(t) \le t$.
+Setzen wir nun $t := \frac{n}{\log^2 n}$, so ist
+\begin{math}
+    \pi(n) \le \frac{2n}{\log n} \cdot \underbrace{\frac{\log n}{\log n - 2 \log\log n}}_{\to 0 \text{ für } (n \to \infty)} + \frac{n}{\log^2 n}.
+\end{math}
+Wir erhalten also $\forall \epsilon > 0 \exists n_\epsilon \forall n > n_\epsilon$:
+\begin{math}
+    \pi(n) \le \frac{(2+\epsilon)n}{\log n}.
+\end{math}
+Der Primzahlsatz besagt sogar
+\begin{math}
+    \pi(x) \sim \frac{x}{\ln x}.
+\end{math}
+
+
+\section{Das Betrand'sche Postulat}
+
+
+\begin{st}
+    Für $n \ge 1$ existiert $p$ prim mit $n < p \le 2n$.
+    \begin{proof}
+        Für $n \le 4048$ gilt die Aussage mit den Primzahlen
+        \begin{math}
+            2, 3, 5, 7, 13, 23, 43, 83, 163, 317, 631, 1259, 2503, 4049.
+        \end{math}
+        Wir schreiben
+        \begin{math}
+            e_p(n) := \max\Set{a \in \N & p^a \divs n}.
+        \end{math}
+        Nun ist
+        \begin{itemize}
+            \item
+                $n = \prod_{p} p^{e_p(n)}$,
+            \item
+                $n \binom{2n}{n} \divs \kgV(2n)$,
+            \item
+                $e_p(\kgV(2n)) = \floor{\log_p 2n}$.
+        \end{itemize}
+        Es folgt $e_p(\binom{2n}{n}) \le \log_p 2n$, also
+        \begin{math}
+            p^{e_p(\binom{2n}{n})} \le 2n
+        \end{math}
+        und für $p > \sqrt{2n}$ ist $e_p(\binom{2n}{n}) \le 1$.
+
+        Für $\frac{2}{3} n < p \le n$ und $n \ge 3$ ist
+        \begin{math}
+            e_p(\binom{2n}{n}) = e_p(\frac{(2n)!}{n!n!}
+            = 0.
+        \end{math}
+        Wir erhalten
+        \begin{math}
+            \frac{4^n}{2n}
+            \le \binom{2n}{n}
+            &\le \prod_{p \le \sqrt{2n}} 2n \cdot \prod_{\sqrt{2n} < p < \frac{2}{3}n} p \cdot \prod_{n < p \le 2n} p \\
+            &\le (2n)^{\sqrt{2n} - 1} \kgV(\frac{2}{3} n) \prod_{n < p \le 2n} p \\
+        \end{math}
+        und daraus
+        \begin{math}
+            4^n  \le (2n)^{\sqrt{2n}} 4^{\frac{2}{3}} \prod_{n \le p \le 2n} p.
+        \end{math}
+        Für $m = 2n > 853$ gilt
+        \begin{math}
+            1 < 2^{\frac{1}{3}m - \sqrt{m} \log m} \le \prod_{n < p \le 2m} p.
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Für $n \ge 2^{12}$ gilt
+    \begin{math}
+        \big| \Set{p & n < p < 2n} \big|
+        \ge \frac{n}{3 \log n}.
+    \end{math}
+    \begin{proof}
+        Mit $m = 2n$ gilt
+        \begin{math}
+            (2n)^{|\Set{p & n < p < 2n}|}
+            \ge 2^{\frac{1}{3} m - \sqrt{m} \log m},
+        \end{math}
+        also
+        \begin{math}
+            |\Set{p & n < p < 2n}|
+            \ge \frac{m}{3 \log_2 m} - \sqrt{m}
+            \ge \frac{n}{3 \log_2 n}.
+        \end{math}
+    \end{proof}
+\end{st}
+
+
+\section{Das Wachstum der Fakultät}
+
+Wir hatten bereits gesehen: $\log n! \in \LandauTheta(n \log n)$.
+Es ist
+\begin{math}
+    \ln n! = \ln 2 + \ln 3 + \dotsb + \ln n.
+\end{math}
+und
+\begin{math}
+    \ln (n-1)! < \int_1^n \ln x \di[x] < \ln n!.
+\end{math}
+Es gilt mit $\int \ln x \di[x] = x \ln x - x + c$
+\begin{math}
+    \ln (n-1)! < n \ln n - n + 1 < \ln n!.
+\end{math}
+Exponenzieren ergibt
+\begin{math}
+    (n-1)! < \frac{n^n}{e^n} \cdot e = e (\frac{n}{e})^n < n!.
+\end{math}
+Wir erhalten schließlich
+\begin{math}
+    e(\frac{n}{e})^n
+    < n!
+    < ne (\frac{n}{e})^n.
+\end{math}
+
+Die sogenannte \emph{Stirling'sche Formel} liefert genauer
+\begin{math}
+    n! \sim \sqrt{2\pi n} (\frac{n}{e})^n.
+\end{math}
+
+\section{Anwendung}
+
+Wir hatten gezeigt
+\begin{math}
+    \frac{m}{\log m} \le \pi(m) \le \frac{3m}{\log m}.
+\end{math}
+für $m = p_n$, d.h. die $n$-te Primzahl gilt dann
+\begin{math}
+    \frac{p_n}{\log p_n} \le n \le \frac{3p_n}{\log p_n}
+\end{math}
+und wir erhalten
+\begin{math}
+    p_n &\le n \log p_n, \\
+    p_n &\ge n \log n.
+\end{math}
+
