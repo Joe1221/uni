@@ -1,0 +1,138 @@
+\chapter{Erstes Kapitel?}
+
+\Timestamp{2015-04-15}
+
+Wir betrachten die Geomtrie von Teilmengen des $\R^n$.
+Darunter unterscheiden wir zwischen differenzierbar (siehe Differentialgeometrie) und diskret (polyedrisch).
+
+Das Analogon zur Gauß-Krümmung in der Differentialgeometrie bildet eine sogenannte diskrete Krümmung
+\begin{math}
+    2\pi - \sum \texp{Innenwinkel}.
+\end{math}
+
+Wir betrachten zunächst konvexe Polytope.
+
+
+% 1.
+\section{Konvexe Polytope}
+
+\begin{df}[konvexe Hülle]
+    Für $x,y \in \R^n$ definieren wir die \emphdef{Verbindungsstrecke} als
+    \begin{math}
+        \_{xy} := \Set{\lambda x + (1-\lambda)y & 0 \le \lambda \le 1}.
+    \end{math}
+    Eine Menge $M \subset \R^n$ heißt \emphdef{konvex}, wenn zu je zwei $x,y \in M$ gilt: $\_{xy} \subset M$.
+
+    Analog ist die \emphdef{konvexe Hülle} von Punkten $x_0, \dotsc, x_k$ definiert:
+    \begin{math}
+        \CHull{x_0, \dotsc, x_k}
+        &:= \Set{x & x = \lambda_0 x_0 + \dotsb + \lambda_k x_k, \lambda_i \in [0,1], \sum_i \lambda_i = 1}.
+    \end{math}
+    Die \emphdef{konvexe Hülle} einer Menge $M$ sei
+    \begin{math}
+        \CHull{M}
+        &:= \bigcap_k \Set{K \subset \R^n & M \subset K, K \text{ konvex}}.
+    \end{math}
+    Die \emphdef{affine Hülle} von $M$ ist der kleinste affine Unterraum in $\R^n$, der $M$ enthält.
+    \begin{note}
+        Es lässt sich schreiben
+        \begin{math}
+            \lambda_0 x_0 + \dotsb + \lambda_k x_k
+            = (1-\lambda_k) \Big( \frac{\lambda_0}{1-\lambda_k} x_0  + \dotsb + \frac{\lambda_{k-1}}{1-\lambda_k} x_{k-1} \Big) + \lambda_k.
+        \end{math}
+    \end{note}
+\end{df}
+
+
+\paragraph{Standard-Polytope}
+Im $\R^2$ wäre ein Beispiel Polygone.
+IM $\R^n$ sind $k$-Simplizes ($n \ge k$) als konvexe Hülle von $k + 1$ Punkten in allgemeiner Lage (d.h. affin linear unabhängig) Standard-Polytope.
+Spezieller ist der \emphdef{Standard-Simplex} in $\R^k$ für $k \in \N$ gegeben als konvexe Hülle der Punkte
+\begin{math}
+    x_0 = (0, 0, \dotsc, 0),
+    x_1 = (1, 0, \dotsc, 0), \dotsc,
+    x_k = (0, 0, \dotsc, 1) \in \R^k.
+\end{math}
+Der \emphdef[Würfel]{$k$-Würfel} ist die konvexe Hülle der $2^k$ Punkte $(\pm 1, \dotsc, \pm 1) \in \R^k$.
+
+Das \emphdef[Oktaeder]{$k$-dimensionale Oktaeder} ist die konvexe Hülle, der $2k$ Punkte $(0, \dotsc, \pm 1, \dotsc, 0) \in \R^k$ ($\pm 1$ in jeder einzelnen Koordinate).
+
+Das \emphdef{Ikosaeder} ist die konvexe Hülle von $(0,\pm \tau, 1), (\pm 1, 0, \pm \tau), (\pm \tau, \pm 1, 0)$, wobei
+\begin{math}
+    \tau^2 = \tau + 1,
+\end{math}
+d.h. $\tau$ ist der \emphdef{goldene Schnitt}, $\tau = \frac{1}{2}(\sqrt 5 + 1) \approx 1.618$.
+Wir ordnen dem Ikosaeder das Symbol $\{3,5\}$ zu (5 Dreiecke um jede Ecke), mehr dazu später.
+
+Das \emphdef{Dodekaeder} ist die konvexe Hülle von
+\begin{math}
+    (0, \pi \tau^{-1}, \pm \tau),
+    (\pm \tau, 0, \pm \tau^{-1}),
+    (\pm \tau^{-1}, \pm \tau, 0),
+    (\pm 1, \pm 1, \pm 1).
+\end{math}
+
+\paragraph{Kartesische Produkte}
+Seien $K \subset \R^k, L \subset \R^l$ konvexe Polytope, dann ist
+\begin{math}
+    K \times L \subset \R^k \times \R^l \isomorphic \R^{k+l}
+\end{math}
+wieder eine konvexes Polytop.
+Beispielsweise ist ein $k$-Würfel das Produkt aus einem $(k-1)$-Würfel und dem Intervall $[-1,1]$.
+
+\paragraph{Prisma über $K$}
+Für ein konvexes Polytop $K$ ist $P = K \times [0,1]$ das Prisma über $K$.
+
+\paragraph{Pyramide über $K$}
+Die Pyramide über $K$ ist $\CHull{K \cup \Set{x_0}}$, wobei $x_0$ außerhalb der affinen Hülle von $K$ liegt.
+Beispielsweise ist das $k$-Oktaeder die Doppelpyramide über das $(k-1)$-Oktaeder.
+
+\paragraph{Minkowski-Summe}
+Wir bezeichnen
+\begin{math}
+    K + L := \Set{x + y & x\in K, y \in L}
+\end{math}
+als \emphdef{Minkowski-Summe} der Polyeder $K$ und $L$.
+
+\begin{df}[$H$-Polyeder, $H$-Polytop]
+    Ein \emphdef[H-Polyeder]{$H$-Polyeder} im $\R^n$ ist der Durchschnitt endlich vieler abgeschlossener Halbräume des $\R^n$.
+
+    Ein \emphdef[H-Polytop]{$H$-Polytop} ist ein beschränktes $H$-Polyeder (d.h. es enthält keinen Strahl $\Set{x+ty & t \ge 0}$).
+\end{df}
+
+\begin{df}[$V$-Polytop]
+    Ein \emphdef[V-Polytop]{$V$-Polytop} ist die konvexe Hülle endlich vieler Punkte.
+\end{df}
+
+Die Polytope im folgenden seien nicht degeneriert in dem Sinne, dass sie in einer Hyperebene enthalten sind.
+
+\begin{df}
+    Ein \emphdef{exponierter Punkt} oder \emphdef{Ecke} einer konvexen Menge $M$ ist ein Punkt $p \in M$, sodass $M \cap H = \Set{p}$ für eine gewisse Hyperebene $H$.
+
+    Der Punkt $p$ heißt \emphdef{extremer Punkt}, wenn aus $p = \lambda x + (1-\lambda)y$ mit $x,y \in P$ stets folgt: $p = x$ oder $p = y$.
+    \begin{note}
+        Aus exponiert folgt extrem.
+        Die Umkehrung gilt nicht (Rechteck mit zwei Halbkreisen).
+    \end{note}
+\end{df}
+
+\begin{df}[Eckenfigur]
+    Sei $P \subset \R^n$ ein $V$-Polytop, nicht in einer Hyperebene enthalten.
+    $v_0$ sei eine Ecke von $P$, d.h. ein exponierter Punkt:
+    \begin{math}
+        \Set{v_0} =
+        P \cap \Set{x & \<c,x\> = c_0}
+    \end{math}
+    für $P \subset \Set{x & \<c,x\> \le c_0}$.
+    Die Hyperebene $H = \Set{x & \<c, x\> = c_0}$ wird auch \emphdef{Stützhyperebene} genannt.
+
+    Dann ist $P / v_0 = P \cap \Set{x & \<c, x\> = c_0 - \epsilon}$ für hinreichend kleines $\epsilon > 0$ die \emphdef{Eckenfigur} von $P$ in $v_0$.
+
+\end{df}
+
+
+
+
+
+
+
