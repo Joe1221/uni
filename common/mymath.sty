@@ -132,19 +132,46 @@
 % ========================================================
 
 \keys_define:nn { envmath } {
-    numbered .bool_set:N = \l_envmath_numbered,
+    numbered-bool .bool_set:N = \l_envmath_numbered,
+    numbered-single .bool_set:N = \l_envmath_numbered_single,
+    numbered-multiple .bool_set:N = \l_envmath_numbered_multiple,
+    numbered .choice:,
+    numbered .default:n = single,
+    numbered / single .meta:n = { numbered-bool, numbered-single },
+    numbered / multiple .meta:n = { numbered-bool, numbered-multiple },
 }
 
 \DeclareDocumentEnvironment { math } { o } {
     \IfNoValueF { #1 } {
 	\keys_set:nn { envmath } { #1 }
     }
-    \bool_if:NTF \l_envmath_numbered { \begin{equation} } { \begin{equation*} }
-    \begin{aligned}
+    \bool_if:NTF \l_envmath_numbered {
+	\bool_if:NTF \l_envmath_numbered_multiple {
+	    \subequations
+	    \align
+	} {
+	    \begin{equation}
+	    \begin{aligned}
+	}
+    } {
+	\begin{equation*}
+	\begin{aligned}
+    }
 } {
-    \end{aligned}
-    \bool_if:NTF \l_envmath_numbered { \end{equation} } { \end{equation*} }
-    \par
+    \bool_if:NTF \l_envmath_numbered {
+	\bool_if:NTF \l_envmath_numbered_multiple {
+	    \endalign
+	    \endsubequations
+	} {
+	    \end{aligned}
+	    \end{equation}
+	    \par
+	}
+    } {
+	\end{aligned}
+	\end{equation*}
+	\par
+    }
 }
 
 \newcommand{\texp}[1]{\text{\footnotesize [#1]}}
