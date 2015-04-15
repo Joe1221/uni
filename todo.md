@@ -18,6 +18,8 @@
 
 ### Titlepage
 
+- Add field for lecturer/docent
+- Add field for semester/time, maybe below institute?
 - <del>Include timestamps for last change date</del>
 - Include recent git history (filtered for current course)
 
