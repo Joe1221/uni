@@ -7,6 +7,7 @@
 - <del>Revise `\coursetimestamp{}{}{}` syntax and usage</del>
 - What about `\fixme` notation, showing on the margin, or even with an index?
 - Reference `\ref{4.7}[b]` for subitems
+- Find some better notation for arrows (injective, bijectiv, `\leadsto`, left/right, …)
 
 ### Minor Cosmetics
 
