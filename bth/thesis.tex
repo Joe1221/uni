@@ -346,7 +346,7 @@ Durch Summation unter der Beachtung des Vorzeichens von $p$ erhalten wir die mot
 
 
 \begin{definition} \label{thm:def:ci}
-    Seien $\Gamma = [a,b]$, $p, q \in \R[x]$ ohne gemeinsame Nullstellen auf $[a,b]$ und $\epsilon > 0$ wie in \ref{thm:lem:wn0_const}.
+    Seien $\Gamma = [a,b]$, $p, q \in \R[x]$ ohne gemeinsame Nullstellen auf $[a,b]$.
     Wir definieren
     \begin{math}
         \Index{\Gamma_\epsilon(x)}{p}{q}
@@ -1080,7 +1080,7 @@ Im Folgenden seien $\Gamma, \gamma, F$ stets gemäß \ref{thm:def:wn1} definiert
      \end{proof}
 \end{lemma}
 
-\begin{proposition}[Homotopie-Invarianz]
+\begin{proposition}[Homotopie-Invarianz] \label{thm:prop:wn_hominv}
     Seien $\gamma_0, \gamma_1: [0,1] \to \C^*$ zwei homotope Kurven, d.h. es existiert eine Homotopie $F: [0,1] \times [0,1] \to \C^*$ mit $F(0,t) = \gamma_0(t)$, $F(1,t) = \gamma_1(t)$ und $F(s,0) = F(s,1)$ für alle $s,t \in [0,1]$.
 
     Dann gilt $\deg(\gamma_0) = \deg(\gamma_1)$.
@@ -1262,12 +1262,10 @@ Das Produkt $\gamma_0 \cdot \gamma_1$ ist von der Form
 
 
 
-\clearpage
-
 \chapter{Der bivariate Fall: Abbildungsgrad und Kronecker-Index} \label{sec:2}
 
 
-\section{Geometrische Motivation}
+\section{Geometrische Motivation} \label{sec:ki_mot}
 
 
 Im Kapitel \ref{sec:1} haben wir die Windungszahl anhand des Cauchy-Index definiert:
@@ -1454,10 +1452,10 @@ Wir werden nun einige Vorkehrungen treffen, um die Art der Durchstoßstellen bes
     Wenn $p, q, r$ aus dem Kontext klar sind, schreiben wir auch $\_V_\Gamma$ oder nur $\_V$.
 \end{definition}
 
-$V_\Gamma$ hat idealerweise die Gestalt wie in Abbildung ??, kann jedoch auch nicht-isolierte Punkte enthalten, wenn beispielsweise $q$ und $r$ gleiche Faktoren besitzen.
+Die Menge $V_\Gamma$ ist im idealen Fall diskret, wie in Abbildung \ref{fig:polyiseczeros} kann jedoch auch nicht-isolierte Punkte enthalten, wenn beispielsweise $q$ und $r$ gleiche Faktoren besitzen.
 
 \begin{definition}
-    Seien $p, q, r \in \R[x]$, $\Gamma := [x_0, x_1] \times [y_0, y_1]$.
+    Seien $p, q, r \in \R[x,y]$ und $\Gamma := [x_0, x_1] \times [y_0, y_1]$.
     Wir nennen das Tupel $(\Gamma, p, q, r)$ \emphdef{zulässig}, falls
     \begin{enumerate}[i)]
         \item
@@ -1469,13 +1467,37 @@ $V_\Gamma$ hat idealerweise die Gestalt wie in Abbildung ??, kann jedoch auch ni
     \end{enumerate}
 \end{definition}
 
+\begin{definition} \label{thm:def:gamma2_eps}
+    Sei $\Gamma = [x_0,x_1] \times [y_0, y_1]$ eine Rechteck und $(x,y) \in \R^2$.
+    Wir definieren für $\epsilon > 0$ das Rechteck
+    \begin{math}
+        \Gamma_\epsilon(x,y) := B_\epsilon(x,y) \cap \Gamma,
+    \end{math}
+    wobei $B_\epsilon(x,y)$ den Ball um $(x,y)$ mit Radius $\epsilon$ in der Supremumsnorm bezeichnet ($B_\epsilon(x,y)$ ist also selbst ein Rechteck).
+\end{definition}
+
+\begin{lemma} \label{thm:lem:wn1_const}
+    Sei $(\Gamma, p, q, r)$ zulässig und $(x,y) \in \R^2$.
+    Es existiert $\epsilon_0 > 0$, sodass $\deg(q,r|\Boundary\Gamma_\epsilon(x,y))$ für alle $0 < \epsilon \le \epsilon_0$ konstant ist.
+    \begin{proof}
+        Falls $(x,y) \not\in V_{\Gamma}(q,r)$, so lässt sich $\epsilon_0$ dank Stetigkeit hinreichend klein wählen, dass $(q,r): \R^2 \to \R^2$ auf $\Gamma_\epsilon$ nicht verschwindet.
+        Die Aussage folgt dann mittels \ref{thm:lem:wn1_null}.
+
+        Sei also $(x,y) \in V_{\Gamma}(q,r)$.
+        Da $V_\Gamma(q,r)$ diskret ist, können wir $\epsilon_0 > 0$ hinreichend klein wählen, dass $V_{\Gamma_{\epsilon_0}}(q,r)$ nur aus $(x,y)$ besteht.
+        Für alle $0 < \epsilon < \epsilon_0$ lassen sich die Rechtecke $\Gamma_{\epsilon_0}$ und $\Gamma_\epsilon$ über eine stückweise polynomielle Homotopie ineinander überführen.
+        Die Aussage folgt dann aus \ref{thm:prop:wn_hominv}.
+    \end{proof}
+\end{lemma}
+
+Wenn im Folgenden von $\deg(q,r|\Boundary\Gamma_\epsilon(x,y))$ die Rede ist, so sei $\epsilon$ stets gemäß \ref{thm:lem:wn1_const} hinreichend klein gewählt.
+
 \begin{definition} \label{thm:def:idx}
     Sei $(\Gamma, p, q, r)$ zulässig.
-    Für $(x_0, y_0) \in V_\Gamma$ existiert $\eps > 0$, sodass $p(x,y) \neq 0$ auf $\Gamma_\eps(x_0, y_0)$ und $\Gamma_\eps(x_0, y_0) \cap V = \Set{(x_0, y_0)}$.
-    Setze
+    Wir definieren
     \begin{math}
-        \Index{(x_0,y_0)}{p}{q,r} &:= \sgn(p) \deg(q,r|\Boundary\Gamma_\eps), \\
-        \Index{\Gamma}{p}{q,r} &:= \sum_{(x_0,y_0) \in V_\Gamma} \Index{(x_0,y_0)}{p}{q,r}.
+        \Index{\Gamma_\epsilon(x,y)}{p}{q,r} &:= \sgn(p) \deg(q,r|\Boundary\Gamma_\eps), \\
+        \Index{\Gamma}{p}{q,r} &:= \sum_{(x,y) \in V_\Gamma} \Index{(x,y)}{p}{q,r}.
     \end{math}
     Wir nennen $\Index{\Gamma}{p}{q,r}$ \emphdef{Kronecker-Index} von $p, q, r$ auf $\Gamma$.
 \end{definition}
@@ -1495,24 +1517,24 @@ $V_\Gamma$ hat idealerweise die Gestalt wie in Abbildung ??, kann jedoch auch ni
 \section{Eigenschaften}
 
 \begin{proposition}[Eigenschaften] \label{thm:prop:idx_prop}
-    Seien $(\Gamma, p, q, r)$ zulässig.
+    Seien $(\Gamma, p, q, r)$ zulässig, $\Gamma_1, \Gamma_2$ Rechtecke und $s, s_1, s_2 \in \R[x,y]$.
     Der Kronecker-Index genügt folgenden Eigenschaften:
     \begin{enumerate}[i)]
         \item
-            \emph{Subdivision}: Für $V_{\Gamma_1} \cup V_{\Gamma_2} = V_\Gamma$, $V_{\Gamma_1} \cap V_{\Gamma_2} = \emptyset$ gilt
+            \emph{Subdivision}: Falls $\_V_{\Gamma_1} \cup \_V_{\Gamma_2} = \_V_\Gamma$ und $\Gamma_1 \cap \Gamma_2 \cap \_V_{\Gamma} = \emptyset$ gilt
             \begin{math}
                 \Index{\Gamma}{p}{q,r} = \Index{\Gamma_1}{p}{q,r} + \Index{\Gamma_2}{p}{q,r},
             \end{math}
         \item
-            \emph{Homogenität}: Falls $\sgn(s) = \const \neq 0$ auf ganz $\_V$ und $s(x,y) \neq 0$ auf $\Boundary\Gamma$, so gilt
+            \emph{Homogenität}: Falls $(\Gamma, sp, q, r)$ zulässig ist und $\sgn(s) = \const \neq 0$ auf ganz $\_V$, so gilt
             \begin{math}
                 \sgn(s) \Index{\Gamma}{p}{q,r}
                 = \Index{\Gamma}{sp}{q,r}
-                = \Index{\Gamma}{p}{sq,r}
-                = \Index{\Gamma}{p}{q,sr}.
+               % = \Index{\Gamma}{p}{sq,r}
+               % = \Index{\Gamma}{p}{q,sr}.
             \end{math}
         \item
-            \emph{Scherung}:
+            \emph{Scherung}: Falls $(\Gamma, p + s_1q + s_2r, q, r)$ zulässig ist, so gilt
             $
                 \Index{\Gamma}{p}{q,r} = \Index{\Gamma}{p+s_1q + s_2r}{q,r}.
             $
@@ -1536,33 +1558,25 @@ $V_\Gamma$ hat idealerweise die Gestalt wie in Abbildung ??, kann jedoch auch ni
     \begin{proof}
         \begin{enumerate}[i)]
             \item
-                Da $V_\Gamma, V_{\Gamma_1}, V_{\Gamma_2}$ ausschließlich aus isolierten Punkten besteht lässt sich $\eps$ in der Definition \ref{thm:def:idx} hinreichend klein wählen, dass alle $\Gamma_\eps(x,y)$ für $(x,y) \in V_\Gamma$ disjunkt sind.
-
-                Da $V_\Gamma$ die disjunkte Vereinigung von $V_{\Gamma_1}, V_{\Gamma_2}$ ist, folgt die Aussage aus der Summation in \ref{thm:def:idx}.
+                Zunächst besitzen dank Voraussetzung $\Boundary\Gamma_1$ und $\Boundary\Gamma_2$ keine Punkte aus $\_V_{\Gamma}$ und somit sind $(\Gamma_1, p, q, r)$ und $(\Gamma_2, p, q, r)$ zulässig.
+                Die Mengen $\_V_{\Gamma_1}$ und $\_V_{\Gamma_2}$ sind disjunkt und die Summation aus der Definition \ref{thm:def:idx} ergibt die gewünschte Aussage.
             \item
-                Zunächst ist $V(q,r) = V(sq,r) = V(q,sr)$.
-                An jeder Nullstelle $(x,y) \in V$ gilt
+                %Zunächst ist $V(q,r) = V(sq,r) = V(q,sr)$.
+                Für alle $(x,y) \in V(q,r)$ ist $\sgn(s)$ konstant und
                 \begin{math}
-                    \sgn(s) \Index{\Gamma}{p}{q,r}
-                    = \sgn(s) \sgn(p) \deg((q,r)|\Boundary \Gamma_\eps)
-                    = \Index{\Gamma}{sp}{q,r}.
+                    \sgn(s) \Index{\Gamma_\epsilon(x,y)}{p}{q,r}
+                    = \sgn(s) \sgn(p) \deg((q,r)|\Boundary \Gamma_\eps(x,y))
+                    = \Index{\Gamma_\epsilon(x,y)}{sp}{q,r}.
                 \end{math}
-                Außerdem ist
-                \begin{math}
-                    \sgn(s) \Index{\Gamma}{p}{q,r}
-                    = \sgn(p) \sgn(s)\deg((q,r)|\Boundary \Gamma_\eps)
-                    = \sgn(p) \deg((sq,r)|\Boundary \Gamma_\eps)
-                    = \Index{\Gamma}{sp}{q,r},
-                \end{math}
-                da $\deg(\argdot)$ die Homogenität des Cauchy-Index erbt.
-                Der letzte Fall verläuft analog.
+                In der Summe über $\Gamma$ ergibt sich die Aussage.
             \item
-                In jedem Punkt $(x,y) \in V$ ist $\sgn(p) = \sgn(p + s_1q + s_2r)$ und die Behauptung folgt.
+                In jedem Punkt $(x,y) \in V(q,r)$ ist $\sgn(p) = \sgn(p + s_1q + s_2r)$ und die Behauptung folgt durch Summation.
             \item
-                Folgt aus der Invarianz der Windungszahl unter Drehung um 90°, siehe \ref{thm:lem:wn1_rot}.
+                Die Zulässigkeit ist symmetrisch formuliert, also ist $(\Gamma, p, r, q)$ auch zulässig.
+                Die Aussage folgt durch Anwenden von \ref{thm:lem:wn1_rot} in jedem Punkt $(x,y) \in V(q,r)$.
             \item
                 Da $(\Gamma, p, q, r)$ und $(\Gamma, q, p, r)$ zulässig sind, muss $V(q,r) \cap V(p,r) = \emptyset$ gelten.
-                Wir können also durch Subdivision davon ausgehen, dass ohne Einschränkung $V(p,r) = \emptyset$.
+                Wir können also durch Subdivision davon ausgehen, dass ohne Einschränkung $V(p,r) = \emptyset$ (die geforderten Voraussetzungen der Subdivision können erfüllt werden, da $\_V$ diskret ist).
                 Da $p(x,y) \neq 0$ für alle $(x,y) \in V(q,r)$, gilt $V(q,r) = V(pq,r)$.
                 Sei also $(x,y) \in V(pq,r)$, dann gilt
                 \begin{math}
@@ -1573,7 +1587,7 @@ $V_\Gamma$ hat idealerweise die Gestalt wie in Abbildung ??, kann jedoch auch ni
                 \end{math}
                 Die zweite Aussage $\Index{\Gamma}{p}{q,r} + \Index{\Gamma}{r}{q,p} = \Index{\Gamma}{1}{q,pr}$ folgt mit Antikommutativität aus iv).
             \item
-                Sei $(x,y) \in V$, dann gilt per definitionem
+                Sei $(x,y) \in V(q,r)$, dann gilt per definitionem
                 \begin{math}
                     \Index{\Gamma_\epsilon(x,y)}{1}{q,r} = \deg(F|\Boundary\Gamma_\eps(x,y)).
                 \end{math}
@@ -1595,13 +1609,12 @@ Wir bezeichnen dieses Vorgehen im Folgenden als \emphdef{Permutieren}.
 Es ist im bivariaten Fall mit zwei Variablen allerdings zunächst nicht klar, wie der „Grad eines Polynoms“ zu definieren ist und auf welche Weise wir ihn zuverlässig reduzieren.
 Betrachte beispielswiese $p = x^2$, $q = xy$, $r = y^2 \in \R[x,y]$: es besteht keine Hoffnung wie im univariaten Fall alle Variablen in einem Term allein durch Scherung und Permutieren zu eliminieren.
 
-Um diesem Problem entgegenzutreten betrachten wir die Polynome zunächst als Elemente aus $\R[x][y]$, bzw. $\R[y][x]$, d.h. als Polynome in einer Variablen $y$ oder $x$ mit Koeffizienten aus dem Polynomring $\R[x]$, bzw. $\R[y]$.
+Um diesem Problem entgegenzutreten betrachten wir die Polynome zunächst als Elemente aus $\R[x][y]$, oder $\R[y][x]$, d.h. als Polynome in einer Variablen $y$, bzw. $x$ mit Koeffizienten aus dem Polynomring $\R[x]$, bzw. $\R[y]$.
 
 \begin{definition}
     Sei $p \in \R[x,y]$.
     Wir bezeichnen mit $\deg_x(p)$, $\deg_y(p)$ den Grad des Polynoms $p$ als Element des Polynomrings $\R[y][x]$, bzw $\R[x][y]$ und mit $\lc_x(p) \in \R[y]$, $\lc_y(p) \in \R[x]$ den jeweils führenden Koeffizienten (engl. “leading coefficient”).
 \end{definition}
-
 
 Wir werden die sogenannte pseudo-euklidische Division als Verallgemeinerung der euklidisichen Division nutzen, um in diesen Polynomringen eine Reduzierung einer dieser Grade zu ermöglichen.
 Ganz problemfrei ist diese Verallgemeinerung allerdings nicht.
@@ -1771,7 +1784,11 @@ Unter der zugegeben optimistischen Haltung, dass uns die Nullstellen $c(x) = 0$ 
 \end{proposition}
 
 \begin{note}
-    Im Zuge dieser Bachelorarbeit ist eine Implementierung des Algorithmus entstanden \footnote{Quellcode erhältlich auf \url{http://www.stud.mathematik.uni-stuttgart.de/~hilbsn/bth/code}}.
+    Im Zuge dieser Bachelorarbeit ist eine teilweise Implementierung des Algorithmus entstanden \footnote{Quellcode erhältlich auf \url{http://www.stud.mathematik.uni-stuttgart.de/~hilbsn/bth/code}}.
+
+    Für $z = x + yi$ wurden aus der Darstellung $z^n = p + iq$ einfache Beispiele ermittelt ($p + iq$ beschreibt eine $n$-fache Wicklung um die Null) für die erfolgreich der Kronecker-Index bestimmt werden konnte.
+
+    Eine nähere Ausführung dieser Ergebnisse soll an dieser Stelle jedoch nicht erfolgen.
 \end{note}
 
 
