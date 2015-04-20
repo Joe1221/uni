@@ -69,3 +69,153 @@ Dies nennen wir einen \emphdef[Delta-Zug]{$\Delta$-Zug}
 
     Die Äquivalenzklasse $[P]$ heißt der \emph{Knotentyp} von $P$.
 \end{df}
+
+
+\Timestamp{2015-04-20}
+
+\begin{ex}
+    Man bestimme alle Knotentypen in $\R^2$ und anschließend in $\R^d$ für $d > 4$.
+\end{ex}
+
+\begin{df}
+    Ein Knoten $P = (v_1, \dotsc, v_n)$ in $\R^d$ heißt \emphdef{trivial}, wenn $P$ isotop ist zu einem Dreieck, d.h. zu $P' = (v_1,v_2,v_3)$.
+\end{df}
+
+\begin{prop}
+    Jeder Knoten in $\R^2$ ist trivial.
+    \begin{proof}
+        Das ist die Aussage des (polygonalen) Satzes von Schönflies.
+    \end{proof}
+\end{prop}
+
+\begin{note}
+    In $\R^2$ gibt es \emph{zwei} Äquivalenzklassen trivialer Knoten (Orientierung).
+    In $\R^d$ mit $d \ge 3$ sind alle trivialen Knoten äquivalent.
+    In $\R^d$ mit $d \ge 4$ sind alle Knoten trivial.
+\end{note}
+
+\begin{ex}
+    Ein (polygonaler) Knoten $P$ in $\R^3$ ist trivial genau dann, wenn er eine Scheibe berandet, also eine eingebettete simpliziale Fläche $S \subset \R^3$, sodass $\Boundary S = |P|$ und $S \homeomorphic \D^2$.
+    \begin{proof}
+        Hinrichtung leicht, Rückrichtung wie Schönflies.
+    \end{proof}
+\end{ex}
+
+\subsection{Beweglichkeit von Knoten}
+
+\begin{st}
+    Sei $P = (v_1, \dotsc, v_n)$ in $\R^d$ ein polygonaler Knoten.
+    Dann existiert ein $\epsilon > 0$, sodasss jede Folge $P' = (v_1', \dotsc, v_n')$ in $\R^d$ mit $|v_i - v_i'| < \epsilon$ einen Knoten definiert und $P' \sim P$ gilt.
+    \begin{enumerate}[(1)]
+        \item
+            $P \sim P + v$ für $v \in \R^d$,
+        \item
+            $P \sim \rho(P)$ für jede Drehung $\rho$,
+        \item
+            $P \sim \lambda P$ für $\lambda \in \R_{>0}$.
+            Für $\lambda < 0$ gilt dies im Allgemeinen nicht.
+    \end{enumerate}
+    \begin{proof}
+        Wähle
+        \begin{math}
+            \epsilon := \frac{1}{2} \min \Set{\Set{d(v_i, v_j) & |i-j| \ge 1 } \cup \Set{d([v_{i-1},v_i], [v_{j-1},v_j]) & |i-j| \ge 2}}.
+        \end{math}
+        \begin{enumerate}[(1)]
+            \item
+                Wähle $n \in \N$ so groß, dass $|\frac{v}{n}| < \epsilon$.
+                Betrachte $\tau: \R^3 \to \R^3, x \mapsto x + \frac{v}{n}$.
+                Nun ist $P \sim \tau(P) \sim \dotsb \sim \tau^n(P) = P + v$.
+            \item
+                Analog.
+            \item
+                Ähnlich.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+% todo: Für affine Abbildungen
+
+\begin{kor}
+    Die Menge aller Knotentypen im $\R^d$ ist (höchstens) abzählbar.
+    \begin{proof}
+        Wir betrachten wieder polygonale Knoten mit Ecken in $\Q^d$.
+        Dies sind abzählbar viele und repräsentieren alle Knotentypen dank Beweglichkeit.
+    \end{proof}
+\end{kor}
+
+\begin{note}
+    \begin{enumerate}[(1)]
+        \item
+            Es gilt $P(v_1, v_2, \dotsc, v_n) \sim P' = (v_2, \dotsc, v_n, v_1)$.
+        \item
+            Aus $|P| = |P'|$ in $\R^d$ mit gleicher Orientierung folgt $P \sim P'$.
+    \end{enumerate}
+\end{note}
+
+
+% A2
+\section{Knotendiagramme und der Satz von Reidemeister}
+
+
+Betrachte die Projektion $\pi: \R^3 \to \R^2, (x,y,z) \mapsto (x,y)$.
+Das Bild eines Knotens unter $\pi$ mit Kreuzungsinformationen wollen wir Knotendiagramm nennen.
+
+\begin{df}
+    Ein Polygonzug $P = (v_1, \dotsc, v_n)$ in $\R^d$ heißt \emphdef{regulär}, wenn
+    \begin{math}
+        [v_{i-1},v_i] \cap [v_{j-1},v_j] \cap [v_{k-1}, v_{k}] = \emptyset
+    \end{math}
+    für alle $1 \le i < j < k \le n$ gilt.
+\end{df}
+
+\begin{note}
+    Durch Einfügen von Zwischenpunkten können wir annehmen:
+    Jede Kante $[v_{i-1}, v_i]$ schneidet neben $[v_{i-2}, v_{i-1}]$ und $[v_{i},v_{i+1}]$ höchstens eine weitere Kante $[v_{j-1},v_j]$ mit $|i-j| \ge 2$.
+    Außerdem schneiden die Nachbarn jeweils nur ihre eigenen Nachbarn.
+
+    Wenn sich zwei Kanten kreuzen, so wählen wir eine als „drüber“, die andere als „drunter“.
+    Der reguläre Polygonzug mit diser Zusatzinfo heißt \emphdef{Diagramm}.
+\end{note}
+
+\begin{lem}
+    Zu jedem Knotendiagramm $D$ in $\R^2$ existiert eine Hochhebung zu einem Knoten $P$ in $\R^3$ mit $\pi(P) = D$ und in jeder Kreuzung hat die drüberlaufende Kante höhere $z$-Koordinate als die drunterlaufende.
+    Je zwei solcher Hochhebungen $P, P'$ zu $D$ sind isotop (d.h. $\Delta$-äquivalent).
+\end{lem}
+
+In diesem Sinne stellt jedes Knotendiagramm einen Knotentyp dar.
+
+
+\subsection{Reidemeister-Züge für polygonale Diagramme im \texorpdfstring{$\R^2$}{ℝ²}}
+
+
+Im wesentlichen drei Reidemeisterzüge $R1$ bis $R3$ ($R0$ unwesentlich).
+
+\begin{lem}
+    Zu jedem Knotendiagramm $D = (v_1, \dotsc, v_n)$ in $\R^2$ existiert $\epsilon > 0$ sodass jedes $D' = (v_1', \dotsc, v_n')$ in $\R^2$ ebenfalls ein Knoten diagramm ist und $D' \stack{R0}\sim D$ gilt.
+    \begin{enumerate}[(1)]
+        \item
+            $D \sim D + v$,
+        \item
+            $D \sim \rho(D)$,
+        \item
+            $D \sim \lambda D$ wie zuvor.
+    \end{enumerate}
+    \begin{proof}
+        Ähnlich wie zuvor.
+    \end{proof}
+\end{lem}
+
+\begin{lem}
+    Seien $D, D'$ zwei Knotendiagramme in $\R^2$ und $P, P'$ in $\R^3$ Hochhebungen.
+    Aus $D \stack{R}\sim D'$ folgt $P \stack{\Delta}\sim P'$.
+\end{lem}
+
+\begin{df}
+    Zu $P$ in $\R^3$ heißt eine Projektionsrichtung $v \in \S^2$ \emphdef{regulär}, wenn $\pi: \R^2 \to \<v\>^\orth \homeomorphic \R^2$ den Knoten $P$ regulär projiziert, d.h. $D = \pi(P)$ ist regulär, andernfalls \emphdef{singulär}.
+\end{df}
+
+\begin{lem}
+    Die Menge der singulären Richtungen zu $P$ besteht aus endlich vielen Punkten und Kurven auf der Sphäre $\S^2$.
+    Ihr Komplement, die Menge aller regulären Richtungen, ist daher offen und dicht.
+\end{lem}
+
