@@ -217,5 +217,128 @@ Im wesentlichen drei Reidemeisterzüge $R1$ bis $R3$ ($R0$ unwesentlich).
 \begin{lem}
     Die Menge der singulären Richtungen zu $P$ besteht aus endlich vielen Punkten und Kurven auf der Sphäre $\S^2$.
     Ihr Komplement, die Menge aller regulären Richtungen, ist daher offen und dicht.
+\Timestamp{2015-04-22}
+    \begin{proof}
+        Drei Fälle singulärer Richtungen $v \in \S^2$:
+        \begin{enumerate}[(1)]
+            \item
+                Eine Kante $[v_{i-1},v_i]$ wird auf einen Punkt projiziert.
+                Dies ist genau dann der Fall, wenn $v \in \R(v_i - v_{i-1}) \cap \S^2 = \Set{\pm u}$.
+            \item
+                Ein Punkt $v_i$ und eine Kante $[v_{j-1}, v_j]$ fallen zusammen.
+                Dies ist genau dann der Fall, wenn $v \in (\R(v_{j-1} - v_i) + \R(v_j - v_i)) \cap \S^2 = \texp{Großkreis}$.
+            \item
+                Drei Kanten schneiden sich in einem Punkt.
+                Ohne Einschränkung seien die Geraden $G_1, G_2, G_3$ paarweise windschief (sonst siehe Fall 2).
+                Zu $p_1 \in G_1$ existiert höchstens ein $p_2 \in G_2$, sodass $\_{p_1 p_2} \cap G_3 = \Set{p_3}$.
+                Somit parametrisiert $p_1 \in G_1$ eine Geradenschaar, deren Richtungen eine Kurve auf $\S^2$ (ausrechnen liefert eine Quadrik).
+        \end{enumerate}
+        In allen drei Fällen hat die Ausnahmemenge in $\S^2$ ein offenes, dichtes Komplement.
+        Der endliche Schnitt dieser Komplemente ist offen und dicht (Übung).
+    \end{proof}
 \end{lem}
+
+\begin{st}[Reidemeister, 1926]
+    Zwei Knotendiagramme $D, D'$ in $\R^2$ stellen genau dann den selben Knotentyp in $\R^3$ dar, wenn sie Reidemeister-äquivalent sind.
+    \begin{proof}
+        Seien $P, P'$ in $\R^3$ Hochhebungen von $D$, bzw. $D'$.
+        Falls $D \stack{R}\sim D'$, dann ist auch $P \stack{\Delta}\sim P'$.
+
+        Sei nun umkehrt $P \stack{\Delta}\sim P'$, d.h.
+        %\begin{math}
+        %    % fixme: \Delta oben, R? unten, \pi nach unten
+        %    \begin{tikzcd}
+        %        P = P_0 \arrow{r}{g} & P_1 & P_2 & \dots &  P_l = P' \\
+        %        D = D_0 & D_1 & D_2 & \dots &  D',
+        %    \end{tikzcd}
+        %\end{math}
+        für $\pi: \R^3 \to \R^2$.
+        Es existiert eine beliebig kleine Drehung $\rho: \R^3 \to \R^3$, sodass $\pi$ alle $\rho(P_i)$ regulär projiziert.
+        Wir wählen $\rho$ so klein, dass $\pi(P_0)$ zu $\pi(\rho P_0)$ $R0$-äquivalent sind.
+        % fixme: tikzcd
+
+        Der Vorteil dieser Drehung ist, dass jeder $\Delta$-Zug regulär projiziert wird.
+        Wir betrachten nun elementare auftretende Fälle (Skizze).
+
+        Nach hinreichend feiner Unterteilung in kleine Dreiecke erhalten wir eine Folge elementarer Fälle.
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    Dreifärbungen nach Fox.
+    Es gilt
+    \begin{math}
+        |\Col_3(\texp{Trivialer Knoten})| &= 3, &
+        |\Col_3(\texp{Kleeblattschlinge})| &= 3,
+    \end{math}
+    Die Dreifärbung von Knotendiagrammen ist $R$-invariant und also auch eine Invariante unter den Knotentypen.
+\end{ex}
+
+\begin{kor}
+    In $\R^3$ existieren abzählbar unendlich viele Knotentypen.
+\end{kor}
+
+
+\subsection{Verallgemeinerung zu \texorpdfstring{$p$}{p}-Färbungen}
+
+Sei $p \ge 3$ ungerade (später: $p$ prim).
+
+Wir Betrachten Färbungen von $D$, d.h. $f: \Set{\text{Bögen von } D} \to \Z / p$ mit folgender Kreuzungsbedingung:
+% Kreuzung, ac drunter, bd drüber
+\begin{math}
+    b = d
+    \quad\land\quad a - b + c - d = 0
+\end{math}
+Sei $\Col_p(D)$ die Menge dieser Färbungen.
+
+\begin{st}
+    Jeder $R$-Zug $D \leftrightarrow D'$ induziert eine Bijektion $\Col_p(D) \leftrightarrow \Col_p(D')$.
+    \begin{proof}
+        Man betrachte die drei elementaren Reidemeister-Züge.
+    \end{proof}
+\end{st}
+
+\begin{note}
+    Für $p = 3$ erhalten wir die einfache Regel:
+    An jeder Kreuzung entweder 1 oder 3 Farben.
+\end{note}
+
+\begin{ex}
+    Ist der Achterknoten äquivalent zum trivialen Knoten?
+    Es gilt
+    \begin{math}
+        \Col_3(\texp{Achterknoten}) &= 3, &
+        \Col_5(\texp{Achterknoten}) &= 25,
+    \end{math}
+\end{ex}
+
+\begin{prop}
+    Sei $p$ prim.
+    Bezüglich der punktweisen Operationen ist $\Col_p(D)$ ein $\F_p$-Vektorraum.
+    Für $n = \dim \Col_p(D)$ gilt $\Col_p(D) \isomorphic \F_p$ und $|\Col_p(D)| = p^n$.
+\end{prop}
+
+\begin{df}
+    Für jedes Diagramm $D$ in $\R^2$ sei $\Cr(D)$ die Anzahl der Kreuzungen.
+
+    Sei $P$ ein polygonaler Knoten und $[P]$ ein Knotentype.
+    Wir setzen die Kreuzungszahl $\Cr([P]) := \min \Cr(D)$, minimiert über alle darstellende Diagramme $D$ zu $[P]$.
+\end{df}
+
+\begin{ex}
+    Alle Knoten mit $\le 2$ Kreuzungen sind äquivalent zum trivialen Knoten.
+    Es gilt $\Cr(\texp{trivialer Knoten}) = 0$ und $\Cr(\texp{Kleeblattschlinge}) = 3$.
+\end{ex}
+
+\subsection{Topologische und glatte Knoten}
+
+\begin{df}
+    Ein \emphdef{topologischer Knoten} ist eine Einbettung $\kappa: \S^1 \injto \R^3$.
+    Zwei Knoten $\kappa_0, \kappa_1$ heißen \emphdef{isotop}, wenn es eine Isotopie gibt, also $H: [0,1] \times \S^1 \to \R^3$ stetig, sodass $h_t: \S^1 \to \R^3$, $h_t(s) = h(t,s)$ eine Einbettung ist.
+\end{df}
+
+\begin{note}
+    $\kappa$ kann wild aussehen: betrachte den Kleeblattknoten hintereindandergereiht, jeweils skaliert mit Faktor $q^k$, $q < 1$.
+\end{note}
+
 
