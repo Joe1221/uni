@@ -3,7 +3,7 @@
 \Timestamp{2015-04-15}
 
 Wir betrachten die Geomtrie von Teilmengen des $\R^n$.
-Darunter unterscheiden wir zwischen differenzierbar (siehe Differentialgeometrie) und diskret (polyedrisch).
+Man unterscheidet zwischen differenzierbar (siehe Differentialgeometrie) und diskret (polyedrisch).
 
 Das Analogon zur Gauß-Krümmung in der Differentialgeometrie bildet eine sogenannte diskrete Krümmung
 \begin{math}
@@ -23,10 +23,10 @@ Wir betrachten zunächst konvexe Polytope.
     \end{math}
     Eine Menge $M \subset \R^n$ heißt \emphdef{konvex}, wenn zu je zwei $x,y \in M$ gilt: $\_{xy} \subset M$.
 
-    Analog ist die \emphdef{konvexe Hülle} von Punkten $x_0, \dotsc, x_k$ definiert:
+    Analog ist die \emphdef{konvexe Hülle} von Punkten $x_0, \dotsc, x_k \in \R^n$ definiert:
     \begin{math}
         \CHull{x_0, \dotsc, x_k}
-        &:= \Set{x & x = \lambda_0 x_0 + \dotsb + \lambda_k x_k, \lambda_i \in [0,1], \sum_i \lambda_i = 1}.
+        &:= \Set{x \in \R^n & x = \lambda_0 x_0 + \dotsb + \lambda_k x_k, \lambda_i \in [0,1], \sum_i \lambda_i = 1}.
     \end{math}
     Die \emphdef{konvexe Hülle} einer Menge $M$ sei
     \begin{math}
@@ -35,18 +35,20 @@ Wir betrachten zunächst konvexe Polytope.
     \end{math}
     Die \emphdef{affine Hülle} von $M$ ist der kleinste affine Unterraum in $\R^n$, der $M$ enthält.
     \begin{note}
-        Es lässt sich schreiben
+        Es gilt
         \begin{math}
             \lambda_0 x_0 + \dotsb + \lambda_k x_k
-            = (1-\lambda_k) \Big( \frac{\lambda_0}{1-\lambda_k} x_0  + \dotsb + \frac{\lambda_{k-1}}{1-\lambda_k} x_{k-1} \Big) + \lambda_k.
+            = (1-\lambda_k) \Big( \frac{\lambda_0}{1-\lambda_k} x_0  + \dotsb + \frac{\lambda_{k-1}}{1-\lambda_k} x_{k-1} \Big) + \lambda_k x_k.
         \end{math}
+        Damit lässt sich jeder Punkt aus $\CHull{x_0,\dotsc,x_k}$ durch mehrfache paarweise Konvexkombinationen darstellen.
     \end{note}
 \end{df}
 
 
 \paragraph{Standard-Polytope}
-Im $\R^2$ wäre ein Beispiel Polygone.
-IM $\R^n$ sind $k$-Simplizes ($n \ge k$) als konvexe Hülle von $k + 1$ Punkten in allgemeiner Lage (d.h. affin linear unabhängig) Standard-Polytope.
+
+Im $\R^2$ sind Polygone ein Beispiel.
+Im $\R^n$ sind $k$-Simplizes ($n \ge k$) als konvexe Hülle von $k + 1$ Punkten in allgemeiner Lage (d.h. affin linear unabhängig) Standard-Polytope.
 Spezieller ist der \emphdef{Standard-Simplex} in $\R^k$ für $k \in \N$ gegeben als konvexe Hülle der Punkte
 \begin{math}
     x_0 = (0, 0, \dotsc, 0),
@@ -126,13 +128,95 @@ Die Polytope im folgenden seien nicht degeneriert in dem Sinne, dass sie in eine
     für $P \subset \Set{x & \<c,x\> \le c_0}$.
     Die Hyperebene $H = \Set{x & \<c, x\> = c_0}$ wird auch \emphdef{Stützhyperebene} genannt.
 
-    Dann ist $P / v_0 = P \cap \Set{x & \<c, x\> = c_0 - \epsilon}$ für hinreichend kleines $\epsilon > 0$ die \emphdef{Eckenfigur} von $P$ in $v_0$.
-
+    Dann ist $P / v_0 := P \cap \Set{x & \<c, x\> = c_0 - \epsilon}$ für hinreichend kleines $\epsilon > 0$ die \emphdef{Eckenfigur} von $P$ in $v_0$.
 \end{df}
 
+\Timestamp{2015-04-22}
 
+%\begin{df}
+%    Eine \emphdef{Stützhyperebene} zu einer Menge $M \subset \R^n$ ist
+%\end{df}
 
+\begin{df}
+    Ein konvexes $d$-Polytop im $\R^n$ ist die konvexe Hülle endlich vieler Punkte oder ein beschränkter Durchschnitt von abgeschlossenen Halbräumen, sodass $P$ in keinem $(d-1)$-dimensionalem linearem Unterraum enthalten ist, aber $P$ in einem $d$-dimensionalen linearen Unterraum enthalten ist.
+\end{df}
 
+\begin{df}
+    Eine \emphdef{Seite} eines konvexen Polytops $P$ ist der Durchschnitt von $P$ mit einer Stützhyperebene.
+    Bei einem $d$-Polytop heißen die $(d-1)$-dimensionalen Seiten auch \emphdef{Facetten}.
+    Eine \emphdef{Ecke} ist eine $0$-dimensionale Seite, eine Kante ist eine $1$-dimensionale Seite.
+\end{df}
 
+\begin{lem}
+    Die Seiten eines konvexen Polytops $P$ bilden (zusammen mit $\emptyset$ und $P$) einen Verband $\scr F(P)$, genannt \emphdef{Seitenverband} (engl. “face lattice”) mit $\emptyset$ als minimalem und $P$ als maximalem Element.
+    \begin{math}
+        A \wedge B := A \cap B = (P \cap H_A) \cap (P \cap H_B)
+        = P \cap (H_A \cap H_B)
+        = P \cap H_{A\cap B}.
+    \end{math}
+    \begin{math}
+        A \vee B &= \texp{kleinste Element, das $A \cup B$ enthält}, \\
+        A \wedge B &= \texp{größtes Element, das in $A \cap B$ enthalten ist}
+    \end{math}
+\end{lem}
+
+\begin{ex}
+    Hasse-Diagramm für einen Oktaeder.
+\end{ex}
+
+\begin{df}
+    $P$ und $P'$ heißen \emphdef{kombinatorisch äquivalent}, wenn die Seitenverbände $\scr F(P)$ und $\scr F(P')$ isomorph sind.
+
+    $P$ und $P'$ heißen \emphdef{kombinatorisch dual} (oder \emphdef{polar}), wenn $\scr F(P)$ isomorph zu dem umgekehrtem Verband von $\scr F(P)$ ist (d.h. oben und unten im Hasse-Diagramm vertauschen).
+\end{df}
+
+Wie konstruiert man geometrisch ein duales Polytop?
+
+\begin{df}
+    $P \subset \R^d$ sei ein konvexes $d$-Polytop.
+    Dann erklären wir das duale Polytop $p^\Delta$ durch
+    \begin{math}
+        p^\Delta = \Set{c \in (\R^d)^* & \forall x \in P: c(x) \le 1}
+        \subset (\R^d)^* \isomorphic \R^d.
+    \end{math}
+    $p^\Delta$ ist konvex, denn für $c_1, c_2 \in p^\Delta$ ist
+    \begin{math}
+        \lambda \underbrace{c_1(x)}_{\le 1} + (1-\lambda)\underbrace{c_2(x)}_{\le 1} \le 1
+    \end{math}
+    also $\lambda c_1 + (1-\lambda) c_2 \in c^\Delta$.
+\end{df}
+
+\begin{ex}
+    Würfel / Oktaeder.
+\end{ex}
+
+\begin{df}
+    Eine Polytop $P$ heißt \emphdef{simplizial}, wenn alle Seiten (insbesondere alle Facetten) Simplizes sind.
+
+    Es heißt \emphdef{einfach}, wenn alle Eckenfiguren Simplizes sind.
+\end{df}
+
+% p^{\text{dual}} : kombinatorisch dual
+
+\begin{kor}
+    \begin{enumerate}[(i)]
+        \item
+            $P$ ist simplizial genau dann, wenn $p^{\text{dual}}$ einfach ist.
+        \item
+            $P$ ist einfach genau dann, wenn $p^{\text{dual}}$ simplizial ist.
+        \item
+            $P$ ist simplizial und einfach genau dann, wenn $p$ ein Simplex ist.
+    \end{enumerate}
+    \begin{proof}
+        (i) und (ii) sind klar aufgrund der Dualität.
+
+        Für (iii) ist die Rückrichtung trivial.
+        Für die Hinrichtung sei $P$ ein simpliziales, einfaches $d$-Polytop.
+        Jede Facette hat $d$ Ecken als $(d-1)$-Simplex.
+        Jede Ecke ist in genau $d$ Kanten enthalten (Eckenfigur ist Simplex).
+        Betrachte eine $(d-2)$-Seite der Facette.
+        $P$ hat also insgesamt nur $d+1$ Ecken.
+    \end{proof}
+\end{kor}
 
 
