@@ -36,14 +36,14 @@
 
 \begin{titlepage}
     \begin{center}
-        ~\par\vspace{5em}
+        ~\par\vspace{4em}
         {
-            \fontsize { 18pt } { 18pt } \selectfont
+            \fontsize { 16pt } { 16pt } \selectfont
             Bachelorarbeit
         }
         \par\vspace{3em}
         {
-            \fontsize { 26pt } { 26pt } \selectfont \sffamily \bfseries
+            \fontsize { 24pt } { 24pt } \selectfont \sffamily \bfseries
             \thetitle
         }
         \par\vspace{3em}
@@ -56,11 +56,11 @@
             \fontsize { 14pt } { 14pt } \selectfont %\scshape
             \today
         }
-        \par\vspace{3.5em}
+        \par\vspace{4.5em}
         {
         \begin{tikzpicture}[
-            scale=1.3,
-            decoration={ markings, mark=between positions 0.1 and 1 step 2.5cm with {\arrow{stealth}} }
+            scale=1.2,
+            decoration={ markings, mark=between positions 0.1 and 1 step 2.1cm with {\arrow{stealth}} }
         ]
             \draw[->] (-2,0) to (5.3,0) node[anchor=south east] {$x$};
             \draw[->] (0,-1.1) to (0,1.4) node[anchor=north west] {$y$};
@@ -76,17 +76,17 @@
             \node[anchor=120] at (z3) {$+1$}; %\fill[hl1] (z3) circle (1pt);
         \end{tikzpicture}
         }
-        \par
+        \par\vspace{1em}
         {
 \pgfplotsset{
     colormap={red}{rgb255(0cm)=(240,160,160); rgb255(1cm)=(240,160,160)},
     colormap={greenyellow}{rgb255(0cm)=(0,128,0); rgb255(1cm)=(255,255,0)},
     colormap={greenyellow2}{rgb255(0cm)=(128,128,0); rgb255(1cm)=(0,255,0)},
 }
-\begin{tikzpicture}[scale=1.8,baseline=(current bounding box.center)]
+\begin{tikzpicture}[scale=1.4,baseline=(current bounding box.center)]
     %\draw[->,thin] (0,0) -- (10,0) node[anchor=135] {$x$};
     %\draw[->,thin] (0,0) -- (0,10) node[anchor=0] {$y$};
-    \draw[fill=green!80!yellow!10] (-0.7,-1) rectangle (1,1) node[right] {$\Gamma$};
+    \draw[fill=green!80!yellow!45] (-0.7,-1) rectangle (1,1) node[right] {$\Gamma$};
     %\coordinate[label={below:$(x_0,y_0)$}] (p) at (4,3);
     \coordinate (p) at (0,0);
     \pgfmathsetmacro{\geps}{0.2};
@@ -163,12 +163,12 @@
     \end{center}
 \end{titlepage}
 
-\chapter*{Übersicht}
+\chapter*{Zusammenfassung}
 
-Die Windungszahl einer polynomiellen Kurve $\gamma: [0, 1] \to \C^*$ lässt sich als halben Cauchy-Index der rationalen Funktion $\frac{\Re \gamma}{\Im \gamma}$ auf $[0,1]$ definieren, was anschaulich gesprochen die Überquerungen der Kurve an der rellen Achse mit $\pm \frac{1}{2}$ zählt.
+Die Windungszahl einer polynomiellen Kurve $\gamma: [0, 1] \to \C^*$ lässt sich als halben Cauchy-Index der rationalen Funktion $\frac{\Re \gamma}{\Im \gamma}$ auf $[0,1]$ definieren, was anschaulich gesprochen die Überquerungen der Kurve an der reellen Achse mit $\pm \frac{1}{2}$ zählt.
 Ein reell-algebraischer Algorithmus, basierend auf polynomieller Restbildung oder sogenannten Sturm-Ketten, erlaubt die explizite Berechnung dieses Cauchy-Index und damit auch der Windungszahl von $\gamma$.
 
-Im ersten Kapitel betrachten wir diese Erkenntnisse von Cauchy und Sturm aus einem neuen Blickwinkel, der es uns erlaubt im zweiten Kapitel einen ähnlichen Algorithmus für den Abbildungsgrad als Verallgemeinerung der Windungszahl in zwei Variablen beschreiben und untersuchen zu können.
+Im ersten Kapitel betrachten wir diese Erkenntnisse von Cauchy und Sturm aus einem neuen Blickwinkel, der es uns erlaubt, im zweiten Kapitel einen ähnlichen Algorithmus für den Abbildungsgrad als Verallgemeinerung der Windungszahl in zwei Variablen beschreiben und untersuchen zu können.
 
 
 {
@@ -179,14 +179,13 @@ Im ersten Kapitel betrachten wir diese Erkenntnisse von Cauchy und Sturm aus ein
 %\tableofcontents
 
 
-\clearpage
 \chapter{Der univariate Fall: Windungszahl und Cauchy-Index} \label{sec:1}
 
 \section{Geometrische Motivation}
 
-Sei $\gamma: [a,b] \to \C$ eine geschlossene Kurve.
+Sei $\gamma: [a,b] \to \C^*$ eine geschlossene Kurve.
 Mit $\deg(\gamma) \in \Z$ bezeichnen wir die Anzahl Umläufe von $\gamma$ um die Null, wobei wir Umläufe entgegen dem Uhrzeigersinn positiv und solche im Uhrzeigersinn negativ werten.
-Die Zahl $\deg(\gamma)$ besitzt den treffenden Namen \emph{Windungszahl}, ein Beispiel findet sich in \ref{fig:winding_number}.
+Die Zahl $\deg(\gamma)$ besitzt den treffenden Namen \emph{Windungszahl}, ein Beispiel findet sich in Abbildung \ref{fig:winding_number}.
 
 \begin{figure}[ht]
     \centering
@@ -218,8 +217,8 @@ Für unsere Zwecke werden wir uns auf (stückweise) polynomielle Kurven beschrä
     Wir nennen $\gamma: [a, b] \to \C$ mit $\gamma(t) = p(t) + iq(t)$ eine \emphdef{polynomielle Kurve}.
 \end{definition}
 
-Für eine polynomielle Kurve $\gamma: [a,b] \to \C^*$ ohne Nulldurchgang realisieren wir die Zählung der Umläufe $\deg(\gamma)$, indem wir ihre Übergänge über die reelle Achse betrachten.
-In \ref{fig:curve_counting_example} zählen wir solche Übergänge einer geschlossenen Kurve mit ihrer Orientierung und erhalten in der Summe $1 + 1 - 1 + 1 = 2$.
+Für eine polynomielle Kurve $\gamma: [a,b] \to \C^*$ ohne Nulldurchgang bestimmen wir $\deg(\gamma)$, indem wir ihre Übergänge über die reelle Achse betrachten.
+In Abbildung \ref{fig:curve_counting_example} zählen wir solche Übergänge einer geschlossenen Kurve mit ihrer Orientierung und erhalten in der Summe $1 + 1 - 1 + 1 = 2$.
 Die Umläufe der Kurve werden so doppelt gezählt: auf der negativen und auf der positiven reellen Achse, die Windungszahl der Kurve beträgt unterdessen $\deg(\gamma) = 1$.
 
 \begin{figure}[ht]
@@ -263,16 +262,16 @@ Die Umläufe der Kurve werden so doppelt gezählt: auf der negativen und auf der
     \label{fig:curve_counting}
 \end{figure}
 
-Wir erweitern in \ref{fig:curve_counting_half} unsere Zählung um halbe Übergänge, d.h. solche Kurvenstücke, welche auf der reellen Achse entweder starten oder enden.
+Wir erweitern in Abbildung \ref{fig:curve_counting_half} unsere Zählung um halbe Übergänge, d.h. solche Kurvenstücke, welche auf der reellen Achse entweder starten oder enden.
 Dies erlaubt es uns, jeder polynomiellen (nicht unbedingt geschlossenen) Kurve $\gamma: [a,b] \to \C^*$, $\gamma = p + iq$ eine solche Zählung zuzuordnen.
 Diese Zählung nennen wir \emph{Cauchy-Index} von $p$ und $q$ und schreiben dafür $\Index{[a,b]}{p}{q}$.
 
-Falls $\gamma$ geschlossen ist, erhalten wir für die Windungszahl wie bereits beobachtet die Beziehung
+Falls $\gamma$ geschlossen ist, erhalten wir für die Windungszahl – wie bereits beobachtet – die Beziehung
 \begin{math}
     \deg(\gamma) = \frac{1}{2} \Index{[a,b]}{p}{q}.
 \end{math}
 Motiviert von der Zählung der Übergänge an der reellen Achse wenden wir uns nun einer präzisen Definition des Cauchy-Index zu.
-Dazu werden wir zunächst etwas Notation einführen.
+Dazu werden wir zunächst einige Grundbegriffe zurechtlegen.
 
 
 
@@ -285,9 +284,9 @@ Wir erfassen die Art des Vorzeichenwechsels wie folgt.
     Sei $q \in \R[x]$ und $a, b \in \R$ mit $a < b$.
     Wir definieren
     \begin{math}
-        \deg(q|a,b) := \frac{1}{2} \big(\sgn(q(b)) - \sgn(q(a)) \big).
+        \deg(q|a,b) := \frac{1}{2} \big(\sgn(q(b)) - \sgn(q(a)) \big),
     \end{math}
-    Wir nutzen für das Intervall $\Gamma := [a,b]$ außerdem die Notation $\deg(q|\Boundary\Gamma) := \deg(q|a,b)$.
+    und nutzen für das Intervall $\Gamma := [a,b]$ die Notation $\deg(q|\Boundary\Gamma) := \deg(q|a,b)$.
     \begin{note}
         Der Ausdruck $\deg(q|a,b)$ kann als \emphdef{nulldimensionaler Abbildungsgrad} angesehen werden, mehr dazu später.
     \end{note}
@@ -298,7 +297,7 @@ Die Fälle $\deg(q|a,b) = \pm \frac{1}{2}$ treten auf, wenn $q$ entweder in $a$ 
 Hier werden dann sozusagen halbe Vorzeichenwechsel gezählt.
 
 \begin{lemma}[Eigenschaften] \label{thm:lem:wn0_prop}
-    Seien $a,b,c \in \R$ mit $a < c < b$ und $q, s \in \R[x]$.
+    Sei $\Gamma = [a,b]$, $c \in \R$ mit $a < c < b$ und $q, s \in \R[x]$.
     Es gilt
     \begin{enumerate}[i)]
         \item
@@ -310,12 +309,12 @@ Hier werden dann sozusagen halbe Vorzeichenwechsel gezählt.
             \end{math}
     \end{enumerate}
     \begin{proof}
-        Die Aussagen ergeben sich leicht durch Einsetzen der entsprechenden Definitionen.
+        Die Aussagen ergeben sich durch elementares Nachrechnen.
     \end{proof}
 \end{lemma}
 
 
-Um die Übergänge der Kurve $\gamma = p + iq$ zu zählen, werten wir die Vorzeichenwechsel von $q$ in kleinen Umgebungen von Punkten $x \in [a,b]$ aus.
+Um die Übergänge der Kurve $\gamma = p + iq$ an der reellen Achse zu zählen, werten wir die Vorzeichenwechsel von $q$ in kleinen Umgebungen von Punkten $x \in [a,b]$ aus.
 
 \begin{definition} \label{thm:def:gamma1_eps}
     Sei $\Gamma = [a,b]$ und $x \in \R$.
@@ -332,13 +331,13 @@ Wir können $q$ an jeder Stelle $x \in [a,b]$ einen eindeutigen Vorzeichenwechse
     Es existiert $\epsilon_0 > 0$, sodass $\deg(q|\Boundary\Gamma_\epsilon(x))$ für alle $0 < \epsilon \le \epsilon_0$ konstant ist.
     \begin{proof}
         Wähle $\epsilon_0 > 0$ hinreichend klein, sodass $q$ auf $[x-\epsilon_0, x)$ und $(x, x+\epsilon_0]$ jeweils ein konstantes Vorzeichen besitzt.
-        Das Intervall $\Gamma_\epsilon$ kann folgende Formen annehmen: $[x, x+\epsilon]$, $[x-\epsilon, x]$ oder $[x-\epsilon, x+\epsilon]$.
+        Das Intervall $\Gamma_\epsilon$ kann folgende Formen annehmen: $[x, x+\epsilon]$ (am linken Rand), $[x-\epsilon, x]$ (am rechten Rand) oder $[x-\epsilon, x+\epsilon]$ (im Inneren).
         In jedem Fall bleiben die Auswertungen $q(x)$, $q(x-\epsilon)$, $q(x+\epsilon)$ unter $\epsilon$ jeweils konstant.
         Folglich ist auch $\deg(q|\Boundary\Gamma_\epsilon(x))$ konstant für alle $0 < \epsilon \le \epsilon_0$.
     \end{proof}
 \end{lemma}
 
-Wenn im Folgenden von $\deg(q|\Boundary\Gamma_\epsilon(x))$ die Rede ist, so sei $\epsilon$ stets gemäß \ref{thm:lem:wn0_const} hinreichend klein gewählt.
+Wenn im Folgenden von $\deg(q|\Boundary\Gamma_\epsilon(x))$ die Rede ist, so sei $\epsilon$ stets gemäß Lemma \ref{thm:lem:wn0_const} hinreichend klein gewählt.
 In speziellen Fällen werden wir $\epsilon$ auch noch kleiner wählen, um andere Bedingungen zu erfüllen.
 
 Durch Summation unter der Beachtung des Vorzeichens von $p$ erhalten wir die motivierte Zählung der Achsenübergänge – den Cauchy-Index.
@@ -368,8 +367,8 @@ Durch Summation unter der Beachtung des Vorzeichens von $p$ erhalten wir die mot
                 In der Literatur (beispielsweise in \cite[§7.3]{yap2000fundamental}) wird der Cauchy-Index auf $[a,b]$ auch anhand der Polstellen der rationalen Funktion $r = \frac{p}{q}$ auf $[a,b]$ definiert:
                 \begin{math}
                     I_x(r) &:= \begin{cases}
-                        1 & \lim_{x \nearrow x} r(x) = -\infty \land \lim_{x \searrow x} r(x) = \infty, \\
-                        -1 & \lim_{x \nearrow x} r(x) = \infty \land \lim_{x \searrow x} r(x) = -\infty, \\
+                        1 & \lim_{t \nearrow x} r(t) = -\infty \land \lim_{t \searrow x} r(t) = \infty, \\
+                        -1 & \lim_{t \nearrow x} r(t) = \infty \land \lim_{t \searrow x} r(t) = -\infty, \\
                         0 & \text{sonst},
                     \end{cases}\\
                     I_a^b(r) &:= \sum_{x \in [a,b]} I_x(r)
@@ -377,7 +376,7 @@ Durch Summation unter der Beachtung des Vorzeichens von $p$ erhalten wir die mot
                 Polstellen von $r$ in $a$ und $b$ werden hierbei oft ausgeschlossen.
                 Es ist leicht nachvollziehbar, dass unter dieser Annahme beide Definitionen übereinstimmen, d.h. $I_a^b(r) = \Index{[a,b]}{p}{q}$.
 
-                Die besondere Behandlung der Randumgebungen (siehe \ref{thm:def:gamma1_eps}) erlaubt es uns, dieser Einschränkung an den Rändern zu entkommen, ohne dabei auf die typischen Eigenschaften des Cauchy-Index (siehe \ref{thm:prop:ci_prop} später) verzichten zu müssen.
+                Die besondere Behandlung der Randumgebungen (siehe Definition \ref{thm:def:gamma1_eps}) erlaubt es uns, dieser Einschränkung an den Rändern zu entkommen, ohne dabei auf die typischen Eigenschaften des Cauchy-Index (siehe Satz \ref{thm:prop:ci_prop}) verzichten zu müssen.
             \item
                 In dieser Definition müssen für $p$ und $q$ nicht zwangsläufig Polynome vorausgesetzt werden.
                 Es genügt, stetige Funktionen ohne gemeinsame Nullstellen zu fordern, solange $q$ eine endliche Nullstellenmenge besitzt.
@@ -410,25 +409,24 @@ Durch Summation unter der Beachtung des Vorzeichens von $p$ erhalten wir die mot
 
 \begin{note}
     Der Cauchy-Index lässt sich auch über den rationalen Zahlen definieren.
-    In diesem Fall enthält $\Gamma$ ausschließlich rationale Zahlen und die Summation in \ref{thm:def:ci} erfolgt über rationalen Zahlen.
+    In diesem Fall enthält $\Gamma$ ausschließlich rationale Zahlen und die Summation in Definition \ref{thm:def:ci} erfolgt über rationale Zahlen.
 
     Dies führt zu einer interessanten Beobachtung:
     \begin{math}
-        \Index{[1,2]_\R}{1}{x^2-2} &= 1, &
-        \Index{[1,2]_\Q}{1}{x^2-2} &= 0.
+        \Index{[1,2]_\R}{1}{x^2-2} = 1,\text{ während }
+        \Index{[1,2]_\Q}{1}{x^2-2} = 0.
     \end{math}
     Die Nullstelle $\sqrt 2$ wird im rationalen Fall nicht erfasst.
-    Dies hat beispielsweise zur Folge, dass \ref{thm:ex:ci_roots} über den rationalen Zahlen nur die Anzahl der \emph{rationalen} Nullstellen zählt.
+    Dies hat beispielsweise zur Folge, dass wir in Beispiel \ref{thm:ex:ci_roots} über den rationalen Zahlen nur die Anzahl der \emph{rationalen} Nullstellen zählen würden.
 \end{note}
 
 \begin{lemma}[Homogenität] \label{thm:lem:ci_homogeneity}
     Sei $\Gamma = [a, b]$ und $p, q \in \R[x]$ ohne gemeinsame Nullstellen auf $\Gamma$.
-    Weiter sei $s \in \R[x]$ mit $s(x) \neq 0$ auf ganz $[a, b]$.
+    Weiter sei $s \in \R[x]$ mit $\sgn(s) = \const \neq 0$.
     Dann gilt
     \begin{math}
         \sgn(s) \Index{\Gamma}{p}{q} = \Index{\Gamma}{sp}{q} = \Index{\Gamma}{p}{sq}.
     \end{math}
-    Dabei bezeichnet $\sgn(s) = \pm 1$ das notwendigerweise konstante Vorzeichen von $s$ auf $\Gamma$.
     \begin{proof}
         Wegen $s(x) \neq 0$ auf $\Gamma$ sind in allen Termen nur die Nullstellen von $q$ relevant und es genügt eine Nullstelle $x_0 \in \R$ von $q$ zu betrachten.
         Dort gilt
@@ -438,15 +436,15 @@ Durch Summation unter der Beachtung des Vorzeichens von $p$ erhalten wir die mot
             &= \sgn\big((sp)(x_0)\big) \deg(q|\Boundary\Gamma_\epsilon(x_0)) &&= \Index{\Gamma_\epsilon(x_0)}{sp}{q} \\
             &= \sgn(p(x_0)) \deg(sq|\Boundary\Gamma_\epsilon(x_0)) &&= \Index{\Gamma_\epsilon(x_0)}{p}{sq},
         \end{math}
-        dank Homogenität aus \ref{thm:lem:wn0_prop}.
+        dank Homogenität aus Satz \ref{thm:lem:wn0_prop}.
         Die Aussage ergibt sich wieder durch Summation über die Nullstellen von $q$.
     \end{proof}
 \end{lemma}
 
 Für allgemeines $p, q \in \R[x]$ mit $p, q \neq 0$ lassen sich gemeinsame Nullstellen als Linearfaktoren herausfaktorisieren.
-Es existieren also $s, \tilde p, \tilde q \in \R[x]$, sodass $p = s\tilde p$, $q = s \tilde q$, wobei $\tilde p$ und $\tilde q$ keine gemeinsame Nullstellen auf $[a, b]$ besitzen.
+Mit anderen Worten existieren also $s, \tilde p, \tilde q \in \R[x]$, sodass $p = s\tilde p$, $q = s \tilde q$, wobei $\tilde p$ und $\tilde q$ keine gemeinsame Nullstellen auf $[a, b]$ besitzen.
 In dieser Darstellung ist $s$ bis auf Faktoren ohne Nullstellen auf $[a,b]$ eindeutig bestimmt.
-Solche Faktoren sind jedoch dank \ref{thm:lem:ci_homogeneity} im Cauchy-Index irrelevant.
+Solche Faktoren sind jedoch dank Lemma \ref{thm:lem:ci_homogeneity} im Cauchy-Index irrelevant.
 
 Wir nutzen dies und definieren jetzt den Cauchy-Index $\Index{[a,b]}{s\tilde p}{s \tilde q}$ als $\Index{[a,b]}{\tilde p}{\tilde q}$.
 
@@ -469,7 +467,7 @@ Wir nutzen dies und definieren jetzt den Cauchy-Index $\Index{[a,b]}{s\tilde p}{
                 Ähnlich wie bei den rationalen Zahlen, können wir uns also für Aussagen über den Cauchy-Index stets auf einen „gekürzten Repräsentanten“ $\Index{[a,b]}{p}{q}$ (hier: ohne gemeinsame Nullstellen auf $[a,b]$) beschränken.
                 Die Definition erlegt uns für spätere Beweisführungen zum Cauchy-Index meistens keine zusätzliche Bürde auf.
             \item
-                In der Betrachtung des Cauchy-Index als Zählung der Polstellen der rationalen Funktion $r = \frac{p}{q}$ ergibt sich dieser Zusammenhang durch Kürzen/Erweitern des Bruches automatisch.
+                In der Betrachtung des Cauchy-Index als Zählung der Polstellen der rationalen Funktion $r = \frac{p}{q}$ ergibt sich dieser Zusammenhang durch Kürzen, bzw. Erweitern des Bruches automatisch.
         \end{itemize}
     \end{note}
 \end{definition}
@@ -483,8 +481,8 @@ Unsere erweiterte Definition erlaubt es, wie im Beispiel \ref{thm:ex:ci_roots} N
         Sei $x_0 \in \R$ eine Nullstelle von $p$.
         Durch Faktorisieren existiert $\tilde p \in \R[x]$, sodass $p = (x-x_0)^m \tilde p$ mit $m \in \N$ und $\tilde p(x_0) \neq 0$.
         Beachte dass $\sgn(\tilde p)$ auf einer kleinen Umgebung um $x_0$ konstant bleibt.
-        Dies erlaubt uns $\epsilon > 0$ so klein zu wählen, dass \ref{thm:lem:wn0_const} erfüllt ist und zusätzlich $\tilde p(x) \neq 0$ auf $\Gamma_\epsilon(x_0)$.
-        Wir nutzen nun \ref{thm:def:ci_common-roots}, um gemeinsame Nullstellen von $p$ und $p'$ in $x_0$ zu eliminieren:
+        Dies erlaubt uns $\epsilon > 0$ so klein zu wählen, dass Lemma \ref{thm:lem:wn0_const} erfüllt ist und zusätzlich $\tilde p(x) \neq 0$ auf $\Gamma_\epsilon(x_0)$.
+        Definition \ref{thm:def:ci_common-roots} erlaubt es uns, gemeinsame Nullstellen von $p$ und $p'$ in $x_0$ zu eliminieren:
         \begin{math}
             \Index{\Gamma_\epsilon(x_0)}{p'}{p}
             &= \Index{\Gamma_\epsilon(x_0)}{m (x-x_0)^{m-1} \tilde p + (x-x_0)^m \tilde p'}{(x-x_0)^m \tilde p} \\
@@ -526,7 +524,7 @@ Für spätere Zwecke werden wir nun den Cauchy-Index in einem letzten Schritt au
 \begin{definition} \label{thm:def:ci_pwpoly}
     Seien $p, q: \R \to \R$ stückweise polynomielle, reelle Funktionen und $a, b \in \nobreak \R$.
 
-    Für $a < b$ und einer Unterteilung $a = x_0 < x_1 < \dotsb < x_n = b$, sodass $p|_{[x_{k-1}, x_k]}, q|_{[x_{k-1}, x_k]}$ für $1 \le k \le n$ Polynome sind, definieren wir
+    Für $a < b$ und einer Unterteilung $a = x_0 < x_1 < \dotsb < x_n = b$, sodass $p|_{[x_{k-1}, x_k]}, q|_{[x_{k-1}, x_k]}$ für $1 \le k \le n$ polynomiell sind, definieren wir
     \begin{math}
         \Index{[a,b]}{p}{q}
         := \sum_{k=1}^n \Index{[x_{k-1}, x_k]}{p}{q}.
@@ -535,10 +533,11 @@ Für spätere Zwecke werden wir nun den Cauchy-Index in einem letzten Schritt au
     \begin{note}
         \begin{itemize}
             \item
-                Falls $p$ und $q$ keine gemeinsamen Nullstellen besitzen, ließe sich statt der gewählten Unterteilung auch die bisherige Definition des Cauchy-Index aus \ref{thm:def:ci} nutzen (vgl. die darauf folgende Bemerkung).
-                Beide Herangehensweisen liefern das selbe Ergebnis dank der Subdivisions-Eigenschaft aus \ref{thm:lem:wn0_prop}, die sich problemlos auf stückweise polynomielle $p$ und $q$ verallgemeinert.
+                Falls $p$ und $q$ keine gemeinsamen Nullstellen besitzen, ließe sich statt der gewählten Unterteilung auch die bisherige Definition des Cauchy-Index aus Definition \ref{thm:def:ci} nutzen (vgl. die darauf folgende Bemerkung).
+                Beide Herangehensweisen liefern sind äquivalent dank der Subdivisions-Eigenschaft aus Lemma \ref{thm:lem:wn0_prop}, die sich problemlos auf stückweise polynomielle $p$ und $q$ verallgemeinert.
             \item
                 Die Antisymmetrie entspricht unserer geometrischen Intuition: so zählt beispielsweise $\Index{[a,b]}{p}{q}$ für $a > b$ die reellen Achsenübergänge von $\gamma := p + iq$ auf $[b, a]$ in umgekehrter Durchlaufrichtung.
+                Beachte, dass $[a,b]$ in diesem Fall ein rein formaler Ausdruck ist und nicht etwa ein leeres Intervall.
         \end{itemize}
     \end{note}
 \end{definition}
@@ -558,7 +557,6 @@ Für spätere Zwecke werden wir nun den Cauchy-Index in einem letzten Schritt au
 
 \begin{proposition} \label{thm:prop:ci_prop}
     Seien $p, q, s: \R \to \R$ stückweise polynomielle, reelle Funktionen und $a, b, c \in \R$.
-    Weiter seien $p, q$ ohne gemeinsame Nullstellen.
     Der Cauchy-Index genügt folgenden Eigenschaften:
     \begin{enumerate}[i)]
         \item
@@ -598,7 +596,7 @@ Für spätere Zwecke werden wir nun den Cauchy-Index in einem letzten Schritt au
                 Sei also $a < c < b$.
 
                 Die Unterteilung in Definition \ref{thm:def:ci_pwpoly} erlaubt es uns, die Aussage auf den rein polynomiellen Fall zu reduzieren.
-                Wie bereits in \ref{thm:def:ci_common-roots} bemerkt, können wir davon ausgehen, dass $p$ und $q$ keine gemeinsamen Nullstellen auf $[a, b]$ besitzen.
+                Wie bereits in Definition \ref{thm:def:ci_common-roots} bemerkt, können wir davon ausgehen, dass $p$ und $q$ keine gemeinsamen Nullstellen auf $[a, b]$ besitzen.
 
                 Sei $\Gamma^- := [a,c]$, $\Gamma^+ := [c,b]$.
                 Wir wenden unsere Definition \ref{thm:def:ci} auf die Aussage an und erhalten
@@ -607,37 +605,36 @@ Für spätere Zwecke werden wir nun den Cauchy-Index in einem letzten Schritt au
                     &= \sum_{x\in[a,c]} \sgn(p(x)) \deg(q|\Boundary\Gamma^-_\epsilon(x)) \\
                     &\quad+ \sum_{x\in[c,b]} \sgn(p(x)) \deg(q|\Boundary\Gamma^+_\epsilon(x)).
                 \end{math}
-                Hierbei sei $\epsilon$ für jedes $x$ hinreichend klein gewählt, dass \ref{thm:lem:wn0_const} für alle relevanten Intervalle erfüllt ist.
+                Hierbei sei $\epsilon$ für jedes $x$ hinreichend klein gewählt, dass Lemma \ref{thm:lem:wn0_const} für alle relevanten Intervalle erfüllt ist.
                 Wir beobachten, dass die Umgebungen $\Gamma_\epsilon(x)$, $\Gamma^\pm_\epsilon(x)$ für $x \in [a,c)$, bzw. $a \in (c,b]$ übereinstimmen.
-                In $x = c$ folgt die Aussage mit der Subdivision aus \ref{thm:lem:wn0_prop}, denn
+                In $x = c$ folgt die Aussage mit der Subdivision aus Lemma \ref{thm:lem:wn0_prop}, denn
                 \begin{math}
                     \Gamma_\epsilon(c) &= [c-\epsilon, c+\epsilon], &
                     \Gamma^-_\epsilon(c) &= [c-\epsilon,c], &
                     \Gamma^+_\epsilon(c) &= [c,c+\epsilon].
                 \end{math}
-        \end{enumerate}
-        Um die Beweisführungen zu erleichtern, nehmen wir zunächst eine Reihe von Vereinfachungen vor.
-        Die Aussagen ii)-vi) sind für $a = b$, $p = 0$ oder $q = 0$ leicht nachvollziehbar.
-        Außerdem lassen sich Antisymmetrie, Subdivision und „Kürzen“ gemäß \ref{thm:def:ci_common-roots} anwenden.
+        %\end{enumerate}
+        %Um die Beweisführungen zu erleichtern, nehmen wir zunächst eine Reihe von Vereinfachungen vor.
+        %Die Aussagen ii)-vi) sind für $a = b$, $p = 0$ oder $q = 0$ leicht nachvollziehbar.
+        %Außerdem lassen sich Antisymmetrie, Subdivision und „Kürzen“ gemäß \ref{thm:def:ci_common-roots} anwenden.
 
-        Wir können im Folgenden also von $a < b$ und $p, q \in \R[x]$ ohne gemeinsame Nullstellen auf $[a, b]$ ausgehen.
-        \begin{enumerate}[i),start=2]
+        %Wir können im Folgenden also von $a < b$ und $p, q \in \R[x]$ ohne gemeinsame Nullstellen auf $[a, b]$ ausgehen.
+        %\begin{enumerate}[i),start=2]
             \item
-                Es genügt wieder $a < b$ und $p, q \in \R[x]$ ohne gemeinsame Nullstellen zu betrachten.
+                Es genügt wieder $a < b$, $s \in \R[x]$ und $p, q \in \R[x]$ ohne gemeinsame Nullstellen zu betrachten.
                 Die Aussagen sind dann jedoch genau Definition \ref{thm:def:ci_common-roots} und Lemma \ref{thm:lem:ci_homogeneity}.
             \item
-                Es genügt wieder $a < b$ und $p, q \in \R[x]$ ohne gemeinsame Nullstellen zu betrachten, denn $p, q$ sind durch $s$ teilbar genau dann, wenn auch $p \circ \tau, q \circ \tau$ durch $s \circ \tau$ teilbar sind.
+                Es genügt wieder $a < b$ und $p, q \in \R[x]$ ohne gemeinsame Nullstellen zu betrachten.
+                Die Polynome $p \circ \tau, q \circ \tau$ haben dann ebenfalls keine gemeinsamen Nullstellen.
 
                 Wir betrachten zunächst die Transformation $\phi(x) := b+a-x$, die das Intervall $[a, b]$ umkehrt.
                 An jeder Stelle $x \in [a,b]$ beobachten wir folgende Antisymmetrie:
                 \begin{math}
                     \deg\big(q\circ \phi|\Boundary\Gamma_\epsilon(x)\big) = -\deg\big(q|\Boundary\Gamma_\epsilon(\phi(x))\big).
                 \end{math}
-                Es folgt also $\Index{\Gamma}{p \circ \phi}{q \circ \phi} = -\Index{\Gamma}{p}{q} = \Index{\phi(\Gamma)}{p}{q}$.
-                Ist $\tau$ streng monoton fallend, so ist $\hat \tau(x) := \tau \circ \phi$ streng monoton steigend und wir können 
+                Es folgt also $\Index{[a,b]}{p \circ \phi}{q \circ \phi} = -\Index{[a,b]}{p}{q} = \Index{[\phi(a),\phi(b)]}{p}{q}$.
 
-
-                Sei $\tau$ nun streng monoton fallend, so ist $\hat \tau(x) := \tau(b + a - x)$ streng monoton steigend und es gilt
+                Sei $\tau$ nun streng monoton fallend, so ist $\hat \tau(x) := \tau \circ \phi$ streng monoton steigend und es gilt
                 \begin{math}
                     \Index{[a,b]}{p\circ \tau }{ q \circ \tau} &= - \Index{[a,b]}{p \circ \hat \tau }{ q \circ \hat \tau}, \\
                     \Index{[\tau(a),\tau(b)]}{p}{q} &= - \Index{[\hat\tau(a),\hat\tau(b)]}{p}{q}.
@@ -647,45 +644,47 @@ Für spätere Zwecke werden wir nun den Cauchy-Index in einem letzten Schritt au
                 Nun ist $x \in [a,b]$ eine Nullstelle von $q \circ \tau$ genau dann, wenn $\tau(x) \in [\tau(a),\tau(b)]$ eine Nullstelle von $q$ ist.
                 Beachte, dass dies über den rationalen Zahlen nicht gilt: $\tau(x)$ kann rational sein, während $x$ dies nicht ist.
 
-                An diesen Nullstellen $x \in [a,b]$ von $q \circ \tau$, bzw $\tau(x) \in [\tau(a),\tau(b)]$ von $q$ gilt, da $\tau$ streng monoton steigend:
+                An diesen Nullstellen $x \in [a,b]$ von $q \circ \tau$, bzw $\tau(x) \in [\tau(a),\tau(b)]$ von $q$ erhalten wir
                 \begin{math}
                     \deg\big(q\circ \tau|\Boundary\Gamma_\epsilon(x)\big)
-                    = \deg\big(q|\Boundary\Gamma_\epsilon(\tau(x))\big).
+                    = \deg\big(q|\Boundary\Gamma_\epsilon(\tau(x))\big),
                 \end{math}
+                da $\tau$ streng monoton steigend ist.
                 Die Auswertungen von $p$ in $\tau(x)$, bzw $p\circ \tau$ in $x$ im Cauchy-Index sind die selben und es ergibt sich in der Summe $\Index{[a,b]}{p\circ\nobreak\tau }{ q\circ\nobreak\tau} = \Index{[\tau(a),\tau(b)]}{p}{q}$.
             \item
                 Es genügt wieder $a < b$ und $p, q \in \R[x]$ ohne gemeinsame Nullstellen zu betrachten.
+                Insbesondere besitzen auch $p + sq$ und $q$ keine gemeinsamen Nullstellen.
+
                 In jeder Nullstelle $x \in [a,b]$ von $q$ gilt $\sgn(p(x)) = \sgn\big((p+sq)(x)\big)$ und die Aussage folgt durch Summation über die Nullstellen.
             \item
                 Es genügt wieder $a < b$ zu betrachten.
 
                 In $\Index{\Gamma}{p}{q}$ und $\Index{\Gamma}{q}{p}$ lassen sich gemeinsame Nullstellen kürzen dank ii).
-                Auf der rechten Seite können wir nicht kürzen und nutzen stattdessen die folgende Eigenschaft.
-                Solange $s \in \R[x]$ keine Nullstellen auf dem Rand $\Set{a,b}$ besitzt, gilt für jedes $x \in [a,b]$
+                Auf der rechten Seite können wir nicht kürzen und nutzen stattdessen die folgende Eigenschaft:
+                solange $s \in \R[x]$ keine Nullstellen auf dem Rand $\Set{a,b}$ besitzt, gilt für jedes $x \in [a,b]$
                 \begin{math}
                     \deg(s^2 pq|\Boundary\Gamma_\epsilon(x)) = \deg(pq|\Boundary\Gamma_\epsilon(x)),
                 \end{math}
                 da der quadratische Faktor für hinreichend kleines $\epsilon$ keine Auswirkung auf die Vorzeichen"=Auswertungen in der Umgebung hat.
-                Somit können wir davon ausgehen, dass $p, q$ keine gemeinsamen Nullstellen auf $[a,b]$ besitzen.
+                Damit können wir davon ausgehen, dass $p, q$ keine gemeinsamen Nullstellen auf $[a,b]$ besitzen.
 
-                Sei nun $x \in [a,b]$ eine Nullstelle von $q$ und $\epsilon > 0$ so klein, dass \ref{thm:lem:wn0_const} erfüllt ist und $p$ auf $\Gamma_\epsilon$ konstantes Vorzeichen besitzt.
-                Dann gilt $\deg(p|\Boundary\Gamma_\epsilon(x)) = 0$ und wir erhalten dank Homogenität aus \ref{thm:lem:wn0_prop}
+                Sei nun $x \in [a,b]$ eine Nullstelle von $q$ und $\epsilon > 0$ so klein, dass Lemma \ref{thm:lem:wn0_const} erfüllt ist und $p$ auf $\Gamma_\epsilon$ konstantes Vorzeichen besitzt.
+                Dann gilt $\deg(p|\Boundary\Gamma_\epsilon(x)) = 0$ und wir erhalten dank Homogenität aus Lemma \ref{thm:lem:wn0_prop}
                 \begin{math}
                     \sgn(p(x)) \deg(q|\Boundary\Gamma_\epsilon(x))
-                    + \sgn(q(x)) \deg(p|\Boundary\Gamma_\epsilon(x))
+                    + \sgn(q(x)) \overbrace{\deg(p|\Boundary\Gamma_\epsilon(x))}^{=0}
                     = \deg(pq|\Boundary\Gamma_\epsilon(x)).
                 \end{math}
                 Der Fall, dass $x \in [a,b]$ eine Nullstelle von $p$ ist, verläuft analog.
                 Die Aussage folgt schließlich durch Summation über die Nullstellen von $p$ und $q$.
             \item
                 Beachte, dass die rechte Seite ebenfalls Antisymmetrie und Subdivision erfüllt.
-
                 Dies nutzen wir und unterteilen $\Gamma$ so in Teilintervalle $(\Gamma_i)_{i=1}^n$, dass für jede der endlich vielen Nullstellen $x \in [a,b]$ von $q$ ein $\Gamma_k$ existiert mit $x \in \Gamma_k \subset \Gamma_\epsilon(x)$.
 
                 Für solche $\Gamma_k \subset \Gamma_\epsilon(x)$ entspricht die Behauptung gerade der Definition.
-                Alle anderen $\Gamma_i$, welche keine reellen Nullstellen enthalten, leisten keinen Beitrag für die rechte Seite, da dank des Zwischenwertsatzes dort kein Vorzeichenwechsel stattfinden kann.
+                Alle anderen $\Gamma_i$, welche keine (reellen) Nullstellen enthalten, leisten keinen Beitrag für die rechte Seite, da (dank des Zwischenwertsatzes) dort kein Vorzeichenwechsel stattfinden kann.
 
-                So folgt die Aussage durch Summation dank der Subdivision.
+                Die Aussage folgt durch Summation dank der Subdivision.
         \end{enumerate}
     \end{proof}
 \end{proposition}
@@ -693,8 +692,7 @@ Für spätere Zwecke werden wir nun den Cauchy-Index in einem letzten Schritt au
 
 \section{Algorithmus}
 
-
-Wie bereits versprochen konstruieren wir uns nun mit Hilfe obiger Eigenschaften den folgenden Algorithmus.
+Die eben gezeigten Eigenschaften erlauben bereits eine explizite Berechnung des Cauchy-Index.
 
 \begin{algorithm} \label{thm:alg:ci_simple}
     \Input{$a,b \in \R$, $p,q \in \R[x]$ ohne gemeinsame Nullstellen in $\Set{a,b}$} \\
@@ -703,7 +701,7 @@ Wie bereits versprochen konstruieren wir uns nun mit Hilfe obiger Eigenschaften 
         \If{$p = \const$}
             \Return{$\frac{1}{2} \sgn(p) \big(\sgn(q(b)) - \sgn(q(a))\big)$}
         \Else
-            \State{bestimme $s,r \in \R[x]$ so, dass $p = sq - r$ mit $\deg r < \deg q$} \Comment{z.B. durch Polynomdivision}
+            \State{bestimme $s,r \in \R[x]$ so, dass $p = sq - r$ mit $\deg r < \deg q$} \Comment{z.B. Polynomdivision}
             \Return{$\Index{[a,b]}{q}{r} - \Index{[a,b]}{1}{qr}$}
         \EndIf
     \end{algorithmic}
@@ -717,7 +715,7 @@ Wie bereits versprochen konstruieren wir uns nun mit Hilfe obiger Eigenschaften 
         Falls $\deg p > \deg q$, so erfolgt der nächste Aufruf mit geringerem Grad für $p$.
         Nach endlich vielen Schritten terminiert also die Rekursion.
 
-        Im Fall $p = \const$ (Zeile 2) liefert Homogenität und Reduktion aus \ref{thm:prop:ci_prop} direkt
+        Im Fall $p = \const$ (Zeile 2) liefert Homogenität und Reduktion aus Satz \ref{thm:prop:ci_prop} direkt
         \begin{math}
             \Index{[a,b]}{p}{q} = \frac{1}{2} \sgn(p) \big(\sgn(q(b)) - \sgn(q(a)\big).
         \end{math}
@@ -739,7 +737,7 @@ Hierbei ist $(p_0, \dotsc, p_n)$ eine Kette von Polynomen, welche durch die Poly
     Seien $p_0, \dotsc, p_n \in \R[x]$ Polynome mit
     \begin{enumerate}[i)]
         \item
-            $p_{k-1} = s_kp_k - p_{k+1}$ für $k = 1, \dotsc, n$ und
+            $p_{k-1} = s_kp_k - p_{k+1}$ für $k = 1, \dotsc, n$, $s_k \in \R[x]$ und
         \item
             $\deg(p_n) = 0$.
     \end{enumerate}
@@ -747,7 +745,7 @@ Hierbei ist $(p_0, \dotsc, p_n)$ eine Kette von Polynomen, welche durch die Poly
 \end{definition}
 
 Wir betrachten unter den Voraussetzungen von Algorithmus \ref{thm:alg:ci_simple} eine euklidische Kette $(p_0, \dotsc, p_n)$ mit $p_0 = q$, $p_1 = p$.
-Wie im Beweis von \ref{thm:prop:ci_simple} gilt wieder
+Wie im Beweis von Satz \ref{thm:prop:ci_simple} gilt wieder
 \begin{math}
     \Index{[a,b]}{p_{k-1}}{p_k}
     = -\Index{[a,b]}{p_{k+1}}{p_k}
@@ -777,15 +775,15 @@ Der Term $\Index{[a,b]}{p_{n-1}}{p_n}$ entfällt, da $p_n$ konstant ist und wir 
     \end{algorithmic}
 \end{algorithm}
 
-Wir stellen fest, dass unser Algorithmus mit Blick auf \ref{thm:ex:ci_roots} dazu verwendet werden kann, die Anzahl Nullstellen eines reellen Polynoms auf einem gegebenen Intervall zu zählen.
-Eine solche Zählung der Nullstellen mit rein algebraischen Methoden ist als Theorem von Sturm bekannt, siehe \ref{thm:cor:sturm}.
+Wir stellen fest, dass unser Algorithmus mit Blick auf Beispiel \ref{thm:ex:ci_roots} dazu verwendet werden kann, die Anzahl Nullstellen eines reellen Polynoms auf einem gegebenen Intervall zu zählen.
+Eine solche Zählung der Nullstellen mit rein algebraischen Methoden ist als Theorem von Sturm bekannt, siehe Korollar \ref{thm:cor:sturm}.
 Wir werden im nächsten Kapitel sehen, dass beide Methoden im Wesentlichen übereinstimmen.
 
 \section{Sturm-Ketten}
 
 In Algorithmus \ref{thm:alg:ci_premseq} ist nicht unbedingt eine euklidische Kette notwendig, es genügen sogenannte \emph{Sturm-Ketten}.
 Dies ist beispielsweise sinnvoll, wenn aus Implementierungsgründen Polynome mit ganzzahligen Koeffizienten erwünscht sind.
-Statt euklidischen Ketten kommen dann andere Polynom-Rest-Ketten zum Einsatz, wie sie aus der pseudo-euklidischen Division (siehe \ref{thm:alg:pseucl}) oder dem Subresultanten-Algorithmus (siehe \cite[§3.5]{yap2000fundamental}) entspringen.
+Statt euklidischen Ketten kommen dann andere Polynom-Rest-Ketten zum Einsatz, wie sie aus der pseudo-euklidischen Division (siehe Algorithmus \ref{thm:alg:pseucl}) oder dem Subresultanten-Algorithmus (siehe \cite[§3.5]{yap2000fundamental}) entspringen.
 
 \begin{definition}
     Sei $s_0, \dotsc, s_n \in \R[x]$ und $a,b \in \R, a \le b$.
@@ -797,7 +795,7 @@ Statt euklidischen Ketten kommen dann andere Polynom-Rest-Ketten zum Einsatz, wi
             $\sgn(s_n(x)) = \const$ auf $[a,b]$.
     \end{enumerate}
     \begin{note}
-        In einer Sturm-Kette besitzen insbesondere je zwei Nachbarn $p_{k-1}, p_k$ keine gemeinsamen Nullstellen.
+        In einer Sturm-Kette besitzen insbesondere je zwei Nachbarn $s_{k-1}, s_k$ keine gemeinsamen Nullstellen.
     \end{note}
 \end{definition}
 
@@ -805,21 +803,21 @@ Statt euklidischen Ketten kommen dann andere Polynom-Rest-Ketten zum Einsatz, wi
     Seien $p_0, p_1 \in \R[x]$ ohne gemeinsame Nullstellen.
     Die euklidische Kette $(p_0, p_1, \dotsc, p_n)$ ist eine Sturm-Kette.
     \begin{proof}
-        Seien $p_{k-1}, p_k$ ohne gemeinsame Nullstellen.
-        Dann ist für alle $x \in \R$ mit $p_k(x) = 0$
+        Seien $p_{k-1}, p_k$ ohne gemeinsame Nullstellen und $p_{k-1} = s_k p_k - p_{k+1}$
+        Dann gilt für alle $x_0 \in \R$ mit $p_k(x_0) = 0$
         \begin{math}
-            0 \neq p_{k-1}(x)
-            = s(x) p_k(x) - p_{k+1}(x)
-            = - p_{k+1}(x).
+            0 \neq p_{k-1}(x_0)
+            = s(x_0) p_k(x_0) - p_{k+1}(x_0)
+            = - p_{k+1}(x_0).
         \end{math}
         Folglich haben $p_k$ und $p_{k+1}$ ebenfalls keine gemeinsamen Nullstellen und es gilt $p_{k-1}(x) p_{k+1}(x) < 0$ an allen Nullstellen $x$ von $p_k$.
         Induktiv ergibt sich zusammen mit $\deg(p_n) = 0$ die Behauptung.
     \end{proof}
 \end{example}
 
-Wie die euklidische Kette können wir den Cauchy-Index der ersten Glieder als eine Summe darstellen.
+Wie die euklidische Kette können wir den Cauchy-Index der ersten beiden Glieder als eine Summe darstellen.
 
-\begin{lemma} \label{thm:sturm_boundary-terms}
+\begin{lemma} \label{thm:lem:sturm_boundary-terms}
     Für eine Sturm-Kette $(s_0, \dotsc, s_n)$ gilt
     \begin{math}[numbered] \label{eq:sturm_boundary-terms}
         \Index{[a,b]}{s_1}{s_0}
@@ -827,7 +825,7 @@ Wie die euklidische Kette können wir den Cauchy-Index der ersten Glieder als ei
     \end{math}
     \begin{proof}
         Die Polynome $s_{k-1}$ und $s_{k+1}$ besitzen an den Nullstellen von $s_k$ jeweils verschiedene Vorzeichen.
-        Wir erhalten also durch Einfügen von Summanden der Form $\Index{[a,b]}{s_{k-1}}{s_k} + \Index{[a,b]}{s_{k+1}}{s_k} = 0$
+        Wir erhalten also durch Einfügen von Summanden der Form $\Index{[a,b]}{s_{k-1}}{s_k} + \Index{[a,b]}{s_{k+1}}{s_k} = \nobreak 0$
         \begin{math}
             \Index{[a,b]}{s_1}{s_0}
             &= \Index{[a,b]}{s_1}{s_0} + \Index{[a,b]}{s_{n-1}}{s_n} \\
@@ -869,14 +867,14 @@ Wir werden nun diese Ausdrücke und damit die Summe in \eqref{eq:sturm_boundary-
             = \big|1 - \sgn\big((s_{k-1}s_k)(x)\big) \big|
             = 1 - \sgn\big((s_{k-1}s_k)(x)\big)
         \end{math}
-        und somit dank Reduktion aus \ref{thm:prop:ci_prop}
+        und somit dank Reduktion aus Satz \ref{thm:prop:ci_prop}
         \begin{math}
             V_a^b(s_{k-1},s_k)
             &= \frac{1}{2} \Big( 1 - \sgn\big((s_{k-1}s_k)(b)\big) \Big)
               - \frac{1}{2} \Big( 1 - \sgn\big((s_{k-1}s_k)(a)\big) \Big) \\
             &= \Index{[a,b]}{1}{s_{k-1}s_k}.
         \end{math}
-        Die Aussage folgt jetzt direkt aus \ref{thm:sturm_boundary-terms}:
+        Die Aussage folgt jetzt direkt aus Lemma \ref{thm:lem:sturm_boundary-terms}:
         \begin{math}
             V_a^b(s_0,\dotsc, s_n)
             = \sum_{k=1}^n V_a^b(s_{k-1}, s_k)
@@ -887,21 +885,21 @@ Wir werden nun diese Ausdrücke und damit die Summe in \eqref{eq:sturm_boundary-
 \end{theorem}
 
 \begin{corollary}[Theorem von Sturm] \label{thm:cor:sturm}
-    Sei $p \in \R[x]$, $\Gamma = [a,b]$ und $p \in \R[x]$ besitze keine Nullstellen in $a$ oder $b$ und nur einfache Nullstellen auf $\Gamma$.
+    Sei $\Gamma = [a,b]$ und $p \in \R[x]$ besitze keine Nullstellen in $a$ oder $b$ und nur einfache Nullstellen auf $\Gamma$.
     Weiter sei $(s_0, \dotsc, s_n)$ eine Sturmkette mit $s_0 = p, s_1 = p'$.
 
     Dann ist die Anzahl Nullstellen von $p$ auf $[a,b]$ gegeben durch $V_a^b(s_0, \dotsc, s_n)$.
     \begin{proof}
-        Folgt aus \ref{thm:thm:sturm_cauchy} und \ref{thm:ex:ci_roots}.
+        Folgt aus Theorem \ref{thm:thm:sturm_cauchy} und Beispiel \ref{thm:ex:ci_roots}.
     \end{proof}
     \begin{note}
         \begin{itemize}
             \item
-                Besitzt $p$ mehrfache Nullstellen, so können wir das Korollar dank \ref{thm:prop:ci_roots_multiple} nach entsprechendem Kürzen von $p$ und $p'$ weiterhin anwenden.
+                Besitzt $p$ mehrfache Nullstellen, so können wir das Korollar dank Satz \ref{thm:prop:ci_roots_multiple} nach entsprechendem Kürzen von $p$ und $p'$ weiterhin anwenden.
             \item
                 Wird für die Sturmkette eine euklidische Kette genutzt, so gestaltet sich das Kürzen besonders leicht.
                 Das vorletzte Glied der euklidischen Kette ist nämlich (bis auf invertierbare Faktoren) gerade $\ggT(p, p')$.
-                Nachdem die euklidische Kette für $p, p'$ berechnet wurde, kann jedes Glied durch $\ggT(p, p')$ geteilt werden um eine Sturmkette zu erhalten, welche gemäß dieses Korollars die Anzahl Nullstellen von $p$ zählt.
+                Nachdem die euklidische Kette für $p, p'$ berechnet wurde, kann jedes Glied durch $\ggT(p, p')$ geteilt werden um eine Sturmkette zu erhalten, welche gemäß dieses Korollars die Anzahl Nullstellen von $p$ zählt (siehe \cite[Definition 3.13]{eisermann2012fundamental}.
         \end{itemize}
     \end{note}
 \end{corollary}
@@ -909,7 +907,7 @@ Wir werden nun diese Ausdrücke und damit die Summe in \eqref{eq:sturm_boundary-
 
 \section{Die Windungszahl und ihre geometrische Charakterisierung} \label{sec:wn_geom}
 
-Nachdem wir nun den Cauchy-Index, seine Eigenschaften und seine Berechnung gesehen haben, wenden wir uns wieder der Windungszahl zu, welche unsere ursprüngliche Motivation war.
+Nachdem wir nun den Cauchy-Index, seine Eigenschaften und seine Berechnung gesehen haben, wenden wir uns wieder der Windungszahl zu, die unsere ursprüngliche Motivation war.
 
 Für eine polynomielle Kurve $\gamma: [a,b] \to \C^*$ war der Zusammenhang von Windungszahl und Cauchy-Index
 \begin{math}[numbered] \label{eq:wn_ci_def}
@@ -937,11 +935,11 @@ Die Windungszahl lässt sich allerdings auch durch folgende Eigenschaften eindeu
             \deg(\gamma_0) = \deg(\gamma_1).
         \end{math}
 \end{enumerate}
-Normiertheit und Multiplikativität wird es uns erlauben, Nullstellen eines komplexen Polynoms innerhalb eines Rechteckes zu zählen.
+Normiertheit und Multiplikativität wird es uns erlauben, Nullstellen eines komplexen Polynoms innerhalb eines Rechtecks zu zählen.
 Die Homotopie-Invarianz ist für sich genommen bereits interessant, wird aber auch für das zweite Kapitel ein wichtiger Grundstein sein.
 
 Wir werden nun die Gleichung \eqref{eq:wn_ci_def} als Definition der Windungszahl für stückweise polynomielle Kurven zu Grunde legen und die genannten Eigenschaften herleiten.
-Es ist dabei zu beachten, dass wir uns (wegen des Cauchy-Index) auf stückweise polynomielle Kurven und stückweise polynomielle Homotopien (gemäß \ref{thm:def:pwpoly}) einschränken werden.
+Es ist dabei zu beachten, dass wir uns (wegen des Cauchy-Index) auf stückweise polynomielle Kurven und stückweise polynomielle Homotopien (gemäß Definition \ref{thm:def:pwpoly}) einschränken werden.
 Die Aussagen können mit Hilfe entsprechender Approximationsaussagen auch für stetige Kurven und Homotopien gewonnen werden, was an dieser Stelle allerdings nicht ausgeführt werden soll.
 
 \begin{definition} \label{thm:def:subdiv}
@@ -951,8 +949,9 @@ Die Aussagen können mit Hilfe entsprechender Approximationsaussagen auch für s
 
 \begin{definition} \label{thm:def:pwpoly}
     Sei $\Gamma := [x_0, x_1] \times [y_0,y_1] \subset \C$ ein Rechteck.
-    Wir nennen $f: \Gamma \to \R$ \emphdef{stückweise polynomiell}, falls eine Unterteilung $(\Gamma_{ij})_{i,j=0}^{n,m}$ mit $n,m \in \N$ existiert, sodass $f|_{\Gamma_{ij}}$ polynomiell ist.
-    Weiter bezeichnen wir $F: \Gamma \to \C$ als \emphdef{stückweise polynomiell}, falls die Koordinatenfunktionen $\Re(F)$, $\Im(F)$ dies sind.
+    Wir nennen $f: \Gamma \to \R$ \emphdef{stückweise polynomiell}, falls eine Unterteilung $(\Gamma_{ij})_{i,j=0}^{n,m}$ existiert, sodass $f|_{\Gamma_{ij}}$ polynomiell ist.
+
+    Weiter bezeichnen wir für $n \in \R$ die Abbildung $F: \Gamma \to \R^n$ als \emphdef{stückweise polynomiell}, falls die Koordinatenfunktionen $F_i: \Gamma \to \R$, $i = 1, \dotsc, n$ dies sind.
 \end{definition}
 
 \begin{definition} \label{thm:def:wn1}
@@ -970,7 +969,7 @@ Die Aussagen können mit Hilfe entsprechender Approximationsaussagen auch für s
         &\quad- \deg( F|_{[x_0,x_1]\times y_1} ) - \deg( F|_{x_0 \times [y_0, y_1]} ).
     \end{math}
     Dabei bezeichnet beispielsweise $F|_{[x_0,x_1]\times y_0}: [x_0, x_1] \to \C^*$ die durch Spezialisierung der zweiten Variable erhaltene stückweise polynomielle Kurve auf $[x_0, x_1]$.
-    Für eine Motivation der Vorzeichen betrachte die Abbildung \ref{fig:rectboundary}.
+    Für eine Motivation der Vorzeichen betrachte man Abbildung \ref{fig:rectboundary}.
 \end{definition}
 
 \begin{figure}[ht]
@@ -991,11 +990,11 @@ Die Aussagen können mit Hilfe entsprechender Approximationsaussagen auch für s
     \label{fig:rectboundary}
 \end{figure}
 
-Im Folgenden seien $\Gamma, \gamma, F$ stets gemäß \ref{thm:def:wn1} definiert.
+Soweit nicht anderweitig festgelegt seien in diesem Abschnitt $\Gamma$, $\gamma$ und $F$ stets wie in Definition \ref{thm:def:wn1} gewählt.
 
 % fixme: illustration
 
-\begin{proposition}[Subdivision] \label{thm:winding-number_subdivision}
+\begin{proposition}[Subdivision] \label{thm:prop:winding-number_subdivision}
     Sei $(\Gamma_{ij})_{i,j=0}^{n,m}$ eine Unterteilung von $\Gamma$.
     Dann gilt
     \begin{math}
@@ -1004,7 +1003,7 @@ Im Folgenden seien $\Gamma, \gamma, F$ stets gemäß \ref{thm:def:wn1} definiert
     \begin{proof}
 % fixme: illustration
         Betrachte die rechte Seite der Gleichung: die Randterme aus \eqref{eq:winding-number_boundary} heben sich gegenseitig an allen inneren Rändern auf.
-        Die restlichen Terme ergeben dank der Subdivisions-Eigenschaft des Cauchy-Index aus \ref{thm:prop:ci_prop} gerade wieder die nötigen Terme für die linke Seite der Gleichung.
+        Die restlichen Terme ergeben dank der Subdivisions-Eigenschaft des Cauchy-Index aus Satz \ref{thm:prop:ci_prop} gerade wieder die nötigen Terme für die linke Seite der Gleichung.
     \end{proof}
 \end{proposition}
 
@@ -1015,7 +1014,7 @@ Im Folgenden seien $\Gamma, \gamma, F$ stets gemäß \ref{thm:def:wn1} definiert
         \deg(F|\Boundary\Gamma)
         = \begin{cases}
             1 & \text{falls $z_0 \in \Gamma \setminus \Boundary\Gamma$,} \\
-            0 & \text{falls $z_0 \not\in \Gamma$.}
+            0 & \text{falls $z_0 \in \C \setminus \Gamma$.}
         \end{cases}
     \end{math}
     \begin{proof}
@@ -1035,13 +1034,13 @@ Im Folgenden seien $\Gamma, \gamma, F$ stets gemäß \ref{thm:def:wn1} definiert
     \end{proof}
 \end{proposition}
 
-\begin{lemma} \label{thm:lem:wn1_rot}
-    Solange $F(x,y) \neq 0$ in allen Eckpunkten von $\Gamma$ gilt, so ist die Windungszahl invariant unter Drehung um 90°:
+\begin{lemma}[Dreh-Lemma] \label{thm:lem:wn1_rot}
+    Die Windungszahl ist invariant unter Drehung um 90°, falls $F(x,y) \neq 0$ auf $\Boundary\Gamma$:
     \begin{math}
         \deg(F|\Boundary\Gamma) = \deg(i F|\boundary \Gamma).
     \end{math}
     \begin{proof}
-        Sei $\gamma: [0,1] \to \C$ eine Parametrisierung von $\Boundary\Gamma$ wie in \ref{thm:def:wn1}.
+        Sei $\gamma: [0,1] \to \C$ eine Parametrisierung von $\Boundary\Gamma$ wie in Definition \ref{thm:def:wn1}.
         Diese besteht aus vier polynomiellen Stücken und $F\circ \gamma$ besitzt an den Rändern dieser Stücke nach Voraussetzung keine Nullstelle.
         Die Inversionsformel für den Cauchy-Index liefert dann
         \begin{math}
@@ -1056,14 +1055,14 @@ Im Folgenden seien $\Gamma, \gamma, F$ stets gemäß \ref{thm:def:wn1} definiert
 
 \begin{lemma} \label{thm:lem:winding-number_local}
     Sei $F(x,y) \neq 0$.
-    Dann existiert $\delta > 0$, sodass für alle Rechtecke $\tilde \Gamma \subset \Gamma_\delta := [x-\delta, x+\delta] \times [y-\delta, y+\delta]$ gilt
+    Dann existiert $\delta > 0$, sodass für alle Rechtecke $\tilde \Gamma \subset \Gamma_\delta := [x-\delta, x+\delta] \times [y-\nobreak\delta, y+\delta]$ gilt
     \begin{math}
         \deg(F|\Boundary\tilde \Gamma) = 0.
     \end{math}
     \begin{proof}
-        Dank \ref{thm:lem:wn1_rot} können wir annehmen, dass $\Im F(x,y) \neq 0$.
         Da $F$ stetig ist, existiert $\delta > 0$ sodass $\Im F(x,y) \neq 0$ auf ganz $\Gamma_\delta$.
-        Folglich verschwinden alle Terme in $\deg(F|\Boundary\tilde\Gamma)$.
+        Dank \ref{thm:lem:wn1_rot} können wir annehmen, dass $\Im F(x,y) \neq 0$.
+        Folglich verschwinden alle Terme in $\deg(F|\Boundary\tilde\Gamma)$ aus \eqref{eq:winding-number_boundary}.
     \end{proof}
 \end{lemma}
 
@@ -1073,10 +1072,10 @@ Im Folgenden seien $\Gamma, \gamma, F$ stets gemäß \ref{thm:def:wn1} definiert
          \deg(F|\Boundary\Gamma) = 0.
      \end{math}
      \begin{proof}
-        $\Gamma$ ist überdeckt von Rechtecken $\Gamma_{\delta(x,y)}$ gemäß \ref{thm:lem:winding-number_local}.
+        $\Gamma$ ist überdeckt von Rechtecken $\Gamma_{\delta(x,y)}$ gemäß Lemma \ref{thm:lem:winding-number_local}.
         Da $\Gamma$ kompakt ist, existiert eine \emph{Lebesgue-Zahl} $\lambda > 0$, sodass jedes Quadrat in $\Gamma$ mit Seitenlänge $< \lambda$ jeweils in einem Rechteck $\Gamma_{\delta(x,y)}$ mit $(x,y) \in \Gamma$ enthalten ist.
-        Wähle eine Zerlegung gemäß \ref{thm:winding-number_subdivision} mit $n := m := \ceil{\frac{1}{\lambda}}$ und $x_i := y_i := \frac{i}{n}$ für $i = 0, \dotsc, n$.
-        Nach \ref{thm:lem:winding-number_local} gilt für jedes $\Gamma_{ij}$ unserer Unterteilung also $\deg(F|\Boundary \Gamma_{ij}) = 0$ und dank Subdivision aus \ref{thm:winding-number_subdivision} $\deg(F|\Boundary\Gamma) = 0$.
+        Wähle eine Unterteilung $(\Gamma_{ij})_{i,j=0}^{n,m}$ gemäß Definition \ref{thm:def:subdiv} mit $n := m := \ceil{\frac{1}{\lambda}}$ und $x_i := y_i := \frac{i}{n}$ für $i = 0, \dotsc, n$.
+        Nach Lemma \ref{thm:lem:winding-number_local} gilt für jedes $\Gamma_{ij}$ unserer Unterteilung also $\deg(F|\Boundary \Gamma_{ij}) = 0$ und dank Subdivision aus Satz \ref{thm:prop:winding-number_subdivision} in der Summe $\deg(F|\Boundary\Gamma) = 0$.
      \end{proof}
 \end{lemma}
 
@@ -1089,19 +1088,20 @@ Im Folgenden seien $\Gamma, \gamma, F$ stets gemäß \ref{thm:def:wn1} definiert
         \begin{math}
             0 = \deg(F|\Boundary\Gamma)
             &= \deg(F|_{[0,1]\times 0}) + \deg(\gamma_0) - \deg(F_{[0,1] \times 1}) - \deg(\gamma_1) \\
-            &= \deg(\gamma_0) - \deg(\gamma_1).
+            &= \deg(\gamma_0) - \deg(\gamma_1),
         \end{math}
+        da $F(s,0) = F(s,1)$ für alle $s \in [0,1]$.
     \end{proof}
 \end{proposition}
 
 
 Wir wollen nun die Multiplikativität der Windungszahl in Angriff nehmen.
-Seien dazu $\gamma_0 = p + iq$, $\gamma_1 = r + is$ für $p,q,r,s \in \R[x]$ zwei Kurven.
+Seien dazu $\gamma_0 = p + iq$, $\gamma_1 = r + is$ für $p,q,r,s \in \R[x]$ zwei polynomielle Kurven.
 Das Produkt $\gamma_0 \cdot \gamma_1$ ist von der Form
 \begin{math}
     \gamma_0 \cdot \gamma_1 = (pr - qs) + (ps + qr)i.
 \end{math}
-Ähnlich wie uns die Inversionsformel für den Cauchy-Index die Invarianz unter Drehung um 90° (siehe \ref{thm:lem:wn1_rot}) beschert hat, so wird uns eine Produktregel für den Cauchy-Index, welche $\Index{}{pr - qs}{ps + qr}$ mit $\Index{}{p}{q}$ und $\Index{}{r}{s}$ in Beziehung setzt, die Multiplikativität der Windungszahl liefern.
+Ähnlich wie uns die Inversionsformel für den Cauchy-Index die Invarianz unter Drehung um 90° (siehe Lemma \ref{thm:lem:wn1_rot}) beschert hat, so wird uns eine Produktregel für den Cauchy-Index, welche $\Index{}{pr - qs}{ps + qr}$ mit $\Index{}{p}{q}$ und $\Index{}{r}{s}$ in Beziehung setzt, die Multiplikativität der Windungszahl liefern.
 
 \begin{lemma}[Produktregel des Cauchy-Index] \label{thm:lem:ci_prod}
     Seien $p, q, r, s: \R \to \R$ stückweise polynomielle Funktionen mit $\gamma_0 = p + iq, \gamma_1 = r + is: [a,b] \to \C^*$.
@@ -1115,14 +1115,14 @@ Das Produkt $\gamma_0 \cdot \gamma_1$ ist von der Form
             \item
                 Es genügt, vorauszusetzen, dass $\gamma_0, \gamma_1$ an den Rändern der polynomiellen Stücke keine Nulldurchgänge besitzen.
             \item
-                Die Produktregel ist eine Verallgemeinerung der Inversionsformel aus \ref{thm:prop:ci_prop}, diese erhält man beispielsweise für $r = 0$ und $s = 1$ (entspricht einer Multiplikation mit $i$ oder eine Drehung um 90°).
+                Die Produktregel ist eine Verallgemeinerung der Inversionsformel aus Satz \ref{thm:prop:ci_prop}, diese erhält man beispielsweise für $r = 0$ und $s = 1$ (entspricht einer Multiplikation mit $i$ oder eine Drehung um 90°).
         \end{itemize}
     \end{note}
     \begin{proof}
         Betrachte zunächst die einfachen Fälle.
         Für $p = 0$ reduziert sich die Aussage auf $\Index{}{-qs}{qr} = \Index{}{r}{s} - \Index{}{1}{q^2rs}$.
         Wegen $\gamma_0: [a,b] \to \C^*$ muss $q = \const$ sein, d.h. $q^2 > 0$.
-        Dank Homogenität ist dies also gerade die Inversionsformel aus \ref{thm:prop:ci_prop}.
+        Dank Homogenität ist dies also gerade die Inversionsformel aus Satz \ref{thm:prop:ci_prop}.
 
         Im Fall $q = 0$ ist $p = \const$ und wir erhalten die Aussage $\Index{}{pr}{ps} = \Index{}{r}{s} - \Index{}{1}{0}$, welche nach Homogenität erfüllt ist.
         Die Fälle $r = 0$ oder $s = 0$ folgen mit der Symmetrie $(p,q,r,s) \mapsto (r,s,p,q)$.
@@ -1136,13 +1136,13 @@ Das Produkt $\gamma_0 \cdot \gamma_1$ ist von der Form
         \end{math}
         also $s^2(x_0) = -r^2(x_0)$ und $s(x_0) = r(x_0) = 0$, ein Widerspruch dazu, dass $\Index{}{r}{s}$ bereits gekürzt vorliegt.
 
-        Wir betrachten nun für $x \in [a,b]$ das Intervall $\Gamma_\epsilon(x)$, wobei $\epsilon > 0$ hinreichend klein gewählt ist, dass \ref{thm:lem:wn0_const} für $q$, $s$, $ps + qr$ und $qs(ps + qr)$ erfüllt ist und $p$, $r$, $pr - qs$ auf $\Gamma_\epsilon$ konstant ist.
+        Wir betrachten nun ein $x \in [a,b]$ und zeigen die Produktregel das Intervall $\Gamma_\epsilon(x)$, wobei $\epsilon > 0$ hinreichend klein gewählt ist, dass Lemma \ref{thm:lem:wn0_const} für $q$, $s$, $ps + qr$ und $qs(ps + qr)$ erfüllt ist und $p$, $r$, $pr - qs$ auf $\Gamma_\epsilon$ konstant ist.
         Da nur die Nullstellen von $q$, $s$ und $ps + rq$ relevant sind müssen wir dank der Symmetrie $(p,q,r,s) \mapsto (r,s,p,q)$ nur die folgenden Fälle unterscheiden:
         \begin{itemize}
             \item
                 Sei $q(x) = 0$ und $s(x) \neq 0$.
-                In diesem Fall ist $ps+rq(x) \neq 0$.
-                Durch die Symmetrie $(q,s) \mapsto (-q,-s)$ können wir Annehmen, dass $ps + rq > 0$ gilt und somit auch $ps > 0$.
+                In diesem Fall ist $(ps+rq)(x) \neq 0$.
+                Durch die Symmetrie $(q,s) \mapsto (-q,-s)$ können wir Annehmen, dass $(ps + rq)(x) > 0$ gilt und somit auch $ps > 0$.
                 Wir erhalten
                 \begin{math}
                     \Index{}{p}{q} + \Index{}{r}{s} - \Index{}{1}{qs(ps+qr)}
@@ -1152,14 +1152,6 @@ Das Produkt $\gamma_0 \cdot \gamma_1$ ist von der Form
                 \end{math}
             \item
                 Sei $q(x) \neq 0 \neq s(x)$, aber $(ps + qr)(x) = 0$.
-                Angenommen $(pr - qs)(x) = 0$, dann ist
-                \begin{math}
-                    (qs^2)(x)
-                    = (prs)(x)
-                    = -(qr^2)(x),
-                \end{math}
-                d.h. $s^2(x) = -r^2(x)$ und somit $s(x) = 0$, ein Widerspruch.
-                Also ist $(pr - qs)(x) \neq 0$ und $\Index{}{pr-\nobreak qs}{ps+qr}$ liegt in gekürzter Form vor.
                 Wegen $(ps + rq)(x) = 0$ können wir den vorderen Term im Cauchy-Index abändern:
                 \begin{math}
                     \Index{}{pr-qs}{ps+qr}
@@ -1170,7 +1162,7 @@ Das Produkt $\gamma_0 \cdot \gamma_1$ ist von der Form
                 \end{math}
                 Beachte, dass durch die Umformungen keine neuen Nullstellen in $x$ im ersten Argument des Cauchy-Index eingeführt wurden, alle Ausdrücke liegen also in gekürzter Form vor.
 
-                Wegen $\Index{}{p}{q} = \Index{}{r}{s} = 0$ ist also der Fall erledigt.
+                Wegen $\Index{}{p}{q} = \Index{}{r}{s} = 0$ ist also dieser Fall erledigt.
             \item
                 Sei $q(x) = s(x) = 0$, also auch $(ps + qr)(x) = 0$.
                 Durch Subdivision und Antisymmetrie können wir davon ausgehen, dass $\Gamma_\epsilon(x)$ von der Form $[x, x + \epsilon]$ ist.
@@ -1197,7 +1189,7 @@ Das Produkt $\gamma_0 \cdot \gamma_1$ ist von der Form
         \deg(\gamma_0 \cdot \gamma_1) = \deg(\gamma_0) + \deg(\gamma_1).
     \end{math}
     \begin{proof}
-        Dies folgt im Wesentlichen aus \ref{thm:lem:ci_prod} mittels $\gamma_0 = p + iq$, $\gamma_1 = r + is$, also $\gamma_0\cdot\gamma_1 = (pr-qs) + (ps +qr)i$.
+        Dies folgt im Wesentlichen aus Lemma \ref{thm:lem:ci_prod} mittels $\gamma_0 = p + iq$, $\gamma_1 = r + is$, also $\gamma_0\cdot\gamma_1 = (pr-qs) + (ps +qr)i$.
         Der Term $\Index{}{1}{qs(ps+qr)}$ entfällt, da die Kurven geschlossen sind:
         \begin{math}
             \Index{}{1}{qs(ps+qr)}
@@ -1211,12 +1203,13 @@ Das Produkt $\gamma_0 \cdot \gamma_1$ ist von der Form
     Sei $F \in \C[z]$ ein komplexes Polynom und $\Gamma := [x_0,x_1] \times [y_0, y_1] \subset \C$ ein Rechteck sodass $F(z) \neq 0$ auf $\Boundary\Gamma$.
     Dann zählt $\deg(F|\Boundary\Gamma)$ die Anzahl der komplexen Nullstellen von $F$ auf $\Gamma$.
     \begin{proof}
-        Wir faktorisieren $F = (z-z_0)(z-z_1) \dotsb(z-z_m) G$, sodass $G$ keine Nullstellen auf $\Gamma$ besitzt.
-        Die Multiplikativität aus \ref{thm:cor:wn1_mult} liefert
+        Wir faktorisieren $F = (z-z_1)(z-z_2) \dotsb(z-z_m) G$, sodass $G$ keine Nullstellen auf $\Gamma$ besitzt.
+        Die Multiplikativität aus Korollar \ref{thm:cor:wn1_mult} liefert
         \begin{math}
-            \deg(F|\Boundary\Gamma) = \underbrace{\deg(z-z_0|\Boundary\Gamma)}_{=1} + \dotsb + \underbrace{\deg(z-z_m|\Boundary\Gamma)}_{=1} + \underbrace{\deg(G|\Boundary\Gamma)}_{=0},
+            \deg(F|\Boundary\Gamma) = \underbrace{\deg(z-z_1|\Boundary\Gamma)}_{=1} + \dotsb + \underbrace{\deg(z-z_m|\Boundary\Gamma)}_{=1} + \underbrace{\deg(G|\Boundary\Gamma)}_{=0}
+            = m,
         \end{math}
-        dank \ref{thm:prop:wn1_norm} und \ref{thm:lem:wn1_null}.
+        dank Satz \ref{thm:prop:wn1_norm} und Lemma \ref{thm:lem:wn1_null}.
     \end{proof}
     \begin{note}
         \begin{itemize}
@@ -1224,13 +1217,13 @@ Das Produkt $\gamma_0 \cdot \gamma_1$ ist von der Form
                 Es genügt vorauszusetzen, dass $F(z) \neq 0$ in den Ecken des Rechtecks $\Gamma$ gilt (siehe Bemerkung zur Produktformel).
                 Nullstellen auf dem Rand des Rechtecks werden dann mit dem Faktor $\frac{1}{2}$ gezählt.
             \item
-                Im Gegensatz zu \ref{thm:prop:ci_roots_multiple} werden hier die Nullstellen mitsamt ihrer Vielfachheit gezählt.
+                Im Gegensatz zur Zählung der Nullstellen eines reellen Polynoms in Satz \ref{thm:prop:ci_roots_multiple} werden hier die komplexen Nullstellen mitsamt ihrer Vielfachheit gezählt.
         \end{itemize}
     \end{note}
 \end{corollary}
 
 \begin{remark}[Lokalisieren von Nullstellen]
-    Die Resultate aus \ref{thm:cor:complex-roots} und \ref{thm:alg:ci_premseq} stellen zusammen nicht nur einen Algorithmus bereit, um die Anzahl der komplexen Nullstellen eines Polynoms innerhalb eines Rechtecks zu zählen.
+    Die Resultate aus Korollar \ref{thm:cor:complex-roots} und Algorithmus \ref{thm:alg:ci_premseq} stellen zusammen nicht nur eine Methode bereit, um die Anzahl der komplexen Nullstellen eines Polynoms innerhalb eines Rechtecks zu zählen.
     Wir können sie auch zum lokalisieren und approximieren aller Nullstellen eines Polynoms einsetzen.
 
     Sei $F \in \C[z]$ ein komplexes Polynom.
@@ -1268,7 +1261,7 @@ Das Produkt $\gamma_0 \cdot \gamma_1$ ist von der Form
 \section{Geometrische Motivation} \label{sec:ki_mot}
 
 
-Im Kapitel \ref{sec:1} haben wir die Windungszahl anhand des Cauchy-Index definiert:
+Im ersten Kapitel wir die Windungszahl anhand des Cauchy-Index definiert:
 \begin{math}
     \deg(\gamma) = \frac{1}{2} \Index{[a,b]}{\Re \gamma}{\Im \gamma}.
 \end{math}
@@ -1280,6 +1273,11 @@ Für eine Illustration siehe Abbildung \ref{fig:spherewinding}.
 
 \begin{figure}[ht]
     \centering
+    \pgfplotsset{
+        colormap={red}{rgb255(0cm)=(240,160,160); rgb255(1cm)=(240,160,160)},
+        colormap={greenyellow}{rgb255(0cm)=(0,128,0); rgb255(1cm)=(180,230,0); rgb255(2cm)=(255,255,0)},
+        %colormap={greenyellow2}{rgb255(0cm)=(128,128,0); rgb255(1cm)=(0,255,0)},
+    }
     \begin{tikzpicture}[baseline=(current bounding box.center)]
         \begin{axis}[
             scale=2,
@@ -1387,7 +1385,7 @@ Für eine Illustration siehe Abbildung \ref{fig:spherewinding}.
         };
         \end{axis}
     \end{tikzpicture}
-    \caption{Einfache und zweifache Wicklung der Sphäre $\S^2$, zur Vergleichbarkeit jeweils horizontal aufgeschnitten und vertikal aufgefächert}
+    \caption{Einfache und zweifache Wicklung der Sphäre $\S^2$, zur Vergleichbarkeit jeweils horizontal aufgeschnitten und vertikal aufgefächert.}
     \label{fig:spherewinding}
 \end{figure}
 
@@ -1398,7 +1396,7 @@ Auf die Weise wird dank $\gamma(0) = \gamma(1)$ der Parameterbereich $[0,1]$ dur
 Versuchen wir dies bivariat zu verallgemeinern, so ist zunächst nicht eindeutig, was für eine auf einem Rechteck $\Gamma$ parametrisieren Fläche $f: \Gamma \to \R^3 \setminus \Set 0$ die Eigenschaft „geschlossen“ bedeuten soll: es bieten sich verschiedene Möglichkeiten an, die Ränder von $\Gamma$ unter $f$ so zu identifizieren, dass eine gewisse Periodizität entsteht.
 Wir können dieser Überlegung aus dem Weg gehen, indem wir die Sphäre $\S^2$ im Parameterbereich durch den Rand eines Kubus ersetzen (beispielsweise über $x \mapsto \frac{x}{\|x\|_\infty}$).
 Dieser Kubusrand kann nun in seine sechs Seitenflächen zerlegt werden, welchen wir einzelnd einen Abbildungsgrad zuordnen werden.
-Die gleiche Überlegung fand bereits im Abschnitt \ref{sec:wn_geom} statt, als wir die vier Randseiten eines Rechtecks betrachtet haben, siehe auch Abbildung \ref{fig:cube-boundary}.
+Das gleiche Konzept wurde bereits im Abschnitt \ref{sec:wn_geom} verwendet, als wir die vier Randseiten eines Rechtecks betrachtet haben.
 
 Wir werden uns für ein Rechteck $\Gamma = [x_0,x_1] \times [y_0,y_1]$ stückweise polynomielle Flächen $f = (p,q,r): \Gamma \to \R^3 \setminus \Set 0$ anschauen und versuchen einen Index $\Index{\Gamma}{p}{q,r}$ als Analogon zum Cauchy-Index zu finden.
 
@@ -1407,11 +1405,84 @@ Solche Punkte bezeichnen wir dank der geometrischen Anschauung auch als \emphdef
 
 Wir wollen die Zählung dieser Punkte analog zum ersten Kapitel motivieren.
 Dazu betrachten wir Abbildung \ref{fig:idx_counting}.
+
+\begin{figure}[ht]
+    \centering
+    \pgfplotsset{
+        colormap={red}{rgb255(0cm)=(240,160,160); rgb255(1cm)=(240,160,160)},
+        colormap={greenyellow}{rgb255(0cm)=(0,128,0); rgb255(1cm)=(255,255,0)},
+        colormap={greenyellow2}{rgb255(0cm)=(128,128,0); rgb255(1cm)=(0,255,0)},
+    }
+    \begin{tikzpicture}[scale=1.4,baseline=(current bounding box.center)]
+        %\draw[->,thin] (0,0) -- (10,0) node[anchor=135] {$x$};
+        %\draw[->,thin] (0,0) -- (0,10) node[anchor=0] {$y$};
+        \draw[fill=green!80!yellow!10] (-0.7,-1) rectangle (1,1) node[right] {$\Gamma$};
+        %\coordinate[label={below:$(x_0,y_0)$}] (p) at (4,3);
+        \coordinate (p) at (0,0);
+        \pgfmathsetmacro{\geps}{0.2};
+        \path[fill=red!20] (p) +(-\geps,-\geps) rectangle +(\geps,\geps) node[right] {$\Gamma_\epsilon$};
+        \fill (p) circle (0.1ex);
+        \path (p)
+            +(-\geps,-\geps) edge[->] +(\geps,-\geps)
+            +(\geps,-\geps) edge[->] +(\geps,\geps)
+            +(\geps,\geps) edge[->] +(-\geps,\geps)
+            +(-\geps,\geps) edge[->] +(-\geps,-\geps);
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \path[|->,thick] (-1,0) edge (1,0);
+        \node[anchor=-90] at (0,0) {$f = (p,q,r)$};
+    \end{tikzpicture}
+    \begin{tikzpicture}[baseline=(current bounding box.center)]
+        \begin{axis} [
+            hide axis,
+            view={-10}{35},
+            xmin=-3,xmax=2.3,
+            ymax=2.5,
+        ]
+            \draw[->] (0,0,0) -- (2.1,0,0) node[below] {$p$};
+            \addplot3 [
+                raw gnuplot,
+                parametric,
+                surf,
+                %shader=flat,
+                colormap name=greenyellow,
+            ] gnuplot {
+                set parametric;
+                set hidden3d;
+                set isosamples 31,31;
+                set urange [-0.7:0.8];
+                set vrange [-1:1];
+                splot u-v+u*v/3,v+u/2-v*(1-u)/3,u*u*u*u/0.7 + 2*u*u*(u-1) + u + v*v
+            };
+            \addplot3 [
+                raw gnuplot,
+                parametric,
+                surf,
+                %shader=flat,
+                colormap name=red,
+            ] gnuplot {
+                set parametric;
+                set hidden3d;
+                set isosamples 7,7;
+                set urange [-0.2:0.2];
+                set vrange [-0.2:0.2];
+                splot u-v+u*v/3,v+u/2-v*(1-u)/3,u*u*u*u/0.7 + 2*u*u*(u-1) + u + v*v
+            };
+            \draw[->] (-2.5,0,0) -- (-2.5,-2,0) node[below left] {$q$};
+            \draw[->] (-2.5,0,0) -- (-2.5,0,3) node[left] {$r$};
+            \draw (-2.5,0,0) -- (0,0,0);
+            \fill (0,0,0) circle (0.2ex);
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Visualisierung des Abbildes von $\Gamma_\epsilon$ um eine Durchstoßstelle}
+    \label{fig:idx_counting}
+\end{figure}
+
 Im univariaten Fall hat das Vorzeichen von $p$ und die Art des Vorzeichenwechsels von $q$ die Zählung bestimmt, während hier das Vorzeichen von $p$ und die Orientierung der Fläche (bestimmt durch $q, r$) an der jeweiligen Stelle maßgebend sind.
 
 Um die Orientierung der Fläche (bezüglich der $e_0$-Achse) an einem Durchstoßpunkt zu erhalten, können wir die Windungszahl aus dem ersten Kapitel nutzen.
-Dazu betrachten wir, wie $(q, r): \R^2 \to \R^2$ ein kleines Rechteck $\Gamma_\epsilon(x,y)$ um die Durchstoßstelle $(x,y) \in \R^2$ abbildet.
-Die Windungszahl vom Rand des Bild-Rechtecks $\deg\big((q,r)|\Boundary\Gamma_\epsilon(x,y)\big)$ liefert die Orientierung der Fläche an dieser Stelle (sofern das Rechteck nicht mehrfach gewindet wurde, mehr dazu später).
+Dazu betrachten wir, wie ein kleines Rechteck $\Gamma_\epsilon(x,y)$ um die Durchstoßstelle $(x,y) \in \R^2$ durch $(q, r): \R^2 \to \R^2$ abgebildet wird.
+Die Windungszahl vom Rand des Bild-Rechtecks $\deg\big((q,r)|\Boundary\Gamma_\epsilon(x,y)\big)$ liefert die Orientierung der Fläche an dieser Stelle (sofern das Rechteck nicht mehrfach gewindet wurde, siehe Abschnitt \ref{sec:2md}).
 Geometrisch betrachtet projizieren wir also das Flächenstück auf die $e_1,e_2$-Ebene und werten dort die Windungszahl aus.
 
 Zusammen mit dem Vorzeichen von $p$ ergibt sich für die Zählung dieses Durchstoßpunktes:
@@ -1419,7 +1490,7 @@ Zusammen mit dem Vorzeichen von $p$ ergibt sich für die Zählung dieses Durchst
     \Index{\Gamma_\epsilon(x,y)}{p}{q,r}
     = \sgn(p(x,y)) \deg\big((q,r)|\Boundary\Gamma_\epsilon\big).
 \end{math}
-Diese Form kommt uns bekannt vor: in der Tat bildet sie das Analogon zur Definition des lokalen Cauchy-Index aus \ref{thm:def:ci}.
+Diese Form kommt uns bekannt vor: in der Tat bildet sie das Analogon zum lokalen Cauchy-Index aus Definition \ref{thm:def:ci}.
 Statt $\deg\big((q,r)|\Boundary\Gamma_\epsilon\big)$ werden wir im Folgenden verkürzt $\deg(q,r|\Boundary\Gamma_\epsilon)$ schreiben.
 Die Summe von $\Index{\Gamma_\epsilon(x,y)}{p}{q,r}$ über alle Durchstoßpunkte bezeichnen wir als \emphdef{Kronecker-Index} und schreiben $\Index{\Gamma}{p}{q,r}$.
 
@@ -1452,7 +1523,7 @@ Wir werden nun einige Vorkehrungen treffen, um die Art der Durchstoßstellen bes
     Wenn $p, q, r$ aus dem Kontext klar sind, schreiben wir auch $\_V_\Gamma$ oder nur $\_V$.
 \end{definition}
 
-Die Menge $V_\Gamma$ ist im idealen Fall diskret, wie in Abbildung \ref{fig:polyiseczeros} kann jedoch auch nicht-isolierte Punkte enthalten, wenn beispielsweise $q$ und $r$ gleiche Faktoren besitzen.
+Die Nullstellenmenge $V_\Gamma$ ist im idealen Fall diskret, kann jedoch auch nicht-isolierte Punkte enthalten, wenn beispielsweise $q$ und $r$ gleiche Faktoren besitzen.
 
 \begin{definition}
     Seien $p, q, r \in \R[x,y]$ und $\Gamma := [x_0, x_1] \times [y_0, y_1]$.
@@ -1473,7 +1544,7 @@ Die Menge $V_\Gamma$ ist im idealen Fall diskret, wie in Abbildung \ref{fig:poly
     \begin{math}
         \Gamma_\epsilon(x,y) := B_\epsilon(x,y) \cap \Gamma,
     \end{math}
-    wobei $B_\epsilon(x,y)$ den Ball um $(x,y)$ mit Radius $\epsilon$ in der Supremumsnorm bezeichnet ($B_\epsilon(x,y)$ ist also selbst ein Rechteck).
+    wobei $B_\epsilon(x,y)$ den Ball um $(x,y)$ mit Radius $\epsilon$ in der Supremumsnorm bezeichnet (insbesonderee ist $B_\epsilon(x,y)$ also selbst ein Rechteck).
 \end{definition}
 
 \begin{lemma} \label{thm:lem:wn1_const}
@@ -1481,22 +1552,22 @@ Die Menge $V_\Gamma$ ist im idealen Fall diskret, wie in Abbildung \ref{fig:poly
     Es existiert $\epsilon_0 > 0$, sodass $\deg(q,r|\Boundary\Gamma_\epsilon(x,y))$ für alle $0 < \epsilon \le \epsilon_0$ konstant ist.
     \begin{proof}
         Falls $(x,y) \not\in V_{\Gamma}(q,r)$, so lässt sich $\epsilon_0$ dank Stetigkeit hinreichend klein wählen, dass $(q,r): \R^2 \to \R^2$ auf $\Gamma_\epsilon$ nicht verschwindet.
-        Die Aussage folgt dann mittels \ref{thm:lem:wn1_null}.
+        Die Aussage folgt dann mittels Lemma \ref{thm:lem:wn1_null}.
 
         Sei also $(x,y) \in V_{\Gamma}(q,r)$.
         Da $V_\Gamma(q,r)$ diskret ist, können wir $\epsilon_0 > 0$ hinreichend klein wählen, dass $V_{\Gamma_{\epsilon_0}}(q,r)$ nur aus $(x,y)$ besteht.
-        Für alle $0 < \epsilon < \epsilon_0$ lassen sich die Rechtecke $\Gamma_{\epsilon_0}$ und $\Gamma_\epsilon$ über eine stückweise polynomielle Homotopie ineinander überführen.
-        Die Aussage folgt dann aus \ref{thm:prop:wn_hominv}.
+        Für alle $0 < \epsilon < \epsilon_0$ lassen sich die Rechtecke $\Gamma_{\epsilon_0}$ und $\Gamma_\epsilon$ dann über eine stückweise polynomielle Homotopie ohne Nulldurchgang ineinander überführen.
+        Die Aussage folgt dann aus Satz \ref{thm:prop:wn_hominv}.
     \end{proof}
 \end{lemma}
 
-Wenn im Folgenden von $\deg(q,r|\Boundary\Gamma_\epsilon(x,y))$ die Rede ist, so sei $\epsilon$ stets gemäß \ref{thm:lem:wn1_const} hinreichend klein gewählt.
+Wenn im Folgenden von $\deg(q,r|\Boundary\Gamma_\epsilon(x,y))$ die Rede ist, so sei $\epsilon$ stets gemäß Lemma \ref{thm:lem:wn1_const} hinreichend klein gewählt.
 
 \begin{definition} \label{thm:def:idx}
     Sei $(\Gamma, p, q, r)$ zulässig.
     Wir definieren
     \begin{math}
-        \Index{\Gamma_\epsilon(x,y)}{p}{q,r} &:= \sgn(p) \deg(q,r|\Boundary\Gamma_\eps), \\
+        \Index{\Gamma_\epsilon(x,y)}{p}{q,r} &:= \sgn(p) \deg(q,r|\Boundary\Gamma_\eps(x,y)), \\
         \Index{\Gamma}{p}{q,r} &:= \sum_{(x,y) \in V_\Gamma} \Index{(x,y)}{p}{q,r}.
     \end{math}
     Wir nennen $\Index{\Gamma}{p}{q,r}$ \emphdef{Kronecker-Index} von $p, q, r$ auf $\Gamma$.
@@ -1521,7 +1592,7 @@ Wenn im Folgenden von $\deg(q,r|\Boundary\Gamma_\epsilon(x,y))$ die Rede ist, so
     Der Kronecker-Index genügt folgenden Eigenschaften:
     \begin{enumerate}[i)]
         \item
-            \emph{Subdivision}: Falls $\_V_{\Gamma_1} \cup \_V_{\Gamma_2} = \_V_\Gamma$ und $\Gamma_1 \cap \Gamma_2 \cap \_V_{\Gamma} = \emptyset$ gilt
+            \emph{Subdivision}: Falls $\Gamma_1 \cup \Gamma_2 = \Gamma$ und $\Gamma_1 \cap \Gamma_2 \cap \_V_{\Gamma} = \emptyset$ gilt
             \begin{math}
                 \Index{\Gamma}{p}{q,r} = \Index{\Gamma_1}{p}{q,r} + \Index{\Gamma_2}{p}{q,r},
             \end{math}
@@ -1558,11 +1629,11 @@ Wenn im Folgenden von $\deg(q,r|\Boundary\Gamma_\epsilon(x,y))$ die Rede ist, so
     \begin{proof}
         \begin{enumerate}[i)]
             \item
-                Zunächst besitzen dank Voraussetzung $\Boundary\Gamma_1$ und $\Boundary\Gamma_2$ keine Punkte aus $\_V_{\Gamma}$ und somit sind $(\Gamma_1, p, q, r)$ und $(\Gamma_2, p, q, r)$ zulässig.
+                Zunächst besitzen $\Boundary\Gamma_1$ und $\Boundary\Gamma_2$ keine Punkte aus $\_V_{\Gamma}$ (da $\Boundary\Gamma_1 \cap \Boundary\Gamma_2 \neq \emptyset$ und somit sind $(\Gamma_1, p, q, r)$ und $(\Gamma_2, p, q, r)$ zulässig.
                 Die Mengen $\_V_{\Gamma_1}$ und $\_V_{\Gamma_2}$ sind disjunkt und die Summation aus der Definition \ref{thm:def:idx} ergibt die gewünschte Aussage.
             \item
                 %Zunächst ist $V(q,r) = V(sq,r) = V(q,sr)$.
-                Für alle $(x,y) \in V(q,r)$ ist $\sgn(s)$ konstant und
+                Auf $V(q,r)$ ist $\sgn(s)$ konstant und für $(x,y) \in V(q,r)$ ist
                 \begin{math}
                     \sgn(s) \Index{\Gamma_\epsilon(x,y)}{p}{q,r}
                     = \sgn(s) \sgn(p) \deg((q,r)|\Boundary \Gamma_\eps(x,y))
@@ -1573,7 +1644,7 @@ Wenn im Folgenden von $\deg(q,r|\Boundary\Gamma_\epsilon(x,y))$ die Rede ist, so
                 In jedem Punkt $(x,y) \in V(q,r)$ ist $\sgn(p) = \sgn(p + s_1q + s_2r)$ und die Behauptung folgt durch Summation.
             \item
                 Die Zulässigkeit ist symmetrisch formuliert, also ist $(\Gamma, p, r, q)$ auch zulässig.
-                Die Aussage folgt durch Anwenden von \ref{thm:lem:wn1_rot} in jedem Punkt $(x,y) \in V(q,r)$.
+                Die Aussage folgt durch Homogenität und Anwenden des Dreh-Lemmas \ref{thm:lem:wn1_rot} in jedem Punkt $(x,y) \in V(q,r)$.
             \item
                 Da $(\Gamma, p, q, r)$ und $(\Gamma, q, p, r)$ zulässig sind, muss $V(q,r) \cap V(p,r) = \emptyset$ gelten.
                 Wir können also durch Subdivision davon ausgehen, dass ohne Einschränkung $V(p,r) = \emptyset$ (die geforderten Voraussetzungen der Subdivision können erfüllt werden, da $\_V$ diskret ist).
@@ -1587,11 +1658,11 @@ Wenn im Folgenden von $\deg(q,r|\Boundary\Gamma_\epsilon(x,y))$ die Rede ist, so
                 \end{math}
                 Die zweite Aussage $\Index{\Gamma}{p}{q,r} + \Index{\Gamma}{r}{q,p} = \Index{\Gamma}{1}{q,pr}$ folgt mit Antikommutativität aus iv).
             \item
-                Sei $(x,y) \in V(q,r)$, dann gilt per definitionem
+                Sei $(x,y) \in V(q,r)$, dann gilt per definitionem lokal
                 \begin{math}
                     \Index{\Gamma_\epsilon(x,y)}{1}{q,r} = \deg(F|\Boundary\Gamma_\eps(x,y)).
                 \end{math}
-                Dank Subdivision des Kronecker-Index in i) und Subdivision der Windungszahl gemäß \ref{thm:winding-number_subdivision}, sowie \ref{thm:lem:wn1_null} folgt die Aussage durch Summation.
+                Die Subdivision des Kronecker-Index in i) und die Subdivision der Windungszahl gemäß Satz \ref{thm:prop:winding-number_subdivision} liefern mit einem ähnlichen Vorgehen wie im Beweis von Lemma \ref{thm:lem:wn1_null} die globale Aussage.
         \end{enumerate}
     \end{proof}
 \end{proposition}
@@ -1629,7 +1700,7 @@ Ganz problemfrei ist diese Verallgemeinerung allerdings nicht.
     \end{math}
     Wir nennen $r$ \emphdef{pseudo-euklidischer Rest}.
     \begin{proof}
-        Siehe \ref{thm:alg:pseucl}.
+        Einen konstruktiven Beweis liefert Algorithmus \ref{thm:alg:pseucl}.
     \end{proof}
     \begin{note}
         Der wesentliche Unterschied zur gewöhnlichen euklidischen Division über einem Körper besteht in der Multiplikation von $p$ mit einem Koeffizienten $c \in R$.
@@ -1672,8 +1743,8 @@ Ganz problemfrei ist diese Verallgemeinerung allerdings nicht.
 \end{algorithm}
 
 
-Betrachten wir jetzt wieder den Kronecker-Index $\Index{\Gamma}{p}{q,r}$ und ermitteln zu $p,q \in \R[x,y] = \R[x][y]$ mit Hilfe von \ref{thm:alg:pseucl} die Darstellung $c p = sq + \tilde p$, wobei $\tilde p$ der pseudo-euklidische Rest sei.
-Es ist zu beachten, dass $c$ ein Element aus dem Koeffizientenring ist, d.h. $c \in \R[x]$ ist selbst ein Polynom in einer Variablen.
+Betrachten wir jetzt wieder den Kronecker-Index $\Index{\Gamma}{p}{q,r}$ und ermitteln zu $p,q \in \R[x,y] = R[y]$ für $R = \R[x]$ mit Hilfe von Algorithmus \ref{thm:alg:pseucl} die Darstellung $c p = sq + \tilde p$, wobei $\tilde p$ der pseudo-euklidische Rest sei.
+Es ist zu beachten, dass $c$ ein Element aus dem Koeffizientenring ist, d.h. $c \in \R[x]$ ist selbst ein Polynom in einer Variable.
 
 Falls $\sgn(c) = \const \neq 0$ auf $\_V \cup \Boundary\Gamma$, so gilt für den Kronecker-Index dann mit Homogenität und Scherung
 \begin{math}[numbered] \label{eq:idx_prem}
@@ -1683,7 +1754,7 @@ Falls $\sgn(c) = \const \neq 0$ auf $\_V \cup \Boundary\Gamma$, so gilt für den
     = \Index{}{\tilde p}{q, r}
 \end{math}
 Zusammen mit der Inversionsformel können wir also beispielsweise den $y$-Grad der auftretenden Polynome reduzieren.
-Die wichtige Frage für eine korrekte Durchführung lautet nun: „Wann gilt $\sgn(c) = \const \neq 0$ auf $\_V \cup \Boundary\Gamma$?“
+Die wichtige Frage für eine korrekte Durchführung lautet nun: „Wird die Zulässigkeit der auftretenden Ausdrücke eingehalten?“
 
 Wir können auf einfachem Wege zumindest $c(x) \ge 0$ erreichen.
 
@@ -1699,15 +1770,15 @@ Wir können auf einfachem Wege zumindest $c(x) \ge 0$ erreichen.
     Analog $\rem_x(p, q) := r$, wenn wir $c \in \R[y]$ und $\deg_x(r) < \deg_x(q)$ fordern.
     \begin{proof}
         Wir betrachten $\R[x,y]$ als Polynomring $\R[x][y]$, bzw. $\R[y][x]$.
-        Aus \ref{thm:prop:pseucl} folgt eine Darstellung $\tilde c p = \tilde sq + \tilde r$.
+        Aus Satz \ref{thm:prop:pseucl} folgt eine Darstellung $\tilde c p = \tilde sq + \tilde r$.
         Die Wahl $c := \tilde c^2$, $s := \tilde c \tilde s$, $r := \tilde c \tilde r$ erfüllt die gewünschten Eigenschaften.
     \end{proof}
     \begin{note}
-        Die Terme $c, s$ und $r = \rem(p,q)$ lassen sich also direkt aus dem Ergebnis von \ref{thm:alg:pseucl} ermitteln.
+        Die Terme $c, s$ und $r = \rem(p,q)$ lassen sich also direkt aus dem Ergebnis von Algorithmus \ref{thm:alg:pseucl} ermitteln.
     \end{note}
 \end{corollary}
 
-Unter der zugegeben optimistischen Haltung, dass uns die Nullstellen $c(x) = 0$ keine Schwierigkeiten bereiten, können wir nun einen Algorithmus skizzieren, der den Kronecker-Index $\Index{\Gamma}{p}{q,r}$ berechnet.
+Unter der (optimistischen) Voraussetzung, dass die Zulässigkeit sichergestellt ist, können wir nun einen Algorithmus skizzieren, der den Kronecker-Index $\Index{\Gamma}{p}{q,r}$ berechnet.
 
 \begin{algorithm} \label{thm:alg:idx}
     \Input{$p, q, r \in \R[x,y]$ und ein Rechteck $\Gamma \subset \R^2$, wobei $(\Gamma, p, q, r)$ zulässig sei} \\
@@ -1715,53 +1786,21 @@ Unter der zugegeben optimistischen Haltung, dass uns die Nullstellen $c(x) = 0$ 
     \begin{algorithmic}[1]
         \State{Permutiere $p, q, r$ absteigend bezüglich $\deg_y$}
         \While{$\deg_y(q) > 0$}
-            \State{$p \gets \rem_y(p,r)$} \Comment{$c(x) = 0$ auf $\_V \cup \Boundary\Gamma)$?}
+            \State{$p \gets \rem_y(p,r)$} %\Comment{$c(x) = 0$ auf $\_V \cup \Boundary\Gamma)$?}
             \State{Permutiere $p, q, r$ absteigend bezüglich $\deg_y$}
-        \EndWhile \Comment{$r = 0, q = 0$?}
+        \EndWhile %\Comment{$r = 0, q = 0$?}
         \State{Permutiere $(p, q, r) \gets (q, r, p)$}
         \State{Permutiere $p, q$ absteigend bezüglich $\deg_x$}
         \While{$\deg_x(q) > 0$}
             \State{$p \gets \rem_x(p,q)$}
             \State{Permutiere $p, q$ absteigend bezüglich $\deg_x$}
-        \EndWhile \Comment{$q = 0$?}
+        \EndWhile %\Comment{$q = 0$?}
         \State{Permutiere $(p, q) \gets (q, p)$}
         \State{Reduziere $\Index{}{p}{q,r} = \sgn(p) \Index{}{1}{q,r}$}
         \Return{Summe aller auftretenden Reduktionsterme}
     \end{algorithmic}
     %~\par\vspace{-1.7em}
 \end{algorithm}
-
-\begin{remark}[Ungünstige Fälle] \label{thm:rem:idx_badcases}
-    Die Kommentare im Algorithmus sollen auf die Tücken hinweisen, die eine korrekte Ausführung des Algorithmus behindern können.
-    In solchen Fällen liefert der Algorithmus im Allgemeinen kein richtiges Ergebnis, siehe beispielsweise \ref{thm:ex:idx_nullext}.
-
-    Wir wollen solche ungünstigen Fälle im Laufe des Algorithmus erkennen können (etwa, um den Algorithmus abzubrechen).
-
-    \begin{itemize}
-        \item
-            Die Fälle $r = 0, q = 0$ in Zeile 6 und $q = 0$ in Zeile 11 sind leicht abzufangen.
-        \item
-            Der Fall $c(x) = 0$ auf $\_V$ lässt sich a posteriori ausschließen.
-
-            Bezeichne dazu mit $\hat p, \hat q, \hat r$ die Polynome zu einem beliebigen, festen Zeitpunkt des Algorithmus und betrachte $p$ in Zeile 13.
-            Zu diesem Zeitpunkt gilt $\deg_x(p) \le 0$ und $\deg_y(p) \le 0$.
-            Da jedoch $p = 0$ abgefangen wird ($q = 0$ in Zeile 11, siehe oben), muss $p = \const \in \R^*$ gelten.
-            $p$ ist wie folgt von $\hat p, \hat q, \hat r$ erzeugt:
-            \begin{math}[numbered] \label{eq:prem_repr}
-                p = p^* \hat p + q^* \hat q + r^* \hat r,
-            \end{math}
-            wobei $p^*, q^*, r^* \in \R[x,y]$.
-            Dies folgt aus der Tatsache, dass im Verlauf des Algorithmus $p, q, r$ durch sukzessive Polynom-Rest-Bildung gebildet werden.
-
-            Angenommen während des Algorithmus tritt in bei Polynom-Rest-Bildung $c(x) = 0$ auf $\_V$ ein.
-            Direkt im Anschluss legen wir $\hat p, \hat q, \hat r$ fest, welche nun eine gemeinsame Nullstelle auf $\Gamma$ besitzen müssen.
-            Erreicht der Algorithmus allerdings Zeile 13, so ist $p$ von der Form wie in \ref{eq:prem_repr} und besitzt alse eine Nullstelle, ein Widerspruch zu $p = \const \in \R^*$.
-        \item
-            Um $c(x) = 0$ auf $V(q,r) \cap \Boundary\Gamma$ auszuschließen, ließen sich beispielsweise Nullstellen auf ganz $\Gamma = [x_0, x_1] \times [y_0, y_1]$ ausschließen, indem wir die Nullstellen von $c$ auf $[x_0, x_1]$ gemäß \ref{thm:prop:ci_roots_multiple} zählen.
-
-            Alternativ ließe sich $c(x_0) \neq 0, c(x_1) \neq 0$ prüfen (erledigt den linken und rechten Rand des Rechtecks) und anschließend ermitteln, ob $c$ mit $s|_{y_0}, s|_{y_1}, r|_{y_0}, r|_{y_1}$ gemeinsame Nullstellen besitzt (für oberen und unteren Rand des Rechtecks).
-    \end{itemize}
-\end{remark}
 
 \begin{example} \label{thm:ex:idx_nullext}
     Betrachte $\Gamma = [-1,1]^2$ und $p = y - 2$, $q = y$, $r = x(y - 2)$.
@@ -1770,29 +1809,52 @@ Unter der zugegeben optimistischen Haltung, dass uns die Nullstellen $c(x) = 0$ 
     Der Algorithmus \ref{thm:alg:idx} liefert allerdings $\Index{\Gamma}{p}{q,r} = 0$, denn bereits am Anfang ist $\rem_y(p,r) = 0$.
 \end{example}
 
+\begin{remark}[Zur Zuläsigkeit] \label{thm:rem:idx_badcases}
+    Die Problematik des Algorithmus liegt in der Sicherstellung der Zulässigkeit aller auftredenden Ausdrücke.
+    Das Beispiel \ref{thm:ex:idx_nullext} zeigt, dass unter Umständen falsche Ergebnisse berechnet werden.
+
+    Ließe sich die Zulässigkeit der Ausdrücke im Algorithmus selbst prüfen, so könnte zumindest in vielen Fällen ein korrektes Ergebnis garantiert, bzw. vor einem evtl. falschem Ergebnis gewarnt werden.
+
+    Für die Bedingungen iii) der Zulässigkeit ist dies möglich:
+
+    Bezeichne dazu mit $\hat p, \hat q, \hat r$ die Polynome zu einem beliebigen, festen Zeitpunkt des Algorithmus und betrachte $p$ in Zeile 13.
+    Zu diesem Zeitpunkt gilt $\deg_x(p) \le 0$ und $\deg_y(p) \le 0$.
+    Der Fall $p = 0$ kann abgefangen werden und wir können von $p = \const \in \R^*$ ausgehen.
+    $p$ ist wie folgt von $\hat p, \hat q, \hat r$ erzeugt:
+    \begin{math}[numbered] \label{eq:prem_repr}
+        p = p^* \hat p + q^* \hat q + r^* \hat r,
+    \end{math}
+    wobei $p^*, q^*, r^* \in \R[x,y]$.
+    Dies folgt aus der Tatsache, dass im Verlauf des Algorithmus $p, q, r$ durch sukzessive Polynom-Rest-Bildung gebildet werden.
+
+    Angenommen während des Algorithmus wird die Bedingung $p^2 + q^2 + r^2 > 0$ verletzt für ein Tripel $\hat p, \hat q, \hat r$, so muss auch $p$ am Ende des Algorithmus eine Nullstelle besitzen, was zu einem Widerspruch führt.
+
+    Die anderen Zulässigkeitsbedingungen sind leider nicht ohne Weiteres nachprüfbar.
+\end{remark}
+
 \begin{proposition}
     Algorithmus \ref{thm:alg:idx} terminiert.
-    Sofern die Fälle aus \ref{thm:rem:idx_badcases} abgefangen werden, liefert Algorithmus \ref{thm:alg:idx} ein korrektes Ergebnis.
+    Sofern die Zulässigkeit der auftretenden Ausdrücke sichergestellt ist, liefert Algorithmus \ref{thm:alg:idx} ein korrektes Ergebnis.
     \begin{proof}
         In der ersten Schleife reduziert sich $\max\Set{\deg_y(p), \deg_y(q), \deg_y(r)}$ pro Iteration um mindestens eins.
         In der zweiten Schleife reduziert sich $\max\Set{\deg_x(p), \deg_x(q)}$ pro Iteration um mindestens eins.
         Beide Schleifen brechen also nach endlich vielen Schritten ab und der Algorithmus terminiert.
 
-        Unter Ausschluss der Fälle in \ref{thm:rem:idx_badcases} sind die Voraussetzungen für die Rechenregeln in \ref{thm:prop:idx_prop} erfüllt.
-        Dies beinhaltet das Anwenden der Inversion und Reduktion beim Permutieren, die Nutzung des Restglieds gemäß \eqref{eq:idx_prem} dank Homogenität und Scherung, sowie die Homogenität und Reduktion in Zeile 13.
+        Unter Voraussetzung der Zulässigkeit sind die Voraussetzungen für die nötigen Rechenregeln in Satz \ref{thm:prop:idx_prop} erfüllt.
+        Dies beinhaltet das Anwenden der Inversion und Reduktion beim Permutieren, die Nutzung des Restglieds gemäß \eqref{eq:idx_prem} dank Homogenität und Scherung, sowie die Homogenität und Reduktion in Zeile 13 des Algorithmus.
     \end{proof}
 \end{proposition}
 
 \begin{note}
-    Im Zuge dieser Bachelorarbeit ist eine teilweise Implementierung des Algorithmus entstanden \footnote{Quellcode erhältlich auf \url{http://www.stud.mathematik.uni-stuttgart.de/~hilbsn/bth/code}}.
+    Im Zuge dieser Bachelorarbeit ist eine teilweise Implementierung des Algorithmus entstanden \footnote{Quellcode erhältlich auf \url{http://www.stud.mathematik.uni-stuttgart.de/~hilbsn/bth/code}}, welche für einfache, konstruierte Beispiele korrekte Ergebnisse liefert.
 
-    Für $z = x + yi$ wurden aus der Darstellung $z^n = p + iq$ einfache Beispiele ermittelt ($p + iq$ beschreibt eine $n$-fache Wicklung um die Null) für die erfolgreich der Kronecker-Index bestimmt werden konnte.
-
+%    Für $z = x + yi$ wurden aus der Darstellung $z^n = p + iq$ einfache Beispiele ermittelt ($p + iq$ beschreibt eine $n$-fache Wicklung um die Null) für die erfolgreich der Kronecker-Index bestimmt werden konnte.
+%
     Eine nähere Ausführung dieser Ergebnisse soll an dieser Stelle jedoch nicht erfolgen.
 \end{note}
 
 
-\section{Der Abbildungsgrad}
+\section{Der Abbildungsgrad} \label{sec:2md}
 
 Der Kronecker-Index $\Index{\Gamma}{p}{q,r}$ für eine Fläche $f = (p,q,r): \Gamma \to \R^3 \setminus \Set 0$ lässt sich auch anders lesen.
 Statt die Orientierung der Durchstoßstellen anhand der Windungszahl eines kleinen umgebenden Rechtecks zu bestimmen (vergleiche Abschnitt \ref{sec:ki_mot}), können wir den Normalenvektor der Fläche ansetzen.
@@ -1813,17 +1875,18 @@ Falls die Fläche nur reguläre Durchstöße mit der $e_0$-Achse besitzt, d.h. $
 %\end{math}
 %erhalten.
 
-Wie wir gleich sehen werden, ähnelt diese Betrachtung im weiteren Sinne derjenigen, die Milnor in \cite[§5]{milnor1997topology} liefert, um den Abbildungsgrad zu definieren.
+Diese Betrachtung ähnelt im weiteren Sinne derjenigen, die Milnor in \cite[§5]{milnor1997topology} liefert, um den Abbildungsgrad zu definieren.
 Dort werden die regulären Punkte eines festen regulären Wertes von einer differenzierbaren Abbildung zwischen zwei geschlossenen $n$-Mannigfaltigkeiten vorzeichenbehaftet gezählt, entsprechend demnach, ob die Ableitung als Abbildung zwischen den Tangentialräumen die Orientierung an diesen Punkten beibehält oder umkehrt.
 
 Wir können uns dies vorstellen, indem wir das Bild unserer Abbildung $f: \Gamma \to \R^3 \setminus \Set 0$ radial auf $\S^2$ projizieren: $\hat f := \frac{f}{\|f\|}$.
-Seien $(\pm 1,0,0)^T \in \S^2$ reguläre Werte von $\hat f$.
-Betrachte nun die zugehörigen regulären Punkte im Urbild von $\hat f$, d.h. $\hat f^{-1}(\pm 1, 0, 0)$.
+Seien nun $(\pm 1,0,0)^T \in \S^2$ reguläre Werte von $\hat f$ und betrachte die zugehörigen regulären Punkte im Urbild von $\hat f$, d.h. $\hat f^{-1}(\pm 1, 0, 0)$.
 
 Die Menge dieser Punkte entspricht genau $V_\Gamma(q,r)$, die Nullstellenmenge, die für unsere Definition des Kronecker-Index relevant war.
 Die Orientierungserhaltung, bzw. -umkehrung wird bei uns an $\sgn \det \Matrix{\partial_1 q & \partial_2 q \\ \partial_1 r & \partial_2 r}$ abgelesen.
 Milnor wählt statt unseren beiden antipodalen Punkten $(\pm 1,0,0)^T$ nur einen regulären Wert und erhält so den Abbildungsgrad, den wir mit dem Faktor $\frac{1}{2}$ aus dem Kronecker-Index gewinnen.
 
+Es ist zu beachten, dass unsere Definition des Abbildungsgrad sogar allgemeiner ist.
+Als Durchstoßpunkte $V_\Gamma(q,r)$ sind auch Punkte zugelassen, in denen $(q,r)$ lokal eine mehrfache Windung beschreibt (z.B. $q(x,y) = x^2 - y^2$, $r(x,y) = 2xy$, gewonnen aus $z^2 = q + ri$ für $z = x + yi$).
 
 
 

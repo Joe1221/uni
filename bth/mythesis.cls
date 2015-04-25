@@ -233,8 +233,10 @@
 \newtheorem{remark}[thm]{Bemerkung}
 
 \theoremheaderfont{\kern-1em\normalfont\small\itshape\bfseries}
+\theoremsymbol{\ensuremath{\square}}
 \newtheorem*{proof}{Beweis:}
-\newtheorem*{note}{Bemerkung}
+\theoremsymbol{}
+\newtheorem*{note}{Bemerkung:}
 
 %\RequirePackage{tikz}
 
