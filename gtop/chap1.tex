@@ -342,3 +342,166 @@ Sei $\Col_p(D)$ die Menge dieser Färbungen.
 \end{note}
 
 
+\Timestamp{2015-04-27}
+
+% A3
+\section{Knoten und Verschlingungen, Schlingel und Zöpfe}
+
+\begin{df}
+    Ein \emphdef{topologischer Knoten} ist eine Einbettung $\_\gamma: \S^1 \injto \R^d$.
+    Vermöge $\gamma(t) = \_\gamma(e^{2\pi i t})$ ist dies äquivalent zu stetigem $\gamma: \R \to \R^d$ mit $\gamma(s) = \gamma(t) \iff s - t \in \Z$.
+
+    Wir nennen diesen Knoten \emphdef[glatter Knoten]{glatt}, wenn $\gamma \in C^1(\R, \R^d)$ und $\gamma'(t) \neq 0$ für alle $t \in \R$.
+    Entsprechend definieren wir \emphdef[stückweise glatter Knoten]{stückweise glatt}.
+\end{df}
+
+\begin{df}
+    Eine stetige Abbildung $h: [0,1] \times \S^1 \to \R^d$ heißt \emphdef{Homotopie}.
+    Wir definieren $h_t: \S^1 \to \R^d$ durch $h_t(s) = h(t,s)$.
+    Wir nennen $h$ eine \emphdef{Isotopie}, wennn $h_t$ eine Einbettung ist für jedes $t \in [0,1]$.
+    Wir nennen $H: [0,1] \times \R^d \to \R^d$ eine \emphdef{Homöotopie} (oder \emphdef{ambiente Isotopie}), wenn $H_t$ ein Homöomorphismus ist für alle $t \in [0,1]$.
+
+    Entsprechend definieren wir \emphdef[glatte Isotopie]{glatte Isotopien} und \emphdef[Diffeotopie]{Diffeotopien}.
+\end{df}
+
+\paragraph{Alternative Definitionen für Knoten/-typen}
+
+\[
+\begin{tikzcd}
+    \frac{\Set{\text{polyg. Diagramme}}}{\text{R-Züge}} \ar[r,leftrightarrow,"\cong"]& \frac{\Set{\text{polyg. Knoten}}}{\text{polyg. Isotopie}} \ar[d,leftrightarrow,"\cong"] \\
+    & \frac{\Set{\text{stw. glatte Knoten}}}{\text{amb. Isotopie}} \ar[r,leftrightarrow,"\cong"] & \frac{\Set{\text{zahme Knoten}}}{\text{amb. Isotopie}} \ar[r,"\subsetneq"] & \frac{\Set{\text{topol. Knoten}}}{\text{amb. Isotopie}}\\
+    \frac{\Set{\text{glatte Diagramme}}}{\text{R-Züge}} \ar[r,leftrightarrow,"\cong"] & \frac{\Set{\text{glatte Knoten}}}{\text{glatte Isotopie}} \ar[u,leftrightarrow,"\cong"']
+\end{tikzcd}
+\]
+
+
+\begin{enumerate}[1)]
+    \item
+        Es existieren wilde Knoten (topologisch, aber nicht zahm).
+        Übung: Es gibt überabzählbar viele wilde Knotentypen.
+    \item
+        Isotopie ist nicht der richtige Äquivalenzbegriff: Knoten können sich unter Isotopie auflösen (siehe Übung).
+\end{enumerate}
+
+\begin{st}
+    Für topologische Knoten $\_\gamma: \S^1 \injto \R^3$ sind äquivalent:
+    \begin{enumerate}[(1)]
+        \item
+            $\_\gamma$ ist ambient isotop zu einem polygonalen Knoten, d.h. es existiert eine Homöotopie $H: [0,1] \times \R^3 \to \R^3$ mit $H_0 = \id_{\R^3}$ und $H_1 \circ \_\gamma$ polygonal ist.
+        \item
+            $\_\gamma$ erlaubt eine Tubenumgebung $F: \S^1 \times \B^2 \injto \R^3$ mit $\_\gamma(s) = F(s,0)$.
+        \item
+            $\_\gamma$ ist lokal flach, d.h. lokal homöomorph zu $\R^1 \injto \R^3, x \mapsto (x,0,0)$.
+    \end{enumerate}
+    \begin{proof}
+        $(1) \implies (2) \implies (3)$ ist klar.
+        $(3) \implies (1)$ ist mühsam und soll hier nicht ausgeführt werden.
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Für polygonale Knoten $K = |P|$ und $K' = |P'|$ sind äquivalent:
+    \begin{enumerate}[(a)]
+        \item
+            $P$ und $P'$ sind polygonal isotop ($\Delta$-Züge).
+        \item
+            Es existiert eine Homöotopie $H_t: [0,1] \times \R^3 \to \R^3$ mit $H_0 = \id_{\R^3}$ und $H_1(K) = K'$ (ambiente Isotopie).
+        \item
+            Es existiert ein orientierungserhaltener Homöomoorphismus $h: \R^3 \homto \R^3$ mit $h(K) = K'$.
+    \end{enumerate}
+    \begin{proof}
+        (a) $\implies$ (b) ist leicht, sogar mit einer stückweise affinen Homöotopie.
+        (b) $\implies$ (c) ist trivial mit $H_1$ (orientierungserhaltend, da von $\id_{\R^3}$ ausgegangen).
+        (c) $\implies$ (a) ist mühsam, siehe Burde-Zieschang. % fixme: ref
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Für topologische Knoten $\_\gamma: \S^1 \to \R^3$ sind äquivalent:
+    \begin{enumerate}[(1)]
+        \item
+            $\_\gamma$ ist glatt.
+        \item
+            $\_\gamma$ erlaubt eine glatte Tubenumgebung.
+        \item
+            $\_\gamma$ ist lokal diffeomorph zu $\R^1 \injto \R^3, x \mapsto (x,0,0)$.
+            $\_\gamma(\S^1) \subset \R^3$ ist eine glatte Untermannigfaltigkeit und $\_\gamma: \S^1 \to \_\gamma(\S^1)$ ein Diffeomorphismus glatter Mannigfaltigkeiten.
+    \end{enumerate}
+\end{st}
+
+\begin{st}[Isotopie-Einbettungssatz von Thom 1957]
+    Seien $M, N$ glatte Mannigfaltigkeiten und $h: [0,1] \times M \to N$ eine glatte Isotopie, die außerhalb eines Kompaktums $M_0 \subset M$ nichts bewegt.
+    Dann kann man $h$ in eine Diffeotopie $H: [0,1] \times N \to N$ einbetten, die außerhalb eines Kompaktums $N_0 \subset N$ nichts bewegt.
+    Das bedeutet $H_0 = \id_N$ und $h_t = H_t \circ h_0$ für alle $t \in [0,1]$.
+    \begin{proof}
+        Mittels Differentialtopologie, siehe Bröcker-Jänich oder Hirsch. % fixme: ref
+    \end{proof}
+\end{st}
+
+Es lassen sich auch Knoten betrachten, die nicht in $\R^3$, sondern auf einer anderen $3$-Mannigfaltigkeit $M$, etwa in $\S^3$ oder $\S^1 \times \D^2$ (Torus), eingebettet sind.
+
+\begin{ex}
+    Sei $F$ eine Fläche (z.B. kompakt, zusammenhängend, $F \homeomorphic F_{g,r}^\pm$).
+    Wähle $M := F \times [-1,1]$.
+\end{ex}
+
+\begin{df}
+    Wir nutzen die Notation
+    \begin{math}
+        \scr K(M) = \frac{\Set{\text{zahme/glatte/polygonale Knoten $\S^1 \injto M$}}}{\text{ambiente Isotopie}}.
+    \end{math}
+\end{df}
+
+Übung: $\R^3 \injto \S^3$ induziert $\scr K(\R^3) \homto \scr K(\S^3)$, aber $\R^2 \injto \S^2$ induziert $\scr K(\R^2) \to \scr K(\S^2)$ surjektiv, nicht injektiv.
+
+\paragraph{Verschlingungen}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Hopf-Verschlingung $H_+, H_-$.
+        \item
+            Whitelead $W$.
+        \item
+            Borromäische Ringe.
+    \end{itemize}
+\end{ex}
+
+Die Behandlung von Verschlingungen erfolgt analog zu den Knoten.
+Inbesondere gilt der Satz von Reidemeister für Verschlingungen.
+
+\begin{df}
+    Wir definieren die Verschlingungszahl $\lk(L_i, L_j)$ für eine Verschlingung $L = L_1 \cup \dotsb \cup L_n$.
+    % fixme: \eps(p) definieren!
+    \begin{math}
+        \lk(L_i,L_j) = \frac{1}{2} \sum_{p\in D_i \cap D_j} \eps(p). 
+    \end{math}
+    \begin{note}
+        In dieser Definition nutzen wir Diagramme.
+        Das Ergebnis ist von der Wahl des Diagrammes unabhängig, d.h. R-Invariant und somit eine Eigenschaft von $L$.
+    \end{note}
+\end{df}
+
+\begin{ex}
+    Die Hopf-Verschlingung ist nicht trennbar.
+    \begin{math}
+        \lk(H_-) &= -1, &
+        \lk(H_+) &= +1,
+    \end{math}
+    während die Verschlingungszahl für die getrennten Kreise Null ist.
+\end{ex}
+
+Übung: Kann $W$ getrennt werden? und $B$? (Dreifärbungen)
+
+\paragraph{Schlingel}
+
+Sei $F := \R^2$, $M = F \times [0,1]$.
+Wir betrachten nun nicht mehr geschlossene Knoten in $M$, sondern lassen auch offene Knoten (mit Endpunkten auf $F \times \Set{0,1}$) zu.
+
+Der Rest bleibt wie zuvor: polygonale Einbettungen und Isotopie.
+Geeignet formuliert gilt auch hier dier Satz von Reidemeister.
+Vorteil: verbundene Summe (aneinanderhängen).
+
+
+
+
