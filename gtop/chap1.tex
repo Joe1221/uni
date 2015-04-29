@@ -503,5 +503,140 @@ Geeignet formuliert gilt auch hier dier Satz von Reidemeister.
 Vorteil: verbundene Summe (aneinanderhängen).
 
 
+\Timestamp{2015-04-29}
+
+Sei $A$ die Menge der Ein-, Ausgänge, $|A| = 2m$.
+Betrachte zahme Einbettungen $f: [0,1] \times \Set{1, \dotsc, m} \cup \S^1 \times \Set{m+1, \dotsc, m+n} \injto M$.
+
+$T = \im(f) \subset M$ ist eine orientierte Untermannigfaltigkeit.
+Es soll gelten $\Boundary T = T \cap \Boundary M = A$. 
+
+
+Speziell sei $F$ eine Fläche, z.B. $\R^2, \D^2, F_{g,r}^\pm$ und setze $M = F \times [0,1]$ mit $A = A_0 \times \Set{0} \cup A_1 \times \Set{1}$ und $A_0, A_1 \subset F$.
+
+Wir setzen
+\begin{math}
+    \scr T_F(A_0,A_1) = \frac{\Set{\text{Schlingel in $(M, A)$}}}{\text{ambiente Isotopie}}.
+\end{math}
+Dies bildet eine Kategorie bezüglich der Verknüpfung $\#: \scr T_F(A_0,A_1) \times \scr T_F(A_1, A_2) \to \scr T_F(A_0, A_2)$.
+Genau:
+\begin{math}
+    \Phi: M \sqcup M = M \times \Set{1,2} &\to M \\
+    (x,t,1) & \mapsto (x, \frac{t}{2}) \\
+    (x,t,2) & \mapsto (x, \frac{t+1}{2})
+\end{math}
+Für zwei Schlingel $T_1 \subset (M, A_0 \cup A_1), T_2 \subset (M, A_1 \cup A_2$ setze
+\begin{math}
+    T := T_1 \# T_2 :=  \Phi(T_1 \times \Set{1} \cup T_2 \times \Set{2})
+    \subset (M, A_0, A_1).
+\end{math}
+
+\begin{note}
+    Die Verknüpfung ist wohldefiniert modulo Isotopie von $(M, \Boundary M)$ und wir erhalten eine Kategorie: Objekte sind $A \subset F$, Morphismen sind Schlingeltypen mit der Verknüpfung $\#$.
+
+    Werden orientierte Schlingel betrachtet, so muss die Orientierung bei der Verklebung beachtet werden.
+\end{note}
+
+Sei nun speziell $F = \R^2$, $p,q \in \N$ mit $p + q = 2m$ und
+\begin{math}
+    A_0 &= \Set{(1,0), (2,0), \dotsc, (p,0)}, \\
+    A_1 &= \Set{(1,0), (2,0), \dotsc, (q,0)}
+\end{math}
+Setze $\scr T(p,q) := \scr T_{\R^2}(A_0, A_1)$.
+Für $p = q = m$ definieren wir einen \emphdef[reiner Schlingel]{reinen Schlingen}:
+es besteht aus $m$ Intervallen, jedes läuft von $(i,0)$ nach $(i,1)$.
+
+Die Schlingel $\scr T_(m,m)$ bilden einen Monoid, die reinen Schlingel $\scr T_{\text{rein}}(m,m)$ bilden einen Untermonoid.
+Gibt es invertierbare Element in diesem Monoid? Ja: Zöpfe.
+
+\begin{df}
+    Ein Zopf mit $n$ Strängen ist ein strikt monotoner (bzgl. Zeitachse) Schlingel in $\R^2 \times [0,1]$ von $A_0$ nach $A_1$ ($A_0 = A_1 = \Set{(1,0), \dotsc, (n,0)}$).
+\end{df}
+
+\begin{note}
+    Jeder Zopf ist invertierbar in $\scr T(n,n)$ anhand der Spiegelung $\Psi: F \times [0,1] \to F \times [0,1]: (x,t) \mapsto (x, 1-t)$.
+\end{note}
+
+\begin{note}
+    Für Zöpfe gibt es zwei Arten von Isotopien: Isotopien in der Menge der Zöpfe und Isotopien von Zopf zu Zopf in der Menge der Schlingel.
+    Diese sind sogar äquivalent (später)
+\end{note}
+
+\begin{st}[Artin, 1925]
+    Zöpfe in $\R^2 \times [0,1]$ wie oben bilden eine Gruppe $B_n$.
+    Diese wird erzeugt von den \emphdef[elementare Zöpfe]{elementaren Zöpfen}: Verdrillung zweier benachbarter Stränge $s_i, s_i^{-1}$.
+    Neben $s_i s_i^{-1} = s_i^{-1} s_i = 1$ gelten die elementaren Relationen
+    \begin{enumerate}[i)]
+        \item
+            $s_i s_{i+1} s_i = s_{i+1} s_i s_{i+1}$ für $i = 1, \dotsc, n-2$,
+        \item
+            $s_i s_j = s_j s_i$ für $|i-j| \ge 2$.
+    \end{enumerate}
+    Die elementaren Relationen erzeugen alle Relationen, d.h.
+    \begin{math}
+        B_n = \Gen{ s_1, \dotsc s_{n-1} & \begin{aligned} s_is_js_i &= s_js_is_j \text{ für $|i-j| = 1$}, \\ s_i s_j &= s_j s_i \text{ für $|i-j| \ge 2$} \end{aligned} }.
+    \end{math}
+    \begin{proof}
+        Wir verfahren wie im Beweis des Satzes von Reidemeister für Knoten, hier umformuliert auf Zöpfe:
+        \begin{enumerate}[i)]
+            \item
+                polygonale Zöpfe, polygonale Isotopie zwischen Zöpfen
+            \item
+                reguläre Projektion (dann erzeugen $s_1, \dotsc, s_{n-1}$ die Gruppe),
+            \item
+                $\Delta$-Züge entsprechen R0, R2, R3 (hier: R1 nicht möglich), also erzeugen die elementaren Relationen alle Relationen.
+        \end{enumerate}
+        Übung: Wiederholung und Anpassung.
+    \end{proof}
+\end{st}
+
+\begin{note}
+    Wir haben einen Gruppenhomomorphismus von $B_n$ auf die symmetrische Gruppe $S_n$ (alle Permutationen von $n$ Elementen).
+    Dazu bilde man $s_i$ auf die elementare Vertauschung $(i, i+1)$ ab.
+    Es gilt
+    \begin{math}
+        S_n = \Gen{ \sigma_1, \dotsc, \sigma_{n-1}, \sigma_i = (i,i+1)
+            & \begin{aligned} \sigma_i \sigma_j \sigma_i &= \sigma_j \sigma_i \sigma_j \text{ für $|i-j| = 1$}, \\
+                \sigma_i \sigma_j &= \sigma_j \sigma_i  \text{ für $|i-j| \ge 2$}, \\
+                \sigma_i^2 &= 1.
+            \end{aligned}
+        }
+    \end{math}
+    Übung!
+\end{note}
+
+
+\subsection{Verbundene Summe von Knoten}
+
+Bilde den Abschluss $\cl: \scr T(n,n) \to \scr L = \scr L(\R^3)$, welcher Schlingel auf Verschlingungen abbildet, indem die Ein-/Ausgänge entsprechend miteinander verbunden werden.
+
+$\cl$ ist wohldefiniert modulo Isotopie.
+\begin{st}
+    Speziell ist $\cl: \scr T_{\text{rein}}(1,1) \to \scr K = \scr K(\R^3)$ ist Bijektion.
+    \begin{proof}
+        Stelle Knoten im $\R^3$ polygonal dar, dann als Diagramme, markiere einen Punkt.
+        Schneide an diesem Punkt auf und Verbinde beide Enden zum Ein-, bzw. Ausgang.
+        Dies bildet einen Schlingel und zeigt damit die Surjektivität.
+        Genauere haben wir eine Umkehrabbildung $\op: \scr K \to \scr T_{text{rein}}(1,1)$.
+
+        Konstruktion $\scr D^\cdot \to \scr T_{\text{rein}}(1,1)$, $D \mapsto T$ wie oben.
+        R-Züge auf $D$ weg von Markierung sind $\Delta$-Züge für $T$.
+        Sonst: Verschieben der Markierung über Kreuzungen möglich (Invarianz unter $\op$).
+        Damit ist $\op: \scr K \to \scr T_{\text{rein}}(1,1)$ wohldefiniert.
+        Wir sehen $\cl \circ \op = \id_{\scr K}$ und $\op \circ \cl = \id_{\scr T}$.
+    \end{proof}
+\end{st}
+
+Damit erklären wir die verbundene Summe:
+\begin{math}
+    \scr K \times \scr K &\stack{\#}\to \scr K, \\
+    \scr T_r(1,1) \times \scr T_r(1,1) &\stack{\#}\to \scr T_r(1,1)
+\end{math}
+Die Definition ist unabhängig von der Wahl des Punktes. 
+
+
+
+
+
 
 
