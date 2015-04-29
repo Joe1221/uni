@@ -1,0 +1,77 @@
+\chapter{Stapelpolytope und zyklische Polytope}
+
+
+\section{Stapelpolytope}
+
+
+\begin{df}
+    Ein $d$-dimensionales \emphdef{Stapelpolytop} entsteht aus einem $d$-dimensionalem Simplex durch sukzessives Ankleben weiterer $d$-Simplizes entlang Facetten so dass alle anderen Seiten weiterhin Seiten bleiben und genau eine Ecke hinzukommt.
+    \begin{note}
+        Alle Ecken befinden sich ohne Einschränkung in allgemeiner Lage.
+    \end{note}
+\end{df}
+
+\begin{note}
+    Dual zum Stapeln können wir einfache Polytope abstumpfen.
+\end{note}
+
+Wie viele Stapelpolytope gibt es für $d=4$ mit vorgegebener Eckenanzahl?
+
+Beschreibung durch einen Baum: Wurzel mit drei Kindknoten steht für das Anfangssimplex, Stapelung entspricht Anhängen von einem weiterem Simplexbaum.
+Beachte: zwei verschiedene solcher Beschreibungen als Bäume sind eventuell kombinatorisch als Polytope äquivalent.
+
+\begin{note}
+    Jedes $2$-Polytop ist ein Stapelpolytop, aber nicht jedes simpliziale $3$-Polytops ist ein Stapelpolytop (z.B. Oktaeder).
+\end{note}
+
+
+\section{zyklische Polytope}
+
+
+\begin{df}
+    Eine \emphdef{Momentenkurve} im $\R^d$ ist gegeben durch
+    \begin{math}
+        c(t) := (t,t^2,t^3, \dotsc, t^d).
+    \end{math}
+    Ein \emphdef{zyklisches Polytop} ist die konvexe Hülle von $n$ verschiedenen Punkten $c(t_1), \dotsc, c(t_n)$ mit $t_1 < t_2 < \dotsb < t_n$.
+    \begin{note}
+        Im $\R^4$ kann man auch die Kurve $c(t) = (\cos t, \sin t, \cos 2t, \sin 2t)$.
+    \end{note}
+\end{df}
+
+\begin{st}
+    Ein zyklisches Polytop ist stets simplizial.
+    Eine Teilmenge $S \subset \Set{1, \dotsc, n}$ der Ecken (beliebig numeriert) mit $|S| = d$ Punkten bestimmt eine Facette genau dann, wenn die folgende Geradheitsbedingung erfüllt ist („Gale's evenness condition“):
+    Für alle $i < j$ mit $i,j \not \in S$ ist die Zahl derjenigen $k \in S$ mit $i < k < j$ eine gerade Zahl („Ecken in $S$ in Pärchen abgesehen von den Endpunkten“).
+    \begin{note}
+        Mit diesem Satz ist der kombinatorische Typ des zyklischen Polytops eindeutig bestimmt.
+    \end{note}
+    \begin{proof}
+        \begin{enumerate}[1.]
+            \item
+                Je $d+1$ Ecken auf der Momentenkurve sind affin unabhängig, denn die Determinante der Koordinatenmatrix ist gerade die Vandermond'sche Determinante $\prod_{i < j} (t_j - t_i) \neq 0$. 
+                Alle $n$ Ecken befinden sich also in allgemeiner Lage.
+                Alle Facetten sind Simplizes, aufgespannt von $d$ Ecken in allgemeiner Lage.
+                Das zyklische Polytop ist also ein simpliziales Polytop.
+            \item
+                \emph{Bestimmung der Facetten}:
+                Wähle $d$ Punkte $t_{i_1} < \dotsb < t_{i_d}$ und setze
+                \begin{math}
+                    f(x_1, \dotsc, x_d) := \det \Matrix{
+                        1 & 1 & \hdots & 1 \\
+                        x_1 & t_{i_1} & \hdots & t_{i_d} \\
+                        \vdots & \vdots & \ddots & \vdots \\
+                        x_d & t_{i_1}^d & \hdots & t_{i_d}^d
+                    }.
+                \end{math}
+                $f$ ist eine lineare Funktion auf $\R^d$.
+                Es gilt $f(x_1, \dotsc, x_d) = 0$ genau dann, wenn $(x_1, \dotsc, x_d)$ in der von $c(t_{i_1}), \dotsc, c(t_{i_d})$ aufgespannten Hyperebene liegt.
+                Falls $c(t_{i_1}), \dotsc, c(t_{i_d})$ eine Facette aufspannen, dann gilt $f(\vec x) \le 0$ für alle $\vec x \in P$ oder $f(\vec x) \ge 0$ für alle $\vec x \in P$ (d.h. $f(\vec x) = 0$ ist Stückhyperebene).
+            \item
+                $f(t,t^2,\dotsc,t^d)$ ist ein Polynom in $t$ vom Grad $d$, das für $t = t_{i_1}, \dotsc, t = t_{i_d}$.
+                Hieraus folgt Gale's evenness condition.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+
