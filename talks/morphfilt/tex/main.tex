@@ -1,0 +1,184 @@
+\documentclass{beamer}
+\usepackage{fontspec}
+\usepackage{xparse}
+\usepackage{mymath}
+
+\usetheme{Luebeck}
+
+\DeclareDocumentCommand{\dilate}{}{\oplus}
+\DeclareDocumentCommand{\erode}{}{\ominus}
+
+% http://tex.stackexchange.com/questions/117117/plus-minus-sign-in-a-circle
+\newcommand{\opm}{
+  \mathbin{
+    \mathchoice
+      {\buildcirclepm{\displaystyle     }{0.14ex}{0.95}{0.05ex}{.7}}
+      {\buildcirclepm{\textstyle        }{0.14ex}{0.95}{0.05ex}{.7}}
+      {\buildcirclepm{\scriptstyle      }{0.13ex}{0.955}{0.04ex}{.55}}
+      {\buildcirclepm{\scriptscriptstyle}{0.08ex}{0.95}{0.03ex}{.45}}
+  }
+}
+\newcommand{\omp}{
+  \mathbin{
+    \mathchoice
+      {\buildcirclemp{\displaystyle     }{0.14ex}{0.95}{0.05ex}{.7}}
+      {\buildcirclemp{\textstyle        }{0.14ex}{0.95}{0.05ex}{.7}}
+      {\buildcirclemp{\scriptstyle      }{0.13ex}{0.955}{0.04ex}{.55}}
+      {\buildcirclemp{\scriptscriptstyle}{0.08ex}{0.95}{0.03ex}{.45}}
+  }
+}
+\newcommand\buildcirclepm[5]{%
+  \begin{tikzpicture}[baseline=(X.base), inner sep=-#5, outer sep=-.65]
+    \node[draw,circle,line width=#4] (X)  {\footnotesize\raisebox{#2}{\scalebox{#3}{$#1\pm$}}};
+  \end{tikzpicture}%
+}
+\newcommand\buildcirclemp[5]{%
+  \begin{tikzpicture}[baseline=(X.base), inner sep=-#5, outer sep=-.65]
+    \node[draw,circle,line width=#4] (X)  {\footnotesize\raisebox{#2}{\scalebox{#3}{$#1\mp$}}};
+  \end{tikzpicture}%
+}
+
+\DeclareDocumentCommand{\dilateerode}{}{\opm}
+\DeclareDocumentCommand{\erodedilate}{}{\omp}
+
+
+\begin{document}
+
+
+\section{Einführung}
+
+\subsection{Beispiele und Motivation}
+
+\begin{frame}
+    \frametitle{Test!}
+    Hallo, das ist ein Test.
+\end{frame}
+
+
+\subsection{Definitionen und Notationen}
+
+\begin{frame}
+    \frametitle{Bilder}
+    \begin{definition}
+        Ein \emph{Bild} ist eine Abbildung $u: \Omega \to F$. \pause
+        Dabei sei
+        \begin{enumerate}[1.]
+            \item
+                die \emph{Trägermenge} $\Omega$ entweder $\R^d$ oder $\Z^d$ \pause und
+            \item
+                der \emph{Farbraum} $F$ bestehend aus Grauwerten, speziell: $F = [0,1]$.
+        \end{enumerate}
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Erweiterung der Trägermenge für endliche Bilder}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Strukturelemente}
+    \begin{definition}
+        Ein \emph{Strukturelement} ist eine Teilmenge $B \subset \Omega$. \\ \pause
+        Wir visualisieren $B$ als Binärbild $\Ind_B: \Omega \to F$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Elementare Operationen und Relationen auf Bildern}
+    \begin{definition}
+        Für ein Bild $u: \Omega \to F$ definiere
+        \begin{itemize}
+            \item \pause
+                die \emph{Translation} $u^p(x) := u(x-p)$ um $p \in \Omega$ \pause und
+            \item
+                das \emph{Komplement} $(\complement u)(x) := 1 - u(x)$.
+        \end{itemize}
+        \pause
+        Für eine Menge $U$ aus Bildern $\Omega \to F$ definiere
+        \begin{itemize}
+            \item \pause
+                die \emph{Vereinigung} $(\bigvee_{u \in U} u)(x) := \sup \Set{u(x) & u \in U}$ \pause und
+            \item
+                den \emph{Schnitt} $(\bigwedge_{u \in U} u)(x) := \inf \Set{u(x) & u \in U}$.
+        \end{itemize}
+        \pause
+        Für zwei Bilder $u, v: \Omega \to F$ schreiben wir $u \le v$, wenn $u(x) \le v(x)$ an jeder Stelle $x \in \Omega$ gilt.
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Elementare Operationen auf Strukturelementen}
+    \begin{definition}
+        Für Strukturelemente $B, C \subset \Omega$ definiere
+        \begin{itemize}
+            \item \pause
+                die \emph{Spiegelung} $-B := \Set{-b & b \in B}$\pause,
+            \item
+                die \emph{Translation} $B + p := \Set{b + p & b \in B}$ \pause und
+            \item
+                die \emph{Addition} $B + C := \Set{b + c & b \in B, c \in C}$.
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\section{Erosion / Dilatation}
+
+\subsection{Definition}
+
+\begin{frame}
+    \frametitle{Erosion}
+    \begin{definition}
+        Für ein Bild $u$ und ein Strukturelement $B$ sei die \emph{Erosion}
+        \begin{math}
+            u \erode B := \bigvee_{b \in B} u^{-b}.
+        \end{math}
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Dilatation}
+    \begin{definition}
+        Für ein Bild $u$ und ein Strukturelement $B$ sei die \emph{Dilatation}
+        \begin{math}
+            u \dilate B := \bigwedge_{b \in B} u^{-b}.
+        \end{math}
+    \end{definition}
+\end{frame}
+
+\subsection{Eigenschaften}
+
+\begin{frame}
+    \frametitle{Eigenschaften von Erosion und Dilatation}
+    \begin{lemma}
+        Erosion und Dilatation genügen den Eigenschaften
+        \begin{itemize}
+            \item
+                \emph{Dualität}: $u \dilate B := \complement (\complement u \erode B)$,
+            \item
+                \emph{Translationsinvarianz}: $u^p \dilateerode B = (u \dilateerode B)^p$ für $p \in \Omega$,
+            \item
+                \emph{Monotonie}: $u \le v \implies u \dilateerode B \le v \dilateerode B$,
+
+        \end{itemize}
+    \end{lemma}
+\end{frame}
+
+
+\section{Zusammengesetzte Operationen}
+
+\subsection{Öffnen / Schließen}
+
+\subsection{Top-hat Filter}
+
+\subsection{Hit-or-Miss Filter}
+
+\subsection{Morphologische Gradienten}
+
+
+\section{Anwendungen und Beispiele}
+
+
+
+
+
+\end{document}
