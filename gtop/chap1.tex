@@ -493,7 +493,7 @@ Inbesondere gilt der Satz von Reidemeister für Verschlingungen.
 
 Übung: Kann $W$ getrennt werden? und $B$? (Dreifärbungen)
 
-\paragraph{Schlingel}
+\subsection{Schlingel}
 
 Sei $F := \R^2$, $M = F \times [0,1]$.
 Wir betrachten nun nicht mehr geschlossene Knoten in $M$, sondern lassen auch offene Knoten (mit Endpunkten auf $F \times \Set{0,1}$) zu.
@@ -546,8 +546,10 @@ Setze $\scr T(p,q) := \scr T_{\R^2}(A_0, A_1)$.
 Für $p = q = m$ definieren wir einen \emphdef[reiner Schlingel]{reinen Schlingen}:
 es besteht aus $m$ Intervallen, jedes läuft von $(i,0)$ nach $(i,1)$.
 
-Die Schlingel $\scr T_(m,m)$ bilden einen Monoid, die reinen Schlingel $\scr T_{\text{rein}}(m,m)$ bilden einen Untermonoid.
+Die Schlingel $\scr T(m,m)$ bilden einen Monoid, die reinen Schlingel $\scr T_{\text{rein}}(m,m)$ bilden einen Untermonoid.
 Gibt es invertierbare Element in diesem Monoid? Ja: Zöpfe.
+
+\subsection{Zöpfe}
 
 \begin{df}
     Ein Zopf mit $n$ Strängen ist ein strikt monotoner (bzgl. Zeitachse) Schlingel in $\R^2 \times [0,1]$ von $A_0$ nach $A_1$ ($A_0 = A_1 = \Set{(1,0), \dotsc, (n,0)}$).
@@ -605,6 +607,61 @@ Gibt es invertierbare Element in diesem Monoid? Ja: Zöpfe.
     Übung!
 \end{note}
 
+Sei $P_n$ die reine Zopfgruppe auf $n$ Strängen, $B_n$ die Zopfgruppe und $S_n$ die symmetrische Gruppe.
+Artin liefert
+\begin{math}
+    P_n \injto B_n \stack{\pi_n} \surto S_n.
+\end{math}
+Dies ist eine kurze exakte Sequenz.
+Wir können Stränge hinzufügen und vergessen:
+\begin{math}
+    \iota_n: B_{n-1} &\injto B_n,
+    \tau: P_n &\to P_{n-1}
+\end{math}
+Dies sind Gruppenhomomorphismen.
+Es gilt $\tau_{n-1} \circ \iota_{n-1} = \id_{P_{n-1}}$.
+Der Kern von $\tau_n: P_n \to P_{n-1}$ wird frei erzeugt von $a_{1,n}, \dotsc, a_{n-1,n}$:
+$a_{ij}$ für $i < j$ geht über die nächsten $j - i$ Stränge, unter $j$ und über $i+1, \dotsc, j-1$.
+Es gilt
+\begin{math}
+    F_{n-1} := \ker(\tau_n) = \pi_1(\R^2 \setminus \Set{n-1 \text{ Punkte}}, *).
+\end{math}
+Wir haben
+\begin{math}
+    F_{n-1} \injto P_n \surto P_{n-1}
+\end{math}
+spaltend, d.h. $i_{n-1}: P_{n-1} \to P_n$.
+
+% semidirect ><|
+Anders formuliert $P_n = F_{n-1} \semidirect P_{n-1}$.
+
+\begin{ex}
+    $P_1 = \Set{1}$, $P_2 = \<s_1^2\> = F_1 \isomorphic \Z$, $P_3 = F_2 \semidirect F_1$ und
+    \begin{math}
+        P_n = F_{n-1} \semidirect (F_{n-2} \semidirect ( \dotso ( F_2 \semidirect F_1) \dotso )).
+    \end{math}
+\end{ex}
+
+\begin{st}
+    Im Zentrum von $B_n$ liegt der reine Zopf
+    \begin{math}
+        z_n = (s_1s_2 \dotso s_{n-1})^n
+    \end{math}
+    (eine volle Drehung).
+    Dieser erzeugt das Zentrum, genauer:
+    \begin{math}
+        Z(P_n) = \<z_n\> \isomorphic \Z,
+        Z(B_n) = \begin{cases}
+            B_2 \isomorphic \Z & \text{für $n = 2$}, \\
+            \<z_n\> \isomorphic \Z & \text{für $n \neq 2$}.
+        \end{cases}
+    \end{math}
+\end{st}
+
+\begin{kor}
+    Die Zopfgurppen $B_n$ sind nicht untereinander isomorph, denn in der Abelschmachung $\alpha_n: B_n \to \Z$ gilt $\alpha_n(Z(B_n)) =  n(n-1) \Z$.
+\end{kor}
+
 
 \subsection{Verbundene Summe von Knoten}
 
@@ -617,7 +674,7 @@ $\cl$ ist wohldefiniert modulo Isotopie.
         Stelle Knoten im $\R^3$ polygonal dar, dann als Diagramme, markiere einen Punkt.
         Schneide an diesem Punkt auf und Verbinde beide Enden zum Ein-, bzw. Ausgang.
         Dies bildet einen Schlingel und zeigt damit die Surjektivität.
-        Genauere haben wir eine Umkehrabbildung $\op: \scr K \to \scr T_{text{rein}}(1,1)$.
+        Genauer haben wir eine Umkehrabbildung $\op: \scr K \to \scr T_{\text{rein}}(1,1)$.
 
         Konstruktion $\scr D^\cdot \to \scr T_{\text{rein}}(1,1)$, $D \mapsto T$ wie oben.
         R-Züge auf $D$ weg von Markierung sind $\Delta$-Züge für $T$.
@@ -632,10 +689,175 @@ Damit erklären wir die verbundene Summe:
     \scr K \times \scr K &\stack{\#}\to \scr K, \\
     \scr T_r(1,1) \times \scr T_r(1,1) &\stack{\#}\to \scr T_r(1,1)
 \end{math}
-Die Definition ist unabhängig von der Wahl des Punktes. 
+Die Definition ist unabhängig von der Wahl des Punktes.
 
 
+\Timestamp{2015-05-04}
 
+\begin{note}
+    Es gilt $\Cr([K] \# [L]) \le \Cr([K]) + \Cr([L])$.
+    Ein offenes Problem ist die Frage nach Gleichheit, könnte die verbundene Summe auch mit weniger Kreuzungen auskommen?
+\end{note}
+
+
+\subsection{Brückenzahl}
+
+Betrachte in einem Knotendiagramm Minima und Maxima, $h: \R^2 \times [0,1] \to [0,1]$.
+Wir definieren $\br: \scr K \to \N$ durch
+\begin{math}
+    \br([K]) = \min_{K' \sim K} |\Set{\text{Minima von $K'$}}|.
+\end{math}
+Etwas allgemeiner: $\br: \scr T(1,1) \to \N$
+\begin{math}
+    \br([T]) = \min_{T' \sim T} |\Set{\text{Minima im Inneren von $T'$}}|.
+\end{math}
+\begin{note}
+    Es gilt $\br([\cl(T)]) = 1 + \br(T)$.
+\end{note}
+
+\begin{ex}
+    Es gilt
+    \begin{math}
+        \br(\texp{trivialer Knoten}) &= 1, &
+        \br(\texp{Kleeblattschlinge}) &= 2.
+    \end{math}
+    Für die Kleeblattschlinge ist $\le$ klar, dank der Zeichnung.
+    $\ge$ ist klar dank folgendere Bemerkung:
+\end{ex}
+
+\begin{note}
+    Für $[K] \in \scr K$ gilt $br([K]) = 1 \iff K \sim \texp{trivialer Knoten}$.
+    \begin{proof}
+        $\impliedby$ ist klar.
+        Für $\implies$ stelle $K$ durch ein Diagramm $D$ mit $\Cr(D) = 1$ dar.
+        Dann ist $D \sim \texp{trivialer Knoten}$.
+    \end{proof}
+\end{note}
+
+\begin{st}
+    Für $[K] \in \scr K$ gilt $1 \le \dim( \Col_p(K)) \le \br(K)$.
+    \begin{proof}
+        Der Knoten habe $b$ Minima und Maxima.
+        Der Teil zwischen Minima und Maxima bildet einen Zopf.
+        Wähle Eingangsfarben aus $\F_p^b$.
+        Diese propagieren sich nach rechts.
+        Am Ende liefert jedes Maximum eine Gleichung.
+        Die Anzahl Lösungen des Gleichungssystems sind höchstens $b$ und mindestens $1$ (wegen der trivialen Färbung).
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    Für die $n$-fache verbunde Summe der Kleeblattschlinge $K$ gilt
+    \begin{math}
+        \br(K) = n + 1.
+    \end{math}
+    \begin{proof}
+        $\le$ ist klar dank der Zeichnung.
+        $\ge$ gilt dank $\dim \Col_p = n + 1$.
+    \end{proof}
+\end{ex}
+
+\begin{st}[Schubert 195x]
+    Es gilt
+    \begin{math}
+        \br(K \# L) = \br(K) + \br(L) - 1.
+    \end{math}
+    \begin{note}
+        Schöner ist für offene Knoten
+        \begin{math}
+            \br(K \# L) = \br(K) + \br(L).
+        \end{math}
+    \end{note}
+    \begin{proof}
+        $\le$ ist klar.
+        $\ge$ ist mühsam (hier nicht ausgeführt).
+    \end{proof}
+\end{st}
+
+\begin{df}
+    Ein Knotentyp $K \in \scr K$ heißt \emphdef{prim}, wenn aus $K = A \# B$ folgt: $A \sim \texp{trivialer Knoten}$ oder $B \sim \texp{trivialer Knoten}$.
+\end{df}
+
+\begin{kor}
+    Jeder Knoten ist eine verbundene Summe von Primknoten.
+    \begin{proof}
+        Induktion über $n = \br(K)$.
+        Für $n = 1$ ist $K$ der triviale Knoten, also leere Summe.
+        Für $n = 2$ ist der Knoten prim.
+        Sei also $n \ge 3$.
+        \begin{enumerate}[i)]
+            \item
+                Ist $K$ prim, so sind wir fertig.
+            \item
+                Ist $K = A \# B$ und $A \not\sim \texp{trivialer Knoten} \not\sim B$, dann ist
+                \begin{math}
+                    \underbrace{\br(K) -1}_{=n} = \underbrace{\br(A) - 1}_{\ge 1} + \underbrace{\br(B) - 1}_{\ge 1}.
+                \end{math}
+                Es folgt $\br(A), \br(B) < \br(K) = n$.
+                Per Induktion sind $A$ und $B$ verbundene Summe aus Primknoten und somit auch $K$.
+        \end{enumerate}
+    \end{proof}
+    \begin{note}
+        Es gilt sogar die Eindeutigkeit dieser Zerlegung, siehe später. % fixme: ref
+    \end{note}
+\end{kor}
+
+\subsection{Entknotungszahl}
+
+
+Für Knoten $K, K'$ definieren wir die Entknotungszahl
+\begin{math}
+    u(K,K') &:= \min |\Set{\text{Kreuzungswechsel von $K$ nach $K'$}}|, \\
+    u(K) &:= u(K, \texp{trivialer Knoten}).
+\end{math}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Es gilt $u(K,K') = 0$ genau dann, wenn $K \sim K'$.
+        \item
+            Die Entkreuzungszahl der Kleeblattschlinge ist $1$.
+        \item
+            Die Entkreuzungszahl der Verbundenen Summe zweier Kleeblattschlingen ist $2$.
+            \begin{proof}
+                $\le$ ist klar.
+                $\ge$ mit folgendem Satz: $f = 3$, also $u = 2$.
+            \end{proof}
+    \end{itemize}
+\end{ex}
+
+\begin{st}
+    Sei $f: \scr K \to \N$, $f(K) = \dim \Col_p(F)$.
+    Bei jeder Entknotungsoperation von $K_+$ zu $K_-$ gilt
+    \begin{math}
+        |f(K_+) - f(K_-)| \le 1.
+    \end{math}
+    \begin{proof}
+        Betrachte drei Diagramme, die sich nur an einer Stelle unterscheiden.
+        $D_+, D_0, D_-$ (jeweils Kreuzungen, $D_+$ drüber, $D_-$ drunter, $D_0$ beliebig).
+        Es gelten die Relationen für die Stränge
+        \begin{math}
+            D_+&: & a - b +c - d &= 0,  & a &= c,\\
+            D_0&: & a - b + c - d &= 0, \\
+            D_-&: & a - b + c - d &= 0, & b &= d,
+        \end{math}
+        Es gilt $\Col_p(D_+) \subset \Col_p(D_0) \supset_p(D_-)$.
+        Die Untervektorräume haben jeweils Kodimension 1, folglich unterscheiden sich beide Untervektorräume in der Dimension um höchstens 1.
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    Die $n$-fach verbundene Summe von Kleeblattschlingen besitzt Entknotungszahl $n$.
+\end{kor}
+
+\begin{note}
+    Es gilt $u(K \# L) \le u(K) + u(L)$, die Umkehrung ist eine offene Frage.
+\end{note}
+
+Wir hatten $\Cr, u, \br$ auf Additivität hin geprüft. Die Brückenzahl $\br$ war additiv für Knoten, aber nicht für Tangles:
+betrachte das Gegenbeispiel (siehe Skizze):
+Es gilt $\br(A) = 1$ ($\le$ ist klar, $\ge$: zeige $A$ ist kein Zopf) und $\br(B) = 1$ ($\le$ ist klar, $\ge$: zeige $B$ ist kein Zopf).
+Bei der Verbundenen Summe löscht sich ein Min-Max-Paar aus.
 
 
 
