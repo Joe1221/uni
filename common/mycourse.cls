@@ -232,6 +232,8 @@
         % Polyglossia babelshorthands has some problems with explsyntax
         \cs_new_eq:NN \mycourselanguage \l_mycourse_language
         \ExplSyntaxOff
+        % Weird workaround for reutenauer/polyglossia#95
+        \input{babelsh.def}
         \setmainlanguage [
             spelling        = new,
             latesthyphen    = true,
