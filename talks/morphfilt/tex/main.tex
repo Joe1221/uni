@@ -58,7 +58,26 @@
 \DeclareDocumentCommand{\erodedilate}{}{\omp}
 
 
+\usetikzlibrary{spy}
+\tikzset{
+    centerbase/.style={baseline={([yshift=-0.5ex]current bounding box.center)}},
+}
+\usetikzlibrary{calc}
+
+
+\title{Morphologische Filter}
+
+\author{Stephan Hilb}
+\date{\today}
+\institute{Universität Stuttgart}
+
+
 \begin{document}
+
+
+\begin{frame}
+    \titlepage
+\end{frame}
 
 
 \section{Einführung}
@@ -77,27 +96,161 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Beispiel: Dilatation}
+    \begin{center}
+        \pause
+        \begin{onlyenv}<2-4>
+            \begin{tikzpicture}[centerbase]
+                \node[anchor=south west,inner sep=0] (im) at (0,0) {\includegraphics[width=4.2cm]{images/phantom80.png}};
+            \end{tikzpicture}
+        \end{onlyenv}%
+        \begin{onlyenv}<5->
+            \begin{tikzpicture}[centerbase,spy using outlines={circle,magnification=6,size=2.5cm,connect spies}]
+                \node[anchor=south west,inner sep=0] (im) at (0,0) {\includegraphics[width=4.2cm]{images/phantom80.png}};
+                \begin{scope}[x={($1/80*(im.south east)$)},y={($1/80*(im.north west)$)},xshift=0.11,yshift=-0.09]
+                    \coordinate<-5> (x) at (20,59);
+                    \coordinate<6> (x) at (20,60);
+                    \coordinate<7> (x) at (20,61);
+                    \coordinate<8> (x) at (20,62);
+                    \coordinate<9> (x) at (19,62);
+                    \coordinate<10> (x) at (18,62);
+                    \coordinate<11> (x) at (17,62);
+                    \coordinate<12> (x) at (16,62);
+                    \coordinate (xsw) at ($(x) - (1,1)$);
+                    \coordinate (xm) at ($(x) + (0.5,0.5)$);
+                    \draw[line width=0.05pt,red] (xsw) rectangle +(3,3);
+                    \draw[line width=0.05pt,red] (xsw) grid[step=1] +(3,3);
+                    \draw[line width=0.05pt,green] (xsw) ++ (1,1) rectangle +(1,1);
+                    \fill[red] (xsw) +(1.5,1.5) circle[radius=0.1];
+                    \spy[yellow!80!black] on (xm) in node[above left,xshift=-0.5cm,yshift=0.5cm] at (im.south east);
+                \end{scope}
+            \end{tikzpicture}
+        \end{onlyenv}%
+        \pause
+        $\dilate$
+        \begin{tikzpicture}[centerbase,scale=0.3]
+            \fill[black!30] (0,0) rectangle (3,3);
+            \draw[very thin] (0,0) grid (3,3);
+            \fill (1.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+        $=$
+        \pause
+        \begin{onlyenv}<2-4>
+            \begin{tikzpicture}[centerbase]
+                \node[anchor=south west,inner sep=0] (im) at (0,0) {\includegraphics[width=4.2cm]{images/phantom80_dilate.png}};
+            \end{tikzpicture}
+        \end{onlyenv}%
+        \begin{onlyenv}<5->
+            \begin{tikzpicture}[centerbase,spy using outlines={circle,magnification=6,size=2.5cm,connect spies}]
+                \node[anchor=south west,inner sep=0] (im) at (0,0) {\includegraphics[width=4.2cm]{images/phantom80_dilate.png}};
+                \begin{scope}[x={($1/80*(im.south east)$)},y={($1/80*(im.north west)$)},xshift=0.11,yshift=-0.09]
+                    \coordinate<-5> (x) at (20,59);
+                    \coordinate<6> (x) at (20,60);
+                    \coordinate<7> (x) at (20,61);
+                    \coordinate<8> (x) at (20,62);
+                    \coordinate<9> (x) at (19,62);
+                    \coordinate<10> (x) at (18,62);
+                    \coordinate<11> (x) at (17,62);
+                    \coordinate<12> (x) at (16,62);
+                    \coordinate (xsw) at (x);
+                    \coordinate (xm) at ($(x) + (0.5,0.5)$);
+                    \draw[ultra thin,green] (xsw) rectangle +(1,1);
+                    %\draw[line width=0.05pt,red] (xsw) grid[step=1] +(3,3);
+                    %\fill[red] (xsw) +(1.5,1.5) circle[radius=0.1];
+                    \spy[yellow!80!black] on (xm) in node[above left,xshift=-0.5cm,yshift=0.5cm] at (im.south east);
+                \end{scope}
+            \end{tikzpicture}
+        \end{onlyenv}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Beispiel: Erosion}
+    \begin{center}
+        \pause
+        \begin{onlyenv}<2-4>
+            \begin{tikzpicture}[centerbase]
+                \node[anchor=south west,inner sep=0] (im) at (0,0) {\includegraphics[width=4.2cm]{images/phantom80.png}};
+            \end{tikzpicture}
+        \end{onlyenv}%
+        \begin{onlyenv}<5->
+            \begin{tikzpicture}[centerbase,spy using outlines={circle,magnification=6,size=2.5cm,connect spies}]
+                \node[anchor=south west,inner sep=0] (im) at (0,0) {\includegraphics[width=4.2cm]{images/phantom80.png}};
+                \begin{scope}[x={($1/80*(im.south east)$)},y={($1/80*(im.north west)$)},xshift=0.11,yshift=-0.09]
+                    \coordinate<-5> (x) at (20,59);
+                    \coordinate<6> (x) at (20,60);
+                    \coordinate<7> (x) at (20,61);
+                    \coordinate<8> (x) at (20,62);
+                    \coordinate<9> (x) at (19,62);
+                    \coordinate<10> (x) at (18,62);
+                    \coordinate<11> (x) at (17,62);
+                    \coordinate<12> (x) at (16,62);
+                    \coordinate (xsw) at ($(x) - (1,1)$);
+                    \coordinate (xm) at ($(x) + (0.5,0.5)$);
+                    \draw[line width=0.05pt,red] (xsw) rectangle +(3,3);
+                    \draw[line width=0.05pt,red] (xsw) grid[step=1] +(3,3);
+                    \draw[line width=0.05pt,green] (xsw) ++ (1,1) rectangle +(1,1);
+                    \fill[red] (xsw) +(1.5,1.5) circle[radius=0.1];
+                    \spy[yellow!80!black] on (xm) in node[above left,xshift=-0.5cm,yshift=0.5cm] at (im.south east);
+                \end{scope}
+            \end{tikzpicture}
+        \end{onlyenv}%
+        \pause
+        $\erode$
+        \begin{tikzpicture}[centerbase,scale=0.3]
+            \fill[black!30] (0,0) rectangle (3,3);
+            \draw[very thin] (0,0) grid (3,3);
+            \fill (1.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+        $=$
+        \pause
+        \begin{onlyenv}<2-4>
+            \begin{tikzpicture}[centerbase]
+                \node[anchor=south west,inner sep=0] (im) at (0,0) {\includegraphics[width=4.2cm]{images/phantom80_erode.png}};
+            \end{tikzpicture}
+        \end{onlyenv}%
+        \begin{onlyenv}<5->
+            \begin{tikzpicture}[centerbase,spy using outlines={circle,magnification=6,size=2.5cm,connect spies}]
+                \node[anchor=south west,inner sep=0] (im) at (0,0) {\includegraphics[width=4.2cm]{images/phantom80_erode.png}};
+                \begin{scope}[x={($1/80*(im.south east)$)},y={($1/80*(im.north west)$)},xshift=0.11,yshift=-0.09]
+                    \coordinate<-5> (x) at (20,59);
+                    \coordinate<6> (x) at (20,60);
+                    \coordinate<7> (x) at (20,61);
+                    \coordinate<8> (x) at (20,62);
+                    \coordinate<9> (x) at (19,62);
+                    \coordinate<10> (x) at (18,62);
+                    \coordinate<11> (x) at (17,62);
+                    \coordinate<12> (x) at (16,62);
+                    \coordinate (xsw) at (x);
+                    \coordinate (xm) at ($(x) + (0.5,0.5)$);
+                    \draw[ultra thin,green] (xsw) rectangle +(1,1);
+                    %\draw[line width=0.05pt,red] (xsw) grid[step=1] +(3,3);
+                    %\fill[red] (xsw) +(1.5,1.5) circle[radius=0.1];
+                    \spy[yellow!80!black] on (xm) in node[above left,xshift=-0.5cm,yshift=0.5cm] at (im.south east);
+                \end{scope}
+            \end{tikzpicture}
+        \end{onlyenv}
+    \end{center}
+\end{frame}
+
 
 \subsection{Definitionen und Notationen}
 
 \begin{frame}
     \frametitle{Bilder}
     \begin{definition}
-        Ein \emph{Bild} ist eine Abbildung $u: \Omega \to F$. \pause
+        Ein \emph{Bild} ist eine Abbildung $u: \Omega \to F$.
         Dabei sei
         \begin{enumerate}[1.]
-            \item
-                die \emph{Trägermenge} $\Omega$ entweder $\R^d$ oder $\Z^d$ \pause und
-            \item
+            \item \pause
+                die \emph{Trägermenge} $\Omega$ entweder $\R^d$ oder $\Z^d$ und
+            \item \pause
                 der \emph{Farbraum} $F$ bestehend aus Grauwerten, speziell: $F = [0,1]$.
         \end{enumerate}
     \end{definition}
     \pause
-    Im Grauwertraum $F = [0,1]$ steht $0$ für Schwarz und $1$ für Weiß.
-\end{frame}
-
-\begin{frame}
-    \frametitle{Erweiterung der Trägermenge für endliche Bilder}
+    Für $F = [0,1]$ interpretiert man $0$ als Schwarz und $1$ als Weiß.
 \end{frame}
 
 \begin{frame}
@@ -106,7 +259,35 @@
         Ein \emph{Strukturelement} ist eine Teilmenge $B \subset \Omega$.
     \end{definition}
     \pause
-    Wir visualisieren $B$ als invertiertes Binärbild $1 - \Ind_B: \Omega \to F$.
+    Wir visualisieren Strukturelemente als Bilder:
+    \begin{center}
+        \begin{tikzpicture}[scale=0.4,centerbase]
+            \draw[fill=black!30] (0,0) rectangle (3,1);
+            \draw (1,0) -- (1,1) (2,0) -- (2,1);
+            \fill (1.5,0.5) circle[radius=0.1];
+        \end{tikzpicture}
+        \qquad
+        \begin{tikzpicture}[scale=0.4,centerbase]
+            \draw[fill=black!30] (1,0) rectangle (2,3);
+            \draw[fill=black!30] (0,1) rectangle (3,2);
+            \draw (1,1) -- (1,2) (2,1) -- (2,2);
+            \fill (1.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+        \qquad
+        \begin{tikzpicture}[scale=0.4,centerbase]
+            \draw[fill=black!30] (0,0) rectangle (3,3);
+            \draw (0,0) grid (3,3);
+            \fill (1.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+        \qquad
+        \begin{tikzpicture}[scale=0.4,centerbase]
+            \draw[fill=black!30] (0,0) rectangle (1,1);
+            \draw[fill=black!30] (1,0) rectangle (2,1);
+            \draw[fill=black!30] (0,2) rectangle (1,3);
+            \draw[fill=black!30] (2,2) rectangle (3,3);
+            \fill (1.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+    \end{center}
 \end{frame}
 
 \begin{frame}
