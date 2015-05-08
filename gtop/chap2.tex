@@ -1,0 +1,170 @@
+% Kapitel B
+\chapter{Knotengruppen}
+
+\Timestamp{2015-05-06}
+
+Ziel: Zu Knoten $K \subset \R^3$ wollen wir $\pi_1(\R^3 \setminus K, *)$ berechnen und nutzen.
+
+
+% §B1
+\section{Erinnerung: Präsentation von Gruppen}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Zyklische Gruppe:
+            \begin{math}
+                G = \Set{g, g^2, g^3, \dotsc, g^n = 1},
+            \end{math}
+            wobei $g^i \neq g^j$ für $0 \le i < j \le n$.
+            Wir nutzen dafür die Schreibweise
+            \begin{math}
+                G = \<g | g^n = 1\>
+                = \<g | g^n\>.
+            \end{math}
+            Dann erhalten wir den Gruppenisomorphismus $\Z / n \to G$, $k + n\Z \mapsto g^k$.
+        \item
+            Unendliche zyklische Gruppe:
+            \begin{math}
+                G = \Set{g^k & k \in \Z},
+            \end{math}
+            mit $g^i \neq g^j$ für $i \neq j$ in $\Z$.
+            Wir nutzen die Schreibweise
+            \begin{math}
+                G = \< g | - \>.
+            \end{math}
+            Dann haben wir den Gruppenisomorphismus $\Z \to G, k \mapsto g^k$.
+        \item
+            Wir wollen folgende Notationen nutzen können:
+            \begin{math}
+                G = \Gen{a,b & ab = ba}
+            \end{math}
+            Wir haben einen Gruppenisomorphismus $Z^2 \to G$, $(k,l) \mapsto a^kb^l$.
+    \end{itemize}
+\end{ex}
+
+\subsection{Freie Gruppen}
+
+\begin{df}
+    Sei $∈(G, \cdot)$ eine Gruppe, $S \subset G$.
+    Die von $S$ erzeugte Untergruppe ist
+    \begin{math}
+        \<S\> = \Set{s_1^{e_1} \dotsc s_n^{e_n} & n \in \N, s_i \in S, e_i \in \Z}.
+    \end{math}
+    Wir nennen $s_1^{e_1} \dotsc s_n^{e_n}$, genauer $(s_1,e_1; \dotsc; s_n, e_n) \in (S\times \Z)^n$ ein \emphdef{Wort} über $S$.
+    Ein Wort heißt \emphdef{reduziert}, wenn $s_i \neq s_{i+1}$ und $e_i \neq 0$.
+\end{df}
+
+\begin{df}
+    Eine Gruppe $G$ heißt \emphdef{frei}, über $S \subset G$, wenn sich jedes $g \in G$ eindeutig schreiben lässt als reduziertes Wort über $S$.
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $G \isomorphic \Z/5$ ist nicht frei über $S = \Set{g}$, weil $1 = g^0 = g^5 = g^{10} = \dotsc$.
+        \item
+            $G \isomorphic \Z$ ist frei über $S = \Set{g}$.
+        \item
+            $G \isomorphic \Z^2$ ist nicht frei über $S = \Set{a,b}$, denn $ab = ba$, also
+            \begin{math}
+                (a,1;b,1) \neq (b,1;a,1).
+            \end{math}
+    \end{itemize}
+\end{ex}
+
+\begin{st}
+    Zu jeder Menge $S$ existiert eine freie Gruppe $F(S) = \<S| - \>$ über $S$.
+    \begin{proof}
+        Übung.
+    \end{proof}
+\end{st}
+
+\begin{st}[universelle Abbildungseigenschaft]
+    Eine Gruppe $F$ ist genau dann frei über $S \subset F$, wenn gilt:
+    zu jeder Abbildung $f: S \to G$ in eine Gruppe $G$ existiert genau ein Gruppenhomomorphismus $h: F \to G$ mit $h|_S = f$.
+    %\begin{note}
+    %    \Hom(F,G) \stack\isomorphic\to \App(S,G),
+    %    h \mapsto h|_S.
+    %\end{note}
+    \begin{proof}
+        Sei $F$ frei über $S$, dann besteht $F$ aus reduzierten Wörtern der Form $s_1^{e_1} \dotsc s_n^{e_n}$.
+        Setze $h: F \to G$ durch $h(s_1^{e_1} \dotsc, s_n^{e_n}) = f(s_1)^{e_1} \dotsc f(s_n)^{e_n}$, dies ist die einzige Möglichkeit, eine solche Abbildung zu definieren.
+        Sie ist wohldefiniert und multiplikativ.
+
+        Die Umkehrung ist abstract general nonsense:
+        Angenommen $f$ besitzt die universelle Abbildungseigenschaft.
+        Dann existiert genau ein Gruppenhomomorphismus $h: F \to F(S)$ mit $h|_S = \id_S$ und genau ein $k: F(s) \to F$ mit $k|_S = \id_S$.
+        Für diese gilt $k \circ h = \id_F$ und $h \circ k = \id_{F(S)}$.
+    \end{proof}
+\end{st}
+
+\begin{df}
+    Sei $S$ eine Menge, $F = F(S)$ eine freie Gruppe über $S$.
+    Sei $R \subset F$ eine Menge von reduzierten Gruppenwörtern über $S$.
+    Wir nennen $(S, R)$ eine \emphdef{Präsentation} mit Erzeugern $S$ und Relationen $R$.
+    Die hierdurch \emphdef{prästentierte Gruppe} ist
+    \begin{math}
+        \<S |R\> := F / \<R^F\>.
+    \end{math}
+    Hierbei ist $\<R^F\>$ die von $R$ normal erzeugte Untergruppe in $F$, d.h.
+    \begin{math}
+        \<R^F\> = \Gen{ r^f & r \in R, f \in F }
+    \end{math}
+    wird erzeugt von allen Konjugierten von $r \in R$ in $F$.
+    Dies ist die kleinste normale Untergruppe, diei $R$ enthält.
+\end{df}
+
+\begin{ex}
+    \begin{enumerate}[1)]
+        \item
+            Für $R = \emptyset$ ist $\<S | \emptyset\> = \Gen{S & -} = F(S)$.
+        \item
+            $\Gen{a & -} \leftarrow \Z, a^k \mapsfrom k$,
+        \item
+            $\Gen{a & a^n} \leftarrow \Z /n, a^k \mapsfrom k$.
+        \item
+            $\Gen{a, b & aba^{-1}b^{-1}} \leftarrow \Z^2, a^kb^l \mapsfrom (k,l)$
+        \item
+            Zopfgruppen, symmetrische Gruppen
+    \end{enumerate}
+\end{ex}
+
+\begin{st}[Universelle Abbildungseigenschaft]
+    Sei $(S,R)$ wie oben, $f : S \to G$.
+    Dann sind äquivalent:
+    \begin{enumerate}[1)]
+        \item
+            Der Gruppenhomomorphismus $h: F(S) \to G$ mit $h|_S = f$ erfüllt $h(R) = \Set{1}$ (und faktorisiert somit).
+        \item
+            Es existiert ein Gruppenhomomorphismus $\_h: \<S|R\> \to G$ mit $\_h \circ q = f$ ($q$ sei hierbar Quotientenhomomorphismus).
+    \end{enumerate}
+    \begin{proof}
+        Leichte Übung.
+    \end{proof}
+\end{st}
+
+\begin{prop}
+    Jede Gruppe $G$ erlaubt eine Präsentation, d.h. ein Tripel $(S,R,h)$ mit $h: \<S | R\> \stack\isomorphic\to G$.
+\end{prop}
+
+\begin{ex}
+    Sei $G = \Z / R = \Set{0,1,2,3,4}$.
+    $h: \< a | a^5\> \to \Z^5$, $a \mapsto 1$ (wohldefiniert, surjektiv, injektiv).
+    Aber auch $k: \<a|a^5\> \to \Z^5$, $a \mapsto 2$ ist ein Gruppenisomorphismus.
+\end{ex}
+
+Zu einer gegebenen Gruppe $G$ gibt es stets unendlich viele Präsentationen!
+Die folgenden Tietze-Operationen ändern die Präsentation, nicht aber die präsentierte Gruppe.
+\begin{enumerate}[(T1)]
+    \item
+        Hinzufügen/Entfernen einer redundanten Relation: $(S,R) \leadsto (S,R')$ mit $R' = R \cup \Set{r}$, $r \in \<R^F\> \setminus R$.
+    \item
+        Hinzufügen/Entfernen eines redundanten Erzeugers: $(S,R) \leadsto (S',R')$ mit $S' = S \dotcup \Set{s}$, $R' = R \cup \Set{s^{-1} w}$, $w \in \<S\>$.
+\end{enumerate}
+
+\begin{st}[Tietze, 1908]
+    Zwei (endliche) Präsentationen $(S,R)$ und $(S',R')$ präsentieren genau dann isomorphe Gruppen, wenn sie sich durch (T1), (T2) ineinander überführen lassen.
+\end{st}
+
+

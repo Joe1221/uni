@@ -616,15 +616,15 @@ Dies ist eine kurze exakte Sequenz.
 Wir können Stränge hinzufügen und vergessen:
 \begin{math}
     \iota_n: B_{n-1} &\injto B_n,
-    \tau: P_n &\to P_{n-1}
+    r: P_n &\to P_{n-1}
 \end{math}
 Dies sind Gruppenhomomorphismen.
 Es gilt $\tau_{n-1} \circ \iota_{n-1} = \id_{P_{n-1}}$.
-Der Kern von $\tau_n: P_n \to P_{n-1}$ wird frei erzeugt von $a_{1,n}, \dotsc, a_{n-1,n}$:
+Der Kern von $r_n: P_n \to P_{n-1}$ wird frei erzeugt von $a_{1,n}, \dotsc, a_{n-1,n}$:
 $a_{ij}$ für $i < j$ geht über die nächsten $j - i$ Stränge, unter $j$ und über $i+1, \dotsc, j-1$.
 Es gilt
 \begin{math}
-    F_{n-1} := \ker(\tau_n) = \pi_1(\R^2 \setminus \Set{n-1 \text{ Punkte}}, *).
+    F_{n-1} := \ker(r_n) = \pi_1(\R^2 \setminus \Set{n-1 \text{ Punkte}}, *).
 \end{math}
 Wir haben
 \begin{math}
@@ -642,6 +642,21 @@ Anders formuliert $P_n = F_{n-1} \semidirect P_{n-1}$.
     \end{math}
 \end{ex}
 
+Übung: es gilt
+\begin{math}
+    Z(S_n) = \begin{cases}
+        S_2 \isomorphic \Z / 2 & \text{für $n = 2$}, \\
+        1 & \text{für $n \neq 2$}.
+    \end{cases}
+    Z(F_n) = \begin{cases}
+        F_1 \isomorphic \Z & \text{für $n=1$}, \\
+        1 & \text{für $n \neq 1$}.
+    \end{cases}
+\end{math}
+außerdem:
+Sei $h: G \surto H$ ein surjektiver Gruppenhomomorphismus.
+Dann gilt $h(Z(G)) \subset Z(H)$.
+
 \begin{st}
     Im Zentrum von $B_n$ liegt der reine Zopf
     \begin{math}
@@ -650,16 +665,61 @@ Anders formuliert $P_n = F_{n-1} \semidirect P_{n-1}$.
     (eine volle Drehung).
     Dieser erzeugt das Zentrum, genauer:
     \begin{math}
-        Z(P_n) = \<z_n\> \isomorphic \Z,
-        Z(B_n) = \begin{cases}
+        Z(P_n) &= \<z_n\> \isomorphic \Z, \\
+        Z(B_n) &= \begin{cases}
             B_2 \isomorphic \Z & \text{für $n = 2$}, \\
             \<z_n\> \isomorphic \Z & \text{für $n \neq 2$}.
         \end{cases}
     \end{math}
+    \begin{proof}
+        Es gilt $z_n s_i = s_i z_n$ für $i = 1, \dotsc, n-1$ (entweder nachrechnen, oder argumentieren, da $z_n$ volle Drehung).
+        Also ist $z_n \in Z(B_n)$.
+        \begin{enumerate}[(1)]
+            \item
+                Zeige $Z(P_n) = \<z_n\>$.
+                $\supset$ ist klar.
+                Es verbleibt $\subset$.
+                Für $n=1$ gilt $P_1 = \Set 1$ und $Z(P_1) = \Set{1} = \<z_1\>$.
+                Für $n=2$ gilt $P_1 = \<s_1^2\> = \Z$ und $Z(P_2) = \<s_1^2\> = \<z_2\>$.
+
+                Zeige nun $Z(P_n) \subset \<z_n\>$ für $n \ge 3$ per Induktion.
+                Sei hierzu $z \in Z(P_n)$.
+                Unter $r_n: P_n \to P_{n-1}$ gilt $r_n(z_n) = z_{n-1}$.
+                Wir haben $r_1(z) \in Z(P_{n-1}) = \<z_{n-1}\>$, also $r_n(z) = z_{n-1}^k$ für $k \in \Z$.
+                Setze $z' := z z_n^{-k}$ und erhalte $r_n(z') = 1$.
+                Für $z' \in \ker(r_n) = F_{n-1}$ und $z' \in Z(P_n)$ gilt $z' \in \Z(F_{n-1}) = \Set{1}$, d.h. $z' = 1$ und $z = z_n^k$.
+            \item
+                $Z(B_2) = B_2$ ist klar.
+                Für $n \ge 3$ betrachte $\pi: B_n \surto S_n$.
+                Es folgt
+                \begin{math}
+                    \pi(Z(B_n)) \subset Z(S_n) = \Set{1},
+                \end{math}
+                also $Z(S_n) \subset P_n$ und $Z(B_n) \subset Z(P_n) = \<z_n\>$.
+        \end{enumerate}
+    \end{proof}
 \end{st}
 
+\begin{math}
+    B_n &= \Gen{s_1, \dotsc, s_n & \begin{aligned}
+        s_i s_j &= s_j s_i & \text{für $|i-j| \ge 2$},
+        s_is_js_i = s_j s_i s_j & \text{für $|i-j| = 1$}.
+    \end{aligned}} \\
+    (B_n)_{\text{ab}} &= \Gen{s_1, \dotsc, s_n & \begin{aligned}
+        s_i s_j &= s_j s_i & \text{für alle $i,j$},
+        s_is_js_i = s_j s_i s_j & \text{für $|i-j| = 1$}.
+    \end{aligned}} \isomorphic \<s_1\> \isomorphic \Z, \\
+    S_n &= \Gen{t_1,\dotsc, t_n & \begin{aligned}
+        t_i t_j &= t_j t_i, & & \text{für $|i-j| \ge 2$},
+        t_it_j t_i &= t_j t_i t_j, && \text{für $|i-j| = 2$},
+        t_i^2 &= 1.
+    \end{aligned}} \\
+    (S_n)_{\text{ab}} &\isomorphic \Z / 2.
+\end{math}
+Die Abelschmachung von $S_n$ ist der einzige Gruppenhomomorphismus $S_n \to \Z /2$ und entspricht der Signatur $\sign: S_n \surto \Z / 2$ einer Permutation.
+
 \begin{kor}
-    Die Zopfgurppen $B_n$ sind nicht untereinander isomorph, denn in der Abelschmachung $\alpha_n: B_n \to \Z$ gilt $\alpha_n(Z(B_n)) =  n(n-1) \Z$.
+    Die Zopfgruppen $B_n$ sind nicht untereinander isomorph, denn in der Abelschmachung $\alpha_n: B_n \to \Z$ gilt $\alpha_n(Z(B_n)) =  n(n-1) \Z$.
 \end{kor}
 
 
