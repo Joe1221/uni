@@ -8,6 +8,7 @@
 
 \usetheme{Luebeck}
 \setbeamertemplate{theorems}[normal font]
+\newtheorem{satz}[theorem]{Satz}
 
 \usepackage{wasysym}
 
@@ -20,9 +21,15 @@
 \DeclareDocumentCommand{\wtophat}{}{\sqcap}
 \DeclareDocumentCommand{\btophat}{}{\sqcup}
 \DeclareDocumentCommand{\hitormiss}{}{\circledcirc}
+\DeclareDocumentCommand{\rankorder}{}{\mathbin{\diamond}}
+\DeclareDocumentCommand{\sort}{}{\operatorname{sort}}
+\DeclareDocumentCommand{\med}{}{\operatorname{med}}
 
 
 \DeclareDocumentCommand{\veewedge}{}{\mathbin{\vee\mkern-5mu\wedge}}
+\DeclareDocumentCommand{\bigveewedge}{}{\operatornamewithlimits{\bigvee\mkern-7mu\bigwedge}}
+\DeclareDocumentCommand{\wbtophat}{}{\mathbin{\wtophat\mkern-1mu\btophat}}
+\DeclareDocumentCommand{\bwtophat}{}{\mathbin{\btophat\mkern-1mu\wtophat}}
 
 % http://tex.stackexchange.com/questions/117117/plus-minus-sign-in-a-circle
 \newcommand{\opm}{
@@ -60,7 +67,7 @@
 
 \usetikzlibrary{spy}
 \tikzset{
-    centerbase/.style={baseline={([yshift=-0.5ex]current bounding box.center)}},
+    centerbase/.style={baseline={([yshift=-0.55ex]current bounding box.center)}},
 }
 \usetikzlibrary{calc}
 
@@ -313,6 +320,13 @@
     \end{definition}
 \end{frame}
 
+%\begin{frame}
+%    \frametitle{Veranschaulichung von Vereinigung und Schnitt}
+%    \begin{tikzpicture}
+%
+%    \end{tikzpicture}
+%\end{frame}
+
 \begin{frame}
     \frametitle{Elementare Operationen auf Strukturelementen}
     \begin{definition}
@@ -356,7 +370,7 @@
 
 \begin{frame}
     \frametitle{Eigenschaften von Erosion und Dilatation}
-    \begin{lemma}
+    \begin{satz}
         Erosion und Dilatation genügen den Eigenschaften
         \begin{itemize}
             \item
@@ -380,7 +394,33 @@
                         $u \le u \dilate B$ für alle $u$.
                 \end{enumerate}
         \end{itemize}
-    \end{lemma}
+    \end{satz}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Kontrastinvarianz von Erosion und Dilatation}
+    \begin{satz}
+        Erosion und Dilatation sind invariant gegenüber Kontraständerung, d.h. für stetiges, monoton wachsendes $\phi: F \to F$ gilt
+        \begin{math}
+            (\phi \circ u) \opm B = \phi \circ (u \opm B).
+        \end{math}
+    \end{satz}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Charakterisierung von Erosion und Dilatation\\ für Binärbilder}
+    \begin{satz}
+        Ein Operator $T$ auf binären Bildern mit den Eigenschaften
+        \begin{enumerate}[i)]
+            \item
+                Translationsinvarianz: $Tu^p = (Tu)^p$,
+            \item
+                Distributivität: $T (\bigveewedge_{i\in I} u_i) = \bigveewedge_{i \in I} T u_i$ und
+            \item
+                $\im Tu \subset \im u$
+        \end{enumerate}
+        ist eine Dilatation, bzw. Erosion.
+    \end{satz}
 \end{frame}
 
 
@@ -391,17 +431,12 @@
 \begin{frame}
     \frametitle{Definition der Öffnung}
     \begin{definition}
-        Definiere die \emph{Öffnung} als
+        Definiere
+        die \emph{Öffnung}
         \begin{math}
-            u \open B := (u \erode B) \dilate (-B).
+            u \open B := (u \erode B) \dilate (-B)
         \end{math}
-    \end{definition}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Definition der Schließung}
-    \begin{definition}
-        Definiere die \emph{Schließung} als
+        und die \emph{Schließung}
         \begin{math}
             u \close B := (u \dilate B) \erode (-B).
         \end{math}
@@ -409,30 +444,69 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Vergleich von Öffnung und Schließung}
+    \frametitle{Beispiel: Öffnung und Schließung}
+    \DeclareDocumentCommand{\Bn}{}{
+        \,
+        \begin{tikzpicture}[scale=0.13,centerbase,-=]
+            \draw[fill=black!30] (0,0) rectangle (2,2);
+            \draw (0,0) grid (2,2);
+        \end{tikzpicture}
+    }
+    \DeclareDocumentCommand{\B}{}{
+        \,
+        \begin{tikzpicture}[scale=0.13,centerbase,-=]
+            \draw[fill=black!30] (0,0) rectangle (2,2);
+            \draw (0,0) grid (2,2);
+            \fill (0.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+    }
+    \DeclareDocumentCommand{\Bm}{}{
+        \,
+        \begin{tikzpicture}[scale=0.13,centerbase,-=]
+            \draw[fill=black!30] (0,0) rectangle (2,2);
+            \draw (0,0) grid (2,2);
+            \fill (1.5,0.5) circle[radius=0.1];
+        \end{tikzpicture}
+    }
+    \begin{center}
+        \vspace{-2em}
+        \begin{tikzpicture}[scale=0.9]
+            \node (or) at (0,0) {\includegraphics[width=2.0cm]{images/fish15.png}};
+            \node (er) at (3.5,1.2) {\includegraphics[width=2.0cm]{images/fish15_erode.png}};
+            \node (di) at (3.5,-1.2) {\includegraphics[width=2.0cm]{images/fish15_dilate.png}};
+            \node (op) at (7,1.2) {\includegraphics[width=2.0cm]{images/fish15_open.png}};
+            \node (cl) at (7,-1.2) {\includegraphics[width=2.0cm]{images/fish15_close.png}};
+            \node at (or.west)[xshift=-0.3cm] {$u = $};
+            \node at (op.east)[xshift=0.7cm] {$= u \open \Bn$};
+            \node at (cl.east)[xshift=0.7cm] {$= u \close \Bn$};
+            \draw[|->] (or) to node[above,yshift=0.5ex] {$\erode \B$} (er);
+            \draw[|->] (or) to node[below,yshift=-0.5ex] {$\dilate \B$} (di);
+            \draw[|->] (er) to node[above] {$\dilate \Bm$} (op);
+            \draw[|->] (di) to node[below] {$\erode \Bm$} (cl);
+        \end{tikzpicture}
+    \end{center}
+    \vspace{-1em}
+    \begin{itemize}
+        \item
+            „$u \open B$ entfernt helle Strukturen kleiner als $B$“
+        \item
+            „$u \close B$ entfernt dunkle Strukturen kleiner als $B$“
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Eigenschaften von Öffnung und Schließung}
     \begin{lemma}
-        Öffnung und Schließung erben von Erosion und Dilatation die Eigenschaften
+        Öffnung und Schließung erben die Eigenschaften
         \begin{itemize}
             \item
                 \emph{Dualität}: $u \openclose B = \complement (\complement u \closeopen B)$,
             \item
                 \emph{Translationsinvarianz}: $u^p \openclose B = (u \openclose B)^p$,
             \item
-                \emph{Monotonie}: $u \le v \implies u \openclose B \le u \openclose B$,
-            \item
-                \emph{Distributivität}: $(u \veewedge v) \openclose B = (u \openclose B) \veewedge (v \openclose B)$.
+                \emph{Monotonie}: $u \le v \implies u \openclose B \le u \openclose B$.
         \end{itemize}
-    \end{lemma}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Eigenschaften von Öffnung und Schließung}
-    \begin{lemma}
-        Öffnung und Schließung genügen den Eigenschaften
+        Zusätzlich gilt
         \begin{itemize}
             \item
                 \emph{Translationsinvarianz bezüglich des Strukturelements}: $u \openclose B = u \openclose (B + p)$,
@@ -444,6 +518,52 @@
     \end{lemma}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Anwendung: Entfernen von additivem weißen Rauschen}
+    \DeclareDocumentCommand{\Bn}{}{
+        \,
+        \begin{tikzpicture}[scale=0.13,centerbase,-=]
+            \draw[fill=black!30] (1,0) rectangle (2,3);
+            \draw[fill=black!30] (0,1) rectangle (3,2);
+            \draw (1,1) -- (1,2) (2,1) -- (2,2);
+        \end{tikzpicture}
+    }
+    \DeclareDocumentCommand{\B}{}{
+        \,
+        \begin{tikzpicture}[scale=0.13,centerbase,-=]
+            \draw[fill=black!30] (1,0) rectangle (2,3);
+            \draw[fill=black!30] (0,1) rectangle (3,2);
+            \draw (1,1) -- (1,2) (2,1) -- (2,2);
+            \fill (1.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+    }
+    \DeclareDocumentCommand{\Bm}{}{
+        \,
+        \begin{tikzpicture}[scale=0.13,centerbase,-=]
+            \draw[fill=black!30] (1,0) rectangle (2,3);
+            \draw[fill=black!30] (0,1) rectangle (3,2);
+            \draw (1,1) -- (1,2) (2,1) -- (2,2);
+            \fill (1.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+    }
+    \begin{center}
+        \begin{tikzpicture}[scale=0.9]
+            \node (or) at (0,0) {\includegraphics[width=2.0cm]{images/worms80.png}};
+            \node (er) at (3.5,1.2) {\includegraphics[width=2.0cm]{images/worms80_erode.png}};
+            \node (di) at (3.5,-1.2) {\includegraphics[width=2.0cm]{images/worms80_dilate.png}};
+            \node (op) at (7,1.2) {\includegraphics[width=2.0cm]{images/worms80_open.png}};
+            \node (cl) at (7,-1.2) {\includegraphics[width=2.0cm]{images/worms80_close.png}};
+            \node at (or.west)[xshift=-0.3cm] {$u = $};
+            \node at (op.east)[xshift=0.7cm] {$= u \open \Bn$};
+            \node at (cl.east)[xshift=0.7cm] {$= u \close \Bn$};
+            \draw[|->] (or) to node[above,yshift=0.5ex] {$\erode \B$} (er);
+            \draw[|->] (or) to node[below,yshift=-0.5ex] {$\dilate \B$} (di);
+            \draw[|->] (er) to node[above] {$\dilate \Bm$} (op);
+            \draw[|->] (di) to node[below] {$\erode \Bm$} (cl);
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
 \subsection{Top-hat Filter}
 
 \begin{frame}
@@ -451,36 +571,130 @@
     \begin{definition}
         Definiere den \emph{White-top-hat Operator}
         \begin{math}
-            u \wtophat B = u - u \open B
+            u \wtophat B := u - u \open B
         \end{math}
         und den \emph{Black-top-hat Operator}
         \begin{math}
-            u \btophat B = u \close B - u.
+            u \btophat B := u \close B - u.
         \end{math}
+    \end{definition}
+    \begin{itemize}
+        \item
+            „$u \wtophat B$ extrahiert helle Strukturen kleiner als $B$“
+        \item
+            „$u \btophat B$ extrahiert dunkle Strukturen kleiner als $B$“
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Eigenschaften der Top-hat Filter}
+    \begin{definition}
+        Öffnung und Schließung erben die Eigenschaften
+        \begin{itemize}
+            \item
+                \emph{Komplementarität}: $u \wbtophat B = \complement u \bwtophat B$,
+            \item
+                \emph{Translationsinvarianz}: $u^p \wbtophat B = (u \wbtophat B)^p$,
+            \item
+                \emph{Translationsinvarianz bezüglich des Strukturelements}: $u \wbtophat B = u \wbtophat (B + p)$,
+        \end{itemize}
+        Zusätzlich gilt für den White-top-hat Operator
+        \begin{itemize}
+            \item
+                \emph{Idempotenz}: $(u \wtophat B) \wtophat B = u \wtophat B$.
+        \end{itemize}
     \end{definition}
 \end{frame}
 
-\subsection{Hit-or-Miss Filter}
+\begin{frame}
+    \frametitle{Anwendung: Begleichen von Beleuchtungsunterschieden}
+    \DeclareDocumentCommand{\B}{}{
+        \,
+        \begin{tikzpicture}[scale=0.05,centerbase,-=]
+            \draw[fill=black!30] (0,0) rectangle (10,10);
+            \draw (0,0) grid (10,10);
+            %\fill (0.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+    }
+    \usetikzlibrary{decorations.pathmorphing}
+    \begin{center}
+        \begin{tikzpicture}[scale=0.8]
+            \node (or) at (0,1.5) {\includegraphics[width=2.2cm]{images/leopard250.png}};
+            \node at (or.west)[xshift=-1.2cm] {$B = \B, \; u = $};
+            \node (ort) at (5,1.5) {\includegraphics[width=2.2cm]{images/leopard250_thres.png}};
+            \node (cl) at (-3,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_close.png}};
+            \node at (cl.south)[yshift=-0.2cm] {$u \close B$};
+            \node (bt) at (0,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_btophat.png}};
+            \node at (bt.south)[yshift=-0.2cm] {$u \btophat B$};
+            \node (btt) at (5,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_btophat_thres.png}};
+            \node (op) at (-3,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_open.png}};
+            \node at (op.south)[yshift=-0.2cm] {$u \open B$};
+            \node (wt) at (0,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_wtophat.png}};
+            \node at (wt.south)[yshift=-0.2cm] {$u \wtophat B$};
+            \node (wtt) at (5,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_wtophat_thres.png}};
+            \draw[->] (or) to (ort);
+            \draw[->] (bt) to (btt);
+            \draw[->] (wt) to (wtt);
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\subsection{Hit-or-Miss Operator}
 
 \begin{frame}
     \frametitle{Definition des Hit-or-Miss Filters}
     \begin{definition}
         Für ein Bild $u$ und zwei Strukturelemente $B, C \subset \Omega$ definiere den \emph{Hit-or-Miss Filter}
         \begin{math}
-            u \hitormiss (B,C) := (u \erode B) \vee (\complement u \erode C).
+            u \hitormiss (B,C) := (u \erode B) \wedge (\complement u \erode C).
         \end{math}
     \end{definition}
 \end{frame}
 
-\subsection{Morphologische Gradienten}
-
 \begin{frame}
+    \frametitle{Beispiel: ??}
 \end{frame}
 
-\section{Anwendungen und Beispiele}
+\subsection{Rangordnungs-Filter}
 
 \begin{frame}
-    
+    \frametitle{Definition des Rangordnungs-Filters}
+    \begin{definition}
+        Sei $B$ ein Strukturelement mit $|B| = n \in \N$ Elementen und $\sort(u(x+B)) \in F^n$ für $x \in \Omega$ ein aufsteigend sortierter Vektor der Grauwerte in $u(x+B)$.
+        Definiere den \emph{$m$-ten Rangordnungs-Filter}
+        \begin{math}
+            u \rankorder_m B := \sort(u(x+B))_m.
+        \end{math}
+    \end{definition}
+    Es gilt insbesondere $u \rankorder_1 B = u \erode B$ und $u \rankorder_n B = u \dilate B$.
+\end{frame}
+
+\begin{frame}
+    \frametitle{Definition des Median-Filters}
+    \begin{definition}
+        Definiere den \emph{Medianfilter}
+        \begin{math}
+            \med_B(u) := u \rankorder_{\floor{\!\frac{n+1}{2}\!}} B.
+        \end{math}
+    \end{definition}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Anwendung: Entfernen von Rauschen}
+    Vergleich mit linearem Filter ...
+\end{frame}
+
+
+
+%\subsection{Morphologische Gradienten}
+%
+%\begin{frame}
+%\end{frame}
+
+\section{Schlussworte}
+
+\begin{frame}
+    \frametitle{Gimmick: Conway's Game of Life}
 \end{frame}
 
 
