@@ -112,7 +112,7 @@ Ziel: Zu Knoten $K \subset \R^3$ wollen wir $\pi_1(\R^3 \setminus K, *)$ berechn
         \<R^F\> = \Gen{ r^f & r \in R, f \in F }
     \end{math}
     wird erzeugt von allen Konjugierten von $r \in R$ in $F$.
-    Dies ist die kleinste normale Untergruppe, diei $R$ enthält.
+    Dies ist die kleinste normale Untergruppe, die $R$ enthält.
 \end{df}
 
 \begin{ex}
@@ -166,5 +166,152 @@ Die folgenden Tietze-Operationen ändern die Präsentation, nicht aber die präs
 \begin{st}[Tietze, 1908]
     Zwei (endliche) Präsentationen $(S,R)$ und $(S',R')$ präsentieren genau dann isomorphe Gruppen, wenn sie sich durch (T1), (T2) ineinander überführen lassen.
 \end{st}
+
+\Timestamp{2015-05-11}
+
+Ziel: Zu jedem Knoten $K \subset \R^3$ wollen wir die Knotengruppe $\pi_K := \pi_1(\R^3 \setminus K, *)$ „berechnen“, d.h. präsentieren und auswerten.
+
+
+% B2
+\section{Wirtinger-Präsentation}
+
+
+Stelle $K$ durch ein ebenes Diagramm $D$ dar, $K$ und $D$ seien orientiert.
+Erzeuger sind die Bögen $x_1, \dotsc, x_n$ von $D$.
+Relationen sind Kreuzungen: $x_ix_j = x_jx_{i+1}$, $x_i^{-1}x_i x_j = x_{i+1}$, $x_jx_i = x_{i+1}x_j$, $x_jx_ix_j^{-1} = x_{i+1}$, oder zusammengefasst
+\begin{math}
+    x^{-\eps(i)}_{j(i)} x_i x_{j(i)}^{\eps(i)} = x_{i+1},
+\end{math}
+die Daten $\eps: \Set{1,\dotsc, n} \to \Set{\pm 1}$ und $j: \Set{1, \dotsc, n} \to \Set{1, \dotsc, n}$ liest man leicht am Diagramm ab.
+
+\begin{df}
+    Wir setzen
+    \begin{math}
+        \pi_D := \Gen{x_1, \dotsc, x_n & x_{j(i)}^{-\eps(i)} x_i x_{j(i)}^{\eps(i)} = x_{i+1}, i = 1,\dotsc, n}
+    \end{math}
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $\pi_{\KnotTriv} = \Gen{x_1 & -} \isomorphic \Z$.
+        \item
+            \begin{math}
+                \pi_{\KnotKlee} &= \Gen{a,b,c & ac = cb, cb = ba, ba = ac} \\
+                &= \Gen{a,b,c & a^c = b, b^a = c, c^b = a}
+            \end{math}
+    \end{itemize}
+\end{ex}
+
+\begin{note}
+    $\pi_D$ ist unendlich, denn wir haben die Abelschmachung $(\pi_D,\cdot) \to (\Z,+), x_i \mapsto 1$.
+
+    Für Verschlingungen, bzw. Schlingel mit $n$ Komponenten entsprechend $\pi_D \to \Z^n$.
+\end{note}
+
+\begin{ex}
+    $\pi_{\KnotKlee}$ ist nicht abelsch, also $\pi_{\KnotKlee} \not\isomorphic \pi_{\KnotTriv}$.
+    \begin{proof}
+        Betrachte $h: \pi_D \to S_3$ mit $a \mapsto (12)$, $b \mapsto (23)$, $c \mapsto (13)$.
+        Man rechnet:
+        \begin{math}
+            a^c &= (23) = b, &
+            b^a &= (13) = c, &
+            c^b &= (12) = a,
+        \end{math}
+        Da $h$ surjektiv und $S_3$ nicht abelsch, ist auch $\pi_D$ nicht abelsch.
+    \end{proof}
+\end{ex}
+
+Noch zu zeigen: $\pi_D$ ist eine Invariante des Knotentyps.
+Es gibt folgende Möglichkeiten:
+\begin{enumerate}[1)]
+    \item
+        Reidemeister-Züge verändern die Gruppe nicht: die Präsentationen unterscheiden sich um Tietze-Transformationen.
+    \item
+        Es existiert ein Isomorphismus $\pi_D \isomorphic \pi_1(\R^3 \setminus K, *)$.
+\end{enumerate}
+
+
+% todo: Appendix:
+
+%\subsection*{Erinnerung: Permutationen, Zykelschreibweise, Konjugation}
+%
+%In $S_n$ nutzen wir folgende Schreibweise:
+%Seien $i_1, \dotsc, i_l \in \Set{1, \dotsc, n}$ verschieden.
+%Definiere die Zykel: $c := (i_1, \dotsc, i_l)$ durch $i_1 \mapsto i_2 \mapsto \dotsb \mapsto i_l \mapsto i_1$.
+%
+%\begin{prop}
+%    Jedes $\sigma \in S_i$ ist Produkt disjunkter Zykel.
+%    Dieses ist eindeutig bis auf Umordnung der Faktoren.
+%\end{prop}
+%
+%\begin{ex}
+%    $\sigma = (1352)(476) = (476)(1352)$.
+%\end{ex}
+%
+%Für die Konjugation gilt
+%\begin{math}
+%    (i_1, \dotsc, i_l)^\sigma &=
+%    \sigma^{-1} (i_1, \dotsc, i_l) \sigma \\
+%    &= (\sigma(i_1), \dotsb, \sigma(i_l))
+%\end{math}
+%
+
+\begin{st}[Wirtinger, <1900]
+    Es existiert ein Gruppenisomorphismus $\pi_D \to \pi_1(\R^3 \setminus K, *)$.
+    \begin{proof}
+        \begin{enumerate}[1),start=0]
+            \item
+                Konstruktion von $h$:
+                Wie in der Skizze, ordnen wir jedem Bogen $b_i$ von $D$ einen (polygonalen) Weg $\gamma_i: [0,1] \to \R^3 \setminus K$ zu.
+                Dieser definiert ein Gruppenelement $w_i = [\gamma_i] \in \pi_1(\R^3 \setminus K)$.
+                An jeder Kreuzung gilt die Wirtinger-Relation:
+                \begin{math}
+                    x_i x_j = x_j x_{i+1}
+                \end{math}
+                und analog die anderen.
+                Wir haben nun einen Gruppenhomomorphismus $h: \pi_D \to \pi_1(\R^3 \setminus K, *)$ mit $x_i \mapsto w_i = [\gamma_i]$.
+            \item
+                $h$ ist surjektiv, d.h. $\pi_1(\R^3 \setminus K, *)$ wird erzeugt von $w_1, \dotsc, w_n$:
+
+                Wir nutzen die polygonale Fundamentalgruppe (mittels polygonaler Approximation)
+                \begin{math}
+                    \pi_1(\R^3 \setminus K, *)
+                    = \frac{\Set{\text{Schleifen}}}{\text{Homotopie}}
+                    = \frac{\Set{\text{polygonale Schleifen}}}{\text{polygonale Homotopie}}.
+                \end{math}
+                Ohne Einschränkung betrachten wir also polygonale Schleifen $\gamma$ in $\R^3 \setminus K$.
+                Zu zeigen ist $\gamma \homotopic \gamma_{i_1}^{e_1} \dotsb \gamma_{i_l}^{e_l}$.
+                Trick: Betrachte den „Schatten“ des Knotens $K \subset \R^3$ unter senkrecht von oben einfallendem Licht.
+                Genauer: Zu $K \subset \R^3$ ist der Schatten $\hat K = \Set{(x,y,z) \in \R^3 & \exists z' \ge z: (x,y,z') \in K}$.
+                Dies ist die Vereinigung über alle Schatten $\hat A$ der Kanten $A$ von $K$.
+                \begin{prop}
+                    Es gilt $\R^3 \setminus \hat K \homequiv *$
+                    \begin{proof}
+                        Übung: explizite Formel, vgl. Sternförmig bei Zentralprojektion.
+                    \end{proof}
+                \end{prop}
+                Ablesen an $w = [\gamma]$ eines Wortes in $w_i = [\gamma_i]$.
+                Wir nehmen an, dass $\gamma$ die Wände $\hat A$ transversal im Inneren trifft.
+                Jeder Durchgang liefert einen Erzeuger $w_i^{\pm 1}$.
+                Damit gilt $\gamma = \gamma_{i_1}^{e_1} \dotsb \gamma_{i_l}^{e_l}$.
+            \item
+                $h$ ist injektiv, d.h. die Wirtinger-Relationen erzeugen alle Relationen.
+                Polygonale Homotopie:
+                \begin{enumerate}[1)]
+                    \item
+                        Keine Wand wird getroffen: Keine Änderung des Wortes.
+                    \item
+                        Eine Wand wird geschnitten:
+                        Zwei Unterfälle: Jeweils keine Änderung des Wortes.
+                    \item
+                        Schatten einer Kreuzung wird geschnitten.
+                        Dank Wirtinger-Relation keine Änderung des Wortes.
+                \end{enumerate}
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
 
 
