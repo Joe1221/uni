@@ -5,13 +5,34 @@
 %\setotherlanguage{greek}
 \usepackage{xparse}
 \usepackage{mymath}
+\usepackage{stmaryrd}
 
 \usetheme{Luebeck}
 \setbeamertemplate{theorems}[normal font]
 \newtheorem{satz}[theorem]{Satz}
 
 \usepackage{wasysym}
-
+% http://tex.stackexchange.com/questions/55806/mindmap-tikzpicture-in-beamer-reveal-step-by-step/55849#55849
+  % Keys to support piece-wise uncovering of elements in TikZ pictures:
+  % \node[visible on=<2->](foo){Foo}
+  % \node[visible on=<{2,4}>](bar){Bar}   % put braces around comma expressions
+  %
+  % Internally works by setting opacity=0 when invisible, which has the 
+  % adavantage (compared to \node<2->(foo){Foo} that the node is always there, hence
+  % always consumes space that (foo) is always available.
+  %
+  % The actual command that implements the invisibility can be overriden
+  % by altering the style invisible. For instance \tikzsset{invisible/.style={opacity=0.2}}
+  % would dim the "invisible" parts. Alternatively, the color might be set to white, if the
+  % output driver does not support transparencies (e.g., PS) 
+  %
+  \tikzset{
+    invisible/.style={opacity=0},
+    visible on/.style={alt={#1{}{invisible}}},
+    alt/.code args={<#1>#2#3}{%
+      \alt<#1>{\pgfkeysalso{#2}}{\pgfkeysalso{#3}} % \pgfkeysalso doesn't change the path
+    },
+  }
 \DeclareDocumentCommand{\dilate}{}{\oplus}
 \DeclareDocumentCommand{\erode}{}{\ominus}
 \DeclareDocumentCommand{\open}{}{\mathbin{\Circle}}
@@ -347,43 +368,46 @@
 \subsection{Definition}
 
 \begin{frame}
-    \frametitle{Definition der Erosion}
-    \begin{definition}
-        Für ein Bild $u$ und ein Strukturelement $B$ sei die \emph{Erosion}
-        \begin{math}
-            u \erode B := \bigvee_{b \in B} u^{-b}.
-        \end{math}
-    \end{definition}
-\end{frame}
-
-\begin{frame}
     \frametitle{Definition der Dilatation}
     \begin{definition}
         Für ein Bild $u$ und ein Strukturelement $B$ sei die \emph{Dilatation}
         \begin{math}
-            u \dilate B := \bigwedge_{b \in B} u^{-b}.
+            u \dilate B := \bigvee_{b \in B} u^{-b}.
         \end{math}
     \end{definition}
+    Alternativ: $(u \dilate B)(x) = \sup_{b \in B} u(x + b)$
+\end{frame}
+
+\begin{frame}
+    \frametitle{Definition der Erosion}
+    \begin{definition}
+        Für ein Bild $u$ und ein Strukturelement $B$ sei die \emph{Erosion}
+        \begin{math}
+            u \erode B := \bigwedge_{b \in B} u^{-b}.
+        \end{math}
+    \end{definition}
+    Alternativ: $(u \erode B)(x) = \inf_{b \in B} u(x + b)$
 \end{frame}
 
 \subsection{Eigenschaften}
 
 \begin{frame}
     \frametitle{Eigenschaften von Erosion und Dilatation}
+    \pause
     \begin{satz}
         Erosion und Dilatation genügen den Eigenschaften
         \begin{itemize}
-            \item
+            \item \pause
                 \emph{Dualität}: $u \dilateerode B = \complement (\complement u \erodedilate B)$,
-            \item
+            \item \pause
                 \emph{Translationsinvarianz}: $u^p \dilateerode B = (u \dilateerode B)^p$ für $p \in \Omega$,
-            \item
+            \item \pause
                 \emph{Monotonie}: $u \le v \implies u \dilateerode B \le v \dilateerode B$,
-            \item
+            \item \pause
                 \emph{Distributivität}: $(u \veewedge v) \dilateerode B = (u \dilateerode B) \veewedge (v \dilateerode B)$,
-            \item
+            \item \pause
                 \emph{Komposition}: $(u \dilateerode B) \dilateerode C = u \dilateerode (B + C)$,
-            \item
+            \item \pause
                 \emph{(Anti-)Extensionalität}: es sind äquivalent:
                 \begin{enumerate}[i)]
                     \item
@@ -399,6 +423,7 @@
 
 \begin{frame}
     \frametitle{Kontrastinvarianz von Erosion und Dilatation}
+    \pause
     \begin{satz}
         Erosion und Dilatation sind invariant gegenüber Kontraständerung, d.h. für stetiges, monoton wachsendes $\phi: F \to F$ gilt
         \begin{math}
@@ -412,17 +437,55 @@
     \begin{satz}
         Ein Operator $T$ auf binären Bildern mit den Eigenschaften
         \begin{enumerate}[i)]
-            \item
+            \item \pause
                 Translationsinvarianz: $Tu^p = (Tu)^p$,
-            \item
+            \item \pause
                 Distributivität: $T (\bigveewedge_{i\in I} u_i) = \bigveewedge_{i \in I} T u_i$ und
-            \item
+            \item \pause
                 $\im Tu \subset \im u$
         \end{enumerate}
         ist eine Dilatation, bzw. Erosion.
     \end{satz}
 \end{frame}
 
+\subsection{Effiziente Implementierung}
+
+\begin{frame}
+    \frametitle{Dekomposition von Strukturelementen}
+    \begin{itemize}
+        \item \pause
+            $
+                B + C :=
+                \begin{tikzpicture}[scale=0.13,centerbase,-=]
+                    \draw[fill=black!30] (0,0) rectangle (3,1);
+                    \draw (0,0) grid (3,1);
+                \end{tikzpicture}
+                +
+                \begin{tikzpicture}[scale=0.13,centerbase,-=]
+                    \draw[fill=black!30] (0,0) rectangle (1,2);
+                    \draw (0,0) grid (1,2);
+                \end{tikzpicture}
+                =
+                \begin{tikzpicture}[scale=0.13,centerbase,-=]
+                    \draw[fill=black!30] (0,0) rectangle (3,2);
+                    \draw (0,0) grid (3,2);
+                \end{tikzpicture}
+            $
+        \item \pause
+            $u \dilateerode (B + C) = u \dilateerode B \dilateerode C$
+        \item \pause
+            Auswertung von $u \dilateerode (B + C)$ auf $n \times m$ Gitter:\\
+            $(6-1)nm = 5nm$ Vergleiche
+        \item \pause
+            Auswertung von $u \dilateerode B \dilateerode C$ auf $n \times m$ Gitter:\\
+            $(3-1)nm + (2-1)nm = 3nm$ Vergleiche
+        \item \pause
+            Für $r\times s$ Rechteck auf $n \times m$ Gitter:\\
+            $(rs-1)nm \in \LandauO(rsnm)$ vs. $(r+s-2)nm \in \LandauO((r+s)nm)$
+        \item \pause
+            Mit etwas Geschick auch für viele andere Strukturelemente einsetzbar
+    \end{itemize}
+\end{frame}
 
 \section{Zusammengesetzte Operationen}
 
@@ -430,6 +493,7 @@
 
 \begin{frame}
     \frametitle{Definition der Öffnung}
+    \pause
     \begin{definition}
         Definiere
         die \emph{Öffnung}
@@ -471,25 +535,25 @@
     \begin{center}
         \vspace{-2em}
         \begin{tikzpicture}[scale=0.9]
-            \node (or) at (0,0) {\includegraphics[width=2.0cm]{images/fish15.png}};
-            \node (er) at (3.5,1.2) {\includegraphics[width=2.0cm]{images/fish15_erode.png}};
-            \node (di) at (3.5,-1.2) {\includegraphics[width=2.0cm]{images/fish15_dilate.png}};
-            \node (op) at (7,1.2) {\includegraphics[width=2.0cm]{images/fish15_open.png}};
-            \node (cl) at (7,-1.2) {\includegraphics[width=2.0cm]{images/fish15_close.png}};
-            \node at (or.west)[xshift=-0.3cm] {$u = $};
-            \node at (op.east)[xshift=0.7cm] {$= u \open \Bn$};
-            \node at (cl.east)[xshift=0.7cm] {$= u \close \Bn$};
-            \draw[|->] (or) to node[above,yshift=0.5ex] {$\erode \B$} (er);
-            \draw[|->] (or) to node[below,yshift=-0.5ex] {$\dilate \B$} (di);
-            \draw[|->] (er) to node[above] {$\dilate \Bm$} (op);
-            \draw[|->] (di) to node[below] {$\erode \Bm$} (cl);
+            \node[visible on=<1->] (or) at (0,0) {\includegraphics[width=2.0cm]{images/fish15.png}};
+            \node[visible on=<2->] (er) at (3.5,1.2) {\includegraphics[width=2.0cm]{images/fish15_erode.png}};
+            \node[visible on=<5->] (di) at (3.5,-1.2) {\includegraphics[width=2.0cm]{images/fish15_dilate.png}};
+            \node[visible on=<3->] (op) at (7,1.2) {\includegraphics[width=2.0cm]{images/fish15_open.png}};
+            \node[visible on=<6->] (cl) at (7,-1.2) {\includegraphics[width=2.0cm]{images/fish15_close.png}};
+            \node[visible on=<1->] at (or.west)[xshift=-0.3cm] {$u = $};
+            \node[visible on=<3->] at (op.east)[xshift=0.7cm] {$= u \open \Bn$};
+            \node[visible on=<6->] at (cl.east)[xshift=0.7cm] {$= u \close \Bn$};
+            \draw[|->,visible on=<2->] (or) to node[above,yshift=0.5ex] {$\erode \B$} (er);
+            \draw[|->,visible on=<5->] (or) to node[below,yshift=-0.5ex] {$\dilate \B$} (di);
+            \draw[|->,visible on=<3->] (er) to node[above] {$\dilate \Bm$} (op);
+            \draw[|->,visible on=<6->] (di) to node[below] {$\erode \Bm$} (cl);
         \end{tikzpicture}
     \end{center}
     \vspace{-1em}
     \begin{itemize}
-        \item
+        \item<4->
             „$u \open B$ entfernt helle Strukturen kleiner als $B$“
-        \item
+        \item<7->
             „$u \close B$ entfernt dunkle Strukturen kleiner als $B$“
     \end{itemize}
 \end{frame}
@@ -499,20 +563,20 @@
     \begin{lemma}
         Öffnung und Schließung erben die Eigenschaften
         \begin{itemize}
-            \item
+            \item \pause
                 \emph{Dualität}: $u \openclose B = \complement (\complement u \closeopen B)$,
-            \item
+            \item \pause
                 \emph{Translationsinvarianz}: $u^p \openclose B = (u \openclose B)^p$,
-            \item
+            \item \pause
                 \emph{Monotonie}: $u \le v \implies u \openclose B \le u \openclose B$.
         \end{itemize}
         Zusätzlich gilt
         \begin{itemize}
-            \item
+            \item \pause
                 \emph{Translationsinvarianz bezüglich des Strukturelements}: $u \openclose B = u \openclose (B + p)$,
-            \item
+            \item \pause
                 \emph{Idempotenz}: $(u \openclose B) \openclose B = u \openclose B$,
-            \item
+            \item \pause
                 \emph{(Anti-)Extensionalität}: $u \open B \le u \le u \close B$.
         \end{itemize}
     \end{lemma}
@@ -548,18 +612,18 @@
     }
     \begin{center}
         \begin{tikzpicture}[scale=0.9]
-            \node (or) at (0,0) {\includegraphics[width=2.0cm]{images/worms80.png}};
-            \node (er) at (3.5,1.2) {\includegraphics[width=2.0cm]{images/worms80_erode.png}};
-            \node (di) at (3.5,-1.2) {\includegraphics[width=2.0cm]{images/worms80_dilate.png}};
-            \node (op) at (7,1.2) {\includegraphics[width=2.0cm]{images/worms80_open.png}};
-            \node (cl) at (7,-1.2) {\includegraphics[width=2.0cm]{images/worms80_close.png}};
-            \node at (or.west)[xshift=-0.3cm] {$u = $};
-            \node at (op.east)[xshift=0.7cm] {$= u \open \Bn$};
-            \node at (cl.east)[xshift=0.7cm] {$= u \close \Bn$};
-            \draw[|->] (or) to node[above,yshift=0.5ex] {$\erode \B$} (er);
-            \draw[|->] (or) to node[below,yshift=-0.5ex] {$\dilate \B$} (di);
-            \draw[|->] (er) to node[above] {$\dilate \Bm$} (op);
-            \draw[|->] (di) to node[below] {$\erode \Bm$} (cl);
+            \node[visible on=<1->] (or) at (0,0) {\includegraphics[width=2.0cm]{images/worms80.png}};
+            \node[visible on=<2->] (er) at (3.5,1.2) {\includegraphics[width=2.0cm]{images/worms80_erode.png}};
+            \node[visible on=<4->] (di) at (3.5,-1.2) {\includegraphics[width=2.0cm]{images/worms80_dilate.png}};
+            \node[visible on=<3->] (op) at (7,1.2) {\includegraphics[width=2.0cm]{images/worms80_open.png}};
+            \node[visible on=<4->] (cl) at (7,-1.2) {\includegraphics[width=2.0cm]{images/worms80_close.png}};
+            \node[visible on=<1->] at (or.west)[xshift=-0.3cm] {$u = $};
+            \node[visible on=<3->] at (op.east)[xshift=0.7cm] {$= u \open \Bn$};
+            \node[visible on=<4->] at (cl.east)[xshift=0.7cm] {$= u \close \Bn$};
+            \draw[|->,visible on=<2->] (or) to node[above,yshift=0.5ex] {$\erode \B$} (er);
+            \draw[|->,visible on=<4->] (or) to node[below,yshift=-0.5ex] {$\dilate \B$} (di);
+            \draw[|->,visible on=<3->] (er) to node[above] {$\dilate \Bm$} (op);
+            \draw[|->,visible on=<4->] (di) to node[below] {$\erode \Bm$} (cl);
         \end{tikzpicture}
     \end{center}
 \end{frame}
@@ -568,6 +632,7 @@
 
 \begin{frame}
     \frametitle{Definition der Top-hat Filter}
+    \pause
     \begin{definition}
         Definiere den \emph{White-top-hat Operator}
         \begin{math}
@@ -578,6 +643,7 @@
             u \btophat B := u \close B - u.
         \end{math}
     \end{definition}
+    \pause
     \begin{itemize}
         \item
             „$u \wtophat B$ extrahiert helle Strukturen kleiner als $B$“
@@ -589,7 +655,7 @@
 \begin{frame}
     \frametitle{Eigenschaften der Top-hat Filter}
     \begin{definition}
-        Öffnung und Schließung erben die Eigenschaften
+        White-top-hat und Black-top-hat besitzen die Eigenschaften
         \begin{itemize}
             \item
                 \emph{Komplementarität}: $u \wbtophat B = \complement u \bwtophat B$,
@@ -598,7 +664,7 @@
             \item
                 \emph{Translationsinvarianz bezüglich des Strukturelements}: $u \wbtophat B = u \wbtophat (B + p)$,
         \end{itemize}
-        Zusätzlich gilt für den White-top-hat Operator
+        Falls $|B|$ endlich ist, gilt für den White-top-hat Operator
         \begin{itemize}
             \item
                 \emph{Idempotenz}: $(u \wtophat B) \wtophat B = u \wtophat B$.
@@ -621,20 +687,20 @@
         \begin{tikzpicture}[scale=0.8]
             \node (or) at (0,1.5) {\includegraphics[width=2.2cm]{images/leopard250.png}};
             \node at (or.west)[xshift=-1.2cm] {$B = \B, \; u = $};
-            \node (ort) at (5,1.5) {\includegraphics[width=2.2cm]{images/leopard250_thres.png}};
-            \node (cl) at (-3,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_close.png}};
-            \node at (cl.south)[yshift=-0.2cm] {$u \close B$};
-            \node (bt) at (0,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_btophat.png}};
-            \node at (bt.south)[yshift=-0.2cm] {$u \btophat B$};
-            \node (btt) at (5,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_btophat_thres.png}};
-            \node (op) at (-3,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_open.png}};
-            \node at (op.south)[yshift=-0.2cm] {$u \open B$};
-            \node (wt) at (0,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_wtophat.png}};
-            \node at (wt.south)[yshift=-0.2cm] {$u \wtophat B$};
-            \node (wtt) at (5,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_wtophat_thres.png}};
-            \draw[->] (or) to (ort);
-            \draw[->] (bt) to (btt);
-            \draw[->] (wt) to (wtt);
+            \node[visible on=<2->] (ort) at (5,1.5) {\includegraphics[width=2.2cm]{images/leopard250_thres.png}};
+            \node[visible on=<3-5>] (cl) at (-3,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_close.png}};
+            \node[visible on=<3-5>] at (cl.south)[yshift=-0.2cm] {$u \close B$};
+            \node[visible on=<4-5>] (bt) at (0,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_btophat.png}};
+            \node[visible on=<4-5>] at (bt.south)[yshift=-0.2cm] {$u \btophat B$};
+            \node[visible on=<5>] (btt) at (5,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_btophat_thres.png}};
+            \node[visible on=<7->] (op) at (-3,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_open.png}};
+            \node[visible on=<7->] at (op.south)[yshift=-0.2cm] {$u \open B$};
+            \node[visible on=<8->] (wt) at (0,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_wtophat.png}};
+            \node[visible on=<8->] at (wt.south)[yshift=-0.2cm] {$u \wtophat B$};
+            \node[visible on=<9->] (wtt) at (5,-1.5) {\includegraphics[width=2.2cm]{images/leopard250_wtophat_thres.png}};
+            \draw[->,visible on=<2->] (or) to (ort);
+            \draw[->,visible on=<5>] (bt) to (btt);
+            \draw[->,visible on=<9>] (wt) to (wtt);
         \end{tikzpicture}
     \end{center}
 \end{frame}
@@ -643,6 +709,7 @@
 
 \begin{frame}
     \frametitle{Definition des Hit-or-Miss Filters}
+    \pause
     \begin{definition}
         Für ein Bild $u$ und zwei Strukturelemente $B, C \subset \Omega$ definiere den \emph{Hit-or-Miss Filter}
         \begin{math}
@@ -652,13 +719,42 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Beispiel: ??}
+    \frametitle{Beispiel: Erkennen von Ecken}
+    \DeclareDocumentCommand{\B}{}{
+        %\,
+        \begin{tikzpicture}[scale=0.20,centerbase,-=]
+            \draw[gray,ultra thin] (0,0) grid (3,3);
+            \draw[fill=black!30] (1,0) rectangle (2,1);
+            \draw[fill=black!30] (1,1) rectangle (2,2);
+            \draw[fill=black!30] (2,1) rectangle (3,2);
+            \fill (1.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+    }
+    \DeclareDocumentCommand{\C}{}{
+        %\,
+        \begin{tikzpicture}[scale=0.20,centerbase,-=]
+            \draw[gray,ultra thin] (0,0) grid (3,3);
+            \draw[fill=black!30] (0,0) rectangle (1,1);
+            \draw[fill=black!30] (0,1) rectangle (1,2);
+            \draw[fill=black!30] (1,2) rectangle (2,3);
+            \draw[fill=black!30] (2,2) rectangle (3,3);
+            \fill (1.5,1.5) circle[radius=0.1];
+        \end{tikzpicture}
+    }
+    \begin{center}
+        \begin{tikzpicture}
+            \node (or) at (0,0) {\includegraphics[width=3.0cm]{images/rects.png}};
+            \node[visible on=<2->] at (or.east)[xshift=1.44cm] {$ \hitormiss \; \Big(\B, \C\Big) = $};
+            \node[visible on=<3->] (hm) at (6.2,0) {\includegraphics[width=3.0cm]{images/rects_hitmiss.png}};
+        \end{tikzpicture}
+    \end{center}
 \end{frame}
 
 \subsection{Rangordnungs-Filter}
 
 \begin{frame}
     \frametitle{Definition des Rangordnungs-Filters}
+    \pause
     \begin{definition}
         Sei $B$ ein Strukturelement mit $|B| = n \in \N$ Elementen und $\sort(u(x+B)) \in F^n$ für $x \in \Omega$ ein aufsteigend sortierter Vektor der Grauwerte in $u(x+B)$.
         Definiere den \emph{$m$-ten Rangordnungs-Filter}
@@ -666,6 +762,7 @@
             u \rankorder_m B := \sort(u(x+B))_m.
         \end{math}
     \end{definition}
+    \pause
     Es gilt insbesondere $u \rankorder_1 B = u \erode B$ und $u \rankorder_n B = u \dilate B$.
 \end{frame}
 
@@ -681,20 +778,69 @@
 
 \begin{frame}
     \frametitle{Anwendung: Entfernen von Rauschen}
-    Vergleich mit linearem Filter ...
+    \begin{center}
+        \begin{tikzpicture}
+            \node (or) at (0,0) {\includegraphics[width=2.2cm,clip,trim=3 3 3 3]{images/chair.png}};
+            \node (mm) at (3,0) {\includegraphics[width=2.2cm,clip,trim=3 3 3 3]{images/chair_morphmedian.png}};
+            \node (lm) at (-3,0) {\includegraphics[width=2.2cm,clip,trim=3 3 3 3]{images/chair_linmedian.png}};
+            \node[yshift=-0.4em] at (or.south) {$u$};
+            \node[align=center,yshift=-1em] at (lm.south) {$u \boxast \tilde B$ \\ (linearer Filter)};
+            \node[yshift=-0.4em] at (mm.south) {$\med_B(u)$};
+        \end{tikzpicture}
+        \begin{math}
+            \tilde B &= \frac{1}{25}\Matrix{
+                1 & 1 & 1 & 1 & 1 \\
+                1 & 1 & 1 & 1 & 1 \\
+                1 & 1 & 1 & 1 & 1 \\
+                1 & 1 & 1 & 1 & 1 \\
+                1 & 1 & 1 & 1 & 1
+            },&
+            B &= \begin{tikzpicture}[scale=0.23,centerbase,-=]
+                \draw[fill=black!30] (0,0) rectangle (5,5);
+                \draw (0,0) grid (5,5);
+                \fill (2.5,2.5) circle[radius=0.1];
+            \end{tikzpicture}
+        \end{math}
+    \end{center}
 \end{frame}
-
-
-
-%\subsection{Morphologische Gradienten}
-%
-%\begin{frame}
-%\end{frame}
 
 \section{Schlussworte}
 
+\subsection{Einsatzmöglichkeiten}
+
 \begin{frame}
-    \frametitle{Gimmick: Conway's Game of Life}
+    \frametitle{Denkbare Einsatzmöglichkeiten}
+    \pause
+    \begin{itemize}
+        \item \pause
+            Aufarbeitung von Bildern (Scans, Tomographien),
+        \item \pause
+            Muster-Erkennung/-Suche,
+        \item \pause
+            Granulometrie,
+        \item \pause
+            Conway's Game of Life,
+        \item
+            und weitere \dots
+    \end{itemize}
+\end{frame}
+
+\subsection{Referenzen}
+
+\begin{frame}
+    \frametitle{Referenzen}
+    \begin{thebibliography}{}
+        \bibitem[Bredies, 2011]{Bredies2011}
+        K.~Bredies, D.~Lorenz
+        \newblock \emph{Mathematische Bildverarbeitung}
+        \newblock Springer, 2011
+        \bibitem[Soille, 2004]{Soille2004}
+        P.~Soille
+        \newblock \emph{Morphological Image Analysis}
+        \newblock Springer, 2004
+    \end{thebibliography}
+    \par\vspace{1em}
+    \emph{Alle verwendeten Bilder sind selbst erstellt, oder befinden sich in der Public Domain.}
 \end{frame}
 
 
