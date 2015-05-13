@@ -173,7 +173,7 @@ Ziel: Zu jedem Knoten $K \subset \R^3$ wollen wir die Knotengruppe $\pi_K := \pi
 
 
 % B2
-\section{Wirtinger-Präsentation}
+\section{Wirtinger-Präsentation von Knotengruppen}
 
 
 Stelle $K$ durch ein ebenes Diagramm $D$ dar, $K$ und $D$ seien orientiert.
@@ -313,5 +313,133 @@ Es gibt folgende Möglichkeiten:
     \end{proof}
 \end{st}
 
+
+\Timestamp{2015-05-13}
+
+\section{Unterscheidung zahmer Knoten}
+
+
+Für den Kleeblatt-Knoten $K$ hatten wir
+\begin{math}
+    \pi_K &\isomorphic \Gen{a,b,c & a^c = b, b^a = c, c^b = a} \\
+    &= \Gen{a,b,c & b = a^c, c = b^a, a = c^b, b = (a^{-1}ba)a(a^{-1}ba), a = b^{-1}(a^{-1}ba)b} \\
+    &= \Gen{a,b,c & b = a^{-1}b^{-1}a b a, c = a^{-1}b a, a = b^{-1} a^{-1} b a b} \\
+    &= \Gen{a,b,c & aba = bab, c = a^{-1}ba} \\
+    &= \Gen{a,b,c & aba = bab, c = a^{-1}ba} \\
+    &\isomorphic \Gen{a,b & aba = bab} \\
+    &\isomorphic B_3.
+\end{math}
+
+Wie löst man das Wortproblem in dieser speziellen Gruppe?
+\begin{itemize}
+    \item
+        Wir kennen die Abelschmachung $\alpha: \pi_k \to \Z, a, b \to 1$.
+    \item
+        Wir kennen $\phi: \pi_k \to \SL_2 \Z = \Gen{X,y & XYX = YXY, (XYX)^4 = 1}$ mit $a \mapsto X = \Matrix{1 & 1 \\ 0 & 1}$, $b \mapsto Y = \Matrix{1 & 0 \\ -1 & 1}$.
+        Es gilt $\ker \phi = \Gen{(aba)^4}$ (normal erzeugt!).
+        In $B_3$ ist
+        \begin{math}
+            (\sigma_1 \sigma_2 \sigma_1)^4
+            = (\sigma_1 \sigma_2 \sigma_1 \sigma_2 \sigma_1 \sigma_2)^2
+            = z_2^2.
+        \end{math}
+        Folglich $\ker(\phi) \subset Z(\pi_k)$.
+        Also ist $\alpha \times \phi : \pi_k^2 \to \Z \times \SL_2(\Z)$ injektiv.
+\end{itemize}
+
+\begin{ex}
+    Ebenso für Verschlingungen:
+    Sei $L$ die Hopf-Verschlingung.
+    \begin{math}
+        \pi_L = \pi_1 (\R^3 \setminus L, *)
+        = \Gen{a,b & a^b = a, b^a = b}
+        = \Z^2.
+    \end{math}
+\end{ex}
+
+\begin{ex}
+    Für den Schlingel $T$:
+    \begin{math}
+        \pi_T
+        &= \Gen{a,b,a',b' & b^a = b', a^{b'} = a'} \\
+        &= \Gen{a,b,a',b' & b^a = b', a' = a^{-1} b^{-1}a b a} \\
+        &= \Gen{a,b & -}
+    \end{math}
+    Für Zöpfe gilt $\pi_T \isomorphic F_n$ (Übung!).
+    Dazu später mehr.
+\end{ex}
+
+\subsection{Meridian und Longitude}
+
+Betrachte wieder einen Knoten $K$ mit Knotengruppe $\pi_K = (\R^3 \setminus K, *)$.
+$m_k = [\mu_k]$, $l_k = [\lambda_k]$.
+
+Sei $K \subset \R^3$ ein orientierter Knoten.
+Es existiert eine Tubenumgebung $f: \S^1 \times \D^1 \injto \R^3$ (polygonal/glatt) mit $f(\S^1 \times \Set 0) = K$ (inklusive Orientierung) und
+\begin{math}
+    \mu_k, \lambda_k: [0,1] &\to \R^3 \setminus K \\
+    \mu_k: t &\mapsto f(1, e^{2\pi i t}) \\
+    \lambda_k: t & \mapsto f(e^{2\pi i t}, 1).
+\end{math}
+mit den Bedingungen $\lk(K, \mu_K) = +1$ und $\lk(K, \lambda_K) = 0$.
+Solche Tubenumgebungen sind eindeutig bis auf Isotopie.
+Insbesondere sind $m_k = [\mu_K]$ und $l_k = [\lambda_K]$ in $\pi_K$ in $\pi_K$ wohldefiniert.
+
+\begin{df}
+    Betrachte $K \subset \R^3 \subset \S^3 = \R^3 \cup \Set{\infty}$.
+    \begin{math}
+        E_K := \S^3 \setminus f(\S^1 \times \B^2) \subset \S^3
+    \end{math}
+    ist eine kompakte $3$-Mannigfaltigkeit mit Rand $\Boundary E \isomorphic \S^1 \times \S^1$.
+    Sie heißt \emphdef{Knotenaußenraum} zu $K$.
+
+    Es gilt Homotopie-Äquivalenz: $\S^3 \setminus K \homequiv E_k$.
+    $\pi_1(\S^1 \setminus K, *) \isomorphic \pi_1(E_, *) \leftarrow \pi_1(\S^1 \times \S^1, *) \isomorphic \Z^2$.
+
+    Das Tupel $(\pi_K, m_k, l_k)$ heißt in dieser Vorlesung „Hugo“.
+\end{df}
+
+\paragraph{Ablesen in der Wirtinger-Präsentation:}
+
+$l_k$ lässt sich direkt im Knotendiagramm ablesen (Skizze).
+Man unterscheidet zwischen globaler und lokaler Korrektur (entsprechend, wo die zusätzlichen Windungen von $l_k$ um $x_1$ kodiert werden).
+
+\begin{ex}
+    Für den Kleeblattknoten:
+    \begin{math}
+        \pi_k = \Gen{a,b,c & a^c = b, b^a = c, c^b = a}.
+    \end{math}
+    Wir erkennen die Repräsentation der globalen und lokalen Korrektur:
+    \begin{math}
+        m_k &= a, \\
+        l_k &= c a b a^{-3} \\
+        &= c a c^{-3} b \\
+        &= c b^{-2} a c^{-1} b \\
+        &= a^{-1} c b^{-1} a c^{-1} b
+    \end{math}
+\end{ex}
+
+Wir vermuten
+\begin{itemize}
+    \item
+        Obversion/Spiegelung $K^\times$: Orientierungsumkehr von $\R^3$: $(\pi_K, m_K^{-1}, l_K)$.
+    \item
+        Reversion $K^+$: Orientierungsumkehr von $K$: $(\pi_K, m_K^{-1}, l_k^{-1})$.
+    \item
+        Inversion $K^*$: Orientierungsumkehr von $K$ und $\R^3$: $(\pi_K, m_K, l_K^{-1})$.
+\end{itemize}
+
+Betrachte $\rho: \pi_K \to A_5$ mit $a = m_k \mapsto (12345) = x$.
+$A_5$ hat 60 Elemente.
+$x$ hat 12 Konjugierte in $A_5$.
+Versuche:
+$
+    b \mapsto y = (12453)
+$.
+Setze $c := b^a = (23514)$, dann ist
+\begin{math}
+    a^c = (43521) \neq b.
+\end{math}
+Weitere $5 + 1$ klappen nicht, $5$ weitere klappen.
 
 
