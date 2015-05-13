@@ -1,0 +1,108 @@
+\chapter{Das Schlegel-Diagramm}
+
+\Timestamp{2015-05-14}
+
+Das \emphdef{Schlegel-Diagramm} ist die Projektion des Randkomplex eines konvexen $d$-Polytops (ohne einen Punkt) in den $\R^{d-1}$.
+
+\begin{df}
+    Sei $P \subset \R^d$ ein $d$-Polytop mit einer Facette $F \subset \Set{x & \<a,x\> = c}$, sodass $P \subset \Set{x & \<a,x\> \le c}$.
+    Es sei $y_F \in \R^d$ ein Punkt mit $\<a, y_F\> = c + \eps$ für ein $\eps > 0$.
+    Genauer wählen wir $y_F$ so , dass die affine Hülle von $F$ das Polytop $P$ und $y_F$ trennt (und nicht von anderen Facetten).
+    Etwa: $y_F$ als Schwerpunkt von $F + \eps a$ für eine äußere Normale $a$.
+    Dann definieren wir eine Projektionsabbildung
+    \begin{math}
+        \pr(x)
+        &:= y_F + \frac{c - \<a,y_F\>}{\<a,x\> - \<a,y_F\>} (x-y_F) \\
+        &= y_F - \frac{\eps}{\<a,x\> - (c + \eps)} (x - y_F)
+    \end{math}
+\end{df}
+
+\begin{note}
+    Eigenschaften der Projektion:
+    \begin{itemize}
+        \item
+            $\pr(x) = x$ für $x \in H = \Set{x & \<a,x\> = c}$
+        \item
+            $\<a, \pr(x)\> = c$ für alle $x$, d.h. $\pr(x) \in H$
+    \end{itemize}
+    Also $\pr(\Boundary P) \subset H \homeomorphic \R^{d-1}$, $\pr(\Boundary F) = \Boundary F$.
+    \begin{proof}
+        \begin{itemize}
+            \item
+            \item
+                Es gilt
+                \begin{math}
+                    \<a, \pr(x)\>
+                    = \<a, y_F\> + \frac{c - \<a, y_F\>}{\<a,x\> - \<a,y_F\>} (\<a,x\> - \<a,y_F\>)
+                    = c.
+                \end{math}
+        \end{itemize}
+    \end{proof}
+\end{note}
+
+\begin{df}
+    Das \emphdef{Schlegel-Diagramm} $\scr D(P,F)$ ist definiert als das Bild aller echten Seiten von $P$, die von $F$ verschieden sind.
+    Die Facette $F$ erscheint dann gewissermaßen als das Äußere von $\scr D(P,F)$ (mit einem Punkt im Unendlichem).
+\end{df}
+
+\begin{kor}
+    Das Schlegel-Diagramm $\scr D(P,F)$ ist eine polytopale Unterteilung von $F$, deren Seitenverband kombinatorisch isomorph ist zum Seitenverband von $\Boundary P \setminus F$.
+    \begin{proof}
+        $\pr: \Boundary P \setminus \mathring F \to F \subset H$ ist eine Bijektion.
+        Jede $k$-dimensionale Seite von $\Boundary P \setminus F$ erscheint als $k$-dimensionales Polytop in $F$ (bzw. in $H$).
+        \begin{math}
+            \pr(F_1 \cap F_2) &= \pr(F_1) \cap \pr(F_2) \\
+            \pr(F_1 \cup F_2) &= \pr(F_1) \cup \pr(F_2)
+        \end{math}
+        Denn $\pr$ ist eine projektive Abbildung, überführt also $k$-dimensionale affine Unterräume in $l$-dimensionale affine Unterräume.
+        projektiv:
+        \begin{math}
+            \R^d \ni x \mapsto (1:x) &\mapsto \Big(\<a,x\> - (c + \eps) : (\<a,x\> + (c + \eps)) y_F - \eps(x-y_F)\Big) \\
+            &\quad= \Big(1 : y_F - \frac{\eps(x-y_F)}{\<a,x\> - (c + \eps)}\Big) \\
+            &\quad= (1 : \pr(x))
+            \mapsto \pr(x) \R^d.
+        \end{math}
+    \end{proof}
+\end{kor}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Tetraeder
+        \item
+            Oktaeder
+        \item
+            4-Simplex
+        \item
+            4-Würfel
+        \item
+            4-Kreuzpolytop
+        \item
+            Prisma
+        \item
+            $\Delta^2 \times \Delta^2 \in \R^4$ (Sanduhr?)
+        \item
+            zyklisches $3$-Polytop $C(3,8)$
+            \begin{math}
+                &123, 134, 145, 156, 167, 178, \\
+                &812, 823, 834, 845, 856, 867
+            \end{math}
+            Wähle $F = 812$.
+        \item
+            zyklisches $4$-Polytop $C(4,7)$
+            \begin{math}
+                &1234, 2345, 3456, 4567, 5671, 6712, 7123, \\
+                &1245, 2356, 3467, 4571, 5612, 6723, 7134.
+            \end{math}
+    \end{itemize}
+\end{ex}
+
+\begin{ex}
+    Liegt das polyedrische Möbiusband im $\R^3$ mit 6 Ecken, 2 Vierecken, 2 Dreiecken in einem Schlegeldiagramm als Unterkomplex?
+    Nein: Es gibt keine Facette $F$ dafür, denn alle $6$ Ecken müssten in $F$ liegen (betrachte beide Vierecke).
+    Ein Dreieck wäre im $4$-Polytop eine Diagonale.
+\end{ex}
+
+\begin{kor}
+    Es gibt polyedrische Diagramme, die keine Schlegel-Diagramme eines Polytops sind.
+\end{kor}
