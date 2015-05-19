@@ -396,7 +396,7 @@ Insbesondere sind $m_k = [\mu_K]$ und $l_k = [\lambda_K]$ in $\pi_K$ in $\pi_K$ 
     Es gilt Homotopie-Äquivalenz: $\S^3 \setminus K \homequiv E_k$.
     $\pi_1(\S^1 \setminus K, *) \isomorphic \pi_1(E_, *) \leftarrow \pi_1(\S^1 \times \S^1, *) \isomorphic \Z^2$.
 
-    Das Tupel $(\pi_K, m_k, l_k)$ heißt in dieser Vorlesung „Hugo“.
+    Das Tupel $(\pi_K, m_k, l_k)$ heißt in dieser Vorlesung „Pomelo“.
 \end{df}
 
 \paragraph{Ablesen in der Wirtinger-Präsentation:}
@@ -424,22 +424,213 @@ Wir vermuten
     \item
         Obversion/Spiegelung $K^\times$: Orientierungsumkehr von $\R^3$: $(\pi_K, m_K^{-1}, l_K)$.
     \item
-        Reversion $K^+$: Orientierungsumkehr von $K$: $(\pi_K, m_K^{-1}, l_k^{-1})$.
+        Reversion $K^!$: Orientierungsumkehr von $K$: $(\pi_K, m_K^{-1}, l_k^{-1})$.
     \item
         Inversion $K^*$: Orientierungsumkehr von $K$ und $\R^3$: $(\pi_K, m_K, l_K^{-1})$.
 \end{itemize}
 
-Betrachte $\rho: \pi_K \to A_5$ mit $a = m_k \mapsto (12345) = x$.
-$A_5$ hat 60 Elemente.
-$x$ hat 12 Konjugierte in $A_5$.
-Versuche:
-$
-    b \mapsto y = (12453)
-$.
-Setze $c := b^a = (23514)$, dann ist
-\begin{math}
-    a^c = (43521) \neq b.
-\end{math}
-Weitere $5 + 1$ klappen nicht, $5$ weitere klappen.
+%Betrachte $\rho: \pi_K \to A_5$ mit $a = m_k \mapsto (12345) = x$.
+%$A_5$ hat 60 Elemente.
+%$x$ hat 12 Konjugierte in $A_5$.
+%Versuche:
+%$
+%    b \mapsto y = (12453)
+%$.
+%Setze $c := b^a = (23514)$, dann ist
+%\begin{math}
+%    a^c = (43521) \neq b.
+%\end{math}
+%Weitere $5 + 1$ klappen nicht, $5$ weitere klappen.
 
+\Timestamp{2015-05-18}
+
+In $A_5$ hat $x$ genau $12$ Konjugierte.
+Setze $a \mapsto x$.
+\begin{enumerate}[1.]
+    \item
+        Für $b \mapsto x$ erhalten wir die triviale (abelsche) Darstellung $\pi_k \to \Z \to G$, $m_k \mapsto 1 \mapsto x$.
+    \item
+        Setze $b \mapsto (12453)$.        
+        Es gilt
+        \begin{math}
+            c &= b^a \mapsto (23514),
+            b &{\stack ?=} a^c \mapsto (43521), 
+        \end{math}
+        ein Widerspruch.
+        Ebenso für $b \mapsto (23514)$, $(34125)$, $(45231)$, $(51342)$.
+    \item
+        Probiere $b \mapsto (15243)$.
+        Es gilt
+        \begin{math}
+            c &= b^a \mapsto (21354),
+            b &{\stack ?=} a^c \mapsto (31524) = (15243),
+        \end{math}
+        ein Erfolg (auch redundant $c^b = a \mapsto (45123)$).
+        Ebenso für $b \mapsto (21354)$, $(32415)$, $(43521)$, $(54132)$.
+    \item
+        Für $b \mapsto x^{-1} = (54321)$ gilt
+        \begin{math}
+            c &= b^a \mapsto x^{-1},
+            b &{\stack ?=} a^c \mapsto x,
+        \end{math}
+        ein Widerspruch.
+\end{enumerate}
+Also ist $|\Hom(\pi_k,m_k,G,x)| = 6$.
+
+Was ist $\rho(l_k)$?
+\begin{math}
+    l_k = bac a^{-3} & \stack{1.}\mapsto 1 \\
+    &\stack{3.}\mapsto (21354)(12345)(15243)(13524) = (15432) = x^{-1}
+\end{math}
+
+\begin{df}
+    Zu einer endlichen Gruppe $G$ und $x \in G$ definieren wir die \emph{Färbungszahl} $F_G^x: \scr K \to \N$ durch
+    \begin{math}
+        F_G^x(K) := |\Hom(\pi_k,m_k;G,x)|
+    \end{math}
+    und das Färbungspolynom $P_G^x: \scr K \to \Z[G]$ durch
+    \begin{math}
+        P_G^x(K) := \sum_{\rho: (\pi_k, m_k) \to (G,x)} \rho(l_k)
+    \end{math}
+\end{df}
+
+\begin{ex}
+    Sei $K$ der Kleeblattknoten, $(G,x) = (A_5, (12345))$.
+    Es gilt wie oben berechnet
+    \begin{math}
+        F_G^x(K) &= 6, &
+        P_G^x(K) &= 1 + 5x^{-1}.
+    \end{math}
+    Für den inversen Knoten $K^*$ gilt $(\pi_{K^*}, m_{K^*}, l_{K^*}) = (\pi_K, m_K, l_K^{-1})$, also $P_G^x(K^*) = 1 + 5x$ (beachte: $x \neq x^{-1}$ in $A_5$).
+
+    Für den obversen Knoten $K^x: (\pi_K, m_K^{-1}, l_K)$ erhalten wir
+    \begin{math}
+        (\pi_K, m_K, l_K) \stack{\rho}\to (A_5, x) \xrightarrow[(15)(24)]{\text{konj.}} (A_5, x^{-1}).
+    \end{math}
+    Damit ist $F_G^x(K^x) = 6$ und $P_G^x(K^x) = 1 + 5x$.
+    Für den reversen Knoten $K^!: (\pi_K, m_K^{-1}, l_K^{-1})$ damit
+    \begin{math}
+        P_G^x(K^!) = 1+ 5x^{-1}.
+    \end{math}
+\end{ex}
+
+\begin{kor}
+    Für die Kleeblattschlinge $K$ gilt $K \neq K^x$, d.h. die Kleeblattschlinge ist nicht chiral.
+    \begin{note}
+        Übung: $K = K^!$, d.h. sie ist reversibel.
+    \end{note}
+\end{kor}
+
+\begin{note}
+    Knotengruppendarstellungen entsprechen Färbungen.
+    Speziell: $p$-Färbungen entsprechen Darstellungen in die Diedergruppen $(D_p,s)$.
+
+    Sei $n \ge 3$, $P_n = [e^{2\pi i \frac{k}{n}}, k =1, \dotsc, n]$.
+    Die Diedergruppe ist die Isometriegruppe des regelmäßigen $n$-Ecks:
+    \begin{math}
+        D_n &:= \Isom(P_n) \\
+        &= \left\{
+            \begin{aligned}
+                r_k &= \Matrix{\cos(2\pi k /n) & -\sin(2\pi k/n) \\ \sin(2\pi k/n) & \cos(2\pi k/n)} \\
+                s_k &= \Matrix{\cos(2\pi k/n) & \sin(2\pi k/n) \\ \sin(2\pi k/n) & -\cos(2\pi k/n)}
+            \end{aligned}
+            \middle|\; k = 0, \dotsc, n-1
+            \right\}
+    \end{math}
+    Auf Eckpunkte sind die Elemente Permutationen: $r_K, s_K: \Z/n \to \Z/n$, $r_K(x) = k +x$, $s_K(x) = k - x$.
+\end{note}
+
+\begin{st}
+    Wir erhalten die Präsentationen
+    \begin{math}
+        D_n &= \Gen{s_0,s_1 & s_0^2, s_1^2, (s_1s_0) = r_1} \\
+        &= \Gen{s,r & s^2, r^n, srs = r^{-1}}
+    \end{math}
+    \begin{proof}
+        Übung!
+    \end{proof}
+\end{st}
+
+Für Färbungen benötigen wir die Konjugationen
+\begin{math}
+    s_a^{s^b} = s_b^{-1} s_a s_b: \Z/n &\to \Z/n \\
+    x &\mapsto b-(a-(b-x)) = (2b-a)-x = s_{2b-a}(x).
+\end{math}
+Diese Vorschrift entspricht der $n$-Färbungsregel ($c = 2b -a$ an einer Kreuzung).
+
+\begin{ex}
+    Der Knoten $8_{17}$ ist der kleinste nicht-reversible Knoten.
+    \begin{proof}
+        Hierzu nutzen wir die Mathieu-Gruppe $M_{11}$ der Ordnung 7920.
+        \begin{math}
+            G= \Gen{x,y} \le A
+        \end{math}
+        mit
+        \begin{math}
+            x &= (\mathrm{abcdefghijk}), &
+            y &= (\mathrm{abcejikdghf})
+        \end{math}
+        Für $K = 8_{17}$ und $(G,x)$ finden wir
+        \begin{math}
+            P_G^x(K) &= 1 + 11x^5 + 11x^6, \\
+            P_G^x(K!) &= 1
+        \end{math}
+        (es gilt $K = K^*$, amphichiral)
+    \end{proof}
+\end{ex}
+
+
+\subsection{Wichtige Sätze zu Knotengruppen}
+
+Ist $K$ trivial, so ist $\pi_K \isomorphic \Z$ und insbesondere abelsch.
+Es folgt $l_k = 1$.
+
+Gilt umgekehrt $l_k = 1$ impliziert $K$ trivial?
+
+\begin{st}[Papakyriakopoulos, 1957, Dehnsches Lemma, 1910]
+    Genau dann ist $K$ trivial, wenn $l_K = 1$ in $\pi_K$ gilt.
+\end{st}
+
+Für zwei isotopie Knoten $K \sim K'$ ist
+\begin{math}
+    (\pi_K, m_K, l_K) \isomorphic (\pi_{K'}, m_{K'}, l_{K'})
+\end{math}
+Gilt auch die Umkehrung?
+
+\begin{st}[Waldhausen, 1968]
+    Aus $(\pi_K, m_K, l_K) \isomorphic (\pi_{K'}, m_{K'}, l_{K'})$ folgt $K \sim K'$.
+\end{st}
+
+Existiert ein Homomorphismus $\phi: \pi_K \to G$ für $G$ endlich, $\phi(x) \neq 1$, dann ist offenbar $x \neq 1$ in $\pi_K$.
+Gilt auch die Umkehrung?
+
+\begin{st}[Thurston, 1983]
+    Jede Knotengruppe $\pi_K$ ist residuell endlich, d.h für alle $x \in \pi_K$ mit $x \neq 1$, existiert ein Homomorphismus $\phi: \pi_k \to G$ in eine endliche Gruppe $G$ mit $\phi(x) \neq 1$.
+\end{st}
+
+\begin{kor}
+    Das Problem, zu einem (zahmen) Knoten zu entscheiden, ob $K$ trivial ist oder nicht ist, ist algorthmisch lösbar.
+\end{kor}
+
+\begin{alg}
+    \emph{Input}: $K$,\\
+    \emph{Output}: Boolean: $K$ trivial oder nicht.
+    \begin{enumerate}[1.]
+        \item
+            Präsentiere $\pi_K, m_K, l_K$, $\pi_K = \Gen{S & R}$
+        \item
+            \begin{enumerate}[a)]
+                \item
+                    Generiere aus Relationen alle Sequenzen $\Gen{R^{F(S)}} =: N$.
+                    Falls $l_k \in N$, dann ist $l_k = 1$ in $\pi_K$ und $K$ trivial.
+                \item
+                    Generiere alle Homomorphismen $\phi: \pi_K \to G$ in endliche Gruppen.
+                    Falls $\phi(l_K) \neq 1$, dann $l_K \neq 1$, also $K$ nicht-trivial.
+            \end{enumerate}
+    \end{enumerate}
+    Dank Thurston (für 2b) ist dies ein Algorithmus.
+    \begin{note}
+        Zu 2b: Es genügt $G = S_3, S_4, \dotsc$ auszuprobieren, denn jede endliche Gruppe ist in $S_n$ enthalten.
+    \end{note}
+\end{alg}
 
