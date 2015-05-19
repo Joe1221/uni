@@ -106,10 +106,18 @@ als \emphdef{Minkowski-Summe} der Polyeder $K$ und $L$.
     Ein \emphdef[V-Polytop]{$V$-Polytop} ist die konvexe Hülle endlich vieler Punkte.
 \end{df}
 
-Die Polytope im folgenden seien nicht degeneriert in dem Sinne, dass sie in einer Hyperebene enthalten sind.
+\begin{note}
+    \begin{itemize}
+        \item
+            Obige Definitionen beinhalten degenerierte Polytope, d.h. solche, die in einer Hyperebene enthalten sind (z.B. die konvexe Hülle zweier Punkte im $\R^2$ ist in einer Geraden enthalten).
+            Oft geht man implizit von nicht degenerierten Polytopen aus (lässt sich durch Verringerung der Dimension des Raumes stets bewerkstelligen).
+        \item
+            Die Begriffe $V$-Polytop und $H$-Polytop sind äquivalent (siehe später), wir sprechen auch einfach von \emphdef[konvexes Polytop]{konvexen Polytopen}.
+    \end{itemize}
+\end{note}
 
 \begin{df}
-    Ein \emphdef{exponierter Punkt} oder \emphdef{Ecke} einer konvexen Menge $M$ ist ein Punkt $p \in M$, sodass $M \cap H = \Set{p}$ für eine gewisse Hyperebene $H$.
+    Ein \emphdef{exponierter Punkt} oder eine \emphdef{Ecke} einer konvexen Menge $M$ ist ein Punkt $p \in M$, sodass $M \cap H = \Set{p}$ für eine gewisse Hyperebene $H$.
 
     Der Punkt $p$ heißt \emphdef{extremer Punkt}, wenn aus $p = \lambda x + (1-\lambda)y$ mit $x,y \in P$ stets folgt: $p = x$ oder $p = y$.
     \begin{note}
@@ -119,46 +127,56 @@ Die Polytope im folgenden seien nicht degeneriert in dem Sinne, dass sie in eine
 \end{df}
 
 \begin{df}[Eckenfigur]
-    Sei $P \subset \R^n$ ein $V$-Polytop, nicht in einer Hyperebene enthalten.
-    $v_0$ sei eine Ecke von $P$, d.h. ein exponierter Punkt:
+    Sei $P \subset \R^n$ ein konvexes Polytop.
+    $v$ sei eine Ecke von $P$, d.h.
     \begin{math}
-        \Set{v_0} =
+        \Set{v} =
         P \cap \Set{x & \<c,x\> = c_0}
     \end{math}
     für $P \subset \Set{x & \<c,x\> \le c_0}$.
-    Die Hyperebene $H = \Set{x & \<c, x\> = c_0}$ wird auch \emphdef{Stützhyperebene} genannt.
+    Die Hyperebene $H := \Set{x & \<c, x\> = c_0}$ wird auch \emphdef{Stützhyperebene} genannt.
 
-    Dann ist $P / v_0 := P \cap \Set{x & \<c, x\> = c_0 - \epsilon}$ für hinreichend kleines $\epsilon > 0$ die \emphdef{Eckenfigur} von $P$ in $v_0$.
+    Dann ist für hinreichend kleines $\epsilon > 0$
+    \begin{math}
+        P / v := P \cap \Set{x & \<c, x\> = c_0 - \epsilon}
+    \end{math}
+    die \emphdef{Eckenfigur} von $P$ in $v$.
 \end{df}
 
 \Timestamp{2015-04-22}
 
-%\begin{df}
-%    Eine \emphdef{Stützhyperebene} zu einer Menge $M \subset \R^n$ ist
-%\end{df}
-
 \begin{df}
-    Ein konvexes $d$-Polytop im $\R^n$ ist die konvexe Hülle endlich vieler Punkte oder ein beschränkter Durchschnitt von abgeschlossenen Halbräumen, sodass $P$ in keinem $(d-1)$-dimensionalem linearem Unterraum enthalten ist, aber $P$ in einem $d$-dimensionalen linearen Unterraum enthalten ist.
+    Ein \emphdef[konvexes Polytop!konvexes d-Polytop]{konvexes $d$-Polytop} $P$ im $\R^n$ ist ein konvexes Polytop, sodass der durch $P$ aufgespannte affine Unterraum Dimension $d$ hat.
+    Wir nennen $d$ auch \emphdef{Dimension} von $P$.
 \end{df}
 
 \begin{df}
-    Eine \emphdef{Seite} eines konvexen Polytops $P$ ist der Durchschnitt von $P$ mit einer Stützhyperebene.
-    Bei einem $d$-Polytop heißen die $(d-1)$-dimensionalen Seiten auch \emphdef{Facetten}.
-    Eine \emphdef{Ecke} ist eine $0$-dimensionale Seite, eine Kante ist eine $1$-dimensionale Seite.
+    Sei $P$ ein konvexes $d$-Polytop.
+
+    Eine Hyperebene $H := \Set{x & \<c, x\> = c_0} \subset \R^n$ für $c \in \R^n$, $c_0 \in \R$ heißt \emphdef{Stützhyperebene} von $P$, falls $H \cap P \neq \emptyset$ und $P \subset \Set{x & \<c, x\> \le c_0}$, d.h. $P$ liegt vollständig in einem durch $H$ bestimmten Halbraum.
+
+    Für eine Stützhyperebene $H$ von $P$ heißt $S := P \cap H$ \emphdef{Seite} von $P$.
+    Jede Seite von $P$ ist ein konvexes Polytop (Übung).
+    $0$-dimensionale Seiten heißen \emphdef[Ecke]{Ecken}, $1$-dimensionale Seiten heißen \emphdef[Kante]{Kanten}, $(d-1)$-dimensionale Seiten heißen \emphdef[Facette]{Facetten}.
 \end{df}
 
 \begin{lem}
     Die Seiten eines konvexen Polytops $P$ bilden (inklusive $\emptyset$ und $P$) mit der Inklusion als Ordnungsrelation einen Verband $\scr F(P)$, genannt \emphdef{Seitenverband} (engl. “face lattice”).
     $\scr F(P)$ besitzt $\emptyset$ als minimales und $P$ als maximales Element.
+    Die beiden Operationen im Verband sind gegeben durch
     \begin{math}
-        A \wedge B := A \cap B = (P \cap H_A) \cap (P \cap H_B)
-        = P \cap (H_A \cap H_B)
-        = P \cap H_{A\cap B}.
+        A \vee B &:= \texp{kleinste Element, das $A \cup B$ enthält}, \\
+        A \wedge B &:= \texp{größtes Element, das in $A \cap B$ enthalten ist}.
     \end{math}
+    Insbesondere gilt
     \begin{math}
-        A \vee B &= \texp{kleinste Element, das $A \cup B$ enthält}, \\
-        A \wedge B &= \texp{größtes Element, das in $A \cap B$ enthalten ist}
+        A \wedge B
+        = A \cap B
+        &= (P \cap H_A) \cap (P \cap H_B) \\
+        &= P \cap (H_A \cap H_B)
+        = P \cap H_{A\cap B}
     \end{math}
+    für entsprechende Hyperebenen $H_A$, $H_B$, $H_{A \cap B}$.
 \end{lem}
 
 \begin{ex}
@@ -192,7 +210,7 @@ Wie konstruiert man geometrisch ein duales Polytop?
 \end{ex}
 
 \begin{df}
-    Eine Polytop $P$ heißt \emphdef{simplizial}, wenn alle Seiten (insbesondere alle Facetten) Simplizes sind.
+    Ein Polytop $P$ heißt \emphdef{simplizial}, wenn alle Seiten (insbesondere alle Facetten) Simplizes sind.
 
     Es heißt \emphdef{einfach}, wenn alle Eckenfiguren Simplizes sind.
 \end{df}
@@ -213,7 +231,7 @@ Wie konstruiert man geometrisch ein duales Polytop?
 
         Für (iii) ist die Rückrichtung trivial.
         Für die Hinrichtung sei $P$ ein simpliziales, einfaches $d$-Polytop.
-        Jede Facette hat $d$ Ecken als $(d-1)$-Simplex.
+        Jede Facette hat als $(d-1)$-Simplex $d$ Ecken.
         Jede Ecke ist in genau $d$ Kanten enthalten (Eckenfigur ist Simplex).
         Betrachte eine $(d-2)$-Seite der Facette.
         $P$ hat also insgesamt nur $d+1$ Ecken.
@@ -252,6 +270,6 @@ Diagonalen sind $26, 15, 34$ (Tupel, die nicht in der Facettenliste auftauchen).
 \end{st}
 
 \begin{df}
-    Falls $P$ simplizial ist, dann ist $P/v$ kombinatorisch äquivalent zu $\Link(v)$, d.h. der Menge aller Seiten $F$ in $P$ mit $v \not\in F$, sodass $\Conv(F \cup \Set{v})$ eine Seite von $P$ ist.
+    Falls $P$ simplizial ist, dann ist $P/v$ kombinatorisch äquivalent zu \emphdef{Link einer Ecke}{$\Link(v)$}, d.h. der Menge aller Seiten $F$ in $P$ mit $v \not\in F$, sodass $\Conv(F \cup \Set{v})$ eine Seite von $P$ ist.
     $\Link(v)$ ist ein simplizialer Komplex.
 \end{df}
