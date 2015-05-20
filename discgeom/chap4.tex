@@ -1,0 +1,109 @@
+\chapter{Schälbarkeit}
+
+\Timestamp{2015-05-20}
+
+Wir betrachten einen Komplex $K$ mit konvexen Polytopen als Facetten und der homogenen Dimension $k$ (d.h. jede Seite ist in einer $k$-dimensionalen Facette enthalten „pure complex“) mit einer Ordnung $F_1, \dotsc, F_s$ der Facetten.
+
+Spezialfall: Simplizialer Komplex der Dimension $k$.
+
+$F_1, \dotsc, F_s$ heißt eine \emphdef{Schälung}, wenn entweder $k=0$ oder folgendes gilt:
+\begin{enumerate}[1)]
+    \item
+        Der Randkomplex von $F_1$ hat eine Schälung (trivial, falls $F_1$ ein Simplex ist)
+    \item
+        Für $1 < j \le s$ ist der Durchschnitt von $F_j$ mit $F_1 \cup \dotsc \cup F_{j-1}$ nicht leer und ist der Anfang einer Schälung von $\Boundary F_j$ ($(k-1)$-dimensional).
+\end{enumerate}
+$K$ heißt \emphdef{schälbar} (“shellable”), wenn eine Schälung existiert.
+
+\begin{st}[Euler]
+    Sei $P$ ein konvexes $d$-Polytop mit schälbarem Rand $\Boundary P$.
+    Dann gilt mit $f_{-1}(P) = f_d(P) = 1$ die Euler-Gleichung
+    \begin{math}
+        \sum_{i=-1}^d (-1)^i f_i(P) = 0,
+    \end{math}
+    wobei $f_i$ die Anzahl der $i$-dimensionalen Seiten angibt.
+    Alternativ gilt für die Euler-Charakteristik
+    \begin{math}
+        \chi(P) &= \sum_{i=0}^d (-1)^i f_i(P), \\
+        \chi(\Boundary P) &= \sum_{i=0}^d (-1)^i f_i(\Boundary P) = 1 - (-1)^d.
+    \end{math}
+    \begin{proof}
+        Bekannt ist für einen $j$-Simplex $S$, dass $\chi(S) = 1$ und $\chi(\Boundary S) = 1 - (-1)^j$.
+        Wir verwenden die Additivität von $\chi$:
+        \begin{math}
+            \chi(A \cup B) + \chi(A \cap B) = \chi(A) + \chi(B),
+        \end{math}
+        solange $A, B, A \cap B$ Unterkomplexe von $A \cup B$ sind.
+
+        Der Fall $d = 1$ ist trivial, für $d = 2$ ergibt sich $f_0 = f_1$ und $1 - (-1)^d = 0$.
+        Die Behauptung gelte für $d - 1$.
+        Sei $P$ ein $d$-Polytop mit Schälung des Randes $F_1, \dotsc, F_s$.
+        \begin{math}
+            \chi(F_1) &= \chi(\texp{$(d-1)$-Polytop}) = 1, \\
+            \chi(F_1 \cup F_2) &= \chi(F_1) + \chi(F_2) - \chi(F_1 \cap F_2) \\
+            &= 1 + 1 - 1 = 1.
+        \end{math}
+        Induktiv folgt
+        \begin{math}
+            \chi(F_1 \cup \dotsb \cup F_j) = 1
+        \end{math}
+        für alle $j < s$.
+        Nun ist
+        \begin{math}
+            \chi(\Boundary P) &= \chi(F_1 \cup \dotsb \cup F_{s-1}) + \chi(F_s) - \chi(\underbrace{(F_1 \cup \dotsb \cup F_{s-1}) \cap F_s}_{=\Boundary F_{s}}) \\
+            &=1 + 1 - (1 - (-1)^{d-1}) \\
+            &=1-(-1)^{d}.
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{st}[Brugesser-Mani, 1971]
+    Sei $P \subset \R^d$ ein konvexes $d$-Polytop.
+    Dann ist der Randkomplex $\Boundary P$ schälbar.
+    \begin{proof}[konstruktiv]
+        Wähle $y_0 \in \mathring P$ und $x_0 \not\in P$ und betrachte einene laufenden Punkt $x$ auf dem Strahl $l$ von $y_0$ nach $x_0$.
+        \begin{enumerate}[1.]
+            \item
+                Der erste Durchstoßpunkt $x$ mit $\Boundary P$ trifft in eine Facette $F_1$.
+                Ab da „sieht“ man $F_1$ von $x$ aus.
+            \item
+                Später trifft $x$ auf die affine Hülle einer zweiten Facette $F_2$.
+                Ab da „sieht“ man $F_1$ und $F_2$.
+            \item
+                Man setzt dies für $x \to \infty$ bis zu $F_1, \dotsc, F_k$ fort.
+            \item
+                Für die restlichen $F_{k+1}, \dotsc, F_s$ inverser Prozess nachdem man (projektiv gedacht) $\infty$ durchschritten hat.
+        \end{enumerate}
+        $F_1, \dotsc, F_s$ bildet eine Schälung.
+        $\Boundary F_j \cap (F_1 \cup \dotsb \cup F_{j-1})$ sind alle Facetten von $F_j$, die man von $l \cap \Aff(F_j)$ „sieht“. 
+        Durch Induktion liefert die Reihenfolge dafür eine Schälung.
+        Der Induktionsanfang ist trivial (Dimension $k = 0$ ist stets schälbar).
+        \begin{note}
+            Durch die Wahl der Geraden lässt sich $F_1$ und $F_s$ vorschreiben.
+        \end{note}
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    Mit $F_1, \dotsc, F_s$ ist auch $F_s, \dotsc, F_1$ eine Schälung.
+    \begin{proof}
+        Umkehrung der Orientierung von $l$ im Beweis.
+    \end{proof}
+\end{kor}
+
+\begin{ex}
+    Schälung des Oktaeders:
+    \begin{math}
+        123, 126, 135, 156, 234, 246, 345, 456
+    \end{math}
+    Gemeinsamen Seiten mit dem Rest:
+    \begin{math}
+        3, 2, 2, 1, 2, 1, 1, 0
+    \end{math}
+    Gegenüberliegende Ecken:
+    \begin{math}
+        0, 1, 1, 2, 1, 2, 2, 3
+    \end{math}
+    Die Anzahl für $0, 1, 2, 3$ jeweils: $1, 3, 3, 1$ (Binomialkoeffizient).
+    Diese Symmetrie ist typisch für simpliziale Polytope, siehe nächster Satz.
+\end{ex}
