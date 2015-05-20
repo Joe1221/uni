@@ -164,7 +164,66 @@ Die folgenden Tietze-Operationen ändern die Präsentation, nicht aber die präs
 \end{enumerate}
 
 \begin{st}[Tietze, 1908]
-    Zwei (endliche) Präsentationen $(S,R)$ und $(S',R')$ präsentieren genau dann isomorphe Gruppen, wenn sie sich durch (T1), (T2) ineinander überführen lassen.
+    Zwei (endliche) Präsentationen $(S,R)$ und $(S',R')$ präsentieren genau dann isomorphe Gruppen, wenn sie sich durch (endlich viele) Tietze-Transformationen ineinander überführen lassen.
+    \begin{enumerate}[(T1)]
+        \item
+            $(S,R) \leftrightarrow (S, R \sqcup R')$ mit $R' \subset \< R^{F(S)}\>$,
+        \item
+            $(S,R) \leftrightarrow (S \sqcup S', R \cup R')$ mit $R' = \Set{s'w_{s'}^{-1} & s' \in S'}$ und $w_{s'} \in F(S)$.
+    \end{enumerate}
+    Genauer gilt: jeder Isomorphismus $\Gen{S&R} \isomorphic \Gen{S'& R'}$ lässt sich durch (T1), (T2) erzeugen.
+    \begin{proof}
+        \begin{seg}{\ProofImplication}
+            \begin{enumerate}[(T1)]
+                \item
+                    Es gilt $\Gen{S & R} = \Gen{S & R \sqcup R'}$. 
+                \item
+                    $\Gen{S & R} \isomorphic \Gen{S \sqcup S' & R \sqcup R'}$.
+                    $h: S \injto S \sqcup S'$ induziert $\_h$.
+                    $k: F(S \sqcup S') \to F(S)$ mit $s' \mapsto w_{s'}$ induziert $\_k$.
+                    \[
+                        \begin{tikzcd}
+                            F(S) \ar[r,"h"] \ar[d] \ar[dr] & F(S \sqcup S') \\
+                            \{S \;|\; R\} \ar[r,"\_h"] & \{S \sqcup S' \;|\; R \sqcup R'\}.
+                        \end{tikzcd}
+                    \]
+                    Damit gilt $\_k \circ \_h = \id_{\Gen{S & R}}$ und $\_h \circ \_k = \id_{\Gen{S \sqcup S' & R \sqcup R'}}$.
+            \end{enumerate}
+        \end{seg}
+        \begin{seg}{\ProofImplication*}
+            Seien $\_h: \Gen{S & R} \to \Gen{S' & R'}$ und $\_k: \Gen{S' & R'} \to \Gen{S & R}$ zueinander inverse Isomorphismen.
+            Diese heben wir hoch zu $h: F(S) \to F(S')$ und $k: F(S') \to F(S)$.
+            \begin{math}
+                \begin{tikzcd}
+                    F(S) \ar[r,"h",bend right] \ar[d] \ar[dr] & F(S \sqcup S') \ar[l,"k",bend left] \\
+                    \{S \;|\; R\} \ar[r,"\_h"] & \{S' \;|\; R'\}.
+                \end{tikzcd}
+            \end{math}
+            Wir können $S \cap S' = \emptyset$ annehmen.
+            Wir betrachten $S^* = S \sqcup S'$ und $R^* = R \sqcup R' \sqcup R_h \sqcup R_k$ mit
+            \begin{math}
+                R_h &:= \Set{sh(s)^{-1} & s \in S} \\
+                R_k &:= \Set{s'k(s')^{-1} & s' \in S'}
+            \end{math}
+            Wir erhalten $\phi: \Gen{S & R} \stack\sim\to \Gen{S^* & R^*}$ durch
+            \begin{math}
+                \Gen{S & R} \xrightarrow{(T2)} \Gen{S \sqcup S' & R \sqcup R_k}
+                \xrightarrow{(T1)} \Gen{S^* & R \sqcup R_k \sqcup R'}
+                \xrightarrow{(T1)} \Gen{S^* & R \sqcup R_k \sqcup R' \sqcup R_h}.
+            \end{math}
+            Ähnlich $\psi: \Gen{S' & R'} \stack\sim\to \Gen{S^* & R^*}$ durch
+            \begin{math}
+                \Gen{S' & R'} \xrightarrow{(T2)} \Gen{S \sqcup S' & R \sqcup R_h}
+                \xrightarrow{(T1)} \Gen{S^* & R \sqcup R_h \sqcup R'}
+                \xrightarrow{(T1)} \Gen{S^* & R \sqcup R_h \sqcup R' \sqcup R_k}.
+            \end{math}
+            Schließlich gilt
+            \begin{math}
+                \psi^{-1} \circ \phi &= \_h: \Gen{S & R} \homto \Gen{S' & R'}, \\
+                \phi^{-1} \circ \psi &= \_k: \Gen{S' & R'} \homto \Gen{S & R}.
+            \end{math}
+        \end{seg}
+    \end{proof}
 \end{st}
 
 \Timestamp{2015-05-11}
@@ -316,6 +375,7 @@ Es gibt folgende Möglichkeiten:
 
 \Timestamp{2015-05-13}
 
+% B3
 \section{Unterscheidung zahmer Knoten}
 
 
@@ -633,4 +693,82 @@ Gilt auch die Umkehrung?
         Zu 2b: Es genügt $G = S_3, S_4, \dotsc$ auszuprobieren, denn jede endliche Gruppe ist in $S_n$ enthalten.
     \end{note}
 \end{alg}
+
+
+\Timestamp{2015-05-20}
+
+% B4
+\section{Anwendung auf wilde Knoten}
+
+Erinnerung: Für jeden einfachen Polygonzug $\gamma: [0,1] \injto \R^3$, $\gamma = |P|$, $P = (v_0, v_1, \dotsc, v_n)$ gilt:
+\begin{enumerate}[1)]
+    \item
+        $P$ ist $\Delta$-äquivalent zu $(-e_1, e_1)$,
+    \item
+        $\R^3 \setminus \gamma([0,1]) \isomorphic \R^3 \setminus \Set 0$,
+    \item
+        $\pi_1(\R^3 \setminus \gamma([0,1])) = \Set{1}$
+\end{enumerate}
+Für beliebige (topologische) Einbettungen $\gamma: [0,1] \injto \R^3$ gelten solche Aussagen nicht!
+
+Konstruktion: zahmer Schlingel $T$ (siehe Skizze), unendliche Verknüpfung von $T$ in beide Richtungen (liefert nur eine Komponente).
+Wir erhalten $\gamma: (-1,1) \injto \R^3$.
+Dank Konvergenz setzt sich dies stetig fort zu $\gamma: [-1,1] \injto \R^3$ mit $\gamma(\pm 1) = p_\pm$ (kompakt/hausdorffsch, injektiv, stetig liefert Einbettung).
+
+Berechnung von $\pi_1(\R^3 \setminus \gamma([-1,1]))$:
+Wir erhalten die Relationen $R$:
+\begin{math}
+    a_{n+1} &= c_{n+1} c_n c_{n+1}^{-1}, \\
+    b_n &= c_{n+1} a_n c_{n+1}^{-1}, \\
+    c_{n+1} &= b_n b_{n+1} b_n^{-1}, \\
+    1 = &= b_n^{-1} a_n c_n
+\end{math}
+
+Wir behaupten $\Gen{S & R} \not\isomorphic \Set 1$.
+\begin{itemize}
+    \item
+        Eliminiere $a_n$:
+        \begin{math}
+            b_n = c_{n+1} \underbrace{c_n c_{n-1} c_n^{-1}}_{=a_n} c_{n+1}^{-1}.
+        \end{math}
+    \item
+        Eliminiere $b_n$:
+        \begin{math}
+            c_{n+1} =
+            c_{n+1}c_n c_{n-1} c_n^{-1} c_{n+1}^{-1}
+            c_{n+2}c_{n+1} c_n c_{n+1}^{-1} c_{n+2}^{-1}
+            c_{n+1}c_n c_{n-1}^{-1} c_n^{-1} c_{n+1}^{-1}
+        \end{math}
+        fixme: rechnen
+        \begin{math}
+            c_{n+1}c_n c_{n-1}^{-1} c_n^{-1} c_{n+1} c_n c_{n-1} c_n^{-1} c_n &= 1\\
+            c_n c_{n-1} c_{n+1} c_n &= c_{n+1} c_n c_{n-1}
+        \end{math}
+\end{itemize}
+Es gilt
+\begin{math}
+    \pi_1(\R^3 \setminus \gamma([0,1]))
+    \isomorphic \Gen{c_n, n \in \Z & c_n c_{n-1} c_{n+1} c_n = c_{n+1} c_n c_{n-1}, n \in \Z }.
+\end{math}
+Weise nun nach, dass diese Gruppe nicht trivial ist.
+Betrachte $\phi: G \to A_5$ gegeben durch
+\begin{math}
+    c_{2k} &\mapsto (12345),
+    c_{2k+1} &\mapsto (14235).
+\end{math}
+Die Relation ist erfüllt, für $n = 2k$:
+\begin{math}
+    (12345)(14235)(14235)(12345) &= (1)(2)(345), \\
+    (14235)(12345)(14235) &= (1)(2)(345)
+\end{math}
+Für $n = 2k + 1$ Übung.
+
+\begin{kor}
+    Es existieren Einbettungen $\S^2 \to \S^3$ sodass das Komplement nicht aus offenen Bällen besteht, sogar $\pi(\S^3 \setminus f(\S^2), *) \neq \Set 1$.
+    \begin{proof}
+        Mit obigen erhalten wir eine Einbettung $g: (-1,1) \times \S^1 \injto \R^3$, durch Fortsetzung $f: \S^2 \injto \R^3$.
+        Die Fundamentalgruppe ist nicht-trivial.
+        $f$ ist „einseitig wild“, ähnlich auch beidseitig möglich.
+    \end{proof}
+\end{kor}
 
