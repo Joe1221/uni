@@ -1,0 +1,112 @@
+% Kap C
+\chapter{Primfaktorzerlegung von Knoten}
+
+\Timestamp{2015-06-01}
+
+% §C1
+\section[Der Satz von Alexander-Schönflies]{Der Satz von Alexander-Schönflies für glatte Einbettungen \texorpdfstring{$\S^2 \injto \R^3$}{𝕊² ↪ ℝ³}}
+
+Bewegung von Bällen.
+Betrachte Einbettungen $f, g: \D^n \injto \R^n$.
+
+Sind $f, g$ isotop?
+
+\begin{st}[Milnor, Plais, Cerf, ≈1960]
+    Sei $M = \R^n$ oder allgemeinere eine zusammenhängende, glatte $n$-Mannigfaltigkeit ohne Rand.
+    Seien $f,g : \D^k \injto M$ glatte Einbettung, $0 \le k \le n$,
+    Falls $k = n \ge 1$ fordern wir zusätzlich, dass entweder $M$ nicht orientierbar ist, oder, dass $f, g$ das selbe Orientierungsverhalten haben.
+
+    Dann existiert eine glatte Isotopie von $f$ nach $g$, d.h. es existiert $H: [0,1] \times \D^k \to M$ glatt, $H_0 = f$, $H_1 = g$ und $H_t$ eine glatte Einbettung für alle $t \in [0,1]$.
+    \begin{note}[Zusatz: Thom Isotopiefortsetzungssatz]
+        Es existiert $\tilde H: [0,1] \times M \to M$ glatt, $H_0 = \id_M$, $H_1 \circ f = g$ und für alle $t \in [0,1]$ ein Diffeomorphismus $H_t: M \to M$.
+    \end{note}
+    \begin{proof}
+        Siehe Hirsch, Thm. 8.3.1
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    Ein glatter Knoten $\kappa: \S^1 \injto \R^3$ ist genau dann glatt isotop zum trivialen Knoten $\S^1 \subset \R^2 \subset \R^3$, wenn $\kappa$ einen glatten $2$-Ball berandet, d.h. es existiert $f: \D^2 \injto \R^3$ glatt mit $f|_{\S^1} = \kappa$.
+    \begin{proof}
+        \begin{seg}{\ProofImplication}
+            $\S^1$ berandet $\D^2$, die Isotopie von $\S^1$ nach $\kappa$ überführt dies zu einer glatten Scheibe.
+        \end{seg}
+        \begin{seg}{\ProofImplication*}
+            Mit obigem Satz.
+        \end{seg}
+    \end{proof}
+    \begin{note}
+        Übung: selbiges gilt im polygonalen Fall.
+    \end{note}
+\end{ex}
+
+\begin{nt}
+    Jede Einbettung $f: \S^0 = \Set{\pm 1} \injto \R^1$ zerlegt $\R^1$ in drei Komponenten
+    \begin{math}
+        \R \setminus f(\S^0) = A \sqcup B \sqcup C
+    \end{math}
+    mit $B$ beschränkt und $B \homeomorphic \B^1$, $\_B \homeomorphic \D^1$.
+\end{nt}
+
+\begin{st}[Jordan-Schönflies]
+    Jede topologische/polygonale/glatte Einbettung $f: \S^1 \injto \R^2$ zerlegt $\R^2$ in zwei Komponenten, $\R^2 \setminus f(\S^1) = A \sqcup B$ mit $A, B$ offen und zusammenhängend, $A$ unbeschränkt, $B$ beschränkt.
+    Es existiert ein Homöomorphismus/polygonaler Homoömorphismus/Diffeomorphismus $h: \R^2 \to \R^2$ mit $h \circ f(\S^1) = \S^1$.
+    \begin{proof}
+        Der topologische Fall ist sehr aufwändig und wird ausgelassen, für den polygonalen Fall siehe Vorlesung Topologie.
+        Zeige die aussage für den glatten Fall:
+
+        Sei $f:\S^1 \injto \R^2$ glatte Einbettung, zeige $f$ berandet eine glatte Kreisscheibe, d.h. $F: \D^2 \injto \R^2$, $F|_{\S^1} = f$.
+
+        Betrachte die Höhenfunktion $h: \R^2 \to \R$, $h(x,y) = y$.
+        Wir nennen $x \in \S^1$ \emph{regulär} (1), wenn $(h \circ f)'(x) \neq 0$ gilt und \emph{kritisch} (2), wenn $(h \circ f)'(x) = 0$.
+        Wir unterscheiden \emphdef{regulär kritisch} (2a), wenn lokal $(h \circ f)(x) \sim \pm x^2$ und \emph{singulär kritisch} (2b), wenn $(h \circ f)'(x) = (h \circ f)'' = 0$.
+
+        Wir nennen $h \circ f: \S^1 \to \R$ eine \emphdef{Morse-Funktion}, wenn nur die Fälle (1) und (2a) auftreten.
+
+        Damit gilt: Jeder kritische Punkt ist Minimum oder Maximum, diese liegen isoliert.
+        Da $\S^1$ kompakt ist, existieren nur endlich viele kritische Punkte.
+        Wir können sie auf verschiedene Höhen annehmen.
+        \begin{st}[Morse]
+            „Nach beliebig kleiner Isotopie ist $f$ von dieser Form“ (Morse-Einbettungen liegen dicht).
+        \end{st}
+
+        Sei $t \in \R$ ein regulärer Wert.
+        Dann schneidet $\R \times \Set{t}$ die Einbettung $f$ transversal in endlich vielen Punkten.
+        Es existiert ein Nachbarpaar (spezifizieren!) solcher Schnittpunkte mit Durchstößen in entgegengesetzter Richtung.
+        Führe Chirurgie aus: Schneide und Verbinde so, dass die Durchstöße verschwinden.
+
+        Per Induktion nach der Anzahl der Übergänge erhalten wir schließlich eine Kollektion von glatt eingebetteten Kreislinien.
+
+        Behauptung: Jede Kreislinie in $\R \times (t,\infty)$ berandet eine glatte Kreisscheibe.
+        \begin{enumerate}[1),start=0]
+            \item
+                Für $t > \max(h \circ f)$ ist dies trivial.
+            \item
+                Gilt dies für $t$ und enthält $[t', t]$ keine kritische Werte, so gilt dies auch für $t'$.
+            \item
+                Für die Passage eines Maximums betrachte die Chirurgie: eine Kreisscheibe entsteht.
+            \item
+                Für die Passage eines Minimums betrachte die Chirurgie: eine Kreisscheibe verschwindet.
+                Beachte mehrere Fälle: Paare können verschieden verbunden sein bei Chirurgie (einzelne Kreisscheibe, zwei Kreisscheiben, verschachtelte Kreisscheiben).
+        \end{enumerate}
+        Per Induktion erreichen wir schließlich $t < \min(h \circ f)$.
+    \end{proof}
+\end{st}
+
+\begin{st}[Alexander-Schönflies, ≈1920]
+    Jede glatte (!) Einbettung $f: \S^2 \injto \R^3$ berandet einen glatten $3$-Ball $F: \D^3 \injto \R^3$, $F|_{\S^2} = f$.
+    \begin{proof}
+        Nach beliebig kleiner Isotopie von $f$ ist $h \circ f: \S^2 \to \R$ eine Morse-Funktion, genauer: $h: \R^3 \to \R$, $h(x,y,z) = z$.
+        Jeder kritische Punkt ist entweder Maximum (lokal: $z = -x^2-y^2$) oder Minimum (lokal: $z = x^2 + y^2$) oder Sattelpunkt (lokal $z = x^2 - y^2$).
+
+        Sei $t \in \R$ ein regulärer Wert.
+        Wir führen Chirurgie entlang der Ebene $E_t: \R^2 \times \Set t$ durch.
+        $E_t$ schneidet $f$ in endlich vielen glatten Kreislinien (Satz über implizite Funktion lokal, Klassifikation der $1$-Mannigfaltigkeiten global).
+        Jede dieser Kreislinien berandet eine Scheibe (siehe voriger Satz).
+        Wähle eine „innerste Kreisscheibe“ und führe Chirurgie aus.
+        Nach endlich vielen Schritten sind alle Kreislinien damit wegoperiert.
+
+        Behauptung: In $\R^2 \times (t,\infty)$ liegen nur glatte $2$-Sphären und jede berandet einen glatten $3$-Ball.
+                
+    \end{proof}
+\end{st}
