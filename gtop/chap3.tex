@@ -99,14 +99,96 @@ Sind $f, g$ isotop?
         Nach beliebig kleiner Isotopie von $f$ ist $h \circ f: \S^2 \to \R$ eine Morse-Funktion, genauer: $h: \R^3 \to \R$, $h(x,y,z) = z$.
         Jeder kritische Punkt ist entweder Maximum (lokal: $z = -x^2-y^2$) oder Minimum (lokal: $z = x^2 + y^2$) oder Sattelpunkt (lokal $z = x^2 - y^2$).
 
-        Sei $t \in \R$ ein regulärer Wert.
-        Wir führen Chirurgie entlang der Ebene $E_t: \R^2 \times \Set t$ durch.
+        Sei $t \in \R$ ein regulärer Wert, $S := \im f$.
+        Wir führen Chirurgie entlang der Ebene $E_t: \R^2 \times \Set t$ durch und erhalten $S_t$.
         $E_t$ schneidet $f$ in endlich vielen glatten Kreislinien (Satz über implizite Funktion lokal, Klassifikation der $1$-Mannigfaltigkeiten global).
         Jede dieser Kreislinien berandet eine Scheibe (siehe voriger Satz).
         Wähle eine „innerste Kreisscheibe“ und führe Chirurgie aus.
         Nach endlich vielen Schritten sind alle Kreislinien damit wegoperiert.
 
-        Behauptung: In $\R^2 \times (t,\infty)$ liegen nur glatte $2$-Sphären und jede berandet einen glatten $3$-Ball.
-                
+        Behauptung: In $\R^2 \times (t,\infty)$ besteht $S_t$ aus glatten $2$-Sphären und jede berandet einen glatten $3$-Ball.
+        \begin{itemize}
+            \item
+                Für $t > \max(h\circ f)$ ist dies trivial.
+            \item
+                Gilt die Aussage für $t$ und enthält $[t', t]$ keine kritischen Werte, so gilt sie auch für $t'$.
+            \item
+                \begin{itemize}
+                    \item
+                        Passage eines Maximums.
+                    \item
+                        Passage eines Minimums, zwei Fälle: Ball innen, Ball außen.
+                    \item
+                        Passage eines Sattelpunktes.
+                        Diskussion aller Fälle:
+                        \begin{itemize}
+                            \item
+                                Zwei Kreise, separate Bälle. Ok.
+                            \item
+                                Zwei Kreise, ein Ball. Unmöglich, da $S \subset \R^3$ Sphäre.
+                            \item
+                                Ein verbundener Kreis, ineinandergestülpte Hose. Ok.
+                            \item
+                                Zwei weitere Fälle, entstehend durch Spiegelung der vorigen. Ok.
+                        \end{itemize}
+                        Dies sind alle möglichen Fälle (Warum?).
+                        Schließlich gilt für $t < \min(h\circ f)$: Die Glatte Sphäre $S \subset \R^3$ berandet einen glatten Ball.
+                \end{itemize}
+        \end{itemize}
+        Gilt
     \end{proof}
 \end{st}
+
+Die Aussage für $\S^0 \injto \R^1$ war banal, $\S^1 \injto \R^2$ ist Jordan-Schönflies und $\S^2 \injto \R^3$ ist Alexander-Schönflies.
+$\S^3 \injto \R^4$ ist ein offenes Problem: die sogenannte glatte Schönfließ-Vermutung.
+$\S^{n-1} \injto \R^n$ für $n \ge 5$ gilt dies dank eines $h$-Borlismus.
+
+
+% §C2
+\section{Seifert-Flächen und Knotengeschlecht}
+
+Berandet jeder Knoten eine kompakte Fläche? ist diese orientiert?
+
+Der triviale Knoten berandet eine Kreisfläche, aber auch ein Möbiusband (und viele weitere).
+Der Kleeblatt-Knoten berandet ein Möbiusband mit 1,5 Windungen (nicht orientierbar).
+Berandet der Kleeblatt-Knoten auch eine orientierbare Fläche? Ja!
+
+\begin{st}[Seifert 1934, Pontryagin 1930]
+    Zu jeder orientierten Verschlingung $K \subset \R^3$ existiert eine kompakte, orientierte, zusammenhängende Fläche $S \subset \R^3$ mit $\Boundary S = K$ (mitsamt Orientierung).
+    \begin{proof}[Seifert-Algorithmus]
+        Stelle $K$ als Diagramm in $\R^2$ dar.
+        Löse jede Kreuzung auf (entsprechend Orientierung neu verbinden).
+        Es bleiben Kreislinien in $\R^2$.
+        Jede berandet eine Kreisscheibe.
+        Verklebe diese nun je nach Kreuzung.
+        Wir erhalten eine kompakte, orientierte Fläche $S$ mit $\Boundary S = K$.
+        Ist $S$ noch nicht zusammenhängend, so klebe Zylinder an.
+    \end{proof}
+\end{st}
+
+Erinnerung: Flächenklassifikation:
+\begin{math}
+    S \homeomorphic F_{g,r}^+
+\end{math}
+für $g \in \N$, $r \in \N_{\ge 1}$.
+
+\begin{df}
+    Das Geschlecht eines Knotens $K$ ist
+    \begin{math}
+        g(K) := \min \Set{g(S) & \text{$S$ ist kompakt, orientiert, zusammenhängend, $\Boundary S = K$}}
+    \end{math}
+\end{df}
+
+\begin{note}
+    \begin{itemize}
+        \item
+            $K$ ist trivial genau dann, wenn $g(K) = 0$ ist.
+        \item
+            Kleeblattknoten: $g(3_1) = 1$.
+        \item
+            Achterknoten: $g(4_1) = 1$.
+    \end{itemize}
+\end{note}
+
+
+
