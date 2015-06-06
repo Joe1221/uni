@@ -172,6 +172,14 @@
 % Old version of package libertine loads xcolor with conflicting options, so load it beforehand.
 \RequirePackage [ svgnames, x11names ] { xcolor }  % ana3 needs x11names
 
+\RequirePackage { tikz }
+
+% before polyglossia's \setmainlanguage{german}, fix catcode handling
+\ExplSyntaxOff
+\usetikzlibrary { babel }
+\ExplSyntaxOn
+\RequirePackage { tikz-cd }
+
 %%=======================================================================
 %% Fonts / Encoding / i18n
 %%=======================================================================
@@ -232,8 +240,6 @@
         % Polyglossia babelshorthands has some problems with explsyntax
         \cs_new_eq:NN \mycourselanguage \l_mycourse_language
         \ExplSyntaxOff
-        % Weird workaround for reutenauer/polyglossia#95
-        \input{babelsh.def}
         \setmainlanguage [
             spelling        = new,
             latesthyphen    = true,
@@ -504,7 +510,6 @@
 
 %\RequirePackage{mathtools}
 \RequirePackage[amsmath,hyperref,thmmarks]{ntheorem}                    % Alternative theorems für leichteres Anpassen
-\RequirePackage{tikz}
 
 % TODO: \theoremheadertypefont{bla} sollte funktionieren, wie?
 \def\theorem@headertypefont{\color{theoremtype}} % Font für Theorem-Typ (Satz, Definition, etc.)
