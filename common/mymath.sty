@@ -100,8 +100,6 @@
 \newcommand{\ggT}{\operatorname{ggT}}
 \newcommand{\kgV}{\operatorname{kgV}}
 \DeclareDocumentCommand { \Aut } { } { \operatorname { Aut } }
-\DeclareDocumentCommand { \injto } { } { \hookrightarrow }
-\DeclareDocumentCommand { \surto } { } { \twoheadrightarrow }
 
 \DeclareDocumentCommand { \isomorphic } { } { \mathrel { \cong } }
 \DeclareDocumentCommand { \LandauO } { } { O }
@@ -306,6 +304,35 @@
     }
 }
 
+% convenient arrows
+\DeclareDocumentCommand { \to } { s o G{} G{} } {
+    \IfBooleanTF { #1 } {
+        \IfNoValueTF { #2 } {
+            \xleftarrow[#4]{#3}
+        } {
+            \str_case_x:nn { #2 } {
+                { bijective } { \mathrel{ \tikz[scale=0.45] \draw[{Hooks[right]}->>] (1,0) -- (0,0); } }
+                { injective } { \mathrel{ \tikz[scale=0.45] \draw[{Hooks[right]}->] (1,0) -- (0,0); } }
+                { surjective } { \mathrel{ \tikz[scale=0.45] \draw[->>] (1,0) -- (0,0); } }
+                { homeomorphic } { \xleftarrow{ \raisebox{-0.17em}[0pt][0pt]{ \,\ensuremath{\mathsmaller{\cong}}\, } } }
+                { homotopic } { \xleftarrow{ \raisebox{-0.14em}[0pt][0pt]{ \,\ensuremath{\mathsmaller{\simeq}}\, } } }
+            }
+        }
+    } {
+        \IfNoValueTF { #2 } {
+            \xrightarrow[#4]{#3}
+        } {
+            \str_case_x:nn { #2 } {
+                { bijective } { \mathrel{ \tikz[scale=0.45] \draw[{Hooks[right]}->>] (0,0) -- (1,0); } }
+                { injective } { \mathrel{ \tikz[scale=0.45] \draw[{Hooks[right]}->] (0,0) -- (1,0); } }
+                { surjective } { \mathrel{ \tikz[scale=0.45] \draw[->>] (0,0) -- (1,0); } }
+                { homeomorphic } { \xrightarrow{ \raisebox{-0.17em}[0pt][0pt]{ \,\ensuremath{\mathsmaller{\cong}}\, } } }
+                { homotopic } { \xrightarrow{ \raisebox{-0.14em}[0pt][0pt]{ \,\ensuremath{\mathsmaller{\simeq}}\, } } }
+            }
+        }
+    }
+}
+
 \DeclareDocumentCommand { \ProofImplication } { s t( t) o o } {
     \normalfont \selectfont
     \IfNoValueTF { #4 } {
@@ -433,3 +460,9 @@
 	{ \oldbinom { #1 } { #2 } }
 }
 
+
+% Backwards Compatability (to be deprecated)
+% =============================================
+
+\DeclareDocumentCommand { \injto } { } { \to[injective] }
+\DeclareDocumentCommand { \surto } { } { \to[surjective] }
