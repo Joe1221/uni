@@ -191,5 +191,141 @@ für $g \in \N$, $r \in \N_{\ge 1}$.
     \end{itemize}
 \end{note}
 
+\Timestamp{2015-06-08}
 
+\subsection{Additivität}
+
+\begin{st}
+    Für alle Knoten $K_1, K_2$ gilt $g(K_1 \# K_2) = g(K_1) + g(K_2)$.
+    \begin{proof}
+        Sei $K_i = \Boundary S_i$ mit $g(K_i) = g(S_i)$ (minimales Geschlecht).
+        Dann ist $S = S_1 \#_{\Boundary} S_2$ eine Seifert-Fläche für $K = K_1 \# K_2$.
+        Damit gilt
+        \begin{math}
+            g(K_1 \# K_2) \le g(S) = g(S_1) + g(S_2) = g(K_1) = g(K_2),
+        \end{math}
+        womit „$\le$“ gezeigt ist.
+
+        Sei nun $S$ eine Seifert-Fläche zu $\Boundary S = K = K_1 \# K_2$ mit minimalem Geschlecht, d.h. $g(S) = g(K)$.
+        Sei $D \subset \R^3$ ein Ball, der $K$ in die Faktoren $K_1$ und $K_2$ teilt.
+        Ohne Einschränkung sei $E = \Boundary D$ glatt.
+
+        Nach Isotopie von $S$ können wir Transversalität von $S$ zu $E$ annehmen.
+        Somit besteht $S \cap E$ aus $n$ disjunkten Kreislinien und einem Segment von $A$ nach $B$.
+        \begin{seg}[$n = 0$]
+            Wir können $S$ aufschneiden.
+            Es ist dann $S = S_1 \#_{\Boundary} S_2$ und $g(K) = (S) = g(S_1) + g(S_2) \ge g(K_1) + g(K_2)$.
+        \end{seg}
+        \begin{seg}{$n \ge 1$}
+            Wähle einen innersten Kreis, dieser berandet eine Scheibe $\D^2 \xto[homeomorphic] F \subset E$ mit $F \cap S = \boundary F$.
+            Betreibe nun Chirurgie an $F$ und erhalte aus $S$ so $S'$.
+            Es gilt $\chi(S') = \chi(S) + 2$.
+            Wäre $S'$ zusammenhängend, so $g(S') = g(S) - 1$ (Erinnerung für zusammenhängende Flächen: $\chi(F_g^+) = 2 - 2g$).
+            Wegen $\Boundary S' = \Boundary S = K$ ist dies nicht möglich.
+            Also ist $S'$ nicht zusammenhängend, $S = S_1 \sqcup S_2$.
+            Da $K$ zusammenhängend ist, folgt $\Boundary S_1 = K$, $\Boundary S_2 = \emptyset$ (notwendigerweise gilt $\S_2 \homeomorphic \S^2$).
+            Wir können $S_2$ löschen und erhalten $S_1$ mit $\Boundary S_1 = K$, $g(S_1) = g(S)$ und $S_1 \cap E$ hat eine Kreiskomponente weniger.
+            Induktiv erreichen wir den Fall $n = 0$.
+        \end{seg}
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    Aus $A \# B \sim \KnotTriv$ folgt $A \sim \KnotTriv$, $B \sim \KnotTriv$.
+\end{kor}
+
+\begin{df}
+    Ein Knotentyp $K$ heißt \emphdef{prim}, wenn aus $K = A \# B$ stets entweder $A = \KnotTriv$ oder $B = \KnotTriv$ folgt.
+\end{df}
+
+\begin{prop}
+    Knoten vom Geschlecht 1 sind prim.
+    \begin{proof}
+        Sei $K = A \# B$ mit $g(K) = 1$, dann ist $g(A) + g(B) = 1$ und somit $g(A) = 1$, $g(B) = 0$ oder umgekehrt.
+    \end{proof}
+\end{prop}
+
+\begin{ex}
+    $3_1$ und $4_1$ sind prim.
+\end{ex}
+
+\begin{prop}
+    Es gibt unendlich viele Primknotentypen, z.B. die Twistknoten $T_n$, $n \in \Z \setminus \Set 0$.
+    \begin{proof}
+        Es gilt $g(T_n) \le 1$ gemäß Skizze.
+        Für $n \neq 0$ gilt $T_n \neq 0$ (mit Färbungszahl oder später Alexander-Polynom).
+        Zudem $T_m \neq T_n$ für $m \neq n$.
+    \end{proof}
+\end{prop}
+
+\begin{st}
+    Jeder Knotentyp $K$ ist eine verbundene Summe aus Primknotentypen, d.h. es existieren $P_1, \dotsc P_n$ prim mit $K = P_1 \# \dotsb \# P_n$.
+    \begin{proof}
+        Induktion über $g(K)$: für $g(K) = 0$ ist $K$ trivial und die Aussage gilt für  $n = 0$, für $g(K) = 1$ ist $K = P_1$ prim.
+        Sei nun $g(K) \ge 2$.
+        Betrachte zwei Fälle: falls $K$ prim, so ist $K = P_1$ ein verbundene Summe aus Primknoten.
+        Falls $K$ nicht prim ist, so existieren $A, B$ nicht-trivial mit $K = A \# B$, $g(K) = g(A) + g(B)$, $g(A), g(B) \ge 1$, also $g(A), g(B) < g(K)$.
+        Gemäß Induktionvoraussetzung ist $A = P_1 \# \dotsb \# P_m$, $B = P_{m+1} \# \dotsb \# P_n$ und somit $K = P_1 \# \dotsb \# P_n$.
+    \end{proof}
+\end{st}
+
+Ziel: \emph{eindeutige} Primfaktorzerlegung analog zu $(\N_{\ge 1}, \cdot, 1)$.
+Gegenbeispiele:
+\begin{itemize}
+    \item
+        $\Z[i\sqrt{5}] \subset \C$ (Übung).
+    \item
+        Oder betrachte
+        \begin{math}
+            \R[x] \supset \Set{f: \R \to \R, f'(0) = 0} = \R[x^2, x^3]
+        \end{math}
+        Hier ist $x^6 = x^2 x^2 x^2 = x^3 x^3$.
+    \item
+        Betrachte $(M, \cdot, 1)$ mit
+        \begin{math}
+            M = \N \setminus \Set{13}.
+        \end{math}
+        Nun ist ${13}^6 = {13}^2 {13}^2 {13}^2 = {13}^3 {13}^3$.
+\end{itemize}
+Betrachte einen langen Knoten $K$ (1-Schlingel).
+Sei $S = S_1 \cup \dotsb \cup S_n$, $n \ge 1$ eine Familie disjunkter glatter 2-Sphären $S_i \subset \R^3$, die den Knoten transvers in je höchstens zwei Punkten schneiden.
+Jede Sphäre $S_i$ berandet $D_i \homeomorphic \D^3$.
+Jeder Ball $D_i$ beinhaltet einen Knoten $K_i$ (oder nicht).
+Enthält $D_i$ weitere Bälle, so sind diese zur Definition von $K_i$ vorher auszuscheiden und durch den trivialen zu ersetzen.
+
+\begin{prop}
+    Es gilt $K = K_1 \# \dotsb \# K_n$.
+\end{prop}
+
+\begin{df}
+    Nach Löschung aller trivialen und leeren Beiträge erhalten wir $K = P_1 \# \dotsb \# \# P_m$ ($m \le n$) mit $P_i$ nicht-trivial.
+    Wir sagen, dass $S$ den Knoten $K$ in $P_1, \dotsc, P_m$ zerlegt.
+\end{df}
+
+\begin{lem}
+    Sind $P_1, \dotsc, P_m$ prim und $S^* \supset S$ eine Verfeinerung (durch Hinzufügen weiterer 2-Sphären), dann zerlegt $S^*$ den Knoten $K$ in dieselben Primknoten $P_1, \dotsc, P_m$.
+    \begin{proof}
+        Wir finden $P_i = P_i' \# P_i''$, damit klar.
+    \end{proof}
+\end{lem}
+
+\begin{st}
+    Sei $K$ ein Knotentyp und $P_1, \dotsc, P_m$, $Q_1, \dotsc, Q_m$ prim und
+    \begin{math}
+        K = P_1 \# \dotsb \# P_2 = Q_1 \# \dotsb \# Q_n.
+    \end{math}
+    Dann gilt $m = n$ und nach Umordnung $P_1 = Q_1$, \dots, $P_n = Q_n$.
+    \begin{proof}
+        $S$ zerlege $K$ in $P_1, \dotsc, P_m$, $S'$ zerlege $K$ in $Q_1, \dotsc, Q_n$.
+        \begin{seg}[$S \cap S' = \emptyset$]
+            Wenn $S \cap S' = \emptyset$, dann betrachte $S^* = S \cup S'$.
+            Wegen $S^* \supset S, S'$, zerlegt $S^*$ in $P_1, \dotsc, P_n$, bzw. $Q_1, \dotsc, Q_n$ (Eindeutigkeit bis auf Umordnung).
+        \end{seg}
+        \begin{seg}[$S \cap S' \neq \emptyset$]
+            Nach Isotopie von $S'$ schneiden sich $S$ und $S'$ transvers.
+            $S \cap S'$ ist eine Familien disjunkter glatter Kreislinien.
+
+        \end{seg}
+    \end{proof}
+\end{st}
 
