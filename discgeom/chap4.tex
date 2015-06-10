@@ -242,12 +242,12 @@ Es gilt
 \end{math}
 Für den Link einer Ecke:
 \begin{math}
-    f_0^{(i)} - f_1^{(i)} + f_2^{(i)} \dotsb f_{d-2}^{(i)} &= 0
+    f_0^{(i)} - f_1^{(i)} + f_2^{(i)} \dotsb f_{d-2}^{(i)} &= 0 \\
     2f_1^{(i)} - \binom{3}{2}f_2^{(i)} + \binom{4}{3} f_3^{(i)} \dotsb - \binom{d}{d-1} f_{d-1}^{(i)} &= 0
 \end{math}
 für den Link eines Dreiecks:
 \begin{math}
-    f_0^{(i)} - f_1^{(i)} + f_2^{(i)} \dotsb f_{d-4}^{(i)} &= 0
+    f_0^{(i)} - f_1^{(i)} + f_2^{(i)} \dotsb f_{d-4}^{(i)} &= 0 \\
     \binom{4}{1}f_2^{(i)} - \binom{5}{2} f_4^{(i)} \dotsb -\binom{d}{d-3} f_{d-1}^{(i)} &= 0
 \end{math}
 bis zu
@@ -257,8 +257,135 @@ bis zu
 Wir erhalten $\frac{d+1}{2}$ Gleichungen für $d$ Variablen $f_0, \dotsc, f_{d-1}$, bzw. für $h_1, \dotsc, h_d$.
 
 \begin{kor}
-    Die Dehn-Sommerville-Gleichungen für den $f$-Vektor sind äquivalent zu $h_i = h_{d-i}$ für alle $i$ für den $h$-Vektor.
+    Die Dehn-Sommerville-Gleichungen für den $f$-Vektor sind äquivalent zur Symmetrie-Bedingung $h_i = h_{d-i}$ für alle $i$ für den $h$-Vektor.
 \end{kor}
+
+
+\Timestamp{2015-06-10}
+
+
+\begin{st}
+    Für jedes simpliziale $d$-Polytop (d.h. schälbare simpliziale $(d-1)$-Sphäre) gelten die folgenden Gleichungen
+    \begin{math}[numbered=multiple]
+        \sum_{i=-1}^d (-1)^i f_i &= 0, && \text{wobei $f_{-1} = f_d = 1$}, \\
+        \sum_{i=k+1}^d (-1)^{d-i} \binom{i}{k} f_{i-1} &= 0, && \text{für $1\le k \le d-1$ und $d-k$ gerade}, \label{eq:ds2} \\
+        h_0 &= 1, \\
+        h_k &= h_{d-k}.
+    \end{math}
+    \begin{note}
+        Die Gleichungen in \eqref{eq:ds2} gelten auch für allgemeine triangulierte Mannigfaltigkeiten.
+    \end{note}
+\end{st}
+
+
+\section{Upper-Bound-, Lower-Bound-Conjecture}
+
+UBC, LBC liefern scharfe Schranken für den $f$-, bzw. $h$-Vektor.
+
+Wir haben folgende triviale Schranken:
+\begin{math}
+    f_i \le \binom{f_i}{i}
+\end{math}
+Gleichheit für alle $i$ gilt nur für das $d$-Simplex.
+
+Wir haben zwei Extremfälle:
+\begin{itemize}
+    \item
+        Stapelpolytope:
+        \begin{math}
+            f_i = \binom{d}{i}n - \binom{d+1}{i+1}i
+        \end{math}
+        für $0 \le i \le d-2$ und $f_{d-1} = (d-1)n - (d+1)(d-2)$.
+
+        Die Lower-Bound-Conjecture besagt nun: „Die Stapelpolytope realisieren den ‘kleinsten’ $f$-Vektor.“
+    \item
+        nachbarschaftliche Polytope (speziell: zyklische Polytope):
+        \begin{math}
+            f_0 = n, f_1 = \binom{n}{2}, \dotsc, f_{i-1} = \binom{n}{i}
+        \end{math}
+        für $i \le \frac{d}{2}$.
+
+        Die Upper-Bound-Conjecture besagt nun: „Die zyklischen Polytope realisieren den ‚größten‘ $f$-Vektor ($h$-Vektor)“.
+\end{itemize}
+
+
+Sei $P$ ein $d$-dimensionales Stapelpolytop.
+Wir berechnen den zugehörigen $h$-Vektor.
+
+Es gilt
+\begin{math}
+    h_1 &= f_0 \binom{d-1}{0} - f_{-1} \binom{d}{1} &&= n - d\\
+    h_2 &= f_1 \binom{d-2}{0} - f_0 \binom{d-1}{1} + f_{-1} \binom{d}{2} && \\
+    &= dn - \binom{d+1}{2} -n\binom{d-1}{1} + 1\binom{d}{2} &&= n - d \\
+    h_3 &= \dotso &&= n-d
+\end{math}
+
+\begin{lem}
+    \begin{math}
+        h_k &:= \sum_{i=0}^d (-1)^{k-i} \binom{d-i}{k-i} \underbrace{\Big( \binom{d}{i-1} n - \binom{d+1}{i}(i-1) \Big)}_{= f_{i-1}} \\
+        &= n-d
+    \end{math}
+    für $k \le \frac{d}{2}$ (und damit auch für $k \le d-2$ nach Dehn-Sommerville).
+    \begin{note}
+        Wir nutzen Induktion nach $n$.
+        Für $n + 1$ ergibt sich
+        \begin{math}
+            h_k &= \underbrace{\sum_{i=0}^k (-1)^{k-i} \binom{d-i}{k-i} \Big( \binom{d}{i-1}n - \binom{d+1}{i}(i-1)\Big)}_{=n-d} + \sum_{i=0}^k (-1)^{k-i} \binom{d-i}{k-i} \binom{d}{i-1}.
+        \end{math}
+        Es stellt sich also die Frage, ob $\sum_{i=0}^k (-1)^{k-i} \binom{d-i}{k-i} \binom{d}{i-1} = 1$ gilt.
+        \begin{math}
+            (-1)^{k-i} \binom{d-i}{k-i}
+            = \binom{k-d-1}{k-i}
+        \end{math}
+        Nun gilt mit der Vandermonde-Identität
+        \begin{math}
+            \sum_{i=0}^k \binom{k-d-1}{k-i} \binom{d}{i-1} = \binom{k-1}{k-1} = 1.
+        \end{math}
+        Zum Induktionsanfang $n = d+1$ (Simplex)
+        \begin{math}
+            h_k &= \sum_{i=0}^k (-1)^{k-i} \binom{d-i}{k-i} \Big( \binom{d}{i-1} (d+1) - \binom{d+1}{i} (i-1)\Big) \\
+            &= \sum_{i=0}^k (-1)^{k-i} \binom{d-i}{k-i} \binom{d+1}{i} \\
+            &= \sum_{i=0}^k \binom{k-d-1}{k-i} \binom{d+1}{1} \\
+            &= \binom{k}{k}
+            = 1 = n-d.
+        \end{math}
+    \end{note}
+\end{lem}
+
+\begin{st}[Vandermonde-Konvolutionsformel]
+    \begin{enumerate}[1)]
+        \item
+            \begin{math}
+                \sum_{k=0}^n \binom{x}{k} \binom{y}{n-k} = \binom{x+y}{n},
+            \end{math}
+            wobei $n \in \N$, $x, y \in \R$.
+        \item
+            \begin{math}
+                \sum_{k=0}^n \binom{n}{k} (x)_k (y)_{n-k} = (x+y)_{n},
+            \end{math}
+            wobei $(x)_ke = x(x-1) \dotsb (x-k+1)$.
+    \end{enumerate}
+    \begin{proof}
+        Beide Aussagen sind äquivalent (Übung), wir zeigen 2).
+        Für $n = 1$:
+        \begin{math}
+            \binom{1}{0} (x)_0 (y)_1 + \binom{1}{1} (x)_1 (y)_0 = y + x = (x+y)_1.
+        \end{math}
+        Von $n-1$ auf $n$:
+        \begin{math}
+            (x+y)_n
+            &= (x+y)_{n-1} (x + y - n + 1) \\
+            &= \sum_{k=0}^{n-1} \binom{n-1}{k} (x)_{k} (y)_{n-1-k} \underbrace{(x+ y -n + 1)}_{=(x-k) + (y-n+k-1)} \\
+            &= \sum_{k=0}^{n-1} \binom{n-1}{k} (x)_{k} (y)_{n-k} + \sum_{k=0}^{n-1} (x)_{k+1}(y)_{n-1-k} \\
+            &= \sum_{k=0}^{n} \binom{n}{k} (x)_k (y)_{n-k}.
+        \end{math}
+    \end{proof}
+\end{st}
+
+
+
+
+
 
 
 
