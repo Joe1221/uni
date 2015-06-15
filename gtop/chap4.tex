@@ -1,5 +1,5 @@
 % Kapitel D
-\chapter{Seifert-Form, Signator und Alexander-Polynom}
+\chapter{Seifert-Form, Signatur und Alexander-Polynom}
 
 Ziel: Ausgehend von einem Knoten $K$ konstruiren wir eine Seifert-Fläche $S \subset \R^3$, $\Boundary S = K$.
 Daraus gewinnen wir die Seifert-Form $\Theta_s: H_1 S \times H_1 S \to \Z$ ($H_1 = \pi_1(S)_{\text{ab}} \isomorphic \Z^{2g}$ nach Flächenklassifikation) und das Alexander-Polynom
@@ -55,6 +55,105 @@ Bild: Aufschneiden einer Säule.
         \end{enumerate}
     \end{proof}
 \end{st}
+
+\Timestamp{2015-06-15}
+
+\begin{lem}
+    Jede Seifert-Fläche zu $K$ ist S-äquivalent zu einer kanonischen S-Fläche (d.h. aus dem Algorithmus angewendet auf ein Diagramm zu K entstanden).
+    \begin{proof}
+        Wir nutzen die Flächenklassifikation: $S \homeomorphic F_{g,1}^+$.
+        Die Einbettung in $\R^3$ können wir modulo Isotopie darstellen als Rechteck mit $2g$ Bändern (die unter Wahrung der Orientierung verschlungen sind).
+        Wir betrachten $D = \Boundary S$ als Knotendiagramm und wenden den Seifert-Algorithmus an.
+        Die so entstehende Fläche $S'$ ist S-äquivalent zur ursprünglichen Fläche $S$.
+        Wir betrachten dazu (zwei verschiedenartige) Kreuzungen zweier Bänder und die Verdrillung eines Bandes, jeweils: $S \leadsto D \leadsto D' \leadsto S'$ und $S \sim S'$ durch S-Äquivalenz.
+    \end{proof}
+\end{lem}
+
+\begin{lem}
+    Je zwei kanonische Seifert-Flächen zu $K$ sind $S$-äquivalent.
+    \begin{proof}
+        Betrachte R-Zügen von $D$ nach $D'$.
+    \end{proof}
+\end{lem}
+
+
+% §D2
+\section{Seifert-Form}
+
+
+Wir betrachten einen Knoten $K \subset \R^3$ und wählen eine zugehörige Seifert-Fläche $S \subset \R^3$, also $K = \Boundary S$.
+Wir bestimmen nun $\Theta_S: H_1(S) \times H_1(S) \to \Z$.
+
+Erinnerung:
+\begin{math}
+    \pi_1(S, *)
+    = \pi_1(F_{g,1}^+)
+    = \Gen{a_1, b_1, \dotsc, a_g, b_g & -}
+    \isomorphic F_{2g}
+\end{math}
+Wir setzen die erste Homologiegruppe als
+\begin{math}
+    H_1(S) := \pi_1(S)_{\text{ab}} \isomorphic \Z^{2g}.
+\end{math}
+In der Abelsch-Machung können wir den Fußpunkt „vergessen“.
+Alternativ: Betrachtung im Henkelmodell, Visualisierung der Abelsch-Machung im Henkelmodell.
+
+Wir wollen messen, wie $S$ in $\R^3$ „verschlungen“ ist.
+
+\begin{prop}
+    Jede Seifert-Fläche $S \subset \R^3$ lässt sich aufdicken zu $[-1,1] \times S \xto[injective] \R^3$, mit $\Set{0} \times S \xto{\text{proj.}} S$ durch $(0,x) \mapsto x$.
+    Die Orientierung legen wir so fest, dass die positive Normale auf $S$ „von $-1$ nach $1$ zeigt“.
+    Dies ist eindeutig bis auf Isotopie bei fester Fläche $S$.
+
+    Jede Kurve $\alpha$ auf $S$ definiert Kurven $\alpha^\uparrow = \Set{1} \times \alpha$, und $\alpha^\downarrow = \Set{-1} \times \alpha$.
+
+    Wir definieren $\Theta_S: H_1 S \times H_1 S \to \Z$ durch
+    \begin{math}
+        (\alpha, \beta) \mapsto \lk(\alpha^\downarrow, \beta^\uparrow).
+    \end{math}
+    Dies ist eine bilineare Abbildung.
+    Nach Wahl einer Basis $a_1, b_1, \dotsc, a_g, b_g \in H_1 S$ (wie oben) entspricht dies einer Matrix $\Z^{2g \times 2g}$.
+\end{prop}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Triviales Beispiel:
+            Für $S = F_{g,1}^+$ in der Standard-Einbettung
+            \begin{math}
+                \lk(a^\uparrow, b^\downarrow) = \lk(b^\downarrow, a^\uparrow) &= 0, \\
+                \lk(a^\downarrow, b^\downarrow) = \lk(b^\uparrow, a^\downarrow) &= 1.
+            \end{math}
+            Wir erhalten für $\Theta_S \in \Z^{2g}$ eine Blockmatrix mit Blöcken
+            \begin{math}
+                \Matrix*{0 & 1 \\ 0 & 0} \in \Z^{2 \times 2}.
+            \end{math}
+        \item
+            Twist-Knoten $T_k$ mit $2k$ Kreuzungen, entspricht $k$ vollen Drehungen der Seifert-Fläche $S$, $\Boundary S = T_k$.
+            \begin{math}
+                \lk(a^\downarrow, b^\uparrow) &= 0, \\
+                \lk(b^\downarrow, a^\uparrow) &= -1, \\
+                \lk(a^\downarrow, a^\uparrow) &= -k, \\
+                \lk(b^\downarrow, b^\uparrow) &= -1,
+            \end{math}
+    \end{itemize}
+\end{ex}
+
+Es stellt sich die Frage, ob $\det(\Theta_S)$ invariant ist.
+Dies gilt leider nicht.
+Für folgende Ausdrücke jedoch schon:
+\begin{itemize}
+    \item
+        $|\det(\Theta_S + \Theta_S^T)|$,
+    \item
+        $\sgn(\Theta_S + \Theta_S^T)$,
+    \item
+        $\det(q^{-1}\Theta_S - q\Theta_S^T) \in \Z[q^{\pm 1}]$.
+\end{itemize}
+
+
+
+
 
 
 
