@@ -144,18 +144,247 @@ Dies gilt leider nicht.
 Für folgende Ausdrücke jedoch schon:
 \begin{itemize}
     \item
-        $|\det(\Theta_S + \Theta_S^T)|$,
+        $|\det(\Theta_S + \Theta_S^T)|$ (Determinante),
     \item
-        $\sgn(\Theta_S + \Theta_S^T)$,
+        $\sgn(\Theta_S + \Theta_S^T)$ (Signatur),
     \item
-        $\det(q^{-1}\Theta_S - q\Theta_S^T) \in \Z[q^{\pm 1}]$.
+        $\det(q^{-1}\Theta_S - q\Theta_S^T) \in \Z[q^{\pm 1}]$ (Alexander-Polynom).
 \end{itemize}
 
 
+\Timestamp{2015-06-17}
+
+Auswirkung der S-Äquivalenz auf die Seifert-Form (Anfügen eines Zylinders von $S$ zu $S'$)
+\begin{math}
+    H_1 S \xto[injective] H_1 S'
+    = H_1 S \oplus \<a\> \oplus \<b\>,
+\end{math}
+denn
+\begin{math}
+    \pi_1(S,*) &= \Gen{a_1, b_1, \dotsc, a_g, b_g & - } \\
+    \pi_1(S',*) &= \Gen{a_1, b_1, \dotsc, a_g, b_g, a, b & - }
+\end{math}
+
+Es ergibt sich
+\begin{math}
+    \Theta_{S'} =
+    \Matrix{
+        &  &  & & 0 & * \\
+        & \Theta_S & & \vdots & \vdots \\
+        & & & 0 & * \\
+        0 & \hdots & 0 & 0 & 0 \\
+        * & \hdots & * & 1 & * \\
+    }
+\end{math}
+
+\begin{df}
+    Zwei Matrizen $M \in \Z^{2g \times 2g}$ und $M' \in \Z^{2g' \times 2g'}$ heißen \emphdef{S-äquivalent}, wenn sie sich durhc eine endliche Folge solcher Operationen unterscheiden:
+    \begin{enumerate}[1)]
+        \item
+            Basiswechsel: $M' = T^t M T$ mit $T \in \GL_{2n} \Z$,
+        \item
+            Stabilisierung:
+            \begin{math}
+                M' =
+                \Matrix{
+                    &  &  &  0 & * \\
+                    & M & & \vdots & \vdots \\
+                    & & & 0 & * \\
+                    0 & \hdots & 0 & 0 & 0 \\
+                    * & \hdots & * & 1 & 0 \\
+                }.
+            \end{math}
+            (oder umgekehrt).
+    \end{enumerate}
+\end{df}
+
+\begin{prop}
+    $|\det(\Theta_S + \Theta_S^t)|$ ist unabhängig von der Wahl der Basis von $H_1 S$ und von der Wahl der Seifert-Fläche $S$ zu einem Knoten $K$.
+    Somit ist $|\det(K)| := |\det(\Theta_S + \Theta_S^t)|$ eine Invariante des Knotens.
+    \begin{proof}
+        Stelle $\Theta_S: H_1 S \times H_1 S \to \Z$ dar durch eine Matrix $M \in \Z^{2g \times 2g}$, hierzu Basiswahl.
+        \begin{enumerate}[1)]
+            \item
+                Basiswechsel: $M' = T^t M T$ mit $T \in \GL_{2g} \Z$.
+                Es gilt
+                \begin{math}
+                    M' + {M'}^t
+                    = T^t M T + T^t M^t T
+                    = T^t (M + M^t) T
+                \end{math}
+                und für die Determinante
+                \begin{math}
+                    \det(M' + {M'}^t)
+                    = \det(T^t) \det(M + M^t) \det(T)
+                    = \det(M + M^t),
+                \end{math}
+                da $\det(T) = \det(T^t) = \pm 1$.
+            \item
+                Stabilisierung:
+                \begin{math}
+                    M' =
+                    \Matrix{
+                        &  &  &  0 & * \\
+                        & M & & \vdots & \vdots \\
+                        & & & 0 & * \\
+                        0 & \hdots & 0 & 0 & 0 \\
+                        * & \hdots & * & 1 & 0 \\
+                    }.
+                \end{math}
+                also
+                \begin{math}
+                    M' + {M'}^t =
+                    \Matrix{
+                        &  &  &  0 & * \\
+                        & M + M^t & & \vdots & \vdots \\
+                        & & & 0 & * \\
+                        0 & \hdots & 0 & 0 & 1 \\
+                        * & \hdots & * & 1 & 0 \\
+                    }.
+                \end{math}
+                und $\det(M' + (M')^t) = - \det(M + M^t)$.
+
+        \end{enumerate}
+    \end{proof}
+    \begin{note}
+        Wir retten das Vorzeichen:
+        \begin{math}
+            \det(K) &= (-1)^{g(S)} \det(\Theta_S + \Theta_S^t) \\
+            &= (-i)^{2g(S)} \det(\Theta_s + \Theta_s^t) \\
+            &= \det(-i\Theta_s - i \Theta_s^t).
+        \end{math}
+    \end{note}
+\end{prop}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Twistknoten: $T_k$.
+            Seifert-Form:
+            \begin{math}
+                \Theta_k &= \Matrix{
+                    -k & 0 \\
+                    -1 & -1
+                }, &&
+                \Theta_k + \Theta_k^t &= \Matrix{
+                    -2k & - 1 \\
+                    -1 & -2
+                }.
+            \end{math}
+            Es gilt
+            \begin{math}
+                |\det(T_k)| &= |4k - 1|, \\
+                \det(T_k) &= (-1)^1 (4k-1) = 1 - 4k.
+            \end{math}
+            Dies unterscheidet bereits alle Twistknoten.
+            Anwendung: Für $k \neq 0$ ist $T_k$ prim.
+            \begin{enumerate}[1.]
+                \item
+                    $T_0 = 0$ trivial, $\det 0 = 1$
+                \item
+                    $T_1 = 3_1$ Kleeblattknoten, $\det 3_1 = -3$,
+                \item
+                    $T_{-1} = 4_1$ Achterknoten, $\det 4_1 = 5$,
+            \end{enumerate}
+    \end{itemize}
+\end{ex}
+
+\begin{df}
+    Die Signatur einer symmetrischen Matrix ist
+    \begin{math}
+        \sgn(M) := \sum_{k=1}^{2g} \sgn(\lambda_k)
+    \end{math}
+    für Eigenwerte $\lambda_k$.
+\end{df}
+
+\begin{prop}
+    Die Signatur von $\Theta_S + \Theta_S^t$ ist eine Invariante des Knotens $K$, geschrieben $\sgn(K) := \sgn(\Theta_S + \Theta_S^t)$.
+    \begin{proof}
+        \begin{enumerate}[1)]
+            \item
+                Basiswechsel: $M' = T^t M T$ mit $T \in \GL_{2g} \Z$.
+
+                Trägheitssatz von Sylvester (Signatur bleibt bei beliebiger Diagonalisierung erhalten).
+            \item
+                Stabilisierung:
+                \begin{math}
+                    M' + {M'}^t =
+                    \Matrix{
+                        &  &   & 0 & 0 \\
+                        & M + M^t & & \vdots & \vdots \\
+                        & & & 0 & 0 \\
+                        0 & \hdots & 0 & 0 & 1 \\
+                        0 & \hdots & 0 & 1 & 0 \\
+                    }.
+                \end{math}
+                Durch Diagonalisierung
+                \begin{math}
+                    \Matrix{
+                        \lambda_1 &  &  & 0 & 0 \\
+                        & \ddots & & \vdots & \vdots \\
+                        & & \lambda_{2g} & 0 & 0 \\
+                        0 & \hdots & 0 & 1 & 0 \\
+                        0 & \hdots & 0 & 0 & -1 \\
+                    }.
+                \end{math}
+        \end{enumerate}
+    \end{proof}
+\end{prop}
 
 
+\begin{ex}
+    \begin{math}
+        \Theta_k + \Theta_k^t = \Matrix{-2k & -1 \\ -1 & -2}.
+    \end{math}
+    Charakteristisches Polynom:
+    \begin{math}
+        (x + 2k)(x + 2) - 1
+        &= x^2 + (2k+2) x + (4k - 1) \\
+    \end{math}
+    Für $k = 0$:
+    \begin{math}
+        = (x - (\sqrt 2 + 1))(x - (\sqrt 2 - 1)).
+    \end{math}
+    für $k = 1$:
+    \begin{math}
+        x^2 + 6x + 3
+    \end{math}
+    zwei Eigenwerte kleiner Null, also $\sgn(T_1) = -2$.
 
+    Für $k = -1$:
+    \begin{math}
+        x^2 - 5,
+    \end{math}
+    also $\sgn(T_{-1}) = 0$.
 
+    Für $k = -2$:
+    \begin{math}
+        x^2 - 2x - 9,
+    \end{math}
+    also $\sgn(T_{-2}) = 0$.
 
+    Allgemein:
+    \begin{math}
+        \sgn(T_k) = \begin{cases}
+            0 & \text{für $k \le 0$}, \\
+            -2 & \text{für $k \ge 1$}
+        \end{cases}
+    \end{math}
+\end{ex}
 
+Algorithmische Fragen:
+\begin{enumerate}[1)]
+    \item
+        Wie berechnet man effizient das charakteristische Polynom $P_A(x) := \det(x 1_{n\times n} - A)$?
+    \item
+        Wie bestimmt man hieraus die Signatur?
+
+        Vorzeichenregel von Descartes:
+        Sei $P \in \R[x]_n^1$ ein (normiertes) reelles Polynom vom Grad $n$ mit $n$ reellen Nullstellen $\lambda_1, \dotsc, \lambda_n \in \R$
+        \begin{math}
+            \#\Set{k & \lambda_k > 0} &= \text{Anzahl Vorzeichenwechsel in den Koeff. von $P(x)$} \\
+            \#\Set{k & \lambda_k < 0} &= \text{Anzahl Vorzeichenwechsel in den Koeff. von $P(x)$} \\
+            \#\Set{k & \lambda_k = 0} &= \max\Set{k & x^k \divs P(x)}
+        \end{math}
+\end{enumerate}
 
