@@ -382,6 +382,187 @@ Es gilt
     \end{proof}
 \end{st}
 
+\Timestamp{2015-06-07}
+
+\begin{df}
+    Ein (simpliziales) $d$-Polytop heißt \emphdef{nachbarschaftlich}, wenn
+    \begin{math}
+        f_k = \binom{f_0}{k}
+    \end{math}
+    für alle $k \le \frac{d}{2}$ erfüllt ist.
+    \begin{note}
+        Vorstellung: Je $k$ Ecken sind in einer gemeinsamen Seite enthalten.
+    \end{note}
+\end{df}
+
+\begin{ex}
+    Zyklische Polytope sind nachbarschaftlich.
+\end{ex}
+
+Vermutung: nachbarschaftliche Polytope sind auch maximal gesättzigt mit Seiten der Dimension $k > \frac{d}{2}$.
+$f_{k-1} \le \frac{f_0}{k}$ ist trivial.
+
+Die Dehn-Sommervillegleichungen liefern, dass $f_0, \dotsc, f_{\floor{\frac{d}{2} - 1}}$ den Rest bestimmen (bzw. $h_1, \dotsc, h_{\floor{\frac{d}{2} }})$.
+
+Berechnung des $h$-Vektors für nachbarschaftliche Polytope:
+Mit $n := f_0$  gilt für $k \le \frac{d}{2}$:
+\begin{math}
+    h_k &= \sum_{i=0}^k (-1)^{k-i} \binom{d-i}{k-i} f_{i-1} \\
+    &= \sum_{i=0}^k (-1)^{k-i} \binom{d-i}{k-i} \binom{n}{i} \\
+    &= \sum_{i=0}^k \binom{k-d-1}{k-i} \binom{n}{i} \\
+    &= \binom{n+k-d-1}{k}.
+\end{math}
+$h_k \le \binom{n+k-d-1}{k}$ für $k > \frac{d}{2}$ ist trivial.
+
+\begin{ex}
+    Für $d = 2m$ ist $\binom{n+m+d-1}{m-1}$ der Symmetriepunkt im $h$-Vektor.
+\end{ex}
+
+Pascal-Trick für $d = 4$:
+\begin{math}
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{ccccccccccc}
+        & & & & & 1 \\
+        & & & & 1 & & $h_1 + 4 = f_0$ \\
+        & & & 1 & & $h_1 + 3$ & & $h_2 + 3h_1 + 6 = f_1$ \\
+        & & 1 & & $h_1 + 2$ & & $h_2 + 2h_1 + 3$ & & $h_3 + 2h_2 + 3h_1 + 4 = f_2$ \\
+        & 1 & & $h_1+1$ & &  $h_2 + h_1 + 1$ & & $h_3 + h_2 + h_1 + 1$ & & $h_4 + h_3 + h_2 + h_1 + 1 = f_3$ \\
+        1 & & $h_1$ & & $h_2$ & & $h_3$ & & 1 & & *
+    \end{tabular}
+    }
+\end{math}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            4-dimensionaler Oktaeder:
+            \begin{math}
+                \begin{tabular}{ccccccccccc}
+                    &&&&& 1 \\
+                    &&&& 1 && 8 \\
+                    &&& 1 && 7  && 24 \\
+                    && 1 && 6 && 17 && 32 \\
+                    & 1 && 5 && 11 && 15 && 16 \\
+                    1 && 4 && 6 && 4 && 1 && *
+                \end{tabular}
+            \end{math}
+        \item
+            3-dimensionaler Oktaeder:
+            \begin{math}
+                \begin{tabular}{ccccccccc}
+                    &&&& 1 \\
+                    &&& 1 && 6 \\
+                    && 1 &&  5 && 12 \\
+                    & 1 && 4 && 7 && 8 \\
+                    1 && 3 && 3 && 1 && *
+                \end{tabular}
+            \end{math}
+        \item
+            5-dimensionales Oktaeder
+            \begin{math}
+                \begin{tabular}{ccccccccccccc}
+                    &&&&&& 1 \\
+                    &&&&& 1 && 10 \\
+                    &&&& 1 && 9 && 40 \\
+                    &&& 1 && 8 && 31 && 80 \\
+                    && 1 && 7 && 23 && 49 && 80 \\
+                    & 1 && 6 && 16 && 26 && 31 && 32 \\
+                    1 && 5 && 10 && 10 && 5 && 1 && *
+                \end{tabular}
+            \end{math}
+    \end{itemize}
+    Stapelpolytope und nachbarschaftliche Polytope bilden sozusagen die untere und obere Grenze für $f$- und $h$-Vektor.
+    Dies ist die Upper-, bzw. Lower-Bound-Conjecture.
+\end{ex}
+
+\begin{thm}[Upper Bound Theorem, UBT]
+    $P$ sei ein (nicht notwendig simplizial) $d$-Polytop mit $n$ Ecken, dann gilt für alle $k$
+    \begin{math}
+        f_{k-1} \le f_{k-1}(C(d,n)),
+    \end{math}
+    wobei $C(d,n)$ das zyklische Polytop der Dimension $d$ mit $n$ Ecken darstellt.
+    Gleichheit für ein $d > k \ge \floor{\frac{d}{2}}$ genau dann, wenn $P$ simplizial und nachbarschaftlich ist.
+
+    \begin{note}
+        Ist $P$ nicht simplizial, so existiert ein simpliziales Polytop $P'$ mit $n$ Ecken und $f_{k-1}(P) \le f_{k-1}(P')$.
+    \end{note}
+    \begin{proof}[nur für simpliziale $P$]
+        Wir zeigen: Sei $P$ simplizial, dann gilt
+        \begin{math} \label{eq:ubt_1}
+            h_k(P) \le \binom{n-d+k-1}{k}
+        \end{math}
+        mit Gleichheit für alle $k$ mit $k \le l$ genau dann, wenn $l \le \frac{d}{2}$ und $P$ nachbarschaftlich.
+
+        Um \eqref{eq:ubt_1} zu zeigen nutzen wir Induktion und zeigen für den Induktionsschritt:
+        \begin{math} \label{eq:ubt_ind}
+            (k+1) h_{h+1} \le (n-d+k) h_k
+        \end{math}
+        Verwende eine Schälung $F_1, \dotsc, F_s$ von $P$.
+
+        Betrachte das nachfolgende Lemma.
+        Wir behaupten
+        \begin{math}[numbered=multiple] \label{eq:ubt_bh1}
+            \sum_{\text{$v$ Ecke von $C$}} h_k(C / v) = (k+1) h_{k+1}(C) + (d-k) h_k(C). \tag{B1}
+        \end{math}
+        und für alle Ecken $v$ von $C$
+        \begin{math}[numbered=multiple] \label{eq:ubt_bh2}
+            h_k(C/v) \le h_k(C), \tag{B2}
+        \end{math}
+        also insbesondere $\sum_{v} h_k(C/v) \le n h_k(C)$.
+
+        \eqref{eq:ubt_bh1} und \eqref{eq:ubt_bh2} liefern
+        \begin{math}
+            n h_k(C)
+            \ge \sum_{v} h_k(C/v)
+            = (k+1) h_{k+1}(C) + (d-k) h_k(C)
+        \end{math}
+        und implizieren \eqref{eq:ubt_ind}.
+        \begin{seg}{Beweis von \eqref{eq:ubt_bh1}}
+            Gilt für $P = \Delta^d$ ($d$-Simplex) mit $d+1$ Ecken, jeder Link ist Rand eines $d$-Simplex, also $h(C) = \Vector{1 & \dots & 1}$ (Stapel).
+            Rechte und linke Seite sind $d+1$.
+
+            Die Behauptung gelte für $F_1 \cup \dotsb \cup F_{j-1}$, $F_j$ wird hinzugefügt.
+            Falls $v \not\in F_j$, ändert sich nichts.
+            Interessant: $v \in F_j$.
+            $h_k$ beschreibt die Anzahl der $R_j$ mit $|R_j| = k$, $R_j \subset F_j$, $|F_j| = d$.
+            Zwei Fälle: $v \in R_j$ oder $v \not\in R_j$.
+
+            Für $v \not\in R_j$: neue Seite der Größe $|R_j|$ im Link von $v$, also $h_k(C/v)$ steigt um $1$, wenn $|R_j| = k$.
+            Betrag auf der linken Seite ist $|F_j \setminus R_j| = d - k$.
+            $h_k(C)$ steigt um $1$ auf der rechten Seite.
+            Gleichheit bleibt erhalten.
+
+            $v \in R_j$ verläuft ähnlich: $h_k(C/v)$ steigt um $1$, wenn $|R_j| = k + 1$.
+            Betrag auf den linken Seite ist $k+1$, $h_{k+1}(C)$ steigt um $1$ auf der rechten Seite.
+            Gleichheit bleibt erhalten.
+        \end{seg}
+        \begin{seg}{Beweis von \eqref{eq:ubt_bh2}}
+            Betrachte die Schälung, die im Stern von $v$ beginnt.
+            Gemäß dem nachfolgendene Lemma, wird eine Schälung auf dem Link $C / v$ induziert.
+            Solange wir im Stern von $v$ verbleiben, sind linke und rechte Seite gleich.
+            Danach gibt es keine Beiträge links, sondern höchstens rechts.
+        \end{seg}
+    \end{proof}
+\end{thm}
+
+\begin{lem}
+    Eine Schälung von $\Boundary P =: C$ induziert auf jedem Link $C / v$ einer Ecke eine Schälung.
+    \begin{proof}
+        Sei $F_1, \dotsc, F_s$ eine Schälung von $\Boundary P$ und wähle eine Ecke $v$ fest.
+        $v$ ist enthalten in $F_{j_1}, \dotsc, F_{j_r}$ in aufsteigender Zählung $j_1 < j_2 < \dotsb < j_r$.
+        Setze $G_{j_i}$ so, dass $F_{j_i} = G_{j_i} \cup \Set{v}$.
+        Ist $G_{j_1}, \dotsc, G_{j_i}$ eine Schälung?
+        Betrachte
+        \begin{math}
+            G_{j_k} \cap (G_{j_1} \cup \dotsb \cup G_{j_{k-1}}) \cup \Set{v}
+            &= F_{j_k} \cap (F_{j_1} \cup \dotsb \cup F_{j_{k-1}}) \\
+            &\subset F_{j_k} \cap (F_1 \cup \dotsb \cup F_{j_{k-1}})
+        \end{math}
+        Die rechte Seite ist ein $(d-1)$-dimensionaler Ball und enthält $v$.
+        Die linke Seite ist ein $(d-2)$-dimnesionaler Ball und ist im Link von $v$ enthalten.
+    \end{proof}
+\end{lem}
+
 
 
 
