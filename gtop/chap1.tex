@@ -3,61 +3,66 @@
 
 \Timestamp{2015-04-15}
 
-Unser Ziel ist folgender Satz:
+Unser Ziel in diesem Kapitel ist folgender Satz:
 \begin{st}
     Jeder Knotentyp in $\R^3$ lässt sich durch ein Knotendiagramm im $\R^2$ darstellen.
-    Je zwei solcher Diagramme stellen genau dann den selben Knotentyp dar, wenn sie sich durch Reidemeisterzüge $R1, R2, R3$ ineinander überführen lassen.
+    Je zwei solcher Diagramme stellen genau dann den selben Knotentyp dar, wenn sie sich durch Reidemeisterzüge $\Reid1, \Reid2, \Reid3$ ineinander überführen lassen.
 \end{st}
 Dazu sind zunächst die Begriffe \emph{Knotentyp} und \emph{Knotendiagramm} zu klären.
 
 % A1
 \section{Polygonale Knoten}
 
-Ein Polygonzug $P = (v_0, v_1, \dotsc, v_n)$ im $\R^d$ ist eine endliche Folge von Punkten $v_0, \dotsc, v_n \in \R^d$. 
-Gibt man eine Unterteilung $0 = t_0 < t_1 < \dotsb < t_n = 1$ vor, so definiert dies $\gamma_P: [0,1] \to \R^d$ durch affine Interpolation:
-\begin{math}
-    \gamma_P(t) = \frac{t_k - t}{t_k - t_{k-1}} v_{k-1} + \frac{t-t_{k-1}}{t_k -t_{k-1}} v_k
-\end{math}
-für $t \in [t_{k-1}, t_k]$.
-$P$ heißt \emphdef{einfach}, wenn für alle $i < j$
-\begin{math}
-    [v_{i-1}, v_i] \cap [v_{j-1}, v_j]
-    = \begin{cases}
-        \Set{v_i} & \text{für $j = i + 1$} \\
-        \emptyset & \text{für $j \ge i + 2$}
-    \end{cases},
-\end{math}
-d.h. genau dann, wenn $\gamma_p$ injektiv ist.
-$P$ heißt \emphdef{geschlossen}, wenn $v_0 = v_n$.
-Wir erhalten dann $\_\gamma_P: \S^1 \to \R^d$ durch $\_\gamma(e^{2\pi i t} = \gamma_P(t)$.
-
-$P$ heißt \emphdef{einfach geschlossen} (oder \emphdef{doppelpunktfrei}), wenn
-\begin{math}
-    (v_{i-1}, v_i] \cap ( v_{j-1}, v_j] = \emptyset
-\end{math}
-für $1 \le i < j \le n$, d.h. genau dann, wenn $\_\gamma_p$ injektiv ist.
-
 \begin{df}
-    Ein (polygonaler) Knoten in $\R^d$ ist ein einfach geschlossener Polygonzug $P = (v_0, v_1, \dotsc, v_n)$ in $\R^d$.
-    Hierzu gehört die Parametrisierung $\_\gamma_p: \S^1 \injto \R^d$ mit Bildmenge $K = |P| := [v_0, v_1] \cup \dotsb \cup [v_{n-1},v_n] \subset \R^d$.
+    Ein \emphdef{Polygonzug} $P = (v_0, v_1, \dotsc, v_n)$ im $\R^d$ ist eine endliche Folge von Punkten $v_0, \dotsc, v_n \in \R^d$. 
+
+    Die Wahl einer Unterteilung $0 = t_0 < t_1 < \dotsb < t_n = 1$ definiert eine Parametrisierung $\gamma_P: [0,1] \to \R^d$ durch affine Interpolation:
+    \begin{math}
+        \gamma_P(t) &= \frac{t_k - t}{t_k - t_{k-1}} v_{k-1} + \frac{t-t_{k-1}}{t_k -t_{k-1}} v_k,
+        && t \in [t_{k-1}, t_k].
+    \end{math}
+
+    $P$ heißt \emphdef{einfach}, wenn für alle $i < j$
+    \begin{math}
+        [v_{i-1}, v_i] \cap [v_{j-1}, v_j]
+        = \begin{cases}
+            \Set{v_i} & \text{für $j = i + 1$} \\
+            \emptyset & \text{für $j \ge i + 2$}
+        \end{cases},
+    \end{math}
+    d.h. genau dann, wenn $\gamma_p$ injektiv ist.
+
+    $P$ heißt \emphdef{geschlossen}, wenn $v_0 = v_n$ ist.
+    Wir erhalten dann die $\_\gamma_P: \S^1 \to \R^d$ durch $\_\gamma(e^{2\pi i t}) = \gamma_P(t)$.
+
+    $P$ heißt \emphdef{einfach geschlossen} (oder \emphdef{doppelpunktfrei}), wenn $v_0 = v_n$ und
+    \begin{math}
+        (v_{i-1}, v_i] \cap ( v_{j-1}, v_j] = \emptyset
+    \end{math}
+    für $1 \le i < j \le n$, d.h. genau dann, wenn $\_\gamma_p$ injektiv ist.
 \end{df}
 
-Wir betrachten Züge
-\begin{math}
-    P = (v_0, \dotsc, v_k, v_{k+1}, \dotsc, v_n)
-    \leftrightarrow
-    P' = (v_0, \dotsc, v_k, v, v_{k+1}, \dotsc, v_n).
-\end{math}
-Für die Betrachtung von Knoten ist eine Einschränkung der Bewegungen nützlich.
+\begin{df}
+    Ein \emphdef[Knoten!polygonal]{polygonaler Knoten} in $\R^d$ ist ein einfach geschlossener Polygonzug $P = (v_0, v_1, \dotsc, v_n)$ in $\R^d$.
+    Hierzu gehört eine \emphdef[Knoten!Parametrisierung]{Parametrisierung} $\_\gamma_P: \S^1 \xto[injective] \R^d$ mit \emphdef[Knoten!Bildmenge]{Bildmenge} $K := |P| := [v_0, v_1] \cup \dotsb \cup [v_{n-1},v_n] \subset \R^d$.
+\end{df}
 
-Wir setzen $\Delta := [v_k, v, v_{k+1}]$ und fordern
-\begin{math}
-    |P| \cap \Delta = [v_k, v_{k+1}]
-    \quad \land \quad
-    |P'| \cap \Delta = [v_k, v] \cup [v, v_{k+n}].
-\end{math}
-Dies nennen wir einen \emphdef[Delta-Zug]{$\Delta$-Zug}
+Wir betrachten nun Bewegungen eines Polygonzugs.
 
+\begin{df}
+    Für zwei Polygonzüge
+    \begin{math}
+        P &= (v_0, \dotsc, v_k, v_{k+1}, \dotsc, v_n) \\
+        P' &= (v_0, \dotsc, v_k, v, v_{k+1}, \dotsc, v_n).
+    \end{math}
+    setzen wir $\Delta := [v_k, v, v_{k+1}]$ und fordern
+    \begin{math}
+        |P| \cap \Delta = [v_k, v_{k+1}]
+        \quad \land \quad
+        |P'| \cap \Delta = [v_k, v] \cup [v, v_{k+1}].
+    \end{math}
+    Die Modifikation von $P$ zu $P'$ (oder umgekehrt) nennen wir \emphdef[Delta-Zug]{$\Delta$-Zug}.
+\end{df}
 
 \begin{df}
     Seien $P$ und $P'$ polygonale Knoten in $\R^d$.
@@ -65,20 +70,16 @@ Dies nennen wir einen \emphdef[Delta-Zug]{$\Delta$-Zug}
     \begin{math}
         P = P_0 \leftrightarrow P_1 \leftrightarrow \dotsb \leftrightarrow P_l = P'.
     \end{math}
-    Wir nennen $P, P'$ dann \emphdef{polygonal isotop} (oder $\Delta$-äquivalent).
+    Existiert eine solche polygonale Isotopie, so nennen wir $P$ und $P'$ \emphdef{polygonal isotop} oder \emphdef[Delta-äquivalent]{$\Delta$-äquivalent} und schreiben $P \sim P'$.
 
-    Die Äquivalenzklasse $[P]$ heißt der \emph{Knotentyp} von $P$.
+    Die Äquivalenzklasse $[P]$ heißt \emph{Knotentyp} von $P$.
 \end{df}
 
 
 \Timestamp{2015-04-20}
 
-\begin{ex}
-    Man bestimme alle Knotentypen in $\R^2$ und anschließend in $\R^d$ für $d > 4$.
-\end{ex}
-
 \begin{df}
-    Ein Knoten $P = (v_1, \dotsc, v_n)$ in $\R^d$ heißt \emphdef{trivial}, wenn $P$ isotop ist zu einem Dreieck, d.h. zu $P' = (v_1,v_2,v_3)$.
+    Ein Knoten $P = (v_1, \dotsc, v_n)$ in $\R^d$ heißt \emphdef{trivial}, wenn $P$ isotop ist zu einem Dreieck $P' = (v_1',v_2',v_3')$.
 \end{df}
 
 \begin{prop}
@@ -88,14 +89,19 @@ Dies nennen wir einen \emphdef[Delta-Zug]{$\Delta$-Zug}
     \end{proof}
 \end{prop}
 
-\begin{note}
-    In $\R^2$ gibt es \emph{zwei} Äquivalenzklassen trivialer Knoten (Orientierung).
-    In $\R^d$ mit $d \ge 3$ sind alle trivialen Knoten äquivalent.
-    In $\R^d$ mit $d \ge 4$ sind alle Knoten trivial.
-\end{note}
+\begin{nt}
+    \begin{itemize}
+        \item
+            In $\R^2$ gibt es genau \emph{zwei} Äquivalenzklassen trivialer Knoten (gegeben durch entsprechende Orientierung).
+        \item
+            In $\R^d$ mit $d \ge 3$ sind alle trivialen Knoten äquivalent.
+        \item
+            In $\R^d$ mit $d \ge 4$ sind alle Knoten trivial.
+    \end{itemize}
+\end{nt}
 
 \begin{ex}
-    Ein (polygonaler) Knoten $P$ in $\R^3$ ist trivial genau dann, wenn er eine Scheibe berandet, also eine eingebettete simpliziale Fläche $S \subset \R^3$, sodass $\Boundary S = |P|$ und $S \homeomorphic \D^2$.
+    Ein (polygonaler) Knoten $P$ in $\R^3$ ist trivial genau dann, wenn er eine Scheibe berandet (d.h. es existiert eine eingebettete simpliziale Fläche $S \subset \R^3$, sodass $\Boundary S = |P|$ und $S \homeomorphic \D^2$).
     \begin{proof}
         Hinrichtung leicht, Rückrichtung wie Schönflies.
     \end{proof}
@@ -105,7 +111,9 @@ Dies nennen wir einen \emphdef[Delta-Zug]{$\Delta$-Zug}
 
 \begin{st}
     Sei $P = (v_1, \dotsc, v_n)$ in $\R^d$ ein polygonaler Knoten.
-    Dann existiert ein $\epsilon > 0$, sodasss jede Folge $P' = (v_1', \dotsc, v_n')$ in $\R^d$ mit $|v_i - v_i'| < \epsilon$ einen Knoten definiert und $P' \sim P$ gilt.
+    Dann existiert $\epsilon > 0$, sodass jede Folge $P' = (v_1', \dotsc, v_n')$ in $\R^d$ mit $|v_i - v_i'| < \epsilon$ einen Knoten definiert mit $P' \sim P$.
+
+    Außerdem gilt
     \begin{enumerate}[(1)]
         \item
             $P \sim P + v$ für $v \in \R^d$,
@@ -113,13 +121,16 @@ Dies nennen wir einen \emphdef[Delta-Zug]{$\Delta$-Zug}
             $P \sim \rho(P)$ für jede Drehung $\rho$,
         \item
             $P \sim \lambda P$ für $\lambda \in \R_{>0}$.
-            Für $\lambda < 0$ gilt dies im Allgemeinen nicht.
     \end{enumerate}
+    \begin{note}
+        $P \sim \lambda P$ für $\lambda < 0$ gilt im Allgemeinen nicht.
+    \end{note}
     \begin{proof}
         Wähle
         \begin{math}
-            \epsilon := \frac{1}{2} \min \Set{\Set{d(v_i, v_j) & |i-j| \ge 1 } \cup \Set{d([v_{i-1},v_i], [v_{j-1},v_j]) & |i-j| \ge 2}}.
+            \epsilon := \frac{1}{2} \min \Set{\Big. \Set{\big. d(v_i, v_j) & |i-j| \ge 1 } \cup \Set{\big. d([v_{i-1},v_i], [v_{j-1},v_j]) & |i-j| \ge 2}},
         \end{math}
+        wobei die Indizes und der Index-Abstand $|i-j|$ zyklisch zu verstehen sind ($v_0 = v_n$).
         \begin{enumerate}[(1)]
             \item
                 Wähle $n \in \N$ so groß, dass $|\frac{v}{n}| < \epsilon$.
@@ -143,14 +154,14 @@ Dies nennen wir einen \emphdef[Delta-Zug]{$\Delta$-Zug}
     \end{proof}
 \end{kor}
 
-\begin{note}
+\begin{nt}
     \begin{enumerate}[(1)]
         \item
             Es gilt $P(v_1, v_2, \dotsc, v_n) \sim P' = (v_2, \dotsc, v_n, v_1)$.
         \item
             Aus $|P| = |P'|$ in $\R^d$ mit gleicher Orientierung folgt $P \sim P'$.
     \end{enumerate}
-\end{note}
+\end{nt}
 
 
 % A2
