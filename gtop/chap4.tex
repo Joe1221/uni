@@ -388,3 +388,247 @@ Algorithmische Fragen:
         \end{math}
 \end{enumerate}
 
+\Timestamp{2015-06-22}
+
+\subsection{Einfluss von Symmetrien}
+
+\begin{table}[ht]
+    \begin{tabular}{c|ccccc}
+        Knoten & Or. Knoten & Or. $\R^3$ & Seifert-Fläche & Seifert-Form & Signatur \\ \hline
+        $K$   & + & + & $S$   & $\Theta_S$ & $\sigma$ \\
+        $K^!$ & - & + & $S^!$ & $\Theta_S^t$ & $\sigma$ \\
+        $K^x$ & + & - & $S$   & $-\Theta_S^t$ & $-\sigma$ \\
+        $K^*$ & - & - & $S^!$ & $-\Theta_S$ & $-\sigma$
+    \end{tabular}
+    \caption{Einfluss von Symmetrien auf Knoten-Invarianten}
+\end{table}
+
+\begin{nt}
+    Dies ist einer der einfachsten Beweise, dass es chirale Knoten gibt, konkret: $3_1^+ \neq 3_1^-$.
+    Weitere Kandidaten:
+    \begin{itemize}
+        \item
+            Färbungen: $P_{A_5}^{(12345)}(3_1^\pm) = 1 + 5x^{\mp}$
+        \item
+            Jones-Polynom (später)
+    \end{itemize}
+\end{nt}
+
+\subsection{Verhalten unter verbundener Summe}
+
+Knoten werden mit ihrer Seifert-Fläche verbunden: $S = S_1 \#_\Boundary S_2$.
+Seifert-Form:
+\begin{math}
+    H_1(S) &= H_1(S_1) \oplus H_1(S_2), \\
+    g(S) &= g(S_1) + g(S_2), \\
+    \Theta_S &= \Matrix{\Theta_{S_1} & 0 \\ 0 & \Theta_{S_2}} = \Theta_{S_1} \oplus \Theta_{S_2}.
+\end{math}
+Signatur:
+\begin{math}
+    \sgn(K_1 \# K_2) = \sgn(K_1) + \sgn(K_2)
+\end{math}
+
+\begin{ex}
+    Kreuzknoten: $\sgn(3_1^+ \# 3_1^-) = +2 - 2 = 0$
+
+    Großmutterknoten: $\sgn(3_1^\pm \# 3_1^\pm) = \pm 2  \pm 2 = \pm 4$
+
+    Die Knoten sind also verschieden.
+\end{ex}
+
+Wir versuchen
+\begin{math}
+    \det(q^{-1} \Theta_S - q\Theta_S^t)
+\end{math}
+(für $q = i$ entspricht das der Signatur).
+
+Basiswechsel:
+Sei $M$ eine Matrix zu $\Theta_S$ und $T \in \GL_{2g} \Z$:
+\begin{math}
+    \det(q^{-1} M' - q {M'}^t)
+    &= \det(T^t (q^{-1}M - qM^t) T) \\
+    &= \det(T^t) \det(q^{-1} M - qM^t) \det(T)) \\
+    &= \det(q^{-1} M - qM^t).
+\end{math}
+
+Stabilisierung:
+\begin{math}
+    M' &=
+    \Matrix{
+        &  &  &  0 & * \\
+        & M & & \vdots & \vdots \\
+        & & & 0 & * \\
+        0 & \hdots & 0 & 0 & 0 \\
+        * & \hdots & * & 1 & 0 \\
+    } \\
+    q^{-1}M' - q {M'}^t &=
+    \Matrix{
+        &  &  &  0 & * \\
+        & q^{-1}M - qM^t & & \vdots & \vdots \\
+        & & & 0 & * \\
+        0 & \hdots & 0 & 0 & -q \\
+        * & \hdots & * & q^{-1} & 0 \\
+    } \\
+    &= \det(q^{-1}M - qM^t) \det \Matrix{0 & -q \\ q^{-1} & 0}
+    = \det(q^{-1}M - qM^t).
+\end{math}
+
+\begin{st}
+    Das (Laurent-)Polynom
+    \begin{math}
+        \Delta(K)
+        := \det(q^{-1} \Theta_S - q\Theta_S^t)
+        \in \Z[q^\pm]
+    \end{math}
+    ist invariant unter Basiswechsel und Stabilisierung und somit eine Invariante des Knotens $K$.
+    \begin{note}
+        \begin{itemize}
+            \item
+                Dies ist eine Verallgemeinerung der Determinante $\det(K) = \Delta(K)|_{q\mapsto i}$.
+        \end{itemize}
+    \end{note}
+\end{st}
+
+\begin{ex}
+    Betrachte den Twistknoten $T_k$:
+    \begin{math}
+        \Theta_S = \Matrix{-k & 0 \\ -1 & -1}.
+    \end{math}
+    Es gilt
+    \begin{math}
+        q^{-1} \Theta_S - q\Theta_S^t
+        &= \Matrix{
+            -kq^{-1} + k q & 0 + 1q \\
+            -1q^{-1} - 0q & -1q^{-1} + 1q
+        } \\
+        \det(q^{-1} \Theta_S - q \Theta_S^t)
+        &= k(q-q^{-1})(q-q^{-1}) - q(-q^{-1}) \\
+        &= k(q^2 - 2 + q^{-2}) + 1 \\
+        &= kq^2  + (1-2k) q^0 + kq^{-2}.
+    \end{math}
+    Probe mit $q \mapsto i$:
+    \begin{math}
+        -k + 1-2k - k = 1 - 4k,
+    \end{math}
+    was mit dem übereinstimmt, was wir früher für $\det(T_k)$ ermittelt hatten.
+    \begin{note}
+        \begin{itemize}
+            \item
+                Für Knoten tauchen nur gerade Potenzen auf.
+            \item
+                Zudem git $\Delta(q^{-1}) = \Delta (q)$, denn
+                \begin{math}
+                    \Delta(K)|_{q\mapsto q^{-1}}
+                    &= \det(q \Theta_S - q^{-1}0\Theta_S^t) \\
+                    &= \det(-q^{-1} \Theta_S + q^{-1} \Theta_S) \\
+                    &= (-1)^{2g} \det(q^{-1} \Theta_s - q \Theta_S)
+                    = \Delta(K)
+                \end{math}
+        \end{itemize}
+    \end{note}
+\end{ex}
+
+\begin{prop}
+    \begin{itemize}
+        \item
+            $
+                \Delta(K)
+                = \Delta(K^!)
+                = \Delta(K^x)
+                = \Delta(K^*)
+            $,
+        \item
+            $\Delta(K_1 \# K_2) = \Delta(K_1) \Delta(K_2)$.
+    \end{itemize}
+\end{prop}
+
+\begin{ex}
+    \begin{math}
+        \Delta(3_1^\pm) &= q^2 - 1 + q^{-2} \\
+        \Delta(3_1^\pm \# 3_1^\pm) &= (q^2 - 1 + q^{-2})^2
+    \end{math}
+\end{ex}
+
+\begin{df}
+    Wir definieren für $p = a_m q^m + \dotsb + a_nq^n$ mit $m \le n$ und $a_m, a_n \neq 0$ den \emphdef{Span}
+    \begin{math}
+        \span(p) := n - m.
+    \end{math}
+\end{df}
+
+\begin{prop}
+    \begin{math}
+        \span_q \Delta(K) \le 4 g(K).
+    \end{math}
+    \begin{proof}
+        Sei $S$ eine Seifert-Fläche zu $K$ mit minimalem Geschlecht, $g(S) = g(K)$.
+        Betrachte $\Theta_S$ und $q^{-1} \Theta_S - q\Theta_S^t$:
+        \begin{math}
+            \Matrix{
+                a_{ij} q^{-1} + b_{ij} q^{+1} & \hdots \\
+                \vdots & \ddots
+            }.
+        \end{math}
+        \begin{math}
+            \det(\dotso) = \sum_{k=-2g}^{2g} c_k q^k.
+        \end{math}
+        Also $\span \det(\dotso) \le 4g$.
+    \end{proof}
+    \begin{note}
+        \begin{itemize}
+            \item
+                Dank obiger Beobachtung ist für Knoten stets $\span_q \Delta(K) \in 4 \N$.
+            \item
+                Dies liefert eine untere Schranke für das Knotengeschlecht: $g(K) \ge \frac{1}{4} \span_q \Delta(K)$.
+                Als Anwendung: falls wir eine Seifert-Fläche $S$ mit $g(S) = \frac{1}{4} \span_q \Delta(K)$ finden, dann hat diese Seifert-Fläche also schon minimales Geschlecht.
+        \end{itemize}
+    \end{note}
+\end{prop}
+
+\begin{ex}[Übung]
+    Die Konstruktion von $\sgn(K)$ und $\Delta(K)$ verallgemeinert sich von Knoten zu Verschlingungen $L$, $\#L \ge 1$.
+    Details ausarbeiten!
+
+    Wir erhalten $\Delta: \scr L \to \Z[q^{\pm 1}]$.
+\end{ex}
+
+\begin{st}[Alexander 1928, Conway 1969]
+    Das Alexander-Polynom definiert $\Delta: \scr L \to \Z[q^{\pm 1}]$ erfüllt $\Delta(\KnotTriv) = 1$ und folgende Rekursion (lokale Relation, genannt \emphdef{Schienenrelation}):
+    \begin{math}
+        % fixme: explain L_+, L_-, L_0
+        %\Delta(\KnotSect) - \Delta(\KnotSect*) &= (q - q^{-1}) \Delta(\KnotSectSolved).
+        \Delta(L_+) - \Delta(L_-) &= (q - q^{-1}) \Delta(L_0).
+    \end{math}
+    Dies definiert $\Delta$ eindeutig und definiert sogar einen Algorithmus zur Berechnung von $\delta$.
+    \begin{note}
+        $\# L_+ = \# L_- = \# L_0 \pm 1$ , daher benötigen wir $\scr L$, die Menge $\scr K$ reicht nicht.
+    \end{note}
+    \begin{proof}
+        Es gilt
+        \begin{math}
+            H_1(S_+)
+            \isomorphic H_1(S_0) \oplus \<a\>
+            \isomorphic H_1(S_-)
+        \end{math}
+        \begin{math}
+            \Theta_+ &= \Matrix{\Theta_0 & v \\ u^t & w}
+            \Theta_- &= \Matrix{\Theta_0 & v \\ u^t & w + 1}
+        \end{math}
+        Es folgt
+        \begin{math}
+            q^{-1} \Theta_- - q\Theta_-^t
+            &= \Matrix{
+                q^{-1} \Theta_0 - q\Theta_0^t & q^{-1} v - qu \\
+                q^{-1} u^t - qv^t & (w+1)(q^{-1} - q)
+            } \\
+            \Delta(L_+) - \Delta(L_-) &= (q - q^{-1}) \Delta(L_0)
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    Für $q \mapsto i$ erhalten wir
+    \begin{math}
+        \det(L_+) - \det(L_-) = 2i \det(L_0).
+    \end{math}
+\end{kor}
