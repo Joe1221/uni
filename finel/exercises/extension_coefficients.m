@@ -2,13 +2,14 @@ function E = extension_coefficients (J, L, n)
     m = length(J);
     Edim = (n+1) * ones(1, m);
     E = ones(Edim);
-    % crazy matlab
+    % stupid matlab workaround
     if (m == 1)
         E = ones(Edim, 1);
     end
 
     for nu = 1:m
         for idx = 1:numel(E)
+            % get per-dimension indices as vector
             [icell{1:m}] = ind2sub(Edim, idx);
             i = cell2mat(icell);
 
