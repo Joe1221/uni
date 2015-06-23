@@ -45,6 +45,11 @@ Dazu sind zunächst die Begriffe \emph{Knotentyp} und \emph{Knotendiagramm} zu k
 \begin{df}
     Ein \emphdef[Knoten!polygonal]{polygonaler Knoten} in $\R^d$ ist ein einfach geschlossener Polygonzug $P = (v_0, v_1, \dotsc, v_n)$ in $\R^d$.
     Hierzu gehört eine \emphdef[Knoten!Parametrisierung]{Parametrisierung} $\_\gamma_P: \S^1 \xto[injective] \R^d$ mit \emphdef[Knoten!Bildmenge]{Bildmenge} $K := |P| := [v_0, v_1] \cup \dotsb \cup [v_{n-1},v_n] \subset \R^d$.
+
+    \begin{note}
+        Wir schreiben für polygonale Knoten auch $P = (v_1, \dotsc, v_n)$.
+        In diesem Fall ist $v_0 = v_n$ implizit im Polygonzug enthalten.
+    \end{note}
 \end{df}
 
 Wir betrachten nun Bewegungen eines Polygonzugs.
@@ -66,7 +71,7 @@ Wir betrachten nun Bewegungen eines Polygonzugs.
 
 \begin{df}
     Seien $P$ und $P'$ polygonale Knoten in $\R^d$.
-    Eine \emphdef{polygonale Isotopie} von $P$ und $P'$ ist eine Folge von $\Delta$-Zügen:
+    Eine \emphdef{polygonale Isotopie} von $P$ und $P'$ ist gegeben durch eine Folge von $\Delta$-Zügen:
     \begin{math}
         P = P_0 \leftrightarrow P_1 \leftrightarrow \dotsb \leftrightarrow P_l = P'.
     \end{math}
@@ -79,7 +84,7 @@ Wir betrachten nun Bewegungen eines Polygonzugs.
 \Timestamp{2015-04-20}
 
 \begin{df}
-    Ein Knoten $P = (v_1, \dotsc, v_n)$ in $\R^d$ heißt \emphdef{trivial}, wenn $P$ isotop ist zu einem Dreieck $P' = (v_1',v_2',v_3')$.
+    Ein Knoten $P = (v_1, \dotsc, v_n)$ in $\R^d$ heißt \emphdef{trivial}, wenn $P$ isotop ist zu einem Knoten $P' = (v_1',v_2',v_3')$, d.h. einem Dreieck.
 \end{df}
 
 \begin{prop}
@@ -169,7 +174,7 @@ Wir betrachten nun Bewegungen eines Polygonzugs.
 
 
 Betrachte die Projektion $\pi: \R^3 \to \R^2, (x,y,z) \mapsto (x,y)$.
-Das Bild eines Knotens unter $\pi$ mit Kreuzungsinformationen wollen wir Knotendiagramm nennen.
+Das Bild eines Knotens im $\R^3$ unter der Projektion $\pi$ zusammen mit Kreuzungsinformationen wollen wir Knotendiagramm nennen.
 
 \begin{df}
     Ein Polygonzug $P = (v_1, \dotsc, v_n)$ in $\R^d$ heißt \emphdef{regulär}, wenn
@@ -179,50 +184,71 @@ Das Bild eines Knotens unter $\pi$ mit Kreuzungsinformationen wollen wir Knotend
     für alle $1 \le i < j < k \le n$ gilt.
 \end{df}
 
-\begin{note}
-    Durch Einfügen von Zwischenpunkten können wir annehmen:
-    Jede Kante $[v_{i-1}, v_i]$ schneidet neben $[v_{i-2}, v_{i-1}]$ und $[v_{i},v_{i+1}]$ höchstens eine weitere Kante $[v_{j-1},v_j]$ mit $|i-j| \ge 2$.
-    Außerdem schneiden die Nachbarn jeweils nur ihre eigenen Nachbarn.
-
-    Wenn sich zwei Kanten kreuzen, so wählen wir eine als „drüber“, die andere als „drunter“.
-    Der reguläre Polygonzug mit diser Zusatzinfo heißt \emphdef{Diagramm}.
-\end{note}
+\begin{df}
+    Sei $P \subset \R^2$ ein regulärer Polygonzug.
+    An jeder Kreuzung zweier Kanten lege man fest, welche oben und welche unten verläuft.
+    $P$ zusammen mit dieser Kreuzungsinformation nennen wir \emphdef{Knotendiagramm}.
+    \begin{note}
+        Durch Einfügen von Zwischenpunkten können wir (und werden oft implizit) annehmen:
+        \begin{itemize}
+            \item
+                Jede Kante $[v_{i-1}, v_i]$ schneidet neben $[v_{i-2}, v_{i-1}]$ und $[v_{i},v_{i+1}]$ höchstens eine weitere Kante $[v_{j-1},v_j]$ mit $|i-j| \ge 2$.
+            \item
+                Die Nachbarn $[v_{i-2}, v_{i-1}]$, $[v_i, v_{i+1}]$ einer jeden Kante $[v_{i-1}, v_i]$ schneiden jeweils nur ihre eigenen Nachbarn.
+        \end{itemize}
+    \end{note}
+\end{df}
 
 \begin{lem}
-    Zu jedem Knotendiagramm $D$ in $\R^2$ existiert eine Hochhebung zu einem Knoten $P$ in $\R^3$ mit $\pi(P) = D$ und in jeder Kreuzung hat die drüberlaufende Kante höhere $z$-Koordinate als die drunterlaufende.
-    Je zwei solcher Hochhebungen $P, P'$ zu $D$ sind isotop (d.h. $\Delta$-äquivalent).
+    Zu jedem Knotendiagramm $D$ existiert eine Hochhebung zu einem Knoten $P$ in $\R^3$ mit $\pi(P) = D$ und in jeder Kreuzung hat die darüberliegende Kante höhere $z$-Koordinate als die darunterliegende.
+
+    Je zwei solcher Hochhebungen $P, P'$ zu $D$ sind isotop.
+
+    Wir nennen $[P] = [P']$ den zu $D$ zugehörigen Knotentyp und sagen: „$D$ stellt $[P]$ dar“.
 \end{lem}
 
-In diesem Sinne stellt jedes Knotendiagramm einen Knotentyp dar.
-
+Jedes Knotendiagramm stellt also genau einen Knotentyp dar.
+Es stellt sich jetzt umgekehrt die Frage, wie sich die Diagramme zu zwei isotopen Knoten voneinander unterscheiden.
 
 \subsection{Reidemeister-Züge für polygonale Diagramme im \texorpdfstring{$\R^2$}{ℝ²}}
 
-
-Im wesentlichen drei Reidemeisterzüge $R1$ bis $R3$ ($R0$ unwesentlich).
+\begin{df}
+    Wir definieren auf Knotendiagrammen folgende lokale Züge (Modifikationen):
+    \begin{enumerate}[(R1),start=0,leftmargin=3em]
+        \item deformieren,
+        \item Schleife bilden,
+        \item Kante überqueren,
+        \item Kreuzung überqueren.
+    \end{enumerate}
+    Wir nennen diese \emphdef{Reidemeister-Züge}.
+    Zwei Knotendiagramme $D_1, D_2$, die sich durch eine endliche Anzahl von Reidemeisterzügen voneinander unterscheiden nennen wir R-äquivalent und schreiben $D_1 \sim D_2$.
+    Unterscheiden sie sich nur durch R0-Züge, so sprechen wir von R0-Äquivalenz und schreiben $D_1 \stack{R0}\sim D_2$.
+\end{df}
 
 \begin{lem}
-    Zu jedem Knotendiagramm $D = (v_1, \dotsc, v_n)$ in $\R^2$ existiert $\epsilon > 0$ sodass jedes $D' = (v_1', \dotsc, v_n')$ in $\R^2$ ebenfalls ein Knoten diagramm ist und $D' \stack{R0}\sim D$ gilt.
+    Zu jedem Knotendiagramm $D = (v_1, \dotsc, v_n)$ in $\R^2$ existiert $\epsilon > 0$ sodass jedes $D' = (v_1', \dotsc, v_n')$ in $\R^2$ mit $|v_i - v_i'| < \epsilon$ ebenfalls ein Knotendiagramm ist und $D' \stack{R0}\sim D$ gilt.
+
+    Damit gilt außerdem
     \begin{enumerate}[(1)]
         \item
-            $D \sim D + v$,
+            $D \stack{R0}\sim D + v$,
         \item
-            $D \sim \rho(D)$,
+            $D \stack{R0}\sim \rho(D)$,
         \item
-            $D \sim \lambda D$ wie zuvor.
+            $D \stack{R0}\sim \lambda D$ wie zuvor.
     \end{enumerate}
     \begin{proof}
-        Ähnlich wie zuvor.
+        Ähnlich wie die Aussage für Knoten.
     \end{proof}
 \end{lem}
 
 \begin{lem}
     Seien $D, D'$ zwei Knotendiagramme in $\R^2$ und $P, P'$ in $\R^3$ Hochhebungen.
-    Aus $D \stack{R}\sim D'$ folgt $P \stack{\Delta}\sim P'$.
+    Aus $D \sim D'$ folgt $P \sim P'$.
 \end{lem}
 
 \begin{df}
-    Zu $P$ in $\R^3$ heißt eine Projektionsrichtung $v \in \S^2$ \emphdef{regulär}, wenn $\pi: \R^2 \to \<v\>^\orth \homeomorphic \R^2$ den Knoten $P$ regulär projiziert, d.h. $D = \pi(P)$ ist regulär, andernfalls \emphdef{singulär}.
+    Zu einem Knoten $P$ in $\R^3$ heißt eine Projektionsrichtung $v \in \S^2$ \emphdef{regulär}, wenn $\pi: \R^3 \to \<v\>^\orth \homeomorphic \R^2$ den Knoten $P$ regulär projiziert, d.h. $D = \pi(P)$ ist regulär, andernfalls nennen wir $v$ \emphdef{singulär}.
 \end{df}
 
 \begin{lem}
@@ -240,38 +266,49 @@ Im wesentlichen drei Reidemeisterzüge $R1$ bis $R3$ ($R0$ unwesentlich).
                 Dies ist genau dann der Fall, wenn $v \in (\R(v_{j-1} - v_i) + \R(v_j - v_i)) \cap \S^2 = \texp{Großkreis}$.
             \item
                 Drei Kanten schneiden sich in einem Punkt.
-                Ohne Einschränkung seien die Geraden $G_1, G_2, G_3$ paarweise windschief (sonst siehe Fall 2).
+                Ohne Einschränkung seien die Geraden $G_1, G_2, G_3$ paarweise windschief (sonst siehe obige Fälle).
                 Zu $p_1 \in G_1$ existiert höchstens ein $p_2 \in G_2$, sodass $\_{p_1 p_2} \cap G_3 = \Set{p_3}$.
-                Somit parametrisiert $p_1 \in G_1$ eine Geradenschaar, deren Richtungen eine Kurve auf $\S^2$ (ausrechnen liefert eine Quadrik).
+                Somit parametrisiert $p_1 \in G_1$ eine Geradenschaar, deren Richtungen eine Kurve auf $\S^2$ ergeben (explizites ausrechnen liefert eine Quadrik).
         \end{enumerate}
         In allen drei Fällen hat die Ausnahmemenge in $\S^2$ ein offenes, dichtes Komplement.
-        Der endliche Schnitt dieser Komplemente ist offen und dicht (Übung).
+        Der endliche Schnitt dieser Komplemente ist offen und dicht.
     \end{proof}
 \end{lem}
 
 \begin{st}[Reidemeister, 1926]
     Zwei Knotendiagramme $D, D'$ in $\R^2$ stellen genau dann den selben Knotentyp in $\R^3$ dar, wenn sie Reidemeister-äquivalent sind.
     \begin{proof}
-        Seien $P, P'$ in $\R^3$ Hochhebungen von $D$, bzw. $D'$.
-        Falls $D \stack{R}\sim D'$, dann ist auch $P \stack{\Delta}\sim P'$.
+        Die erste Implikation wurde bereits gezeigt (jedes Diagramm stellt genau einen Knotentyp dar).
 
-        Sei nun umkehrt $P \stack{\Delta}\sim P'$, d.h.
-        %\begin{math}
-        %    % fixme: \Delta oben, R? unten, \pi nach unten
-        %    \begin{tikzcd}
-        %        P = P_0 \arrow{r}{g} & P_1 & P_2 & \dots &  P_l = P' \\
-        %        D = D_0 & D_1 & D_2 & \dots &  D',
-        %    \end{tikzcd}
-        %\end{math}
+        Sei für die zweite Implikation also $P \sim P'$, d.h.
+        \begin{math}
+            \begin{tikzcd}
+                P = P_0 \ar[r,mapsto,"\Delta"] & P_1 \ar[r,mapsto,"\Delta"] & P_2 \ar[r,mapsto,"\Delta"] & \dots \ar[r,mapsto,"\Delta"] & P_l = P'
+            \end{tikzcd}
+        \end{math}
         für $\pi: \R^3 \to \R^2$.
         Es existiert eine beliebig kleine Drehung $\rho: \R^3 \to \R^3$, sodass $\pi$ alle $\rho(P_i)$ regulär projiziert.
-        Wir wählen $\rho$ so klein, dass $\pi(P_0)$ zu $\pi(\rho P_0)$ $R0$-äquivalent sind.
-        % fixme: tikzcd
-
+        Wir wählen $\rho$ so klein, dass $\pi(P_0) \stack{R0}\sim \pi(\rho(P_0))$ und $\pi(P_l) \stack{R0}\sim \pi(\rho(P_l))$.
+        \begin{math}
+            \begin{tikzcd}
+                P = P_0 \ar[r,mapsto,"\Delta"] \ar[d,"\pi"] &
+                \rho(P_0) \ar[r,mapsto,"\Delta"] \ar[d,"\pi"] &
+                \rho(P_1) \ar[r,mapsto,"\Delta"] \ar[d,"\pi"] &
+                \dots \ar[r,mapsto,"\Delta"] &
+                \rho(P_l) \ar[r,mapsto,"\Delta"] \ar[d,"\pi"] &
+                P_l = P' \ar[d,"\pi"] \\
+                %
+                D \ar[r,mapsto,"R0"] &
+                \hat D \ar[r,mapsto,"R?"] &
+                \hat D_1 \ar[r,mapsto,"R?"] &
+                \dots \ar[r,mapsto,"R?"] &
+                \hat D_l \ar[r,mapsto,"R0"] &
+                D',
+            \end{tikzcd}
+        \end{math}
         Der Vorteil dieser Drehung ist, dass jeder $\Delta$-Zug regulär projiziert wird.
-        Wir betrachten nun elementare auftretende Fälle (Skizze).
-
-        Nach hinreichend feiner Unterteilung in kleine Dreiecke erhalten wir eine Folge elementarer Fälle.
+        Nach hinreichend feiner Unterteilung der $\Delta$-Züge in kleine Dreiecke erhalten wir eine Folge elementarer Fälle.
+        Betrachtet man nun die auftretenden elementaren Fälle, so stellt man fest, dass alle durch Reidemeister-Züge bewerkstelligt werden können (Skizze!).
     \end{proof}
 \end{st}
 
@@ -280,9 +317,11 @@ Im wesentlichen drei Reidemeisterzüge $R1$ bis $R3$ ($R0$ unwesentlich).
     Es gilt
     \begin{math}
         |\Col_3(\texp{Trivialer Knoten})| &= 3, &
-        |\Col_3(\texp{Kleeblattschlinge})| &= 3,
+        |\Col_3(\texp{Kleeblattschlinge})| &= 9.
     \end{math}
-    Die Dreifärbung von Knotendiagrammen ist $R$-invariant und also auch eine Invariante unter den Knotentypen.
+    Die Dreifärbung von Knotendiagrammen ist $R$-invariant und folglich eine Invariante unter den Knotentypen (man betrachte dazu die einzelnen Reidemeister-Züge).
+
+    Insbesondere ist die Kleeblattschlinge nicht trivial.
 \end{ex}
 
 \begin{kor}
@@ -303,7 +342,7 @@ Wir Betrachten Färbungen von $D$, d.h. $f: \Set{\text{Bögen von } D} \to \Z / 
 Sei $\Col_p(D)$ die Menge dieser Färbungen.
 
 \begin{st}
-    Jeder $R$-Zug $D \leftrightarrow D'$ induziert eine Bijektion $\Col_p(D) \leftrightarrow \Col_p(D')$.
+    Jede R-Äquivalenz $D \sim D'$ induziert eine Bijektion $\Col_p(D) \leftrightarrow \Col_p(D')$.
     \begin{proof}
         Man betrachte die drei elementaren Reidemeister-Züge.
     \end{proof}
@@ -319,14 +358,15 @@ Sei $\Col_p(D)$ die Menge dieser Färbungen.
     Es gilt
     \begin{math}
         \Col_3(\texp{Achterknoten}) &= 3, &
-        \Col_5(\texp{Achterknoten}) &= 25,
+        \Col_5(\texp{Achterknoten}) &= 25.
     \end{math}
+    An der 3-Färbung erkennt man nichts, erst die 5-Färbung liefert die Antwort.
 \end{ex}
 
 \begin{prop}
     Sei $p$ prim.
     Bezüglich der punktweisen Operationen ist $\Col_p(D)$ ein $\F_p$-Vektorraum.
-    Für $n = \dim \Col_p(D)$ gilt $\Col_p(D) \isomorphic \F_p$ und $|\Col_p(D)| = p^n$.
+    Für $n = \dim \Col_p(D)$ gilt $\Col_p(D) \isomorphic \F_p^n$ und $|\Col_p(D)| = p^n$.
 \end{prop}
 
 \begin{df}
