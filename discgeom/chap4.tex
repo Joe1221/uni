@@ -491,7 +491,7 @@ Pascal-Trick für $d = 4$:
         \begin{math} \label{eq:ubt_1}
             h_k(P) \le \binom{n-d+k-1}{k}
         \end{math}
-        mit Gleichheit für alle $k$ mit $k \le l$ genau dann, wenn $l \le \frac{d}{2}$ und $P$ nachbarschaftlich.
+        mit Gleichheit für alle $k$ mit $k \le l$ genau dann, wenn $l \le \frac{d}{2}$ und $P$ $l$-nachbarschaftlich (d.h. $f_{l-1} = \binom{n}{l}$.
 
         Um \eqref{eq:ubt_1} zu zeigen nutzen wir Induktion und zeigen für den Induktionsschritt:
         \begin{math} \label{eq:ubt_ind}
@@ -537,10 +537,29 @@ Pascal-Trick für $d = 4$:
             Gleichheit bleibt erhalten.
         \end{seg}
         \begin{seg}{Beweis von \eqref{eq:ubt_bh2}}
-            Betrachte die Schälung, die im Stern von $v$ beginnt.
-            Gemäß dem nachfolgendene Lemma, wird eine Schälung auf dem Link $C / v$ induziert.
-            Solange wir im Stern von $v$ verbleiben, sind linke und rechte Seite gleich.
-            Danach gibt es keine Beiträge links, sondern höchstens rechts.
+            Betrachte die Schälung, die im Stern von $v$ beginnt (d.h. $v \in F_1, \dotsc, F_r$, $v \not\in F_{r+1}, \dotsc, F_s$).
+
+            $h_k$ ist die Anzahl der $R_j$ mit $|R_j| = k$, wobei
+            \begin{math}
+                R_j := \Set{w \in F_j & \exists i <j :F_j \setminus \Set w \subset F_i}.
+            \end{math}
+            Falls $j \le r$, $v \in F_i, \dotsc, F_j$, dann ist
+            \begin{math}
+                R_j^C = \Set{w \in F_j & \exists i < j : F_j \setminus \Set w \subset F_i}
+            \end{math}
+            also $v \not\in R_j^C$, sonst $F_j = F_i$.
+            Jedes $w \in R_j^C$ ist aber auch in $R_j^{C/v}$, also $|R_j^C| = |R_j^{C/v}|$.
+            Folglich wächst $h_k(C/v)$ genauso, wie $h_k(C)$ durch den $j$-ten Schälschritt.
+
+            Falls $j \ge r + 1$, $v \not\in F_j$, dann ist $v \not\in R_j^C$ und $v \not\in R_j^{C/v}$.
+            In diesem Schälschritt ändert sich $h_k(C/v)$ nicht, $h_k(C)$ kann wachsen.
+            Die Ungleichung bleibt also erhalten.
+
+            Gleichheitdiskussion: $h_k(C/v) = h_k(C)$ für alle $v$ und alle $0 \le k \le l$ (festes $l$).
+            Bei jedem Schälungsschritt $F_j$ ist entweder $v \in F_j$ oder $v \not\in F_j$ und $|R_j^C| \ge l + 1$.
+            Was bedeutet das für „minimale neue Seiten“?
+            Ein neues minimales $k$-Tupel mit $k \le l$ kommt nicht hinzu, also liegen alle $l$-Tupel bereits im Stern von $v$.
+            Somit gilt $l$-Nachbarschaftlichkeit (geht nur für $l \le \frac{d}{2}$).
         \end{seg}
     \end{proof}
 \end{thm}
@@ -563,7 +582,101 @@ Pascal-Trick für $d = 4$:
     \end{proof}
 \end{lem}
 
+\Timestamp{2015-06-24}
 
+Wir sprechen von \emphdef{nachbarschaftlich}, wenn wir $l$-nachbarschaftlich für alle $l \le \frac{d}{2}$ meinen.
+
+\begin{kor}
+    Sei $P$ ein $d$-Polytop mit $n$ Ecken, dann gilt für alle $k$
+    \begin{math}
+        f_{k-1}(P) \le f_{k-1}(C(d,n)).
+    \end{math}
+    mit Gleichheit für ein $k$ mit $\frac{d}{2} \le k \le d$ genau dann, wenn $P$ nachbarschaftlich ist.
+    \begin{proof}
+        Die Ungleichungen für $h_i$ implizieren Ungleichungen für $f_{k-1}$:
+        \begin{math}
+            f_{k-1} &= \sum_{i=0}^k \binom{d-i}{k-i} h_i \\
+            &= \sum_{i\le \frac{d}{2}}^* \binom{d-i}{k-i} h_i + \sum_{i\ge \frac{d}{2}}^* \binom{d-i}{k-i} h_i \\
+            &\stack{j=d-i}= \sum_{i \le \frac{d}{2}}^* \binom{d-i}{k-i} h_i + \sum_{j\le \frac{d}{2}}^* \binom{j}{k-d+j} h_j \\
+            &\le \sum_{i \le \frac{d}{2}}^* \Big( \binom{d-i}{k-i} + \binom{i}{k-d+i} \Big) \underbrace{\binom{n-d+i-1}{i}}_{h_i(C(d,n))}.
+        \end{math}
+        ($\sum^*$ bedeutet: für gerades $d$ ist der Beitrag für $i = \frac{d}{2}$ zu halbieren).
+
+        Gleichheit für $k \le \frac{d}{2}$ gilt für nachbarschaftliche Polytope.
+        Für $k > \frac{d}{2}$ gilt dies auch (dank Dehn-Sommerville).
+
+        Es gilt $f_{k-1} \le f_{k-1}(C(d,n))$ für alle $k$.
+        %Gleichheit für ein $k$ mit $k \ge \frac{d}{2}$ impliziert Gleichheit bei $h_
+    \end{proof}
+\end{kor}
+
+
+\section{Das Lower-Bound-Theorem (LBT)}
+
+Ziel: Stapelpolytope realisieren den kleinstmöglichen $f$-Vektor (und $h$-Vektor).
+\begin{math}
+    h(S) = (1, n-d, n-d, \dotsc, n-d, 1)
+\end{math}
+
+\begin{df}
+    Der $g$-Vektor ist erklärt durch
+    \begin{math}
+        g_0 &= 1, \\
+        g_{d+1} &= -1, \\
+        g_k &= h_k - h_{k-1}.
+    \end{math}
+\end{df}
+
+Für ein Stapelpolytop ist also
+\begin{math}
+    g(S) &= (1, n-(d+1), 0, \dotsc, 0, d+1-n, -1).
+\end{math}
+Für ein nachbarschaftliches Polytop ist für $k \le \frac{d}{2}$
+\begin{math}
+    g_k
+    = \binom{n-d+k-1}{k} - \binom{n-d+k-2}{k-1}
+    = \binom{n-d+k-2}{k}.
+\end{math}
+
+\begin{st}
+    Sei $P$ ein simpliziales $d$-Polytop mit $n$ Ecken.
+    Dann gilt:
+    \begin{enumerate}[(i)]
+        \item
+            $h_1 = n-d$ und $g_1 = n-(d+1)$,
+        \item
+            $0 \le g_k \le \binom{n-d+k-2}{k}$ für alle $k \le \frac{d}{2}$,
+        \item
+            UBT: $\forall k \le \frac{d}{2} : g_k = \binom{n-d+k-2}{k} \implies$ nachbarschaftlich,
+        \item
+            LBT: $g_k = 0$ für $2 \le k \le \frac{d}{2}$ impliziert Stapelpolytop (es genügt sogar $g_2 = 0$)
+    \end{enumerate}
+    \begin{proof}
+        siehe Blind, Shellings and the LBT, Discrete and Computational Geometry.
+
+        Was bedeutet $g_2 = 0$?
+        \begin{math}
+            g_k \le \frac{n-d+k-2}{k}
+        \end{math}
+        folgt induktiv aus der Pascalschen Regel.
+        $g_k \ge 0$: McMullen's conditions.
+
+        $g_2 = 0$ genau dann, wenn $h_2 = h_1 = n-d$.
+        \begin{math}
+            n-d = h_2
+            &= \binom{d-2}{0} f_1 - \binom{d-1}{1} f_0 + \binom{d}{2} f_{-1}
+            &= f_1 - (d-1) n + \frac{1}{2} d(d-1),
+        \end{math}
+        also
+        \begin{math}
+            f_1 &= n-d + (d-1)n - \frac{1}{2} d(d-1) \\
+            &= dn - d - \frac{1}{2}d(d-1) \\
+            &= dn - \binom{d+1}{2}
+            &= f_1(S)
+        \end{math}
+        für ein Stapelpolytop $S$ mit $n$ Ecken.
+    \end{proof}
+\end{st}
 
 
 
