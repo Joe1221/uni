@@ -519,7 +519,7 @@ Stabilisierung:
                 Zudem git $\Delta(q^{-1}) = \Delta (q)$, denn
                 \begin{math}
                     \Delta(K)|_{q\mapsto q^{-1}}
-                    &= \det(q \Theta_S - q^{-1}0\Theta_S^t) \\
+                    &= \det(q \Theta_S - q^{-1} \Theta_S^t) \\
                     &= \det(-q^{-1} \Theta_S + q^{-1} \Theta_S) \\
                     &= (-1)^{2g} \det(q^{-1} \Theta_s - q \Theta_S)
                     = \Delta(K)
@@ -611,7 +611,7 @@ Stabilisierung:
             \isomorphic H_1(S_-)
         \end{math}
         \begin{math}
-            \Theta_+ &= \Matrix{\Theta_0 & v \\ u^t & w}
+            \Theta_+ &= \Matrix{\Theta_0 & v \\ u^t & w}, &&
             \Theta_- &= \Matrix{\Theta_0 & v \\ u^t & w + 1}
         \end{math}
         Es folgt
@@ -632,3 +632,195 @@ Stabilisierung:
         \det(L_+) - \det(L_-) = 2i \det(L_0).
     \end{math}
 \end{kor}
+
+\begin{nt}
+    Wir können $z = q - q^{-1}$ als Variable verwenden und erhalten das (Alexander-)Conway-Polynom $\nabla: \scr L \to \Z[z]$ mit
+    \begin{math}
+        \nabla(0) &= 1, &&
+        \nabla(L_+) - \nabla(L_-) &= z \nabla(L_0).
+    \end{math}
+    Wir können beide identifizieren gemäß $\Z[z] \subset \Z[q^\pm]$ mit $z = q - q^{-1}$.
+\end{nt}
+
+\begin{kor}
+    Für Knoten $K$ gilt $\nabla(K) \in 1 + z^2 \Z[z^2]$.
+    Für Verschlingungen $L$ mit $\# L \ge 2$ gilt $\nabla(L) \in z^{\#L - 1} \Z[z^2]$.
+    \begin{proof}
+        Es gilt $\nabla(0) = 1$, $\nabla(00) = 0$.
+        Man kann dies wie folgt sehen:
+        \begin{enumerate}[a)]
+            \item
+                Seifert-Fläche:
+                $H_1(S) = \<a\>$, $\Theta_S = (0)$.
+            \item
+                Schienenrelation:
+                \begin{math}
+                    \nabla(00) = \nabla(0) - \nabla(0) = 1 - 1 = 0.
+                \end{math}
+        \end{enumerate}
+        Induktion über
+        \begin{enumerate}[i)]
+            \item
+                die Anzahl der Kreuzungen,
+            \item
+                die Anzahl der zu wechselnden Kreuzungen bis zur trivialen Verschlingung.
+        \end{enumerate}
+    \end{proof}
+\end{kor}
+
+\begin{lem}
+    Zu jedem Verschlingungsdiagramm $D$ mit Orientierung und Markierung auf jeder Komponenten (wir nehmen die Komponenten $D = (D_1, \dotsc, D_n)$ als nummeriert an) ist das absteigende Diagramm $D^{\text{ab}}$ (jede Kreuzung wird beim ersten Mal über-, beim zweiten Mal unterkreuzt) die triviale Verschlingung dar.
+
+    \begin{proof}
+        Wähle eine Höhenfunktion $h: D \to \R$ mit $h(D_1) > h(D_2) >\dotsb h(D_n)$ und $h|_{D_i}$ hat nur ein Maximum und Minimum.
+        In der Seitenansicht trivialisieren R1-Züge das Diagramm.
+        Alternativ: Kreisscheiben einspannen.
+    \end{proof}
+\end{lem}
+
+\begin{prop}
+    Dies zeigt, dass die Schienenrelation $\nabla$ eindeutig festlegt.
+    Genauer liefert dies einen Algorthmus zur Berechnung von $\nabla$:
+
+    Zu jedem Diagramm $D$ wähle Markierungen und wechsle Kreuzungen bis zu $D^{\text{ab}}$.
+    Damit rekursiv:
+    \begin{math}
+        \nabla(L_+) - \nabla(L_-) = z \nabla(L_0)
+    \end{math}
+    die rechte Seite und einer der Terme auf der linken Seite sind stets bekannt.
+\end{prop}
+
+\begin{ex}
+    Torusknoten: $K_n = T(2,n)$ für $n \in 1 + 2\Z$.
+
+    Torusverschlingung: $K_n = T(2,n)$ für $n \in 2\Z$.
+
+    Für die Fundamentalgruppe: $n-1$ Erzeuger, Verschlingungszahlen ausrechnen …
+    \begin{math}
+        \Theta_S = \Matrix{
+            -1 & 0 & & \\
+            1 & -1 & 0 & \\
+            0 & 1 &  \ddots & \ddots \\
+            & & \ddots & \ddots & 0 \\
+            & & & 0 & 0
+        }
+        A_n := q^{-1} \Theta_S - q\Theta_S^t
+        = \Matrix{
+            q - q^{-1} & -q  \\
+            q^{-1} & q - q^{-1} & \ddots \\
+            & \ddots & \ddots
+        }.
+    \end{math}
+    Es gilt
+    \begin{math}
+        \det(A_n) &= q q^{-1} \det(A_{n-2}) + \underbrace{(q - q^{-1})}_{=z} \det(A_{n-1}) \\
+        \det(A_1) &= 1 \\
+        \det(A_2) &= z \\
+        \det(A_3) &= z + \det(A_2) + \det(A_1) = 1 + z^2 \\
+        \det(A_4) &= 2z + z^3 \\
+        \det(A_5) &= 1 + 3z^2 + z^4 \\
+        \det(A_6) &= 3z + 4z^3 + z^5 \\
+        \det(A_7) &= 1 + 6z^2 + 5z^4 + z^6
+    \end{math}
+    Ist ein Muster erkennbar?
+
+    Mit der Schienenrelation hätten wir dies schneller gesehen:
+    \begin{math}
+        \nabla(K_n) &= \nabla(K_{n-2}) + z \nabla(K_{n-1})
+        \nabla(K_0) &= 0 \\
+        \nabla(K_1) &= 1
+    \end{math}
+\end{ex}
+
+Es wäre schön, auch für die Signatur eine Art Schienenrelation zu haben.
+\begin{math}
+    \Theta_+ &= \Matrix{
+        \Theta_0 & * \\
+        * & w
+    },
+    \Theta_- &= \Matrix{
+        \Theta_0 & * \\
+        * & w+1
+    }.
+\end{math}
+Setze $A_\pm = \Theta_\pm + \Theta_\pm^T$.
+$A_0$ lässt sich diagonalisieren.
+\begin{math}
+    A_\pm \sim
+    \Matrix{
+        \lambda_1 & & c_1 \\
+        & \ddots & & \vdots \\
+        & & \lambda_n & c_n \\
+        c_1 & \hdots & c_n & c_\pm
+    }
+    \sim
+    \Matrix{
+        \lambda_1' & & 0 \\
+        & \ddots & & \vdots \\
+        & & \lambda_n' & 0 \\
+        0 & \hdots & 0 & c_\pm'
+    }
+\end{math}
+und $c_-' = c_+' + 2$.
+Schließlich ist
+\begin{math}
+    \sgn(A_+) - \sgn(A_-) \in \Set{0,-1,-2}.
+\end{math}
+Für Knoten gilt $\det(K) \in 1 + 4\Z$, also $\sgn(K_+) - \sgn(K_-) \in \Set{0,-2}$.
+
+\begin{kor}
+    Für die Entknotungszahl $u$ gilt demnach
+    \begin{math}
+        u(L) \ge \frac{1}{2} |\sgn(L)|.
+    \end{math}
+    Allgemeiner:
+    \begin{math}
+        u(L_1,L_2) \ge \frac{1}{2} \big| \sgn(L_1) - \sgn(L_2) \big|.
+    \end{math}
+\end{kor}
+
+Erinnerung: Ähnliches gilt für $p$-Färbungen für $c_p(L) := \dim_{F_p} \Col_p(L)$ ($p$ prim):
+\begin{math}
+    u(L_1,L_2) \ge \big|c_p(L_1) - c_p(L_2) \big|.
+\end{math}
+
+Können wir die Signatur von Knoten durch die Schienenrelation berechnen?
+Nutze zusäztlich die Determinante
+\begin{math}
+    \det(K) &= \det( -i\Theta_S - i \Theta_S^T)
+    = \det(-i (\Theta_S + \Theta_S^T))
+    = (-i)^{n} \lambda_1 \dotsb \lambda_n
+\end{math}
+Es ergibt sich
+\begin{math}
+    \sgn(K_+) - \sgn(K_-)
+    = \begin{cases}
+        0 & \text{falls $\det K_+ \det K_- > 0$} \\
+        -2 & \text{falls $\det K_+ \det K_- < 0$} \\
+    \end{cases}
+\end{math}
+
+\begin{ex}
+    Signatur für Torusverschlingung $K_n = T(2,n)$.
+    \begin{enumerate}[a)]
+        \item
+            Seifert-Matrix
+        \item
+            mit Schienenrelation:
+            \begin{table}[ht]
+                \centering
+                \begin{tabular}{ccc}
+                    $n$ & $\det(K_n)$ &  $\sgn(K_n)$ \\
+                    0 & 0 & \\
+                    1 & 1 & 0 \\
+                    2 & 2i & \\
+                    3 & -3 & -2 \\
+                    4 & -4i & \\
+                    5 & 5 & -4 \\
+                    n & $n i^{n-1}$
+                \end{tabular}
+                \caption{Rekursion dank Schienenrelation und Determinante}
+            \end{table}
+    \end{enumerate}
+\end{ex}
+
