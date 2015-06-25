@@ -1,8 +1,8 @@
-\chapter{Erstes Kapitel?}
+\chapter{Grundlagen}
 
 \Timestamp{2015-04-15}
 
-Wir betrachten die Geomtrie von Teilmengen des $\R^n$.
+Wir betrachten die Geometrie von Teilmengen des $\R^n$.
 Man unterscheidet zwischen differenzierbar (siehe Differentialgeometrie) und diskret (polyedrisch).
 
 Das Analogon zur Gauß-Krümmung in der Differentialgeometrie bildet eine sogenannte diskrete Krümmung
@@ -25,12 +25,12 @@ Wir betrachten zunächst konvexe Polytope.
 
     Analog ist die \emphdef{konvexe Hülle} von Punkten $x_0, \dotsc, x_k \in \R^n$ definiert:
     \begin{math}
-        \CHull{x_0, \dotsc, x_k}
-        &:= \Set{x \in \R^n & x = \lambda_0 x_0 + \dotsb + \lambda_k x_k, \lambda_i \in [0,1], \sum_i \lambda_i = 1}.
+        \CHull(x_0, \dotsc, x_k)
+        &:= \Set{x \in \R^n & x = \sum_{i} \lambda_i x_i, \lambda_i \in [0,1], \sum_i \lambda_i = 1}.
     \end{math}
     Die \emphdef{konvexe Hülle} einer Menge $M$ sei
     \begin{math}
-        \CHull{M}
+        \CHull(M)
         &:= \bigcap_k \Set{K \subset \R^n & M \subset K, K \text{ konvex}}.
     \end{math}
     Die \emphdef{affine Hülle} von $M$ ist der kleinste affine Unterraum in $\R^n$, der $M$ enthält.
@@ -40,61 +40,65 @@ Wir betrachten zunächst konvexe Polytope.
             \lambda_0 x_0 + \dotsb + \lambda_k x_k
             = (1-\lambda_k) \Big( \frac{\lambda_0}{1-\lambda_k} x_0  + \dotsb + \frac{\lambda_{k-1}}{1-\lambda_k} x_{k-1} \Big) + \lambda_k x_k.
         \end{math}
-        Damit lässt sich jeder Punkt aus $\CHull{x_0,\dotsc,x_k}$ durch mehrfache paarweise Konvexkombinationen darstellen.
+        Damit lässt sich jeder Punkt aus $\CHull(x_0,\dotsc,x_k)$ durch mehrfache paarweise Konvexkombinationen darstellen.
     \end{note}
 \end{df}
 
+\begin{ex}
+    \begin{description}
+        \item[Standard-Polytope]
+            Im $\R^2$ sind Polygone ein Beispiel.
+            Im $\R^n$ sind $k$-Simplizes ($n \ge k$) als konvexe Hülle von $k + 1$ Punkten in allgemeiner Lage (d.h. affin linear unabhängig) Standard-Polytope.
+            Spezieller ist der \emphdef{Standard-Simplex} in $\R^k$ für $k \in \N$ gegeben als konvexe Hülle der Punkte
+            \begin{math}
+                x_0 = (0, 0, \dotsc, 0),
+                x_1 = (1, 0, \dotsc, 0), \dotsc,
+                x_k = (0, 0, \dotsc, 1) \in \R^k.
+            \end{math}
+            Der \emphdef[Würfel]{$k$-Würfel} ist die konvexe Hülle der $2^k$ Punkte $(\pm 1, \dotsc, \pm 1) \in \R^k$.
 
-\paragraph{Standard-Polytope}
+            Das \emphdef[Oktaeder]{$k$-dimensionale Oktaeder} ist die konvexe Hülle, der $2k$ Punkte $(0, \dotsc, \pm 1, \dotsc, 0) \in \R^k$ ($\pm 1$ in jeder einzelnen Koordinate).
 
-Im $\R^2$ sind Polygone ein Beispiel.
-Im $\R^n$ sind $k$-Simplizes ($n \ge k$) als konvexe Hülle von $k + 1$ Punkten in allgemeiner Lage (d.h. affin linear unabhängig) Standard-Polytope.
-Spezieller ist der \emphdef{Standard-Simplex} in $\R^k$ für $k \in \N$ gegeben als konvexe Hülle der Punkte
-\begin{math}
-    x_0 = (0, 0, \dotsc, 0),
-    x_1 = (1, 0, \dotsc, 0), \dotsc,
-    x_k = (0, 0, \dotsc, 1) \in \R^k.
-\end{math}
-Der \emphdef[Würfel]{$k$-Würfel} ist die konvexe Hülle der $2^k$ Punkte $(\pm 1, \dotsc, \pm 1) \in \R^k$.
+            Das \emphdef{Ikosaeder} ist die konvexe Hülle von $(0,\pm \tau, 1), (\pm 1, 0, \pm \tau), (\pm \tau, \pm 1, 0)$, wobei
+            \begin{math}
+                \tau^2 = \tau + 1,
+            \end{math}
+            d.h. $\tau$ ist der \emphdef{goldene Schnitt}, $\tau = \frac{1}{2}(\sqrt 5 + 1) \approx 1.618$.
+            Wir ordnen dem Ikosaeder das Symbol $\{3,5\}$ zu (5 Dreiecke um jede Ecke), mehr dazu später.
 
-Das \emphdef[Oktaeder]{$k$-dimensionale Oktaeder} ist die konvexe Hülle, der $2k$ Punkte $(0, \dotsc, \pm 1, \dotsc, 0) \in \R^k$ ($\pm 1$ in jeder einzelnen Koordinate).
+            Das \emphdef{Dodekaeder} ist die konvexe Hülle von
+            \begin{math}
+                (0, \pi \tau^{-1}, \pm \tau),
+                (\pm \tau, 0, \pm \tau^{-1}),
+                (\pm \tau^{-1}, \pm \tau, 0),
+                (\pm 1, \pm 1, \pm 1).
+            \end{math}
 
-Das \emphdef{Ikosaeder} ist die konvexe Hülle von $(0,\pm \tau, 1), (\pm 1, 0, \pm \tau), (\pm \tau, \pm 1, 0)$, wobei
-\begin{math}
-    \tau^2 = \tau + 1,
-\end{math}
-d.h. $\tau$ ist der \emphdef{goldene Schnitt}, $\tau = \frac{1}{2}(\sqrt 5 + 1) \approx 1.618$.
-Wir ordnen dem Ikosaeder das Symbol $\{3,5\}$ zu (5 Dreiecke um jede Ecke), mehr dazu später.
+        \item[Kartesische Produkte]
+            Seien $K \subset \R^k, L \subset \R^l$ konvexe Polytope, dann ist
+            \begin{math}
+                K \times L \subset \R^k \times \R^l \isomorphic \R^{k+l}
+            \end{math}
+            wieder eine konvexes Polytop.
+            Beispielsweise ist ein $k$-Würfel das Produkt aus einem $(k-1)$-Würfel und dem Intervall $[-1,1]$.
 
-Das \emphdef{Dodekaeder} ist die konvexe Hülle von
-\begin{math}
-    (0, \pi \tau^{-1}, \pm \tau),
-    (\pm \tau, 0, \pm \tau^{-1}),
-    (\pm \tau^{-1}, \pm \tau, 0),
-    (\pm 1, \pm 1, \pm 1).
-\end{math}
+        \item[Prisma über $K$]
+            Für ein konvexes Polytop $K$ ist $P = K \times [0,1]$ das Prisma über $K$.
 
-\paragraph{Kartesische Produkte}
-Seien $K \subset \R^k, L \subset \R^l$ konvexe Polytope, dann ist
-\begin{math}
-    K \times L \subset \R^k \times \R^l \isomorphic \R^{k+l}
-\end{math}
-wieder eine konvexes Polytop.
-Beispielsweise ist ein $k$-Würfel das Produkt aus einem $(k-1)$-Würfel und dem Intervall $[-1,1]$.
+        \item[Pyramide über $K$]
+            Die Pyramide über $K$ ist $\CHull(K \cup \Set{x_0})$, wobei $x_0$ außerhalb der affinen Hülle von $K$ liegt.
+            Beispielsweise ist das $k$-Oktaeder die Doppelpyramide über das $(k-1)$-Oktaeder.
 
-\paragraph{Prisma über $K$}
-Für ein konvexes Polytop $K$ ist $P = K \times [0,1]$ das Prisma über $K$.
+        \item[Minkowski-Summe]
+            Wir bezeichnen
+            \begin{math}
+                K + L := \Set{x + y & x\in K, y \in L}
+            \end{math}
+            als \emphdef{Minkowski-Summe} der Polyeder $K$ und $L$.
 
-\paragraph{Pyramide über $K$}
-Die Pyramide über $K$ ist $\CHull{K \cup \Set{x_0}}$, wobei $x_0$ außerhalb der affinen Hülle von $K$ liegt.
-Beispielsweise ist das $k$-Oktaeder die Doppelpyramide über das $(k-1)$-Oktaeder.
+    \end{description}
+\end{ex}
 
-\paragraph{Minkowski-Summe}
-Wir bezeichnen
-\begin{math}
-    K + L := \Set{x + y & x\in K, y \in L}
-\end{math}
-als \emphdef{Minkowski-Summe} der Polyeder $K$ und $L$.
 
 \begin{df}[$H$-Polyeder, $H$-Polytop]
     Ein \emphdef[H-Polyeder]{$H$-Polyeder} im $\R^n$ ist der Durchschnitt endlich vieler abgeschlossener Halbräume des $\R^n$.
@@ -141,6 +145,9 @@ als \emphdef{Minkowski-Summe} der Polyeder $K$ und $L$.
         P / v := P \cap \Set{x & \<c, x\> = c_0 - \epsilon}
     \end{math}
     die \emphdef{Eckenfigur} von $P$ in $v$.
+    \begin{note}
+        Die Eckenfigur ist wieder ein Polytop.
+    \end{note}
 \end{df}
 
 \Timestamp{2015-04-22}
