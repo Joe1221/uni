@@ -1,0 +1,183 @@
+% Kap E
+\chapter{Das Jones-Polynom}
+
+\Timestamp{2015-06-29}
+
+% §E1
+\section{Die Kaufman-Klammer und das Jones-Polynom}
+
+
+Wir betrachten die Menge $\scr D^{\text{un}}$ der unorientierten Verschlingungsdiagramme (Nummerierung der Komponenten auch irrelevant).
+
+\begin{prop}
+    Sei $R$ ein kommutativer Ring mit 1 und $A, B, C \in R$.
+    Dann gibt es genau eine Abbildung: $\<\argdot\> : \scr D^{\text{un}} \to R$, sodass gilt
+    \begin{enumerate}[1)]
+        \item
+            $\<O\> = 1$, $\<D \sqcup O\> = \< D \> \cdot C$
+            Insbesondere $\<O \dotso O\> = C^{n-1}$.
+        \item
+            $\<L_+\> = A \< L_1 \> + B \< L_2 \>$
+    \end{enumerate}
+    \begin{proof}
+        \begin{seg}{Eindeutigkeit}
+            Seien $\<\argdot\>, [\argdot]: \scr D^{\text{un}} \to R$ zwei Abbildungen mit den geforderten Eigenschaften.
+            Induktion über die Kreuzungszahl $\Cr(D)$:
+            Für $\Cr(D) = 0$ ist $\<D\> = C^{n-1} = [D]$ dank 1).
+            Für $\Cr(D) \ge 1$ ist
+            \begin{math}
+                \< D L_+ \>
+                = A \< L_1 \> + B \< L_2 \> 
+                = A [ L_1 ] + B [ L_2 ]
+                = [D L_+ ].
+            \end{math}
+        \end{seg}
+        \begin{seg}{Existenz}
+            Rekursive Konstruktion von $\<\argdot\>: \scr D^{\text{num}} \to R$ (nummerierte Kreuzungen).
+            Für $n = 0$:
+            \begin{math}
+                \< D> := C^{\#D - 1}.
+            \end{math}
+            Für $n = 1$:
+            \begin{math}
+                \< D L_+ \> := A \< L_1 \> + B \< L_2 \>
+            \end{math}
+            Für $n = 2$:
+            \begin{math}
+                \< D L_+^1 L_+^2 \>
+                &= A \< L_1 L_+ \> + B \< L_2 L_+ \> \\
+                &= AA \< L_1 L_1\> + AB \< L_1 L_2 \> + BA \<L_2 L_1\> + BB \< L_2 L_2\> \\
+                &= A \< L_+ L_2\> + B \< L_+ L_2\> \\
+                &= \< D L_+^2 L_+^1 \>
+            \end{math}
+            Also ist $\< \argdot\>$ unabhängig von der Nummerierung der Kreuzungen.
+            Wir erhalten $\< \argdot \>: \scr D \to R$.
+        \end{seg}
+    \end{proof}
+\end{prop}
+
+Reidemeister-Züge:
+Wir erhalten für den R2-Zug die Bedingungen
+\begin{math}
+    B &= A^{-1}, &&
+    C &= -A^2 - A^{-2}
+\end{math}
+Der R3-Zug ist damit bereits bedient.
+Für den R1-Zug erhalten wir jedoch
+\begin{math}
+    \<K\> = (-A^{-3}) \<L\>
+\end{math}
+Wie erreichen wir Invarianz unter R1?
+Brutale Methode: $-A^{-3} = 1$ algebraisch im Ring erzwingen.
+
+Geschickter: Wir betrachten orientierte Diagramme und den Drall (w?) $w: \scr D^{\text{or}} \to \Z$, $w(D) = \sum_{p \text{ Kreuz}} \eps(p)$.
+Der Drall ist invariant unter R2 und R3, aber $w(K) = w(L) + 1$.
+
+\begin{df}
+    Für jedes \emph{orientierte} Diagramm $D$ definieren wir das \emphdef{Jones-Polynom}
+    \begin{math}
+        V(D) = \<D\> \cdot (-A^{-3})^{w(D)}.
+    \end{math}
+    Dieses ist invariant unter allen R-Zügen.
+    \begin{proof}
+        Man betrachte den kritischen R1-Zug: Leicht.
+    \end{proof}
+\end{df}
+
+\begin{st}
+    Das Jones-Polynom definiert eine Abbildung $V: \scr L \to \Z[A^{\pm 1}]$.
+\end{st}
+
+\begin{ex}
+    Für die Kleeblattschlinge erhalten wir
+    \begin{math}
+        V(3_1^-) = A^4 + A^{12} - A^{16}.
+    \end{math}
+\end{ex}
+
+\begin{prop}
+    Für $L \in \scr L$ gilt $V(L^!) = V(L)$
+
+    Kehrt man die Orientierung von $L_1 \subset L$ um und lässt $L_2 = L \setminus L_1$ unverändert, dann gilt
+    \begin{math}
+        V(L_1^! \cup L_2)
+        = V(L_1 \cup L_2) A^{6 \lk(L_1, L_2)}.
+    \end{math}
+\end{prop}
+
+\begin{prop}
+    Es gilt $V(L^*) = V(L)^*$, wobei $*: \Z[A^{\pm}] \to \Z[A^\pm]$ mit $A \mapsto A^{-1}$.    
+    \begin{proof}
+        Stelle $L$ durch ein Diagramm $D$ dar.
+        Die Aussage folgt induktiv aus
+        \begin{math}
+            w(D^*) &= -w(D) \\
+            \<L_+\> &= A \< L_1\> + A^{-1} \<L_2\> \\
+            \<L_-\> &= A^{-1} \< L_1\> + A \<L_2\>.
+        \end{math}
+        Alternativ mit Eindeutigkeit:
+        \begin{math}
+            [D] := \<D^*\>^*
+        \end{math}
+        erfüllt die Bedingung für die Kaufman-Klammer, also $[\argdot] = \<\argdot\>$.
+    \end{proof}
+\end{prop}
+
+\begin{ex}
+    \begin{math}
+        V(3_1^-) &= A^4 + A^{12} - A^{16}, \\
+        V(3_1^+) &= A^{-4} + A^{-12} - A^{-16}.
+    \end{math}
+    Das Jones-Polynom unterscheidet also links- und rechtshändige Kleeblattschlinge.
+    Dies ist neben Färbungspolynom und Signatur unser dritter Beweis für die Chiralität der Kleeblattschlinge.
+\end{ex}
+
+\begin{prop}
+    \begin{math}
+        V(K \# L) = V(K) V(L)
+    \end{math}
+    (Vorsicht: linke Seite nur für Knoten wohldefiniert)
+    \begin{proof}
+        Stelle $K$, $L$ durch Diagramme dar, kurz: $D \# D'$.
+        Induktion über $\Cr(D')$: für $\Cr(D') = 0$ ist alles klar.
+
+        Siehe Skizze.
+    \end{proof}
+\end{prop}
+
+\begin{nt}
+    Übliche Schreibweisen für das Polynom $V(K)$: in den Variablen $q = -A^2$, bzw. $t = A^{-4} = q^2$.
+\end{nt}
+
+\begin{st}
+    Die Invariante $V: \scr D^{or} \to \Z[q^\pm 1] \subset \Z[A^{\pm 1}]$ erfüllt $V(0) = 1$ und die Schienenrelation
+    \begin{math}
+        q^{-2} V(L_+) - q^2 V(L_-) = (q^{-1} - q^{+1}) V(L_0).
+    \end{math}
+    Dies legt $V$ eindeutig fest und liefert zugleich einen Algorithmus.
+    \begin{proof}
+        \begin{math}
+            A \<L_+\> &= A^2\<L_1\> + A^0 \< L_2\> \\
+            A^{-1} \<L_-\> &= A^{-2}\< L_1\> + A^0 \< L_2 \> \\
+            \leadsto q^{-2}V(L_+) - q^2 V(L_-) &= A^4 (-A^{-3})^{w+1} \< L_+\> - A^{-4} (-A^{-3})^{w-1} \<L_-\> \\
+            &= (-A^{-3})^w \Big( -A \<L_+\> + A^{-1} \<L_-\> \Big) \\
+            &= (-A^{-3})^w (A^{-2} - A^2) \< L_2 \> \\
+            &= (q^{-1} - q) V(L_0)
+        \end{math}
+    \end{proof}
+    \begin{nt}
+        Das Alexander-Polynom hatte die Eigenschaft $\Delta(0) = 1$,
+        \begin{math}
+            \Delta(L_+) - \Delta(L_-) = (q-q^{-1}) \Delta(L_0).
+        \end{math}
+        Die Determinante: $\det(0) = 1$,
+        \begin{math}
+            \det(L_+) - \det(L_-) = 2i \det(L_0).
+        \end{math}
+        Es gilt
+        \begin{math}
+            \det = \Delta|_{q\mapsto i}
+            = V|_{q \mapsto i}.
+        \end{math}
+    \end{nt}
+\end{st}
