@@ -45,35 +45,36 @@ Wir betrachten zunächst konvexe Polytope.
 \end{df}
 
 \begin{ex}
+    Es folgen einige Beispiele und Konstruktionen für Polytope.
+    Man beachte, dass wir uns in dieser Vorlesung nur für den kombinatorischen Typ der Polytope interessieren.
+    Deshalb sprechen wir z.B. von \emph{dem} Polytop, obwohl es verschiedene Realisierungen desselben kombinatorischen Typs gibt.
     \begin{description}
-        \item[Standard-Polytope]
-            Im $\R^2$ sind Polygone ein Beispiel.
-            Im $\R^n$ sind $k$-Simplizes ($n \ge k$) als konvexe Hülle von $k + 1$ Punkten in allgemeiner Lage (d.h. affin linear unabhängig) Standard-Polytope.
-            Spezieller ist der \emphdef{Standard-Simplex} in $\R^k$ für $k \in \N$ gegeben als konvexe Hülle der Punkte
-            \begin{math}
-                x_0 = (0, 0, \dotsc, 0),
-                x_1 = (1, 0, \dotsc, 0), \dotsc,
-                x_k = (0, 0, \dotsc, 1) \in \R^k.
-            \end{math}
-            Der \emphdef[Würfel]{$k$-Würfel} ist die konvexe Hülle der $2^k$ Punkte $(\pm 1, \dotsc, \pm 1) \in \R^k$.
-
-            Das \emphdef[Oktaeder]{$k$-dimensionale Oktaeder} ist die konvexe Hülle, der $2k$ Punkte $(0, \dotsc, \pm 1, \dotsc, 0) \in \R^k$ ($\pm 1$ in jeder einzelnen Koordinate).
-
-            Das \emphdef{Ikosaeder} ist die konvexe Hülle von $(0,\pm \tau, 1), (\pm 1, 0, \pm \tau), (\pm \tau, \pm 1, 0)$, wobei
-            \begin{math}
-                \tau^2 = \tau + 1,
-            \end{math}
-            d.h. $\tau$ ist der \emphdef{goldene Schnitt}, $\tau = \frac{1}{2}(\sqrt 5 + 1) \approx 1.618$.
-            Wir ordnen dem Ikosaeder das Symbol $\{3,5\}$ zu (5 Dreiecke um jede Ecke), mehr dazu später.
-
-            Das \emphdef{Dodekaeder} ist die konvexe Hülle von
-            \begin{math}
-                (0, \pi \tau^{-1}, \pm \tau),
-                (\pm \tau, 0, \pm \tau^{-1}),
-                (\pm \tau^{-1}, \pm \tau, 0),
-                (\pm 1, \pm 1, \pm 1).
-            \end{math}
-
+        \item[Standard-Polytope]~
+            \begin{itemize}
+                \item
+                    Konvexe Polygone im $\R^2$,
+                \item
+                    $k$-Simplizes für $n \ge k$ als konvexe Hülle von $k + 1$ affin linear unabhängigen Punkten (Punkte in „allgemeiner Lage“), speziell: der \emphdef[Standard-Simplex]{Standard-$k$-Simplex} in $\R^k$ als $\Conv(0,e_1,\dotsc, e_k)$.
+                \item
+                    Der \emphdef[Würfel]{$k$-Würfel} ist die konvexe Hülle der $2^k$ Punkte $(\pm 1, \dotsc, \pm 1) \in \R^k$.
+                \item
+                    Das \emphdef[Oktaeder]{$k$-dimensionale Oktaeder} ist die konvexe Hülle, der $2k$ Punkte $(0, \dotsc, \pm 1, \dotsc, 0) \in \R^k$ ($\pm 1$ in jeder einzelnen Koordinate).
+                \item
+                    Das \emphdef{Ikosaeder} ist die konvexe Hülle von $(0,\pm \tau, \pm 1), (\pm 1, 0, \pm \tau), (\pm \tau, \pm 1, 0)$, wobei
+                    \begin{math}
+                        \tau^2 = \tau + 1,
+                    \end{math}
+                    d.h. $\tau$ ist der \emphdef{goldene Schnitt}, $\tau = \frac{1}{2}(\sqrt 5 + 1) \approx 1.618$.
+                    Wir ordnen dem Ikosaeder das Symbol $\{3,5\}$ zu (5 Dreiecke um jede Ecke), mehr dazu später.
+                \item
+                    Das \emphdef{Dodekaeder} ist die konvexe Hülle von
+                    \begin{math}
+                        (0, \pm \tau^{-1}, \pm \tau),
+                        (\pm \tau, 0, \pm \tau^{-1}),
+                        (\pm \tau^{-1}, \pm \tau, 0),
+                        (\pm 1, \pm 1, \pm 1).
+                    \end{math}
+            \end{itemize}
         \item[Kartesische Produkte]
             Seien $K \subset \R^k, L \subset \R^l$ konvexe Polytope, dann ist
             \begin{math}
@@ -116,14 +117,14 @@ Wir betrachten zunächst konvexe Polytope.
             Obige Definitionen beinhalten degenerierte Polytope, d.h. solche, die in einer Hyperebene enthalten sind (z.B. die konvexe Hülle zweier Punkte im $\R^2$ ist in einer Geraden enthalten).
             Oft geht man implizit von nicht degenerierten Polytopen aus (lässt sich durch Verringerung der Dimension des Raumes stets bewerkstelligen).
         \item
-            Die Begriffe $V$-Polytop und $H$-Polytop sind äquivalent (siehe später), wir sprechen auch einfach von \emphdef[konvexes Polytop]{konvexen Polytopen}.
+            Die Begriffe $V$-Polytop und $H$-Polytop sind äquivalent (bekannt als Minkowski-Weyl-Theorem), wir sprechen auch einfach von \emphdef[konvexes Polytop]{konvexen Polytopen}.
     \end{itemize}
 \end{note}
 
 \begin{df}
     Ein \emphdef{exponierter Punkt} oder eine \emphdef{Ecke} einer konvexen Menge $M$ ist ein Punkt $p \in M$, sodass $M \cap H = \Set{p}$ für eine gewisse Hyperebene $H$.
 
-    Der Punkt $p$ heißt \emphdef{extremer Punkt}, wenn aus $p = \lambda x + (1-\lambda)y$ mit $x,y \in P$ stets folgt: $p = x$ oder $p = y$.
+    Der Punkt $p$ heißt \emphdef{extrem} oder \emphdef{extremal}, wenn aus $p = \lambda x + (1-\lambda)y$ mit $x,y \in P$ stets folgt: $p = x$ oder $p = y$.
     \begin{note}
         Aus exponiert folgt extrem.
         Die Umkehrung gilt nicht (Rechteck mit zwei Halbkreisen).
@@ -164,7 +165,17 @@ Wir betrachten zunächst konvexe Polytope.
 
     Für eine Stützhyperebene $H$ von $P$ heißt $S := P \cap H$ \emphdef{Seite} von $P$.
     Jede Seite von $P$ ist ein konvexes Polytop (Übung).
-    $0$-dimensionale Seiten heißen \emphdef[Ecke]{Ecken}, $1$-dimensionale Seiten heißen \emphdef[Kante]{Kanten}, $(d-1)$-dimensionale Seiten heißen \emphdef[Facette]{Facetten}.
+    Eine $k$-dimensionale Seite nennen wir kurz $k$-Seite.
+
+    Seiten bestimmter Dimension besitzen spezielle Namen:
+    \begin{itemize}
+        \item
+            $0$-Seiten heißen \emphdef[Ecke]{Ecken},
+        \item
+            $1$-Seiten heißen \emphdef[Kante]{Kanten},
+        \item
+            $(d-1)$-Seiten heißen \emphdef[Facette]{Facetten}.
+    \end{itemize}
 \end{df}
 
 \begin{lem}
@@ -227,21 +238,21 @@ Wie konstruiert man geometrisch ein duales Polytop?
 \begin{kor}
     \begin{enumerate}[(i)]
         \item
-            $P$ ist simplizial genau dann, wenn $p^{\text{dual}}$ einfach ist.
+            $P$ ist simplizial genau dann, wenn $P^{\text{dual}}$ einfach ist.
         \item
-            $P$ ist einfach genau dann, wenn $p^{\text{dual}}$ simplizial ist.
+            $P$ ist einfach genau dann, wenn $P^{\text{dual}}$ simplizial ist.
         \item
-            $P$ ist simplizial und einfach genau dann, wenn $p$ ein Simplex ist.
+            $P$ ist simplizial und einfach genau dann, wenn $P$ ein Simplex ist ($„\implies“$ benötigt $d \ge 3$).
     \end{enumerate}
     \begin{proof}
         (i) und (ii) sind klar aufgrund der Dualität.
 
-        Für (iii) ist die Rückrichtung trivial.
-        Für die Hinrichtung sei $P$ ein simpliziales, einfaches $d$-Polytop.
-        Jede Facette hat als $(d-1)$-Simplex $d$ Ecken.
-        Jede Ecke ist in genau $d$ Kanten enthalten (Eckenfigur ist Simplex).
-        Betrachte eine $(d-2)$-Seite der Facette.
-        $P$ hat also insgesamt nur $d+1$ Ecken.
+        Für (iii) ist „$\impliedby$“ trivial.
+        Für „$\implies$“ betrachte eine beliebig Ecke $v$ von $P$.
+        Da $P / v$ ein $(d-1)$-Simplex ist, besitzt $v$ genau $d$ adjazente Ecken $v_1,\dotsc, v_d$ und ist in genau $d$ Facetten enthalten (diese Facetten bilden den sogenannten Stern von $v$).
+        Diese $d$ Facetten sind jeweils $(d-1)$-Simplizes, besitzen aus Adjazenzgründen also abgesehen von $v$ nur Ecken aus $\Set{v_1, \dotsc, v_d}$, d.h. alle möglichen $(d-1)$-elementigen Teilmengen.
+        Für $d \ge 3$ bedeutet dies, dass alle Ecken aus $\Set{v_1, \dotsc, v_n}$ paarweise adjazent sein müssen (da jedes Paar in einem Simplex enthalten ist).
+        $v, v_1, \dotsc, v_d$ sind somit paarweise benachbart und bilden damit alle Ecken von $P$.
     \end{proof}
 \end{kor}
 
