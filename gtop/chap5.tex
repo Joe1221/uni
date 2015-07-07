@@ -287,6 +287,22 @@ Ein Defekt, oder eine Eigenschaft beider Polynome ist die Invarianz unter Mutati
 % §E2
 \section{Verallgemeinerungen zum HOMFLYPT-Polynom und zum Kauffman-Polynom}
 
+\begin{lem}
+    Zu $D \in \scr D_n^*$ ist das absteigende Diagramm $\alpha D$ trivial.
+    Genauer existiert eine Folge von R-Zügen
+    \begin{math}
+        \alpha D = D_0 \to D_1 \to \dotsb \to D_l = 0
+    \end{math}
+    mit der Eigenschaft, dass $\Cr(D_0) \ge \Cr(D_1) \ge \dotsb \ge \Cr(D_l) = 0$.
+    Hierbei erlauben wir neben $R1, R2, R3$ auch $R2^2$ (zweifache Anwendung von R2, durchschieben von einem Kreis).
+    \begin{proof}
+        Übung, oder Lickorisk Kap 15.
+    \end{proof}
+    \begin{note}
+        Ohne $R2^2$ ist dies nicht möglich (Skizze: 8 mit zwei zusätzlichen inneren Komponenten).
+    \end{note}
+\end{lem}
+
 \begin{st}[HOMPFLYPT]
     Sei $R$ ein kommutativer Ring mit Eins, $a, b \in R^*$, $c, d \in R$ mit $a - b = cd$.
     Dann existiert genau eine Abbildung $I: \scr D^{\text{or}} \to R$ mit
@@ -313,7 +329,7 @@ Ein Defekt, oder eine Eigenschaft beider Polynome ist die Invarianz unter Mutati
         \end{seg}
         \begin{seg}{$n \ge 1$}
             Sei $I_{n-1}$ konstruiert.
-            Definiere $I_n$ wiei folgt.
+            Definiere $I_n$ wie folgt.
             Sei $w(D)$ die Anzahl der zu wechselnden Kreuzungen von $D$ nach $\alpha D$.
             Für $w(D) = 0$ setze $I_n(D) = d^{\#D - 1}$ gemäß 1).
             Für $w(D) \ge 1$ wechsle die erste Kreuzung und berechne $I_n(D)$ gemäß 2).
@@ -331,43 +347,119 @@ Ein Defekt, oder eine Eigenschaft beider Polynome ist die Invarianz unter Mutati
         \end{enumerate}
         $A_0, B_0, C_0, D_0$ sind klar.
         Seien $A_{n-1}, B_{n-1}, C_{n-1}, D_{n-1}$ bewiesen.
-        $A_n$ gilt dank Kommutativität:
-        \begin{math}
-            a I_n(L_+ L_+) - b I_n(L_- L_+) &= c I_{n-1}(L_0 L_+) \\
-            a I_n(L_- L_+) - b I_n(L_- L_-) &= c I_{n-1}(L_- L_0) \\
-            \leadsto
-            a^2 I_n(L_+ L_+) - b^2 I_n(L_- L_-) &= ac I_{n-1}(L_0 L_+) + bc I_{n-1}(L_- L_0)
-        \end{math}
-        und
-        \begin{math}
-            a I_n(L_+ L_+) - b I_n(L_+ L_-) &= c I_{n-1}(L_+ L_0) \\
-            a I_n(L_+ L_-) - b I_n(L_- L_-) &= c I_{n-1}(L_0 L_-) \\
-            \leadsto
-            a^2 I_n(L_+ L_+) - b^2 I_n(L_- L_-) &= ac I_{n-1}(L_+ L_0) + bc I_{n-1}(L_0 L_-)
-        \end{math}
-        Die Differenz ist
-        \begin{math}
-            c^2 I_n(L_0 L_0) - c^2 I_n(L_0 L_0) &= 0
-        \end{math}
-        Damit gilt $A_n$, d.h. $I_n$ erfüllt die Schienenrelation 2) für jede Kreuzung.
+        \begin{seg}{$A_n$: Reihenfolge der zu wechselnden Kreuzungen}
+            $A_n$ gilt dank Kommutativität:
+            \begin{math}
+                a I_n(L_+ L_+) - b I_n(L_- L_+) &= c I_{n-1}(L_0 L_+) \\
+                a I_n(L_- L_+) - b I_n(L_- L_-) &= c I_{n-1}(L_- L_0) \\
+                \leadsto
+                a^2 I_n(L_+ L_+) - b^2 I_n(L_- L_-) &= ac I_{n-1}(L_0 L_+) + bc I_{n-1}(L_- L_0)
+            \end{math}
+            und
+            \begin{math}
+                a I_n(L_+ L_+) - b I_n(L_+ L_-) &= c I_{n-1}(L_+ L_0) \\
+                a I_n(L_+ L_-) - b I_n(L_- L_-) &= c I_{n-1}(L_0 L_-) \\
+                \leadsto
+                a^2 I_n(L_+ L_+) - b^2 I_n(L_- L_-) &= ac I_{n-1}(L_+ L_0) + bc I_{n-1}(L_0 L_-)
+            \end{math}
+            Die Differenz ist
+            \begin{math}
+                c^2 I_n(L_0 L_0) - c^2 I_n(L_0 L_0) &= 0
+            \end{math}
+            Damit gilt $A_n$, d.h. $I_n$ erfüllt die Schienenrelation 2) für jede Kreuzung.
+        \end{seg}
+\Timestamp{2015-07-06}
+        \begin{seg}{$B_n$: Verschiebung eines Startpunktes}
+            Überqueren einer Kreuzung $D \leadsto D'$ von Komponente $i$ über Komponente $j$.
+            Für $i \neq j$ ist $\alpha D = \alpha D'$ und $I_n(D) = I_n(D')$.
+            Für $i = j$ unterscheiden sich $\alpha D$ und $\alpha D'$ nur durch einen Kreuzungswechsel.
+            Unter Verwendung von $A_n$ ist die Reihenfolge der Krezungen nicht relevant.
+            %\begin{math}
+            %    I_n(D) - I_n(\alpha D) = d^{\#D-1}
+            %    I_n(D') - I_n(\alpha D') = d^{\#D-1}
+            %\end{math}
+            Induktiv:
+            \begin{math}
+                a I_n(L_+) - b I_n(L_-) &= c I_{n-1}(L_0) \\
+                a I_n(L_+) - b d^{\# D - 1}&= c d^{\#D_0 - 1} = (a-b)d^{\#D -1} \\
+            \end{math}
+            Es folgt $I_n(L_+) = d^{\# D - 1}$.
+        \end{seg}
+        \begin{seg}{$C_n$: Reidemeisterzüge}~\vspace{-1em}
+            \begin{enumerate}[(R1)]
+                \item
+                    Induktion über Anzahl $w(D)$ der zu wechselnden Kreuzungen von $D$ nach $\alpha D$.
+                    Nach entsprechender Verschiebung von $*$ gilt $w(D) = w(D')$.
+                    Für $w(D) = w(D') = 0$ ist alles klar.
+                    \begin{math}
+                        I_n(D) = d^{\# D - 1} = d^{\# D' - 1} = I_n(D).
+                    \end{math}
+                    Sei $w(D) = 1$.
+                    Dann wechsle eine Kreuzung:
+                    \begin{math}
+                        a I_n(R L_+) - b I_n(R L_-) &= c I_{n-1}(R L_0) \\
+                        a I_n(R' L_+) - b I_n(R' L_-) &= c I_{n-1}(R' L_0)
+                    \end{math}
+                    Rechte Seiten sind gleich dank $C_{n-1}$, die zwei Terme auf den linken Seiten ebenfalls dank Induktion über $w(D)$.
+                \item
+                    Für Komponenten $i = j$ einfach durch entsprechende Verschiebung des Startpunktes und Induktion wie oben.
+                    Betrachte $i \neq j$: unterscheide $i < j$ und $i > j$, ein Fall ist einfach, sonst Wechsel der Kreuzungen:
+                    Ausrechnen ergibt
+                    \begin{math}
+                        a I_n(R_{-+}) - b I_n(R_{--}) &= c I_{n-1}(R_{-0}) \\
+                        a I_n(R_{+-}) - b I_n(R_{--}) &= c I_{n-1}(R_{0-})
+                    \end{math}
+                    und folglich $I_n(R_{-+}) = I_n(R_{+-})$.
+                    Ebenso mit anderer Orientierung (Übung).
+                \item
+                    \begin{math}
+                        a I_n(R_{**,+}) - b I_n(R_{**,-}) &= I_{n-1}(R_{**,0}) \\
+                        a I_n(R_{+,**}) - b I_n(R_{-,**}) &= I_{n-1}(R_{0,**})
+                    \end{math}
+                    Die rechten Seiten sind gleich.
+                    Diskussion aller Fälle:
+                    Der Fall $i < j < k$ ist einfach mit $\impliedby$, ebenso $i < k < j$ mit $\implies$.
+                    Sei nun $k < j < i$, wir wechseln die Kreuzungen $ij, ik$, um auf einen bekannten Fall zurückzuführen.
+                    Erste Orientierung von $i$:
+                    Der bekannte Fall wäre $I_n(R_{++,+}) = I_n(R_{+,++})$.
+                    Zu zeigen: $I_n(R_{--,+}) = I_n(R_{++,+})$.
+                    \begin{math}
+                        a I_n( R_{-+,+}) - b I_n(R_{--,+}) &= c I_{n-1}( R_{-+,+} ) \\
+                        a I_n( R_{++,+}) - b I_n(R_{-+,+}) &= c I_{n-1}( R_{0+,+} ) \\
+                        a I_n( R_{+,+-}) - b I_n(R_{+,--}) &= c I_{n-1}( R_{+,0-} ) \\
+                        a I_n( R_{+,++}) - b I_n(R_{+,+-}) &= c I_{n-1}( R_{+,+0} ) \\
+                    \end{math}
+                    Nun ergibt sich
+                    \begin{math}
+                        a^2 I_n( R_{++,+}) - b^2 I_n(R_{--,+}) &= b c I_{n-1}(R_{-0,+}) + ac I_{n-1}(R_{0+,+}) \\
+                        a^2 I_n( R_{+,++}) - b^2 I_n(R_{+,--}) &= b c I_{n-1}(R_{+,0-}) + ac I_{n-1}(R_{+,+0}) \\
+                    \end{math}
+                    Dank R2 ist $I_n(R_{-0,+}) = I_n(R_{+,0-})$.
+                    Auf der linken Seite ergeben sich eine Äquivalenz, mit der wir alle Stränge permutieren können.
+                    Für eine Permutation ist die R3-Invarianz klar, damit auch für alle anderen.
+
+                    Ebenso für die zweite Orientierung von $i$:
+                    Auch $i = j < k$ und andere Fälle verlaufen analog oder leichter.
+                \item[$R2^2$]
+                    klar, nichts zu zeigen.
+            \end{enumerate}
+        \end{seg}
+        \begin{seg}{$D_n$: Unabhängig von Nummerierung}
+            Sei $D \leadsto D'$ ein Umnummerierung.
+            Induktion über $w(D)$.
+            Für $w(D) = 0$ erhält man dank Reidemeister-Züge (monoton fallend in $\scr D_n^*$) disjunkte Kreise.
+            $C_n$ liefert also $I_n(D') = d^{\# D - 1} = I_n(D)$.
+            Für $w(D) \ge 1$ wechsle eine Kreuzung und schließe per Induktion.
+        \end{seg}
     \end{proof}
 \end{st}
 
-\begin{lem}
-    Zu $D \in \scr D_n^*$ ist das absteigende Diagramm $\alpha D$ trivial.
-    Genauer existieret eine Folge von R-Zügen
-    \begin{math}
-        \alpha D = D_0 \to D_1 \to \dotsb \to D_l = 0
-    \end{math}
-    mit der Eigenschaft, dass $\Cr(D_0) \ge \Cr(D_1) \ge \dotsb \ge \Cr(D_l) = 0$.
-    Hierbei erlauben wir neben $R1, R2, R3$ auch $R2^2$ (zweifache Anwendung von R2, durchschieben von einem Kreis).
-    \begin{proof}
-        Übung, oder Lickorisk Kap 15.
-    \end{proof}
-    \begin{note}
-        Ohne $R2^2$ ist dies nicht möglich (Skizze: 8 mit zwei zusätzlichen inneren Komponenten).
-    \end{note}
-\end{lem}
+
+
+
+
+
+
 
 
 
