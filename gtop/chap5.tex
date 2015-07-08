@@ -454,18 +454,162 @@ Ein Defekt, oder eine Eigenschaft beider Polynome ist die Invarianz unter Mutati
     \end{proof}
 \end{st}
 
+\Timestamp{2015-07-08}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Alexander-Polynom: $R = \Z[q^\pm]$ und
+            \begin{math}
+                a &= b = 1, &&
+                c &= q - q^{-1}, &&
+                d &= 0.
+            \end{math}
+        \item
+            Alexander-Conway: $R = \Z[z]$ und
+            \begin{math}
+                a &= b = 1, &&
+                c &= z, &&
+                d &= 0.
+            \end{math}
+        \item
+            Jones-Polynom: $R = \Z[q^\pm]$ und
+            \begin{math}
+                a &= q^{-2}, &&
+                b &= q^2, &&
+                c &= q^{-1} - q, &&
+                d &= q^{-1} + q.
+            \end{math}
+        \item
+            HOMFLYPT-Polynom: $R = \Z[l^\pm, m, \frac{l^{-1} - l}{m}] \subset \Z[l^\pm, m^\pm]$ und
+            \begin{math}
+                a &= l^{-1}, \\
+                b &= l, \\
+                c &= m, \\
+                d &= \frac{l^{-1} - l}{m}.
+            \end{math}
+            Spezialisieren mit $(l, m) \mapsto (1, q - q^{-1})$ liefert das Alexander-Polynom.
+            Spezialisieren mit $(l, m) \mapsto (q^2, q^{-1} - q)$ liefert das Jones-Polynom.
+
+            Spezialisieren mit $(l, m) \mapsto (q^n, q^{-1} - q)$ liefert
+            \begin{math}
+                d
+                = \frac{l^{-1} - l}{m}
+                = \frac{q^{-n} - q^n}{q^{-1} - q}
+                = q^{1-n} + q^{3-n} + \dotsb + q^{n-3} + q^{n-1}.
+            \end{math}
+            Hier liefert $n = 1$ eine triviale Invariante (Warum? Übung).
+    \end{itemize}
+\end{ex}
+
+Ebenso beweist man:
+
+\begin{st}[Kauffman, 1990]
+    Es existiert genau eine Abbildung $\Lambda: \scr D^{\text{un}} \to \Z[a^\pm, z^\pm]$ mit
+    \begin{enumerate}[i)]
+        \item
+            $\Lambda(0) = 1$, $\Lambda(R1^*) = a \Lambda(R1^0)$,
+        \item
+            $\Lambda(L_+) + \Lambda(L_-) = z\Big(\Lambda(L_|) + \Lambda(L_-)\Big)$,
+            (beachte: keine Orientierung)
+        \item
+            $\Lambda$ ist invariant unter R2/3-Zügen.
+    \end{enumerate}
+    Die Abbildung $F: \scr D^{\text{or}} \to \Z[a^\pm, z^\pm]$ mit $F(D) = a^{-w(D)} \Lambda(D)$ ist invariant unter R1/2/3-Zügen.
+\end{st}
 
 
+\begin{tikzpicture}[scale=2.5]
+    \node[align=center] (1) at (1,2) {HOMPFLYPT \\ $P: \scr L \to \Z[l^\pm, m^\pm]$};
+    \node[align=center] (2) at (0,1) {Alexander \\ $\Delta: \scr L \to \Z[q^\pm]$};
+    \node[align=center] (3) at (2,1) {Jones \\ $V: \scr L \to \Z[q^\pm]$};
+    \node[align=center] (4) at (1,0) {Determinante \\ $\det: \scr L \to \Z[i]$};
+    \node[align=center] (5) at (3,2) {Kauffmann \\ $\scr F \to \Z[a^\pm, z^\pm]$};
+
+    \draw[->] (1) -- node[left] {$(l,m) \mapsto (1, q - q^{-1})$} (2);
+    \draw[->] (1) -- node[right] {$(l,m) \mapsto (q^2, q^{-1} - q)$} (3);
+    \draw[->] (2) -- node[left] {$q \mapsto i$} (4);
+    \draw[->] (3) -- node[right] {$q \mapsto i$} (4);
+    \draw[dashed] (1) -- node[above] {unabhängig} (5);
+    \draw[dashed] (2) -- node[below] {unabhängig} (3);
+\end{tikzpicture}
 
 
+% §E3
+\section{Die Tait-Vermutung}
+
+\begin{df}
+    Ein Verschlingungs-Diagramm $D \subset \R^2$ heißt \emphdef{alternierend}, wenn beim Durchlaufen jeder Komponente abwechselnd Über/Unterkreuzungen auftauchen.
+
+    Eine Verschlingung $L \subset \R^3$ heißt \emphdef{alternierend}, wenn sie sich durch ein alternierendes Diagramm darstellen lässt.
+\end{df}
+
+\begin{nt}
+    \begin{itemize}
+        \item
+            In alternierenden Diagrammen ist kein R3-Zug möglich (die entsprechenden Situation können nicht auftreten):
+        \item
+            Ebensowenig ist ein reduzierender R2-Zug möglich (nicht-reduzierend möglich).
+        \item
+            Reduzierende R1-Züge sind möglich.
+        \item
+            Allgemeiner ist folgendes möglich: (zwei Teile, eins umkehren, „großer R1-Zug“ siehe Skizze)
+    \end{itemize}
+\end{nt}
+
+\begin{df}
+    Ein Diagramm heißt \emphdef{reduziert}, wenn keine solche Reduktion mehr möglich ist.
+\end{df}
+
+Die drei Tait-Vermutungen besagen
+\begin{enumerate}[(1)]
+    \item
+        Jedes reduzierte, alternierende Verschlingungsdiagramm $D$ minimiert die Kreuzungsszahl, d.h. $D' \sim D \implies \Cr(D') \ge \Cr(D)$.
+    \item
+        Für reduzierte, alternierende Diagramme $D$ ist der Drall $w(D) = \sum_{p} \eps(p)$ eine Invariante, d.h. $D' \sim D$ mit $D, D'$ reduziert und alternierend impliziert $w(D) = w(D')$.
+    \item
+        Sind $D \sim D'$ reduzierte alternierende Diagramme, dann lassen sie sich allein durch Flypes (in $\S^2$) ineinander überführen.
+\end{enumerate}
+\begin{note}
+    Klar ist $(3) \implies (2)$.
+\end{note}
+Dies löst das Klassifikationsproblem für alternierende Verschlingungen.
 
 
+\begin{df}
+    Jedes Polynom $P \in \Z[A^\pm]$, $P \neq 0$ schreibt sich eindeutig als
+    \begin{math}
+        P = \sum_{k=m}^n p_k A^k
+    \end{math}
+    mit $p_m \neq 0 \neq p_n$, $m \le n$.
+    Wir setzen $\mindeg(P) := m$ und $\maxdeg(P) := n$ und $\width(P) := n - m$.
+\end{df}
 
+\begin{ex}
+    \begin{enumerate}[1.]
+        \item
+            Beim Alexander-Polynom war $\width_q(\Delta(D) \le 4g(S_D)$.
+            Gleichheit gilt falls $D$ zusammenhängend und alternierend ist (ohne Beweis).
+        \item
+            Wir wollen dies für Jones und die Kreuzungszahl $\Cr$ zeigen.
+    \end{enumerate}
+\end{ex}
 
+\begin{df}
+    Sei $D \subset \R^2$ ein unorientiertes Diagramm mit nummerierten Kreuzungen $i = 1, \dotsc, n$.
+    Zu $s: \Set{1, \dotsc, n} \to \Set{\pm 1}$ definiere ein „aufgelöstes“ Diagramm $sD$ durch
+    \begin{math}
+        …
+    \end{math}
+    Sei $|sD|$ die Anzahl der Kreise und $\sum s := \sum_{i=1}^n s(i)$ die Summe der Vorzeichen.
+\end{df}
 
+\begin{lem}
+    Für die Kaufmann-Klammer gilt
+    \begin{math}
+        \<D\> &= \sum_{s: \Set{1, \dotsc, n} \to \Set{\pm 1}} A^{\sum s} (-A^2 - A^{-2})^{|sD|-1} \\
+        &=: \sum_{s} \< D | s\>
+    \end{math}
+\end{lem}
 
-
-
-
-
-
+Ziel: Für reduzierte alternierende Diagramme wollen wir $\width(\<D\>)$ berechnen, genauer: höchste und niedrigste Terme verstehen.
