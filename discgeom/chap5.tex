@@ -4,7 +4,7 @@
 
 
 Ränder von $3$-Polytopen sind maximal 1-nachbarschaftlich.
-Ränder von $2$-Polytopen sind maximal 2-nachbarschaftlich.
+Ränder von $4$-Polytopen sind maximal 2-nachbarschaftlich.
 
 Für eine triangulierte, geschlossene $(2k+1)$-dimensionale Mannigfaltigkeit $M$ sind die Dehn-Sommerville-Gleichungen genau die selben, wie für $(2k+2)$-Polytope (bzw. deren Rändern), weil $\chi(M) = 0 = \chi(S^{2k+1})$.
 
@@ -54,7 +54,9 @@ $h_0 = 1$, $h_d = \chi(M) - 1$, also $h_0 - h_d = 2 - \chi(M)$.
     Wann haben wir Gleichheit für gegebenes $n$?
     Gleichheit gilt genau dann, wenn $3 \divs \binom{n-3}{2} = \frac{1}{2}(n-3)(n-4)$, also $n \equiv 0$ oder $n \equiv 1 \bmod 3$ ($n \equiv 2 \bmod 3$ ist nicht möglich).
     \begin{table}[ht]
-        \begin{tabular}{ccc}
+        \centering
+        \begin{tabular}{ccl}
+            $n$ & $\chi$ & realisiert durch \\ \hline
             3 & 2 & (Dieder) \\
             4 & 2 & Rand des Tetraeders \\
             6 & 1 & $\R P^2$ mit 6 Ecken \\
@@ -74,20 +76,24 @@ $h_0 = 1$, $h_d = \chi(M) - 1$, also $h_0 - h_d = 2 - \chi(M)$.
     \begin{math}
         n \equiv 0, 3, 4, 7 \bmod 12.
     \end{math}
+    $n \equiv 7 \bmod 12$ erlaubt eine einfache Lösung (siehe Übung).
 \end{seg}
 
+Ungerad-dimensionale Mannigfaltigkeiten haben Euler-Charakteristik $\chi = 0$.
+
 \begin{seg}{Fall $k = 2$}
+    $n \ge 6$ (5-Simplex ist minimaler Fall).
     Dehn-Sommerville:
     \begin{math}
         n - f_1 + f_2 - f_3 + f_4 &= \chi \\
         2 f_1 - 3f_2 + 4f_3 - 5f_4 &= 0 \\
         2 f_3 - 5f_4 &= 0
     \end{math}
-    2-nachbarschaftlich (geht für 5-Polytope), 3-nachbarschaftlich: $f_1 = \binom{n}{2}$, $f_2 = \binom{n}{3}$
+    2-nachbarschaftlich (funktioniert noch für 5-Polytope) und zusäztlich 3-nachbarschaftlich: $f_1 = \binom{n}{2}$, $f_2 = \binom{n}{3}$
     \begin{math}
         n - f_1 + f_2 - \frac{3}{5} f_3 &= \chi \\
-        2 f_1 - 3f_2 + 2f_3 &= 0
-        \leadsto 10 n - 4f_1 + f_2 = 10 \chi
+        2 f_1 - 3f_2 + 2f_3 &= 0 \\
+        \leadsto 10 n - 4f_1 + f_2 &= 10 \chi
     \end{math}
     Es folgt also
     \begin{math}
@@ -97,7 +103,103 @@ $h_0 = 1$, $h_d = \chi(M) - 1$, also $h_0 - h_d = 2 - \chi(M)$.
     \begin{math}
         \binom{n-4}{3} = 10 (\chi - 2).
     \end{math}
+\Timestamp{2015-07-08}
+    3-nachbarschaftliche Mannigfaltigkeiten sind einfach zusammenhängend (jede Kurve kann in jede andere deformiert werden).
+
+    Dies ist genau dann ganzzahlig möglich, wenn $(n-4)(n-5)(n-6) \equiv 20 a$ mit $a \in \Z$, also
+    \begin{math}
+        n \equiv 0, 1, 4, 5, 6, 9, 10, 14, 16 \bmod 20
+    \end{math}
+    Fälle von $(n,\chi)$:
+    \begin{table}
+        \centering
+        \begin{tabular}{ccl}
+            $n$ & $\chi$ & Beispiele \\ \hline
+            (5) & (2) & (Dieder) \\
+            6 & 2 & $\Boundary \Delta^5 \isomorphic S^4$ \\
+            9 & 3 & $\CP^2$, siehe Übung \\
+            10 & 4 & Kandidat $\S^2 \times \S^2$, existiert nicht \\
+            14 & 14 & ?, existiert zumindest nicht mit zyklischer Symmetrie \\
+            16 & 24 & K3-Fläche ($x^4 + y^4 + z^4 + w^4 = 0$ in $\CP^3$), Gruppe der Ordnung 240, Ecken-Link ist $\S^3$ mit 15 Ecken und 2-nachbarschaftlich und zyklischer Symmetrie
+        \end{tabular}
+        \caption{Auftretende Fälle}
+    \end{table}
 \end{seg}
 
+\section{Die Ungleichung vom Heawood-Typ}
 
+\begin{st}[Kühnel, 1985]
+    Sei $M^4$ eine triangulierte $4$-Mannigfaltigkeit mit $n$ Ecken (also jeder Ecken-Link ist eine triangulierte 3-Sphäre).
+    Dann gilt
+    \begin{math}
+        \binom{n-4}{3} = 10 (\chi(M) - 2)
+    \end{math}
+    mit Gleichheit genau dann, wenn $f_2 = \binom{n}{3}$, d.h. $M^4$ ist 3-nachbarschaftlich (also $M^4$ einfach zusammenhängend).
+    \begin{proof}
+        Dehn-Sommerville ergibt:
+        \begin{math}
+            10n - 4f_1 + f_2 &= 10 \chi
+        \end{math}
+        Direktes Abschätzen von $f_1$, $f_2$ funktioniert nicht, wegen alternierender Vorzeichen.
+        Es ist bekannt, dass für $n \le 8$ folgt $M \isomorphic \S^4$ und $\chi - 2 = 0$.
+        Sei also $n \ge 9$.
+        (Falls $f_1 = \binom{n}{2}$, dann ist $10 \chi \le 10n - 4\binom{n}{2} + \binom{n}{3}$).
+        Setze $\_f_k := \binom{n}{3} - f_k$, zu zeigen: $\_f_2 \ge 4 \_f_1$.
+        Link der Ecke $i$: $f_0(i), f_1(i), f_2(i), \dotsc$ und $f_0(i) \ge 5$.
+        Wir bezeichnen wieder mit $\_f_0(i) := n - 1 - f_0(i)$ die Anzahl der Nicht-Ecken, und mit $\_f_1(i) = \binom{n-1}{2} - f_1(i)$ die Anzahl der Nicht-Kanten.
+
+        Wegen $f_0(i) + \_f_0(i) = n-1$ und $\_f_0(i) \le n - 6$
+        \begin{math}
+            \_f_1(i)
+            &\ge f_0(i) \_f_0(i) + \binom{\_f_0(i)}{2} \\
+            &= \_f_0(i) \Big( f_0(i) + \frac{1}{2}(\_f_0(i) - 1) \Big) \\
+            &= \_f_0(i) \Big( n-1 - \frac{1}{2}(\_f_0(i) + 1) \Big) \\
+            &\ge \_f_0(i) \Big( n-1 - \frac{1}{2}(n-5) \Big) \\
+            &= \_f_0(i) \big( \frac{n}{2} + \frac{3}{2} \big) \\
+            &\ge 6 \_f_0(i)
+        \end{math}
+        da $n \ge 9$.
+        Summiert ergibt sich
+        \begin{math}
+            \underbrace{\sum_{i} \_f_1(i)}_{3\_f_2}
+            \ge 6 \underbrace{\sum_i \_f_0(i)}_{3\_f_1},
+        \end{math}
+        also $\_f_2 \ge 4 \_f_1$.
+
+        Es gilt mit $4 \_f_1 \le \_f_2$
+        \begin{math}
+            10(\chi - 2)
+            &= 10n - 4 f_1 + f_2 - 20 \\
+            &= 10n - 4 (\binom{n}{2} - \_f_1) + \binom{n}{3} - \_f_2 - 20 \\
+            &\le 10n - 4 \binom{n}{2} + \binom{n}{3} - 20 \\
+            &= \frac{1}{6}(n^3 - 15n^2 + 74n - 120) \\
+            &= \binom{n-4}{3}
+        \end{math}
+        mit Gleichheit genau dann, wenn $\_f_2 = 4 \_f_1$.
+        Zeige, dass im Fall der Gleichheit $\_f_2 = \_f_1 = 0$.
+
+        Falls $n \ge 10$ muss $\_f_0(i) = 0$ (betrachte die letzte Ungleichung bei $\_f_1(i) \le 6 \_f_0(i)$) für alle $i$ und somit $\_f_1 = \_f_2 = 0$.
+        Sei nun $n = 9$, hier wäre auch $\_f_0(i) = n-6 = 3$ möglich, also $f_0(i) = 5$ und
+        \begin{math}
+            2 f_1 = \sum_{i} f_0(i) = 5n = 45,
+        \end{math}
+        ein Widerspruch und $\_f_0(i) = 0$ wie oben.
+    \end{proof}
+\end{st}
+
+Allgemein:
+
+\begin{conj}[Kühnel]
+    Triangulierung von $M^{2k}$ mit $n$ Ecken
+    \begin{math}
+        \binom{n-k-2}{k+1}
+        \ge (-1)^k \binom{2k+1}{k+1} (\chi(M) - 2)
+    \end{math}
+    mit Gleichheit genau dann, wenn $f_k = \binom{n}{k+1}$, d.h. wenn $M^{2k}$ $(k+1)$-nachbarschaftlich ist.
+    \begin{proof}
+        Durch Isabella Novik und Ed Swartz, 2012 mit kommutativer Algebra.
+    \end{proof}
+\end{conj}
+
+Siehe auch Springer Lecture Notess 1612 (1995).
 
