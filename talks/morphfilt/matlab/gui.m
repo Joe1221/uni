@@ -1,5 +1,4 @@
 function gui
-
     ssize = [11, 11];
     se = false(ssize);
     se(ceil(end/2), ceil(end/2)) = true;
@@ -17,8 +16,8 @@ function gui
 
     set(sef, 'UserData', false)
 
-    set(sef, 'WindowButtonDownFcn', @(s, e) smousebutton(true));
-    set(sef, 'WindowButtonUpFcn', @(s, e) smousebutton(false));
+    set(sef, 'WindowButtonDownFcn',   @(s, e) smousebutton(true));
+    set(sef, 'WindowButtonUpFcn',     @(s, e) smousebutton(false));
     set(sef, 'WindowButtonMotionFcn', @(s, e) smousemove());
 
     function smousebutton (bool)
@@ -57,20 +56,30 @@ function gui
         set(imh(8), 'CData', imbtophat(im, sel));
     end
 
-    %im = rgb2gray(imread('saturn.png'));
-    %im = imread('snowflakes.png');
-    %im = 255*uint8(imread('blobs.png'));
-    im = imread('cameraman.tif');
+
+    im = imreadgray('images/abstract.jpg');
+
+    %% Uncomment to have a file selection dialogue
+    %[file, path] = uigetfile('*.png;*.jpg;*.tif', 'select an image');
+    %file = fullfile(path, file);
+    %im = imreadgray(file);
 
     imf = figure(2);
     imh = zeros(4,2);
 
+    %set(0,'DefaultAxesLooseInset', [0 0 0 0])
+
     titles = {'original', '', 'erosion', 'dilation', 'opening', 'closing', 'white tophat', 'black tophat'};
     for i = 1:8
-        subplot(4,2,i), imh(i) = image(im);
-        title(titles{i});
+        my_subplot(4, 2, i);
+
+        imh(i) = imagesc(im);
         axis image;
+        title(titles{i});
+        colormap('gray')
+        caxis([0, intmax('uint8')])
     end
+    updateimage();
 
 
 
