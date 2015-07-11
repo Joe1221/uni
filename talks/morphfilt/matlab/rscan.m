@@ -1,47 +1,100 @@
 function rscan (im, varargin)
     optargs = {
-        300, ... % dpi
-        [10, 10, 10, 10], ... % target margins in mm [left, top, right, bottom]
-        10, ... % rotation range in degrees
+        300,               ... % dpi: image resolution, dots per inch
+        [10, 10, 10, 10],  ... % margins: target margins in mm [left, top, right, bottom]
+        2,                 ... % bgilsize: background illumination filter (square) size in mm
+        [-10, 10],         ... % rotrange: rotation range in degrees
+        [10, 1.9],         ... % cropfuzz: max structures in mm [h, v] to ignore when cropping
+                           ... %           sensible values: [max margin par width + ε, lineheight - ε]
+        [0.02, 0.02],      ... % croptopfrac: top significant fraction for crop thresholds
+        [0.10, 0.10],      ... % croptopthresh: crop thresholds in % [h, v]
+        0.10,               ... % bwthresh: b/w threshold in %
     };
     optargs(1:length(varargin)) = varargin;
-    [dpi, margins, rotrange] = optargs{:};
+    [dpi, margins, bgilsize, rotrange, cropfuzz, croptopfrac, cropthresh, bwthresh] = optargs{:};
 
     if ~ismatrix(im) || ~isa(im, 'uint8')
         error('morphfilt:rscan:WrongInput', 'Need a uint8 grayscale image');
     end
 
+    % convert mm to px using dpi
+    function px = mm2px (mm)
+        px = round((mm / 10) .* (dpi / 2.54));
+    end
+
     % cook inputs
-    margins = margins / 10 * (dpi / 2.54);
+    margins = mm2px(margins);
+    cropfuzz = mm2px(cropfuzz);
+    bgilsize = mm2px(bgilsize);
 
-    % === remove background illumination (inverts image)
+    % === remove background illumination (inverts image btw)
 
-    b = strel('square', (dpi / 300) * 10);
-    im = imclose(im, b) - im;
+    fprintf('removing background illumination ...\n')
+    b = strel('square', bgilsize);
+    im = imclose(im, b) - im; % black top hat
+
+    imwrite(im, 'out/bth.png');
 
     % === adjust orientation
 
-    f = @(theta) -orientf(im, theta);
-    theta = fminbnd(f, -rotrange, rotrange);
+    function f = frectified(im, theta)
+        imr = imrotate(im, theta, 'nearest');
+        f = norm(abs(diff(mean(imr, 2))));
+    end
+
+    fprintf('align by rotating ...\n')
+    f = @(theta) -frectified(im, theta);
+    theta = fminbnd(f, rotrange(1), rotrange(2));
     im = imrotate(im, theta, 'bicubic');
 
-    % === crop (currently dirty)
+    imwrite(im, 'out/rot.png');
 
-    h = mean(im, 1) / 255;
-    v = mean(im, 2)' / 255;
+    % === crop image
 
-    h = imopen([zeros(1,100), h, zeros(1,100)], strel('line', 100, 0));
-    h = h(101:end-100);
-    h = imclose(h, strel('line', 100, 0));
-    v = imopen([zeros(1,100), v, zeros(1,100)], strel('line', 25, 0));
-    v = v(101:end-100);
-    v = imclose(v, strel('line', 100, 0));
-    v = find(v > 0.5e-3);
-    h = find(h > 0.5e-3);
-    rect = [h(1) - margins(1), v(1) - margins(2), h(end) + margins(3), v(end) + margins(4)];
-    rect = [rect(1:2), rect(3:4) - rect(1:2)];
+    imb = imclose(im, strel('rectangle', flip(cropfuzz)));
+    imwrite(imb, 'out/cropfuzz.png');
+
+    % compute the mean for a top (i.e. largest elements) fraction frac of numbers
+    % of a matrix im along dimension dim
+    function x = meantoprange(im, dim, frac)
+        im = shiftdim(im, dim - 1);
+        x = flip(sort(im));
+        x = x(1:round(frac*end), :);
+        x = mean(x, 1);
+    end
+
+    % morphological opening on one-dimensional data x using block of size l
+    % important: data along boundary is intentionally discarded
+    function x = removepeaks(x, l)
+        pad = zeros(1, l);
+        x = imopen([pad, x, pad], strel('line', l, 0));
+        x = x(l + 1 : end - l);
+    end
+
+
+    fprintf('cropping ...\n')
+
+    h = meantoprange(imb, 1, croptopfrac(1)) / 255;
+    v = meantoprange(imb, 2, croptopfrac(2)) / 255;
+    plothv(h, v, 2, 1)
+
+    h = removepeaks(h, cropfuzz(1));
+    v = removepeaks(v, cropfuzz(2));
+    plothv(h, v, 2, 2)
+
+    h = find(h > cropthresh(1));
+    v = find(v > cropthresh(2));
+    rect = [ ...
+        h(1) - margins(1), v(1) - margins(2), ...
+        h(end) - h(1) + 2*margins(3), v(end) - v(1) + 2*margins(4) ...
+    ];
 
     im = imcrop(im, rect);
+    imwrite(im, 'out/cropped.png');
 
-    imwrite(im, 'a.jpg');
+    % === thresholding
+
+    im = im > bwthresh * 255;
+
+    imwrite(im, 'out/fin.png');
 end

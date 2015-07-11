@@ -1,5 +1,5 @@
 function imres = my_imdilate (im, s)
-    imres = zeros(size(im));
+    imres = zeros(size(im), 'uint8');
 
     neighbors = getneighbors(s);
     for i = 1:size(neighbors, 1)
