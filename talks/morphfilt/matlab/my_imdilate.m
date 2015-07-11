@@ -1,10 +1,13 @@
-function imres = my_imdilate (im, s)
+function imres = my_imdilate (im, se)
     imres = zeros(size(im), 'uint8');
 
-    neighbors = getneighbors(s);
-    for i = 1:size(neighbors, 1)
-        %imshift = circshift(im, neighbors(i,:));
-        imshift = padshift(im, neighbors(i,:), 0);
-        imres = max(imres, imshift);
+    for se = getsequence(se)'
+        imres(:) = intmin('uint8');
+        for nb = getneighbors(se)'
+            %imshift = circshift(im, neighbors(i,:));
+            imshift = padshift(im, nb, intmin('uint8'));
+            imres = min(imres, imshift);
+        end
+        im = imres;
     end
 end
