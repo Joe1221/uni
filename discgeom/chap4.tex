@@ -2,18 +2,33 @@
 
 \Timestamp{2015-05-20}
 
-Wir betrachten einen Komplex $K$ mit konvexen Polytopen als Facetten und der homogenen Dimension $k$ (d.h. jede Seite ist in einer $k$-dimensionalen Facette enthalten „pure complex“) mit einer Ordnung $F_1, \dotsc, F_s$ der Facetten.
 
-Spezialfall: Simplizialer Komplex der Dimension $k$.
+\begin{df}
+    Sei $K$ ein polytopaler Komplex mit homogener Dimension $d$ (d.h. jede Seite ist in einer $d$-dimensionalen Facette enthalten, auch “pure complex” genannt).
+    $K$ heißt \emphdef{schälbar} (“shellable”), wenn eine Ordnung $F_1, \dotsc, F_s$ der Facetten von $K$ – genannt \emphdef{Schälung} – existiert, sodass $d = 0$ oder folgende Bedingungen erfüllt sind:
+    \begin{enumerate}[i)]
+        \item
+            $\Boundary F_1$ ist schälbar und
+        \item
+            für jedes $2 \le j \le s$ existiert eine Schälung $G_1, \dotsc, G_r$ von $\Boundary F_j$, sodass $(\bigcup_{k=1}^{j-1} F_k) \cap F_j$ einen Anfang dieser Schälung bildet, d.h.
+            \begin{math}
+                \emptyset \neq \Big( \bigcup_{k=1}^{j-1} F_k \Big) \cap F_j = \bigcup_{k=1}^{l} G_k
+            \end{math}
+            für ein $1 \le k \le r$.
+    \end{enumerate}
+\end{df}
 
-$F_1, \dotsc, F_s$ heißt eine \emphdef{Schälung}, wenn entweder $k=0$ oder folgendes gilt:
-\begin{enumerate}[1)]
-    \item
-        Der Randkomplex von $F_1$ hat eine Schälung (trivial, falls $F_1$ ein Simplex ist)
-    \item
-        Für $1 < j \le s$ ist der Durchschnitt von $F_j$ mit $F_1 \cup \dotsc \cup F_{j-1}$ nicht leer und ist der Anfang einer Schälung von $\Boundary F_j$ ($(k-1)$-dimensional).
-\end{enumerate}
-$K$ heißt \emphdef{schälbar} (“shellable”), wenn eine Schälung existiert.
+\begin{lem}
+    Der Randkomplex eines Simplex $\Boundary \Delta_{d+1}$, $d \ge 0$ ist schälbar.
+    Allgemeiner bildet jede Ordnung $F_1, \dotsc F_s$ der Facetten von $\Boundary \Delta_{d+1}$ eine Schälung.
+    \begin{proof}
+        Für $d = 0$ ist die Aussage klar.
+        Für $d \ge 1$ sei $F_1, \dotsc, F_s$ eine beliebige Ordnung der Facetten von $\Delta_{d+1}$.
+        $\Boundary F_1$ ist nach Induktionsvoraussetzung schälbar.
+        Nun ist $L := (\bigcup_{k=1}^{j-1} F_k) \cap F_j$ nicht leer und besteht aus Simplizes der Dimension $d - 1$, ist also Teilkomplex von $\Boundary F_j$ mit homogener Dimension $d - 1$.
+        Nach Induktionsvoraussetzung bildet jede beliebige Reihenfolge der Facetten von $\Boundary F_j$ eine Schälung dessen und insbesondere ist also $L$ der Anfang einer solchen.
+    \end{proof}
+\end{lem}
 
 \begin{st}[Euler]
     Sei $P$ ein konvexes $d$-Polytop mit schälbarem Rand $\Boundary P$.
@@ -57,7 +72,7 @@ $K$ heißt \emphdef{schälbar} (“shellable”), wenn eine Schälung existiert.
     \end{proof}
 \end{st}
 
-\begin{st}[Brugesser-Mani, 1971]
+\begin{st}[Brugesser-Mani, 1971] \label{thm:brugesser-mani}
     Sei $P \subset \R^d$ ein konvexes $d$-Polytop.
     Dann ist der Randkomplex $\Boundary P$ schälbar.
     \begin{proof}[konstruktiv]
@@ -85,7 +100,8 @@ $K$ heißt \emphdef{schälbar} (“shellable”), wenn eine Schälung existiert.
 \end{st}
 
 \begin{kor}
-    Mit $F_1, \dotsc, F_s$ ist auch $F_s, \dotsc, F_1$ eine Schälung.
+    Für eine Schälung $F_1, \dotsc, F_s$ gemäß dem Beweis in \ref{thm:brugesser-mani} ist auch $F_s, \dotsc, F_1$ eine Schälung.
+    %fixme: Gilt dies auch für alle Schälungen?
     \begin{proof}
         Umkehrung der Orientierung von $l$ im Beweis.
     \end{proof}
@@ -110,7 +126,7 @@ $K$ heißt \emphdef{schälbar} (“shellable”), wenn eine Schälung existiert.
 
 \Timestamp{2015-06-03}
 
-Wir setzen im folgenden einen simplizialen, schälbaren $(d-1)$-dimensionalen Komplex voraus (z.B. Randkomplex eines konvexen simplizialen $d$-Polytops $P$).üm
+Wir setzen im folgenden einen simplizialen, schälbaren $(d-1)$-dimensionalen Komplex voraus (z.B. Randkomplex eines konvexen simplizialen $d$-Polytops $P$).
 Facetten sind $d$-Tupel von Ecken.
 Sei $F_1, \dotsc, F_s$ feste Schälung.
 Idee: Alle Seiten aufbauen durch diese Schälung.
