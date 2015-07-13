@@ -613,3 +613,76 @@ Dies löst das Klassifikationsproblem für alternierende Verschlingungen.
 \end{lem}
 
 Ziel: Für reduzierte alternierende Diagramme wollen wir $\width(\<D\>)$ berechnen, genauer: höchste und niedrigste Terme verstehen.
+
+
+\Timestamp{2015-07-13}
+
+Definition: Distante Vereinigung.
+
+\begin{df}
+    Ein Diagramm $D$ heißt \emphdef{zusammenhängend}, wenn es nicht distante Vereinigung ist, d.h. $D = D_1 \sqcup D_2$ folgt entweder $D_1 = \emptyset$ oder $D_2 = \emptyset$.
+
+    Ausführlich: Sei $S^1 \homto \C \subset \R^2$ eine (polygonale) Jordan-Kuve und $\R^2 \setminus C = A \sqcup B$ zwei Gebiete.
+    Wenn $C \cap D = \emptyset$, dann entweder $A \cap D = \emptyset$ oder $B \cup D = \emptyset$.
+\end{df}
+
+Definition: Verbunde Summe von Diagrammen $D = D_1 \# D_2$.
+
+\begin{df}
+    Ein Diagramm $D$ heißt \emphdef{prim}, wenn es nicht verbundene Summe ist, d.h. aus $D = D_1 \# D_2$ folgt entweder $D_1$ oder $D_2$ trivial (ohne Kreuzungen).
+
+    Ausführlich: Besteht $C \cap D$ aus zwei transversalen Schnittpunkten, dann ist entweder $A \cap D$ oder $B \cap D$ trivial, d.h. ein Bogen ohne Kreuzungen.
+\end{df}
+
+Dies sind Eigenschaften des Diagramms, nicht der zugrundeliegenden Verschlingung (Beispiele: zwei Kreiskompenten übereinander, nebeneinander und zwei Kleeblattschlingen als verbundene Summe nebeneneinander und teilweise übereinander).
+
+\begin{st}
+    Sei $D \subset \R^2$ ein unorientiertes Diagramm.
+    Durch Auflösen einer Kreuzung erhalten wir aus $D$ die Diagramme $D_-$ oder $D_+$ (je nachdem wie die Kreuzung aufgelöst wurde).
+    \begin{enumerate}[a)]
+        \item
+            Ist $D$ zusammenhängend, so auch $D_+$ oder $D_-$ (oder beide).
+        \item
+            Ist $D$ prim, so auch $D_+$ oder $D_-$ (oder beide).
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}[a)]
+            \item
+                Angenommen $D$ ist zusammenhängend, aber weder $D_+$ noch $D_-$.
+                Die trennenden Jordankurven $C_+, C_-$ müssen durch die aufgelösten Kreuzungen gehen (nach geeignetem Umformen nur einmal).
+                Der Rand des Innenbereichs von $C_+$ und $C_-$ schneidet $D$ genau ein Mal, ein Widerspruch.
+            \item
+                Angenommen $D$ ist prim, aber weder $D_+$ noch $D_-$.
+                Im Gegensatz zu oben sind hier jeweils zwei Fälle für $C_+$ und $C_-$ zu unterscheiden (Schnitte außen oder innen).
+                Beim Schneiden von $C_+$ und $C_-$ sind weitere Fälle zu unterscheiden.
+                $C_+ \cup C_-$ zerlegt die Ebene in vier offene Mengen (mit jeweils evtl. mehreren Zusammenhangskomponenten)
+                \begin{math}
+                    AA &= \Set{z \in \R^2 & \deg(C_-,z) = 0, \deg(C_+,z) = 0} \\
+                    AB &= \Set{z \in \R^2 & \deg(C_-,z) = 0, \deg(C_+,z) = 1} \\
+                    BA &= \Set{z \in \R^2 & \deg(C_-,z) = 1, \deg(C_+,z) = 0} \\
+                    BB &= \Set{z \in \R^2 & \deg(C_-,z) = 1, \deg(C_+,z) = 1}.
+                \end{math}
+                Aus Paritätsgründen haben genau zwei dieser Bereiche $E_1, E_2$ genau zwei Schnitte mit $D$.
+                Diese zwei Bereiche können nicht $AA$ und $BB$ sein.
+                $D$ muss ohne Einschrankung in $E_1$ Kreuzungen enthalten ($C_+, C_-$ waren nicht-triviale Zerlegungen von $D_+, D_-$).
+                $E_1$ liefert dann eine nicht-triviale Zerlegung für $D$, ein Widerspruch.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+Die erste Tait-Vermutung wird präzisiert und umfassend beantwortet durch den folgenden Satz.
+
+\begin{st}
+    Sei $D \subset \R^2$ ein zusammenhängendes Verschlingungsdiagramm und $L \subset \R^3$ die dargestellte Verschlingung mit Jones-Polynom $V(L) \in \Z[q^\pm]$.
+    \begin{enumerate}[a)]
+        \item
+            Es gilt
+            \begin{math}
+                \frac{1}{2} \width_q V(L) \le \Cr(D)3
+            \end{math}
+        \item
+            Gleichheit gilt, wenn $D$ reduziert alternierend ist oder verbundene Summe solcher Diagramme ist.
+        \item
+            In allen anderen Fällen ist die Ungleichung strikt, d.h. es wird keine Gleichheit angenommen.
+    \end{enumerate}
+\end{st}
