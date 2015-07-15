@@ -686,3 +686,199 @@ Die erste Tait-Vermutung wird präzisiert und umfassend beantwortet durch den fo
             In allen anderen Fällen ist die Ungleichung strikt, d.h. es wird keine Gleichheit angenommen.
     \end{enumerate}
 \end{st}
+
+
+\Timestamp{2015-07-15}
+
+\begin{lem}[Umschalten von $+$ nach $-$]
+    Seien $s, s': \Set{1, \dotsc, n} \to \Set{\pm 1}$ mit $s(i) = +1$, $s'(i) = - 1$ für ein $i$ und $s(j) = s'(j)$ für alle $j \neq i$.
+
+    Dann gilt $\sum s' = \sum s - 2$ und $|s'D| = |sD| \pm 1$.
+    \begin{proof}
+        Löse eine Kreuzung auf, beide Möglichkeiten: $\pm$.
+        Die Zahl der Komponenten verändert sich jeweils genau um Eins.
+    \end{proof}
+\end{lem}
+
+Erinnerung: $s_+, s_-: \Set{1, \dotsc, n} \to \Set{\pm 1}$ sind konstant $+1$, bzw. $-1$.
+
+\begin{df}
+    Ein Verschlingungsdiagramm $D$ heißt
+    \begin{enumerate}[1)]
+        \item
+            \emphdef{plus-adäquat}, wenn $|s_+ D| > |sD|$ für alle $s$ mit $\sum s = n - 2$,
+        \item
+            \emphdef{minus-adäquat}, wenn $|s_- D| > |sD|$ für alle $s$ mit $\sum s = 2 - n$,
+        \item
+            \emphdef{adäquat}, wenn es plus- und minus-adäquat ist.
+    \end{enumerate}
+    \begin{nt}
+        1) bedeutet: keiner der Kreise in $s_+ D$ stößt an sich selbst.
+        2) analog.
+    \end{nt}
+\end{df}
+
+\begin{ex}
+    Diagramm des Achterknotens: $n = 4$.
+    $s_+ D| = 3 = |s_- D|$.
+\end{ex}
+
+\begin{lem}
+    Jedes reduzierte alternierende Diagramm ist adäquat.
+    \begin{proof}
+        Wir färben die Regionen von $D$ schwarz und weiß (Schachbrettfärbung).
+        Dann berandet $s_\pm D$ die schwarzen/weißen Regionen.
+        Begründung: Jede Region ist berandet von einem Bögen mit alternierenden Kreuzungen.
+        Zudem ist $D$ reduziert, daher stößt nie ein Kreis an sich selbst.
+        Denn ein Kreis stößt genau dann in $s_\pm D$ an sich selbst, wenn ein „großer R1-Zug“ in $D$ möglich ist.
+    \end{proof}
+\end{lem}
+
+\begin{lem}[A]
+    Für jedes Verschlingungsdiagramm $D$ gilt
+    \begin{enumerate}[1)]
+        \item
+            \begin{enumerate}[a)]
+                \item
+                    $\maxdeg_A \<D\> \le \Cr(D) + 2 |s_+ D| - 2$
+                \item
+                    Gleichheit gilt, wenn $D$ plus-adäquat ist.
+            \end{enumerate}
+        \item
+            \begin{enumerate}[a)]
+                \item
+                    $\maxdeg_A \<D\> \ge -\Cr(D) - 2 |s_+ D| + 2$
+                \item
+                    Gleichheit gilt, wenn $D$ minus-adäquat ist.
+            \end{enumerate}
+    \end{enumerate}
+    Also
+    \begin{math}
+        \width_A \<D\>  \le 2 \Cr(D) + 2 |s_+ D| + 2|s_- D| - 4
+    \end{math}
+    mit Gleichheit, wenn $D$ adäquat ist.
+    \begin{proof}
+        Erinnerung: Es gilt $\<D\> = \sum_s \<D|s\>$ mit $\<D|s\> = A^{\sum s} (-A^{\pm 2} - A^{-2})^{|sD| - 1}$.
+        \begin{enumerate}[1)]
+            \item
+                \begin{enumerate}[a)]
+                    \item
+                        Es gilt
+                        \begin{math}
+                            \maxdeg_A \<D\> = \Cr(D) + 2(|s_+ D| - 1).
+                        \end{math}
+                        Beim Umschalten einer Kreuzung $s \to s'$ von $s(i) = +1$ nach $s'(i) = -1$ gilt $\sum s' = \sum s - 2$ und $|s' D| = |sD| \pm 1$.
+                        Also $\maxdeg_A \<D|s'\> \le \maxdeg_A \<D|s\>$.
+                        Daher gilt $\maxdeg_A \<D|s\> \le \maxdeg_A \<D|s_+\>$ für alle $s$.
+                    \item
+                        Wenn $D$ plus-adäquat ist, dann gilt bei jedem ersten Umschalten $s_+ \to s$ stets $|sD| = |s_+D| - 1$, also $\maxdeg_A \<D|s\> < \maxdeg_A \<D|s_+\>$.
+                        Diese strikte Ungleichung gilt also für alle $s$.
+                        Es kann also durch die Summation im höchsten Grad keine Auslöschung passieren, die Gleichheit wird angenommen.
+                \end{enumerate}
+            \item
+                Analog
+        \end{enumerate}
+    \end{proof}
+\end{lem}
+
+\begin{lem}[B]
+    \begin{enumerate}[a)]
+        \item
+            Ist $D$ zusammenhängend, dann gilt
+            \begin{math}
+                |s_+ D| + |s_- D| \le \Cr(D) + 2.
+            \end{math}
+        \item
+            Gleichheit gilt, wenn $D$ alternierend ist oder verbundene Summe von alternierenden Diagrammen.
+        \item
+            In allen anderen Fällen ist die Ungleichung strikt.
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}[a)]
+            \item
+                Induktion über $n = \Cr(D)$.
+                Für $n = 0$ ist $D$ genau ein Kreis, $|s_+ D| = |s_- D| = 1$ und die Behauptung gilt.
+                Sei nun $n \ge 1$.
+                Da $D$ zusammenhängend ist, ist auch $D_+$ oder $D_-$ zusammenhängend.
+                Sei nun $D_+$ ist zusammenhängend ($D_-$ analog).
+                Dann ist $|s_+ D| = |s_+ D_+|$ und $|s_- D| = |s_- D_+| \pm 1$.
+                Also
+                \begin{math}
+                    |s_+ D| + |s_- D|
+                    &= |s_+ D_+| + |s_- D_+| \pm 1 \\
+                    &\le (n-1) + 2 \pm 1 \\
+                    &\le n + 2.
+                \end{math}
+            \item
+                Wir betrachten die Schachbrettfärbung.
+                Sei $D$ alternierend.
+                $|s_+ D|$ sei die Anzahl der schwarzen Regionen und $|s_- D|$ die Anzahl der weißen Regionen.
+                $r := |s_+ D| + |s_- D|$ die Anzahl aller Regionen.
+                $D$ hat $n$ Kreuzungen und $k$ Kanten zwischen diesen.
+                %Dann gilt für die Anzahl der Regionen
+                %\begin{math}
+                %    r := |s_+ D| + |s_- D|
+                %\end{math}
+                Es gilt $2k = 4n$, d.h. $k = 2n$.
+                Für die Euler-Charakteristik gilt $\chi = n - k + r = 2$.
+                Also
+                \begin{math}
+                    r = 2 - n + k
+                    = 2 + n.
+                \end{math}
+                Die Gleichheit bleibt erhalten bei verbundener Summe:
+                $|s_\pm D| = |s_\pm D_1| + |s_\pm D_2| - 1$.
+                \begin{math}
+                    |s_+ D| + |s_- D|
+                    &= |s_+ D_1| + |s_- D_1| + |s_+ D_2| + |s_- D_2| - 2 \\
+                    &= \Cr(D_1) + 2 + \Cr(D_2) + 2 - 2 \\
+                    &= \Cr(D) + 2
+                \end{math}
+            \item
+                Zeige: wenn $D$ prim, zusammenhängend, aber nicht alternierend, dann gilt strikte Ungleichung.
+                Induktion: für $n = 0$ ist $D$ ein Kreis, also alternierend und nicht prim.
+                Für $n = 1$ ist $D$ alternierend und prim, es gilt
+                \begin{math}
+                    |s_+ D| + |s_- D| = 3 = \Cr(D) + 2.
+                \end{math}
+                Für $n = 2$ ist das einzige nicht alternierende, prime Knotendiagramm zwei überlappende Kreise und
+                \begin{math}
+                    |s_+ D| + |s_- D| = 1 + 1 < \Cr(D) + 2 = 2 + 2.
+                \end{math}
+                Sei nun $n \ge 3$, dann existieren zwei aufeinanderfolgende nicht-alternierende Kreuzungen $1, 2$ und eine weiter Kreuzung $n$ mit $n \ge 3$.
+                Wir lösen die $n$-te Kreuzung in $D_-, D_+$ auf.
+                $D_-, D_+$ sind weiterhin alternierend.
+                $D_-$ oder $D_+$ sind prim.
+                Sei $D_+$ prim ($D_-$ analog).
+                Dann gilt
+                \begin{math}
+                    |s_+ D_+| + |s_- D_+|
+                    \le \Cr(D_+) + 1.
+                \end{math}
+                Also
+                \begin{math}
+                    |s_+ D| + |s_- D|
+                    = |s_+ D_+| + |s_- D_+| \pm 1
+                    \le n + 1
+                    < n + 2.
+                \end{math}
+        \end{enumerate}
+    \end{proof}
+\end{lem}
+
+\begin{st}
+    Für jedes zusammenhängende Verschlingungsdiagramm $D$ gilt
+    \begin{math}
+        \width_A \<D\>
+        \stack{A}\le 2 \Cr(D) + 2 |s_+ D| + 2|s_- D| - 4
+        \stack{B}\le 4 \Cr(D).
+    \end{math}
+    Gleichheit gilt, wenn $D$ zudem reduziert und alternierend ist oder verbundene Summe von solchen.
+    In allen anderen Fällen ist die Ungleichung strikt.
+
+    Entsprechend gilt für das Jones-Polynom:
+    \begin{math}
+        \width_t V(D)
+        \le \Cr(D).
+    \end{math}
+\end{st}
