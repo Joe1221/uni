@@ -131,16 +131,19 @@ Facetten sind $d$-Tupel von Ecken.
 Sei $F_1, \dotsc, F_s$ feste Schälung.
 Idee: Alle Seiten aufbauen durch diese Schälung.
 
-Definiere $R_j$ (restriction) durch
+Wir definieren die Eckenmenge $R_j$ (restriction) durch
 \begin{math}
-    R_j = \Set{v \in F_j & \text{$v$ Ecke, $F_j \setminus \Set{v} \subset F_i$ für ein $1 \le i < j$}}
+    R_j = \Set{v \in F_j & \exists 1 \le i < j : F_j \setminus \Set{v} \subset F_i}.
 \end{math}
-insbesondere $R_1 = \emptyset$.
+Offenbar ist $R_1 = \emptyset$.
 
-Eine $(k-1)$-Seite $G$, die beim Schälen im $j$-ten Schritt vorkommt, ist in $F_j$ enthalten, aber: Wenn ein $v \in R_j$ \emph{nicht} in $G$ ist, dann gab es $G$ schon vorher.
-Es folgt $R_j \subset G \subset F_j$.
+Wir behaupten: die neuen Seiten, die im $j$-ten Schritt durch $F_j$ hinzukommen sind genau
+\begin{math}
+    I_j := \Set{G & R_j \subset G \subset F_j}.
+\end{math}
+Für die erste Implikation sei $G$ eine neue Seite im $j$-ten Schritt und $v \in R_j \setminus G$, dann ist $G \subset F_j \setminus \Set{v} \subset F_i$ für ein $i < j$ und $G$ kann keine neue Seite gewesen sein.
 
-Umgekehrt: Sei $R_j \subset G \subset F_j$.
+Für die zweite Implikation sei $R_j \subset G \subset F_j$.
 Angenommen $G$ kommt schon vorher vor $G \subset F_i$, $i <j$, dann existiert $F_l$ mit $l <j$, $G \subset F_l$ und
 \begin{math}
     F_l \cap F_i = F_j \setminus w
@@ -148,29 +151,22 @@ Angenommen $G$ kommt schon vorher vor $G \subset F_i$, $i <j$, dann existiert $F
 für $l < j$, also $w \in R_j$.
 Aber $R_j \subset G \subset F_l \cap F_j = F_j \setminus w$, ein Widerspruch.
 
-Also neue Seiten sind genau die in
-\begin{math}
-    I_j := \Set{G & R_j \subset G \subset F_j}.
-\end{math}
-Falls $|R_j| = i$, wieviele $G$ gibt es?
-Es gibt genau $\binom{d-i}{k-i}$ $k$-Tupel ($(k-1)$-Seiten) zwischen $R_j$ und $F_j$.
+Also enthält $I_j$ genau die neuen Seiten im $j$-ten Schritt.
+$I_j$ enthält genau $\binom{d-|R_j|}{k-|R_j|}$ $k$-Tupel ($(k-1)$-Seiten).
 
-Die Anzahl der $k$-Tupel ist
+Für die Anzahl aller $k$-Tupel gilt somit durch Summation
 \begin{math}
-    f_{k-1} &= \sum_{j=1}^s \# G \\
-    &= \sum_{j=1}^s \binom{d- |R_j|}{k-|R_j|} \\
-    &= \sum_{i=0}^k \binom{d-i}{k-i} h_i,
+    f_{k-1}
+    = \sum_{j=1}^s \binom{d- |R_j|}{k-|R_j|}
+    = \sum_{i=0}^k \binom{d-i}{k-i} h_i,
 \end{math}
-wobei $h_i$ die Anzahl der $R_j$ ist mit $|R_j| = i$.
-Dies definiert den $h$-Vektor
+mit $h_i := \big|\Set{R_j & |R_j| = i}\big|$.
+
+Wir definieren hierdurch den $h$-Vektor und den $f$-Vektor:
 \begin{math}
-    h = (\underbrace{h_0}_{=1}, h_1, \dotsc, h_d).
+    h &= (\underbrace{h_0}_{=1}, && h_1, &&\dotsc, &&h_d),
+    f &= (\underbrace{f_{-1}}_{=1}, && f_0, &&\dotsc, &&f_{d-1}).
 \end{math}
-Der $f$-Vektor
-\begin{math}
-    f = (\underbrace{f_{-1}}_{=1},f_0, \dotsc, f_{d-1})
-\end{math}
-ist gegeben durch die Anzahl $f_i$ der $i$-Seiten.
 Es gilt
 \begin{math}
     f_{k-1} = \sum_{i=0}^k \binom{d-i}{k-i} h_i.
@@ -182,8 +178,9 @@ Es gilt
         Definiere das $f$-Polynom und das $h$-Polynom durch
         \begin{math}
             f(x) = \sum_{i=0}^d f_{i-1} x^{d-i}
-            = \sum_{i=0}^d \sum_{j=0}^i \binom{d-j}{i-j} h_j x^{d-i}
-            = \sum_{j=0}^d h_j \underbrace{\sum_{i=j}^d \binom{d-j}{i-j} x^{d-i}}_{=(x+1)^{d-j}}
+            &= \sum_{i=0}^d \sum_{j=0}^i \binom{d-j}{i-j} h_j x^{d-i} \\
+            &= \sum_{j=0}^d h_j \sum_{i=j}^d \binom{d-j}{i-j} x^{d-i}
+            = \sum_{j=0}^d (x+1)^{d-j}
             = h(x+1)
         \end{math}
         mit
@@ -194,8 +191,8 @@ Es gilt
         \begin{math}
             h(x) = f(x-1)
             &= \sum_{i=0}^d f_{i-1} (x-1)^{d-i} \\
-            &= \sum_{i=0}^d f_{i-1} \sum_{j=0}^{d-i} \binom{d-i}{j} (-1)^j x^{d-i-j} \\
-            &= \sum_{k=0} h_k x^{d-k}
+            &= \sum_{i=0}^d f_{i-1} \sum_{j=0}^{d-i} \binom{d-i}{j} (-1)^j x^{d-i-j}
+            = \sum_{k=0} h_k x^{d-k}
         \end{math}
         Koeffizientenvergleich liefert
         \begin{math}
@@ -254,17 +251,17 @@ Dies liefert $\frac{d}{2}$ Gleichungen für die $d$ Variablen $f_0, \dotsc, f_{d
 
 Es gilt
 \begin{math}
-    f_0 - f_1 + f_2 \dotsb + f_{d-1} = \chi(\S^{d-1}) = 2.
+    f_0 - f_1 + f_2 \dotsb + f_{d-1} = \chi(S^{d-1}) = 2.
 \end{math}
 Für den Link einer Ecke:
 \begin{math}
     f_0^{(i)} - f_1^{(i)} + f_2^{(i)} \dotsb f_{d-2}^{(i)} &= 0 \\
-    2f_1^{(i)} - \binom{3}{2}f_2^{(i)} + \binom{4}{3} f_3^{(i)} \dotsb - \binom{d}{d-1} f_{d-1}^{(i)} &= 0
+    \binom{2}{1} f_1 - \binom{3}{2}f_2 + \binom{4}{3} f_3 \dotsb - \binom{d}{d-1} f_{d-1} &= 0
 \end{math}
 für den Link eines Dreiecks:
 \begin{math}
     f_0^{(i)} - f_1^{(i)} + f_2^{(i)} \dotsb f_{d-4}^{(i)} &= 0 \\
-    \binom{4}{1}f_2^{(i)} - \binom{5}{2} f_4^{(i)} \dotsb -\binom{d}{d-3} f_{d-1}^{(i)} &= 0
+    \binom{4}{1}f_3 - \binom{5}{2} f_4 \dotsb -\binom{d}{d-3} f_{d-1} &= 0
 \end{math}
 bis zu
 \begin{math}
