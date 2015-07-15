@@ -203,3 +203,176 @@ Allgemein:
 
 Siehe auch Springer Lecture Notess 1612 (1995).
 
+
+
+\Timestamp{2015-07-15}
+
+\section{Die chromatische Zahl einer Fläche}
+
+\begin{df}
+    Eine Landkarte (bzw. ein Graph) heißt \emphdef[färbbar]{mit $k$ Farben färbbar}, wenn es eine Zuordnung von $k$ Farben zu jedem Land (bzw. jedem Knoten) so gibt, dass eine Kante benachbarter Länder (bzw. Knoten) stets verschiedene Farben erhalten.
+\end{df}
+
+\begin{df}
+    Ein \emphdef{Graph} ist ein eindimensionaler simplizialer Komplex.
+\end{df}
+
+\begin{df}
+    Die \emphdef{Färbungszahl} $\Ch(G)$ eines Graphen $G$ ist die kleinste Zahl $k$, so dass $G$ mit $k$ Farben färbbar ist.
+\end{df}
+
+\begin{ex}
+    Der vollständige Graph $K_n$ ($n$ Ecken, $\binom{n}{2}$ Kanten) hat Färbungszahl $\Ch(K_n) = n$.
+\end{ex}
+
+\begin{df}
+    Ein Graph heißt \emphdef{kritisch}, wenn jeder echte Teilgraph eine echt kleinere Färbungszahl hat.
+\end{df}
+
+\begin{ex}
+    $K_n$ ist kritisch.
+\end{ex}
+
+\begin{kor}
+    Jeder Graph enthält einen kritischen Teilgraphen mit der selben Färbungszahl.
+\end{kor}
+
+\begin{df}
+    Die \emphdef{Färbungszahl} $\Ch(M)$ einer kompakten Fläche $M$ ist die kleinste Zahl von Farben, mit der \emph{jede} Landkarte in der Fläche (bzw. \emph{jeder} eingebettete Graph) färbbar ist.
+\end{df}
+
+Besteht ein Zusammenhang zwischen $\Ch(M)$ und $\chi(M)$?
+
+Sei $M = S^2$ (oder die Ebene).
+Gilt $\Ch(S^2) = 4$ (4-Farben-Problem)? 
+Zumindest ist $K_4 \injto S^2$, aber $K_5 \not\injto S^2$.
+
+\begin{st}
+    Wenn $G$ kritisch ist mit Färbungszahl $\Ch$, dann ist jede Ecke mit mindestens $\Ch - 1$ Ecken verbunden.
+    Mit anderen Worten: der Link jeder Ecke hat $\ge \Ch - 1$ Ecken.
+    \begin{proof}
+        Angenommen eine Ecke $p$ ist nur mit den Ecken $p_1, \dotsc, p_k$ für $k < \Ch - 1$ verbunden.
+        $G \setminus p$ sei der Graph ohne $p$ und ohne allen Kanten, die $p$ enthalten.
+        $G \setminus p$ ist also ein echter Teilgraph und somit mit $\le \Ch - 1$ Farben färbbar.
+        Wegen $k \le \Ch - 2$ kommen nur $\le \Ch - 2$ Farben im Link von $p$ vor.
+        Folglich können wir $G$ mit $\le \Ch - 1$ Farben färben, ein Widerspruch.
+    \end{proof}
+    \begin{note}
+        Es folgt $n \ge \Ch$, oft ist $n$ sogar sehr viel größer als $\Ch$.
+
+        Dies bedeutet auch nicht, dass $K_{\Ch}$ in dem Graphen enthalten ist.
+    \end{note}
+\end{st}
+
+\begin{ex}
+    Die Sechseck-Triangulierung des Torus ist kritisch.
+    Die Färbungszahl des Torus ist $\Ch = 7$.
+\end{ex}
+
+\begin{kor}
+    Wenn $G$ kritisch ist mit $n$ Ecken und $f_1$ Kanten und Färbungszahl $\Ch$, dann gilt $(\Ch - 1)n \le 2 f_1$.
+    \begin{proof}
+        Link  der $i$-ten Ecke hat $f_0^{(i)}$ Ecken mit $f_0^{(i)} \ge \Ch - 1$.
+        Summieren ergibt
+        \begin{math}
+            2 f_1
+            = \sum_{i} f_0^{(i)}
+            \ge (\Ch - 1) n.
+        \end{math}
+    \end{proof}
+    \begin{note}
+        Gleichheit bei $K_n$.
+    \end{note}
+\end{kor}
+
+\begin{nt}
+    Die Färbungszahl von $M$ ist größer oder gleich dem maximalen $n$, so dass $K_n$ in die Fläche $M$ einbettbar ist: $\Ch \ge n$.
+
+    Wenn $K_{n+1}$ nicht einbettbar ist, gilt dann $\Ch \le n$?
+\end{nt}
+
+\begin{st}[Heawood, 1890]
+    Es gilt für $\Ch(M) \ge 7$:
+    \begin{math}
+        \Ch(M) \le \frac{1}{2}\big( 7 + \sqrt{49 - 24 \chi(M)} \big).
+    \end{math}
+    Falls $K_n \injto M$, dann ist
+    \begin{math}
+        n \le \frac{1}{2}\big( 7 + \sqrt{49 - 24 \chi(M)} \big).
+    \end{math}
+    Die rechte Seite wird auch \emphdef{Heawood-Zahl} genannt.
+    Äquivalent: $\binom{n-3}{2} \le 3 (2-\chi(M))$.
+    \begin{proof}
+        Sei $G \injto M$ ein eingebetteter, kritischer Graph mit Färbungszahl $\Ch$, $n$ Ecken und $f_1$ Kanten.
+        Es gilt nun $2 f_1 \ge (\Ch - 1) n$.
+        Nun ist $M \setminus G$ offen und zerfällt in Komponenten $M_1, \dotsc M_k$ mit $\chi(M_i) \le 1$.
+        Jedes $\_M_i$ ist in $M$ von $j_i$ Kanten berandet, $j_i \ge 3$.
+        $f_2^{j}$ sei die Zahl der $M_i$ mitt $j$ Randkanten.
+        Es folgt
+        \begin{math}
+            3k \le \sum_{j} j f_2^{(j)} = 2 f_1
+        \end{math}
+        und
+        \begin{math}
+            \chi(M) &= n - f_1 + \sum_{i} \chi(M_i) \\
+            &\le n - f_1 + k \\
+            &\le n - \frac{1}{3} f_1 \\
+            &\le n - \frac{1}{6}( \Ch - 1) n
+            &= \frac{n}{6}(7 - \Ch)
+        \end{math}
+        Nun bieten sich zwei mögliche Abschätzungen.
+        Für $G = K_n$ ist dann $\Ch(M) = \Ch(G) \ge n$ und
+        \begin{math}
+            n^2 &\le n \Ch \le 7n - 6 \chi(M) \\
+            \iff n^2 - 7n + 6\chi(M) &\le 0 \\
+            \iff n \le \frac{1}{2}\big(7 + \sqrt{49 - 24\chi(M)}\big)
+        \end{math}
+        Für beliebiges $G$ ist lediglich $n \ge \Ch$.
+        Für $7 - \Ch \le 0$ können wir abschätzen:
+        \begin{math}
+            \chi(M) &\le \frac{n}{6} (7 - \Ch) \\
+            &\le \frac{\Ch}{6}(7 - \Ch) \\
+            \iff \Ch^2 - 7 \Ch + 6\chi(M) &\le 0 \\
+            \iff \Ch \le \frac{1}{2} \big(7 + \sqrt{49 - 24 \chi(M)}\big).
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Für den Torus gilt $\Ch = 7$ (Heawood, 1890)
+        \item
+            Für die kleinsche Flasche ist $\Ch = 6$ (Franklin, 1934), $K_7$ lässt sich nicht einbetten.
+            Dies zeigt, dass obiger Satz nicht immer eine scharfe Abschätzung bietet.
+        \item
+            Für die Sphäre gilt $\Ch = 4$ (4-Farbensatz, 1996: Computer-Beweis, vereinfacht Gouthier-Werner in 2005).
+        \item
+            Für alle sonstigen Flächen $M$ gilt $\Ch(M) \ge 7$.
+    \end{itemize}
+\end{ex}
+
+\begin{nt}
+    \begin{itemize}
+        \item
+            Ringel-Young haben gezeigt für $M \neq S^2$:
+            \begin{math}
+                \exists K_n \injto M \land \not\exists K_{n+1} \injto M
+                \implies
+                \Ch(M) = n.
+            \end{math}
+        \item
+            Ist $M$ nicht die kleinsche Flasche und $n \le \frac{1}{2} \big(7 + \sqrt{49 - 24\chi(M)}\big)$, dann existiert eine Einbettung $K_n \injto M$.
+        \item
+            Falls $M \neq S^2$ und nicht die kleinsche Flasche, dann ist
+            \begin{math}
+                \Ch(M) = \floor{\frac{1}{2}\big(7 + \sqrt{49 - 24\chi(M)}\big)}.
+            \end{math}
+        \item
+            Beweismethode:
+            Konstruiere $K_n \injto M$ mit maximalem $n$.
+            Mit $n = \frac{1}{2}(7 + \sqrt{49 - 24\chi(M)})$ folgt $M \setminus K_n$ besteht nur aus Dreiecken.
+            („regular cases“).
+            Triangulierung mit $n$ Ecken, 2-nachbarschaftlich.
+    \end{itemize}
+\end{nt}
