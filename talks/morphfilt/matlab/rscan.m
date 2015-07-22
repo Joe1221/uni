@@ -27,15 +27,19 @@ function rscan (im, varargin)
     cropfuzz = mm2px(cropfuzz);
     bgilsize = mm2px(bgilsize);
 
+    imwrite(im, 'out/0_orig.png');
+
     % === remove background illumination (inverts image btw)
+    % ========================================
 
     fprintf('removing background illumination ...\n')
     b = strel('square', bgilsize);
     im = imclose(im, b) - im; % black top hat
 
-    imwrite(im, 'out/bth.png');
+    imwrite(im, 'out/1_bth.png');
 
     % === adjust orientation
+    % ========================================
 
     function f = frectified(im, theta)
         imr = imrotate(im, theta, 'nearest');
@@ -47,12 +51,13 @@ function rscan (im, varargin)
     theta = fminbnd(f, rotrange(1), rotrange(2));
     im = imrotate(im, theta, 'bicubic');
 
-    imwrite(im, 'out/rot.png');
+    imwrite(im, 'out/2_rot.png');
 
     % === crop image
+    % ========================================
 
     imb = imclose(im, strel('rectangle', flip(cropfuzz)));
-    imwrite(imb, 'out/cropfuzz.png');
+    imwrite(imb, 'out/3_cropfuzz.png');
 
     % compute the mean for a top (i.e. largest elements) fraction frac of numbers
     % of a matrix im along dimension dim
@@ -71,11 +76,18 @@ function rscan (im, varargin)
         x = x(l + 1 : end - l);
     end
 
+    % plot h and v as intensities on a 2×n grid in row k
+    function plothv(h, v, n, k)
+        subplot(n, 2, 2*(k-1) + 1)
+        plot(1:length(h), h)
+        subplot(n, 2, 2*(k-1) + 2)
+        plot(1:length(v), v)
+    end
 
     fprintf('cropping ...\n')
 
-    h = meantoprange(imb, 1, croptopfrac(1)) / 255;
-    v = meantoprange(imb, 2, croptopfrac(2)) / 255;
+    h = meantoprange(imb, 1, croptopfrac(1)) / double(intmax('uint8'));
+    v = meantoprange(imb, 2, croptopfrac(2)) / double(intmax('uint8'));
     plothv(h, v, 2, 1)
 
     h = removepeaks(h, cropfuzz(1));
@@ -90,11 +102,12 @@ function rscan (im, varargin)
     ];
 
     im = imcrop(im, rect);
-    imwrite(im, 'out/cropped.png');
+    imwrite(im, 'out/4_cropped.png');
 
     % === thresholding
+    % ========================================
 
-    im = im > bwthresh * 255;
+    im = intmax('uint8') * (1 - uint8(im > bwthresh * intmax('uint8')));
 
-    imwrite(im, 'out/fin.png');
+    imwrite(im, 'out/5_fin.png');
 end
