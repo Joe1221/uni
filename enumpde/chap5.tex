@@ -237,7 +237,7 @@ Dies nennen wir „$\partial_t U(u) + \partial_x F(u) \le 0$“ im distributione
 \begin{df}[Entropielösung] \label{5.5}
     Eine schwache Lösung $u$ von \ref{5.2} heißt \emphdef{Entropielösung}, falls für alle Entropiepaare $(U, F)$ gilt:
     \begin{math}[numbered] \label{eq:5.4}
-        \int_\R \int_{\R^+} U(u) \partial_t \phi + F(u) \partial_x \phi + \int_\R u(u_0) \phi(\argdot, 0) \ge 0
+        \int_\R \int_{\R^+} U(u) \partial_t \phi + F(u) \partial_x \phi + \int_\R U(u_0) \phi(\argdot, 0) \ge 0
     \end{math}
     für alle $\phi \in C_0^\infty(\R \times [0,T)), \phi \ge 0$.
     \begin{note}
@@ -313,10 +313,10 @@ Dies nennen wir „$\partial_t U(u) + \partial_x F(u) \le 0$“ im distributione
             0 &= \int_V \partial_t u + \partial_x f(u)
             = \int_V \Vector{\partial_x & \partial_t} \Vector{f(u) & u}
             = \int_{\partial V} \Vector{f(u) & u} \cdot n \\
-            &= \int_{t^k}{t^{k+1}} f(u(x_{i+\frac{1}{2}}, t)) \di[t] -
-\int_{t^k}{t^{k+1}} f(u(x_{i-\frac{1}{2}}, t)) \di[t] \\
-&\quad + \underbrace{\int_{x_{i-\frac{1}{2}}}{x_{i+\frac{1}{2}}} f(u(x, t^{k+1})) \di[t]}_{\approx \Delta x u_i^{k+1}} -
-\underbrace{\int_{x_{i-\frac{1}{2}}}{x_{i+\frac{1}{2}}} f(u(x, t^{k})) \di[t]}_{\approx \Delta x u_i^k}
+            &= \int_{t^k}^{t^{k+1}} f(u(x_{i+\frac{1}{2}}, t)) \di[t] -
+\int_{t^k}^{t^{k+1}} f(u(x_{i-\frac{1}{2}}, t)) \di[t] \\
+&\quad + \underbrace{\int_{x_{i-\frac{1}{2}}}^{x_{i+\frac{1}{2}}} f(u(x, t^{k+1})) \di[t]}_{\approx \Delta x u_i^{k+1}} -
+\underbrace{\int_{x_{i-\frac{1}{2}}}^{x_{i+\frac{1}{2}}} f(u(x, t^{k})) \di[t]}_{\approx \Delta x u_i^k}
         \end{math}
         Der Fluss $f(u(x_{i+\frac{1}{2}},t))$ wird approximiert durch eine \emphdef{numerische Flussfunktion} $g: \R \times \R \to \R$, welche nur von den $u$-Werten links und rechts von $x_{i+\frac{1}{2}}$ abhängen:
         \begin{math}
@@ -456,9 +456,9 @@ Dies nennen wir „$\partial_t U(u) + \partial_x F(u) \le 0$“ im distributione
     \end{math}
     den \emphdef{Engquist-Osher-Fluss}
     \begin{math}
-        g(u,v) &:= f^+(x) + f^-(v), \\
-        f^+(u) &:= f(0) + \int_0^y \max \{f'(s), 0\} \di[s], \\
-        f^-(u) &:= \int_0^y \min \{f'(s), 0\} \di[s].
+        g(u,v) &:= f^+(u) + f^-(v), \\
+        f^+(y) &:= f(0) + \int_0^y \max \{f'(s), 0\} \di[s], \\
+        f^-(y) &:= \int_0^y \min \{f'(s), 0\} \di[s].
     \end{math}
     \begin{note}
         \begin{itemize}
@@ -524,13 +524,13 @@ Dies nennen wir „$\partial_t U(u) + \partial_x F(u) \le 0$“ im distributione
 \end{st}
 
 \begin{st}[Konsistenz] \label{5.11}
-    Sei $g$ konsistenter numerischer Fluss, $g \in C^2$ mit $\|\partial^3 g\| \le C$, $u \in C^2$ klassische Lösung von \eqref{5.1} mit $\|\partial^3 u\| \le C$ für $0 \le |\beta| \le 2$.
+    Sei $g$ konsistenter numerischer Fluss, $g \in C^2$ mit $\|\partial^\beta g\| \le C$, $u \in C^2$ klassische Lösung von \eqref{5.1} mit $\|\partial^\beta u\| \le C$ für $0 \le |\beta| \le 2$.
     Sei $Q_i^k: C^2(\R \times \R^+) \to \R$ definiert durch
     \begin{math}
         Q_i^k v := v(x_i, t^k) - \frac{\Delta t}{\Delta x} \Big(g\big(v(x_i,t^k), v(x_{i+1}, t^k)\big) - g\big(v(x_{i-1}, t^k), v(x_i, t^k)\big)\Big).
     \end{math}
     Sei $\Delta t \le \alpha \Delta x$ für ein $\alpha > 0$.
-    Dann gilt für den lokalen Abschneidefehler $L_i^k := \frac{1}{\Delta t} (u_{x_i}, t^{k+1}) - Q_i^k u)$
+    Dann gilt für den lokalen Abschneidefehler $L_i^k := \frac{1}{\Delta t} (u(x_i, t^{k+1}) - Q_i^k u)$
     \begin{math}
         |L_i^k| \le C (\Delta x + \Delta t),
     \end{math}
@@ -542,7 +542,7 @@ Dies nennen wir „$\partial_t U(u) + \partial_x F(u) \le 0$“ im distributione
     \begin{note}
         \begin{itemize}
             \item
-                Man kannn zeigen: falls $u$ glatte Lösung von
+                Man kann zeigen: falls $u$ glatte Lösung von
                 \begin{math}
                     \partial_t u + \partial_x f(u) = \Delta x \partial_x (b(u) \partial_x u)
                 \end{math}

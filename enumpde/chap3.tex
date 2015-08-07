@@ -326,7 +326,7 @@
 		Integration über andere Koordinaten liefert
 		\[
 			\int_R |v(x)|^2 \di[x]
-			\le \int_R (\partial_{x_1} v(x))^2 \di[x]
+			\le s^2 \int_R (\partial_{x_1} v(x))^2 \di[x]
 			\le s^2 |v|_{H^1(\Omega)}.
 		\]
 	\end{proof}
@@ -393,7 +393,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \end{itemize}
 
 \begin{df}[Lineare Operatoren] \label{3.14}
-	$A: V \to W$ ist \emphdef{linearer stetiger Operator}, falls $\|A\|_{L(V,W)} := \sup_{v \in V\setminus \Set 0} \f{\|Av\|_W}{\|u\|_V} < \infty$.
+	$A: V \to W$ ist \emphdef{linearer stetiger Operator}, falls $\|A\|_{L(V,W)} := \sup_{v \in V\setminus \Set 0} \f{\|Av\|_W}{\|v\|_V} < \infty$.
 	Weiter ist
 	\[
 		L(V,W) := \Set{A: V \to W & \text{$A$ ist linear und stetig}}
@@ -421,7 +421,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \end{df}
 
 \begin{df}[stetige Bilinearform] \label{3.16}
-	Eine Bilinearform $A \in V \times W \to \R$ heißt \emphdef{stetig} mit \emphdef{Stetigkeitskonstante} $\gamma \in \R$, wenn
+	Eine Bilinearform $a \in V \times W \to \R$ heißt \emphdef{stetig} mit \emphdef{Stetigkeitskonstante} $\gamma \in \R$, wenn
 	\[
 		\gamma = \sup_{v \in V\setminus \Set 0} \sup_{w \in W \setminus \Set 0} \f{a(v,w)}{\|v\|\|w\|} < \infty.
 	\]
@@ -1168,7 +1168,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			= \frac{1}{C'(\Omega)}
 			> 0
 		\end{math}
-		wobei $C'(\Omega) = (1 + \diam(\Omega)) C(\Omega)$.
+		wobei $C'(\Omega) = (1 + s) C(\Omega)$.
 	\end{proof}
 \end{kor}
 
@@ -1734,7 +1734,7 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 		Für eine Testfunktion $w = \psi_i$ gilt
 		\begin{math}
 			a\Big(\sum_{j=1}^{n} u_j \phi_j, \psi_i \Big)
-			= \sum_{j=1}^{n} a(\phi_j, \psi_i)
+			= \sum_{j=1}^{n} a(\phi_j, \psi_i) u_j
 			= (A_h \underbar{u}_h)_i
 			\stack{\eqref{3.22}}= (b_h)_i
 			= b_i
@@ -1758,8 +1758,8 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 				\begin{proof}
 					\begin{math}
 						\underbar{v}^T A_h \underbar{v}
-						&= \sum_{i,j}^{} v_i v_j (A_{ij})
-						= \sum_{i,j}^{} a\Big(\sum_{j}^{} v_j \phi_j, \sum_{i}^{} v_i \phi_i \Big) \\
+						&= \sum_{i,j} v_i v_j (A_{ij})
+						= a\Big(\sum_{j}^{} v_j \phi_j, \sum_{i}^{} v_i \phi_i \Big) \\
 						&= a(v,v)
 						> \alpha\|v\|^2
 					\end{math}
@@ -1776,7 +1776,7 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 	Die optimale Basis bei unbekannter/variabler rechte Seite $l$:
 
 	Definiere die „schwache Form“ des Eigenwertproblems als:
-	Finde Eigenfunktion $v \in V$ und Eigenwert $\Lambda$ mit
+	Finde Eigenfunktion $v \in V$ und Eigenwert $\lambda$ mit
 	\begin{math}
 		a(v,w)
 		&= \lambda \<v, w\>_{L^2}
@@ -1811,7 +1811,7 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 			mit Lösung $u_j := \frac{l(v_j)}{\lambda_j}$.
 
 			Dies ergibt eine optimale Struktur des LGS, da $A_h$ diagonal ist.
-			Im Allgemeinen ist das Verfahren jedoch inpraktikabel, da die Eigenfunktionen/Eigenwerte $v_i, \lambda_i$ selen bekannt sind.
+			Im Allgemeinen ist das Verfahren jedoch inpraktikabel, da die Eigenfunktionen/Eigenwerte $v_i, \lambda_i$ selten bekannt sind.
 	\end{itemize}
 \end{ex}
 
@@ -1877,7 +1877,7 @@ Zunächst ein Hilfssatz
 	Dann ist
 	\begin{math}
 		\|P\|_{L(V,V)}
-		= \|\Id - P\|_{V,V}.
+		= \|\Id - P\|_{L(V,V)}.
 	\end{math}
 	\begin{proof}
 		Siehe Übung.
@@ -1915,7 +1915,7 @@ Zunächst ein Hilfssatz
 		also
 		\begin{math}
 			\|P_h\|
-			= \inf_{v\neq 0} \frac{\|P_h v\|}{\|v\|}
+			= \sup_{v\neq 0} \frac{\|P_h v\|}{\|v\|}
 			\le \frac{\gamma}{\beta_h}.
 		\end{math}
 		Für $v \in V_h$ gilt die Behauptung mittels \ref{3.54} falls $P_h$ nichttrivial ist:
@@ -1976,7 +1976,7 @@ Zunächst ein Hilfssatz
 	\begin{itemize}
 		\item
 			Komplikation bei inf-sup-stabilen Problemen:
-			Es kann passieren und muss verhindert werden, dass $\beta_h \to 0$ für $h \to 0$, da dann die Konvergenzordnung der Bestapproximation oder gar die Konvergenz der Petrov-Galerkin-Approximation (welche später behadnelt wird) verloren geht, was auf ein \emphdef{instabiles Verfahren} führt.
+			Es kann passieren und muss verhindert werden, dass $\beta_h \to 0$ für $h \to 0$, da dann die Konvergenzordnung der Bestapproximation oder gar die Konvergenz der Petrov-Galerkin-Approximation (welche später behandelt wird) verloren geht, was auf ein \emphdef{instabiles Verfahren} führt.
 
 			Ziel ist daher eine \emphdef{stabile Diskretisierung}, d.h. $V_h, W_h$ müssen so gewählt werden, dass $\_\beta > 0$ existiert mit $\beta_h \ge \_\beta > 0$ für alle $h$.
 			In diesem Fall gilt $\inf_{v \in V_h} \sup_{w \in W_h} \frac{a(v,w)}{\|v\|\|w\|} \ge \_\beta$ und eine analoge Aussage zur Konvergenzordnung \eqref{eq:3.24} gilt.
@@ -2219,7 +2219,7 @@ Bei der Fehleranalyse und Implementierung von FEM werden Operationen häufig auf
 		\item
 			für alle $i \neq j$ ist entweder $S := T_i \cap T_j = \emptyset$ oder $S$ $k$-dimensionaler Seitensimplex von $T_j$ und $T_i$ („Konformität“).
 	\end{itemize}
-	Dann definieren wir die \emphdef{globale Gitterweite} oder \emphdef{Feinheit} $h := \max_{i \in I} \Set{h_{T_i}}$, den \emphdef[minimaler Inkugelradius]{minimalen Inkugelradius} $\rho := \min_{i\in I} \Set{\phi_{T_i}}$, die \emphdef[Eckenmenge]{Ecken-} oder \emphdef[Knotenmenge]{Knotenmenge} $\scr E(\scr T_h) := \bigcup_{i \in I} \scr E(T_i)$ und das \emphdef{Maß für Degeneriertheit} $\sigma := \max_{i\in I} \sigma_{T_i}$.
+	Dann definieren wir die \emphdef{globale Gitterweite} oder \emphdef{Feinheit} $h := \max_{i \in I} \Set{h_{T_i}}$, den \emphdef[minimaler Inkugelradius]{minimalen Inkugelradius} $\rho := \min_{i\in I} \Set{\rho_{T_i}}$, die \emphdef[Eckenmenge]{Ecken-} oder \emphdef[Knotenmenge]{Knotenmenge} $\scr E(\scr T_h) := \bigcup_{i \in I} \scr E(T_i)$ und das \emphdef{Maß für Degeneriertheit} $\sigma := \max_{i\in I} \sigma_{T_i}$.
 	\begin{note}
 		\begin{itemize}
 			\item
@@ -2304,7 +2304,7 @@ Bei der Fehleranalyse und Implementierung von FEM werden Operationen häufig auf
 
 \begin{df}[Lagrange-Basis, $k = 1$] \label{3.66}
 	Sei $\scr T_h$ zulässige Triangulierung mit Knotenmenge $\scr E(\scr T_h) = \Set{v_i}_{i=1}^{n_{\scr E}}$.
-	Dann existieren Funktionen $\phi_i \in \P_1(\scr T_h)$ mit $\phi_i(x_j) = \delta_{ij}$ für $i, j = 1, \dotsc, n_{\scr E}$.
+	Dann existieren Funktionen $\phi_i \in \P_1(\scr T_h)$ mit $\phi_i(v_j) = \delta_{ij}$ für $i, j = 1, \dotsc, n_{\scr E}$.
 	$\Set{\phi_i}_{i=1}^{n_{\scr E}}$ sind linear unabhängig und spannen $\P_1(\scr T_n)$ auf, also $\dim(\P_1(\scr T_h)) = n_{\scr E}$.
 
 	$\phi_1, \dotsc, \phi_n$ nennen wir \emphdef{nodale Basis} oder \emphdef{Lagrange-Basis} von $\P_1(\scr T_h)$.
@@ -2315,7 +2315,7 @@ Bei der Fehleranalyse und Implementierung von FEM werden Operationen häufig auf
 		\item
 			Man kann zeigen, dass $\P_1(\scr T_h) \subset H^1(\Omega)$ (siehe dazu [PDEMAS 13/14, Satz 4.17]) und
 			\begin{math}
-				\P_{k,0} (\scr T_h) = \Set{p \in \P_1(\scr T_h) & p(v_i) = 0, v_i \in \scr E(\scr T_h) \cap \Boundary \Omega }
+				\P_{1,0} (\scr T_h) = \Set{p \in \P_1(\scr T_h) & p(v_i) = 0, v_i \in \scr E(\scr T_h) \cap \Boundary \Omega }
 				\subset H_0^1(\Omega).
 			\end{math}
 		\item
@@ -2800,11 +2800,11 @@ Dies liefert eine Fehlerschranke, Konvergenz und Konvergenzordnung für die Gale
 	\end{math}
 	mit Seminorm
 	\begin{math}
-		|v|_{H^m(\scr T_h)} := \Big( \sum_{T\in \scr T_h} |v|_{H^m(T)}^2 \Big)
+		|v|_{H^m(\scr T_h)} := \Big( \sum_{T\in \scr T_h} |v|_{H^m(T)}^2 \Big)^{\frac{1}{2}}
 	\end{math}
 	und Norm
 	\begin{math}
-		\|v\|_{H^m(\scr T_h)} := \Big( \sum_{T\in \scr T_h} \|v\|_{H^m(T)}^2 \Big)
+		\|v\|_{H^m(\scr T_h)} := \Big( \sum_{T\in \scr T_h} \|v\|_{H^m(T)}^2 \Big)^{\frac{1}{2}}
 	\end{math}
 \end{df}
 
@@ -2932,11 +2932,11 @@ Dies liefert eine Fehlerschranke, Konvergenz und Konvergenzordnung für die Gale
 
 \begin{st}[Inverse Abschätzung] \label{3.81}
 	Sei $\scr T_h$ quasi-uniforme Triangulierung, $\sigma_{\text{max}} > 0, \sigma_T \le \sigma_{\text{max}}$ für alle $T \in \scr T_h$ und $k \in \N$.
-	Dann existiert $C = C(\sigma_{\text{max}, k, m})$ mit
+	Dann existiert $C = C(\sigma_{\text{max}}, k, m)$ mit
 	\begin{math}
 		\|v_h\|_{H^k(\scr T_h)} \le C h^{m-k} \|v_h\|_{H^m(\scr T_h)}
 	\end{math}
-	für alle $v_h \in \P_k(\scr T_h)$.
+	für alle $v_h \in \P_k(\scr T_h)$, $0 \le m \le k$.
 	\begin{proof}
 		Für $d = 1$ siehe Übung.
 	\end{proof}
@@ -2945,7 +2945,7 @@ Dies liefert eine Fehlerschranke, Konvergenz und Konvergenzordnung für die Gale
 			\item
 				Für $d = 2$ und linearen Elementen gilt also via $k = 1, m = 0$
 				\begin{math}
-					\|v_k\|_{H^1(\Omega)}
+					\|v_h\|_{H^1(\Omega)}
 					\le C h^{-1} \|v_h\|_{L^2(\Omega)}
 				\end{math}
 				für alle $v_h \in \P_1(\scr T_h)$.
@@ -3047,8 +3047,8 @@ Dies liefert eine Fehlerschranke, Konvergenz und Konvergenzordnung für die Gale
 			\item
 				Für lineare FEM ($k = 1$) benötigen wir also $H^2(\Omega)$-Regularität, dann gilt \emphdef{lineare Konvergenz} in $h$ bezüglich der $H^1$-Norm:
 				\begin{math}
-					\|u_h\|_{H^1(\Omega)} \le C h \|u\|_{H^2(\Omega)}
-					\stack{\ref{3.30}}{\le} C h \|f\|_{L^2(\Omega)}
+					\|u_h\|_{H^1(\Omega)} \le \const h \|u\|_{H^2(\Omega)}
+					\stack{\ref{3.29}}{\le} \const h \|f\|_{L^2(\Omega)}
 				\end{math}
 			\item
 				Für polygonal berandete Gebiete kann also eigentlich keine $H^3$-Regularität garantiert werden, denn $\Boundary \Omega$ ist nicht $C^3$.
