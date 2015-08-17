@@ -977,7 +977,7 @@ Wenn $D \sim D'$ reduziert und alternierend, dann haben sie gleichen Drall $w(D)
 \end{nt}
 
 \begin{st}
-    Seien $D \sim D'$ reduziert und alternierende Knotendiagramme.
+    Seien $D \sim D'$ zwei reduzierte, alternierende Knotendiagramme.
     \begin{enumerate}[1.]
         \item
             $\Cr(D) = \Cr(D')$,
@@ -1004,3 +1004,90 @@ Wenn $D \sim D'$ reduziert und alternierend, dann haben sie gleichen Drall $w(D)
         Koeffizientenvergleich liefert $n = n + a$, $|s_+ D| = |s_+ E|$, d.h. $a = 0$.
     \end{proof}
 \end{st}
+
+\Timestamp{2015-07-22}
+
+Nachtrag zur zweiten Tait-Vermutung.
+Versuch einer Verallgemeinerung für Verschlingungen:
+
+\begin{st}[Lehrreiche, falsche Vermutung]
+    Seien $D = (D_1, \dotsc, D_n) \sim D' = (D_1', \dotsc, D_n')$ zwei reduzierte, alternierende Verschlingungsdiagramme.
+    \begin{enumerate}[1)]
+        \item
+            $\Cr(D) = \Cr(D')$,
+        \item
+            $w(D_i) = w(D_i')$.
+    \end{enumerate}
+    \begin{proof}[Beweis-Versuch und Gegenbeispiel]
+        Für $i = 1, \dotsc, n$ sorge für gleichen Drall:
+        \begin{itemize}
+            \item
+                Falls $w(D_i) = w(D_i')$, dann tue nichts $E_i := D_i$, $E_i' := D_i'$.
+            \item
+                Falls $w(D_i) > w(D_i')$, dann ergänze $D_i'$ zu $E_i'$ durch Einfügen von $a_i'$ positiven Kringeln und behalte $E_i = D_i$, $a_i := 0$.
+            \item
+                Falls $w(D_i) < w(D_i')$, dann ergänze $D_i$ zu $E_i$ durch Einfügen von $a_i$ positiven Kringeln und behalte $E_i' = D_i'$, $a_i' := 0$.
+        \end{itemize}
+        Ergebnis: $E = (E_1, \dotsc, E_n)$ und $E' = (E_1', \dotsc, E_n')$ mit $w(E_i) = w(E_i')$ für $i = 1, \dotsc, n$, sodass
+        \begin{math}
+            \Cr(E) &= \Cr(D) + a_1 + \dotsb + a_n \\
+            \Cr(E') &= \Cr(D') + a_1' + \dotsb + a_n'
+        \end{math}
+        Aus $E \stack{R}\sim E'$ und $w(E_i) = w(E_i')$ für alle $i$ folgt $E \stack{R2/3}\sim E'$.
+        $D, D'$ sind alternierend und reduziert, also auch adäquat.
+        $E, E'$ sind daher plus-adäquat.
+        Für alle $r \in \N$ gilt $E^{r}, E'^{r}$ plus-adäquat, also
+        \begin{math}
+            \maxdeg_A \<E^{r}\> &= \Cro(E^{r}) + 2 |s_+ E^r| - 2 \\
+            = r^2 \Cr(E) + 2r |s_+ E| - 2 \\
+            \maxdeg_A \<E'^{r}\> &= \Cro(E'^{r}) + 2 |s_+ E'^r| - 2 \\
+            = r^2 \Cr(E') + 2r |s_+ E'| - 2 \\
+        \end{math}
+        Es folgt $\Cr(E) = \Cr(E')$ und $\Cr(D) = \Cr(D')$, also $a_1 + \dotsb + a_n = a_1' + \dotsb + a_k'$.
+        Dies liefert noch nicht $a_i = a_i'$ für alle $1 \le i \le k$.
+
+        Idee: Kabele die vreschiedenen Komponenten $E_1, \dotsc, E_n$, bzw $E_1', \dotsc, E_n'$ mit verschiedenen $r_1, \dotsc, r_n \in \N$.
+        Setze $r = (r_1, \dotsc, r_n)$ und schreibe dazu $E^r$, bzw. $E'^r$.
+        \begin{itemize}
+            \item
+                Es gilt weiterhin, dass $E \stack{R2/3}\sim E' \implies E^r \stack{R2/3}\sim E'^r$.
+            \item
+                Ist auch $E^r$ adäquat?.
+                
+                Betrachte Kreuzungen: Komponenten $i$, $j$ kreuzen sich.
+                Lokal: $a_{ij} := \min\Set{r_i, r_j}$ weiße Kreise, $b_{ij} := \max - \min \ge 0$ rote Kreise.
+                Kann ein roter Kreis an sich selbst stoßen?
+                Wie können wir von $E$ und $s_+ E$ auf $E^r$ und $s_+(E^r)$ schließen?
+
+        \end{itemize}
+        Angenommen $E^r$ und $E'^r$ sind plus-adäquat für alle $r \in \N^n$.
+        \begin{math}
+            \maxdeg_A \<E^r\>
+            &= \Cr(E^r) + 2 |s_r E^r| - 2
+            &= \sum_{i=1}^n r_i^2 \Cr(E_i) + \sum_{i<j} r_i r_j |E_i \cap E_j| + \lot \\
+            &= \sum_{i=1}^n r_i^2 (\Cro(D_i + a_i) + \sum_{i<j} r_ir_j |D_i \cap D_j| + \lot \\
+            \maxdeg_A \<E'^r\>
+            &= \sum_{i=1}^n r_i^2 (\Cro(D'_i + a_i) + \sum_{i<j} r_ir_j |D'_i \cap D'_j| + \lot \\
+        \end{math}
+        Koeffizientenvergleich liefert $\Cr(D_i) + a_i = \Cr(D_i') + a_i'$ und $|D_i \cap D_j| = |D_i' \cap D_j'|$.
+
+        Ist es möglich, dass beispielsweise $(D_1, D_2) \sim (D_1', D_2')$ mit verschiedenen Kreuzungszahlen und Drallen?
+        Gegenbeispiel:
+        \begin{math}
+            \Cr(D_1) &= 3, && \Cr(D_2) &= 4 \\
+            w(D_1) &= -3, && w(D_2) &= -4 \\
+            |D_1 \cap D_2 &= 4 \\
+            \Cr(D_1') &= 4, && \Cr(D_2') &= 3 \\
+            w(D_1') &= -4, && w(D_2') &= -3 \\
+            |D_1' \cap D_2'| &= 4
+        \end{math}
+        $D$ und $D'$ unterscheiden sich durch einen Flype.
+
+        Flypes können den Drall zwischen zwei Komponenten übertragen!
+        Die dritte Tait-Vermutung besagt, dass solche Flypes die einzigen Ausnahmen für diesen Satz bilden.
+    \end{proof}
+\end{st}
+
+Korrektur des Satzes:
+Der Drall bleibt nicht komponentenweise erhalten, sondern nur in der Gesamtsumme.
+Beweis wie zuvor für Knoten mit uniformer Kabelung mit $r \in \N$, statt $\N^n$.
