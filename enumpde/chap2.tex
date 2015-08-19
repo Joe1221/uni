@@ -115,7 +115,7 @@
 	Dann definieren wir
 	\begin{equation} \label{eq:2.1}
 		\Laplace_h u(x) :=
-		\Big(\sum_{i=1}^d \partial_{x_j}^{-h} \partial_{x_j}^{+h} u \Big) (x)
+		\Big(\sum_{j=1}^d \partial_{x_j}^{-h} \partial_{x_j}^{+h} u \Big) (x)
 	\end{equation}
 	und es gilt unter den Voraussetzungen von \ref{2.2}
 	\[
@@ -143,7 +143,10 @@
 
 \begin{df}[Würfelgebiet] \label{2.4}
 	Sei $\Omega \subset \R^d$ offen, beschränkt.
-	$\Omega$ heißt \emphdef{Würfelgebiet} zu $h \in \R^+$, falls $Z \subset \Z^d$ sodass $\Omega = W \setminus \Boundary W =: \mathring W$ mit $W := \bigcup_{z \in Z} W(z)$ und $W(z) := [z_1h , (z_1+1)h] \times \dotsc \times [z_d h, (z_d+1)h] \subset \R^d$.
+	$\Omega$ heißt \emphdef{Würfelgebiet} zu $h \in \R^+$, falls $Z \subset \Z^d$ sodass $\Omega = W \setminus \Boundary W =: \mathring W$ mit $W := \bigcup_{z \in Z} W(z)$ und
+	\begin{math}
+		W(z) := [z_1h , (z_1+1)h] \times \dotsc \times [z_d h, (z_d+1)h] \subset \R^d.
+	\end{math}
 	\begin{note}
 		\begin{itemize}
 			\item
@@ -152,14 +155,12 @@
 	\end{note}
 \end{df}
 
-Wir wollen uns im Folgenden nur mit Würfelgebieten beschäftigen
-
 \begin{df}[FD-Gitter] \label{2.5}
 	Sei $\Omega \subset \R^d$ ein Würfelgebiet zu $h \in \R^+$, $\Gamma := \Boundary \Omega$, also $\_\Omega = \Omega \cup \Gamma$.
-	Wir definieren das \emphdef{Gitter} $\_\Omega_h$ durch \emphdef{innere Punkte} $\Omega_h$ und \emphdef{Randpunkt} $\Gamma_h$, wobei
+	Wir definieren das \emphdef{Gitter} $\_\Omega_h$ durch \emphdef{innere Punkte} $\Omega_h$ und \emphdef{Randpunkte} $\Gamma_h$, wobei
 	\begin{math}
-		\Omega_h &:= \Set{ x \in \Omega & \exists z \in \Z^d : x = hz } \\
-		\Gamma_h &:= \Set{ x \in \Gamma & \exists z \in \Z^d : x = hz } \\
+		\Omega_h &:= \Set{ x \in \Omega & \exists z \in \Z^d : x = hz }, \\
+		\Gamma_h &:= \Set{ x \in \Gamma & \exists z \in \Z^d : x = hz }, \\
 		\_\Omega_h &:= \Omega_h \cup \Gamma_h.
 	\end{math}
 	\begin{note}
@@ -181,7 +182,7 @@ Wir wollen uns im Folgenden nur mit Würfelgebieten beschäftigen
 \begin{nt*}[Nebenbemerkungen]
 	\begin{itemize}
 		\item
-			Also sind $(X_h, \|\argdot\|_{\_\Omega_h}), (X_h^0, \|\argdot\|_{\Omega_h}), (X_h^ , \|\argdot\|_{\_\Omega_h}), (Y_h, \|\argdot\|_{\Omega_h})$ Banachräume, weil endlichdimensional und damit vollständig.
+			$X_h, \|\argdot\|_{\_\Omega_h}), (X_h^0, \|\argdot\|_{\Omega_h}), (X_h^ , \|\argdot\|_{\_\Omega_h}), (Y_h, \|\argdot\|_{\Omega_h})$ sind endlichdimensionale, normierte Vektorräume über $\R$ und damit vollständig, also Banachräume.
 		\item
 			Man kann auch $X_h$ mit einer Hilbertraumstruktur versehen, indem man das \emphdef[diskretes $l_2$-Skalarprodukt]{diskrete $L_2$-Skalarprodukt} definiert:
 			\[
@@ -190,14 +191,15 @@ Wir wollen uns im Folgenden nur mit Würfelgebieten beschäftigen
 			welches die Norm $\|u\|_{l_,} := \sqrt{h^d \sum_{x\in\_\Omega} u(x)^2}$ induziert.
 			Dann ist $X_h$ auch vollständig bezüglich $\|\argdot\|_{l_2}$, weiter gilt: $\lim_{h\to 0} \|u\|_{l_2} = \|u\|_{L^2(\Omega)}$ für $u \in C^0(\Omega)$.
 		\item
-			Man kann $X_h$ auch mit einer Seminorm versehen, welche auch die Ableitungen miteinbezieht
+			Man kann $X_h$ mit einer Seminorm versehen, welche auch die Ableitungen miteinbezieht
 			\[
 				|u|_{h_1}
 				:= \Big( h^d \sum_{x\in\Omega} \sum_{j=1}^d  \big(\partial_{x_j}^{+h} u(x)\big)^2 \Big)^{\f 12},
 			\]
 			die \emphdef{diskrete $h_1$ Seminorm}.
-			Dies ist eine Norm auf $X_h^0$, aber nicht auf $X_h$.
-			Damit erhält man durch Kombination mit der diskreten $l_2$-Norm eine Norm auf $X_h$ („diskrete $h_1$ Norm“):
+			Dies ist sogar eine Norm auf $X_h^0$, aber nicht auf $X_h$.
+
+			Durch Kombination mit der diskreten $l_2$-Norm erhält man eine Norm auf $X_h$ („diskrete $h_1$ Norm“):
 			\[
 				\|u\|_{h_1}
 				:= \sqrt{\|u\|_{l_2}^2 + |u|_{h_1}^2},
@@ -221,7 +223,8 @@ Für $v \in X_h$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x 
 	\begin{itemize}
 		\item
 			Lege eine Aufzählung $\Set{x_1, \dotsc, x_n} = \Omega_h$ fest.
-			Dann ist \eqref{eq:2.2} äquivalent zu einem LGS für Unbekannte $\underbar{u}_h = (u_i)_{i=1}^n$ mit $u_i = u_h(x_i)$ für $i=1,\dotsc, n$, denn $u_h(x)$ für $x \in \Gamma$ ist schon festgelet durch $g$.
+			Dann ist \eqref{eq:2.2} äquivalent zu einem LGS für Unbekannte $\underbar{u}_h = (u_i)_{i=1}^n$ mit $u_i = u_h(x_i)$ für $i=1,\dotsc, n$.
+			Auf dem Rand $\Gamma_h$ ist $u_h$ schon festgelegt durch $g$.
 		\item
 			Sei FD-Operator in $x_i \in \Omega_h$ gegeben durch
 			\[
@@ -240,9 +243,9 @@ Für $v \in X_h$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x 
 	Dann ist $\Omega_h := \Set{x_1, \dotsc, x_n}, \Gamma_h := \Set{x_0, x_{n+1}}$.
 	Betrachte die Poisson-Gleichung
 	\begin{align*}
-		-u''(x) &= f(x) && \text{in $\Omega$} \\
-		u(0) &= \alpha \\
-		u(1) &= \beta
+		-u''(x) &= f(x) && x \in \Omega, \\
+		u(0) &= \alpha, \\
+		u(1) &= \beta.
 	\end{align*}
 	Sei $u_i \approx u(x_i)$ für $i=1, \dotsc, n$, $u_0 = \alpha, u_{n+1} = \beta$.
 	Diskretisierung ergibt
@@ -389,21 +392,19 @@ Für $v \in X_h$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x 
 
 \begin{df}[FD-Approximation] \label{2.11}
 	Für $\scr L$ aus \eqref{eq:2.3}, $x \in \Omega$ mit $\_B_h(x)  \subset \_\Omega$ definiere
-	\begin{equation} \setcounter{equation}{5} \label{eq:2.5}
-		\begin{aligned}
-			\scr L_h u(x)
-			&:= - \sum_{i=1}^d a_{ii} (x) \partial_{x_i}^{-h} \partial_{x_i}^{+h} u(x)
-			- \sum_{\substack{i,j=1 \\ i\neq j}}^d a_{ij} (x) \partial_{x_i}^{c,h} \partial_{x_j}^{c,h} u(x) \\
-			&\qquad + \sum_{i=1}^d b_i(x) \partial_{x_i}^{c,h} u(x)	+ c(x) u(x).
-		\end{aligned}
-	\end{equation}
+	\begin{math}
+		\scr L_h u(x)
+		&:= - \sum_{i=1}^d a_{ii} (x) \partial_{x_i}^{-h} \partial_{x_i}^{+h} u(x)
+		- \sum_{\substack{i,j=1 \\ i\neq j}}^d a_{ij} (x) \partial_{x_i}^{c,h} \partial_{x_j}^{c,h} u(x) \\
+		&\qquad + \sum_{i=1}^d b_i(x) \partial_{x_i}^{c,h} u(x)	+ c(x) u(x).
+	\end{math}
 	\begin{note}
 		Wir werden sehen, dass
 		\begin{itemize}
 			\item
 				\ref{2.11} nur unter weiteren Annahmen an $a_{ij}, b_i, c, h$ eine „stabile Diskretisierung“ ergibt,
 			\item
-				Eiene etwas sorgfältigere Diskretisierung des Hauptteils eine erweiterte Klasse von Problemen stabil diskretisiert.
+				Eine etwas sorgfältigere Diskretisierung des Hauptteils eine erweiterte Klasse von Problemen stabil diskretisiert.
 		\end{itemize}
 	\end{note}
 \end{df}
@@ -424,7 +425,7 @@ Für $v \in X_h$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x 
 		\item
 			Die Diskretisierung $\scr L_h$ kann man anschaulicher notieren: z.B. für $d = 2$.
 			Falls $\scr L_h u(x_1, x_2) = \f 1{h^2} \sum_{i,j=-m}^m \alpha_{ij} u(x_1 + ih, x_2 + jh)$ dann ist
-			\begin{equation} \setcounter{equation}{4} \label{eq:2.4}
+			\begin{equation} \label{eq:2.4}
 				\Matrix[{
 					\alpha_{-m,m} & \hdots & \alpha_{0,m} & \hdots & \alpha_{m,m} \\
 					\vdots && \vdots && \vdots \\
@@ -438,11 +439,11 @@ Für $v \in X_h$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x 
 				\Matrix[{ 0 & -1 & 0 \\ -1 & 4 & -1 \\ 0 & -1 & 0 }_*
 			\]
 			Für $\scr L_h$ aus \ref{2.11} (ohne Einschräkung $a_{12} = a_{21}$):
-			\[
+			\begin{math}[numbered] \label{eq:2.5}
 				\f 12 \Matrix[{ a_{12}(x) & - 2 a_{22}(x) & - a_{12}(x) \\ -2 a_{11}(x) & 4(a_{11}(x) + a_{22}(x)) & -2a_{11}(x) \\ -a_{12}(x) & -2 a_{22}(x) & a_{12}(x)}_*
 				+ \f h2 \Matrix[{ 0 & b_2(x) & 0 \\ -b_1(x) & 0 & b_1(x) \\ 0 & -b_2(x) & 0 }_*
 				+ h^2 \Matrix[{0 & 0 & 0 \\ 0 & c(x) & 0 \\ 0 & 0 & 0}_*.
-			\]
+			\end{math}
 		\item
 			Für $m = 1$ (also $3\times 3$ Sterne) ist höchstens Approximationsordnung 2 erreichbar, wie in \ref{2.12} und \ref{2.3} für spezielle $\scr L_h$ gesehen
 		\item
@@ -512,7 +513,7 @@ Für $v \in X_h$ ist mit \eqref{eq:2.1} der Operator $-\Laplace_h v(x)$ für $x 
 		Sei $x \in \_\Omega_h$ mit $u_h(x) = \max_{\_x\in \_\Omega_h} u_h (\_x)$.
 		Falls $x \in \Gamma_h$, so sind wir fertig.
 		Falls $x \in \Omega_h$: setze $p_0 := u_h(x)$, $(p_i)_{i=1}^k$ als „Nachbarwerte“ von $u_h(x)$, $\alpha_0 := \alpha_{0,0}$, $(\alpha_i)_{i=1}^k$ als Nicht-Null-Koeffizienten des FD-Sterns.
-		Es gilt also $\f 1{h^d} \sum_{k=0}^k \alpha_i p_i = \scr L_h u(x) = f(x) \le 0$.
+		Es gilt also $\f 1{h^d} \sum_{i=0}^k \alpha_i p_i = \scr L_h u(x) = f(x) \le 0$.
 		Das Sternlemma \ref{2.15} hier angewandt ergibt $p_0 = p_1 = \dotsc = p_k$, also $u_h$ konstant in $x$ und seinen Nachbarn, welche im Differenzenstern auftreeten.
 		Wiederholung dieses Argumentes in alle $2d$ Hauptrichtungen führt zum Rand (Beschränktheit von $\Omega$)
 	\end{proof}
@@ -538,7 +539,7 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 			Falls $|b_i| \le B$ und $h < \f 2B \tilde \alpha$, dann gilt für $\alpha_{1,0}$
 			\[
 				\alpha_{1,0}
-				= -a_{11} + \f {h2} b_1
+				= -a_{11} + \f h2 b_1
 				< -\tilde \alpha + \f 2B \tilde \alpha \f 12 B
 				= 0.
 			\]
@@ -576,7 +577,7 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 		\end{seg}
 		\begin{seg}{Existenz}
 			Die FD-Diskretisierung führt auf ein $n \times n$ System $A_h \underbar{u}_h = b_h$ mit $\ker A_h = \Set 0$ wegen der Eindeutigkeit.
-			Folglich hat $A_h$ vollen Rang und ist regulär, also $\underbar{u}_h := A_k^{-1} b_k$ ist eindeutiger DOF-Vektor von $u_h \in X_h$.
+			Folglich hat $A_h$ vollen Rang und ist regulär, also $\underbar{u}_h := A_h^{-1} b_h$ ist eindeutiger DOF-Vektor von $u_h \in X_h$.
 		\end{seg}
 	\end{proof}
 \end{kor}
@@ -588,10 +589,10 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 		\|u_h - \_u_h\|_{\Omega_h} = \|g-\_g\|_{\Gamma_h} := \sup_{x\in\Gamma_h} |g(x) - \_g(x)|.
 	\]
 	\begin{proof}
-		Setze $v :=: u_h - \_u_h$, dann ist $\scr L_h v = 0$ in $\Omega_h$ mit diskretem Maximumsprinzip, also
+		Setze $v := u_h - \_u_h$, dann ist $\scr L_h v = 0$ in $\Omega_h$ mit diskretem Maximumsprinzip, also
 		\[
-			v(x) \le \max_{\_x \in \Gamma_h} v(x)
-			\le \max_{x \in \Gamma_h} |v(x)|
+			v(x) \le \max_{\_x \in \Gamma_h} v(\_x)
+			\le \max_{\_x \in \Gamma_h} |v(\_x)|
 			= \|g - \_g\|_{\Gamma_h},
 		\]
 		analog für $-v(x)$, es folgt die Behauptung.
@@ -601,7 +602,7 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 			\item
 				Anschauliche Bedeutung: Leichte Änderung in Daten ergibt nur leichte Änderung in Lösung.
 			\item
-				Ähnlich: Stetige Abhängige bezüglich der rechten Seite $f$.
+				Ähnlich: Stetige Abhängigkeit bezüglich der rechten Seite $f$.
 		\end{itemize}
 	\end{note}
 \end{kor}
@@ -638,7 +639,7 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 	\begin{note}[Stabilität]
 		\begin{itemize}
 			\item
-				Stabilität bedeutet anschaulisch, dass die Lösung der PDE durch die rechte Seite beschränkt bleibt, unabhängig von $h$.
+				Stabilität bedeutet anschaulich, dass die Lösung der PDE durch die rechte Seite beschränkt bleibt, unabhängig von $h$.
 				Sei $w_h: \Omega_h \to \R$, also $w_h \in Y_h$ und $v_h \in X_h^0$ Lösung von $\scr L_h v_h = w_h$ in $\Omega_h$, $v_h = 0$ auf $\Gamma_h$.
 				Dann ist also
 				\[
@@ -653,7 +654,7 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 	Falls $C_s$ unabhängig von $h$ existiert, sodass $\|A_h^{-1}\|_\infty \le C_s$.
 	Dann ist das FD-Verfahren stabil.
 	\begin{proof}
-		Seien $\underbar{v}_h, \underbar{w}_h \in \R^n$ Vektor der inneren Knotenwerten für $v_h \in X_h^0$, $w_h \in Y_h$, also $A_h \underbar{v}_h = \underbar{w}_h$.
+		Seien $\underbar{v}_h, \underbar{w}_h \in \R^n$ Vektoren der \emph{inneren} Knotenwerte für $v_h \in X_h^0$, $w_h \in Y_h$ und $A_h \underbar{v}_h = \underbar{w}_h$.
 		Dann gilt ($v_h$ hat Nullrandwerte)
 		\begin{align*}
 			\|v_h\|_{\_\Omega_h}
@@ -702,7 +703,7 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 \begin{lem} \label{2.24}
 	Sei $w_h \in X_h$ Lösung von $-\Laplace_h w_h = 1$ in $\Omega_h$, $w_h = 0$ auf $\Gamma_h$.
 	Dann gilt
-	\begin{equation} \setcounter{equation}{6} \label{eq:2.6}
+	\begin{equation} \label{eq:2.6}
 		0 \le w_h(x) \le \f 1{2d} (R^2 - \|x\|_2^2)
 	\end{equation}
 	für $x \in \_\Omega_h$.
@@ -732,7 +733,7 @@ Falls $\Omega_h$ diskret zusammenhängend ist, führt das Argument aus dem Bewei
 
 \begin{st}[Konvergenz] \label{2.25}
 	Sei ein FD-Verfahren für ein elliptisches RWP gemäß \ref{2.10} gegeben.
-	Falls das Verfahren staabil und konsistenz mit Ordnung $p$ ist, so auch konvergent mit Ordnung $p$.
+	Falls das Verfahren stabil und konsistent mit Ordnung $p$ ist, so auch konvergent mit Ordnung $p$.
 	\begin{proof}
 		Seien $u \in X$ die exakte und $u_h \in X_h$ die FD-Lösung.
 		Dann hat $u - u_h$ Nullrandwerte auf $\Gamma_h$, also folgt mit Stabilität:
@@ -772,7 +773,7 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 		\item
 			Eine Matrix $A = (a_{ij})_{i,j=1}^n \in \R^{n\times n}$ heißt \emphdef{$L_0$-Matrix}, falls $a_{ij} \le 0$ für alle $i \neq j$.
 		\item
-			Eine Matrix $A = (a_{ij})_{i,j=1}^n \in \R^{n\times n}$ heißt \emphdef{$L$-Matrix}, falls $A$ ein $L_0$-Matrix ist und $a_{ii} > 0$ für $i= 1, \dotsc, n$.
+			Eine Matrix $A = (a_{ij})_{i,j=1}^n \in \R^{n\times n}$ heißt \emphdef{$L$-Matrix}, falls $A$ eine $L_0$-Matrix ist und $a_{ii} > 0$ für $i= 1, \dotsc, n$.
 		\item
 			Eine $L_0$-Matrix $A$, für die $A^{-1}$ existiert und $A^{-1} \ge 0$ (komponentenweise größergleich Null) heißt \emphdef{M-Matrix}.
 	\end{enumerate}
@@ -783,7 +784,7 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 			\item
 				Eine M-Matrix ist also eine inversmonotone $L_0$-Matrix.
 			\item
-				Ziel: für gegebenen $L_0$- oder $L$-Matrix, finde Zusatzbedingungen, welche $M$-Matrix-Eigenschaft implizieren und $\|A^{-1}\|_\infty$ abzuschätzen erlauben.
+				Ziel: für gegebene $L_0$- oder $L$-Matrix finde Zusatzbedingungen, welche $M$-Matrix-Eigenschaft implizieren und es erlauben $\|A^{-1}\|_\infty$ abzuschätzen.
 		\end{itemize}
 	\end{note}
 \end{df}
@@ -890,9 +891,9 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 \begin{df}[Diagonaldominanz, Irreduzibilität]
 	\begin{enumerate}[i)]
 		\item
-			$A \in \R^{n\times n}$ ist \emphdef[diagonaldominant!stark]{stark (zeilen-)diagonaldominant}, falls $|a_{ii}| > \sum_{i \neq j}^n |a_{ij}|$ für alle $i = 1, \dotsc, n$.
+			$A \in \R^{n\times n}$ ist \emphdef[diagonaldominant!stark]{stark (zeilen-)diagonaldominant}, falls $|a_{ii}| > \sum_{j \neq i}^n |a_{ij}|$ für alle $i = 1, \dotsc, n$.
 		\item
-			$A \in \R^{n\times n}$ ist \emphdef[diagonaldominant!schwach]{schwach (zeilen-)diagonoldominant}, falls $|a_{ii}| \ge \sum_{i \neq j}^n |a_{ij}|$ für alle $i = 1, \dotsc, n$ mit mindestens einem $k \in \Set{1,\dotsc, n}$ mit $|a_{kk}| > \sum_{j \neq k} |a_{kj}|$.
+			$A \in \R^{n\times n}$ ist \emphdef[diagonaldominant!schwach]{schwach (zeilen-)diagonoldominant}, falls $|a_{ii}| \ge \sum_{j \neq i}^n |a_{ij}|$ für alle $i = 1, \dotsc, n$ mit mindestens einem $k \in \Set{1,\dotsc, n}$ mit $|a_{kk}| > \sum_{j \neq k} |a_{kj}|$.
 		\item
 			$A$ ist \emphdef{irreduzibel}, falls keine Permutationsmatrix $P$ existiert, sodass
 			\[
@@ -919,14 +920,14 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 	\begin{itemize}
 		\item
 			In \ref{2.11} wurde $-\sum_{i\neq j} a_{ij}(x) \partial_{x_i}^{c,h} \partial_{x_j}^{c,h} u(x)$ gewählt, was zu $\f 12 \Matrix[{a_{12} & 0 & -a_{12} \\ 0 & 0 & 0 \\ -a_{12} & 0 & a_{12}}_*$ führte.
-			Weder das Maximumsprinzip, noch $M$-Matrix-Eigenschaft können mit unseren Techniken gezeigt werden, wegen unterschiedlichen Vorzeichen im Fall $a_{12} \neq 0$.
+			Weder das Maximumsprinzip, noch $M$-Matrix-Eigenschaft können mit unseren Techniken gezeigt werden wegen unterschiedlicher Vorzeichen im Fall $a_{12} \neq 0$.
 		\item
 			Man kann FD-Sterne 2. Ordnung mit nichtpositiven Eck-Koeffizienten für $-2a_{12} \partial_{x_1} \partial_{x_2} u$ konstruieren:
 			\begin{enumerate}[i)]
 				\item
 					Falls $- a_{12} > 0$:
 					\[
-						\Matrix[{ a_{12} & -a_{12} & 0 \\ a_{12} & 2 a_{12} & - a_{12} \\ 0 & - a_{12} & a_{12} }_*
+						\Matrix[{ a_{12} & -a_{12} & 0 \\ -a_{12} & 2 a_{12} & - a_{12} \\ 0 & - a_{12} & a_{12} }_*
 					\]
 				\item
 					Falls $- a_{12} < 0$:
@@ -934,19 +935,24 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 						\Matrix[{ 0 & a_{12} & -a_{12} \\ a_{12} & - 2a_{12} & a_{12} \\ - a_{12} & a_{12} & 0}_*
 					\]
 			\end{enumerate}
-			Mit der Konvention $a_{12}^+ := \max\{0, a_{12}\}, a_{12}^- := \min\{a_{12}, 0\}$ folgt
+			Mit der Konvention $a_{12}^+ := \max\{0, a_{12}\}, a_{12}^- := \min\{a_{12}, 0\}$ folgt für den gesamten FD-Stern
 			\begin{equation} \label{eq:2.9}
-				\Matrix{
+				\Matrix[{
 					a_{12}^- & -(a_{22}-|a_{12}|) & -a_{12}^+ \\
 					-(a_{11}-|a_{12}|) & 2(a_{11} + a_{22}-|a_{12}|) & - (a_{11} -|a_{12}|) \\
 					-a_{12}^+ & -(a_{22} - |a_{12}|) & a_{12}^-
 				}_*
-				+ \f 12 \Matrix{
-					0 & b_2 & \\
+				+ \f h2 \Matrix[{
+					0 & b_2 & 0 \\
 					-b_1 & 2hc & b_1 \\
 					0 & -b_2 & 0
-				}_*
+				}_*.
 			\end{equation}
+			Vergleiche mit dem FD-Stern aus \eqref{eq:2.5}:
+			\begin{math}
+				\f 12 \Matrix[{ a_{12} & - 2 a_{22} & - a_{12} \\ -2 a_{11} & 4(a_{11} + a_{22}) & -2a_{11} \\ -a_{12} & -2 a_{22} & a_{12}}_*
+				+ \f h2 \Matrix[{ 0 & b_2 & 0 \\ -b_1 & 2 h c & b_1 \\ 0 & -b_2 & 0 }_*
+			\end{math}
 	\end{itemize}
 \end{note}
 
@@ -955,9 +961,16 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 \begin{kor} \label{2.31}
 	Falls $a_{ii} > |a_{12}| + \f h2 |b_i|$ und $c > 0$ für $i= 1,2$, so ist die FD-Systemmatrix $A_h$ zum FD-Stern \eqref{eq:2.9} eine $M$-Matrix.
 	\begin{proof}
-		Die Nichtdiagonalelemente von $A_h$ sind nicht-positiv.
-		Die Diagonale von $A_h$ ist echt positiv, also ist $A_h$ eine $L$-Matrix.
-		$A_h$ ist streng diagonaldominant (Summe aller FD-Stern-Einträge ist größer 0, FD-Stern wird in jeweils eine Zeile von $A_h$ geschrieben).
+		Der FD-Stern wird in jeweils eine Zeile von $A_h$ geschrieben.
+		Wir beobachten:
+		\begin{enumerate}[i)]
+			\item
+				Die Nichtdiagonalelemente von $A_h$ sind nicht-positiv.
+			\item
+				Die Diagonale von $A_h$ ist echt positiv (also ist $A_h$ eine $L$-Matrix).
+			\item
+				$A_h$ ist streng diagonaldominant, denn die Summe aller FD-Stern-Einträge ist größer 0.
+		\end{enumerate}
 	\end{proof}
 	\begin{note}
 		\begin{itemize}
@@ -1005,12 +1018,12 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 					0.5 & 1 & 0 \\
 					0.25 & 9 & $6 \cdot 10^{-18}$ \\
 					\vdots & \vdots & \vdots \\
-					0.03125 & 961 & $4.8 \cdot 10^{16}$
+					0.03125 & 961 & $4.8 \cdot 10^{-16}$
 				\end{tabular}
 				\caption{\texttt{elliptic\textunderscore fd\textunderscore demos(4)}}
 			\end{table}
 			Wir sehen, dass $u_h$ für jedes $h$ exakt ist (bis auf numerische Rundungseffekte).
-			Dies deckt sich mit der Beobachtung, dass $-\Laplace_h u = - \Laplace u$ für Polynome.
+			Dies deckt sich mit der Beobachtung, dass $-\Laplace_h u = - \Laplace u$ für Polynome vom Grad $\le 3$.
 		\item
 			Setze als exakte Lösung: $u(x_1, x_2) := \sin(2\pi x_1) \sin(2\pi x_2) \in C^\infty$ für Daten $f(x) := 8\pi^2 \sin(2\pi x_1) \sin(2\pi x_2), g(x) := 0$.
 			\begin{table}[ht]
@@ -1036,7 +1049,7 @@ Dies ist mit der sogenannten „M-Matrix-Theorie“ möglich.
 			Bis Mitte des 20. Jahrhunderts wurden FD-Diskretisierungen als Allzweckwerkzeug gesehen, weil sie eine Vielzahl von Problemen sehr leicht mit ausreichender Genauigkeit diskretisieren.
 			Allmählich kamen FEM-Methoden (Finite-Elemente-Methoden), welche eine wesentlich aufwändigere Assemblierung von $A_h$ und $b_h$ erfordern, aber bei gleicher Gitterfeinheit bessere Ergebnisse liefern.
 		\item
-			Die Konvergenzanalysis von FD-Verfahren macht häufig starke (unrealistische) Glattheits-Annahmen an die Lösung.
+			Die Konvergenzanalyse von FD-Verfahren macht häufig starke (unrealistische) Glattheits-Annahmen an die Lösung.
 			Das wird bei FEM- und FV-Verfahren etwas abgeschwächt.
 	\end{itemize}
 \end{note}
