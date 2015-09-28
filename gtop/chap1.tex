@@ -14,7 +14,7 @@ Dazu sind zunächst die Begriffe \emph{Knotentyp} und \emph{Knotendiagramm} zu k
 \section{Polygonale Knoten}
 
 \begin{df}
-    Ein \emphdef{Polygonzug} $P = (v_0, v_1, \dotsc, v_n)$ im $\R^d$ ist eine endliche Folge von Punkten $v_0, \dotsc, v_n \in \R^d$. 
+    Ein \emphdef{Polygonzug} $P = (v_0, v_1, \dotsc, v_n)$ im $\R^d$ ist eine endliche Folge von Punkten $v_0, \dotsc, v_n \in \R^d$.
 
     Die Wahl einer Unterteilung $0 = t_0 < t_1 < \dotsb < t_n = 1$ definiert eine Parametrisierung $\gamma_P: [0,1] \to \R^d$ durch affine Interpolation:
     \begin{math}
@@ -71,7 +71,7 @@ Wir betrachten nun Bewegungen eines Polygonzugs.
 
 \begin{df}
     Seien $P$ und $P'$ polygonale Knoten in $\R^d$.
-    Eine \emphdef{polygonale Isotopie} von $P$ und $P'$ ist gegeben durch eine Folge von $\Delta$-Zügen:
+    Eine \emphdef{polygonale Isotopie} von $P$ und $P'$ ist gegeben durch eine endliche Folge von $\Delta$-Zügen:
     \begin{math}
         P = P_0 \leftrightarrow P_1 \leftrightarrow \dotsb \leftrightarrow P_l = P'.
     \end{math}
@@ -84,7 +84,7 @@ Wir betrachten nun Bewegungen eines Polygonzugs.
 \Timestamp{2015-04-20}
 
 \begin{df}
-    Ein Knoten $P = (v_1, \dotsc, v_n)$ in $\R^d$ heißt \emphdef{trivial}, wenn $P$ isotop ist zu einem Knoten $P' = (v_1',v_2',v_3')$, d.h. einem Dreieck.
+    Ein Knoten $P = (v_1, \dotsc, v_n)$ in $\R^d$ heißt \emphdef{trivial}, wenn $P$ isotop zu einem Knoten $P' = (v_1',v_2',v_3')$ (d.h. einem Dreieck) ist.
 \end{df}
 
 \begin{prop}
@@ -149,7 +149,7 @@ Wir betrachten nun Bewegungen eines Polygonzugs.
     \end{proof}
 \end{st}
 
-% todo: Für affine Abbildungen
+% todo: Beweglichkeit für orientierungserhaltende affine Abbildungen?
 
 \begin{kor}
     Die Menge aller Knotentypen im $\R^d$ ist (höchstens) abzählbar.
@@ -205,6 +205,9 @@ Das Bild eines Knotens im $\R^3$ unter der Projektion $\pi$ zusammen mit Kreuzun
     Je zwei solcher Hochhebungen $P, P'$ zu $D$ sind isotop.
 
     Wir nennen $[P] = [P']$ den zu $D$ zugehörigen Knotentyp und sagen: „$D$ stellt $[P]$ dar“.
+    \begin{proof}
+        Handwaving
+    \end{proof}
 \end{lem}
 
 Jedes Knotendiagramm stellt also genau einen Knotentyp dar.
@@ -245,6 +248,9 @@ Es stellt sich jetzt umgekehrt die Frage, wie sich die Diagramme zu zwei isotope
 \begin{lem}
     Seien $D, D'$ zwei Knotendiagramme in $\R^2$ und $P, P'$ in $\R^3$ Hochhebungen.
     Aus $D \sim D'$ folgt $P \sim P'$.
+    \begin{proof}
+        Die Reidemeisterzüge lassen sich in den Hochhebungen durch $\Delta$-Züge bewerkstelligen.
+    \end{proof}
 \end{lem}
 
 \begin{df}
@@ -299,7 +305,7 @@ Es stellt sich jetzt umgekehrt die Frage, wie sich die Diagramme zu zwei isotope
                 P_l = P' \ar[d,"\pi"] \\
                 %
                 D \ar[r,mapsto,"R0"] &
-                \hat D \ar[r,mapsto,"R?"] &
+                \hat D_0 \ar[r,mapsto,"R?"] &
                 \hat D_1 \ar[r,mapsto,"R?"] &
                 \dots \ar[r,mapsto,"R?"] &
                 \hat D_l \ar[r,mapsto,"R0"] &
@@ -316,8 +322,8 @@ Es stellt sich jetzt umgekehrt die Frage, wie sich die Diagramme zu zwei isotope
     Dreifärbungen nach Fox.
     Es gilt
     \begin{math}
-        |\Col_3(\texp{Trivialer Knoten})| &= 3, &
-        |\Col_3(\texp{Kleeblattschlinge})| &= 9.
+        |\Col_3(\Knot{0_1})| &= 3, &
+        |\Col_3(\Knot{3_1})| &= 9.
     \end{math}
     Die Dreifärbung von Knotendiagrammen ist $R$-invariant und folglich eine Invariante unter den Knotentypen (man betrachte dazu die einzelnen Reidemeister-Züge).
 
@@ -326,10 +332,14 @@ Es stellt sich jetzt umgekehrt die Frage, wie sich die Diagramme zu zwei isotope
 
 \begin{kor}
     In $\R^3$ existieren abzählbar unendlich viele Knotentypen.
+    \begin{proof}
+        Für $n \in \N$ betrachte die verbundene Summe von $n$ Kleeblattschlingen.
+        Man erhält einen Knoten mit $3^{n+1}$ verschiedenen Dreifärbungen.
+    \end{proof}
 \end{kor}
 
 
-\subsection{Verallgemeinerung zu \texorpdfstring{$p$}{p}-Färbungen}
+\subsection{\texorpdfstring{$p$}{p}-Färbungen und Kreuzungszahl}
 
 Sei $p \ge 3$ ungerade (später: $p$ prim).
 
@@ -337,7 +347,8 @@ Wir Betrachten Färbungen von $D$, d.h. $f: \Set{\text{Bögen von } D} \to \Z / 
 % Kreuzung, ac drunter, bd drüber
 \begin{math}
     b = d
-    \quad\land\quad a - b + c - d = 0
+    \quad\land\quad
+    a - b + c - d = 0.
 \end{math}
 Sei $\Col_p(D)$ die Menge dieser Färbungen.
 
@@ -349,49 +360,39 @@ Sei $\Col_p(D)$ die Menge dieser Färbungen.
 \end{st}
 
 \begin{note}
-    Für $p = 3$ erhalten wir die einfache Regel:
-    An jeder Kreuzung entweder 1 oder 3 Farben.
+    Für $p = 3$ erhalten wir die einfache Regel, die wir aus den Dreifärbungen nach Fox bereits kennen:
+    An jeder Kreuzung dürfen entweder 1 oder 3 Farben zusammenkommen.
 \end{note}
 
 \begin{ex}
-    Ist der Achterknoten äquivalent zum trivialen Knoten?
+    Ist der Achterknoten $\Knot{4_1}$ äquivalent zum trivialen Knoten?
     Es gilt
     \begin{math}
-        \Col_3(\texp{Achterknoten}) &= 3, &
-        \Col_5(\texp{Achterknoten}) &= 25.
+        \Col_3(\Knot{0_1}) &= 3, &
+        \Col_5(\Knot{0_1}) &= 5, \\
+        \Col_3(\Knot{4_1}) &= 3, &
+        \Col_5(\Knot{4_1}) &= 25.
     \end{math}
-    An der 3-Färbung erkennt man nichts, erst die 5-Färbung liefert die Antwort.
+    Mit der 3-Färbung ist noch keine Aussage möglich, erst die 5-Färbung liefert die Antwort.
 \end{ex}
 
 \begin{prop}
-    Sei $p$ prim.
+    Sei $p$ prim, also $\F_p$ ein Körper.
     Bezüglich der punktweisen Operationen ist $\Col_p(D)$ ein $\F_p$-Vektorraum.
     Für $n = \dim \Col_p(D)$ gilt $\Col_p(D) \isomorphic \F_p^n$ und $|\Col_p(D)| = p^n$.
 \end{prop}
 
 \begin{df}
-    Für jedes Diagramm $D$ in $\R^2$ sei $\Cr(D)$ die Anzahl der Kreuzungen.
+    Für jedes Diagramm $D$ in $\R^2$ definierien wir die \emphdef{Kreuzungszahl} $\Cr(D)$ als die Anzahl der Kreuzungen in $D$.
 
-    Sei $P$ ein polygonaler Knoten und $[P]$ ein Knotentype.
-    Wir setzen die Kreuzungszahl $\Cr([P]) := \min \Cr(D)$, minimiert über alle darstellende Diagramme $D$ zu $[P]$.
+    Sei $P$ ein polygonaler Knoten und $[P]$ ein Knotentyp.
+    Die \emphdef{Kreuzungszahl} des Knotentyps $[P]$ sei $\Cr([P]) := \min_D \Cr(D)$, minimiert über alle darstellende Diagramme $D$ zu $[P]$.
 \end{df}
 
 \begin{ex}
     Alle Knoten mit $\le 2$ Kreuzungen sind äquivalent zum trivialen Knoten.
-    Es gilt $\Cr(\texp{trivialer Knoten}) = 0$ und $\Cr(\texp{Kleeblattschlinge}) = 3$.
+    Es gilt $\Cr(\Knot{0_1}) = 0$ und $\Cr(\Knot{3_1}) = 3$.
 \end{ex}
-
-\subsection{Topologische und glatte Knoten}
-
-\begin{df}
-    Ein \emphdef{topologischer Knoten} ist eine Einbettung $\kappa: \S^1 \injto \R^3$.
-    Zwei Knoten $\kappa_0, \kappa_1$ heißen \emphdef{isotop}, wenn es eine Isotopie gibt, also $H: [0,1] \times \S^1 \to \R^3$ stetig, sodass $h_t: \S^1 \to \R^3$, $h_t(s) = h(t,s)$ eine Einbettung ist.
-\end{df}
-
-\begin{note}
-    $\kappa$ kann wild aussehen: betrachte den Kleeblattknoten hintereindandergereiht, jeweils skaliert mit Faktor $q^k$, $q < 1$.
-\end{note}
-
 
 \Timestamp{2015-04-27}
 
@@ -415,7 +416,11 @@ Sei $\Col_p(D)$ die Menge dieser Färbungen.
     Entsprechend definieren wir \emphdef[glatte Isotopie]{glatte Isotopien} und \emphdef[Diffeotopie]{Diffeotopien}.
 \end{df}
 
-\paragraph{Alternative Definitionen für Knoten/-typen}
+\begin{note}
+    Topologische Knoten können wild aussehen: betrachte die Kleeblattschlinge hintereinandergereiht, jeweils skaliert mit Faktor $q^k$, $q < 1$.
+\end{note}
+
+\paragraph{Alternative Definitionen für Knotentypen}
 
 \[
 \begin{tikzcd}
@@ -510,36 +515,39 @@ Es lassen sich auch Knoten betrachten, die nicht in $\R^3$, sondern auf einer an
 \begin{ex}
     \begin{itemize}
         \item
-            Hopf-Verschlingung $H_+, H_-$.
+            $\Link{0_1^2}$: Triviale Verschlingung, getrennte Kreise.
         \item
-            Whitelead $W$.
+            $\Link{2_1^2}$: Hopf-Verschlingung $H_+, H_-$.
         \item
-            Borromäische Ringe.
+            $\Link{5_1^2}$: Whitehead-Verschlingung $W$.
+        \item
+            $\Link{6_2^3}$: Borromäische Ringe $B$.
     \end{itemize}
 \end{ex}
 
 Die Behandlung von Verschlingungen erfolgt analog zu den Knoten.
 Inbesondere gilt der Satz von Reidemeister für Verschlingungen.
 
+
 \begin{df}
     Wir definieren die Verschlingungszahl $\lk(L_i, L_j)$ für eine Verschlingung $L = L_1 \cup \dotsb \cup L_n$.
     % fixme: \eps(p) definieren!
     \begin{math}
-        \lk(L_i,L_j) = \frac{1}{2} \sum_{p\in D_i \cap D_j} \eps(p). 
+        \lk(L_i,L_j) = \frac{1}{2} \sum_{p\in D_i \cap D_j} \eps(p).
     \end{math}
     \begin{note}
-        In dieser Definition nutzen wir Diagramme.
-        Das Ergebnis ist von der Wahl des Diagrammes unabhängig, d.h. R-Invariant und somit eine Eigenschaft von $L$.
+        Die Definition ist R-invariant auf dem Diagramm und daher von der Wahl des Diagramms unabhängig.
+        Somit ist die Verschlingunszahl eine Eigenschaft von $L$.
     \end{note}
 \end{df}
 
 \begin{ex}
-    Die Hopf-Verschlingung ist nicht trennbar.
+    Die Hopf-Verschlingung ist nicht trennbar, denn es gilt
     \begin{math}
         \lk(H_-) &= -1, &
         \lk(H_+) &= +1,
     \end{math}
-    während die Verschlingungszahl für die getrennten Kreise Null ist.
+    während $\lk(\Link{0_1^2}) = 0$.
 \end{ex}
 
 Übung: Kann $W$ getrennt werden? und $B$? (Dreifärbungen)
@@ -556,18 +564,20 @@ Vorteil: verbundene Summe (aneinanderhängen).
 
 \Timestamp{2015-04-29}
 
-Sei $A$ die Menge der Ein-, Ausgänge, $|A| = 2m$.
-Betrachte zahme Einbettungen $f: [0,1] \times \Set{1, \dotsc, m} \cup \S^1 \times \Set{m+1, \dotsc, m+n} \injto M$.
+Seien $n, m \in \N$ und $A$ die Menge der Ein-, Ausgänge mit $|A| = 2m$.
+Betrachte zahme Einbettungen
+\begin{math}
+    f: ([0,1] \times \Set{1, \dotsc, m}) \cup (\S^1 \times \Set{m+1, \dotsc, m+n}) \injto M
+\end{math}
+($m$ Stränge, $n$ geschlossene Knoten).
+$T := \im(f) \subset M$ ist eine orientierte Untermannigfaltigkeit.
+Es soll gelten $\Boundary T = T \cap \Boundary M = A$.
 
-$T = \im(f) \subset M$ ist eine orientierte Untermannigfaltigkeit.
-Es soll gelten $\Boundary T = T \cap \Boundary M = A$. 
-
-
-Speziell sei $F$ eine Fläche, z.B. $\R^2, \D^2, F_{g,r}^\pm$ und setze $M = F \times [0,1]$ mit $A = A_0 \times \Set{0} \cup A_1 \times \Set{1}$ und $A_0, A_1 \subset F$.
+Sei $F$ nun eine spezielle Fläche, z.B. $\R^2, \D^2, F_{g,r}^\pm$ und setze $M := F \times [0,1]$ mit $A = A_0 \times \Set{0} \cup A_1 \times \Set{1}$ und $A_0, A_1 \subset F$.
 
 Wir setzen
 \begin{math}
-    \scr T_F(A_0,A_1) = \frac{\Set{\text{Schlingel in $(M, A)$}}}{\text{ambiente Isotopie}}.
+    \scr T_F(A_0,A_1) := \frac{\Set{\text{Schlingel in $(M, A)$}}}{\text{ambiente Isotopie}}.
 \end{math}
 Dies bildet eine Kategorie bezüglich der Verknüpfung $\#: \scr T_F(A_0,A_1) \times \scr T_F(A_1, A_2) \to \scr T_F(A_0, A_2)$.
 Genau:
@@ -576,7 +586,7 @@ Genau:
     (x,t,1) & \mapsto (x, \frac{t}{2}) \\
     (x,t,2) & \mapsto (x, \frac{t+1}{2})
 \end{math}
-Für zwei Schlingel $T_1 \subset (M, A_0 \cup A_1), T_2 \subset (M, A_1 \cup A_2$ setze
+Für zwei Schlingel $T_1 \subset (M, A_0 \cup A_1), T_2 \subset (M, A_1 \cup A_2)$ setze
 \begin{math}
     T := T_1 \# T_2 :=  \Phi(T_1 \times \Set{1} \cup T_2 \times \Set{2})
     \subset (M, A_0, A_1).
@@ -594,8 +604,8 @@ Sei nun speziell $F = \R^2$, $p,q \in \N$ mit $p + q = 2m$ und
     A_1 &= \Set{(1,0), (2,0), \dotsc, (q,0)}
 \end{math}
 Setze $\scr T(p,q) := \scr T_{\R^2}(A_0, A_1)$.
-Für $p = q = m$ definieren wir einen \emphdef[reiner Schlingel]{reinen Schlingen}:
-es besteht aus $m$ Intervallen, jedes läuft von $(i,0)$ nach $(i,1)$.
+Für $p = q = m$ definieren wir einen \emphdef[reiner Schlingel]{reinen Schlingel}:
+es besteht aus $m$ Intervallen, jedes läuft von $(i,0)$ nach $(i,1)$, keine geschlossenen Knoten, d.h. $n = 0$.
 
 Die Schlingel $\scr T(m,m)$ bilden einen Monoid, die reinen Schlingel $\scr T_{\text{rein}}(m,m)$ bilden einen Untermonoid.
 Gibt es invertierbare Element in diesem Monoid? Ja: Zöpfe.
@@ -607,7 +617,7 @@ Gibt es invertierbare Element in diesem Monoid? Ja: Zöpfe.
 \end{df}
 
 \begin{note}
-    Jeder Zopf ist invertierbar in $\scr T(n,n)$ anhand der Spiegelung $\Psi: F \times [0,1] \to F \times [0,1]: (x,t) \mapsto (x, 1-t)$.
+    Jeder Zopf ist invertierbar in $\scr T(n,n)$ vermöge der Spiegelung $\Psi: F \times [0,1] \to F \times [0,1]: (x,t) \mapsto (x, 1-t)$.
 \end{note}
 
 \begin{note}
@@ -618,19 +628,24 @@ Gibt es invertierbare Element in diesem Monoid? Ja: Zöpfe.
 \begin{st}[Artin, 1925]
     Zöpfe in $\R^2 \times [0,1]$ wie oben bilden eine Gruppe $B_n$.
     Diese wird erzeugt von den \emphdef[elementare Zöpfe]{elementaren Zöpfen}: Verdrillung zweier benachbarter Stränge $s_i, s_i^{-1}$.
-    Neben $s_i s_i^{-1} = s_i^{-1} s_i = 1$ gelten die elementaren Relationen
+    Neben
     \begin{enumerate}[i)]
+        \item[0)]
+            $s_i s_i^{-1} = s_i^{-1} s_i = 1$ (R2)
+    \end{enumerate}
+    gelten die elementaren Relationen
+    \begin{enumerate}[i),resume]
         \item
-            $s_i s_{i+1} s_i = s_{i+1} s_i s_{i+1}$ für $i = 1, \dotsc, n-2$,
+            $s_i s_{i+1} s_i = s_{i+1} s_i s_{i+1}$ für $i = 1, \dotsc, n-2$ (R3),
         \item
-            $s_i s_j = s_j s_i$ für $|i-j| \ge 2$.
+            $s_i s_j = s_j s_i$ für $|i-j| \ge 2$ (R0).
     \end{enumerate}
     Die elementaren Relationen erzeugen alle Relationen, d.h.
     \begin{math}
         B_n = \Gen{ s_1, \dotsc s_{n-1} & \begin{aligned} s_is_js_i &= s_js_is_j \text{ für $|i-j| = 1$}, \\ s_i s_j &= s_j s_i \text{ für $|i-j| \ge 2$} \end{aligned} }.
     \end{math}
     \begin{proof}
-        Wir verfahren wie im Beweis des Satzes von Reidemeister für Knoten, hier umformuliert auf Zöpfe:
+        Wir verfahren wie im Beweis des Satzes von Reidemeister für Knoten, statt Knotendiagramme haben wir nun Elemente aus $B_n$.
         \begin{enumerate}[i)]
             \item
                 polygonale Zöpfe, polygonale Isotopie zwischen Zöpfen
@@ -666,7 +681,7 @@ Artin liefert
 Dies ist eine kurze exakte Sequenz.
 Wir können Stränge hinzufügen und vergessen:
 \begin{math}
-    \iota_n: B_{n-1} &\injto B_n,
+    \iota_n: B_{n-1} &\injto B_n, \\
     r: P_n &\to P_{n-1}
 \end{math}
 Dies sind Gruppenhomomorphismen.
@@ -698,7 +713,7 @@ Anders formuliert $P_n = F_{n-1} \semidirect P_{n-1}$.
     Z(S_n) = \begin{cases}
         S_2 \isomorphic \Z / 2 & \text{für $n = 2$}, \\
         1 & \text{für $n \neq 2$}.
-    \end{cases}
+    \end{cases}\quad
     Z(F_n) = \begin{cases}
         F_1 \isomorphic \Z & \text{für $n=1$}, \\
         1 & \text{für $n \neq 1$}.
@@ -753,16 +768,16 @@ Dann gilt $h(Z(G)) \subset Z(H)$.
 
 \begin{math}
     B_n &= \Gen{s_1, \dotsc, s_n & \begin{aligned}
-        s_i s_j &= s_j s_i & \text{für $|i-j| \ge 2$},
-        s_is_js_i = s_j s_i s_j & \text{für $|i-j| = 1$}.
+        s_i s_j &= s_j s_i && \text{ für $|i-j| \ge 2$}, \\
+        s_is_js_i &= s_j s_i s_j && \text{ für $|i-j| = 1$}.
     \end{aligned}} \\
     (B_n)_{\text{ab}} &= \Gen{s_1, \dotsc, s_n & \begin{aligned}
-        s_i s_j &= s_j s_i & \text{für alle $i,j$},
-        s_is_js_i = s_j s_i s_j & \text{für $|i-j| = 1$}.
+        s_i s_j &= s_j s_i && \text{ für alle $i,j$}, \\
+        s_is_js_i &= s_j s_i s_j && \text{ für $|i-j| = 1$}.
     \end{aligned}} \isomorphic \<s_1\> \isomorphic \Z, \\
     S_n &= \Gen{t_1,\dotsc, t_n & \begin{aligned}
-        t_i t_j &= t_j t_i, & & \text{für $|i-j| \ge 2$},
-        t_it_j t_i &= t_j t_i t_j, && \text{für $|i-j| = 2$},
+        t_i t_j &= t_j t_i && \text{ für $|i-j| \ge 2$}, \\
+        t_it_j t_i &= t_j t_i t_j && \text{ für $|i-j| = 2$}, \\
         t_i^2 &= 1.
     \end{aligned}} \\
     (S_n)_{\text{ab}} &\isomorphic \Z / 2.
