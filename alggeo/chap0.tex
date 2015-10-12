@@ -1,0 +1,152 @@
+%Für $f \in \C[x]$ ist $f = c(x-z_1)\dotsb(x-z_n)$ bis auf $c\in \C^*$ durch die Nullstellen $z_1, \dotsc, z_n$ eindeutig bestimmt.
+%
+%Für $f_i \in k[x_1, \dotsc, x_n]$ betrachten wir die (affine) algebraische Varietät
+%\begin{math}
+%    Z(f_1, \dotsc, f_n) = \Set{x \in k^n & f_i(x) = 0},
+%\end{math}
+%wobei $f_i: k^n \to k$.
+%
+%Wir nutzen dazu die Methoden der kommutativen Algebra.
+%\begin{ex}
+%    \begin{enumerate}[1.]
+%        \item
+%            Teilbarkeitsrelation durch Ideale
+%        \item
+%            Für $f \in k[x_1, \dotsc, x_n]$ betrachte $T := Z(f) = \Set{x \in k^n & f(x) = 0}$.
+%            Setze
+%            \begin{math}
+%                I(T) = \Set{g \in k[x_1, \dotsc, x_n] & \forall x \in T: g(x) = 0}.
+%            \end{math}
+%            Für $g,h \in I(T)$ ist auch $g + h \in I(T)$.
+%            Für $p \in k[x_1, \dotsc, x_n]$ und $g \in I(T)$ ist $pg \in I(T)$.
+%            $I(T)$ bildet ein Ideal.
+%    \end{enumerate}
+%\end{ex}
+%
+
+\chapter{Ringe und Ideale}
+
+\Timestamp{2015-10-22}
+
+\begin{df}
+    $\frak a \in A$ ist ein \emphdef{Ideal}, genau dann, wenn
+    \begin{enumerate}[i)]
+        \item
+            $a, b \in \frak a \implies a + b \in \frak a$,
+        \item
+            $x \in A, x \in \frak a \implies x a \in \frak a$.
+    \end{enumerate}
+    Insbesondere definiert die Multiplikation auf $A$ eine Abbildung $\argdot: A \times \frak a \to \frak a$.
+    \begin{note}
+        Ist $B \subset A$ Unterring, so haben wir $\argdot: B \times B \to B$, aber nicht $\argdot: A \times B \to B$.
+    \end{note}
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $(0) = \Set{0} \subset A$.
+        \item
+            $\frak a = A$,
+        \item
+            Für $a \in A$ ist
+            \begin{math}
+                (a) = \Set{x a & x \in A},
+            \end{math}
+            das von $a$ erzeugte Ideal.
+    \end{itemize}
+\end{ex}
+
+\begin{df}
+    $\frak m \neq A$ heißt \emphdef{maximal}, wenn
+    \begin{math}
+        \forall \frak a \subset A: \frak m \subset \frak a \implies \frak m = \frak a \lor \frak a = A.
+    \end{math}
+    $\frak p \subsetneq A$ heißt \emphdef{prim}, wenn
+    \begin{math}
+        ab \in \frak p \implies a \in \frak p \lor b \in \frak p.
+    \end{math}
+\end{df}
+
+\begin{ex}
+    Sei $k$ ein Körper, $A := k[x_1, \dotsc, x_n]$.
+    \begin{enumerate}[i)]
+        \item
+            Für $A = \Z$ sind die Primideale genau
+            \begin{math}
+                \Set{(p) & p \text{ prim}}
+            \end{math}
+        \item
+            Ist $f \in A$ irreduzibel, dann ist $(f)$ ein Primideal.
+        \item
+            Jedes maximale Ideal $\frak p$ ist prim.
+            Ist $A$ ein Hauptidealring (z.B. $\Z$, oder $k[x]$), dann gilt auch die Umkehrung falls $\frak p \neq 0$.
+    \end{enumerate}
+\end{ex}
+
+\begin{st}
+    \begin{enumerate}[i)]
+        \item
+            $\frak p \subset A$ ist prim genau dann, wenn $A / \frak p$ nullteilerfrei
+        \item
+            $\frak m \subset A$ ist maximal genau dann, wenn $A / \frak m$ ein Körper ist.
+    \end{enumerate}
+\end{st}
+
+\begin{nt}
+    Das Zornsche Lemma liefert: Maximale Ideale existieren in jedem Ring.
+    
+    Genauso: Ist $f \in A$ eine \emphdef{multiplikative Menge} (d.h. $1 \in S$, $a,b \in S \implies ab \in S$) so gilt:
+    Aus $\frak a \in A \ S$ Ideal folgt $\exists \frak p$ Ideal mit $\frak a \subset \frak p$ und $\frak p$ ist prim).
+\end{nt}
+
+\begin{nt}
+    \begin{math}
+        k[x_1, \dotsc, x_n] = \Set{\sum_{\text{endl}} b_{i_1, \dotsc, i_n} x_i^{i_1} \dotsb x_n^{i_n}, n \in \N, b_{i_1, \dotsc, i_n} \in k},
+    \end{math}
+    Polynome in $n$ Unbekannten vs. polynomielle Funktion in $n$ Unbekannten.
+    Eine Unterscheidung ist wichtig, betrachte z.B. $x^2 + x \in \Z_2[x]$.
+    Falls $k$ unendlich viele Elemente hat, so sind beide Begriffe gleichwertig, insbesondere wenn $k$ algebraisch abgeschlossen ist.
+\end{nt}
+
+\begin{ex}
+    Für $a \in k^n$ betrachte die Evaluation in $a$ $\ev_a: k[x_1, \dotsc, x_n] \ni f \mapsto f(a) \in k$.
+
+    Für einen Ring-Morphismus $f: A \to B$ gilt $\im f \isomorphic A / \ker f$.
+    $\ker f \subset A$ ist stets ein Ideal, $\im f \subset B$ ist nur ein Unterring von $B$.
+
+    Hier $\im \ev_a = k = k[x_1, \dotsc, x_n] / \ker \ev_a$.
+    $\ker \ev_a = \frak m$ ist maximal.
+
+    Wir behaupten, dass $\frak m = (x_1 - a_1, \dotsc, x_n - a_n) \subset k[x_1, \dotsc, x_n]$.
+    \begin{proof}
+        \begin{segnb}{$\supset$}
+            $f_i(x_1, \dotsc, x_n) = x_i - a_i$, also $f_i(a_1, \dotsc, a_n) = f_i(a) = (x_i - a_i)(a_i) = 0$.
+        \end{segnb}
+        \begin{segnb}{$\subset$}
+            Sei $(a_1, \dotsc, a_n) = (0, \dotsc, 0)$ (sonst betrachte $y_i = x_i - a_i$).
+            Sei $f \in \ker \ev_a$, $f = \sum a_{i_1, \dotsc i_n} x_1^{i_1} \dotsb x_n^{i_n} = x_1 g(x_1, \dotsc, x_n) + f_2(x_2, \dotsc, x_n)$ dann ist
+            \begin{math}
+                0 = f(a) = \underbrace{a_1}_{=0} g_1(a_1, \dotsc, a_n) + f_2(a_2, \dotsc, a_n),
+            \end{math}
+            also $f_2(a_2, \dotsc, a_n) = 0$.
+            Induktiv folgt
+            \begin{math}
+                f(x) = x_1 g_1 + \dotsb + x_n g_n \in (x_1, \dotsc, x_n),
+            \end{math}
+            also $\ker \ev_0 \subset (x_1, \dotsc, x_n)$.
+        \end{segnb}
+    \end{proof}
+
+    Demnach ist
+    \begin{math}
+        I(\Set{a}) &:= \Set{ f \in k[x_1, \dotsc, x_n] & f(a) = 0 } \\
+        &= \ker \ev_a = (x_1 - a_1, \dotsc, x_n - a_n)
+    \end{math}
+    maximales Ideal.
+
+    Hilberts Nullstellensatz besagt: Jedes maximale Ideal in $k[x_1, \dotsc, x_n]$ ist von dieser Form.
+    Insbesondere: Punkte in $k^n$ entsprechen maximalen Idealen in $k[x_1, \dotsc, x_n]$.
+\end{ex}
+
+
