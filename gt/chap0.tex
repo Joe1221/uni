@@ -1,0 +1,130 @@
+\chapter{???}
+
+\Timestamp{2015-10-12}
+
+Wir betrachten im Folgenden ungerichtete Graphen $G(V, E)$ mit Knoten $V$ und Kanten $E \subset \binom{V}{2}$.
+Soweit nicht anders vermerkt, sind unsere Graphen einfach, d.h. besitzen keine mehrfache Kanten oder Schleifen.
+In vielen Fällen (wie auch im Folgenden) stellt dies keine nennenswerte Einschränkung dar.
+
+\begin{df}
+    Der Grad eines Knotens ist
+    \begin{math}
+        d(x) = |\Set{y & xy \in E}|
+    \end{math}
+\end{df}
+
+\begin{df}
+    Ein \emphdef{Eulerkreis} ist ein Rundweg, der alle Kanten genau einmal durchläuft.
+    Ein Eulerpfad von $a$ nach $b$ mit $a,b \in V$ ist ein Pfad von $a$ nach $b$, der alle Kanten genau einmal durchläuft.
+\end{df}
+
+\begin{ex}
+    Haus vom Nikolaus
+\end{ex}
+
+\begin{df}
+    Ein Graph $G = (V, E)$ ist zusammenhängend, wenn für $a,b \in V$ ein Pfad von $a$ nach $b$ existiert.
+\end{df}
+
+
+\begin{st}
+    Sei $G = (V, E)$ zusammenhängend.
+    Es gibt einen Eulerkreis in $G$ genau dann, wenn $\forall x \in V: d(x) \equiv 0 \bmod 2$.
+    \begin{proof}
+        Wähle ein $a \in V$ und start einen möglichst langen Pfad von $a$ nach $a$.
+        Angenommen dies ist kein Eulerkreis, dann wurde eine ausgehende Kante von einem Knoten $b$ auf dem Pfad wurde nicht besucht.
+        Von $b$ kann ein neuer Pfad gestartet werden.
+        Kombiniert man beide, erhält man einen längeren Weg, also war der erste Pfad bereits ein Eulerkreis.
+
+        Die andere Richtung ist trivial.
+    \end{proof}
+\end{st}
+
+\begin{df}
+    Ein Graph $G$ heißt \emphdef{plättbar}, wenn sich $G$ kreuzungsfrei in die Ebene zeichnen lässt.
+    $G$ heißt \emphdef{planar}, falls er kreuzungsfrei in der Ebene eingebettet ist.
+\end{df}
+
+\begin{note}
+    Zwei eingebettete Graphen können zwar abstrakt isomorph sein, jedoch nicht isotop zueinander.
+\end{note}
+
+\begin{st}[Eulerformel für planare Graphen]
+    Sei $G(V, E)$ ein planarer Graph mit $z \in \N$ Zusammenhangskomponenten, $n := |V|$, $e := |E|$ und $f$ die Anzahl der Facetten.
+    Dann gilt
+    \begin{math}
+        n - e + f = 1 + z.
+    \end{math}
+    \begin{proof}
+        Für $e = 0$ ist $f = 1$ und die Aussage klar.
+        Nehme eine Kante $xy$ hinzu und unterscheide folgende Fälle:
+        \begin{enumerate}[1.]
+            \item
+                $xy$ verbindet 2 Kompontenten.
+                In diesem Fall folgt $e \leadsto e + 1$, $f \leadsto f$ und $z \leadsto z - 1$.
+            \item
+                $xy$ verbindet $x$ und $y$ aus der selben Komponente.
+                Wegen Planarität folgt $e \leadsto e + 1$, $f \leadsto f + 1$ und $z \leadsto z$.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    Für einen planaren, zusammenhängenden Graphen, dessen Facetten aus Polygonen mit mindestens $k$ Ecken bestehen, gilt
+    \begin{math}
+        (k - 2) e \le k(n - 2).
+    \end{math}
+    Insbesondere gilt für planare zusammenhängende Graphen
+    \begin{enumerate}[i)]
+        \item
+            allgemein mit $k = 3$: $e \le 3n - 6$,
+        \item
+            für bipartite Graphen mit $k = 4$: $e \le 2n - 2$.
+    \end{enumerate}
+    \begin{proof}
+        Aus einem Abzählargument erhalten wir $kf \le 2e$.
+        Es folgt aus der Eulerformel
+        \begin{math}
+            2k = kn - ke + kf &\le kn - (k - 2)e
+            \iff (k - 2)e &\le k(n - 2).
+        \end{math}
+    \end{proof}
+\end{kor}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $K_5$ ist nicht planar, denn
+            \begin{math}
+                10 \not\le 9 = 3\cdot 5 - 6.
+            \end{math}
+        \item
+            $K_{3,3}$ ist nicht planar.
+            $K_{3,3}$ erfüllt zwar
+            \begin{math}
+                9 \le 12 = 3 \cdot 6 - 6,
+            \end{math}
+            aber nicht
+            \begin{math}
+                9 \not\le 8 = 2 \cdot 4 - 4.
+            \end{math}
+    \end{itemize}
+\end{ex}
+
+\begin{st}
+    Es existieren genau $5$ platonische Körper.
+\end{st}
+
+\begin{df}
+    Ein \emphdef{Hamiltonkreis} in $G(V, E)$ ist ein Rundweg, der alle Knoten genau einmal besucht.
+    \begin{note}
+        Siehe auch das Traveling-Salesman-Problem.
+    \end{note}
+\end{df}
+
+\begin{st}
+    Falls es Knoten $x, y \in V$ mit $xy \not\in E$, aber $d(x) + d(y) \ge |V|$, dann gibt es einen Hamiltonkreis.
+\end{st}
+
+
+
