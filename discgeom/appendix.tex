@@ -1,0 +1,131 @@
+\Timestamp{2015-07-22}
+
+\section{Orientierung}
+
+\begin{df}
+    Ein \emphdef{orientierter} endlich-dimensionaler Vektorraum ist ein Vektorraum zusammen mit einer geordneten Basis $b_1, \dotsc, b_n$.
+
+    Eine \emphdef{Orientierung} ist die Wahl einer solchen geodneten Basis bis auf Basistransformationen mit positiver Determinante (insbesondere auch gerade Permutationen der Basis).
+\end{df}
+
+\begin{note}
+    \begin{itemize}
+        \item
+            Also gibt es genau zwei Orientierungen.
+        \item
+            Komplexe Vektorräume sind als reelle Vektorräume bereits orientiert, denn durch den kanonischen Isomorphismus $\C \isomorphic \R^2$ ist jede komplexe Basistransformation eine orientierungserhaltende im reellen.
+        \item
+            Im $\R^2$:
+            \begin{math}
+                \Vektor{1 & 0},
+                \Vektor{0 & 1}
+            \end{math}
+            in einem gewöhnlichen kartesischen Koordinatensystem wird \emphdef{positiv orientiert} genannt.
+        \item
+            $\R^1$ besitzt zwei Orientierungen, dies hat bei der gewöhnlichen Integration zur Folge
+            \begin{math}
+                \int_a^b f(x) \di[x] = - \int_b^a f(x) \di[x].
+            \end{math}
+            Die Notation $\int_{[a,b]} f$ unterschlägt die Orientierung von $[a,b]$, implizit wird hier eine positive Orientierung angenommen.
+        \item
+            Im $\R^3$: Drei-Finger-Regel.
+
+            Man unterscheidet zwischen „positiven und negativen Volumina“.
+        \item
+            Die Determinante ist ein Volumen mit Vorzeichen.
+            Im $\R^2$ ist $\det(\vec a, \vec b)$ die Fläche eines Parallelograms mit Vorzeichen, es gilt z.B.
+            \begin{math}
+                \det(a, b) + \det(a, -b) = \det(a, b-b) = 0
+            \end{math}
+    \end{itemize}
+\end{note}
+
+
+\subsection{Alternierende Differentialformen}
+
+
+Im $\R^2$: $\dx[x] \wedge \dx[y] = -\dx[y] \wedge \dx[x]$.
+\begin{math}
+    \int_A f(x,y) \dx[x] \wedge \dx[y]
+    = - \int_A f(x,y) \dx[y] \wedge \dx[x]
+\end{math}
+
+Flächenelement: $\di[A] = \dx[u^1] \wedge \dx[u^2] =  \sqrt{\det{g_{ij}}}$, wobei $g_{ij}$ erste Fundamentalform der durch $(u^1, u^2)$ parametrisierten Fläche.
+
+\begin{df}
+    Eine \emphdef{Determinantenform} oder \emphdef{Determinantenfunktion} $\Phi$ ist eine nichtverschwindende alternierende Multilinearform $n$-Form $\Phi(b_1, \dotsc, b_n) \in \R$.
+    \begin{math}
+        \Phi(A b_1, \dotsc, A b_n)
+        = \det A \Phi(b_1, \dotsc, b_n).
+    \end{math}
+    für $A : \R^n \to \R^n$ linear.
+\end{df}
+
+$\det A$ stellt die Volumenverzerrung durch $A$ mit Vorzeichen dar.
+
+\begin{df}
+    Ein orientiertes $k$-dimensionales Simplex $\<v_0, \dotsc, v_k\>$ ist gegeben durch $k + 1$ Punkte im $\R^k$ in allgemeiner Lage mit einer festen Reihenfolge (bis auf gerade Permutationen).
+
+    Für eine Permutation $\sigma$ schreiben wir
+    \begin{math}
+        \<v_{\sigma(0)}, \dotsc, v_{\sigma(k)}\> = \sgn(\sigma) \<v_0, \dotsc, v_k\>.
+    \end{math}
+    Insebsondere gibt es genau zwei Orientierungen.
+\end{df}
+
+\begin{note}
+    Auf diese Weise können ganzzahlige Linearkombinationen von Simplizes betrachtet werden (sogenannte $k$-Ketten, siehe algebraische Topologie).
+\end{note}
+
+Der \emphdef{kombinatorische orientierte Rand} ist gegeben durch die formale Summe
+\begin{math}
+    \Boundary \<v_0, \dotsc, k\>
+    := \sum_{i=0}^k (-1)^i \<v_0, \dotsc, v_{i-1}, \hat v_i, v_{i+1}, \dotsc, v_k\>
+\end{math}
+Notation: $\hat v_i$: $v_i$ weglassen.
+
+\begin{lem}
+    $\Boundary \circ \Boundary = 0$ (als formale Null-Linearkombination)
+    \begin{proof}
+        Es gilt, da $\Boundary$ linear
+        \begin{math}
+            \Boundary \sum_{i=0}^k (-1)^k \<v_0, \dotsc, \hat v_i, \dotsc, v_k\>
+            &= \sum_{i=0}^k (-1)^k \Boundary \<v_0, \dotsc, \hat v_i, \dotsc, v_k\> \\
+            &= \sum_{i=0}^k (-1)^i \Big( \sum_{j<i} (-1)^j \<v_0, \dotsc, \hat v_j, \dotsc, \hat v_i, \dotsc, k\> + \sum_{j > i} (-1)^{j-1} \<v_0, \dotsc, \hat v_i, \dotsc, \hat v_j, \dotsc, v_k\> \Big) \\
+            &= \sum_{i \neq j} \dotso
+            = 0
+        \end{math}
+    \end{proof}
+\end{lem}
+
+\begin{note}
+    \begin{itemize}
+        \item
+            Definition der kombinatorischen Orientierbarkeit von triangulierten Mannigfaltigkeiten als „kohärente Orientierung“ aller höchstdimensionalen Simplizes.
+        \item
+            Integration über orientierte, glatte Simplizes in diffenzierbaren Mannigfaltigkeiten (bzw. über Ketten).
+            $\sigma: \Delta_{\text{or}}^k \to M^n$ differenzierbar von maximalem Rang:
+            \begin{math}
+                \int_\sigma“ w_k := \int_{\Delta^k} \sigma^*(w_k),
+            \end{math}
+            wobei $\sigma^*(\dx[x] \wedge \dx[y])(X,Y) = \dx[x] \wedge \dx[y](D\sigma(X), D\sigma(Y))$.
+        \item
+            Integration über $k$-dimensionale glatte Ketten $\sum_i \sigma_i$ von orientierten Simplizes in $M^n$, $\omega$ eine alternierende $k$-Form, dann ist
+            \begin{math}
+                \int_{\sum \sigma_i} \omega := \sum_i \int_{\sigma_i} \omega.
+            \end{math}
+        \item
+            Satz von Stokes:
+            \begin{math}
+                \int_A \di[\omega] = \int_{\Boundary A} \omega,
+            \end{math}
+            wenn $A$ eine $k$-Mannigfaltigkeit mit Rand ist ($k$-Kette), orientiert und $\omega$ eine $(k-1)$-Form.
+        \item
+            \begin{math}
+                \int_A \dx (\omega + \dx[\eta])
+                &= \int_{\Boundary A} (\omega + \dx[\eta])
+                = \int_A \dx[\omega] \\
+                \int_{A + \Boundary B} \dx[\omega] = \int_{\Boundary A + 0} \omega = \int_A \dx[\omega].
+            \end{math}
+    \end{itemize}
+\end{note}
