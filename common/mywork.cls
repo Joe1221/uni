@@ -3,7 +3,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{mywork}
 
-\LoadClass{scrartcl}
+\LoadClass[fontsize=10]{scrartcl}
 
 %==================================
 % Options
