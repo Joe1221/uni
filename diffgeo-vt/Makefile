@@ -1,3 +1,3 @@
-TARGET = course
+TARGET = vorlesung
 
 include ../common/tex.mk

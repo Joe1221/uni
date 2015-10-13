@@ -570,6 +570,8 @@
 \renewtheorem*{alg*}{Algorithmus}
 \newtheorem{conj}[thm]{Vermutung}
 \renewtheorem*{conj*}{Vermutung}
+\newtheorem{prob}[thm]{Problem}
+\renewtheorem*{prob*}{Problem}
 
 \newtheorem{nt}[thm]{Bemerkung}
 \renewtheorem*{nt*}{Bemerkung}
