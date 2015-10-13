@@ -145,8 +145,169 @@
     \end{math}
     maximales Ideal.
 
-    Hilberts Nullstellensatz besagt: Jedes maximale Ideal in $k[x_1, \dotsc, x_n]$ ist von dieser Form.
-    Insbesondere: Punkte in $k^n$ entsprechen maximalen Idealen in $k[x_1, \dotsc, x_n]$.
+    \begin{note}
+        Hilberts Nullstellensatz besagt: Für algebraisch abgeschlossenes $k$ gilt: jedes maximale Ideal in $k[x_1, \dotsc, x_n]$ ist von dieser Form.
+        Es ergibt sich eine geometrische Korrespondenz: Punkte in $k^n$ entsprechen maximalen Idealen in $k[x_1, \dotsc, x_n]$.
+    \end{note}
+\end{ex}
+
+\Timestamp{2015-10-13}
+
+Sei $A = k[x_1, \dotsc, x_n]$, $X \subset k^n$.
+\begin{math}
+    I(X) = \Set{f \in k[x_1, \dotsc, x_n] & \forall x \in X : f(x) = 0}
+\end{math}
+ist ein Ideal.
+
+Später behandeln wir als Analogon zu Körpererweiterungen auch Ringerweiterungen.
+
+\begin{df}
+    $k \subset K$ heißt \emphdef[Körpererweiterung!endlich]{endliche} Körpererweiterung, wennn $\dim_k K < \infty$ ($K$ als $k$-Vektorraum betrachtet).
+
+    $k \subset K$ heißt \emphdef[Körpererweiterung!algebraisch]{algebraische} Körpererweiterung, wenn $\forall \alpha \in K \exists f \in k[x]: f(\alpha) = 0$.
+\end{df}
+
+\begin{ex}
+    \begin{enumerate}[i)]
+        \item
+            $\R \subset \C$ ist endlich und algebraisch,
+        \item
+            $k \subset \_k$ ist algebraisch
+    \end{enumerate}
+\end{ex}
+
+\begin{nt}
+    Eine endliche Körpererweiterung ist eine algebraische Körpererweiterung.
+    \begin{proof}
+        Sei $\alpha \in K \setminus k$, dann existiert ein minimales $n \in \N$ mit
+        \begin{math}
+            \Set{1, \alpha, \dotsc, \alpha^{n-1}, \alpha^n} \subset K
+        \end{math}
+        linear abhängig über $k$.
+        Es existiert also eine Darstellung
+        \begin{math}
+            \alpha^n =  \sum_{i=0}^{n-1} x_i \lambda^i
+        \end{math}
+        und dammit $f(\alpha) = 0$ mit $f := x^n + \sum_{i=0}^{n-1} \lambda_i x^i$.
+    \end{proof}
+\end{nt}
+
+\begin{df}
+    Sei $k[\alpha]$ der Ring, der von $k$ und $\alpha$ in $k$ erzeugt wird, d.h.
+    \begin{math}
+        k[\alpha] = \Set{ \sum_{i=0}^m \mu_i \alpha^i & m \in \N, \mu_i \in k } \subset K
+    \end{math}
+    In $k[\alpha]$ gilt $f(\alpha) = \alpha^n + \sum \lambda_i \alpha^i = 0$.
+\end{df}
+
+\begin{nt}
+    $k[\alpha]$ ist ein Körper.
+    \begin{proof}
+        Betrachte $\ev_a: k[x] \to k[\alpha]$, $g \mapsto g(\alpha)$.
+        $\ev_\alpha$ ist surjektiv, also ist $k[x] / \ker \ev_\alpha \isomorphic \im \ev_\alpha = k[\alpha]$.
+        $\ker \ev_\alpha$ ist eine Ideal und $k[x]$ ist euklidischer Ring, insbesondere ist $k[x]$ ein Hauptidealring.
+        Es folgt $\ker \ev_\alpha = (p)$ und $\ker \ev_a$ Primideal.
+        In Hauptidealen sind Primideale ungleich 0 maximale Ideale.
+        $\ker \ev_\alpha$ ist also maximales Ideal  und $k[x] / \ker \ev_\alpha \isomorphic k[\alpha] = k(\alpha)$ ein Körper.
+        ($k(x) = \Quot k[x]$).
+    \end{proof}
+    \begin{note}
+        \begin{enumerate}[i)]
+            \item
+                Sei $(p)$ ein Primideal, also $p$ ein irreduzibles Polynom, o.E. normiert, d.h.
+                \begin{math}
+                    p(x) = x^d + \sum_{i=0}^{d-1} \lambda_i x^i
+                \end{math}
+                Minimalpolyonm von $\alpha$.
+                Insbesondere $p(\alpha) = \alpha^d + \sum \lambda_i \alpha^i = 0$ und $d = \dim_k k(\alpha)$.
+            \item
+                Die Umkehrung ist falsch!
+                Betrachte $\Q \subset \Q(\sqrt[n]{3}) \subset \_\Q$.
+                Minimalpolynom $p = x^n - 3 \in \Q[x]$ ist irreduzibel nach Eisenstein.
+        \end{enumerate}
+    \end{note}
+\end{nt}
+
+\begin{ex}[Übung]
+    Betrachte $k \subset K$ algebraische Körpererweiterung, $a \in K^n$.
+    Zeigen Sie, dass $\ker \ev_aa = (x_1 - a_1, \dotsc, x_n - a_n) \cap k[x_1, \dotsc, x_n]$ (Schnitt in $K[x_1, \dotsc, x_n]$.
 \end{ex}
 
 
+\section{Lokale Ringe}
+
+
+\begin{df}
+    $A$ heißt \emphdef{lokal}, wenn er genau ein maximales Ideal $\frk m$ enthält.
+\end{df}
+
+\begin{ex}
+    Körper $(k, (0))$
+\end{ex}
+
+\begin{st}
+    Für einen Ring $A$ sind äquivalent
+    \begin{enumerate}[i)]
+        \item
+            $A$ ist lokaler Ring mit maximalem Ideal $\frk m$.
+        \item
+            Alle Nicht-Einheiten bilden ein Ideal $\frk m$.
+        \item
+            Es existiert ein Ideal $\frk m \neq A$, sodass aus $x \in A \setminus \frk m$ folgt, dass $x$ eine Einheit ist.
+        \item
+            Es existiert ein maximales Ideal $\frk m \subset A$ mit $1 + \frk m = \Set{1 + x & x \in \frk m} \subset A^*$.
+    \end{enumerate}
+    \begin{proof}
+        \begin{seg}{\ProofImplication)[1][2]}
+            Sei $(A, \frk m)$ lokal, dann ist $A = A^* \sqcup \frk m$ disjunkte Zerlegung.
+            $\frk m$ ist also die Menge der Nichteinheiten und ein Ideal.
+        \end{seg}
+        \begin{seg}{\ProofImplication)[2][1]}
+            Sei $\frk a$ ein maximales Ideal, dann ist $\frk a \subset A \setminus A^* = \frk m$ (sonst $\frk a = A$).
+            $\frk m$ ist maximal.
+            Wäre $\tilde{\frk m}$ ein weiteres maximales Ideal, dann $\tilde{\frk m} \subset A \setminus A^* = \frk m$, d.h. $\tilde{\frk m} \subset \frk m$, also $\tilde{\frk m} = \frk m$ nach Maximalität.
+            Also ist $(A, \frk m)$ lokal.
+        \end{seg}
+        \begin{seg}{\ProofImplication)[2][3], \ProofImplication)[3][2]}
+            Reformulierung.
+        \end{seg}
+        \begin{seg}{\ProofImplication)[1][4]}
+            Sei $(A, \frk m)$ lokal, d.h. $A = A^* \sqcup \frk m$.
+            Also $1 + \frk m \subset A^*$, denn $(1 + \frk m) \cap \frk m = \emptyset$ (sonst $1 \in \frk m$).
+        \end{seg}
+        \begin{seg}{\ProofImplication)[4][3]}
+            Sei $x \in A \setminus \frk m$ wie in (iv).
+            $\frk m$ ist maximal, also ist das von $\frk m$ und $x$ erzeugte Ideal $(\frk m, x) = A$.
+            Folglich existiert $y \in A$ und $m \in \frk m$ mit $A \ni 1 = m + xy$ und $yx = 1 + (-m)$ mit $-m \in \frk m$.
+            Gemäß Voraussetzung ist $yx \in A^*$, also $x \in A^*$.
+        \end{seg}
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    \begin{enumerate}[i)]
+        \item
+            Angenommen, wir fragen nach Teilbarkeit durch $p \in \Z$ prim.
+            $5 \divs n$ in $\Z$ genau dann wenn $5 \divs n$ in $\Z[\frac 12, \frac 13, \frac 17] = A$.
+            $A$ ist ein Ring in $\Q$, der durch $\Z$ und $\frac{1}{2}, \frac{1}{3}, \frac{1}{7}$ erzeugt wird.
+
+            Besser
+            \begin{math}
+                \Z_{(5)} = \Set{\frac{p}{q} \in \Q & 5 \ndivs q} \subset \Q.
+            \end{math}
+            Dann ist $5 \ndivs n$ in $\Z$ genau dann, wennn $\frac{n}{m} \in \Z_{(5)}$ ist eine Einheit.
+        \item
+            Die Nichteinheiten in $\Z_{(5)}$ sind $5\Z_{(5)} = \Set{5 \frac{p}{q} & \frac{p}{q} \in \Z_{(5)}}$, ein Ideal.
+            $(\Z_{(5)}, 5\Z_{(5)})$ ist lokaler Ring.
+        \item
+            $k[x]$ an Stelle von $\Z$, $x \in k[x]$ irreduzibel.
+            \begin{math}
+                k[x]_{(x)} &= \Set{\frac{f}{g} \in k(x) &  x \ndivs g} \\
+                &= \Set{\frac{f}{g} \in k(x) & g(0) \neq 0}.
+            \end{math}
+            Mit
+            \begin{math}
+                \frk m = \Set{ \frac{f}{g} \in k(x) & f(0) = 0}.
+            \end{math}
+    \end{enumerate}
+\end{ex}
