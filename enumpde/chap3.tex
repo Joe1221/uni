@@ -157,7 +157,7 @@
 	\begin{proof}[für $p=2$, allgemeiner in Alt, 1.15]
 		Sei $(v_n)_{n\in\N}$ Cauchyfolge in $H^m(\Omega)$.
 		Dann ist insbesondere $(\partial^\beta v_n)_{n\in\N}$ Cauchyfolge in $L^2(\Omega)$.
-		Wegen Vollständigkeit von $L^2(\Omega)$ existiert $v^\beta \in L^2(\Omega)$ mit $\|\partial^\beta v_n - v^\beta\|_{L^\beta(\Omega)} \to 0$ für $n \to \infty$.
+		Wegen Vollständigkeit von $L^2(\Omega)$ existiert $v^\beta \in L^2(\Omega)$ mit $\|\partial^\beta v_n - v^\beta\|_{L^2(\Omega)} \to 0$ für $n \to \infty$.
 		Für eine Testfunktion $\phi \in C_0^\infty(\Omega)$ und alle $\beta \in \N_0^d$ gilt mit Cauchy-Schwartz
 		\begin{align*}
 			\<\partial^\beta v_n - v^\beta, \phi\>_{L^2(\Omega)}
@@ -233,7 +233,7 @@
 		\item
 			$\partial \Omega \subset \bigcup_{i=1}^n U_i$,
 		\item
-			$\Boundary \Omega \cap U_i$ lassen sich als Graphen Lipschitz-stetiger Funktionen schreiben,
+			alle $\Boundary \Omega \cap U_i$ lassen sich (in geeigneten Richtungen) als Graphen Lipschitz-stetiger Funktionen schreiben,
 		\item
 			$\Omega$ liegt auf einer Seite des Graphen.
 	\end{enumerate}
@@ -288,7 +288,7 @@
 \begin{note}[Stetigkeit für $d = 1$]
 	\begin{itemize}
 		\item
-			Für $\Omega \subset \R$ ist $u \in H^1{\Omega}$ stetig (d.h. es existiert ein stetiger Repräsentant in der Äquivalenzklasse von $u$).
+			Für $\Omega \subset \R$ ist $u \in H^1(\Omega)$ stetig (d.h. es existiert ein stetiger Repräsentant in der Äquivalenzklasse von $u$).
 		\item
 			Für $d > 1$ ist dies falsch: $H^1(\Omega)$ für $\Omega \subset \R^d$ enthält Funktionen mit Punktsingularitäten, z.b.
 			\begin{align*}
@@ -421,7 +421,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \end{df}
 
 \begin{df}[stetige Bilinearform] \label{3.16}
-	Eine Bilinearform $a \in V \times W \to \R$ heißt \emphdef{stetig} mit \emphdef{Stetigkeitskonstante} $\gamma \in \R$, wenn
+	Eine Bilinearform $a: V \times W \to \R$ heißt \emphdef{stetig} mit \emphdef{Stetigkeitskonstante} $\gamma \in \R$, wenn
 	\[
 		\gamma = \sup_{v \in V\setminus \Set 0} \sup_{w \in W \setminus \Set 0} \f{a(v,w)}{\|v\|\|w\|} < \infty.
 	\]
@@ -534,7 +534,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \begin{df}[Bilinearform/Linearform für PDEs zweiter Ordnung] \label{3.21}
 	Sei $\Omega \subset \R^d$ beschränkt und das Null-RWP für eine PDE zweiter Ordnung gegeben, d.h.
 	\begin{math}
-		-\Nabla (A \Nabla u) + \Nabla (b \cdot u) + c u &= f && \text{in $\Omega$}, \\
+		-\Nabla \cdot (A \Nabla u) + \Nabla \cdot (b u) + c u &= f && \text{in $\Omega$}, \\
 		u &= 0 && \text{auf $\Gamma$},
 	\end{math}
 	wobei $A = (a_{ij})_{ij=1}^d \in (L^\infty(\Omega))^{d\times d}, b = (b_i)_{i=1}^d \in (L^\infty(\Omega))^d, c \in L^\infty(\Omega), f \in L^2(\Omega)$.
@@ -551,7 +551,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \begin{st}[Stetigkeit und Koerzivität, $b=0$, $c = 0$] \label{3.22}
 	Sei $b = 0, c = 0$, $A$ gleichmäßig elliptisch, d.h. für ein $\tilde \alpha > 0$ gilt $z^T A(x) z \ge \tilde \alpha \|z\|^2$ für alle $x \in \Omega, z \in \R^d$ und $A$ gleichmäßig beschränkt, d.h. für $C > 0$ (und beliebiger Matrixnorm) gilt $\|A(x)\| \le C$ für alle $x \in \Omega$.
 
-	Dann ist die Bilinearform aus \ref{3.21} stetig auf $H^1(\Omega)$ und koerziv auf $H_0^1(\Omega)$.
+	Dann ist die Bilinearform $a(\argdot, \argdot)$ aus \ref{3.21} stetig auf $H^1(\Omega)$ und koerziv auf $H_0^1(\Omega)$.
 	\begin{proof}
 		\begin{math}
 			a(u,v)
@@ -623,7 +623,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 		\item
 			$l(\argdot)$ aus \eqref{eq:3.4} ist offensichtlich linear, $l: H^1 \to \R$.
 		\item
-			Ist $f \in L^2(\Omega)$, dass ist
+			Ist $f \in L^2(\Omega)$, dann ist
 			\[
 				l(v) = \int_\Omega fv \di[x]
 				= \<f, v \>_{L^2}
@@ -632,7 +632,7 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 			\]
 			also ist $l(\argdot)$ stetig auf $H^1$ und $H_0^1(\Omega)$.
 		\item
-			Falls $v \in H_0^1(\Omega)$, sind sogar manche $f \not\in L^2(\Omega)$, solange $l \in H^{-1}(\Omega)$.
+			Falls $v \in H_0^1(\Omega)$, sind sogar manche $f \not\in L^2(\Omega)$ erlaubt, solange $l \in H^{-1}(\Omega)$.
 	\end{itemize}
 \end{note}
 
@@ -726,9 +726,9 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 		Für die $H^1$-Norm folgt dann
 		\begin{align*}
 			\|u\|_{H^1}
-			&\stack{\ref{3.6}}\le (1+s)|u|_{H^1} \\
-			&\stack{\ref{3.7}}= (1+s) \sup_v \f{l(v)}{|v|_{H^1}} \\
-			&\stack{\ref{3.6}}\le \sup_{v} \f{l(v)}{\|v\|_{H^1} \f 1{(1+s)}}
+			&\stack{\eqref{3.6}}\le (1+s)|u|_{H^1} \\
+			&\stack{\eqref{3.7}}= (1+s) \sup_v \f{l(v)}{|v|_{H^1}} \\
+			&\stack{\eqref{3.6}}\le (1+s) \sup_{v} \f{l(v)}{\|v\|_{H^1} \f 1{(1+s)}}
 			= (1+s)^2 \sup_v \f{l(v)}{\|v\|_{H^1}}
 			= \f 1{\alpha} \|l\|_{H^{-1}}.
 		\end{align*}
@@ -748,11 +748,11 @@ Also löst die klassische Lösung die „schwache Form“ der PDE
 \end{note}
 
 \begin{kor}[Stetige Abhängigkeit von Daten] \label{3.27}
-	Für eine PDE in schwacher Form mit $a(\argdot, \argdot)$ bilinear, $l \in V'$, $a(u,v) = l(v)$ für $v \in V$ existiere für alle $l \in V'$ eine eindeutige Lösung $u \in V$ mit Schranke $\|u\| \le \f 1{\alpha} \|l\|_{V'}$.
+	Für eine PDE in schwacher Form mit $a(\argdot, \argdot)$ bilinear, $l \in V'$, $a(u,v) = l(v)$ für $v \in V$ existiere für alle $l \in V'$ eine eindeutige Lösung $u \in V$ mit Schranke $\|u\|_{V} \le \f 1{\alpha} \|l\|_{V'}$.
 
-	Dann ist $u$ stetig von der rechten Seite abhängig, d.h. für $\_u$ zu Daten $\_l \in V'$ gilt
+	Dann ist $u$ stetig von der rechten Seite abhängig, d.h. für jede Lösung $\_u$ zu den Daten $\_l \in V'$ gilt
 	\[
-		\|u-\_u\| \le \f 1{\alpha} \|l - l'\|.
+		\|u-\_u\|_{V} \le \f 1{\alpha} \|l - \_l\|_{V'}.
 	\]
 	\begin{proof}
 		$w := u - \_u$ löst $a(u,v) = l(v) - \_l(v)$.
@@ -896,10 +896,10 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 	\begin{proof}
 		Für glatte Gebiete z.B. in [Alt, 10.17, 10.18].
 	\end{proof}
-	\begin{proof}
+	\begin{note}
 		Verallgemeinerung:
 		Falls $f \in H^{s-2}(\Omega)$, $\Omega$ hat einen $C^s$-Rand, dann ist $u \in H^s(\Omega)$.
-	\end{proof}
+	\end{note}
 \end{st}
 
 \begin{df}[Inf-sup-Stabilität] \label{3.31}
@@ -910,7 +910,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 \end{df}
 
 \begin{st}[Charakterisierung von inf-sup-Stabilität] \label{3.32}
-	Sei $a: V \times W \to \R$ stetige, inf-sup stabile Bilinearform mit inf-sup Konstante $\beta$ und $A: V \to W$ repräsentierender Operator nach \ref{3.19}.
+	Sei $a: V \times W \to \R$ stetige, inf-sup stabile Bilinearform mit inf-sup Konstante $\beta$ und $A: V \to W$ repräsentierender Operator gemäß \ref{3.19}.
 	Dann gilt
 	\begin{enumerate}[i)]
 		\item
@@ -1001,17 +1001,17 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			$\beta$ ist immer die „bessere“ Konstante, da $\beta \ge \alpha$.
 			Es ergeben sich schärfere Beschränktheitsaussagen für schwache Lösungen von PDEs.
 		\item
-			inf-sup-Stabilität übertragt sich nicht auf Teilräume.
-			Dies macht Schwierigkeiten für FEM-Diskretisierungen (siehe Übung).
+			inf-sup-Stabilität überträgt sich nicht auf Teilräume (siehe Übung).
+			Dies macht Schwierigkeiten für FEM-Diskretisierungen.
 	\end{itemize}
 \end{note}
 
 \begin{st} \label{3.34}
-	Sei $a(v,w)$ stetige Bilinearform mit zugehörigem Operator $A: V \to W$ gemäß \ref{3.19}.
+	Sei $a: V \times W \to \R$ stetige Bilinearform mit zugehörigem Operator $A: V \to W$ gemäß \ref{3.19}.
 	Dann sind äquivalent
 	\begin{enumerate}[i)]
 		\item
-			$a(v,w)$ erfüllt $\inf_{v\neq 0} \sup_{w\neq 0} \frac{a(v,w)}{\|v\|\|w\|} \ge \beta$ und $\forall w \in W \setminus \Set 0$ existiert ein $v \in V$ sodass $a(v,w) \neq 0$.
+			$a(v,w)$ erfüllt $\inf_{v\neq 0} \sup_{w\neq 0} \frac{a(v,w)}{\|v\|\|w\|} \ge \beta$ und für alle $w \in W \setminus \Set 0$ existiert ein $v \in V$ sodass $a(v,w) \neq 0$.
 		\item
 			$A$ ist invertierbar mit stetiger Inversen
 			\begin{math}
@@ -1107,7 +1107,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			\end{math}
 			Betrachte
 			\begin{math}
-				u(x) &= \sin(2\pi x) \in L^2(\Omega) \in L^2(\Omega), \\
+				u(x) &= \sin(2\pi x) \in L^2(\Omega), \\
 				\partial_x u(x) &= 2\pi \cos(2\pi x) \in L^2(\Omega), \\
 				u(0) = u(1) &= 0.
 			\end{math}
@@ -1123,7 +1123,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			Knobelaufgabe:
 			Ist $a(\argdot, \argdot)$ inf-sup-stabil auf $H_0^1(\Omega)$?
 		\item
-			Durch geeignete Wahl von Räumen kann obiges $a$ als inf-sup-stabil nachgewiesen werden mit folgendem Hilssatz \ref{3.35}.
+			Durch geeignete Wahl von Räumen kann obiges $a$ als inf-sup-stabil nachgewiesen werden mit folgendem Hilfssatz \ref{3.35}.
 	\end{itemize}
 \end{note}
 
@@ -1158,7 +1158,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 		\begin{math}
 			\|\tilde v\|_{H^1(\Omega)^d}
 			\le (1+s) |\tilde v|_{H^1(\Omega)^d}
-			\le (1+s) C(\Omega) \|q\|_{L^2(\Omega)}^2.
+			\le (1+s) C(\Omega) \|q\|_{L^2(\Omega)}.
 		\end{math}
 		Betrachte
 		\begin{math}
@@ -1175,7 +1175,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 \begin{note}
 	\begin{itemize}
 		\item
-			Die Notation $b, Q, V$ (statt $a, v, w$) ist üblich für das Stokes-Problem
+			Die Notation $b, Q, V$ (statt $a, V, W$) ist üblich für das Stokes-Problem
 		\item
 			Der folgende Satz garantiert Wohlgestelltheit für lineare PDEs mit inf-sup-stabiler Bilinearform.
 	\end{itemize}
@@ -1190,9 +1190,9 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 	für alle $w \in W$ eine eindeutige Lösung $u \in V$ und ist stetig abhängig von den Daten via
 	\begin{math}[numbered] \label{eq:3.14}
 		\|u\|_V
-		\le \frac{1}{\beta}\|L\|_{W'}
+		\le \frac{1}{\beta}\|l\|_{W'}
 	\end{math}
-	für ein $\beta > 0$ unabhängig von $L$ genau dann, wenn eine der folgenden äquivalenten Bedingungen erfüllt ist.
+	für ein $\beta > 0$ unabhängig von $l$ genau dann, wenn eine der folgenden äquivalenten Bedingungen erfüllt ist.
 	\begin{enumerate}[i)]
 		\item
 			$a$ erfüllt $\inf_{v} \sup_{w} \frac{a(v,w)}{\|v\|\|w\|} \ge \beta > 0$ und $\forall w \in W \setminus \Set 0 \exists v \in V: a(v,w) \neq 0$.
@@ -1200,7 +1200,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			$a$ erfüllt $\inf_{w} \sup_{v} \frac{a(v,w)}{\|v\|\|w\|} \ge \beta > 0$ und $\forall v \in V \setminus \Set 0 \exists w \in W: a(v,w) \neq 0$.
 	\end{enumerate}
 	\begin{proof}
-		Es gilt $\<Au,w\> = a(u,w) = l(w) = \<w_l, w\>$ genau dann, wenn $Au = w_l$, wobei $w_l$ der Riesz-Repräsentant von $L$ ist.
+		Es gilt $\<Au,w\> = a(u,w) = l(w) = \<w_l, w\>$ genau dann, wenn $Au = w_l$, wobei $w_l$ der Riesz-Repräsentant von $l$ ist.
 		Wir führen den Beweis mit Hilfe von \ref{3.34}.
 		\begin{seg}{i) $\implies$ \eqref{eq:3.13}, \eqref{eq:3.14}}
 			Mittels \ref{3.34} ist $A$ invertierbar und $\|A^{-1}\| \le \f 1\beta$.
@@ -1209,7 +1209,7 @@ Dies führt auf die sogenannte \emphdef{Regularitätstheorie}.
 			\begin{math}
 				\|u\|_V
 				\le \|A^{-1}w\|
-				\le \|A^{-1}\|_{L(W,V)} \underbrace{\|w_l\|_{W'}}_{\|L\|_{W'}}
+				\le \|A^{-1}\|_{L(W,V)} \underbrace{\|w_l\|_{W}}_{\|l\|_{W'}}
 				\le \frac{1}{\beta}\|L\|_{W'}.
 			\end{math}
 		\end{seg}
@@ -1766,7 +1766,7 @@ Wegen $\dim V_h = \dim W_h$ vereinfacht sich die Charakterisierung von inf-sup-S
 					und somit $\underbar{v}^T A_h \underbar{v} > 0 \iff v \neq 0$.
 				\end{proof}
 			\item
-				Falls $a$ koerziv und symmetrisch, wird $A_h$ auch „Steifigkeitsmatrix“ genannt wegen physikalischer Anschauch im Kontext der linearen Elastizität.
+				Falls $a$ koerziv und symmetrisch, wird $A_h$ auch „Steifigkeitsmatrix“ genannt wegen physikalischer Anschauung im Kontext der linearen Elastizität.
 		\end{itemize}
 	\end{note}
 \end{st}
@@ -2399,7 +2399,7 @@ Bei der Fehleranalyse und Implementierung von FEM werden Operationen häufig auf
 				Dann ist $\deg(p_\beta) = \sum_{l=0}^d \beta_l = k, p_\beta(\lambda) \in \P_k(\R^{d+1})$.
 			\item
 				Sei $\_\beta = \beta$.
-				Dann ist $p_{\beta,l}(\frac{\_\beta_l}{k}) = 1$, also $p_\beta(\frac{\_beta}{k}) = \prod_{l=0}^d 1 = 1$.
+				Dann ist $p_{\beta,l}(\frac{\_\beta_l}{k}) = 1$, also $p_\beta(\frac{\_\beta}{k}) = \prod_{l=0}^d 1 = 1$.
 				Sei $\_\beta \neq \beta$, $|\_\beta| \le k$, dann existiert $l$ mit $\_\beta_l < \beta_l$.
 				Es folgt $p_{\beta, l}(\frac{\_\beta_l}{k}) = 0$, da $\lambda_i - \frac{j}{k} = 0$ für $j = \_\beta_l$, also $p_\beta(\frac{\_\beta}{k}) = 0$.
 		\end{enumerate}
@@ -2429,7 +2429,7 @@ Bei der Fehleranalyse und Implementierung von FEM werden Operationen häufig auf
 
 \begin{df}[Lagrange-Basis, $k \ge 1$] \label{3.71}
 	Sei $\scr T_h$ zulässige Triangulierung mit Lagrange-Punkten $G_k(\scr T_h) = \Set{v_i}_{i=1}^{m_k}$.
-	Dann existieren Funktionen $\phi_i \in \P_k(\scr T_h)$, $i = 1, \dotsc, m_k$ mit $\phi_i(v_j) = \delta_{ij}, i = 1, \dotsc, m_k$.
+	Dann existieren Funktionen $\phi_i \in \P_k(\scr T_h)$, $i = 1, \dotsc, m_k$ mit $\phi_i(v_j) = \delta_{ij}$, $i = 1, \dotsc, m_k$.
 
 	$\Phi := \Set{\phi_1, \dotsc, \phi_{m_k}}$ ist die \emphdef{Lagrange-Basis} oder \emphdef{nodale Basis} von $\P_k(\scr T_h)$.
 
