@@ -56,7 +56,7 @@ Nun können wir topologische Mannigfaltigkeiten definieren.
     er lokal homöomorph zum $\R^n$ ist (d.h. um jeden seiner Punkte existiert eine offene Umgebung, die zum $\R^n$ homöomorph ist).
 \end{df}
 
-\begin{ex}
+\begin{ex*}
     \begin{itemize}
         \item
             $\R^n$ mit der Standard-Topologie ist eine $n$-dimensionale topologische Mannigfaltigkeit.
@@ -73,5 +73,100 @@ Nun können wir topologische Mannigfaltigkeiten definieren.
             Ein topologischer Raum, der bis auf die Zweitabzählbarkeit alle anderen Bedingungen für eine topologische Mannigfaltigkeit erfüllt.
             Betrachte die „lange Gerade“.
     \end{itemize}
-\end{ex}
+\end{ex*}
+
+
+\Timestamp{2015-10-14}
+
+Begrifflichkeiten: Karten, Kartenumgebung.
+Eine Mannigfaltigkeit wird von den Kartenumgebungen vollständig überdeckt.
+Sie ist ein Gebilde, das aus kleinen Stücken des euklidischen Raums $\R^n$ „zusammengeklebt“ ist.
+
+
+% 1.2.
+\section{Differenzierbare Struktur}
+
+Um die Werkzeuge der Analysis einsetzen zu können, benötigen wir den Begriff der Differenzierbarkeit von Abbildungen zwischen Mannigfaltigkeiten.
+
+\begin{df} \label{1.5}
+    Eine Abbildung die eine offene Teilmenge einer topologischen Mannigfaltigkeit homöomorph auf eine offene Teilmenge des $\R^n$ abbildet, wird \emphdef{Karte} der Mannigfaltigkeit genannt.
+    Meist werden Umkehrabbildungen von Karten als (lokale) \emphdef{Parametrisierungen} bezeichnet, manchmal auch Karte.
+\end{df}
+
+Wir wollen Differenzierbarkeit von Abbildungen zwischen Mannigfaltigkeiten definieren.
+Sei $f: M \to \R$ eine reelle Funktion.
+Wann ist $f$ differenzierbar?
+
+Naheliegende Idee (die aber nicht ohne Weiteres funktioniert):
+Da auf $M$ kein Begriff der Differenzierbarkeit definiert ist, untersuche $f$ „in einer Karte“, d.h. für $p \in M$ wähle eine offene Umgebung$V$ von $p$ in $M$ und einen Homöomorphismus $\phi: V \to U$, wobei $U \subset \R^n$.
+Dann erkläre: $f$ ist (bezüglich der Karte $\phi$) differenzierbar im Punkt $p$, wenn
+\begin{math}
+    f \circ \phi^{-1}: U \to \R
+\end{math}
+differenzierbar ist.
+Problem: Das hängt von der gewählten Karte ab.
+In der Tat: Ist $\alpha: U \to U$ ein nicht-differenzierbarer Homöomorphismus, dann ist auch $\psi: \alpha \circ \phi$ eine Karte und $f$ kann bezüglich $\phi$ differenzierbar in $p$ sein und bezüglich $\psi$ nicht.
+
+\begin{df} \label{1.6}
+    Sei $M$ eine topologische Mannigfaltigkeit und seien $\phi_i: V_i \to U_i$, $i = 1, \dotsc 2$ zwei Karten.
+    Dann heißt der Homöomorphismus $\alpha_{12}: \phi_1(V_1 \cap V_2) \to \phi_2(V_1 \cap V_2)$, definiert durch
+    \begin{math}
+        \alpha := \phi_2 \circ \phi_1^{-1}|_{\phi(V_1 \cap V_2)}
+    \end{math}
+    \emphdef{Kartenwechsel} zwischen $\phi_1$ und $\phi_2$.
+    Andere gebräuchliche Begriffe sind \emphdef{Koordinatenwechsel}, \emphdef{Koordinatentransformation}, \emphdef{Parameterwechsel}.
+    \begin{note}
+        Der Name Kartenwechsel kommt daher, dass $\phi_2(x) := \alpha_{12} \circ \phi_1(x)$ für alle $x \in V_1 \cap V_2$ gilt.
+    \end{note}
+    Zwei Karten heißen \emphdef{differenzierbar verträglich}, wenn ihre Kartenwechsel differenzierbar sind.
+
+    Eine Familie von Karten $(\phi_i)_{i\in I}$, $\phi_i: V_i \to U_i$ einer topologischen Mannigfaltigkeit $M$ heißt \emphdef{Atlas} von $M$, falls $\bigcup_{i \in I} V_i = M$.
+    Ein Atlas heißt \emphdef{differenzierbar}, wenn alle Kartenwechsel differenzierbar sind.
+    \begin{note}
+        Sind $\phi$ und $\psi$ Karten aus einem differenzierbaren Atlas, sodass $p \in M$ im Definitionsbereich beider Karten liegt, dann ist $f$ bei $p \in M$ bezüglich $\phi$ genau dann differenzierbar, wenn dies auch bezüglich $\psi$ gilt.
+    \end{note}
+    Ein differenzierbarer Atlas heißt \emphdef{maximal}, wenn jede Karte von $M$, die mit allen Karten in $\scr A$ differenzierbar verträglich ist, bereits in $\scr A$ enthalten ist.
+\end{df}
+
+\begin{st} \label{1.7}
+    Zu jedem differenzierbaren Atlas $\scr A$ einer topologischen Mannigfaltigkeit $M$ gibt es genau einen maximalen Atlas, der diesen enthält.
+    \begin{proof}
+        Sind zwei Karten mit allen Karten aus $\scr A$ differenzierbar verträglich, dann sind sie auch untereinander differenzierbar veträglich:
+        Seien dazu $\phi$ und $\psi$ zwei Karten.
+        Wir können annehmen, dass $\phi$ und $\psi$ den selben Definitionsbereich $V$ haben
+        Es genügt zu zeigen, dass
+        \begin{math}
+            \psi \circ \psi^{-1}: \psi(V) \to \phi(V)
+        \end{math}
+        differenzierbar ist.
+        Sei $u \in \psi(V)$.
+        Es gibt eine Karte $\tau \in \scr A$, die mit $\phi$ und $\psi$ differenzierbar verträglich ist und die bei $\psi^{-1}(u)$ definiert ist.
+        Sei $\tilde V \subset V$ die Schnittmenge von $V$ mit dem Definitionsbereich von $\tau$.
+        Durch weiteres Einschränken können wir $V = \tilde V$ annehmen.
+        Da $\tau$ mit $\phi$ und mit $\psi$ verträglich ist, wird
+        \begin{math}
+            \phi \circ \psi^{-1} = \phi \circ \tau^{-1} \circ \tau \circ \psi^{-1}
+        \end{math}
+        bei $u$ differenzierbar.
+        Setze nun
+        \begin{math}
+            \hat{\scr A} := \Set{ \phi & \text{$\phi$ Karte von $M$ verträglich mit allen Karten in $\scr A$} },
+        \end{math}
+        dann sind alle Karten in $\scr A$ untereinander verträglich und $\hat{\scr A}$ ist ein maximaler differenzierbarer Atlas.
+        $\hat{\scr A}$ enthält jeden differenzierbaren Atlas, der $\scr A$ umfasst und ist damit eindeutig.
+    \end{proof}
+\end{st}
+
+\begin{df*}
+    Zwei differenzierbare Atlanten heißen \emphdef{äquivalent}, wenn sie den selben maximalen Atlas definieren.
+\end{df*}
+
+\begin{df} \label{1.8}
+    Eine \emphdef{differenzierbare Struktur} auf einer topologischen Mannigfaltigkeit ist die Wahl der Äquivalenzklasse von differenzierbaren Atlanten, oder äquivalent die Wahl eines maximalen differenzierbaren Atlas.
+\end{df}
+
+
+
+
+
 
