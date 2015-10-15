@@ -2,8 +2,10 @@
 
 \Timestamp{2015-10-12}
 
-Wir betrachten im Folgenden ungerichtete Graphen $G(V, E)$ mit Knoten $V$ und Kanten $E \subset \binom{V}{2}$.
-Soweit nicht anders vermerkt, sind unsere Graphen einfach, d.h. besitzen keine mehrfache Kanten oder Schleifen.
+\begin{conv}
+    Standardmäßig sind Graphen $G(V, E)$ im Folgenden ungerichtet, ohne Mehrfachkanten und ohne Schleifen.
+\end{conv}
+
 In vielen Fällen (wie auch im Folgenden) stellt dies keine nennenswerte Einschränkung dar.
 
 \begin{df}
@@ -122,9 +124,86 @@ In vielen Fällen (wie auch im Folgenden) stellt dies keine nennenswerte Einschr
     \end{note}
 \end{df}
 
+% Falsch
+%\begin{st}
+%    Falls es Knoten $x, y \in V$ mit $xy \not\in E$, aber $d(x) + d(y) \ge |V|$, dann gibt es einen Hamiltonkreis.
+%\end{st}
+
+
+\Timestamp{2015-10-15}
+
+\begin{df}
+    \begin{itemize}
+        \item
+            \emphdef{Adjazenzmatrix}: $A \in \Set{0,1}^{e \times e}$ mit
+            \begin{math}
+                A(i,y) = \begin{cases}
+                    1 & \text{falls $ij \in E$}, \\
+                    0 & \text{sonst}.
+                \end{cases}                
+            \end{math}
+            \begin{itemize}
+                \item
+                    $A$ ungerichtet genau dann, wenn $A$ symmetrisch ist
+                \item
+                    $A$ enthällt $0$-en auf der Diagonale genau dann, wenn keine Schlingen vorhanden sind.
+            \end{itemize}
+        \item
+            \emphdef{bipartite} Graphen: $V = A \dunion B$ und alle Kanten von $A$ nach $B$.
+
+            \emphdef{vollständige} bipartite Graphen: $K_{m,n}$ mit $|A| = m$, $|B| = n$.
+        \item
+            \emphdef{vollständige} Graphen: $K_n = (V, \binom{V}{2})$.
+        \item
+            \emphdef{Teilgraph}, \emphdef{Untergraph}: $(V', E')$ von $(V, E)$ mit $V' \subset V$ und $E' \subset E$.
+
+            \emphdef{induzierte Untergraphen}: $(V', E')$ in $(V, E)$ mit $V' \subset V$ und $E' = \Set{xy & x,y \in V', xy \in E}$.
+            Notation $G(V,E) \leadsto G(V')$.
+        \item
+            \emphdef{Unterteilungsgraph}: Setze auf Kanten zwischen Knoten.
+        \item
+            \emphdef{Kreise}: Wege mit selben Start- und Endpunkt, Länge $\ge 3$
+            $C_n$: Kreis mit $n$ Knoten.
+        \item
+            $G(V, E)$ ist ein \emphdef{Wald} genau dann, wenn es keine einfachen Kreise gibt.
+            Ein \emphdef{Baum} ist ein zusammenhängender Wald.
+        \item
+            Ein Polygon ist ein kreuzungsfreier Polygonzug.
+            Ein Polygon $P$ heißt \emphdef{sternförmig}, wenn es eine offene Menge $K$ im Polygon gibt und das Innere von $P$ gesehen werden.
+    \end{itemize}
+\end{df}
+
 \begin{st}
-    Falls es Knoten $x, y \in V$ mit $xy \not\in E$, aber $d(x) + d(y) \ge |V|$, dann gibt es einen Hamiltonkreis.
+    Jeder plättbare Graph hat eine planare Einbettung, bei der alle Facetten Polygone sind.
+    \begin{proof}
+%        Trianguliere alle Facetten, der Graph bleibt planar (beachte Beispiel 11-Eck).
+%        Starte mit einer äußeren Facette und nehme Facetten hinzu.
+%        Als Invariante: Alle Facetten bleiben sternförmig.
+%
+%        Ist eine Facette sternförmig, so bleibt der Kern nicht-leer, wenn ein Dreieck hinzugefügt wird.
+    \end{proof}
 \end{st}
 
-
-
+\begin{st}
+    Sei $G = (V, E)$ ein Graph, der folgender Bedingung genügt:
+    \begin{math}
+        \forall x,y \in V: xy \not\in E \implies d(x) + d(y) \ge |V| \ge 3.
+    \end{math}
+    Dann existiert ein Hamiltonkreis.
+    \begin{proof}
+        Induktion über $|\binom{V}{2}| - |E|$.
+        Sei $n = |V|$, dann ist $E = \binom{V}{2}$ genau dann, wenn $G = K_n$.
+        Dann gibt es Hamiltonkreise.
+        Betrachte jetzt einen Graphen $G$ und $x,y \in V$ mit $xy \not\in E$.
+        Definieren $G' = (V, E')$ mit $E' = E \cup \Set{xy}$.
+        Die Induktionsvoraussetzung für $G'$ ist erfüllt und es existiert ein Hamiltonkreis.
+        Definiere
+        \begin{math}
+            N(x) &:= \Set{i \in \Set{1, \dotsc, n} & xv_{i+1} \in E}
+            \subset \Set{1, \dotsc, n-1}, \\
+            N(y) &:= \Set{i & yv_i \in E}
+            \subset \Set{2, \dotsc, n-1}.
+        \end{math}
+        Es existiert ein $i \in N(x) \cap N(y)$, da $d(x) = |N(x)|$, $d(y) = |N(y)|$.
+    \end{proof}
+\end{st}
