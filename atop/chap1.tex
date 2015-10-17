@@ -1,0 +1,292 @@
+% Kapitel 1
+\chapter{Fundamentalgruppe}
+
+\begin{df}
+    Sei $X$ ein topologischer Raum, $x_0 \in X$ ein Punkt.
+    \begin{math}
+        P(X) &= \scr C([0,1], X), \\
+        P(X, a, b) &= \Set{\gamma \in P(X) & \gamma(0) = a, \gamma(1) = b}.
+    \end{math}
+    Spezielle Wege, bzw Wegoperationen:
+    \begin{itemize}
+        \item
+            $1_a \in P(X, a, a)$, $1_a(t) := a$ für $0 \le t \le 1$,
+        \item
+            $\_\argdot: P(X, a, b) \to P(X, b, a)$, $\gamma \mapsto \_\gamma$, $\_\gamma(t) := \gamma(1-t)$,
+        \item
+            $\ast: P(X, a,b) \times P(X, b,c) \to P(X,a,c)$,
+            \begin{math}
+                (\gamma_1 \ast \gamma_2)(t) := \begin{cases}
+                    \gamma_1(2t) & \text{für $0 \le t \le \frac{1}{2}$} \\
+                    \gamma_2(2t - 1) & \text{für $\frac{1}{2} \le t \le 1$}
+                \end{cases}
+            \end{math}
+    \end{itemize}
+    Zwei Wege $\alpha, \alpha' \in P(X,a,b)$ heißen \emphdef{äquivalent}, genauer \emphdef{homotop bei festen Endpunkten}, wenn eine stetige Abbildung $H: [0,1] \times [0,1] \to X$ existiert mit $H(0, t) = \alpha(t)$, $H(1, t) = \alpha'(t)$, sowie $H(s, 0) = a$, $H(s, 1) = b$ für alle $s,t \in [0,1]$.
+    Wir schreiben dann $H: \alpha \sim \alpha'$ oder kurz $\alpha \sim \alpha'$.
+\end{df}
+
+\begin{prop}
+    \begin{itemize}
+        \item
+            Die Äquivalenz $\sim$ ist eine Äquivalenzrelation.
+        \item
+            Aus $\alpha \sim \beta$ folgt $\_\alpha \sim \_\beta$.
+        \item
+            Aus $\alpha \sim \alpha'$ und $\beta \sim \beta'$ folgt $\alpha \ast \beta \sim \alpha' \sim \beta'$.
+    \end{itemize}
+\end{prop}
+
+Wir erhalten wohldefinierte Abbildungen auf $\Pi(X, a, b) := P(X, a, b) / \sim$ durch
+\begin{itemize}
+    \item
+        $\_\argdot: \Pi(X,a,b) \to \Pi(X,a,b)$, $\_{[\gamma]} := [\_\gamma]$.
+    \item
+        $\ast: \Pi(X,a,b) \times \Pi(X,b,c) \to \Pi(X,a,c)$, $[\alpha] \ast [\beta] := [\alpha \ast \beta]$.
+\end{itemize}
+
+\begin{st}
+    Jeder topologische Raum $X$ definiert so seine \emphdef{Wegekategorie} $\Pi(X)$ (auch \emphdef{Fundamentalgruppoid} genannt).
+    \begin{enumerate}[a)]
+        \item
+            Objekte sind die punkte $a, b, c, \dotsc \in X$,
+        \item
+            Morphismen $[\alpha]: a \to b$ sind Wegeklassen von $a$ nach $b$.
+        \item
+            Verknüpfung $\ast$ ist die Konkatenation wie oben.
+    \end{enumerate}
+    Die Verknüpfung erfüllt
+    \begin{enumerate}[1)]
+        \item
+            Identität: Für $\alpha: a \to b$ gilt
+            \begin{math}
+                1_a \ast \alpha \sim \alpha \sim \alpha \ast 1_b,
+            \end{math}
+            also
+            \begin{math}
+                [1_a] \sim [\alpha] = [\alpha] = [\alpha] \ast [1_b].
+            \end{math}
+        \item
+            Inversion: Für $\alpha: a \to b$ und $\_\alpha: b \to a$ gilt
+            \begin{math}
+                \alpha \ast \_\alpha &\sim 1_a, &
+                \_\alpha \ast \alpha &\sim 1_b
+            \end{math}
+            also
+            \begin{math}
+                [\alpha] \ast [\_\alpha] &= [1_a], &
+                [\_\alpha] \ast [\alpha] &= [1_b],
+            \end{math}
+        \item
+            Assoziativität: Für $a \xto{\alpha} b \xto{\beta} c \xto{\gamma} d$ gilt $(\alpha \ast \beta) \ast \gamma \sim \alpha \ast (\beta \ast \gamma)$, also
+            \begin{math}
+                ([\alpha] \ast [\beta]) \ast [\gamma] = [\alpha] \ast ([\beta] \ast [\gamma]).
+            \end{math}
+    \end{enumerate}
+    \begin{proof}
+        Skizzenbeweis.
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Jede stetige Abbildung $f: X \to Y$ induziert einen Funktor
+    \begin{math}
+        f_\#: \Pi(X) &\to \Pi(Y) \\
+        a &\mapsto f(a) \\
+        [\alpha: a \to b] &\mapsto [f \circ \alpha: f(a) \to f(b)]
+    \end{math}
+\end{st}
+
+\begin{df}
+    Vom Fundamentalgruppoid zur Fundamentalgruppe, definiere
+    \begin{math}
+        \pi_1(X, x_0) := \Pi(X, x_0, x_0)
+        = \frac{\Set{\text{Schleifen $\alpha: ([0,1], \Set{0,1}) \to (X,x_0)$}}}{\text{Homotopie relativ $\Set{0,1}$}}.
+    \end{math}
+    Dies ist eine Gruppe (Übung) mit der Verknüpfung $[\alpha] \ast [\beta] = [\alpha \ast \beta]$.
+
+    Jede stetige Abbildung $f: (X, x_0) \to (Y, y_0)$ induziert einen Gruppenhomomorphismus $f_\# = \pi_1(f): \pi_1(X, x_0) \to \pi_1(Y, y_0)$ mit $[\alpha] \mapsto f_\#([\alpha]) = [f \circ \alpha]$.
+    Wir erhalten einen Funktor
+    \begin{math}
+        \pi_1: \Cat{Top}_* &\to \Cat{Grp} \\
+        (X, x_0) &\mapsto \pi_1(X, x_0) \\
+        (f: (X,x_0) \to (Y, y_0)) &\mapsto (\pi_1(f): \pi_1(X, x_0) \to \pi_1(Y, y_0)).
+    \end{math}
+\end{df}
+
+\begin{ex}
+    Sei $X = \R^n$ oder $X \subset \R^n$ konvex oder sternförmig bezüglich $x_0$.
+    Dann ist $X$ wegzusammenhängend, d.h. $\pi_0(X) = \Set{[x_0]}$, und sogar einfach zusammenhängend, d.h. zudem
+    \begin{math}
+        \pi_1(X, x_0) = \Set{[1_{x_0}]},
+    \end{math}
+    kurz $\pi_1(X, x_0) = \Set{1}$.
+    \begin{proof}
+        Zu $\alpha: [0,1] \to X$ betrachte $H(s, t) = (1-s)\alpha(t) + s x_0$.
+        $H: [0,1] \times [0,1] \to X$ ist eine Abbildung, da $X$ sternförmig ist.
+        Sie ist stetig und erfüllt $H: \alpha \sim 1_{x_0}$.
+    \end{proof}
+\end{ex}
+
+\paragraph{Offene Mengen $X \subset \R^n$ und polygonale Fundamentalgruppe}
+
+Sei $X \subset \R^n$ und $x_0 \in X$. Wir definieren die polygonale Fundamentalgruppe
+\begin{math}
+    \pi_1^{\text{pl}}(X,x_0) := \Pi^{\text{pl}}(X, x_0, x_0)
+    = \frac{\Set{\text{geschlossene Polygonzüge in $(X, x_0)$}}}{\text{polygonale Homotopie in $X$}}.
+\end{math}
+
+\begin{st}
+    Sei $X \subset \R^n$ offen und $x_0 \in X$.
+    Wir haben einen Gruppenisomorphismus
+    \begin{math}
+        \phi: \pi_1^{\text{pl}}(X, x_0) \to \pi_1(X, x_0)
+    \end{math}
+    \begin{proof}
+        (Skizze: stetiger/polygonaler Weg)
+        Surjektivität: Jede stetige Abbildung lässt sich beliebig genau durch Polygone approximieren.
+        Injektivität: Stetige Homotopie lässt sich durch polygonale Homotopie approximieren.
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    Sei $X := \R^2 \setminus \Set{0}$, $x_0 := (1, 0)$ und $\gamma$ ein geschlossener polygonaler Weg in $X$ von $x_0$ (Skizze).
+    Durch zählen der Übergänge über die negative reelle Achse erhalten wir $\deg: \pi_1^{\text{pl}}(X, x_0) \to \Z$.
+    Dies ist ein Gruppenisomorphismus
+    \begin{proof}
+        Wohldefiniertheit: Übergang von Wegen zu Wegeklassen.        
+        Homomorphismus.
+        Surjektivität: Konstruktion.
+        Injektivität: Umlaufzahl $0$ betrachten: neg/pos Übergänge eliminieren (Punkte sternförmig um $x_0$).
+    \end{proof}
+    Kurz:
+    \begin{math}
+        \deg: \pi_1(X, x_0) \isomorphic \pi_1^{\text{pl}}(X, x_0) \isomorphic \Z.
+    \end{math}
+\end{ex}
+
+\begin{ex}
+    Sei $X := \C \setminus \Set{0, -1, \dotsc, 1 - n}$, $x_0 = 1$ (Skizze mit Weg).
+    Kodiere Übergänge: $s_1, \dotsc, s_n$.
+
+    Wir erhalten $\phi: \pi_1^{\text{pl}}(X, x_0) \to \Gen{ s_1, \dotsc, s_n & - }$.
+    Dies ist ein Gruppenisomorphismus.
+    \begin{proof}
+        Wohldefiniertheit: Übergang von Wegen zu Wegeklassen: Kürzung.
+        Homomorphismus: klar.
+        Surjektivität: Konstruktion.
+        Injektivität: Betrachte Wege, die auf $1$ abgebildet werden, Induktion über Wortlänge durch Kürzen.
+    \end{proof}
+    \begin{note}
+        Die Gruppe ist für $n \ge 2$ nicht kommutativ!
+    \end{note}
+\end{ex}
+
+\paragraph{Präsentation von Gruppen durch Erzeuger und Relationen}
+
+Kurzfassung: Sei $A$ eine Menge. $A^* := \bigcup_{n \in \N} A^n$ ist die Menge aller Wörter über dem Alphabet $A$.
+Für $n = 0$ ist $e = ()$ das leere Wort.
+Für $n = 1$ identifizieren wir $(a) \in A^*$ mit $a \in A$.
+
+Die Verkettung $\circ: A^* \times A^*$ ist gegeben durch die Konkatenation der Wörter
+\begin{math}
+    (a_1, \dotsc, a_n)(a_1', \dotsc, a_m') := (a_1, \dotsc, a_m, a_1', \dotsc, a_n').
+\end{math}
+Damit ist $(A^*, \circ, e)$ ein Monoid, genannt das \emphdef[freies Monoid]{freie Monoid} über $A$.
+
+Wir wollen Relationen der Form $w_1 = w_2$ einführen.
+Hierzu sei $K \subset A^* \times A^*$.
+Auf $A^*$ sei $\equiv$ die Äquivalenzrelation, die erzeugt wird durch die elementaren Umformungen
+\begin{math}
+    u \circ w_1 \circ v \equiv u \circ w_2 \circ v, && \text{für $(w_1, w_2) \in K$},
+\end{math}
+Diese Kongruenz ist verträglich mit $\circ$, d.h. $u \equiv u'$ und $v \equiv v'$, dann ist $u \circ v \equiv u' \circ v'$.
+
+Auf $Q := A^* / K := A^* / \equiv$ erhalten wir $\argdot: Q \times Q \to Q$, $[u] \cdot [v] := [u \circ v]$.
+Damit ist auch $(Q, \cdot, [e])$ ein Monoid.
+
+
+\begin{df}
+    Das durch $(A, K)$ \emphdef{präsentierte Monoid} ist
+    \begin{math}
+        \GenMonoid{A & K} := A^* / K.
+    \end{math}
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            \begin{math}
+                (N = \GenMonoid{a & -}, \cdot) &\xto[homeomorphic] (\N, +) \\
+                a^n &\mapsto n \\
+                a^n &\mapsfrom n
+            \end{math}
+        \item
+            \begin{math}
+                \GenMonoid{a,b & -}
+                = \Set{e, a, b, aa, ab, ba, bb, \dotsc}
+            \end{math}
+        \item
+            \begin{math}
+                C = \GenMonoid{s^+, s^- & s^+s^- = e, s^-s^+ = e},
+            \end{math}
+            d.h. $A = \Set{s^+, s^-}$, $K = \Set{(s^+s^-, e), (s^-s^+, e)}$.
+            Dies ist eine Gruppe.
+            Definiere
+            \begin{math}
+                \phi: (\Z, +) &\to (C, \cdot) \\
+                k &\mapsto \begin{cases}
+                    (s^+)^k & \text{für $k > 0$}, \\
+                    e & \text{für $k = 0$}, \\
+                    (s^-)^{-k} & \text{für $k < 0$}.
+                \end{cases}
+            \end{math}
+            Dies ist ein Gruppenhomomorphismus, surjektiv (auf Wortklasssen).
+            Inverse:
+            \begin{math}
+                \psi: (C, \cdot) &\to (\Z, +), \\
+                s^{\eps_1} s^{\eps_2} \dotsb s^{\eps_l} &\mapsto \eps_1 + \dotsb + \eps_l.
+            \end{math}
+            Dies ist wohldefiniert, Gruppenhomomorphismus, surjektiv.
+            Es gilt $\psi \circ \phi: \id_\Z$, aber auch $\phi \circ \psi = \id_C$.
+        \item
+            $C_n := C_{n, 0} := \GenMonoid{a & a^n = 1}$ (Skizze: Kreis).
+            Es gilt $(C_n, \cdot) \isomorphic (\Z / n, +)$.
+        \item
+            $C_{n,m} := \GenMonoid{a & a^n = a^m}$ für $0 \le m < n$ (Skizze: Anfang + Schleife). 
+    \end{itemize}
+\end{ex}
+
+Speziell für Gruppen:
+Zur Menge $S$ wählen wir das Alphabet
+\begin{math}
+    A = S \times \Set{\pm} = \Set{s^+, s^- & s \in S}
+\end{math}
+Zu $R \subset A^*$ setzen wir $K = \Set{ r = 1 & r \in R} \cup \Set{s^+s^- = 1, s^-s^+ = 1 & s \in S}$.
+Formal:
+\begin{math}
+    K = \Set{(r, e) & r \in R} \cup \Set{(s^+s^-, e), (s^-s^+, e) & s \in S}.
+\end{math}
+Die durch $(S, R)$ \emphdef{präsentierte Gruppe} ist $\Gen{S & R} := \GenMonoid{A & K} = A^* / K$.
+
+\begin{nt}
+    In jeder Gruppe lässt sich $a = b$ umformen als $ab^{-1} = 1$.
+\end{nt}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $\Gen{s & -} := \GenMonoid{s^+ s^- & s^+s^- = 1, s^-s^+ = 1} \isomorphic (\Z, +)$,
+        \item
+            $\Gen{s & s^n} = \Gen{s & s^n = 1} = \GenMonoid{s^+, s^- & (s^+)^n, s^+s^- = 1, s^-s^+ = 1} \isomorphic (\Z / n, +)$,
+        \item
+            $\Gen{a,b & ab = ba} = \Gen{a,b & aba^{-1}b^{-1}} \isomorphic (\Z^2, +)$
+        \item
+            $\Gen{a,b & -} = \Set{e, a, a^{-1}, b, b^{-1}, a^2, a^{-2}, ab, ab^{-1}, a^{-1}b^{-1}, b^2, b^{-2}, ba, ba^{-1}, b^{-1}a, b^{-1}a^{-1}}$
+
+            Skizze: Baum in der Ebene, $a$ nach rechts, $b$ nach oben.
+
+            Im Kontrast dazu $\Z^2 = \Gen{a,b & ab = ba}$: Cayley-Graph.
+    \end{itemize}
+\end{ex}
+
