@@ -284,7 +284,7 @@ Später behandeln wir als Analogon zu Körpererweiterungen auch Ringerweiterunge
     \end{proof}
 \end{st}
 
-\begin{ex}
+\begin{ex}[Lokalisierung]
     \begin{enumerate}[i)]
         \item
             Angenommen, wir fragen nach Teilbarkeit durch $p \in \Z$ prim.
@@ -303,11 +303,239 @@ Später behandeln wir als Analogon zu Körpererweiterungen auch Ringerweiterunge
             $k[x]$ an Stelle von $\Z$, $x \in k[x]$ irreduzibel.
             \begin{math}
                 k[x]_{(x)} &= \Set{\frac{f}{g} \in k(x) &  x \ndivs g} \\
-                &= \Set{\frac{f}{g} \in k(x) & g(0) \neq 0}.
+                &= \Set{\frac{f}{g} \in k(x) & g(0) \neq 0},
             \end{math}
+            also gebrochen polynomielle Funktionen, die in der Nähe von $\Set{0}$ definiert sind.
             Mit
             \begin{math}
                 \frk m = \Set{ \frac{f}{g} \in k(x) & f(0) = 0}.
             \end{math}
+\Timestamp{2015-10-19}
+        \item
+            Ist $A$ nullteilerfrei und $\frk p \subset A$ ein Primideal, dann ist
+            \begin{math}
+                A_{\frk p} = \Set{\frac{p}{q} \in \Quot(A) & q \nin \frk p}
+            \end{math}
+            ein lokaler Ring.
+        \item
+            Aus einem lokalen Ring $A$ gewinnt man den Restklassenkörper $A / \frk m = k$.
     \end{enumerate}
 \end{ex}
+
+
+\section{Radikale}
+
+
+\begin{df}
+    Sei $\frk a \subset A$ ein Ideal.
+    Das \emphdef{Radikal} von $A$ ist
+    \begin{math}
+        \sqrt{a} := \Set{a \in A & \exists n : a^n \in \frk a} \supset \frk a.
+    \end{math}
+\end{df}
+
+\begin{ex}[Motivation]
+    $f = x^2 \in k[x]$, $g \in \C[x]$ mit $g(x) = (x-z_1) \dotsb (x-z_n)$.
+    Skizze: $Z(f)$, $Z(g)$.
+
+    $Z(p)$ definiert $p$ bis auf Multiplizität der Nullstellen und skalare Vielfache.
+
+    \begin{math}
+        I(Z(f)) &= \Set{p \in k[x] & p(z) = 0 \forall z \in Z(f)} \\
+        &= \Set{p & x \divs p} = (x) \supsetneq (x^2) =: \frk a,
+    \end{math}
+    $x^2 \in \frk a$, d.h. $x \in \sqrt{\frk a} = \sqrt{(x^2)}$.
+
+    Ganz Allgemein: Ist $A = k[x_1, \dotsc, x_n]$, $\frk a \subset A$, dann
+    \begin{math}
+        Z(\frk a) = \Set{x \in k^n & f(x) = 0 \forall f \in \frk a}
+        \subset k^n.
+    \end{math}
+
+    Hilberts Nullstellensatz:
+    \begin{math}
+        I(Z(\frk a)) &= \Set{f \in k[x_1, \dotsc, x_n] & f(x) = 0 \forall x \in Z(\frk a)} \\
+        &= \sqrt{\frk a},
+    \end{math}
+    falls $k$ algebraisch abgeschlossen ist.
+\end{ex}
+
+\begin{df}
+    Ein Ideal $\frk a \subset A$ heißt \emphdef{Radikalideal}, falls $\sqrt a = a$.
+
+    Das Radikal
+    \begin{math}
+        \sqrt{(0)} &= \Set{a \in A & \exists n \in \N : a^n = 0} \\
+        &= \Set{a \in A & \text{$a$ nilpotent}} \\
+        &=: \nil A
+    \end{math}
+    nennen wir \emphdef{Nilradikal}.
+
+    $A$ heißt \emphdef{reduziert}, wenn $\nil A = \Set{0}$.
+\end{df}
+
+\begin{ex}
+    Für Polynome über unendlichen Körpern schließen wir $f(x)^n = 0 \implies f(x) = 0$.
+\end{ex}
+
+\begin{lem}
+    \begin{enumerate}[i)]
+        \item
+            $\sqrt{\frk a}$ ist ein Ideal,
+        \item
+            $\sqrt{\frk a}$ ist Radikalideal genau dann, wenn $A / \frk a$ reduziert ist.
+            Insbesondere sind maximale Ideale $\frk m$ ($A / \frk m$ Körper) oder allgemeiner Primideale $\frk p$ ($A / \frk p$ nullteilerfrei) Radikalideale (insbesondere $\sqrt{\frk p} = I(Z(\frk p))$ für $\frk p \subset k[x_1, \dotsc, x_n]$).
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}[i)]
+            \item
+                % Warum 0?
+                $\sqrt{\frk a}$ ist abgeschlossen unter Multiplikation.
+                Ist $a \in \sqrt{\frk a}$, d.h. $\exists n \in \N: a^n = 0$, dann $(xa)^n = x^n a^n = 0$, d.h. $x a \in \frk a$.
+
+                Sind $a, b \in \sqrt{\frk a}$, dann $\exists n \in \N$ mit $a^n = 0$, $b^n = 0$
+                \begin{math}
+                    (a + b)^{2n} = \sum_{j=0}^{2n} \binom{2n}{j} a^{2n-j}b^j = 0,
+                \end{math}
+                also $a + b \in \sqrt{a}$.
+            \item
+                \begin{seg}{\ProofImplication}
+                    $\_ x = [x] \in A / \frk a$.
+                    Angenommen $\_x^n = 0$ für $n \in \N$, dann ist $x^n \in \frk a$, also $x \in \frk a = a$.
+                    Also $\_x \in A / \frk a$ und $\nil A / \frk a = \Set{0}$.
+                \end{seg}
+                \begin{seg}{\ProofImplication*}
+                    Sei $x \in \sqrt{\frk a}$, d.h. $x^n \in \frk a$ und $\_{x^n} = \_0$ in $A / \frk a$.
+                    Da $A$ reduziert, folgt $\_x = 0$, d.h. $x \in \frk a$ und $\sqrt{\frk a} \subset \frk a$.
+                \end{seg}
+        \end{enumerate}
+    \end{proof}
+\end{lem}
+
+\begin{st}
+    \begin{math}
+        \nil A = \bigcup_{\text{$\frk p \subset A$ prim}} \frk p,
+    \end{math}
+    d.h. $a \in A$ ist nicht nilpotent genau dann, wenn ein Primideal $\frk p \subset A$ existiert mit $a \nin p$.
+    \begin{proof}
+        \begin{seg}{\ProofImplication*}
+            Ist $a \in A$ nilpotent, also $aa^{n-1} = a^n = 0 \in \frk p$.
+            Da $\frk p$ prim, folgt (nach endlich vielen Schritten) $a \in \frk p$.
+        \end{seg}
+        \begin{seg}{\ProofImplication}
+            Sei $a \in A$ nicht nilpotent.
+            Betrachte $S_a = \Set{1, a, a^2, \dotsc}$.
+            Da $a \nin \nil A$ folgt $0 \nin S_a$, d.h. $S \cap (0) = \emptyset$.
+            Da $S_a$ multiplikativ und $(0) \subset A \setminus S_a$.
+            Dann existiert ein Primideal $\frk p$ mit $(0) \subset \frk p$ mit $\frk p \subset A \setminus S_a$, d.h. $\frk p \cap S_a = \emptyset$ mit $a \nin \frk p$.
+        \end{seg}
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    Sei $\frk a$ ein Radikalideal.
+    Dann gilt
+    \begin{math}
+        \frk a = \bigcap_{\text{$\frk a \subset \frk p$ prim}} \frk p
+    \end{math}
+    \begin{proof}
+        Erinnerung $A \xto{\pi} A / \frk a$ mit $\_{\frk b} \subset A / \frk a$ Ideal, dann ist $\frk a \subset \frk b = \pi^{-1}(\_{\frk b})$.
+
+        Sei $\_{\frk b} \subset A / \frk a$ prim.
+        Wende Satz auf $A / \frk a$ an, dann ist da $\frk a$ Radikalideal ist
+        \begin{math}
+            \nil A = \bigcap_{\text{$\_p \subset A / \frk a$ prim}} \_{\frk p} = \_{\Set{0}},
+        \end{math}
+        entspricht $\bigcap_{\frk a \subset \frk p} \frk p = \frk a$.
+    \end{proof}
+\end{kor}
+
+
+\section{Operationen auf Idealen}
+
+Seien $\frk a, \frk b \subset A$ Ideale.
+\begin{enumerate}[(i)]
+    \item
+        Summe über Ideale
+        \begin{math}
+            \frk a + \frk b = \Set{a + b & a \in \frk a, b \in \frk b}
+            = (\frk a \cup \frk b).
+        \end{math}
+        Analog
+        \begin{math}
+            {\frk a}_1 + \dotsb + {\frk a}_n = \Set{\sum_i a_i & a_i \in \frk a_i}
+            = \l( \bigcup_i \frk a_i \r).
+        \end{math}
+    \item
+        Schnitt zweier Ideale: $\frk a \cap \frk b$ (Vereinigung ist \emph{kein} Ideal).
+    \item
+        \begin{math}
+            \frk a \cdot \frk b := (\Set{a b & a \in \frk a, b \in \frk b})
+        \end{math}
+        Spezialfall ${\frk a}^n$ und ${\frk a}^0 = (1) = A$.
+    \item
+        Division
+        \begin{math}
+            \frk b : \frk a = \Set{x \in A & x \frk a \subset \frk b},
+        \end{math}
+        z.B. $A = \Z$, $\frk a = (a)$, $\frk b = (ab)$, dann ist $\frk b : \frk a = (ab) : (a) = (b)$.
+
+        Insbesondere ist der Annihilator
+        \begin{math}
+            %frak!
+            \ann(\frk a) := (0) : \frk a
+            = \Set{x \in A & x \frk a = 0}.
+        \end{math}
+    \item
+\end{enumerate}
+
+\begin{ex}
+    \begin{enumerate}[(i)]
+        \item
+            Sei $A = \Z$, $\frk a = (a)$, $\frk b = (b)$, dann ist
+            \begin{math}
+                \frk a + \frk b &= \gcd(a,b), \\
+                \frk a \cap \frk b &= \lcm(a,b), \\
+                \frk a \cdot \frk b &= (ab).
+            \end{math}
+            Insbesondere $\frk a \frk b = \frk a \cap \frk b$ genau dann, wenn $a, b$ teilerfremd sind.
+        \item
+            Sei $\frk a = (x_1, \dotsc, x_n) \subset A = k[x_1, \dotsc, x_n]$.
+            Dann besteht $\frk a^k$ gerade aus den Polynomen in $A$ ohne Terme vom Grad kleiner $k$.
+    \end{enumerate}
+\end{ex}
+
+\begin{nt}
+    \begin{enumerate}[(i)]
+        \item
+            $\frk a (\frk b  + \frk c) = \frk a \frk b + \frk a \frk c$,
+        \item
+            $\frk a \frk b \subset \frk a \cap \frk b$ mit Gleichheit, falls $\frk a + \frk b = (1) A$.
+        \item
+            $\sqrt{\frk a} = \frk{a}$: Radikale sind Radikalideale.
+        \item
+            $\sqrt{\frk a \frk b} = \sqrt{\frk a \cap \frk b} = \frk a \cap \frk b$.
+        \item
+            Ist $\frk p$ prim, dann ist $\sqrt{{\frk p}^n} = \frk p$ für alle $n > 0$.
+    \end{enumerate}
+\end{nt}
+
+\begin{st}
+    \begin{enumerate}[(i)]
+        \item
+            Seien ${\frk p}_1, \dotsc, {\frk p}_n$ Primideale und $\frk a \subset A$ ein Ideal mit $\frk a \subset \bigcup {\frk p}_i$, dann ist $\frk \subset {\frk p}_j$ für ein $j$.
+        \item
+            Seien ${\frk a}_1, \dotsc, {\frk a}_n$ Ideale und sei $\frk p$ prim mit $\bigcap {\frk a}_i \subset \frk p$, dann ist ${\frk a}_j \subset \frk p$ für ein $j$ mit Gleichheit, falls $\bigcap_i {\frk a_i} = \frk p$.
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}[(i)]
+            \item
+            \item
+                Angenommen es existiert $x_i \subset {\frk a}_i$ mit $x_i \nin \frk p$ für $i = 1,\dotsc, n$ und $x_i, \dotsc, x_n \in {\frk a}_i \dotsb {\frk a}_n \subset \bigcap_i {\frk a}_i$.
+                Aber $x_1 \dotsb x_n \nin \frk p$, also $\bigcap_i {\frk a}_i \not\subset \frk p$.
+
+                Schließlich: Gilt $\frk p = \bigcap_i {\frk a}_i$, dann existiert ${\frk a}_i \subset \frk p$ mit ${\frk a}_i = \frk p$.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
