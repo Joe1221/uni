@@ -352,12 +352,12 @@ Später behandeln wir als Analogon zu Körpererweiterungen auch Ringerweiterunge
         \subset k^n.
     \end{math}
 
-    Hilberts Nullstellensatz:
+    Hilberts Nullstellensatz (falls $k$ algebraisch abgeschlossen ist):
     \begin{math}
         I(Z(\frk a)) &= \Set{f \in k[x_1, \dotsc, x_n] & f(x) = 0 \forall x \in Z(\frk a)} \\
         &= \sqrt{\frk a},
     \end{math}
-    falls $k$ algebraisch abgeschlossen ist.
+    also $I(Z(\frk a)) = \sqrt{\frk a}$.
 \end{ex}
 
 \begin{df}
@@ -391,12 +391,13 @@ Später behandeln wir als Analogon zu Körpererweiterungen auch Ringerweiterunge
             \item
                 % Warum 0?
                 $\sqrt{\frk a}$ ist abgeschlossen unter Multiplikation.
-                Ist $a \in \sqrt{\frk a}$, d.h. $\exists n \in \N: a^n = 0$, dann $(xa)^n = x^n a^n = 0$, d.h. $x a \in \frk a$.
+                Ist $a \in \sqrt{\frk a}$, d.h. $\exists n \in \N: a^n \in \frk a$, dann $(xa)^n = x^n a^n \in \frk a$, d.h. $x a \in \frk a$.
 
-                Sind $a, b \in \sqrt{\frk a}$, dann $\exists n \in \N$ mit $a^n = 0$, $b^n = 0$
+                Sind $a, b \in \sqrt{\frk a}$, dann $\exists n \in \N$ mit $a^n \in \frk a$, $b^n \in \frk a$
                 \begin{math}
-                    (a + b)^{2n} = \sum_{j=0}^{2n} \binom{2n}{j} a^{2n-j}b^j = 0,
+                    (a + b)^{2n} = \sum_{j=0}^{2n} \binom{2n}{j} a^{2n-j}b^j \in \frk a,
                 \end{math}
+                denn entweder $a^{2n - j} \in \frk a$ (für $1 \le j \le n$) oder $b^{j} \in \frk a$ (für $n \le j \le 2n$),
                 also $a + b \in \sqrt{a}$.
             \item
                 \begin{seg}{\ProofImplication}
@@ -520,16 +521,47 @@ Seien $\frk a, \frk b \subset A$ Ideale.
     \end{enumerate}
 \end{nt}
 
+\begin{nt}
+    Sei $k$ algebraisch abgeschlossen.
+    Ist $p \subset k[x_1, \dotsc, x_n]$ ein Primideal, dann ist $I(Z(\frk p)) = \sqrt{\frk p} = \frk p$.
+    Es ergibt sich also eine 1-zu-1-Beziehung zwischen Primidealen in $k[x_1, \dotsc, x_n]$ und $Z(p)$ (irreduzible affine Varietät).
+\end{nt}
+
 \begin{st}
     \begin{enumerate}[(i)]
         \item
-            Seien ${\frk p}_1, \dotsc, {\frk p}_n$ Primideale und $\frk a \subset A$ ein Ideal mit $\frk a \subset \bigcup {\frk p}_i$, dann ist $\frk \subset {\frk p}_j$ für ein $j$.
+            Seien ${\frk p}_1, \dotsc, {\frk p}_n$ Primideale und $\frk a \subset A$ ein Ideal mit $\frk a \subset \bigcup_i {\frk p}_i$, dann ist $\frk a \subset {\frk p}_j$ für ein $j$.
         \item
             Seien ${\frk a}_1, \dotsc, {\frk a}_n$ Ideale und sei $\frk p$ prim mit $\bigcap {\frk a}_i \subset \frk p$, dann ist ${\frk a}_j \subset \frk p$ für ein $j$ mit Gleichheit, falls $\bigcap_i {\frk a_i} = \frk p$.
     \end{enumerate}
     \begin{proof}
         \begin{enumerate}[(i)]
             \item
+                Führe Induktion über $n$ von der Kontraposition aus:
+                \begin{math}
+                    \forall 1 \le i \le n : \frk a \not\subset {\frk p}_i
+                    \implies
+                    \frk a \not\subset \bigcup_{i=1}^n {\frk p}_i.
+                \end{math}
+                Der Fall $n = 1$ ist klar.
+                Die Behauptung gelte für $n - 1$.
+                Für alle $i$ existiert $x_i \in \frk a$ mit $x_i \not\in \bigcup_{j\neq i} {\frk p}_j$.
+                Gilt für ein $i = 1, \dotsc, n$, dass $x_i \not\in {\frk p}_i$, dann sind wir fertig.
+                Sei also $x_i \in {\frk p}_i$ für alle $i$.
+                Betrachte dann ($\hat x_j$ bedeutet Auslassung)
+                \begin{math}
+                    y = \sum_{j=1}^n x_1 \dotsb \hat{x_j} \dotsb x_n.
+                \end{math}
+                Dann ist $y \in \frk a$, aber $y \not\in {\frk p}_i$, d.h. $y \not\in \bigcup {\frk p}_i$.
+                Denn angenommen $y \in {\frk p}_i$ für ein $i$.
+                Dann ist
+                \begin{math}
+                    x_1 \dotsb \hat{x_i} \dotsb x_n
+                    &= \underbrace{y}_{\in {\frk p}_i} - \sum_{j\neq i} x_1 \dotsb \hat{x_j} \dotsb x_n \\
+                    &= y - x_i \sum_{j\neq i} x_1 \dotsb \hat{x_j} \dotsb \hat{x_i} \dotsb x_n.
+                \end{math}
+                Es folgt $x_1 \dotsb \hat{x_i} \dotsb x_n \in {\frk p}_i$.
+                Mindestens ein $x_j \in \bigcup_{l \neq j} {\frk p}_l$, dies ist ein Widerspruch zu Wahl der $x_i$.
             \item
                 Angenommen es existiert $x_i \subset {\frk a}_i$ mit $x_i \nin \frk p$ für $i = 1,\dotsc, n$ und $x_i, \dotsc, x_n \in {\frk a}_i \dotsb {\frk a}_n \subset \bigcap_i {\frk a}_i$.
                 Aber $x_1 \dotsb x_n \nin \frk p$, also $\bigcap_i {\frk a}_i \not\subset \frk p$.
@@ -539,3 +571,139 @@ Seien $\frk a, \frk b \subset A$ Ideale.
     \end{proof}
 \end{st}
 
+
+\Timestamp{2015-10-20}
+
+\section{Ideale unter (Ring-)Morphismen}
+
+
+Sei $f: A \to B$ ein Morphismus (d.h. $f(a_1 a_2) = f(a_1) f(a_2)$, $f(a_1 + a_2) = f(a_1) + f(a_2)$ und $f(0_A) = 0_B$ und $f(1_A) = 1_B$)
+Fragen:
+\begin{itemize}
+    \item
+        Wenn $\frk a \subset A$ Ideal, ist auch $f(\frk a)$ ein Ideal in $B$?
+    \item
+        Wenn $\frk b \subset B$ Ideal, ist auch $f^{-1}(\frk b)$ ein Ideal in $A$?
+\end{itemize}
+
+\begin{nt}
+    Ein Morphismus $f: A \to B$ lässt sich zerlegen:
+    \begin{math}
+        A \xto[surjective]{f} f(A)
+        \xto[injective]{i} B.
+    \end{math}
+    Folglich: um alle Morphismen zu verstehen, reicht es surjektive und injektive Morphismen zu verstehen.
+
+    Der surjektive Fall ist besonders einfach zu verstehen:
+    \begin{math}
+        A \xto[surjective]{f} B = \im(f) \isomorphic A / \ker f.
+    \end{math}
+    Die Ideale $\frk b \subset B$ entsprechen also genau Idealen in $A$ mit $\frk a = f^{-1}(\frk b) \supset \ker f$.
+\end{nt}
+
+\begin{nt}
+    Das inverse Bild eines Ideals unter $f: A \to B$ (allgemeiner Morphismus) ist immer ein Ideal
+    Ist also $\frk b \subset B$ Ideal, dann auch $f^{-1}(\frk b) \subset A$.
+    Jedoch ist das Bild $f(\frk a)$ eines Ideals $\frk a \subset A$ nur ein Unterring von $B$.
+\end{nt}
+
+\begin{ex}
+    Betrachte $f: \Z \xto[injective] \Quot(\Z) = \Q$.
+    $\Q$ hat als Körper nur die Ideale $(0)$ und $\Q$.
+
+    Für $\frk a = (m) \subset \Z$ kann das Bild $(0) \subsetneq \Set{nm & n \in \Z} \subsetneq \Q$ kein Ideal sein.
+
+    Das Beispiel zeigt auch für $f^{-1}((0))$:
+    Urbilder maximaler Ideale sind in der Regel nicht maximal.
+    Aber: Urbilder von Primidealen sind wieder prim.
+\end{ex}
+
+\begin{df}
+    Betrachte einen Morphismus $f: A \to B$.
+    Ist $\frk a \subset A$ ein Ideal, so heißt
+    \begin{math}
+        {\frk a}^e
+        := (f(\frk a))
+        = \Set{\sum_{\text{endl.}} b_i f(a_i) & b_i \in B, a_i \in A }
+        = B f(\frk a),
+    \end{math}
+    also das von $f(\frk a)$ in $B$ erzeugte Ideal
+    die \emphdef{Erweiterung} von $\frk a$ unter $f$.
+
+    Ist $\frk b \subset B$ ein Ideal, so heißt das Ideal ${\frk b}^c := f^{-1}(\frk b)$ in $A$ \emphdef{Kontraktion} von $\frk b$ unter $f$.
+\end{df}
+
+\begin{ex}
+    Betrachte $f: \Z \injto \Z[i]$, wobei $\Z[i] := \Set{a + ib & a,b \in \Z}$ : Ring der Gaußschen ganzen Zahlen.
+
+    Die Kontraktion liefert Abbildungen, die Ideale in $\Z[i]$ zu Idealen in $\Z$ abbilden.
+    Die Erweiterung verfährt umgekehrt.
+
+    Ist $(p)$ ein Primideal in $\Z$, wie sieht das Ideal $(p)^e$ in $\Z[i]$ aus?
+    \begin{enumerate}[i)]
+        \item
+            Für $p = 2$ ist $(2)^e = (1 + i)^2 = (1 - i)^2$.
+            $(1 \pm i)$ ist prim in $\Z[i]$.
+        \item
+            Für $p \equiv 1 \bmod 4$ ist $(p)^e = q \_q$ mit einem Primideal $q$ in $\Z[i]$, z.B. $(5)^e = (2 + i)(2 - i)$.
+        \item
+            Für $p \equiv 3 \bmod 4$ ist $(p)^e$ prim in $\Z[i]$.
+    \end{enumerate}
+\end{ex}
+
+
+\section{Spektren}
+
+
+\begin{df}
+    Sei $A$ ein Ring.
+    Definiere
+    \begin{math}
+        \Spec A &:= \Set{\frk p \subset A & \text{$\frk p$ Primideal}} \\
+        \mSpec A &:= \Set{\frk m \subset A & \text{$\frk m$ maximales Ideal}}
+    \end{math}
+    \begin{note}
+        Für einen Morphismus $f: A \to B$ erhalten wir einen assoziierten Morphismus $f^a$:
+        \begin{math}
+            f^a: \Spec B &\to \Spec A \\
+            \frk p &\mapsto {\frk p}^c = f^{-1}(\frk p).
+        \end{math}
+        Beachte $f^a|_{\mSpec B}: \mSpec \to \Spec A$, $\im f^a|_{\mSpec B} \subsetneq \mSpec A$.
+    \end{note}
+\end{df}
+
+\begin{ex}
+    \begin{enumerate}[(i)]
+        \item
+            Sei $k$ ein Körper, also $\Spec k = \Set{(0)} = \mSpec k$.
+        \item
+            Für $\Z$ gilt
+            \begin{math}
+                \Spec \Z = \Set{(0), (2), (3), \dotsc, (p), \dotsc & \text{$p$ prim}}
+            \end{math}
+            und $\mSpec \Z = \Spec \Z \setminus {(0)}$.
+            \begin{math}
+                \Spec \Z[i] = \Set{(0), (1 \pm i), q, \_q, (p)^e & \text{p prim und $p \equiv 1 \bmod 4$, $(p)^e = q\_q$, oder $p \equiv 3 \bmod 4$}}.
+            \end{math}
+        \item
+            Sei $k$ ein Körper, dann ist $k[x]$ ein euklidischer Ring, also ist
+            \begin{math}
+                \Spec k[x] = \Set{(0), (f), & \text{$f \subset k[x]$ irreduzibel}}
+            \end{math}
+            Beispielsweise
+            \begin{math}
+                \Spec \R[x] &= \Set{(0), (x-a), (x-z)(x+\_z) & a \in \R, z \in \C \setminus \R} \\
+                \Spec \C[x] &= \Set{(0), (x-a) & a \in \C}
+            \end{math}
+        \item
+            Ist $\frk a \subset A$ ein Ideal, dann ist
+            \begin{math}
+                \Spec A / \frk a
+                = \Set{\frk p \subset A & \frk a \subset \frk p \in \Spec A}
+                \subset \Spec A.
+            \end{math}
+            Für $\pi: A \xto[surjective] A / \frk a$ erhalten wir $\pi^a: \Spec A / \frk a \xto[injective] \Spec A \subset \Spec A$.
+        \item
+            $\Spec k[x,y] = \Spec(k[x])[y]$.
+    \end{enumerate}
+\end{ex}
