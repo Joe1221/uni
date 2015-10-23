@@ -290,3 +290,248 @@ Die durch $(S, R)$ \emphdef{präsentierte Gruppe} ist $\Gen{S & R} := \GenMonoid
     \end{itemize}
 \end{ex}
 
+
+\Timestamp{2015-10-23}
+
+
+\section{Simplizialkomplexe}
+
+
+Kombinatorische Kodierung eines Simplizialkomplexes:
+\begin{math}
+    \Set{\emptyset, \Set{a}, \dotsc, \Set{f}, \Set{a,b}, \dotsc, \Set{g,f}, \Set{c,e,f}, \dotsc, \Set{c,g,f}, \Set{c,e,f,g}}.
+\end{math}
+
+\begin{df}
+    Ein (abstrakter) \emphdef{Simplizialkomplex} $K$ ist ein System endlicher Mengen mit
+    \begin{enumerate}[i)]
+        \item
+            $\emptyset \in K$,
+        \item
+            $T \subset S \in K \implies T \in K$,
+    \end{enumerate}
+    Wir setzen
+    \begin{math}
+        \dim S &:= \card(S) - 1,\\
+        \dim K &:= \sup\Set{\dim S & S \in K}, \\
+        \Omega(K) &:= \bigcup K = \bigcup_{S \in K} S.
+    \end{math}
+    $a \in \Omega(K)$ heißt \emphdef{Ecke}, $S \in K$ heißt \emphdef{Simplex} von $K$.
+    \begin{math}
+        K_{\le n} := \Set{S \in K & \dim S \le n}
+    \end{math}
+\end{df}
+
+\begin{df}
+    Eine \emphdef{Darstellung} $f: K \to V$ in einen $\R$-Vektorraum ist eine Abbildung $f: \Omega(K) \to V$, sodass
+    \begin{enumerate}[i)]
+        \item
+            Für $S \in K$ ist $f(S)$ affin unabhängig.
+        \item
+            Für $S, T \in K$ gilt $[f(S)] \cap [f(T)] = [f(S\cap T)]$.
+    \end{enumerate}
+    Die \emphdef{kanonische Darstellung} von $K$ ist $f: K \to \R^{(\Omega)}$, $s \mapsto e_s$.
+    \begin{note}
+        Hierbei ist
+        \begin{math}
+            \R^{(\Omega)} = \Set{x: \Omega \to \R & \text{$\supp x$ endlich}}.
+        \end{math}
+        Dieser hat als kanonische Basis $(e_s)_{s\in\Omega}$ mit $e_s: \Omega \to \R$, $e_s(s') = \delta_{s,s'}$.
+
+        Wir identifizieren $s$ mit $e_s$.
+        Dann schreibt sich jedes Element $x \in \R^{(\Omega)}$ als formale Linearkombination
+        \begin{math}
+            x = \sum_{s \in \Omega} x(s) e_s
+            = \sum_{s \in \Omega} x(s) s.
+        \end{math}
+        Man nennt $\R^{(\Omega)}$ den Vektorraum „frei über $\Omega$“.
+    \end{note}
+\end{df}
+
+\begin{df}
+    Sei $f: K \to V$ eine Darstellung.
+    $[f(S)]$ ist ein affiner Simplex in $V$ mit $\dim [f(S)] = \dim S$.
+    $\Set{[f(S)] & S \in K}$ ist ein \emphdef{affiner Simplizialkomplex} in $V$, d.h.
+    ein System affiner Simplizies, sodass sich je zwei höchstens in einer gemeinsamen Seite schneiden.
+
+    Das Polyeder
+    \begin{math}
+        |K|_f| := \bigcup_{S \in K} [f(S)] \subset V
+    \end{math}
+    versehen wir mit der \emphdef{simplizialen Topologie}.
+    Eine Teilmenge $U \subset |K|$ ist offen genau dann, wenn $U \cap [f(S)]$ offen ist in $[f(S)]$ für alle $S \in K$.
+    \begin{note}
+        Für $K$ endlich genügt $f: K \to \R^n$ und die Teilraumtopologie von $|K|_f \subset \R^n$ ist die simpliziale Topologie.
+
+        Für $\Omega$ unendlich ist die simpliziale Topologie wesentlich.
+        Betrachte (Skizze: diskrete Variante der Sinuskurve des Topologen)
+        \begin{math}
+            \Omega &:= \Set{a,b} \cup \N,
+            K &:= \Set{\emptyset} \cup \binom{\Omega}{1} \Set{\Set{k, k+1} & k \in \N}
+        \end{math}
+        mit Darstellung $f: K \to \R^2$, $a \mapsto (0,1)$, $b \mapsto (0,-1)$,
+        \begin{math}
+            f(k) = \frac{\frac{1}{k}}{(-1)^k}.
+        \end{math}
+        Wir erhalten $|K|_f \subset \R^2$.
+        $[f(a), f(b)]$ ist offen in der simplizialen Topologie, aber nicht offen in der Teilraumtopologie.
+    \end{note}
+\end{df}
+
+
+\section{Simpliziale Fundamentalgruppen}
+
+\begin{df}
+    Sei $K$ ein Simplizialkomplex mit $\Omega = \Omega(K)$.
+    \begin{itemize}
+        \item
+            Ein Kantenzug $v_0v_1 \dotsc v_n$ ist eine endlich Folge von Eckpunkten mit $\Set{v_0, v_1}, \dotsc, \Set{v_{n-1}, v_n} \in K$.
+        \item
+            Zwei Kantenzüge $w = v_0 \dotsc v_n$ und $w' = v_0' \dotsc v_m'$ heißen \emphdef{verknüpfbar}, wenn $v_n = v_0'$.
+            In diesem Fall ist $w \ast w' := v_0 \dotsc v_n v_1' \dotsc v_m'$ die \emphdef{Verknüpfung} beider Kantenzüge.
+        \item
+            Zwei Kantenzüge $w = v_0 \dotsc v_{k-1} v_k v_{k+1} \dotsc v_n$ und $w' = v_0 \dotsc v_{k-1} v_{k+1} \dotsc v_n$ heißen äquivelent, geschrieben $w \approx w'$, falls $\Set{v_{k-1}, v_k, v_{k+1}} \in K$.
+        \item
+            Zu $w = v_0 v_1 \dotsc v_n$ setze $\_w := v_n \dotsc v_1 v_0$.
+            Es gilt $w \ast \_w = v_0 v_1 \dotsc v_{n-1} v_n v_{n-1} \dotsc v_1 v_0 \approx v_0$.
+        \item
+            Simpliziales Fundamentalgruppoid:
+            \begin{math}
+                \Pi(K) = \frac{\Set{\text{Kantenzüge in $K$}}}{\approx}.
+            \end{math}
+        \item
+            Simpliziale Fundamentalgruppe:
+            \begin{math}
+                \pi_1(K, x_0) := \Pi(K, x_0, x_0) = \frac{\Set{\text{Kantenzüge in $K$}}}{\approx}
+            \end{math}
+            Wir erhalten einen Gruppenisomorphismus
+            \begin{math}
+                \phi: \pi_1(K, x_0) &\xto[isomorphic] \pi_1(|K|, x_0)
+                [w] &\mapsto [|w|].
+            \end{math}
+            \begin{proof}[Beweisidee]
+                Prüfe: Wohldefiniertheit (Verträglichkeit der Äquivalenzen),
+                Surjektivität: simpliziale Approximation von $\gamma:[0,1] \to (K, x_0)$,
+                Injektivität: simpliziale Approximation von $H: [0,1]^2 \to (K, x_0)$.
+            \end{proof}
+    \end{itemize}
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Ein (simplizialer) Graph ist ein Simplizialkomplex $K$ mit $\dim K \le 1$.
+
+            Für Kantenzüge gibt es dann nur die Äquivalenzen (Kürzungen/Erweiterungen) der Art
+            \begin{math}
+                uu &\approx u, &
+                uvu &\approx u.
+            \end{math}
+            Sind keine solchen Kürzungen möglich, so nennen wir den Kantenzug \emphdef{gekürzt} (eigentlich \emph{lokal} gekürzt, greedy).
+        \item
+            Ein \emphdef{Baum} ist ein Graph, der zusammenhängend und zykelfrei ist, d.h.
+            \begin{enumerate}[i)]
+                \item
+                    Zu je zwei Ecken $a,b \in \Omega(K)$ existiert ein Kantenzug von $a$ nach $b$.
+                \item
+                    Für jede Kante $\Set{a,b} \in K$, $a \neq b$ sind die Ecken $a,b$ in $K \setminus \Set{\Set{a,b}}$ nicht mehr verbindbar.
+            \end{enumerate}
+        \item
+            Für jeden nicht-leeren endlichen Graphen $K$ sind äquivalent:
+            \begin{enumerate}[i)]
+                \item
+                    $K$ ist ein Baum,
+                \item
+                    $|K|$ ist zusammenziehbar,
+                \item
+                    $K$ ist zusammenhängend und $\chi(K) = 1$,
+                \item
+                    $K$ ist zykelfrei und $\chi(K) = 1$.
+                \item
+                    Zu je zwei Ecken $a, b \in \Omega(K)$ existiert genau ein gekürzter Kantenzug von $a$ nach $b$.
+            \end{enumerate}
+            Für unendliche Graphen gilt die Äquivalenz noch zwischen i), ii) und v).
+        \item
+            Sei $K$ ein zusammenhängender Graph und $T \subset K$ ein Teilgraph, der alle Ecken von $K$ enthält, kurz: $\Omega(T) = \Omega(K)$.
+            Dann sind äquivalent:
+            \begin{enumerate}[i)]
+                \item
+                    $T$ ist ein Baum,
+                \item
+                    $T$ ist zykelfrei und maximal,
+                \item
+                    $T$ ist zusammenhängend und minimal,
+            \end{enumerate}
+            In diesem Fall nennen wir $T$ \emphdef{Spannbaum}.
+    \end{itemize}
+\end{ex}
+
+\begin{st}
+    Für jeden Baum $T$ gilt
+    \begin{math}
+        \pi_1(T, x_0) = \pi_0(|T|, x_0) = \Set{1}.
+    \end{math}
+    \begin{proof}
+        $\pi_1$ durch Kürzung.
+        $\pi_0$ durch Zusammenziehen.
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Sei $K$ ein zusammenhängender Graph, $x_0 \in \Omega(K)$, $T \subset K$ ein Spannbaum.
+    Dann ist $\pi_1(K, x_0)$ frei über $|K \setminus T|$ Erzeugern.
+
+    Genauer: $\psi: \pi_1(K, x_0) \to F = \GenMonoid{S & R} = \Gen{S & R}$ mit Erzeugern $S = \Set{s_{ab} & \Set{a,b} \in K \setminus T}$ und Relationen $R = \Set{s_{ab} s_{ba} & \Set{a,b} \in K \setminus T}$.
+
+    Ist $K$ zudem endlich, so hat $\pi_1(K, x_0)$ den Rang $|K \setminus T| = 1 - \chi(K)$.
+    \begin{proof}
+        Siehe Verallgemeinerung unten
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Sei $K$ ein zusammenhängender Simplizialkomplex, $x_0 \in \Omega(K)$, $T \subset K$ ein Spannbaum (im 1-Skelett).
+    Dann gilt $\pi_1(K, x_0) \isomorphic \Gen{S & R} = G$ mit
+    \begin{math}
+        S &= \Set{s_{ab} & \Set{a,b} \in K}, \\
+        R &= \Set{s_{ab} & \Set{a,b} \in T} \cup \Set{s_{ab} s_{ba} & \Set{a,b} \in K}
+        \cup \Set{s_{ab} s_{bc} s_{ca} & \Set{a,b,c} \in K }
+    \end{math}
+    Genauer: existieren zueinander inverse Gruppenisomorphismen
+    \begin{math}
+        \psi&:& \pi_1(K, x_0) &\to G, &
+        [v_0 \dotsc v_n] &\mapsto s_{v_0v_1} \dotsb s_{v_{n-1} v_n}, \\
+        \phi&:& G &\to \pi_1(K,x_0), &
+        s_{ab} &\mapsto [x_0 \dotsc a \ast ab \ast b \dotsc x_0].
+    \end{math}
+    \begin{proof}
+        Durch Nachrechnen: $\psi$ wohldefiniert, $\phi$ wohldefiniert.
+        Es gilt $\psi \circ \phi = \id_G$, denn $\psi(\phi(s_{ab})) = s_{ab}$.
+        Ebenso $\phi \circ \psi = \id_{\pi_1}$ (nach Kürzen der antisymmetrischen Wege in $T$).
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Skizze: Triangulierter Torus $T$ mit 9 Ecken, Spannbaum $U$.
+            Plausibilität: $\chi(T) = 9 - 27 + 18 = 0$.
+            Nicht-triviale Elemente $s_{xy} \in T \setminus U$ (wende Relationen an) bilden Erzeuger: $s := s_{ac}$, $t := s_{ea}$.
+            Wir erhalten
+            \begin{math}
+                \pi_1(T, a) = \Gen{S & R}
+                \xto* \Gen{s, t & st = ts} \isomorphic \Z^2.
+            \end{math}
+            Surjektiv nach Bild: Alle Erzeuger werden getroffen.
+            Injektiv nach Bild: Alle Relationen wurden verwendet.
+
+            Wie erwartet
+            \begin{math}
+                \pi_1(|T|, x_0)
+                \isomorphic \pi_1(\S^1 \times \S^1, x_0)
+                \isomorphic \pi_1(\S^1, x_0) \times \pi_1(\S^1, x_0)
+                \isomorphic \Z \times \Z
+                \isomorphic \Z^2.
+            \end{math}
+    \end{itemize}
+\end{ex}
