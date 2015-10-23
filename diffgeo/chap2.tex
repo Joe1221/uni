@@ -4,7 +4,7 @@
 Wir können nun definieren, was differenzierbare Abbildungen zwischen Mannigfaltigkeiten sind.
 
 \begin{df} \label{2.1}
-    Sei $M$ eine $m$-dimensionale und $N$ eine $n$-dimensionale hinreichend glatte Mannigfaltigkeit.    
+    Sei $M$ eine $m$-dimensionale und $N$ eine $n$-dimensionale hinreichend glatte Mannigfaltigkeit.
     Eine Abbildung $f: M \to N$ heißt $k$-fach differenzierbar, wenn es zu jedem Punkt $p \in M$ Umgebungen $V \subset M$ um $p$ und $W \subset N$ um $f(p)$ mit Karten $\phi: V \to U$ und $\psi: W \to X$ existieren, sodass
     \begin{math}
         \psi \circ f \circ \phi^{-1}
@@ -12,7 +12,7 @@ Wir können nun definieren, was differenzierbare Abbildungen zwischen Mannigfalt
     $k$-fach stetig differenzierbar ist.
 
     Für jede Karte $\phi: V \to U \subset \R^m$ sind die Komponentenfunktionen $\phi^j: V \to \R$, genannt \emphdef{Koordinaten}, definiert.
-    
+
     Mit $C^\infty(M)$ bezeichnen wir die Menge der glatten Funktionen auf $M$.
     \begin{note}
         \begin{itemize}
@@ -51,11 +51,106 @@ Wir können nun definieren, was differenzierbare Abbildungen zwischen Mannigfalt
     wobei für $k \in \Set{0, \dotsc, n}$ hier $\R^k \subset \R^n$ den Untervektorraum mit letzten $n-k$ Koordinaten gleich Null bezeichnet.
 
     Dann heißt $M$ eine $k$-dimensionale \emphdef{Untermannigfaltigkeit} von $N$.
+    \begin{nt*}
+        Eine $k$-dimensionale Untermannigfaltigkeit einer Mannigfaltigkeit $N$ ist selbst eine $k$-dimensionale Mannigfaltigkeit.
+    \end{nt*}
+\end{df}
+
+\begin{ex*}
+    \begin{itemize}
+        \item
+            Reguläre Flächen im $\R^3$ sind 2-dimensionale Untermannigfaltigkeit des $\R^3$.
+\Timestamp{2015-10-21}
+        \item
+            Die Einheitssphäre $S^n$ im $\R^{n+1}$ ist eine $n$-dimensionale Untermannigfaltigkeit.
+        \item
+            Jede diskrete Teilmenge $M \subset N$ ist eine $0$-dimensionale Untermannigfaltigkeit von $N$.
+        \item
+            Die $\dim N$-dimensionalen Untermannigfaltigkeiten von $N$ sind genau die offenen Teilmengen von $N$.
+        \item
+            Affine Unterräume des $\R^n$
+        \item
+            Die orthogonalen Matrizen
+            \begin{math}
+                O(n) = \Set{A \in \R^{n\times n} & A^tA = I}
+            \end{math}
+            bilden eine $\frac{1}{2}n(n-1)$-dimensionale Untermannigfaltigkeit des $\R^{n\times n} = \R^{n^2}$.
+    \end{itemize}
+\end{ex*}
+
+\begin{df}
+    Sei $U \subset \R^m$ eine offene Teilmenge.
+    Eine Abbildung $F: U \to \R^n$ heißt
+    \begin{enumerate}[i)]
+        \item
+            \emphdef{Submersion}, wenn ihre Ableitung $\Df[F] (x)$ eine surjektive,
+        \item
+            \emphdef{Immersion}, wenn sie eine injektive, oder
+        \item
+            \emphdef{lokaler Diffeomorphismus}, wenn sie eine bijektive
+    \end{enumerate}
+    lineare Abbildung $\R^m \to \R^n$ darstellt.
+
+    Eine glatte Abbildung heißt \emphdef{Submersion}, \emphdef{Immersion}, \emphdef{lokaler Diffeomorphismus}, wenn zu jedem $p \in M$ Karten $\phi$ um $p$ und $\psi$ um $f(p)$ exstieren, so dass $\psi \circ f \circ \phi^{-1}$ eine Submersion, Immersion, bzw. lokaler Diffeomorphismus ist.
+\end{df}
+
+\begin{st}[Reguläres Urbild] \label{2.5}
+    Sei $f: M \to N$ eine Submersion und $q \in N$.
+    Dann ist $f^{-1}(\Set{q}) \subset M$ eine $(\dim M - \dim N)$-dimensionale Untermannigfaltigkeit in $M$.
+    \begin{proof}
+        Betrachte die Situation lokal.
+        Satz von der impliziten Funktion auf $\phi^{-1} \circ f \circ \psi$.
+        Der so gewonnene Graph ist eine Untermannigfaltigkeit in $\R^m$.
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    Ist $f: U \subset \R^n \to \R$ eine glatte Funktion mit nichtverschwindendem Gradienten, so ist durch $f^{-1}(\Set{0})$ ein reguläre Fläche definiert (evtl. leer).
+
+    Beispielsweise $f(x,y,z) = x^2 + y^2 + z^2 - 1$.
+    Die Untermannigfaltigkeitseigenschaft folgt daraus, dass $f:\R^3 \setminus \Set{0} \to \R$ eine Submersion ist.
+    Denn es gilt
+    \begin{math}
+        \Nabla f(x,y,z) = \Vector{2x & 2y & 2z} \neq 0.
+    \end{math}
+\end{ex}
+
+\begin{df} \label{2.6}
+    Eine Immersion $f:M \to N$ heißt \emphdef{Einbettung}, falls $f: M \to f(M)$ ein Homöomorphismus ist.
+    \begin{note}
+        Diese Bedingung garantiert, dass $f$ keine Selbstannäheruungen hat (insbesondere keine Selbstdurchschneidungen).
+        Übung: Das Bild einer Einbettung ist eine Untermannigfaltigkeit.
+    \end{note}
 \end{df}
 
 \begin{ex}
     \begin{itemize}
         \item
-            Reguläre Flächen im $\R^3$ sind 2-dimensionale Untermannigfaltigkeit des $\R^3$.
+            Standard-Einbettung $\R^k \injto \R^n$, $k \le n$.
+        \item
+            Gerade mit irrationaler Steigung auf dem Torus $\R \to T^2$ ist keine Einbettung.
+    \end{itemize}
+\end{ex}
+
+\begin{df} \label{2.7}
+    Eine Mannigfaltigkeit $G$ ist eine \emph{Liegruppe}, wenn auf $G$ eine Verknüpfung $G \times G \to G$ gegeben ist, mit der $G$ eine Gruppe ist und die Gruppenoperationen $\cdot: G \times G \to G$, $(a,b) \mapsto ab$ und $\argdot^{-1}: G \to G$, $a \mapsto a^{-1}$ glatte Abbildungen sind.
+    \begin{note}
+        $G \times G$ ist eine $(2 \dim G)$-dimensionale Mannigfaltigkeit, siehe Übung.
+        Äquivalent kann man fordern, dass $G\times G \to G$, $(a,b) \mapsto ab^{-1}$ glatt ist.
+    \end{note}
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Die invertierbaren Matrizen
+            \begin{math}
+                \Gl(n,\R) = \Set{A \in \R^{n\times n} & \det(A) \neq 0}
+            \end{math}
+            ist eine Liegruppe.
+            \begin{proof}
+                Mannigfaltigkeit wegen $\Gl(n,\R) = \det^{-1}(\R \setminus 0)$.
+                Die Matrizenmultiplikation sind offensichtlich glatt, benutze die explizite Formel für die Inverse, um zu begründen, dass $A \mapsto A^{-1}$ glatt ist.
+            \end{proof}
     \end{itemize}
 \end{ex}
