@@ -95,7 +95,7 @@
 
 \begin{nt}
     Das Zornsche Lemma liefert: Maximale Ideale existieren in jedem Ring.
-    
+
     Genauso: Ist $f \in A$ eine \emphdef{multiplikative Menge} (d.h. $1 \in S$, $a,b \in S \implies ab \in S$) so gilt:
     Aus $\frak a \in A \ S$ Ideal folgt $\exists \frak p$ Ideal mit $\frak a \subset \frak p$ und $\frak p$ ist prim).
 \end{nt}
@@ -688,13 +688,14 @@ Fragen:
         \item
             Sei $k$ ein Körper, dann ist $k[x]$ ein euklidischer Ring, also ist
             \begin{math}
-                \Spec k[x] = \Set{(0), (f), & \text{$f \subset k[x]$ irreduzibel}}
+                \Spec k[x] = \Set{(0), (f) & \text{$f \subset k[x]$ irreduzibel}}
             \end{math}
             Beispielsweise
             \begin{math}
-                \Spec \R[x] &= \Set{(0), (x-a), (x-z)(x+\_z) & a \in \R, z \in \C \setminus \R} \\
-                \Spec \C[x] &= \Set{(0), (x-a) & a \in \C}
+                \Spec \R[x] &= \Set{(0), (x-a), (x-z)(x+\_z) & a \in \R, z \in \C \setminus \R},,,,,,,, \\
+                \Spec \C[x] &= \Set{(0), (x-a) & a \in \C}.
             \end{math}
+            Geometrisch $\Spec \C[x] = \C \cup \Set{\mathrm{pt}}$ als Menge mit \emphdef{generischem Punkt} $\mathrm{pt}$.
         \item
             Ist $\frk a \subset A$ ein Ideal, dann ist
             \begin{math}
@@ -705,5 +706,194 @@ Fragen:
             Für $\pi: A \xto[surjective] A / \frk a$ erhalten wir $\pi^a: \Spec A / \frk a \xto[injective] \Spec A \subset \Spec A$.
         \item
             $\Spec k[x,y] = \Spec(k[x])[y]$.
+        \item
+\Timestamp{2015-10-22}
+            Für $T \subset A$ setze
+            \begin{math}
+                Z(T) = \Set{\frk p \in \Spec A & T \subset \frk p}.
+            \end{math}
+            Ist $\frk a = \<T\>$, dann ist $Z(T) = Z(\frk a) = Z(\sqrt{\frk a})$ und $\scr T := \Set{Z(T) & T \subset A}$ erfüllt die die Axiome für geschlossene Mengen einer Topologie auf $X = \Spec A$, d.h.
+            \begin{itemize}
+                \item
+                    $\emptyset, X \in \scr T$,
+                \item
+                    $S_1, S_2 \in \scr T \implies S_1 \cup S_2 \in \scr T$,
+                \item
+                    $S_\lambda \in \scr T, \lambda \in \Lambda \implies \bigcup_{\lambda \in \Lambda} S_\lambda \in \scr T$.
+            \end{itemize}
+            Also sind $\Set{Z(T)^C & T \subset A}$ die offenen Mengen einer Topologie auf $\Spec A$, der sogenannten \emphdef{Zariski-Topologie}.
+            Es gilt $Z((0)) = \Spec A$, d.h. topologisch $\_{\Set{(0)}} = \Spec A$, $\Set{(0)}$ liegt dicht im topologischen Raum $X = \Spec A$.
+            Vergleiche: $\GL_n(\R)$ liegt dicht in $\Mat_n(\R)$.
     \end{enumerate}
 \end{ex}
+
+\begin{ex}
+    \begin{enumerate}[(i)]
+        \item
+            Wie sieht $\Spec k[x,y]$ aus?
+            Primideale sind gegeben durch
+            \begin{itemize}
+                \item
+                    $(0)$
+                \item
+                    $(f)$, $f \in k[x,y]$ irreduzibel,
+                \item
+                    $\frk m = (p, g)$ maximales Ideal, wobei $p \in k[x] \subset k[x,y]$ irreduzibel, $g \in k[x,y]$ irreduzibel mit $\_g = (k[x] / (p))[y]$.
+            \end{itemize}
+        \item
+            Analog: $\Spec \Z[y]$?
+            Primideale sind gegeben durch
+            \begin{itemize}
+                \item
+                    $(0)$
+                \item
+                    $(p)$, $p \in \Z$ prim,
+                \item
+                    $\frk m = (p,g)$ maximales Ideal, wobei $p \in \Z$ prim, $g \in \Z[y]$ mit $\_g \in \F_p[y]$ irreduzibel ($\F_p := \Z / p \Z$).
+
+            \end{itemize}
+    \end{enumerate}
+    Beachte $k[x,y] = (k[x])[y]$ sind Polynomringe über den euklidischen Ringen $k[x]$ und $\Z$.
+\end{ex}
+
+
+\section{Moduln}
+
+
+\begin{df}
+    Sei $A$ ein Ring
+    Eine abelsche Gruppe $M$ heißt \emphdef[Modul]{$A$-Modul}, falls eine Skalarmultiplikation $A \times M \to M$ existiert mit
+    \begin{enumerate}[(i)]
+        \item
+            $a(m_1 + m_2) = am_1 + am_2$,
+        \item
+            $(a + b)m = am + bm$.
+    \end{enumerate}
+    Genauso: Untermoduln, lineare Abbildungen zwischen $A$-Moduln (auch „$A$-Modul Morphismen“).
+\end{df}
+
+\begin{ex}
+    \begin{enumerate}[(i)]
+        \item
+            Ein Vektorraum über $k$ ist ein $k$-Modul,
+        \item
+            Sei $\frk a \subset A$ ein Ideal, dann ist $\frk a$ ein $A$-Modul.
+            Die Skalarmultiplikation wird dabei durch die Ringmultiplikation induziert.
+        \item
+            Jede abelsche Gruppe ist ein $\Z$-Modul vermöge
+            \begin{math}
+                \Z \times G \to G,
+                ng \mapsto \underbrace{g + \dotsb + g}_{\text{$n$-mal}}.
+            \end{math}
+        \item
+            Seien $M, N$ $A$-Moduln, dann ist $\Hom_A(M, N)$ ebenfalls ein $A$-Modul.
+            \begin{math}
+                (f + g)(m) &= f(m) + g(m),
+                (af)(m) &= af(m).
+            \end{math}
+        \item
+            Sei $A = k[x]$, dann ist der $A$-Modul $M$ ein $k$-Vektorraum zusammen mit einer $k$-linearen Abbildung $\phi: M \to M$, d.h. $k[x]$-Module lassen sich mit $(V, \phi)$, $V$ $k$-Vektorraum und $\phi \in \End_k(V)$ identifizieren.
+            \begin{proof}
+                Übung
+            \end{proof}
+        \item
+            $f: M \to N$ $A$-Modulmorphismus, dann sind $\ker f, \im f, \coker f = N / \im f$ $A$-Moduln.
+    \end{enumerate}
+\end{ex}
+
+\begin{st}[Isomorphiesätze]
+    \begin{enumerate}[(i)]
+        \item
+            Seien $L \subset N \subset M$ $A$-Moduln, dann ist
+            \begin{math}
+                (M / L) / (N / L) \isomorphic M / N.
+            \end{math}
+        \item
+            Seien $L,N \subset M$ $A$-Moduln, dann ist
+            \begin{math}
+                (N + L) / L  \isomorphic N / (N \cap L).
+            \end{math}
+            Insbesondere für $N \cap L = \Set{0}$, dann $N \oplus L \isomorphic N$.
+    \end{enumerate}
+\end{st}
+
+\subsection{Exakte Sequenzen}
+
+\begin{df}
+    Seien $L, M, N$ $A$-Moduln, dann heißt $L \xto{\alpha} M \xto{\beta} N$ mit $A$-lineren Abbildungen $\alpha, \beta$ \emphdef{exakte Sequenz}, wenn $\im \alpha = \ker \beta$ (insbesondere $\beta \circ \alpha = 0$).
+
+    Eine exakte Sequenz vom Typ $0 \to L \xto{\alpha} M \xto{\beta} N \to 0$ heißt \emphdef{kurze exakte Sequenz}.
+\end{df}
+
+\begin{st}
+    Sei $0 \to L \xto{\alpha} M \xto{\beta} N \to 0$ eine kurze exakte Sequenz.
+    Dann sind äquivalent
+    \begin{enumerate}[(i)]
+        \item
+            $M \isomorphic L \oplus N$ mit zugehörig $\beta \isomorphic (l, n) \mapsto n$, $\alpha \isomorphic l \mapsto (l, 0)$,
+        \item
+            Es existiert ein Schnitt von $\beta$, d.h. $\sigma: N \to M$ mit $\beta \circ \sigma = \Id_N$,
+        \item
+            Es existiert eine Retraktion von $\alpha$, d.h. $\rho: M \to L$ mit $\rho \circ \alpha = \Id_L$.
+    \end{enumerate}
+    Gilt eine (und damit alle) dieser Aussagen, so spricht man von einer \emphdef{aufspaltbaren} oder \emphdef{split} kurze exakte Sequenz.
+    \begin{proof}
+        Von (i) zu (ii), (iii) ist klar.
+        \begin{seg}{\ProofImplication()[2][1]}
+            \begin{itemize}
+                \item
+                    $\sigma$ ist injektiv, denn $\sigma(n_1) = \sigma(n_2)$ führt zu $n_1 = \beta \circ \sigma(n_1) = \beta \circ \sigma(n_2) = n_2$.
+                \item
+                    $M = \alpha(L) \oplus \sigma(N)$, denn
+                    \begin{itemize}
+                        \item
+                            Aus $m \in M$ folgt
+                            \begin{math}
+                                m = \underbrace{(m - \sigma \circ \beta(m))}_{\in \ker \beta = \im \alpha} + \underbrace{\sigma \circ \beta(m)}_{\in \sigma(N)}.
+                            \end{math}
+                        \item
+                            $\alpha(L) \cap \sigma(N) = \Set{0}$, denn aus $\sigma(n) \in \alpha(L)$ folgt $n = \beta \circ \sigma(n) = \beta \circ \alpha(l) = 0$
+                    \end{itemize}
+            \end{itemize}
+            (iii) zu (i) analog.
+        \end{seg}
+    \end{proof}
+\end{st}
+
+\begin{st}[Spalten und Verkleben exakter Sequenzen]
+    \begin{enumerate}[(i)]
+        \item
+            Spalten:
+            Sei $M_1 \xto{\alpha_1} M_2 \xto{\alpha_2} M_3 \xto{\alpha_3} M_4$ exakte Sequenz.
+            Dann sind
+            \begin{math}
+                M_1 &\xto{\alpha_1} M_2 &&\to \im \alpha_2 = \ker \alpha_3 &&\to 0,\\
+                0  &\to \ker \alpha_3 = \im \alpha_2 &&\to M_3 &&\to M_4
+            \end{math}
+            auch exakt.
+        \item
+            Verkleben:
+            Seien $M_1 \xto{\alpha_1} M_2 \xto{\alpha_2} N \to 0$ und $0 \to N \to M_3 \xto{\alpha_3} M_4$ exakt, dann auch
+            \begin{math}
+                M_1 \xto{\alpha_1} M_2 \xto{\alpha_2} M_3 \xto{\alpha_3} M_4.
+            \end{math}
+        \item
+            Eine exakte Sequenz $0 \to M_1 \xto{\alpha_1} M_2 \xto{\alpha_2} \dotsb \xto{\alpha_{n-1}} M_n \to 0$ kann in kurze exakte Sequenzen der Form
+            \begin{math}
+                0 \to \ker \alpha_i \to M_i \xto{\alpha_i} \im \alpha_i \to 0
+            \end{math}
+            zerlegt werden.
+    \end{enumerate}
+\end{st}
+
+\begin{lem}[Exakte Sequenzen von linearen Abbildungen]
+    Sei $\phi: M \to N$ eine $A$-lineare Abbildung, dann ist
+    \begin{math}
+        0 &\to& \ker \phi &\xto[injective] &M &\xto{\phi} \im \phi &&\to 0, \\
+        0 &\to& \im \phi &\xto[injective] &N &\to N / \im \phi = \coker \phi &&\to 0.
+    \end{math}
+    Durch Verkleben
+    \begin{math}
+        0 \to \ker \phi \to M \xto{\phi} N \to \coker \phi \to 0.
+    \end{math}
+\end{lem}
