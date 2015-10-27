@@ -12,6 +12,35 @@
 %\cs_gset_nopar:Npn \thechapter { \Alph { chapter } }
 %\cs_gset_nopar:Npn \thesection { \thechapter \relax \arabic { section } }
 
+\DeclareDocumentCommand { \Gen } { om } {
+    \tl_clear_new:N \l_content_tl
+    \tl_set:Nn \l_content_tl { #2 }
+
+    \tl_replace_all:Nnn \l_content_tl { & } { \c_mymath_set_delim_tl }
+
+    \tl_if_in:NnTF \l_content_tl { \c_mymath_set_delim_tl } {
+	\mathchoice {
+	    \left\< \big. \mkern1mu \mymath_set_vertbar:nn{\l_content_tl}{\middle|} \mkern2mu \right\>
+	} {
+	    \< \mkern1mu \mymath_set_vertbar:nn{\l_content_tl}{\mkern-2mu | \mkern-2mu} \mkern1mu \>
+	} {
+	    \< \mymath_set_vertbar:nn{\l_content_tl}{\mkern-1mu | \mkern-1mu} \>
+	} {
+	    \< \mymath_set_vertbar:nn{\l_content_tl}{\mkern-1mu | \mkern-1mu} \>
+	}
+    } {
+        \mathchoice {
+            \left\< \big.\mkern-1mu \l_content_tl \right\>
+        } {
+            \< \l_content_tl \>
+        } {
+            \< \l_content_tl \>
+        } {
+            \< \l_content_tl \>
+        }
+    }
+}
+
 \ExplSyntaxOff
 
 \DeclareDocumentCommand{\nin}{}{\not\in}

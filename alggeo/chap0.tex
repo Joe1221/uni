@@ -897,3 +897,162 @@ Fragen:
         0 \to \ker \phi \to M \xto{\phi} N \to \coker \phi \to 0.
     \end{math}
 \end{lem}
+
+
+\Timestamp{2015-10-26}
+
+%FIXME: Lecture missing
+
+\Timestamp{2015-10-27}
+
+\begin{kor}
+    Sei $M$ endlich mit $M = \frk a M$, dann existiert $x \in A$ mit $x \equiv 1 \pmod \frk a$ (d.h. $x = 1 + a$ mit $a \in \frk A$) und $xM = 0$.
+    \begin{proof}
+        Setze $\phi = \Id_M$ und wende Cayley-Hamilton an.
+        Dann ist $\phi(M) = M = \frk aM$.
+        Da $\phi^k = \phi$ folgt
+        \begin{math}
+            \underbrace{(1 + a_1 + a_2 + \dotsb + a_n)}_{=x} \phi = 0.
+        \end{math}
+    \end{proof}
+\end{kor}
+
+\begin{kor}[Nakayama]
+    Sei $(A, \frk m)$ lokaler Ring, $M$ endlich und $M = \frk m M$, dann gilt $M = 0$.
+
+    %Insbesondere: Ist $M \neq 0$ und $\_{m_1}, \dotsc, \_{m_r}$ Erzeugende von $M / \frk m M$.
+    \begin{proof}
+        Nach vorherigem Korollar existiert $x \in A$ mit $x \equiv 1 \bmod \frk m$ und $xM = 0$.
+        Da $(A, \frk m)$ lokaler Ring, ist $x \in A^*$, d.h. $x$ ist invertierbar, also $0 = x^{-1}(xM) = M$.
+    \end{proof}
+\end{kor}
+
+\begin{kor}
+    Sei $(A, \frk m)$ lokaler Ring, $M$ $A$-Modul und $N \subset M$ Untermodul mit $M / N$ ist endlich.
+    Gilt $M = N + \frk m M$, so ist $N = M$.
+
+    Insbesondere gilt: Ist $M$ endlich und $m_1, \dotsc, m_r \in M$ mit $\_{m_1}, \dotsc, \_{m_r}$ erzeugen $M / \frk m M$, dann erzeugen $m_1, \dotsc, m_r$ auch $M$.
+    \begin{note}
+        $M / \frk m M$ ist ein $k = A / \frk m$-Vektorraum, besitzt also immer eine Basis.
+
+        Für $N = 0$ erhalten wir Nakayama.
+    \end{note}
+    \begin{proof}
+        Nach Annahme ist
+        \begin{math}
+            \frk m(M / N)
+            \isomorphic \frk m M / (\frk m M \cap N)
+            \isomorphic (\frk m M + N) / N
+            \isomorphic M / N
+        \end{math}
+        endlich erzeugt.
+        Nach Nakayama erhalten wir $M / N = \Set 0$, d.h. $N = M$.
+
+        Sei $N = \Gen{m_1, \dotsc, m_r} \subset M$.
+        Betrachte
+        \begin{math}
+            N \xto[injective] M \xto[surjective] M / \frk m M,
+        \end{math}
+        was $N$ auf $M / \frk m M$ abbildet.
+        Dann ist $M = N + \frk m M$ und daher $M = N$ nach erstem Teil, also ist $M = \Gen{m_1, \dotsc, m_r}$.
+    \end{proof}
+\end{kor}
+
+
+\subsection{Tensorprodukte von Moduln}
+
+\begin{st}
+    Seien $M$ und $N$ $A$-Module.
+    Dann existiert $(T, \tau)$ mit
+    \begin{itemize}
+        \item
+            $T$ ist $A$-Modul,
+        \item
+            $\tau: M \times N \to T$ $A$-bilinear
+    \end{itemize}
+    mit der folgenden „unversellen Eigenschaft“:
+    Für alle bilinearen Abbildungen $\alpha: M \times N \to L$ für einen $A$-Modul $L$ existiert genau eine $A$-lineare Abbildung $\tilde \alpha: T \to L$ mit $\tilde \alpha \circ \tau = \alpha$, d.h.
+    \begin{math}
+        \begin{tikzcd}
+            M \times N \ar[r,"\tau"] \ar[dr,"\alpha"] & T \ar[d,dashed,"\tilde \alpha"] \\
+            & L
+        \end{tikzcd}
+    \end{math}
+    $T$ heißt das \emphdef{Tensorprodukt} von $M$ und $N$, man schreibt $T = M \otimes_A N$ (oder einfach $M \otimes N$), $\tau(m,n) = m \otimes n$.
+
+    $(T, \tau)$ ist eindeutig im folgenden Sinne: Existiert ein weiteres Paar $(T', \tau')$ mit dieser universellen Eigenschaft, so existiert ein \emph{eindeutiger} Isomorphismus von $A$-Modulen $j: T \to T'$ mit
+    \begin{math}
+        \begin{tikzcd}
+            T \ar[rr,"j"] && T' \\
+            & M \times N \ar[ul,"\tau"] \ar[ur,"\tau'"]
+        \end{tikzcd}
+    \end{math}
+    \begin{note}
+        Das Tensorprodukt erlaubt es, bilineare Abbildungen auf lineare Abbildungen zurückzuführen.
+    \end{note}
+    \begin{proof}[Skizze]
+        \begin{enumerate}[(i)]
+            \item
+                Eindeutigkeit:
+                Sei $(T', \tau')$ ein weiteres Paar, das die universelle Eigenschaft erfüllt.
+                \begin{math}
+                    \begin{tikzcd}
+                        M \times N \ar[r,"\tau"] \ar[rd,"\tau'"] & T \ar[d,dashed,"\exists! \tilde \tau'"] \\
+                        & T'
+                    \end{tikzcd}
+                    \begin{tikzcd}
+                        M \times N \ar[r,"\tau'"] \ar[rd,"\tau"] & T' \ar[d,dashed,"\exists! \tilde \tau"] \\
+                        & T
+                    \end{tikzcd}
+                \end{math}
+                Wegen
+                \begin{math}
+                    \begin{tikzcd}
+                        M \times N \ar[r,"\tau"], \ar[dr,"\tau"] & T \ar[d,"\tilde \tau \circ \tilde \tau"] \\
+                        & T
+                    \end{tikzcd}
+                \end{math}
+                ist $\tilde \tau \circ \tilde \tau' = \Id_T$ und analgo $\tilde \tau' \circ \tilde \tau = \Id_{T'}$.
+            \item
+                Existenz:
+                Definiere den $A$-Modul
+                \begin{math}
+                    \hat T := \Gen{M \times N} &= \Gen{(m,n) & m \in M, n \in N} \\
+                    &= \Set{ \sum_{\text{endl.}} a_i(m_i, n_i) & a_i \in A, m_i \in M, n_i \in N}.
+                \end{math}
+                Sei $R \subset \hat T$ der Untermodul, der von Elementen der Form
+                \begin{math}
+                    &(m+m', n) - (m,n) - (m',n), \\
+                    &(m,n+n') - (m,n) - (m,n'), \\
+                    &(am,n) - a(m,n), \\
+                    &(m,an) - a(m,n) \\
+                \end{math}
+                erzeugt wird.
+                Definiere
+                \begin{math}
+                    M \otimes N  := T := \hat T / R.
+                \end{math}
+                Ist $[(m,n)] = \_{(m,n)}$ Restklasse von $(m,n) \in \hat T$ in $T$, dann setze
+                \begin{math}
+                    m \otimes n := \tau(m,n) := \_{(m,n)}.
+                \end{math}
+        \end{enumerate}
+    \end{proof}
+    \begin{note}
+        Wie rechnet sich in $\hat T$?
+        $\hat T \neq M \times N$, es gilt im Allgemeinen $(m,n) + (m,n') \neq (m, n+ n')$, bzw. $(am, n) \neq a(m,n)$.
+
+        Wie rechnet sich in $T$?
+        Nach der Definition der Relationen $R$ gilt beispielsweise $(m,n) + (m,n') = (m, n + n')$.
+        Es rechnet sich mit $\otimes$ wie mit einer Bilinearform.
+
+        Also ist
+        \begin{math}
+            M \otimes_A N = \Gen{m \otimes n & m \in M, n \in N}
+        \end{math}
+    \end{note}
+\end{st}
+
+
+
+
