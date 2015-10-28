@@ -1,0 +1,106 @@
+\chapter{Der Tangentialraum}
+
+\Timestamp{2015-10-28}
+
+Wir haben nun den Begriff der Differenzierbarkeit definiert, wissen aber noch nicht, was die Ableitung (d.h. das Differential) einer Abbildung ist.
+
+Das Differential (z.B. für Abbildungen zwischen $\R^n$ und $\R^m$) ist eine Annäherung einer Abbildung in der Nähe eines Punktes durch eine (affin-)lineare Abbildung.
+Diese bildet einen Vektorraum in einen Vektorraum ab, dieser wird der Tangentialraum sein.
+
+Da eine \emph{abstrakte} Mannigfaltigkeit zunächst nicht im Euklidischen Raum eingebettet ist, kann man nicht wie bei einer Fläche im $\R^3$ einfach die Geschwindigkeitsvektoren von Kurven durch einen Punkt betrachten, man benötigt Hilfskonstruktionen.
+
+
+\section{Tangentialvektoren in Karten}
+
+
+\begin{df} \label{3.1}
+    Ein \emphdef{Repräsentant eines Tangentialvektors} in $p \in M$ ist ein Paar $(\phi, u) \in \scr A \times \R^m$, bestehend aus einer Karte $\phi$ um $p$ und einem Element $u \in \R^m$.
+    
+    Zwei Repräsentanten $(\phi, u)$, $(\psi, v)$ heißen \emphdef[äquivalent!Repräsentanten]{äquivalent}, falls $D(\psi \circ \phi^{-1})|_{\phi(p)}(u) = v$.
+
+    Die Äquivalenzklassen $[(\phi, u)]$ heißen \emphdef{Tangentialvektoren} am \emphdef{Fußpunkt} $p$, s bilden den Tangentialraum $\T_p M$
+\end{df}
+
+\begin{lem} \label{3.2}
+    Mit den Rechenoperationen
+    \begin{math}
+        [(\phi, u_1)] + [(\phi, u_2)]
+            &:= [(\phi, u_1 + u_2)],\\
+        \lambda [(\phi, u)]
+            &:= [(\phi, \lambda u)]
+    \end{math}
+    wird $\T_p M$ zu einem $m$-dimensionalen $\R$-Vektorraum.
+    \begin{proof}
+        Für jede andere Karte $\psi$ ist die Jacobimatrix $D(\psi \circ \phi^{-1})|_{\phi(p)}: \R^m \to \R^m$ ein linearer Isomorphismus, also sind die Addition und die skalare Multiplikation von der Wahl der Karte unabhängig.
+        Durch die Wahl einer festen Karte $\phi$ um $p$ bildet $\Set{(\phi, v) & v \in \R^m}$ ein vollständiges Repräsentantensystem für $\T_p M$.
+        Es folgt, dass $\T_p M$ zu $\R^m$ isomorph ist.
+    \end{proof}
+\end{lem}
+
+\begin{df} \label{3.3}
+    Seien $M$ und $N$ differenzierbare Mannigfaltigkeiten und $f: M \to N$ eine differenzierbare Abbildung.
+    Dann ist das \emphdef{Differenzial} (auch \emphdef{Ableitung} oder \emphdef{Tangential}) von $f$ an $p \in M$ definiert als die lineare Abildung. 
+    \begin{math}
+        \T_p f: \T_p M &\to \T_{f(p)} N, \\
+        [(\phi, u)] &\mapsto [(\psi, D(\psi \circ f \circ \phi^{-1})|_{\phi(p)}(u))]
+    \end{math}
+    \begin{proof}
+        Wohldefiniertheit:
+        Sei $[(\phi,u)] = [\tilde \phi, D(\tilde \phi \circ \phi^{-1})|_{\phi(p)}(u)]$
+        Dann ist im Urbild:
+        \begin{math}
+            (\T_p f) [(\tilde \phi, D(\tilde \phi \circ \phi^{-1})|_{\phi(p)} (u)]
+            &= [(\psi, D(\psi \circ f \circ \tilde \phi^{-1})_{\tilde \phi(p)} D(\tilde \phi \circ \phi^{-1})|_{\phi(p)} (u)] \\
+            &= [(\psi, D(\psi \circ f \circ \phi^{-1})|_{\phi(p)}(u))] \\
+            &= (\T_p f)[(\phi, u)].
+        \end{math}
+        Im Bild:
+        \begin{math}
+            [(\psi, D(\psi \circ f \circ \phi^{-1})|_{\phi(p)})]
+            &= [(\tilde \psi, D(\tilde \psi \circ \psi^{-1})|_{\psi(f(p)} D(\psi \circ f \circ \phi^{-1})_{\phi(p)}(u))] \\
+            &= [(\tilde \psi, D(\tilde \psi \circ f \circ \phi^{-1})|_{\phi(p)} (u))].
+        \end{math}
+    \end{proof}
+\end{df}
+
+\begin{st}[Kettenregel] \label{3.4}
+    Seien $M, N, P$ differenzierbare Mannigfaltigkeiten und $M \xto[g] N \xto[f] P$ differenzierbare Abbildungen.
+    Dann gilt
+    \begin{math}
+        \T_p(f \circ g) = (\T_{g(p)} f) \circ (\T_p g)
+    \end{math}
+    für $p \in M$.
+    \begin{proof}
+        Wähle Karten $\phi: V \to U$ Karte von $M$ um $p$, $\psi: W \to X$ Karte von $N$ um $g(p)$ und $\tau: Y \to Z$ Karte von $P$ um $f(g(p))$.
+        Es gilt
+        \begin{math}
+            (\T_{g(p)} f) \circ (\T_p g) [(\phi, u)]
+            &= (\T_{g(p)} f) [\psi, D(\psi \circ g \circ \phi^{-1})|_{\phi(p)}(u))] \\
+            &= [(\tau, D(\tau \circ f \circ \psi^{-1})|_{\psi(g(p))} \circ D(\psi \circ g \circ \phi^{-1})|_{\phi(p)}(u))] \\
+            &= [(\tau, D(\tau \circ f \circ g \phi^{-1})|_{\phi(p)}(u))] \\
+            &= \T_p(f\circ g) [(\phi, u)].
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{df} \label{3.5}
+    Sei $M$ eine Mannigfaltigkeit. 
+    Wir bezeichnen die disjunkte Vereinigung der Tangentialräume
+    \begin{math}
+        \T M := \bigdotcup_{p\in M} \T_p M.
+    \end{math}
+    Sei $\pi: \T M \to M$ die Abbildung, die jeden Tangentialvektor seinen Fußpunkt zuordnet (d.h. $\pi(v) = p$ falls $v \in \T_p M$).
+    Wir nennen diese disjunkte Vereinigung aller Tangentialräume an $M$ zusammen mit $\pi$ das \emphdef{Tangentialbündel} von $M$.
+\end{df}
+
+\begin{st} \label{3.6}
+    Das Tangentialbündel $\T M$ einer Mannigfaltigkeit $M$ ist selbst eine ($2 \dim(M)$)-dimensionale Mannigfaltigkeit.
+    %\begin{proof}[Skizze]
+        % FIXME: Ordentlich mit Summentopologie, Pullback-Topologie auf \T M.
+
+        %Für jede Karte $\phi: V \to U$ von $M$ kann man wie folgt eine von $\T M$ konstruieren.
+        %Sei $\tilde V := \pi^{-1}(V)$ und sei $\tilde p = [(\phi, u)]$.
+        %Dann setze $\tilde \phi(\tilde p) = (\pi(\tilde p), u)$.
+        %Wir verwenden dann $\tilde \phi$ für jede Karte $\phi$ von $M$ und $\tilde V$, $\tilde U := U \times \R^m$ als Karten von $\T M$. 
+    %\end{proof}
+\end{st}
