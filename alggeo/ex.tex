@@ -1,0 +1,73 @@
+\begin{ex}
+    Berechne $\Spec B[y]$ für einen Hauptidealring $B$.
+    \begin{proof}
+        Setze $A = B[y]$ und $K = \Quot B$.
+        Erinnerung: $f \in K[y]$ läst sich als $f = a f_0$ schreiben mit $a \in K$ und $f_0 \in B[y]$ primitiv (d.h. die Koeffizienten von $f_0$ haben keinen gemeinsamen Faktor).
+        Lemma von Gauß: Das Produkt zweier primitiver Polynome bleibt primitiv.
+
+        Die Primideale von $A = B[y]$ sind wie folgt:
+        \begin{itemize}
+            \item
+                $(0)$
+            \item
+                $(q)$ mit $q \in A$ prim
+            \item
+                $\frk m = (p,g)$, wobei $p \in B \subset A$ prim in $B$ und $g \in A = B[y]$ mit $\_g \in (B / (p))[y]$ irreduzibel.
+        \end{itemize}
+        Denn:
+        Ist $\frk p \in \Spec A$ ein Hauptideal, dann sind wir fertig.
+        Also nehme an, dass $f_1, f_2 \in \frk p$ ohne gemeinsamen Faktor in $A = B[y]$ existieren.
+
+        \begin{enumerate}[1.]
+            \item
+                Zeige: $f_1, f_2$ haben keinen gemeinsamen Faktor in $K[y]$.
+
+                Falls nicht, d.h. $f_i h g_i$ mit $h, g_1, g_2 \in K[y]$ und $\deg h > 0$.
+                Dann betrachte $h = a h_0$, $g_i = b_i \gamma_i$ mit $a, b_i \in K$ und $h_0, \gamma_i \in B[y]$ primitiv.
+                Folglich ist $h_0 \gamma_i$ primitiv, also ist
+                \begin{math}
+                    f_i = hg_i = a b_i \underbrace{h_0 \gamma_i}_{\in A = B[y]} \in A = B[y],
+                \end{math}
+                also $ab_i \in B$, d.h. $h_0 \divs f_i$ in $A$, ein Widerspruch.
+            \item
+                Zeige: Sei $\frk a = (f_1, f_2)$, dann folgt $\frk a \cap B \neq (0)$.
+
+                $K[y]$ ist ein HIR und $\gcd(f_1, f_2) = 1$ nach Schritt 1.
+                Es existieren $g_1, g_2 \in K[y]$ mit $g_1 f_1 + g_2 f_2 = 1$.
+                Sei $b \in B$ gemeinsamer Nenner der Koeffizienten, dann $\frk a \ni bgf_1 + bg_2f_2 = b \in B$, also $0 \neq b \in \frk a \cap B$.
+            \item
+                Da $\frk p \in \Spec A$, folgt ${\frk p}^c = \frk p \cap B$ ist prim und nichttrivial, d.h. ($B$ HIR) ${\frk p}^c = p \cap B = (p)$ mit $p \in B$ prim. 
+                $(p)$ ist maximal in $B$ (da $B$ HIR).
+                Also ist $k_p := B / (p)$ ein Körper.
+                Betrachte dann die Reduktionsabbildung
+                \begin{math}
+                    A = B[y] \xto{\rho} k_p[y] \to 0,
+                \end{math}
+                gegeben durch Reduktion der Koeffizienten modulo $p$ in $B$.
+                $\ker \rho = (p)^e$ (bezüglich $B \injto A$) ist das von $p$ in $A$ erzeugte Ideal, $\ker p \subset \frk p$.
+
+                Es existiert ein maximalen Ideal in $k_p[y] \isomorphic A / (p)^e = \im \rho / \ker \rho$ mit $\rho^{-1}(\frk m) = \frk p$.
+                $k_p[y]$ Hauptideal, also $\frk m = (\_g)$ mit $\_g$ irreduzibel, $g \in A$.
+                Also
+                \begin{math}
+                    \frk p = \rho^{-1}(\frk m) = {\frk m}^c = (p,g)
+                \end{math}
+                wie behauptet.
+        \end{enumerate}
+    \end{proof}
+    \begin{note}
+        \begin{math}
+            A / \frk p
+            \isomorphic (A / (p)^e / (\frk p / (p)^e
+            \isomorphic k_p[y] / (\_g)
+        \end{math}
+        ist algebraische, sogar endliche Körpererweiterung von $k_p$.
+
+        Ist $B =k[x]$ und $k$ algebraische abgeschlossen, dann ist $k_p = k[x] /(p) = k$.
+        Also $\frk m = (p, g)$ mit $p \in k[x]$ irreduzibel, d.h. $p = x - a$, $a \in k$, $g \in k[x,y]$, $\_g \in (k[x]/(p))[y] \isomorphic k[y]$ irreduzibel, d.h. $\_g = y - b$.
+
+        $\frk m = (x-a, y-b) \subset B[y] = k[x,y]$ entspricht dem Punkt $(a,b) \in k^2$.
+
+        Beweis aus Reid, Commutative Algebra.
+    \end{note}
+\end{ex}
