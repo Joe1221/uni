@@ -535,3 +535,210 @@ Kombinatorische Kodierung eines Simplizialkomplexes:
             \end{math}
     \end{itemize}
 \end{ex}
+
+
+\Timestamp{2015-10-30}
+
+\section{Der Satz von Seifert-van-Kampen}
+
+Sei $X = \bigcup_{i \in I} U_i$ eine offene Überdeckung.
+Ziel: Wie berechnet man $\pi_1(X, x_0)$ aus den Teilen $(U_i)_{i \in I}$?
+
+Einfaches Beispiel (Skizze: drei Mengen mit paarweisen Schnitten)
+Fordere
+\begin{itemize}
+    \item
+        $U_i$ einfach zusammenhängend
+    \item
+        $U_i \cap U_j$ einfach zusammenhängend
+    \item
+        $U_i \cap U_j \cap U_k$ einfach zusammenhängend
+\end{itemize}
+Man denke an $U_i \subset \R^n$ konvex, dann sind alle weiteren Schnitte konvex (ebenso $U_i \subset M$ in einer Riemannschen Mannigfaltigkeit).
+
+Wir bilden folgenden Simplizialkomplex, genannt der \emphdef{Nerv} von $\scr U = (U_i)_{i \in I}$.
+Für $S = \Set{s_0, \dotsc, s_n} \subset I$ setze $U_S := U_{s_0} \cap \dotsb \cap U_{s_n}$, sowie $U_{\emptyset} := X$.
+Der \emphdef{Nerv} ist
+\begin{math}
+    N(\scr U) = \Set{\text{$S \subset I$ endlich} & U_S \neq \emptyset}.
+\end{math}
+
+Im Beispiel $I = \Set{1, 2, 3}$, $\scr U$ wie skizziert,
+\begin{math}
+    N(\scr U) = \Set{\emptyset, \Set 1, \Set 2, \Set 3, \Set{1, 2}, \Set{1, 3}, \Set{2, 3}}
+\end{math}
+
+\begin{prop}
+    $N(\scr U)$ ist ein (abstrakter) Simplizialkomplex.
+\end{prop}
+
+\begin{st}
+    Sei $X$ ein topologischer Raum, $\scr U = (U_i)_{i \in I}$ eine offene Überdeckung sodass $U_i$ einfach zusammenhängend und $U_i \cap U_j$ wegzusammenhängend ist.
+    Wähle $i_0 \in I$ und $x_0 \in U_{i_0}$.
+
+    Dann existiert ein Gruppenisomorphismus
+    \begin{math}
+        \Phi: \pi_1(N(\scr U), i_0) &\xto \pi_1(X, x_0), \\
+        [(i_0, i_1, \dotsc, i_n)] &\mapsto [\gamma_{i_0, i_1} \ast \dotsb \ast \gamma_{i_{n-1}, i_n}].
+    \end{math}
+    Genauer:
+    Hierzu wählen wir $x_i \in U_i$ für $i \in I$ sowie $x_{ij} \in U_{ij} := U_i \cap U_j$ für $i \neq j$ mit $U_{ij} \neq \emptyset$, $x_{ij} = x_{ji}$.
+    Sei $\gamma_{ij}$ ein Weg von $x_i$ nach $x_{ij}$ in $U_i$ und dann von $x_{ij}$ nach $x_j$ in $U_j$.
+    Damit ist $[\gamma_{ij}]$ eindeutig festgelegt (da $U_i$, $U_j$ einfach zusammenhängend, $U_{ij}$ wegzusammenhängend).
+    % \gamma_{ij} \sim \gamma_{ij} \iff \gamma_{ij}\_{\gamma_{ij}} \sim *
+    \begin{proof}[Skizze]
+        \begin{enumerate}[1)]
+            \item
+                $\Phi$ surjektiv (Skizze: Weg $\omega$ über endlich viele $U_i$ von $x_{i_0}$ nach $x_{i_n} = x_{i_0}$, homotop zu zweitem Weg):
+                Sei $\omega:[0,1] \to X$ ein Weg von $x_0$ nach $x_0$.
+                Wir haben eine offene Überdeckung $[0,1] = \bigcup_{i \in I} \omega^{-1}(U_i)$.
+                Es existiert eine Lebesgue-Zahl $\frac{1}{n}$, $n \in \nu$, sodass $\omega([\frac{k-1}{n}, \frac{k}{n}]) \subset U_{i_k}$ für $k = 1, \dotsc, n$.
+                Für $i_k \neq i_{k+1}$ liegt $\omega(\frac{k}{n}$ in $U_{i_k} \cap U_{i_{k+1}}$.
+                Wähle $\beta_k$ von $\omega(\frac{k}{n})$ nach $x_{i_k}{i_{k+1}}$ in $U_{i_k} \cap U_{i_{k+1}}$.
+                Dann gilt $\gamma \ast \_\omega \sim 1_{x_0}$.
+                %Nutze Kompaktheit des Weges (endliche Überdeckung, Intervallteilung mit Lebesgue-Zahl), konstruiere so die Folge von Mengen $U_i$.
+            \item
+                $\Phi$ injektiv: später
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+Im Allgemeinen sind unsere Überdeckungen jedoch nicht so schön.
+
+Sei $X$ ein topologischer Raum und $\scr U = (U_s)_{s \in \Omega}$ eine offene Überdeckung ($U_s$ muss nicht wegzusammenhängend sein, ebensowenig $U_s \cap U_t$).
+
+Der \emphdef{Wegnerv} von $\scr U$ ist definiert durch
+\begin{math}
+    N^\circ(\scr U) = \Set{(S, C) & \text{$S \subset \Omega$ endlich, $C \in \pi_0(U_s)$} }
+\end{math}
+($\pi_0(U_s)$ Menge der Wegzusammenhangskomponenten).
+Setze $\dim(S, C) = |S| - 1$.
+Definiere $(S, C) \to (T, D)$ durch $T \subset S$ und $D \supset C$.
+
+Skizze: $U_1, U_2$, $U_1$ mit zwei Komponenten, mit jeweils $3$ Schnitten $D_1, D_2, D_3$ und einem Schnitt $D_4$ mit $U_2$, $U_2$ einfach zusammenhängend.
+\begin{math}
+    \begin{tikzcd}
+        & (\Set{1,2}, D_1) \ar[ld] \ar[rd]& \\
+        (\Set 1, C) & (\Set{1,2}, D_2) \ar[l] \ar[r] & (\Set{2}, U_2) \\
+        & (\Set{1,2}, D_3) \ar[lu] \ar[ru] & \\
+        (\Set{1}, C') & (\Set{1,2}, D_4) \ar[l] \ar[ruu]
+    \end{tikzcd}
+\end{math}
+Damit ist $I = N^\circ(\scr U)$ mit $\to$ ein Poset, d.h. reflexiv ($i \to i$) und transitiv ($i \to j \to k \implies i \to k$).
+Jedem Index $i = (S, C)$ ordnen wir den Teilraum $X_i = C$ zu.
+Wir wählen $x_i \in X_i$.
+Für $i \to j$ gilt $X_i \subset X_j$.
+Da $X_j$ wegzusammenhängend ist, wähle einen Weg $\gamma_{ij}: [0,1] \to X_j$ von $\gamma_{ij}(0) = x_i$ nach $\gamma_{ij}(1) = x_j$.
+Für $i = j$ setze $\gamma_{ii} = 1_{x_i}$.
+Für $i \to j$, $j \to i$ gilt $X_i = X_j$ und evtl. $x_i \neq x_j$, wir wollen dann $\gamma_{ji} = \_{\gamma_{ij}}$.
+
+Aus $\scr U = (U_s)_{s \in \Omega}$ erhalten wir $(I, \to, (X_i)_{i \in I}, (x_i)_{i \in I}, (\gamma_{ij})_{i \to j})$.
+
+Zu $i \in I$ setzen wir $G_i := \pi_1(X_i, x_i)$.
+Für $i \to j$ induziert $\iota_{ij}: X_i \injto X_j$ einen Gruppenhomomorphismus $h_{ij} : G_i \to G_j$ durch
+\begin{math}
+    h_{ij}([\alpha]) := \_{\gamma_{ij}} \ast (\iota_{ij} \circ \alpha) \ast \gamma_{ij}
+\end{math}
+(Skizze: !!)
+Für $i \to j \to k$ (Skizze: Venn-Diagramm mit Drei Mengen, $i \to j \to k$ und $i \to k$)
+setze $g_{ijk} := [\_{\gamma_{jk}} \ast \_{\gamma_{ij}} \ast \gamma_{ik}] \in G_k$.
+
+Es gilt
+\begin{math}
+    h_{jk} \circ h_{ij} = g_{ijk} h_{ik} g_{ijk}^{-1}.
+\end{math}
+D.h. $g_{ijk}$ misst die Abweichung von $h_{jk} \circ h_{ij}$ zu $h_{ik}$.
+
+Wir erhalten hieraus den Gruppenkomplex
+\begin{math}
+    \Gamma &= (I, \to, G_\argdot, h_{\argdot, \argdot}, g_{\argdot, \argdot, \argdot}) \\
+    &= (I, \to, (G_i)_{i\in I}, (h_{ij})_{i \to j}, (g_{ijk})_{i \to j \to k}).
+\end{math}
+Hierin betrachten wir \emphdef{Kantenzüge}
+\begin{math}
+    w = (i_0 \xto[lr]{g_1} i_1 \xto[lr] \dotsb \xto[lr] i_n)
+\end{math}
+Hierbei seien $i_0, i_1, \dotsc, i_n \in I$ und $i \xto[lr]{g} j$ steht entweder für $i \to j$ oder $i \xto* j$ in Graphen $(I, \to)$ oder aber $i \xto{g} i$ oder $i \xto*{g} i$ mit $g \in G_i$.
+Die Verknüpfung $w \ast w'$ ist die Aneinanderhängung.
+Wir nutzen folgende Relationen
+\begin{math}
+    (i \xto{1} i) &\approx (i), \\
+    (i \to i) &\approx (i), \\
+    (i \to j \xto* i) &\approx (i), \\
+    (j \xto* i \xto{g} i \to j) &\approx (j \xto{h_{ij}(g)} j), \\
+    (i \xto{g} i) &\approx (i \xto{g^{-1}} i), \\
+    (i \xto{g} i \xto{h} i) &\approx (i \xto{gh} i), \\
+    (i \to j \to k) &\approx (i \to k \xto{g_{ijk}^{-1}} k).
+\end{math}
+Die Kantengruppe des Gruppenkomplexes $\Gamma$ ist
+\begin{math}
+    \pi_1(\Gamma, i_0) = \frac{\text{geschl. Kantenzüge in $\Gamma$ von $i_0$ nach $i_0$}}{\text{Äquivalenz $\approx$}}.
+\end{math}
+
+\begin{st}[Seifert-van-Kampen]
+    Jede offene Überdeckung $X = \bigcup{s \in \Omega} U_s$ definiert einen Gruppenkomplex $\Gamma$ (nach Wahl von Fußpunkten und Verbindungswegen).
+    Seine Kantengruppe $\pi_1(\Gamma, i_0)$ ist isomorph zu $\pi_1(X, x_0)$.
+
+    Genauer: Für das $1$-Skelett $\Gamma_{\le 1}$ liefert die topologische Realisierung eine Surjektion
+    \begin{math}
+        \Phi_1: \pi_1(\Gamma_{\le 1}, i_0) \xto[surjective] \pi_1(X, x_0).
+    \end{math}
+    Für das $2$-Skelett $\Gamma_{\le 2}$ erhalten wir einen Isomorphismus $\Phi_2 : \pi_1(\Gamma_{\le 2}, i_0) \xto[isomorphic] \pi_1(X, x_0)$.
+\end{st}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Kreisring aus zwei Mengen gebildet.
+            $\pi_1(\Gamma, x_1) \isomorphic \Z$.
+            Wir benötigen nur $U_1, U_2$ einfach zusammenhängend, $U_1 \cap U_2$ hat zwei Wegkomponenten.
+
+            Betrachte $U_1, U_2$ mit $U_1 \cap U_2 = C_1 \dunion C_2$ und $C_1 \isomorphic C_2 \isomorphic \S^1 \times \B^2$.
+        \item
+            $U_1$ Kreisring, $U_2$ Kreisscheibe, $U_1 \cap U_2$ Kreisring.
+        \item
+            Venn-Diagramm, ohne Mittelteil, $\pi_1(\Gamma, x_0) \isomorphic \Z$.
+        \item
+            Wie voriges, mit mittlerer Kreisscheibe, $\pi_1(\Gamma, x_0) \isomorphic \Set e$.
+        \item
+            $\pi_0(U_1) = \pi_0(U_2) = \pi_0(U_1 \cap U_2) = \Set *$.
+            $\pi_1(U_1) = G_1$, $\pi_1(U_2) = G_2$ beliebig, $\pi_1(U_1 \cap U_2) = \Set e$.
+            \begin{math}
+                \pi(\Gamma, x_0) = G_1 \ast G_2
+            \end{math}
+            (freies Produkt).
+        \item
+            $\pi_1(U_1) = G_1$, $\pi_1(U_2) = G_2$ beliebig, $U_1 \cap U_2$ weszusammenhängend, $\pi_1(U_1 \cap U_2) = K$.
+            Sei $U_{12} := U_1 \cap U_2$,
+            \begin{math}
+                i: U_{12} &\injto U_1, &i_\#: \pi_1(U_{12}) &\injto \pi_1(U_1), \\
+                j: U_{12} &\injto U_2, &j_\#: \pi_1(U_{12}) &\injto \pi_1(U_2). \\
+            \end{math}
+            Das führt zum amalgamierten Produkt $G_1 \ast_K G_2$.
+
+            Ausführlich und etwas allgemeiner:
+            Sei $X = U_1 \cup U_2$, $U_1, U_2$ offen und wegzusammenhängend,
+            $U_{12} = U_1 \cap U_2$ (offen und) wegzusammenhängend.
+            Wir wählen $x_0 \in U_{12} \subset U_1, U_2$.
+            Sei $\pi_1(U_i, x_0) = G_i = \Gen{S_i & R_i}$ für $i \in \Set{1, 2, (1,2)}$.
+            (Skizze: $\Gamma$)
+            Dann gilt
+            \begin{math}
+                \pi_1(X, x_0) = \pi_1(\Gamma, x_0)
+                = \Gen{S_1, S_2 & R_1 \dunion R_2 \dunion T}
+            \end{math}
+            mit
+            \begin{math}
+                T = \Set{h_1(s) h_2(s)^{-1} & s \in S_{12}}
+            \end{math}
+        \item
+            $g_{ijk}$ nichttrivial:
+            $U_1 \isomorphic U_2 \isomorphic U_3 \isomorphic \S^1 \times (0,1)$ mit geeigneter Wahl der Fußpunkte.
+    \end{itemize}
+    \begin{note}
+        Gruppenkomplexe dienen zur Analyse von Gruppen, siehe Serre, Trees.
+    \end{note}
+\end{ex}
+
+
+
