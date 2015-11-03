@@ -173,14 +173,19 @@ In vielen Fällen (wie auch im Folgenden) stellt dies keine nennenswerte Einschr
     \end{itemize}
 \end{df}
 
-\begin{st}
-    Jeder plättbare Graph hat eine planare Einbettung, bei der alle Facetten Polygone sind.
+% FIXME: Definition: Sternförmiges Polygon mit \epsilon-Umgebung
+
+\begin{st}[Farý-Wagner]
+    Jeder plättbare Graph hat eine planare Einbettung, bei der alle Kanten Strecken sind.
+    Sogar: alle inneren Facetten sind sternförmig.
     \begin{proof}
-%        Trianguliere alle Facetten, der Graph bleibt planar (beachte Beispiel 11-Eck).
-%        Starte mit einer äußeren Facette und nehme Facetten hinzu.
-%        Als Invariante: Alle Facetten bleiben sternförmig.
-%
-%        Ist eine Facette sternförmig, so bleibt der Kern nicht-leer, wenn ein Dreieck hinzugefügt wird.
+        Ohne Einschränkung $|V| \ge 4$, $G$ zusammenhängend, $d(x) \ge 3$ (Knoten mit $d \le 2$ können zum Schluss eingefügt werden) und alle Facetten sind Dreiecke.
+
+        Induktiv von außen nach innen Facetten hinzunehmen.
+        Invariante: das Innere ist sternförmig und die bisher konstruierte Einbettung ist induzierter Untergraph des Anfangsgraphens.
+
+        Konstruiere neue Facette, diese muss einen neuen Punkt im Inneren besitzen (Induktionsannahme), lege diesen ins Innere der $\epsilon$-Umgebung.
+        Der Rest bleibt sternförmig.
     \end{proof}
 \end{st}
 
@@ -207,3 +212,65 @@ In vielen Fällen (wie auch im Folgenden) stellt dies keine nennenswerte Einschr
         Es existiert ein $i \in N(x) \cap N(y)$, da $d(x) = |N(x)|$, $d(y) = |N(y)|$.
     \end{proof}
 \end{st}
+
+
+\Timestamp{2015-11-02}
+
+Ein Baum ist ein nicht-leerer zusammenhängender Wald.
+Ein Knoten $x$ ist ein \emphdef{Blatt}, wenn $d(x) \le 1$.
+
+\begin{lem}
+    Jeder endliche Baum hat Blätter.
+    \begin{proof}
+        Wähle $x_0 \in V$ als Wurzel.
+        Alle Knoten verfügen über einen eindeutigen Pfad zur Wurzel hin.
+        Knoten mit maximaler Distanz zur Wurzel sind Blätter.
+    \end{proof}
+\end{lem}
+
+\begin{kor}
+    Sei $T = (V, E)$ ein Baum mit $|V| = n$ hat $|E| = n-1$ Kanten.
+\end{kor}
+
+\begin{st}[Cayley-Formel]
+    Sei $K_n = (V, \binom{V}{2})$ ein vollständiger Graph mit $n \ge 2$ Knoten.
+    Dann gilt
+    \begin{math}
+        \Set{T \subset \binom{V}{2} & \text{$(V, T)$ ist Spannbaum} } = n^{n-2}.
+    \end{math}
+    \begin{proof}
+        Wir identifizieren dazu jeden Spannbaum mit einer Knotenfolge der Länge $n-2$, dem sogenannten \emphdef{Prüfer-Code}.
+        Ohne Einschränkung $V = \Set{1, \dotsc, n}$ mit linearer Ordnung.
+
+        $n = 2$ klar, leere Folge.
+        Definiere $\In(T) := \Set{x \in V & d(x) \ge 2}$.
+        Dann gilt $\In(T) \neq V$ (Baum hat Blätter).
+        Da $V$ linear geordnet ist, gibt es ein kleinstes Blatt $b_1 \in V \setminus \In(T)$.
+        Es existiert genau ein $p_1$ mit $b_1p_1 \in E$, $p_1 \in \In(T)$ (da $n \ge 3$).
+        Setze $V' := V \setminus \Set{b_1}$, $E' := E \setminus \Set{b_1p_1}$.
+        Induktiv $\Set{p_1, \dotsc, p_{n-2}} = \In(V, T)$.
+        Dies definiert induktiv den Prüfercode $c(T) := (p_1, p_2, \dotsc, p_{n-2})$.
+
+        Injektivität: Sei $c(T_1) = c(T_2)$, so haben $T_1$ und $T_2$ die gleichen Blätter.
+        Somit wurde $b_1$ in beiden Prüfer-Codes gleich gewählt, sowie $b_1 p_1 \in T_1 \cap T_2$ und induktiv damit $T_1 = T_2$.
+
+        Surjektivität: Konstruktion eines Baumes zum Prüfer-Code.
+    \end{proof}
+\end{st}
+
+\begin{note}
+    Dies ist hilfreich für randomisierte Bäume.
+    Interessante Fragestellungen für randomisierte Bäume:
+    \begin{itemize}
+        \item
+            Anzahl Blätter
+        \item
+            Maximaler Knotengrad
+        \item
+            Anzahl Kanten
+    \end{itemize}
+\end{note}
+
+
+
+
