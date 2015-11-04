@@ -189,15 +189,15 @@ Eine weitere Charakterisierung des Tangentialbündels und von Tangentiavektoren 
     \begin{math}
         c(p) = p
         \qquad\land\qquad
-        \xxdot{\phi \circ c} = \ddx[t]|_{t=0}(\phi \circ c)(0) = 0,
+        \dotparen{\phi \circ c} = \ddx[t]|_{t=0}(\phi \circ c)(0) = 0,
     \end{math}
     wobei $v = [(\phi, u)]$.
     \begin{note}
-        Indem man zwei solche Kurven $c, \tilde c$ als äquivalent ansieht, falls $\xxdot{\phi \circ c}(0) = \xxdot{\phi \circ \tilde c}(0)$,, erhält man eine weiter Beschreibung von
+        Indem man zwei solche Kurven $c, \tilde c$ als äquivalent ansieht, falls $\dotparen{\phi \circ c}(0) = \dotparen{\phi \circ \tilde c}(0)$,, erhält man eine weiter Beschreibung von
         \begin{math}
             \T_p M := \Set{[c] & c}.
         \end{math}
-        Die Bijektion wird durch $[c] \mapsto [(\phi, \xxdot{\phi \circ c}(0))]$ hergestellt.
+        Die Bijektion wird durch $[c] \mapsto [(\phi, \dotparen{\phi \circ c}(0))]$ hergestellt.
         In dieser Beschreibung des Tangentialraums hat das Differential $f: M \to N$ die elegante Beschreibung
         \begin{math}
             \T_p f([c]) = [f \circ c]
@@ -250,10 +250,10 @@ Eine weitere Charakterisierung des Tangentialbündels und von Tangentiavektoren 
         Dann gilt
         \begin{math}
             L_x(fg)(p)
-            = \ddx[t] f(c(t))g(c(t)|_{t=0}
+            &= \ddx[t] f(c(t))g(c(t)|_{t=0} \\
             &= \ddx[t] F(t) G(t)|_{t=0} \\
-            &= F'(0)G(0) + F(0) G'(0)
-            = (L_X f(p))g(p) + f(p) (L_X g(p)).
+            &= F'(0)G(0) + F(0) G'(0) \\
+            &= (L_X f(p))g(p) + f(p) (L_X g(p)).
         \end{math}
     \end{proof}
 \end{lem}
@@ -262,4 +262,113 @@ Eine weitere Charakterisierung des Tangentialbündels und von Tangentiavektoren 
     $\scr X(M)$ und $\Der(C^\infty(M))$ (die Menge der Derivationen von $C^\infty(M)$) bilden jeweils auf natürlicher Weise einen reellen Vektorraum und $L: X \mapsto L_X$ (beachte $L_X \in \Der(C^\infty(M))$) ist eine lineare Abbildung $\scr X(M) \to \Der(C^\infty(M))$.
 \end{nt}
 
+
+\Timestamp{2015-11-04}
+
+Verschiedene Möglichkeiten Tangentialvektoren zu definieren:
+\begin{enumerate}[1.]
+    \item
+        In Karten:
+        \begin{math}
+            \T_p M = \Set{[(\phi, u)] & \text{$\phi$ Karte um $p$, $u \in \R^m$}}.
+        \end{math}
+    \item
+        Äquivalenzklassen von Kurven
+        \begin{math}
+            M = \Set{[c] & \text{$c :(-\epsilon,\epsilon) \to M$ glatt, $c(0) = p$}},
+        \end{math}
+        wobei $[c] \sim [\tilde c]$, wenn $\dotparen{\phi \circ c}(0) = \dotparen{\phi \circ \tilde c}(0)$.
+\end{enumerate}
+
+Lieableitung:
+\begin{math}
+    L_X f(p) := X(f)(p)
+    = \ddx[t] (f \circ c)(t)|_{t=0}
+    = \Df (f \circ \phi^{-1})|_{\phi(p)} (u),
+\end{math}
+wobei $c$ repräsentiert $X(p)$, d.h. $c: (-\epsilon, \epsilon) \to M$ glatt, $c(0) = p$, $[(\phi, \dotparen{\phi \circ c}(0)] = X(p)$.
+Außerdem $[(\phi, u)] = X(p)$.
+
+Derivationen:
+$\R$-lineare Abbildung $\delta: C^\infty(M) \to C^\infty(M)$ mit $\delta(fg) = \delta(f)g + f \delta(g)$.
+Jedes Vektorfeld liefert eine Derivation, für $X \in \scr X(M)$ ist nämlich $f \mapsto L_X f$ eine Derivation.
+
+\begin{note}
+    \begin{itemize}
+        \item
+            $\scr X(M)$ ist ein $\R$-Vektorraum
+        \item
+            $\Der(C^\infty(M))$ ist ein $\R$-Vektorraum
+            \begin{math}
+                (\delta + \eps)(f) &:= \delta(f) + \eps(f),
+                (\lambda \delta)(f) &:= \lambda \delta(f)
+            \end{math}
+        \item
+            $X \mapsto L_X(\argdot)$, $\scr X(M) \to \Der(C^\infty(M))$ ist eine lineare Abbildung.
+    \end{itemize}
+\end{note}
+
+\begin{st} \label{3.16}
+    $X \mapsto L_X(\argdot)$, $\scr X(M) \to \Der(C^\infty(M))$ ist ein Isomorphismus von $\R$-Vektorräumen.
+    \begin{proof}
+        \begin{seg}{Injektivität}
+            Angenommen $L_X f \equiv 0$ für alle $f \in C^\infty(M)$ für ein nicht-verschwindendes Vektorfeld $X \in \scr X(M)$, also etwa $X(p) \neq 0$ für ein $p \in M$.
+            Wähle eien Karte $\phi: U \to V$ um $p$ und $f: V \to \R$ glatt, so dass die Richtungsableitung $\Df f|_{\phi(p)} u$ nicht verschwindet mit $[(\phi, u)] = X(p)$.
+            Wähle um $\phi(p)$ eine glatte Funktion $\tau$, die auf einer Umgebung von $\phi(p)$ konstant $1$ ist und $\supp \tau \subset U$. 
+            Dann ist durch
+            \begin{math}
+                \tilde f(q) := \begin{cases}
+                    \tau(\phi(q)) f(\phi(q)) & \text{für $q \in U$} \\
+                    0 & \text{sonst}
+                \end{cases}
+            \end{math}
+            eine glatte Funktion auf $M$ definert, so dass $L_X f(p) \neq 0$, ein Widerspruch zur Annahme.
+        \end{seg}
+        \begin{seg}{Surjektivität}
+            Sei $\delta$ eine Derivation von $C^\infty(M)$.
+            Wir zeigen, dass es $X \in \scr X(M)$ gibt mit $L_X f = \delta(f)$ für alle $f \in C^\infty(M)$. 
+            Sei $f \in C^\infty(M)$, $p \in M$, $\phi: U \to V$ Karte mit $\phi(p) = 0$ und $g := f \circ \phi^{-1}$.
+
+            In einer sternförmigen Umgebung von $0 = \phi(p)$ in $V$ gilt
+            \begin{math}
+                g(x) &= g(0) + \int_0^1 \ddx[t] g(tx) \di[t] \\
+                &= g(0) + \sum_{i=0}^m x_i \int_0^1 \ddx[x_i]{g}(tx) \di[t]
+            \end{math}
+            Also gilt (nach \ref{3.11})
+            \begin{math}
+                \delta(f)(p)
+                &= \delta(g \circ p)(p) \\
+                &=  \delta(g \circ \phi)(p) + \sum \delta(x_i \circ \phi) \int_0^1 \ddx[x_i]{g}(tx) \di[t]|_{x=0} \\
+                &\qquad + \sum (x_i \circ \phi)(p) \delta \Big(\int_0^1 \ddx[x_i]{g}(tx) \di[t] \circ \phi\Big)(p) \\
+                &= \sum \delta(x_i \circ \phi)(p) \ddx[x_i]{(f\circ \phi^{-1})}(0) \\
+                &= L_X f(p),
+            \end{math}
+            wobei
+            \begin{math}
+                X(p) = \l[ \l(\phi, \Vector{\delta(x_1 \circ \phi)(p) & \dots & \delta(x_m \circ \phi)(p)} \r) \r].
+            \end{math}
+            Die Unabhängigkeit von der Wahl der Karte folgt aus der Injektivität, denn danach müssen zwei Vektorfelder, die auf der Schnittmenge zweier Kartenumgebungen die selbe Derivation definieren, übereinstimmen.
+        \end{seg}
+        \begin{note}
+            Ist $M = U$ eine offene Teilmenge des $\R^m$, dann kann $\T_p U$ mit $\R^m$ kanonisch identifiziert werden.
+            Das Vektorfeld, das an jedem Punkt durch $[(\phi, e_i)]$ gegeben ist nennt man \emphdef{kartesisches Vektorfeld}, oder \emphdef{Koordinatenvektorfeld} und man schreibt dafür auch $\ddx[x_i]$, denn die $i$-te partielle Ableitung (als Operator) ist gerade die Derivation von $C^\infty(U)$, die davon erzeugt wird, z.B.
+            \begin{math}
+                L_{\ddx[x_i]} f(p)
+                &= \ddx[t]f(p + te_i)|_{t=0} \\
+                &= \ddx[x_i] f(p)
+                = \ddx[x_i]{f}(p).
+            \end{math}
+            Man schreibt auch $\ddx[x]$, $\ddx[y]$, $\ddx[z]$.
+            Ist $\phi: U \to V$ eine Karte einer Mannigfaltigkeit $M$, dann sind $\phi^i$, $i = 1, \dotsc, m$ die Koordinatenfunktionen von $\phi$.
+            Für die davon erzeugten Vektorfelder schreibt man auch $\ddx[\phi^i]$ (häufiger $\ddx[x^i]$ für Karte $x: U \to V$).
+            Sie heißen \emphdef{Koordinatenvektorfelder} (auf $U$), sie sind die Pushforwards der kartesischen Vektorfelder $\ddx[x_i]$.
+
+            (Im Beweis von \ref{3.16} wurde gezeigt, dass für
+            \begin{math}
+                X = \sum_{i=1}^m \delta \phi^i \ddx[\phi^i]
+            \end{math}
+            gilt $L_X(\argdot) = \delta$.
+        \end{note}
+    \end{proof}
+\end{st}
 

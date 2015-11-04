@@ -9,7 +9,19 @@
 \ExplSyntaxOn
 \usepackage{stmaryrd} % \mapsfrom
 
+
 \ExplSyntaxOff
+
+\usetikzlibrary{calc}
+\DeclareDocumentCommand { \dotparen } { m } {
+    \dot
+    {\mathord {
+        \begin{tikzpicture}[baseline]
+            \node[anchor=base,inner sep=0] (t) {$#1$};
+            \draw ($(t.north west) + (-0.05em,0.2ex)$) to[out=10,in=170] ($(t.north east) + (0.05em,0.2ex)$);
+        \end{tikzpicture}
+    }}
+}
 
 \DeclareDocumentCommand{\id}{}{\operatorname{id}}
 \DeclareDocumentCommand{\Df}{ o }{\IfNoValueTF{#1}{\mathord{\mathrm{D}\mkern-1mu f}}{\mathord{\mathrm{D}\mkern-1mu #1}}}
@@ -17,6 +29,7 @@
 \DeclareDocumentCommand{\T}{}{\mathrm{T}}
 \DeclareDocumentCommand{\bigdotcup}{}{\bigcup} % FIXME
 \DeclareDocumentCommand{\Der}{}{\operatorname{Der}} % FIXME
+
 
 \title{Differentialgeometrie}
 
