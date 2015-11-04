@@ -16,7 +16,10 @@ Da eine \emph{abstrakte} Mannigfaltigkeit zunächst nicht im Euklidischen Raum e
 \begin{df} \label{3.1}
     Ein \emphdef{Repräsentant eines Tangentialvektors} in $p \in M$ ist ein Paar $(\phi, u) \in \scr A \times \R^m$, bestehend aus einer Karte $\phi$ um $p$ und einem Element $u \in \R^m$.
     
-    Zwei Repräsentanten $(\phi, u)$, $(\psi, v)$ heißen \emphdef[äquivalent!Repräsentanten]{äquivalent}, falls $D(\psi \circ \phi^{-1})|_{\phi(p)}(u) = v$.
+    Zwei Repräsentanten $(\phi, u)$, $(\psi, v)$ heißen \emphdef[äquivalent!Repräsentanten]{äquivalent}, falls
+    \begin{math}
+        D(\psi \circ \phi^{-1})|_{\phi(p)}(u) = v.
+    \end{math}
 
     Die Äquivalenzklassen $[(\phi, u)]$ heißen \emphdef{Tangentialvektoren} am \emphdef{Fußpunkt} $p$, s bilden den Tangentialraum $\T_p M$
 \end{df}
@@ -44,6 +47,8 @@ Da eine \emph{abstrakte} Mannigfaltigkeit zunächst nicht im Euklidischen Raum e
         \T_p f: \T_p M &\to \T_{f(p)} N, \\
         [(\phi, u)] &\mapsto [(\psi, D(\psi \circ f \circ \phi^{-1})|_{\phi(p)}(u))]
     \end{math}
+    Sei $f: M \to N$ eine glatte Abbildung.
+    Für Tangentialbündel ist die Abbildung $\T f: \T M \to \T N$ durch $\T f(v) := \T_p f(v)$ für $v \in \T_p M$ erklärt.
     \begin{proof}
         Wohldefiniertheit:
         Sei $[(\phi,u)] = [\tilde \phi, D(\tilde \phi \circ \phi^{-1})|_{\phi(p)}(u)]$
@@ -104,3 +109,157 @@ Da eine \emph{abstrakte} Mannigfaltigkeit zunächst nicht im Euklidischen Raum e
         %Wir verwenden dann $\tilde \phi$ für jede Karte $\phi$ von $M$ und $\tilde V$, $\tilde U := U \times \R^m$ als Karten von $\T M$. 
     %\end{proof}
 \end{st}
+
+
+\Timestamp{2015-11-03}
+
+
+\section{Derivationen und Vektorfelder}
+
+
+\begin{df} \label{3.7}
+    Ein Vektorfeld $X$ auf einer Mannigfaltigkeit $M$ ist eine glatte Abbildung $X: M \to \T M$, so dass $X(p) \in \T_p M$.
+    Die Menge der Vektorfelder auf $M$ wird mit $\scr X(M)$ bezeichnet.
+\end{df}
+
+\begin{ex}
+    Durch $p \mapsto e_i$ wird auf $\R^n$ das \emphdef[Vektorfeld!konstant]{konstante Vektorfeld} $e_i$ definiert.
+    Man nennt dies auch \emphdef[Vektorfeld!kartesisch]{kartesisches Vektorfeld}.
+    (bei $M = \R^n$ kann man $\T_p M = \R^n$ an jedem Punkt kanonisch identifizieren).
+\end{ex}
+
+\begin{df} \label{3.8}
+    Ist $f: M \to N$ ein Diffeomorphismus von Mannigfaltigkeiten und $X \in \scr X(M)$ ein Vektorfeld auf $M$.
+    Dann ist durch
+    \begin{math}
+        (f^* X)(f(p)) := \T_p f(X(p))
+    \end{math}
+    ein Vektorfeld auf $N$ definiert, der \emphdef{Pushforward} von $X$ unter $f$.
+\end{df}
+
+Eine weitere Charakterisierung des Tangentialbündels und von Tangentiavektoren ist durch \emphdef{Derivationen} (das sind Ableitungsoperatoren erster Ordnung) gegeben.
+
+\begin{df} \label{3.9}
+    Mit $C^\infty(M)$ bezeichnen wir die Menge der glatten Funktionen auf $M$.
+    \begin{note}
+        $C^\infty(M)$ ist ein $\R$-Vektorraum (mit punktweiser Addition und skalarer Multiplikation mit reellen Zahlen).
+        Mit der punktweisen Multiplikation von Funktionen ist $C^\infty(M)$ sogar eine $\R$-Algebra.
+    \end{note}
+\end{df}
+
+\begin{df} \label{3.10}
+    Eine \emphdef{Derivation} auf $C^\infty(M)$ ist eine $\R$-lineare Abbildung $\delta: C^\infty(M) \to C^\infty(M)$, welche die Leibnitzregel erfüllt, d.h.
+    \begin{math}
+        \delta(fg) = \delta(f) g + f \delta(g)
+    \end{math}
+    für alle $f, g \in C^\infty(M)$.
+    \begin{note}
+        Für konstante Funktionen $f \equiv c$ gilt $\delta(f) = 0$, denn
+        \begin{math}
+            \delta(f) = \delta(c 1)
+            = \delta(c)1 + c \delta(1)
+            = \delta(c) + \delta(c)
+            = 2 \delta(f),
+        \end{math}
+        also $\delta(f) = 0$.
+    \end{note}
+\end{df}
+
+\begin{lem}[Derivationen sind lokale Operatoren] \label{3.11}
+    Der Wert von $\delta(f)$ in eienem Punkt $p$ hängt nur vom Verhalten von $f$ auf einer (beliebig kleinen) Umgebung von $p$ ab. 
+
+    Sei $f \in C^\infty(M)$, $\delta$ eine Derivation und $U \in M$ offen.
+    Dann ist $\delta(f)|_{U}$ durch $f|_{U}$ eindeutig bestimmt.
+    \begin{proof}
+        Sei $p \in U$.
+        Wir benutzen, dass es eine glatte Testfunktion $\tau$ gibt, mit $\tau(p) = 1$ und $\tau|_{M \setminus U} \equiv 0$.
+        Es gilt für Funktionen $f, \tilde f \in C^\infty(M)$ mit $f|_U = \tilde f|_U$:
+        \begin{math}
+            0 &= (f - \tilde f) \cdot \tau \\
+            \implies 0 & \delta((f - \tilde f) \cdot \tau)(p) \\
+            &= \delta(f - \tilde f)(p) \cdot \underbrace{\tau(p)}_{=1} + \underbrace{(f - \tilde f)(p)}_{=0} \delta \tau(p),
+        \end{math}
+        Also folgt $\delta(f)(p) = \delta(\tilde f)(p)$.
+    \end{proof}
+\end{lem}
+
+\begin{df} \label{3.12}
+    Sei $M$ Mannigfaltigkeit und $v \in \T_p M$.
+    Wir sagen, eine glatte Kurve $c: (-\epsilon, \epsilon) \to M$ repräsentiert den Tangentialvektor $v$, falls gilt
+    \begin{math}
+        c(p) = p
+        \qquad\land\qquad
+        \xxdot{\phi \circ c} = \ddx[t]|_{t=0}(\phi \circ c)(0) = 0,
+    \end{math}
+    wobei $v = [(\phi, u)]$.
+    \begin{note}
+        Indem man zwei solche Kurven $c, \tilde c$ als äquivalent ansieht, falls $\xxdot{\phi \circ c}(0) = \xxdot{\phi \circ \tilde c}(0)$,, erhält man eine weiter Beschreibung von
+        \begin{math}
+            \T_p M := \Set{[c] & c}.
+        \end{math}
+        Die Bijektion wird durch $[c] \mapsto [(\phi, \xxdot{\phi \circ c}(0))]$ hergestellt.
+        In dieser Beschreibung des Tangentialraums hat das Differential $f: M \to N$ die elegante Beschreibung
+        \begin{math}
+            \T_p f([c]) = [f \circ c]
+        \end{math}
+        und die Kettenregel lässt sich wie folgt beweisen
+        \begin{math}
+            \T_{g(p)} f \circ \T_p g([c])
+            = \T_{g(p)} f([g \circ c])
+            = [f \circ g \circ c]
+            = \T_p(f \circ g)([c]).
+        \end{math}
+    \end{note}
+\end{df}
+
+\begin{df} \label{3.13}
+    Sei $X \in \scr X(M)$ ein Vektorfeld auf einer Mannigfaltigkeit $M$ und sei $f \in C^\infty(M)$ eine glatte Funktion $f: M \to \R$.
+    Dann ist die Funktion $L_X f \in C^\infty(M)$, genannt \emphdef{Lieableitung} von $f$ nach $X$, definiert durch
+    \begin{math}
+        L_X f(p) := \ddx[t](f \circ c(t))|_{t = 0},
+    \end{math}
+    wobei $c: (-\epsilon, \epsilon) \to M$ eine Kurve ist, der den Tangentialvektor $X(p)$ repräsentiert, bzw. durch
+    \begin{math}
+        L_X f(p) := \Df (f \circ \phi^{-1})|_{\phi(p)}(u),
+    \end{math}
+    wobei $X(p) = [(\phi, u)]$.
+    \begin{note}
+        \begin{itemize}
+            \item
+                Wohldefiniertheit folgt aus der Kettenregel.
+            \item
+                Für die Lieableitung gibt es die Schreibweisen $X(f)$, $X.f$ und $Xf$.
+                Beachte $Xf$ ist die Lieableitung von $f$ nach $X$, $fX$ ist das Vektorfeld $X$ punktweise multipliziert mit dem Wert von $f$.
+
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{lem} \label{3.14}
+    Für jedes Vektorfeld $X \in \scr X(M)$ ist durch $f \mapsto L_x f$ eine Derivation gegeben.
+    \begin{proof}
+        Aus
+        \begin{math}
+            L_x(f+g)(p)
+            = \Df (f \circ \phi^{-1})|_{\phi(p)}(u) + \Df(g\circ \phi^{-1})|_{\phi(p)}(u)
+        \end{math}
+        und $L_x(\lambda f)(p) = \lambda \Df (f \circ \phi^{-1})|_{\phi(p)}(u)$ folgt die $\R$-Linearität.
+
+        Die Leibnitzregel folgt aus der gewöhnlichen Produktregel:
+        Sei $F = f \circ c$, $G = g \circ c$, wobei $c: (-\epsilon, \epsilon) \to M$ den Vektor $X(p)$ repräsentiert.
+        Dann gilt
+        \begin{math}
+            L_x(fg)(p)
+            = \ddx[t] f(c(t))g(c(t)|_{t=0}
+            &= \ddx[t] F(t) G(t)|_{t=0} \\
+            &= F'(0)G(0) + F(0) G'(0)
+            = (L_X f(p))g(p) + f(p) (L_X g(p)).
+        \end{math}
+    \end{proof}
+\end{lem}
+
+\begin{nt} \label{3.15}
+    $\scr X(M)$ und $\Der(C^\infty(M))$ (die Menge der Derivationen von $C^\infty(M)$) bilden jeweils auf natürlicher Weise einen reellen Vektorraum und $L: X \mapsto L_X$ (beachte $L_X \in \Der(C^\infty(M))$) ist eine lineare Abbildung $\scr X(M) \to \Der(C^\infty(M))$.
+\end{nt}
+
+
