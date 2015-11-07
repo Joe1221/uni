@@ -272,5 +272,73 @@ Ein Knoten $x$ ist ein \emphdef{Blatt}, wenn $d(x) \le 1$.
 \end{note}
 
 
+\Timestamp{2015-11-05}
+
+
+\section{Färbbarkeit von Graphen}
+
+\begin{df}
+    Sei $G = (V, E)$, $E \subset \binom{V}{2}$.
+    Eine $k$-Färbung ist eine Abbildung $c: V \to \Set{1, \dotsc, k}$ mit
+    \begin{math}
+        xy \in E \implies c(x) \neq c(y).
+    \end{math}
+\end{df}
+
+$G$ besitzt eine 2-Färbung genau dann, wenn $G$ bipartit ist.
+Wir können kürzeste Wege in $\LandauO(|E| + |V|\log |V|)$ lösen (Dijkstra).
+Dijkstra mit Weglängen 0, 1 kann feststellen, ob ein Graph 2-färbbar ist, dies ist sogar in Linearzeit möglich.
+
+Reduktion auf bekannte NP-vollständige Probleme (3-SAT, NAE-SAT, etc.)
+
+\begin{st}
+    3-Färbbarkeit ist NP-vollständig.
+    \begin{proof}
+        NAE-SAT: $F = C_1 \land \dotsb \land C_m$ mit Klauseln $C_j = \tilde x_{1j} \lor \tilde x_{2j} \lor \dotsb \lor \tilde x_{n,j}$, wobei $\tilde x \in \Set{x, \_x}$ und einer Belegung $\sigma: \Set{x_1, \dotsc, x_n} = \Var(F) \to \B = \Set{0,1}$, $\sigma(F) = 1 = (1-\sigma)(F)$.
+
+        Reduktion $\text{3-SAT} \le \text{NAE-SAT}$.
+        Sei $F \in \text{3-KNF}$ (3-Konjuktive Normalform, s.o.).
+        Wähle neue Variable hinzu und ersetze jede Klausel $C_j = (\tilde x_{1j} \lor \tilde x_{2j} \lor \tilde x_{3j})$ durch
+        \begin{math}
+            C_j = (\tilde x_{1j} \lor \tilde x_{2j} \lor \tilde x_{3j} \lor y).
+        \end{math}
+        und $F' = (C_1' \land \dotsb \land C_m')$.
+        Sei $\sigma(F) = 1$.
+        Setze $\sigma(y) = 0$, dann gilt $F' \in \text{NAE-SAT}$.
+
+        Sei umgekehrt $F' \in \text{NAE-SAT}$ mit $\sigma(F') = (1-\sigma)(F') = 1$.
+        Unterscheide die Fälle $\sigma(y) = 1$ und $\sigma(y) = 0$.
+        Im ersten Fall ist $(1-\sigma)(y) = 0$, sonst mit Symmetrie.
+        Also ohne Einschränkung $\sigma(y) = 0$.
+        Es folgt notwendigerweise $\sigma(F) = 1$.
+
+        $\text{3-NAE-SAT} = \text{NAE-SAT} \cap \text{3-KNF}$.
+        Von 4 Variablen auf 3 Variablen pro Klausel.
+        Setze für $C_j = (\tilde x_{1j} \lor \tilde x_{2j} \lor \tilde x_{3j} \lor \tilde x_{4j})$
+        \begin{math}
+            C_j' = (\tilde x_{1j} \lor \tilde x_{2j} \lor y_j) \land (\_y_{j} \lor \tilde x_{3j} \lor \tilde x_{4j})
+        \end{math}
+        Durch geeignete Wahl von $y_j$ ist $C_j'$ erfüllt genau dann, wenn $C_j$ erfüllt war.
+
+        Konstruiere Graphen: Dreiecke bestehend aus den 3-Klauseln, und verbundenen Paaren $x_i, \_{x_i}$ (Belegungsvariablen), verbunden zu einer Wurzel.
+        Verbinde immer $x_i$ mit $\_{x_i}$.
+
+        Ist der Graph 3-färbbar, so ist ohne Einschränkung die Wurzel blau und die Variablen definieren eine gültige Belegung.
+
+        Andere Richtung: Für eine erfüllte Belegung färbe die Dreiecke: zwangsläufig eins rot, eins grün, färbe den anderen blau.
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Jeder planare Graph ist 5-färbbar.
+    \begin{proof}
+        In jedem planaren Graphen existiert ein $x \in V$ mit Grad $d(x) \le 5$ (Widerspruch mit Euler-Formel).
+        Betrachte $G'$ mit $V' = V \setminus \Set x$, wobei $d(x) \le 5$.
+        Dieser ist per Induktion 5-färbbar.
+        Es kommt kein $K_5$ vor. Skizze: Pentagram um $x$.
+        Ohne Einschränkung $ab \not\in E$, identifiziere $a$ und $b$ und färbe per Induktion.
+        Also kann $x$ die verbleibende Farbe erhalten.
+    \end{proof}
+\end{st}
 
 
