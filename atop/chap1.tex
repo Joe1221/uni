@@ -662,11 +662,10 @@ Hierbei seien $i_0, i_1, \dotsc, i_n \in I$ und $i \xto[lr]{g} j$ steht entweder
 Die Verknüpfung $w \ast w'$ ist die Aneinanderhängung.
 Wir nutzen folgende Relationen
 \begin{math}
-    (i \xto{1} i) &\approx (i), \\
-    (i \to i) &\approx (i), \\
+    (i \to i) \approx (i \xto{1} i) &\approx (i), \\
     (i \to j \xto* i) &\approx (i), \\
     (j \xto* i \xto{g} i \to j) &\approx (j \xto{h_{ij}(g)} j), \\
-    (i \xto{g} i) &\approx (i \xto{g^{-1}} i), \\
+    (i \xto{g} i) &\approx (i \xto*{g^{-1}} i), \\
     (i \xto{g} i \xto{h} i) &\approx (i \xto{gh} i), \\
     (i \to j \to k) &\approx (i \to k \xto{g_{ijk}^{-1}} k).
 \end{math}
@@ -684,6 +683,52 @@ Die Kantengruppe des Gruppenkomplexes $\Gamma$ ist
         \Phi_1: \pi_1(\Gamma_{\le 1}, i_0) \xto[surjective] \pi_1(X, x_0).
     \end{math}
     Für das $2$-Skelett $\Gamma_{\le 2}$ erhalten wir einen Isomorphismus $\Phi_2 : \pi_1(\Gamma_{\le 2}, i_0) \xto[isomorphic] \pi_1(X, x_0)$.
+\Timestamp{2015-11-06}
+    \begin{proof}[Skizze]
+        Betrachte $\Phi_1: \pi_1(\Gamma_{\le 1}, i_0) \xto[surjective] \pi_1(X, x_0)$, zeige Surjektivität.
+        Sei dazu $[\omega] \in \pi_1(X, x_0)$, d.h. $\omega:[0,1] \to X$ eine Schleife in $x_0$.
+        Zeige: $\omega$ homotop zu einem Weg $\Phi_1(w)$ mit $w \in \pi_1(\Gamma_{\le 1}, i_0)$.
+        \begin{math}
+            w = (i_0 \xto{g_0} i_0 \xto* i_{0,1} \to i_1 \xto{g_1} i_1 \xto* i_{12} \to i_2 \xto{g_2} i_2 \dotsb \xto* j_{n-1} \to i_n \xto{g_n} i_n).
+        \end{math}
+        Die topologische Realisierung von $w$ ist homotop zu $\omega$ nach Konstruktion.
+
+        Betrachte nun $\Phi_2: \pi_2(\Gamma_{\le 2}, i_0) \to \pi_1(X, x_0))$, zeige Bijektivität.
+        Wohldefiniert: Man vergewissere sich, dass alle definierten Äquivalenzen entsprechende Homotopien erlauben.
+        Surjektivität wie zuvor.
+        Zeige nun Injektivität: Werden zwei Wörter $w_1, w_2$ durch homotope Wege $w_1, w_2$ realisiert, dann sind $w_1$ und $w_2$ äquivalent.
+        Sei $H: [0,1]^2 \to X$ eine Homotopie von $w_1$ nach $w_2$.
+        Idee: Modifziere $H$ derart, dass sich eine Triangulierung ergibt und jedes Dreieck einer Relation entspricht.
+        Wir nutzen $X = \bigcup_{s \in \Omega} U_s$ für $[0,1]^2 = \bigcup_{s \in \Omega} H^{-1}(U_S)$.
+        Dank Kompaktheit existiert eine Lebesgue-Zahl dieser Überdeckung.
+        Wir unterteilen $[0,1]^2$ wie folgt (Skizze: Ziegel-Mauerwerk):
+        Nach hinreichend feiner Unterteilung gilt für jeden Ziegel $\Z_\alpha$ die Bedingung $H(Z_\alpha) \subset U_{s(\alpha)}$ für eine geeignete Abbildung $s$.
+        Wir dicken die Fugen auf (z.B. erst horizontale Fugen, dann vertikale durch konstante Homotopien, es entstehen kleine Quadrate, in denen die Homotopie konstant ist).
+        Lokal in einem kleinen Quadrat ist $H$ konstant $c$ und es gilt $H(Q) \subset U_1 \cap U_2 \cap U_3$.
+        Wähle $i \in I$ sodass $H(Q) \subset X_i$, füge $x_i$ im Quadrat ein mit „radialer Homotopie“.
+        Zusätzlich $x_{01}, x_{12}, x_{12}$ an den Kantenmittelpunkten.
+        Hilfspunkte für $g_{012}$.
+
+        Von Fugen-Quadraten zu den Fugen-Rechtecken.
+        Damit können wir jede Fuge auffüllen durch
+        Schließlich Ziegel.
+
+        (Skizzen sind hilfreich)
+
+        Zusammenfassung:
+        Wir beginnen mit der gegebenen Homotopie $H$.
+        \begin{enumerate}[1.]
+            \item
+                Aufdicken von horizontalen und vertikalen Fugen.
+            \item
+                Korrektur um Eckpunkten.
+            \item
+                Korrektur auf Fugenstücken.
+            \item
+                Korrektur auf Ziegeln.
+        \end{enumerate}
+        Ablesen dieser einfachen Teile liefert die kombinatorische Äquivalenz von $w_1$ nach $w_2$.
+    \end{proof}
 \end{st}
 
 \begin{ex}
@@ -708,7 +753,7 @@ Die Kantengruppe des Gruppenkomplexes $\Gamma$ ist
             \end{math}
             (freies Produkt).
         \item
-            $\pi_1(U_1) = G_1$, $\pi_1(U_2) = G_2$ beliebig, $U_1 \cap U_2$ weszusammenhängend, $\pi_1(U_1 \cap U_2) = K$.
+            $\pi_1(U_1) = G_1$, $\pi_1(U_2) = G_2$ beliebig, $U_1 \cap U_2$ wegzusammenhängend, $\pi_1(U_1 \cap U_2) = K$.
             Sei $U_{12} := U_1 \cap U_2$,
             \begin{math}
                 i: U_{12} &\injto U_1, &i_\#: \pi_1(U_{12}) &\injto \pi_1(U_1), \\
