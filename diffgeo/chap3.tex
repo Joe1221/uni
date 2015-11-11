@@ -132,7 +132,7 @@ Da eine \emph{abstrakte} Mannigfaltigkeit zunächst nicht im Euklidischen Raum e
     Ist $f: M \to N$ ein Diffeomorphismus von Mannigfaltigkeiten und $X \in \scr X(M)$ ein Vektorfeld auf $M$.
     Dann ist durch
     \begin{math}
-        (f^* X)(f(p)) := \T_p f(X(p))
+        (f_* X)(f(p)) := \T_p f(X(p))
     \end{math}
     ein Vektorfeld auf $N$ definiert, der \emphdef{Pushforward} von $X$ unter $f$.
 \end{df}
@@ -220,7 +220,7 @@ Eine weitere Charakterisierung des Tangentialbündels und von Tangentiavektoren 
     \end{math}
     wobei $c: (-\epsilon, \epsilon) \to M$ eine Kurve ist, der den Tangentialvektor $X(p)$ repräsentiert, bzw. durch
     \begin{math}
-        L_X f(p) := \Df (f \circ \phi^{-1})|_{\phi(p)}(u),
+        L_X f(p) := \Df[(f \circ \phi^{-1})]|_{\phi(p)}(u),
     \end{math}
     wobei $X(p) = [(\phi, u)]$.
     \begin{note}
@@ -487,8 +487,142 @@ Beispielsweise ist die Lösung $y(t) = -\frac{1}{t}$ von $y'(t) = \frac{1}{y(t)^
         \ddx[t] \Phi_t^X(p) &= X( \Phi_t^X(p)), \\
         \Phi_0^X(p) &= p.
     \end{math}
-    Sei $\Phi^X$ der auf einer offenen Umgebung von $\Set 0 \times M$ definierten durch $\Phi^X(t,p) := \Phi_t^X(p)$ definierte Abbildung, diese heißt \emphdef{Fluss von $X$}.
+    Sei $\Phi^X$ die auf einer offenen Umgebung von $\Set 0 \times M$ definierten Abbildung, gegeben durch $\Phi^X(t,p) := \Phi_t^X(p)$, diese heißt \emphdef{Fluss von $X$}.
 \end{df}
+
+
+\Timestamp{2015-11-11}
+
+
+\begin{st} \label{3.23}
+    Für den Fluss $\Phi^X$ eines Vektorfeldes $X$ gilt
+    \begin{enumerate}[i)]
+        \item
+            $\Phi^X$ ist eine glatte Abbildung,
+        \item
+            $\Phi^X_0 = \Id_M$,
+        \item
+            $\Phi^X_s \circ \Phi^X_t = \Phi_{s+t}^X$
+        \item
+            $\ddx[t] \Phi_t^X(p)|_{t=0} = X(p)$
+    \end{enumerate}
+    \begin{proof}
+        (ii) und (iv) folgen direkt aus der Definition des Flusses.
+        (iii) folgt aus der Eindeutigkeit von Integralkurven, denn setze $c(t) := \Phi_t^X \circ \Phi_s^X(p)$, $\tilde c(t) := \Phi_{t+s}^X(p)$ für ein $p \in M$.
+        Dann gilt
+        \begin{math}
+            \dot c(t) &= \ddx[t] \Phi_t^X(\Phi_s^X(p)) = X(\Phi_t^X(\Phi_s^X(p))) \\
+            \dot{\tilde c}(t) &= \ddx[t] \Phi_{t+s}^X(p) = X( \Phi_{t+s}^X(p) ),
+        \end{math}
+        außerdem gilt $c(0) = \Phi_s^X(p) = \tilde c(0$, also lösen $c$ und $\tilde c$ das selbe Anfangswertproblem und stimmen somit überein.
+        (i) folgt aus glatter Abhängigkeit von Anfangswerten.
+    \end{proof}
+\end{st}
+
+\begin{st} \label{3.24}
+    Hat ein Vektorfeld $X \in \scr X(M)$ kompakten Träger, dann ist $\Phi^X$ auf ganz $\R \times M$ definiert.
+    Dies gilt insbesondere falls $M$ kompakt ist.
+    \begin{proof}
+        Siehe Köhler, DG und homogene Räume, Satz 1.5.3.
+    \end{proof}
+\end{st}
+
+\begin{nt*}
+    Liegt $\Set{\pm t} \times M$ im Definitionsbereich von $\Phi^X$, so gilt nach \ref{3.23} (iii) und (ii)
+    \begin{math}
+        \Phi_t^X \circ \Phi_{-t}^X = \Phi_0^X = \Id_M.
+    \end{math}
+    Also ist $\Phi^X_t$ ein Diffeomorphismus.
+    Allgemein ist $\Phi^X_t$ stets lokaler Diffeomorphismus um $\Set{0} \times M$.
+    Frü kompakte $M$ gilt nach \ref{3.23} und \ref{3.24}, dass durch die Abbildung
+    \begin{math}
+        (\R, +) &\to \Diff(M), \\
+        t &\mapsto \Phi^X_t
+    \end{math}
+    ein Gruppenhomomorphismus in die Gruppe der Diffeomorphismen $M \to M$ (mit der Verkettung als Verknüpfung) definiert ist
+    $\Diff(M)$ wird auch \emphdef{Einparametergruppe von Diffeomorphismen} genannt.
+\end{nt*}
+
+\begin{lem} \label{3.25}
+    Sei $f: M \to N$ ein Diffeomorphismus.
+    Dann hat das Vektorfeld $f_*X$ (Pushforward) aus $N$ den Fluss $f \circ \Phi_t^X \circ f^{-1}$, also:
+    \begin{math}
+        \Phi^{f_* X}_t = f \circ \Phi^X_t \circ f^{-1}.
+    \end{math}
+    \begin{proof}
+        Beide Flüsse lösen das selbe Anfangswertproblem:
+        \begin{math}
+            f \circ \Phi_0^X \circ f^{-1} = f \circ \Id_M \circ f^{-1} = \Id_M = \Phi_0^{f_* X}
+        \end{math}
+        und für die Differentialgleichung:
+        \begin{math}
+            \ddx[t](f \circ \Phi_t^X \circ f^{-1})(f(p))|_{t=0}
+            &= T_{p} f \ddx[t] \Phi_t^X(p) |_{t=0} )
+            = T_{p} f(X(p))
+            = (f_* X)(f(p))
+        \end{math}
+    \end{proof}
+\end{lem}
+
+\begin{kor} \label{3.26}
+    Sei $f: M \to M$ ein Diffeomorphismus und sei $X \in \scr X(M)$ ein unter $f$ invariantes Vektorfeld, d.h. $f_* X = X$.
+    Dannn gilt
+    \begin{math}
+        \Phi^X_t \circ f = f \circ \Phi^X_t.
+    \end{math}
+\end{kor}
+
+Mit Hilfe des Flusses lässt sich die Lie-Ableitung $L_X f$ einer Funktion $f$ nach einem Vektorfeld $X$ auf eine weitere Weise schreiben, nämlich
+\begin{math}
+    X(p)f = Xf(p) = \ddx[t] f(\Phi_t^X(p))|_{t=0},
+\end{math}
+denn $t \mapsto \Phi_t^X(p)$ repräsentiert den Tangentialvektor $X(p)$.
+
+
+Die Lie-Ableitung eines Vektorfelds misst „die Änderung“ eines Vektorfelds entlang einer Kurve.
+
+\begin{df} \label{3.27}
+    Seien $X, Y \in \scr X(M)$.
+    Die Lie-Ableitung von $Y$ nach $X$ bei $p \in M$ ist definiert durch
+    \begin{math}
+        L_X Y(p) := \ddx[t] {\Phi_{-t}^X}_*Y(p)|_{t = 0}
+    \end{math}
+    $L_X Y$ ist also ein Vektorfeld auf $M$.
+\end{df}
+
+Es gilt
+\begin{math}
+    L_X Y(p) &= \lim_{t \to 0} \frac{{\Phi_{-t}^X}_* Y(p) - Y(p)}{t} \\
+    &= \lim_{t\to 0} \frac{T_{\Phi_t^X(p)} \Phi_{-t}^X (Y(\Phi_t^X(p))) - Y(p)}{t}
+\end{math}
+
+\begin{st} \label{3.28}
+    Es gilt $L_X Y = [X, Y]$.
+    \begin{proof}
+        Siehe P. Micha, Topics in DG.
+        Für $f \in C^\infty(M)$ definiere die Abbildung
+        \begin{math}
+            \alpha(t, s) = Y(\Phi^X_t(p)) . (f \circ \Phi_s^X)
+        \end{math}
+        Hierfür gilt
+        \begin{math}
+            \alpha(0,0) &= Y(p)(f), \\
+            \alpha(t,0) &= Y(\Phi_t^X(p))(f), \\
+            \alpha(0,s) &= Y(p)(f \circ \Phi_s^X), \\
+            \ddx_{t} \alpha(t,0) |_{t=0} &= \ddx[t] Y(f) (\Phi_t^X(p))|_{t = 0} &
+            &= X(Y(f))(p) \\
+            \ddx_{s} \alpha(0,s) |_{s=0} &= \ddx[s] Y(p) \ddx[s] (f \circ \Phi_s^X) |_{s = 0} &
+            &= Y(X(f))(p).
+        \end{math}
+        Andererseits gilt
+        \begin{math}
+            \ddx[u] \alpha(u,-u)|_{u=0}
+            = \ddx[u] Y(\Phi_u^X(p)) (f \circ \Phi_u^X) |_{u=0}
+            = \ddx[u] (T \Phi_{-u}^X Y(\Phi_u^X)(f)(p)) |_{u=0}
+            = (L_X Y)(f)(p)
+        \end{math}
+    \end{proof}
+\end{st}
 
 
 
