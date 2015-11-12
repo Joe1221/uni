@@ -342,3 +342,74 @@ Reduktion auf bekannte NP-vollständige Probleme (3-SAT, NAE-SAT, etc.)
 \end{st}
 
 
+\Timestamp{2015-11-09}
+
+\section{Heiratssätze}
+
+\begin{st}[Philip Hall, 1935]
+    Seien $G = (A \sqcup B, E)$ ein bipartiter Graph mit $E \subset A \times B$ und $N(X) := \Set{b \in B & \exists a \in X: (a,b) \in E}$, $X \subset A$.
+    Es gelte die „Heiratsbedingung“:
+    \begin{math}
+        \forall X \subset A \exists N(X) \subset B : |N(X)| \ge |X|.
+    \end{math}
+    Dann existiert ein (maximales) Matching $M$ mit $|M| = |A|$ (d.h. $M \subset E$ mit $vw \in M \implies vx \not\in M$).
+    \begin{proof}
+        Einfacher Algorithmus in $\LandauO(nm)$.
+        Karp Hopcraft (1973) liefert die bisher beste Zeit $\LandauO(\sqrt{n} m)$.
+    \end{proof}
+\end{st}
+
+\subsection{Stabile Heirat}
+
+Gale-Shapley (Stabile Heirat), 1962.
+Sei $n = |A| = |B|$.
+
+Jedes $a \in A$ hat eine Präferenzliste $b_{a(1)} > b_{a(2)} > \dotsb > b_{a(n)}$ und jedes $b \in B$ entsprechend.
+Eine Matching $M$ ist nicht stabil, wenn $\exists ab \in M, a' \in A, b' \in B$, sodass $a' > a$ für $b$ und $b' > b$ für $a$.
+
+\begin{st}[Gale Shapley]
+    Es gibt eine stabile Heirat und sie lässt sich nach maximal $n^2$ Schritten finden.
+    \begin{proof}
+        Jedes $b \in B$ fragt in der Reihenfolge einer Präferenz ein $a \in A$, ob Paarung möglich ist, es sei denn, $a$ wurde bereits gefragt, oder $a$ hat $b$ bereits verlassen.
+        Jedes $a \in A$ paart sich nur dann neu, wenn der fragende $b$ höher in der Präferenzliste von $a$ steht.
+
+        Im Laufe der Zeit steigen die $a \in A$ auf und die $b$ steigen ab.
+        Der Algorithmus terminiert nach $n^2$ Schritten.
+
+        Die resultierende Heirat ist stabil, betrachte dazu eine Heirat $a_i b$:
+        Alle $a_j$ mit $j < i$ würde $b$ nicht akzeptieren, alle $a_j$ mit $j > i$ möchte $b$ nicht haben.
+
+        Übung: Der Algorithmus ist optimal für $B$.
+    \end{proof}
+\end{st}
+
+\begin{df}
+    Ein Graph $G = (V, E)$ ist gerichtet, wenn $E \subset V \times V$.
+    Wir betrachten $G = (V, E)$ ungerichtet als Spezialfall mit $E = E^{-1}$ und $(x,x) \in E$.
+
+    Für $A, B \subset V$ ist eine Folge $(x_0, x_1, \dotsc, x_k)$ ein $AB$-Pfad, falls $x_0 \in A$, $x_k \in B$,
+    $x_1, \dotsc, x_{k-1} \not\in A \cup B$, $x_1, \dotsc, x_{k-1} \not \in A \cup B$ und $(x_{i-1}, x_i) \in E$ für alle $1 \le i \le k$.
+
+    Ein $AB$-Separator ist eine Menge $C \subset V$, sodass jeder $AB$-Pfad mindestens einen Knoten aus $C$ benutzt.
+\end{df}
+
+\begin{st}[Menger, 1929]
+    Die maximale Zahl paarweiser Knoten-disjunkter $AB$-Pfade ist gleich der minimalen Größe eines $AB$-Separators.
+    \begin{proof}
+        Sei $C$ ein $AB$-Separator, dann existieren höchstens $|C|$ knotendisjunkte $AB$-Pfade.
+
+        Für die Umkehrung: Induktion nach $|E|$.
+        Für $E = \emptyset$ ist $A \cap B$ ein minimaler $AB$-Separator und es gilbt $|A \cap B|$ Knoten-disjunkte Einpunktpfade.
+        Sei jetzt $xy \in E$.
+        Setze $G' = G - xy$ (Graph ohne Kante $xy$).
+        Sei $k$ die maxmiale Zahl Knoten-disjunkter $AB$-Pfade in $G$.
+        Sei jetzt $C$ ein minimaler $AB$-Separator in $G'$.
+        Falls $|C| = k$, dann sind wir fertig.
+
+        Also gilt $|C| \le k-1$.
+        Jetzt gilt $C \cup \Set{x}$ und $C \cup \Set{y}$ sind $AB$-Separatoren in $G$.
+    \end{proof}
+\end{st}
+
+
+
