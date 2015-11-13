@@ -154,7 +154,7 @@ Sei $X \subset \R^n$ und $x_0 \in X$. Wir definieren die polygonale Fundamentalg
     Durch zählen der Übergänge über die negative reelle Achse erhalten wir $\deg: \pi_1^{\text{pl}}(X, x_0) \to \Z$.
     Dies ist ein Gruppenisomorphismus
     \begin{proof}
-        Wohldefiniertheit: Übergang von Wegen zu Wegeklassen.        
+        Wohldefiniertheit: Übergang von Wegen zu Wegeklassen.
         Homomorphismus.
         Surjektivität: Konstruktion.
         Injektivität: Umlaufzahl $0$ betrachten: neg/pos Übergänge eliminieren (Punkte sternförmig um $x_0$).
@@ -253,7 +253,7 @@ Damit ist auch $(Q, \cdot, [e])$ ein Monoid.
             $C_n := C_{n, 0} := \GenMonoid{a & a^n = 1}$ (Skizze: Kreis).
             Es gilt $(C_n, \cdot) \isomorphic (\Z / n, +)$.
         \item
-            $C_{n,m} := \GenMonoid{a & a^n = a^m}$ für $0 \le m < n$ (Skizze: Anfang + Schleife). 
+            $C_{n,m} := \GenMonoid{a & a^n = a^m}$ für $0 \le m < n$ (Skizze: Anfang + Schleife).
     \end{itemize}
 \end{ex}
 
@@ -785,5 +785,292 @@ Die Kantengruppe des Gruppenkomplexes $\Gamma$ ist
     \end{note}
 \end{ex}
 
+
+\Timestamp{2015-11-13}
+
+\section{Zellkomplexe}
+
+
+\begin{df}[Anheften von $n$-Zellen]
+    Ein Paar $(X, A)$ topologischer Räume entsteht durch \emphdef{Anheften von $n$-Zellen} an $A$, wenn es eine (diskrete) Indexmenge $I$ gibt und eine Abbildung $g: I \times \D^n \to X$, so dass gilt:
+    \begin{enumerate}[(1)]
+        \item
+            $g$ bildet $I \times \S^{n-1}$ nach $A$ ab und $I \times \B^n$ bijektiv auf $X \setminus A$.
+        \item
+            Genaue dann ist $U \subset X$ offen in $X$, wenn $U \cap A$ offen in $A$ ist und $g^{-1}(U)$ offen in $I \times \D^n$ ist
+    \end{enumerate}
+    Wir nennen $e_i := g(\Set i \times \B^n)$ eine \emphdef{offene Zelle}, $\_{e_i} := g(\Set i \times \D^n)$ eine \emphdef{abgeschlossene Zelle}.
+    Sei $g_i: \D^n \to X$, $g_i(x) = (i,x)$ die \emphdef{charakteristische Abbildung}, $f_i = g_i|_{\S^{n-1}}$ eine \emphdef{anhefende Abbildung} für die Zelle $e_i$.
+\end{df}
+
+\begin{nt}
+    \begin{itemize}
+        \item
+            $X$ ist der Quotientenraum
+            \begin{math}
+                g \sqcup \Id_A: (I \times \D^n) \sqcup A \to X
+            \end{math}
+            nach (2).
+        \item
+            $g$ ist stetig.
+        \item
+            $e_i = g_i(\B^n)$ ist offen in $X$.
+        \item
+            $g_i|_{\B^n}: \B^n \to e_i$ ist ein Homöomorphismus.
+        \item
+            $\pi_0(X \setminus A) = \Set{e_i & i \in I}$
+        \item
+            $X \setminus A$ ist offen in $X$, $A$ ist abgeschlossen in $X$.
+        \item
+            $\_{e_i} = g_i(\D^n)$ in $X$ ist homöomorph zu $\D^n / f_i$.
+        \item
+            Mit $\D^n$ ist auch $\_{e_i}$ kompakt.
+            Ist $A$ hausdorffsch, so ist $\_{e_i}$ abgeschlossen und $X$ ist auch hausdorffsch.
+    \end{itemize}
+\end{nt}
+
+\begin{df}
+    Sei $(X, A)$ ein Paar topologischer Räume.
+    Eine \emphdef{Zellstruktur} auf $(X, A)$ ist eine \emphdef{Filtrierung} $\scr X = (X_n)_{n \in \N}$, also $A = X_{-1} \subset X_0 \subset X_1 \subset \dotsb \subset X$ mit
+    \begin{enumerate}[(1)]
+        \item
+            Für jedes $n \in \N$ entsteht $(X_n, X_{n-1})$ durch Anheften von $n$-Zellen.
+        \item
+            Der Raum $X = \bigcup_{n \in \N} X_n$ trägt die von $\scr X$ induzierte finale Topologie, d.h. genau dann ist $U \subset X$ offen, wenn $U \cap X_n$ offen in $X_n$ ist für alle $n \in \N$.
+    \end{enumerate}
+    Das Paar $(X, \scr X)$ heißt \emphdef{Zellkomplex} (auch \emphdef{$CW$-Komplex}), $X_n$ heißt \emphdef{$n$-Skelett}, $\dim (X, \scr X) := \dim \scr X := \inf \Set{n \in \Z & X_n = X}$
+
+    Ein Zellkomplex $(X, \scr X)$, bzw. eine Zellstruktur $\scr X$ heißt \emphdef{endlich}, wenn er nur endlich viele Zellen hat, d.h. $\bigcup_{k \in \N} \pi_0(X_k \setminus X_{k-1})$ ist endlich.
+
+    Im Folgenden betrachten wir meist den absoluton Fall $X_{n-1} = A := \emptyset$.
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $\dim(X, \scr X) = 0$ genau dann, wenn $X$ diskret ist.
+        \item
+            Für $\dim \scr X = 1$ haben wir einen (zellulären) \emphdef[zellulärer Graph]{Graphen}.
+            $X_0$ bilden die Ecken, $X_1 \setminus X_0$ bilden die offenen Kanten.
+    \end{itemize}
+\end{ex}
+
+\begin{nt}
+    Jeder Simplizialkomplex ist ein Zellkomplex.
+    Für $X = |K|$ setzt man dazu $X_n = |K_{\le n}|$.
+    Als charakteristische Abbildung können wir die affinen Koordinaten wählen.
+\end{nt}
+
+\begin{nt}
+    Der $\R^n$ erlaubt eine Zellstruktur.
+    Für $\R^2$ exemplarisch:
+    \begin{math}
+        X_0 &= \Z^2, \\
+        X_1 &= (\R \times \Z) \cup (\Z \times \R), \\
+        X_2 &= \R^2.
+    \end{math}
+\end{nt}
+
+\begin{nt}
+    Eine offene Zelle $e_i$ mit $\dim e_i < \dim \scr X$ ist im Allgemeinen nicht offen in $X$.
+\end{nt}
+
+\begin{ex}
+    $X = \S^n$ erlaubt Zellstrukturen
+    \begin{enumerate}[a)]
+        \item
+            \begin{math}
+                X_0 = \Set{p} = X_1 = X_2 = \dotsb = X_{n-1} \subset X_n = \S^n
+            \end{math}
+            Tatsächlich ist $X_n \setminus X_{n-1} = \S^n \setminus \Set{p} \homeomorphic \R^n \homeomorphic \B^n$ mit charakteristischen Abbildung $\D^n \xto{\text{quot}} X = \S^n = \D^n // \S^{n-1}$.
+        \item
+            Ankleben von nördlichem/südlichem Teil
+            \begin{math}
+                X_0 = \S^0,
+                X_1 = \S^1,
+                \dotsc,
+                X_n = \S^n.
+            \end{math}
+    \end{enumerate}
+\end{ex}
+
+\begin{ex}
+    $\RP^n = \S^n / \Set{\pm 1}$ erlaubt eine Zellstruktur
+    \begin{math}
+        X_0 = \RP^0,
+        X_1 = \RP^1,
+        \dotsc,
+        X_n = \RP^n.
+    \end{math}
+    Wir haben
+    \begin{math}
+        \begin{tikzcd}
+            \S^0 & \S^1 & \dotsb & \S^n, \\
+            \RP^0 & \RP^1 & \dotsb & \RP^n,
+        \end{tikzcd}
+    \end{math}
+    Es gilt $\S^k \setminus \S^{k-1} = \S^k_{>0} \sqcup \S^k_{<0}$.
+    Charakteristische Abbildung
+    \begin{math}
+        g_{\pm}: \D^k &\to \S^k, \\
+        x &\mapsto (x, \pm \sqrt{1-|x|^2})
+    \end{math}
+    $g_\pm(\S^{k-1} \subset \S^{k-1}$, hier die Identität.
+    Daraus bilden wir nun den Quotienten modulo $\pm 1$.
+    $\RP^k \setminus \RP^{k-1}$ besteht aus genau einer $k$-Zelle $\_g: \D^k \to \S^k \xto{q} \RP^k$,
+    \begin{math}
+        \_g(x) &= q(x, \sqrt{1-|x|^2}) = [x_0 : \dotsb : x_{k-1}: \sqrt{1 - x_0^2 - \dotsb - x_{k-1}^2 }],
+    \end{math}
+    $\_f = \_g|_{\S^{k-1}}: \S^{k-1} \xto{\Id} \S^{k-1} \xto{q} \RP^{k-1}$.
+    Die Anheftende Abbildung auf dem Rand ist $q: \S^{k-1} \to \RP^{k-1}$.
+\end{ex}
+
+\begin{prop}
+    Jeder Zellkomplex $(X, \scr X)$ ist lokal zusammenziehbar.
+\end{prop}
+
+\begin{ex}
+    Folgende Räume erlauben keine Zellstruktur:
+    \begin{itemize}
+        \item
+            $\Q \subset \R$,
+        \item
+            $X = (\R \times \Set{\pm 1}) \cup (\Q \times [-1, +1])$,
+        \item
+            $X := \bigcup_{k=1}^\infty \frac{1}{k} (\S^1 + 1)$.
+            Versucht man $X_0 = \Set{0}, X_1 = X$,
+            \begin{math}
+                X_1 \setminus X_0 = \bigcup_{k=1}^\infty \frac{1}{k} ((\S^1 + 1) \setminus \Set 0),
+            \end{math}
+            so erhält man die falsche Topologie:
+            \begin{math}
+                U = \bigcup_{k=1}^\infty \frac{1}{k} (\S_{>0}^1 + 1)
+            \end{math}
+            ist offen in der zellulären Topologie, aber nicht in der euklidischen.
+    \end{itemize}
+\end{ex}
+
+\begin{ex}
+    Flächen $F_g^\pm$.
+
+    Eine Zellstruktur für den Torus $F_1^+$ besteht aus einer Ecke, zwei Kanten und einer FLäche,
+    \begin{math}
+        X_2 \setminus X_1 \homeomorphic \B^2.
+    \end{math}
+\end{ex}
+
+\begin{prop}
+    Sind $(X, \scr X)$ und $(Y, \scr Y)$ Zellkomplexe, dann erlaubt $X \times Y$ die Zellstruktur $\scr Z = \scr X \otimes \scr Y$ mit
+    \begin{math}
+        Z_n = \bigcup_{k+l=n} X_k \times Y_l
+    \end{math}
+    (sind $\scr X$ und $\scr Y$ nicht lokal endlich, so statten wir $X \times Y$ mit der kompakt erzeugten Topologie aus).
+\end{prop}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $(\R, (\emptyset \subset \Z \subset \R)) \times (\R, (\emptyset \subset \Z \subset \R))$ ergibt
+            \begin{math}
+                (\R^2, (\emptyset \subset \Z \times \Z \subset (\R \times \Z) \cup (\Z \times \R) \subset \R \times \R).
+            \end{math}
+        \item
+            $(\S^1, (\emptyset \subset \Set p \subset \S^1)) \times (\S^1, (\emptyset \subset \Set q \subset \S^1))$ ergibt
+            \begin{math}
+                (\S^1 \times \S^1, (\emptyset \subset \Set{(p\times q)} \subset (\S^1 \times \Set q) \cup (\Set p \times \S^1) \subset \S^1 \times \S^1))
+            \end{math}
+    \end{itemize}
+\end{ex}
+
+\begin{nt}
+    $\Z^2 \xto[cap] \R^2 \xto[surjective] \S^1 \times \S^1$.
+    Die Zellstruktur auf $\R^2$ ist äquivariant bezüglich der Operation von $\Z^2 \xto[cap] \R^2$.
+    Wir erhalten eine Zellstruktur auf dem Quotienten $\R^2 / \Z^2 \homeomorphic \S^1 \times \S^1$.
+\end{nt}
+
+\begin{ex}
+    Fläche $F_g^+$: eine Ecke, $2g$ Kanten und eine Zelle.
+\end{ex}
+
+\subsection{Teilkomplexe}
+
+\begin{df}
+    Sei $(X, \scr X)$ ein Zellkomplex.
+    Ein \emphdef{Teilkomplex} $(Y, \scr Y)$ ist ein Teilraum $Y$ mit einer Zellstruktur $\scr Y$ mit $Y_n = X_n \cap Y$ und $\pi_0(Y_n \setminus Y_{n-1}) \subset \pi_0(X_n \setminus X_{n-1})$.
+\end{df}
+
+\begin{st}
+    Sei $(X, \scr X)$ ein Zellkomplex.
+    Jede kompakte Teilmenge $K \subset X$ ist in einem endlichen Teilkomplex enthalten.
+\end{st}
+
+\begin{kor}
+    Sei $(X, \scr X)$ ein Zellkomplex.
+    Genau dann ist $X$ kompakt, wenn $\scr X$ endlich ist.
+\end{kor}
+
+\begin{df}
+    Ein Zellkomplex $(X, \scr X)$ heißt \emphdef{regulär}, wenn gilt
+    \begin{enumerate}[1)]
+        \item
+            Jede anheftende Abbildung $f_i: \S^n \to X_{n-1}$ kann injektiv gewählt werden.
+        \item
+            Das Bild $f_i(\S^{n-1}) \subset X_{n-1}$ ist ein endlicher Teilkomplex.
+    \end{enumerate}
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Graphen (Schlingen nicht erlaubt für reguläre Zellkomplexe).
+        \item
+            Simplizialkomplexe sind immer reguläre Zellkomplexe.
+        \item
+            $\R^n$ wie oben ist regulär, $\S^0 \subset \dotsb \subset \S^n$ ist regulär.
+            $\RP^0 \subset \dotsb \subset \RP^n$ ist nicht regulär.
+    \end{itemize}
+\end{ex}
+
+\begin{st}
+    Jeder reguläre Zellkomplex erlaubt eine baryzentrische Triangulierung.
+\end{st}
+
+\begin{df}
+    Die Euler-Charakteristik eines endlichen Zellkomplexes $(X, \scr X)$ ist
+    \begin{math}
+        \chi(X, \scr X) = \chi(\scr X)
+        := \sum_{k=0}^\infty (-1)^k|\pi_0(X_k \setminus X_{k-1})|.
+    \end{math}
+\end{df}
+
+\begin{ex}
+    \begin{math}
+        \chi(\S^n, (\Set p \subset \dotsb \subset \Set p \subset \S^n))
+        &:= 1 + (-1)^n&
+        &= \begin{cases}
+            2 & \text{für $n$ gerade}, \\
+            0 & \text{fur $n$ ungerade}.
+        \end{cases}, \\
+        \chi(\S^n, (\S^0 \subset \dotsb \subset \S^n))
+        &:= 2 - 2 \pm \dotsb + (-1)^n \cdot 2&
+        &= \begin{cases}
+            2 & \text{für $n$ gerade}, \\
+            0 & \text{fur $n$ ungerade}.
+        \end{cases}
+    \end{math}
+\end{ex}
+
+\begin{st}
+    Seien $(X, \scr X)$ und $(Y, \scr Y)$ Zellkomplexe.
+    Aus $X \homeomorphic Y$ oder sogar $X \homotopic Y$ folgt $\chi(\scr X) = \chi(\scr Y)$.
+\end{st}
+
+
+\subsection{Berechnung von \texorpdfstring{$\pi_1(X, \ast)$}{π₁(X, *)} mit Zellstruktur \texorpdfstring{$\scr X$}{𝒳} auf \texorpdfstring{$X$}{X}}
+
+$\ast \subset X_0 \subset X_1$ ist ein Graph: $\pi_1(X_1, \ast)$ ist frei.
+
+$(X_1, *) \injto (X_2, *)$ induziert $\pi_1(X_1, \ast) \surto \pi_1(X_2, \ast)$ surjektiv mit einem Kern, der normal erzeugt ist von den anheftenden Abbildungen $f_i: \S^1 \to X_1$.
+Anschließend ist $\pi_1(X_k, \ast) \to \pi_1(X_{k+1}, \ast)$ ein Isomorphismus für $k \ge 2$.
 
 
