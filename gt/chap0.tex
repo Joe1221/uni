@@ -140,7 +140,7 @@ In vielen Fällen (wie auch im Folgenden) stellt dies keine nennenswerte Einschr
                 A(i,y) = \begin{cases}
                     1 & \text{falls $ij \in E$}, \\
                     0 & \text{sonst}.
-                \end{cases}                
+                \end{cases}
             \end{math}
             \begin{itemize}
                 \item
@@ -396,9 +396,9 @@ Eine Matching $M$ ist nicht stabil, wenn $\exists ab \in M, a' \in A, b' \in B$,
 \begin{st}[Menger, 1929]
     Die maximale Zahl paarweiser Knoten-disjunkter $AB$-Pfade ist gleich der minimalen Größe eines $AB$-Separators.
     \begin{proof}
-        Sei $C$ ein $AB$-Separator, dann existieren höchstens $|C|$ knotendisjunkte $AB$-Pfade.
+        Eine Richtung ist klar: Sei $C$ ein $AB$-Separator, dann existieren höchstens $|C|$ knotendisjunkte $AB$-Pfade.
 
-        Für die Umkehrung: Induktion nach $|E|$.
+        Für die Umkehrung: Induktion nach Anzahl Kanten $|E|$.
         Für $E = \emptyset$ ist $A \cap B$ ein minimaler $AB$-Separator und es gilbt $|A \cap B|$ Knoten-disjunkte Einpunktpfade.
         Sei jetzt $xy \in E$.
         Setze $G' = G - xy$ (Graph ohne Kante $xy$).
@@ -406,10 +406,104 @@ Eine Matching $M$ ist nicht stabil, wenn $\exists ab \in M, a' \in A, b' \in B$,
         Sei jetzt $C$ ein minimaler $AB$-Separator in $G'$.
         Falls $|C| = k$, dann sind wir fertig.
 
-        Also gilt $|C| \le k-1$.
-        Jetzt gilt $C \cup \Set{x}$ und $C \cup \Set{y}$ sind $AB$-Separatoren in $G$.
+\Timestamp{2015-11-12}
+        Also gilt $|C| \le k-1$ (sogar $|C| = k-1$).
+        Jetzt sind $S := C \cup \Set{x}$ und $T := C \cup \Set{y}$ $AB$-Separatoren in $G$.
+
+        Sei $D$ ein $AS$-Separator in $G$, dieser ist insbesondere ein $AB$-Separator.
+        Es folgt $|D| = k$, analog für $T$.
+        Mit Induktion existieren $k$ knotendisjunkte Pfade von $A$ nach $S$ in $G'$, bzw. von $T$ nach $B$ in $G'$ und damit von $A$ nach $B$.
     \end{proof}
 \end{st}
 
+
+\paragraph{Graph-Parameter}
+
+
+Sei $G = (V, E)$, $E \subset \binom{V}{2}$.
+\begin{math}
+    \alpha(G) := \max\Set{|I| & \text{$I \subset V$ unabhängig}},
+\end{math}
+wobei $I \subset V$ unabhängig ist, wenn $xy \in E \implies |I \cap \Set{x,y}| \le 1$.
+\begin{math}
+    \omega(G) := \max\Set{|C| & \text{$C \subset V$ ist Clique}},
+\end{math}
+wobei $C \subset V$ Clique ist, wenn $\forall x,y \in C : xy \in E$.
+
+Es gilt für den komplementären Graphen
+\begin{math}
+    \alpha(G) = \omega(\_G).
+\end{math}
+
+Definiere
+\begin{math}
+    \kappa(G) := \min\Set{n \in \N & \text{$\exists C_1, \dotsc, C_n$ Clique mit $V = \bigcup_{i=1}^n C_i$}}, \\
+    \chi(G) := \min\Set{n \in \N & \text{$\exists$ Färbung $c: V \to \Set{1, \dotsc, n}$}}.
+\end{math}
+Es gilt stets
+\begin{math}
+    \chi(G) &\ge \omega(G),\\
+    \kappa(G) &\ge \alpha(G).
+\end{math}
+
+Für alle induzierte Untergraphen?
+Wir nennen $G$ $\chi$-perfekt, wenn $\chi(G) = \omega(G)$.
+Beispiele sind bipartite Graphen
+
+Wir nennen $G$ $\alpha$-perfekt, wenn $\alpha(G) = \kappa(G)$.
+
+Interessante Sätze sind:
+
+\begin{st}
+    Sei $G$ ein Graph und alle induzierten Teilgraphen sind $\chi$-perfekt genau dann, wenn alle induzierten Teilgraphen $\alpha$-perfekt sind.
+\end{st}
+
+\begin{st}
+    Ein Graph ist $\chi$-, bzw. $\alpha$-perfekt (also alle induzierten Untergraphen $G'$ erfüllen $\alpha(G') = \kappa(G')$ und $\chi(G') = \omega(G')$) genau dann, wenn kein induzierter $C_k$ existiert mit $k$ ungerade und $k \ge 5$.
+\end{st}
+
+\begin{df}
+    Ein \emphdef{Träger} $T$ (vertex cover) ist eine Teilmenge $T \subset V$ mit
+    \begin{math}
+        \forall xy \in E: \Set{x,y} \cap T \neq \emptyset.
+    \end{math}
+    Eine \emphdef{Paarung} $M$ (matching) ist eine Teilmenge $M \subset E$ mit
+    \begin{math}
+        xy \in M \land x'y' \in M \implies xy = x'y' \lor \Set{x,y} \cap \Set{x',y'} = \emptyset.
+    \end{math}
+\end{df}
+
+Wir haben folgende Dualität:
+\begin{lem}
+    $T \subset V$ ist Träger genau dann, wenn $V \setminus T$ unabhängig ist.
+\end{lem}
+
+\begin{st}[König, 1931]
+    Sei $G = (A \sqcup B, E)$ ein bipartiter Graph.
+    Dann gilt
+    \begin{math}
+        \max\Set{|M| & \text{$M$ ist Matching}}
+        = \min \Set{|T| & \text{$T$ ist Träger}}.
+    \end{math}
+    \begin{proof}
+        Klar ist $\le$: jeder Träger muss für mindestens $|M|$ Knoten abdecken für ein beliebiges Matching.
+
+        Für die umgekehrte Richtung: Betrachte den Beweis des Heiratssatzes.
+        Skizze: Bobs/Alices, finde Verbesserungsweg, Widerspruch zu maximalem Matching.
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    Übungen:
+    \begin{itemize}
+        \item
+            Aus vorigem Satz folgt $\alpha$-Perfektheit für bipartite Graphen.
+        \item
+            Aus dem Heiratssatz folgt König.
+            Umkehrung gilt auch.
+        \item
+            Menger impliziert Heiratssatz/König.
+    \end{itemize}
+\end{ex}
 
 
