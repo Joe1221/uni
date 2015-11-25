@@ -1,0 +1,359 @@
+\chapter{Lie-Gruppen}
+
+Lie-Gruppen (Mannigfaltigkeiten mit „glatter“ Gruppenstruktur) sind für die Defferentialgeometrie unverzichtbar, vorallem weil sie eine große Fülle von relativ einfach zu studierenden Beispielen liefern.
+
+\begin{note}
+    Anstellen der Glattheit von Multiplikation und Inversion kann man auch verlangen, dass $G \times G \to G$, $(a,b) \mapsto a^{-1}b$ glatt ist.
+\end{note}
+
+\begin{df} \label{4.1}
+    Eien \emphdef{Lie-Untergruppe} $H$ einer Lie-Gruppe $G$ ist eine Untergruppe, die gleichzeitig eine Untermannigfaltigkeit ist.
+\end{df}
+
+
+\Timestamp{2015-11-18}
+
+
+\begin{lem} \label{4.2}
+    Eine Lie-Untergruppe $H \subset G$ ist selbst eine Lie-Gruppe und eine abgeschlossene Teilmenge (im topologischen Sinn) von $G$.
+    \begin{proof}
+        \begin{seg}{$H$ ist eine Lie-Gruppe}
+            $\iota: H \injto G$ ist eine Einbettung und somit (nach Aufgabe 11) ein Diffeomorphismus auf sein Bild, insbesondere $\iota, \iota^{-1}$ glatt.
+            Nun sind Multiplikation und Inversion gegeben durch
+            \begin{math}
+                (a,b) &\mapsto \iota^{-1} (\iota(a) \iota(b)), \\
+                a & \mapsto \iota^{-1}(\iota(a)^{-1}),
+            \end{math}
+            also glatt als Komposition glatter Abbildungen in $G$.
+        \end{seg}
+        \begin{seg}{$H \subset G$ ist eine abgeschlossene Teilmenge}
+            Da $H$ eine Untermannigfaltigkeit ist, ist $H$ lokal abgeschlossen, insbesondere gibt es eine offene Umgebung $U$ von $e$ in $G$, so dass $U \cap H = U \cap \_H$.
+            Sei $h \in \_H$.
+            Da $hU$ eine offene Umgebung von $h$ in $G$ ist, gilt $hU \cap H \neq \emptyset$.
+            Sei $h' \in h U \cap H$, dann gilt $h^{-1} h' \in U$.
+            Andererseits, da $h \in \_H$, gibt es eine Folge $h_n$ in $H$, die gegen $h$ konvergiert.
+            Es folgt, dass die Folge $h_n^{-1} h'$ gegen $h^{-1} h'$ konvergiert.
+            Mit anderen Worten, $h^{-1} h' \in U \cap \_H = U \cap H$, also gilt $h \in H$ und wir haben $\_H \subset H$ gezeigt.
+        \end{seg}
+    \end{proof}
+\end{lem}
+
+\begin{st}[Cartan] \label{4.3}
+    Jede abgeschlossene Untergruppe einer Lie-Gruppe ist eine Lie-Untergruppe.
+    \begin{proof}
+        siehe Literatur.
+    \end{proof}
+\end{st}
+
+Zusammengefasst: Die Lie-Untergruppen eiener Lie-Gruppe $G$ sind genau die abgeschlossenen Untergruppen.
+
+\begin{ex*}
+    Beispiele für Lie-Gruppen:
+    \begin{enumerate}[i)]
+        \item
+            $(\R, +)$,
+        \item
+            $(\R \setminus \Set 0, \cdot)$,
+        \item
+            $(\R^n, +)$,
+        \item
+            $(S^1, \cdot)$, wobei $S^1 = \Set{z \in \C & |z| = 1}$.
+            Alternativ
+            \begin{math}
+                \SO(2) = \Set{\Matrix{\cos t & -\sin t \\ \sin t & \cos t} & t \in \R}.
+            \end{math}
+        \item
+            Jede abgeschlossene Untergruppe von $\GL(n, \R)$ (z.B. als Urbild einer abgeschlossenen Menge)
+            \begin{enumerate}[a)]
+                \item
+                    Sei $f = \det: \R^{n\times n} \to \R$ stetig, dann ist
+                    \begin{math}
+                        \SL(n, \R)
+                        &= \Set{A \in \GL(n, \R) & \det A = 1} \\
+                        &= f^{-1}(\Set{1}).
+                    \end{math}
+                \item
+                    Sei $f : \R^{n\times n} \to \R^{n \times n}, A \mapsto AA^t$, dann ist
+                    \begin{math}
+                        \O(n) &= \Set{A \in \GL(n, \R) & A A^t = I} \\
+                        &= f^{-1}(\Set{I})
+                    \end{math}
+                \item
+                    Blockmatrizen mit zwei Blöcken aus $\GL(k, \R)$ und $\GL(n-k, \R)$.
+                \item
+                    $\GL(n, \C)$ als Untergruppe von $\GL(2n, \R)$,
+                    \begin{math}
+                        J = \Matrix{0 & -I \\ I & 0} \in \R^{2n \times 2n},
+                    \end{math}
+                    $I \in \R^n$, dann entspricht $z \mapsto Jz$ der Multiplikation mit $i$.
+                    Dann ist
+                    \begin{math}
+                        \GL(n, \C) = \Set{A \in \GL(2n, \R) & AJ = JA}.
+                    \end{math}
+            \end{enumerate}
+        \item
+            Die Schnittmenge zweier Lie-Untergruppen ist wieder eine Lie-Untergruppe, z.B.
+            \begin{enumerate}[a)]
+                \item
+                    $\SO(n) = \O(n) \cap \SL(n, \R)$,
+                \item
+                    $\U(n) = \GL(n, \C) \cap \O(2n)$,
+                \item
+                    $\SU(n) = \U(n) \cap \SL(n, \C)$.
+            \end{enumerate}
+    \end{enumerate}
+\end{ex*}
+
+\begin{df} \label{4.4}
+    Für eine Lie-Gruppe $G$ und ein Gruppenelement $g \in G$ seien die \emphdef{Linksmultiplikation}, bzw. \emphdef{Rechtsmultiplikation} mit $g$ gegeben durch
+    \begin{math}
+        L_g: G &\to G,& x &\mapsto gx, \\
+        R_g: G &\to G,& x &\mapsto xg.
+    \end{math}
+    \begin{note}
+        \begin{itemize}
+            \item
+                $L_g$ und $R_g$ sind Diffeomorphismen auf $G$, denn sie siend glatt und bijektiv, ihre Umkehrabbildung ist gegeben durch $(L_g)^{-1} = L_{g^{-1}}$, $(R_g)^{-1} = R_{g^{-1}}$.
+            \item
+                Eine Lie-Gruppe ist \emphdef{homogen}, d.h. zu $g_1, g_2 \in G$ gibt es einen Diffeomorphismus, der $g_1$ auf $g_2$ abbildet, nämlich $L_{g_2g_1^{-1}}$ und zwar „wirkt“ $G$ auf sich selbst durch Diffeomorphismen.
+        \end{itemize}
+    \end{note}
+\end{df}
+
+
+\Timestamp{2015-11-24}
+
+Auf Lie-Gruppen haben wir folgende Konstruktion.
+
+\begin{df} \label{4.5}
+    Ein \emphdef{linksinvariantes Vektorfeld} auf einer Liegruppe $G$ ist ein Vektorfeld $X \in \scr X(M)$, so dass
+    \begin{math}
+        {L_g}_* X = X
+    \end{math}
+    für alle $g \in G$.
+    \begin{note}
+        \begin{itemize}
+            \item
+                Ein linksinvariantes Vektorfeld $X \in \scr X(G)$ einer Lie-Gruppe ist durch seinen Wert an einem Punkt $X(g) \in G$ festgelegt, denn es gilt für jedes $h \in G$ dann
+                \begin{math}
+                    X(h) = ({L_{hg^{-1}}}_* X)(h)
+                    = (T_{g} L_{gh^{-1}})(X(g)),
+                \end{math}
+                Man spricht auch von der \emphdef{linksinvarianten Fortsetzung} von $X(g)$.
+                Umgekehrt lässt sich zu jedem Vektor $v \in T_g G$ ein linksinvariantes Vektorfeld $X$ finden, so dass $X(g) = v$, definiert durch obige Formel.
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{ex*}
+    \begin{itemize}
+        \item
+            Fasst man $(\R^n, +)$ als Lie-Gruppe auf, dann sind die linksinvariante Vektorfelder genau die Konstanten.
+        \item
+            Auf $S^1 = \Set{z \in \C & |z| = 1} = U(1)$ sind die linksinvarianten Vektorfelder durch Rotationen gegeben.
+    \end{itemize}
+\end{ex*}
+
+\begin{lem} \label{4.6}
+    Die linksinvarianten Vektorfelder auf einer Lie-Gruppe bilden eine Lie-Algebra mit der Lie-Klammer von Vektorfelder aus \ref{3.18} als Verknüpfung.
+    \begin{proof}
+        Offensichtlich bilden die linksinvarianten Vektorfelder einen Untervektorraum von $\scr X(G)$.
+        Es bleibt zu zeigen, dass die Lie-Klammer von zwei linksinvarianten Vektorfeldern wieder ein linksinvariantes Vektorfeld ist.
+        Dies folgt aus Aufgabe 17, denn ein Vektorfeld auf $G$ ist genau dann linksinvariant, wennn es mit sich selbst $L_g$-verwandt ist für jedes $g \in G$, denn dann
+        \begin{math}
+            {L_{g}}_* [X_1, X_2]
+            = [{L_g}_* X_1, {L_g}_* X_2]
+            = [X_1, X_2].
+        \end{math}
+    \end{proof}
+\end{lem}
+
+\begin{df} \label{4.7}
+    Wir schreiben $\frk g$ für die Menge der linksinvarianten Vektorfelder.
+    Wir identifizieren $\frk g$ mit $T_e G$ in kanonischer Weise (siehe Bemerkung in \ref{4.5}).
+    Man nennt $\frk g = T_e G$ auch die \emphdef{Lie-Algebra} von $G$.
+\end{df}
+
+\begin{df} \label{4.8}
+    Lie-Gruppen, die als abgeschlossene Untergruppen von $\GL(n, \R)$ gegeben sind, nennen wir \emphdef{Matrix-Lie-Gruppen}.
+\end{df}
+
+\begin{df} \label{4.9}
+    Sei $G$ eine Lie-Gruppe und $\frk g$ ihre Lie-Algebra.
+    Wir definieren die Exponentialabbildung $\exp: \frk g \to G$ der Lie-Gruppe $G$ durch
+    \begin{math}
+        \exp(X) := \Phi_1^X(e),
+    \end{math}
+    d.h. $\exp(X)$ ist der Fluss des linksinvarianten Vektorfeldes $X$ nach der Zeit $t = 1$, angewendet auf das neutrale Element.
+    \begin{note}
+        Flüsse linksinvarianter Vektorfelder sind global wohldefiniert.
+        Nach \ref{3.26} ($f \circ \Phi_t^X = \Phi_t^X \circ f$ für einen Diffeomorphismus $f$ und ein $f$-invariantes Vektorfeld $X$) folgt $L_g \circ \Phi_t^X = \Phi_t^X \circ L_g$, also
+        \begin{math}
+            g \Phi_t^X(e) = \Phi_t^X(g).
+        \end{math}
+        Insbesondere: ist der Fluss beim Startwert $e$ für $t \in (-\eps, \eps)$ definiert, so auch beim Startwert $g$.
+        Es folgt globale Wohldefiniertheit, siehe auch Köhler, 1.6.10.
+    \end{note}
+\end{df}
+
+\begin{ex*}
+    \begin{enumerate}[(i)]
+        \item
+            Sei $G = (\R^n, +)$, dann gilt $\exp(X) = X$, denn $\Phi_t^X(p) = p + tX$.
+        \item
+            Für $G = \GL(n, \R)$ ist $\exp(X) = \sum_{k=0}^\infty \frac{X^k}{k!}$ die Matrix-Exponentialabbildung, denn
+            \begin{math}
+                \ddx[t] |_{t=0} e^{tX}
+                &=\ddx[t] |_{t=0} \sum_{k=0}^\infty \frac{X^k}{k!} \\
+                &=\sum_{k=1}^\infty \frac{X^k}{k!} k t^{k-1} |_{t=0}
+                = X.
+            \end{math}
+            und somit gilt
+            \begin{math}
+                X(g) = {L_{g}}_* X
+                &= g \ddx[t]|_{t=0} \exp(tX) \\
+                &= \ddx[t]|_{t=0} g \exp(tX).
+            \end{math}
+            Außerdem: Für kommutierende Matrizen $X, Y$ gilt $e^{X + Y} = e^X e^Y$ (Beweis wie im eindimensionalen).
+            Mit dem obigen ergibt sich
+            \begin{math}
+                \ddx[s] \exp(sX)
+                &= \ddx[t]|_{t=0} \exp((s+t)X) \\
+                &= \ddx[t]|_{t=0} \exp(sX) \exp(tX)
+                = X(\exp(sX))
+            \end{math}
+            Außerdem ist $\exp(0 X) = e$.
+            Insgesamt haben wir gesehen, dass $s \mapsto \exp(sX)$ eine Integralkurve zu dem linksinvarianten Vektorfeld $X$ mit Anfangswert $e$ ist.
+    \end{enumerate}
+\end{ex*}
+
+\begin{lem} \label{4.10}
+    Auf jeder Mannigfaltigkeit $M$ für jedes $X \in \scr X(M)$ und $s, t$ hinreichend klein gilt
+    \begin{math}
+        \Phi_{st}^X = \Phi_s^{tX}.
+    \end{math}
+    \begin{proof}
+        \begin{enumerate}[(i)]
+            \item
+                $\Phi_{0t}^X (p) = p = \Phi_0^{tX}(p)$
+            \item
+                Es gilt
+                \begin{math}
+                    \ddx[s]|_{s=0} \Phi_{st}^X(p) = tX(p) = \ddx[s]|_{s=0} \Phi^{tX}_s(p)
+                \end{math}
+                und $\Phi_{(s_1 + s_2)t}^X = \Phi_{s_1 t}^X \circ \Phi_{s_2 t}$.
+        \end{enumerate}
+        Zeige
+        \begin{math}
+            \ddx[s] \Phi_{st}^X(p) = tX(\Phi_{st}^X(p))
+        \end{math}
+        mit Kettenregeltrick auf $\Phi_{(s_1 + s_2)t}^X(p)$.
+    \end{proof}
+\end{lem}
+
+Allgemein (nicht nur für Matrix-Lie-Gruppen) gilt:
+
+\begin{lem} \label{4.11}
+    Für eine Lie-Gruppe $G$ und ein linksinvariantes Vektorfeld $X \in \frk g$ gilt
+    \begin{math}
+        \Phi_t^X(g) = g \exp(tX)
+    \end{math}
+    \begin{proof}
+        \begin{math}
+            \ddx[t]|_{t=0} g \exp(tX)
+            &= \ddx[t]|_{t=0} L_g (\exp(tX)) \\
+            &\stack{\ref{4.10}}= \ddx[t]|_{t=0} L_g(\Phi_t^X(e)) \\
+            &= T_e L_g(\ddx[t]|_{t=0} \Phi_t^X(e))
+            = T_e L_g(X)
+            = X(g)
+        \end{math}
+    \end{proof}
+\end{lem}
+
+\begin{st} \label{4.12}
+    Für das Differential der Exponentialabbildung $\exp: \frk g \to G$ einer Lie-Gruppe gilt bei der Null:
+    \begin{math}
+        T_0 \exp = \id_{\frk g}
+        :T_0 \frk g = \frk g \to T_e G = \frk g
+    \end{math}
+    \begin{proof}
+        \begin{math}
+            T_0 \exp(X)
+            = \ddx[t]|_{t=0} \exp(tX)
+            = \ddx[t]|_{t=0} \Phi_1^{tX}(e)
+            \stack{\ref{4.10}}= \ddx[t]|_{t=0} \Phi_t^X(e)
+            = X(e).
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{kor} \label{4.13}
+    Auf einer Umgebung $V$ der Null in $\frk g = T_e G$ ist $\exp|_V: V \to \exp(V)$ ein Diffeomorphismus und die Umkehrabbildung $\log := {\exp|_{V}}^{-1}$ eine kanonische Karte, genannt \emphdef{logarithmische Karte}.
+    \begin{proof}
+        Umkehrsatz für Mannigfaltigkeiten, siehe Aufgabe 9.
+    \end{proof}
+\end{kor}
+
+\begin{st} \label{4.14}
+    Für jeden Lie-Gruppenhomomorphismus (d.h. ein glatter Homomorphismus von Lie-Gruppen) $f: G \to H$ gilt
+    \begin{math}
+        f(\exp(X)) = \exp(T_e f(X))
+    \end{math}
+    für alle $X \in \frk g$.
+    \begin{proof}
+        Sei $Y := T_e f(X)$ und seien die linksinvarianten Fortsetzungen von $X \in T_e G$, $Y \in T_e H$ ebenfalls mit $X$, bzw. $Y$ bezeichnet.
+        Dann gilt $f(\Phi_t^X(e)) = \Phi_t^Y(e)$, denn $f(\Phi_0^X(e)) = f(e_G) = e_H$ und
+        \begin{math}
+            \ddx[t]|_{t=t_0} f(\Phi_t^X(e))
+            &= \ddx[t]|_{t=0} f(\Phi_t^X(\Phi_{t_0}^X(e))) \\
+            &= \ddx[t]|_{t=0} f(\Phi_{t_0}^X(e) \Phi_{t}^X(e)) \\
+            &= \ddx[t]|_{t=0} f(\Phi_{t_0}^X(e)) f(\Phi_t^X(e)) \\
+            &= \ddx[t]|_{t=0} L_{f(\Phi_{t_0}^X(e))} (f(\Phi_t^X(e))) \\
+            &= {L_{f(\Phi_{t_0}^X(e))}}_* T_e f(X) \\
+            &= Y(f(\Phi_{t_0}^X(e)))
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{kor} \label{4.15}
+    Für eine Lie-Untergruppe $H \subset G$ gilt für $X \in \frk h$
+    \begin{math}
+        \exp_H(X)
+        = \iota(\exp_H(X))
+        = \exp_G(T_0 \iota(X))
+        = \exp_G(X),
+    \end{math}
+    wobei $\iota: H \injto G$ die Inklusionsabbildung bezeichnet.
+    Mit anderen Worten: $\exp_G|_{\frk h} = \exp_H$.
+\end{kor}
+
+\begin{ex*}
+    Damit folgt, dass für alle Matrix-Lie-Gruppen $G \subset \GL(n, \R)$, dass die Exponentialabbildung $\exp_G$ von $G$ gegeben ist durch die Matrixdarstellung $X \mapsto e^X = \sum_{k=0}^\infty \frac{X^k}{k!}$.
+\end{ex*}
+
+\begin{st} \label{4.16}
+    Sei $G$ eine zusammenhängende Lie-Gruppe.
+    Dann wird $G$ (als Gruppe) von jeder Umgebung des Einselements erzeugt und jeder Lie-Gruppenhomomorphismus $f$ ist durch sein Differential $T_e f$ am Einselement bereits eindeutig festgelegt.
+    \begin{proof}
+        Sei $\tilde U$ eine offene Umgebung von $e \in G$ und setze $U:= \tilde U \cap {\tilde U}^{-1}$.
+        Sei $H := \bigcup_{n \in \N} U^n$.
+        Dann ist $H$ offen in $G$.
+
+        Auch die Teilmenge $V := \bigcup_{m \in G \setminus H} mH$ ist offen in $G$
+        Außerdem gilt $G = H \cup V$ und $H \cap V = \emptyset$.
+        Da $G$ zusammenhängend ist, muss $V = \emptyset$ ($H$ enthält $e$).
+        Folglich $H = G$.
+
+        Für $\tilde U$ hinreichend klein ist $f$ nach \ref{4.14} auf $\tilde U$ durch $f(\exp(X)) = \exp(T_e f(X))$ bestimmt, alle anderen Elemente $g$ lassen sich als (endliche) Produkte $g = g_1 \dotsc g_k$ mit $g_i \in \tilde U$ schreiben und somit ist $f(g) = f(g_1) \dotsc f(g_k)$ auch durch $T_e f$ bestimmt.
+    \end{proof}
+\end{st}
+
+\begin{note}
+    \begin{itemize}
+        \item
+            $\exp$ ist im Allgemeinen \emph{nicht} surjektiv, deswegen reicht 4.14 nicht aus aus, um den zweiten Teil der Behauptung von \ref{4.16} zu beweisen, vgl. Aufgabe 22.
+        \item
+            Es lässt sich aber (für $G$ zusammenhängend) zeigen, dass $\exp(\frk g)^2 = G$, d.h jedes Element von $G$ lässt sich als Produkt von zwei Elementen aus dem Bild von $\exp$ schreiben.
+    \end{itemize}
+\end{note}
+
