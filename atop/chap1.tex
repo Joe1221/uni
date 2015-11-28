@@ -1074,3 +1074,85 @@ $(X_1, *) \injto (X_2, *)$ induziert $\pi_1(X_1, \ast) \surto \pi_1(X_2, \ast)$ 
 Anschließend ist $\pi_1(X_k, \ast) \to \pi_1(X_{k+1}, \ast)$ ein Isomorphismus für $k \ge 2$.
 
 
+\Timestamp{2015-11-20}
+
+\section{Zelluläre Präsentation der Fundamentalgruppe}
+
+Beobachtung: Für jeden Zellkomplex $(X, \scr X)$ haben wir
+\begin{math}
+    \pi_0(X_0) \xto[surjective] \pi_0(X_1) \xto[homeomorphic] \pi_0(X_2) \xto[homeomorphic] \dotsb
+\end{math}
+Wege könnten Punkten verbinden, aber $n$-Zellen am Rand von $\S^{n-1}$-Zellen zu kleben verbindet nichts neues für $n \ge 2$.
+
+Für $\pi_1$ ist dann $\pi_1(X_k, x_0) \xto \pi_1(X, x_0)$ bijektiv für $k > 0$, aber für $k = 0$ nur surjektiv.
+
+\begin{st}
+    Für jeden Zellkomplex $(X, \scr X)$ können wir eine Präsentation der Fundamentalgruppe $\pi_1(X, x_0) = \Gen{s_i, i \in I & r_j, j \in J}$ wie folgt ablesen:
+    \begin{enumerate}[(1)]
+        \item
+            Sei $X$ (weg-)zusammenhängend, $x_0 \in X_0$ eine Ecke, $T \subset X_1$ ein Spannbaum.
+            Dann ist $\pi_1(X, x_0)$ frei über $S = \pi_0(X_1 \setminus T)$.
+
+            Genauer wählen wir für jede Kante $s_i \in S$ eine Parametrisierung $g_i: \D^1 = [-1, 1] \to \_{s_i}$ und somit eine (willkürliche) Orientierung.
+            Damit ist
+            \begin{math}
+                \pi_1(X_1, x_0) = \Gen{s_i, i \in I & -}.
+            \end{math}
+        \item
+            Die Inklusion $\iota: X_1 \injto X_2$ induziert $\iota_\#: F = \pi_1(X_1, x_0) \surto \pi_1(X_2, x_0)$ mit
+            \begin{math}
+                \ker(\iota_\#) = \< r_j^F : j \in J\> =: N \normdiv F
+            \end{math}
+            Genauer: Für jede 2-Zelle $e_j \in \pi_0(X_2 \setminus X_1)$, $j \in J$ wählen wir eine Parametrisierung
+            \begin{math}
+                g_j : \D^2 \to \_{e_j}.
+            \end{math}
+            Die anheftende Abbildung $\partial g_j := g_j|_{\partial \D^2}: \S^1 \to X_1$ definiert nach Verbindung zum Fußpunkt $x_0$ einen Weg in $(X_1, x_0)$ und somit ein Gruppenelement $r_j := [\partial g_j] \in \pi_1(X_1, x_0)$ (Skizze!).
+        \item
+            Jede weitere Inklusion $X_n \injto X_{n+1}$, $n \ge 2$ induziert eienen Isomorphismus $\pi_1(X_n, x_0) \xto[isomorphic] \pi_1(X_{n+1}, x_0)$.
+        \item
+            Ebenso induziert $X_n \injto X$ einen Isomorphismus
+            \begin{math}
+                \pi_1(X_n, x_0) \injto \pi_1(X, x_0).
+            \end{math}
+    \end{enumerate}
+    \begin{proof}
+        Seifert-van-Kampen:
+        \begin{enumerate}[(1)]
+            \item
+                Wir haben $X_1 = U \cup V$ mit $U = X_1 \setminus \Set{g_i(0) & i \in I}$, $V = X_1 \setminus T \isomorphic I \times \B^1$ und
+                $U \homotopic T \homotopic \ast$.
+                Wegzusammenhangskomponenten sind $g_i(\D^1_{<0})$, $g_i(\D^1_{>0})$.
+            \item
+                $X_2 = U \cup V$ mit
+                \begin{math}
+                    U &= X_2 \setminus \Set{g_j(0) & j \in J} \homotopic X_1, \\
+                    V &= X_2 \setminus X_1 \homeomorphic J \times \B^2.
+                \end{math}
+            \item
+                $J \times \S^1 \homotopic J \times (\B^2 \setminus \Set 0) \xto[homeomorpic]{g} U \cap V = W$.
+                $\Set{j} \times \frac{1}{2} \S^1 \injto V$ ist zusammenziehbar.
+                $\Set{j} \times \frac{1}{2} \S^1 \injto U$ ist homotopieäquivalent zu $\partial g_j$.
+                Also
+                \begin{math}
+                    \pi_1(X_2, x_0) &= \pi_1(U, x_0) / \<r_j^F : j \in J\> \\
+                    &= \pi_1(X_1, x_0) / \<r_j^F: j \in J\> \\
+                    &= F / N.
+                \end{math}
+            \item
+                $X_{n+1} = U \cup V$ mit $U = X_{n+1} \setminus \Set{g_k(0) & k \in K} \homotopic X_n$, $V = X_{n+1} \setminus X_n \homeomorphic K \times \B^{n+1}$.
+                $W = U \cap V \homeomorphic K \times (\B^{n+1} \setminus \Set{0}) \homotopic K \times \S^n$.
+                Für $n \ge 2$ gilt $\pi_1(\S^n, \ast) = \Set{1}$.
+                Damit klar, wie zuvor.
+            \item
+                Jeder Weg $\gamma: [0,1] \to X$ in $X$ und jede Homotopie $H: [0,1]^2 \to X$ hat ein kompaktes Bild, liegt also in einem endlichen Teilkomplex $K$, also $K \subset X_N$ für $N$ groß.
+                Damit klar.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    Jede Gruppe ist Fundamentalgruppe eines topologischen Raumes, sogar eines Zellkomplexes mit $\dim \le 2$.
+\end{kor}
+
+

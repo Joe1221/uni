@@ -1,0 +1,390 @@
+\chapter{Überlagerungen topologischer Räume}
+
+
+\section{Überlagerungen}
+
+
+\begin{df}
+    Seien $X, \tilde X$ topologische Räume, $p: \tilde X \surto X$ stetig.
+    Eine offene Menge $U \subset X$ wird durch $p$ \emphdef{trivial überlagert}, wenn $p^{-1}(U) = \bigsqcup \tilde U_i$ disjunkte Vereinigung offener Mengen $\tilde U_i$ in $\tilde X$ ist, sodass für $i \in I$ die Einschränkung $p_i := p|_{\tilde U_i}^U$ ein Homöomorphismus ist.
+
+    Die Abbildung $p: \tilde X \to X$ heißt \emphdef{Überlagerung}, wenn jeder Punkt $x \in X$ eine offene Umgebung $U \subset X$ besitzt, die trivial durch $p$ überlagert wird.
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $\exp: (\C, +) \to (\C^*, \cdot)$
+        \item
+            $p: (\R, +) \to (\S^1, \cdot)$, $p(t) = e^{it}$.
+        \item
+            $p_n: (\C^*, \cdot) \to (\C^*, \cdot)$, $p_n(z) = z^n$.
+            Alternativ auch in $\S^1$.
+    \end{itemize}
+\end{ex}
+
+\section{Hochhebung von Wegen und Homotopien}
+
+%Folgende Situation:
+%\begin{math}
+%    \begin{tikzcd}
+%        & \tilde x \ar[d,"p"] \\
+%        w \ar[ru,"gh"] & x \ar[r,"f"]
+%    \end{tikzcd}
+%\end{math}
+%also $f = p \circ g = p \circ h$.
+
+\begin{prop}
+    Seien $f: W \to X$, $g,h: W \to \tilde X$ stetig mit $f = p \circ g = p \circ h$.
+    Dann bilden
+    \begin{math}
+        A &= \Set{w \in W & g(w) = h(w)}, \\
+        B &= \Set{w \in W & g(w) \neq h(w)} =: A^C
+    \end{math}
+    eine offene Zerlegung $W = A \sqcup B$.
+    \begin{proof}
+        Zu $w \in W$ und $x \in f(w) \in X$ sei $U \subset X$ trivial überlagert.
+        Wegen $pg(w) = ph(w) = x$ existiert $j, k \in I$, sodass
+        \begin{math}
+            g(w) \in \tilde U_j, h(w) \in \tilde U_k.
+        \end{math}
+        Dann ist $V = g^{-1}(\tilde U_j) \cap h^{-1}(\tilde U_k) \subset W$ offene Umgebung von $w$.
+        Es gilt $g|_V = p_j^{-1} \circ f|_V$ und $h|_V = p_k^{-1} \circ f|_V$.
+        Aus $w \in A$ folgt $j = k$, somit $g|_V = h|_V$, also $V \subset A$, also $A$ offen.
+        Aus $w \in B$ folgt $j \neq k$, somit $g(V) \subset \tilde U_j$ und $h(V) \subset \tilde U_k$ disjunkt, also $V \subset B$.
+    \end{proof}
+\end{prop}
+
+\begin{kor}
+    sei $p: (\tilde X, \tilde{x_0}) \to (X, x_0)$ eine Überlegung.
+    Zu jeder stetigen Abbildung $f: ([0,1]^n, 0) \to (X, x_0)$ existiert genau eine Hochhebung $\tilde f: ([0,1]^n, 0) \to (\tilde X, \tilde x_0)$ stetig mit $p \circ f = \tilde f$.
+    \begin{proof}
+        Skizze.
+    \end{proof}
+\end{kor}
+
+\begin{note}
+    Hochhebungen existieren nicht immer!
+    Betrachte die Überlagurung $p: (\R, 0) \to (\S^1, 1)$ und die Identität auf $(\S^1, 0)$.
+    \begin{proof}
+        Aneggnommen es gäbe $\tilde f$ stetig, $p \circ \tilde f = f$.
+        Dann ist $\tilde f \homotopic \ast$, also $f = p \circ \tilde f \homotopic \ast$, ein Widerspruch.
+        Ebenso für $f = p_n$, $n \neq 0$.
+    \end{proof}
+\end{note}
+
+
+% MISSING
+
+
+\section{Gruppenoperationen und Galois-Überlagerungen}
+
+
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $\Set{\pm 1} \ops \S^n \to \RP^n$
+        \item
+            $\Set{\pm 1} \ops F_g^+ \to F_g^-$
+    \end{itemize}
+\end{ex}
+
+\begin{df}
+    Sei $G \times X \to X$ eine (Links-)Operation.
+    Für $x \in X$ ist $Gx := \Set{gx & g \in G}$ die \emphdef{Bahn} (oder \emphdef{Orbit}) von $x$ in $G$.
+    Wir erhalten $q: X \to G \bs X = \Set{Gx & x \in X}$.
+    Bequemer ist die Notation
+    \begin{math}
+        G \ops{\phi} X \xto[surjective]{q} G \bs X.
+    \end{math}
+    Allgemeiner:
+    \begin{math}
+        \begin{tikzcd}
+            G \ar[r,"\phi",bend left] & X \ar[r,"\phi",sur] \ar[d,"q",sur] & Y \\
+            & G \bs X \ar[ur,"h",hom].
+        \end{tikzcd}
+    \end{math}
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $2\pi \Z \ops{+} \C \surto{\exp} \C^*$,
+        \item
+            $W_n \ops \C^* \surto{p_n} \C^*$, $p_n(z) = z^n$ und
+            \begin{math}
+                W_n = \Set{z \in \C & z^n = 1}
+                = \Set{e^{2\pi i k / n} & k = 0, \dotsc, n-1}.
+            \end{math}
+        \item
+            $2 \pi \Z \ops{+} \R \surto{p} \S^1$, $p(t) = e^{it}$.
+    \end{itemize}
+\end{ex}
+
+\begin{df}
+    Die Operation $\phi: G \times X \to X$ heißt \emphdef{frei}, wenn $gx \neq x$ für alle $x \in X$, $g \in G \setminus \Set{1}$.
+
+    $\phi$ heißt \emphdef{frei diskontinuierlich} (oder \emphdef{topologisch frei}), wenn zu jedem Punkt $x \in X$ eine offene Umgebung $U \subset X$ existiert, sodass $U \cap gU = \emptyset$ für alle $g \in G \setminus \Set 1$.
+    \begin{note}
+        Ist $\phi$ frei diskontinuierlich, so ist der Orbit eines jeden Punktes insbesondere diskret.
+    \end{note}
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $Z^2 \ops \R^2$ ist frei diskontinuirlich.
+        \item
+            $\Q \ops \R$ ist frei, aber nicht frei diskontinuierlich.
+    \end{itemize}
+\end{ex}
+
+\begin{st}
+    Für jede frei diskontinuierliche Operation $G \ops{\phi} \tilde X \xto{q} X$ ist $q$ eine Überlagerung.
+    \begin{proof}
+        klar.
+    \end{proof}
+\end{st}
+
+\begin{df}
+    Wir nennen $G \ops{\phi} \tilde X \xto{q} X$ eine \emphdef{Galois-Überlagerung}, wenn $\phi$ frei diskontinuierlich ist und $\tilde X$ wegzusammenhängend ist.
+    Ist $\tilde X$ sogar einfach zusammenhängend ($\pi_0 = \pi_1 = \Set{*}$), so nennen wir dies eine \emphdef{universelle Überlagerung}.
+\end{df}
+
+
+% 2.4
+\section{Kurze exakte Sequenz einer Galois-Überlagerung}
+
+
+\begin{st}
+    Jede Überlagerung $p: (\tilde X, \tilde x_0) \to (X, x_0)$ induziert
+    \begin{math}
+        \begin{tikzcd}
+            P(\tilde X, \tilde x_0) \ar[d,"p_\#",xshift=-0.5em,swap] \ar[r,"\quot"] & \Pi(\tilde X, \tilde x_0) \ar[d,"p_\#",xshift=-0.5em,swap] \\
+            P(X, x_0) \ar[u,"p_\b",xshift=0.5em,swap] \ar[r,"\quot"] & \Pi(X, x_0) \ar[u, "p_\b",xshift=0.5em,swap]
+        \end{tikzcd},
+    \end{math}
+    wobei $p_\#(\tilde \gamma) = p \circ \tilde \gamma$ und $p_b(\gamma) = \tilde \gamma$ durch Hochhebung.
+    Wir erhalten zueinander inverse Bijektionen.
+\end{st}
+
+\begin{kor}
+    Der Gruppenhomomorphismus $p_\#: \pi_1(\tilde X, \tilde x_0) \to \pi_1(X, x_0)$ ist injektiv.
+\end{kor}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Zweifache Überlagerung eines Graphen mit zwei Zykeln durch, $p_\#(t_1) = t^2$, $p_\#(s_2) = s$, $p_\#(s_1) = tst^{-1}$.
+            $p_\#: \pi_1(\tilde X, \tilde x_0) \to \pi_1(X, x_0)$ ist injektiv.
+        \item
+            Wie oben mit unendlich vielen Blättern.
+    \end{itemize}
+\end{ex}
+
+\begin{df}
+    Fasertransport:
+    Durch Hochhebung eines Weges $\alpha: [0,1] \to X$ mit $\alpha(0) = x$, $\alpha(1) = y$ wird die Faser $F_x$ kanonisch auf die Faser $F_y$ bijektiv abgebildet.
+
+    Wir erhalten eine Bijektion $F_x \times \Pi(X,x,y) \to F_y$.
+
+    Insbesondere erhalten wir eine Gruppenoperation $F_x \times \pi_1(X, x) \to F_x$
+\end{df}
+
+\begin{st}[Kurze exakte Sequenz]
+    Für jede Galois-Überlagerung $G \ops{\phi} \tilde X \xto{q} X$ gilt
+    \begin{enumerate}[(1)]
+        \item
+            Die Operation von $G$ auf $\tilde X$ kommutiert mit dem Fasertransport:
+            \begin{math}
+                (g \cdot \tilde x) \cdot [\alpha] = g \cdot (\tilde x \cdot [\alpha])
+            \end{math}
+        \item
+            Für $\tilde x_0 \in \tilde X$ und $x_0 = q(\tilde x_0)$ erhalten wir einen Gruppenhomomorphismus $h: \pi_1(X, x_0) \to G$
+            \begin{math}
+                \tilde x_0 \cdot [\alpha] = h([\alpha]) \cdot \tilde x_0.
+            \end{math}
+        \item
+            Sein Kern ist $\ker(h) = p_\#(\pi_1(\tilde X, \tilde x_0))$ und sein Bild ist
+            \begin{math}
+                \im(h) = \Set{g \in G & \text{$x_0$ und $g \tilde x_0$ sind wegverbindbar}}
+            \end{math}
+    \end{enumerate}
+    Ist $\tilde X$ wegzusammenhängend (also $G \ops \tilde X \to X$ eine Galois-Überlagerung), so erhatlen wir also eine kurze exakte Sequenz
+    \begin{math}
+        1 \to \pi_1(\tilde X, \tilde x_0) \xto{p_\#} \pi_1(X, x_0) \xto{h} G \to 1.
+    \end{math}
+    \begin{proof}
+        \begin{enumerate}[(1)]
+            \item
+                Klar dank Skizze.
+            \item
+                Existenz da transitiv, Eindeutigkeit da frei.
+                Gruppenhomomorphismus:
+                \begin{math}
+                    h([\alpha][\beta])\cdot \tilde x_0
+                    &= \tilde x_0 \cdot ([\alpha][\beta]) \\
+                    &= (\tilde x_0 \cdot [\alpha]) \cdot [\beta] \\
+                    &= (h([\alpha])\cdot \tilde x_0) \cdot [\beta] \\
+                    &= h([\alpha]) \cdot (\tilde x_0 \cdot [\beta]) \\
+                    &= h([\alpha]) \cdot (h([\beta]) \cdot \tilde x_0) \\
+                    &= [h([\alpha])\cdot h([\beta])] \cdot \tilde x_0.
+                \end{math}
+            \item
+                leicht nachvollziehbar.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $\Z \ops{+} (\R, 0) \xto{p} (\S^1, 1)$, $p(t) = e^{2 \pi i t}$.
+
+            \begin{math}
+                \begin{tikzcd}
+                    \pi_1(\R, 0) \ar[r,inj,"p_\#"] \ar[d,"\homeomorphic"] & \pi_1(\S^1, 1) \ar[r,sur,"h"] \ar[d,"\homeomorphic"] & \Z \ar[d,"\homeomorphic"] \\
+                    0 \ar[r,inj] & \Z \ar[r,bij] & \Z
+                \end{tikzcd}
+            \end{math}
+        \item
+            $W_n \ops{\cdot} (\S^1, 1) \xto{p_n} (\S^1, 1)$, $p_n(z) = z^n$
+            \begin{math}
+                \begin{tikzcd}
+                    \pi_1(\S^1, 1) \ar[r,inj,"(p_n)_\#"] \ar[d,"\homeomorphic"] & \pi_1(\S^1, 1) \ar[r,sur,"h"] \ar[d,"\homeomorphic"] & W_n \ar[d,"\homeomorphic"] \\
+                    \Z \ar[r,"\cdot n"] & \Z \ar[r,"\quot"] & \Z / n
+                \end{tikzcd}
+            \end{math}
+        \item
+            $\Set{\pm 1} \ops (\S^n, \ast) \xto (\RP^n, [\ast])$ für $n \ge 2$:
+            \begin{math}
+                \begin{tikzcd}
+                    \pi_1(\S^n, \ast) \ar[r,inj,"p_\#"] \ar[d,"\homeomorphic"] & \pi_1(\RP^n, [\ast]) \ar[r,sur,"h"] \ar[d,"\homeomorphic"] & \Set{\pm 1} \ar[d,"\homeomorphic"] \\
+                    0 \ar[r,inj] & \Z / 2 \ar[r,bij] & \Z / 2
+                \end{tikzcd}
+            \end{math}
+    \end{itemize}
+\end{ex}
+
+
+% 2.5
+\section{Galois-Korrespondenz}
+
+\begin{ex}
+    Überlagerungen von $\S^1$: $p_n: \S^1 \to \S^1$, $z \mapsto z^n$ für $n = 1, 2, \dotsc$.
+    $p_0 : \R \to \S^1$, $p_0(t) = e^{2\pi i t}$.
+
+    Hier gilt
+    \begin{math}
+        n Z \homeomorphic (p_n)_\# (\pi_1(\tilde X, \tilde x_0)) \subset \pi_1(X, x_0) \homeomorphic \Z
+    \end{math}
+\end{ex}
+
+\begin{st}
+    Sei $X$ zusammenhängend und lokal einfach zusammenhängend.
+    \begin{enumerate}[(1)]
+        \item
+            Jede Überlagerung $p: (Y, y_0) \to (X, x_0)$ definiert $p_\#: \pi_1(Y, y_0) \to \pi_1(X, x_0)$ injektiv und somit
+            $U = \im(p_\#) \le \pi_1(X, x_0)$.
+        \item
+            Zu jeder Untergruppe $U \le \pi_1(X, x_0)$ existiert eine zusammenhängende Überlagerung $p: (Y, y_0) \to (X, x_0)$ mit $\im(p_\#) = U$.
+            Diese ist eindeutig bis auf Isomorphie von Überlagerungen.
+    \end{enumerate}
+    \begin{note}
+        Analogie zu Körpererweiterungen.
+    \end{note}
+\end{st}
+
+\subsection{Galois-Korrespondenz für Graphen}
+
+Sei $K$ ein simplizialer Graph, $x_0 \in \Omega$ eine Ecke, $T \subset K$ ein Spannbaum.
+Dann $\pi_1(K, x_0) \xto[homeomorphic] G$ mit
+\begin{math}
+    G = \Gen{s_{ab}: \Set{a,b} \in K \setminus T & s_{ab}s_{ba} = 1 : \Set{a,b} \in K \setminus T}.
+\end{math}
+Sei $F$ eine Menge und $\phi: F \times \pi_1(K, x_0) \to F$ eine Operation, d.h. jede Kante $\Set{a,b} \in K \setminus T$ definiert eine Permutation $F \to F$, $u \mapsto u \cdot s_{ab}$, bzw. invers $u \mapsto u \cdot s_{ba}$.
+Implizit: Für $\Set{a,b} \in T$ gilt $s_{ab} = 1$, $u s_{ab} = u$.
+
+\begin{st}
+    Die Daten $(K,F,\phi)$ definieren auf der Eckenmenge $\tilde \Omega = F \times \Omega$ den Graphen
+    \begin{math}
+        \tilde K = F \semiprod{\phi} K
+        := \Set{\Set{(u,a), (v,b)} & u,v \in F, \Set{a,b} \in K, u \cdot s_{ab} = v}
+    \end{math}
+    Die Projektion $p: \tilde K \to K$, $p(u, a) = a$ hat eine simpliziaile Überlagerung mit Faser $F$, genauer $p^{-1}(x_0) = F \times \Set{x_0}$ und Monodromie $\phi: F \times \pi_1(K, x_0) \to F$ (Fasertransport über $x_0$).
+    \begin{note}
+        Über $T \subset K$ liegt $F \times T \subset \tilde K$.
+    \end{note}
+    \begin{proof}
+        Nachrechnen.
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    Sei $H \le G := \pi_1(K, x_0)$.
+    Auf $F = H \bs G$ operiert $G$ durch Rechtsmultiplikation, $\phi: F \times G \to F$, $(Ha, g) \mapsto Hag$.
+
+    Der Graph $\tilde K = F \semiprod{\phi} K$ ist zusammenhängend, da $G$ transitiv auf $F$ operiert.
+    Die Überlagerung $p: (\tilde K, \tilde x_0) \to (K, x_0)$ mit $\tilde x_0 = (H, x_0)$ indzuiert $p_\#: \pi_1(\tilde K, \tilde x_0) \to \pi_1(K, x_0)$ mit $\im(p_\#) = H$.
+
+    Speziell für $H = \Set{1} \le G$ erhalten wir die universelle Überlagerung von $(\tilde K, \tilde x_0) \to (K, x_0)$.
+    \begin{proof}
+        Nachrechnen.
+    \end{proof}
+\end{kor}
+
+Eine wichtige Anwendung ist folgende.
+
+\begin{st}[Nielsen-Schreier]
+    In jeder freien Gruppe $F$ ist jede Untergruppe $G \le F$ frei.
+    Hat $F$ endlichen Rang $\rang(F) < \infty$ und $G$ in $F$ endlichen Index $[F:G] < \infty$, so gilt
+    \begin{math}
+        \rang(G) - 1 = (\rang(F) - 1) [F: G].
+    \end{math}
+    \begin{proof}
+        Zu $F = \Gen{S & -}$ existiert ein Graph $K$ mit $\pi_1(K, x_0) = F$.
+        Zu $G \le F$ existiert eine zusammenhängende Überlagerung $p: (\tilde K, \tilde x_0) \to (K, x_0)$ mit $\im(p_\#) = G$.
+        Nach Konstruktion des vorigen Satzes kann $\tilde K$ als Graph gewählt werden, also ist $\pi_1(\tilde K, \tilde x_0) \homeomorphic G$ frei.
+
+        Ist $\rang(F) = |S| < \infty$, so ist wählen wir $K$ endlich.
+        Es gilt $\rang(F) = 1 - \chi(K)$.
+        Die Blätterzahl von $p$ ist $n = [F:G]$.
+        Falls $n < \infty$, so gilt $\chi(\tilde K) = n \chi(K)$.
+        Es ergibt sich
+        \begin{math}
+            1 - \rang(G) = \chi(\tilde K) = n \chi(K) = n(1 - \rang(F)).
+        \end{math}
+    \end{proof}
+\end{st}
+
+
+\subsection{Galois-Korrespondenz für Simplizialkomplexe}
+
+
+Sei $K$ ein zusammenhängender Simplizialkomplex, $x_0 \in \Omega$ eine Ecke, $T \subset K$ ein Spannbaum.
+Wir haben $\pi_1(K, x_0) = \Gen{S & R}$.
+\begin{math}
+    S &= \Set{s_{ab} & \Set{a,b} \in K}, \\
+    R &= \Set{s_{ab} & \Set{a,b} \in T} \cup \Set{s_{ab}s_{ba}, s_{ab}s_{bc}s_{ca} & \Set{a,b,c} \in K }
+\end{math}
+Sei $F$ ein Menge, $\phi: F \times \pi_1(K, x_0) \to F$ eine Operation, d.h. jede Kante $\Set{a,b}$ operiert auf $F$ gemäß $u \mapsto u s_{ab}$, invers mit $u \mapsto u s_{ba} = u s_{ab}^{-1}$ und für jedes Dreieck $\Set{a,b,c} \in K$ gilt $u s_{ab} s_{bc} s_{ca} = u$.
+
+\begin{st}
+    Die Daten $(K, F, \phi)$ definieren auf der Eckenmenge $\tilde \Omega = F \times \Omega$ den Simplizialkomplex
+    \begin{math}
+        K = F \twprod{\phi} K
+        := \Set{ \Set{(u_0,a_0), \dotsc, (u_n,a_n)} & \begin{aligned} u_0, \dotsc, u_n \in F, \\ \Set{a_0, \dotsc, a_n} \in K, \\ u_i \cdot s_{a_ia_j} = u_j \end{aligned} }.
+    \end{math}
+    Die Projektion $p: \tilde K \to K$ ist eine simpliziale Überlagerung mit Faser $F$, $F \times \Set{x_0} = p^{-1}(x_0)$ und Monodromie $\phi: F \times \pi_1(K, x_0) \to F$.
+    \begin{proof}
+        Nachrechnen.
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    Sei $H \le \pi_1(K, x_0)$.
+    Auf $F = H \lq G$ operiert $G$ wie oben und wir erhalten $p: (\tilde K, \tilde x_0) \to (K, x_0)$ mit $p_\#(\pi_1(\tilde K, \tilde x_0) = H \le \pi_1(K, x_0)$.
+\end{kor}
+
+
