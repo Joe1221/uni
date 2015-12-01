@@ -59,7 +59,7 @@
     sei $p: (\tilde X, \tilde{x_0}) \to (X, x_0)$ eine Überlegung.
     Zu jeder stetigen Abbildung $f: ([0,1]^n, 0) \to (X, x_0)$ existiert genau eine Hochhebung $\tilde f: ([0,1]^n, 0) \to (\tilde X, \tilde x_0)$ stetig mit $p \circ f = \tilde f$.
     \begin{proof}
-        Skizze.
+        Skizze: Lebesgue-Zahl und Hochhebung auf den kleinen Quadraten.
     \end{proof}
 \end{kor}
 
@@ -67,18 +67,143 @@
     Hochhebungen existieren nicht immer!
     Betrachte die Überlagurung $p: (\R, 0) \to (\S^1, 1)$ und die Identität auf $(\S^1, 0)$.
     \begin{proof}
-        Aneggnommen es gäbe $\tilde f$ stetig, $p \circ \tilde f = f$.
+        Angenommen es gäbe $\tilde f$ stetig, $p \circ \tilde f = f$.
         Dann ist $\tilde f \homotopic \ast$, also $f = p \circ \tilde f \homotopic \ast$, ein Widerspruch.
         Ebenso für $f = p_n$, $n \neq 0$.
     \end{proof}
 \end{note}
 
+\begin{kor}
+    \begin{enumerate}[(1)]
+        \item
+            Ist $p: \tilde X \to X$ eine Überlagerung und $\tilde X$ wegzusammenhängend, $X$ einfach zusammenhängend, dann ist $p$ ein Homöomorphismus, also eine triviale Überlagerung mit einem Blatt.
+        \item
+            Ist $X$ lokal wegzusammenhängend und global einfach zusammenhängend, so ist jede Überlagerung $p: \tilde X \to X$ trivial.
+            Es existiert ein Homöomorphismus $\tau: X \times F \homto \tilde X$ mit $(p \circ \tau)(x,u) = x$, genannt \emphdef{Trivialisierung} ($F$ diskrete Fasermenge):
+            \begin{math}
+                \begin{tikzcd}
+                    \tilde X \ar[d,"p"] & X \times F \ar[l,"\tau","\homeomorphic"] \ar[ld,"\mathrm{pr}"] \\
+                    X
+                \end{tikzcd}
+            \end{math}
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}[(1)]
+            \item
+                Seien $a, b \in \tilde X$ mit $p(a) = p(b) = x_0$.
+                Da $\tilde X$ wegzusammenhängend, existiert $\tilde \gamma: [0,1] \to \tilde X$ mit $\gamma(0) = a$, $\gamma(1) = b$.
+                Nun ist $\gamma := p(\tilde \gamma) \sim \ast$ mittels einer Homotopie $H$.
+                Eindeutige Hochhebung der Homotopie $H$ auf eine Homotopie $\tilde H: \tilde \gamma \sim \ast$ liefert zwangsläufig $a = b$.
+            \item
+        \end{enumerate}
+    \end{proof}
+\end{kor}
 
-% MISSING
+\subsection{Anwendungen}
 
+Sätze von Gelfond-Mazur und Hopf.
+\begin{math}
+    \exp(\R, +, 0) &\homto (\R_+, \cdot, 1) \\
+    \exp(\C, +, 0) &\homto (\C^*, \cdot, 1) \\
+\end{math}
+Sei $(A, \cdot, 1)$ eine Banach-Algebra über $\R$.
+Die Gruppe $(A^*, \cdot, 1)$ ist offen in $A$, denn für $x \in A$, $|x| < 1$ gilt $(1-x)^{-1} = \sum_{k=0}^\infty x^k$.
+
+Für $x \in A$ konvergiert $\exp(x) = \sum_{k=0}^\infty \frac{x^k}{k!}$.
+
+Für $x,y \in A$ mit $xy = yx$ gilt $\exp(x + y) = \exp(x) \exp(y)$, insbesondere $\exp(x) \exp(-x) = 1$, also $\exp(x)^{-1} = \exp(-x)$.
+
+Für $x \in A$ mit $|x| < 1$ konvergiert
+\begin{math}
+    \ln(1+x) = \sum_{k=1}^\infty (-1)^{k+1} \frac{x^k}{k!}
+\end{math}
+Die so definierte Funktion $\ln: B(1,1) \to A$ ist stetig, sogar $C^\infty$.
+Es gilt $\exp'(x) = \exp(x)$ und $\ln'(a) = a^{-1}$.
+
+Für alle $a \in B(1,1)$ gilt $\exp(\ln(a)) = a$, denn sei $f(a) = a \exp(-\ln(a))$, dann ist
+\begin{math}
+    f'(a) = \exp(-\ln(a)) + a \exp(-\ln(a))(-a^{-1})
+    = 0,
+\end{math}
+also $f$ konstant.
+Nun ist $f(1) = \exp(0) = 1$ und daher für jedes $a$ auch
+\begin{math}
+    1 = f(a) = a \exp(-\ln(a)),
+\end{math}
+also $a = \exp(-\ln(a))^{-1} = \exp(\ln(a))$.
+
+\begin{st}
+    Für jede kommutative Banach-Algebra $(A, \cdot, 1)$ gilt
+    \begin{enumerate}[(1)]
+        \item
+            $\exp: (A, +, 0) \to (A^*, \cdot, 1)$ ist ein Gruppenhomomorphismus mit diskrete Kern.
+        \item
+            Das Bild $\exp(A) = A_1^*$ ist die Komponente der $1$ ein $A^*$.
+        \item
+            $\exp: (A, +, 0) \to (A_1^*, \cdot, 1)$ ist eine universelle Überlagerung (d.h. $A$ einfach zusammenhängend) und lokaler Diffeomorphismus.
+    \end{enumerate}
+\end{st}
+
+\begin{st}[Gelfand-Mazur]
+    Ist eine Banach-Algebra $(A, \cdot, 1)$ ein Körper, so folgt $\dim_\R(A) \in \Set{1,2}$, also $A \homeomorphic \R$ oder $A \homeomorphic \C$ als Körper.
+    \begin{proof}
+        Aus $\dim_\R A = 1$, oder $\dim_\R A = 2$ folgt $A \homeomorphic \R$ respektive $A \homeomorphic \C$.
+
+        Angenommen $\dim_\R A \ge 3$ und $A$ ein Körper.
+        $A^* = A \setminus \Set{0}$ ist einfach zusammenhängend.
+        Somit ist $\exp: A \to A^*$ ein Homöomorphismus.
+        Insbesondere ist dann $\exp: (A, +, 0) \homto (A^*, \cdot, 1)$ ein Gruppenisomorphismus.
+        Aber $-1 \in A^*$ hat Ordnung 2 und $(A, +, 0)$ als $\R$-Vektorraum hat keine Elemente der Ordnung $2$, ein Widerspruch.
+    \end{proof}
+\end{st}
+
+Erinnerung:
+Für $n \ge 2$ gilt $\S^n \not\homeomorphic \RP^n$.
+Für $n = 1$ gilt $\S^1 \homeomorphic \S^1$ mit Hilfe von
+\begin{math}
+    \begin{tikzcd}
+        \S^1 \ar[r,"z \mapsto z^2"] \ar[d] & \S^1 \\
+        \RP^1 \ar[ru,"\homeomorphic"].
+    \end{tikzcd}
+\end{math}
+
+\begin{st}[Hopf]
+    Sei $(A, +, \cdot)$ eine endlich-dimensionale $\R$-Algebra mit $1$.
+    \begin{enumerate}[1)]
+        \item
+            Ist $(A, +, \cdot)$ assoziativ, kommutativ und nullteilerfrei, dann ist $(A, +, \cdot)$ ein Körper und somit $(A,+,\cdot) \homeomorphic (K, +, \cdot)$ mit $K \in \Set{\R, \C}$.
+        \item
+            Ist $(A, +, \cdot)$ nur kommutativ und nullteilerfrei, so gilt das selbe.
+    \end{enumerate}
+    \begin{proof}
+        $\dim_R A \in \Set{1,2}$ ist wieder klar.
+        Sei $n \ge 3$, $A = \R^n$, $\cdot: \R^n \to \R^n$ bilinear, stetig.
+        Sei $q: \R^n \to \R^n$ mit $q(x) = x^2 = x x$.
+        $q$ ist stetig und $q(x) = q(-x)$.
+        Ist $A$ kommutativ und nullteilerfrei, so gilt $q(x) = q(y)$ nur für $x = \pm y$, denn:
+        \begin{math}
+            &x^2 - y^2 = 0 \\
+            \stack{\text{komm.}}\iff \quad &(x+y)(x-y) = 0 \\
+            \stack{\text{nulltf.}}\iff \quad &x = \pm y
+        \end{math}
+        Sei $f: \S^{n-1} \to \S^{n-1}$ mit $f(x) = x^2$
+        \begin{math}
+            \begin{tikzcd}
+                \S^1 \ar[r,"f"] \ar[d] & \S^1 \\
+                \RP^1 \ar[ru,"h"].
+            \end{tikzcd}
+        \end{math}
+        $h$ ist stetig und injektiv.
+        Da $\RP^{n-1}$ und $\S^{n-1}$ zusammenhängend geschlossene Mannigfaltigkeiten der Dimension $n-1$ sind, ist $h$ surjektiv (Invarianz des Gebietes).
+        Da $\RP^{n-1}$ kompakt und $\S^{n-1}$ hausdorffsch, ist $h$ ein Homöomorphismus.
+        Das ist nur für $n - 1 = 1$ möglich, also $n = 2$, ein Widerspruch.
+    \end{proof}
+\end{st}
+
+
+\Timestamp{2015-11-27}
 
 \section{Gruppenoperationen und Galois-Überlagerungen}
-
 
 
 \begin{ex}
@@ -101,7 +226,7 @@
     Allgemeiner:
     \begin{math}
         \begin{tikzcd}
-            G \ar[r,"\phi",bend left] & X \ar[r,"\phi",sur] \ar[d,"q",sur] & Y \\
+            G \ar[r,"\phi",bend left,yshift=-0.7em] & X \ar[r,"\phi",sur] \ar[d,"q",sur] & Y \\
             & G \bs X \ar[ur,"h",hom].
         \end{tikzcd}
     \end{math}
