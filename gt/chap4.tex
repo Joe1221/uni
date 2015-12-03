@@ -1,0 +1,92 @@
+\chapter{Planarität, Kuratowski}
+
+
+%\section{}
+
+\begin{df}
+    $H$ heißt \emphdef{Unterteilung} von $G$, falls $H$ dadurch entsteht, dass auf Kanten von $G$ zusätzliche Knoten eingeführt werden.
+\end{df}
+
+\begin{note}
+    Für eine Unterteilung $H$ von $G$ gilt:
+    $G$ ist planar genau dann, wenn $H$ planar ist.
+\end{note}
+
+\begin{st}[Kuratowski, 1930]
+    $G$ ist planar genau dann, wenn weder $K_5$, noch $K_{3,3}$ Unterteilungsgraphen sind.
+    Alternativ: genau dann, wenn weder $K_5$, noch $K_{3,3}$ Minoren sind.
+    \begin{proof}
+        Sei $G$ nicht zusammenhängend, dann trivial mit Induktion.
+        Sei $G$ einfach, aber nicht zweifach zusammenhängend, d.h $G - x$ zerfällt in mindestens zwei (nicht-leere) Komponenten $G_i$ für ein $x \in V$.
+        Betrachte $G_i \cup \Set{x} \subset G$: per Induktion ist $G_i \cup \Set{x}$ planar.
+        Ohne Einschränkung liegt $x$ jeweils auf dem äußeren Rand, klebe Komponenten an $x$ zusammen, immernoch planar.
+
+        Sei jetzt $G$ zweifach, aber nicht dreifach zusammenhängend.
+        Sei $G - \Set{x,y} = U \sqcup G'$, $G = G - U$ wobei $U$ eine Zusammenhangskomponente von $G - \Set{x,y}$ sei und $G_2$ der durch $U \cup \Set{x,y}$ erzeugte Untergraph.
+        $x$ und $y$ haben Nachbarn in $U$, da $G$ zweifach zusammenhängend.
+        Es gibt Wege von $x$ nach $y$ sowohl in $G_1$, als auch in $G_2$.
+        Betrachte $G_2 \cup \Set{xy}$ (neue Kante!).
+        Angenommen $K_5$ oder $K_{3,3}$ ist Unterteilung von $G \cup \Set{xy}$, dann auch Unterteilung von $G$, Widerspruch.
+        Genauso für $G_1 \cup \Set{xy}$.
+        Bringe Kante $\Set{xy}$ nach außen und klebe zusammen.
+
+        Jetzt kommt der schwierige, 3-fach zusammenhängende Fall.
+
+        Sei $G = (V, E)$, $|V| \ge 5$, 3-fach zusammenhängend ohne Unterteilung des $K_5$ oder $K_{3,3}$.
+        Sei $xy \in E$ und $G / xy$ weiterhin 3-fach zusammenhängend.
+        Sei $v_{xy}$ der Knoten in $G / xy$, der der Kante $xy$ entspricht.
+
+        In $G / xy$ gibt es weder $K_{3,3}$ noch $K_5$ (später).
+        Also kann $G / xy$ planar eingebettet werden.
+        $G / xy - v_{xy}$ ist zweifach zusammenhängend und planar.
+        Also liegt $v_{xy}$ in einer Facette mit einfachem Rand, dies sei ohne Einschränkung die äußere Facette.
+
+        Nummeriere die Kanten von $x,y$ zu diesem Rand, $l_x, l_y$, $r_x, r_y$ seine die linkesten/rechtesten Punkte zu $x$, bzw. $y$ auf diesem Rand.
+        Ohne Einschränkung $l_x \le l_y$.
+        Eine Überschneidung: Dann enthält $G$ eine Unterteilung des $K_{3,3}$.
+        Doppelüberschneidung: Dann enthält $G$ eine Unterteilung des $K_5$.
+    \end{proof}
+\end{st}
+
+\begin{df}
+    Ein Graph $G = (V, E)$ heißt \emphdef{$k$-fach zusammenhängend}, wenn es mindestens $k$ Punkte benötigt ($k$ minimal), bis $G - \Set{x_1, \dotsc, x_k}$ entweder maximal einen Knoten enthält, oder unzusammenhängend ist.
+\end{df}
+
+\Timestamp{2015-11-30}
+
+\begin{nt}
+    \begin{itemize}
+        \item
+            $K_n$ ist $(n-1)$-fach zusammenhängend.
+        \item
+            Es gibt keinen $6$-fach zusammenhängenden planaren Graphen (denn es gibt Knoten mit Grad $\le 5$).
+    \end{itemize}
+\end{nt}
+
+\begin{st}[Thomassen, 1980]
+    Sei $G(V, E)$ ein dreifach zusammenhängender Graph mit $|V| \ge 5$.
+    Dann enthält $E$ eine Kante $xy$, sodass $G / xy = G / \Set{x=y}$ auch dreifach zusammenhängend.
+    \begin{proof}
+        Angenommen $G / xy$ ist nur zweifach zusammenhängend für alle Kanten $xy \in E$.
+        Sei $v_{xy}$ der Knoten, an dem die Kante $xy$ zusammengeschlagen wurde.
+        Also existiert ein Knoten $z$ in $G / xy$ und $G - \Set{v_{xy}, z}$ zerfällt.
+        Also enthält $G - \Set{v_{xy}, z} = G - \Set{x,y,z}$ eine minimale Komponente $H$.
+        Wähle $xy \in E$ so, dass $|H|$ minimal ist.
+        Es existiert eine Kante $uz \in E$ mit $u \in H$.
+        Es gibt auch ein $w$ mit $G - \Set{u,z,w}$ zerfällt, ohne Einschränkung $x \neq w$ (sonst tausche $x$ und $y$).
+        Betrachte Komponente $D$ von $G - \Set{u,z,w}$, die $x$ \emph{nicht} enthält.
+        Dann gilt auch $y \not\in D$, denn $xy \in E$.
+        Also gilt $D \cap \Set{x,y,u,z,w} = \emptyset$.
+        Beachte: $u$ hat einen Nachbarn in $D$.
+        Da $u \in H$ gilt $D \subset H \setminus \Set{u}$, denn $D \cup \Set{u}$ ist zusammenhängend in $G - \Set{x,y,z}$.
+        Nun gilt $|D| < |H|$, ein Widerspruch (Kante $uz$ und $w$)
+    \end{proof}
+\end{st}
+
+\begin{lem}
+    Sei $G'$ ein zweifach zusammenhängender planarer Grap mit Konten $z$.
+    Dann wird jede Facette von einem einfachen Rand umgeben.
+    \begin{proof}
+        Übung
+    \end{proof}
+\end{lem}

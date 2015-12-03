@@ -1,0 +1,219 @@
+\chapter{Fluss-Probleme}
+
+\Timestamp{2015-11-19}
+
+%\begin{ex}
+%    Fibonacci, nicht-terminierend?
+%\end{ex}
+
+\begin{df}
+    Ein \emphdef{Flussnetzwerk} ist ein Graph $(V, E)$ mit $s, t \in V$, $s \neq t$ zusammen mit einer Funktion $c: V \times V \to \R_{\ge 0}$ und $E := \Set{(x,y) \in V \times V & c(x,y) > 0}$.
+
+    Ein \emphdef{Fluss} ist eine Abbildung $f: V \times V \to \R$ mit $f(x,y) = -f(y,x)$ und den Eigenschaften
+    \begin{enumerate}[i)]
+        \item
+            $\forall x,y: f(x,y) \le c(x,y)$,
+        \item
+            $\forall u \not\in \Set{s, t} : \sum_{v \in V} f(u,v) = \sum_{v \in V} f(v,u) = 0$.
+    \end{enumerate}
+    Der \emphdef{Wert} von $f$ ist $\|f\| := \sum_{v \in V} f(s,v)$.
+\end{df}
+
+\begin{df}
+    Eine Partition $A \cup B = V$, $A \cap B = \emptyset$ heißt $s$-$t$-Schnitt, falls $s \in A$, $t \in B$.
+    Wir setzen
+    \begin{math}
+        c(A,B) &= \sum_{(x,y) \in A \times B} c(x,y), \\
+        f(A,B) &= \sum_{(x,y) \in A \times B} f(x,y).
+    \end{math}
+\end{df}
+
+\begin{lem}
+    Es gilt für jeden $s$-$t$-Schnitt $(A, B)$
+    \begin{math}
+        f(A, B) = \|f\|.
+    \end{math}
+    \begin{proof}
+        Induktion nach $|A|$.
+        Für $|A| = 1$ gilt $A = \Set{s}$ und die Aussage gilt gemäß Definiton.
+
+        Betrachte nun $f(A \cup \Set{z}, B \setminus \Set{z})$ mit $z \in B$.
+        Veränderung:
+        \begin{math}
+            \sum_{y \in B}f(z,y) - \sum_{x \in A}f(x,z)
+            = \sum_{y \in B}f(z,y) + \sum_{x \in A}f(z,x)
+            = \sum_{v \in V}f(z,v)
+            = 0.
+        \end{math}
+    \end{proof}
+\end{lem}
+
+\begin{kor}
+    Es gilt
+    \begin{math}
+        \|f\| = \sum_{v \in V} f(v,t).
+    \end{math}
+\end{kor}
+
+\begin{df}
+    Ein $s$-$t$-Schnitt $(A,B)$ heißt \emphdef{minimal}, falls $c(A,B)$ minimal ist.
+\end{df}
+
+Es gilt für jeden Fluss $f$ stets
+\begin{math}
+    \|f\| \le \min \Set{c(A,B) & \text{$(A,B)$ $s$-$t$-Schnitt}}.
+\end{math}
+
+\begin{df}
+    Sei $f$ ein Fluss.
+    Definiere $R_f := \Set{(x,y) & f(x,y) < c(x,y)}$, die Kanten des \emphdef{Residualgraphen}.
+    \begin{note}
+        Beachte
+        \begin{math}
+            (x,y) \in R_f
+            \implies
+            0 = f(x,y) + f(y,x)
+            < c(x,y) + c(y,x),
+        \end{math}
+        $|R_f| \le m = 2|E|$.
+    \end{note}
+\end{df}
+
+\begin{lem}
+    $\|f\|$ ist maximal genau dann, wenn kein $s$-$t$-Weg in $R_f$ existiert.
+    \begin{proof}
+        Angenommen es gibt einen Pfad von $s$ nach $t$ in $R_f$, dann existiert ein Verbesserungsweg.
+
+        Umgekehrt sei $A$ die Menge der Knoten zu denen ein Pfad von $s$ in $R_f$ existiert.
+        Dann ist $(A, V \setminus A)$ ein $s$-$t$-Schnitt und $c(A,B) = \|f\|$, also $\|f\|$ maximal.
+    \end{proof}
+\end{lem}
+
+
+\Timestamp{2015-11-23}
+
+
+\section{Algorithmus von Dinitz}
+
+
+Wir möchten einen maximalen Fluss in Zeit $\LandauO(n^2m)$ berechnen.
+Setze $d_f(p,q)$ als die kürzeste Distanz in $R_f$ von $p$ nach $q$, falls ein Weg existiert und $\infty$ sonst.
+
+Wir definieren $L_k \subset V$ als die Menge der Knoten mit Distanz $k$ von $s$.
+
+Der Levelgraph hat nun die Kanten in $R_f$ von $L_k$ nach $L_{k+1}$.
+Berechnung der Levelgraphen erfolgt mit einer Breitensuche in der Zeit $\LandauO(m)$.
+Wir sind fertig, falls $t$ gefunden wird, o.E. $t \in L_k$, $d_f(s,t) < \infty$.
+
+Idee: Durchlaufe eine Phase und nach dieser Phase gilt $d_f(s,t) > k$ für einen neuen Fluss $f'$.
+
+\begin{algorithmic}
+    \State{Starte Tiefensuche bei $s$, bis ein Knoten mit Ausgangsgrad $0$ gefunden wurde}
+    \If{$p \neq t$}
+        \State{Es gibt keinen Weg über $p$ von $s$ nach $t$ der Länge $k$.}
+        \State{Entferne alle Eingansknoten von $p$. Also wird aus dem Levelgraphen eine Kante entfernt.}
+    \Else
+        \State{Verbesserung wurde gefunden.}
+        \State{Verbessere Fluss und sättige eine Kante auf diesem Weg.}
+        \State{Obwohl sich $R_f$ verändert, gibt es keine neuen kürzesten Wege von $s$ nach $t$}
+    \EndIf
+\end{algorithmic}
+Nach höchstens Zeit $\LandauO(nm)$ gibt es bei $s$ keine ausgehenden Kanten mehr.
+Invariante $d_f(s,t) \le k$, es existiert ein Weg in dem (modifizierten) Levelgraph.
+Jetzt nach Abschluss der Phase gilt $d(s,t) \ge k + 1$.
+
+
+\section{Separatortheorem, Lipton-Tarjan}
+
+\begin{st}
+    Sei $G = (V,E)$ ein plättbarer Graph.
+    Dann existiert eine disjunkte Zerlegung $V = A \cup B \cup S$ mit $S$ ist ein $A$-$B$-Separator und $|A|, |B| < \frac{2}{3} n$, $|S| \le 2 \sqrt{2n} \in \LandauO(\sqrt n)$.
+\end{st}
+
+Der Separator $S$ lässt sich in der Zeit $\LandauO(n)$ berechnen.
+Anwendung: Berechnung maximal unabhängiger Mengen ist für planare Graphen NP-schwierig.
+Dennoch folgt aus dem Satz von Lipton-Tarjan, dass sich eine maximal unabhängige Menge in der Zeit $2^{\LandauO(\sqrt n)}$ berechnen lässt.
+
+Übung: $\forall \alpha < 1 : |A|,|B| < \alpha n \implies |S| \in \Omega(\sqrt n)$.
+
+\begin{proof}
+    Beweis von Lipton Tarjan nach Naga Alson, Paul Segmour, Robin Thomas.
+    Sei $G = (V, E)$ ohne Einschränkung planar, trianguliert, zusammenhängend.
+    Setze $k := \floor{\sqrt{2n}}$, $n = |V|$.
+    Gesucht ist $S$ mit $|S| \le 2k$.
+
+    Betrachte einfachen Kreis $C$ mit $|C| \le 2k$.
+    Dann Zerlegung in $A(C)$ (außen) und $B(C)$ (innen) mit $V = A(C) \sqcup B(C) \sqcup C$.
+    Es soll gelten $|C| \le 2k$ und $|A(C)| < \frac{2}{3}n$ und $|C|$ minimal mit dieser Eigenschaft.
+
+    Einen solchen Kreis gibt es: Betrachte das äußere Dreieck, dann o.E. $n \ge 3$.
+    Dann $|C| = 3$, $|A(C)| = 0$.
+    Zu zeigen ist: $|B(C)| < \frac{2}{3}n$.
+    Mit Widerspruch: Sei also $|B(C)| \ge \frac{2}{3}n$.
+    Sei $D$ der von $B(C) \cup V(C)$ induzierte Untergraph.
+    Betrachte für $x,y \in V(C)$ die Abstände $c(x,y)$ (Distanz in $C$), $d(x,y)$ (Distanz in $D$).
+    Also $c(x,y) \ge d(x,y)$.
+
+    Behauptung: $\forall x,y: c(x,y) = d(x,y)$.
+    Angenommen $\exists x,y : c(x,y) > d(x,y)$ mit $c(x,y)$ minimal.
+    $\pi$ sei der Pfad von $x$ nach $y$ in $D$ mit Länge $d(x,y)$.
+    Dann gilt $V(\pi) \cap V(C) = \Set{x,y}$ (da $c(x,y)$ minimal).
+    Neue Kreise $C_1 = C_1' \cup \pi$, $C_2 = C_2' \cup \pi$ (linksrum, rechtsrum), $|C_1|, |C_2| < |C|$.
+    Betrachet $B(C_1)$ und $B(C_2)$.
+    Dann $|B(C_1)| \ge |B(C_2)|$.
+    Wir wollen zeigen $|A(C_1)| < \frac{2}{3}n$.
+    Dann Widerspruch, da $|C|$ nicht minimal.
+    \begin{math}
+        n - |A(C_1)|
+        &= |B(C_1)| + |V(C_1)| \\
+        &> \frac{1}{2} \big(|B(C_1)| + |B(C_2)| + |V(\pi)| - 2 \big) \\
+        &= \frac{1}{2} |B(C)|
+        \ge \frac{n}{3}.
+    \end{math}
+    Also $c(x,y) = d(x,y)$.
+
+\Timestamp{2015-11-26}
+
+    Ohne Einschränkung $|V(C)| = 2k$.
+    Angenommen $|V(C)| < 2k$.
+    Betrachte eine Kante $xy \in C$, dann liegt die Kante an einem Dreieck in $D$, gegenüberliegender Punkt $z$.
+    $z$ liegt nicht auf dem Rand, da $c(x,y) = d(x,y) = 2$.
+
+    Betrachte $C = S \cup T$ mit $S \cap T = \Set{x_0, x_k}$, $|S| = |T| = k + 1$.
+    Sei $P$ ein minimialer $s$-$t$-Separator in $D$ mit $|P| \le k$.
+    Zeige: das ist unmöglich.
+
+    Wir wissen $x_0, x_k \in P$.
+    Betrachte die Zusammenhangskomponente in $P$ von $x_0$.
+    Dann existieren $x_i, x_j$ mit $x_i, x_j \not\in P$, $1 \le i \le k$, $k < j \le 2k - 1$.
+    Wähle $i$ minimal und $j$ maximal.
+    Dann gilt $x_i, x_j$ gehören zum Rand von $P_0$
+    \begin{math}
+        R = \Set{x \in V \setminus P_0 & \exists y \in P_0 : xy \in E}
+        \subset V \setminus P.
+    \end{math}
+    Zeige: $R$ ist zusammenhängend.
+    In diesem Fall gibt es einen Weg von $x_j$ nach $x_i$ in $R$ außerhalb $P$, ein Widerspruch.
+
+    Ziehe $P_0$ durch Kantenkontraktion zu einem Punkt zusammen.
+    Das Resultat bleibt trianguliert.
+    Also ist $R$ zusammenhängend.
+
+    Konsequenz: Aus $|P| = k + 1$ folgt mit Menger, es gibt jetzt $k + 1$ knotendisjunkte Wege $\pi_1, \dotsc, \pi_{k+1}$ von $S$ nach $T$.
+    Die Wege sind kreuzungsfrei: $D$ ist planar.
+    Die Wege verlaufen zwischen $x_{2k-j}$ und $x_j$.
+    Es gilt
+    \begin{math}
+        |V(\pi_i)| \ge \min\Set{2i + 1, 2(k-i) + 1}
+    \end{math}
+    und
+    \begin{math}
+        n
+        &\ge \sum_{i=0}^k |V(\pi_i)| \\
+        &\ge \sum_{i=0}^k \min\Set{2i + 1, 2(k-i) + 1} \\
+        &= \sum_{i=0}^k + 2 \sum_{i=0}^k \min\Set{i, k - i} \\
+        &= k+1 + 2 \floor{\frac{k}{2}} \ceil{\frac{k}{2}} \\
+        &\ge \frac{(k+1)^2}{2}.
+    \end{math}
+    Also gilt $2n \ge (k+1)^2 = (\floor{\sqrt{2n}} + 1)^2 > \sqrt{2n}^2 = 2n$, ein Widerspruch.
+\end{proof}
