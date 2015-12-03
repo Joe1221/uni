@@ -41,12 +41,75 @@
         $G / xy - v_{xy}$ ist zweifach zusammenhängend und planar.
         Also liegt $v_{xy}$ in einer Facette mit einfachem Rand, dies sei ohne Einschränkung die äußere Facette.
 
-        Nummeriere die Kanten von $x,y$ zu diesem Rand, $l_x, l_y$, $r_x, r_y$ seine die linkesten/rechtesten Punkte zu $x$, bzw. $y$ auf diesem Rand.
-        Ohne Einschränkung $l_x \le l_y$.
-        Eine Überschneidung: Dann enthält $G$ eine Unterteilung des $K_{3,3}$.
-        Doppelüberschneidung: Dann enthält $G$ eine Unterteilung des $K_5$.
+
+        %Nummeriere die Kanten von $x,y$ zu diesem Rand, $l_x, l_y$, $r_x, r_y$ seine die linkesten/rechtesten Punkte zu $x$, bzw. $y$ auf diesem Rand.
+        %Ohne Einschränkung $l_x \le l_y$.
+        %Eine Überschneidung: Dann enthält $G$ eine Unterteilung des $K_{3,3}$.
+        %Doppelüberschneidung: Dann enthält $G$ eine Unterteilung des $K_5$.
+        $N(x) = \Set{a_1, \dotsc, a_k}$ Nachbarn von $x$ auf dem Kreis, analog $N(y) = \Set{b_1, \dotsc, b_l}$, $N(x) \cup N(y) = \Set{x_1, \dotsc, x_n}$, jeweils von links nach rechts im Uhrzeigersinn.
+        Setze $l_x = a_1$, $r_x = a_k$, $l_y = b_1$, $r_y = b_l$.
+        Ohne Einschränkung $l_x = a_1 = x_1$.
+        Ohne Einschränkung $m \ge 3$ (sonst planar, weil $K_4$ planar).
+        \begin{enumerate}[1)]
+            \item
+                Sei $l_x < l_y$.
+                \begin{enumerate}[a)]
+                    \item
+                        Wenn $r_x \le l_y$, dann planar.
+                    \item
+                        Sei $l_y < r_x$.
+                        Dann existiert nach $l_y$ ein nächster Punkt $a \in N(x)$ (d.h. minimal mit $l_y < a$).
+                        Falls $r_y \le a$, dann planar.
+                    \item
+                        Sei $l_x < l_y < a < r_y$.
+                        Dann enthält der Graph eine Unterteilung von $K_{3,3}$, ein Widerspruch.
+                \end{enumerate}
+            \item
+                Sei $l_x = l_y = x_1$.
+                Ohne Einschränkung $a = x_2 = N(x)$ (sonst tausche $x$ und $y$).
+                Wir haben $l_x = l_y < a < r_x$, denn sonst planar.
+
+                Kein $b \in N(y)$ erfüllt $a < b < r_x$, denn sonst $l_y < a < b < r_x$ und erzeugen $K_{3,3}$.
+
+                Sei nun $b \in N(y)$ der nächste Nachbar von $l_y$
+                \begin{enumerate}[a)]
+                    \item
+                        Sei $r_x \le b$.
+                        Dann ist $l_y < a < r_x < b$, dann planar.
+                    \item
+                        Also $a = b$.
+                        Falls $b = r_y$, dann planar.
+                        Also ohne Einschränkung $b < r_y$.
+                        $r_y < r_x$ ist unmöglich, siehe oben.
+                    \item
+                        Falls $r_x < r_y$, dann $K_{3,3}$.
+                    \item
+                        Es bleibt $r_x = r_y$, dann $K_5$.
+                \end{enumerate}
+        \end{enumerate}
+        Induktiv wurde benutzt: $G / xy$ hat keine Unterteilung des $K_{3,3}$ oder $K_5$.
+        Siehe folgendes Lemma.
     \end{proof}
 \end{st}
+
+\begin{lem}
+    $G$ enthalte keine Unterteilung des $K_{3,3}$ oder $K_5$.
+    Dann hat $G / xy$ keine Unterteilung des $K_{3,3}$ oder $K_5$.
+    \begin{proof}
+        Angenommen $G / xy$ enthällt $K_{3,3}$ oder $K_5$ als Unterteiung.
+        Diese Unterteiung benutzt $v_{xy}$.
+        Ohne Einschränkung liegt $v_{xy}$ nicht auf einer Kantenunterteilung.
+        Also ist $v_{xy}$ ein ursprünglicher Knoten des $K_{3,3}$ oder $K_5$.
+
+        Fall $K_{3,3}$:
+        Ohne Einschränkung $xa_1, xb_1, yc_1 \in E$, dann $K_{3,3}$ in $G$.
+
+        Fall $K_5$:
+        Gibt es mindestens drei Kanten von $x$ nach $\Set{p,q,r,s}$.
+        Dann gibt es eine Unterteilung des $K_5$ in $G$.
+        Ohne Einschränkung $x$ nicht verbunden mit $q$ und nicht verbunden mit $s$, dann $K_{3,3}$.
+    \end{proof}
+\end{lem}
 
 \begin{df}
     Ein Graph $G = (V, E)$ heißt \emphdef{$k$-fach zusammenhängend}, wenn es mindestens $k$ Punkte benötigt ($k$ minimal), bis $G - \Set{x_1, \dotsc, x_k}$ entweder maximal einen Knoten enthält, oder unzusammenhängend ist.
@@ -90,3 +153,9 @@
         Übung
     \end{proof}
 \end{lem}
+
+\begin{ex}
+    Betrachte $G$ und $G / xy = K_5$.
+    $G$ enthält $K_{3,3}$ als Unterteilungsgraphen, aber nicht $K_5$.
+    $K_5$ enthätl $K_5$ als Unterteilungsgraphen, aber nicht $K_{3,3}$.
+\end{ex}
