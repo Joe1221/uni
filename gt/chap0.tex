@@ -633,46 +633,188 @@ Invariante $d_f(s,t) \le k$, es existiert ein Weg in dem (modifizierten) Levelgr
 Jetzt nach Abschluss der Phase gilt $d(s,t) \ge k + 1$.
 
 
-\subsection{Lipton-Tarjan}
+\subsection{Separatortheorem, Lipton-Tarjan}
 
-Sei $G = (V,E)$ ein plättbarer Graph.
-Dann existiert eine disjunkte Zerlegung $V = A \cup B \cup S$ mit $S$ ist ein $A$-$B$-Separator mit $|A| < \frac{2}{3} n$, $|B| < \frac{2}{3}n$, $|S| \le 2 \sqrt{2n} \in \LandauO(\sqrt n)$.
+\begin{st}
+    Sei $G = (V,E)$ ein plättbarer Graph.
+    Dann existiert eine disjunkte Zerlegung $V = A \cup B \cup S$ mit $S$ ist ein $A$-$B$-Separator und $|A|, |B| < \frac{2}{3} n$, $|S| \le 2 \sqrt{2n} \in \LandauO(\sqrt n)$.
+\end{st}
+
 Der Separator $S$ lässt sich in der Zeit $\LandauO(n)$ berechnen.
 Anwendung: Berechnung maximal unabhängiger Mengen ist für planare Graphen NP-schwierig.
 Dennoch folgt aus dem Satz von Lipton-Tarjan, dass sich eine maximal unabhängige Menge in der Zeit $2^{\LandauO(\sqrt n)}$ berechnen lässt.
 
 Übung: $\forall \alpha < 1 : |A|,|B| < \alpha n \implies |S| \in \Omega(\sqrt n)$.
 
-Beweis von Lipton Tarjan nach Naga Alson, Paul Segmour, Robin Thomas.
-Sei $G = (V, E)$ ohne Einschränkung planar, trianguliert, zusammenhängend.
-Setze $k := L \sqrt{2n}$, $n = |V|$.
-Gesucht ist $S$ mit $|S| \le 2k$.
+\begin{proof}
+    Beweis von Lipton Tarjan nach Naga Alson, Paul Segmour, Robin Thomas.
+    Sei $G = (V, E)$ ohne Einschränkung planar, trianguliert, zusammenhängend.
+    Setze $k := \floor{\sqrt{2n}}$, $n = |V|$.
+    Gesucht ist $S$ mit $|S| \le 2k$.
 
-Betrachte einfachen Kreis $C$ mit $|C| \le 2k$.
-Dann Zerlegung in $A(C)$ (außen) und $B(C)$ (innen) mit $V = A(C) \sqcup B(C) \sqcup C$.
-Es soll gelten $|C| \le 2k$ und $|A(C)| < \frac{2}{3}n$ und $|C|$ minimal mit dieser Eigenschaft.
+    Betrachte einfachen Kreis $C$ mit $|C| \le 2k$.
+    Dann Zerlegung in $A(C)$ (außen) und $B(C)$ (innen) mit $V = A(C) \sqcup B(C) \sqcup C$.
+    Es soll gelten $|C| \le 2k$ und $|A(C)| < \frac{2}{3}n$ und $|C|$ minimal mit dieser Eigenschaft.
 
-Einen solchen Kreis gibt es: Betrachte das äußere Dreieck, dann o.E. $n \ge 3$.
-Dann $|C| = 3$, $|A(C)| = 0$.
-Zu zeigen ist: $|B(C)| < \frac{2}{3}n$.
-Mit Widerspruch: Sei also $|B(C)| \ge \frac{2}{3}n$.
-Sei $D$ der von $B(C) \cup V(C$ induzierte Untergraph.
-Betrachte für $x,y \in V(C)$ die Abstände $c(x,y)$ (Distanz in $C$), $d(x,y)$ (Distanz in $D$).
-Also $c(x,y) \ge d(x,y)$.
+    Einen solchen Kreis gibt es: Betrachte das äußere Dreieck, dann o.E. $n \ge 3$.
+    Dann $|C| = 3$, $|A(C)| = 0$.
+    Zu zeigen ist: $|B(C)| < \frac{2}{3}n$.
+    Mit Widerspruch: Sei also $|B(C)| \ge \frac{2}{3}n$.
+    Sei $D$ der von $B(C) \cup V(C)$ induzierte Untergraph.
+    Betrachte für $x,y \in V(C)$ die Abstände $c(x,y)$ (Distanz in $C$), $d(x,y)$ (Distanz in $D$).
+    Also $c(x,y) \ge d(x,y)$.
 
-Behauptung: $\forall x,y: c(x,y) = d(x,y)$.
-Angenommen $\exists x,y : c(x,y) > d(x,y)$ mit $c(x,y)$ minimal.
-$\pi$ sei der Pfad von $x$ nach $y$ in $D$ mit Länge $d(x,y)$.
-Dann gilt $V(\pi) \cap V(C) = \Set{x,y}$.
-Neue Kreise $C_1 = C_1' \cup \pi$, $C_2 = C_2' \cup \pi$, $|C_1|, |C_2| < |C|$.
-Betrachet $B(C_1)$ und $B(C_2)$.
-Dann $|B(C_1)| \ge |B(C_2)|$.
-Wir wollen zeigen $|A(C_1)| < \frac{2}{3}n$.
-Dann Widerspruch, da $|C|$ nicht minimal.
-\begin{math}
-    n - |A(C_1)|
-    &= |B(C_1)| + |V(C_1)| \\
-    &> \frac{1}{2} \big(|B(C_1)| + |B(C_2)| + |V(\pi)| - 2 \big) \\
-    &= \frac{1}{2} |B(C)|
-    \ge \frac{n}{3}
-\end{math}
+    Behauptung: $\forall x,y: c(x,y) = d(x,y)$.
+    Angenommen $\exists x,y : c(x,y) > d(x,y)$ mit $c(x,y)$ minimal.
+    $\pi$ sei der Pfad von $x$ nach $y$ in $D$ mit Länge $d(x,y)$.
+    Dann gilt $V(\pi) \cap V(C) = \Set{x,y}$ (da $c(x,y)$ minimal).
+    Neue Kreise $C_1 = C_1' \cup \pi$, $C_2 = C_2' \cup \pi$ (linksrum, rechtsrum), $|C_1|, |C_2| < |C|$.
+    Betrachet $B(C_1)$ und $B(C_2)$.
+    Dann $|B(C_1)| \ge |B(C_2)|$.
+    Wir wollen zeigen $|A(C_1)| < \frac{2}{3}n$.
+    Dann Widerspruch, da $|C|$ nicht minimal.
+    \begin{math}
+        n - |A(C_1)|
+        &= |B(C_1)| + |V(C_1)| \\
+        &> \frac{1}{2} \big(|B(C_1)| + |B(C_2)| + |V(\pi)| - 2 \big) \\
+        &= \frac{1}{2} |B(C)|
+        \ge \frac{n}{3}.
+    \end{math}
+    Also $c(x,y) = d(x,y)$.
+
+    Ohne Einschränkung $|V(C)| = 2k$.
+    Angenommen $|V(C)| < 2k$.
+    Betrachte eine Kante $xy \in C$, dann liegt die Kante an einem Dreieck in $D$, gegenüberliegender Punkt $z$.
+    $z$ liegt nicht auf dem Rand, da $c(x,y) = d(x,y) = 2$.
+
+    Betrachte $C = S \cup T$ mit $S \cap T = \Set{x_0, x_k}$, $|S| = |T| = k + 1$.
+    Sei $P$ ein minimialer $s$-$t$-Separator in $D$ mit $|P| \le k$.
+    Zeige: das ist unmöglich.
+
+    Wir wissen $x_0, x_k \in P$.
+    Betrachte die Zusammenhangskomponente in $P$ von $x_0$.
+    Dann existieren $x_i, x_j$ mit $x_i, x_j \not\in P$, $1 \le i \le k$, $k < j \le 2k - 1$.
+    Wähle $i$ minimal und $j$ maximal.
+    Dann gilt $x_i, x_j$ gehören zum Rand von $P_0$
+    \begin{math}
+        R = \Set{x \in V \setminus P_0 & \exists y \in P_0 : xy \in E}
+        \subset V \setminus P.
+    \end{math}
+    Zeige: $R$ ist zusammenhängend.
+    In diesem Fall gibt es einen Weg von $x_j$ nach $x_i$ in $R$ außerhalb $P$, ein Widerspruch.
+
+    Ziehe $P_0$ durch Kantenkontraktion zu einem Punkt zusammen.
+    Das Resultat bleibt trianguliert.
+    Also ist $R$ zusammenhängend.
+
+    Konsequenz: Aus $|P| = k + 1$ folgt mit Menger, es gibt jetzt $k + 1$ knotendisjunkte Wege $\pi_1, \dotsc, \pi_{k+1}$ von $S$ nach $T$.
+    Die Wege sind kreuzungsfrei: $D$ ist planar.
+    Die Wege verlaufen zwischen $x_{2k-j}$ und $x_j$.
+    Es gilt
+    \begin{math}
+        |V(\pi_i)| \ge \min\Set{2i + 1, 2(k-i) + 1}
+    \end{math}
+    und
+    \begin{math}
+        n
+        &\ge \sum_{i=0}^k |V(\pi_i)| \\
+        &\ge \sum_{i=0}^k \min\Set{2i + 1, 2(k-i) + 1} \\
+        &= \sum_{i=0}^k + 2 \sum_{i=0}^k \min\Set{i, k - i} \\
+        &= k+1 + 2 \floor{\frac{k}{2}} \ceil{\frac{k}{2}} \\
+        &\ge \frac{(k+1)^2}{2}.
+    \end{math}
+    Also gilt $2n \ge (k+1)^2 = (\floor{\sqrt{2n}} + 1)^2 > \sqrt{2n}^2 = 2n$, ein Widerspruch.
+\end{proof}
+
+
+%\section{}
+
+\begin{df}
+    $H$ heißt \emphdef{Unterteilung} von $G$, falls $H$ dadurch entsteht, dass auf Kanten von $G$ zusätzliche Knoten eingeführt werden.
+\end{df}
+
+\begin{note}
+    Für eine Unterteilung $H$ von $G$ gilt:
+    $G$ ist planar genau dann, wenn $H$ planar ist.
+\end{note}
+
+\begin{st}[Kuratowski, 1930]
+    $G$ ist planar genau dann, wenn weder $K_5$, noch $K_{3,3}$ Unterteilungsgraphen sind.
+    Alternativ: genau dann, wenn weder $K_5$, noch $K_{3,3}$ Minoren sind.
+    \begin{proof}
+        Sei $G$ nicht zusammenhängend, dann trivial mit Induktion.
+        Sei $G$ einfach, aber nicht zweifach zusammenhängend, d.h $G - x$ zerfällt in mindestens zwei (nicht-leere) Komponenten $G_i$ für ein $x \in V$.
+        Betrachte $G_i \cup \Set{x} \subset G$: per Induktion ist $G_i \cup \Set{x}$ planar.
+        Ohne Einschränkung liegt $x$ jeweils auf dem äußeren Rand, klebe Komponenten an $x$ zusammen, immernoch planar.
+
+        Sei jetzt $G$ zweifach, aber nicht dreifach zusammenhängend.
+        Sei $G - \Set{x,y} = U \sqcup G'$, $G = G - U$ wobei $U$ eine Zusammenhangskomponente von $G - \Set{x,y}$ sei und $G_2$ der durch $U \cup \Set{x,y}$ erzeugte Untergraph.
+        $x$ und $y$ haben Nachbarn in $U$, da $G$ zweifach zusammenhängend.
+        Es gibt Wege von $x$ nach $y$ sowohl in $G_1$, als auch in $G_2$.
+        Betrachte $G_2 \cup \Set{xy}$ (neue Kante!).
+        Angenommen $K_5$ oder $K_{3,3}$ ist Unterteilung von $G \cup \Set{xy}$, dann auch Unterteilung von $G$, Widerspruch.
+        Genauso für $G_1 \cup \Set{xy}$.
+        Bringe Kante $\Set{xy}$ nach außen und klebe zusammen.
+
+        Jetzt kommt der schwierige, 3-fach zusammenhängende Fall.
+
+        Sei $G = (V, E)$, $|V| \ge 5$, 3-fach zusammenhängend ohne Unterteilung des $K_5$ oder $K_{3,3}$.
+        Sei $xy \in E$ und $G / xy$ weiterhin 3-fach zusammenhängend.
+        Sei $v_{xy}$ der Knoten in $G / xy$, der der Kante $xy$ entspricht.
+
+        In $G / xy$ gibt es weder $K_{3,3}$ noch $K_5$ (später).
+        Also kann $G / xy$ planar eingebettet werden.
+        $G / xy - v_{xy}$ ist zweifach zusammenhängend und planar.
+        Also liegt $v_{xy}$ in einer Facette mit einfachem Rand, dies sei ohne Einschränkung die äußere Facette.
+
+        Nummeriere die Kanten von $x,y$ zu diesem Rand, $l_x, l_y$, $r_x, r_y$ seine die linkesten/rechtesten Punkte zu $x$, bzw. $y$ auf diesem Rand.
+        Ohne Einschränkung $l_x \le l_y$.
+        Eine Überschneidung: Dann enthält $G$ eine Unterteilung des $K_{3,3}$.
+        Doppelüberschneidung: Dann enthält $G$ eine Unterteilung des $K_5$.
+    \end{proof}
+\end{st}
+
+\begin{df}
+    Ein Graph $G = (V, E)$ heißt \emphdef{$k$-fach zusammenhängend}, wenn es mindestens $k$ Punkte benötigt ($k$ minimal), bis $G - \Set{x_1, \dotsc, x_k}$ entweder maximal einen Knoten enthält, oder unzusammenhängend ist.
+\end{df}
+
+\Timestamp{2015-11-30}
+
+\begin{nt}
+    \begin{itemize}
+        \item
+            $K_n$ ist $(n-1)$-fach zusammenhängend.
+        \item
+            Es gibt keinen $6$-fach zusammenhängenden planaren Graphen (denn es gibt Knoten mit Grad $\le 5$).
+    \end{itemize}
+\end{nt}
+
+\begin{st}[Thomassen, 1980]
+    Sei $G(V, E)$ ein dreifach zusammenhängender Graph mit $|V| \ge 5$.
+    Dann enthält $E$ eine Kante $xy$, sodass $G / xy = G / \Set{x=y}$ auch dreifach zusammenhängend.
+    \begin{proof}
+        Angenommen $G / xy$ ist nur zweifach zusammenhängend für alle Kanten $xy \in E$.
+        Sei $v_{xy}$ der Knoten, an dem die Kante $xy$ zusammengeschlagen wurde.
+        Also existiert ein Knoten $z$ in $G / xy$ und $G - \Set{v_{xy}, z}$ zerfällt.
+        Also enthält $G - \Set{v_{xy}, z} = G - \Set{x,y,z}$ eine minimale Komponente $H$.
+        Wähle $xy \in E$ so, dass $|H|$ minimal ist.
+        Es existiert eine Kante $uz \in E$ mit $u \in H$.
+        Es gibt auch ein $w$ mit $G - \Set{u,z,w}$ zerfällt, ohne Einschränkung $x \neq w$ (sonst tausche $x$ und $y$).
+        Betrachte Komponente $D$ von $G - \Set{u,z,w}$, die $x$ \emph{nicht} enthält.
+        Dann gilt auch $y \not\in D$, denn $xy \in E$.
+        Also gilt $D \cap \Set{x,y,u,z,w} = \emptyset$.
+        Beachte: $u$ hat einen Nachbarn in $D$.
+        Da $u \in H$ gilt $D \subset H \setminus \Set{u}$, denn $D \cup \Set{u}$ ist zusammenhängend in $G - \Set{x,y,z}$.
+        Nun gilt $|D| < |H|$, ein Widerspruch (Kante $uz$ und $w$)
+    \end{proof}
+\end{st}
+
+\begin{lem}
+    Sei $G'$ ein zweifach zusammenhängender planarer Grap mit Konten $z$.
+    Dann wird jede Facette von einem einfachen Rand umgeben.
+    \begin{proof}
+        Übung
+    \end{proof}
+\end{lem}
+
+
