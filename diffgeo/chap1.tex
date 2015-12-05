@@ -1,7 +1,7 @@
 % 1.
 \chapter{Mannigfaltigkeiten}
 
-Mannigfaltigkeiten sind geometrische Objekte, die lokal dem euklidischen Räum $\R^n$ ähnlich sind.
+Mannigfaltigkeiten sind geometrische Objekte, die lokal dem euklidischen Raum $\R^n$ ähnlich sind.
 
 % 1.1.
 \section{Topologische Mannigfaltigkeiten}
@@ -34,9 +34,9 @@ Um eine Abbildung auf Stetigkeit zu untersuchen genügt es also, jeweils das Sys
             \begin{math}
                 d(x,y) = \sqrt{(x_1 - y_1)^2 + \dotsb + (x_n - y_n)^2}
             \end{math}
-            festgelegten offenen Mengen bildet einen topologischen Räum.
+            festgelegten offenen Mengen (d.h. solche, die in jedem Punkt einen offenen Ball bezüglich dieser Metrik enthalten) bildet einen topologischen Räum.
         \item
-            Metrische Räume sind topologische Räume.
+            Allgemeiner: Alle metrischen Räume sind topologische Räume.
     \end{itemize}
 \end{ex*}
 
@@ -48,7 +48,7 @@ Um eine Abbildung auf Stetigkeit zu untersuchen genügt es also, jeweils das Sys
 \end{df}
 
 \begin{df} \label{1.3} % 1.3
-    Ein System von Teilmengen $\scr B$ eines topologischen Räumes heißt \emphdef{Basis} der Topologie, wenn jedes Element in $\scr B$ offen ist sich jede offene Menge als Vereinigung von Mengen in $\scr B$ schreiben lässt.
+    Ein System von Teilmengen $\scr B$ eines topologischen Raumes heißt \emphdef{Basis} der Topologie, wenn jedes Element in $\scr B$ offen ist und sich jede offene Menge als Vereinigung von Mengen in $\scr B$ schreiben lässt.
 
     Ein topologischer Raum erfüllt das \emphdef{zweite Abzählbarkeitsaxiom} (oder ist \emphdef{zweitabzählbar}, wenn es eine abzählbare Basis der Topologie gibt.
 \end{df}
@@ -70,10 +70,10 @@ Nun können wir topologische Mannigfaltigkeiten definieren.
             Mit der stereographischen Projektion lässt sich $S^n \setminus \Set{N}$ homöomorph auf $\R^n$ abbilden.
             Tut man das selbe mit dem Südpol, so hat man für jeden Punkt in $S^n$ Umgebungen gefunden, die homöomorph zu $\R^n$ ist.
         \item
-            Ein topologischer Raum, der bis auf die hausdorff-Forderung alle anderen Bedingungen für eine topologische Mannigfaltigkeit erfüllt.
-            Sei $X = \R \times \Set{0, 1}$.
-            Bilde nun $X / \sim$ mit $(x,s) \tilde (y, t) \iff x = y \land x \neq 0$.
+            Sei $X = \R \times \Set{0, 1}$ und mit $(x,s) \sim (y, t) \iff x = y \land x \neq 0$.
+            Dann ist $X / \sim$ nicht hausdorffsch, aber erfüllt alle anderen Eigenschaften einer topologischen Mannigfaltigkeit.
         \item
+
             Ein topologischer Raum, der bis auf die Zweitabzählbarkeit alle anderen Bedingungen für eine topologische Mannigfaltigkeit erfüllt.
             Betrachte die „lange Gerade“.
     \end{itemize}
@@ -82,18 +82,20 @@ Nun können wir topologische Mannigfaltigkeiten definieren.
 
 \Timestamp{2015-10-14}
 
-Begrifflichkeiten: Karten, Kartenumgebung.
-Eine Mannigfaltigkeit wird von den Kartenumgebungen vollständig überdeckt.
-Sie ist ein Gebilde, das aus kleinen Stücken des euklidischen Raums $\R^n$ „zusammengeklebt“ ist.
-
+%Begrifflichkeiten: Karten, Kartenumgebung.
+%Eine Mannigfaltigkeit wird von den Kartenumgebungen vollständig überdeckt.
+%Sie ist ein Gebilde, das aus kleinen Stücken des euklidischen Raums $\R^n$ „zusammengeklebt“ ist.
+%
 
 % 1.2.
 \section{Differenzierbare Struktur}
 
 Um die Werkzeuge der Analysis einsetzen zu können, benötigen wir den Begriff der Differenzierbarkeit von Abbildungen zwischen Mannigfaltigkeiten.
+Dazu führen wir zunächst eine differenzierbare Struktur auf der Mannigfaltigkeit ein.
 
 \begin{df} \label{1.5}
-    Eine Abbildung die eine offene Teilmenge einer topologischen Mannigfaltigkeit homöomorph auf eine offene Teilmenge des $\R^n$ abbildet, wird \emphdef{Karte} der Mannigfaltigkeit genannt.
+    Sei $M$ eine topologische Mannigfaltigkeit und $U \subset M$, $V \subset \R^n$ offen.
+    Ein Homöomorphismus $\phi: U \to V$ heißt \emphdef{Karte} von $M$.
     Meist werden Umkehrabbildungen von Karten als (lokale) \emphdef{Parametrisierungen} bezeichnet, manchmal auch Karte.
 \end{df}
 
@@ -102,56 +104,55 @@ Sei $f: M \to \R$ eine reelle Funktion.
 Wann ist $f$ differenzierbar?
 
 Naheliegende Idee (die aber nicht ohne Weiteres funktioniert):
-Da auf $M$ kein Begriff der Differenzierbarkeit definiert ist, untersuche $f$ „in einer Karte“, d.h. für $p \in M$ wähle eine offene Umgebung$V$ von $p$ in $M$ und einen Homöomorphismus $\phi: V \to U$, wobei $U \subset \R^n$.
+Da auf $M$ kein Begriff der Differenzierbarkeit definiert ist, untersuche $f$ „in einer Karte“, d.h. für $p \in M$ wähle eine offene Umgebung $V$ von $p$ in $M$ und einen Homöomorphismus $\phi: V \to U$, wobei $U \subset \R^n$.
 Dann erkläre: $f$ ist (bezüglich der Karte $\phi$) differenzierbar im Punkt $p$, wenn
 \begin{math}
     f \circ \phi^{-1}: U \to \R
 \end{math}
 differenzierbar ist.
 Problem: Das hängt von der gewählten Karte ab.
-In der Tat: Ist $\alpha: U \to U$ ein nicht-differenzierbarer Homöomorphismus, dann ist auch $\psi: \alpha \circ \phi$ eine Karte und $f$ kann bezüglich $\phi$ differenzierbar in $p$ sein und bezüglich $\psi$ nicht.
+In der Tat: Ist $\alpha: U \to U$ ein nicht-differenzierbarer Homöomorphismus, dann ist auch $\psi := \alpha \circ \phi$ eine Karte und $f$ kann bezüglich $\phi$ differenzierbar in $p$ sein und bezüglich $\psi$ nicht.
 
 \begin{df} \label{1.6}
-    Sei $M$ eine topologische Mannigfaltigkeit und seien $\phi_i: V_i \to U_i$, $i = 1, \dotsc 2$ zwei Karten.
+    Sei $M$ eine topologische Mannigfaltigkeit und seien $\phi_i: V_i \to U_i$, $i = 1, 2$ zwei Karten.
     Dann heißt der Homöomorphismus $\alpha_{12}: \phi_1(V_1 \cap V_2) \to \phi_2(V_1 \cap V_2)$, definiert durch
     \begin{math}
-        \alpha := \phi_2 \circ \phi_1^{-1}|_{\phi(V_1 \cap V_2)}
+        \alpha_{12} := \phi_2 \circ \phi_1^{-1}|_{\phi(V_1 \cap V_2)}
     \end{math}
     \emphdef{Kartenwechsel} zwischen $\phi_1$ und $\phi_2$.
     Andere gebräuchliche Begriffe sind \emphdef{Koordinatenwechsel}, \emphdef{Koordinatentransformation}, \emphdef{Parameterwechsel}.
     \begin{note}
-        Der Name Kartenwechsel kommt daher, dass $\phi_2(x) := \alpha_{12} \circ \phi_1(x)$ für alle $x \in V_1 \cap V_2$ gilt.
+        Der Name Kartenwechsel kommt daher, dass $\phi_2 = \alpha_{12} \circ \phi_1$ auf $V_1 \cap V_2$ gilt.
     \end{note}
     Zwei Karten heißen \emphdef{differenzierbar verträglich}, wenn ihre Kartenwechsel differenzierbar sind.
 
-    Eine Familie von Karten $(\phi_i)_{i\in I}$, $\phi_i: V_i \to U_i$ einer topologischen Mannigfaltigkeit $M$ heißt \emphdef{Atlas} von $M$, falls $\bigcup_{i \in I} V_i = M$.
+    Eine Familie von Karten $\scr A = \Set{\phi_i: V_i \to U_i}_{i \in I}$ einer topologischen Mannigfaltigkeit $M$ heißt \emphdef{Atlas} von $M$, falls $\bigcup_{i \in I} V_i = M$.
     Ein Atlas heißt \emphdef{differenzierbar}, wenn alle Kartenwechsel differenzierbar sind.
     \begin{note}
         Sind $\phi$ und $\psi$ Karten aus einem differenzierbaren Atlas, sodass $p \in M$ im Definitionsbereich beider Karten liegt, dann ist $f$ bei $p \in M$ bezüglich $\phi$ genau dann differenzierbar, wenn dies auch bezüglich $\psi$ gilt.
     \end{note}
-    Ein differenzierbarer Atlas heißt \emphdef{maximal}, wenn jede Karte von $M$, die mit allen Karten in $\scr A$ differenzierbar verträglich ist, bereits in $\scr A$ enthalten ist.
+    Ein differenzierbarer Atlas $\scr A$ heißt \emphdef{maximal}, wenn für jeden differenzierbaren Atlas $\hat{\scr A} \supset \scr A$ folgt $\hat{\scr A} = \scr A$.
 \end{df}
 
 \begin{st} \label{1.7}
     Zu jedem differenzierbaren Atlas $\scr A$ einer topologischen Mannigfaltigkeit $M$ gibt es genau einen maximalen Atlas, der diesen enthält.
     \begin{proof}
-        Sind zwei Karten mit allen Karten aus $\scr A$ differenzierbar verträglich, dann sind sie auch untereinander differenzierbar veträglich:
-        Seien dazu $\phi$ und $\psi$ zwei Karten.
-        Wir können annehmen, dass $\phi$ und $\psi$ den selben Definitionsbereich $V$ haben
+        Zeige: sind zwei Karten $\phi$, $\psi$ jeweils mit allen Karten aus $\scr A$ differenzierbar verträglich, dann sind sie auch untereinander differenzierbar veträglich:
+        Seien dazu ohne Einschränkung $\phi$ und $\psi$ zwei Karten mit dem selben Definitionsbereich $V$, welche jeweils mit allen Karen aus $\scr A$ differenzierbar verträglich sind.
         Es genügt zu zeigen, dass
         \begin{math}
-            \psi \circ \psi^{-1}: \psi(V) \to \phi(V)
+            \phi \circ \psi^{-1}: \psi(V) \to \phi(V)
         \end{math}
         differenzierbar ist.
-        Sei $u \in \psi(V)$.
-        Es gibt eine Karte $\tau \in \scr A$, die mit $\phi$ und $\psi$ differenzierbar verträglich ist und die bei $\psi^{-1}(u)$ definiert ist.
-        Sei $\tilde V \subset V$ die Schnittmenge von $V$ mit dem Definitionsbereich von $\tau$.
-        Durch weiteres Einschränken können wir $V = \tilde V$ annehmen.
-        Da $\tau$ mit $\phi$ und mit $\psi$ verträglich ist, wird
+
+        Sei dazu $u \in \psi(V)$.
+        Es gibt eine Karte $\tau \in \scr A$, die bei $\psi^{-1}(u)$ definiert ist.
+        Da $\tau$ mit $\psi$ und $\phi$ differenzierbar verträglich ist, ist nach hinreichendem Einschränken die Abbildung
         \begin{math}
             \phi \circ \psi^{-1} = \phi \circ \tau^{-1} \circ \tau \circ \psi^{-1}
         \end{math}
         bei $u$ differenzierbar.
+
         Setze nun
         \begin{math}
             \hat{\scr A} := \Set{ \phi & \text{$\phi$ Karte von $M$ verträglich mit allen Karten in $\scr A$} },
@@ -167,16 +168,17 @@ In der Tat: Ist $\alpha: U \to U$ ein nicht-differenzierbarer Homöomorphismus, 
 
 \begin{df} \label{1.8}
     Eine \emphdef{differenzierbare Struktur} auf einer topologischen Mannigfaltigkeit ist die Wahl der Äquivalenzklasse von differenzierbaren Atlanten, oder äquivalent die Wahl eines maximalen differenzierbaren Atlas.
-    Zusammen mit dieser Struktur bildet die topologische Mannigfaltigkeit eine \emphdef{differenzierbare Mannigfaltigkeit}.
+
+    Eine topologische Mannigfaltigkeit $M$ zusammen mit einer differenzierbaren Struktur heißt \emphdef{differenzierbare Mannigfaltigkeit}
 \Timestamp{2015-10-20}
     \begin{note}
         Neben differenzierbaren Strukturen kann man auch fordern, dass alle Kantenwechsel glatt (hier: beliebig oft differenzierbar), holomorph (bei gerad-dimensionalen Mannigfaltigkeiten), analytisch.
-        Dann enthält man eine glatte, komplexe, bzw. analytische Struktur, bzw. eine glatte, komplexe, bzw. analytische Mannigfaltigkeit.
+        Dann enthält man eine glatte, komplexe, bzw. analytische Struktur und eine glatte, komplexe, bzw. analytische Mannigfaltigkeit.
     \end{note}
 \end{df}
 
 \begin{conv*}
-    Wir betrachten im Folgenden (sofern nicht anders festgelegt) glatte Mannigfaltigkeiten
+    Wir betrachten im Folgenden (sofern nicht anders festgelegt) glatte Mannigfaltigkeiten.
 \end{conv*}
 
 Warum ist es wichtig, überhaupt die Wahl der differenzierbaren Struktur vorzugeben?
@@ -193,6 +195,7 @@ Andere topologische Mannigfaltigkeiten können verschiedene (oder gar keine) dif
             Für $n \neq 4$ hat der $\R^n$ genau eine differenzierbare Struktur,
             der $\R^4$ jedoch hat überabzählbar viele.
         \item
+            Die Anzahl der differenzierbaren Strukturen auf der Sphäre $S^n$ sind interessant verteilt.
             \begin{table}[ht]
                 \begin{tabular}{r|ccccccccccccccc}
                     $n$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\ \hline
