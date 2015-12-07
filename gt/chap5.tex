@@ -4,7 +4,7 @@
 
 \begin{df}
     Seien $G_1 = (V_1, E_1)$, $G_2 = (V_2, E_2)$ Graphen mit $V_1 \cap V_2 = \emptyset$.
-    Wir definieren die Vereinigung
+    Wir definieren die disjunkte Vereinigung
     \begin{math}
         G_1 \sqcup G_2 := (V_1 \cup V_2, E_1 \cup E_2)
     \end{math}
@@ -42,6 +42,135 @@
         \item
             Sei $G$ ein Cograph und $|V| \ge 2$, dann ist $G$ zusammenhängend genau dann, wenn $\_G$ nicht zusammenhängend ist.
         \item
-            $P_4$ (verbundene Reihe mit vier Knoten) ist selbstdual und damit kein Cograph.
+            Für $x, y \in V$ sei $d(x,y)$ die Distanz zwischen $x$ und $y$.
+            Dann gilt für $m$-zusammenhängenden Cographen $d(x,y) \le 2$ für alle $x,y \in V$.
+        \item
+            $P_4$ (verbundene Reihe mit vier Knoten) ist selbstdual $P_4 = \_{P_4}$ und damit kein Cograph.
+
+            $d(a,d) = 3$.
     \end{itemize}
 \end{ex}
+
+\Timestamp{2015-12-07}
+
+\begin{df}
+    $G$ heißt $P_4$-frei, ($N$-frei), falls $P_4$ kein induzierter Untergraph von $G$ ist.
+\end{df}
+
+\begin{lem}
+    $G$ ist genau dann $P_4$-frei, falls $\_G$ $P_4$-frei ist.
+\end{lem}
+
+\begin{kor}
+    Jeder Cograph $G$ ist $P_4$-frei.
+    \begin{proof}
+        Mit vorigem Lemma genügt es disjunkte Vereinigungen zu betrachten: $P_4$ befindet sind in einer der beiden Komponenten, Aussage folgt durch Induktion.
+    \end{proof}
+\end{kor}
+
+\begin{st}
+    Seien $G$, $\_G$ zusammenhängend und $P_4$-frei.
+    Dann ist $G$ unendlich oder $G = (\Set \ast, \emptyset)$ (Einpunktgraph).
+    \begin{proof}
+        Sei $|V| \ge 2$, $G = (V, E)$.
+        $G$ ist zusammenhängend, wähle also $x_1, x_2 \in V$ mit $x_1x_2 \in E$.
+
+        Induktiv sei eine Folge $(x_1, \dotsc, x_n$ konstruiert, sodass $\forall 1 \le i < j \le n$ aus $j$ gerade folgt, dass $x_ix_j \in E$ und aus $j$ ungerade folgt $x_ix_j \not\in E$.
+        Diese Folge soll verlängert werden.
+
+        Sei ohne Einschränkung $n$ gerade.
+        $G$ ist zusammenhängend, also gilt $\forall x, g \in V: d(x,y) < \infty$.
+        Angenommen es gäbe $x, z \in V$ mit $d(x,z) \ge 3$, dann auch $x,y \in V$ mit $d(x,y) = 3$.
+        Dies bildet $P_4$ als induzierten Untergraphen, ein Widerspruch.
+        Folglich muss $d(x,y) \le 2$ in $G$ und $\_G$ gelten.
+
+        Es ist notwendigerweise $d(x_{n-1},x_n) = 2$.
+        Als existiert $x_{n+1}$ mit $x_{n-1} x_{n+1} \not\in E$ und $x_n x_{n+1} \not\in E$.
+        Falls $x_{n+1} = x_i$ für ein $i \le n$, so entsteht ein $P_4$: $G(\Set{x_{n-1}, x_n, x_i, x_{n+1}})$.
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    $G$ ist $P_4$-frei genau dann, wenn $G$ ein Cograph ist.
+\end{kor}
+
+
+\section{Graphparameter}
+
+
+Erinnerung:
+\begin{math}
+    \chi(G) &\ge \omega(G), \\
+    \alpha(G) &\le \kappa(G).
+\end{math}
+Beispiel: $C_5$.
+
+
+\begin{df}
+    Ein Graph $G$ heißt $\chi$-perfekt (bzw. $\alpha$-perfekt), wenn für alle induzierten Untergraphen $G'$ von $G$ gilt $\chi(G') = \chi(G)$ (bzw. $\alpha(G') = \kappa(G')$).
+\end{df}
+
+\begin{st}
+    $G$ ist $\chi$-perfekt genau dann, wenn $\_G$ $\alpha$-perfekt ist.
+\end{st}
+
+\begin{st}
+    Bipartite Graphen und Cographen sind $\alpha$-perfekt.
+\end{st}
+
+
+\section{Chordale Graphen}
+
+\begin{df}
+    $G = (V, E)$ heißt \emphdef{chordal}, wenn jeder einfache Kreis mit mindesten $4$ Punkten eine Sehne hat.
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Wälder sind chordal.
+        \item
+            $K_n$ ist chordal.
+        \item
+            Es gibt triangulierte planare Graphen, die nicht chordal sind (Skizze: Sternmuster vergrößern und außen verbinden).
+    \end{itemize}
+\end{ex}
+
+\begin{lem}
+    Sei $G$ chordal und $G'$ ein induzierter Untegraph, dann ist $G'$ chordal.
+\end{lem}
+
+\begin{df}
+    Sei $G = (V, E)$ ein Graph und $x \in V$.
+    Dann heißt $x$ \emphdef{simplizial}, falls $N(x)$ eine Clique ist.
+    Insbesondere ist dann $N(x) \sqcup \Set x$ auch eine Clique.
+
+    Eine \emphdef{simpliziale Ordnung} ist eine Reihenfolge der Kanten $v_1, v_2, \dotsc, v_n$ sodass
+    $\forall 1 \le i \le n$ $v_i$ simplizial in $G[v_i, \dotsc, v_n]$ (induzierter Untergraph von $v_i, \dotsc, v_n$) ist.
+\end{df}
+
+\begin{df}
+    Für $a, b \in V$, $a \neq b \in E$ heißt $S \subset V$ ein $a$-$b$-Separator, falls $a$ und $b$ in verschiedenen Zusammenhangskomponenten von $G - S$ liegen (insbesondere $a,b \not\in S$).
+    \begin{proof}
+        Es existiert stets ein $a$-$b$-Separator (solange $ab \not\in E$).
+    \end{proof}
+\end{df}
+
+\begin{st}
+    Sei $G = (V, E)$ chordal und $a, b \in V$ mit $ab \not\in E$.
+    Dann ist jeder minimale $a$-$b$-Separator $S$ eine Clique.
+    \begin{proof}
+        Seien $G_a$, $G_b$ die Komponenten von $a$, bzw $b$ in $G - S$.
+        Falls $|S| \le 1$.
+        Dann ist $S$ eine Clique.
+        Seien also $x, y \in S$ mit $x \neq y$, zeige $xy \in E$.
+        Da $S$ minimal gibt es Kanten von $x$ und $y$ nach $G_a$ und $G_b$.
+        Wähle so einen einfachen Weg $x_1, \dotsc, x_k \in G_a$ mit $xx_1, x_ky \in E$.
+        Analog wähle einen einfachen Weg $y_1, \dotsc, y_k \in G_a$ mit $xy_1, y_ky \in E$.
+        Zusammen mit $x,y$ bildet dies einen einfachen Kreis ohne Sehne zwischen $x_i$ und $y_j$, folglich muss $xy \in E$.
+    \end{proof}
+\end{st}
+
+
+
+

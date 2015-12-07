@@ -9,64 +9,68 @@
 In vielen Fällen (wie auch im Folgenden) stellt dies keine nennenswerte Einschränkung dar.
 
 \begin{df}
-    Der Grad eines Knotens ist
-    \begin{math}
-        d(x) = |\Set{y & xy \in E}|
-    \end{math}
-\end{df}
-
-\begin{df}
-    Ein \emphdef{Eulerkreis} ist ein Rundweg, der alle Kanten genau einmal durchläuft.
-    Ein Eulerpfad von $a$ nach $b$ mit $a,b \in V$ ist ein Pfad von $a$ nach $b$, der alle Kanten genau einmal durchläuft.
+    Sei $a, b \in V$.
+    Ein \emphdef{Eulerpfad} von $a$ nach $b$ ist ein Pfad von $a$ nach $b$, der alle Kanten genau einmal durchläuft.
+    Ein \emphdef{Eulerkreis} ist ein Eulerpfad mit $a = b$.
 \end{df}
 
 \begin{ex}
-    Haus vom Nikolaus
+    Haus vom Nikolaus: Jeder Eulerpfad startet/endet links oder rechts unten.
 \end{ex}
 
 \begin{df}
     Ein Graph $G = (V, E)$ ist zusammenhängend, wenn für $a,b \in V$ ein Pfad von $a$ nach $b$ existiert.
 \end{df}
 
+\begin{df}
+    Der Grad eines Knotens ist
+    \begin{math}
+        d(x) = \l| \Set{y & xy \in E} \r|
+    \end{math}
+\end{df}
 
 \begin{st}
     Sei $G = (V, E)$ zusammenhängend.
     Es gibt einen Eulerkreis in $G$ genau dann, wenn $\forall x \in V: d(x) \equiv 0 \bmod 2$.
     \begin{proof}
-        Wähle ein $a \in V$ und start einen möglichst langen Pfad von $a$ nach $a$.
-        Angenommen dies ist kein Eulerkreis, dann wurde eine ausgehende Kante von einem Knoten $b$ auf dem Pfad wurde nicht besucht.
-        Von $b$ kann ein neuer Pfad gestartet werden.
-        Kombiniert man beide, erhält man einen längeren Weg, also war der erste Pfad bereits ein Eulerkreis.
+        Die erste Implikation ist trivial.
 
-        Die andere Richtung ist trivial.
+        Sei also $\forall x \in V: d(x) \equiv 0 \bmod 2$.
+        Wähle $a \in V$ und den längstmöglichen Pfad $\pi$ von $a$ nach $a$, der keine Kante doppelt nutzt.
+        Angenommen dies ist kein Eulerkreis, d.h. es existiert sodass $x_0x_1 \in E$ nicht für $\pi$ genutzt wurde.
+        Wegen $d(x_n) \equiv 0 \bmod 2$ existiert stets eine ausgehende Kante $x_nx_{n+1} \in E$, die nicht genutzt wurde.
+        Auf diese Weise wird ein neuer Pfad konstruiert, der zusammen mit $\pi$ einen längeren Weg als $\pi$ bildet, ein Widerspruch.
+        Also ist $\pi$ ein Eulerkreis.
     \end{proof}
 \end{st}
 
 \begin{df}
-    Ein Graph $G$ heißt \emphdef{plättbar}, wenn sich $G$ kreuzungsfrei in die Ebene zeichnen lässt.
-    $G$ heißt \emphdef{planar}, falls er kreuzungsfrei in der Ebene eingebettet ist.
+    Ein Graph $G$ heißt \emphdef{plättbar}, wenn eine kreuzungsfreie Einbettung in die Ebene existiert.
+
+    Eine Darstellung eines Graphen $G$ heißt \emphdef{planar}, wenn sie eine kreuzungsfrei Einbettung in die Ebene ist.
 \end{df}
 
-\begin{note}
+\begin{nt}
     Zwei eingebettete Graphen können zwar abstrakt isomorph sein, jedoch nicht isotop zueinander.
-\end{note}
+\end{nt}
 
 \begin{st}[Eulerformel für planare Graphen]
-    Sei $G(V, E)$ ein planarer Graph mit $z \in \N$ Zusammenhangskomponenten, $n := |V|$, $e := |E|$ und $f$ die Anzahl der Facetten.
+    Sei $G(V, E)$ ein planarer Graph mit $z$ Zusammenhangskomponenten.
+    Setze $n := |V|$, $e := |E|$ und $f$ sei die Anzahl der Facetten.
     Dann gilt
     \begin{math}
         n - e + f = 1 + z.
     \end{math}
     \begin{proof}
         Für $e = 0$ ist $f = 1$ und die Aussage klar.
-        Nehme eine Kante $xy$ hinzu und unterscheide folgende Fälle:
+        Nehme eine Kante $xy$ hinzu (also $e \leadsto e + 1$) und unterscheide folgende Fälle:
         \begin{enumerate}[1.]
             \item
                 $xy$ verbindet 2 Kompontenten.
-                In diesem Fall folgt $e \leadsto e + 1$, $f \leadsto f$ und $z \leadsto z - 1$.
+                In diesem Fall folgt, $f \leadsto f$ und $z \leadsto z - 1$.
             \item
                 $xy$ verbindet $x$ und $y$ aus der selben Komponente.
-                Wegen Planarität folgt $e \leadsto e + 1$, $f \leadsto f + 1$ und $z \leadsto z$.
+                Wegen Planarität folgt, $f \leadsto f + 1$ und $z \leadsto z$.
         \end{enumerate}
     \end{proof}
 \end{st}
@@ -79,15 +83,15 @@ In vielen Fällen (wie auch im Folgenden) stellt dies keine nennenswerte Einschr
     Insbesondere gilt für planare zusammenhängende Graphen
     \begin{enumerate}[i)]
         \item
-            allgemein mit $k = 3$: $e \le 3n - 6$,
+            $e \le 3n - 6$,
         \item
-            für bipartite Graphen mit $k = 4$: $e \le 2n - 2$.
+            $e \le 2n - 2$ falls zusätzlich bipartit.
     \end{enumerate}
     \begin{proof}
         Aus einem Abzählargument erhalten wir $kf \le 2e$.
         Es folgt aus der Eulerformel
         \begin{math}
-            2k = kn - ke + kf &\le kn - (k - 2)e
+            2k = kn - ke + kf &\le kn - (k - 2)e \\
             \iff (k - 2)e &\le k(n - 2).
         \end{math}
     \end{proof}
@@ -162,18 +166,19 @@ In vielen Fällen (wie auch im Folgenden) stellt dies keine nennenswerte Einschr
         \item
             \emphdef{Unterteilungsgraph}: Setze auf Kanten zwischen Knoten.
         \item
-            \emphdef{Kreise}: Wege mit selben Start- und Endpunkt, Länge $\ge 3$
-            $C_n$: Kreis mit $n$ Knoten.
+            \emphdef{Kreise}: Wege mit selben Start- und Endpunkt und Länge $\ge 3$.
+            Den Kreis-Graphen mit $n$ Knoten bezeichnen wir mit $C_n$.
         \item
             $G(V, E)$ ist ein \emphdef{Wald} genau dann, wenn es keine einfachen Kreise gibt.
             Ein \emphdef{Baum} ist ein zusammenhängender Wald.
         \item
             Ein Polygon ist ein kreuzungsfreier Polygonzug.
-            Ein Polygon $P$ heißt \emphdef{sternförmig}, wenn es eine offene Menge $K$ im Polygon gibt und das Innere von $P$ gesehen werden.
+            Ein Polygon $P$ heißt \emphdef{sternförmig}, wenn es eine offene Menge $K$ im Polygon gibt, sodass jeder Punkt $x \in K$ das Innere von $P$ sieht.
+            Man wählt diese Definition, um degenerierte Polygone auszuschließen.
+            % FIXME: Definition: Sternförmiges Polygon mit \epsilon-Umgebung
     \end{itemize}
 \end{df}
 
-% FIXME: Definition: Sternförmiges Polygon mit \epsilon-Umgebung
 
 \begin{st}[Farý-Wagner]
     Jeder plättbare Graph hat eine planare Einbettung, bei der alle Kanten Strecken sind.
