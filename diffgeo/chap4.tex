@@ -357,3 +357,140 @@ Allgemein (nicht nur für Matrix-Lie-Gruppen) gilt:
     \end{itemize}
 \end{note}
 
+
+\Timestamp{2015-12-08}
+
+
+\begin{df} \label{4.17}
+    Eine \emphdef{Darstellung} einer Gruppe $G$ auf ein Vektorraum $V$ ist ein Homomorphismus $\rho: G \to \Gl(V)$.
+    \begin{note}
+        \begin{itemize}
+            \item
+                Ist $V$ ein $\R$-Vektorraum, dann sagt man auch: $\rho$ ist eine \emphdef[Darstellung!reell]{reelle Darstellung}.
+            \item
+                Ist $\rho$ injektiv, dann spricht man von einer \emphdef[Darstellung!treu]{treuen Darstellung}.
+            \item
+                Ist in $V$ eine endliche Basis gegeben, kann man $\Gl(V)$ mit $\Gl(n, \K)$ identifizieren.
+                Dann wird jedes Gruppenelement $g$ durch die Matrix $\rho(g)$ dargestellt und die Gruppenoperation auf $G$ entpsricht der Matrixmultiplikation.
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Für $G \subset \Gl(n, \K)$ ist eine Darstellung von $G$ auf $\K^n$ gegeben, diese nennt man \emphdef{Standarddarstellung}.
+            Standarddarstellung von $\O(n)$ auf $\R^n$
+        \item
+            Aufgabe 19:
+        \item
+            Die \emphdef{triviale Darstellung} von $G$ auf $V$ ist gegeben durch $\rho(g) = \id_V$.
+        \item
+            Die \emphdef{adjungierte Darstellung}, siehe folgende Definition.
+    \end{itemize}
+\end{ex}
+
+\begin{df} \label{4.18}
+    Sei $G$ eine Lie-Gruppe und $\frk g = T_e G$ die Lie-Algebra.
+    Für $g \in G$ sei die \emphdef{Konjugation mit $g$} gegeben als
+    \begin{math}
+        \iota_g : G &\to G, \\
+        x &\mapsto gxg^{-1} = L_g \circ R_{g^{-1}}(x).
+    \end{math}
+    $\iota_g$ ist ein Gruppenautomorphismus.
+
+    Definiere $\Ad_g := T_e \iota_g$, d.h. $\Ad_g$ ist die lineare Abbildung
+    \begin{math}
+        \Ad_g: \frk g &\to \frk g, \\
+        X &\mapsto T_e(L_g \circ R_{g^{-1}})(X).
+    \end{math}
+    Definiere $\Ad: G \to \Gl(\frk g)$ durch $\Ad(g) := \Ad_g$.
+    \begin{note}
+        Wegen $\iota_{g^{-1}} = \iota_g^{-1}$ ist $\Ad_G$ tatsächlich ein Vektorraumisomorphismus von $\frk g$, denn $\Ad_g = T_e \iota_g \circ T_e \iota_{g^{-1}} = T_e \id_G = \id_{\frk g}$.
+        Homomorphieeigeschaft siehe folgender Satz.
+    \end{note}
+\end{df}
+
+\begin{st} \label{4.19}
+    $\Ad_g$ und $\Ad$ erfüllt folgende Eigenschaften:
+    \begin{enumerate}[(i)]
+        \item
+            $\Ad_g$ ist ein Lie-Algebren-Automorphismus.
+        \item
+            $\Ad$ ist tatsächlich eine Darstllung von $G$,
+        \item
+            $\Ad_g(X) = \ddx[t]|_{t=0} g \exp(tX)g^{-1}$.
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}[(i)]
+            \item
+                Es gilt $\iota_g \circ \iota_h(x) = ghxh^{t1}g^{-1} = (gh)x(gh)^{-1} = \iota_{gh}(x)$.
+                Mit Kettenregel folgt $\Ad_g \circ \Ad_h = T_e \iota_g \circ T_e \iota_h = T_e \iota_{gh} = \Ad_{gh}$, was (ii) zeigt.
+
+                Es gilt außerdem, dass für linksinvariantes $X$ auch $(L_g \circ R_{g^{-1}})_*(X)$ wieder linksinvariant ist, somit folgt $[\Ad_g(X), \Ad_g(Y)] = \Ad_g([X,Y])$, vgl. Aufgabe 17, was (i) zeigt.
+
+                (iii) folgt direkt aus der Kettenregel.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+\begin{st} \label{4.20}
+    Für $X, Y \in \frk g$ gilt
+    \begin{math}
+        [X, Y] = \ddx[s]|_{s=0} \Ad_{\exp(sX)}(Y)
+        = \frac{\partial^2}{\partial s \partial t} |_{s=t=0} \exp(sX) \exp(tY) \exp(-sX).
+    \end{math}
+    Mit anderen Worten $T_e(\Ad_{\argdot}(Y))(X) = [X, Y]$.
+    \begin{proof}
+        \begin{math}
+            [X, Y](e)
+            &= L_X Y(e) \\
+            &= \ddx[s]|_{s=0} {\Phi^{-X}_s}_* Y(e) \\
+            &= \ddx[s]|_{s=0} T \Phi_s^{-X} (Y(\Phi_s^X(e))) \\
+            &= \frac{\partial^2}{\partial s \partial t} |_{s=t=0} (\Phi_s^{-X} \circ \Phi_t^Y \circ \Phi_s^X(e)) \\
+            &= \frac{\partial^2}{\partial s \partial t} |_{s=t=0} R_{\exp(sX)\exp(tX)\exp(-sX)}(e) \\
+            &= \frac{\partial^2}{\partial s \partial t} |_{s=t=0} \exp(sX)\exp(tX)\exp(-sX),
+        \end{math}
+        dank $\Phi_t^X(g) = g \Phi_t^Y(g)$.
+    \end{proof}
+\end{st}
+
+\begin{nt*}
+    Wir kennen nun Lie-Klammern auf Mannigfaltigkeiten und auf linksinvariante Vektorfelder.
+
+    Auf Mannigfaltigeiten hatten wir die Interpretation als Derivationen und als Lie-Ableitung von Vektorfeldern gesehen (außerdem Fluss + Wurzeln).
+
+    Für linksinvariante Vektorfelder haben wir ihre Interpretation als Ableitung von $\Ad$ gesehen.
+\end{nt*}
+
+\begin{ex*}
+    Für $G = \Gl(n, \R)$, $X, Y \in \R^{n\times n} = T_e \Gl(n,\R)$.
+    (linksinvariante Fortsetzungen beachten!)
+    \begin{math}
+        [X, Y] = \ddx[s]|_{s=0} e^{sX} Y e^{-sX}
+        = XY - YX.
+    \end{math}
+    D.h. für Matrix-Lie-Gruppen ist die Lie-Klammer durch den Kommutator von Matrix gegeben.
+
+    $[\tilde X, \tilde Y] = \widetilde{[X, Y]}$ (Lieklammer auf Vektorfelder und Kommutator auf Matrizen).
+\end{ex*}
+
+Erinnerung:
+\begin{math}
+    \begin{tikzcd}
+        \frk g \ar[r,"T_e f"] \ar[d,"\exp_G"] & \frk h \ar[d,"\exp_H"] \\
+        G \ar[r,"f"] & H
+    \end{tikzcd}
+\end{math}
+
+\begin{kor} \label{4.21}
+    Mit \ref{4.14} folgt erhalten wir
+    \begin{math}
+        \ad := T_e \Ad_{\argdot} : \frk g \to \End(\frk g),
+    \end{math}
+    d.h. $\ad(X) = [X,\argdot]$ gilt:
+    \begin{math}
+        \Ad_{\exp_G(X)} = \exp_{\Gl(\frk g)}(\ad(X)).
+    \end{math}
+\end{kor}
+
