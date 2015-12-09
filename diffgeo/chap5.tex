@@ -1,0 +1,121 @@
+\chapter{Vektorbündel und Tensoren}
+
+\Timestamp{2015-12-09}
+
+Neben dem Tangentialbündel wollen wir nun auch andere Vektorräume punktweise an eine Mannigfaltigkeit „anheften“, vor allem Vektorräum, die sich nicht durch Grundkonstruktionen der Linearen Algebra aus dem Tangentialbündel ergeben, z.B. Linearformen und Multilinearformen auf dem Tangentialraum, Endomorphismen des Tangentialraums.
+Dies führt auf den Begriff des Vektorbündels.
+
+\begin{df}[Faserbündel] \label{5.1}
+    Seien $M, B, Z$ glatten Mannigfaltigkeiten, $\pi: M \to B$ eine glatte Abbildung, $(U_j)_{j\in J}$ eine offene Überdeckung von $B$ und seien
+    \begin{math}
+        h_j: \pi^{-1}(U_j) \to U_j \times Z
+    \end{math}
+    Diffeomorphismen, so dass $\pi|_{\pi^{-1}(U_j)} = \proj_1 \circ h_j$.
+    Dann heißt $\pi$ zusammen mit $(h_j)_{j\in J}$ \emphdef{Faserbündel mit typischer Faser $Z$}.
+    Die $h_j$ heißen \emphdef{lokale Trivialisierungen}.
+    $B$ heißt \emphdef{Basis}, $M$ \emphdef{Totalraum des Bündels}.
+
+    Gilt $M = B \times Z$ mit $\pi = \proj_1$, dann heißt $\pi$ \emphdef{triviales Bündel}.
+
+    Für $p \in B$ heißt $\pi^{-1}(\Set{p})$ \emphdef{Faser über $p$}.
+\end{df}
+
+\begin{ex*}
+    \begin{enumerate}[(i)]
+        \item
+            Das Tangentialbündel $\T M$ mit Basis $M$ und $\pi$ Fußpunktabbildung und typischer Faser $\T_p M$ für ein $p \in M$ bilden ein Faserbündel.
+        \item
+            $\R^{n+1} \setminus \Set 0$ ist ein Faserbündel über $\RP^n$ mit
+            \begin{math}
+                \pi: (x_1, \dotsc, x_{n+1}) \mapsto [x_1: \dotsb : x_{n+1}]
+            \end{math}
+            und typscher Faser $\R \setminus \Set 0$.
+        \item
+            Hopf-Faserung, siehe Übungsblatt 8.
+    \end{enumerate}
+\end{ex*}
+
+\begin{st}[Ehresmannscher Faserungssatz] \label{5.2}
+    Seien $M, B$ glatte Mannigfaltigkeiten und sei $\pi: M \to B$ eine eigentliche (d.h. Urbilder kompakter Mengen sind kompakt), surjektive Submersion.
+    Dann ist $\pi$ ein Faserbündel.
+    \begin{proof}
+        Siehe Literatur.
+    \end{proof}
+\end{st}
+
+\begin{df} \label{5.3}
+    Ein Faserbündel mit diskreter Faser wird auch \emphdef{Überlagerung} genannt. 
+    Ist die Faser endlich mit Kardinalität $n$, so spricht man von $n$-facher Überlagerung.
+    \begin{note}
+        \begin{itemize}
+            \item
+                Bei einer Überlagerung ist $\pi$ ein lokaler Diffeomorphismus.
+            \item
+                $U_j$ wird hier auch schlicht überlagerte Umgebung genannt.
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{ex*}
+    \begin{enumerate}[(i)]
+        \item
+            Sei $S^n \subset \R^{n+1}$ die Einheitssphäre, dann ist $\pi: S^n \to \RP^n, x \mapsto [x]$ (homogene Koordinaten) eine $2$-fache Überlagerung.
+            Die Fasern sind jeweils die Teilmengen $\Set{x, -x} = \pi^{-1}([x])$.
+        \item
+            $\pi: \operatorname{Spin}(n) \to \SO(n)$ ist $2$-fache Überlagerung, falls $n \ge 3$.
+        \item
+            $\pi: \R \mapsto S^1, t \mapsto e^{it}$ ist eine Überlagerung mit abzählbar unendlichen Fasern $t + 2\pi\Z$.
+    \end{enumerate}
+\end{ex*}
+
+\begin{df} \label{5.4}
+    Ein \emphdef{Schnitt} eines Faserbündels $\pi: M \to B$ ist eine glatte Abbildung $s: B \to M$, sodass $\pi \circ s = \id_B$ gilt.
+
+    Die Menge der Schnitte wird mit $\Gamma(B, M)$ bezeichnet.
+    \begin{note}
+        Ein Schnitt ist eine Einbettung $s: B \to M$.
+    \end{note}
+\end{df}
+
+\begin{ex*}
+    \begin{itemize}
+        \item
+            Vektorfelder auf einer Mannigfaltigkeit $M$ sind genau die Schnitte im Tangentialbündel $\T M$, d.h. $\scr X(M) = \Gamma(M, \T M)$.
+        \item
+            $C^\infty(M) = \Gamma(M, M \times \R)$.
+    \end{itemize}
+\end{ex*}
+
+\begin{nt} \label{5.5}
+    Sei $\pi: M \to B$ ein Faserbündel mit lokalen Trivialisierungen $h_j$, $j \in J$.
+    Für $j, k \in J$ ist die Abbildung
+    \begin{math}
+        h_j \circ h_k^{-1}: (U_j \cap U_k) \times \Z \to (U_j \cap U_k) \times \Z
+    \end{math}
+    von der Form $(u, z) \mapsto (u, g_{jk}(u,z))$, wobei $g_{jk}(u,\argdot)$ ein Diffeomorphismus auf $\Z$ ist (vgl. Übungsaufgabe 28).
+
+    Die Abbildung $g_{jk}(u, \argdot)$ wird \emphdef{Übergangsabbildung} genannt.
+\end{nt}
+
+\begin{df} \label{5.6}
+    Ein Faserbündel heißt \emphdef{$\K$-Vektor(raum)bündel} vom \emphdef{Rang} $r$, falls $Z$ ein $\K$-Vektorraum der Dimension $r$ ist und alle Übergangsabbildungen $g_{jk}(u, \argdot)$ linear sind.
+
+    Jedes Vektorraumbündel hat als kanonischen Schnitt den \emphdef{Nullschnitt} $s \equiv 0$.
+
+    Ein Vektorraumbündel vom Rang $1$ heißt \emphdef{Linienbündel}.
+    \begin{note}
+        Die Übergangsabbildungen sind quasi Vektorraumautomorphismen von $Z$.
+    \end{note}
+\end{df}
+
+\begin{ex}
+    Vektorraum-Bündel
+    \begin{enumerate}[(i)]
+        \item
+            $\T M$.
+        \item
+            Zylinder $\Set{(e^{it}, s) & t,s \in \R} \subset \C^2$.
+        \item
+            Möbiusband $\Set{(e^{it}, s e^{i\frac{t}{2}}) & t,s \in \R} \subset \C^2$.
+    \end{enumerate}
+\end{ex}
