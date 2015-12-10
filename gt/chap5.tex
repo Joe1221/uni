@@ -171,6 +171,140 @@ Beispiel: $C_5$.
     \end{proof}
 \end{st}
 
+\Timestamp{2015-12-10}
+
+\begin{lem}
+    Sei $G = (V, E)$ chordal und $G \neq K_n$, dann existiert $x,y \in V$ mit $xy \not\in E$ und $x,y$ sind simplizial in $G$.
+    \begin{proof}
+        Starte mit $a,b \in V$ und $ab \not\in E$, $a \neq b$, $S$ ein $a$-$b$-Separator, der eine Clique ist.
+        Seien $G_a$ und $G_b$ die Komponenten von $a$ und $b$ in $G - S$.
+        $G_a \cup S$ ist chordal.
+
+        Falls $G_a \cup S$ vollständig, dann setze $x = a$.
+        In diesem Fall ist $N(a) \subset G_a \cup S$ eine Clique.
+
+        Andernfalls existieren nach Induktion zwei simpliziale Knoten $x_1, x_2 \in G_a \cup S$ mit $x \neq y$.
+        Also ohne Einschränkung $x_1 \in S$ (da $S$ Clique), also $x_1 \in G_a$.
+        Wie eben folgt: $N(x_1) \subset G_a \cup S$ ist eine Clique.
+
+        Also gibt es $x \in G_a$ und $y \in G_b$ und beide simplizial in $G$.
+        Insbesondere $xy \not\in E$.
+    \end{proof}
+\end{lem}
+
+\begin{st}
+    $G = (V, E)$ ist chordal genau dann, wenn eine simpliziale Ordnung auf $G$ existiert.
+    \begin{proof}
+        \begin{seg}{\ProofImplication}
+            Falls $G$ vollständig ist, so ist jede Ordnung auf $G$ eine simpliziale Ordnung ($n!$ viele).
+            Falls $G \neq K_n$, dann gibt es zwei simpliziale Knoten.
+            Wähle einen als $x_1$.
+            Betrachte dann $G - x_1$.
+            Also gibt es insgesamt mindestens $2^n \le n!$ simpliziale Ordnungen ($P_n$ liefert untere Schranke).
+        \end{seg}
+        \begin{seg}{\ProofImplication*}
+            Sei $C$ ein einfacher Kreis in $G$.
+            Der Knoten in $C$ mit minimaler simplizialer Ordnung in $G$ bildet eine Sehne mit mindestens einem seiner Nachbarn.
+        \end{seg}
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Jeder bipartite Graph ist $\alpha$-perfekt.
+    \begin{proof}
+        Wenn $E = \emptyset$, dann ist $\chi(G) = 1 = \omega(G)$.
+        Für $E \neq \emptyset$, $\chi(G) = 2 = \omega(G)$.
+
+        $|M| = |T|$ für maximales Matching $M$ und minimalem Träger $T$.
+        Sei $n := |V|$.
+        \begin{math}
+            \kappa(G) \le |M| + (n - 2 |M|)
+            = n - |T|
+            \le \alpha(G),
+        \end{math}
+        also $\alpha(G) = \kappa(G)$.
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Jeder chordale Graph ist $\alpha$- und $\chi$-perfekt.
+    \begin{proof}
+        $\alpha$-Perfektheit:
+        Sei $(x_1, \dotsc, x_n)$ eine simpliziale Ordnung von $G$.
+        Wir konstruieren parallel eine unabhängige Menge $I$ und eine Cliquenüberdeckung: $I_1 = \Set{x_1}$ und $K_1 = \Set{x_1} \cup N(x_1)$.
+        Verfahre für $I_k, K_k$ genauso rekursiv mit $G - K_{k-1}$.
+
+        $\chi$-Perfektheit:
+        Sei $x_1$ simplizial in $G$.
+        Dann gilt für $G' = G - \Set{x_1}$: $\chi(G') = \omega(G')$.
+        Falls $|N(x_1)| < \omega(G')$.
+        Dann bleibt eine Farbe frei für $x_1$.
+        Andernfalls gilt $|N(x_1)| = \omega(G')$.
+        Dann gilt $\omega(G) = \omega(G') + 1$, also kann eine neue Farbe für $x_1$ verwendet werden.
+        $\chi(G) \le \omega(G) \implies \chi(G) = \omega(G)$.
+    \end{proof}
+\end{st}
+
+
+\section{Intervallgraphen}
+
+
+\begin{df}
+    Seien $I_1, \dotsc, I_n = [a_i, b_i] \subset \R$ reelle Intervalle.
+    Definiere $G = (V, E)$ mit $V = \Set{I_i}_{i=1}^n$ und $I_iI_j \in E \iff I_i \cap I_j \neq \emptyset$.
+    \begin{note}
+        Ohne Einschränkung können wir stets $I_i = (a_i, b_i)$ mit $a_i < b_i$ wählen.
+
+        Induzierte Untergraphen sind Intervallgraphen.
+    \end{note}
+\end{df}
+
+\begin{lem}
+    Intervallgraphen sind chordal.
+    \begin{proof}
+        Ordne Intervalle aufsteigend nach rechtem Endpunkt.
+        Dies ist eine simpliziale Ordnung.
+    \end{proof}
+\end{lem}
+
+\begin{df}
+    Sei $G = (V, E)$ ungerichtet.
+    Dann ist $F \subset E$ eine \emphdef{transitive Orientierung} (TRO) von $G$, falls $E = F \cup F^{-1}$, $F \cap F^{-1} = \emptyset$, $F^2 \subset F$.
+    Existiert eine transitive Orientierung, so heißt $G$ \emphdef{transitiv orientierbar}.
+\end{df}
+
+\begin{st}
+    Intervallgraphen sind perfekt.
+    \begin{proof}
+        Sei $G$ ein Intervallgraph, dann ist $\_G = (V, \_E)$ eine partielle Ordnung vermöge
+        \begin{math}
+            I_i = (a_i, b_i) \le I_j = (a_j, b_j) \iff I_i = I_j \lor b_i \le a_j.
+        \end{math}
+        Für Intervallgraphen lesen wir $E$ als Teilmeneg $E \subset V \times V \setminus \Id_V$ mit
+        \begin{math}
+            E = E^{-1} = \Set{(y,x) \in V\times V & (x,y) \in E}.
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{lem}
+    Sei $G = (V,E)$ ein Intervallgraph.
+    Dann ist $G$ chordal und $\_G$ ist transitiv orientierbar.
+\end{lem}
+
+\begin{st}
+    Sei $G$ chordal und transitiv orientierbar.
+    Dann ist $G$ ein Intervallgraph.
+    \begin{proof}
+        Induzierte Untergraphen eines transitiv orientierbaren Graphen sind transitiv orientierbar.
+        Starte mit $x \in V$ simplizial in $G$.
+        Betrachte $G' = G - x$, dann ist $G'$ chordal und $\_{G'}$ transitiv orientierbar.
+        Per Induktion ist $V - \Set{x} = \Set{I_2, \dotsc, I_n}$ ein Intervallgraph.
+        $N(x) = \Set{I_{i_1}, \dotsc, I_{i_k}}$ bilden eine Clique.
+        %Wähle $I_x := \cap N(x) \neq \emptyset$ als neues Intervall.
+    \end{proof}
+\end{st}
+
 
 
 
