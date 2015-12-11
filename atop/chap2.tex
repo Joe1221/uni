@@ -240,7 +240,7 @@ Für $n = 1$ gilt $\S^1 \homeomorphic \S^1$ mit Hilfe von
             $W_n \ops \C^* \surto{p_n} \C^*$, $p_n(z) = z^n$ und
             \begin{math}
                 W_n = \Set{z \in \C & z^n = 1}
-                = \Set{e^{2\pi i k / n} & k = 0, \dotsc, n-1}.
+                = \Set{e^{2\pi i \frac{k}{n}} & k = 0, \dotsc, n-1}.
             \end{math}
         \item
             $2 \pi \Z \ops{+} \R \surto{p} \S^1$, $p(t) = e^{it}$.
@@ -513,3 +513,276 @@ Sei $F$ ein Menge, $\phi: F \times \pi_1(K, x_0) \to F$ eine Operation, d.h. jed
 \end{kor}
 
 
+\Timestamp{2015-12-11}
+
+
+% §2.6
+\section{Hochhebungskriterium}
+
+\begin{math}
+    \begin{tikzcd}
+        & (\tilde X, \tilde x_0) \ar[d,"p"] \\
+        (W, w_0) \ar[r,"f"] \ar[ur,"\tilde f"] & (X, x_0)
+    \end{tikzcd}
+    \stack{\pi_1}\leadsto
+    \begin{tikzcd}
+        & \pi_1(\tilde X, \tilde x_0) \ar[d,"p_\#"] \\
+        \pi_1(W, w_0) \ar[r,"f_\#"] \ar[ur,"\tilde f_\#"] & \pi_1(X, x_0)
+    \end{tikzcd}
+\end{math}
+
+Für die Eindeutigkeit der Hochhebung $\tilde f$ genügt, dass $(W, w_0)$ zusammenhängend ist.
+
+\begin{st}
+    Sei $p: (\tilde X, \tilde x_0) \to (X, x_0)$ eine Überlagerung.
+    Sei $(W, w_0)$ (weg)zusammenhängend und lokal wegzusammenhängend.
+
+    $f: (W, w_0) \to (X, x_0)$ erlaubt genau dann eine eindeutige Hochhebung $\tilde f: (W, w_0) \to (\tilde X, \tilde x_0)$, wenn
+    \begin{math}[numbered] \label{eq:hhug}
+        f_\# \pi_1(W,w_0) < p_\# \pi_1(\tilde X, \tilde x_0).
+    \end{math}
+    \begin{note}
+        Der Satz lässt sich insbesondere anwenden, falls $\pi_1(W, w_0) = \Set{1}$.
+        Auch für $W = [0,1]^n$ (bereits explizit bewiesen, wird hier genutzt).
+    \end{note}
+    \begin{proof}
+        \begin{seg}{\ProofImplication}
+            Klar dank Diagramm und Funktorialität: $p \circ \tilde f_\# = f$ wird zu $p_\# \circ \tilde f_\# = f_\#$.
+        \end{seg}
+        \begin{seg}{\ProofImplication*}
+            Wir nehmen \eqref{eq:hhug} an und konstruieren $\tilde f: (W, w_0) \to (\tilde X, \tilde x_0)$:
+
+            Konstruktion:
+            Zu $w \in W$ wähle einen Weg $\alpha: [0,1] \to W$ von $\alpha(0) = w_0$ nach $\alpha(1) = w$.
+            Sei $\beta := f\circ \alpha$ und $\tilde \beta$ die Hochhebung.
+            Setze $\tilde f(w) := \tilde \beta(1)$.
+
+            Wohldefiniertheit:
+            Sei $\alpha'$ ein weiterer Weg von $w_0$ nach $w$ und $\beta' := f \circ \alpha'$, $\tilde \beta'$ die Hochhebung, $\tilde x' = \tilde \beta'(1)$.
+            Warum gilt $\tilde x' = \tilde x$?
+            Dies gilt gilt dank \eqref{eq:hhug}:
+            Wir betrachten die Schleife $\gamma := \beta' \ast \_\beta = f \circ (\alpha' \ast \_\alpha)$.
+            Es gilt $[\gamma] = f_\#([\alpha' \ast \_\alpha]) \in f_\# \pi_1(W, w_0) < p_\# \pi_1(\tilde X, \tilde x_0)$.
+            Die Hochhebung $\tilde \gamma$ ist geschlossen, d.h. $\tilde \gamma(1) = \tilde \gamma(0) = \tilde x_0$.
+            Für $0 \le t \le \frac {1}{2}$ gilt
+            \begin{math}
+                p(\tilde \gamma(t)) &= \beta'(2t), &
+                p(\tilde \gamma(1-t)) &= \beta(2t)
+            \end{math}
+            Dank Eindeutigkeit gilt $\tilde \gamma(t) = \tilde \beta'(2t)$ und $\tilde \gamma(1-t) = \tilde \beta(2t)$.
+            Somit ist $\tilde \gamma = \tilde \beta' \ast \_{\tilde \beta}$.
+            Insbesondere gilt $\tilde \gamma(\frac{1}{2}) = \tilde \beta'(1) = \tilde \beta(1)$.
+
+            Stetigkeit:
+            Die so definierte Abbildung $\tilde f$ ist stetig dank des lokalen Wegzusammenhangs von $W$:
+            Sei $w \in W$ und $\tilde x = \tilde f(w)$.
+            Für jede offene Umgebung $\tilde U$ von $\tilde x$ in $\tilde X$ haben wir eine offene Umgebung $V$ von $w$ in $W$ zufinden mit $\tilde f(V) \subset \tilde U$.
+            Da $p$ eine Überlagerung ist, können wir $\tilde U$ so klein wählen, dass $p|_{\tilde U}^U$ ein Homöomorphismus ist auf sein Bild $U := p(\tilde U)$.
+            Da $f$ stetig ist, existiert $V \subset W$ offen, $w \in V$ mit $f(V) \subset U$.
+            Da $W$ lokal wegzusammenhängend ist, können wir $V$ zudem als wegzusammenhängend annehmen.
+            Wie zuvor sei $\alpha$ ein Weg von $w_0$ nach $w$, $\beta = f \circ \alpha$, $\tilde \beta$ die Hochhebung.
+            Zu jedem Punkt $w' \in V$ existiert ein Weg $\alpha': [0,1] \to V$ von $\alpha(0) = w$ nach $\alpha(1) = w'$.
+            Sein Bild $\gamma = f \circ (\alpha \ast \alpha') = (f \circ \alpha) \ast (f \circ \alpha') = \beta \ast \beta'$ verläuft von $x_0$ nach $x$ in $X$ und dann nach $x'$ in $f(V) \subset U$.
+            Der Homöomorphismus $q := p|_{\tilde U}^U: \tilde U \to U$ liefert die Hochhebung $\tilde \beta' = q^{-1} \circ \beta'$.
+            Somit ist $\tilde \gamma := \tilde \beta \ast \tilde \beta'$ eine Hochhebung von $\gamma$.
+            Nach Konstruktion gilt $\tilde f(w') \subset \tilde \gamma(1) = \tilde \beta '(1) = q^{-1} \circ \beta'(1) \in q^{-1} \circ f(V) \subset \tilde U$, kurz: $\tilde f(V) \subset \tilde U$.
+        \end{seg}
+    \end{proof}
+    \begin{nt}
+        Der lokale Wegzusammenhang von $W$ ist wesentlich für die Aussage des Satzes.
+        Betrachte als Gegenbeispiel den Warschauer Kreis:
+        \begin{math}
+            W = \Set{e^{-it} \big(2 + \sin(\frac{t}{2\pi - t})\big) & 0 \le t < 2\pi}.
+        \end{math}
+        $W$ ist wegzusammenhängend, aber nicht lokal wegzusammenhängend.
+        Setze $w_0 := 2$.
+        Es gilt $\pi_0(W) = \Set{W}$, $\pi_1(W, w_0) = \Set{1}$.
+
+        Die Abbildung $f: W \to \S^1$, $f(w) = \frac{w}{|w|}$ ist stetig und surjektiv, aber kein Homöomorphismus (z.B. über Kompaktheit oder Fundamentalgruppe).
+        Zu $p: \R \to \S^1$, $p(t) = e^{it}$ existiert zu $f$ keine Hochhebung $\tilde f$.
+        \begin{math}
+            \begin{tikzcd}
+                & (\R, 0) \ar[d,"p"] \\
+                (W, w_0) \ar[r,"f"] \ar[ru,"\tilde f"] & (\S^1, 1)
+            \end{tikzcd}
+        \end{math}
+    \end{nt}
+\end{st}
+
+\begin{st}
+    Sei $n \ge 2$.
+    Jede stetige Abbildung $f: \S^n \to \S^1$ ist zusammenziehbar.
+    \begin{proof}
+        \begin{math}
+            \begin{tikzcd}
+                & (\R, 0) \ar[d,"p"] \\
+                (\S^n,\ast) \ar[r,"f"] \ar[ru,"\exists ! \tilde f",dashed] & (\S^1, 1)
+            \end{tikzcd}
+        \end{math}
+        Nun ist $\tilde f \homotopic \ast$, also $f = p \ast \tilde f \homotopic \ast$.
+    \end{proof}
+\end{st}
+
+Allgemeiner:
+
+\begin{st}
+    Sei $X$ ein topologischer Raum mit zusammenziehbarer (universeller) Überlagerung $p: \tilde X \to X$.
+    Sei $Y$ ein einfach zusammenhängender und lokal wegzusammenhängend.
+    Dann ist jede stetige Abbildung $f: Y \to X$ zusammenziehbar.
+    \begin{nt}
+        Für die Wahl von $X$ gibt es viele Möglichkeiten
+        \begin{itemize}
+            \item
+                $X$ ein Graph, dann ist $\tilde X$ ein Baum.
+            \item
+                $X \homeomorphic \S^1 \times \S^1$, dann ist $\tilde X \homeomorphic \R^2$ die euklidische Ebene.
+            \item
+                $X \homeomorphic F_g^\pm$ mit $g \ge 1$ (für $g \ge 2$ ist $\tilde X \homeomorphic \H^2 \homeomorphic \R^2$ die hyperbolische Ebene).
+            \item
+                $X = G \bs \tilde X$ mit $\tilde X \homotopic \ast$, $G \ops \tilde X \to X$.
+        \end{itemize}
+    \end{nt}
+    \begin{proof}
+        \begin{math}
+            \begin{tikzcd}
+                & \tilde X \ar[d,"p"] \\
+                (Y, y_0) \ar[r,"f"] \ar[ur,"\exists! \tilde f",dashed] & (X, x_0)
+            \end{tikzcd}
+        \end{math}
+        Es gilt $X \homotopic \ast$, also $\tilde X \homotopic \ast$, also $f = p \circ \tilde f \homotopic \ast$.
+    \end{proof}
+\end{st}
+
+Morphismen von Überlagerungen:
+\begin{math}
+    \begin{tikzcd}
+        (Y,y_0) \ar[rd,"p"] \ar[rr,"f",shift left] & & (Z,z_0) \ar[ll,"g", shift right] \ar[ld,"q"] \\
+        & (X, x_0) &
+    \end{tikzcd}
+\end{math}
+
+\begin{st}
+    Sei $X$ wegzusammenhängend und lokal wegzusammenhängend.
+    Seien $p: (Y, y_0) \to (X, x_0)$ und $q: (Z, z_0) \to (X, x_0)$ zusammenhängende Überlagerungen.
+    (Insbesondere sind $Y$ und $Z$ lokal weszusammenhängend und somit wegzusammenhängend)
+    \begin{enumerate}[1)]
+        \item
+            Es existiert genau dann ein Morphismus $f: p \to q$, d.h. $f: (Y, y_0) \to (Z, z_0)$ mit $q \circ f = p$, wenn $p_\# \pi_1(Y,y_0) < q_\# \pi_1(Z,z_0)$.
+        \item
+            Es existiert ein Isomorphismus genau dann, wenn Gleichheit gilt.
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}[1)]
+            \item
+                Klar, dank Hochhebungskriterium.
+            \item
+                Es gelte $p_\# \pi_1(Y,y_0) = q_\# \pi_1(Z, z_0)$.
+                Wir heben $p$ zu $f$ und $q$ zu $g$ hoch dank Hochhebungskriterium.
+                Es gilt $p \circ (g \circ f) = (p \circ g) \circ f = q \circ f = p$, d.h. $g \circ f$ und $\id_Y$ sind Hochhebungen von $p$ über $p$, also gilt $g \circ f = \id_Y$ nach Eindeutigkeit.
+                Ebenso $f \circ g = \id_Z$.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+
+\section{Decktransformationen}
+
+\begin{df}
+    Sei $p: \tilde X \to X$ eine Überlagerung.
+    Wir nennen $G = \Aut(p: \tilde X \to X) = \Aut(p) = \Aut(\tilde X, X) = \Aut(\tilde X)$
+    \begin{math}
+        G := \Set{g: \tilde X \xto[homeomorphic] \tilde X & p \circ g = p }
+    \end{math}
+    die \emphdef{Automorphismengruppe}, \emphdef{Decktransformationsgruppe} oder \emphdef{Galois-Gruppe}.
+    \begin{math}
+        \begin{tikzcd}
+            \tilde X \ar[rr,"g"] \ar[rd,"p"] && \tilde X \ar[ld,"p"] \\
+            & X &
+        \end{tikzcd}
+    \end{math}
+    Insbesondere erhält $g$ jede Faser $p^{-1}(\Set{x})$ und permutiert die Punkte in $p^{-1}(\Set{x})$.
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            $p: \R \to \S^1$, $p(t) = e^{2\pi i t}$.
+            Hier ist $\Aut(p) = \Z$, da $\Z \ops \R \to \S^1$ ($\supset$ klar, $\subset$ dank Eindeutigkeit).
+    \end{itemize}
+\end{ex}
+
+\begin{st}
+    Sei $\tilde X$ wegzusammenhängend, $G < \Homeo(\tilde X)$ operiere topologisch frei auf $\tilde X$ und $G \ops \tilde X \xto{p} X$.
+    Dann gilt $\Aut(p) = G$.
+    \begin{proof}
+        $\supset$ klar, $\subset$ Eindeutigkeit der Hochhebung.
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Sei $p: \tilde X \to X$ eine wegzusammenhängend Überlagerung (d.h. $\tilde X$ wegzusammenhängend, insbesondere $X$).
+    \begin{enumerate}[1)]
+        \item
+            Die Gruppe $G = \Aut(p)$ operiert topologisch frei auf $\tilde X$.
+        \item
+            Operiert $\Aut(p)$ transitiv auf (einer und damit auf) jeder Faser, so ist $p: \tilde X \to X$ äquivalent zum Quotienten $q: \tilde X \to G \bs \tilde X$, kurz:
+            \begin{math}
+                \begin{tikzcd}
+                    G \ar[r,ops] & \tilde X \ar[r,"p"] \ar[d,"q"'] & X \\
+                    & G \bs \tilde X \ar[ru,"h"',"\homeomorphic"]
+                \end{tikzcd}
+            \end{math}
+            D.h. wir haben eine Galois-Überlagerung.
+    \end{enumerate}
+    \begin{proof}
+        Übung: 1) Definitionen nachprüfen, 2) Bahn ist die ganze Faser, betrachte dann lokal.
+    \end{proof}
+\end{st}
+
+\begin{df}
+    Eine Überlagerung $p: \tilde X \to X$ heißt \emphdef{normal} oder \emphdef{galoisch}, wenn $\tilde X$ wegzusammenhängend ist und $\Aut(p)$ transitiv auf $\tilde X$ operiert.
+\end{df}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Dreifache Überlagerung (zyklisch) eines Graphen mit zwei Zykeln: galoisch, $\Aut(p) = \Z / 3$.
+        \item
+            Wie oben, aber Stockwerke nicht zyklisch verbunden: nicht galoisch, $\Aut(p) = \Set{1}$.
+        \item
+            Zweiblättrige Überlagerungen sind immer galoisch.
+    \end{itemize}
+\end{ex}
+
+% Alle Wegzusammenhangs-Bedingungen
+
+\begin{st}
+    Seien $\tilde X$ wegzusammenhängend $X$ lokal wegzusammenhängend und $p: (\tilde X, \tilde x_0) \to (X, x_0)$ eine Überlagerung.
+
+    $p$ ist normal genau dann, wenn $K := p_\# \pi_1(\tilde X, \tilde x_0) < \pi_1(X, x_0) =: H$ normal ist.
+    \begin{proof}
+        Wir wollen Existenz von $g$.
+        \begin{math}
+            \begin{tikzcd}
+                (\tilde X, \tilde x_0) \ar[rr,"\exists! g"] \ar[rd,"p"] & & (\tilde X, \tilde x_1) \ar[ld,"p"] \\
+                & (X, x_0) &
+            \end{tikzcd}
+        \end{math}
+        Sei $\gamma: [0,1] \to \tilde X$ ein Weg von $\tilde x_0$ nach $\tilde x_1$.
+        Wir haben einen Isomorphismus $\gamma_\#: \pi_1(\tilde X, \tilde x_0) \to \pi_1(\tilde X, \tilde x_1)$ mit $[\alpha] \mapsto [\_\gamma \ast \alpha \ast \gamma]$.
+
+        Für $[p \circ \alpha] \in \pi_1(X, x_0)$ gilt also
+        \begin{math}
+            [p \circ \gamma_\# \alpha] = [(p \circ \_\gamma)] [(p \circ \alpha)] [(p \circ \gamma)]
+            = [p \circ \alpha]^{[p \circ \gamma]}.
+        \end{math}
+        Demnach sind $p_\# \pi_1(\tilde X, \tilde x_0)$ und $p_\# \pi_1(\tilde X, \tilde x_1)$ in $\pi_1(x, x_0)$ konjugiert durch $[p \circ \gamma] \in \pi_1(X, x_0)$.
+
+        \ProofImplication*:
+        Ist $p_\# \pi_1(\tilde X, \tilde x_0)$ normal, dann können wir $p$ hochheben zu $g$.
+
+        \ProofImplication:
+        Rückwärts lesen
+        % todo: Tilden verteilen.
+    \end{proof}
+\end{st}
