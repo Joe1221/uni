@@ -54,7 +54,7 @@
 \Timestamp{2015-12-07}
 
 \begin{df}
-    $G$ heißt $P_4$-frei, ($N$-frei), falls $P_4$ kein induzierter Untergraph von $G$ ist.
+    $G$ heißt $P_4$-frei (auch $N$-frei) falls $P_4$ kein induzierter Untergraph von $G$ ist.
 \end{df}
 
 \begin{lem}
@@ -229,19 +229,20 @@ Beispiel: $C_5$.
 \begin{st}
     Jeder chordale Graph ist $\alpha$- und $\chi$-perfekt.
     \begin{proof}
-        $\alpha$-Perfektheit:
-        Sei $(x_1, \dotsc, x_n)$ eine simpliziale Ordnung von $G$.
-        Wir konstruieren parallel eine unabhängige Menge $I$ und eine Cliquenüberdeckung: $I_1 = \Set{x_1}$ und $K_1 = \Set{x_1} \cup N(x_1)$.
-        Verfahre für $I_k, K_k$ genauso rekursiv mit $G - K_{k-1}$.
-
-        $\chi$-Perfektheit:
-        Sei $x_1$ simplizial in $G$.
-        Dann gilt für $G' = G - \Set{x_1}$: $\chi(G') = \omega(G')$.
-        Falls $|N(x_1)| < \omega(G')$.
-        Dann bleibt eine Farbe frei für $x_1$.
-        Andernfalls gilt $|N(x_1)| = \omega(G')$.
-        Dann gilt $\omega(G) = \omega(G') + 1$, also kann eine neue Farbe für $x_1$ verwendet werden.
-        $\chi(G) \le \omega(G) \implies \chi(G) = \omega(G)$.
+        \begin{seg}{$\alpha$-Perfektheit}
+            Sei $(x_1, \dotsc, x_n)$ eine simpliziale Ordnung von $G$.
+            Wir konstruieren parallel eine unabhängige Menge $I$ und eine Cliquenüberdeckung: $I_1 = \Set{x_1}$ und $K_1 = \Set{x_1} \cup N(x_1)$.
+            Verfahre für $I_k, K_k$ genauso rekursiv mit $G - K_{k-1}$.
+        \end{seg}
+        \begin{seg}{$\chi$-Perfektheit}
+            Sei $x_1$ simplizial in $G$.
+            Dann gilt für $G' = G - \Set{x_1}$: $\chi(G') = \omega(G')$.
+            Falls $|N(x_1)| < \omega(G')$.
+            Dann bleibt eine Farbe frei für $x_1$.
+            Andernfalls gilt $|N(x_1)| = \omega(G')$.
+            Dann gilt $\omega(G) = \omega(G') + 1$, also kann eine neue Farbe für $x_1$ verwendet werden.
+            $\chi(G) \le \omega(G) \implies \chi(G) = \omega(G)$.
+        \end{seg}
     \end{proof}
 \end{st}
 
@@ -280,7 +281,7 @@ Beispiel: $C_5$.
         \begin{math}
             I_i = (a_i, b_i) \le I_j = (a_j, b_j) \iff I_i = I_j \lor b_i \le a_j.
         \end{math}
-        Für Intervallgraphen lesen wir $E$ als Teilmeneg $E \subset V \times V \setminus \Id_V$ mit
+        Für Intervallgraphen lesen wir $E$ als Teilmenge $E \subset V \times V \setminus \Id_V$ mit
         \begin{math}
             E = E^{-1} = \Set{(y,x) \in V\times V & (x,y) \in E}.
         \end{math}
@@ -290,21 +291,142 @@ Beispiel: $C_5$.
 \begin{lem}
     Sei $G = (V,E)$ ein Intervallgraph.
     Dann ist $G$ chordal und $\_G$ ist transitiv orientierbar.
+    \begin{proof}
+        Einfache Übung.
+    \end{proof}
 \end{lem}
 
 \begin{st}
     Sei $G$ chordal und transitiv orientierbar.
     Dann ist $G$ ein Intervallgraph.
-    \begin{proof}
+    \begin{proof}[konstruktiv?]
         Induzierte Untergraphen eines transitiv orientierbaren Graphen sind transitiv orientierbar.
-        Starte mit $x \in V$ simplizial in $G$.
-        Betrachte $G' = G - x$, dann ist $G'$ chordal und $\_{G'}$ transitiv orientierbar.
-        Per Induktion ist $V - \Set{x} = \Set{I_2, \dotsc, I_n}$ ein Intervallgraph.
-        $N(x) = \Set{I_{i_1}, \dotsc, I_{i_k}}$ bilden eine Clique.
-        %Wähle $I_x := \cap N(x) \neq \emptyset$ als neues Intervall.
+
+\Timestamp{2015-12-14}
+        Sei $x \in V$ simplizial in $G$.
+
+        $F \subset V \times V$ mit $F^2 \subset F$, $F \cap F^{-1} = \emptyset$, $F \cup F^{-1} = \_E = \binom{V}{2} \setminus E$.
+        $G' = G - x$, $V' = V - \Set{x}$, $F' = F \cap V' \times V'$.
+        $(V', F')$ ist transitiv orientierbar in $\_{G'}$.
+
+        Per Induktion ist $G'$ ein Intervallgraph, d.h. es existieren zu $v \in V'$ Intervalle $I_v = (a_v, b_v)$.
+        Ohne Einschränkung $\Set{a_v & v \in V'} \cap \Set{b_v & v \in V'} = \emptyset$.
+
+        Zerlege $V' = Y \cup Z \cup U$, wobei
+        \begin{math}
+            Y &= \Set{y \in V' & (y,x) \in F}, \\
+            Z &= \Set{z \in V' & (x,z) \in F}, \\
+            U &= \Set{u \in V' & ux \in E},
+        \end{math}
+        Beachte $Y \times Z \subset F'$, da $F^2 \subset F$.
+        Setze
+        \begin{math}
+            a_x
+            &= \max \Set{b_y & y \in Y}
+            < \min \Set{a_z & z \in Z}
+            = b_x.
+        \end{math}
+        Setze $I_x = (a_x, b_x)$.
+        Definiere neue Intervalle $I_u' = (a_u', b_u')$ für alle $u \in U$:
+        \begin{math}
+            a_u' &:= \min \Set{a_u, a_x}, &
+            b_u' &:= \max \Set{b_u, b_x}.
+        \end{math}
+        Dann ist $I_u' \supset I_x$ und $u,v \in U \implies I_u' \cap I_v' \neq \emptyset$.
+
+        Also ist $\Set{u} \cup N(u)$ eine Clique.
+        Problem: neue Überschneidungen?
+        Angenommen $I_u' \cap I_y \neq \emptyset$ ist neue Überschneidung für $y \in Y$ ($I_u' \cap I_z \neq \emptyset$ für $z \in Z$ analog).
+        Dann ist $b_y < a_x$, weil $y \in Y$, also $b_y < a_u'$ (da neue Überschneidung).
+        Also
+        \begin{math}
+            b_u < a_y < a_x < b_u'.
+        \end{math}
+        Somit $(u,y) \in F$ und $(y,x) \in F$, also $(u,x) \in F$, ein Widerspruch zu $u \not\in Y$.
+
+        %Betrachte $G' = G - x$, dann ist $G'$ chordal und $\_{G'}$ transitiv orientierbar.
+        %Per Induktion ist $V - \Set{x} = \Set{I_2, \dotsc, I_n}$ ein Intervallgraph.
+        %$N(x) = \Set{I_{i_1}, \dotsc, I_{i_k}}$ bilden eine Clique.
+        %%Wähle $I_x := \cap N(x) \neq \emptyset$ als neues Intervall.
     \end{proof}
 \end{st}
 
 
+\subsection{Permutationsgraphen}
 
+
+\begin{df}
+    Sei $V_n = \Set{1, \dotsc, n}$, $\pi \in \Perm(n)$.
+    Sezte
+    \begin{math}
+        E_\pi = \Set{ij & (i-j)(\pi(i) - \pi(j)) < 0} \subset \binom{V}{2}.
+    \end{math}
+    Ein Graph $G = (V, E)$ heißt \emphdef{Permutationsgraph}, wenn er isomorph zu $G_\pi := (V_n, E_\pi)$ ist.
+\end{df}
+
+\begin{math}
+    \pi &= \Matrix{1 & 2 & \hdots & n \\ \pi(1) & \pi(2) & \hdots & \pi(n)}. \\
+    \_\pi &:= \Matrix{1 & 2 & \hdots & n \\ \pi(n) & \pi(n-1) & \hdots & \pi(1)}. \\
+    \pi^{-1} &:= \Matrix{\pi(n) & \pi(n-1) & \hdots & \pi(1) \\ 1 & 2 & \hdots & n}.
+\end{math}
+Es gilt $\_{E_\pi} = E_\pi$.
+
+\begin{st}
+    Jeder Permutationsgraph $G_\pi$ ist transitiv orientierbar.
+    \begin{proof}
+        Setze
+        \begin{math}
+            F = \Set{(i,j) & i < j \land \pi(i) > \pi(j) }.
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{st}
+    $G = (V, E)$ ist Permutationsgraph genau dann, wenn $G$ und $\_G$ transitiv orientierbar sind.
+    \begin{proof}
+        \ProofImplication ist trivial, zeige \ProofImplication*
+
+        Sei $F_1$ eine transitive Orientierung für $G$ und $F_2$ eine transitive Orientierung für $\_G$.
+        $F_1 \cup F_2$ ist auch eine transitive Orientierung.
+        Angenommen für $(x,y) \in F_1$, $(y, z) \in F_2$ wäre $(z,x) \in F_1 \cup F_2$.
+        Für $(z,x) \in F_1$ ist $(z, y) \in F_1 \subset E$, ein Widerspruch, da $(y,z) \not\in E$.
+        $(z,x) \in F_2$ ist auch unmöglich.
+
+        Nun gilt $(x,z) \in E \cup \_E$.
+        Falls $(x, z) \in E$, dann ist $(x, z) \in F_1 \subset F_1 \cup F_2$.
+
+        $(V, F_1 \cup F_2)$ ist transitive Orientierung des vollständigen Graphen.
+        Ohne Einschränkung sei $(V, F_1 \cup F_2)$ eine lineare Orientierung $(\Set{1, \dotsc, n}, <)$.
+
+        Betrachte $F' = F_1^{-1} \cup F_2$ (ist lineare Ordnung, die zu $\pi^{-1}$ gehört).
+        Dann gilt für $i < j$:
+        \begin{math}
+            (j,i) \in F_1^{-1} \cup F_2 \iff (j,i) \in F_1^{-1} \iff (i,j) \in F_1.
+        \end{math}
+        Also liefert $F'$ die Permutation $(\pi(i) - \pi(j))(i - j) < 0 \iff (i,j) \in F_1$.
+        $G_\pi = (\Set{1, \dotsc, n}, F_1 \cup F_1^{-1})$.
+    \end{proof}
+\end{st}
+
+\begin{st}
+    Permutationsgraphen sind perfekt.
+    \begin{proof}
+        $\chi$-Perfektheit:
+
+        Sei $G = (V, F \cup F^{-1})$ für eine transitive Orientierung $(V, F)$.
+        Setze die minimalen Elemente:
+        \begin{math}
+            M := \Set{x \in V & \forall y \in V : (y,x) \not\in F}
+        \end{math}
+        $G' := G - M$ ist transitiv orientierbar.
+        Also induktiv $\chi(G') = \omega(G')$ und $\alpha(G') = \kappa(G')$.
+
+        Cliquen sind genau linear geordnete Mengen.
+        Sei $K \subset G'$ Clique, dann existiert $x \in M$
+
+        Also $\omega(G) = \omega(G') + 1$.
+        Also färbe $x$ mit freier Farbe.
+        Für alle $x,y \in M$ gilt $(x,y) \not\in E$, also $\chi(G) \le \omega(G) \implies \chi(G) = \omega(G)$.
+    \end{proof}
+\end{st}
 
