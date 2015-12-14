@@ -26,6 +26,7 @@
 
 ### Index
 
+- Fix: `imakeidx` doesn't work with xindy options in recent texlive
 - Figure out dotfill style with xindy
 
 ## Exercise Class
