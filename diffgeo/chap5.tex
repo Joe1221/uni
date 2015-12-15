@@ -2,11 +2,11 @@
 
 \Timestamp{2015-12-09}
 
-Neben dem Tangentialbündel wollen wir nun auch andere Vektorräume punktweise an eine Mannigfaltigkeit „anheften“, vor allem Vektorräum, die sich nicht durch Grundkonstruktionen der Linearen Algebra aus dem Tangentialbündel ergeben, z.B. Linearformen und Multilinearformen auf dem Tangentialraum, Endomorphismen des Tangentialraums.
+Neben dem Tangentialbündel wollen wir nun auch andere Vektorräume punktweise an eine Mannigfaltigkeit „anheften“, vor allem Vektorräume, die sich nicht durch Grundkonstruktionen der Linearen Algebra aus dem Tangentialbündel ergeben, z.B. Linearformen und Multilinearformen auf dem Tangentialraum oder Endomorphismen des Tangentialraums.
 Dies führt auf den Begriff des Vektorbündels.
 
 \begin{df}[Faserbündel] \label{5.1}
-    Seien $M, B, Z$ glatten Mannigfaltigkeiten, $\pi: M \to B$ eine glatte Abbildung, $(U_j)_{j\in J}$ eine offene Überdeckung von $B$ und seien
+    Seien $M, B, Z$ glatte Mannigfaltigkeiten, $\pi: M \to B$ eine glatte Abbildung, $(U_j)_{j\in J}$ eine offene Überdeckung von $B$ und seien
     \begin{math}
         h_j: \pi^{-1}(U_j) \to U_j \times Z
     \end{math}
@@ -49,9 +49,9 @@ Dies führt auf den Begriff des Vektorbündels.
     \begin{note}
         \begin{itemize}
             \item
-                Bei einer Überlagerung ist $\pi$ ein lokaler Diffeomorphismus.
+                Im Falle einer Überlagerung ist $\pi$ ein lokaler Diffeomorphismus.
             \item
-                $U_j$ wird hier auch schlicht überlagerte Umgebung genannt.
+                $U_j$ wird hier auch \emphdef{überlagerte Umgebung} genannt.
         \end{itemize}
     \end{note}
 \end{df}
@@ -60,7 +60,7 @@ Dies führt auf den Begriff des Vektorbündels.
     \begin{enumerate}[(i)]
         \item
             Sei $S^n \subset \R^{n+1}$ die Einheitssphäre, dann ist $\pi: S^n \to \RP^n, x \mapsto [x]$ (homogene Koordinaten) eine $2$-fache Überlagerung.
-            Die Fasern sind jeweils die Teilmengen $\Set{x, -x} = \pi^{-1}([x])$.
+            Die Faser über $[x] \in \RP^n$ ist $\pi^{-1}([x]) = \Set{x, -x}$.
         \item
             $\pi: \operatorname{Spin}(n) \to \SO(n)$ ist $2$-fache Überlagerung, falls $n \ge 3$.
         \item
@@ -90,21 +90,26 @@ Dies führt auf den Begriff des Vektorbündels.
     Sei $\pi: M \to B$ ein Faserbündel mit lokalen Trivialisierungen $h_j$, $j \in J$.
     Für $j, k \in J$ ist die Abbildung
     \begin{math}
-        h_j \circ h_k^{-1}: (U_j \cap U_k) \times \Z \to (U_j \cap U_k) \times \Z
+        h_j \circ h_k^{-1}: (U_j \cap U_k) \times Z \to (U_j \cap U_k) \times Z
     \end{math}
-    von der Form $(u, z) \mapsto (u, g_{jk}(u,z))$, wobei $g_{jk}(u,\argdot)$ ein Diffeomorphismus auf $\Z$ ist (vgl. Übungsaufgabe 28).
+    von der Form $(u, z) \mapsto (u, g_{jk}(u,z))$, wobei $g_{jk}(u,\argdot)$ ein Diffeomorphismus auf $Z$ ist (vgl. Übungsaufgabe 28).
 
     Die Abbildung $g_{jk}(u, \argdot)$ wird \emphdef{Übergangsabbildung} genannt.
 \end{nt}
 
 \begin{df} \label{5.6}
-    Ein Faserbündel heißt \emphdef{$\K$-Vektor(raum)bündel} vom \emphdef{Rang} $r$, falls $Z$ ein $\K$-Vektorraum der Dimension $r$ ist und alle Übergangsabbildungen $g_{jk}(u, \argdot)$ linear sind.
+    Ein Faserbündel heißt \emphdef{$\K$-Vektor(raum)bündel} vom \emphdef{Rang} $r$, falls die typische Faser $Z$ ein $\K$-Vektorraum der Dimension $r$ ist und alle Übergangsabbildungen $g_{jk}(u, \argdot)$ linear sind.
 
     Jedes Vektorraumbündel hat als kanonischen Schnitt den \emphdef{Nullschnitt} $s \equiv 0$.
 
     Ein Vektorraumbündel vom Rang $1$ heißt \emphdef{Linienbündel}.
     \begin{note}
-        Die Übergangsabbildungen sind quasi Vektorraumautomorphismen von $Z$.
+        \begin{itemize}
+            \item
+                Die Übergangsabbildungen sind quasi Vektorraumautomorphismen von $Z$.
+            \item
+                $\dim(E) = \dim(Z) + \dim(B)$.
+        \end{itemize}
     \end{note}
 \end{df}
 
@@ -119,3 +124,107 @@ Dies führt auf den Begriff des Vektorbündels.
             Möbiusband $\Set{(e^{it}, s e^{i\frac{t}{2}}) & t,s \in \R} \subset \C^2$.
     \end{enumerate}
 \end{ex}
+
+\Timestamp{2015-12-15}
+
+\begin{df}[Pullback] \label{5.7}
+    Sei $f: M \to N$ eine glatte Abbildung und $\pi: E \to N$ ein Vektorbündel über $N$.
+    Definiere
+    \begin{math}
+        f^* E := \Set{(p,v) \in M \times E & \pi(v) = f(p)}.
+    \end{math}
+    Das Vektorbündel $\proj_1: f^* E  \to M$ heißt \emphdef{Pullback} von $E$ unter $f$.
+    \begin{note}
+        Hat $E$ lokale Trivialisierungen $h_j: \pi^{-1}(U_j) \to U_j \times V$, dann hat $f^* E$ lokale Trivialisierungen
+        \begin{math}
+            f^* h_j: \proj_1^{-1}(f^{-1}(U_j)) &\to f^{-1}(U_j) \times V, \\
+            (p, v) &\mapsto (p, \proj_2(h_j(v))).
+        \end{math}
+    \end{note}
+    Der Pullback von Vektorbündeln induziert auch einen \emphdef{Pullback} von Schnitten:
+    \begin{math}
+        f^*: \Gamma(N, E) &\to \Gamma(M, f^*E) \\
+        s &\mapsto s \circ f
+    \end{math}
+    \begin{note}
+        Anschaulich bedeutet $f^* E$, dass an jedem $p \in M$ der Vektorraum $E_{f(p)}$ „angehängt wird“.
+        Die umgekehrte Konstruktion „Pushforward“  funktioniert im Allgemeinen für Vektorbündel nicht (z.B. weil $f$ im Allgemeinen kein Homömorphismus ist).
+        Für Diffeomorphismen $g: N \to M$ definieren wir den Pushforward als $g_* E := (g^{-1})^* E$.
+    \end{note}
+\end{df}
+
+\begin{df} \label{5.8}
+    Für zwei Vektorbündel $\pi: E \to M$, $\tilde \pi: F \to 1$ über derselben Mannigfaltigkeit $M$ heißt eine Abbildung $\phi: E \to F$ heißt \emphdef{Vektorbündelhomomorphismus}, falls
+    \begin{enumerate}[(i)]
+        \item
+            das folgende Diagramm kommutiert:
+            \begin{math}
+                \begin{tikzcd}
+                    E \ar[rr,"\phi"] \ar[rd,"\pi"'] & & F \ar[ld,"\tilde \pi"] \\
+                    & M
+                \end{tikzcd},
+            \end{math}
+            d.h. $\phi$ bildet für alle $p \in M$ die Faser $E_p$ in die Faser $F_p$ ab
+        \item
+            und $\phi$ \emphdef{faserweise linear} ist, d.h. die nach (i) induzierte Abbildungen $\phi_p: E_p \to F_p$ sind linear für alle $p \in M$.
+    \end{enumerate}
+    \begin{note}
+        Zum Beispiel ist die Weingartenabbildung einer regulären Fläche ein Vektorbündelendomorphismus.
+    \end{note}
+\end{df}
+
+
+\section{Tensoren und ein „Baukasten“ für Vektorräume und Vektorbündel}
+
+Die Grundkonstruktionen (für Vektorräume) der linearen Algebra liefern zu gegebenen Vektorräumen $V, W, \dotsc$ neue, daraus konstruierte, z.B. die direkte Summe $V \oplus W$, den Dualraum $V^*$, die linearen Abbildungen $\Hom(V,W)$, die Bilinearformen $\Bil(V)$.
+
+Diese Konstruktionen wollen wir auf Vektorbündel übertragen und unter einem einheitlichen Gesichtspunkt zusammenfassen.
+
+
+\begin{df} \label{5.9}
+    Seien $\pi: E \to M$, $\tilde \pi: F \to M$ Vektorbündel über der selben Mannigfaltigkeit $M$.
+    Seien (ohne Einschränkung durch entsprechende Einschränkung) die lokalen Trivialisierungen
+    \begin{math}
+        h_j: \pi^{-1}(U_j) &\to U_j \times V,
+        \tilde h_j: \tilde \pi^{-1}(U_j) &\to U_j \times W
+    \end{math}
+    gegeben.
+
+    Dann ist die direkte Summe $E \oplus F \to M$ das Vektorbündel
+    \begin{math}
+        E \oplus F := \Set{(p,v,w) & p \in M, v \in E_p, w \in F_p}
+        \xto{\proj_1} M
+    \end{math}
+    mit den lokalen Trivialisierungen
+    \begin{math}
+        \hat h_j: \proj_1^{-1}(U_j) &\to U_j \times (V \oplus W) \\
+        (p,v,w) &\mapsto (p, h_j(v), \tilde h_j(w)).
+    \end{math}
+    Analog definiert man $E^*$, $\Hom(E, F)$, $E / F$ (\emphdef{Quotientenbündel} für ein Unterbündel $F \subset E$), z.B.
+    \begin{math}
+        E^* = \Set{ (p, \alpha) & p \in M, \alpha \in E_p^*}
+    \end{math}
+    mit lokaler Trivialisierung $h_j^*: \Set{(p, \alpha) & p \in U_j, \alpha \in E_p^*} \to U_j \times V^*$ durch $(p, \alpha) \mapsto (p, \alpha \circ h_j^{-1}(p, \argdot))$.
+\end{df}
+
+
+Das \emphdef{Tensorprodukt} $V \otimes W$ zweier Vektorräume $V$ und $W$ ist eine Konstruktion mit der man bilineare Abbildungen $V \times W \to Z$ beschreiben kann.
+
+Beispielsweise lässt sich jede Bilinearform $\beta: V \times W \to \K$ durch die Werte von $\beta$ auf Paaren von Basisvektoren $(v_i, w_j)$ beschreiben, wobei $(v_i)_{i\in I}$, $(w_j)_{j\in J}$ Baasen von $V$, bzw. $W$ sind, dann gilt ja:
+Ist $v = \sum_i \lambda_i v_i$, $w = \sum_j \mu_j w_j$, so gilt
+\begin{math}
+    \beta(v,w)
+    = \beta\l(\sum_i \lambda_i v_i, \sum_j \mu_j w_j\r)
+    = \sum_{i,j} \lambda_i \mu_j \beta(v_i, w_j).
+\end{math}
+Die \emph{bilineare} Abbildung $\beta$ lässt sich somit durch eine lineare Abbildung $U \to \K$ ersetzen, wobei $U$ der Vektorraum ist, für den die Paare $(v_i, w_j)$ eine Basis bilden.
+(Bei endlich-dimensionalen Vektorräumen $V, W$ ordnet man $\beta$ die Strukturmatrix $\beta(v_i, w_j))_{i,j}$ zu.)
+
+
+
+
+
+
+
+
+
