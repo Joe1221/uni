@@ -174,7 +174,7 @@ Dies führt auf den Begriff des Vektorbündels.
 \end{df}
 
 
-\section{Tensoren und ein „Baukasten“ für Vektorräume und Vektorbündel}
+\section[Tensoren]{Tensoren und ein „Baukasten“ für Vektorräume und Vektorbündel}
 
 Die Grundkonstruktionen (für Vektorräume) der linearen Algebra liefern zu gegebenen Vektorräumen $V, W, \dotsc$ neue, daraus konstruierte, z.B. die direkte Summe $V \oplus W$, den Dualraum $V^*$, die linearen Abbildungen $\Hom(V,W)$, die Bilinearformen $\Bil(V)$.
 
@@ -219,6 +219,147 @@ Ist $v = \sum_i \lambda_i v_i$, $w = \sum_j \mu_j w_j$, so gilt
 \end{math}
 Die \emph{bilineare} Abbildung $\beta$ lässt sich somit durch eine lineare Abbildung $U \to \K$ ersetzen, wobei $U$ der Vektorraum ist, für den die Paare $(v_i, w_j)$ eine Basis bilden.
 (Bei endlich-dimensionalen Vektorräumen $V, W$ ordnet man $\beta$ die Strukturmatrix $\beta(v_i, w_j))_{i,j}$ zu.)
+
+
+\Timestamp{2015-12-16}
+
+
+Idee: Ersetze bilineare Abbildung durch eine lineare: ist z.B. $\beta: V \times W \to \K$ eine Bilinearform, dann ist $\beta$ durch seine Werte $\beta(v_i, w_j)$ bereits eindeutig bestimmt (falls $V$ und $W$ endlichdimensional, dann durch eine Struksturmatrix).
+
+\begin{df} \label{5.10}
+    Seien $V, W$ $\K$-Vektorräume.
+    Das \emphdef{Tensorprodukt} ist der Vektorraum $V \otimes W$, zusammen mit einer bilinearen Abbildung $\kappa: V \times W \to V \otimes W$, so dass folgende universelle Eigenschaft gilt:
+    Für alle bilinearen Abbildungen $\sigma: V \times W \to Z$ gibt es genau eine lineare Abbildung $f_\sigma: V \otimes W \to Z$, so dass das folgende Diagramm kommutiert:
+    \begin{math}
+        \begin{tikzcd}
+            V \times W \ar[r,"\kappa"] \ar[rd,"\sigma"] & V \otimes W \ar[d,"\exists! f_\sigma",dashed] \\
+            & Z
+        \end{tikzcd}
+    \end{math}
+    \begin{note}
+        Dies kann man so interpretieren: $V \otimes W$ ist einerseits „groß genug“, um alle bilinearen Abbildungen $V \times W \to Z$ zu beschreiben und andererseits der „kleinste“ solche Vektorraum.
+
+        Eindeutigkeit: siehe folgendes Lemma.
+        Existienz: siehe Literatur.
+    \end{note}
+\end{df}
+
+\begin{lem} \label{5.11}
+    $V \otimes W$ ist eindeutig bestimmt (bis auf Isomorphie).
+    \begin{proof}
+        Angenommen es gibt ein zweites Tensorprodukt $\tilde \kappa: V \times W \to V \tilde \otimes W$.
+        Dann hat man folgendes kommutative Diagramm:
+        \begin{math}
+            \begin{tikzcd}
+                & V \otimes W \ar[dd,"\exists! f_\kappa"',shift right,dashed] & \\
+                V \times W \ar[ru,"\kappa"] \ar[rd,"\tilde \kappa"] & \\
+                & V \tilde \otimes W \ar[uu,"\exists! f_{\tilde \kappa}"',shift right,dashed]
+            \end{tikzcd}
+        \end{math}
+        woraus
+        \begin{math}
+            \kappa
+            = f_{\tilde \kappa} \circ \tilde \kappa
+            = f_{\tilde \kappa} \circ f_\kappa \circ \kappa
+        \end{math}
+        folgt.
+        Betrachte nun
+        \begin{math}
+            \begin{tikzcd}
+                V \times W \ar[r,"\kappa"] \ar[dr,"\kappa"'] & V \otimes W \ar[d,"\id_{V\otimes W}"',shift right] \ar[d,"f_{\tilde \kappa} \circ f_\kappa",shift left] \\
+                & V \otimes W
+            \end{tikzcd}.
+        \end{math}
+        Wegen der universellen Eigenschaft folgt also $f_{\tilde \kappa} \circ f_\kappa = \id_{V \otimes W}$.
+        Analog folgt $f_\kappa \circ f_{\tilde \kappa} = \id_{V \tilde \otimes W}$, also sind die Abbildungen invers zueinander und $V \otimes W \isomorphic V \tilde \otimes W$.
+    \end{proof}
+    \begin{note}
+        \begin{itemize}
+            \item
+                Für endlich-dimensionale Vektorräume gilt $\dim(V \otimes W) = \dim(V) \dim(W)$.
+            \item
+                Das Bild $\kappa(v,w)$ eines Paares $(v, w)$ von Vektoren $v \in V$, $w \in W$ wird mit $v \otimes w$ bezeichnet.
+                Dies sind die sogenannten \emphdef{reinen Tensoren}.
+            \item
+                Die Elemente von $V \otimes W$ lasssen sich als Linearkombinationen von Elementen der Form $v \otimes w$ darstellen:
+                \begin{math}
+                    \sum_{i\in I, j \in J} a_{ij} v_i \otimes w_j,
+                \end{math}
+                wobei $(v_i)_{i \in I}$, $(w_j)_{j \in J}$ Basen von $V$, bzw. $W$ sind.
+            \item
+                Im Fall $V = \R^n$, $W = \R^m$ gilt $V \otimes W = \R^{n \times m}$ und dann ist die Abbildung $\kappa: V \times W \to V \otimes W$ gegeben als
+                \begin{math}
+                    \kappa(x,y) = x y^T.
+                \end{math}
+                Insbesondere $e_i \otimes e_j = E_{i,j}$ (Matrix mit 1 in $(i,j)$ und sonst Null).
+        \end{itemize}
+    \end{note}
+\end{lem}
+
+\begin{lem} \label{5.12}
+    Für die beiden Verknüpfungen $\oplus$ und $\otimes$ auf den $\K$-Vektorräumen haben folgende Eigenschaften:
+    \begin{enumerate}[(i)]
+        \item
+            Distributivität: $(U \oplus V) \otimes W \isomorphic (U \otimes W) \oplus (V \otimes W)$,
+        \item
+            neutrales Element: $V \otimes K \isomorphic V$,
+        \item
+            Assoziativität: $(U \otimes V) \otimes W \isomorphic U \otimes (V \otimes W)$,
+        \item
+            Kommutativität: $V \otimes W \isomorphic W \otimes V$.
+    \end{enumerate}
+    Falls $V$ und $W$ endlich-dimensional sind, gilt auch
+    \begin{enumerate}[(i),start=5]
+        \item
+            $(V \otimes W)^* \isomorphic V^* \otimes W^*$.
+        \item
+            $\Hom(V, W) \isomorphic V^* \otimes W$.
+    \end{enumerate}
+    Alle diese Isomorphismen sind \emph{kanonisch}, d.h. können ohne Wahlen von Basen angegeben werden.
+    \begin{proof}
+        Zeige (vi), Rest Übung.
+        Definiere
+        \begin{math}
+            f: V^* \otimes W &\to \Hom(V, W) \\
+            \alpha \otimes w &\mapsto (v \mapsto \alpha(v) w).
+        \end{math}
+        Zeige Linearität und Injektivität durch Basisvektoren, Bijektivität folgt aus Dimensionsgründen.
+    \end{proof}
+\end{lem}
+
+Anwendung: Damit lässt sich jede verschachtelte Kombination von $\Bil, \End, \Hom, \otimes, \argdot^*$.
+Endlichdimensionale Vektorräume $V_1, \dotsc, V_m$ als Tensorprodukt mit den Faktoren $V_1, \dotsc, V_m, V_1^*, \dotsc V_m^*$ schreiben, z.B. gilt
+\begin{math}
+    \Hom(V, V') \otimes \Hom(W, W')
+    &\isomorphic V^* \otimes V' \otimes W^* \otimes W' \\
+    &\isomorphic \Hom(V \otimes W, V' \otimes W').
+\end{math}
+oder
+\begin{math}
+    \Hom(\Hom(U,V), W)
+    &= \Hom(U,V)^* \otimes W \\
+    &= (U^* \otimes V)^* \otimes W \\
+    &= U \otimes V^* \otimes W.
+\end{math}
+
+\begin{note}
+    Für Homomorphismen $f: V \to V'$, $g: W \to W'$ definiert man $f \otimes g: V \otimes W \to V' \otimes W'$ durch
+    \begin{math}
+        (f \otimes g)(v \otimes w)
+        := f(v) \otimes g(w).
+    \end{math}
+\end{note}
+
+\begin{df} \label{5.13}
+    Sei $V$ ein reeller Vektorraum, $q \in \N$.
+    Der Raum der \emphdef{$q$-Multilinearformen} auf $V$ ist
+    \begin{math}
+        {V^*}^{\otimes q} := \underbrace{V^* \otimes V^* \otimes \dotsb \otimes V^*}_{\text{$q$-mal}}.
+    \end{math}
+    Die \emphdef{Tensoralgebra} auf $V$ ist $\bigotimes V^* = \bigoplus_{q \ge 0} {V^*}^{\otimes q}$.
+\end{df}
+
+
 
 
 
