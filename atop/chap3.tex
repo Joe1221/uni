@@ -7,7 +7,11 @@ Wir suchen ein Analogon um dies zu ermöglichen.
 Sei $I^n = [0,1]^n \subset \R^n$, $\Boundary I^n$ sein Rand.
 Zu jedem topologischen Raum $X$ mit Fußpunkt $x_0$ definieren wir
 \begin{math}
-    \pi_n(X, x_0) = \Set{f: (I^n, \Boundary I^n) \to (X, x_0) \text{ stetig}} / \text{ Homotopie}
+    \pi_n(X, x_0)
+    &= \Set{f: (I^n, \Boundary I^n, 0) \to (X, \{x_0\}, x_0) \text{ stetig}} / \text{ Homotopie} \\
+    &= \Set{f: (I^n // \Boundary I^n, \ast) \to (X, x_0) \text{ stetig}} / \text{ Homotopie} \\
+    &= \Set{f: (\S^n, \ast) \to (X, x_0) \text{ stetig}} / \text{ Homotopie}.
+    &= [\S^n, \ast; X, x_0].
 \end{math}
 (für $n = 0, 1$ stimmt das überein mit den bisherigen Definitionen).
 
@@ -63,5 +67,322 @@ Beweise wie für $n = 1$.
                 \end{cases}
             \end{math}
     \end{itemize}
+\end{ex}
+
+\Timestamp{2015-12-18}
+
+% §3.1 Homotopiegruppe
+
+% §3.2 Relative Homotopiegruppe und lange exakte Homotopiesequenz
+
+% §3.3 Faserungen & Faserbündel und lange exakte Homotopiesequenz
+
+% §3.4 Einhängungssatz
+
+Operation von $\pi_1$ auf $\pi_n$ ($n \ge 1$).
+\begin{math}
+    \pi_1(X, x_0) \times \pi_n(X, x_0) & \to \pi_n(X, x_0) \\
+    ([\gamma], [\alpha]) & \mapsto [\gamma] \cdot [\alpha] := [\gamma \cdot \alpha]
+\end{math}
+(Skizze: Verkleinern von $\alpha$, Einspannen von $\gamma$, explizit mit „Karton“-Homöomorphismus).
+Formal: $I^n \homeomorphic \Boundary I^{n+1} \setminus (\Int I^n) \times \Set{1}$.
+Anschaulich: Verschiebung des „Ballons“ entlang $\gamma$.
+
+Allgemeiner: $\Pi(X, x_0, x_1) \times \pi_n(X,x_1) \to \pi_n(X, x_0)$.
+
+\begin{ex}
+    Was sind $\pi_1$ und $\pi_2$ für folgenden Raum?
+    $\S^1 \vee \S^2$ (Bouquet).
+    \begin{math}
+        \pi_1(X, x_0) & \isomorphic \Z \\
+        \pi_2(X, x_0) & \isomorphic \Z^n
+    \end{math}
+    Betrachte dazu die universelle Überlagerung $(\tilde X, \tilde x_0) \to (X, x)$.
+    \begin{math}
+        \pi_1(\tilde X, \tilde x_0) &= \Set{1} \\
+        \pi_2(\tilde X, \tilde x_0) &= \bigoplus_{i \in \Z} \Z = \Z^{(\Z)}.
+    \end{math}
+    Operation: $\pi_1(X, x_0) \times \pi_2(X, x_0) \to \pi_2(X, x_0)$ äquivalent zu $\Z \times \Z^{(\Z)} \to \Z^{(\Z)}$:
+    \begin{math}
+        k \cdot (a_i)_{i \in \Z} = (a_{i-k})_{i \in \Z}.
+    \end{math}
+\end{ex}
+
+\begin{note}
+    Für $n = 1$ erhalten wir die Konjugation:
+    \begin{math}
+        [\gamma] \cdot [\alpha] = \gamma \alpha \_\gamma.
+    \end{math}
+\end{note}
+
+\begin{df}
+    Ein Raum $(X, x_0)$ heißt \emphdef{abelsch}, wenn alle Operationen $\pi_1 \times \pi_n \to \pi_n$ trivial sind.
+\end{df}
+
+\begin{ex}
+    $\pi_1 = \Set{1}$, aber auch alle topologische Gruppen (Fundamentalgruppe abelsch).
+    \begin{proof}
+        Übung!
+    \end{proof}
+\end{ex}
+
+
+% §3.2
+\section{Relative Homotopiegruppen}
+
+\begin{df}
+    Sei $x_0 \in A \subset X$.
+    Wir definieren die relative Homotopiegruppe $\pi_n(X, A, x_0)$ wie folgt:
+
+    Wir identifizieren $\R^{n-1}$ mit $\R^{n-1} \times \Set{0}$ in $\R^n$.
+    Damit $\R^0 \subset \R^1 \subset \R^2 \subset \dotsb$.
+
+    Sei $I^n = [0,1]^n$ und $I^{n-1} = I^n \cap \R^{n-1}$ und $I^{n-1} = I^n \cap \R^{n-1}$.
+    Wir identifizieren also $I^{n-1}$ mit $I^{n-1} \times \Set{0}$.
+
+    Sei $J^{n-1} := \Boundary I^n \setminus \Int I^{n-1}$.
+    Setze
+    \begin{math}
+        \pi_n(X, A, x_0)
+        &= \Set{\alpha: (I^n, \Boundary I^n, J^{n-1}) \to (X, A, x_0)} / \text{Homotopie}.
+    \end{math}
+    Verknüpfung wie zuvor.
+
+    \begin{note}
+        \begin{itemize}
+            \item
+                $\pi_0(X, A, x_0)$ wird hier nicht definiert.
+            \item
+                Für $n = 1$ ist
+                \begin{math}
+                    \pi_1(X, A, x_0) = \Set{([0,1], \Set{0,1}, \Set{1}) \to (X, A, x_0)} / \text{Homotopie}.
+                \end{math}
+                als Menge definiert, trägt jedoch keine sinnvolle Verknüpfung und ist damit keine Gruppe
+            \item
+                Für $n \ge 2$ ist $\pi_n(X, A, x_0)$ eine Gruppe.
+            \item
+                Für $n \ge 3$ ist $\pi_n(X, A, x_0)$ abelsch.
+            \item
+                Es ist $(I^n, \Boundary I^n, J^{n-1}) // J^{n-1} \homeomorphic (\D^n, \S^{n-1}, \ast)$.
+                Bildlich: Skizze
+            \item
+                $\pi_n(X, x_ ) = \pi_n(X, \Set{x_0}, x_0)$.
+                Die absolute Homotopiegruppen sind Spezialfälle der relative Homotopiegruppen, mit etwas mehr Struktur.
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{lem}[Kompressionslemma]
+    Eine Abbildung $\alpha: (I^n, \Boundary I^n, J^{n-1}) \to (X, A, x_0)$ ist genau dann nullhomotop, also Null in $\pi_n(X, A, x_0)$, wenn $\alpha$ homotop ist relativ $\Boundary I^{n-1}$ (d.h. bleibt festgehalten bei der Homotopie) zu einer Abbildung $\alpha': (I^n, \Boundary I^n, J^{n-1}) \to (A, A, x_0)$. 
+    \begin{proof}
+        \begin{seg}{\ProofImplication*}
+            Die $n$-Schleife $\alpha'$ ist nullhomotop vermöge $H: I^n \times I \to A \subset X$ mit $H_s(t) = H(t,s)$,
+            \begin{math}
+                H(t_1, \dotsc, t_n, s) = \alpha'(t_1, \dotsc, t_{n-1}, 1 - s(1-t_n)).
+            \end{math}
+            Es gilt $H_0 = 1_{x_0}$, $H_1 = \alpha'$, sowie $H_s(\Boundary I^n) \subset A$, $H_s(J^{n-1}) = \Set{x_0}$.
+
+            Ist also $K: \alpha \sim \alpha'$ relativ $\Boundary I^{n-1}$, adnn folgt $K \ast H: \alpha \sim 1_{x_0}$ wie behauptet.
+        \end{seg}
+        \begin{seg}{\ProofImplication}
+            Sei $H: I^n \times I \to X$, $H_s(t) = H(t,s)$ mit $H_0 = \alpha$ nach $H_1 = 1_{x_0}$ mit $H_s(\Boundary I^n) \subset A$, $H_s(J^{n-1}) = \Set{x_0}$ für alle $s \in I = [0,1]$.
+
+            Wir suchen $K: I^n \times I \to X$ mit $K_0 = \alpha$ und $K_1 = \alpha'$, $\alpha'(I^n) \subset A$ und $K_s(t) = K_0(t)$ für alle $t \in \Boundary I^n$, $s \in I$.
+            Skizze!
+        \end{seg}
+    \end{proof}
+\end{lem}
+
+
+Sei $x_0 \subset A \subset X$.
+Die Inklusion $i: (A, x_0) \injto (X, x_0)$ und $j: (X, x_0) = (X, \Set{x_0}, x_0) \injto (X, A, x_0)$ induzieren $i_\#: \pi_n(A,x_0) \to \pi_n(X,x_0)$, $[\alpha] \mapsto [i \circ \alpha]$ und $j_\#: \pi_n(X, x_0) \to \pi_n(X, A, x_0)$, $[\beta] \mapsto [j \circ \beta]$.
+Zudem haben wir $\partial_\#: \pi_{n+1}(X, A, x_0) \to \pi_n(A, x_0)$ mit $\partial_\#[\alpha] = [\alpha|_{I^n}]$.
+Dies sind Gruppenhomomorphismen (für $n \ge 1$).
+
+\begin{st}
+    Die Sequenz
+    \begin{math}
+        \begin{tikzcd}
+            & \dotsc \ar[r,"i_\#"] & \pi_3(X, A, x_0) \ar[dll,"\partial_\#"] \\
+            \pi_2(A,x_0) \ar[r,"i_\#"] & \pi_2(X, x_0) \ar[r,"i_\#"] & \pi_2(X, A, x_0) \ar[dll,"\partial_\#"] \\
+            \pi_1(A,x_0) \ar[r,"i_\#"] & \pi_1(X, x_0) \ar[r,"i_\#"] & \pi_1(X, A, x_0) \ar[dll,"\partial_\#"] \\
+            \pi_0(A,x_0) \ar[r,"i_\#"] & \pi_0(X, x_0) \ar[r,"i_\#"] & \pi_0(X, A, x_0)
+        \end{tikzcd}
+    \end{math}
+    ist exakt, d.h. an jeder Stelle gilt „Bild = Kern“.
+    \begin{proof}
+        Zeige Exaktheit an jeder Stelle:
+        \paragraph{Exaktheit in $\pi_n(X,x_0)$}
+        \begin{itemize}
+            \item
+                $\im(i_\#) \subset \ker(j_\#)$, d.h. $j_\# \circ i_\# = 1$ ist klar (Homotopie wie in vorigem Lemma)
+            \item
+                $\ker(j_\#) \subset \im(i_\#)$:
+                Sei $\beta: (I^n, \Boundary I^n, J^{n-1}) \to (X, \Set{x_0}, x_0)$ mit $j_\#([\beta]) = 1$, d.h. als $n$-Schleife in $(X, A, x_0)$ ist $\beta$ nullhomotop.
+                Nach dem Kompressionslemma ist $\beta$ homotop relativ $\Boundary I^n$ zu $\beta': (I^n, \Boundary I^n) \to (A, x_0)$.
+                Damit gilt $[\beta] = i_\# [\beta']$.
+        \end{itemize}
+        \paragraph{Exaktheit in $\pi_n(A, x_0)$}
+        \begin{itemize}
+            \item
+                $\im \partial_\# \subset \ker i_\#$, d.h. $i_\# \circ \partial_\# = 1$:
+                Für $\alpha: (I^{n+1}, \Boundary I^{n+1}, J^n) \to (X, A, x_0)$ und $\beta = \alpha|_{I^n}$ gilt:
+                In $(X, x_0)$ ist $i \circ \beta$ nullhomotop vermöge $\alpha: i \circ \beta \sim 1_{x_0}$.
+            \item
+                $\ker(i_\#) \subset \ker \partial_\#$:
+                Genauso, umgekehrt.
+        \end{itemize}
+        \paragraph{Exaktheit in $\pi_n(X, A, x_0)$}
+        \begin{itemize}
+            \item
+                $\im j_\# \subset \ker \partial_\#$, d.h. $\partial_\# \circ i_\# = 1$:
+                Für $\beta: (I^n, \Boundary I^n, J^{n-1}) \to (X, \Set{x_0}, x_0)$ gilt $(j \circ \beta)|_{I^{n-1}} = 1_{x_0}$.
+            \item
+                $\ker \partial_\# \subset j_\#$.
+                Sei $\alpha: (I^n, \Boundary I^n, J^{n-1}) \to (X, A, x_0)$ mit $\Boundary_\#[\alpha] = 1$.
+                D.h. $H: \alpha|_{I^{n-1}} \sim 1_{x_0}$ in $(A, x_0)$.
+                Dank Kompressionslemma ist $\alpha$ homotop in $(X, A, x_0)$ zu $\alpha'(I^n, \Boundary I^n, J^{n-1}) \to (X, \Set{x_0}, x_0)$.
+                Damit ist $j_\#[\alpha'] = [\alpha]$.
+        \end{itemize}
+    \end{proof}
+    \begin{note}
+        Die Exaktheit gilt allgemeiner für $x_0 \in B \subset A \subset X$ und
+        \begin{math}
+            \begin{tikzcd}
+                \pi_n(A, B, x_0) \xto{i_\#} \pi_n(X, B, x_0) \xto{j_\#} \pi_n(X, A, x_0) \xto{\partial_\#} \pi_{n-1}(A, B, x_0).
+            \end{tikzcd}
+        \end{math}
+        Beweis genauso, genauer hinschauen.
+    \end{note}
+\end{st}
+
+% §3.3
+\section{Faserungen, Faserbündel und lange exakte Homotopiesequenzen}
+
+\begin{df}
+    Ein \emphdef{Bündel} $(E, p, B)$ ist eine stetige Surjektion $p: E \surto B$.
+    \begin{math}
+        \begin{tikzcd}
+            E = \bigcup_{x\in B} p^{-1}(x) \ar[d] \\
+            B
+        \end{tikzcd}.
+    \end{math}
+\end{df}
+
+Bündel über den Basisraum $B$ bilden eine Kategorie
+\begin{math}
+    \begin{tikzcd}
+        E \ar[rr,"f"] \ar[rd,"p"] && E' \ar[ld,"p'"] \\
+        & B
+    \end{tikzcd}
+    \begin{tikzcd}
+        E \ar[r,"f"] \ar[rd,"p"] & E' \ar[r,"g"] \ar[d,"p'"] & E'' \ar[ld,"p''"] \\
+        & B
+    \end{tikzcd}
+    \begin{tikzcd}
+        E \ar[rr,"\id_E"] \ar[dr,"p"] && E \ar[dl,"p"] \\ 
+        & B
+    \end{tikzcd}
+\end{math}
+
+\begin{df}
+    $(E, p, B)$ heißt \emphdef{trivial} mit Faser $F$, wenn es homöomorph ist zur Projektion des Produktbündels $B \times F \xto{q} B$, $q(x,y) = x$, d.h.
+    \begin{math}
+        \begin{tikzcd}
+            E \ar[rr,"h",shift left] \ar[dr,"p"] & & B \times F \ar[ll,"k",shift left] \ar[ld,"q"] \\
+            & B
+        \end{tikzcd}
+    \end{math}
+    Es existieren $(h,k): E \homeomorphic B \times F$ mit $q \circ h = p$, $p \circ k = q$.
+\end{df}
+
+\begin{ex}
+    Triviale und nicht-triviale Bündel im $\R^2$
+\end{ex}
+
+\begin{df}
+    Ein Bündel $p: E \to B$ heißt \emphdef{lokal trivial}, wenn jeder Punkt $b \in B$ eine offene Umgebung $U \subset B$ besitzt, sodass die Einschränkung $p \over U = p |_{p^{-1}(U)}^U : p^{-1}(U) \to U$ trivial ist.
+
+    Spezieller heißt $p$ \emphdef{Faserbündel} mit Faser $F$, wenn zu $b \in B$ eine Umgebung $U \subset B$ existiert, sodass $p \over U$ homöomorph ist zum Produktbündel $U \times F \to U$.
+\end{df}
+
+\begin{ex}
+    Ein Faserbündel mit diskreter Faser $F$ ist eine Überlagerung.
+    Jede Überlagerung mit konstanter Blätterzahl $|F|$ ist ein Faserbündel.
+\end{ex}
+
+\begin{ex}
+    Zylinder und Möbiusband über $\S^1$.
+\end{ex}
+
+\begin{ex}
+    Tangentialbündel $p: \operatorname{T} M \to M$.
+    Insbesondere $\operatorname{T} \S^n \to \S^n$.
+    Für $n = 2, 4, 6, \dotsc$ ist dies nicht-trivial.
+\end{ex}
+
+\begin{lem}
+    Seien $t_- < t_0 < t_+$ und $p: B = A \times [t_-, t_+]$, $B_- = A \times [t_-, t_0]$, $B_+ = A \times [t_0, t_+]$.
+    Also $B = B_- \cup B_+$ und $B_0 := B_- \cap B_+ = A \times \Set{t_0}$.
+    Sei $p: E \to B$ ein Bündel.
+    Die eingeschränkten Bündel $p_\pm: E_\pm \to B_\pm$ seien trivial.
+
+    Dann ist $p$ trivial.
+    \begin{proof}
+        \begin{math}
+            \begin{tikzcd}[column sep=small]
+                & E_- \ar[dd,"p_-"] && E_0 \ar[rr,inj] \ar[ll,inj] \ar[dd] && E_+ \ar[dd,"p_+"] & \\
+                B_- \times F \ar[ru,"\tau_-","\homeomorphic"'] \ar[rd,"q_-"'] && B_0 \times F \ar[ll,inj,crossing over] \ar[rr,shift left,"\sigma_+^{-1} \circ \sigma_-",crossing over] \ar[ru,"\sigma_-"] \ar[rd,"q_0"] && B_0 \times F \ar[ll,shift left,crossing over] \ar[rr,inj,crossing over] \ar[lu,"\sigma_+"'] \ar[ld,"q_0"] && B_+ \times F \ar[lu,"\tau_+"'] \ar[ld,"q_+"] \\
+                & B_- && B_0 \ar[rr,inj] \ar[ll,inj] && B_+ &
+            \end{tikzcd}
+%           \begin{tikzcd}
+%                &E_- && E_0 && E_+ \\
+%                B_- \times F \ar[ru,"\tau_-","\homeomorphic"'] \ar[rd,"q_-"] && B_0 \times F \ar[d,"p_-"] & & B_0 \times F \ar[d,"p_0"] & \ar[d,"p_+"] \\
+%                &B_- && B_0 && B_+
+%            \end{tikzcd}
+        \end{math}
+        Ersetze $\tau_+$ durch $\tau_+'(a,t,y) = \tau_+(a,t,\sigma(a,y))$ mit $\sigma_+^{-1} \circ \sigma_-: B_0 \times F \to B_0 \times F$, $(a,y) \mapsto (a, \sigma(a,y))$.
+        Verklebe $\tau_-$ und $\tau_+'$ zu einer Trivialisierung $\tau: B \times F \xto[homeomorphic] E$ mit $p \circ \tau = q$.
+    \end{proof}
+\end{lem}
+
+\begin{st}
+    Jedes lokal triviale Bündel $p: E \to B = [0,1]^n$ ist trivial.
+    \begin{proof}
+        Es existiert eine offene Überdeckung $B = \bigcup_{i \in I} U_i$ mit $p\over U_i$ trivial.
+        Unterteile $B = [0,1]^n$ in $k^n$ gleich große Würfel, sodass jeder in einem $U_i$ liegt (Kompaktheit, Lebesgue-Zahl).
+        Über jedem Würfel ist $p$ trivial.
+        Wiederholte Anwendung des Lemmas liefert denn Satz.
+    \end{proof}
+\end{st}
+
+\subsection{Zurückziehen von Bündeln}
+
+\begin{math}
+    \begin{tikzcd}
+        E' \ar[d,"p'"] \ar[r,"f"] & E \ar[d,"p"] \\
+        B' \ar[r,"g"] & B
+    \end{tikzcd}
+\end{math}
+
+\begin{df}
+    Sei $p: E \to B$ ein Bündel und $g: B' \to B$ stetig.
+    Setze
+    \begin{math}
+        E' := \Set{(b', e) \in B' \times E & g(b') = p(e)}
+    \end{math}
+    und $p': E' \to B'$, $p'(b', e') = b'$, sowie $f: E' \to E$, $f(b', e) = e$.
+    Schreibweise: $p' = g^*(p)$.
+\end{df}
+
+\begin{ex}
+    Spezialfall $B' = [0,1]^n$:
+    \begin{math}
+        \begin{tikzcd}~
+            [0,1]^n \times F & E' \ar[r,"f"] \ar[d,"p'"] & E \ar[d,"p"] \\
+            &~[0,1]^n \ar[r,"g"] \ar[ru,"\exists \tilde g",dashed] & B
+        \end{tikzcd}
+    \end{math}
+    Es existiert mindestens eine Hochhebung $\tilde g$.
 \end{ex}
 
