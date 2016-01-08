@@ -113,7 +113,7 @@ Dies führt auf den Begriff des Vektorbündels.
     \end{note}
 \end{df}
 
-\begin{ex}
+\begin{ex*}
     Vektorraum-Bündel
     \begin{enumerate}[(i)]
         \item
@@ -123,7 +123,7 @@ Dies führt auf den Begriff des Vektorbündels.
         \item
             Möbiusband $\Set{(e^{it}, s e^{i\frac{t}{2}}) & t,s \in \R} \subset \C^2$.
     \end{enumerate}
-\end{ex}
+\end{ex*}
 
 \Timestamp{2015-12-15}
 
@@ -232,7 +232,7 @@ Idee: Ersetze bilineare Abbildung durch eine lineare: ist z.B. $\beta: V \times 
     Für alle bilinearen Abbildungen $\sigma: V \times W \to Z$ gibt es genau eine lineare Abbildung $f_\sigma: V \otimes W \to Z$, so dass das folgende Diagramm kommutiert:
     \begin{math}
         \begin{tikzcd}
-            V \times W \ar[r,"\kappa"] \ar[rd,"\sigma"] & V \otimes W \ar[d,"\exists! f_\sigma",dashed] \\
+            V \times W \ar[r,"\kappa"] \ar[rd,"\sigma"'] & V \otimes W \ar[d,"\exists! f_\sigma",dashed] \\
             & Z
         \end{tikzcd}
     \end{math}
@@ -327,8 +327,8 @@ Idee: Ersetze bilineare Abbildung durch eine lineare: ist z.B. $\beta: V \times 
     \end{proof}
 \end{lem}
 
-Anwendung: Damit lässt sich jede verschachtelte Kombination von $\Bil, \End, \Hom, \otimes, \argdot^*$.
-Endlichdimensionale Vektorräume $V_1, \dotsc, V_m$ als Tensorprodukt mit den Faktoren $V_1, \dotsc, V_m, V_1^*, \dotsc V_m^*$ schreiben, z.B. gilt
+Anwendung: Damit lässt sich jede verschachtelte Kombination von $\Bil, \End, \Hom, \otimes, \argdot^*$,
+endlichdimensionaler Vektorräume $V_1, \dotsc, V_m$ als Tensorprodukt mit den Faktoren $V_1, \dotsc, V_m, V_1^*, \dotsc V_m^*$ schreiben, z.B. gilt
 \begin{math}
     \Hom(V, V') \otimes \Hom(W, W')
     &\isomorphic V^* \otimes V' \otimes W^* \otimes W' \\
@@ -356,16 +356,103 @@ oder
     \begin{math}
         {V^*}^{\otimes q} := \underbrace{V^* \otimes V^* \otimes \dotsb \otimes V^*}_{\text{$q$-mal}}.
     \end{math}
-    Die \emphdef{Tensoralgebra} auf $V$ ist $\bigotimes V^* = \bigoplus_{q \ge 0} {V^*}^{\otimes q}$.
+    Die \emphdef{Tensoralgebra} auf $V$ ist $\bigotimes V^* = \bigoplus_{q \ge 0} {V^*}^{\otimes q}$ mit Operationen $(\oplus, \otimes)$.
 \end{df}
 
+\Timestamp{2015-12-22}
+
+Analog wie in \ref{5.9} definiert man $E \otimes F$ für zwei Vektorbündel $E, F$ über $M$.
+
+\begin{df} \label{5.14}
+    Das Vektorbündel $\T^* M := (\T M)^*$ heißt \emphdef{Kotangentialbündel} von $M$.
+    Setze
+    \begin{math}
+        \T^p_q M := {\T M}^{\otimes p} \otimes (\T M^*)^{\otimes q}.
+    \end{math}
+    Die \emph{Schnitte} von $\T^p_q M$ heißen \emphdef{$(p,q)$-Tensoren}, oder \emphdef[Tensor!kovariant]{$p$-fach kovariante} und \emphdef[Tensor!kontravariant]{$q$-fach kontravariante} Tensoren.
+\end{df}
+
+\begin{ex*}
+    Sei $M$ eine reguläre Fläche im $\R^3$ (d.h. 2-dimensionale Untermannigfaltigkeit des $\R^3$).
+    \begin{enumerate}[(i)]
+        \item
+            Die erste, bzw. zweite Fundamentalform sind Schnitte in $(\T M^*)^{\otimes 2}$, d.h. (0,2)-Tensoren.
+        \item
+            Die Weingartenabbildung (Endomorphismus des Tangentialraumes an jedem Punkt) ist ein (1,1)-Tensor, d.h. ein Element in $\Gamma(M, T_1^1 M$, oder ein Schnitt in $\T^* M \otimes \T M$.
+        \item
+            Der Riemannsche Krümmungstensor $R_{xy} Z$ ist ein Schnitt in $(\T^* M)^{\otimes 3} \otimes \T M$, d.h. ein (1,3)-Tensor.
+        \item
+            Auf jeder Mannigfaltigkeiten sind die Funktionen (reellwertig) $(0,0)$-Tensoren, d.h. $C^\infty(M) = \Gamma(M, \T_0^0 M)$
+    \end{enumerate}
+\end{ex*}
 
 
+\subsection{Operationen auf Tensoren}
+
+Zwei wichtige Operationen mit Tensoren: Einsetzen und Spurbildung.
+
+\begin{df} \label{5.15}
+    Sei $w \in \Gamma(M, \T^p_{q+1} M)$, d.h. ein $p$-fach kovarianter und $(q+1)$-fach kontravarianter Tensor auf $M$ und sei $X \in \scr X(M) = \Gamma(M, \T M)$ ein Vektorfeld.
+    Der $(p,q)$-Tensor $\iota_X \omega$ ensteht durch Einsetzen von $X$  in das erste Argument von $\omega$, genauer: $\iota_X \omega \in \Gamma(M, \T_0^p M)$ mit
+    \begin{math}
+        (\iota_X \omega)(Y_1, \dotsc, Y_q) = \omega(X, Y_1, \dotsc, Y_q).
+    \end{math}
+    Man setzt außerdem $\iota_X \omega = 0$, falls $\omega \in \Gamma(M, \T_0^p M)$.
+\end{df}
+
+\begin{ex*}
+    Sei $g(\argdot, \argdot)$ die erste Fundamentalform auf einer regulären Fläche im $\R^3$ und seien $X, Y$ zwei Vektorfelder auf der Fläche.
+    Dann ist $\iota_Y(\iota_X(g)) = g(X,Y)$ eine Funktion auf $M$.
+\end{ex*}
+
+\begin{df} \label{5.16}
+    Sei $1 \le j \le p$ und $1 \le k \le q$.
+    Wir definieren die \emphdef{Verjüngung}, \emphdef{Kontraktion}, \emphdef{Spurbildung} von $(p,q)$-Tensoren als
+    \begin{math}
+        &\Tr_{jk}(X_1 \otimes \dotsb \otimes X_p \otimes \alpha_1 \otimes \dotsb \otimes \alpha_q) \\
+        &\quad:= \alpha_k(X_j) \otimes X_1 \dotsb \otimes \hat{X_j} \otimes \dotsb \otimes X_p \otimes \alpha_1 \otimes \dotsb \otimes \hat{\alpha_k} \otimes \dotsb \otimes \alpha_q.
+    \end{math}
+    Es gilt $\Tr_{jk}: \Gamma(M, \T_q^p M) \to \Gamma(M, \T_{q-1}^{p-1} M)$.
+\end{df}
+
+\begin{note}
+    Zum Tensorprodukt von Vektorbündeln:
+    Seien $E \to M$, $F \to M$ zwei Vektorbündel über $M$.
+    Dann kann man das Tensorprodukt $E \otimes F$ auch faserweise verstehen, d.h.
+    \begin{math}
+        E_p \otimes F_p := (E \otimes F)_p
+    \end{math}
+    und die Abbildung $\kappa$ (aus der Definition des Tensorprodukts) ist faserweise definiert, d.h. es gibt eine bilineare Abbildung $E_p \times F_p \to (E \otimes F)_p$, $(v,w) \mapsto v \otimes w$, die punktweise angewendet, eine bilineare Abbildung $\Gamma(M,E) \times \Gamma(M,F) \to \Gamma(M, E \otimes F)$ definiert.
+\end{note}
+
+\begin{ex*}
+    Beispiele für Spurbildung:
+    \begin{enumerate}[(i)]
+        \item
+            Einsetzen ist ein Spezialfall von Spurbildung:
+            \begin{math}
+                \iota_X \omega = \Tr_{11}(X \otimes \omega).
+            \end{math}
+        \item
+            Sei $L$ die Weingartenabbildung einer regulären Fläche im $\R^3$.
+            Dann ist $L \in \Gamma(\T^* M \otimes \T M)$ und $\Tr_{11}$ ist die Spur, d.h. das doppelte der mittleren Krümmung.
+    \end{enumerate}
+\end{ex*}
 
 
-
-
-
+\begin{df} \label{5.17}
+    Sei $f: M \to N$ eine glatte Abbildung und sei $\omega$ ein $q$-fach kontravarianter Tensor auf $N$, d.h. $\omega \in \Gamma(N, \T_q^0 N)$.
+    Der \emphdef{Pullback} $f^* \omega \in \Gamma(M, T_q^0 M)$. ist (punktweise) definiert durch
+    \begin{math}
+        (f^* \omega)(X_1, \dotsc, X_q)(p)
+        = \omega(x)(\T_p f(X_1(p)), \dotsc, \T f(X_q(p)))
+    \end{math}
+    für alle $x \in M$.
+    \begin{note}
+        Der Pullback von $q$-Multilineareformen ist eine äußerst wichtige Operation.
+        Man beachte, dass $f$ kein Diffeomorphismus sein muss, im Unterschied zum Pushforward von Vektorfeldern.
+    \end{note}
+\end{df}
 
 
 
