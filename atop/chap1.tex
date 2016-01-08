@@ -5,19 +5,20 @@
 
 
 \begin{df}
-    Sei $X$ ein topologischer Raum, $x_0 \in X$ ein Punkt.
+    Sei $X$ ein topologischer Raum und $x_0 \in X$.
+    Definiere
     \begin{math}
-        P(X) &= \scr C([0,1], X), \\
-        P(X, a, b) &= \Set{\gamma \in P(X) & \gamma(0) = a, \gamma(1) = b}.
+        P(X) &:= \scr C([0,1], X), \\
+        P(X, a, b) &:= \Set{\gamma \in P(X) & \gamma(0) = a, \gamma(1) = b}.
     \end{math}
     Spezielle Wege, bzw Wegoperationen:
     \begin{itemize}
         \item
-            $1_a \in P(X, a, a)$, $1_a(t) := a$ für $0 \le t \le 1$,
+            Konstanter Weg $1_a = a \in P(X, a, a)$, $1_a(t) := a$ für $0 \le t \le 1$,
         \item
-            $\_\argdot: P(X, a, b) \to P(X, b, a)$, $\gamma \mapsto \_\gamma$, $\_\gamma(t) := \gamma(1-t)$,
+            Umgekehrung $\_\argdot: P(X, a, b) \to P(X, b, a)$, $\gamma \mapsto \_\gamma$, $\_\gamma(t) := \gamma(1-t)$,
         \item
-            $\ast: P(X, a,b) \times P(X, b,c) \to P(X,a,c)$,
+            Konkatenation $\ast: P(X, a,b) \times P(X, b,c) \to P(X,a,c)$ mit
             \begin{math}
                 (\gamma_1 \ast \gamma_2)(t) := \begin{cases}
                     \gamma_1(2t) & \text{für $0 \le t \le \frac{1}{2}$} \\
@@ -25,7 +26,7 @@
                 \end{cases}
             \end{math}
     \end{itemize}
-    Zwei Wege $\alpha, \alpha' \in P(X,a,b)$ heißen \emphdef{äquivalent}, genauer \emphdef{homotop bei festen Endpunkten}, wenn eine stetige Abbildung $H: [0,1] \times [0,1] \to X$ existiert mit $H(0, t) = \alpha(t)$, $H(1, t) = \alpha'(t)$, sowie $H(s, 0) = a$, $H(s, 1) = b$ für alle $s,t \in [0,1]$.
+    Zwei Wege $\alpha, \alpha' \in P(X,a,b)$ heißen \emphdef{äquivalent}, genauer \emphdef{homotop bei festen Endpunkten}, wenn eine stetige Abbildung $H: [0,1] \times [0,1] \to X$, $H_s(t) := H(s,t)$ existiert mit $H_0 := \alpha$, $H_1 = \alpha'$, sowie $H_s(0) = a$, $H_s(1) = b$ für alle $s,t \in [0,1]$.
     Wir schreiben dann $H: \alpha \sim \alpha'$ oder kurz $\alpha \sim \alpha'$.
 \end{df}
 
@@ -36,7 +37,7 @@
         \item
             Aus $\alpha \sim \beta$ folgt $\_\alpha \sim \_\beta$.
         \item
-            Aus $\alpha \sim \alpha'$ und $\beta \sim \beta'$ folgt $\alpha \ast \beta \sim \alpha' \sim \beta'$.
+            Aus $\alpha \sim \alpha'$ und $\beta \sim \beta'$ folgt $\alpha \ast \beta \sim \alpha' \ast \beta'$.
     \end{itemize}
 \end{prop}
 
@@ -67,7 +68,7 @@ Wir erhalten wohldefinierte Abbildungen auf $\Pi(X, a, b) := P(X, a, b) / \sim$ 
             \end{math}
             also
             \begin{math}
-                [1_a] \sim [\alpha] = [\alpha] = [\alpha] \ast [1_b].
+                [1_a] \ast [\alpha] = [\alpha] = [\alpha] \ast [1_b].
             \end{math}
         \item
             Inversion: Für $\alpha: a \to b$ und $\_\alpha: b \to a$ gilt
@@ -100,16 +101,18 @@ Wir erhalten wohldefinierte Abbildungen auf $\Pi(X, a, b) := P(X, a, b) / \sim$ 
     \end{math}
 \end{st}
 
+\subsection{Vom Fundamentalgruppoid zur Fundamentalgruppe}
+
 \begin{df}
-    Vom Fundamentalgruppoid zur Fundamentalgruppe, definiere
+    Definiere
     \begin{math}
         \pi_1(X, x_0) := \Pi(X, x_0, x_0)
         = \frac{\Set{\text{Schleifen $\alpha: ([0,1], \Set{0,1}) \to (X,x_0)$}}}{\text{Homotopie relativ $\Set{0,1}$}}.
     \end{math}
-    Dies ist eine Gruppe (Übung) mit der Verknüpfung $[\alpha] \ast [\beta] = [\alpha \ast \beta]$.
+    Dies bildet mit der Verknüpfung $[\alpha] \ast [\beta] = [\alpha \ast \beta]$ eine Gruppe (leichte Übung).
 
-    Jede stetige Abbildung $f: (X, x_0) \to (Y, y_0)$ induziert einen Gruppenhomomorphismus $f_\# = \pi_1(f): \pi_1(X, x_0) \to \pi_1(Y, y_0)$ mit $[\alpha] \mapsto f_\#([\alpha]) = [f \circ \alpha]$.
-    Wir erhalten einen Funktor
+    Jede stetige Abbildung $f: (X, x_0) \to (Y, y_0)$ induziert einen Gruppenhomomorphismus $f_\# = \pi_1(f): \pi_1(X, x_0) \to \pi_1(Y, y_0)$ mit $[\alpha] \mapsto f_\#([\alpha]) := [f \circ \alpha]$.
+    Wir erhalten so einen Funktor
     \begin{math}
         \pi_1: \Cat{Top}_* &\to \Cat{Grp} \\
         (X, x_0) &\mapsto \pi_1(X, x_0) \\
@@ -164,11 +167,11 @@ Sei $X \subset \R^n$ und $x_0 \in X$. Wir definieren die polygonale Fundamentalg
         Homomorphismus.
         Surjektivität: Konstruktion.
         Injektivität: Umlaufzahl $0$ betrachten: neg/pos Übergänge eliminieren (Punkte sternförmig um $x_0$).
+        Kurz:
+        \begin{math}
+            \deg: \pi_1(X, x_0) \isomorphic \pi_1^{\text{pl}}(X, x_0) \xto{\isomorphic} \Z.
+        \end{math}
     \end{proof}
-    Kurz:
-    \begin{math}
-        \deg: \pi_1(X, x_0) \isomorphic \pi_1^{\text{pl}}(X, x_0) \isomorphic \Z.
-    \end{math}
 \end{ex}
 
 \begin{ex}
@@ -184,31 +187,32 @@ Sei $X \subset \R^n$ und $x_0 \in X$. Wir definieren die polygonale Fundamentalg
         Injektivität: Betrachte Wege, die auf $1$ abgebildet werden, Induktion über Wortlänge durch Kürzen.
     \end{proof}
     \begin{note}
-        Die Gruppe ist für $n \ge 2$ nicht kommutativ!
+        Die Gruppe ist für $n \ge 2$ nicht abelsch!
     \end{note}
 \end{ex}
 
 
 \section{Präsentation von Gruppen durch Erzeuger und Relationen}
 
+\subsection{Präsentation von Monoiden}
 
 Kurzfassung: Sei $A$ eine Menge. $A^* := \bigcup_{n \in \N} A^n$ ist die Menge aller Wörter über dem Alphabet $A$.
 Für $n = 0$ ist $e = ()$ das leere Wort.
-Für $n = 1$ identifizieren wir $(a) \in A^*$ mit $a \in A$.
+Für $n = 1$ identifizieren wir das Wort $(a) \in A^*$ mit $a \in A$.
 
 Die Verkettung $\circ: A^* \times A^*$ ist gegeben durch die Konkatenation der Wörter
 \begin{math}
-    (a_1, \dotsc, a_n)(a_1', \dotsc, a_m') := (a_1, \dotsc, a_m, a_1', \dotsc, a_n').
+    (a_1, \dotsc, a_n)(a_1', \dotsc, a_m') := (a_1, \dotsc, a_n, a_1', \dotsc, a_m').
 \end{math}
-Damit ist $(A^*, \circ, e)$ ein Monoid, genannt das \emphdef[freies Monoid]{freie Monoid} über $A$.
+Damit ist $(A^*, \circ, e)$ ein Monoid (Assoziativität + Einselement), genannt das \emphdef[freies Monoid]{freie Monoid} über $A$.
 
 Wir wollen Relationen der Form $w_1 = w_2$ einführen.
 Hierzu sei $K \subset A^* \times A^*$.
 Auf $A^*$ sei $\equiv$ die Äquivalenzrelation, die erzeugt wird durch die elementaren Umformungen
 \begin{math}
-    u \circ w_1 \circ v \equiv u \circ w_2 \circ v, && \text{für $(w_1, w_2) \in K$},
+    u \circ w_1 \circ v \equiv u \circ w_2 \circ v, && \text{für $(w_1, w_2) \in K$, $u,v \in A^*$},
 \end{math}
-Diese Kongruenz ist verträglich mit $\circ$, d.h. $u \equiv u'$ und $v \equiv v'$, dann ist $u \circ v \equiv u' \circ v'$.
+Diese Kongruenz ist verträglich mit $\circ$, d.h. falls $u \equiv u'$ und $v \equiv v'$, dann ist $u \circ v \equiv u' \circ v'$.
 
 Auf $Q := A^* / K := A^* / \equiv$ erhalten wir $\argdot: Q \times Q \to Q$, $[u] \cdot [v] := [u \circ v]$.
 Damit ist auch $(Q, \cdot, [e])$ ein Monoid.
@@ -224,17 +228,20 @@ Damit ist auch $(Q, \cdot, [e])$ ein Monoid.
 \begin{ex}
     \begin{itemize}
         \item
+            Die natürlichen Zahlen
             \begin{math}
                 (N = \GenMonoid{a & -}, \cdot) &\xto[homeomorphic] (\N, +) \\
                 a^n &\mapsto n \\
                 a^n &\mapsfrom n
             \end{math}
         \item
+            Wörter über dem Alphabet $\Set{ab}$
             \begin{math}
                 \GenMonoid{a,b & -}
                 = \Set{e, a, b, aa, ab, ba, bb, \dotsc}
             \end{math}
         \item
+            Zyklische Gruppe als präsentiertes Monoid
             \begin{math}
                 C = \GenMonoid{s^+, s^- & s^+s^- = e, s^-s^+ = e},
             \end{math}
@@ -249,33 +256,41 @@ Damit ist auch $(Q, \cdot, [e])$ ein Monoid.
                     (s^-)^{-k} & \text{für $k < 0$}.
                 \end{cases}
             \end{math}
-            Dies ist ein Gruppenhomomorphismus, surjektiv (auf Wortklasssen).
+            Dies ist ein Gruppenhomomorphismus, surjektiv (auf Wortklasssen durch Kürzen).
             Inverse:
             \begin{math}
                 \psi: (C, \cdot) &\to (\Z, +), \\
                 s^{\eps_1} s^{\eps_2} \dotsb s^{\eps_l} &\mapsto \eps_1 + \dotsb + \eps_l.
             \end{math}
-            Dies ist wohldefiniert, Gruppenhomomorphismus, surjektiv.
+            Prüfe: wohldefiniert, Gruppenhomomorphismus, surjektiv.
             Es gilt $\psi \circ \phi: \id_\Z$, aber auch $\phi \circ \psi = \id_C$.
         \item
             $C_n := C_{n, 0} := \GenMonoid{a & a^n = 1}$ (Skizze: Kreis).
             Es gilt $(C_n, \cdot) \isomorphic (\Z / n, +)$.
         \item
-            $C_{n,m} := \GenMonoid{a & a^n = a^m}$ für $0 \le m < n$ (Skizze: Anfang + Schleife).
+            $C_{n,m} := \GenMonoid{a & a^n = a^m}$ für $0 \le m < n$ (Skizze: Linie + Schleife).
     \end{itemize}
 \end{ex}
 
-Speziell für Gruppen:
-Zur Menge $S$ wählen wir das Alphabet
-\begin{math}
-    A = S \times \Set{\pm} = \Set{s^+, s^- & s \in S}
-\end{math}
-Zu $R \subset A^*$ setzen wir $K = \Set{ r = 1 & r \in R} \cup \Set{s^+s^- = 1, s^-s^+ = 1 & s \in S}$.
-Formal:
-\begin{math}
-    K = \Set{(r, e) & r \in R} \cup \Set{(s^+s^-, e), (s^-s^+, e) & s \in S}.
-\end{math}
-Die durch $(S, R)$ \emphdef{präsentierte Gruppe} ist $\Gen{S & R} := \GenMonoid{A & K} = A^* / K$.
+\subsection{Präsentation von Gruppen}
+
+\begin{df}
+    Sei $S$ eine Menge von \emphdef{Erzeugern}.
+    Zu $S$ wählen wir das Alphabet
+    \begin{math}
+        A := S \times \Set{\pm} = \Set{s^+, s^- & s \in S}
+    \end{math}
+    Sei $R \subset A^*$ eine Menge von \emphdef{Relationen}.
+    Wir setzen
+    \begin{math}
+        K := \Set{ r = 1 & r \in R} \cup \Set{s^+s^- = 1, s^-s^+ = 1 & s \in S},
+    \end{math}
+    oder formal präziser:
+    \begin{math}
+        K := \Set{(r, e) & r \in R} \cup \Set{(s^+s^-, e), (s^-s^+, e) & s \in S}.
+    \end{math}
+    Die durch $(S, R)$ \emphdef{präsentierte Gruppe} ist nun $\Gen{S & R} := \GenMonoid{A & K} = A^* / K$.
+\end{df}
 
 \begin{nt}
     In jeder Gruppe lässt sich $a = b$ umformen als $ab^{-1} = 1$.
@@ -286,15 +301,13 @@ Die durch $(S, R)$ \emphdef{präsentierte Gruppe} ist $\Gen{S & R} := \GenMonoid
         \item
             $\Gen{s & -} := \GenMonoid{s^+ s^- & s^+s^- = 1, s^-s^+ = 1} \isomorphic (\Z, +)$,
         \item
-            $\Gen{s & s^n} = \Gen{s & s^n = 1} = \GenMonoid{s^+, s^- & (s^+)^n, s^+s^- = 1, s^-s^+ = 1} \isomorphic (\Z / n, +)$,
+            $\Gen{s & s^n} = \Gen{s & s^n = 1} \\ = \GenMonoid{s^+, s^- & (s^+)^n = 1, s^+s^- = 1, s^-s^+ = 1} \isomorphic (\Z / n, +)$,
         \item
             $\Gen{a,b & ab = ba} = \Gen{a,b & aba^{-1}b^{-1}} \isomorphic (\Z^2, +)$
+            (Skizze: zugehöriger Cayley-Graph: $\Z^2$-Gitter, Kanten repräsentieren Erzeuger)
         \item
-            $\Gen{a,b & -} = \Set{e, a, a^{-1}, b, b^{-1}, a^2, a^{-2}, ab, ab^{-1}, a^{-1}b^{-1}, b^2, b^{-2}, ba, ba^{-1}, b^{-1}a, b^{-1}a^{-1}}$
-
-            Skizze: Baum in der Ebene, $a$ nach rechts, $b$ nach oben.
-
-            Im Kontrast dazu $\Z^2 = \Gen{a,b & ab = ba}$: Cayley-Graph.
+            $\Gen{a,b & -} \\ = \Set{e, a, a^{-1}, b, b^{-1}, a^2, a^{-2}, ab, ab^{-1}, a^{-1}b^{-1}, b^2, b^{-2}, ba, ba^{-1}, b^{-1}a, b^{-1}a^{-1}, \dotsc}$
+            (Skizze: zugehöriger Cayley-Graph: Baum in der Ebene, $a$ nach rechts, $b$ nach oben)
     \end{itemize}
 \end{ex}
 
@@ -305,9 +318,9 @@ Die durch $(S, R)$ \emphdef{präsentierte Gruppe} ist $\Gen{S & R} := \GenMonoid
 \section{Simplizialkomplexe}
 
 
-Kombinatorische Kodierung eines Simplizialkomplexes:
+Kombinatorische Kodierung eines Simplizialkomplexes, z.B.
 \begin{math}
-    \Set{\emptyset, \Set{a}, \dotsc, \Set{f}, \Set{a,b}, \dotsc, \Set{g,f}, \Set{c,e,f}, \dotsc, \Set{c,g,f}, \Set{c,e,f,g}}.
+    \Set{\emptyset, \Set{a}, \dotsc, \Set{g}, \Set{a,b}, \dotsc, \Set{f,g}, \Set{c,e,f}, \dotsc, \Set{c,f,g}, \Set{e,f,g}, \Set{c,e,f,g}}.
 \end{math}
 
 \begin{df}
@@ -352,7 +365,7 @@ Kombinatorische Kodierung eines Simplizialkomplexes:
             x = \sum_{s \in \Omega} x(s) e_s
             = \sum_{s \in \Omega} x(s) s.
         \end{math}
-        Man nennt $\R^{(\Omega)}$ den Vektorraum „frei über $\Omega$“.
+        Man nennt $\R^{(\Omega)}$ den \emphdef{freier Vektorraum} über $\Omega$“.
     \end{note}
 \end{df}
 
@@ -360,7 +373,7 @@ Kombinatorische Kodierung eines Simplizialkomplexes:
     Sei $f: K \to V$ eine Darstellung.
     $[f(S)]$ ist ein affiner Simplex in $V$ mit $\dim [f(S)] = \dim S$.
     $\Set{[f(S)] & S \in K}$ ist ein \emphdef{affiner Simplizialkomplex} in $V$, d.h.
-    ein System affiner Simplizies, sodass sich je zwei höchstens in einer gemeinsamen Seite schneiden.
+    ein System affiner Simplizes, sodass sich je zwei höchstens in einer gemeinsamen Seite schneiden.
 
     Das Polyeder
     \begin{math}
@@ -374,7 +387,7 @@ Kombinatorische Kodierung eines Simplizialkomplexes:
         Für $\Omega$ unendlich ist die simpliziale Topologie wesentlich.
         Betrachte (Skizze: diskrete Variante der Sinuskurve des Topologen)
         \begin{math}
-            \Omega &:= \Set{a,b} \cup \N,
+            \Omega &:= \Set{a,b} \cup \N, \\
             K &:= \Set{\emptyset} \cup \binom{\Omega}{1} \Set{\Set{k, k+1} & k \in \N}
         \end{math}
         mit Darstellung $f: K \to \R^2$, $a \mapsto (0,1)$, $b \mapsto (0,-1)$,
@@ -398,10 +411,13 @@ Kombinatorische Kodierung eines Simplizialkomplexes:
             Zwei Kantenzüge $w = v_0 \dotsc v_n$ und $w' = v_0' \dotsc v_m'$ heißen \emphdef{verknüpfbar}, wenn $v_n = v_0'$.
             In diesem Fall ist $w \ast w' := v_0 \dotsc v_n v_1' \dotsc v_m'$ die \emphdef{Verknüpfung} beider Kantenzüge.
         \item
-            Zwei Kantenzüge $w = v_0 \dotsc v_{k-1} v_k v_{k+1} \dotsc v_n$ und $w' = v_0 \dotsc v_{k-1} v_{k+1} \dotsc v_n$ heißen äquivelent, geschrieben $w \approx w'$, falls $\Set{v_{k-1}, v_k, v_{k+1}} \in K$.
+            Zwei Kantenzüge $w = v_0 \dotsc v_{k-1} v_k v_{k+1} \dotsc v_n$ und $w' = v_0 \dotsc v_{k-1} v_{k+1} \dotsc v_n$ heißen äquivalent, geschrieben $w \approx w'$, falls $\Set{v_{k-1}, v_k, v_{k+1}} \in K$.
         \item
             Zu $w = v_0 v_1 \dotsc v_n$ setze $\_w := v_n \dotsc v_1 v_0$.
-            Es gilt $w \ast \_w = v_0 v_1 \dotsc v_{n-1} v_n v_{n-1} \dotsc v_1 v_0 \approx v_0$.
+            Es gilt
+            \begin{math}
+                w \ast \_w = v_0 v_1 \dotsc v_{n-1} v_n v_{n-1} \dotsc v_1 v_0 \approx v_0.
+            \end{math}
         \item
             Simpliziales Fundamentalgruppoid:
             \begin{math}
@@ -410,17 +426,17 @@ Kombinatorische Kodierung eines Simplizialkomplexes:
         \item
             Simpliziale Fundamentalgruppe:
             \begin{math}
-                \pi_1(K, x_0) := \Pi(K, x_0, x_0) = \frac{\Set{\text{Kantenzüge in $K$}}}{\approx}
+                \pi_1(K, x_0) := \Pi(K, x_0, x_0) = \frac{\Set{\text{in $x_0$ geschlossene Kantenzüge}}}{\approx}
             \end{math}
             Wir erhalten einen Gruppenisomorphismus
             \begin{math}
-                \phi: \pi_1(K, x_0) &\xto[isomorphic] \pi_1(|K|, x_0)
+                \phi: \pi_1(K, x_0) &\xto[isomorphic] \pi_1(|K|, x_0) \\
                 [w] &\mapsto [|w|].
             \end{math}
             \begin{proof}[Beweisidee]
                 Prüfe: Wohldefiniertheit (Verträglichkeit der Äquivalenzen),
                 Surjektivität: simpliziale Approximation von $\gamma:[0,1] \to (K, x_0)$,
-                Injektivität: simpliziale Approximation von $H: [0,1]^2 \to (K, x_0)$.
+                Injektivität: simpliziale Approximation von $H: [0,1]^2 \to (|K|, x_0)$.
             \end{proof}
     \end{itemize}
 \end{df}
@@ -505,17 +521,17 @@ Kombinatorische Kodierung eines Simplizialkomplexes:
         R &= \Set{s_{ab} & \Set{a,b} \in T} \cup \Set{s_{ab} s_{ba} & \Set{a,b} \in K}
         \cup \Set{s_{ab} s_{bc} s_{ca} & \Set{a,b,c} \in K }
     \end{math}
-    Genauer: existieren zueinander inverse Gruppenisomorphismen
+    Genauer: Es existieren zueinander inverse Gruppenisomorphismen
     \begin{math}
         \psi&:& \pi_1(K, x_0) &\to G, &
         [v_0 \dotsc v_n] &\mapsto s_{v_0v_1} \dotsb s_{v_{n-1} v_n}, \\
         \phi&:& G &\to \pi_1(K,x_0), &
-        s_{ab} &\mapsto [x_0 \dotsc a \ast ab \ast b \dotsc x_0].
+        s_{ab} &\mapsto [\underbrace{x_0 \dotsc a}_{\text{in $T$}} \ast ab \ast \underbrace{b \dotsc x_0}_{\text{in $T$}}].
     \end{math}
     \begin{proof}
         Durch Nachrechnen: $\psi$ wohldefiniert, $\phi$ wohldefiniert.
-        Es gilt $\psi \circ \phi = \id_G$, denn $\psi(\phi(s_{ab})) = s_{ab}$.
-        Ebenso $\phi \circ \psi = \id_{\pi_1}$ (nach Kürzen der antisymmetrischen Wege in $T$).
+        Es gilt $\psi \circ \phi = \id_G$ nach Kürzen der Wege in $T$.
+        Ebenso $\phi \circ \psi = \id_{\pi_1}$ (nach Kürzen der jeweils entstehenden antisymmetrischen Wege in $T$).
     \end{proof}
 \end{st}
 
@@ -625,7 +641,7 @@ Sei $X$ ein topologischer Raum und $\scr U = (U_s)_{s \in \Omega}$ eine offene �
 
 Der \emphdef{Wegnerv} von $\scr U$ ist definiert durch
 \begin{math}
-    N^\circ(\scr U) = \Set{(S, C) & \text{$S \subset \Omega$ endlich, $C \in \pi_0(U_s)$} }
+    N^\circ(\scr U) = \Set{(S, C) & \text{$S \subset \Omega$ endlich, $C \in \pi_0(U_S)$} }
 \end{math}
 ($\pi_0(U_s)$ Menge der Wegzusammenhangskomponenten).
 Setze $\dim(S, C) = |S| - 1$.
@@ -646,7 +662,7 @@ Wir wählen $x_i \in X_i$.
 Für $i \to j$ gilt $X_i \subset X_j$.
 Da $X_j$ wegzusammenhängend ist, wähle einen Weg $\gamma_{ij}: [0,1] \to X_j$ von $\gamma_{ij}(0) = x_i$ nach $\gamma_{ij}(1) = x_j$.
 Für $i = j$ setze $\gamma_{ii} = 1_{x_i}$.
-Für $i \to j$, $j \to i$ gilt $X_i = X_j$ und evtl. $x_i \neq x_j$, wir wollen dann $\gamma_{ji} = \_{\gamma_{ij}}$.
+Für $i \to j$, $j \to i$ gilt $X_i = X_j$, wir wollen dann $\gamma_{ji} = \_{\gamma_{ij}}$.
 
 Aus $\scr U = (U_s)_{s \in \Omega}$ erhalten wir $(I, \to, (X_i)_{i \in I}, (x_i)_{i \in I}, (\gamma_{ij})_{i \to j})$.
 
@@ -691,34 +707,41 @@ Die Kantengruppe des Gruppenkomplexes $\Gamma$ ist
 \end{math}
 
 \begin{st}[Seifert-van-Kampen]
-    Jede offene Überdeckung $X = \bigcup{s \in \Omega} U_s$ definiert einen Gruppenkomplex $\Gamma$ (nach Wahl von Fußpunkten und Verbindungswegen).
+    Jede offene Überdeckung $X = \bigcup_{s \in \Omega} U_s$ definiert einen Gruppenkomplex $\Gamma$ (nach Wahl von Fußpunkten und Verbindungswegen).
     Seine Kantengruppe $\pi_1(\Gamma, i_0)$ ist isomorph zu $\pi_1(X, x_0)$.
 
     Genauer: Für das $1$-Skelett $\Gamma_{\le 1}$ liefert die topologische Realisierung eine Surjektion
     \begin{math}
         \Phi_1: \pi_1(\Gamma_{\le 1}, i_0) \xto[surjective] \pi_1(X, x_0).
     \end{math}
-    Für das $2$-Skelett $\Gamma_{\le 2}$ erhalten wir einen Isomorphismus $\Phi_2 : \pi_1(\Gamma_{\le 2}, i_0) \xto[isomorphic] \pi_1(X, x_0)$.
+    Für das $2$-Skelett $\Gamma_{\le 2}$ erhalten wir einen Isomorphismus
+    mt
+    \begin{math}
+        \Phi_2 : \pi_1(\Gamma_{\le 2}, i_0) \xto[isomorphic] \pi_1(X, x_0).
+    \end{math}
 \Timestamp{2015-11-06}
     \begin{proof}[Skizze]
-        Betrachte $\Phi_1: \pi_1(\Gamma_{\le 1}, i_0) \xto[surjective] \pi_1(X, x_0)$, zeige Surjektivität.
+        Betrachte $\Phi_1: \pi_1(\Gamma_{\le 1}, i_0) \xto[surjective] \pi_1(X, x_0)$, diese ist wohldefiniert.
+        Zeige Surjektivität:
         Sei dazu $[\omega] \in \pi_1(X, x_0)$, d.h. $\omega:[0,1] \to X$ eine Schleife in $x_0$.
-        Zeige: $\omega$ homotop zu einem Weg $\Phi_1(w)$ mit $w \in \pi_1(\Gamma_{\le 1}, i_0)$.
+        Zeige: $[\omega] = \Phi_1([w])$ mit $w \in \pi_1(\Gamma_{\le 1}, i_0)$.
+        Wähle endliche Überdeckung des Weges $\omega$ (aus den Mengen $X_i$).
+        Durch geschicktes Einfügen von Schleifen $g_0, \dotsc, g_n$ (Elemente der Fundamentalgruppen der $X_i$) besteln wir $w$ (Skizze!):
         \begin{math}
-            w = (i_0 \xto{g_0} i_0 \xto* i_{0,1} \to i_1 \xto{g_1} i_1 \xto* i_{12} \to i_2 \xto{g_2} i_2 \dotsb \xto* j_{n-1} \to i_n \xto{g_n} i_n).
+            w = (i_0 \xto{g_0} i_0 \xto* i_{0,1} \to i_1 \xto{g_1} i_1 \xto* i_{1,2} \to i_2 \xto{g_2} i_2 \dotsb \xto* i_{n-1,n} \to i_n \xto{g_n} i_n).
         \end{math}
         Die topologische Realisierung von $w$ ist homotop zu $\omega$ nach Konstruktion.
 
         Betrachte nun $\Phi_2: \pi_2(\Gamma_{\le 2}, i_0) \to \pi_1(X, x_0))$, zeige Bijektivität.
         Wohldefiniert: Man vergewissere sich, dass alle definierten Äquivalenzen entsprechende Homotopien erlauben.
         Surjektivität wie zuvor.
-        Zeige nun Injektivität: Werden zwei Wörter $w_1, w_2$ durch homotope Wege $w_1, w_2$ realisiert, dann sind $w_1$ und $w_2$ äquivalent.
+        Injektivität: zeige: Werden zwei Wörter $w_1, w_2$ durch homotope Wege $w_1, w_2$ realisiert, dann sind $w_1$ und $w_2$ äquivalent.
         Sei $H: [0,1]^2 \to X$ eine Homotopie von $w_1$ nach $w_2$.
         Idee: Modifziere $H$ derart, dass sich eine Triangulierung ergibt und jedes Dreieck einer Relation entspricht.
         Wir nutzen $X = \bigcup_{s \in \Omega} U_s$ für $[0,1]^2 = \bigcup_{s \in \Omega} H^{-1}(U_S)$.
         Dank Kompaktheit existiert eine Lebesgue-Zahl dieser Überdeckung.
         Wir unterteilen $[0,1]^2$ wie folgt (Skizze: Ziegel-Mauerwerk):
-        Nach hinreichend feiner Unterteilung gilt für jeden Ziegel $\Z_\alpha$ die Bedingung $H(Z_\alpha) \subset U_{s(\alpha)}$ für eine geeignete Abbildung $s$.
+        Nach hinreichend feiner Unterteilung gilt für jeden Ziegel $Z_\alpha$ die Bedingung $H(Z_\alpha) \subset U_{s(\alpha)}$ für eine geeignete Abbildung $s$.
         Wir dicken die Fugen auf (z.B. erst horizontale Fugen, dann vertikale durch konstante Homotopien, es entstehen kleine Quadrate, in denen die Homotopie konstant ist).
         Lokal in einem kleinen Quadrat ist $H$ konstant $c$ und es gilt $H(Q) \subset U_1 \cap U_2 \cap U_3$.
         Wähle $i \in I$ sodass $H(Q) \subset X_i$, füge $x_i$ im Quadrat ein mit „radialer Homotopie“.
@@ -757,7 +780,7 @@ Die Kantengruppe des Gruppenkomplexes $\Gamma$ ist
             Kreisring aus zwei Mengen gebildet.
             $\pi_1(\Gamma, x_1) \isomorphic \Z$.
             Wir benötigen nur $U_1, U_2$ einfach zusammenhängend, $U_1 \cap U_2$ hat zwei Wegkomponenten.
-
+        \item
             Betrachte $U_1, U_2$ mit $U_1 \cap U_2 = C_1 \dunion C_2$ und $C_1 \isomorphic C_2 \isomorphic \S^1 \times \B^2$.
         \item
             $U_1$ Kreisring, $U_2$ Kreisscheibe, $U_1 \cap U_2$ Kreisring.
@@ -777,7 +800,7 @@ Die Kantengruppe des Gruppenkomplexes $\Gamma$ ist
             Sei $U_{12} := U_1 \cap U_2$,
             \begin{math}
                 i: U_{12} &\injto U_1, &i_\#: \pi_1(U_{12}) &\injto \pi_1(U_1), \\
-                j: U_{12} &\injto U_2, &j_\#: \pi_1(U_{12}) &\injto \pi_1(U_2). \\
+                j: U_{12} &\injto U_2, &j_\#: \pi_1(U_{12}) &\injto \pi_1(U_2).
             \end{math}
             Das führt zum amalgamierten Produkt $G_1 \ast_K G_2$.
 
@@ -794,11 +817,12 @@ Die Kantengruppe des Gruppenkomplexes $\Gamma$ ist
             \end{math}
             mit
             \begin{math}
-                T = \Set{h_1(s) h_2(s)^{-1} & s \in S_{12}}
+                T = \Set{h_{12,1}(s) h_{12,2}(s)^{-1} & s \in S_{12}}
             \end{math}
         \item
             $g_{ijk}$ nichttrivial:
-            $U_1 \isomorphic U_2 \isomorphic U_3 \isomorphic \S^1 \times (0,1)$ mit geeigneter Wahl der Fußpunkte.
+            $U_3 := \R^2 \setminus \Set{0}$, $U_2 := (\R_{\le 1} \times \R) \setminus \Set{0}$, $U_1 := \R_{\le -1} \times \R$.
+            Wähle Fußpunkte und Wege $\gamma$ so, dass $\gamma_{123,3}$ über, $\gamma_{123,23} \ast \gamma_{23,3}$ unter der $0$ verläuft.
     \end{itemize}
     \begin{note}
         Gruppenkomplexe dienen zur Analyse von Gruppen, siehe Serre, Trees.
