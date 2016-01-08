@@ -10,9 +10,9 @@ Sei $I^n = [0,1]^n \subset \R^n$, $\Boundary I^n$ sein Rand.
 Zu jedem topologischen Raum $X$ mit Fußpunkt $x_0$ definieren wir
 \begin{math}
     \pi_n(X, x_0)
-    &= \Set{f: (I^n, \Boundary I^n, 0) \to (X, \{x_0\}, x_0) \text{ stetig}} / \text{ Homotopie} \\
+    &:= \Set{f: (I^n, \Boundary I^n, 0) \to (X, \{x_0\}, x_0) \text{ stetig}} / \text{ Homotopie} \\
     &= \Set{f: (I^n // \Boundary I^n, \ast) \to (X, x_0) \text{ stetig}} / \text{ Homotopie} \\
-    &= \Set{f: (\S^n, \ast) \to (X, x_0) \text{ stetig}} / \text{ Homotopie}.
+    &= \Set{f: (\S^n, \ast) \to (X, x_0) \text{ stetig}} / \text{ Homotopie} \\
     &= [\S^n, \ast; X, x_0].
 \end{math}
 (für $n = 0, 1$ stimmt das überein mit den bisherigen Definitionen).
@@ -81,11 +81,12 @@ Beweise wie für $n = 1$.
 
 % §3.4 Einhängungssatz
 
-Operation von $\pi_1$ auf $\pi_n$ ($n \ge 1$).
+Wir lassen nun $\pi_1$ auf $\pi_n$ ($n \ge 1$) operieren:
 \begin{math}
-    \pi_1(X, x_0) \times \pi_n(X, x_0) & \to \pi_n(X, x_0) \\
+    \cdot: \pi_1(X, x_0) \times \pi_n(X, x_0) & \to \pi_n(X, x_0) \\
     ([\gamma], [\alpha]) & \mapsto [\gamma] \cdot [\alpha] := [\gamma \cdot \alpha]
 \end{math}
+Wir spannen dazu $\gamma$ um $\alpha$ ein
 (Skizze: Verkleinern von $\alpha$, Einspannen von $\gamma$, explizit mit „Karton“-Homöomorphismus).
 Formal: $I^n \homeomorphic \Boundary I^{n+1} \setminus (\Int I^n) \times \Set{1}$.
 Anschaulich: Verschiebung des „Ballons“ entlang $\gamma$.
@@ -97,7 +98,7 @@ Allgemeiner: $\Pi(X, x_0, x_1) \times \pi_n(X,x_1) \to \pi_n(X, x_0)$.
     $\S^1 \vee \S^2$ (Bouquet).
     \begin{math}
         \pi_1(X, x_0) & \isomorphic \Z \\
-        \pi_2(X, x_0) & \isomorphic \Z^n
+        \pi_2(X, x_0) & \isomorphic \Z
     \end{math}
     Betrachte dazu die universelle Überlagerung $(\tilde X, \tilde x_0) \to (X, x)$.
     \begin{math}
@@ -110,19 +111,22 @@ Allgemeiner: $\Pi(X, x_0, x_1) \times \pi_n(X,x_1) \to \pi_n(X, x_0)$.
     \end{math}
 \end{ex}
 
-\begin{note}
-    Für $n = 1$ erhalten wir die Konjugation:
-    \begin{math}
-        [\gamma] \cdot [\alpha] = \gamma \alpha \_\gamma.
-    \end{math}
-\end{note}
+Für $n = 1$ ist diese Operation genau die Konjugation:
+\begin{math}
+    [\gamma] \cdot [\alpha] = [\gamma \ast \alpha \ast \_\gamma].
+\end{math}
 
 \begin{df}
     Ein Raum $(X, x_0)$ heißt \emphdef{abelsch}, wenn alle Operationen $\pi_1 \times \pi_n \to \pi_n$ trivial sind.
 \end{df}
 
 \begin{ex}
-    $\pi_1 = \Set{1}$, aber auch alle topologische Gruppen (Fundamentalgruppe abelsch).
+    \begin{itemize}
+        \item
+            Alle Räume mit $\pi_1 = \Set{1}$ sind abelsch,
+        \item
+            Alle topologische Gruppen (Fundamentalgruppe abelsch) sind als Räume abelsch.
+    \end{itemize}
     \begin{proof}
         Übung!
     \end{proof}
@@ -139,7 +143,7 @@ Allgemeiner: $\Pi(X, x_0, x_1) \times \pi_n(X,x_1) \to \pi_n(X, x_0)$.
     Wir identifizieren $\R^{n-1}$ mit $\R^{n-1} \times \Set{0}$ in $\R^n$.
     Damit $\R^0 \subset \R^1 \subset \R^2 \subset \dotsb$.
 
-    Sei $I^n = [0,1]^n$ und $I^{n-1} = I^n \cap \R^{n-1}$ und $I^{n-1} = I^n \cap \R^{n-1}$.
+    Sei $I^n = [0,1]^n$ und $I^{n-1} = I^n \cap \R^{n-1}$.
     Wir identifizieren also $I^{n-1}$ mit $I^{n-1} \times \Set{0}$.
 
     Sei $J^{n-1} := \Boundary I^n \setminus \Int I^{n-1}$.
@@ -175,7 +179,7 @@ Allgemeiner: $\Pi(X, x_0, x_1) \times \pi_n(X,x_1) \to \pi_n(X, x_0)$.
 \end{df}
 
 \begin{lem}[Kompressionslemma]
-    Eine Abbildung $\alpha: (I^n, \Boundary I^n, J^{n-1}) \to (X, A, x_0)$ ist genau dann nullhomotop, also Null in $\pi_n(X, A, x_0)$, wenn $\alpha$ homotop ist relativ $\Boundary I^{n-1}$ (d.h. bleibt festgehalten bei der Homotopie) zu einer Abbildung $\alpha': (I^n, \Boundary I^n, J^{n-1}) \to (A, A, x_0)$. 
+    Eine Abbildung $\alpha: (I^n, \Boundary I^n, J^{n-1}) \to (X, A, x_0)$ ist genau dann nullhomotop, also Null in $\pi_n(X, A, x_0)$, wenn $\alpha$ homotop ist relativ $\Boundary I^{n-1}$ (d.h. bleibt festgehalten bei der Homotopie) zu einer Abbildung $\alpha': (I^n, \Boundary I^n, J^{n-1}) \to (A, A, x_0)$.
     \begin{proof}
         \begin{seg}{\ProofImplication*}
             Die $n$-Schleife $\alpha'$ ist nullhomotop vermöge $H: I^n \times I \to A \subset X$ mit $H_s(t) = H(t,s)$,
@@ -282,7 +286,7 @@ Bündel über den Basisraum $B$ bilden eine Kategorie
         & B
     \end{tikzcd}
     \begin{tikzcd}
-        E \ar[rr,"\id_E"] \ar[dr,"p"] && E \ar[dl,"p"] \\ 
+        E \ar[rr,"\id_E"] \ar[dr,"p"] && E \ar[dl,"p"] \\
         & B
     \end{tikzcd}
 \end{math}
@@ -349,7 +353,14 @@ Bündel über den Basisraum $B$ bilden eine Kategorie
 \end{lem}
 
 \begin{st}
-    Jedes lokal triviale Bündel $p: E \to B = [0,1]^n$ ist trivial.
+    Jedes lokal triviale Bündel $p: E \to B = [0,1]^n$ ist trivial, d.h. es existiert eine Trivialisierung
+    \begin{math}
+        \begin{tikzcd}
+            E \ar[rr,"\tau","\homeomorphic"'] \ar[rd,"p"] & & B \times F \ar[ld,"q"] \\
+            ~& B &
+        \end{tikzcd}
+    \end{math}
+    mit $q(b,f) = b$.
     \begin{proof}
         Es existiert eine offene Überdeckung $B = \bigcup_{i \in I} U_i$ mit $p\over U_i$ trivial.
         Unterteile $B = [0,1]^n$ in $k^n$ gleich große Würfel, sodass jeder in einem $U_i$ liegt (Kompaktheit, Lebesgue-Zahl).
@@ -359,6 +370,8 @@ Bündel über den Basisraum $B$ bilden eine Kategorie
 \end{st}
 
 \subsection{Zurückziehen von Bündeln}
+
+Zurückziehen von $E \xto{p} B$ entlang $g: B' \to B$.
 
 \begin{math}
     \begin{tikzcd}
@@ -375,16 +388,210 @@ Bündel über den Basisraum $B$ bilden eine Kategorie
     \end{math}
     und $p': E' \to B'$, $p'(b', e') = b'$, sowie $f: E' \to E$, $f(b', e) = e$.
     Schreibweise: $p' = g^*(p)$.
+    \begin{note}
+        \begin{itemize}
+            \item
+                Mit $p$ ist auch $p'$ ein Bündel.
+            \item
+                Ist $p$ trivial, so auch $p'$.
+            \item
+                Ist $p$ lokal trivial, so auch $p'$.
+            \item
+                Ist $p$ ein Faserbündel mit Faser $F$, so auch $p'$.
+        \end{itemize}
+    \end{note}
 \end{df}
 
-\begin{ex}
-    Spezialfall $B' = [0,1]^n$:
+\Timestamp{2016-01-08}
+
+\begin{kor}
+    Sei $F \injto E \xto{p} B$ ein Faserbündel.
+    Sei $g: [0,1]^n \to B$ stetig.
+    Dann existiert eine Hochhebung $\tilde g: [0,1]^n \to E$, $p \circ \tilde g = g$
     \begin{math}
         \begin{tikzcd}~
-            [0,1]^n \times F & E' \ar[r,"f"] \ar[d,"p'"] & E \ar[d,"p"] \\
-            &~[0,1]^n \ar[r,"g"] \ar[ru,"\exists \tilde g",dashed] & B
+            [0,1]^n \times F \ar[rd,"q",shift left] & E' \ar[l,"\tau","\homeomorphic"'] \ar[r,"f"] \ar[d,"p'"] & E \ar[d,"p"] \\
+            &~[0,1]^n \ar[r,"g"] \ar[ru,"\exists \tilde g",dashed] \ar[ul,"s",dotted,shift left] & B
         \end{tikzcd}
     \end{math}
-    Es existiert mindestens eine Hochhebung $\tilde g$.
+    \begin{proof}
+        Wähle $s: [0,1]^n \to [0,1]^n \times F$ stetig mit $q \circ s = \id$ und setze $\tilde g = f \circ \tau^{-1} \circ s$.
+    \end{proof}
+    \begin{note}
+        Diese Hochhebungseigenschaft kennen wir von Überlagerungen.
+        Dort galt zudem Eindeutigkeit bei vorgegebenen Fußpunkten (hier im Allgemeinen jedoch nicht).
+
+        Allgemeiner mit Fußpunkten:
+        \begin{math}
+            \begin{tikzcd}~
+                ([0,1]^n,0) \times F \ar[rd,"q",shift left] & (E',(0,e_0)) \ar[l,"\tau","\homeomorphic"'] \ar[r,"f"] \ar[d,"p'"] & (E,e_0) \ar[d,"p"] \\
+                &~([0,1]^n,0) \ar[r,"g"] \ar[ru,"\exists \tilde g",dashed] \ar[ul,"s",dotted,shift left] & (B,b_0)
+            \end{tikzcd}
+        \end{math}
+    \end{note}
+\end{kor}
+
+\begin{st}
+    Sei $(F, e_0) \xto[inj]{\iota} (E, e_0) \xto{p} (B, b_0)$ ein Faserbündel.
+    \begin{enumerate}[i)]
+        \item
+            Dann ist $p_\#: \pi_n(E, F, e_0) \to \pi_n(B, b_0)$ ein Isomorphismus (bzw. Bijektion).
+        \item
+        Ist zudem $B$ wegzusammenhängend, so erhalten wir die lange exakte Homotopiesequenz von $p$:
+    \end{enumerate}
+    \begin{math}
+        \begin{tikzcd}
+            \pi_n(F,e_0) \ar[r,"\iota_\#"] & \pi_n(E,e_0) \ar[r,"p_\#"] & \pi_n(B,b_0) \ar[lld] \\
+            \pi_{n-1}(F,e_0) \ar[r] \dotsc & ~ & \ar[lld] \\
+            \pi_0(F,e_0) \ar[r] & \pi_0(E,e_0) \ar[r] & \pi_0(B,b_0) = 0
+        \end{tikzcd}
+    \end{math}
+    \begin{proof}
+        Es genügt i) zu zeigen, ii) folgt dann aus der langen exakten Sequenz des Raumpaares $(E, F, e_0)$.
+        \begin{enumerate}[a)]
+            \item
+                $p_\#$ ist surjektiv.
+                Sei also $[\alpha] \in \pi_n(B, b_0)$, d.h. $\alpha: (I^n,\Boundary I^n) \to (B, b_0)$.
+                Hochhebung:
+                \begin{math}
+                    \begin{tikzcd}
+                        & (E, e_0) \ar[d,"p"] \\
+                        (I^n, 0) \ar[r,"\alpha"] \ar[ru,"\tilde \alpha"] & (B, b_0) \\
+                    \end{tikzcd}
+                \end{math}
+                Es gilt $\alpha(\Boundary I^n) = b_0$, also $\tilde \alpha(\Boundary I^n) \subset F$, d.h. $\tilde \alpha: (I^n, \Boundary I^n, 0) \to (E, F, e_0)$.
+                Technisches Problem: wir brauchen ($J^{n-1}$: obere Kappe von $\Boundary I^n$)
+                \begin{math}
+                    \hat \alpha: (I^n, \Boundary I^n, J^{n-1}) \to (E, F, e_0)
+                \end{math}
+                Wähle $\gimel: I^n \to I^n$ stetig mit $J^{n-1} \mapsto \Set{e_0}$ und sonst injektiv.
+                \begin{math}
+                    (I^n, \Boundary I^n, J^{n-1}) \homeomorphic (\D^n, \S^n, \S^{n-1}_{\ge 0})
+                    \xto{\gimel, \homotopic} (\D^n, \S^{n-1}, \Set{N})
+                    \homeomorphic (I^n, \Boundary I^n, \Set{0}).
+                \end{math}
+                Damit $\hat \alpha = \tilde \alpha \circ \gimel$.
+                Beh: $[\hat \alpha] \in \pi_n(E, F, e_0)$ erfüllt $p_\#[\hat \alpha] = [\alpha]$.
+                Bew: $p \circ \hat \alpha = p \circ \tilde \alpha \circ \gimel = \alpha \circ \gimel \homotopic \alpha$.
+            \item
+                $p_\#$ ist injektiv.
+                Seien $\hat \alpha_0, \hat \alpha_1: (I^n, \Boundary I^n, J^{n-1}) \to (E, F, e_0)$ mit $p_\# [\hat \alpha_0] = p_\# [\hat \alpha_1]$, d.h. es existiert eine Homotopie $H: I^n \times I \to B$ mit $H_0 = p \circ \hat \alpha_0$, $H_1 = p \circ \hat \alpha_1$, $H_s(\Boundary I^n) = b_0$.
+                \begin{math}
+                    \begin{tikzcd}[column sep=huge]
+                        J^{n-1} \times E \cup I^n \times \Set{0,1} \ar[r,"\Set{e_0} \cup \hat \alpha_0 \cup \hat \alpha_1"] \ar[d,inj] & E \ar[d,"p"] E \\
+                        I^n \times I \ar[r,"H"] \ar[ru,"\tilde H", dashed] & B
+                    \end{tikzcd}
+                \end{math}
+                Wir nutzen die Hochhebung (mit vorgegebener Abbildung auf dem Teilraum $I^n \times \Set{0,1}$).
+                \begin{math}
+                    \begin{tikzcd}~
+                        [0,1]^n \times [0,1] \times F \ar[d,"q",shift left] \\
+                        [0,1]^n \times [0,1] \ar[u,"s",dashed,shift left]
+                    \end{tikzcd}
+                \end{math}
+                $s|_{[0,1]^n \times \Set{0,1}}$ vorgegeben, gesucht ist eine stetige Fortsetzung $s$.
+                $s$ ist von der Form
+                \begin{math}
+                    s(t_1, \dotsc, t_n, t_{n+1}) = (t_1, \dotsc, t_n, t_{n+1}, f(t_1, \dotsc, t_{n+1})).
+                \end{math}
+                $f: [0,1]^n \times [0,1] \to F$, $f(\argdot, 0)$ und $f(\argdot, 1)$ vorgegeben.
+                $f$ ist vorgegeben auf $(J^{n-1} \times I) \cup (I^n \times \Set{0,1}) =: X$.
+                Wir wählen eine Retraktion $r: I^n \times I \to X$ (z.B. stereographische Projektion).
+                Setze $f_0: X \to F$ fort durch $f = f_0 \circ r: I^n \times I \to F$.
+
+                Damit haben wir $s$ und somit $\tilde H: \hat \alpha_0 \sim \hat \alpha_1$.
+        \end{enumerate}
+        Zu ii):
+        \begin{math}
+            \begin{tikzcd}
+                \pi_n(F, e_0) \ar[r,"\iota_\#"] & \pi_n(E,e_0) \ar[r,"j_\#"] & \pi_n(E,F,e_0) \ar[d,"p_\#","\isomorphic"'] \ar[r,"\partial_\#"] & \pi_{n-1}(F, e_0) \\
+                \pi_n(F, e_0) \ar[r,"\iota_\#"] & \pi_n(E,e_0) \ar[r,"p_\#"] & \pi_n(E,F,e_0) \ar[r,"\partial_\# \circ p_\#^{-1}"] & \pi_{n-1}(F, e_0)
+            \end{tikzcd}
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    Sei $(F, e_0) \injto (E, e_0) \xto{p} (B,b_0)$ eine Überlagerung mit Faser $F$, d.h. ein Faserbündel mit diskreter Faser.
+
+    Für $n \ge 2$ ist
+    \begin{math}
+        \begin{tikzcd}
+            0 = \pi_n(F,e_0) \ar[r] & \pi_n(E,e_0) \ar[r,"p_\#"] & \pi_n(B,b_0) \ar[r] & \pi_{n-1}(F,e_0) = 0.
+        \end{tikzcd}
+    \end{math}
+    Also ist $\pi_n(E,e_0) \isomorphic \pi_n(B, b_0)$.
+
+    Falls $E$ wegzusammenhängend, so ist
+    \begin{math}
+        \begin{tikzcd}[column sep=tiny]
+            0 = \pi_1(F,e_0) \ar[r] & \pi_1(E,e_0) \ar[r,"p_\#"] & \pi_1(B,b_0) \ar[r,"h"] & \pi_0(F,e_0) \isomorphic (F,e_0) \ar[r] & \pi_0(E,e_0) = 0
+        \end{tikzcd}
+    \end{math}
+    Also ist $p_\#$ injektiv, $h$ surjektiv und $\im(p_\#) = \ker(h)$.
+
+    Speziell: $G \ops E \xto{p} B$ Galois-Überlagerung.
+    Wähle $b_0 \in B$, $e_0 \in F = p^{-1}(b_0)$.
+    Wir erhalten eine Bijektion $G \homto F$, $g \mapsto g \cdot e_0$.
+    Damit erhatlen wir die bereits bekannte kurze exakte Sequenz
+    \begin{math}
+        1 \to \pi_1(E, e_0) \to \pi_1(B, b_0) \to G \to 1.
+    \end{math}
 \end{ex}
+
+\begin{ex}
+    Wir wollen $\S^1 \ops \S^3 \xto{p} \S^2$.
+    Sei $\H = \R \cdot 1 + \R \cdot i + \R \cdot j + \R \cdot k \subset \R^4$ die Quaternionenalgebra.
+    \begin{table}[ht]
+        \centering
+        $\begin{array}{c|cccc}
+            \cdot & 1 & i & j & k \\ \hline
+            1 & 1 & i & j & k \\
+            i & i & -1 & k & -j \\
+            j & j & -k & -1 & -i \\
+            k & k & j & -i & -1
+        \end{array}$
+    \end{table}
+    Sei $\S^3 = \Set{a1 + bi + cj + dk & a^2 + b^2 + c^2 + d^2 = 1}$ die 3-Sphäre.
+    $\S^3$ ist eine Gruppe, genauer: $\S^3 \le \H^* = \H \setminus \Set{0}$.
+
+    Wir haben $\Set{\pm 1} \to \S^3 \to \SO_3\R$.
+    $\Im \H = \R i + \R j + \R k \isomorphic \R^3$.
+    Hierauf operiert $g \in \S^3$ durch Konjugation $x \mapsto x^g = g^{-1} x g$ (Nachrechnen!).
+    Dies definiert $\S^3 \to \SO(\Im \H) \isomorphic \SO_3 \R$.
+    $\SO_3 \R$ operiert auf $\S^2 \subset \R^3$.
+    Damit erhalten wir
+    \begin{math}
+        \S^1 \ops (\S^3, 1) \to (\S^2, x_0).
+    \end{math}
+    Dies ist ein Faserbündel (Nachrechnen!).
+
+    Anwenden der langen exakten Sequenz: für $n \ge 3$:
+    \begin{math}
+        0 = \pi_n(\S^1,1) \to \pi_n(\S^3,1) \to \pi_n(\S^2,x_0) \to \pi_{n-1}(\S^1, 1) = 0
+    \end{math}
+    (z.B durch Überlagerung von $\S^1$ durch $\R$).
+    Wir erhalten $\pi_n(\S^3,1) \isomorphic \pi_n(\S^2,x_0)$ für $n \ge 3$, also
+    \begin{math}
+        \pi_3(\S^2, x_0) \isomorphic \pi_3(\S^3,1) \xto{\mathrm{deg},\isomorphic} \Z.
+    \end{math}
+\end{ex}
+
+Überblick:
+
+Betrachte $\pi_n(\S^k)$, $k$ nach rechts, $n$ nach oben.
+\begin{math}
+    \begin{array}{cccccc}
+        0 & ? & ? & ? & ? & \Z \\
+        0 & ? & ? & ? & \Z & 0 \\
+        0 & ? & ? & \Z & 0 & 0 \\
+        0 & \Z & \Z & 0 & 0 & 0 \\
+        0 & \Z & 0 & 0 & 0 & 0 \\
+        \Z & 0 & 0 & 0 & 0 & 0
+    \end{array}
+\end{math}
+$\pi_n(\S^k) = 0$ für $n < k$ dank simplizialer Approximation.
+$\pi_n(\S^1) = 0$ dank Überlagerung durch $\R$.
+$\pi_n(\S^n) = \Z$ dank Abbildungsgrad.
+Es gilt $\pi_n(\S^2) = \pi_n(\S^3)$ für $n \ge 3$ dank vorigem Beispiel.
 
