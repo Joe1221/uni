@@ -373,7 +373,7 @@ Analog wie in \ref{5.9} definiert man $E \otimes F$ für zwei Vektorbündel $E, 
     \begin{math}
         \T^p_q M := {\T M}^{\otimes p} \otimes (\T M^*)^{\otimes q}.
     \end{math}
-    Die \emph{Schnitte} von $\T^p_q M$ heißen \emphdef{$(p,q)$-Tensoren}, oder \emphdef[Tensor!kovariant]{$p$-fach kovariante} und \emphdef[Tensor!kontravariant]{$q$-fach kontravariante} Tensoren.
+    Die \emph{Schnitte} von $\T^p_q M$, d.h. Elemente aus $\Gamma(M, \T^p_q)$ heißen \emphdef{$(p,q)$-Tensoren}, oder \emphdef[Tensor!kovariant]{$p$-fach kovariante} und \emphdef[Tensor!kontravariant]{$q$-fach kontravariante} Tensoren.
 \end{df}
 
 \begin{ex*}
@@ -411,7 +411,7 @@ Zwei wichtige Operationen mit Tensoren: Einsetzen und Spurbildung.
 
 \begin{df} \label{5.16}
     Sei $1 \le j \le p$ und $1 \le k \le q$.
-    Wir definieren die \emphdef{Verjüngung}, \emphdef{Kontraktion}, \emphdef{Spurbildung} von $(p,q)$-Tensoren als
+    Wir definieren die \emphdef{Spurbildung} (auch \emphdef{Verjüngung}, \emphdef{Kontraktion}) von $(p,q)$-Tensoren als
     \begin{math}
         &\Tr_{jk}(X_1 \otimes \dotsb \otimes X_p \otimes \alpha_1 \otimes \dotsb \otimes \alpha_q) \\
         &\quad:= \alpha_k(X_j) \otimes X_1 \dotsb \otimes \hat{X_j} \otimes \dotsb \otimes X_p \otimes \alpha_1 \otimes \dotsb \otimes \hat{\alpha_k} \otimes \dotsb \otimes \alpha_q.
@@ -446,17 +446,121 @@ Zwei wichtige Operationen mit Tensoren: Einsetzen und Spurbildung.
 
 \begin{df} \label{5.17}
     Sei $f: M \to N$ eine glatte Abbildung und sei $\omega$ ein $q$-fach kontravarianter Tensor auf $N$, d.h. $\omega \in \Gamma(N, \T_q^0 N)$.
-    Der \emphdef{Pullback} $f^* \omega \in \Gamma(M, T_q^0 M)$. ist (punktweise) definiert durch
+
+    Der \emphdef{Pullback} $f^* \omega \in \Gamma(M, T_q^0 M)$ ist (punktweise) definiert durch
     \begin{math}
-        (f^* \omega)(X_1, \dotsc, X_q)(p)
-        = \omega(x)(\T_p f(X_1(p)), \dotsc, \T f(X_q(p)))
+        (f^* \omega)(x)(X_1, \dotsc, X_q)
+        := \omega(f(x))(\T_x f(X_1(x)), \dotsc, \T_x f(X_q(x)))
     \end{math}
     für alle $x \in M$.
+
     \begin{note}
         Der Pullback von $q$-Multilineareformen ist eine äußerst wichtige Operation.
-        Man beachte, dass $f$ kein Diffeomorphismus sein muss, im Unterschied zum Pushforward von Vektorfeldern.
+        Man beachte, dass $f$ für den Pullback kein Diffeomorphismus sein muss (im Unterschied zum Pushforward von Vektorfeldern).
+
+        Ist $f: M \to N$ ein Diffeomorphismus, so lässt sich der Pullback von einem Vektorfeld definieren, nämlich
+        \begin{math}
+            f^* X := (f^{-1})_* X.
+        \end{math}
     \end{note}
 \end{df}
+
+\Timestamp{2016-01-12}
+
+\begin{lem} \label{5.18}
+    Es gilt
+    \begin{math}
+        (g \circ f)^* = f^* \circ g^*
+    \end{math}
+    \begin{proof}
+        Mit der Kettenregel
+        \begin{math}
+            ((g \circ f)^*) \omega(x)(X_1, \dotsc, X_q)
+            &= \omega(T_x(g \circ f)(X_1), \dotsc, T_x(g \circ f)(X_q)) \\
+            &= \omega(T_{f(x)} g \circ T_x f(X_1), \dotsc, T_{f(x)} g \circ T_x f(X_q))) \\
+            &= (g^* \omega) (f(x)) (T_x f(X_1), \dotsc, T_x f(X_q)) \\
+            &= ((f^* \circ g^*) \omega)(g(f(x))(X_1, \dotsc, X_q).
+        \end{math}
+    \end{proof}
+    \begin{nt}
+        Mit anderen Worten: Die Abbildung $f \mapsto f^*$ ist ein kontravarianter Funktor zwischen der Kategorie der Mannigfaltigkeiten (mit glatten Abbildungen) und der Kategorie der Vektorräume (mit linearen Abbildungen).
+    \end{nt}
+\end{lem}
+
+\begin{st} \label{5.19}
+    Es existiert ein eindeutiger additiver Operator $L_X$ zu jedem Vektorfeld $X \in \scr X(M)$ auf $\Gamma(M, \T_q^p M)$, genannt \emphdef{Lie-Ableitung} mit folgenden Eigenschaften:
+    \begin{enumerate}[(i)]
+        \item
+            Für alle Funktionen $f \in C^\infty(M) = \Gamma(M, \T_0^0 M)$ gilt
+            \begin{math}
+                L_X f = X(f).
+            \end{math}
+        \item
+            Für alle Vektorfelder $Y \in \scr X(M) = \Gamma(M, \T_0^1)$ gilt
+            \begin{math}
+                L_X Y = [X, Y].
+            \end{math}
+        \item
+            $L_X$ ist eine Derivation auf der Algebra der Tensoren
+            \begin{math}
+                L_X(\omega \otimes \eta) = (L_X \omega) \otimes \eta + \omega \otimes (L_X \eta).
+            \end{math}
+        \item
+            $L_X$ vertauscht mit Kontraktionen:
+            \begin{math}
+                L_X \Tr_{jk} \omega = \Tr_{jk} L_X \omega.
+            \end{math}
+    \end{enumerate}
+    \begin{proof}
+        \begin{seg}{Eindeutigkeit}
+            Wie in \ref{3.1} zeigt man, dass $L_X$ ein lokaler Operator ist.
+            Also genügt es, zu zeigen, dass zwei solche Operatoren $L_X$, $K_X$ auf einer Karte $\phi: U \to V$ übereinstimmen.
+
+            Sei $\alpha \in \Gamma(U, T^*U)$ eine 1-Form auf $U$ und $Y_j := \phi^* e_j$ ein Koordinatenvektorfeld.
+            \begin{math}
+                (K_X \alpha)(Y_j)
+                &= \Tr((K_X \alpha) \otimes Y_j) \\
+                &\stack{\text{(iii)}}= \Tr( K_X(\alpha \otimes Y_j) - \alpha \otimes K_X Y_j) \\
+                &\stack{\text{(iv), (ii)}}= K_X( \Tr(\alpha \otimes Y_j)) - \alpha([X, Y]) \\
+                &\stack{\text{(i)}}= X.(\alpha(Y_j)) - \alpha([X, Y]).
+            \end{math}
+            Da $Y_j(p)$ an jedem Punkt $p \in M$ eine Basis von $\T_p M$ ist, folgt $L_X \alpha = K_X \alpha$.
+            Dies zeigt die Eindeutigkeit auf (0,1)-Tensoren, für (0,0)-Tensoren und vom Typ (1,0)-Tensoren ist sie durch (i), bzw (ii) gegeben.
+            Für alle anderen Tensoren folgt die Eindeutigkeit induktiv mit (iii).
+        \end{seg}
+        \begin{seg}{Existenz}
+            Wir definieren einen Operator $L_X$ analog zur Lie-Ableitung von Vektorfeldern und zeigen, dass er alle nötigen Eigenschaften erfüllt.
+            Sei
+            \begin{math}
+                L_X: \Gamma(M, \T^p_q M) \to \Gamma(M, \T^p_q M)
+                \omega \mapsto \ddx[t]|_{t=0} (\Phi^X_t)^* \omega
+            \end{math}
+            \begin{enumerate}[(i)]
+                \item
+                    Für $f \in C^\infty(M) = \Gamma(M, \T_0^0 M)$ gilt punktweise
+                    \begin{math}
+                        L_X f = \ddx[t]|_{t=0} (\Phi_t^X)^* f
+                        = \ddx[t]|_{t=0} f \circ \Phi_t^X
+                        = X(f).
+                    \end{math}
+                \item
+                    Für $Y \in \scr X(M)$ gilt
+                    \begin{math}
+                        L_X Y = \ddx[t]|_{t=0} (\Phi_t^X)^* Y
+                        = \ddx[t]|_{t=0} (\Phi_{-1}^X)_* Y
+                        = [X, Y].
+                    \end{math}
+                \item
+                \item
+                    folgen durch Anwenden von $\ddx[t]|_{t=0}$ auf $(\Phi_t^X)^*(\omega \otimes \eta) = (\Phi_t^X)^* \omega \otimes (\Phi_t^X)^* \eta$ (Übung) bzw. $(\Phi_t^X)^* \Tr_{jk} \omega = \Tr_{jk} (\Phi_t^X)^* \omega$ (Übung).
+            \end{enumerate}
+        \end{seg}
+    \end{proof}
+\end{st}
+
+\begin{nt*}
+    Mit Ausnahme der Lie-Ableitung von Funktionen (d.h. (0,0)-Tensoren) hängt der Wert der Lie-Ableitung $(L_X \omega)(p)$ auch vom Verhalten von $X$ in einer Umgebung von $p$ ab (bei der „kovarianten Ableitung“ nur von $X(p)$).
+\end{nt*}
 
 
 
