@@ -4,8 +4,16 @@ Mathematical Studies
 This repository serves to collect various materials gathered throughout math
 studies, including course transcripts as well as some exercise solutions.
 
-Compiling transcripts
----------------------
+Download transcripts as pdf
+---------------------------
+
+Most transcripts are being compiled hourly and can be downloaded as pdf's at:
+
+  http://www.stud.mathematik.uni-stuttgart.de/~hilbsn/ts/
+
+
+Compiling transcripts yourself
+------------------------------
 
 In most directories there should be a Makefile which handles compilation for
 you.
