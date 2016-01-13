@@ -32,3 +32,110 @@
     \end{proof}
 \end{lem}
 
+
+\Timestamp{2016-01-13}
+
+\begin{df} \label{6.3}
+    Die $q$-te \emphdef{äußere Potenz} von $V^*$ ist der Vektorraum
+    \begin{math}
+        \bigwedge^q V^* := \Set{\omega \in {V^*}^{\otimes q} & \text{$\omega$ ist alternierend} }.
+    \end{math}
+    \begin{note}
+        \begin{itemize}
+            \item
+                Es gilt $\bigwedge^q V^* = 0$, falls $q > n := \dim(V)$, da dann $q$ Vektoren stets linear abhängig sind.
+            \item
+                Es gilt $\bigwedge^0 V^* = \R$, $\bigwedge^1 V^* = V^*$.
+            \item
+                Aus der linearen Algebra ist bekannt, dass $\bigwedge^n V^*$ (mit $n = \dim V$) eindimensional ist, omit wird der Raum von dem (nichttrivialen) Element
+                \begin{math}
+                    (v_1, \dotsc, v_n) \mapsto \det (e^j(v_k)_{1\le j,k \le n}
+                \end{math}
+                erzeugt, wobei $e^1, \dotsc, e^n$ eine Basis von $V^*$ bilden.
+            \item
+                Wir haben gesehen, dass alternierende $q$-Formen antikommutativ sind.
+                Daraus folgt für eine Permutation $\sigma \in \Sym(q)$.
+                \begin{math}
+                    \omega(v_{\sigma(1)}, \dotsc, v_{\sigma(q)})
+                    = \sgn(\omega) w(v_1, \dotsc, v_q).
+                \end{math}
+                Ist $\sigma \in \Sym(q)$ und $\omega \in {V^*}^{\otimes q}$, dann schreiben wir
+                \begin{math}
+                    (\omega \circ \sigma)(v_1, \dotsc, v_q)
+                    := w(v_{\sigma(1)}, \dotsc, v_{\sigma(q)}).
+                \end{math}
+        \end{itemize}
+    \end{note}
+\end{df}
+
+\begin{df} \label{6.4}
+    Wir definieren die \emphdef{Antisymmetrisierung} von $q$-Formen als
+    \begin{math}
+        \pi_{\wedge}: {V^*}^{\otimes q} &\to \bigwedge^q V^* \\
+        \omega &\mapsto \frac{1}{q!} \sum_{\sigma \in \Sym(q)}  \sgn(\sigma) \omega \circ \sigma.
+    \end{math}
+    Dies ist eine Vektorraum-Projektion, insbesondere $\pi_{\wedge}(\omega) = \omega$ für $\omega \in \bigwedge^q V^*$.
+
+\end{df}
+
+Sei nun $\omega$ eine alternierende $q$-Form und seien $v_1, \dotsc, v_q \in V$
+Sei $e_1, \dotsc, e_n$ eine Basis von $V$ und $e^1, \dotsc, e^n$ die dazu duale Basis von $V^*$, d.h. die Linearformen mit $e^j(e_k) := \delta_{jk}$.
+Schreiben wir $v_j = \sum_{k=1}^n \lambda_{jk} e_k \in V$, dann gilt
+\begin{math}
+    \omega(v_1, \dotsc, v_q)
+    &= \sum_{k_1, \dotsc, k_q = 1}^n \lambda_{1,k_1} \dotsb \lambda_{q,k_q} \omega(e_{k_1}, \dotsc, e_{k_q}) \\
+    &= \sum_{\substack{k_1, \dotsc, k_q = 1 \\ k_i \neq k_j}}^n \lambda_{1,k_1} \dotsb \lambda_{q,k_q} \omega(e_{k_1}, \dotsc, e_{k_q}) \\
+    &= \sum_{1 \le k_1 < k_2 < \dotsc < k_q \le n} \sum_{\sigma \in \Sym(q)} \lambda_{1,k_{\sigma(1)}} \dotsb \lambda_{q, k_{\sigma(q)}} \omega(e_{k_{\sigma(1)}}, \dotsc, e_{k_{\sigma(q)}}) \\
+    &= \sum_{1 \le k_1 < k_2 < \dotsc < k_q \le n} \sum_{\sigma \in \Sym(q)} \lambda_{1,k_{\sigma(1)}} \dotsb \lambda_{q, k_{\sigma(q)}} \sgn(\omega) \omega(e_{k_1}, \dotsc, e_{k_q}).
+\end{math}
+Dies zeigt: Es genügt, die Wert von $\omega$ auf $(e_{k_1}, \dotsc e_{k_q})$ mit $1 \le k_1 < \dotsb < k_q \le n$ zu kennen.
+Definiere nun für $k_1, \dotsc, k_q \in \Set{1, \dotsc, n}$ beliebig
+\begin{math}
+    e^{k_1} \wedge \dotsb \wedge e^{k_q}
+    := \sum_{\sigma \in \Sym(q)} \sgn(\sigma) e^{k_{\sigma(1)}} \otimes \dotsb \otimes e^{k_{\sigma(q)}}.
+\end{math}
+Dies ist eine alternierende $q$-Form.
+
+Seien nun für $1 \le k_1 < \dotsc < k_q \le n$ die Zahlen $w_{k_1, \dotsc, k_q}$ definiert als die Werte (für beliebiges $\omega$)
+\begin{math}
+    w_{k_1, \dotsc, k_q} := \omega(e_{k_1}, \dotsc e_{k_2}, \dotsc, e_{k_q}).
+\end{math}
+Dann ist die $q$-Form $\omega$ wie oben gegeben durch
+\begin{math}
+    \omega := \sum_{1\le k_1 < \dotsc < k_q \le n} w_{k_1, \dotsc, k_q} e^{k_1} \wedge \dotsb \wedge e^{k_q}.
+\end{math}
+Dies zeigt:
+\begin{math}
+    \Set{e^{k_1} \wedge e^{k_q} & 1 \le k_1 < \dotsb < k_q \le n}
+\end{math}
+bildet eine Basis von $\bigwedge^q V^*$ (die lineare Unabhängigkeit sieht man, indem man verschiedene $q$-Tupel von Basisvektoren $(e_{j_1}, \dotsc, e_{j_q})$ einsetzt), somit gilt $\dim(\bigwedge^q V^*) = \binom{n}{q}$.
+
+\begin{ex*}
+    \begin{math}
+        e^1 \wedge e^2 \wedge e^3 (e_2, e_1, e_3)
+        = -e^2 \otimes e^1 \otimes e^3 (e_2, e_1, e_3)
+        = -1.
+    \end{math}
+    Weiter gilt $\pi_{\wedge}(e^{k_1} \otimes e^{k_q}) = \frac{1}{q!} e^{k_1} \wedge \dotsb \wedge e^{k_q}$.
+    Vergleich mit der Leibnizformen für die Determinante ergibt für $1$-Formen $\alpha_1, \dotsc, \alpha_q$.
+    \begin{math}
+        \pi_1(\alpha_1 \otimes \dotsb \otimes \alpha_q)
+        &= \frac{1}{q!} \sum_{\sigma \in \Sym(q)} \sgn(\sigma) \alpha_1(v_{\sigma(1)}) \dotsb \alpha_q(v_{\sigma(q)}) \\
+        &= \frac{1}{q!} \det( \alpha_j(v_k))_{1 \le j,k \le n}.
+    \end{math}
+\end{ex*}
+
+\begin{df} \label{6.5}
+    Sei $\alpha$ eine alternierende $p$-Form und $\beta$ eine alternierende $q$-Form auf $V$ (d.h. $\alpha \in {V^*}^{\otimes p}$, $\beta \in {V^*}^{\otimes q}$).
+    Wir definieren das \emphdef{äußere Produkt} $\alpha \wedge \beta$ durch
+    \begin{math}
+        \alpha \wedge \beta
+        &:= \frac{(p+q)!}{p!q!} \pi_\wedge( \alpha \otimes \beta) \circ \sigma \\
+        &= \sum_{[\sigma] \in \Sym(p+q) / \Sym(p) \times \Sym(q)} \sgn(\sigma) (\alpha \otimes \beta) \circ \sigma.
+    \end{math}
+\end{df}
+
+
+
+
+
