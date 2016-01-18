@@ -430,3 +430,103 @@ Es gilt $\_{E_\pi} = E_\pi$.
     \end{proof}
 \end{st}
 
+
+\Timestamp{2016-01-14}
+
+\begin{st}
+    Ist $G$ transitiv orientierbar, dann ist $G$ $\chi$-perfekt und $\alpha$-perfekt.
+    \begin{note}
+        Induzierte Untergraphen sind wieder transitiv orientierbar.
+    \end{note}
+\end{st}
+
+Sei $(V, E) \hat= (V, \le)$ eine partielle Ordnung.
+Cliquen in $G$ enstprechen den \emphdef{Ketten} in $(G, \le)$, d.h. lineare Teilordnungen.
+Unabhängie Mengen entsprechen \emphdef{Antiketten}.
+
+Darstellung von transitiv orientierbaren Diagrammen als Hasse-Diagramm.
+
+\begin{st}[Satz von Dilnorth]
+    Sei $G = (V, \le)$ eine partielle Ordnung und $\alpha(G)$ die maximale Größe einer Antikette.
+    Dann reichen $\alpha(G)$ Ketten, um $G$ zu überdecken, d.h.
+    \begin{math}
+        \alpha(G) = \kappa(G).
+    \end{math}
+    \begin{proof}
+        Sei $C$ eine maximale Kette in $G$.
+        Dann existieren $c_- \in C$ minimal und $c_+ \in C$ maximal bezüglich $\le$.
+        Die Aussage gilt für $G - C$ nach Induktion.
+        Ohne Einschränkung $\alpha(G-C) = \alpha(G) = k$.
+        Wähle eine maximale Antikette $A = \Set{a_1, \dotsc, a_k} \subset G - C$ (insbesondere $A \cap C = \emptyset$).
+        Da $k = \alpha(G)$ gilt: $\forall c \in C \exists a \in A: c \le a \lor c \ge a$.
+        Definiere
+        \begin{math}
+            G^- &:= \Set{v \in V & \exists a \in A : v \le a} \supset A, \\
+            G^+ &:= \Set{v \in V & \exists a \in A : v \ge a} \supset A.
+        \end{math}
+        Daher ist $c_+ \not\in G$ und $c_- \not\in G^+$.
+        Es gilt $\alpha(G^-) = \alpha(G^+) = k$, da $A \subset G^- \cap G^+$.
+        Mit Induktion gibt es Ketten $C_1^-, \dotsc, C_k^-$, $C_1^+, \dotsc, C_k^+$, die $G^-$, bzw. $G^+$ überdecken.
+        Ohne Einschränkung $C_i^- \cap C_i^+ = \Set{a_i}$.
+        Dann ist $C_1^- \cup C_2^+$, $\dotsc$, $C_k^- \cup C_k^+$ die gesuchte Kettenüberdeckung von $G$.
+    \end{proof}
+    \begin{note}
+        Liefert Polynomialzeit-Algorithmus für maximale unabhängige Mengen auf transitiv orientierbaren Graphen.
+    \end{note}
+\end{st}
+
+
+\subsection{Split-Graphen}
+
+Zerlegung in $G_1 \ast G_2$ mit $G_1$ unabhängig und $G_2$ Clique.
+
+\begin{df}
+    $G = (V, E)$ heißt \emphdef{Split-Graph}, falls $V = I \ast K$ mit $I \cap K = \emptyset$ so, dass $I$ unabhängig und $K$ Clique ist.
+\end{df}
+
+\begin{lem}
+    $G$ ist Split-Graph genau dann, wenn $\_G$ Split-Graph ist.
+\end{lem}
+
+\begin{st}
+    Sei $G = (V, E)$ ein Graph.
+    Dann sind äquivalent:
+    \begin{enumerate}[i)]
+        \item
+            $G$ ist Split-Graph,
+        \item
+            $G$ und $\_G$ sind chordal,
+        \item
+            $G$ enthält keinen der induzierten Untegraphen $C_4$, $\_{C_4} = 2 K_2$, $C_5$.
+    \end{enumerate}
+    \begin{proof}
+        Ist $G$ Split-Graph, dann auch $\_G$ und es existiert eine simpliziale Ordnung.
+        Also i) $\implies$ ii).
+
+        Seien $C_4$, $\_{C_4} = 2 K_2$, $C_5$ keine induziertene Untergraphen, zeige $G$ ist Splitgraph.
+        Wähle maximale Clique $K \subset V$ so, dass $G - K$ möglichst wenig Kanten hat.
+        Sei $G = (V, E)$, $I = V - K$
+        Zeige: $I$ ist unabhängig.
+        Ohne Einschränkung ist $|K| \ge 2$ und $I \neq \emptyset$.
+        Angenommen $x,y \in I$ mit $xy \in E$.
+
+        Falls $N(x) \supset K - z$, $N(y) \supset K - z$, dann wäre $(K-z) \cup \Set{x,y}$ eine größere Clique.
+        Ohne Einschränkung $xy, yu, uv \in E$, da sonst $2K_2$ oder $C_4$.
+        Betrachte $w \in K - \Set{u,v}$.
+        Es muss $yw \in E$.
+        Also $N(y) \supset K - v$ und $(K-v) \cup \Set{y}$ eine maximale Clique.
+        Da die Kantenzahl in $G - K$ minimal war, existiert $t \in I - \Set{x,y}$ mit $vt \in E$ und $yt \not\in E$ (denn $|N(y)| \le |N(v)|$, sonst weniger Kanten in $G - K$ durch Tausch von $y$ und $v$ wie oben).
+        Es muss also $xt \in E$, sonst $2 K_2$.
+        Wäre $tu \not\in E$, dann $C_5$: $xyuvt$.
+        Also $tu \in E$, dann aber $C_4$: $txyu$.
+    \end{proof}
+\end{st}
+
+
+\Timestamp{2016-01-18}
+
+
+
+
+
+
