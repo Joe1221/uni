@@ -85,8 +85,8 @@ Schreiben wir $v_j = \sum_{k=1}^n \lambda_{jk} e_k \in V$, dann gilt
     \omega(v_1, \dotsc, v_q)
     &= \sum_{k_1, \dotsc, k_q = 1}^n \lambda_{1,k_1} \dotsb \lambda_{q,k_q} \omega(e_{k_1}, \dotsc, e_{k_q}) \\
     &= \sum_{\substack{k_1, \dotsc, k_q = 1 \\ k_i \neq k_j}}^n \lambda_{1,k_1} \dotsb \lambda_{q,k_q} \omega(e_{k_1}, \dotsc, e_{k_q}) \\
-    &= \sum_{1 \le k_1 < k_2 < \dotsc < k_q \le n} \sum_{\sigma \in \Sym(q)} \lambda_{1,k_{\sigma(1)}} \dotsb \lambda_{q, k_{\sigma(q)}} \omega(e_{k_{\sigma(1)}}, \dotsc, e_{k_{\sigma(q)}}) \\
-    &= \sum_{1 \le k_1 < k_2 < \dotsc < k_q \le n} \sum_{\sigma \in \Sym(q)} \lambda_{1,k_{\sigma(1)}} \dotsb \lambda_{q, k_{\sigma(q)}} \sgn(\omega) \omega(e_{k_1}, \dotsc, e_{k_q}).
+    &= \sum_{1 \le k_1 < \dotsc < k_q \le n} \sum_{\sigma \in \Sym(q)} \lambda_{1,k_{\sigma(1)}} \dotsb \lambda_{q, k_{\sigma(q)}} \omega(e_{k_{\sigma(1)}}, \dotsc, e_{k_{\sigma(q)}}) \\
+    &= \sum_{1 \le k_1 < \dotsc < k_q \le n} \sum_{\sigma \in \Sym(q)} \lambda_{1,k_{\sigma(1)}} \dotsb \lambda_{q, k_{\sigma(q)}} \sgn(\omega) \omega(e_{k_1}, \dotsc, e_{k_q}).
 \end{math}
 Dies zeigt: Es genügt, die Wert von $\omega$ auf $(e_{k_1}, \dotsc e_{k_q})$ mit $1 \le k_1 < \dotsb < k_q \le n$ zu kennen.
 Definiere nun für $k_1, \dotsc, k_q \in \Set{1, \dotsc, n}$ beliebig
@@ -130,12 +130,90 @@ bildet eine Basis von $\bigwedge^q V^*$ (die lineare Unabhängigkeit sieht man, 
     Wir definieren das \emphdef{äußere Produkt} $\alpha \wedge \beta$ durch
     \begin{math}
         \alpha \wedge \beta
-        &:= \frac{(p+q)!}{p!q!} \pi_\wedge( \alpha \otimes \beta) \circ \sigma \\
-        &= \sum_{[\sigma] \in \Sym(p+q) / \Sym(p) \times \Sym(q)} \sgn(\sigma) (\alpha \otimes \beta) \circ \sigma.
+        &:= \frac{(p+q)!}{p!q!} \pi_\wedge( \alpha \otimes \beta) \\
+        &= \frac{1}{p!q!} \sum_{\sigma \in \Sym(p+q)} \sgn(\sigma) (\alpha \otimes \beta) \circ \sigma \\
+        &= \sum_{[\sigma] \in \frac{\Sym(p+q)}{\Sym(p) \times \Sym(q)}} \sgn(\sigma) (\alpha \otimes \beta) \circ \sigma,
     \end{math}
+    wobei $\sigma$ die eingesetzten Vektoren permutiert.
 \end{df}
 
+\Timestamp{2016-01-19}
 
+\begin{ex}
+    Beispielsweise gilt für 1-Formen $\alpha, \beta$
+    \begin{math}
+        (\alpha \wedge \beta)(X,Y)
+        &= \frac{(1+1)!}{1!1!} \pi_\wedge(\alpha \otimes \beta)(X,Y) \\
+        &= 2 \cdot \frac{1}{2} ( \alpha(X)\beta(Y) - \beta(X) \alpha(Y)).
+    \end{math}
+\end{ex}
+
+\begin{st}[Eigenschaften von $\wedge$] \label{6.6}
+    Das äußere Produkt ist assziativ und \emphdef{superkommutativ} (oder \emphdef{graduiert kommutativ}), d.h. es gilt
+    \begin{math}
+        \alpha \wedge \beta = (-1)^{pq} \beta \wedge \alpha
+    \end{math}
+    für alternierende $p$-Formen $\alpha$ und alternierende $q$-Formen $\beta$.
+
+    Der Vektorraum $\bigwedge^{\bullet} V^\ast := \bigoplus_{q=0}^n \bigwedge^q V^*$ wird damit zu einer assoziativen, graduierte Algebra (es gilt $\dim \bigwedge^\bullet V^\ast = 2^n = 2^{\dim V}$).
+    \begin{proof}
+        Wegen der Bilinearität genügt es, die Assoziativität auf den Basisvektoren nachzurechnen.
+        Dazu prüft man, dass
+        \begin{math}
+            (e^{j_1} \wedge \dotsb \wedge e^{j_p}) \wedge (e^{k_1} \wedge \dotsb \wedge e^{k_q})
+            = e^{j_1} \wedge \dotsb \wedge e^{j_p} \wedge e^{k_1} \wedge \dotsb \wedge e^{k_q}.
+        \end{math}
+        Dies überprüft man, indem man $(p+q)$-Tupel von Basisvektoren einsetzt.
+        Die Formel $\alpha \wedge \beta = (-1)^{pq} \beta \wedge \alpha$ folgt, indem man sie für die Basisvektoren $\alpha = e^{j_1} \wedge \dotsb \wedge e^{j_r}$, $\beta = e^{k_1} \wedge \dotsb \wedge e^{k_q}$ überprüft.
+        In der Tat benötigt man $pq$ Nachbarvertauschungen.
+    \end{proof}
+\end{st}
+
+\begin{df} \label{6.7}
+    Sei $M$ eine Mannigfaltigkeit und $n := \dim(M)$.
+    Mit $\bigwedge^q \T^* M$ bezeichnen wir den Unterbündel der alternierenden $q$-Formen in ${\T^*}^{\otimes q} M$.
+
+    Sei $\bigwedge^\bullet \T^* M := \bigoplus_{q=0}^n \bigwedge^q \T^* M$.
+    Die Schnitte in diesem Bündel heißen \emphdef{Differentialformen} auf $M$.
+    Die Menge der Schnitte bezeichnen wir mit $\Omega^\bullet(M) := \Gamma(M, \bigwedge^\bullet \T^* M)$, bzw. $\Omega^q(M) := \Gamma(M, \bigwedge^q \T^* M)$.
+\end{df}
+
+\begin{st} \label{6.8}
+    Es existiert eine eindeutig bestimmte additive Abbildung $\d \in \End(\Omega^\bullet(M))$ mit folgenden Eigenschaften
+    \begin{enumerate}[i)]
+        \item
+            $\d(\Omega^q(M)) \subset \Omega^{q+1}(M)$.
+        \item
+            $\d(\alpha \wedge \beta) = \d \alpha \wedge \beta + (-1)^p \alpha \wedge \d \beta$ für alle $\alpha \in \Omega^p(M)$, $\beta \in \Omega^\bullet(M)$.
+        \item
+            $\d: \Omega^0(M) = C^\infty(M) \to \Gamma(M, \T^* M) = \Omega^1(M)$ ist das übliche Differential auf Funktionen.
+        \item
+            $\d^2 = 0$.
+    \end{enumerate}
+    Diese Abbildung $\d$ heißt \emphdef{äußere Ableitung} oder \emphdef{de Rham-Operator}.
+\end{st}
+
+Wir betrachten zunächst Differentialformen auf $\R^n$.
+Wir schreiben dazu in diesem Zusammenhang $\d f$ für die übliche Ableitung einer glatten Funktion $f:\R^n \to \R$, $\d f(p)$ ist eine \emphdef{Linearform}, d.h. eine lineare Abbildung $\R^n \to \R$.
+Die Linearform $\d x_i(p)$ bilden in jedem Punkt eine Basis von $\T_p^* \R^n = {\R^n}^*$, nämlich punktweise die Dualbasis zu dem kartesischen Vektorfeld $\pddx[x_j]$, d.h. es gilt
+\begin{math}
+    \d x_i (\pddx[x_j]) = \d x_i(e_j) = \delta_{ij}.
+\end{math}
+Es folgt, dass die Differentialformen
+\begin{math}
+    \Set{\d x_{i_1} \wedge \dotsb \wedge \d x_{i_q} & 1 \le i_1 < \dotsb < i_q \le n }
+\end{math}
+in jedem Punkt des $\R^n$ eine Basis der alternierenden $q$-Formen bilden.
+Eine beliebige alternierende $q$-Form lässt sich schreiben als
+\begin{math}
+    \omega = \sum_{1 \le i_1 < \dotsb < i_q \le n} f_{i_1, \dotsc, i_q} \d x_{i_1} \wedge \dotsb \wedge \d x_{i_q}
+\end{math}
+mit Funktionen $f_{i_1, \dotsc, i_q}: \R^n \to \R$.
+Zur Vereinfachung der Schreibweise verwendet man einen Multiindex $I = (i_1, \dotsc, i_q)$ mit $1 \le i_1 < \dotsb < i_q \le n$ und schreibt
+\begin{math}
+    \d x_I := \d x_{i_1} \wedge \dotsb \wedge \d x_{i_q}
+\end{math}
+und somit $\omega = \sum_I f_I \d x_I$.
 
 
 
