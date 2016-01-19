@@ -526,6 +526,123 @@ Zerlegung in $G_1 \ast G_2$ mit $G_1$ unabhängig und $G_2$ Clique.
 \Timestamp{2016-01-18}
 
 
+\begin{df}
+    Sei $G = (V, E)$ ein endlicher Graph ohne Schlingen und Mehrfachkanten.
+    Sei $V = \Set{v_1, \dotsc, v_n}$ und $d_i = d(v_i) = |N(v_i)|$ der Grad von $v_i$.
+
+    Dann heißt die Sequenz $(d_1, \dotsc, d_n)$ die \emphdef{Gradsequenz} zu $G$, falls ohne Einschränkung $d_1 \ge \dotsb \ge d_n$.
+\end{df}
+
+\begin{df}
+    Sei $(V, E) = G$ ein Graph.
+    Dann heißt $G$ \emphdef{Teilrealisierung} von $d = (d_1, \dotsc, d_n) \in \N^n$, falls $d(v_i) \le d_i$ und die Menge $\Set{v_{r+1}, \dotsc, v_n}$ unabhängig ist, falls $r$ maximal ist mit $d_i = d(v_i)$ für alle $i < r$.
+    \begin{note}
+        $r$ ist minimal mit $d(v_r) < d_r$.
+        Der Graph $(\Set{v_1, \dotsc, v_n}, \emptyset)$ ist Teilrealisierung von $(d_1, \dotsc, d_n)$ mit $r = 1$.
+    \end{note}
+\end{df}
+
+%Ziel $r = n$ und $d_r = d(v_r)$.
+
+
+
+\begin{st}[Erdös-Gallei]
+    Sei $(d_1, \dotsc, d_n) \in \N^n$ mit $d_1 \ge \dotsb \ge d_n$.
+    Dann sind äquivalent
+    \begin{enumerate}[i)]
+        \item
+            $(d_1, \dotsc, d_n)$ ist Gradsequenz
+        \item
+            $\sum_{i=1}^n d_i \equiv 0 \bmod 2$ und
+            \begin{math}
+                \forall 1 \le r \le n : \sum_{i=1}^r d_i \le r(r-1) + \sum_{i=r+1}^n \min\Set{r, d_i}.
+            \end{math}
+    \end{enumerate}
+    \begin{proof}[2009]
+        \ProofImplication ist einfach: $r(r-1)$ zählt Grade für eine Clique und die zweite Summe zählt für jeden Knoten die Grade, welche in die Clique zeigen.
+
+        Sei also ii) erfüllt.
+
+        Sei $G = (V, E)$ eine Teilrealisierung für $r$.
+        Falls $r = n$ und $d_r = d(v_r)$, dann fertig.
+        Falls $r < n$ und $d_r = d(v_r)$, dann ersetze $r$ durch $r + 1$.
+
+        Also ohne Einschränkung $d(v_r) < d_r$.
+        \begin{enumerate}[1), start=0]
+            \item
+                Sei $\exists i > r$ mit $v_i v_r \not\in E$ und $d(v_i) < d_i$.
+
+                Dann füge $v_r v_i$ hinzu.
+                Also ohne Einschränkung $\forall i > r: v_r v_i \not\in E \implies d(v_i) = d_i$.
+            \item
+                Sei $\exists i < r$ mit $v_i v_r \not\in E$.
+
+                Es gilt $d_i = d(v_i) \ge d_r > d(v_r)$.
+                Also existiert $u$ mit $v_i u \in E$ und $v_r u \not\in E$.
+                Falls $d_r - d(v_r) \ge 2$, dann ersetze $v_i u$ durch $v_i v_r$ und $uv_r$.
+                Sei also $d_r = d(v_r) + 1$.
+                Da $\sum_{i=1}^n d_i \equiv 0 \bmod 2$ gibt es $k > r$ mit $d(v_k) < d_k$.
+                Insbesondere $v_r v_k \in E$ nach Fall 0.
+                Ersetze nun $v_i u$ und $v_r v_k$ durch $u v_r$ und $v_i v_r$.
+
+                Jetzt ist $\forall i < r: v_i v_r \in E$ und $\forall r < k: d(v_k) < d_k \implies v_r v_k \in E$.
+            \item
+                Sei zusätzlich $\exists r < k: d(v_k) = \min\Set{r, d_k}$.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+
+
+\begin{st}
+    Sei $d = (d_1, \dotsc, d_n) \in \N^n$ eine Gradsequenz zu $G$.
+    Dann sind äquivalent:
+    \begin{enumerate}[i)]
+        \item
+            $G$ ist Splitgraph
+        \item
+            Wähle $m$ maximal mit $d_m \ge m - 1$.
+            Dann gilt
+            \begin{math}
+                \sum_{i=1}^m d_i = m(m-1) + \sum_{i=m+1}^n d_i.
+            \end{math}
+    \end{enumerate}
+    \begin{proof}
+        Sei $G = (V, E)$ ein Splitgraph.
+        Dann existiert eine Zerlegung $V = I \ast K$ mit maximaler Clique $K$, $m = |K|$ und unabhängige Knotenmenge $I$.
+        Dann ist $\forall x \in K: d(x) \ge m - 1$.
+        Falls $\forall x \in V \setminus K: d(x) \le m - 2$, dann ist $\forall x \in K \forall y \not\in K : d(x) > d(y)$.
+        Fall $\exists y \not\in K$ mit $d(y) = m - 1$, dann $\forall x \in K \setminus \Set{z} : d(x) \ge m$.
+        Also $d_m \ge m - 1$ wenn $m$ maximal ist.
+        Dann gilt
+        \begin{math}
+            \sum_{i=1}^m d_i =
+            \sum_{x \in K} d(x)
+            = m(m-1) + \sum_{i=m+1}^n d_i
+        \end{math}
+
+        Sei umgekehrt $\sum_{i=1}^m d_i = m(m-1) + \sum_{i=m+1}^n d_i$ für ein $m$.
+        Dann gilt $\sum_{i=1}^m d_i = s_1 + s_2$ mit
+        \begin{math}
+            s_1 &= \sum_{x\in K} \l| \Set{y \in K & xy \in E} \r| \le m(m-1), \\
+            s_2 &= \sum_{y \in V \setminus K} \l| \Set{x_i \in K & xy \in E} \r| \le \sum_{i=m+1}^n d_i.
+        \end{math}
+        Wir wollen, dass $K$ Clique und $V \setminus K$ unabhängig ist.
+
+        Wir wissen ferner (Erdös-Gallei)
+        \begin{math}
+            s_1 + s_2
+            &\le m(m-1) + \sum_{i=m+1}^n \min\Set{m, d_i} \\
+            &\le m(m-1) + \sum_{i=m+1}^n d_i \\
+            &= s_1 + s_2
+        \end{math}
+        Es folgt $s_1 = m(m-1)$ und $s_2 = \sum_{i=m+1} d_i$.
+    \end{proof}
+    \begin{note}
+        Liefert Polynomialzeitalgorithmus für Split-Graph-Prüfung.
+    \end{note}
+\end{st}
+
 
 
 
