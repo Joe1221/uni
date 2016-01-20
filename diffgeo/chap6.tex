@@ -49,7 +49,7 @@
             \item
                 Aus der linearen Algebra ist bekannt, dass $\bigwedge^n V^*$ (mit $n = \dim V$) eindimensional ist, omit wird der Raum von dem (nichttrivialen) Element
                 \begin{math}
-                    (v_1, \dotsc, v_n) \mapsto \det (e^j(v_k)_{1\le j,k \le n}
+                    (v_1, \dotsc, v_n) \mapsto \det (e^j(v_k)_{1\le j,k \le n})
                 \end{math}
                 erzeugt, wobei $e^1, \dotsc, e^n$ eine Basis von $V^*$ bilden.
             \item
@@ -191,6 +191,42 @@ bildet eine Basis von $\bigwedge^q V^*$ (die lineare Unabhängigkeit sieht man, 
             $\d^2 = 0$.
     \end{enumerate}
     Diese Abbildung $\d$ heißt \emphdef{äußere Ableitung} oder \emphdef{de Rham-Operator}.
+    \begin{proof}
+\Timestamp{2016-01-20}
+        Wie in \ref{3.11} zeigt man, dass $\d$ ein lokaler Operator ist.
+        Sei $\phi: U \to V$ eine Karte von $M$.
+        Dann ist für eine $q$-Form $\omega \in \Omega^q(M)$ die mit $\phi^{-1}$ auf $V$ zurückgeholte Differentialform gleich ${\phi^{-1}}^* \omega = \sum_{I} f_I \d x_I$ mit glatten Funktionen $f_I: V \to \R^n$.
+        Somit ist $\omega$ auf $U$ eingeschränkt von der Gestalt
+        \begin{math}
+            \omega|_U := \sum_I (f_I \circ \phi) \d (x_{i_1} \circ \phi) \wedge \dotsb \wedge \d (x_{i_q} \circ \phi)
+        \end{math}
+        Sei nun $\d^U$ ein Operator auf $\Omega^\bullet(U)$, der die geforderten Eigenschaften (i)-(iv) hat.
+        Dann folgt aus (ii) und (iv), dass
+        \begin{math}
+            \d^U(\omega|_U)
+            = \sum_{I} \d(f \circ \phi) \wedge \d(x_{i_1} \circ \phi) \wedge \dotsb \wedge \d(x_{i_q} \circ \phi)
+        \end{math}
+        (wobei die $\d$ auf der rechten Seite Differentiale von Funktionen sind).
+        Die zeigt, dass $\d^U$ eindeutig ist (und insbesondere, dass es höchstens ein $\d$ auf $M$ mit (i)-(iv) gibt.
+
+        Der erste Faktor lässt sich nach Kettenregel so schreiben:
+        \begin{math}
+            \d^U(f_I \circ \phi)
+            = \phi^* \d f_I
+            = \phi^* \sum_{j} \pddx[x_j]{f_I} \d x_j.
+        \end{math}
+        Somit folgt
+        \begin{math}
+            {\d^U}^2(f_I \circ \phi)
+            = \phi^* \d^2 f_I
+            = \phi^* \sum_{j,k} \frac{\partial^2 f_I}{\partial x_k \partial x_j} \d x_k \wedge \d x_j
+            = 0.
+        \end{math}
+        Dies zegit, dass $(d^U)^2 = 0$ gilt, woraus folgt, dass $\d^2 = 0$ ist (falls $\d$ existiert).
+        Aus der Darstellung von $\d^U(\omega|_U)$ und (i) folgt, dass auch $\d(\Omega^q(M)) \subset \Omega^{q+1}(M)$ gilt (falls $d$ existiert).
+        Wir haben gesehen, dass es in jeder Kartenumgebung $U$ einen eindeutig bestimmten Operator $\d^U$ gibt, der (i)-(iv) erfüllt.
+        Für zwei Karten  $\phi: U \to V$, $\phi': U' \to V'$ folgt $\d^U|_{U \cap U'} = \d^{U'}|_{U \cap U'}$ und somit ist $\d$ auf ganz $M$ global definiert und eindeutig bestimmt.
+    \end{proof}
 \end{st}
 
 Wir betrachten zunächst Differentialformen auf $\R^n$.
@@ -215,5 +251,87 @@ Zur Vereinfachung der Schreibweise verwendet man einen Multiindex $I = (i_1, \do
 \end{math}
 und somit $\omega = \sum_I f_I \d x_I$.
 
+
+\begin{st}[Eigenschaften von $\d$] \label{6.9}
+    Für den de Rahm-Operator gilt
+    \begin{enumerate}[(i)]
+        \item
+            $\d^2 = \d \circ \d = 0 \iff \im(\d) \subset \ker(\d)$.
+        \item
+            Ist $\phi: M \to N$ eine glatte Abbildung zwischen Mannigfaltigkeiten und $\omega \in \Omega^\bullet(N)$, dann gilt $\d(\phi^* \omega) = \phi^* \d \omega$.
+        \item
+            Für alle $X \in \scr X(M)$, $w \in \Omega^\bullet(M)$:
+            \begin{math}
+                L_X \d \omega = \d L_X \omega.
+            \end{math}
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}[i)]
+            \item
+                Siehe \ref{6.8}.
+            \item
+                Wie im Beweis von \ref{6.8} lässt sich jede Form als Linearkombinationen von Dachprodukten von 1-Formen schrebien, die wiederum lokal von der Form $f \cdot \d g$ sind.
+                Für solche Formen gilt die Aussage nach Kettenregel:
+                Sind $f, g \in C^\infty(N)$, so gilt $\phi^* f \d g = (f \circ \phi) \d(g \circ \phi)$.
+                Also ist
+                \begin{math}
+                    \d(\phi^* (f \cdot \d g))
+                    \stack{\text{6.8 (ii)}}= \d(f \circ g) \wedge \d(g \circ \phi)
+                    = \phi^* \d f \wedge \d g.
+                \end{math}
+                Allgemein folgt die Formel aus $f^*(\alpha \wedge \beta) = (f^* \alpha) \wedge (f^* \beta)$ (was aus $f^*(\alpha \otimes \beta) = (f^* \alpha) \otimes (f^* \beta)$ folgt).
+            \item
+                Aus (ii) folgt ${\Phi^X_t}^* \d \omega = \d({\Phi_t^X}^* \omega)$, woraus die Behauptung durch Anwenden von $\pddx{t}|_{t=0}$ auf beiden Seiten folgt.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+\begin{nt} \label{6.10}
+    Der Einsetzungsoperator $\iota_X$ für ein Vektorfeld $X \in \scr X(M)$ hat ähnliche Eigenschaften wie $\d$ auf $\Omega^\bullet(M)$.
+    Es gilt $\iota_X^2 = 0$ und die Leibnizregel $\iota_X(\alpha \wedge \beta) = (\iota_X \alpha) \wedge \beta + (-1)^p \alpha \wedge (\iota_X \beta)$, falls $\alpha \in \Omega^p(M)$, siehe Übungsaufgabe 37.
+\end{nt}
+
+\begin{st}[Homotopieformel von Élie Cartan] \label{6.11}
+    Für jedes Vektorfeld $X$ und $\omega \in \Omega^\bullet(M)$ gilt
+    \begin{math}
+        L_X \omega
+        = (d \circ \iota_X + \iota_X \circ d) \omega
+        = (d + \iota_X)^2 \omega.
+    \end{math}
+    Mit anderen Worten: $L_X$ hat die zweite Wurzel $\d + \iota_X$.
+    \begin{proof}
+        Die zweite Gleichheit folgt aus $\d^2 = 0$, $\iota_X^2 = 0$.
+
+        Mit $\d$ und $\iota_X$ ist auch $K_X := (d + \iota_X)^2$ ein lokaler Operator.
+        \begin{enumerate}[a)]
+            \item
+                Auf Funktionen gilt
+                \begin{math}
+                    K_X f = \underbrace{\d(\iota_X f)}_{=0} + \iota_X(\d f)
+                    = L_X f.
+                \end{math}
+            \item
+                $K_X$ operiert als Derivation auf $\Omega^\bullet(M)$: für $\alpha \in \Omega›p(M)$, $\beta \in \Omega^\bullet(M)$ gilt
+                \begin{math}
+                    K_X(\alpha \wedge \beta)
+                    &= (d + \iota_X) ((\d + \iota_X) \alpha \wedge \beta + (-1)^p \alpha \wedge (d + \iota_X) \beta) \\
+                    &= K_X \alpha \wedge \beta + (-1)^{p \pm 1} (d + \iota_X) \alpha \wedge (d + \iota_X) \beta \\
+                    &\qquad + (-1)^p ( d+ \iota_X) \alpha \wedge (d + \iota_X) \beta + (-1)^{2p} \alpha \wedge K_X \beta \\
+                    &= K_Y \alpha \wedge \beta + \alpha \wedge K_X \beta.
+                \end{math}
+            \item
+                Auf $1$-Formen gilt $K_X = L_X$, denn
+                \begin{math}
+                    K_X \d f
+                    &= (d + \iota_X)(d + \iota_X) \d f
+                    = (d + \iota_X) \iota_X \d f \\
+                    &= (\d \iota_X \d f)
+                    = \d L_X f
+                    = L_X \d f
+                \end{math}
+                Induktiv folgt, dass $L_X$ und $K_X$ auf allen Differentialformen übereinstimmen.
+        \end{enumerate}
+    \end{proof}
+\end{st}
 
 
