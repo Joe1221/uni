@@ -122,7 +122,7 @@ Beispiel: $C_5$.
 \section{Chordale Graphen}
 
 \begin{df}
-    $G = (V, E)$ heißt \emphdef{chordal}, wenn jeder einfache Kreis mit mindesten $4$ Punkten eine Sehne hat.
+    $G = (V, E)$ heißt \emphdef{chordal}, wenn jeder einfache Kreis in $G$ mit mindestens $4$ Punkten eine Sehne besitzt.
 \end{df}
 
 \begin{ex}
@@ -137,23 +137,25 @@ Beispiel: $C_5$.
 \end{ex}
 
 \begin{lem}
-    Sei $G$ chordal und $G'$ ein induzierter Untegraph, dann ist $G'$ chordal.
+    Sei $G$ chordal und $G'$ ein induzierter Untergraph, dann ist $G'$ chordal.
 \end{lem}
 
 \begin{df}
     Sei $G = (V, E)$ ein Graph und $x \in V$.
-    Dann heißt $x$ \emphdef{simplizial}, falls $N(x)$ eine Clique ist.
-    Insbesondere ist dann $N(x) \sqcup \Set x$ auch eine Clique.
+    Dann heißt $x$ \emphdef{simplizial}, falls $N(x)$ eine Clique ist
+    (insbesondere ist dann $N(x) \sqcup \Set x$ auch eine Clique).
 
     Eine \emphdef{simpliziale Ordnung} ist eine Reihenfolge der Kanten $v_1, v_2, \dotsc, v_n$ sodass
     $\forall 1 \le i \le n$ $v_i$ simplizial in $G[v_i, \dotsc, v_n]$ (induzierter Untergraph von $v_i, \dotsc, v_n$) ist.
 \end{df}
 
 \begin{df}
-    Für $a, b \in V$, $a \neq b \in E$ heißt $S \subset V$ ein $a$-$b$-Separator, falls $a$ und $b$ in verschiedenen Zusammenhangskomponenten von $G - S$ liegen (insbesondere $a,b \not\in S$).
-    \begin{proof}
-        Es existiert stets ein $a$-$b$-Separator (solange $ab \not\in E$).
-    \end{proof}
+    Seien $a, b \in V$, $ab \not\in E$.
+    Dann heißt $S \subset V \setminus \Set{a,b}$ ein \emphdef{$a$-$b$-Separator}, falls $a$ und $b$ in verschiedenen Zusammenhangskomponenten von $G - S$ liegen.
+    \begin{note}
+        Für $ab \not\in E$ bildet
+        $N(a) \cup N(b)$ stets ein $a$-$b$-Separator.
+    \end{note}
 \end{df}
 
 \begin{st}
@@ -193,24 +195,23 @@ Beispiel: $C_5$.
 \end{lem}
 
 \begin{st}
-    $G = (V, E)$ ist chordal genau dann, wenn eine simpliziale Ordnung auf $G$ existiert.
+    $G$ ist chordal genau dann, wenn eine simpliziale Ordnung auf $G$ existiert.
     \begin{proof}
         \begin{seg}{\ProofImplication}
             Falls $G$ vollständig ist, so ist jede Ordnung auf $G$ eine simpliziale Ordnung ($n!$ viele).
-            Falls $G \neq K_n$, dann gibt es zwei simpliziale Knoten.
-            Wähle einen als $x_1$.
-            Betrachte dann $G - x_1$.
+            Falls $G \neq K_n$, dann gibt es mindestens zwei simpliziale Knoten.
+            Wähle einen als $x_1$ und gehe zu $G - x_1$ über, setze dies induktiv fort.
             Also gibt es insgesamt mindestens $2^n \le n!$ simpliziale Ordnungen ($P_n$ liefert untere Schranke).
         \end{seg}
         \begin{seg}{\ProofImplication*}
-            Sei $C$ ein einfacher Kreis in $G$.
+            Sei $C$ ein einfacher Kreis in $G$ mit $|C| \ge 4$.
             Der Knoten in $C$ mit minimaler simplizialer Ordnung in $G$ bildet eine Sehne mit mindestens einem seiner Nachbarn.
         \end{seg}
     \end{proof}
 \end{st}
 
 \begin{st}
-    Jeder bipartite Graph ist $\alpha$-perfekt.
+    Jeder bipartite Graph ist $\alpha$-perfekt und $\chi$-perfekt.
     \begin{proof}
         Wenn $E = \emptyset$, dann ist $\chi(G) = 1 = \omega(G)$.
         Für $E \neq \emptyset$, $\chi(G) = 2 = \omega(G)$.
@@ -249,16 +250,24 @@ Beispiel: $C_5$.
 
 \section{Intervallgraphen}
 
+Intervallgraphen beschreiben die paarweisen Schnitte reeller Intervalle.
 
 \begin{df}
-    Seien $I_1, \dotsc, I_n = [a_i, b_i] \subset \R$ reelle Intervalle.
-    Definiere $G = (V, E)$ mit $V = \Set{I_i}_{i=1}^n$ und $I_iI_j \in E \iff I_i \cap I_j \neq \emptyset$.
+    Seien $I_1, \dotsc, I_n \subset \R$ reelle Intervalle.
+
+    Ein Graph $G = (V, E)$ mit $V = \Set{I_i}_{i=1}^n$ und
+    \begin{math}
+        E &= \Set{I_i I_j & I_i \cap I_j \neq \emptyset}
+    \end{math}
+    heißt \emphdef{Intervallgraph}.
     \begin{note}
         Ohne Einschränkung können wir stets $I_i = (a_i, b_i)$ mit $a_i < b_i$ wählen.
-
-        Induzierte Untergraphen sind Intervallgraphen.
     \end{note}
 \end{df}
+
+\begin{lem}
+    Induzierte Untergraphen von Intervallgraphen sind Intervallgraphen.
+\end{lem}
 
 \begin{lem}
     Intervallgraphen sind chordal.
@@ -269,7 +278,7 @@ Beispiel: $C_5$.
 \end{lem}
 
 \begin{df}
-    Sei $G = (V, E)$ ungerichtet.
+    Sei $G = (V, E)$ ein ungerichteter Graph.
     Dann ist $F \subset E$ eine \emphdef{transitive Orientierung} (TRO) von $G$, falls $E = F \cup F^{-1}$, $F \cap F^{-1} = \emptyset$, $F^2 \subset F$.
     Existiert eine transitive Orientierung, so heißt $G$ \emphdef{transitiv orientierbar}.
 \end{df}
@@ -356,8 +365,8 @@ Beispiel: $C_5$.
 
 
 \begin{df}
-    Sei $V_n = \Set{1, \dotsc, n}$, $\pi \in \Perm(n)$.
-    Sezte
+    Sei $V = \Set{1, \dotsc, n}$, $\pi \in \Perm(n)$.
+    Setze
     \begin{math}
         E_\pi = \Set{ij & (i-j)(\pi(i) - \pi(j)) < 0} \subset \binom{V}{2}.
     \end{math}
@@ -478,8 +487,6 @@ Darstellung von transitiv orientierbaren Diagrammen als Hasse-Diagramm.
 
 \subsection{Split-Graphen}
 
-Zerlegung in $G_1 \ast G_2$ mit $G_1$ unabhängig und $G_2$ Clique.
-
 \begin{df}
     $G = (V, E)$ heißt \emphdef{Split-Graph}, falls $V = I \ast K$ mit $I \cap K = \emptyset$ so, dass $I$ unabhängig und $K$ Clique ist.
 \end{df}
@@ -493,11 +500,11 @@ Zerlegung in $G_1 \ast G_2$ mit $G_1$ unabhängig und $G_2$ Clique.
     Dann sind äquivalent:
     \begin{enumerate}[i)]
         \item
-            $G$ ist Split-Graph,
+            $G$ ist ein Split-Graph,
         \item
             $G$ und $\_G$ sind chordal,
         \item
-            $G$ enthält keinen der induzierten Untegraphen $C_4$, $\_{C_4} = 2 K_2$, $C_5$.
+            $G$ enthält keinen der induzierten Untegraphen $C_4$, $\_{C_4} = 2 K_2$ oder $C_5$.
     \end{enumerate}
     \begin{proof}
         Ist $G$ Split-Graph, dann auch $\_G$ und es existiert eine simpliziale Ordnung.
