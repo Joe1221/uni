@@ -546,19 +546,19 @@ Zerlegung in $G_1 \ast G_2$ mit $G_1$ unabhängig und $G_2$ Clique.
 
 
 
-\begin{st}[Erdös-Gallei]
+\begin{st}[Erdös-Gallai]
     Sei $(d_1, \dotsc, d_n) \in \N^n$ mit $d_1 \ge \dotsb \ge d_n$.
     Dann sind äquivalent
     \begin{enumerate}[i)]
         \item
             $(d_1, \dotsc, d_n)$ ist Gradsequenz
         \item
-            $\sum_{i=1}^n d_i \equiv 0 \bmod 2$ und
+            $\sum_{i=1}^n d_i \equiv 0 \bmod 2$ und $\forall 1 \le r \le n$
             \begin{math}
-                \forall 1 \le r \le n : \sum_{i=1}^r d_i \le r(r-1) + \sum_{i=r+1}^n \min\Set{r, d_i}.
+                 \sum_{i=1}^r d_i \le r(r-1) + \sum_{i=r+1}^n \min\Set{r, d_i}.
             \end{math}
     \end{enumerate}
-    \begin{proof}[2009]
+    \begin{proof}[2009, Tripathi, Venugopalan, West]
         \ProofImplication ist einfach: $r(r-1)$ zählt Grade für eine Clique und die zweite Summe zählt für jeden Knoten die Grade, welche in die Clique zeigen.
 
         Sei also ii) erfüllt.
@@ -587,12 +587,35 @@ Zerlegung in $G_1 \ast G_2$ mit $G_1$ unabhängig und $G_2$ Clique.
 
                 Jetzt ist $\forall i < r: v_i v_r \in E$ und $\forall r < k: d(v_k) < d_k \implies v_r v_k \in E$.
             \item
-                Sei zusätzlich $\exists r < k: d(v_k) = \min\Set{r, d_k}$.
+                Sei zusätzlich $\exists k > r: d(v_k) \neq \min\Set{r, d_k}$.
+
+                $S := \Set{v_{r+1}, \dotsc, v_n}$
+                Es gilt $d(v_k) \le r$, da $S$ unabhängig ist.
+                Ferner gilt $d(v_k) \le d_k$, also $d(v_k) < \min\Set{r, d_k}$.
+                Also $d(v_k) < r$ und $d(v_k) < d_k$.
+                Es existiert $v_i$ mit $v_iv_k \not\in E$ und $u$ mit $uv_i \in E$, da $d(v_i) \ge d_r > d(v_)$.
+                Ersetze nun $v_i v_r$ und $v_i u$ durch $v_i v_k$ und $u v_r$.
+            \item
+                Keine der anderen Fälle tritt ein und $\Set{v_1, \dotsc, v_r}$ sind kein Clique.
+                Also $\exists 1 \le i < j < r$ mit $v_i v_j \not\in E$.
+                Wegen $d(v_i) \ge d(v_j) \ge d_r > d(v_r)$, dann existieren $u,v$ mit $v_r u, v_r v \not\in E$, also $u,v \in S$ (evtl. $u = v$).
+                Ersetze nun $v_i u, v_j v$ durch $v_i v_j$ und z.B. $v_r u$.
         \end{enumerate}
+        Dieses Vorgehen endet in jedem Fall in einer Clique $\Set{v_1, \dotsc, v_r}$ und $\Set{v_{r+1},\dotsc, v_n}$ unabhängig.
+        Außerdem gilt nicht Fall 2, also $d(v_k) = \min\Set{r, d_k}$ für $r < k \le n$.
+
+        Jetzt gilt $d_r = d(v_r)$.
+        Da nun Splitgraph, angenommen
+        \begin{math}
+            \sum_{i=1}^r d(v_i)
+            &= r(r-1) + \sum_{i=r+1}^n d(v_i) \\
+            &< \sum_{i=1}^r d_i
+            \le r(r-1) + \sum_{i=r+1}^n \min\Set{r, d_i}
+            = r(r-1) + \sum_{i=r+1}^n d(v_i),
+        \end{math}
+        ein Widerspruch.
     \end{proof}
 \end{st}
-
-
 
 \begin{st}
     Sei $d = (d_1, \dotsc, d_n) \in \N^n$ eine Gradsequenz zu $G$.
@@ -629,7 +652,7 @@ Zerlegung in $G_1 \ast G_2$ mit $G_1$ unabhängig und $G_2$ Clique.
         \end{math}
         Wir wollen, dass $K$ Clique und $V \setminus K$ unabhängig ist.
 
-        Wir wissen ferner (Erdös-Gallei)
+        Wir wissen ferner (Erdös-Gallai)
         \begin{math}
             s_1 + s_2
             &\le m(m-1) + \sum_{i=m+1}^n \min\Set{m, d_i} \\
