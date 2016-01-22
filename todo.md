@@ -2,7 +2,7 @@
 
 ## Common
 
-- Fix compiler-freeze if there are no commits in current directory 
+- Fix compiler-freeze if there are no commits in current directory
 - Reimplement Theorems using `\DeclareDocumentEnvironment` or even using Coffins (fixes `]` inside theorem title).
 - Figure out a good way for referencing (or just marking) exercises with `\Exercise` (index too?)
 - <del>Revise `\coursetimestamp{}{}{}` syntax and usage</del>
