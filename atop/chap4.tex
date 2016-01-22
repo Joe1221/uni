@@ -283,10 +283,10 @@ Erste Beispiele:
         f_n: (v_0, \dotsc, v_n) &\mapsto (f(v_0), \dotsc, f(v_n)) \\
         \<v_0, \dotsc, v_n\> &\mapsto \<f(v_0), \dotsc, f(v_n)\> \\
     \end{math}
-    Es gilt $f_{n-1} \circ \Boundary_n^k = \Boundary_n^L \circ f_n$, kurz $f \circ \Boundary = \Boundary \circ f$ d.h.
+    Es gilt $f_{n-1} \circ \Boundary_n^K = \Boundary_n^L \circ f_n$, kurz $f \circ \Boundary = \Boundary \circ f$ d.h.
     \begin{math}
         \begin{tikzcd}
-            0 & C_0 K \ar[l] \ar[d,"f_0"] & C_1 K \ar[l,"\Boundary_1^K"] & C_2 K \ar[l,"\Boundary_2^k"] \ar[d,"f_2"] & \dotsc\ar[l] \\
+            0 & C_0 K \ar[l] \ar[d,"f_0"] & C_1 K \ar[l,"\Boundary_1^K"] \ar[d,"f_1"] & C_2 K \ar[l,"\Boundary_2^K"] \ar[d,"f_2"] & \dotsc\ar[l] \\
             0 & C_0 L \ar[l] & C_1 L \ar[l,"\Boundary_1^L"] & C_2 L \ar[l,"\Boundary_2^L"] & \dotsc\ar[l]
         \end{tikzcd}
     \end{math}
@@ -337,21 +337,32 @@ Kurzum: Wir erhalten Funktoren
     \end{math}
     \begin{proof}
         Definiere $T: C_n K \to C_{n+1} K$ durch $\<v_0, \dotsc, v_n\> \mapsto \<v, v_0, \dotsc, v_n\>$.
+        Für $n \ge 1$ gilt
         \begin{math}
-            \Boundary T\<v_0, \dotsc, v_n\>
-            &= +\<v_0, \dotsc, v_n\> - \sum_{i=0}^n (-1)^i \<v, v_0, \dotsc, \hat v_i, \dotsc, v_n\> \\
-            &= \id \<v_0, \dotsc, v_n\> - T \Boundary \<v_0, \dotsc, v_n\>,
+            \Boundary_{n+1} T_n\<v_0, \dotsc, v_n\>
+            &= \<v_0, \dotsc, v_n\> - \sum_{i=0}^n (-1)^i \<v, v_0, \dotsc, \hat v_i, \dotsc, v_n\> \\
+            &= \id \<v_0, \dotsc, v_n\> - T_{n-1} \Boundary_n \<v_0, \dotsc, v_n\>,
         \end{math}
-        d.h. $\Boundary T + T \Boundary = \id - 0$.
+        Für $n = 0$ gilt $\Boundary_1 T_0 \<v_0\> = \Boundary_1 \<v, v_0\> = \<v_0\> - \<v\>$.
+
+        Setze $g: K \to K$, $g(\Omega) = \Set{v}$ und $g_*: C_* K \to C_* K$, $\<v_0,\dotsc, v_n\> = \<g(v_0), \dotsc, g(v_n)\>$.
+        Damit gilt
+        \begin{math}
+            \del T + T \del = \id - g.
+        \end{math}
     \end{proof}
 \end{st}
 
+\Timestamp{2016-01-22}
+
 \begin{df}
-    Eine \emphdef{Kettenhomotopie} $T: f \sim g$ ist eine Familie von Abbildungen $T_n: C_n \to C_{n+1}'$ mit $\Boundary_{n+1} T_n + T_{n-1} \Boundary_n = f_n - g_n$.
+    Seien $(C_n, \del_n)_{n\in\Z}$ und $(C_n', \del_n')_{n \in \Z}$ zwei Kettenkomplexe und $f, g$ Kettenhomomorphismen, d.h. $f_n, f_g: C_n \to C_n'$ mit $f_{n-1} \circ \del_{n} = \del_n' \circ f_n$ und $g\circ \del = \del' \circ g$.
+
+    Eine \emphdef{Kettenhomotopie} $T: f \sim g$ ist eine Familie von Abbildungen $T_n: C_n \to C_{n+1}'$, $n \in \Z$ mit $\del_{n+1}' T_n + T_{n-1} \del_n = f_n - g_n$.
     \begin{math}
         \begin{tikzcd}
-            C_{n-1} & C_n \ar[l,"\Boundary_n"] \ar[d,"f_n"',shift right] \ar[d,"g_n",shift left] & C_{n+1} \ar[l,"\Boundary_{n+1}"] \ar[d,"f_{n+1}"',shift right] \ar[d,"g_{n+1}",shift left] \\
-            C_{n-1}' & C_n' \ar[l,"\Boundary_n"] & C_{n+1} \ar[l,"\Boundary_{n+1}"]
+            ~ & C_{n-1} \ar[l] \ar[d,"f_{n-1}"',shift right] \ar[d,"g_{n-1}",shift left] \ar[dr,"T_{n-1}"] & C_n \ar[dr,"T_n"] \ar[l,"\Boundary_n"'] \ar[d,"f_n"',shift right] \ar[d,"g_n",shift left] & C_{n+1} \ar[l,"\Boundary_{n+1}"'] \ar[d,"f_{n+1}"',shift right] \ar[d,"g_{n+1}",shift left] & ~ \ar[l] \\
+            ~ & C_{n-1}' \ar[l] & C_n' \ar[l,"\Boundary_n"] & C_{n+1} \ar[l,"\Boundary_{n+1}"] & ~ \ar[l]
         \end{tikzcd}
     \end{math}
 \end{df}
@@ -362,12 +373,321 @@ Kurzum: Wir erhalten Funktoren
         H_n(f) = H_n(g): H_n(C) \to H_n(C')
     \end{math}
     \begin{proof}
-        $[(f_n - g_n)(z)] = 0$
+        Sei $z \in Z_n$, d.h. $z \in C_n$ und $\del z = 0$.
+        Es gilt
         \begin{math}
-            (f-g)(z)
-            = (\Boundary T + T \Boundary)(z)
-            = \Boundary T z
+            f_n(z) - g_n(z)
+            = \underbrace{\del T z}_{\in B_n} + T \underbrace{\del z}_{=0}
+            \in B_n
         \end{math}
-        Also $f(z) \sim g(z)$.
+        Also gilt $H_*(f)[z] = [f(z)] = [g(z)] = H_*(g)[z]$.
+        %$[(f_n - g_n)(z)] = 0$
+        %\begin{math}
+        %    (f-g)(z)
+        %    = (\Boundary T + T \Boundary)(z)
+        %    = \Boundary T z
+        %\end{math}
+        %Also $f(z) \sim g(z)$.
     \end{proof}
 \end{prop}
+
+\begin{nt}[Folgerung für Kegel]
+    Für einen Kegel $K = \Set{v} \ast L$ ist
+    \begin{math}
+        H_*(\id_K) = H_*(g): H_*(K) \to H_*(K).
+    \end{math}
+    Nun ist
+    \begin{math}
+        \im H_*(g) = \begin{cases}
+            R\<v\> & \text{für $n = 0$}, \\
+            0 & \text{für $n \neq 0$}.
+        \end{cases}
+    \end{math}
+    Also $H_* K = H_* \Set{v}$.
+
+    Vornehmer: Sei $M = \Set{\emptyset, \Set{v}}$ Simplizialkomplex mit $\Omega = \Set{v}$.
+    Wir haben $i: M \xto[inj] K$, also ist $i_*: C_* M \xto[inj] C_* K$ ein Kettenhomomorphismus.
+    Zudem haben wir eine Retraktion $r: K \to M$, also $r_*: C_* K \to C_* M$ ein Kettenhomomorphismus.
+    Es gilt.
+    \begin{math}
+        r \circ i &= \id_M &&\implies &  r_* \circ i_* &= \id_{C_* M}, \\
+        i \circ r &= g &&\implies & i_* \circ r_* &= g_* \sim \id_{C_* K}
+    \end{math}
+    Kurz:
+    \begin{math}
+        \begin{tikzcd}
+            C_* M  \ar[r,inj,"i_*",shift left] & C_* K \ar[l,"r_*",shift left]
+        \end{tikzcd}
+    \end{math}
+    ist ein Homotopieretrakt.
+
+    Auf Homologieniveau $H_*(r) \circ H_*(i) = \id_{H_* M}$ und $H_*(i) \circ H_*(r) = \id_{H_* K}$ folgt Isomorphie
+    \begin{math}
+        \begin{tikzcd}
+            H_* M \ar[r,"H_*(i)",shift left,"\isomorphic"'] & H_* K \ar[l,"H_*(r)",shift left]
+        \end{tikzcd}
+    \end{math}
+\end{nt}
+
+\begin{ex}
+    Sei $\Delta^n$ ein $n$-Simplex.
+    Es gilt
+    \begin{math}
+        \Delta^n = \scr P(\Set{v_0, \dotsc, v_n})
+        = \Delta^{n-1} \ast \Set{v_n}
+    \end{math}
+    Damit ist
+    \begin{math}
+        H_q(\Delta^n) = H_q(\Set{v_n})
+        = \begin{cases}
+            R = R[v_n]  & \text{für $q = 0$}, \\
+            0 & \text{sonst}.
+        \end{cases}
+    \end{math}
+\end{ex}
+
+\begin{ex}
+    Berechne für den Rand eines Simplex $H_q(\Boundary \Delta^{n+1})$.
+    \begin{math} % fixme: isomorphismen, 0
+        \begin{tikzcd}[column sep=small]
+            0 & C_0(\Boundary \Delta^{n+1}) \ar[l,"\del'"] \ar[d,"i"] & C_1(\Boundary \Delta^{n+1}) \ar[l,"\del'"] \ar[d,"i"] & \dotsc \ar[l,"\del'"] & C_{n-1}(\Boundary \Delta^{n+1}) \ar[l,"\del'"] & C_{n}(\Boundary \Delta^{n+1}) \ar[l,"\del'"] & C_{n+1}(\Boundary \Delta^{n+1}) \ar[l,"\del'"] & 0 \\
+            0 & C_0( \Delta^{n+1}) \ar[l,"\del"] & C_1( \Delta^{n+1}) \ar[l,"\del"] & \dotsc \ar[l,"\del"] & C_{n-1}(\Delta^{n+1}) \ar[l,"\del"] & C_{n}( \Delta^{n+1}) \ar[l,"\del"] & C_{n+1}( \Delta^{n+1}) \ar[l,"\del"] & 0 \\
+        \end{tikzcd}
+    \end{math}
+    Setze $b = \<v_0, \dotsc, v_n, v_{n+1}\>$.
+    Setze $z := \del b$, dann ist $\del z = \del \del b = 0$.
+    Also ist $z \in C_n(\Delta^{n+1})$ ein Zykel.
+    Ebenso $i_n^{-1}(z) =: z' \in C_n(\Boundary \Delta^{n+1})$, denn
+    \begin{math}
+        i_{n-1} \del z'
+        = \del_{n-1} i_{n-1} z'
+        = \del_{n-1} z
+        = 0
+    \end{math}
+    Also $\del_n' z' = 0$ und
+    \begin{math}
+        H_n(\Boundary \Delta^{n+1}) =
+        \begin{cases}
+            R[\<v_0\>] & \text{für $q = 0$}, \\
+            R[z] & \text{für $q = n$}, \\
+            0 & \text{für $q \not\in \Set{0,n}$}.
+        \end{cases}
+    \end{math}
+\end{ex}
+
+
+\section{Relative Homologie}
+
+
+Sei $A \subset K$ ein Teilkomplex, z.B. $A = \Boundary K$.
+$i: A \injto K$ induziert $i_*: C_* A \injto C_* K$, kurz: $C_* A \subset C_* K$.
+
+Wir setzen $C_q(K, A) := C_q K / C_q A$ als Quotientenmodul.
+Randoperator
+\begin{math}
+    \_\del_q: C_q(K, A) &\to C_{q-1}(K,A), \\
+    c + C_q A &\mapsto \del_q c + C_{q-1} A.
+\end{math}
+Wir erhalten den Kettenkompleex $(C_q(K, A), \_\del_q)_{q \in \Z}$.
+Seine Homologie bezeichnen wir mit $H_*(K, A)$, gesprochen: \emphdef[Homologie!relative]{Homologie von $K$ relativ zu $A$}.
+
+\begin{ex}
+    $K$ ausgefülltes Dreieck, $A = \Boundary K$.
+
+    Für $z = \<v_1, v_2\> - \< v_0, v_2\> + \<v_0,v_1\>$ dann
+    \begin{math}
+        H_q K &= \begin{cases}
+            R\<v_0\> & \text{für $q = 0$}, \\
+            0 & \text{für $q \neq 0$},
+        \end{cases} \\
+        H_q A &= \begin{cases}
+            R\<v_0\> & \text{für $q = 0$}, \\
+            R[z] & \text{für $q = 1$},
+        \end{cases} \\
+        H_q(K, A) &= \begin{cases}
+            0 & \text{für $q = 0$}, \\
+            0 & \text{für $q = 1$}, \\
+            R\<v_0, v_1, v_2\>& \text{für $q = 2$}, \\
+            0 & \text{für $q \ge 3$}.
+        \end{cases}
+    \end{math}
+    Denn $C_2(K, A) = C_2(K) = R\<v_0, v_1, v_2\>$, $\<v_0, v_1, v_2\>$ ist Zykel.
+\end{ex}
+
+Allgemein: Sei $0 \to (C', \del') \to (C, \del) \to (C'', \del'') \to 0$ eine kurze exakte Sequenz von Kettenkomplexen, d.h.
+\begin{math}
+    \begin{tikzcd}
+        0 \ar[r] & C_{q+1}' \ar[r,"i"] \ar[d,"\del'"] & C_{q+1} \ar[r,"p"] \ar[d,"\del"] & C_{q+1}'' \ar[d,"\del''"] \ar[r] & 0 \\
+        0 \ar[r] & C_{q}' \ar[r,"i"] \ar[d,"\del'"] & C_{q} \ar[r,"p"] \ar[d,"\del"] & C_{q}'' \ar[r] \ar[d,"\del''"] & 0 \\
+        0 \ar[r] & C_{q-1}' \ar[r,"i"] & C_{q-1} \ar[r,"p"] & C_{q-1}'' \ar[r] & 0
+    \end{tikzcd}
+\end{math}
+und jede Zeile ist eine kurze exakte Sequenz.
+
+\begin{lem}
+    Dies induziert
+    \begin{math}
+        H_* C' \xto{i_*} H_* C \xto{p_*} H_* C''
+    \end{math}
+    mit $\im i_* = \ker p_*$.
+    \begin{note}
+        Im Allgemeinen gilt Exaktheit also nur in der Mitte, nicht links oder rechts, siehe voriges Beispiel.
+    \end{note}
+    \begin{proof}
+        $\subset$ ist klar, denn es gilt $p \circ i = 0$, also $p_* \circ i_* = 0$ dank Funktorialität.
+
+        Zeige also $\supset$.
+        Sei $[z] \in \ker p_*$, d.h. $z \in C_q$, $\del z = 0$ und $p_*[z] = 0$.
+        Zu zeigen: es existiert $y \in C_q'$, $\del y = 0$, $i_*[y] = [z]$.
+
+        Es gilt $p_q z \in B_q'$, d.h. $\exists x''. \in C_{q+1}'' : \del x'' = p_q z$.
+
+        Es existiert $x \in C_q: p_{q+1} x = x''$, also
+        \begin{math}
+            p_q(z-\del x)
+            = p_q z - p_q \del x
+            = p_q z - \del'' p_{q+1} x
+            = p_q z - \del x''
+            = 0,
+        \end{math}
+        d.h. $z - \del x \in \ker p_q$.
+        Also existiert $y \in C_q': i_q y = z - \del x$.
+        Es gilt
+        \begin{math}
+            i_{q-1} \del' y
+            = \del i_q y
+            = \del (z - \del x)
+            = \del z - \del\del x
+            = 0 - 0
+            = 0
+        \end{math}
+        Da $\ker i_{q-1} = 0$ folgt $\del y = 0$ und es gilt
+        \begin{math}
+            i_*[y]
+            = [i_q y]
+            = [z - \del x]
+            = [z].
+        \end{math}
+    \end{proof}
+\end{lem}
+
+Wir definieren
+\begin{math}
+    \del_q: H_q C'' \to H_{q-1} C', \\
+    [z] \mapsto [\del z]
+\end{math}
+Genauer: Sei $z \in C_q''$ mit $\del'' z = 0$.
+Es existiert $y \in C_q$ mit $p_q y = z$.
+\begin{math}
+    p_{q-1} \del y
+    = \del p_q y
+    = \del q
+    = 0,
+\end{math}
+d.h. $\del y \in \ker(p_{q-1})$, also existiert genau ein $x \in C_{q-1}': i_{q-1} x = \del y$.
+Setze nun $\del_q[z] := [x]$.
+
+Zunächst ist $x$: $i_{q-2} \del x = \del i_{q-1} = \del \del y = 0$, da $\ker(i_{q-2}) = 0$ folgt $\del x = 0$, also $x \in Z_{q-1}'$.
+Somit definiert $x$ eine Homologieklasse $[x] \in H_{q-1} C'$.
+Zeige: $[x]$ ist wohldefiniert.
+\begin{itemize}
+    \item
+        Sei $\tilde y \in C_q: p_q \tilde y = z$, also $p_q(\tilde y - y) = 0$, es existiert $\tilde w \in C_q'$ mit $i_q \tilde w = \tilde y - y$.
+        Es existiert genau ein $\tilde x \in C_{q-1}'$ mit $i_{q-1} \tilde x = \del \tilde y$.
+        Insgesamt
+        \begin{math}
+            i_{q-1} \del \tilde w
+            = \del i_{q+1} \tilde w
+            = \del(\tilde y - y)
+            = \del\tilde y - \del y
+            = i_{q-1}\tilde x - i_{q-1} x
+            = i_{q-1}(\tilde x - x).
+        \end{math}
+        Also $\tilde x - x = \del \tilde w \in B_{n-1}'$, also $[\tilde x] = [x]$.
+    \item
+        Sei $\tilde z \sim z$, d.h. $\tilde z - z = \del'' w \in B_q''$.
+        Es existiert $u \in C_{q+1}$ mit $p_{q+1} u = w$.
+        Betrachte $\tilde y := y + \del u$ und erhalte
+        \begin{math}
+            p_q(\tilde y)
+            = p_q y + p_q \del u
+            = z + \del p_{q+1} u
+            = z + \del w
+            = z + \tilde z - z
+            = \tilde z.
+        \end{math}
+        Die Konstruktion mit $\tilde y$ statt $y$ liefert das selbe $x$.
+\end{itemize}
+
+\begin{ex}
+    $K$ ausgefülltes Dreieck, $A = \Boundary K$.
+    \begin{math}
+        C' = C(A) \xto{i} C = C(K) \xto{p} C'' = C(K) / C(A), \\
+        H' = H(A) \xto{i_*} H = H(K) \xto{p_*} H'' = H(K) / H(A).
+    \end{math}
+    Wir haben
+    \begin{math}
+        \begin{tikzcd}
+            H_2' \ar[r,"i_*"] & H_2 \ar[r,"p_*"] & H_2'' \ar[dll,"\del_2"] \\
+            H_1' \ar[r,"i_*"] & H_1 \ar[r,"p_*"] & H_1'' \ar[dll,"\del_1"] \\
+            H_0' \ar[r,"i_*"] & H_0 \ar[r,"p_*"] & H_0'' \ar[r] & 0
+        \end{tikzcd}
+        \qquad
+        \begin{tikzcd}
+            0 \ar[r,"i_*"] & 0 \ar[r,"p_*"] & R[z] \ar[dll,"\del_2"] \\
+            R[z] \ar[r,"i_*"] & 0 \ar[r,"p_*"] & 0 \ar[dll,"\del_1"] \\
+            R\<v_0\> \ar[r,"i_*"] & R\<v_0\> \ar[r,"p_*"] & 0 \ar[r] & 0
+        \end{tikzcd}
+    \end{math}
+\end{ex}
+
+\begin{st}
+    Jede kurze exakte Sequenz von Kettenkomplexen
+    \begin{math}
+        0 \to (C', \del') \xto{i} (C, \del) \xto{p} (C'', \del'')
+    \end{math}
+    induziert einen Randoperator $\del_q: H_q C'' \to C_{q-1} C'$ wie oben definiert.
+
+    Die so entstehende lange Sequenz
+    \begin{math}
+        \dotsc \xto{i_*} H_q C' \xto{p_*} H_q C'' \xto{\del_*} H_{q-1} C' \xto{i_*} H_{q-1} C \xto{p_*} \dotsc
+    \end{math}
+    ist exakt.
+    \begin{proof}
+        \begin{enumerate}[1)]
+            \item
+                Die Exaktheit bei $H_q C$ wurde im Lemma gezeigt.
+            \item
+                Exaktheit in $H_q C''$, d.h. $\im p_q = \ker \del_q$:
+                $\subset$ ist klar: aus $\del y = 0$ folgt $x = 0$, also $\del_q[z] = [0]$.
+
+                Zeige $\supset$.
+                Sei $z \in Z_q$ mit $\del_q[z] = [x] = 0$, d.h. $x = \del \tilde w \in B_{q-1}'$.
+                Betrachte $\tilde y = y - i_q \tilde w$ und erhalte
+                \begin{math}
+                    p_q(\tilde y) = p_q(y) - \underbrace{p_q i_q \tilde w}_{=0},
+                \end{math}
+                sowie
+                \begin{math}
+                    \del \tilde y
+                    = \del y - \del i_q \tilde w
+                    = \del y - i_{q-1} \del \tilde w
+                    = \del y + i_{q-1} x
+                    = \del y - \del y
+                    = 0.
+                \end{math}
+                D.h. $\tilde y$ ist ein Zykel
+                \begin{math}
+                    H_q C \ni [\tilde y]
+                    \stack{p_*}{\mapsto}
+                    [p_q \tilde y] = [p_q y] = [z].
+                \end{math}
+            \item
+                Exaktheit in $H_{q-1}C'$, d.h. $\im \del_q = \ker i_{q-1}$.
+                $\subset$ ist klar: zu $x = \del_q z$ wie im Diagramm ist $i_{q-1} x = \del y$, also $i_*[x] = [i_{q-1} x] = [\del y] = 0$.
+
+                Zeige $\supset$: Übung.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
