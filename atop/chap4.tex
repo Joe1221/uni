@@ -116,14 +116,15 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
 \begin{lem}
     Die Komposition $C_{n+1} K \xto{\Boundary^{n+1}} C_n K \xto{\Boundary^{n}} C_{n-1} K$ ist Null, kurz: $\Boundary^2 = 0$.
     \begin{proof}
+        Nachrechnen liefert
         \begin{math}
             \Boundary^2(v_0, \dotsc, v_{n+1})
-            &= \Boundary \sum_{i=0}^{n+1} (i-1)^i (v_0, \dotsc, \hat v_i, \dotsc, v_{n+1}) \\
+            &= \Boundary \sum_{i=0}^{n+1} (-1)^i (v_0, \dotsc, \hat v_i, \dotsc, v_{n+1}) \\
             &= \sum_{i=0}^{n+1} (-1)^i \sum_{j=0}^{i-1} (-1)^j (v_0, \dotsc, \hat v_j, \dotsc, \hat v_i, \dotsc, v_{n+1}) \\
-            &\qquad + \sum_{i=0}^{n+1} (-1)^{i} \sum_{j=i+1}^{n+1} (-1)^{j-1} (v_0, \dotsc, \hat v_j, \dotsc, \hat v_i, \dotsc, v_{n+1}) \\
-            &= \sum_{i<j} (-1)^{i+j-1} (v_0, \dotsc, \hat v_i, \dotsc, \hat v_j, \dotsc, v_{n+1}) \\
-            &\qquad + \sum_{i>j} (-1)^{i+j} (v_0, \dotsc, \hat v_j, \dotsc, \hat v_i, \dotsc, v_{n+1}) \\
-            &= 0
+            &\qquad + \sum_{i=0}^{n+1} (-1)^{i} \sum_{j=i+1}^{n+1} (-1)^{j-1} (v_0, \dotsc, \hat v_i, \dotsc, \hat v_j, \dotsc, v_{n+1}) \\
+            &= \sum_{i>j} (-1)^{i+j} (v_0, \dotsc, \hat v_j, \dotsc, \hat v_i, \dotsc, v_{n+1}) \\
+            &\qquad + \sum_{i<j} (-1)^{i+j-1} (v_0, \dotsc, \hat v_i, \dotsc, \hat v_j, \dotsc, v_{n+1}) \\
+            &= 0.
         \end{math}
     \end{proof}
     \begin{note}
@@ -134,103 +135,124 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
 
 \begin{df}
     Ein \emphdef{Kettenkomplex} über $R$ ist eine Familie $(C_n, \Boundary_n)_{n \in \Z}$ von $R$-Moduln $C_n$ und $R$-Homomorphismen $\Boundary_n: C_n \to C_{n-1}$ mit $\Boundary \circ \Boundary = 0$.
-    Typischerweise $C_k = 0$ für $k < 0$.
+
+    Typischerweise ist $C_k = 0$ für $k < 0$, also
     \begin{math}
-        0 \xto* C_0 \xto*{\Boundary_1} C_1 \xto*{\Boundary_2} C_2 \xto* \dotsc
+        \begin{tikzcd}
+            0 & C_0 \ar[l] & C_1 \ar[l,"\del_1"] & C_2 \ar[l,"\del_2"] & \dotsc \ar[l,"\del_3"]
+        \end{tikzcd}
     \end{math}
-    also $\im(\Boundary_{n+1}) \subset \ker(\Boundary_n)$.
-    Wir nennen $Z_n := \ker(\Boundary_n)$ \emph{$n$-Zykel} und $B_n := \im(\Boundary_{n+1})$ \emph{$n$-Ränder}.
+    Es gilt stets $\im(\del_{n+1}) \subset \ker(\del_n)$.
+    Wir bezeichnen \emphdef[Zykel]{$n$-Zykel} $Z_n := Z_n(C_*, \del_*) := \ker(\del_n)$ und \emphdef[Ränder]{$n$-Ränder} $B_n := B_n(C_*, \del_*) := \im(\del_{n+1})$.
 
     Die \emphdef{$n$-Homologie} ist definiert als
     \begin{math}
-        H_n(C_*, \Boundary_*) := Z_n(C_*, \Boundary_*) / B_n(C_*, \Boundary_*).
+        H_n := H_n(C_*, \Boundary_*) := Z_n / B_n.
     \end{math}
-    Für $z \in Z_n$ gilt $\Boundary z = 0$.
-    Wir nennen $[z] := z + B_n \in H_n$ die \emphdef{Homologieklasse} von $z$.
-    $z \sim z' \iff z - z' = \Boundary b_{n+1} \in B_n$: \emphdef{homologe Zykel} $z, z' \in Z_n$.
+    Für einen Zykel $z \in Z_n$ gilt $\Boundary z = 0$ und wir nennen $[z] := z + B_n \in H_n$ die \emphdef{Homologieklasse} von $z$.
+    Entsprechend nennen wir zwei Zykel $z, z' \in Z_n$ \emphdef{homolog}, geschrieben $z \sim z'$, falls $z - z' = \del b_{n+1} \in B_n$.
 \end{df}
 
 \begin{ex}
-    Simplizialkomplex: Kreisring, innen Dreieck $z$, außen Viereck $z'$.
+    Skizze: Triangulierter Kreisring begrenzt durch inneres Dreieck $z$ (negativ orientiert) und äußeres Viereck $z'$ (positiv orientiert), Dreiecke jeweils positiv orientiert.
     \begin{math}
         z - z' &= \Boundary b, \\
         b &= \sigma_1 + \dotsb + \sigma_7.
     \end{math}
 \end{ex}
 
-Erste Beispiele:
+\begin{ex}
+    Erste Beispiele zum Ausrechnen:
+    \begin{itemize}
+        \item
+            $K$:
+            \begin{tikzpicture}[every node/.style={draw,fill,circle,inner sep=0.5pt},baseline]
+                \draw (0,0) node["$v_0$"] (0) {};
+            \end{tikzpicture}
+            \begin{math}
+                0 \xto* R \<v_0\> \xto* 0 \xto* \dotsc
+            \end{math}
+            Homologie:
+            \begin{math}
+                H_n(\ast, R) = \begin{cases}
+                    R[v_0] \isomorphic R & \text{für $n = 0$,} \\
+                    0 & \text{für $n \neq 0$.}
+                \end{cases}
+            \end{math}
+        \item
+            $K$:
+            \begin{tikzpicture}[every node/.style={draw,fill,circle,inner sep=0.5pt},baseline]
+                \draw (0,0) node["$v_0$"] (0) {}
+                      (1,0) node["$v_1$"] (1) {} edge[<-] (0);
+            \end{tikzpicture}
+            \begin{math}
+                0 \xto* R\<v_0\> \oplus R\<v_1\> &\xto* R\<v_0,v_1\> \xto* 0 \xto* \dotsc \\
+                \<v_1\> - \<v_0\> &\mapsfrom \<v_0, v_1\>
+            \end{math}
+            Homologie:
+            \begin{math}
+                Z_0 &= C_0, \\
+                B_0 &= R(\<v_1\> - \<v_0\>), \\
+                H_0 &= Z_0 / B_0 \isomorphic R[v_0] = R[v_1] \isomorphic R,
+            \end{math}
+            da
+            \begin{math}
+                \begin{tikzcd}
+                    H_0 \ar[r,"\homeomorphic"] & R \\
+                    C_0 \ar[u] \ar[ru,"{\<v_0\>,\<v_1\> \mapsto 1}"']
+                \end{tikzcd}.
+            \end{math}
+            Also
+            \begin{math}
+                H_n &= \begin{cases}
+                    R & \text{für $n = 0$}, \\
+                    0 & \text{sonst}.
+                \end{cases}
+            \end{math}
+        \item
+            $K$:
+            \begin{tikzpicture}[every node/.style={draw,fill,circle,inner sep=0.5pt},baseline]
+                \draw (0,0) node["$v_0$"] (0) {}
+                      (1,0) node["$v_1$"] (1) {} edge[<-] (0)
+                      (2,0) node["$v_2$"] (2) {} edge[<-] (1);
+            \end{tikzpicture}
+            \begin{math}
+                0 \xto* R\<v_0\> \oplus R\<v_1\> \oplus R\<v_2\> \xto* R\<v_0,v_1\> \oplus R\<v_1,v_2\> \xto* 0  \xto* \dotsc
+            \end{math}
+            $H_n$ wie zuvor.
+        \item
+            $K$:
+            \begin{tikzpicture}[every node/.style={draw,fill,circle,inner sep=0.5pt},baseline]
+                \draw (210:0.5) node["$v_0$" left] (0) {}
+                      (330:0.5) node["$v_1$" right] (1) {} edge[<-] (0)
+                      (90:0.5) node["$v_2$"] (2) {} edge[<-] (1) edge[->] (0);
+            \end{tikzpicture}
+            \begin{math}
+                C_0 &= R\<v_0\> \oplus R\<v_1\> \oplus R \<v_2\> \\
+                C_1 &= R\<v_0, v_1\> \oplus R\<v_1, v_2\> \oplus R\<v_2, v_0\> \\
+                C_n &= 0 \quad \text{für $n \ge 2$}
+            \end{math}
+            \begin{math}
+                Z_0 &= C_0, B_0 = R\Set{\<v_1\> - \<v_0\>, \<v_2\> - \<v_1\>, \underbrace{\<v_0\> - \<v_2\>}_{\mathclap{\text{redundant}}}}, \\
+                H_0 &= R[v_0] = R[v_1] = R[v_2].
+            \end{math}
+            $Z_1$ wird frei erzeugt von $Z := \Boundary\<v_0,v_1,v_2\>$ (nutze allgemeinen Ansatz mit Elementen aus $C_1$)
+            \begin{math}
+                Z_1 &= R_Z = R(\<v_0,v_1\> + \<v_1,v_2\> + \<v_2,v_0\>),&
+                B_1 &= 0, \\
+                H_1 &= Z_1 / B_1 = R[z] \isomorphic R.
+            \end{math}
+            Also
+            \begin{math}
+                H_n(\Delta, R) = \begin{cases}
+                    R[v_0] & \text{für $n = 0$}, \\
+                    R[z] & \text{für $n = 1$}, \\
+                    0 & \text{sonst}.
+                \end{cases}
+            \end{math}
+    \end{itemize}
+\end{ex}
 
-\begin{itemize}
-    \item
-        $K = K_1$ mit Kettenkomplex
-        \begin{math}
-            0 \xto* R \<v_0\> \xto* 0 \xto* \dotsc
-        \end{math}
-        Homologie:
-        \begin{math}
-            H_n(\ast, R) = \begin{cases}
-                R[v_0] \isomorphic R & \text{für $n = 0$,} \\
-                0 & \text{für $n \neq 0$.}
-            \end{cases}
-        \end{math}
-    \item
-        $K = K_2$ mit Kettenkomplex
-        \begin{math}
-            0 \xto* R\<v_0\> \oplus R\<v_1\> &\xto* R\<v_0,v_1\> \xto* 0 \xto* \dotsc \\
-            \<v_1\> - \<v_0\> &\mapsfrom \<v_0, v_1\>
-        \end{math}
-        Homologie:
-        \begin{math}
-            Z_0 &= C_0, \\
-            B_0 &= R(\<v_1\> - \<v_0\>), \\
-            H_0 &= Z_0 / B_0 \isomorphic R[v_0] = R[v_1] \isomorphic R,
-        \end{math}
-        da
-        \begin{math}
-            \begin{tikzcd}
-                H_0 \ar[r,"\homeomorphic"] & R \\
-                C_0 \ar[u] \ar[ru,"{\<v_0\>,\<v_1\> \mapsto 1}"']
-            \end{tikzcd}.
-        \end{math}
-        Also
-        \begin{math}
-            H_n &= \begin{cases}
-                R & \text{für $n = 0$}, \\
-                0 & \text{sonst}.
-            \end{cases}
-        \end{math}
-    \item
-        $K : v_0 v_1 v_2$.
-        \begin{math}
-            0 \xto* R\<v_0\> \oplus R\<v_1\> \oplus R\<v_2\> \xto* R\<v_0,v_1\> \oplus R\<v_1,v_2\> \xto* 0  \xto* \dotsc
-        \end{math}
-        $H_n$ wie zuvor.
-    \item
-        $K$: Rand eines Dreiecks
-        \begin{math}
-            C_0 &= R\<v_0\> \oplus R\<v_1\> \oplus R \<v_2\> \\
-            C_1 &= R\<v_0, v_1\> \oplus R\<v_1, v_2\> \oplus R\<v_2, v_0\> \\
-            C_n &= 0 \quad \text{für $n \ge 2$}
-        \end{math}
-        \begin{math}
-            Z_0 &= C_0, B_0 = R\Set{\<v_1\> - \<v_0\>, \<v_2\> - \<v_1\>, \underbrace{\<v_0\> - \<v_2\>}_{\text{redundant}}}, \\
-            H_0 &= R[v_0] = R[v_1] = R[v_2].
-        \end{math}
-        $Z_1$ wird frei erzeugt von $Z := \Boundary\<v_0,v_1,v_2\>$ (nutze allgemeinen Ansatz mit Elementen aus $C_1$)
-        \begin{math}
-            Z_1 &= R_Z = R(\<v_0,v_1\> + \<v_1,v_2\> + \<v_2,v_0\>),&
-            B_1 &= 0, \\
-            H_1 &= Z_1 / B_1 = R[z] \isomorphic R.
-        \end{math}
-        Also
-        \begin{math}
-            H_n(\Delta, R) = \begin{cases}
-                R[v_0] & \text{für $n = 0$}, \\
-                R[z] & \text{für $n = 1$}, \\
-                0 & \text{sonst}.
-            \end{cases}
-        \end{math}
-\end{itemize}
 
 \begin{st}
     Für jeden Simplizialkomplex $K$ gilt
