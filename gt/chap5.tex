@@ -10,17 +10,18 @@
     \end{math}
     und das Komplexprodukt
     \begin{math}
-        G_1 \ast G_2 := (V_1 \cup V_2, E_1 \cup E_2 \cup \Set{xy & x \in V_1, y \in V_2}).
+        G_1 \ast G_2 := \Big(V_1 \cup V_2, E_1 \cup E_2 \cup \Set{xy & x \in V_1, y \in V_2} \Big).
     \end{math}
 \end{df}
 
 \begin{df}
+    Wir definieren \emphdef{Cographen} rekursiv:
     Alle Einpunktgraphen sind Cographen.
-    Sind $G_1, G_2$ Cographen, so auch $G_1 \sqcup G_2$ und das Komplexprodukt $G_1 \ast G_2$.
+    Für Cographen $G_1, G_2$ sind auch $G_1 \sqcup G_2$ und $G_1 \ast G_2$ Cographen.
 \end{df}
 
 \begin{st}
-    Sei $G$ ein \emphdef{Cograph}, dann auch das Komplement $\_G$.
+    $G$ Cograph genau dann, wenn $\_G$ Cograph ist.
     \begin{proof}
         Falls $G = (\Set{\ast}, \emptyset)$, dann auch $\_G = (\Set{\ast}, \emptyset)$.
         Nun ist
@@ -32,24 +33,23 @@
 \end{st}
 
 \begin{kor}
-    Je zwei der Operationen $G_1 \sqcup G_2$, $G_1 \ast G_2$, $\_G$ definieren die Klasse der Cographen.
+    Je zwei der Operationen $G_1 \sqcup G_2$, $G_1 \ast G_2$, $\_G$ definieren rekursiv die Klasse der Cographen.
 \end{kor}
 
-\begin{ex}
+\begin{nt}
     \begin{itemize}
         \item
             Alle Graphen $G = (V, E)$ mit $|V| \le 3$ sind Cographen.
         \item
-            Sei $G$ ein Cograph und $|V| \ge 2$, dann ist $G$ zusammenhängend genau dann, wenn $\_G$ nicht zusammenhängend ist.
+            Sei $G$ ein Cograph mit $|V| \ge 2$, dann ist $G$ zusammenhängend genau dann, wenn $\_G$ nicht zusammenhängend ist.
         \item
             Für $x, y \in V$ sei $d(x,y)$ die Distanz zwischen $x$ und $y$.
-            Dann gilt für $m$-zusammenhängenden Cographen $d(x,y) \le 2$ für alle $x,y \in V$.
+            Für zusammenhängende Cographen gilt $d(x,y) \le 2$ für alle $x,y \in V$ (denn $G = G_1 \ast G_2$).
         \item
-            $P_4$ (verbundene Reihe mit vier Knoten) ist selbstdual $P_4 = \_{P_4}$ und damit kein Cograph.
-
-            $d(a,d) = 3$.
+            $P_4$ (verbundene Reihe mit vier Knoten) ist zusammenhängend und selbstdual, d.h. $P_4 = \_{P_4}$ und damit kein Cograph.
+            Weiter ist $d(a,d) = 3$.
     \end{itemize}
-\end{ex}
+\end{nt}
 
 \Timestamp{2015-12-07}
 
@@ -58,40 +58,55 @@
 \end{df}
 
 \begin{lem}
+    Sei $G$ zusammenhängend.
+    Dann ist $G$ genau dann $P_4$-frei, wenn $\forall x,y \in V: d(x,y) \le 2$.
+\end{lem}
+
+\begin{lem}
     $G$ ist genau dann $P_4$-frei, falls $\_G$ $P_4$-frei ist.
+    \begin{proof}
+        Enthält $G$ $P_4$ als induzierten Untergraphen, so auch $\_G$.
+    \end{proof}
 \end{lem}
 
 \begin{kor}
     Jeder Cograph $G$ ist $P_4$-frei.
     \begin{proof}
-        Mit vorigem Lemma genügt es disjunkte Vereinigungen zu betrachten: $P_4$ befindet sind in einer der beiden Komponenten, Aussage folgt durch Induktion.
+        Mit vorigem Lemma genügt es disjunkte Vereinigungen zu betrachten.
+        Die Aussage folgt sofort induktiv.
     \end{proof}
 \end{kor}
 
 \begin{st}
-    Seien $G$, $\_G$ zusammenhängend und $P_4$-frei.
+    Seien $G$ und $\_G$ zusammenhängend und $P_4$-frei.
     Dann ist $G$ unendlich oder $G = (\Set \ast, \emptyset)$ (Einpunktgraph).
     \begin{proof}
-        Sei $|V| \ge 2$, $G = (V, E)$.
-        $G$ ist zusammenhängend, wähle also $x_1, x_2 \in V$ mit $x_1x_2 \in E$.
+        Sei $|V| \ge 2$, zeige $G$ ist unendlich.
+        Konstruiere dazu induktiv eine Folge $(x_k)_{k\in\N}$ von paarweise verschiedenen Knoten, sodass für alle $1 \le i < j$ stets gilt
+        \begin{math}
+            x_ix_j \in E \iff j \equiv 0 \bmod 2.
+        \end{math}
+        Da $G$ zusammenhängend, beginne mit $x_1, x_2 \in V$, sodass $x_1 x_2 \in E$.
 
-        Induktiv sei eine Folge $(x_1, \dotsc, x_n$ konstruiert, sodass $\forall 1 \le i < j \le n$ aus $j$ gerade folgt, dass $x_ix_j \in E$ und aus $j$ ungerade folgt $x_ix_j \not\in E$.
-        Diese Folge soll verlängert werden.
-
-        Sei ohne Einschränkung $n$ gerade.
-        $G$ ist zusammenhängend, also gilt $\forall x, g \in V: d(x,y) < \infty$.
-        Angenommen es gäbe $x, z \in V$ mit $d(x,z) \ge 3$, dann auch $x,y \in V$ mit $d(x,y) = 3$.
-        Dies bildet $P_4$ als induzierten Untergraphen, ein Widerspruch.
-        Folglich muss $d(x,y) \le 2$ in $G$ und $\_G$ gelten.
-
-        Es ist notwendigerweise $d(x_{n-1},x_n) = 2$.
-        Als existiert $x_{n+1}$ mit $x_{n-1} x_{n+1} \not\in E$ und $x_n x_{n+1} \not\in E$.
-        Falls $x_{n+1} = x_i$ für ein $i \le n$, so entsteht ein $P_4$: $G(\Set{x_{n-1}, x_n, x_i, x_{n+1}})$.
+        Sei nun $(x_k)_{k=1}^n$ gegeben mit obiger Eigenschaft und $n$ ungerade (für $n$ gerade: selbes Vorgehen in $\_G$).
+        Da $G$ zusammenhängend und $P_4$-frei, gilt $d(x,y) \le 2$ für alle $x,y \in V$, insbesondere $d(x_{n-1}, x_n) = 2$, denn $n$ ungerade.
+        Wähle also $x_{n+1} \in V$ mit $x_{n-1}x_{n+1}, x_{n+1} x_n \in E$.
+        $x_{n+1}$ ist ein neuer Knoten, d.h. es gilt $x_{n+1} \neq x_i$ für alle $i \le n$, da $n$ ungerade.
+        Zeige nun $x_i x_{n+1} \in E$ für alle $i \le n$.
+        Angenommen $x_i x_{n+1} \notin E$ für ein $i < n - 1$.
+        Dann bildet $(x_i, x_{n-1}, x_{n+1}, x_n)$ einen $P_4$, denn wegen $n$ ungerade $x_i x_n, x_{n-1} x_n \notin E$ und nach Annahme $x_i x_{n+1} \notin E$, ein Widerspruch zur $P_4$-Freiheit.
+        Somit erfüllt $(x_k)_{k=1}^{n+1}$ obige Eigenschaft und induktiv muss $G$ unendlich sein.
     \end{proof}
 \end{st}
 
 \begin{kor}
     $G$ ist $P_4$-frei genau dann, wenn $G$ ein Cograph ist.
+    \begin{proof}
+        Eine Richtung bereits gezeigt, sei also $G$ $P_4$-frei und ohne Einschränkung zusammenhängend mit $|V| \ge 2$.
+        $\_G$ ist ebenfalls $P_4$-frei.
+        Falls $\_G$ zusammenhängend, dann müsste $G$ nach vorigem Satz unendlich sein.
+        Also ist $\_G$ nicht zusammenhängend und $G = \_{\_G} = \_{G_1 \sqcup G_2}$ ist induktiv ein Cograph.
+    \end{proof}
 \end{kor}
 
 
@@ -132,7 +147,7 @@ Beispiel: $C_5$.
         \item
             $K_n$ ist chordal.
         \item
-            Es gibt triangulierte planare Graphen, die nicht chordal sind (Skizze: Sternmuster vergrößern und außen verbinden).
+            Es gibt planare Graphen, deren Facetten Dreiecke sind, die trotzdem nicht chordal sind (Skizze: Beginne mit $C_4 \ast \Set{*}$ und ergänze passend zu einer Triangulierung der Sphäre).
     \end{itemize}
 \end{ex}
 
