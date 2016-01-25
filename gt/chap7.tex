@@ -1,0 +1,101 @@
+\chapter{Ramsey}
+
+\Timestamp{2016-01-25}
+
+
+\begin{st}
+    Sei $G = (V,E)$ ein unendlicher Graph, d.h. $|V| = \infty$.
+    Dann existiert ein unendlicher induzierter Untergraph $V'$, sodass $V'$ Clique oder unabhängig ist
+    \begin{math}
+        \alpha(G) + \omega(G) = \infty.
+    \end{math}
+    Allgemeiner:
+    Sei $G$ vollständig und $f: \binom{V}{2} \to \Set{0, \dotsc, c - 1}$ eine Färbung in $c$ Farben.
+    Dann existiert ein monochromatischer unendlicher Untergraph.
+    \begin{proof}
+        Sei ohne Einschränkung $V = \N$.
+
+        Wähle für den Knoten $i = 1$ eine Farbe $g(i)$, sodass für fast alle $j > i$ gilt $f(\Set{i,j}) = g(i)$, eliminiere die restlichen Knoten.
+        Wiederhole für $i = 2, 3, \dotsc$ mit den jeweils verbleibenden Knoten.
+
+        Unter den verbleibenden (unendlich vielen) Knoten wähle eine Farbe mit unendlich vielen zugehörigen Knoten.
+        Diese bilden eine Clique.
+    \end{proof}
+\end{st}
+
+\begin{df}
+    Ein \emphdef{Hypergraph} $G = (V, E)$ besteht aus einer Menge $V$ von \emphdef{Knoten} und einer Menge $E \subset \binom{V}{k}$ von \emphdef{Hyperkanten} für ein $k \in \N$.
+
+    Sei $C = \Set{0, \dotsc, c-1}$ eine Menge von $c$ Farben.
+    Eine Färbung des vollständigen Hypergraphen $(V, \binom{V}{k})$ ist eine Abbildung $f: \binom{V}{k} \to C$.
+
+    Eine Teilmenge $V' \subset V$ heißt \emphdef{monochromatisch}, falls $f(K) \in C$ konstant ist für alle $K \in \binom{V'}{k}$.
+\end{df}
+
+\begin{st}[Ramsey, 1930]
+    Für alle $n, k, c \in \N$ existiert eine Zahl $R(n,k,c) \in \N$ minimal mit der folgenden Eigenschaft:
+    % Für jeden Hypergraphen G = (V,E) mit $|V| \ge R(n,k,c)$ und jeder Färbung ...
+    Ist $f: \binom{V}{k} \to \Set{0, \dotsc, c-1}$ eine Färbung für $|V| \ge R(n,k,c)$, dann existiert $V' \subset V$ mit $|V'| \ge n$ und $V'$ ist monochromatisch.
+    \begin{proof}
+        Induktionsanfang:
+        \begin{math}
+            R(n,1,c) = c(n-1) + 1.
+        \end{math}
+        Sei $r \in \N$ und $f: \binom{V}{k} \to C = \Set{0, \dotsc, c-1}$ mit $|V| \ge r$.
+        Wir definieren induktiv Mengen $A_m, B_m \subset V$ mit den folgenden Eigenschaften:
+        \begin{enumerate}[(i)]
+            \item
+                $\forall a \in A_m \forall b \in B_m: a < b$,
+            \item
+                $|A_m| = m$,
+            \item
+                Es gibt eine Färbung $g: \binom{A_m}{k-1} \to C$ mit der Eigenschaft, dass für alle $K \subset \binom{A_m}{k-1}$ gilt $f(K, b) = g(K)$ für alle $b \in B_m$.
+
+                Für $K \in \binom{V}{k-1}$ und $b \in V$ mit $b > \max(K)$ bezeichne $K, b$ die Menge $K \cup \Set{b}$.
+        \end{enumerate}
+        Setze $A_0 :=  \emptyset$ und $B_0 := V$.
+
+        Seien $A_m$ und $B_m$ bereits definiert.
+        Wähle $a_{m+1} := \min B_m$ und setze $A_{m+1} = A_m \cup \Set{a_{m+1}}$.
+        Wir wählen jetzt $B_{m+1} \subset B_m \setminus \Set{a_{m+1}}$ geeignet.
+
+        Gesucht ist eine Erweiterung der Färbung zu $g: \binom{A_{m+1}}{k-1} \to C_m$ mit Eigenschaft (iii).
+        $g(K)$ ist noch nicht definiert genau dann, wenn $a_{m+1} \in K$.
+        Es müssen also noch insgesamt $\binom{m}{k-2}$ solcher $K$ gefärbt werden.
+
+        Für $a_{m+1} \in K \in \binom{A_m}{k-1}$ wähle $s \in C$ mit $\Set{b \in B_m & f(K,b) = s}$ maximal.
+        Dann färbe $g(K) = s$.
+
+        Setze
+        \begin{math}
+            B_{m+1} = \Set{ b \in B_m \setminus \Set{a_{m+1}} & \forall a_{m+1} \in K \in \binom{A_{m+1}}{k-1} : f(K,b) = s_K }.
+        \end{math}
+        Dann gilt (i), (ii), (iii).
+
+        Betrachte den Ausdünnungsprozess nacheinander für die $a_{m+1} \in K \in \binom{A_{m+1}}{k-1}$.
+        Jedes Mal können wir $\frac{1}{|C|}$ Knoten weiter fortfahren.
+
+        Wenn wir also $|B_{m+1}| \ge r$ garantieren wollen, müssen wir mit $|B_m| \ge c^{\binom{m}{k-2}} r$ starten.
+        Für $R(n,k,c)$ müssen wir $A_m$ mit $|B_{m+1}| \ge 1$ erreichen mit $m = n - 1$.
+        Also ist
+        \begin{math}
+            R(n,k,c) \le \prod_{m < R(n,k-1,c)} c^{\binom{m}{k-2}}
+            = c^{\sum_{m < R(n,k-1,c)} \binom{m}{k-2}}
+            = c^{\binom{R(n,k-1,c)}{k-1}}
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    $R(n) := R(n, 2, 2)$ ist die Situation für Graphen $(V, E)$.
+    \begin{itemize}
+        \item
+            $R(1) = 0$
+        \item
+            $R(2) = 2$,
+        \item
+            $R(3) = 6$,
+            denn $R(3) \neq 5$ wegen
+            $\alpha(C_5) = 2 = \omega(C_5)$
+    \end{itemize}
+\end{ex}
