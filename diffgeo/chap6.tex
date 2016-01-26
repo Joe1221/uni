@@ -3,16 +3,16 @@
 \begin{df} \label{6.1}
     Sei $V$ ein endlich-dimensionaler reeller Vektorraum und für $q \in \N_0$ sei $\omega \in {V^*}^{\otimes q}$ eine \emphdef{$q$-Form}, d.h. eine multilineare Abbildung $V^k \to \R$, $(v_1, \dotsc, v_q) \mapsto \omega(v_1, \dotsc, v_q)$.
 
-    $\omega$ heißt \emphdef{alternierend}, falls $\omega(v_1, \dotsc, v_q) = 0$ wenn zwei der Argumente $v_1, \dotsc, v_q$ gleich sind.
+    $\omega$ heißt \emphdef{alternierend}, falls $\forall 1 \le i,j \le q: v_i = v_j \implies \omega(v_1, \dotsc, v_q) = 0$.
 \end{df}
 
 \begin{ex*}
-    Die Determinanten von rellen $n\times n$-Matrizen ist eine alternierende $n$-Form auf den Spalten (Zeilen) einer Matrix, $\det: (\R^n)^n \to \R$.
+    Die Determinante reeller $n\times n$-Matrizen ist eine alternierende $n$-Form auf den Spalten (bzw. Zeilen) einer Matrix, $\det: (\R^n)^n \to \R$.
 \end{ex*}
 
 \begin{lem} \label{6.2}
     Sei $\omega \in {V^*}^{\otimes q}$ eine alternierende $q$-Form.
-    Dann gilt für $i,j \in \Set{1, \dotsc, q}$, $\lambda \in \R$
+    Dann gilt für $i,j \in \Set{1, \dotsc, q}$, $i \neq j$, $\lambda \in \R$
     \begin{enumerate}[(i)]
         \item
             Scherung:
@@ -47,9 +47,10 @@
             \item
                 Es gilt $\bigwedge^0 V^* = \R$, $\bigwedge^1 V^* = V^*$.
             \item
-                Aus der linearen Algebra ist bekannt, dass $\bigwedge^n V^*$ (mit $n = \dim V$) eindimensional ist, omit wird der Raum von dem (nichttrivialen) Element
+                Aus der linearen Algebra ist bekannt, dass $\bigwedge^n V^*$ (mit $n = \dim V$) eindimensional ist (Eindeutigkeit der Determinante).
+                Somit wird der Raum $\bigwedge^n V^*$ von dem Element
                 \begin{math}
-                    (v_1, \dotsc, v_n) \mapsto \det (e^j(v_k)_{1\le j,k \le n})
+                    \det: (v_1, \dotsc, v_n) \mapsto \det (e^j(v_k)_{1\le j,k \le n})
                 \end{math}
                 erzeugt, wobei $e^1, \dotsc, e^n$ eine Basis von $V^*$ bilden.
             \item
@@ -59,7 +60,7 @@
                     \omega(v_{\sigma(1)}, \dotsc, v_{\sigma(q)})
                     = \sgn(\omega) w(v_1, \dotsc, v_q).
                 \end{math}
-                Ist $\sigma \in \Sym(q)$ und $\omega \in {V^*}^{\otimes q}$, dann schreiben wir
+                Ist $\sigma \in \Sym(q)$ und $\omega \in {V^*}^{\otimes q}$, dann nutzen wir die Notation
                 \begin{math}
                     (\omega \circ \sigma)(v_1, \dotsc, v_q)
                     := w(v_{\sigma(1)}, \dotsc, v_{\sigma(q)}).
@@ -72,13 +73,13 @@
     Wir definieren die \emphdef{Antisymmetrisierung} von $q$-Formen als
     \begin{math}
         \pi_{\wedge}: {V^*}^{\otimes q} &\to \bigwedge^q V^* \\
-        \omega &\mapsto \frac{1}{q!} \sum_{\sigma \in \Sym(q)}  \sgn(\sigma) \omega \circ \sigma.
+        \omega &\mapsto \frac{1}{q!} \sum_{\sigma \in \Sym(q)}  \sgn(\sigma) \cdot \omega \circ \sigma.
     \end{math}
     Dies ist eine Vektorraum-Projektion, insbesondere $\pi_{\wedge}(\omega) = \omega$ für $\omega \in \bigwedge^q V^*$.
 
 \end{df}
 
-Sei nun $\omega$ eine alternierende $q$-Form und seien $v_1, \dotsc, v_q \in V$
+Sei nun $\omega \in \bigwedge^q V^*$ eine alternierende $q$-Form und seien $v_1, \dotsc, v_q \in V$
 Sei $e_1, \dotsc, e_n$ eine Basis von $V$ und $e^1, \dotsc, e^n$ die dazu duale Basis von $V^*$, d.h. die Linearformen mit $e^j(e_k) := \delta_{jk}$.
 Schreiben wir $v_j = \sum_{k=1}^n \lambda_{jk} e_k \in V$, dann gilt
 \begin{math}
@@ -86,9 +87,9 @@ Schreiben wir $v_j = \sum_{k=1}^n \lambda_{jk} e_k \in V$, dann gilt
     &= \sum_{k_1, \dotsc, k_q = 1}^n \lambda_{1,k_1} \dotsb \lambda_{q,k_q} \omega(e_{k_1}, \dotsc, e_{k_q}) \\
     &= \sum_{\substack{k_1, \dotsc, k_q = 1 \\ k_i \neq k_j}}^n \lambda_{1,k_1} \dotsb \lambda_{q,k_q} \omega(e_{k_1}, \dotsc, e_{k_q}) \\
     &= \sum_{1 \le k_1 < \dotsc < k_q \le n} \sum_{\sigma \in \Sym(q)} \lambda_{1,k_{\sigma(1)}} \dotsb \lambda_{q, k_{\sigma(q)}} \omega(e_{k_{\sigma(1)}}, \dotsc, e_{k_{\sigma(q)}}) \\
-    &= \sum_{1 \le k_1 < \dotsc < k_q \le n} \sum_{\sigma \in \Sym(q)} \lambda_{1,k_{\sigma(1)}} \dotsb \lambda_{q, k_{\sigma(q)}} \sgn(\omega) \omega(e_{k_1}, \dotsc, e_{k_q}).
+    &= \sum_{1 \le k_1 < \dotsc < k_q \le n} \sum_{\sigma \in \Sym(q)} \lambda_{1,k_{\sigma(1)}} \dotsb \lambda_{q, k_{\sigma(q)}} \sgn(\sigma) \omega(e_{k_1}, \dotsc, e_{k_q}).
 \end{math}
-Dies zeigt: Es genügt, die Wert von $\omega$ auf $(e_{k_1}, \dotsc e_{k_q})$ mit $1 \le k_1 < \dotsb < k_q \le n$ zu kennen.
+Dies zeigt: Es genügt, die Wert von $\omega$ auf $(e_{k_1}, \dotsc e_{k_q})$ mit aufsteigenden $1 \le k_1 < \dotsb < k_q \le n$ zu kennen.
 Definiere nun für $k_1, \dotsc, k_q \in \Set{1, \dotsc, n}$ beliebig
 \begin{math}
     e^{k_1} \wedge \dotsb \wedge e^{k_q}
@@ -98,7 +99,7 @@ Dies ist eine alternierende $q$-Form.
 
 Seien nun für $1 \le k_1 < \dotsc < k_q \le n$ die Zahlen $w_{k_1, \dotsc, k_q}$ definiert als die Werte (für beliebiges $\omega$)
 \begin{math}
-    w_{k_1, \dotsc, k_q} := \omega(e_{k_1}, \dotsc e_{k_2}, \dotsc, e_{k_q}).
+    w_{k_1, \dotsc, k_q} := \omega(e_{k_1}, \dotsc, e_{k_q}).
 \end{math}
 Dann ist die $q$-Form $\omega$ wie oben gegeben durch
 \begin{math}
@@ -106,27 +107,33 @@ Dann ist die $q$-Form $\omega$ wie oben gegeben durch
 \end{math}
 Dies zeigt:
 \begin{math}
-    \Set{e^{k_1} \wedge e^{k_q} & 1 \le k_1 < \dotsb < k_q \le n}
+    \Set{e^{k_1} \wedge \dotsb \wedge e^{k_q} & 1 \le k_1 < \dotsb < k_q \le n}
 \end{math}
 bildet eine Basis von $\bigwedge^q V^*$ (die lineare Unabhängigkeit sieht man, indem man verschiedene $q$-Tupel von Basisvektoren $(e_{j_1}, \dotsc, e_{j_q})$ einsetzt), somit gilt $\dim(\bigwedge^q V^*) = \binom{n}{q}$.
 
 \begin{ex*}
-    \begin{math}
-        e^1 \wedge e^2 \wedge e^3 (e_2, e_1, e_3)
-        = -e^2 \otimes e^1 \otimes e^3 (e_2, e_1, e_3)
-        = -1.
-    \end{math}
-    Weiter gilt $\pi_{\wedge}(e^{k_1} \otimes e^{k_q}) = \frac{1}{q!} e^{k_1} \wedge \dotsb \wedge e^{k_q}$.
-    Vergleich mit der Leibnizformen für die Determinante ergibt für $1$-Formen $\alpha_1, \dotsc, \alpha_q$.
-    \begin{math}
-        \pi_1(\alpha_1 \otimes \dotsb \otimes \alpha_q)
-        &= \frac{1}{q!} \sum_{\sigma \in \Sym(q)} \sgn(\sigma) \alpha_1(v_{\sigma(1)}) \dotsb \alpha_q(v_{\sigma(q)}) \\
-        &= \frac{1}{q!} \det( \alpha_j(v_k))_{1 \le j,k \le n}.
-    \end{math}
+    \begin{itemize}
+        \item
+            $
+                e^1 \wedge e^2 \wedge e^3 (e_2, e_1, e_3)
+                = -e^2 \otimes e^1 \otimes e^3 (e_2, e_1, e_3)
+                = -1.
+            $
+        \item
+            $\pi_{\wedge}(e^{k_1} \otimes \dotsb \otimes e^{k_q}) = \frac{1}{q!} e^{k_1} \wedge \dotsb \wedge e^{k_q}$.
+        \item
+            Vergleiche mit der Leibnizformel für die Determinante:
+            Für $1$-Formen $\alpha_1, \dotsc, \alpha_q$ ist
+            \begin{math}
+                &\pi_1(\alpha_1 \otimes \dotsb \otimes \alpha_q)(v_1, \dotsc, v_q) \\
+                &\qquad= \frac{1}{q!} \sum_{\sigma \in \Sym(q)} \sgn(\sigma) \alpha_1(v_{\sigma(1)}) \dotsb \alpha_q(v_{\sigma(q)}) \\
+                &\qquad= \frac{1}{q!} \det\big( \alpha_j(v_k)_{1 \le j,k \le n}\big).
+            \end{math}
+    \end{itemize}
 \end{ex*}
 
 \begin{df} \label{6.5}
-    Sei $\alpha$ eine alternierende $p$-Form und $\beta$ eine alternierende $q$-Form auf $V$ (d.h. $\alpha \in {V^*}^{\otimes p}$, $\beta \in {V^*}^{\otimes q}$).
+    Seien $\alpha \in \bigwedge^p V^*$, $b \in \bigwedge^q V^*$ alternierende $p$-, bzw $q$-Formen.
     Wir definieren das \emphdef{äußere Produkt} $\alpha \wedge \beta$ durch
     \begin{math}
         \alpha \wedge \beta
@@ -139,17 +146,17 @@ bildet eine Basis von $\bigwedge^q V^*$ (die lineare Unabhängigkeit sieht man, 
 
 \Timestamp{2016-01-19}
 
-\begin{ex}
+\begin{ex*}
     Beispielsweise gilt für 1-Formen $\alpha, \beta$
     \begin{math}
         (\alpha \wedge \beta)(X,Y)
         &= \frac{(1+1)!}{1!1!} \pi_\wedge(\alpha \otimes \beta)(X,Y) \\
         &= 2 \cdot \frac{1}{2} ( \alpha(X)\beta(Y) - \beta(X) \alpha(Y)).
     \end{math}
-\end{ex}
+\end{ex*}
 
 \begin{st}[Eigenschaften von $\wedge$] \label{6.6}
-    Das äußere Produkt ist assziativ und \emphdef{superkommutativ} (oder \emphdef{graduiert kommutativ}), d.h. es gilt
+    Das äußere Produkt ist assoziativ und \emphdef{superkommutativ} (oder \emphdef{graduiert kommutativ}), d.h. es gilt
     \begin{math}
         \alpha \wedge \beta = (-1)^{pq} \beta \wedge \alpha
     \end{math}
@@ -184,7 +191,7 @@ bildet eine Basis von $\bigwedge^q V^*$ (die lineare Unabhängigkeit sieht man, 
         \item
             $\d(\Omega^q(M)) \subset \Omega^{q+1}(M)$.
         \item
-            $\d(\alpha \wedge \beta) = \d \alpha \wedge \beta + (-1)^p \alpha \wedge \d \beta$ für alle $\alpha \in \Omega^p(M)$, $\beta \in \Omega^\bullet(M)$.
+            $\d(\alpha \wedge \beta) = \d \alpha \wedge \beta + (-1)^p \alpha \wedge \d \beta$ für alle $\alpha \in \Omega^p(M)$, $\beta \in \Omega^\bullet(M)$ (\emphdef{Graduierte Produktregel})
         \item
             $\d: \Omega^0(M) = C^\infty(M) \to \Gamma(M, \T^* M) = \Omega^1(M)$ ist das übliche Differential auf Funktionen.
         \item
@@ -288,7 +295,14 @@ und somit $\omega = \sum_I f_I \d x_I$.
 
 \begin{nt} \label{6.10}
     Der Einsetzungsoperator $\iota_X$ für ein Vektorfeld $X \in \scr X(M)$ hat ähnliche Eigenschaften wie $\d$ auf $\Omega^\bullet(M)$.
-    Es gilt $\iota_X^2 = 0$ und die Leibnizregel $\iota_X(\alpha \wedge \beta) = (\iota_X \alpha) \wedge \beta + (-1)^p \alpha \wedge (\iota_X \beta)$, falls $\alpha \in \Omega^p(M)$, siehe Übungsaufgabe 37.
+    Es gilt
+    \begin{itemize}
+        \item
+            $\iota_X^2 = 0$
+        \item
+            $\iota_X(\alpha \wedge \beta) = (\iota_X \alpha) \wedge \beta + (-1)^p \alpha \wedge (\iota_X \beta)$.
+    \end{itemize}
+    siehe Übungsaufgabe 37
 \end{nt}
 
 \begin{st}[Homotopieformel von Élie Cartan] \label{6.11}
@@ -333,5 +347,91 @@ und somit $\omega = \sum_I f_I \d x_I$.
         \end{enumerate}
     \end{proof}
 \end{st}
+
+\Timestamp{2016-01-26}
+
+\begin{nt} \label{6.12}
+    Für einen $q$-kontravarianten Tensor $\omega \in {V^*}^{\otimes q}$ (nicht notwendig alternierend) gilt für die Lieableitung
+    \begin{math}
+        L_X(\omega(Y_1, \dotsc, Y_q))
+        = L_X(\omega)(Y_1, \dotsc, Y_q) + \sum_{k=1}^q \omega(Y_1, \dotsc, L_X Y_k, \dotsc, Y_q).
+    \end{math}
+    Dies folgt mit einer Rechnung analog zum Beweis von \ref{5.19}
+
+    \ref{6.11} (Homotopieformel von Élie Cartan) ermöglicht die Berechnung von $L_X \omega$ mit Hilfe von $\d$.
+    Umgekehrt lässt sich $\d$ auch aus Liebleitungen berechnen.
+\end{nt}
+
+\begin{st} \label{6.13}
+    Seien $X_0, \dotsc, X_q \in \scr X(M)$ und $\omega \in \Omega^q(M)$.
+    Dann gilt
+    \begin{math}
+        \d \omega(X_0, \dotsc, X_q)
+        = \sum_{j=0}^q (-1)^j X_j( \omega(X_0, \dotsc, \hat X_j, \dotsc, X_q) )
+        + \sum_{0 \le j < k \le q} (-1)^{j+k} \omega([X_j, X_k]), X_0, \dotsc, \hat X_j, \dotsc, \hat X_k, \dotsc, X_q)
+    \end{math}
+    \begin{proof}
+        Nutze Induktion über $q$.
+        Nach \ref{6.12} gilt
+        \begin{math}
+            L_{X_0}(\omega(Y_1, \dotsc, Y_q))
+            &= \underbrace{(L_{X_0} \omega)}_{\stack{\text{\ref{6.11}}}= \d \iota_{X_0} \omega + \iota_{X_0} \d \omega}(X_1, \dotsc, X_q)
+                + \sum_{j=1}^q \omega(X_1, \dotsc, [X_0, X_j], \dotsc, X_q) \\
+            &= (\d \iota_{X_0} \omega)(x_1, \dotsc, X_q)
+                + \d \omega(X_0, X_1, \dotsc, X_q) - \sum_{k=1}^q (-1)^k \omega([X_0, X_k], X_1, \dotsc, \hat X_k, \dotsc, X_q) \\
+            &= \sum_{1 \le j < k \le q} (-1)^{j+k} \omega(X_0, [X_j, X_k], X_1, \dotsc, \hat X_j, \dotsc, \hat X_k, \dotsc, X_q)
+                - \sum_{j=1}^a (-1)^j X_j . \omega(X_0, X_1, \dotsc, \hat X_j, \dotsc, X_q)
+                + \d \omega(X_0, X_1, \dotsc, X_q) - \sum_{k=1}^q (-1)^k \omega([X_0, X_k], \hat X_0, X_1, \dotsc, \hat X_k, \dotsc, X_q) \\
+        \end{math}
+        Induktionsanfang $q = 0$:
+        \begin{math}
+            \d \omega(X_0) = X_0 . \omega,
+        \end{math}
+        denn $\d$ entspricht auf Funktionen dem gewöhnlichen Differential.
+    \end{proof}
+    \begin{note}
+        Für $\alpha \in \Omega^1(M)$ folgt
+        \begin{math}
+            \d \alpha(X, Y)
+            = X \alpha(Y) - X_1 \alpha(X) - \alpha([X, Y]).
+        \end{math}
+    \end{note}
+\end{st}
+
+Eine Anwendung ist der Satz von Frobenius.
+
+Ein Unterbündel des Tangentialbündels vom Rang $k$ (d.h. eine glatte Auswahl eines $k$-dimensionalen Untervektorraums von $\T_p M$ in jedem Punkt $p \in M$) nennt man eine \emphdef{Distribution}.
+
+Eine Distribution heißt \emphdef{integrabel}, falls es zuu jedem Punkt $p \in M$ eine $k$-dimensionale Untermannigfaltigkeit $N$ gibt, sodass der Tangentialraum von $N$ an jedem Punkt von $N$ mit der Distribution übereinstimmt.
+
+Die Distribution heißt \emphdef{involutiv}, falls für alle Vektorfelder mit Werten in der Distribution (in den Unterbündeln) auch die Lie-Klammer je zwei solcher Vektorfelder wieder in der Distribution liegt.
+
+Der Satz von Frobenius sagt, dass eine Distribution genau dann integrabel ist, wenn sie involutiv ist.
+Insbesondere sind eindimensionale Distributionen, d.h. Unterbündel vom Rang 1 stets intgrabel.
+
+\begin{st}[Frobenius] \label{6.14}
+    Sei $H \subset \T M$ ein Untervektorbündel vom Rang $k$, so dass für $X, Y \in \Gamma(M, H)$ auch $[X, Y] \in \Gamma(M, H)$ gilt.
+
+    Dann existiert zu jedem $p \in M$ eine $k$-dimensionale Untermannigfaltigkeit $N \subset M$ mit $p \in N$ und $\T N = H |_N := H \cap \pi^{-1}(N)$.
+    \begin{proof}
+        Sei $\phi$ eine Karte um $p \in M$.
+        Dann bilden die Linearformen $\alpha_j := \phi^* \d x_j$, $1 \le j \le n = \dim(M)$ eine Basis von $\T_p M$.
+        Also gibt es eine Teilmenge $I \subset \Set{1, \dotsc, n}$ für die $(\alpha_j|_{H_p})_{j \in I}$ eine Basis von $H_p^*$ ist.
+        Sei eine offene Umgebung $U$ von $p$, sodass $(\alpha_j| H_p)_{j \in I}$ eine Basis von $H_p^*$ bleibt und seien $(X_j)_{j \in I}$ punktweise die dazu duale Basis von $H$.
+        Wegen $\d \alpha_j = 0$ (denn $\d \alpha_j = \d(\phi^* \d x_j) = \phi^*(\d \d x_j) = 0$) gilt für $j, m, l \in I$.
+        \begin{math}
+            \alpha_j( [X_m, X_l])
+            = X_m . \underbrace{\alpha_j(X_l)}_{\in \Set{0,1}} - X_l . \underbrace{\alpha_j(X_m)}_{\in \Set{0, 1}}
+            = 0.
+        \end{math}
+        Da aber die $\alpha_j$ eine Basis von $H^*$ bilden, bedeutet dies wegen $[X_m, X_l] \in H$, dass $[X_m, X_l] = 0$ ist.
+        Somit existiert $N \subset U$ nach \ref{3.30}.
+    \end{proof}
+\end{st}
+
+
+
+
+
 
 
