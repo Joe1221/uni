@@ -430,6 +430,114 @@ Insbesondere sind eindimensionale Distributionen, d.h. Unterbündel vom Rang 1 s
 \end{st}
 
 
+\Timestamp{2016-01-27}
+
+
+\section{De Rham-Kohomologie}
+
+Mit Hilfe der Differentialformen und der außeren Ableitung $\d$ lässt sich jeder Mannigfaltigkeit eine graduierte Algebra $H^\bullet(M)$ zuordnen, die eiene differentialtopologische Invariante von $M$ ist.
+
+
+\begin{df}
+    Eien Differentialform $\omega \in \Omega^\bullet(M)$ heißt
+    \begin{itemize}
+        \item
+            \emphdef{geschlossen}, falls $\d \omega = 0$, d.h. $\omega \in \ker \d$,
+        \item
+            \emphdef{exakt}, falls $\exists \alpha \in \Omega^\bullet(M): \omega = \d \alpha$, d.h. $\omega \in \im \d$.
+    \end{itemize}
+    Wegen $\d^2 = \d \circ \d = 0$ ist jede exakte Form geschlossen.
+
+    Die \emphdef{De Rham-Kohomologie} einer Mannigfaltigkeit $M$ ist definiert durch
+    \begin{math}
+        H_{\dR}^q := \ker \d|_{\Omega^q(M)} / \im \d|_{\Omega^{q-1}(M)}.
+    \end{math}
+    $H^q(M)$ heißt \emphdef[Kohomologiegruppe]{$q$-te (de Rham)-Kohomologiegruppe} von $M$ (sezte $\Omega^q(M) = 0$ für $q < 0$.
+    Man setzt
+    \begin{math}
+        H^\bullet(M) := \bigoplus_{q=0}^{\dim M} H^q(M).
+    \end{math}
+    Die Elemente von $H^\bullet(M)$ heißen auch \emphdef{Kohomologieklasssen} von $M$.
+\end{df}
+
+\begin{note}
+    In Aufgabe 35 haben wir die $1$-Form auf $\R^2 \setminus \Set{0}$.
+    \begin{math}
+        \phi &= - \frac{y}{x^2 + y^2} \d x + \frac{x}{x^2 + y^2} \d y
+    \end{math}
+    betrachtet und gezeigt, dass sie geschlossen ist, d.h. $\d \phi = 0$, aber nicht exakt.
+    Denn $\phi$ ist das Differential der Argumentfunktion auf $\R^2 \setminus \Set{0}$, lokal gegeben durch $\arctan(\frac{x}{y})$.
+    Diese Funktion existiert nicht global auf ganz $\R^2 \setminus \Set{0}$, daher ist die Kohomologieklasse $[\phi] = \phi + \im(\d|_{\Omega^0(\R^2 \setminus \Set{0})})$ ein nicht-triviales Element von $H^1(\R^2 \setminus \Set{0})$.
+
+    Die $1$-Form $\phi$ lässt sich nicht auf ganz $\R^2$ fortsetzen, denn in jeder sternförmigen offenen Teilmenge $U$ des $\R^n$ ist jede geschlossene $q$-Form für $q \ge 1$ exakt, d.h. $H^q(U) = 0$.
+    Diese Aussage nennt man \emphdef{Poincaré-Lemma}.
+    Es gilt also $0 \neq [\phi] \in H^1(\R^2 \setminus \Set{0})) \neq H^1(\R^2)$.
+    Insbesondere folgt, dass $\R^2 \setminus \Set{0}$ und $\R^2$ nicht diffeomorph sind (Erinnerung: $\d F^* = F^* \d$)
+
+    Für kompakte $M$ lässt mit harmonischer Analysis zeigen, dass $\dim H^q(M) < \infty$ und die \emphdef{Poincaré-Dualität} gilt, d.h.
+    \begin{math}
+        H^q(M) \isomorphic H^{\dim M - q}(M).
+    \end{math}
+\end{note}
+
+\begin{lem} \label{6.16}
+    Die De Rham-Kohomologise hat folgende Eigenschaften:
+    \begin{enumerate}[(i)]
+        \item
+            $H^q(M) = 0$ für $q > \dim(M)$ oder $q < 0$.
+        \item
+            $H^0(M) \isomorphic \R$ kanonisch, falls $M$ zusammenhängend ist
+        \item
+            Das äußere Produkt auf $\Omega^\bullet(M)$ induziert eine Ring-Struktur, das sogenannte “cup”-Produkt $\cup: H^\bullet(M) \times H^\bullet(M) \to H^\bullet(M)$ eine superkommutative (d.h. graduiert-kommutative), $\Z$-graduierte $\R$-Algebra wird.
+        \item
+            Jede glatte Abbildung $\phi: M \to N$ induziert einen $\R$-Algebra-Homomorphismus
+            \begin{math}
+                \phi^*: H^\bullet(N) \to H^\bullet(M).
+            \end{math}
+    \end{enumerate}
+    \begin{proof}
+        \begin{enumerate}[(i)]
+            \item
+                klar, da $\Omega^q(M) = 0$ für $q > \dim(M)$.
+            \item
+                Ist $f \in \Omega›q(M)$ eine geschlossene Funktion, d.h. $\d f = 0$ dann ist $f$ lokal konstant, d.h.
+                $H^0(M)$ ist ein reeller Vektorraum der Dimension $|\pi_0(M)|$.
+            \item
+                Zeige, $[\alpha] \cup [\beta] := [\alpha \wedge \beta]$ ist unabhängig von der Wahl der Repräsentanten $\alpha$, $\beta$.
+
+                Seien $\gamma \in \Omega^{p-1}(M)$, $\epsilon \in \Omega^{q-1}(M)$, dann ist
+                $(\alpha + \d \gamma) \wedge (\beta + \d \epsilon)$ geschlossen.
+
+                Diese Form repräsentiert die selbe Kohomologieklasse $\alpha \wedge \beta$, d.h. $\alpha \wedge \d \epsilon + \d \gamma \wedge \beta + \d \gamma \wedge \d \epsilon$ ist exakt:
+                \begin{math}
+                    \alpha \wedge \d \epsilon &= \d( (-1)^p \alpha \wedge \epsilon) \\
+                    \d \gamma \wedge \beta &= \d( \gamma \wedge \beta) \\
+                    \d \gamma \wedge \d \epsilon &= \d ( \gamma \wedge \d \epsilon).
+                \end{math}
+                Dies zeigt die Wohldefiniertheit des $\cup$-Produkts.
+                Die Superkommutativität folgt aus $\alpha \wedge \beta = (-1)^{pq} \beta \wedge \alpha$.
+                Graduierte Algebra folgt aus $\alpha \wedge \beta \in \Omega^{p+q}(M)$.
+            \item
+                Das Zurückholen von Formen $\phi^*: \Omega^\bullet(N) \to \Omega^\bullet(M)$, $\alpha \mapsto \phi^* \alpha$ ist eine $\R$-lineare Abbildung, sie induziert eine wohldefinierte $\R$-lineare Abbildung $H^\bullet(N) \to H^\bullet(M)$ durch $\phi^*[\alpha] := [\phi^* \alpha]$.
+                Dies ist wohldefiniert, da
+                \begin{math}
+                    [\phi^*(\alpha + \d \gamma]]
+                    = [\phi^* \alpha + \phi^* \d \gamma]
+                    = [\phi^* \alpha + \d \phi^* \gamma]
+                    = [\phi^* \alpha].
+                \end{math}
+                Diese Abbildung ist ein $\R$-Algebra-Homomorphismus, denn
+                \begin{math}
+                    \phi^*([\alpha] \cup [\beta])
+                    &= \phi^* [\alpha \wedge \beta]
+                    = [\phi^*(\alpha \wedge \beta)] \\
+                    &= [\phi^* \alpha] \cup [\phi^* \beta]
+                    = (\phi^* [\alpha]) \cup (\phi^* [\beta]).
+                \end{math}
+        \end{enumerate}
+    \end{proof}
+\end{lem}
+
 
 
 
