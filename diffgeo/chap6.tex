@@ -162,7 +162,7 @@ bildet eine Basis von $\bigwedge^q V^*$ (die lineare Unabhängigkeit sieht man, 
     \end{math}
     für alternierende $p$-Formen $\alpha$ und alternierende $q$-Formen $\beta$.
 
-    Der Vektorraum $\bigwedge^{\bullet} V^\ast := \bigoplus_{q=0}^n \bigwedge^q V^*$ wird damit zu einer assoziativen, graduierte Algebra (es gilt $\dim \bigwedge^\bullet V^\ast = 2^n = 2^{\dim V}$).
+    Der Vektorraum $\bigwedge^{\bullet} V^\ast := \bigoplus_{q=0}^n \bigwedge^q V^*$ wird damit zu einer assoziativen, graduierten Algebra (es gilt $\dim \bigwedge^\bullet V^\ast = 2^n = 2^{\dim V}$).
     \begin{proof}
         Wegen der Bilinearität genügt es, die Assoziativität auf den Basisvektoren nachzurechnen.
         Dazu prüft man, dass
@@ -176,9 +176,11 @@ bildet eine Basis von $\bigwedge^q V^*$ (die lineare Unabhängigkeit sieht man, 
     \end{proof}
 \end{st}
 
+Wir wollen nun die Differentialformen auf Mannigfaltigkeiten definieren.
+
 \begin{df} \label{6.7}
-    Sei $M$ eine Mannigfaltigkeit und $n := \dim(M)$.
-    Mit $\bigwedge^q \T^* M$ bezeichnen wir den Unterbündel der alternierenden $q$-Formen in ${\T^*}^{\otimes q} M$.
+    Sei $M$ eine Mannigfaltigkeit, $n := \dim(M)$.
+    Sei $\bigwedge^q \T^* M \subset \T^0_q M$ der Unterbündel der alternierenden $q$-Formen auf.
 
     Sei $\bigwedge^\bullet \T^* M := \bigoplus_{q=0}^n \bigwedge^q \T^* M$.
     Die Schnitte in diesem Bündel heißen \emphdef{Differentialformen} auf $M$.
@@ -325,7 +327,7 @@ und somit $\omega = \sum_I f_I \d x_I$.
                     = L_X f.
                 \end{math}
             \item
-                $K_X$ operiert als Derivation auf $\Omega^\bullet(M)$: für $\alpha \in \Omega›p(M)$, $\beta \in \Omega^\bullet(M)$ gilt
+                $K_X$ operiert als Derivation auf $\Omega^\bullet(M)$: für $\alpha \in \Omega^p(M)$, $\beta \in \Omega^\bullet(M)$ gilt
                 \begin{math}
                     K_X(\alpha \wedge \beta)
                     &= (d + \iota_X) ((\d + \iota_X) \alpha \wedge \beta + (-1)^p \alpha \wedge (d + \iota_X) \beta) \\
@@ -367,22 +369,24 @@ und somit $\omega = \sum_I f_I \d x_I$.
     Dann gilt
     \begin{math}
         \d \omega(X_0, \dotsc, X_q)
-        = \sum_{j=0}^q (-1)^j X_j( \omega(X_0, \dotsc, \hat X_j, \dotsc, X_q) )
-        + \sum_{0 \le j < k \le q} (-1)^{j+k} \omega([X_j, X_k]), X_0, \dotsc, \hat X_j, \dotsc, \hat X_k, \dotsc, X_q)
+        &= \sum_{j=0}^q (-1)^j X_j( \omega(X_0, \dotsc, \hat X_j, \dotsc, X_q) ) \\
+        &\quad + \sum_{0 \le j < k \le q} (-1)^{j+k} \omega([X_j, X_k]), X_0, \dotsc, \hat X_j, \dotsc, \hat X_k, \dotsc, X_q)
     \end{math}
     \begin{proof}
         Nutze Induktion über $q$.
         Nach \ref{6.12} gilt
         \begin{math}
-            L_{X_0}(\omega(Y_1, \dotsc, Y_q))
-            &= \underbrace{(L_{X_0} \omega)}_{\stack{\text{\ref{6.11}}}= \d \iota_{X_0} \omega + \iota_{X_0} \d \omega}(X_1, \dotsc, X_q)
-                + \sum_{j=1}^q \omega(X_1, \dotsc, [X_0, X_j], \dotsc, X_q) \\
-            &= (\d \iota_{X_0} \omega)(x_1, \dotsc, X_q)
-                + \d \omega(X_0, X_1, \dotsc, X_q) - \sum_{k=1}^q (-1)^k \omega([X_0, X_k], X_1, \dotsc, \hat X_k, \dotsc, X_q) \\
-            &= \sum_{1 \le j < k \le q} (-1)^{j+k} \omega(X_0, [X_j, X_k], X_1, \dotsc, \hat X_j, \dotsc, \hat X_k, \dotsc, X_q)
-                - \sum_{j=1}^a (-1)^j X_j . \omega(X_0, X_1, \dotsc, \hat X_j, \dotsc, X_q)
-                + \d \omega(X_0, X_1, \dotsc, X_q) - \sum_{k=1}^q (-1)^k \omega([X_0, X_k], \hat X_0, X_1, \dotsc, \hat X_k, \dotsc, X_q) \\
+            &X_0 . \omega(Y_1, \dotsc, Y_q) = L_{X_0}(\omega(Y_1, \dotsc, Y_q)) \\
+            &\quad= \underbrace{(L_{X_0} \omega)}_{\stack{\text{\ref{6.11}}}= \d \iota_{X_0} \omega + \iota_{X_0} \d \omega}(X_1, \dotsc, X_q)
+                + \sum_{k=1}^q \omega(X_1, \dotsc, [X_0, X_k], \dotsc, X_q) \\
+            &\quad= (\d \iota_{X_0} \omega)(x_1, \dotsc, X_q) + \d \omega(X_0, X_1, \dotsc, X_q) \\
+            &\qquad    - \sum_{k=1}^q (-1)^k \omega([X_0, X_k], X_1, \dotsc, \hat X_k, \dotsc, X_q) \\
+            &\quad= \sum_{1 \le j < k \le q} (-1)^{j+k} \omega(X_0, [X_j, X_k], X_1, \dotsc, \hat X_j, \dotsc, \hat X_k, \dotsc, X_q) \\
+            &\qquad    - \sum_{j=1}^a (-1)^j X_j . \omega(X_0, X_1, \dotsc, \hat X_j, \dotsc, X_q) \\
+            &\qquad    + \d \omega(X_0, X_1, \dotsc, X_q) - \sum_{k=1}^q (-1)^k \omega([X_0, X_k], \hat X_0, X_1, \dotsc, \hat X_k, \dotsc, X_q).
         \end{math}
+        Umstellen nach $\d \omega (X_0, \dotsc, X_q)$ liefert die Behauptung.
+
         Induktionsanfang $q = 0$:
         \begin{math}
             \d \omega(X_0) = X_0 . \omega,
