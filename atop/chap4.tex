@@ -170,11 +170,13 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
                 \draw (0,0) node["$v_0$"] (0) {};
             \end{tikzpicture}
             \begin{math}
-                0 \xto* R \<v_0\> \xto* 0 \xto* \dotsc
+                \begin{tikzcd}
+                    0 & R \<v_0\> \ar[l,"\del_0"'] & 0 \ar[l,"\del_1"'] & \dotsc \ar[l]
+                \end{tikzcd}
             \end{math}
             Homologie:
             \begin{math}
-                H_n(\ast, R) = \begin{cases}
+                H_n = \begin{cases}
                     R[v_0] \isomorphic R & \text{für $n = 0$,} \\
                     0 & \text{für $n \neq 0$.}
                 \end{cases}
@@ -186,12 +188,16 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
                       (1,0) node["$v_1$"] (1) {} edge[<-] (0);
             \end{tikzpicture}
             \begin{math}
-                0 \xto* R\<v_0\> \oplus R\<v_1\> &\xto* R\<v_0,v_1\> \xto* 0 \xto* \dotsc \\
-                \<v_1\> - \<v_0\> &\mapsfrom \<v_0, v_1\>
+                \begin{tikzcd}[row sep=tiny]
+                    0 & R\<v_0\> \oplus R\<v_1\> \ar[l,"\del_0"'] & R\<v_0, v_1\> \ar[l,"\del_1"'] & 0 \ar[l,"\del_2"'] & \dotsc \ar[l] \\
+                    & \<v_1\> - \<v_0\> & \<v_0, v_1\> \ar[l,|->]
+                \end{tikzcd}
+                %0 \xto* R\<v_0\> \oplus R\<v_1\> &\xto* R\<v_0,v_1\> \xto* 0 \xto* \dotsc \\
+                %\<v_1\> - \<v_0\> &\mapsfrom \<v_0, v_1\>
             \end{math}
             Homologie:
             \begin{math}
-                Z_0 &= C_0, \\
+                Z_0 &= R\<v_0\> \oplus R\<v_1\>, \\
                 B_0 &= R(\<v_1\> - \<v_0\>), \\
                 H_0 &= Z_0 / B_0 \isomorphic R[v_0] = R[v_1] \isomorphic R,
             \end{math}
@@ -202,7 +208,7 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
                     C_0 \ar[u] \ar[ru,"{\<v_0\>,\<v_1\> \mapsto 1}"']
                 \end{tikzcd}.
             \end{math}
-            Also
+            Also zusammen mit $H_1 = 0$ wegen $\ker \del_1 = 0$ haben wir
             \begin{math}
                 H_n &= \begin{cases}
                     R & \text{für $n = 0$}, \\
@@ -217,7 +223,9 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
                       (2,0) node["$v_2$"] (2) {} edge[<-] (1);
             \end{tikzpicture}
             \begin{math}
-                0 \xto* R\<v_0\> \oplus R\<v_1\> \oplus R\<v_2\> \xto* R\<v_0,v_1\> \oplus R\<v_1,v_2\> \xto* 0  \xto* \dotsc
+                \begin{tikzcd}
+                    0 & \bigoplus_{k=0}^2 R \<v_k\> \ar[l,"\del_0"'] & R \<v_0, v_1\> \oplus R\<v_1, v_2\> \ar[l,"\del_1"'] & 0 \ar[l,"\del_2"'] & \dotsc \ar[l]
+                \end{tikzcd}
             \end{math}
             $H_n$ wie zuvor.
         \item
@@ -227,6 +235,13 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
                       (330:0.5) node["$v_1$" right] (1) {} edge[<-] (0)
                       (90:0.5) node["$v_2$"] (2) {} edge[<-] (1) edge[->] (0);
             \end{tikzpicture}
+            \begin{math}
+%                \resizebox{\textwidth}{!}{
+                \begin{tikzcd}
+                    0 & \bigoplus_{k=0}^2 R \<v_k\> \ar[l,"\del_0"'] & R \<v_0, v_1\> \oplus R\<v_1, v_2\> \oplus R\<v_2, v_0\> \ar[l,"\del_1"'] & 0 \ar[l,"\del_2"'] & \dotsc \ar[l]
+                \end{tikzcd}
+%                }
+            \end{math}
             \begin{math}
                 C_0 &= R\<v_0\> \oplus R\<v_1\> \oplus R \<v_2\> \\
                 C_1 &= R\<v_0, v_1\> \oplus R\<v_1, v_2\> \oplus R\<v_2, v_0\> \\
@@ -262,25 +277,10 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
     \end{math}
     Ist $K$ zusammenhängend, so gilt
     \begin{math}
-        H_1(K, \Z) &\xto{\isomorphic} \pi_1(K,x_0)_{\text{ab}}.
-    \end{math}
-    Genauer: Wähle einen Spannbaum $T \subset K$
-    \begin{math}
         \begin{tikzcd}
-            H_1(K, \Z) \ar[r,"h","\isomorphic"'] & \pi_1(K, x_0)_{\text{ab}} \\
-            Z_1(K, \Z) \ar[u,"\quot"] \ar[ru] \ar[d,"\subset"] & \pi_1(K, x_0) \ar[u] \\
-            C_1(K, \Z) \ar[ruu] & \<S \mathrel{|} R\> \ar[u,"\isomorphic"] \ar[l] \\
-            \Z \tilde K_1 \ar[u,"\quot"] \ar[ruuu,"\tilde h"] & \<S \mathrel{|} -\> \ar[u] \ar[l,"\tilde k"] \ar[lu]
+            H_1(K, \Z) \ar[r,"\isomorphic"] & \pi_1(K,x_0)_{\text{ab}}.
         \end{tikzcd}
     \end{math}
-    mit
-    \begin{math}
-        \tilde h(v_0,v_1)
-        &:= [\underbrace{x_0 \dotsc v_0}_{\text{in $T$}} \ast v_0v_1 \ast \underbrace{v_1 \dotsc x_0}_{\text{in $T$}}] \\
-        \tilde k(v_0v_1) &:= (v_0,v_1)
-    \end{math}
-    $S$: Kanten, $R$: Dreiecke.
-
     Für beliebige $K$ folgt dann
     \begin{math}
         \begin{tikzcd}
@@ -288,7 +288,24 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
         \end{tikzcd}
     \end{math}
     \begin{proof}
-        Übung
+        Siehe Übung
+
+        Skizze (nicht ganz korrekt): Wähle einen Spannbaum $T \subset K$
+        \begin{math}
+            \begin{tikzcd}
+                H_1(K, \Z) \ar[r,"h","\isomorphic"'] & \pi_1(K, x_0)_{\text{ab}} \\
+                Z_1(K, \Z) \ar[u,"\quot"] \ar[ru] \ar[d,"\subset"] & \pi_1(K, x_0) \ar[u] \\
+                C_1(K, \Z) \ar[ruu] & \<S \mathrel{|} R\> \ar[u,"\isomorphic"] \ar[l] \\
+                \Z \tilde K_1 \ar[u,"\quot"] \ar[ruuu,"\tilde h"] & \<S \mathrel{|} -\> \ar[u] \ar[l,"\tilde k"] \ar[lu]
+            \end{tikzcd}
+        \end{math}
+        mit
+        \begin{math}
+            \tilde h(v_0,v_1)
+            &:= [\underbrace{x_0 \dotsc v_0}_{\text{in $T$}} \ast v_0v_1 \ast \underbrace{v_1 \dotsc x_0}_{\text{in $T$}}] \\
+            \tilde k(v_0v_1) &:= (v_0,v_1)
+        \end{math}
+        $S$: Kanten, $R$: Dreiecke.
     \end{proof}
 \end{st}
 
