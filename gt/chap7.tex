@@ -4,18 +4,16 @@
 
 
 \begin{st}
-    Sei $G = (V,E)$ ein unendlicher Graph, d.h. $|V| = \infty$.
-    Dann existiert ein unendlicher induzierter Untergraph $V'$, sodass $V'$ Clique oder unabhängig ist
-    \begin{math}
-        \alpha(G) + \omega(G) = \infty.
-    \end{math}
+    Sei $G = (V,E)$ ein unendlicher Graph.
+    Dann existiert ein unendlicher induzierter Untergraph $V'$, sodass $V'$ Clique oder unabhängig ist, d.h. $\alpha(G) + \omega(G) = \infty.$.
+
     Allgemeiner:
     Sei $G$ vollständig und $f: \binom{V}{2} \to \Set{0, \dotsc, c - 1}$ eine Färbung in $c$ Farben.
     Dann existiert ein monochromatischer unendlicher Untergraph.
     \begin{proof}
         Sei ohne Einschränkung $V = \N$.
 
-        Wähle für den Knoten $i = 1$ eine Farbe $g(i)$, sodass für fast alle $j > i$ gilt $f(\Set{i,j}) = g(i)$, eliminiere die restlichen Knoten.
+        Wähle für den Knoten $i = 1$ eine Farbe $g(i)$, sodass für unendlich viele $j > i$ gilt $f(ij) = g(i)$, eliminiere die restlichen Knoten.
         Wiederhole für $i = 2, 3, \dotsc$ mit den jeweils verbleibenden Knoten.
 
         Unter den verbleibenden (unendlich vielen) Knoten wähle eine Farbe mit unendlich vielen zugehörigen Knoten.
@@ -97,5 +95,38 @@
             $R(3) = 6$,
             denn $R(3) \neq 5$ wegen
             $\alpha(C_5) = 2 = \omega(C_5)$
+\Timestamp{2016-01-28}
+        \item
+            $R(n,1,c) = c(n-1) + 1$
+        \item
+            $R(n,2,c) \le c^{c(n-1) + 1} \le c^{nc} = 2^{nc \log_2 c}$.
+        \item
+            $R(n) \le 4^n$.
     \end{itemize}
 \end{ex}
+
+\begin{st}[Erdös, 1947]
+    $R(n) = R(n,2,2) \ge 2^{\frac{n}{2}}$ für $n \ge 2$.
+    Insbesondere $R(n) \in 2^{\LandauO(n)}$.
+    \begin{proof}
+        Es genügt, dies für $n \ge 4$ zu zeigen, den $R(2) = 2$, $R(3) = 6$.
+        Eine Färbung des vollständigen Graphen $K_m$ ist von der Form $\binom{K_m}{2} \to \Set{0,1}$.
+        Es gibt jetzt $2^{\binom{m}{2} - \binom{n}{2} + 1}$ Färbungen, die eine feste Clique $K_n$ monochromatisch machen.
+        Daher gibt es maximal $\binom{m}{n} 2^{\binom{m}{2} - \binom{n}{2} + 1}$ Färbungen, die \emph{irgendeine} Clique mit $n$ Knoten monochromatisch macht.
+
+        Angenommen $R(n) = m < 2^{\frac{n}{2}}$.
+        Betrachte
+        \begin{math}
+            \binom{m}{n} \dfrac{2^{\binom{m}{2} - \binom{n}{2} + 1}}{2^{\binom{m}{2}}}
+            &= \binom{m}{n} 2^{-\binom{n}{2} + 1}
+            \le \dfrac{m^n 2^{-\binom{n}{2} + 1}}{n!}
+            \le \frac{m^n}{2^n} 2^{-\binom{n}{2} + 1} \\
+            &< 2^{\frac{n^2}{2} - \binom{n}{2} + 1 - n}
+            = 2^{\frac{n^2}{2} - \frac{n^2}{2} + \frac{n}{2} + 1 - n}
+            = 2^{1 - \frac{n}{2}}
+            < 1,
+        \end{math}
+        ein Widerspruch.
+    \end{proof}
+\end{st}
+
