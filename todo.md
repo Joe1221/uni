@@ -12,6 +12,7 @@
 
 ### Minor Cosmetics
 
+- `\bigcup` and family is a little bit too big
 - Find a solution for `:=` colon not being centered (define `:` as active char?), but not breaking anything else
 - Prevent word wrap in references (e.g. `\ref{18.4-6}` having `6` on a new line)
 - `\R` symbol is above baseline, why?
