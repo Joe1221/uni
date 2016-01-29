@@ -57,10 +57,35 @@
 \renewcommand{\Im}{\operatorname{Im}}       % Imaginary part
 
 \newcommand{\orth}{\perp}                   % Orthogonal sign
-\providecommand{\bigtimes}{\mathop{\mathlarger{\times}}}
 
-\cs_new_eq:NN \bigoplusold \bigoplus
-\DeclareDocumentCommand { \bigoplus } { } { \mathop{\bigoplusold}\limits }
+\RequirePackage{scalerel}
+\DeclareDocumentCommand{\bigoperator}{m}{
+    \mathop{
+        \mathchoice{
+            \scalerel*{#1}{\scaleto{|}{13pt}}
+        }{
+            \scalerel*{#1}{\scaleto{|}{10.5pt}}
+        }{
+            \scalerel*{#1}{\scaleto{|}{6pt}}
+        }{
+            \scalerel*{#1}{\scaleto{|}{3.5pt}}
+        }
+    }\displaylimits
+}
+
+\cs_new_eq:NN \orig_sum \sum
+\DeclareDocumentCommand{\sum}{}{\bigoperator{\orig_sum}}
+\cs_new_eq:NN \orig_prod \prod
+\DeclareDocumentCommand{\prod}{}{\bigoperator{\orig_prod}}
+\DeclareDocumentCommand{\bigtimes}{}{\bigoperator{\times}}
+\DeclareDocumentCommand{\bigoplus}{}{\bigoperator{\oplus}}
+\DeclareDocumentCommand{\bigotimes}{}{\bigoperator{\otimes}}
+\DeclareDocumentCommand{\bigsqcup}{}{\bigoperator{\sqcup}}
+\DeclareDocumentCommand{\bigwedge}{}{\bigoperator{\wedge}}
+\DeclareDocumentCommand{\bigvee}{}{\bigoperator{\vee}}
+\DeclareDocumentCommand{\bigcup}{}{\bigoperator{\cup}}
+\DeclareDocumentCommand{\bigcap}{}{\bigoperator{\cap}}
+
 
 \DeclareDocumentCommand { \divs } { s } {
     \mathchoice {
