@@ -1,5 +1,5 @@
 % Kapitel 4
-\chapter{Homologie}
+\chapter{Simpliziale Homologie}
 
 \Timestamp{2016-01-15}
 
@@ -730,3 +730,97 @@ Zeige: $[x]$ ist wohldefiniert.
     \end{proof}
 \end{st}
 
+
+\Timestamp{2016-01-29}
+
+\section{Abschluss des Kapitels}
+
+
+Wir haben einem Simplizialkomplex $K$ einen Kettenkomplex $C_*(K,R)$ zugeordnet und aus dieser die Homologie $H_*(K,R)$ bestimmt, sowie erste Eigenschaften nachgewiesen.
+
+Im Folgenden weitere wichtige Eigenschaften (hier nur genannt, aber zunächst nicht bewiesen).
+
+\begin{st}
+    Für jede Unterteilung $K' \prec K$ haben wir einen Kettenhomomorphismus $C_* K \to C_* K'$ und dieser induziert einen Isomorphismus $H_* K \to H_* K'$.
+\end{st}
+
+\begin{st}
+    Sind $f, g: K \to L$ homotop, d.h. $|f| \homotopic |g|: |K| \to |L|$, so folgt $H_*(f) = H_*(g): H_*(K) \to H_*(L)$.
+\end{st}
+
+\begin{kor}
+    Jede stetige Abbildung $\phi: |K| \to |L|$ können wir simplizial approximieren durch $f: K' \to L$ mit $|f| \homotopic \phi$.
+    Wir definieren $H_*(\phi) := H_*(f) : H_*(K) \xto{\isomorphic} H_*(K') \to H_*(L)$.
+
+    Dies ist wohldefiniert, d.h. unabhängig von der Wahl der Approximation:
+    \begin{proof}
+        Ist $g: K'' \to K$ eine weitere Approximation zu $\phi$, betrachte Unterteilung $K'''$ von $K'$ und $K''$ und $f', g': K''' \to L$.
+        Damit ist
+        \begin{math}
+            \begin{tikzcd}
+                H_*(K) \ar[r,"\isomorphic"] & H_*(K''') \ar[r,shift left,"H_*(f')"] \ar[r,shift right,"H_*(g')"] & H_*(L)
+            \end{tikzcd}.
+        \end{math}
+        Wegen $|f'| \homotopic \phi \homotopic |g'|$ sind also $H_*(f') = H_*(g')$.
+    \end{proof}
+\end{kor}
+
+Gegeben sei ein topologischer Raum $X$ mit Triangulierung $h: |K| \xto{\homeomorphic} X$.
+
+Dann können wir definieren
+\begin{math}
+    H_*(X) := H_*(K).
+\end{math}
+Das ist wohldefiniert bis auf Isomorphie
+\begin{math}
+    \begin{tikzcd}
+        {|K|} \ar[r,"\phi","\isomorphic"'] & X & {|L|} \ar[l,"\psi"',"\isomorphic"] \\
+        H_*(K) \ar[rr,shift left,"H_*(\psi^{-1} \circ \phi)"] && H_*(L) \ar[ll,shift left,"H_*(\phi^{-1} \circ \psi)","\isomorphic"']
+    \end{tikzcd}.
+\end{math}
+
+\begin{ex}
+    Sei $X = \S^n$, $|K| = \Boundary \Delta^{n+1}$, $K = \scr P \Set{0,1,\dotsc,n+1} \setminus \Set{\Set{0,1,\dotsc, n+1}}$.
+    \begin{math}
+        H_q(\S^n) := H_q(K)
+        = \begin{cases}
+            R & \text{für $q = 0$}, \\
+            R & \text{für $q = n$}, \\
+            0 & \text{sonst}.
+        \end{cases}
+    \end{math}
+    Beachte für $\S^0$ ist $H_0(\S^0) = R \oplus R$ und $H_q(\S^0) = 0$ für $q \neq 0$.
+
+    Zu jeder stetigen Abbildung $f: \S^n \to \S^n$ erhatlen wir $H_*(f): H_*(\S^n) \to H_*(S^n)$, insbesondere für $R = \Z$ in oberster Dimension
+    \begin{math}
+        \begin{tikzcd}
+            H_n(\S^n, \Z) \ar[r,"H_*(f)"] \ar[d,"\isomorphic"] & H_n(\S^n, \Z) \ar[d,"\isomorphic"] \\
+            \Z \ar[r,"\cdot a"] & \Z
+        \end{tikzcd}
+    \end{math}
+    Wir definieren den Abbildungsgrad von $f$ durch $\deg(f) := a$.
+
+    Eigenschaften:
+    \begin{itemize}
+        \item
+            $f \homotopic g \implies \deg(f) = \deg(g)$,
+        \item
+            $f \homotopic \const \implies \deg(f) = 0$,
+        \item
+            $f \homotopic \id \implies \deg(f) = 1$,
+        \item
+            $f \homotopic -\id \implies \deg(f) = (-1)^{n+1}$,
+            denn
+            \begin{itemize}
+                \item
+                    $f \in \SO(\R^{n+1}) \implies f \homotopic \id$,
+                \item
+                    Punktsymmetrische Triangulierung wählen, Permutation der Ecken.
+            \end{itemize}
+        \item
+            $\deg(f \circ g) = \deg(f) \deg(g)$,
+        \item
+            $f \circ g \homotopic \id \implies \deg(f) \deg(g) = 1 \implies \deg(f) = \deg(g) \in \Set{\pm 1}$.
+    \end{itemize}
+    Damit haben wir alle schönen Anwendungen aus der Grundvorlesung Topologie.
+\end{ex}

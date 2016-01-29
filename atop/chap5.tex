@@ -1,0 +1,245 @@
+\chapter{Singuläre Homologie}
+
+Ziel: Für beliebige Paare topologischer Räume $(X, A)$ möchten wir einen Funktor $H_*: \Cat{Top}_{(2)} \to \Cat{GrMod}_R$, d.h. $H_q: (X, A) \mapsto H_q(X,A) \in \Cat{Mod}_R$ für $q \in \Z$ und $H_q: (f:(X, A) \to (Y, B)) \mapsto (H_q(f): H_q(X,A) \to H_q(Y,B))$.
+
+Wünschenswerte Eigenschaften:
+\begin{enumerate}[(1)]
+    \item
+        Homotopie-Invarianz: Aus $f \homotopic g: (X, A) \to (Y, B)$ folgt $H_*(f) = H_*(g)$.
+    \item
+        Lange exakte Sequenz: Für $i: (A, \emptyset) \injto (X, \emptyset)$ und $j: (X, \emptyset) \injto (X, A)$ haben wir eine lange exakte Sequenz
+        \begin{math}
+            \begin{tikzcd}
+                {} \ar[r] & H_q(A,\emptyset) \ar[r,"H_q(i)"] & H_q(X,\emptyset) \ar[r,"H_q(j)"] & H_q(X,A) \ar[r,"\del_q"] & H_{q-1}(A,\emptyset) \ar[r] & \dotsc
+            \end{tikzcd}.
+        \end{math}
+        Hierzu fordern wir eine \emphdef{Randabbildung}
+        \begin{math}
+            \del_q = \del_q^{(X,A)}: H_q(X, A) \to H_{q-1}(A, \emptyset).
+        \end{math}
+        Dies soll mit dem Funktor $H_*$ verträglich sein, d.h. für $f: (X, A) \to (Y, B)$ soll folgenden Diagramm kommutieren:
+        \begin{math}
+            \begin{tikzcd}
+                H_q(X, A) \ar[r,"\del_q^{(X,A)}"] \ar[d,"H_q(f)"'] & H_{q-1}(A, \emptyset) \ar[d,"H_{q-1}(f|_{(A, \emptyset)})"] \\
+                H_q(Y, B) \ar[r,"\del_q^{(Y,B)}"] & H_{q-1}(B, \emptyset)
+            \end{tikzcd}.
+        \end{math}
+        Dies nennt man eine \emphdef{natürliche Transformation}, $\del_q: H_q \to H_{q-1} \circ S$ mit $S(X, A) = (A, \emptyset)$.
+    \item
+        Dimensionsaxiom: Für $X = \Set{p}$ gilt
+        \begin{math}
+            H_q(\Set{p}, \emptyset) \isomorphic \begin{cases}
+                R & \text{für $q = 0$}, \\
+                0 & \text{sonst}
+            \end{cases}
+        \end{math}
+        Genauer: wir fordern einen natürlichen Isomorphismus.
+    \item
+        Additivitätsaxiom
+        Für jede topologische Summe $X = \bigsqcup_{k \in I} X_k \xto*[inj]{\iota_k} X_k$ erhalten wir einen Isomorphismus
+        \begin{math}
+            \begin{tikzcd}
+                \bigoplus_{k\in I} H_q(\iota_k): \bigoplus_{k\in I} H_q(X_k, \emptyset) \ar[r,"\isomorphic"] & H_q(X, \emptyset) \\
+            \end{tikzcd}
+        \end{math}
+    \item
+        Ausschneidungsaxiom:
+        Sei $(X, A)$ ein Raumpaar und $U \subset X$ mit $\_U \subset \mathring A$.
+        Dann induziert die Inklusion $i: (X \setminus U, A \setminus U) \injto (X, A)$ einen Isomorphismus
+        \begin{math}
+            H_q(i): H_q(X \setminus U, A \setminus U) \xto{\isomorphic} H_q(X, A).
+        \end{math}
+\end{enumerate}
+
+\begin{df}[Eilenberg-Steenrod-Milnor-Axiome für Homologie]
+    Sei $R$ ein Ring.
+    Eine \emphdef{Homologie-Theorie} über $R$ ist ein paar $(H, \del)$ bestehend aus einem Funktor $H: \Cat{Top}_{(2)} \to \Cat{GrMod}_{R}$ und einer natürlichen Transformation $\del: H_q \to H_{q-1} \circ S$, sodass die obigen Axiomen (1)-(5) erfüllt sind.
+\end{df}
+
+\begin{ex}
+    Beispiele, bzw. Versuche.
+    Zur Vereinfachung $R = \Z$, $\Cat{Mod}_\Z = \Cat{AbGrp}$.
+    \begin{enumerate}[1)]
+        \item
+            Triviales Paar $(H, \del)$, $H_q(X,A) = 0$, also $\del_q^{(X,A)} = 0$.
+            Dies erfüllt (1), (2), (4), (5), aber nicht (3).
+        \item
+            Simpliziale Homologie: Erfüllt alles, aber nur auf Simplizialkomplexen $\Cat{SComp}_{(2)} \to \Cat{Top}_{(2)}$.
+        \item
+            Konstant: $H(X, A) := H(\Set{p}, \ast)$ nach (3).
+            \begin{math}
+                (f: (X, A) \to (Y, B)) \mapsto H_q(f) := \id.
+            \end{math}
+            Dies erfüllt (1), (3), (5) aber nicht (2), (4).
+            Zu (2): Für $(X, A) = (\Set{p}, \Set{p})$ gilt:
+            \begin{math}
+                \begin{tikzcd}[row sep=tiny]
+                    {} \ar[r] & H_0(A,\emptyset) \ar[r] & H_0(X, \emptyset) \ar[r] & H_0(X, A) \ar[r] & 0 \\
+                    {} \ar[r] & R \ar[r] & R \ar[r] & R \ar[r] & R
+                \end{tikzcd}
+            \end{math}
+            Nicht exakt in $H_0(X, \emptyset)$.
+        \item
+            Für $X$ wegzusammenhängend definiere
+            \begin{math} \\
+                H(X, \emptyset) &:= H(\Set{p}, \emptyset), \\
+                H(X, A) &:= 0 \qquad \text{für $A \neq \emptyset$}.
+            \end{math}
+            Allgemein: Zerlege $X$ in Wegkomponenten $\pi_0(X)$ und setze $H(X, A) := \bigoplus_{C \in \pi_0(X)} H(C, C \cap A)$.
+            Für $f: (X, A) \to (Y, B)$ setze $H_q(f)$ pro Komponente.
+
+            Dies erfüllt (1), (2), (3), (4), aber nicht (5)?
+            Übung: Was geht schief in (5)?
+        \item
+            $(H, \del) = (\pi, \del)$ mit $H_q = \pi_q$ für $q \ge 2$, $H_1 = \pi_1 / \mathrm{ab}$, $H_0 = \Z \pi_0$ und additiv fortgesetzt.
+    \end{enumerate}
+\end{ex}
+
+\begin{st}
+    Sei $R$ ein Ring.
+    \begin{enumerate}[(1)]
+        \item
+            Es existiert eine Homologietheorie über $R$.
+        \item
+            Auf Simplizialkomplexen (Allgemeiner: auf Zellkomplexen) stimmen je zwei Homologietheorien überein, d.h.
+            Sind $(H, \del)$ und $(H', \del')$ zwei Homologietheorien, so gibt es natürliche Isomorphismes
+            \begin{math}
+                \begin{tikzcd}
+                    H(|K|,|A|) \ar[r,"\isomorphic"] \ar[d,"H(f)"] & H'(|K|, |A|) \ar[d,"H'(f)"] \\
+                    H(|L|,|B|) \ar[r,"\isomorphic"] & H'(|L|, |B|)
+                \end{tikzcd}
+            \end{math}
+            und natürliche Äquivalenz für $\del \isomorphic \del'$.
+    \end{enumerate}
+    \begin{proof}
+        (2) Ausrechnen mit Axiomen, Übung für Sphären $\S^n$, Später für Komplexe.
+
+        (1) Verlangt eine Konstruktion der \emphdef{singulären kubischen Homologie}:
+
+    \end{proof}
+\end{st}
+
+Sei $X$ ein topologischer Raum.
+Für $n \in \N$ betrachte
+\begin{math}
+    \scr C(I^n, X) &= \Set{\alpha: [0,1]^n \to X \text{stetig}}, \\
+    \tilde S_n(X, R) &= R \scr C(I^n, X).
+\end{math}
+Für $i = 1, \dotsc, n$ und $s \in [0,1]$ definiere zu $\alpha: [0,1]^n \to X$ die Einschränkung $\del_i^s \alpha: [0,1]^{n-1} \to X$ durch
+\begin{math}
+    (\del_i^s \alpha)(t_1, \dotsc, t_{n-1}) = \alpha(t_1, \dotsc, t_{i-1}, s, t_i, \dotsc, t_{n-1}).
+\end{math}
+Wir hätten gerne $\alpha(1-t_1, t_2, \dotsc, t_n) = -1 \cdot \alpha(t_1, \dotsc, t_n)$, sowie $\alpha = 0$ falls $\del_i^s \alpha$ nicht von $s$ abhängt.
+Um dies zu erreichen, bilden wir den Quotienten bezüglich des Untermoduls
+\begin{math}
+    D_n := R \Set{ \alpha + \_{\alpha}^i,  \text{$\alpha$ degeneriert}},
+\end{math}
+wobei
+\begin{math}
+    \_\alpha^i(t_1,\dotsc, t_n) = \alpha(\dotsc, 1 - t_1, \dotsc)
+\end{math}
+und $\alpha$ degenerirt falls $\del_i^s \alpha$ nicht von $s$ abhängt für ein $i$.
+
+Wir setzen
+\begin{math}
+    S_n(X, R) := \tilde S_n(X, R) / D_n,
+\end{math}
+genannt \emphdef{singuläre kubische Ketten}.
+Für $\alpha: I^n \to X$ stetig bezeichne $\<\alpha\>$ die Äquivalenzklasse (später kurz $\alpha$).
+
+Setze $\tilde \del: \tilde S_n \to \tilde S_{n-1}$ durch
+\begin{math}
+    \tilde \del \alpha := \sum_{i=0}^n (-1)^{i} (\del_i^0  - \del_i^1) \alpha.
+\end{math}
+
+Es gilt
+\begin{itemize}
+    \item
+        $\tilde \del \circ \tilde \del = 0$ (Beweis: Übung)
+    \item
+        $\tilde \del(D_n) \subset D_{n-1}$
+\end{itemize}
+Wir können also zum Quotienten Übergehen:
+\begin{math}
+    \begin{tikzcd}
+        \tilde S_n \ar[r,"\del"] \ar[d,"\quot"] \ar[rd] & \tilde S_{n-1} & \tilde \del \alpha = \sum (-1)^i (\del_i^0 \alpha - \del_i^1 \alpha) \ar[d,"\quot"] \\
+        S_n \ar[r,dashed,"\del"] & S_{n-1} & \del\<\alpha\> = \sum (-1)^i (\<\del_i^0 \alpha\> - \<\del_i^1 \alpha\>)
+    \end{tikzcd}
+\end{math}
+
+\begin{df}
+    Zu $X$ heißt $(S_n X, \del_n)_{n\in\Z}$ der \emphdef{Kettenkomplex} der singulären Kuben in $X$.
+    Die zugehörige Homologie ist
+    \begin{math}
+        H_n(X) := \dfrac{Z_n(X)}{B_n(X)} = \dfrac{\ker \del_n}{\im \del_{n+1}}.
+    \end{math}
+    Zu $(X, A)$ definiere $S_n(X,A) := S_n(X) / S_n(A)$.
+    Dies ist ein Kettenkomplex, seine Homologie bezeichnen wir mit $H_n(X, A)$.
+    \begin{note}
+        Für $A = \emptyset$ gilt $S_n(A) = 0$ für alle $n \in \Z$, also $S_n(X, \emptyset) = S_n(X)$, $H_n(X, \emptyset) = H(X)$.
+    \end{note}
+    Zu $f: (X, A) \to (Y, B)$ stetig erhalten wir
+    \begin{math}
+        \tilde S_n(f): \tilde S_n(X) &\to \tilde S_n(Y), \\
+        \alpha &\mapsto f \circ \alpha
+    \end{math}
+    und nach Übergang zu den Äquivalenzklassen
+    \begin{math}
+        S_n(f): S_n(X) &\to S_n(Y), \\
+        \<\alpha\> &\mapsto \<f \circ \alpha\>
+    \end{math}.
+    Damit
+    \begin{math}
+        \begin{tikzcd}
+            0 \ar[r] & S_n(A) \ar[r] \ar[d,"S_n(f|_A^B)"'] & S_n(X) \ar[r] \ar[d,"S_n(f)"'] & S_n(X,A) \ar[r] \ar[d,"S_n(f)"] & 0 \\
+            0 \ar[r] & S_n(B) \ar[r] & S_n(Y) \ar[r] & S_n(Y,B) \ar[r] & 0
+        \end{tikzcd}.
+    \end{math}
+    Dies induziert $H_n(f): H_n(X, A) \to H_n(Y, B)$ durch $[z] \mapsto [S_n(f)(z)]$.
+
+    Wir erhalten zu jedem Paar $(X, A)$ eine lange exakte Sequenz.
+    Diese ist natürlich bezüglich $f: (X, A) \to (Y, B)$.
+\end{df}
+
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Für $X = \Set{p}$ gilt
+            \begin{math}
+                \begin{tikzcd}[row sep=tiny]
+                    0 & \tilde S_0 \ar[l] & \tilde S_1 \ar[l] & \tilde S_2 \ar[l] & \dotsc \ar[l] \\
+                    0 & R \ar[l,"0"] & R \ar[l,"0"] & R \ar[l,"0"] & R \ar[l,"0"] &
+                \end{tikzcd}.
+            \end{math}
+            Also
+            \begin{math}
+                H_n(\tilde S(\Set{p}), \tilde \del) = \begin{cases}
+                    R & \text{$n \ge 0$} \\
+                    0 & \text{$n < 0$}
+                \end{cases},
+            \end{math}
+            aber alles wird gut
+            \begin{math}
+                \begin{tikzcd}[row sep=tiny]
+                    0 & S_0 \ar[l] & S_1 \ar[l] & S_2 \ar[l] & \dotsc \ar[l] \\
+                    0 & R \ar[l] & 0 \ar[l] & 0 \ar[l] & 0 \ar[l] &
+                \end{tikzcd}.
+            \end{math}
+            Und damit
+            \begin{math}
+                H_n(\Set{p}) = H_n(S(\Set{p}), \del) = \begin{cases}
+                    R & \text{für $n = 0$}, \\
+                    0 & \text{sonst}.
+                \end{cases}
+            \end{math}
+        \item
+            Sei $X = \bigsqcup_{k \in I} X_k$, dann
+            \begin{math}
+                \scr C(I^n, X) &= \sqcup_{k\in I} \scr C(I^n, X_k), \\
+                \tilde S_n(X) &= \bigoplus_{k\in I} \tilde S_n(X_k), \\
+                S_n(X) &= \bigoplus_{k\in I} S_n(X_k), \\
+                H_n(X) &= \bigoplus_{k\in I} H_n(X_k).
+            \end{math}
+    \end{itemize}
+\end{ex}
