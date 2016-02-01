@@ -1,0 +1,136 @@
+\chapter{Lipton Tarjan}
+
+\Timestamp{2016-02-01}
+
+Sei $G = (V, E, F)$ ein planarer Graph, $n = |V|$.
+Dann existiert eine Menge $S$ (Separator) und eine Partition $V = A \cup S \cup B$ mit $S$ separiert $A$ und $B$ und $|S| \le 4 \sqrt n$ und $|A|, |B| \le \frac{2}{3} n$.
+
+Mengen $A, S, B$, die obige Aussage erfüllen, können in Linearzeit $\LandauO(n)$ beantwortet werden (Euler: $|E| \le 3n - 6$).
+
+\begin{proof}
+    Der Beweis ist trivial, falls $n \le 4 \sqrt n$, setze dann $S := V$.
+    Sei also $n > 16$.
+
+    Bilde den Levelgraph:
+    Wähle Startknoten $s \in V$ und setze
+    \begin{math}
+        L(t) := \Set{v \in V & d(s,v) = t}.
+    \end{math}
+    Also insbesondere $L(0) = \Set{s}$.
+    Das maximale Level sei $L(l) \neq \emptyset$, sodass $L(l+1) = \emptyset$.
+    \begin{math}
+        \Big| \bigcup_{t<t_1} L(t) \Big|
+        \le \frac{1}{2} n \ge
+        \Big| \bigcup_{t>t_1} L(t) \Big|.
+    \end{math}
+    $L(t_1)$ ist ein Separator.
+    Falls $|L(t_1)| \le 4 \sqrt n$, so sind wir fertig. 
+    Sei also $|L(t_1)| > 4 \sqrt n$.
+    Definiere $t_0$ so, dass $t_0$ maximal, $t_0 < t_1$ und $|L(t_0)| \le \sqrt n$.
+    Beachte $t_0$ existiert, denn $|L(0)| = 1$.
+    Definiere $t_2$ so, dass $t_2$ minimal, $t_2 > t_1$ und $|L(t_2)| \le \sqrt n$.
+    Beachte $t_2$ existiert, denn $L(l+1) = \emptyset$.
+
+    Beachte $t_2 - t_0 < \sqrt n$. % ??
+    Setze $C := \bigcup_{t<t_0} L(t)$, $D := \bigcup_{t_0 < t < t_2} L(t)$, $E := \bigcup_{t_2 < t} L(t)$, also
+    \begin{math}
+        V = C \dotcup L(t_0) \dotcup D \dotcup L(t_2) \dotcup E.
+    \end{math}
+    Wir sind fertig, falls $|D| \le \frac{2}{3} n$.
+    Setze dann $S := L(t_0) \cup L(t_2)$ mit $|S| \le 2 \sqrt n$ und $A, B$ Übung.
+
+    Sei also $|D| > \frac{2}{3}n$.
+    Definiere $L = \Set{s} \cup D$, wobei $s$ mit allen Knoten aus Level $L(t_0 + 1)$ verbunden wird.
+
+    Es genügt, den Satz für $L$ zu beweisen mit $|S| \le \sqrt 2\sqrt{n}$, $n = |V|$.
+    Dann ist der richtige Separator für $G$: $S \cup L(t_0) \cup L(t_1)$.
+    Für $L = A' \dotcup S \dotcup B'$ mit $|A'| \ge |B'|$ und ohne Einschränkung $|c| \ge |E|$ ist dann $A := A' \cup E$, $B := B' \cup C$.
+    Ansatz: sei $\alpha$ so, dass $|D| = \alpha n$ mit $\alpha \ge \frac{2}{3}$.
+
+    Ohne Einschränkung sei $L$ trianguliert, d.h. $L$ zusammenhängend und alle Facetten sind Dreiecke.
+    Berechne einen Spannbaum $T$ von $L$ von rechts nach links:
+    Für jeden Knoten $v \in L(t)$, $t > 0$ wähle genau einen Kante an einem $u \in L(t-1)$.
+
+    $e \in E = E(L)$ heißt \emphdef{Brücke}, falls $e \in E \setminus T$.
+    Für $u, v \in V$ sei $T[u,v]$ der eindeutige Pfad von $u$ nach $v$ in $T$.
+    Wenn $e = (u,v)$ eine Brücke ist, dann ist $T[uv] \ast e$ ein Kreis der Länge $\le 2\sqrt n$.
+
+    Zeige: Es gibt eine Brücke $e = (u,v)$ und $S = e \ast T[u,v]$ mit $A$ innen und $B$ außen und $|A|, |B| \le \frac{2}{3} |L|$.
+
+    \begin{lem}
+        Sei $G$ zusammenhängend, planar mit $n \ge 3$ Knoten und $T \subset E$ ein Spannbaum.
+        Dann ist $E \setminus T = T^*$ ein Spannbaum im Dualgraphen $G^*$.
+        \begin{proof}
+            Es gilt $n - e + f = 2$ dank Euler.
+            Dann ist $e = |E| = (n-1) + (f-1)$.
+            Folglich ist $|T^*| = f - 1$ die richtige Anzahl Kanten im Dualgraphen, beachte: der Dualgraph hat $f$ Knoten.
+            $T^*$ ist also Spannbaum, sowie es keinen Kreis gibt.
+            Einen Kreis kann es in $T^*$ nicht geben, da er einen Knoten in $G$ isolieren würde.
+        \end{proof}
+    \end{lem}
+
+    Sei nun $n = |L| = |D| + 1$.
+    Berechne $T^*$.
+    $T^*$ hat Blätter.
+    Mache ein Blatt zur endgültigen Wurzel von $T^*$.
+    Ohne Einsschränkung ist dieses Blatt die äußere Facette.
+    Sei $e = (u,v)$ eine Brücke.
+    Dann ist $c(e) := \ast e T[u,v]$ der Kreis.
+    Definiere $I(E)$ als die Anzahl der inneren Knoten.
+    Bei der Wurzel ist $I(r) = n - 3$.
+    $c(e)$ sei eine Listendarstellung des Kreises $c(e) = (u, u_1, \dotsc, u_k, v)$ und $|c(e)|$ die Anzahl der Knoten.
+
+    An der Wurzel gilt $I(r) + |c(r)| = n$.
+    Berechne $(I(e), c(e), |c(e)|)$ von den Blätter zur Wurzel.
+
+    \begin{enumerate}[1.]
+        \item
+            Fall 1 (Blatt)
+            Hier ist $I(e) = 0$, $c(e) = (u,x,v)$.
+            Suche jetzt von den Blättern zur Wurzel die erste Brücke mit $I(e) + |c(e)| \ge \frac{1}{3} n$.
+        \item
+            Fall 2 (kein Blatt und $u' \in T[u,v]$).
+            Hier ist $I(e) = I(e')$, $c(e) = u \ast c(e')$, $c(e) = |c(e')| + 1$.
+            Angenommen $I(e') + c(e') < \frac{1}{3} n$, dann ist
+            \begin{math}
+                I(e) + c(e) < \frac{1}{3}n + 1 \le \frac{2}{3} n
+                \le \frac{2}{3} n.
+            \end{math}
+            Ok, falls $I(e) + |c(e)| \ge \frac{1}{2} n$ erstmalig.
+        \item
+            Fall 3 (kein Blatt und $u' \notin T[u,v]$).
+            Hier ist $I(e) = I(e') + 1$ und $c(e) = (u,u_1, \dotsc, v)$ falls $(u', u, u_1, \dotsc, v) = c(e')$.
+            Dann ist $|c(e)| = |c(e')| - 1$.
+
+            Also ist $I(e) + |c(e)| = I(e') + |c(e')|$.
+        \item
+            Fall 3 (Dreieck mit keinen Spannbaumkanten)
+            Schon bekannt sind
+            \begin{math}
+                T[y,v] &= (y, \dotsc, x, v_1, \dotsc, v_k, v) = c(e'') \\
+                T[y,u] &= (y, \dotsc, x, u_1, \dotsc, u_l, u) = c(e')
+            \end{math}
+            mit $u_1 \neq v_1$.
+            Dann ist
+            \begin{math}
+                T[u,v] = c(e) = (v, v_k, \dotsc, v_1, x, u_1, \dotsc, u_k, u).
+            \end{math}
+            Damit gilt mit $p$ die Anzahl der Knoten $(y, \dotsc, x)$.
+            \begin{math}
+                I(e) &= I(e') \cup I(e'') + |p| - 1,
+                |c(e)| &= |c(e')| + c(e'') - 2|p| + 1.
+            \end{math}
+            Falls $I(e') + |c(e')| \le \frac{1}{3}n$ und $I(e'') + |c(e'')| \le \frac{1}{3}n$, dann folgt $|I(e) + |c(e)|| \le \frac{2}{3} n$.
+    \end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+\end{proof}
