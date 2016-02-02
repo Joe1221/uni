@@ -504,7 +504,7 @@ Mit Hilfe der Differentialformen und der außeren Ableitung $\d$ lässt sich jed
             \item
                 klar, da $\Omega^q(M) = 0$ für $q > \dim(M)$.
             \item
-                Ist $f \in \Omega›q(M)$ eine geschlossene Funktion, d.h. $\d f = 0$ dann ist $f$ lokal konstant, d.h.
+                Ist $f \in \Omega^q(M)$ eine geschlossene Funktion, d.h. $\d f = 0$ dann ist $f$ lokal konstant, d.h.
                 $H^0(M)$ ist ein reeller Vektorraum der Dimension $|\pi_0(M)|$.
             \item
                 Zeige, $[\alpha] \cup [\beta] := [\alpha \wedge \beta]$ ist unabhängig von der Wahl der Repräsentanten $\alpha$, $\beta$.
@@ -541,6 +541,151 @@ Mit Hilfe der Differentialformen und der außeren Ableitung $\d$ lässt sich jed
         \end{enumerate}
     \end{proof}
 \end{lem}
+
+
+\Timestamp{2016-02-02}
+
+Pullback ?
+\begin{math}
+    f^*\omega(X_1, \dotsc, X_q) := \omega(f_* X_1, \dotsc, f_* X_q)
+\end{math}
+
+Es gilt $f^* \circ \d = \d \circ f^*$, deshalb ist $f^*: H^\bullet(N) \to H^\bullet(M)$ wohldefinierter kovarianter Funktor.
+
+\begin{df} \label{6.17}
+    Für einen Tensor $\omega$ auf $M$ definiert man den \emphdef{Träger} durch
+    \begin{math}
+        \supp \omega := \_{\Set{p \in M & \omega(p) \neq 0}}.
+    \end{math}
+    Dann setzt man
+    \begin{math}
+        \Omega_c^q := \Set{\omega \in \Omega^q(M) & \supp(\omega) \text{ist kompakt}}.
+    \end{math}
+    Dann ist $\Omega_c^q(M) \subset \Omega^q(M)$ ein Untervektorraum mit $\supp(\d \omega) \subset \supp(\omega)$.
+
+    Wir definieren die \emphdef[Kohomologiegruppe!kompakter Träger]{$q$-te Kohomologiegruppe in $M$ mit kompaktem Träger}
+    \begin{math}
+        H_c^q(M) := \ker(\d|_{\Omega_c^q(M)}) / \im(\d|_{\Omega_c^{q-1}(M)})
+    \end{math}
+    und entsprechend $H_c^\bullet(M) := \bigoplus_{q=0}^{\dim M} H_c^q(M)$.
+
+    \begin{note}
+        Für kompaktes $M$ gilt: $H_c^\bullet(M) = H^\bullet(M)$
+    \end{note}
+\end{df}
+
+Für sternförmige offene Teilmengen $U \subset \R^n$ gilt
+\begin{math}
+    H^q(U) \isomorphic H^q(\Set{\ast})
+    = \begin{cases}
+        \R & \text{falls $q = 0$}, \\
+        0 & \text{sonst}.
+    \end{cases}
+\end{math}
+Wir beweisen eine Verallgemeinerung dieser Aussage, nämlich:
+Die Kohomologie eines trivialen Linienbündels (Rang 1) über $M$ ist isomorph zu der von $M$.
+
+\begin{st} \label{6.18}
+    Seien Abbildungen gegeben
+    \begin{math}
+        \begin{tikzcd}
+            M \times \R \ar[r,shift left,"\pi"] & M \ar[l,shift left,"s"] M,
+        \end{tikzcd}
+    \end{math}
+    sodass $s(p) := (p, 0)$ Nullschnitt, $\pi$ die Bündelabbildung $\pi(p, r) = p$.
+
+    Dann sind $\pi^*: H^\bullet(M) \to H^\bullet(M \times \R)$ und $s^*: H^\bullet(M\times \R) \to H^\bullet(M)$ Isomorphismen.
+    \begin{proof}
+        Nach Voraussetzung gilt $\pi \circ s = \id_M$ und $s^* \circ \pi^* = \id_{\Omega^\bullet(M)}$.
+
+        Sei $N := \R \times M$.
+        Wir konstruieren eine Abbildung
+        \begin{math}
+            K: \Omega^q(N) \to \Omega^{q-1}(N)
+        \end{math}
+        mit $1 - \pi^* s^* = \d^N \circ K + K \circ \d^N$ (hier: $1  = \id_{\Omega^q(N)}$).
+        Dann bildet die rechte Seie geschlossene Formen auf exakte Formen ab, denn für geschlossenes $\omega$ ist $(\d \circ K + K \circ \d)(\omega) = \d \circ K(\omega)$.
+        Also induziert sie auf $H^q(N)$ die Nullabbildung.
+
+        Setze $\alpha_t: N \to N$, $(u,p) \mapsto (tu, p)$ für $t \in \R$ und definiere das Vektorfeld $X \in \scr X(N)$ durch $X(u,p) = u \cdot \pddx[u]$.
+        Dann gilt für den Fluss von $X$
+        \begin{math}
+            \Phi_t^X (u,p) = (e^t u, p) = \alpha_{e^t} (u,p).
+        \end{math}
+        Für $\omega \in \Omega^q(N)$ und $t > 0$ folgt
+        \begin{math}
+            \pddx[t] \alpha_t^* \omega
+            &= \pddx[t] {\Phi_{\log t}}^* \omega \\
+            &= \frac{1}{t} {\Phi_{\log t}}^* L_X \omega \\
+            &= \frac{1}{t} {\alpha_t}^* (\d^N \iota_X \omega + \iota_X \d^N \omega) \\
+            &= \d^N(\frac{1}{t} \alpha_t^* \iota_X \omega) + \frac{1}{t} \alpha_t^* \iota_X \d^N \omega.
+        \end{math}
+        Dies ist auch bei $t = 0$ wohldefiniert, da $T_{(u,p)} \alpha_t(X) = tX = tu \pddx[u]$ mit
+        \begin{math}
+            \frac{1}{t} \alpha_t^* \iota_X \omega
+            = \omega_{(tu, p)} (u \pddx[u], T_{\alpha_t}(\argdot), \dotsc, T_{\alpha_t}(\argdot)).
+        \end{math}
+        Sei $K: \Omega^q(N) \to \Omega^{q-1}(N)$, $\omega \mapsto \int_0^1 \frac{1}{t} \alpha_t^* \iota_X \omega \di[t]$.
+        Dann ist mit $\alpha_1 = \id$, $\alpha_0 = s \circ \pi$:
+        \begin{math}
+            (1 - \pi^* s^*) \omega
+            &= \alpha_1^* \omega - \alpha_0^* \omega \\
+            &= \int_0^1 \pddx[t] \alpha_t^* \omega) \di[t] \\
+            &= \int_0^1 \d^N (\frac{1}{t} \alpha_t^* \iota_X \omega) \di[t]
+                + \int_0^1 \frac{1}{t} \alpha_t^* \iota_X \d^N \omega \di[t] \\
+            &= \d^N K \omega + K \d^N
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{kor}[Poincaré-Lemma] \label{6.19}
+    Es gilt
+    \begin{math}
+        H^q(\R›n) = H^q(\Set{\ast}) = \begin{cases}
+            \R & \text{für $q = 0$}, \\
+            0 & \text{sonst}.
+        \end{cases}
+    \end{math}
+    \begin{proof}
+        Durch Induktion: $\R^0 = \Set{0}$, also $H^q(\R^0) = H^q(\Set{\ast})$ und
+        \begin{math}
+            H^q(\R^{n+1}) = H^q(\R^n \times \R)
+            \isomorphic H^q(\R^n).
+        \end{math}
+    \end{proof}
+\end{kor}
+
+\begin{kor} \label{6.20}
+    Für homotope (glatt homotope) Abbildungen $f, g \in C^\infty(M, N)$ gilt $f^* = g^*$ auf $H^\bullet(M)$.
+    \begin{note}
+        Jede stetige Abbildung ist stetig homotop zu einer $C^\infty$-Abbildung nach Weierstraß.
+    \end{note}
+    \begin{proof}
+        Sei
+        \begin{math}
+            \begin{tikzcd}
+                M \times \R \ar[r,shift left,"{s_0, s_1}"] & M \ar[l,shift left,"\pi"]
+            \end{tikzcd}
+        \end{math}
+        mit $s_0(p) = (p,0)$, $s_1(p) = (p, 1)$.
+        Sei $f \sim g$ vermöge $F: M \times \R \to N$ glatt mit $F(\argdot, 0) = f$ und $F(\argdot, 1) = g$ oder mit anderen Worten $f = F \circ s_0$, $g = F \circ s_1$.
+        Es gilt
+        \begin{math}
+            g^* = s_1^* F^*
+            = (\pi^*)^{-1} F^*
+            = s_0^* F^*
+            = f^*
+        \end{math}
+    \end{proof}
+\end{kor}
+
+\begin{kor} \label{6.21}
+    Sind $M$ und $N$ homotopieäquivalent, d.h. es existieren $f: M \to N$, $g: N \to M$ mit $f \circ g \sim \id_N$ und $g \circ f \sim \id_M$, dann gilt
+    \begin{math}
+        H^\bullet(M) = H^\bullet(N).
+    \end{math}
+\end{kor}
+
 
 
 
