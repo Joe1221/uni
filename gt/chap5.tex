@@ -1,4 +1,7 @@
-\chapter{Cographen}
+\chapter{Graphentypen und Perfektheit}
+
+\section{Cographen}
+
 
 \Timestamp{2015-12-03}
 
@@ -108,9 +111,6 @@
         Also ist $\_G$ nicht zusammenhängend und $G = \_{\_G} = \_{G_1 \sqcup G_2}$ ist induktiv ein Cograph.
     \end{proof}
 \end{kor}
-
-
-\section{Graphparameter}
 
 
 Erinnerung:
@@ -376,7 +376,7 @@ Intervallgraphen beschreiben die paarweisen Schnitte reeller Intervalle.
 \end{st}
 
 
-\subsection{Permutationsgraphen}
+\section{Permutationsgraphen}
 
 
 \begin{df}
@@ -500,7 +500,7 @@ Darstellung von transitiv orientierbaren Diagrammen als Hasse-Diagramm.
 \end{st}
 
 
-\subsection{Split-Graphen}
+\section{Split-Graphen}
 
 \begin{df}
     $G = (V, E)$ heißt \emphdef{Split-Graph}, falls $V = I \ast K$ mit $I \cap K = \emptyset$ so, dass $I$ unabhängig und $K$ Clique ist.
@@ -690,5 +690,106 @@ Darstellung von transitiv orientierbaren Diagrammen als Hasse-Diagramm.
 
 
 
+\section{Perfektheit}
+
+\Timestamp{2016-01-21}
+
+Claude Berge Vermutung 1960 (veröffentlich 1963)
+\begin{itemize}
+    \item
+        Schwache Vermutung: $\chi$-perfekt genau dann, wenn $\alpha$-Perfekt
+    \item
+        Starke Vermutung: $G$ perfekt genau dann, wenn weder $G$ noch $\_G$ ein $C_n$, $n \ge 5$ als induzierten Untergraphen enthält.
+\end{itemize}
+
+László Lovász, 1972: Beweis der schwachen Vermutung (3 Seiten).
+
+Maria Chudnovsky, Neil Robertson, Paul Seymaur, Robin Thomas, 2009: Beweis der starken Vermutung (180 Seiten).
+
+
+\begin{st}[Lovász, 1972]
+    Sei $G = (V, E)$ ein Graph.
+    Dann sind äquivalent
+    \begin{enumerate}[(i)]
+        \item
+            $G$ ist $\chi$-perfekt.
+        \item
+            $G$ ist $\alpha$-perfekt.
+        \item
+            Für alle induzierten Untergraphen $H$ von $G$ gilt:
+            \begin{math}
+                |H| \le \omega(H) \omega(\_H).
+            \end{math}
+    \end{enumerate}
+    \begin{proof}
+        Aussage (iii) ist invariant unter Komplement-Bildung, also lassen sich (i),(ii) gleichzeitig zeigen.
+        Sei $G$ zunächst $\chi$-perfekt.
+        Dann gilt für einen induzierten Untergraphen $H$ die Beziehung $\chi(H) = \omega(H)$ und $\omega(\_H) = \alpha(H)$.
+        Nun ist
+        \begin{math}
+            |H| \le \chi(H) \alpha(H),
+        \end{math}
+        denn jede Farbklasse ($\chi$) enthält höchstens $\alpha(H)$ Elemente.
+
+        Zeige nun (iii) $\implies$ (i) per Widerspruch.
+        Betrachte $G = (V, E)$ minimal mit (iii) und $G$ ist nicht $\chi$-perfekt.
+        Ohne Einschränkung ist für alle $y \in G$ $G - y$ $\chi$-perfekt
+        Setze $\omega := \omega(G)$ und $\alpha := \alpha(G)$, sowie $A_0 := \Set{y_1, \dotsc, y_\alpha} \subset V$ die unabhängige Menge (Antikette).
+        Für alle $y \in G$ ist $\omega(G - y) = \omega(G) = \omega$, da sonst eine Farbe frei für $y$ ($\omega(G-y) = \chi(G-y)$ wegen $\chi$-perfekt).
+        Genauer gilt für jede unabhängige Menge $U \subset G$: $\omega(G - U) = \omega$.
+        Für jedes $y_i \in A_0$ wähle eine Färbung $\chi_i$ von $G - y_i$ in $\omega$ Farben.
+        Sei jetzt $W \subset V$ eine Clique von $G$ mit $|W| = \omega$.
+
+        (*) Für $y_i \not\in w$ wird jede Farbklasse $\chi_i$ genau einmal getroffen.
+
+        (**) Für $y_i \in W$ wird jede Farbklasse von $\chi_i$ (bis auf eine) genau einmal getroffen.
+        Seien $A_{(i-1)\omega + 1}, \dotsc, A_{i\omega}$ die Farbklassen von $\chi_i$ insgesamt unabhängige Mengen $A_0$, $A_1$, $\dotsc$, $A_\omega$, $A_{\omega + 1}$, $\dotsc$, $A_{\alpha \omega}$.
+
+        Sei $V = \Set{x_1, \dotsc, x_k}$.
+        Definiere Matrizen $A \in \R^{(\alpha \omega + 1) \times n}$ mit
+        \begin{math}
+            (a_{ik}) = \begin{cases}
+                0 & \text{für $x_k \not\in A_i$} \\
+                1 & \text{für $x_k \in A_i$}
+            \end{cases}.
+        \end{math}
+        Für $0 \le i \le \alpha\omega$ definiere $W_i \subset G - A_i$ und $|W_i| = \omega$ und $W_i$ ist Clique. 
+        Setze $B = (b_{kj}) \in \R^{n \times (\alpha\omega + 1)}$ mit
+        \begin{math}
+            b_{kj} = \begin{cases}
+                1 & \text{für $x_k \in W_j$} \\
+                0 & \text{sonst}
+            \end{cases}
+        \end{math}
+        Sei $C = A B \in \R^{(\alpha\omega + 1) \times (\alpha\omega + 1)}$,
+        \begin{math}
+            c_{ij} = \sum_{k=1}^n a_{ik} b_{kj} = | A_i \cap W_j | \in \Set{0,1}.
+        \end{math}
+        Für $i = j$ gilt $c_{ij} = 0$.
+        Für $i \neq j$ gilt $|W_j \cap A_i| \ge 1$ (nach Lemma) und somit
+        \begin{math}
+            c_{ij} = \begin{cases}
+                1 & \text{für $i \neq j$} \\
+                0 & \text{sonst}
+            \end{cases}.
+        \end{math}
+        Nun ist $\alpha\omega + 1 = \rg(C) \le \rg(A) \le n$.
+    \end{proof}
+\end{st}
+
+\begin{lem}
+    Sei $W \subset G$ Clique mit $|W| = w$.
+    Dann existiert genau ein $i \in \Set{0, \dotsc, \alpha \omega}$ mit $W \cap A_i = \emptyset$.
+    \begin{proof}
+        \begin{enumerate}[1)]
+            \item
+                $W \cap A_0 = \emptyset$, dann wird jede Farbklass von $\chi_i$ genau einmal getroffen.
+            \item
+                $W \cap A_0 \neq \emptyset$, dann $W \cap A_0 = \Set{y_j}$.
+                Für die Farbklassen, die zu $y_j$ gehören mit $i \neq j$ folgt die Behauptung mit (*)
+                Für $y_i$ werden nach (**) alle Farbklassen zu $\chi_i$ bis auf eine getroffen.
+        \end{enumerate}
+    \end{proof}
+\end{lem}
 
 

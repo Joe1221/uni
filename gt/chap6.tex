@@ -1,103 +1,265 @@
-\chapter{Perfektheit}
-
-\Timestamp{2016-01-21}
-
-Claude Berge Vermutung 1960 (veröffentlich 1963)
-\begin{itemize}
-    \item
-        Schwache Vermutung: $\chi$-perfekt genau dann, wenn $\alpha$-Perfekt
-    \item
-        Starke Vermutung: $G$ perfekt genau dann, wenn weder $G$ noch $\_G$ ein $C_n$, $n \ge 5$ als induzierten Untergraphen enthält.
-\end{itemize}
-
-László Lovász, 1972: Beweis der schwachen Vermutung (3 Seiten).
-
-Maria Chudnovsky, Neil Robertson, Paul Seymaur, Robin Thomas, 2009: Beweis der starken Vermutung (180 Seiten).
+\chapter{Ausgewählte Themen}
 
 
-\begin{st}[Lovász, 1972]
-    Sei $G = (V, E)$ ein Graph.
-    Dann sind äquivalent
-    \begin{enumerate}[(i)]
-        \item
-            $G$ ist $\chi$-perfekt.
-        \item
-            $G$ ist $\alpha$-perfekt.
-        \item
-            Für alle induzierten Untergraphen $H$ von $G$ gilt:
-            \begin{math}
-                |H| \le \omega(H) \omega(\_H).
-            \end{math}
-    \end{enumerate}
+\section{Ramsey-Zahlen}
+
+
+\Timestamp{2016-01-25}
+
+
+\begin{st}
+    Sei $G = (V,E)$ ein unendlicher Graph.
+    Dann existiert ein unendlicher induzierter Untergraph $V'$, sodass $V'$ Clique oder unabhängig ist, d.h. $\alpha(G) + \omega(G) = \infty.$.
+
+    Allgemeiner:
+    Sei $G$ vollständig und $f: \binom{V}{2} \to \Set{0, \dotsc, c - 1}$ eine Färbung in $c$ Farben.
+    Dann existiert ein monochromatischer unendlicher Untergraph.
     \begin{proof}
-        Aussage (iii) ist invariant unter Komplement-Bildung, also lassen sich (i),(ii) gleichzeitig zeigen.
-        Sei $G$ zunächst $\chi$-perfekt.
-        Dann gilt für einen induzierten Untergraphen $H$ die Beziehung $\chi(H) = \omega(H)$ und $\omega(\_H) = \alpha(H)$.
-        Nun ist
-        \begin{math}
-            |H| \le \chi(H) \alpha(H),
-        \end{math}
-        denn jede Farbklasse ($\chi$) enthält höchstens $\alpha(H)$ Elemente.
+        Sei ohne Einschränkung $V = \N$.
 
-        Zeige nun (iii) $\implies$ (i) per Widerspruch.
-        Betrachte $G = (V, E)$ minimal mit (iii) und $G$ ist nicht $\chi$-perfekt.
-        Ohne Einschränkung ist für alle $y \in G$ $G - y$ $\chi$-perfekt
-        Setze $\omega := \omega(G)$ und $\alpha := \alpha(G)$, sowie $A_0 := \Set{y_1, \dotsc, y_\alpha} \subset V$ die unabhängige Menge (Antikette).
-        Für alle $y \in G$ ist $\omega(G - y) = \omega(G) = \omega$, da sonst eine Farbe frei für $y$ ($\omega(G-y) = \chi(G-y)$ wegen $\chi$-perfekt).
-        Genauer gilt für jede unabhängige Menge $U \subset G$: $\omega(G - U) = \omega$.
-        Für jedes $y_i \in A_0$ wähle eine Färbung $\chi_i$ von $G - y_i$ in $\omega$ Farben.
-        Sei jetzt $W \subset V$ eine Clique von $G$ mit $|W| = \omega$.
+        Wähle für den Knoten $i = 1$ eine Farbe $g(i)$, sodass für unendlich viele $j > i$ gilt $f(ij) = g(i)$, eliminiere die restlichen Knoten.
+        Wiederhole für $i = 2, 3, \dotsc$ mit den jeweils verbleibenden Knoten.
 
-        (*) Für $y_i \not\in w$ wird jede Farbklasse $\chi_i$ genau einmal getroffen.
-
-        (**) Für $y_i \in W$ wird jede Farbklasse von $\chi_i$ (bis auf eine) genau einmal getroffen.
-        Seien $A_{(i-1)\omega + 1}, \dotsc, A_{i\omega}$ die Farbklassen von $\chi_i$ insgesamt unabhängige Mengen $A_0$, $A_1$, $\dotsc$, $A_\omega$, $A_{\omega + 1}$, $\dotsc$, $A_{\alpha \omega}$.
-
-        Sei $V = \Set{x_1, \dotsc, x_k}$.
-        Definiere Matrizen $A \in \R^{(\alpha \omega + 1) \times n}$ mit
-        \begin{math}
-            (a_{ik}) = \begin{cases}
-                0 & \text{für $x_k \not\in A_i$} \\
-                1 & \text{für $x_k \in A_i$}
-            \end{cases}.
-        \end{math}
-        Für $0 \le i \le \alpha\omega$ definiere $W_i \subset G - A_i$ und $|W_i| = \omega$ und $W_i$ ist Clique. 
-        Setze $B = (b_{kj}) \in \R^{n \times (\alpha\omega + 1)}$ mit
-        \begin{math}
-            b_{kj} = \begin{cases}
-                1 & \text{für $x_k \in W_j$} \\
-                0 & \text{sonst}
-            \end{cases}
-        \end{math}
-        Sei $C = A B \in \R^{(\alpha\omega + 1) \times (\alpha\omega + 1)}$,
-        \begin{math}
-            c_{ij} = \sum_{k=1}^n a_{ik} b_{kj} = | A_i \cap W_j | \in \Set{0,1}.
-        \end{math}
-        Für $i = j$ gilt $c_{ij} = 0$.
-        Für $i \neq j$ gilt $|W_j \cap A_i| \ge 1$ (nach Lemma) und somit
-        \begin{math}
-            c_{ij} = \begin{cases}
-                1 & \text{für $i \neq j$} \\
-                0 & \text{sonst}
-            \end{cases}.
-        \end{math}
-        Nun ist $\alpha\omega + 1 = \rg(C) \le \rg(A) \le n$.
+        Unter den verbleibenden (unendlich vielen) Knoten wähle eine Farbe mit unendlich vielen zugehörigen Knoten.
+        Diese bilden eine Clique.
     \end{proof}
 \end{st}
 
-\begin{lem}
-    Sei $W \subset G$ Clique mit $|W| = w$.
-    Dann existiert genau ein $i \in \Set{0, \dotsc, \alpha \omega}$ mit $W \cap A_i = \emptyset$.
+\begin{df}
+    Ein \emphdef{Hypergraph} $G = (V, E)$ besteht aus einer Menge $V$ von \emphdef{Knoten} und einer Menge $E \subset \binom{V}{k}$ von \emphdef{Hyperkanten} für ein $k \in \N$.
+
+    Sei $C = \Set{0, \dotsc, c-1}$ eine Menge von $c$ Farben.
+    Eine Färbung des vollständigen Hypergraphen $(V, \binom{V}{k})$ ist eine Abbildung $f: \binom{V}{k} \to C$.
+
+    Eine Teilmenge $V' \subset V$ heißt \emphdef{monochromatisch}, falls $f(K) \in C$ konstant ist für alle $K \in \binom{V'}{k}$.
+\end{df}
+
+\begin{st}[Ramsey, 1930]
+    Für alle $n, k, c \in \N$ existiert eine Zahl $R(n,k,c) \in \N$ minimal mit der folgenden Eigenschaft:
+    % Für jeden Hypergraphen G = (V,E) mit $|V| \ge R(n,k,c)$ und jeder Färbung ...
+    Ist $f: \binom{V}{k} \to \Set{0, \dotsc, c-1}$ eine Färbung für $|V| \ge R(n,k,c)$, dann existiert $V' \subset V$ mit $|V'| \ge n$ und $V'$ ist monochromatisch.
     \begin{proof}
-        \begin{enumerate}[1)]
+        Induktionsanfang:
+        \begin{math}
+            R(n,1,c) = c(n-1) + 1.
+        \end{math}
+        Sei $r \in \N$ und $f: \binom{V}{k} \to C = \Set{0, \dotsc, c-1}$ mit $|V| \ge r$.
+        Wir definieren induktiv Mengen $A_m, B_m \subset V$ mit den folgenden Eigenschaften:
+        \begin{enumerate}[(i)]
             \item
-                $W \cap A_0 = \emptyset$, dann wird jede Farbklass von $\chi_i$ genau einmal getroffen.
+                $\forall a \in A_m \forall b \in B_m: a < b$,
             \item
-                $W \cap A_0 \neq \emptyset$, dann $W \cap A_0 = \Set{y_j}$.
-                Für die Farbklassen, die zu $y_j$ gehören mit $i \neq j$ folgt die Behauptung mit (*)
-                Für $y_i$ werden nach (**) alle Farbklassen zu $\chi_i$ bis auf eine getroffen.
+                $|A_m| = m$,
+            \item
+                Es gibt eine Färbung $g: \binom{A_m}{k-1} \to C$ mit der Eigenschaft, dass für alle $K \subset \binom{A_m}{k-1}$ gilt $f(K, b) = g(K)$ für alle $b \in B_m$.
+
+                Für $K \in \binom{V}{k-1}$ und $b \in V$ mit $b > \max(K)$ bezeichne $K, b$ die Menge $K \cup \Set{b}$.
+        \end{enumerate}
+        Setze $A_0 :=  \emptyset$ und $B_0 := V$.
+
+        Seien $A_m$ und $B_m$ bereits definiert.
+        Wähle $a_{m+1} := \min B_m$ und setze $A_{m+1} = A_m \cup \Set{a_{m+1}}$.
+        Wir wählen jetzt $B_{m+1} \subset B_m \setminus \Set{a_{m+1}}$ geeignet.
+
+        Gesucht ist eine Erweiterung der Färbung zu $g: \binom{A_{m+1}}{k-1} \to C_m$ mit Eigenschaft (iii).
+        $g(K)$ ist noch nicht definiert genau dann, wenn $a_{m+1} \in K$.
+        Es müssen also noch insgesamt $\binom{m}{k-2}$ solcher $K$ gefärbt werden.
+
+        Für $a_{m+1} \in K \in \binom{A_m}{k-1}$ wähle $s \in C$ mit $\Set{b \in B_m & f(K,b) = s}$ maximal.
+        Dann färbe $g(K) = s$.
+
+        Setze
+        \begin{math}
+            B_{m+1} = \Set{ b \in B_m \setminus \Set{a_{m+1}} & \forall a_{m+1} \in K \in \binom{A_{m+1}}{k-1} : f(K,b) = s_K }.
+        \end{math}
+        Dann gilt (i), (ii), (iii).
+
+        Betrachte den Ausdünnungsprozess nacheinander für die $a_{m+1} \in K \in \binom{A_{m+1}}{k-1}$.
+        Jedes Mal können wir $\frac{1}{|C|}$ Knoten weiter fortfahren.
+
+        Wenn wir also $|B_{m+1}| \ge r$ garantieren wollen, müssen wir mit $|B_m| \ge c^{\binom{m}{k-2}} r$ starten.
+        Für $R(n,k,c)$ müssen wir $A_m$ mit $|B_{m+1}| \ge 1$ erreichen mit $m = n - 1$.
+        Also ist
+        \begin{math}
+            R(n,k,c) \le \prod_{m < R(n,k-1,c)} c^{\binom{m}{k-2}}
+            = c^{\sum_{m < R(n,k-1,c)} \binom{m}{k-2}}
+            = c^{\binom{R(n,k-1,c)}{k-1}}
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    $R(n) := R(n, 2, 2)$ ist die Situation für Graphen $(V, E)$.
+    \begin{itemize}
+        \item
+            $R(1) = 0$
+        \item
+            $R(2) = 2$,
+        \item
+            $R(3) = 6$,
+            denn $R(3) \neq 5$ wegen
+            $\alpha(C_5) = 2 = \omega(C_5)$
+\Timestamp{2016-01-28}
+        \item
+            $R(n,1,c) = c(n-1) + 1$
+        \item
+            $R(n,2,c) \le c^{c(n-1) + 1} \le c^{nc} = 2^{nc \log_2 c}$.
+        \item
+            $R(n) \le 4^n$.
+    \end{itemize}
+\end{ex}
+
+\begin{st}[Erdös, 1947]
+    $R(n) = R(n,2,2) \ge 2^{\frac{n}{2}}$ für $n \ge 2$.
+    Insbesondere $R(n) \in 2^{\LandauO(n)}$.
+    \begin{proof}
+        Es genügt, dies für $n \ge 4$ zu zeigen, den $R(2) = 2$, $R(3) = 6$.
+        Eine Färbung des vollständigen Graphen $K_m$ ist von der Form $\binom{K_m}{2} \to \Set{0,1}$.
+        Es gibt jetzt $2^{\binom{m}{2} - \binom{n}{2} + 1}$ Färbungen, die eine feste Clique $K_n$ monochromatisch machen.
+        Daher gibt es maximal $\binom{m}{n} 2^{\binom{m}{2} - \binom{n}{2} + 1}$ Färbungen, die \emph{irgendeine} Clique mit $n$ Knoten monochromatisch macht.
+
+        Angenommen $R(n) = m < 2^{\frac{n}{2}}$.
+        Betrachte
+        \begin{math}
+            \binom{m}{n} \dfrac{2^{\binom{m}{2} - \binom{n}{2} + 1}}{2^{\binom{m}{2}}}
+            &= \binom{m}{n} 2^{-\binom{n}{2} + 1}
+            \le \dfrac{m^n 2^{-\binom{n}{2} + 1}}{n!}
+            \le \frac{m^n}{2^n} 2^{-\binom{n}{2} + 1} \\
+            &< 2^{\frac{n^2}{2} - \binom{n}{2} + 1 - n}
+            = 2^{\frac{n^2}{2} - \frac{n^2}{2} + \frac{n}{2} + 1 - n}
+            = 2^{1 - \frac{n}{2}}
+            < 1,
+        \end{math}
+        ein Widerspruch.
+    \end{proof}
+\end{st}
+
+
+\section{Lipton Tarjan}
+
+\Timestamp{2016-02-01}
+
+\begin{st}
+    Sei $G = (V, E, F)$ ein planarer Graph, $n = |V|$.
+    Dann existiert eine Menge $S$ (Separator) und eine Partition $V = A \cup S \cup B$ mit $S$ separiert $A$ und $B$ und $|S| \le 4 \sqrt n$ und $|A|, |B| \le \frac{2}{3} n$.
+    \begin{note}
+        Mengen $A, S, B$, die obige Aussage erfüllen, können in Linearzeit $\LandauO(n)$ beantwortet werden (Euler: $|E| \le 3n - 6$).
+    \end{note}
+    \begin{proof}
+        Der Beweis ist trivial, falls $n \le 4 \sqrt n$, setze dann $S := V$.
+        Sei also $n > 16$.
+
+        Bilde den Levelgraph:
+        Wähle Startknoten $s \in V$ und setze
+        \begin{math}
+            L(t) := \Set{v \in V & d(s,v) = t}.
+        \end{math}
+        Also insbesondere $L(0) = \Set{s}$.
+        Das maximale Level sei $L(l) \neq \emptyset$, sodass $L(l+1) = \emptyset$.
+        \begin{math}
+            \Big| \bigcup_{t<t_1} L(t) \Big|
+            \le \frac{1}{2} n \ge
+            \Big| \bigcup_{t>t_1} L(t) \Big|.
+        \end{math}
+        $L(t_1)$ ist ein Separator.
+        Falls $|L(t_1)| \le 4 \sqrt n$, so sind wir fertig.
+        Sei also $|L(t_1)| > 4 \sqrt n$.
+        Definiere $t_0$ so, dass $t_0$ maximal, $t_0 < t_1$ und $|L(t_0)| \le \sqrt n$.
+        Beachte $t_0$ existiert, denn $|L(0)| = 1$.
+        Definiere $t_2$ so, dass $t_2$ minimal, $t_2 > t_1$ und $|L(t_2)| \le \sqrt n$.
+        Beachte $t_2$ existiert, denn $L(l+1) = \emptyset$.
+
+        Beachte $t_2 - t_0 < \sqrt n$. % ??
+        Setze $C := \bigcup_{t<t_0} L(t)$, $D := \bigcup_{t_0 < t < t_2} L(t)$, $E := \bigcup_{t_2 < t} L(t)$, also
+        \begin{math}
+            V = C \dotcup L(t_0) \dotcup D \dotcup L(t_2) \dotcup E.
+        \end{math}
+        Wir sind fertig, falls $|D| \le \frac{2}{3} n$.
+        Setze dann $S := L(t_0) \cup L(t_2)$ mit $|S| \le 2 \sqrt n$ und $A, B$ Übung.
+
+        Sei also $|D| > \frac{2}{3}n$.
+        Definiere $L = \Set{s} \cup D$, wobei $s$ mit allen Knoten aus Level $L(t_0 + 1)$ verbunden wird.
+
+        Es genügt, den Satz für $L$ zu beweisen mit $|S| \le \sqrt 2\sqrt{n}$, $n = |V|$.
+        Dann ist der richtige Separator für $G$: $S \cup L(t_0) \cup L(t_1)$.
+        Für $L = A' \dotcup S \dotcup B'$ mit $|A'| \ge |B'|$ und ohne Einschränkung $|c| \ge |E|$ ist dann $A := A' \cup E$, $B := B' \cup C$.
+        Ansatz: sei $\alpha$ so, dass $|D| = \alpha n$ mit $\alpha \ge \frac{2}{3}$.
+
+        Ohne Einschränkung sei $L$ trianguliert, d.h. $L$ zusammenhängend und alle Facetten sind Dreiecke.
+        Berechne einen Spannbaum $T$ von $L$ von rechts nach links:
+        Für jeden Knoten $v \in L(t)$, $t > 0$ wähle genau einen Kante an einem $u \in L(t-1)$.
+
+        $e \in E = E(L)$ heißt \emphdef{Brücke}, falls $e \in E \setminus T$.
+        Für $u, v \in V$ sei $T[u,v]$ der eindeutige Pfad von $u$ nach $v$ in $T$.
+        Wenn $e = (u,v)$ eine Brücke ist, dann ist $T[uv] \ast e$ ein Kreis der Länge $\le 2\sqrt n$.
+
+        Zeige: Es gibt eine Brücke $e = (u,v)$ und $S = e \ast T[u,v]$ mit $A$ innen und $B$ außen und $|A|, |B| \le \frac{2}{3} |L|$.
+
+        \begin{lem}
+            Sei $G$ zusammenhängend, planar mit $n \ge 3$ Knoten und $T \subset E$ ein Spannbaum.
+            Dann ist $E \setminus T = T^*$ ein Spannbaum im Dualgraphen $G^*$.
+            \begin{proof}
+                Es gilt $n - e + f = 2$ dank Euler.
+                Dann ist $e = |E| = (n-1) + (f-1)$.
+                Folglich ist $|T^*| = f - 1$ die richtige Anzahl Kanten im Dualgraphen, beachte: der Dualgraph hat $f$ Knoten.
+                $T^*$ ist also Spannbaum, sowie es keinen Kreis gibt.
+                Einen Kreis kann es in $T^*$ nicht geben, da er einen Knoten in $G$ isolieren würde.
+            \end{proof}
+        \end{lem}
+
+        Sei nun $n = |L| = |D| + 1$.
+        Berechne $T^*$.
+        $T^*$ hat Blätter.
+        Mache ein Blatt zur endgültigen Wurzel von $T^*$.
+        Ohne Einsschränkung ist dieses Blatt die äußere Facette.
+        Sei $e = (u,v)$ eine Brücke.
+        Dann ist $c(e) := \ast e T[u,v]$ der Kreis.
+        Definiere $I(E)$ als die Anzahl der inneren Knoten.
+        Bei der Wurzel ist $I(r) = n - 3$.
+        $c(e)$ sei eine Listendarstellung des Kreises $c(e) = (u, u_1, \dotsc, u_k, v)$ und $|c(e)|$ die Anzahl der Knoten.
+
+        An der Wurzel gilt $I(r) + |c(r)| = n$.
+        Berechne $(I(e), c(e), |c(e)|)$ von den Blätter zur Wurzel.
+
+        \begin{enumerate}[1.]
+            \item
+                Fall 1 (Blatt)
+                Hier ist $I(e) = 0$, $c(e) = (u,x,v)$.
+                Suche jetzt von den Blättern zur Wurzel die erste Brücke mit $I(e) + |c(e)| \ge \frac{1}{3} n$.
+            \item
+                Fall 2 (kein Blatt und $u' \in T[u,v]$).
+                Hier ist $I(e) = I(e')$, $c(e) = u \ast c(e')$, $c(e) = |c(e')| + 1$.
+                Angenommen $I(e') + c(e') < \frac{1}{3} n$, dann ist
+                \begin{math}
+                    I(e) + c(e) < \frac{1}{3}n + 1 \le \frac{2}{3} n
+                    \le \frac{2}{3} n.
+                \end{math}
+                Ok, falls $I(e) + |c(e)| \ge \frac{1}{2} n$ erstmalig.
+            \item
+                Fall 3 (kein Blatt und $u' \notin T[u,v]$).
+                Hier ist $I(e) = I(e') + 1$ und $c(e) = (u,u_1, \dotsc, v)$ falls $(u', u, u_1, \dotsc, v) = c(e')$.
+                Dann ist $|c(e)| = |c(e')| - 1$.
+
+                Also ist $I(e) + |c(e)| = I(e') + |c(e')|$.
+            \item
+                Fall 3 (Dreieck mit keinen Spannbaumkanten)
+                Schon bekannt sind
+                \begin{math}
+                    T[y,v] &= (y, \dotsc, x, v_1, \dotsc, v_k, v) = c(e'') \\
+                    T[y,u] &= (y, \dotsc, x, u_1, \dotsc, u_l, u) = c(e')
+                \end{math}
+                mit $u_1 \neq v_1$.
+                Dann ist
+                \begin{math}
+                    T[u,v] = c(e) = (v, v_k, \dotsc, v_1, x, u_1, \dotsc, u_k, u).
+                \end{math}
+                Damit gilt mit $p$ die Anzahl der Knoten $(y, \dotsc, x)$.
+                \begin{math}
+                    I(e) &= I(e') \cup I(e'') + |p| - 1,
+                    |c(e)| &= |c(e')| + c(e'') - 2|p| + 1.
+                \end{math}
+                Falls $I(e') + |c(e')| \le \frac{1}{3}n$ und $I(e'') + |c(e'')| \le \frac{1}{3}n$, dann folgt $|I(e) + |c(e)|| \le \frac{2}{3} n$.
         \end{enumerate}
     \end{proof}
-\end{lem}
-
+\end{st}
 
