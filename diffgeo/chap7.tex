@@ -1,0 +1,255 @@
+\chapter{Integration}
+
+
+\Timestamp{2016-02-03}
+
+Zum ersten Mal benötigen wir in diesem Kapitel die Zweitabzählbarkeit von Mannigfaltigkeiten.
+
+\begin{lem} \label{7.1}
+    Jede Mannigfaltigkeit besitzt die \emphdef{Lindelöf-Eigenschaft}, d.h. aus jeder offenen Überdeckung lässt sich eine abzählbare auswählen.
+    Vergleiche Lemma 12.2, Köhler.
+    \begin{proof}
+        Sei $(U_j)_{j \in J}$ eine offene Überdeckung und $(V_n)_{n \in \N}$ eine abzählbare Basis von $M$.
+        Wähle zu jedem $j \in J$ und $p \in U_j$ ein $V_{m(p,j)} \subset U_j$ mit $p \in V_{m(p,j)}$.
+        Setze nun $N := \im m \subset \N$.
+        Wähle zu jedem $m \in N$ ein $j_m \in J$ mit $V_m \subset U_{j_m}$.
+        Dann ist $M = \bigcup_m V_m \subset \subset_m U_{j_m}$ und $(U_{j_m})_{m \in N}$ bildet eine abzählbare Überdeckung von $M$.
+    \end{proof}
+\end{lem}
+
+\begin{lem} \label{7.2}
+    Jede Mannigfaltigkeit ist \emphdef{parakompakt}, d.h. jede offene Überdeckung $(U_j)_{j \in J}$ hat eine lokal endliche offene Verfeinerung $(\tilde U_k)_{k \in K}$, genauer:
+    \begin{enumerate}[(i)]
+        \item
+            Verfeinerung: $\forall k \in K \exists j \in J : \tilde U_k \subset U_j$
+        \item
+            lokal endlich: für alle $p \in M$ existiert eine Umgebung $V$ von $p$, so dass
+            \begin{math}
+                \Set{k \in K & \tilde U_k \cap V \neq \emptyset}
+            \end{math}
+            endlich ist.
+    \end{enumerate}
+    \begin{proof}
+        Wähle für jedes $p \in M$ eine Umgebung $U_p$ aus der Überdeckung und eine offene Umgebung $V_p$ mit $\_{V_p} \subset U_p$ ($M$ lokal homöomorph zu $\R^n$).
+
+        Reduziere die Überdeckung $(V_p)_{p \in M}$ mit Hilfe von \ref{7.1} auf eine abzählbare Überdeckung $(V_{p_j})_{j \in \N}$ und für $k \in \N$ setze
+        \begin{math}
+            \tilde U_k := U_{p_k} \setminus \bigcup_{l < k} \_{V_{p_l}}
+        \end{math}
+        Für jedes $p \in M$ und $m \in \N$ minimal mit $p \in V_{p_m}$ ist dann $p \in \tilde U_m$.
+        Für $n \in \N$ minimal mit $p \in V_{p_n}$ ist $\tilde U_k \cap V_{p_n} = \emptyset$ für alle $k > n$.
+    \end{proof}
+\end{lem}
+
+\begin{st}[Zerlegung der Eins] \label{7.3}
+    Sei $M$ eine Mannigfaltigkeit, $(U_j)_{j\in J}$ eine offene Überdeckung von $M$.
+    Dann gibt es eine der Überdeckung $(U_j)_{j \in J}$ \emphdef{untergeordnete Zerlegung der Eins}, d.h. eine Familie von glatten Funktionen $(\tau_k: M \to [0, \infty))_{k \in K}$ mit
+    \begin{enumerate}[(i)]
+        \item
+            $\forall k \in K \exists j \in J: \supp \tau_k \subset U_j$,        
+        \item
+            $\forall p \in M: |\Set{k \in K & \tau_k(p) \neq 0}| < \infty$,
+        \item
+            $\sum_{k \in K} \tau_k \equiv 1$.
+    \end{enumerate}
+    \begin{proof}
+        Sei $(\phi_l: U_l' \to V_l)_{l \in L}$ ein Atlas mit $\forall l \in L \exists j \in J: U_l' \subset U_j$.
+        Zu jedem $p \in M$ wähle eine Karte $\phi_{l(p)}$ und eine Testfunktion $\lambda_p \in C_c^\infty(V_{l(p), [0,\infty)}$ (mit kompaktem Träger)g mit $\lambda_p(\phi_{l(p)}(p)) > 0$.
+        Definiere $\mu_p: M \to [0, \infty)$ durch
+        \begin{math}
+            \mu_p(x) := \begin{cases}
+                \lambda_p \circ \phi_{l(p)}(x) & \text{für $x \in U_{l(p)}'$}, \\
+                0 & \text{für $x \in M \setminus U_{l(p)}'$}.
+            \end{cases}
+        \end{math}
+        Wegen der Parakompaktheit \ref{7.2} kann man ohne Einschränkung annehmen, dass $(U_l')_{l \in L}$ eine lokal endliche Überdeckung von $M$ bilden.
+
+        Dann ist
+        \begin{math}
+            \tau_p := \dfrac{\mu_p}{\sum_{p' \in K} \mu_{p'}}
+        \end{math}
+        wohldefiniert, $\supp \tau_p \subset U_{l(p)}' \subset U_j$,
+        $\tau_p \ge 0$, $\sum_{p \in K} \tau_p \equiv 1$.
+    \end{proof}
+\end{st}
+
+\begin{df} \label{7.4}
+    Eine \emphdef{Volumenform} auf einer $n$-dimensionalen Mannigfaltigkeit $M$ ist eine $n$-Form $\omega \in \Omega^n(M)$ mit $\omega(p) \neq 0$ für alle $p \in M$.
+\end{df}
+
+\begin{st} \label{7.5a} % 7.5
+    Auf einer $n$-dimensionalen Mannigfaltigkeit $M$ sind äquivalent:
+    \begin{enumerate}[(i)]
+        \item
+            Es existiert eine Volumenform
+        \item
+            $\bigwedge^n \T^* M$ ist ein triviales Bündel
+        \item
+            $M$ ist \emphdef{orientierbar}, d.h. es existiert ein Atlas, so dass alle Kartenwechsel positive Funktionaldeterminante besitzen (vergleiche Aufgabe 27).
+    \end{enumerate}
+    \begin{proof}
+        \begin{seg}{\ProofImplication()[1][2]}
+            $M \times \R \to \bigwedge^n \T^* M$ mit $(p,r) \mapsto (p, r \omega_p)$ mit der Volumenform $\omega$ liefert die Trivialisierung.
+        \end{seg}
+        \begin{seg}{\ProofImplication()[2][3]}
+            Sei $\bigwedge^n \T^* M \diffeomorphic M \times \R$ und $(\phi_j: U_j \to V_j)_{j \in J}$ ein Atlas von $M$ mit ohne Einschränkung zusammenhängenden $U_j$.
+            Überall auf $U_j$ ist $\nu := \phi_j^* (\d x_1 \wedge \dotsc \wedge \d x_n) \neq 0$, da $\phi_j^*$ invertierbar: $(\phi_j^*)^{-1} = (\phi_j^{-1})^*$.
+            Also ist $\nu(p) \in \bigwedge^n T_p^* M = \R$ entweder überall auf $U_j$ positiv oder überall negativ.
+            Setze
+            \begin{math}
+                \psi_j := \begin{cases}
+                    \phi_j & \text{falls $\nu > 0$}, \\
+                    \Matrix{0 & 1 & \hdots \\ 1 & 0 & \hdots \\ \vdots & \vdots & I} \circ \phi_j & \text{falls $\nu < 0$}.
+                \end{cases}
+            \end{math}
+            Dann ist
+            \begin{math}
+                (\psi_j \circ \psi_k^{-1})^* \d x_1 \wedge \dotsb \wedge \d x_n
+                = f \d x_1 \wedge \dotsb \wedge \d x_n
+            \end{math}
+            mit $f \in C^\infty(V_j \cap V_k, (0, \infty))$ und andererseits gilt nach \ref{7.6}, dass $f = \det D(\psi_j \circ \psi_k^{-1})$.
+        \end{seg}
+        \begin{seg}{\ProofImplication()[3][1]}
+            Sei $(\phi_j: U_j \to V_j)_{j \in J}$ ein orientierter Atlas, d.h. alle Kartenwechsel haben positive Funktionaldeterminante.
+            $(U_j)_{j \in J}$ sei ohne Einschränkung lokal endlich.
+            Sei $(\tau_k)_{k \in K}$ eine Untergeordnete Zerlegung der Eins.
+            Setze $\omega := \sum_k \tau_k \phi_{j(k)}^*(\d x_1 \wedge \dotsb \wedge \d x_n)$.
+            Dann gilt für jedes $j$:
+            \begin{math}
+                (\phi_j^{-1})^* \omega
+                = \sum_k \tau_k \det D(\phi_{j(k)} \circ \phi_j^{-1}) \d x_1 \wedge \dotsb \wedge \d x_n
+                > 0
+            \end{math}
+        \end{seg}
+    \end{proof}
+\end{st}
+
+\setcounter{thm}{4}
+\begin{lem} \label{7.5}
+    Für $u, u' \subset \R^n$ und $f: U \to U'$ glatt ist $f^*(\d x_1 \wedge \dotsb \wedge \d x_n) = \det D f \d x_1 \wedge \d x_n$.
+    \begin{proof}
+        $\bigwedge^n (\R^n)^*$ ist eindimensional, deswegen genügt es, die Vektoren $e_1, \dotsc, e_n$ einzusetzen.
+        \begin{math}
+            &f^*(\d x_1 \wedge \dotsb \wedge \d x_n)(e_1, \dotsc, e_n) \\
+            &\quad= \d x_1 \wedge \dotsb \wedge \d x_n (\Df(e_1), \dotsc, \Df(e_n)) \\
+            &\quad= \d x_1 \wedge \dotsb \wedge \d x_n (\sum_{l_1} f_{l_1, 1}' e_{l_1}, \dotsc, \sum_{l_n} f_{l_n,n}' e_{l_n}) \\
+            &\quad= \det f' \d x_1 \wedge \dotsb \d x_n (e_1, \dotsc, e_n).
+        \end{math}
+    \end{proof}
+\end{lem}
+
+Die Orientierung einer Mannigfaltigkeit entpsricht der Wahl einer Äquivalenzklasse von Atlanten mit positiver Funktionaldeterminante aller Kartenwechsel.
+
+\begin{kor} \label{7.6}
+    Ist $M$ zusammenhängend und orientierbar, dann existieren genau zwei Orientierungen.
+\end{kor}
+
+Für $V \subset \R^n$ offen, $f \in C_c(V, \R)$ sei
+\begin{math}
+    \int_V f \d x_1 \wedge \dotsb \wedge \d x_n := \int_V f \d \lambda
+\end{math}
+mit dem Lebesgue-Maß $\d \lambda$.
+
+\begin{df} \label{7.7}
+    Sei $M$ eine orientierte Mannigfaltigkeit.
+    Für einen orientierten Atlas $(\phi_j: U_j \to V_j)_{j \in J}$ von $M$ und eine untergeordnete Zerlegung der Eins $(\tau_k)_{k\in K}$ sei das \emphdef{Integral} für eine Form $\omega \in \Omega_c^n(M)$ auf $M$ mit kompakten Träger definiert durch
+    \begin{math}
+        \int_M \omega := \sum_k \int_V (\phi_j^{-1})^*(\tau_k \omega).
+    \end{math}
+    Setze $\int_M \omega := 0$ für $\omega \in \Omega^q(M)$ mit $q < n$.
+\end{df}
+
+\begin{st} \label{7.8}
+    Die Definition $\int_M: \Omega_c^\bullet(M) \to \R$ hängt nur von der Orientirung, nicht von dem Atlas oder der Zerlegung der Eins ab.
+    \begin{proof}[Skizze]
+        Zwei Atlanten, zwei passende Zerlegungen der eins $\tau_k, \sigma_k$.
+        Man integriert über die Überlappungsbereiche der Karten.
+        $(\tau_k \sigma_k)$ ist auch Zerlegung der Eins.
+        Für die Kartenwechsel folgt aus \ref{7.5} mit dem Transformationssatz
+        \begin{math}
+            \int_{\phi(V)} f \d \lambda
+            = \int_V (f\circ \phi) |\det \Df[\phi]| \d \lambda.
+        \end{math}
+        Die Unabhängigkeit von der Wahl der Karten ($\det \Df[\phi] > 0$ wegen orientiertem Atlas).
+        \begin{math}
+            \sum_k \int_{V_{j(k)}} (\phi_{j(k)}^{-1})^* (\tau_k \omega)
+            &= \sum_{k,l} \int_{\phi_{j(m)}(U_{j(k)} \cap \tilde U_{m(l)}} (\phi_{j(k)}^{-1})^* (\tau_k \sigma_l \omega) \\
+            &= \sum_{k,l} \int_{\psi_{m(l)}(U_{j(k)} \cap \tilde U_{m(l)}} (\phi_{j(k)} \circ \psi_{m(l)}^{-1})^* (\phi_{j(k)}^{-1}) (\tau_k \sigma_l \omega) \\
+            &= \sum_l \int_{\tilde V_{m(l)}'} (\psi_{m(l)}^{-1})^* (\sigma_l \omega).
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{kor}[Transformationsformel] \label{7.9}
+    Für einen orientierungserhaltenden Diffeomorphismus $f: M \to N$, $U \subset M$ und $\omega \in \Omega(N)$ ist
+    \begin{math}
+        \int_{f(U)} \omega = \int_U f^* \omega.
+    \end{math}
+    \begin{proof}
+        Für einen Atlas $(\phi_j)_{j \in J}$ von $M$ ist $\phi_j \circ f^{-1}$ ein Atlas von $N$.
+    \end{proof}
+\end{kor}
+
+\begin{st}[Stokes im Spezialfall] \label{7.10}
+    Für $M$ orientierbar, $\omega \in \Omega_c^\bullet(M)$ gilt
+    \begin{math}
+        \int_M \d \omega = 0.
+    \end{math}
+    \begin{note}
+        Allgemein ist
+        \begin{math}
+            \int_M \d \omega = \int_{\Boundary M} \omega.
+        \end{math}
+    \end{note}
+\end{st}
+
+\begin{kor} \label{7.11}
+    Für $M$ kompakt und orientierbar ist $H^n(M) \neq 0$.
+    \begin{proof}
+        Für eine Volumenform $\omega$ ist $0 \neq [\omega] \in H^m(M)$, denn $\int_ M \omega \neq 0$.
+    \end{proof}
+\end{kor}
+
+\begin{kor} \label{7.12}
+    Sei $M$ eine kompakte Mannigfaltigkeit mit Rand $\Boundary M \neq 0$.
+    Dann existiert keine glatte Abbildung $\phi: M \to \Boundary M$ mit $\phi|_{\Boundary M} = \id$.
+    \begin{proof}
+        Sei $\omega$ eine Volumenform auf $\Boundary M$.
+        Dann ist
+        \begin{math}
+            0 = \int_M \phi^* \d \omega
+            = \int_M \d(\phi^* \omega)
+            = \int_{\Boundary M} \phi^* \omega
+            = \int_{\Boundary M} \omega
+            > 0,
+        \end{math}
+        ein Widerspruch.
+    \end{proof}
+\end{kor}
+
+\begin{st} \label{7.13}
+    Sei $f: \_{B_n} \to \_{B_n}$ eine glatte Abbildung, dann hat $f$ mindestens einen Fixpunkt.
+    \begin{proof}
+        Falls nicht, sei $\phi: \_{B^n} \to \Boundary \_{B^n}$ die Abbildung, die $x \in \_{B^n}$ auf dem Schnittpunkt des Strahls $f(x) + \R^+ (x - f(x))$ mit dem Rand abbildet.
+        Dann ist $\phi|_{\Boundary \_{B^n}} = \id|_{\Boundary \_{B^n}}$, ein Widerspruch.
+    \end{proof}
+\end{st}
+
+\begin{st}[Satz vom Igel] \label{7.14}
+    Jedes Vektorfeld auf $S^{2m}$ hat mindestens eine Nullstelle.
+    \begin{proof}
+        Sei $X$ eine nullstellenfreies Vektorfeld auf $S^{2m}$ und $h: [0, \pi] \times S^{2m} \to S^{2m}$,
+        \begin{math}
+            (t,p) \mapsto p \cos(t) + \frac{X(p)}{\|X(p)\|} \sin(t).
+        \end{math}
+        Dann ist für eine Volumenform $\omega$ auf $S^{2m}$
+        \begin{math}
+            0 \neq \int_{S^{2m}} \omega
+            = \int_{S^{2m}} h_0^* \omega
+            = \int_{S^{2m}} h_\pi^* \omega
+        \end{math}
+        im Widerspruch zur Homotopieinvarianz von $H^n(M)$.
+    \end{proof}
+\end{st}
+
+
