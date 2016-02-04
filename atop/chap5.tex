@@ -1,13 +1,16 @@
 \chapter{Singuläre Homologie}
 
+\section{Homologie-Axiome}
+
+
 Ziel: Für beliebige Paare topologischer Räume $(X, A)$ möchten wir einen Funktor $H_*: \Cat{Top}_{(2)} \to \Cat{GrMod}_R$, d.h. $H_q: (X, A) \mapsto H_q(X,A) \in \Cat{Mod}_R$ für $q \in \Z$ und $H_q: (f:(X, A) \to (Y, B)) \mapsto (H_q(f): H_q(X,A) \to H_q(Y,B))$.
 
 Wünschenswerte Eigenschaften:
 \begin{enumerate}[(1)]
     \item
-        Homotopie-Invarianz: Aus $f \homotopic g: (X, A) \to (Y, B)$ folgt $H_*(f) = H_*(g)$.
+        \emphdef[Homologie-Axiome!Homotopie-Invarianz]{Homotopie-Invarianz}: Aus $f \homotopic g: (X, A) \to (Y, B)$ folgt $H_*(f) = H_*(g)$.
     \item
-        Lange exakte Sequenz: Für $i: (A, \emptyset) \injto (X, \emptyset)$ und $j: (X, \emptyset) \injto (X, A)$ haben wir eine lange exakte Sequenz
+        \emphdef[Homologie-Axiome!Lange exakte Sequenz]{Lange exakte Sequenz}: Für $i: (A, \emptyset) \injto (X, \emptyset)$ und $j: (X, \emptyset) \injto (X, A)$ haben wir eine lange exakte Sequenz
         \begin{math}
             \begin{tikzcd}
                 {} \ar[r] & H_q(A,\emptyset) \ar[r,"H_q(i)"] & H_q(X,\emptyset) \ar[r,"H_q(j)"] & H_q(X,A) \ar[r,"\del_q"] & H_{q-1}(A,\emptyset) \ar[r] & \dotsc
@@ -17,7 +20,7 @@ Wünschenswerte Eigenschaften:
         \begin{math}
             \del_q = \del_q^{(X,A)}: H_q(X, A) \to H_{q-1}(A, \emptyset).
         \end{math}
-        Dies soll mit dem Funktor $H_*$ verträglich sein, d.h. für $f: (X, A) \to (Y, B)$ soll folgenden Diagramm kommutieren:
+        Dies soll mit dem Funktor $H_*$ verträglich sein, d.h. für $f: (X, A) \to (Y, B)$ soll folgendes Diagramm kommutieren:
         \begin{math}
             \begin{tikzcd}
                 H_q(X, A) \ar[r,"\del_q^{(X,A)}"] \ar[d,"H_q(f)"'] & H_{q-1}(A, \emptyset) \ar[d,"H_{q-1}(f|_{(A, \emptyset)})"] \\
@@ -26,7 +29,8 @@ Wünschenswerte Eigenschaften:
         \end{math}
         Dies nennt man eine \emphdef{natürliche Transformation}, $\del_q: H_q \to H_{q-1} \circ S$ mit $S(X, A) = (A, \emptyset)$.
     \item
-        Dimensionsaxiom: Für $X = \Set{p}$ gilt
+        \emphdef[Homologie-Axiome!Dimensionsaxiom]{Dimensionsaxiom}:
+        Für $X = \Set{p}$ gilt
         \begin{math}
             H_q(\Set{p}, \emptyset) \isomorphic \begin{cases}
                 R & \text{für $q = 0$}, \\
@@ -35,15 +39,15 @@ Wünschenswerte Eigenschaften:
         \end{math}
         Genauer: wir fordern einen natürlichen Isomorphismus.
     \item
-        Additivitätsaxiom
-        Für jede topologische Summe $X = \bigsqcup_{k \in I} X_k \xto*[inj]{\iota_k} X_k$ erhalten wir einen Isomorphismus
+        \emphdef[Homologie-Axiome!Additivitsaxiom]{Additivitätsaxiom}:
+        Für jede topologische Summe $X = \bigsqcup_{k \in I} X_k \xto*[injective]{\iota_k} X_k$ erhalten wir einen Isomorphismus
         \begin{math}
             \begin{tikzcd}
-                \bigoplus_{k\in I} H_q(\iota_k): \bigoplus_{k\in I} H_q(X_k, \emptyset) \ar[r,"\isomorphic"] & H_q(X, \emptyset) \\
+                \displaystyle \bigoplus_{k\in I} H_q(\iota_k): \bigoplus_{k\in I} H_q(X_k, \emptyset) \ar[r,"\isomorphic"] & H_q(X, \emptyset) \\
             \end{tikzcd}
         \end{math}
     \item
-        Ausschneidungsaxiom:
+        \emphdef[Homologie-Axiome!Ausschneidungsaxiom]{Ausschneidungsaxiom}:
         Sei $(X, A)$ ein Raumpaar und $U \subset X$ mit $\_U \subset \mathring A$.
         Dann induziert die Inklusion $i: (X \setminus U, A \setminus U) \injto (X, A)$ einen Isomorphismus
         \begin{math}
@@ -102,7 +106,7 @@ Wünschenswerte Eigenschaften:
             Es existiert eine Homologietheorie über $R$.
         \item
             Auf Simplizialkomplexen (Allgemeiner: auf Zellkomplexen) stimmen je zwei Homologietheorien überein, d.h.
-            Sind $(H, \del)$ und $(H', \del')$ zwei Homologietheorien, so gibt es natürliche Isomorphismes
+            sind $(H, \del)$ und $(H', \del')$ zwei Homologietheorien, so gibt es natürliche Isomorphismen
             \begin{math}
                 \begin{tikzcd}
                     H(|K|,|A|) \ar[r,"\isomorphic"] \ar[d,"H(f)"] & H'(|K|, |A|) \ar[d,"H'(f)"] \\
@@ -112,12 +116,14 @@ Wünschenswerte Eigenschaften:
             und natürliche Äquivalenz für $\del \isomorphic \del'$.
     \end{enumerate}
     \begin{proof}
-        (2) Ausrechnen mit Axiomen, Übung für Sphären $\S^n$, Später für Komplexe.
+        (2) Ausrechnen mit Axiomen: Übung für Sphären $\S^n$, Später für Komplexe.
 
         (1) Verlangt eine Konstruktion der \emphdef{singulären kubischen Homologie}:
 
     \end{proof}
 \end{st}
+
+\section{Konstruktion der singulären kubischen Homologie}
 
 Sei $X$ ein topologischer Raum.
 Für $n \in \N$ betrachte
@@ -162,7 +168,7 @@ Es gilt
 Wir können also zum Quotienten Übergehen:
 \begin{math}
     \begin{tikzcd}
-        \tilde S_n \ar[r,"\del"] \ar[d,"\quot"] \ar[rd] & \tilde S_{n-1} & \tilde \del \alpha = \sum (-1)^i (\del_i^0 \alpha - \del_i^1 \alpha) \ar[d,"\quot"] \\
+        \tilde S_n \ar[r,"\del"] \ar[d,"\quot"] \ar[rd] & \tilde S_{n-1} \ar[d,"\quot"] & \tilde \del \alpha = \sum (-1)^i (\del_i^0 \alpha - \del_i^1 \alpha) \ar[d,"\quot"] \\
         S_n \ar[r,dashed,"\del"] & S_{n-1} & \del\<\alpha\> = \sum (-1)^i (\<\del_i^0 \alpha\> - \<\del_i^1 \alpha\>)
     \end{tikzcd}
 \end{math}
@@ -236,7 +242,7 @@ Wir können also zum Quotienten Übergehen:
         \item
             Sei $X = \bigsqcup_{k \in I} X_k$, dann
             \begin{math}
-                \scr C(I^n, X) &= \sqcup_{k\in I} \scr C(I^n, X_k), \\
+                \scr C(I^n, X) &= \bigsqcup_{k\in I} \scr C(I^n, X_k), \\
                 \tilde S_n(X) &= \bigoplus_{k\in I} \tilde S_n(X_k), \\
                 S_n(X) &= \bigoplus_{k\in I} S_n(X_k), \\
                 H_n(X) &= \bigoplus_{k\in I} H_n(X_k).
