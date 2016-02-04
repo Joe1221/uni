@@ -1,0 +1,151 @@
+% §1
+\chapter{Introduction}
+
+\Timestamp{2015-10-21}
+
+The following is an inforal motivation for the lecture and will be omitting precise definitions but using examples, illustrating main concepts and notions/buzz words.
+
+\begin{description}
+    \item[Kernel]
+        (or Kernelfunction) central notion: given a set $\Omega$, any symmetric $k: \Omega \times \Omega \to \R$ will be called kernel.
+        \begin{itemize}
+            \item
+                Examples include for $\Omega = \R^d$
+                \begin{itemize}
+                    \item
+                        Gaussian kernel:
+                        \begin{math}
+                            k(x,x') := \exp(-\gamma \|x-x'\|^2) \subset \R^+ \setminus \Set{0}.
+                        \end{math}
+                        It is $\C^\infty$ and has a parameter which steers the “width” instance of a Radial Basis Function (RBF).
+                    \item
+                        Linear kernel:
+                        \begin{math}
+                            k(x,x') := \<x,x'\>
+                        \end{math}
+                        No parameter, not RBF, inner-product based kernel.
+                \end{itemize}
+            \item
+                We will discriminate kernels by definiteness, mainly positive definiteness (p.d.).
+            \item
+                $\Omega$ is not necessarily a vector space, also structured sets are possible, e.g. histograms, tuples, strings, graphs, etc.
+        \end{itemize}
+    \item[Approximants]
+        \begin{itemize}
+            \item
+                Typical structure:
+                \begin{math}
+                    \hat f(x) = \sum_{i=1}^d \alpha_i k(x, x_i), && x \in \Omega
+                \end{math}
+                with \emphdef{coefficients} $\alpha_i \in \R$, $x_i \in \Omega$ the \emphdef{centers} in case of RBF kernels or \emphdef{support vector} in general kernels.
+            \item
+                Also known as predictor / hypothesis in Machine Learning or Statistics.
+            \item
+                \emphdef{Sparsity}: Ideally the number of nonzero terms in $\hat f$ should be as small as possible.
+                Then $\hat f$ can be evaluated rapidly.
+        \end{itemize}
+    \item[Interpretation as Iner products]
+        \begin{itemize}
+            \item
+                p.d. kernels correspond to inner products in Hilbert spaces, i.e. for a p.d kernel $k(\argdot, \argdot)$ we can find a mapping $\Phi: \Omega \to H$ in a Hilbert space $H$ such that
+                \begin{math}[numbered] \label{eq:1.1}
+                    k(x,x') = \<\Phi(x), \Phi(x')\>_H.
+                \end{math}
+                In particular via so called Reproducing Kernel Hilbert Spaces (RKHS), but other mappings/spaces possible.
+            \item
+                vice versa: given any $\Phi$ defines a p.d. kernel on $\Omega$ via \eqref{eq:1.1}.
+            \item
+                Illustration:
+                For $\Omega = \R^2$ take scattered points $X$ in $\Omega$ which are classified positive or negative: $X = X_- \dunion X_+$.
+                The point sets are nonlinearly separable.
+                By a mapping $\Phi$ into a feature space $H = \R^3$, the points can become linearly separable in $H$.
+                This makes classifying points easier. 
+            \item
+                Kernel function allow to work in implicitly defined Hilbert spaces, i.e. the specific spacce does not need to be known for applying an algorithm, if it can be expressed by inner products.
+            \item
+                Operations in $H$ using inner products can be expressed as kernel evaluations on $\Omega$.
+                
+                Example: linear sparation in $H$,
+                let $w = \sum \alpha_i \Phi(x_i) \in H$ for certain $\Set{x_i}_{i=1}^n \subset \Omega$ be a normal vector to the hyperplane $\Set{z \in H & \<z, w\> = 0} \subset H$ separating the points, i.e.
+                \begin{math}
+                    \<\Phi(x), w\> \begin{cases}
+                        > 0 & \text{for $x \in X_+$}, \\
+                        < 0 & \text{for $x \in X_-$}.
+                    \end{cases}
+                \end{math}
+                can be equivalently formulated using bilinearity of $\<\argdot, \argdot\>$ and introducing the kernel:
+                \begin{math}
+                    \<\Phi(x), w\>_H
+                    = \<\Phi(x), \sum \alpha_i \Phi(x_i)\>
+                    = \sum \alpha_i \<\Phi(x), \Phi(x_i)\>
+                    = \sum \alpha_i k(x,x_i).
+                \end{math}
+            \item
+                kernels allow to efficiently work in high dimesional or even infinite dimensional feature spaces.
+                The linear function $\<\Phi(x), w\>$ in $H$ corresponds to a nonlinear function in $\Omega$.
+            \item
+                Given any linear data analysis algorithm expressed in inner products, this can be turned to a non-linear algorithm by inserting kernels: “kernel trick”.
+            \item
+                As p.d. kernels correspond to inner products, they an also be interpreted as \emphdef{similarity measure}.
+            \item
+                The feature space interpretation allows geomotrical insight into algorithms.
+        \end{itemize}
+    \item[Scattered Data Approximation / Interpolation / Regression]
+        \begin{itemize}
+            \item
+                Given training data $(x_i, y_i) \in \Omega \times \R$, $i = 1, \dotsc, n$ find $\hat f: \Omega \to \R$ with $\hat f(x_i) = y_ö$ (Interpolation), or
+                \begin{math}
+                    \sum \underbrace{|\hat f(x_i) - y_i|^2}_{\text{squared loss}}
+                \end{math}
+                being small (Least Squares Regression) or other \emphdef{loss functions}.
+                If the data generating function $f$ is known, also $\|f - \hat f\|$ can be minimized.
+            \item
+                For $d > 1$ (so called \emphdef{Multivariate Interpolation}) the interpolation problem can not always be solved by polynomial interpolation.
+                \begin{itemize}
+                    \item
+                        $\dim(\P_0(\R^d)) = 1$, $\dim(\P_1(\R^d)) = d + 1$, hence not arbitrary number of unknowns $n$ can be obtained.
+                        One would obtain under-/overdetermined systems.
+                    \item
+                        More rigorous theoretical argument:
+                        Given $n \ge 2$ there is no fixed basis of $n$ functions on $\R^d$, $d > 2$ that allows interpolation for arbitrary (disjouint) points, i.e. for any basis one can find a point set such that the interpolation matrix is singular. 
+                \end{itemize}
+            \item
+                Multivaiate Interpolation \emphdef{requires} data dependent basis functions, e.g. kernels. Well-posedness can be very simple.
+                For Gaussian with $n$ disjoint point $\Set{x_i}_{i=1}^n$ the interpolation matrix is always regular.
+        \end{itemize}
+    \item[Data Analysis / Pattern Analysis]
+        \begin{itemize}
+            \item
+                Example: classification: Given training data $(x_i, y_i) \in \Omega \times \Set{\pm 1}$.
+            \item
+                find a \emphdef{classifier} $g: \Omega \to \Set{\pm 1}$ of the form
+                \begin{math}
+                    g(x) = \sign \sum \alpha_i k(x,x_i),
+                \end{math}
+                such that $g(x_i) = y_i$.
+                Here $\sign(x) \in \Set{\pm 1}$, no zero.
+            \item
+                This is an example of \emphdef{supervised learning}.
+            \item
+                Algorithms: kernel nearest neigbour classifier, support vector machines, etc.
+            \item
+                This task is also addressed in Machine Learning / Statistics / Data Mining by considering $x_i$ to be random variables with joint probability distribution, the training data being random rrealizations and deriving predictors by minimizing suitable risks.
+                The classifier should \emphdef{generalize} well, i.e. provide meaningful results on new data.
+            \item
+                This lecture deals mostly with the deterministic case: we assume to have a data generating function $f$ available.
+        \end{itemize}
+        Other tasks include
+        \begin{itemize}
+            \item
+                Clustering: find coherent subsets of given point set $\Set{x_i}_{i=1}^n$ (unsupervised learning).
+            \item
+                Outlier Detection: determine what are typical and what are atypical points.
+            \item
+                Feature extraction: Given a data set find discriminating scalar quantities.
+            \item
+                Algorithmms: Typically convex quadratic optimizations problems with certain constraints, efficient solvers.
+        \end{itemize}
+\end{description}
+
+
+
