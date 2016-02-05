@@ -155,7 +155,7 @@ Für $\alpha: I^n \to X$ stetig bezeichne $\<\alpha\>$ die Äquivalenzklasse (sp
 
 Setze $\tilde \del: \tilde S_n \to \tilde S_{n-1}$ durch
 \begin{math}
-    \tilde \del \alpha := \sum_{i=0}^n (-1)^{i} (\del_i^0  - \del_i^1) \alpha.
+    \tilde \del \alpha := \sum_{i=1}^n (-1)^{i} (\del_i^0  - \del_i^1) \alpha.
 \end{math}
 
 Es gilt
@@ -197,7 +197,7 @@ Wir können also zum Quotienten Übergehen:
     Damit
     \begin{math}
         \begin{tikzcd}
-            0 \ar[r] & S_n(A) \ar[r] \ar[d,"S_n(f|_A^B)"'] & S_n(X) \ar[r] \ar[d,"S_n(f)"'] & S_n(X,A) \ar[r] \ar[d,"S_n(f)"] & 0 \\
+            0 \ar[r] & S_n(A) \ar[r] \ar[d,"S_n(f|_A^B)"] & S_n(X) \ar[r] \ar[d,"S_n(f)"] & S_n(X,A) \ar[r] \ar[d,"S_n(f)"] & 0 \\
             0 \ar[r] & S_n(B) \ar[r] & S_n(Y) \ar[r] & S_n(Y,B) \ar[r] & 0
         \end{tikzcd}.
     \end{math}
@@ -211,6 +211,7 @@ Wir können also zum Quotienten Übergehen:
 \begin{ex}
     \begin{itemize}
         \item
+            \emphdef{Dimensionsaxiom}:
             Für $X = \Set{p}$ gilt
             \begin{math}
                 \begin{tikzcd}[row sep=tiny]
@@ -240,12 +241,420 @@ Wir können also zum Quotienten Übergehen:
                 \end{cases}
             \end{math}
         \item
+\Timestamp{2016-02-05}
+            \emphdef{Additivität}:
             Sei $X = \bigsqcup_{k \in I} X_k$, dann
             \begin{math}
                 \scr C(I^n, X) &= \bigsqcup_{k\in I} \scr C(I^n, X_k), \\
                 \tilde S_n(X) &= \bigoplus_{k\in I} \tilde S_n(X_k), \\
-                S_n(X) &= \bigoplus_{k\in I} S_n(X_k), \\
+                S_n(X) &= \bigoplus_{k\in I} S_n(X_k).
+            \end{math}
+            Wir erhalten die direkte Summe $(S_n(X), \del^X) = \bigoplus_{i \in I} (S_n(X_i), \del^{X_i})$, also
+            \begin{math}
                 H_n(X) &= \bigoplus_{k\in I} H_n(X_k).
+            \end{math}
+    \end{itemize}
+\end{ex}
+
+\begin{st}
+    $H_*: \Cat{Top}_{(2)} \to \Cat{GrMod}_{R}$ ist homotopie-invariant:
+    \begin{math}
+        \begin{tikzcd}
+            \Cat{Top}_{(2)} \ar[r,"H_*"] \ar[d] & \Cat{GrMod}_{R} \\
+            \Cat{hTop}_{(2)} \ar[ru,dashed]
+        \end{tikzcd}
+    \end{math}
+    Das heißt:
+    Sei $h: f \homotopic g: (X, A) \to (Y, B)$ eine Homotopie, also $h: [0,1] \times X \to Y$ mit $h_t(A) \subset B$ für alle $t \in [0,1]$, sowie $h_0 = f$ udn $h_1 = g$.
+    Dann gilt $H_*(f) = H_*(g): H_*(X, A) \to H_*(Y, B)$.
+    \begin{proof}
+        Definiere $T: S_n(X, A) \to S_{n+1}(Y, B)$.
+        Zu $\alpha: [0,1]^n \to X$ setze $T\alpha: [0,1]^{n+1} \to Y$ durch
+        \begin{math}
+            (T\alpha)(t_0, \dotsc, t_n)
+            := h(t, \alpha(t_1, \dotsc, t_n)).
+        \end{math}
+        Dann gilt
+        \begin{math}
+            \del T\alpha
+            &= [h(1, \alpha(t_1, \dotsc, t_n) - h(0, \alpha(t_1, \dotsc, t_n))] \\
+            &\qquad + \sum_{i=1}^n (-1)^i [h(t_1, \alpha(t_2, \dotsc, t_i, 1, t_{i+1}, \dotsc, t_n)) - h(t_1, \alpha(t_2, \dotsc, t_i, 0, t_{i+1}, \dotsc, t_n))]
+            &= g \circ \alpha - f \circ \alpha - T \del \alpha,
+        \end{math}
+        d.h.
+        \begin{math}
+            \del T \alpha + T \del \alpha = g \circ \alpha - f \circ \alpha,
+        \end{math}
+        kurz $\del T + T \del = g_* - f_*$.
+        Dies ist eine Kettenhomotopie $T: f_* \homotopic g_*$.
+
+        Daraus folgt $H_*(f) = H_*(g)$.
+    \end{proof}
+\end{st}
+
+\begin{kor}
+    Jede Homotopie-Äquivalenz von Räumen $(f,g): (X, A) \homotopic (Y, B)$ induziert einen Isomorphismus
+    \begin{math}
+        \begin{tikzcd}
+            H_*(X,A) \ar[r,"H_*(f)"] & H_*(Y,B) \ar[l,"H_*(g)"]
+        \end{tikzcd}
+    \end{math}
+    \begin{proof}
+        Links kommutieren die Dreiecke nur bis auf Homotopie.
+        \begin{math}
+            \begin{tikzcd}
+                (X, A) \ar[r,"f"] \ar[d,"\id"] & (Y, B) \ar[ld,"g"] \ar[d,"\id"] \\
+                (X, A) \ar[r,"f"] & (Y, B)
+            \end{tikzcd}
+            \quad
+            \xto{H_*}
+            \quad
+            \begin{tikzcd}
+                H_*(X, A) \ar[r,"H_*(f)"] \ar[d,"\id"] & H_*(Y, B) \ar[ld,"H_*(g)"] \ar[d,"\id"] \\
+                H_*(X, A) \ar[r,"H_*(f)"] & H_*(Y, B)
+            \end{tikzcd}
+        \end{math}
+    \end{proof}
+\end{kor}
+
+\subsection{Unterteilung}
+
+Unterteilung von $\alpha: [0,1]^n \to X$ (Halbieren in jeder Koordinate).
+
+Sei $\epsilon \in \Set{0,1}^n$ und $\alpha_\epsilon: [0,1]^n \to X$ mit
+\begin{math}
+    \alpha_\epsilon(t_1, \dotsc, t_n) := \alpha(\frac{t_1 + \epsilon_1}{2}, \dotsc, \frac{t_n + \epsilon_n}{2}).
+\end{math}
+Wir unterteilen dann
+\begin{math}
+    s: S_n(X) &\to S_n(X) \\
+    \alpha &\mapsto \sum_{\epsilon \in \Set{0,1}^n} \alpha_\epsilon.
+\end{math}
+
+\begin{prop}
+    $\del s(\alpha) = s(\del \alpha)$, kurz: $\del \circ s = s \circ \del$, d.h. $s$ ist ein Kettenhomomorphismus.
+\end{prop}
+
+Ziel: $s \homotopic \id$.
+
+Setze $\rho: [0,1] \to [0,1]$,
+\begin{math}
+    \rho(t) := \begin{cases}
+        2t & \text{für $0 \le t \le \frac{1}{2}$}, \\
+        1 & \text{für $\frac{1}{2} \le t \le 1$}.
+    \end{cases}
+\end{math}
+Setze $r(\alpha) := \alpha \circ \rho^{\times n}: [0,1]^n \to X$, d.h.
+\begin{math}
+    r(\alpha) := \alpha(\rho(t_1), \dotsc, \rho(t_n)).
+\end{math}
+Dann $r(\alpha)_{0,\dotsc, 0} = \alpha$ und für $\epsilon \neq 0$ ist $r(\alpha)_\epsilon$ degeneriert (in eine Richtung konstant).
+
+Wir erhalten $r: S_n(X) \to S_n(X)$ mit $s \circ r = \id$.
+Zudem gilt $\del \circ r = r \circ \del$.
+
+Definiere $T: S_n(X) \to S_{n+1}(X)$ durch
+\begin{math}
+    (T\alpha)(t_0, \dotsc, t_n)
+    := \alpha((1-t_0) \rho(t_1) + t_0 t_1, \dotsc, (1-t_0) \rho(t_n) + t_0 t_n).
+\end{math}
+Es gilt $\del T \alpha = \alpha - r \circ \alpha - T \del \alpha$, also $\del T + T \del = \id - r$, d.h. $T: \id \homotopic r$
+Damit ist
+\begin{math}
+    s- \id
+    = s \circ \id - s \circ r
+    = s \circ (\id - r)
+    = s \circ (\del T + T \del)
+    = s \del T + s T \del
+    = \del(sT) + (sT)\del,
+\end{math}
+kurz: $sT: s \homotopic \id$, ebenso $s^k \homotopic \id$.
+
+
+Sei $X = \bigcup_{U \in \scr U} \mathring U$ eine offene Überdeckung.
+Sei
+\begin{math}
+    S_n(X) \supset S_n^{\scr U}(X) &:= \sum_{U \in \scr U} S_n(U) \\
+    &= R \Set{\alpha: [0,1]^n \to X & \alpha([0,1]^n) \subset U \text{ für ein $U \in \scr U$}}.
+\end{math}
+Dies ist ein Unterkettenkomplex $(S_n^U(X), \del_n)_{n \in \Z}$ von $(S_n(X), \del_n)_{n \in \Z}$, denn $\alpha$ klein impliziert $\del_n \alpha$ klein.
+
+\begin{st}
+    Die Inklusion $i: S_*^{\scr U}(X) \injto S_*(X)$ induziert einen Isomorphismus $i_*: H_*^{\scr U}(X) \xto{\isomorphic} H_*(X)$.
+    \begin{proof}
+        \begin{enumerate}[1.]
+            \item
+                \emph{$i_*$ ist surjektiv}:
+                Sei $[z] \in H_n(X)$ eine Homologieklasse, repräsentiert durch einen Zykel $z \in Z_n(X) \subset S_n(X)$
+                Es gilt $z' = s^k(z) \in S_n^{\scr U}(X)$ für $K$ groß (Kompaktheit von $[0,1]^n$ und Lebesgue-Lemma).
+                Dann ist $\del z' = \del s^k(z) = s^k(\del z) = 0$, d.h. $z' \in Z_n^{\scr U}(X)$.
+
+                Wir wissen $s^k \homotopic \id$, also $T: s^k \homotopic \id$, d.h. $\del T + T \del = s^k - \id$.
+                Das bedeutet
+                \begin{math}
+                    z' - z
+                    = (s^k - \id) z
+                    = (\del T + T \del) z
+                    = \del Tz + T \underbrace{\del z}_{=0}
+                    \in B_n(X).
+                \end{math}
+                In $H_n(X) = Z_n(X) / B_n(X)$ gilt also $[z'] = [z]$.
+            \item
+                \emph{$i_*$ ist injektiv}:
+                Sei $z \in Z_n^{\scr U}(X)$ ein Rand in $X$, d.h. $z = \del b$ mit $b \in S_{n+1}(X)$.
+                Dann $z \sim s^k(z)$ in $S_n^{\scr U}(X)$ und $s^k(z) = s^k(\del b) = \del(s^k b)$ mit $s^k b \in S_{n+1}^{\scr U}(X)$ für $k$ groß.
+                Folglich gilt in $S_n^{\scr U}(X)$, dass $z \sim 0$.
+        \end{enumerate}
+    \end{proof}
+\end{st}
+
+\begin{st}[Ausschneidung]
+    Sei $(X, A)$ ein Raumpaar und $\_U \subset \mathring A$.
+    Dann induziert die Inklusion $\iota: (X \setminus U, A \setminus U) \injto (X, A)$ einen Isomorphismus
+    $H_*(\iota) : H_*(X \setminus U, A \setminus U) \xto{\isomorphic} H_*(X, A)$.
+    \begin{proof}
+        Betrachte $\scr U= \Set{X \setminus U, A}$.
+        Es gilt $\mathring{\paren{X \setminus U}} = X \setminus \_U$, somit $X = \mathring{\paren{X \setminus U}} \cup \mathring A$.
+        \begin{math}
+            \begin{tikzcd}
+                S_n(X \setminus U) \ar[r,inj] \ar[d,"\quot"] \ar[dr] &
+                S_n^{\scr U}(X) = S_n(X \setminus U) + S_n(A) \ar[r,inj] \ar[d,"\quot"] \ar[dr] &
+                S_n(X) \ar[d,"\quot"] \\
+                \frac{S_n(X \setminus U)}{S_n(A \setminus U)} \ar[r,"\isomorphic"] &
+                \frac{S_n(X \setminus U) + S_n(A)}{S_n(A)} \ar[r] &
+                S_n(X, A) = S_n(X) / S_n(A)
+            \end{tikzcd}
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{nt}
+    Damit ist der Existenzsatz bewiesen: $(H_*, \del_*)$ erfüllt alle $5$ Axiome.
+\end{nt}
+
+\begin{st}
+    Sei $A \subset X$  ein Deformationsretrakt einer Umgebung $\tilde A \subset X$.
+    Dann gilt
+    \begin{math}
+        \begin{tikzcd}
+            H_*(X, A) \ar[r,"\isomorphic"] & H_*(\underbrace{X \unite A}_{Y}, \underbrace{A \unite A}_{B = \Set{A}}).
+        \end{tikzcd}
+    \end{math}
+    \begin{proof}
+        \begin{math}
+            \begin{tikzcd}
+                (X, A) \ar[r,inj,"\text{Hom.Äquiv.}"] \ar[d,inj,"\quot"] &
+                (X, \tilde A) \ar[d,"\quot"] &
+                (X \setminus A, \tilde A \setminus A) \ar[l,"\text{Ausschn.}"'] \ar[d,"\quot","\homeomorphic"'] \\
+                (Y, B) \ar[r,inj] &
+                (Y, \tilde B) &
+                (Y \setminus B, \tilde B \setminus B) \ar[l,inj]
+            \end{tikzcd}
+        \end{math}
+        Wende $H_*$ an und erhalte Isomorphismen
+        \begin{math}
+            \begin{tikzcd}
+                H_*(X, A) \ar[r] \ar[d] &
+                H_*(X, \tilde A) \ar[d] &
+                H_*(X \setminus A, \tilde A \setminus A) \ar[l] \ar[d] \\
+                H_*(Y, B) \ar[r] &
+                H_*(Y, \tilde B) &
+                H_*(Y \setminus B, \tilde B \setminus B) \ar[l]
+            \end{tikzcd}
+        \end{math}
+    \end{proof}
+\end{st}
+
+\begin{ex}
+    Übung: Berechnen Sie aus den Axiomen $H_*(\D^n), H_*(\D^n, \S^{n-1}), H_*(\S^n)$ per Induktion.
+\end{ex}
+
+\begin{st}[Mayer-Vietoris]
+    Sei $X = \mathring U \cup \mathring V$ eine offene Überdeckung, also $\scr U = \Set{U, V}$.
+    Dann erhalten wir eine kurze exakte Sequenz
+    \begin{math}
+        \begin{tikzcd}[row sep=tiny,columns sep=small]
+            0 &
+            S_n(U \cap V) \ar[r,"i"] &
+            S_n(U) \oplus S_n(V) \ar[r,"j"] &
+            S_n^{\scr U}(X) = S_n(U) + S_n(V) \ar[r] &
+            0 \\
+            {} &
+            c \ar[r,|->] & (c,c) \\
+            {} & {} &
+            (a,b) \ar[r,|->] & b - a
+        \end{tikzcd}
+    \end{math}
+    Diese induziert die lange exakte Sequenz
+    \begin{math}
+        \begin{tikzcd}[column sep=small]
+            \dotsc \ar[r,"\Delta_{n+1}"] &
+            H_n(U \cap V) \ar[r,"i_*"] &
+            H_n(U) \oplus H_n(V) \ar[r,"j_*"] &
+            H_n^{\scr U}(X) \ar[r,"\Delta_n'"] \ar[d,"\isomorphic"] &
+            H_{n-1}(U \cap V) \ar[r] &
+            \dotsc \\
+            \dotsc \ar[r,"\Delta_{n+1}"] &
+            H_n(U \cap V) \ar[r,"i_*"] &
+            H_n(U) \oplus H_n(V) \ar[r,"j_*"] &
+            H_n(X) \ar[r,"\Delta_n"] &
+            H_{n-1}(U \cap V) \ar[r] &
+            \dotsc \\
+            {} &
+            {[c]} \ar[r,|->] & ([c], [c]) &
+            {[z]} \ar[r,|->] & {[\del c_1]} \\
+            {} & {} &
+            ([a], [b]) \ar[r,|->] & {[b] - [a]}
+        \end{tikzcd}.
+    \end{math}
+    Skizze: $U, V$ mit Zykel $z$ und Teile $c_1$ und $c_2$ in $U$, bzw. $V$.
+    Zu $z \in S_n(X)$ wähle $z \sim z' = c_1 + c_2$, $c_1 \in S_n(U)$, $c_2 \in S_n(V)$.
+    Setze $\Delta_n(z) := \del c_1 = - \del c_2$.
+    Es gilt $0 = \del z = \del z' = \del c_1 + \del c_2$.
+\end{st}
+
+\begin{ex}
+    Für $n \ge 1$ ist
+    \begin{math}
+        H_q(\S^0) &= \begin{cases}
+            R \oplus R & \text{für $q = 0$}, \\
+            0 & \text{sonst}.
+        \end{cases} \\
+        H_q(\S^n) &= \begin{cases}
+            R & \text{für $q \in \Set{0,n}$}, \\
+            0 & \text{sonst}.
+        \end{cases}
+    \end{math}
+    \begin{proof}
+        Durch Induktion: für $n \ge 1$ wähle $\S^n = U \cup V$ mit $U = \S^n \setminus \Set{-p}$ und $V = \S^n \setminus \Set{p}$ zusammenziehbar.
+        \begin{math}
+            U \cap V = \S^n \setminus \Set{\pm p} \homeomorphic \S^{n-1} \times (-1,1) \homequiv \S^{n-1}.
+        \end{math}
+        Wir haben
+        \begin{math}
+            \begin{tikzcd}
+                H_1(U \cap V) \ar[r] &
+                H_1(U) \oplus H_1(V) \ar[r] &
+                H_1(\S^1) \ar[lld] \\
+                H_0(U \cap V) = R \oplus R \ar[r] &
+                H_0(U) \oplus H_1(V) = R \oplus R \ar[r] &
+                H_0(\S^1) = R
+            \end{tikzcd}
+        \end{math}
+        mit $H_0(U \cap V) \to H_0(U) \oplus H_1(V) : (c,d) \mapsto (c+d, c+d)$.
+        Durch Betrachtung des Kerns dieser Abbildung erhatlen wir $H_1(\S^1) \isomorphic R$.
+
+        Für $n \ge 2$ ähnlich, aber leichter.
+    \end{proof}
+\end{ex}
+
+
+Anwendungen:
+
+$f: \S^n \to \S^n$ induziert
+\begin{math}
+    \begin{tikzcd}
+        H_n(\S^n, \Z) \ar[r,"H_n(f)"] \ar[d,"\isomorphic"] &
+        H_n(\S^n, \Z) \ar[d,"\isomorphic"] \\
+        \Z \ar[r,"\cdot \deg(f)"] &
+        \Z
+    \end{tikzcd}
+\end{math}
+
+Zelluläre Homologie:
+
+Sei $(X, \scr X)$ ein Zellkomplex, d.h. $\scr X = (\emptyset = X_{-1} \subset X_0 \subset X_1 \dotsc)$ mit $X_n \setminus X_{n-1} \homeomorphic \bigsqcup_{i \in I} \Set{i} \times \B^n$ und es existieren charakteristische Abbildungen.
+
+Anschaulich: $X_n \unite X_{n-1}$.
+Beispiel: gefülltes Dreieck: $X_2 \unite X_1 \homeomorphic \S^2$ und $X_1 \unite X_0$ bildet drei in einem Punkt verknüpfte Kreise.
+
+Zellulärer Kettenkomplex:
+\begin{math}
+    C_n(X, \scr X) := H_n(X_n, X_{n-1}).
+\end{math}
+Dieser $R$-Modul ist frei über den Zellen von $X_n \setminus X_{n-1}$
+\begin{math}
+    \begin{tikzcd}
+        \B^n \ar[r,"\homeomorphic"] \ar[d,inj] &
+        e_i \in \pi_0(X_n \setminus X_{n-1}) \ar[d,inj] \\
+        \D^n \ar[r,"\phi_i"] \ar[d] \ar[dr] &
+        X_n \ar[d,"\quot"] \\
+        \D^n \unite \S^{n-1} \ar[r] &
+        X_n \unite X_{n-1}
+    \end{tikzcd}
+\end{math}
+Dies induziert mit $H_*$
+\begin{math}
+    R = H_n(\D^n, \S^{n-1}) \xto{H_*(\phi_i)} H_n(X_n, X_{n-1}).
+\end{math}
+Wie sieht die Randabbildung aus?
+Sei $\<\phi\> \in C_n(X, \scr X)$ eine $n$-Zelle und $\<\psi\> \in C_{n-1}(X, \scr X)$ eine $(n-1)$-Zelle.
+Definiere die \emphdef{Inzidenzzahl} $[\phi: \psi]$, anschaulich: „Wie oft läuft $\del \phi$ über $\psi$“.
+
+\begin{math}
+    \begin{tikzcd}
+        \dotsc &
+        H_n(X_n, X_{n-1}) \ar[r,"\del_*"] &
+        H_{n-1}(X_{n-1}) \ar[d,"="] &
+        \dotsc \\
+        {} & \dotsc &
+        H_{n-1}(X_{n-1}) \ar[r] &
+        H_{n-1}(X_{n-1}, X_{n-2}) &
+        \dotsc
+    \end{tikzcd}
+\end{math}
+Dies definiert $\delta: C_n(X, \scr X) = H_n(X_n, X_{n-1}) \to H_{n-1}(X_{n-1}, X_{n-2}) = C_{n-1}(X, \scr X)$ durch
+\begin{math}
+    \delta\<\phi\> = \sum_{\<\psi\>} [\phi: \psi] \<\psi\>.
+\end{math}
+Nachrechnen liefert, dass $(C_*(X, \scr X), \delta_*)$ ein Kettenkomplex ist, also dass $\delta \circ \delta = 0$.
+
+\begin{ex}
+    Für Simplizialkomplexe erhalten wir die simpliziale Homologie.
+\end{ex}
+
+\begin{st}
+    Die Inklusionen induzieren einen Isomorphismus von zellulärer und singulärer Homologie
+    \begin{math}
+        H_*(X, \scr X) \xto{\isomorphic} H_*(X)
+    \end{math}
+\end{st}
+
+\begin{ex}
+    \begin{itemize}
+        \item
+            Betrachte $\S^n$, $n \ge 2$ als Kettenkomplex (ein Punkt, eine $n$-Zelle)
+            Wir erhalten $C_0 = C_n = R$ und $C_k = 0$ für $k \notin \Set{0,n}$
+            \begin{math}
+                H_q(C(X, \scr X)) = \begin{cases}
+                    R & \text{für $q \in \Set{0,n}$}, \\
+                    0 & \text{sonst}.
+                \end{cases}
+            \end{math}
+        \item
+            $\S^n$ mit $\tilde{\scr X} = (\S^0 \subset \S^1 \subset \dotsc)$ und
+            $\RP^n$ mit $\scr X = (\RP^0 \subset \RP^1 \subset \dotsc)$ und für $C_n(\RP^n, \scr X,\Z)$ erhalten wir
+            \begin{math}
+                \begin{tikzcd}
+                    0 &
+                    \Z \ar[l] &
+                    \Z \ar[l,"0"] &
+                    \Z \ar[l,"2"] &
+                    \Z \ar[l,"0"] &
+                    \dotsc \ar[l] &
+                    \Z \ar[l] &
+                    0 \ar[l]
+                \end{tikzcd}
+            \end{math}
+            Für $H_n$ erhalten wir $0, \Z, \Z/2, 0, \Z/2, 0, \dotsc$.
+
+            Nun ist für $R = \Z / 2$
+            \begin{math}
+                H_n(\RP^n,\scr X, \Z / 2)
+                = \begin{cases}
+                    \Z / 2 & \text{für $0 \le q \le n$}, \\
+                    0 & \text{sonst}.
+                \end{cases}
             \end{math}
     \end{itemize}
 \end{ex}

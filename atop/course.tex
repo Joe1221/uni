@@ -21,6 +21,7 @@
 \DeclareDocumentCommand \RP { } { \mathbb{RP} }
 \DeclareDocumentCommand \homeomorphic { } { \cong }
 \DeclareDocumentCommand \homotopic { } { \simeq }
+\DeclareDocumentCommand \homequiv { } { \simeq }
 \DeclareDocumentCommand \normdiv { } { \mathrel{\triangleleft} }
 \DeclareDocumentCommand \ops { G{} } { \xto[cap]{#1} }
 \DeclareDocumentCommand \b { } { \flat }
@@ -51,8 +52,17 @@
 \tikzset {
     commutative diagrams/ops/.style = { bend left, shift right=1.5ex },
 }
+\usetikzlibrary{calc} % for \paren
 \ExplSyntaxOn
 
+\DeclareDocumentCommand { \paren } { m } {
+    {\mathord {
+        \begin{tikzpicture}[baseline]
+            \node[anchor=base,inner~sep=0] (t) {$#1$};
+            \draw ($(t.north~west) + (-0.05em,0.2ex)$) to[out=10,in=170] ($(t.north~east) + (0.05em,0.2ex)$);
+        \end{tikzpicture}
+    }}
+}
 
 \DeclareDocumentCommand { \GenMonoid } { om } {
     \tl_clear_new:N \l_content_tl
