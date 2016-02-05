@@ -13,14 +13,16 @@
 \ExplSyntaxOff
 
 \usetikzlibrary{calc}
-\DeclareDocumentCommand { \dotparen } { m } {
-    \dot
-    {\mathord {
+\DeclareDocumentCommand { \paren } { m } {
+    \mathord {
         \begin{tikzpicture}[baseline]
             \node[anchor=base,inner sep=0] (t) {$#1$};
             \draw ($(t.north west) + (-0.05em,0.2ex)$) to[out=10,in=170] ($(t.north east) + (0.05em,0.2ex)$);
         \end{tikzpicture}
-    }}
+    }
+}
+\DeclareDocumentCommand { \dotparen } { m } {
+    \dot{\paren{#1}}
 }
 
 \DeclareDocumentCommand{\id}{}{\operatorname{id}}
