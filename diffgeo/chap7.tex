@@ -6,14 +6,14 @@
 Zum ersten Mal benötigen wir in diesem Kapitel die Zweitabzählbarkeit von Mannigfaltigkeiten.
 
 \begin{lem} \label{7.1}
-    Jede Mannigfaltigkeit besitzt die \emphdef{Lindelöf-Eigenschaft}, d.h. aus jeder offenen Überdeckung lässt sich eine abzählbare auswählen.
+    Jede Mannigfaltigkeit besitzt die \emphdef{Lindelöf-Eigenschaft}, d.h. aus jeder offenen Überdeckung kann eine abzählbare ausgewählt werden.
     Vergleiche Lemma 12.2, Köhler.
     \begin{proof}
         Sei $(U_j)_{j \in J}$ eine offene Überdeckung und $(V_n)_{n \in \N}$ eine abzählbare Basis von $M$.
         Wähle zu jedem $j \in J$ und $p \in U_j$ ein $V_{m(p,j)} \subset U_j$ mit $p \in V_{m(p,j)}$.
         Setze nun $N := \im m \subset \N$.
         Wähle zu jedem $m \in N$ ein $j_m \in J$ mit $V_m \subset U_{j_m}$.
-        Dann ist $M = \bigcup_m V_m \subset \subset_m U_{j_m}$ und $(U_{j_m})_{m \in N}$ bildet eine abzählbare Überdeckung von $M$.
+        Dann ist $M = \bigcup_m V_m \subset \bigcup_m U_{j_m}$ und $(U_{j_m})_{m \in N}$ bildet eine abzählbare Überdeckung von $M$.
     \end{proof}
 \end{lem}
 
@@ -46,7 +46,7 @@ Zum ersten Mal benötigen wir in diesem Kapitel die Zweitabzählbarkeit von Mann
     Dann gibt es eine der Überdeckung $(U_j)_{j \in J}$ \emphdef{untergeordnete Zerlegung der Eins}, d.h. eine Familie von glatten Funktionen $(\tau_k: M \to [0, \infty))_{k \in K}$ mit
     \begin{enumerate}[(i)]
         \item
-            $\forall k \in K \exists j \in J: \supp \tau_k \subset U_j$,        
+            $\forall k \in K \exists j \in J: \supp \tau_k \subset U_j$,
         \item
             $\forall p \in M: |\Set{k \in K & \tau_k(p) \neq 0}| < \infty$,
         \item
@@ -54,7 +54,7 @@ Zum ersten Mal benötigen wir in diesem Kapitel die Zweitabzählbarkeit von Mann
     \end{enumerate}
     \begin{proof}
         Sei $(\phi_l: U_l' \to V_l)_{l \in L}$ ein Atlas mit $\forall l \in L \exists j \in J: U_l' \subset U_j$.
-        Zu jedem $p \in M$ wähle eine Karte $\phi_{l(p)}$ und eine Testfunktion $\lambda_p \in C_c^\infty(V_{l(p), [0,\infty)}$ (mit kompaktem Träger)g mit $\lambda_p(\phi_{l(p)}(p)) > 0$.
+        Zu jedem $p \in M$ wähle eine Karte $\phi_{l(p)}$ und eine Testfunktion $\lambda_p \in C_c^\infty(V_{l(p), [0,\infty)})$ (mit kompaktem Träger) mit $\lambda_p(\phi_{l(p)}(p)) > 0$.
         Definiere $\mu_p: M \to [0, \infty)$ durch
         \begin{math}
             \mu_p(x) := \begin{cases}
@@ -126,7 +126,10 @@ Zum ersten Mal benötigen wir in diesem Kapitel die Zweitabzählbarkeit von Mann
 
 \setcounter{thm}{4}
 \begin{lem} \label{7.5}
-    Für $u, u' \subset \R^n$ und $f: U \to U'$ glatt ist $f^*(\d x_1 \wedge \dotsb \wedge \d x_n) = \det D f \d x_1 \wedge \d x_n$.
+    Für $U, U' \subset \R^n$ und $f: U \to U'$ glatt gilt
+    \begin{math}
+        f^*(\d x_1 \wedge \dotsb \wedge \d x_n) = \det(\Df) \d x_1 \wedge \d x_n.
+    \end{math}
     \begin{proof}
         $\bigwedge^n (\R^n)^*$ ist eindimensional, deswegen genügt es, die Vektoren $e_1, \dotsc, e_n$ einzusetzen.
         \begin{math}
@@ -138,7 +141,7 @@ Zum ersten Mal benötigen wir in diesem Kapitel die Zweitabzählbarkeit von Mann
     \end{proof}
 \end{lem}
 
-Die Orientierung einer Mannigfaltigkeit entpsricht der Wahl einer Äquivalenzklasse von Atlanten mit positiver Funktionaldeterminante aller Kartenwechsel.
+Die Orientierung einer Mannigfaltigkeit entspricht der Wahl einer Äquivalenzklasse von Atlanten mit positiver Funktionaldeterminante aller Kartenwechsel.
 
 \begin{kor} \label{7.6}
     Ist $M$ zusammenhängend und orientierbar, dann existieren genau zwei Orientierungen.
@@ -173,8 +176,8 @@ mit dem Lebesgue-Maß $\d \lambda$.
         Die Unabhängigkeit von der Wahl der Karten ($\det \Df[\phi] > 0$ wegen orientiertem Atlas).
         \begin{math}
             \sum_k \int_{V_{j(k)}} (\phi_{j(k)}^{-1})^* (\tau_k \omega)
-            &= \sum_{k,l} \int_{\phi_{j(m)}(U_{j(k)} \cap \tilde U_{m(l)}} (\phi_{j(k)}^{-1})^* (\tau_k \sigma_l \omega) \\
-            &= \sum_{k,l} \int_{\psi_{m(l)}(U_{j(k)} \cap \tilde U_{m(l)}} (\phi_{j(k)} \circ \psi_{m(l)}^{-1})^* (\phi_{j(k)}^{-1}) (\tau_k \sigma_l \omega) \\
+            &= \sum_{k,l} \int_{\phi_{j(m)}(U_{j(k)} \cap \tilde U_{m(l)})} (\phi_{j(k)}^{-1})^* (\tau_k \sigma_l \omega) \\
+            &= \sum_{k,l} \int_{\psi_{m(l)}(U_{j(k)} \cap \tilde U_{m(l)})} (\phi_{j(k)} \circ \psi_{m(l)}^{-1})^* (\phi_{j(k)}^{-1}) (\tau_k \sigma_l \omega) \\
             &= \sum_l \int_{\tilde V_{m(l)}'} (\psi_{m(l)}^{-1})^* (\sigma_l \omega).
         \end{math}
     \end{proof}
@@ -204,7 +207,7 @@ mit dem Lebesgue-Maß $\d \lambda$.
 \end{st}
 
 \begin{kor} \label{7.11}
-    Für $M$ kompakt und orientierbar ist $H^n(M) \neq 0$.
+    Für $M$ kompakt und orientierbar ist $H^m(M) \neq 0$.
     \begin{proof}
         Für eine Volumenform $\omega$ ist $0 \neq [\omega] \in H^m(M)$, denn $\int_ M \omega \neq 0$.
     \end{proof}
