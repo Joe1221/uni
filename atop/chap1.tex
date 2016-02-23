@@ -53,7 +53,7 @@ Wir erhalten wohldefinierte Abbildungen auf $\Pi(X, a, b) := P(X, a, b) / \sim$ 
     Jeder topologische Raum $X$ definiert so seine \emphdef{Wegekategorie} $\Pi(X)$ (auch \emphdef{Fundamentalgruppoid} genannt).
     \begin{enumerate}[a)]
         \item
-            Objekte sind die punkte $a, b, c, \dotsc \in X$,
+            Objekte sind die Punkte $a, b, c, \dotsc \in X$,
         \item
             Morphismen $[\alpha]: a \to b$ sind Wegeklassen von $a$ nach $b$.
         \item
@@ -320,7 +320,7 @@ Damit ist auch $(Q, \cdot, [e])$ ein Monoid.
 
 Kombinatorische Kodierung eines Simplizialkomplexes, z.B.
 \begin{math}
-    \Set{\emptyset, \Set{a}, \dotsc, \Set{g}, \Set{a,b}, \dotsc, \Set{f,g}, \Set{c,e,f}, \dotsc, \Set{c,f,g}, \Set{e,f,g}, \Set{c,e,f,g}}.
+    \Set{\emptyset, \Set{a}, \dotsc, \Set{g}, \Set{a,b}, \dotsc, \Set{f,g}, \Set{c,e,f}, \Set{c,e,g}, \Set{c,f,g}, \Set{e,f,g}, \Set{c,e,f,g}}.
 \end{math}
 
 \begin{df}
@@ -388,7 +388,7 @@ Kombinatorische Kodierung eines Simplizialkomplexes, z.B.
         Betrachte (Skizze: diskrete Variante der Sinuskurve des Topologen)
         \begin{math}
             \Omega &:= \Set{a,b} \cup \N, \\
-            K &:= \Set{\emptyset} \cup \binom{\Omega}{1} \Set{\Set{k, k+1} & k \in \N}
+            K &:= \Set{\emptyset} \cup \binom{\Omega}{1} \cup \Set{\Set{k, k+1} & k \in \N}
         \end{math}
         mit Darstellung $f: K \to \R^2$, $a \mapsto (0,1)$, $b \mapsto (0,-1)$,
         \begin{math}
@@ -572,8 +572,8 @@ Kombinatorische Kodierung eines Simplizialkomplexes, z.B.
 Sei $X = \bigcup_{i \in I} U_i$ eine offene Überdeckung.
 Ziel: Wie berechnet man $\pi_1(X, x_0)$ aus den Teilen $(U_i)_{i \in I}$?
 
-Einfaches Beispiel (Skizze: drei Mengen mit paarweisen Schnitten)
-Fordere
+Einfaches Beispiel: (Skizze: drei Mengen mit paarweisen Schnitten).
+Fordere zunächst (unnötig stark)
 \begin{itemize}
     \item
         $U_i$ einfach zusammenhängend
@@ -610,7 +610,7 @@ Im Beispiel $I = \Set{1, 2, 3}$, $\scr U$ wie skizziert,
         [(i_0, i_1, \dotsc, i_n)] &\mapsto [\gamma_{i_0, i_1} \ast \dotsb \ast \gamma_{i_{n-1}, i_n}].
     \end{math}
     Genauer:
-    Hierzu wählen wir $x_i \in U_i$ für $i \in I$ sowie $x_{ij} \in U_{ij} := U_i \cap U_j$ für $i \neq j$ mit $U_{ij} \neq \emptyset$, $x_{ij} = x_{ji}$.
+    Hierzu wählen wir $x_i \in U_i$ für $i \in I$ sowie $x_{ij} \in U_{ij} := U_i \cap U_j$ für $i \neq j$ mit $U_{ij} \neq \emptyset$ und ohne Einschränkung $x_{ij} = x_{ji}$.
     Sei $\gamma_{ij}$ ein Weg von $x_i$ nach $x_{ij}$ in $U_i$ und dann von $x_{ij}$ nach $x_j$ in $U_j$.
     Damit ist $[\gamma_{ij}]$ eindeutig festgelegt (da $U_i$, $U_j$ einfach zusammenhängend, $U_{ij}$ wegzusammenhängend).
     % \gamma_{ij} \sim \gamma_{ij} \iff \gamma_{ij}\_{\gamma_{ij}} \sim *
@@ -620,9 +620,10 @@ Im Beispiel $I = \Set{1, 2, 3}$, $\scr U$ wie skizziert,
                 $\Phi$ surjektiv (Skizze: Weg $\omega$ über endlich viele $U_i$ von $x_{i_0}$ nach $x_{i_n} = x_{i_0}$, homotop zu zweitem Weg):
                 Sei $\omega:[0,1] \to X$ ein Weg von $x_0$ nach $x_0$.
                 Wir haben eine offene Überdeckung $[0,1] = \bigcup_{i \in I} \omega^{-1}(U_i)$.
-                Es existiert eine Lebesgue-Zahl $\frac{1}{n}$, $n \in \nu$, sodass $\omega([\frac{k-1}{n}, \frac{k}{n}]) \subset U_{i_k}$ für $k = 1, \dotsc, n$.
-                Für $i_k \neq i_{k+1}$ liegt $\omega(\frac{k}{n}$ in $U_{i_k} \cap U_{i_{k+1}}$.
-                Wähle $\beta_k$ von $\omega(\frac{k}{n})$ nach $x_{i_k}{i_{k+1}}$ in $U_{i_k} \cap U_{i_{k+1}}$.
+                Es existiert eine Lebesgue-Zahl $\frac{1}{n}$, $n \in \N$, sodass $\omega([\frac{k-1}{n}, \frac{k}{n}]) \subset U_{i_k}$ für $k = 1, \dotsc, n$.
+                Für $i_k \neq i_{k+1}$ liegt $\omega(\frac{k}{n})$ in $U_{i_k} \cap U_{i_{k+1}}$.
+                Wähle $\beta_k$ von $\omega(\frac{k}{n})$ nach $x_{i_k, i_{k+1}}$ in $U_{i_k} \cap U_{i_{k+1}}$.
+                Definiere $\gamma$ als den zur Indexmenge $i_1, \dotsc, i_n$ natürlich zugehörigen Weg mit eingefügten $\beta_k$.
                 Dann gilt $\gamma \ast \_\omega \sim 1_{x_0}$.
                 %Nutze Kompaktheit des Weges (endliche Überdeckung, Intervallteilung mit Lebesgue-Zahl), konstruiere so die Folge von Mengen $U_i$.
             \item
@@ -643,11 +644,11 @@ Der \emphdef{Wegnerv} von $\scr U$ ist definiert durch
 \begin{math}
     N^\circ(\scr U) = \Set{(S, C) & \text{$S \subset \Omega$ endlich, $C \in \pi_0(U_S)$} }
 \end{math}
-($\pi_0(U_s)$ Menge der Wegzusammenhangskomponenten).
-Setze $\dim(S, C) = |S| - 1$.
-Definiere $(S, C) \to (T, D)$ durch $T \subset S$ und $D \supset C$.
+($\pi_0(U_s)$: Menge der Wegzusammenhangskomponenten).
+Setze $\dim(S, C) := |S| - 1$.
+Definiere die Relation $(S, C) \to (T, D)$ durch $T \subset S$ und $D \supset C$.
 
-Skizze: $U_1, U_2$, $U_1$ mit zwei Komponenten, mit jeweils $3$ Schnitten $D_1, D_2, D_3$ und einem Schnitt $D_4$ mit $U_2$, $U_2$ einfach zusammenhängend.
+Skizze: $U_1, U_2$, $U_1$ mit zwei Komponenten $C, C'$, mit jeweils $3$ Schnitten $D_1, D_2, D_3$ und einem Schnitt $D_4$ mit $U_2$, $U_2$ einfach zusammenhängend.
 \begin{math}
     \begin{tikzcd}
         & (\Set{1,2}, D_1) \ar[ld] \ar[rd]& \\
@@ -656,13 +657,14 @@ Skizze: $U_1, U_2$, $U_1$ mit zwei Komponenten, mit jeweils $3$ Schnitten $D_1, 
         (\Set{1}, C') & (\Set{1,2}, D_4) \ar[l] \ar[ruu]
     \end{tikzcd}
 \end{math}
-Damit ist $I = N^\circ(\scr U)$ mit $\to$ ein Poset, d.h. reflexiv ($i \to i$) und transitiv ($i \to j \to k \implies i \to k$).
+Damit ist $I = N^\circ(\scr U)$ mit der Relation $\to$ ein Poset (“partially ordered set”), d.h. reflexiv ($i \to i$) und transitiv ($i \to j \to k \implies i \to k$).
 Jedem Index $i = (S, C)$ ordnen wir den Teilraum $X_i = C$ zu.
 Wir wählen $x_i \in X_i$.
 Für $i \to j$ gilt $X_i \subset X_j$.
 Da $X_j$ wegzusammenhängend ist, wähle einen Weg $\gamma_{ij}: [0,1] \to X_j$ von $\gamma_{ij}(0) = x_i$ nach $\gamma_{ij}(1) = x_j$.
 Für $i = j$ setze $\gamma_{ii} = 1_{x_i}$.
-Für $i \to j$, $j \to i$ gilt $X_i = X_j$, wir wollen dann $\gamma_{ji} = \_{\gamma_{ij}}$.
+% Vermutlich für den allgemeinen Fall von $N^\circ(\scr U)$ Poset, hier aber nicht nötig:
+%Für $i \to j$, $j \to i$ gilt $X_i = X_j$, wir wollen dann $\gamma_{ji} = \_{\gamma_{ij}}$.
 
 Aus $\scr U = (U_s)_{s \in \Omega}$ erhalten wir $(I, \to, (X_i)_{i \in I}, (x_i)_{i \in I}, (\gamma_{ij})_{i \to j})$.
 
@@ -683,7 +685,7 @@ D.h. $g_{ijk}$ misst die Abweichung von $h_{jk} \circ h_{ij}$ zu $h_{ik}$.
 
 Wir erhalten hieraus den Gruppenkomplex
 \begin{math}
-    \Gamma &= (I, \to, G_\argdot, h_{\argdot, \argdot}, g_{\argdot, \argdot, \argdot}) \\
+    \Gamma &= (I, \to, G_{(\argdot)}, h_{(\argdot, \argdot)}, g_{(\argdot, \argdot, \argdot)}) \\
     &= (I, \to, (G_i)_{i\in I}, (h_{ij})_{i \to j}, (g_{ijk})_{i \to j \to k}).
 \end{math}
 Hierin betrachten wir \emphdef{Kantenzüge}
