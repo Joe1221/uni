@@ -84,7 +84,7 @@ Sei $R$ ein kommutativer Ring mit Eins, etwa $R = \Z$, oder $\Z / p$, $\Q$, $\R$
 \begin{df}
     Setze $\Boundary_i := \Boundary_i^{(n)}: \tilde K_n \to \tilde K_{n-1}$ als
     \begin{math}
-        (v_0, \dotsc, v_n) \mapsto (v_0, \dotsc, \hat v_i, \dotsc, v_n) := (v_0, \dotsc, v_{i-1}, v_{i+1}, \dotsc, v_n).
+        \del_i: (v_0, \dotsc, v_n) \mapsto (v_0, \dotsc, \hat v_i, \dotsc, v_n) := (v_0, \dotsc, v_{i-1}, v_{i+1}, \dotsc, v_n).
     \end{math}
     Definiere damit $\Boundary = \Boundary^{(n)}: R \tilde K_n \to R \tilde K_{n-1}$ linear durch
     \begin{math}
@@ -205,7 +205,7 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
             \begin{math}
                 \begin{tikzcd}
                     H_0 \ar[r,"\homeomorphic"] & R \\
-                    C_0 \ar[u] \ar[ru,"{\<v_0\>,\<v_1\> \mapsto 1}"']
+                    Z_0 = C_0 \ar[u] \ar[ru,"{\<v_0\>,\<v_1\> \mapsto 1}"']
                 \end{tikzcd}.
             \end{math}
             Also zusammen mit $H_1 = 0$ wegen $\ker \del_1 = 0$ haben wir
@@ -251,9 +251,9 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
                 Z_0 &= C_0, B_0 = R\Set{\<v_1\> - \<v_0\>, \<v_2\> - \<v_1\>, \underbrace{\<v_0\> - \<v_2\>}_{\mathclap{\text{redundant}}}}, \\
                 H_0 &= R[v_0] = R[v_1] = R[v_2].
             \end{math}
-            $Z_1$ wird frei erzeugt von $Z := \Boundary\<v_0,v_1,v_2\>$ (nutze allgemeinen Ansatz mit Elementen aus $C_1$)
+            $Z_1$ wird frei erzeugt von $z := \Boundary\<v_0,v_1,v_2\>$ (nutze allgemeinen Ansatz mit Elementen aus $C_1$)
             \begin{math}
-                Z_1 &= R_Z = R(\<v_0,v_1\> + \<v_1,v_2\> + \<v_2,v_0\>),&
+                Z_1 &= R z = R(\<v_0,v_1\> + \<v_1,v_2\> + \<v_2,v_0\>),&
                 B_1 &= 0, \\
                 H_1 &= Z_1 / B_1 = R[z] \isomorphic R.
             \end{math}
@@ -310,10 +310,10 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
 \end{st}
 
 \begin{lem}
-    Jede simpliziale Abbildung $f: K \to L$ induziert
+    Jede simpliziale Abbildung $f: K \to L$ induziert $f_*$:
     \begin{math}
         \begin{tikzcd}
-            f_*: R \tilde K_n \ar[r,"f_n"] \ar[d,"\quot"] \ar[dr] & \tilde R \tilde L_n \ar[d] \\
+            R \tilde K_n \ar[r,"f_n"] \ar[d,"\quot"] \ar[dr] & R \tilde L_n \ar[d] \\
             C_n K \ar[r,dashed,"f_n"] & C_n L
         \end{tikzcd}
     \end{math}
@@ -329,7 +329,7 @@ Dank voriger Proposition ist also $\del$ wohldefiniert auf $C_n K$:
             0 & C_0 L \ar[l] & C_1 L \ar[l,"\Boundary_1^L"] & C_2 L \ar[l,"\Boundary_2^L"] & \dotsc\ar[l]
         \end{tikzcd}
     \end{math}
-    Dies nennt man einen \emphdef{Kettenhomomorphismus}.
+    $f$ nennt man einen \emphdef{Kettenhomomorphismus}.
 \end{lem}
 
 \begin{prop}
@@ -375,7 +375,7 @@ Kurzum: Wir erhalten Funktoren
         \end{cases}
     \end{math}
     \begin{proof}
-        Definiere $T: C_n K \to C_{n+1} K$ durch $\<v_0, \dotsc, v_n\> \mapsto \<v, v_0, \dotsc, v_n\>$.
+        Definiere $T_n: C_n K \to C_{n+1} K$ durch $\<v_0, \dotsc, v_n\> \mapsto \<v, v_0, \dotsc, v_n\>$.
         Für $n \ge 1$ gilt
         \begin{math}
             \Boundary_{n+1} T_n\<v_0, \dotsc, v_n\>
@@ -395,13 +395,13 @@ Kurzum: Wir erhalten Funktoren
 \Timestamp{2016-01-22}
 
 \begin{df}
-    Seien $(C_n, \del_n)_{n\in\Z}$ und $(C_n', \del_n')_{n \in \Z}$ zwei Kettenkomplexe und $f, g$ Kettenhomomorphismen, d.h. $f_n, f_g: C_n \to C_n'$ mit $f_{n-1} \circ \del_{n} = \del_n' \circ f_n$ und $g\circ \del = \del' \circ g$.
+    Seien $(C_n, \del_n)_{n\in\Z}$ und $(C_n', \del_n')_{n \in \Z}$ zwei Kettenkomplexe und $f, g$ Kettenhomomorphismen, d.h. $f_n, g_n: C_n \to C_n'$ mit $f_{n-1} \circ \del_{n} = \del_n' \circ f_n$ und $g\circ \del = \del' \circ g$.
 
     Eine \emphdef{Kettenhomotopie} $T: f \sim g$ ist eine Familie von Abbildungen $T_n: C_n \to C_{n+1}'$, $n \in \Z$ mit $\del_{n+1}' T_n + T_{n-1} \del_n = f_n - g_n$.
     \begin{math}
-        \begin{tikzcd}
+        \begin{tikzcd}[column sep=large]
             ~ & C_{n-1} \ar[l] \ar[d,"f_{n-1}"',shift right] \ar[d,"g_{n-1}",shift left] \ar[dr,"T_{n-1}"] & C_n \ar[dr,"T_n"] \ar[l,"\Boundary_n"'] \ar[d,"f_n"',shift right] \ar[d,"g_n",shift left] & C_{n+1} \ar[l,"\Boundary_{n+1}"'] \ar[d,"f_{n+1}"',shift right] \ar[d,"g_{n+1}",shift left] & ~ \ar[l] \\
-            ~ & C_{n-1}' \ar[l] & C_n' \ar[l,"\Boundary_n"] & C_{n+1} \ar[l,"\Boundary_{n+1}"] & ~ \ar[l]
+            ~ & C_{n-1}' \ar[l] & C_n' \ar[l,"\Boundary_n'"] & C_{n+1} \ar[l,"\Boundary_{n+1}'"] & ~ \ar[l]
         \end{tikzcd}
     \end{math}
 \end{df}
@@ -445,7 +445,7 @@ Kurzum: Wir erhalten Funktoren
     Also $H_* K = H_* \Set{v}$.
 
     Vornehmer: Sei $M = \Set{\emptyset, \Set{v}}$ Simplizialkomplex mit $\Omega = \Set{v}$.
-    Wir haben $i: M \xto[inj] K$, also ist $i_*: C_* M \xto[inj] C_* K$ ein Kettenhomomorphismus.
+    Wir haben $i: M \xto[injective] K$, also ist $i_*: C_* M \xto[injective] C_* K$ ein Kettenhomomorphismus.
     Zudem haben wir eine Retraktion $r: K \to M$, also $r_*: C_* K \to C_* M$ ein Kettenhomomorphismus.
     Es gilt.
     \begin{math}
