@@ -1,0 +1,219 @@
+\documentclass{mythesis}
+
+\title{Inpainting mit Eulers Elastica}
+\author{Stephan Hilb}
+
+
+\DeclareDocumentCommand{\thesection}{}{\arabic{section}}
+\DeclareDocumentCommand{\thesubsection}{}{\thesection.\arabic{subsection}}
+
+
+\DeclareDocumentCommand{\st}{}{\mathbin{|}}
+
+
+
+
+
+\begin{document}
+
+\chapter*{Inpainting mit Eulers Elastica}
+
+\section{Einführung/Überblick}
+
+\begin{itemize}
+    \item
+	Motivation
+    \item
+	Bayes-Framework (Image Model und Data Model)
+	\begin{math}
+	    P(u \st u^0,D) &= \frac{P(u^0 \st u,D) P(u \st D)}{P(u^0 \st D)} \\
+	    &= P(u^0 \st u, D) P(u) \cdot \const \\
+	\end{math}
+    \item
+	Bayes in Energie-Form:
+	\begin{math}
+	    E[u\st u,D] &= \underbrace{E[u^0 \st u,D]}_{\text{data model}} + \underbrace{E[u]}_{\text{image model}} + \const
+	\end{math}
+    \item
+	Eulers Elastica als Kurvenmodell
+    \item
+	Level-Set Methode
+    \item
+	Das Inpainting-Modell
+    \item
+	High-Level-Idee des ADMM-Algorithmus
+\end{itemize}
+
+\section{Das Euler Elastica Inpainting Modell}
+
+\subsection{Das Kurven-Modell}
+
+\begin{itemize}
+    \item
+	Cumulative Point-Energy Axiome
+    \item
+	Two-Point Energy und die Längenenergie $e[\Gamma] = \int_\Gamma \di[s]$
+    \item
+	Three-Point Energy und die Krümmungs-Energie $e[\Gamma] = \int_\Gamma \phi(\kappa) \di[s]$
+    \item
+	$e[\Gamma] = \int_\Gamma \alpha + \beta \kappa^2 \di[s]$
+\end{itemize}
+
+\subsection{Das Bild-Modell}
+
+\begin{itemize}
+    \item
+	Die Level-Set-Methode
+	\begin{math}
+	    E[u] = \int_{[0,1]} e[\Gamma_\lambda] \di[\lambda]
+	    = \int_{[0,1]} \int_{\Gamma_\Lambda} \alpha + \beta \kappa^2 \di[s] \di[\lambda]
+	\end{math}
+    \item
+	Co-Area Formel
+    \item
+	Euler-Elastica Bild-Modell:
+	\begin{math}
+	    E[u] = \int_{\Omega} (\alpha + \beta \kappa^2) |\nabla u| \di[x]
+	\end{math}
+	für $\kappa = \nabla \cdot (\frac{\nabla u}{|\nabla u|})$.
+\end{itemize}
+
+\subsection{Das Inpainting-Modell}
+
+\begin{itemize}
+    \item
+	Daten-Modell, $u^0|_{\Omega\setminus D} = (u + n)|_{\Omega\setminus D}$
+    \item
+	Für Gauß-Rauschen $n$:
+	\begin{math}
+	    E[u^0 \st u, D] = \frac{\eta}{2} \int_{\Omega \setminus D} |u - u^0|^2 \di[x]
+	\end{math}
+    \item
+	Inpainting-Modell:
+	\begin{math}
+	    E[u \st u^0, D]
+	    = \int_\Omega (\alpha + \beta \kappa^2) |\nabla u| \di[x] + \frac{\eta}{2} \int_{\Omega\setminus D} |u - u^0|^2 \di[x]
+	\end{math}
+\end{itemize}
+
+\section{Der ADMM-Algorithmus}
+
+\subsection{Augmented Lagrange und ADMM im Allgemeinen}
+
+\subsection{Euler-Elastica-Inpainting ADMM}
+
+\begin{itemize}
+    \item
+	Operator-Splitting:
+	\begin{math}
+	    &\min_{v,u,m,p,n} \int_{\Omega} (\alpha + \beta(\nabla \cdot n)^2) |p| + \frac{\eta}{2} \int_{\Omega\setminus D} |v - u^0|^2 \\
+	    &\quad\mathrm{s.t.}\quad v = u, p = \nabla u, n = m, |p| = m \cdot p, |m| \le 1.
+	\end{math}
+    \item
+	Augmented Lagrange Funktional:
+	\begin{math}
+	    \scr L[v,u,m,p,n;\lambda_1,\lambda_2,\lambda_3,\lambda_4]
+	    &= \int_{\Omega} (\alpha + \beta(\nabla \cdot n)^2) |p| + \frac{\eta}{2} \int_{\Omega\setminus\Gamma} |v - u^0|^2 \\
+	    &\quad + r_1 \int_\Omega (|p| - m\cdot p) + \int_\Omega \lambda_1 (|p| - m \cdot p) \\
+	    &\quad + \frac{r_2}{2} \int_\Omega |p - \nabla u|^2 + \int_\Omega \lambda_2 \cdot (p - \nabla u) \\
+	    &\quad + \frac{r_3}{2} \int_\Omega (v - u)^2 + \int_\Omega \lambda_3 (v - u) \\
+	    &\quad + \frac{r_4}{2} \int_\Omega |n-m|^2 + \int_\Omega \lambda_4 \cdot (n - m) + \delta_{\ge 1}(m).
+	\end{math}
+\end{itemize}
+
+\subsection{EE-ADMM Unterprobleme}
+
+\begin{enumerate}[1)]
+    \item
+	Minimiere
+	\begin{math}
+	    \scr E_1[v]
+	    = \frac{\eta}{2} \int_{\Omega\setminus D} |v - u^0|^2 + \frac{r_3}{2} (v-u)^2 + \int_\Omega \lambda_3(v - u)
+	\end{math}
+	Direkte Lösung mit Euler-Lagrange:
+	\begin{math}
+	    v = \begin{cases}
+	        u - \frac{\lambda_3}{r_3} & \text{auf $D$}, \\
+		\frac{\eta u^0 + r_3 u - \lambda_3}{\eta + r_3} & \text{auf $\Omega\setminus D$}.
+	    \end{cases}
+	\end{math}
+    \item
+	Minimiere
+	\begin{math}
+	    \scr E_2[u]
+	    = \frac{r_2}{2} \int_\Omega |p - \nabla u|^2 + \int_\Omega \lambda_2 \cdot (p - \nabla u) + \frac{r_3}{2} \int_\Omega (v-u)^2 + \int_\Omega \lambda_3 (v-u)
+	\end{math}
+	Euler-Lagrange liefert PDE:
+	\begin{math}
+	    -r_2 \Laplace u + r_3 u = - r_2 \nabla \cdot p - \nabla \cdot \lambda_2 + r_3 v + \lambda_3.
+	\end{math}
+    \item
+	Minimiere
+	\begin{math}
+	    \scr E_3[m]
+	    &= r_1 \int_\Omega(|p| - m\cdot p) + \int_\Omega (|p| - m \cdot p) + \frac{r_4}{2} \int_\Omega |n-m|^2 + \int_\Omega \lambda_4 \cdot (n-m) + \delta_{\ge 1}(m) \\
+	    &= \frac{r_4}{2} \int_\Omega |x-m|^2 + \delta_{\ge 1}(m) + \const
+	\end{math}
+	Explizite Lösung (Lemma):
+	\begin{math}
+	    m = \operatorname{proj}_{\le 1}(x)
+	    = \operatorname{proj}_{\le 1}\Big( \frac{(r_1 + \lambda_1)p + \lambda_4}{r_4} + n \Big)
+	\end{math}
+    \item
+	Minimiere
+	\begin{math}
+	    \scr E_4[p]
+	    &= \int_\Omega (\alpha + \beta(\nabla \cdot n)^2) |p| + r_1 \int_\Omega (|p| - m\cdot p) + \int_\Omega \lambda_1 (|p| - m\cdot p) \\
+	    &\qquad + \frac{r_2}{2} \int_\Omega |p - \nabla u|^2 + \int_\Omega \lambda_2 \cdot (p - \nabla u) \\
+	    &= \int_\Omega \Big(\alpha + \beta (\nabla \cdot n)^2 + r_1 + \lambda_1\Big) |p| + \frac{r_2}{2} \int_\Omega \Big| p - \big( \nabla u + \frac{r_1 + \lambda_1}{r_2} m - \frac{1}{r_2} \lambda_2 \big) \Big|^2 + \const
+	\end{math}
+	Explizite Lösung (Lemma: soft thresholding \dots):
+	\begin{math}
+	    p = \max\Set{0, 1 - \frac{\alpha + \beta(\nabla \cdot n)^2 + r_1 + \lambda_1}{r_2 |q|}} q
+	\end{math}
+    \item
+	Minimiere
+	\begin{math}
+	    \scr E_5[n]
+	    &= \int_\Omega (\alpha + \beta(\nabla \cdot n)^2 ) |p| + \frac{r_4}{2} \int_\Omega |n-m|^2 + \int_\Omega \lambda_4 \cdot (n - m)
+	\end{math}
+	Euler-Lagrange liefert PDE-System:
+	\begin{math}
+	    -2 \nabla (\beta |p| \nabla \cdot n) + r_4 (n - m) + \lambda_4 = 0
+	\end{math}
+\end{enumerate}
+
+\section{Diskretisierung mit Dune-ACFem und Inpainting-Resultate}
+
+\begin{itemize}
+    \item
+	Gitterwahl: structured (simplex/kubisch) oder unstructured (simplex, guiding durch Kantendetektor)
+    \item
+	Lineare Lagrange Basis-Funktionen als nahezu einzige Wahl
+    \item
+	Adaptive Strategien (z.B. refine/coarse gemäß $n = \nabla u$), Vergleich
+    \item
+	Parameter-Tweaking ($\alpha$, $\beta$, $\eta$, $r_1, r_2, r_3, r_4$) und -Interpretation
+    \item
+	Startwert-Tweaking ($v, u, m, p, n, \lambda_1, \lambda_2, \lambda_3, \lambda_4$)
+\end{itemize}
+
+\section{Weitere Anwendungen}
+
+\begin{itemize}
+    \item
+	Debluring
+    \item
+	Upscaling
+\end{itemize}
+
+
+\section{Appendix}
+
+\subsection{Co-Area-Formel}
+\subsection{Euler-Lagrange}
+\subsection{Soft-Thresholding?}
+
+
+\end{document}
+

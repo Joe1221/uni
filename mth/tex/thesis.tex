@@ -1,0 +1,317 @@
+\documentclass{mythesis}
+
+\title{Inpainting mit Eulers Elastica}
+\author{Stephan Hilb}
+
+
+\DeclareDocumentCommand{\thesection}{}{\arabic{section}}
+\DeclareDocumentCommand{\thesubsection}{}{\thesection.\arabic{subsection}}
+
+
+\DeclareDocumentCommand{\st}{}{\mathbin{|}}
+
+
+
+
+
+\begin{document}
+
+\chapter*{Inpainting mit Eulers Elastica}
+
+\section{Einführung/Überblick}
+
+\begin{itemize}
+    \item
+	Motivation
+    \item
+	Bayes-Framework (Image Model und Data Model)
+	\begin{math}
+	    P(u \st u^0,D) &= \frac{P(u^0 \st u,D) P(u \st D)}{P(u^0 \st D)} \\
+	    &= P(u^0 \st u, D) P(u) \cdot \const \\
+	\end{math}
+    \item
+	Bayes in Energie-Form:
+	\begin{math}
+	    E[u\st u,D] &= \underbrace{E[u^0 \st u,D]}_{\text{data model}} + \underbrace{E[u]}_{\text{image model}} + \const
+	\end{math}
+    \item
+	Non-texture inpainting, geometry based inpainting
+    \item
+	Eulers Elastica als Kurvenmodell
+    \item
+	Level-Set Methode
+    \item
+	Das Inpainting-Modell
+    \item
+	Lösungsansätze für das EE inpainting model in der Literatur
+    \item
+	High-Level-Idee des ADMM-Algorithmus
+\end{itemize}
+
+\section{Das Euler Elastica Inpainting Modell}
+
+\subsection{Das Kurven-Modell}
+
+\begin{itemize}
+%    \item
+%	Cumulative Point-Energy Axiome
+%    \item
+%	Two-Point Energy und die Längenenergie $e[\Gamma] = \int_\Gamma \di[s]$
+%    \item
+%	Three-Point Energy und die Krümmungs-Energie $e[\Gamma] = \int_\Gamma \phi(\kappa) \di[s]$
+    \item
+	$e[\Gamma] = \int_\Gamma \alpha + \beta \kappa^2 \di[s]$
+\end{itemize}
+
+\subsection{Das Bild-Modell}
+
+\begin{itemize}
+    \item
+	Die Level-Set-Methode
+	\begin{math}
+	    E[u] = \int_{[0,1]} e[\Gamma_\lambda] \di[\lambda]
+	    = \int_{[0,1]} \int_{\Gamma_\Lambda} \alpha + \beta \kappa^2 \di[s] \di[\lambda]
+	\end{math}
+    \item
+	Co-Area Formel
+    \item
+	Euler-Elastica Bild-Modell:
+	\begin{math}
+	    E[u] = \int_{\Omega} (\alpha + \beta \kappa^2) |\nabla u| \di[x]
+	\end{math}
+	für $\kappa = \nabla \cdot (\frac{\nabla u}{|\nabla u|})$.
+\end{itemize}
+
+\subsection{Das Inpainting-Modell}
+
+\begin{itemize}
+    \item
+	Daten-Modell, $u^0|_{\Omega\setminus D} = (u + n)|_{\Omega\setminus D}$
+    \item
+	Für Gauß-Rauschen $n$:
+	\begin{math}
+	    E[u^0 \st u, D] = \frac{\eta}{2} \int_{\Omega \setminus D} |u - u^0|^2 \di[x]
+	\end{math}
+    \item
+	Inpainting-Modell:
+	\begin{math}
+	    E[u \st u^0, D]
+	    = \int_\Omega (\alpha + \beta \kappa^2) |\nabla u| \di[x] + \frac{\eta}{2} \int_{\Omega\setminus D} |u - u^0|^2 \di[x]
+	\end{math}
+\end{itemize}
+
+\section{Der ADMM-Algorithmus}
+
+\subsection{Augmented Lagrange und ADMM im Allgemeinen}
+
+\subsection{Euler-Elastica-Inpainting ADMM}
+
+\begin{itemize}
+    \item
+	Operator-Splitting:
+	\begin{math}
+	    &\min_{v,u,m,p,n} \int_{\Omega} (\alpha + \beta(\nabla \cdot n)^2) |p| + \frac{\eta}{2} \int_{\Omega\setminus D} |v - u^0|^2 \\
+	    &\quad\mathrm{s.t.}\quad v = u, p = \nabla u, n = m, |p| = m \cdot p, |m| \le 1.
+	\end{math}
+    \item
+	Augmented Lagrange Funktional:
+	\begin{math}
+	    \scr L[v,u,m,p,n;\lambda_1,\lambda_2,\lambda_3,\lambda_4]
+	    &= \int_{\Omega} (\alpha + \beta(\nabla \cdot n)^2) |p| + \frac{\eta}{2} \int_{\Omega\setminus\Gamma} |v - u^0|^2 \\
+	    &\quad + r_1 \int_\Omega (|p| - m\cdot p) + \int_\Omega \lambda_1 (|p| - m \cdot p) \\
+	    &\quad + \frac{r_2}{2} \int_\Omega |p - \nabla u|^2 + \int_\Omega \lambda_2 \cdot (p - \nabla u) \\
+	    &\quad + \frac{r_3}{2} \int_\Omega (v - u)^2 + \int_\Omega \lambda_3 (v - u) \\
+	    &\quad + \frac{r_4}{2} \int_\Omega |n-m|^2 + \int_\Omega \lambda_4 \cdot (n - m) + \delta_{\ge 1}(m).
+	\end{math}
+    \item
+	Updates:
+	\begin{math}
+	    \lambda_1 &\gets \lambda_1 + r_1 (|p| - m\cdot p), \\
+	    \lambda_2 &\gets \lambda_2 + r_2 (p - \nabla u), \\
+	    \lambda_3 &\gets \lambda_3 + r_3 (v - u), \\
+	    \lambda_4 &\gets \lambda_4 + r_4 (n - m).
+	\end{math}
+\end{itemize}
+
+\pagebreak
+\subsection{EE-ADMM Unterprobleme}
+
+%\begin{math}
+%    \scr E_1[v]
+%    &= \frac{\eta}{2} \int_{\Omega\setminus D} |v - u^0|^2 + \frac{r_3}{2} \int_\Omega (v-u)^2 + \int_\Omega \lambda_3(v - u)\\
+%    \scr E_2[u]
+%    &= \frac{r_2}{2} \int_\Omega |p - \nabla u|^2 + \int_\Omega \lambda_2 \cdot (p - \nabla u) + \frac{r_3}{2} \int_\Omega (v-u)^2 + \int_\Omega \lambda_3 (v-u) \\
+%    \scr E_3[m]
+%    &= r_1 \int_\Omega(|p| - m\cdot p) + \int_\Omega \lambda_1 (|p| - m \cdot p) + \frac{r_4}{2} \int_\Omega |n-m|^2 + \int_\Omega \lambda_4 \cdot (n-m) + \delta_{\ge 1}(m) \\
+%    &= \frac{r_4}{2} \int_\Omega |x-m|^2 + \delta_{\ge 1}(m) + \const\\
+%    \scr E_4[p]
+%    &= \int_\Omega (\alpha + \beta(\nabla \cdot n)^2) |p| + r_1 \int_\Omega (|p| - m\cdot p) + \int_\Omega \lambda_1 (|p| - m\cdot p) \\
+%    &\qquad + \frac{r_2}{2} \int_\Omega |p - \nabla u|^2 + \int_\Omega \lambda_2 \cdot (p - \nabla u) \\
+%    &= \int_\Omega \Big(\alpha + \beta (\nabla \cdot n)^2 + r_1 + \lambda_1\Big) |p| + \frac{r_2}{2} \int_\Omega \Big| p - \big( \nabla u + \frac{r_1 + \lambda_1}{r_2} m - \frac{1}{r_2} \lambda_2 \big) \Big|^2 + \const\\
+%    \scr E_5[n]
+%    &= \int_\Omega (\alpha + \beta(\nabla \cdot n)^2 ) |p| + \frac{r_4}{2} \int_\Omega |n-m|^2 + \int_\Omega \lambda_4 \cdot (n - m)
+%\end{math}
+
+\begin{enumerate}[1)]
+    \item
+	Minimiere
+	\begin{math}
+	    \scr E_1[v]
+	    = \frac{\eta}{2} \int_{\Omega\setminus D} |v - u^0|^2 + \frac{r_3}{2} \int_\Omega (v-u)^2 + \int_\Omega \lambda_3(v - u).
+	\end{math}
+	Variationsrechnung liefert
+	\begin{math}
+	    0 &= \ddx[\eps] \scr E_1[u + \eps \phi] \\
+	    &= \eta \int_{\Omega \setminus D} (v - u^0) \phi + r_3 \int_\Omega (v - u) \phi + \int_\Omega \lambda_3 \phi \\
+	    &= \int_\Omega \Big(\eta (v - u^0)\Ind_{\Omega \setminus D}  + r_3 (v - u) + \lambda_3 \Big) \phi,
+	\end{math}
+	also nach dem Hauptsatz der Variationsrechnung
+	\begin{math}
+	    v = \begin{cases}
+	        u - \frac{\lambda_3}{r_3} & \text{auf $D$}, \\
+		\frac{\eta u^0 + r_3 u - \lambda_3}{\eta + r_3} & \text{auf $\Omega\setminus D$}.
+	    \end{cases}
+	\end{math}
+    \item
+	Minimiere
+	\begin{math}
+	    \scr E_2[u]
+	    = \frac{r_2}{2} \int_\Omega |p - \nabla u|^2 + \int_\Omega \lambda_2 \cdot (p - \nabla u) + \frac{r_3}{2} \int_\Omega (v-u)^2 + \int_\Omega \lambda_3 (v-u).
+	\end{math}
+	Variationsrechnung liefert
+	\begin{math}
+	    0 &= \ddx[\eps] \scr E_2[u + \eps \phi] \\
+	    &= r_2 \int_\Omega (\nabla u - p) \cdot \nabla \phi - \int_\Omega \lambda_2 \cdot \nabla \phi + r_3 \int_\Omega (u - v) \phi - \int_\Omega \lambda_3 \phi \\
+	    &= \int_\Omega (r_2 \nabla u - r_2 p - \lambda_2) \cdot \nabla \phi + \int_\Omega (r_3 u - r_3 v - \lambda_3) \phi,
+	\end{math}
+	als schwache Form einer linearen PDE zweiter Ordnung.
+	%Euler-Lagrange liefert PDE:
+	%\begin{math}
+	%    -r_2 \Laplace u + r_3 u = - r_2 \nabla \cdot p - \nabla \cdot \lambda_2 + r_3 v + \lambda_3.
+	%\end{math}
+    \item
+	Minimiere
+	\begin{math}
+	    \scr E_3[m]
+	    &= r_1 \int_\Omega(|p| - m\cdot p) + \int_\Omega \lambda_1 (|p| - m \cdot p) + \frac{r_4}{2} \int_\Omega |n-m|^2 + \int_\Omega \lambda_4 \cdot (n-m) + \delta_{\ge 1}(m) \\
+	    &= \frac{r_4}{2} \int_\Omega |x-m|^2 + \delta_{\ge 1}(m) + \const,
+	\end{math}
+	wobei $x = \frac{(r_1 + \lambda_1)p + \lambda_4}{r_4} + n$.
+
+	Definiere punktweise
+	\begin{math}
+	    m^* := \begin{cases}
+	        x & \text{für $|x| < 1$}, \\
+		\frac{x}{|x|} & \text{für $|x| \ge 1$}.
+	    \end{cases}
+	\end{math}
+	$m^*$ minimiert $\scr E_3$.
+	Betrachte dazu $\scr E_3[m^* + \phi]$.
+	Wir können ohne Einschränkung fordern, dass $|m^* + \phi| \le 1$ auf $\Omega \setminus N$ für eine Nullmenge $N$, (sonst trivialerweise $\infty = \scr E_3[m^* + \phi] \ge \scr E_3[m^*]$).
+	Setze
+	\begin{math}
+	    M := \Set{x \in \Omega & |x| \ge 1} \setminus N.
+	\end{math}
+	Dann ist auf $M$
+	\begin{math}
+	    1 \ge |m^* + \phi|^2 = \l| \frac{x}{|x|} \r|^2 + 2 \< \frac{x}{|x|}, \phi \> + |\phi|^2,
+	\end{math}
+	also $-2\<\frac{x}{|x|}, \phi\> \ge |\phi|^2$.
+
+	Damit ergibt sich schließlich
+	\begin{math}
+	    \scr E[m^* + \phi]
+	    &= \int_M | \frac{x}{|x|} - x + \phi|^2 \\
+	    &= \int_M | \frac{x}{|x|} - x|^2 + 2 \int_M \<\frac{x}{|x|} - x, \phi\> + \int_M |\phi|^2 \\
+	    &= \scr E[m^*] + \int_M \underbrace{(|x| - 1)}_{\ge 0} \underbrace{(-2\<\frac{x}{|x|}, \phi\>)}_{\ge |\phi|^2} + \|\phi\|_{L^2} \\
+	    &= \scr E[m^*] + \|\phi\|_{L^2}.
+	\end{math}
+	Also ist $m^*$ ein Minimierer von $\scr E_3$ in $L^2$.
+
+	%Explizite Lösung (Lemma):
+	%\begin{math}
+	%    m = \operatorname{proj}_{\le 1}(x)
+	%    = \operatorname{proj}_{\le 1}\Big( \frac{(r_1 + \lambda_1)p + \lambda_4}{r_4} + n \Big)
+	%\end{math}
+    \item
+	Minimiere
+	\begin{math}
+	    \scr E_4[p]
+	    &= \int_\Omega (\alpha + \beta(\nabla \cdot n)^2) |p| + r_1 \int_\Omega (|p| - m\cdot p) + \int_\Omega \lambda_1 (|p| - m\cdot p) \\
+	    &\qquad + \frac{r_2}{2} \int_\Omega |p - \nabla u|^2 + \int_\Omega \lambda_2 \cdot (p - \nabla u) \\
+	    &= \int_\Omega \Big(\alpha + \beta (\nabla \cdot n)^2 + r_1 + \lambda_1\Big) |p| + \frac{r_2}{2} \int_\Omega \Big| p - \big( \nabla u + \frac{r_1 + \lambda_1}{r_2} m - \frac{1}{r_2} \lambda_2 \big) \Big|^2 + \const \\
+	    &= \int_\Omega c |p|_2 + \frac{r_2}{2} \int_\Omega |p - q|^2 + \const
+	\end{math}
+	Es gilt $c, r_2 > 0$ (siehe auch Lagrange-Update für $\lambda_1$).
+	Variationsrechnung liefert für $|p| \neq 0$
+	\begin{math}
+	    0 &= \ddx[\eps] \scr E_4[p + \eps\phi] \\
+	    &= \int_\Omega c \frac{p}{|p|} \cdot \phi + r_2 \int_\Omega (p - q) \cdot \phi.
+	\end{math}
+	Nach dem Hauptsatz der Variationsrechnung
+	\begin{math}
+	    (\frac{c}{|p|} + r_2) p = r_2 q.
+	\end{math}
+	Setze an $p := \lambda q$ mit $\lambda > 0$ also
+	\begin{math}
+	    \lambda = 1 - \frac{c}{r_2 |q|}
+	\end{math}
+	Der Minimierer ist damit gegeben durch
+	\begin{math}
+	    p := \max\Set{0, 1 - \frac{c}{r_2 |q|}} q
+	\end{math}
+	%Explizite Lösung (Lemma: soft thresholding \dots):
+	%\begin{math}
+	%    p = \max\Set{0, 1 - \frac{\alpha + \beta(\nabla \cdot n)^2 + r_1 + \lambda_1}{r_2 |q|}} q
+	%\end{math}
+    \item
+	Minimiere
+	\begin{math}
+	    \scr E_5[n]
+	    &= \int_\Omega (\alpha + \beta(\nabla \cdot n)^2 ) |p| + \frac{r_4}{2} \int_\Omega |n-m|^2 + \int_\Omega \lambda_4 \cdot (n - m)
+	\end{math}
+	Variationsrechnung liefert
+	\begin{math}
+	    0 &= \ddx[\eps] \scr E_5[n + \eps \phi] |_{\eps = 0} \\
+	    &= \int_\Omega 2\beta |p| (\nabla \cdot n) (\nabla \cdot \phi) + \int_\Omega (r_4 n - r_4 m + \lambda_4) \cdot \phi
+	\end{math}
+	%Euler-Lagrange liefert PDE-System:
+	%\begin{math}
+	%    -2 \nabla (\beta |p| \nabla \cdot n) + r_4 (n - m) + \lambda_4 = 0
+	%\end{math}
+\end{enumerate}
+
+\section{Diskretisierung mit Dune-ACFem und Inpainting-Resultate}
+
+\begin{itemize}
+    \item
+	Gitterwahl: structured (simplex/kubisch) oder unstructured (simplex, guiding durch Kantendetektor)
+    \item
+	Lineare Lagrange Basis-Funktionen als nahezu einzige Wahl
+    \item
+	Adaptive Strategien (z.B. refine/coarse gemäß $n = \nabla u$), Vergleich
+    \item
+	Parameter-Tweaking ($\alpha$, $\beta$, $\eta$, $r_1, r_2, r_3, r_4$) und -Interpretation
+    \item
+	Startwert-Tweaking ($v, u, m, p, n, \lambda_1, \lambda_2, \lambda_3, \lambda_4$)
+\end{itemize}
+
+\section{Weitere Anwendungen}
+
+\begin{itemize}
+    \item
+	Debluring
+    \item
+	Upscaling
+\end{itemize}
+
+
+\section{Appendix}
+
+\subsection{Co-Area-Formel}
+\subsection{Euler-Lagrange}
+\subsection{Soft-Thresholding?}
+
+
+\end{document}
+

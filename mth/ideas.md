@@ -1,0 +1,1 @@
+- interpret elastica energy on surface (mean surface curvature, etc.)
