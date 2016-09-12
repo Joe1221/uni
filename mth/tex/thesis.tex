@@ -9,9 +9,11 @@
 \DeclareDocumentCommand{\thesection}{}{\arabic{section}}
 \DeclareDocumentCommand{\thesubsection}{}{\thesection.\arabic{subsection}}
 
-
 % "such that"
 \DeclareDocumentCommand{\st}{}{\mathbin{|}}
+
+\DeclareDocumentCommand{\Edat}{}{E_{\mathrm{dat}}}
+\DeclareDocumentCommand{\Eimg}{}{E_{\mathrm{img}}}
 
 
 \begin{document}
@@ -21,14 +23,17 @@
 \chapter{Einführung}
 
 
-Mit Blick auf \ref{fig:setting} führen wir zunächst Begrifflichkeiten ein.
+%Mit Blick auf \ref{fig:setting} führen wir zunächst Begrifflichkeiten ein.
 
 
 \begin{definition} \label{def:image}
     Ein \emphdef{Bild} ist eine Abbildung $u: \Omega \to F$, wobei $\Omega \subset \R^d$
     \emphdef{Trägermenge} genannt wird und $F$ \emphdef{Farbraum}.
-    Wir betrachten im weiteren Verlauf Graustufenbilder und setzen daher $F := [0,1]$ (mit der
-    Interpretation: $0$ entspricht „schwarz“ und $1$ „weiß“).
+    Es sei $I_X$ die Menge der Bilder mit Trägermenge $X$.
+    \begin{note}
+	Wir betrachten im weiteren Verlauf Graustufenbilder und setzen daher $F := [0,1]$ (mit der
+	Interpretation: $0$ entspricht „schwarz“ und $1$ „weiß“).
+    \end{note}
 \end{definition}
 
 Beim Inpainten gehen wir von einem gegebenen Bild $u^0: \Omega \setminus D \to [0,1]$ und einem \emphdef{Inpainting-Bereich}
@@ -37,22 +42,122 @@ $D \subset \Omega$ aus. Ziel ist nun eine Rekonstruktion $u: \Omega \to [0,1]$, 
 Wir werden „möglichst gut“ durch die Minimierung eines Energiefunktionals $E[u]$ bestehend aus einem Datenmodell (engl. “data model”) und einem Bildmodell (engl. “image prior model”) ersetzen.
 Der Bayes'sche Ansatz liefert hierfür eine schmackhafte Motivation.
 
+
 \section{Das Bayes'sche Prinzip}
 
-Geht man davon aus, dass $u^0$ zu einem vollständigen Bild $u^*$ gehört, so lässt sich die Entstehung von $u^0$ als Zufallsexperiment in zwei Schritten modellieren:
+Es seien hier $I_\Omega$, $I_{\Omega \setminus D}$ endlich.
+Dies ist beispielsweise der Fall, wenn $\Omega \subset \Z^d$ beschränkt und $F$ endlich ist, was bei praktisch allen digitalen Bildern zwingend ist.
+
+Geht man davon aus, dass $u^0$ zu einem ursprünglichen, vollständigen Bild $u$ gehört, so lässt sich die Entstehung von $u^0$ als Zufallsexperiment in zwei Schritten modellieren:
 \begin{enumerate}
     \item
-	Entstehung von $u^*$ als ursprüngliches Bild und
+	Auftreten von $u$ als Bild im diskreten Wahrscheinlichkeitsraum $(I_\Omega, 2^{I_\Omega}, P_{\mathrm{img}})$,
     \item
-        $u^0$ als Beobachtung von $u^*|_{\Omega \setminus D}$.
+        Zustandekommen von $u^0$ als Beobachtung von $u|_{\Omega \setminus D}$ im diskreten Wahrscheinlichkeitsraum $(I_{\Omega \setminus D}, 2^{I_{\Omega \setminus D}}, P_{\mathrm{dat},u})$.
 \end{enumerate}
-
-
-
-
+Wir betrachten dazu den diskreten Wahrscheinlichkeitsraum $\scr P := (I_\Omega \times I_{\Omega\setminus D}, 2^{I_\Omega \times I_{\Omega\setminus D}}, P)$ mit der sogenannten A-Posteriori-Wahrscheinlichkeitsverteilung
 \begin{math}
-    E[u|u^0, D] = E[u^0|u,D] + E[u]
+    P(u, u^0) := P_{\mathrm{img}}(u) \cdot P_{\mathrm{dat},u^0}(u)
 \end{math}
+In diesem Raum besitzt $P_{\mathrm{dat},u^0}(u)$ die korrekte Interpretation als bedingte Wahrscheinlichkeit $P(u^0|u)$:
+\begin{math}
+    P(u) &= P_{\mathrm{img}}(u), \\
+    P(u^0|u) &= \frac{P(u, u^0)}{P(u)} = P_{\mathrm{dat},u^0}(u),
+\end{math}
+wobei wir $u$ und $u^0$ mit $\Set{u} \times I_{\Omega \setminus D}$, bzw. $I_\Omega \times \Set{u_0}$ identifizieren.
+Dieser Raum erlaubt uns die Berechnung der bedingten Wahrscheinlichkeit
+\begin{math}
+    P(u|u^0) &= \frac{P(u, u^0)}{P(u^0)}
+    = \frac{P(u^0|u) \cdot P(u)}{P(u^0)}.
+\end{math}
+Dieser einfache Zusammenhang zwischen den bedingten Wahrscheinlichkeiten ist auch als \emph{Satz von Bayes} bekannt.
+
+Beim Inpainten ist $P(u^0)$ ist konstant und $P(u|u^0)$ die Wahrscheinlichkeit, dass $u$ die korrekte Rekonstruktion von $u^0$ ist, also maximieren wir
+\begin{math}
+    P(u|u^0) = \const \cdot P_{\mathrm{dat},u^0}(u) \cdot P_{\mathrm{img}}(u).
+\end{math}
+Wir können nun $-\log(\argdot)$ anwenden und ein äquivalentes, aber durchaus handlicheres Problem in Energie-Form\footnote{Namensgebung stammt wohl aus der Thermodynamik, siehe \ref{??}} betrachten.
+
+Für gegebenes $u^0$, $D$ minimieren wir also die Summe aus Datenterm und Bildterm
+\begin{math}
+    E[u] = \Edat[u] + \Eimg[u].
+\end{math}
+Die Wahlen von $\Edat[u]$ und $\Eimg[u]$, welche den Wahrscheinlichkeitsverteilungen in unserem zweistufigen Zufallsmodell entsprechen, sind durch das Datenmodell, bzw. das Bildmodell festgelegt.
+
+
+\section{Das Datenmodell}
+
+Naheliegend ist der Gedanke, als Datenmodell lediglich $u|_{\Omega \setminus D} = u^0|_{\Omega \setminus D}$ zu fordern.
+Damit würden feste Randbedingungen für das Minimieren auf $D$ vorgegeben werden.
+In der Praxis sind Bilder jedoch meist mit Rauschen, Unschärfe oder anderen Artefakten versetzt, sei es aufgrund technischer Aufnahmebedingungen, natürlichen Zerfalls, digitaler Kompressionsartefakte oder aus anderen Gründen.
+Das Datenmodell erlaubt es zu definieren, auf welche Weise $u|_{\Omega \setminus D}$ beim Inpainten an das vorliegende Bild $u^0$ angepasst werden soll und ermöglicht es solche Verunreinigungen auszugleichen.
+
+Wir nutzen den bekannten Datenterm aus \ref{ROF}, welcher die quadrierte $L^2$-Norm verwendet:
+\begin{math}
+    \Edat[u] = \frac{\eta}{2} \int_{\Omega \setminus D} |u - u^0|^2,
+\end{math}
+wobei $\eta \in \R_{> 0}$ die spätere Gewichtung des Datenterms zum Bildterm kontrolliert.
+
+In \ref{ROF??} wird gezeigt, dass dieser Datenterm gut geeignet ist, wenn das Orginalbild mit weißem Gaus'schem Rauschen versetzt ist, modelliert als $u^0 = u|_{\Omega \setminus D} + \eta$.
+Für Schwarz/Weiß Rauschen (auch “salt-and-pepper noise” gennant) scheint die Wahl einer $L^1$-Norm angebracht, wie in \ref{??} erwähnt.
+
+Denkbar wären auch Datenmodelle wie $u^0 = K[u|_{\Omega\setminus D}] + \epsilon$ für einen Glättungsoperator $K$.
+Solche Modelle würden es erlauben, Unschärfe zu reduzieren, siehe z.B. \ref{??}.
+
+
+\section{Das Bildmodell}
+
+Der Datenterm hat sich auf $\Omega \setminus D$ beschränkt, somit fällt die eigentliche Bildrekonstruktion auf das Bildmodell.
+Das Bildmodell dient als eine Art Bewertung des Inpainting-Resultats.
+
+
+
+
+
+
+
+\chapter{Das Euler Elastica Bildmodell}
+
+
+\section{Motivation} % vergleich tv-inpainting
+
+\section{Die Euler Elastica}
+
+\section{Die Level-Set-Methode}
+
+\section{Das Euler Elastica Inpainting Modell} % ?
+
+
+
+\chapter{Der ADMM-Algorithmus}
+
+
+\section{Motivation} % komplexität von euler-lagrange und numerische probl.
+
+\section{Method of Multipliers}
+
+\section{Alternating Direction Method of Multipliers}
+
+\section{Euler Elastica ADMM}
+
+
+
+\chapter{Numerische Implementierung und Resultate}
+
+
+\section{Anmerkungen zur Implementierung}
+% Finite Elemente, Wahl der Räume, Dune-Zeug
+
+\section{TV-Inpainting}
+
+\section{Euler Elastica Inpainting}
+
+
+
+
+
+
+
 
 
 
@@ -63,19 +168,6 @@ Geht man davon aus, dass $u^0$ zu einem vollständigen Bild $u^*$ gehört, so l�
 \section{Einführung/Überblick}
 
 \begin{itemize}
-    \item
-	Motivation
-    \item
-	Bayes-Framework (Image Model und Data Model)
-	\begin{math}
-	    P(u \st u^0,D) &= \frac{P(u^0 \st u,D) P(u \st D)}{P(u^0 \st D)} \\
-	    &= P(u^0 \st u, D) P(u) \cdot \const \\
-	\end{math}
-    \item
-	Bayes in Energie-Form:
-	\begin{math}
-	    E[u\st u,D] &= \underbrace{E[u^0 \st u,D]}_{\text{data model}} + \underbrace{E[u]}_{\text{image model}} + \const
-	\end{math}
     \item
 	Non-texture inpainting, geometry based inpainting
     \item
