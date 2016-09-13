@@ -6,8 +6,8 @@
 \author{Stephan Hilb}
 
 
-\DeclareDocumentCommand{\thesection}{}{\arabic{section}}
-\DeclareDocumentCommand{\thesubsection}{}{\thesection.\arabic{subsection}}
+%\DeclareDocumentCommand{\thesection}{}{\arabic{section}}
+%\DeclareDocumentCommand{\thesubsection}{}{\thesection.\arabic{subsection}}
 
 % "such that"
 \DeclareDocumentCommand{\st}{}{\mathbin{|}}
@@ -107,12 +107,31 @@ Solche Modelle würden es erlauben, Unschärfe zu reduzieren, siehe z.B. \ref{??
 
 \section{Das Bildmodell}
 
-Der Datenterm hat sich auf $\Omega \setminus D$ beschränkt, somit fällt die eigentliche Bildrekonstruktion auf das Bildmodell.
-Das Bildmodell dient als eine Art Bewertung des Inpainting-Resultats.
+Das Bildmodell Bewertung des Bildresultats auf ganz $\Omega$ (man erinnere sich an das Bayes-Prinzip).
+Da der Datenterm sich auf $\Omega \setminus D$ beschränkt hat, trägt das Bildmodell die Hauptrolle bei der eigentlichen Bildrekonstruktion innerhalb von $D$.
 
+Zunächst dürfte mit Blick auf Abbildung \ref{fig:inpainting_non_unique} klar sein, dass die Wahl eines guten Bildmodells keineswegs einfach oder eindeutig ist, außerdem hängt die Bildbewertung oft von der Interpretation des Betrachters ab.
 
+Eine Möglichkeit ist es, zunächst die Levellinien des Bildes und damit insbesondere Kanten zu bewerten, um durch geeignetes Summieren eine Bewertung des Gesamtbildes zu erhalten.
+Man spricht hier auch vom \emph{Kurvenmodell} und der \emphdef{Levelset-Methode}.
+Kurven und Farbübergänge können so gut bewertet und rekonstruiert werden.
 
+Solche Inpaintingmethoden haben jedoch Schwierigkeiten mit Mustern, die deutlich kleiner sind als der Inpaintingbereich $D$.
+Wiederkehrende Strukturen außerhalb $D$ werden nicht innerhalb $D$ fortgesetzt.
+Hierfür gibt es das sogenannte “texture based inpainting”, wofür es zahlreiche stochastische Methoden gibt (siehe z.B. \ref{??}).
 
+Das Bildmodell dieser Arbeit macht von der Levelset-Methode gebrauch und nutzt ein Kurvenmodell, dass für jede Levelsetlinie $\gamma$ die Energie
+\begin{math}
+    \int_{\gamma} \alpha + \beta \kappa^2 \di[t]
+\end{math}
+minimiert.
+Diese Energie modelliert die Biegeenergie eines elastischen Stabes und eine Kurve, die diese Energie (unter geeigneten Randbedingungen) minimiert wird \emphdef{Euler Elastica} genannt.
+
+Im nächsten Kapitel werden wir die Euler Elastica etwas näher untersuchen und die Euler Elastica Energie
+\begin{math}
+    \Eimg[u] = \int_{\Omega} \alpha + \beta (\nabla \cdot \frac{\nabla u}{\nabla u})^2 \di[x]
+\end{math}
+für unser Bildmodell herleiten.
 
 
 
