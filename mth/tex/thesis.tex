@@ -29,9 +29,9 @@
 \begin{definition} \label{def:image}
     Ein \emphdef{Bild} ist eine Abbildung $u: \Omega \to F$, wobei $\Omega \subset \R^d$
     \emphdef{Trägermenge} genannt wird und $F$ \emphdef{Farbraum}.
-    Es sei $I_X$ die Menge der Bilder mit Trägermenge $X$.
+    Für einen festen Farbraum $F$ sei $I_X$ die Menge der Bilder mit Trägermenge $X$.
     \begin{note}
-	Wir betrachten im weiteren Verlauf Graustufenbilder und setzen daher $F := [0,1]$ (mit der
+	Wir betrachten im weiteren Verlauf Graustufenbilder und setzen daher stets $F := [0,1]$ (mit der
 	Interpretation: $0$ entspricht „schwarz“ und $1$ „weiß“).
     \end{note}
 \end{definition}
@@ -59,7 +59,7 @@ Wir betrachten dazu den diskreten Wahrscheinlichkeitsraum $\scr P := (I_\Omega \
 \begin{math}
     P(u, u^0) := P_{\mathrm{img}}(u) \cdot P_{\mathrm{dat},u^0}(u)
 \end{math}
-In diesem Raum besitzt $P_{\mathrm{dat},u^0}(u)$ die korrekte Interpretation als bedingte Wahrscheinlichkeit $P(u^0|u)$:
+In diesem Raum besitzt $P_{\mathrm{dat},u^0}(u)$ die gewünschte Interpretation als bedingte Wahrscheinlichkeit $P(u^0|u)$:
 \begin{math}
     P(u) &= P_{\mathrm{img}}(u), \\
     P(u^0|u) &= \frac{P(u, u^0)}{P(u)} = P_{\mathrm{dat},u^0}(u),
@@ -76,9 +76,9 @@ Beim Inpainten ist $P(u^0)$ ist konstant und $P(u|u^0)$ die Wahrscheinlichkeit, 
 \begin{math}
     P(u|u^0) = \const \cdot P_{\mathrm{dat},u^0}(u) \cdot P_{\mathrm{img}}(u).
 \end{math}
-Wir können nun $-\log(\argdot)$ anwenden und ein äquivalentes, aber durchaus handlicheres Problem in Energie-Form\footnote{Namensgebung stammt wohl aus der Thermodynamik, siehe \ref{??}} betrachten.
+Wir können nun auf beiden Seiten $-\log(\argdot)$ anwenden und ein äquivalentes, aber durchaus handlicheres Problem in Energie-Form\footnote{Namensgebung stammt wohl aus der Thermodynamik, siehe \ref{??}} betrachten.
 
-Für gegebenes $u^0$, $D$ minimieren wir also die Summe aus Datenterm und Bildterm
+Für gegebenes $u^0$, $D$ minimieren wir also die Summe aus Datenterm und Bildterm (die additive Konstante ist für das Minimieren irrelevant)
 \begin{math}
     E[u] = \Edat[u] + \Eimg[u].
 \end{math}
@@ -107,35 +107,40 @@ Solche Modelle würden es erlauben, Unschärfe zu reduzieren, siehe z.B. \ref{??
 
 \section{Das Bildmodell}
 
-Das Bildmodell Bewertung des Bildresultats auf ganz $\Omega$ (man erinnere sich an das Bayes-Prinzip).
 Da der Datenterm sich auf $\Omega \setminus D$ beschränkt hat, trägt das Bildmodell die Hauptrolle bei der eigentlichen Bildrekonstruktion innerhalb von $D$.
+Man beachte, dass das Bildmodell unabhängig von $D$ ist (man erinnere sich an das Bayes-Prinzip) und auch für $D = \emptyset$ (z.B. Denoising) die Rekonstruktion des ursprünglichen Bildes verbessert.
+In der Literatur zum Denoising wird $\Eimg[u]$ daher auch als “regularization term” bezeichnet.
 
-Zunächst dürfte mit Blick auf Abbildung \ref{fig:inpainting_non_unique} klar sein, dass die Wahl eines guten Bildmodells keineswegs einfach oder eindeutig ist, außerdem hängt die Bildbewertung oft von der Interpretation des Betrachters ab.
+Zunächst macht man sich schnell anhand von einfachen Beispielen klar, dass die Wahl eines guten Bildmodells keineswegs einfach oder eindeutig ist, da die Bildbewertung oft von der menschlichen Interpretation abhängt.
+Welche der beiden vollständigen Bilder aus Abbildung \ref{fig:inpainting_non_unique} ein Betrachter eher für richtig hält, hängt davon ab, ob er Weiß oder Schwarz für vordergründiger hält.
 
-Eine Möglichkeit ist es, zunächst die Levellinien des Bildes und damit insbesondere Kanten zu bewerten, um durch geeignetes Summieren eine Bewertung des Gesamtbildes zu erhalten.
-Man spricht hier auch vom \emph{Kurvenmodell} und der \emphdef{Levelset-Methode}.
-Kurven und Farbübergänge können so gut bewertet und rekonstruiert werden.
+Anhand von Abbildung \ref{fig:inpainting_prefer_smooth_and_straight} sieht man, dass in der Regel Bilder bevorzugt werden, bei denen die Kanten (oder Niveaulinien) des Bildes möglichst gering gekrümmt und kurz sind.
+Die Niveaulinien eines Bildes stellen also in vielen Fällen eine intuitive Bewertungsgrundlage dar.
+Legt man eine geeignete Bewertung für die Höhenlinien eines Bildes (im Sinne eines Energiefunktionals) fest, so liefert die Summation über alle Höhenlinien eine Bewertung des Gesamtbildes.
+Diese Methode wird \emphdef{Levelset-Methode} genannt (siehe Kapitel \ref{chap:image_model}.
 
-Solche Inpaintingmethoden haben jedoch Schwierigkeiten mit Mustern, die deutlich kleiner sind als der Inpaintingbereich $D$.
-Wiederkehrende Strukturen außerhalb $D$ werden nicht innerhalb $D$ fortgesetzt.
-Hierfür gibt es das sogenannte “texture based inpainting”, wofür es zahlreiche stochastische Methoden gibt (siehe z.B. \ref{??}).
-
-Das Bildmodell dieser Arbeit macht von der Levelset-Methode gebrauch und nutzt ein Kurvenmodell, dass für jede Levelsetlinie $\gamma$ die Energie
+Das Bildmodell in dieser Arbeit nutzt die Levelset-Methode und wählt für jede Niveaulinie $\gamma$ die \emphdef{Elastica Energie}
 \begin{math}
-    \int_{\gamma} \alpha + \beta \kappa^2 \di[t]
+    \int_{\gamma} \alpha + \beta \kappa^2 \di[s].
 \end{math}
-minimiert.
-Diese Energie modelliert die Biegeenergie eines elastischen Stabes und eine Kurve, die diese Energie (unter geeigneten Randbedingungen) minimiert wird \emphdef{Euler Elastica} genannt.
+Eine Kurve, die diese Energie (unter geeigneten Randbedingungen) minimiert, wird (freie) \emphdef{Elastica} genannt.
+In der Physik hat sie die Interpretation der Biegeenergie eines elastischen Stabes.
+Interessierte seien auf das umfangreiche Werk \ref{TreatiseElastica} verwiesen.
 
-Im nächsten Kapitel werden wir die Euler Elastica etwas näher untersuchen und die Euler Elastica Energie
+Die Levelset-Methode liefert uns schließlich
 \begin{math}
     \Eimg[u] = \int_{\Omega} \alpha + \beta (\nabla \cdot \frac{\nabla u}{\nabla u})^2 \di[x]
 \end{math}
-für unser Bildmodell herleiten.
+für unser Bildmodell (näheres in Kapitel \ref{chap:image_model}).
 
+Es sei bemerkt, dass diese Levelset-Inpaintingmethoden nicht darauf ausgelegt sind wiederkehrende Strukturen zu reproduzieren, die deutlich kleiner als der Inpaintingbereich $D$ sind (siehe Abbildung \ref{fig:inpainting_texture}).
+%Wiederkehrende Strukturen außerhalb $D$ werden nicht innerhalb $D$ fortgesetzt.
+Hierfür gibt es sogenanntes “texture based inpainting” mit zahlreichen stochastischen Methoden (siehe z.B. \ref{??}).
 
 
 \chapter{Das Euler Elastica Bildmodell}
+
+
 
 
 \section{Motivation} % vergleich tv-inpainting
