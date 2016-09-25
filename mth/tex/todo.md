@@ -1,0 +1,4 @@
+- Elastica Bildmodell und Inpaintingmodell verweisen
+- Elastica kinematisch betrachten
+- Bild: Levelsetfunktion
+- exemplar-based inpainting form a variational point of view
