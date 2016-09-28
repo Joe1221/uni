@@ -17,6 +17,15 @@ Measure Theory and Fine Properties of Functions -- §3.4
 Euler's Elastica and Curvature Based Inpainting
 A Fast Algorithm for Euler's Elastica Model Using Augmented Lagrangian Method
 
+
+# analysis
+
+Convex Functional Analysis, Kurdila
+Variational analysis in Sobolev and BV spaces: applications to PDEs and optimization
+
+
+Automated Regularization Parameter Selection in Multi-Scale Total …
+
 # numerical
 Fast numerical algorithms for the Euler Elastica inpainting model
 

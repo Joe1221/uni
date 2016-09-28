@@ -598,9 +598,19 @@ Erinnert man sich an das Bayes-Prinzip, so steht nun unser Inpaintingmodell fest
 \section{Motivation} % komplexität von euler-lagrange und numerische probl.
 
 
-Für die numerische Implementierung des Elastica Inpaintingmodells aus Definition \ref{definition:elastica_inpainting} gibt es verschiedene Ansätze \cite{??}.
+Für die numerische Implementierung des Elastica Inpaintingmodells aus Definition \ref{definition:elastica_inpainting} gibt es verschiedene Ansätze.
 
-In diesem Kapitel nutzen wir Ideen und Notation aus \cite{??} und führen das unrestringierte Minimierungsproblem durch geignetes Einführen zusätzlicher Variablen und Nebenbedingungen auf ein restringiertes Minimierungsproblem.
+Eine Möglichkeit besteht darin, direkt die zugehörige Euler-Lagrange-Gleichung zu ermitteln (meist mit geeigneter Regularisierung, z.B. $\frac{\nabla u}{|\nabla u|} \leadsto \frac{\nabla u}{|\nabla u| + \epsilon}$) und hieraus ein zeitabhängiges Problems zu kreieren.
+Sei dazu $\Phi(u) = 0$ die Euler-Lagrange-Gleichung für einen geeigneten Operator $\Phi$, so lautet das zeitabhängige Problem
+\begin{math}
+    \pddx[t] u = \Phi(u).
+\end{math}
+Es ist klar, dass eine stationäre (d.h. zeitunabhängige) Lösung dieses Problems auch eine Lösung der Euler-Lagrange-Gleichung ist.
+Durch entsprechende Zeit-Diskretisierung erhält man auf diese Weise ein einfaches iteratives Verfahren, siehe \cite{??}.
+Das Verfahren aus \cite{??} benötigt jedoch eine vielzahl von Iterationen, um zufriedenstellende Ergebnisse zu liefern.
+
+In \cite{??} wird ein schnell konvergierender Algorithmus versprochen, dessen Ideen und Notation wir in diesem Kapitel übernehmen.
+Dazu überführen wir das unrestringierte Minimierungsproblem aus Definition \ref{definition:elastica_inpainting} durch geignetes Einführen zusätzlicher Variablen und Nebenbedingungen auf ein restringiertes Minimierungsproblem.
 Anschließend minimieren wir das zugehörige Augmented Lagrange Funktional (siehe Abschnitt \ref{section:augmented_lagrange}) mit Hilfe einer Alternating Direction Methode (siehe Abschnitt \ref{section:adm}).
 
 \begin{lemma} \label{lemma:mp_constr}
@@ -626,7 +636,7 @@ Anschließend minimieren wir das zugehörige Augmented Lagrange Funktional (sieh
 
 Mit Blick auf Lemma \ref{lemma:mp_constr} ist das Minimierungsproblem aus Definition \ref{definition:elastica_inpainting} äquivalent zu
 \begin{math}[numbered] \label{eq:energy_splitted}
-    \min_{\substack{u \in C^2(\Omega,[0,1]) \\ p,n,m \in C^1(\Omega, \R^d)}}
+    \min_{\substack{u \in C^2(\Omega,[0,1]) \\ p,n,m \in C^1(\Omega)^d}}
     &\scr E[u,p,m,n] = \int_\Omega \Big(\alpha + \beta(\nabla \cdot n)^2\Big)|p| + \frac{\eta}{2} \int_{\Omega \setminus D} |u - u_0|^2 \\
     &\quad \text{s.t.} \quad
 	|p| = m \cdot p, \quad
@@ -634,8 +644,88 @@ Mit Blick auf Lemma \ref{lemma:mp_constr} ist das Minimierungsproblem aus Defini
 	n = m, \quad
 	|m| \le 1.
 \end{math}
+Diese Art von Zerlegung wird manchmal auch “operator splitting” genannt.
 %Hierbei sei $C^1_{|\argdot|\le 1}(\Omega, \R^d) := \Set{f \in C^1(\Omega, \R^d) & \forall x \in \Omega : |f(x)| \le 1}$.
-Man beachte, dass wir mit der Formulierung \eqref{eq:energy_splitted} den Fall $\nabla u = 0$ nicht gesondert betrachten müssen.
+Man beachte, dass wir mit der Formulierung \eqref{eq:energy_splitted} den Fall $\nabla u = 0$ nun nicht mehr gesondert betrachten müssen.
+
+Bevor wir \eqref{eq:energy_splitted} lösen, führen wir zunächst einige Begrifflichkeiten ein.
+
+\section{Technische Hilfsmittel}
+
+\begin{definition} \label{definition:convex_functional}
+    Sei $B$ ein reeller Vektorraum und $I: B \to \R$ ein Funktional.
+    Wir nennen $I$
+    \emphdef{konvex}
+    falls für alle $u_1, u_2 \in B$, $t \in [0,1]$ gilt
+    \begin{math}
+	I[t u_1 + (1-t) u_2]
+	\le tI[u_1] + (1-t)I[u_2].
+    \end{math}
+\end{definition}
+
+\begin{proposition} \label{proposition:convexity}
+    Für Funktionale $I: B \to \R$ gelten folgende Aussagen über ihre Konvexität.
+    \begin{enumerate}[i)]
+	\item
+	    Konstante Funktionale sind konvex.
+	\item
+	    Lineare Funktionale sind konvex.
+        \item
+	    Die (punktweise) Summe zweier konvexer Funktionale ist konvex.
+	\item
+	    Sei $\Omega \subset \R^d$, $B = L^2(\Omega)^d$, $A: B \to B$ ein linearer Operator.
+	    Dann ist das Funktional
+	    \begin{math}
+	        u \mapsto \int_\Omega |Au + v|^2
+	    \end{math}
+	    konvex.
+    \end{enumerate}
+    \begin{proof}
+	Die Aussagen i), ii) und iii) sind mit Blick auf Definition \ref{definition:convex_functional} sofort ersichtlich, wir zeigen nur iv).
+
+	Sei $I: u \mapsto \int_\Omega |Au + v|^2$ für einen linearen Operator $A$.
+	Wegen
+	\begin{math}
+	    |Au - v|^2
+	    = |Au|^2 - 2Au \cdot v + |v|^2
+	\end{math}
+	genügt es mit Blick auf i), ii) und iii) den Fall $v = 0$ zu betrachten.
+	Es folgt mit $t^2 = t - t(1-t)$ punktweise
+	\begin{math}
+	    |A(tu_1 + (1-t)u_2)|^2
+	    &= t^2 |Au_1|^2 - 2 t(1-t) Au_1\cdot Au_2 + (1-t^2)|Au_2|^2 \\
+	    &= t|Au_1|^2 - t(1-t)\underbrace{\big(|Au_1|^2 - 2Au_1 \cdot Au_2 + |u_2|^2\big)}_{=|A(u_1 - u_2)|^2 \ge 0} + (1-t)|Au_2|^2 \\
+	    &\le t|Au_1|^2 + (1-t)|Au_2|,
+	\end{math}
+	also wegen Linearität des Integrals auch $I[tu_1 + (1-t)u_2] \le tI[u_1] + (1-t)I[u_2]$.
+    \end{proof}
+\end{proposition}
+
+\begin{definition} \label{definition:coercive_functional}
+    Sei $B$ ein reeller Banachraum und $I: B \to \R$ ein Funktional.
+    Wir nennen $I$
+    \emphdef{koerziv}
+    falls für jede Folge $(u_k)_{k\in\N}$ gilt
+    \begin{math}
+	\|u_k\| \to \infty \implies I(u_k) \to \infty.
+    \end{math}
+\end{definition}
+
+\begin{proposition} \label{proposition:coercivity}
+    Sei $B$ ein reeller Banachraum.
+    Für Funktionale $I: B \to \R$ gelten folgende Aussagen über ihre Koerzivität:
+    \begin{enumerate}[i)]
+        \item
+	   Die (punktweise) Summe zweier koerziver Funktionale ist koerziv.
+       \item
+	   Sei $I: B \to \R$ koerziv und $J: B \to \R$ nach unten beschränkt.
+	   Dann ist $I + J$ koerziv.
+    \end{enumerate}
+    \begin{proof}
+	Beide Aussagen sind mit Blick auf die Definition leicht ersichtlich.
+    \end{proof}
+\end{proposition}
+
 
 
 \section{Augmented Lagrange}
@@ -647,14 +737,12 @@ TODO: Einführung + Formulierung
 
 \begin{algorithm}[Augmented Lagrange] \label{alg:augmented_lagrange}
     \begin{samepage}
-	\Input{$\scr E: X \to \R$, $e: X \to W$, $\lambda^0 = (\lambda^0_s)_{s=1}^S \in W$, $K \subset X$ konvex}\\
+	\Input{$\scr E: X \to \R$, $g: X \to W$, $\lambda \in W$, $K \subset X$ konvex, $r \in \R_{>0}$}\\
 	\Output{Folge $(x^k)_{k\in\N}$ mit $\scr E[x^k] \to \min_x \scr E[x]$}
 	\begin{algorithmic}
 	    \For{$i = 0,1,\dotsc$}
 		\State{$x^{i+1} \gets \argmin_{x \in K} \scr L[x, \lambda^i]$}
-		\For{$s = 1,\dotsc,S$}
-		    \State{$\lambda^{i+1}_s \gets \lambda^i_s + r_s e_s[x^{i+1}]$}
-		\EndFor
+		\State{$\lambda^{i+1} \gets \lambda^i + r g[x^{i+1}]$}
 	    \EndFor
 	\end{algorithmic}
     \end{samepage}
@@ -684,21 +772,28 @@ Die Modifikation wird es uns erlauben, einige der im nächsten Abschnitt aufkomm
 
 \section{Alternating Direction Method}
 
-Statt das Augmented Lagrange Funktional in \eqref{eq:energy_al} nach $u, p, m, n$ gleichzeitig zu minimieren, minimieren wir es alternierend.
+Die Augmented Lagrange Methode aus Algorithmus \ref{alg:augmented_lagrange} schreibt nicht vor, wie das Minimierungsproblem in jedem Schritt zu lösen ist.
+% TODO: approximative lösung?
+Eine beliebte Methode (siehe z.B. \cite{??}) besteht darin, \eqref{eq:energy_al} alternierend nach $u, p, m, n$ zu minimieren wie in Algorithmus \ref{alg:adm}.
 
 \begin{algorithm}[Alternating Direction Method] \label{alg:adm}
+    \begin{samepage}
     \Input{$\scr L$, $x = (x_l)_{l=1}^L$, $\lambda$}\\
     \Output{Folge $(x^j)_{j \in \N}$ mit $\scr L[x^j, \lambda] \to \min_{x \in K} \scr L[x,\lambda]$}
     \begin{algorithmic}
 	\For{$j = 1,\dotsc$}
-	    \For{$t = 1,\dotsc, T$}
-		\State{$x_t^{j+1} \gets \argmin_{x_t \in K_t} \scr L[x_1^{j+1}, \dotsc, x_t, \dotsc , x_T^j; \lambda]$}
+	    \For{$s = 1,\dotsc, S$}
+		\State{$x_s^{j+1} \gets \argmin_{x_s \in K_t} \scr L[x_1^{j+1}, \dotsc, x_s, \dotsc , x_S^j; \lambda]$}
 	    \EndFor
 	\EndFor
     \end{algorithmic}
+    \end{samepage}
 \end{algorithm}
 
+Indem man nur jeweils eine freie Variable minimiert, vereinfachen sich die zu lösenden Teilprobleme oft erheblich und erlauben teilweise sogar explizite Lösungen.
 Die sich ergebenden Teilprobleme aus Algorithmus \ref{alg:adm} angewandt auf $\scr L$ aus \eqref{eq:energy_al} behandeln wir nun in den folgenden Abschnitten.
+Hierzu verwenden wir die Kurznotation $\scr L[x_s]$ für $\scr L[x_1, \dotsc, x_S]$ mit $x_i$ konstant für $i \neq s$.
+
 
 \subsection{Minimiere nach $u$}
 
@@ -747,7 +842,7 @@ Mit dem folgenden Lemma \ref{lemma:soft_thresholding} erhalten wir also die expl
 \end{math}
 
 \begin{lemma}[Soft Thresholding] \label{lemma:soft_thresholding}
-    Seien $p, q \in L^2(\Omega)$, $a, |p| \in L^1(\Omega)$ mit $a > 0$ fast überall.
+    Seien $p, q \in L^2(\Omega)^d$, $a, |p| \in L^1(\Omega)$ mit $a > 0$ fast überall.
     Dann wird das Funktional
     \begin{math}
         E[p] = \int_\Omega |p - q|^2 + \int_\Omega a |p|
@@ -756,6 +851,31 @@ Mit dem folgenden Lemma \ref{lemma:soft_thresholding} erhalten wir also die expl
     \begin{math}
 	\hat p = \max\Set{0, 1 - \frac{a}{2|q|}} q
     \end{math}
+    \begin{proof}
+        Zeige $E[\hat p + \delta] > E[\hat p]$ für alle $0 \neq \delta \in L^2(\Omega)^d$.
+
+	Betrachte zunächst den Fall $1 - \frac{a}{2|q|} \le 0$ fast überall, dann ist
+	\begin{math}
+	    E[\hat p + \delta]
+	    &= \int_\Omega |q - \delta|^2 + \int_\Omega a|\delta| \\
+	    &\ge \int_\Omega |q|^2 \underbrace{- 2 \int_\Omega |\delta| |q| + \int_\Omega a |\delta}_{\ge 0} + \int_\Omega |\delta|^2 \\
+	    &\ge E[\hat p] + \|\delta\|_{L^2}^2.
+	\end{math}
+	Sei nun $1 - \frac{a}{2|q|} > 0$ fast überall, dann gilt zunächst punktweise (fast überall)
+	\begin{math}
+	    (1-\frac{a}{2|q|}) |q|^2 + \delta \cdot q
+	    &= \big((1-\frac{a}{2|q|}q) + \delta\big) \cdot q
+	    \le \big| (1-\frac{a}{2|q|})q + \delta\big| |q|,
+	\end{math}
+	also
+	\begin{math}
+	    E[\hat p + \delta]
+	    &= \int_\Omega | \frac{a}{2|q|}q - \delta|^2 + \int_\Omega a \big|(1 - \frac{a}{2|q|})q + \delta\big| \\
+	    &\ge \int_\Omega |\frac{a}{2|q|}q|^2 - \int_\Omega \frac{a}{|q|} q \cdot \delta + \int_\Omega |\delta|^2 + \int_\Omega a\big| (1- \frac{a}{2|q|})q\big| + \int_\Omega \frac{a}{|q|} \delta \cdot q \\
+	    &= E[\hat p] + \|\delta\|_{L^2}^2.
+	\end{math}
+	Der allgemeine Fall folgt durch Zerlegung von $\Omega$ in zwei Gebiete entsprechend der obigen zwei Fälle.
+    \end{proof}
 \end{lemma}
 
 \subsection{Minimiere nach $m$}
@@ -772,7 +892,7 @@ Wir minimieren unter der Nebenbedingung $|m| \le 1$ nach geigneter quadratischer
     &= \frac{r_4}{2} \int_\Omega |w - m|^2 + \const,
 \end{math}
 wobei $w = \frac{(r_1 + \lambda_1)p + \lambda_4}{r_4} + n$.
-Das folgende Lemma \ref{lemma:proj1} liefert nun die explizite Lösung
+Das folgende Lemma \ref{lemma:proj1} liefert uns nun die explizite Lösung
 \begin{math}[numbered]
     m &:= \begin{cases}
 	w & \text{für $|w| < 1$}, \\
@@ -783,18 +903,37 @@ Das folgende Lemma \ref{lemma:proj1} liefert nun die explizite Lösung
 \end{math}
 
 \begin{lemma} \label{lemma:proj1}
-    Seien $m, w \in L^2(\Omega)$.
-    Dann wird das Funktional
+    Seien $m, w \in L^2(\Omega)^d$.
+    Unter der Nebenbedingung $|m| \le 1$ fast überall wird das Funktional
     \begin{math}
         E[m] = \int_\Omega |w - m|^2
     \end{math}
-    unter der Nebenbedingung $|m| \le 1$ minimiert durch
+    minimiert durch
     \begin{math}
 	\hat m := \begin{cases}
 	    w & \text{für $|w| < 1$}, \\
 	    \frac{w}{|w|} & \text{für $|w| \ge 1$}.
 	\end{cases}
     \end{math}
+    \begin{proof}
+        Zeige $E[\hat m + \delta] > E[\hat m]$ für alle $0 \neq \delta \in L^2(\Omega)^d$.
+
+	Im Fall $|w| < 1$ fast überall, ist offensichtlich $E[\hat m + \delta] = \int_\Omega | \delta|^2 = E[\hat m] + \|\delta\|_{L^2}^2$.
+	Sei nun $|w| \ge 1$ fast überall, dann gilt wegen der Nebenbedingung punktweise (fast überall)
+	\begin{math}
+	    1 \ge |\hat m + \delta|^2
+	    = 1 + 2 \frac{w}{|w|} \cdot \delta + |\delta|^2,
+	\end{math}
+	also $w \cdot \delta \le - \frac{|w|}{2} |\delta|^2 < 0$.
+	Daraus folgt
+	\begin{math}
+	    E[\hat m + \delta]
+	    &= \int_\Omega |w - \frac{w}{|w|} - \delta|^2 \\
+	    &= E[\hat m] - \int_\Omega 2 \underbrace{(1- \frac{1}{|w|})}_{\ge 0}\underbrace{w \cdot \delta}_{< 0} + \int_\Omega |\delta|^2 \\
+	    &\ge E[\hat m] + \|\delta\|_{L^2(\Omega)}^2.
+	\end{math}
+	Der allgemeine Fall folgt wieder durch entsprechende Gebietszerlegung.
+    \end{proof}
 \end{lemma}
 
 
@@ -804,18 +943,18 @@ Das folgende Lemma \ref{lemma:proj1} liefert nun die explizite Lösung
 Wir minimieren
 \begin{math}
     \scr L[n]
-    &= \int_\Omega \Big(\alpha + \beta(\nabla \cdot \kappa)^2\Big)|p|
+    &= \int_\Omega \Big(\alpha + \beta(\nabla \cdot n)^2\Big)|p|
 	+ \frac{r_4}{2} \int_\Omega |n - m|^2
 	+ \int_\Omega \lambda_4 \cdot (n - m)
 	+ \const.
 \end{math}
-Variationsrechnung liefert
+Variationsrechnung liefert als notwendige Bedingung
 \begin{math}[numbered]
     0 &= \ddx[\epsilon]|_{\epsilon = 0} \scr L[n + \epsilon \phi] \\
     &= \int_\Omega 2 \beta |p| (\nabla \cdot n)(\nabla \cdot \phi)
     + \int_\Omega (r_4 n - r_4 m + \lambda_4) \cdot \phi.
 \end{math}
-Dies ist die schwache Form einer linearen PDE zweiter Ordnung und wird ebenfalls in \ref{chap:numerics} gelöst.
+Dies ist die schwache Form einer linearen PDE zweiter Ordnung und wird ebenfalls numerisch in Kapitel \ref{chap:numerics} gelöst.
 
 
 
