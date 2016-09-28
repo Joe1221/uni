@@ -601,7 +601,8 @@ Erinnert man sich an das Bayes-Prinzip, so steht nun unser Inpaintingmodell fest
 Für die numerische Implementierung des Elastica Inpaintingmodells aus Definition \ref{definition:elastica_inpainting} gibt es verschiedene Ansätze.
 
 Eine Möglichkeit besteht darin, direkt die zugehörige Euler-Lagrange-Gleichung zu ermitteln (meist mit geeigneter Regularisierung, z.B. $\frac{\nabla u}{|\nabla u|} \leadsto \frac{\nabla u}{|\nabla u| + \epsilon}$) und hieraus ein zeitabhängiges Problems zu kreieren.
-Sei dazu $\Phi(u) = 0$ die Euler-Lagrange-Gleichung für einen geeigneten Operator $\Phi$, so lautet das zeitabhängige Problem
+Sei dazu $\Phi(u) = 0$ die Euler-Lagrange-Gleichung für einen geeigneten Operator $\Phi$.
+Dann lautet das zeitabhängige Problem
 \begin{math}
     \pddx[t] u = \Phi(u).
 \end{math}
@@ -644,7 +645,7 @@ Mit Blick auf Lemma \ref{lemma:mp_constr} ist das Minimierungsproblem aus Defini
 	n = m, \quad
 	|m| \le 1.
 \end{math}
-Diese Art von Zerlegung wird manchmal auch “operator splitting” genannt.
+Die Methode, einen Operator durch Einführen von Zusatzvariablen handlicher zu machen, wird manchmal auch “operator splitting” genannt.
 %Hierbei sei $C^1_{|\argdot|\le 1}(\Omega, \R^d) := \Set{f \in C^1(\Omega, \R^d) & \forall x \in \Omega : |f(x)| \le 1}$.
 Man beachte, dass wir mit der Formulierung \eqref{eq:energy_splitted} den Fall $\nabla u = 0$ nun nicht mehr gesondert betrachten müssen.
 
@@ -733,11 +734,21 @@ Bevor wir \eqref{eq:energy_splitted} lösen, führen wir zunächst einige Begrif
 TODO: Einführung + Formulierung
 
 
+\begin{definition} \label{definition:al_functional}
+    Seien $X, W$ reelle Hilberträume, $I: X \to \R$ ein Funktional und $g: X \to W$ ein Operator.
+    Das zum Funktional $I$ mit \emphdef{Gleichungsbedingungen} $g$ zugehörige \emphdef{Augmented Lagrange Funktional} $\scr L: (X,W) \to \R$
+    ist definiert als
+    \begin{math}
+	\scr L[x,\lambda] := I[x] + \lambda \cdot g[x] + r \|g[x]\|^2
+    \end{math}
+    mit \emphdef{Penalty Parameter} $r \in \R_{>0}$.
+\end{definition}
 
 
 \begin{algorithm}[Augmented Lagrange] \label{alg:augmented_lagrange}
+    Die Voraussetzungen seien wie in Definition \ref{definition:al_functional}.\\
     \begin{samepage}
-	\Input{$\scr E: X \to \R$, $g: X \to W$, $\lambda \in W$, $K \subset X$ konvex, $r \in \R_{>0}$}\\
+	\Input{$I: X \to \R$, $g: X \to W$, $\lambda \in G$, $K \subset X$ konvex, $r \in \R_{>0}$}\\
 	\Output{Folge $(x^k)_{k\in\N}$ mit $\scr E[x^k] \to \min_x \scr E[x]$}
 	\begin{algorithmic}
 	    \For{$i = 0,1,\dotsc$}
@@ -746,11 +757,9 @@ TODO: Einführung + Formulierung
 	    \EndFor
 	\end{algorithmic}
     \end{samepage}
-    Hierbei sei
-    \begin{math}
-	\scr L[x, \lambda]
-	:= \scr E[x] + \sum_{s=1}^S \Big( \lambda_s \cdot e_s[x_s] + r_s \|e_s[x_s]\|^2 \Big)
-    \end{math}
+    \begin{note}
+        In der Praxis werden für mehrere Gleichungsbedingungen die Lagrange-Updates $\lambda^{i+1} \gets \lambda^i + rg[x^{i+1}]$ meist separat mit jeweils unterschiedlichen Penalty-Parametern durchgeführt.
+    \end{note}
 \end{algorithm}
 
 
@@ -765,8 +774,8 @@ Für unser Problem aus \eqref{eq:energy_splitted} definieren wir das folgende Au
 Die Nebenbedingung $|m| \le 1$ fordern wir durch die Wahl von $K$ in Algorithmus \ref{alg:augmented_lagrange}.
 
 Für den Penaltyterm zur Nebenbedingung $|p| = m \cdot p$ haben wir hier eine Änderung vorgenommen.
-Wegen $m \in C^1_{|\argdot|\le 1}(\Omega, \R^d)$ ist $m \cdot p \le |m| |p| \le |p|$ und es handelt sich hier um $L^1$-Penalizing.
-Die Modifikation wird es uns erlauben, einige der im nächsten Abschnitt aufkommenden Teilprobleme explizit zu lösen.
+Wegen $|m| \le 1$ ist $m \cdot p \le |m| |p| \le |p|$ und es handelt sich bei diesem Term um $L^1$-Penalizing.
+Dies wird es uns erlauben, einige der im nächsten Abschnitt aufkommenden Teilprobleme explizit zu lösen.
 
 
 
