@@ -20,7 +20,7 @@ A Fast Algorithm for Euler's Elastica Model Using Augmented Lagrangian Method
 
 # analysis
 
-Convex Functional Analysis, Kurdila
+Convex Functional Analysis, Kurdila -- Chapter 7, 7.2.2
 Variational analysis in Sobolev and BV spaces: applications to PDEs and optimization
 
 
