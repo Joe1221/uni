@@ -8,6 +8,9 @@ Variational Study of Nonlinear Spline Curves
 
 A Treatise on the mathematical theory of elasticity -- §260, §262
 
+From Spiral to Spline: Optimal Techniques in Interactive Curve Design
+
+
 # coarea
 
 Measure Theory and Fine Properties of Functions -- §3.4

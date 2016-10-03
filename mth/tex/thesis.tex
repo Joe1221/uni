@@ -26,6 +26,14 @@
 \colorlet{bg}{white}
 
 
+\AtBeginDocument{
+  \catcode`_=12
+  \begingroup\lccode`~=`_
+  \lowercase{\endgroup\let~}\sb
+  \mathcode`_="8000
+}
+
+
 \begin{document}
 
 \include{titlepage}
@@ -287,7 +295,7 @@ Wir betrachten nun zweidimensionale Bilder $d = 2$.
 Anhand von Abbildungen \ref{fig:inpainting_prefer_non_curved} und \ref{fig:inpainting_prefer_non_curved} sieht man, dass in der Regel Bilder bevorzugt werden, bei denen die Kanten (oder Niveaulinien) des Bildes möglichst kurz und gering gekrümmt sind.
 Die Niveaulinien eines Bildes stellen auf diese Weise in vielen Fällen eine brauchbare Bewertungsgrundlage dar.
 Legt man eine geeignete Bewertung für die Niveaulinien eines Bildes (im Sinne eines Energiefunktionals) fest, so liefert die Summation über alle Höhenlinien eine Bewertung des Gesamtbildes.
-Diese Methode wird \emphdef{Levelset-Methode} genannt (siehe Kapitel \ref{chap:image_model}).
+Die sogenannte \emphdef{Levelset-Methode} in Kapitel \ref{chap:image_model} erlaubt die Umsetzung dieser Idee.
 
 Das Bildmodell in dieser Arbeit nutzt die Levelset-Methode und wählt für jede Niveaulinie $\gamma$ die \emphdef{Elastica Energie}
 \begin{math}
@@ -397,8 +405,8 @@ Eine interessante Charakterisierung der Elastica liefert der folgende Satz.
 	Wir berechnen nun
 	\begin{math}
 	    \dot \gamma_\epsilon &= t + \epsilon \dot \phi e_2 - \epsilon \phi \kappa e_1 \\
-	    &= (1-\epsilon \phi \kappa)e_1 + \epsilon \dot \phi n, \\
-	    \ddot \gamma_\epsilon &= (-\epsilon \dot \phi \kappa - \epsilon \phi \dot \kappa) e_1 + (1-\epsilon \phi \kappa) \kappa e_2 + \epsilon \ddot \phi n - \epsilon \dot \phi \kappa e_1 \\
+	    &= (1-\epsilon \phi \kappa)e_1 + \epsilon \dot \phi e_2, \\
+	    \ddot \gamma_\epsilon &= (-\epsilon \dot \phi \kappa - \epsilon \phi \dot \kappa) e_1 + (1-\epsilon \phi \kappa) \kappa e_2 + \epsilon \ddot \phi e_2 - \epsilon \dot \phi \kappa e_1 \\
 	    &= (-2\epsilon \dot\phi \kappa - \epsilon \phi \dot \kappa) e_1 + (\epsilon \ddot \phi - \epsilon \phi \kappa^2 + \kappa) e_2, \\
 	    \det(\dot\gamma_\epsilon, \ddot \gamma_\epsilon)
 	    &=(1-\epsilon\phi\kappa)(\epsilon\ddot\phi - \epsilon\phi\kappa^2 + \kappa) + \epsilon \dot\phi(2 \epsilon \dot\phi \kappa - \epsilon\phi\dot\kappa),
@@ -600,17 +608,17 @@ Erinnert man sich an das Bayes-Prinzip, so steht nun unser Inpaintingmodell fest
 
 Für die numerische Implementierung des Elastica Inpaintingmodells aus Definition \ref{definition:elastica_inpainting} gibt es verschiedene Ansätze.
 
-Eine Möglichkeit besteht darin, direkt die zugehörige Euler-Lagrange-Gleichung zu ermitteln (meist mit geeigneter Regularisierung, z.B. $\frac{\nabla u}{|\nabla u|} \leadsto \frac{\nabla u}{|\nabla u| + \epsilon}$) und hieraus ein zeitabhängiges Problems zu kreieren.
+Eine Möglichkeit besteht darin, direkt die zugehörige Euler-Lagrange-Gleichung zu ermitteln (meist mit geeigneter Regularisierung, z.B. $\frac{\nabla u}{|\nabla u|} \leadsto \frac{\nabla u}{|\nabla u| + \epsilon}$) und hieraus ein zeitabhängiges Problem zu kreieren.
 Sei dazu $\Phi(u) = 0$ die Euler-Lagrange-Gleichung für einen geeigneten Operator $\Phi$.
 Dann lautet das zeitabhängige Problem
 \begin{math}
     \pddx[t] u = \Phi(u).
 \end{math}
-Es ist klar, dass eine stationäre (d.h. zeitunabhängige) Lösung dieses Problems auch eine Lösung der Euler-Lagrange-Gleichung ist.
-Durch entsprechende Zeit-Diskretisierung erhält man auf diese Weise ein einfaches iteratives Verfahren, siehe \cite{??}.
-Das Verfahren aus \cite{??} benötigt jedoch eine vielzahl von Iterationen, um zufriedenstellende Ergebnisse zu liefern.
+Es ist klar, dass eine stationäre (d.h. zeitunabhängige) Lösung dieses Problems auch eine Lösung von $\Phi(u) = 0$ ist.
+Durch entsprechende Diskretisierung durch finite Differenzen erhält man auf diese Weise ein einfaches iteratives Verfahren, siehe \cite{shen2002euler}.
+Da die Diskretisierung finite Differenzen vierter Ordnung erfordert, ist das Verfahren rechentechnisch aufwändig.
 
-In \cite{??} wird ein schnell konvergierender Algorithmus versprochen, dessen Ideen und Notation wir in diesem Kapitel übernehmen.
+In \cite{tai2011fast} wird ein schnell konvergierender Algorithmus versprochen, dessen Ideen und Notation wir in diesem Kapitel übernehmen.
 Dazu überführen wir das unrestringierte Minimierungsproblem aus Definition \ref{definition:elastica_inpainting} durch geignetes Einführen zusätzlicher Variablen und Nebenbedingungen auf ein restringiertes Minimierungsproblem.
 Anschließend minimieren wir das zugehörige Augmented Lagrange Funktional (siehe Abschnitt \ref{section:augmented_lagrange}) mit Hilfe einer Alternating Direction Methode (siehe Abschnitt \ref{section:adm}).
 
@@ -645,27 +653,80 @@ Mit Blick auf Lemma \ref{lemma:mp_constr} ist das Minimierungsproblem aus Defini
 	n = m, \quad
 	|m| \le 1.
 \end{math}
-Die Methode, einen Operator durch Einführen von Zusatzvariablen handlicher zu machen, wird manchmal auch “operator splitting” genannt.
 %Hierbei sei $C^1_{|\argdot|\le 1}(\Omega, \R^d) := \Set{f \in C^1(\Omega, \R^d) & \forall x \in \Omega : |f(x)| \le 1}$.
-Man beachte, dass wir mit der Formulierung \eqref{eq:energy_splitted} den Fall $\nabla u = 0$ nun nicht mehr gesondert betrachten müssen.
+Man beachte, dass wir mit dieser Formulierung den Fall $\nabla u = 0$ gemäß der Konvention aus \ref{definition:elastica_inpainting} behandeln und nun nicht mehr gesondert betrachten müssen.
 
-Bevor wir \eqref{eq:energy_splitted} lösen, führen wir zunächst einige Begrifflichkeiten ein.
+Diese Methode, einen Operator durch Einführen von Zusatzvariablen handlicher zu machen, wird in \cite{tai2011fast} auch “operator splitting” genannt.
+
+%Bevor wir \eqref{eq:energy_splitted} lösen, führen wir zunächst einige Begrifflichkeiten ein.
 
 \section{Technische Hilfsmittel}
 
-\begin{definition} \label{definition:convex_functional}
-    Sei $B$ ein reeller Vektorraum und $I: B \to \R$ ein Funktional.
+\begin{definition} \label{definition:min_stuff}
+    Sei $B$ ein Banachraum und $I: B \to \R$ ein Funktional.
     Wir nennen $I$
-    \emphdef{konvex}
-    falls für alle $u_1, u_2 \in B$, $t \in [0,1]$ gilt
-    \begin{math}
-	I[t u_1 + (1-t) u_2]
-	\le tI[u_1] + (1-t)I[u_2].
-    \end{math}
+    \begin{itemize}
+	\item
+	    \emphdef{Gateaux-differenzierbar},
+            falls für alle $u, \phi \in B$ das \emphdef{Gateaux-Differential $I': B \times B \to \R$ von $I$ an der Stelle $u$ in Richtung $\phi$}
+	    \begin{math}
+		I'[u, \phi]
+		:= \ddx[\epsilon]|_{\epsilon = 0} I[u + \epsilon \phi]
+		= \lim_{\delta \to 0} \dfrac{I[u + \delta \phi] - I[u]}{\delta}
+	    \end{math}
+	    existiert und $I'[u, \argdot]$ linear und beschränkt ist,
+        \item
+	    \emphdef{konvex},
+	    falls für alle $u_1, u_2 \in B$, $t \in [0,1]$ gilt
+	    \begin{math}
+		I[t u_1 + (1-t) u_2]
+		\le tI[u_1] + (1-t)I[u_2],
+	    \end{math}
+	\item
+	    \emphdef{koerziv},
+	    falls für jede Folge $(u_k)_{k\in\N}$ gilt
+	    \begin{math}
+		\|u_k\| \to \infty \implies I(u_k) \to \infty.
+	    \end{math}
+    \end{itemize}
 \end{definition}
 
+Folgender einfache Satz rechtfertigt das Ermitteln von kritischen Punkten eines Funktionals um sein Minimum zu bestimmen.
+
+\begin{proposition} \label{proposition:min_zero}
+    Sei $V$ ein normierter Vektorraum, $\hat u \in V$ und $I: V \to \R$ Gâteaux-differenzierbar und konvex.
+    Dann gilt
+    \begin{math}
+        I(\hat u) = \inf_{u \in V} I(u)
+	\iff
+	\forall \phi \in V : I'(\hat u, \phi) = 0.
+    \end{math}
+    \begin{note}
+	Über die Lösbarkeit von $I'(u, \phi) = 0$ für alle $\phi$, bzw. die Existenz des Minimums $\hat u$ wird hier keine Aussage getroffen, siehe dazu Theorem \ref{theorem:min_existence}.
+    \end{note}
+    \begin{proof}
+	„$\implies$”: Sei $I(\hat u) \le I(u)$ für alle $u \in V$.
+	Dann gilt für alle $\phi \in V$
+	\begin{math}
+	    I'(\hat u, \phi) = \lim_{\epsilon \to 0} \frac{I(\hat u + \epsilon \phi) - I(\hat u)}{\epsilon}
+	    \ge 0,
+	\end{math}
+	also auch $-I'(\hat u, \phi) = I'(\hat u, -\phi) \ge 0$ und somit $I'(\hat u, \phi) = 0$.
+
+	„$\impliedby$”: Sei $I'(\hat u, \phi) = 0$ für alle $\phi \in V$.
+	Wegen Konvexität haben wir
+	\begin{math}
+	    0 = I'(\hat u, u - \hat u)
+	    &= \lim_{\epsilon \to 0} \frac{1}{\epsilon} \big( I[\epsilon u + (1-\epsilon) \hat u] - I[\hat u] \big) \\
+	    &\le \lim_{\epsilon \to 0} \frac{1}{\epsilon} \big( \epsilon I[u] + (1- \epsilon) I[\hat u] - I[\hat u] \big) \\
+	    &= I[u] - I[\hat u],
+	\end{math}
+	also $I[\hat u] \le I[u]$ für alle $u \in V$.
+    \end{proof}
+\end{proposition}
+
 \begin{proposition} \label{proposition:convexity}
-    Für Funktionale $I: B \to \R$ gelten folgende Aussagen über ihre Konvexität.
+    Für Funktionale $I: V \to \R$ gelten folgende Aussagen über ihre Konvexität.
     \begin{enumerate}[i)]
 	\item
 	    Konstante Funktionale sind konvex.
@@ -674,7 +735,7 @@ Bevor wir \eqref{eq:energy_splitted} lösen, führen wir zunächst einige Begrif
         \item
 	    Die (punktweise) Summe zweier konvexer Funktionale ist konvex.
 	\item
-	    Sei $\Omega \subset \R^d$, $B = L^2(\Omega)^d$, $A: B \to B$ ein linearer Operator.
+	    Sei $\Omega \subset \R^d$, $V = L^2(\Omega)^d$, $A: V \to V$ ein linearer Operator.
 	    Dann ist das Funktional
 	    \begin{math}
 	        u \mapsto \int_\Omega |Au + v|^2
@@ -682,7 +743,7 @@ Bevor wir \eqref{eq:energy_splitted} lösen, führen wir zunächst einige Begrif
 	    konvex.
     \end{enumerate}
     \begin{proof}
-	Die Aussagen i), ii) und iii) sind mit Blick auf Definition \ref{definition:convex_functional} sofort ersichtlich, wir zeigen nur iv).
+	Die Aussagen i), ii) und iii) sind mit Blick auf Definition \ref{definition:min_stuff} sofort ersichtlich, wir zeigen nur iv).
 
 	Sei $I: u \mapsto \int_\Omega |Au + v|^2$ für einen linearen Operator $A$.
 	Wegen
@@ -696,47 +757,131 @@ Bevor wir \eqref{eq:energy_splitted} lösen, führen wir zunächst einige Begrif
 	    |A(tu_1 + (1-t)u_2)|^2
 	    &= t^2 |Au_1|^2 - 2 t(1-t) Au_1\cdot Au_2 + (1-t^2)|Au_2|^2 \\
 	    &= t|Au_1|^2 - t(1-t)\underbrace{\big(|Au_1|^2 - 2Au_1 \cdot Au_2 + |u_2|^2\big)}_{=|A(u_1 - u_2)|^2 \ge 0} + (1-t)|Au_2|^2 \\
-	    &\le t|Au_1|^2 + (1-t)|Au_2|,
+	    &\le t|Au_1|^2 + (1-t)|Au_2|^2,
 	\end{math}
 	also wegen Linearität des Integrals auch $I[tu_1 + (1-t)u_2] \le tI[u_1] + (1-t)I[u_2]$.
     \end{proof}
 \end{proposition}
 
-\begin{definition} \label{definition:coercive_functional}
-    Sei $B$ ein reeller Banachraum und $I: B \to \R$ ein Funktional.
-    Wir nennen $I$
-    \emphdef{koerziv}
-    falls für jede Folge $(u_k)_{k\in\N}$ gilt
-    \begin{math}
-	\|u_k\| \to \infty \implies I(u_k) \to \infty.
-    \end{math}
-\end{definition}
-
 \begin{proposition} \label{proposition:coercivity}
-    Sei $B$ ein reeller Banachraum.
-    Für Funktionale $I: B \to \R$ gelten folgende Aussagen über ihre Koerzivität:
+    Sei $V$ ein normierter Vektorraum.
+    Für Funktionale $I: V \to \R$ gelten folgende Aussagen über ihre Koerzivität:
     \begin{enumerate}[i)]
         \item
 	   Die (punktweise) Summe zweier koerziver Funktionale ist koerziv.
        \item
-	   Sei $I: B \to \R$ koerziv und $J: B \to \R$ nach unten beschränkt.
+	   Sei $I: V \to \R$ koerziv und $J: V \to \R$ nach unten beschränkt.
 	   Dann ist $I + J$ koerziv.
     \end{enumerate}
     \begin{proof}
-	Beide Aussagen sind mit Blick auf die Definition leicht ersichtlich.
+	Beide Aussagen sind mit Blick auf Definition \ref{definition:min_stuff} leicht ersichtlich.
     \end{proof}
 \end{proposition}
 
+\begin{theorem} \label{theorem:min_existence}
+    Sei $H$ ein Hilbertraum, $I: H \to \R$ Gateaux-differenzierbar, konvex und koerziv.
+    Dann existiert ein Minimum $\hat u \in H$, d.h.
+    \begin{math}
+        I[\hat u] = \inf_{u \in H} I[u].
+    \end{math}
+    \begin{proof}
+        Ein Beweis für eine etwas allgemeinere Version findet sich in \cite[Theorem 7.3.8]{kurdila2006convex}.
+    \end{proof}
+\end{theorem}
 
 
-\section{Augmented Lagrange}
+\section{Augmented Lagrange} \label{section:augmented_lagrange}
 
-TODO: Einführung + Formulierung
+Der sogenannte Augmented Lagrange Algorithmus ist eine numerische Methode zum Minimieren von Funktionen unter Nebenbedingungen.
+Wir motivieren diese Methode mittels einem ihrem Vorgänger, der Dual Ascent Methode.
+
+\subsection*{Motivation}
+
+Betrachte eine zu minimierende Funktion $f: \R^n \to \R$ mit Gleichungsbedingungen $e: \R^n \to \R^m$ im Minimierungsproblem
+\begin{math}[numbered] \label{eq:min_eq}
+    \min_{x \in \R^n} f(x)
+    \quad \mathrm{s.t.} \quad
+    e(x) = 0.
+\end{math}
+Sei $\hat x \in \R^n$ ein eindeutiges Minimum.
+
+Wir definieren die Lagrange-Funktion $L: \R^n \times \R^m \to \R$ durch
+\begin{math}
+    L(x,y) := f(x) + y \cdot e(x).
+\end{math}
+%Eine erste Beobachtung ist, dass
+%\begin{math}
+%    g(x) := \sup_{y} L(x,y)
+%    = \begin{cases}
+%        f(x) & \text{für $e(x) = 0$}, \\
+%	\infty & \text{sonst}.
+%    \end{cases}
+%\end{math}
+%Folglich liefert $\hat x := \argmin g(x)$ das gesuchte Minimum von $f$ unter der Nebenbedingung $e(x) = 0$.
+%Eine 
+
+
+Betrachte nun sorgfältig
+\begin{math}
+    f(\hat x)
+    =
+    \inf_{x} \underbrace{\sup_{y} L(x,y)}_{=:g(x)}
+    \ge
+    \sup_{y} \underbrace{\inf_{x} L(x,y)}_{=:h(y)}.
+\end{math}
+Der Ausdruck $\inf_x g(x)$ minimiert genau das ursprüngliche Problem \eqref{eq:min_eq}, denn $g(x) = f(x)$ für $e(x) = 0$ und $g(x) = \infty$ sonst.
+Die Ungleichung ergibt sich dann aus der Beobachtung, dass für jedes feste $y \in \R^m$ notwendigerweise $h(y) \le f(\hat x)$.
+
+Das Minimieren von $g(x)$ wird primales Problem und das Maximieren von $h(y)$ duales Problem genannt.
+Unter bestimmten Zusatzvoraussetzungen herrscht Gleichheit, d.h. $\inf_x g(x) = \sup_y h(y)$ und man spricht von „strong duality“, was wir fortan voraussetzen.
+
+Sei $\hat y := \argmax h(y)$ eindeutige Lösung des dualen Problems, dann ist
+\begin{math}
+    \hat x &= \argmin_x L(x, \hat y), &\qquad
+    \nabla h(y) &= e(\argmin_x L(x, y)).
+\end{math}
+Die Dual Ascent Methode führt nun alternierend die Minimierung von $L(x,y)$ nach $x$ und einen Gradientenschritt der Länge $\rho \in \R_{> 0}$ für die Maximierung von $L(x,y)$ nach $y$ aus:
+\begin{algorithmic}
+    \For{$k=0,1,\dotsc$}
+	\State{$x^{k+1} \gets \argmin_x L(x,y^k)$}
+	\State{$y^{k+1} \gets y^k + \rho e(x^k)$}
+    \EndFor
+\end{algorithmic}
+
+Eine Alternative, welche unter weniger Voraussetzungen konvergiert ist die Augmented Lagrange Methode.
+Diese wendet Dual Ascent auf $f(x) + \frac{r}{2}|e(x)|^2$ für einen Penalty-Parameter $r \in \R_{>0}$ an.
+Die sogenannte Augmented Lagrange Funktion lautet dann
+\begin{math}
+    L(x,y) := f(x) + y\cdot e(x) + \frac{r}{2}|e(x)|^2.
+\end{math}
+Als Schrittweite im Algorithmus wird dabei stets $\rho := r$ verwendet.
+
+TODO: Motivation von $\rho = r$.
+
+%Sei $f$ differenzierbar.
+%Für lineare Gleichungsbedingungen $e(x) := Ax - b$, $A \in \R^{n\times m}$, $b \in \R^m$ haben wir die Optimalitätsbedingungen
+%\begin{math}
+%\end{math}
+%
+%
+%Gemäß dem Algorithmus ist $x^{k+1} = \argmin_x L(x, y^k)$, also
+%\begin{math}
+%    0 = \nabla_x L(x^{k+1}, y^k)
+%    = \nabla_x f(x) + A^T\big(y^k + r(Ax^{k+1} - b)\big)
+%    = \nabla_x f(x^{k+1}) + A^T y^{k+1}.
+%\end{math}
+
+
+
+
+
+
+\subsection*{Formulierung}
 
 
 \begin{definition} \label{definition:al_functional}
     Seien $X, W$ reelle Hilberträume, $I: X \to \R$ ein Funktional und $g: X \to W$ ein Operator.
-    Das zum Funktional $I$ mit \emphdef{Gleichungsbedingungen} $g$ zugehörige \emphdef{Augmented Lagrange Funktional} $\scr L: (X,W) \to \R$
+    Das zum Funktional $I$ mit \emphdef{Gleichungsbedingungen} $g$ zugehörige \emphdef{Augmented Lagrange Funktional} $\scr L: X \times W \to \R$
     ist definiert als
     \begin{math}
 	\scr L[x,\lambda] := I[x] + \lambda \cdot g[x] + r \|g[x]\|^2
@@ -746,22 +891,50 @@ TODO: Einführung + Formulierung
 
 
 \begin{algorithm}[Augmented Lagrange] \label{alg:augmented_lagrange}
-    Die Voraussetzungen seien wie in Definition \ref{definition:al_functional}.\\
+    Mit den Bezeichnungen aus Definition \ref{definition:al_functional} haben wir den folgenden Algorithmus.
+
     \begin{samepage}
-	\Input{$I: X \to \R$, $g: X \to W$, $\lambda \in G$, $K \subset X$ konvex, $r \in \R_{>0}$}\\
-	\Output{Folge $(x^k)_{k\in\N}$ mit $\scr E[x^k] \to \min_x \scr E[x]$}
+	\Input{$I: X \to \R$, $e: X \to W$, $K \subset X$ abgeschlossen und konvex, $\lambda^0 \in W$, $r \in \R_{>0}$}\\
+	\Output{Folge $(x^k)_{k\in\N}$ mit $\scr E[x^k] \to \min_{x\in K} \scr E[x]$}
 	\begin{algorithmic}
 	    \For{$i = 0,1,\dotsc$}
 		\State{$x^{i+1} \gets \argmin_{x \in K} \scr L[x, \lambda^i]$}
-		\State{$\lambda^{i+1} \gets \lambda^i + r g[x^{i+1}]$}
+		\State{$\lambda^{i+1} \gets \lambda^i + r e[x^{i+1}]$}
 	    \EndFor
 	\end{algorithmic}
     \end{samepage}
     \begin{note}
-        In der Praxis werden für mehrere Gleichungsbedingungen die Lagrange-Updates $\lambda^{i+1} \gets \lambda^i + rg[x^{i+1}]$ meist separat mit jeweils unterschiedlichen Penalty-Parametern durchgeführt.
+	Bei mehreren Gleichungsbedingungen $e: X \to W = V^d$ wählt man in der Praxis oft jeweils unterschiedliche Penaltyparameter, d.h. $r_1, \dotsc, r_d \in \R$ und
+	\begin{math}
+	    \scr L[x, \lambda] = I[x] + \sum_{j=1}^d \lambda_i \cdot e_j[x] + \sum_{j=1}^d r_j \|e_j[x]\|^2
+	\end{math}
+	mit Lagrangeupdates $\lambda^{i+1}_j \gets \lambda^i_j + r_j e_j[x^{i+1}]$ für $1 \le j \le d$.
     \end{note}
 \end{algorithm}
 
+Bestimmte Zusatzvoraussetzungen liefern ein Konvergenzresultat wie in \ref{theorem:al_convergence}.
+
+\begin{theorem} \label{theorem:al_convergence}
+    Seien die Bezeichungen wie in Algorithmus \ref{alg:augmented_lagrange}.
+    Falls $\hat x \in X$, $\hat \lambda \in W$ existieren, sodass
+    \begin{enumerate}[1)]
+        \item
+	    $I$, $e$ zweifach Fréchet-differenzierbar in $\hat x$,
+	\item
+	    $\forall h \in X: f'(\hat x,h) + \lambda^* \cdot e'(\hat x,h) = 0$,
+	\item
+	    $e(\hat x) = 0$,
+	\item
+	    $e'(\hat x, \argdot)$ surjektiv,
+	\item
+	    und für alle $i \in \N_0$ besitzt $\argmin_{x\in K} \scr L[x,\lambda^i]$ eine eindeutige Lösung sodass
+	    $\scr L[x^{i+1}, \lambda^i] \le \scr L[x^*, \lambda^i]$,
+    \end{enumerate}
+    dann konvergiert der Algorithmus \ref{alg:augmented_lagrange}, d.h. $x^i \to \hat x$.
+    \begin{proof}
+        Es sei auf den wesentlich allgemeineren Fall mit umfangreichem Beweis in \cite[§3]{ito2008lagrange} verwiesen.
+    \end{proof}
+\end{theorem}
 
 Für unser Problem aus \eqref{eq:energy_splitted} definieren wir das folgende Augmented Lagrange Funktional:
 \begin{math}[numbered] \label{eq:energy_al}
@@ -779,18 +952,20 @@ Dies wird es uns erlauben, einige der im nächsten Abschnitt aufkommenden Teilpr
 
 
 
-\section{Alternating Direction Method}
+\section{Alternating Direction Method} \label{section:adm}
 
 Die Augmented Lagrange Methode aus Algorithmus \ref{alg:augmented_lagrange} schreibt nicht vor, wie das Minimierungsproblem in jedem Schritt zu lösen ist.
 % TODO: approximative lösung?
-Eine beliebte Methode (siehe z.B. \cite{??}) besteht darin, \eqref{eq:energy_al} alternierend nach $u, p, m, n$ zu minimieren wie in Algorithmus \ref{alg:adm}.
+Eine moderne und beliebte Methode (vergleiche \cite{brito2010fast}, \cite{yashtini2015alternating}, \cite{hahn2011fast}, \cite{duan2013fast}) besteht darin, \eqref{eq:energy_al} alternierend zu minimieren wie in Algorithmus \ref{alg:adm} beschrieben.
 
 \begin{algorithm}[Alternating Direction Method] \label{alg:adm}
+    Mit den Bezeichnungen aus \ref{definition:al_functional} haben wir den folgenden Algorithmus.
+
     \begin{samepage}
-    \Input{$\scr L$, $x = (x_l)_{l=1}^L$, $\lambda$}\\
+    \Input{$\scr L: X \times W \to \R$, $x^0 = (x^0_s)_{s=1}^S \in X$, $\lambda \in W$}\\
     \Output{Folge $(x^j)_{j \in \N}$ mit $\scr L[x^j, \lambda] \to \min_{x \in K} \scr L[x,\lambda]$}
     \begin{algorithmic}
-	\For{$j = 1,\dotsc$}
+	\For{$j = 0,1,\dotsc$}
 	    \For{$s = 1,\dotsc, S$}
 		\State{$x_s^{j+1} \gets \argmin_{x_s \in K_t} \scr L[x_1^{j+1}, \dotsc, x_s, \dotsc , x_S^j; \lambda]$}
 	    \EndFor
@@ -804,7 +979,7 @@ Die sich ergebenden Teilprobleme aus Algorithmus \ref{alg:adm} angewandt auf $\s
 Hierzu verwenden wir die Kurznotation $\scr L[x_s]$ für $\scr L[x_1, \dotsc, x_S]$ mit $x_i$ konstant für $i \neq s$.
 
 
-\subsection{Minimiere nach $u$}
+\subsection*{Minimiere nach $u$}
 
 Wir minimieren
 \begin{math}
@@ -814,15 +989,26 @@ Wir minimieren
     + \int_\Omega \lambda_2 \cdot (p - \nabla u)
     + \const.
 \end{math}
-Variationsrechnung liefert als notwendige Bedingung
-\begin{math}[numbered]
-    0 &= \ddx[\epsilon] \scr L[u+\epsilon\phi] \\
-    &= \eta \int_{\Omega\setminus D} (u - u^0) \phi + r_2 \int_\Omega (\nabla u - p) \cdot \nabla \phi - \int_\Omega \lambda_2 \cdot \nabla \phi \\
-    &= \int_\Omega (r_2 \nabla u - r_2 p - \lambda_2) \cdot \nabla \phi + \eta \int_{\Omega\setminus D} (u - u^0)\phi.
-\end{math}
+
+\begin{proposition}
+    Das Funktional $\scr L[u]$ ist Gâteaux-differenzierbar, konvex und koerziv für $|\Omega \setminus D| > 0$.
+    Inbesondere existiert $\hat u \in H^1(\Omega)$, sodass
+    \begin{math}
+	0 &= \int_\Omega (r_2 \nabla \hat u - r_2 p - \lambda_2) \cdot \nabla \phi + \eta \int_{\Omega\setminus D} (\hat u - u^0)\phi
+    \end{math}
+    für alle $\phi \in H^1(\Omega)$ erfüllt ist und jede solche Lösung $\hat u$ das Funktional $\scr L[u]$ minimiert.
+\end{proposition}
+
+%Variationsrechnung liefert als notwendige Bedingung
+%\begin{math}[numbered]
+%    0 &= \ddx[\epsilon] \scr L[u+\epsilon\phi] \\
+%    &= \eta \int_{\Omega\setminus D} (u - u^0) \phi + r_2 \int_\Omega (\nabla u - p) \cdot \nabla \phi - \int_\Omega \lambda_2 \cdot \nabla \phi \\
+%    &= \int_\Omega (r_2 \nabla u - r_2 p - \lambda_2) \cdot \nabla \phi + \eta \int_{\Omega\setminus D} (u - u^0)\phi.
+%\end{math}
+
 Dies ist die schwache Form einer linearen PDE zweiter Ordnung, welche in Kapitel \ref{chap:numerics} numerisch gelöst wird.
 
-\subsection{Minimiere nach $p$}
+\subsection*{Minimiere nach $p$}
 
 Wir minimieren nach geigneter quadratische Ergänzung und Vereinfachung
 \begin{math}
@@ -849,6 +1035,7 @@ Mit dem folgenden Lemma \ref{lemma:soft_thresholding} erhalten wir also die expl
 	q &= \nabla u + \frac{r_1 + \lambda_1}{r_2}m - \frac{\lambda_2}{r_2}.
     \end{aligned}
 \end{math}
+% TODO: c > 0!!
 
 \begin{lemma}[Soft Thresholding] \label{lemma:soft_thresholding}
     Seien $p, q \in L^2(\Omega)^d$, $a, |p| \in L^1(\Omega)$ mit $a > 0$ fast überall.
@@ -887,7 +1074,7 @@ Mit dem folgenden Lemma \ref{lemma:soft_thresholding} erhalten wir also die expl
     \end{proof}
 \end{lemma}
 
-\subsection{Minimiere nach $m$}
+\subsection*{Minimiere nach $m$}
 
 Wir minimieren unter der Nebenbedingung $|m| \le 1$ nach geigneter quadratischer Ergänzung
 
@@ -947,7 +1134,7 @@ Das folgende Lemma \ref{lemma:proj1} liefert uns nun die explizite Lösung
 
 
 
-\subsection{Minimiere nach $n$}
+\subsection*{Minimiere nach $n$}
 
 Wir minimieren
 \begin{math}
@@ -957,13 +1144,18 @@ Wir minimieren
 	+ \int_\Omega \lambda_4 \cdot (n - m)
 	+ \const.
 \end{math}
-Variationsrechnung liefert als notwendige Bedingung
-\begin{math}[numbered]
-    0 &= \ddx[\epsilon]|_{\epsilon = 0} \scr L[n + \epsilon \phi] \\
-    &= \int_\Omega 2 \beta |p| (\nabla \cdot n)(\nabla \cdot \phi)
-    + \int_\Omega (r_4 n - r_4 m + \lambda_4) \cdot \phi.
-\end{math}
-Dies ist die schwache Form einer linearen PDE zweiter Ordnung und wird ebenfalls numerisch in Kapitel \ref{chap:numerics} gelöst.
+
+\begin{proposition}
+    Das Funktional $\scr L[n]$ ist Gâteaux-differenzierbar, konvex und koerziv.
+    Inbesondere existiert $\hat n \in H^1(\Omega)^d$, sodass
+    \begin{math}
+	0 &= \int_\Omega 2 \beta |p| (\nabla \cdot \hat n)(\nabla \cdot \phi)
+	+ \int_\Omega (r_4 \hat n - r_4 m + \lambda_4) \cdot \phi
+    \end{math}
+    für alle $\phi \in H^1(\Omega)^d$ erfüllt ist und jede solche Lösung $\hat n$ das Funktional $\scr L[n]$ minimiert.
+\end{proposition}
+
+Diese Gleichung ist die schwache Form einer linearen PDE zweiter Ordnung und wird ebenfalls numerisch in Kapitel \ref{chap:numerics} gelöst.
 
 
 
@@ -1152,17 +1344,237 @@ Dies ist die schwache Form einer linearen PDE zweiter Ordnung und wird ebenfalls
 
 \chapter{Numerische Implementierung und Resultate}
 
+Die im vorigen Kapitel vorgeschlagenen theoretischen Methoden zur Minimierung von \eqref{eq:energy_ee} lassen sich vereinfacht zu folgendem Algorithmus zusammenfassen.
+Obwohl eine Implementierung für $d > 2$ reizend wäre, beschränken wir uns der Einfachheit halber in der restlichen Arbeit auf den üblichen zweidimensionalen Fall $d = 2$.
+
+\DeclareDocumentCommand{\solve}{m}{\operatorname{solve}\limits_{#1}}
+
+\begin{algorithm}[Euler Elastica Inpainting]
+    \Input{$\Omega \subset \R^2$, $u^0: \Omega \setminus D \to \R$, $\alpha, \beta, \eta \in \R_{\ge 0}$, $r_1, r_2, r_4 \in \R_{>0}$} \\
+    \Output{$(u^k: \Omega \to \R)_{k\in\N}$}
+    \begin{algorithmic}
+	\State{$p^0, m^0, n^0, \lambda_1^0, \lambda_2^0, \lambda_4^0 \gets 0$}
+	\For{$k = 0, 1, \dotsc$}
+	    \State{$\Big.u^{k+1} \gets \solve{u} 0 = \int_\Omega (r_2 \nabla u - r_2 p^k - \lambda_2^k) \cdot \nabla \phi + \eta \int_{\Omega\setminus D} (u - u^0) \phi$}
+	    %\State{$p^{k+1} \gets \max\Big\{0, 1 - \frac{\alpha + \beta(\nabla \cdot n^k)^2 + r_1 + \lambda_1^k}{r_2 \big|\nabla u^k + \frac{r_1 + \lambda_1^k}{r_2}m^k - \frac{\lambda_2^k}{r_2}\big|}\Big\}(\nabla u^k + \frac{r_1 + \lambda_1^k}{r_2}m^k - \frac{\lambda_2^k}{r_2})$}
+	    \State{$\Big.p^{k+1} \gets \max\big\{0, 1 - \frac{\alpha + \beta(\nabla \cdot n^k)^2 + r_1 + \lambda_1^k}{q^k}\big\}q^k$, wobei $q^k = \nabla u^k + \frac{r_1 + \lambda_1^k}{r_2} m^k - \frac{\lambda_2^k}{r_2}$}
+		%, wobei $c = \alpha + \beta(\nabla \cdot n)^2 + r_1 + \lambda_1$ und $q = \nabla u + \frac{r_1 + \lambda_1}{r_2}m - \frac{\lambda_2}{r_2}$}
+	    \State{$\Big.m^{k+1} \gets \min\Set{1, \frac{1}{|w^k|}}w^k$, wobei $w^k = \frac{(r_1 + \lambda_1^k)p^k + \lambda_4^k}{r_4} + n$}
+	    \State{$\Big.n^{k+1} \gets \solve{n} 0 = \int_\Omega 2\beta|p^k| (\nabla \cdot n)(\nabla \cdot \phi) + \int_\Omega (r_4 n - r_4 m^k + \lambda_4^k)\cdot \phi$}
+	    \State{$\Big.\lambda_1^{k+1} \gets \lambda_1^k + r_1(|p^k| - m^k \cdot p^k)$}
+	    \State{$\Big.\lambda_2^{k+1} \gets \lambda_2^k + r_2(p^k - \nabla u^k)$}
+	    \State{$\Big.\lambda_4^{k+1} \gets \lambda_4^k + r_4(n^k - m^k)$}
+	\EndFor
+    \end{algorithmic}
+    \begin{note}
+	\begin{itemize}
+	    \item
+		Der Einfachheit halber werden die Startwerte auf Null initialisiert.
+		Es wäre z.B. denkbar, $p^0$, $m^0$, $n^0$ durch entsprechende Finite Differenzen mittels $u^0$ zu initialisieren, was eine schnellere Konvergenz zu erwarten ließe.
+	    \item
+		In dieser Formulierung wird die „alternating direction“ Schleife aus Algorithmus \ref{??} nur einmal durchlaufen.
+		Die beiliegende Implementierung erlaubt zwar eine beliebig feste Anzahl solcher innerer Iterationen, praktisch zeigen sich jedoch dadurch insgesamt kaum nennenswerten Veränderungen im Verhalten des Algorithmus.
+		Alternativ betrachtet gibt es keinen guten Grund, die verhältnismäßig schnellen Lagrange-Updates nicht in jedem Schritt durchzuführen.
+	    \item
+		Ein mögliches Abbruchkriterium wäre $\|u^k - u^{k-1}\| < \epsilon$, wobei die Norm abhängig von der entsprechenden Diskretisierung gewählt wird.
+		Allerdings ist die Konvergenzgeschwindigkeit stark abhängig vom gewählten Bild und den eingestellten Parametern, was die Wahl von $\epsilon$ für ein sinnvolles Inpaintingresultat schwierig macht.
+
+	    % TODO: Reihenfolge upmn?
+	\end{itemize}
+    \end{note}
+\end{algorithm}
 
 
-\section{Anmerkungen zur Implementierung}
-% Finite Elemente, Wahl der Räume, Dune-Zeug
+\section{Finite Elemente Diskretisierung}
 
-\section{TV-Inpainting}
 
-\section{Euler Elastica Inpainting}
+Die meisten Arbeiten, die eine alternating direction Methode für das Lösen des Euler-Elastica Bildmodells einsetzen (\cite{??}) nutzen eine Finite Differenzen Diskretisierung auf speziell angepassten Gittern.
+In diesen „staggered grids“ werden die Werte von $u$, sowie in unserem Fall $p_1, m_1, n_1$ und $p_2, m_2, n_2$ entsprechend der Finiten Differenzen an jeweils zueinander versetzten Stellen betrachtet.
+Die partiellen Differentialgleichungen (bei uns in $u$ und $n$) werden in der Regel in starker Form formuliert und diskretisiert.
+Für diese speziellen Gitterwahlen werden die Schritte in Algorithmus \ref{algorithm:complete} explizit als lineare Gleichungssysteme oder Updates in den Gitterpunkten dargestellt.
 
-\section{Denoising}
+Das Ziel dieser Arbeit bestand in der Implementierung von Algorithmus \ref{algorithm:complete} im Kontext Finiter Element mit Hilfe der C++ Bibliotheken Dune-Fem und Dune-ACFem.
+Eine natürliche Gitterwahl mit Dreieckselementen um ein gegebenes Bild zu repräsentieren illustriert Abbildung \ref{fig:grid}.
+\begin{figure}[ht]
+    \begin{subfigure}{0.5\textwidth}
+	\centering
+	\begin{tikzpicture}
+	    \draw (0,0) grid (2,2);
+	\end{tikzpicture}
+    \end{subfigure}%
+    \begin{subfigure}{0.5\textwidth}
+	\centering
+	\begin{tikzpicture}
+	    \draw[black!20] (0,0) grid (2,2);
+	    \draw (0.5,0.5) rectangle (1.5,1.5) -- (0.5,0.5);
+	    \filldraw[red] (0.5,0.5) circle [radius=1.5pt]
+		      (1.5,0.5) circle [radius=1.5pt]
+		      (0.5,1.5) circle [radius=1.5pt]
+		      (1.5,1.5) circle [radius=1.5pt];
+	\end{tikzpicture}
+    \end{subfigure}
+    \caption{Gitterwahl für die Diskretisierung: links $2\times 2$ Pixel, rechts zugehöriges Gitter. Die Knotenpunkte liegen in der Mitte der zugehörigen Pixel.}
+    \label{fig:grid}
+\end{figure}
+Für einfache lineare Lagrange Basisfunktionen können die Pixelwerte des Bildes auf diese Weise eins zu eins in der diskreten Funktion als DOF-Vektor repräsentiert werden.
+Insbesondere besitzt der entsprechende DOF-Vektor die selbe Anzahl Freiheitsgrade wie das ursprüngliche Bild.
 
+Um die Implementierung zu vereinfachen, nutzen alle diskreten Funktionen das selbe Gitter.
+Sie sind jedoch teilweise durch unterschiedliche Basisfunktionen repräsentiert.
+\begin{itemize}
+    \item
+	Mit Blick auf die jeweiligen PDEs verwenden wir für $u$ und $n$ lineare Lagrange-Basisfunktionen.
+    \item
+	Für $p$ und $m$ wählen wir konstante, diskontinuierliche Basisfunktionen wegen der Ausdrücke $\nabla u$ und $\nabla \cdot n$ im $p$-Update und da sich $m$ auf Grund der Nebenbedingung $|p| - m\cdot p$ im selben diskreten Funktionenraum wie $p$ befinden sollte.
+    \item
+	Natürlicherweise ergeben sich dann $\lambda_1, \lambda_2$ konstant diskontinuierlich aus den Lagrange-Updates.
+    \item
+	Unklar ist die Wahl für $\lambda_4$: in jedem Fall wäre eine Projektion nötig, da $n$ und $m$ verschieden repräsentiert sind.
+	Wir wählen $\lambda_4$ ebenfalls konstant diskontinuierlich.
+\end{itemize}
+Diese Wahlen wurden getroffen, um die entstehenden Fehler bei den nötigen Projektionen zwischen verschiedenen diskreten Räumen zu minimieren.
+Die nötigen Projektionen befinden sich bei dieser Wahl nur im $m$- und im $\lambda_4$-Update.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Implementierung}
+
+
+Die Implementierung fand in der Programmiersprache C++ statt.
+Verwendet wurden die GPLv2-lizenzierte „Distributed and Unified Numerics Environment“ Dune\footnote{\url{https://dune-project.org}} samt Core-Module, sowie \texttt{dune-fem} und \texttt{dune-acfem}.
+Dabei ist \texttt{dune-fem} für die Finite Elemente Diskretisierung zuständig und \texttt{dune-acfem} bietet darauf aufbauend eine zusätzliche komfortable Abstraktionsebene.
+
+Ohne die Implementierung im Detail zu beschreiben, soll an dieser Stelle ein kurzer Überblick über die wesentlichen Teile des beiliegenden Quellcodes gegeben werden.
+Hinweise zur Installation oder konkreten Verwendung finden sich in der beiliegenden \texttt{README.md}.
+Es sei angemerkt, dass Performance nicht das Hauptaugenmerk während der Implementierung darstellte.
+
+\begin{description}
+    \item[\texttt{build/src/eeinpaint\{,_gui\}}]
+	Die beiden ausführbaren Dateien führen den Inpainting-Algorithmus aus.
+ 	Das Programm \texttt{build/src/eeinpaint_gui} startet den Algorithmus in einem separaten Thread, um eine in Echtzeit aktualisierte graphische Oberfläche anzuzeigen, auf der die Entwicklung von $u$, sowie verschiedene hilfreiche Werte beobachtet werden können.
+	Dagegen ist \texttt{build/src/eeinpaint} rein kommandozeilenbasiert und generiert Log-Daten in Form von Tab-separierten Werten, sowie das Endresultat für $u$ als VTK Unstructured Grid (Endungen \texttt{.pvtu} und \texttt{.vtu}) im Verzeichnis \texttt{output}.
+
+	Parameter können entweder in \texttt{data/parameter} eingestellt werden (siehe unten), oder direkt bei Programmaufruf übergeben werden.
+    \item[\texttt{src/algorithm_\{base,live,logging\}.hh}]
+	Das Herzstück der Implementierung findet sich in \texttt{algorithm_base.hh}: die Klasse \Code{AlgorithmBase} definiert Methoden für die Teilschritte des Algorithmus, sowie eine Methode \Code{run()}, welche den Algorithmus durchführt.
+
+	Um die Ergebnisse auszugeben, oder zusätzliche Daten während des Algorithmus zu erheben, wird die Klasse durch \Code{AlgorithmLive} und \Code{AlgorithmLogging} entsprechend erweitert.
+    \item[\texttt{src/main\{,_gui\}.cc}]
+	Dies sind die Programmeinstiegspunkte der beiden generierten ausführbaren Dateien \texttt{src/eeinpaint} und \texttt{src/eeinpaint_gui}.
+	Hier wird die Bilddatei für $u^0$ gelesen, das Gitter erzeugt und unter Umständen verfeinert um anschließend den entsprechenden Algorithmus aufzurufen.
+   \item[\texttt{data/input\{,_mask\}.png}]
+	Die Datei \texttt{data/input.png} wird in Graustufen gelesen und repräsentiert $u^0$.
+	Dazu wird eine Inpainting-Maske aus \texttt{data/input_mask.png} gelesen, welche den Inpaintingbereich angibt: schwarz für $\Omega \setminus D$, weiß für $D$.
+    \item[\texttt{data/parameter}]
+	Hier werden die nötigen Parameter für den Algorithmus eingestellt.
+	Folgende Parameter sind wesentlich.
+	\begin{description}
+	    \item[\texttt{eeinpaint.\{alpha,beta,eta\}}]
+		Parameter $\alpha$, $\beta$, $\gamma$ in der ursprünglichen Inpaintingenergie,
+	    \item[\texttt{eeinpaint.\{r1,r2,r4\}}]
+		Penaltyparameter für das Augmented Lagrange Verfahren,
+	    \item[\texttt{eeinpaint.refinements}]
+		Anzahl initialer Verfeinerungen des Gitters,
+	    \item[\texttt{eeinpaint.maxOuterIterations}]
+		Abbruchkriterium für die Anzahl Schleifendurchläufe in Algorithmus \ref{alg:complete}.
+	\end{description}
+    \item[\texttt{tools/runjob.sh}]
+	Dies ist ein Wrapper für \texttt{build/src/eeinpaint}, um mehrere Jobs parallel laufen lassen zu können.
+	Die erzeugten Dateien werden in ein Unterverzeichnis im Ordner \texttt{output} abgelegt, um keine Konflikte zu erzeugen.
+    \item[\texttt{tools/vtkconvert.sh}]
+	Dieses Skript rendert zweidimensionale VTK Unstructured Grid Dateien mit Endung \texttt{.pvtu} automatisch durch Parallelprojektion zu Graustufen-PNG-Bilder.
+\end{description}
+
+
+Angedacht, aber aus Zeitgründen nicht umgesetzt sind folgende Ideen.
+\begin{itemize}
+    \item
+	Eine adaptive Verfeinerung des Gitters im Laufe des Algorithmus wäre angebracht und könnte die Stärken einer Finiten Elemente Implementierung zum Vorschein bringen.
+	Zur Bewertung könnte $|\nabla u|$ dienen, um scharfe Kanten besser auflösen zu können und in weniger interessanten Bereichen des Bildes nicht zu viel Rechenzeit zu verschwenden.
+    \item
+	Einige Schritte des Algorithmus \ref{alg:complete} sind unabhängig voneinander und könnten parallel arbeiten.
+	Abgesehen von den offensichtlich unabhängigen Lagrange-Updates, ist beispielsweise die PDE für $u$ nicht abhängig von $n$ oder $\lambda_4$ im Schritt zuvor, was bedeutet, dass die beiden kostspieligen PDEs parallel berechnet werden könnten.
+\end{itemize}
+
+Zu Vergleichszwecken wurde der Algorithmus \ref{alg:complete} in einem separaten Git-Branch auch für reines TV-Inpainting implementiert.
+Dabei wurden alle Variablen und Parameter ausgelassen, welche nur für den Krümmungsanteil in der Inpainting-Energie \ref{??} benötigt werden.
+
+\begin{algorithm}[TV Inpainting]
+    \Input{$\Omega \subset \R^2$, $u^0: \Omega \setminus D \to \R$, $\alpha, \eta \in \R_{\ge 0}$, $r_2 \in \R_{>0}$} \\
+    \Output{$(u^k: \Omega \to \R)_{k\in\N}$}
+    \begin{algorithmic}
+	\State{$p^0, \lambda_2^0 \gets 0$}
+	\For{$k = 0, 1, \dotsc$}
+	    \State{$\Big.u^{k+1} \gets \solve{u} 0 = \int_\Omega (r_2 \nabla u - r_2 p^k - \lambda_2^k) \cdot \nabla \phi + \eta \int_{\Omega\setminus D} (u - u^0) \phi$}
+	    \State{$\Big.p^{k+1} \gets \max\big\{0, 1 - \frac{\alpha}{q^k}\big\}q^k$, wobei $q^k = \nabla u^k - \frac{\lambda_2^k}{r_2}$}
+	    \State{$\Big.\lambda_2^{k+1} \gets \lambda_2^k + r_2(p^k - \nabla u^k)$}
+	\EndFor
+    \end{algorithmic}
+    \begin{note}
+	Dieser Algorithmus unterscheidet sich von \ref{alg:complete} mit der Wahl $\beta = 0$, da die Variablen $n, m, \lambda_1, \lambda_4$ nicht mehr auftreten und somit Fehler, die durch Projektionen entstehen, keine Auswirkungen mehr haben.
+    \end{note}
+\end{algorithm}
+
+
+
+\section{Synthetische Tests und Parameterstudie}
+
+
+In der numerischen Untersuchung des Algorithmus betrachten wir zunächst den vereinfachten TV Inpainting Algorithmus \ref{alg:tv}.
+Das hierfür genutzte, synthetische $u^0$ findet sich in \ref{fig:sample}.
+
+\begin{figure}[ht]
+    \begin{subfigure}{0.33\textwidth}
+	\centering
+	\begin{tikzpicture}[scale=0.1]
+	    \filldraw[black] (0,0) rectangle (32,32);
+	    \filldraw[white] (0,0) rectangle (22,22);
+	    \filldraw[white] (6,6) rectangle (26,26);
+	    \draw[missing] (6,6) rectangle (26,26);
+	    \draw[black!30] (0,0) rectangle (32,32);
+	\end{tikzpicture}
+    \end{subfigure}%
+    \begin{subfigure}{0.33\textwidth}
+	\centering
+	\begin{tikzpicture}[scale=0.1]
+	    \filldraw[black] (0,0) rectangle (32,32);
+	    \filldraw[white] (0,0) -- (22,0) -- (22,6) -- (6,22) -- (0,22) -- cycle;
+	    \draw[black!30] (0,0) rectangle (32,32);
+	\end{tikzpicture}
+    \end{subfigure}%
+    \begin{subfigure}{0.33\textwidth}
+	\centering
+	\begin{tikzpicture}[scale=0.1]
+	    \clip (0,0) rectangle (32,32);
+	    \filldraw[black] (0,0) rectangle (32,32);
+	    \filldraw[white,rounded corners=50] (-22,-22) rectangle (22,22);
+	    \draw[black!30] (0,0) rectangle (32,32);
+	\end{tikzpicture}
+    \end{subfigure}%
+    \caption{In den numerischen Tests vorgegebenes $32\times 32$ Pixel Inpaintingproblem (links) zusammen mit wünschenswertem TV-Inpainting (mittig) und Elastica-Inpainting (rechts)}
+\end{figure}
+
+Für TV-Inpainting erwarten wir als Lösung eine diagonale, gerade verlaufende Schwartz-Weiß-Kante, während Elastica-Inpainting eine (je nach Wahl von $\alpha, \beta$) gekrümmte Kante hervorbringen sollte.
+
+
+
+
+
+
+
+\section{Anwendung auf }
 
 %\begin{itemize}
 %    \item
@@ -1177,21 +1589,6 @@ Dies ist die schwache Form einer linearen PDE zweiter Ordnung und wird ebenfalls
 %	Startwert-Tweaking ($v, u, m, p, n, \lambda_1, \lambda_2, \lambda_3, \lambda_4$)
 %\end{itemize}
 
-%\section{Weitere Anwendungen}
-%
-%\begin{itemize}
-%    \item
-%	Debluring
-%    \item
-%	Upscaling
-%\end{itemize}
-
-
-%\section{Appendix}
-%
-%\subsection{Co-Area-Formel}
-%\subsection{Euler-Lagrange}
-%\subsection{Soft-Thresholding?}
 
 \bibliographystyle{plain}
 \bibliography{thesis}
