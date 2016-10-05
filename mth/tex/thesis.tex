@@ -1,5 +1,26 @@
 \documentclass{mythesis}
 
+
+% PGFPLOTS STUFF
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.11}
+\usepgfplotslibrary{external}
+\tikzexternalize
+\pgfplotsset{every axis/.append style={no markers}}
+\pgfplotsset{every axis legend/.append style={
+    at={(1.02,1)},
+    anchor=north west
+}}
+
+
+\DeclareDocumentCommand{\myincludegraphics}{om}{
+    \begin{tikzpicture}
+	\node[draw=black!30,inner sep=0] {
+	    \includegraphics[#1]{#2}
+	};
+    \end{tikzpicture}
+}
+
 \usetikzlibrary{patterns}
 
 \usepackage{titling}
@@ -27,10 +48,10 @@
 
 
 \AtBeginDocument{
-  \catcode`_=12
-  \begingroup\lccode`~=`_
-  \lowercase{\endgroup\let~}\sb
-  \mathcode`_="8000
+    \catcode`_=12
+    \begingroup\lccode`~=`_
+    \lowercase{\endgroup\let~}\sb
+    \mathcode`_="8000
 }
 
 
@@ -48,6 +69,12 @@
 %
 %Mit Blick auf \ref{fig:setting} führen wir zunächst Begrifflichkeiten ein.
 
+
+Die Rekonstruktion fehlender Information ist seit jeher ein verlockendes Forschungsgebiet.
+Wir beschäftigen uns in dieser Arbeit mit dem sogenannten „\emph{Inpainting}“, dem Vorgang, verlorengegangene Teile eines Bildes zu rekonstruiren.
+Unter Bildern versteht man meistens Fotos und Grafiken, aber auch Skulpturen (als dreidimensionale Bilder) oder Signale (als eindimensionale Bilder).
+Mathematisch fassen wir Bilder wie folgt.
+
 \begin{definition} \label{def:image}
     Ein \emphdef{Bild} ist eine Abbildung $u: \Omega \to F$, wobei $\Omega \subset \R^d$
     \emphdef{Trägermenge} genannt wird und $F$ \emphdef{Farbraum}.
@@ -58,7 +85,7 @@
     \end{note}
 \end{definition}
 
-Wann immer man Strukturen oder geometrische Eigenschaften in solchen Bildern untersuchen möchte, ist man dazu geneigt diese Definition einzuschränken (indem man z.B. eine Form von Differenzierbarkeit fordert).
+Wann immer man Strukturen oder geometrische Eigenschaften in Bildern untersuchen möchte, ist man dazu geneigt Definition \ref{def:image} einzuschränken indem man z.B. eine Form von Differenzierbarkeit der Abbildung fordert.
 Obwohl dies oft im Widerspruch zu den üblichen Eigenschaften von Bildern steht (z.B. Unstetigkeiten an Kanten und Konturen), werden wir dies später an den entsprechenden Stellen tun.
 
 \begin{figure}[ht]
@@ -74,24 +101,34 @@ Obwohl dies oft im Widerspruch zu den üblichen Eigenschaften von Bildern steht 
 \end{figure}
 
 Beim Inpainten gehen wir von einem gegebenen Bild $u^0: \Omega \setminus D \to [0,1]$ und einem \emphdef{Inpainting-Bereich}
-$D \subset \Omega$ aus (siehe \ref{fig:inpainting_setting}. Ziel ist nun eine Rekonstruktion $u: \Omega \to [0,1]$, die optisch „möglichst gut zu $u^0$ passt“.
+$D \subset \Omega$ aus (siehe Abbildung \ref{fig:inpainting_setting}). Ziel ist es nun eine Rekonstruktion $u: \Omega \to [0,1]$ zu finden, die optisch „möglichst gut zu $u^0$ passt“.
 
-Wir werden „möglichst gut“ durch die Minimierung eines Energiefunktionals $E[u]$ bestehend aus einem Datenmodell (engl. “data model”) und einem Bildmodell (engl. “image prior model”) ersetzen.
-Der Bayes'sche Ansatz liefert hierfür eine schmackhafte Motivation.
+Wir werden „möglichst gut“ durch die Minimierung eines Funktionals $E: u \mapsto \R$,
+\begin{math}
+    E[u] = \Eimg[u] + \Edat[u]
+\end{math}
+beschreiben.
+Hierbei sind die Funktionale $\Edat$, $\Eimg$ modelliert durch ein sogenanntes Datenmodell (engl. “data model”) und einem Bildmodell (engl. “image prior model”) ersetzen.
+Der Bayes'sche Ansatz liefert für diesen Ansatz eine schmackhafte Motivation.
 
 
 \section{Das Bayes'sche Prinzip}
 
+% TODO: fix!!
+% TODO: Energiebegriff erklären
+
 Es seien hier $I_\Omega$, $I_{\Omega \setminus D}$ endlich.
-Dies ist beispielsweise der Fall, wenn $\Omega \subset \Z^d$ beschränkt und $F$ endlich ist, was bei praktisch allen digitalen Bildern zwingend ist.
+Dies ist beispielsweise der Fall, wenn $\Omega \subset \Z^d$ beschränkt und $F$ endlich ist.
+Auf praktisch alle digitalen Bilder triftt diese Annahme zu, da in der Regel diese auf einem endlichen Raster $(x_i, y_j)_{i=1,j=1}^{n,m}$ durch die Angabe von Farbwerten $(u_{i,j})_{i=1,j=1}^{n,m}$ gegeben sind und der zugehörige Farbraum aus endlich vielen verschiedenen Farbwerten besteht.
 
 \begin{samepage}
-Geht man davon aus, dass $u^0$ zu einem ursprünglichen, vollständigen Bild $u$ gehört, so lässt sich die Entstehung von $u^0$ als Zufallsexperiment in zwei Schritten modellieren:
+Geht man davon aus, dass das ursprüngliche, vollständige Bild auch tatsächlich existiert, so lässt sich daraus die Entstehung der Beobachtung $u^0$ durch ein zweistufiges Zufallsexperiment modellieren.
 \begin{enumerate}
     \item
-	Auftreten von $u$ als Bild im (diskreten) Wahrscheinlichkeitsraum $(I_\Omega, 2^{I_\Omega}, P_{\mathrm{img}})$, \nopagebreak
+	Zunächst tritt $u$ als Ereignis eines Zufallsexperiments auf, welches im (diskreten) Wahrscheinlichkeitsraum $(I_\Omega, 2^{I_\Omega}, P_{\mathrm{img}})$ modelliert wird. \nopagebreak
     \item
-        Zustandekommen von $u^0$ als Beobachtung von $u|_{\Omega \setminus D}$ in $(I_{\Omega \setminus D}, 2^{I_{\Omega \setminus D}}, P_{\mathrm{dat},u})$.
+	Anschließend entsteht von $u$ auf $\Omega \setminus D$ eine Beobachtung $u^0$, welche ebenfalls als Zufallsexperiment modelliert wird,
+	hier in $(I_{\Omega \setminus D}, 2^{I_{\Omega \setminus D}}, P_{\mathrm{dat},u})$.
 \end{enumerate}
 \end{samepage}
 Wir betrachten dazu den diskreten Wahrscheinlichkeitsraum $\scr P := (I_\Omega \times I_{\Omega\setminus D}, 2^{I_\Omega \times I_{\Omega\setminus D}}, P)$ mit der sogenannten A-Posteriori-Wahrscheinlichkeitsverteilung
@@ -128,17 +165,21 @@ Die Wahlen von $\Edat[u]$ und $\Eimg[u]$, welche den Wahrscheinlichkeitsverteilu
 
 Naheliegend ist der Gedanke, als Datenmodell lediglich $u|_{\Omega \setminus D} = u^0|_{\Omega \setminus D}$ zu fordern.
 Damit würden feste Randbedingungen für das Minimieren auf $D$ vorgegeben werden.
-In der Praxis sind Bilder jedoch meist mit Rauschen, Unschärfe oder anderen Artefakten versetzt, sei es aufgrund technischer Aufnahmebedingungen, natürlichen Zerfalls, digitaler Kompressionsartefakte oder aus anderen Gründen.
+In der Praxis sind Bilder jedoch meist mit Rauschen, Unschärfe oder anderen Artefakten versehen.
+Dies kann z.B. durch technische Aufnahmebedingungen, natürlichen Zerfall oder durch digitale Kompressionsartefakte verursacht worden sein.
 Das Datenmodell erlaubt es zu definieren, auf welche Weise $u|_{\Omega \setminus D}$ beim Inpainten an das vorliegende Bild $u^0$ angepasst werden soll und ermöglicht es solche Verunreinigungen auszugleichen.
 
-Wir nutzen den bekannten Datenterm aus \cite{rudin1992nonlinear}, welcher die quadrierte $L^2$-Norm verwendet:
+Erwähnenswerterweise reduziert sich das Inpaintingproblem für $D = \emptyset$ auf das reine Ausgleichen dieser Verunreinigungen.
+Somit kann z.B. das Entrauschen von Bildern (auch „Denoising“ genannt) als Spezialfall angesehen werden.
+
+Für unser Datenmodell nutzen wir das bekannte Funktional aus \cite{rudin1992nonlinear}, welcher die quadrierte $L^2$-Norm verwendet:
 \begin{math}
     \Edat[u] = \frac{\eta}{2} \int_{\Omega \setminus D} |u - u^0|^2,
 \end{math}
-wobei $\eta \in \R_{> 0}$ die spätere Gewichtung des Datenterms zum Bildterm kontrolliert.
+wobei $\eta \in \R_{> 0}$ die spätere Gewichtung dieses Datenterms zum Bildterm kontrolliert.
 
-Es ist bekannt \cite[§4.5]{chan2005image}, dass dieser Datenterm gut geeignet ist, wenn das Orginalbild mit Gaus'schem Rauschen versetzt ist, modelliert als $u^0 = u|_{\Omega \setminus D} + \eta$.
-Für Schwarz/Weiß Rauschen (auch “salt-and-pepper noise” oder “impulse noise” gennant) ist die Wahl einer $L^1$-Norm zu bevorzugen, wie in \cite{nikolova2004variational} gezeigt.
+Es ist bekannt \cite[§4.5]{chan2005image}, dass dieser Datenterm gut geeignet ist, wenn das Orginalbild mit Gauß'schem Rauschen versetzt ist, modelliert als $u^0 = u|_{\Omega \setminus D} + \epsilon$.
+Für Schwarz/Weiß Rauschen (auch “salt-and-pepper noise” gennant) ist die Wahl einer $L^1$-Norm zu bevorzugen, wie in \cite{nikolova2004variational} gezeigt.
 
 Denkbar wären auch Datenmodelle wie $u^0 = K[u|_{\Omega\setminus D}] + \epsilon$ für einen Glättungsoperator $K$.
 Solche Modelle würden es erlauben, Unschärfe zu reduzieren, siehe z.B. \cite{rudin1994total}.
@@ -147,8 +188,8 @@ Solche Modelle würden es erlauben, Unschärfe zu reduzieren, siehe z.B. \cite{r
 \section{Das Bildmodell}
 
 Da der Datenterm sich auf $\Omega \setminus D$ beschränkt hat, trägt das Bildmodell die Hauptrolle bei der eigentlichen Bildrekonstruktion innerhalb von $D$.
-Man beachte, dass das Bildmodell unabhängig von $D$ ist (man erinnere sich an das Bayes-Prinzip) und auch für $D = \emptyset$ (z.B. Denoising) die Rekonstruktion des ursprünglichen Bildes verbessern kann.
-In der Literatur zum Denoising wird $\Eimg[u]$ daher auch als “regularization term” bezeichnet.
+Man beachte, dass das Bildmodell unabhängig von $D$ ist (man erinnere sich an das Bayes-Prinzip) und auch für den Fall $D = \emptyset$ (z.B. Denoising) die Rekonstruktion des ursprünglichen Bildes verbessern kann.
+In der Literatur zum Denoising wird $\Eimg[u]$ manchmal auch als „regularization term” bezeichnet.
 
 \begin{figure}[ht]
     \begin{subfigure}[b]{0.33\textwidth}
@@ -219,7 +260,7 @@ Welche der beiden vollständigen Bilder aus Abbildung \ref{fig:inpainting_non_un
 	    \fill[fg] (3,1.5) circle[radius=0.70710];
         \end{tikzpicture}
     \end{subfigure}
-    \caption{Kurze Niveaulinien (rechts) werden bevorzugt}
+    \caption{Lösungen eines Inpaintingproblems (links) mit langen (mitte) und kurzen (rechts) Niveaulinien}
     \label{fig:inpainting_prefer_short}
 \end{figure}
 
@@ -287,31 +328,36 @@ Welche der beiden vollständigen Bilder aus Abbildung \ref{fig:inpainting_non_un
 	    \fill[fg] (2.25,1.5) circle[radius=0.2];
         \end{tikzpicture}
     \end{subfigure}
-    \caption{Krümmungsarme Niveaulinien (mitte) werden bevorzugt}
+    \caption{Lösungen eines Inpaintingproblems (links) mit Nivaulinien ohne Krümmung (mitte) und Niveaulinien höherer Krümmung (rechts)}
     \label{fig:inpainting_prefer_non_curved}
 \end{figure}
 
 Wir betrachten nun zweidimensionale Bilder $d = 2$.
-Anhand von Abbildungen \ref{fig:inpainting_prefer_non_curved} und \ref{fig:inpainting_prefer_non_curved} sieht man, dass in der Regel Bilder bevorzugt werden, bei denen die Kanten (oder Niveaulinien) des Bildes möglichst kurz und gering gekrümmt sind.
-Die Niveaulinien eines Bildes stellen auf diese Weise in vielen Fällen eine brauchbare Bewertungsgrundlage dar.
-Legt man eine geeignete Bewertung für die Niveaulinien eines Bildes (im Sinne eines Energiefunktionals) fest, so liefert die Summation über alle Höhenlinien eine Bewertung des Gesamtbildes.
+Ohne entsprechende Studien durchgeführt zu haben, kann man anhand von Abbildungen \ref{fig:inpainting_prefer_short} und \ref{fig:inpainting_prefer_non_curved} erahnen, dass Bilder, bei denen die Kanten (oder Niveaulinien) des Bildes möglichst kurz und gering gekrümmt sind, ästhetisch angenehmer\footnote{Der Autor bevorzugt in Abbildung \ref{fig:inpainting_prefer_short} das rechte Bild und in Abbildung \ref{fig:inpainting_prefer_non_curved} das mittlere Bild}.
+
+Die Niveaulinien stellen auf diese Weise eine brauchbare Bewertungsgrundlage eines Bildes dar.
+Legt man nun eine geeignete Bewertung für die Niveaulinien eines Bildes (im Sinne eines Energiefunktionals) fest, so liefert die Summation über alle Höhenlinien eine Bewertung des Gesamtbildes.
 Die sogenannte \emphdef{Levelset-Methode} in Kapitel \ref{chap:image_model} erlaubt die Umsetzung dieser Idee.
 
-Das Bildmodell in dieser Arbeit nutzt die Levelset-Methode und wählt für jede Niveaulinie $\gamma$ die \emphdef{Elastica Energie}
+Das Bildmodell in dieser Arbeit nutzt die Levelset-Methode und wählt für jede Niveaulinie $\gamma:[0,1] \to \Omega$ die \emphdef{Elastica Energie}
 \begin{math}
-    \int_{\gamma} \alpha + \beta \kappa^2 \di[s].
+    \int_{\gamma} \alpha + \beta \kappa^2 \di[s]
 \end{math}
+als Kurvenintegral über $\gamma$ mit festen Parametern $\alpha, \beta \in \R_{\ge 0}$, wobei $\kappa: [0,1] \to \R$ die parametrisierte Krümmung von $\gamma$ darstellt.
+
 Eine Kurve, die diese Energie (unter geeigneten Randbedingungen) minimiert, wird \emphdef{Elastica} genannt.
 In der Physik hat sie die Interpretation der Biegeenergie eines elastischen Stabes.
 Umfangreiche Herleitungen finden sich in \cite{love1920treatise} und \cite{antman2005problems}, während obige Form der Elastica Energie aus \cite{birkhoff1965nonlinear} stammt.
 
 Die Levelset-Methode liefert uns schließlich für unser Bildmodell (näheres in Kapitel \ref{chap:image_model})
 \begin{math}
-    \Eimg[u] = \int_{\Omega} \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{\nabla u})^2\Big)|\nabla u| \di[x].
+    \Eimg[u] = \int_{\Omega} \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{\nabla u})^2\Big)|\nabla u| \di[x],
 \end{math}
-Es sei bemerkt, dass dieses geometrische Inpaintingmodell nicht darauf ausgelegt ist wiederkehrende Strukturen zu reproduzieren, die deutlich kleiner als der Inpaintingbereich $D$ sind (siehe Abbildung \ref{fig:inpainting_texture}).
-%Wiederkehrende Strukturen außerhalb $D$ werden nicht innerhalb $D$ fortgesetzt.
-Hierfür gibt es sogenanntes “texture based inpainting” mit zahlreichen stochastischen Methoden (siehe z.B. \cite{criminisi2004region}).
+wobei der Term $\nabla \cdot \frac{\nabla u}{|\nabla u|}$ die Krümmung der Niveaulinie im entsprechenden Punkt darstellt.
+Mit Blick auf \ref{fig:inpainting_texture} sei bemerkt, dass dieses geometrische Inpaintingmodell nicht darauf ausgelegt ist, wiederkehrende Strukturen zu reproduzieren, die deutlich kleiner als der Inpaintingbereich $D$ sind.
+Die Minimierung einer Energie basierend auf Niveaulinien und der Levelset-Methode ist in diesem Fall nicht zielführend, da sie eine zu lokale Methode darstellt.
+Um solche Strukturen oder Texturen zu rekonstruieren, müssen größere Teile des Bildes in Betracht gezogen werden.
+Hierfür gibt es das sogenannte “texture based inpainting” mit zahlreichen stochastischen Methoden (siehe z.B. \cite{criminisi2004region}).
 
 \begin{figure}[ht]
     \begin{subfigure}[b]{0.33\textwidth}
@@ -382,6 +428,10 @@ Man möchte sich dabei meist von der unhandlichen Randbedingung der festen Läng
     \end{math}
     ist.
     Diese Energie nennen wir auch \emphdef{Elastica Energie der Kurve $\gamma$}.
+    \begin{note}
+	Das Verhältnis $\frac{\beta}{\alpha}$ bestimmt die Art der Kurve: für kleines $\frac{\beta}{\alpha}$ werden kürzere Verbindungsstrecken bevorzugt, während größere Werte scharfe Kurven vermeidet und ein glatteres Gesamtbild erzeugt.
+	In Kapitel \ref{chap:numerics} wird diese Eigenschaft am zugehörigen Inpaintingresultat sichtbar.
+    \end{note}
 \end{definition}
 
 Eine interessante Charakterisierung der Elastica liefert der folgende Satz.
@@ -486,6 +536,7 @@ Die Elastica Energie $\int_\gamma \alpha + \beta \kappa^2 \di[s]$ im Hinterkopf 
     \end{math}
     \begin{note}
 	Allgemeiner beschreibt $-\nabla \cdot n$ in der Differentialgeometrie die mittlere Krümmung einer Fläche mit Normale $n$.
+	% FIXME: referenziere für höhere dimensionen
     \end{note}
     \begin{proof}
         Seien $e_1, e_2$ die Einheitstangente und Einheitsnormale von $\gamma$,
@@ -571,9 +622,10 @@ Die Coarea-Formel motiviert nun die folgende Definition der Euler Elastica Bilde
 	V_\Omega(u) := \int_\Omega |\nabla u| \di[x]
     \end{math}
     minimiert.
-    Mit Blick auf die Coarea-Formel entsteht dieses Bildmodell aus einem Kurvenmodel, welches die Energie $\int_\gamma \di[s] = L(\gamma)$ minimiert.
-    Das TV-Modell wird oft zum Entrauschen von Bildern verwendet, vor allem in der Signalverarbeitung für $d = 1$.
+    Mit Blick auf die Coarea-Formel entsteht dieses Bildmodell aus einem Kurvenmodel, welches die Energie $\int_\gamma \di[s] = L(\gamma)$, d.h. die Länge der Kurven minimiert.
+    Einen Vergleich zwischen TV- und Elastica-Inpainting werden wir in Kapitel \ref{chap:numerics} sehen können.
 
+    Das TV-Modell wird oft zum Entrauschen von Bildern verwendet, vor allem in der Signalverarbeitung für $d = 1$.
     In der Regel wird die Energie im allgemeineren Raum der Funktionen mit beschränkter totalar Variation
     \begin{math}
 	\BV(\Omega) := \Set{u \in L^1(\Omega, [0,1]) & V_\Omega(u) < \infty}.
@@ -589,7 +641,7 @@ Erinnert man sich an das Bayes-Prinzip, so steht nun unser Inpaintingmodell fest
 
 \begin{definition} \label{definition:elastica_inpainting}
     Für gegebenes $u^0 \in L^2(\Omega, [0,1])$ und Inpaintingbereich $D \subset \Omega$ ist das \emphdef{Euler Elastica Inpaintingmodell} festgelegt durch die Minimierung der \emphdef{Elastica Inpaintingenergie}
-    \begin{math}
+    \begin{math}[numbered] \label{eq:energy_ee}
         E[u]
 	&= \Eimg[u] + \Edat[u] \\
 	&= \int_\Omega \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{|\nabla u|})^2\Big)|\nabla u| \di[x]
@@ -619,7 +671,7 @@ Durch entsprechende Diskretisierung durch finite Differenzen erhält man auf die
 Da die Diskretisierung finite Differenzen vierter Ordnung erfordert, ist das Verfahren rechentechnisch aufwändig.
 
 In \cite{tai2011fast} wird ein schnell konvergierender Algorithmus versprochen, dessen Ideen und Notation wir in diesem Kapitel übernehmen.
-Dazu überführen wir das unrestringierte Minimierungsproblem aus Definition \ref{definition:elastica_inpainting} durch geignetes Einführen zusätzlicher Variablen und Nebenbedingungen auf ein restringiertes Minimierungsproblem.
+Dazu überführen wir das unrestringierte Minimierungsproblem aus Definition \ref{definition:elastica_inpainting} durch geeignetes Einführen zusätzlicher Variablen und Nebenbedingungen auf ein restringiertes Minimierungsproblem.
 Anschließend minimieren wir das zugehörige Augmented Lagrange Funktional (siehe Abschnitt \ref{section:augmented_lagrange}) mit Hilfe einer Alternating Direction Methode (siehe Abschnitt \ref{section:adm}).
 
 \begin{lemma} \label{lemma:mp_constr}
@@ -1010,7 +1062,7 @@ Dies ist die schwache Form einer linearen PDE zweiter Ordnung, welche in Kapitel
 
 \subsection*{Minimiere nach $p$}
 
-Wir minimieren nach geigneter quadratische Ergänzung und Vereinfachung
+Wir minimieren nach geeigneter quadratische Ergänzung und Vereinfachung
 \begin{math}
     \scr L[p]
     &= \int_\Omega \Big(\alpha + \beta(\nabla \cdot n)^2\Big)|p|
@@ -1076,7 +1128,7 @@ Mit dem folgenden Lemma \ref{lemma:soft_thresholding} erhalten wir also die expl
 
 \subsection*{Minimiere nach $m$}
 
-Wir minimieren unter der Nebenbedingung $|m| \le 1$ nach geigneter quadratischer Ergänzung
+Wir minimieren unter der Nebenbedingung $|m| \le 1$ nach geeigneter quadratischer Ergänzung
 
 \begin{math}
     \scr L[m]
@@ -1342,14 +1394,14 @@ Diese Gleichung ist die schwache Form einer linearen PDE zweiter Ordnung und wir
 %\end{enumerate}
 
 
-\chapter{Numerische Implementierung und Resultate}
+\chapter{Numerische Implementierung und Resultate} \label{chap:numerics}
 
 Die im vorigen Kapitel vorgeschlagenen theoretischen Methoden zur Minimierung von \eqref{eq:energy_ee} lassen sich vereinfacht zu folgendem Algorithmus zusammenfassen.
 Obwohl eine Implementierung für $d > 2$ reizend wäre, beschränken wir uns der Einfachheit halber in der restlichen Arbeit auf den üblichen zweidimensionalen Fall $d = 2$.
 
 \DeclareDocumentCommand{\solve}{m}{\operatorname{solve}\limits_{#1}}
 
-\begin{algorithm}[Euler Elastica Inpainting]
+\begin{algorithm}[Euler Elastica Inpainting] \label{alg:complete}
     \Input{$\Omega \subset \R^2$, $u^0: \Omega \setminus D \to \R$, $\alpha, \beta, \eta \in \R_{\ge 0}$, $r_1, r_2, r_4 \in \R_{>0}$} \\
     \Output{$(u^k: \Omega \to \R)_{k\in\N}$}
     \begin{algorithmic}
@@ -1375,9 +1427,10 @@ Obwohl eine Implementierung für $d > 2$ reizend wäre, beschränken wir uns der
 		In dieser Formulierung wird die „alternating direction“ Schleife aus Algorithmus \ref{??} nur einmal durchlaufen.
 		Die beiliegende Implementierung erlaubt zwar eine beliebig feste Anzahl solcher innerer Iterationen, praktisch zeigen sich jedoch dadurch insgesamt kaum nennenswerten Veränderungen im Verhalten des Algorithmus.
 		Alternativ betrachtet gibt es keinen guten Grund, die verhältnismäßig schnellen Lagrange-Updates nicht in jedem Schritt durchzuführen.
-	    \item
-		Ein mögliches Abbruchkriterium wäre $\|u^k - u^{k-1}\| < \epsilon$, wobei die Norm abhängig von der entsprechenden Diskretisierung gewählt wird.
-		Allerdings ist die Konvergenzgeschwindigkeit stark abhängig vom gewählten Bild und den eingestellten Parametern, was die Wahl von $\epsilon$ für ein sinnvolles Inpaintingresultat schwierig macht.
+	    \item % FIXME
+		Ein sinnvolles Abbruchkriterium für ein gutes Inpaintingresultat zu finden ist nicht einfach.
+		Die numerische Gesamtenergie des Lagrangefunktionals \eqref{eq:energy_al} ist stark abhängig von den Penaltyparametern, während die Energie ohne Nebenbedingungen \eqref{eq:energy_splitted} nur eine sinnvolle Bewertung darstellt, wenn die Nebenbedingunen eingehalten werden.
+		Die tatsächliche Energie \eqref{eq:energy_ee} lässt sich im Finite Elemente Kontext nur berechnen, wenn für $u$ mindestens quadratische Basisfunktionen gewählt werden.
 
 	    % TODO: Reihenfolge upmn?
 	\end{itemize}
@@ -1391,9 +1444,9 @@ Obwohl eine Implementierung für $d > 2$ reizend wäre, beschränken wir uns der
 Die meisten Arbeiten, die eine alternating direction Methode für das Lösen des Euler-Elastica Bildmodells einsetzen (\cite{??}) nutzen eine Finite Differenzen Diskretisierung auf speziell angepassten Gittern.
 In diesen „staggered grids“ werden die Werte von $u$, sowie in unserem Fall $p_1, m_1, n_1$ und $p_2, m_2, n_2$ entsprechend der Finiten Differenzen an jeweils zueinander versetzten Stellen betrachtet.
 Die partiellen Differentialgleichungen (bei uns in $u$ und $n$) werden in der Regel in starker Form formuliert und diskretisiert.
-Für diese speziellen Gitterwahlen werden die Schritte in Algorithmus \ref{algorithm:complete} explizit als lineare Gleichungssysteme oder Updates in den Gitterpunkten dargestellt.
+Für diese speziellen Gitterwahlen werden die Schritte in Algorithmus \ref{alg:complete} explizit als lineare Gleichungssysteme oder Updates in den Gitterpunkten dargestellt.
 
-Das Ziel dieser Arbeit bestand in der Implementierung von Algorithmus \ref{algorithm:complete} im Kontext Finiter Element mit Hilfe der C++ Bibliotheken Dune-Fem und Dune-ACFem.
+Das Ziel dieser Arbeit bestand in der Implementierung von Algorithmus \ref{alg:complete} im Kontext Finiter Elemente mit Hilfe der C++ Bibliotheken Dune-Fem und Dune-ACFem.
 Eine natürliche Gitterwahl mit Dreieckselementen um ein gegebenes Bild zu repräsentieren illustriert Abbildung \ref{fig:grid}.
 \begin{figure}[ht]
     \begin{subfigure}{0.5\textwidth}
@@ -1435,13 +1488,7 @@ Sie sind jedoch teilweise durch unterschiedliche Basisfunktionen repräsentiert.
 Diese Wahlen wurden getroffen, um die entstehenden Fehler bei den nötigen Projektionen zwischen verschiedenen diskreten Räumen zu minimieren.
 Die nötigen Projektionen befinden sich bei dieser Wahl nur im $m$- und im $\lambda_4$-Update.
 
-
-
-
-
-
-
-
+Für die folgenden Resultate wurde 
 
 
 
@@ -1453,7 +1500,7 @@ Die nötigen Projektionen befinden sich bei dieser Wahl nur im $m$- und im $\lam
 
 
 Die Implementierung fand in der Programmiersprache C++ statt.
-Verwendet wurden die GPLv2-lizenzierte „Distributed and Unified Numerics Environment“ Dune\footnote{\url{https://dune-project.org}} samt Core-Module, sowie \texttt{dune-fem} und \texttt{dune-acfem}.
+Verwendet wurden die GPLv2-lizenzierte, C++ „Distributed and Unified Numerics Environment“ Dune\footnote{\url{https://dune-project.org}} samt Core-Modulen, sowie den Modulen \texttt{dune-fem} und \texttt{dune-acfem}.
 Dabei ist \texttt{dune-fem} für die Finite Elemente Diskretisierung zuständig und \texttt{dune-acfem} bietet darauf aufbauend eine zusätzliche komfortable Abstraktionsebene.
 
 Ohne die Implementierung im Detail zu beschreiben, soll an dieser Stelle ein kurzer Überblick über die wesentlichen Teile des beiliegenden Quellcodes gegeben werden.
@@ -1473,7 +1520,7 @@ Es sei angemerkt, dass Performance nicht das Hauptaugenmerk während der Impleme
 	Um die Ergebnisse auszugeben, oder zusätzliche Daten während des Algorithmus zu erheben, wird die Klasse durch \Code{AlgorithmLive} und \Code{AlgorithmLogging} entsprechend erweitert.
     \item[\texttt{src/main\{,_gui\}.cc}]
 	Dies sind die Programmeinstiegspunkte der beiden generierten ausführbaren Dateien \texttt{src/eeinpaint} und \texttt{src/eeinpaint_gui}.
-	Hier wird die Bilddatei für $u^0$ gelesen, das Gitter erzeugt und unter Umständen verfeinert um anschließend den entsprechenden Algorithmus aufzurufen.
+	Hier wird die Bilddatei für $u^0$ gelesen, das Gitter erzeugt und unter Umständen verfeinert, um anschließend den entsprechenden Algorithmus aufzurufen.
    \item[\texttt{data/input\{,_mask\}.png}]
 	Die Datei \texttt{data/input.png} wird in Graustufen gelesen und repräsentiert $u^0$.
 	Dazu wird eine Inpainting-Maske aus \texttt{data/input_mask.png} gelesen, welche den Inpaintingbereich angibt: schwarz für $\Omega \setminus D$, weiß für $D$.
@@ -1511,7 +1558,7 @@ Angedacht, aber aus Zeitgründen nicht umgesetzt sind folgende Ideen.
 Zu Vergleichszwecken wurde der Algorithmus \ref{alg:complete} in einem separaten Git-Branch auch für reines TV-Inpainting implementiert.
 Dabei wurden alle Variablen und Parameter ausgelassen, welche nur für den Krümmungsanteil in der Inpainting-Energie \ref{??} benötigt werden.
 
-\begin{algorithm}[TV Inpainting]
+\begin{algorithm}[TV Inpainting] \label{alg:tv}
     \Input{$\Omega \subset \R^2$, $u^0: \Omega \setminus D \to \R$, $\alpha, \eta \in \R_{\ge 0}$, $r_2 \in \R_{>0}$} \\
     \Output{$(u^k: \Omega \to \R)_{k\in\N}$}
     \begin{algorithmic}
@@ -1532,8 +1579,7 @@ Dabei wurden alle Variablen und Parameter ausgelassen, welche nur für den Krüm
 \section{Synthetische Tests und Parameterstudie}
 
 
-In der numerischen Untersuchung des Algorithmus betrachten wir zunächst den vereinfachten TV Inpainting Algorithmus \ref{alg:tv}.
-Das hierfür genutzte, synthetische $u^0$ findet sich in \ref{fig:sample}.
+Das in den folgenden Tests genutzt, synthetisce $u^0$ findet sich in Abbildung \ref{fig:sample}.
 
 \begin{figure}[ht]
     \begin{subfigure}{0.33\textwidth}
@@ -1563,10 +1609,206 @@ Das hierfür genutzte, synthetische $u^0$ findet sich in \ref{fig:sample}.
 	    \draw[black!30] (0,0) rectangle (32,32);
 	\end{tikzpicture}
     \end{subfigure}%
-    \caption{In den numerischen Tests vorgegebenes $32\times 32$ Pixel Inpaintingproblem (links) zusammen mit wünschenswertem TV-Inpainting (mittig) und Elastica-Inpainting (rechts)}
+    \caption{In den numerischen Tests vorgegebenes $32\times 32$ Pixel Inpaintingproblem (links) zusammen mit theoretisch wünschenswertem TV-Inpainting (mittig) und Elastica-Inpainting (rechts)}
+    \label{fig:sample}
 \end{figure}
 
-Für TV-Inpainting erwarten wir als Lösung eine diagonale, gerade verlaufende Schwartz-Weiß-Kante, während Elastica-Inpainting eine (je nach Wahl von $\alpha, \beta$) gekrümmte Kante hervorbringen sollte.
+Für TV-Inpainting erwarten wir als Lösung eine diagonale, gerade verlaufende Schwarz-Weiß-Kante, während Elastica-Inpainting eine (je nach Wahl von $\alpha, \beta$) gekrümmte Kante hervorbringen sollte.
+
+\DeclareDocumentCommand{\kmax}{}{k_{\mathrm{max}}}
+Zwei Abbruchkriterien wurden implementiert:
+\begin{itemize}
+    \item
+	Maximale Anzahl Iterationen:
+	\begin{math}[numbered] \label{eq:stopmax}
+	    k > \kmax.
+	\end{math}
+    \item
+	Die Summe der Residuen in den Lagrange-Updates der Nebenbedingungen ist hinreichend klein:
+	\begin{math}[numbered] \label{eq:stopres}
+	    \underbrace{\||p| - m \cdot p\|_{L^2}}_{=:R_{mp}} + \underbrace{\|p - \nabla u\|_{L^2}}_{=:R_{pu}} + \underbrace{\|n - m\|_{L^2}}_{=:R_{nm}} < \epsilon_R.
+	\end{math}
+\end{itemize}
+
+\DeclareDocumentCommand{\Limg}{}{\scr L_{\mathrm{img}}}
+\DeclareDocumentCommand{\Ldat}{}{\scr L_{\mathrm{dat}}}
+\DeclareDocumentCommand{\Lconstr}{}{\scr L_{\mathrm{constr}}}
+\DeclareDocumentCommand{\Ltotal}{}{\scr L_{\mathrm{total}}}
+
+Wir protokollieren unter anderem
+die $L^2$-Abstände aufeinanderfolgender Itererierten, obige Lagrange-Update Residuen $R_{mp}$, $R_{pu}$, $R_{nm}$, sowie
+die numerischen Energien
+\begin{math}
+    \Limg^k &:= \int_\Omega \big(\alpha + \beta (\nabla \cdot n^k)^2\big)|p^k|, \\
+    \Ldat^k &:= \frac{\eta}{2} \int_{\Omega\setminus D} |u^k - u^0|^2, \\
+    \Lconstr^k &:=
+	r_1 \int_\Omega (|p^k| - m^k\cdot p^k) + \int_\Omega \lambda_1 (|p^k| - m^k \cdot p^k) \\
+	&\quad + \frac{r_2}{2} \int_\Omega |p^k - \nabla u^k|^2 + \int_\Omega \lambda_2 \cdot (p^k - \nabla u^k) \\
+	&\quad + \frac{r_4}{2} \int_\Omega |n^k - m^k|^2 + \int_\Omega \lambda_4 \cdot (n^k - m^k), \\
+    \Ltotal^k &:= \Limg^k + \Ldat^k + \Lconstr^k.
+\end{math}
+%\begin{math}
+%    \|u^k - u^{k-1}\|,
+%    \|p^k - p^{k-1}\|,
+%    \|m^k - m^{k-1}\|,
+%    \|n^k - n^{k-1}\|,
+%    \|\lambda_1^k - \lambda_1^{k-1}\|,
+%    \|\lambda_2^k - \lambda_2^{k-1}\|,
+%    \|\lambda_4^k - \lambda_4^{k-1}\|.
+%\end{math}
+
+\subsection*{TV-Inpainting}
+
+Wir testen nun den TV-Inpainting-Algorithmus \ref{alg:tv} und führen eine kleine Parameterstudie für $r_2$ durch.
+Hierfür wählen wir $\alpha = 1$ und $\eta = 1000$, während wir $r_2 \in \Set{10^k}_{k=-2}^4$ variieren.
+Als Abbruchkriterium wurde \eqref{eq:stopmax} mit $\kmax = 5000$ gewählt.
+
+\DeclareDocumentCommand{\Etv}{}{E_{\mathrm{tv}}}
+
+Die Inpainting-Energie aus \eqref{eq:energy_ee} ist hier von der Form
+\begin{math}
+    \Etv = \int_\Omega \alpha |\nabla u| + \frac{\eta}{2} \int_{\Omega\setminus D} |u - u^0|^2.
+\end{math}
+Da wir für $u$ lineare Basisfunktionen angesetzt haben, lässt sich $E_{\mathrm{tv}}[u]$ ohne weiteres numerisch auswerten.
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+	\begin{semilogxaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$E_{\mathrm{tv}}[u^k]$},restrict y to domain=260:268]
+	    %\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+	    %\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e-2/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e-1/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e0/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e1/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e2/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e3/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e4/output.dat};
+	    \legend{
+	      $r_2=10^{-2}$,
+	      $r_2=10^{-1}$,
+	      $r_2=10^0$,
+	      $r_2=10^1$,
+	      $r_2=10^2$,
+	      $r_2=10^3$,
+	      $r_2=10^4$,
+	    }
+	\end{semilogxaxis}
+    \end{tikzpicture}
+    \caption{TV-Inpainting-Energie für verschiedene Penaltyparameter.}
+    \label{fig:num_tvr2_etv}
+\end{figure}
+In Abbildung \ref{fig:num_tvr2_etv} sehen wir, dass die Energie $\Etv$ für alle Parameterwahlen $r_2$ annähernd gegen den selben Wert konvergiert.
+Das beste Konvergenzverhalten ist für $r_2 = 10$ zu beobachten.
+Im Endergebnis für $k = 5000$ unterscheidet sich nur der Fall $r_2 = 10^4$ mit der höchsten Energie noch optisch von den restlichen Ergebnissen, wie exemplarisch in Abbildung \ref{fig:num_tvr2_png} zu sehen.
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.2\textwidth}
+	\centering
+	\myincludegraphics[width=0.8\textwidth]{data/tvr2/refinements=0_alpha=1e0_r2=1e-2/vtk.png}
+	\caption{$r_2=10^{-2}$}
+    \end{subfigure}%
+    \begin{subfigure}{0.2\textwidth}
+	\centering
+	\myincludegraphics[width=0.8\textwidth]{data/tvr2/refinements=0_alpha=1e0_r2=1e2/vtk.png}
+	\caption{$r_2=10^{1}$}
+    \end{subfigure}%
+    \begin{subfigure}{0.2\textwidth}
+	\centering
+	\myincludegraphics[width=0.8\textwidth]{data/tvr2/refinements=0_alpha=1e0_r2=1e4/vtk.png}
+	\caption{$r_2=10^{4}$}
+    \end{subfigure}%
+    \caption{}
+    \label{fig:num_tvr2_png}
+\end{figure}
+
+Für $r_2 \ge 10$ wird die Nebenbedingung $p = \nabla u$ durchgehend besser eingehalten (siehe Abbildung \ref{num_tvr2_pu}) auf Kosten einer zu Beginn sehr hohen Energie $\Etv$.
+Für $r_2 \le 1$ ist die Energie zu Beginn relativ niedrig, erfährt jedoch erst einen deutlichen Abfall nachdem die Nebenbedingungen zu einem gewissen Grad eingehalten wurden.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+	\begin{loglogaxis}[width=10cm,xlabel=$k$,ylabel={$R_{pu}$}]
+	    %\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+	    %\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e-2/output.dat};
+	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e-1/output.dat};
+	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e0/output.dat};
+	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e1/output.dat};
+	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e2/output.dat};
+	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e3/output.dat};
+	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e4/output.dat};
+	    \legend{
+	      $r_2=10^{-2}$,
+	      $r_2=10^{-1}$,
+	      $r_2=10^0$,
+	      $r_2=10^1$,
+	      $r_2=10^2$,
+	      $r_2=10^3$,
+	      $r_2=10^4$,
+	    }
+	\end{loglogaxis}
+    \end{tikzpicture}
+    \caption{TV-Inpainting-Energie für verschiedene Penaltyparameter.}
+    \label{fig:num_tvr2_pu}
+\end{figure}
+
+
+% TODO: echte tv energie, vs numerische mit p
+
+
+
+Anzumerken ist in Abbildung \ref{fig:num_tvr2_png} die Verwaschenheit der diagonalen Kante, sowie die beiden kleinen Auswüchse an den jeweiligen Enden dieser.
+Beides reduziert sich durch globale Verfeinerung des Gitters, wie in Abbildung \ref{fig:num_tvrefine_png} zu sehen.
+
+
+% TODO: fix grid refine!!
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.2\textwidth}
+	\centering
+	\myincludegraphics[width=0.8\textwidth]{data/tvrefine/refinements=0_alpha=1e0_r2=1e1/vtk.png}
+	\caption{$q=0$}
+    \end{subfigure}%
+    \begin{subfigure}{0.2\textwidth}
+	\centering
+	\myincludegraphics[width=0.8\textwidth]{data/tvrefine/refinements=1_alpha=1e0_r2=1e1/vtk.png}
+	\caption{$q=1$}
+    \end{subfigure}%
+    \begin{subfigure}{0.2\textwidth}
+	\centering
+	\myincludegraphics[width=0.8\textwidth]{data/tvrefine/refinements=4_alpha=1e0_r2=1e1/vtk.png}
+	\caption{$q=4$}
+    \end{subfigure}%
+    \caption{Verfeinerung des Gitters für $r_2=10^1$.}
+    \label{fig:num_tvr2_png}
+\end{figure}
+
+
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+	\begin{semilogxaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$E_{\mathrm{tv}}[u^k]$}]
+	    %\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+	    %\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=0_alpha=1e0_r2=1e1/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=1_alpha=1e0_r2=1e1/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=2_alpha=1e0_r2=1e1/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=3_alpha=1e0_r2=1e1/output.dat};
+	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=4_alpha=1e0_r2=1e1/output.dat};
+	    \legend{
+	      $q=1$,
+	      $q=2$,
+	      $q=3$,
+	      $q=4$,
+	      $q=5$,
+	    }
+	\end{semilogxaxis}
+    \end{tikzpicture}
+    \caption{TV-Inpainting-Energie für verschiedene Penaltyparameter.}
+    \label{fig:num_tvr2_etv}
+\end{figure}
 
 
 
@@ -1574,7 +1816,12 @@ Für TV-Inpainting erwarten wir als Lösung eine diagonale, gerade verlaufende S
 
 
 
-\section{Anwendung auf }
+
+
+
+
+
+\section{Praktische Anwendungen und Beobachtungen}
 
 %\begin{itemize}
 %    \item

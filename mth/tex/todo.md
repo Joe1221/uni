@@ -2,3 +2,12 @@
 - Elastica kinematisch betrachten
 - Bild: Levelsetfunktion
 - exemplar-based inpainting form a variational point of view
+-
+-
+- Bovik: Handbook of Image and Video Processing
+- arten von inpainting
+- näher ausführen d=1
+-
+- techn. hilfsm. norm/betrag erklären
+-
+- integral indices versetzt??
