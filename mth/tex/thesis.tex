@@ -40,6 +40,8 @@
 
 \DeclareDocumentCommand{\BV}{}{\mathord{\mathrm{BV}}}
 
+\DeclareDocumentCommand{\Hdiv}{}{H_{\mathrm{div}}}
+
 
 \tikzset{missing/.style={dashed,pattern=checkerboard,pattern color=red!15}}
 
@@ -395,14 +397,197 @@ Hierfür gibt es das sogenannte “texture based inpainting” mit zahlreichen s
 \end{figure}
 
 
+\chapter{Technische Hilfsmittel und Konventionen}
+
+
+\section*{Konventionen}
+
+Um die Notation zu erleichtern, werden wir eine Reihe von Konventionen befolgen, die Folgenden festgehalten werden sollen.
+
+\begin{itemize}
+    \item
+	Jedes Auftreten von „$\const$“ bezeichnet eine neue, nicht näher definierte Konstante im entsprechenden Raum.
+	In der Regel ist $\const \in \R_{>0}$.
+    \item
+	Bei Integralen einer Funktion $f: X \to Y$ über Teilmengen des Definitionsbereiches von $f$ wird das Funktionsargument ausgespart, z.B. $\int_X f \dx$.
+    \item
+	Bei Integralen über Teilmengen des $\R^d$ wird das Integrationsmaß ausgespart, falls es sich um das übliche Lebesgue-Maß handelt.
+    \item
+	Für Vektoren $v, w \in \R^d$ bezeichnen wir mit $v \cdot w$ das euklidische Skalarprodukt von $v$ und $w$ und mit $|v|$ die euklidische Norm von $v$.
+    \item
+	Für Funktionen $f, g \in H$ eines Hilbertraums $H$ bezeichen wir mit $\<f, g\>$ das zugehörige Skalarprodukt von $f$ und $g$ und mit $\|f\|$ die entsprechende Norm von $f$.
+    \item
+	Für Funktionen $f, g: X \to \R^d$ bezeichnen wir mit $f \cdot g$ das punktweise Skalarprodukt $f \cdot g: x \mapsto f(x)\cdot g(x)$ und mit $|f|$ die punktweise euklidische Norm $|f|: x \mapsto |f(x)|$.
+    \item
+	Für einen Hilbertraum $H$ bezeichnen wir Funktionen $I: H \to \R$ als \emphdef{Funktionale} und schreiben ihr Argument stets in eckigen Klammern: $I[f] \in \R$ für $f \in H$.
+\end{itemize}
+
+
+\section*{Differentialgeometrie}
+
+
+\section*{Optimierung}
+
+Wir nutzen in Kapitel \ref{chap:ee} und \ref{chap:ad} Variationsrechnung im Zusammenhang mit Optimierung und führen dazu kurz die nötigen Werkzeuge ein.
+Im Folgenden sei $H$ stets ein Hilbertraum.
+
+\begin{definition} \label{definition:min_stuff}
+    Wir nennen $I: H \to \R$
+    \begin{itemize}
+	\item
+	    \emphdef{Gateaux-differenzierbar},
+            falls für alle $u, \phi \in H$ das \emphdef{Gateaux-Differential $I': H \times H \to \R$ von $I$ an der Stelle $u$ in Richtung $\phi$}
+	    \begin{math}
+		I'[u, \phi]
+		:= \ddx[\epsilon]|_{\epsilon = 0} I[u + \epsilon \phi]
+		= \lim_{\delta \to 0} \dfrac{I[u + \delta \phi] - I[u]}{\delta}
+	    \end{math}
+	    existiert und $I'[u, \argdot]: H \to \R$ ein linearer und beschränkter Operator ist,
+        \item
+	    \emphdef{konvex},
+	    falls für alle $u_1, u_2 \in H$, $t \in [0,1]$ gilt
+	    \begin{math}
+		I[t u_1 + (1-t) u_2]
+		\le tI[u_1] + (1-t)I[u_2],
+	    \end{math}
+	\item
+	    \emphdef{koerziv},
+	    falls für jede Folge $(u_k)_{k\in\N}$ gilt
+	    \begin{math}
+		\|u_k\| \to \infty \implies I(u_k) \to \infty.
+	    \end{math}
+    \end{itemize}
+\end{definition}
+
+Folgender einfache Satz rechtfertigt das Ermitteln von kritischen Punkten eines Funktionals um sein Minimum zu bestimmen.
+
+\begin{proposition} \label{proposition:min_zero}
+    Sei $\hat u \in H$ und $I: H \to \R$ Gâteaux-differenzierbar und konvex.
+    Dann gilt
+    \begin{math}
+        I[\hat u] = \inf_{u \in H} I[u]
+	\iff
+	\forall \phi \in H : I'[\hat u, \phi] = 0.
+    \end{math}
+    \begin{note}
+	Über die Lösbarkeit von $I'[u, \phi] = 0$ für alle $\phi$, bzw. die Existenz des Minimums $\hat u$ wird hier keine Aussage getroffen, siehe dazu Theorem \ref{theorem:min_existence}.
+    \end{note}
+    \begin{proof}
+	„$\implies$”: Sei $I[\hat u] \le I[u]$ für alle $u \in H$.
+	Dann gilt für alle $\phi \in H$
+	\begin{math}
+	    I'[\hat u, \phi] = \lim_{\epsilon \to 0} \frac{I[\hat u + \epsilon \phi] - I[\hat u]}{\epsilon}
+	    \ge 0,
+	\end{math}
+	also auch $-I'[\hat u, \phi] = I'[\hat u, -\phi] \ge 0$ und somit $I'[\hat u, \phi] = 0$.
+
+	„$\impliedby$”: Sei $I'[\hat u, \phi] = 0$ für alle $\phi \in H$.
+	Wegen Konvexität haben wir
+	\begin{math}
+	    0 = I'[\hat u, u - \hat u]
+	    &= \lim_{\epsilon \to 0} \frac{1}{\epsilon} \big( I[\epsilon u + (1-\epsilon) \hat u] - I[\hat u] \big) \\
+	    &\le \lim_{\epsilon \to 0} \frac{1}{\epsilon} \big( \epsilon I[u] + (1- \epsilon) I[\hat u] - I[\hat u] \big) \\
+	    &= I[u] - I[\hat u],
+	\end{math}
+	also $I[\hat u] \le I[u]$ für alle $u \in H$.
+    \end{proof}
+\end{proposition}
+
+\begin{theorem} \label{theorem:min_existence}
+    Sei $H$ ein Hilbertraum, $I: H \to \R$ Gateaux-differenzierbar, konvex und koerziv.
+    Dann existiert ein Minimum $\hat u \in H$, d.h.
+    \begin{math}
+        I[\hat u] = \inf_{u \in H} I[u].
+    \end{math}
+    \begin{proof}
+        Ein Beweis für eine etwas allgemeinere Version findet sich in \cite[Theorem 7.3.8]{kurdila2006convex}.
+    \end{proof}
+\end{theorem}
+
+Die obigen beiden Aussagen sind für die Minimierung von konvexen Funktionalen von wesentlicher Bedeutung.
+Zur Untersuchung der nötigen Voraussetzungen für spätere Zwecke folgen zwei einfache, konkretere Lemmata.
+
+\begin{proposition} \label{proposition:convexity}
+    Für Funktionale $I: H \to \R$ gelten folgende Aussagen über ihre Konvexität.
+    \begin{enumerate}[i)]
+	\item
+	    Konstante Funktionale sind konvex.
+	\item
+	    Lineare Funktionale sind konvex.
+        \item
+	    Die (punktweise) Summe zweier konvexer Funktionale ist konvex.
+	\item
+	    Seien $\Omega \subset \R^d$ und $H := L^2(\Omega)^d$.
+	    Seien $A: H \to H$ ein linearer Operator, $v \in H$ und $w \in L^1(\Omega)$ sodass $w|Au + v|^2 \in L^1(\Omega)$.
+	    Dann ist das Funktional
+	    \begin{math} %FIXME: w is bad, make it more general?
+	        I: u \mapsto \int_\Omega w|Au + v|^2
+	    \end{math}
+	    konvex.
+    \end{enumerate}
+    \begin{proof}
+	Die Aussagen i), ii) und iii) sind mit Blick auf Definition \ref{definition:min_stuff} sofort ersichtlich, wir zeigen nur iv).
+
+	Sei $I: u \mapsto \int_\Omega w|Au + v|^2$ für einen linearen Operator $A$.
+	Wegen
+	\begin{math}
+	    |Au - v|^2
+	    = |Au|^2 - 2Au \cdot v + |v|^2
+	\end{math}
+	genügt es mit Blick auf i), ii) und iii) den Fall $v = 0$ zu betrachten.
+	Es folgt mit $t^2 = t - t(1-t)$ punktweise
+	\begin{math}
+	    |A(tu_1 + (1-t)u_2)|^2
+	    &= t^2 |Au_1|^2 - 2 t(1-t) Au_1\cdot Au_2 + (1-t^2)|Au_2|^2 \\
+	    &= t|Au_1|^2 - t(1-t)\underbrace{\big(|Au_1|^2 - 2Au_1 \cdot Au_2 + |Au_2|^2\big)}_{=|A(u_1 - u_2)|^2 \ge 0} + (1-t)|Au_2|^2 \\
+	    &\le t|Au_1|^2 + (1-t)|Au_2|^2,
+	\end{math}
+	also wegen Distributivität der Multiplikation und Linearität des Integrals auch $I[tu_1 + (1-t)u_2] \le tI[u_1] + (1-t)I[u_2]$.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition} \label{proposition:coercivity}
+    Für Funktionale $I: H \to \R$ gelten folgende Aussagen über ihre Koerzivität:
+    \begin{enumerate}[i)]
+        \item
+	   Die (punktweise) Summe zweier koerziver Funktionale ist koerziv.
+       \item
+	   Sei $I: H \to \R$ koerziv und $J: H \to \R$ nach unten beschränkt.
+	   Dann ist $I + J$ koerziv.
+       \item
+	   Seien $\Omega \subset \R^d$, $H := L^2(\Omega)^d$, $v, w \in H$.
+	   Dann ist das Funktional
+	   \begin{math}
+	       I: u \mapsto \int_\Omega |u - v|^2 + \int_\Omega u \cdot w
+	   \end{math}
+	   koerziv.
+    \end{enumerate}
+    \begin{proof}
+	Die Aussagen i) und ii) sind mit Blick auf Definition \ref{definition:min_stuff} leicht ersichtlich und wir zeigen nur iii).
+	Durch quadratische Ergänzung und mit Hilfe von ii) genügt es den Fall $w = 0$ zu betrachten.
+	Hierfür ist
+	\begin{math}
+	    I[u] = \int_\Omega |u - v|^2 = \|u - v\|^2 \ge (\|u\| - \|v\|)^2,
+	\end{math}
+	also für eine Folge $\|u_k\| \to \infty$ auch $I[u_k] \to \infty$.
+    \end{proof}
+\end{proposition}
+
+
+
+
+
+
+
 \chapter{Das Euler Elastica Bildmodell} \label{chap:image_model}
 
 
 Wir bereits in der Einführung angesprochen, wollen wir in diesem Kapitel die Elastica Kurve als Kurvenmodell für die Niveaulinien eines Bildes ansetzen, um daraus anschließend ein Bildmodell zu gewinnen.
+Obwohl das hieraus gewonnene Bildmodell später auch für $d > 2$ interpretiert werden kann (siehe \ref{thm:eemodel}), werden wir uns für die Herleitung auf die Dimension $d = 2$ festlegen.
 
 \section{Die Euler Elastica}
 
-In der Physik bezeichnet man einen festen Gegenstand in der Regel als elastisch, wenn es sich unter äußerer Krafteinwirkung deformiert und nach dem Entfernen dieser Kraft wieder in seine Ausgangsform zurückkehrt.
+In der Physik bezeichnet man einen festen Gegenstand in der Regel als elastisch, wenn er sich unter äußerer Krafteinwirkung deformiert und nach dem Entfernen dieser Kraft wieder in seine Ausgangsform zurückkehrt.
 Die Frage, wie genau sich ein elastischer Gegenstand unter äußerer Krafteinwirkung verformt, ist im Allgemeinen stark materialabhängig und schwierig zu beantworten.
 
 Die Wissenschaft hat mit der Zeit eine Reihe von Modellen entwickelt, um das Verhalten elastischer Gegenstände zu beschreiben.
@@ -415,13 +600,14 @@ Eine Elastica war demnach (in aktueller Notation) eine zweifach stetig differenz
     \int_\gamma \kappa^2 \di[s]
 \end{math}
 minimiert.
-In seinem Werk löst Euler dieses Variationsproblem indem er alle zugehörigen kritischen Punkte (Kurven) klassifiziert und weiß darauf hin, dass das Modell bekannte Eigenschaften elastischer Stäbe reproduziert.
+In seinem Werk löst Euler dieses Variationsproblem indem er alle zugehörigen kritischen Punkte (Kurven) klassifiziert und weist darauf hin, dass das Modell bekannte Eigenschaften elastischer Stäbe reproduziert.
 
 Neben ihrer geschmeidigen Form erbt die Elastica durch diese Formulierung auch viele schöne geometrische Eigenschaften der Krümmung, wie z.B. Invarianz unter euklidischen Transformationen.
-In neuerer Zeit wurde die Elastica deshalb in der Numerik z.B. als Vorbild für Spline-Interpolationen oder wie in dieser Arbeit als Kurvenmodell für Levelsetmethoden in Betracht gezogen.
+In neuerer Zeit wurde die Elastica deshalb in der Numerik z.B. als Vorbild für Spline-Interpolationen oder – wie in dieser Arbeit – als Kurvenmodell für Levelsetmethoden in Betracht gezogen.
 Man möchte sich dabei meist von der unhandlichen Randbedingung der festen Länge befreien und wählt folgende Definition.
 
 \begin{definition}[Euler Elastica] \label{definition:elastica}
+    Seien $\alpha, \beta \in \R_{\ge 0}$.
     Eine Kurve $\gamma \in C^2([0,1], \R^2)$ mit festen Endpunkten $\gamma(0) = p_0$, $\gamma(1) = p_1$ und Tangentenrichtungen $\dot\gamma(0) = t_0$, $\dot\gamma(1) = t_1$ heißt \emphdef{Elastica}, falls sie unter eben solchen zulässigen Kurven ein kritischer Punkt des Energiefunktionals
     \begin{math}
 	\int_\gamma \alpha + \beta \kappa^2 \di[s]
@@ -429,7 +615,7 @@ Man möchte sich dabei meist von der unhandlichen Randbedingung der festen Läng
     ist.
     Diese Energie nennen wir auch \emphdef{Elastica Energie der Kurve $\gamma$}.
     \begin{note}
-	Das Verhältnis $\frac{\beta}{\alpha}$ bestimmt die Art der Kurve: für kleines $\frac{\beta}{\alpha}$ werden kürzere Verbindungsstrecken bevorzugt, während größere Werte scharfe Kurven vermeidet und ein glatteres Gesamtbild erzeugt.
+	Das Verhältnis $\frac{\beta}{\alpha}$ bestimmt die Art der Kurve: für kleines $\frac{\beta}{\alpha}$ werden kürzere Verbindungsstrecken bevorzugt, während größeres $\frac{\beta}{\alpha}$ scharfe Kurven vermeidet und ein glatteres Gesamtbild erzeugt.
 	In Kapitel \ref{chap:numerics} wird diese Eigenschaft am zugehörigen Inpaintingresultat sichtbar.
     \end{note}
 \end{definition}
@@ -437,24 +623,24 @@ Man möchte sich dabei meist von der unhandlichen Randbedingung der festen Läng
 Eine interessante Charakterisierung der Elastica liefert der folgende Satz.
 
 \begin{proposition} \label{proposition:elastica_el}
-    Eine Kurve $\gamma \in C^4([0,L], \R^2)$ mit Randbedingungen wie in Definition \ref{definition:elastica} ist eine Elastica genau dann, wenn die zugehörige Euler-Lagrange-Gleichung
+    Eine Kurve $\gamma \in C^4([0,1], \R^2)$ mit Randbedingungen wie in Definition \ref{definition:elastica} ist eine Elastica genau dann, wenn die zugehörige Euler-Lagrange-Gleichung für die Krümmung
     \begin{math}
-	\beta\big(2\ddot\kappa + \kappa^3\big) - \alpha\kappa = 0
+	\beta\big(2\ddot\kappa + \kappa^3\big) = \alpha\kappa
     \end{math}
     erfüllt ist.
     \begin{proof}
-	Sei $\gamma$ stets in Bogenlänge parametrisiert mit Tangente $e_1$ und Normale $e_2$.
-        Die Kurvenenergie sei gegeben durch $F[\gamma] := \int_\gamma \alpha + \beta \kappa^2 \di[s]$.
+	Sei $\gamma:[0,L] \to \R^2$ in Bogenlänge parametrisiert und ebenso ihre Tangente $e_1$, Normale $e_2$ und Krümmung $\kappa$.
+        Die Kurvenenergie sei gegeben durch $I[\gamma] := \int_\gamma \alpha + \beta \kappa^2 \di[s]$.
 	Wir bedienen uns der Variationsrechnung und lösen
 	\begin{math}
-	    \ddx[\epsilon]|_{\epsilon=0} F[\gamma + \epsilon \phi e_2] = 0,
+	    \ddx[\epsilon]|_{\epsilon=0} I[\gamma + \epsilon \phi e_2] = 0,
 	\end{math}
 	wobei $\phi \in C^2([0,L], \R^2)$ eine Variation in Normalenrichtung $e_2$ darstellt.
 	Sei $\gamma_\epsilon = \gamma + \epsilon \phi e_2$.
 	Die Krümmung $\kappa_\epsilon$ von $\gamma_\epsilon$ lässt sich parametrisierungsunabhängig durch $\kappa_\epsilon = \frac{\det(\dot\gamma_\epsilon, \ddot\gamma_\epsilon)}{|\dot\gamma_\epsilon|^3}$ darstellen.
 	Wir berechnen nun
 	\begin{math}
-	    \dot \gamma_\epsilon &= t + \epsilon \dot \phi e_2 - \epsilon \phi \kappa e_1 \\
+	    \dot \gamma_\epsilon &= e_1 + \epsilon \dot \phi e_2 - \epsilon \phi \kappa e_1 \\
 	    &= (1-\epsilon \phi \kappa)e_1 + \epsilon \dot \phi e_2, \\
 	    \ddot \gamma_\epsilon &= (-\epsilon \dot \phi \kappa - \epsilon \phi \dot \kappa) e_1 + (1-\epsilon \phi \kappa) \kappa e_2 + \epsilon \ddot \phi e_2 - \epsilon \dot \phi \kappa e_1 \\
 	    &= (-2\epsilon \dot\phi \kappa - \epsilon \phi \dot \kappa) e_1 + (\epsilon \ddot \phi - \epsilon \phi \kappa^2 + \kappa) e_2, \\
@@ -473,20 +659,24 @@ Eine interessante Charakterisierung der Elastica liefert der folgende Satz.
 	\end{math}
 	Zusammen ergibt sich
 	\begin{math}
-	    0 &= \ddx[\epsilon]|_{\epsilon = 0} F[\gamma_\epsilon] \\
-	    &= \ddx[\epsilon]|_{\epsilon=0} \int_0^L (\alpha + \beta \kappa^2)|\dot\gamma_\epsilon| \di[\tau] \\
-	    &= \int_0^L \alpha \ddx[\epsilon]|_{\epsilon = 0}|\dot\gamma_\epsilon| + \beta \ddx[\epsilon]|_{\epsilon = 0} \dfrac{\det(\dot\gamma_\epsilon, \ddot\gamma_\epsilon)^2}{|\dot\gamma_\epsilon|^5} \di[\tau] \\
+	    0 &= \ddx[\epsilon]|_{\epsilon = 0} I[\gamma_\epsilon] \\
+	    &= \ddx[\epsilon]|_{\epsilon=0} \int_0^L (\alpha + \beta \kappa_\epsilon^2)|\dot\gamma_\epsilon|  \\
+	    &= \int_0^L \alpha \ddx[\epsilon]|_{\epsilon = 0}|\dot\gamma_\epsilon| + \beta \ddx[\epsilon]|_{\epsilon = 0} \dfrac{\det(\dot\gamma_\epsilon, \ddot\gamma_\epsilon)^2}{|\dot\gamma_\epsilon|^5}  \\
 	    &= \int_0^L -\alpha \kappa \phi + \beta \Big(2\kappa \ddx[\epsilon]|_{\epsilon=0} \det(\dot\gamma_\epsilon, \ddot\gamma_\epsilon) + 5\kappa^3 \phi \Big) \\
 	    &= \int_0^L 2\beta\kappa \ddot\phi + \beta \kappa^3 \phi - \alpha\kappa\phi.
 	\end{math}
-	Partielle Integration unter Beachtung der Randbedingungen $\phi(0), \phi(1), \dot\phi(0), \dot\phi(L) = 0$ und Variationsrechnung führt schließlich auf
+	Zweimalige partielle Integration unter Beachtung der Randbedingungen $\phi(0), \phi(1), \dot\phi(0), \dot\phi(L) = 0$ liefert
+	\begin{math}
+	    0 &= \int_0^L \Big(2\ddot\kappa + \beta \kappa^3 - \alpha\kappa \Big) \phi
+	\end{math}
+	und mit dem Hauptsatz der Variationsrechnung also
 	\begin{math}
 	    \beta(2\ddot\kappa + \kappa^3) - \alpha \kappa = 0.
 	\end{math}
     \end{proof}
 \end{proposition}
 
-TODO: kinetische Betrachtung
+%TODO: kinetische Betrachtung
 
 
 \section{Die Levelset-Methode}
@@ -510,7 +700,7 @@ Die Levelset-Funktion enthält dabei die zu betrachtenden Kurven als Niveaulinie
 \end{definition}
 
 Viele von $\gamma$ abhängige Größen können nun auch durch $u$ dargestellt werden, wie z.B. die Einheitsnormale $e_2$ von $\gamma$ an einem Punkt $x = \gamma(t)$.
-Einmaliges Ableiten von $(u \circ \gamma)(t) = 0$ nach $t$ liefert nämlich
+Einmaliges Ableiten von $(u \circ \gamma)(t) = \lambda$ nach $t$ liefert nämlich
 \begin{math}
     0 = \nabla u(\gamma(t)) \cdot \dot \gamma(t).
 \end{math}
@@ -526,7 +716,7 @@ Dies motiviert folgende Definition.
     das \emphdef{Normalenfeld} von $u$.
 \end{definition}
 
-Die Elastica Energie $\int_\gamma \alpha + \beta \kappa^2 \di[s]$ im Hinterkopf wollen wir nun die Krümmung $\kappa$ der Niveaulinie eines Bildes durch $u$ darstellen.
+Die Elastica Energie $\int_\gamma \alpha + \beta \kappa^2 \di[s]$ im Hinterkopf, wollen wir nun die Krümmung $\kappa$ der Niveaulinie eines Bildes durch $u$ darstellen.
 
 \begin{lemma}
     Sei $\Omega \subset \R^2$, $\gamma \in C^2([0,1], \Omega)$ regulär und $u \in C^2(\Omega, [0,1])$ eine zugehörige Levelset-Funktion mit Normalenfeld $n: \Omega \to \R^2$ und $\nabla u \neq 0$ auf $\Omega$.
@@ -535,7 +725,7 @@ Die Elastica Energie $\int_\gamma \alpha + \beta \kappa^2 \di[s]$ im Hinterkopf 
 	\kappa(t) = - \nabla \cdot n(x) = - \nabla \cdot \frac{\nabla u(x)}{|\nabla u(x)|}.
     \end{math}
     \begin{note}
-	Allgemeiner beschreibt $-\nabla \cdot n$ in der Differentialgeometrie die mittlere Krümmung einer Fläche mit Normale $n$.
+	Allgemeiner beschreibt $-\nabla \cdot n$ in der Differentialgeometrie die mittlere Krümmung einer Fläche mit Normale $n$, siehe \cite{??}.
 	% FIXME: referenziere für höhere dimensionen
     \end{note}
     \begin{proof}
@@ -546,16 +736,16 @@ Die Elastica Energie $\int_\gamma \alpha + \beta \kappa^2 \di[s]$ im Hinterkopf 
 	\end{math}
 	Wegen $e_2 = n \circ \gamma$ erhalten wir gemäß Kettenregel
 	\begin{math}
-	    \kappa = - \dot e_2 \cdot e_1 = -n' t \cdot t.
+	    \kappa = - \dot e_2 \cdot e_1 = -n' e_1 \cdot e_1.
 	\end{math}
-	Außerdem zeigt sich durch Differenzieren von $n_1^2 + n_2^2 = 1$
+	Außerdem zeigt sich durch Differenzieren von $|n|^2 = n_1^2 + n_2^2 = 1$
 	\begin{math}
 	    n_1 \partial_1 n_1 + n_2 \partial_1 n_2 &= 0, \\
 	    n_1 \partial_2 n_1 + n_2 \partial_2 n_2 &= 0.
 	\end{math}
 	Zusammen ergibt sich
 	\begin{math}
-	    -\kappa &= n' t \cdot t \\
+	    -\kappa &= n' e_1 \cdot e_1 \\
 	    &= \Matrix*{\partial_1 n_1 & \partial_2 n_1 \\ \partial_1 n_2 & \partial_2 n_2}
 	       \Vector*{n_2 & -n_1} \cdot \Vector*{n_2 & -n_1} \\
 	    &= n_2 (n_2 \partial_1 n_1 - n_1 \partial_2 n_1) - n_1 (n_2 \partial_1 n_2 - n_1 \partial_2 n_2) \\
@@ -567,7 +757,7 @@ Die Elastica Energie $\int_\gamma \alpha + \beta \kappa^2 \di[s]$ im Hinterkopf 
     \end{proof}
 \end{lemma}
 
-Wir haben damit folgende Darstellung für die Elastica Energie einer Kurve $\gamma$ mit Levelset-Funktion $u$:
+Wir haben damit folgende Darstellung für die Elastica Energie einer Kurve $\gamma$ mit Levelset-Funktion $u$ für den Fall $\nabla u \neq 0$ fast überall:
 \begin{math}
     \int_\gamma \alpha + \beta (\nabla \cdot \frac{\nabla u}{|\nabla u|})^2 \di[s].
 \end{math}
@@ -596,7 +786,7 @@ Das Werkzeug dafür ist die sogenannte Coarea-Formel, welche wir hier in zurecht
 Die Coarea-Formel motiviert nun die folgende Definition der Euler Elastica Bildenergie.
 
 \begin{definition}
-    Für $u \in C^2(\Omega, [0,1])$ mit $\nabla u \neq 0$ auf $\Omega$ ist das Euler Elastica Bildmodell festgelegt durch die Minimierung der \emphdef{Elastica Bildenergie}
+    Für $u \in C^2(\Omega, [0,1])$ mit $\nabla u \neq 0$ auf $\Omega$ ist das \emphdef{Euler Elastica Bildmodell} festgelegt durch die Minimierung der \emphdef{Elastica Bildenergie}
     \begin{math}
 	\Eimg[u] = \int_\Omega \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{|\nabla u|})^2\Big)|\nabla u| \di[x].
     \end{math}
@@ -610,7 +800,7 @@ Die Coarea-Formel motiviert nun die folgende Definition der Euler Elastica Bilde
 	    \item
 		Man kann diese Energie durch geeignete Methoden auch auf $L^1(\Omega, [0,1])$ erweitern, wie in \cite{ambrosio2003direct}:
 		\begin{math}
-		    \_E(u) := \inf \Set{ \liminf_{C^2 \ni u_h \to u} E(u_h) }.
+		    \_E[u] := \inf \Set{ \liminf_{C^2 \ni u_h \to u} E[u_h] }.
 		\end{math}
 	\end{itemize}
     \end{note}
@@ -622,11 +812,11 @@ Die Coarea-Formel motiviert nun die folgende Definition der Euler Elastica Bilde
 	V_\Omega(u) := \int_\Omega |\nabla u| \di[x]
     \end{math}
     minimiert.
-    Mit Blick auf die Coarea-Formel entsteht dieses Bildmodell aus einem Kurvenmodel, welches die Energie $\int_\gamma \di[s] = L(\gamma)$, d.h. die Länge der Kurven minimiert.
+    Mit Blick auf die Coarea-Formel entsteht dieses Bildmodell aus einem Kurvenmodel, welches die Energie $\int_\gamma \di[s] = L(\gamma)$, d.h. die Länge der entsprechenden Kurven minimiert.
     Einen Vergleich zwischen TV- und Elastica-Inpainting werden wir in Kapitel \ref{chap:numerics} sehen können.
 
-    Das TV-Modell wird oft zum Entrauschen von Bildern verwendet, vor allem in der Signalverarbeitung für $d = 1$.
-    In der Regel wird die Energie im allgemeineren Raum der Funktionen mit beschränkter totalar Variation
+    Das TV-Modell wird unter anderem zum Entrauschen von Bildern verwendet, da es – anders als z.B. Glättungsmethoden – die Kanten eines Bildes gut erhält, wie in \cite{rudin1992nonlinear} beschrieben.
+    In der Regel wird die Energie im allgemeineren Raum der Funktionen mit beschränkter totaler Variation
     \begin{math}
 	\BV(\Omega) := \Set{u \in L^1(\Omega, [0,1]) & V_\Omega(u) < \infty}.
     \end{math}
@@ -634,20 +824,20 @@ Die Coarea-Formel motiviert nun die folgende Definition der Euler Elastica Bilde
     \begin{math}
 	V_\Omega(u) := \sup\Set{ \int_\Omega u \nabla \cdot \phi & \phi \in C_0^1(\Omega,\R^d), \|\phi\|_{L^\infty(\Omega)} \le 1}.
     \end{math}
-    Der Raum $\BV$ ist ein beliebter Funktionenraum in der Bildverarbeitung, da er allgemein genug ist, um fast alle konventionellen Bilder zu beschreiben und gleichzeitig die nötige geometrische Struktur bietet, um sinnvolle Bildmodelle zu definieren, näheres in \cite[§2.2]{chan2005image}.
+    Der Raum $\BV$ ist ein beliebter Funktionenraum in der Bildverarbeitung, da er allgemein genug ist, um fast alle konventionellen Bilder zu beschreiben und gleichzeitig hinreichend viel geometrische Struktur bietet, um sinnvolle Bildmodelle zu definieren, näheres in \cite[§2.2]{chan2005image}.
 \end{remark}
 
 Erinnert man sich an das Bayes-Prinzip, so steht nun unser Inpaintingmodell fest.
 
 \begin{definition} \label{definition:elastica_inpainting}
-    Für gegebenes $u^0 \in L^2(\Omega, [0,1])$ und Inpaintingbereich $D \subset \Omega$ ist das \emphdef{Euler Elastica Inpaintingmodell} festgelegt durch die Minimierung der \emphdef{Elastica Inpaintingenergie}
+    Für gegebenes $u^0 \in L^2(\Omega, [0,1])$ und Inpaintingbereich $D \subset \Omega$ mit $|\Omega \setminus D| > 0$ ist das \emphdef{Euler Elastica Inpaintingmodell} festgelegt durch die Minimierung der \emphdef{Elastica Inpaintingenergie}
     \begin{math}[numbered] \label{eq:energy_ee}
         E[u]
-	&= \Eimg[u] + \Edat[u] \\
+	&:= \Eimg[u] + \Edat[u] \\
 	&= \int_\Omega \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{|\nabla u|})^2\Big)|\nabla u| \di[x]
 	  + \frac{\eta}{2} \int_{\Omega\setminus D} |u - u^0|^2 \di[x]
     \end{math}
-    über $u \in C^2(\Omega, [0,1])$ für Konstanten $\alpha, \beta, \eta \in \R_{\ge 0}$.
+    über $u \in C^2(\Omega, [0,1])$ für Konstanten $\beta \in \R_{\ge 0}$, $\alpha,\eta \in \R_{>0}$.
     Der erste Integrand sei dabei Null, falls $\nabla u(x) = 0$.
 \end{definition}
 
@@ -658,9 +848,9 @@ Erinnert man sich an das Bayes-Prinzip, so steht nun unser Inpaintingmodell fest
 \section{Motivation} % komplexität von euler-lagrange und numerische probl.
 
 
-Für die numerische Implementierung des Elastica Inpaintingmodells aus Definition \ref{definition:elastica_inpainting} gibt es verschiedene Ansätze.
+Für die numerische Implementierung des Elastica Inpaintingmodells aus Definition \ref{definition:elastica_inpainting} gibt es verschiedene Ansätze, siehe z.B. \cite{shen2002euler}, \cite{tai2011fast}, \cite{graphcuts}, \cite{normalstuff}.
 
-Eine Möglichkeit besteht darin, direkt die zugehörige Euler-Lagrange-Gleichung zu ermitteln (meist mit geeigneter Regularisierung, z.B. $\frac{\nabla u}{|\nabla u|} \leadsto \frac{\nabla u}{|\nabla u| + \epsilon}$) und hieraus ein zeitabhängiges Problem zu kreieren.
+Eine einfache Möglichkeit besteht darin, direkt die zugehörige Euler-Lagrange-Gleichung zu ermitteln (meist mit geeigneter Regularisierung, z.B. $\frac{\nabla u}{|\nabla u|} \leadsto \frac{\nabla u}{|\nabla u| + \epsilon}$) und hieraus ein zeitabhängiges Problem zu kreieren.
 Sei dazu $\Phi(u) = 0$ die Euler-Lagrange-Gleichung für einen geeigneten Operator $\Phi$.
 Dann lautet das zeitabhängige Problem
 \begin{math}
@@ -668,9 +858,9 @@ Dann lautet das zeitabhängige Problem
 \end{math}
 Es ist klar, dass eine stationäre (d.h. zeitunabhängige) Lösung dieses Problems auch eine Lösung von $\Phi(u) = 0$ ist.
 Durch entsprechende Diskretisierung durch finite Differenzen erhält man auf diese Weise ein einfaches iteratives Verfahren, siehe \cite{shen2002euler}.
-Da die Diskretisierung finite Differenzen vierter Ordnung erfordert, ist das Verfahren rechentechnisch aufwändig.
+Da die Diskretisierung finite Differenzen vierter Ordnung erfordert, ist das Verfahren jedoch rechentechnisch aufwändig.
 
-In \cite{tai2011fast} wird ein schnell konvergierender Algorithmus versprochen, dessen Ideen und Notation wir in diesem Kapitel übernehmen.
+In \cite{tai2011fast} wird ein schnell konvergierender Algorithmus versprochen, dessen Ideen und Notation wir in diesem Kapitel größtenteils übernehmen.
 Dazu überführen wir das unrestringierte Minimierungsproblem aus Definition \ref{definition:elastica_inpainting} durch geeignetes Einführen zusätzlicher Variablen und Nebenbedingungen auf ein restringiertes Minimierungsproblem.
 Anschließend minimieren wir das zugehörige Augmented Lagrange Funktional (siehe Abschnitt \ref{section:augmented_lagrange}) mit Hilfe einer Alternating Direction Methode (siehe Abschnitt \ref{section:adm}).
 
@@ -695,9 +885,15 @@ Anschließend minimieren wir das zugehörige Augmented Lagrange Funktional (sieh
     \end{proof}
 \end{lemma}
 
-Mit Blick auf Lemma \ref{lemma:mp_constr} ist das Minimierungsproblem aus Definition \ref{definition:elastica_inpainting} äquivalent zu
+Mit Blick auf Lemma \ref{lemma:mp_constr} ist das Minimierungsproblem aus Definition \ref{definition:elastica_inpainting}
+\begin{math}
+    \min_{u\in C^2(\Omega, [0,1])} E[u]
+    &= \int_\Omega \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{|\nabla u|})^2\Big)|\nabla u| \di[x]
+      + \frac{\eta}{2} \int_{\Omega\setminus D} |u - u^0|^2 \di[x]
+\end{math}
+äquivalent zu
 \begin{math}[numbered] \label{eq:energy_splitted}
-    \min_{\substack{u \in C^2(\Omega,[0,1]) \\ p,n,m \in C^1(\Omega)^d}}
+    \min_{\substack{u \in C^2(\Omega,[0,1]) \\ p,m,n \in C^1(\Omega)^d}}
     &\scr E[u,p,m,n] = \int_\Omega \Big(\alpha + \beta(\nabla \cdot n)^2\Big)|p| + \frac{\eta}{2} \int_{\Omega \setminus D} |u - u_0|^2 \\
     &\quad \text{s.t.} \quad
 	|p| = m \cdot p, \quad
@@ -705,147 +901,24 @@ Mit Blick auf Lemma \ref{lemma:mp_constr} ist das Minimierungsproblem aus Defini
 	n = m, \quad
 	|m| \le 1.
 \end{math}
-%Hierbei sei $C^1_{|\argdot|\le 1}(\Omega, \R^d) := \Set{f \in C^1(\Omega, \R^d) & \forall x \in \Omega : |f(x)| \le 1}$.
-Man beachte, dass wir mit dieser Formulierung den Fall $\nabla u = 0$ gemäß der Konvention aus \ref{definition:elastica_inpainting} behandeln und nun nicht mehr gesondert betrachten müssen.
+Hierbei wurden die Ausdrücke $\frac{\nabla u}{|\nabla u|}$ und $|\nabla u|$ durch das Einführen zusätzlicher Variablen und Nebenbedingungen substituiert.
+Diese Methode wird in \cite{tai2011fast} auch “operator splitting” genannt.
+In der Regel erhofft man sich dadurch eine leichtere Handhabung des Funktionals in Betracht auf die einzelnen Variablen.
 
-Diese Methode, einen Operator durch Einführen von Zusatzvariablen handlicher zu machen, wird in \cite{tai2011fast} auch “operator splitting” genannt.
+%Hierbei sei $C^1_{|\argdot|\le 1}(\Omega, \R^d) := \Set{f \in C^1(\Omega, \R^d) & \forall x \in \Omega : |f(x)| \le 1}$.
+Man beachte, dass wir mit dieser Formulierung den Fall $\nabla u = 0$ korrekt gemäß der Konvention aus \ref{definition:elastica_inpainting} behandeln und nun nicht mehr gesondert betrachten müssen.
+
+Zum Minimieren von \eqref{eq:energy_splitted} benötigen wir eine Methode, um restringierte Optimierung durchzuführen.
+Hierfür gibt es das sogenannte Augmented Lagrange Verfahren.
+
 
 %Bevor wir \eqref{eq:energy_splitted} lösen, führen wir zunächst einige Begrifflichkeiten ein.
-
-\section{Technische Hilfsmittel}
-
-\begin{definition} \label{definition:min_stuff}
-    Sei $B$ ein Banachraum und $I: B \to \R$ ein Funktional.
-    Wir nennen $I$
-    \begin{itemize}
-	\item
-	    \emphdef{Gateaux-differenzierbar},
-            falls für alle $u, \phi \in B$ das \emphdef{Gateaux-Differential $I': B \times B \to \R$ von $I$ an der Stelle $u$ in Richtung $\phi$}
-	    \begin{math}
-		I'[u, \phi]
-		:= \ddx[\epsilon]|_{\epsilon = 0} I[u + \epsilon \phi]
-		= \lim_{\delta \to 0} \dfrac{I[u + \delta \phi] - I[u]}{\delta}
-	    \end{math}
-	    existiert und $I'[u, \argdot]$ linear und beschränkt ist,
-        \item
-	    \emphdef{konvex},
-	    falls für alle $u_1, u_2 \in B$, $t \in [0,1]$ gilt
-	    \begin{math}
-		I[t u_1 + (1-t) u_2]
-		\le tI[u_1] + (1-t)I[u_2],
-	    \end{math}
-	\item
-	    \emphdef{koerziv},
-	    falls für jede Folge $(u_k)_{k\in\N}$ gilt
-	    \begin{math}
-		\|u_k\| \to \infty \implies I(u_k) \to \infty.
-	    \end{math}
-    \end{itemize}
-\end{definition}
-
-Folgender einfache Satz rechtfertigt das Ermitteln von kritischen Punkten eines Funktionals um sein Minimum zu bestimmen.
-
-\begin{proposition} \label{proposition:min_zero}
-    Sei $V$ ein normierter Vektorraum, $\hat u \in V$ und $I: V \to \R$ Gâteaux-differenzierbar und konvex.
-    Dann gilt
-    \begin{math}
-        I(\hat u) = \inf_{u \in V} I(u)
-	\iff
-	\forall \phi \in V : I'(\hat u, \phi) = 0.
-    \end{math}
-    \begin{note}
-	Über die Lösbarkeit von $I'(u, \phi) = 0$ für alle $\phi$, bzw. die Existenz des Minimums $\hat u$ wird hier keine Aussage getroffen, siehe dazu Theorem \ref{theorem:min_existence}.
-    \end{note}
-    \begin{proof}
-	„$\implies$”: Sei $I(\hat u) \le I(u)$ für alle $u \in V$.
-	Dann gilt für alle $\phi \in V$
-	\begin{math}
-	    I'(\hat u, \phi) = \lim_{\epsilon \to 0} \frac{I(\hat u + \epsilon \phi) - I(\hat u)}{\epsilon}
-	    \ge 0,
-	\end{math}
-	also auch $-I'(\hat u, \phi) = I'(\hat u, -\phi) \ge 0$ und somit $I'(\hat u, \phi) = 0$.
-
-	„$\impliedby$”: Sei $I'(\hat u, \phi) = 0$ für alle $\phi \in V$.
-	Wegen Konvexität haben wir
-	\begin{math}
-	    0 = I'(\hat u, u - \hat u)
-	    &= \lim_{\epsilon \to 0} \frac{1}{\epsilon} \big( I[\epsilon u + (1-\epsilon) \hat u] - I[\hat u] \big) \\
-	    &\le \lim_{\epsilon \to 0} \frac{1}{\epsilon} \big( \epsilon I[u] + (1- \epsilon) I[\hat u] - I[\hat u] \big) \\
-	    &= I[u] - I[\hat u],
-	\end{math}
-	also $I[\hat u] \le I[u]$ für alle $u \in V$.
-    \end{proof}
-\end{proposition}
-
-\begin{proposition} \label{proposition:convexity}
-    Für Funktionale $I: V \to \R$ gelten folgende Aussagen über ihre Konvexität.
-    \begin{enumerate}[i)]
-	\item
-	    Konstante Funktionale sind konvex.
-	\item
-	    Lineare Funktionale sind konvex.
-        \item
-	    Die (punktweise) Summe zweier konvexer Funktionale ist konvex.
-	\item
-	    Sei $\Omega \subset \R^d$, $V = L^2(\Omega)^d$, $A: V \to V$ ein linearer Operator.
-	    Dann ist das Funktional
-	    \begin{math}
-	        u \mapsto \int_\Omega |Au + v|^2
-	    \end{math}
-	    konvex.
-    \end{enumerate}
-    \begin{proof}
-	Die Aussagen i), ii) und iii) sind mit Blick auf Definition \ref{definition:min_stuff} sofort ersichtlich, wir zeigen nur iv).
-
-	Sei $I: u \mapsto \int_\Omega |Au + v|^2$ für einen linearen Operator $A$.
-	Wegen
-	\begin{math}
-	    |Au - v|^2
-	    = |Au|^2 - 2Au \cdot v + |v|^2
-	\end{math}
-	genügt es mit Blick auf i), ii) und iii) den Fall $v = 0$ zu betrachten.
-	Es folgt mit $t^2 = t - t(1-t)$ punktweise
-	\begin{math}
-	    |A(tu_1 + (1-t)u_2)|^2
-	    &= t^2 |Au_1|^2 - 2 t(1-t) Au_1\cdot Au_2 + (1-t^2)|Au_2|^2 \\
-	    &= t|Au_1|^2 - t(1-t)\underbrace{\big(|Au_1|^2 - 2Au_1 \cdot Au_2 + |u_2|^2\big)}_{=|A(u_1 - u_2)|^2 \ge 0} + (1-t)|Au_2|^2 \\
-	    &\le t|Au_1|^2 + (1-t)|Au_2|^2,
-	\end{math}
-	also wegen Linearität des Integrals auch $I[tu_1 + (1-t)u_2] \le tI[u_1] + (1-t)I[u_2]$.
-    \end{proof}
-\end{proposition}
-
-\begin{proposition} \label{proposition:coercivity}
-    Sei $V$ ein normierter Vektorraum.
-    Für Funktionale $I: V \to \R$ gelten folgende Aussagen über ihre Koerzivität:
-    \begin{enumerate}[i)]
-        \item
-	   Die (punktweise) Summe zweier koerziver Funktionale ist koerziv.
-       \item
-	   Sei $I: V \to \R$ koerziv und $J: V \to \R$ nach unten beschränkt.
-	   Dann ist $I + J$ koerziv.
-    \end{enumerate}
-    \begin{proof}
-	Beide Aussagen sind mit Blick auf Definition \ref{definition:min_stuff} leicht ersichtlich.
-    \end{proof}
-\end{proposition}
-
-\begin{theorem} \label{theorem:min_existence}
-    Sei $H$ ein Hilbertraum, $I: H \to \R$ Gateaux-differenzierbar, konvex und koerziv.
-    Dann existiert ein Minimum $\hat u \in H$, d.h.
-    \begin{math}
-        I[\hat u] = \inf_{u \in H} I[u].
-    \end{math}
-    \begin{proof}
-        Ein Beweis für eine etwas allgemeinere Version findet sich in \cite[Theorem 7.3.8]{kurdila2006convex}.
-    \end{proof}
-\end{theorem}
 
 
 \section{Augmented Lagrange} \label{section:augmented_lagrange}
 
 Der sogenannte Augmented Lagrange Algorithmus ist eine numerische Methode zum Minimieren von Funktionen unter Nebenbedingungen.
-Wir motivieren diese Methode mittels einem ihrem Vorgänger, der Dual Ascent Methode.
+Wir motivieren diese Methode mittels einem einfacherem Verfahren, der Dual Ascent Methode.
 
 \subsection*{Motivation}
 
@@ -859,21 +932,9 @@ Sei $\hat x \in \R^n$ ein eindeutiges Minimum.
 
 Wir definieren die Lagrange-Funktion $L: \R^n \times \R^m \to \R$ durch
 \begin{math}
-    L(x,y) := f(x) + y \cdot e(x).
+    L(x,y) := f(x) + y \cdot e(x)
 \end{math}
-%Eine erste Beobachtung ist, dass
-%\begin{math}
-%    g(x) := \sup_{y} L(x,y)
-%    = \begin{cases}
-%        f(x) & \text{für $e(x) = 0$}, \\
-%	\infty & \text{sonst}.
-%    \end{cases}
-%\end{math}
-%Folglich liefert $\hat x := \argmin g(x)$ das gesuchte Minimum von $f$ unter der Nebenbedingung $e(x) = 0$.
-%Eine 
-
-
-Betrachte nun sorgfältig
+und betrachten den folgenden wichtigen Zusammenhang:
 \begin{math}
     f(\hat x)
     =
@@ -904,11 +965,11 @@ Eine Alternative, welche unter weniger Voraussetzungen konvergiert ist die Augme
 Diese wendet Dual Ascent auf $f(x) + \frac{r}{2}|e(x)|^2$ für einen Penalty-Parameter $r \in \R_{>0}$ an.
 Die sogenannte Augmented Lagrange Funktion lautet dann
 \begin{math}
-    L(x,y) := f(x) + y\cdot e(x) + \frac{r}{2}|e(x)|^2.
+    \scr L(x,y) := f(x) + y\cdot e(x) + \frac{r}{2}|e(x)|^2.
 \end{math}
 Als Schrittweite im Algorithmus wird dabei stets $\rho := r$ verwendet.
 
-TODO: Motivation von $\rho = r$.
+%TODO: Motivation von $\rho = r$.
 
 %Sei $f$ differenzierbar.
 %Für lineare Gleichungsbedingungen $e(x) := Ax - b$, $A \in \R^{n\times m}$, $b \in \R^m$ haben wir die Optimalitätsbedingungen
@@ -936,7 +997,7 @@ TODO: Motivation von $\rho = r$.
     Das zum Funktional $I$ mit \emphdef{Gleichungsbedingungen} $g$ zugehörige \emphdef{Augmented Lagrange Funktional} $\scr L: X \times W \to \R$
     ist definiert als
     \begin{math}
-	\scr L[x,\lambda] := I[x] + \lambda \cdot g[x] + r \|g[x]\|^2
+	\scr L[x,\lambda] := I[x] + \<\lambda, g[x]\> + r \|g[x]\|^2
     \end{math}
     mit \emphdef{Penalty Parameter} $r \in \R_{>0}$.
 \end{definition}
@@ -958,7 +1019,7 @@ TODO: Motivation von $\rho = r$.
     \begin{note}
 	Bei mehreren Gleichungsbedingungen $e: X \to W = V^d$ wählt man in der Praxis oft jeweils unterschiedliche Penaltyparameter, d.h. $r_1, \dotsc, r_d \in \R$ und
 	\begin{math}
-	    \scr L[x, \lambda] = I[x] + \sum_{j=1}^d \lambda_i \cdot e_j[x] + \sum_{j=1}^d r_j \|e_j[x]\|^2
+	    \scr L[x, \lambda] = I[x] + \sum_{j=1}^d \<\lambda_i, e_j[x]\> + \sum_{j=1}^d r_j \|e_j[x]\|^2
 	\end{math}
 	mit Lagrangeupdates $\lambda^{i+1}_j \gets \lambda^i_j + r_j e_j[x^{i+1}]$ für $1 \le j \le d$.
     \end{note}
@@ -973,7 +1034,7 @@ Bestimmte Zusatzvoraussetzungen liefern ein Konvergenzresultat wie in \ref{theor
         \item
 	    $I$, $e$ zweifach Fréchet-differenzierbar in $\hat x$,
 	\item
-	    $\forall h \in X: f'(\hat x,h) + \lambda^* \cdot e'(\hat x,h) = 0$,
+	    $\forall h \in X: I'(\hat x,h) + \<\hat\lambda, e'(\hat x,h)\> = 0$,
 	\item
 	    $e(\hat x) = 0$,
 	\item
@@ -988,7 +1049,8 @@ Bestimmte Zusatzvoraussetzungen liefern ein Konvergenzresultat wie in \ref{theor
     \end{proof}
 \end{theorem}
 
-Für unser Problem aus \eqref{eq:energy_splitted} definieren wir das folgende Augmented Lagrange Funktional:
+Wir möchten nun Algorithmus \ref{alg:al} auf unser ursprüngliches Problem \eqref{eq:energy_splitted} anwenden.
+Dazu definieren wir das folgende Augmented Lagrange Funktional:
 \begin{math}[numbered] \label{eq:energy_al}
     \scr L[u,p,m,n;\lambda_1, \lambda_2, \lambda_4]
     &= \int_\Omega \Big(\alpha + \beta (\nabla \cdot n)^2\Big)|p| + \frac{\eta}{2} \int_{\Omega\setminus D} |u - u^0|^2 \\
@@ -998,28 +1060,27 @@ Für unser Problem aus \eqref{eq:energy_splitted} definieren wir das folgende Au
 \end{math}
 Die Nebenbedingung $|m| \le 1$ fordern wir durch die Wahl von $K$ in Algorithmus \ref{alg:augmented_lagrange}.
 
-Für den Penaltyterm zur Nebenbedingung $|p| = m \cdot p$ wurde eine Änderung vorgenommen.
-Wegen $|m| \le 1$ ist $m \cdot p \le |m| |p| \le |p|$ und es handelt sich bei diesem Term um $L^1$-Penalizing.
+Für den Penaltyterm zur Nebenbedingung $|p| = m \cdot p$ weichen wir hier von der Definition \ref{def:alf} ab.
+Wegen $|m| \le 1$ ist $m \cdot p \le |m| |p| \le |p|$ und es handelt sich bei diesem Term um $L^1$-Penalizing (statt $L^2$-Penalizing).
 Dies wird es uns erlauben, einige der im nächsten Abschnitt aufkommenden Teilprobleme explizit zu lösen.
-
 
 
 \section{Alternating Direction Method} \label{section:adm}
 
 Die Augmented Lagrange Methode aus Algorithmus \ref{alg:augmented_lagrange} schreibt nicht vor, wie das Minimierungsproblem in jedem Schritt zu lösen ist.
 % TODO: approximative lösung?
-Eine moderne und beliebte Methode (vergleiche \cite{brito2010fast}, \cite{yashtini2015alternating}, \cite{hahn2011fast}, \cite{duan2013fast}) besteht darin, \eqref{eq:energy_al} alternierend zu minimieren wie in Algorithmus \ref{alg:adm} beschrieben.
+Eine moderne und beliebte \emph{numerische} Methode (vergleiche \cite{brito2010fast}, \cite{yashtini2015alternating}, \cite{hahn2011fast}, \cite{duan2013fast}) besteht darin, \eqref{eq:energy_al} alternierend zu minimieren, wie in Algorithmus \ref{alg:adm} beschrieben.
 
 \begin{algorithm}[Alternating Direction Method] \label{alg:adm}
-    Mit den Bezeichnungen aus \ref{definition:al_functional} haben wir den folgenden Algorithmus.
-
+    Es gelten die Bezeichnungen aus \ref{definition:al_functional}, wobei $X = (X_s)_{s=1}^S$ in $S \in \N$ Dimensionen strukturiert ist.
+    Dann haben wir den folgenden Algorithmus.\\
     \begin{samepage}
     \Input{$\scr L: X \times W \to \R$, $x^0 = (x^0_s)_{s=1}^S \in X$, $\lambda \in W$}\\
     \Output{Folge $(x^j)_{j \in \N}$ mit $\scr L[x^j, \lambda] \to \min_{x \in K} \scr L[x,\lambda]$}
     \begin{algorithmic}
 	\For{$j = 0,1,\dotsc$}
 	    \For{$s = 1,\dotsc, S$}
-		\State{$x_s^{j+1} \gets \argmin_{x_s \in K_t} \scr L[x_1^{j+1}, \dotsc, x_s, \dotsc , x_S^j; \lambda]$}
+		\State{$x_s^{j+1} \gets \argmin_{(x_1^{j+1}, \dotsc, x_s, \dotsc, x_S^j) \in K} \scr L[x_1^{j+1}, \dotsc, x_s, \dotsc , x_S^j; \lambda]$}
 	    \EndFor
 	\EndFor
     \end{algorithmic}
@@ -1027,8 +1088,15 @@ Eine moderne und beliebte Methode (vergleiche \cite{brito2010fast}, \cite{yashti
 \end{algorithm}
 
 Indem man nur jeweils eine freie Variable minimiert, vereinfachen sich die zu lösenden Teilprobleme oft erheblich und erlauben teilweise sogar explizite Lösungen.
-Die sich ergebenden Teilprobleme aus Algorithmus \ref{alg:adm} angewandt auf $\scr L$ aus \eqref{eq:energy_al} behandeln wir nun in den folgenden Abschnitten.
-Hierzu verwenden wir die Kurznotation $\scr L[x_s]$ für $\scr L[x_1, \dotsc, x_S]$ mit $x_i$ konstant für $i \neq s$.
+
+Zur Minimierung von $\scr L[u,p,m,n;\lambda_1,\lambda_2,\lambda_4]$ in \eqref{eq:energy_al} verwenden wir nun Algorithmus \ref{alg:adm}.
+Die sich ergebenden Teilprobleme behandeln wir nun in den folgenden Abschnitten.
+In jedem Teilproblem wird nur eine Variable $x_s$, $s \in \Set{1, \dotsc, S}$ minimiert, während die anderen festgehalten werden.
+
+Wir verwenden daher für feste $x_i$, $i \neq s$ die Notation
+\begin{math}
+    \scr L[x_s] = \scr L[x_1, \dotsc, x_S].
+\end{math}
 
 
 \subsection*{Minimiere nach $u$}
@@ -1043,12 +1111,59 @@ Wir minimieren
 \end{math}
 
 \begin{proposition}
-    Das Funktional $\scr L[u]$ ist Gâteaux-differenzierbar, konvex und koerziv für $|\Omega \setminus D| > 0$.
+    Das Funktional $\scr L[u]$ ist Gâteaux-differenzierbar, konvex und koerziv für $\eta, |\Omega \setminus D| > 0$.
     Inbesondere existiert $\hat u \in H^1(\Omega)$, sodass
     \begin{math}
 	0 &= \int_\Omega (r_2 \nabla \hat u - r_2 p - \lambda_2) \cdot \nabla \phi + \eta \int_{\Omega\setminus D} (\hat u - u^0)\phi
     \end{math}
     für alle $\phi \in H^1(\Omega)$ erfüllt ist und jede solche Lösung $\hat u$ das Funktional $\scr L[u]$ minimiert.
+    \begin{proof}
+	Wir berechnen das Gateaux-Differential von $\scr L$:
+	\begin{math}
+	    \scr L'[u, \phi]
+	    =\ddx[\epsilon]|_{\epsilon=0} \scr L[u + \eps \phi]
+	    &= \eta \int_{\Omega\setminus D} (u - u^0) \phi + r_2 \int_{\Omega} (\nabla u - p)\cdot \nabla \phi - \int_{\Omega} \lambda_2 \cdot \nabla \phi \\
+	    &= \int_{\Omega} (r_2 \nabla u - r_2 p - \lambda_2) \cdot \nabla \phi + \eta \int_{\Omega\setminus D} (u - u^0)\phi.
+	\end{math}
+	Die Linearität von $\scr L'[u, \argdot]$ ist offensichtlich und für die Beschränktheit nutzt man die Hölder-Ungleichung:
+	\begin{math}
+	    |\scr L'[u, \phi]|
+	    &\le \|r_2 \nabla u - r_2p - \lambda_2\|_{L^2(\Omega)} \|\nabla \phi\|_{L^2(\Omega)} + \eta\|u - u^0\|_{L^2(\Omega\setminus D)}\|\phi\|_{L^2(\Omega \setminus D)} \\
+	    &\le \const \cdot \|\phi\|_{H^1(\Omega)}.
+	\end{math}
+	Die Konvexität ist mit Blick auf Lemma \ref{lem:convexity} leicht einzusehen.
+
+	Betrachten wir nun die Koerzivität.
+	Setze $t := \frac{1}{|\Omega|} \int_\Omega u$ und $v := u - t$, d.h. $u = v + t$.
+	Die Poincaré-Wirtinger Ungleichung \ref{???} liefert zunächst
+	\begin{math}
+	    \|u\|_{H^1}
+	    &= \|v + t\|_{L^2} + \|\nabla u\|_{L^2} \\
+	    &\le \|v\|_{L^2} + \const \cdot |t| + \|\nabla u\|_{L^2} \\
+	    &\le \const \cdot \|\nabla v\|_{L^2} + \const |t| + \|\nabla u\|_{L^2} \\
+	    &= \const \cdot |t| + \const \cdot |\nabla u|.
+	\end{math}
+	Sei $(u^k)_{k\in \N}$ eine Folge mit $\|u^k\|_{H^1} = \|u^k\|_{L^2} + \|\nabla u^k\|_{L^2} \to \infty$ und entsprechend $v^k, t^k$.
+
+	Falls $\|\nabla u^k\|_{L^2} \to \infty$, so folgt aus Lemma \ref{lem:coercivity} $I[u^k] \to \infty$, da $I[u]$ koerziv in $\nabla u$ ist.
+	Sei nun also $\|\nabla u^k\|_{L^2}$ beschränkt und $|t^k| \to \infty$.
+	Daraus folgt mit Poincaré-Wirtinger
+	\begin{math}
+	    \|v - u^0\| \le \|v\| + \|u^0\| \le \const \cdot \|\nabla u\| + \|u^0\| < \const < \infty,
+	\end{math}
+	insbesondere ist $\|v - u^0\|_{L^2(\Omega\setminus D)} \le \|v - u^0\|_{L^2(\Omega)}$ beschränkt.
+
+	Sei $\mu := \sqrt{|\Omega \setminus D|} > 0$, dann schätzen wir also ab
+	\begin{math}
+	    I[u^k]
+	    &\ge \frac{\eta}{2} \|u^k - u^0\|_{L^2(\Omega\setminus D)}^2 \\
+	    &= \frac{\eta}{2} \Big(\mu^2 |t^k|^2 + 2\<t^k, v - u^0\>_{\Omega\setminus D} + \|v-u^k\|^2\Big) \\
+	    &\ge \frac{\eta}{2}|t^k| \underbrace{\Big(\mu^2 |t^k| - 2 \mu \|v - u^0\|_{L^2(\Omega\setminus D)}\Big)}_{\ge 1 \text{ für $k$ groß genug}}
+	    &\ge \const |t^k|,
+    	\end{math}
+	also $I[u^k] \to \infty$.
+	Insgesamt ist damit $I$ koerziv.
+    \end{proof}
 \end{proposition}
 
 %Variationsrechnung liefert als notwendige Bedingung
@@ -1062,7 +1177,7 @@ Dies ist die schwache Form einer linearen PDE zweiter Ordnung, welche in Kapitel
 
 \subsection*{Minimiere nach $p$}
 
-Wir minimieren nach geeigneter quadratische Ergänzung und Vereinfachung
+Wir minimieren nach geeigneter quadratischer Ergänzung und Vereinfachung
 \begin{math}
     \scr L[p]
     &= \int_\Omega \Big(\alpha + \beta(\nabla \cdot n)^2\Big)|p|
@@ -1077,20 +1192,8 @@ Wir minimieren nach geeigneter quadratische Ergänzung und Vereinfachung
     &= \int_\Omega c |p| + \frac{r_2}{2} \int |p -q|^2 + \const.
 \end{math}
 
-Mit dem folgenden Lemma \ref{lemma:soft_thresholding} erhalten wir also die explizite Lösung
-
-\begin{math}[numbered]
-    p &= \max\{0,1 - \frac{c}{r_2|q|}\} q
-    \qquad \text{wobei} \qquad
-    &\begin{aligned}
-	c &= \alpha + \beta (\nabla \cdot n)^2 + r_1 + \lambda_1, \\
-	q &= \nabla u + \frac{r_1 + \lambda_1}{r_2}m - \frac{\lambda_2}{r_2}.
-    \end{aligned}
-\end{math}
-% TODO: c > 0!!
-
 \begin{lemma}[Soft Thresholding] \label{lemma:soft_thresholding}
-    Seien $p, q \in L^2(\Omega)^d$, $a, |p| \in L^1(\Omega)$ mit $a > 0$ fast überall.
+    Seien $p, q \in L^2(\Omega)^d$, $a \in L^1(\Omega)$, sodass $a|p| \in L^1(\Omega)$ und $a > 0$ fast überall.
     Dann wird das Funktional
     \begin{math}
         E[p] = \int_\Omega |p - q|^2 + \int_\Omega a |p|
@@ -1112,7 +1215,7 @@ Mit dem folgenden Lemma \ref{lemma:soft_thresholding} erhalten wir also die expl
 	Sei nun $1 - \frac{a}{2|q|} > 0$ fast überall, dann gilt zunächst punktweise (fast überall)
 	\begin{math}
 	    (1-\frac{a}{2|q|}) |q|^2 + \delta \cdot q
-	    &= \big((1-\frac{a}{2|q|}q) + \delta\big) \cdot q
+	    &= \big((1-\frac{a}{2|q|})q + \delta\big) \cdot q
 	    \le \big| (1-\frac{a}{2|q|})q + \delta\big| |q|,
 	\end{math}
 	also
@@ -1122,9 +1225,22 @@ Mit dem folgenden Lemma \ref{lemma:soft_thresholding} erhalten wir also die expl
 	    &\ge \int_\Omega |\frac{a}{2|q|}q|^2 - \int_\Omega \frac{a}{|q|} q \cdot \delta + \int_\Omega |\delta|^2 + \int_\Omega a\big| (1- \frac{a}{2|q|})q\big| + \int_\Omega \frac{a}{|q|} \delta \cdot q \\
 	    &= E[\hat p] + \|\delta\|_{L^2}^2.
 	\end{math}
-	Der allgemeine Fall folgt durch Zerlegung von $\Omega$ in zwei Gebiete entsprechend der obigen zwei Fälle.
+	Der allgemeine Fall folgt durch Zerlegung $\int_\Omega f = \int_A f + \int_B f$ für $f = |p -q|^2 + a |p|$ auf zwei Gebieten $A, B$ entsprechend der obigen zwei Fälle.
     \end{proof}
 \end{lemma}
+
+Das Lemma \ref{lemma:soft_thresholding} liefert uns also die explizite Lösung
+
+\begin{math}[numbered]
+    p &= \max\{0,1 - \frac{c}{r_2|q|}\} q
+    \qquad \text{wobei} \qquad
+    &\begin{aligned}
+	c &= \alpha + \beta (\nabla \cdot n)^2 + r_1 + \lambda_1, \\
+	q &= \nabla u + \frac{r_1 + \lambda_1}{r_2}m - \frac{\lambda_2}{r_2}.
+    \end{aligned}
+\end{math}
+% TODO: c > 0!!
+
 
 \subsection*{Minimiere nach $m$}
 
@@ -1140,15 +1256,6 @@ Wir minimieren unter der Nebenbedingung $|m| \le 1$ nach geeigneter quadratische
     &= \frac{r_4}{2} \int_\Omega |w - m|^2 + \const,
 \end{math}
 wobei $w = \frac{(r_1 + \lambda_1)p + \lambda_4}{r_4} + n$.
-Das folgende Lemma \ref{lemma:proj1} liefert uns nun die explizite Lösung
-\begin{math}[numbered]
-    m &:= \begin{cases}
-	w & \text{für $|w| < 1$}, \\
-	\frac{w}{|w|} & \text{für $|w| \ge 1$}.
-    \end{cases}&
-    \quad\text{wobei}\quad
-    w &= \frac{(r_1 + \lambda_1)p + \lambda_4}{r_4} + n
-\end{math}
 
 \begin{lemma} \label{lemma:proj1}
     Seien $m, w \in L^2(\Omega)^d$.
@@ -1164,7 +1271,7 @@ Das folgende Lemma \ref{lemma:proj1} liefert uns nun die explizite Lösung
 	\end{cases}
     \end{math}
     \begin{proof}
-        Zeige $E[\hat m + \delta] > E[\hat m]$ für alle $0 \neq \delta \in L^2(\Omega)^d$.
+        Zeige $E[\hat m + \delta] > E[\hat m]$ für alle $0 \neq \delta \in L^2(\Omega)^d$ mit $|\hat m + \delta| \le 1$.
 
 	Im Fall $|w| < 1$ fast überall, ist offensichtlich $E[\hat m + \delta] = \int_\Omega | \delta|^2 = E[\hat m] + \|\delta\|_{L^2}^2$.
 	Sei nun $|w| \ge 1$ fast überall, dann gilt wegen der Nebenbedingung punktweise (fast überall)
@@ -1184,6 +1291,15 @@ Das folgende Lemma \ref{lemma:proj1} liefert uns nun die explizite Lösung
     \end{proof}
 \end{lemma}
 
+Lemma \ref{lemma:proj1} liefert uns also die explizite Lösung
+\begin{math}[numbered]
+    m &:= \begin{cases}
+	w & \text{für $|w| < 1$}, \\
+	\frac{w}{|w|} & \text{für $|w| \ge 1$}.
+    \end{cases}&
+    \quad\text{wobei}\quad
+    w &= \frac{(r_1 + \lambda_1)p + \lambda_4}{r_4} + n
+\end{math}
 
 
 \subsection*{Minimiere nach $n$}
@@ -1197,14 +1313,39 @@ Wir minimieren
 	+ \const.
 \end{math}
 
+%TODO: Notation Hdiv^d ???
 \begin{proposition}
-    Das Funktional $\scr L[n]$ ist Gâteaux-differenzierbar, konvex und koerziv.
-    Inbesondere existiert $\hat n \in H^1(\Omega)^d$, sodass
+    Das Funktional $\scr L[n]: \Hdiv(\Omega)^d \to \R$ ist Gâteaux-differenzierbar, konvex und koerziv.
+    Inbesondere existiert $\hat n \in \Hdiv(\Omega)^d$, sodass
     \begin{math}
 	0 &= \int_\Omega 2 \beta |p| (\nabla \cdot \hat n)(\nabla \cdot \phi)
 	+ \int_\Omega (r_4 \hat n - r_4 m + \lambda_4) \cdot \phi
     \end{math}
     für alle $\phi \in H^1(\Omega)^d$ erfüllt ist und jede solche Lösung $\hat n$ das Funktional $\scr L[n]$ minimiert.
+    \begin{proof}
+	Es sind die Voraussetzungen für Satz \ref{proposition:mincrit} und Theorem \ref{theorem:minexist} zu prüfen.
+	Wir berechnen das Gateaux-Differential:
+	\begin{math}
+	    \scr L'[n, \phi]
+	    = \ddx[\epsilon]|_{\epsilon=0} \scr L[n + \epsilon \phi]
+	    &= \int 2\beta |p| (\nabla \cdot n)(\nabla \cdot \phi) + r_4 \int_\Omega (n - m)\cdot \phi + \int_{\Omega} \lambda_4 \cdot \phi \\
+	    &= \int_\Omega 2\beta|p|(\nabla \cdot n)(\nabla \cdot \phi) + \int_\Omega (r_4 n - r_4 m + \lambda_4) \cdot \phi.
+	\end{math}
+	Die Linearität von $\scr L'[n, \argdot]$ ist offensichtlich und für die Beschränktheit nutzt man die Hölder-Ungleichung:
+	\begin{math}
+	    |\scr L'[n, \phi]|
+	    &\le 2\beta \||p|(\nabla \cdot n)\|_{L^2} \|\nabla \cdot \phi\|_{L^2} + \|r_4n - r_4 m + \lambda_4\|_{L^2}\| \|\phi\|_{L^2} \\
+	    &\le \const \|n\|_{\Hdiv}.
+	\end{math}
+	Für die Konvexität betrachte man separat
+	\begin{math}
+	    \scr L_1[n]
+	    &:= \frac{r_4}{2} \int_\Omega |n - m|^2 + \int_\Omega \lambda_4 \cdot (n - m) + \const \\
+	    \scr L_2[d]
+	    &:= \int_\Omega \big(\alpha + \beta d^2\big)|p|.
+	\end{math}
+	% FIXME: FINISH!
+    \end{proof}
 \end{proposition}
 
 Diese Gleichung ist die schwache Form einer linearen PDE zweiter Ordnung und wird ebenfalls numerisch in Kapitel \ref{chap:numerics} gelöst.
@@ -1472,13 +1613,17 @@ Eine natürliche Gitterwahl mit Dreieckselementen um ein gegebenes Bild zu repr�
 Für einfache lineare Lagrange Basisfunktionen können die Pixelwerte des Bildes auf diese Weise eins zu eins in der diskreten Funktion als DOF-Vektor repräsentiert werden.
 Insbesondere besitzt der entsprechende DOF-Vektor die selbe Anzahl Freiheitsgrade wie das ursprüngliche Bild.
 
-Um die Implementierung zu vereinfachen, nutzen alle diskreten Funktionen das selbe Gitter.
-Sie sind jedoch teilweise durch unterschiedliche Basisfunktionen repräsentiert.
+Um Komplikationen zu vermeiden, nutzen alle diskreten Funktionen das selbe Gitter.
+In den numerischen Tests wird hierbei das \texttt{alugrid-simplex} Gitter \cite{??} genutzt.
+Die diskreten Funktionen sind jedoch teilweise durch unterschiedliche Basisfunktionen repräsentiert.
 \begin{itemize}
     \item
-	Mit Blick auf die jeweiligen PDEs verwenden wir für $u$ und $n$ lineare Lagrange-Basisfunktionen.
+	Mit Blick auf die entsprechende partiellen Differentialgleichung \eqref{eq:pde_u} verwenden wir für $u$ lineare Lagrange-Basisfunktionen.
+	Für $n$ wären $H^{\mathrm{div}}$-konforme Elemente angebracht (siehe auch \cite{??}).
+        Diese standen jedoch in \texttt{dune-fem} nicht zur Verfügung, weshalb gewöhnliche lineare Lagrange-Basisfunktionen für $n$ gewählt wurden.
     \item
-	Für $p$ und $m$ wählen wir konstante, diskontinuierliche Basisfunktionen wegen der Ausdrücke $\nabla u$ und $\nabla \cdot n$ im $p$-Update und da sich $m$ auf Grund der Nebenbedingung $|p| - m\cdot p$ im selben diskreten Funktionenraum wie $p$ befinden sollte.
+	Für $p$ und $m$ wählen wir konstante, diskontinuierliche Basisfunktionen wegen der Ausdrücke $\nabla u$ und $\nabla \cdot n$ im $p$-Update.
+	Außerdem sollte sich $m$ auf Grund der Nebenbedingung $|p| - m\cdot p$ im selben diskreten Funktionenraum wie $p$ befinden.
     \item
 	Natürlicherweise ergeben sich dann $\lambda_1, \lambda_2$ konstant diskontinuierlich aus den Lagrange-Updates.
     \item
@@ -1488,7 +1633,6 @@ Sie sind jedoch teilweise durch unterschiedliche Basisfunktionen repräsentiert.
 Diese Wahlen wurden getroffen, um die entstehenden Fehler bei den nötigen Projektionen zwischen verschiedenen diskreten Räumen zu minimieren.
 Die nötigen Projektionen befinden sich bei dieser Wahl nur im $m$- und im $\lambda_4$-Update.
 
-Für die folgenden Resultate wurde 
 
 
 
@@ -1579,7 +1723,7 @@ Dabei wurden alle Variablen und Parameter ausgelassen, welche nur für den Krüm
 \section{Synthetische Tests und Parameterstudie}
 
 
-Das in den folgenden Tests genutzt, synthetisce $u^0$ findet sich in Abbildung \ref{fig:sample}.
+Das in den folgenden Tests genutzte, synthetische $u^0$ findet sich in Abbildung \ref{fig:sample}.
 
 \begin{figure}[ht]
     \begin{subfigure}{0.33\textwidth}
@@ -1619,14 +1763,14 @@ Für TV-Inpainting erwarten wir als Lösung eine diagonale, gerade verlaufende S
 Zwei Abbruchkriterien wurden implementiert:
 \begin{itemize}
     \item
-	Maximale Anzahl Iterationen:
+	Eine maximale Anzahl Iterationen wurde erreicht:
 	\begin{math}[numbered] \label{eq:stopmax}
 	    k > \kmax.
 	\end{math}
     \item
 	Die Summe der Residuen in den Lagrange-Updates der Nebenbedingungen ist hinreichend klein:
 	\begin{math}[numbered] \label{eq:stopres}
-	    \underbrace{\||p| - m \cdot p\|_{L^2}}_{=:R_{mp}} + \underbrace{\|p - \nabla u\|_{L^2}}_{=:R_{pu}} + \underbrace{\|n - m\|_{L^2}}_{=:R_{nm}} < \epsilon_R.
+	    \underbrace{\||p^k| - m^k \cdot p^k\|_{L^2}}_{=:R_{mp}^k} + \underbrace{\|p^k - \nabla u^k\|_{L^2}}_{=:R_{pu}^k} + \underbrace{\|n^k - m^k\|_{L^2}}_{=:R_{nm}^k} < \epsilon_R.
 	\end{math}
 \end{itemize}
 
@@ -1636,7 +1780,7 @@ Zwei Abbruchkriterien wurden implementiert:
 \DeclareDocumentCommand{\Ltotal}{}{\scr L_{\mathrm{total}}}
 
 Wir protokollieren unter anderem
-die $L^2$-Abstände aufeinanderfolgender Itererierten, obige Lagrange-Update Residuen $R_{mp}$, $R_{pu}$, $R_{nm}$, sowie
+die $L^2$-Abstände aufeinanderfolgender Itererierten, obige Lagrange-Update Residuen $R_{mp}^k$, $R_{pu}^k$, $R_{nm}^k$, sowie
 die numerischen Energien
 \begin{math}
     \Limg^k &:= \int_\Omega \big(\alpha + \beta (\nabla \cdot n^k)^2\big)|p^k|, \\
@@ -1647,6 +1791,12 @@ die numerischen Energien
 	&\quad + \frac{r_4}{2} \int_\Omega |n^k - m^k|^2 + \int_\Omega \lambda_4 \cdot (n^k - m^k), \\
     \Ltotal^k &:= \Limg^k + \Ldat^k + \Lconstr^k.
 \end{math}
+
+In den Tests zur Gitterverfeinerung bezeichnen wir mit $q \in \N$ die Anzahl globaler Verfeinerungen.
+Bei dem hier genutzten Gitter bedeutet eine globale Verfeinerung die Bisektion jedes Dreiecks.
+
+
+
 %\begin{math}
 %    \|u^k - u^{k-1}\|,
 %    \|p^k - p^{k-1}\|,
@@ -1718,7 +1868,7 @@ Im Endergebnis für $k = 5000$ unterscheidet sich nur der Fall $r_2 = 10^4$ mit 
 	\myincludegraphics[width=0.8\textwidth]{data/tvr2/refinements=0_alpha=1e0_r2=1e4/vtk.png}
 	\caption{$r_2=10^{4}$}
     \end{subfigure}%
-    \caption{}
+    \caption{Inpaintingresultate für verschiedene $r_2$}
     \label{fig:num_tvr2_png}
 \end{figure}
 
@@ -1749,7 +1899,7 @@ Für $r_2 \le 1$ ist die Energie zu Beginn relativ niedrig, erfährt jedoch erst
 	    }
 	\end{loglogaxis}
     \end{tikzpicture}
-    \caption{TV-Inpainting-Energie für verschiedene Penaltyparameter.}
+    \caption{Residuum $\|p - \nabla u\|_{L^2}$ für verschiedene Penaltyparameter.}
     \label{fig:num_tvr2_pu}
 \end{figure}
 
@@ -1761,8 +1911,6 @@ Für $r_2 \le 1$ ist die Energie zu Beginn relativ niedrig, erfährt jedoch erst
 Anzumerken ist in Abbildung \ref{fig:num_tvr2_png} die Verwaschenheit der diagonalen Kante, sowie die beiden kleinen Auswüchse an den jeweiligen Enden dieser.
 Beides reduziert sich durch globale Verfeinerung des Gitters, wie in Abbildung \ref{fig:num_tvrefine_png} zu sehen.
 
-
-% TODO: fix grid refine!!
 \begin{figure}[ht]
     \centering
     \begin{subfigure}{0.2\textwidth}
@@ -1781,35 +1929,96 @@ Beides reduziert sich durch globale Verfeinerung des Gitters, wie in Abbildung \
 	\caption{$q=4$}
     \end{subfigure}%
     \caption{Verfeinerung des Gitters für $r_2=10^1$.}
-    \label{fig:num_tvr2_png}
+    \label{fig:num_tvrefine_png}
 \end{figure}
+
+%\begin{figure}[ht]
+%    \centering
+%    \begin{tikzpicture}
+%	\begin{semilogxaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$E_{\mathrm{tv}}[u^k]$}]
+%	    %\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+%	    %\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+%	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=0_alpha=1e0_r2=1e1/output.dat};
+%	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=1_alpha=1e0_r2=1e1/output.dat};
+%	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=2_alpha=1e0_r2=1e1/output.dat};
+%	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=3_alpha=1e0_r2=1e1/output.dat};
+%	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=4_alpha=1e0_r2=1e1/output.dat};
+%	    \legend{
+%	      $q=0$,
+%	      $q=1$,
+%	      $q=2$,
+%	      $q=3$,
+%	      $q=4$,
+%	    }
+%	\end{semilogxaxis}
+%    \end{tikzpicture}
+%    \caption{Totale Variation bei unterschiedlicher globaler Verfeinerung.}
+%    \label{fig:num_tvrefine_tv}
+%\end{figure}
+
+
+\subsection*{Euler Elastica Inpainting}
+
+Wenden wir uns nun Algorithmus \ref{alg:ee} zu.
+Auch hier wünschen wir uns numerisch eine Konvergenz des Algorithmus und möglichst von den Penaltyparametern $r_1, r_2, r_4$ unabhängige Endresultate.
+Wir fixieren zunächst $\eta = 1000$ und untersucht dies mit zwei Parameterstudien.
+
+Wir fixieren zunächst $\alpha = 1$ und $\beta = 1000$ und variieren
+\begin{math}[numbered] \label{eq:num_param}
+    r_1 \in \Set{10^0, 10^1, 10^2, 10^3, 10^4}, \qquad
+    r_2 \in \Set{10^0, 10^2, 10^4}, \qquad
+    r_4 \in \Set{10^0, 10^2, 10^4}.
+\end{math}
+Für $r_1$ wurde eine feinere Auflösung gewählt, da die Modifikation in \eqref{eq:energy_al} (die Verwendung von $L^1$-Penalizing statt $L^2$-Penalizing) höchstwahrscheinlich starke Auswirkungen auf die Größenordnung von $r_1$ hat.
+Als Abbruchkriterium wird an dieser Stelle \eqref{eq:stopmax} gewählt mit $\kmax = 50000$.
+
+
+Für hohe Parameter $r_2, r_4$ und niedriges $r_1$ zeigt der Algorithmus ein konvergentes Verhalten (siehe \ref{fig:num_eeparam_conv} und man beobachtet Ergebnisse wie in \ref{fig:num_eeparam_png}.
+Diese Bilder zeigen die für das Elastica-Inpainting erwünschte gekrümmte Kante.
+Leider scheint das Inpaintingresultat vom Parameter $r_1$ abzuhängen und man beobachtet in \ref{fig:num_eeparam_png} für höheres $r_1$ eine stärker nach außen gebogene Kante.
 
 
 
 \begin{figure}[ht]
     \centering
     \begin{tikzpicture}
-	\begin{semilogxaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$E_{\mathrm{tv}}[u^k]$}]
-	    %\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
-	    %\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=0_alpha=1e0_r2=1e1/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=1_alpha=1e0_r2=1e1/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=2_alpha=1e0_r2=1e1/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=3_alpha=1e0_r2=1e1/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}] {data/tvrefine/refinements=4_alpha=1e0_r2=1e1/output.dat};
+	\begin{loglogaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$}]
+	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e1_r2=1e4_r4=1e4/output.dat};
+	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e2_r2=1e4_r4=1e4/output.dat};
 	    \legend{
-	      $q=1$,
-	      $q=2$,
-	      $q=3$,
-	      $q=4$,
-	      $q=5$,
+	      $r_1 = 1$,
+	      $r_1 = 10$,
+	      $r_1 = 100$,
 	    }
-	\end{semilogxaxis}
+	\end{loglogaxis}
     \end{tikzpicture}
-    \caption{TV-Inpainting-Energie für verschiedene Penaltyparameter.}
-    \label{fig:num_tvr2_etv}
+    \caption{$\|u_k - u_{k-1}\|_{L^2}$ für $r_1 \ll r_2, r_4$.}
+    \label{fig:num_eeparam_conv}
 \end{figure}
 
+
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.2\textwidth}
+	\centering
+	\myincludegraphics[width=0.8\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/vtk.png}
+	\caption{$r_1 = 1$}
+    \end{subfigure}%
+    \begin{subfigure}{0.2\textwidth}
+	\centering
+	\myincludegraphics[width=0.8\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e1_r2=1e4_r4=1e4/vtk.png}
+	\caption{$r_1 = 10$}
+    \end{subfigure}%
+    \begin{subfigure}{0.2\textwidth}
+	\centering
+	\myincludegraphics[width=0.8\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e2_r2=1e4_r4=1e4/vtk.png}
+	\caption{$r_1 = 100$}
+    \end{subfigure}%
+    \caption{$\|u_k - u_{k-1}\|_{L^2}$ für $r_1 \ll r_2, r_4 = 10^4$.}
+    \label{fig:num_eeparam_png}
+\end{figure}
 
 
 
