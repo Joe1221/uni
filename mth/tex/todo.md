@@ -11,3 +11,6 @@
 - techn. hilfsm. norm/betrag erklären
 -
 - integral indices versetzt??
+-
+- poincaré-wirtinger!!!
+-

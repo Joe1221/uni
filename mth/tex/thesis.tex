@@ -92,8 +92,8 @@ Obwohl dies oft im Widerspruch zu den üblichen Eigenschaften von Bildern steht 
 
 \begin{figure}[ht]
     \centering
-    \begin{tikzpicture}
-	\draw[rounded corners] (0,0) rectangle (6,4);
+    \begin{tikzpicture}[scale=0.8]
+	\draw (0,0) rectangle (6,4);
 	\draw (5,1) node {$\Omega$};
 	\draw[missing] plot[smooth cycle] coordinates {(2,1) (3.5,1.5) (4,3) (1,2)};
 	\draw (2.5,2) node {$D$};
@@ -135,24 +135,24 @@ Geht man davon aus, dass das ursprüngliche, vollständige Bild auch tatsächlic
 \end{samepage}
 Wir betrachten dazu den diskreten Wahrscheinlichkeitsraum $\scr P := (I_\Omega \times I_{\Omega\setminus D}, 2^{I_\Omega \times I_{\Omega\setminus D}}, P)$ mit der sogenannten A-Posteriori-Wahrscheinlichkeitsverteilung
 \begin{math}
-    P(u, u^0) := P_{\mathrm{img}}(u) \cdot P_{\mathrm{dat},u^0}(u)
+    P(u, u^0) := P_{\mathrm{img}}(u) \cdot P_{\mathrm{dat},u}(u^0)
 \end{math}
-In diesem Raum besitzt $P_{\mathrm{dat},u^0}(u)$ die gewünschte Interpretation als bedingte Wahrscheinlichkeit $P(u^0|u)$:
+In diesem Raum besitzt $P_{\mathrm{dat},u}(u^0)$ die gewünschte Interpretation als bedingte Wahrscheinlichkeit $P(u|u^0)$:
 \begin{math}
     P(u) &= P_{\mathrm{img}}(u), \\
-    P(u^0|u) &= \frac{P(u, u^0)}{P(u)} = P_{\mathrm{dat},u^0}(u),
+    P(u^0|u) &= \frac{P(u^0)}{P(u)} = P_{\mathrm{dat},u}(u^0),
 \end{math}
 wobei wir $u$ und $u^0$ mit $\Set{u} \times I_{\Omega \setminus D}$, bzw. $I_\Omega \times \Set{u_0}$ identifizieren.
 Dieser Raum erlaubt uns die Berechnung der bedingten Wahrscheinlichkeit
 \begin{math}
-    P(u|u^0) &= \frac{P(u, u^0)}{P(u^0)}
+    P(u|u^0) &= \frac{P(u)}{P(u^0)}
     = \frac{P(u^0|u) \cdot P(u)}{P(u^0)}.
 \end{math}
 Dieser einfache Zusammenhang zwischen den bedingten Wahrscheinlichkeiten ist auch als \emph{Satz von Bayes} bekannt.
 
-Beim Inpainten ist $P(u^0)$ ist konstant und $P(u|u^0)$ die Wahrscheinlichkeit, dass $u$ die korrekte Rekonstruktion von $u^0$ ist, also maximieren wir
+Beim Inpainten ist $P(u^0)$ konstant und $P(u|u^0)$ die Wahrscheinlichkeit, dass $u$ die korrekte Rekonstruktion von $u^0$ ist, also maximieren wir
 \begin{math}
-    P(u|u^0) = \const \cdot P_{\mathrm{dat},u^0}(u) \cdot P_{\mathrm{img}}(u).
+    P(u|u^0) = \const \cdot P_{\mathrm{dat},u}(u^0) \cdot P_{\mathrm{img}}(u).
 \end{math}
 Wir können nun auf beiden Seiten $-\log(\argdot)$ anwenden und ein äquivalentes, aber durchaus handlicheres Problem in Energie-Form betrachten.
 
@@ -180,7 +180,25 @@ Für unser Datenmodell nutzen wir das bekannte Funktional aus \cite{rudin1992non
 \end{math}
 wobei $\eta \in \R_{> 0}$ die spätere Gewichtung dieses Datenterms zum Bildterm kontrolliert.
 
-Es ist bekannt \cite[§4.5]{chan2005image}, dass dieser Datenterm gut geeignet ist, wenn das Orginalbild mit Gauß'schem Rauschen versetzt ist, modelliert als $u^0 = u|_{\Omega \setminus D} + \epsilon$.
+Es ist bekannt \cite[§4.5]{chan2005image}, dass dieser Datenterm gut geeignet ist, wenn das Orginalbild mit weißem Gauß'schem Rauschen versetzt ist, modelliert als $u^0 = u|_{\Omega \setminus D} + \epsilon$.
+Man kann dies folgendermaßen motivieren.
+
+Für additives weißes Gauß'sches Rauschen gibt die Gauß-Verteilung
+\begin{math}
+    p(\epsilon_x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{\epsilon_x^2}{2\sigma^2}}
+\end{math}
+an jeder Stelle $x \in \Omega$ des Bildes die Wahrscheinlichkeit dafür, dass das Rauschen $\epsilon_x$ beträgt.
+Um $P_{\mathrm{dat},u}(u^0)$ zu maximieren, maximieren wir das (endliche) Integral
+\begin{math}
+    \int_{\Omega\setminus D} p(\epsilon_x) \di[x],
+\end{math}
+wobei $\epsilon_x := u^0(x) - u(x)$ das aktuelle Rauschen an der Stelle $x$ angibt.
+Äquivalent minimieren wir also
+\begin{math}
+    - \log \Big(\int_{\Omega\setminus D} \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(u^0(x) - u(x))^2}{2\sigma^2}} \di[x] \Big)
+    &= \log (\sigma \sqrt{2\pi}) + \int_{\Omega\setminus D} |u^0(x) - u(x)|^2 \di[x].
+\end{math}
+
 Für Schwarz/Weiß Rauschen (auch “salt-and-pepper noise” gennant) ist die Wahl einer $L^1$-Norm zu bevorzugen, wie in \cite{nikolova2004variational} gezeigt.
 
 Denkbar wären auch Datenmodelle wie $u^0 = K[u|_{\Omega\setminus D}] + \epsilon$ für einen Glättungsoperator $K$.
@@ -420,6 +438,8 @@ Um die Notation zu erleichtern, werden wir eine Reihe von Konventionen befolgen,
 	Für Funktionen $f, g: X \to \R^d$ bezeichnen wir mit $f \cdot g$ das punktweise Skalarprodukt $f \cdot g: x \mapsto f(x)\cdot g(x)$ und mit $|f|$ die punktweise euklidische Norm $|f|: x \mapsto |f(x)|$.
     \item
 	Für einen Hilbertraum $H$ bezeichnen wir Funktionen $I: H \to \R$ als \emphdef{Funktionale} und schreiben ihr Argument stets in eckigen Klammern: $I[f] \in \R$ für $f \in H$.
+    \item
+	Für Kurven $\gamma: [0,1] \to \R^d$ notieren wir die Ableitung nach der Parametrisierungsvariable mit einem Punkt: $\dot \gamma(t) = \ddx[t] \gamma(t)$.
 \end{itemize}
 
 
@@ -428,7 +448,7 @@ Um die Notation zu erleichtern, werden wir eine Reihe von Konventionen befolgen,
 
 \section*{Optimierung}
 
-Wir nutzen in Kapitel \ref{chap:ee} und \ref{chap:ad} Variationsrechnung im Zusammenhang mit Optimierung und führen dazu kurz die nötigen Werkzeuge ein.
+Wir nutzen in Kapitel \ref{chap:image_model} und \ref{chap:ad} Variationsrechnung im Zusammenhang mit Optimierung und führen dazu kurz die nötigen Werkzeuge ein.
 Im Folgenden sei $H$ stets ein Hilbertraum.
 
 \begin{definition} \label{definition:min_stuff}
@@ -461,7 +481,7 @@ Im Folgenden sei $H$ stets ein Hilbertraum.
 
 Folgender einfache Satz rechtfertigt das Ermitteln von kritischen Punkten eines Funktionals um sein Minimum zu bestimmen.
 
-\begin{proposition} \label{proposition:min_zero}
+\begin{proposition} \label{prop:mincrit}
     Sei $\hat u \in H$ und $I: H \to \R$ Gâteaux-differenzierbar und konvex.
     Dann gilt
     \begin{math}
@@ -470,7 +490,7 @@ Folgender einfache Satz rechtfertigt das Ermitteln von kritischen Punkten eines 
 	\forall \phi \in H : I'[\hat u, \phi] = 0.
     \end{math}
     \begin{note}
-	Über die Lösbarkeit von $I'[u, \phi] = 0$ für alle $\phi$, bzw. die Existenz des Minimums $\hat u$ wird hier keine Aussage getroffen, siehe dazu Theorem \ref{theorem:min_existence}.
+	Über die Lösbarkeit von $I'[u, \phi] = 0$ für alle $\phi$, bzw. die Existenz des Minimums $\hat u$ wird hier keine Aussage getroffen, siehe dazu Theorem \ref{thm:minexist}.
     \end{note}
     \begin{proof}
 	„$\implies$”: Sei $I[\hat u] \le I[u]$ für alle $u \in H$.
@@ -493,7 +513,7 @@ Folgender einfache Satz rechtfertigt das Ermitteln von kritischen Punkten eines 
     \end{proof}
 \end{proposition}
 
-\begin{theorem} \label{theorem:min_existence}
+\begin{theorem} \label{thm:minexist}
     Sei $H$ ein Hilbertraum, $I: H \to \R$ Gâteaux-differenzierbar, konvex und koerziv.
     Dann existiert ein Minimum $\hat u \in H$, d.h.
     \begin{math}
@@ -505,9 +525,26 @@ Folgender einfache Satz rechtfertigt das Ermitteln von kritischen Punkten eines 
 \end{theorem}
 
 Die obigen beiden Aussagen sind für die Minimierung von konvexen Funktionalen von wesentlicher Bedeutung.
-Zur Untersuchung der nötigen Voraussetzungen für spätere Zwecke folgen zwei einfache, konkretere Lemmata.
 
-\begin{proposition} \label{proposition:convexity}
+Die sogenannte \emphdef{Euler-Lagrange-Gleichung} macht die Suche nach einem kritischen Punkt eines Funktionals der Form
+\begin{math}
+    I[u] := \int_\Omega f(x,u(x),\nabla u(x)) \di[x]
+\end{math}
+etwas leichter.
+Hierbei sei $\Omega \subset \R^d$ ein $C^1$-berandetes Gebiet, $f \in C^2(\Omega, \R, \R^d)$ und $u \in C^1(\Omega)$ mit natürlicher Randbedingung $\partial_\nu u|_{\Boundary \Omega} = 0$.
+
+Durch den Ansatz $0 = \ddx[\epsilon]|_{\epsilon=0} I[u + \epsilon\phi]$ erhält man nach geeigneter Variationsrechnung die Bedingung
+\begin{math}
+    \nabla_x \cdot (\nabla_3 f(x, u, \nabla u)) = \partial_2 f(x,u,\nabla u),
+\end{math}
+wobei $\partial_2 f$, $\nabla_3 f$ die Ableitungen bezüglich der zweiten und dritten Komponente von $f$ darstellen und $\nabla_x \cdot (\dotsc)$ die Divergenz nach $x \in \Omega$.
+Es existieren auch Varianten für Funktionale mehrerer Funktionen und höherer Ableitungen von $u$.
+Für nähere Ausführungen sei auf \cite{??} verwiesen.
+Wir werden in dieser Arbeit den variationellen Ansatz stets explizit führen und benötigen die Euler-Lagrange-Gleichung daher nicht.
+
+Zur Untersuchung der nötigen Voraussetzungen für Satz \ref{prop:mincrit} und Theorem \ref{thm:minexist} für spätere Zwecke folgen zwei einfache, konkretere Lemmata.
+
+\begin{lemma} \label{lem:convexity}
     Für Funktionale $I: H \to \R$ gelten folgende Aussagen über ihre Konvexität.
     \begin{enumerate}[i)]
 	\item
@@ -544,9 +581,9 @@ Zur Untersuchung der nötigen Voraussetzungen für spätere Zwecke folgen zwei e
 	\end{math}
 	also wegen Distributivität der Multiplikation und Linearität des Integrals auch $I[tu_1 + (1-t)u_2] \le tI[u_1] + (1-t)I[u_2]$.
     \end{proof}
-\end{proposition}
+\end{lemma}
 
-\begin{proposition} \label{proposition:coercivity}
+\begin{lemma} \label{lem:coercivity}
     Für Funktionale $I: H \to \R$ gelten folgende Aussagen über ihre Koerzivität:
     \begin{enumerate}[i)]
         \item
@@ -571,7 +608,7 @@ Zur Untersuchung der nötigen Voraussetzungen für spätere Zwecke folgen zwei e
 	\end{math}
 	also für eine Folge $\|u_k\| \to \infty$ auch $I[u_k] \to \infty$.
     \end{proof}
-\end{proposition}
+\end{lemma}
 
 
 
@@ -583,7 +620,7 @@ Zur Untersuchung der nötigen Voraussetzungen für spätere Zwecke folgen zwei e
 
 
 Wir bereits in der Einführung angesprochen, wollen wir in diesem Kapitel die Elastica Kurve als Kurvenmodell für die Niveaulinien eines Bildes ansetzen, um daraus anschließend ein Bildmodell zu gewinnen.
-Obwohl das hieraus gewonnene Bildmodell später auch für $d > 2$ interpretiert werden kann (siehe \ref{thm:eemodel}), werden wir uns für die Herleitung auf die Dimension $d = 2$ festlegen.
+Obwohl das hieraus gewonnene Bildmodell später auch für $d > 2$ interpretiert werden kann (siehe \ref{def:eemodel}), werden wir uns für die Herleitung auf die Dimension $d = 2$ festlegen.
 
 \section{Die Euler Elastica}
 
@@ -785,7 +822,7 @@ Das Werkzeug dafür ist die sogenannte Coarea-Formel, welche wir hier in zurecht
 
 Die Coarea-Formel motiviert nun die folgende Definition der Euler Elastica Bildenergie.
 
-\begin{definition}
+\begin{definition} \label{def:eemodel}
     Für $u \in C^2(\Omega, [0,1])$ mit $\nabla u \neq 0$ auf $\Omega$ ist das \emphdef{Euler Elastica Bildmodell} festgelegt durch die Minimierung der \emphdef{Elastica Bildenergie}
     \begin{math}
 	\Eimg[u] = \int_\Omega \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{|\nabla u|})^2\Big)|\nabla u| \di[x].
@@ -842,7 +879,7 @@ Erinnert man sich an das Bayes-Prinzip, so steht nun unser Inpaintingmodell fest
 \end{definition}
 
 
-\chapter{Die “alternating direction” Methode}
+\chapter{Die “alternating direction” Methode} \label{chap:ad}
 
 
 \section{Motivation} % komplexität von euler-lagrange und numerische probl.
@@ -992,7 +1029,7 @@ Als Schrittweite im Algorithmus wird dabei stets $\rho := r$ verwendet.
 \subsection*{Formulierung}
 
 
-\begin{definition} \label{definition:al_functional}
+\begin{definition} \label{def:al_functional}
     Seien $X, W$ reelle Hilberträume, $I: X \to \R$ ein Funktional und $g: X \to W$ ein Operator.
     Das zum Funktional $I$ mit \emphdef{Gleichungsbedingungen} $g$ zugehörige \emphdef{Augmented Lagrange Funktional} $\scr L: X \times W \to \R$
     ist definiert als
@@ -1003,8 +1040,8 @@ Als Schrittweite im Algorithmus wird dabei stets $\rho := r$ verwendet.
 \end{definition}
 
 
-\begin{algorithm}[Augmented Lagrange] \label{alg:augmented_lagrange}
-    Mit den Bezeichnungen aus Definition \ref{definition:al_functional} haben wir den folgenden Algorithmus.
+\begin{algorithm}[Augmented Lagrange] \label{alg:al}
+    Mit den Bezeichnungen aus Definition \ref{def:al_functional} haben wir den folgenden Algorithmus.
 
     \begin{samepage}
 	\Input{$I: X \to \R$, $e: X \to W$, $K \subset X$ abgeschlossen und konvex, $\lambda^0 \in W$, $r \in \R_{>0}$}\\
@@ -1028,7 +1065,7 @@ Als Schrittweite im Algorithmus wird dabei stets $\rho := r$ verwendet.
 Bestimmte Zusatzvoraussetzungen liefern ein Konvergenzresultat wie in \ref{theorem:al_convergence}.
 
 \begin{theorem} \label{theorem:al_convergence}
-    Seien die Bezeichungen wie in Algorithmus \ref{alg:augmented_lagrange}.
+    Seien die Bezeichungen wie in Algorithmus \ref{alg:al}.
     Falls $\hat x \in X$, $\hat \lambda \in W$ existieren, sodass
     \begin{enumerate}[1)]
         \item
@@ -1043,7 +1080,7 @@ Bestimmte Zusatzvoraussetzungen liefern ein Konvergenzresultat wie in \ref{theor
 	    und für alle $i \in \N_0$ besitzt $\argmin_{x\in K} \scr L[x,\lambda^i]$ eine eindeutige Lösung sodass
 	    $\scr L[x^{i+1}, \lambda^i] \le \scr L[x^*, \lambda^i]$,
     \end{enumerate}
-    dann konvergiert der Algorithmus \ref{alg:augmented_lagrange}, d.h. $x^i \to \hat x$.
+    dann konvergiert der Algorithmus \ref{alg:al}, d.h. $x^i \to \hat x$.
     \begin{proof}
         Es sei auf den wesentlich allgemeineren Fall mit umfangreichem Beweis in \cite[§3]{ito2008lagrange} verwiesen.
     \end{proof}
@@ -1058,21 +1095,22 @@ Dazu definieren wir das folgende Augmented Lagrange Funktional:
     &\quad + \frac{r_2}{2} \int_\Omega |p - \nabla u|^2 + \int_\Omega \lambda_2 \cdot (p - \nabla u) \\
     &\quad + \frac{r_4}{2} \int_\Omega |n - m|^2 + \int_\Omega \lambda_4 \cdot (n - m).
 \end{math}
-Die Nebenbedingung $|m| \le 1$ fordern wir durch die Wahl von $K$ in Algorithmus \ref{alg:augmented_lagrange}.
+Die Nebenbedingung $|m| \le 1$ fordern wir durch die Wahl von $K$ in Algorithmus \ref{alg:al}.
+Dies ist die einzige Nebenbedingung, die im Laufe des Algorithmus „hart“ eingehalten wird, d.h. $|m| > 1$ wird zu keinem Zeitpunkt im Algorithmus auftreten.
 
-Für den Penaltyterm zur Nebenbedingung $|p| = m \cdot p$ weichen wir hier von der Definition \ref{def:alf} ab.
+Für den Penaltyterm zur Nebenbedingung $|p| = m \cdot p$ weichen wir hier von der Definition \ref{def:al_functional} ab.
 Wegen $|m| \le 1$ ist $m \cdot p \le |m| |p| \le |p|$ und es handelt sich bei diesem Term um $L^1$-Penalizing (statt $L^2$-Penalizing).
 Dies wird es uns erlauben, einige der im nächsten Abschnitt aufkommenden Teilprobleme explizit zu lösen.
 
 
 \section{Alternating Direction Method} \label{section:adm}
 
-Die Augmented Lagrange Methode aus Algorithmus \ref{alg:augmented_lagrange} schreibt nicht vor, wie das Minimierungsproblem in jedem Schritt zu lösen ist.
+Die Augmented Lagrange Methode aus Algorithmus \ref{alg:al} schreibt nicht vor, wie das Minimierungsproblem in jedem Schritt zu lösen ist.
 % TODO: approximative lösung?
 Eine moderne und beliebte \emph{numerische} Methode (vergleiche \cite{brito2010fast}, \cite{yashtini2015alternating}, \cite{hahn2011fast}, \cite{duan2013fast}) besteht darin, \eqref{eq:energy_al} alternierend zu minimieren, wie in Algorithmus \ref{alg:adm} beschrieben.
 
 \begin{algorithm}[Alternating Direction Method] \label{alg:adm}
-    Es gelten die Bezeichnungen aus \ref{definition:al_functional}, wobei $X = (X_s)_{s=1}^S$ in $S \in \N$ Dimensionen strukturiert ist.
+    Es gelten die Bezeichnungen aus \ref{def:al_functional}, wobei $X = (X_s)_{s=1}^S$ in $S \in \N$ Dimensionen strukturiert ist.
     Dann haben wir den folgenden Algorithmus.\\
     \begin{samepage}
     \Input{$\scr L: X \times W \to \R$, $x^0 = (x^0_s)_{s=1}^S \in X$, $\lambda \in W$}\\
@@ -1113,7 +1151,7 @@ Wir minimieren
 \begin{proposition}
     Das Funktional $\scr L[u]$ ist Gâteaux-differenzierbar, konvex und koerziv für $\eta, |\Omega \setminus D| > 0$.
     Inbesondere existiert $\hat u \in H^1(\Omega)$, sodass
-    \begin{math}
+    \begin{math}[numbered] \label{eq:pde_u}
 	0 &= \int_\Omega (r_2 \nabla \hat u - r_2 p - \lambda_2) \cdot \nabla \phi + \eta \int_{\Omega\setminus D} (\hat u - u^0)\phi
     \end{math}
     für alle $\phi \in H^1(\Omega)$ erfüllt ist und jede solche Lösung $\hat u$ das Funktional $\scr L[u]$ minimiert.
@@ -1158,7 +1196,7 @@ Wir minimieren
 	    I[u^k]
 	    &\ge \frac{\eta}{2} \|u^k - u^0\|_{L^2(\Omega\setminus D)}^2 \\
 	    &= \frac{\eta}{2} \Big(\mu^2 |t^k|^2 + 2\<t^k, v - u^0\>_{\Omega\setminus D} + \|v-u^k\|^2\Big) \\
-	    &\ge \frac{\eta}{2}|t^k| \underbrace{\Big(\mu^2 |t^k| - 2 \mu \|v - u^0\|_{L^2(\Omega\setminus D)}\Big)}_{\ge 1 \text{ für $k$ groß genug}}
+	    &\ge \frac{\eta}{2}|t^k| \underbrace{\Big(\mu^2 |t^k| - 2 \mu \|v - u^0\|_{L^2(\Omega\setminus D)}\Big)}_{\ge 1 \text{ für $k$ groß genug}} \\
 	    &\ge \const |t^k|,
     	\end{math}
 	also $I[u^k] \to \infty$.
@@ -1191,6 +1229,13 @@ Wir minimieren nach geeigneter quadratischer Ergänzung und Vereinfachung
 	+ \const\\
     &= \int_\Omega c |p| + \frac{r_2}{2} \int |p -q|^2 + \const.
 \end{math}
+Der Lagrange-Update aus Algorithmus \ref{alg:al} für $\lambda_1$:
+\begin{math}
+    \lambda_1^{i+1} \gets \lambda_1^i + r_1 \underbrace{(|p| - m\cdot p)}_{\ge 0}
+\end{math}
+garantiert $\lambda_1^i \ge 0$ im Laufe des Verfahrens, sofern $\lambda_1^0 \ge 0$ initalisiert wurde.
+
+Somit haben wir $c(x) \ge 0$ und können folgendes Lemma anwenden.
 
 \begin{lemma}[Soft Thresholding] \label{lemma:soft_thresholding}
     Seien $p, q \in L^2(\Omega)^d$, $a \in L^1(\Omega)$, sodass $a|p| \in L^1(\Omega)$ und $a > 0$ fast überall.
@@ -1315,15 +1360,15 @@ Wir minimieren
 
 %TODO: Notation Hdiv^d ???
 \begin{proposition}
-    Das Funktional $\scr L[n]: \Hdiv(\Omega)^d \to \R$ ist Gâteaux-differenzierbar, konvex und koerziv.
-    Inbesondere existiert $\hat n \in \Hdiv(\Omega)^d$, sodass
+    Das Funktional $\scr L[n]: \Hdiv(\Omega)^d \to \R$ ist für $\essinf_{x\in \Omega} |p(x)| > 0$ Gâteaux-differenzierbar, konvex und koerziv.
+    Insbesondere existiert $\hat n \in \Hdiv(\Omega)^d$, sodass
     \begin{math}
 	0 &= \int_\Omega 2 \beta |p| (\nabla \cdot \hat n)(\nabla \cdot \phi)
 	+ \int_\Omega (r_4 \hat n - r_4 m + \lambda_4) \cdot \phi
     \end{math}
-    für alle $\phi \in H^1(\Omega)^d$ erfüllt ist und jede solche Lösung $\hat n$ das Funktional $\scr L[n]$ minimiert.
+    für alle $\phi \in \Hdiv(\Omega)^d$ erfüllt ist und jede solche Lösung $\hat n$ das Funktional $\scr L[n]$ minimiert.
     \begin{proof}
-	Es sind die Voraussetzungen für Satz \ref{proposition:mincrit} und Theorem \ref{theorem:minexist} zu prüfen.
+	Es sind die Voraussetzungen für Satz \ref{prop:mincrit} und Theorem \ref{thm:minexist} zu prüfen.
 	Wir berechnen das Gâteaux-Differential:
 	\begin{math}
 	    \scr L'[n, \phi]
@@ -1334,17 +1379,19 @@ Wir minimieren
 	Die Linearität von $\scr L'[n, \argdot]$ ist offensichtlich und für die Beschränktheit nutzt man die Hölder-Ungleichung:
 	\begin{math}
 	    |\scr L'[n, \phi]|
-	    &\le 2\beta \||p|(\nabla \cdot n)\|_{L^2} \|\nabla \cdot \phi\|_{L^2} + \|r_4n - r_4 m + \lambda_4\|_{L^2}\| \|\phi\|_{L^2} \\
-	    &\le \const \|n\|_{\Hdiv}.
+	    &\le 2\beta \big\||p|(\nabla \cdot n)\big\|_{L^2} \|\nabla \cdot \phi\|_{L^2} + \big\|r_4n - r_4 m + \lambda_4\big\|_{L^2}\| \|\phi\|_{L^2} \\
+	    &\le \const \|\phi\|_{\Hdiv}.
 	\end{math}
-	Für die Konvexität betrachte man separat
+	Die Konvexität folgt mit Lemma \ref{lem:convexity}.
+
+	Für die Koerzivität betrachte eine Folge $(n^k)_{k\in\N}$ mit $\|n^k\|^2_{\Hdiv} = \|n^k\|_{L^2}^2 + \|\nabla \cdot n^k\|_{L^2}^2 \to \infty$.
+	Falls $\|n^k\|_{L^2} \to \infty$, so auch $\scr L[n] \to \infty$ wegen Lemma \ref{lem:coercivity}.
+	Ansonsten gilt
 	\begin{math}
-	    \scr L_1[n]
-	    &:= \frac{r_4}{2} \int_\Omega |n - m|^2 + \int_\Omega \lambda_4 \cdot (n - m) + \const \\
-	    \scr L_2[d]
-	    &:= \int_\Omega \big(\alpha + \beta d^2\big)|p|.
+	    \scr L[n] \ge \beta \int_\Omega (\nabla \cdot n)^2 |p|
+	    \ge \beta \| \nabla \cdot n\|_{L^2} \cdot \essinf_{x\in\Omega}|p(x)| \to \infty,
 	\end{math}
-	% FIXME: FINISH!
+	also ist $\scr L[n]$ koerziv.
     \end{proof}
 \end{proposition}
 
@@ -1542,7 +1589,7 @@ Obwohl eine Implementierung für $d > 2$ reizend wäre, beschränken wir uns der
 
 \DeclareDocumentCommand{\solve}{m}{\operatorname{solve}\limits_{#1}}
 
-\begin{algorithm}[Euler Elastica Inpainting] \label{alg:complete}
+\begin{algorithm}[Euler Elastica Inpainting] \label{alg:ee}
     \Input{$\Omega \subset \R^2$, $u^0: \Omega \setminus D \to \R$, $\alpha, \beta, \eta \in \R_{\ge 0}$, $r_1, r_2, r_4 \in \R_{>0}$} \\
     \Output{$(u^k: \Omega \to \R)_{k\in\N}$}
     \begin{algorithmic}
@@ -1565,7 +1612,7 @@ Obwohl eine Implementierung für $d > 2$ reizend wäre, beschränken wir uns der
 		Der Einfachheit halber werden die Startwerte auf Null initialisiert.
 		Es wäre z.B. denkbar, $p^0$, $m^0$, $n^0$ durch entsprechende Finite Differenzen mittels $u^0$ zu initialisieren, was eine schnellere Konvergenz zu erwarten ließe.
 	    \item
-		In dieser Formulierung wird die „alternating direction“ Schleife aus Algorithmus \ref{??} nur einmal durchlaufen.
+		In dieser Formulierung wird die „alternating direction“ Schleife aus Algorithmus \ref{alg:adm} nur einmal durchlaufen.
 		Die beiliegende Implementierung erlaubt zwar eine beliebig feste Anzahl solcher innerer Iterationen, praktisch zeigen sich jedoch dadurch insgesamt kaum nennenswerten Veränderungen im Verhalten des Algorithmus.
 		Alternativ betrachtet gibt es keinen guten Grund, die verhältnismäßig schnellen Lagrange-Updates nicht in jedem Schritt durchzuführen.
 	    \item % FIXME
@@ -1585,9 +1632,9 @@ Obwohl eine Implementierung für $d > 2$ reizend wäre, beschränken wir uns der
 Die meisten Arbeiten, die eine alternating direction Methode für das Lösen des Euler-Elastica Bildmodells einsetzen (\cite{??}) nutzen eine Finite Differenzen Diskretisierung auf speziell angepassten Gittern.
 In diesen „staggered grids“ werden die Werte von $u$, sowie in unserem Fall $p_1, m_1, n_1$ und $p_2, m_2, n_2$ entsprechend der Finiten Differenzen an jeweils zueinander versetzten Stellen betrachtet.
 Die partiellen Differentialgleichungen (bei uns in $u$ und $n$) werden in der Regel in starker Form formuliert und diskretisiert.
-Für diese speziellen Gitterwahlen werden die Schritte in Algorithmus \ref{alg:complete} explizit als lineare Gleichungssysteme oder Updates in den Gitterpunkten dargestellt.
+Für diese speziellen Gitterwahlen werden die Schritte in Algorithmus \ref{alg:ee} explizit als lineare Gleichungssysteme oder Updates in den Gitterpunkten dargestellt.
 
-Das Ziel dieser Arbeit bestand in der Implementierung von Algorithmus \ref{alg:complete} im Kontext Finiter Elemente mit Hilfe der C++ Bibliotheken Dune-Fem und Dune-ACFem.
+Das Ziel dieser Arbeit bestand in der Implementierung von Algorithmus \ref{alg:ee} im Kontext Finiter Elemente mit Hilfe der C++ Bibliotheken Dune-Fem und Dune-ACFem.
 Eine natürliche Gitterwahl mit Dreieckselementen um ein gegebenes Bild zu repräsentieren illustriert Abbildung \ref{fig:grid}.
 \begin{figure}[ht]
     \begin{subfigure}{0.5\textwidth}
@@ -1679,7 +1726,7 @@ Es sei angemerkt, dass Performance nicht das Hauptaugenmerk während der Impleme
 	    \item[\texttt{eeinpaint.refinements}]
 		Anzahl initialer Verfeinerungen des Gitters,
 	    \item[\texttt{eeinpaint.maxOuterIterations}]
-		Abbruchkriterium für die Anzahl Schleifendurchläufe in Algorithmus \ref{alg:complete}.
+		Abbruchkriterium für die Anzahl Schleifendurchläufe in Algorithmus \ref{alg:ee}.
 	\end{description}
     \item[\texttt{tools/runjob.sh}]
 	Dies ist ein Wrapper für \texttt{build/src/eeinpaint}, um mehrere Jobs parallel laufen lassen zu können.
@@ -1695,11 +1742,11 @@ Angedacht, aber aus Zeitgründen nicht umgesetzt sind folgende Ideen.
 	Eine adaptive Verfeinerung des Gitters im Laufe des Algorithmus wäre angebracht und könnte die Stärken einer Finiten Elemente Implementierung zum Vorschein bringen.
 	Zur Bewertung könnte $|\nabla u|$ dienen, um scharfe Kanten besser auflösen zu können und in weniger interessanten Bereichen des Bildes nicht zu viel Rechenzeit zu verschwenden.
     \item
-	Einige Schritte des Algorithmus \ref{alg:complete} sind unabhängig voneinander und könnten parallel arbeiten.
+	Einige Schritte des Algorithmus \ref{alg:ee} sind unabhängig voneinander und könnten parallel arbeiten.
 	Abgesehen von den offensichtlich unabhängigen Lagrange-Updates, ist beispielsweise die PDE für $u$ nicht abhängig von $n$ oder $\lambda_4$ im Schritt zuvor, was bedeutet, dass die beiden kostspieligen PDEs parallel berechnet werden könnten.
 \end{itemize}
 
-Zu Vergleichszwecken wurde der Algorithmus \ref{alg:complete} in einem separaten Git-Branch auch für reines TV-Inpainting implementiert.
+Zu Vergleichszwecken wurde der Algorithmus \ref{alg:ee} in einem separaten Git-Branch auch für reines TV-Inpainting implementiert.
 Dabei wurden alle Variablen und Parameter ausgelassen, welche nur für den Krümmungsanteil in der Inpainting-Energie \ref{??} benötigt werden.
 
 \begin{algorithm}[TV Inpainting] \label{alg:tv}
@@ -1714,7 +1761,7 @@ Dabei wurden alle Variablen und Parameter ausgelassen, welche nur für den Krüm
 	\EndFor
     \end{algorithmic}
     \begin{note}
-	Dieser Algorithmus unterscheidet sich von \ref{alg:complete} mit der Wahl $\beta = 0$, da die Variablen $n, m, \lambda_1, \lambda_4$ nicht mehr auftreten und somit Fehler, die durch Projektionen entstehen, keine Auswirkungen mehr haben.
+	Dieser Algorithmus unterscheidet sich von \ref{alg:ee} mit der Wahl $\beta = 0$, da die Variablen $n, m, \lambda_1, \lambda_4$ nicht mehr auftreten und somit Fehler, die durch Projektionen entstehen, keine Auswirkungen mehr haben.
     \end{note}
 \end{algorithm}
 
@@ -1768,7 +1815,7 @@ Zwei Abbruchkriterien wurden implementiert:
 	    k > \kmax.
 	\end{math}
     \item
-	Die Summe der Residuen in den Lagrange-Updates der Nebenbedingungen ist hinreichend klein:
+	Die Summe der $L^2$-Fehler der Nebenbedingungen ist hinreichend klein:
 	\begin{math}[numbered] \label{eq:stopres}
 	    \underbrace{\||p^k| - m^k \cdot p^k\|_{L^2}}_{=:R_{mp}^k} + \underbrace{\|p^k - \nabla u^k\|_{L^2}}_{=:R_{pu}^k} + \underbrace{\|n^k - m^k\|_{L^2}}_{=:R_{nm}^k} < \epsilon_R.
 	\end{math}
@@ -1817,36 +1864,58 @@ Als Abbruchkriterium wurde \eqref{eq:stopmax} mit $\kmax = 5000$ gewählt.
 
 Die Inpainting-Energie aus \eqref{eq:energy_ee} ist hier von der Form
 \begin{math}
-    \Etv = \int_\Omega \alpha |\nabla u| + \frac{\eta}{2} \int_{\Omega\setminus D} |u - u^0|^2.
+    \Etv[u] = \int_\Omega \alpha |\nabla u| + \frac{\eta}{2} \int_{\Omega\setminus D} |u - u^0|^2.
 \end{math}
 Da wir für $u$ lineare Basisfunktionen angesetzt haben, lässt sich $E_{\mathrm{tv}}[u]$ ohne weiteres numerisch auswerten.
 \begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}
-	\begin{semilogxaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$E_{\mathrm{tv}}[u^k]$},restrict y to domain=260:268]
-	    %\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
-	    %\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e-2/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e-1/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e0/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e1/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e2/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e3/output.dat};
-	    \addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e4/output.dat};
-	    \legend{
-	      $r_2=10^{-2}$,
-	      $r_2=10^{-1}$,
-	      $r_2=10^0$,
-	      $r_2=10^1$,
-	      $r_2=10^2$,
-	      $r_2=10^3$,
-	      $r_2=10^4$,
-	    }
-	\end{semilogxaxis}
-    \end{tikzpicture}
-    \caption{TV-Inpainting-Energie für verschiedene Penaltyparameter.}
-    \label{fig:num_tvr2_etv}
+    \begin{subfigure}{0.4\textwidth}
+	\centering
+	\begin{tikzpicture}
+	    \begin{semilogxaxis}[width=7cm,xlabel=$k$,restrict y to domain=260:268]
+		%\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+		%\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+		\addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e-2/output.dat};
+		\addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e-1/output.dat};
+		\addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e0/output.dat};
+		\addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e1/output.dat};
+		\addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e2/output.dat};
+		\addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e3/output.dat};
+		\addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e4/output.dat};
+	    \end{semilogxaxis}
+	\end{tikzpicture}
+	\caption{$E_{\mathrm{tv}}[u^k]$ für verschiedene $r_2$.}
+	\label{fig:num_tvr2_etv}
+    \end{subfigure}
+    \begin{subfigure}{0.6\textwidth}
+	\centering
+	\begin{tikzpicture}
+	    \begin{loglogaxis}[width=7cm,xlabel=$k$]
+		%\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+		%\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
+		\addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e-2/output.dat};
+		\addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e-1/output.dat};
+		\addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e0/output.dat};
+		\addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e1/output.dat};
+		\addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e2/output.dat};
+		\addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e3/output.dat};
+		\addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e4/output.dat};
+		\legend{
+		  $r_2=10^{-2}$,
+		  $r_2=10^{-1}$,
+		  $r_2=10^0$,
+		  $r_2=10^1$,
+		  $r_2=10^2$,
+		  $r_2=10^3$,
+		  $r_2=10^4$,
+		}
+	    \end{loglogaxis}
+	\end{tikzpicture}
+	\caption{$R_{pu} = \|p - \nabla u\|_{L^2}$ für verschiedene Penaltyparameter.}
+	\label{fig:num_tvr2_pu}
+    \end{subfigure}
+    \caption{TV-Inpainting}
 \end{figure}
+
 In Abbildung \ref{fig:num_tvr2_etv} sehen wir, dass die Energie $\Etv$ für alle Parameterwahlen $r_2$ annähernd gegen den selben Wert konvergiert.
 Das beste Konvergenzverhalten ist für $r_2 = 10$ zu beobachten.
 Im Endergebnis für $k = 5000$ unterscheidet sich nur der Fall $r_2 = 10^4$ mit der höchsten Energie noch optisch von den restlichen Ergebnissen, wie exemplarisch in Abbildung \ref{fig:num_tvr2_png} zu sehen.
@@ -1868,51 +1937,30 @@ Im Endergebnis für $k = 5000$ unterscheidet sich nur der Fall $r_2 = 10^4$ mit 
 	\myincludegraphics[width=0.8\textwidth]{data/tvr2/refinements=0_alpha=1e0_r2=1e4/vtk.png}
 	\caption{$r_2=10^{4}$}
     \end{subfigure}%
-    \caption{Inpaintingresultate für verschiedene $r_2$}
+    \caption{Inpaintingresultate für verschiedene $r_2$.}
     \label{fig:num_tvr2_png}
 \end{figure}
 
-Für $r_2 \ge 10$ wird die Nebenbedingung $p = \nabla u$ durchgehend besser eingehalten (siehe Abbildung \ref{num_tvr2_pu}) auf Kosten einer zu Beginn sehr hohen Energie $\Etv$.
+Für $r_2 \ge 10$ wird die Nebenbedingung $p = \nabla u$ durchgehend besser eingehalten (siehe Abbildung \ref{fig:num_tvr2_pu}) auf Kosten einer zu Beginn sehr hohen Energie $\Etv$.
 Für $r_2 \le 1$ ist die Energie zu Beginn relativ niedrig, erfährt jedoch erst einen deutlichen Abfall nachdem die Nebenbedingungen zu einem gewissen Grad eingehalten wurden.
-
-\begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}
-	\begin{loglogaxis}[width=10cm,xlabel=$k$,ylabel={$R_{pu}$}]
-	    %\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
-	    %\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
-	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e-2/output.dat};
-	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e-1/output.dat};
-	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e0/output.dat};
-	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e1/output.dat};
-	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e2/output.dat};
-	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e3/output.dat};
-	    \addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e4/output.dat};
-	    \legend{
-	      $r_2=10^{-2}$,
-	      $r_2=10^{-1}$,
-	      $r_2=10^0$,
-	      $r_2=10^1$,
-	      $r_2=10^2$,
-	      $r_2=10^3$,
-	      $r_2=10^4$,
-	    }
-	\end{loglogaxis}
-    \end{tikzpicture}
-    \caption{Residuum $\|p - \nabla u\|_{L^2}$ für verschiedene Penaltyparameter.}
-    \label{fig:num_tvr2_pu}
-\end{figure}
 
 
 % TODO: echte tv energie, vs numerische mit p
 
 
-
 Anzumerken ist in Abbildung \ref{fig:num_tvr2_png} die Verwaschenheit der diagonalen Kante, sowie die beiden kleinen Auswüchse an den jeweiligen Enden dieser.
 Beides reduziert sich durch globale Verfeinerung des Gitters, wie in Abbildung \ref{fig:num_tvrefine_png} zu sehen.
+Beide Phänomene gehen auch für ein um 90° gedrehtes Eingabebild deutlich zurück, wie in Abbildung \ref{fig:num_tvgrid} zu sehen.
+Dies lässt sich durch die Gitterstruktur in Abbildung \ref{fig:grid} erklären: für das rotierte Eingabebild liegt die diagonale Schwarz-Weiß Kante des Inpaintingresultats nun genau auf den Dreieckskanten im Gitter.
 
 \begin{figure}[ht]
     \centering
+    \begin{subfigure}{0.2\textwidth}
+	\centering
+	\myincludegraphics[width=0.8\textwidth]{data/tvgrid/vtk.png}
+	\caption{$q=0$, rotiert}
+	\label{fig:num_tvgrid}
+    \end{subfigure}%
     \begin{subfigure}{0.2\textwidth}
 	\centering
 	\myincludegraphics[width=0.8\textwidth]{data/tvrefine/refinements=0_alpha=1e0_r2=1e1/vtk.png}
@@ -1928,9 +1976,11 @@ Beides reduziert sich durch globale Verfeinerung des Gitters, wie in Abbildung \
 	\myincludegraphics[width=0.8\textwidth]{data/tvrefine/refinements=4_alpha=1e0_r2=1e1/vtk.png}
 	\caption{$q=4$}
     \end{subfigure}%
-    \caption{Verfeinerung des Gitters für $r_2=10^1$.}
+    \caption{Auswirkungen des Gitters auf das Inpainting-Resultat für $r_2=10^1$.}
     \label{fig:num_tvrefine_png}
 \end{figure}
+
+
 
 %\begin{figure}[ht]
 %    \centering
@@ -1963,21 +2013,13 @@ Wenden wir uns nun Algorithmus \ref{alg:ee} zu.
 Auch hier wünschen wir uns numerisch eine Konvergenz des Algorithmus und möglichst von den Penaltyparametern $r_1, r_2, r_4$ unabhängige Endresultate.
 Wir fixieren zunächst $\eta = 1000$ und untersucht dies mit zwei Parameterstudien.
 
-Wir fixieren zunächst $\alpha = 1$ und $\beta = 1000$ und variieren
+Sei $\alpha = 1$ und $\beta = 1000$ und variiere
 \begin{math}[numbered] \label{eq:num_param}
     r_1 \in \Set{10^0, 10^1, 10^2, 10^3, 10^4}, \qquad
-    r_2 \in \Set{10^0, 10^2, 10^4}, \qquad
-    r_4 \in \Set{10^0, 10^2, 10^4}.
+    r_2, r_4 \in \Set{10^0, 10^2, 10^4}.
 \end{math}
 Für $r_1$ wurde eine feinere Auflösung gewählt, da die Modifikation in \eqref{eq:energy_al} (die Verwendung von $L^1$-Penalizing statt $L^2$-Penalizing) höchstwahrscheinlich starke Auswirkungen auf die Größenordnung von $r_1$ hat.
 Als Abbruchkriterium wird an dieser Stelle \eqref{eq:stopmax} gewählt mit $\kmax = 50000$.
-
-
-Für hohe Parameter $r_2, r_4$ und niedriges $r_1$ zeigt der Algorithmus ein konvergentes Verhalten (siehe \ref{fig:num_eeparam_conv} und man beobachtet Ergebnisse wie in \ref{fig:num_eeparam_png}.
-Diese Bilder zeigen die für das Elastica-Inpainting erwünschte gekrümmte Kante.
-Leider scheint das Inpaintingresultat vom Parameter $r_1$ abzuhängen und man beobachtet in \ref{fig:num_eeparam_png} für höheres $r_1$ eine stärker nach außen gebogene Kante.
-
-
 
 \begin{figure}[ht]
     \centering
@@ -1993,11 +2035,12 @@ Leider scheint das Inpaintingresultat vom Parameter $r_1$ abzuhängen und man be
 	    }
 	\end{loglogaxis}
     \end{tikzpicture}
-    \caption{$\|u_k - u_{k-1}\|_{L^2}$ für $r_1 \ll r_2, r_4$.}
+    \caption{$\|u_k - u_{k-1}\|_{L^2}$ für $r_2, r_4 = 10^4$.}
     \label{fig:num_eeparam_conv}
 \end{figure}
 
-
+Für hohe Parameter $r_2, r_4$ und niedriges $r_1$ zeigt der Algorithmus ein annähernd konvergentes Verhalten (siehe Abbildung \ref{fig:num_eeparam_conv} und man beobachtet Inpaintingergebnisse wie in Abbildung \ref{fig:num_eeparam_png}.
+Diese Bilder zeigen die für das Elastica-Inpainting erwünschte gekrümmte Kante.
 
 \begin{figure}[ht]
     \centering
@@ -2016,13 +2059,133 @@ Leider scheint das Inpaintingresultat vom Parameter $r_1$ abzuhängen und man be
 	\myincludegraphics[width=0.8\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e2_r2=1e4_r4=1e4/vtk.png}
 	\caption{$r_1 = 100$}
     \end{subfigure}%
-    \caption{$\|u_k - u_{k-1}\|_{L^2}$ für $r_1 \ll r_2, r_4 = 10^4$.}
+    \caption{Elastica Inpaintingresultate für $r_2, r_4 = 10^4$.}
     \label{fig:num_eeparam_png}
 \end{figure}
 
+Leider scheint das Inpaintingresultat vom Parameter $r_1$ abzuhängen und man beobachtet in Abbildung \ref{fig:num_eeparam_png} für höheres $r_1$ eine stärker nach außen gebogene Kante.
+Es könnte jedoch auch sein, dass für höheres $r_1$ eine erheblich längere Laufzeit gewählt werden müsste.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+	\begin{loglogaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$}]
+	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e1_r2=1e2_r4=1e2/output.dat};
+	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e3_r2=1e4_r4=1e4/output.dat};
+	    \legend{
+	      {$r_1 = 10, r_2,r_4 = 100$},
+	      {$r_1 = 1000, r_2,r_4 = 10000$},
+	    }
+	\end{loglogaxis}
+    \end{tikzpicture}
+    \caption{Nicht konvergentes Verhalten für größere $r_1$, bzw. kleinere $r_2, r_4$.}
+    \label{fig:num_eeparam_instab}
+\end{figure}
+
+Für größere $r_1$ oder kleinere $r_2, r_4$ zeigen sich beunruhigende Instabilitäten und man ist weit entfernt von Konvergenz, siehe exemplarisch Abbildung \ref{fig:num_eeparam_instab}.
+Eine mögliche Erklärung hierfür ist das $L^1$-Penalizing in \eqref{eq:energy_al}: der $L^1$-Fehler überwiegt die $L^2$-Fehler für kleine Abweichungen erheblich und könnte zu aufschaukelnden Effekten führen.
+Wird $r_1$ im Vergleich zu $r_2, r_4$ klein gehalten, ist dieses Phänomen nicht mehr spürbar.
+
+Untersuchen wir nun den Fall $r_1 = 1$, $r_2, r_4 = 10^4$ der obigen Parameterstudie genauer.
+In Abbildung \ref{fig:num_eeparam_energy} sehen wir $\scr L_{\mathrm{img}}^k$, $\scr L_{\mathrm{dat}}^k$, $\scr L_{\mathrm{constr}}$ und $\scr L_{\mathrm{total}}^k$ im Laufe des Algorithmus.
+
+\begin{figure}[ht]
+    \begin{subfigure}{0.5\textwidth}
+	\centering
+	\begin{tikzpicture}
+	    \begin{semilogxaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=north east]
+		\addplot table [x=k,y=imageEnergy]  {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+		\addplot table [x=k,y=dataEnergy]   {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+		\addplot table [x=k,y=constrEnergy] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+		\addplot table [x=k,y=totalEnergy]  {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+		\legend{
+		    $\scr L_{\mathrm{img}}^k$,
+		    $\scr L_{\mathrm{dat}}^k$,
+		    $\scr L_{\mathrm{constr}}^k$,
+		    $\scr L_{\mathrm{total}}^k$,
+		}
+	    \end{semilogxaxis}
+	\end{tikzpicture}
+	\caption{Numerische Energien.}
+	\label{fig:num_eeparam_energy}
+    \end{subfigure}%
+    \begin{subfigure}{0.5\textwidth}
+	\centering
+	\begin{tikzpicture}
+	    \begin{loglogaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=north west]
+		\addplot table [x=k,y=mpConstr] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+		\addplot table [x=k,y=puConstr] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+		\addplot table [x=k,y=nmConstr] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+		\legend{
+		  $R_{mp}^k$,
+		  $R_{pu}^k$,
+		  $R_{nm}^k$,
+		}
+	    \end{loglogaxis}
+	\end{tikzpicture}
+	\caption{$L^2$-Fehler der Nebenbedingungen.}
+	\label{fig:num_eerefine_constr}
+    \end{subfigure}
+    \caption{Einzelfall $r_1 = 1$, $r_2, r_4 = 10^4$.}
+\end{figure}
+
+Auffällig ist das nicht-monotone Verhalten von $\scr L_{\mathrm{constr}}$.
+Auch scheinen sich die Energien bis zum Schluss für $k = 50 000$ nicht stabilisiert zu haben: die Energien steigen, während $R_{mp}^k$ in Abbildung \ref{fig:num_eerefine_constr} deutlich sinkt (man beachte die logarithmischen Achsen).
+
+Da die Nebenbedingung $|p| = m \cdot p$ als einzige den Einfluss des Krümmungsanteils der Elastica-Energie auf $u$ kontrolliert (siehe \eqref{eq:energy_splitted}), ist der Penaltyparameter $r_1$ von wesentlicher Bedeutung.
+
+Insgesamt beobachten wir für kleine $r_1$ also sehr langsame Konvergenz und wenig aussagekräftige numerische Energien (da die wichtige Nebenbedingung nicht gut eingehalten wird), während großes $r_1$ zu Instabilitäten führt.
 
 
 
+%Wahrend zu Beginn $\scr L_{\mathrm{dat}}^k$ relativ groß ist bei geringem $\scr L_{\mathrm{constr}}^k$ (man erinnere sich an die Initialisierung $u, p, m, n \get 0$), 
+
+
+%
+%
+%\begin{figure}[ht]
+%    \centering
+%    \begin{tikzpicture}
+%	\begin{semilogxaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$\scr L[u^k]$}]
+%	    \addplot table [x=k,y=totalEnergy] {data/eerefine/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=totalEnergy] {data/eerefine/refinements=1_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=totalEnergy] {data/eerefine/refinements=2_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=totalEnergy] {data/eerefine/refinements=3_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=totalEnergy] {data/eerefine/refinements=4_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \legend{
+%	      $q = 0$,
+%	      $q = 1$,
+%	      $q = 2$,
+%	      $q = 3$,
+%	      $q = 4$,
+%	    }
+%	\end{semilogxaxis}
+%    \end{tikzpicture}
+%    \caption{Numerische Energie $\scr L[u^k]$ für $r_1 \ll r_2, r_4 = 10^4$.}
+%    \label{fig:num_eerefine_energy}
+%\end{figure}
+%
+%
+%
+%
+%\begin{figure}[ht]
+%    \centering
+%    \begin{tikzpicture}
+%	\begin{loglogaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$}]
+%	    \addplot table [x=k,y=mpConstr] {data/eerefine/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=mpConstr] {data/eerefine/refinements=1_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=mpConstr] {data/eerefine/refinements=2_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=mpConstr] {data/eerefine/refinements=3_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=mpConstr] {data/eerefine/refinements=4_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \legend{
+%		0,1,2,3,4
+%	    }
+%	\end{loglogaxis}
+%    \end{tikzpicture}
+%    \caption{Nicht konvergentes Verhalten für größere $r_1$, bzw. kleinere $r_2, r_4$.}
+%    \label{fig:num_eeparam_instab}
+%\end{figure}
+%
 
 
 
