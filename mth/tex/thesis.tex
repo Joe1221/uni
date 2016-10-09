@@ -40,7 +40,7 @@
 
 \DeclareDocumentCommand{\BV}{}{\mathord{\mathrm{BV}}}
 
-\DeclareDocumentCommand{\Hdiv}{}{H_{\mathrm{div}}}
+\DeclareDocumentCommand{\Hdiv}{}{H^{\mathrm{div}}}
 
 
 \tikzset{missing/.style={dashed,pattern=checkerboard,pattern color=red!15}}
@@ -61,7 +61,7 @@
 
 \include{titlepage}
 
-\chapter{Einführung}
+\chapter{Einführung} \label{chap:intro}
 
 %
 %\begin{itemize}
@@ -110,8 +110,8 @@ Wir werden „möglichst gut“ durch die Minimierung eines Funktionals $E: u \m
     E[u] = \Eimg[u] + \Edat[u]
 \end{math}
 beschreiben.
-Hierbei sind die Funktionale $\Edat$, $\Eimg$ modelliert durch ein sogenanntes Datenmodell (engl. “data model”) und einem Bildmodell (engl. “image prior model”) ersetzen.
-Der Bayes'sche Ansatz liefert für diesen Ansatz eine schmackhafte Motivation.
+Hierbei sind die Funktionale $\Edat$, $\Eimg$ modelliert durch ein sogenanntes Datenmodell (engl. “data model”) und einem Bildmodell (engl. “image prior model”.
+Der Bayes'sche Ansatz liefert hierfür eine schmackhafte Motivation.
 
 
 \section{Das Bayes'sche Prinzip}
@@ -184,7 +184,7 @@ Es ist bekannt \cite[§4.5]{chan2005image}, dass dieser Datenterm gut geeignet i
 Man kann dies folgendermaßen motivieren.
 
 Für additives weißes Gauß'sches Rauschen gibt die Gauß-Verteilung
-\begin{math}
+\begin{math}[numbered] \label{eq:gnoise}
     p(\epsilon_x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{\epsilon_x^2}{2\sigma^2}}
 \end{math}
 an jeder Stelle $x \in \Omega$ des Bildes die Wahrscheinlichkeit dafür, dass das Rauschen $\epsilon_x$ beträgt.
@@ -196,7 +196,7 @@ wobei $\epsilon_x := u^0(x) - u(x)$ das aktuelle Rauschen an der Stelle $x$ angi
 Äquivalent minimieren wir also
 \begin{math}
     - \log \Big(\int_{\Omega\setminus D} \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(u^0(x) - u(x))^2}{2\sigma^2}} \di[x] \Big)
-    &= \log (\sigma \sqrt{2\pi}) + \int_{\Omega\setminus D} |u^0(x) - u(x)|^2 \di[x].
+    &= -\log (\sigma \sqrt{2\pi}) + \frac{1}{2\sigma^2} \int_{\Omega\setminus D} |u^0(x) - u(x)|^2 \di[x].
 \end{math}
 
 Für Schwarz/Weiß Rauschen (auch “salt-and-pepper noise” gennant) ist die Wahl einer $L^1$-Norm zu bevorzugen, wie in \cite{nikolova2004variational} gezeigt.
@@ -357,9 +357,8 @@ Ohne entsprechende Studien durchgeführt zu haben, kann man anhand von Abbildung
 
 Die Niveaulinien stellen auf diese Weise eine brauchbare Bewertungsgrundlage eines Bildes dar.
 Legt man nun eine geeignete Bewertung für die Niveaulinien eines Bildes (im Sinne eines Energiefunktionals) fest, so liefert die Summation über alle Höhenlinien eine Bewertung des Gesamtbildes.
-Die sogenannte \emphdef{Levelset-Methode} in Kapitel \ref{chap:image_model} erlaubt die Umsetzung dieser Idee.
 
-Das Bildmodell in dieser Arbeit nutzt die Levelset-Methode und wählt für jede Niveaulinie $\gamma:[0,1] \to \Omega$ die \emphdef{Elastica Energie}
+Das Bildmodell in dieser Arbeit nutzt diese sogenannte \emphdef{Levelset-Methode} (siehe Kapitel \ref{chap:image_model}) und wählt für jede Niveaulinie $\gamma:[0,1] \to \Omega$ die \emphdef{Elastica Energie}
 \begin{math}
     \int_{\gamma} \alpha + \beta \kappa^2 \di[s]
 \end{math}
@@ -420,7 +419,7 @@ Hierfür gibt es das sogenannte “texture based inpainting” mit zahlreichen s
 
 \section*{Konventionen}
 
-Um die Notation zu erleichtern, werden wir eine Reihe von Konventionen befolgen, die Folgenden festgehalten werden sollen.
+Um die Notation zu erleichtern, werden wir eine Reihe von Konventionen befolgen, die im Folgenden festgehalten werden sollen.
 
 \begin{itemize}
     \item
@@ -445,24 +444,53 @@ Um die Notation zu erleichtern, werden wir eine Reihe von Konventionen befolgen,
 
 \section*{Differentialgeometrie}
 
+Sei $\gamma \in C^2([0,L], \R^2)$ eine nach Bogenlänge parametrisierte Kurve.
+Außerdem sei $\gamma$ \emphdef{regulär}, d.h. $|\gamma| > 0$ auf $[0,L]$.
+
+Die Tangente $e_1 \in C^1([0,L], \R^2)$ und Normale $e_2 \in C^1([0,L], \R^2)$ von $\gamma$ sind gegeben durch
+\begin{math}
+    e_1(t) := \dot\gamma(t), \qquad
+    e_2(t) := e_1^{\orth}(t) = \Matrix{0 & -1 \\ 1 & 0} e_1(t).
+\end{math}
+Wegen $|e_1|^2 = 1$, ergibt sich durch Ableiten
+\begin{math}
+    0 = \ddx[t] e_1(t) \cdot e_1(t)
+    = 2 \dot e_1(t) \cdot e_1(t),
+\end{math}
+also haben wir punktweise eine lineare Abhängigkeit $\dot e_1 = \kappa e_2$ für eine skalare Funktion $\kappa: [0,L] \to \R$, genannt \emphdef{Krümmung} von $\gamma$.
+Wegen $0 = \ddx[t] e_1(t) \cdot e_2(t) = \dot e_1(t) \cdot e_2(t) + \dot e_2(t) \cdot e_1(t)$ folgern wir also
+\begin{math}
+    \Vector*{\dot e_1 & \dot e_2}
+    = \Matrix*{0 & \kappa \\ -\kappa & 0} \Vector*{e_1 & e_2},
+\end{math}
+die sogenannten \emphdef{Frenet-Gleichungen} in $\R^2$, welche wir in Kapitel \ref{chap:image_model} nutzen werden.
+
+
 
 \section*{Optimierung}
 
-Wir nutzen in Kapitel \ref{chap:image_model} und \ref{chap:ad} Variationsrechnung im Zusammenhang mit Optimierung und führen dazu kurz die nötigen Werkzeuge ein.
+Wir nutzen in Kapitel \ref{chap:image_model} und \ref{chap:adm} Variationsrechnung im Zusammenhang mit Optimierung und führen dazu kurz die nötigen Werkzeuge ein.
 Im Folgenden sei $H$ stets ein Hilbertraum.
 
 \begin{definition} \label{definition:min_stuff}
     Wir nennen $I: H \to \R$
     \begin{itemize}
 	\item
-	    \emphdef{Gâteaux-differenzierbar},
-            falls für alle $u, \phi \in H$ das \emphdef{Gâteaux-Differential $I': H \times H \to \R$ von $I$ an der Stelle $u$ in Richtung $\phi$}
+	    \emphdef{Gâteaux-differenzierbar} in $u \in H$,
+            falls für alle $\phi \in H$ das \emphdef{Gâteaux-Differential $I': H \times H \to \R$ von $I$ an der Stelle $u$ in Richtung $\phi$}
 	    \begin{math}
 		I'[u, \phi]
 		:= \ddx[\epsilon]|_{\epsilon = 0} I[u + \epsilon \phi]
 		= \lim_{\delta \to 0} \dfrac{I[u + \delta \phi] - I[u]}{\delta}
 	    \end{math}
 	    existiert und $I'[u, \argdot]: H \to \R$ ein linearer und beschränkter Operator ist,
+	\item
+	    \emphdef{Fréchet-differenzierbar} in $u \in H$,
+	    falls für alle $\phi \in H$ ein Operator $I': H \times H \to \R$ existiert – genannt \emphdef{Fréchet-Differential} – sodass
+	    \begin{math}
+		\lim_{\|\phi\| \to 0} \dfrac{\|I[u+\phi] - I[u] - I'[u,\phi)\|}{\|\phi\|} = 0
+	    \end{math}
+	    und $I'[u,\argdot]: H \to \R$ ein linearer und beschränkter Operator ist.
         \item
 	    \emphdef{konvex},
 	    falls für alle $u_1, u_2 \in H$, $t \in [0,1]$ gilt
@@ -479,7 +507,7 @@ Im Folgenden sei $H$ stets ein Hilbertraum.
     \end{itemize}
 \end{definition}
 
-Folgender einfache Satz rechtfertigt das Ermitteln von kritischen Punkten eines Funktionals um sein Minimum zu bestimmen.
+Der folgende aus der Optimierung bekannte Satz rechtfertigt das Ermitteln von kritischen Punkten eines Funktionals, um sein Minimum zu bestimmen.
 
 \begin{proposition} \label{prop:mincrit}
     Sei $\hat u \in H$ und $I: H \to \R$ Gâteaux-differenzierbar und konvex.
@@ -514,7 +542,7 @@ Folgender einfache Satz rechtfertigt das Ermitteln von kritischen Punkten eines 
 \end{proposition}
 
 \begin{theorem} \label{thm:minexist}
-    Sei $H$ ein Hilbertraum, $I: H \to \R$ Gâteaux-differenzierbar, konvex und koerziv.
+    Sei $I: H \to \R$ Gâteaux-differenzierbar, konvex und koerziv.
     Dann existiert ein Minimum $\hat u \in H$, d.h.
     \begin{math}
         I[\hat u] = \inf_{u \in H} I[u].
@@ -538,8 +566,7 @@ Durch den Ansatz $0 = \ddx[\epsilon]|_{\epsilon=0} I[u + \epsilon\phi]$ erhält 
     \nabla_x \cdot (\nabla_3 f(x, u, \nabla u)) = \partial_2 f(x,u,\nabla u),
 \end{math}
 wobei $\partial_2 f$, $\nabla_3 f$ die Ableitungen bezüglich der zweiten und dritten Komponente von $f$ darstellen und $\nabla_x \cdot (\dotsc)$ die Divergenz nach $x \in \Omega$.
-Es existieren auch Varianten für Funktionale mehrerer Funktionen und höherer Ableitungen von $u$.
-Für nähere Ausführungen sei auf \cite{??} verwiesen.
+Für nähere Ausführungen sei auf \cite[§8.1]{evans2010partial} verwiesen.
 Wir werden in dieser Arbeit den variationellen Ansatz stets explizit führen und benötigen die Euler-Lagrange-Gleichung daher nicht.
 
 Zur Untersuchung der nötigen Voraussetzungen für Satz \ref{prop:mincrit} und Theorem \ref{thm:minexist} für spätere Zwecke folgen zwei einfache, konkretere Lemmata.
@@ -610,6 +637,41 @@ Zur Untersuchung der nötigen Voraussetzungen für Satz \ref{prop:mincrit} und T
     \end{proof}
 \end{lemma}
 
+\section*{Sobolev-Räume}
+
+Zur Analyse der Koerzivität in Kapitel \ref{chap:adm} benötigen wir folgende Form der wohlbekannten Poincaré Ungleichung.
+
+\begin{theorem}[Poincaré-Wirtinger] \label{thm:poincare-wirtinger}
+    Sei $\Omega \subset \R^d$ offen, zusammenhängend und beschränkt mit $C^1$-Rand $\Boundary \Omega$.
+    Dann gilt für alle $u \in H^1(\Omega)$
+    \begin{math}
+	\|u - t\|_{L^2(\Omega)} \le \const \cdot \|\nabla u\|_{L^2(\Omega)},
+    \end{math}
+    wobei $t := \frac{1}{|\Omega|} \int_\Omega u$ der Mittelwert von $u$ auf $\Omega$ ist.
+    \begin{proof}
+        Für einen Beweis sei auf \cite[§5.8.1]{evans2010partial} verwiesen.
+    \end{proof}
+\end{theorem}
+
+Für die Koerzivität von Funktionalen der Form $\int_\Omega (\nabla \cdot n)^2 + \int_\Omega |n|^2$ nutzen wir den Hilbert-Raum $\Hdiv(\Omega)^d$.
+
+\begin{definition}[{\normalfont\scshape\cite[Definition 3.5]{kurula2012duality}}] \label{def:hdiv}
+    Sei $\Omega \subset \R^d$ offen.
+    Wir definieren den Funktionenraum
+    \begin{math}
+	\Hdiv(\Omega) := \Set{u \in L^2(\Omega, \R^d) & \nabla \cdot u \in L^2(\Omega)},
+    \end{math}
+    wobei $\nabla \cdot u = \sum_{i=0}^d \partial_i u$ mit schwachen partiellen Ableitungen $\partial_i u$.
+\end{definition}
+
+\begin{lemma}[{\normalfont\scshape\cite[Lemma 3.6]{kurula2012duality}}] \label{lem:hdivhilbert}
+    Der Raum $\Hdiv(\Omega)$ bildet zusammen mit dem Skalarprodukt
+    \begin{math}
+	\<u, v\>_{\Hdiv(\Omega)} := \<u, v\>_{L^2(\Omega)^d} + \<\nabla \cdot u, \nabla \cdot v\>_{L^2(\Omega)}
+    \end{math}
+    einen Hilbertraum.
+\end{lemma}
+
 
 
 
@@ -619,7 +681,7 @@ Zur Untersuchung der nötigen Voraussetzungen für Satz \ref{prop:mincrit} und T
 \chapter{Das Euler Elastica Bildmodell} \label{chap:image_model}
 
 
-Wir bereits in der Einführung angesprochen, wollen wir in diesem Kapitel die Elastica Kurve als Kurvenmodell für die Niveaulinien eines Bildes ansetzen, um daraus anschließend ein Bildmodell zu gewinnen.
+Wie bereits in der Einführung angesprochen, wollen wir in diesem Kapitel die Elastica Kurve als Kurvenmodell für die Niveaulinien eines Bildes ansetzen, um daraus anschließend ein Bildmodell zu gewinnen.
 Obwohl das hieraus gewonnene Bildmodell später auch für $d > 2$ interpretiert werden kann (siehe \ref{def:eemodel}), werden wir uns für die Herleitung auf die Dimension $d = 2$ festlegen.
 
 \section{Die Euler Elastica}
@@ -641,11 +703,11 @@ In seinem Werk löst Euler dieses Variationsproblem indem er alle zugehörigen k
 
 Neben ihrer geschmeidigen Form erbt die Elastica durch diese Formulierung auch viele schöne geometrische Eigenschaften der Krümmung, wie z.B. Invarianz unter euklidischen Transformationen.
 In neuerer Zeit wurde die Elastica deshalb in der Numerik z.B. als Vorbild für Spline-Interpolationen oder – wie in dieser Arbeit – als Kurvenmodell für Levelsetmethoden in Betracht gezogen.
-Man möchte sich dabei meist von der unhandlichen Randbedingung der festen Länge befreien und wählt folgende Definition.
+Man möchte dabei in der Regel die Länge der Kurve variabel halten und wählt folgende Definition.
 
 \begin{definition}[Euler Elastica] \label{definition:elastica}
     Seien $\alpha, \beta \in \R_{\ge 0}$.
-    Eine Kurve $\gamma \in C^2([0,1], \R^2)$ mit festen Endpunkten $\gamma(0) = p_0$, $\gamma(1) = p_1$ und Tangentenrichtungen $\dot\gamma(0) = t_0$, $\dot\gamma(1) = t_1$ heißt \emphdef{Elastica}, falls sie unter eben solchen zulässigen Kurven ein kritischer Punkt des Energiefunktionals
+    Eine reguläre Kurve $\gamma \in C^2([0,1], \R^2)$ mit festen Endpunkten $\gamma(0) = p_0$, $\gamma(1) = p_1$ und Tangentenrichtungen $\dot\gamma(0) = t_0$, $\dot\gamma(1) = t_1$ heißt \emphdef{Elastica}, falls sie unter eben solchen zulässigen Kurven ein kritischer Punkt des Funktionals
     \begin{math}
 	\int_\gamma \alpha + \beta \kappa^2 \di[s]
     \end{math}
@@ -667,7 +729,7 @@ Eine interessante Charakterisierung der Elastica liefert der folgende Satz.
     erfüllt ist.
     \begin{proof}
 	Sei $\gamma:[0,L] \to \R^2$ in Bogenlänge parametrisiert und ebenso ihre Tangente $e_1$, Normale $e_2$ und Krümmung $\kappa$.
-        Die Kurvenenergie sei gegeben durch $I[\gamma] := \int_\gamma \alpha + \beta \kappa^2 \di[s]$.
+        Das Elastica Energiefunktional sei gegeben durch $I[\gamma] := \int_\gamma \alpha + \beta \kappa^2 \di[s]$.
 	Wir bedienen uns der Variationsrechnung und lösen
 	\begin{math}
 	    \ddx[\epsilon]|_{\epsilon=0} I[\gamma + \epsilon \phi e_2] = 0,
@@ -762,12 +824,11 @@ Die Elastica Energie $\int_\gamma \alpha + \beta \kappa^2 \di[s]$ im Hinterkopf,
 	\kappa(t) = - \nabla \cdot n(x) = - \nabla \cdot \frac{\nabla u(x)}{|\nabla u(x)|}.
     \end{math}
     \begin{note}
-	Allgemeiner beschreibt $-\nabla \cdot n$ in der Differentialgeometrie die mittlere Krümmung einer Fläche mit Normale $n$, siehe \cite{??}.
-	% FIXME: referenziere für höhere dimensionen
+	Allgemeiner beschreibt $\nabla \cdot n$ in beliebiger Dimension die mittlere Krümmung einer Hyperfläche mit Normale $n$, siehe \cite[§1]{giga2002surface}.
     \end{note}
     \begin{proof}
         Seien $e_1, e_2$ die Einheitstangente und Einheitsnormale von $\gamma$,
-       	dann gilt für die Krümmung $\kappa$ nach den Frenet-Serret Formeln
+       	dann gilt für die Krümmung $\kappa$ nach den Frenet-Gleichungen
 	\begin{math}
 	    \Vector*{\dot e_1 & \dot e_2} = \Matrix*{0 & \kappa \\ -\kappa & 0} \Vector*{e_1 & e_2}.
 	\end{math}
@@ -806,7 +867,7 @@ Das Werkzeug dafür ist die sogenannte Coarea-Formel, welche wir hier in zurecht
     Dann gilt
     \begin{math}
 	\int_0^1 \int_{\gamma_\lambda} f \circ \gamma_\lambda \di[s] \di[\lambda]
-	= \int_\Omega f |\nabla u| \di[x]
+	= \int_\Omega f |\nabla u| \di[x].
     \end{math}
     \begin{note}
         Durch entsprechende Zerlegung des Gebiets und wegen der Additivität der Integrale können wir hiermit auch Fälle abdecken, bei denen die Levelsets aus mehreren disjunkten Kurven bestehen.
@@ -879,13 +940,13 @@ Erinnert man sich an das Bayes-Prinzip, so steht nun unser Inpaintingmodell fest
 \end{definition}
 
 
-\chapter{Die “alternating direction” Methode} \label{chap:ad}
+\chapter{Die “alternating direction” Methode} \label{chap:adm}
 
 
 \section{Motivation} % komplexität von euler-lagrange und numerische probl.
 
 
-Für die numerische Implementierung des Elastica Inpaintingmodells aus Definition \ref{definition:elastica_inpainting} gibt es verschiedene Ansätze, siehe z.B. \cite{shen2002euler}, \cite{tai2011fast}, \cite{graphcuts}, \cite{normalstuff}.
+Für die numerische Implementierung des Elastica Inpaintingmodells aus Definition \ref{definition:elastica_inpainting} gibt es verschiedene Ansätze, siehe z.B. \cite{shen2002euler}, \cite{tai2011fast}, \cite{ballester2001filling}, \cite{brito2010fast}, \cite{yashtini2015alternating}, \cite{hahn2011fast}, \cite{duan2013fast}.
 
 Eine einfache Möglichkeit besteht darin, direkt die zugehörige Euler-Lagrange-Gleichung zu ermitteln (meist mit geeigneter Regularisierung, z.B. $\frac{\nabla u}{|\nabla u|} \leadsto \frac{\nabla u}{|\nabla u| + \epsilon}$) und hieraus ein zeitabhängiges Problem zu kreieren.
 Sei dazu $\Phi(u) = 0$ die Euler-Lagrange-Gleichung für einen geeigneten Operator $\Phi$.
@@ -1149,6 +1210,8 @@ Wir minimieren
 \end{math}
 
 \begin{proposition}
+    Sei $\Omega \subset \R^d$ offen, zusammenhängend und beschränkt mit $C^1$-Rand $\Boundary \Omega$.
+
     Das Funktional $\scr L[u]$ ist Gâteaux-differenzierbar, konvex und koerziv für $\eta, |\Omega \setminus D| > 0$.
     Inbesondere existiert $\hat u \in H^1(\Omega)$, sodass
     \begin{math}[numbered] \label{eq:pde_u}
@@ -1173,7 +1236,7 @@ Wir minimieren
 
 	Betrachten wir nun die Koerzivität.
 	Setze $t := \frac{1}{|\Omega|} \int_\Omega u$ und $v := u - t$, d.h. $u = v + t$.
-	Die Poincaré-Wirtinger Ungleichung \ref{???} liefert zunächst
+	Die Poincaré-Wirtinger Ungleichung aus Theorem \ref{thm:poincare-wirtinger} liefert zunächst
 	\begin{math}
 	    \|u\|_{H^1}
 	    &= \|v + t\|_{L^2} + \|\nabla u\|_{L^2} \\
@@ -1181,15 +1244,15 @@ Wir minimieren
 	    &\le \const \cdot \|\nabla v\|_{L^2} + \const |t| + \|\nabla u\|_{L^2} \\
 	    &= \const \cdot |t| + \const \cdot |\nabla u|.
 	\end{math}
-	Sei $(u^k)_{k\in \N}$ eine Folge mit $\|u^k\|_{H^1} = \|u^k\|_{L^2} + \|\nabla u^k\|_{L^2} \to \infty$ und entsprechend $v^k, t^k$.
+	Sei nun $(u^k)_{k\in \N}$ eine Folge mit $\|u^k\|_{H^1}^2 = \|u^k\|_{L^2}^2 + \|\nabla u^k\|_{L^2}^2 \to \infty$ und entsprechend $v^k, t^k$.
 
 	Falls $\|\nabla u^k\|_{L^2} \to \infty$, so folgt aus Lemma \ref{lem:coercivity} $I[u^k] \to \infty$, da $I[u]$ koerziv in $\nabla u$ ist.
 	Sei nun also $\|\nabla u^k\|_{L^2}$ beschränkt und $|t^k| \to \infty$.
 	Daraus folgt mit Poincaré-Wirtinger
 	\begin{math}
-	    \|v - u^0\| \le \|v\| + \|u^0\| \le \const \cdot \|\nabla u\| + \|u^0\| < \const < \infty,
+	    \|v^k - u^0\|_{L^2(\Omega)} \le \|v^k\| + \|u^0\| \le \const \cdot \|\nabla u^k\| + \|u^0\| < \const < \infty,
 	\end{math}
-	insbesondere ist $\|v - u^0\|_{L^2(\Omega\setminus D)} \le \|v - u^0\|_{L^2(\Omega)}$ beschränkt.
+	insbesondere ist $\|v^k - u^0\|_{L^2(\Omega\setminus D)} \le \|v^k - u^0\|_{L^2(\Omega)}$ beschränkt.
 
 	Sei $\mu := \sqrt{|\Omega \setminus D|} > 0$, dann schätzen wir also ab
 	\begin{math}
@@ -1628,22 +1691,23 @@ Obwohl eine Implementierung für $d > 2$ reizend wäre, beschränken wir uns der
 
 \section{Finite Elemente Diskretisierung}
 
-
-Die meisten Arbeiten, die eine alternating direction Methode für das Lösen des Euler-Elastica Bildmodells einsetzen (\cite{??}) nutzen eine Finite Differenzen Diskretisierung auf speziell angepassten Gittern.
-In diesen „staggered grids“ werden die Werte von $u$, sowie in unserem Fall $p_1, m_1, n_1$ und $p_2, m_2, n_2$ entsprechend der Finiten Differenzen an jeweils zueinander versetzten Stellen betrachtet.
+Die Arbeiten \cite{tai2011fast}, \cite{yashtini2015alternating}, \cite{hahn2011fast}, \cite{duan2013fast} machen von einer alternating direction Methode für das Lösen des Euler-Elastica Bildmodells Gebrauch.
+Sie nutzen dafür Finite Differenzen Diskretisierungen auf speziell angepassten Gittern.
+In solchen „staggered grids“ \cite{tai2011fast} werden die Werte von $u$, sowie in unserem Fall $p_1, m_1, n_1$ und $p_2, m_2, n_2$ entsprechend der Finiten Differenzen an jeweils zueinander versetzten Stellen betrachtet.
 Die partiellen Differentialgleichungen (bei uns in $u$ und $n$) werden in der Regel in starker Form formuliert und diskretisiert.
 Für diese speziellen Gitterwahlen werden die Schritte in Algorithmus \ref{alg:ee} explizit als lineare Gleichungssysteme oder Updates in den Gitterpunkten dargestellt.
 
 Das Ziel dieser Arbeit bestand in der Implementierung von Algorithmus \ref{alg:ee} im Kontext Finiter Elemente mit Hilfe der C++ Bibliotheken Dune-Fem und Dune-ACFem.
-Eine natürliche Gitterwahl mit Dreieckselementen um ein gegebenes Bild zu repräsentieren illustriert Abbildung \ref{fig:grid}.
+Eine natürliche Gitterwahl mit Dreieckselementen, um ein gegebenes Bild zu repräsentieren, illustriert Abbildung \ref{fig:grid}.
 \begin{figure}[ht]
-    \begin{subfigure}{0.5\textwidth}
+    \centering
+    \begin{subfigure}{0.4\textwidth}
 	\centering
 	\begin{tikzpicture}
 	    \draw (0,0) grid (2,2);
 	\end{tikzpicture}
     \end{subfigure}%
-    \begin{subfigure}{0.5\textwidth}
+    \begin{subfigure}{0.4\textwidth}
 	\centering
 	\begin{tikzpicture}
 	    \draw[black!20] (0,0) grid (2,2);
@@ -1661,12 +1725,12 @@ Für einfache lineare Lagrange Basisfunktionen können die Pixelwerte des Bildes
 Insbesondere besitzt der entsprechende DOF-Vektor die selbe Anzahl Freiheitsgrade wie das ursprüngliche Bild.
 
 Um Komplikationen zu vermeiden, nutzen alle diskreten Funktionen das selbe Gitter.
-In den numerischen Tests wird hierbei das \texttt{alugrid-simplex} Gitter \cite{??} genutzt.
+In den numerischen Tests wird hierbei das \texttt{alugrid-simplex} Gitter \cite{alkamper2016dune} genutzt.
 Die diskreten Funktionen sind jedoch teilweise durch unterschiedliche Basisfunktionen repräsentiert.
 \begin{itemize}
     \item
 	Mit Blick auf die entsprechende partiellen Differentialgleichung \eqref{eq:pde_u} verwenden wir für $u$ lineare Lagrange-Basisfunktionen.
-	Für $n$ wären $H^{\mathrm{div}}$-konforme Elemente angebracht (siehe auch \cite{??}).
+	Für $n$ wären $H^{\mathrm{div}}$-konforme Elemente angebracht (siehe \cite[§3]{logg2012automated} für eine Auswahl).
         Diese standen jedoch in \texttt{dune-fem} nicht zur Verfügung, weshalb gewöhnliche lineare Lagrange-Basisfunktionen für $n$ gewählt wurden.
     \item
 	Für $p$ und $m$ wählen wir konstante, diskontinuierliche Basisfunktionen wegen der Ausdrücke $\nabla u$ und $\nabla \cdot n$ im $p$-Update.
@@ -1701,20 +1765,20 @@ Es sei angemerkt, dass Performance nicht das Hauptaugenmerk während der Impleme
 \begin{description}
     \item[\texttt{build/src/eeinpaint\{,_gui\}}]
 	Die beiden ausführbaren Dateien führen den Inpainting-Algorithmus aus.
- 	Das Programm \texttt{build/src/eeinpaint_gui} startet den Algorithmus in einem separaten Thread, um eine in Echtzeit aktualisierte graphische Oberfläche anzuzeigen, auf der die Entwicklung von $u$, sowie verschiedene hilfreiche Werte beobachtet werden können.
-	Dagegen ist \texttt{build/src/eeinpaint} rein kommandozeilenbasiert und generiert Log-Daten in Form von Tab-separierten Werten, sowie das Endresultat für $u$ als VTK Unstructured Grid (Endungen \texttt{.pvtu} und \texttt{.vtu}) im Verzeichnis \texttt{output}.
+ 	Das Programm \path{build/src/eeinpaint_gui} startet den Algorithmus in einem separaten Thread, um eine in Echtzeit aktualisierte graphische Oberfläche anzuzeigen, auf der die Entwicklung von $u$, sowie verschiedene hilfreiche Werte beobachtet werden können.
+	Dagegen ist \path{build/src/eeinpaint} rein kommandozeilenbasiert und generiert Log-Daten in Form von Tab"=separierten Werten, sowie das Endresultat für $u$ als VTK Unstructured Grid (Endungen \texttt{.pvtu} und \texttt{.vtu}) im Verzeichnis \texttt{output}.
 
-	Parameter können entweder in \texttt{data/parameter} eingestellt werden (siehe unten), oder direkt bei Programmaufruf übergeben werden.
+	Parameter können entweder in \path{data/parameter} eingestellt werden (siehe unten), oder direkt bei Programmaufruf übergeben werden.
     \item[\texttt{src/algorithm_\{base,live,logging\}.hh}]
-	Das Herzstück der Implementierung findet sich in \texttt{algorithm_base.hh}: die Klasse \Code{AlgorithmBase} definiert Methoden für die Teilschritte des Algorithmus, sowie eine Methode \Code{run()}, welche den Algorithmus durchführt.
+	Das Herzstück der Implementierung findet sich in \path{algorithm_base.hh}: die Klasse \Code{AlgorithmBase} definiert Methoden für die Teilschritte des Algorithmus, sowie eine Methode \Code{run()}, welche den Algorithmus durchführt.
 
 	Um die Ergebnisse auszugeben, oder zusätzliche Daten während des Algorithmus zu erheben, wird die Klasse durch \Code{AlgorithmLive} und \Code{AlgorithmLogging} entsprechend erweitert.
     \item[\texttt{src/main\{,_gui\}.cc}]
-	Dies sind die Programmeinstiegspunkte der beiden generierten ausführbaren Dateien \texttt{src/eeinpaint} und \texttt{src/eeinpaint_gui}.
+	Dies sind die Programmeinstiegspunkte der beiden generierten ausführbaren Dateien \path{src/eeinpaint} und \path{src/eeinpaint_gui}.
 	Hier wird die Bilddatei für $u^0$ gelesen, das Gitter erzeugt und unter Umständen verfeinert, um anschließend den entsprechenden Algorithmus aufzurufen.
    \item[\texttt{data/input\{,_mask\}.png}]
-	Die Datei \texttt{data/input.png} wird in Graustufen gelesen und repräsentiert $u^0$.
-	Dazu wird eine Inpainting-Maske aus \texttt{data/input_mask.png} gelesen, welche den Inpaintingbereich angibt: schwarz für $\Omega \setminus D$, weiß für $D$.
+	Die Datei \path{data/input.png} wird in Graustufen gelesen und repräsentiert $u^0$.
+	Dazu wird eine Inpainting-Maske aus \path{data/input_mask.png} gelesen, welche den Inpaintingbereich angibt: schwarz für $\Omega \setminus D$, weiß für $D$.
     \item[\texttt{data/parameter}]
 	Hier werden die nötigen Parameter für den Algorithmus eingestellt.
 	Folgende Parameter sind wesentlich.
@@ -1729,8 +1793,8 @@ Es sei angemerkt, dass Performance nicht das Hauptaugenmerk während der Impleme
 		Abbruchkriterium für die Anzahl Schleifendurchläufe in Algorithmus \ref{alg:ee}.
 	\end{description}
     \item[\texttt{tools/runjob.sh}]
-	Dies ist ein Wrapper für \texttt{build/src/eeinpaint}, um mehrere Jobs parallel laufen lassen zu können.
-	Die erzeugten Dateien werden in ein Unterverzeichnis im Ordner \texttt{output} abgelegt, um keine Konflikte zu erzeugen.
+	Dies ist ein Wrapper für \path{build/src/eeinpaint}, um mehrere Jobs parallel laufen lassen zu können.
+	Die erzeugten Dateien werden in ein Unterverzeichnis im Ordner \path{output} abgelegt, um keine Konflikte zu erzeugen.
     \item[\texttt{tools/vtkconvert.sh}]
 	Dieses Skript rendert zweidimensionale VTK Unstructured Grid Dateien mit Endung \texttt{.pvtu} automatisch durch Parallelprojektion zu Graustufen-PNG-Bilder.
 \end{description}
@@ -1747,7 +1811,7 @@ Angedacht, aber aus Zeitgründen nicht umgesetzt sind folgende Ideen.
 \end{itemize}
 
 Zu Vergleichszwecken wurde der Algorithmus \ref{alg:ee} in einem separaten Git-Branch auch für reines TV-Inpainting implementiert.
-Dabei wurden alle Variablen und Parameter ausgelassen, welche nur für den Krümmungsanteil in der Inpainting-Energie \ref{??} benötigt werden.
+Dabei wurden alle Variablen und Parameter ausgelassen, welche nur für den Krümmungsanteil in der Inpainting-Energie \eqref{eq:energy_splitted} benötigt werden.
 
 \begin{algorithm}[TV Inpainting] \label{alg:tv}
     \Input{$\Omega \subset \R^2$, $u^0: \Omega \setminus D \to \R$, $\alpha, \eta \in \R_{\ge 0}$, $r_2 \in \R_{>0}$} \\
@@ -1910,7 +1974,7 @@ Da wir für $u$ lineare Basisfunktionen angesetzt haben, lässt sich $E_{\mathrm
 		}
 	    \end{loglogaxis}
 	\end{tikzpicture}
-	\caption{$R_{pu} = \|p - \nabla u\|_{L^2}$ für verschiedene Penaltyparameter.}
+	\caption{$R_{pu} = \|p - \nabla u\|_{L^2}$ für verschiedene $r_2$. \hspace{2cm} \mbox{}}
 	\label{fig:num_tvr2_pu}
     \end{subfigure}
     \caption{TV-Inpainting}
@@ -2133,8 +2197,58 @@ Auffällig ist das nicht-monotone Verhalten von $\scr L_{\mathrm{constr}}$.
 Auch scheinen sich die Energien bis zum Schluss für $k = 50 000$ nicht stabilisiert zu haben: die Energien steigen, während $R_{mp}^k$ in Abbildung \ref{fig:num_eerefine_constr} deutlich sinkt (man beachte die logarithmischen Achsen).
 
 Da die Nebenbedingung $|p| = m \cdot p$ als einzige den Einfluss des Krümmungsanteils der Elastica-Energie auf $u$ kontrolliert (siehe \eqref{eq:energy_splitted}), ist der Penaltyparameter $r_1$ von wesentlicher Bedeutung.
+Zudem sind die numerischen Energien wenig aussagekräftig, wenn diese wichtige Nebenbedingung kaum eingehalten wird.
 
-Insgesamt beobachten wir für kleine $r_1$ also sehr langsame Konvergenz und wenig aussagekräftige numerische Energien (da die wichtige Nebenbedingung nicht gut eingehalten wird), während großes $r_1$ zu Instabilitäten führt.
+
+
+% TODO: !!!!
+
+Eine Idee ist die Hochskalierung aller Penaltyparameter.
+
+Insgesamt beobachtet man für kleine $r_1$ sehr langsame Konvergenz und wenig aussagekräftige numerische Energien (da die wichtige Nebenbedingung nicht gut eingehalten wird), während großes $r_1$ zu Instabilitäten führt.
+
+
+\section*{Denoising}
+
+
+Wir wollen nun unseren Algorithmus zum Entrauschen von Bildern testen, d.h. $D = 0$ und wir geben $u^0$ auf ganz $\Omega$ vor.
+Das Ursprungsbild $u^0$ hat die Größe $50\times 50$ Pixel und findet sich in \ref{fig:num_denoise_orig}.
+Wie in Kapitel \ref{chap:intro} besprochen, modelliert unser Bildmodel additives Gauß'sches Rauschen.
+Wir simulieren daher in Abbildung \ref{fig:num_denoise_noise} Gauß'sches Rauschen gemäß \eqref{eq:gnoise} mit Varianz $\sigma = 0.05$.
+Außerdem treffen wir die Parameterwahlen $\alpha = 1$, $\beta = 1000$, $\eta = 800$, $r_1 = 20$, $r_2, r_4 = 10^{4}$ und wählen als Abbruchbedingung \eqref{eq:stopmax} mit $\kmax = 2500$.
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.3\textwidth}
+	\centering
+	\myincludegraphics[width=0.7\textwidth]{data/eedenoise/yinyang.png}
+	\caption{Orginal}
+	\label{fig:num_denoise_orig}
+    \end{subfigure}%
+    \begin{subfigure}{0.3\textwidth}
+	\centering
+	\myincludegraphics[width=0.7\textwidth]{data/eedenoise/yinyang_gaussian005.png}
+	\caption{Verrauschtes Bild}
+	\label{fig:num_denoise_noise}
+    \end{subfigure}%
+    \begin{subfigure}{0.3\textwidth}
+	\centering
+	\myincludegraphics[width=0.7\textwidth]{data/eedenoise/vtk.png}
+	\caption{Denoising Resultat}
+	\label{fig:num_denoise_result}
+    \end{subfigure}%
+    \caption{Elastica Denoisingresultate}
+    \label{fig:num_denoise_png}
+\end{figure}
+
+Das Ergebnis in Abbildung \ref{fig:num_denoise_result} beseitigt das Gauß'sche Rauschen zufriedenstellend, während die Kanten dabei erhalten bleiben.
+Allerdings verändern sich teilweise Formen im Bild gemäß des Elastica Bildmodells, wie man an den abgerundeten Spitzen der beiden Hälften erkennen kann.
+Auch die Gitterstruktur hat, wie bereits beim TV-Inpainting erwähnt, Auswirkungen auf das Resultat: die beiden inneren Kreise sind leicht verzogen.
+
+
+\section{Schlussbemerkungen}
+
+
 
 
 
@@ -2193,7 +2307,7 @@ Insgesamt beobachten wir für kleine $r_1$ also sehr langsame Konvergenz und wen
 
 
 
-\section{Praktische Anwendungen und Beobachtungen}
+%\section{Praktische Anwendungen und Beobachtungen}
 
 %\begin{itemize}
 %    \item
