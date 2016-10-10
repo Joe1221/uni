@@ -1,16 +1,41 @@
 \documentclass{mythesis}
 
+\usetikzlibrary{patterns}
 
 % PGFPLOTS STUFF
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.11}
 \usepgfplotslibrary{external}
 \tikzexternalize
-\pgfplotsset{every axis/.append style={no markers}}
+\pgfplotsset{every axis/.append style={
+    no markers
+}}
+\pgfplotsset{every axis plot/.append style={
+    line width=0.6pt
+}}
 \pgfplotsset{every axis legend/.append style={
     at={(1.02,1)},
     anchor=north west
 }}
+\definecolor{Set2-8-1}{RGB}{102,194,165}
+\definecolor{Set2-8-2}{RGB}{252,141,98}
+\definecolor{Set2-8-3}{RGB}{141,160,203}
+\definecolor{Set2-8-4}{RGB}{231,138,195}
+\definecolor{Set2-8-5}{RGB}{166,216,84}
+\definecolor{Set2-8-6}{RGB}{255,217,47}
+\definecolor{Set2-8-7}{RGB}{229,196,148}
+\definecolor{Set2-8-8}{RGB}{179,179,179}
+\pgfplotscreateplotcyclelist{mycolor}{
+    {Set2-8-1},
+    {Set2-8-2},
+    {Set2-8-3},
+    {Set2-8-4},
+    {Set2-8-5},
+    {Set2-8-6},
+    {Set2-8-7},
+    {Set2-8-8}
+}
+\pgfplotsset{every axis/.append style={cycle list name=mycolor}}
 
 
 \DeclareDocumentCommand{\myincludegraphics}{om}{
@@ -20,8 +45,6 @@
 	};
     \end{tikzpicture}
 }
-
-\usetikzlibrary{patterns}
 
 \usepackage{titling}
 
@@ -41,7 +64,7 @@
 \DeclareDocumentCommand{\BV}{}{\mathord{\mathrm{BV}}}
 
 \DeclareDocumentCommand{\Hdiv}{}{H^{\mathrm{div}}}
-
+\DeclareDocumentCommand{\kmax}{}{k_{\mathrm{max}}}
 
 \tikzset{missing/.style={dashed,pattern=checkerboard,pattern color=red!15}}
 
@@ -464,7 +487,34 @@ Wegen $0 = \ddx[t] e_1(t) \cdot e_2(t) = \dot e_1(t) \cdot e_2(t) + \dot e_2(t) 
     = \Matrix*{0 & \kappa \\ -\kappa & 0} \Vector*{e_1 & e_2},
 \end{math}
 die sogenannten \emphdef{Frenet-Gleichungen} in $\R^2$, welche wir in Kapitel \ref{chap:image_model} nutzen werden.
+Die Frenet-Gleichungen existieren auch für Raumkurven in höheren Dimensionen, siehe \cite{kuhnel2013differentialgeometrie}.
 
+Wir haben folgende wohlbekannte parametrisierungsunabhängige Darstellung für die Krümmung einer regulären Kurve.
+\begin{lemma}
+    Sei $\gamma \in C^2([0,1], \R^2)$ eine reguläre Kurve.
+    Dann ist ihre Krümmung $\kappa: [0,1] \to \R$ gegeben durch
+    \begin{math}
+	\kappa = \frac{\det(\dot\gamma, \ddot\gamma)}{|\dot\gamma|^3}.
+    \end{math}
+    \begin{proof}
+	Sei $\gamma = c \circ \phi$ mit einer nach Bogenlänge parametrisierten Kurve $c:[0,L] \to \R^2$ und einer Parametertransformation $\phi: \R \to \R$.
+	Mit $e_1$ und $e_2$ bezeichnen wir Tangente und Normale von $c$.
+	Wir berechnen die Krümmung $\kappa = \kappa_c \circ \phi$ von $\gamma$, wobei $\kappa_c$ die Krümmung von $c$ ist.
+        Es gilt zunächst
+	\begin{math}
+	    \dot \gamma &= (\dot c \circ \phi)\dot\phi, \qquad
+	    \ddot \gamma = (\ddot c \circ \phi) \dot\phi^2 + (\dot c \circ \phi) \ddot\phi, \\
+	    |\dot\gamma| &= \dot \phi.
+	\end{math}
+	Also
+	\begin{math}
+	    \det(\dot\gamma, \ddot\gamma)
+	    &= \dot\phi^3 \det( \dot c \circ \phi, \ddot c \circ \phi) \\
+	    &= |\dot\gamma|^3 \det(e_1 \circ \phi, \dot e_1 \circ \phi)
+	    = |\dot\gamma|^3 (\kappa_c \circ \phi).
+	\end{math}
+    \end{proof}
+\end{lemma}
 
 
 \section*{Optimierung}
@@ -488,7 +538,7 @@ Im Folgenden sei $H$ stets ein Hilbertraum.
 	    \emphdef{Fréchet-differenzierbar} in $u \in H$,
 	    falls für alle $\phi \in H$ ein Operator $I': H \times H \to \R$ existiert – genannt \emphdef{Fréchet-Differential} – sodass
 	    \begin{math}
-		\lim_{\|\phi\| \to 0} \dfrac{\|I[u+\phi] - I[u] - I'[u,\phi)\|}{\|\phi\|} = 0
+		\lim_{\|\phi\| \to 0} \dfrac{\|I[u+\phi] - I[u] - I'[u,\phi]\|}{\|\phi\|} = 0
 	    \end{math}
 	    und $I'[u,\argdot]: H \to \R$ ein linearer und beschränkter Operator ist.
         \item
@@ -567,7 +617,7 @@ Durch den Ansatz $0 = \ddx[\epsilon]|_{\epsilon=0} I[u + \epsilon\phi]$ erhält 
 \end{math}
 wobei $\partial_2 f$, $\nabla_3 f$ die Ableitungen bezüglich der zweiten und dritten Komponente von $f$ darstellen und $\nabla_x \cdot (\dotsc)$ die Divergenz nach $x \in \Omega$.
 Für nähere Ausführungen sei auf \cite[§8.1]{evans2010partial} verwiesen.
-Wir werden in dieser Arbeit den variationellen Ansatz stets explizit führen und benötigen die Euler-Lagrange-Gleichung daher nicht.
+Wir werden in dieser Arbeit den variationellen Ansatz stets explizit führen und benötigen die Euler"=Lagrange"=Gleichung daher nicht.
 
 Zur Untersuchung der nötigen Voraussetzungen für Satz \ref{prop:mincrit} und Theorem \ref{thm:minexist} für spätere Zwecke folgen zwei einfache, konkretere Lemmata.
 
@@ -653,7 +703,7 @@ Zur Analyse der Koerzivität in Kapitel \ref{chap:adm} benötigen wir folgende F
     \end{proof}
 \end{theorem}
 
-Für die Koerzivität von Funktionalen der Form $\int_\Omega (\nabla \cdot n)^2 + \int_\Omega |n|^2$ nutzen wir den Hilbert-Raum $\Hdiv(\Omega)^d$.
+Für Funktionale der Form $\int_\Omega (\nabla \cdot n)^2 + \int_\Omega |n|^2$ setzen wir den Raum $\Hdiv(\Omega)^d$ der Funktionen an, deren schwache Divergenz quadratintegrierbar ist.
 
 \begin{definition}[{\normalfont\scshape\cite[Definition 3.5]{kurula2012duality}}] \label{def:hdiv}
     Sei $\Omega \subset \R^d$ offen.
@@ -664,13 +714,14 @@ Für die Koerzivität von Funktionalen der Form $\int_\Omega (\nabla \cdot n)^2 
     wobei $\nabla \cdot u = \sum_{i=0}^d \partial_i u$ mit schwachen partiellen Ableitungen $\partial_i u$.
 \end{definition}
 
-\begin{lemma}[{\normalfont\scshape\cite[Lemma 3.6]{kurula2012duality}}] \label{lem:hdivhilbert}
+\begin{proposition}[{\normalfont\scshape\cite[Lemma 3.6]{kurula2012duality}}] \label{lem:hdivhilbert}
     Der Raum $\Hdiv(\Omega)$ bildet zusammen mit dem Skalarprodukt
     \begin{math}
 	\<u, v\>_{\Hdiv(\Omega)} := \<u, v\>_{L^2(\Omega)^d} + \<\nabla \cdot u, \nabla \cdot v\>_{L^2(\Omega)}
     \end{math}
     einen Hilbertraum.
-\end{lemma}
+\end{proposition}
+
 
 
 
@@ -689,11 +740,11 @@ Obwohl das hieraus gewonnene Bildmodell später auch für $d > 2$ interpretiert 
 In der Physik bezeichnet man einen festen Gegenstand in der Regel als elastisch, wenn er sich unter äußerer Krafteinwirkung deformiert und nach dem Entfernen dieser Kraft wieder in seine Ausgangsform zurückkehrt.
 Die Frage, wie genau sich ein elastischer Gegenstand unter äußerer Krafteinwirkung verformt, ist im Allgemeinen stark materialabhängig und schwierig zu beantworten.
 
-Die Wissenschaft hat mit der Zeit eine Reihe von Modellen entwickelt, um das Verhalten elastischer Gegenstände zu beschreiben.
+Die Wissenschaft hat mit der Zeit mathematische Modelle entwickelt, um das Verhalten elastischer Gegenstände zu beschreiben.
 Man erinnere sich beispielsweise an das Hookesche Gesetz aus der Schulphysik, welches zwischen Elongation eines Objektes (z.B. eine Spannfeder) in eine Richtung und der darauf einwirkenden Kraft einen linearen Zusammenhang herstellt.
 Dieses Modell war jedoch eindimensional und reichte auch nicht aus, um größere Verformungen zu beschreiben, die sich nicht dem linearen Gesetz unterwerfen.
 
-Euler hat schließlich (nach Vorarbeit von Bernoulli und anderen, siehe \cite{levien2008elastica}) 1744 in seinem Buch über variationelle Methoden \cite{euler1774methodus} ein Modell für planare elastische Stäbe fester Länge präsentiert.
+Euler hat (nach Vorarbeit von Bernoulli und anderen, siehe \cite{levien2008elastica}) 1744 in seinem Buch über variationelle Methoden \cite{euler1774methodus} ein Modell für planare elastische Stäbe fester Länge präsentiert.
 Eine Elastica war demnach (in aktueller Notation) eine zweifach stetig differenzierbare, reguläre Kurve $\gamma: [0,L] \to \R^2$ fester Länge $L > 0$, festen Endpunkten $\gamma(0), \gamma(L)$ und festen Tangentenrichtungen $\dot \gamma(0), \dot \gamma(L)$, welche die totale quadrierte Krümmung
 \begin{math}
     \int_\gamma \kappa^2 \di[s]
@@ -706,7 +757,7 @@ In neuerer Zeit wurde die Elastica deshalb in der Numerik z.B. als Vorbild für 
 Man möchte dabei in der Regel die Länge der Kurve variabel halten und wählt folgende Definition.
 
 \begin{definition}[Euler Elastica] \label{definition:elastica}
-    Seien $\alpha, \beta \in \R_{\ge 0}$.
+    Seien $\alpha \in \R_{>0}, \beta \in \R_{\ge 0}$.
     Eine reguläre Kurve $\gamma \in C^2([0,1], \R^2)$ mit festen Endpunkten $\gamma(0) = p_0$, $\gamma(1) = p_1$ und Tangentenrichtungen $\dot\gamma(0) = t_0$, $\dot\gamma(1) = t_1$ heißt \emphdef{Elastica}, falls sie unter eben solchen zulässigen Kurven ein kritischer Punkt des Funktionals
     \begin{math}
 	\int_\gamma \alpha + \beta \kappa^2 \di[s]
@@ -734,7 +785,7 @@ Eine interessante Charakterisierung der Elastica liefert der folgende Satz.
 	\begin{math}
 	    \ddx[\epsilon]|_{\epsilon=0} I[\gamma + \epsilon \phi e_2] = 0,
 	\end{math}
-	wobei $\phi \in C^2([0,L], \R^2)$ eine Variation in Normalenrichtung $e_2$ darstellt.
+	für alle Variationen $\phi \in C^2([0,L], \R)$, d.h. $\phi e_2$ ist eine Variation in Normalenrichtung $e_2$.
 	Sei $\gamma_\epsilon = \gamma + \epsilon \phi e_2$.
 	Die Krümmung $\kappa_\epsilon$ von $\gamma_\epsilon$ lässt sich parametrisierungsunabhängig durch $\kappa_\epsilon = \frac{\det(\dot\gamma_\epsilon, \ddot\gamma_\epsilon)}{|\dot\gamma_\epsilon|^3}$ darstellen.
 	Wir berechnen nun
@@ -1226,7 +1277,7 @@ Wir minimieren
 	    &= \eta \int_{\Omega\setminus D} (u - u^0) \phi + r_2 \int_{\Omega} (\nabla u - p)\cdot \nabla \phi - \int_{\Omega} \lambda_2 \cdot \nabla \phi \\
 	    &= \int_{\Omega} (r_2 \nabla u - r_2 p - \lambda_2) \cdot \nabla \phi + \eta \int_{\Omega\setminus D} (u - u^0)\phi.
 	\end{math}
-	Die Linearität von $\scr L'[u, \argdot]$ ist offensichtlich und für die Beschränktheit nutzt man die Hölder-Ungleichung:
+	Die Linearität von $\scr L'[u, \argdot]$ ist offensichtlich und für die Beschränktheit nutzt man die Hölder"=Ungleichung:
 	\begin{math}
 	    |\scr L'[u, \phi]|
 	    &\le \|r_2 \nabla u - r_2p - \lambda_2\|_{L^2(\Omega)} \|\nabla \phi\|_{L^2(\Omega)} + \eta\|u - u^0\|_{L^2(\Omega\setminus D)}\|\phi\|_{L^2(\Omega \setminus D)} \\
@@ -1432,14 +1483,14 @@ Wir minimieren
     für alle $\phi \in \Hdiv(\Omega)^d$ erfüllt ist und jede solche Lösung $\hat n$ das Funktional $\scr L[n]$ minimiert.
     \begin{proof}
 	Es sind die Voraussetzungen für Satz \ref{prop:mincrit} und Theorem \ref{thm:minexist} zu prüfen.
-	Wir berechnen das Gâteaux-Differential:
+	Wir berechnen das Gâteaux"=Differential:
 	\begin{math}
 	    \scr L'[n, \phi]
 	    = \ddx[\epsilon]|_{\epsilon=0} \scr L[n + \epsilon \phi]
 	    &= \int 2\beta |p| (\nabla \cdot n)(\nabla \cdot \phi) + r_4 \int_\Omega (n - m)\cdot \phi + \int_{\Omega} \lambda_4 \cdot \phi \\
 	    &= \int_\Omega 2\beta|p|(\nabla \cdot n)(\nabla \cdot \phi) + \int_\Omega (r_4 n - r_4 m + \lambda_4) \cdot \phi.
 	\end{math}
-	Die Linearität von $\scr L'[n, \argdot]$ ist offensichtlich und für die Beschränktheit nutzt man die Hölder-Ungleichung:
+	Die Linearität von $\scr L'[n, \argdot]$ ist offensichtlich und für die Beschränktheit nutzt man die Hölder"=Ungleichung:
 	\begin{math}
 	    |\scr L'[n, \phi]|
 	    &\le 2\beta \big\||p|(\nabla \cdot n)\big\|_{L^2} \|\nabla \cdot \phi\|_{L^2} + \big\|r_4n - r_4 m + \lambda_4\big\|_{L^2}\| \|\phi\|_{L^2} \\
@@ -1703,13 +1754,13 @@ Eine natürliche Gitterwahl mit Dreieckselementen, um ein gegebenes Bild zu repr
     \centering
     \begin{subfigure}{0.4\textwidth}
 	\centering
-	\begin{tikzpicture}
+	\begin{tikzpicture}[scale=1.2]
 	    \draw (0,0) grid (2,2);
 	\end{tikzpicture}
     \end{subfigure}%
     \begin{subfigure}{0.4\textwidth}
 	\centering
-	\begin{tikzpicture}
+	\begin{tikzpicture}[scale=1.2]
 	    \draw[black!20] (0,0) grid (2,2);
 	    \draw (0.5,0.5) rectangle (1.5,1.5) -- (0.5,0.5);
 	    \filldraw[red] (0.5,0.5) circle [radius=1.5pt]
@@ -1736,7 +1787,7 @@ Die diskreten Funktionen sind jedoch teilweise durch unterschiedliche Basisfunkt
 	Für $p$ und $m$ wählen wir konstante, diskontinuierliche Basisfunktionen wegen der Ausdrücke $\nabla u$ und $\nabla \cdot n$ im $p$-Update.
 	Außerdem sollte sich $m$ auf Grund der Nebenbedingung $|p| - m\cdot p$ im selben diskreten Funktionenraum wie $p$ befinden.
     \item
-	Natürlicherweise ergeben sich dann $\lambda_1, \lambda_2$ konstant diskontinuierlich aus den Lagrange-Updates.
+	Natürlicherweise ergeben sich dann $\lambda_1, \lambda_2$ konstant diskontinuierlich aus den Lagrange"=Updates.
     \item
 	Unklar ist die Wahl für $\lambda_4$: in jedem Fall wäre eine Projektion nötig, da $n$ und $m$ verschieden repräsentiert sind.
 	Wir wählen $\lambda_4$ ebenfalls konstant diskontinuierlich.
@@ -1758,7 +1809,7 @@ Die Implementierung fand in der Programmiersprache C++ statt.
 Verwendet wurden die GPLv2-lizenzierte, C++ „Distributed and Unified Numerics Environment“ Dune\footnote{\url{https://dune-project.org}} samt Core-Modulen, sowie den Modulen \texttt{dune-fem} und \texttt{dune-acfem}.
 Dabei ist \texttt{dune-fem} für die Finite Elemente Diskretisierung zuständig und \texttt{dune-acfem} bietet darauf aufbauend eine zusätzliche komfortable Abstraktionsebene.
 
-Ohne die Implementierung im Detail zu beschreiben, soll an dieser Stelle ein kurzer Überblick über die wesentlichen Teile des beiliegenden Quellcodes gegeben werden.
+Ohne die Implementierung im Detail zu beschreiben, soll an dieser Stelle ein kurzer Überblick über die wesentlichen Teile des in dieser Arbeit entstandenen Quellcodes gegeben werden.
 Hinweise zur Installation oder konkreten Verwendung finden sich in der beiliegenden \texttt{README.md}.
 Es sei angemerkt, dass Performance nicht das Hauptaugenmerk während der Implementierung darstellte.
 
@@ -1790,13 +1841,13 @@ Es sei angemerkt, dass Performance nicht das Hauptaugenmerk während der Impleme
 	    \item[\texttt{eeinpaint.refinements}]
 		Anzahl initialer Verfeinerungen des Gitters,
 	    \item[\texttt{eeinpaint.maxOuterIterations}]
-		Abbruchkriterium für die Anzahl Schleifendurchläufe in Algorithmus \ref{alg:ee}.
+		Abbruchkriterium für die Anzahl Schleifendurchläufe in Algorithmus \ref{alg:ee}, entspricht $\kmax$ in \eqref{eq:stopmax}.
 	\end{description}
     \item[\texttt{tools/runjob.sh}]
 	Dies ist ein Wrapper für \path{build/src/eeinpaint}, um mehrere Jobs parallel laufen lassen zu können.
 	Die erzeugten Dateien werden in ein Unterverzeichnis im Ordner \path{output} abgelegt, um keine Konflikte zu erzeugen.
     \item[\texttt{tools/vtkconvert.sh}]
-	Dieses Skript rendert zweidimensionale VTK Unstructured Grid Dateien mit Endung \texttt{.pvtu} automatisch durch Parallelprojektion zu Graustufen-PNG-Bilder.
+	Dieses Skript rendert VTK Unstructured Grid Dateien (Endung \texttt{.pvtu} und \text{.vtu}) mit Wertebereich $[0,1]$ durch Parallelprojektion zu Graustufen-PNG-Bilder.
 \end{description}
 
 
@@ -1870,7 +1921,6 @@ Das in den folgenden Tests genutzte, synthetische $u^0$ findet sich in Abbildung
 
 Für TV-Inpainting erwarten wir als Lösung eine diagonale, gerade verlaufende Schwarz-Weiß-Kante, während Elastica-Inpainting eine (je nach Wahl von $\alpha, \beta$) gekrümmte Kante hervorbringen sollte.
 
-\DeclareDocumentCommand{\kmax}{}{k_{\mathrm{max}}}
 Zwei Abbruchkriterien wurden implementiert:
 \begin{itemize}
     \item
@@ -1891,7 +1941,7 @@ Zwei Abbruchkriterien wurden implementiert:
 \DeclareDocumentCommand{\Ltotal}{}{\scr L_{\mathrm{total}}}
 
 Wir protokollieren unter anderem
-die $L^2$-Abstände aufeinanderfolgender Itererierten, obige Lagrange-Update Residuen $R_{mp}^k$, $R_{pu}^k$, $R_{nm}^k$, sowie
+die $L^2$-Abstände aufeinanderfolgender Itererierten, obige Lagrange"=Update Residuen $R_{mp}^k$, $R_{pu}^k$, $R_{nm}^k$, sowie
 die numerischen Energien
 \begin{math}
     \Limg^k &:= \int_\Omega \big(\alpha + \beta (\nabla \cdot n^k)^2\big)|p^k|, \\
@@ -1906,6 +1956,9 @@ die numerischen Energien
 In den Tests zur Gitterverfeinerung bezeichnen wir mit $q \in \N$ die Anzahl globaler Verfeinerungen.
 Bei dem hier genutzten Gitter bedeutet eine globale Verfeinerung die Bisektion jedes Dreiecks.
 
+Es sei angemerkt, dass die im Folgenden gezeigten Bildresultate in den numerischen Tests mit Hilfe des obigen Skripts \path{tools/vtkcontvert.sh} aus der diskreten Funktion $u$ auf dem Finite Elemente Gitter erstellt wurde.
+Dabei rendert VTK die Funktion entsprechend der linearen Basisfunktionen in ein Graustufenbild von 5-facher Größe des Gitters.
+Die Bilder suggerieren daher teilweise eine höhere Auflösung, als tatsächlich vorhanden.
 
 
 %\begin{math}
@@ -1935,7 +1988,7 @@ Da wir für $u$ lineare Basisfunktionen angesetzt haben, lässt sich $E_{\mathrm
     \begin{subfigure}{0.4\textwidth}
 	\centering
 	\begin{tikzpicture}
-	    \begin{semilogxaxis}[width=7cm,xlabel=$k$,restrict y to domain=260:268]
+	    \begin{semilogxaxis}[width=7cm,xlabel=$k$,restrict y to domain=260:268,each nth point={5}]
 		%\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
 		%\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
 		\addplot table [x=k,y expr=\thisrow{tv}+\thisrow{dataEnergy}] {data/tvr2/refinements=0_alpha=1e0_r2=1e-2/output.dat};
@@ -1952,8 +2005,18 @@ Da wir für $u$ lineare Basisfunktionen angesetzt haben, lässt sich $E_{\mathrm
     \end{subfigure}
     \begin{subfigure}{0.6\textwidth}
 	\centering
+%\pgfplotscreateplotcyclelist{mycolor}{
+%    {Set2-8-1},
+%    {Set2-8-2},
+%    {Set2-8-3},
+%    {Set2-8-4},
+%    {Set2-8-5},
+%    {Set2-8-6},
+%    {Set2-8-7},
+%    {Set2-8-8}
+%}
 	\begin{tikzpicture}
-	    \begin{loglogaxis}[width=7cm,xlabel=$k$]
+	    \begin{loglogaxis}[width=7cm,xlabel=$k$,each nth point={5}]
 		%\addplot table [x=k,y=dataEnergy] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
 		%\addplot table [x=k,y=tv] {refinements=0_alpha=1e0_r2=1e-2/output.dat};
 		\addplot table [x=k,y=puConstr] {data/tvr2/refinements=0_alpha=1e0_r2=1e-2/output.dat};
@@ -2088,7 +2151,7 @@ Als Abbruchkriterium wird an dieser Stelle \eqref{eq:stopmax} gewählt mit $\kma
 \begin{figure}[ht]
     \centering
     \begin{tikzpicture}
-	\begin{loglogaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$}]
+	\begin{loglogaxis}[width=9cm,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$},each nth point={3}]
 	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
 	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e1_r2=1e4_r4=1e4/output.dat};
 	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e2_r2=1e4_r4=1e4/output.dat};
@@ -2099,7 +2162,7 @@ Als Abbruchkriterium wird an dieser Stelle \eqref{eq:stopmax} gewählt mit $\kma
 	    }
 	\end{loglogaxis}
     \end{tikzpicture}
-    \caption{$\|u_k - u_{k-1}\|_{L^2}$ für $r_2, r_4 = 10^4$.}
+    \caption{Elastica Inpainting: konvergentes Verhalten für $r_2, r_4 = 10^4$.}
     \label{fig:num_eeparam_conv}
 \end{figure}
 
@@ -2108,19 +2171,19 @@ Diese Bilder zeigen die für das Elastica-Inpainting erwünschte gekrümmte Kant
 
 \begin{figure}[ht]
     \centering
-    \begin{subfigure}{0.2\textwidth}
+    \begin{subfigure}{0.25\textwidth}
 	\centering
-	\myincludegraphics[width=0.8\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/vtk.png}
+	\myincludegraphics[width=0.7\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/vtk.png}
 	\caption{$r_1 = 1$}
     \end{subfigure}%
-    \begin{subfigure}{0.2\textwidth}
+    \begin{subfigure}{0.25\textwidth}
 	\centering
-	\myincludegraphics[width=0.8\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e1_r2=1e4_r4=1e4/vtk.png}
+	\myincludegraphics[width=0.7\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e1_r2=1e4_r4=1e4/vtk.png}
 	\caption{$r_1 = 10$}
     \end{subfigure}%
-    \begin{subfigure}{0.2\textwidth}
+    \begin{subfigure}{0.25\textwidth}
 	\centering
-	\myincludegraphics[width=0.8\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e2_r2=1e4_r4=1e4/vtk.png}
+	\myincludegraphics[width=0.7\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e2_r2=1e4_r4=1e4/vtk.png}
 	\caption{$r_1 = 100$}
     \end{subfigure}%
     \caption{Elastica Inpaintingresultate für $r_2, r_4 = 10^4$.}
@@ -2133,7 +2196,7 @@ Es könnte jedoch auch sein, dass für höheres $r_1$ eine erheblich längere La
 \begin{figure}[ht]
     \centering
     \begin{tikzpicture}
-	\begin{loglogaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$}]
+	\begin{loglogaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$},each nth point={2}]
 	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e1_r2=1e2_r4=1e2/output.dat};
 	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e3_r2=1e4_r4=1e4/output.dat};
 	    \legend{
@@ -2142,7 +2205,7 @@ Es könnte jedoch auch sein, dass für höheres $r_1$ eine erheblich längere La
 	    }
 	\end{loglogaxis}
     \end{tikzpicture}
-    \caption{Nicht konvergentes Verhalten für größere $r_1$, bzw. kleinere $r_2, r_4$.}
+    \caption{Elastica Inpainting: instabiles Verhalten für größere $r_1$, bzw. kleinere $r_2, r_4$ als in Abbildung \ref{fig:num_eeparam_conv}.}
     \label{fig:num_eeparam_instab}
 \end{figure}
 
@@ -2157,7 +2220,7 @@ In Abbildung \ref{fig:num_eeparam_energy} sehen wir $\scr L_{\mathrm{img}}^k$, $
     \begin{subfigure}{0.5\textwidth}
 	\centering
 	\begin{tikzpicture}
-	    \begin{semilogxaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=north east]
+	    \begin{semilogxaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=north east,each nth point={4}]
 		\addplot table [x=k,y=imageEnergy]  {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
 		\addplot table [x=k,y=dataEnergy]   {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
 		\addplot table [x=k,y=constrEnergy] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
@@ -2176,7 +2239,7 @@ In Abbildung \ref{fig:num_eeparam_energy} sehen wir $\scr L_{\mathrm{img}}^k$, $
     \begin{subfigure}{0.5\textwidth}
 	\centering
 	\begin{tikzpicture}
-	    \begin{loglogaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=north west]
+	    \begin{loglogaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=north west,each nth point={3}]
 		\addplot table [x=k,y=mpConstr] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
 		\addplot table [x=k,y=puConstr] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
 		\addplot table [x=k,y=nmConstr] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
@@ -2188,50 +2251,96 @@ In Abbildung \ref{fig:num_eeparam_energy} sehen wir $\scr L_{\mathrm{img}}^k$, $
 	    \end{loglogaxis}
 	\end{tikzpicture}
 	\caption{$L^2$-Fehler der Nebenbedingungen.}
-	\label{fig:num_eerefine_constr}
+	\label{fig:num_eeparam_constr}
     \end{subfigure}
-    \caption{Einzelfall $r_1 = 1$, $r_2, r_4 = 10^4$.}
+    \caption{Elastica Inpainting mit $r_1 = 1$, $r_2, r_4 = 10^4$.}
 \end{figure}
 
 Auffällig ist das nicht-monotone Verhalten von $\scr L_{\mathrm{constr}}$.
-Auch scheinen sich die Energien bis zum Schluss für $k = 50 000$ nicht stabilisiert zu haben: die Energien steigen, während $R_{mp}^k$ in Abbildung \ref{fig:num_eerefine_constr} deutlich sinkt (man beachte die logarithmischen Achsen).
+Auch scheinen sich die Energien bis zum Schluss für $k = 50 000$ nicht stabilisiert zu haben: die Energien steigen, während $R_{mp}^k$ in Abbildung \ref{fig:num_eeparam_constr} deutlich sinkt (man beachte die logarithmischen Achsen).
 
 Da die Nebenbedingung $|p| = m \cdot p$ als einzige den Einfluss des Krümmungsanteils der Elastica-Energie auf $u$ kontrolliert (siehe \eqref{eq:energy_splitted}), ist der Penaltyparameter $r_1$ von wesentlicher Bedeutung.
 Zudem sind die numerischen Energien wenig aussagekräftig, wenn diese wichtige Nebenbedingung kaum eingehalten wird.
 
+Wir versuchen nun die Penaltyparamater gemeinsam hochzuskalieren und setzen $r_1 = 1000$, $r_2, r_4 = 10^7$.
+Als Abbruchkriterium kommt \eqref{eq:stopmax} zum Einsatz mit $\kmax = 2500$, während $\alpha = 1$, $\beta = 1000$ gewählt ist.
+
+\begin{figure}[ht]
+    \begin{subfigure}{0.5\textwidth}
+	\centering
+	\begin{tikzpicture}
+	    \begin{semilogxaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=south west]
+		\addplot table [x=k,y=imageEnergy]  {data/eescale/output.dat};
+		\addplot table [x=k,y=dataEnergy]   {data/eescale/output.dat};
+		\addplot table [x=k,y=constrEnergy] {data/eescale/output.dat};
+		\addplot table [x=k,y=totalEnergy]  {data/eescale/output.dat};
+		\legend{
+		    $\scr L_{\mathrm{img}}^k$,
+		    $\scr L_{\mathrm{dat}}^k$,
+		    $\scr L_{\mathrm{constr}}^k$,
+		    $\scr L_{\mathrm{total}}^k$,
+		}
+	    \end{semilogxaxis}
+	\end{tikzpicture}
+	\caption{Numerische Energien.}
+	\label{fig:num_eescale_energy}
+    \end{subfigure}%
+    \begin{subfigure}{0.5\textwidth}
+	\centering
+	\begin{tikzpicture}
+	    \begin{loglogaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=north west]
+		\addplot table [x=k,y=mpConstr] {data/eescale/output.dat};
+		\addplot table [x=k,y=puConstr] {data/eescale/output.dat};
+		\addplot table [x=k,y=nmConstr] {data/eescale/output.dat};
+		\legend{
+		  $R_{mp}^k$,
+		  $R_{pu}^k$,
+		  $R_{nm}^k$,
+		}
+	    \end{loglogaxis}
+	\end{tikzpicture}
+	\caption{$L^2$-Fehler der Nebenbedingungen.}
+	\label{fig:num_eescale_constr}
+    \end{subfigure}
+    \caption{Elastica Inpainting: Verhalten für hohe Penaltyparameter}
+    \label{fig:num_eescale}
+\end{figure}
+
+In Abbildung \ref{fig:num_eescale_energy} sehen wir, dass sich ab $k = 600$ ein fast stationärer Zustand der Energien eingestellt hat.
+Die Nebenbedingung $u = \nabla p$ und $|p| = m\cdot p$ werden in Abbildung \ref{fig:num_eescale_constr} zur selben Zeit geradezu sprunghaft eingehalten, während $R_{nm}^k$ davon nicht derart betroffen ist.
+Als Inpaintingresultat für $u$ erhält man ein fast konstantes, graues Bild.
+
+Wir hatten gesehen, dass sich $m$ und $n$ in verschiedenen diskreten Räumen befinden: während $n$ durch linear stetige Basisfunktionen repräsentiert ist, sind es für $m$ konstante, diskontinuierliche.
+Dies hat zur Folge, dass $R_{nm}^k = \|m-n\|_{L^2} = 0$ nur dann gelten kann, wenn $n$ und $m$ konstant sind.
+Es wäre daher möglich, dass die hohe Wahl der Penaltyparameter das Ergebnis unbrauchbar gemacht hat.
 
 
-% TODO: !!!!
-
-Eine Idee ist die Hochskalierung aller Penaltyparameter.
-
-Insgesamt beobachtet man für kleine $r_1$ sehr langsame Konvergenz und wenig aussagekräftige numerische Energien (da die wichtige Nebenbedingung nicht gut eingehalten wird), während großes $r_1$ zu Instabilitäten führt.
 
 
 \section*{Denoising}
 
 
-Wir wollen nun unseren Algorithmus zum Entrauschen von Bildern testen, d.h. $D = 0$ und wir geben $u^0$ auf ganz $\Omega$ vor.
-Das Ursprungsbild $u^0$ hat die Größe $50\times 50$ Pixel und findet sich in \ref{fig:num_denoise_orig}.
+Wir wollen nun unseren Algorithmus zum Entrauschen von Bildern testen, d.h. wir geben $u^0$ auf ganz $\Omega$ vor und damit $D = \emptyset$.
+Das Ursprungsbild $u^0$ hat die Größe $50\times 50$ Pixel und findet sich in Abbildung \ref{fig:num_denoise_orig}.
 Wie in Kapitel \ref{chap:intro} besprochen, modelliert unser Bildmodel additives Gauß'sches Rauschen.
 Wir simulieren daher in Abbildung \ref{fig:num_denoise_noise} Gauß'sches Rauschen gemäß \eqref{eq:gnoise} mit Varianz $\sigma = 0.05$.
 Außerdem treffen wir die Parameterwahlen $\alpha = 1$, $\beta = 1000$, $\eta = 800$, $r_1 = 20$, $r_2, r_4 = 10^{4}$ und wählen als Abbruchbedingung \eqref{eq:stopmax} mit $\kmax = 2500$.
 
 \begin{figure}[ht]
     \centering
-    \begin{subfigure}{0.3\textwidth}
+    \begin{subfigure}{0.25\textwidth}
 	\centering
 	\myincludegraphics[width=0.7\textwidth]{data/eedenoise/yinyang.png}
 	\caption{Orginal}
 	\label{fig:num_denoise_orig}
     \end{subfigure}%
-    \begin{subfigure}{0.3\textwidth}
+    \begin{subfigure}{0.25\textwidth}
 	\centering
 	\myincludegraphics[width=0.7\textwidth]{data/eedenoise/yinyang_gaussian005.png}
 	\caption{Verrauschtes Bild}
 	\label{fig:num_denoise_noise}
     \end{subfigure}%
-    \begin{subfigure}{0.3\textwidth}
+    \begin{subfigure}{0.25\textwidth}
 	\centering
 	\myincludegraphics[width=0.7\textwidth]{data/eedenoise/vtk.png}
 	\caption{Denoising Resultat}
@@ -2241,13 +2350,44 @@ Außerdem treffen wir die Parameterwahlen $\alpha = 1$, $\beta = 1000$, $\eta = 
     \label{fig:num_denoise_png}
 \end{figure}
 
-Das Ergebnis in Abbildung \ref{fig:num_denoise_result} beseitigt das Gauß'sche Rauschen zufriedenstellend, während die Kanten dabei erhalten bleiben.
+Das Ergebnis in Abbildung \ref{fig:num_denoise_result} beseitigt das Gauß'sche Rauschen zufriedenstellend, während die Kanten dabei weitestgehend erhalten bleiben.
 Allerdings verändern sich teilweise Formen im Bild gemäß des Elastica Bildmodells, wie man an den abgerundeten Spitzen der beiden Hälften erkennen kann.
-Auch die Gitterstruktur hat, wie bereits beim TV-Inpainting erwähnt, Auswirkungen auf das Resultat: die beiden inneren Kreise sind leicht verzogen.
+Auch die Gitterstruktur hat, wie bereits beim TV-Inpainting erwähnt, Auswirkungen auf das Resultat: die beiden inneren Kreise sind leicht diagonal verzogen.
 
 
 \section{Schlussbemerkungen}
 
+
+Wir haben gesehen, dass das Elastica-Inpaintingmodell aus Definition
+\ref{def:ee_inpaint} eine Verallgemeinerung des TV-Inpaintingmodells ist und im
+Spezialfall $D = \emptyset$ auch zum Entrauschen von Bildern eingesetzt werden
+kann.
+
+Während das Elastica-Inpainting prinzipiell wünschenswerte Resultate liefert (siehe auch \cite{timemarching}, \cite{tai2011fast} für entsprechende Bilder),
+hat sich bei der Implementierung von Algorithmus \ref{alg:ee} im Kontext Finiter Elemente gezeigt, dass dieser sehr sensibel im Bezug auf die Penaltyparameter ist.
+Während für einige dieser Probleme die Ursache in der Finiten Elemente Diskretisierung liegen könnte, scheint das instabile Verhalten für hohes $r_1$ in Abbildung \ref{fig:num_eeparam_instab} dem $L^1$-Penalizing zu entstammen.
+Auch die Autoren von \cite{tai2011fast}, auf dessen Algorithmus sich diese Arbeit gestützt hat, wählen für ihre Resultate ohne genauere Begründung jeweils sehr spezifische Penaltyparameter.
+Dies spricht dafür, dass die Sensibilität im Bezug auf $r_1, r_2, r_4$ dem Algorithmus inherent ist und nicht alleine von der Finiten Elemente Diskretisierung herrührt.
+
+Ein Inpainting-Algorithmus, der nur für unbekannte, sehr spezielle Wahlen von Parametern schnelle und brauchbare Ergebnisse liefert fordert zeitaufwändiges Optimieren der Parameterwahlen für jedes neue Eingabebild und ist daher generell nicht wünschenswert.
+Trotzdem sind die in \cite{tai2011fast} und in dieser Arbeit benutzten Mittel („operator splitting“, „augmented lagrange“, „alternating direction method“) bestechende Werkzeuge, um dem Minimieren der Elastica-Inpaintingenergie aus \eqref{eq:ee_inpaint} entgegenzutreten.
+
+Eine mögliche Idee um dem $L^1$-Penalizing zu entkommen wäre, das Minimierungsproblem aus \ref{??} folgendermaßen zu splitten:
+\begin{math}
+    \min_{\substack{u \in C^2(\Omega,[0,1]) \\ s \in C^1(\Omega), n \in C^1(\Omega)^d}}
+    &\scr E[s,n] = \int_\Omega \Big(\alpha + \beta(\nabla \cdot n)^2\Big)s + \frac{\eta}{2} \int_{\Omega \setminus D} |u - u_0|^2 \\
+    &\quad \text{s.t.} \quad
+	\nabla u \cdot n = s, \quad
+	sn = \nabla u, \quad
+	s \ge 0.
+\end{math}
+Man beachte, dass die Nebenbedingungen für $\nabla u \neq 0$ stets $n = \frac{\nabla u}{|\nabla u|}$ gewährleisten, während sie für $\nabla u = 0$ auch $s = 0$ einhalten und die Konvention aus \ref{def:ee_inpaint} berücksichtigen.
+Eine detailierte Analyse der Teilprobleme und Implementierung des zugehörigen „alternating direction“ Algorithmus konnte leider aus Zeitgründen nicht mehr erfolgen.
+
+Die relativ aktuellen Arbeiten \cite{???} zeigen jedoch, dass schnelle numerische Lösungsverfahren für das Elastica-Bildmodell weiterhin gefragt sind und einer näheren Untersuchung bedürfen.
+
+
+%Insgesamt beobachtet man für kleine $r_1$ sehr langsame Konvergenz und wenig aussagekräftige numerische Energien (da die wichtige Nebenbedingung nicht gut eingehalten wird), während großes $r_1$ zu Instabilitäten führt.
 
 
 
@@ -2256,16 +2396,15 @@ Auch die Gitterstruktur hat, wie bereits beim TV-Inpainting erwähnt, Auswirkung
 
 
 %
-%
+%%
 %\begin{figure}[ht]
 %    \centering
 %    \begin{tikzpicture}
 %	\begin{semilogxaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$\scr L[u^k]$}]
-%	    \addplot table [x=k,y=totalEnergy] {data/eerefine/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
-%	    \addplot table [x=k,y=totalEnergy] {data/eerefine/refinements=1_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
-%	    \addplot table [x=k,y=totalEnergy] {data/eerefine/refinements=2_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
-%	    \addplot table [x=k,y=totalEnergy] {data/eerefine/refinements=3_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
-%	    \addplot table [x=k,y=totalEnergy] {data/eerefine/refinements=4_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=puConstr] {data/eerefine/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=puConstr] {data/eerefine/refinements=1_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=puConstr] {data/eerefine/refinements=2_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=puConstr] {data/eerefine/refinements=3_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
 %	    \legend{
 %	      $q = 0$,
 %	      $q = 1$,
@@ -2278,10 +2417,10 @@ Auch die Gitterstruktur hat, wie bereits beim TV-Inpainting erwähnt, Auswirkung
 %    \caption{Numerische Energie $\scr L[u^k]$ für $r_1 \ll r_2, r_4 = 10^4$.}
 %    \label{fig:num_eerefine_energy}
 %\end{figure}
-%
-%
-%
-%
+%%
+%%
+%%
+%%
 %\begin{figure}[ht]
 %    \centering
 %    \begin{tikzpicture}
@@ -2290,7 +2429,6 @@ Auch die Gitterstruktur hat, wie bereits beim TV-Inpainting erwähnt, Auswirkung
 %	    \addplot table [x=k,y=mpConstr] {data/eerefine/refinements=1_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
 %	    \addplot table [x=k,y=mpConstr] {data/eerefine/refinements=2_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
 %	    \addplot table [x=k,y=mpConstr] {data/eerefine/refinements=3_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
-%	    \addplot table [x=k,y=mpConstr] {data/eerefine/refinements=4_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
 %	    \legend{
 %		0,1,2,3,4
 %	    }
