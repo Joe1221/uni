@@ -23,6 +23,11 @@ A Fast Algorithm for Euler's Elastica Model Using Augmented Lagrangian Method
 
 # analysis
 
+
+
+Convex Analysis and Variational Problems
+
+
 The duality between the gradient and divergence operators on bounded Lipschitz domains -- HDIV!!
 
 Convex Functional Analysis, Kurdila -- Chapter 7, 7.2.2

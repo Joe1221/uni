@@ -95,22 +95,22 @@
 %Mit Blick auf \ref{fig:setting} führen wir zunächst Begrifflichkeiten ein.
 
 
-Die Rekonstruktion fehlender Information ist seit jeher ein verlockendes Forschungsgebiet.
-Wir beschäftigen uns in dieser Arbeit mit dem sogenannten „\emph{Inpainting}“, dem Vorgang, verlorengegangene Teile eines Bildes zu rekonstruiren.
+%Die Rekonstruktion fehlender Information ist seit jeher ein verlockendes Forschungsgebiet.
+Wir beschäftigen uns in dieser Arbeit mit dem sogenannten „\emph{Inpainting}“, dem Vorgang, verlorengegangene Teile eines Bildes zu rekonstruieren.
 Unter Bildern versteht man meistens Fotos und Grafiken, aber auch Skulpturen (als dreidimensionale Bilder) oder Signale (als eindimensionale Bilder).
 Mathematisch fassen wir Bilder wie folgt.
 
 \begin{definition} \label{def:image}
     Ein \emphdef{Bild} ist eine Abbildung $u: \Omega \to F$, wobei $\Omega \subset \R^d$
     \emphdef{Trägermenge} genannt wird und $F$ \emphdef{Farbraum}.
-    Für einen festen Farbraum $F$ sei $I_X$ die Menge der Bilder mit Trägermenge $X$.
+    Für einen festen Farbraum $F$ sei $I_\Omega$ die Menge der Bilder mit Trägermenge $\Omega$.
     \begin{note}
 	Wir betrachten im weiteren Verlauf Graustufenbilder und setzen daher stets $F := [0,1]$ (mit der
 	Interpretation: $0$ entspricht „schwarz“ und $1$ „weiß“).
     \end{note}
 \end{definition}
 
-Wann immer man Strukturen oder geometrische Eigenschaften in Bildern untersuchen möchte, ist man dazu geneigt Definition \ref{def:image} einzuschränken indem man z.B. eine Form von Differenzierbarkeit der Abbildung fordert.
+Wann immer man Strukturen oder geometrische Eigenschaften in Bildern untersuchen möchte, ist man dazu geneigt Definition \ref{def:image} einzuschränken indem man z.B. eine Form von Differenzierbarkeit der entsprechenden Abbildungen fordert.
 Obwohl dies oft im Widerspruch zu den üblichen Eigenschaften von Bildern steht (z.B. Unstetigkeiten an Kanten und Konturen), werden wir dies später an den entsprechenden Stellen tun.
 
 \begin{figure}[ht]
@@ -125,17 +125,22 @@ Obwohl dies oft im Widerspruch zu den üblichen Eigenschaften von Bildern steht 
     \label{fig:inpainting_setting}
 \end{figure}
 
-Beim Inpainten gehen wir von einem gegebenen Bild $u^0: \Omega \setminus D \to [0,1]$ und einem \emphdef{Inpainting-Bereich}
-$D \subset \Omega$ aus (siehe Abbildung \ref{fig:inpainting_setting}). Ziel ist es nun eine Rekonstruktion $u: \Omega \to [0,1]$ zu finden, die optisch „möglichst gut zu $u^0$ passt“.
+Beim Inpainting gehen wir von einem gegebenen Bild $u^0: \Omega \setminus D \to [0,1]$ und einem \emphdef{Inpainting-Bereich}
+$D \subset \Omega$ aus (siehe Abbildung \ref{fig:inpainting_setting}). Ziel ist es nun, eine Rekonstruktion $u: \Omega \to [0,1]$ zu finden, die optisch „möglichst gut zu $u^0$ passt“.
 
-Wir werden „möglichst gut“ durch die Minimierung eines Funktionals $E: u \mapsto \R$,
+Wir werden „möglichst gut“ durch die Minimierung der Summe,
 \begin{math}
     E[u] = \Eimg[u] + \Edat[u]
 \end{math}
-beschreiben.
-Hierbei sind die Funktionale $\Edat$, $\Eimg$ modelliert durch ein sogenanntes Datenmodell (engl. “data model”) und einem Bildmodell (engl. “image prior model”.
-Der Bayes'sche Ansatz liefert hierfür eine schmackhafte Motivation.
+zweier Funktionale $\Eimg, \Edat: I_\Omega \to \R$ beschreiben.
+Die Motivation für dieses Vorgehen und die Interpretation des \emphdef{Bildterms} $\Eimg[u]$ und des \emphdef{Datenterms} $\Edat[u]$ liefert das Bayes'sche Prinzip \cite{mumford1994bayesian,chan2005variational} aus der Wahrscheinlichkeitstheorie.
 
+%bestehend aus zwei Termen: dem 
+%beschreiben.
+%
+%Hierbei sind die Funktionale $\Edat$, $\Eimg$ modelliert durch ein sogenanntes Datenmodell (engl. „data model”) und einem Bildmodell (engl. „image prior model”.
+%Der Bayes'sche Ansatz liefert hierfür eine schmackhafte Motivation.
+%
 
 \section{Das Bayes'sche Prinzip}
 
@@ -144,10 +149,10 @@ Der Bayes'sche Ansatz liefert hierfür eine schmackhafte Motivation.
 
 Es seien hier $I_\Omega$, $I_{\Omega \setminus D}$ endlich.
 Dies ist beispielsweise der Fall, wenn $\Omega \subset \Z^d$ beschränkt und $F$ endlich ist.
-Auf praktisch alle digitalen Bilder triftt diese Annahme zu, da in der Regel diese auf einem endlichen Raster $(x_i, y_j)_{i=1,j=1}^{n,m}$ durch die Angabe von Farbwerten $(u_{i,j})_{i=1,j=1}^{n,m}$ gegeben sind und der zugehörige Farbraum aus endlich vielen verschiedenen Farbwerten besteht.
+Auf praktisch alle digitalen Bilder triftt diese Annahme zu, da in der Regel diese auf einem endlichen Raster $(x_i, y_j)_{i,j=1}^{n,m}$ durch die Angabe von Farbwerten $(u_{i,j})_{i,j=1}^{n,m}$ gegeben sind und der zugehörige Farbraum aus endlich vielen verschiedenen Farbwerten besteht.
 
 \begin{samepage}
-Geht man davon aus, dass das ursprüngliche, vollständige Bild auch tatsächlich existiert, so lässt sich daraus die Entstehung der Beobachtung $u^0$ durch ein zweistufiges Zufallsexperiment modellieren.
+Geht man davon aus, dass ein ursprünglich vollständiges Bild $u$ auch tatsächlich existiert, so lässt sich daraus die Entstehung der Beobachtung $u^0$ durch ein zweistufiges Zufallsexperiment modellieren.
 \begin{enumerate}
     \item
 	Zunächst tritt $u$ als Ereignis eines Zufallsexperiments auf, welches im (diskreten) Wahrscheinlichkeitsraum $(I_\Omega, 2^{I_\Omega}, P_{\mathrm{img}})$ modelliert wird. \nopagebreak
@@ -160,7 +165,7 @@ Wir betrachten dazu den diskreten Wahrscheinlichkeitsraum $\scr P := (I_\Omega \
 \begin{math}
     P(u, u^0) := P_{\mathrm{img}}(u) \cdot P_{\mathrm{dat},u}(u^0)
 \end{math}
-In diesem Raum besitzt $P_{\mathrm{dat},u}(u^0)$ die gewünschte Interpretation als bedingte Wahrscheinlichkeit $P(u|u^0)$:
+In diesem Raum besitzt $P_{\mathrm{dat},u}(u^0)$ die gewünschte Interpretation als bedingte Wahrscheinlichkeit $P(u^0|u)$:
 \begin{math}
     P(u) &= P_{\mathrm{img}}(u), \\
     P(u^0|u) &= \frac{P(u^0)}{P(u)} = P_{\mathrm{dat},u}(u^0),
@@ -173,66 +178,94 @@ Dieser Raum erlaubt uns die Berechnung der bedingten Wahrscheinlichkeit
 \end{math}
 Dieser einfache Zusammenhang zwischen den bedingten Wahrscheinlichkeiten ist auch als \emph{Satz von Bayes} bekannt.
 
-Beim Inpainten ist $P(u^0)$ konstant und $P(u|u^0)$ die Wahrscheinlichkeit, dass $u$ die korrekte Rekonstruktion von $u^0$ ist, also maximieren wir
+Beim Inpainten ist $P(u^0)$ konstant und $P(u|u^0)$ die Wahrscheinlichkeit, dass $u$ die korrekte Rekonstruktion von $u^0$ ist, also \emph{maximieren} wir
 \begin{math}
     P(u|u^0) = \const \cdot P_{\mathrm{dat},u}(u^0) \cdot P_{\mathrm{img}}(u).
 \end{math}
-Wir können nun auf beiden Seiten $-\log(\argdot)$ anwenden und ein äquivalentes, aber durchaus handlicheres Problem in Energie-Form betrachten.
-
-Für gegebenes $u^0$, $D$ minimieren wir also die Summe aus Datenterm und Bildterm (die additive Konstante ist für das Minimieren irrelevant)
+Wir können nun auf beiden Seiten $-\log(\argdot)$ anwenden und äquivalent den folgenden Ausdruck \emph{minimieren}:
 \begin{math}
-    E[u] = \Edat[u] + \Eimg[u].
+    -\log(P(u|u^0)) = \underbrace{-\log(P_{\mathrm{dat},u}(u^0))}_{=:E_{\mathrm{img}}[u]} \underbrace{-\log(P_{\mathrm{img}}(u))}_{=:E_{\mathrm{dat}}[u]} + \const.
 \end{math}
-Die Wahlen von $\Edat[u]$ und $\Eimg[u]$, welche den Wahrscheinlichkeitsverteilungen in unserem zweistufigen Zufallsmodell entsprechen, sind durch das Datenmodell, bzw. das Bildmodell festgelegt.
+Für gegebenes $u^0$ und $D$ minimieren wir also (bis auf additive Konstanten)
+\begin{math}
+    E[u] := \Eimg[u] + \Edat[u].
+\end{math}
+Die Wahl von Bildterm $\Eimg[u]$ und Datenterm $\Edat[u]$ entsprechen also der Modellierung der obigen Zufallsexperimente:
+das \emphdef{Bildmodell} beschreibt die Entstehung von $u$, während das \emphdef{Datenmodell} die Beobachtung $u^0$ aus $u$ beschreibt.
+Im Folgenden legen wir das Bild- und das Datenmodell für unsere Zwecke fest.
 
+
+%Die Wahl der Wahrscheinlichkeitsverteilungen $P_{\mathrm{img}}$, $P_{\mathrm{dat},u}$, bzw. die Wahl von Bild- und Datenterm $\Eimg[u]$, $\Edat[u]$ 
+
+%ein äquivalentes, aber durchaus handlicheres Problem in Energie-Form betrachten.
+%
+%Für gegebenes $u^0$, $D$ minimieren wir also die Summe aus Datenterm und Bildterm (die additive Konstante ist für das Minimieren irrelevant)
+%\begin{math}
+%    E[u] = \Edat[u] + \Eimg[u].
+%\end{math}
+%
+%Die Wahlen von $\Edat[u]$ und $\Eimg[u]$, welche den Wahrscheinlichkeitsverteilungen in unserem zweistufigen Zufallsmodell entsprechen, sind durch das Datenmodell, bzw. das Bildmodell festgelegt.
+%
 
 \section{Das Datenmodell}
 
-Naheliegend ist der Gedanke, als Datenmodell lediglich $u|_{\Omega \setminus D} = u^0|_{\Omega \setminus D}$ zu fordern.
-Damit würden feste Randbedingungen für das Minimieren auf $D$ vorgegeben werden.
+Das Datenmodell legt fest, wie $u^0$ als Beobachtung der ursprünglichen Bildes $u$ auf $\Omega \setminus D$ hervorgegangen ist.
+Naheliegend ist der Gedanke, als Datenmodell lediglich $u^0|_{\Omega \setminus D} = u|_{\Omega \setminus D}$ zu fordern, d.h. die Beobachtung $u^0$ von $u$ ist genau $u$ eingeschränkt auf $\Omega \setminus D$.
+%Damit würden feste Randbedingungen für das Minimieren auf $D$ vorgegeben werden.
 In der Praxis sind Bilder jedoch meist mit Rauschen, Unschärfe oder anderen Artefakten versehen.
-Dies kann z.B. durch technische Aufnahmebedingungen, natürlichen Zerfall oder durch digitale Kompressionsartefakte verursacht worden sein.
+Dies kann z.B. durch technische Aufnahmebedingungen, natürlichen Zerfall oder durch digitale Kompression verursacht worden sein.
 Das Datenmodell erlaubt es zu definieren, auf welche Weise $u|_{\Omega \setminus D}$ beim Inpainten an das vorliegende Bild $u^0$ angepasst werden soll und ermöglicht es solche Verunreinigungen auszugleichen.
 
-Erwähnenswerterweise reduziert sich das Inpaintingproblem für $D = \emptyset$ auf das reine Ausgleichen dieser Verunreinigungen.
+Für $D = \emptyset$ reduziert sich das Inpaintingproblem auf das reine Ausgleichen dieser Verunreinigungen.
 Somit kann z.B. das Entrauschen von Bildern (auch „Denoising“ genannt) als Spezialfall angesehen werden.
 
-Für unser Datenmodell nutzen wir das bekannte Funktional aus \cite{rudin1992nonlinear}, welcher die quadrierte $L^2$-Norm verwendet:
-\begin{math}
-    \Edat[u] = \frac{\eta}{2} \int_{\Omega \setminus D} |u - u^0|^2,
-\end{math}
-wobei $\eta \in \R_{> 0}$ die spätere Gewichtung dieses Datenterms zum Bildterm kontrolliert.
-
-Es ist bekannt \cite[§4.5]{chan2005image}, dass dieser Datenterm gut geeignet ist, wenn das Orginalbild mit weißem Gauß'schem Rauschen versetzt ist, modelliert als $u^0 = u|_{\Omega \setminus D} + \epsilon$.
-Man kann dies folgendermaßen motivieren.
-
-Für additives weißes Gauß'sches Rauschen gibt die Gauß-Verteilung
+Wir modellieren für unser Datenmodell $u^0|_{\Omega \setminus D} = u|_{\Omega \setminus D} + \epsilon$ für additives Gauß'sches Rauschen $\epsilon$, d.h. in jedem Punkt $x \in \Omega\setminus D$ ist die Wahrscheinlichkeit für ein Rauschen $\epsilon(x) = \epsilon_x \in \R$ durch die Gauß-Verteilung
 \begin{math}[numbered] \label{eq:gnoise}
     p(\epsilon_x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{\epsilon_x^2}{2\sigma^2}}
 \end{math}
-an jeder Stelle $x \in \Omega$ des Bildes die Wahrscheinlichkeit dafür, dass das Rauschen $\epsilon_x$ beträgt.
-Um $P_{\mathrm{dat},u}(u^0)$ zu maximieren, maximieren wir das (endliche) Integral
+mit Varianz $\sigma^2$ gegeben.
+Wir maximieren also
 \begin{math}
-    \int_{\Omega\setminus D} p(\epsilon_x) \di[x],
+    P_{\mathrm{dat},u}(u^0) = \frac{1}{|\Omega\setminus D|}\int_{\Omega\setminus D} p(\epsilon_x) \di[x],
 \end{math}
 wobei $\epsilon_x := u^0(x) - u(x)$ das aktuelle Rauschen an der Stelle $x$ angibt.
 Äquivalent minimieren wir also
 \begin{math}
-    - \log \Big(\int_{\Omega\setminus D} \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(u^0(x) - u(x))^2}{2\sigma^2}} \di[x] \Big)
-    &= -\log (\sigma \sqrt{2\pi}) + \frac{1}{2\sigma^2} \int_{\Omega\setminus D} |u^0(x) - u(x)|^2 \di[x].
+    \Edat[u] &:= - \log \Big(\frac{1}{|\Omega\setminus D|}\int_{\Omega\setminus D} \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(u^0(x) - u(x))^2}{2\sigma^2}} \di[x] \Big) \\
+    &= -\log \big(\sigma \sqrt{2\pi}|\Omega\setminus D|\big) + \frac{1}{2\sigma^2} \underbrace{\int_{\Omega\setminus D} |u(x) - u^0(x)|^2 \di[x]}_{=\|u^0 - u\|_{L^2(\Omega\setminus D)}}.
 \end{math}
+Bis auf Gewichtung und additive Konstanten handelt es sich also um die quadrierte $L^2$-Norm von $u - u^0$ auf $\Omega \setminus D$, welche auch in \cite{rudin1992nonlinear} genutzt wird.
 
-Für Schwarz/Weiß Rauschen (auch “salt-and-pepper noise” gennant) ist die Wahl einer $L^1$-Norm zu bevorzugen, wie in \cite{nikolova2004variational} gezeigt.
 
-Denkbar wären auch Datenmodelle wie $u^0 = K[u|_{\Omega\setminus D}] + \epsilon$ für einen Glättungsoperator $K$.
-Solche Modelle würden es erlauben, Unschärfe zu reduzieren, siehe z.B. \cite{rudin1994total}.
+%Für unser Datenmodell nutzen wir das bekannte Funktional aus \cite{rudin1992nonlinear}, welcher die quadrierte $L^2$-Norm verwendet:
+%\begin{math}
+%    \Edat[u] = \frac{\eta}{2} \int_{\Omega \setminus D} |u - u^0|^2,
+%\end{math}
+%wobei $\eta \in \R_{> 0}$ die spätere Gewichtung dieses Datenterms zum Bildterm kontrolliert.
+%
+%Es ist bekannt \cite[§4.5]{chan2005image}, dass dieser Datenterm gut geeignet ist, wenn das Orginalbild mit weißem Gauß'schem Rauschen versetzt ist, modelliert als $u^0 = u|_{\Omega \setminus D} + \epsilon$.
+%Man kann dies folgendermaßen motivieren.
+%
+%Für additives weißes Gauß'sches Rauschen gibt die Gauß-Verteilung
+%\begin{math}[numbered] \label{eq:gnoise}
+%    p(\epsilon_x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{\epsilon_x^2}{2\sigma^2}}
+%\end{math}
+%an jeder Stelle $x \in \Omega$ des Bildes die Wahrscheinlichkeit dafür, dass das Rauschen $\epsilon_x$ beträgt.
+
+Für Schwarz/Weiß Rauschen (auch „salt-and-pepper noise” gennant) ist die Wahl einer $L^1$-Norm zu bevorzugen, wie in \cite{nikolova2004variational} gezeigt.
+
+Denkbar wären auch Datenmodelle wie $u^0|_{\Omega\setminus D} = K[u|_{\Omega\setminus D}] + \epsilon$ für einen Glättungsoperator $K$ und additives Rauschen $\epsilon$.
+Solche Modelle würden es z.B. erlauben, Unschärfe zu reduzieren, siehe z.B. \cite{rudin1994total}.
 
 
 \section{Das Bildmodell}
 
+Das Bildmodell beschreibt die Enstehung des ursprünglichen Bildes $u$.
+Es ist bestimmt durch die Klasse von Bildern, von denen man erwartet, dass sie als ursprüngliche Bilder beim Inpainting auftreten.
+
 Da der Datenterm sich auf $\Omega \setminus D$ beschränkt hat, trägt das Bildmodell die Hauptrolle bei der eigentlichen Bildrekonstruktion innerhalb von $D$.
-Man beachte, dass das Bildmodell unabhängig von $D$ ist (man erinnere sich an das Bayes-Prinzip) und auch für den Fall $D = \emptyset$ (z.B. Denoising) die Rekonstruktion des ursprünglichen Bildes verbessern kann.
-In der Literatur zum Denoising wird $\Eimg[u]$ manchmal auch als „regularization term” bezeichnet.
+Man beachte, dass das Bildmodell unabhängig von $D$ ist (mit Blick auf das Bayes-Prinzip) und auch für den Fall $D = \emptyset$ (z.B. Denoising) die Rekonstruktion des ursprünglichen Bildes verbessern kann.
+In der Literatur zum Denoising wird $\Eimg[u]$ manchmal auch als \emph{Regularisierungsterm} bezeichnet.
 
 \begin{figure}[ht]
     \begin{subfigure}[b]{0.33\textwidth}
@@ -375,31 +408,31 @@ Welche der beiden vollständigen Bilder aus Abbildung \ref{fig:inpainting_non_un
     \label{fig:inpainting_prefer_non_curved}
 \end{figure}
 
-Wir betrachten nun zweidimensionale Bilder $d = 2$.
-Ohne entsprechende Studien durchgeführt zu haben, kann man anhand von Abbildungen \ref{fig:inpainting_prefer_short} und \ref{fig:inpainting_prefer_non_curved} erahnen, dass Bilder, bei denen die Kanten (oder Niveaulinien) des Bildes möglichst kurz und gering gekrümmt sind, ästhetisch angenehmer\footnote{Der Autor bevorzugt in Abbildung \ref{fig:inpainting_prefer_short} das rechte Bild und in Abbildung \ref{fig:inpainting_prefer_non_curved} das mittlere Bild}.
+Ein allgemeines Bildmodell kann (ohne sich der Stochastik zu bedienen) empirisch durch ästhetische Ansprüche an das Inpainting-Resultat gewonnen werden.
+Ohne entsprechende Studien durchgeführt zu haben, kann man anhand von Abbildungen \ref{fig:inpainting_prefer_short} und \ref{fig:inpainting_prefer_non_curved} erahnen, dass Bilder, bei denen die Kanten (oder Niveaulinien) des Bildes möglichst kurz und gering gekrümmt sind, als Inpainting-Resultate zu bevorzugen sind.
 
 Die Niveaulinien stellen auf diese Weise eine brauchbare Bewertungsgrundlage eines Bildes dar.
 Legt man nun eine geeignete Bewertung für die Niveaulinien eines Bildes (im Sinne eines Energiefunktionals) fest, so liefert die Summation über alle Höhenlinien eine Bewertung des Gesamtbildes.
 
-Das Bildmodell in dieser Arbeit nutzt diese sogenannte \emphdef{Levelset-Methode} (siehe Kapitel \ref{chap:image_model}) und wählt für jede Niveaulinie $\gamma:[0,1] \to \Omega$ die \emphdef{Elastica Energie}
+Das Bildmodell in dieser Arbeit nutzt diese sogenannte \emphdef{Levelset-Methode} (siehe Kapitel \ref{chap:image_model}) und wählt als Bewertung für jede Niveaulinie $\gamma:[0,1] \to \Omega$ die \emphdef{Elastica Energie}
 \begin{math}
     \int_{\gamma} \alpha + \beta \kappa^2 \di[s]
 \end{math}
-als Kurvenintegral über $\gamma$ mit festen Parametern $\alpha, \beta \in \R_{\ge 0}$, wobei $\kappa: [0,1] \to \R$ die parametrisierte Krümmung von $\gamma$ darstellt.
+als Kurvenintegral über $\gamma$ mit festen Parametern $\alpha \in \R_{>0}$, $\beta \in \R_{\ge 0}$, wobei $\kappa: [0,1] \to \R$ die parametrisierte Krümmung von $\gamma$ darstellt.
 
 Eine Kurve, die diese Energie (unter geeigneten Randbedingungen) minimiert, wird \emphdef{Elastica} genannt.
 In der Physik hat sie die Interpretation der Biegeenergie eines elastischen Stabes.
-Umfangreiche Herleitungen finden sich in \cite{love1920treatise} und \cite{antman2005problems}, während obige Form der Elastica Energie aus \cite{birkhoff1965nonlinear} stammt.
+Umfangreiche Herleitungen finden sich in \cite{love1920treatise,antman2005problems}, während obige Form der Elastica Energie aus \cite{birkhoff1965nonlinear} stammt.
 
 Die Levelset-Methode liefert uns schließlich für unser Bildmodell (näheres in Kapitel \ref{chap:image_model})
 \begin{math}
     \Eimg[u] = \int_{\Omega} \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{\nabla u})^2\Big)|\nabla u| \di[x],
 \end{math}
 wobei der Term $\nabla \cdot \frac{\nabla u}{|\nabla u|}$ die Krümmung der Niveaulinie im entsprechenden Punkt darstellt.
-Mit Blick auf \ref{fig:inpainting_texture} sei bemerkt, dass dieses geometrische Inpaintingmodell nicht darauf ausgelegt ist, wiederkehrende Strukturen zu reproduzieren, die deutlich kleiner als der Inpaintingbereich $D$ sind.
+Mit Blick auf Abbildung \ref{fig:inpainting_texture} sei bemerkt, dass dieses geometrische Inpaintingmodell nicht darauf ausgelegt ist, wiederkehrende Strukturen zu reproduzieren, die deutlich kleiner als der Inpaintingbereich $D$ sind.
 Die Minimierung einer Energie basierend auf Niveaulinien und der Levelset-Methode ist in diesem Fall nicht zielführend, da sie eine zu lokale Methode darstellt.
 Um solche Strukturen oder Texturen zu rekonstruieren, müssen größere Teile des Bildes in Betracht gezogen werden.
-Hierfür gibt es das sogenannte “texture based inpainting” mit zahlreichen stochastischen Methoden (siehe z.B. \cite{criminisi2004region}).
+Hierfür gibt es das sogenannte „texture based inpainting” mit zahlreichen stochastischen Methoden (siehe z.B. \cite{criminisi2004region}).
 
 \begin{figure}[ht]
     \begin{subfigure}[b]{0.33\textwidth}
@@ -436,6 +469,10 @@ Hierfür gibt es das sogenannte “texture based inpainting” mit zahlreichen s
     \label{fig:inpainting_texture}
 \end{figure}
 
+\section{Ausblick}
+
+
+
 
 \chapter{Technische Hilfsmittel und Konventionen}
 
@@ -453,13 +490,11 @@ Um die Notation zu erleichtern, werden wir eine Reihe von Konventionen befolgen,
     \item
 	Bei Integralen über Teilmengen des $\R^d$ wird das Integrationsmaß ausgespart, falls es sich um das übliche Lebesgue-Maß handelt.
     \item
-	Für Vektoren $v, w \in \R^d$ bezeichnen wir mit $v \cdot w$ das euklidische Skalarprodukt von $v$ und $w$ und mit $|v|$ die euklidische Norm von $v$.
+	Für Vektorfelder $v, w: X \to \R^d$ (oder Vektoren) bezeichnen wir mit $v \cdot w$ das (punktweise) euklidische Skalarprodukt von $v$ und $w$ und mit $|v|$ die (punktweise) euklidische Norm von $v$.
     \item
-	Für Funktionen $f, g \in H$ eines Hilbertraums $H$ bezeichen wir mit $\<f, g\>$ das zugehörige Skalarprodukt von $f$ und $g$ und mit $\|f\|$ die entsprechende Norm von $f$.
+	Für Funktionen $f, g \in H$ eines Hilbertraums $H$ bezeichen wir mit $\<f, g\>_H$ das zugehörige Skalarprodukt von $f$ und $g$ und mit $\|f\|_H$ die entsprechende Norm von $f$.
     \item
-	Für Funktionen $f, g: X \to \R^d$ bezeichnen wir mit $f \cdot g$ das punktweise Skalarprodukt $f \cdot g: x \mapsto f(x)\cdot g(x)$ und mit $|f|$ die punktweise euklidische Norm $|f|: x \mapsto |f(x)|$.
-    \item
-	Für einen Hilbertraum $H$ bezeichnen wir Funktionen $I: H \to \R$ als \emphdef{Funktionale} und schreiben ihr Argument stets in eckigen Klammern: $I[f] \in \R$ für $f \in H$.
+	Für einen Vektorraum $V$ bezeichnen wir Funktionen $I: V \to \R$ als \emphdef{Funktionale} und schreiben ihr Argument stets in eckigen Klammern: $I[f] \in \R$ für $f \in V$.
     \item
 	Für Kurven $\gamma: [0,1] \to \R^d$ notieren wir die Ableitung nach der Parametrisierungsvariable mit einem Punkt: $\dot \gamma(t) = \ddx[t] \gamma(t)$.
 \end{itemize}
@@ -468,7 +503,7 @@ Um die Notation zu erleichtern, werden wir eine Reihe von Konventionen befolgen,
 \section*{Differentialgeometrie}
 
 Sei $\gamma \in C^2([0,L], \R^2)$ eine nach Bogenlänge parametrisierte Kurve.
-Außerdem sei $\gamma$ \emphdef{regulär}, d.h. $|\gamma| > 0$ auf $[0,L]$.
+Außerdem sei $\gamma$ \emphdef{regulär}, d.h. $|\dot\gamma| > 0$ auf $[0,L]$.
 
 Die Tangente $e_1 \in C^1([0,L], \R^2)$ und Normale $e_2 \in C^1([0,L], \R^2)$ von $\gamma$ sind gegeben durch
 \begin{math}
@@ -494,7 +529,7 @@ Wir haben folgende wohlbekannte parametrisierungsunabhängige Darstellung für d
     Sei $\gamma \in C^2([0,1], \R^2)$ eine reguläre Kurve.
     Dann ist ihre Krümmung $\kappa: [0,1] \to \R$ gegeben durch
     \begin{math}
-	\kappa = \frac{\det(\dot\gamma, \ddot\gamma)}{|\dot\gamma|^3}.
+	\kappa = \dfrac{\det(\dot\gamma, \ddot\gamma)}{|\dot\gamma|^3}.
     \end{math}
     \begin{proof}
 	Sei $\gamma = c \circ \phi$ mit einer nach Bogenlänge parametrisierten Kurve $c:[0,L] \to \R^2$ und einer Parametertransformation $\phi: \R \to \R$.
@@ -511,8 +546,9 @@ Wir haben folgende wohlbekannte parametrisierungsunabhängige Darstellung für d
 	    \det(\dot\gamma, \ddot\gamma)
 	    &= \dot\phi^3 \det( \dot c \circ \phi, \ddot c \circ \phi) \\
 	    &= |\dot\gamma|^3 \det(e_1 \circ \phi, \dot e_1 \circ \phi)
-	    = |\dot\gamma|^3 (\kappa_c \circ \phi).
+	    = |\dot\gamma|^3 (\kappa_c \circ \phi),
 	\end{math}
+	wie behauptet.
     \end{proof}
 \end{lemma}
 
@@ -629,12 +665,12 @@ Zur Untersuchung der nötigen Voraussetzungen für Satz \ref{prop:mincrit} und T
 	\item
 	    Lineare Funktionale sind konvex.
         \item
-	    Die (punktweise) Summe zweier konvexer Funktionale ist konvex.
+	    Die Summe zweier konvexer Funktionale ist konvex.
 	\item
 	    Seien $\Omega \subset \R^d$ und $H := L^2(\Omega)^d$.
 	    Seien $A: H \to H$ ein linearer Operator, $v \in H$ und $w \in L^1(\Omega)$ sodass $w|Au + v|^2 \in L^1(\Omega)$.
 	    Dann ist das Funktional
-	    \begin{math} %FIXME: w is bad, make it more general?
+	    \begin{math}
 	        I: u \mapsto \int_\Omega w|Au + v|^2
 	    \end{math}
 	    konvex.
@@ -649,7 +685,7 @@ Zur Untersuchung der nötigen Voraussetzungen für Satz \ref{prop:mincrit} und T
 	    = |Au|^2 - 2Au \cdot v + |v|^2
 	\end{math}
 	genügt es mit Blick auf i), ii) und iii) den Fall $v = 0$ zu betrachten.
-	Es folgt mit $t^2 = t - t(1-t)$ punktweise
+	Es folgt mit $t^2 = t - t(1-t)$ punktweise fast überall
 	\begin{math}
 	    |A(tu_1 + (1-t)u_2)|^2
 	    &= t^2 |Au_1|^2 - 2 t(1-t) Au_1\cdot Au_2 + (1-t^2)|Au_2|^2 \\
@@ -664,7 +700,7 @@ Zur Untersuchung der nötigen Voraussetzungen für Satz \ref{prop:mincrit} und T
     Für Funktionale $I: H \to \R$ gelten folgende Aussagen über ihre Koerzivität:
     \begin{enumerate}[i)]
         \item
-	   Die (punktweise) Summe zweier koerziver Funktionale ist koerziv.
+	   Die Summe zweier koerziver Funktionale ist koerziv.
        \item
 	   Sei $I: H \to \R$ koerziv und $J: H \to \R$ nach unten beschränkt.
 	   Dann ist $I + J$ koerziv.
@@ -733,7 +769,7 @@ Für Funktionale der Form $\int_\Omega (\nabla \cdot n)^2 + \int_\Omega |n|^2$ s
 
 
 Wie bereits in der Einführung angesprochen, wollen wir in diesem Kapitel die Elastica Kurve als Kurvenmodell für die Niveaulinien eines Bildes ansetzen, um daraus anschließend ein Bildmodell zu gewinnen.
-Obwohl das hieraus gewonnene Bildmodell später auch für $d > 2$ interpretiert werden kann (siehe \ref{def:eemodel}), werden wir uns für die Herleitung auf die Dimension $d = 2$ festlegen.
+Obwohl das hieraus gewonnene Bildmodell später auch für $d > 2$ interpretiert werden kann (siehe Definition \ref{def:eemodel}), werden wir uns für die Herleitung auf die Dimension $d = 2$ festlegen.
 
 \section{Die Euler Elastica}
 
@@ -745,14 +781,14 @@ Man erinnere sich beispielsweise an das Hookesche Gesetz aus der Schulphysik, we
 Dieses Modell war jedoch eindimensional und reichte auch nicht aus, um größere Verformungen zu beschreiben, die sich nicht dem linearen Gesetz unterwerfen.
 
 Euler hat (nach Vorarbeit von Bernoulli und anderen, siehe \cite{levien2008elastica}) 1744 in seinem Buch über variationelle Methoden \cite{euler1774methodus} ein Modell für planare elastische Stäbe fester Länge präsentiert.
-Eine Elastica war demnach (in aktueller Notation) eine zweifach stetig differenzierbare, reguläre Kurve $\gamma: [0,L] \to \R^2$ fester Länge $L > 0$, festen Endpunkten $\gamma(0), \gamma(L)$ und festen Tangentenrichtungen $\dot \gamma(0), \dot \gamma(L)$, welche die totale quadrierte Krümmung
+Eine Elastica war demnach (in aktueller Notation) eine zweifach stetig differenzierbare, reguläre Kurve $\gamma: [0,1] \to \R^2$ fester Länge $L > 0$, festen Endpunkten $\gamma(0), \gamma(1)$ und festen Tangentenrichtungen $\dot \gamma(0), \dot \gamma(1)$, welche die totale quadrierte Krümmung
 \begin{math}
     \int_\gamma \kappa^2 \di[s]
 \end{math}
 minimiert.
 In seinem Werk löst Euler dieses Variationsproblem indem er alle zugehörigen kritischen Punkte (Kurven) klassifiziert und weist darauf hin, dass das Modell bekannte Eigenschaften elastischer Stäbe reproduziert.
 
-Neben ihrer geschmeidigen Form erbt die Elastica durch diese Formulierung auch viele schöne geometrische Eigenschaften der Krümmung, wie z.B. Invarianz unter euklidischen Transformationen.
+Durch ihre Formulierung erbt die Elastica auch viele geometrische Eigenschaften der Krümmung, wie z.B. Invarianz unter euklidischen Transformationen.
 In neuerer Zeit wurde die Elastica deshalb in der Numerik z.B. als Vorbild für Spline-Interpolationen oder – wie in dieser Arbeit – als Kurvenmodell für Levelsetmethoden in Betracht gezogen.
 Man möchte dabei in der Regel die Länge der Kurve variabel halten und wählt folgende Definition.
 
@@ -765,7 +801,13 @@ Man möchte dabei in der Regel die Länge der Kurve variabel halten und wählt f
     ist.
     Diese Energie nennen wir auch \emphdef{Elastica Energie der Kurve $\gamma$}.
     \begin{note}
-	Das Verhältnis $\frac{\beta}{\alpha}$ bestimmt die Art der Kurve: für kleines $\frac{\beta}{\alpha}$ werden kürzere Verbindungsstrecken bevorzugt, während größeres $\frac{\beta}{\alpha}$ scharfe Kurven vermeidet und ein glatteres Gesamtbild erzeugt.
+	Es gilt
+	\begin{math}
+	    \int_\gamma \alpha + \beta \kappa^2 \di[s] = \alpha L + \beta \int_\gamma \kappa^2 \di[s]
+	\end{math}
+	für die Länge $L$ von $\gamma$.
+	Daher sind die Minimierer der Elastica Energie anschaulich bestimmt durch das Verhältnis $\frac{\beta}{\alpha}$.
+       	Kleines $\frac{\beta}{\alpha}$ gewichtet die Länge der Kurve stärker und es werden kürzere Verbindungsstrecken bevorzugt, während größeres $\frac{\beta}{\alpha}$ die totale quadrierte Krümmung stärker gewichtet ein glatteres Gesamtbild der Kurve erzeugt.
 	In Kapitel \ref{chap:numerics} wird diese Eigenschaft am zugehörigen Inpaintingresultat sichtbar.
     \end{note}
 \end{definition}
@@ -785,7 +827,9 @@ Eine interessante Charakterisierung der Elastica liefert der folgende Satz.
 	\begin{math}
 	    \ddx[\epsilon]|_{\epsilon=0} I[\gamma + \epsilon \phi e_2] = 0,
 	\end{math}
-	für alle Variationen $\phi \in C^2([0,L], \R)$, d.h. $\phi e_2$ ist eine Variation in Normalenrichtung $e_2$.
+	für alle Variationen $\phi \in C^2([0,L], \R)$ mit entsprechenden Randbedingungen $\phi(0), \phi(L) = 0$, $\dot\phi(0), \dot\phi(L) = 0$.
+       	Hier ist also $\phi e_2$ eine Variation in Normalenrichtung $e_2$ von $\gamma$.
+
 	Sei $\gamma_\epsilon = \gamma + \epsilon \phi e_2$.
 	Die Krümmung $\kappa_\epsilon$ von $\gamma_\epsilon$ lässt sich parametrisierungsunabhängig durch $\kappa_\epsilon = \frac{\det(\dot\gamma_\epsilon, \ddot\gamma_\epsilon)}{|\dot\gamma_\epsilon|^3}$ darstellen.
 	Wir berechnen nun
@@ -804,8 +848,8 @@ Eine interessante Charakterisierung der Elastica liefert der folgende Satz.
 	    &= e_1 \cdot (-\phi \kappa e_1 + \dot \phi e_2) \\
 	    &= - \phi \kappa, \\
 	    \ddx[\epsilon]|_{\epsilon=0} \det(\dot\gamma_\epsilon, \ddot\gamma_\epsilon)
-	    &= -\phi \kappa^2 + (\ddot \phi - \phi\kappa^2) + \dot\phi \cdot 0 + 0 \cdot (2\dot\phi\kappa - \phi \dot\kappa) \\
-	    &= \ddot\phi - 2\phi\kappa^2.
+	    &= -\phi \kappa^2 + (\ddot \phi - \phi\kappa^2) + \dot\phi \cdot 0 + 0 \cdot (2\dot\phi\kappa + \phi \dot\kappa) \\
+	    &= \ddot\phi + 2\phi\kappa^2.
 	\end{math}
 	Zusammen ergibt sich
 	\begin{math}
@@ -911,7 +955,7 @@ Wir haben damit folgende Darstellung für die Elastica Energie einer Kurve $\gam
     \int_\gamma \alpha + \beta (\nabla \cdot \frac{\nabla u}{|\nabla u|})^2 \di[s].
 \end{math}
 Um nun ein Funktional für das Gesamtbild zu erhalten, werden wir über alle Levelset-Kurven summieren.
-Das Werkzeug dafür ist die sogenannte Coarea-Formel, welche wir hier in zurechtgeschnittener Variante präsentieren.
+Das Werkzeug dafür ist die sogenannte Coarea-Formel \cite[§3.4]{evans2015measure}, welche wir hier für Levelset-Kurven formulieren.
 
 \begin{proposition}[Coarea-Formel für glatte Bilder] \label{satz:coarea}
     Sei $f \in L^1(\Omega, \R)$ und seien $\gamma_\lambda \in C^1([0,1], \Omega)$ $\lambda$-Levelset-Kurven zu einem Bild $u \in C^1(\Omega, [0,1])$, sodass $\im \gamma_\lambda = \Set{x & u(x) = \lambda}$.
@@ -921,7 +965,7 @@ Das Werkzeug dafür ist die sogenannte Coarea-Formel, welche wir hier in zurecht
 	= \int_\Omega f |\nabla u| \di[x].
     \end{math}
     \begin{note}
-        Durch entsprechende Zerlegung des Gebiets und wegen der Additivität der Integrale können wir hiermit auch Fälle abdecken, bei denen die Levelsets aus mehreren disjunkten Kurven bestehen.
+        Durch entsprechende Zerlegung des Gebiets und wegen der Additivität der Integrale können wir hiermit auch Fälle abdecken, bei denen die Levelsets aus mehreren (fast überall) disjunkten Kurven bestehen.
     \end{note}
     \begin{proof}
         Für eine wesentlich allgemeinere Formulierung mit Beweis, siehe \cite[§3.4]{evans2015measure}.
@@ -956,9 +1000,9 @@ Die Coarea-Formel motiviert nun die folgende Definition der Euler Elastica Bilde
 \end{definition}
 
 \begin{remark}[TV-Bildmodell]
-    Aus dem Elastica Bildmodell erhält man für $\alpha = 1, \beta = 0$ das bekannte TV-Bildmodell, welches für ein Bild $u \in C^2(\Omega, [0,1])$ die \emphdef{totale Variation}
+    Aus dem Elastica Bildmodell erhält man für $\alpha = 1, \beta = 0$ das bekannte TV-Bildmodell, welches für ein Bild $u \in C^1(\Omega, [0,1])$ die \emphdef{totale Variation}
     \begin{math}
-	V_\Omega(u) := \int_\Omega |\nabla u| \di[x]
+	V_\Omega[u] := \int_\Omega |\nabla u| \di[x]
     \end{math}
     minimiert.
     Mit Blick auf die Coarea-Formel entsteht dieses Bildmodell aus einem Kurvenmodel, welches die Energie $\int_\gamma \di[s] = L(\gamma)$, d.h. die Länge der entsprechenden Kurven minimiert.
@@ -967,23 +1011,22 @@ Die Coarea-Formel motiviert nun die folgende Definition der Euler Elastica Bilde
     Das TV-Modell wird unter anderem zum Entrauschen von Bildern verwendet, da es – anders als z.B. Glättungsmethoden – die Kanten eines Bildes gut erhält, wie in \cite{rudin1992nonlinear} beschrieben.
     In der Regel wird die Energie im allgemeineren Raum der Funktionen mit beschränkter totaler Variation
     \begin{math}
-	\BV(\Omega) := \Set{u \in L^1(\Omega, [0,1]) & V_\Omega(u) < \infty}.
+	\BV(\Omega) := \Set{u \in L^1(\Omega, [0,1]) & V_\Omega[u] < \infty}.
     \end{math}
     minimiert, wobei die totale Variation $V_\Omega(u)$ hier folgende Form hat (siehe \cite[§2.2]{chan2005image}):
     \begin{math}
-	V_\Omega(u) := \sup\Set{ \int_\Omega u \nabla \cdot \phi & \phi \in C_0^1(\Omega,\R^d), \|\phi\|_{L^\infty(\Omega)} \le 1}.
+	V_\Omega[u] := \sup\Set{ \int_\Omega u \nabla \cdot \phi & \phi \in C_0^1(\Omega,\R^d), \|\phi\|_{L^\infty(\Omega)} \le 1}.
     \end{math}
-    Der Raum $\BV$ ist ein beliebter Funktionenraum in der Bildverarbeitung, da er allgemein genug ist, um fast alle konventionellen Bilder zu beschreiben und gleichzeitig hinreichend viel geometrische Struktur bietet, um sinnvolle Bildmodelle zu definieren, näheres in \cite[§2.2]{chan2005image}.
+    Der Raum $\BV$ wird in Bildverarbeitung verwendet, da er im Gegensatz zu $C^1$ oder $H^1$ auch Unstetigkeiten (motiviert durch Kanten in Bildern) zulässt, siehe \cite[§2.2]{chan2005image}.
+    %allgemein genug ist, um fast alle konventionellen Bilder zu beschreiben und gleichzeitig hinreichend viel geometrische Struktur bietet, um sinnvolle Bildmodelle zu definieren, näheres in \cite[§2.2]{chan2005image}.
 \end{remark}
 
 Erinnert man sich an das Bayes-Prinzip, so steht nun unser Inpaintingmodell fest.
 
-\begin{definition} \label{definition:elastica_inpainting}
+\begin{definition} \label{def:ee_inpainting}
     Für gegebenes $u^0 \in L^2(\Omega, [0,1])$ und Inpaintingbereich $D \subset \Omega$ mit $|\Omega \setminus D| > 0$ ist das \emphdef{Euler Elastica Inpaintingmodell} festgelegt durch die Minimierung der \emphdef{Elastica Inpaintingenergie}
     \begin{math}[numbered] \label{eq:energy_ee}
-        E[u]
-	&:= \Eimg[u] + \Edat[u] \\
-	&= \int_\Omega \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{|\nabla u|})^2\Big)|\nabla u| \di[x]
+        E[u] &= \int_\Omega \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{|\nabla u|})^2\Big)|\nabla u| \di[x]
 	  + \frac{\eta}{2} \int_{\Omega\setminus D} |u - u^0|^2 \di[x]
     \end{math}
     über $u \in C^2(\Omega, [0,1])$ für Konstanten $\beta \in \R_{\ge 0}$, $\alpha,\eta \in \R_{>0}$.
@@ -991,13 +1034,13 @@ Erinnert man sich an das Bayes-Prinzip, so steht nun unser Inpaintingmodell fest
 \end{definition}
 
 
-\chapter{Die “alternating direction” Methode} \label{chap:adm}
+\chapter{Die „alternating direction” Methode} \label{chap:adm}
 
 
 \section{Motivation} % komplexität von euler-lagrange und numerische probl.
 
 
-Für die numerische Implementierung des Elastica Inpaintingmodells aus Definition \ref{definition:elastica_inpainting} gibt es verschiedene Ansätze, siehe z.B. \cite{shen2002euler}, \cite{tai2011fast}, \cite{ballester2001filling}, \cite{brito2010fast}, \cite{yashtini2015alternating}, \cite{hahn2011fast}, \cite{duan2013fast}.
+Für die numerische Implementierung des Elastica Inpaintingmodells aus Definition \ref{def:ee_inpainting} gibt es verschiedene Ansätze, siehe z.B. \cite{shen2002euler,tai2011fast,ballester2001filling,brito2010fast,yashtini2015alternating,hahn2011fast,duan2013fast}.
 
 Eine einfache Möglichkeit besteht darin, direkt die zugehörige Euler-Lagrange-Gleichung zu ermitteln (meist mit geeigneter Regularisierung, z.B. $\frac{\nabla u}{|\nabla u|} \leadsto \frac{\nabla u}{|\nabla u| + \epsilon}$) und hieraus ein zeitabhängiges Problem zu kreieren.
 Sei dazu $\Phi(u) = 0$ die Euler-Lagrange-Gleichung für einen geeigneten Operator $\Phi$.
@@ -1010,8 +1053,8 @@ Durch entsprechende Diskretisierung durch finite Differenzen erhält man auf die
 Da die Diskretisierung finite Differenzen vierter Ordnung erfordert, ist das Verfahren jedoch rechentechnisch aufwändig.
 
 In \cite{tai2011fast} wird ein schnell konvergierender Algorithmus versprochen, dessen Ideen und Notation wir in diesem Kapitel größtenteils übernehmen.
-Dazu überführen wir das unrestringierte Minimierungsproblem aus Definition \ref{definition:elastica_inpainting} durch geeignetes Einführen zusätzlicher Variablen und Nebenbedingungen auf ein restringiertes Minimierungsproblem.
-Anschließend minimieren wir das zugehörige Augmented Lagrange Funktional (siehe Abschnitt \ref{section:augmented_lagrange}) mit Hilfe einer Alternating Direction Methode (siehe Abschnitt \ref{section:adm}).
+Dazu überführen wir das unrestringierte Minimierungsproblem aus Definition \ref{def:ee_inpainting} durch geeignetes Einführen zusätzlicher Variablen und Nebenbedingungen auf ein restringiertes Minimierungsproblem.
+Anschließend minimieren wir das zugehörige Augmented Lagrange Funktional (siehe Abschnitt \ref{section:augmented_lagrange}) mit Hilfe einer „alternating direction“ Methode (siehe Abschnitt \ref{section:adm}).
 
 \begin{lemma} \label{lemma:mp_constr}
     Seien $m, p \in \R^d$ zwei Vektoren mit $p \neq 0$.
@@ -1034,7 +1077,7 @@ Anschließend minimieren wir das zugehörige Augmented Lagrange Funktional (sieh
     \end{proof}
 \end{lemma}
 
-Mit Blick auf Lemma \ref{lemma:mp_constr} ist das Minimierungsproblem aus Definition \ref{definition:elastica_inpainting}
+Mit Blick auf Lemma \ref{lemma:mp_constr} ist das Minimierungsproblem aus Definition \ref{def:ee_inpainting}
 \begin{math}
     \min_{u\in C^2(\Omega, [0,1])} E[u]
     &= \int_\Omega \Big(\alpha + \beta (\nabla \cdot \frac{\nabla u}{|\nabla u|})^2\Big)|\nabla u| \di[x]
@@ -1051,11 +1094,11 @@ Mit Blick auf Lemma \ref{lemma:mp_constr} ist das Minimierungsproblem aus Defini
 	|m| \le 1.
 \end{math}
 Hierbei wurden die Ausdrücke $\frac{\nabla u}{|\nabla u|}$ und $|\nabla u|$ durch das Einführen zusätzlicher Variablen und Nebenbedingungen substituiert.
-Diese Methode wird in \cite{tai2011fast} auch “operator splitting” genannt.
+Diese Methode wird in \cite{tai2011fast} auch „operator splitting” genannt.
 In der Regel erhofft man sich dadurch eine leichtere Handhabung des Funktionals in Betracht auf die einzelnen Variablen.
 
 %Hierbei sei $C^1_{|\argdot|\le 1}(\Omega, \R^d) := \Set{f \in C^1(\Omega, \R^d) & \forall x \in \Omega : |f(x)| \le 1}$.
-Man beachte, dass wir mit dieser Formulierung den Fall $\nabla u = 0$ korrekt gemäß der Konvention aus \ref{definition:elastica_inpainting} behandeln und nun nicht mehr gesondert betrachten müssen.
+Man beachte, dass wir mit dieser Formulierung den Fall $\nabla u = 0$ korrekt gemäß der Konvention aus \ref{def:ee_inpainting} behandeln und nun nicht mehr gesondert betrachten müssen.
 
 Zum Minimieren von \eqref{eq:energy_splitted} benötigen wir eine Methode, um restringierte Optimierung durchzuführen.
 Hierfür gibt es das sogenannte Augmented Lagrange Verfahren.
@@ -1095,7 +1138,7 @@ Der Ausdruck $\inf_x g(x)$ minimiert genau das ursprüngliche Problem \eqref{eq:
 Die Ungleichung ergibt sich dann aus der Beobachtung, dass für jedes feste $y \in \R^m$ notwendigerweise $h(y) \le f(\hat x)$.
 
 Das Minimieren von $g(x)$ wird primales Problem und das Maximieren von $h(y)$ duales Problem genannt.
-Unter bestimmten Zusatzvoraussetzungen herrscht Gleichheit, d.h. $\inf_x g(x) = \sup_y h(y)$ und man spricht von „strong duality“, was wir fortan voraussetzen.
+Unter bestimmten Zusatzvoraussetzungen (siehe \cite[§5.2.3]{boyd2004convex}) herrscht Gleichheit, d.h. $\inf_x g(x) = \sup_y h(y)$ und man spricht von „strong duality“, was wir fortan voraussetzen.
 
 Sei $\hat y := \argmax h(y)$ eindeutige Lösung des dualen Problems, dann ist
 \begin{math}
@@ -1110,13 +1153,14 @@ Die Dual Ascent Methode führt nun alternierend die Minimierung von $L(x,y)$ nac
     \EndFor
 \end{algorithmic}
 
-Eine Alternative, welche unter weniger Voraussetzungen konvergiert ist die Augmented Lagrange Methode.
+Eine Alternative, welche unter wenigen Voraussetzungen (siehe \cite[§4.2.1]{bertsekas1999nonlinear}) konvergiert, ist die \emphdef{Augmented Lagrange Methode}.
 Diese wendet Dual Ascent auf $f(x) + \frac{r}{2}|e(x)|^2$ für einen Penalty-Parameter $r \in \R_{>0}$ an.
 Die sogenannte Augmented Lagrange Funktion lautet dann
 \begin{math}
     \scr L(x,y) := f(x) + y\cdot e(x) + \frac{r}{2}|e(x)|^2.
 \end{math}
 Als Schrittweite im Algorithmus wird dabei stets $\rho := r$ verwendet.
+
 
 %TODO: Motivation von $\rho = r$.
 
@@ -1190,7 +1234,7 @@ Bestimmte Zusatzvoraussetzungen liefern ein Konvergenzresultat wie in \ref{theor
 	    $e'(\hat x, \argdot)$ surjektiv,
 	\item
 	    und für alle $i \in \N_0$ besitzt $\argmin_{x\in K} \scr L[x,\lambda^i]$ eine eindeutige Lösung sodass
-	    $\scr L[x^{i+1}, \lambda^i] \le \scr L[x^*, \lambda^i]$,
+	    $\scr L[x^{i+1}, \lambda^i] \le \scr L[\hat x, \lambda^i]$,
     \end{enumerate}
     dann konvergiert der Algorithmus \ref{alg:al}, d.h. $x^i \to \hat x$.
     \begin{proof}
@@ -1215,13 +1259,13 @@ Wegen $|m| \le 1$ ist $m \cdot p \le |m| |p| \le |p|$ und es handelt sich bei di
 Dies wird es uns erlauben, einige der im nächsten Abschnitt aufkommenden Teilprobleme explizit zu lösen.
 
 
-\section{Alternating Direction Method} \label{section:adm}
+\section{Die Alternating Direction Method} \label{section:adm}
 
 Die Augmented Lagrange Methode aus Algorithmus \ref{alg:al} schreibt nicht vor, wie das Minimierungsproblem in jedem Schritt zu lösen ist.
 % TODO: approximative lösung?
-Eine moderne und beliebte \emph{numerische} Methode (vergleiche \cite{brito2010fast}, \cite{yashtini2015alternating}, \cite{hahn2011fast}, \cite{duan2013fast}) besteht darin, \eqref{eq:energy_al} alternierend zu minimieren, wie in Algorithmus \ref{alg:adm} beschrieben.
+Eine moderne und beliebte \emph{numerische} Methode (vergleiche \cite{brito2010fast,yashtini2015alternating,hahn2011fast,duan2013fast}) besteht darin, \eqref{eq:energy_al} alternierend zu minimieren, wie in Algorithmus \ref{alg:adm} beschrieben.
 
-\begin{algorithm}[Alternating Direction Method] \label{alg:adm}
+\begin{algorithm}[„alternating direction” Methode] \label{alg:adm}
     Es gelten die Bezeichnungen aus \ref{def:al_functional}, wobei $X = (X_s)_{s=1}^S$ in $S \in \N$ Dimensionen strukturiert ist.
     Dann haben wir den folgenden Algorithmus.\\
     \begin{samepage}
@@ -1325,7 +1369,7 @@ Wir minimieren
 %    &= \int_\Omega (r_2 \nabla u - r_2 p - \lambda_2) \cdot \nabla \phi + \eta \int_{\Omega\setminus D} (u - u^0)\phi.
 %\end{math}
 
-Dies ist die schwache Form einer linearen PDE zweiter Ordnung, welche in Kapitel \ref{chap:numerics} numerisch gelöst wird.
+Die Gleichung \ref{eq:pde_u} ist die schwache Form einer linearen PDE zweiter Ordnung, welche in Kapitel \ref{chap:numerics} numerisch gelöst wird.
 
 \subsection*{Minimiere nach $p$}
 
@@ -1476,7 +1520,7 @@ Wir minimieren
 \begin{proposition}
     Das Funktional $\scr L[n]: \Hdiv(\Omega)^d \to \R$ ist für $\essinf_{x\in \Omega} |p(x)| > 0$ Gâteaux-differenzierbar, konvex und koerziv.
     Insbesondere existiert $\hat n \in \Hdiv(\Omega)^d$, sodass
-    \begin{math}
+    \begin{math}[numbered] \label{eq:pde_n}
 	0 &= \int_\Omega 2 \beta |p| (\nabla \cdot \hat n)(\nabla \cdot \phi)
 	+ \int_\Omega (r_4 \hat n - r_4 m + \lambda_4) \cdot \phi
     \end{math}
@@ -1509,7 +1553,7 @@ Wir minimieren
     \end{proof}
 \end{proposition}
 
-Diese Gleichung ist die schwache Form einer linearen PDE zweiter Ordnung und wird ebenfalls numerisch in Kapitel \ref{chap:numerics} gelöst.
+Die Gleichung \ref{eq:pde_n} ist die schwache Form einer linearen PDE zweiter Ordnung und wird ebenfalls numerisch in Kapitel \ref{chap:numerics} gelöst.
 
 
 
@@ -1704,7 +1748,7 @@ Obwohl eine Implementierung für $d > 2$ reizend wäre, beschränken wir uns der
 \DeclareDocumentCommand{\solve}{m}{\operatorname{solve}\limits_{#1}}
 
 \begin{algorithm}[Euler Elastica Inpainting] \label{alg:ee}
-    \Input{$\Omega \subset \R^2$, $u^0: \Omega \setminus D \to \R$, $\alpha, \beta, \eta \in \R_{\ge 0}$, $r_1, r_2, r_4 \in \R_{>0}$} \\
+    \Input{$\Omega \subset \R^2$, $u^0: \Omega \setminus D \to \R$, $\beta \in \R_{\ge 0}$, $\alpha, \eta \in \R_{> 0}$, $r_1, r_2, r_4 \in \R_{>0}$} \\
     \Output{$(u^k: \Omega \to \R)_{k\in\N}$}
     \begin{algorithmic}
 	\State{$p^0, m^0, n^0, \lambda_1^0, \lambda_2^0, \lambda_4^0 \gets 0$}
@@ -1742,7 +1786,7 @@ Obwohl eine Implementierung für $d > 2$ reizend wäre, beschränken wir uns der
 
 \section{Finite Elemente Diskretisierung}
 
-Die Arbeiten \cite{tai2011fast}, \cite{yashtini2015alternating}, \cite{hahn2011fast}, \cite{duan2013fast} machen von einer alternating direction Methode für das Lösen des Euler-Elastica Bildmodells Gebrauch.
+Die Arbeiten \cite{tai2011fast,yashtini2015alternating,hahn2011fast,duan2013fast} machen von einer „alternating direction“ Methode für das Lösen des Euler-Elastica Bildmodells Gebrauch.
 Sie nutzen dafür Finite Differenzen Diskretisierungen auf speziell angepassten Gittern.
 In solchen „staggered grids“ \cite{tai2011fast} werden die Werte von $u$, sowie in unserem Fall $p_1, m_1, n_1$ und $p_2, m_2, n_2$ entsprechend der Finiten Differenzen an jeweils zueinander versetzten Stellen betrachtet.
 Die partiellen Differentialgleichungen (bei uns in $u$ und $n$) werden in der Regel in starker Form formuliert und diskretisiert.
@@ -1865,7 +1909,7 @@ Zu Vergleichszwecken wurde der Algorithmus \ref{alg:ee} in einem separaten Git-B
 Dabei wurden alle Variablen und Parameter ausgelassen, welche nur für den Krümmungsanteil in der Inpainting-Energie \eqref{eq:energy_splitted} benötigt werden.
 
 \begin{algorithm}[TV Inpainting] \label{alg:tv}
-    \Input{$\Omega \subset \R^2$, $u^0: \Omega \setminus D \to \R$, $\alpha, \eta \in \R_{\ge 0}$, $r_2 \in \R_{>0}$} \\
+    \Input{$\Omega \subset \R^2$, $u^0: \Omega \setminus D \to \R$, $\alpha, \eta \in \R_{> 0}$, $r_2 \in \R_{>0}$} \\
     \Output{$(u^k: \Omega \to \R)_{k\in\N}$}
     \begin{algorithmic}
 	\State{$p^0, \lambda_2^0 \gets 0$}
@@ -2138,9 +2182,8 @@ Dies lässt sich durch die Gitterstruktur in Abbildung \ref{fig:grid} erklären:
 
 Wenden wir uns nun Algorithmus \ref{alg:ee} zu.
 Auch hier wünschen wir uns numerisch eine Konvergenz des Algorithmus und möglichst von den Penaltyparametern $r_1, r_2, r_4$ unabhängige Endresultate.
-Wir fixieren zunächst $\eta = 1000$ und untersucht dies mit zwei Parameterstudien.
-
-Sei $\alpha = 1$ und $\beta = 1000$ und variiere
+Wir fixieren zunächst $\eta = 1000$ und untersuchen dies für die Wahlen $\alpha = 1, \beta = 1000$, sowie $\alpha = 1000$ und $\beta = 1$.
+Dabei variieren wir jeweils
 \begin{math}[numbered] \label{eq:num_param}
     r_1 \in \Set{10^0, 10^1, 10^2, 10^3, 10^4}, \qquad
     r_2, r_4 \in \Set{10^0, 10^2, 10^4}.
@@ -2149,25 +2192,49 @@ Für $r_1$ wurde eine feinere Auflösung gewählt, da die Modifikation in \eqref
 Als Abbruchkriterium wird an dieser Stelle \eqref{eq:stopmax} gewählt mit $\kmax = 50000$.
 
 \begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}
-	\begin{loglogaxis}[width=9cm,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$},each nth point={3}]
-	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
-	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e1_r2=1e4_r4=1e4/output.dat};
-	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e2_r2=1e4_r4=1e4/output.dat};
-	    \legend{
-	      $r_1 = 1$,
-	      $r_1 = 10$,
-	      $r_1 = 100$,
-	    }
-	\end{loglogaxis}
-    \end{tikzpicture}
-    \caption{Elastica Inpainting: konvergentes Verhalten für $r_2, r_4 = 10^4$.}
+    \begin{subfigure}{0.5\textwidth}
+	\centering
+	\begin{tikzpicture}
+	    \begin{loglogaxis}[width=0.9\textwidth,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$},legend pos=south west,each nth point={3}]
+		\addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e0_r2=1e4_r4=1e4/output.dat};
+		\addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e1_r2=1e4_r4=1e4/output.dat};
+		\addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e2_r2=1e4_r4=1e4/output.dat};
+		\legend{
+		  $r_1 = 1$,
+		  $r_1 = 10$,
+		  $r_1 = 100$,
+		}
+	    \end{loglogaxis}
+	\end{tikzpicture}
+	\caption{$\alpha = 1$, $\beta = 1000$.}
+	\label{fig:num_eeparam1_conv}
+    \end{subfigure}%
+    \begin{subfigure}{0.5\textwidth}
+	\centering
+	\begin{tikzpicture}
+	    \begin{loglogaxis}[width=0.9\textwidth,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$},legend pos=south west,each nth point={3}]
+		\addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e0_r2=1e4_r4=1e4/output.dat};
+		\addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e1_r2=1e4_r4=1e4/output.dat};
+		\addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e2_r2=1e4_r4=1e4/output.dat};
+		\legend{
+		  $r_1 = 1$,
+		  $r_1 = 10$,
+		  $r_1 = 100$,
+		}
+	    \end{loglogaxis}
+	\end{tikzpicture}
+	\caption{$\alpha = 1000$, $\beta = 1$.}
+	\label{fig:num_eeparam1_conv}
+    \end{subfigure}%
+    \caption{Elastica Inpainting: annähernd konvergentes Verhalten für $r_2, r_4 = 10^4$.}
     \label{fig:num_eeparam_conv}
 \end{figure}
 
-Für hohe Parameter $r_2, r_4$ und niedriges $r_1$ zeigt der Algorithmus ein annähernd konvergentes Verhalten (siehe Abbildung \ref{fig:num_eeparam_conv} und man beobachtet Inpaintingergebnisse wie in Abbildung \ref{fig:num_eeparam_png}.
-Diese Bilder zeigen die für das Elastica-Inpainting erwünschte gekrümmte Kante.
+Für hohe Parameter $r_2, r_4$ und niedriges $r_1$ zeigt der Algorithmus ein annähernd konvergentes Verhalten (siehe Abbildung \ref{fig:num_eeparam_conv}) und man beobachtet Inpaintingergebnisse wie in den Abbildungen \ref{fig:num_eeparam_png} und \ref{fig:num_eeparam2_png}.
+Diese Bilder zeigen für Elastica-Inpainting im Wesentlichen zu erwartende Ergebnisse: für größeres $\frac{\beta}{\alpha}$ erhält man ein bogenförmige Kante, während man für kleines $\frac{\beta}{\alpha}$ eine fast gerade Kante wie beim TV-Inpainting erhält.
+
+Zu bemerken sind die in Abbildung \ref{fig:num_eeparam2_png} dunkleren Ergebnisse im Vergleich zu Abbildung \ref{fig:num_eeparam_png}.
+Dies spricht dafür, dass sich durch die Veränderung von $\alpha$ und $\beta$ das Verhältnis zwischen Bildterm und Datenterm stark verändert hat und $\eta$ entsprechend angepasst werden sollte.
 
 \begin{figure}[ht]
     \centering
@@ -2186,12 +2253,32 @@ Diese Bilder zeigen die für das Elastica-Inpainting erwünschte gekrümmte Kant
 	\myincludegraphics[width=0.7\textwidth]{data/eeparam/refinements=0_alpha=1e0_beta=1e3_r1=1e2_r2=1e4_r4=1e4/vtk.png}
 	\caption{$r_1 = 100$}
     \end{subfigure}%
-    \caption{Elastica Inpaintingresultate für $r_2, r_4 = 10^4$.}
+    \caption{Elastica Inpaintingresultate für $\alpha = 1$, $\beta = 1000$, $r_2, r_4 = 10^4$.}
     \label{fig:num_eeparam_png}
 \end{figure}
 
-Leider scheint das Inpaintingresultat vom Parameter $r_1$ abzuhängen und man beobachtet in Abbildung \ref{fig:num_eeparam_png} für höheres $r_1$ eine stärker nach außen gebogene Kante.
-Es könnte jedoch auch sein, dass für höheres $r_1$ eine erheblich längere Laufzeit gewählt werden müsste.
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+	\centering
+	\myincludegraphics[width=0.7\textwidth]{data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e0_r2=1e4_r4=1e4/vtk.png}
+	\caption{$r_1 = 1$}
+    \end{subfigure}%
+    \begin{subfigure}{0.25\textwidth}
+	\centering
+	\myincludegraphics[width=0.7\textwidth]{data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e1_r2=1e4_r4=1e4/vtk.png}
+	\caption{$r_1 = 10$}
+    \end{subfigure}%
+    \begin{subfigure}{0.25\textwidth}
+	\centering
+	\myincludegraphics[width=0.7\textwidth]{data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e2_r2=1e4_r4=1e4/vtk.png}
+	\caption{$r_1 = 100$}
+    \end{subfigure}%
+    \caption{Elastica Inpaintingresultate für $\alpha = 1000$, $\beta = 1$, $r_2, r_4 = 10^4$.}
+    \label{fig:num_eeparam2_png}
+\end{figure}
+
+Die Inpaintingresultate hängen leider vom Parameter $r_1$ ab und man beobachtet in den Abbildungen \ref{fig:num_eeparam_png} und \ref{fig:num_eeparam2_png} für höheres $r_1$ eine stärker nach außen gebogene Kante.
 
 \begin{figure}[ht]
     \centering
@@ -2205,11 +2292,11 @@ Es könnte jedoch auch sein, dass für höheres $r_1$ eine erheblich längere La
 	    }
 	\end{loglogaxis}
     \end{tikzpicture}
-    \caption{Elastica Inpainting: instabiles Verhalten für größere $r_1$, bzw. kleinere $r_2, r_4$ als in Abbildung \ref{fig:num_eeparam_conv}.}
+    \caption{Elastica Inpainting: instabiles Verhalten für $\alpha = 1$, $\beta = 1000$.}
     \label{fig:num_eeparam_instab}
 \end{figure}
 
-Für größere $r_1$ oder kleinere $r_2, r_4$ zeigen sich beunruhigende Instabilitäten und man ist weit entfernt von Konvergenz, siehe exemplarisch Abbildung \ref{fig:num_eeparam_instab}.
+Für größere $r_1$ oder kleinere $r_2, r_4$ zeigen sich beunruhigende Instabilitäten und man ist weit entfernt von Konvergenz (siehe exemplarisch Abbildung \ref{fig:num_eeparam_instab}).
 Eine mögliche Erklärung hierfür ist das $L^1$-Penalizing in \eqref{eq:energy_al}: der $L^1$-Fehler überwiegt die $L^2$-Fehler für kleine Abweichungen erheblich und könnte zu aufschaukelnden Effekten führen.
 Wird $r_1$ im Vergleich zu $r_2, r_4$ klein gehalten, ist dieses Phänomen nicht mehr spürbar.
 
@@ -2288,7 +2375,7 @@ Als Abbruchkriterium kommt \eqref{eq:stopmax} zum Einsatz mit $\kmax = 2500$, w�
     \begin{subfigure}{0.5\textwidth}
 	\centering
 	\begin{tikzpicture}
-	    \begin{loglogaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=north west]
+	    \begin{loglogaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=south west]
 		\addplot table [x=k,y=mpConstr] {data/eescale/output.dat};
 		\addplot table [x=k,y=puConstr] {data/eescale/output.dat};
 		\addplot table [x=k,y=nmConstr] {data/eescale/output.dat};
@@ -2359,20 +2446,20 @@ Auch die Gitterstruktur hat, wie bereits beim TV-Inpainting erwähnt, Auswirkung
 
 
 Wir haben gesehen, dass das Elastica-Inpaintingmodell aus Definition
-\ref{def:ee_inpaint} eine Verallgemeinerung des TV-Inpaintingmodells ist und im
+\ref{def:ee_inpainting} eine Verallgemeinerung des TV-Inpaintingmodells ist und im
 Spezialfall $D = \emptyset$ auch zum Entrauschen von Bildern eingesetzt werden
 kann.
 
-Während das Elastica-Inpainting prinzipiell wünschenswerte Resultate liefert (siehe auch \cite{timemarching}, \cite{tai2011fast} für entsprechende Bilder),
+Während das Elastica-Inpainting prinzipiell wünschenswerte Resultate liefert (siehe auch \cite{shen2002euler}, \cite{tai2011fast} für entsprechende Bilder),
 hat sich bei der Implementierung von Algorithmus \ref{alg:ee} im Kontext Finiter Elemente gezeigt, dass dieser sehr sensibel im Bezug auf die Penaltyparameter ist.
 Während für einige dieser Probleme die Ursache in der Finiten Elemente Diskretisierung liegen könnte, scheint das instabile Verhalten für hohes $r_1$ in Abbildung \ref{fig:num_eeparam_instab} dem $L^1$-Penalizing zu entstammen.
 Auch die Autoren von \cite{tai2011fast}, auf dessen Algorithmus sich diese Arbeit gestützt hat, wählen für ihre Resultate ohne genauere Begründung jeweils sehr spezifische Penaltyparameter.
 Dies spricht dafür, dass die Sensibilität im Bezug auf $r_1, r_2, r_4$ dem Algorithmus inherent ist und nicht alleine von der Finiten Elemente Diskretisierung herrührt.
 
-Ein Inpainting-Algorithmus, der nur für unbekannte, sehr spezielle Wahlen von Parametern schnelle und brauchbare Ergebnisse liefert fordert zeitaufwändiges Optimieren der Parameterwahlen für jedes neue Eingabebild und ist daher generell nicht wünschenswert.
-Trotzdem sind die in \cite{tai2011fast} und in dieser Arbeit benutzten Mittel („operator splitting“, „augmented lagrange“, „alternating direction method“) bestechende Werkzeuge, um dem Minimieren der Elastica-Inpaintingenergie aus \eqref{eq:ee_inpaint} entgegenzutreten.
+Ein Inpainting-Algorithmus, der nur für unbekannte, sehr spezielle Wahlen von Parametern schnelle und brauchbare Ergebnisse liefert, fordert zeitaufwändiges Optimieren der Parameterwahlen für jedes neue Eingabebild und ist daher generell nicht wünschenswert.
+Trotzdem sind die in \cite{tai2011fast} und in dieser Arbeit benutzten Mittel („operator splitting“, „augmented lagrange“, „alternating direction method“) bestechende Werkzeuge, um dem Minimieren der Elastica-Inpaintingenergie aus \eqref{eq:energy_ee} entgegenzutreten.
 
-Eine mögliche Idee um dem $L^1$-Penalizing zu entkommen wäre, das Minimierungsproblem aus \ref{??} folgendermaßen zu splitten:
+Eine mögliche Idee um dem $L^1$-Penalizing zu entkommen wäre, das Minimierungsproblem aus Definition \ref{def:ee_inpainting} folgendermaßen zu splitten:
 \begin{math}
     \min_{\substack{u \in C^2(\Omega,[0,1]) \\ s \in C^1(\Omega), n \in C^1(\Omega)^d}}
     &\scr E[s,n] = \int_\Omega \Big(\alpha + \beta(\nabla \cdot n)^2\Big)s + \frac{\eta}{2} \int_{\Omega \setminus D} |u - u_0|^2 \\
@@ -2381,15 +2468,125 @@ Eine mögliche Idee um dem $L^1$-Penalizing zu entkommen wäre, das Minimierungs
 	sn = \nabla u, \quad
 	s \ge 0.
 \end{math}
-Man beachte, dass die Nebenbedingungen für $\nabla u \neq 0$ stets $n = \frac{\nabla u}{|\nabla u|}$ gewährleisten, während sie für $\nabla u = 0$ auch $s = 0$ einhalten und die Konvention aus \ref{def:ee_inpaint} berücksichtigen.
+Man beachte, dass die Nebenbedingungen für $\nabla u \neq 0$ stets $n = \frac{\nabla u}{|\nabla u|}$ gewährleisten, während sie für $\nabla u = 0$ auch $s = 0$ einhalten und die Konvention aus Definition \ref{def:ee_inpainting} berücksichtigen.
 Eine detailierte Analyse der Teilprobleme und Implementierung des zugehörigen „alternating direction“ Algorithmus konnte leider aus Zeitgründen nicht mehr erfolgen.
 
-Die relativ aktuellen Arbeiten \cite{???} zeigen jedoch, dass schnelle numerische Lösungsverfahren für das Elastica-Bildmodell weiterhin gefragt sind und einer näheren Untersuchung bedürfen.
+Die relativ aktuellen Arbeiten \cite{tai2011fast,brito2010fast,yashtini2015alternating,hahn2011fast,duan2013fast} zeigen jedoch, dass schnelle numerische Lösungsverfahren für das Elastica-Bildmodell weiterhin gefragt sind und einer näheren Untersuchung bedürfen.
 
 
 %Insgesamt beobachtet man für kleine $r_1$ sehr langsame Konvergenz und wenig aussagekräftige numerische Energien (da die wichtige Nebenbedingung nicht gut eingehalten wird), während großes $r_1$ zu Instabilitäten führt.
 
-
+%
+%\section{TEST}
+%
+%Sei nun $\alpha = 1000$ und $\beta = 1$ und variiere wie eben
+%\begin{math}[numbered] \label{eq:num_param}
+%    r_1 \in \Set{10^0, 10^1, 10^2, 10^3, 10^4}, \qquad
+%    r_2, r_4 \in \Set{10^0, 10^2, 10^4}.
+%\end{math}
+%Als Abbruchkriterium wird wieder \eqref{eq:stopmax} mit $\kmax = 50000$ gewählt.
+%
+%\begin{figure}[ht]
+%    \centering
+%    \begin{tikzpicture}
+%	\begin{loglogaxis}[width=9cm,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$},each nth point={3}]
+%	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e1_r2=1e4_r4=1e4/output.dat};
+%	    %\addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e2_r2=1e4_r4=1e4/output.dat};
+%	    \legend{
+%	      $r_1 = 1$,
+%	      $r_1 = 10$,
+%	      $r_1 = 100$,
+%	    }
+%	\end{loglogaxis}
+%    \end{tikzpicture}
+%    \caption{Elastica Inpainting: konvergentes Verhalten für $r_2, r_4 = 10^4$.}
+%    \label{fig:num_eeparam2_conv}
+%\end{figure}
+%
+%\begin{figure}[ht]
+%    \centering
+%    \begin{tikzpicture}
+%	\begin{loglogaxis}[width=10cm,height=6cm,xlabel=$k$,ylabel={$\|u_k - u_{k-1}\|_{L^2}$},each nth point={2}]
+%	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e1_r2=1e2_r4=1e2/output.dat};
+%	    \addplot table [x=k,y=uDist] {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e3_r2=1e4_r4=1e4/output.dat};
+%	    \legend{
+%	      {$r_1 = 10, r_2,r_4 = 100$},
+%	      {$r_1 = 1000, r_2,r_4 = 10000$},
+%	    }
+%	\end{loglogaxis}
+%    \end{tikzpicture}
+%    \caption{Elastica Inpainting: instabiles Verhalten für größere $r_1$, bzw. kleinere $r_2, r_4$ als in Abbildung \ref{fig:num_eeparam_conv}.}
+%    \label{fig:num_eeparam2_instab}
+%\end{figure}
+%
+%Wir beobachten wieder konvergentes Verhalten für kleine $r_1$ und große $r_2, r_4$ (siehe Abbildung \ref{fig:num_eeparam2_conv}) und Instabilitäten sonst (siehe exemplarisch Abbildung \ref{fig:num_eeparam2_instab}).
+%
+%Für Parameterwahlen $r_1 = 1$, $r_2, r_4 = 10^4$ zeigen die Bilder in Abbildung \ref{fig:num_eeparam2_png} zu erwartende Ergebnisse ähnlich denen aus dem TV-Inpainting.
+%Auch hier scheint der Parameter $r_1$ das Resultat zu beeinflussen.
+%
+%
+%\begin{figure}[ht]
+%    \centering
+%    \begin{subfigure}{0.25\textwidth}
+%	\centering
+%	\myincludegraphics[width=0.7\textwidth]{data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e0_r2=1e4_r4=1e4/vtk.png}
+%	\caption{$r_1 = 1$}
+%    \end{subfigure}%
+%    \begin{subfigure}{0.25\textwidth}
+%	\centering
+%	\myincludegraphics[width=0.7\textwidth]{data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e1_r2=1e4_r4=1e4/vtk.png}
+%	\caption{$r_1 = 10$}
+%    \end{subfigure}%
+%    \begin{subfigure}{0.25\textwidth}
+%	\centering
+%	\myincludegraphics[width=0.7\textwidth]{data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e2_r2=1e4_r4=1e4/vtk.png}
+%	\caption{$r_1 = 100$}
+%    \end{subfigure}%
+%    \caption{Elastica Inpaintingresultate für $r_2, r_4 = 10^4$.}
+%    \label{fig:num_eeparam2_png}
+%\end{figure}
+%
+%\begin{figure}[ht]
+%    \begin{subfigure}{0.5\textwidth}
+%	\centering
+%	\begin{tikzpicture}
+%	    \begin{semilogxaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=south west,each nth point={4}]
+%		\addplot table [x=k,y=imageEnergy]  {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e2_r2=1e4_r4=1e4/output.dat};
+%		\addplot table [x=k,y=dataEnergy]   {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e2_r2=1e4_r4=1e4/output.dat};
+%		\addplot table [x=k,y=constrEnergy] {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e2_r2=1e4_r4=1e4/output.dat};
+%		\addplot table [x=k,y=totalEnergy]  {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e2_r2=1e4_r4=1e4/output.dat};
+%		\legend{
+%		    $\scr L_{\mathrm{img}}^k$,
+%		    $\scr L_{\mathrm{dat}}^k$,
+%		    $\scr L_{\mathrm{constr}}^k$,
+%		    $\scr L_{\mathrm{total}}^k$,
+%		}
+%	    \end{semilogxaxis}
+%	\end{tikzpicture}
+%	\caption{Numerische Energien.}
+%	\label{fig:num_eescale_energy}
+%    \end{subfigure}%
+%    \begin{subfigure}{0.5\textwidth}
+%	\centering
+%	\begin{tikzpicture}
+%	    \begin{loglogaxis}[width=0.9\textwidth,xlabel=$k$,legend pos=north west,each nth point={3}]
+%		\addplot table [x=k,y=mpConstr]   {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%		\addplot table [x=k,y=puConstr]   {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%		\addplot table [x=k,y=nmConstr]   {data/eeparam/refinements=0_alpha=1e3_beta=1e0_r1=1e0_r2=1e4_r4=1e4/output.dat};
+%		\legend{
+%		  $R_{mp}^k$,
+%		  $R_{pu}^k$,
+%		  $R_{nm}^k$,
+%		}
+%	    \end{loglogaxis}
+%	\end{tikzpicture}
+%	\caption{$L^2$-Fehler der Nebenbedingungen.}
+%	\label{fig:num_eescale_constr}
+%    \end{subfigure}
+%    \caption{Elastica Inpainting: Verhalten für hohe Penaltyparameter}
+%    \label{fig:num_eescale}
+%\end{figure}
 
 
 %Wahrend zu Beginn $\scr L_{\mathrm{dat}}^k$ relativ groß ist bei geringem $\scr L_{\mathrm{constr}}^k$ (man erinnere sich an die Initialisierung $u, p, m, n \get 0$), 
